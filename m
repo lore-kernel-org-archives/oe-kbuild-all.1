@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C667C1DF742
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Mar 2026 12:02:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44AD63BD247;
+	Tue, 17 Mar 2026 12:12:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773748978; cv=none; b=G5J38jGkBz8GjD5ddLqnVyhNinMfCJLH1Tul9K3ATrjrAP+NBxYeYoIy/26ZuhNDVeEVRHjsXBrTXBAL4y4u7BFZxAkwTViLw0s293XOil7xXca7DbRlALbdxSMtrac5csCJt2JUlm/4Io+mhYPczi2tnaoePG0l8M4eQ0B6X7E=
+	t=1773749578; cv=none; b=t8/ljnMOYyORiQ8KTFlGEQ1DAK+TnTnxBzWzgIBEsfC/DV70zAVZYczTCwomvaym7QMFsfzOD7JtwgXiySLaoZ3aKCEUek8WuvfF/xG2P7GC3JsD2lfw6Jps90VNFu16IPwhGd7rf79/uSD2DVpDoF9Uyytg4gCe0pbxEV2qVaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773748978; c=relaxed/simple;
-	bh=0ghWhRMo/zBQOajsrpPrLiom8CQEziJRRTiCKNRPSTw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Vbw6WJlVQMD48l1ZpF58ecKOxs+mVmtOUBpjyiI7O3yDc9fA+xc45X+PFG03izsy0yfHcLcuPJnxRwV0bLOAVk9VQl+EBuBte2FcB0Qb2R7orqwVXtJaFFQyRMUCrlgUvZx4PHRhGtINBQkgRI9kJVQyluH7qO3NDJvKWNgIRl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B6YE142E; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1773749578; c=relaxed/simple;
+	bh=r6G7Nwqjl+vSixtZqsdkGJl/WjBT8FqQC5kh88mrFHc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=knl3bL5lMegIKWKLOLGrxMDgvrzY2C6wsiFEtnHFBAqrR67XicxGAvlaPZTduHl0LO8FB/OuShIV+yXk0V/NWRhLcqqOMaNJ0STPEO2vrkeUVOvNGwNxXtC2T6WkhUQ2TGVh1/hALPCdjVRZQLVKhV8B5JpBMBF+hiH+2DpeUcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gNwlRNTA; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B6YE142E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gNwlRNTA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773748976; x=1805284976;
+  t=1773749576; x=1805285576;
   h=date:from:to:cc:subject:message-id;
-  bh=0ghWhRMo/zBQOajsrpPrLiom8CQEziJRRTiCKNRPSTw=;
-  b=B6YE142EMbhZi4sKH9gzrxU2X+ssM69LMB2WaNklHoRLMTFzAKdQYctH
-   gfCVs6HLkCr+towYqmVadR9Y8YJXzouB2XmOxwQsShdg2LQ+Dx9I8sloN
-   P1Zohj60r2gz0RSyEQ8tpfP/sXS2k7W8SveZUMONnEh3KFSK/t6ncZPR0
-   zV/IHCiZ47ns7/jFNGxLgJtAWEW49q+NTcZVj+6LYTc/8345FJXU8papZ
-   wnVnXMZbTN1Qi0ZnBa7nn5KNKtZykBTmDaYtdm9CBZJdySj4N1wqUhX0w
-   SbGq+KrWAWVMBX2yCadLr9t0Uhxb/H6KE41eOGCT+6eBv/4boqQKpBUcr
-   w==;
-X-CSE-ConnectionGUID: lBinrflpQkS2+A4aKeufjg==
-X-CSE-MsgGUID: qAlwk7S2TGKDNSBTtVFiNQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="85477111"
+  bh=r6G7Nwqjl+vSixtZqsdkGJl/WjBT8FqQC5kh88mrFHc=;
+  b=gNwlRNTAsaHHImFSfzXfYk3vdiUCL0I8Yj6uan2ruEOt3L2pOqgfhLk9
+   n0Wma8fSK7s575ZyzyslMtwsA8WOP9BqwiBmfHcH6y1B2ZNuLq526Kequ
+   SAuRplWpwKxht0lofhb4yuVJdxriZWKHWwu09fSSG0RsRJq5nkc2HiGZ7
+   yGSaAN0REeCXauBGsb1j/8Vq0/s0yAOhxVgrJGqa3H9qoE0aYThAhS12B
+   D5gFWz0tYE+vRCexty4BG10dXcsFK0bJuc0sJt3SYUBo2dGWIGQwDEvro
+   zVf6btyaunAcU6+PKzWUj+v7t8sY1aPcYHWPOuaPKm6UjM10P5iH1tC+y
+   A==;
+X-CSE-ConnectionGUID: 19KObUH6Sv+fajN7TGfhyg==
+X-CSE-MsgGUID: Z9eHkUY1S0iPUqP54dUx5w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="77389303"
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="85477111"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 05:02:55 -0700
-X-CSE-ConnectionGUID: IhT40Ia/Tf+zOAGwGjXOMg==
-X-CSE-MsgGUID: Q5vVrOmiQD6J235GZb0mbg==
+   d="scan'208";a="77389303"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 05:12:55 -0700
+X-CSE-ConnectionGUID: +ORjRspcQnujsFFQ1YGsxA==
+X-CSE-MsgGUID: LwQe4pNJSq+H06j6ZkQDzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="260153773"
+   d="scan'208";a="222473507"
 Received: from lkp-server01.sh.intel.com (HELO 63737dd503cb) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 17 Mar 2026 05:02:53 -0700
+  by orviesa007.jf.intel.com with ESMTP; 17 Mar 2026 05:12:54 -0700
 Received: from kbuild by 63737dd503cb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w2T8M-000000000MF-47KT;
-	Tue, 17 Mar 2026 12:02:50 +0000
-Date: Tue, 17 Mar 2026 20:02:23 +0800
+	id 1w2TI3-000000000MV-0jxD;
+	Tue, 17 Mar 2026 12:12:51 +0000
+Date: Tue, 17 Mar 2026 20:12:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mimi Zohar <zohar@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-integrity@vger.kernel.org
-Subject: [zohar-integrity:next-integrity.ima-sigv3-support-1 13/15]
- security/integrity/evm/evm_main.c:267:22: error: too many arguments to
- function 'integrity_digsig_verify'
-Message-ID: <202603171952.z3Qgv7vC-lkp@intel.com>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [tglx-devel:locking/futex 2/8]
+ include/linux/futex_types.h:52:26: error: expected ';' at end of declaration
+ list
+Message-ID: <202603172048.EegYZnPt-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,175 +60,150 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/zohar/linux-integrity.git next-integrity.ima-sigv3-support-1
-head:   9037cd4a36eb9554fb5968a4c1a990d44843190b
-commit: d45011bbc88d112e7eea4dbb9a1b3b0081d0b30a [13/15] ima: Define asymmetric_verify_v3() to verify IMA sigv3 signatures
-config: i386-randconfig-006-20260317 (https://download.01.org/0day-ci/archive/20260317/202603171952.z3Qgv7vC-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260317/202603171952.z3Qgv7vC-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git locking/futex
+head:   226e6782e81c88b9263e006a356f58dd8c15bef5
+commit: 2ace2e1df2b9de73d65c1a11bbb4183c42ba5752 [2/8] futex: Move futex related mm_struct data into a struct
+config: um-allnoconfig (https://download.01.org/0day-ci/archive/20260317/202603172048.EegYZnPt-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 4abb927bacf37f18f6359a41639a6d1b3bffffb5)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260317/202603172048.EegYZnPt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603171952.z3Qgv7vC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603172048.EegYZnPt-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   security/integrity/evm/evm_main.c: In function 'evm_verify_hmac':
->> security/integrity/evm/evm_main.c:267:22: error: too many arguments to function 'integrity_digsig_verify'
-     267 |                 rc = integrity_digsig_verify(INTEGRITY_KEYRING_EVM,
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~
-   In file included from security/integrity/evm/evm.h:18,
-                    from security/integrity/evm/evm_main.c:28:
-   security/integrity/evm/../integrity.h:143:19: note: declared here
-     143 | static inline int integrity_digsig_verify(const unsigned int id,
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/um/kernel/asm-offsets.c:4:
+   In file included from include/linux/sched.h:19:
+>> include/linux/futex_types.h:52:26: error: expected ';' at end of declaration list
+      52 |         unsigned int                    __percpu *phash_ref;
+         |                                                  ^
+   In file included from arch/um/kernel/asm-offsets.c:8:
+   In file included from include/linux/audit.h:13:
+   In file included from include/linux/ptrace.h:7:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/um/kernel/asm-offsets.c:8:
+   In file included from include/linux/audit.h:13:
+   In file included from include/linux/ptrace.h:7:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                                       ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/um/kernel/asm-offsets.c:8:
+   In file included from include/linux/audit.h:13:
+   In file included from include/linux/ptrace.h:7:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                          ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/um/kernel/asm-offsets.c:8:
+   In file included from include/linux/audit.h:13:
+   In file included from include/linux/ptrace.h:7:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                                          ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/um/kernel/asm-offsets.c:8:
+   In file included from include/linux/audit.h:13:
+   In file included from include/linux/ptrace.h:7:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     115 |                         (set1->sig[2] == set2->sig[2]) &&
+         |                          ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/um/kernel/asm-offsets.c:8:
+   In file included from include/linux/audit.h:13:
+   In file included from include/linux/ptrace.h:7:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     115 |                         (set1->sig[2] == set2->sig[2]) &&
+         |                                          ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/um/kernel/asm-offsets.c:8:
+   In file included from include/linux/audit.h:13:
+   In file included from include/linux/ptrace.h:7:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:157:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/signal.h:138:8: note: expanded from macro '_SIG_SET_BINOP'
+     138 |                 a3 = a->sig[3]; a2 = a->sig[2];                         \
+         |                      ^      ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/um/kernel/asm-offsets.c:8:
+   In file included from include/linux/audit.h:13:
+   In file included from include/linux/ptrace.h:7:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:157:1: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/signal.h:138:24: note: expanded from macro '_SIG_SET_BINOP'
+     138 |                 a3 = a->sig[3]; a2 = a->sig[2];                         \
+         |                                      ^      ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/um/kernel/asm-offsets.c:8:
+   In file included from include/linux/audit.h:13:
+   In file included from include/linux/ptrace.h:7:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:157:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/signal.h:139:8: note: expanded from macro '_SIG_SET_BINOP'
+     139 |                 b3 = b->sig[3]; b2 = b->sig[2];                         \
+         |                      ^      ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
 
 
-vim +/integrity_digsig_verify +267 security/integrity/evm/evm_main.c
+vim +52 include/linux/futex_types.h
 
-cd708c938f055c Mimi Zohar            2023-12-18  172  
-66dbc325afcef9 Mimi Zohar            2011-03-15  173  /*
-66dbc325afcef9 Mimi Zohar            2011-03-15  174   * evm_verify_hmac - calculate and compare the HMAC with the EVM xattr
-66dbc325afcef9 Mimi Zohar            2011-03-15  175   *
-66dbc325afcef9 Mimi Zohar            2011-03-15  176   * Compute the HMAC on the dentry's protected set of extended attributes
-7102ebcd65c1cd Mimi Zohar            2011-05-12  177   * and compare it against the stored security.evm xattr.
-7102ebcd65c1cd Mimi Zohar            2011-05-12  178   *
-7102ebcd65c1cd Mimi Zohar            2011-05-12  179   * For performance:
-ceb5faef848b2f Tanya Agarwal         2025-01-24  180   * - use the previously retrieved xattr value and length to calculate the
-66dbc325afcef9 Mimi Zohar            2011-03-15  181   *   HMAC.)
-7102ebcd65c1cd Mimi Zohar            2011-05-12  182   * - cache the verification result in the iint, when available.
-66dbc325afcef9 Mimi Zohar            2011-03-15  183   *
-66dbc325afcef9 Mimi Zohar            2011-03-15  184   * Returns integrity status
-66dbc325afcef9 Mimi Zohar            2011-03-15  185   */
-66dbc325afcef9 Mimi Zohar            2011-03-15  186  static enum integrity_status evm_verify_hmac(struct dentry *dentry,
-66dbc325afcef9 Mimi Zohar            2011-03-15  187  					     const char *xattr_name,
-66dbc325afcef9 Mimi Zohar            2011-03-15  188  					     char *xattr_value,
-75a323e604fc77 Roberto Sassu         2024-02-15  189  					     size_t xattr_value_len)
-66dbc325afcef9 Mimi Zohar            2011-03-15  190  {
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  191  	struct evm_ima_xattr_data *xattr_data = NULL;
-5feeb61183dde9 Matthew Garrett       2018-06-08  192  	struct signature_v2_hdr *hdr;
-566be59ab86c0e Mimi Zohar            2011-08-22  193  	enum integrity_status evm_status = INTEGRITY_PASS;
-5feeb61183dde9 Matthew Garrett       2018-06-08  194  	struct evm_digest digest;
-75a323e604fc77 Roberto Sassu         2024-02-15  195  	struct inode *inode = d_backing_inode(dentry);
-75a323e604fc77 Roberto Sassu         2024-02-15  196  	struct evm_iint_cache *iint = evm_iint_inode(inode);
-cdef685be5b4ae Roberto Sassu         2021-05-14  197  	int rc, xattr_len, evm_immutable = 0;
-66dbc325afcef9 Mimi Zohar            2011-03-15  198  
-50b977481fce90 Matthew Garrett       2017-11-07  199  	if (iint && (iint->evm_status == INTEGRITY_PASS ||
-50b977481fce90 Matthew Garrett       2017-11-07  200  		     iint->evm_status == INTEGRITY_PASS_IMMUTABLE))
-24e0198efe0df5 Dmitry Kasatkin       2011-05-06  201  		return iint->evm_status;
-66dbc325afcef9 Mimi Zohar            2011-03-15  202  
-47add87ad18147 Stefan Berger         2024-02-23  203  	/*
-47add87ad18147 Stefan Berger         2024-02-23  204  	 * On unsupported filesystems without EVM_INIT_X509 enabled, skip
-47add87ad18147 Stefan Berger         2024-02-23  205  	 * signature verification.
-47add87ad18147 Stefan Berger         2024-02-23  206  	 */
-5e2e4d0ea5c2c8 Stefan Berger         2024-02-23  207  	if (!(evm_initialized & EVM_INIT_X509) &&
-5e2e4d0ea5c2c8 Stefan Berger         2024-02-23  208  	    is_unsupported_hmac_fs(dentry))
-cd708c938f055c Mimi Zohar            2023-12-18  209  		return INTEGRITY_UNKNOWN;
-cd708c938f055c Mimi Zohar            2023-12-18  210  
-6d38ca01c0c2d6 Dmitry Kasatkin       2011-05-06  211  	/* if status is not PASS, try to check again - against -ENOMEM */
-6d38ca01c0c2d6 Dmitry Kasatkin       2011-05-06  212  
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  213  	/* first need to know the sig type */
-4609e1f18e19c3 Christian Brauner     2023-01-13  214  	rc = vfs_getxattr_alloc(&nop_mnt_idmap, dentry, XATTR_NAME_EVM,
-c7c7a1a18af4c3 Tycho Andersen        2021-01-21  215  				(char **)&xattr_data, 0, GFP_NOFS);
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  216  	if (rc <= 0) {
-1f1009791b2e81 Dmitry Kasatkin       2014-08-15  217  		evm_status = INTEGRITY_FAIL;
-1f1009791b2e81 Dmitry Kasatkin       2014-08-15  218  		if (rc == -ENODATA) {
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  219  			rc = evm_find_protected_xattrs(dentry);
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  220  			if (rc > 0)
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  221  				evm_status = INTEGRITY_NOLABEL;
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  222  			else if (rc == 0)
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  223  				evm_status = INTEGRITY_NOXATTRS; /* new file */
-1f1009791b2e81 Dmitry Kasatkin       2014-08-15  224  		} else if (rc == -EOPNOTSUPP) {
-1f1009791b2e81 Dmitry Kasatkin       2014-08-15  225  			evm_status = INTEGRITY_UNKNOWN;
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  226  		}
-566be59ab86c0e Mimi Zohar            2011-08-22  227  		goto out;
-566be59ab86c0e Mimi Zohar            2011-08-22  228  	}
-66dbc325afcef9 Mimi Zohar            2011-03-15  229  
-b1aaab22e263d0 Dmitry Kasatkin       2013-10-10  230  	xattr_len = rc;
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  231  
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  232  	/* check value type */
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  233  	switch (xattr_data->type) {
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  234  	case EVM_XATTR_HMAC:
-650b29dbdf2caf Thiago Jung Bauermann 2019-06-11  235  		if (xattr_len != sizeof(struct evm_xattr)) {
-b4bfec7f4a8642 Seth Forshee          2016-08-01  236  			evm_status = INTEGRITY_FAIL;
-b4bfec7f4a8642 Seth Forshee          2016-08-01  237  			goto out;
-b4bfec7f4a8642 Seth Forshee          2016-08-01  238  		}
-5feeb61183dde9 Matthew Garrett       2018-06-08  239  
-5feeb61183dde9 Matthew Garrett       2018-06-08  240  		digest.hdr.algo = HASH_ALGO_SHA1;
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  241  		rc = evm_calc_hmac(dentry, xattr_name, xattr_value,
-a652aa59068bd7 Stefan Berger         2024-02-23  242  				   xattr_value_len, &digest, iint);
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  243  		if (rc)
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  244  			break;
-650b29dbdf2caf Thiago Jung Bauermann 2019-06-11  245  		rc = crypto_memneq(xattr_data->data, digest.digest,
-5feeb61183dde9 Matthew Garrett       2018-06-08  246  				   SHA1_DIGEST_SIZE);
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  247  		if (rc)
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  248  			rc = -EINVAL;
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  249  		break;
-50b977481fce90 Matthew Garrett       2017-11-07  250  	case EVM_XATTR_PORTABLE_DIGSIG:
-cdef685be5b4ae Roberto Sassu         2021-05-14  251  		evm_immutable = 1;
-cdef685be5b4ae Roberto Sassu         2021-05-14  252  		fallthrough;
-cdef685be5b4ae Roberto Sassu         2021-05-14  253  	case EVM_IMA_XATTR_DIGSIG:
-455b6c9112eff8 Roberto Sassu         2020-09-04  254  		/* accept xattr with non-empty signature field */
-455b6c9112eff8 Roberto Sassu         2020-09-04  255  		if (xattr_len <= sizeof(struct signature_v2_hdr)) {
-455b6c9112eff8 Roberto Sassu         2020-09-04  256  			evm_status = INTEGRITY_FAIL;
-455b6c9112eff8 Roberto Sassu         2020-09-04  257  			goto out;
-455b6c9112eff8 Roberto Sassu         2020-09-04  258  		}
-455b6c9112eff8 Roberto Sassu         2020-09-04  259  
-5feeb61183dde9 Matthew Garrett       2018-06-08  260  		hdr = (struct signature_v2_hdr *)xattr_data;
-5feeb61183dde9 Matthew Garrett       2018-06-08  261  		digest.hdr.algo = hdr->hash_algo;
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  262  		rc = evm_calc_hash(dentry, xattr_name, xattr_value,
-a652aa59068bd7 Stefan Berger         2024-02-23  263  				   xattr_value_len, xattr_data->type, &digest,
-a652aa59068bd7 Stefan Berger         2024-02-23  264  				   iint);
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  265  		if (rc)
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  266  			break;
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01 @267  		rc = integrity_digsig_verify(INTEGRITY_KEYRING_EVM,
-b1aaab22e263d0 Dmitry Kasatkin       2013-10-10  268  					(const char *)xattr_data, xattr_len,
-d45011bbc88d11 Mimi Zohar            2026-03-10  269  					digest.digest, digest.hdr.length,
-d45011bbc88d11 Mimi Zohar            2026-03-10  270  					digest.hdr.algo);
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  271  		if (!rc) {
-50b977481fce90 Matthew Garrett       2017-11-07  272  			if (xattr_data->type == EVM_XATTR_PORTABLE_DIGSIG) {
-50b977481fce90 Matthew Garrett       2017-11-07  273  				if (iint)
-50b977481fce90 Matthew Garrett       2017-11-07  274  					iint->flags |= EVM_IMMUTABLE_DIGSIG;
-50b977481fce90 Matthew Garrett       2017-11-07  275  				evm_status = INTEGRITY_PASS_IMMUTABLE;
-70946c4ac2a9e0 Sascha Hauer          2018-03-01  276  			} else if (!IS_RDONLY(inode) &&
-70946c4ac2a9e0 Sascha Hauer          2018-03-01  277  				   !(inode->i_sb->s_readonly_remount) &&
-47add87ad18147 Stefan Berger         2024-02-23  278  				   !IS_IMMUTABLE(inode) &&
-5e2e4d0ea5c2c8 Stefan Berger         2024-02-23  279  				   !is_unsupported_hmac_fs(dentry)) {
-c2baec7ffaf6a2 Dmitry Kasatkin       2014-10-01  280  				evm_update_evmxattr(dentry, xattr_name,
-c2baec7ffaf6a2 Dmitry Kasatkin       2014-10-01  281  						    xattr_value,
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  282  						    xattr_value_len);
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  283  			}
-50b977481fce90 Matthew Garrett       2017-11-07  284  		}
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  285  		break;
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  286  	default:
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  287  		rc = -EINVAL;
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  288  		break;
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  289  	}
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  290  
-cdef685be5b4ae Roberto Sassu         2021-05-14  291  	if (rc) {
-cdef685be5b4ae Roberto Sassu         2021-05-14  292  		if (rc == -ENODATA)
-cdef685be5b4ae Roberto Sassu         2021-05-14  293  			evm_status = INTEGRITY_NOXATTRS;
-cdef685be5b4ae Roberto Sassu         2021-05-14  294  		else if (evm_immutable)
-cdef685be5b4ae Roberto Sassu         2021-05-14  295  			evm_status = INTEGRITY_FAIL_IMMUTABLE;
-cdef685be5b4ae Roberto Sassu         2021-05-14  296  		else
-cdef685be5b4ae Roberto Sassu         2021-05-14  297  			evm_status = INTEGRITY_FAIL;
-cdef685be5b4ae Roberto Sassu         2021-05-14  298  	}
-87ac3d002d567f Mimi Zohar            2021-05-13  299  	pr_debug("digest: (%d) [%*phN]\n", digest.hdr.length, digest.hdr.length,
-87ac3d002d567f Mimi Zohar            2021-05-13  300  		  digest.digest);
-7102ebcd65c1cd Mimi Zohar            2011-05-12  301  out:
-7102ebcd65c1cd Mimi Zohar            2011-05-12  302  	if (iint)
-7102ebcd65c1cd Mimi Zohar            2011-05-12  303  		iint->evm_status = evm_status;
-15647eb3985ef3 Dmitry Kasatkin       2011-09-01  304  	kfree(xattr_data);
-7102ebcd65c1cd Mimi Zohar            2011-05-12  305  	return evm_status;
-66dbc325afcef9 Mimi Zohar            2011-03-15  306  }
-66dbc325afcef9 Mimi Zohar            2011-03-15  307  
-
-:::::: The code at line 267 was first introduced by commit
-:::::: 15647eb3985ef30dfd657038924dc85c03026733 evm: digital signature verification support
-
-:::::: TO: Dmitry Kasatkin <dmitry.kasatkin@intel.com>
-:::::: CC: Dmitry Kasatkin <dmitry.kasatkin@intel.com>
+    33	
+    34	/**
+    35	 * struct futex_mm_data - Futex related per MM data
+    36	 * @phash_lock:		Mutex to protect the private hash operations
+    37	 * @phash:		RCU managed pointer to the private hash
+    38	 * @phash_new:		Pointer to a newly allocated private hash
+    39	 * @phash_batches:	Batch state for RCU synchronization
+    40	 * @phash_rcu:		RCU head for call_rcu()
+    41	 * @phash_atomic:	Aggregate value for @phash_ref
+    42	 * @phash_ref:		Per CPU reference counter for a private hash
+    43	 */
+    44	struct futex_mm_data {
+    45	#ifdef CONFIG_FUTEX_PRIVATE_HASH
+    46		struct mutex			phash_lock;
+    47		struct futex_private_hash	__rcu *phash;
+    48		struct futex_private_hash	*phash_new;
+    49		unsigned long			phash_batches;
+    50		struct rcu_head			phash_rcu;
+    51		atomic_long_t			phash_atomic;
+  > 52		unsigned int			__percpu *phash_ref;
+    53	#endif
+    54	};
+    55	
 
 -- 
 0-DAY CI Kernel Test Service
