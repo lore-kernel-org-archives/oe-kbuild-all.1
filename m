@@ -1,264 +1,191 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B1C39B946
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Mar 2026 08:44:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 893D639C64C;
+	Tue, 17 Mar 2026 08:44:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773737061; cv=none; b=SKDPRdDpbEYHtNRX3ynkCTBFS49fYFNdi35mJ2IKIZplo24EPNnoZwCFi1aEyeMercFtiDVoviPlG5AIbZNBmyG+74zEkgEQcU9PNt0TrDgwhCetQ7l71uZqlLggjAw0An8V8ulV14mZ+DDfqYiDCgy7ByI72D/PWth+KdKjHJM=
+	t=1773737062; cv=none; b=tsA7diCRyoiw2k4QBrAvDRJbRlrU4txsiAd4KPWbRdQJEOla+f0vSz5DXNn6xKFI54+6AegOPzbHzymtkpA7LpnOYyxnqZohsyoW3+DdulgpR0fZvcrcu/WitZnTC0C93E8YgwuYfCVXgPAgJAiWjw1vVl3wnIB1L3AxMykwzrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773737061; c=relaxed/simple;
-	bh=HQHnv5tTEShxLV11AueAziYcKzXDWi3EDiQ3aUQ1DVo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=XsrDo3Ay97Cpr6sfRIwS6woe8gluBzFZxZk89hucNa365alEKuy34Vz6Zm1dgAzsOqLmpEY0XE11GlGzFBsoZqxbNrAC8Ivbe6KZXCR/8cex/7MNlbxRojfAb4LTMUZRik5R1snWBPuTKaymqXmKdCoNZTDMWsTW8UhekY+xITM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OOpwql3p; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1773737062; c=relaxed/simple;
+	bh=reN1ExzdLEqD8HVCpoyL9v3MG4Jeymcn9UW3+OEgzww=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IZvLAEi4HaV5N/VsuwbuxLJL2Y7vIF6kWJaelWE+SCFiJf2KN0CPlkvwob9LlXiD/4peIQjDqvDciqX5hrFArkwqjSy8eKt++Bm/k0ZsCPg6TNsSvhdygA53NQFcgH0cztmy0MGRTVXKz1mZ9ox0qM/jplS+XuTyqtp65DSlzLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PnfZFoFV; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OOpwql3p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PnfZFoFV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773737060; x=1805273060;
-  h=date:from:to:cc:subject:message-id;
-  bh=HQHnv5tTEShxLV11AueAziYcKzXDWi3EDiQ3aUQ1DVo=;
-  b=OOpwql3pqJSQzUQ0vNWmtEOLohaFYHso6+nTHQzpjE8FErLc5FBqYxLP
-   iZM+PFCRhqk8gi8Ftd/xw7FgSRO+lbv74uxsVvkyqCoSgHOzn/QuTQDlv
-   1N9RNjg4uBQXUtjMGBSP0xxaCyNPySiz0ILQLJgi9NOI+erP8ftQlGGeT
-   +n0tIhYjZfpjRkgFIoP28mHI/s9oDNszuwVmRAcnHqB9J9Q+KNODY/j5Z
-   7/pRDyexo2kOQ+HwUppkXi0rhe/jZ/m1tOVgmTzwXfvqURmSGxav5nskP
-   YeRpu4EjJyQePeFKPK0a/36AWSt0RMV3+IjwBLwOIBOhg/+SLjBEcb5Fs
-   w==;
-X-CSE-ConnectionGUID: q/qamKsvQwKMUETzmAXcBg==
-X-CSE-MsgGUID: oMotw0q1R7yKOLAtsY3ASg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="74946567"
+  t=1773737061; x=1805273061;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=reN1ExzdLEqD8HVCpoyL9v3MG4Jeymcn9UW3+OEgzww=;
+  b=PnfZFoFVrh7i2aUVq+NELG2Aqa34IIFRu7/kIjk1aRYG+E0s2XdIuN5Q
+   xV2PHUEatARujsZxYBtTD9HMjg0yBd/m0g3qvwo/qFVXs82uVjma/bNyw
+   dWQ+w++15IydPytOQMETRI/9MTN7vsEA0A1bgIkBHEQYTkNjGAtLblvDp
+   te4+TlCESBdEOHFAHE0phO3PUbAzfiFVep3cBxJy+LEE6h7ZdiAe976Rx
+   V19Qk01sFArYXFy3GHCzKEj0P6ULsn0i8jEajZXbHtrSWypyslJoti1HJ
+   1Ex3hhPFD/6gcnXRSFbGqmFis+RR16tCF/iReO6MuyHFoAXjKDHiH25n3
+   A==;
+X-CSE-ConnectionGUID: 8yxnsvAUTgmwgCACOlfEMQ==
+X-CSE-MsgGUID: yp7PYkQuQNayV9sD9CR3Aw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="74946575"
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="74946567"
+   d="scan'208";a="74946575"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 01:44:18 -0700
-X-CSE-ConnectionGUID: yhOwlsgmSny3u8j6gEzWmg==
-X-CSE-MsgGUID: AvzhRwaMQLipbhNpFaMYPg==
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 01:44:21 -0700
+X-CSE-ConnectionGUID: i4TMYhh1SJmDtT9VPYv95A==
+X-CSE-MsgGUID: MwtWjn/sSB+XIPDkipta6g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="221432358"
+   d="scan'208";a="221432349"
 Received: from lkp-server01.sh.intel.com (HELO 63737dd503cb) ([10.239.97.150])
   by orviesa010.jf.intel.com with ESMTP; 17 Mar 2026 01:44:17 -0700
 Received: from kbuild by 63737dd503cb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w2Q29-0000000004q-3zPM;
+	id 1w2Q29-0000000004j-3H6m;
 	Tue, 17 Mar 2026 08:44:13 +0000
-Date: Tue, 17 Mar 2026 16:43:30 +0800
+Date: Tue, 17 Mar 2026 16:43:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Dnyaneshwar Bhadane <dnyaneshwar.bhadane@intel.com>
-Subject: [linux-next:master 6473/6556]
- drivers/gpu/drm/xe/xe_lrc.c:1921:40: warning: format '%lx' expects argument
- of type 'long unsigned int', but argument 3 has type 'int'
-Message-ID: <202603171555.zipH43We-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Jie Gan <jie.gan@oss.qualcomm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@arm.com>,
+	James Clark <james.clark@linaro.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Tingwei Zhang <tingwei.zhang@oss.qualcomm.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, Jie Gan <jie.gan@oss.qualcomm.com>
+Subject: Re: [PATCH v15 2/7] coresight: tmc: add create/clean functions for
+ etr_buf_list
+Message-ID: <202603171518.XQOgdjNN-lkp@intel.com>
+References: <20260313-enable-byte-cntr-for-ctcu-v15-2-1777f14ed319@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260313-enable-byte-cntr-for-ctcu-v15-2-1777f14ed319@oss.qualcomm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   95c541ddfb0815a0ea8477af778bb13bb075079a
-commit: 65fcf19cb36bf43c893c3444d5bd120006cb843d [6473/6556] drm/xe: Include running dword offset in default_lrc dumps
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20260317/202603171555.zipH43We-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260317/202603171555.zipH43We-lkp@intel.com/reproduce)
+Hi Jie,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on a0ae2a256046c0c5d3778d1a194ff2e171f16e5f]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jie-Gan/coresight-core-refactor-ctcu_get_active_port-and-make-it-generic/20260315-052703
+base:   a0ae2a256046c0c5d3778d1a194ff2e171f16e5f
+patch link:    https://lore.kernel.org/r/20260313-enable-byte-cntr-for-ctcu-v15-2-1777f14ed319%40oss.qualcomm.com
+patch subject: [PATCH v15 2/7] coresight: tmc: add create/clean functions for etr_buf_list
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260317/202603171518.XQOgdjNN-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260317/202603171518.XQOgdjNN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603171555.zipH43We-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603171518.XQOgdjNN-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/xe/xe_lrc.c: In function 'dump_mi_command':
->> drivers/gpu/drm/xe/xe_lrc.c:1921:40: warning: format '%lx' expects argument of type 'long unsigned int', but argument 3 has type 'int' [-Wformat=]
-    1921 |                 drm_printf(p, "LRC[%#5lx]  =  [%#010x] MI_NOOP (%d dwords)\n",
-         |                                    ~~~~^
-         |                                        |
-         |                                        long unsigned int
-         |                                    %#5x
-    1922 |                            dw - num_noop - start, inst_header, num_noop);
-         |                            ~~~~~~~~~~~~~~~~~~~~~
-         |                                          |
-         |                                          int
-   drivers/gpu/drm/xe/xe_lrc.c:1926:40: warning: format '%lx' expects argument of type 'long unsigned int', but argument 3 has type 'int' [-Wformat=]
-    1926 |                 drm_printf(p, "LRC[%#5lx]  =  [%#010x] MI_TOPOLOGY_FILTER\n",
-         |                                    ~~~~^
-         |                                        |
-         |                                        long unsigned int
-         |                                    %#5x
-    1927 |                            dw - start, inst_header);
-         |                            ~~~~~~~~~~   
-         |                               |
-         |                               int
-   drivers/gpu/drm/xe/xe_lrc.c:1931:40: warning: format '%lx' expects argument of type 'long unsigned int', but argument 3 has type 'int' [-Wformat=]
-    1931 |                 drm_printf(p, "LRC[%#5lx]  =  [%#010x] MI_BATCH_BUFFER_END\n",
-         |                                    ~~~~^
-         |                                        |
-         |                                        long unsigned int
-         |                                    %#5x
-    1932 |                            dw - start, inst_header);
-         |                            ~~~~~~~~~~   
-         |                               |
-         |                               int
-   drivers/gpu/drm/xe/xe_lrc.c:1946:40: warning: format '%lx' expects argument of type 'long unsigned int', but argument 3 has type 'int' [-Wformat=]
-    1946 |                 drm_printf(p, "LRC[%#5lx]  =  [%#010x] MI_LOAD_REGISTER_IMM: %d regs\n",
-         |                                    ~~~~^
-         |                                        |
-         |                                        long unsigned int
-         |                                    %#5x
-    1947 |                            dw - start, inst_header, (numdw - 1) / 2);
-         |                            ~~~~~~~~~~   
-         |                               |
-         |                               int
-   drivers/gpu/drm/xe/xe_lrc.c:1949:48: warning: format '%lx' expects argument of type 'long unsigned int', but argument 3 has type 'int' [-Wformat=]
-    1949 |                         drm_printf(p, "LRC[%#5lx]  =  - %#6x = %#010x\n",
-         |                                            ~~~~^
-         |                                                |
-         |                                                long unsigned int
-         |                                            %#5x
-    1950 |                                    &dw[i] - start, dw[i], dw[i + 1]);
-         |                                    ~~~~~~~~~~~~~~
-         |                                           |
-         |                                           int
-   drivers/gpu/drm/xe/xe_lrc.c:1954:40: warning: format '%lx' expects argument of type 'long unsigned int', but argument 3 has type 'int' [-Wformat=]
-    1954 |                 drm_printf(p, "LRC[%#5lx]  =  [%#010x] MI_LOAD_REGISTER_MEM: %s%s\n",
-         |                                    ~~~~^
-         |                                        |
-         |                                        long unsigned int
-         |                                    %#5x
-    1955 |                            dw - start, inst_header,
-         |                            ~~~~~~~~~~   
-         |                               |
-         |                               int
-   drivers/gpu/drm/xe/xe_lrc.c:1959:48: warning: format '%lx' expects argument of type 'long unsigned int', but argument 3 has type 'int' [-Wformat=]
-    1959 |                         drm_printf(p, "LRC[%#5lx]  =  - %#6x = %#010llx\n",
-         |                                            ~~~~^
-         |                                                |
-         |                                                long unsigned int
-         |                                            %#5x
-    1960 |                                    dw - start,
-         |                                    ~~~~~~~~~~   
-         |                                       |
-         |                                       int
-   drivers/gpu/drm/xe/xe_lrc.c:1963:48: warning: format '%lx' expects argument of type 'long unsigned int', but argument 3 has type 'int' [-Wformat=]
-    1963 |                         drm_printf(p, "LRC[%#5lx]  =  - %*ph (%s)\n",
-         |                                            ~~~~^
-         |                                                |
-         |                                                long unsigned int
-         |                                            %#5x
-    1964 |                                    dw - start, (int)sizeof(u32) * (numdw - 1),
-         |                                    ~~~~~~~~~~   
-         |                                       |
-         |                                       int
-   drivers/gpu/drm/xe/xe_lrc.c:1969:40: warning: format '%lx' expects argument of type 'long unsigned int', but argument 3 has type 'int' [-Wformat=]
-    1969 |                 drm_printf(p, "LRC[%#5lx]  =  [%#010x] MI_FORCE_WAKEUP\n",
-         |                                    ~~~~^
-         |                                        |
-         |                                        long unsigned int
-         |                                    %#5x
-    1970 |                            dw - start, inst_header);
-         |                            ~~~~~~~~~~   
-         |                               |
-         |                               int
-   drivers/gpu/drm/xe/xe_lrc.c:1974:40: warning: format '%lx' expects argument of type 'long unsigned int', but argument 3 has type 'int' [-Wformat=]
-    1974 |                 drm_printf(p, "LRC[%#5lx]  =  [%#010x] unknown MI opcode %#x, likely %d dwords\n",
-         |                                    ~~~~^
-         |                                        |
-         |                                        long unsigned int
-         |                                    %#5x
-    1975 |                            dw - start, inst_header, opcode, numdw);
-         |                            ~~~~~~~~~~   
-         |                               |
-         |                               int
-   drivers/gpu/drm/xe/xe_lrc.c: In function 'dump_gfxpipe_command':
+>> drivers/hwtracing/coresight/coresight-tmc-etr.c:1979:50: warning: variable 'flags' is uninitialized when used here [-Wuninitialized]
+    1979 |                 raw_spin_unlock_irqrestore(&drvdata->spinlock, flags);
+         |                                                                ^~~~~
+   include/linux/spinlock.h:283:37: note: expanded from macro 'raw_spin_unlock_irqrestore'
+     283 |                 _raw_spin_unlock_irqrestore(lock, flags);       \
+         |                                                   ^~~~~
+   drivers/hwtracing/coresight/coresight-tmc-etr.c:1969:21: note: initialize the variable 'flags' to silence this warning
+    1969 |         unsigned long flags;
+         |                            ^
+         |                             = 0
+   1 warning generated.
 
 
-vim +1921 drivers/gpu/drm/xe/xe_lrc.c
+vim +/flags +1979 drivers/hwtracing/coresight/coresight-tmc-etr.c
 
-  1902	
-  1903	static int dump_mi_command(struct drm_printer *p,
-  1904				   struct xe_gt *gt,
-  1905				   u32 *start,
-  1906				   u32 *dw,
-  1907				   int remaining_dw)
-  1908	{
-  1909		u32 inst_header = *dw;
-  1910		u32 numdw = instr_dw(inst_header);
-  1911		u32 opcode = REG_FIELD_GET(MI_OPCODE, inst_header);
-  1912		int num_noop;
-  1913	
-  1914		/* First check for commands that don't have/use a '# DW' field */
-  1915		switch (inst_header & MI_OPCODE) {
-  1916		case MI_NOOP:
-  1917			num_noop = 1;
-  1918			while (num_noop < remaining_dw &&
-  1919			       (*(++dw) & REG_GENMASK(31, 23)) == MI_NOOP)
-  1920				num_noop++;
-> 1921			drm_printf(p, "LRC[%#5lx]  =  [%#010x] MI_NOOP (%d dwords)\n",
-  1922				   dw - num_noop - start, inst_header, num_noop);
-  1923			return num_noop;
-  1924	
-  1925		case MI_TOPOLOGY_FILTER:
-  1926			drm_printf(p, "LRC[%#5lx]  =  [%#010x] MI_TOPOLOGY_FILTER\n",
-  1927				   dw - start, inst_header);
-  1928			return 1;
-  1929	
-  1930		case MI_BATCH_BUFFER_END:
-  1931			drm_printf(p, "LRC[%#5lx]  =  [%#010x] MI_BATCH_BUFFER_END\n",
-  1932				   dw - start, inst_header);
-  1933			/* Return 'remaining_dw' to consume the rest of the LRC */
-  1934			return remaining_dw;
-  1935		}
-  1936	
-  1937		/*
-  1938		 * Any remaining commands include a # of dwords.  We should make sure
-  1939		 * it doesn't exceed the remaining size of the LRC.
-  1940		 */
-  1941		if (xe_gt_WARN_ON(gt, numdw > remaining_dw))
-  1942			numdw = remaining_dw;
-  1943	
-  1944		switch (inst_header & MI_OPCODE) {
-  1945		case MI_LOAD_REGISTER_IMM:
-  1946			drm_printf(p, "LRC[%#5lx]  =  [%#010x] MI_LOAD_REGISTER_IMM: %d regs\n",
-  1947				   dw - start, inst_header, (numdw - 1) / 2);
-  1948			for (int i = 1; i < numdw; i += 2)
-  1949				drm_printf(p, "LRC[%#5lx]  =  - %#6x = %#010x\n",
-  1950					   &dw[i] - start, dw[i], dw[i + 1]);
-  1951			return numdw;
-  1952	
-  1953		case MI_LOAD_REGISTER_MEM & MI_OPCODE:
-  1954			drm_printf(p, "LRC[%#5lx]  =  [%#010x] MI_LOAD_REGISTER_MEM: %s%s\n",
-  1955				   dw - start, inst_header,
-  1956				   dw[0] & MI_LRI_LRM_CS_MMIO ? "CS_MMIO " : "",
-  1957				   dw[0] & MI_LRM_USE_GGTT ? "USE_GGTT " : "");
-  1958			if (numdw == 4)
-  1959				drm_printf(p, "LRC[%#5lx]  =  - %#6x = %#010llx\n",
-  1960					   dw - start,
-  1961					   dw[1], ((u64)(dw[3]) << 32 | (u64)(dw[2])));
-  1962			else
-  1963				drm_printf(p, "LRC[%#5lx]  =  - %*ph (%s)\n",
-  1964					   dw - start, (int)sizeof(u32) * (numdw - 1),
-  1965					   dw + 1, numdw < 4 ? "truncated" : "malformed");
-  1966			return numdw;
-  1967	
-  1968		case MI_FORCE_WAKEUP:
-  1969			drm_printf(p, "LRC[%#5lx]  =  [%#010x] MI_FORCE_WAKEUP\n",
-  1970				   dw - start, inst_header);
-  1971			return numdw;
-  1972	
-  1973		default:
-  1974			drm_printf(p, "LRC[%#5lx]  =  [%#010x] unknown MI opcode %#x, likely %d dwords\n",
-  1975				   dw - start, inst_header, opcode, numdw);
-  1976			return numdw;
-  1977		}
-  1978	}
-  1979	
+  1957	
+  1958	/**
+  1959	 * tmc_create_etr_buf_list - create a list to manage the etr_buf_node.
+  1960	 * @drvdata:	driver data of the TMC device.
+  1961	 * @num_nodes:	number of nodes want to create with the list.
+  1962	 *
+  1963	 * Return 0 upon success and return the error number if fail.
+  1964	 */
+  1965	int tmc_create_etr_buf_list(struct tmc_drvdata *drvdata, int num_nodes)
+  1966	{
+  1967		struct etr_buf_node *new_node;
+  1968		struct etr_buf *sysfs_buf;
+  1969		unsigned long flags;
+  1970		int i = 0, ret = 0;
+  1971	
+  1972		lockdep_assert_held(&drvdata->spinlock);
+  1973		/* We dont need a list if there is only one node */
+  1974		if (num_nodes < 2)
+  1975			return -EINVAL;
+  1976	
+  1977		/* We expect that sysfs_buf in drvdata has already been allocated. */
+  1978		if (drvdata->sysfs_buf) {
+> 1979			raw_spin_unlock_irqrestore(&drvdata->spinlock, flags);
+  1980			/* Directly insert the allocated sysfs_buf into the list first */
+  1981			new_node = kzalloc_obj(*new_node, GFP_KERNEL);
+  1982			if (IS_ERR(new_node))
+  1983				return PTR_ERR(new_node);
+  1984	
+  1985			raw_spin_lock_irqsave(&drvdata->spinlock, flags);
+  1986			new_node->sysfs_buf = drvdata->sysfs_buf;
+  1987			new_node->is_free = false;
+  1988			list_add(&new_node->link, &drvdata->etr_buf_list);
+  1989			i++;
+  1990		}
+  1991	
+  1992		raw_spin_unlock_irqrestore(&drvdata->spinlock, flags);
+  1993		while (i < num_nodes) {
+  1994			new_node = kzalloc_obj(*new_node, GFP_KERNEL);
+  1995			if (IS_ERR(new_node)) {
+  1996				ret = PTR_ERR(new_node);
+  1997				break;
+  1998			}
+  1999	
+  2000			sysfs_buf = tmc_alloc_etr_buf(drvdata, drvdata->size, 0, cpu_to_node(0), NULL);
+  2001			if (IS_ERR(sysfs_buf)) {
+  2002				kfree(new_node);
+  2003				ret = PTR_ERR(sysfs_buf);
+  2004				break;
+  2005			}
+  2006	
+  2007			/* We dont have a available sysfs_buf in drvdata, setup one */
+  2008			if (!drvdata->sysfs_buf) {
+  2009				drvdata->sysfs_buf = sysfs_buf;
+  2010				new_node->is_free = false;
+  2011			} else
+  2012				new_node->is_free = true;
+  2013	
+  2014			new_node->sysfs_buf = sysfs_buf;
+  2015			list_add(&new_node->link, &drvdata->etr_buf_list);
+  2016			i++;
+  2017		}
+  2018	
+  2019		/* Clean the list if there is an error */
+  2020		if (ret)
+  2021			tmc_clean_etr_buf_list(drvdata);
+  2022	
+  2023		raw_spin_lock_irqsave(&drvdata->spinlock, flags);
+  2024	
+  2025		return ret;
+  2026	}
+  2027	EXPORT_SYMBOL_GPL(tmc_create_etr_buf_list);
+  2028	
 
 -- 
 0-DAY CI Kernel Test Service
