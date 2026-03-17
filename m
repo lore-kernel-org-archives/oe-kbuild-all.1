@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A7CF373BF5;
-	Tue, 17 Mar 2026 10:55:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 469E63195FC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Mar 2026 11:05:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773744960; cv=none; b=uk4b3UrWxYyFd2wAu/47K8d3PcZf1KjbN26nqApC6pj5Ffdy3L3KzaChX2Jhl8M3qwrJCqGz/Keylh368yCgi+acFA+cc45NL2BEeF76GDg9Ub+8t6T1plWWnBBlyXL8qHeTgAdFXSqELd1BN641tpHY8QtwXHmBr5KrB/iCYcE=
+	t=1773745554; cv=none; b=VcInc9xoad/Tn1QCixNthbZF6j3IZiAZGzkOrASw+VoWhACM5CQFLcUExa+gU+XbsPb16UHnacG2D/Uzgrt+Hmqukq34u0KdGFQ+hd0q512YkM4J0mf0Epq9uusThn7twPgAHVXMHz1bFxSzM3gK2fOS4abOJrdQiPg2UnsDpQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773744960; c=relaxed/simple;
-	bh=EDvSeByYOLl2MUUcEfRd5YPOReBce8qffcQSiklMDt4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=cY0aniFGJCgr3xE+8yw7hmgtp/q++y7Tzme0UfPR7kyAqN5H27Rq6X1g9Exa8NfoeM7ZmhUKhD5dA2CNpaMEecsa6c8PIQA9zi0XB30quHAtrKgQSneVTfsrRhL+xrx1u5ZabPPfWNI2dTmRDTVJ9JijbozvrDAgWD1nbbN1m7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lzmly6v6; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1773745554; c=relaxed/simple;
+	bh=QqfnEG8ys6X3t6DwE0H/2+7wYXmn88F6Zos5lpRF+7A=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=miAn0HW7CEUSnyJZd4P+BXWLx5I4t1lKh03frmtix5ofTCz266tXW1dslznMY3o1xYgvu7ID0bGhwaC0co9YHCwg+Vl4y4b0HvmdmDLQmNtkCeEiCNReZWBbNFgEVqgtGRStWIXisRtU9EnFCmige84WE2MIYjUgn6W+ItsEMbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NgoBLub5; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lzmly6v6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NgoBLub5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773744959; x=1805280959;
+  t=1773745551; x=1805281551;
   h=date:from:to:cc:subject:message-id;
-  bh=EDvSeByYOLl2MUUcEfRd5YPOReBce8qffcQSiklMDt4=;
-  b=Lzmly6v6OYgKmt2Xtqhx9SLJRhDwlxig2ihceeDj1y5xlUNzYb3gJKqd
-   Q48Ms2Qv3TMGgxsX92Npp52Tw2ksOkmCQWVpDtZR2i+E53Y6DeaSKKWHI
-   KxKMicdcn7z7qrzQRRjMneG0J7HSfv6nhYkdgCt3WSAsnKtjm1REU1iz0
-   F+8djuY/OcoIMI6zhP/pAcuEkFVV8j8Gso0oWkRBTZ36hKdaMvsEOCdGx
-   i53bitFNbsVrQPTCsauh7E4p7tB+Eo9gGLa8gYfWv+kaV2dikmNDY8m0a
-   Tge4f6sL8ynWxtKbRq4+X7ztJIaoy9XFRlkVfc5+hj1m9dk2qxSF/BHHT
+  bh=QqfnEG8ys6X3t6DwE0H/2+7wYXmn88F6Zos5lpRF+7A=;
+  b=NgoBLub5+1z97FAhxgKmjaW/kqvbfrhYovmFYr8e+gm0wPDfZc0AJm1Y
+   be1hAMKHr3NjYiWuBhQamW5WBAxn0hkNfN3NLaacVtsEZy978SMdvic7L
+   lF9Om6s6dwjKBVoYbV4k4BA8bFRIwczVe4Lsn7ViJ3VdaHXpReGXOO/+e
+   rdooag8N/jwWEG5Yfl2hC9wBPMTabnxiRYU0JrbtZDseQ1KQlli3LrWND
+   7CjLO6+ROhc1sJms4C1svoGrQhLOopEWrjFWU+4Gl6uFaO/dh+EQiijeb
+   sa7bb4/i/Q4/FqEoVTLcZzfOa7jgUH88ZHhIbbBd0NogzBxtwRBI88U/s
    Q==;
-X-CSE-ConnectionGUID: +5Yyk5FuRCOX1J+NCrosMA==
-X-CSE-MsgGUID: zFQNVQNgQpuwzrNFS/uTEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="73791746"
+X-CSE-ConnectionGUID: 1ehoGwgxSse55OXgY7U2bw==
+X-CSE-MsgGUID: La+G3FPwRrqg/MwkUIyqfQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="85090754"
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="73791746"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 03:55:48 -0700
-X-CSE-ConnectionGUID: dlsAN+1CTOOmPoe/KDuzQQ==
-X-CSE-MsgGUID: zSMfYxDLR8mUQzZBuKZ7NA==
+   d="scan'208";a="85090754"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 04:05:51 -0700
+X-CSE-ConnectionGUID: 9A9QgoaXTJCPjzm0olGTPw==
+X-CSE-MsgGUID: drjVXwF7QRGTXMTOFhAMOA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="222459728"
+   d="scan'208";a="246932887"
 Received: from lkp-server01.sh.intel.com (HELO 63737dd503cb) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 17 Mar 2026 03:55:46 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 17 Mar 2026 04:05:48 -0700
 Received: from kbuild by 63737dd503cb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w2S5P-000000000HD-3N14;
-	Tue, 17 Mar 2026 10:55:43 +0000
-Date: Tue, 17 Mar 2026 18:55:02 +0800
+	id 1w2SF7-000000000IH-2WNp;
+	Tue, 17 Mar 2026 11:05:45 +0000
+Date: Tue, 17 Mar 2026 19:05:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: Alexei Starovoitov <ast@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [ast-bpf:stacklive 12/22] kernel/bpf/liveness.c:2302:5:
- warning: stack frame size (1464) exceeds limit (1280) in
- 'compute_subprog_arg_access'
-Message-ID: <202603171840.EMoRjsHz-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ast-bpf:stacklive 12/22] kernel/bpf/liveness.c:2152:1:
+ warning: the frame size of 1520 bytes is larger than 1280 bytes
+Message-ID: <202603171822.smgcd5B7-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,142 +62,176 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ast/bpf.git stacklive
 head:   f4d911f1115995504320e415e04768858065221b
 commit: d9d806381e9caf5be8c404e90b7997fd39bacf63 [12/22] bpf: Add per-subprog arg tracking analysis
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260317/202603171840.EMoRjsHz-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260317/202603171840.EMoRjsHz-lkp@intel.com/reproduce)
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260317/202603171822.smgcd5B7-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260317/202603171822.smgcd5B7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603171840.EMoRjsHz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603171822.smgcd5B7-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/bpf/liveness.c:2302:5: warning: stack frame size (1464) exceeds limit (1280) in 'compute_subprog_arg_access' [-Wframe-larger-than]
-    2302 | int compute_subprog_arg_access(struct bpf_verifier_env *env,
-         |     ^
-   1 warning generated.
+   kernel/bpf/liveness.c: In function 'compute_subprog_arg_tracking':
+>> kernel/bpf/liveness.c:2152:1: warning: the frame size of 1520 bytes is larger than 1280 bytes [-Wframe-larger-than=]
+    2152 | }
+         | ^
 
 
-vim +/compute_subprog_arg_access +2302 kernel/bpf/liveness.c
+vim +2152 kernel/bpf/liveness.c
 
-  2244	
-  2245	/*
-  2246	 * Backward pass: compute per-instruction argument read liveness.
-  2247	 * arg_live[i][arg] = union of arg_use[j][arg] for all j reachable from i.
-  2248	 * No def-kills: conservative (reads through written slots stay live).
-  2249	 *
-  2250	 * For nested calls (subprog0 -> subprog1 -> subprog2), this works
-  2251	 * transitively: the forward pass folds inner callee reads into arg_use
-  2252	 * at each BPF-to-BPF call instruction, so arg_live for subprog1 already
-  2253	 * includes reads that subprog2 makes through subprog1's arguments.
-  2254	 * clean_verifier_state() only needs to consult the immediate child's
-  2255	 * arg_live to get correct liveness for any call depth.
-  2256	 */
-  2257	static int compute_arg_live(struct bpf_verifier_env *env,
-  2258				    int subprog, int start, int len,
-  2259				    struct subprog_arg_access *access,
-  2260				    u64 (*arg_use)[NUM_AT_IDS][2])
-  2261	{
-  2262		int po_start = env->subprog_info[subprog].postorder_start;
-  2263		int po_end = env->subprog_info[subprog + 1].postorder_start;
-  2264		bool changed = true;
-  2265	
-  2266		access->subprog_len = len;
-  2267		access->arg_live = kvzalloc_objs(*access->arg_live, len, GFP_KERNEL_ACCOUNT);
-  2268		if (!access->arg_live)
-  2269			return -ENOMEM;
-  2270	
-  2271		while (changed) {
-  2272			changed = false;
-  2273			for (int p = po_start; p < po_end; p++) {
-  2274				int insn_idx = env->cfg.insn_postorder[p];
-  2275				int li = insn_idx - start;
-  2276				struct bpf_iarray *succ;
-  2277				u64 new_live[NUM_AT_IDS][2] = {};
-  2278				int a;
-  2279	
-  2280				succ = bpf_insn_successors(env, insn_idx);
-  2281				for (int s = 0; s < succ->cnt; s++) {
-  2282					int target = succ->items[s];
-  2283	
-  2284					if (target < start || target >= start + len)
-  2285						continue;
-  2286					for (a = 0; a < NUM_AT_IDS; a++)
-  2287						spis_or(new_live[a], access->arg_live[target - start][a]);
-  2288				}
-  2289				for (a = 0; a < NUM_AT_IDS; a++)
-  2290					spis_or(new_live[a], arg_use[li][a]);
-  2291	
-  2292				for (a = 0; a < NUM_AT_IDS; a++) {
-  2293					if (!spis_equal(new_live[a], access->arg_live[li][a])) {
-  2294						spis_copy(access->arg_live[li][a], new_live[a]);
-  2295						changed = true;
-  2296					}
-  2297				}
-  2298			}
-  2299		}
-  2300		return 0;
-  2301	}
-> 2302	int compute_subprog_arg_access(struct bpf_verifier_env *env,
-  2303				       struct insn_live_regs *state)
-  2304	{
-  2305		struct bpf_insn *insns = env->prog->insnsi;
-  2306		struct subprog_at_info *info;
-  2307		int k, err = 0;
-  2308	
-  2309		env->subprog_arg_access = kvcalloc(env->subprog_cnt,
-  2310						   sizeof(*env->subprog_arg_access),
-  2311						   GFP_KERNEL_ACCOUNT);
-  2312		if (!env->subprog_arg_access)
-  2313			return -ENOMEM;
-  2314	
-  2315		info = kvcalloc(env->subprog_cnt, sizeof(*info), GFP_KERNEL_ACCOUNT);
-  2316		if (!info)
-  2317			return -ENOMEM;
-  2318	
-  2319		/*
-  2320		 * Process subprogs in topological order (leaves first).
-  2321		 * Each subprog gets: arg tracking, callee folding, arg liveness.
-  2322		 * Subprog 0 needs stack tracking but not arg liveness.
-  2323		 */
-  2324		for (k = 0; k < env->subprog_cnt; k++) {
-  2325			int i = env->subprog_topo_order[k];
-  2326			struct subprog_arg_access *access;
-  2327	
-  2328			access = &env->subprog_arg_access[i];
-  2329			err = compute_subprog_arg_tracking(env, insns, i,
-  2330							   access, &info[i],
-  2331							   state);
-  2332			if (err)
-  2333				goto err_free;
-  2334	
-  2335			if (i > 0) {
-  2336				fold_callee_accesses_for_subprog(env, insns, i,
-  2337								 access,
-  2338								 &info[i]);
-  2339			}
-  2340	
-  2341			if (i > 0) {
-  2342				int start = env->subprog_info[i].start;
-  2343	
-  2344				err = compute_arg_live(env, i, start,
-  2345						       info[i].len, access,
-  2346						       info[i].arg_use);
-  2347				if (err)
-  2348					goto err_free;
-  2349			}
-  2350		}
-  2351	
-  2352	err_free:
-  2353		for (k = 0; k < env->subprog_cnt; k++) {
-  2354			kvfree(info[k].at_in);
-  2355			kvfree(info[k].arg_use);
-  2356		}
-  2357		kvfree(info);
-  2358		return err;
-  2359	}
-  2360	
+  2003	
+  2004	/*
+  2005	 * Compute arg tracking dataflow for a single subprog.
+  2006	 * Runs forward fixed-point with arg_track_xfer(), then records
+  2007	 * memory accesses in a single linear pass over converged state.
+  2008	 * Stores at_in and arg_use in info for later phases.
+  2009	 */
+  2010	static int compute_subprog_arg_tracking(struct bpf_verifier_env *env,
+  2011						struct bpf_insn *insns,
+  2012						int subprog,
+  2013						struct subprog_arg_access *access,
+  2014						struct subprog_at_info *info,
+  2015						struct insn_live_regs *state)
+  2016	{
+  2017		int start = env->subprog_info[subprog].start;
+  2018		int po_start = env->subprog_info[subprog].postorder_start;
+  2019		int end = env->subprog_info[subprog + 1].start;
+  2020		int po_end = env->subprog_info[subprog + 1].postorder_start;
+  2021		int len = end - start;
+  2022		struct arg_track (*at_in)[MAX_BPF_REG] = NULL;
+  2023		struct arg_track at_out[MAX_BPF_REG];
+  2024		struct arg_track (*at_stack_in)[MAX_ARG_SPILL_SLOTS] = NULL;
+  2025		struct arg_track at_stack_out[MAX_ARG_SPILL_SLOTS];
+  2026		u64 (*arg_use)[NUM_AT_IDS][2] = NULL;
+  2027		struct arg_track unvisited = { .arg = ARG_UNVISITED };
+  2028		struct arg_track none = { .arg = ARG_NONE };
+  2029		bool changed;
+  2030		int i, p, r, err;
+  2031	
+  2032		for (i = 0; i < NUM_AT_IDS; i++) {
+  2033			spis_clear(access->read[i]);
+  2034			spis_clear(access->write[i]);
+  2035		}
+  2036	
+  2037		at_in = kvmalloc_array(len, sizeof(*at_in), GFP_KERNEL_ACCOUNT);
+  2038		if (!at_in) {
+  2039			err = -ENOMEM;
+  2040			goto err_free;
+  2041		}
+  2042	
+  2043		at_stack_in = kvmalloc_array(len, sizeof(*at_stack_in), GFP_KERNEL_ACCOUNT);
+  2044		if (!at_stack_in) {
+  2045			err = -ENOMEM;
+  2046			goto err_free;
+  2047		}
+  2048	
+  2049		arg_use = kvzalloc_objs(*arg_use, len, GFP_KERNEL_ACCOUNT);
+  2050		if (!arg_use) {
+  2051			err = -ENOMEM;
+  2052			goto err_free;
+  2053		}
+  2054	
+  2055		for (i = 0; i < len; i++) {
+  2056			for (r = 0; r < MAX_BPF_REG; r++)
+  2057				at_in[i][r] = unvisited;
+  2058			for (r = 0; r < MAX_ARG_SPILL_SLOTS; r++)
+  2059				at_stack_in[i][r] = unvisited;
+  2060		}
+  2061	
+  2062		for (r = 0; r < MAX_BPF_REG; r++)
+  2063			at_in[0][r] = none;
+  2064	
+  2065		/* Entry: R10 is FP; R1-R5 are arg-derived only for subprogs */
+  2066		at_in[0][BPF_REG_FP] = arg_track_single(AT_FP, 0);
+  2067	
+  2068		if (subprog > 0) {
+  2069			for (r = BPF_REG_1; r <= BPF_REG_5; r++)
+  2070				at_in[0][r] = arg_track_single(r, 0);
+  2071		}
+  2072	
+  2073		/* Entry: all stack slots are ARG_NONE. They cannot carry arg-derived pointers */
+  2074		for (r = 0; r < MAX_ARG_SPILL_SLOTS; r++)
+  2075			at_stack_in[0][r] = none;
+  2076	
+  2077		if (env->log.level & BPF_LOG_LEVEL2)
+  2078			verbose(env, "subprog#%d: analyzing...\n", subprog);
+  2079	
+  2080		/* Forward fixed-point iteration in reverse post order */
+  2081		changed = true;
+  2082		while (changed) {
+  2083			changed = false;
+  2084			for (p = po_end - 1; p >= po_start; p--) {
+  2085				int idx = env->cfg.insn_postorder[p];
+  2086				int i = idx - start;
+  2087				struct bpf_insn *insn = &insns[idx];
+  2088				struct bpf_iarray *succ;
+  2089	
+  2090				if (at_in[i][0].arg == ARG_UNVISITED &&
+  2091				    at_in[i][1].arg == ARG_UNVISITED)
+  2092					continue;
+  2093	
+  2094				memcpy(at_out, at_in[i], sizeof(at_out));
+  2095				memcpy(at_stack_out, at_stack_in[i], sizeof(at_stack_out));
+  2096				arg_track_xfer(env, insn, idx, access, at_out, at_stack_out);
+  2097				arg_track_log(env, insn, idx, at_in[i], at_stack_in[i], at_out, at_stack_out);
+  2098	
+  2099				/* Propagate to successors within this subprogram */
+  2100				succ = bpf_insn_successors(env, idx);
+  2101				for (int s = 0; s < succ->cnt; s++) {
+  2102					int target = succ->items[s];
+  2103					int ti;
+  2104	
+  2105					/* Filter: stay within the subprogram's range */
+  2106					if (target < start || target >= end)
+  2107						continue;
+  2108					ti = target - start;
+  2109	
+  2110					for (r = 0; r < MAX_BPF_REG; r++)
+  2111						changed |= arg_track_join(env, idx, target, r, &at_in[ti][r], at_out[r]);
+  2112	
+  2113					for (r = 0; r < MAX_ARG_SPILL_SLOTS; r++)
+  2114						changed |= arg_track_join(env,idx, target, -r - 1, &at_stack_in[ti][r], at_stack_out[r]);
+  2115				}
+  2116			}
+  2117		}
+  2118	
+  2119		kvfree(at_stack_in);
+  2120	
+  2121		/* Linear pass: record memory accesses using converged at_in */
+  2122		for (i = 0; i < len; i++) {
+  2123			struct bpf_insn *insn = &insns[start + i];
+  2124	
+  2125			if (at_in[i][0].arg == ARG_UNVISITED &&
+  2126			    at_in[i][1].arg == ARG_UNVISITED)
+  2127				continue;
+  2128	
+  2129			record_insn_mem_accesses(env, insn, access, arg_use, i,
+  2130						at_in[i], &state[start + i]);
+  2131	
+  2132			if (BPF_CLASS(insn->code) == BPF_JMP &&
+  2133			    BPF_OP(insn->code) == BPF_CALL)
+  2134				set_call_stack_access_at(env, insn, start + i,
+  2135							 &state[start + i],
+  2136							 at_in[i]);
+  2137		}
+  2138	
+  2139		if (env->log.level & BPF_LOG_LEVEL2)
+  2140			print_subprog_arg_access(env, subprog, access);
+  2141	
+  2142		info->at_in = at_in;
+  2143		info->arg_use = arg_use;
+  2144		info->len = len;
+  2145		return 0;
+  2146	
+  2147	err_free:
+  2148		kvfree(arg_use);
+  2149		kvfree(at_stack_in);
+  2150		kvfree(at_in);
+  2151		return err;
+> 2152	}
+  2153	
 
 -- 
 0-DAY CI Kernel Test Service
