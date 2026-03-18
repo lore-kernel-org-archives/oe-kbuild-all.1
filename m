@@ -1,63 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3870354AC0;
-	Wed, 18 Mar 2026 11:24:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A172377EBC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Mar 2026 11:35:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773833099; cv=none; b=T5rTF8IcvxXDz1gPaWPkzYpwfs9YXYF5wUvXSiljLmk1GAW1Cp2V9MzTrjeM22Zb83+ox4w5dYaOQLYfl+sKMaE9QDnBMdcqZKGL7PjQZRMCxcbOJ3vtFiOTzVWdFMaCMt8OEkRC0KYy42vYkzBDHoDIqBsFQNO9OIseJk/CjNY=
+	t=1773833758; cv=none; b=L7iIlGvH4rZDirJLMt3ChF99/WyUMIkDdcfAhmUyQfSeX1UYBWJl+lIOH6+1m32xytZ5Mi7MbrNS9bG46/NRCTbVJTFB2XHHchhtJNc3oVflTMyotpui9ydkP9SyljGYGsiBaltvzHiHQaWGzhHYNN3yEn8y/pTlh5z/QHKODnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773833099; c=relaxed/simple;
-	bh=h1VUC5nIknOJQz5j8kp1F6tG58vDtYbfl897Py5tPfc=;
+	s=arc-20240116; t=1773833758; c=relaxed/simple;
+	bh=ZclFthZd77skOSmXkc5robMrKH8Po4/7YgiZhdHEFFw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AyFHUrOTPaZqMw2po57AP++7C3H6uqppFVSB9yh7yW7V5p9MKSfl9UvEvf9JTUef+m/PTjNaikHTlIi7M7r3uXMe6Omf3cLGmvijeEC/pzsW9dxrgg/N0WsEuyTYiwUX02DW+LiiHWoDuQB/BtEJP6w/BHeucVDdA0r/U6VQKFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AQ8bsUYL; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=V9TZ41Rj4UEhl5X4TuQeThDSXgfIqCjw20uGvsJxcqac22N6mUGDGSRcNspP+4I5mzSNX5dN2X2MWQNqc2AsHGS9YLK/znluXRijkPe186Lj4nstEA8GJIwzCWPlAb7mIECbrXWhueeKknj9W1X+M9y97ZSPD2oZHGhY0atqvT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N4aNhFNe; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AQ8bsUYL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N4aNhFNe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773833096; x=1805369096;
+  t=1773833758; x=1805369758;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=h1VUC5nIknOJQz5j8kp1F6tG58vDtYbfl897Py5tPfc=;
-  b=AQ8bsUYL15ogeIhH98hVflQ/EJPov7ZMwb0X1MNvaUcmhxlmSUv39dGz
-   ba4q2XgYD77FJrXG7D1xtpbXZ/gUPWBlBjRFq9PgutEd3JAJWEGMJn8Y+
-   hd2W17CZIqioUFkFBIeYPrxLWCXSlFCPsV2zlWhWdv2RcJM7Wz/ILo4C2
-   P3magsaBkbcFoKGGfgGMCJ7eKZNJqKec5qo2JtabSKvyAbIaz9K67ogOO
-   MCv1gtfdvuo6iXrrJNaA78/TOrlzHEz3MBHzwKodo5vQyLEstfs3HP7Y0
-   5QUYkbTNsnUj80zZbNaMiW9yRYLWGxhTR2e7cMBFHafylMzWSBCuvozem
-   Q==;
-X-CSE-ConnectionGUID: O9XzJJA7R66TSwrVkXSB8w==
-X-CSE-MsgGUID: jlphJc+hQYqkCFWhuLnE3w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="92453186"
+  bh=ZclFthZd77skOSmXkc5robMrKH8Po4/7YgiZhdHEFFw=;
+  b=N4aNhFNenBvDOEGkIb5OVlLx8gN6CvcmcNyj5Ahx7PE78XiQiiSxUNIs
+   HAo7H8zQ0DbuMpov19NjO4712m8ork2bpZPe3XQyy5ER+77vk2cbI+DqV
+   0IarHNYbHxZTc04bT6nhroqVy+XlH1Z/+cGyAExREPmyzI4kfkb7Dv3Da
+   gIGcauW0/tMGkFHmb1DrT3LquskbkO1a0eHtDVax+cZEWn1uuoWceK/oT
+   2VuJIWSkZUeTTrNzYiM+2VjIeyAwKM6/vBlgl1+Bhw69UKWkvknmXo9zG
+   DmiTGp1q9JYG6IuvxhF/kofntW+Qf0uOhwtLsO+ZyqselRYBVl/TYPDPV
+   A==;
+X-CSE-ConnectionGUID: 8PR7uK47TFqhxkdbKgNqIw==
+X-CSE-MsgGUID: /3JY2OhWREqQGY3SwoC1sw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="74770644"
 X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
-   d="scan'208";a="92453186"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 04:24:55 -0700
-X-CSE-ConnectionGUID: Rn7cnvnyR7qMlKBp6lLffQ==
-X-CSE-MsgGUID: IJuzDVBCQiWKgnx6YSyKWQ==
+   d="scan'208";a="74770644"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 04:35:58 -0700
+X-CSE-ConnectionGUID: wxFsSdJrR9yJRjaUCARfHQ==
+X-CSE-MsgGUID: X0ORtggNTICqChi69o8byA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
-   d="scan'208";a="222654933"
+   d="scan'208";a="222578791"
 Received: from lkp-server01.sh.intel.com (HELO 63737dd503cb) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 18 Mar 2026 04:24:53 -0700
+  by orviesa009.jf.intel.com with ESMTP; 18 Mar 2026 04:35:52 -0700
 Received: from kbuild by 63737dd503cb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w2p17-000000002qH-47M2;
-	Wed, 18 Mar 2026 11:24:49 +0000
-Date: Wed, 18 Mar 2026 19:24:47 +0800
+	id 1w2pBm-000000002qj-2OWn;
+	Wed, 18 Mar 2026 11:35:50 +0000
+Date: Wed, 18 Mar 2026 19:35:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Demian Shulhan <demyansh@gmail.com>, Song Liu <song@kernel.org>,
-	Yu Kuai <yukuai@fnnas.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Li Nan <linan122@huawei.com>, linux-raid@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Demian Shulhan <demyansh@gmail.com>
-Subject: Re: [PATCH] raid6: arm64: add SVE optimized implementation for
- syndrome generation
-Message-ID: <202603181940.cFwYmYoi-lkp@intel.com>
-References: <20260317111706.2756977-1-demyansh@gmail.com>
+To: Andre Przywara <andre.przywara@arm.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Sudeep Holla <sudeep.holla@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Salman Nabi <salman.nabi@arm.com>,
+	Vedashree Vidwans <vvidwans@nvidia.com>,
+	Trilok Soni <trilokkumar.soni@oss.qualcomm.com>,
+	Nirmoy Das <nirmoyd@nvidia.com>, vsethi@nvidia.com,
+	vwadekar@nvidia.com, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 7/8] firmware: smccc: lfa: Register DT interrupt
+Message-ID: <202603181913.NFRwBsN4-lkp@intel.com>
+References: <20260317103336.1273582-8-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,142 +72,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260317111706.2756977-1-demyansh@gmail.com>
+In-Reply-To: <20260317103336.1273582-8-andre.przywara@arm.com>
 
-Hi Demian,
+Hi Andre,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on akpm-mm/mm-nonmm-unstable]
-[also build test WARNING on linus/master v7.0-rc4 next-20260317]
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on arm/for-next arm/fixes arm64/for-next/core clk/clk-next kvmarm/next rockchip/for-next shawnguo/for-next soc/for-next linus/master nferre-at91/at91-next v7.0-rc4 next-20260317]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Demian-Shulhan/raid6-arm64-add-SVE-optimized-implementation-for-syndrome-generation/20260317-224300
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-patch link:    https://lore.kernel.org/r/20260317111706.2756977-1-demyansh%40gmail.com
-patch subject: [PATCH] raid6: arm64: add SVE optimized implementation for syndrome generation
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260318/202603181940.cFwYmYoi-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260318/202603181940.cFwYmYoi-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andre-Przywara/dt-bindings-arm-Add-Live-Firmware-Activation-binding/20260318-082717
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20260317103336.1273582-8-andre.przywara%40arm.com
+patch subject: [PATCH v2 7/8] firmware: smccc: lfa: Register DT interrupt
+config: arm64-randconfig-004-20260318 (https://download.01.org/0day-ci/archive/20260318/202603181913.NFRwBsN4-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260318/202603181913.NFRwBsN4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603181940.cFwYmYoi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603181913.NFRwBsN4-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> lib/raid6/sve.c:70:34: warning: value size does not match register size specified by the constraint and modifier [-Wasm-operand-widths]
-      70 |                 : [dptr] "r" (dptr), [z0] "r" (z0), [bytes] "r" (bytes),
-         |                                                ^
-   lib/raid6/sve.c:34:22: note: use constraint modifier "w"
-      34 |                 "ldr x6, [%[dptr], %[z0], lsl #3]\n"
-         |                                    ^~~~~
-         |                                    %w[z0]
-   lib/raid6/sve.c:151:34: warning: value size does not match register size specified by the constraint and modifier [-Wasm-operand-widths]
-     151 |                 : [dptr] "r" (dptr), [z0] "r" (z0), [bytes] "r" (bytes),
-         |                                                ^
-   lib/raid6/sve.c:96:22: note: use constraint modifier "w"
-      96 |                 "ldr x6, [%[dptr], %[z0], lsl #3]\n"
-         |                                    ^~~~~
-         |                                    %w[z0]
-   lib/raid6/sve.c:229:34: warning: value size does not match register size specified by the constraint and modifier [-Wasm-operand-widths]
-     229 |                 : [dptr] "r" (dptr), [z0] "r" (z0), [bytes] "r" (bytes),
-         |                                                ^
-   lib/raid6/sve.c:176:22: note: use constraint modifier "w"
-     176 |                 "ldr x6, [%[dptr], %[z0], lsl #3]\n"
-         |                                    ^~~~~
-         |                                    %w[z0]
-   lib/raid6/sve.c:340:34: warning: value size does not match register size specified by the constraint and modifier [-Wasm-operand-widths]
-     340 |                 : [dptr] "r" (dptr), [z0] "r" (z0), [bytes] "r" (bytes),
-         |                                                ^
-   lib/raid6/sve.c:256:22: note: use constraint modifier "w"
-     256 |                 "ldr x6, [%[dptr], %[z0], lsl #3]\n"
-         |                                    ^~~~~
-         |                                    %w[z0]
-   lib/raid6/sve.c:455:34: warning: value size does not match register size specified by the constraint and modifier [-Wasm-operand-widths]
-     455 |                 : [dptr] "r" (dptr), [z0] "r" (z0), [bytes] "r" (bytes),
-         |                                                ^
-   lib/raid6/sve.c:366:22: note: use constraint modifier "w"
-     366 |                 "ldr x6, [%[dptr], %[z0], lsl #3]\n"
-         |                                    ^~~~~
-         |                                    %w[z0]
-   lib/raid6/sve.c:634:34: warning: value size does not match register size specified by the constraint and modifier [-Wasm-operand-widths]
-     634 |                 : [dptr] "r" (dptr), [z0] "r" (z0), [bytes] "r" (bytes),
-         |                                                ^
-   lib/raid6/sve.c:484:22: note: use constraint modifier "w"
-     484 |                 "ldr x6, [%[dptr], %[z0], lsl #3]\n"
-         |                                    ^~~~~
-         |                                    %w[z0]
-   6 warnings generated.
+   drivers/firmware/smccc/lfa_fw.c: In function 'lfa_register_dt':
+   drivers/firmware/smccc/lfa_fw.c:878:16: error: implicit declaration of function 'devm_request_threaded_irq'; did you mean 'devm_request_region'? [-Werror=implicit-function-declaration]
+     878 |         return devm_request_threaded_irq(dev, irq, lfa_irq_handler,
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |                devm_request_region
+   drivers/firmware/smccc/lfa_fw.c:880:42: error: 'IRQF_COND_ONESHOT' undeclared (first use in this function)
+     880 |                                          IRQF_COND_ONESHOT, NULL, NULL);
+         |                                          ^~~~~~~~~~~~~~~~~
+   drivers/firmware/smccc/lfa_fw.c:880:42: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/firmware/smccc/lfa_fw.c:881:1: warning: control reaches end of non-void function [-Wreturn-type]
+     881 | }
+         | ^
+   cc1: some warnings being treated as errors
 
 
-vim +70 lib/raid6/sve.c
+vim +881 drivers/firmware/smccc/lfa_fw.c
 
-    15	
-    16	static void raid6_sve1_gen_syndrome_real(int disks, unsigned long bytes, void **ptrs)
-    17	{
-    18		u8 **dptr = (u8 **)ptrs;
-    19		u8 *p, *q;
-    20		int z0 = disks - 3;
-    21	
-    22		p = dptr[z0 + 1];
-    23		q = dptr[z0 + 2];
-    24	
-    25		asm volatile(
-    26			".arch armv8.2-a+sve\n"
-    27			"ptrue p0.b\n"
-    28			"cntb x3\n"
-    29			"mov w4, #0x1d\n"
-    30			"dup z4.b, w4\n"
-    31			"mov x5, #0\n"
-    32	
-    33			"0:\n"
-    34			"ldr x6, [%[dptr], %[z0], lsl #3]\n"
-    35			"ld1b z0.b, p0/z, [x6, x5]\n"
-    36			"mov z1.d, z0.d\n"
-    37	
-    38			"mov w7, %w[z0]\n"
-    39			"sub w7, w7, #1\n"
-    40	
-    41			"1:\n"
-    42			"cmp w7, #0\n"
-    43			"blt 2f\n"
-    44	
-    45			"mov z3.d, z1.d\n"
-    46			"asr z3.b, p0/m, z3.b, #7\n"
-    47			"lsl z1.b, p0/m, z1.b, #1\n"
-    48	
-    49			"and z3.d, z3.d, z4.d\n"
-    50			"eor z1.d, z1.d, z3.d\n"
-    51	
-    52			"sxtw x8, w7\n"
-    53			"ldr x6, [%[dptr], x8, lsl #3]\n"
-    54			"ld1b z2.b, p0/z, [x6, x5]\n"
-    55	
-    56			"eor z1.d, z1.d, z2.d\n"
-    57			"eor z0.d, z0.d, z2.d\n"
-    58	
-    59			"sub w7, w7, #1\n"
-    60			"b 1b\n"
-    61			"2:\n"
-    62	
-    63			"st1b z0.b, p0, [%[p], x5]\n"
-    64			"st1b z1.b, p0, [%[q], x5]\n"
-    65	
-    66			"add x5, x5, x3\n"
-    67			"cmp x5, %[bytes]\n"
-    68			"blt 0b\n"
-    69			:
-  > 70			: [dptr] "r" (dptr), [z0] "r" (z0), [bytes] "r" (bytes),
-    71			  [p] "r" (p), [q] "r" (q)
-    72			: "memory", "p0", "x3", "x4", "x5", "x6", "x7", "x8",
-    73			  "z0", "z1", "z2", "z3", "z4"
-    74		);
-    75	}
-    76	
+   863	
+   864	static int lfa_register_dt(struct device *dev)
+   865	{
+   866		struct device_node *np;
+   867		unsigned int irq;
+   868	
+   869		np = of_find_compatible_node(NULL, NULL, "arm,lfa");
+   870		if (!np)
+   871			return -ENODEV;
+   872	
+   873		irq = irq_of_parse_and_map(np, 0);
+   874		of_node_put(np);
+   875		if (!irq)
+   876			return -ENODEV;
+   877	
+   878		return devm_request_threaded_irq(dev, irq, lfa_irq_handler,
+   879						 lfa_irq_handler_thread,
+   880						 IRQF_COND_ONESHOT, NULL, NULL);
+ > 881	}
+   882	
 
 -- 
 0-DAY CI Kernel Test Service
