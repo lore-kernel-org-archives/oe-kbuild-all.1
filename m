@@ -1,70 +1,78 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6AFF25A2B4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Mar 2026 07:43:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65D1D36A036
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Mar 2026 07:47:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773819782; cv=none; b=Cd1oZZ4PsV17Eut/K2Ji+C8NGrO2VvDW3/S/I1d6gcqd8OpEfqO0wrvb8x93l2axRLxZUSyymfUCJV6NgeZnJGl/pDln1RJoNE5mvuIg54594jqgBncRKDYf5NRo7tR6XyMHcYEnEHNiqNolEvEQkDvqlh2pFB36wZSeYcw7KNk=
+	t=1773820029; cv=none; b=NDWgTw4y04i+3tB3geWGMxK6KAwMuWkBwpotOnTft3Mp9CAP+JD5fQ3GdWgG9tmThbd3sza/PugTg1SDjijJbRfGv1clyyih82LW2wMl0MQqK63egpVg9nGSIJHfPJYJy2lCO/o20CoItQWgg+xfr8HbuU1lzwsl+ZPwAr2I/dM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773819782; c=relaxed/simple;
-	bh=6pT/x/Pj6+ib/BeVI20NDlN8xedo/+jqsPXJQ8mHpNQ=;
+	s=arc-20240116; t=1773820029; c=relaxed/simple;
+	bh=6AyM+5lJ+dSs+SjiqVmcLVaC5WWE37JafHboRqppUoA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VrzID1J4BeZ/QfylMUYW2yiYfKWaixMjWex/e3yIVP3J93mC9Y2oABekKWf2XO6Y+G0GJF2ybQV29DDWLih+KHmth5OI1pA0TyowTkrulq9EkDmDAOMu7YluEAdKJXhRN+wSae5qu3J4cHKnwyTSc4gz1QizeznBn4c+7h9Gtyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vEXS2VBD; arc=none smtp.client-ip=209.85.221.45
+	 Content-Disposition:In-Reply-To; b=DctZDROsKpvVJImN8EdGK0BMxfwZH9xFyYlzn/Ti0NiTkpOcfHJ+hzGiN6mDtfcxR3pHXbciaTc3W5e0AoJ9DnZolGBcPLavA35OcX+W+o5IE3nJQL5dAbVU6tvWc6xAJydxbYUEUT//s6cmIK079R8jMhYGn6uS/5QtrgD6J4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZfBR36N2; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vEXS2VBD"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-439cd6b0aedso5169000f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Mar 2026 00:43:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZfBR36N2"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-486507134e4so18056565e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Mar 2026 00:47:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773819779; x=1774424579; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GWUe2vkO7j3zKsp+duzaX4cSZivxcbRz1IRm1ygnoBw=;
-        b=vEXS2VBDCK06GsoDFFM8q1JXncv4W6Ym6hjv85YqyxWYxpOnf3WnacZR9xMqqDDa8t
-         xYtPpvD/+Riygvnxp8JrqLWXJ6qyDWdPQCMNQakwDKdtJRxj+dREk7u4OXLRlIx84bnk
-         VwJOz373UBTtpBR56kRPjaOxMH5qKt0xgT1MLrupz/FNtFu1BLAnvRm7tfoTz8dulbs4
-         pHVMJUf4wNLOMsLc9OS4LbfL+bke5tvHzWtha+FOGthxjskoxKoV7ynSL7HNQzqHm+2y
-         73qxc/nLzSPmZpE442hfIIqBY9N5DmJ0GS4hkPFrPj7vTc6vkGbhHcSh7s5iI4/G6HBe
-         IpOg==
+        d=linaro.org; s=google; t=1773820027; x=1774424827; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=XdQh/lG6wJGknLC6Mk9SsT+zVzn0gaCcGpcDHBd/XtU=;
+        b=ZfBR36N2gDdIS6JtuXuHeZix1uAUzO6do5Vp1n5CtHJnZGNRWSScaWiBIoK/qOLJI1
+         4vV+5/GDrQjUppJMC4r7Ck3c2ZErFVLKNBF8dcK1rw+AXc/ZOPJragEbssLXsUQEcsHT
+         zQorRnPdkWh9DO7VRHCzK689x1zAsYZ+z6efitdsx1VHxwGDjGYrNbl91DK0CKPyTlcg
+         grXMOQO8pHqa32PDls2ptSAu7o5WXbpvYGDx88F/uU/v/Ygavchy+y/c2DZt3YiHzVfP
+         IPVDsO0aglEOCt+hVrbRFa3zBdT9cxE3fIiwjv5knH0iRx3nSAaa3LyJNLpVyiq2xF8D
+         YG5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773819779; x=1774424579;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GWUe2vkO7j3zKsp+duzaX4cSZivxcbRz1IRm1ygnoBw=;
-        b=chEkhMgwJdZHTxB4takCDnH7KD5P//x61spPCJHoKiFvWROl0IA8rj49xOL625Zm69
-         h6Tb4nPPMFE6z2moxCTa40/DEDTy7XkgOFJwPDqAagM45RY1uadlJWJsxyTvwphDmeOY
-         9iobMaYHP3gh8tbacwkJpYq47dTHDfP1X1X+xa9QgSI9erTUQ87pBExWxdrVb1uqvuxd
-         83NfbI0RwY2/XQwlQSdvehAI7I6mnL1QBufbSv7OvYFKNRZ8ztWzsNOidC+rRhxPDt3I
-         kcaUiqhCxUUdEK4sic/xY7leC4WF+FeASTk8Xw74PzsQYxqDSv7ReIoNUOpgL8n3IuNb
-         j4Wg==
-X-Forwarded-Encrypted: i=1; AJvYcCVgsTImDMLQAJwv1OlDVR3r5Obp3K2I0q/2jt0wetBku0qqawQBedXitj5swbp/ScSrNuxJ/omQKu6nINg4@lists.linux.dev
-X-Gm-Message-State: AOJu0YwmLzdtzHVb0ZNq7DFFq0Nf5QP3L39BuVPSO6xXobgJE+QLNLJc
-	WueIW1+UGfCfpLavD4Dc3Li5Wg/36diRFL4wswlJIwnyFCyrQvgSPIrn3GpQA0Fi+Gg=
-X-Gm-Gg: ATEYQzzjoy9F90vZJRE7OzdfNpB5G+Z2ZL3iyUvfwxzZFEs6WW/ZLVEuSmg+xU2lqUz
-	n7njvLmHkKZI3AboHOX2SF+7/VmMh0fEVaYoYjQQ1D1WicKwgz6P5+ximHx4PBpwwwRoyAd/ue5
-	dXaOuVZtjiDsbUkXHEIyYGwc0hbVRPGenZcCb9dn8AF+HN6XtHRfrREw8OpNGGkpDaVtZtkdIo+
-	0h4qw1yYqwhFlheHfJp/+FfvAUhh9sypv0Qat0gb7T4vTFi5NHM12Qj5M1FKl7CdyXlfRWl1a5+
-	fyz/7MUQpcchP7rmHPV5ro/pBn8ZMkOm4C7IBr6ns2F9a9KLbL+d3M9aEclrYUBpKlQb4Q8lbUZ
-	JmK869Lf4goOx8tjivmH21IDJwLSgYP8lu7w4lc/n4cZJyzvzpIpOXu5eW35eMHgUiK8R4kiYBt
-	1BEfjjNy+IjlRWquBsIf1dNE6YBWVZ
-X-Received: by 2002:a05:600c:1d10:b0:483:a27e:6706 with SMTP id 5b1f17b1804b1-486f442647bmr40207665e9.9.1773819778977;
-        Wed, 18 Mar 2026 00:42:58 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1773820027; x=1774424827;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XdQh/lG6wJGknLC6Mk9SsT+zVzn0gaCcGpcDHBd/XtU=;
+        b=JSqYU2KJZc1RletMlc/NnqMiquvHwMouMCr1iJR8m9hWbkTC2TZ+VIVLSbQRkPZFve
+         NG1yIOqoJA18tIo9HziyJFWdT8Tw1Bf9co7kohGXa/ArKJh/famLc2QYg+SovmP0B22Q
+         CVszfsRhXcfOe2iiwJxRwLlm8doK0HZUgm4LORiUMjQoCgyymEMJimRua/yV+0V9t7n6
+         rx5GdiUvcC0DyRSVF/ZQsw1b2ADPJ+2J3VQWSsXWU8oJ6bUNRRkgHOOYrYryGF/+q/oN
+         TULUPsH5MLAfZMw2xIikq7a0Cc8Lq/wCf9ccuf5dTkAqlrskzLWgvfA8565P1WrC+wrd
+         zx7g==
+X-Forwarded-Encrypted: i=1; AJvYcCUeKSm/yIQV6xQ/vesox8tIXY8rE4vcfUJmXHQGkXJ00IMJHq6eolr0s6pi6cimMFp/DcHNoI/IT1GEI2VT@lists.linux.dev
+X-Gm-Message-State: AOJu0YzAOflg5rzflXhnj+NM7OmC04/0AwtXqbj7LybqXAhu5amBcQch
+	VDa5C3bZcVGaWRFahOraW+6LzZw8adKtcY5L5LifXNCr/yLZ3sdS6PBzKDwQ10GiyfI=
+X-Gm-Gg: ATEYQzyS45SRPfw4CPFBs4LoDa9eApf7ceSaiRKvedrUWKmndPyjBzjcrLV8Wk5C5Zv
+	rsuzg6QGHnDLjIyh+MSP4sOXEXG4m6ITmVRD+/EPux5b/zo+MJvNkUhvjmFAXDLYcgvc4PiLq/r
+	2aYi0p+bhmNOvhNxLG70L1Scl40gebJWuiTJu5Szi6bCC/x32kPf/QsFNE5C23NbWylpPF+abLJ
+	EdfAm1IOfptrNKuKDAzqVK1GtJ3fJQBlK9FTcBtDPnjHmGH8WCv3osOi3uw2Y3At3eXztqOq9aA
+	3kJMybhS+cyp6flUxPoBCCBAtt9CcGOcxkZ2j7HG9pJyrocllydnUABWMtzxR9guxoxKNKPUwhB
+	HwSRqF+r+pJitEdklDLyQ5lK2WuIDfs3so6jOAljPxo21HVYEAhSLbU4VURHEpUHj+AvYDiUPXh
+	A3HQcrQ/hHYL0tNTvZri5z+yuJ6dgBLfyhD+1QikA=
+X-Received: by 2002:a05:600c:c491:b0:485:3f58:d9f with SMTP id 5b1f17b1804b1-486f4465d04mr38125605e9.30.1773820026579;
+        Wed, 18 Mar 2026 00:47:06 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486f4b9beb0sm23455385e9.8.2026.03.18.00.42.58
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4856ea8fad1sm216587555e9.1.2026.03.18.00.47.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Mar 2026 00:42:58 -0700 (PDT)
-Date: Wed, 18 Mar 2026 10:42:55 +0300
+        Wed, 18 Mar 2026 00:47:06 -0700 (PDT)
+Date: Wed, 18 Mar 2026 10:47:03 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Jeff Layton <jlayton@kernel.org>
-Subject: [jlayton:exportd-netlink 3/18] net/sunrpc/cache.c:1074
- cache_release() error: dereferencing freed memory 'rq' (line 1070)
-Message-ID: <202603180258.r8Bt94T2-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev,
+	Bhargava Marreddy <bhargava.marreddy@broadcom.com>,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, andrew+netdev@lunn.ch, horms@kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, michael.chan@broadcom.com,
+	pavan.chebbi@broadcom.com, vsrama-krishna.nemani@broadcom.com,
+	vikas.gupta@broadcom.com,
+	Bhargava Marreddy <bhargava.marreddy@broadcom.com>,
+	Rahul Gupta <rahul-rg.gupta@broadcom.com>,
+	Ajit Kumar Khaparde <ajit.khaparde@broadcom.com>
+Subject: Re: [PATCH net-next v6 06/10] bng_en: add HW stats infra and
+ structured ethtool ops
+Message-ID: <202603180509.nOQGZrG0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,82 +81,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260310144044.21672-7-bhargava.marreddy@broadcom.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git exportd-netlink
-head:   4599c5d95d86c6bc932897f19b1f5a573e7c4637
-commit: e344b49528c8ef457ee714bb65e2da4c121132c2 [3/18] Merge branch 'mrchuck/nfsd-testing'
-config: x86_64-randconfig-161-20260317 (https://download.01.org/0day-ci/archive/20260318/202603180258.r8Bt94T2-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+Hi Bhargava,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bhargava-Marreddy/bng_en-add-per-PF-workqueue-timer-and-slow-path-task/20260310-231948
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260310144044.21672-7-bhargava.marreddy%40broadcom.com
+patch subject: [PATCH net-next v6 06/10] bng_en: add HW stats infra and structured ethtool ops
+config: arm64-randconfig-r071-20260317 (https://download.01.org/0day-ci/archive/20260318/202603180509.nOQGZrG0-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
 smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202603180258.r8Bt94T2-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603180509.nOQGZrG0-lkp@intel.com/
 
 smatch warnings:
-net/sunrpc/cache.c:1074 cache_release() error: dereferencing freed memory 'rq' (line 1070)
+drivers/net/ethernet/broadcom/bnge/bnge_hwrm_lib.c:1598 bnge_hwrm_port_qstats_ext() warn: missing error code? 'rc'
 
-vim +/rq +1074 net/sunrpc/cache.c
+vim +/rc +1598 drivers/net/ethernet/broadcom/bnge/bnge_hwrm_lib.c
 
-173912a6add00f Trond Myklebust  2009-08-09  1040  static int cache_release(struct inode *inode, struct file *filp,
-173912a6add00f Trond Myklebust  2009-08-09  1041  			 struct cache_detail *cd)
-^1da177e4c3f41 Linus Torvalds   2005-04-16  1042  {
-^1da177e4c3f41 Linus Torvalds   2005-04-16  1043  	struct cache_reader *rp = filp->private_data;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  1044  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  1045  	if (rp) {
-17ad31b3a43b72 Jeff Layton      2026-02-23  1046  		struct cache_request *rq = NULL;
-17ad31b3a43b72 Jeff Layton      2026-02-23  1047  
-b00567a1495f66 Jeff Layton      2026-02-23  1048  		spin_lock(&cd->queue_lock);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  1049  		if (rp->offset) {
-812936f74067e6 Jeff Layton      2026-02-23  1050  			struct cache_request *cr;
-812936f74067e6 Jeff Layton      2026-02-23  1051  
-812936f74067e6 Jeff Layton      2026-02-23  1052  			cr = cache_next_request(cd, rp->next_seqno);
-812936f74067e6 Jeff Layton      2026-02-23  1053  			if (cr) {
-17ad31b3a43b72 Jeff Layton      2026-02-23  1054  				cr->readers--;
-17ad31b3a43b72 Jeff Layton      2026-02-23  1055  				if (cr->readers == 0 &&
-17ad31b3a43b72 Jeff Layton      2026-02-23  1056  				    !test_bit(CACHE_PENDING,
-17ad31b3a43b72 Jeff Layton      2026-02-23  1057  					      &cr->item->flags)) {
-812936f74067e6 Jeff Layton      2026-02-23  1058  					list_del(&cr->list);
-17ad31b3a43b72 Jeff Layton      2026-02-23  1059  					rq = cr;
-17ad31b3a43b72 Jeff Layton      2026-02-23  1060  				}
-^1da177e4c3f41 Linus Torvalds   2005-04-16  1061  			}
-^1da177e4c3f41 Linus Torvalds   2005-04-16  1062  			rp->offset = 0;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  1063  		}
-812936f74067e6 Jeff Layton      2026-02-23  1064  		list_del(&rp->list);
-b00567a1495f66 Jeff Layton      2026-02-23  1065  		spin_unlock(&cd->queue_lock);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  1066  
-0b88d5fcde160d Jeff Layton      2026-02-23  1067  		if (rq) {
-0b88d5fcde160d Jeff Layton      2026-02-23  1068  			cache_put(rq->item, cd);
-0b88d5fcde160d Jeff Layton      2026-02-23  1069  			kfree(rq->buf);
-0b88d5fcde160d Jeff Layton      2026-02-23 @1070  			kfree(rq);
-                                                                        ^^^^^^^^^
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1576  	rc = bnge_hwrm_req_init(bd, req_qc, HWRM_QUEUE_PRI2COS_QCFG);
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1577  	if (rc)
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1578  		return rc;
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1579  
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1580  	req_qc->flags = cpu_to_le32(QUEUE_PRI2COS_QCFG_REQ_FLAGS_IVLAN);
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1581  
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1582  	resp_qc = bnge_hwrm_req_hold(bd, req_qc);
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1583  	rc = bnge_hwrm_req_send(bd, req_qc);
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1584  	if (!rc) {
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1585  		u8 *pri2cos;
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1586  		int i, j;
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1587  
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1588  		pri2cos = &resp_qc->pri0_cos_queue_id;
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1589  		for (i = 0; i < 8; i++) {
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1590  			u8 queue_id = pri2cos[i];
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1591  			u8 queue_idx;
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1592  
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1593  			/* Per port queue IDs start from 0, 10, 20, etc */
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1594  			queue_idx = queue_id % 10;
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1595  			if (queue_idx >= BNGE_MAX_QUEUE) {
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1596  				bn->pri2cos_valid = false;
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1597  				bnge_hwrm_req_drop(bd, req_qc);
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10 @1598  				return rc;
 
-0b88d5fcde160d Jeff Layton      2026-02-23  1071  		}
-^1da177e4c3f41 Linus Torvalds   2005-04-16  1072  
-17ad31b3a43b72 Jeff Layton      2026-02-23  1073  		if (rq) {
-17ad31b3a43b72 Jeff Layton      2026-02-23 @1074  			cache_put(rq->item, cd);
-17ad31b3a43b72 Jeff Layton      2026-02-23  1075  			kfree(rq->buf);
-17ad31b3a43b72 Jeff Layton      2026-02-23  1076  			kfree(rq);
-                                                                        ^^^^^^^^^
+return -EINVAL;
 
-17ad31b3a43b72 Jeff Layton      2026-02-23  1077  		}
-
-Looks like a bad merge.
-
-17ad31b3a43b72 Jeff Layton      2026-02-23  1078  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  1079  		filp->private_data = NULL;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  1080  		kfree(rp);
-64a38e840ce594 Dave Wysochanski 2019-07-26  1081  	}
-64a38e840ce594 Dave Wysochanski 2019-07-26  1082  	if (filp->f_mode & FMODE_WRITE) {
-64a38e840ce594 Dave Wysochanski 2019-07-26  1083  		atomic_dec(&cd->writers);
-c5b29f885afe89 NeilBrown        2010-08-12  1084  		cd->last_close = seconds_since_boot();
-^1da177e4c3f41 Linus Torvalds   2005-04-16  1085  	}
-f7e86ab92f2198 Trond Myklebust  2009-08-19  1086  	module_put(cd->owner);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  1087  	return 0;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  1088  }
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1599  			}
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1600  			for (j = 0; j < bd->max_q; j++) {
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1601  				if (bd->q_ids[j] == queue_id)
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1602  					bn->pri2cos_idx[i] = queue_idx;
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1603  			}
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1604  		}
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1605  		bn->pri2cos_valid = true;
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1606  	}
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1607  	bnge_hwrm_req_drop(bd, req_qc);
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1608  
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1609  	return rc;
+598cdbbcf8f4c1 Bhargava Marreddy 2026-03-10  1610  }
 
 -- 
 0-DAY CI Kernel Test Service
