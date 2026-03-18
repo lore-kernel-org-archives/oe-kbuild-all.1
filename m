@@ -1,92 +1,108 @@
-Received: from zg8tmja5ljk3lje4mi4ymjia.icoremail.net (zg8tmja5ljk3lje4mi4ymjia.icoremail.net [209.97.182.222])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A671D175A6F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Mar 2026 04:18:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.97.182.222
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B97AA1DDE5
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Mar 2026 04:29:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773807532; cv=none; b=Q370Mj1TP54AtOkHQFFy1G2Mas8ft8QjlC7hkGWOBnzG5Vq2cdC87IP93eJs3TB05VZbalbuUNVu8LDomI9/Un4r8jS59vQBhQbS1WC7LIzycKb8D7sd8t1uksuJLUCLDX3Be9NKkAT0o42aILUMug447ZpXmHTqJPKf/KLKNF0=
+	t=1773808168; cv=none; b=FJdQRCad7U6eb3btyvr4FoAiqbJfJuCsBk9ok/yGUZnX/dBMcEPDZM6Py0YZv3O6NdB9DVdUryTvdYZWpS4rtagBXHlidb58oIjauUro8Ohu0eDf/dIZ6ehybKgbw/kdF+RlekSwa3hglKOjCIoWyLyj6EfxgawuPaDHgX4nd+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773807532; c=relaxed/simple;
-	bh=NVO697nCR1Hh8VWLvWFSGg6kYf9HufViLiQQlYeRNNc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=q8VI2t9kg3TVpUfCQNmEhwilyZtVJ2MwygK9dUqeG4UJFN1HiIY3q5S5YUBYqiU8za7u9h9cWKZtvXdvGS9FWO02NV9+fxSvxPrzWlo/FMs68n5xr1vuYEfk6597BOKa8WDThIUE1wnJ75ImlVyjlXR53wWGlbsr8Icx1BcrGN0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=eswincomputing.com; spf=pass smtp.mailfrom=eswincomputing.com; arc=none smtp.client-ip=209.97.182.222
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=eswincomputing.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=eswincomputing.com
-Received: from zhangsenchuan$eswincomputing.com ( [10.12.96.83] ) by
- ajax-webmail-app2 (Coremail) ; Wed, 18 Mar 2026 12:18:38 +0800 (GMT+08:00)
-Date: Wed, 18 Mar 2026 12:18:38 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: zhangsenchuan <zhangsenchuan@eswincomputing.com>
-To: "kernel test robot" <lkp@intel.com>,
-	"Manivannan Sadhasivam" <mani@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, "Yu Ning" <ningyu@eswincomputing.com>,
-	"Yanghui Ou" <ouyanghui@eswincomputing.com>
-Subject: Re: [linux-next:master 5071/6828]
- drivers/pci/controller/dwc/pcie-eswin.c:381:1: sparse: sparse: symbol
- 'eswin_pcie_pm' was not declared. Should it be static?
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2024.2-cmXT6 build
- 20241203(6b039d88) Copyright (c) 2002-2026 www.mailtech.cn
- mispb-72143050-eaf5-4703-89e0-86624513b4ce-eswincomputing.com
-In-Reply-To: <202603180642.1rALz4hC-lkp@intel.com>
-References: <202603180642.1rALz4hC-lkp@intel.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+	s=arc-20240116; t=1773808168; c=relaxed/simple;
+	bh=xENssHMqtmDUd6ddNYFgzzYECQYmei62l+2VFyCPV3A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lQeml5nRwBe4yZWXoHDyPIf1f6vtg+AC+6FREZ9UKW7gauy6xHRsiCNAujDvztO+rtvcWlcGxH+JvjqwGjjbNwP0EwD5b8F6EmRA7S8TQMdKv+eZnE/Z885avQpIzqdyl+5cFvoJp4kVkGnbvn6hZx5JWkdIAQa0slSPaucgFE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ceJsvMo9; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ceJsvMo9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773808166; x=1805344166;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xENssHMqtmDUd6ddNYFgzzYECQYmei62l+2VFyCPV3A=;
+  b=ceJsvMo9Bn7LsAWY/t/i8DWYEqn+yq+bbiM+uJfem0QAPhCAP8rgoBPJ
+   OUucvqHx1/NknB5gU1/3UPmy3Z87XbPdDDY1cINpkSnQook6dC5QwPee1
+   h96vGVwJDZ/z76YDGMfTdx8QcCbWenBm+90IEyNYyCPX6l2ZLme05+mE3
+   SBJxtHe5ndLCaCuJW/YWIBK0YVYwv8ahaZYLlKeNN+/IdA6snpmeq5YSP
+   dTdsjOBiRjy3+k7vHy716CI6ztCRpecqJ3nJOPuIfsv9cgDI+akMvgSKN
+   uwzQFERo72e4T2wUVS+hsCFSNnMaXc4fZQybcI0G0iveTs2YvEY7JLJ0/
+   g==;
+X-CSE-ConnectionGUID: XjLRTfwPQtWHykmSxdgtCw==
+X-CSE-MsgGUID: FPqwDtlTR6WJJAZlK6PuMw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="74741674"
+X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
+   d="scan'208";a="74741674"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 21:29:26 -0700
+X-CSE-ConnectionGUID: QUSrzIFwQvefJ9yBlkVeRg==
+X-CSE-MsgGUID: TuiNnyVXTFem3CT5ugEnAw==
+X-ExtLoop1: 1
+Received: from lkp-server01.sh.intel.com (HELO 63737dd503cb) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 17 Mar 2026 21:29:23 -0700
+Received: from kbuild by 63737dd503cb with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w2iX3-000000002Vh-1EPe;
+	Wed, 18 Mar 2026 04:29:21 +0000
+Date: Wed, 18 Mar 2026 12:28:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Anas Iqbal <mohd.abd.6602@gmail.com>, andersson@kernel.org,
+	mathieu.poirier@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-remoteproc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Anas Iqbal <mohd.abd.6602@gmail.com>
+Subject: Re: [PATCH] remoteproc: use SIZE_MAX in rproc_u64_fit_in_size_t()
+Message-ID: <202603181241.MTvrVLVa-lkp@intel.com>
+References: <20260314110137.178981-1-mohd.abd.6602@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <544bb65e.4518.19cff2ac14f.Coremail.zhangsenchuan@eswincomputing.com>
-X-Coremail-Locale: en_US
-X-CM-TRANSID:TQJkCgA3TJ+eJ7ppmYMJAA--.603W
-X-CM-SenderInfo: x2kd0wpvhquxxxdqqvxvzl0uprps33xlqjhudrp/1tbiAQEKBmm5g
-	hQPHwABsb
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
-	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-	daVFxhVjvjDU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260314110137.178981-1-mohd.abd.6602@gmail.com>
 
-CgoKPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2VzLS0tLS0KPiBGcm9tOiAia2VybmVsIHRlc3Qgcm9i
-b3QiIDxsa3BAaW50ZWwuY29tPgo+IFNlbmQgdGltZTpXZWRuZXNkYXksIDE4LzAzLzIwMjYgMDY6
-Mjk6NTYKPiBUbzogIlNlbmNodWFuIFpoYW5nIiA8emhhbmdzZW5jaHVhbkBlc3dpbmNvbXB1dGlu
-Zy5jb20+Cj4gQ2M6IG9lLWtidWlsZC1hbGxAbGlzdHMubGludXguZGV2LCAiTWFuaXZhbm5hbiBT
-YWRoYXNpdmFtIiA8bWFuaUBrZXJuZWwub3JnPiwgIll1IE5pbmciIDxuaW5neXVAZXN3aW5jb21w
-dXRpbmcuY29tPiwgIllhbmdodWkgT3UiIDxvdXlhbmdodWlAZXN3aW5jb21wdXRpbmcuY29tPgo+
-IFN1YmplY3Q6IFtsaW51eC1uZXh0Om1hc3RlciA1MDcxLzY4MjhdIGRyaXZlcnMvcGNpL2NvbnRy
-b2xsZXIvZHdjL3BjaWUtZXN3aW4uYzozODE6MTogc3BhcnNlOiBzcGFyc2U6IHN5bWJvbCAnZXN3
-aW5fcGNpZV9wbScgd2FzIG5vdCBkZWNsYXJlZC4gU2hvdWxkIGl0IGJlIHN0YXRpYz8KPiAKPiB0
-cmVlOiAgIGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L25l
-eHQvbGludXgtbmV4dC5naXQgbWFzdGVyCj4gaGVhZDogICA4ZTVhNDc4YjZkNmE1YmIwYTNkNTIx
-NDc4NjJiMTVlNGQ4MjZhZjE5Cj4gY29tbWl0OiBjYmJlNTlmYTA0YjVkOWY4ZTExMTM4ZGY0NTkx
-NjUzZjdkMmY4MzUxIFs1MDcxLzY4MjhdIFBDSTogQWRkIEVTV0lOIFBDSWUgUm9vdCBDb21wbGV4
-IGRyaXZlcgo+IGNvbmZpZzogc3BhcmM2NC1yYW5kY29uZmlnLXIxMjItMjAyNjAzMTggKGh0dHBz
-Oi8vZG93bmxvYWQuMDEub3JnLzBkYXktY2kvYXJjaGl2ZS8yMDI2MDMxOC8yMDI2MDMxODA2NDIu
-MXJBTHo0aEMtbGtwQGludGVsLmNvbS9jb25maWcpCj4gY29tcGlsZXI6IHNwYXJjNjQtbGludXgt
-Z2NjIChHQ0MpIDExLjUuMAo+IHNwYXJzZTogdjAuNi41LXJjMQo+IHJlcHJvZHVjZSAodGhpcyBp
-cyBhIFc9MSBidWlsZCk6IChodHRwczovL2Rvd25sb2FkLjAxLm9yZy8wZGF5LWNpL2FyY2hpdmUv
-MjAyNjAzMTgvMjAyNjAzMTgwNjQyLjFyQUx6NGhDLWxrcEBpbnRlbC5jb20vcmVwcm9kdWNlKQo+
-IAo+IElmIHlvdSBmaXggdGhlIGlzc3VlIGluIGEgc2VwYXJhdGUgcGF0Y2gvY29tbWl0IChpLmUu
-IG5vdCBqdXN0IGEgbmV3IHZlcnNpb24gb2YKPiB0aGUgc2FtZSBwYXRjaC9jb21taXQpLCBraW5k
-bHkgYWRkIGZvbGxvd2luZyB0YWdzCj4gfCBSZXBvcnRlZC1ieToga2VybmVsIHRlc3Qgcm9ib3Qg
-PGxrcEBpbnRlbC5jb20+Cj4gfCBDbG9zZXM6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL29lLWti
-dWlsZC1hbGwvMjAyNjAzMTgwNjQyLjFyQUx6NGhDLWxrcEBpbnRlbC5jb20vCj4gCj4gc3BhcnNl
-IHdhcm5pbmdzOiAobmV3IG9uZXMgcHJlZml4ZWQgYnkgPj4pCj4gPj4gZHJpdmVycy9wY2kvY29u
-dHJvbGxlci9kd2MvcGNpZS1lc3dpbi5jOjM4MToxOiBzcGFyc2U6IHNwYXJzZTogc3ltYm9sICdl
-c3dpbl9wY2llX3BtJyB3YXMgbm90IGRlY2xhcmVkLiBTaG91bGQgaXQgYmUgc3RhdGljPwo+IAo+
-IHZpbSArL2Vzd2luX3BjaWVfcG0gKzM4MSBkcml2ZXJzL3BjaS9jb250cm9sbGVyL2R3Yy9wY2ll
-LWVzd2luLmMKPiAKPiAgICAzODAJCj4gID4gMzgxCURFRklORV9OT0lSUV9ERVZfUE1fT1BTKGVz
-d2luX3BjaWVfcG0sIGVzd2luX3BjaWVfc3VzcGVuZF9ub2lycSwKPiAgICAzODIJCQkJZXN3aW5f
-cGNpZV9yZXN1bWVfbm9pcnEpOwo+ICAgIDM4MwkKPiAKPiAtLSAKPiAwLURBWSBDSSBLZXJuZWwg
-VGVzdCBTZXJ2aWNlCj4gaHR0cHM6Ly9naXRodWIuY29tL2ludGVsL2xrcC10ZXN0cy93aWtpCgpI
-aSBNYW5pLAoKVGhlIGtlcm5lbCB0ZXN0IHJvYm90IGRldGVjdGVkIGEgd2FybmluZy4gSSByZXBy
-b2R1Y2VkIHRoZSBpc3N1ZSBhbmQgaXQgc2VlbXMgCnRoYXQgYSAic3RhdGljIiBrZXl3b3JkIG1p
-Z2h0IGJlIG5lZWRlZC4gSSdtIG5vdCBzdXJlIGlmIEkgaGF2ZSB0aGUgcGVybWlzc2lvbgp0byB1
-cGxvYWQgdGhlIGNvZGUgdG8gdGhlIGNvbnRyb2xsZXIvZHdjLWVzd2luIGJyYW5jaCBhbmQgZml4
-IHRoaXMgd2FybmluZzoKCgoKLURFRklORV9OT0lSUV9ERVZfUE1fT1BTKGVzd2luX3BjaWVfcG0s
-IGVzd2luX3BjaWVfc3VzcGVuZF9ub2lycSwKLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgICBlc3dpbl9wY2llX3Jlc3VtZV9ub2lycSk7Cgorc3RhdGljIERFRklO
-RV9OT0lSUV9ERVZfUE1fT1BTKGVzd2luX3BjaWVfcG0sIGVzd2luX3BjaWVfc3VzcGVuZF9ub2ly
-cSwKK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgIGVzd2luX3BjaWVfcmVzdW1lX25vaXJxKTsKCkxvb2tpbmcgZm9yd2FyZCB0byB5b3Vy
-IHJlcGx5LgoKS2luZCByZWdhcmRzLApTZW5jaHVhbg==
+Hi Anas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on remoteproc/rproc-next]
+[also build test WARNING on linus/master v7.0-rc4 next-20260317]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Anas-Iqbal/remoteproc-use-SIZE_MAX-in-rproc_u64_fit_in_size_t/20260315-042913
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git rproc-next
+patch link:    https://lore.kernel.org/r/20260314110137.178981-1-mohd.abd.6602%40gmail.com
+patch subject: [PATCH] remoteproc: use SIZE_MAX in rproc_u64_fit_in_size_t()
+config: arm64-randconfig-r072-20260317 (https://download.01.org/0day-ci/archive/20260318/202603181241.MTvrVLVa-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+smatch: v0.5.0-9004-gb810ac53
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603181241.MTvrVLVa-lkp@intel.com/
+
+smatch warnings:
+drivers/remoteproc/remoteproc_internal.h:221 rproc_u64_fit_in_size_t() warn: always true condition '(val <= (~0)) => (0-u64max <= u64max)'
+
+vim +221 drivers/remoteproc/remoteproc_internal.h
+
+   214	
+   215	static inline
+   216	bool rproc_u64_fit_in_size_t(u64 val)
+   217	{
+   218		if (sizeof(size_t) == sizeof(u64))
+   219			return true;
+   220	
+ > 221		return val <= SIZE_MAX;
+   222	}
+   223	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
