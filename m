@@ -1,202 +1,94 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B6726158B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Mar 2026 16:43:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A2552877D8
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Mar 2026 16:45:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773852197; cv=none; b=LFnq76fOx4o6tA5GIWV40FuhNXKB/7Nwv8NmlbTjkj87VnP9N46XAYYUqDVduXx4Cpgnq/XdQSCeEPQsPCFw27y3H+fW9DJjdeFSsp6yuzkk3OhBQU5mVIBDJxyTORo24IxzdkbcEbE3v39w4pz6/C26Om4skT9bp5BcgS0jZQg=
+	t=1773852360; cv=none; b=OI5Q41K63NzOWQ/QMlusmfPNO7K/0MADh4QqP5d1EeuccWm3Biw70i1sZXkV5MGzYyQNE7exFiiokNj1ev81esnhGP+J4vy0oHT6Vv1ziN3iF5gHbfR6eMQuZ7B/IULElSFBzdHXksZkhfZf3LCc8Em7GvrlJw1Oex6VIHgvJE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773852197; c=relaxed/simple;
-	bh=xmqlYUwRZKJfu0aTFAQJJTX4GY1aRmXRK+P1fYlM2dY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=JTGSWR3/1rb1WZnrgaKQahqOwlM+F/q8UdmBOlVvIbEf2ZrQPf6mqzPt7loVIgnh3FxERALQtGYa1RW7+TEH33g1TWZHV0VRWk4DwjJ/PueieivsfxM4swKyRQ1vm4ieRK4mQFsczWxqOkAAJTH4CFIw+DHUwqxClDwv1w7vLg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OTWY+t4w; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1773852360; c=relaxed/simple;
+	bh=SnSmZn69cHUpht+dvlnYOC2ttF3gT8OI8AN2TRAdps4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rRUtYihszoD8d/JJ7qxe+yN067DtzINU0EA3o+QzR8KlkHVwEeMb7BX2H/zfrfdIIqilc8/xqYnSql6jB1OxzGnAAadlAgld+V9SE7B8Z1Sn1PEphjjhw8mVCcXmtlEXGNiBRenLZI6eTqimbFgAqnujtM4cKVX5j0Xvb0kzLSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VUAGOefm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OTWY+t4w"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773852196; x=1805388196;
-  h=date:from:to:cc:subject:message-id;
-  bh=xmqlYUwRZKJfu0aTFAQJJTX4GY1aRmXRK+P1fYlM2dY=;
-  b=OTWY+t4wY8MDFM9+u4vZ3qBXV0rLUoSOzNphQjvB1wcDOpvPlc3vAMEY
-   uGkpwmg1Ch/I0hbwRVY8CGh/XTpUV81grdcMGaSFvlLaYplSX8s3v1YrG
-   z9j2XpUVZKtKPl6M3I/Nx6VoFa2ebvPhhv3W+kdFS+1D9EDDm2IjT9R7f
-   0NkNuhvivmLFDrYlB+/A2vh9RBNIEjMVDZfhqYDbEc2fbsUumv4I1zCY0
-   38KLwS+jclox4Q83pXIv4F6Ck9R6zkFgFdX5BFgqc3qsgp8e6KX14sP28
-   U1uXd2fTOYbMMSGY2y32/+2sjmMmc/2SuC94SWn+/gtch+NX97KuDC4Eg
-   w==;
-X-CSE-ConnectionGUID: JhxHLcNbQkKghAeUdq1JNw==
-X-CSE-MsgGUID: oysfoC3xS3y0rGFKvfr7nw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="74990301"
-X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
-   d="scan'208";a="74990301"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 09:43:16 -0700
-X-CSE-ConnectionGUID: yu9oxoIZTUasEg2Ghjf8DQ==
-X-CSE-MsgGUID: nUMwWfdeTTmfSIXRap57lQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
-   d="scan'208";a="260576242"
-Received: from lkp-server01.sh.intel.com (HELO 63737dd503cb) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 18 Mar 2026 09:43:15 -0700
-Received: from kbuild by 63737dd503cb with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w2tzD-00000000393-2sgG;
-	Wed, 18 Mar 2026 16:43:11 +0000
-Date: Thu, 19 Mar 2026 00:42:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 1/1]
- include/trace/stages/init.h:2:23: warning: 'str__perf__trace_system_name'
- defined but not used
-Message-ID: <202603190030.VT2Cz7Vw-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VUAGOefm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4610EC19421;
+	Wed, 18 Mar 2026 16:45:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773852359;
+	bh=SnSmZn69cHUpht+dvlnYOC2ttF3gT8OI8AN2TRAdps4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=VUAGOefmVnTL0oUfbxVB23v+wbRLKTFb1SZPVyTUHWs+MuW1a6O1uxm8UsHaRsKLV
+	 7hGyjhBxK0Ez/k1cCwl+j/xhadewVuNLKUIDX6BqIIJxvKaZ0OZa9JX//CyKo75j+m
+	 +nSPKN6UIllnh+gOJOmK4hJHWkEOZtZnY29i/lzcdl59d+1aBrl+aXzd0Ol3cSj14Z
+	 CGJ2Vc53RZhRES+Vt8EkJR9/SNTLZfAomz552PsO876voexqLALndTaWn/aGiBeNho
+	 E+PgS9PF1+XOT3TtXaCvKZn90BeAOHeaUN4I/JNQD9KZ/xQRY9N1yWVa4Q5YY0+TCY
+	 Bxs44+vfl2nMA==
+Message-ID: <cbe3f593-6941-41e0-86cd-bcd3a73310b0@kernel.org>
+Date: Wed, 18 Mar 2026 17:45:55 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-
-Hi linjunjie1,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   9129a20e2343292daee253ef8f31e94b42fac726
-commit: eec127b5484d09fef414b9914710cd1faa7be1bc [1/1] ANDROID: vendor_hooks:vendor hook for perf
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260319/202603190030.VT2Cz7Vw-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260319/202603190030.VT2Cz7Vw-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603190030.VT2Cz7Vw-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/perf.h:24,
-                    from drivers/android/vendor_hooks.c:77:
->> include/trace/stages/init.h:2:23: warning: 'str__perf__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/fsnotify.h:22,
-                    from drivers/android/vendor_hooks.c:76:
-   include/trace/stages/init.h:2:23: warning: 'str__fsnotify__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/suspend.h:23,
-                    from drivers/android/vendor_hooks.c:75:
-   include/trace/stages/init.h:2:23: warning: 'str__suspend__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/blk.h:39,
-                    from drivers/android/vendor_hooks.c:74:
-   include/trace/stages/init.h:2:23: warning: 'str__blk__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/psi.h:29,
-                    from drivers/android/vendor_hooks.c:73:
-   include/trace/stages/init.h:2:23: warning: 'str__psi__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/fuse.h:24,
-                    from drivers/android/vendor_hooks.c:72:
-   include/trace/stages/init.h:2:23: warning: 'str__fuse__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linuxppc:next-test 12/13] error[E0658]: inline assembly is not
+ stable yet on this architecture
+To: Mukesh Kumar Chaurasiya <mkchauras@gmail.com>,
+ kernel test robot <lkp@intel.com>
+Cc: Link Mauve <linkmauve@linkmauve.fr>, oe-kbuild-all@lists.linux.dev,
+ Madhavan Srinivasan <maddy@linux.ibm.com>
+References: <202603180631.GYjY89hw-lkp@intel.com>
+ <abrRoLwaMhgALR0W@li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com>
+Content-Language: fr-FR
+From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+In-Reply-To: <abrRoLwaMhgALR0W@li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-vim +/str__perf__trace_system_name +2 include/trace/stages/init.h
 
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
+Le 18/03/2026 à 17:24, Mukesh Kumar Chaurasiya a écrit :
+> On Wed, Mar 18, 2026 at 06:52:05AM +0800, kernel test robot wrote:
+>> tree:   https://github.com/linuxppc/linux next-test
+>> head:   217e0d3cb6437f802ac73e6a614d7a2525f61e36
+>> commit: b964fb2e44b9b4078a822cb63ec6427ddac5f8ac [12/13] rust: Add PowerPC support
+>> config: powerpc-randconfig-r071-20260318 (https://download.01.org/0day-ci/archive/20260318/202603180631.GYjY89hw-lkp@intel.com/config)
+>> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+>> rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+>> smatch: v0.5.0-9004-gb810ac53
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260318/202603180631.GYjY89hw-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202603180631.GYjY89hw-lkp@intel.com/
+>>
+>> All error/warnings (new ones prefixed by >>):
+>>
+>>     clang: error: unsupported option '-fsanitize=thread' for target 'powerpc-unknown-linux-gnu'
+>>     make[3]: *** [rust/Makefile:644: rust/helpers/helpers.o] Error 1
+>>>> clang diag: arch/powerpc/include/uapi/asm/ioctl.h:5:9: warning: '_IOC_SIZEBITS' macro redefined [-Wmacro-redefined]
+>>>> clang diag: arch/powerpc/include/uapi/asm/ioctl.h:6:9: warning: '_IOC_DIRBITS' macro redefined [-Wmacro-redefined]
+>>>> clang diag: arch/powerpc/include/uapi/asm/ioctl.h:8:9: warning: '_IOC_NONE' macro redefined [-Wmacro-redefined]
+>>>> clang diag: arch/powerpc/include/uapi/asm/ioctl.h:10:9: warning: '_IOC_WRITE' macro redefined [-Wmacro-redefined]
+>>>> error[E0658]: inline assembly is not stable yet on this architecture
+>>     --> rust/kernel/sync/barrier.rs:19:14
+>>     |
+>>     19 |     unsafe { core::arch::asm!("") };
+>>     |              ^^^^^^^^^^^^^^^^^^^^
+>>     |
+>>     = note: see issue #93335 <https://github.com/rust-lang/rust/issues/93335> for more information
+>>     = help: add `#![feature(asm_experimental_arch)]` to the crate attributes to enable
+>>     = note: this compiler was built on 2025-06-23; consider upgrading it if it is out of date
+>>
+> 
+> Support for this got merged Feb 2026 last week so powerpc is supported only on nightly build. Which is expected.
 
-:::::: The code at line 2 was first introduced by commit
-:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
+Does it mean it is too early to merge that into linux kernel v7.1 ?
 
-:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+Christophe
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
