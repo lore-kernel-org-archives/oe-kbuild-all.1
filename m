@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE8E4C81
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Mar 2026 03:46:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7F4C204F93
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Mar 2026 03:46:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773805583; cv=none; b=Oc/Pq3aoUkR8ym6Mh86Df6ec6xG7YfpEf8O4dBcaLqT1G2TyQENxgvHctdgPXl5PNiCA9WGm0AQgkOopTwMDA3MLnpZwN31MVdyZR3XiphVmhjsInYBxgEGICMmEvvK6FnMFufFqcjjbYoLnaU4H2yhH6aZ4xTVMv9B/W/sFX6w=
+	t=1773805586; cv=none; b=MXXOqO5TjB/6nxE6Xm4fOMp1mb8a8gyVtv2FlSTIRupblKZMlEsQ1wvobATS/FJFE6wQuIsxGTwkQGdQ8OybXDoVd+IiLjgN+O+Wx2pTtEjKK1HSBz+07HCbDdAO8VmtLtsQ/7A+ijDDrlP4MigRB7sqj2NwDKFJ9s9KrrE0lDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773805583; c=relaxed/simple;
-	bh=yy+rQXpCtdNPQ54AhK7zwtOQ4vUIrUaCebqj2A7520U=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=a7FA9UHboSn7GC9vIyO+paYb606QIAtpVcNDvMYVc7/bsZnZjvqZZPPP6JFfGj1qZK5U53BEQH6cYUw/bg25qbHn8Ry9pe0KlhQouvtvCMcirEJ7deYPWSFd5Hz6ioQa3d4GKb5tVxe7fPB1NJ3uPNPBnJ/lp91PlAkM9sDw9Ik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nJolx1lI; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1773805586; c=relaxed/simple;
+	bh=Dr8P1Jnj/bp1CjRpY3cSnhdOQPeAi0/GEGISjfqouOs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=iltXES8BlvwwzjYPt+2lwHwk59tv+XLFyZdFTepBHeo8lUljp4PztkV+usCEXNZ5BCVGL71X32yZRAf3FXPFWbuDhQsjGZVNauXa07O9yqAUNt4WHwQ0rQlwFqTE6/Bfa1XdGZ05If/KOUIJ+oJLKKjwsJX1HQ2oNdToaRN5+tI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FqhoKlPR; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nJolx1lI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FqhoKlPR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773805581; x=1805341581;
+  t=1773805584; x=1805341584;
   h=date:from:to:cc:subject:message-id;
-  bh=yy+rQXpCtdNPQ54AhK7zwtOQ4vUIrUaCebqj2A7520U=;
-  b=nJolx1lI/VMMJkTHEq6tN2MUOZ7UlYn6fZBf6ZzJyncJPyLjWppx3x4H
-   AX9AMs9i09Y78oGlGekdU8MTowKw4vjLuAL0CNOYZlnW80Pd452DG7IqB
-   FB1VTl7FpgmIVGnE0AvK3iHV9cUHgk0F9uoFqOBLUV/mmIs8iNu7P30Lz
-   G+/KeYf1ai++5U0+Q8kHRFbGxXPcOdg3G7dThI8diBs2KgsAhtFnd/IAz
-   hpBxDKSLbSmh7gXKnsCIQyvWvqZLGXIPktZpEMtXcO1AAFhmU0aFODDr1
-   KVnQJn/b3nHRf1HDMMaoteyG0AHbtoSq93iVNtumw4ZFSBo/FVDsc8CeA
-   A==;
-X-CSE-ConnectionGUID: KU+6dC41RtGPlmvm/0iJWg==
-X-CSE-MsgGUID: tBX2UWaKTUKgpE73bR8rlA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="92423947"
+  bh=Dr8P1Jnj/bp1CjRpY3cSnhdOQPeAi0/GEGISjfqouOs=;
+  b=FqhoKlPR7RhhslcsnvhOE45xdXF8Ahkv2Wze7A0DYa6nORf3c0PC3S39
+   eIEz4VbYVUFbUWPvClGJiMG0DxlXw9q+YPgd+LX5apdkdvHDHq4y3f5XT
+   IoX/VHmwRl1aiMtNJWEFK/3xcpny0OqgAZlJnZKEFh9qVypHw6A7+gCkt
+   CctFdFLCtxA5spLzYD2HeZmjgueQKTRVyxajtqAVxLncVjWQe9ru6ZpqA
+   QBqyJoW4uFe3JWyAV/TUB6zi23CPcamTvXgN5WspNx7o0N1mULm1ZbyO1
+   I6fywyt93rvmIXwLfnTXhPw4Rc9HWD/Pk2z4mtK4GMMB9SFA0b+i7afSA
+   w==;
+X-CSE-ConnectionGUID: AYcrPmTUR5Ke7/xP1AROmA==
+X-CSE-MsgGUID: GZRpjq+IRbyYNqjg/mNnrg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="92423948"
 X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
-   d="scan'208";a="92423947"
+   d="scan'208";a="92423948"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 20:46:20 -0700
-X-CSE-ConnectionGUID: 0wANHeLpT8idLwEC6fRLZQ==
-X-CSE-MsgGUID: uZWCmEkETYOohbh624cHuw==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 20:46:21 -0700
+X-CSE-ConnectionGUID: 861DUKTvRyeWyglPhFzxxg==
+X-CSE-MsgGUID: dbVKxa6ORpGL/Mrku8K8zA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
-   d="scan'208";a="252948015"
+   d="scan'208";a="252948017"
 Received: from lkp-server01.sh.intel.com (HELO 63737dd503cb) ([10.239.97.150])
   by orviesa002.jf.intel.com with ESMTP; 17 Mar 2026 20:46:18 -0700
 Received: from kbuild by 63737dd503cb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w2hrL-000000002Rx-41Yf;
-	Wed, 18 Mar 2026 03:46:15 +0000
-Date: Wed, 18 Mar 2026 11:45:23 +0800
+	id 1w2hrM-000000002Rz-05Pq;
+	Wed, 18 Mar 2026 03:46:16 +0000
+Date: Wed, 18 Mar 2026 11:45:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Jens Axboe <axboe@kernel.dk>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 81/81]
- include/trace/hooks/mm.h:288:18: warning: declaration of 'struct cma' will
- not be visible outside of this function
-Message-ID: <202603181143.WVyP9jOg-lkp@intel.com>
+Subject: [dk:rw_iter 416/471] drivers/sbus/char/oradax.c:217:16:
+ error: 'dax_write_iter' undeclared here (not in a function); did you mean
+ 'vfs_write_iter'?
+Message-ID: <202603181148.DHJEuFEM-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,456 +60,237 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   b0e662fb17ec139a265b282999e920fe1f021414
-commit: a67968bd9918671119270896fa1e9d5640f3009e [81/81] ANDROID: GKI: add vendor hooks for memory compaction and cma free.
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260318/202603181143.WVyP9jOg-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260318/202603181143.WVyP9jOg-lkp@intel.com/reproduce)
+tree:   git://git.kernel.dk/linux rw_iter
+head:   7e8e9e30f1231e9ab34d17d42798297a502683f3
+commit: 1abba19b9f1ba0b7c4affe9aeec06cd924713caa [416/471] sbus: oradax: convert to read/write iterators
+config: sparc64-randconfig-001-20260318 (https://download.01.org/0day-ci/archive/20260318/202603181148.DHJEuFEM-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260318/202603181148.DHJEuFEM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603181143.WVyP9jOg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603181148.DHJEuFEM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from kernel/fork.c:46:
-   In file included from include/linux/mm_inline.h:14:
->> include/trace/hooks/mm.h:288:18: warning: declaration of 'struct cma' will not be visible outside of this function [-Wvisibility]
-     288 |         TP_PROTO(struct cma *cma, const struct page *pages, unsigned long count,
-         |                         ^
-   include/trace/hooks/mm.h:292:18: warning: declaration of 'struct cma' will not be visible outside of this function [-Wvisibility]
-     292 |         TP_PROTO(struct cma *cma, unsigned long pfn, const struct page *pages,
-         |                         ^
-   2 warnings generated.
+>> drivers/sbus/char/oradax.c:217:16: error: 'dax_write_iter' undeclared here (not in a function); did you mean 'vfs_write_iter'?
+     .write_iter = dax_write_iter,
+                   ^~~~~~~~~~~~~~
+                   vfs_write_iter
+   In file included from include/linux/proc_fs.h:10,
+                    from arch/sparc/include/asm/prom.h:18,
+                    from include/linux/of.h:252,
+                    from arch/sparc/include/asm/openprom.h:15,
+                    from arch/sparc/include/asm/device.h:8,
+                    from include/linux/device.h:34,
+                    from include/linux/cdev.h:8,
+                    from drivers/sbus/char/oradax.c:27:
+>> drivers/sbus/char/oradax.c:639:24: warning: 'dax_write_iter' defined but not used [-Wunused-function]
+    FOPS_WRITE_ITER_HELPER(dax_write);
+                           ^~~~~~~~~
+   include/linux/fs.h:2119:16: note: in definition of macro 'FOPS_WRITE_ITER_HELPER'
+    static ssize_t name## _iter(struct kiocb *iocb, struct iov_iter *from) \
+                   ^~~~
 
 
-vim +288 include/trace/hooks/mm.h
+vim +217 drivers/sbus/char/oradax.c
 
-    62	
-    63	DECLARE_RESTRICTED_HOOK(android_rvh_set_skip_swapcache_flags,
-    64				TP_PROTO(gfp_t *flags),
-    65				TP_ARGS(flags), 1);
-    66	DECLARE_RESTRICTED_HOOK(android_rvh_set_gfp_zone_flags,
-    67				TP_PROTO(gfp_t *flags),
-    68				TP_ARGS(flags), 1);
-    69	DECLARE_RESTRICTED_HOOK(android_rvh_set_readahead_gfp_mask,
-    70				TP_PROTO(gfp_t *flags),
-    71				TP_ARGS(flags), 1);
-    72	
-    73	*/
-    74	struct mem_cgroup;
-    75	DECLARE_HOOK(android_vh_mem_cgroup_alloc,
-    76		TP_PROTO(struct mem_cgroup *memcg),
-    77		TP_ARGS(memcg));
-    78	DECLARE_HOOK(android_vh_mem_cgroup_free,
-    79		TP_PROTO(struct mem_cgroup *memcg),
-    80		TP_ARGS(memcg));
-    81	DECLARE_HOOK(android_vh_mem_cgroup_id_remove,
-    82		TP_PROTO(struct mem_cgroup *memcg),
-    83		TP_ARGS(memcg));
-    84	struct cgroup_subsys_state;
-    85	DECLARE_HOOK(android_vh_mem_cgroup_css_online,
-    86		TP_PROTO(struct cgroup_subsys_state *css, struct mem_cgroup *memcg),
-    87		TP_ARGS(css, memcg));
-    88	DECLARE_HOOK(android_vh_mem_cgroup_css_offline,
-    89		TP_PROTO(struct cgroup_subsys_state *css, struct mem_cgroup *memcg),
-    90		TP_ARGS(css, memcg));
-    91	DECLARE_HOOK(android_vh_slab_alloc_node,
-    92		TP_PROTO(void *object, unsigned long addr, struct kmem_cache *s),
-    93		TP_ARGS(object, addr, s));
-    94	DECLARE_HOOK(android_vh_slab_free,
-    95		TP_PROTO(unsigned long addr, struct kmem_cache *s),
-    96		TP_ARGS(addr, s));
-    97	DECLARE_HOOK(android_vh_meminfo_proc_show,
-    98		TP_PROTO(struct seq_file *m),
-    99		TP_ARGS(m));
-   100	DECLARE_HOOK(android_vh_exit_mm,
-   101		TP_PROTO(struct mm_struct *mm),
-   102		TP_ARGS(mm));
-   103	DECLARE_HOOK(android_vh_show_mem,
-   104		TP_PROTO(unsigned int filter, nodemask_t *nodemask),
-   105		TP_ARGS(filter, nodemask));
-   106	DECLARE_HOOK(android_vh_print_slabinfo_header,
-   107		TP_PROTO(struct seq_file *m),
-   108		TP_ARGS(m));
-   109	struct slabinfo;
-   110	DECLARE_HOOK(android_vh_cache_show,
-   111		TP_PROTO(struct seq_file *m, struct slabinfo *sinfo, struct kmem_cache *s),
-   112		TP_ARGS(m, sinfo, s));
-   113	DECLARE_HOOK(android_vh_ra_tuning_max_page,
-   114		TP_PROTO(struct readahead_control *ractl, unsigned long *max_page),
-   115		TP_ARGS(ractl, max_page));
-   116	DECLARE_RESTRICTED_HOOK(android_rvh_vmalloc_node_bypass,
-   117		TP_PROTO(unsigned long size, gfp_t gfp_mask, void **addr),
-   118		TP_ARGS(size, gfp_mask, addr), 1);
-   119	DECLARE_RESTRICTED_HOOK(android_rvh_vfree_bypass,
-   120		TP_PROTO(const void *addr, bool *bypass),
-   121		TP_ARGS(addr, bypass), 1);
-   122	DECLARE_HOOK(android_vh_should_fault_around,
-   123		TP_PROTO(struct vm_fault *vmf, bool *should_around),
-   124		TP_ARGS(vmf, should_around));
-   125	DECLARE_HOOK(android_vh_process_madvise_begin,
-   126		TP_PROTO(struct task_struct *task, int behavior),
-   127		TP_ARGS(task, behavior));
-   128	DECLARE_HOOK(android_vh_process_madvise_iter,
-   129		TP_PROTO(struct mm_struct *mm, int behavior, ssize_t *ret),
-   130		TP_ARGS(mm, behavior, ret));
-   131	DECLARE_HOOK(android_vh_madvise_swapin_walk_pmd_entry,
-   132		TP_PROTO(swp_entry_t entry),
-   133		TP_ARGS(entry));
-   134	DECLARE_HOOK(android_vh_process_madvise,
-   135		TP_PROTO(int behavior, ssize_t *ret, void *priv),
-   136		TP_ARGS(behavior, ret, priv));
-   137	DECLARE_RESTRICTED_HOOK(android_rvh_ctl_dirty_rate,
-   138		TP_PROTO(struct inode *inode),
-   139		TP_ARGS(inode), 1);
-   140	DECLARE_HOOK(android_vh_adjust_kvmalloc_flags,
-   141		TP_PROTO(unsigned int order, gfp_t *alloc_flags),
-   142		TP_ARGS(order, alloc_flags));
-   143	DECLARE_HOOK(android_vh_alloc_pages_reclaim_bypass,
-   144	    TP_PROTO(gfp_t gfp_mask, int order, int alloc_flags,
-   145		int migratetype, struct page **page),
-   146		TP_ARGS(gfp_mask, order, alloc_flags, migratetype, page));
-   147	DECLARE_HOOK(android_vh_alloc_pages_failure_bypass,
-   148		TP_PROTO(gfp_t gfp_mask, int order, int alloc_flags,
-   149		int migratetype, struct page **page),
-   150		TP_ARGS(gfp_mask, order, alloc_flags, migratetype, page));
-   151	DECLARE_HOOK(android_vh_kmalloc_large_alloced,
-   152		TP_PROTO(struct folio *folio, unsigned int order, gfp_t flags),
-   153		TP_ARGS(folio, order, flags));
-   154	DECLARE_HOOK(android_vh_count_workingset_refault,
-   155		TP_PROTO(struct folio *folio),
-   156		TP_ARGS(folio));
-   157	DECLARE_HOOK(android_vh_tune_mmap_readaround,
-   158		TP_PROTO(unsigned int ra_pages, pgoff_t pgoff,
-   159			pgoff_t *start, unsigned int *size, unsigned int *async_size),
-   160		TP_ARGS(ra_pages, pgoff, start, size, async_size));
-   161	DECLARE_HOOK(android_vh_page_should_be_protected,
-   162		TP_PROTO(struct folio *folio, unsigned long nr_scanned,
-   163		s8 priority, int *should_protect),
-   164		TP_ARGS(folio, nr_scanned, priority, should_protect));
-   165	DECLARE_HOOK(android_vh_slab_folio_alloced,
-   166		TP_PROTO(unsigned int order, gfp_t flags),
-   167		TP_ARGS(order, flags));
-   168	DECLARE_HOOK(android_vh_rmqueue_smallest_bypass,
-   169		TP_PROTO(struct page **page, struct zone *zone, int order, int migratetype),
-   170		TP_ARGS(page, zone, order, migratetype));
-   171	DECLARE_HOOK(android_vh_free_one_page_bypass,
-   172		TP_PROTO(struct page *page, struct zone *zone, int order, int migratetype,
-   173			int fpi_flags, bool *bypass),
-   174		TP_ARGS(page, zone, order, migratetype, fpi_flags, bypass));
-   175	DECLARE_HOOK(android_vh_reserve_highatomic_bypass,
-   176		TP_PROTO(struct page *page, bool *bypass),
-   177		TP_ARGS(page, bypass));
-   178	DECLARE_HOOK(android_vh_migration_target_bypass,
-   179		TP_PROTO(struct page *page, bool *bypass),
-   180		TP_ARGS(page, bypass));
-   181	DECLARE_HOOK(android_vh_watermark_fast_ok,
-   182		TP_PROTO(unsigned int order, gfp_t gfp_mask, bool *is_watermark_ok),
-   183		TP_ARGS(order, gfp_mask, is_watermark_ok));
-   184	DECLARE_HOOK(android_vh_meminfo_cache_adjust,
-   185		TP_PROTO(unsigned long *cached),
-   186		TP_ARGS(cached));
-   187	DECLARE_HOOK(android_vh_si_mem_available_adjust,
-   188		TP_PROTO(unsigned long *available),
-   189		TP_ARGS(available));
-   190	DECLARE_HOOK(android_vh_si_meminfo_adjust,
-   191		TP_PROTO(unsigned long *totalram, unsigned long *freeram),
-   192		TP_ARGS(totalram, freeram));
-   193	DECLARE_HOOK(android_vh_si_meminfo_adjust_shmem,
-   194		TP_PROTO(unsigned long *sharedram),
-   195		TP_ARGS(sharedram));
-   196	DECLARE_HOOK(android_vh_compact_finished,
-   197		TP_PROTO(bool *abort_compact),
-   198		TP_ARGS(abort_compact));
-   199	DECLARE_HOOK(android_vh_compact_bypass,
-   200		TP_PROTO(struct compact_control *cc, bool *bypass),
-   201		TP_ARGS(cc, bypass));
-   202	DECLARE_HOOK(android_vh_madvise_cold_or_pageout_abort,
-   203		TP_PROTO(struct vm_area_struct *vma, bool *abort_madvise),
-   204		TP_ARGS(vma, abort_madvise));
-   205	DECLARE_HOOK(android_vh_page_cache_ra_order_bypass,
-   206		TP_PROTO(struct readahead_control *ractl, struct file_ra_state *ra,
-   207			 int new_order, gfp_t *gfp, bool *bypass),
-   208		TP_ARGS(ractl, ra, new_order, gfp, bypass));
-   209	DECLARE_HOOK(android_vh_alloc_pages_slowpath_start,
-   210		TP_PROTO(u64 *stime),
-   211		TP_ARGS(stime));
-   212	DECLARE_HOOK(android_vh_alloc_pages_slowpath_end,
-   213		TP_PROTO(gfp_t *gfp_mask, unsigned int order, unsigned long alloc_start,
-   214			u64 stime, unsigned long did_some_progress,
-   215			unsigned long pages_reclaimed, int retry_loop_count),
-   216		TP_ARGS(gfp_mask, order, alloc_start, stime, did_some_progress,
-   217			pages_reclaimed, retry_loop_count));
-   218	DECLARE_RESTRICTED_HOOK(android_rvh_alloc_pages_reclaim_start,
-   219		TP_PROTO(gfp_t gfp_mask, int order, int *alloc_flags),
-   220		TP_ARGS(gfp_mask, order, alloc_flags), 3);
-   221	DECLARE_RESTRICTED_HOOK(android_rvh_alloc_pages_reclaim_cycle_end,
-   222		TP_PROTO(gfp_t gfp_mask, int order, int *alloc_flags,
-   223		unsigned long *did_some_progress, int *no_progress_loops,
-   224		unsigned long direct_reclaim_retries),
-   225		TP_ARGS(gfp_mask, order, alloc_flags, did_some_progress,
-   226		no_progress_loops, direct_reclaim_retries), 6);
-   227	DECLARE_HOOK(android_vh_filemap_pages,
-   228		TP_PROTO(struct folio *folio),
-   229		TP_ARGS(folio));
-   230	DECLARE_HOOK(android_vh_lru_gen_add_folio_skip,
-   231		TP_PROTO(struct lruvec *lruvec, struct folio *folio, bool *skip),
-   232		TP_ARGS(lruvec, folio, skip));
-   233	DECLARE_HOOK(android_vh_lru_gen_del_folio_skip,
-   234		TP_PROTO(struct lruvec *lruvec, struct folio *folio, bool *skip),
-   235		TP_ARGS(lruvec, folio, skip));
-   236	DECLARE_HOOK(android_vh_add_lazyfree_bypass,
-   237		TP_PROTO(struct lruvec *lruvec, struct folio *folio, bool *bypass),
-   238		TP_ARGS(lruvec, folio, bypass));
-   239	DECLARE_HOOK(android_vh_oom_reaper_delay_bypass,
-   240		TP_PROTO(struct task_struct *tsk, bool *bypass),
-   241		TP_ARGS(tsk, bypass));
-   242	DECLARE_HOOK(android_vh_pagetypeinfo_show,
-   243		TP_PROTO(struct seq_file *m),
-   244		TP_ARGS(m));
-   245	DECLARE_HOOK(android_vh_get_page_wmark,
-   246		TP_PROTO(unsigned int alloc_flags, unsigned long *page_wmark),
-   247		TP_ARGS(alloc_flags, page_wmark));
-   248	DECLARE_HOOK(android_vh_page_add_new_anon_rmap,
-   249		TP_PROTO(struct page *page, struct vm_area_struct *vma,
-   250			unsigned long address),
-   251		TP_ARGS(page, vma, address));
-   252	struct page_vma_mapped_walk;
-   253	DECLARE_HOOK(android_vh_test_clear_look_around_ref,
-   254		TP_PROTO(struct page *page),
-   255		TP_ARGS(page));
-   256	DECLARE_HOOK(android_vh_look_around_migrate_folio,
-   257		TP_PROTO(struct folio *old_folio, struct folio *new_folio),
-   258		TP_ARGS(old_folio, new_folio));
-   259	DECLARE_HOOK(android_vh_look_around,
-   260		TP_PROTO(struct page_vma_mapped_walk *pvmw, struct folio *folio,
-   261			struct vm_area_struct *vma, int *referenced),
-   262		TP_ARGS(pvmw, folio, vma, referenced));
-   263	DECLARE_HOOK(android_vh_free_unref_page_bypass,
-   264		TP_PROTO(struct page *page, int order, int migratetype, bool *bypass),
-   265		TP_ARGS(page, order, migratetype, bypass));
-   266	DECLARE_HOOK(android_vh_kvmalloc_node_use_vmalloc,
-   267		TP_PROTO(size_t size, gfp_t *kmalloc_flags, bool *use_vmalloc),
-   268		TP_ARGS(size, kmalloc_flags, use_vmalloc));
-   269	DECLARE_HOOK(android_vh_should_alloc_pages_retry,
-   270		TP_PROTO(gfp_t gfp_mask, int order, int *alloc_flags,
-   271		int migratetype, struct zone *preferred_zone, struct page **page, bool *should_alloc_retry),
-   272		TP_ARGS(gfp_mask, order, alloc_flags,
-   273			migratetype, preferred_zone, page, should_alloc_retry));
-   274	DECLARE_HOOK(android_vh_unreserve_highatomic_bypass,
-   275		TP_PROTO(bool force, struct zone *zone, bool *skip_unreserve_highatomic),
-   276		TP_ARGS(force, zone, skip_unreserve_highatomic));
-   277	DECLARE_HOOK(android_vh_rmqueue_bulk_bypass,
-   278		TP_PROTO(unsigned int order, struct per_cpu_pages *pcp, int migratetype,
-   279			struct list_head *list),
-   280		TP_ARGS(order, pcp, migratetype, list));
-   281	DECLARE_HOOK(android_vh_thaw_killed_process,
-   282		TP_PROTO(bool *thaw),
-   283		TP_ARGS(thaw));
-   284	DECLARE_HOOK(android_vh_cma_alloc_retry,
-   285		TP_PROTO(char *name, int *retry),
-   286		TP_ARGS(name, retry));
-   287	DECLARE_HOOK(android_vh_cma_release_bypass,
- > 288		TP_PROTO(struct cma *cma, const struct page *pages, unsigned long count,
-   289			bool *bypass),
-   290		TP_ARGS(cma, pages, count, bypass));
-   291	DECLARE_HOOK(android_vh_cma_alloc_end,
-   292		TP_PROTO(struct cma *cma, unsigned long pfn, const struct page *pages,
-   293			unsigned long count, unsigned int align, int ret),
-   294		TP_ARGS(cma, pfn, pages, count, align, ret));
-   295	DECLARE_HOOK(android_vh_wp_page_reuse,
-   296		TP_PROTO(struct vm_fault *vmf, struct folio *folio),
-   297		TP_ARGS(vmf, folio));
-   298	DECLARE_HOOK(android_vh_page_cache_readahead_start,
-   299		TP_PROTO(struct file *file, pgoff_t pgoff,
-   300			unsigned int size, bool sync),
-   301		TP_ARGS(file, pgoff, size, sync));
-   302	DECLARE_HOOK(android_vh_page_cache_readahead_end,
-   303		TP_PROTO(struct file *file, pgoff_t pgoff),
-   304		TP_ARGS(file, pgoff));
-   305	DECLARE_HOOK(android_vh_filemap_fault_start,
-   306		TP_PROTO(struct file *file, pgoff_t pgoff),
-   307		TP_ARGS(file, pgoff));
-   308	DECLARE_HOOK(android_vh_filemap_fault_end,
-   309		TP_PROTO(struct file *file, pgoff_t pgoff),
-   310		TP_ARGS(file, pgoff));
-   311	DECLARE_HOOK(android_vh_free_unref_folios_to_pcp_bypass,
-   312		TP_PROTO(struct folio_batch *folios, bool *bypass),
-   313		TP_ARGS(folios, bypass));
-   314	DECLARE_HOOK(android_vh_drain_all_pages_bypass,
-   315		TP_PROTO(gfp_t gfp_mask, unsigned int order, unsigned long alloc_flags,
-   316			int migratetype, unsigned long did_some_progress,
-   317			bool *bypass),
-   318		TP_ARGS(gfp_mask, order, alloc_flags, migratetype, did_some_progress, bypass));
-   319	DECLARE_HOOK(android_vh_save_track_hash,
-   320		TP_PROTO(bool alloc, struct track *p),
-   321		TP_ARGS(alloc, p));
-   322	DECLARE_HOOK(android_vh_kmalloc_slab,
-   323		TP_PROTO(unsigned int index, gfp_t flags, struct kmem_cache **s),
-   324		TP_ARGS(index, flags, s));
-   325	DECLARE_HOOK(android_vh_customize_alloc_gfp,
-   326		TP_PROTO(gfp_t *alloc_gfp, unsigned int order),
-   327		TP_ARGS(alloc_gfp, order));
-   328	DECLARE_HOOK(android_vh_init_adjust_zone_wmark,
-   329		TP_PROTO(struct zone *zone, u64 interval),
-   330		TP_ARGS(zone, interval));
-   331	DECLARE_HOOK(android_vh_oom_evaluate_task_bypass,
-   332		TP_PROTO(struct task_struct *task, struct oom_control *oc, bool *bypass),
-   333		TP_ARGS(task, oc, bypass));
-   334	DECLARE_HOOK(android_vh_folio_add_lru_folio_activate,
-   335		TP_PROTO(struct folio *folio, bool *bypass),
-   336		TP_ARGS(folio, bypass));
-   337	DECLARE_HOOK(android_vh_filemap_fault_pre_folio_locked,
-   338		TP_PROTO(struct folio *folio),
-   339		TP_ARGS(folio));
-   340	DECLARE_HOOK(android_vh_filemap_folio_mapped,
-   341		TP_PROTO(struct folio *folio),
-   342		TP_ARGS(folio));
-   343	DECLARE_HOOK(android_vh_folio_remove_rmap_ptes,
-   344		TP_PROTO(struct folio *folio),
-   345		TP_ARGS(folio));
-   346	DECLARE_HOOK(android_vh_filemap_get_folio_end,
-   347		TP_PROTO(struct address_space *mapping, struct folio *folio),
-   348		TP_ARGS(mapping, folio));
-   349	DECLARE_HOOK(android_vh_adjust_swap_info_flags,
-   350		TP_PROTO(unsigned long *flags),
-   351		TP_ARGS(flags));
-   352	DECLARE_HOOK(android_vh_smaps_pte_entry,
-   353		TP_PROTO(swp_entry_t entry, int mapcount,
-   354			unsigned long *swap_shared, unsigned long *writeback,
-   355			unsigned long *same, unsigned long *huge),
-   356		TP_ARGS(entry, mapcount, swap_shared, writeback, same, huge));
-   357	DECLARE_HOOK(android_vh_show_smap,
-   358		TP_PROTO(struct seq_file *m,
-   359			unsigned long swap_shared, unsigned long writeback,
-   360			unsigned long same, unsigned long huge),
-   361		TP_ARGS(m, swap_shared, writeback, same, huge));
-   362	DECLARE_HOOK(android_vh_alloc_contig_range_not_isolated,
-   363		TP_PROTO(unsigned long start, unsigned end),
-   364		TP_ARGS(start, end));
-   365	DECLARE_HOOK(android_vh_warn_alloc_tune_ratelimit,
-   366		TP_PROTO(struct ratelimit_state *rs),
-   367		TP_ARGS(rs));
-   368	DECLARE_HOOK(android_vh_warn_alloc_show_mem_bypass,
-   369		TP_PROTO(bool *bypass),
-   370		TP_ARGS(bypass));
-   371	DECLARE_HOOK(android_vh_free_pages_prepare_bypass,
-   372		TP_PROTO(struct page *page, unsigned int order,
-   373			int __bitwise flags, bool *skip_free_pages_prepare),
-   374		TP_ARGS(page, order, flags, skip_free_pages_prepare));
-   375	DECLARE_HOOK(android_vh_free_pages_ok_bypass,
-   376		TP_PROTO(struct page *page, unsigned int order,
-   377			int __bitwise flags, bool *skip_free_pages_ok),
-   378		TP_ARGS(page, order, flags, skip_free_pages_ok));
-   379	DECLARE_HOOK(android_vh_free_page_bypass,
-   380		TP_PROTO(struct page *page, unsigned int order, bool *skip_free_page),
-   381		TP_ARGS(page, order, skip_free_page));
-   382	DECLARE_HOOK(android_vh_free_folio_bypass,
-   383		TP_PROTO(struct folio *folio, unsigned int order, bool *skip_free_folio),
-   384		TP_ARGS(folio, order, skip_free_folio));
-   385	DECLARE_HOOK(android_vh_split_large_folio_bypass,
-   386		TP_PROTO(bool *bypass),
-   387		TP_ARGS(bypass));
-   388	DECLARE_HOOK(android_vh_do_read_fault,
-   389		TP_PROTO(struct vm_fault *vmf, unsigned long fault_around_bytes),
-   390		TP_ARGS(vmf, fault_around_bytes));
-   391	DECLARE_HOOK(android_vh_filemap_read,
-   392		TP_PROTO(struct file *file, loff_t pos, size_t size),
-   393		TP_ARGS(file, pos, size));
-   394	DECLARE_HOOK(android_vh_filemap_map_pages,
-   395		TP_PROTO(struct file *file, pgoff_t first_pgoff,
-   396			pgoff_t last_pgoff, vm_fault_t ret),
-   397		TP_ARGS(file, first_pgoff, last_pgoff, ret));
-   398	DECLARE_HOOK(android_vh_zs_shrinker_adjust,
-   399		TP_PROTO(unsigned long *pages_to_free),
-   400		TP_ARGS(pages_to_free));
-   401	DECLARE_HOOK(android_vh_zs_shrinker_bypass,
-   402		TP_PROTO(bool *bypass),
-   403		TP_ARGS(bypass));
-   404	DECLARE_HOOK(android_vh_adjust_nr_reclaimed,
-   405		TP_PROTO(struct folio *folio, unsigned int *nr_reclaimed),
-   406		TP_ARGS(folio, nr_reclaimed));
-   407	DECLARE_HOOK(android_vh_mmap_region,
-   408		TP_PROTO(struct vm_area_struct *vma, unsigned long addr),
-   409		TP_ARGS(vma, addr));
-   410	DECLARE_HOOK(android_vh_try_to_unmap_one,
-   411		TP_PROTO(struct folio *folio, struct vm_area_struct *vma,
-   412			unsigned long addr, void *arg, bool ret),
-   413		TP_ARGS(folio, vma, addr, arg, ret));
-   414	DECLARE_HOOK(android_vh_swap_writepage,
-   415		TP_PROTO(unsigned long *sis_flags, struct page *page),
-   416		TP_ARGS(sis_flags, page));
-   417	DECLARE_HOOK(android_vh_rmqueue_pcplist_override_batch,
-   418		TP_PROTO(int *batch),
-   419		TP_ARGS(batch));
-   420	DECLARE_HOOK(android_vh_save_vmalloc_stack,
-   421		TP_PROTO(unsigned long flags, struct vm_struct *vm),
-   422		TP_ARGS(flags, vm));
-   423	DECLARE_HOOK(android_vh_show_stack_hash,
-   424		TP_PROTO(struct seq_file *m, struct vm_struct *v),
-   425		TP_ARGS(m, v));
-   426	DECLARE_HOOK(android_vh_calc_alloc_flags,
-   427		TP_PROTO(gfp_t gfp_mask, unsigned int *alloc_flags,
-   428			bool *bypass),
-   429		TP_ARGS(gfp_mask, alloc_flags, bypass));
-   430	DECLARE_HOOK(android_vh_task_mem,
-   431		TP_PROTO(struct seq_file *m, struct mm_struct *mm),
-   432		TP_ARGS(m, mm));
-   433	DECLARE_HOOK(android_vh_mem_cgroup_charge,
-   434		TP_PROTO(struct folio *folio, struct mem_cgroup **memcg),
-   435		TP_ARGS(folio, memcg));
-   436	DECLARE_HOOK(android_vh_filemap_add_folio,
-   437		TP_PROTO(struct address_space *mapping, struct folio *folio,
-   438			pgoff_t index),
-   439		TP_ARGS(mapping, folio, index));
-   440	DECLARE_HOOK(android_vh_folio_add_file_rmap,
-   441		TP_PROTO(struct folio *folio, struct page *page, int nr_pages,
-   442			 int level),
-   443		TP_ARGS(folio, page, nr_pages, level));
-   444	DECLARE_HOOK(android_vh_folio_remove_rmap,
-   445		TP_PROTO(struct folio *folio, struct page *page, int nr_pages,
-   446			 int level),
-   447		TP_ARGS(folio, page, nr_pages, level));
-   448	DECLARE_HOOK(android_vh_folios_put_refs_direct_free_extent,
-   449		TP_PROTO(struct folio *folio, unsigned int nr_refs,
-   450			 struct lruvec **lruvec, unsigned long flags, bool *direct_free),
-   451		TP_ARGS(folio, nr_refs, lruvec, flags, direct_free));
-   452	DECLARE_HOOK(android_vh_free_pages_and_swap_cache,
-   453		TP_PROTO(struct folio *folio),
-   454		TP_ARGS(folio));
-   455	DECLARE_HOOK(android_vh_do_anonymous_page,
-   456		TP_PROTO(struct vm_area_struct *vma, struct folio *folio),
-   457		TP_ARGS(vma, folio));
-   458	DECLARE_HOOK(android_vh_do_swap_page,
-   459		TP_PROTO(struct folio *folio, pte_t *pte, struct vm_fault *vmf,
-   460			swp_entry_t entry),
-   461		TP_ARGS(folio, pte, vmf, entry));
-   462	DECLARE_HOOK(android_vh_do_wp_page,
-   463		TP_PROTO(struct folio *folio),
-   464		TP_ARGS(folio));
-   465	DECLARE_HOOK(android_vh_shmem_swapin_folio,
-   466		TP_PROTO(struct folio *folio),
-   467		TP_ARGS(folio));
-   468	DECLARE_HOOK(android_vh_uprobes_uprobe_write,
-   469		TP_PROTO(struct folio *new_folio, struct folio *old_folio),
-   470		TP_ARGS(new_folio, old_folio));
-   471	DECLARE_HOOK(android_vh_lock_folio_drop_mmap_start,
-   472		TP_PROTO(struct task_struct **tsk, struct vm_fault *vmf,
-   473			struct folio *folio, struct file *file),
-   474		TP_ARGS(tsk, vmf, folio, file));
-   475	DECLARE_HOOK(android_vh_lock_folio_drop_mmap_end,
-   476		TP_PROTO(bool success, struct task_struct **tsk, struct vm_fault *vmf,
-   477			struct folio *folio, struct file *file),
-   478		TP_ARGS(success, tsk, vmf, folio, file));
-   479	DECLARE_HOOK(android_vh_filemap_update_page,
-   480		TP_PROTO(struct address_space *mapping, struct folio *folio,
-   481			struct file *file),
-   482		TP_ARGS(mapping, folio, file));
-   483	#endif /* _TRACE_HOOK_MM_H */
-   484	
+  > 27	#include <linux/cdev.h>
+    28	#include <linux/slab.h>
+    29	#include <linux/mm.h>
+    30	
+    31	#include <asm/hypervisor.h>
+    32	#include <asm/mdesc.h>
+    33	#include <asm/oradax.h>
+    34	
+    35	MODULE_LICENSE("GPL");
+    36	MODULE_DESCRIPTION("Driver for Oracle Data Analytics Accelerator");
+    37	
+    38	#define	DAX_DBG_FLG_BASIC	0x01
+    39	#define	DAX_DBG_FLG_STAT	0x02
+    40	#define	DAX_DBG_FLG_INFO	0x04
+    41	#define	DAX_DBG_FLG_ALL		0xff
+    42	
+    43	#define	dax_err(fmt, ...)      pr_err("%s: " fmt "\n", __func__, ##__VA_ARGS__)
+    44	#define	dax_info(fmt, ...)     pr_info("%s: " fmt "\n", __func__, ##__VA_ARGS__)
+    45	
+    46	#define	dax_dbg(fmt, ...)	do {					\
+    47						if (dax_debug & DAX_DBG_FLG_BASIC)\
+    48							dax_info(fmt, ##__VA_ARGS__); \
+    49					} while (0)
+    50	#define	dax_stat_dbg(fmt, ...)	do {					\
+    51						if (dax_debug & DAX_DBG_FLG_STAT) \
+    52							dax_info(fmt, ##__VA_ARGS__); \
+    53					} while (0)
+    54	#define	dax_info_dbg(fmt, ...)	do { \
+    55						if (dax_debug & DAX_DBG_FLG_INFO) \
+    56							dax_info(fmt, ##__VA_ARGS__); \
+    57					} while (0)
+    58	
+    59	#define	DAX1_MINOR		1
+    60	#define	DAX1_MAJOR		1
+    61	#define	DAX2_MINOR		0
+    62	#define	DAX2_MAJOR		2
+    63	
+    64	#define	DAX1_STR    "ORCL,sun4v-dax"
+    65	#define	DAX2_STR    "ORCL,sun4v-dax2"
+    66	
+    67	#define	DAX_CA_ELEMS		(DAX_MMAP_LEN / sizeof(struct dax_cca))
+    68	
+    69	#define	DAX_CCB_USEC		100
+    70	#define	DAX_CCB_RETRIES		10000
+    71	
+    72	/* stream types */
+    73	enum {
+    74		OUT,
+    75		PRI,
+    76		SEC,
+    77		TBL,
+    78		NUM_STREAM_TYPES
+    79	};
+    80	
+    81	/* completion status */
+    82	#define	CCA_STAT_NOT_COMPLETED	0
+    83	#define	CCA_STAT_COMPLETED	1
+    84	#define	CCA_STAT_FAILED		2
+    85	#define	CCA_STAT_KILLED		3
+    86	#define	CCA_STAT_NOT_RUN	4
+    87	#define	CCA_STAT_PIPE_OUT	5
+    88	#define	CCA_STAT_PIPE_SRC	6
+    89	#define	CCA_STAT_PIPE_DST	7
+    90	
+    91	/* completion err */
+    92	#define	CCA_ERR_SUCCESS		0x0	/* no error */
+    93	#define	CCA_ERR_OVERFLOW	0x1	/* buffer overflow */
+    94	#define	CCA_ERR_DECODE		0x2	/* CCB decode error */
+    95	#define	CCA_ERR_PAGE_OVERFLOW	0x3	/* page overflow */
+    96	#define	CCA_ERR_KILLED		0x7	/* command was killed */
+    97	#define	CCA_ERR_TIMEOUT		0x8	/* Timeout */
+    98	#define	CCA_ERR_ADI		0x9	/* ADI error */
+    99	#define	CCA_ERR_DATA_FMT	0xA	/* data format error */
+   100	#define	CCA_ERR_OTHER_NO_RETRY	0xE	/* Other error, do not retry */
+   101	#define	CCA_ERR_OTHER_RETRY	0xF	/* Other error, retry */
+   102	#define	CCA_ERR_PARTIAL_SYMBOL	0x80	/* QP partial symbol warning */
+   103	
+   104	/* CCB address types */
+   105	#define	DAX_ADDR_TYPE_NONE	0
+   106	#define	DAX_ADDR_TYPE_VA_ALT	1	/* secondary context */
+   107	#define	DAX_ADDR_TYPE_RA	2	/* real address */
+   108	#define	DAX_ADDR_TYPE_VA	3	/* virtual address */
+   109	
+   110	/* dax_header_t opcode */
+   111	#define	DAX_OP_SYNC_NOP		0x0
+   112	#define	DAX_OP_EXTRACT		0x1
+   113	#define	DAX_OP_SCAN_VALUE	0x2
+   114	#define	DAX_OP_SCAN_RANGE	0x3
+   115	#define	DAX_OP_TRANSLATE	0x4
+   116	#define	DAX_OP_SELECT		0x5
+   117	#define	DAX_OP_INVERT		0x10	/* OR with translate, scan opcodes */
+   118	
+   119	struct dax_header {
+   120		u32 ccb_version:4;	/* 31:28 CCB Version */
+   121					/* 27:24 Sync Flags */
+   122		u32 pipe:1;		/* Pipeline */
+   123		u32 longccb:1;		/* Longccb. Set for scan with lu2, lu3, lu4. */
+   124		u32 cond:1;		/* Conditional */
+   125		u32 serial:1;		/* Serial */
+   126		u32 opcode:8;		/* 23:16 Opcode */
+   127					/* 15:0 Address Type. */
+   128		u32 reserved:3;		/* 15:13 reserved */
+   129		u32 table_addr_type:2;	/* 12:11 Huffman Table Address Type */
+   130		u32 out_addr_type:3;	/* 10:8 Destination Address Type */
+   131		u32 sec_addr_type:3;	/* 7:5 Secondary Source Address Type */
+   132		u32 pri_addr_type:3;	/* 4:2 Primary Source Address Type */
+   133		u32 cca_addr_type:2;	/* 1:0 Completion Address Type */
+   134	};
+   135	
+   136	struct dax_control {
+   137		u32 pri_fmt:4;		/* 31:28 Primary Input Format */
+   138		u32 pri_elem_size:5;	/* 27:23 Primary Input Element Size(less1) */
+   139		u32 pri_offset:3;	/* 22:20 Primary Input Starting Offset */
+   140		u32 sec_encoding:1;	/* 19    Secondary Input Encoding */
+   141					/*	 (must be 0 for Select) */
+   142		u32 sec_offset:3;	/* 18:16 Secondary Input Starting Offset */
+   143		u32 sec_elem_size:2;	/* 15:14 Secondary Input Element Size */
+   144					/*	 (must be 0 for Select) */
+   145		u32 out_fmt:2;		/* 13:12 Output Format */
+   146		u32 out_elem_size:2;	/* 11:10 Output Element Size */
+   147		u32 misc:10;		/* 9:0 Opcode specific info */
+   148	};
+   149	
+   150	struct dax_data_access {
+   151		u64 flow_ctrl:2;	/* 63:62 Flow Control Type */
+   152		u64 pipe_target:2;	/* 61:60 Pipeline Target */
+   153		u64 out_buf_size:20;	/* 59:40 Output Buffer Size */
+   154					/*	 (cachelines less 1) */
+   155		u64 unused1:8;		/* 39:32 Reserved, Set to 0 */
+   156		u64 out_alloc:5;	/* 31:27 Output Allocation */
+   157		u64 unused2:1;		/* 26	 Reserved */
+   158		u64 pri_len_fmt:2;	/* 25:24 Input Length Format */
+   159		u64 pri_len:24;		/* 23:0  Input Element/Byte/Bit Count */
+   160					/*	 (less 1) */
+   161	};
+   162	
+   163	struct dax_ccb {
+   164		struct dax_header hdr;	/* CCB Header */
+   165		struct dax_control ctrl;/* Control Word */
+   166		void *ca;		/* Completion Address */
+   167		void *pri;		/* Primary Input Address */
+   168		struct dax_data_access dac; /* Data Access Control */
+   169		void *sec;		/* Secondary Input Address */
+   170		u64 dword5;		/* depends on opcode */
+   171		void *out;		/* Output Address */
+   172		void *tbl;		/* Table Address or bitmap */
+   173	};
+   174	
+   175	struct dax_cca {
+   176		u8	status;		/* user may mwait on this address */
+   177		u8	err;		/* user visible error notification */
+   178		u8	rsvd[2];	/* reserved */
+   179		u32	n_remaining;	/* for QP partial symbol warning */
+   180		u32	output_sz;	/* output in bytes */
+   181		u32	rsvd2;		/* reserved */
+   182		u64	run_cycles;	/* run time in OCND2 cycles */
+   183		u64	run_stats;	/* nothing reported in version 1.0 */
+   184		u32	n_processed;	/* number input elements */
+   185		u32	rsvd3[5];	/* reserved */
+   186		u64	retval;		/* command return value */
+   187		u64	rsvd4[8];	/* reserved */
+   188	};
+   189	
+   190	/* per thread CCB context */
+   191	struct dax_ctx {
+   192		struct dax_ccb		*ccb_buf;
+   193		u64			ccb_buf_ra;	/* cached RA of ccb_buf  */
+   194		struct dax_cca		*ca_buf;
+   195		u64			ca_buf_ra;	/* cached RA of ca_buf   */
+   196		struct page		*pages[DAX_CA_ELEMS][NUM_STREAM_TYPES];
+   197							/* array of locked pages */
+   198		struct task_struct	*owner;		/* thread that owns ctx  */
+   199		struct task_struct	*client;	/* requesting thread     */
+   200		union ccb_result	result;
+   201		u32			ccb_count;
+   202		u32			fail_count;
+   203	};
+   204	
+   205	/* driver public entry points */
+   206	static int dax_open(struct inode *inode, struct file *file);
+   207	static ssize_t dax_read(struct kiocb *iocb, struct iov_iter *to);
+   208	static ssize_t dax_write(struct file *filp, const char __user *buf,
+   209				 size_t count, loff_t *ppos);
+   210	static int dax_devmap(struct file *f, struct vm_area_struct *vma);
+   211	static int dax_close(struct inode *i, struct file *f);
+   212	
+   213	static const struct file_operations dax_fops = {
+   214		.owner	=	THIS_MODULE,
+   215		.open	=	dax_open,
+   216		.read_iter	=	dax_read,
+ > 217		.write_iter	=	dax_write_iter,
+   218		.mmap	=	dax_devmap,
+   219		.release =	dax_close,
+   220	};
+   221	
 
 -- 
 0-DAY CI Kernel Test Service
