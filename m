@@ -1,128 +1,201 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681933E3D9D;
-	Wed, 18 Mar 2026 15:06:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A325B26FD97
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Mar 2026 15:28:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773846375; cv=none; b=e+cbBMR+me069Yxo5u/0PTCpV0cBY3B/FZ7JbXUdcYWE0EHxEe3B8mb3LNPL+nbk3w3Q6gvAxqX99mJPcd5neFg3PHkWLPoNQOXYu2PW67ygKaDslpSjzahY3eowkF2Zw8lm0B+Ugk6+5jLAPYlE3+1IrreM6K/gMKWOcy/xA3I=
+	t=1773847697; cv=none; b=mK901faJ/fG7u42kA/DLv+AeYjSc/1SmdyCjpMeScNr5CaHdFTgfGxQ+mCRt32EHZPVmGUDz9bx4n41Uaio7FecupR1S3lTRK/P4LIaotGY7PfdGk7uEwbLSiOVYIgyYZdQY8IIUDJr62Imw5J+MpTBdClOQVZvuUU0Pd6d1+l0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773846375; c=relaxed/simple;
-	bh=4mKNZGsMnx96h+U53BOOHWYmauvrjAENdqFmFNmU85o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sRlhLsXe+FkeQ63C7W5tFNWPrmJFB+uJn66pBD6gWF7RmS2zstsIFXiBF2qQXaGrGLEtw0Wb/SVKi6eqe92Jmz+UiOBOVZm06NF7yl0AKhP29bh2n+YjBQUJQa+M8maWcqbyMeLtsNKQW/vUe0c1TWcczqpZcoWQ9AnBSWIcfj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LebXoTOk; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1773847697; c=relaxed/simple;
+	bh=Tpz+amYeLOtD+1IyA2p6OwCe0fAkYqWmGV34kdfrfys=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=jYphqcz91smPJxmki+1+NLRXJLm1FpURGUZX1fA8V5C3ltoB9MTxXjdooy4p9q1ykLenpfkuJFUrGLniJppHBftJsB4upf5MJBP7E3NOoPLT5hCKupmXzDUKxRPymGdlEW6T8I7C2OPPyDqZKHkaaecJkBwl1CrCzW4jHXx5Lq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iC5/wWtB; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LebXoTOk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iC5/wWtB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773846373; x=1805382373;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4mKNZGsMnx96h+U53BOOHWYmauvrjAENdqFmFNmU85o=;
-  b=LebXoTOkU3k5eaXxR02elrSmRO8ZalyxL65st5SEKle86Csm8qwf0HEv
-   rqJljE96LGu3pwFcwyR7PpbK4/DEJe9MAkljyzVSR/HxCcADdJzn2ziMX
-   lKlUMDHE7B2RYZPb/DDrWUQ1VoTLpfZVLfn5g5ml6ncKZgmAHOrbeJvOl
-   acNylwC9zBIqsgIuUlS//XYnWkZY8k1CTyI6UKu7Sl4c+02N4ANBNMnoK
-   JhDu5PgZ3B55iC+ywEas2IYzaKzFiBUacaYwD7Z8bw1951NB2M66q8Lqq
-   Aq+78EKiOkniRziZsj0Oqi97NzPRCRV42aLM12efvtHhpTtiOd+BiTEmk
-   w==;
-X-CSE-ConnectionGUID: tD0uI4g/Tb24NQMKXosIvw==
-X-CSE-MsgGUID: B2pi9jeYRQqaR7Hk8gd9EA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="74601749"
+  t=1773847690; x=1805383690;
+  h=date:from:to:cc:subject:message-id;
+  bh=Tpz+amYeLOtD+1IyA2p6OwCe0fAkYqWmGV34kdfrfys=;
+  b=iC5/wWtB2nJiS++9TkwkuIaev62k5v7/W1zIoBXoHNw5gebigTdj0V9H
+   oaZ5nyoHQqVjZmoLA7SrjODOMa8Glg2Ws2HQkjcROcxvg5LNGslkjN8rP
+   0GBISftPkVVKewAjTy+bllmyTVWtogy9brO2l1bjjcBwdlPSKFnkHqmHQ
+   1Oc0IuqdCjMKn1pxnme1AMcanJr7/2Ez6Y7dvlqEduQ6dpml56BnXWqQG
+   SVjK5xu8mkHPXtVCLCaCOu2LvDfGzL354sChBEaOSGGJ04igJk9BDLdQ5
+   UNRZUc/fS5U5VXDUk+tXs0QKNA9OkBgdzMMjbOPM3SvQ1m2tR4q5g2hk7
+   A==;
+X-CSE-ConnectionGUID: tDeuf5K8TTiqq0oQQid+GQ==
+X-CSE-MsgGUID: /IJ/e5MZQ2e8bb2wHLkr+g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="85981093"
 X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
-   d="scan'208";a="74601749"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 08:06:08 -0700
-X-CSE-ConnectionGUID: 45FZNnEETzigI3hiwWOn+w==
-X-CSE-MsgGUID: 9Lplwp4OTDGMa1328tMtMg==
+   d="scan'208";a="85981093"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 08:28:09 -0700
+X-CSE-ConnectionGUID: VKkssKFpQnWbtFZC/4K/zg==
+X-CSE-MsgGUID: nJyEzmsGT9GWUmtQ95tXwQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
-   d="scan'208";a="227341270"
+   d="scan'208";a="227140653"
 Received: from lkp-server01.sh.intel.com (HELO 63737dd503cb) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 18 Mar 2026 08:06:04 -0700
+  by orviesa004.jf.intel.com with ESMTP; 18 Mar 2026 08:28:07 -0700
 Received: from kbuild by 63737dd503cb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w2sTC-0000000031t-0fMK;
-	Wed, 18 Mar 2026 15:06:02 +0000
-Date: Wed, 18 Mar 2026 23:05:24 +0800
+	id 1w2soW-0000000032x-1rxY;
+	Wed, 18 Mar 2026 15:28:04 +0000
+Date: Wed, 18 Mar 2026 23:27:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pei Xiao <xiaopei01@kylinos.cn>, linux-spi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	imx@lists.linux.dev, openbmc@lists.ozlabs.org,
-	linux-rockchip@lists.infradead.org, linux-riscv@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com, broonie@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Pei Xiao <xiaopei01@kylinos.cn>
-Subject: Re: [PATCH v3 01/17] spi: axiado: Use helper function
- devm_clk_get_enabled()
-Message-ID: <202603182309.Rj2JxGYZ-lkp@intel.com>
-References: <a78f25f1b15b90121e9723ecb5bd606bbb1868d4.1773733017.git.xiaopei01@kylinos.cn>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-kiwi-6.1 132/132]
+ include/trace/stages/init.h:2:23: warning:
+ 'str__softlockup__trace_system_name' defined but not used
+Message-ID: <202603182349.VwbsjtHs-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a78f25f1b15b90121e9723ecb5bd606bbb1868d4.1773733017.git.xiaopei01@kylinos.cn>
 
-Hi Pei,
+Hi Sangmoon,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on broonie-spi/for-next]
-[also build test WARNING on next-20260317]
-[cannot apply to atorgue-stm32/stm32-next rockchip/for-next xilinx-xlnx/master clk/clk-next shawnguo/for-next soc/for-next linus/master v7.0-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pei-Xiao/spi-axiado-Use-helper-function-devm_clk_get_enabled/20260318-110300
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
-patch link:    https://lore.kernel.org/r/a78f25f1b15b90121e9723ecb5bd606bbb1868d4.1773733017.git.xiaopei01%40kylinos.cn
-patch subject: [PATCH v3 01/17] spi: axiado: Use helper function devm_clk_get_enabled()
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260318/202603182309.Rj2JxGYZ-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260318/202603182309.Rj2JxGYZ-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   73a9b50e23202b4fe10f285b4cfe0efaa5dbb0ca
+commit: 8635a0911839994b57dbed917793a60f1231ddf4 [132/132] ANDROID: softlockup: add vendor hook for a softlockup task
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260318/202603182349.VwbsjtHs-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260318/202603182349.VwbsjtHs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603182309.Rj2JxGYZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603182349.VwbsjtHs-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/spi/spi-axiado.c: In function 'ax_spi_remove':
->> drivers/spi/spi-axiado.c:865:24: warning: unused variable 'xspi' [-Wunused-variable]
-     865 |         struct ax_spi *xspi = spi_controller_get_devdata(ctlr);
-         |                        ^~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/softlockup.h:17,
+                    from drivers/android/vendor_hooks.c:53:
+>> include/trace/stages/init.h:2:23: warning: 'str__softlockup__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/bug.h:16,
+                    from drivers/android/vendor_hooks.c:52:
+   include/trace/stages/init.h:2:23: warning: 'str__bug__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/hung_task.h:23,
+                    from drivers/android/vendor_hooks.c:51:
+   include/trace/stages/init.h:2:23: warning: 'str__hung_task__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/topology.h:29,
+                    from drivers/android/vendor_hooks.c:50:
+   include/trace/stages/init.h:2:23: warning: 'str__topology__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/timer.h:18,
+                    from drivers/android/vendor_hooks.c:49:
+   include/trace/stages/init.h:2:23: warning: 'str__timer__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/gic_v3.h:29,
+                    from drivers/android/vendor_hooks.c:48:
+   include/trace/stages/init.h:2:23: warning: 'str__gic_v3__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
 
 
-vim +/xspi +865 drivers/spi/spi-axiado.c
+vim +/str__softlockup__trace_system_name +2 include/trace/stages/init.h
 
-e75a6b00ad7962a Vladimir Moravcevic 2026-01-07  853  
-e75a6b00ad7962a Vladimir Moravcevic 2026-01-07  854  /**
-e75a6b00ad7962a Vladimir Moravcevic 2026-01-07  855   * ax_spi_remove - Remove method for the SPI driver
-e75a6b00ad7962a Vladimir Moravcevic 2026-01-07  856   * @pdev:	Pointer to the platform_device structure
-e75a6b00ad7962a Vladimir Moravcevic 2026-01-07  857   *
-e75a6b00ad7962a Vladimir Moravcevic 2026-01-07  858   * This function is called if a device is physically removed from the system or
-e75a6b00ad7962a Vladimir Moravcevic 2026-01-07  859   * if the driver module is being unloaded. It frees all resources allocated to
-e75a6b00ad7962a Vladimir Moravcevic 2026-01-07  860   * the device.
-e75a6b00ad7962a Vladimir Moravcevic 2026-01-07  861   */
-e75a6b00ad7962a Vladimir Moravcevic 2026-01-07  862  static void ax_spi_remove(struct platform_device *pdev)
-e75a6b00ad7962a Vladimir Moravcevic 2026-01-07  863  {
-e75a6b00ad7962a Vladimir Moravcevic 2026-01-07  864  	struct spi_controller *ctlr = platform_get_drvdata(pdev);
-e75a6b00ad7962a Vladimir Moravcevic 2026-01-07 @865  	struct ax_spi *xspi = spi_controller_get_devdata(ctlr);
-e75a6b00ad7962a Vladimir Moravcevic 2026-01-07  866  
-e75a6b00ad7962a Vladimir Moravcevic 2026-01-07  867  	spi_unregister_controller(ctlr);
-e75a6b00ad7962a Vladimir Moravcevic 2026-01-07  868  
-e75a6b00ad7962a Vladimir Moravcevic 2026-01-07  869  	pm_runtime_set_suspended(&pdev->dev);
-e75a6b00ad7962a Vladimir Moravcevic 2026-01-07  870  	pm_runtime_disable(&pdev->dev);
-e75a6b00ad7962a Vladimir Moravcevic 2026-01-07  871  
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
+
+:::::: The code at line 2 was first introduced by commit
+:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
+
+:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
