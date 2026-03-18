@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0840C1917FB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Mar 2026 10:20:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB6137E30B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Mar 2026 10:41:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773829253; cv=none; b=epiw5/TTserEqJqjEqdry+TFt8mNMeYes0bMCFYwAS8NwWbIM3cry/WFNBbRBY+E0Ovf+m+WbXeFVR97PS7V7uqFYPYBm9pMM1kl1BqGIGwQxpTToPbo1Ul01a+epm8ZRASmN+uOTKOXj7q1YWMcgKjNTApN9989QphCuBDYj8U=
+	t=1773830514; cv=none; b=nNwf9+WIxvx+7fs/Yxs7LHgQqfWMBQ/zK0Hyw25uDRtCXO8A9boSj3WxPZnnPEE8Qh88ngk/+d1JPgzC/H6IfES1mZY6psvtJTRjeNPoPiRYhM6HhH7Oo5xt5CSPPKSU0un2VI6lTKFh459Q3LgQQQPokVTgtgpC+6O/M2TmxgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773829253; c=relaxed/simple;
-	bh=h9t6DLQ8Gx5JyTDKW7R9479dzcpEfROs33l5r0QQdX0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=trBGYzvrfr4dO6w+8tUsAizYfNUYa4peohCYgTNZrz7GYq5ABcGceDD22UjcCeqsWgzgHyiN4ft6jWPiuzuCg1uWquuPcm2yvAYwQ9+OKYm7KKttXQuvmw5ViwI6ybS7JbpnTuIqECuq62DHDF3Ha2Rn1AJKu29WFhcVSKvKCZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k04eeBTm; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1773830514; c=relaxed/simple;
+	bh=lMoqlw8DF1Nr7q9i7W/PsrQdYqq94yulJl2wVQyISA4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=pOzDyM5v4lwG5Au2RDxlmoVGbFZsuHhm363RmSVphqGIADP78xCAV9i8vJaX/72rSlBsnbP+gJpYcZXuegrAUSNpZuBinBZaOKcAk/m61HnUO0I7c025YWUKVyOutX9XJvagJkRTOQb7aZJuqLuTgH/fx8RwR7GIwiHNyhqpB74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kk/rTOGW; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k04eeBTm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kk/rTOGW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773829251; x=1805365251;
+  t=1773830512; x=1805366512;
   h=date:from:to:cc:subject:message-id;
-  bh=h9t6DLQ8Gx5JyTDKW7R9479dzcpEfROs33l5r0QQdX0=;
-  b=k04eeBTmlncqIhnTbMoAnwrGyH2L4A53jssiHKJFd7LE02XlLZsDdVcm
-   IhraLfh5RvoqQ5ZBgVOd1e4eRY8EsJeSaFzfrSXJ4PoCO6kGD8mbvxyAr
-   3VsmaI0P77dGkJm6xMv46OGUfg1hptpDGo7k+Zjj/Dpn6gTr1DRl2QULX
-   4a7gXiIlRafeQFBanoiYmu8qXIRvMJsm5S3m1QZ38C45hsERhgYP1PSqM
-   LHYAifp2oQuvmoFrdLnHQKkC+oigciqWfqnUFc7uvNToSXi1T2QwfYOdE
-   uqb2niVI+GYZb+XRo6yj204VE1ZQjm/AHEOUbKVzr6l/MIZwBigObpVBf
+  bh=lMoqlw8DF1Nr7q9i7W/PsrQdYqq94yulJl2wVQyISA4=;
+  b=Kk/rTOGWBYbRbUM+VXa7Skm5w67FD9mYPtEI0mI3ePFfB5YRf4ir8p3A
+   A7OY5meMqgSVZ68iVNcICb2/inHQwKgIzvEAYJ9FXj3ipSI1PYpfDYzqL
+   oRfkpRE0SuBdUWt67WbUiTm6j8/h6Or4ZqXJGB4ue3L4wGwc85Q/oKb4y
+   bZL5GHT29x0RwUFXEM2ng3zFv8xpe0MEKIuAiSHtEy4a/JFZw1fCGGKHm
+   JQyxUx3Z4H88rfn3AYBGcO11fpM34qzJDVW+2ExOvxplkqhv8xHOKlwQp
+   RcdUQExSqGlJbG7WD8b6arAs4mSLNZb/jtRTExaTqSmwHwPce1G5JTuKl
    g==;
-X-CSE-ConnectionGUID: YA6XKBcvR1C0HiF4pLRcrg==
-X-CSE-MsgGUID: 1HcCA7CzQ8yy/lnVIXvbtA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="74578930"
+X-CSE-ConnectionGUID: eSJ/NZg2Q5qy9w2tdZh8Wg==
+X-CSE-MsgGUID: R5ph9bz0Q4OjZyB2iZ1KyQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="75000380"
 X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
-   d="scan'208";a="74578930"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 03:20:51 -0700
-X-CSE-ConnectionGUID: 8ziTjBMRSouM4i/IMdiImw==
-X-CSE-MsgGUID: 1p2WBOmoRQ226GW6WulFAw==
+   d="scan'208";a="75000380"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 03:41:51 -0700
+X-CSE-ConnectionGUID: +SIJVVUTRD+beqy2j9EUHg==
+X-CSE-MsgGUID: Bu/N4OzTQPKc7F5bEOp+3Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
-   d="scan'208";a="221817007"
+   d="scan'208";a="227272898"
 Received: from lkp-server01.sh.intel.com (HELO 63737dd503cb) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 18 Mar 2026 03:20:49 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 18 Mar 2026 03:41:50 -0700
 Received: from kbuild by 63737dd503cb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w2o18-000000002nl-0w8W;
-	Wed, 18 Mar 2026 10:20:46 +0000
-Date: Wed, 18 Mar 2026 18:20:36 +0800
+	id 1w2oLS-000000002oj-3gNM;
+	Wed, 18 Mar 2026 10:41:46 +0000
+Date: Wed, 18 Mar 2026 18:41:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>
+To: Mark Brown <broonie@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bvanassche:thread-safety 88/95] include/linux/mm.h:3577:38:
- error: implicit declaration of function 'pmd_none'; did you mean 'p4d_none'?
-Message-ID: <202603181834.KjOHRXtJ-lkp@intel.com>
+Subject: [broonie-misc:asoc-7.1 10/10] ERROR: modpost:
+ "wm_adsp_hibernate" [sound/soc/codecs/snd-soc-cs35l45.ko] undefined!
+Message-ID: <202603181810.1605kET4-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,56 +59,35 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/bvanassche/linux thread-safety
-head:   01c25d61d382657141c2c31e1363a4daf850670a
-commit: 6e531aff60e8712ce19732d51778d03784f9682a [88/95] treewide: Add lock context annotations in all include files
-config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20260318/202603181834.KjOHRXtJ-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260318/202603181834.KjOHRXtJ-lkp@intel.com/reproduce)
+Hi Mark,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/misc.git asoc-7.1
+head:   4ebaf9d999327ce8e2ea5847ac96fe53fde3fe9a
+commit: 00da2edc646c851114c78affdc3e34a089136d8a [10/10] ASoC: wm_adsp: Some improvements to firmware file
+config: mips-randconfig-r054-20260318 (https://download.01.org/0day-ci/archive/20260318/202603181810.1605kET4-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 4abb927bacf37f18f6359a41639a6d1b3bffffb5)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260318/202603181810.1605kET4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603181834.KjOHRXtJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603181810.1605kET4-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from include/linux/jump_label.h:77,
-                    from include/linux/once.h:6,
-                    from include/linux/prandom.h:12,
-                    from kernel/sched/sched.h:8,
-                    from kernel/sched/rq-offsets.c:5:
-   include/linux/mm.h: In function 'pte_alloc_map_lock':
->> include/linux/mm.h:3577:38: error: implicit declaration of function 'pmd_none'; did you mean 'p4d_none'? [-Wimplicit-function-declaration]
-    3577 | #define pte_alloc(mm, pmd) (unlikely(pmd_none(*(pmd))) && __pte_alloc(mm, pmd))
-         |                                      ^~~~~~~~
-   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   include/linux/mm.h:3586:16: note: in expansion of macro 'pte_alloc'
-    3586 |         return pte_alloc(mm, pmd) ? NULL :
-         |                ^~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:184: kernel/sched/rq-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1333: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
-
-
-vim +3577 include/linux/mm.h
-
-c74df32c724a165 Hugh Dickins            2005-10-29  3576  
-4cf58924951ef80 Joel Fernandes (Google  2019-01-03 @3577) #define pte_alloc(mm, pmd) (unlikely(pmd_none(*(pmd))) && __pte_alloc(mm, pmd))
-3ed3a4f0ddffece Kiryl Shutsemau         2016-03-17  3578  
-
-:::::: The code at line 3577 was first introduced by commit
-:::::: 4cf58924951ef80eec636b863e7a53973c44261a mm: treewide: remove unused address argument from pte_alloc functions
-
-:::::: TO: Joel Fernandes (Google) <joel@joelfernandes.org>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+ERROR: modpost: "wm_halo_init" [sound/soc/codecs/snd-soc-cs35l45.ko] undefined!
+ERROR: modpost: "wm_adsp2_remove" [sound/soc/codecs/snd-soc-cs35l45.ko] undefined!
+>> ERROR: modpost: "wm_adsp_hibernate" [sound/soc/codecs/snd-soc-cs35l45.ko] undefined!
+ERROR: modpost: "wm_adsp2_component_probe" [sound/soc/codecs/snd-soc-cs35l45.ko] undefined!
+ERROR: modpost: "wm_adsp2_component_remove" [sound/soc/codecs/snd-soc-cs35l45.ko] undefined!
+ERROR: modpost: "wm_adsp_event" [sound/soc/codecs/snd-soc-cs35l45.ko] undefined!
+ERROR: modpost: "wm_adsp_early_event" [sound/soc/codecs/snd-soc-cs35l45.ko] undefined!
+ERROR: modpost: "wm_adsp2_preloader_get" [sound/soc/codecs/snd-soc-cs35l45.ko] undefined!
+ERROR: modpost: "wm_adsp2_preloader_put" [sound/soc/codecs/snd-soc-cs35l45.ko] undefined!
+ERROR: modpost: "wm_adsp_fw_get" [sound/soc/codecs/snd-soc-cs35l45.ko] undefined!
+WARNING: modpost: suppressed 10 unresolved symbol warnings because there were too many)
 
 -- 
 0-DAY CI Kernel Test Service
