@@ -1,203 +1,132 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C173CB2C9;
-	Wed, 18 Mar 2026 19:35:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E89D33D4E1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Mar 2026 20:05:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773862542; cv=none; b=QG0mX8/unsWlNh8SLZaLKYZsYLfyKndl17Yo3EQ3ZCYofjjBL8lg4bD9/OLSYUS0THRPeqnDjKUciemO6H8lFPW79Eu/loUjXLslS7TYW2WfEyDsnClX7ncVMFwhSW3k3B6uXxAZn4BtYzgNKn67SEFaeFUuBPi8m6YALSpOfPI=
+	t=1773864315; cv=none; b=R4oj3hzvOw8FBL66kXCrG/vXWPdFwjHSVF7qpaFhrMKTDF+FeO5xayJuI2e+xg/sIJlMpQAc10tK8hSw0Ccpd2Ob3ojXquRv/I8uXGlElKnvfzmpxjX/WKEgItt7zxI8EXtzVG7cI9DdkGGn2hA+MYTx/ex2rFVwdBxd92TzdLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773862542; c=relaxed/simple;
-	bh=afMn9spXkrUU+N2aaHeBIllMcoSBOQY+2Duh84Hc3Lg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hzc1na6+bZQ1A6I2kZ32ShkXRWNjQoML0QSvJbkTNFYkfYJeIUm3/U8jFg9EzIz4DLd1rCeej7N5G6fTvK6rTGbWx4iR88h0M3P1k3cTKferD0G2BkcaR625qVj3H57e5gjGaV9UkYvCjsCUstJA38O8WCBl796kM1jEeLJ9pqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rdh4GvnX; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1773864315; c=relaxed/simple;
+	bh=TK+CF180/rcJiXjG57YuvvzldnMxAJj/EQ8N1EcIGMQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=H9lUyOf7ZjcyWvHZBs6PpV8SLDWvpRF5TZXzrKae35GBde8/9r0+5bunMmoEMazYDAjyPm4NKGPI1RxD0ph7b9+zkqdPxlXplotSC7pmA6xWg/AVh+kGO7zaTOXUhSRhcFCNW9TgMFHFGrHgJby9Krzb8f2ZQusVCl+daR5aP1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dJ+xVC7l; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rdh4GvnX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dJ+xVC7l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773862541; x=1805398541;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=afMn9spXkrUU+N2aaHeBIllMcoSBOQY+2Duh84Hc3Lg=;
-  b=Rdh4GvnX9Ff4NUHJSCYwr1UsRe+N3N6eBHbpX0ufHZvMPUKUX6PD/KtD
-   vynCArtwk0lu3shIE2qend6v74C+LY/a6qXhdPbHWUlN0ew+SPyJ3B9Mu
-   wu89CqmeU47v+6Jhru9wwXs/K0izJGbIuWlz3T/EGc/6AwzgLppz4x8ol
-   /m5px4SVt/Csn3M2aB+uM75cJMHqQhb9t+rM/3svN7DGLA/HM5AZk/o/J
-   t3DWNc733cKfgbURqRH51s8IOLx56EF2KkHtzuyCHjQGe5jHpx5axl7YD
-   n8uL7WP310Prjt/jw6LCd/7GWXS3sCZJ0e05QMGK5Vc+sxPKhvbefet7c
-   w==;
-X-CSE-ConnectionGUID: DL+0+GNIRfeaqdITxRxCyg==
-X-CSE-MsgGUID: S3YgkQtnTeCQBqguo+nzzQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="77536521"
-X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
-   d="scan'208";a="77536521"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 12:35:40 -0700
-X-CSE-ConnectionGUID: 1xULVR8AQM6h5v2lbnkBFg==
-X-CSE-MsgGUID: 874DppwrThu+VoC6XgAptw==
+  t=1773864314; x=1805400314;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=TK+CF180/rcJiXjG57YuvvzldnMxAJj/EQ8N1EcIGMQ=;
+  b=dJ+xVC7lPgsHK+6/Du3hfgmm2+BvS4kDpHR8VHyjdBr3k++DxmqTM9WG
+   RjMMe9TP4sEj8E2M06DwSzf2eYjcZOMRmgzzUP4fMpUsfxS2JV+p3oKNP
+   Tt22ITKQICjjmK+aXuckRhnqa3eZwA1WVSaSaDQex390JO9Xe1b4WDOnH
+   T5siirvPnCN3kq+awuLX3Z5tx8Nql8rtOgfzx/yUxqNRE8c6PCQ4A3+vj
+   qm78PW2V1rZWwjIhfzFO3HDtZ9RhaY+jcqzRvosLY8DpUDBH+R6MBeEI4
+   5sRPokFytOAhytHdpOmByVfMJF0CnvUZFZXw9fkm8stE0edPuGt+IUcKW
+   A==;
+X-CSE-ConnectionGUID: wi0snKS3ToScupnsMrJFyA==
+X-CSE-MsgGUID: I3e3NkiHQn6sAPmjqrlqgg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="100388763"
+X-IronPort-AV: E=Sophos;i="6.23,128,1770624000"; 
+   d="scan'208";a="100388763"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 13:05:14 -0700
+X-CSE-ConnectionGUID: 54lze1hmQ46cK9hHEVx+vw==
+X-CSE-MsgGUID: umDJ4+m3Td+IIJi3iO/6lg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
-   d="scan'208";a="222698701"
-Received: from lkp-server01.sh.intel.com (HELO 63737dd503cb) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 18 Mar 2026 12:35:35 -0700
-Received: from kbuild by 63737dd503cb with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.23,128,1770624000"; 
+   d="scan'208";a="218270434"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 18 Mar 2026 13:05:13 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w2wg0-000000003J7-24Hx;
-	Wed, 18 Mar 2026 19:35:32 +0000
-Date: Thu, 19 Mar 2026 03:35:13 +0800
+	id 1w2x8g-000000004if-3T7w;
+	Wed, 18 Mar 2026 20:05:10 +0000
+Date: Wed, 18 Mar 2026 21:05:08 +0100
 From: kernel test robot <lkp@intel.com>
-To: Mallesh Koujalagi <mallesh.koujalagi@intel.com>,
-	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	rodrigo.vivi@intel.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	andrealmeid@igalia.com, christian.koenig@amd.com, airlied@gmail.com,
-	simona.vetter@ffwll.ch, mripard@kernel.org,
-	anshuman.gupta@intel.com, badal.nilawar@intel.com,
-	riana.tauro@intel.com, karthik.poosa@intel.com,
-	sk.anirban@intel.com, raag.jadav@intel.com,
-	Mallesh Koujalagi <mallesh.koujalagi@intel.com>
-Subject: Re: [PATCH v2 1/5] Introduce Xe Uncorrectable Error Handling
-Message-ID: <202603190311.jqPlioXj-lkp@intel.com>
-References: <20260318064016.374656-8-mallesh.koujalagi@intel.com>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/auxclock-nanosleep 30/39]
+ kernel/time/timer_list.c:105:20: warning: cast from pointer to integer of
+ different size
+Message-ID: <202603182126.wDgMSsyL-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260318064016.374656-8-mallesh.koujalagi@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Mallesh,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/l=
+inux.git b4/auxclock-nanosleep
+head:   0b217bafd1a2c635903a7062a0a2d6411c4ade76
+commit: 7bbf09aff0b4b0e64f9cb3bd1263d7bdb57a20ce [30/39] offset pointer
+config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260=
+318/202603182126.wDgMSsyL-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260318/202603182126.wDgMSsyL-lkp@intel.com/reproduce)
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-xe/drm-xe-next]
-[also build test WARNING on drm-misc/drm-misc-next drm/drm-next next-20260318]
-[cannot apply to linus/master v7.0-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mallesh-Koujalagi/Introduce-Xe-Uncorrectable-Error-Handling/20260318-153303
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20260318064016.374656-8-mallesh.koujalagi%40intel.com
-patch subject: [PATCH v2 1/5] Introduce Xe Uncorrectable Error Handling
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260319/202603190311.jqPlioXj-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260319/202603190311.jqPlioXj-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603190311.jqPlioXj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603182126.wDgMSsyL-lkp@i=
+ntel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/xe/xe_ras.c:241:4: warning: variable 'action' is used uninitialized whenever switch default is taken [-Wsometimes-uninitialized]
-     241 |                         default:
-         |                         ^~~~~~~
-   drivers/gpu/drm/xe/xe_ras.c:250:8: note: uninitialized use occurs here
-     250 |                         if (action > final_action)
-         |                             ^~~~~~
-   drivers/gpu/drm/xe/xe_ras.c:227:4: note: variable 'action' is declared here
-     227 |                         enum xe_ras_recovery_action action;
-         |                         ^
-   1 warning generated.
+   kernel/time/timer_list.c: In function 'print_base':
+>> kernel/time/timer_list.c:105:20: warning: cast from pointer to integer o=
+f different size [-Wpointer-to-int-cast]
+     105 |                    (long long) base->offset);
+         |                    ^
 
 
-vim +/action +241 drivers/gpu/drm/xe/xe_ras.c
+vim +105 kernel/time/timer_list.c
 
-   177	
-   178	/**
-   179	 * xe_ras_process_errors - Process and contain hardware errors
-   180	 * @xe: xe device instance
-   181	 *
-   182	 * Get error details from system controller and return recovery
-   183	 * method. Called only from PCI error handling.
-   184	 *
-   185	 * Returns: recovery action to be taken
-   186	 */
-   187	enum xe_ras_recovery_action xe_ras_process_errors(struct xe_device *xe)
-   188	{
-   189		struct xe_sysctrl_mailbox_command command = {0};
-   190		struct xe_ras_get_error_response response;
-   191		enum xe_ras_recovery_action final_action;
-   192		size_t rlen;
-   193		int ret;
-   194	
-   195		/* Default action */
-   196		final_action = XE_RAS_RECOVERY_ACTION_RECOVERED;
-   197	
-   198		if (!xe->info.has_sysctrl)
-   199			return XE_RAS_RECOVERY_ACTION_RESET;
-   200	
-   201		xe_ras_prepare_sysctrl_command(&command, XE_SYSCTRL_CMD_GET_SOC_ERROR, NULL, 0,
-   202					       &response, sizeof(response));
-   203	
-   204		do {
-   205			memset(&response, 0, sizeof(response));
-   206			rlen = 0;
-   207	
-   208			ret = xe_sysctrl_send_command(xe, &command, &rlen);
-   209			if (ret || !rlen) {
-   210				xe_err(xe, "[RAS]: Sysctrl error ret %d\n", ret);
-   211				goto err;
-   212			}
-   213	
-   214			if (rlen != sizeof(response)) {
-   215				xe_err(xe, "[RAS]: Sysctrl response does not match len!!\n");
-   216				goto err;
-   217			}
-   218	
-   219			if (response.num_errors > XE_RAS_NUM_ERROR_ARR) {
-   220				xe_err(xe, "[RAS]: Number of errors out of bound (%d)\n",
-   221				       XE_RAS_NUM_ERROR_ARR);
-   222				goto err;
-   223			}
-   224	
-   225			for (int i = 0; i < response.num_errors; i++) {
-   226				struct xe_ras_error_array arr = response.error_arr[i];
-   227				enum xe_ras_recovery_action action;
-   228				struct xe_ras_error_class error_class;
-   229				u8 component;
-   230	
-   231				error_class = arr.error_class;
-   232				component = error_class.common.component;
-   233	
-   234				switch (component) {
-   235				case XE_RAS_COMPONENT_CORE_COMPUTE:
-   236					action = handle_compute_errors(xe, &arr);
-   237					break;
-   238				case XE_RAS_COMPONENT_SOC_INTERNAL:
-   239					action = handle_soc_internal_errors(xe, &arr);
-   240					break;
- > 241				default:
-   242					xe_err(xe, "[RAS]: Unknown error component %u\n", component);
-   243					break;
-   244				}
-   245	
-   246				/*
-   247				 * Retain the highest severity action. Process and log all errors
-   248				 * and then take appropriate recovery action
-   249				 */
-   250				if (action > final_action)
-   251					final_action = action;
-   252			}
-   253	
-   254		} while (response.additional_errors);
-   255	
-   256		return final_action;
-   257	
-   258	err:
-   259		return XE_RAS_RECOVERY_ACTION_RESET;
-   260	}
-   261	
+289f480af87e45 Ingo Molnar                           2007-02-16   95 =20
+289f480af87e45 Ingo Molnar                           2007-02-16   96  stati=
+c void
+289f480af87e45 Ingo Molnar                           2007-02-16   97  print=
+_base(struct seq_file *m, struct hrtimer_clock_base *base, u64 now)
+289f480af87e45 Ingo Molnar                           2007-02-16   98  {
+a52067c24ccf6e Thomas Wei=C3=9Fschuh                      2025-03-11   99  =
+	SEQ_printf(m, "  .base:       %p\n", base);
+398ca17fb54b21 Thomas Gleixner                       2015-04-14  100  	SEQ_=
+printf(m, "  .index:      %d\n", base->index);
+398ca17fb54b21 Thomas Gleixner                       2015-04-14  101 =20
+7551b02b94ad1d Mars Cheng                            2017-02-09  102  	SEQ_=
+printf(m, "  .resolution: %u nsecs\n", hrtimer_resolution);
+289f480af87e45 Ingo Molnar                           2007-02-16  103  #ifde=
+f CONFIG_HIGH_RES_TIMERS
+bb2705b4e03605 Thomas Wei=C3=9Fschuh (Schneider Electric  2026-03-11  104) =
+	SEQ_printf(m, "  .offset:     %Ld nsecs\n",
+bb2705b4e03605 Thomas Wei=C3=9Fschuh (Schneider Electric  2026-03-11 @105) =
+		   (long long) base->offset);
+289f480af87e45 Ingo Molnar                           2007-02-16  106  #endif
+289f480af87e45 Ingo Molnar                           2007-02-16  107  	SEQ_=
+printf(m,   "active timers:\n");
+7bbf09aff0b4b0 Thomas Wei=C3=9Fschuh                      2026-03-16  108  =
+	print_active_timers(m, base, now + ktime_to_ns(*base->offset));
+289f480af87e45 Ingo Molnar                           2007-02-16  109  }
+289f480af87e45 Ingo Molnar                           2007-02-16  110 =20
 
--- 
+:::::: The code at line 105 was first introduced by commit
+:::::: bb2705b4e03605532b429525cc8d1e9a2afe3e00 timer_list: Print offset as=
+ signed integer
+
+:::::: TO: Thomas Wei=C3=9Fschuh (Schneider Electric) <thomas.weissschuh@li=
+nutronix.de>
+:::::: CC: Thomas Gleixner <tglx@kernel.org>
+
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
