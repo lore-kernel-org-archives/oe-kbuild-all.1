@@ -1,201 +1,145 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 927BD3D7D74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A2623D7D76
 	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Mar 2026 13:05:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773839115; cv=none; b=Nv9hvq6+ihZAElZV3feDGFV+4M8Ake/WlEF+iZt2WA0yHPSmnI8dCZNBZK+4w4i3L/sudjyuCRpA3pbpapFdQAjBVIC7xrRB8+u3d4oSu7mYJyjRzGq0EIrWoNprrqJkRmeX6L7jd2/zY7QjeGtYSJuiNmyM/Xw0x6ThWHFgAzU=
+	t=1773839115; cv=none; b=txnwshVy+XuzjSDvzVDlwmZmh0RynrAZQp505XG4i9V6wujdr/2H+/l/flQEkLNvFzMIVDwY883JCPIMBZIFwTNICpLmEwWW01re3H7zyYbcvrD6BYYxPx+HYms75YgoKIClMBFZ0ouyMyjKbvWgP0WLsaaSr7tf1VLCxUxgio0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1773839115; c=relaxed/simple;
-	bh=RttZkaq+JGXCZyKMsgO79qnuM52zx08FsF40ed2p/K8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=N9rNWnJP/FPiYvHHQa7gMAvmX29Wpxl3CXKikpyEbVANOGDMOkZZOZZZYU1d4REKvTwZiRwLTt6trzRDzMYYTduLOhhtOj8JquXq3KIwTXHBpy1ZlMj0Vp1DBZAeFR9h8r6xlNg5zAxFfAY8RrYYOVOmRfSP9DXXvG+Tt0vROYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GeGWbePc; arc=none smtp.client-ip=192.198.163.11
+	bh=XMvnWCmnbT32GB5J+aiF5VT++RUQAquxivEn94Uc44c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kgihKMmOP5m7t5Mg0AZ7ozuTPKxTOX8CpnhcHJGP9ARsVUni32h49j67rJMoBk+WWK7rE5duvFKqHV8FONXznStvMaFzPHDH9x3HTEnPmFZi4PMEb2enKY0zZm/obHjpLS86W5HhU6PV79TUp7T8ZBZyoqI0qfFIH+HZWDne6Ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dZsXjouO; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GeGWbePc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dZsXjouO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773839111; x=1805375111;
-  h=date:from:to:cc:subject:message-id;
-  bh=RttZkaq+JGXCZyKMsgO79qnuM52zx08FsF40ed2p/K8=;
-  b=GeGWbePcAOhMfVR0Qq6r0huCRLN1Q/AAj3U9cm6Nhwo+nn0E3YVumvm2
-   AKn3mIQtsGLV7In7YqqCds0bgGqp34ABivsEMXhxn6fmHLmE+TkGKWMIi
-   9I+UtGREGh+7U9hbY7yYLlBJvAK4WG887G44GnVmTDmITQs7rurvboDw0
-   re7FPizOTnZ6lUasco1aPLS2hS9G05UG5E3QEs29EJRLIudpfpSXer1Dj
-   ZS9hFHXHSdG1uoTUkDeAQ5yp3Q2NHUC6/vkY+mENwsQlnQXoMSrw9YbFp
-   R1sOD9RfRxB22uydsFztf+W8IKT2k9yY6yOao37GW0mEoC2oUvJYsJpyJ
-   g==;
-X-CSE-ConnectionGUID: bc02Ydo9RLinRXvU/PMBYg==
-X-CSE-MsgGUID: 3J80RcMLQ26jEVmvIGc7sQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="85521077"
+  t=1773839112; x=1805375112;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=XMvnWCmnbT32GB5J+aiF5VT++RUQAquxivEn94Uc44c=;
+  b=dZsXjouOyqQa36A4rM5HFVFP8Z2r51AV0EQ0gB6BfiQpqBDwLP8Vxunf
+   /X/nYid4B7qIGCVaMG/YSqG9hgPvwrPqtVUiAfWTShgWHu+FgrH9Y40Um
+   7nmrVrX0KNmVPjn2NQPUv3kP69uNRHJXjJ8EGdtWP0LBtgYruM3WuZlwF
+   SXezCBrbpE6XUzFTSJqXcxNGMLEgRmYuFex71MGuG65BAeiDmIlh7LpGG
+   BQPUhpdydoTYA46chvWfhjdVbWnKALRHWiy8XDw+77uwroBLxXzlQoKZD
+   D1FBArveWeDy6mqxfmA8rxHanyngwb4X9i0GmITwUIkeP5P2WtIy47BoQ
+   w==;
+X-CSE-ConnectionGUID: eadB8B5ORiy8zRXy6NXa8A==
+X-CSE-MsgGUID: TQ5Pr4KYTAisfmQhLhcAGA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="85521080"
 X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
-   d="scan'208";a="85521077"
+   d="scan'208";a="85521080"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
   by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 06:05:02 -0700
-X-CSE-ConnectionGUID: vnspM/QRShiN+wIlin6qBQ==
-X-CSE-MsgGUID: fewW0+2ET9iWD5MwNmYBDA==
+X-CSE-ConnectionGUID: UxWjOm3VSleVi7j7C6wILQ==
+X-CSE-MsgGUID: SEUTnkivQgal9ulVhY6sBQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
-   d="scan'208";a="222833515"
+   d="scan'208";a="222833520"
 Received: from lkp-server01.sh.intel.com (HELO 63737dd503cb) ([10.239.97.150])
   by orviesa007.jf.intel.com with ESMTP; 18 Mar 2026 06:04:59 -0700
 Received: from kbuild by 63737dd503cb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w2qa0-000000002vt-2zey;
+	id 1w2qa0-000000002vr-2pO1;
 	Wed, 18 Mar 2026 13:04:56 +0000
-Date: Wed, 18 Mar 2026 21:04:28 +0800
+Date: Wed, 18 Mar 2026 21:04:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 1/1]
- include/trace/stages/init.h:2:23: warning: 'str__fsnotify__trace_system_name'
- defined but not used
-Message-ID: <202603182037.ZcgHeXE0-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: =?iso-8859-1?Q?Adri=E1n_Garc=EDa?= Casado <adriangarciacasado42@gmail.com>,
+	Miri Korenblit <miriam.rachel.korenblit@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+	=?iso-8859-1?Q?Adri=E1n_Garc=EDa?= Casado <adriangarciacasado42@gmail.com>
+Subject: Re: [PATCH v4] wifi: iwlwifi: pcie: optimize MSI-X interrupt affinity
+Message-ID: <202603182147.ECKLrJRf-lkp@intel.com>
+References: <20260317193252.13763-1-adriangarciacasado42@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260317193252.13763-1-adriangarciacasado42@gmail.com>
 
-Hi huzhanyuan,
+Hi Adrián,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   9129a20e2343292daee253ef8f31e94b42fac726
-commit: ffb163667cc327ae3061d6fbd3c12af315480111 [1/1] ANDROID: vendor_hooks: Add hook for fsnotify
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260318/202603182037.ZcgHeXE0-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260318/202603182037.ZcgHeXE0-lkp@intel.com/reproduce)
+[auto build test WARNING on wireless-next/main]
+[also build test WARNING on wireless/main rust/rust-next linus/master v7.0-rc4 next-20260317]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Adri-n-Garc-a-Casado/wifi-iwlwifi-pcie-optimize-MSI-X-interrupt-affinity/20260318-081834
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20260317193252.13763-1-adriangarciacasado42%40gmail.com
+patch subject: [PATCH v4] wifi: iwlwifi: pcie: optimize MSI-X interrupt affinity
+config: x86_64-rhel-9.4-kunit (https://download.01.org/0day-ci/archive/20260318/202603182147.ECKLrJRf-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260318/202603182147.ECKLrJRf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603182037.ZcgHeXE0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603182147.ECKLrJRf-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/fsnotify.h:22,
-                    from drivers/android/vendor_hooks.c:77:
->> include/trace/stages/init.h:2:23: warning: 'str__fsnotify__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/suspend.h:26,
-                    from drivers/android/vendor_hooks.c:76:
-   include/trace/stages/init.h:2:23: warning: 'str__suspend__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/blk.h:39,
-                    from drivers/android/vendor_hooks.c:75:
-   include/trace/stages/init.h:2:23: warning: 'str__blk__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/psi.h:29,
-                    from drivers/android/vendor_hooks.c:74:
-   include/trace/stages/init.h:2:23: warning: 'str__psi__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/fuse.h:24,
-                    from drivers/android/vendor_hooks.c:73:
-   include/trace/stages/init.h:2:23: warning: 'str__fuse__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/user.h:21,
-                    from drivers/android/vendor_hooks.c:72:
-   include/trace/stages/init.h:2:23: warning: 'str__user__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
+   drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/trans.c: In function 'iwl_pcie_irq_set_affinity':
+>> drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/trans.c:1675:37: warning: unused variable 'offset' [-Wunused-variable]
+    1675 |         int iter_rx_q, i, ret, cpu, offset, last_cpu;
+         |                                     ^~~~~~
 
 
-vim +/str__fsnotify__trace_system_name +2 include/trace/stages/init.h
+vim +/offset +1675 drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/trans.c
 
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
-
-:::::: The code at line 2 was first introduced by commit
-:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
-
-:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+  1670	
+  1671	static void iwl_pcie_irq_set_affinity(struct iwl_trans *trans,
+  1672					      struct iwl_trans_info *info)
+  1673	{
+  1674	#if defined(CONFIG_SMP)
+> 1675		int iter_rx_q, i, ret, cpu, offset, last_cpu;
+  1676		struct iwl_trans_pcie *trans_pcie = IWL_TRANS_GET_PCIE_TRANS(trans);
+  1677	
+  1678		i = trans_pcie->shared_vec_mask & IWL_SHARED_IRQ_FIRST_RSS ? 0 : 1;
+  1679		iter_rx_q = info->num_rxqs - 1 + i;
+  1680		last_cpu = -1;
+  1681		for (; i < iter_rx_q ; i++) {
+  1682			/*
+  1683			 * Balanced distribution: skip CPU0 for high-rate RSS queues
+  1684			 * to avoid contention with system housekeeping.
+  1685			 */
+  1686			cpu = cpumask_next(last_cpu, cpu_online_mask);
+  1687			if (cpu >= nr_cpu_ids)
+  1688				cpu = cpumask_first(cpu_online_mask);
+  1689	
+  1690			if (cpu == 0 && num_online_cpus() > 1) {
+  1691				cpu = cpumask_next(0, cpu_online_mask);
+  1692				if (cpu >= nr_cpu_ids)
+  1693					cpu = cpumask_first(cpu_online_mask);
+  1694			}
+  1695			last_cpu = cpu;
+  1696	
+  1697			cpumask_set_cpu(cpu, &trans_pcie->affinity_mask[i]);
+  1698			ret = irq_set_affinity_hint(trans_pcie->msix_entries[i].vector,
+  1699						    &trans_pcie->affinity_mask[i]);
+  1700			if (ret)
+  1701				IWL_ERR(trans_pcie->trans,
+  1702					"Failed to set affinity mask for IRQ %d\n",
+  1703					trans_pcie->msix_entries[i].vector);
+  1704		}
+  1705	#endif
+  1706	}
+  1707	
 
 -- 
 0-DAY CI Kernel Test Service
