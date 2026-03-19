@@ -1,67 +1,72 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5FCC3BED32
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Mar 2026 23:55:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51BF8347FD7;
+	Thu, 19 Mar 2026 23:55:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773964509; cv=none; b=iRoUeDA3UWQfG3GwPi6AFmDxhxjYz7HXRy9rLBNw5ifb5ITX14zYyxa59LHhdhUxOjRGP+CUw1KFD8z+MCqWvMLj4mQG7zfOQ3poH+nKFeZ+uDXCWppa/uMo8Ii2HJK16UeqCmQ9QnLR65uTZ3qLwH0C/cqeQ4Di08YhY99Ymgc=
+	t=1773964510; cv=none; b=TLetHoj01RmwXK5uJs9e5ixdWIG6bSaPRyqMM5xB4P5VHK10++qG+1SQ13WC1ANlP46JoPLIo/YMSkGUbG0fvEbdDOLoCU62lSnHIDA5LEwM1bFFtiZ/wq7x063zdglJsCrQkI4GhqD6I0gXCTA0fdt64UWr9tU6kfYWitFFv18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773964509; c=relaxed/simple;
-	bh=r/SbXPFP/ykN1nLBK9p10AiU3ezsLWp1iV0fpBfCrpY=;
+	s=arc-20240116; t=1773964510; c=relaxed/simple;
+	bh=rfnWg8dzig0kPp2J7aT0TNOUIX/ZW/F/iLBP2iW4MKc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ID+5GNGHoVwzm25duIMK8a3oBlcqrumqzaCRkMtYPNKaMg2gqgFpUhKdUWm0WuU5Ac3+GrdvMNUxV/3DqKaEQczILgc1AM9BiKpcWHiqrigMhU2vJaQFHKrVQldxbJQsj3+bYMRL8xXTqqb4wHDTwYs81t9ptdwjLTG/MVSnO1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n69+U6i/; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=CQBZHs8JkASEe5J0hu2aj9xRm5Jp8SnYcgN0Ib2aPQEqfYMsgh5LCS4bKfZ5CUFm1gjya3kNoegY+f1dXWQhiTl5KDUHGPfEbQTcRm2PKBK7FZLi8RMAE5oElzkcx0Twc/j+6XA2zEShHKMt3OGAxuf0Bi6lvSGkcFRh0UQIcEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kQt6/ecH; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n69+U6i/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kQt6/ecH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773964508; x=1805500508;
+  t=1773964509; x=1805500509;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=r/SbXPFP/ykN1nLBK9p10AiU3ezsLWp1iV0fpBfCrpY=;
-  b=n69+U6i/JBZbtXa4Y6skrdojBl3YWL+FNVW3UxJ2UisdK+SjGa/mGLV+
-   JHt7O1CVk/Sbtn0OKZE1yqXoEi/6+siICmtGHAmPAJ3QAR88YbmDKIWiS
-   TD+82omWfvaAbT0fzkT4eSJjD3DcLHfivdg1h4TB9Qtr96sQTQSdbXkLA
-   Qjoy94ubzC+AU5E8u2GQr9128zYrDl+La9Ivj1lGNKvwunq4XmQ0ouCeB
-   Z96jc9s5qbgwEj3qXXo4T1Fc3HaAfLnOBBqk32GR3Cb+Q33NnCgRqvxgk
-   Jwhuc+OWTK4efWRRCzpxBpx9LEo1n+8NhxVz3Cz/7utP6CbpBMV0C0kdS
-   g==;
-X-CSE-ConnectionGUID: txN8iHHgSYe+ghch31rqQw==
-X-CSE-MsgGUID: 06zzLsqeScKJU/gLLQSywQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="62612633"
+  bh=rfnWg8dzig0kPp2J7aT0TNOUIX/ZW/F/iLBP2iW4MKc=;
+  b=kQt6/ecHeYjvRtYW7YZ5gWnxccxWigyjeMCbC+Sr3IK1KL/LnD6y7wD3
+   WOlloSJr4veU0F2LhNcmywKq0XjLxi276Z2p6Y5TgptxxFeJtx7EB+yF2
+   4Igi3jJ77WSPwXuOlcn+ApTTmRpjI9AiNtvXk0H4zg/+6II3mjbXdqP74
+   ax0SFYA/7dgRkD4XH1FAcxISBZWPRbPrneT+T7Mfyhslt+cy619pJrs1y
+   m3UZQORIriyCEGNZchGRuUye+OMTAI0waR1A3S0Hg5obMimKhLGrVKpKX
+   9YTDH46tuzszXND6f1gTiZfyZwg1k9/Usa9QTPA28Wl7XOHyqML7Tun1C
+   A==;
+X-CSE-ConnectionGUID: +lfUkl1GQwG+hgGTDhvwZA==
+X-CSE-MsgGUID: tYbKLvzqSQSZEosUkXOBew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="62612639"
 X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="62612633"
+   d="scan'208";a="62612639"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 16:55:07 -0700
-X-CSE-ConnectionGUID: HphZLJquTpmTIN6wubYLGw==
-X-CSE-MsgGUID: 4aygXDj7Tv618DsIpcD7yA==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 16:55:08 -0700
+X-CSE-ConnectionGUID: GgdTcTliSWyMr7ZNBVsncA==
+X-CSE-MsgGUID: 7on148F1QvWrtQc5bixMsg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="261016791"
+   d="scan'208";a="261016757"
 Received: from lkp-server02.sh.intel.com (HELO a51c2a36b9df) ([10.239.97.151])
   by orviesa001.jf.intel.com with ESMTP; 19 Mar 2026 16:55:03 -0700
 Received: from kbuild by a51c2a36b9df with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w3NCe-000000001nJ-25Ey;
+	id 1w3NCe-000000001nL-2XpZ;
 	Thu, 19 Mar 2026 23:55:00 +0000
-Date: Fri, 20 Mar 2026 07:53:04 +0800
+Date: Fri, 20 Mar 2026 07:53:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: aspeedyh <yh_chung@aspeedtech.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Ryan Chen <ryan_chen@aspeedtech.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
-	maciej.lawniczak@intel.com, aspeedyh <yh_chung@aspeedtech.com>
-Subject: Re: [PATCH 5/7] soc: aspeed: Add eSPI flash channel support
-Message-ID: <202603200700.6fddOZHQ-lkp@intel.com>
-References: <20260313-upstream_espi-v1-5-9504428e1f43@aspeedtech.com>
+To: Anand Moon <linux.amoon@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Shawn Lin <shawn.lin@rock-chips.com>,
+	Hans Zhang <18255117159@163.com>, Niklas Cassel <cassel@kernel.org>,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, Anand Moon <linux.amoon@gmail.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Danilo Krummrich <dakr@kernel.org>
+Subject: Re: [PATCH next v1] r8169: Fix PHY lookup for mdiobus_get_phy() and
+ improve error reporting during probe
+Message-ID: <202603200758.vueafhDW-lkp@intel.com>
+References: <20260317061700.7734-1-linux.amoon@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,64 +75,129 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260313-upstream_espi-v1-5-9504428e1f43@aspeedtech.com>
+In-Reply-To: <20260317061700.7734-1-linux.amoon@gmail.com>
 
-Hi aspeedyh,
+Hi Anand,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 0257f64bdac7fdca30fa3cae0df8b9ecbec7733a]
+[auto build test WARNING on 95c541ddfb0815a0ea8477af778bb13bb075079a]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/aspeedyh/dt-bindings-soc-aspeed-Add-AST2600-eSPI-controller/20260315-101647
-base:   0257f64bdac7fdca30fa3cae0df8b9ecbec7733a
-patch link:    https://lore.kernel.org/r/20260313-upstream_espi-v1-5-9504428e1f43%40aspeedtech.com
-patch subject: [PATCH 5/7] soc: aspeed: Add eSPI flash channel support
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260320/202603200700.6fddOZHQ-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603200700.6fddOZHQ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Anand-Moon/r8169-Fix-PHY-lookup-for-mdiobus_get_phy-and-improve-error-reporting-during-probe/20260317-183327
+base:   95c541ddfb0815a0ea8477af778bb13bb075079a
+patch link:    https://lore.kernel.org/r/20260317061700.7734-1-linux.amoon%40gmail.com
+patch subject: [PATCH next v1] r8169: Fix PHY lookup for mdiobus_get_phy() and improve error reporting during probe
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260320/202603200758.vueafhDW-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603200758.vueafhDW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603200700.6fddOZHQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603200758.vueafhDW-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/soc/aspeed/espi/ast2600-espi.c: In function 'ast2600_espi_flash_reset':
-   drivers/soc/aspeed/espi/ast2600-espi.c:137:16: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-     137 |         reg |= FIELD_PREP(ESPI_CTRL_FLASH_TAFS_MODE, flash->tafs.mode);
-         |                ^~~~~~~~~~
-   drivers/soc/aspeed/espi/ast2600-espi.c: In function 'ast2600_espi_flash_remove':
->> drivers/soc/aspeed/espi/ast2600-espi.c:172:35: warning: variable 'flash' set but not used [-Wunused-but-set-variable]
-     172 |         struct aspeed_espi_flash *flash;
-         |                                   ^~~~~
-   drivers/soc/aspeed/espi/ast2600-espi.c: In function 'ast2600_espi_flash_get_hdr':
-   drivers/soc/aspeed/espi/ast2600-espi.c:194:20: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-     194 |         hdr->cyc = FIELD_GET(ESPI_FLASH_RX_CTRL_CYC, reg);
-         |                    ^~~~~~~~~
+>> drivers/net/ethernet/realtek/r8169_main.c:5467:17: warning: variable 'phydev' is used uninitialized whenever 'for' loop exits because its condition is false [-Wsometimes-uninitialized]
+    5467 |         for (addr = 0; addr < PHY_MAX_ADDR; addr++) {
+         |                        ^~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/realtek/r8169_main.c:5476:7: note: uninitialized use occurs here
+    5476 |         if (!phydev) {
+         |              ^~~~~~
+   drivers/net/ethernet/realtek/r8169_main.c:5467:17: note: remove the condition if it is always true
+    5467 |         for (addr = 0; addr < PHY_MAX_ADDR; addr++) {
+         |                        ^~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/realtek/r8169_main.c:5430:27: note: initialize the variable 'phydev' to silence this warning
+    5430 |         struct phy_device *phydev;
+         |                                  ^
+         |                                   = NULL
+   1 warning generated.
 
 
-vim +/flash +172 drivers/soc/aspeed/espi/ast2600-espi.c
+vim +5467 drivers/net/ethernet/realtek/r8169_main.c
 
-   169	
-   170	int ast2600_espi_flash_remove(struct aspeed_espi *espi)
-   171	{
- > 172		struct aspeed_espi_flash *flash;
-   173		u32 reg;
-   174	
-   175		flash = &espi->flash;
-   176	
-   177		writel(ESPI_INT_EN_FLASH, espi->regs + ESPI_INT_EN_CLR);
-   178	
-   179		reg = readl(espi->regs + ESPI_CTRL);
-   180		reg &= ~(ESPI_CTRL_FLASH_TX_DMA_EN
-   181			 | ESPI_CTRL_FLASH_RX_DMA_EN
-   182			 | ESPI_CTRL_FLASH_SW_RDY);
-   183		writel(reg, espi->regs + ESPI_CTRL);
-   184	
-   185		return 0;
-   186	}
-   187	
+  5425	
+  5426	static int r8169_mdio_register(struct rtl8169_private *tp)
+  5427	{
+  5428		struct pci_dev *pdev = tp->pci_dev;
+  5429		struct mii_bus *new_bus;
+  5430		struct phy_device *phydev;
+  5431		int ret, addr;
+  5432	
+  5433		/* On some boards with this chip version the BIOS is buggy and misses
+  5434		 * to reset the PHY page selector. This results in the PHY ID read
+  5435		 * accessing registers on a different page, returning a more or
+  5436		 * less random value. Fix this by resetting the page selector first.
+  5437		 */
+  5438		if (tp->mac_version == RTL_GIGA_MAC_VER_25 ||
+  5439		    tp->mac_version == RTL_GIGA_MAC_VER_26)
+  5440			r8169_mdio_write(tp, 0x1f, 0);
+  5441	
+  5442		new_bus = devm_mdiobus_alloc(&pdev->dev);
+  5443		if (!new_bus)
+  5444			return -ENOMEM;
+  5445	
+  5446		new_bus->name = "r8169";
+  5447		new_bus->priv = tp;
+  5448		new_bus->parent = &pdev->dev;
+  5449		new_bus->irq[0] = PHY_MAC_INTERRUPT;
+  5450		new_bus->phy_mask = GENMASK(31, 1);
+  5451		snprintf(new_bus->id, MII_BUS_ID_SIZE, "r8169-%x-%x",
+  5452			 pci_domain_nr(pdev->bus), pci_dev_id(pdev));
+  5453	
+  5454		new_bus->read = r8169_mdio_read_reg;
+  5455		new_bus->write = r8169_mdio_write_reg;
+  5456	
+  5457		if (tp->mac_version >= RTL_GIGA_MAC_VER_40) {
+  5458			new_bus->read_c45 = r8169_mdio_read_reg_c45;
+  5459			new_bus->write_c45 = r8169_mdio_write_reg_c45;
+  5460		}
+  5461	
+  5462		ret = devm_mdiobus_register(&pdev->dev, new_bus);
+  5463		if (ret)
+  5464			return ret;
+  5465	
+  5466		/* find the first (lowest address) PHY on the current MAC's MII bus */
+> 5467		for (addr = 0; addr < PHY_MAX_ADDR; addr++) {
+  5468			struct phy_device *tmp = mdiobus_get_phy(new_bus, addr);
+  5469	
+  5470			if (tmp) {
+  5471				phydev = tmp;
+  5472				break;
+  5473			}
+  5474		}
+  5475	
+  5476		if (!phydev) {
+  5477			dev_err(&pdev->dev, "no PHY found on bus\n");
+  5478			return -ENODEV;
+  5479		}
+  5480	
+  5481		/* Most chip versions fail with the genphy driver.
+  5482		 * Therefore ensure that the dedicated PHY driver is loaded.
+  5483		 */
+  5484		if (!phydev->drv) {
+  5485			dev_err(&pdev->dev, "no dedicated PHY driver found for PHY ID 0x%08x, maybe realtek.ko needs to be added to initramfs?\n",
+  5486				phydev->phy_id);
+  5487			return -EUNATCH;
+  5488		}
+  5489	
+  5490		tp->phydev = phydev;
+  5491		tp->phydev->mac_managed_pm = true;
+  5492		if (rtl_supports_eee(tp))
+  5493			phy_support_eee(tp->phydev);
+  5494		phy_support_asym_pause(tp->phydev);
+  5495	
+  5496		/* mimic behavior of r8125/r8126 vendor drivers */
+  5497		if (tp->mac_version == RTL_GIGA_MAC_VER_61)
+  5498			phy_disable_eee_mode(tp->phydev,
+  5499					     ETHTOOL_LINK_MODE_2500baseT_Full_BIT);
+  5500	
+  5501		/* PHY will be woken up in rtl_open() */
+  5502		phy_suspend(tp->phydev);
+  5503	
+  5504		return 0;
+  5505	}
+  5506	
 
 -- 
 0-DAY CI Kernel Test Service
