@@ -1,93 +1,230 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06F23F8DE0
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Mar 2026 20:25:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94B993AA1A2
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Mar 2026 20:48:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773951928; cv=none; b=uDdUhD4P08FWeTvvbUdz6fuPGHYNoKKmw8VgiG6l9x8cHXFFRE6Di04S/nuYTXZGhP8cqb3HaDpSFZqXUI9JUXPXlPQzCEHxDVZc7PzFde/4qV9xdQis7x+2ct3xjsDOX6FNxSvy5otAKIZRfhJb6YiqtSTjRIW7R/3366fwtlY=
+	t=1773953298; cv=none; b=CljbNLmGl3qJATdZUnp1jEDx0cn2K1xhxfrUQ4UQf4F/aazlQZmxi+6XJpvrRqBzpnWa4rOe5ftK+/37qT9XthNeHc9K4j5oYEauXsEJ2gCt8rp3k20QR8dOfIrf9XjYCRnRJUXiAtrWP6HkEhxxm8q8J+nu6o6aQHTbmabTThI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773951928; c=relaxed/simple;
-	bh=CH//39un99O61truDpskGb68cb1NAu90d+q/yCd9lq0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=nivUY5x6H88P1jmeem2y39mAdvzD6DiqIoLfO4iZ2oIQiyXgbt2AcnRkM/voNN4FJh/unUo78jtO4OA34tfzIq9XSf2VU1qK7jucMucCb9NL0iR4jF0gQ5aw6g/PIOXgVLy+0sH8+Dy/qa61aQ80dFwxLhmKdwFEq5p0pJdcyE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NfkuWJHU; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1773953298; c=relaxed/simple;
+	bh=ZX/bTdTPJwUeA0+ahCmmyEo1Zy8BIu8jeRCyncgzauE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nKv17I+zgKf1rQNI1b+taDFEqTPlX2RM0Njgl7YV7/xzdprVaK1snwTwvNxZn7XH2Vy6onuSYA/g/ueL+kbluEMppiPu8ZZLRFD6hluEEP1lj/SK0xwjk/USZVVC4OpnutSkukWb12+LF4A3uNiw/dT3PUzr4GkYK6v//7WSZf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UyKxoM0H; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NfkuWJHU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UyKxoM0H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773951926; x=1805487926;
-  h=date:from:to:cc:subject:message-id;
-  bh=CH//39un99O61truDpskGb68cb1NAu90d+q/yCd9lq0=;
-  b=NfkuWJHUdex5OIXlS/X0DzKAa7M9rcLD1xs4cyPPyqkGadOI0WOCseqd
-   pRIKcL1fr3C/7P5GKjw/nJb1+j1G5dwzcc+hOE3OgKQAcXzjSh64Y0Y3s
-   kmq+VekamG8bahh6sCUtiBjBixJOzXwlANLPMn9PxBq6KLIOkEps8pzzu
-   /7CiSoDR7qgL4zHT4odC7PqnCraYyH5/z3sWZF0RPOh0c5+Gb/P6LlqJq
-   wzOHlIMuET/WZRI5RhNIc6CUG61OSVOaQlaFyIjlHQS295r+n7ajFCknC
-   b6DGjg6YGSqEFARErbjmxNFUd9IPumQXT7RmZB37MkKfkIS5qusVk42XT
+  t=1773953295; x=1805489295;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZX/bTdTPJwUeA0+ahCmmyEo1Zy8BIu8jeRCyncgzauE=;
+  b=UyKxoM0HhNIvsERaAOmk3Wgx+rHFzHF0b3nHOSg+3whTjRxb/68SxRhh
+   D2SFZnaUyOmh43ymt+LIJY8fqrRYFppn1ysoCHv0hVceAxRDaBGN15sbr
+   HjKbPe7yJyn7Fg8HKu0t4Sv7FS7ZDcnlDlp1CAiv/KmdJavpIAVUb9xNQ
+   +Ld48NEtGanIQB7jNDD3h0YyQ9IVn4PPGG2OKLMF+pMdnmfHm0ctDRb1Y
+   ccGXQuYYyJCwCj7cXVyKTWNX5AH91VB0JkaAWfEfHKR2OwoTjYDgedhKO
+   qR0RIlgJYilLjLJpVNY3KMbbz2RXH3r4ccwukNRRkXnA3wb/PHQEZ3Vk3
    A==;
-X-CSE-ConnectionGUID: 2gSv9QMwRKWxqA+W0zcmWw==
-X-CSE-MsgGUID: 3trWF6P6TPavWG+LRxqFhw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="75155765"
+X-CSE-ConnectionGUID: oX2WXd+oTJiOWw+nGH0UYQ==
+X-CSE-MsgGUID: wMnqbEp4R52J5e8vCOOC7Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="100496201"
 X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
-   d="scan'208";a="75155765"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 13:25:25 -0700
-X-CSE-ConnectionGUID: 7BAON17YSGa+Cx4DtZlgpw==
-X-CSE-MsgGUID: 5+wmx5rvSPGaatlYJofusg==
+   d="scan'208";a="100496201"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 13:48:15 -0700
+X-CSE-ConnectionGUID: efHp6hSUQE6aDXyJibgx2g==
+X-CSE-MsgGUID: pSeySoySRIWYcuhBDeFbVQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
-   d="scan'208";a="218492565"
+   d="scan'208";a="222306964"
 Received: from lkp-server02.sh.intel.com (HELO a51c2a36b9df) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 19 Mar 2026 13:25:24 -0700
+  by orviesa010.jf.intel.com with ESMTP; 19 Mar 2026 13:48:11 -0700
 Received: from kbuild by a51c2a36b9df with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w3Jvl-000000001d4-3HvK;
-	Thu, 19 Mar 2026 20:25:21 +0000
-Date: Fri, 20 Mar 2026 04:24:51 +0800
+	id 1w3KHo-000000001dt-40uo;
+	Thu, 19 Mar 2026 20:48:08 +0000
+Date: Fri, 20 Mar 2026 04:46:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 3/3] warning:
- function `binder_remove_trace_events` is never used
-Message-ID: <202603200422.FY90Tsqw-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: hsuck <hsu.chih.kai@realtek.com>, kuba@kernel.org, davem@davemloft.net
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	nic_swsd@realtek.com, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, edumazet@google.com, bjorn@mork.no,
+	pabeni@redhat.com, hsuck <hsu.chih.kai@realtek.com>
+Subject: Re: [PATCH net-next 2/2] r8152: add helper functions for PHY OCP
+ registers
+Message-ID: <202603200420.7kabrAGG-lkp@intel.com>
+References: <20260318123313.2313-446-nic_swsd@realtek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260318123313.2313-446-nic_swsd@realtek.com>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   dfaa817f5dafd1f49886b6e26ce05e822ba2935c
-commit: 29a81cabfac45853eb6d345552d4e9800a9553dd [3/3] ANDROID: binder: fix build error when CONFIG_EVENT_TRACING=n
-config: arm64-randconfig-r113-20260319 (https://download.01.org/0day-ci/archive/20260320/202603200422.FY90Tsqw-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 4abb927bacf37f18f6359a41639a6d1b3bffffb5)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603200422.FY90Tsqw-lkp@intel.com/reproduce)
+Hi hsuck,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/hsuck/r8152-add-helper-functions-for-PLA-USB-OCP-registers/20260318-232634
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260318123313.2313-446-nic_swsd%40realtek.com
+patch subject: [PATCH net-next 2/2] r8152: add helper functions for PHY OCP registers
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260320/202603200420.7kabrAGG-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603200420.7kabrAGG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603200422.FY90Tsqw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603200420.7kabrAGG-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> warning: function `binder_remove_trace_events` is never used
-   --> drivers/android/binder/rust_binder_main.rs:308:20
-   |
-   308 |                 fn binder_remove_trace_events(m: *mut bindings::module);
-   |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = note: `#[warn(dead_code)]` on by default
+   drivers/net/usb/r8152.c: In function 'r8153_init':
+>> drivers/net/usb/r8152.c:6864:13: warning: variable 'data' set but not used [-Wunused-but-set-variable]
+    6864 |         u16 data;
+         |             ^~~~
+   drivers/net/usb/r8152.c: In function 'r8153b_init':
+   drivers/net/usb/r8152.c:6983:13: warning: variable 'data' set but not used [-Wunused-but-set-variable]
+    6983 |         u16 data;
+         |             ^~~~
+   drivers/net/usb/r8152.c: In function 'r8153c_init':
+   drivers/net/usb/r8152.c:7054:13: warning: variable 'data' set but not used [-Wunused-but-set-variable]
+    7054 |         u16 data;
+         |             ^~~~
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+
+vim +/data +6864 drivers/net/usb/r8152.c
+
+195aae321c829d Hayes Wang       2021-04-16  6861  
+195aae321c829d Hayes Wang       2021-04-16  6862  static void r8153_init(struct r8152 *tp)
+195aae321c829d Hayes Wang       2021-04-16  6863  {
+195aae321c829d Hayes Wang       2021-04-16 @6864  	u16 data;
+195aae321c829d Hayes Wang       2021-04-16  6865  	int i;
+195aae321c829d Hayes Wang       2021-04-16  6866  
+715f67f33af45c Douglas Anderson 2023-10-20  6867  	if (test_bit(RTL8152_INACCESSIBLE, &tp->flags))
+195aae321c829d Hayes Wang       2021-04-16  6868  		return;
+195aae321c829d Hayes Wang       2021-04-16  6869  
+195aae321c829d Hayes Wang       2021-04-16  6870  	r8153_u1u2en(tp, false);
+195aae321c829d Hayes Wang       2021-04-16  6871  
+195aae321c829d Hayes Wang       2021-04-16  6872  	for (i = 0; i < 500; i++) {
+195aae321c829d Hayes Wang       2021-04-16  6873  		if (ocp_read_word(tp, MCU_TYPE_PLA, PLA_BOOT_CTRL) &
+195aae321c829d Hayes Wang       2021-04-16  6874  		    AUTOLOAD_DONE)
+195aae321c829d Hayes Wang       2021-04-16  6875  			break;
+195aae321c829d Hayes Wang       2021-04-16  6876  
+195aae321c829d Hayes Wang       2021-04-16  6877  		msleep(20);
+715f67f33af45c Douglas Anderson 2023-10-20  6878  		if (test_bit(RTL8152_INACCESSIBLE, &tp->flags))
+195aae321c829d Hayes Wang       2021-04-16  6879  			break;
+195aae321c829d Hayes Wang       2021-04-16  6880  	}
+195aae321c829d Hayes Wang       2021-04-16  6881  
+195aae321c829d Hayes Wang       2021-04-16  6882  	data = r8153_phy_status(tp, 0);
+195aae321c829d Hayes Wang       2021-04-16  6883  
+195aae321c829d Hayes Wang       2021-04-16  6884  	if (tp->version == RTL_VER_03 || tp->version == RTL_VER_04 ||
+195aae321c829d Hayes Wang       2021-04-16  6885  	    tp->version == RTL_VER_05)
+195aae321c829d Hayes Wang       2021-04-16  6886  		ocp_reg_write(tp, OCP_ADC_CFG, CKADSEL_L | ADC_EN | EN_EMI_L);
+195aae321c829d Hayes Wang       2021-04-16  6887  
+b520efeb0a4573 hsuck            2026-03-18  6888  	r8152_mdio_test_and_clr_bit(tp, MII_BMCR, BMCR_PDOWN);
+195aae321c829d Hayes Wang       2021-04-16  6889  
+195aae321c829d Hayes Wang       2021-04-16  6890  	data = r8153_phy_status(tp, PHY_STAT_LAN_ON);
+195aae321c829d Hayes Wang       2021-04-16  6891  
+195aae321c829d Hayes Wang       2021-04-16  6892  	r8153_u2p3en(tp, false);
+195aae321c829d Hayes Wang       2021-04-16  6893  
+195aae321c829d Hayes Wang       2021-04-16  6894  	if (tp->version == RTL_VER_04) {
+ce600d52ace5a4 hsuck            2026-03-18  6895  		ocp_word_w0w1(tp, MCU_TYPE_USB, USB_SSPHYLINK2,
+ce600d52ace5a4 hsuck            2026-03-18  6896  			      pwd_dn_scale_mask, pwd_dn_scale(96));
+ce600d52ace5a4 hsuck            2026-03-18  6897  
+ce600d52ace5a4 hsuck            2026-03-18  6898  		ocp_byte_set_bits(tp, MCU_TYPE_USB, USB_USB2PHY,
+ce600d52ace5a4 hsuck            2026-03-18  6899  				  USB2PHY_L1 | USB2PHY_SUSPEND);
+195aae321c829d Hayes Wang       2021-04-16  6900  	} else if (tp->version == RTL_VER_05) {
+ce600d52ace5a4 hsuck            2026-03-18  6901  		ocp_byte_clr_bits(tp, MCU_TYPE_PLA, PLA_DMY_REG0, ECM_ALDPS);
+195aae321c829d Hayes Wang       2021-04-16  6902  
+195aae321c829d Hayes Wang       2021-04-16  6903  		if (ocp_read_word(tp, MCU_TYPE_USB, USB_BURST_SIZE) == 0)
+ce600d52ace5a4 hsuck            2026-03-18  6904  			ocp_byte_clr_bits(tp, MCU_TYPE_USB, USB_CSR_DUMMY1,
+ce600d52ace5a4 hsuck            2026-03-18  6905  					  DYNAMIC_BURST);
+195aae321c829d Hayes Wang       2021-04-16  6906  		else
+ce600d52ace5a4 hsuck            2026-03-18  6907  			ocp_byte_set_bits(tp, MCU_TYPE_USB, USB_CSR_DUMMY1,
+ce600d52ace5a4 hsuck            2026-03-18  6908  					  DYNAMIC_BURST);
+195aae321c829d Hayes Wang       2021-04-16  6909  	} else if (tp->version == RTL_VER_06) {
+195aae321c829d Hayes Wang       2021-04-16  6910  		if (ocp_read_word(tp, MCU_TYPE_USB, USB_BURST_SIZE) == 0)
+ce600d52ace5a4 hsuck            2026-03-18  6911  			ocp_byte_clr_bits(tp, MCU_TYPE_USB, USB_CSR_DUMMY1,
+ce600d52ace5a4 hsuck            2026-03-18  6912  					  DYNAMIC_BURST);
+195aae321c829d Hayes Wang       2021-04-16  6913  		else
+ce600d52ace5a4 hsuck            2026-03-18  6914  			ocp_byte_set_bits(tp, MCU_TYPE_USB, USB_CSR_DUMMY1,
+ce600d52ace5a4 hsuck            2026-03-18  6915  					  DYNAMIC_BURST);
+195aae321c829d Hayes Wang       2021-04-16  6916  
+195aae321c829d Hayes Wang       2021-04-16  6917  		r8153_queue_wake(tp, false);
+195aae321c829d Hayes Wang       2021-04-16  6918  
+195aae321c829d Hayes Wang       2021-04-16  6919  		if (rtl8152_get_speed(tp) & LINK_STATUS)
+ce600d52ace5a4 hsuck            2026-03-18  6920  			ocp_word_set_bits(tp, MCU_TYPE_PLA, PLA_EXTRA_STATUS,
+ce600d52ace5a4 hsuck            2026-03-18  6921  					  CUR_LINK_OK | POLL_LINK_CHG);
+195aae321c829d Hayes Wang       2021-04-16  6922  		else
+ce600d52ace5a4 hsuck            2026-03-18  6923  			ocp_word_w0w1(tp, MCU_TYPE_PLA, PLA_EXTRA_STATUS,
+ce600d52ace5a4 hsuck            2026-03-18  6924  				      CUR_LINK_OK, POLL_LINK_CHG);
+195aae321c829d Hayes Wang       2021-04-16  6925  	}
+195aae321c829d Hayes Wang       2021-04-16  6926  
+ce600d52ace5a4 hsuck            2026-03-18  6927  	ocp_byte_set_bits(tp, MCU_TYPE_USB, USB_CSR_DUMMY2, EP4_FULL_FC);
+195aae321c829d Hayes Wang       2021-04-16  6928  
+ce600d52ace5a4 hsuck            2026-03-18  6929  	ocp_word_clr_bits(tp, MCU_TYPE_USB, USB_WDT11_CTRL, TIMER11_EN);
+195aae321c829d Hayes Wang       2021-04-16  6930  
+ce600d52ace5a4 hsuck            2026-03-18  6931  	ocp_word_clr_bits(tp, MCU_TYPE_PLA, PLA_LED_FEATURE, LED_MODE_MASK);
+195aae321c829d Hayes Wang       2021-04-16  6932  
+195aae321c829d Hayes Wang       2021-04-16  6933  	if (tp->version == RTL_VER_04 && tp->udev->speed < USB_SPEED_SUPER)
+ce600d52ace5a4 hsuck            2026-03-18  6934  		ocp_byte_set_bits(tp, MCU_TYPE_USB, USB_LPM_CTRL,
+ce600d52ace5a4 hsuck            2026-03-18  6935  				  FIFO_EMPTY_1FB | ROK_EXIT_LPM |
+ce600d52ace5a4 hsuck            2026-03-18  6936  				  LPM_TIMER_500MS);
+195aae321c829d Hayes Wang       2021-04-16  6937  	else
+ce600d52ace5a4 hsuck            2026-03-18  6938  		ocp_byte_set_bits(tp, MCU_TYPE_USB, USB_LPM_CTRL,
+ce600d52ace5a4 hsuck            2026-03-18  6939  				  FIFO_EMPTY_1FB | ROK_EXIT_LPM |
+ce600d52ace5a4 hsuck            2026-03-18  6940  				  LPM_TIMER_500US);
+195aae321c829d Hayes Wang       2021-04-16  6941  
+ce600d52ace5a4 hsuck            2026-03-18  6942  	ocp_word_w0w1(tp, MCU_TYPE_USB, USB_AFE_CTRL2, SEN_VAL_MASK,
+ce600d52ace5a4 hsuck            2026-03-18  6943  		      SEN_VAL_NORMAL | SEL_RXIDLE);
+195aae321c829d Hayes Wang       2021-04-16  6944  
+195aae321c829d Hayes Wang       2021-04-16  6945  	ocp_write_word(tp, MCU_TYPE_USB, USB_CONNECT_TIMER, 0x0001);
+195aae321c829d Hayes Wang       2021-04-16  6946  
+195aae321c829d Hayes Wang       2021-04-16  6947  	r8153_power_cut_en(tp, false);
+195aae321c829d Hayes Wang       2021-04-16  6948  	rtl_runtime_suspend_enable(tp, false);
+195aae321c829d Hayes Wang       2021-04-16  6949  	r8153_mac_clk_speed_down(tp, false);
+195aae321c829d Hayes Wang       2021-04-16  6950  	r8153_u1u2en(tp, true);
+195aae321c829d Hayes Wang       2021-04-16  6951  	usb_enable_lpm(tp->udev);
+195aae321c829d Hayes Wang       2021-04-16  6952  
+ce600d52ace5a4 hsuck            2026-03-18  6953  	ocp_byte_set_bits(tp, MCU_TYPE_PLA, PLA_CONFIG6, LANWAKE_CLR_EN);
+195aae321c829d Hayes Wang       2021-04-16  6954  
+ce600d52ace5a4 hsuck            2026-03-18  6955  	ocp_byte_clr_bits(tp, MCU_TYPE_PLA, PLA_LWAKE_CTRL_REG, LANWAKE_PIN);
+195aae321c829d Hayes Wang       2021-04-16  6956  
+195aae321c829d Hayes Wang       2021-04-16  6957  	/* rx aggregation */
+ce600d52ace5a4 hsuck            2026-03-18  6958  	ocp_word_clr_bits(tp, MCU_TYPE_USB, USB_USB_CTRL,
+ce600d52ace5a4 hsuck            2026-03-18  6959  			  RX_AGG_DISABLE | RX_ZERO_EN);
+195aae321c829d Hayes Wang       2021-04-16  6960  
+ce600d52ace5a4 hsuck            2026-03-18  6961  	if (tp->dell_tb_rx_agg_bug)
+ce600d52ace5a4 hsuck            2026-03-18  6962  		ocp_word_set_bits(tp, MCU_TYPE_USB, USB_USB_CTRL,
+ce600d52ace5a4 hsuck            2026-03-18  6963  				  RX_AGG_DISABLE);
+195aae321c829d Hayes Wang       2021-04-16  6964  
+195aae321c829d Hayes Wang       2021-04-16  6965  	rtl_tally_reset(tp);
+195aae321c829d Hayes Wang       2021-04-16  6966  
+195aae321c829d Hayes Wang       2021-04-16  6967  	switch (tp->udev->speed) {
+195aae321c829d Hayes Wang       2021-04-16  6968  	case USB_SPEED_SUPER:
+195aae321c829d Hayes Wang       2021-04-16  6969  	case USB_SPEED_SUPER_PLUS:
+195aae321c829d Hayes Wang       2021-04-16  6970  		tp->coalesce = COALESCE_SUPER;
+195aae321c829d Hayes Wang       2021-04-16  6971  		break;
+195aae321c829d Hayes Wang       2021-04-16  6972  	case USB_SPEED_HIGH:
+195aae321c829d Hayes Wang       2021-04-16  6973  		tp->coalesce = COALESCE_HIGH;
+195aae321c829d Hayes Wang       2021-04-16  6974  		break;
+195aae321c829d Hayes Wang       2021-04-16  6975  	default:
+195aae321c829d Hayes Wang       2021-04-16  6976  		tp->coalesce = COALESCE_SLOW;
+195aae321c829d Hayes Wang       2021-04-16  6977  		break;
+195aae321c829d Hayes Wang       2021-04-16  6978  	}
+195aae321c829d Hayes Wang       2021-04-16  6979  }
+195aae321c829d Hayes Wang       2021-04-16  6980  
 
 -- 
 0-DAY CI Kernel Test Service
