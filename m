@@ -1,174 +1,201 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77D0D2248B3
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Mar 2026 19:52:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD18F393DEE
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Mar 2026 20:03:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773949927; cv=none; b=gmCmPbsk0szpZmImIMugOuHwnz1yTQTf329IZa90e0BZWPvCDZyV9+fILlgQ2tLEmEKjyj6o11D1ci26NQ1NIXaZAeaoFp8NO5fKd9GYZpY8heIIpT0MTytjgcAUeIkUnTZo9/+7PrvUix0yec3UfmwCEicLnJ0AFp8VLrv6rhI=
+	t=1773950634; cv=none; b=ZIdnmDNvel60kb3zypnwD8JJC+WnRC365yLYPqBJM0aqm8vJnS/Ad4uIv09xU4Hp8cKf0dyS6xe9H091qwGXf73LljHLs2FJ5aVFVmUKaAwXlTT8BpRdGidDU6u+cH4md0kT3t4eBK2guLvK48Qp/0QC4blU28qcDYp530NDbXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773949927; c=relaxed/simple;
-	bh=qs3MDYOmJNxqPiaOylmC/7JTWLNZLoYJUn+b+IyOadk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H3e49/Wgd3f8qHy/DzKiGb4tlyLklyTJgUSPMGIW903XEitiy+zqvalhQ9VuocN/QGkpB+ckUQ1mQPAynJSTUmr+SYTd6xKV5SA30IBfCbTtAcAI9ARPy7Mdf+KXD3GaRlbl1KXWNRdpP24YNq7CKs4Z0YfOyTEd2k07ps1UFFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y9KSTumr; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1773950634; c=relaxed/simple;
+	bh=JthO5pH2Yg5AcsDCarsAjlzWZPs6INOLkhY7H2Oghq8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=MhPwK8epHGzZRK3gLHSNNTltfobfoOdRWXVCD8qNX/qw+3rfWVoUeY52GrpkfSsxwYfWCzWWeKk+Wbl3Xv2KoagXdh/ob4A+rIg6+VqJa0KJ1iuN1WFIHyeMx2VPLOonp1V5Emx6u/sqaoOpx1iAKGPEgM/omIrFIu5nwmQs2p8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i9qPD9Jt; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y9KSTumr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i9qPD9Jt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773949925; x=1805485925;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qs3MDYOmJNxqPiaOylmC/7JTWLNZLoYJUn+b+IyOadk=;
-  b=Y9KSTumrgfq6u7VmuAudz45Bml0AGR/yORRvhHhfQxVI743khCIbgImk
-   uPYx+sW7qV8Ml/6aotWQ+7fkz6jRJh+oU7yiOdSPCLxMVbEQYtnk4rhx5
-   ON9VcZnZrMas8pNWGTxnYtrFqT3n0tEz1RqsbRDYBUredOElcubpiuZWQ
-   3eHdoexXR3wklkvMcx5mFl4VnwVuDeaimVkiigDc5PJdL73A4BFLIF05r
-   soCz3PwidKg9+3Yu27iQ8R3cMnN1t6FKm7/HVy0wbD6f0gjCQY3/J3u1T
-   iTXHoSNZWFuOO6EtDNt1DPUAI3zcya+Pz89pyZtfby2uVXDekLwuuDomq
+  t=1773950630; x=1805486630;
+  h=date:from:to:cc:subject:message-id;
+  bh=JthO5pH2Yg5AcsDCarsAjlzWZPs6INOLkhY7H2Oghq8=;
+  b=i9qPD9JtfpsWxdU3RfhwiWrNwhQ7X+K1d8/xWW2I29O+ewBSxNwBL2yM
+   C2/eCHy7f0bIEFdXJ4NogxIc4sPTXrbk3ybFYge95HLkPqHljXNauYNlE
+   eORnZ3U5E4OmzHzULd9bUgq54j4r280G2W9hv+WgYklLps5RXlf5b3J+h
+   /TF9VHnzmmgU0qOiFnPX6IY42aOfBqkCQ3WlcMZ9/yd3rIdcG5N6dXrDc
+   mzI2zEGHMX2AeuRIIPIdwNmmh2Ay/UpM2TUeTMN8/q7MZuDcO+9H3aGcf
+   9VyMQdwj/oyS7fufHeZp0aqwZhq6fza7lApUdZd4Y5JzTja3BVXZBJCxY
    Q==;
-X-CSE-ConnectionGUID: xSyj371YTRaR7m61YpXVfg==
-X-CSE-MsgGUID: ibnkbhUmSoqfHEw+cmPSBQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="86111599"
+X-CSE-ConnectionGUID: IqJ4Uy2nSvqC9Q7qybZFyA==
+X-CSE-MsgGUID: EhDQzPu4TBWvMzpFO11VfQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="78892988"
 X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
-   d="scan'208";a="86111599"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 12:52:04 -0700
-X-CSE-ConnectionGUID: X5xofAJnQ96x7XBDvhbv4Q==
-X-CSE-MsgGUID: ZkI01nfTTJW3PFJ/3lUbJw==
+   d="scan'208";a="78892988"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 13:03:50 -0700
+X-CSE-ConnectionGUID: Fu3FnZ6YRACkhYAo5bJsjg==
+X-CSE-MsgGUID: 04VTpEguT3uCeWLJ7rMGVw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
-   d="scan'208";a="218488427"
+   d="scan'208";a="222179217"
 Received: from lkp-server02.sh.intel.com (HELO a51c2a36b9df) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 19 Mar 2026 12:51:59 -0700
+  by orviesa006.jf.intel.com with ESMTP; 19 Mar 2026 13:03:47 -0700
 Received: from kbuild by a51c2a36b9df with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w3JPN-000000001bV-35vz;
-	Thu, 19 Mar 2026 19:51:53 +0000
-Date: Fri, 20 Mar 2026 03:49:57 +0800
+	id 1w3Jar-000000001bl-1nid;
+	Thu, 19 Mar 2026 20:03:45 +0000
+Date: Fri, 20 Mar 2026 04:02:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ahmed Tiba <ahmed.tiba@arm.com>, linux-acpi@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-cxl@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Ahmed Tiba <ahmed.tiba@arm.com>,
-	Michael.Zhao2@arm.com, robh@kernel.org,
-	linux-arm-kernel@lists.infradead.org, Dmitry.Lamerov@arm.com,
-	rafael@kernel.org, conor@kernel.org, will@kernel.org, bp@alien8.de,
-	catalin.marinas@arm.com, krzk+dt@kernel.org,
-	linux-doc@vger.kernel.org, mchehab+huawei@kernel.org,
-	tony.luck@intel.com
-Subject: Re: [PATCH v3 10/10] RAS: add firmware-first CPER provider
-Message-ID: <202603200337.hRVhVYpU-lkp@intel.com>
-References: <20260318-topics-ahmtib01-ras_ffh_arm_internal_review-v3-10-48e6a1c249ef@arm.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-kiwi-6.1 132/132]
+ include/trace/stages/init.h:2:23: warning: 'str__regmap__trace_system_name'
+ defined but not used
+Message-ID: <202603200313.NmGd8Hez-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260318-topics-ahmtib01-ras_ffh_arm_internal_review-v3-10-48e6a1c249ef@arm.com>
 
-Hi Ahmed,
+Hi Xiaopeng,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on 2d1373e4246da3b58e1df058374ed6b101804e07]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ahmed-Tiba/ACPI-APEI-GHES-share-macros-via-a-private-header/20260319-115432
-base:   2d1373e4246da3b58e1df058374ed6b101804e07
-patch link:    https://lore.kernel.org/r/20260318-topics-ahmtib01-ras_ffh_arm_internal_review-v3-10-48e6a1c249ef%40arm.com
-patch subject: [PATCH v3 10/10] RAS: add firmware-first CPER provider
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260320/202603200337.hRVhVYpU-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603200337.hRVhVYpU-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   c127cb3c63180cc478bfd719f09c17aedd625473
+commit: 8726a2d930a815066b7a0ed8a4d4c560fbc4d114 [132/132] ANDROID: GKI: regmap: Add regmap vendor hook for of_syscon_register
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260320/202603200313.NmGd8Hez-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603200313.NmGd8Hez-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603200337.hRVhVYpU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603200313.NmGd8Hez-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/ras/cper-esource.c:26:
->> include/acpi/ghes_cper.h:105:44: warning: 'enum fixed_addresses' declared inside parameter list will not be visible outside of this definition or declaration
-     105 |                       u64 *buf_paddr, enum fixed_addresses fixmap_idx);
-         |                                            ^~~~~~~~~~~~~~~
-   include/acpi/ghes_cper.h:108:45: warning: 'enum fixed_addresses' declared inside parameter list will not be visible outside of this definition or declaration
-     108 |                         u64 buf_paddr, enum fixed_addresses fixmap_idx);
-         |                                             ^~~~~~~~~~~~~~~
-   include/acpi/ghes_cper.h:111:46: warning: 'enum fixed_addresses' declared inside parameter list will not be visible outside of this definition or declaration
-     111 |                         u64 *buf_paddr, enum fixed_addresses fixmap_idx);
-         |                                              ^~~~~~~~~~~~~~~
-   include/acpi/ghes_cper.h:115:45: warning: 'enum fixed_addresses' declared inside parameter list will not be visible outside of this definition or declaration
-     115 |                         u64 buf_paddr, enum fixed_addresses fixmap_idx,
-         |                                             ^~~~~~~~~~~~~~~
-   drivers/ras/cper-esource.c: In function 'cper_esource_ack':
-   drivers/ras/cper-esource.c:84:23: error: implicit declaration of function 'readq'; did you mean 'readl'? [-Werror=implicit-function-declaration]
-      84 |                 val = readq(ctx->ack.addr);
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/regmap.h:24,
+                    from drivers/android/vendor_hooks.c:69:
+>> include/trace/stages/init.h:2:23: warning: 'str__regmap__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
          |                       ^~~~~
-         |                       readl
-   drivers/ras/cper-esource.c:87:17: error: implicit declaration of function 'writeq'; did you mean 'writel'? [-Werror=implicit-function-declaration]
-      87 |                 writeq(val, ctx->ack.addr);
-         |                 ^~~~~~
-         |                 writel
-   cc1: some warnings being treated as errors
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/bl_hib.h:44,
+                    from drivers/android/vendor_hooks.c:68:
+   include/trace/stages/init.h:2:23: warning: 'str__bl_hib__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/psi.h:25,
+                    from drivers/android/vendor_hooks.c:67:
+   include/trace/stages/init.h:2:23: warning: 'str__psi__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/psci.h:25,
+                    from drivers/android/vendor_hooks.c:66:
+   include/trace/stages/init.h:2:23: warning: 'str__psci__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/signal.h:19,
+                    from drivers/android/vendor_hooks.c:65:
+   include/trace/stages/init.h:2:23: warning: 'str__signal__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/user.h:21,
+                    from drivers/android/vendor_hooks.c:64:
+   include/trace/stages/init.h:2:23: warning: 'str__user__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
 
 
-vim +105 include/acpi/ghes_cper.h
+vim +/str__regmap__trace_system_name +2 include/trace/stages/init.h
 
-7f6d32e88c31e2 Ahmed Tiba 2026-03-18  102  
-7f6d32e88c31e2 Ahmed Tiba 2026-03-18  103  int ghes_read_estatus(struct ghes *ghes,
-7f6d32e88c31e2 Ahmed Tiba 2026-03-18  104  		      struct acpi_hest_generic_status *estatus,
-7f6d32e88c31e2 Ahmed Tiba 2026-03-18 @105  		      u64 *buf_paddr, enum fixed_addresses fixmap_idx);
-7f6d32e88c31e2 Ahmed Tiba 2026-03-18  106  void ghes_clear_estatus(struct ghes *ghes,
-7f6d32e88c31e2 Ahmed Tiba 2026-03-18  107  			struct acpi_hest_generic_status *estatus,
-7f6d32e88c31e2 Ahmed Tiba 2026-03-18  108  			u64 buf_paddr, enum fixed_addresses fixmap_idx);
-7f6d32e88c31e2 Ahmed Tiba 2026-03-18  109  int __ghes_peek_estatus(struct ghes *ghes,
-7f6d32e88c31e2 Ahmed Tiba 2026-03-18  110  			struct acpi_hest_generic_status *estatus,
-7f6d32e88c31e2 Ahmed Tiba 2026-03-18  111  			u64 *buf_paddr, enum fixed_addresses fixmap_idx);
-7f6d32e88c31e2 Ahmed Tiba 2026-03-18  112  int __ghes_check_estatus(struct ghes *ghes,
-7f6d32e88c31e2 Ahmed Tiba 2026-03-18  113  			 struct acpi_hest_generic_status *estatus);
-7f6d32e88c31e2 Ahmed Tiba 2026-03-18  114  int __ghes_read_estatus(struct acpi_hest_generic_status *estatus,
-7f6d32e88c31e2 Ahmed Tiba 2026-03-18  115  			u64 buf_paddr, enum fixed_addresses fixmap_idx,
-7f6d32e88c31e2 Ahmed Tiba 2026-03-18  116  			size_t buf_len);
-dacb62d12abb41 Ahmed Tiba 2026-03-18  117  int ghes_estatus_cached(struct acpi_hest_generic_status *estatus);
-dacb62d12abb41 Ahmed Tiba 2026-03-18  118  void ghes_estatus_cache_add(struct acpi_hest_generic *generic,
-dacb62d12abb41 Ahmed Tiba 2026-03-18  119  			    struct acpi_hest_generic_status *estatus);
-40686d3c8f0a4d Ahmed Tiba 2026-03-18  120  int ghes_register_vendor_record_notifier(struct notifier_block *nb);
-40686d3c8f0a4d Ahmed Tiba 2026-03-18  121  void ghes_unregister_vendor_record_notifier(struct notifier_block *nb);
-648c11f76ec605 Ahmed Tiba 2026-03-18  122  void ghes_defer_non_standard_event(struct acpi_hest_generic_data *gdata,
-648c11f76ec605 Ahmed Tiba 2026-03-18  123  				   int sev);
-0eb637ae58ed14 Ahmed Tiba 2026-03-18  124  int ghes_severity(int severity);
-0eb637ae58ed14 Ahmed Tiba 2026-03-18  125  bool ghes_handle_memory_failure(struct acpi_hest_generic_data *gdata,
-0eb637ae58ed14 Ahmed Tiba 2026-03-18  126  				int sev, bool sync);
-0eb637ae58ed14 Ahmed Tiba 2026-03-18  127  bool ghes_handle_arm_hw_error(struct acpi_hest_generic_data *gdata,
-0eb637ae58ed14 Ahmed Tiba 2026-03-18  128  			      int sev, bool sync);
-0eb637ae58ed14 Ahmed Tiba 2026-03-18  129  void ghes_handle_aer(struct acpi_hest_generic_data *gdata);
-0eb637ae58ed14 Ahmed Tiba 2026-03-18  130  void ghes_log_hwerr(int sev, guid_t *sec_type);
-0eb637ae58ed14 Ahmed Tiba 2026-03-18  131  void __ghes_print_estatus(const char *pfx,
-0eb637ae58ed14 Ahmed Tiba 2026-03-18  132  			  const struct acpi_hest_generic *generic,
-0eb637ae58ed14 Ahmed Tiba 2026-03-18  133  			  const struct acpi_hest_generic_status *estatus);
-0eb637ae58ed14 Ahmed Tiba 2026-03-18  134  int ghes_print_estatus(const char *pfx,
-0eb637ae58ed14 Ahmed Tiba 2026-03-18  135  		       const struct acpi_hest_generic *generic,
-0eb637ae58ed14 Ahmed Tiba 2026-03-18  136  		       const struct acpi_hest_generic_status *estatus);
-0eb637ae58ed14 Ahmed Tiba 2026-03-18  137  void ghes_cper_handle_status(struct device *dev,
-0eb637ae58ed14 Ahmed Tiba 2026-03-18  138  			     const struct acpi_hest_generic *generic,
-0eb637ae58ed14 Ahmed Tiba 2026-03-18  139  			     const struct acpi_hest_generic_status *estatus,
-0eb637ae58ed14 Ahmed Tiba 2026-03-18  140  			     bool sync);
-baccdf38fe1b81 Ahmed Tiba 2026-03-18  141  void cxl_cper_post_prot_err(struct cxl_cper_sec_prot_err *prot_err,
-baccdf38fe1b81 Ahmed Tiba 2026-03-18  142  			    int severity);
-baccdf38fe1b81 Ahmed Tiba 2026-03-18  143  int cxl_cper_register_prot_err_work(struct work_struct *work);
-baccdf38fe1b81 Ahmed Tiba 2026-03-18  144  int cxl_cper_unregister_prot_err_work(struct work_struct *work);
-baccdf38fe1b81 Ahmed Tiba 2026-03-18  145  int cxl_cper_prot_err_kfifo_get(struct cxl_cper_prot_err_work_data *wd);
-baccdf38fe1b81 Ahmed Tiba 2026-03-18  146  void cxl_cper_post_event(enum cxl_event_type event_type,
-baccdf38fe1b81 Ahmed Tiba 2026-03-18  147  			 struct cxl_cper_event_rec *rec);
-baccdf38fe1b81 Ahmed Tiba 2026-03-18  148  int cxl_cper_register_work(struct work_struct *work);
-baccdf38fe1b81 Ahmed Tiba 2026-03-18  149  int cxl_cper_unregister_work(struct work_struct *work);
-baccdf38fe1b81 Ahmed Tiba 2026-03-18  150  int cxl_cper_kfifo_get(struct cxl_cper_work_data *wd);
-7f6d32e88c31e2 Ahmed Tiba 2026-03-18  151  
+af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
+af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
+af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03  4) 
+
+:::::: The code at line 2 was first introduced by commit
+:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
+
+:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
