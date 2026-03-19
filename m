@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1735223AE9B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Mar 2026 04:35:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2F89351C1C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Mar 2026 04:57:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773894937; cv=none; b=eWX+EX8VnLkW6/GvRSNfBEIKdIhNNL6yqFVBSdXVqabWnLBTtr5+l9grzsAkpWJdo1UG9SqMt8A13ievhyv+fYAD5k7xr4d23GThpLZNz3mqZws0npcqajwA2mF+1+Ctspw0YTesL2epR94BpSJcWGIrHRv6qqij+9GzyFJlDdY=
+	t=1773896228; cv=none; b=qMp4U0Ee/3gOdEDP7NtpQcXEUQCgir3lkIktlJD9rtdLtNhUyArQGqs96tckgLMQdk0Xy8TzLYjx5Kcc4wbffvM7k1q1VGPe0bLtoc62eQaGNNlYJOPXp3yx67tq1m42RY8udEj0BLmN5J5NrNTMxg1RhE2TA9OrzPvSLhtj+UA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773894937; c=relaxed/simple;
-	bh=XOQJX6DutUN0w2RnNl3UE44VuIbNxrz8DJPJAJHq8/w=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ASpSZHwLS3HdvXLwa9wD8nSrmvxlqQd+AD8WUowg9zWzurfBD/kAHlHyPQSjctqVHCvpz7Tc+gZY8knvLiu0PoQCiUtW6whm6rcVM6MyLhrUM+cI+WovSi+NLJrmch5BDoierV3dsy2P8cIlXucaUzeSZPZLcyOsL2+S0uNhERs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fW5vrjU0; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1773896228; c=relaxed/simple;
+	bh=3LUrJp6S0j8nkA8F/AJCOIXIb9pHTpFNQ4Pa3B9YCiM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=BPHuC4hkH+qgAKuABR6cMcqeppZBCVv1GPkGhWcwcwpeOB/kRzLY/F0QHEH+zrfeG+1umt4gJj7J/Ju+f1mUsmwabh4pI+PgjMTHPCSKA5rXyp9Fzl2Kxu3dwIR934VMiQvbWcbsAjaGCUON9baZstb6Ck5XMC2r7VXi9ySRJLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I9lVbwxU; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fW5vrjU0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I9lVbwxU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773894936; x=1805430936;
+  t=1773896227; x=1805432227;
   h=date:from:to:cc:subject:message-id;
-  bh=XOQJX6DutUN0w2RnNl3UE44VuIbNxrz8DJPJAJHq8/w=;
-  b=fW5vrjU0RtubpgwRP+F1f9c2Wd9FShP+O8h2N9z6AnIde41tgxM7zhzg
-   zTobdr+f9PrMTfnVdXUKQWkSpjjHx4syEyoRIiyXtD3Gdq0iERqFSbKiS
-   tZFzrBq6XGWF/ZwUipRZkX7H0v8jJFVI1fufxvyYgjlSHGbPaeCr/88Rr
-   +ymG0BJy1OMni7140fKc/o8ny8Vt6Cwf4GffkhFL8eAg3EaFIpA+ylOWv
-   xt+beYx4HImtb2UXluEiz9IF80ujfx/pR5xpJKgWLohnxfMHnsIPbb8ue
-   6SUe17YIYeUvMMIE51E89BUWuQk8Sdtz2sl0snloYij6puXNiEM4OHKSD
-   w==;
-X-CSE-ConnectionGUID: c8XwZ2u/QAuHJrS3PFx35g==
-X-CSE-MsgGUID: sGxM43RWTf+WBQjbwHxd+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="97573190"
+  bh=3LUrJp6S0j8nkA8F/AJCOIXIb9pHTpFNQ4Pa3B9YCiM=;
+  b=I9lVbwxU4aTHXQVDFKeNb6R/5HhaQ5jAz8O6+s3nLHsMz5D+9wvVwjNa
+   8wdv4k+/FvsC5oeRlbKc0czGtltRS/noF9k68iZFHBFTwONFLi5IFnUgg
+   n7jnRTC53+S3j1PnWQFQalyWszTZ9nKrsOao6GZjBKWGGHoHEPnx2FDWS
+   exrpPJGd7mXTBsxsGzvDwc0TR00jx2ahCqM3mAw7yvdRGHr3gIznZ2laS
+   u8yGk4CtZbBYTeD3flKQGbgXzuylhORKK+iVfagzP6ngeytnFqjBy+ztY
+   IxPVX5onQyBpx5qWPZF0lwvPc9v7ydb1v8293skaj+Mt02rvx+pfYHRFn
+   Q==;
+X-CSE-ConnectionGUID: u4DofdNASjekM9F96xzzkA==
+X-CSE-MsgGUID: sEGzLyoeTyeaAnNVTC0WXg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="92535225"
 X-IronPort-AV: E=Sophos;i="6.23,128,1770624000"; 
-   d="scan'208";a="97573190"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 21:35:36 -0700
-X-CSE-ConnectionGUID: 2Dmso7VCTMGbxiSdHMLvlg==
-X-CSE-MsgGUID: hCQus919Tu+ZdnyZ5o/PTg==
+   d="scan'208";a="92535225"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 21:57:06 -0700
+X-CSE-ConnectionGUID: eM941FPzSwaCRXCRAWBz3g==
+X-CSE-MsgGUID: evfISJKORf20o+yDu/du6A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,128,1770624000"; 
-   d="scan'208";a="260743839"
+   d="scan'208";a="223066864"
 Received: from lkp-server02.sh.intel.com (HELO a51c2a36b9df) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 18 Mar 2026 21:35:33 -0700
+  by orviesa007.jf.intel.com with ESMTP; 18 Mar 2026 21:57:04 -0700
 Received: from kbuild by a51c2a36b9df with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w356Y-000000000JZ-1Qr3;
-	Thu, 19 Mar 2026 04:35:30 +0000
-Date: Thu, 19 Mar 2026 12:34:55 +0800
+	id 1w35RN-000000000Kn-3uSF;
+	Thu, 19 Mar 2026 04:57:01 +0000
+Date: Thu, 19 Mar 2026 12:56:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Larysa Zaremba <larysa.zaremba@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Intel Wired LAN <intel-wired-lan@lists.osuosl.org>,
- Tony Nguyen <anthony.l.nguyen@intel.com>,
- Alexander Lobakin <aleksander.lobakin@intel.com>,
- Aleksandr Loktionov <aleksandr.loktionov@intel.com>
-Subject: [tnguy-next-queue:dev-queue 83/97]
- drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c:3178:27: sparse: sparse:
- incorrect type in assignment (different address spaces)
-Message-ID: <202603191235.t3CNQjw3-lkp@intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ardb:x86-efi-memmap-cleanup-v2 11/15]
+ arch/x86/platform/efi/efi.c:745:46: warning: cast to pointer from integer of
+ different size
+Message-ID: <202603191232.uPKO9PDP-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -64,103 +60,123 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
-head:   8cf0b18c0700c55deb424e284912d0161885434b
-commit: 556b0d5d0b19690e7951bf5f6bc584037c4017cf [83/97] ixgbevf: use libeth in Rx processing
-config: alpha-randconfig-r123-20260319 (https://download.01.org/0day-ci/archive/20260319/202603191235.t3CNQjw3-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 8.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260319/202603191235.t3CNQjw3-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-efi-memmap-cleanup-v2
+head:   3b7057340d014e7e085826abbe5190abbeeaf64d
+commit: 1cc1abd68f4c4ad5119c11f50e640b6e775480d6 [11/15] x86/efi: Update the runtime map in place
+config: i386-buildonly-randconfig-003-20260319 (https://download.01.org/0day-ci/archive/20260319/202603191232.uPKO9PDP-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260319/202603191232.uPKO9PDP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603191235.t3CNQjw3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603191232.uPKO9PDP-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c:768:18: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct bpf_prog *xdp_prog @@     got struct bpf_prog [noderef] __rcu * @@
-   drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c:768:18: sparse:     expected struct bpf_prog *xdp_prog
-   drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c:768:18: sparse:     got struct bpf_prog [noderef] __rcu *
->> drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c:3178:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct bpf_prog [noderef] __rcu *xdp_prog @@     got struct bpf_prog *xdp_prog @@
-   drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c:3178:27: sparse:     expected struct bpf_prog [noderef] __rcu *xdp_prog
-   drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c:3178:27: sparse:     got struct bpf_prog *xdp_prog
->> drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c:4136:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct bpf_prog [noderef] __rcu *_x_ @@     got struct bpf_prog *xdp_prog @@
-   drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c:4136:25: sparse:     expected struct bpf_prog [noderef] __rcu *_x_
-   drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c:4136:25: sparse:     got struct bpf_prog *xdp_prog
+All warnings (new ones prefixed by >>):
 
-vim +3178 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c
+   arch/x86/platform/efi/efi.c: In function '__efi_enter_virtual_mode':
+>> arch/x86/platform/efi/efi.c:745:46: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     745 |                                              (efi_memory_desc_t *)efi.memmap.phys_map,
+         |                                              ^
+   arch/x86/platform/efi/efi.c: In function 'efi_map_regions':
+   arch/x86/platform/efi/efi.c:629:22: warning: 'md' is used uninitialized [-Wuninitialized]
+     629 |         while ((md = efi_map_next_entry(md)))
+         |                      ^~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/platform/efi/efi.c:625:28: note: 'md' was declared here
+     625 |         efi_memory_desc_t *md;
+         |                            ^~
 
-92915f71201b43 drivers/net/ixgbevf/ixgbevf_main.c                Greg Rose        2010-01-09  3124  
-92915f71201b43 drivers/net/ixgbevf/ixgbevf_main.c                Greg Rose        2010-01-09  3125  /**
-92915f71201b43 drivers/net/ixgbevf/ixgbevf_main.c                Greg Rose        2010-01-09  3126   * ixgbevf_setup_rx_resources - allocate Rx resources (Descriptors)
-c7aec59657b60f drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Tony Nguyen      2018-03-16  3127   * @adapter: board private structure
-dec0d8e462322a drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Jeff Kirsher     2015-02-10  3128   * @rx_ring: Rx descriptor ring (for a specific queue) to setup
-92915f71201b43 drivers/net/ixgbevf/ixgbevf_main.c                Greg Rose        2010-01-09  3129   *
-92915f71201b43 drivers/net/ixgbevf/ixgbevf_main.c                Greg Rose        2010-01-09  3130   * Returns 0 on success, negative on failure
-92915f71201b43 drivers/net/ixgbevf/ixgbevf_main.c                Greg Rose        2010-01-09  3131   **/
-c7aec59657b60f drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Tony Nguyen      2018-03-16  3132  int ixgbevf_setup_rx_resources(struct ixgbevf_adapter *adapter,
-c7aec59657b60f drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Tony Nguyen      2018-03-16  3133  			       struct ixgbevf_ring *rx_ring)
-92915f71201b43 drivers/net/ixgbevf/ixgbevf_main.c                Greg Rose        2010-01-09  3134  {
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3135  	struct libeth_fq fq = {
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3136  		.count		= rx_ring->count,
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3137  		.nid		= NUMA_NO_NODE,
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3138  		.type		= LIBETH_FQE_MTU,
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3139  		.xdp		= !!rx_ring->xdp_prog,
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3140  		.idx		= rx_ring->queue_index,
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3141  		.buf_len	= IXGBEVF_RX_PAGE_LEN(rx_ring->xdp_prog ?
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3142  						      LIBETH_XDP_HEADROOM :
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3143  						      LIBETH_SKB_HEADROOM),
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3144  	};
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3145  	int ret;
-92915f71201b43 drivers/net/ixgbevf/ixgbevf_main.c                Greg Rose        2010-01-09  3146  
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3147  	ret = libeth_rx_fq_create(&fq, &rx_ring->q_vector->napi);
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3148  	if (ret)
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3149  		return ret;
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3150  
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3151  	rx_ring->pp = fq.pp;
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3152  	rx_ring->rx_fqes = fq.fqes;
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3153  	rx_ring->truesize = fq.truesize;
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3154  	rx_ring->rx_buf_len = fq.buf_len;
-92915f71201b43 drivers/net/ixgbevf/ixgbevf_main.c                Greg Rose        2010-01-09  3155  
-7c3a4626eb65e7 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Florian Fainelli 2017-08-01  3156  	u64_stats_init(&rx_ring->syncp);
-7c3a4626eb65e7 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Florian Fainelli 2017-08-01  3157  
-92915f71201b43 drivers/net/ixgbevf/ixgbevf_main.c                Greg Rose        2010-01-09  3158  	/* Round up to nearest 4K */
-92915f71201b43 drivers/net/ixgbevf/ixgbevf_main.c                Greg Rose        2010-01-09  3159  	rx_ring->size = rx_ring->count * sizeof(union ixgbe_adv_rx_desc);
-92915f71201b43 drivers/net/ixgbevf/ixgbevf_main.c                Greg Rose        2010-01-09  3160  	rx_ring->size = ALIGN(rx_ring->size, 4096);
-92915f71201b43 drivers/net/ixgbevf/ixgbevf_main.c                Greg Rose        2010-01-09  3161  
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3162  	rx_ring->desc = dma_alloc_coherent(fq.pp->p.dev, rx_ring->size,
-2a1f8794161d9d drivers/net/ixgbevf/ixgbevf_main.c                Nick Nunley      2010-04-27  3163  					   &rx_ring->dma, GFP_KERNEL);
-92915f71201b43 drivers/net/ixgbevf/ixgbevf_main.c                Greg Rose        2010-01-09  3164  
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3165  	if (!rx_ring->desc) {
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3166  		ret = -ENOMEM;
-05d063aa867b7a drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Emil Tantilov    2014-01-17  3167  		goto err;
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3168  	}
-92915f71201b43 drivers/net/ixgbevf/ixgbevf_main.c                Greg Rose        2010-01-09  3169  
-c7aec59657b60f drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Tony Nguyen      2018-03-16  3170  	/* XDP RX-queue info */
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3171  	ret = __xdp_rxq_info_reg(&rx_ring->xdp_rxq, adapter->netdev,
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3172  				 rx_ring->queue_index, 0, rx_ring->truesize);
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3173  	if (ret)
-c7aec59657b60f drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Tony Nguyen      2018-03-16  3174  		goto err;
-c7aec59657b60f drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Tony Nguyen      2018-03-16  3175  
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3176  	xdp_rxq_info_attach_page_pool(&rx_ring->xdp_rxq, fq.pp);
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3177  
-c7aec59657b60f drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Tony Nguyen      2018-03-16 @3178  	rx_ring->xdp_prog = adapter->xdp_prog;
-c7aec59657b60f drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Tony Nguyen      2018-03-16  3179  
-92915f71201b43 drivers/net/ixgbevf/ixgbevf_main.c                Greg Rose        2010-01-09  3180  	return 0;
-05d063aa867b7a drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Emil Tantilov    2014-01-17  3181  err:
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3182  	libeth_rx_fq_destroy(&fq);
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3183  	rx_ring->rx_fqes = NULL;
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3184  	rx_ring->pp = NULL;
-05d063aa867b7a drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Emil Tantilov    2014-01-17  3185  	dev_err(rx_ring->dev, "Unable to allocate memory for the Rx descriptor ring\n");
-556b0d5d0b1969 drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c Larysa Zaremba   2026-03-04  3186  	return ret;
-92915f71201b43 drivers/net/ixgbevf/ixgbevf_main.c                Greg Rose        2010-01-09  3187  }
-92915f71201b43 drivers/net/ixgbevf/ixgbevf_main.c                Greg Rose        2010-01-09  3188  
 
-:::::: The code at line 3178 was first introduced by commit
-:::::: c7aec59657b60f3a29fc7d3274ebefd698879301 ixgbevf: Add XDP support for pass and drop actions
+vim +745 arch/x86/platform/efi/efi.c
 
-:::::: TO: Tony Nguyen <anthony.l.nguyen@intel.com>
-:::::: CC: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
+   688	
+   689	/*
+   690	 * This function will switch the EFI runtime services to virtual mode.
+   691	 * Essentially, we look through the EFI memmap and map every region that
+   692	 * has the runtime attribute bit set in its memory descriptor into the
+   693	 * efi_pgd page table.
+   694	 *
+   695	 * The new method does a pagetable switch in a preemption-safe manner
+   696	 * so that we're in a different address space when calling a runtime
+   697	 * function. For function arguments passing we do copy the PUDs of the
+   698	 * kernel page table into efi_pgd prior to each call.
+   699	 *
+   700	 * Specially for kexec boot, efi runtime maps in previous kernel should
+   701	 * be passed in via setup_data. In that case runtime ranges will be mapped
+   702	 * to the same virtual addresses as the first kernel, see
+   703	 * kexec_enter_virtual_mode().
+   704	 */
+   705	static void __init __efi_enter_virtual_mode(void)
+   706	{
+   707		efi_status_t status;
+   708		unsigned long size;
+   709	
+   710		/*
+   711		 * Unregister the early EFI memmap from efi_init() and install
+   712		 * the new EFI memory map that we are about to pass to the
+   713		 * firmware via SetVirtualAddressMap().
+   714		 */
+   715		efi_memmap_unmap();
+   716	
+   717		if (efi_alloc_page_tables()) {
+   718			pr_err("Failed to allocate EFI page tables\n");
+   719			goto err;
+   720		}
+   721	
+   722		size = efi.memmap.desc_size * efi.memmap.num_valid_entries;
+   723		if (efi_memmap_init_late(efi.memmap.phys_map, size)) {
+   724			pr_err("Failed to remap late EFI memory map\n");
+   725			goto err;
+   726		}
+   727	
+   728		efi_merge_regions();
+   729		efi_map_regions();
+   730	
+   731		if (efi_enabled(EFI_DBG)) {
+   732			pr_info("EFI runtime memory map:\n");
+   733			efi_print_memmap();
+   734		}
+   735	
+   736		if (efi_setup_page_tables(efi.memmap.phys_map,
+   737					  DIV_ROUND_UP(size, PAGE_SIZE)))
+   738			goto err;
+   739	
+   740		efi_sync_low_kernel_mappings();
+   741	
+   742		status = efi_set_virtual_address_map(size,
+   743						     efi.memmap.desc_size,
+   744						     efi.memmap.desc_version,
+ > 745						     (efi_memory_desc_t *)efi.memmap.phys_map,
+   746						     efi_systab_phys);
+   747		if (status != EFI_SUCCESS) {
+   748			pr_err("Unable to switch EFI into virtual mode (status=%lx)!\n",
+   749			       status);
+   750			goto err;
+   751		}
+   752	
+   753		efi_check_for_embedded_firmwares();
+   754		efi_unmap_boot_services();
+   755	
+   756		if (!efi_is_mixed())
+   757			efi_native_runtime_setup();
+   758		else
+   759			efi_thunk_runtime_setup();
+   760	
+   761		/*
+   762		 * Apply more restrictive page table mapping attributes now that
+   763		 * SVAM() has been called and the firmware has performed all
+   764		 * necessary relocation fixups for the new virtual addresses.
+   765		 */
+   766		efi_runtime_update_mappings();
+   767	
+   768		/* clean DUMMY object */
+   769		efi_delete_dummy_variable();
+   770		return;
+   771	
+   772	err:
+   773		clear_bit(EFI_RUNTIME_SERVICES, &efi.flags);
+   774	}
+   775	
 
 -- 
 0-DAY CI Kernel Test Service
