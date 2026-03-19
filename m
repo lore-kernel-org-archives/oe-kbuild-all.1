@@ -1,72 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A74023B8959;
-	Thu, 19 Mar 2026 09:17:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFF683B5848
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Mar 2026 09:18:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773911848; cv=none; b=LZbw8NaCZPj7u6szA0JAzcaBnG+0IWhppIH7SjCYwumFMJ23mGtRla5g4WoFstExd5MnYKY93355eD0Wp/iFLF9eRE8fXGj3J4pJSOsFzkGJuEipUlxGY5nW1WxFRyhZ4iV4VgdITIK0BSWP376IBiH5T2S7d0mur+yVwHxOgdk=
+	t=1773911898; cv=none; b=qfNUGCgSFnt+QPB6lOCiQwSpHrY4dUQpTDhS8ZBW/yUXBB4b32goBXXJFLuJQCBzj4llBq2nIEkCTL1tkCmGs03ngIsQPP0kykblQB1jO4A+Ib23mnQED+Rz3KDBNjBWkp+mn4CIAchDef0PrciyBV7W/4qmEm17x8UNYyhK+Wc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773911848; c=relaxed/simple;
-	bh=DIU/PzVumUQH6MdAZ2KxRAqnEWB7buh0Ki3HJWJvQNk=;
+	s=arc-20240116; t=1773911898; c=relaxed/simple;
+	bh=lGM5GhX4mE0ZFupyBB4OVMkkLO2foYdj02MKCYY/GE4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bzho8wBOlFkew9X2JVgSGyfiZwp718sFUP6qb1h34OXD3k9+HWLe5Db7nStgNe0x4QBZVs4kIDCJsSqwV3kaR4CUGPPXkLRpkFLFRE8vW7EDYXuLZDb6KA6/VOQ9cpl1votC4cz2UF8tJO6DSx7r0Z1iydNcPgDF6m+FmsteTvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J5Xir0of; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=clWMp38Xuw+bQIghdKdAvZ9MmuZBktp8pXUbxUHp2RG2eBgWnhH3J6dfbaeK9wiA+GGR1y5QF7ClCLrv0xxYqOG3aqPOkDU54TvNMekklRqE6tNP71OtYKNpOL3fzxdjJ+4TOvax5Yq/SkxEQ02nSFFWemvYXgyCPURaQ17yFtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AUbSsYik; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J5Xir0of"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AUbSsYik"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773911846; x=1805447846;
+  t=1773911893; x=1805447893;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=DIU/PzVumUQH6MdAZ2KxRAqnEWB7buh0Ki3HJWJvQNk=;
-  b=J5Xir0ofhFLV7yZcL1OMoKKPXVkYcIjWH2r8OewNyyjINvG3eXmlI9b2
-   WESU4NSH1+hhDbuAfpfjj2rqXnOHk04CzbRqr5gqyckVTUR9YMGop4cf+
-   xlTV4RHQZPreVwEnrkFlJeMGOdeimUJhbAJfl2FOTFuf7yaBTxOMp1mXI
-   uEeAZDsquaL/kutCSVZAwvXeQoKzK/A5F+rNZvWW/kcRlUmvZNKFvpg7H
-   ttt5H266GtUJkdORacWbFO1q4urwtR2io8ieDwyHv7c1HDQPyarWgeHow
-   icjUaCF8H4b8ioDl6A0YDfz2hF/4C9V9KhgbfsSGjV+z0+x0aJxsV4UWp
+  bh=lGM5GhX4mE0ZFupyBB4OVMkkLO2foYdj02MKCYY/GE4=;
+  b=AUbSsYiku+NapEyVSZdWSe1X2zuLHDXiXJ9prxoTwvwdkeyhoDySiZzC
+   BclcZk9H3elgZEAnD19TZybV+byRhlPkVki/AfcTQLaTZj85QCOKVvo7O
+   SgB3XSOrf0Ww01NxgVL0440bN7IqDDppa0JlJL9hcqIs5d88PRRIUJlga
+   19uE155grDYTokZa1k+WeLhS5gnynrsiIxIX/RUtAG+NVFmzDNSkhOwn+
+   EO79bGSrqakqLkz8zOQh0bdt7hFbHTcbzYlfKEIg6ZU71LwrYUzEmTpwk
+   UGJtrDNqHBtfL/rD7KH2eEGcolDmSY1OA7qrLJu++5v97JULkF9kdzIzl
    w==;
-X-CSE-ConnectionGUID: iPfuoh7WS+un+Sj+qCl8AA==
-X-CSE-MsgGUID: vbSwxiVXT7SlAjZskdGgqw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="74863219"
+X-CSE-ConnectionGUID: 6Sv/F9RqSSCz2R7mOPSaOg==
+X-CSE-MsgGUID: tlHBhNIfQfWppQw2+UrKPA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="75054793"
 X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
-   d="scan'208";a="74863219"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 02:17:25 -0700
-X-CSE-ConnectionGUID: u5dIcVMPSsylgEdsrZ54dg==
-X-CSE-MsgGUID: ojN/sDYrTkmXLdF+vh6iSg==
+   d="scan'208";a="75054793"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 02:18:12 -0700
+X-CSE-ConnectionGUID: f+V3en5iROySYauQOU5hVQ==
+X-CSE-MsgGUID: qjfljHz7Q2+k0Dm4luExzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
-   d="scan'208";a="227848554"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 19 Mar 2026 02:17:18 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="219882047"
+Received: from lkp-server02.sh.intel.com (HELO a51c2a36b9df) ([10.239.97.151])
+  by fmviesa007.fm.intel.com with ESMTP; 19 Mar 2026 02:18:09 -0700
+Received: from kbuild by a51c2a36b9df with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w39VE-000000004o5-13CR;
-	Thu, 19 Mar 2026 09:17:16 +0000
-Date: Thu, 19 Mar 2026 10:16:33 +0100
+	id 1w39Vg-000000000eL-0kwl;
+	Thu, 19 Mar 2026 09:17:52 +0000
+Date: Thu, 19 Mar 2026 17:16:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
-	skhan@linuxfoundation.org, andrew+netdev@lunn.ch,
-	michael.chan@broadcom.com, pavan.chebbi@broadcom.com,
-	anthony.l.nguyen@intel.com, przemyslaw.kitszel@intel.com,
-	saeedm@nvidia.com, tariqt@nvidia.com, mbloch@nvidia.com,
-	alexanderduyck@fb.com, kernel-team@meta.com,
-	johannes@sipsolutions.net, sd@queasysnail.net, jianbol@nvidia.com,
-	dtatulea@nvidia.com, sdf@fomichev.me, mohsin.bashr@gmail.com,
-	jacob.e.keller@intel.com, willemb@google.com, skhawaja@google.com,
-	bestswngs@gmail.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [Intel-wired-lan] [PATCH net-next v2 02/13] wifi: cfg80211: use
- __rtnl_unlock in nl80211_pre_doit
-Message-ID: <202603191008.66uOsWyh-lkp@intel.com>
-References: <20260318150305.123900-3-sdf@fomichev.me>
+To: Melissa Wen <mwen@igalia.com>, airlied@gmail.com,
+	alexander.deucher@amd.com, christian.koenig@amd.com,
+	harry.wentland@amd.com, maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org, simona@ffwll.ch, siqueira@igalia.com,
+	sunpeng.li@amd.com, tzimmermann@suse.de
+Cc: oe-kbuild-all@lists.linux.dev, Alex Hung <alex.hung@amd.com>,
+	Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>,
+	Simon Ser <contact@emersion.fr>,
+	Uma Shankar <uma.shankar@intel.com>,
+	Xaver Hugl <xaver.hugl@kde.org>, amd-gfx@lists.freedesktop.org,
+	kernel-dev@igalia.com, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/2] drm/atomic: track individual colorop updates
+Message-ID: <202603191755.nmfoAOS4-lkp@intel.com>
+References: <20260318162348.299807-2-mwen@igalia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,30 +71,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260318150305.123900-3-sdf@fomichev.me>
+In-Reply-To: <20260318162348.299807-2-mwen@igalia.com>
 
-Hi Stanislav,
+Hi Melissa,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on net-next/main]
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on linus/master v7.0-rc4 next-20260318]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Fomichev/net-add-address-list-snapshot-and-reconciliation-infrastructure/20260319-122535
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260318150305.123900-3-sdf%40fomichev.me
-patch subject: [Intel-wired-lan] [PATCH net-next v2 02/13] wifi: cfg80211: use __rtnl_unlock in nl80211_pre_doit
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260319/202603191008.66uOsWyh-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260319/202603191008.66uOsWyh-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Melissa-Wen/drm-atomic-track-individual-colorop-updates/20260319-023607
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20260318162348.299807-2-mwen%40igalia.com
+patch subject: [PATCH 1/2] drm/atomic: track individual colorop updates
+config: arc-randconfig-002-20260319 (https://download.01.org/0day-ci/archive/20260319/202603191755.nmfoAOS4-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260319/202603191755.nmfoAOS4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603191008.66uOsWyh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603191755.nmfoAOS4-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
->> ERROR: modpost: "__rtnl_unlock" [net/wireless/cfg80211.ko] undefined!
+   In file included from drivers/gpu/drm/msm/msm_atomic.c:7:
+>> include/drm/drm_atomic_uapi.h:53:1: error: unknown type name 'bool'
+      53 | bool drm_atomic_set_colorop_for_plane(struct drm_plane_state *plane_state,
+         | ^~~~
+   include/drm/drm_atomic_uapi.h:1:1: note: 'bool' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
+     +++ |+#include <stdbool.h>
+       1 | /*
+
+
+vim +/bool +53 include/drm/drm_atomic_uapi.h
+
+    41	
+    42	int __must_check
+    43	drm_atomic_set_mode_for_crtc(struct drm_crtc_state *state,
+    44				     const struct drm_display_mode *mode);
+    45	int __must_check
+    46	drm_atomic_set_mode_prop_for_crtc(struct drm_crtc_state *state,
+    47					  struct drm_property_blob *blob);
+    48	int __must_check
+    49	drm_atomic_set_crtc_for_plane(struct drm_plane_state *plane_state,
+    50				      struct drm_crtc *crtc);
+    51	void drm_atomic_set_fb_for_plane(struct drm_plane_state *plane_state,
+    52					 struct drm_framebuffer *fb);
+  > 53	bool drm_atomic_set_colorop_for_plane(struct drm_plane_state *plane_state,
+    54					      struct drm_colorop *colorop);
+    55	int __must_check
+    56	drm_atomic_set_crtc_for_connector(struct drm_connector_state *conn_state,
+    57					  struct drm_crtc *crtc);
+    58	
 
 -- 
 0-DAY CI Kernel Test Service
