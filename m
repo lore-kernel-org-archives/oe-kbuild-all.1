@@ -1,104 +1,98 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2DA23559DF;
-	Thu, 19 Mar 2026 19:24:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C2CA3D5675
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Mar 2026 19:38:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773948276; cv=none; b=N3/0jiOMgjg6FjSH7YxT9Tmo9+P6U+5HbZgdsexcaJZRidV7QEfDA/MtgO99v2TzgOEHVPArasl0H/1EZ2snFeKsQF9p6bqPqj5VZCqMVzXRaN9wqtyox+tkU1zpAEW/ntJM7dluNnZIXqFnQmtCU9GYmsrIEbJPhGV93eVcOm8=
+	t=1773949108; cv=none; b=ZzEnCpS76nPGjRoGmFGu0mvgoP8EZ0NoaUrd48RUTN5Cc8wr36GL8TiV9iZGHH4umb02rVbVzL7wphNgvvCbfpkqxuLOQlR7EuXm9j8C+GgkKfh0BYTmv+iUrcnKwiBEeahq8hmjlL4ME/wyMU2TBWKgxYLJDhgeE70RPWB5KGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773948276; c=relaxed/simple;
-	bh=u1xu7qpyWsYDX0L3tUDoGRj59kCYadpSZzq6Eu5V1lk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Eb4JvWMlhEFjHZaIctg3u8yGNWiblHAbV4K5Y5Gy8v82a88BruKrn3R3qL/0xIwOgUOzj4VnLPSm1WpP4+GOT3Xz8bxSgM4sP+QlKa85uSg+8qav7aBvcwDBI0Txxvtc2JssvuLPMB6uCv4+n4VR7RX2n9phHb48XVT1dPQkbkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I2jVmdwv; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1773949108; c=relaxed/simple;
+	bh=ZhMU0mC3R1mIURutyE/TbEk7cCwwb4tdq8n+oxOX3wg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=K0VVQrSSvSytxtDlhp5x3CPSiNQIBdHnLb181d1Ct2LCHXeOssAUlzXjTVfRuNwamtlvlgOVFd/QmVm7ZHJP6rRNIGJ5RwzQ+zrs8BPMMmjgDwN3Kdbb2eWCOphImrdzKy0G6egn67ljkbylBiN8xj4eeCDsOO0gzgGHveAUbag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XVjByPtC; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I2jVmdwv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XVjByPtC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773948275; x=1805484275;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=u1xu7qpyWsYDX0L3tUDoGRj59kCYadpSZzq6Eu5V1lk=;
-  b=I2jVmdwvLoGorPW/AFeEXEFGZGnrkqvFsV5jxwW2vlkc9rMmlAqwNaQS
-   ej3a8jVH/WF9RyCDaWoBs0cqcQegnDK0LU5c2uQmAV7nkduOc+58DYaay
-   Xy29yB3vtcZTkNZ2262AHaE8Y9/z2s6Gs6luiraigZxDfqKbdYsX4NJqY
-   PCwnIuPk80vOBbHr/7g5iOzSG6J1H3nBZNhGxfLD52zgRdVhAtohg07M0
-   5PE52COGQZ9d7UGkCBKsKAug4R12n+XOYB/YFVzv9ZsDx5znnQX/b0OA1
-   VeoUCQNQk1jqRQL+eEVy/rjqK3W0XHEw6Wo64MZGjTrFmBi5cfDuc+JJc
-   A==;
-X-CSE-ConnectionGUID: NZ1CIQOlRoytMXH7tdly+w==
-X-CSE-MsgGUID: S8Xe/hdcQru5teUFA5godw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="75151339"
+  t=1773949107; x=1805485107;
+  h=date:from:to:cc:subject:message-id;
+  bh=ZhMU0mC3R1mIURutyE/TbEk7cCwwb4tdq8n+oxOX3wg=;
+  b=XVjByPtCYo7nDLvTQYTliGFwqgMLKPVp1NAoNmJZGU21sODOg1n20yQb
+   KF/KquCnmov6VjpHpNPfokOa2QosorcMtWX6hoMMcS5Z+XmLFl2qlXSWM
+   dKPg52nNnefff86ODixRqTOKg4LmTmGEWu42VJf7hLPYfCZ+DmIcrvPxv
+   i4+sp4BcbLbl4dOQdm/ADUylRenCwoSBpjCISavoW+nrYwmkAGcy+Lwt5
+   QlvcG9Rzk+/jIXK47/zheCwbCJk1FRyDj/h4VxkMIdSj3ofEq229XccHS
+   qeeoDvydDcntI87fwtG3pYmDXIZMjFdKxlKd29UFCMElu5nV86Q1arUDL
+   w==;
+X-CSE-ConnectionGUID: 6OXB+b9mSFK1i54A1wpB+g==
+X-CSE-MsgGUID: rPA//f6JSs6wRAwyqO+vTw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="86509947"
 X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
-   d="scan'208";a="75151339"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 12:24:34 -0700
-X-CSE-ConnectionGUID: flfI1DlhQdarwslc5bpUfQ==
-X-CSE-MsgGUID: gOtQL+EaQuC1IqfmCcQswQ==
+   d="scan'208";a="86509947"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 12:38:26 -0700
+X-CSE-ConnectionGUID: nfkH+JXDTROUU9kkprhKBg==
+X-CSE-MsgGUID: 1sf+ackESuu/AvAjFcwB1Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
-   d="scan'208";a="220456254"
+   d="scan'208";a="227768937"
 Received: from lkp-server02.sh.intel.com (HELO a51c2a36b9df) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 19 Mar 2026 12:24:27 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 19 Mar 2026 12:38:15 -0700
 Received: from kbuild by a51c2a36b9df with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w3Iym-000000001ZD-12mM;
-	Thu, 19 Mar 2026 19:24:24 +0000
-Date: Fri, 20 Mar 2026 03:22:12 +0800
+	id 1w3JC1-000000001ar-2q0I;
+	Thu, 19 Mar 2026 19:38:05 +0000
+Date: Fri, 20 Mar 2026 03:36:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
-	skhan@linuxfoundation.org, andrew+netdev@lunn.ch,
-	michael.chan@broadcom.com, pavan.chebbi@broadcom.com,
-	anthony.l.nguyen@intel.com, przemyslaw.kitszel@intel.com,
-	saeedm@nvidia.com, tariqt@nvidia.com, mbloch@nvidia.com,
-	alexanderduyck@fb.com, kernel-team@meta.com,
-	johannes@sipsolutions.net, sd@queasysnail.net, jianbol@nvidia.com,
-	dtatulea@nvidia.com, sdf@fomichev.me, mohsin.bashr@gmail.com,
-	jacob.e.keller@intel.com, willemb@google.com, skhawaja@google.com,
-	bestswngs@gmail.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [Intel-wired-lan] [PATCH net-next v2 02/13] wifi: cfg80211: use
- __rtnl_unlock in nl80211_pre_doit
-Message-ID: <202603200304.JZwA4SBN-lkp@intel.com>
-References: <20260318150305.123900-3-sdf@fomichev.me>
+To: Nick Terrell <terrelln@meta.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: ERROR: modpost: "__st_r13_to_r15"
+ [lib/zstd/zstd_decompress.ko] undefined!
+Message-ID: <202603200328.y02iDyFf-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260318150305.123900-3-sdf@fomichev.me>
 
-Hi Stanislav,
+Hi Nick,
 
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Fomichev/net-add-address-list-snapshot-and-reconciliation-infrastructure/20260319-122535
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260318150305.123900-3-sdf%40fomichev.me
-patch subject: [Intel-wired-lan] [PATCH net-next v2 02/13] wifi: cfg80211: use __rtnl_unlock in nl80211_pre_doit
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260320/202603200304.JZwA4SBN-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603200304.JZwA4SBN-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e9825d1c79570b4c11259e826b3f7c1511544a85
+commit: 65d1f5507ed2c78c64fce40e44e5574a9419eb09 zstd: Import upstream v1.5.7
+date:   1 year ago
+config: arc-randconfig-r073-20260319 (https://download.01.org/0day-ci/archive/20260320/202603200328.y02iDyFf-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 11.5.0
+smatch: v0.5.0-9004-gb810ac53
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603200328.y02iDyFf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603200304.JZwA4SBN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603200328.y02iDyFf-lkp@intel.com/
 
 All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> ERROR: modpost: "__rtnl_unlock" [net/wireless/cfg80211.ko] undefined!
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-mgr-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-bridge-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-region-test.o
+ERROR: modpost: "__ld_r13_to_r23_ret" [lib/zstd/zstd_decompress.ko] undefined!
+ERROR: modpost: "__st_r13_to_r22" [lib/zstd/zstd_decompress.ko] undefined!
+ERROR: modpost: "__ld_r13_to_r19_ret" [lib/zstd/zstd_decompress.ko] undefined!
+ERROR: modpost: "__ld_r13_to_r22_ret" [lib/zstd/zstd_decompress.ko] undefined!
+>> ERROR: modpost: "__st_r13_to_r15" [lib/zstd/zstd_decompress.ko] undefined!
+ERROR: modpost: "__st_r13_to_r24" [lib/zstd/zstd_decompress.ko] undefined!
+ERROR: modpost: "__st_r13_to_r19" [lib/zstd/zstd_decompress.ko] undefined!
+ERROR: modpost: "__st_r13_to_r23" [lib/zstd/zstd_decompress.ko] undefined!
+ERROR: modpost: "__ld_r13_to_r24_ret" [lib/zstd/zstd_decompress.ko] undefined!
+>> ERROR: modpost: "__ld_r13_to_r18_ret" [lib/zstd/zstd_decompress.ko] undefined!
+WARNING: modpost: suppressed 4 unresolved symbol warnings because there were too many)
 
 -- 
 0-DAY CI Kernel Test Service
