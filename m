@@ -1,230 +1,278 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94B993AA1A2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Mar 2026 20:48:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618873FF8A8;
+	Thu, 19 Mar 2026 21:10:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773953298; cv=none; b=CljbNLmGl3qJATdZUnp1jEDx0cn2K1xhxfrUQ4UQf4F/aazlQZmxi+6XJpvrRqBzpnWa4rOe5ftK+/37qT9XthNeHc9K4j5oYEauXsEJ2gCt8rp3k20QR8dOfIrf9XjYCRnRJUXiAtrWP6HkEhxxm8q8J+nu6o6aQHTbmabTThI=
+	t=1773954618; cv=none; b=MvnsGHs30NZvYyfQAb3k9Cd3GlnckLOIRfjnonMXBR5SxMQGaa2w+5y8GifcweIgbg0upMIC4Wql92BxgPSDxGrLdXYpLRHO678/43XZfFrcibtZ72snSRWIHPHAhBS3HdmKXXpVYNK6kFCg2thoKYqbDcX3wQbzVAQ/6uvpSe0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773953298; c=relaxed/simple;
-	bh=ZX/bTdTPJwUeA0+ahCmmyEo1Zy8BIu8jeRCyncgzauE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nKv17I+zgKf1rQNI1b+taDFEqTPlX2RM0Njgl7YV7/xzdprVaK1snwTwvNxZn7XH2Vy6onuSYA/g/ueL+kbluEMppiPu8ZZLRFD6hluEEP1lj/SK0xwjk/USZVVC4OpnutSkukWb12+LF4A3uNiw/dT3PUzr4GkYK6v//7WSZf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UyKxoM0H; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1773954618; c=relaxed/simple;
+	bh=T20ujShKVXyNYyBPVvZ0DB1nIQnNnSmSywuG7ANjP5g=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cQ6TWXOsNGy0jqS92D3s/1P9/DxrB86nJjDJ+4/z7q/LPVFw0KRyW+iyGngduVIXcvdlrZArTaC0jvn/25yQkmHa4tTgEyCu/x9Paja75JzC/CwRtxoxSP2N/yEJSsgm/ohgWVmp4CyaZVezI6EXIRCOZLMlnd5j5SqIRLrEKUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MoOiOPwr; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UyKxoM0H"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MoOiOPwr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773953295; x=1805489295;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZX/bTdTPJwUeA0+ahCmmyEo1Zy8BIu8jeRCyncgzauE=;
-  b=UyKxoM0HhNIvsERaAOmk3Wgx+rHFzHF0b3nHOSg+3whTjRxb/68SxRhh
-   D2SFZnaUyOmh43ymt+LIJY8fqrRYFppn1ysoCHv0hVceAxRDaBGN15sbr
-   HjKbPe7yJyn7Fg8HKu0t4Sv7FS7ZDcnlDlp1CAiv/KmdJavpIAVUb9xNQ
-   +Ld48NEtGanIQB7jNDD3h0YyQ9IVn4PPGG2OKLMF+pMdnmfHm0ctDRb1Y
-   ccGXQuYYyJCwCj7cXVyKTWNX5AH91VB0JkaAWfEfHKR2OwoTjYDgedhKO
-   qR0RIlgJYilLjLJpVNY3KMbbz2RXH3r4ccwukNRRkXnA3wb/PHQEZ3Vk3
-   A==;
-X-CSE-ConnectionGUID: oX2WXd+oTJiOWw+nGH0UYQ==
-X-CSE-MsgGUID: wMnqbEp4R52J5e8vCOOC7Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="100496201"
-X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
-   d="scan'208";a="100496201"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 13:48:15 -0700
-X-CSE-ConnectionGUID: efHp6hSUQE6aDXyJibgx2g==
-X-CSE-MsgGUID: pSeySoySRIWYcuhBDeFbVQ==
+  t=1773954611; x=1805490611;
+  h=date:from:to:cc:subject:message-id;
+  bh=T20ujShKVXyNYyBPVvZ0DB1nIQnNnSmSywuG7ANjP5g=;
+  b=MoOiOPwr1rRrG9yaGlNArK/zXGpyKrAiPmMU8tPa5soAM+UuIEsOQBdr
+   F0s7XLaEA5RL0CWOrIVY2H5tn51rfzV/9OGOinMhHtqtR2WCyEF8Eeg8I
+   2zmJLOSKHSY7rBej0xp519pC3ClypLirD8gStovHmd/gdhzD4q0zf3yP9
+   2OxZdGI7vqxb2XmPmhN0XpN46KOGAmDvzZIkFXQ/OhR38MThUK05CHHQE
+   0tMvZ/8zHheiKjjyCFwBhQBWu60/U3Lp+w10oau4faApJTMb5k6yJ3Zly
+   pKV9VmIO2/qrpQjIC2eIMXBneBE+axo30F3hfazxtOUj+7tO2eBNshFr9
+   w==;
+X-CSE-ConnectionGUID: 8YzddsZyTr2v3NlSGc0ldg==
+X-CSE-MsgGUID: wwkSLi2lSsqKV9+vrCB4UA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="77646211"
+X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
+   d="scan'208";a="77646211"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 14:10:10 -0700
+X-CSE-ConnectionGUID: 7H4p5ooARASxMKIiy2s5aA==
+X-CSE-MsgGUID: gpf1waTxTjKCY5cLOKSQnQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
-   d="scan'208";a="222306964"
+X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
+   d="scan'208";a="228028061"
 Received: from lkp-server02.sh.intel.com (HELO a51c2a36b9df) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 19 Mar 2026 13:48:11 -0700
+  by orviesa005.jf.intel.com with ESMTP; 19 Mar 2026 14:10:09 -0700
 Received: from kbuild by a51c2a36b9df with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w3KHo-000000001dt-40uo;
-	Thu, 19 Mar 2026 20:48:08 +0000
-Date: Fri, 20 Mar 2026 04:46:08 +0800
+	id 1w3Kd3-000000001f7-38yK;
+	Thu, 19 Mar 2026 21:10:05 +0000
+Date: Fri, 20 Mar 2026 05:10:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: hsuck <hsu.chih.kai@realtek.com>, kuba@kernel.org, davem@davemloft.net
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	nic_swsd@realtek.com, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org, edumazet@google.com, bjorn@mork.no,
-	pabeni@redhat.com, hsuck <hsu.chih.kai@realtek.com>
-Subject: Re: [PATCH net-next 2/2] r8152: add helper functions for PHY OCP
- registers
-Message-ID: <202603200420.7kabrAGG-lkp@intel.com>
-References: <20260318123313.2313-446-nic_swsd@realtek.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [axboe:rw_iter 88/539] security/smack/smackfs.c:840:8:
+ error: redefinition of 'data'
+Message-ID: <202603200500.o713eiQc-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260318123313.2313-446-nic_swsd@realtek.com>
 
-Hi hsuck,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/hsuck/r8152-add-helper-functions-for-PLA-USB-OCP-registers/20260318-232634
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260318123313.2313-446-nic_swsd%40realtek.com
-patch subject: [PATCH net-next 2/2] r8152: add helper functions for PHY OCP registers
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260320/202603200420.7kabrAGG-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603200420.7kabrAGG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git rw_iter
+head:   f36e0fb8d552bd827ef31f4fc1190d0149c44249
+commit: e1304db7fdf310d4270e4843eb8c7333bdc7f10a [88/539] smack: convert to read/write iterators
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260320/202603200500.o713eiQc-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603200500.o713eiQc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603200420.7kabrAGG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603200500.o713eiQc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/usb/r8152.c: In function 'r8153_init':
->> drivers/net/usb/r8152.c:6864:13: warning: variable 'data' set but not used [-Wunused-but-set-variable]
-    6864 |         u16 data;
-         |             ^~~~
-   drivers/net/usb/r8152.c: In function 'r8153b_init':
-   drivers/net/usb/r8152.c:6983:13: warning: variable 'data' set but not used [-Wunused-but-set-variable]
-    6983 |         u16 data;
-         |             ^~~~
-   drivers/net/usb/r8152.c: In function 'r8153c_init':
-   drivers/net/usb/r8152.c:7054:13: warning: variable 'data' set but not used [-Wunused-but-set-variable]
-    7054 |         u16 data;
-         |             ^~~~
+>> security/smack/smackfs.c:840:8: error: redefinition of 'data'
+           char *data = NULL;
+                 ^
+   security/smack/smackfs.c:829:55: note: previous definition is here
+   static ssize_t smk_set_cipso(struct file *file, char *data,
+                                                         ^
+>> security/smack/smackfs.c:860:25: error: use of undeclared identifier 'buf'
+           data = memdup_user_nul(buf, count);
+                                  ^
+>> security/smack/smackfs.c:957:29: error: passing 'const char *' to parameter of type 'char *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+           return smk_set_cipso(file, buf, count, ppos, SMK_FIXED24_FMT);
+                                      ^~~
+   security/smack/smackfs.c:829:55: note: passing argument to parameter 'data' here
+   static ssize_t smk_set_cipso(struct file *file, char *data,
+                                                         ^
+   security/smack/smackfs.c:1032:29: error: passing 'const char *' to parameter of type 'char *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+           return smk_set_cipso(file, buf, count, ppos, SMK_LONG_FMT);
+                                      ^~~
+   security/smack/smackfs.c:829:55: note: passing argument to parameter 'data' here
+   static ssize_t smk_set_cipso(struct file *file, char *data,
+                                                         ^
+   security/smack/smackfs.c:2231:36: error: passing 'const char *' to parameter of type 'char *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+           return smk_write_rules_list(file, buf, count, ppos, &tsp->smk_rules,
+                                             ^~~
+   security/smack/smackfs.c:447:62: note: passing argument to parameter 'data' here
+   static ssize_t smk_write_rules_list(struct file *file, char *data,
+                                                                ^
+   security/smack/smackfs.c:2368:36: error: passing 'const char *' to parameter of type 'char *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+           return smk_write_rules_list(file, buf, count, ppos, NULL, NULL,
+                                             ^~~
+   security/smack/smackfs.c:447:62: note: passing argument to parameter 'data' here
+   static ssize_t smk_write_rules_list(struct file *file, char *data,
+                                                                ^
+   security/smack/smackfs.c:2442:36: error: passing 'const char *' to parameter of type 'char *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+           return smk_write_rules_list(file, buf, count, ppos, &tsp->smk_rules,
+                                             ^~~
+   security/smack/smackfs.c:447:62: note: passing argument to parameter 'data' here
+   static ssize_t smk_write_rules_list(struct file *file, char *data,
+                                                                ^
+   security/smack/smackfs.c:2568:36: error: passing 'const char *' to parameter of type 'char *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+           return smk_write_rules_list(file, buf, count, ppos, NULL, NULL,
+                                             ^~~
+   security/smack/smackfs.c:447:62: note: passing argument to parameter 'data' here
+   static ssize_t smk_write_rules_list(struct file *file, char *data,
+                                                                ^
+   8 errors generated.
 
 
-vim +/data +6864 drivers/net/usb/r8152.c
+vim +/data +840 security/smack/smackfs.c
 
-195aae321c829d Hayes Wang       2021-04-16  6861  
-195aae321c829d Hayes Wang       2021-04-16  6862  static void r8153_init(struct r8152 *tp)
-195aae321c829d Hayes Wang       2021-04-16  6863  {
-195aae321c829d Hayes Wang       2021-04-16 @6864  	u16 data;
-195aae321c829d Hayes Wang       2021-04-16  6865  	int i;
-195aae321c829d Hayes Wang       2021-04-16  6866  
-715f67f33af45c Douglas Anderson 2023-10-20  6867  	if (test_bit(RTL8152_INACCESSIBLE, &tp->flags))
-195aae321c829d Hayes Wang       2021-04-16  6868  		return;
-195aae321c829d Hayes Wang       2021-04-16  6869  
-195aae321c829d Hayes Wang       2021-04-16  6870  	r8153_u1u2en(tp, false);
-195aae321c829d Hayes Wang       2021-04-16  6871  
-195aae321c829d Hayes Wang       2021-04-16  6872  	for (i = 0; i < 500; i++) {
-195aae321c829d Hayes Wang       2021-04-16  6873  		if (ocp_read_word(tp, MCU_TYPE_PLA, PLA_BOOT_CTRL) &
-195aae321c829d Hayes Wang       2021-04-16  6874  		    AUTOLOAD_DONE)
-195aae321c829d Hayes Wang       2021-04-16  6875  			break;
-195aae321c829d Hayes Wang       2021-04-16  6876  
-195aae321c829d Hayes Wang       2021-04-16  6877  		msleep(20);
-715f67f33af45c Douglas Anderson 2023-10-20  6878  		if (test_bit(RTL8152_INACCESSIBLE, &tp->flags))
-195aae321c829d Hayes Wang       2021-04-16  6879  			break;
-195aae321c829d Hayes Wang       2021-04-16  6880  	}
-195aae321c829d Hayes Wang       2021-04-16  6881  
-195aae321c829d Hayes Wang       2021-04-16  6882  	data = r8153_phy_status(tp, 0);
-195aae321c829d Hayes Wang       2021-04-16  6883  
-195aae321c829d Hayes Wang       2021-04-16  6884  	if (tp->version == RTL_VER_03 || tp->version == RTL_VER_04 ||
-195aae321c829d Hayes Wang       2021-04-16  6885  	    tp->version == RTL_VER_05)
-195aae321c829d Hayes Wang       2021-04-16  6886  		ocp_reg_write(tp, OCP_ADC_CFG, CKADSEL_L | ADC_EN | EN_EMI_L);
-195aae321c829d Hayes Wang       2021-04-16  6887  
-b520efeb0a4573 hsuck            2026-03-18  6888  	r8152_mdio_test_and_clr_bit(tp, MII_BMCR, BMCR_PDOWN);
-195aae321c829d Hayes Wang       2021-04-16  6889  
-195aae321c829d Hayes Wang       2021-04-16  6890  	data = r8153_phy_status(tp, PHY_STAT_LAN_ON);
-195aae321c829d Hayes Wang       2021-04-16  6891  
-195aae321c829d Hayes Wang       2021-04-16  6892  	r8153_u2p3en(tp, false);
-195aae321c829d Hayes Wang       2021-04-16  6893  
-195aae321c829d Hayes Wang       2021-04-16  6894  	if (tp->version == RTL_VER_04) {
-ce600d52ace5a4 hsuck            2026-03-18  6895  		ocp_word_w0w1(tp, MCU_TYPE_USB, USB_SSPHYLINK2,
-ce600d52ace5a4 hsuck            2026-03-18  6896  			      pwd_dn_scale_mask, pwd_dn_scale(96));
-ce600d52ace5a4 hsuck            2026-03-18  6897  
-ce600d52ace5a4 hsuck            2026-03-18  6898  		ocp_byte_set_bits(tp, MCU_TYPE_USB, USB_USB2PHY,
-ce600d52ace5a4 hsuck            2026-03-18  6899  				  USB2PHY_L1 | USB2PHY_SUSPEND);
-195aae321c829d Hayes Wang       2021-04-16  6900  	} else if (tp->version == RTL_VER_05) {
-ce600d52ace5a4 hsuck            2026-03-18  6901  		ocp_byte_clr_bits(tp, MCU_TYPE_PLA, PLA_DMY_REG0, ECM_ALDPS);
-195aae321c829d Hayes Wang       2021-04-16  6902  
-195aae321c829d Hayes Wang       2021-04-16  6903  		if (ocp_read_word(tp, MCU_TYPE_USB, USB_BURST_SIZE) == 0)
-ce600d52ace5a4 hsuck            2026-03-18  6904  			ocp_byte_clr_bits(tp, MCU_TYPE_USB, USB_CSR_DUMMY1,
-ce600d52ace5a4 hsuck            2026-03-18  6905  					  DYNAMIC_BURST);
-195aae321c829d Hayes Wang       2021-04-16  6906  		else
-ce600d52ace5a4 hsuck            2026-03-18  6907  			ocp_byte_set_bits(tp, MCU_TYPE_USB, USB_CSR_DUMMY1,
-ce600d52ace5a4 hsuck            2026-03-18  6908  					  DYNAMIC_BURST);
-195aae321c829d Hayes Wang       2021-04-16  6909  	} else if (tp->version == RTL_VER_06) {
-195aae321c829d Hayes Wang       2021-04-16  6910  		if (ocp_read_word(tp, MCU_TYPE_USB, USB_BURST_SIZE) == 0)
-ce600d52ace5a4 hsuck            2026-03-18  6911  			ocp_byte_clr_bits(tp, MCU_TYPE_USB, USB_CSR_DUMMY1,
-ce600d52ace5a4 hsuck            2026-03-18  6912  					  DYNAMIC_BURST);
-195aae321c829d Hayes Wang       2021-04-16  6913  		else
-ce600d52ace5a4 hsuck            2026-03-18  6914  			ocp_byte_set_bits(tp, MCU_TYPE_USB, USB_CSR_DUMMY1,
-ce600d52ace5a4 hsuck            2026-03-18  6915  					  DYNAMIC_BURST);
-195aae321c829d Hayes Wang       2021-04-16  6916  
-195aae321c829d Hayes Wang       2021-04-16  6917  		r8153_queue_wake(tp, false);
-195aae321c829d Hayes Wang       2021-04-16  6918  
-195aae321c829d Hayes Wang       2021-04-16  6919  		if (rtl8152_get_speed(tp) & LINK_STATUS)
-ce600d52ace5a4 hsuck            2026-03-18  6920  			ocp_word_set_bits(tp, MCU_TYPE_PLA, PLA_EXTRA_STATUS,
-ce600d52ace5a4 hsuck            2026-03-18  6921  					  CUR_LINK_OK | POLL_LINK_CHG);
-195aae321c829d Hayes Wang       2021-04-16  6922  		else
-ce600d52ace5a4 hsuck            2026-03-18  6923  			ocp_word_w0w1(tp, MCU_TYPE_PLA, PLA_EXTRA_STATUS,
-ce600d52ace5a4 hsuck            2026-03-18  6924  				      CUR_LINK_OK, POLL_LINK_CHG);
-195aae321c829d Hayes Wang       2021-04-16  6925  	}
-195aae321c829d Hayes Wang       2021-04-16  6926  
-ce600d52ace5a4 hsuck            2026-03-18  6927  	ocp_byte_set_bits(tp, MCU_TYPE_USB, USB_CSR_DUMMY2, EP4_FULL_FC);
-195aae321c829d Hayes Wang       2021-04-16  6928  
-ce600d52ace5a4 hsuck            2026-03-18  6929  	ocp_word_clr_bits(tp, MCU_TYPE_USB, USB_WDT11_CTRL, TIMER11_EN);
-195aae321c829d Hayes Wang       2021-04-16  6930  
-ce600d52ace5a4 hsuck            2026-03-18  6931  	ocp_word_clr_bits(tp, MCU_TYPE_PLA, PLA_LED_FEATURE, LED_MODE_MASK);
-195aae321c829d Hayes Wang       2021-04-16  6932  
-195aae321c829d Hayes Wang       2021-04-16  6933  	if (tp->version == RTL_VER_04 && tp->udev->speed < USB_SPEED_SUPER)
-ce600d52ace5a4 hsuck            2026-03-18  6934  		ocp_byte_set_bits(tp, MCU_TYPE_USB, USB_LPM_CTRL,
-ce600d52ace5a4 hsuck            2026-03-18  6935  				  FIFO_EMPTY_1FB | ROK_EXIT_LPM |
-ce600d52ace5a4 hsuck            2026-03-18  6936  				  LPM_TIMER_500MS);
-195aae321c829d Hayes Wang       2021-04-16  6937  	else
-ce600d52ace5a4 hsuck            2026-03-18  6938  		ocp_byte_set_bits(tp, MCU_TYPE_USB, USB_LPM_CTRL,
-ce600d52ace5a4 hsuck            2026-03-18  6939  				  FIFO_EMPTY_1FB | ROK_EXIT_LPM |
-ce600d52ace5a4 hsuck            2026-03-18  6940  				  LPM_TIMER_500US);
-195aae321c829d Hayes Wang       2021-04-16  6941  
-ce600d52ace5a4 hsuck            2026-03-18  6942  	ocp_word_w0w1(tp, MCU_TYPE_USB, USB_AFE_CTRL2, SEN_VAL_MASK,
-ce600d52ace5a4 hsuck            2026-03-18  6943  		      SEN_VAL_NORMAL | SEL_RXIDLE);
-195aae321c829d Hayes Wang       2021-04-16  6944  
-195aae321c829d Hayes Wang       2021-04-16  6945  	ocp_write_word(tp, MCU_TYPE_USB, USB_CONNECT_TIMER, 0x0001);
-195aae321c829d Hayes Wang       2021-04-16  6946  
-195aae321c829d Hayes Wang       2021-04-16  6947  	r8153_power_cut_en(tp, false);
-195aae321c829d Hayes Wang       2021-04-16  6948  	rtl_runtime_suspend_enable(tp, false);
-195aae321c829d Hayes Wang       2021-04-16  6949  	r8153_mac_clk_speed_down(tp, false);
-195aae321c829d Hayes Wang       2021-04-16  6950  	r8153_u1u2en(tp, true);
-195aae321c829d Hayes Wang       2021-04-16  6951  	usb_enable_lpm(tp->udev);
-195aae321c829d Hayes Wang       2021-04-16  6952  
-ce600d52ace5a4 hsuck            2026-03-18  6953  	ocp_byte_set_bits(tp, MCU_TYPE_PLA, PLA_CONFIG6, LANWAKE_CLR_EN);
-195aae321c829d Hayes Wang       2021-04-16  6954  
-ce600d52ace5a4 hsuck            2026-03-18  6955  	ocp_byte_clr_bits(tp, MCU_TYPE_PLA, PLA_LWAKE_CTRL_REG, LANWAKE_PIN);
-195aae321c829d Hayes Wang       2021-04-16  6956  
-195aae321c829d Hayes Wang       2021-04-16  6957  	/* rx aggregation */
-ce600d52ace5a4 hsuck            2026-03-18  6958  	ocp_word_clr_bits(tp, MCU_TYPE_USB, USB_USB_CTRL,
-ce600d52ace5a4 hsuck            2026-03-18  6959  			  RX_AGG_DISABLE | RX_ZERO_EN);
-195aae321c829d Hayes Wang       2021-04-16  6960  
-ce600d52ace5a4 hsuck            2026-03-18  6961  	if (tp->dell_tb_rx_agg_bug)
-ce600d52ace5a4 hsuck            2026-03-18  6962  		ocp_word_set_bits(tp, MCU_TYPE_USB, USB_USB_CTRL,
-ce600d52ace5a4 hsuck            2026-03-18  6963  				  RX_AGG_DISABLE);
-195aae321c829d Hayes Wang       2021-04-16  6964  
-195aae321c829d Hayes Wang       2021-04-16  6965  	rtl_tally_reset(tp);
-195aae321c829d Hayes Wang       2021-04-16  6966  
-195aae321c829d Hayes Wang       2021-04-16  6967  	switch (tp->udev->speed) {
-195aae321c829d Hayes Wang       2021-04-16  6968  	case USB_SPEED_SUPER:
-195aae321c829d Hayes Wang       2021-04-16  6969  	case USB_SPEED_SUPER_PLUS:
-195aae321c829d Hayes Wang       2021-04-16  6970  		tp->coalesce = COALESCE_SUPER;
-195aae321c829d Hayes Wang       2021-04-16  6971  		break;
-195aae321c829d Hayes Wang       2021-04-16  6972  	case USB_SPEED_HIGH:
-195aae321c829d Hayes Wang       2021-04-16  6973  		tp->coalesce = COALESCE_HIGH;
-195aae321c829d Hayes Wang       2021-04-16  6974  		break;
-195aae321c829d Hayes Wang       2021-04-16  6975  	default:
-195aae321c829d Hayes Wang       2021-04-16  6976  		tp->coalesce = COALESCE_SLOW;
-195aae321c829d Hayes Wang       2021-04-16  6977  		break;
-195aae321c829d Hayes Wang       2021-04-16  6978  	}
-195aae321c829d Hayes Wang       2021-04-16  6979  }
-195aae321c829d Hayes Wang       2021-04-16  6980  
+e114e473771c84 Casey Schaufler    2008-02-04  817  
+e114e473771c84 Casey Schaufler    2008-02-04  818  /**
+f7112e6c9abf1c Casey Schaufler    2012-05-06  819   * smk_set_cipso - do the work for write() for cipso and cipso2
+251a2a958b0455 Randy Dunlap       2009-02-18  820   * @file: file pointer, not actually used
+e114e473771c84 Casey Schaufler    2008-02-04  821   * @buf: where to get the data from
+e114e473771c84 Casey Schaufler    2008-02-04  822   * @count: bytes sent
+e114e473771c84 Casey Schaufler    2008-02-04  823   * @ppos: where to start
+f7112e6c9abf1c Casey Schaufler    2012-05-06  824   * @format: /smack/cipso or /smack/cipso2
+e114e473771c84 Casey Schaufler    2008-02-04  825   *
+e114e473771c84 Casey Schaufler    2008-02-04  826   * Accepts only one cipso rule per write call.
+e114e473771c84 Casey Schaufler    2008-02-04  827   * Returns number of bytes written or error code, as appropriate
+e114e473771c84 Casey Schaufler    2008-02-04  828   */
+e1304db7fdf310 Jens Axboe         2024-04-10  829  static ssize_t smk_set_cipso(struct file *file, char *data,
+f7112e6c9abf1c Casey Schaufler    2012-05-06  830  				size_t count, loff_t *ppos, int format)
+e114e473771c84 Casey Schaufler    2008-02-04  831  {
+c7fb50cecff9ca Konstantin Andreev 2025-01-17  832  	struct netlbl_lsm_catmap *old_cat;
+e114e473771c84 Casey Schaufler    2008-02-04  833  	struct smack_known *skp;
+f7112e6c9abf1c Casey Schaufler    2012-05-06  834  	struct netlbl_lsm_secattr ncats;
+f7112e6c9abf1c Casey Schaufler    2012-05-06  835  	char mapcatset[SMK_CIPSOLEN];
+e114e473771c84 Casey Schaufler    2008-02-04  836  	int maplevel;
+f7112e6c9abf1c Casey Schaufler    2012-05-06  837  	unsigned int cat;
+e114e473771c84 Casey Schaufler    2008-02-04  838  	int catlen;
+e114e473771c84 Casey Schaufler    2008-02-04  839  	ssize_t rc = -EINVAL;
+e114e473771c84 Casey Schaufler    2008-02-04 @840  	char *data = NULL;
+e114e473771c84 Casey Schaufler    2008-02-04  841  	char *rule;
+e114e473771c84 Casey Schaufler    2008-02-04  842  	int ret;
+e114e473771c84 Casey Schaufler    2008-02-04  843  	int i;
+e114e473771c84 Casey Schaufler    2008-02-04  844  
+e114e473771c84 Casey Schaufler    2008-02-04  845  	/*
+e114e473771c84 Casey Schaufler    2008-02-04  846  	 * Must have privilege.
+e114e473771c84 Casey Schaufler    2008-02-04  847  	 * No partial writes.
+e114e473771c84 Casey Schaufler    2008-02-04  848  	 * Enough data must be present.
+e114e473771c84 Casey Schaufler    2008-02-04  849  	 */
+1880eff77e7a7c Casey Schaufler    2012-06-05  850  	if (!smack_privileged(CAP_MAC_ADMIN))
+e114e473771c84 Casey Schaufler    2008-02-04  851  		return -EPERM;
+e114e473771c84 Casey Schaufler    2008-02-04  852  	if (*ppos != 0)
+e114e473771c84 Casey Schaufler    2008-02-04  853  		return -EINVAL;
+f7112e6c9abf1c Casey Schaufler    2012-05-06  854  	if (format == SMK_FIXED24_FMT &&
+f7112e6c9abf1c Casey Schaufler    2012-05-06  855  	    (count < SMK_CIPSOMIN || count > SMK_CIPSOMAX))
+e114e473771c84 Casey Schaufler    2008-02-04  856  		return -EINVAL;
+49ec114a6e62d8 Tetsuo Handa       2021-04-12  857  	if (count > PAGE_SIZE)
+49ec114a6e62d8 Tetsuo Handa       2021-04-12  858  		return -EINVAL;
+e114e473771c84 Casey Schaufler    2008-02-04  859  
+16e5c1fc36040e Al Viro            2015-12-24 @860  	data = memdup_user_nul(buf, count);
+16e5c1fc36040e Al Viro            2015-12-24  861  	if (IS_ERR(data))
+16e5c1fc36040e Al Viro            2015-12-24  862  		return PTR_ERR(data);
+e114e473771c84 Casey Schaufler    2008-02-04  863  
+e114e473771c84 Casey Schaufler    2008-02-04  864  	rule = data;
+e114e473771c84 Casey Schaufler    2008-02-04  865  	/*
+e114e473771c84 Casey Schaufler    2008-02-04  866  	 * Only allow one writer at a time. Writes should be
+e114e473771c84 Casey Schaufler    2008-02-04  867  	 * quite rare and small in any case.
+e114e473771c84 Casey Schaufler    2008-02-04  868  	 */
+e114e473771c84 Casey Schaufler    2008-02-04  869  	mutex_lock(&smack_cipso_lock);
+e114e473771c84 Casey Schaufler    2008-02-04  870  
+e114e473771c84 Casey Schaufler    2008-02-04  871  	skp = smk_import_entry(rule, 0);
+e774ad683f425a Lukasz Pawelczyk   2015-04-20  872  	if (IS_ERR(skp)) {
+e774ad683f425a Lukasz Pawelczyk   2015-04-20  873  		rc = PTR_ERR(skp);
+e114e473771c84 Casey Schaufler    2008-02-04  874  		goto out;
+e774ad683f425a Lukasz Pawelczyk   2015-04-20  875  	}
+e114e473771c84 Casey Schaufler    2008-02-04  876  
+f7112e6c9abf1c Casey Schaufler    2012-05-06  877  	if (format == SMK_FIXED24_FMT)
+c19a28e1193a6c Fernando Carrijo   2009-01-07  878  		rule += SMK_LABELLEN;
+f7112e6c9abf1c Casey Schaufler    2012-05-06  879  	else
+0fcfee61d63b82 Passion,Zhao       2013-06-03  880  		rule += strlen(skp->smk_known) + 1;
+f7112e6c9abf1c Casey Schaufler    2012-05-06  881  
+84e99e58e8d1e2 Casey Schaufler    2020-04-09  882  	if (rule > data + count) {
+84e99e58e8d1e2 Casey Schaufler    2020-04-09  883  		rc = -EOVERFLOW;
+84e99e58e8d1e2 Casey Schaufler    2020-04-09  884  		goto out;
+84e99e58e8d1e2 Casey Schaufler    2020-04-09  885  	}
+84e99e58e8d1e2 Casey Schaufler    2020-04-09  886  
+e114e473771c84 Casey Schaufler    2008-02-04  887  	ret = sscanf(rule, "%d", &maplevel);
+42a2df3e829f3c Dan Carpenter      2020-07-23  888  	if (ret != 1 || maplevel < 0 || maplevel > SMACK_CIPSO_MAXLEVEL)
+e114e473771c84 Casey Schaufler    2008-02-04  889  		goto out;
+e114e473771c84 Casey Schaufler    2008-02-04  890  
+e114e473771c84 Casey Schaufler    2008-02-04  891  	rule += SMK_DIGITLEN;
+84e99e58e8d1e2 Casey Schaufler    2020-04-09  892  	if (rule > data + count) {
+84e99e58e8d1e2 Casey Schaufler    2020-04-09  893  		rc = -EOVERFLOW;
+84e99e58e8d1e2 Casey Schaufler    2020-04-09  894  		goto out;
+84e99e58e8d1e2 Casey Schaufler    2020-04-09  895  	}
+84e99e58e8d1e2 Casey Schaufler    2020-04-09  896  
+e114e473771c84 Casey Schaufler    2008-02-04  897  	ret = sscanf(rule, "%d", &catlen);
+3ad49d37cf5759 Dan Carpenter      2023-07-06  898  	if (ret != 1 || catlen < 0 || catlen > SMACK_CIPSO_MAXCATNUM)
+e114e473771c84 Casey Schaufler    2008-02-04  899  		goto out;
+e114e473771c84 Casey Schaufler    2008-02-04  900  
+f7112e6c9abf1c Casey Schaufler    2012-05-06  901  	if (format == SMK_FIXED24_FMT &&
+f7112e6c9abf1c Casey Schaufler    2012-05-06  902  	    count != (SMK_CIPSOMIN + catlen * SMK_DIGITLEN))
+e114e473771c84 Casey Schaufler    2008-02-04  903  		goto out;
+e114e473771c84 Casey Schaufler    2008-02-04  904  
+e114e473771c84 Casey Schaufler    2008-02-04  905  	memset(mapcatset, 0, sizeof(mapcatset));
+e114e473771c84 Casey Schaufler    2008-02-04  906  
+e114e473771c84 Casey Schaufler    2008-02-04  907  	for (i = 0; i < catlen; i++) {
+e114e473771c84 Casey Schaufler    2008-02-04  908  		rule += SMK_DIGITLEN;
+a6bd4f6d9b0745 Dan Carpenter      2020-07-23  909  		if (rule > data + count) {
+a6bd4f6d9b0745 Dan Carpenter      2020-07-23  910  			rc = -EOVERFLOW;
+a6bd4f6d9b0745 Dan Carpenter      2020-07-23  911  			goto out;
+a6bd4f6d9b0745 Dan Carpenter      2020-07-23  912  		}
+f7112e6c9abf1c Casey Schaufler    2012-05-06  913  		ret = sscanf(rule, "%u", &cat);
+677264e8fb73ea Casey Schaufler    2013-06-28  914  		if (ret != 1 || cat > SMACK_CIPSO_MAXCATNUM)
+e114e473771c84 Casey Schaufler    2008-02-04  915  			goto out;
+e114e473771c84 Casey Schaufler    2008-02-04  916  
+e114e473771c84 Casey Schaufler    2008-02-04  917  		smack_catset_bit(cat, mapcatset);
+e114e473771c84 Casey Schaufler    2008-02-04  918  	}
+c7fb50cecff9ca Konstantin Andreev 2025-01-17  919  
+f7112e6c9abf1c Casey Schaufler    2012-05-06  920  	rc = smk_netlbl_mls(maplevel, mapcatset, &ncats, SMK_CIPSOLEN);
+f7112e6c9abf1c Casey Schaufler    2012-05-06  921  	if (rc >= 0) {
+0817534ff9ea80 Pawan Gupta        2021-08-28  922  		old_cat = skp->smk_netlabel.attr.mls.cat;
+2749749afa071f Jiawei Ye          2024-09-02  923  		rcu_assign_pointer(skp->smk_netlabel.attr.mls.cat, ncats.attr.mls.cat);
+a158a937d864d0 Konstantin Andreev 2025-01-17  924  		if (ncats.attr.mls.cat)
+a158a937d864d0 Konstantin Andreev 2025-01-17  925  			skp->smk_netlabel.flags |= NETLBL_SECATTR_MLS_CAT;
+a158a937d864d0 Konstantin Andreev 2025-01-17  926  		else
+a158a937d864d0 Konstantin Andreev 2025-01-17  927  			skp->smk_netlabel.flags &= ~(u32)NETLBL_SECATTR_MLS_CAT;
+f7112e6c9abf1c Casey Schaufler    2012-05-06  928  		skp->smk_netlabel.attr.mls.lvl = ncats.attr.mls.lvl;
+0817534ff9ea80 Pawan Gupta        2021-08-28  929  		synchronize_rcu();
+0817534ff9ea80 Pawan Gupta        2021-08-28  930  		netlbl_catmap_free(old_cat);
+f7112e6c9abf1c Casey Schaufler    2012-05-06  931  		rc = count;
+322dd63c7f9831 Casey Schaufler    2020-08-11  932  		/*
+322dd63c7f9831 Casey Schaufler    2020-08-11  933  		 * This mapping may have been cached, so clear the cache.
+322dd63c7f9831 Casey Schaufler    2020-08-11  934  		 */
+322dd63c7f9831 Casey Schaufler    2020-08-11  935  		netlbl_cache_invalidate();
+e114e473771c84 Casey Schaufler    2008-02-04  936  	}
+e114e473771c84 Casey Schaufler    2008-02-04  937  
+e114e473771c84 Casey Schaufler    2008-02-04  938  out:
+e114e473771c84 Casey Schaufler    2008-02-04  939  	mutex_unlock(&smack_cipso_lock);
+e114e473771c84 Casey Schaufler    2008-02-04  940  	kfree(data);
+e114e473771c84 Casey Schaufler    2008-02-04  941  	return rc;
+e114e473771c84 Casey Schaufler    2008-02-04  942  }
+e114e473771c84 Casey Schaufler    2008-02-04  943  
+f7112e6c9abf1c Casey Schaufler    2012-05-06  944  /**
+f7112e6c9abf1c Casey Schaufler    2012-05-06  945   * smk_write_cipso - write() for /smack/cipso
+f7112e6c9abf1c Casey Schaufler    2012-05-06  946   * @file: file pointer, not actually used
+f7112e6c9abf1c Casey Schaufler    2012-05-06  947   * @buf: where to get the data from
+f7112e6c9abf1c Casey Schaufler    2012-05-06  948   * @count: bytes sent
+f7112e6c9abf1c Casey Schaufler    2012-05-06  949   * @ppos: where to start
+f7112e6c9abf1c Casey Schaufler    2012-05-06  950   *
+f7112e6c9abf1c Casey Schaufler    2012-05-06  951   * Accepts only one cipso rule per write call.
+f7112e6c9abf1c Casey Schaufler    2012-05-06  952   * Returns number of bytes written or error code, as appropriate
+f7112e6c9abf1c Casey Schaufler    2012-05-06  953   */
+f7112e6c9abf1c Casey Schaufler    2012-05-06  954  static ssize_t smk_write_cipso(struct file *file, const char __user *buf,
+f7112e6c9abf1c Casey Schaufler    2012-05-06  955  			       size_t count, loff_t *ppos)
+f7112e6c9abf1c Casey Schaufler    2012-05-06  956  {
+f7112e6c9abf1c Casey Schaufler    2012-05-06 @957  	return smk_set_cipso(file, buf, count, ppos, SMK_FIXED24_FMT);
+f7112e6c9abf1c Casey Schaufler    2012-05-06  958  }
+e1304db7fdf310 Jens Axboe         2024-04-10  959  FOPS_WRITE_ITER_HELPER(smk_write_cipso);
+f7112e6c9abf1c Casey Schaufler    2012-05-06  960  
+
+:::::: The code at line 840 was first introduced by commit
+:::::: e114e473771c848c3cfec05f0123e70f1cdbdc99 Smack: Simplified Mandatory Access Control Kernel
+
+:::::: TO: Casey Schaufler <casey@schaufler-ca.com>
+:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
