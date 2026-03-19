@@ -1,172 +1,202 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BAB63B6377
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Mar 2026 09:24:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C5F3378D7C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Mar 2026 09:45:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773912245; cv=none; b=W8cGNqkqtRD+ruk/oOua28ivnSTCt335b0y7s+2kfl0csUqem5LaQ09qTqo81vuYmwSLLuLvQNt7LHbE8A8Hn96IAD1bFpbKnhWNg9VvP6CVmUQboo1zbQ6NkhHWC29aS9R6JWBDW8MgxGmP/3HDkagt5mZTj3jLmf01TBwh34M=
+	t=1773913504; cv=none; b=qXT4YomGJkeFyCFr6WEM2HjdSSUqcFSgks9+Z+BgOOFAA7m0nCKfK7wv8rcIULaoWuhf5g3w3gyu2fBhApfcI8eWa569ID4ckD257PLPqbF49M6MlO2ecb0cTr/fngw8B/Z1jZwZkxiAyjv3W0G6LWvWdEfd6ETnT8FAg2mMWvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773912245; c=relaxed/simple;
-	bh=4fVcT6O0JeFRqq6WDRw+M041F2rlwqVlmLt/vjIOnXo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Bmqyc/gSIMwKZt4A+/454Boi6T8Urn746j4qPp57/9tKYInCMLPE77g+ogphJe0LeHsrdt1s61hyyWUt7NLqGQD6b636P8gbMsAoKnafCxzVfRizoTopa03X8MSPooWb0uxmFhteYfqd58qwIVPa3iadJuIGR3R9A+NgPLMTETQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CUO0f1jR; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1773913504; c=relaxed/simple;
+	bh=nA9B0Jae5vDYtGOPK6PSBRNcULNvLSgw/jW+kqlEPXo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=oGeypz61grjS64hnycAbvHB8e37XCX1ynmi3i0KNbAVEsxeoC57a+yccxf/yaL3r/s/03FMZvgj3crnGyrK1Lnfcr/sxvVNj+M9IQno7SKeuR+YkZqUdlSmUOWcyDwOZIaFigsHt0+DtBGrZbx4+bAZvUQ/vpbUb5l8cWY0KWOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kWUZMUv7; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CUO0f1jR"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-486fd3a577eso624525e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Mar 2026 02:24:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773912242; x=1774517042; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=sU7SVJpciufayF8WtllDRuLUotdFrBj08arZWzNIOsE=;
-        b=CUO0f1jRWvP2bwAPkorxAjbv1cZ4M1v7ZkmgzsWseHKDp9tDJWqmxKcafsFJCZFnEw
-         RsAwBznvOuIJFMgjqjoNBApW1MQbH2nl+aDpiLjLI4kLPB0f1WqPavC43aztx6Qrs4zF
-         3AuusylWVipd7XP8Rw2XJuYNxd1sO+J5LKfQ1mKhBJ2flOfa/MFEKJ+iSKE8tFxromqu
-         SauGqlmdI1ji77NM2iCYLGsZjViypitzu0OI61uany6IgYHAyZm3f/Mr3Z7L1DmTJHc0
-         FPyYSeCZ2y96BDOnaJgeUwkIBSDwjCkOBniVe/sxal8mOco7itkrc3GBfVGt0HL2zhwR
-         TUxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773912242; x=1774517042;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sU7SVJpciufayF8WtllDRuLUotdFrBj08arZWzNIOsE=;
-        b=sxf6fImdkkZLR0O3uUt8bxdNqhksQMtNi6CMC2xgk9vg3shLtBNKlx5ZnxAOnp/r0W
-         9X7un7BAN3+52l8Lel74fQ/0k/kVTrgiP7DVCvl4bZzC/I8jx6J3eHm8kDhBrN+ijzyB
-         ZBRTnNhKWnDbgF38cA1VEdk9wxU9dNF7/KRz8YgSX4vMP/DhLQ/gkl8SYKOPS3SL92SX
-         CsCxS/tW4h5y3AllhGkk5wQSNHUbha9PIQ+jhCdYP5uBjI0W9NDy6LDHqp6IXuitidEO
-         WeJrMS/wXA+9x9IVEdZjyDpPSdLl/7hVjJ6QUWvFhXaNmtJ18f2vkThTI3tsgCfJ2tip
-         12PA==
-X-Forwarded-Encrypted: i=1; AJvYcCV3oAOJnUefxAbY2ltV4qMPt5oJsBQaiAjdGMZ0kS+T2i/EBlQs/NOeW6fm4u/Jf9jD/V6x2IHxUaSq0Z/2@lists.linux.dev
-X-Gm-Message-State: AOJu0YxV/8FB50/owmcUB6mdAfV+68A8HBmbFZ//Xm4XtrhUqULGLHEX
-	7yI3FWebkjhHJrFcB3jrHvXEiRF1LcqBNYOWk/ylSgsywJUG3v/KztGOG2oKThQRFgc=
-X-Gm-Gg: ATEYQzxryxTu3SMdcOGFUGJoqwu/ISjawRIiF1gXf+GM8b22F8A3sTMU29aMoq2UqSW
-	nm47ADe0kxQCxIT4T0JTU3mc9VRJ83rRUgrD+m2NVRiUoNEpyJFdLYVtXr+K4x/wib5UA5ZeHlg
-	stiPpDTAg5lNrwl5M1Ie6ZiCFFj4LSFGbBYQzOZvtEq3MhiQfHhh+WWm9xWFMGqRBVBPtFeqyPy
-	OIunPHi8TJPW/03gTsnIcvIecb2hh2JKN1JAiwHCMrMbNhTEvOdOTpgn29i3yU8dHSgd49RSE/T
-	tx8wHWnbyMKysthSW7T5+CS/+JrmHjxdSvRsvd7yb0b2fZBw75NAzNmZdr7SJY3oYZ4oIcUriCZ
-	2yllqIIpjfU4J2EdcZEu2Tsd7T38vf9HBuzetx+PBWTusjtBrSUsmtBB6C/C4mBgbUfYV9cEdhx
-	4LMyXLx3eggEtdBMNpRXUW+1+RrchfI6dx8pwrn3M=
-X-Received: by 2002:a05:600c:4453:b0:485:3e20:4013 with SMTP id 5b1f17b1804b1-486f4463622mr106510225e9.28.1773912241703;
-        Thu, 19 Mar 2026 02:24:01 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486f8c53324sm62169825e9.15.2026.03.19.02.24.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2026 02:24:01 -0700 (PDT)
-Date: Thu, 19 Mar 2026 12:23:57 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Binbin Zhou <zhoubinbin@loongson.cn>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-	Huacai Chen <chenhuacai@loongson.cn>
-Subject: [linux-next:master 6322/7246]
- drivers/dma/loongson/loongson2-apb-cmc-dma.c:516
- loongson2_cmc_dma_tx_status() error: we previously assumed 'lchan->desc'
- could be null (see line 512)
-Message-ID: <202603191117.QkPVup2Y-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kWUZMUv7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773913500; x=1805449500;
+  h=date:from:to:cc:subject:message-id;
+  bh=nA9B0Jae5vDYtGOPK6PSBRNcULNvLSgw/jW+kqlEPXo=;
+  b=kWUZMUv796g/qKzEBSZZsPRDozfs4AhqhQM2+7KeUJPW4lR2vSZE4x9z
+   TzZof2oXlPUq37xoqy6+BtHhJ2HLg/ZZRqPo0YmzTr1HNlviYQo8gfgxW
+   DQWbaPU2aXgHmgat62/+x97IqcKJ0F9C8L2lVq1JiW9Tq6ntnB+TVWbfX
+   EAxnlnT5Bz/fFMgOmy4FQEq5Bfs7EK02cM4oyFyY3Eo/IPB9A397jEa9i
+   UzjkDqrnXaEP13sSMbJw0KD8X3jiyIwa7wi20D8M+yZ3HmSv7oUIWjkYC
+   1JTozU3QYgvhSlfd7Q+5+fE8LnFlvRrqw5to4C0IRGVcdAlRU4raRqO3z
+   Q==;
+X-CSE-ConnectionGUID: 6CgUwC/TTgOcHtbMBsBpTQ==
+X-CSE-MsgGUID: 7OONbI6gSLi5WfyTeUIpEg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="74678091"
+X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
+   d="scan'208";a="74678091"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 02:44:59 -0700
+X-CSE-ConnectionGUID: 3IG3/U9XQP2HlG3ZwzyUuQ==
+X-CSE-MsgGUID: omDR4DyrSIyNbb0GNUv/eA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
+   d="scan'208";a="219886487"
+Received: from lkp-server02.sh.intel.com (HELO a51c2a36b9df) ([10.239.97.151])
+  by fmviesa007.fm.intel.com with ESMTP; 19 Mar 2026 02:44:58 -0700
+Received: from kbuild by a51c2a36b9df with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w39vz-000000000gA-2WT0;
+	Thu, 19 Mar 2026 09:44:55 +0000
+Date: Thu, 19 Mar 2026 17:38:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-kiwi-6.1 132/132]
+ include/trace/stages/init.h:2:23: warning: 'str__signal__trace_system_name'
+ defined but not used
+Message-ID: <202603191711.uDXZ60fv-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   8e42d2514a7e8eb8d740d0ba82339dd6c0b6463f
-commit: 1c0028e725f156ebabe68b0025f9c8e7a6170ffd [6322/7246] dmaengine: loongson: New driver for the Loongson Multi-Channel DMA controller
-config: m68k-randconfig-r073-20260318 (https://download.01.org/0day-ci/archive/20260319/202603191117.QkPVup2Y-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.4.0
-smatch: v0.5.0-9004-gb810ac53
+Hi Zhuguangqing,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   c127cb3c63180cc478bfd719f09c17aedd625473
+commit: bf4922727c63b164c3b66589e69108b868464e0b [132/132] ANDROID: Add vendor hooks to signal.
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260319/202603191711.uDXZ60fv-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260319/202603191711.uDXZ60fv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202603191117.QkPVup2Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603191711.uDXZ60fv-lkp@intel.com/
 
-smatch warnings:
-drivers/dma/loongson/loongson2-apb-cmc-dma.c:516 loongson2_cmc_dma_tx_status() error: we previously assumed 'lchan->desc' could be null (see line 512)
-drivers/dma/loongson/loongson2-apb-cmc-dma.c:677 loongson2_cmc_dma_probe() warn: unsigned 'lchan->irq' is never less than zero.
+All warnings (new ones prefixed by >>):
 
-vim +516 drivers/dma/loongson/loongson2-apb-cmc-dma.c
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/signal.h:16,
+                    from drivers/android/vendor_hooks.c:64:
+>> include/trace/stages/init.h:2:23: warning: 'str__signal__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/user.h:21,
+                    from drivers/android/vendor_hooks.c:63:
+   include/trace/stages/init.h:2:23: warning: 'str__user__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/typec.h:59,
+                    from drivers/android/vendor_hooks.c:62:
+   include/trace/stages/init.h:2:23: warning: 'str__typec__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/audio_usboffload.h:25,
+                    from drivers/android/vendor_hooks.c:61:
+   include/trace/stages/init.h:2:23: warning: 'str__audio_usboffload__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/thermal.h:28,
+                    from drivers/android/vendor_hooks.c:60:
+   include/trace/stages/init.h:2:23: warning: 'str__thermal__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/traps.h:35,
+                    from drivers/android/vendor_hooks.c:59:
+   include/trace/stages/init.h:2:23: warning: 'str__traps__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
 
-1c0028e725f156 Binbin Zhou 2026-03-07  498  
-1c0028e725f156 Binbin Zhou 2026-03-07  499  static enum dma_status loongson2_cmc_dma_tx_status(struct dma_chan *chan, dma_cookie_t cookie,
-1c0028e725f156 Binbin Zhou 2026-03-07  500  						   struct dma_tx_state *state)
-1c0028e725f156 Binbin Zhou 2026-03-07  501  {
-1c0028e725f156 Binbin Zhou 2026-03-07  502  	struct loongson2_cmc_dma_chan *lchan = to_lmdma_chan(chan);
-1c0028e725f156 Binbin Zhou 2026-03-07  503  	struct virt_dma_desc *vdesc;
-1c0028e725f156 Binbin Zhou 2026-03-07  504  	enum dma_status status;
-1c0028e725f156 Binbin Zhou 2026-03-07  505  
-1c0028e725f156 Binbin Zhou 2026-03-07  506  	status = dma_cookie_status(chan, cookie, state);
-1c0028e725f156 Binbin Zhou 2026-03-07  507  	if (status == DMA_COMPLETE || !state)
-1c0028e725f156 Binbin Zhou 2026-03-07  508  		return status;
-1c0028e725f156 Binbin Zhou 2026-03-07  509  
-1c0028e725f156 Binbin Zhou 2026-03-07  510  	scoped_guard(spinlock_irqsave, &lchan->vchan.lock) {
-1c0028e725f156 Binbin Zhou 2026-03-07  511  		vdesc = vchan_find_desc(&lchan->vchan, cookie);
-                                                                                ^^^^^^^^^^^^^
-If lchan->vchan is NULL we are toasted here.
 
-1c0028e725f156 Binbin Zhou 2026-03-07 @512  		if (lchan->desc && cookie == lchan->desc->vdesc.tx.cookie)
-                                                            ^^^^^^^^^^^
-So this NULL check is too late.
+vim +/str__signal__trace_system_name +2 include/trace/stages/init.h
 
-1c0028e725f156 Binbin Zhou 2026-03-07  513  			state->residue = loongson2_cmc_dma_desc_residue(lchan, lchan->desc,
-1c0028e725f156 Binbin Zhou 2026-03-07  514  									lchan->next_sg);
-1c0028e725f156 Binbin Zhou 2026-03-07  515  		else if (vdesc)
-1c0028e725f156 Binbin Zhou 2026-03-07 @516  			state->residue = loongson2_cmc_dma_desc_residue(lchan,
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
 
-loongson2_cmc_dma_desc_residue() also dereferences
-lchan->desc.
+:::::: The code at line 2 was first introduced by commit
+:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
 
-1c0028e725f156 Binbin Zhou 2026-03-07  517  									to_lmdma_desc(vdesc), 0);
-1c0028e725f156 Binbin Zhou 2026-03-07  518  	}
-1c0028e725f156 Binbin Zhou 2026-03-07  519  
-1c0028e725f156 Binbin Zhou 2026-03-07  520  	return status;
-1c0028e725f156 Binbin Zhou 2026-03-07  521  }
-
-[ snip to probe function ]
-
-1c0028e725f156 Binbin Zhou 2026-03-07  669  	ret = dmaenginem_async_device_register(ddev);
-1c0028e725f156 Binbin Zhou 2026-03-07  670  	if (ret)
-1c0028e725f156 Binbin Zhou 2026-03-07  671  		return dev_err_probe(dev, ret, "Failed to register DMA engine device.\n");
-1c0028e725f156 Binbin Zhou 2026-03-07  672  
-1c0028e725f156 Binbin Zhou 2026-03-07  673  	for (i = 0; i < nr_chans; i++) {
-1c0028e725f156 Binbin Zhou 2026-03-07  674  		lchan = &lddev->chan[i];
-1c0028e725f156 Binbin Zhou 2026-03-07  675  
-1c0028e725f156 Binbin Zhou 2026-03-07  676  		lchan->irq = platform_get_irq(pdev, i);
-1c0028e725f156 Binbin Zhou 2026-03-07 @677  		if (lchan->irq < 0)
-1c0028e725f156 Binbin Zhou 2026-03-07  678  			return lchan->irq;
-
-Make lchan->irq an int.  Unsigned breaks error checking.
-
-1c0028e725f156 Binbin Zhou 2026-03-07  679  
-1c0028e725f156 Binbin Zhou 2026-03-07  680  		ret = devm_request_irq(dev, lchan->irq, loongson2_cmc_dma_chan_irq, IRQF_SHARED,
-1c0028e725f156 Binbin Zhou 2026-03-07  681  				       dev_name(chan2dev(lchan)), lchan);
-1c0028e725f156 Binbin Zhou 2026-03-07  682  		if (ret)
-1c0028e725f156 Binbin Zhou 2026-03-07  683  			return ret;
-1c0028e725f156 Binbin Zhou 2026-03-07  684  	}
-1c0028e725f156 Binbin Zhou 2026-03-07  685  
-1c0028e725f156 Binbin Zhou 2026-03-07  686  	ret = loongson2_cmc_dma_acpi_controller_register(lddev);
-1c0028e725f156 Binbin Zhou 2026-03-07  687  	if (ret)
-1c0028e725f156 Binbin Zhou 2026-03-07  688  		return dev_err_probe(dev, ret, "Failed to register dma controller with ACPI.\n");
-1c0028e725f156 Binbin Zhou 2026-03-07  689  
-1c0028e725f156 Binbin Zhou 2026-03-07  690  	ret = loongson2_cmc_dma_of_controller_register(lddev);
-1c0028e725f156 Binbin Zhou 2026-03-07  691  	if (ret)
-1c0028e725f156 Binbin Zhou 2026-03-07  692  		return dev_err_probe(dev, ret, "Failed to register dma controller with FDT.\n");
-1c0028e725f156 Binbin Zhou 2026-03-07  693  
-1c0028e725f156 Binbin Zhou 2026-03-07  694  	dev_info(dev, "Loongson-2 Multi-Channel DMA Controller registered successfully.\n");
-1c0028e725f156 Binbin Zhou 2026-03-07  695  
-1c0028e725f156 Binbin Zhou 2026-03-07  696  	return 0;
-1c0028e725f156 Binbin Zhou 2026-03-07  697  }
+:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
