@@ -1,72 +1,64 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 057B03B47D5
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Mar 2026 08:55:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08FA836EAA7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Mar 2026 09:04:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773910524; cv=none; b=Ik5if0eY5jF4z4v+7xZSejUfTiZut7ubF/NYd/U2GMjlyLTuAS+f8b3sPXGLFGPLHBKXFCIiBAXqrllNLxLpcZ9CAzoWUtAsuuJ2ur0Sw8reiRb0bls/oIYTWcXI0hfRmJgMIwF/MUOpfn7Z0nQrw72LqMVn7BXaUcxpyFn52+M=
+	t=1773911094; cv=none; b=J0adSy48d1AVbI9wySr7r+K3sL3Vie4+QKyt2xi2VeKhsajgS60YksZiN7dklIrr3rLd+Jra/QLdFhsQAiRiPBv0pDW2vxceD3v/uaUaDk1hBwbQf7Ht3B7Afuf6ut0Mgy2ICZYuN6labKIHUw1gfbdEf3S9B6r7kGezOEfG86c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773910524; c=relaxed/simple;
-	bh=+1rkSXfZoBtNynuJjaGZeSgOt0e3kXvIgDj45B/D81I=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=p9NLKiIY2KSNXlsYkVsqxr0XUesiXqxzU36KnwfUlrwDO9lByB0DcxjNw6tpTHCNmt2RWH0G4uPJsulk22Jg9GFK8ZJtHBz5YgEzxa5lVHJiaWTKpK6ST3Iywhy9GEhFu4t+V/WvcU/NzEuLG7xmx7ahHdm548n9ZAV22sA0hyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MB/BzhWg; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1773911094; c=relaxed/simple;
+	bh=TRM4DddZ6ecLK6JJj0Yca2RAbUWeLTWFYFeYFezGLTU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VhlmElK/+qQ05NSj8DnEsjssNoDFOHGiw9B2/9txfUeTCzr4BRRFsSLfWAawXx/BI62GvksSvJyYHejpFSd6N92mlr6lw6yUQAl+qfCWVAoYkcXvI7YNuh9cNVUZxXZw+WCvIQKxCt2SK9O4TFSZRuR0yZrA1zl1BWFcnn6gwIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E3gzIbBv; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MB/BzhWg"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-486fb14227cso4555775e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Mar 2026 01:55:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773910520; x=1774515320; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ux3QTUrVUljT9NRMP7Y1Tw9kvbz/wEC9s9mW2JG37y8=;
-        b=MB/BzhWgbKXXqVoRb1V1L5Yei+Faq/NxBTJO8z5HNHX8fyIodCkVWjx1f1dbquK8U/
-         m8udGsbPIkGuWLTdD4C2PONeT3Bejnb4MlthCEc/Tq/2gXxojxTYMwfBmduiSB66Bcm3
-         e2S5tQqISg8t5J7/Dy3CcY5M5djoW/vz85MJqqpRbUHxWBVALJnWtSVnoCLjrw5HB1mt
-         Q7WHPLIuFcaVv6Pb0olx9Dgb5Yg2LLa/Gf//QbOgf03YR7oMHfnITS57G7QOzK5So5+E
-         4itJd0mdOkBUdmsDCf45abwrouCK0xu9gM+PIPh85b2QxwsjH+Z94UgyoOIyvubKKIqN
-         AXRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773910520; x=1774515320;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ux3QTUrVUljT9NRMP7Y1Tw9kvbz/wEC9s9mW2JG37y8=;
-        b=r/Z4npD06VGJI0GWPA2BUQ4S9yYDWbYOBmddRVbYTjWUt82kTueQ0zBCYlAD3yMma3
-         rSVeP4JaGakeTVlbQYLPxp+iYV4CapeCsiRRK22HHSOcJmXBBa59CZhUrUlE4uPVYSEH
-         gCNxfmeyogR0K0fzCEMFaowF9Rri4Ajd1XEOP5UE5bsTP//ZRicwfaajCtT5DXIl4yLq
-         pehB1Ye4fzUYWiL4+/a+YpaTz8KnrMiJm75/Ouftb945qxKihlwQQ4btfwDDvOwox779
-         //Rn1fgO9w6SjJrEk/9bx0JHVQAKitpqPifWpzu3is/nlwQu1Rdf9if9w7rBvSdu8xht
-         AEog==
-X-Forwarded-Encrypted: i=1; AJvYcCXgjS9XrYgGV5tYbu5F+XeQrcsB0AH59VIdDbOZk2og8tUHsojpAVt62DGh8XCNliAFVoVdQcpTr6Eo27An@lists.linux.dev
-X-Gm-Message-State: AOJu0YznRhDP5QQfIkyOmLCMrWYFTDikOdwebjM2vi3fipW0r4oQxlg9
-	usn83F+SY7VPYxueFBrY3XteBDGpJfrGaZc6a/CHv3HXKovUYJ8+55mK6sgRiRKDFVM=
-X-Gm-Gg: ATEYQzzD53lZva2x4+ewMJMSTnr/N8sPgoFKfPB6xVC/hw6rrYI1pRuXcsFCRwk3dp9
-	WuP7G5VZ/cX+cQkCZTEegiCwrqKvz6n7XiQyEQrIbIFjYzlE7JKZpbEjQ3PcSebV7Ns/qQ2cbJh
-	+hJUMwiFNXsP+OZfvxxvuG9nmP7Ya4+JamgPrOPKrfFbKwtPLXndA20u9Fm2RcYtcVRGnnf/nkY
-	P9S83LZuQAyCnpiGnHBn+SP35ayzBbmqyicsxGM8XuPA/ZuBRdz00gXxjVoid1fcOKTsUJf6mI7
-	NqU5+YauiQ0CW2RHbuys27aQB4JOYflCYNNQHofrdbJXZieIuMrHjN7+661xozgq0Ec2p/4oX4c
-	pqJgjVAHVJwMmbAqSmPn+PYuIq0cRomiHvaQIfxNUF1/e8JmUisCidL+Aa5+NpqiQvzyHHIAGq9
-	Lz/4sSYfmGLRjOGCrgsyXGRpuRgMkdg4leAyE4FUc=
-X-Received: by 2002:a05:600c:3b28:b0:485:3aa1:a7f1 with SMTP id 5b1f17b1804b1-486f441bc51mr106526795e9.7.1773910520220;
-        Thu, 19 Mar 2026 01:55:20 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486f8ba4baesm74549945e9.13.2026.03.19.01.55.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2026 01:55:19 -0700 (PDT)
-Date: Thu, 19 Mar 2026 11:55:15 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Biju Das <biju.das.jz@bp.renesas.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Vinod Koul <vkoul@kernel.org>, Long Luu <long.luu.ur@renesas.com>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Frank Li <Frank.Li@nxp.com>
-Subject: [linux-next:master 6296/7246] drivers/dma/sh/rz-dmac.c:726
- rz_dmac_chan_get_residue() warn: can 'current_desc' even be NULL?
-Message-ID: <202603190250.VAmYUWk2-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E3gzIbBv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773911093; x=1805447093;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TRM4DddZ6ecLK6JJj0Yca2RAbUWeLTWFYFeYFezGLTU=;
+  b=E3gzIbBvJahMo42WVUQqIPD1xJ2KAq3QkduVO52xWo0n/bMPlbionOyE
+   hJt2nIG5LwBv2GzJ2tkzmG4Ogz9FjoedL9tb2Fxc/Y3PrrUtsmMfhicSY
+   0kjvu00GzqmnO6JFCSqZlwJoVwVvvcaWC3VIkasp6xlLf6sP+waSqkAXy
+   OMlecw00ktCoh4NAUeIGI7M/5rw/hnHgBp33WZFLoQiISLROUSPmOXbLR
+   1pZeE75x8wiswRc6xZWg5AYJxtDLSMSN8GTUhltxEgdL46685ljT23k+R
+   jgGhyCj4quue4nkhd2oGIZPVe9JiwIQ3dk9p6MQtyYwWHrNGCiJz/LPJp
+   Q==;
+X-CSE-ConnectionGUID: lkLQ8rZjScmxkMkxjQNr4Q==
+X-CSE-MsgGUID: Ox93BlV+QeioLV5M1AAkhQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="75010465"
+X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
+   d="scan'208";a="75010465"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 02:04:53 -0700
+X-CSE-ConnectionGUID: ncQrF148RruU1rp975Qhlw==
+X-CSE-MsgGUID: Upr/bQP+S5KOOZU5PaoZXw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
+   d="scan'208";a="227387273"
+Received: from lkp-server02.sh.intel.com (HELO a51c2a36b9df) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 19 Mar 2026 02:04:50 -0700
+Received: from kbuild by a51c2a36b9df with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w39J7-000000000dV-0O9M;
+	Thu, 19 Mar 2026 09:04:45 +0000
+Date: Thu, 19 Mar 2026 17:03:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Florian Eckert <fe@dev.tdt.de>, Thomas Gleixner <tglx@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, Florian Eckert <fe@dev.tdt.de>,
+	Eckert.Florian@googlemail.com, ms@dev.tdt.de
+Subject: Re: [PATCH 2/2] irqchip: Add Lightning Mountain irqchip support
+Message-ID: <202603191633.AoajEi81-lkp@intel.com>
+References: <20260318-irq-intel-soc-msi-v1-2-0e8cdf844fa8@dev.tdt.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,49 +67,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260318-irq-intel-soc-msi-v1-2-0e8cdf844fa8@dev.tdt.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   8e42d2514a7e8eb8d740d0ba82339dd6c0b6463f
-commit: 21323b118c16d287355e6497e1098ce1ca348bd6 [6296/7246] dmaengine: sh: rz-dmac: Add device_tx_status() callback
-config: m68k-randconfig-r073-20260318 (https://download.01.org/0day-ci/archive/20260319/202603190250.VAmYUWk2-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.4.0
-smatch: v0.5.0-9004-gb810ac53
+Hi Florian,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on f338e77383789c0cae23ca3d48adcc5e9e137e3c]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Eckert/dt-bindings-Add-Lightning-Mountain-MSI-interrupt-controller-bindings/20260319-033849
+base:   f338e77383789c0cae23ca3d48adcc5e9e137e3c
+patch link:    https://lore.kernel.org/r/20260318-irq-intel-soc-msi-v1-2-0e8cdf844fa8%40dev.tdt.de
+patch subject: [PATCH 2/2] irqchip: Add Lightning Mountain irqchip support
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260319/202603191633.AoajEi81-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260319/202603191633.AoajEi81-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202603190250.VAmYUWk2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603191633.AoajEi81-lkp@intel.com/
 
-smatch warnings:
-drivers/dma/sh/rz-dmac.c:726 rz_dmac_chan_get_residue() warn: can 'current_desc' even be NULL?
+All errors (new ones prefixed by >>):
 
-vim +/current_desc +726 drivers/dma/sh/rz-dmac.c
+>> drivers/irqchip/irq-intel-soc-msi.c:17:10: fatal error: asm/irqdomain.h: No such file or directory
+      17 | #include <asm/irqdomain.h>
+         |          ^~~~~~~~~~~~~~~~~
+   compilation terminated.
 
-21323b118c16d2 Biju Das 2026-03-16  716  static u32 rz_dmac_chan_get_residue(struct rz_dmac_chan *channel,
-21323b118c16d2 Biju Das 2026-03-16  717  				    dma_cookie_t cookie)
-21323b118c16d2 Biju Das 2026-03-16  718  {
-21323b118c16d2 Biju Das 2026-03-16  719  	struct rz_dmac_desc *current_desc, *desc;
-21323b118c16d2 Biju Das 2026-03-16  720  	enum dma_status status;
-21323b118c16d2 Biju Das 2026-03-16  721  	u32 crla, crtb, i;
-21323b118c16d2 Biju Das 2026-03-16  722  
-21323b118c16d2 Biju Das 2026-03-16  723  	/* Get current processing virtual descriptor */
-21323b118c16d2 Biju Das 2026-03-16  724  	current_desc = list_first_entry(&channel->ld_active,
-21323b118c16d2 Biju Das 2026-03-16  725  					struct rz_dmac_desc, node);
-21323b118c16d2 Biju Das 2026-03-16 @726  	if (!current_desc)
-21323b118c16d2 Biju Das 2026-03-16  727  		return 0;
 
-Use list_first_entry_or_null() if you're not sure whether
-the list is empty.  list_first_entry() never returns NULL.
+vim +17 drivers/irqchip/irq-intel-soc-msi.c
 
-21323b118c16d2 Biju Das 2026-03-16  728  
-21323b118c16d2 Biju Das 2026-03-16  729  	/*
-21323b118c16d2 Biju Das 2026-03-16  730  	 * If the cookie corresponds to a descriptor that has been completed
-21323b118c16d2 Biju Das 2026-03-16  731  	 * there is no residue. The same check has already been performed by the
-21323b118c16d2 Biju Das 2026-03-16  732  	 * caller but without holding the channel lock, so the descriptor could
-21323b118c16d2 Biju Das 2026-03-16  733  	 * now be complete.
+    16	
+  > 17	#include <asm/irqdomain.h>
+    18	#include <asm/apic.h>
+    19	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
