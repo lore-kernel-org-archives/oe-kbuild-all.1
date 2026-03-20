@@ -1,130 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C56BC35DA5E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Mar 2026 19:55:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 377BA35E921
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Mar 2026 19:59:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774036554; cv=none; b=nI2id4ZdBT3JmEwRDgOZ5VQ4/+xc8YSv8SZnwbZZd/mnpUtDyEdP+nQB8leP25Zm76PdnQgSyYcSYrlzGoi7YS/fqoVjhuYF084OhK5jUwttAg3NQkF9lz1aqrYWx039s7iTifpFS9HxJctkLeHxT9jYNjXPKlzZx7JTSbGpq80=
+	t=1774036779; cv=none; b=nAHxRseGfeE6mTqBZ/yTXcE+F3xG55J+m8nKHZ6Uq4VrZMEoXbEM4xl68sV1Od+mpswbnAT4p1o6h+CPxz92CHBcGMVfvGeNYWNXu6SvWfj+uJQ4l2cQPECnTJmIbdx4WtOa7t/kda9GhKX/cmZuS/emb8515WJf/7qwmtwqipg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774036554; c=relaxed/simple;
-	bh=cs/PyF7z0Anztg60JHDfGKN777e6PS9ueo05ULJLfwM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N5AwVGOEwbsBhFhsgMMkoNs+dRwSc+KEwO3Bj3YN6HagPPm8SonJRXwcn9ZEPSfeV+7GswkHbxldxf9l4dtYzpEYNZEiDm6uLvz5mcavO4kERXsPGPTl34x6J9twZRwdrdatwcz+iI3hvC3Bz0ITCmWAqBxv3LS8TTmJDUR6E4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TrzxEQ5F; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1774036779; c=relaxed/simple;
+	bh=jKADcLJiGMdNDeqw7xiMox6RN6S4repTJGkWSgXFe+c=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=NJUDQIyisxDC9LkxvoGXf6NEWVKQn3jhmDRq/AhXvRGof+u1FHKAm3mdBdBr2U8hyd4S/y/w0VQlrhgs0ntBCbN5H6EX0zg7M6I1PdLOC/Jn6OD6djyysQu3CxYlIkttGMEdTQ2UGyQwFru1ZPAkYUVZtYkN4R8lER09Wy82u+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FSztOwO9; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TrzxEQ5F"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FSztOwO9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774036553; x=1805572553;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cs/PyF7z0Anztg60JHDfGKN777e6PS9ueo05ULJLfwM=;
-  b=TrzxEQ5FenW9IqKpO8Op6hs2yDuo/eJejkKk96TQ7G8XRUcXdE5e+Ck0
-   YZQEne/ZwxGvhAeA9FZ12OQ3exPBSBslEh1igVMT5ew/ZsStyKWwo0+8h
-   BKseNvqVxDGXGMJZ9+bQr+oend+va1Lp1AwYuydp85y1Yhw9UU9pJuSuR
-   /x9EujUzL2efN4xiVTgaLurhiYA6bJT65AXQjIFq3AsNdXYP7Rz1Rw3rd
-   5W+6qma7WgtTAhT3T8yVsIbLyRzikhfve7OshrDYqFlwBMXv1DwZmts2E
-   KOjdRb/Z4+Uvgl3F9XsC3RMrAss9kqIV4tsl2HCAjT1/1SOa3O0BMCOE0
-   w==;
-X-CSE-ConnectionGUID: lyCGqVG5S3ehtUB6Z+1z5A==
-X-CSE-MsgGUID: O7cQNS75QWO0f+ZdyKY8Hw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="86204376"
+  t=1774036778; x=1805572778;
+  h=date:from:to:cc:subject:message-id;
+  bh=jKADcLJiGMdNDeqw7xiMox6RN6S4repTJGkWSgXFe+c=;
+  b=FSztOwO9Ek/uozHSBYtPXjFFlMdiNL0tPZ/TfOfEboS3roE1tSQmlslk
+   uPykoom3u2GC2Tp2pg0a3sJJkDBDtfG6P+YRrdeNuUVz4aIBrkISg3YuA
+   5taH5FO3eJLqmlwRLteUXnIllYDgSwYjL158+yZvydveeHFq72yk2WtPT
+   iqGUe0WMYmTA0+RpwRJP1hUXErjr2+w702rwe0G3FwPZvIwvTDCIwbI3R
+   UClU0qsD42d0GhhQ7CpVl5Gy2CqlPlJVjNbTrdZqjvTpuWfPoSULKJrg7
+   YM2MZENNzOVxqZQh8yw+cPSkGmoS++EdpQJUAAJ37SjxTvj6U44PhVsVX
+   g==;
+X-CSE-ConnectionGUID: sdw50KO2Ssy4ju7brRU0Ew==
+X-CSE-MsgGUID: +Wd9xX6ESkKT5W5WAuj7Qg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="78732131"
 X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="86204376"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 12:55:53 -0700
-X-CSE-ConnectionGUID: DLdHbX8mTf+bkUIaSC62EQ==
-X-CSE-MsgGUID: lBMe7Cw+Sf+GGG0s/MtTzg==
+   d="scan'208";a="78732131"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 12:59:37 -0700
+X-CSE-ConnectionGUID: dXZzaPKGQhOxJQyZYZou5w==
+X-CSE-MsgGUID: 4Rhh4VACSeice5N8VykZjw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="223414492"
-Received: from lkp-server02.sh.intel.com (HELO ef9b23065726) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 20 Mar 2026 12:55:49 -0700
-Received: from kbuild by ef9b23065726 with local (Exim 4.98.2)
+   d="scan'208";a="218701270"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 20 Mar 2026 12:59:36 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w3fwg-0000000009D-0aWg;
-	Fri, 20 Mar 2026 19:55:46 +0000
-Date: Sat, 21 Mar 2026 03:53:51 +0800
+	id 1w3g0L-0000000056P-3X6T;
+	Fri, 20 Mar 2026 19:59:33 +0000
+Date: Fri, 20 Mar 2026 20:58:48 +0100
 From: kernel test robot <lkp@intel.com>
-To: Matheus Giarola <matheustpgiarola@gmail.com>, lars@metafoo.de,
-	Michael.Hennerich@analog.com, jic23@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, dlechner@baylibre.com,
-	nuno.sa@analog.com, andy@kernel.org, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, matheusgiarola@usp.br,
-	arthurpilone@usp.br, davidbtadokoro@ime.usp.br
-Subject: Re: [PATCH] iio: adc: ad7280a: replace mutex_lock() with guard(mutex)
-Message-ID: <202603210357.KTWqlL36-lkp@intel.com>
-References: <20260319184615.10970-1-matheusgiarola@usp.br>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [tglx-devel:irq/core 4/14] arch/x86/kernel/irq.c:138:31:
+ error: 'IRQ_COUNT_X86_POSTED_MSI' undeclared; did you mean
+ 'IRQ_COUNT_POSTED_INTR'?
+Message-ID: <202603202021.j5wgUpyQ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260319184615.10970-1-matheusgiarola@usp.br>
 
-Hi Matheus,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on jic23-iio/togreg]
-[also build test ERROR on linus/master v7.0-rc4 next-20260320]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Matheus-Giarola/iio-adc-ad7280a-replace-mutex_lock-with-guard-mutex/20260320-142509
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20260319184615.10970-1-matheusgiarola%40usp.br
-patch subject: [PATCH] iio: adc: ad7280a: replace mutex_lock() with guard(mutex)
-config: parisc-randconfig-002-20260321 (https://download.01.org/0day-ci/archive/20260321/202603210357.KTWqlL36-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260321/202603210357.KTWqlL36-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git irq/core
+head:   9e85c64195f3479abcad77115c7d5626e6905546
+commit: d5debb2dd149e388fe3fdc1660437d2362579d28 [4/14] x86/irq: Make irqstats array based
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260320/202603202021.j5wgUpyQ-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603202021.j5wgUpyQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603210357.KTWqlL36-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603202021.j5wgUpyQ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/iio/adc/ad7280a.c:10:
-   drivers/iio/adc/ad7280a.c: In function 'ad7280_read_raw':
->> include/linux/cleanup.h:299:2: error: a label can only be part of a statement and a declaration is not a statement
-     299 |  class_##_name##_t var __cleanup(class_##_name##_destructor) = \
-         |  ^~~~~~
-   include/linux/cleanup.h:419:2: note: in expansion of macro 'CLASS'
-     419 |  CLASS(_name, __UNIQUE_ID(guard))
-         |  ^~~~~
-   drivers/iio/adc/ad7280a.c:878:3: note: in expansion of macro 'guard'
-     878 |   guard(mutex)(&st->lock);
-         |   ^~~~~
---
-   In file included from ad7280a.c:10:
-   ad7280a.c: In function 'ad7280_read_raw':
->> include/linux/cleanup.h:299:2: error: a label can only be part of a statement and a declaration is not a statement
-     299 |  class_##_name##_t var __cleanup(class_##_name##_destructor) = \
-         |  ^~~~~~
-   include/linux/cleanup.h:419:2: note: in expansion of macro 'CLASS'
-     419 |  CLASS(_name, __UNIQUE_ID(guard))
-         |  ^~~~~
-   ad7280a.c:878:3: note: in expansion of macro 'guard'
-     878 |   guard(mutex)(&st->lock);
-         |   ^~~~~
+   arch/x86/kernel/irq.c: In function 'irq_init_stats':
+>> arch/x86/kernel/irq.c:138:31: error: 'IRQ_COUNT_X86_POSTED_MSI' undeclared (first use in this function); did you mean 'IRQ_COUNT_POSTED_INTR'?
+     138 |                 irq_stat_info[IRQ_COUNT_X86_POSTED_MSI].skip_vector = 1;
+         |                               ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                               IRQ_COUNT_POSTED_INTR
+   arch/x86/kernel/irq.c:138:31: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +299 include/linux/cleanup.h
+vim +138 arch/x86/kernel/irq.c
 
-54da6a0924311c Peter Zijlstra 2023-05-26  297  
-54da6a0924311c Peter Zijlstra 2023-05-26  298  #define CLASS(_name, var)						\
-54da6a0924311c Peter Zijlstra 2023-05-26 @299  	class_##_name##_t var __cleanup(class_##_name##_destructor) =	\
-54da6a0924311c Peter Zijlstra 2023-05-26  300  		class_##_name##_constructor
-54da6a0924311c Peter Zijlstra 2023-05-26  301  
+   123	
+   124	void __init irq_init_stats(void)
+   125	{
+   126		struct irq_stat_info *info = irq_stat_info;
+   127	
+   128		for (unsigned int i = 0; i < ARRAY_SIZE(irq_stat_info); i++, info++) {
+   129			if (info->skip_vector && test_bit(info->skip_vector, system_vectors))
+   130				info->skip_vector = 0;
+   131		}
+   132	
+   133		if (!x86_platform_ipi_callback)
+   134			irq_stat_info[IRQ_COUNT_X86_PLATFORM_IPI].skip_vector = 1;
+   135	
+   136	#ifdef CONFIG_X86_POSTED_MSI
+   137		if (!posted_msi_enabled())
+ > 138			irq_stat_info[IRQ_COUNT_X86_POSTED_MSI].skip_vector = 1;
+   139	#endif
+   140	}
+   141	
 
 -- 
 0-DAY CI Kernel Test Service
