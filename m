@@ -1,68 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED98434572B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Mar 2026 08:18:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A57A35A39C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Mar 2026 08:37:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773994711; cv=none; b=D1MSsGTuvn86gXjY7oLVN8W+qxnoOrEGGIMwPeb1SzCjcsOH0I3Gt5AVYFIdFKT1MqgxU7jjz9OKNNmclrSLNvVJIwd5Mo4AvbhuAL0EvW/4bAB1KryDrnOtZj4aKeSengt8Gy7G3oGq/NDatWojJB7Lw87antO9flO+2fqCUFA=
+	t=1773995830; cv=none; b=XVHYTgU01GRcBHpd6q1cjSas11kMvNjA5af1vGeJmXAKwZclXuePE9ofRFVygQ4LPgn78zKnrLLvpaugEuyFhgV8An47VyE0Sl8C+XJCfsgdH+C2hBDkXF5JbwOY3M0wUlZAVT3FH43apK44W17Bv9S6xfdS/VFpml9uciUo7KY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773994711; c=relaxed/simple;
-	bh=G4qzFM91Cq/KwjTG467lZhhZy8Vek//vRFJJReoD7Uo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ivfn0+pvlRQ7FZEgMGvYXhIfq4S6/p5FUaFUEZEAaSGJFzjpDIFc1ux1lxfz3qNxHIEWPQtmR/9Wu5aivo84viwaxIQ90ud1zOPBKvS+v2BeXgSaXI3Hhr3PibT0v6hGIaGUROCsoCdJqnO1e2fGvTmcFsXK3Sld71pZusTw8ZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WunHQ7sd; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1773995830; c=relaxed/simple;
+	bh=aubSRWOk/G5nMShy731v1i3p/4qj70+D9lPp6TThzE0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=fMBC4kaRbcv7jD1b08DhILw2LV1Jc5nPLiwI8m2upCuZ8C1zVBNe/GVV0fhub+FN2JY0OltlXdS5Bl9ez9mp1WFla8LdvXEJBWKlrN+BbqCIe4FcK+IszAwKjwuN3+WAtpsiImKHpw/QNPtwhrCwaVMlqN+uSo9jif0ddEsuD5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Yh9yWe8k; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WunHQ7sd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773994710; x=1805530710;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=G4qzFM91Cq/KwjTG467lZhhZy8Vek//vRFJJReoD7Uo=;
-  b=WunHQ7sdOBUD5q/4B7bsYbDFFvsvoJDKrfoJoO8O9FJd7CxVjuzVCUul
-   m1gCPH3QaEMtnzQ/sX6MS1L73+lBF2B4zMIX+I4XSQEl3IDLouYwGyOJL
-   FMWz+FE8xQOr3j4gNXpSK4ugBQ0UFT2tWYIexvKLOfZe3D/nhu0pN8r2g
-   llM4FQ8+jhGGBuXIFIvy3YKlmm30GvX8zLpr1pbqF3F+9PqXqOySBkPG5
-   1qZF949/kCPehtSeyLnvuer89kiUh9haGXzv1fkj2xl1fSxA+6PcVTJ/C
-   vPZzSE1ma3EZMOoUQdQpSpG3VhMdKLxglUS83Kt9q5pBoSbrqZDrZZ2i2
-   w==;
-X-CSE-ConnectionGUID: Zp6AFGhNRsyrNNDa8Y879A==
-X-CSE-MsgGUID: 3hNz75YiQZWdI7P7Zs3xOA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="86438792"
-X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="86438792"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 01:18:29 -0700
-X-CSE-ConnectionGUID: WAA/2MESSyO9sDpVxHMjjw==
-X-CSE-MsgGUID: 4kGiw3TiTlWLF8pDwe7DKw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="227347705"
-Received: from lkp-server02.sh.intel.com (HELO a51c2a36b9df) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 20 Mar 2026 01:18:26 -0700
-Received: from kbuild by a51c2a36b9df with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w3V3n-0000000028T-1629;
-	Fri, 20 Mar 2026 08:18:23 +0000
-Date: Fri, 20 Mar 2026 16:18:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Peter Tyser <ptyser@xes-inc.com>, Lee Jones <lee@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org, brgl@kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: Re: [PATCH v3] platform/x86: meraki-mx100: use real software node
- references
-Message-ID: <202603201641.qJ8m8Nhn-lkp@intel.com>
-References: <20260316-meraki-swnodes-v3-1-15501a52300e@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Yh9yWe8k"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-439d8df7620so1040013f8f.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Mar 2026 01:37:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1773995827; x=1774600627; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=751vzObume+CAZzdt7A8eq8P7pep03Yg0q+zRI38A24=;
+        b=Yh9yWe8ki+htJPQK6u9OldwVo/DAFD6Qfx2Ve+lZbDej9bklF7kL+g+Y2Bd2jbPDY6
+         TYSEItr40/iu9058xk9sQ3lljmb7zEhuH6s7EuXbXKR8nO4e9g9ZgFm2w+QdbVkExBv7
+         1id3yHyTb/HcZ+95uvpH9SizZNwCxwEZQKug2tSFUSTmxxpfr7y/UrdWAEP0XCPOw2W2
+         tqyH6hWAV4unwbiksrlgCZMpsCfB3wmllNrH0kiKP5Y37/GdaTdZ1CEJ9ElvoTwFrzha
+         eshdQTFC7D+D/xuCQdNcqNx8vSEtD4V9lqZBrYwo82mekEDkYJc/CuflykfxDRjtmX1L
+         qgQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773995827; x=1774600627;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=751vzObume+CAZzdt7A8eq8P7pep03Yg0q+zRI38A24=;
+        b=DpKOMQZpbBMjKydr3S+48Y9bVsgtEJFgc60oQZXLlrY6TgddA7kGtLDh+7g03gbbUB
+         rBDLIbGACWOLcXBxbpMYicARLqgKjJF3iUSAE3rm+vzI/252rQwwsEEqeu+NI0JK89c8
+         aVMSja4xvXzfvDWqXb3uSN+7t2jErrAx52lQDXAyqzrodCJ2NXDHZK/uPzyxOUSiDYw9
+         3mPyOE4mXXgrI+Q4TorM4UG7bH3sXpAMkARGtYx59DI/gwwizhEM22i/3Qv4Zi/rt948
+         FNqI6pdnfGzi4E5KiKCfH4eoWbaraia5j67DcT/jcwEmU5+tqtW05ilSGulxPfnzsNzH
+         OZ5g==
+X-Forwarded-Encrypted: i=1; AJvYcCVmiHlb9hgdFSVRhRHXKrStRgWejZ/uKRg31P1ilXcAwXaS3S3rP2Rm/gb5rVsLNMmi6uxlehrWczwS8zvP@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy86NH+TBX2HPN2hzEOK+jyhdA5zrct1QS9P+dLhqxRnqmP9R40
+	T3ig/t8r5svJpJW39ANAHfBYQ7Fbc+3B4/dT2t97bZ8MprNR3ctwJcjinwwIlBJnqK8=
+X-Gm-Gg: ATEYQzyXB0oNTu6wHERH6r2H7XNuq8commK5Nz9Ats6Ay/NzfBgDnGXmlOxSeKkkNev
+	QU4k9XbveJgwsLrEhAK8c6jPzKk0I4wbmzxwXLyzlyCVLmQgHZYEEqHDKYo2YMegLJJzoRrDfqA
+	NfJhcyrkWinjHPw5wFi9U8RbYpHfjDaVGLKkH3DC8oeUvd0p8sPsKkDp6HBbYSysXTabnDEBRyo
+	9KUzYq7H+UzEY1Vlzk92cD8IiNjQ48UMe2p+YGpybLV9NGLOJ1J0SrdYExxxqnZZZReLk8Qb+Ny
+	NhzZvcg+t1O2x9UWTf7G9U+My2hqMiaTu7geTVYZ7Jt4bwKOLg+yEY0DYzT/+Afaq2Tz0HjmeQG
+	+/S4eicuaxo4A6xiG3vhFwn8jZTRNK2Ac5nzMCS3rvzhzqgQyx2VAb/bE50hKAZUsIr4l3mGBc6
+	6I4zCjoCjvNrHQ4QteRLi1OukpBonF
+X-Received: by 2002:a5d:5f53:0:b0:439:be04:13c4 with SMTP id ffacd0b85a97d-43b6423d85bmr3740008f8f.4.1773995827294;
+        Fri, 20 Mar 2026 01:37:07 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b64703343sm4288450f8f.19.2026.03.20.01.37.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Mar 2026 01:37:06 -0700 (PDT)
+Date: Fri, 20 Mar 2026 11:37:03 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Ihor Solodrai <ihor.solodrai@linux.dev>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Eduard Zingerman <eddyz87@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
+	kernel-team@meta.com
+Subject: Re: [PATCH bpf-next v2 1/2] bpf: Support struct btf_struct_meta via
+ KF_IMPLICIT_ARGS
+Message-ID: <202603200410.ZnghNupo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,37 +77,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260316-meraki-swnodes-v3-1-15501a52300e@oss.qualcomm.com>
+In-Reply-To: <20260318223544.1789748-1-ihor.solodrai@linux.dev>
 
-Hi Bartosz,
+Hi Ihor,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on b84a0ebe421ca56995ff78b66307667b62b3a900]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/platform-x86-meraki-mx100-use-real-software-node-references/20260316-165120
-base:   b84a0ebe421ca56995ff78b66307667b62b3a900
-patch link:    https://lore.kernel.org/r/20260316-meraki-swnodes-v3-1-15501a52300e%40oss.qualcomm.com
-patch subject: [PATCH v3] platform/x86: meraki-mx100: use real software node references
-config: x86_64-buildonly-randconfig-001-20260320 (https://download.01.org/0day-ci/archive/20260320/202603201641.qJ8m8Nhn-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603201641.qJ8m8Nhn-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ihor-Solodrai/selftests-bpf-Update-kfuncs-using-btf_struct_meta-to-new-variants/20260319-070652
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20260318223544.1789748-1-ihor.solodrai%40linux.dev
+patch subject: [PATCH bpf-next v2 1/2] bpf: Support struct btf_struct_meta via KF_IMPLICIT_ARGS
+config: x86_64-randconfig-161-20260319 (https://download.01.org/0day-ci/archive/20260320/202603200410.ZnghNupo-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603201641.qJ8m8Nhn-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202603200410.ZnghNupo-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+kernel/bpf/verifier.c:12760 is_bpf_rbtree_add_kfunc() error: buffer overflow 'special_kfunc_list' 64 <= 64
 
-   ld: vmlinux.o: in function `lkdtm_rodata_do_nothing':
->> (.rodata+0xa9b6c0): undefined reference to `lpc_ich_gpio_swnode'
->> ld: (.rodata+0xa9b840): undefined reference to `lpc_ich_gpio_swnode'
-   ld: (.rodata+0xa9b960): undefined reference to `lpc_ich_gpio_swnode'
-   ld: (.rodata+0xa9ba80): undefined reference to `lpc_ich_gpio_swnode'
-   ld: (.rodata+0xa9bba0): undefined reference to `lpc_ich_gpio_swnode'
-   ld: vmlinux.o:(.rodata+0xa9bcc0): more undefined references to `lpc_ich_gpio_swnode' follow
+vim +/special_kfunc_list +12760 kernel/bpf/verifier.c
+
+3700d7c829341d Ihor Solodrai   2026-03-18  12758  static bool is_bpf_rbtree_add_kfunc(u32 func_id)
+3700d7c829341d Ihor Solodrai   2026-03-18  12759  {
+3700d7c829341d Ihor Solodrai   2026-03-18 @12760  	return func_id == special_kfunc_list[KF_bpf_rbtree_add] ||
+                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Out of bounds. We need to make the special_kfunc_list[] bigger if we're
+going to keep adding new special_kfunc_type values.
+
+3700d7c829341d Ihor Solodrai   2026-03-18  12761  	       func_id == special_kfunc_list[KF_bpf_rbtree_add_impl];
+3700d7c829341d Ihor Solodrai   2026-03-18  12762  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
