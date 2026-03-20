@@ -1,112 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A77A93A75B1;
-	Fri, 20 Mar 2026 11:26:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE653A7857
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Mar 2026 11:26:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774005982; cv=none; b=VOXHMygma/FhGvW51xD6ZelNGPu/KsyHUs2baFYA1MBSk4OI8QNME+H69acy8iS3UNx5XrmPWOrK3fijeEwoNiLS3WiuONzOUxDxMf5TKLFPCK+dS/VCTFuhhEjK4SaI4ZIJFXKJvgqTC9TjOjDcZIMm7tvCeAUB75MRvcHzXSc=
+	t=1774005990; cv=none; b=r8zvIK80I1sEDQn8cczq0rs6X/r4Y4vD9HFH1MTFLZjX4e/zD1JiVgeqXZnAh9vCmmrLlddPM9ly6dGSKnReGbrqe3RAjHtxJ+6D0jT9M/Ic/1WWel0iB0iN+6sYmI8oFe5BZER3EQZzf714DSKhMEztIiVKL/62MZVDq6Wn7Pk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774005982; c=relaxed/simple;
-	bh=uuHxpvvk+KMKo/NMJwYXrb2UA5H+9aWt/1abSvlkJdM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jlYaulO84U9GB8X/kW2gnJif6JELBJyMDrj8DnL9HFJh1vwiZcIqePW8186vMwinxG2GM57OzvT1udsQ6W35QloUyUxMO5inAHFSPuLLlEHIZXXajkrG71o9YgrUHDZ1L4LFFcy/+W8ZPQm0YqKzXNn91TtNU8bhjJ1aXAt7zoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DpgMkDAC; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1774005990; c=relaxed/simple;
+	bh=Vm9U9CNeAjjuGJtZmiOGqUAFpnFAJnNGuRGLtuwR1kI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=eYNVPJ8nnmTZd/m1+1dOKTS3ll2avbInMRZNyduJOOW6ANs9tAY5iCysMZK8WZ7pe3W1biBacFSI1DclA9otrbY9VoSQ8rS5hYB9L3AI5ZA2VK+dDxMmGuNEl+8Il6zjZKPWZ2QNhc5EJ/+2Jws/9soxKBB3/KGDlC2ukplY42g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SBOu2qm/; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DpgMkDAC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SBOu2qm/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774005981; x=1805541981;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uuHxpvvk+KMKo/NMJwYXrb2UA5H+9aWt/1abSvlkJdM=;
-  b=DpgMkDACE5Mz7PvS/m3JcY31U3G2dQfES4eVcxY7VmWEmhlCRa7BC9Pt
-   bMYX/6NWJDqejHMi+tEWl/iWrpZNBljnvVJjwuZvt3ixCYB6UQrKRX1yx
-   anFgkngnkWO7C/YyDU0WPp+cCN7a09ZbNmo4sawqkMHritrI+0G4kGcty
-   XFdJbKDGK/B0iZteBfDS8SSXdVAWjff+rfX6t6LEZDMtUkQUXwjpaJmse
-   ZEcQmbhTvgXBmAq+RFiT0kO/y7Oo7oB4Nw5FzfBW9UoULqye7TSE/qGTk
-   FQIYmYWeIytRrVAPgiKxaiMptDp6QJdgJ2TXNMFmNleGZqbs2oGWVxK41
-   w==;
-X-CSE-ConnectionGUID: FYcF0aRSSBuwuQZKYHB7bg==
-X-CSE-MsgGUID: 6kM958pERnOt4ujcJSZVVQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="85403921"
+  t=1774005986; x=1805541986;
+  h=date:from:to:cc:subject:message-id;
+  bh=Vm9U9CNeAjjuGJtZmiOGqUAFpnFAJnNGuRGLtuwR1kI=;
+  b=SBOu2qm/GWxU/5nN9qenIxEnnqXy5r7kHYZbRy7BvAPuZV8U8YdKMQA2
+   b52kUNhHuqnOVF5B1Ja1uuubSRnCGndeHuEn9l3GOdCmk7DoFg2C1Futs
+   LgF8TerDyc3GnQ+Nk7swmmde1kOABjcdY/6JxHa7U93uZltP045XjnIhH
+   G/tMkXX103QKPPJg8ecx6fssXyds3Ey401gUBmszHd8Dn+KDfJ7VTaegi
+   XaciUTIHLWHY6yUFXJOORO41c6uBtzDEapEtmfUwBZJEss0AamIlqX55c
+   AuAwLw3Lptcr0uYyHEHa0ArAe5lWtuMIlfsU39IWC11bN68z9SSIfK6Mw
+   Q==;
+X-CSE-ConnectionGUID: EMz9HxxhSG2QoTbl3OgZOg==
+X-CSE-MsgGUID: Gb+ATMDHQxmyAN4gy+Ow/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="100543757"
 X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="85403921"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 04:25:57 -0700
-X-CSE-ConnectionGUID: AvowKarpTfSGc8EpGWTeew==
-X-CSE-MsgGUID: GUsOegipRcWhO/OUdJAmFw==
+   d="scan'208";a="100543757"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 04:25:55 -0700
+X-CSE-ConnectionGUID: ndv8GX+DSNegITtsFda81A==
+X-CSE-MsgGUID: u73TF7HeQCKlIvWMOTmn1A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="227988118"
 Received: from lkp-server02.sh.intel.com (HELO a51c2a36b9df) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 20 Mar 2026 04:25:53 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 20 Mar 2026 04:25:53 -0700
 Received: from kbuild by a51c2a36b9df with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w3Xvq-000000002Ij-46fk;
-	Fri, 20 Mar 2026 11:24:53 +0000
-Date: Fri, 20 Mar 2026 19:22:09 +0800
+	id 1w3XzD-000000002Il-09EY;
+	Fri, 20 Mar 2026 11:25:51 +0000
+Date: Fri, 20 Mar 2026 19:21:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Demian Shulhan <demyansh@gmail.com>, ebiggers@kernel.org,
-	ardb@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Demian Shulhan <demyansh@gmail.com>
-Subject: Re: [PATCH] lib/crc: arm64: add NEON accelerated CRC64-NVMe
- implementation
-Message-ID: <202603201958.gFoHxLV7-lkp@intel.com>
-References: <20260317065425.2684093-1-demyansh@gmail.com>
+To: Hannes Reinecke <hare@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hare-nvme:dhchap-keyring.v3 3/8]
+ include/linux/nvme-keyring.h:54:1: error: expected identifier or '(' before
+ '{' token
+Message-ID: <202603201936.ionzS9Ix-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260317065425.2684093-1-demyansh@gmail.com>
 
-Hi Demian,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on ebiggers/crc-next]
-[also build test WARNING on linus/master v7.0-rc4 next-20260319]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Demian-Shulhan/lib-crc-arm64-add-NEON-accelerated-CRC64-NVMe-implementation/20260318-003936
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git crc-next
-patch link:    https://lore.kernel.org/r/20260317065425.2684093-1-demyansh%40gmail.com
-patch subject: [PATCH] lib/crc: arm64: add NEON accelerated CRC64-NVMe implementation
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260320/202603201958.gFoHxLV7-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603201958.gFoHxLV7-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/nvme.git dhchap-keyring.v3
+head:   7ffdb5e32339cf1e1ba50b8caefaca6dbab4d882
+commit: c565ba283d6746247485bb78e72220029586a0d1 [3/8] nvme-auth: switch to use 'struct key'
+config: i386-buildonly-randconfig-004-20260320 (https://download.01.org/0day-ci/archive/20260320/202603201936.ionzS9Ix-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603201936.ionzS9Ix-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603201958.gFoHxLV7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603201936.ionzS9Ix-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> lib/crc/arm64/crc64-neon-inner.c:20:5: warning: no previous prototype for function 'crc64_nvme_arm64_c' [-Wmissing-prototypes]
-      20 | u64 crc64_nvme_arm64_c(u64 crc, const u8 *p, size_t len)
-         |     ^
-   lib/crc/arm64/crc64-neon-inner.c:20:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      20 | u64 crc64_nvme_arm64_c(u64 crc, const u8 *p, size_t len)
+   In file included from drivers/nvme/host/fabrics.c:15:
+>> include/linux/nvme-keyring.h:54:1: error: expected identifier or '(' before '{' token
+      54 | {
          | ^
-         | static 
-   1 warning generated.
+>> include/linux/nvme-keyring.h:57:4: warning: no previous prototype for 'nvme_dhchap_psk_hash' [-Wmissing-prototypes]
+      57 | u8 nvme_dhchap_psk_hash(struct key *key)
+         |    ^~~~~~~~~~~~~~~~~~~~
+>> include/linux/nvme-keyring.h:52:27: warning: 'nvme_dhchap_psk_lookup' declared 'static' but never defined [-Wunused-function]
+      52 | static inline struct key *nvme_dhchap_psk_lookup(struct key *keyring,
+         |                           ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/crc64_nvme_arm64_c +20 lib/crc/arm64/crc64-neon-inner.c
+vim +54 include/linux/nvme-keyring.h
 
-    19	
-  > 20	u64 crc64_nvme_arm64_c(u64 crc, const u8 *p, size_t len)
+    26	
+    27	#else
+    28	static inline struct key *nvme_tls_psk_refresh(struct key *keyring,
+    29			u8 *data, size_t data_len, const char *digest)
+    30	{
+    31		return ERR_PTR(-ENOTSUPP);
+    32	}
+    33	static inline key_serial_t nvme_tls_psk_default(struct key *keyring,
+    34			const char *hostnqn, const char *subnqn)
+    35	{
+    36		return 0;
+    37	}
+    38	static inline key_serial_t nvme_keyring_id(void)
+    39	{
+    40		return 0;
+    41	}
+    42	static inline struct key *nvme_tls_key_lookup(key_serial_t key_id)
+    43	{
+    44		return ERR_PTR(-ENOTSUPP);
+    45	}
+    46	static inline struct key *nvme_dhchap_psk_refresh(struct key *keyring,
+    47			const char *hostnqn, const char *subnqn,
+    48			u8 *data, size_t data_len)
+    49	{
+    50		return ERR_PTR(-ENOTSUPP);
+    51	}
+  > 52	static inline struct key *nvme_dhchap_psk_lookup(struct key *keyring,
+    53			const char *hostnqn, const char *subnqn, u8 hmac);
+  > 54	{
+    55		return ERR_PTR(-ENOTSUPP);
+    56	}
+  > 57	u8 nvme_dhchap_psk_hash(struct key *key)
 
 -- 
 0-DAY CI Kernel Test Service
