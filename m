@@ -1,132 +1,98 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B764535E941;
-	Fri, 20 Mar 2026 09:26:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2950936F43A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Mar 2026 09:57:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773998795; cv=none; b=l6zb/sPxr0A5pZOppVlB93FT58LuBnPxNU+kl2Xb5rTof+3+GZxBvQFblmYl10dvboxexW6m2Hk6aSJjWdtUET7R/za7Ye2Wa22Fy6XgTQz33IY8S/5GE46g64Nqrd84zz5s68F6SEzaDwjVByiNA4R3ffFsuEcp40y+fj5wNCk=
+	t=1774000679; cv=none; b=X2yaFe42E8C95dLTFq/tS/ew3AarD1lkOha9ZubfdI1eOEf/fpuehPfBDw1LQLfVyZI1TCEU2LAdXtz1f3mKhobFFiqnJ96tYP91whTQuWtK8ljBiTMtOZKqv3ANcnw2r3nVIWEkzu22HaIyO7q7hE74FqJlfHCj6b475KxK0ZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773998795; c=relaxed/simple;
-	bh=DOGaCuBCTRkz1PBAmYE+qDUnukQ0pca3NhU408CcktE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Uv4/GKICoxJyx3qeLmnUSSM4EVJ7SGamkk8Ca/50f6Bu6+5q5hSxMjsbtHMXLO2BIvn0XEOPGPWANJVWm8h8fRZqXyPFXOhMii6cKO//REqmVjznnLmcduRLV8VYp00b8XtaRK4No5pCQ9KDSa64T4zCad8l0qitJ93sueKkuWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lE7vjFKL; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1774000679; c=relaxed/simple;
+	bh=d+qRl3xzrD6Fc73V86c+qsbiHFeGI0Jele3AfKEIqsc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=faa222SGeeaOd9KsNIIKqS+OI3xcDsZugMQViD30MszYBod7gsVuQxZoVtSbJP9uJ/7ByZ5G6SisJss8HZuNF9jfl3WEUbv1/FHoLKeWSler48hyk4kFmJpZ5kq4jxPjefx7wWr00X+qFK0XI5vjFxQGwLLP198FboreecbqdQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KjAA00bh; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lE7vjFKL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KjAA00bh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773998795; x=1805534795;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DOGaCuBCTRkz1PBAmYE+qDUnukQ0pca3NhU408CcktE=;
-  b=lE7vjFKLo3fnUv+L7/SPtCF62vh6NZf2Rx65mOfV4W5+FCspx6U8Jhgq
-   DLYjrIMKIAjd9KWWQckSW7WVQOYWGAL/Z+rThZimXVTj4sPbjewVRfmtj
-   kEwFejGbjxVCSXOb82gr6YupadYvwhbhJVSkS2UAv7q3g9RqQqOjdVQrX
-   j2IQ3QN3kj/2Ak74agmv82PuEYgiGE3Otz5xXDUUnVbU2aJ3z8TnoiL8b
-   hSRoMW6y8fOf0Ub5MHHBEXsJlafVUZYkEZazOSNa2IIwLKWhGbr8HyiW6
-   ZRNftFSFMDHTgf7aHqKa+8DQrRb2piolsrO0YmhpRyRAjjWtihWuynXfg
-   A==;
-X-CSE-ConnectionGUID: JL4sDvUoRGaCXzCP4BAjTA==
-X-CSE-MsgGUID: S7qcvwpsRCCg96ONs4ri5w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="85782600"
+  t=1774000677; x=1805536677;
+  h=date:from:to:cc:subject:message-id;
+  bh=d+qRl3xzrD6Fc73V86c+qsbiHFeGI0Jele3AfKEIqsc=;
+  b=KjAA00bhFhYwekDuD3A7GOGYilHCyFPvUZBuxugeVE537tt306mAMQa4
+   WLKs3r1MV5LTzPkEiSux/PNpEJGWvlqNgZMqjmYqrsBEhPFsn8/r5D2uT
+   7frworvZ+AL/JTjiyOpsi9DVkn30Zxu9sxKby62XgRgdbaA0cJnt45pZ4
+   joKPlWKXDmrCgvdiPt7r0BMAaiXCoae87SuVqaSPXyQ2g8AeXBeSWIaYp
+   Uo02XBzxsn18BLFy9a2RjcVZJU71vCXpfykJIRu+v/U/+oq8RndHOcWNy
+   +LJhRUIl3pglVwhc2XS9foJwOhJd7odPrwtR9ASv8oZ8C9PcZA1WjqhiR
+   g==;
+X-CSE-ConnectionGUID: pQRUA3R8RDKXf0LU+nXZQw==
+X-CSE-MsgGUID: ZFzJzjTFSGSTn6FB6xxvRw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="86558991"
 X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="85782600"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 02:26:34 -0700
-X-CSE-ConnectionGUID: 6CMDdqN/R2qCbE52BuaMXA==
-X-CSE-MsgGUID: AWRO+khYT12j2nQa9yZPfA==
+   d="scan'208";a="86558991"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 02:57:56 -0700
+X-CSE-ConnectionGUID: YMrFu2SPSDSC4lt3ns5dKA==
+X-CSE-MsgGUID: 9PPumoSoRSG2eb4lIJi/4w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="228171443"
+   d="scan'208";a="223224625"
 Received: from lkp-server02.sh.intel.com (HELO a51c2a36b9df) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 20 Mar 2026 02:26:29 -0700
+  by orviesa009.jf.intel.com with ESMTP; 20 Mar 2026 02:57:56 -0700
 Received: from kbuild by a51c2a36b9df with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w3W63-000000002Cd-33yE;
-	Fri, 20 Mar 2026 09:25:07 +0000
-Date: Fri, 20 Mar 2026 17:22:56 +0800
+	id 1w3WaW-000000002Ez-2dlt;
+	Fri, 20 Mar 2026 09:56:27 +0000
+Date: Fri, 20 Mar 2026 17:56:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Koskovich <akoskovich@pm.me>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
-	Alexander Koskovich <akoskovich@pm.me>
-Subject: Re: [PATCH v3 3/4] drm/msm/dsi: Add support for RGB101010 pixel
- format
-Message-ID: <202603201719.MxZJCZoY-lkp@intel.com>
-References: <20260319-dsi-rgb101010-support-v3-3-85b99df2d090@pm.me>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [amir73il:vfs-fixes 3/5]
+ security/apparmor/apparmorfs.c:209:13: warning: 'aa_get_common_ref' defined
+ but not used
+Message-ID: <202603201736.4Hif1yve-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260319-dsi-rgb101010-support-v3-3-85b99df2d090@pm.me>
 
-Hi Alexander,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on f338e77383789c0cae23ca3d48adcc5e9e137e3c]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Koskovich/drm-msm-dsi-rename-MSM8998-DSI-version-from-V2_2_0-to-V2_0_0/20260320-011528
-base:   f338e77383789c0cae23ca3d48adcc5e9e137e3c
-patch link:    https://lore.kernel.org/r/20260319-dsi-rgb101010-support-v3-3-85b99df2d090%40pm.me
-patch subject: [PATCH v3 3/4] drm/msm/dsi: Add support for RGB101010 pixel format
-config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260320/202603201719.MxZJCZoY-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 4abb927bacf37f18f6359a41639a6d1b3bffffb5)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603201719.MxZJCZoY-lkp@intel.com/reproduce)
+tree:   https://github.com/amir73il/linux vfs-fixes
+head:   045aba2b089c3414b0cf3522a43dbfe4b83302ee
+commit: f2b9cb55540b0f2da08380cd369a496542fcb717 [3/5] Merge remote-tracking branch 'vfs/vfs-7.1.directory' into next
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260320/202603201736.4Hif1yve-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603201736.4Hif1yve-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603201719.MxZJCZoY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603201736.4Hif1yve-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/msm/dsi/dsi_host.c:760:7: error: use of undeclared identifier 'MIPI_DSI_FMT_RGB101010'
-     760 |         case MIPI_DSI_FMT_RGB101010:    return VID_DST_FORMAT_RGB101010;
-         |              ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/dsi/dsi_host.c:773:7: error: use of undeclared identifier 'MIPI_DSI_FMT_RGB101010'
-     773 |         case MIPI_DSI_FMT_RGB101010:    return CMD_DST_FORMAT_RGB101010;
-         |              ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/dsi/dsi_host.c:1710:21: error: use of undeclared identifier 'MIPI_DSI_FMT_RGB101010'
-    1710 |         if (dsi->format == MIPI_DSI_FMT_RGB101010 &&
-         |                            ^~~~~~~~~~~~~~~~~~~~~~
-   3 errors generated.
+>> security/apparmor/apparmorfs.c:209:13: warning: 'aa_get_common_ref' defined but not used [-Wunused-function]
+     209 | static void aa_get_common_ref(struct aa_common_ref *ref)
+         |             ^~~~~~~~~~~~~~~~~
 
 
-vim +/MIPI_DSI_FMT_RGB101010 +760 drivers/gpu/drm/msm/dsi/dsi_host.c
+vim +/aa_get_common_ref +209 security/apparmor/apparmorfs.c
 
-   755	
-   756	static inline enum dsi_vid_dst_format
-   757	dsi_get_vid_fmt(const enum mipi_dsi_pixel_format mipi_fmt)
-   758	{
-   759		switch (mipi_fmt) {
- > 760		case MIPI_DSI_FMT_RGB101010:	return VID_DST_FORMAT_RGB101010;
-   761		case MIPI_DSI_FMT_RGB888:	return VID_DST_FORMAT_RGB888;
-   762		case MIPI_DSI_FMT_RGB666:	return VID_DST_FORMAT_RGB666_LOOSE;
-   763		case MIPI_DSI_FMT_RGB666_PACKED:	return VID_DST_FORMAT_RGB666;
-   764		case MIPI_DSI_FMT_RGB565:	return VID_DST_FORMAT_RGB565;
-   765		default:			return VID_DST_FORMAT_RGB888;
-   766		}
-   767	}
-   768	
+8e135b8aee5a06 John Johansen 2026-03-01  208  
+8e135b8aee5a06 John Johansen 2026-03-01 @209  static void aa_get_common_ref(struct aa_common_ref *ref)
+8e135b8aee5a06 John Johansen 2026-03-01  210  {
+8e135b8aee5a06 John Johansen 2026-03-01  211  	kref_get(&ref->count);
+8e135b8aee5a06 John Johansen 2026-03-01  212  }
+8e135b8aee5a06 John Johansen 2026-03-01  213  
+
+:::::: The code at line 209 was first introduced by commit
+:::::: 8e135b8aee5a06c52a4347a5a6d51223c6f36ba3 apparmor: fix race between freeing data and fs accessing it
+
+:::::: TO: John Johansen <john.johansen@canonical.com>
+:::::: CC: John Johansen <john.johansen@canonical.com>
 
 -- 
 0-DAY CI Kernel Test Service
