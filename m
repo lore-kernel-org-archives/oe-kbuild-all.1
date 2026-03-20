@@ -1,119 +1,122 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A57A35A39C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Mar 2026 08:37:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 777CF365A14;
+	Fri, 20 Mar 2026 08:40:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773995830; cv=none; b=XVHYTgU01GRcBHpd6q1cjSas11kMvNjA5af1vGeJmXAKwZclXuePE9ofRFVygQ4LPgn78zKnrLLvpaugEuyFhgV8An47VyE0Sl8C+XJCfsgdH+C2hBDkXF5JbwOY3M0wUlZAVT3FH43apK44W17Bv9S6xfdS/VFpml9uciUo7KY=
+	t=1773996049; cv=none; b=kr8tE+IxMwY+0aKcJ4xvAFoxkroMTW853jr0ozC2xsBG1R8YmjRzRDHnIF8S8Wh82WJsLX0XB+RpYEvX022DiqhcLt3uNNL8Stod+2unWuqJmFdF2dTepnuxPmSwLDK3UIMmNGSn4jJ4/JnBCf673aPPzbA4lSRMyIOkPOPJWwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773995830; c=relaxed/simple;
-	bh=aubSRWOk/G5nMShy731v1i3p/4qj70+D9lPp6TThzE0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=fMBC4kaRbcv7jD1b08DhILw2LV1Jc5nPLiwI8m2upCuZ8C1zVBNe/GVV0fhub+FN2JY0OltlXdS5Bl9ez9mp1WFla8LdvXEJBWKlrN+BbqCIe4FcK+IszAwKjwuN3+WAtpsiImKHpw/QNPtwhrCwaVMlqN+uSo9jif0ddEsuD5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Yh9yWe8k; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1773996049; c=relaxed/simple;
+	bh=pRoVm1uSlvFJ1DUaEsZAHIMkqpeZSr5DbQgK9V4VP1I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BLN3snmcWIOqbLevt+Y6niMrHJqdklNp3vF/gd3S5N5ZuPaQGWzQrUbmENsahRZDUIHpFxFh1M4hxlnUfynrT0+QyU2q6dICewNUpLd3hu0yjtY8ctwOuQlQ6ahyiFJcNabTf6YAomoqLKOmmvO4PcNQf390VJXUjIml61u4PaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QHw7DJKo; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Yh9yWe8k"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-439d8df7620so1040013f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Mar 2026 01:37:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773995827; x=1774600627; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=751vzObume+CAZzdt7A8eq8P7pep03Yg0q+zRI38A24=;
-        b=Yh9yWe8ki+htJPQK6u9OldwVo/DAFD6Qfx2Ve+lZbDej9bklF7kL+g+Y2Bd2jbPDY6
-         TYSEItr40/iu9058xk9sQ3lljmb7zEhuH6s7EuXbXKR8nO4e9g9ZgFm2w+QdbVkExBv7
-         1id3yHyTb/HcZ+95uvpH9SizZNwCxwEZQKug2tSFUSTmxxpfr7y/UrdWAEP0XCPOw2W2
-         tqyH6hWAV4unwbiksrlgCZMpsCfB3wmllNrH0kiKP5Y37/GdaTdZ1CEJ9ElvoTwFrzha
-         eshdQTFC7D+D/xuCQdNcqNx8vSEtD4V9lqZBrYwo82mekEDkYJc/CuflykfxDRjtmX1L
-         qgQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773995827; x=1774600627;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=751vzObume+CAZzdt7A8eq8P7pep03Yg0q+zRI38A24=;
-        b=DpKOMQZpbBMjKydr3S+48Y9bVsgtEJFgc60oQZXLlrY6TgddA7kGtLDh+7g03gbbUB
-         rBDLIbGACWOLcXBxbpMYicARLqgKjJF3iUSAE3rm+vzI/252rQwwsEEqeu+NI0JK89c8
-         aVMSja4xvXzfvDWqXb3uSN+7t2jErrAx52lQDXAyqzrodCJ2NXDHZK/uPzyxOUSiDYw9
-         3mPyOE4mXXgrI+Q4TorM4UG7bH3sXpAMkARGtYx59DI/gwwizhEM22i/3Qv4Zi/rt948
-         FNqI6pdnfGzi4E5KiKCfH4eoWbaraia5j67DcT/jcwEmU5+tqtW05ilSGulxPfnzsNzH
-         OZ5g==
-X-Forwarded-Encrypted: i=1; AJvYcCVmiHlb9hgdFSVRhRHXKrStRgWejZ/uKRg31P1ilXcAwXaS3S3rP2Rm/gb5rVsLNMmi6uxlehrWczwS8zvP@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy86NH+TBX2HPN2hzEOK+jyhdA5zrct1QS9P+dLhqxRnqmP9R40
-	T3ig/t8r5svJpJW39ANAHfBYQ7Fbc+3B4/dT2t97bZ8MprNR3ctwJcjinwwIlBJnqK8=
-X-Gm-Gg: ATEYQzyXB0oNTu6wHERH6r2H7XNuq8commK5Nz9Ats6Ay/NzfBgDnGXmlOxSeKkkNev
-	QU4k9XbveJgwsLrEhAK8c6jPzKk0I4wbmzxwXLyzlyCVLmQgHZYEEqHDKYo2YMegLJJzoRrDfqA
-	NfJhcyrkWinjHPw5wFi9U8RbYpHfjDaVGLKkH3DC8oeUvd0p8sPsKkDp6HBbYSysXTabnDEBRyo
-	9KUzYq7H+UzEY1Vlzk92cD8IiNjQ48UMe2p+YGpybLV9NGLOJ1J0SrdYExxxqnZZZReLk8Qb+Ny
-	NhzZvcg+t1O2x9UWTf7G9U+My2hqMiaTu7geTVYZ7Jt4bwKOLg+yEY0DYzT/+Afaq2Tz0HjmeQG
-	+/S4eicuaxo4A6xiG3vhFwn8jZTRNK2Ac5nzMCS3rvzhzqgQyx2VAb/bE50hKAZUsIr4l3mGBc6
-	6I4zCjoCjvNrHQ4QteRLi1OukpBonF
-X-Received: by 2002:a5d:5f53:0:b0:439:be04:13c4 with SMTP id ffacd0b85a97d-43b6423d85bmr3740008f8f.4.1773995827294;
-        Fri, 20 Mar 2026 01:37:07 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b64703343sm4288450f8f.19.2026.03.20.01.37.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2026 01:37:06 -0700 (PDT)
-Date: Fri, 20 Mar 2026 11:37:03 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Ihor Solodrai <ihor.solodrai@linux.dev>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Eduard Zingerman <eddyz87@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH bpf-next v2 1/2] bpf: Support struct btf_struct_meta via
- KF_IMPLICIT_ARGS
-Message-ID: <202603200410.ZnghNupo-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QHw7DJKo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773996045; x=1805532045;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=pRoVm1uSlvFJ1DUaEsZAHIMkqpeZSr5DbQgK9V4VP1I=;
+  b=QHw7DJKo5zdYJu7n1QG+fZtbkqsFBipYgVsllYY39ZTcYl1BMRSLSHnF
+   sJ1z5uXNFFB30X58IWLHjmPsFmIpuAmjfEKlMEOQ55eUsY/H6F9JP96ot
+   8XA1Lqf85+gdWtaZ1PYJ/PNk2mQQqa+j5AOtG2eX9UYGnB6Gk8LT+p6Pw
+   r0rSfv3bL+Cla9eDhEur2Iyvoy93v4EnFbCOPNKU5jPwy6HZ+qNFxFVgB
+   oHrzcFPhvHzTY3XYXjZTuk/H/lkHxPs/qcAMm49+EiH9YxMaHummiY67/
+   rQ7KvfHYfDReVETDIXrhf4k5/lXqa2mIZFEPB0+2sYrD31MYBzH7vTcdI
+   A==;
+X-CSE-ConnectionGUID: GSBrcf3xQ/qmmPnhYeY24Q==
+X-CSE-MsgGUID: D0ez776DRdSpzxzE9QJnDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="75043701"
+X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
+   d="scan'208";a="75043701"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 01:40:45 -0700
+X-CSE-ConnectionGUID: UMl4ekA+SP2qinyxdLsYdQ==
+X-CSE-MsgGUID: oy8/u9TvR3Kup4Vvs0GRdw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
+   d="scan'208";a="223210435"
+Received: from lkp-server02.sh.intel.com (HELO a51c2a36b9df) ([10.239.97.151])
+  by orviesa009.jf.intel.com with ESMTP; 20 Mar 2026 01:40:41 -0700
+Received: from kbuild by a51c2a36b9df with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w3VOw-0000000029V-0Dxy;
+	Fri, 20 Mar 2026 08:40:19 +0000
+Date: Fri, 20 Mar 2026 16:39:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Pei Xiao <xiaopei01@kylinos.cn>, linux-spi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev, openbmc@lists.ozlabs.org,
+	linux-rockchip@lists.infradead.org, linux-riscv@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com, broonie@kernel.org,
+	Frank.Li@nxp.com, amelie.delaunay@foss.st.com
+Cc: oe-kbuild-all@lists.linux.dev, Pei Xiao <xiaopei01@kylinos.cn>
+Subject: Re: [PATCH v5 11/17] spi: st: Simplify clock handling with
+ devm_clk_get_enabled()
+Message-ID: <202603201638.tsz5xX5N-lkp@intel.com>
+References: <383814750ad46181fd4199b3c6cec4767d480075.1773885292.git.xiaopei01@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260318223544.1789748-1-ihor.solodrai@linux.dev>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <383814750ad46181fd4199b3c6cec4767d480075.1773885292.git.xiaopei01@kylinos.cn>
 
-Hi Ihor,
+Hi Pei,
 
 kernel test robot noticed the following build warnings:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ihor-Solodrai/selftests-bpf-Update-kfuncs-using-btf_struct_meta-to-new-variants/20260319-070652
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20260318223544.1789748-1-ihor.solodrai%40linux.dev
-patch subject: [PATCH bpf-next v2 1/2] bpf: Support struct btf_struct_meta via KF_IMPLICIT_ARGS
-config: x86_64-randconfig-161-20260319 (https://download.01.org/0day-ci/archive/20260320/202603200410.ZnghNupo-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-smatch: v0.5.0-9004-gb810ac53
+[auto build test WARNING on broonie-spi/for-next]
+[also build test WARNING on next-20260319]
+[cannot apply to atorgue-stm32/stm32-next rockchip/for-next xilinx-xlnx/master clk/clk-next shawnguo/for-next soc/for-next linus/master v7.0-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pei-Xiao/spi-axiado-Simplify-clock-management-with-devm_clk_get_enabled/20260320-025630
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+patch link:    https://lore.kernel.org/r/383814750ad46181fd4199b3c6cec4767d480075.1773885292.git.xiaopei01%40kylinos.cn
+patch subject: [PATCH v5 11/17] spi: st: Simplify clock handling with devm_clk_get_enabled()
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260320/202603201638.tsz5xX5N-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603201638.tsz5xX5N-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202603200410.ZnghNupo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603201638.tsz5xX5N-lkp@intel.com/
 
-smatch warnings:
-kernel/bpf/verifier.c:12760 is_bpf_rbtree_add_kfunc() error: buffer overflow 'special_kfunc_list' 64 <= 64
+All warnings (new ones prefixed by >>):
 
-vim +/special_kfunc_list +12760 kernel/bpf/verifier.c
+   drivers/spi/spi-st-ssc4.c: In function 'spi_st_remove':
+>> drivers/spi/spi-st-ssc4.c:365:32: warning: unused variable 'host' [-Wunused-variable]
+     365 |         struct spi_controller *host = platform_get_drvdata(pdev);
+         |                                ^~~~
 
-3700d7c829341d Ihor Solodrai   2026-03-18  12758  static bool is_bpf_rbtree_add_kfunc(u32 func_id)
-3700d7c829341d Ihor Solodrai   2026-03-18  12759  {
-3700d7c829341d Ihor Solodrai   2026-03-18 @12760  	return func_id == special_kfunc_list[KF_bpf_rbtree_add] ||
-                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Out of bounds. We need to make the special_kfunc_list[] bigger if we're
-going to keep adding new special_kfunc_type values.
 
-3700d7c829341d Ihor Solodrai   2026-03-18  12761  	       func_id == special_kfunc_list[KF_bpf_rbtree_add_impl];
-3700d7c829341d Ihor Solodrai   2026-03-18  12762  }
+vim +/host +365 drivers/spi/spi-st-ssc4.c
+
+9e862375c5420a Lee Jones        2014-12-09  362  
+2dd42da0b479ff Uwe Kleine-König 2023-03-03  363  static void spi_st_remove(struct platform_device *pdev)
+9e862375c5420a Lee Jones        2014-12-09  364  {
+e6b7e64cb11966 Yang Yingliang   2023-11-28 @365  	struct spi_controller *host = platform_get_drvdata(pdev);
+9e862375c5420a Lee Jones        2014-12-09  366  
+cd050abeba2a95 Chuhong Yuan     2019-11-18  367  	pm_runtime_disable(&pdev->dev);
+cd050abeba2a95 Chuhong Yuan     2019-11-18  368  
+9e862375c5420a Lee Jones        2014-12-09  369  	pinctrl_pm_select_sleep_state(&pdev->dev);
+9e862375c5420a Lee Jones        2014-12-09  370  }
+9e862375c5420a Lee Jones        2014-12-09  371  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
