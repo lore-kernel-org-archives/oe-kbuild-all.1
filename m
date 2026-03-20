@@ -1,203 +1,201 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51BF8347FD7;
-	Thu, 19 Mar 2026 23:55:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12D6340DFDB
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Mar 2026 00:05:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773964510; cv=none; b=TLetHoj01RmwXK5uJs9e5ixdWIG6bSaPRyqMM5xB4P5VHK10++qG+1SQ13WC1ANlP46JoPLIo/YMSkGUbG0fvEbdDOLoCU62lSnHIDA5LEwM1bFFtiZ/wq7x063zdglJsCrQkI4GhqD6I0gXCTA0fdt64UWr9tU6kfYWitFFv18=
+	t=1773965110; cv=none; b=VWPuEn3P3/irCI40CdpOoOCmpIkUw40IeflH687e151kNtXQqLlExJYGVuvFhcozFTCZ5FNDA0QeFD4t2gCajbA6HVrXUzrJihPf0tOwDVSeEaUvbWiLP0X4oDRbtFKf3msEjtICD9zaGxbqr0MwcV+bibz1vFeZOE5O7vwf/KM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773964510; c=relaxed/simple;
-	bh=rfnWg8dzig0kPp2J7aT0TNOUIX/ZW/F/iLBP2iW4MKc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CQBZHs8JkASEe5J0hu2aj9xRm5Jp8SnYcgN0Ib2aPQEqfYMsgh5LCS4bKfZ5CUFm1gjya3kNoegY+f1dXWQhiTl5KDUHGPfEbQTcRm2PKBK7FZLi8RMAE5oElzkcx0Twc/j+6XA2zEShHKMt3OGAxuf0Bi6lvSGkcFRh0UQIcEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kQt6/ecH; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1773965110; c=relaxed/simple;
+	bh=vjSvfe+WcGjnec2CMB2+p0Dl1HiCOH/ByYDO/t5Wy68=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=OqaGKI7kR4vKtU6NtMNGEz0YhA8aHhVbFg38ukcSXFJSON84X3THx0R9bJkskLNYoFrkEPi5sN4EQTMT6g4n1u5GVasu0fKybu7n/A/oQBTS/2bTeOBpgfStSjUNtcixdR/lW4UB0QwYZlGATxWKf3wQMSmOvz9jmFfqpwbSsOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YrcoRWZf; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kQt6/ecH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YrcoRWZf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773964509; x=1805500509;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rfnWg8dzig0kPp2J7aT0TNOUIX/ZW/F/iLBP2iW4MKc=;
-  b=kQt6/ecHeYjvRtYW7YZ5gWnxccxWigyjeMCbC+Sr3IK1KL/LnD6y7wD3
-   WOlloSJr4veU0F2LhNcmywKq0XjLxi276Z2p6Y5TgptxxFeJtx7EB+yF2
-   4Igi3jJ77WSPwXuOlcn+ApTTmRpjI9AiNtvXk0H4zg/+6II3mjbXdqP74
-   ax0SFYA/7dgRkD4XH1FAcxISBZWPRbPrneT+T7Mfyhslt+cy619pJrs1y
-   m3UZQORIriyCEGNZchGRuUye+OMTAI0waR1A3S0Hg5obMimKhLGrVKpKX
-   9YTDH46tuzszXND6f1gTiZfyZwg1k9/Usa9QTPA28Wl7XOHyqML7Tun1C
-   A==;
-X-CSE-ConnectionGUID: +lfUkl1GQwG+hgGTDhvwZA==
-X-CSE-MsgGUID: tYbKLvzqSQSZEosUkXOBew==
-X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="62612639"
+  t=1773965108; x=1805501108;
+  h=date:from:to:cc:subject:message-id;
+  bh=vjSvfe+WcGjnec2CMB2+p0Dl1HiCOH/ByYDO/t5Wy68=;
+  b=YrcoRWZfDuGhuA9Ucwgel2i5rcPexW+jahKG+A3tU1Z+EZF9DOyvJhI5
+   zUW3DGsoj5rBLSpLkxGKSjpLcpVieucOlF3UiZB9pJPUS1aljZydpLnhK
+   Vfsy3BZg9eupzHghIferjfcHBAf9mv+VITEOYdcg4eQKz27WJk86rF/cM
+   qppyTE0PYPnyGYHIPxE1/1x3s7rL7hrDapZOOISNZzZ+Xi68odnRFQL/j
+   K/Wqm0t3fZzFu0ZKVtPUHjaziBi1shH/pQ44cWR8CWeYvcllFmfdIyP8X
+   JnyTmCS3V6lVfCreCAYvdYPY9/zFHZ2UvBZA2G/uuuG3I3XbXN5hSfhOj
+   w==;
+X-CSE-ConnectionGUID: Icu3IGcASDK+mXNiX8DyKQ==
+X-CSE-MsgGUID: /rK2TKqpR7ixNyfNYLOjMg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="77655842"
 X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="62612639"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 16:55:08 -0700
-X-CSE-ConnectionGUID: GgdTcTliSWyMr7ZNBVsncA==
-X-CSE-MsgGUID: 7on148F1QvWrtQc5bixMsg==
+   d="scan'208";a="77655842"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 17:05:07 -0700
+X-CSE-ConnectionGUID: xDloIDi9R1WIHEk5glqq3g==
+X-CSE-MsgGUID: z3bouwgdQkijdwR6Fm3UHg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="261016757"
+   d="scan'208";a="223146751"
 Received: from lkp-server02.sh.intel.com (HELO a51c2a36b9df) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 19 Mar 2026 16:55:03 -0700
+  by orviesa008.jf.intel.com with ESMTP; 19 Mar 2026 17:05:06 -0700
 Received: from kbuild by a51c2a36b9df with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w3NCe-000000001nL-2XpZ;
-	Thu, 19 Mar 2026 23:55:00 +0000
-Date: Fri, 20 Mar 2026 07:53:39 +0800
+	id 1w3NM0-000000001nl-208K;
+	Fri, 20 Mar 2026 00:05:02 +0000
+Date: Fri, 20 Mar 2026 08:04:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anand Moon <linux.amoon@gmail.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Shawn Lin <shawn.lin@rock-chips.com>,
-	Hans Zhang <18255117159@163.com>, Niklas Cassel <cassel@kernel.org>,
-	linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, Anand Moon <linux.amoon@gmail.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Danilo Krummrich <dakr@kernel.org>
-Subject: Re: [PATCH next v1] r8169: Fix PHY lookup for mdiobus_get_phy() and
- improve error reporting during probe
-Message-ID: <202603200758.vueafhDW-lkp@intel.com>
-References: <20260317061700.7734-1-linux.amoon@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-kiwi-6.1 132/132]
+ include/trace/stages/init.h:2:23: warning: 'str__suspend__trace_system_name'
+ defined but not used
+Message-ID: <202603200851.t2NQM2Sp-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260317061700.7734-1-linux.amoon@gmail.com>
 
-Hi Anand,
+Hi Rick,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on 95c541ddfb0815a0ea8477af778bb13bb075079a]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Anand-Moon/r8169-Fix-PHY-lookup-for-mdiobus_get_phy-and-improve-error-reporting-during-probe/20260317-183327
-base:   95c541ddfb0815a0ea8477af778bb13bb075079a
-patch link:    https://lore.kernel.org/r/20260317061700.7734-1-linux.amoon%40gmail.com
-patch subject: [PATCH next v1] r8169: Fix PHY lookup for mdiobus_get_phy() and improve error reporting during probe
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260320/202603200758.vueafhDW-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603200758.vueafhDW-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   c127cb3c63180cc478bfd719f09c17aedd625473
+commit: 09474646338fa48bb410eee0c3681cb8c77dfa3b [132/132] ANDROID: power: Add vendor hook for suspend
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260320/202603200851.t2NQM2Sp-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603200851.t2NQM2Sp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603200758.vueafhDW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603200851.t2NQM2Sp-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/ethernet/realtek/r8169_main.c:5467:17: warning: variable 'phydev' is used uninitialized whenever 'for' loop exits because its condition is false [-Wsometimes-uninitialized]
-    5467 |         for (addr = 0; addr < PHY_MAX_ADDR; addr++) {
-         |                        ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/realtek/r8169_main.c:5476:7: note: uninitialized use occurs here
-    5476 |         if (!phydev) {
-         |              ^~~~~~
-   drivers/net/ethernet/realtek/r8169_main.c:5467:17: note: remove the condition if it is always true
-    5467 |         for (addr = 0; addr < PHY_MAX_ADDR; addr++) {
-         |                        ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/realtek/r8169_main.c:5430:27: note: initialize the variable 'phydev' to silence this warning
-    5430 |         struct phy_device *phydev;
-         |                                  ^
-         |                                   = NULL
-   1 warning generated.
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/suspend.h:26,
+                    from drivers/android/vendor_hooks.c:71:
+>> include/trace/stages/init.h:2:23: warning: 'str__suspend__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/compaction.h:20,
+                    from drivers/android/vendor_hooks.c:70:
+   include/trace/stages/init.h:2:23: warning: 'str__compaction__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/regmap.h:24,
+                    from drivers/android/vendor_hooks.c:69:
+   include/trace/stages/init.h:2:23: warning: 'str__regmap__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/bl_hib.h:44,
+                    from drivers/android/vendor_hooks.c:68:
+   include/trace/stages/init.h:2:23: warning: 'str__bl_hib__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/psi.h:25,
+                    from drivers/android/vendor_hooks.c:67:
+   include/trace/stages/init.h:2:23: warning: 'str__psi__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/psci.h:25,
+                    from drivers/android/vendor_hooks.c:66:
+   include/trace/stages/init.h:2:23: warning: 'str__psci__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
 
 
-vim +5467 drivers/net/ethernet/realtek/r8169_main.c
+vim +/str__suspend__trace_system_name +2 include/trace/stages/init.h
 
-  5425	
-  5426	static int r8169_mdio_register(struct rtl8169_private *tp)
-  5427	{
-  5428		struct pci_dev *pdev = tp->pci_dev;
-  5429		struct mii_bus *new_bus;
-  5430		struct phy_device *phydev;
-  5431		int ret, addr;
-  5432	
-  5433		/* On some boards with this chip version the BIOS is buggy and misses
-  5434		 * to reset the PHY page selector. This results in the PHY ID read
-  5435		 * accessing registers on a different page, returning a more or
-  5436		 * less random value. Fix this by resetting the page selector first.
-  5437		 */
-  5438		if (tp->mac_version == RTL_GIGA_MAC_VER_25 ||
-  5439		    tp->mac_version == RTL_GIGA_MAC_VER_26)
-  5440			r8169_mdio_write(tp, 0x1f, 0);
-  5441	
-  5442		new_bus = devm_mdiobus_alloc(&pdev->dev);
-  5443		if (!new_bus)
-  5444			return -ENOMEM;
-  5445	
-  5446		new_bus->name = "r8169";
-  5447		new_bus->priv = tp;
-  5448		new_bus->parent = &pdev->dev;
-  5449		new_bus->irq[0] = PHY_MAC_INTERRUPT;
-  5450		new_bus->phy_mask = GENMASK(31, 1);
-  5451		snprintf(new_bus->id, MII_BUS_ID_SIZE, "r8169-%x-%x",
-  5452			 pci_domain_nr(pdev->bus), pci_dev_id(pdev));
-  5453	
-  5454		new_bus->read = r8169_mdio_read_reg;
-  5455		new_bus->write = r8169_mdio_write_reg;
-  5456	
-  5457		if (tp->mac_version >= RTL_GIGA_MAC_VER_40) {
-  5458			new_bus->read_c45 = r8169_mdio_read_reg_c45;
-  5459			new_bus->write_c45 = r8169_mdio_write_reg_c45;
-  5460		}
-  5461	
-  5462		ret = devm_mdiobus_register(&pdev->dev, new_bus);
-  5463		if (ret)
-  5464			return ret;
-  5465	
-  5466		/* find the first (lowest address) PHY on the current MAC's MII bus */
-> 5467		for (addr = 0; addr < PHY_MAX_ADDR; addr++) {
-  5468			struct phy_device *tmp = mdiobus_get_phy(new_bus, addr);
-  5469	
-  5470			if (tmp) {
-  5471				phydev = tmp;
-  5472				break;
-  5473			}
-  5474		}
-  5475	
-  5476		if (!phydev) {
-  5477			dev_err(&pdev->dev, "no PHY found on bus\n");
-  5478			return -ENODEV;
-  5479		}
-  5480	
-  5481		/* Most chip versions fail with the genphy driver.
-  5482		 * Therefore ensure that the dedicated PHY driver is loaded.
-  5483		 */
-  5484		if (!phydev->drv) {
-  5485			dev_err(&pdev->dev, "no dedicated PHY driver found for PHY ID 0x%08x, maybe realtek.ko needs to be added to initramfs?\n",
-  5486				phydev->phy_id);
-  5487			return -EUNATCH;
-  5488		}
-  5489	
-  5490		tp->phydev = phydev;
-  5491		tp->phydev->mac_managed_pm = true;
-  5492		if (rtl_supports_eee(tp))
-  5493			phy_support_eee(tp->phydev);
-  5494		phy_support_asym_pause(tp->phydev);
-  5495	
-  5496		/* mimic behavior of r8125/r8126 vendor drivers */
-  5497		if (tp->mac_version == RTL_GIGA_MAC_VER_61)
-  5498			phy_disable_eee_mode(tp->phydev,
-  5499					     ETHTOOL_LINK_MODE_2500baseT_Full_BIT);
-  5500	
-  5501		/* PHY will be woken up in rtl_open() */
-  5502		phy_suspend(tp->phydev);
-  5503	
-  5504		return 0;
-  5505	}
-  5506	
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
+
+:::::: The code at line 2 was first introduced by commit
+:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
+
+:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
