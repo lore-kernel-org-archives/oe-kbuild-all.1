@@ -1,57 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A714230C360;
-	Fri, 20 Mar 2026 17:56:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B92530FC26
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Mar 2026 18:00:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774029397; cv=none; b=O4cyZkb/Eyp4AZeXrdKDR9do5ZO/XGqv+fkwrZbph9T8JTn64yJFxrwlo1ALObrHoeBIIQR4qdE2Ns0PwH8zKxU6OIB0KlYPsmdfORhvAl2LNuMKqPEP4eSd5f3jj5992F+7ubrYQr2NuChtjf4V14PvdYFhXDwQUrIMmH+VYc4=
+	t=1774029646; cv=none; b=RhXdXhSk6AAvwfGHCPi8UTMK6Mf6Ulf2+vyrklXG+LWPr16KgdR7/mu0e8Sv21Yud5xTrZqkx/FkqPQ2+USJA2OgutSyFLwyuXOQuN5gdesyWr5w12iehL2AZfGU4OUuoQpKomWJadr1IfCuMQXzKddit4i5zXMi+zWWRpfDs5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774029397; c=relaxed/simple;
-	bh=fQsHOZsTcm/+D2tuDGUQ+SoCD+nZWXn0CvMhtnAF7FY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=hwTaJVfvM/p+R+fe9Io80QDC1njY7uAjMkyB6nyOIwzUmADWUuR+lv4PdyBqqiGQHjUeXRsMeVNMH+DCxgFcObFfKNYvyfiBSZuLxtEwX2nQ4yhxc36DmW9bjIY0d34sn7tuJ6oJTWivlq1aMeCxGrzSh2RihRv6PAZMDZUU3NE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bXdVghUa; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1774029646; c=relaxed/simple;
+	bh=JAKhDVpWULNM63a81nEywXv/dwdhQnpFeD/g/i5odis=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eYKm7+JlEbUUcly/C2aMI1ye5ngUHuASXmqtFDT1boQXcPNzvGeOpbpltZPOcdUrbvVjBSgkdzJukv4Lln6GAiYYTeb+us1OX8bwxrkhtDbm0AJYTiEURN6BcWuDudgYB4sbgteC7xxtJpRrWZXGf3hNsqKef1xfBOGViLMhib0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iPIVF3eB; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bXdVghUa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iPIVF3eB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774029396; x=1805565396;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fQsHOZsTcm/+D2tuDGUQ+SoCD+nZWXn0CvMhtnAF7FY=;
-  b=bXdVghUaVfgSFVAR7DT51gm7KqfYfbmr8/aYQVBJM/1LORUD2zj6kCBl
-   6yVSa1F655F6CtTH4GJc1Jnz+zrYCs63J8gS/J9CDJyR9A1K3YG39IA1L
-   tVF+ulLkwvkqCPQhHBDpOtT/sAn9hEI8jyeCuOm/HizCsldSI9X7zTyM+
-   QL/4KnlwnUphDrY8Slr8xeFM/0O3R/y2H9vE3doUPjkFcUTlNW3GFA8Gv
-   eaWXCKLP1dwn/9pRq6v7jyPTi86wQhit6b9y2SKRNKKJOJAozYn3a7yQZ
-   O5wNScsOdxlWEjM1/v47qXMJ7Kbpxqr0JOXskrBjq3d5nEo4szQ9S55nJ
-   Q==;
-X-CSE-ConnectionGUID: 47eRn6kATFaowDI1tNEPhg==
-X-CSE-MsgGUID: aJIl4b4iRvmjdSYxUj/rbw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="86484995"
+  t=1774029645; x=1805565645;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JAKhDVpWULNM63a81nEywXv/dwdhQnpFeD/g/i5odis=;
+  b=iPIVF3eBMzNnpGbugYRYVNVo4HVJXmV8z6QKzdNmEG7ZDEpb6few3WvK
+   pgy7XX66f9LOWo5ybziJVJMpTBj9JSwbbI1FcgzWT2x9i0iKu69mR9Pqt
+   DOJgmvYfe0idpfXvnSppFVunsuN8iikcqffqZV982YTRYTIbOQEGnJQlt
+   SDN3t75fo8oWBscNOAkN182OWFIYIxmPMJ9vlcVBywxMyUbZcBt8hmgsD
+   S8KLYgKaXS6eWtZdN5RH9Nl0GuwGu53oa4QZivCBN34eE2P+yIJQJpwCJ
+   uG0GQbyDEYn/eurAqTtVcTv1shPu71vwMzc/AA5OyOkrqpmi6+6I/4p6c
+   A==;
+X-CSE-ConnectionGUID: G4m0ttxST+mzJcjizadWgQ==
+X-CSE-MsgGUID: WANqzDFfQyawJLf82a+1fQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="100576037"
 X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="86484995"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 10:56:36 -0700
-X-CSE-ConnectionGUID: iYxQ1t3QRhOd+Z0m2NdHJg==
-X-CSE-MsgGUID: iBUbfSrhTQK5hvO2Sl1vrQ==
+   d="scan'208";a="100576037"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 11:00:44 -0700
+X-CSE-ConnectionGUID: gtnG+l8iT0SHlGf0CDnykA==
+X-CSE-MsgGUID: 5fEKEnjNSUKImcK/2/uthA==
 X-ExtLoop1: 1
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 20 Mar 2026 10:56:35 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
+   d="scan'208";a="246392798"
+Received: from lkp-server02.sh.intel.com (HELO ef9b23065726) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 20 Mar 2026 11:00:40 -0700
+Received: from kbuild by ef9b23065726 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w3e5I-0000000055R-3nWC;
-	Fri, 20 Mar 2026 17:56:32 +0000
-Date: Fri, 20 Mar 2026 18:56:24 +0100
+	id 1w3e8U-00000000049-3YRM;
+	Fri, 20 Mar 2026 18:00:15 +0000
+Date: Sat, 21 Mar 2026 01:58:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh?= (Schneider Electric)" <thomas.weissschuh@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/auxclock-nanosleep 18/44]
- kernel/time/benchmarks.c:38:3: warning: variable 'count' is uninitialized
- when used here
-Message-ID: <202603201851.3zVB9KXq-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Alexander Koskovich <akoskovich@pm.me>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org,
+	Alexander Koskovich <akoskovich@pm.me>
+Subject: Re: [PATCH v3 3/4] drm/msm/dsi: Add support for RGB101010 pixel
+ format
+Message-ID: <202603210139.i7hnShAJ-lkp@intel.com>
+References: <20260319-dsi-rgb101010-support-v3-3-85b99df2d090@pm.me>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,56 +75,64 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260319-dsi-rgb101010-support-v3-3-85b99df2d090@pm.me>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/auxclock-nanosleep
-head:   40e3ab4d08362c43874fd99e70d6ef6f57f086ef
-commit: 7fe24e0ff2f96db84d1ce465aca76bd42c169ab7 [18/44] benchmarks
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260320/202603201851.3zVB9KXq-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603201851.3zVB9KXq-lkp@intel.com/reproduce)
+Hi Alexander,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on f338e77383789c0cae23ca3d48adcc5e9e137e3c]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Koskovich/drm-msm-dsi-rename-MSM8998-DSI-version-from-V2_2_0-to-V2_0_0/20260320-011528
+base:   f338e77383789c0cae23ca3d48adcc5e9e137e3c
+patch link:    https://lore.kernel.org/r/20260319-dsi-rgb101010-support-v3-3-85b99df2d090%40pm.me
+patch subject: [PATCH v3 3/4] drm/msm/dsi: Add support for RGB101010 pixel format
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20260321/202603210139.i7hnShAJ-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260321/202603210139.i7hnShAJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603201851.3zVB9KXq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603210139.i7hnShAJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/time/benchmarks.c:38:3: warning: variable 'count' is uninitialized when used here [-Wuninitialized]
-      38 |                 count++;
-         |                 ^~~~~
-   kernel/time/benchmarks.c:33:11: note: initialize the variable 'count' to silence this warning
-      33 |         u64 count;
-         |                  ^
-         |                   = 0
-   kernel/time/benchmarks.c:56:3: warning: variable 'count' is uninitialized when used here [-Wuninitialized]
-      56 |                 count++;
-         |                 ^~~~~
-   kernel/time/benchmarks.c:50:11: note: initialize the variable 'count' to silence this warning
-      50 |         u64 count;
-         |                  ^
-         |                   = 0
-   2 warnings generated.
+   drivers/gpu/drm/msm/dsi/dsi_host.c: In function 'dsi_get_vid_fmt':
+>> drivers/gpu/drm/msm/dsi/dsi_host.c:760:14: error: 'MIPI_DSI_FMT_RGB101010' undeclared (first use in this function); did you mean 'MIPI_DSI_FMT_RGB565'?
+     760 |         case MIPI_DSI_FMT_RGB101010:    return VID_DST_FORMAT_RGB101010;
+         |              ^~~~~~~~~~~~~~~~~~~~~~
+         |              MIPI_DSI_FMT_RGB565
+   drivers/gpu/drm/msm/dsi/dsi_host.c:760:14: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/gpu/drm/msm/dsi/dsi_host.c: In function 'dsi_get_cmd_fmt':
+   drivers/gpu/drm/msm/dsi/dsi_host.c:773:14: error: 'MIPI_DSI_FMT_RGB101010' undeclared (first use in this function); did you mean 'MIPI_DSI_FMT_RGB565'?
+     773 |         case MIPI_DSI_FMT_RGB101010:    return CMD_DST_FORMAT_RGB101010;
+         |              ^~~~~~~~~~~~~~~~~~~~~~
+         |              MIPI_DSI_FMT_RGB565
+   drivers/gpu/drm/msm/dsi/dsi_host.c: In function 'dsi_host_attach':
+   drivers/gpu/drm/msm/dsi/dsi_host.c:1710:28: error: 'MIPI_DSI_FMT_RGB101010' undeclared (first use in this function); did you mean 'MIPI_DSI_FMT_RGB565'?
+    1710 |         if (dsi->format == MIPI_DSI_FMT_RGB101010 &&
+         |                            ^~~~~~~~~~~~~~~~~~~~~~
+         |                            MIPI_DSI_FMT_RGB565
 
 
-vim +/count +38 kernel/time/benchmarks.c
+vim +760 drivers/gpu/drm/msm/dsi/dsi_host.c
 
-    29	
-    30	static int benchmark_ktime_get_read(void *data, u64 *value)
-    31	{
-    32		ktime_t end;
-    33		u64 count;
-    34	
-    35		end = ktime_get() + BENCHMARK_TIME;
-    36	
-    37		do {
-  > 38			count++;
-    39		} while (ktime_get() < end);
-    40	
-    41		*value = count;
-    42		return 0;
-    43	}
-    44	
+   755	
+   756	static inline enum dsi_vid_dst_format
+   757	dsi_get_vid_fmt(const enum mipi_dsi_pixel_format mipi_fmt)
+   758	{
+   759		switch (mipi_fmt) {
+ > 760		case MIPI_DSI_FMT_RGB101010:	return VID_DST_FORMAT_RGB101010;
+   761		case MIPI_DSI_FMT_RGB888:	return VID_DST_FORMAT_RGB888;
+   762		case MIPI_DSI_FMT_RGB666:	return VID_DST_FORMAT_RGB666_LOOSE;
+   763		case MIPI_DSI_FMT_RGB666_PACKED:	return VID_DST_FORMAT_RGB666;
+   764		case MIPI_DSI_FMT_RGB565:	return VID_DST_FORMAT_RGB565;
+   765		default:			return VID_DST_FORMAT_RGB888;
+   766		}
+   767	}
+   768	
 
 -- 
 0-DAY CI Kernel Test Service
