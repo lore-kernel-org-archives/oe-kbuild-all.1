@@ -1,68 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95FA538AC67;
-	Fri, 20 Mar 2026 10:18:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1C9131F994
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Mar 2026 10:50:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774001947; cv=none; b=VV1mbrh+XPbNi4PE2sjZfLkKK9pCjYfoeUzewKQpyGzDJXBAa4dymsBErK/hPJLgl8rO+TclxXAYe5RTZfB7VMdf1W+CKRwJETGQ1R717W/5V3ozsD6TiNeTx1KUbMgDwv/eqyJfEOJxVhJGKcW4JyaH0jLKqSj5oe6DbcX1j+8=
+	t=1774003843; cv=none; b=SoRac2IIJ5NKyI0ylUmLG6iBdyoQSxFgLBLgdnDFT64FS1gI0eO9laHbHHDNzbzydXBr0VkxIC2zsWgSgfpDcSKTIOn/tooWyNdU5iiFLMyxgQIwWcuVvZ5v2dU4BzRWrEI2doIf5iGJK/K3wjS+mMqhDvBOJSxkkpcy+Rb9VYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774001947; c=relaxed/simple;
-	bh=9xUNeMBUbv50TFhTrU7GhOJSxZ6PPhrSR/Qj7v/5NWQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A8e1yjPFc5mnHEaweCQ5Jc+JvHd2z+Jh+UqDPjtDCQMwlz4O8eZ1ZJ04ckQA3v568CHg8LWAMxHkLw9n6IYuTI0ywWYYMI2AzMqGgQ8cjZhSYOi4Do6+Cget3gTJuXLJFoiOiRVKvfFa3gdBNJI+eS+/fSV7OQ8/8VaiRqPHKVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I3FGcLQz; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1774003843; c=relaxed/simple;
+	bh=yQPmf/JlNh3ug3/hohTaeFinQ1mCmRR/dfm1MTvqzng=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=NvOoeiWJDQHxBk9TkbI+Qs1ux5NDiv4PR7apfNGg7M6yWpTIeOWtfMbyQLSFvAzHfdftmTmBG6xVxR3Snr/3cXkMiuppKjjZuenn5HIToY6fp6x/zwkRJkrJBT3hfH8riwYx9B9IB1tYlXR+5wO6phoUx+BzzB9QUB8xRQ+S/2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OoYJyQbg; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I3FGcLQz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OoYJyQbg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774001938; x=1805537938;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9xUNeMBUbv50TFhTrU7GhOJSxZ6PPhrSR/Qj7v/5NWQ=;
-  b=I3FGcLQzeRTfk76HnulvH+h0zeBVDPzhLDdQKHnFqpABJUjdbGNEZ+C2
-   oIbWtmrhL7yotqGX8SLAdxp1kqfejXPHNjqDNkYww4GXWBLKjfHk68Jwx
-   mPug6e4B5sIMXOUjVOol7OCYEYFDK8Sj+TiFzJnaxH+/SmeJCwYyZDaRl
-   hXZzzO4g8AKm8I/UJAF6Lc6cyNURlD8seF1DUSBW2jOLUn4HukJ8QruMo
-   QMzzNT3NM29DjM9CULiYH/OXvp63/78WTYR6GPPyu5tx/pVB/D+zsxI1u
-   2lzN2flpvCNh70uV3KWnVZVgCt7k0A4nJJxWXvTxDZITacZfKCeLe7CpD
-   g==;
-X-CSE-ConnectionGUID: D0mCqVTGRhKVUG2x7of3bQ==
-X-CSE-MsgGUID: +fBdtZCnSFW8vV+0uygoTA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="92658886"
+  t=1774003842; x=1805539842;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yQPmf/JlNh3ug3/hohTaeFinQ1mCmRR/dfm1MTvqzng=;
+  b=OoYJyQbgN6EbP87+AftK0QZek94PfmgO4z9m8csV2DU4dFikOXtMFuNK
+   YBfC++7sBkaHv4pCio7b97+o6ORAgYkwNoB/4lTPDZOO3/3XduHGnki3N
+   gVKt6jF6H713N2IGQ8najqvPVGAbOQRgso4QOfIG118aCbM5JwUXzN0AV
+   T68ry3Xa9qAlg7J+YeVCFTkv5o6HDrUaOexypLnNLYqSeWY/3RvnAYX8D
+   PHsvGbkISFEdDJoh86Vcje1f4qDgK2k7FQ0upKakmJJI43XgSl640nW+5
+   7bzRIwDumoZDr956ZHU00ACIgBzhrMR940BAzur4FtHpaZYgYnQXjciek
+   w==;
+X-CSE-ConnectionGUID: IPTRpEI0ROeKeDJOIQ1fzA==
+X-CSE-MsgGUID: mdEk8ZhJTnmIsaWeYvyeiw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="74788144"
 X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="92658886"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 03:18:57 -0700
-X-CSE-ConnectionGUID: zLehAkZ/Qu6Cfa49jA9rEA==
-X-CSE-MsgGUID: HEHwKXlOS/6q0uNEFA0sYQ==
+   d="scan'208";a="74788144"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 03:50:41 -0700
+X-CSE-ConnectionGUID: DXCJP8wUSRyuORi6diRCJw==
+X-CSE-MsgGUID: gBzp5aybSa+rJ4uLXj6OXA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="218615516"
+   d="scan'208";a="220167200"
 Received: from lkp-server02.sh.intel.com (HELO a51c2a36b9df) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 20 Mar 2026 03:18:53 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 20 Mar 2026 03:50:40 -0700
 Received: from kbuild by a51c2a36b9df with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w3WwM-000000002G5-2cL7;
-	Fri, 20 Mar 2026 10:18:50 +0000
-Date: Fri, 20 Mar 2026 18:18:26 +0800
+	id 1w3XR7-000000002HR-49CA;
+	Fri, 20 Mar 2026 10:50:38 +0000
+Date: Fri, 20 Mar 2026 18:50:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	bpf@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	Martin KaFai Lau <kafai@fb.com>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-	Menglong Dong <menglong8.dong@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCHv3 bpf-next 08/24] bpf: Add
- bpf_trampoline_multi_attach/detach functions
-Message-ID: <202603201820.zsM5FRDS-lkp@intel.com>
-References: <20260316075138.465430-9-jolsa@kernel.org>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh?= (Schneider Electric)" <thomas.weissschuh@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/auxclock-nanosleep 15/25]
+ kernel/time/hrtimer.c:1771:3: error: a label can only be part of a statement
+ and a declaration is not a statement
+Message-ID: <202603201822.JPNcKDlk-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,78 +61,57 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260316075138.465430-9-jolsa@kernel.org>
 
-Hi Jiri,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiri-Olsa/ftrace-Add-ftrace_hash_count-function/20260316-160117
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20260316075138.465430-9-jolsa%40kernel.org
-patch subject: [PATCHv3 bpf-next 08/24] bpf: Add bpf_trampoline_multi_attach/detach functions
-config: x86_64-randconfig-075-20260320 (https://download.01.org/0day-ci/archive/20260320/202603201820.zsM5FRDS-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603201820.zsM5FRDS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/auxclock-nanosleep
+head:   cc3ea8220bbf2776d1d33ef66bf120fd6c27a801
+commit: 7924e77c4adaeb5f81b1d76b80f9255ea214b002 [15/25] hrtimer: Add support for auxiliary clocks
+config: sparc-randconfig-001-20260320 (https://download.01.org/0day-ci/archive/20260320/202603201822.JPNcKDlk-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603201822.JPNcKDlk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603201820.zsM5FRDS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603201822.JPNcKDlk-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/bpf/trampoline.c:1520:8: error: call to undeclared function 'btf_distill_func_proto'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1520 |         err = btf_distill_func_proto(NULL, btf, t, tname, &tgt_info->fmodel);
-         |               ^
-   1 error generated.
+   kernel/time/hrtimer.c: In function '__hrtimer_cb_get_time':
+>> kernel/time/hrtimer.c:1771:3: error: a label can only be part of a statement and a declaration is not a statement
+      ktime_t kt;
+      ^~~~~~~
 
 
-vim +/btf_distill_func_proto +1520 kernel/bpf/trampoline.c
+vim +1771 kernel/time/hrtimer.c
 
-  1498	
-  1499	static int bpf_get_btf_id_target(struct btf *btf, struct bpf_prog *prog, u32 btf_id,
-  1500					 struct bpf_attach_target_info *tgt_info)
-  1501	{
-  1502		const struct btf_type *t;
-  1503		unsigned long addr;
-  1504		const char *tname;
-  1505		int err;
-  1506	
-  1507		if (!btf_id || !btf)
-  1508			return -EINVAL;
-  1509		t = btf_type_by_id(btf, btf_id);
-  1510		if (!t)
-  1511			return -EINVAL;
-  1512		tname = btf_name_by_offset(btf, t->name_off);
-  1513		if (!tname)
-  1514			return -EINVAL;
-  1515		if (!btf_type_is_func(t))
-  1516			return -EINVAL;
-  1517		t = btf_type_by_id(btf, t->type);
-  1518		if (!btf_type_is_func_proto(t))
-  1519			return -EINVAL;
-> 1520		err = btf_distill_func_proto(NULL, btf, t, tname, &tgt_info->fmodel);
-  1521		if (err < 0)
-  1522			return err;
-  1523		if (btf_is_module(btf)) {
-  1524			/* The bpf program already holds refference to module. */
-  1525			if (WARN_ON_ONCE(!prog->aux->mod))
-  1526				return -EINVAL;
-  1527			addr = find_kallsyms_symbol_value(prog->aux->mod, tname);
-  1528		} else {
-  1529			addr = kallsyms_lookup_name(tname);
-  1530		}
-  1531		if (!addr || !ftrace_location(addr))
-  1532			return -ENOENT;
-  1533		tgt_info->tgt_addr = addr;
-  1534		return 0;
-  1535	}
-  1536	
+  1758	
+  1759	static ktime_t __hrtimer_cb_get_time(clockid_t clock_id)
+  1760	{
+  1761		switch (clock_id) {
+  1762		case CLOCK_MONOTONIC:
+  1763			return ktime_get();
+  1764		case CLOCK_REALTIME:
+  1765			return ktime_get_real();
+  1766		case CLOCK_BOOTTIME:
+  1767			return ktime_get_boottime();
+  1768		case CLOCK_TAI:
+  1769			return ktime_get_clocktai();
+  1770		case CLOCK_AUX ... CLOCK_AUX_LAST:
+> 1771			ktime_t kt;
+  1772	
+  1773			if (!IS_ENABLED(CONFIG_POSIX_AUX_CLOCKS))
+  1774				break;
+  1775	
+  1776			if (ktime_get_aux(clock_id, &kt))
+  1777				return kt;
+  1778			else
+  1779				return KTIME_MIN;
+  1780		}
+  1781	
+  1782		WARN(1, "Invalid clockid %d. Using MONOTONIC\n", clock_id);
+  1783		return ktime_get();
+  1784	}
+  1785	
 
 -- 
 0-DAY CI Kernel Test Service
