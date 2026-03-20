@@ -1,167 +1,152 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A751B34FF50
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Mar 2026 16:55:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C90F63D3012
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Mar 2026 17:17:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774025761; cv=none; b=O9fmaw82fw0zUqoqkAw5SkeozWi74xAT7Ts5nNXUWzOH/IdOIKoorVNa3t0mkuT0LRwj0XBdzm34K1RZG20F/P/WXqffYrO8XMRIKbOkP3H8p5cH+pfVZFCwl3nzUpajV16XOrmw4pNhQCbx2UIZA5gp6l9MBC52m6VycnwFlPo=
+	t=1774027076; cv=none; b=SqHwaXMnpQuMkYFnf1Ek/qeSqgaG73MYP+Hb255qN9lzKeFKJI23CqClK0juaX5cLy8Kw9OJB9DzAOz2pwfbDYEU9hYkc+N4289Rd/hpCy7+4/OJ9pYm1K8H5qJtp+dcr/e0qzlW2JEvMEl9CNoLb4AXN2H0z0xLjOsjDJ9rmNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774025761; c=relaxed/simple;
-	bh=JOsQO3st7WILZVBsC8f9R41Jc6elrwJYkP5l/BvD1+0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gu9pf6ngCDGII4jH85Dd9A5kRAQg3lQs/Or9oeMtrEZGzDd662TXQTUO2FIDmo+bg8+GY3hauIpWmUDagy29yQw2GHZ0v78JD3tjk+1g2Kdha99DDncER9ZSn9bXyrdmNx4ND+oiM6t47UYAoeOcDQMFmTeg/Eoz3Qw+LpqCFbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LXfzJLw+; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1774027076; c=relaxed/simple;
+	bh=WwvDgx84PNHuu2EcpeBh9tSCZ2nsFWbUnlQVXk5Lvhc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=p7wz1lcrk2RM953i4ZXeMFec0IrGA0jhIObxaI2b7zk/FpxAiAErGlJITaYKIk7Mx/Hw/vl8cXi0REzxEz9+EVsb2udJT2eDqADkNr1709gEXT+tgJN9LYhitL4gua1FxY+0SCIBLJ0bEHqHl5AzRI9UbE0SqRGjYK0QhAt0NSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NeNNq5AU; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LXfzJLw+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NeNNq5AU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774025759; x=1805561759;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JOsQO3st7WILZVBsC8f9R41Jc6elrwJYkP5l/BvD1+0=;
-  b=LXfzJLw+DbmoIVkJssuGGca+WTGY9J5tbTUn73fJLyUWc1V09J17TxtD
-   CVNBiq4UqEAoxppi4izdBXj7ljDYSfCrUoU2RcPWjJ1PitCuKH2Dl8NZi
-   O0qlM/dmnz67SxGgguqRlK3T7NKUO5GugpjQZh2m6RgpXxt/mRdmv47Mi
-   zdTXY/ddp7G0rCVFl5sz4xDNholIgwZYusQ+pKdmc/Rm/kwYmwH7Of6w6
-   WyMLBdNTNUuIe8hkb/4rD3JRFsNt7kJalXbcFaAjSvus4kAPECdP6zSGV
-   HRrUS/PCOkGRF2Nd3HG/O1rVzEY1D0hOP1rcSehmhP+yKFQcDKaMN9MwN
+  t=1774027074; x=1805563074;
+  h=date:from:to:cc:subject:message-id;
+  bh=WwvDgx84PNHuu2EcpeBh9tSCZ2nsFWbUnlQVXk5Lvhc=;
+  b=NeNNq5AU3UralATveDnFbHBgRBW0sk20RgJHBsk48Nd+9h1Z+06X+rxH
+   rVchHWsxC7InwHwXjMb5xdsStgiB6lnOnpdT7QQ7eFBtS+7I1TEJN0Wyo
+   iB085VGXD0g4aGIiGJ/g2vsWtaFrqex+hVlAlTGo8Bahd4pylO+oPILZI
+   9jT2O3N3giZWj3xKGvu6D1iHWI8mJjB7PYRvpo8vDIySSzWaGJgBjuiut
+   6lRgZ9WTDM8AD/9SrRQYJYSfAfku6G/R119Y1yaKyfpu3pA3ebRhPLlRu
+   bKwS0vLpXY8/9etsiIF9qq4H50hnyf1+b14k1nT0ujRxYaCzpxEvACOTT
    A==;
-X-CSE-ConnectionGUID: UpgwwS4gRSWprgeeBdaqlw==
-X-CSE-MsgGUID: JG8wHLcNQUCght+90zx4yw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="86590452"
+X-CSE-ConnectionGUID: EFLCFB+zTsOhKrADieulkA==
+X-CSE-MsgGUID: 2amGMCmFTsu6ip5lJUxUYA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="85432064"
 X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="86590452"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 09:55:54 -0700
-X-CSE-ConnectionGUID: yzTcZ5yzTPSLzbwc1yJQiw==
-X-CSE-MsgGUID: HN+kDXFUToSBAd28oBPRcw==
+   d="scan'208";a="85432064"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 10:17:54 -0700
+X-CSE-ConnectionGUID: 2yVkBmu/S5Gp2UwZq2oNTg==
+X-CSE-MsgGUID: UG+uqgdRRkeMqAGvl2wIIA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="222569042"
+   d="scan'208";a="246375757"
 Received: from lkp-server01.sh.intel.com (HELO ba623fe84fe1) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 20 Mar 2026 09:55:48 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 20 Mar 2026 10:17:52 -0700
 Received: from kbuild by ba623fe84fe1 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w3d8T-000000000Ar-30MX;
-	Fri, 20 Mar 2026 16:55:45 +0000
-Date: Sat, 21 Mar 2026 00:55:14 +0800
+	id 1w3dTp-000000000D3-28Qd;
+	Fri, 20 Mar 2026 17:17:49 +0000
+Date: Sat, 21 Mar 2026 01:17:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chris Morgan <macroalpha82@gmail.com>, linux-iio@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, andy@kernel.org, nuno.sa@analog.com,
-	dlechner@baylibre.com, jic23@kernel.org,
-	jean-baptiste.maneyrol@tdk.com, linux-rockchip@lists.infradead.org,
-	devicetree@vger.kernel.org, heiko@sntech.de, conor+dt@kernel.org,
-	krzk+dt@kernel.org, robh@kernel.org, andriy.shevchenko@intel.com,
-	Chris Morgan <macromorgan@hotmail.com>
-Subject: Re: [PATCH V2 4/5] iio: imu: inv_icm42600: Add support for icm42607
-Message-ID: <202603210032.xLBroWQu-lkp@intel.com>
-References: <20260319182956.146976-5-macroalpha82@gmail.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata 99/106]
+ drivers/media/pci/intel/ipu6/ipu6-isys-queue.c:561:14: warning: unused
+ variable 'has_pipeline'
+Message-ID: <202603210104.4hUqxqYU-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260319182956.146976-5-macroalpha82@gmail.com>
 
-Hi Chris,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rockchip/for-next]
-[also build test WARNING on linus/master v7.0-rc4 next-20260320]
-[cannot apply to jic23-iio/togreg]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chris-Morgan/dt-bindings-iio-imu-add-icm42607/20260320-061927
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
-patch link:    https://lore.kernel.org/r/20260319182956.146976-5-macroalpha82%40gmail.com
-patch subject: [PATCH V2 4/5] iio: imu: inv_icm42600: Add support for icm42607
-config: i386-randconfig-r134-20260320 (https://download.01.org/0day-ci/archive/20260321/202603210032.xLBroWQu-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260321/202603210032.xLBroWQu-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   7a108073e0c1f6e9035329a152d5835f9d4f9507
+commit: 526d9c2d124199ae12d8c48148ca47b2f1ad676f [99/106] media: ipu6: Bridge the gap between streams in V4L2 and IPU6 firmware
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260321/202603210104.4hUqxqYU-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260321/202603210104.4hUqxqYU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603210032.xLBroWQu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603210104.4hUqxqYU-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/iio/imu/inv_icm42600/inv_icm42600_core.c: In function 'inv_icm42607_hw_suspend':
->> drivers/iio/imu/inv_icm42600/inv_icm42600_core.c:1150:13: warning: variable 'accel_conf' set but not used [-Wunused-but-set-variable]
-    1150 |         int accel_conf;
-         |             ^~~~~~~~~~
---
->> drivers/iio/imu/inv_icm42600/inv_icm42600_accel.c:108:18: warning: 'inv_icm42607_accel_filter_values' defined but not used [-Wunused-const-variable=]
-     108 | static const int inv_icm42607_accel_filter_values[] = {
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-queue.c: In function 'start_streaming':
+>> drivers/media/pci/intel/ipu6/ipu6-isys-queue.c:561:14: warning: unused variable 'has_pipeline' [-Wunused-variable]
+     561 |         bool has_pipeline = (bool)video_device_pipeline(&av->vdev);
+         |              ^~~~~~~~~~~~
 
 
-vim +/accel_conf +1150 drivers/iio/imu/inv_icm42600/inv_icm42600_core.c
+vim +/has_pipeline +561 drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
 
-  1144	
-  1145	static int inv_icm42607_hw_suspend(struct device *dev)
-  1146	{
-  1147		struct inv_icm42600_state *st = dev_get_drvdata(dev);
-  1148		struct device *accel_dev;
-  1149		bool wakeup;
-> 1150		int accel_conf;
-  1151		int ret = 0;
-  1152	
-  1153		guard(mutex)(&st->lock);
-  1154	
-  1155		st->suspended.gyro = st->conf.gyro.mode;
-  1156		st->suspended.accel = st->conf.accel.mode;
-  1157		st->suspended.temp = st->conf.temp_en;
-  1158		if (pm_runtime_suspended(dev))
-  1159			return 0;
-  1160	
-  1161		if (st->fifo.on) {
-  1162			ret = regmap_write(st->map, INV_ICM42607_REG_FIFO_CONFIG1,
-  1163					   INV_ICM42607_FIFO_CONFIG1_BYPASS);
-  1164			if (ret)
-  1165				return ret;
-  1166		}
-  1167	
-  1168		/* keep chip on and wake-up capable if APEX and wakeup on */
-  1169		accel_dev = &st->indio_accel->dev;
-  1170		wakeup = st->apex.on && device_may_wakeup(accel_dev);
-  1171		if (wakeup) {
-  1172			/* keep accel on and setup irq for wakeup */
-  1173			accel_conf = st->conf.accel.mode;
-  1174			enable_irq_wake(st->irq);
-  1175			disable_irq(st->irq);
-  1176		} else {
-  1177			/* disable APEX features and accel if wakeup disabled */
-  1178			if (st->apex.wom.enable) {
-  1179				ret = inv_icm42607_disable_wom(st);
-  1180				if (ret)
-  1181					return ret;
-  1182			}
-  1183			accel_conf = INV_ICM42600_SENSOR_MODE_OFF;
-  1184		}
-  1185	
-  1186		ret = inv_icm42607_set_pwr_mgmt0(st, INV_ICM42600_SENSOR_MODE_OFF,
-  1187						 INV_ICM42600_SENSOR_MODE_OFF, false,
-  1188						 NULL);
-  1189		if (ret)
-  1190			return ret;
-  1191	
-  1192		if (!wakeup)
-  1193			regulator_disable(st->vddio_supply);
-  1194	
-  1195		return 0;
-  1196	}
-  1197	
+   532	
+   533	static int start_streaming(struct vb2_queue *q, unsigned int count)
+   534	{
+   535		struct ipu6_isys_queue *aq = vb2_queue_to_isys_queue(q);
+   536		struct ipu6_isys_video *av = ipu6_isys_queue_to_video(aq);
+   537		struct device *dev = &av->isys->adev->auxdev.dev;
+   538		const struct ipu6_isys_pixelformat *pfmt =
+   539			ipu6_isys_get_isys_format(ipu6_isys_get_format(av), 0);
+   540		struct media_pad *source_pad, *remote_pad;
+   541		int ret;
+   542	
+   543		dev_dbg(dev, "stream: %s: width %u, height %u, css pixelformat %u\n",
+   544			av->vdev.name, ipu6_isys_get_frame_width(av),
+   545			ipu6_isys_get_frame_height(av), pfmt->css_pixelformat);
+   546	
+   547		remote_pad = media_pad_remote_pad_unique(&av->pad);
+   548		if (IS_ERR(remote_pad)) {
+   549			dev_dbg(dev, "failed to get remote pad\n");
+   550			ret = PTR_ERR(remote_pad);
+   551			goto out_return_buffers;
+   552		}
+   553	
+   554		source_pad = media_pad_remote_pad_unique(&remote_pad->entity->pads[0]);
+   555		if (IS_ERR(source_pad)) {
+   556			dev_dbg(dev, "No external source entity\n");
+   557			ret = PTR_ERR(source_pad);
+   558			goto out_return_buffers;
+   559		}
+   560	
+ > 561		bool has_pipeline = (bool)video_device_pipeline(&av->vdev);
+   562	
+   563		ret = video_device_pipeline_alloc_start(&av->vdev);
+   564		if (ret < 0)
+   565			goto out_return_buffers;
+   566	
+   567		ret = ipu6_isys_link_fmt_validate(aq);
+   568		if (ret) {
+   569			dev_dbg(dev,
+   570				"%s: link format validation failed (%d)\n",
+   571				av->vdev.name, ret);
+   572			goto out_pipeline_stop;
+   573		}
+   574	
+   575		ret = ipu6_isys_fw_open(av->isys);
+   576		if (ret)
+   577			goto out_pipeline_stop;
+   578	
+   579		ret = ipu6_isys_stream_start(av);
+   580		if (ret)
+   581			goto out_fw_close;
+   582	
+   583		return 0;
+   584	
+   585	out_fw_close:
+   586		ipu6_isys_fw_close(av->isys);
+   587	
+   588	out_pipeline_stop:
+   589		ipu6_isys_stream_cleanup(av);
+   590	
+   591	out_return_buffers:
+   592		return_buffers(aq, VB2_BUF_STATE_QUEUED);
+   593	
+   594		return ret;
+   595	}
+   596	
 
 -- 
 0-DAY CI Kernel Test Service
