@@ -1,92 +1,147 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E211F12E1DC
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Mar 2026 10:00:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95FA538AC67;
+	Fri, 20 Mar 2026 10:18:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774000833; cv=none; b=i813xX7/hzfVaquwBMCJtcF+rx7JvnarZ+KaLVhh9DVeqXTX+CIfeJxSfbIQfZmjoAfu5FyTNncAcXq/9lZViptOUj4KViOqTIOPVIXWxGqePIiOCtqSE7iwzCgv8uKPYETAT0lhi7WrId4VPDCEb7JJg4DOLI0P20mcSpPRbBE=
+	t=1774001947; cv=none; b=VV1mbrh+XPbNi4PE2sjZfLkKK9pCjYfoeUzewKQpyGzDJXBAa4dymsBErK/hPJLgl8rO+TclxXAYe5RTZfB7VMdf1W+CKRwJETGQ1R717W/5V3ozsD6TiNeTx1KUbMgDwv/eqyJfEOJxVhJGKcW4JyaH0jLKqSj5oe6DbcX1j+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774000833; c=relaxed/simple;
-	bh=Bg5bYBOo468/O6H6bc4bmB07Sn/UCpQu1a8CCcSJe/s=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=LCZ408sAdTxzPDjJPPW6FwxDznNQNR/GNbURqK1cffcAm3ufD3JPEoXmTJRk1G+cI8OszySzaUYYzvDyajrryhePg+cvhFzsOLu12FxUpNfYbB3pynzA7ExkpJyR3xrn7uX0Y03jnlKRCMGI2leRRbJdGSsyJGIisMG3YI004d0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nxgwt6IV; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1774001947; c=relaxed/simple;
+	bh=9xUNeMBUbv50TFhTrU7GhOJSxZ6PPhrSR/Qj7v/5NWQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A8e1yjPFc5mnHEaweCQ5Jc+JvHd2z+Jh+UqDPjtDCQMwlz4O8eZ1ZJ04ckQA3v568CHg8LWAMxHkLw9n6IYuTI0ywWYYMI2AzMqGgQ8cjZhSYOi4Do6+Cget3gTJuXLJFoiOiRVKvfFa3gdBNJI+eS+/fSV7OQ8/8VaiRqPHKVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I3FGcLQz; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nxgwt6IV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I3FGcLQz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774000832; x=1805536832;
-  h=date:from:to:cc:subject:message-id;
-  bh=Bg5bYBOo468/O6H6bc4bmB07Sn/UCpQu1a8CCcSJe/s=;
-  b=nxgwt6IVs382Efm3dxZNmTEK0P/b98FknifVKEgKadeOOECxRe39y7ED
-   GPynl8eJfaTZIxW0U6DNarrkcJ+V79c42d5LtfIPGLrREC6+slTj3v+6X
-   BnMsdBVgK0vKi++tPbobQj0JhgSQ8hjwGKkTyWWDfHdqr2IOi0p8XCB15
-   zcCefS/XOBHRgCkCth8hOjvM8ehAtN0V1iR3oSuXgu91tPQutsuoeDfM6
-   ygc8O8y11/GetsHnEsk7R9Q17v7NOQn0qD1BNL5zTWqIe/5rqIWfyVhGX
-   +EPTx0eT3nF2pRO3iQXRo0yBGLzHPAxmLbC1wcBKs9qRBvNS5DI83IM3X
+  t=1774001938; x=1805537938;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9xUNeMBUbv50TFhTrU7GhOJSxZ6PPhrSR/Qj7v/5NWQ=;
+  b=I3FGcLQzeRTfk76HnulvH+h0zeBVDPzhLDdQKHnFqpABJUjdbGNEZ+C2
+   oIbWtmrhL7yotqGX8SLAdxp1kqfejXPHNjqDNkYww4GXWBLKjfHk68Jwx
+   mPug6e4B5sIMXOUjVOol7OCYEYFDK8Sj+TiFzJnaxH+/SmeJCwYyZDaRl
+   hXZzzO4g8AKm8I/UJAF6Lc6cyNURlD8seF1DUSBW2jOLUn4HukJ8QruMo
+   QMzzNT3NM29DjM9CULiYH/OXvp63/78WTYR6GPPyu5tx/pVB/D+zsxI1u
+   2lzN2flpvCNh70uV3KWnVZVgCt7k0A4nJJxWXvTxDZITacZfKCeLe7CpD
    g==;
-X-CSE-ConnectionGUID: gc+jSWQhRheBy95MTDOKHg==
-X-CSE-MsgGUID: bZNIumacRKyEUe/cKLAWlg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="86559249"
+X-CSE-ConnectionGUID: D0mCqVTGRhKVUG2x7of3bQ==
+X-CSE-MsgGUID: +fBdtZCnSFW8vV+0uygoTA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="92658886"
 X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="86559249"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 03:00:31 -0700
-X-CSE-ConnectionGUID: VxP49kE7QPWFg82tju1okg==
-X-CSE-MsgGUID: wQhQTY/4TUipnO/GgAExww==
+   d="scan'208";a="92658886"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 03:18:57 -0700
+X-CSE-ConnectionGUID: zLehAkZ/Qu6Cfa49jA9rEA==
+X-CSE-MsgGUID: HEHwKXlOS/6q0uNEFA0sYQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="223224971"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 20 Mar 2026 03:00:30 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="218615516"
+Received: from lkp-server02.sh.intel.com (HELO a51c2a36b9df) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 20 Mar 2026 03:18:53 -0700
+Received: from kbuild by a51c2a36b9df with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w3Wea-0000000050j-0rYw;
-	Fri, 20 Mar 2026 10:00:28 +0000
-Date: Fri, 20 Mar 2026 11:00:26 +0100
+	id 1w3WwM-000000002G5-2cL7;
+	Fri, 20 Mar 2026 10:18:50 +0000
+Date: Fri, 20 Mar 2026 18:18:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 357/357]
- iommufd_utils.h:804:37: warning: array subscript 'struct
- iommu_test_hw_info[0]' is partly outside array bounds of 'struct
- iommu_test_hw_info_buffer_smaller[1]'
-Message-ID: <202603201059.0A6p9gOT-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Jiri Olsa <jolsa@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	bpf@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	Martin KaFai Lau <kafai@fb.com>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+	Menglong Dong <menglong8.dong@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCHv3 bpf-next 08/24] bpf: Add
+ bpf_trampoline_multi_attach/detach functions
+Message-ID: <202603201820.zsM5FRDS-lkp@intel.com>
+References: <20260316075138.465430-9-jolsa@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260316075138.465430-9-jolsa@kernel.org>
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   61d924e3c943dec5a1544973025226b69d3e9ae4
-commit: 1bd6721c42a736a9452095171f28e724cd531c6b [357/357] iommufd: Extend IOMMU_GET_HW_INFO to report PASID capability
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260320/202603201059.0A6p9gOT-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603201059.0A6p9gOT-lkp@intel.com/reproduce)
+Hi Jiri,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiri-Olsa/ftrace-Add-ftrace_hash_count-function/20260316-160117
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20260316075138.465430-9-jolsa%40kernel.org
+patch subject: [PATCHv3 bpf-next 08/24] bpf: Add bpf_trampoline_multi_attach/detach functions
+config: x86_64-randconfig-075-20260320 (https://download.01.org/0day-ci/archive/20260320/202603201820.zsM5FRDS-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603201820.zsM5FRDS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603201059.0A6p9gOT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603201820.zsM5FRDS-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from iommufd_utils.h:11,
-                    from iommufd.c:12:
-   In function '_test_cmd_get_hw_info',
-       inlined from 'iommufd_ioas_get_hw_info' at iommufd.c:779:3,
-       inlined from 'wrapper_iommufd_ioas_get_hw_info' at iommufd.c:752:1:
->> iommufd_utils.h:804:37: warning: array subscript 'struct iommu_test_hw_info[0]' is partly outside array bounds of 'struct iommu_test_hw_info_buffer_smaller[1]' [-Warray-bounds=]
-     804 |                         assert(!info->flags);
-         |                                 ~~~~^~~~~~~
-   iommufd.c: In function 'wrapper_iommufd_ioas_get_hw_info':
-   iommufd.c:761:11: note: object 'buffer_smaller' of size 4
-     761 |         } buffer_smaller;
-         |           ^~~~~~~~~~~~~~
+>> kernel/bpf/trampoline.c:1520:8: error: call to undeclared function 'btf_distill_func_proto'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1520 |         err = btf_distill_func_proto(NULL, btf, t, tname, &tgt_info->fmodel);
+         |               ^
+   1 error generated.
+
+
+vim +/btf_distill_func_proto +1520 kernel/bpf/trampoline.c
+
+  1498	
+  1499	static int bpf_get_btf_id_target(struct btf *btf, struct bpf_prog *prog, u32 btf_id,
+  1500					 struct bpf_attach_target_info *tgt_info)
+  1501	{
+  1502		const struct btf_type *t;
+  1503		unsigned long addr;
+  1504		const char *tname;
+  1505		int err;
+  1506	
+  1507		if (!btf_id || !btf)
+  1508			return -EINVAL;
+  1509		t = btf_type_by_id(btf, btf_id);
+  1510		if (!t)
+  1511			return -EINVAL;
+  1512		tname = btf_name_by_offset(btf, t->name_off);
+  1513		if (!tname)
+  1514			return -EINVAL;
+  1515		if (!btf_type_is_func(t))
+  1516			return -EINVAL;
+  1517		t = btf_type_by_id(btf, t->type);
+  1518		if (!btf_type_is_func_proto(t))
+  1519			return -EINVAL;
+> 1520		err = btf_distill_func_proto(NULL, btf, t, tname, &tgt_info->fmodel);
+  1521		if (err < 0)
+  1522			return err;
+  1523		if (btf_is_module(btf)) {
+  1524			/* The bpf program already holds refference to module. */
+  1525			if (WARN_ON_ONCE(!prog->aux->mod))
+  1526				return -EINVAL;
+  1527			addr = find_kallsyms_symbol_value(prog->aux->mod, tname);
+  1528		} else {
+  1529			addr = kallsyms_lookup_name(tname);
+  1530		}
+  1531		if (!addr || !ftrace_location(addr))
+  1532			return -ENOENT;
+  1533		tgt_info->tgt_addr = addr;
+  1534		return 0;
+  1535	}
+  1536	
 
 -- 
 0-DAY CI Kernel Test Service
