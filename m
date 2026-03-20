@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 912053B27EE
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Mar 2026 12:40:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869EF317175
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Mar 2026 12:54:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774010412; cv=none; b=TmVASIw7BzleLhVeaqRfAD4a0nmOWKPt/UjthoBepXNL+j4bgqKYTKzQBHWd/a75kf/dYtpBrTgeBB10lgusAm4qFTeKlZ7YKJTKl+WU95cRduc8jlPpSvJUTE2qkzTd0KdpTP0IHpc48Nf5Xr/sD3kSJqahmOPLOBVkx7+5nKQ=
+	t=1774011261; cv=none; b=U9OpKBPxAYhWo3wk1V1ALIYq3BzwhBQw5qGsA8eZn9x7ULHJp2Zj769Rj39a2bUK6u39K6bWYeK2aVfVBkDk7kyE670mpQZPqT2tLys8BPXbfnbVJ3eMDzwLEpkLLDZJRxl/1dI8mmTNeE1C4ya/k5AcyxrKF7p2mSV9xsQTcaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774010412; c=relaxed/simple;
-	bh=ChvT6ccIwWQ61J6CtudzlN40oVW7OdfydHTTiOWgvBg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=nK31FrG5yo/hdzmj9nCjjOHz92+wEoP1cZlCI/R5yZ2QEo/s1QT/kUS2knS+m9ocUmNaIUBYTD+wbN9BcUpIpJWL25HDBMQwf+mqnAmIblAYG6z3wCEprAhxvg78y+HnVLZFWhNJcYjEa/Hkh1BLT4014sTMAi0MVe5Pk4rkQGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DkDEMlkj; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1774011261; c=relaxed/simple;
+	bh=Js+ITMqmsBitBfdFVjnv1TTRgL/DrR8TLXGeYvbL5yo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=GwSsc9RDfUKTJFra8FDan3O8lJndnTWJuSTkKi87GvR+re/1ogAEXU0zKbW1k0cLsJiaw/Tv4pyWWulExpQz8EF0qHK/fjELkidQwzj8ZxAnyTqyjMds14wcO8O8Pyxxkmr3dPjGZ5ATd8QxxPQi5ynVJJfSR2U0sCWqrISZpEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CTTgsrLK; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DkDEMlkj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CTTgsrLK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774010407; x=1805546407;
+  t=1774011258; x=1805547258;
   h=date:from:to:cc:subject:message-id;
-  bh=ChvT6ccIwWQ61J6CtudzlN40oVW7OdfydHTTiOWgvBg=;
-  b=DkDEMlkj5DQSgTDx5m1rq62LTLA6is9DiOeeNnOF13u75yore53Zzu8W
-   ABEC8ndeorHjF7J606pKYr8MNXKnB5bLBfkw4F0Nh+ZA9uzS6ye9AOZ43
-   pnEzBfVxiDBIf66LcqPrZ6bh4a9lJ/UV9valsIj8qbTvnIQ5VJlApxnPT
-   H2G49Te8EYsDyHkpD6R31e8FomYu3YrzAdf3zZAcBJZCCHRo7495gT7Ii
-   udtSq61RMCOpFIqpe2yAmS/Sm55gS+h4UGAI5pUX1rpWcysiTa1nsvjBV
-   mp+CsWulgXjadIptfcH95Y3RwH/lhwjUQwxu0uXZ89POFBvkoa0T5BO+z
-   A==;
-X-CSE-ConnectionGUID: 6tDqBKImTGWWp5vtr9TO2Q==
-X-CSE-MsgGUID: IeeOY3z2SHagL/nSqRlSaA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="75166683"
+  bh=Js+ITMqmsBitBfdFVjnv1TTRgL/DrR8TLXGeYvbL5yo=;
+  b=CTTgsrLKAAsU+IkIOc6G7rB/lfTT9j8YJDONSJoHcQUHCq/RBsuffp9Q
+   UyJVb4OPC5tWWL2290u4bBcVxwl7tfWWM8IzSiFAres5meUQ+13CgT+rt
+   yszWaNzxatMfLmiP4JNAbyRL4xHTeEKATW3lQyCWtRRrbcjYJ9zHS2xg0
+   73QzSbN1wk+sti1r76zuu3AJjPF1oaNSTtf0x2iGTu7LLmOeUAW247wPm
+   XfzOcscouN8Eo5v+3oN+ETsqyz7wOx3bCm+UnhIe9Ifs2N2J5bGza9JRM
+   bkAM9NvL+l69UZ1zVGDifQUS5nV6O4jz1Td5Ba5oi27jR3ZLs9j/9ycTu
+   w==;
+X-CSE-ConnectionGUID: 6sWC8pKvQXy75SQznioHOw==
+X-CSE-MsgGUID: 4Nxk6vRIQISTKss8a/wN5g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="74976802"
 X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="75166683"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 05:39:51 -0700
-X-CSE-ConnectionGUID: m+/15mgfSuGocpb9wsgHMg==
-X-CSE-MsgGUID: CeIsbWNBSKaASBdNuKD8ig==
+   d="scan'208";a="74976802"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 05:54:17 -0700
+X-CSE-ConnectionGUID: HTSNmU/8Tzyy+bKUz4DXnQ==
+X-CSE-MsgGUID: 90QstFRvR7yS6euhzMALBA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="228004949"
+   d="scan'208";a="223258699"
 Received: from lkp-server02.sh.intel.com (HELO a51c2a36b9df) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 20 Mar 2026 05:39:50 -0700
+  by orviesa009.jf.intel.com with ESMTP; 20 Mar 2026 05:54:16 -0700
 Received: from kbuild by a51c2a36b9df with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w3Z8l-000000002Mb-19IN;
-	Fri, 20 Mar 2026 12:39:47 +0000
-Date: Fri, 20 Mar 2026 20:39:26 +0800
+	id 1w3ZKS-000000002NU-3Ha5;
+	Fri, 20 Mar 2026 12:52:05 +0000
+Date: Fri, 20 Mar 2026 20:49:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata 22/106]
- drivers/media/i2c/og01a1b.c:767:32: error: passing argument 2 of
- 'og01a1b_set_format' from incompatible pointer type
-Message-ID: <202603202019.logGbtI4-lkp@intel.com>
+To: Hannes Reinecke <hare@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hare-nvme:dhchap-keyring.v3 8/8]
+ drivers/nvme/host/fabrics.c:1008:11: error: implicit declaration of function
+ 'request_key'; did you mean 'request_nmi'?
+Message-ID: <202603202055.LX30CcP0-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,111 +60,493 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   7a108073e0c1f6e9035329a152d5835f9d4f9507
-commit: ad5c2cba760033425f80420f0cf45a560a646d7e [22/106] media: v4l2-subdev: Add struct v4l2_subdev_client_info argument to pad ops
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260320/202603202019.logGbtI4-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603202019.logGbtI4-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/nvme.git dhchap-keyring.v3
+head:   7ffdb5e32339cf1e1ba50b8caefaca6dbab4d882
+commit: 7ffdb5e32339cf1e1ba50b8caefaca6dbab4d882 [8/8] nvme-fabrics: allow to pass in keyring by name
+config: nios2-randconfig-002-20260320 (https://download.01.org/0day-ci/archive/20260320/202603202055.LX30CcP0-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603202055.LX30CcP0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603202019.logGbtI4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603202055.LX30CcP0-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: drivers/media/i2c/imx412.c:715 function parameter 'ci' not described in 'imx412_get_pad_format'
->> Warning: drivers/media/i2c/imx412.c:746 function parameter 'ci' not described in 'imx412_set_pad_format'
->> Warning: drivers/media/i2c/imx412.c:715 function parameter 'ci' not described in 'imx412_get_pad_format'
->> Warning: drivers/media/i2c/imx412.c:746 function parameter 'ci' not described in 'imx412_set_pad_format'
---
-   drivers/media/i2c/og01a1b.c: In function 'og01a1b_init_state':
->> drivers/media/i2c/og01a1b.c:767:32: error: passing argument 2 of 'og01a1b_set_format' from incompatible pointer type [-Wincompatible-pointer-types]
-     767 |         og01a1b_set_format(sd, state, &fmt);
-         |                                ^~~~~
-         |                                |
-         |                                struct v4l2_subdev_state *
-   drivers/media/i2c/og01a1b.c:680:69: note: expected 'const struct v4l2_subdev_client_info *' but argument is of type 'struct v4l2_subdev_state *'
-     680 |                               const struct v4l2_subdev_client_info *ci,
-         |                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
-   drivers/media/i2c/og01a1b.c:767:39: error: passing argument 3 of 'og01a1b_set_format' from incompatible pointer type [-Wincompatible-pointer-types]
-     767 |         og01a1b_set_format(sd, state, &fmt);
-         |                                       ^~~~
-         |                                       |
-         |                                       struct v4l2_subdev_format *
-   drivers/media/i2c/og01a1b.c:681:57: note: expected 'struct v4l2_subdev_state *' but argument is of type 'struct v4l2_subdev_format *'
-     681 |                               struct v4l2_subdev_state *sd_state,
-         |                               ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
->> drivers/media/i2c/og01a1b.c:767:9: error: too few arguments to function 'og01a1b_set_format'; expected 4, have 3
-     767 |         og01a1b_set_format(sd, state, &fmt);
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/og01a1b.c:679:12: note: declared here
-     679 | static int og01a1b_set_format(struct v4l2_subdev *sd,
-         |            ^~~~~~~~~~~~~~~~~~
---
->> Warning: drivers/media/i2c/imx335.c:885 function parameter 'ci' not described in 'imx335_set_pad_format'
->> Warning: drivers/media/i2c/imx335.c:962 function parameter 'ci' not described in 'imx335_get_selection'
->> Warning: drivers/media/i2c/imx335.c:885 function parameter 'ci' not described in 'imx335_set_pad_format'
->> Warning: drivers/media/i2c/imx335.c:962 function parameter 'ci' not described in 'imx335_get_selection'
---
->> Warning: drivers/media/i2c/imx274.c:1075 function parameter 'ci' not described in 'imx274_get_fmt'
->> Warning: drivers/media/i2c/imx274.c:1098 function parameter 'ci' not described in 'imx274_set_fmt'
->> Warning: drivers/media/i2c/imx274.c:1075 function parameter 'ci' not described in 'imx274_get_fmt'
->> Warning: drivers/media/i2c/imx274.c:1098 function parameter 'ci' not described in 'imx274_set_fmt'
---
->> Warning: drivers/media/i2c/imx334.c:763 function parameter 'ci' not described in 'imx334_get_pad_format'
->> Warning: drivers/media/i2c/imx334.c:791 function parameter 'ci' not described in 'imx334_set_pad_format'
->> Warning: drivers/media/i2c/imx334.c:763 function parameter 'ci' not described in 'imx334_get_pad_format'
->> Warning: drivers/media/i2c/imx334.c:791 function parameter 'ci' not described in 'imx334_set_pad_format'
---
->> Warning: drivers/media/i2c/ov9282.c:794 function parameter 'ci' not described in 'ov9282_get_pad_format'
->> Warning: drivers/media/i2c/ov9282.c:822 function parameter 'ci' not described in 'ov9282_set_pad_format'
->> Warning: drivers/media/i2c/ov9282.c:794 function parameter 'ci' not described in 'ov9282_get_pad_format'
->> Warning: drivers/media/i2c/ov9282.c:822 function parameter 'ci' not described in 'ov9282_set_pad_format'
---
->> Warning: drivers/media/i2c/tvp514x.c:891 function parameter 'ci' not described in 'tvp514x_get_pad_format'
->> Warning: drivers/media/i2c/tvp514x.c:924 function parameter 'ci' not described in 'tvp514x_set_pad_format'
->> Warning: drivers/media/i2c/tvp514x.c:891 function parameter 'ci' not described in 'tvp514x_get_pad_format'
->> Warning: drivers/media/i2c/tvp514x.c:924 function parameter 'ci' not described in 'tvp514x_set_pad_format'
---
->> drivers/media/platform/renesas/vsp1/vsp1_entity.c:161:5: error: conflicting types for 'vsp1_subdev_get_pad_format'; have 'int(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)'
-     161 | int vsp1_subdev_get_pad_format(struct v4l2_subdev *subdev,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/media/platform/renesas/vsp1/vsp1_entity.c:19:
-   drivers/media/platform/renesas/vsp1/vsp1_entity.h:178:5: note: previous declaration of 'vsp1_subdev_get_pad_format' with type 'int(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)'
-     178 | int vsp1_subdev_get_pad_format(struct v4l2_subdev *subdev,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/nvme/host/fabrics.c:16:
+   include/linux/nvme-keyring.h:54:1: error: expected identifier or '(' before '{' token
+    {
+    ^
+   include/linux/nvme-keyring.h:57:4: warning: no previous prototype for 'nvme_dhchap_psk_hash' [-Wmissing-prototypes]
+    u8 nvme_dhchap_psk_hash(struct key *key)
+       ^~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/fabrics.c: In function 'nvmf_parse_options':
+>> drivers/nvme/host/fabrics.c:1008:11: error: implicit declaration of function 'request_key'; did you mean 'request_nmi'? [-Werror=implicit-function-declaration]
+        key = request_key(&key_type_keyring, p, NULL);
+              ^~~~~~~~~~~
+              request_nmi
+>> drivers/nvme/host/fabrics.c:1008:24: error: 'key_type_keyring' undeclared (first use in this function); did you mean 'key_free_user_ns'?
+        key = request_key(&key_type_keyring, p, NULL);
+                           ^~~~~~~~~~~~~~~~
+                           key_free_user_ns
+   drivers/nvme/host/fabrics.c:1008:24: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from drivers/nvme/host/fabrics.c:16:
+   drivers/nvme/host/fabrics.c: At top level:
+   include/linux/nvme-keyring.h:52:27: warning: 'nvme_dhchap_psk_lookup' declared 'static' but never defined [-Wunused-function]
+    static inline struct key *nvme_dhchap_psk_lookup(struct key *keyring,
+                              ^~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/og01a1b_set_format +767 drivers/media/i2c/og01a1b.c
+vim +1008 drivers/nvme/host/fabrics.c
 
-472377febf848a Shawn Tu           2022-02-15  752  
-d935219d19daf1 Vladimir Zapolskiy 2026-02-26  753  static int og01a1b_init_state(struct v4l2_subdev *sd,
-d935219d19daf1 Vladimir Zapolskiy 2026-02-26  754  			      struct v4l2_subdev_state *state)
-472377febf848a Shawn Tu           2022-02-15  755  {
-d935219d19daf1 Vladimir Zapolskiy 2026-02-26  756  	struct og01a1b *og01a1b = to_og01a1b(sd);
-d935219d19daf1 Vladimir Zapolskiy 2026-02-26  757  	struct v4l2_subdev_format fmt = {
-d935219d19daf1 Vladimir Zapolskiy 2026-02-26  758  		.which = V4L2_SUBDEV_FORMAT_TRY,
-d935219d19daf1 Vladimir Zapolskiy 2026-02-26  759  		.pad = 0,
-d935219d19daf1 Vladimir Zapolskiy 2026-02-26  760  		.format = {
-d935219d19daf1 Vladimir Zapolskiy 2026-02-26  761  			.width = og01a1b->cur_mode->width,
-d935219d19daf1 Vladimir Zapolskiy 2026-02-26  762  			.height = og01a1b->cur_mode->height,
-4369a7d34d649d Vladimir Zapolskiy 2026-02-26  763  			.code = og01a1b->code,
-d935219d19daf1 Vladimir Zapolskiy 2026-02-26  764  		},
-d935219d19daf1 Vladimir Zapolskiy 2026-02-26  765  	};
-d935219d19daf1 Vladimir Zapolskiy 2026-02-26  766  
-d935219d19daf1 Vladimir Zapolskiy 2026-02-26 @767  	og01a1b_set_format(sd, state, &fmt);
-472377febf848a Shawn Tu           2022-02-15  768  
-472377febf848a Shawn Tu           2022-02-15  769  	return 0;
-472377febf848a Shawn Tu           2022-02-15  770  }
-472377febf848a Shawn Tu           2022-02-15  771  
-
-:::::: The code at line 767 was first introduced by commit
-:::::: d935219d19daf1d43d116e14c253a17bb23cd480 media: i2c: og01a1b: Replace .open with .init_state internal ops
-
-:::::: TO: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+   716	
+   717	static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+   718			const char *buf)
+   719	{
+   720		substring_t args[MAX_OPT_ARGS];
+   721		char *options, *o, *p;
+   722		char *host_secret = NULL, *ctrl_secret = NULL;
+   723		int token, ret = 0;
+   724		size_t nqnlen  = 0;
+   725		int ctrl_loss_tmo = NVMF_DEF_CTRL_LOSS_TMO, key_id;
+   726		uuid_t hostid;
+   727		char hostnqn[NVMF_NQN_SIZE];
+   728		struct key *key;
+   729	
+   730		/* Set defaults */
+   731		opts->queue_size = NVMF_DEF_QUEUE_SIZE;
+   732		opts->nr_io_queues = num_online_cpus();
+   733		opts->reconnect_delay = NVMF_DEF_RECONNECT_DELAY;
+   734		opts->kato = 0;
+   735		opts->duplicate_connect = false;
+   736		opts->fast_io_fail_tmo = NVMF_DEF_FAIL_FAST_TMO;
+   737		opts->hdr_digest = false;
+   738		opts->data_digest = false;
+   739		opts->tos = -1; /* < 0 == use transport default */
+   740		opts->tls = false;
+   741		opts->tls_key = NULL;
+   742		opts->keyring = NULL;
+   743		opts->concat = false;
+   744		opts->dhchap_key = NULL;
+   745		opts->dhchap_key_generated = false;
+   746		opts->dhchap_ctrl_key = NULL;
+   747		opts->dhchap_ctrl_key_generated = false;
+   748	
+   749		options = o = kstrdup(buf, GFP_KERNEL);
+   750		if (!options)
+   751			return -ENOMEM;
+   752	
+   753		/* use default host if not given by user space */
+   754		uuid_copy(&hostid, &nvmf_default_host->id);
+   755		strscpy(hostnqn, nvmf_default_host->nqn, NVMF_NQN_SIZE);
+   756	
+   757		while ((p = strsep(&o, ",\n")) != NULL) {
+   758			if (!*p)
+   759				continue;
+   760	
+   761			token = match_token(p, opt_tokens, args);
+   762			opts->mask |= token;
+   763			switch (token) {
+   764			case NVMF_OPT_TRANSPORT:
+   765				p = match_strdup(args);
+   766				if (!p) {
+   767					ret = -ENOMEM;
+   768					goto out;
+   769				}
+   770				kfree(opts->transport);
+   771				opts->transport = p;
+   772				break;
+   773			case NVMF_OPT_NQN:
+   774				p = match_strdup(args);
+   775				if (!p) {
+   776					ret = -ENOMEM;
+   777					goto out;
+   778				}
+   779				kfree(opts->subsysnqn);
+   780				opts->subsysnqn = p;
+   781				nqnlen = strlen(opts->subsysnqn);
+   782				if (nqnlen >= NVMF_NQN_SIZE) {
+   783					pr_err("%s needs to be < %d bytes\n",
+   784						opts->subsysnqn, NVMF_NQN_SIZE);
+   785					ret = -EINVAL;
+   786					goto out;
+   787				}
+   788				opts->discovery_nqn =
+   789					!(strcmp(opts->subsysnqn,
+   790						 NVME_DISC_SUBSYS_NAME));
+   791				break;
+   792			case NVMF_OPT_TRADDR:
+   793				p = match_strdup(args);
+   794				if (!p) {
+   795					ret = -ENOMEM;
+   796					goto out;
+   797				}
+   798				kfree(opts->traddr);
+   799				opts->traddr = p;
+   800				break;
+   801			case NVMF_OPT_TRSVCID:
+   802				p = match_strdup(args);
+   803				if (!p) {
+   804					ret = -ENOMEM;
+   805					goto out;
+   806				}
+   807				kfree(opts->trsvcid);
+   808				opts->trsvcid = p;
+   809				break;
+   810			case NVMF_OPT_QUEUE_SIZE:
+   811				if (match_int(args, &token)) {
+   812					ret = -EINVAL;
+   813					goto out;
+   814				}
+   815				if (token < NVMF_MIN_QUEUE_SIZE ||
+   816				    token > NVMF_MAX_QUEUE_SIZE) {
+   817					pr_err("Invalid queue_size %d\n", token);
+   818					ret = -EINVAL;
+   819					goto out;
+   820				}
+   821				opts->queue_size = token;
+   822				break;
+   823			case NVMF_OPT_NR_IO_QUEUES:
+   824				if (match_int(args, &token)) {
+   825					ret = -EINVAL;
+   826					goto out;
+   827				}
+   828				if (token <= 0) {
+   829					pr_err("Invalid number of IOQs %d\n", token);
+   830					ret = -EINVAL;
+   831					goto out;
+   832				}
+   833				if (opts->discovery_nqn) {
+   834					pr_debug("Ignoring nr_io_queues value for discovery controller\n");
+   835					break;
+   836				}
+   837	
+   838				opts->nr_io_queues = min_t(unsigned int,
+   839						num_online_cpus(), token);
+   840				break;
+   841			case NVMF_OPT_KATO:
+   842				if (match_int(args, &token)) {
+   843					ret = -EINVAL;
+   844					goto out;
+   845				}
+   846	
+   847				if (token < 0) {
+   848					pr_err("Invalid keep_alive_tmo %d\n", token);
+   849					ret = -EINVAL;
+   850					goto out;
+   851				} else if (token == 0 && !opts->discovery_nqn) {
+   852					/* Allowed for debug */
+   853					pr_warn("keep_alive_tmo 0 won't execute keep alives!!!\n");
+   854				}
+   855				opts->kato = token;
+   856				break;
+   857			case NVMF_OPT_CTRL_LOSS_TMO:
+   858				if (match_int(args, &token)) {
+   859					ret = -EINVAL;
+   860					goto out;
+   861				}
+   862	
+   863				if (token < 0)
+   864					pr_warn("ctrl_loss_tmo < 0 will reconnect forever\n");
+   865				ctrl_loss_tmo = token;
+   866				break;
+   867			case NVMF_OPT_FAIL_FAST_TMO:
+   868				if (match_int(args, &token)) {
+   869					ret = -EINVAL;
+   870					goto out;
+   871				}
+   872	
+   873				if (token >= 0)
+   874					pr_warn("I/O fail on reconnect controller after %d sec\n",
+   875						token);
+   876				else
+   877					token = -1;
+   878	
+   879				opts->fast_io_fail_tmo = token;
+   880				break;
+   881			case NVMF_OPT_HOSTNQN:
+   882				if (opts->host) {
+   883					pr_err("hostnqn already user-assigned: %s\n",
+   884					       opts->host->nqn);
+   885					ret = -EADDRINUSE;
+   886					goto out;
+   887				}
+   888				p = match_strdup(args);
+   889				if (!p) {
+   890					ret = -ENOMEM;
+   891					goto out;
+   892				}
+   893				nqnlen = strlen(p);
+   894				if (nqnlen >= NVMF_NQN_SIZE) {
+   895					pr_err("%s needs to be < %d bytes\n",
+   896						p, NVMF_NQN_SIZE);
+   897					kfree(p);
+   898					ret = -EINVAL;
+   899					goto out;
+   900				}
+   901				strscpy(hostnqn, p, NVMF_NQN_SIZE);
+   902				kfree(p);
+   903				break;
+   904			case NVMF_OPT_RECONNECT_DELAY:
+   905				if (match_int(args, &token)) {
+   906					ret = -EINVAL;
+   907					goto out;
+   908				}
+   909				if (token <= 0) {
+   910					pr_err("Invalid reconnect_delay %d\n", token);
+   911					ret = -EINVAL;
+   912					goto out;
+   913				}
+   914				opts->reconnect_delay = token;
+   915				break;
+   916			case NVMF_OPT_HOST_TRADDR:
+   917				p = match_strdup(args);
+   918				if (!p) {
+   919					ret = -ENOMEM;
+   920					goto out;
+   921				}
+   922				kfree(opts->host_traddr);
+   923				opts->host_traddr = p;
+   924				break;
+   925			case NVMF_OPT_HOST_IFACE:
+   926				p = match_strdup(args);
+   927				if (!p) {
+   928					ret = -ENOMEM;
+   929					goto out;
+   930				}
+   931				kfree(opts->host_iface);
+   932				opts->host_iface = p;
+   933				break;
+   934			case NVMF_OPT_HOST_ID:
+   935				p = match_strdup(args);
+   936				if (!p) {
+   937					ret = -ENOMEM;
+   938					goto out;
+   939				}
+   940				ret = uuid_parse(p, &hostid);
+   941				if (ret) {
+   942					pr_err("Invalid hostid %s\n", p);
+   943					ret = -EINVAL;
+   944					kfree(p);
+   945					goto out;
+   946				}
+   947				kfree(p);
+   948				break;
+   949			case NVMF_OPT_DUP_CONNECT:
+   950				opts->duplicate_connect = true;
+   951				break;
+   952			case NVMF_OPT_DISABLE_SQFLOW:
+   953				opts->disable_sqflow = true;
+   954				break;
+   955			case NVMF_OPT_HDR_DIGEST:
+   956				opts->hdr_digest = true;
+   957				break;
+   958			case NVMF_OPT_DATA_DIGEST:
+   959				opts->data_digest = true;
+   960				break;
+   961			case NVMF_OPT_NR_WRITE_QUEUES:
+   962				if (match_int(args, &token)) {
+   963					ret = -EINVAL;
+   964					goto out;
+   965				}
+   966				if (token <= 0) {
+   967					pr_err("Invalid nr_write_queues %d\n", token);
+   968					ret = -EINVAL;
+   969					goto out;
+   970				}
+   971				opts->nr_write_queues = token;
+   972				break;
+   973			case NVMF_OPT_NR_POLL_QUEUES:
+   974				if (match_int(args, &token)) {
+   975					ret = -EINVAL;
+   976					goto out;
+   977				}
+   978				if (token <= 0) {
+   979					pr_err("Invalid nr_poll_queues %d\n", token);
+   980					ret = -EINVAL;
+   981					goto out;
+   982				}
+   983				opts->nr_poll_queues = token;
+   984				break;
+   985			case NVMF_OPT_TOS:
+   986				if (match_int(args, &token)) {
+   987					ret = -EINVAL;
+   988					goto out;
+   989				}
+   990				if (token < 0) {
+   991					pr_err("Invalid type of service %d\n", token);
+   992					ret = -EINVAL;
+   993					goto out;
+   994				}
+   995				if (token > 255) {
+   996					pr_warn("Clamping type of service to 255\n");
+   997					token = 255;
+   998				}
+   999				opts->tos = token;
+  1000				break;
+  1001			case NVMF_OPT_KEYRING:
+  1002				if (match_int(args, &key_id) || key_id <= 0) {
+  1003					p = match_strdup(args);
+  1004					if (!p) {
+  1005						ret = -ENOMEM;
+  1006						goto out;
+  1007					}
+> 1008					key = request_key(&key_type_keyring, p, NULL);
+  1009					kfree(p);
+  1010					if (IS_ERR(key)) {
+  1011						ret = PTR_ERR(key);
+  1012						goto out;
+  1013					}
+  1014				} else {
+  1015					key = nvmf_parse_key(key_id);
+  1016					if (IS_ERR(key)) {
+  1017						ret = PTR_ERR(key);
+  1018						goto out;
+  1019					}
+  1020				}
+  1021				key_put(opts->keyring);
+  1022				opts->keyring = key;
+  1023				break;
+  1024			case NVMF_OPT_TLS_KEY:
+  1025				if (match_int(args, &key_id) || key_id <= 0) {
+  1026					ret = -EINVAL;
+  1027					goto out;
+  1028				}
+  1029				key = nvmf_parse_key(key_id);
+  1030				if (IS_ERR(key)) {
+  1031					ret = PTR_ERR(key);
+  1032					goto out;
+  1033				}
+  1034				key_put(opts->tls_key);
+  1035				opts->tls_key = key;
+  1036				break;
+  1037			case NVMF_OPT_DISCOVERY:
+  1038				opts->discovery_nqn = true;
+  1039				break;
+  1040			case NVMF_OPT_DHCHAP_SECRET:
+  1041				p = match_strdup(args);
+  1042				if (!p) {
+  1043					ret = -ENOMEM;
+  1044					goto out;
+  1045				}
+  1046				kfree(host_secret);
+  1047				host_secret = p;
+  1048				break;
+  1049			case NVMF_OPT_DHCHAP_CTRL_SECRET:
+  1050				p = match_strdup(args);
+  1051				if (!p) {
+  1052					ret = -ENOMEM;
+  1053					goto out;
+  1054				}
+  1055				kfree(ctrl_secret);
+  1056				ctrl_secret = p;
+  1057				break;
+  1058			case NVMF_OPT_TLS:
+  1059				if (!IS_ENABLED(CONFIG_NVME_TCP_TLS)) {
+  1060					pr_err("TLS is not supported\n");
+  1061					ret = -EINVAL;
+  1062					goto out;
+  1063				}
+  1064				opts->tls = true;
+  1065				break;
+  1066			case NVMF_OPT_CONCAT:
+  1067				if (!IS_ENABLED(CONFIG_NVME_TCP_TLS)) {
+  1068					pr_err("TLS is not supported\n");
+  1069					ret = -EINVAL;
+  1070					goto out;
+  1071				}
+  1072				opts->concat = true;
+  1073				break;
+  1074			default:
+  1075				pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
+  1076					p);
+  1077				ret = -EINVAL;
+  1078				goto out;
+  1079			}
+  1080		}
+  1081	
+  1082		if (opts->discovery_nqn) {
+  1083			opts->nr_io_queues = 0;
+  1084			opts->nr_write_queues = 0;
+  1085			opts->nr_poll_queues = 0;
+  1086			opts->duplicate_connect = true;
+  1087		} else {
+  1088			if (!opts->kato)
+  1089				opts->kato = NVME_DEFAULT_KATO;
+  1090		}
+  1091		if (ctrl_loss_tmo < 0) {
+  1092			opts->max_reconnects = -1;
+  1093		} else {
+  1094			opts->max_reconnects = DIV_ROUND_UP(ctrl_loss_tmo,
+  1095							opts->reconnect_delay);
+  1096			if (ctrl_loss_tmo < opts->fast_io_fail_tmo)
+  1097				pr_warn("failfast tmo (%d) larger than controller loss tmo (%d)\n",
+  1098					opts->fast_io_fail_tmo, ctrl_loss_tmo);
+  1099		}
+  1100	
+  1101		opts->host = nvmf_host_add(hostnqn, &hostid);
+  1102		if (IS_ERR(opts->host)) {
+  1103			ret = PTR_ERR(opts->host);
+  1104			opts->host = NULL;
+  1105			goto out;
+  1106		}
+  1107	
+  1108		if (host_secret) {
+  1109			pr_debug("lookup host identity '%s'\n", host_secret);
+  1110			key = nvme_auth_extract_key(opts->keyring, host_secret,
+  1111						    strlen(host_secret),
+  1112						    &opts->dhchap_key_generated);
+  1113			if (IS_ERR(key)) {
+  1114				ret = PTR_ERR(key);
+  1115				goto out;
+  1116			}
+  1117			pr_debug("using dhchap host key %08x\n", key_serial(key));
+  1118			opts->dhchap_key = key;
+  1119		}
+  1120		if (ctrl_secret) {
+  1121			if (!opts->dhchap_key) {
+  1122				ret = -EINVAL;
+  1123				goto out;
+  1124			}
+  1125			pr_debug("lookup ctrl identity '%s'\n", ctrl_secret);
+  1126			key = nvme_auth_extract_key(opts->keyring, ctrl_secret,
+  1127						    strlen(ctrl_secret),
+  1128						    &opts->dhchap_ctrl_key_generated);
+  1129			if (IS_ERR(key)) {
+  1130				ret = PTR_ERR(key);
+  1131				goto out;
+  1132			}
+  1133			pr_debug("using dhchap ctrl key %08x\n", key_serial(key));
+  1134			opts->dhchap_ctrl_key = key;
+  1135		}
+  1136	
+  1137		if (opts->concat) {
+  1138			if (opts->tls) {
+  1139				pr_err("Secure concatenation over TLS is not supported\n");
+  1140				ret = -EINVAL;
+  1141				goto out;
+  1142			}
+  1143			if (opts->tls_key) {
+  1144				pr_err("Cannot specify a TLS key for secure concatenation\n");
+  1145				ret = -EINVAL;
+  1146				goto out;
+  1147			}
+  1148			if (!opts->dhchap_key) {
+  1149				pr_err("Need to enable DH-CHAP for secure concatenation\n");
+  1150				ret = -EINVAL;
+  1151				goto out;
+  1152			}
+  1153		}
+  1154	
+  1155	out:
+  1156		kfree(ctrl_secret);
+  1157		kfree(host_secret);
+  1158		kfree(options);
+  1159		return ret;
+  1160	}
+  1161	
 
 -- 
 0-DAY CI Kernel Test Service
