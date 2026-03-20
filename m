@@ -1,106 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C51428FFF6
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Mar 2026 06:24:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD0D2F616B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Mar 2026 06:25:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773987895; cv=none; b=LHfSijv7wwmtghyMAAYE3oJsEthUDTXG+fRFHBOouj1JSm1LetoictXIl6GWARRn18upqIyxSJTaeBDWq95AKfVTt+8IaVGCTBN80dTQ+n3MQoWDhHCnBlt4LpsZ/wYKtbGFz67avwNqP1DAklDtOX7aIBKVyMfUNolNZwrO+Fg=
+	t=1773987931; cv=none; b=dRA1Gx1nyuJ89s2YzYq+U6xPHED5gMZFOjKUvGvrKt9P9oXM+KPps5UO/0TjhM7w6JeK2MyYf6Fk6D2z1LRbKODWKIMZmWzCr4mdMSsQbKW+I99D1vtLwldHcH7Zi6Xb9VlfeSkvXKZjRDkvRGNkP7E1ydKKhDPCkS14Zo0xn8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773987895; c=relaxed/simple;
-	bh=0vgzhEI33fyynNHIHp2T6/dOm22GR1qOZib6VKCjuRc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eoAU3wHBkw7OPDiVZZLeM2vqDlLoH2ZPilkaYx+L/vOjujLiwPR3Cd/PzGrgKsMiUYm+s5d2kMjwUrMPMAP2jiOjsPFSFg51witdjsO2q8sqEqfzbEHzRiVPTQq1LeahVpyB+sH5pi+4jheS9NhVSC64GZ5Xurd7a6ttjwxZ7C0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RdU8U0U/; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1773987931; c=relaxed/simple;
+	bh=2xAP62yBR5t/NjQ5G6pO7xCXk+X+901sZRBd34+yLAA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=PdOqQzoVVBot3bTxpJJqmQ8LV57lsdsH63NMuntcO7n/5eyC2RQRhyBusU2yjdXiaGELOm8tzh3uMWBuQpODflJJGkfVIpI5gtuXydwQTy6fACYzs3uLSkH9D4D08qsH9nRkbRxsOWIv12NKW8Hj1jJrTOoIxq2X6J6D/ol+Aq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H1dAR5yH; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RdU8U0U/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H1dAR5yH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773987893; x=1805523893;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0vgzhEI33fyynNHIHp2T6/dOm22GR1qOZib6VKCjuRc=;
-  b=RdU8U0U/9oaZlKvAixDZxMGz4KjlgaIjXW3zHmc0R2fL2433aG8BwvvK
-   f7EPjwaaXKuRqnOkcUJEM7cn7SLRb/v4h1G/qy2w3vM/6d7n78RUdOa60
-   tzO/Wi6kpEViqF1AyeFTVkAX2fKS9gDBb90xfjvK5dNmQUpsxIIy+FSyN
-   NyfA44dtJUozOGAyI98UAG7Raumas3GT77wSoVxqzZEzoaBzGAGNSqLCL
-   FbvIwmvjHlOZ6r8WIuBdrmphF0FlGQo3v7rI43r59l4InoU/pIpPuPnHn
-   f3O3Fuvthufepyf89N4DFJO5v85duy5+OjTx5W0sbIBdclrb2PHgQ/CGR
+  t=1773987930; x=1805523930;
+  h=date:from:to:cc:subject:message-id;
+  bh=2xAP62yBR5t/NjQ5G6pO7xCXk+X+901sZRBd34+yLAA=;
+  b=H1dAR5yH0BUJjUGCdzzhuzAkQI37vzkFd7psOHMG8E8zUpAlQArPB3Yy
+   YOxlQVV8y4+DxN2V9bVlnZp6Ka24ebt81ZCb3L7Z1b5gEjSrqUA2ZhHpR
+   92tAzscg+UfSQVRYA9s4KJ1U6nSIc/TLKKiRTAOC4MPxHyicPfHm3qjZy
+   ACCJNNtFfawPeH6kRv6IQedKMV7wJKYt6gvI/fM/ezrHv4T765ThVi9Pc
+   n+YoC6YQk+55KqQuAj9QKLj8x9wB7TaPEWqeluU/7W6y5qNw0gx0HJBsa
+   vNliN1FJ68pUOTtURLNcGbA+V6bJw2awh9r/EMAXby9Aszxaashynmdfb
    g==;
-X-CSE-ConnectionGUID: WxFwkUMdTWSg7AaHvVE/dQ==
-X-CSE-MsgGUID: oq1cviROTnSw/oPqFv3Ivw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="100526656"
+X-CSE-ConnectionGUID: 0+fYMePLQWu51LtKMwURqQ==
+X-CSE-MsgGUID: EN+08nb2QDKMdZhrSKhGxw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="78675540"
 X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="100526656"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 23:24:53 -0700
-X-CSE-ConnectionGUID: z+0j/YTkRES49580rEmOGw==
-X-CSE-MsgGUID: XEtK4EqCQnGlCLqXZqzRTA==
+   d="scan'208";a="78675540"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 23:25:30 -0700
+X-CSE-ConnectionGUID: r8f4nWwQQiWk+iGNDxZIRA==
+X-CSE-MsgGUID: Jb8cxpOBSbiE4W+QJerpEA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="219032758"
-Received: from lkp-server02.sh.intel.com (HELO a51c2a36b9df) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 19 Mar 2026 23:24:48 -0700
-Received: from kbuild by a51c2a36b9df with local (Exim 4.98.2)
+   d="scan'208";a="220116715"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 19 Mar 2026 23:25:28 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w3THX-0000000023j-2m3T;
-	Fri, 20 Mar 2026 06:24:31 +0000
-Date: Fri, 20 Mar 2026 14:23:52 +0800
+	id 1w3TIU-000000004zB-2AbH;
+	Fri, 20 Mar 2026 06:25:26 +0000
+Date: Fri, 20 Mar 2026 07:25:25 +0100
 From: kernel test robot <lkp@intel.com>
-To: Ahmed Tiba <ahmed.tiba@arm.com>, linux-acpi@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-cxl@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Ahmed Tiba <ahmed.tiba@arm.com>,
-	Michael.Zhao2@arm.com, robh@kernel.org,
-	linux-arm-kernel@lists.infradead.org, Dmitry.Lamerov@arm.com,
-	rafael@kernel.org, conor@kernel.org, will@kernel.org, bp@alien8.de,
-	catalin.marinas@arm.com, krzk+dt@kernel.org,
-	linux-doc@vger.kernel.org, mchehab+huawei@kernel.org,
-	tony.luck@intel.com
-Subject: Re: [PATCH v3 06/10] ACPI: APEI: GHES: move CXL CPER helpers
-Message-ID: <202603201429.rbHMPOvC-lkp@intel.com>
-References: <20260318-topics-ahmtib01-ras_ffh_arm_internal_review-v3-6-48e6a1c249ef@arm.com>
+To: Kai Huang <kai.huang@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-tdx:upstreamtest 2/2]
+ ./include/asm-generic/bitops/instrumented-atomic.h:112:16: error: implicit
+ declaration of function 'arch_test_bit'; did you mean 'arch_set_bit'?
+Message-ID: <202603200746.ETGzw9Mr-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260318-topics-ahmtib01-ras_ffh_arm_internal_review-v3-6-48e6a1c249ef@arm.com>
 
-Hi Ahmed,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 2d1373e4246da3b58e1df058374ed6b101804e07]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ahmed-Tiba/ACPI-APEI-GHES-share-macros-via-a-private-header/20260319-115432
-base:   2d1373e4246da3b58e1df058374ed6b101804e07
-patch link:    https://lore.kernel.org/r/20260318-topics-ahmtib01-ras_ffh_arm_internal_review-v3-6-48e6a1c249ef%40arm.com
-patch subject: [PATCH v3 06/10] ACPI: APEI: GHES: move CXL CPER helpers
-config: x86_64-randconfig-122-20260320 (https://download.01.org/0day-ci/archive/20260320/202603201429.rbHMPOvC-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603201429.rbHMPOvC-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/tdx.git upstreamtest
+head:   5c38ae7e5c475be0eb737e7e77f6982529e0ef4f
+commit: 5c38ae7e5c475be0eb737e7e77f6982529e0ef4f [2/2] asm-generic/bitops: Move test_bit{_acquire}() to instrumented-atomic.h
+config: riscv-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260320/202603200746.ETGzw9Mr-lkp@intel.com/config)
+compiler: riscv64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603200746.ETGzw9Mr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603201429.rbHMPOvC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603200746.ETGzw9Mr-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/acpi/apei/ghes_cper.c:391:1: sparse: sparse: symbol 'cxl_cper_fifo' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/cxl_cper_fifo +391 drivers/acpi/apei/ghes_cper.c
+   In file included from ./arch/riscv/include/asm/bitops.h:355,
+                    from ./include/linux/bitops.h:67,
+                    from ./include/linux/log2.h:12,
+                    from kernel/bounds.c:14:
+   ./include/asm-generic/bitops/instrumented-atomic.h: In function '_test_bit':
+>> ./include/asm-generic/bitops/instrumented-atomic.h:112:16: error: implicit declaration of function 'arch_test_bit'; did you mean 'arch_set_bit'? [-Wimplicit-function-declaration]
+     112 |         return arch_test_bit(nr, addr);
+         |                ^~~~~~~~~~~~~
+         |                arch_set_bit
+   ./include/asm-generic/bitops/instrumented-atomic.h: In function '_test_bit_acquire':
+>> ./include/asm-generic/bitops/instrumented-atomic.h:124:16: error: implicit declaration of function 'arch_test_bit_acquire'; did you mean '_test_bit_acquire'? [-Wimplicit-function-declaration]
+     124 |         return arch_test_bit_acquire(nr, addr);
+         |                ^~~~~~~~~~~~~~~~~~~~~
+         |                _test_bit_acquire
 
-   388	
-   389	/* Room for 8 entries for each of the 4 event log queues */
-   390	#define CXL_CPER_FIFO_DEPTH 32
- > 391	DEFINE_KFIFO(cxl_cper_fifo, struct cxl_cper_work_data, CXL_CPER_FIFO_DEPTH);
-   392	
+
+vim +112 ./include/asm-generic/bitops/instrumented-atomic.h
+
+   102	
+   103	/**
+   104	 * _test_bit - Determine whether a bit is set
+   105	 * @nr: bit number to test
+   106	 * @addr: Address to start counting from
+   107	 */
+   108	static __always_inline bool
+   109	_test_bit(unsigned long nr, const volatile unsigned long *addr)
+   110	{
+   111		instrument_atomic_read(addr + BIT_WORD(nr), sizeof(long));
+ > 112		return arch_test_bit(nr, addr);
+   113	}
+   114	
+   115	/**
+   116	 * _test_bit_acquire - Determine, with acquire semantics, whether a bit is set
+   117	 * @nr: bit number to test
+   118	 * @addr: Address to start counting from
+   119	 */
+   120	static __always_inline bool
+   121	_test_bit_acquire(unsigned long nr, const volatile unsigned long *addr)
+   122	{
+   123		instrument_atomic_read(addr + BIT_WORD(nr), sizeof(long));
+ > 124		return arch_test_bit_acquire(nr, addr);
+   125	}
+   126	
 
 -- 
 0-DAY CI Kernel Test Service
