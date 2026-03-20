@@ -1,82 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42E90299920
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Mar 2026 13:44:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E7813A6EEC
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Mar 2026 14:26:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774014277; cv=none; b=a13zmTjfpN3x8hyGUNtjF3SjUjBRPmvLRdNDUDsPijDI+lbmF4WCfeD+/AOYLTOUDafdq4r8evWshTbimwTOf9OB5otk8NuP2SjGf7/yaro0gXkGaLI9Abf1irSiPgEN+xtIHgV1c6A6Rg0Em70IRa1QTlAyPE0h1OT2ScQJ+bg=
+	t=1774016806; cv=none; b=tbucDECEw5o5W6pf+7G5YZYK5l+Ifua2Y+Z19BBdAZoMFpxQ6YLoP+Ur7rlBQp/COJabNPaqRonfmnLobSBz4b99MY6Qs3ShTE17jyFSh9kOhS2Qdn+1tjaQ7ASboxorr5uonIzbGuETxlevVG4fsBVMb1VnuKo4J91/z2zVhJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774014277; c=relaxed/simple;
-	bh=NrytiXcsODG/V+3DSR0vuR0sMjzy2/TXIlBxgqB6kDU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=baMGONSAP1MhvMNMTJCEYmkC+ZIggjDtME31zoCWELd8pn+//EE93gz0DezXv+IB/K6rsU57aomhUtED3tG1wocuC/urP1UpJazGf/XY/WHKqwZ8gmLF5+oAr4s0WJk/+zU3b7lVafF+2u1qEwI5GKqDDqFUFWWYdQRzdXkqjZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X4lmIILY; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1774016806; c=relaxed/simple;
+	bh=y1KAz+Qo2KIAojrgIrwzWp+iq0iub9vjOkzH9qUQnOM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CLKR7eOOaqBEO/B4tR65/OAQXKpdRF5FzTOM8hY2oXbqAQVznBPT9m483go0jQ/nBkPF7xl3rEmC6FcvmxLdUIwX4xajY7gyUFEZ5FdhrE1UWBW+n4wh90LQJ0LOAFG7qQLa9RV6LWMXb0zfL8gdjGQQdslV4UxoK73oAp7s1ow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A2og+LaF; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X4lmIILY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A2og+LaF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774014274; x=1805550274;
-  h=date:from:to:cc:subject:message-id;
-  bh=NrytiXcsODG/V+3DSR0vuR0sMjzy2/TXIlBxgqB6kDU=;
-  b=X4lmIILYPlHwbnu8dwGI+rjUIoSy+oxz5fT6tvQczwigPB29m1mC/XJw
-   Rgwm6jjaYg+Dn38TJpFnUPj9HZO59Jy+P61k2XsSnX+IN2FZUutCVEadV
-   I3NWvait8DZraqBfV+Fz4mo1zsenFfxZ/tMF/NlYeKgibDoesCCGquIDM
-   v9b91l6wGWc0OFfFJxqLlse5jzfMMkE4pF291lGwD/kw24RqTW706oAzZ
-   5drvK/yaBvoJLDosYyPMQQraZSfS42EcZSTLYoIVPlaEYR1EYjSr8dvLO
-   2S/4G/xcGr6q2HBo+elO7GIoNQ0AbssM58osSSFRiv0TcDkC19Qln5Rfx
-   w==;
-X-CSE-ConnectionGUID: CA2FGUX9SuaDQ9i0y4O9Mw==
-X-CSE-MsgGUID: NObKFfV3STKIK+quUdT/eA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="86574264"
+  t=1774016805; x=1805552805;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=y1KAz+Qo2KIAojrgIrwzWp+iq0iub9vjOkzH9qUQnOM=;
+  b=A2og+LaFnBFygdNb9KQ7swl7qOG2aM0f9ruk+/0O4mMJGB02iwMRVKwT
+   TcPvnQOELvxYWyFt0EHtwVKRHmKXJBwF2EeSHxG0G6gc9UVbSbcubo2pJ
+   xwQKUmSm8sztvu7Xmey8BwGDi16hOJ0/lvr4i4en1LYYqplWiWazCtabD
+   q96K42sd43MPuQlND298zmsd39ZvBANLTccK7hIgL+SZjO/JFCzYX4XiI
+   S4ExhMEWfiNJdheklFAdRDgZUzVON3TZH/Y4ORkXmLPlVmaEBRwSCxVR+
+   cPjnMfVVvlUJXo4FGPfMUS5XTQtpZF/wuskpIAyCSTOakQWFdhGOEiYtN
+   A==;
+X-CSE-ConnectionGUID: U8J+4Vm9SmG8lFh5+JHT3Q==
+X-CSE-MsgGUID: NZllafwfRgGwkuyCn0gbZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="74994303"
 X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="86574264"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 06:44:33 -0700
-X-CSE-ConnectionGUID: W+IIkfHXSUirvmGOIBXRlg==
-X-CSE-MsgGUID: z+CabQ6QTyKfcDwLlmqLug==
+   d="scan'208";a="74994303"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 07:26:45 -0700
+X-CSE-ConnectionGUID: DJ9w2MqSQ0SB7oNoKNuhOg==
+X-CSE-MsgGUID: nldR9LigRtu7fAmhfFsyXg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="220203105"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 20 Mar 2026 06:44:32 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="222392533"
+Received: from lkp-server02.sh.intel.com (HELO a51c2a36b9df) ([10.239.97.151])
+  by orviesa006.jf.intel.com with ESMTP; 20 Mar 2026 07:26:39 -0700
+Received: from kbuild by a51c2a36b9df with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w3a9O-0000000052f-0P8B;
-	Fri, 20 Mar 2026 13:44:30 +0000
-Date: Fri, 20 Mar 2026 14:43:31 +0100
+	id 1w3ank-000000002Sz-0eKM;
+	Fri, 20 Mar 2026 14:26:14 +0000
+Date: Fri, 20 Mar 2026 22:23:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 357/357] liveupdate.c:190:18:
- error: implicit declaration of function 'memfd_create'
-Message-ID: <202603201442.kmyFgXt0-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Nora Schiffer <nora.schiffer@ew.tq-group.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+	Tero Kristo <kristo@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Siddharth Vadapalli <s-vadapalli@ti.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+	linux@ew.tq-group.com,
+	Nora Schiffer <nora.schiffer@ew.tq-group.com>
+Subject: Re: [PATCH 6/7] net: ethernet: ti: am65-cpsw: add support for J722S
+ SoC family
+Message-ID: <202603202224.XkGRjqgx-lkp@intel.com>
+References: <4cc3dd9fab460d35215c8f97496b9ae16c5bcb22.1773751309.git.nora.schiffer@ew.tq-group.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4cc3dd9fab460d35215c8f97496b9ae16c5bcb22.1773751309.git.nora.schiffer@ew.tq-group.com>
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   61d924e3c943dec5a1544973025226b69d3e9ae4
-commit: 16deeeb8139c8017bc9a2eef904c688946fbabad [357/357] selftests/liveupdate: add userspace API selftests
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260320/202603201442.kmyFgXt0-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603201442.kmyFgXt0-lkp@intel.com/reproduce)
+Hi Nora,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on net-next/main net/main linus/master v7.0-rc4 next-20260319]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nora-Schiffer/dt-bindings-phy-ti-phy-j721e-wiz-Add-ti-j722s-wiz-10g-compatible/20260320-033344
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/4cc3dd9fab460d35215c8f97496b9ae16c5bcb22.1773751309.git.nora.schiffer%40ew.tq-group.com
+patch subject: [PATCH 6/7] net: ethernet: ti: am65-cpsw: add support for J722S SoC family
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20260320/202603202224.XkGRjqgx-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603202224.XkGRjqgx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603201442.kmyFgXt0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603202224.XkGRjqgx-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   liveupdate.c: In function 'liveupdate_device_preserve_memfd':
->> liveupdate.c:190:18: error: implicit declaration of function 'memfd_create' [-Wimplicit-function-declaration]
-     190 |         mem_fd = memfd_create("test-memfd", 0);
-         |                  ^~~~~~~~~~~~
+>> drivers/net/ethernet/ti/am65-cpsw-nuss.c:3470:54: error: 'AM64_CPSW_QUIRK_CUT_THRU' undeclared here (not in a function)
+    3470 |         .quirks = AM64_CPSW_QUIRK_DMA_RX_TDOWN_IRQ | AM64_CPSW_QUIRK_CUT_THRU,
+         |                                                      ^~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/AM64_CPSW_QUIRK_CUT_THRU +3470 drivers/net/ethernet/ti/am65-cpsw-nuss.c
+
+  3468	
+  3469	static const struct am65_cpsw_pdata j722s_cpswxg_pdata = {
+> 3470		.quirks = AM64_CPSW_QUIRK_DMA_RX_TDOWN_IRQ | AM64_CPSW_QUIRK_CUT_THRU,
+  3471		.ale_dev_id = "am64-cpswxg",
+  3472		.fdqring_mode = K3_RINGACC_RING_MODE_RING,
+  3473		.extra_modes = BIT(PHY_INTERFACE_MODE_SGMII),
+  3474	};
+  3475	
 
 -- 
 0-DAY CI Kernel Test Service
