@@ -1,294 +1,218 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88749326D73
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Mar 2026 20:30:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5C0F359A7E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Mar 2026 21:36:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774038641; cv=none; b=kEBw3qDq9U4Q7hFehyOCBF0Xmlc86rxGRHLNUluMpRJqUYraJHTmdIlbJqFpCnt/NTceONXnZ4MD6GQuRRL6ieVdB9Ei8ockCNl7HGvIT2DwTMaX/T3Y+rRVPMH3BFdy52cRoNpJNUNo2H4URmWDXP6ao6wYS4TEpwd8SUjVAFo=
+	t=1774042621; cv=none; b=TT/eLtyy2/MPZwCvqH5VyMfjdgCb67Eh2/As2+sJoS3jyLf90OKgbXO+leFb/4qGc0bk9zDEG1qF//R7Yudv/uJ1rNMhmSR5vyiR2I+PtZOkJ2ZbZ6OE95Wud7sUrOGZ3YFCl82ktnqJBLMbL8FtqAi/QqcrImQi/G9nouhPuOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774038641; c=relaxed/simple;
-	bh=K/x1A9CIWuk7LBGjjj4O8XkJDL4M8s5D9zg7EYPMU+o=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TFiLgpYrK7Ba+yrd5OcL80qPZd2oW7rSnFAGQzhvLDl1oyrdqVVZq/E3ZypVRiBsee7Q87ZmRFgU3w7aDdSjtWdPBVGEpngTYYCzG96unOkxf2LETEIE/q+UjEL+asVLlhnLx/sI3/j/AweMimH4JTQyynmHQOeT7fLDD3KlaAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kenL9eO7; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1774042621; c=relaxed/simple;
+	bh=1arWq3Zvj3Mt0/rOMKBMXZWHh7LZp1tZue5bT9TwBRw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tgoa02l+diGJRY/Ok76D5sVB9hQYZgQFraIeqp3x04uL4JfdR/Pg78sor7o639w+yVCvaLfIqYezC9iaWCV83QXa328v6ozjIFhjM2zPqCquVWHMnaAwuj1zfFeow17YIOyVVxVZNJw24l+/eZRR6/3x4vs/GgzixaH8/drNAcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UHWyfRFU; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kenL9eO7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UHWyfRFU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774038640; x=1805574640;
-  h=date:from:to:cc:subject:message-id;
-  bh=K/x1A9CIWuk7LBGjjj4O8XkJDL4M8s5D9zg7EYPMU+o=;
-  b=kenL9eO72/0zpWHVekFoLuDeHH+CUBXvuV6trxxV0bSLE/gAAIJphpoJ
-   BZrT1wXh8JOq+OEVsdNewaKKklJ/5FYhl59r/JGgoxnWXrAcGha9CiYIP
-   9hn3/gAsPesUOYu+yZx/MIUdp3KfZ0Tcly0/mTWU/oMSgexEb9e6Saldk
-   Be6HXFkRmG9bkht2aSr3WJsN9hh8U0/egQG/2zmxJr1eF8Mzb7D6eIO2T
-   aRrgdzi6tJxeu7EnEps/IQHLA4dTpIvVUW5l3yrHEMv/aEl/uGIXl/X16
-   F1qLsvuk74Vc4a2XdVxpHyo1uvgYq8gLlyGzlK/14Zdncp2xABX2CaTnN
+  t=1774042619; x=1805578619;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1arWq3Zvj3Mt0/rOMKBMXZWHh7LZp1tZue5bT9TwBRw=;
+  b=UHWyfRFUSSuk3Fd6devMBs0yHvLL8QnaSgs8FKy2jWh7or7Bg4u4PZJo
+   bhfYEPvA0a9Lwv4a2yhOK5t3sMsTNv1HZhnhogpXJhtlQ7691kEuZPmuS
+   B2ON8uI4HZeSClk3SFhD16DFOlD56CTU6F4Ev+xel4t3hFaYvX1zE54Tt
+   wZVqc5dMrggy/ZdKTU83bghr+07L/8QhzMjMIyIbh38Nh00V0IkKdMKUT
+   a8KhWCFvQMaOTUi8U8I8ljSSG7OQ2F5S73WLeOxl69rtIcf9o8t28HW5N
+   MdZ8WrrgCFI2ukpHMzyXPBDUpED+Um4fAZ4Rwx34BqwI/9eZ/d1zJDgl+
    g==;
-X-CSE-ConnectionGUID: sPw7VMBIR+Oei9vRb/O+SQ==
-X-CSE-MsgGUID: KnmR2UbeQkSI8QoZLVNwLQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="85758452"
-X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="85758452"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 13:30:39 -0700
-X-CSE-ConnectionGUID: RnmfSTxGS16+wLbdsRMs6A==
-X-CSE-MsgGUID: EQI2n7ANSfSuOpw7lFZwqA==
+X-CSE-ConnectionGUID: XLWMSyOYTDy6psMa7BE6Tw==
+X-CSE-MsgGUID: Rtgr1ApbRzeHkvOlz8jMtw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="75105569"
+X-IronPort-AV: E=Sophos;i="6.23,132,1770624000"; 
+   d="scan'208";a="75105569"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 14:36:59 -0700
+X-CSE-ConnectionGUID: WElW8m/+S2mzc15JSN1zqg==
+X-CSE-MsgGUID: Y24QRAcvT9GaZADgwUpxsA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="222478666"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 20 Mar 2026 13:30:37 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+Received: from lkp-server02.sh.intel.com (HELO ef9b23065726) ([10.239.97.151])
+  by fmviesa003.fm.intel.com with ESMTP; 20 Mar 2026 14:36:52 -0700
+Received: from kbuild by ef9b23065726 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w3gUM-0000000056t-1M6L;
-	Fri, 20 Mar 2026 20:30:34 +0000
-Date: Fri, 20 Mar 2026 21:30:04 +0100
+	id 1w3hVD-000000000F7-3EZS;
+	Fri, 20 Mar 2026 21:36:17 +0000
+Date: Sat, 21 Mar 2026 05:33:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pablo Neira Ayuso <pablo@netfilter.org>
-Cc: oe-kbuild-all@lists.linux.dev, netfilter-devel@vger.kernel.org,
- coreteam@netfilter.org, Florian Westphal <fw@strlen.de>
-Subject: [netfilter-nf:testing 7/9]
- ./arch/arm64/include/asm/syscall.h:14:27: warning: unused variable
- 'sys_call_table'
-Message-ID: <202603202110.Tkuhxfco-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: John Groves <john@jagalactic.com>, John Groves <John@groves.net>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Bernd Schubert <bschubert@ddn.com>,
+	Alison Schofield <alison.schofield@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	David Hildenbrand <david@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	"Darrick J . Wong" <djwong@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Stefan Hajnoczi <shajnocz@redhat.com>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Chen Linxuan <chenlinxuan@uniontech.com>,
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Shivank Garg <shivankg@amd.com>,
+	Ackerley Tng <ackerleytng@google.com>,
+	Gregory Price <gourry@gourry.net>
+Subject: Re: [PATCH V8 05/10] famfs_fuse: GET_DAXDEV message and daxdev_table
+Message-ID: <202603210500.wr4l3DMj-lkp@intel.com>
+References: <0100019d06402f14-3a614309-878f-4837-be72-e36fd75d74f6-000000@email.amazonses.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0100019d06402f14-3a614309-878f-4837-be72-e36fd75d74f6-000000@email.amazonses.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git testing
-head:   b1bad43d8b00ab31c8f93145a4c8db1567f0d2fe
-commit: 20d564bba6b3806c26498061299a88330561efa5 [7/9] netfilter: ctnetlink: ensure safe access to master conntrack
-config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260320/202603202110.Tkuhxfco-lkp@intel.com/config)
-compiler: aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603202110.Tkuhxfco-lkp@intel.com/reproduce)
+Hi John,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on mszeredi-fuse/for-next]
+[also build test ERROR on brauner-vfs/vfs.all linus/master v7.0-rc4 next-20260320]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/John-Groves/famfs_fuse-Basic-fuse-kernel-ABI-enablement-for-famfs/20260320-152719
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git for-next
+patch link:    https://lore.kernel.org/r/0100019d06402f14-3a614309-878f-4837-be72-e36fd75d74f6-000000%40email.amazonses.com
+patch subject: [PATCH V8 05/10] famfs_fuse: GET_DAXDEV message and daxdev_table
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260321/202603210500.wr4l3DMj-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260321/202603210500.wr4l3DMj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603202110.Tkuhxfco-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603210500.wr4l3DMj-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-     136 | void nf_conntrack_icmp_init_net(struct net *net);
-         |                                 ~~~~~~~~~~~~^~~
-   net/netfilter/nf_conntrack_proto.c:679:38: error: passing argument 1 of 'nf_conntrack_icmpv6_init_net' from incompatible pointer type [-Wincompatible-pointer-types]
-     679 |         nf_conntrack_icmpv6_init_net(net);
-         |                                      ^~~
-         |                                      |
-         |                                      struct net *
-   ./include/net/netfilter/nf_conntrack_l4proto.h:137:47: note: expected 'struct net *' but argument is of type 'struct net *'
-     137 | void nf_conntrack_icmpv6_init_net(struct net *net);
-         |                                   ~~~~~~~~~~~~^~~
-   net/netfilter/nf_conntrack_proto.c:682:36: error: passing argument 1 of 'nf_conntrack_sctp_init_net' from incompatible pointer type [-Wincompatible-pointer-types]
-     682 |         nf_conntrack_sctp_init_net(net);
-         |                                    ^~~
-         |                                    |
-         |                                    struct net *
-   ./include/net/netfilter/nf_conntrack_l4proto.h:135:45: note: expected 'struct net *' but argument is of type 'struct net *'
-     135 | void nf_conntrack_sctp_init_net(struct net *net);
-         |                                 ~~~~~~~~~~~~^~~
-   net/netfilter/nf_conntrack_proto.c: In function 'lockdep_nfct_expect_lock_not_held':
-   net/netfilter/nf_conntrack_proto.c:696:1: error: expected declaration or statement at end of input
-     696 | MODULE_DESCRIPTION("IPv4 and IPv6 connection tracking");
-         | ^~~~~~~~~~~~~~~~~~
-   ./include/net/netfilter/nf_conntrack_helper.h:164:21: warning: unused variable 'nf_ct_helper_hsize' [-Wunused-variable]
-     164 | extern unsigned int nf_ct_helper_hsize;
-         |                     ^~~~~~~~~~~~~~~~~~
-   ./include/net/netfilter/nf_conntrack_helper.h:163:27: warning: unused variable 'nf_ct_helper_hash' [-Wunused-variable]
-     163 | extern struct hlist_head *nf_ct_helper_hash;
-         |                           ^~~~~~~~~~~~~~~~~
-   ./include/linux/netfilter/x_tables.h:342:26: warning: unused variable 'xt_tee_enabled' [-Wunused-variable]
-     342 | extern struct static_key xt_tee_enabled;
-         |                          ^~~~~~~~~~~~~~
-   ./include/net/tcp.h:2480:42: warning: unused variable 'tcp_request_sock_ipv6_ops' [-Wunused-variable]
-    2480 | extern const struct tcp_request_sock_ops tcp_request_sock_ipv6_ops;
-         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~
-   ./include/net/tcp.h:2478:42: warning: unused variable 'tcp_request_sock_ipv4_ops' [-Wunused-variable]
-    2478 | extern const struct tcp_request_sock_ops tcp_request_sock_ipv4_ops;
-         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~
-   ./include/net/tcp.h:2371:32: warning: unused variable 'tcp6_request_sock_ops' [-Wunused-variable]
-    2371 | extern struct request_sock_ops tcp6_request_sock_ops;
-         |                                ^~~~~~~~~~~~~~~~~~~~~
-   ./include/net/tcp.h:2370:32: warning: unused variable 'tcp_request_sock_ops' [-Wunused-variable]
-    2370 | extern struct request_sock_ops tcp_request_sock_ops;
-         |                                ^~~~~~~~~~~~~~~~~~~~
-   ./include/net/tcp.h:1358:34: warning: unused variable 'tcp_reno' [-Wunused-variable]
-    1358 | extern struct tcp_congestion_ops tcp_reno;
-         |                                  ^~~~~~~~
-   ./include/net/tcp.h:1136:49: warning: unused variable 'ipv6_specific' [-Wunused-variable]
-    1136 | extern const struct inet_connection_sock_af_ops ipv6_specific;
-         |                                                 ^~~~~~~~~~~~~
-   ./include/net/tcp.h:1108:49: warning: unused variable 'ipv4_specific' [-Wunused-variable]
-    1108 | extern const struct inet_connection_sock_af_ops ipv4_specific;
-         |                                                 ^~~~~~~~~~~~~
-   ./include/net/tcp.h:344:21: warning: unused variable 'tcp_prot' [-Wunused-variable]
-     344 | extern struct proto tcp_prot;
-         |                     ^~~~~~~~
-   ./include/net/tcp.h:297:30: warning: unused variable 'tcp_sockets_allocated' [-Wunused-variable]
-     297 | extern struct percpu_counter tcp_sockets_allocated;
-         |                              ^~~~~~~~~~~~~~~~~~~~~
-   ./include/net/tcp.h:295:22: warning: unused variable 'tcp_memory_per_cpu_fw_alloc' [-Wunused-variable]
-     295 | DECLARE_PER_CPU(int, tcp_memory_per_cpu_fw_alloc);
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   ./include/linux/percpu-defs.h:100:51: note: in definition of macro 'DECLARE_PER_CPU_SECTION'
-     100 |         extern __PCPU_ATTRS(sec) __typeof__(type) name
-         |                                                   ^~~~
-   ./include/net/tcp.h:295:1: note: in expansion of macro 'DECLARE_PER_CPU'
-     295 | DECLARE_PER_CPU(int, tcp_memory_per_cpu_fw_alloc);
-         | ^~~~~~~~~~~~~~~
-   ./include/net/tcp.h:289:13: warning: unused variable 'sysctl_tcp_mem' [-Wunused-variable]
-     289 | extern long sysctl_tcp_mem[3];
-         |             ^~~~~~~~~~~~~~
-   ./include/net/tcp.h:288:12: warning: unused variable 'sysctl_tcp_max_orphans' [-Wunused-variable]
-     288 | extern int sysctl_tcp_max_orphans;
-         |            ^~~~~~~~~~~~~~~~~~~~~~
-   ./include/net/tcp.h:68:22: warning: unused variable 'tcp_tw_isn' [-Wunused-variable]
-      68 | DECLARE_PER_CPU(u32, tcp_tw_isn);
-         |                      ^~~~~~~~~~
-   ./include/linux/percpu-defs.h:100:51: note: in definition of macro 'DECLARE_PER_CPU_SECTION'
-     100 |         extern __PCPU_ATTRS(sec) __typeof__(type) name
-         |                                                   ^~~~
-   ./include/net/tcp.h:68:1: note: in expansion of macro 'DECLARE_PER_CPU'
-      68 | DECLARE_PER_CPU(u32, tcp_tw_isn);
-         | ^~~~~~~~~~~~~~~
-   ./include/net/tcp.h:53:29: warning: unused variable 'tcp_hashinfo' [-Wunused-variable]
-      53 | extern struct inet_hashinfo tcp_hashinfo;
-         |                             ^~~~~~~~~~~~
-   ./include/net/xfrm.h:2242:32: warning: unused variable 'xfrma_policy' [-Wunused-variable]
-    2242 | extern const struct nla_policy xfrma_policy[XFRMA_MAX+1];
-         |                                ^~~~~~~~~~~~
-   ./include/net/xfrm.h:2241:18: warning: unused variable 'xfrm_msg_min' [-Wunused-variable]
-    2241 | extern const int xfrm_msg_min[XFRM_NR_MSGTYPES];
-         |                  ^~~~~~~~~~~~
-   ./include/net/ip6_fib.h:556:36: warning: unused variable 'ipv6_route_seq_ops' [-Wunused-variable]
-     556 | extern const struct seq_operations ipv6_route_seq_ops;
-         |                                    ^~~~~~~~~~~~~~~~~~
-   ./include/linux/audit.h:593:12: warning: unused variable 'audit_signals' [-Wunused-variable]
-     593 | extern int audit_signals;
-         |            ^~~~~~~~~~~~~
-   ./include/linux/audit.h:592:12: warning: unused variable 'audit_n_rules' [-Wunused-variable]
-     592 | extern int audit_n_rules;
-         |            ^~~~~~~~~~~~~
->> ./arch/arm64/include/asm/syscall.h:14:27: warning: unused variable 'sys_call_table' [-Wunused-variable]
-      14 | extern const syscall_fn_t sys_call_table[];
-         |                           ^~~~~~~~~~~~~~
-   In file included from ./include/linux/audit.h:14:
-   ./include/linux/audit_arch.h:31:17: warning: unused variable 'compat_signal_class' [-Wunused-variable]
-      31 | extern unsigned compat_signal_class[];
-         |                 ^~~~~~~~~~~~~~~~~~~
-   ./include/linux/audit_arch.h:30:17: warning: unused variable 'compat_chattr_class' [-Wunused-variable]
-      30 | extern unsigned compat_chattr_class[];
-         |                 ^~~~~~~~~~~~~~~~~~~
-   ./include/linux/audit_arch.h:29:17: warning: unused variable 'compat_dir_class' [-Wunused-variable]
-      29 | extern unsigned compat_dir_class[];
-         |                 ^~~~~~~~~~~~~~~~
-   ./include/linux/audit_arch.h:28:17: warning: unused variable 'compat_read_class' [-Wunused-variable]
-      28 | extern unsigned compat_read_class[];
-         |                 ^~~~~~~~~~~~~~~~~
-   ./include/linux/audit_arch.h:27:17: warning: unused variable 'compat_write_class' [-Wunused-variable]
-      27 | extern unsigned compat_write_class[];
-         |                 ^~~~~~~~~~~~~~~~~~
-   ./include/net/inet_ecn.h:21:12: warning: unused variable 'sysctl_tunnel_ecn_log' [-Wunused-variable]
-      21 | extern int sysctl_tunnel_ecn_log;
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   ./include/net/sock_reuseport.h:11:19: warning: unused variable 'reuseport_lock' [-Wunused-variable]
-      11 | extern spinlock_t reuseport_lock;
-         |                   ^~~~~~~~~~~~~~
-   ./include/linux/filter.h:1610:32: warning: unused variable 'bpf_sk_lookup_enabled' [-Wunused-variable]
-    1610 | extern struct static_key_false bpf_sk_lookup_enabled;
-         |                                ^~~~~~~~~~~~~~~~~~~~~
-   ./include/linux/filter.h:1266:13: warning: unused variable 'bpf_jit_limit_max' [-Wunused-variable]
-    1266 | extern long bpf_jit_limit_max;
-         |             ^~~~~~~~~~~~~~~~~
-   ./include/linux/filter.h:1265:13: warning: unused variable 'bpf_jit_limit' [-Wunused-variable]
-    1265 | extern long bpf_jit_limit;
-         |             ^~~~~~~~~~~~~
-   In file included from ./include/linux/static_key.h:1,
-                    from ./include/linux/kasan-enabled.h:5,
-                    from ./arch/arm64/include/asm/cache.h:41,
-                    from ./include/vdso/cache.h:5,
-                    from ./include/linux/cache.h:6,
-                    from ./include/linux/time.h:5:
-   ./include/linux/filter.h:1014:26: warning: unused variable 'bpf_master_redirect_enabled_key' [-Wunused-variable]
-    1014 | DECLARE_STATIC_KEY_FALSE(bpf_master_redirect_enabled_key);
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   ./include/linux/jump_label.h:392:40: note: in definition of macro 'DECLARE_STATIC_KEY_FALSE'
-     392 |         extern struct static_key_false name
-         |                                        ^~~~
-   In file included from ./include/linux/security.h:35:
-   ./include/linux/bpf.h:1528:38: warning: unused variable 'bpf_dispatcher_xdp' [-Wunused-variable]
-    1528 |         extern struct bpf_dispatcher bpf_dispatcher_##name;
-         |                                      ^~~~~~~~~~~~~~~
-   ./include/linux/filter.h:1012:1: note: in expansion of macro 'DECLARE_BPF_DISPATCHER'
-    1012 | DECLARE_BPF_DISPATCHER(xdp)
-         | ^~~~~~~~~~~~~~~~~~~~~~
-   ./include/linux/filter.h:691:14: warning: unused variable 'nfct_btf_struct_access' [-Wunused-variable]
-     691 | extern int (*nfct_btf_struct_access)(struct bpf_verifier_log *log,
-         |              ^~~~~~~~~~~~~~~~~~~~~~
-   ./include/linux/filter.h:690:21: warning: unused variable 'nf_conn_btf_access_lock' [-Wunused-variable]
-     690 | extern struct mutex nf_conn_btf_access_lock;
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~
-   ./include/net/sch_generic.h:618:25: warning: unused variable 'noqueue_qdisc_ops' [-Wunused-variable]
-     618 | extern struct Qdisc_ops noqueue_qdisc_ops;
-         |                         ^~~~~~~~~~~~~~~~~
-   ./include/net/sch_generic.h:617:25: warning: unused variable 'mq_qdisc_ops' [-Wunused-variable]
-     617 | extern struct Qdisc_ops mq_qdisc_ops;
-         |                         ^~~~~~~~~~~~
-   ./include/net/sch_generic.h:616:17: warning: unused variable 'sch_default_prio2band' [-Wunused-variable]
-     616 | extern const u8 sch_default_prio2band[TC_PRIO_MAX + 1];
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   ./include/net/sch_generic.h:614:25: warning: unused variable 'noop_qdisc_ops' [-Wunused-variable]
-     614 | extern struct Qdisc_ops noop_qdisc_ops;
-         |                         ^~~~~~~~~~~~~~
-   ./include/crypto/sha1.h:21:17: warning: unused variable 'sha1_zero_message_hash' [-Wunused-variable]
-      21 | extern const u8 sha1_zero_message_hash[SHA1_DIGEST_SIZE];
-         |                 ^~~~~~~~~~~~~~~~~~~~~~
-   ./include/linux/etherdevice.h:41:32: warning: unused variable 'eth_header_ops' [-Wunused-variable]
-      41 | extern const struct header_ops eth_header_ops;
-         |                                ^~~~~~~~~~~~~~
-   ./include/net/ip.h:803:26: warning: unused variable 'ip4_min_ttl' [-Wunused-variable]
-     803 | DECLARE_STATIC_KEY_FALSE(ip4_min_ttl);
-         |                          ^~~~~~~~~~~
-   ./include/linux/jump_label.h:392:40: note: in definition of macro 'DECLARE_STATIC_KEY_FALSE'
-     392 |         extern struct static_key_false name
-         |                                        ^~~~
-   ./include/net/ip.h:397:12: warning: unused variable 'inet_peer_maxttl' [-Wunused-variable]
-     397 | extern int inet_peer_maxttl;
-         |            ^~~~~~~~~~~~~~~~
-   ./include/net/ip.h:396:12: warning: unused variable 'inet_peer_minttl' [-Wunused-variable]
-     396 | extern int inet_peer_minttl;
-         |            ^~~~~~~~~~~~~~~~
-   ./include/net/ip.h:395:12: warning: unused variable 'inet_peer_threshold' [-Wunused-variable]
-     395 | extern int inet_peer_threshold;
-         |            ^~~~~~~~~~~~~~~~~~~
-   ./include/net/ip.h:43:21: warning: unused variable 'sysctl_fib_sync_mem_max' [-Wunused-variable]
-      43 | extern unsigned int sysctl_fib_sync_mem_max;
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~
-   ./include/net/ip.h:42:21: warning: unused variable 'sysctl_fib_sync_mem_min' [-Wunused-variable]
-      42 | extern unsigned int sysctl_fib_sync_mem_min;
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~
-   ./include/net/ip.h:41:21: warning: unused variable 'sysctl_fib_sync_mem' [-Wunused-variable]
-      41 | extern unsigned int sysctl_fib_sync_mem;
-         |                     ^~~~~~~~~~~~~~~~~~~
+   fs/fuse/famfs.c: In function 'famfs_fuse_get_daxdev':
+>> fs/fuse/famfs.c:163:32: error: implicit declaration of function 'dax_dev_get' [-Wimplicit-function-declaration]
+     163 |                 daxdev->devp = dax_dev_get(daxdev->devno);
+         |                                ^~~~~~~~~~~
+>> fs/fuse/famfs.c:163:30: error: assignment to 'struct dax_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     163 |                 daxdev->devp = dax_dev_get(daxdev->devno);
+         |                              ^
 
 
-vim +/sys_call_table +14 ./arch/arm64/include/asm/syscall.h
+vim +/dax_dev_get +163 fs/fuse/famfs.c
 
-27d83e68f307ee Mark Rutland 2018-07-11  13  
-27d83e68f307ee Mark Rutland 2018-07-11 @14  extern const syscall_fn_t sys_call_table[];
-f27bb139c38768 Marc Zyngier 2012-03-05  15  
-
-:::::: The code at line 14 was first introduced by commit
-:::::: 27d83e68f307ee55b70fdfdc7a9ba3f25f276189 arm64: introduce syscall_fn_t
-
-:::::: TO: Mark Rutland <mark.rutland@arm.com>
-:::::: CC: Will Deacon <will.deacon@arm.com>
+    90	
+    91	/**
+    92	 * famfs_fuse_get_daxdev() - Retrieve info for a DAX device from fuse server
+    93	 *
+    94	 * Send a GET_DAXDEV message to the fuse server to retrieve info on a
+    95	 * dax device.
+    96	 *
+    97	 * @fm:     fuse_mount
+    98	 * @index:  the index of the dax device; daxdevs are referred to by index
+    99	 *          in fmaps, and the server resolves the index to a particular daxdev
+   100	 *
+   101	 * Returns: 0=success
+   102	 *          -errno=failure
+   103	 */
+   104	static int
+   105	famfs_fuse_get_daxdev(struct fuse_mount *fm, const u64 index)
+   106	{
+   107		struct fuse_daxdev_out daxdev_out = { 0 };
+   108		struct fuse_conn *fc = fm->fc;
+   109		struct famfs_daxdev *daxdev;
+   110		int rc;
+   111	
+   112		FUSE_ARGS(args);
+   113	
+   114		/* Store the daxdev in our table */
+   115		if (index >= fc->dax_devlist->nslots) {
+   116			pr_err("%s: index(%lld) > nslots(%d)\n",
+   117			       __func__, index, fc->dax_devlist->nslots);
+   118			return -EINVAL;
+   119		}
+   120	
+   121		args.opcode = FUSE_GET_DAXDEV;
+   122		args.nodeid = index;
+   123	
+   124		args.in_numargs = 0;
+   125	
+   126		args.out_numargs = 1;
+   127		args.out_args[0].size = sizeof(daxdev_out);
+   128		args.out_args[0].value = &daxdev_out;
+   129	
+   130		/* Send GET_DAXDEV command */
+   131		rc = fuse_simple_request(fm, &args);
+   132		if (rc) {
+   133			pr_err("%s: rc=%d from fuse_simple_request()\n",
+   134			       __func__, rc);
+   135			/* Error will be that the payload is smaller than FMAP_BUFSIZE,
+   136			 * which is the max we can handle. Empty payload handled below.
+   137			 */
+   138			return rc;
+   139		}
+   140	
+   141		scoped_guard(rwsem_write, &fc->famfs_devlist_sem) {
+   142			daxdev = &fc->dax_devlist->devlist[index];
+   143	
+   144			/* Abort if daxdev is now valid (races are possible here) */
+   145			if (daxdev->valid) {
+   146				pr_debug("%s: daxdev already known\n", __func__);
+   147				return 0;
+   148			}
+   149	
+   150			/* Verify dev is valid and can be opened and gets the devno */
+   151			rc = famfs_verify_daxdev(daxdev_out.name, &daxdev->devno);
+   152			if (rc) {
+   153				pr_err("%s: rc=%d from famfs_verify_daxdev()\n",
+   154				       __func__, rc);
+   155				return rc;
+   156			}
+   157	
+   158			daxdev->name = kstrdup(daxdev_out.name, GFP_KERNEL);
+   159			if (!daxdev->name)
+   160				return -ENOMEM;
+   161	
+   162			/* This will fail if it's not a dax device */
+ > 163			daxdev->devp = dax_dev_get(daxdev->devno);
+   164			if (!daxdev->devp) {
+   165				pr_warn("%s: device %s not found or not dax\n",
+   166					__func__, daxdev_out.name);
+   167				kfree(daxdev->name);
+   168				daxdev->name = NULL;
+   169				return -ENODEV;
+   170			}
+   171	
+   172			wmb(); /* All other fields must be visible before valid */
+   173			daxdev->valid = 1;
+   174		}
+   175	
+   176		return 0;
+   177	}
+   178	
 
 -- 
 0-DAY CI Kernel Test Service
