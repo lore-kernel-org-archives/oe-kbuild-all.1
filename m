@@ -1,121 +1,174 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 777CF365A14;
-	Fri, 20 Mar 2026 08:40:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 441CB36F41D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Mar 2026 08:41:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773996049; cv=none; b=kr8tE+IxMwY+0aKcJ4xvAFoxkroMTW853jr0ozC2xsBG1R8YmjRzRDHnIF8S8Wh82WJsLX0XB+RpYEvX022DiqhcLt3uNNL8Stod+2unWuqJmFdF2dTepnuxPmSwLDK3UIMmNGSn4jJ4/JnBCf673aPPzbA4lSRMyIOkPOPJWwY=
+	t=1773996064; cv=none; b=fqRgFFVapUXyXVTA0lf/qZohFg4zqXEJ7l0xTvTbVQyleUJfaUFMnZchndHwMa44eqDl89oCJ0OsE2XjyCBzTmHhIy4ms1qJvlTUBCp/J7YqVnSHTvJPY0hdKQ8dQcRUcLKLAKlzo1eE05+WNV6refuepGeEvaH2GZocpW6QQSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773996049; c=relaxed/simple;
-	bh=pRoVm1uSlvFJ1DUaEsZAHIMkqpeZSr5DbQgK9V4VP1I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BLN3snmcWIOqbLevt+Y6niMrHJqdklNp3vF/gd3S5N5ZuPaQGWzQrUbmENsahRZDUIHpFxFh1M4hxlnUfynrT0+QyU2q6dICewNUpLd3hu0yjtY8ctwOuQlQ6ahyiFJcNabTf6YAomoqLKOmmvO4PcNQf390VJXUjIml61u4PaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QHw7DJKo; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1773996064; c=relaxed/simple;
+	bh=3fMER6TcEdXoQ15Ic1iLl+4h3ap2pIR8y/mVenidIys=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=puVNvQ4dD5y/vGbo06K296S2mpEhgTUjWpbdZg1BGFymtJgSpGztDYobZ6Qg1cbcbKJ/HEBttrspswNDW7kktE/j6440Z/tYn3zHk19ySp0FQb5HpZrTC9P8OrTE0VzoHf2IYO2xGsl/shhO7xVbboPqQD5PaqryRUFb0O8HYkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HFxkTx9a; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QHw7DJKo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HFxkTx9a"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773996045; x=1805532045;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=pRoVm1uSlvFJ1DUaEsZAHIMkqpeZSr5DbQgK9V4VP1I=;
-  b=QHw7DJKo5zdYJu7n1QG+fZtbkqsFBipYgVsllYY39ZTcYl1BMRSLSHnF
-   sJ1z5uXNFFB30X58IWLHjmPsFmIpuAmjfEKlMEOQ55eUsY/H6F9JP96ot
-   8XA1Lqf85+gdWtaZ1PYJ/PNk2mQQqa+j5AOtG2eX9UYGnB6Gk8LT+p6Pw
-   r0rSfv3bL+Cla9eDhEur2Iyvoy93v4EnFbCOPNKU5jPwy6HZ+qNFxFVgB
-   oHrzcFPhvHzTY3XYXjZTuk/H/lkHxPs/qcAMm49+EiH9YxMaHummiY67/
-   rQ7KvfHYfDReVETDIXrhf4k5/lXqa2mIZFEPB0+2sYrD31MYBzH7vTcdI
-   A==;
-X-CSE-ConnectionGUID: GSBrcf3xQ/qmmPnhYeY24Q==
-X-CSE-MsgGUID: D0ez776DRdSpzxzE9QJnDg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="75043701"
+  t=1773996062; x=1805532062;
+  h=date:from:to:cc:subject:message-id;
+  bh=3fMER6TcEdXoQ15Ic1iLl+4h3ap2pIR8y/mVenidIys=;
+  b=HFxkTx9aucsRhu4XNlp7oddLZD4w8zM8sMqmvxoc76e2z2dtgmDRFQRA
+   NNJc1c9B02PzUA3C5d727fHb8HKSZiAjbYQH3+yhXfNWFMg7K84L2Fy3a
+   Y2f05W2UKWn17cnYn0zF7HX0QXbselSNc7GoFRfk3J6GeucfWRUTOGE4S
+   gzeAbXB7hNRCUn7qWsLPbNlNkAxdXWo1ZQBx0dtUa6xoVDQ02FXz8g0z1
+   Uj2IIPri4Jw1QO601m2dLOvRWpvu+bHvqOvIl/I3u/Elq2zW82OeOUXjD
+   2zbf9moaHRWLP0ouX4KgGuXwYP2pWAxdEhsRsFTUlmY7jFwICetKe40+q
+   Q==;
+X-CSE-ConnectionGUID: HEuRwQQiRoC8KG1REc/g1Q==
+X-CSE-MsgGUID: juOEcdhjTgm34jvQVTyQoA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="86440034"
 X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="75043701"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 01:40:45 -0700
-X-CSE-ConnectionGUID: UMl4ekA+SP2qinyxdLsYdQ==
-X-CSE-MsgGUID: oy8/u9TvR3Kup4Vvs0GRdw==
+   d="scan'208";a="86440034"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 01:41:02 -0700
+X-CSE-ConnectionGUID: hWmSbOtgT92K7N2awgbjNQ==
+X-CSE-MsgGUID: 1yK9VXWZRsOFPtQOZXa7dg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="223210435"
+   d="scan'208";a="227353496"
 Received: from lkp-server02.sh.intel.com (HELO a51c2a36b9df) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 20 Mar 2026 01:40:41 -0700
+  by orviesa003.jf.intel.com with ESMTP; 20 Mar 2026 01:40:59 -0700
 Received: from kbuild by a51c2a36b9df with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w3VOw-0000000029V-0Dxy;
-	Fri, 20 Mar 2026 08:40:19 +0000
-Date: Fri, 20 Mar 2026 16:39:03 +0800
+	id 1w3VPJ-0000000029X-0RwK;
+	Fri, 20 Mar 2026 08:40:41 +0000
+Date: Fri, 20 Mar 2026 16:39:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pei Xiao <xiaopei01@kylinos.cn>, linux-spi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev, openbmc@lists.ozlabs.org,
-	linux-rockchip@lists.infradead.org, linux-riscv@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com, broonie@kernel.org,
-	Frank.Li@nxp.com, amelie.delaunay@foss.st.com
-Cc: oe-kbuild-all@lists.linux.dev, Pei Xiao <xiaopei01@kylinos.cn>
-Subject: Re: [PATCH v5 11/17] spi: st: Simplify clock handling with
- devm_clk_get_enabled()
-Message-ID: <202603201638.tsz5xX5N-lkp@intel.com>
-References: <383814750ad46181fd4199b3c6cec4767d480075.1773885292.git.xiaopei01@kylinos.cn>
+To: "Peter Zijlstra (Intel)" <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [peterz-queue:sched/flat 21/21] kernel/sched/fair.c:4066:28:
+ error: 'MIN_SHARES' undeclared
+Message-ID: <202603201657.K8TV5uGA-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <383814750ad46181fd4199b3c6cec4767d480075.1773885292.git.xiaopei01@kylinos.cn>
 
-Hi Pei,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on broonie-spi/for-next]
-[also build test WARNING on next-20260319]
-[cannot apply to atorgue-stm32/stm32-next rockchip/for-next xilinx-xlnx/master clk/clk-next shawnguo/for-next soc/for-next linus/master v7.0-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pei-Xiao/spi-axiado-Simplify-clock-management-with-devm_clk_get_enabled/20260320-025630
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
-patch link:    https://lore.kernel.org/r/383814750ad46181fd4199b3c6cec4767d480075.1773885292.git.xiaopei01%40kylinos.cn
-patch subject: [PATCH v5 11/17] spi: st: Simplify clock handling with devm_clk_get_enabled()
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260320/202603201638.tsz5xX5N-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603201638.tsz5xX5N-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/flat
+head:   4974c93ce402d69988eb7b2e9e490c22cc22bb7b
+commit: 4974c93ce402d69988eb7b2e9e490c22cc22bb7b [21/21] sched/eevdf: Move to a single runqueue
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260320/202603201657.K8TV5uGA-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603201657.K8TV5uGA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603201638.tsz5xX5N-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603201657.K8TV5uGA-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/spi/spi-st-ssc4.c: In function 'spi_st_remove':
->> drivers/spi/spi-st-ssc4.c:365:32: warning: unused variable 'host' [-Wunused-variable]
-     365 |         struct spi_controller *host = platform_get_drvdata(pdev);
-         |                                ^~~~
+   In file included from include/linux/nodemask.h:92,
+                    from include/linux/numa.h:6,
+                    from include/linux/cpumask.h:15,
+                    from include/linux/energy_model.h:4,
+                    from kernel/sched/fair.c:23:
+   kernel/sched/fair.c: In function '__calc_prop_weight':
+>> kernel/sched/fair.c:4066:28: error: 'MIN_SHARES' undeclared (first use in this function)
+    4066 |         return max(weight, MIN_SHARES);
+         |                            ^~~~~~~~~~
+   include/linux/minmax.h:92:35: note: in definition of macro '__careful_cmp_once'
+      92 |         auto ux = (x); auto uy = (y);                   \
+         |                                   ^
+   include/linux/minmax.h:112:25: note: in expansion of macro '__careful_cmp'
+     112 | #define max(x, y)       __careful_cmp(max, x, y)
+         |                         ^~~~~~~~~~~~~
+   kernel/sched/fair.c:4066:16: note: in expansion of macro 'max'
+    4066 |         return max(weight, MIN_SHARES);
+         |                ^~~
+   kernel/sched/fair.c:4066:28: note: each undeclared identifier is reported only once for each function it appears in
+    4066 |         return max(weight, MIN_SHARES);
+         |                            ^~~~~~~~~~
+   include/linux/minmax.h:92:35: note: in definition of macro '__careful_cmp_once'
+      92 |         auto ux = (x); auto uy = (y);                   \
+         |                                   ^
+   include/linux/minmax.h:112:25: note: in expansion of macro '__careful_cmp'
+     112 | #define max(x, y)       __careful_cmp(max, x, y)
+         |                         ^~~~~~~~~~~~~
+   kernel/sched/fair.c:4066:16: note: in expansion of macro 'max'
+    4066 |         return max(weight, MIN_SHARES);
+         |                ^~~
+   In file included from <command-line>:
+>> include/linux/compiler.h:168:17: error: '__UNIQUE_ID_y__468' undeclared (first use in this function); did you mean '__UNIQUE_ID_x__467'?
+     168 |         __PASTE(__UNIQUE_ID_,                                   \
+         |                 ^~~~~~~~~~~~
+   include/linux/compiler_types.h:686:23: note: in definition of macro '__compiletime_assert'
+     686 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
+     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:49:25: note: in expansion of macro 'is_signed_type'
+      49 | #define __sign_use(ux) (is_signed_type(typeof(ux)) ? \
+         |                         ^~~~~~~~~~~~~~
+   include/linux/minmax.h:75:27: note: in expansion of macro '__sign_use'
+      75 |         (__sign_use(ux) & __sign_use(uy))
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:93:27: note: in expansion of macro '__types_ok'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_once'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:16:23: note: in expansion of macro '___PASTE'
+      16 | #define __PASTE(a, b) ___PASTE(a, b)
+         |                       ^~~~~~~~
+   include/linux/compiler.h:168:9: note: in expansion of macro '__PASTE'
+     168 |         __PASTE(__UNIQUE_ID_,                                   \
+         |         ^~~~~~~
+   include/linux/minmax.h:98:55: note: in expansion of macro '__UNIQUE_ID'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |                                                       ^~~~~~~~~~~
+   include/linux/minmax.h:112:25: note: in expansion of macro '__careful_cmp'
+     112 | #define max(x, y)       __careful_cmp(max, x, y)
+         |                         ^~~~~~~~~~~~~
+   kernel/sched/fair.c:4066:16: note: in expansion of macro 'max'
+    4066 |         return max(weight, MIN_SHARES);
+         |                ^~~
 
 
-vim +/host +365 drivers/spi/spi-st-ssc4.c
+vim +/MIN_SHARES +4066 kernel/sched/fair.c
 
-9e862375c5420a Lee Jones        2014-12-09  362  
-2dd42da0b479ff Uwe Kleine-König 2023-03-03  363  static void spi_st_remove(struct platform_device *pdev)
-9e862375c5420a Lee Jones        2014-12-09  364  {
-e6b7e64cb11966 Yang Yingliang   2023-11-28 @365  	struct spi_controller *host = platform_get_drvdata(pdev);
-9e862375c5420a Lee Jones        2014-12-09  366  
-cd050abeba2a95 Chuhong Yuan     2019-11-18  367  	pm_runtime_disable(&pdev->dev);
-cd050abeba2a95 Chuhong Yuan     2019-11-18  368  
-9e862375c5420a Lee Jones        2014-12-09  369  	pinctrl_pm_select_sleep_state(&pdev->dev);
-9e862375c5420a Lee Jones        2014-12-09  370  }
-9e862375c5420a Lee Jones        2014-12-09  371  
+  4050	
+  4051	/*
+  4052	 * weight = NICE_0_LOAD;
+  4053	 * for_each_entity_se(se)
+  4054	 *   weight = __calc_prop_weight(cfs_rq_of(se), se, weight);
+  4055	 */
+  4056	static __always_inline
+  4057	unsigned long __calc_prop_weight(struct cfs_rq *cfs_rq, struct sched_entity *se,
+  4058					 unsigned long weight)
+  4059	{
+  4060		weight *= se->load.weight;
+  4061		if (parent_entity(se))
+  4062			weight /= cfs_rq->load.weight;
+  4063		else
+  4064			weight /= NICE_0_LOAD;
+  4065	
+> 4066		return max(weight, MIN_SHARES);
+  4067	}
+  4068	
 
 -- 
 0-DAY CI Kernel Test Service
