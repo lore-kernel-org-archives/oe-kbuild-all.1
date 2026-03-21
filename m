@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 335492F12AF
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Mar 2026 00:26:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7B1640DFB2
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Mar 2026 01:05:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774052813; cv=none; b=OL9Mf4+nc5ivSztX9Y3iyyPMRxS1S08EXSuQI5AhtPyCIjVQRUtFr21TI4cVSNL/puMLjptAh0ZZV6wgkDeWhmSv/9A4j7OiMpd0SrwF0OSc8pCYYvIsxMCGRfxxK03gmsF9cMf6gwRjkNVIb3SvukezHyLsQza8VdcoBJezbmk=
+	t=1774055127; cv=none; b=g1yaS+p+Sjrw0cXad9qDfXt0WuZ0CYeTfjsrXbiDQ6Dq/e8XVm61tte3+gkJxLSTq7OCWEqq+rs686pZU1RKRKJlWoMcXEKcA+t5EUR0p3SuRO3ZJNoJVtQyeAnzRd5AWV1g2GGweUUMMfm6J+q+PSk+aZRJeRX9mkTRg7DA1pI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774052813; c=relaxed/simple;
-	bh=j2WAVyANDsQlI3myoTEysVqFQjgF9XaCOxNC5+ijpNA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=qlhcdMAlVPjhBW7Z9nhpbzU/sbEWblIoHmnSoF1CvvbX02dCAhnHx1r8TrOgkkCuJod29kYqosmQTe6bW0l+d+5AzuBRx6bwdZc2zH0CscH3ikftRMHMkeK444RrrOS7zKH/0iLdNJq7/LFWJBd8NvpfG0+kv3Q31D5yLVy+uWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PbLwcP6k; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1774055127; c=relaxed/simple;
+	bh=cHtHByYLbK4uJHsn3FhqqBWcZD21mdYzHFIC+XYyjHQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=LMaIAiubGvKE8CEKL2l+G4PCGbTg8Dq6k5hrmRPtqFfc0s6Fj3e6ejsdyv240OXR1+zwkoMpBSFGqIa1daKU1/IMDMxMM5rtoD8K6pb/aHoSnvpXL1fTcrBPtEwy3FML9Yi1vcYpRKjEOrwD3q2WBp2Qv0pQcjVvfXGekAiA1RE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fxi+laMv; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PbLwcP6k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fxi+laMv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774052812; x=1805588812;
+  t=1774055125; x=1805591125;
   h=date:from:to:cc:subject:message-id;
-  bh=j2WAVyANDsQlI3myoTEysVqFQjgF9XaCOxNC5+ijpNA=;
-  b=PbLwcP6k21sTkXoU0eRzJV9NXD/Xz3HEqycjMEoGldTbAA3WoXLp6BfD
-   DhFZxdYj9kv883U8rl2bxFxDj5QO8P60oSQ9liwh+ZB0ck3U5DGehUT+F
-   e1r3Azr39k4hHm6uvHiJwzCrHFClhe0VV219vTciMsxmTSY4GaiqDBvo9
-   V0OWEo+BW3afaLoTL8dd15CRYc5zsRZWkRLW5cpwHVFO701HwHoWwn6Vs
-   wlf1xibBO6aSkrAOCArEreBIbKn6b+QWiQARakimaTjSqOITyTrY7IK6k
-   Hstm4FofjBT/qMikRqnGHiBdKib3UYgFLyfe+q8FwxfWu4kiLfgtK2jW+
-   g==;
-X-CSE-ConnectionGUID: I6AVzcVIQwa7zvYTNgwtSQ==
-X-CSE-MsgGUID: 7ei7vOo9QZuhDTqq5P4CiQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="86621346"
+  bh=cHtHByYLbK4uJHsn3FhqqBWcZD21mdYzHFIC+XYyjHQ=;
+  b=Fxi+laMv09qALE2swMESKOQQLNFLdpNLSuCFRbKUyEfTU3A1lSJmM9nY
+   VeLoCCDpX7RZdLFAIXpy+LynT2neV3J2UjTQxBhd2VsfhFU3VdfJra7T4
+   3TX3THTNCzU7S7ntY+b3zrKejJmPhI61J4YvvBN9w3akRbOa8ONrywNtc
+   cpVFe3/7HGQvbk5qucWUGXo2DDnrN1a7f6boNjg/VIQyta/ees5zMVk/y
+   fbDKyjsv5eSEo8g1EPSohPe9FfaxCVltYFuvHq1euR7MvYQPyhC2+sQzr
+   e/6rePhB/rwD6lkIZIietD9BJJm3jxq4q6K0gtqcuEP5R+PQAefZCZGn+
+   A==;
+X-CSE-ConnectionGUID: KAJGTDXaRt6X4rSyANaRpA==
+X-CSE-MsgGUID: S5q3cuq2S7SZcAId51vujQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="86510520"
 X-IronPort-AV: E=Sophos;i="6.23,132,1770624000"; 
-   d="scan'208";a="86621346"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 17:26:50 -0700
-X-CSE-ConnectionGUID: DMt/HBrBQ+WGFYL3qDeL9w==
-X-CSE-MsgGUID: jLmqP5gCSJyWJIn074pxtQ==
+   d="scan'208";a="86510520"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 18:05:25 -0700
+X-CSE-ConnectionGUID: UZX/goYIRWmPqa7GTHjYzA==
+X-CSE-MsgGUID: RNiUx1ucTISY1X8seVGGvw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,132,1770624000"; 
-   d="scan'208";a="219182517"
+   d="scan'208";a="227927843"
 Received: from lkp-server02.sh.intel.com (HELO d7fefbca0d04) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 20 Mar 2026 17:26:46 -0700
+  by orviesa004.jf.intel.com with ESMTP; 20 Mar 2026 18:05:24 -0700
 Received: from kbuild by d7fefbca0d04 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w3kAt-0000000005h-4C3R;
-	Sat, 21 Mar 2026 00:26:44 +0000
-Date: Sat, 21 Mar 2026 08:26:41 +0800
+	id 1w3kmB-00000000081-3LoG;
+	Sat, 21 Mar 2026 01:05:16 +0000
+Date: Sat, 21 Mar 2026 09:04:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:irq/core 4/14] arch/x86/kernel/irq.c:134:31:
- error: 'IRQ_COUNT_X86_PLATFORM_IPI' undeclared
-Message-ID: <202603210843.u3wiVCCg-lkp@intel.com>
+Subject: [hch-misc:lib-raid6 33/33] lib/raid/raid6/x86/mmx.c:29:16:
+ error: implicit declaration of function 'boot_cpu_has'
+Message-ID: <202603210842.J1XbiCCW-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,185 +59,69 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git irq/core
-head:   9e85c64195f3479abcad77115c7d5626e6905546
-commit: d5debb2dd149e388fe3fdc1660437d2362579d28 [4/14] x86/irq: Make irqstats array based
-config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20260321/202603210843.u3wiVCCg-lkp@intel.com/config)
+tree:   git://git.infradead.org/users/hch/misc.git lib-raid6
+head:   83a13a72f6f47b7ba7d26a200575edb70bf23c70
+commit: 83a13a72f6f47b7ba7d26a200575edb70bf23c70 [33/33] raid6: hide internals
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260321/202603210842.J1XbiCCW-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260321/202603210843.u3wiVCCg-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260321/202603210842.J1XbiCCW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603210843.u3wiVCCg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603210842.J1XbiCCW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   arch/x86/kernel/irq.c: In function 'irq_init_stats':
->> arch/x86/kernel/irq.c:134:31: error: 'IRQ_COUNT_X86_PLATFORM_IPI' undeclared (first use in this function)
-     134 |                 irq_stat_info[IRQ_COUNT_X86_PLATFORM_IPI].skip_vector = 1;
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/kernel/irq.c:134:31: note: each undeclared identifier is reported only once for each function it appears in
+   lib/raid/raid6/x86/mmx.c: In function 'raid6_have_mmx':
+>> lib/raid/raid6/x86/mmx.c:29:16: error: implicit declaration of function 'boot_cpu_has' [-Wimplicit-function-declaration]
+      29 |         return boot_cpu_has(X86_FEATURE_MMX);
+         |                ^~~~~~~~~~~~
+>> lib/raid/raid6/x86/mmx.c:29:29: error: 'X86_FEATURE_MMX' undeclared (first use in this function); did you mean 'XFEATURE_MAX'?
+      29 |         return boot_cpu_has(X86_FEATURE_MMX);
+         |                             ^~~~~~~~~~~~~~~
+         |                             XFEATURE_MAX
+   lib/raid/raid6/x86/mmx.c:29:29: note: each undeclared identifier is reported only once for each function it appears in
+>> lib/raid/raid6/x86/mmx.c:30:1: warning: control reaches end of non-void function [-Wreturn-type]
+      30 | }
+         | ^
 --
-   In file included from include/asm-generic/percpu.h:9,
-                    from arch/x86/include/asm/percpu.h:598,
-                    from arch/x86/include/asm/preempt.h:6,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:17,
-                    from arch/x86/events/intel/core.c:14:
-   arch/x86/events/intel/core.c: In function 'handle_pmi_common':
->> arch/x86/include/asm/hardirq.h:70:62: error: 'IRQ_COUNT_APIC_PERF' undeclared (first use in this function)
-      70 | #define inc_irq_stat(index)     this_cpu_inc(irq_stat.counts[IRQ_COUNT_##index])
-         |                                                              ^~~~~~~~~~
-   include/linux/percpu-defs.h:221:54: note: in definition of macro '__verify_pcpu_ptr'
-     221 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                                      ^~~
-   include/linux/percpu-defs.h:501:41: note: in expansion of macro '__pcpu_size_call'
-     501 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
-         |                                         ^~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:511:41: note: in expansion of macro 'this_cpu_add'
-     511 | #define this_cpu_inc(pcp)               this_cpu_add(pcp, 1)
-         |                                         ^~~~~~~~~~~~
-   arch/x86/include/asm/hardirq.h:70:33: note: in expansion of macro 'this_cpu_inc'
-      70 | #define inc_irq_stat(index)     this_cpu_inc(irq_stat.counts[IRQ_COUNT_##index])
-         |                                 ^~~~~~~~~~~~
-   arch/x86/events/intel/core.c:3507:9: note: in expansion of macro 'inc_irq_stat'
-    3507 |         inc_irq_stat(APIC_PERF);
-         |         ^~~~~~~~~~~~
-   arch/x86/include/asm/hardirq.h:70:62: note: each undeclared identifier is reported only once for each function it appears in
-      70 | #define inc_irq_stat(index)     this_cpu_inc(irq_stat.counts[IRQ_COUNT_##index])
-         |                                                              ^~~~~~~~~~
-   include/linux/percpu-defs.h:221:54: note: in definition of macro '__verify_pcpu_ptr'
-     221 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                                      ^~~
-   include/linux/percpu-defs.h:501:41: note: in expansion of macro '__pcpu_size_call'
-     501 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
-         |                                         ^~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:511:41: note: in expansion of macro 'this_cpu_add'
-     511 | #define this_cpu_inc(pcp)               this_cpu_add(pcp, 1)
-         |                                         ^~~~~~~~~~~~
-   arch/x86/include/asm/hardirq.h:70:33: note: in expansion of macro 'this_cpu_inc'
-      70 | #define inc_irq_stat(index)     this_cpu_inc(irq_stat.counts[IRQ_COUNT_##index])
-         |                                 ^~~~~~~~~~~~
-   arch/x86/events/intel/core.c:3507:9: note: in expansion of macro 'inc_irq_stat'
-    3507 |         inc_irq_stat(APIC_PERF);
-         |         ^~~~~~~~~~~~
---
-   In file included from include/asm-generic/percpu.h:9,
-                    from arch/x86/include/asm/percpu.h:598,
-                    from arch/x86/include/asm/current.h:11,
-                    from include/linux/sched.h:12,
-                    from include/linux/ptrace.h:6,
-                    from include/uapi/asm-generic/bpf_perf_event.h:4,
-                    from ./arch/x86/include/generated/uapi/asm/bpf_perf_event.h:1,
-                    from include/uapi/linux/bpf_perf_event.h:11,
-                    from include/linux/perf_event.h:18,
-                    from arch/x86/events/intel/knc.c:4:
-   arch/x86/events/intel/knc.c: In function 'knc_pmu_handle_irq':
->> arch/x86/include/asm/hardirq.h:70:62: error: 'IRQ_COUNT_APIC_PERF' undeclared (first use in this function)
-      70 | #define inc_irq_stat(index)     this_cpu_inc(irq_stat.counts[IRQ_COUNT_##index])
-         |                                                              ^~~~~~~~~~
-   include/linux/percpu-defs.h:221:54: note: in definition of macro '__verify_pcpu_ptr'
-     221 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                                      ^~~
-   include/linux/percpu-defs.h:501:41: note: in expansion of macro '__pcpu_size_call'
-     501 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
-         |                                         ^~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:511:41: note: in expansion of macro 'this_cpu_add'
-     511 | #define this_cpu_inc(pcp)               this_cpu_add(pcp, 1)
-         |                                         ^~~~~~~~~~~~
-   arch/x86/include/asm/hardirq.h:70:33: note: in expansion of macro 'this_cpu_inc'
-      70 | #define inc_irq_stat(index)     this_cpu_inc(irq_stat.counts[IRQ_COUNT_##index])
-         |                                 ^~~~~~~~~~~~
-   arch/x86/events/intel/knc.c:241:9: note: in expansion of macro 'inc_irq_stat'
-     241 |         inc_irq_stat(APIC_PERF);
-         |         ^~~~~~~~~~~~
-   arch/x86/include/asm/hardirq.h:70:62: note: each undeclared identifier is reported only once for each function it appears in
-      70 | #define inc_irq_stat(index)     this_cpu_inc(irq_stat.counts[IRQ_COUNT_##index])
-         |                                                              ^~~~~~~~~~
-   include/linux/percpu-defs.h:221:54: note: in definition of macro '__verify_pcpu_ptr'
-     221 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                                      ^~~
-   include/linux/percpu-defs.h:501:41: note: in expansion of macro '__pcpu_size_call'
-     501 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
-         |                                         ^~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:511:41: note: in expansion of macro 'this_cpu_add'
-     511 | #define this_cpu_inc(pcp)               this_cpu_add(pcp, 1)
-         |                                         ^~~~~~~~~~~~
-   arch/x86/include/asm/hardirq.h:70:33: note: in expansion of macro 'this_cpu_inc'
-      70 | #define inc_irq_stat(index)     this_cpu_inc(irq_stat.counts[IRQ_COUNT_##index])
-         |                                 ^~~~~~~~~~~~
-   arch/x86/events/intel/knc.c:241:9: note: in expansion of macro 'inc_irq_stat'
-     241 |         inc_irq_stat(APIC_PERF);
-         |         ^~~~~~~~~~~~
---
-   In file included from include/asm-generic/percpu.h:9,
-                    from arch/x86/include/asm/percpu.h:598,
-                    from arch/x86/include/asm/current.h:11,
-                    from include/linux/sched.h:12,
-                    from include/linux/ptrace.h:6,
-                    from include/uapi/asm-generic/bpf_perf_event.h:4,
-                    from ./arch/x86/include/generated/uapi/asm/bpf_perf_event.h:1,
-                    from include/uapi/linux/bpf_perf_event.h:11,
-                    from include/linux/perf_event.h:18,
-                    from arch/x86/events/intel/p4.c:10:
-   arch/x86/events/intel/p4.c: In function 'p4_pmu_handle_irq':
->> arch/x86/include/asm/hardirq.h:70:62: error: 'IRQ_COUNT_APIC_PERF' undeclared (first use in this function)
-      70 | #define inc_irq_stat(index)     this_cpu_inc(irq_stat.counts[IRQ_COUNT_##index])
-         |                                                              ^~~~~~~~~~
-   include/linux/percpu-defs.h:221:54: note: in definition of macro '__verify_pcpu_ptr'
-     221 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                                      ^~~
-   include/linux/percpu-defs.h:501:41: note: in expansion of macro '__pcpu_size_call'
-     501 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
-         |                                         ^~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:511:41: note: in expansion of macro 'this_cpu_add'
-     511 | #define this_cpu_inc(pcp)               this_cpu_add(pcp, 1)
-         |                                         ^~~~~~~~~~~~
-   arch/x86/include/asm/hardirq.h:70:33: note: in expansion of macro 'this_cpu_inc'
-      70 | #define inc_irq_stat(index)     this_cpu_inc(irq_stat.counts[IRQ_COUNT_##index])
-         |                                 ^~~~~~~~~~~~
-   arch/x86/events/intel/p4.c:1080:17: note: in expansion of macro 'inc_irq_stat'
-    1080 |                 inc_irq_stat(APIC_PERF);
-         |                 ^~~~~~~~~~~~
-   arch/x86/include/asm/hardirq.h:70:62: note: each undeclared identifier is reported only once for each function it appears in
-      70 | #define inc_irq_stat(index)     this_cpu_inc(irq_stat.counts[IRQ_COUNT_##index])
-         |                                                              ^~~~~~~~~~
-   include/linux/percpu-defs.h:221:54: note: in definition of macro '__verify_pcpu_ptr'
-     221 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                                      ^~~
-   include/linux/percpu-defs.h:501:41: note: in expansion of macro '__pcpu_size_call'
-     501 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
-         |                                         ^~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:511:41: note: in expansion of macro 'this_cpu_add'
-     511 | #define this_cpu_inc(pcp)               this_cpu_add(pcp, 1)
-         |                                         ^~~~~~~~~~~~
-   arch/x86/include/asm/hardirq.h:70:33: note: in expansion of macro 'this_cpu_inc'
-      70 | #define inc_irq_stat(index)     this_cpu_inc(irq_stat.counts[IRQ_COUNT_##index])
-         |                                 ^~~~~~~~~~~~
-   arch/x86/events/intel/p4.c:1080:17: note: in expansion of macro 'inc_irq_stat'
-    1080 |                 inc_irq_stat(APIC_PERF);
-         |                 ^~~~~~~~~~~~
+   lib/raid/raid6/x86/sse1.c: In function 'raid6_have_sse1_or_mmxext':
+>> lib/raid/raid6/x86/sse1.c:32:16: error: implicit declaration of function 'boot_cpu_has' [-Wimplicit-function-declaration]
+      32 |         return boot_cpu_has(X86_FEATURE_MMX) &&
+         |                ^~~~~~~~~~~~
+>> lib/raid/raid6/x86/sse1.c:32:29: error: 'X86_FEATURE_MMX' undeclared (first use in this function); did you mean 'XFEATURE_MAX'?
+      32 |         return boot_cpu_has(X86_FEATURE_MMX) &&
+         |                             ^~~~~~~~~~~~~~~
+         |                             XFEATURE_MAX
+   lib/raid/raid6/x86/sse1.c:32:29: note: each undeclared identifier is reported only once for each function it appears in
+>> lib/raid/raid6/x86/sse1.c:33:31: error: 'X86_FEATURE_XMM' undeclared (first use in this function); did you mean 'XFEATURE_YMM'?
+      33 |                 (boot_cpu_has(X86_FEATURE_XMM) ||
+         |                               ^~~~~~~~~~~~~~~
+         |                               XFEATURE_YMM
+>> lib/raid/raid6/x86/sse1.c:34:31: error: 'X86_FEATURE_MMXEXT' undeclared (first use in this function)
+      34 |                  boot_cpu_has(X86_FEATURE_MMXEXT));
+         |                               ^~~~~~~~~~~~~~~~~~
+>> lib/raid/raid6/x86/sse1.c:35:1: warning: control reaches end of non-void function [-Wreturn-type]
+      35 | }
+         | ^
 
 
-vim +/IRQ_COUNT_X86_PLATFORM_IPI +134 arch/x86/kernel/irq.c
+vim +/boot_cpu_has +29 lib/raid/raid6/x86/mmx.c
 
-   123	
-   124	void __init irq_init_stats(void)
-   125	{
-   126		struct irq_stat_info *info = irq_stat_info;
-   127	
-   128		for (unsigned int i = 0; i < ARRAY_SIZE(irq_stat_info); i++, info++) {
-   129			if (info->skip_vector && test_bit(info->skip_vector, system_vectors))
-   130				info->skip_vector = 0;
-   131		}
-   132	
-   133		if (!x86_platform_ipi_callback)
- > 134			irq_stat_info[IRQ_COUNT_X86_PLATFORM_IPI].skip_vector = 1;
-   135	
+^1da177e4c3f41 drivers/md/raid6mmx.c Linus Torvalds 2005-04-16  25  
+^1da177e4c3f41 drivers/md/raid6mmx.c Linus Torvalds 2005-04-16  26  static int raid6_have_mmx(void)
+^1da177e4c3f41 drivers/md/raid6mmx.c Linus Torvalds 2005-04-16  27  {
+^1da177e4c3f41 drivers/md/raid6mmx.c Linus Torvalds 2005-04-16  28  	/* Not really "boot_cpu" but "all_cpus" */
+^1da177e4c3f41 drivers/md/raid6mmx.c Linus Torvalds 2005-04-16 @29  	return boot_cpu_has(X86_FEATURE_MMX);
+^1da177e4c3f41 drivers/md/raid6mmx.c Linus Torvalds 2005-04-16 @30  }
+^1da177e4c3f41 drivers/md/raid6mmx.c Linus Torvalds 2005-04-16  31  
+
+:::::: The code at line 29 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
