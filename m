@@ -1,168 +1,372 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20F2155C87
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Mar 2026 15:12:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E45072C234B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Mar 2026 15:43:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774105940; cv=none; b=dDgEgTGxpjUHF56GfjJRX6HUviU954wAyMKJMeTei3iQwxrJRByzOhJhvDOcPvxCvJKt1ge032ytf7hKWjlXD2UJeFe2K2aewF23RV0ux/jtHt4F5p6pXwf52UhZOo7TYXW9zqH/2hVbD0VO38nm6viUW/z/llOiL1HJKy/g2bI=
+	t=1774107786; cv=none; b=ahD6hEuwdfCuWcJK+TvUctlVkKcaRZpPZkDhR275ecea5D5yfcAaQGVjT0+dFHeuuwifbomo79cpkTz+HrOuCKJd+UFLx/02KHfaxW7fAS+OzoQgSlw+ucp/gTSksjTze++mDroxRFDTxvILiK3N7Y8bFsA+Kc+IxNuzoZvX05Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774105940; c=relaxed/simple;
-	bh=gD1q6VTwcr3ywJK3thmlj3oefKwCOvFp8KGDVpaIr9s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PiiEptYTagmIzdo2MrtOYSzSmRAzK8AGx1+KQrfeYwlnmEexR/l6nCr888NPyNNlEkm9+V2sFTgrxvZFkGRlYzaLOI/ShT6kT73EkMWFC7pE+BsRYzrs4cmHZOYDaW0NrSnqxAevqfrHbyChHiIpDLdaDE5gEAbePv+5g46+8uU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sH9TlI3B; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sH9TlI3B"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CCF7C2BCB0
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Mar 2026 15:12:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774105940;
-	bh=gD1q6VTwcr3ywJK3thmlj3oefKwCOvFp8KGDVpaIr9s=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=sH9TlI3BLUAgQ5noUfDXKLXqORTdkMae+MkhxTq4JKYmhYsWyu1SMcCgmDjU3xIgQ
-	 z8wdri4lAum4xlM+bbceKkSwyVleUcuKcKy+gYI2N0lwUSXAINISDyAtG0tWLk3Bw7
-	 tE1L/WzB5n42AVVydTEUurZKNlvI48l/e7h8X3vJso/ahKGCIucuol9CzF+O2nuwOW
-	 fgF2Ap2YDGu7XxFPbY7/OyiTK/Kn1byNCS5ENJcY1NLL22PTEvKxGj7G4X8El9UYy2
-	 J6Jb13NRG5uwBbvTBMN42+2k2hzO80EyQq0sfT9abPGNvY6cPq09xokxWLyufhNoMR
-	 pl+BlNGBfcTrQ==
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-40438e0cba6so1956833fac.1
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Mar 2026 08:12:20 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWwOd70NY9ZN5Cu2UIt+1CJNfMRFKNnJOjCarLbaKEYXjdDLuNW3xVyVQWxD/SONX3UNvoUbv3Ifv2/Yw0j@lists.linux.dev
-X-Gm-Message-State: AOJu0YyAOsLElrZxLKuXR5d6naUq5eL58MjX2smiXZ1bVSXr/xlP5Pbp
-	P6IUmNmsnIHM/KUPNwZbGEroZEcep+bvXoajOTMMtWBoWQkE5JDQi3ing8NpAj4LTTcJA1cj0pv
-	pfFyQ5NHd4TeB0Ib2nhhNeIeVYDB0BhY=
-X-Received: by 2002:a05:6870:f214:b0:417:3936:1c7a with SMTP id
- 586e51a60fabf-41c11138b63mr4241564fac.24.1774105939612; Sat, 21 Mar 2026
- 08:12:19 -0700 (PDT)
+	s=arc-20240116; t=1774107786; c=relaxed/simple;
+	bh=sRFNVSRQuNPL8WqeUMdmR58THrYUs4vrRZsU5nOvxwU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RPqKHRL9QWZZjqPi2lNBtQ5EA8pB14TD9kL9zs4ej0jycv7WvPGXUg1saiLIr2d+OGAgRNRP4WcYAfVWrz46H5GKhKhdT7cAMDR9w7UhQm6LS20ZsHBf8YPmtcj9lcvjPclZUR5ZsW8BnTs5Ke1Gno/RpWAMSfxHoax5FF6/hwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EC6AF1596;
+	Sat, 21 Mar 2026 08:42:55 -0700 (PDT)
+Received: from NH27D9T0LF (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 21E3A3F763;
+	Sat, 21 Mar 2026 08:42:59 -0700 (PDT)
+Date: Sat, 21 Mar 2026 16:42:53 +0100
+From: Emanuele Rocca <emanuele.rocca@arm.com>
+To: kernel test robot <lkp@intel.com>
+Cc: linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	linux-fsdevel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+	Jann Horn <jannh@google.com>, Oleg Nesterov <oleg@redhat.com>
+Subject: Re: [PATCH v2] pidfds: add coredump_code field to pidfd_info
+Message-ID: <ab68fUmCK4An1UH-@NH27D9T0LF>
+References: <ab29J6KsQm8Xg3LR@NH27D9T0LF>
+ <202603211842.JCwUVYTI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202603211336.i375F7lD-lkp@intel.com>
-In-Reply-To: <202603211336.i375F7lD-lkp@intel.com>
-From: Chanwoo Choi <chanwoo@kernel.org>
-Date: Sun, 22 Mar 2026 00:11:43 +0900
-X-Gmail-Original-Message-ID: <CAGTfZH0bZMGpdKjvgw7S54NF+KeXPtvhsanKmSs1vHDhx7F7Lg@mail.gmail.com>
-X-Gm-Features: AaiRm50EBCXkYVYAInLz4rhnn5PAPFokSX2lprR94ZFvTJQ1blDiv0BKjixMPe0
-Message-ID: <CAGTfZH0bZMGpdKjvgw7S54NF+KeXPtvhsanKmSs1vHDhx7F7Lg@mail.gmail.com>
-Subject: Re: [chanwoo:devfreq-next 5/5] drivers/devfreq/devfreq.c:1946:37:
- error: redefinition of 'devfreq_group'
-To: kernel test robot <lkp@intel.com>
-Cc: Jori Koolstra <jkoolstra@xs4all.nl>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org, 
-	Chanwoo Choi <cw00.choi@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202603211842.JCwUVYTI-lkp@intel.com>
 
-HI Jori,
+The struct pidfd_info currently exposes in a field called coredump_signal the
+signal number (si_signo) that triggered the dump (for example, 11 for SIGSEGV).
+However, it is also valuable to understand the reason why that signal was sent.
+This additional context is provided by the signal code (si_code), such as 2 for
+SEGV_ACCERR.
 
-There are build errors in your patches.
-DId you test it? I hope to fix and test the patch before posting.
+Add a new field to struct pidfd_info called coredump_code with the value of
+si_code for the benefit of sysadmins who pipe core dumps to user-space programs
+for later analysis. The following snippet illustrates a simplified C program
+that consumes coredump_signal and coredump_code, and then logs core dump
+signals and codes to a file:
 
-On Sat, Mar 21, 2026 at 9:52=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chanwoo/linux.git=
- devfreq-next
-> head:   38aa14f9be920f3fea6fe3f16b69b7a0cd0478a1
-> commit: 38aa14f9be920f3fea6fe3f16b69b7a0cd0478a1 [5/5] PM / devfreq: chan=
-ge devfreq_class to a const struct
-> config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260321/20=
-2603211336.i375F7lD-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0=
-227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20260321/202603211336.i375F7lD-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202603211336.i375F7lD-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> drivers/devfreq/devfreq.c:1946:37: error: redefinition of 'devfreq_gro=
-up'
->     1946 | static const struct attribute_group devfreq_group =3D {
->          |                                     ^
->    drivers/devfreq/devfreq.c:40:1: note: previous definition is here
->       40 | ATTRIBUTE_GROUPS(devfreq);
->          | ^
->    include/linux/sysfs.h:291:37: note: expanded from macro 'ATTRIBUTE_GRO=
-UPS'
->      291 | static const struct attribute_group _name##_group =3D {       =
-    \
->          |                                     ^
->    <scratch space>:89:1: note: expanded from here
->       89 | devfreq_group
->          | ^
-> >> drivers/devfreq/devfreq.c:1955:38: error: redefinition of 'devfreq_gro=
-ups'
->     1955 | static const struct attribute_group *devfreq_groups[] =3D {
->          |                                      ^
->    drivers/devfreq/devfreq.c:40:1: note: previous definition is here
->       40 | ATTRIBUTE_GROUPS(devfreq);
->          | ^
->    include/linux/sysfs.h:298:11: note: expanded from macro 'ATTRIBUTE_GRO=
-UPS'
->      298 | };                                                            =
-  \
->          |                                                               =
-  ^
->    include/linux/sysfs.h:285:38: note: expanded from macro '\
->    __ATTRIBUTE_GROUPS'
->      285 | static const struct attribute_group *_name##_groups[] =3D {   =
-    \
->          |                                      ^
->    <scratch space>:93:1: note: expanded from here
->       93 | devfreq_groups
->          | ^
->    2 errors generated.
->
->
-> vim +/devfreq_group +1946 drivers/devfreq/devfreq.c
->
-> 9005b65099ee4f MyungJoo Ham  2011-10-02  1945
-> e4999090951abc Pengjie Zhang 2025-12-16 @1946  static const struct attrib=
-ute_group devfreq_group =3D {
-> e4999090951abc Pengjie Zhang 2025-12-16  1947   .attrs =3D devfreq_attrs,
-> e4999090951abc Pengjie Zhang 2025-12-16  1948  };
-> e4999090951abc Pengjie Zhang 2025-12-16  1949
-> e4999090951abc Pengjie Zhang 2025-12-16  1950  static const struct attrib=
-ute_group gov_attr_group =3D {
-> e4999090951abc Pengjie Zhang 2025-12-16  1951   .attrs =3D governor_attrs=
-,
-> e4999090951abc Pengjie Zhang 2025-12-16  1952   .is_visible =3D gov_attr_=
-visible,
-> e4999090951abc Pengjie Zhang 2025-12-16  1953  };
-> e4999090951abc Pengjie Zhang 2025-12-16  1954
-> e4999090951abc Pengjie Zhang 2025-12-16 @1955  static const struct attrib=
-ute_group *devfreq_groups[] =3D {
-> e4999090951abc Pengjie Zhang 2025-12-16  1956   &devfreq_group,
-> e4999090951abc Pengjie Zhang 2025-12-16  1957   &gov_attr_group,
-> e4999090951abc Pengjie Zhang 2025-12-16  1958   NULL
-> e4999090951abc Pengjie Zhang 2025-12-16  1959  };
-> e4999090951abc Pengjie Zhang 2025-12-16  1960
->
-> :::::: The code at line 1946 was first introduced by commit
-> :::::: e4999090951abcf39543aa22b7a7a7f13c5a5857 PM / devfreq: use _visibl=
-e attribute to replace create/remove_sysfs_files()
->
-> :::::: TO: Pengjie Zhang <zhangpengjie2@huawei.com>
-> :::::: CC: Chanwoo Choi <cw00.choi@samsung.com>
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+    int pidfd = (int)atoi(argv[1]);
 
+    struct pidfd_info info = {
+        .mask = PIDFD_INFO_EXIT | PIDFD_INFO_COREDUMP,
+    };
 
---=20
-Best Regards,
-Chanwoo Choi
-Samsung Electronics
+    if (ioctl(pidfd, PIDFD_GET_INFO, &info) == 0)
+        if (info.mask & PIDFD_INFO_COREDUMP)
+            fprintf(f, "PID=%d, si_signo: %d si_code: %d\n",
+                info.pid, info.coredump_signal, info.coredump_code);
+
+Assuming the program is installed under /usr/local/bin/core-logger, core dump
+processing can be enabled by setting /proc/sys/kernel/core_pattern to
+'|/usr/local/bin/dumpstuff %F'.
+
+systemd-coredump(8) already uses pidfds to process core dumps, and it could be
+extended to include the values of coredump_code too.
+
+Signed-off-by: Emanuele Rocca <emanuele.rocca@arm.com>
+Link: https://lore.kernel.org/lkml/ablsdmLsMKm0z5wt@NH27D9T0LF
+---
+
+V1 -> V2: Add coredump_pad to struct pidfd_info to ensure the struct has the
+same size on both 64 bit and 32 bit systems.
+Link: https://lore.kernel.org/lkml/202603211842.JCwUVYTI-lkp@intel.com/
+
+ fs/pidfs.c                                    | 12 ++++---
+ include/uapi/linux/pidfd.h                    |  4 +++
+ .../coredump/coredump_socket_protocol_test.c  | 26 +++++++++++++++
+ .../selftests/coredump/coredump_socket_test.c | 32 +++++++++++++++++++
+ .../coredump/coredump_test_helpers.c          |  4 +--
+ tools/testing/selftests/pidfd/pidfd.h         |  5 +++
+ .../testing/selftests/pidfd/pidfd_info_test.c |  1 +
+ 7 files changed, 78 insertions(+), 6 deletions(-)
+
+diff --git a/fs/pidfs.c b/fs/pidfs.c
+index e3825ee246be..49b46be6c413 100644
+--- a/fs/pidfs.c
++++ b/fs/pidfs.c
+@@ -55,6 +55,7 @@ struct pidfs_attr {
+ 	};
+ 	__u32 coredump_mask;
+ 	__u32 coredump_signal;
++	__u32 coredump_code;
+ };
+ 
+ static struct rhashtable pidfs_ino_ht;
+@@ -331,7 +332,8 @@ static __u32 pidfs_coredump_mask(unsigned long mm_flags)
+ 			      PIDFD_INFO_EXIT | \
+ 			      PIDFD_INFO_COREDUMP | \
+ 			      PIDFD_INFO_SUPPORTED_MASK | \
+-			      PIDFD_INFO_COREDUMP_SIGNAL)
++			      PIDFD_INFO_COREDUMP_SIGNAL | \
++			      PIDFD_INFO_COREDUMP_CODE)
+ 
+ static long pidfd_info(struct file *file, unsigned int cmd, unsigned long arg)
+ {
+@@ -345,7 +347,7 @@ static long pidfd_info(struct file *file, unsigned int cmd, unsigned long arg)
+ 	const struct cred *c;
+ 	__u64 mask;
+ 
+-	BUILD_BUG_ON(sizeof(struct pidfd_info) != PIDFD_INFO_SIZE_VER2);
++	BUILD_BUG_ON(sizeof(struct pidfd_info) != PIDFD_INFO_SIZE_VER3);
+ 
+ 	if (!uinfo)
+ 		return -EINVAL;
+@@ -378,9 +380,10 @@ static long pidfd_info(struct file *file, unsigned int cmd, unsigned long arg)
+ 	if (mask & PIDFD_INFO_COREDUMP) {
+ 		if (test_bit(PIDFS_ATTR_BIT_COREDUMP, &attr->attr_mask)) {
+ 			smp_rmb();
+-			kinfo.mask |= PIDFD_INFO_COREDUMP | PIDFD_INFO_COREDUMP_SIGNAL;
++			kinfo.mask |= PIDFD_INFO_COREDUMP | PIDFD_INFO_COREDUMP_SIGNAL | PIDFD_INFO_COREDUMP_CODE;
+ 			kinfo.coredump_mask = attr->coredump_mask;
+ 			kinfo.coredump_signal = attr->coredump_signal;
++			kinfo.coredump_code = attr->coredump_code;
+ 		}
+ 	}
+ 
+@@ -730,8 +733,9 @@ void pidfs_coredump(const struct coredump_params *cprm)
+ 			      PIDFD_COREDUMPED;
+ 	/* If coredumping is set to skip we should never end up here. */
+ 	VFS_WARN_ON_ONCE(attr->coredump_mask & PIDFD_COREDUMP_SKIP);
+-	/* Expose the signal number that caused the coredump. */
++	/* Expose the signal number and code that caused the coredump. */
+ 	attr->coredump_signal = cprm->siginfo->si_signo;
++	attr->coredump_code = cprm->siginfo->si_code;
+ 	smp_wmb();
+ 	set_bit(PIDFS_ATTR_BIT_COREDUMP, &attr->attr_mask);
+ }
+diff --git a/include/uapi/linux/pidfd.h b/include/uapi/linux/pidfd.h
+index ea9a6811fc76..db3e95635c4d 100644
+--- a/include/uapi/linux/pidfd.h
++++ b/include/uapi/linux/pidfd.h
+@@ -28,10 +28,12 @@
+ #define PIDFD_INFO_COREDUMP		(1UL << 4) /* Only returned if requested. */
+ #define PIDFD_INFO_SUPPORTED_MASK	(1UL << 5) /* Want/got supported mask flags */
+ #define PIDFD_INFO_COREDUMP_SIGNAL	(1UL << 6) /* Always returned if PIDFD_INFO_COREDUMP is requested. */
++#define PIDFD_INFO_COREDUMP_CODE	(1UL << 7) /* Always returned if PIDFD_INFO_COREDUMP is requested. */
+ 
+ #define PIDFD_INFO_SIZE_VER0		64 /* sizeof first published struct */
+ #define PIDFD_INFO_SIZE_VER1		72 /* sizeof second published struct */
+ #define PIDFD_INFO_SIZE_VER2		80 /* sizeof third published struct */
++#define PIDFD_INFO_SIZE_VER3		88 /* sizeof fourth published struct */
+ 
+ /*
+  * Values for @coredump_mask in pidfd_info.
+@@ -98,6 +100,8 @@ struct pidfd_info {
+ 	struct /* coredump info */ {
+ 		__u32 coredump_mask;
+ 		__u32 coredump_signal;
++		__u32 coredump_code;
++		__u32 coredump_pad; /* align supported_mask to 8 bytes */
+ 	};
+ 	__u64 supported_mask;	/* Mask flags that this kernel supports */
+ };
+diff --git a/tools/testing/selftests/coredump/coredump_socket_protocol_test.c b/tools/testing/selftests/coredump/coredump_socket_protocol_test.c
+index d19b6717c53e..d9fa6239b5a9 100644
+--- a/tools/testing/selftests/coredump/coredump_socket_protocol_test.c
++++ b/tools/testing/selftests/coredump/coredump_socket_protocol_test.c
+@@ -1004,6 +1004,8 @@ TEST_F(coredump, socket_request_invalid_size_large)
+  *
+  * Verify that when using socket-based coredump protocol,
+  * the coredump_signal field is correctly exposed as SIGSEGV.
++ * Also check that the coredump_code field is correctly exposed
++ * as SEGV_MAPERR.
+  */
+ TEST_F(coredump, socket_coredump_signal_sigsegv)
+ {
+@@ -1079,6 +1081,18 @@ TEST_F(coredump, socket_coredump_signal_sigsegv)
+ 			goto out;
+ 		}
+ 
++		/* Verify coredump_code is available and correct */
++		if (!(info.mask & PIDFD_INFO_COREDUMP_CODE)) {
++			fprintf(stderr, "socket_coredump_signal_sigsegv: PIDFD_INFO_COREDUMP_CODE not set in mask\n");
++			goto out;
++		}
++
++		if (info.coredump_code != SEGV_MAPERR) {
++			fprintf(stderr, "socket_coredump_signal_sigsegv: coredump_code=%d, expected SEGV_MAPERR=%d\n",
++				info.coredump_code, SEGV_MAPERR);
++			goto out;
++		}
++
+ 		if (!read_coredump_req(fd_coredump, &req)) {
+ 			fprintf(stderr, "socket_coredump_signal_sigsegv: read_coredump_req failed\n");
+ 			goto out;
+@@ -1128,6 +1142,8 @@ TEST_F(coredump, socket_coredump_signal_sigsegv)
+ 	ASSERT_TRUE(!!(info.mask & PIDFD_INFO_COREDUMP));
+ 	ASSERT_TRUE(!!(info.mask & PIDFD_INFO_COREDUMP_SIGNAL));
+ 	ASSERT_EQ(info.coredump_signal, SIGSEGV);
++	ASSERT_TRUE(!!(info.mask & PIDFD_INFO_COREDUMP_CODE));
++	ASSERT_EQ(info.coredump_code, SEGV_MAPERR);
+ 
+ 	wait_and_check_coredump_server(pid_coredump_server, _metadata, self);
+ }
+@@ -1137,6 +1153,8 @@ TEST_F(coredump, socket_coredump_signal_sigsegv)
+  *
+  * Verify that when using socket-based coredump protocol,
+  * the coredump_signal field is correctly exposed as SIGABRT.
++ * Also check that the coredump_code field is correctly exposed
++ * as SI_TKILL.
+  */
+ TEST_F(coredump, socket_coredump_signal_sigabrt)
+ {
+@@ -1212,6 +1230,12 @@ TEST_F(coredump, socket_coredump_signal_sigabrt)
+ 			goto out;
+ 		}
+ 
++		if (info.coredump_code != SI_TKILL) {
++			fprintf(stderr, "socket_coredump_signal_sigabrt: coredump_code=%d, expected SI_TKILL=%d\n",
++				info.coredump_code, SI_TKILL);
++			goto out;
++		}
++
+ 		if (!read_coredump_req(fd_coredump, &req)) {
+ 			fprintf(stderr, "socket_coredump_signal_sigabrt: read_coredump_req failed\n");
+ 			goto out;
+@@ -1261,6 +1285,8 @@ TEST_F(coredump, socket_coredump_signal_sigabrt)
+ 	ASSERT_TRUE(!!(info.mask & PIDFD_INFO_COREDUMP));
+ 	ASSERT_TRUE(!!(info.mask & PIDFD_INFO_COREDUMP_SIGNAL));
+ 	ASSERT_EQ(info.coredump_signal, SIGABRT);
++	ASSERT_TRUE(!!(info.mask & PIDFD_INFO_COREDUMP_CODE));
++	ASSERT_EQ(info.coredump_code, SI_TKILL);
+ 
+ 	wait_and_check_coredump_server(pid_coredump_server, _metadata, self);
+ }
+diff --git a/tools/testing/selftests/coredump/coredump_socket_test.c b/tools/testing/selftests/coredump/coredump_socket_test.c
+index 7e26d4a6a15d..422728f632ca 100644
+--- a/tools/testing/selftests/coredump/coredump_socket_test.c
++++ b/tools/testing/selftests/coredump/coredump_socket_test.c
+@@ -435,6 +435,8 @@ TEST_F(coredump, socket_no_listener)
+  *
+  * Verify that when using simple socket-based coredump (@ pattern),
+  * the coredump_signal field is correctly exposed as SIGSEGV.
++ * Also check that the coredump_code field is correctly exposed
++ * as SEGV_MAPERR.
+  */
+ TEST_F(coredump, socket_coredump_signal_sigsegv)
+ {
+@@ -509,6 +511,18 @@ TEST_F(coredump, socket_coredump_signal_sigsegv)
+ 			goto out;
+ 		}
+ 
++		/* Verify coredump_code is available and correct */
++		if (!(info.mask & PIDFD_INFO_COREDUMP_CODE)) {
++			fprintf(stderr, "socket_coredump_signal_sigsegv: PIDFD_INFO_COREDUMP_CODE not set in mask\n");
++			goto out;
++		}
++
++		if (info.coredump_code != SEGV_MAPERR) {
++			fprintf(stderr, "socket_coredump_signal_sigsegv: coredump_code=%d, expected SEGV_MAPERR=%d\n",
++				info.coredump_code, SEGV_MAPERR);
++			goto out;
++		}
++
+ 		fd_core_file = open_coredump_tmpfile(self->fd_tmpfs_detached);
+ 		if (fd_core_file < 0) {
+ 			fprintf(stderr, "socket_coredump_signal_sigsegv: open_coredump_tmpfile failed: %m\n");
+@@ -572,6 +586,8 @@ TEST_F(coredump, socket_coredump_signal_sigsegv)
+ 	ASSERT_TRUE(!!(info.mask & PIDFD_INFO_COREDUMP));
+ 	ASSERT_TRUE(!!(info.mask & PIDFD_INFO_COREDUMP_SIGNAL));
+ 	ASSERT_EQ(info.coredump_signal, SIGSEGV);
++	ASSERT_TRUE(!!(info.mask & PIDFD_INFO_COREDUMP_CODE));
++	ASSERT_EQ(info.coredump_code, SEGV_MAPERR);
+ 
+ 	wait_and_check_coredump_server(pid_coredump_server, _metadata, self);
+ }
+@@ -581,6 +597,8 @@ TEST_F(coredump, socket_coredump_signal_sigsegv)
+  *
+  * Verify that when using simple socket-based coredump (@ pattern),
+  * the coredump_signal field is correctly exposed as SIGABRT.
++ * Also check that the coredump_code field is correctly exposed
++ * as SI_TKILL.
+  */
+ TEST_F(coredump, socket_coredump_signal_sigabrt)
+ {
+@@ -655,6 +673,18 @@ TEST_F(coredump, socket_coredump_signal_sigabrt)
+ 			goto out;
+ 		}
+ 
++		/* Verify coredump_code is available and correct */
++		if (!(info.mask & PIDFD_INFO_COREDUMP_CODE)) {
++			fprintf(stderr, "socket_coredump_signal_sigabrt: PIDFD_INFO_COREDUMP_CODE not set in mask\n");
++			goto out;
++		}
++
++		if (info.coredump_code != SI_TKILL) {
++			fprintf(stderr, "socket_coredump_signal_sigabrt: coredump_code=%d, expected SI_TKILL=%d\n",
++				info.coredump_code, SI_TKILL);
++			goto out;
++		}
++
+ 		fd_core_file = open_coredump_tmpfile(self->fd_tmpfs_detached);
+ 		if (fd_core_file < 0) {
+ 			fprintf(stderr, "socket_coredump_signal_sigabrt: open_coredump_tmpfile failed: %m\n");
+@@ -718,6 +748,8 @@ TEST_F(coredump, socket_coredump_signal_sigabrt)
+ 	ASSERT_TRUE(!!(info.mask & PIDFD_INFO_COREDUMP));
+ 	ASSERT_TRUE(!!(info.mask & PIDFD_INFO_COREDUMP_SIGNAL));
+ 	ASSERT_EQ(info.coredump_signal, SIGABRT);
++	ASSERT_TRUE(!!(info.mask & PIDFD_INFO_COREDUMP_CODE));
++	ASSERT_EQ(info.coredump_code, SI_TKILL);
+ 
+ 	wait_and_check_coredump_server(pid_coredump_server, _metadata, self);
+ }
+diff --git a/tools/testing/selftests/coredump/coredump_test_helpers.c b/tools/testing/selftests/coredump/coredump_test_helpers.c
+index 2c850e0b1b57..2a20faf9cb0a 100644
+--- a/tools/testing/selftests/coredump/coredump_test_helpers.c
++++ b/tools/testing/selftests/coredump/coredump_test_helpers.c
+@@ -148,8 +148,8 @@ bool get_pidfd_info(int fd_peer_pidfd, struct pidfd_info *info)
+ 		fprintf(stderr, "get_pidfd_info: ioctl(PIDFD_GET_INFO) failed: %m\n");
+ 		return false;
+ 	}
+-	fprintf(stderr, "get_pidfd_info: mask=0x%llx, coredump_mask=0x%x, coredump_signal=%d\n",
+-		(unsigned long long)info->mask, info->coredump_mask, info->coredump_signal);
++	fprintf(stderr, "get_pidfd_info: mask=0x%llx, coredump_mask=0x%x, coredump_signal=%d, coredump_code=%d\n",
++		(unsigned long long)info->mask, info->coredump_mask, info->coredump_signal, info->coredump_code);
+ 	return true;
+ }
+ 
+diff --git a/tools/testing/selftests/pidfd/pidfd.h b/tools/testing/selftests/pidfd/pidfd.h
+index 9085c1a3c005..5a4e78c10f43 100644
+--- a/tools/testing/selftests/pidfd/pidfd.h
++++ b/tools/testing/selftests/pidfd/pidfd.h
+@@ -156,6 +156,10 @@
+ #define PIDFD_INFO_COREDUMP_SIGNAL	(1UL << 6)
+ #endif
+ 
++#ifndef PIDFD_INFO_COREDUMP_CODE
++#define PIDFD_INFO_COREDUMP_CODE	(1UL << 7)
++#endif
++
+ #ifndef PIDFD_COREDUMPED
+ #define PIDFD_COREDUMPED	(1U << 0) /* Did crash and... */
+ #endif
+@@ -194,6 +198,7 @@ struct pidfd_info {
+ 	struct {
+ 		__u32 coredump_mask;
+ 		__u32 coredump_signal;
++		__u32 coredump_code;
+ 	};
+ 	__u64 supported_mask;
+ };
+diff --git a/tools/testing/selftests/pidfd/pidfd_info_test.c b/tools/testing/selftests/pidfd/pidfd_info_test.c
+index 8bed951e06a0..597012ed195f 100644
+--- a/tools/testing/selftests/pidfd/pidfd_info_test.c
++++ b/tools/testing/selftests/pidfd/pidfd_info_test.c
+@@ -724,6 +724,7 @@ TEST(supported_mask_field)
+ 	ASSERT_TRUE(!!(info.supported_mask & PIDFD_INFO_COREDUMP));
+ 	ASSERT_TRUE(!!(info.supported_mask & PIDFD_INFO_SUPPORTED_MASK));
+ 	ASSERT_TRUE(!!(info.supported_mask & PIDFD_INFO_COREDUMP_SIGNAL));
++	ASSERT_TRUE(!!(info.supported_mask & PIDFD_INFO_COREDUMP_CODE));
+ 
+ 	/* Clean up */
+ 	sys_pidfd_send_signal(pidfd, SIGKILL, NULL, 0);
+-- 
+2.47.3
+
