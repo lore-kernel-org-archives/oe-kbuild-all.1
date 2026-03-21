@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 604DE1F0E25
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Mar 2026 05:37:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7003D35D5F8
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Mar 2026 05:52:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774071431; cv=none; b=hOHO3nxIVevDPGKbxO73929FJeRW1u7g3qF7ocXvqQJlTjM5KxuxeTALKACwvKRz4hrq8GQvw+gkUT7nfPg46vgXDrDbfvJletZjn7IT1wgkOVzi9SyLZLOQMLRAx2OkM9lSA/x958YDgVtttWy1xKzS5/u4f7CeFXS5IWB2Kn4=
+	t=1774072371; cv=none; b=faHxYncHsqhh71TswlDCBmKrm2D7f/zofXaqypQUHLxC9NH37tw+v5TTK7GF0kd7TfQtU305924WPj6hpAKUOrHzLh/mrgaQd51BDmksNQTMQ+/iL78Sy/bMjwnkTJNUCCKKexb759cIgK6XmhSLsXJwqN3HAeW3OdGspOqa1kM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774071431; c=relaxed/simple;
-	bh=LR82hlsm+NieRxZ4EqW4ZZJje+pBM8JbYy/Du2K+6zU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mfo/60PeulIJ3Q2wve37DJS75l1YfYSy4DbIZeL4psl1mN7cgcbIDm1j+/n86LIJDspksIjTq+NK47+YnrIGvMPj2Ff/1wIecoRbiJEX5bvHJ0ckmM3/VT+Q+6jFvl2GqejrIFnNcCu5VioVnmpHgMY5czoB+W79tr3gC9RENz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G8IfFQ51; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1774072371; c=relaxed/simple;
+	bh=zlkyMAQi/wjogDgnEJwu5ytZo2MJnwl1qHDB3VH+CbM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sGvxAKGdnC8BqGupcrAAt4iYsfPqg7l0AcGjqe7Lbn8pgb09MG5rXgj5R9j4CJwc9vWG7toqNuiSP3nkd5m7BYbxgpDpShkCg++DnaIT8KE2dAvqCFg3QKsQ66xrYQs7zYYpYihkJH0ZPNS0G6sZguNU9axoF9XRy1H5mIGMPfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J7BQwMgW; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G8IfFQ51"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J7BQwMgW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774071431; x=1805607431;
+  t=1774072371; x=1805608371;
   h=date:from:to:cc:subject:message-id;
-  bh=LR82hlsm+NieRxZ4EqW4ZZJje+pBM8JbYy/Du2K+6zU=;
-  b=G8IfFQ51cOfx/xxhIApOGffz0xEmFoLDlDmgOqTa8VyOVMVLLCsbqrsC
-   pZtiSPvD1rT2eqERAMgzGsc2W6RDzX4Kzf8eMX+yepfq95/h/LD2R980j
-   JVFnwWWKbQlaBeLt9jEZULQGUaoCAPg4BSTAqkq/HQEPB1afmjAPE04Y6
-   5h0Ml8s+BLRGbOq01CUgW8n6nZCuOvJZAY9Hgq+XYJHS/cyA73kh7KJWK
-   v39p4XKHcjb1+2b36RYLxc8zKV/Oro1hj16qwLIQ0dYwfRnWVfs3OtQ1n
-   ZUoOb2z7p49tAHoiT6B5UfP5D4/1KkEdlxxVGFHBB8D0xKEEnONInT21A
-   g==;
-X-CSE-ConnectionGUID: 2T76e0UQTSO63unRUanhUw==
-X-CSE-MsgGUID: AMUK9flaQBKdoU4nvgpUEA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="92729124"
+  bh=zlkyMAQi/wjogDgnEJwu5ytZo2MJnwl1qHDB3VH+CbM=;
+  b=J7BQwMgWh1RYfA3/1zEY8J66rOrKNEzH1mptmyM/C/krxd52NFdLo/no
+   MBg9/s2A1uPNoVuX0kZiuaZznVL14G9Ox4EqmEP1GO5JfKDNthinEnDxl
+   uiW17bGFCvlGWFcvt4mBrvt89yifYNz6WbSMVW765lWMiXqL3c+C6SzMu
+   LrMn5o28s+UZhs6JZWF0weuQCqmcRNOtGJ4cLjiojNWnRhyyDSNenDDKg
+   rkjR0JTEQQGLZLIRAc8xFNm6KVN/9hsX6hAgHWbzuYOCQGmVYPrBqYD3l
+   nnuoJteETw++K/CxViW+wThO9E4PmlUKfFGAQAuHl93y7DYkpQ7BKLrLI
+   w==;
+X-CSE-ConnectionGUID: bBdd9P2lTO6lqcBsrc5LFw==
+X-CSE-MsgGUID: wZL1DUmUS22b2dwghAqZMw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="75277508"
 X-IronPort-AV: E=Sophos;i="6.23,132,1770624000"; 
-   d="scan'208";a="92729124"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 22:37:10 -0700
-X-CSE-ConnectionGUID: FmYE3g7qRACxMutXidnACw==
-X-CSE-MsgGUID: NghXXq61Sj+9XyYm1KPctg==
+   d="scan'208";a="75277508"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 22:52:50 -0700
+X-CSE-ConnectionGUID: hq3xF3B5SMezL0T2ZPpDxg==
+X-CSE-MsgGUID: XksrVrKNRpawv8M9hzjZAg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,132,1770624000"; 
-   d="scan'208";a="227988924"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 20 Mar 2026 22:37:08 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="223539544"
+Received: from lkp-server02.sh.intel.com (HELO d7fefbca0d04) ([10.239.97.151])
+  by orviesa008.jf.intel.com with ESMTP; 20 Mar 2026 22:52:48 -0700
+Received: from kbuild by d7fefbca0d04 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w3p1F-000000005en-1hPo;
-	Sat, 21 Mar 2026 05:37:05 +0000
-Date: Sat, 21 Mar 2026 06:36:18 +0100
+	id 1w3pGC-000000000NB-3LD9;
+	Sat, 21 Mar 2026 05:52:34 +0000
+Date: Sat, 21 Mar 2026 13:52:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Biggers <ebiggers@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ebiggers:libcrypto-pending 38/50]
- ./include/linux/build_bug.h:78:41: error: static assertion failed:
- "sizeof(struct sha1_ctx) == sizeof(struct sha1_state)"
-Message-ID: <202603210645.OU8KARlZ-lkp@intel.com>
+Subject: [hch-misc:lib-raid6 29/33] WARNING: modpost: module
+ raid6_kunit uses symbol raid6_recov_algos from namespace
+ EXPORTED_FOR_KUNIT_TESTING, but does not import it.
+Message-ID: <202603211300.yU2xfRe5-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,77 +60,22 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git libcrypto-pending
-head:   68eff526dd94e97b9b25a9c01865062bc99264b0
-commit: 06e5e9868540eb7be8630b1466d1571b52f3c82f [38/50] lib/crypto: sha1: Explicitly specify alignment of sha1_ctx::buf
-config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260321/202603210645.OU8KARlZ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260321/202603210645.OU8KARlZ-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/hch/misc.git lib-raid6
+head:   83a13a72f6f47b7ba7d26a200575edb70bf23c70
+commit: 252652e3d689463259c19e406e5de766a6674d0f [29/33] raid6: move to lib/raid/
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260321/202603211300.yU2xfRe5-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260321/202603211300.yU2xfRe5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603210645.OU8KARlZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603211300.yU2xfRe5-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from ./include/linux/container_of.h:5,
-                    from ./include/linux/list.h:5,
-                    from ./include/linux/swait.h:5,
-                    from ./include/linux/completion.h:12,
-                    from ./include/linux/crypto.h:15,
-                    from ./include/crypto/algapi.h:13,
-                    from ./include/crypto/internal/hash.h:11,
-                    from crypto/sha1.c:10:
->> ./include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct sha1_ctx) == sizeof(struct sha1_state)"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   ./include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   crypto/sha1.c:23:1: note: in expansion of macro 'static_assert'
-      23 | static_assert(sizeof(struct sha1_ctx) == sizeof(struct sha1_state));
-         | ^~~~~~~~~~~~~
->> ./include/linux/build_bug.h:78:41: error: static assertion failed: "offsetof(struct sha1_ctx, buf) == offsetof(struct sha1_state, buffer)"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   ./include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   crypto/sha1.c:26:1: note: in expansion of macro 'static_assert'
-      26 | static_assert(offsetof(struct sha1_ctx, buf) == offsetof(struct sha1_state, buffer));
-         | ^~~~~~~~~~~~~
-
-
-vim +78 ./include/linux/build_bug.h
-
-bc6245e5efd70c Ian Abbott       2017-07-10  60  
-6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
-6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
-6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
-6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
-6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
-6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
-6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
-6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
-6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
-6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
-6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
-6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
-6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
-6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-6bab69c65013be Rasmus Villemoes 2019-03-07  79  
-07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
-
-:::::: The code at line 78 was first introduced by commit
-:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
-
-:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+>> WARNING: modpost: module raid6_kunit uses symbol raid6_recov_algos from namespace EXPORTED_FOR_KUNIT_TESTING, but does not import it.
+>> WARNING: modpost: module raid6_kunit uses symbol raid6_algos from namespace EXPORTED_FOR_KUNIT_TESTING, but does not import it.
 
 -- 
 0-DAY CI Kernel Test Service
