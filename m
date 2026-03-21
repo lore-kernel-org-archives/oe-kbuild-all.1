@@ -1,57 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3989374184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2A93369218
 	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Mar 2026 06:54:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774076102; cv=none; b=OuQSZDVcGRVwxU9FmJGBTtmqT6P/xVBWDrSs24SaX5BFlfEQEyTH1yPA4oPj0BYjlKyxZcN4fF8aq9OqxK4EFx401juD58rnjcUOHqfmNmRohzKm6WOTX0VxtFJM/KiWaSnfnGsQ3DYNrHl1b6LoTQImVNL6ThB6ioeU/Z04328=
+	t=1774076102; cv=none; b=kI8RZSX3uzwdfsghWw9Z06Sf/k7O4yP7y+UIM1emPYsfr5IYEcCumJ1MzwgydY1PIA96Z/p7BLLJzfGh1nWDzVxsF8KBb/wbR21Vw4KkNtxNIUq1hXUqxHbfv1FuSzSjEhF5knJqj1aEVtK95al9mR0R/ORONIXLKVax2HYIlsY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774076102; c=relaxed/simple;
-	bh=DtAIB6k1aw6FFPHxEVEvXQ7zgC+oXfvPriFbqFKGSWo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NBEKhZfC/4PGnfYofSdUR2Wcbi91PZC7BJJZReqbUEShFqxmzae+xsTES/YfiI805l52th/xcW6rDZI7QvUXWKAAmUCizvFBUzAra+GaigQNQoQDCU/3yZia2S4w9kWAePZUW+NUEetxeMs0QrF7xWT2HNEK8O7RTQZWnOUbqBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fsy/T0R1; arc=none smtp.client-ip=198.175.65.9
+	bh=TiEmvvU0MAm2qA2mMAYEH9ODxmid+XwudzbqLiVXzUw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=A5sVTctAd027I4ejIELTNnatl25oMHGSEYnmkgR2mcvFWMcuYDH0DAWxv/2slJP3vnBD48R0JTryhfJte1NVmbqCPNVUc5uUKGSUE1jNf/gFErXYP2HS6Ly/qrNlxZ00zI2t9rwrRV0E6mfpNQC0Ftj6d/eUAWHGP2p3I4BGs/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PH1BFecs; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fsy/T0R1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PH1BFecs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1774076100; x=1805612100;
   h=date:from:to:cc:subject:message-id;
-  bh=DtAIB6k1aw6FFPHxEVEvXQ7zgC+oXfvPriFbqFKGSWo=;
-  b=fsy/T0R1x4V5bT5ooBfk3fCbPNaR9p6JV4+5lsZL1ak0e7loSHntPFfM
-   Z+CsbGsUdNcXHIzK6d2Wf4rK6MXMKNsfj5E8QCVMhTLjpu0KNwd0mag1h
-   mmb7vj90Rw9oiqecEcf970GQG841/Fiaxgl/vJIvoahvY+BONtAttVyqC
-   nGzDTd6E/J0PWQWwblu5mf+/86ITg3clabYyfbkreVnXAKNIBYOlHSuFY
-   Zhdsga8A5lR+mb3ME4qObHE4B8pQN3+f/dI8apGEkEORdxTeF0tCUDDCl
-   n9eHg7QTDC/YtqerC9jz2ZWSQ538oNnQnDWPby79cx/23Yln11ot/fLig
+  bh=TiEmvvU0MAm2qA2mMAYEH9ODxmid+XwudzbqLiVXzUw=;
+  b=PH1BFecsmwIAte1hxddjvdIraTzqYoRqz+UTSf1E1WgTRXH/JqUe2QO9
+   SUzWkOZvhnPTv2TbXwuCvVWTVltS8Bn+uCkrN5QPvegMLVn7oKNCQ3mwS
+   sidcWynppFdFKNevSFU2h+T2FIA+9HayM/9ijIRG8XiUQ+yGf080HCtPh
+   urRonIm4g5JwGeH0KeetHzRheHngJD+OkUMWBuiSc5b9sUVx9wQwe+JFq
+   e0M+yz6JhPG7tBxwvuH6lb1rE8Bdw078PhIWlwyUfu9q1VvWMavv9UtzN
+   1F32qb65DSrvUvUUXl4VXbkAZDPIZsI7r0MfNVP0SMx0xGo5VG7c49kav
    g==;
-X-CSE-ConnectionGUID: fxp+ME5lQvC//z3WmldDcw==
-X-CSE-MsgGUID: oY32+Wp7T96E5UUr0gZURA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="97780097"
+X-CSE-ConnectionGUID: ffMREnEYSWSZS9zOoGVKvA==
+X-CSE-MsgGUID: +2U569coS/K0wvTs0uhM2Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="75352223"
 X-IronPort-AV: E=Sophos;i="6.23,132,1770624000"; 
-   d="scan'208";a="97780097"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 23:55:00 -0700
-X-CSE-ConnectionGUID: 2xxUT7olRQmpLFNqyO6J4w==
-X-CSE-MsgGUID: oTgN+aY4SfC9mEhf7el3Fg==
+   d="scan'208";a="75352223"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 23:54:59 -0700
+X-CSE-ConnectionGUID: ijMG5SLSQny5WBgyvT21YA==
+X-CSE-MsgGUID: zfC+Ee32QwKT7+H6OYPS8w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,132,1770624000"; 
-   d="scan'208";a="223718699"
 Received: from lkp-server02.sh.intel.com (HELO d7fefbca0d04) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 20 Mar 2026 23:54:57 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 20 Mar 2026 23:54:57 -0700
 Received: from kbuild by d7fefbca0d04 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w3qEY-000000000PF-0pXu;
+	id 1w3qEY-000000000PH-0wW9;
 	Sat, 21 Mar 2026 06:54:54 +0000
-Date: Sat, 21 Mar 2026 14:54:48 +0800
+Date: Sat, 21 Mar 2026 14:54:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tejun Heo <tj@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Andrea Righi <arighi@nvidia.com>
-Subject: [linux-next:master 3193/7971] kernel/sched/ext.c:3403:62:
- sparse: sparse: incorrect type in initializer (different address spaces)
-Message-ID: <202603211439.pwmWWkNI-lkp@intel.com>
+To: Pablo Neira Ayuso <pablo@netfilter.org>
+Cc: oe-kbuild-all@lists.linux.dev, netfilter-devel@vger.kernel.org,
+ coreteam@netfilter.org, Florian Westphal <fw@strlen.de>
+Subject: [netfilter-nf:testing 7/9]
+ arch/parisc/include/asm/pci.h:129:29: warning: unused variable 'pci_bios'
+Message-ID: <202603211424.jYqP0M00-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,212 +58,241 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   785f0eb2f85decbe7c1ef9ae922931f0194ffc2e
-commit: 337ec00b1d9c676f637651c2cefddb8612b867ee [3193/7971] sched_ext: Implement cgroup sub-sched enabling and disabling
-config: arm64-randconfig-r112-20260321 (https://download.01.org/0day-ci/archive/20260321/202603211439.pwmWWkNI-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260321/202603211439.pwmWWkNI-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git testing
+head:   b1bad43d8b00ab31c8f93145a4c8db1567f0d2fe
+commit: 20d564bba6b3806c26498061299a88330561efa5 [7/9] netfilter: ctnetlink: ensure safe access to master conntrack
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20260321/202603211424.jYqP0M00-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260321/202603211424.jYqP0M00-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603211439.pwmWWkNI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603211424.jYqP0M00-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/sched/rt.c:1982:40: sparse:     expected struct task_struct *task
-   kernel/sched/rt.c:1982:40: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/rt.c:2005:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/rt.c:2005:13: sparse:    struct task_struct *
-   kernel/sched/rt.c:2005:13: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/rt.c:2356:54: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/rt.c:2356:54: sparse:     expected struct task_struct *tsk
-   kernel/sched/rt.c:2356:54: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/rt.c:2358:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/rt.c:2358:40: sparse:     expected struct task_struct *p
-   kernel/sched/rt.c:2358:40: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/rt.c:2358:62: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/rt.c:2358:62: sparse:     expected struct task_struct *p
-   kernel/sched/rt.c:2358:62: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/deadline.c:2922:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/deadline.c:2922:23: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:2922:23: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/deadline.c:2932:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/deadline.c:2932:13: sparse:    struct task_struct *
-   kernel/sched/deadline.c:2932:13: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/deadline.c:3038:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/deadline.c:3038:25: sparse:    struct task_struct *
-   kernel/sched/deadline.c:3038:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/deadline.c:2539:42: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_dl_entity const *b @@     got struct sched_dl_entity [noderef] __rcu * @@
-   kernel/sched/deadline.c:2539:42: sparse:     expected struct sched_dl_entity const *b
-   kernel/sched/deadline.c:2539:42: sparse:     got struct sched_dl_entity [noderef] __rcu *
-   kernel/sched/deadline.c:2549:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/deadline.c:2549:38: sparse:     expected struct task_struct *tsk
-   kernel/sched/deadline.c:2549:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/deadline.c:1198:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/deadline.c:1198:39: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:1198:39: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/deadline.c:1198:85: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_dl_entity const *b @@     got struct sched_dl_entity [noderef] __rcu * @@
-   kernel/sched/deadline.c:1198:85: sparse:     expected struct sched_dl_entity const *b
-   kernel/sched/deadline.c:1198:85: sparse:     got struct sched_dl_entity [noderef] __rcu *
-   kernel/sched/deadline.c:1296:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/deadline.c:1296:23: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:1296:23: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/deadline.c:1815:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/deadline.c:1815:31: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:1815:31: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/deadline.c:1815:70: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_dl_entity const *b @@     got struct sched_dl_entity [noderef] __rcu * @@
-   kernel/sched/deadline.c:1815:70: sparse:     expected struct sched_dl_entity const *b
-   kernel/sched/deadline.c:1815:70: sparse:     got struct sched_dl_entity [noderef] __rcu *
-   kernel/sched/deadline.c:1941:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/deadline.c:1941:39: sparse:     expected struct task_struct *donor
-   kernel/sched/deadline.c:1941:39: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/deadline.c:2758:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/deadline.c:2758:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/deadline.c:2758:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/deadline.c:2419:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu * @@
-   kernel/sched/deadline.c:2419:14: sparse:     expected struct task_struct *curr
-   kernel/sched/deadline.c:2419:14: sparse:     got struct task_struct [noderef] __rcu *
-   kernel/sched/deadline.c:2420:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu * @@
-   kernel/sched/deadline.c:2420:15: sparse:     expected struct task_struct *donor
-   kernel/sched/deadline.c:2420:15: sparse:     got struct task_struct [noderef] __rcu *
-   kernel/sched/deadline.c:2494:43: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/deadline.c:2494:43: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:2494:43: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/deadline.c:3083:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/deadline.c:3083:38: sparse:     expected struct task_struct *tsk
-   kernel/sched/deadline.c:3083:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/deadline.c:3085:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/deadline.c:3085:23: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:3085:23: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/deadline.c:3087:44: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_dl_entity const *b @@     got struct sched_dl_entity [noderef] __rcu * @@
-   kernel/sched/deadline.c:3087:44: sparse:     expected struct sched_dl_entity const *b
-   kernel/sched/deadline.c:3087:44: sparse:     got struct sched_dl_entity [noderef] __rcu *
-   kernel/sched/deadline.c:3340:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/deadline.c:3340:23: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/deadline.c:3340:23: sparse:    struct task_struct *
-   kernel/sched/deadline.c:3393:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/ext.c:1127:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/ext.c:1207:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root @@
-   kernel/sched/ext.c:1217:48: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/ext.c:1217:48: sparse:    struct task_struct *
-   kernel/sched/ext.c:1217:48: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/ext.c:1376:66: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/ext.c:1376:66: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/ext.c:1376:66: sparse:    struct task_struct *
-   kernel/sched/ext.c:1875:35: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/ext.c:1875:35: sparse:     expected struct task_struct *p
-   kernel/sched/ext.c:1875:35: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/ext.c:1886:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *from @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/ext.c:1886:38: sparse:     expected struct task_struct *from
-   kernel/sched/ext.c:1886:38: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/ext.c:2520:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root @@
-   kernel/sched/ext.c:2520:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext.c:2520:33: sparse:     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root
-   kernel/sched/ext.c:2675:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root @@
-   kernel/sched/ext.c:2675:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext.c:2675:33: sparse:     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root
-   kernel/sched/ext.c:2770:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/ext.c:2770:38: sparse:     expected struct task_struct *prev
-   kernel/sched/ext.c:2770:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/ext.c:2990:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root @@
-   kernel/sched/ext.c:2990:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext.c:2990:33: sparse:     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root
->> kernel/sched/ext.c:3403:62: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *scx_sched @@
-   kernel/sched/ext.c:3403:62: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext.c:3403:62: sparse:     got struct scx_sched [noderef] __rcu *scx_sched
-   kernel/sched/ext.c:3613:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root @@
-   kernel/sched/ext.c:3613:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext.c:3613:33: sparse:     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root
-   kernel/sched/ext.c:3642:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root @@
-   kernel/sched/ext.c:3642:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext.c:3642:33: sparse:     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root
-   kernel/sched/ext.c:3655:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root @@
-   kernel/sched/ext.c:3655:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext.c:3655:33: sparse:     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root
-   kernel/sched/ext.c:3704:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root @@
-   kernel/sched/ext.c:3704:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext.c:3704:33: sparse:     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root
-   kernel/sched/ext.c:3723:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root @@
-   kernel/sched/ext.c:3723:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext.c:3723:33: sparse:     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root
-   kernel/sched/ext.c:3741:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root @@
-   kernel/sched/ext.c:3741:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext.c:3741:33: sparse:     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root
-   kernel/sched/ext.c:3757:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root @@
-   kernel/sched/ext.c:3757:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext.c:3757:33: sparse:     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root
-   kernel/sched/ext.c:3774:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root @@
-   kernel/sched/ext.c:3774:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext.c:3774:33: sparse:     got struct scx_sched [noderef] __rcu *[addressable] [toplevel] scx_root
-   kernel/sched/ext.c:4786:50: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_kick_syncs **ksyncs @@     got struct scx_kick_syncs [noderef] __rcu ** @@
-   kernel/sched/ext.c:4786:50: sparse:     expected struct scx_kick_syncs **ksyncs
-   kernel/sched/ext.c:4786:50: sparse:     got struct scx_kick_syncs [noderef] __rcu **
-   kernel/sched/ext.c:4789:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/ext.c:4789:27: sparse:    struct scx_kick_syncs [noderef] __rcu *
-   kernel/sched/ext.c:4789:27: sparse:    struct scx_kick_syncs *
-   kernel/sched/ext.c:4789:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/ext.c:4789:27: sparse:    struct scx_kick_syncs [noderef] __rcu *
-   kernel/sched/ext.c:4789:27: sparse:    struct scx_kick_syncs *
-   kernel/sched/ext.c:5506:65: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/ext.c:5506:65: sparse:     expected struct task_struct const *p
-   kernel/sched/ext.c:5506:65: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/ext.c:5507:57: sparse: sparse: incorrect type in argument 4 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/ext.c:5507:57: sparse:     expected struct task_struct *p
-   kernel/sched/ext.c:5507:57: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/ext.c:5587:50: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_kick_syncs **ksyncs @@     got struct scx_kick_syncs [noderef] __rcu ** @@
-   kernel/sched/ext.c:5587:50: sparse:     expected struct scx_kick_syncs **ksyncs
-   kernel/sched/ext.c:5587:50: sparse:     got struct scx_kick_syncs [noderef] __rcu **
-   kernel/sched/ext.c:5590:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/ext.c:5590:17: sparse:    struct scx_kick_syncs [noderef] __rcu *
-   kernel/sched/ext.c:5590:17: sparse:    struct scx_kick_syncs *
-   kernel/sched/ext.c:5599:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/ext.c:5599:17: sparse:    struct scx_kick_syncs [noderef] __rcu *
-   kernel/sched/ext.c:5599:17: sparse:    struct scx_kick_syncs *
-   kernel/sched/ext.c:6059:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *parent @@     got struct scx_sched [noderef] __rcu *scx_sched @@
-   kernel/sched/ext.c:6059:40: sparse:     expected struct scx_sched *parent
-   kernel/sched/ext.c:6059:40: sparse:     got struct scx_sched [noderef] __rcu *scx_sched
-   kernel/sched/ext.c:6344:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *scx_sched @@
-   kernel/sched/ext.c:6344:38: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext.c:6344:38: sparse:     got struct scx_sched [noderef] __rcu *scx_sched
-   kernel/sched/ext.c:6734:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/ext.c:6734:32: sparse:     expected struct task_struct const *p
-   kernel/sched/ext.c:6734:32: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/ext.c:6861:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *[addressable] [assigned] [toplevel] scx_root @@
-   kernel/sched/ext.c:6861:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext.c:6861:33: sparse:     got struct scx_sched [noderef] __rcu *[addressable] [assigned] [toplevel] scx_root
-   kernel/sched/ext.c:8175:18: sparse: sparse: symbol 'scx_bpf_reenqueue_local___v2' was not declared. Should it be static?
-   kernel/sched/ext.c:8352:33: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/ext.c:8352:33: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/ext.c:8352:33: sparse:    struct task_struct const *
+All warnings (new ones prefixed by >>):
 
-vim +3403 kernel/sched/ext.c
+   include/net/devlink.h:1871:36: warning: unused variable 'devlink_dpipe_header_ipv6' [-Wunused-variable]
+    1871 | extern struct devlink_dpipe_header devlink_dpipe_header_ipv6;
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/devlink.h:1870:36: warning: unused variable 'devlink_dpipe_header_ipv4' [-Wunused-variable]
+    1870 | extern struct devlink_dpipe_header devlink_dpipe_header_ipv4;
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/devlink.h:1869:36: warning: unused variable 'devlink_dpipe_header_ethernet' [-Wunused-variable]
+    1869 | extern struct devlink_dpipe_header devlink_dpipe_header_ethernet;
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/rdma/ib_verbs.h:141:21: warning: unused variable 'zgid' [-Wunused-variable]
+     141 | extern union ib_gid zgid;
+         |                     ^~~~
+   include/rdma/ib_verbs.h:61:33: warning: unused variable 'ib_comp_unbound_wq' [-Wunused-variable]
+      61 | extern struct workqueue_struct *ib_comp_unbound_wq;
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/rdma/ib_verbs.h:60:33: warning: unused variable 'ib_comp_wq' [-Wunused-variable]
+      60 | extern struct workqueue_struct *ib_comp_wq;
+         |                                 ^~~~~~~~~~
+   include/rdma/ib_verbs.h:59:33: warning: unused variable 'ib_wq' [-Wunused-variable]
+      59 | extern struct workqueue_struct *ib_wq;
+         |                                 ^~~~~
+   include/net/ip.h:803:26: warning: unused variable 'ip4_min_ttl' [-Wunused-variable]
+     803 | DECLARE_STATIC_KEY_FALSE(ip4_min_ttl);
+         |                          ^~~~~~~~~~~
+   include/linux/jump_label.h:392:40: note: in definition of macro 'DECLARE_STATIC_KEY_FALSE'
+     392 |         extern struct static_key_false name
+         |                                        ^~~~
+   include/net/ip.h:397:12: warning: unused variable 'inet_peer_maxttl' [-Wunused-variable]
+     397 | extern int inet_peer_maxttl;
+         |            ^~~~~~~~~~~~~~~~
+   include/net/ip.h:396:12: warning: unused variable 'inet_peer_minttl' [-Wunused-variable]
+     396 | extern int inet_peer_minttl;
+         |            ^~~~~~~~~~~~~~~~
+   include/net/ip.h:395:12: warning: unused variable 'inet_peer_threshold' [-Wunused-variable]
+     395 | extern int inet_peer_threshold;
+         |            ^~~~~~~~~~~~~~~~~~~
+   include/net/ip.h:43:21: warning: unused variable 'sysctl_fib_sync_mem_max' [-Wunused-variable]
+      43 | extern unsigned int sysctl_fib_sync_mem_max;
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~
+   include/net/ip.h:42:21: warning: unused variable 'sysctl_fib_sync_mem_min' [-Wunused-variable]
+      42 | extern unsigned int sysctl_fib_sync_mem_min;
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~
+   include/net/ip.h:41:21: warning: unused variable 'sysctl_fib_sync_mem' [-Wunused-variable]
+      41 | extern unsigned int sysctl_fib_sync_mem;
+         |                     ^~~~~~~~~~~~~~~~~~~
+   include/net/lwtunnel.h:58:26: warning: unused variable 'nf_hooks_lwtunnel_enabled' [-Wunused-variable]
+      58 | DECLARE_STATIC_KEY_FALSE(nf_hooks_lwtunnel_enabled);
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/jump_label.h:392:40: note: in definition of macro 'DECLARE_STATIC_KEY_FALSE'
+     392 |         extern struct static_key_false name
+         |                                        ^~~~
+   include/net/route.h:126:36: warning: unused variable 'ip_rt_acct' [-Wunused-variable]
+     126 | extern struct ip_rt_acct __percpu *ip_rt_acct;
+         |                                    ^~~~~~~~~~
+   include/net/ipv6_stubs.h:100:36: warning: unused variable 'ipv6_bpf_stub' [-Wunused-variable]
+     100 | extern const struct ipv6_bpf_stub *ipv6_bpf_stub __read_mostly;
+         |                                    ^~~~~~~~~~~~~
+   include/net/ip_fib.h:447:32: warning: unused variable 'rtm_ipv4_policy' [-Wunused-variable]
+     447 | extern const struct nla_policy rtm_ipv4_policy[];
+         |                                ^~~~~~~~~~~~~~~
+   include/net/ipv6.h:1163:31: warning: unused variable 'inet6_sockraw_ops' [-Wunused-variable]
+    1163 | extern const struct proto_ops inet6_sockraw_ops;
+         |                               ^~~~~~~~~~~~~~~~~
+   include/net/ipv6.h:1162:31: warning: unused variable 'inet6_dgram_ops' [-Wunused-variable]
+    1162 | extern const struct proto_ops inet6_dgram_ops;
+         |                               ^~~~~~~~~~~~~~~
+   include/net/ipv6.h:1161:31: warning: unused variable 'inet6_stream_ops' [-Wunused-variable]
+    1161 | extern const struct proto_ops inet6_stream_ops;
+         |                               ^~~~~~~~~~~~~~~~
+   include/net/ipv6.h:1113:26: warning: unused variable 'ip6_min_hopcount' [-Wunused-variable]
+    1113 | DECLARE_STATIC_KEY_FALSE(ip6_min_hopcount);
+         |                          ^~~~~~~~~~~~~~~~
+   include/linux/jump_label.h:392:40: note: in definition of macro 'DECLARE_STATIC_KEY_FALSE'
+     392 |         extern struct static_key_false name
+         |                                        ^~~~
+   include/net/ipv6.h:284:17: warning: unused variable 'ip6_ra_lock' [-Wunused-variable]
+     284 | extern rwlock_t ip6_ra_lock;
+         |                 ^~~~~~~~~~~
+   include/net/ipv6.h:283:34: warning: unused variable 'ip6_ra_chain' [-Wunused-variable]
+     283 | extern struct ip6_ra_chain      *ip6_ra_chain;
+         |                                  ^~~~~~~~~~~~
+   include/net/ipv6.h:205:12: warning: unused variable 'sysctl_mld_qrv' [-Wunused-variable]
+     205 | extern int sysctl_mld_qrv;
+         |            ^~~~~~~~~~~~~~
+   include/net/ipv6.h:204:12: warning: unused variable 'sysctl_mld_max_msf' [-Wunused-variable]
+     204 | extern int sysctl_mld_max_msf;
+         |            ^~~~~~~~~~~~~~~~~~
+   include/linux/ipv6.h:102:27: warning: unused variable 'ipv6_defaults' [-Wunused-variable]
+     102 | extern struct ipv6_params ipv6_defaults;
+         |                           ^~~~~~~~~~~~~
+   include/linux/pci.h:2486:11: warning: unused variable 'pci_cache_line_size' [-Wunused-variable]
+    2486 | extern u8 pci_cache_line_size;
+         |           ^~~~~~~~~~~~~~~~~~~
+   include/linux/pci.h:2485:11: warning: unused variable 'pci_dfl_cache_line_size' [-Wunused-variable]
+    2485 | extern u8 pci_dfl_cache_line_size;
+         |           ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pci.h:2476:12: warning: unused variable 'pci_pci_problems' [-Wunused-variable]
+    2476 | extern int pci_pci_problems;
+         |            ^~~~~~~~~~~~~~~~
+   In file included from include/linux/pci.h:2246:
+>> arch/parisc/include/asm/pci.h:129:29: warning: unused variable 'pci_bios' [-Wunused-variable]
+     129 | extern struct pci_bios_ops *pci_bios;
+         |                             ^~~~~~~~
+>> arch/parisc/include/asm/pci.h:128:29: warning: unused variable 'pci_port' [-Wunused-variable]
+     128 | extern struct pci_port_ops *pci_port;
+         |                             ^~~~~~~~
+   include/linux/pci.h:1874:13: warning: unused variable 'pcie_ports_native' [-Wunused-variable]
+    1874 | extern bool pcie_ports_native;
+         |             ^~~~~~~~~~~~~~~~~
+   include/linux/pci.h:1873:13: warning: unused variable 'pcie_ports_disabled' [-Wunused-variable]
+    1873 | extern bool pcie_ports_disabled;
+         |             ^~~~~~~~~~~~~~~~~~~
+   include/linux/pci.h:1436:21: warning: unused variable 'pcibios_max_latency' [-Wunused-variable]
+    1436 | extern unsigned int pcibios_max_latency;
+         |                     ^~~~~~~~~~~~~~~~~~~
+   include/linux/pci.h:1195:25: warning: unused variable 'pci_root_buses' [-Wunused-variable]
+    1195 | extern struct list_head pci_root_buses; /* List of all known PCI buses */
+         |                         ^~~~~~~~~~~~~~
+   include/linux/pci.h:1191:30: warning: unused variable 'pci_bus_type' [-Wunused-variable]
+    1191 | extern const struct bus_type pci_bus_type;
+         |                              ^~~~~~~~~~~~
+   include/linux/pci.h:1189:35: warning: unused variable 'pcie_bus_config' [-Wunused-variable]
+    1189 | extern enum pcie_bus_config_types pcie_bus_config;
+         |                                   ^~~~~~~~~~~~~~~
+   include/linux/debugfs.h:46:23: warning: unused variable 'arch_debugfs_dir' [-Wunused-variable]
+      46 | extern struct dentry *arch_debugfs_dir;
+         |                       ^~~~~~~~~~~~~~~~
+   include/net/sock.h:3054:26: warning: unused variable 'net_high_order_alloc_disable_key' [-Wunused-variable]
+    3054 | DECLARE_STATIC_KEY_FALSE(net_high_order_alloc_disable_key);
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/jump_label.h:392:40: note: in definition of macro 'DECLARE_STATIC_KEY_FALSE'
+     392 |         extern struct static_key_false name
+         |                                        ^~~~
+   include/net/sock.h:3051:14: warning: unused variable 'sysctl_rmem_default' [-Wunused-variable]
+    3051 | extern __u32 sysctl_rmem_default;
+         |              ^~~~~~~~~~~~~~~~~~~
+   include/net/sock.h:3050:14: warning: unused variable 'sysctl_wmem_default' [-Wunused-variable]
+    3050 | extern __u32 sysctl_wmem_default;
+         |              ^~~~~~~~~~~~~~~~~~~
+   include/net/sock.h:3048:14: warning: unused variable 'sysctl_rmem_max' [-Wunused-variable]
+    3048 | extern __u32 sysctl_rmem_max;
+         |              ^~~~~~~~~~~~~~~
+   include/net/sock.h:3047:14: warning: unused variable 'sysctl_wmem_max' [-Wunused-variable]
+    3047 | extern __u32 sysctl_wmem_max;
+         |              ^~~~~~~~~~~~~~~
+   include/net/neighbour.h:281:32: warning: unused variable 'nda_policy' [-Wunused-variable]
+     281 | extern const struct nla_policy nda_policy[];
+         |                                ^~~~~~~~~~
+   In file included from include/net/netfilter/nf_nat.h:7:
+   include/linux/netfilter/nf_conntrack_pptp.h:320:45: warning: unused variable 'nf_nat_pptp_hook' [-Wunused-variable]
+     320 | extern const struct nf_nat_pptp_hook __rcu *nf_nat_pptp_hook;
+         |                                             ^~~~~~~~~~~~~~~~
+   include/net/act_api.h:273:26: warning: unused variable 'tcf_frag_xmit_count' [-Wunused-variable]
+     273 | DECLARE_STATIC_KEY_FALSE(tcf_frag_xmit_count);
+         |                          ^~~~~~~~~~~~~~~~~~~
+   include/linux/jump_label.h:392:40: note: in definition of macro 'DECLARE_STATIC_KEY_FALSE'
+     392 |         extern struct static_key_false name
+         |                                        ^~~~
+   include/net/pkt_sched.h:126:32: warning: unused variable 'rtm_tca_policy' [-Wunused-variable]
+     126 | extern const struct nla_policy rtm_tca_policy[TCA_MAX + 1];
+         |                                ^~~~~~~~~~~~~~
+   include/net/pkt_sched.h:88:25: warning: unused variable 'pfifo_head_drop_qdisc_ops' [-Wunused-variable]
+      88 | extern struct Qdisc_ops pfifo_head_drop_qdisc_ops;
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/pkt_sched.h:87:25: warning: unused variable 'bfifo_qdisc_ops' [-Wunused-variable]
+      87 | extern struct Qdisc_ops bfifo_qdisc_ops;
+         |                         ^~~~~~~~~~~~~~~
+   include/net/pkt_sched.h:86:25: warning: unused variable 'pfifo_qdisc_ops' [-Wunused-variable]
+      86 | extern struct Qdisc_ops pfifo_qdisc_ops;
+         |                         ^~~~~~~~~~~~~~~
+   include/linux/etherdevice.h:41:32: warning: unused variable 'eth_header_ops' [-Wunused-variable]
+      41 | extern const struct header_ops eth_header_ops;
+         |                                ^~~~~~~~~~~~~~
+   include/net/sch_generic.h:617:25: warning: unused variable 'mq_qdisc_ops' [-Wunused-variable]
+     617 | extern struct Qdisc_ops mq_qdisc_ops;
+         |                         ^~~~~~~~~~~~
+   include/net/sch_generic.h:616:17: warning: unused variable 'sch_default_prio2band' [-Wunused-variable]
+     616 | extern const u8 sch_default_prio2band[TC_PRIO_MAX + 1];
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+   include/net/sch_generic.h:614:25: warning: unused variable 'noop_qdisc_ops' [-Wunused-variable]
+     614 | extern struct Qdisc_ops noop_qdisc_ops;
+         |                         ^~~~~~~~~~~~~~
+   include/linux/rtnetlink.h:53:28: warning: unused variable 'net_rwsem' [-Wunused-variable]
+      53 | extern struct rw_semaphore net_rwsem;
+         |                            ^~~~~~~~~
+   include/linux/rtnetlink.h:52:28: warning: unused variable 'pernet_ops_rwsem' [-Wunused-variable]
+      52 | extern struct rw_semaphore pernet_ops_rwsem;
+         |                            ^~~~~~~~~~~~~~~~
+   include/linux/rtnetlink.h:51:17: warning: unused variable 'dev_unreg_count' [-Wunused-variable]
+      51 | extern atomic_t dev_unreg_count;
+         |                 ^~~~~~~~~~~~~~~
+   include/linux/rtnetlink.h:50:26: warning: unused variable 'netdev_unregistering_wq' [-Wunused-variable]
+      50 | extern wait_queue_head_t netdev_unregistering_wq;
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~
+   include/net/netfilter/nf_conntrack_helper.h:164:21: warning: unused variable 'nf_ct_helper_hsize' [-Wunused-variable]
+     164 | extern unsigned int nf_ct_helper_hsize;
+         |                     ^~~~~~~~~~~~~~~~~~
+   include/net/netfilter/nf_conntrack_helper.h:163:27: warning: unused variable 'nf_ct_helper_hash' [-Wunused-variable]
+     163 | extern struct hlist_head *nf_ct_helper_hash;
+         |                           ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en/tc_ct.c: At top level:
+   drivers/net/ethernet/mellanox/mlx5/core/en/tc_ct.c:2489:6: warning: 'mlx5e_tc_ct_is_valid_flow_rule' defined but not used [-Wunused-function]
+    2489 | bool mlx5e_tc_ct_is_valid_flow_rule(const struct net_device *dev, struct flow_rule *flow_rule)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  3394	
-  3395	int scx_fork(struct task_struct *p, struct kernel_clone_args *kargs)
-  3396	{
-  3397		s32 ret;
-  3398	
-  3399		percpu_rwsem_assert_held(&scx_fork_rwsem);
-  3400	
-  3401		if (scx_init_task_enabled) {
-  3402	#ifdef CONFIG_EXT_SUB_SCHED
-> 3403			struct scx_sched *sch = kargs->cset->dfl_cgrp->scx_sched;
-  3404	#else
-  3405			struct scx_sched *sch = scx_root;
-  3406	#endif
-  3407			ret = scx_init_task(sch, p, true);
-  3408			if (!ret)
-  3409				scx_set_task_sched(p, sch);
-  3410			return ret;
-  3411		}
-  3412	
-  3413		return 0;
-  3414	}
-  3415	
+
+vim +/pci_bios +129 arch/parisc/include/asm/pci.h
+
+^1da177e4c3f415 include/asm-parisc/pci.h Linus Torvalds 2005-04-16  124  
+^1da177e4c3f415 include/asm-parisc/pci.h Linus Torvalds 2005-04-16  125  /*
+^1da177e4c3f415 include/asm-parisc/pci.h Linus Torvalds 2005-04-16  126  ** Stuff declared in arch/parisc/kernel/pci.c
+^1da177e4c3f415 include/asm-parisc/pci.h Linus Torvalds 2005-04-16  127  */
+^1da177e4c3f415 include/asm-parisc/pci.h Linus Torvalds 2005-04-16 @128  extern struct pci_port_ops *pci_port;
+^1da177e4c3f415 include/asm-parisc/pci.h Linus Torvalds 2005-04-16 @129  extern struct pci_bios_ops *pci_bios;
+^1da177e4c3f415 include/asm-parisc/pci.h Linus Torvalds 2005-04-16  130  
+
+:::::: The code at line 129 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
