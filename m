@@ -1,203 +1,168 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D1772C029C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Mar 2026 14:51:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20F2155C87
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Mar 2026 15:12:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774104716; cv=none; b=AUEbRjJhXafHnZQvKqrqNnQtpBpHUV9LluZXpecwBbbcsZFoZqc+QSvnnIACGTZJJBg9DUuO2huC2IngLfRLHgckmXRaXDB5IBFjdzGIqnQaJCrvliCRZHzGIIQa2bQjIjljtbbhAdq+rGuT1+ARm7d0mOHbeV3pcLH27azKPRA=
+	t=1774105940; cv=none; b=dDgEgTGxpjUHF56GfjJRX6HUviU954wAyMKJMeTei3iQwxrJRByzOhJhvDOcPvxCvJKt1ge032ytf7hKWjlXD2UJeFe2K2aewF23RV0ux/jtHt4F5p6pXwf52UhZOo7TYXW9zqH/2hVbD0VO38nm6viUW/z/llOiL1HJKy/g2bI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774104716; c=relaxed/simple;
-	bh=1aQT6b+QtHGHMeBABvrthdc4H37EdJ1CKHvZGDvIExI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bzb3SmWhdc+72e8C2ch3qddWhUMIpmF7PXJoKXksyNXMZtuqVxuWPKB8NB55NyBlhXdPKygkASftYThOvOSgc+QoF8sGeWEXoNq2Xfs/++bmlKK5+DEGzGYznQE2ZNjtrbJgFXHl8ryAWK0j4tcxUMf5XKegt1DhryMvDEaIecU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lvDoSxO/; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1774105940; c=relaxed/simple;
+	bh=gD1q6VTwcr3ywJK3thmlj3oefKwCOvFp8KGDVpaIr9s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PiiEptYTagmIzdo2MrtOYSzSmRAzK8AGx1+KQrfeYwlnmEexR/l6nCr888NPyNNlEkm9+V2sFTgrxvZFkGRlYzaLOI/ShT6kT73EkMWFC7pE+BsRYzrs4cmHZOYDaW0NrSnqxAevqfrHbyChHiIpDLdaDE5gEAbePv+5g46+8uU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sH9TlI3B; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lvDoSxO/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774104714; x=1805640714;
-  h=date:from:to:cc:subject:message-id;
-  bh=1aQT6b+QtHGHMeBABvrthdc4H37EdJ1CKHvZGDvIExI=;
-  b=lvDoSxO/QtpmozYCqxZ/80NYa3mj3hGefV4EvMROQtPNyyqqYXqHMHf/
-   flSKP+akmTGFT3COFOFZOC4ZFRkq8YFBSZKfKqaats5g0mrmjy7NJp8Hx
-   ocdpkK43kjXzStmiA/2TlJuDfUjMP8NKTdu/9wNx4bSX1SkTuvPA7X14N
-   0do0oMZ+GVjP+X962Hwmtt5IFsFABVJcHH3mzvD1kRZigsAAvCvVrNR8x
-   Oxp+GSOHnPhmnst2DihoLQBnyytYf73SL2UZsNIyXG3BuSBUfsuseICnI
-   ESyxjnljIyTiNCZMCoImdcZr+FCKzN4DNeaaAjnH91RHHjlJCyE2Bvcen
-   g==;
-X-CSE-ConnectionGUID: zSOpvlIxSyivAbMsmHslfA==
-X-CSE-MsgGUID: eScb9VHZT8GwwP6Kj/L/zg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11736"; a="79077307"
-X-IronPort-AV: E=Sophos;i="6.23,133,1770624000"; 
-   d="scan'208";a="79077307"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2026 07:51:53 -0700
-X-CSE-ConnectionGUID: tsxbh2t8Tk6nsUw1h+o2ug==
-X-CSE-MsgGUID: kgg4MR98QkuZdAH5N7cGBg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,133,1770624000"; 
-   d="scan'208";a="261479156"
-Received: from lkp-server02.sh.intel.com (HELO d7fefbca0d04) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 21 Mar 2026 07:51:50 -0700
-Received: from kbuild by d7fefbca0d04 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w3xfZ-000000000u5-1POQ;
-	Sat, 21 Mar 2026 14:51:26 +0000
-Date: Sat, 21 Mar 2026 22:50:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-2025-12 2/2]
- include/linux/compiler.h:166:45: error: '__UNIQUE_ID_y_795' undeclared; did
- you mean '__UNIQUE_ID_x_794'?
-Message-ID: <202603212237.U78xrEYW-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sH9TlI3B"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CCF7C2BCB0
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Mar 2026 15:12:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774105940;
+	bh=gD1q6VTwcr3ywJK3thmlj3oefKwCOvFp8KGDVpaIr9s=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=sH9TlI3BLUAgQ5noUfDXKLXqORTdkMae+MkhxTq4JKYmhYsWyu1SMcCgmDjU3xIgQ
+	 z8wdri4lAum4xlM+bbceKkSwyVleUcuKcKy+gYI2N0lwUSXAINISDyAtG0tWLk3Bw7
+	 tE1L/WzB5n42AVVydTEUurZKNlvI48l/e7h8X3vJso/ahKGCIucuol9CzF+O2nuwOW
+	 fgF2Ap2YDGu7XxFPbY7/OyiTK/Kn1byNCS5ENJcY1NLL22PTEvKxGj7G4X8El9UYy2
+	 J6Jb13NRG5uwBbvTBMN42+2k2hzO80EyQq0sfT9abPGNvY6cPq09xokxWLyufhNoMR
+	 pl+BlNGBfcTrQ==
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-40438e0cba6so1956833fac.1
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Mar 2026 08:12:20 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWwOd70NY9ZN5Cu2UIt+1CJNfMRFKNnJOjCarLbaKEYXjdDLuNW3xVyVQWxD/SONX3UNvoUbv3Ifv2/Yw0j@lists.linux.dev
+X-Gm-Message-State: AOJu0YyAOsLElrZxLKuXR5d6naUq5eL58MjX2smiXZ1bVSXr/xlP5Pbp
+	P6IUmNmsnIHM/KUPNwZbGEroZEcep+bvXoajOTMMtWBoWQkE5JDQi3ing8NpAj4LTTcJA1cj0pv
+	pfFyQ5NHd4TeB0Ib2nhhNeIeVYDB0BhY=
+X-Received: by 2002:a05:6870:f214:b0:417:3936:1c7a with SMTP id
+ 586e51a60fabf-41c11138b63mr4241564fac.24.1774105939612; Sat, 21 Mar 2026
+ 08:12:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <202603211336.i375F7lD-lkp@intel.com>
+In-Reply-To: <202603211336.i375F7lD-lkp@intel.com>
+From: Chanwoo Choi <chanwoo@kernel.org>
+Date: Sun, 22 Mar 2026 00:11:43 +0900
+X-Gmail-Original-Message-ID: <CAGTfZH0bZMGpdKjvgw7S54NF+KeXPtvhsanKmSs1vHDhx7F7Lg@mail.gmail.com>
+X-Gm-Features: AaiRm50EBCXkYVYAInLz4rhnn5PAPFokSX2lprR94ZFvTJQ1blDiv0BKjixMPe0
+Message-ID: <CAGTfZH0bZMGpdKjvgw7S54NF+KeXPtvhsanKmSs1vHDhx7F7Lg@mail.gmail.com>
+Subject: Re: [chanwoo:devfreq-next 5/5] drivers/devfreq/devfreq.c:1946:37:
+ error: redefinition of 'devfreq_group'
+To: kernel test robot <lkp@intel.com>
+Cc: Jori Koolstra <jkoolstra@xs4all.nl>, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org, 
+	Chanwoo Choi <cw00.choi@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-12
-head:   117047e314aaff9eaa0d7221ec3c33df105bec04
-commit: 4f9e4406e4981511e1348e4483eae7c21cd5fe24 [2/2] ANDROID: Update proxy-exec logic from v14 to v18
-config: arm64-randconfig-r071-20260321 (https://download.01.org/0day-ci/archive/20260321/202603212237.U78xrEYW-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.5.0
-smatch: v0.5.0-9004-gb810ac53
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260321/202603212237.U78xrEYW-lkp@intel.com/reproduce)
+HI Jori,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603212237.U78xrEYW-lkp@intel.com/
+There are build errors in your patches.
+DId you test it? I hope to fix and test the patch before posting.
 
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/blk-crypto.h:127,
-                    from include/linux/blk-crypto-profile.h:10,
-                    from include/linux/mmc/host.h:19,
-                    from drivers/mmc/host/mmci.c:23:
-   include/linux/blkdev.h:1776:24: error: field 'req_list' has incomplete type
-    1776 |         struct rq_list req_list;
-         |                        ^~~~~~~~
-   In file included from <command-line>:
-   drivers/mmc/host/mmci.c: In function 'mmci_probe':
->> include/linux/compiler.h:166:45: error: '__UNIQUE_ID_y_795' undeclared (first use in this function); did you mean '__UNIQUE_ID_x_794'?
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                                             ^~~~~~~~~~~~
-   include/linux/compiler_types.h:516:23: note: in definition of macro '__compiletime_assert'
-     516 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:536:9: note: in expansion of macro '_compiletime_assert'
-     536 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:56:27: note: in expansion of macro 'is_signed_type'
-      56 | #define __sign_use(x,ux) (is_signed_type(typeof(ux))? \
-         |                           ^~~~~~~~~~~~~~
-   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
-      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
-         |                             ^~~~~~~~~~
-   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
-     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
-         |                           ^~~~~~~~~~
-   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
-     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~
-   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^~~~~~~
-   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~
-   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                                     ^~~~~~~
-   include/linux/minmax.h:105:55: note: in expansion of macro '__UNIQUE_ID'
-     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |                                                       ^~~~~~~~~~~
-   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
-     129 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                         ^~~~~~~~~~~~~
-   drivers/mmc/host/mmci.c:2333:40: note: in expansion of macro 'min'
-    2333 |                                 fmax : min(host->mclk, fmax);
-         |                                        ^~~
-   include/linux/compiler.h:166:45: note: each undeclared identifier is reported only once for each function it appears in
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                                             ^~~~~~~~~~~~
-   include/linux/compiler_types.h:516:23: note: in definition of macro '__compiletime_assert'
-     516 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:536:9: note: in expansion of macro '_compiletime_assert'
-     536 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:56:27: note: in expansion of macro 'is_signed_type'
-      56 | #define __sign_use(x,ux) (is_signed_type(typeof(ux))? \
-         |                           ^~~~~~~~~~~~~~
-   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
-      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
-         |                             ^~~~~~~~~~
-   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
-     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
-         |                           ^~~~~~~~~~
-   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
-     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~
-   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^~~~~~~
-   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~
-   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                                     ^~~~~~~
-   include/linux/minmax.h:105:55: note: in expansion of macro '__UNIQUE_ID'
-     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |                                                       ^~~~~~~~~~~
-   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
-     129 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                         ^~~~~~~~~~~~~
-   drivers/mmc/host/mmci.c:2333:40: note: in expansion of macro 'min'
-    2333 |                                 fmax : min(host->mclk, fmax);
-         |                                        ^~~
-   drivers/mmc/host/mmci.c: At top level:
-   drivers/mmc/host/mmci.c:53:21: warning: 'fmax' defined but not used [-Wunused-variable]
-      53 | static unsigned int fmax = 515633;
-         |                     ^~~~
+On Sat, Mar 21, 2026 at 9:52=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chanwoo/linux.git=
+ devfreq-next
+> head:   38aa14f9be920f3fea6fe3f16b69b7a0cd0478a1
+> commit: 38aa14f9be920f3fea6fe3f16b69b7a0cd0478a1 [5/5] PM / devfreq: chan=
+ge devfreq_class to a const struct
+> config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260321/20=
+2603211336.i375F7lD-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0=
+227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20260321/202603211336.i375F7lD-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202603211336.i375F7lD-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+> >> drivers/devfreq/devfreq.c:1946:37: error: redefinition of 'devfreq_gro=
+up'
+>     1946 | static const struct attribute_group devfreq_group =3D {
+>          |                                     ^
+>    drivers/devfreq/devfreq.c:40:1: note: previous definition is here
+>       40 | ATTRIBUTE_GROUPS(devfreq);
+>          | ^
+>    include/linux/sysfs.h:291:37: note: expanded from macro 'ATTRIBUTE_GRO=
+UPS'
+>      291 | static const struct attribute_group _name##_group =3D {       =
+    \
+>          |                                     ^
+>    <scratch space>:89:1: note: expanded from here
+>       89 | devfreq_group
+>          | ^
+> >> drivers/devfreq/devfreq.c:1955:38: error: redefinition of 'devfreq_gro=
+ups'
+>     1955 | static const struct attribute_group *devfreq_groups[] =3D {
+>          |                                      ^
+>    drivers/devfreq/devfreq.c:40:1: note: previous definition is here
+>       40 | ATTRIBUTE_GROUPS(devfreq);
+>          | ^
+>    include/linux/sysfs.h:298:11: note: expanded from macro 'ATTRIBUTE_GRO=
+UPS'
+>      298 | };                                                            =
+  \
+>          |                                                               =
+  ^
+>    include/linux/sysfs.h:285:38: note: expanded from macro '\
+>    __ATTRIBUTE_GROUPS'
+>      285 | static const struct attribute_group *_name##_groups[] =3D {   =
+    \
+>          |                                      ^
+>    <scratch space>:93:1: note: expanded from here
+>       93 | devfreq_groups
+>          | ^
+>    2 errors generated.
+>
+>
+> vim +/devfreq_group +1946 drivers/devfreq/devfreq.c
+>
+> 9005b65099ee4f MyungJoo Ham  2011-10-02  1945
+> e4999090951abc Pengjie Zhang 2025-12-16 @1946  static const struct attrib=
+ute_group devfreq_group =3D {
+> e4999090951abc Pengjie Zhang 2025-12-16  1947   .attrs =3D devfreq_attrs,
+> e4999090951abc Pengjie Zhang 2025-12-16  1948  };
+> e4999090951abc Pengjie Zhang 2025-12-16  1949
+> e4999090951abc Pengjie Zhang 2025-12-16  1950  static const struct attrib=
+ute_group gov_attr_group =3D {
+> e4999090951abc Pengjie Zhang 2025-12-16  1951   .attrs =3D governor_attrs=
+,
+> e4999090951abc Pengjie Zhang 2025-12-16  1952   .is_visible =3D gov_attr_=
+visible,
+> e4999090951abc Pengjie Zhang 2025-12-16  1953  };
+> e4999090951abc Pengjie Zhang 2025-12-16  1954
+> e4999090951abc Pengjie Zhang 2025-12-16 @1955  static const struct attrib=
+ute_group *devfreq_groups[] =3D {
+> e4999090951abc Pengjie Zhang 2025-12-16  1956   &devfreq_group,
+> e4999090951abc Pengjie Zhang 2025-12-16  1957   &gov_attr_group,
+> e4999090951abc Pengjie Zhang 2025-12-16  1958   NULL
+> e4999090951abc Pengjie Zhang 2025-12-16  1959  };
+> e4999090951abc Pengjie Zhang 2025-12-16  1960
+>
+> :::::: The code at line 1946 was first introduced by commit
+> :::::: e4999090951abcf39543aa22b7a7a7f13c5a5857 PM / devfreq: use _visibl=
+e attribute to replace create/remove_sysfs_files()
+>
+> :::::: TO: Pengjie Zhang <zhangpengjie2@huawei.com>
+> :::::: CC: Chanwoo Choi <cw00.choi@samsung.com>
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
 
 
-vim +166 include/linux/compiler.h
-
-fe8c8a126806fe Cesar Eduardo Barros 2013-11-25  165  
-a8306f2d4dcea0 Nick Desaulniers     2023-08-31 @166  #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-6f33d58794ef4c Rusty Russell        2012-11-22  167  
-
-:::::: The code at line 166 was first introduced by commit
-:::::: a8306f2d4dcea03538c70c26d2948483f70254ff compiler.h: unify __UNIQUE_ID
-
-:::::: TO: Nick Desaulniers <ndesaulniers@google.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+Best Regards,
+Chanwoo Choi
+Samsung Electronics
