@@ -1,291 +1,202 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C94829B20A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Mar 2026 14:03:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D1772C029C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Mar 2026 14:51:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774101820; cv=none; b=ZR1mDOgVxQF9Pxu/ewprf/tE7f1gCXgzdOzuBkrZFjdXFJDYbhbT2GDzk97uq6llqW4snoqcjoPBEEmm7wetO+Gv07ylWdxWobPS0KpdV848XCxMXDzcuqXymqX4Ya1DF5deyaEzYBUKIGnk9u2DoGT4VmAQr/u7Xdpj8kajVn4=
+	t=1774104716; cv=none; b=AUEbRjJhXafHnZQvKqrqNnQtpBpHUV9LluZXpecwBbbcsZFoZqc+QSvnnIACGTZJJBg9DUuO2huC2IngLfRLHgckmXRaXDB5IBFjdzGIqnQaJCrvliCRZHzGIIQa2bQjIjljtbbhAdq+rGuT1+ARm7d0mOHbeV3pcLH27azKPRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774101820; c=relaxed/simple;
-	bh=FRv90kLZug3KRFd8xcLX0z+8Cuk8B1Spo/fRH5+xPaI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NEVz/1UdvCejFyW2KarxMCGWxY3Wmu4KmlnSPnVT3dirC8eWSkoRGd3xgHgkZPQbv+j/alYHZoH89UsxpBIZ9FPGLnU3SkTe9dTn6J4aqJk8c85UPBXLOUEmA8Zf7RrbscptNo6ULp0BXJtjD0vRLVMK/d3cSXQ0I/qeeFbziLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Aa2FkfzG; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1774104716; c=relaxed/simple;
+	bh=1aQT6b+QtHGHMeBABvrthdc4H37EdJ1CKHvZGDvIExI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=bzb3SmWhdc+72e8C2ch3qddWhUMIpmF7PXJoKXksyNXMZtuqVxuWPKB8NB55NyBlhXdPKygkASftYThOvOSgc+QoF8sGeWEXoNq2Xfs/++bmlKK5+DEGzGYznQE2ZNjtrbJgFXHl8ryAWK0j4tcxUMf5XKegt1DhryMvDEaIecU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lvDoSxO/; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Aa2FkfzG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lvDoSxO/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774101818; x=1805637818;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=FRv90kLZug3KRFd8xcLX0z+8Cuk8B1Spo/fRH5+xPaI=;
-  b=Aa2FkfzGE5cHW2gEq+LVLgWj+G+pVp0TIHHDGsP9kNd/vjFSCekzxbS0
-   +dtTKT+1o0h0HsX6HP2C2N4gvGmASAQO9vAnqN4Q9Wf7M4W4uKAyj76/h
-   Px4F/W+kwIw4rzgbLIvlDmJDOfctbzE9IKs2aUm5nTYA8P24UlR62QsVf
-   L8isWtL6ViBZyejA/pT0CgEUSxbVdzez3adRsAAOZYQ3fgZ7Cd5qHNrlg
-   eT17S9/tfJk+liI3RzNK5+1KQFVCcJ8HF+ApebPjQF22XUhd2UqB/1sDv
-   Mov1fUsV13JMPuLFVW9Sbsoi6w2rYYmTKYpn2Et0UzDeV2eHvZ7+GGUBA
-   A==;
-X-CSE-ConnectionGUID: 5BEMItyqS/iu/7yNfIayVw==
-X-CSE-MsgGUID: uUnT2eWxQIGHDeQv0dRmkQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11736"; a="77775724"
+  t=1774104714; x=1805640714;
+  h=date:from:to:cc:subject:message-id;
+  bh=1aQT6b+QtHGHMeBABvrthdc4H37EdJ1CKHvZGDvIExI=;
+  b=lvDoSxO/QtpmozYCqxZ/80NYa3mj3hGefV4EvMROQtPNyyqqYXqHMHf/
+   flSKP+akmTGFT3COFOFZOC4ZFRkq8YFBSZKfKqaats5g0mrmjy7NJp8Hx
+   ocdpkK43kjXzStmiA/2TlJuDfUjMP8NKTdu/9wNx4bSX1SkTuvPA7X14N
+   0do0oMZ+GVjP+X962Hwmtt5IFsFABVJcHH3mzvD1kRZigsAAvCvVrNR8x
+   Oxp+GSOHnPhmnst2DihoLQBnyytYf73SL2UZsNIyXG3BuSBUfsuseICnI
+   ESyxjnljIyTiNCZMCoImdcZr+FCKzN4DNeaaAjnH91RHHjlJCyE2Bvcen
+   g==;
+X-CSE-ConnectionGUID: zSOpvlIxSyivAbMsmHslfA==
+X-CSE-MsgGUID: eScb9VHZT8GwwP6Kj/L/zg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11736"; a="79077307"
 X-IronPort-AV: E=Sophos;i="6.23,133,1770624000"; 
-   d="scan'208";a="77775724"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2026 07:03:37 -0700
-X-CSE-ConnectionGUID: IgQPKnnxQJ6moIRSXUeleQ==
-X-CSE-MsgGUID: TMAc5za6T0K/M+HzqOd4cQ==
+   d="scan'208";a="79077307"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2026 07:51:53 -0700
+X-CSE-ConnectionGUID: tsxbh2t8Tk6nsUw1h+o2ug==
+X-CSE-MsgGUID: kgg4MR98QkuZdAH5N7cGBg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,133,1770624000"; 
-   d="scan'208";a="228506096"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 21 Mar 2026 07:03:35 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="261479156"
+Received: from lkp-server02.sh.intel.com (HELO d7fefbca0d04) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 21 Mar 2026 07:51:50 -0700
+Received: from kbuild by d7fefbca0d04 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w3wvM-00000000681-1JcY;
-	Sat, 21 Mar 2026 14:03:32 +0000
-Date: Sat, 21 Mar 2026 15:03:30 +0100
+	id 1w3xfZ-000000000u5-1POQ;
+	Sat, 21 Mar 2026 14:51:26 +0000
+Date: Sat, 21 Mar 2026 22:50:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alvin1 Chen <alvin1.chen@lcfc.corp-partner.google.com>,
-	dianders@chromium.org, neil.armstrong@linaro.org
-Cc: oe-kbuild-all@lists.linux.dev, jesszhan0024@gmail.com,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	Alvin1 Chen <alvin1.chen@lcfc.corp-partner.google.com>
-Subject: Re: [PATCH v3] drm/panel-edp: Add BOE NV153WUM-N42, CMN N153JCA-ELK,
- CSW  MNF307QS3-2
-Message-ID: <202603211444.JZ4VbAPo-lkp@intel.com>
-References: <20260319050938.556235-1-alvin1.chen@lcfc.corp-partner.google.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-2025-12 2/2]
+ include/linux/compiler.h:166:45: error: '__UNIQUE_ID_y_795' undeclared; did
+ you mean '__UNIQUE_ID_x_794'?
+Message-ID: <202603212237.U78xrEYW-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260319050938.556235-1-alvin1.chen@lcfc.corp-partner.google.com>
 
-Hi Alvin1,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v7.0-rc4]
-[cannot apply to next-20260320]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alvin1-Chen/drm-panel-edp-Add-BOE-NV153WUM-N42-CMN-N153JCA-ELK-CSW-MNF307QS3-2/20260320-084718
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20260319050938.556235-1-alvin1.chen%40lcfc.corp-partner.google.com
-patch subject: [PATCH v3] drm/panel-edp: Add BOE NV153WUM-N42, CMN N153JCA-ELK, CSW  MNF307QS3-2
-config: i386-randconfig-2006-20250825 (https://download.01.org/0day-ci/archive/20260321/202603211444.JZ4VbAPo-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260321/202603211444.JZ4VbAPo-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-12
+head:   117047e314aaff9eaa0d7221ec3c33df105bec04
+commit: 4f9e4406e4981511e1348e4483eae7c21cd5fe24 [2/2] ANDROID: Update proxy-exec logic from v14 to v18
+config: arm64-randconfig-r071-20260321 (https://download.01.org/0day-ci/archive/20260321/202603212237.U78xrEYW-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.5.0
+smatch: v0.5.0-9004-gb810ac53
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260321/202603212237.U78xrEYW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603211444.JZ4VbAPo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603212237.U78xrEYW-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/panel/panel-edp.c:1893:1: error: expected expression before '{' token
-    1893 | { \
-         | ^
-   drivers/gpu/drm/panel/panel-edp.c:2028:9: note: in expansion of macro 'EDP_PANEL_ENTRY'
-    2028 | +       EDP_PANEL_ENTRY('B', 'O', 'E', 0x0db3, &delay_200_500_e80, "NV153WUM-N42"),
-         |         ^~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-edp.c:1885:33: warning: 'delay_80_500_e50_d50' defined but not used [-Wunused-const-variable=]
-    1885 | static const struct panel_delay delay_80_500_e50_d50 = {
-         |                                 ^~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-edp.c:1878:33: warning: 'delay_200_500_e50_d100' defined but not used [-Wunused-const-variable=]
-    1878 | static const struct panel_delay delay_200_500_e50_d100 = {
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-edp.c:1870:33: warning: 'delay_50_500_e200_d200_po2e335' defined but not used [-Wunused-const-variable=]
-    1870 | static const struct panel_delay delay_50_500_e200_d200_po2e335 = {
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-edp.c:1864:33: warning: 'delay_200_500_e250' defined but not used [-Wunused-const-variable=]
-    1864 | static const struct panel_delay delay_200_500_e250 = {
-         |                                 ^~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-edp.c:1858:33: warning: 'delay_200_150_e50' defined but not used [-Wunused-const-variable=]
-    1858 | static const struct panel_delay delay_200_150_e50 = {
-         |                                 ^~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-edp.c:1838:33: warning: 'delay_200_500_e200_d50' defined but not used [-Wunused-const-variable=]
-    1838 | static const struct panel_delay delay_200_500_e200_d50 = {
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-edp.c:1831:33: warning: 'delay_200_500_e200_d10' defined but not used [-Wunused-const-variable=]
-    1831 | static const struct panel_delay delay_200_500_e200_d10 = {
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-edp.c:1824:33: warning: 'delay_200_500_e200_d200' defined but not used [-Wunused-const-variable=]
-    1824 | static const struct panel_delay delay_200_500_e200_d200 = {
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-edp.c:1805:33: warning: 'delay_100_500_e200' defined but not used [-Wunused-const-variable=]
-    1805 | static const struct panel_delay delay_100_500_e200 = {
-         |                                 ^~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-edp.c:1798:33: warning: 'delay_80_500_e80_p2e200' defined but not used [-Wunused-const-variable=]
-    1798 | static const struct panel_delay delay_80_500_e80_p2e200 = {
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-edp.c:1792:33: warning: 'delay_80_500_e50' defined but not used [-Wunused-const-variable=]
-    1792 | static const struct panel_delay delay_80_500_e50 = {
-         |                                 ^~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-edp.c:1771:33: warning: 'delay_200_500_e50_d50_p2e200' defined but not used [-Wunused-const-variable=]
-    1771 | static const struct panel_delay delay_200_500_e50_d50_p2e200 = {
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-edp.c:1753:33: warning: 'delay_200_500_p2e100' defined but not used [-Wunused-const-variable=]
-    1753 | static const struct panel_delay delay_200_500_p2e100 = {
-         |                                 ^~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/blk-crypto.h:127,
+                    from include/linux/blk-crypto-profile.h:10,
+                    from include/linux/mmc/host.h:19,
+                    from drivers/mmc/host/mmci.c:23:
+   include/linux/blkdev.h:1776:24: error: field 'req_list' has incomplete type
+    1776 |         struct rq_list req_list;
+         |                        ^~~~~~~~
+   In file included from <command-line>:
+   drivers/mmc/host/mmci.c: In function 'mmci_probe':
+>> include/linux/compiler.h:166:45: error: '__UNIQUE_ID_y_795' undeclared (first use in this function); did you mean '__UNIQUE_ID_x_794'?
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                             ^~~~~~~~~~~~
+   include/linux/compiler_types.h:516:23: note: in definition of macro '__compiletime_assert'
+     516 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:536:9: note: in expansion of macro '_compiletime_assert'
+     536 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:56:27: note: in expansion of macro 'is_signed_type'
+      56 | #define __sign_use(x,ux) (is_signed_type(typeof(ux))? \
+         |                           ^~~~~~~~~~~~~~
+   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
+      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+         |                             ^~~~~~~~~~
+   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                     ^~~~~~~
+   include/linux/minmax.h:105:55: note: in expansion of macro '__UNIQUE_ID'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |                                                       ^~~~~~~~~~~
+   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
+     129 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   drivers/mmc/host/mmci.c:2333:40: note: in expansion of macro 'min'
+    2333 |                                 fmax : min(host->mclk, fmax);
+         |                                        ^~~
+   include/linux/compiler.h:166:45: note: each undeclared identifier is reported only once for each function it appears in
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                             ^~~~~~~~~~~~
+   include/linux/compiler_types.h:516:23: note: in definition of macro '__compiletime_assert'
+     516 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:536:9: note: in expansion of macro '_compiletime_assert'
+     536 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:56:27: note: in expansion of macro 'is_signed_type'
+      56 | #define __sign_use(x,ux) (is_signed_type(typeof(ux))? \
+         |                           ^~~~~~~~~~~~~~
+   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
+      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+         |                             ^~~~~~~~~~
+   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                     ^~~~~~~
+   include/linux/minmax.h:105:55: note: in expansion of macro '__UNIQUE_ID'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |                                                       ^~~~~~~~~~~
+   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
+     129 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   drivers/mmc/host/mmci.c:2333:40: note: in expansion of macro 'min'
+    2333 |                                 fmax : min(host->mclk, fmax);
+         |                                        ^~~
+   drivers/mmc/host/mmci.c: At top level:
+   drivers/mmc/host/mmci.c:53:21: warning: 'fmax' defined but not used [-Wunused-variable]
+      53 | static unsigned int fmax = 515633;
+         |                     ^~~~
 
 
-vim +/delay_80_500_e50_d50 +1885 drivers/gpu/drm/panel/panel-edp.c
+vim +166 include/linux/compiler.h
 
-f4ccd9fea22707 Pin-yen Lin            2023-12-14  1752  
-5540cf8f3e8dac Douglas Anderson       2021-09-14 @1753  static const struct panel_delay delay_200_500_p2e100 = {
-5540cf8f3e8dac Douglas Anderson       2021-09-14  1754  	.hpd_absent = 200,
-5540cf8f3e8dac Douglas Anderson       2021-09-14  1755  	.unprepare = 500,
-5540cf8f3e8dac Douglas Anderson       2021-09-14  1756  	.prepare_to_enable = 100,
-5540cf8f3e8dac Douglas Anderson       2021-09-14  1757  };
-5540cf8f3e8dac Douglas Anderson       2021-09-14  1758  
-349d4efadc1f83 Hans de Goede          2026-01-05  1759  static const struct panel_delay delay_200_500_p2e200 = {
-349d4efadc1f83 Hans de Goede          2026-01-05  1760  	.hpd_absent = 200,
-349d4efadc1f83 Hans de Goede          2026-01-05  1761  	.unprepare = 500,
-349d4efadc1f83 Hans de Goede          2026-01-05  1762  	.prepare_to_enable = 200,
-349d4efadc1f83 Hans de Goede          2026-01-05  1763  };
-349d4efadc1f83 Hans de Goede          2026-01-05  1764  
-5540cf8f3e8dac Douglas Anderson       2021-09-14  1765  static const struct panel_delay delay_200_500_e50 = {
-5540cf8f3e8dac Douglas Anderson       2021-09-14  1766  	.hpd_absent = 200,
-5540cf8f3e8dac Douglas Anderson       2021-09-14  1767  	.unprepare = 500,
-5540cf8f3e8dac Douglas Anderson       2021-09-14  1768  	.enable = 50,
-5540cf8f3e8dac Douglas Anderson       2021-09-14  1769  };
-5540cf8f3e8dac Douglas Anderson       2021-09-14  1770  
-1511d3c4d2bb30 Langyan Ye             2025-07-23 @1771  static const struct panel_delay delay_200_500_e50_d50_p2e200 = {
-e635b7eb7062b4 Zhengqiao Xia          2024-03-01  1772  	.hpd_absent = 200,
-e635b7eb7062b4 Zhengqiao Xia          2024-03-01  1773  	.unprepare = 500,
-e635b7eb7062b4 Zhengqiao Xia          2024-03-01  1774  	.enable = 50,
-1511d3c4d2bb30 Langyan Ye             2025-07-23  1775  	.disable = 50,
-e635b7eb7062b4 Zhengqiao Xia          2024-03-01  1776  	.prepare_to_enable = 200,
-e635b7eb7062b4 Zhengqiao Xia          2024-03-01  1777  };
-e635b7eb7062b4 Zhengqiao Xia          2024-03-01  1778  
-4d53cf81479500 Hsin-Yi Wang           2023-11-07  1779  static const struct panel_delay delay_200_500_e80 = {
-4d53cf81479500 Hsin-Yi Wang           2023-11-07  1780  	.hpd_absent = 200,
-4d53cf81479500 Hsin-Yi Wang           2023-11-07  1781  	.unprepare = 500,
-4d53cf81479500 Hsin-Yi Wang           2023-11-07  1782  	.enable = 80,
-4d53cf81479500 Hsin-Yi Wang           2023-11-07  1783  };
-4d53cf81479500 Hsin-Yi Wang           2023-11-07  1784  
-b889d89ad45f99 Yunlong Jia            2022-01-20  1785  static const struct panel_delay delay_200_500_e80_d50 = {
-b889d89ad45f99 Yunlong Jia            2022-01-20  1786  	.hpd_absent = 200,
-b889d89ad45f99 Yunlong Jia            2022-01-20  1787  	.unprepare = 500,
-b889d89ad45f99 Yunlong Jia            2022-01-20  1788  	.enable = 80,
-b889d89ad45f99 Yunlong Jia            2022-01-20  1789  	.disable = 50,
-b889d89ad45f99 Yunlong Jia            2022-01-20  1790  };
-b889d89ad45f99 Yunlong Jia            2022-01-20  1791  
-51e1fb144f17c2 Dmitry Baryshkov       2024-06-14 @1792  static const struct panel_delay delay_80_500_e50 = {
-51e1fb144f17c2 Dmitry Baryshkov       2024-06-14  1793  	.hpd_absent = 80,
-51e1fb144f17c2 Dmitry Baryshkov       2024-06-14  1794  	.unprepare = 500,
-51e1fb144f17c2 Dmitry Baryshkov       2024-06-14  1795  	.enable = 50,
-51e1fb144f17c2 Dmitry Baryshkov       2024-06-14  1796  };
-51e1fb144f17c2 Dmitry Baryshkov       2024-06-14  1797  
-0d607a59a0f659 Zhengqiao Xia          2025-04-29 @1798  static const struct panel_delay delay_80_500_e80_p2e200 = {
-0d607a59a0f659 Zhengqiao Xia          2025-04-29  1799  	.hpd_absent = 80,
-0d607a59a0f659 Zhengqiao Xia          2025-04-29  1800  	.unprepare = 500,
-0d607a59a0f659 Zhengqiao Xia          2025-04-29  1801  	.enable = 80,
-0d607a59a0f659 Zhengqiao Xia          2025-04-29  1802  	.prepare_to_enable = 200,
-0d607a59a0f659 Zhengqiao Xia          2025-04-29  1803  };
-0d607a59a0f659 Zhengqiao Xia          2025-04-29  1804  
-b889d89ad45f99 Yunlong Jia            2022-01-20 @1805  static const struct panel_delay delay_100_500_e200 = {
-b889d89ad45f99 Yunlong Jia            2022-01-20  1806  	.hpd_absent = 100,
-b889d89ad45f99 Yunlong Jia            2022-01-20  1807  	.unprepare = 500,
-b889d89ad45f99 Yunlong Jia            2022-01-20  1808  	.enable = 200,
-b889d89ad45f99 Yunlong Jia            2022-01-20  1809  };
-b889d89ad45f99 Yunlong Jia            2022-01-20  1810  
-f6ff4570e567b6 Nícolas F. R. A. Prado 2022-07-19  1811  static const struct panel_delay delay_200_500_e200 = {
-f6ff4570e567b6 Nícolas F. R. A. Prado 2022-07-19  1812  	.hpd_absent = 200,
-f6ff4570e567b6 Nícolas F. R. A. Prado 2022-07-19  1813  	.unprepare = 500,
-f6ff4570e567b6 Nícolas F. R. A. Prado 2022-07-19  1814  	.enable = 200,
-f6ff4570e567b6 Nícolas F. R. A. Prado 2022-07-19  1815  };
-f6ff4570e567b6 Nícolas F. R. A. Prado 2022-07-19  1816  
-bbe814bcb961ed Haikun Zhou            2026-02-26  1817  static const struct panel_delay delay_200_500_e200_d100 = {
-bbe814bcb961ed Haikun Zhou            2026-02-26  1818  	.hpd_absent = 200,
-bbe814bcb961ed Haikun Zhou            2026-02-26  1819  	.unprepare = 500,
-bbe814bcb961ed Haikun Zhou            2026-02-26  1820  	.enable = 200,
-bbe814bcb961ed Haikun Zhou            2026-02-26  1821  	.disable = 100,
-bbe814bcb961ed Haikun Zhou            2026-02-26  1822  };
-bbe814bcb961ed Haikun Zhou            2026-02-26  1823  
-f4ccd9fea22707 Pin-yen Lin            2023-12-14 @1824  static const struct panel_delay delay_200_500_e200_d200 = {
-f4ccd9fea22707 Pin-yen Lin            2023-12-14  1825  	.hpd_absent = 200,
-f4ccd9fea22707 Pin-yen Lin            2023-12-14  1826  	.unprepare = 500,
-f4ccd9fea22707 Pin-yen Lin            2023-12-14  1827  	.enable = 200,
-f4ccd9fea22707 Pin-yen Lin            2023-12-14  1828  	.disable = 200,
-f4ccd9fea22707 Pin-yen Lin            2023-12-14  1829  };
-f4ccd9fea22707 Pin-yen Lin            2023-12-14  1830  
-4d53cf81479500 Hsin-Yi Wang           2023-11-07 @1831  static const struct panel_delay delay_200_500_e200_d10 = {
-4d53cf81479500 Hsin-Yi Wang           2023-11-07  1832  	.hpd_absent = 200,
-4d53cf81479500 Hsin-Yi Wang           2023-11-07  1833  	.unprepare = 500,
-4d53cf81479500 Hsin-Yi Wang           2023-11-07  1834  	.enable = 200,
-4d53cf81479500 Hsin-Yi Wang           2023-11-07  1835  	.disable = 10,
-4d53cf81479500 Hsin-Yi Wang           2023-11-07  1836  };
-4d53cf81479500 Hsin-Yi Wang           2023-11-07  1837  
-518867b0939421 Cong Yang              2025-07-31 @1838  static const struct panel_delay delay_200_500_e200_d50 = {
-518867b0939421 Cong Yang              2025-07-31  1839  	.hpd_absent = 200,
-518867b0939421 Cong Yang              2025-07-31  1840  	.unprepare = 500,
-518867b0939421 Cong Yang              2025-07-31  1841  	.enable = 200,
-518867b0939421 Cong Yang              2025-07-31  1842  	.disable = 50,
-518867b0939421 Cong Yang              2025-07-31  1843  };
-518867b0939421 Cong Yang              2025-07-31  1844  
-4d53cf81479500 Hsin-Yi Wang           2023-11-07  1845  static const struct panel_delay delay_200_150_e200 = {
-4d53cf81479500 Hsin-Yi Wang           2023-11-07  1846  	.hpd_absent = 200,
-4d53cf81479500 Hsin-Yi Wang           2023-11-07  1847  	.unprepare = 150,
-4d53cf81479500 Hsin-Yi Wang           2023-11-07  1848  	.enable = 200,
-4d53cf81479500 Hsin-Yi Wang           2023-11-07  1849  };
-4d53cf81479500 Hsin-Yi Wang           2023-11-07  1850  
-f4ccd9fea22707 Pin-yen Lin            2023-12-14  1851  static const struct panel_delay delay_200_500_e50_po2e200 = {
-f4ccd9fea22707 Pin-yen Lin            2023-12-14  1852  	.hpd_absent = 200,
-f4ccd9fea22707 Pin-yen Lin            2023-12-14  1853  	.unprepare = 500,
-f4ccd9fea22707 Pin-yen Lin            2023-12-14  1854  	.enable = 50,
-f4ccd9fea22707 Pin-yen Lin            2023-12-14  1855  	.powered_on_to_enable = 200,
-f4ccd9fea22707 Pin-yen Lin            2023-12-14  1856  };
-f4ccd9fea22707 Pin-yen Lin            2023-12-14  1857  
-ae4a812a64dad3 Langyan Ye             2024-11-13 @1858  static const struct panel_delay delay_200_150_e50 = {
-ae4a812a64dad3 Langyan Ye             2024-11-13  1859  	.hpd_absent = 200,
-ae4a812a64dad3 Langyan Ye             2024-11-13  1860  	.unprepare = 150,
-ae4a812a64dad3 Langyan Ye             2024-11-13  1861  	.enable = 50,
-ae4a812a64dad3 Langyan Ye             2024-11-13  1862  };
-ae4a812a64dad3 Langyan Ye             2024-11-13  1863  
-6ce24b3450b8e8 Langyan Ye             2025-01-23 @1864  static const struct panel_delay delay_200_500_e250 = {
-6ce24b3450b8e8 Langyan Ye             2025-01-23  1865  	.hpd_absent = 200,
-6ce24b3450b8e8 Langyan Ye             2025-01-23  1866  	.unprepare = 500,
-6ce24b3450b8e8 Langyan Ye             2025-01-23  1867  	.enable = 250,
-6ce24b3450b8e8 Langyan Ye             2025-01-23  1868  };
-6ce24b3450b8e8 Langyan Ye             2025-01-23  1869  
-0e1daf2b32dc85 Damon Ding             2025-02-05 @1870  static const struct panel_delay delay_50_500_e200_d200_po2e335 = {
-0e1daf2b32dc85 Damon Ding             2025-02-05  1871  	.hpd_absent = 50,
-0e1daf2b32dc85 Damon Ding             2025-02-05  1872  	.unprepare = 500,
-0e1daf2b32dc85 Damon Ding             2025-02-05  1873  	.enable = 200,
-0e1daf2b32dc85 Damon Ding             2025-02-05  1874  	.disable = 200,
-0e1daf2b32dc85 Damon Ding             2025-02-05  1875  	.powered_on_to_enable = 335,
-0e1daf2b32dc85 Damon Ding             2025-02-05  1876  };
-0e1daf2b32dc85 Damon Ding             2025-02-05  1877  
-9b3700b15cb581 Langyan Ye             2025-07-21 @1878  static const struct panel_delay delay_200_500_e50_d100 = {
-9b3700b15cb581 Langyan Ye             2025-07-21  1879  	.hpd_absent = 200,
-9b3700b15cb581 Langyan Ye             2025-07-21  1880  	.unprepare = 500,
-9b3700b15cb581 Langyan Ye             2025-07-21  1881  	.enable = 50,
-9b3700b15cb581 Langyan Ye             2025-07-21  1882  	.disable = 100,
-9b3700b15cb581 Langyan Ye             2025-07-21  1883  };
-9b3700b15cb581 Langyan Ye             2025-07-21  1884  
-490b30fbaca2ab Zhongtian Wu           2025-09-08 @1885  static const struct panel_delay delay_80_500_e50_d50 = {
-490b30fbaca2ab Zhongtian Wu           2025-09-08  1886  	.hpd_absent = 80,
-490b30fbaca2ab Zhongtian Wu           2025-09-08  1887  	.unprepare = 500,
-490b30fbaca2ab Zhongtian Wu           2025-09-08  1888  	.enable = 50,
-490b30fbaca2ab Zhongtian Wu           2025-09-08  1889  	.disable = 50,
-490b30fbaca2ab Zhongtian Wu           2025-09-08  1890  };
-490b30fbaca2ab Zhongtian Wu           2025-09-08  1891  
+fe8c8a126806fe Cesar Eduardo Barros 2013-11-25  165  
+a8306f2d4dcea0 Nick Desaulniers     2023-08-31 @166  #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+6f33d58794ef4c Rusty Russell        2012-11-22  167  
+
+:::::: The code at line 166 was first introduced by commit
+:::::: a8306f2d4dcea03538c70c26d2948483f70254ff compiler.h: unify __UNIQUE_ID
+
+:::::: TO: Nick Desaulniers <ndesaulniers@google.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
