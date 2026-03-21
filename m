@@ -1,103 +1,91 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE15B27F754;
-	Sat, 21 Mar 2026 02:26:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0109840DFAC
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Mar 2026 02:34:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774059971; cv=none; b=LB+dNT9qZGuyXD2AjTmBGKvp3VMg6Q1ncQ8enDiHWigAUI5/Szl4PHcLmMTN06v0JeUss58gJdAvXnhUNqbJhdcnEKf/axG8t+zjk4oSvw82HLvMePwLcOen0Nx3Pi4a+koxDIlUStr/oFXJArpFQrH4iKMXhPSXoCD/4HheZ3Y=
+	t=1774060495; cv=none; b=PXifZ3SIV8vlwyInrixaLx6RO2n4pcRIGIliXOWuat8RkADmbhpG9Z/KZRNqcL88d0A9w7djqDMaC4G664kgibQF53O6YFbAqs9VVJgtovx8J3enFuKad8IHtz4tVhes0NQPu3ajia19LFysGtt5UNFtVwBPz9j9bnF1badbx1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774059971; c=relaxed/simple;
-	bh=eG5LkS+9cCOeVxm20ZTUca9k3IWxWt9/hMQ4+PWUen0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sB1rp34azQHz7vYIdb7wUo4Sxs86O9uCDKKho1zwYey3CmLs9C6qjRS0XqaiZ2bKqq1tvnzk32tRxFh1sy91XeMF2Dyq8KAMoCUX6AwVi/zXfg0NYf2MCUDizlZiIGgXAUU0v1GyjkYP4J3nm+nPZAYvlrKcVe3fV+y5owXZOHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UL3lja34; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1774060495; c=relaxed/simple;
+	bh=4rlyY9C75uqg5g8E+Fn/nIluEnDFY20ZEhVpzZ5dGkU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=AUZjyLdAFK9Xnuervqs+r6HxFQqUIPseVnUAKo8934NDJriJvC0hbN9wzDLNuFkaK5/Itp/Mpaf83e/SauQxgUCWFF4ubHg4gwWCfcjlYlYd10NZz8d0UVubEdSk4gx0fhTkJo0gBiL37KEX+pDcf1xB3FX+30XjzXWGmX3l4Ic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F2bC9ZI8; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UL3lja34"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F2bC9ZI8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774059969; x=1805595969;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eG5LkS+9cCOeVxm20ZTUca9k3IWxWt9/hMQ4+PWUen0=;
-  b=UL3lja342nStXdPKoKxDE5G4uz+pYWAnwLxT7ahLR5veXnHO4dmkuDPS
-   kv7hrqWLp/SlTBiTzqteMEmVEvWsJc7XyySRBKjc7PZqZwk9ABCgQioDT
-   zTg1xEA63Ux1WAjLWNqhE6fTMRD0kX5tzgY+nQYpqdc26D3+lfpB3fG5f
-   X7imsRQXcZ/LcmKLkkppUA7uiEpB/5X3f27EZ8i9m26M9TXJBlrz62z/x
-   BlCuFLZlYMbGbBSZpR4MiirshdfyqDDRCIv60pjR1KJe9NxTF/5lB9S7j
-   0U80cnlYkNaEIH00EOiZeWk1/HzHT8X/xuGVYlWpB6AZPIhFsEH4AxZsP
+  t=1774060494; x=1805596494;
+  h=date:from:to:cc:subject:message-id;
+  bh=4rlyY9C75uqg5g8E+Fn/nIluEnDFY20ZEhVpzZ5dGkU=;
+  b=F2bC9ZI8VqJV5TTftWvtUO2OqQ045alWZliRGBDurCPur0YmwkCgR9xP
+   FOz8wjpvg3YRz37eRlp6Y0+OBhVokdy819F7wI3sbDeNw00G4YelF0rzF
+   B7Mf8KVVOx3/XkkKUaqJ2rotIF2JaOlD8ScQXWfYQo1OCIlLRSpfDDQxK
+   CLwmvWhkIB7s5W2pmFtgoNZZAQBZlqn5NGX5NlhMcQaRUlApcU99t5luo
+   w47lPydFdmZcXv8p+pM/9m7B6ol0q+RUn29DEQYQdfuk2w8YWElPnRrpM
+   mLIo6qG/F7U3V4fB+Rrp8Wn+w9BTSH4O6q9u7H9+lCSMHmikBLf26kxkZ
    g==;
-X-CSE-ConnectionGUID: q5AXYw+SRFi49gYqn3505A==
-X-CSE-MsgGUID: PbjLD1DxRJK2GS5I1QRoiw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="86513222"
+X-CSE-ConnectionGUID: Ah1qkz11Q8eAphDeG2dBwg==
+X-CSE-MsgGUID: o43XiSPNTYCc03f155XdWg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="77756172"
 X-IronPort-AV: E=Sophos;i="6.23,132,1770624000"; 
-   d="scan'208";a="86513222"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 19:26:08 -0700
-X-CSE-ConnectionGUID: o0WWiGR5QOOQvsToiLyxHg==
-X-CSE-MsgGUID: wLO7713QQmCTMFZ6fN/fgg==
+   d="scan'208";a="77756172"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 19:34:53 -0700
+X-CSE-ConnectionGUID: ukhpyTZ8QASrpd1utdKURQ==
+X-CSE-MsgGUID: iLITr6QOTIGxJyW3x3uj+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,132,1770624000"; 
-   d="scan'208";a="223679709"
-Received: from lkp-server02.sh.intel.com (HELO d7fefbca0d04) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 20 Mar 2026 19:26:04 -0700
-Received: from kbuild by d7fefbca0d04 with local (Exim 4.98.2)
+   d="scan'208";a="223499154"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa008.jf.intel.com with ESMTP; 20 Mar 2026 19:34:51 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w3m2C-000000000CD-0ohq;
-	Sat, 21 Mar 2026 02:25:53 +0000
-Date: Sat, 21 Mar 2026 10:25:04 +0800
+	id 1w3mAr-000000005NF-1d3n;
+	Sat, 21 Mar 2026 02:34:49 +0000
+Date: Sat, 21 Mar 2026 03:34:21 +0100
 From: kernel test robot <lkp@intel.com>
-To: Mahadevan P <mahadevan.p@oss.qualcomm.com>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
-	Akhil P Oommen <akhilpo@oss.qualcomm.com>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Jessica Zhang <jesszhan0024@gmail.com>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	Mahadevan P <mahadevan.p@oss.qualcomm.com>
-Subject: Re: [PATCH v2] drm/msm: default separate_gpu_kms to auto selection
-Message-ID: <202603211049.NkgQVReV-lkp@intel.com>
-References: <20260317-separate_gpu_kms-v2-1-b027ca97b9fe@oss.qualcomm.com>
+To: Chris Down <chris@chrisdown.name>
+Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Subject: [akpm-mm:mm-unstable 433/449] vm_util.c:133:14: error: too
+ many arguments to function 'pagemap_scan_supported'
+Message-ID: <202603210319.P5MPyTEf-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260317-separate_gpu_kms-v2-1-b027ca97b9fe@oss.qualcomm.com>
 
-Hi Mahadevan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on b84a0ebe421ca56995ff78b66307667b62b3a900]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mahadevan-P/drm-msm-default-separate_gpu_kms-to-auto-selection/20260318-063854
-base:   b84a0ebe421ca56995ff78b66307667b62b3a900
-patch link:    https://lore.kernel.org/r/20260317-separate_gpu_kms-v2-1-b027ca97b9fe%40oss.qualcomm.com
-patch subject: [PATCH v2] drm/msm: default separate_gpu_kms to auto selection
-config: loongarch-randconfig-002-20260321 (https://download.01.org/0day-ci/archive/20260321/202603211049.NkgQVReV-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260321/202603211049.NkgQVReV-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   28edd9c5a25ceb76c2d4e55bc5c37acd7eb0fc92
+commit: 6fa1bf6b010deb50b35d2b2a7c97e7e229f2747e [433/449] selftests/mm: add UFFDIO_MOVE huge zeropage PMD regression test
+config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260321/202603210319.P5MPyTEf-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260321/202603210319.P5MPyTEf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603211049.NkgQVReV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603210319.P5MPyTEf-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+Note: the akpm-mm/mm-unstable HEAD 28edd9c5a25ceb76c2d4e55bc5c37acd7eb0fc92 builds fine.
+      It only hurts bisectability.
 
->> ERROR: modpost: "msm_mdss_count_masters" [drivers/gpu/drm/msm/msm.ko] undefined!
+All errors (new ones prefixed by >>):
+
+   vm_util.c: In function 'pagemap_is_huge_zero':
+>> vm_util.c:133:14: error: too many arguments to function 'pagemap_scan_supported'
+     133 |         if (!pagemap_scan_supported(fd, start))
+         |              ^~~~~~~~~~~~~~~~~~~~~~
+   vm_util.c:70:13: note: declared here
+      70 | static bool pagemap_scan_supported(int fd)
+         |             ^~~~~~~~~~~~~~~~~~~~~~
 
 -- 
 0-DAY CI Kernel Test Service
