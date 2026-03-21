@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD97E175A7C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Mar 2026 04:59:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5264715CD7E
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Mar 2026 05:20:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774069195; cv=none; b=Pw2ADC9MPJ7qNeEObHG35dHS/GX1FJkZSNN0CSj2qZ65YmTuOAGIhPeE27l+c2c5YtldQ3X3Q1JFjeHyxLqAEyiGPUect+Z1fx14z/u5aKAOehJrOY+PnaI57Mlw9Ys+UoNSTcM9VDEbHvpbEexSTgoQH7ZNodgE9JxvdbLOn6o=
+	t=1774070439; cv=none; b=aZM5pGllDKbnI9ISfqlVmch7rE91rnKjTv9xEaUJGUQ/PHCZAMwQfHk+jS99XSV16+JGsniY49l9XeZOFLbRCymO2Sa/z0Sbjcfn+BvyVyfmYZNMHfI87qezWvjz/VrJYU6BXL35tV5tJ+blrfM6DwMQF5sxhBbzt7/g5gZSsuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774069195; c=relaxed/simple;
-	bh=IS1Zj4tVlu7s8wwiJuJCG07RRZSlNGn6lsiY1+qieXI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=cLgg6UwylMP9BDga2AIVj9XnB15eZ5t1xRNL9uVCj2UFG897A5DfiGrGOZWqKSsQzV5majQgT9/dzfBvfERUAn03hvn/gEuUd6cHOsYVNLKgkxkNkEPT4Mibsfgv1zWWXyEd0ciLcZxYQZ05+WJjIXgnzhCjw+Rw1aAdUGeB40E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YhC/e2eY; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1774070439; c=relaxed/simple;
+	bh=IgG2PfEXVCh4PoHFo3zXHpKJX40L0a1Q/0fTHZ7yc8o=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=OQ4PLh+tup8rYk/eTp6xPxk4bPRLPv/JwmZHFgtr+hleInREgHWZT+U63Ix6gjM4I+EzibjzKkkVN2rCa6x0mwc0ilBqWLWkUNolzRiGEQ4TrxhSfiHZwvTGqeYxtWIif2xkfotWg0C4tpLqHiie7woza0akEW3UZ3JLQTyZnf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BnjobUKD; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YhC/e2eY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BnjobUKD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774069194; x=1805605194;
+  t=1774070437; x=1805606437;
   h=date:from:to:cc:subject:message-id;
-  bh=IS1Zj4tVlu7s8wwiJuJCG07RRZSlNGn6lsiY1+qieXI=;
-  b=YhC/e2eYFOBiS99mqelsizQ8UIpxyp+zvCqRntfh7OdZzjiDtcWYlefB
-   6ygqZE0V4EoxjMEIxwab1DV6P9DFSjWFQhJkKx9FxX7VZ3FHv4PHL3AHS
-   Jro/xPfwh/tjYEgKwFzidUiScMcvf7c571IRCeOEQCo3z6qXE8Zzzv233
-   W7TsX+wjIJVXgjpjIpe4UQZGMK92Qz/Qruo316COdq8Cxx9zrtoSihdty
-   RONd/1x9gKMHM5VPkXGjXjY3o8YT40abSkZBarXsophAYDWI8gy3XbkLP
-   otetyu7WSPa/lAgncrW3DXUjd+7je9PEWd6sRNwNBuT8ItnelqlgSDoTy
-   A==;
-X-CSE-ConnectionGUID: J1pnNaJ5QiSl7Eiy32HYmw==
-X-CSE-MsgGUID: RekaNmX0Sd+CNS1j/7DcBQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="75275532"
+  bh=IgG2PfEXVCh4PoHFo3zXHpKJX40L0a1Q/0fTHZ7yc8o=;
+  b=BnjobUKDwR8gapTUeBVK+YPJ1G3juCJ0EPszI63AnYUdGb39pR0oLAdZ
+   EuHT641BvvYF3cq7tqg+cFXf8J6zK5ajJmtpjGUFqlVd53NpsKxutvDNT
+   TKCxxxAt30+ZQGJTER+AmmiVUy9K9yjcqkmIPhOTzBYw0YhiAqVMwQ1nf
+   74oKYg51mzhgegDLUr4mwC/oYVFy9Uwg0i/38bYCEsRwU6l85JcsWZXmu
+   HoD4xSB11NnaTeAsm23jlpiCBDM1Fi29JI3bMbHwgFJ8IT1z5xq/NTvY6
+   W+sukbXCRQxEBs431fqNmJiDsyfFBy6szEGzyRsgvnlw8nNXYlcb6m0oo
+   Q==;
+X-CSE-ConnectionGUID: HE3tBCG2Rem+6fBuXPhVTQ==
+X-CSE-MsgGUID: wQcLB9ENR8u/Ri7UC+SAiw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="86233255"
 X-IronPort-AV: E=Sophos;i="6.23,132,1770624000"; 
-   d="scan'208";a="75275532"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 21:59:53 -0700
-X-CSE-ConnectionGUID: PUKGp20EQFyZTXJjoZFLvA==
-X-CSE-MsgGUID: cGNXRgp5Q8a2K3exa7M59g==
+   d="scan'208";a="86233255"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 22:20:37 -0700
+X-CSE-ConnectionGUID: QjBWOS9UTgOielkZt3AHRw==
+X-CSE-MsgGUID: PEnGzgAMS1C+UMvyVsW3ug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,132,1770624000"; 
-   d="scan'208";a="222723160"
+   d="scan'208";a="218783214"
 Received: from lkp-server02.sh.intel.com (HELO d7fefbca0d04) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 20 Mar 2026 21:59:51 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 20 Mar 2026 22:20:34 -0700
 Received: from kbuild by d7fefbca0d04 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w3oQy-000000000KL-08YZ;
-	Sat, 21 Mar 2026 04:59:39 +0000
-Date: Sat, 21 Mar 2026 12:58:48 +0800
+	id 1w3ol4-000000000LD-1Bqk;
+	Sat, 21 Mar 2026 05:20:24 +0000
+Date: Sat, 21 Mar 2026 13:19:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [axboe:rw_iter 441/539] Warning:
- drivers/scsi/lpfc/lpfc_debugfs.c:2629 function parameter 'iocb' not described
- in 'lpfc_debugfs_multixripools_write'
-Message-ID: <202603211210.t5jXJrtW-lkp@intel.com>
+To: Pablo Neira Ayuso <pablo@netfilter.org>
+Cc: oe-kbuild-all@lists.linux.dev, netfilter-devel@vger.kernel.org,
+ coreteam@netfilter.org, Florian Westphal <fw@strlen.de>
+Subject: [netfilter-nf:testing 8/9]
+ net/netfilter/nf_conntrack_expect.c:341:12: error: 'struct
+ nf_conntrack_expect' has no member named 'zone'
+Message-ID: <202603211306.QR8V8nsC-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,88 +61,99 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git rw_iter
-head:   f36e0fb8d552bd827ef31f4fc1190d0149c44249
-commit: cf8b7a8d95d071083dcd21a327aae46584fd133b [441/539] scsi: convert remaining fops to read/write iterators
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260321/202603211210.t5jXJrtW-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260321/202603211210.t5jXJrtW-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git testing
+head:   b1bad43d8b00ab31c8f93145a4c8db1567f0d2fe
+commit: 5559719129b7370573ae4892829ea7c55f702b27 [8/9] netfilter: nf_conntrack_expect: store netns and zone in expectation
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20260321/202603211306.QR8V8nsC-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260321/202603211306.QR8V8nsC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603211210.t5jXJrtW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603211306.QR8V8nsC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:2583 function parameter 'iocb' not described in 'lpfc_debugfs_read'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:2583 function parameter 'to' not described in 'lpfc_debugfs_read'
->> Warning: drivers/scsi/lpfc/lpfc_debugfs.c:2629 function parameter 'iocb' not described in 'lpfc_debugfs_multixripools_write'
->> Warning: drivers/scsi/lpfc/lpfc_debugfs.c:2629 function parameter 'from' not described in 'lpfc_debugfs_multixripools_write'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:3318 function parameter 'iocb' not described in 'lpfc_idiag_pcicfg_read'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:3318 function parameter 'to' not described in 'lpfc_idiag_pcicfg_read'
->> Warning: drivers/scsi/lpfc/lpfc_debugfs.c:3438 function parameter 'iocb' not described in 'lpfc_idiag_pcicfg_write'
->> Warning: drivers/scsi/lpfc/lpfc_debugfs.c:3438 function parameter 'from' not described in 'lpfc_idiag_pcicfg_write'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:3611 function parameter 'iocb' not described in 'lpfc_idiag_baracc_read'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:3611 function parameter 'to' not described in 'lpfc_idiag_baracc_read'
->> Warning: drivers/scsi/lpfc/lpfc_debugfs.c:3761 function parameter 'iocb' not described in 'lpfc_idiag_baracc_write'
->> Warning: drivers/scsi/lpfc/lpfc_debugfs.c:3761 function parameter 'from' not described in 'lpfc_idiag_baracc_write'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:4065 function parameter 'iocb' not described in 'lpfc_idiag_queinfo_read'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:4065 function parameter 'to' not described in 'lpfc_idiag_queinfo_read'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:4272 function parameter 'iocb' not described in 'lpfc_idiag_queacc_read'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:4272 function parameter 'to' not described in 'lpfc_idiag_queacc_read'
->> Warning: drivers/scsi/lpfc/lpfc_debugfs.c:4348 function parameter 'iocb' not described in 'lpfc_idiag_queacc_write'
->> Warning: drivers/scsi/lpfc/lpfc_debugfs.c:4348 function parameter 'from' not described in 'lpfc_idiag_queacc_write'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:4644 function parameter 'iocb' not described in 'lpfc_idiag_drbacc_read'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:4644 function parameter 'to' not described in 'lpfc_idiag_drbacc_read'
->> Warning: drivers/scsi/lpfc/lpfc_debugfs.c:4699 function parameter 'iocb' not described in 'lpfc_idiag_drbacc_write'
->> Warning: drivers/scsi/lpfc/lpfc_debugfs.c:4699 function parameter 'from' not described in 'lpfc_idiag_drbacc_write'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:4860 function parameter 'iocb' not described in 'lpfc_idiag_ctlacc_read'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:4860 function parameter 'to' not described in 'lpfc_idiag_ctlacc_read'
->> Warning: drivers/scsi/lpfc/lpfc_debugfs.c:4912 function parameter 'iocb' not described in 'lpfc_idiag_ctlacc_write'
->> Warning: drivers/scsi/lpfc/lpfc_debugfs.c:4912 function parameter 'from' not described in 'lpfc_idiag_ctlacc_write'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:5052 function parameter 'iocb' not described in 'lpfc_idiag_mbxacc_read'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:5052 function parameter 'to' not described in 'lpfc_idiag_mbxacc_read'
->> Warning: drivers/scsi/lpfc/lpfc_debugfs.c:5096 function parameter 'iocb' not described in 'lpfc_idiag_mbxacc_write'
->> Warning: drivers/scsi/lpfc/lpfc_debugfs.c:5096 function parameter 'from' not described in 'lpfc_idiag_mbxacc_write'
->> Warning: drivers/scsi/lpfc/lpfc_debugfs.c:5370 function parameter 'iocb' not described in 'lpfc_idiag_extacc_write'
->> Warning: drivers/scsi/lpfc/lpfc_debugfs.c:5370 function parameter 'from' not described in 'lpfc_idiag_extacc_write'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:5415 function parameter 'iocb' not described in 'lpfc_idiag_extacc_read'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:5415 function parameter 'to' not described in 'lpfc_idiag_extacc_read'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:2583 function parameter 'iocb' not described in 'lpfc_debugfs_read'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:2583 function parameter 'to' not described in 'lpfc_debugfs_read'
->> Warning: drivers/scsi/lpfc/lpfc_debugfs.c:2629 function parameter 'iocb' not described in 'lpfc_debugfs_multixripools_write'
->> Warning: drivers/scsi/lpfc/lpfc_debugfs.c:2629 function parameter 'from' not described in 'lpfc_debugfs_multixripools_write'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:3318 function parameter 'iocb' not described in 'lpfc_idiag_pcicfg_read'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:3318 function parameter 'to' not described in 'lpfc_idiag_pcicfg_read'
->> Warning: drivers/scsi/lpfc/lpfc_debugfs.c:3438 function parameter 'iocb' not described in 'lpfc_idiag_pcicfg_write'
->> Warning: drivers/scsi/lpfc/lpfc_debugfs.c:3438 function parameter 'from' not described in 'lpfc_idiag_pcicfg_write'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:3611 function parameter 'iocb' not described in 'lpfc_idiag_baracc_read'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:3611 function parameter 'to' not described in 'lpfc_idiag_baracc_read'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:3761 function parameter 'iocb' not described in 'lpfc_idiag_baracc_write'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:3761 function parameter 'from' not described in 'lpfc_idiag_baracc_write'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:4065 function parameter 'iocb' not described in 'lpfc_idiag_queinfo_read'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:4065 function parameter 'to' not described in 'lpfc_idiag_queinfo_read'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:4272 function parameter 'iocb' not described in 'lpfc_idiag_queacc_read'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:4272 function parameter 'to' not described in 'lpfc_idiag_queacc_read'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:4348 function parameter 'iocb' not described in 'lpfc_idiag_queacc_write'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:4348 function parameter 'from' not described in 'lpfc_idiag_queacc_write'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:4644 function parameter 'iocb' not described in 'lpfc_idiag_drbacc_read'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:4644 function parameter 'to' not described in 'lpfc_idiag_drbacc_read'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:4699 function parameter 'iocb' not described in 'lpfc_idiag_drbacc_write'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:4699 function parameter 'from' not described in 'lpfc_idiag_drbacc_write'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:4860 function parameter 'iocb' not described in 'lpfc_idiag_ctlacc_read'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:4860 function parameter 'to' not described in 'lpfc_idiag_ctlacc_read'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:4912 function parameter 'iocb' not described in 'lpfc_idiag_ctlacc_write'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:4912 function parameter 'from' not described in 'lpfc_idiag_ctlacc_write'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:5052 function parameter 'iocb' not described in 'lpfc_idiag_mbxacc_read'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:5052 function parameter 'to' not described in 'lpfc_idiag_mbxacc_read'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:5096 function parameter 'iocb' not described in 'lpfc_idiag_mbxacc_write'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:5096 function parameter 'from' not described in 'lpfc_idiag_mbxacc_write'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:5370 function parameter 'iocb' not described in 'lpfc_idiag_extacc_write'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:5370 function parameter 'from' not described in 'lpfc_idiag_extacc_write'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:5415 function parameter 'iocb' not described in 'lpfc_idiag_extacc_read'
-   Warning: drivers/scsi/lpfc/lpfc_debugfs.c:5415 function parameter 'to' not described in 'lpfc_idiag_extacc_read'
+   net/netfilter/nf_conntrack_expect.c: In function 'nf_ct_expect_init':
+>> net/netfilter/nf_conntrack_expect.c:341:12: error: 'struct nf_conntrack_expect' has no member named 'zone'
+     341 |         exp->zone = exp->master->zone;
+         |            ^~
+>> net/netfilter/nf_conntrack_expect.c:341:32: error: 'struct nf_conn' has no member named 'zone'
+     341 |         exp->zone = exp->master->zone;
+         |                                ^~
+--
+   net/netfilter/nf_conntrack_netlink.c: In function 'ctnetlink_alloc_expect':
+>> net/netfilter/nf_conntrack_netlink.c:3583:12: error: 'struct nf_conntrack_expect' has no member named 'zone'
+    3583 |         exp->zone = ct->zone;
+         |            ^~
+>> net/netfilter/nf_conntrack_netlink.c:3583:23: error: 'struct nf_conn' has no member named 'zone'
+    3583 |         exp->zone = ct->zone;
+         |                       ^~
+
+
+vim +341 net/netfilter/nf_conntrack_expect.c
+
+   316	
+   317	/* This function can only be used from packet path, where accessing
+   318	 * master's helper is safe, because the packet holds a reference on
+   319	 * the conntrack object. Never use it from control plane.
+   320	 */
+   321	void nf_ct_expect_init(struct nf_conntrack_expect *exp, unsigned int class,
+   322			       u_int8_t family,
+   323			       const union nf_inet_addr *saddr,
+   324			       const union nf_inet_addr *daddr,
+   325			       u_int8_t proto, const __be16 *src, const __be16 *dst)
+   326	{
+   327		struct net *net = read_pnet(&exp->master->ct_net);
+   328	
+   329		int len;
+   330	
+   331		if (family == AF_INET)
+   332			len = 4;
+   333		else
+   334			len = 16;
+   335	
+   336		exp->flags = 0;
+   337		exp->class = class;
+   338		exp->expectfn = NULL;
+   339		rcu_assign_pointer(exp->helper, nfct_help(exp->master)->helper);
+   340		write_pnet(&exp->net, net);
+ > 341		exp->zone = exp->master->zone;
+   342		exp->tuple.src.l3num = family;
+   343		exp->tuple.dst.protonum = proto;
+   344	
+   345		if (saddr) {
+   346			memcpy(&exp->tuple.src.u3, saddr, len);
+   347			if (sizeof(exp->tuple.src.u3) > len)
+   348				/* address needs to be cleared for nf_ct_tuple_equal */
+   349				memset((void *)&exp->tuple.src.u3 + len, 0x00,
+   350				       sizeof(exp->tuple.src.u3) - len);
+   351			memset(&exp->mask.src.u3, 0xFF, len);
+   352			if (sizeof(exp->mask.src.u3) > len)
+   353				memset((void *)&exp->mask.src.u3 + len, 0x00,
+   354				       sizeof(exp->mask.src.u3) - len);
+   355		} else {
+   356			memset(&exp->tuple.src.u3, 0x00, sizeof(exp->tuple.src.u3));
+   357			memset(&exp->mask.src.u3, 0x00, sizeof(exp->mask.src.u3));
+   358		}
+   359	
+   360		if (src) {
+   361			exp->tuple.src.u.all = *src;
+   362			exp->mask.src.u.all = htons(0xFFFF);
+   363		} else {
+   364			exp->tuple.src.u.all = 0;
+   365			exp->mask.src.u.all = 0;
+   366		}
+   367	
+   368		memcpy(&exp->tuple.dst.u3, daddr, len);
+   369		if (sizeof(exp->tuple.dst.u3) > len)
+   370			/* address needs to be cleared for nf_ct_tuple_equal */
+   371			memset((void *)&exp->tuple.dst.u3 + len, 0x00,
+   372			       sizeof(exp->tuple.dst.u3) - len);
+   373	
+   374		exp->tuple.dst.u.all = *dst;
+   375	
 
 -- 
 0-DAY CI Kernel Test Service
