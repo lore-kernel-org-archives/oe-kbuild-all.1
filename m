@@ -1,111 +1,98 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D7152BD11
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Mar 2026 10:22:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82E9729ACC5
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Mar 2026 10:39:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774088564; cv=none; b=vBQmC1BfmtbNKRnSzn0FacBZc2QmmQ+FUSHG0W17wcm4IeZpBesxkqas14ub3KAn1jQXza88cHY9LxTxMGacsD/TSAviLx4RjRLDVsbG+g8vfkYf9r0Gy6vZKnwwsqP6fekeAusgNrpg7CmAPhpBOOHDK/tYgDRhq9AnHsSnHiA=
+	t=1774089549; cv=none; b=uZcrBZnKDYnKJ+OO+0hErYoL8QfGSmYKBxZA1rGqpnqi9vIv1hlZT72yLGMEeToiTxodqNqCncJDGOsH22OPB0vzKwi29fFlvkwUpxGchQyb7E8RKEi50p0XMQFcZpLi3s/H0NqCLOsc3ZrG7oD+Ttg00oQHgljQsZ5VBkvDRyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774088564; c=relaxed/simple;
-	bh=LQ0bxs+3d9n403nrVVBCtUaJTlLutOkC1jRK9LEEa6A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nPoV8TVhnEI6SjiK6abHMf2YQEnxPzpCa1ub5DJ8f+5+6opJTjj4P+bIXayLHN6pA0lLeIS/s1zN+UIGcFNRTqx1CGsz3XMP6JeYVfdmww9MP615jKN7OKLfWBGJSzz8sLfgP5BF9VpF+I3M1IqEfBYrwQ9LU4m12DEO0D/owpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=H9176JKz; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1774089549; c=relaxed/simple;
+	bh=W9kbvELH4yiW3lV93scpVc9DsnUJM5n5I7gSXm2W1kY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=J4cFdwEOk9ZZa1tBat4Hzdfos8UKpRCYKzeDrRF80q0XApytq2Ty9yPxTQjLrxTE11DlEXDhZW9Ue8ttoNiI60hrq+DKhKBoMkh55BPl+ay3wQTurAs1sttyA+1JLAUO5ZRrjNaMig5yf5Ue6CELBVswLM4q5XgjpXkNbFBxgOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jVwm04AT; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="H9176JKz"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-48541edecf9so27258385e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Mar 2026 03:22:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1774088561; x=1774693361; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ncZ3YNhaTYxF3dz2fmkAFzB2GbjnNzz5sDTtsch5DyI=;
-        b=H9176JKzrpEQVeQtuYqumkQQjC51HRJMFAJWm1PPQkFnbMAjXApOGleTOCAJGcpWKB
-         qaWlzV3mk2JxHv/QXq86XT37izprsDCwtN4zogSnWMPRYctDnk2H9mv4/nCi7igEMwOp
-         kUlhe/NxRDIS5uh+wgroBI/QM+DDxDbQooWgTFF36iqH6iPX/q8QkKYLi77ddqwBiFwK
-         /wvAgmqM8JV0voTZ0iRJEdx2aON5J82MvqL6/oQuA/+e/hzPW+Srcjf4awaOLSQhsNJG
-         QCu2Oo+ta406wL7soHyiP00lvJ+1x77APaqvhgr3Z571q4YiEVANcJ+hqW0qqcL+RFO+
-         1KgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774088561; x=1774693361;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ncZ3YNhaTYxF3dz2fmkAFzB2GbjnNzz5sDTtsch5DyI=;
-        b=IK2APjmNCKJa4O+XNyVRGym7+cg8zVch95M09idnLRd9QY1ikJP16nsik1jwCG97Gm
-         0gj37IfLpJ7Ryvi0k4jodTmiZgbmrI5iupghOLU+/lk4OD0m4UpXdO7vmw9zJnFVd4pl
-         UXzG5PemtRfC2QrFKGxHvSpofToHofO2iurXjzJ8yHk4SIcVDXuJh1EWOEIuhPYwE/OW
-         IeqBkLA6e7cKjzMVFMG3Hjg8VsmUH56wMTWayKYBSQoXrKbw6qcd/6bsaGkQw5oWvvb1
-         lkaxfz5uIU3dkAsEwJbHkueb9KcIXIttGcBaP1QQAKyzZuXxbxN9puUMdRsZf31FeLbO
-         Cndw==
-X-Forwarded-Encrypted: i=1; AJvYcCUuvKQbSMZPd7MmdMlB8DYudwL0MzTEQzzfXflnkI41yvVEDlfatoFZJl5WH7Zgi1sX8URkEzHbXfC4CwjZ@lists.linux.dev
-X-Gm-Message-State: AOJu0YyuMkiQ2QnfrYvJJoghwg7b2Jmas6AuK5L4KEUcTHoryAGnq3VQ
-	1PKkHruDw3eWjSVK5qTtMAlmUJ9Y/kRmBnEUn560A5+xLMBu3gGkkY1cIuXwvR7Hf3fwl28UBF2
-	/1zZs
-X-Gm-Gg: ATEYQzyOYVLQRCg8bnItlqA0OypoxDHXTADfBcFU5pVI06ftPzKyHThMu6f7DHICue/
-	SQ0zvZ130jBwb+kmd1bR3fftgTaCYdceVi6AVlOCU2n5t6dPT6beA9WRbBqgdtHHSZbjE9UlIqs
-	LSdv2HZ/o5gk6M9DWXhPLKF8brDPf09Hjovi0m3pwhyrBLN15broWv981NFv3gDIKByT2w1ZcMF
-	6iDbUSTWId6FOBrTfziJIhKo38TASsc8arp6UPGcaE/Cc7ypg27gq/fWsUCT10L9lEBRqpJODIK
-	0EsdyUiBjblWX5VXIYIGs5UONhS9pnpcCdPyxd7/OvZgsdItt7aMy06dRkoomRoLgzJyiEiaslP
-	e4oA7qnL5TFgW+A0utU8QP2ASkMTlWt+7ziyFJd1EMfsAa2DxJsr8BjD+lNc0MVgpClRXIx3ISL
-	ShJTp2nlxPfYuOyFtABKumXnwsCmsX654PUaKqi1E=
-X-Received: by 2002:a05:600c:c167:b0:486:fab9:a578 with SMTP id 5b1f17b1804b1-486fedc3843mr85510505e9.11.1774088561508;
-        Sat, 21 Mar 2026 03:22:41 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486fe032a55sm238485695e9.7.2026.03.21.03.22.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Mar 2026 03:22:41 -0700 (PDT)
-Date: Sat, 21 Mar 2026 13:22:38 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: yaxing guo <guoyaxing@bosc.ac.cn>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: drivers/uio/uio_pci_generic_sva.c:140 probe() warn: passing
- devm_ allocated variable to kfree. 'udev'
-Message-ID: <ab5xbtDoMoq7HUnz@stanley.mountain>
-References: <202603210811.1eXTfndx-lkp@intel.com>
- <2da23703-7693-47f8-a561-743428b9bb22@bosc.ac.cn>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jVwm04AT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774089548; x=1805625548;
+  h=date:from:to:cc:subject:message-id;
+  bh=W9kbvELH4yiW3lV93scpVc9DsnUJM5n5I7gSXm2W1kY=;
+  b=jVwm04ATXFC8dPJk7zJitflnF9+BKOFthikt86JLwam2eI0gApvdhjeq
+   u+ICxQfYh9qf/9K3UWpRwc6oYzH4W8kMa8pPdMXgOlkMEcnugK+Bu9r62
+   VM+h+kiWh6cHTCtkd97ANQNrlULCDZVjn3pZ2qu/lkbEpzGJef3uBhMf4
+   WXfQuqvEJVcDdI8dCsbcywQDM8LewV6u6j+fV5sGfkJ4MKQcb7/T7/+gK
+   8c6Lmm8ee2DlRwx+pAuQYnMOcnqihJ+QeZltZ60hHGos8b6lW/v8oSQrN
+   QhtgbgUDp7XNOVyKbg/PsCGLiW5e+7pwrCdnW8XDcXmISrdZzKH0+1Zpo
+   g==;
+X-CSE-ConnectionGUID: i2swcVGcSZOVvoGfFat6vw==
+X-CSE-MsgGUID: IKDO0hINQfOnu86F8nSpjA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="74872637"
+X-IronPort-AV: E=Sophos;i="6.23,133,1770624000"; 
+   d="scan'208";a="74872637"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2026 03:39:08 -0700
+X-CSE-ConnectionGUID: S0wJ/CBPS0uhYjWVTyeN/g==
+X-CSE-MsgGUID: o7+xz3zNQ9SSM+vPn3B1JQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,133,1770624000"; 
+   d="scan'208";a="227646338"
+Received: from lkp-server02.sh.intel.com (HELO d7fefbca0d04) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 21 Mar 2026 03:39:05 -0700
+Received: from kbuild by d7fefbca0d04 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w3tjT-000000000bx-0ZLZ;
+	Sat, 21 Mar 2026 10:39:03 +0000
+Date: Sat, 21 Mar 2026 18:38:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-misc:lib-raid6 29/33] lib/raid/raid6/arm/neon1.c:28:10:
+ fatal error: neon.h: No such file or directory
+Message-ID: <202603211831.QH9kHkQc-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2da23703-7693-47f8-a561-743428b9bb22@bosc.ac.cn>
 
-On Sat, Mar 21, 2026 at 05:51:15PM +0800, yaxing guo wrote:
-> > 3397c3cd859a2c Yaxing Guo 2025-09-26  135  	pci_set_drvdata(pdev, udev);
-> > 3397c3cd859a2c Yaxing Guo 2025-09-26  136
-> > 3397c3cd859a2c Yaxing Guo 2025-09-26  137  	return 0;
-> > 3397c3cd859a2c Yaxing Guo 2025-09-26  138
-> > 3397c3cd859a2c Yaxing Guo 2025-09-26  139  out_free:
-> > 3397c3cd859a2c Yaxing Guo 2025-09-26 @140  	kfree(udev);
-> > 
-> > So this is a double free.
-> > 
-> > 3397c3cd859a2c Yaxing Guo 2025-09-26  141  out_disable:
-> > 3397c3cd859a2c Yaxing Guo 2025-09-26  142  	pci_disable_device(pdev);
-> > 3397c3cd859a2c Yaxing Guo 2025-09-26  143
-> > 3397c3cd859a2c Yaxing Guo 2025-09-26  144  	return ret;
-> > 3397c3cd859a2c Yaxing Guo 2025-09-26  145  }
-> > 
-> 
-> Hi Dan,
-> The double-free issue has been addressed by Shuangshuo Li, who has already
-> submitted a fix patch:
-> 
-> https://lore.kernel.org/lkml/20260226153250.18079-1-lgs201920130244@gmail.com/
-> 
+tree:   git://git.infradead.org/users/hch/misc.git lib-raid6
+head:   83a13a72f6f47b7ba7d26a200575edb70bf23c70
+commit: 252652e3d689463259c19e406e5de766a6674d0f [29/33] raid6: move to lib/raid/
+config: arm64-randconfig-003-20260321 (https://download.01.org/0day-ci/archive/20260321/202603211831.QH9kHkQc-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260321/202603211831.QH9kHkQc-lkp@intel.com/reproduce)
 
-Okay.  Good.  I actually reported this bug to you last year in
-November.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603211831.QH9kHkQc-lkp@intel.com/
 
-https://lore.kernel.org/all/202511280815.WV9iCJZb-lkp@intel.com/
+All errors (new ones prefixed by >>):
 
-regards,
-dan carpenter
+>> lib/raid/raid6/arm/neon1.c:28:10: fatal error: neon.h: No such file or directory
+      28 | #include "neon.h"
+         |          ^~~~~~~~
+   compilation terminated.
+--
+>> lib/raid/raid6/arm/neon2.c:28:10: fatal error: neon.h: No such file or directory
+      28 | #include "neon.h"
+         |          ^~~~~~~~
+   compilation terminated.
+--
+>> lib/raid/raid6/arm/neon4.c:28:10: fatal error: neon.h: No such file or directory
+      28 | #include "neon.h"
+         |          ^~~~~~~~
+   compilation terminated.
+--
+>> lib/raid/raid6/arm/neon8.c:28:10: fatal error: neon.h: No such file or directory
+      28 | #include "neon.h"
+         |          ^~~~~~~~
+   compilation terminated.
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
