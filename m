@@ -1,97 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82E9729ACC5
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Mar 2026 10:39:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14AEE36999F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Mar 2026 10:59:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774089549; cv=none; b=uZcrBZnKDYnKJ+OO+0hErYoL8QfGSmYKBxZA1rGqpnqi9vIv1hlZT72yLGMEeToiTxodqNqCncJDGOsH22OPB0vzKwi29fFlvkwUpxGchQyb7E8RKEi50p0XMQFcZpLi3s/H0NqCLOsc3ZrG7oD+Ttg00oQHgljQsZ5VBkvDRyI=
+	t=1774090760; cv=none; b=aakui+DY0sE0v+8PBffZumJtkaX/jr1zoC9t20U/Gvzj1oqo22RftY+38rrGkQfrOovXsCN9r2npWCuC4ejKFeKfAVvyRQrHMBxpr7I4lt4ZLHqWid+KExR2xXxCb0UcNB+XGExfp6Us+04ogEudDRXAIcV0QajEGr08Ofi8Ayc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774089549; c=relaxed/simple;
-	bh=W9kbvELH4yiW3lV93scpVc9DsnUJM5n5I7gSXm2W1kY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=J4cFdwEOk9ZZa1tBat4Hzdfos8UKpRCYKzeDrRF80q0XApytq2Ty9yPxTQjLrxTE11DlEXDhZW9Ue8ttoNiI60hrq+DKhKBoMkh55BPl+ay3wQTurAs1sttyA+1JLAUO5ZRrjNaMig5yf5Ue6CELBVswLM4q5XgjpXkNbFBxgOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jVwm04AT; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1774090760; c=relaxed/simple;
+	bh=QQXZFI1/fmSKfRGEcGsAn1o/xAEgHZmMzHfPBZtLerU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R97s2iP6e6E9hczh5HME4EYiRKq/yBqDh3ty6vpLNu1ihwqPuzsBdimbLfzmDeZWLnjR09Z1BIStQLEYDwQskvoDihl/s4+XJthiQxDsJsw7FdB6vvqV+ZvTjSVPhdZ2g5nEeicBlHOyLCG1R5kXV+BOBPSNC3u37l5Qp96GxYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FFKX40pY; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jVwm04AT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FFKX40pY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774089548; x=1805625548;
-  h=date:from:to:cc:subject:message-id;
-  bh=W9kbvELH4yiW3lV93scpVc9DsnUJM5n5I7gSXm2W1kY=;
-  b=jVwm04ATXFC8dPJk7zJitflnF9+BKOFthikt86JLwam2eI0gApvdhjeq
-   u+ICxQfYh9qf/9K3UWpRwc6oYzH4W8kMa8pPdMXgOlkMEcnugK+Bu9r62
-   VM+h+kiWh6cHTCtkd97ANQNrlULCDZVjn3pZ2qu/lkbEpzGJef3uBhMf4
-   WXfQuqvEJVcDdI8dCsbcywQDM8LewV6u6j+fV5sGfkJ4MKQcb7/T7/+gK
-   8c6Lmm8ee2DlRwx+pAuQYnMOcnqihJ+QeZltZ60hHGos8b6lW/v8oSQrN
-   QhtgbgUDp7XNOVyKbg/PsCGLiW5e+7pwrCdnW8XDcXmISrdZzKH0+1Zpo
+  t=1774090759; x=1805626759;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QQXZFI1/fmSKfRGEcGsAn1o/xAEgHZmMzHfPBZtLerU=;
+  b=FFKX40pY9UZv+u0Nlym3X6tHDIKqV4YBmFJEr+cjxRjo0vPYTYSa99sG
+   /AaHXoP9H/ziw8lj5XDyM/9xaySXooZfTIJvPMF+gaNpgRlRxug8oVBvg
+   UkN3fQrLtw/J+xy11yw9Vn56kjG64Sr4W963/M9DzTeB+PMaOAdk4Z4tz
+   RBXCGXs9q5YxH47xG3WPUjBS3b95NYipOzbYspEhEWW+sX/SXQRXnYZni
+   qBVgSVQ6Ob7Yqzo+CZq/9Niwytt/Wjb23/7tTozdhICGmOLNEGrEfT+iZ
+   WevgOjZw0RYUBu8qpxvnEmFUxsf2uapLU/mMhR8+kI90Qu3bp0zaGs+1Y
    g==;
-X-CSE-ConnectionGUID: i2swcVGcSZOVvoGfFat6vw==
-X-CSE-MsgGUID: IKDO0hINQfOnu86F8nSpjA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="74872637"
+X-CSE-ConnectionGUID: zbocwsEjRS6EcIcXo384kQ==
+X-CSE-MsgGUID: NIb/TrVSSAu9MDdx6h1gxA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="79026154"
 X-IronPort-AV: E=Sophos;i="6.23,133,1770624000"; 
-   d="scan'208";a="74872637"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2026 03:39:08 -0700
-X-CSE-ConnectionGUID: S0wJ/CBPS0uhYjWVTyeN/g==
-X-CSE-MsgGUID: o7+xz3zNQ9SSM+vPn3B1JQ==
+   d="scan'208";a="79026154"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2026 03:59:19 -0700
+X-CSE-ConnectionGUID: +QN8/L37T1GjFsPzxIpNnA==
+X-CSE-MsgGUID: 7naftmS6S7Sda8MWZ4FJNQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,133,1770624000"; 
-   d="scan'208";a="227646338"
+   d="scan'208";a="220391717"
 Received: from lkp-server02.sh.intel.com (HELO d7fefbca0d04) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 21 Mar 2026 03:39:05 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 21 Mar 2026 03:59:16 -0700
 Received: from kbuild by d7fefbca0d04 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w3tjT-000000000bx-0ZLZ;
-	Sat, 21 Mar 2026 10:39:03 +0000
-Date: Sat, 21 Mar 2026 18:38:41 +0800
+	id 1w3u2z-000000000d7-2CY3;
+	Sat, 21 Mar 2026 10:59:13 +0000
+Date: Sat, 21 Mar 2026 18:59:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-misc:lib-raid6 29/33] lib/raid/raid6/arm/neon1.c:28:10:
- fatal error: neon.h: No such file or directory
-Message-ID: <202603211831.QH9kHkQc-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Emanuele Rocca <emanuele.rocca@arm.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>,
+	linux-fsdevel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+	Jann Horn <jannh@google.com>, Oleg Nesterov <oleg@redhat.com>
+Subject: Re: [PATCH] pidfds: add coredump_code field to pidfd_info
+Message-ID: <202603211842.JCwUVYTI-lkp@intel.com>
+References: <ab29J6KsQm8Xg3LR@NH27D9T0LF>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ab29J6KsQm8Xg3LR@NH27D9T0LF>
 
-tree:   git://git.infradead.org/users/hch/misc.git lib-raid6
-head:   83a13a72f6f47b7ba7d26a200575edb70bf23c70
-commit: 252652e3d689463259c19e406e5de766a6674d0f [29/33] raid6: move to lib/raid/
-config: arm64-randconfig-003-20260321 (https://download.01.org/0day-ci/archive/20260321/202603211831.QH9kHkQc-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260321/202603211831.QH9kHkQc-lkp@intel.com/reproduce)
+Hi Emanuele,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on shuah-kselftest/next]
+[also build test ERROR on shuah-kselftest/fixes brauner-vfs/vfs.all linus/master v7.0-rc4 next-20260320]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Emanuele-Rocca/pidfds-add-coredump_code-field-to-pidfd_info/20260321-125434
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
+patch link:    https://lore.kernel.org/r/ab29J6KsQm8Xg3LR%40NH27D9T0LF
+patch subject: [PATCH] pidfds: add coredump_code field to pidfd_info
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20260321/202603211842.JCwUVYTI-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260321/202603211842.JCwUVYTI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603211831.QH9kHkQc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603211842.JCwUVYTI-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> lib/raid/raid6/arm/neon1.c:28:10: fatal error: neon.h: No such file or directory
-      28 | #include "neon.h"
-         |          ^~~~~~~~
-   compilation terminated.
---
->> lib/raid/raid6/arm/neon2.c:28:10: fatal error: neon.h: No such file or directory
-      28 | #include "neon.h"
-         |          ^~~~~~~~
-   compilation terminated.
---
->> lib/raid/raid6/arm/neon4.c:28:10: fatal error: neon.h: No such file or directory
-      28 | #include "neon.h"
-         |          ^~~~~~~~
-   compilation terminated.
---
->> lib/raid/raid6/arm/neon8.c:28:10: fatal error: neon.h: No such file or directory
-      28 | #include "neon.h"
-         |          ^~~~~~~~
-   compilation terminated.
+   In file included from <command-line>:
+   In function 'pidfd_info',
+       inlined from 'pidfd_ioctl' at fs/pidfs.c:527:10:
+>> include/linux/compiler_types.h:706:45: error: call to '__compiletime_assert_410' declared with attribute error: BUILD_BUG_ON failed: sizeof(struct pidfd_info) != PIDFD_INFO_SIZE_VER3
+     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:687:25: note: in definition of macro '__compiletime_assert'
+     687 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
+     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   fs/pidfs.c:350:9: note: in expansion of macro 'BUILD_BUG_ON'
+     350 |         BUILD_BUG_ON(sizeof(struct pidfd_info) != PIDFD_INFO_SIZE_VER3);
+         |         ^~~~~~~~~~~~
+
+
+vim +/__compiletime_assert_410 +706 include/linux/compiler_types.h
+
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  692  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  693  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  694  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  695  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  696  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  697   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  698   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  699   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  700   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  701   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  702   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  703   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  704   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  705  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @706  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  707  
 
 -- 
 0-DAY CI Kernel Test Service
