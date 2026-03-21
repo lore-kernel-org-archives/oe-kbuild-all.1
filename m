@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C75FD274B4A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Mar 2026 05:53:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 291A73624A7
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Mar 2026 05:57:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774072396; cv=none; b=YhLBqlTNqL05VAezyS3ZQ5dsGi0103NQIWj0gjp6MKpla/IiFkyq3D/gVS/Iflm0oz+gLLPDvXk/jgRaXIopujW56pYa0IRDQMsdp9QooAEj6a8FK5wStMSfOAET5AJIIyRk2bmvMufZ9QmO/qJNpN2DgGvD92BrZz+UhOt+I/8=
+	t=1774072634; cv=none; b=PSPCTCeKeojZzDck74Vi3rpAsFWG+Uyamdfk/OtoE/4Cy8loot13GaUb7t9aVBeVdY0hL36A77favvnSbd93n3FgseyHxxRKyf8qihLVwPbWD94Y75aFa1gY7EEYAMbvYnkKzZN+pvpZBaraCA2/+dUG+weL9hNaZ22beDcqxyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774072396; c=relaxed/simple;
-	bh=vN7VSh8RCHngvf6K31e3OAQagiXAI9GiuCJE7BuLr/I=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=LMU2srs+DgeIDX088X8amMd9myOdAda3WPEQAOuKrY5hi5x6kYE1Udpll02tBx1YBSQ6DduL2kmJOlBovhz8bzLGMcu9M7/d4+Y3xAaiaCm/aFrZw2UUy72PtVnS7fkUYwgmhF1q4+OT1GpnKB4QOtoTaWDxodEnuJ3oj6BKyUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QIj9KJl4; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1774072634; c=relaxed/simple;
+	bh=BBScthakHfwb7QuR1J3Hfw2qvVfNau/W+bfx/Os98AY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XvwZ5m7CkK6Lk4dulKrov4fQWQ0HXcX01OUNjRY6xkjq4rFVXYb1kFKQvkpdCLjkfLGERJJUsUjx+FmZJtn6iH/eMZXNwG6X9asnwHdjGTD5IUv3oP3Qzt7vyDaK8ouR+3ifhbqWQeSnwuStQBIzOFxZx33VvkxVD7yB0bNegV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FS6aNmwK; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QIj9KJl4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FS6aNmwK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774072395; x=1805608395;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vN7VSh8RCHngvf6K31e3OAQagiXAI9GiuCJE7BuLr/I=;
-  b=QIj9KJl4oHKOeaDtwrKvJv6WftzIRovFxOY2CBSaL8UsJiNX4pZmeyyS
-   UkLOa8AxMz2tKrp6d3UvJU9pUH2RgYrHH/SNZHoeBELx14FTZjF9cWcXO
-   Dcujf91Fe4CpygLL0A5/LaTD1dUjAd4c2wSIXw/qzxsa6PDSa9DViyfWC
-   kVWeV9nZZvcvKWZMVyrBXeEypoC8gfOzlWMEz/UnKF4wbq/hjwXyJOGr7
-   VfFyeW8jAOIr5LGkFnzMTs6xvSEXRNsLSTR4EgEHko6SMjMS1iP5oAClw
-   oEekShlekos4zrVPuvCcmBaO6qWs0DmAAc1VuG3gU4W9JckajoxARLD/v
-   Q==;
-X-CSE-ConnectionGUID: ueNVj66MTU24ayk5TAI0yw==
-X-CSE-MsgGUID: 6PJg6tjNTQi8wp+3ivJTFA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="75227124"
+  t=1774072632; x=1805608632;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BBScthakHfwb7QuR1J3Hfw2qvVfNau/W+bfx/Os98AY=;
+  b=FS6aNmwKNbq9kgBleMQJYcUz+trQAoNcIifHT3H5Q1nXXbACnV9thEZB
+   VVUEkofD4cmNRTPvOBQRY0Gvt4HFpGfnjMPmcRcCBB0K0zqxJ+dPlLE15
+   csU6plamm9QXKP+yWs7WMKOAZCnZ/qFdhSIa4/0yvDms+I62u0x4Wc44b
+   AChi0qXHy/UqawIuoVa4cF2eSSaCCHdq3Bn3zS1jR0euKE61L+orr6CzO
+   p1NFz5e/SHMcBvhWB7OnTLL2jsqHFDhmt/EG9HDBgFtGcKZbBtDAF/oU/
+   l08q3m+53iEldSzZv+64PyMBK/TbmRg3/sGFlDqO99tUEqorf6OSrKBl1
+   g==;
+X-CSE-ConnectionGUID: OQ9lpywEQ3O0H01mAxKp9g==
+X-CSE-MsgGUID: JPNxmUiHSz6MsEds4iAPDA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="77762195"
 X-IronPort-AV: E=Sophos;i="6.23,132,1770624000"; 
-   d="scan'208";a="75227124"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 22:53:14 -0700
-X-CSE-ConnectionGUID: g0CYixzBSdeMi4Dcp0dhjg==
-X-CSE-MsgGUID: 3pVyvEtHTr20Q6egmDMsoQ==
+   d="scan'208";a="77762195"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 22:57:11 -0700
+X-CSE-ConnectionGUID: th6Z3pyCSjSzOqyoY5x2rQ==
+X-CSE-MsgGUID: 89R1Jh0VQqqbAFouduValg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,132,1770624000"; 
-   d="scan'208";a="261400611"
-Received: from lkp-server02.sh.intel.com (HELO d7fefbca0d04) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 20 Mar 2026 22:53:13 -0700
-Received: from kbuild by d7fefbca0d04 with local (Exim 4.98.2)
+   d="scan'208";a="228221083"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 20 Mar 2026 22:57:09 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w3pGa-000000000NK-3Zcl;
-	Sat, 21 Mar 2026 05:53:01 +0000
-Date: Sat, 21 Mar 2026 13:52:07 +0800
+	id 1w3pKd-000000005gb-0EHz;
+	Sat, 21 Mar 2026 05:57:07 +0000
+Date: Sat, 21 Mar 2026 06:56:52 +0100
 From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh?= (Schneider Electric)" <thomas.weissschuh@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/auxclock-nanosleep 18/44]
- kernel/time/benchmarks.c:38:22: warning: 'count' is used uninitialized
-Message-ID: <202603211302.zKhBnqb2-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Yuxi Wang <Yuxi.Wang@monolithicpower.com>, linux@roeck-us.net,
+	corbet@lwn.net, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, wyx137120466@gmail.com,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 2/2] hwmon: add mpm369x driver
+Message-ID: <202603210627.wqCkJ5al-lkp@intel.com>
+References: <0111019cffc12220-1800bb62-f2e0-4194-99a3-7d2ba03532c6-000000@us-west-1.amazonses.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,48 +65,46 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0111019cffc12220-1800bb62-f2e0-4194-99a3-7d2ba03532c6-000000@us-west-1.amazonses.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/auxclock-nanosleep
-head:   40e3ab4d08362c43874fd99e70d6ef6f57f086ef
-commit: 7fe24e0ff2f96db84d1ce465aca76bd42c169ab7 [18/44] benchmarks
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260321/202603211302.zKhBnqb2-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260321/202603211302.zKhBnqb2-lkp@intel.com/reproduce)
+Hi Yuxi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on robh/for-next next-20260320]
+[cannot apply to linus/master v6.16-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yuxi-Wang/hwmon-add-mpm369x-driver/20260321-082055
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/0111019cffc12220-1800bb62-f2e0-4194-99a3-7d2ba03532c6-000000%40us-west-1.amazonses.com
+patch subject: [PATCH 2/2] hwmon: add mpm369x driver
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260321/202603210627.wqCkJ5al-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603211302.zKhBnqb2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603210627.wqCkJ5al-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/time/benchmarks.c: In function 'benchmark_ktime_get_read':
->> kernel/time/benchmarks.c:38:22: warning: 'count' is used uninitialized [-Wuninitialized]
-      38 |                 count++;
-         |                 ~~~~~^~
-   kernel/time/benchmarks.c:33:13: note: 'count' was declared here
-      33 |         u64 count;
-         |             ^~~~~
+   Runtime Survivability
+   ===================== [docutils]
+>> Documentation/hwmon/mpm369x.rst:4: WARNING: Title underline too short.
 
 
-vim +/count +38 kernel/time/benchmarks.c
+vim +4 Documentation/hwmon/mpm369x.rst
 
-    29	
-    30	static int benchmark_ktime_get_read(void *data, u64 *value)
-    31	{
-    32		ktime_t end;
-    33		u64 count;
-    34	
-    35		end = ktime_get() + BENCHMARK_TIME;
-    36	
-    37		do {
-  > 38			count++;
-    39		} while (ktime_get() < end);
-    40	
-    41		*value = count;
-    42		return 0;
-    43	}
-    44	
+     2	
+     3	Kernel driver mpm369x
+   > 4	====================
+     5	
 
 -- 
 0-DAY CI Kernel Test Service
