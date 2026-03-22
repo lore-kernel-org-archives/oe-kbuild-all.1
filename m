@@ -1,295 +1,166 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DCF4368958;
-	Sun, 22 Mar 2026 16:56:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B33F036A01E
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Mar 2026 16:56:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774198606; cv=none; b=cDI+d/WLyNECKrE4+ID87lnd12XPR/QAurUrQ7Wd8g8Mf/dDZo3aZnUTJAAJn0J5JMOHAx0apLtTozIdGWgq1CH1J10RFvPth1H6xWLiwyOWmxfC7M2zf5jnl6piZ+xlaoaCAQV9fGtvRpU9eGKUTuS/sc2KdvZPobyjYKfplbc=
+	t=1774198617; cv=none; b=kR1OZX2DC5ogn6cS027ES47JfeaiUeTkala/mXUkvrPo4HBeq/2qv83d1GaMdkiMFmwXD9bunsJUVKxS9wz+AACn9PtC/eRDHMjU7q72k8Un6l6xv++38WAEwNPIEBz6kKfAPgPGR3QCL9Tzw6yoBczGfQ7QmnmEYZiuxqPkCnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774198606; c=relaxed/simple;
-	bh=2Om8Sh6EzFq8cdWMV2yg/VmRtANxX5brcu8b8T0bpJM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N5KH93ba+aq6Z/6Rr1r8Uua7mI/yPAwW/MSH7fj//zBJKZi23cJmvQXHL8DrgLV3b7WEFDmrAFa3K12jAlwYTAb4Bd0Fi2eVGTDrRL/nY0qTznoB2i/eWmtVhzm4UyLo0H2wIqBVitoOqUADjRXcjcB8hnHMNGdc/IqrfELMUZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m8ybOsZt; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1774198617; c=relaxed/simple;
+	bh=UpKuiJJHee5yQHs1e/aDYiZGztq1a5z/1VhFshzkV6k=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cqXfeN6UvosIIo+3kcTN0dAsFGVEM0iuwOhx41hBglITzoom+QVGKiz1fhFxAn9taLXw+9axEqUpSvX0I/5d4+baGnUu4/+ZwdYbqFWoy3f16uBzK5y43JLthnpUYTFPMPDzeOxG9/pC53LoNAv8TRyRmBJNAyPkoAQ6+GBmJcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iz+Zv4CQ; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m8ybOsZt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iz+Zv4CQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774198605; x=1805734605;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2Om8Sh6EzFq8cdWMV2yg/VmRtANxX5brcu8b8T0bpJM=;
-  b=m8ybOsZtg0W/6X8OE7SQ0i5W+RbQk3npk8oKWZr2aYKw6qZW6IuuKOwV
-   bw0P1zV+47WMfQIiCl8xN7trfVOBviGV/fcooJu+wUcd474o55qfCZx7y
-   oGAX7ZtoxQtC7X+bptPDl3j7iEpNDpo/Wrho7pZE2SF2Wn7taoaispjx9
-   3XZnCpkb2HR21C9/5uu+hRrCz/pLuhP0GDZP0ZHPmHUlbKUqD2KvjYuv/
-   ocWu2uTgupN+ZGfqlVwTBb8aCPNC8m76xOBL6/G008WCcFiCSGV4iQgLl
-   zrWhTNFMcTXqkH741K3EUFFf8gawUEbZwvQHAqRWigCfVq+diQ7JHozcl
-   g==;
-X-CSE-ConnectionGUID: 8loDXh6vSPSwfPMb5P5xpQ==
-X-CSE-MsgGUID: r1J53cjaSpWDuest5QixZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="62771306"
+  t=1774198616; x=1805734616;
+  h=date:from:to:cc:subject:message-id;
+  bh=UpKuiJJHee5yQHs1e/aDYiZGztq1a5z/1VhFshzkV6k=;
+  b=iz+Zv4CQ/kNYNCDU3dNC4Spi8rtoCO7+l/9RBA2pHGljPzTLeu/qkfGm
+   IhudWVExdEXyKvOEIZ0OVXiXnl5jyA/7a9sQDOdHUHmxXfce74WgWFhbP
+   b0EDcsEHyyf3EqCR7A/ayLixwZZ1S+0INafQomC+il9aybDowcwgp8B0S
+   uBdOkLcWbUq3L2Im+KbsaldRryIizFaiCGPa0kTpcvH1s2iOoY6Y3mep1
+   X9xa1eK8/hf9jbgc9LJ09N0hG+KLk6yxqcaekCAAkAspNkhc31w+jkCXP
+   64ozenX/BXRtiWMbST1nUbkAHMjan5MlfLTO/Xhn0uTcCLKiT2sAkaafO
+   w==;
+X-CSE-ConnectionGUID: OiOu8noFSDqsnWhTZR24Yg==
+X-CSE-MsgGUID: FVrsQSfVQz2HPE1B+JPS3g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="74392521"
 X-IronPort-AV: E=Sophos;i="6.23,135,1770624000"; 
-   d="scan'208";a="62771306"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2026 09:56:44 -0700
-X-CSE-ConnectionGUID: kskDwVYgRAmOKoWKLWv+rA==
-X-CSE-MsgGUID: cEQ8NYITQa+qKe9qXBtf9A==
+   d="scan'208";a="74392521"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2026 09:56:55 -0700
+X-CSE-ConnectionGUID: rIwhWFtvSC2eEE3ltpYOUQ==
+X-CSE-MsgGUID: HrZFINP9QbqYAdLUQu2vaQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,135,1770624000"; 
-   d="scan'208";a="221030586"
+   d="scan'208";a="247677159"
 Received: from lkp-server02.sh.intel.com (HELO d7fefbca0d04) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 22 Mar 2026 09:56:38 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 22 Mar 2026 09:56:54 -0700
 Received: from kbuild by d7fefbca0d04 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w4M6J-000000002QH-2gLA;
-	Sun, 22 Mar 2026 16:56:32 +0000
-Date: Mon, 23 Mar 2026 00:55:11 +0800
+	id 1w4M6V-000000002QN-1rsV;
+	Sun, 22 Mar 2026 16:56:46 +0000
+Date: Mon, 23 Mar 2026 00:55:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Akhil R <akhilrajeev@nvidia.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Frank Li <Frank.Li@nxp.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Robert Moore <robert.moore@intel.com>, Len Brown <lenb@kernel.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Eric Biggers <ebiggers@kernel.org>,
-	Fredrik Markstrom <fredrik.markstrom@est.tech>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jon Hunter <jonathanh@nvidia.com>,
-	Suresh Mangipudi <smangipudi@nvidia.com>,
-	linux-tegra@vger.kernel.org, linux-i3c@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-acpi@vger.kernel.org, acpica-devel@lists.linux.dev,
-	linux-hwmon@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Akhil R <akhilrajeev@nvidia.com>
-Subject: Re: [PATCH 04/12] i3c: master: Support ACPI enumeration
-Message-ID: <202603230007.WOMwklQ6-lkp@intel.com>
-References: <20260318172820.13771-5-akhilrajeev@nvidia.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dakr:driver_override 6/7]
+ drivers/s390/crypto/ap_bus.c:1021:44: error: 'ap_dev' undeclared; did you
+ mean 'ap_drv'?
+Message-ID: <202603230034.0eMCRxvg-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260318172820.13771-5-akhilrajeev@nvidia.com>
 
-Hi Akhil,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20260320]
-[also build test ERROR on linus/master v7.0-rc4]
-[cannot apply to i3c/i3c/next rafael-pm/linux-next rafael-pm/bleeding-edge groeck-staging/hwmon-next v7.0-rc4 v7.0-rc3 v7.0-rc2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Akhil-R/dt-bindings-i3c-Add-mipi-i3c-static-method-to-support-SETAASA/20260322-174037
-base:   next-20260320
-patch link:    https://lore.kernel.org/r/20260318172820.13771-5-akhilrajeev%40nvidia.com
-patch subject: [PATCH 04/12] i3c: master: Support ACPI enumeration
-config: sparc-randconfig-002-20260322 (https://download.01.org/0day-ci/archive/20260323/202603230007.WOMwklQ6-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260323/202603230007.WOMwklQ6-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dakr/linux.git driver_override
+head:   70493c3cad283a8341ce791812cd203db3b472ce
+commit: 7144511c6614967b4c16b716a9674b12c4e7f2b9 [6/7] WIP: treewide: make callsites use generic driver_override
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20260323/202603230034.0eMCRxvg-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260323/202603230034.0eMCRxvg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603230007.WOMwklQ6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603230034.0eMCRxvg-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/i3c/master.c: In function 'i3c_master_add_i2c_boardinfo':
->> drivers/i3c/master.c:2449:23: error: implicit declaration of function 'acpi_dev_get_resources'; did you mean 'acpi_get_event_resources'? [-Wimplicit-function-declaration]
-    2449 |                 ret = acpi_dev_get_resources(adev, &resources,
-         |                       ^~~~~~~~~~~~~~~~~~~~~~
-         |                       acpi_get_event_resources
->> drivers/i3c/master.c:2455:17: error: implicit declaration of function 'acpi_dev_free_resource_list' [-Wimplicit-function-declaration]
-    2455 |                 acpi_dev_free_resource_list(&resources);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/i3c/master.c: In function 'i3c_master_add_acpi_dev':
->> drivers/i3c/master.c:2556:9: error: unknown type name 'acpi_bus_address'; did you mean 'acpi_io_address'?
-    2556 |         acpi_bus_address adr;
-         |         ^~~~~~~~~~~~~~~~
-         |         acpi_io_address
->> drivers/i3c/master.c:2563:14: error: implicit declaration of function 'acpi_has_method'; did you mean 'acpi_has_watchdog'? [-Wimplicit-function-declaration]
-    2563 |         if (!acpi_has_method(adev->handle, "_ADR"))
-         |              ^~~~~~~~~~~~~~~
-         |              acpi_has_watchdog
->> drivers/i3c/master.c:2563:34: error: invalid use of undefined type 'struct acpi_device'
-    2563 |         if (!acpi_has_method(adev->handle, "_ADR"))
-         |                                  ^~
->> drivers/i3c/master.c:2566:15: error: implicit declaration of function 'acpi_device_adr'; did you mean 'acpi_device_handle'? [-Wimplicit-function-declaration]
-    2566 |         adr = acpi_device_adr(adev);
-         |               ^~~~~~~~~~~~~~~
-         |               acpi_device_handle
+   drivers/s390/crypto/ap_bus.c: In function 'ap_device_probe':
+>> drivers/s390/crypto/ap_bus.c:1021:44: error: 'ap_dev' undeclared (first use in this function); did you mean 'ap_drv'?
+    1021 |         rc = ap_drv->probe ? ap_drv->probe(ap_dev) : -ENODEV;
+         |                                            ^~~~~~
+         |                                            ap_drv
+   drivers/s390/crypto/ap_bus.c:1021:44: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +2449 drivers/i3c/master.c
+vim +1021 drivers/s390/crypto/ap_bus.c
 
-  2423	
-  2424	static int
-  2425	i3c_master_add_i2c_boardinfo(struct i3c_master_controller *master,
-  2426				     struct fwnode_handle *fwnode, u32 *reg)
-  2427	{
-  2428		struct i2c_dev_boardinfo *boardinfo;
-  2429		struct device *dev = &master->dev;
-  2430		struct acpi_device *adev;
-  2431		LIST_HEAD(resources);
-  2432		int ret;
-  2433	
-  2434		boardinfo = devm_kzalloc(dev, sizeof(*boardinfo), GFP_KERNEL);
-  2435		if (!boardinfo)
-  2436			return -ENOMEM;
-  2437	
-  2438		if (is_of_node(fwnode)) {
-  2439			ret = of_i2c_get_board_info(dev, to_of_node(fwnode), &boardinfo->base);
-  2440			if (ret)
-  2441				return ret;
-  2442	
-  2443			/* LVR is encoded in reg[2] for Device Tree. */
-  2444			boardinfo->lvr = reg[2];
-  2445		} else if (is_acpi_device_node(fwnode)) {
-  2446			adev = to_acpi_device_node(fwnode);
-  2447			boardinfo->base.fwnode = acpi_fwnode_handle(adev);
-  2448	
-> 2449			ret = acpi_dev_get_resources(adev, &resources,
-  2450						     i3c_acpi_get_i2c_resource, boardinfo);
-  2451	
-  2452			if (ret < 0)
-  2453				return ret;
-  2454	
-> 2455			acpi_dev_free_resource_list(&resources);
-  2456	
-  2457			if (!boardinfo->base.addr)
-  2458				return -ENODEV;
-  2459		} else {
-  2460			return -EINVAL;
-  2461		}
-  2462	
-  2463		/*
-  2464		 * The I3C Specification does not clearly say I2C devices with 10-bit
-  2465		 * address are supported. These devices can't be passed properly through
-  2466		 * DEFSLVS command.
-  2467		 */
-  2468		if (boardinfo->base.flags & I2C_CLIENT_TEN) {
-  2469			dev_err(dev, "I2C device with 10 bit address not supported.");
-  2470			return -EOPNOTSUPP;
-  2471		}
-  2472	
-  2473		list_add_tail(&boardinfo->node, &master->boardinfo.i2c);
-  2474		fwnode_handle_get(fwnode);
-  2475	
-  2476		return 0;
-  2477	}
-  2478	
-  2479	static int
-  2480	i3c_master_add_i3c_boardinfo(struct i3c_master_controller *master,
-  2481				     struct fwnode_handle *fwnode, u32 *reg)
-  2482	{
-  2483		struct i3c_dev_boardinfo *boardinfo;
-  2484		struct device *dev = &master->dev;
-  2485		enum i3c_addr_slot_status addrstatus;
-  2486		u32 init_dyn_addr = 0;
-  2487	
-  2488		boardinfo = devm_kzalloc(dev, sizeof(*boardinfo), GFP_KERNEL);
-  2489		if (!boardinfo)
-  2490			return -ENOMEM;
-  2491	
-  2492		if (reg[0]) {
-  2493			if (reg[0] > I3C_MAX_ADDR)
-  2494				return -EINVAL;
-  2495	
-  2496			addrstatus = i3c_bus_get_addr_slot_status(&master->bus,
-  2497								  reg[0]);
-  2498			if (addrstatus != I3C_ADDR_SLOT_FREE)
-  2499				return -EINVAL;
-  2500		}
-  2501	
-  2502		boardinfo->static_addr = reg[0];
-  2503	
-  2504		if (!fwnode_property_read_u32(fwnode, "assigned-address", &init_dyn_addr)) {
-  2505			if (init_dyn_addr > I3C_MAX_ADDR)
-  2506				return -EINVAL;
-  2507	
-  2508			addrstatus = i3c_bus_get_addr_slot_status(&master->bus,
-  2509								  init_dyn_addr);
-  2510			if (addrstatus != I3C_ADDR_SLOT_FREE)
-  2511				return -EINVAL;
-  2512		}
-  2513	
-  2514		boardinfo->pid = ((u64)reg[1] << 32) | reg[2];
-  2515	
-  2516		if ((boardinfo->pid & GENMASK_ULL(63, 48)) ||
-  2517		    I3C_PID_RND_LOWER_32BITS(boardinfo->pid))
-  2518			return -EINVAL;
-  2519	
-  2520		boardinfo->init_dyn_addr = init_dyn_addr;
-  2521		boardinfo->fwnode = fwnode_handle_get(fwnode);
-  2522		list_add_tail(&boardinfo->node, &master->boardinfo.i3c);
-  2523	
-  2524		return 0;
-  2525	}
-  2526	
-  2527	static int i3c_master_add_of_dev(struct i3c_master_controller *master,
-  2528					 struct fwnode_handle *fwnode)
-  2529	{
-  2530		u32 reg[3];
-  2531		int ret;
-  2532	
-  2533		if (!master)
-  2534			return -EINVAL;
-  2535	
-  2536		ret = fwnode_property_read_u32_array(fwnode, "reg", reg, ARRAY_SIZE(reg));
-  2537		if (ret)
-  2538			return ret;
-  2539	
-  2540		/*
-  2541		 * The manufacturer ID can't be 0. If reg[1] == 0 that means we're
-  2542		 * dealing with an I2C device.
-  2543		 */
-  2544		if (!reg[1])
-  2545			ret = i3c_master_add_i2c_boardinfo(master, fwnode, reg);
-  2546		else
-  2547			ret = i3c_master_add_i3c_boardinfo(master, fwnode, reg);
-  2548	
-  2549		return ret;
-  2550	}
-  2551	
-  2552	static int i3c_master_add_acpi_dev(struct i3c_master_controller *master,
-  2553					   struct fwnode_handle *fwnode)
-  2554	{
-  2555		struct acpi_device *adev = to_acpi_device_node(fwnode);
-> 2556		acpi_bus_address adr;
-  2557		u32 reg[3] = { 0 };
-  2558	
-  2559		/*
-  2560		 * If the ACPI table entry does not have _ADR method, it's an I2C device
-  2561		 * If the ACPI table entry has _ADR method, it's an I3C device
-  2562		 */
-> 2563		if (!acpi_has_method(adev->handle, "_ADR"))
-  2564			return i3c_master_add_i2c_boardinfo(master, fwnode, reg);
-  2565	
-> 2566		adr = acpi_device_adr(adev);
-  2567	
-  2568		/* For I3C devices, _ADR will have the 48 bit PID of the device  */
-  2569		reg[1] = upper_32_bits(adr);
-  2570		reg[2] = lower_32_bits(adr);
-  2571	
-  2572		fwnode_property_read_u32(fwnode, "mipi-i3c-static-address", &reg[0]);
-  2573	
-  2574		return i3c_master_add_i3c_boardinfo(master, fwnode, reg);
-  2575	}
-  2576	
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   974  
+1534c3820c26ac Martin Schwidefsky   2006-09-20   975  static int ap_device_probe(struct device *dev)
+1534c3820c26ac Martin Schwidefsky   2006-09-20   976  {
+1534c3820c26ac Martin Schwidefsky   2006-09-20   977  	struct ap_driver *ap_drv = to_ap_drv(dev->driver);
+7144511c661496 Danilo Krummrich     2026-03-01   978  	int card, queue, devres, drvres, rc = -ENODEV, ovrd;
+29c2680fd2bf38 Harald Freudenberger 2020-10-20   979  
+29c2680fd2bf38 Harald Freudenberger 2020-10-20   980  	if (!get_device(dev))
+29c2680fd2bf38 Harald Freudenberger 2020-10-20   981  		return rc;
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   982  
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   983  	if (is_queue_dev(dev)) {
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   984  		/*
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   985  		 * If the apqn is marked as reserved/used by ap bus and
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   986  		 * default drivers, only probe with drivers with the default
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   987  		 * flag set. If it is not marked, only probe with drivers
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   988  		 * with the default flag not set.
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   989  		 */
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   990  		card = AP_QID_CARD(to_ap_queue(dev)->qid);
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20   991  		queue = AP_QID_QUEUE(to_ap_queue(dev)->qid);
+7144511c661496 Danilo Krummrich     2026-03-01   992  		ovrd = device_match_driver_override(dev, &ap_drv->driver);
+7144511c661496 Danilo Krummrich     2026-03-01   993  		if (ovrd > 0) {
+7144511c661496 Danilo Krummrich     2026-03-01   994  			/* override set and matches, nothing to do */
+7144511c661496 Danilo Krummrich     2026-03-01   995  		} else if (ovrd == 0) {
+d38a87d7c0643d Harald Freudenberger 2025-11-19   996  			goto out;
+d38a87d7c0643d Harald Freudenberger 2025-11-19   997  		} else {
+8babcc2b6a75d1 Harald Freudenberger 2025-11-19   998  			mutex_lock(&ap_attr_mutex);
+2004b57cde6b21 Harald Freudenberger 2022-04-04   999  			devres = test_bit_inv(card, ap_perms.apm) &&
+2004b57cde6b21 Harald Freudenberger 2022-04-04  1000  				test_bit_inv(queue, ap_perms.aqm);
+8babcc2b6a75d1 Harald Freudenberger 2025-11-19  1001  			mutex_unlock(&ap_attr_mutex);
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20  1002  			drvres = ap_drv->flags & AP_DRIVER_FLAG_DEFAULT;
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20  1003  			if (!!devres != !!drvres)
+29c2680fd2bf38 Harald Freudenberger 2020-10-20  1004  				goto out;
+7e0bdbe5c21cb8 Harald Freudenberger 2018-07-20  1005  		}
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1006  	}
+1534c3820c26ac Martin Schwidefsky   2006-09-20  1007  
+306d6bda8f9743 Harald Freudenberger 2024-05-13  1008  	/*
+306d6bda8f9743 Harald Freudenberger 2024-05-13  1009  	 * Rearm the bindings complete completion to trigger
+306d6bda8f9743 Harald Freudenberger 2024-05-13  1010  	 * bindings complete when all devices are bound again
+306d6bda8f9743 Harald Freudenberger 2024-05-13  1011  	 */
+306d6bda8f9743 Harald Freudenberger 2024-05-13  1012  	reinit_completion(&ap_apqn_bindings_complete);
+306d6bda8f9743 Harald Freudenberger 2024-05-13  1013  
+e385050873d1e1 Harald Freudenberger 2017-05-24  1014  	/* Add queue/card to list of active queues/cards */
+bc4b295e87a86b Harald Freudenberger 2020-05-08  1015  	spin_lock_bh(&ap_queues_lock);
+bc4b295e87a86b Harald Freudenberger 2020-05-08  1016  	if (is_queue_dev(dev))
+bc4b295e87a86b Harald Freudenberger 2020-05-08  1017  		hash_add(ap_queues, &to_ap_queue(dev)->hnode,
+bc4b295e87a86b Harald Freudenberger 2020-05-08  1018  			 to_ap_queue(dev)->qid);
+bc4b295e87a86b Harald Freudenberger 2020-05-08  1019  	spin_unlock_bh(&ap_queues_lock);
+e385050873d1e1 Harald Freudenberger 2017-05-24  1020  
+666e68e0dde826 Ingo Tuchscherer     2014-07-14 @1021  	rc = ap_drv->probe ? ap_drv->probe(ap_dev) : -ENODEV;
+e385050873d1e1 Harald Freudenberger 2017-05-24  1022  
+e385050873d1e1 Harald Freudenberger 2017-05-24  1023  	if (rc) {
+bc4b295e87a86b Harald Freudenberger 2020-05-08  1024  		spin_lock_bh(&ap_queues_lock);
+bc4b295e87a86b Harald Freudenberger 2020-05-08  1025  		if (is_queue_dev(dev))
+bc4b295e87a86b Harald Freudenberger 2020-05-08  1026  			hash_del(&to_ap_queue(dev)->hnode);
+bc4b295e87a86b Harald Freudenberger 2020-05-08  1027  		spin_unlock_bh(&ap_queues_lock);
+2004b57cde6b21 Harald Freudenberger 2022-04-04  1028  	}
+e385050873d1e1 Harald Freudenberger 2017-05-24  1029  
+29c2680fd2bf38 Harald Freudenberger 2020-10-20  1030  out:
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1031  	if (rc) {
+29c2680fd2bf38 Harald Freudenberger 2020-10-20  1032  		put_device(dev);
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1033  	} else {
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1034  		if (is_queue_dev(dev)) {
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1035  			pr_debug("queue=%02x.%04x new driver=%s\n",
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1036  				 card, queue, ap_drv->driver.name);
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1037  		} else {
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1038  			pr_debug("card=%02x new driver=%s\n",
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1039  				 to_ap_card(dev)->id, ap_drv->driver.name);
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1040  		}
+d38a87d7c0643d Harald Freudenberger 2025-11-19  1041  	}
+1534c3820c26ac Martin Schwidefsky   2006-09-20  1042  	return rc;
+1534c3820c26ac Martin Schwidefsky   2006-09-20  1043  }
+1534c3820c26ac Martin Schwidefsky   2006-09-20  1044  
+
+:::::: The code at line 1021 was first introduced by commit
+:::::: 666e68e0dde826ae146b980099f1719f74fa968c s390/zcrypt: improve device probing for zcrypt adapter cards
+
+:::::: TO: Ingo Tuchscherer <ingo.tuchscherer@de.ibm.com>
+:::::: CC: Martin Schwidefsky <schwidefsky@de.ibm.com>
 
 -- 
 0-DAY CI Kernel Test Service
