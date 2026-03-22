@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F36144314F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Mar 2026 07:28:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DCA32D7DF2
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Mar 2026 07:37:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774164541; cv=none; b=EdMgQef5b4bSyMbdiYxFHapNkvhFR8Wf+pdA9h5se4AN/I8YjQ87mS0P0ntm4hOox7fVkjPFyAtbvCbbgkkbbGhK921x+Jn22+egZqCLRLYzWgLdAu7dKEfHKNJPN1XAOAGeAAxXA5t7NcGY9LuF7yzYgDDg+ahrr14/pqeAIAg=
+	t=1774165071; cv=none; b=N4871ZFTkHgU1FdUaZ4pEYKw6U+fNM03PMsaLRJpL7ogQmHe1+P9BoVXSJzOr27Aj4tsz4928sJcEcrIbqij4K0eXZ1q9oLz2q3Src0fIEo2GnOtIuaKbw4gIEOPoaFHGvt6F0Bh269QRQxwTuu8dmmSuJ3UAlV3n5Yo2c67vUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774164541; c=relaxed/simple;
-	bh=y3LHKNw2vJmsQPsQRJvjM5pEa5fE5KDD7CgcB8WLtU4=;
+	s=arc-20240116; t=1774165071; c=relaxed/simple;
+	bh=IZog6vZfmWjwdWuWG6ls62m9LSRpv6caOuuD1VjHHBY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tMbzebGJMmQZm5kL/ULQbHeCqhz/EXiid8tLJ6Ra06mSi7wq+SPQ9DZhgwOgWzWIIWVOEmy59tUfI90aOipCCYmZGZDVq9OWImkpRrEm9danrnIaQJZMdvdNooLJlTqvKoGQqULzoKl/fxoWCcykBZAV28T554CHyGybD25sbwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EP6wvbny; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=s+scJSGhpCBtuw613ZQNPXaiBNQs+ZCxUFXDWJxOPpMuCQz2ZI7g9veHW1Zfx3x5xX010JAPkSZqH/ly3xNcRLCrz9e2G3GReRAZhCor3vr754oOsG6pg77ey1HDgP2JKteiOQ6bDcPTglDuNNxvpVtn+YKbmT4VKhkOvxDD0gE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D0ZXphyW; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EP6wvbny"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D0ZXphyW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774164540; x=1805700540;
+  t=1774165070; x=1805701070;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=y3LHKNw2vJmsQPsQRJvjM5pEa5fE5KDD7CgcB8WLtU4=;
-  b=EP6wvbnydHX0NokROywSYlVbsGaqnwCt8gvwQu4iLuoHdLr7wpz1wbDb
-   svHGYOd10Ltn2zDdW48utTK5voANUjHu2/DZezi/cJxpk5ktEEU5kYcaq
-   NPoUQEFwolFqXf7hvE+gmlCZ0LxFO2mvl8dkA+N2kCJS+OucYLEykbPFU
-   GGHm+B5vj9XgB5q8WZAq/GlazMvLkl0NKR7tdOsGXryBls1mQomQVn61I
-   VvjDstUt8xDheChgbYaybjxQNqhHf9f/o3kth68G/fRDxBJ4aCKCkwEW8
-   v0D08viITm6YVwbqr/mTKKGnLxMEK+eLXW8VtjRn/QpXbF8OdadZUnvrU
-   w==;
-X-CSE-ConnectionGUID: GcjGF5ZJSqOP2D5obxHdaQ==
-X-CSE-MsgGUID: 3YnYiTN9Rcmcg3IiqyMkgQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11736"; a="75165251"
+  bh=IZog6vZfmWjwdWuWG6ls62m9LSRpv6caOuuD1VjHHBY=;
+  b=D0ZXphyWKpwrRXz7GW6M3yS+9dpxOTIWqZDtBOXOdhekb5oIjZe592Q4
+   0zh323+TkpbNOaCO3Pd0bkgAevqgkJQ8biSm54LNz9YzkYQhmU2O76SkW
+   BO3VXf3lJwILmPy+nsShDAqhGAkzCNRew/NaARTChOs13VDEBCHcQpVPk
+   WlMULdg3KyLaSbiB3FxgOwHMNBKGkMiYTNQ1m9/IGK0AXI3RgTqUZ8V8L
+   CIhgmNfqOujshOU2m0zL71N8q/4/zW8g43i9XyMzjthhR6ljjgUXpbWGl
+   BINB0dvXyllIqOVSLAe2qFN2EJH8EaeKd70OdCdiTCDm0e/Fh1LcegM62
+   A==;
+X-CSE-ConnectionGUID: DsuIZtbGR+aBkuU98rJenw==
+X-CSE-MsgGUID: ckO1/ZjiT22+eOvtVk2H6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11736"; a="78794252"
 X-IronPort-AV: E=Sophos;i="6.23,134,1770624000"; 
-   d="scan'208";a="75165251"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2026 00:28:59 -0700
-X-CSE-ConnectionGUID: ki2PcUNcQM+MqEVyproqwQ==
-X-CSE-MsgGUID: Xp3js/iTSKmTaMV/taRfXA==
+   d="scan'208";a="78794252"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2026 00:37:50 -0700
+X-CSE-ConnectionGUID: DDxc2F1RR5eD4dFWoAxdrQ==
+X-CSE-MsgGUID: 7VQEZa6+Qd6c7fNUkmqF2A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,134,1770624000"; 
-   d="scan'208";a="222786573"
-Received: from lkp-server02.sh.intel.com (HELO d7fefbca0d04) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 22 Mar 2026 00:28:56 -0700
-Received: from kbuild by d7fefbca0d04 with local (Exim 4.98.2)
+   d="scan'208";a="228205970"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 22 Mar 2026 00:37:46 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w4DEz-000000001ov-0436;
-	Sun, 22 Mar 2026 07:28:53 +0000
-Date: Sun, 22 Mar 2026 15:28:05 +0800
+	id 1w4DNX-000000006Jx-2jqd;
+	Sun, 22 Mar 2026 07:37:43 +0000
+Date: Sun, 22 Mar 2026 08:37:15 +0100
 From: kernel test robot <lkp@intel.com>
 To: guilhermeivo <guilhermeivob@gmail.com>, harry.wentland@amd.com,
 	sunpeng.li@amd.com, siqueira@igalia.com, alexander.deucher@amd.com,
@@ -57,7 +57,7 @@ Cc: oe-kbuild-all@lists.linux.dev, guilherme.bozi@usp.br,
 	dri-devel@lists.freedesktop.org,
 	guilhermeivo <guilhermeivob@gmail.com>
 Subject: Re: [PATCH] drm/amd/display: Deduplicate DCN DDC register assignment
-Message-ID: <202603221553.GzXoxzCw-lkp@intel.com>
+Message-ID: <202603220836.BdJJniAx-lkp@intel.com>
 References: <20260321015654.105059-1-guilhermeivob@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -83,14 +83,14 @@ url:    https://github.com/intel-lab-lkp/linux/commits/guilhermeivo/drm-amd-disp
 base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
 patch link:    https://lore.kernel.org/r/20260321015654.105059-1-guilhermeivob%40gmail.com
 patch subject: [PATCH] drm/amd/display: Deduplicate DCN DDC register assignment
-config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20260322/202603221553.GzXoxzCw-lkp@intel.com/config)
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260322/202603220836.BdJJniAx-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260322/202603221553.GzXoxzCw-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260322/202603220836.BdJJniAx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603221553.GzXoxzCw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603220836.BdJJniAx-lkp@intel.com/
 
 All error/warnings (new ones prefixed by >>):
 
