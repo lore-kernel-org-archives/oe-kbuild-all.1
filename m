@@ -1,69 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18CCE1D86DC
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Mar 2026 16:45:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DCF4368958;
+	Sun, 22 Mar 2026 16:56:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774197930; cv=none; b=WIxWxxNGt5RMFLpJPNhXu+aXGfWwed9qYZKVdE0eZCuqM/vxRX+fW8zRZBVtTOiaWxvCVRTt+hKtGnRBUNS3LlbHMCBaNJer/odoU5Y8FiXkJguZD40bYIgrJ1u2pDWeN63vwtAO6fCdR6fgXzng7MdlQRKrbQe4TESY/gVfFuo=
+	t=1774198606; cv=none; b=cDI+d/WLyNECKrE4+ID87lnd12XPR/QAurUrQ7Wd8g8Mf/dDZo3aZnUTJAAJn0J5JMOHAx0apLtTozIdGWgq1CH1J10RFvPth1H6xWLiwyOWmxfC7M2zf5jnl6piZ+xlaoaCAQV9fGtvRpU9eGKUTuS/sc2KdvZPobyjYKfplbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774197930; c=relaxed/simple;
-	bh=rGui68uRyg3X6940x/LNfy9+wopMGRcwkbytlfYAgxw=;
+	s=arc-20240116; t=1774198606; c=relaxed/simple;
+	bh=2Om8Sh6EzFq8cdWMV2yg/VmRtANxX5brcu8b8T0bpJM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TPKLnKQunWu+Ny6Gqhlt21SBEr5CQFMzrnefV7o4apZ5bTB+5JQbev/gsnZsC7MehIO4++Xd5NzkJ3ec4dh6fZ625awClF0qtHIGt1hSBUUqXo5S2jqpYJoyFbKi3jwftnv8MoKW6RAcjNynI2DeqyUSjOqg1IP5pC/OgCXEJ0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JTt2yoTE; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=N5KH93ba+aq6Z/6Rr1r8Uua7mI/yPAwW/MSH7fj//zBJKZi23cJmvQXHL8DrgLV3b7WEFDmrAFa3K12jAlwYTAb4Bd0Fi2eVGTDrRL/nY0qTznoB2i/eWmtVhzm4UyLo0H2wIqBVitoOqUADjRXcjcB8hnHMNGdc/IqrfELMUZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m8ybOsZt; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JTt2yoTE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m8ybOsZt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774197928; x=1805733928;
+  t=1774198605; x=1805734605;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=rGui68uRyg3X6940x/LNfy9+wopMGRcwkbytlfYAgxw=;
-  b=JTt2yoTEF1tfhimmHIYOi4XifOVlwDi9bD1UmO8Sogr59nrqSaUShJwo
-   /krxCRhJbV2cKqdPo8X4UW+O1wyxLBdqXTzvTzA6iF5tEAtECx+kmkNvK
-   SQ723DZ7SvVIlT9eFALDqcBh4af6knmsyZY/WhAJV6KL+QXRl32qwXz/3
-   KAznhBXWxTETZjWipuzfaMGCT+UdNsGhsw+5p7utvP89xA/zcAEyJK4ko
-   cv4ZCGfxR+z23fnPlAfXVRhvTd+/AJN/fFFZVqMYnqlab19E/v1qb2bFv
-   h7+4QJMiJumkiYltJFMj2jLlnvQpp7nsYNh12Wvawyabehq9MZioy4yXt
-   A==;
-X-CSE-ConnectionGUID: w1NY4kEEQnSEy8e8jf+bJA==
-X-CSE-MsgGUID: W/vMT3XNQgmrCmhYtp/QNA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="75118687"
+  bh=2Om8Sh6EzFq8cdWMV2yg/VmRtANxX5brcu8b8T0bpJM=;
+  b=m8ybOsZtg0W/6X8OE7SQ0i5W+RbQk3npk8oKWZr2aYKw6qZW6IuuKOwV
+   bw0P1zV+47WMfQIiCl8xN7trfVOBviGV/fcooJu+wUcd474o55qfCZx7y
+   oGAX7ZtoxQtC7X+bptPDl3j7iEpNDpo/Wrho7pZE2SF2Wn7taoaispjx9
+   3XZnCpkb2HR21C9/5uu+hRrCz/pLuhP0GDZP0ZHPmHUlbKUqD2KvjYuv/
+   ocWu2uTgupN+ZGfqlVwTBb8aCPNC8m76xOBL6/G008WCcFiCSGV4iQgLl
+   zrWhTNFMcTXqkH741K3EUFFf8gawUEbZwvQHAqRWigCfVq+diQ7JHozcl
+   g==;
+X-CSE-ConnectionGUID: 8loDXh6vSPSwfPMb5P5xpQ==
+X-CSE-MsgGUID: r1J53cjaSpWDuest5QixZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="62771306"
 X-IronPort-AV: E=Sophos;i="6.23,135,1770624000"; 
-   d="scan'208";a="75118687"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2026 09:45:27 -0700
-X-CSE-ConnectionGUID: SXflohIkSweq+msEphRqWA==
-X-CSE-MsgGUID: AuNdDOZfQ2a4F3et6wkiZg==
+   d="scan'208";a="62771306"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2026 09:56:44 -0700
+X-CSE-ConnectionGUID: kskDwVYgRAmOKoWKLWv+rA==
+X-CSE-MsgGUID: cEQ8NYITQa+qKe9qXBtf9A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,135,1770624000"; 
-   d="scan'208";a="246829831"
+   d="scan'208";a="221030586"
 Received: from lkp-server02.sh.intel.com (HELO d7fefbca0d04) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 22 Mar 2026 09:45:24 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 22 Mar 2026 09:56:38 -0700
 Received: from kbuild by d7fefbca0d04 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w4LvK-000000002Of-3ofZ;
-	Sun, 22 Mar 2026 16:45:12 +0000
-Date: Mon, 23 Mar 2026 00:44:13 +0800
+	id 1w4M6J-000000002QH-2gLA;
+	Sun, 22 Mar 2026 16:56:32 +0000
+Date: Mon, 23 Mar 2026 00:55:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Rob Herring <robh@kernel.org>,
+To: Akhil R <akhilrajeev@nvidia.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Frank Li <Frank.Li@nxp.com>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, Bryan O'Donoghue <bod@kernel.org>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] phy: qcom-mipi-csi2: Add a CSI2 MIPI DPHY driver
-Message-ID: <202603230048.ZxbvVL5L-lkp@intel.com>
-References: <20260315-x1e-csi2-phy-v4-2-90c09203888d@linaro.org>
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Robert Moore <robert.moore@intel.com>, Len Brown <lenb@kernel.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Fredrik Markstrom <fredrik.markstrom@est.tech>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jon Hunter <jonathanh@nvidia.com>,
+	Suresh Mangipudi <smangipudi@nvidia.com>,
+	linux-tegra@vger.kernel.org, linux-i3c@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-acpi@vger.kernel.org, acpica-devel@lists.linux.dev,
+	linux-hwmon@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Akhil R <akhilrajeev@nvidia.com>
+Subject: Re: [PATCH 04/12] i3c: master: Support ACPI enumeration
+Message-ID: <202603230007.WOMwklQ6-lkp@intel.com>
+References: <20260318172820.13771-5-akhilrajeev@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,54 +80,216 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260315-x1e-csi2-phy-v4-2-90c09203888d@linaro.org>
+In-Reply-To: <20260318172820.13771-5-akhilrajeev@nvidia.com>
 
-Hi Bryan,
+Hi Akhil,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on c824345288d11e269ce41b36c105715bc2286050]
+[auto build test ERROR on next-20260320]
+[also build test ERROR on linus/master v7.0-rc4]
+[cannot apply to i3c/i3c/next rafael-pm/linux-next rafael-pm/bleeding-edge groeck-staging/hwmon-next v7.0-rc4 v7.0-rc3 v7.0-rc2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bryan-O-Donoghue/dt-bindings-phy-qcom-Add-CSI2-C-PHY-DPHY-schema/20260316-081353
-base:   c824345288d11e269ce41b36c105715bc2286050
-patch link:    https://lore.kernel.org/r/20260315-x1e-csi2-phy-v4-2-90c09203888d%40linaro.org
-patch subject: [PATCH v4 2/2] phy: qcom-mipi-csi2: Add a CSI2 MIPI DPHY driver
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20260323/202603230048.ZxbvVL5L-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260323/202603230048.ZxbvVL5L-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Akhil-R/dt-bindings-i3c-Add-mipi-i3c-static-method-to-support-SETAASA/20260322-174037
+base:   next-20260320
+patch link:    https://lore.kernel.org/r/20260318172820.13771-5-akhilrajeev%40nvidia.com
+patch subject: [PATCH 04/12] i3c: master: Support ACPI enumeration
+config: sparc-randconfig-002-20260322 (https://download.01.org/0day-ci/archive/20260323/202603230007.WOMwklQ6-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260323/202603230007.WOMwklQ6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603230048.ZxbvVL5L-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603230007.WOMwklQ6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/phy/qualcomm/phy-qcom-mipi-csi2-core.c: In function 'phy_qcom_mipi_csi2_power_off':
->> drivers/phy/qualcomm/phy-qcom-mipi-csi2-core.c:153:13: warning: unused variable 'i' [-Wunused-variable]
-     153 |         int i;
-         |             ^
+   drivers/i3c/master.c: In function 'i3c_master_add_i2c_boardinfo':
+>> drivers/i3c/master.c:2449:23: error: implicit declaration of function 'acpi_dev_get_resources'; did you mean 'acpi_get_event_resources'? [-Wimplicit-function-declaration]
+    2449 |                 ret = acpi_dev_get_resources(adev, &resources,
+         |                       ^~~~~~~~~~~~~~~~~~~~~~
+         |                       acpi_get_event_resources
+>> drivers/i3c/master.c:2455:17: error: implicit declaration of function 'acpi_dev_free_resource_list' [-Wimplicit-function-declaration]
+    2455 |                 acpi_dev_free_resource_list(&resources);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/i3c/master.c: In function 'i3c_master_add_acpi_dev':
+>> drivers/i3c/master.c:2556:9: error: unknown type name 'acpi_bus_address'; did you mean 'acpi_io_address'?
+    2556 |         acpi_bus_address adr;
+         |         ^~~~~~~~~~~~~~~~
+         |         acpi_io_address
+>> drivers/i3c/master.c:2563:14: error: implicit declaration of function 'acpi_has_method'; did you mean 'acpi_has_watchdog'? [-Wimplicit-function-declaration]
+    2563 |         if (!acpi_has_method(adev->handle, "_ADR"))
+         |              ^~~~~~~~~~~~~~~
+         |              acpi_has_watchdog
+>> drivers/i3c/master.c:2563:34: error: invalid use of undefined type 'struct acpi_device'
+    2563 |         if (!acpi_has_method(adev->handle, "_ADR"))
+         |                                  ^~
+>> drivers/i3c/master.c:2566:15: error: implicit declaration of function 'acpi_device_adr'; did you mean 'acpi_device_handle'? [-Wimplicit-function-declaration]
+    2566 |         adr = acpi_device_adr(adev);
+         |               ^~~~~~~~~~~~~~~
+         |               acpi_device_handle
 
 
-vim +/i +153 drivers/phy/qualcomm/phy-qcom-mipi-csi2-core.c
+vim +2449 drivers/i3c/master.c
 
-   149	
-   150	static int phy_qcom_mipi_csi2_power_off(struct phy *phy)
-   151	{
-   152		struct mipi_csi2phy_device *csi2phy = phy_get_drvdata(phy);
- > 153		int i;
-   154	
-   155		for (int i = 0; i < csi2phy->num_pds; i++)
-   156			dev_pm_genpd_set_performance_state(csi2phy->pds[i], 0);
-   157	
-   158		clk_bulk_disable_unprepare(csi2phy->soc_cfg->num_clk,
-   159					   csi2phy->clks);
-   160		regulator_bulk_disable(csi2phy->soc_cfg->num_supplies,
-   161				       csi2phy->supplies);
-   162	
-   163		return 0;
-   164	}
-   165	
+  2423	
+  2424	static int
+  2425	i3c_master_add_i2c_boardinfo(struct i3c_master_controller *master,
+  2426				     struct fwnode_handle *fwnode, u32 *reg)
+  2427	{
+  2428		struct i2c_dev_boardinfo *boardinfo;
+  2429		struct device *dev = &master->dev;
+  2430		struct acpi_device *adev;
+  2431		LIST_HEAD(resources);
+  2432		int ret;
+  2433	
+  2434		boardinfo = devm_kzalloc(dev, sizeof(*boardinfo), GFP_KERNEL);
+  2435		if (!boardinfo)
+  2436			return -ENOMEM;
+  2437	
+  2438		if (is_of_node(fwnode)) {
+  2439			ret = of_i2c_get_board_info(dev, to_of_node(fwnode), &boardinfo->base);
+  2440			if (ret)
+  2441				return ret;
+  2442	
+  2443			/* LVR is encoded in reg[2] for Device Tree. */
+  2444			boardinfo->lvr = reg[2];
+  2445		} else if (is_acpi_device_node(fwnode)) {
+  2446			adev = to_acpi_device_node(fwnode);
+  2447			boardinfo->base.fwnode = acpi_fwnode_handle(adev);
+  2448	
+> 2449			ret = acpi_dev_get_resources(adev, &resources,
+  2450						     i3c_acpi_get_i2c_resource, boardinfo);
+  2451	
+  2452			if (ret < 0)
+  2453				return ret;
+  2454	
+> 2455			acpi_dev_free_resource_list(&resources);
+  2456	
+  2457			if (!boardinfo->base.addr)
+  2458				return -ENODEV;
+  2459		} else {
+  2460			return -EINVAL;
+  2461		}
+  2462	
+  2463		/*
+  2464		 * The I3C Specification does not clearly say I2C devices with 10-bit
+  2465		 * address are supported. These devices can't be passed properly through
+  2466		 * DEFSLVS command.
+  2467		 */
+  2468		if (boardinfo->base.flags & I2C_CLIENT_TEN) {
+  2469			dev_err(dev, "I2C device with 10 bit address not supported.");
+  2470			return -EOPNOTSUPP;
+  2471		}
+  2472	
+  2473		list_add_tail(&boardinfo->node, &master->boardinfo.i2c);
+  2474		fwnode_handle_get(fwnode);
+  2475	
+  2476		return 0;
+  2477	}
+  2478	
+  2479	static int
+  2480	i3c_master_add_i3c_boardinfo(struct i3c_master_controller *master,
+  2481				     struct fwnode_handle *fwnode, u32 *reg)
+  2482	{
+  2483		struct i3c_dev_boardinfo *boardinfo;
+  2484		struct device *dev = &master->dev;
+  2485		enum i3c_addr_slot_status addrstatus;
+  2486		u32 init_dyn_addr = 0;
+  2487	
+  2488		boardinfo = devm_kzalloc(dev, sizeof(*boardinfo), GFP_KERNEL);
+  2489		if (!boardinfo)
+  2490			return -ENOMEM;
+  2491	
+  2492		if (reg[0]) {
+  2493			if (reg[0] > I3C_MAX_ADDR)
+  2494				return -EINVAL;
+  2495	
+  2496			addrstatus = i3c_bus_get_addr_slot_status(&master->bus,
+  2497								  reg[0]);
+  2498			if (addrstatus != I3C_ADDR_SLOT_FREE)
+  2499				return -EINVAL;
+  2500		}
+  2501	
+  2502		boardinfo->static_addr = reg[0];
+  2503	
+  2504		if (!fwnode_property_read_u32(fwnode, "assigned-address", &init_dyn_addr)) {
+  2505			if (init_dyn_addr > I3C_MAX_ADDR)
+  2506				return -EINVAL;
+  2507	
+  2508			addrstatus = i3c_bus_get_addr_slot_status(&master->bus,
+  2509								  init_dyn_addr);
+  2510			if (addrstatus != I3C_ADDR_SLOT_FREE)
+  2511				return -EINVAL;
+  2512		}
+  2513	
+  2514		boardinfo->pid = ((u64)reg[1] << 32) | reg[2];
+  2515	
+  2516		if ((boardinfo->pid & GENMASK_ULL(63, 48)) ||
+  2517		    I3C_PID_RND_LOWER_32BITS(boardinfo->pid))
+  2518			return -EINVAL;
+  2519	
+  2520		boardinfo->init_dyn_addr = init_dyn_addr;
+  2521		boardinfo->fwnode = fwnode_handle_get(fwnode);
+  2522		list_add_tail(&boardinfo->node, &master->boardinfo.i3c);
+  2523	
+  2524		return 0;
+  2525	}
+  2526	
+  2527	static int i3c_master_add_of_dev(struct i3c_master_controller *master,
+  2528					 struct fwnode_handle *fwnode)
+  2529	{
+  2530		u32 reg[3];
+  2531		int ret;
+  2532	
+  2533		if (!master)
+  2534			return -EINVAL;
+  2535	
+  2536		ret = fwnode_property_read_u32_array(fwnode, "reg", reg, ARRAY_SIZE(reg));
+  2537		if (ret)
+  2538			return ret;
+  2539	
+  2540		/*
+  2541		 * The manufacturer ID can't be 0. If reg[1] == 0 that means we're
+  2542		 * dealing with an I2C device.
+  2543		 */
+  2544		if (!reg[1])
+  2545			ret = i3c_master_add_i2c_boardinfo(master, fwnode, reg);
+  2546		else
+  2547			ret = i3c_master_add_i3c_boardinfo(master, fwnode, reg);
+  2548	
+  2549		return ret;
+  2550	}
+  2551	
+  2552	static int i3c_master_add_acpi_dev(struct i3c_master_controller *master,
+  2553					   struct fwnode_handle *fwnode)
+  2554	{
+  2555		struct acpi_device *adev = to_acpi_device_node(fwnode);
+> 2556		acpi_bus_address adr;
+  2557		u32 reg[3] = { 0 };
+  2558	
+  2559		/*
+  2560		 * If the ACPI table entry does not have _ADR method, it's an I2C device
+  2561		 * If the ACPI table entry has _ADR method, it's an I3C device
+  2562		 */
+> 2563		if (!acpi_has_method(adev->handle, "_ADR"))
+  2564			return i3c_master_add_i2c_boardinfo(master, fwnode, reg);
+  2565	
+> 2566		adr = acpi_device_adr(adev);
+  2567	
+  2568		/* For I3C devices, _ADR will have the 48 bit PID of the device  */
+  2569		reg[1] = upper_32_bits(adr);
+  2570		reg[2] = lower_32_bits(adr);
+  2571	
+  2572		fwnode_property_read_u32(fwnode, "mipi-i3c-static-address", &reg[0]);
+  2573	
+  2574		return i3c_master_add_i3c_boardinfo(master, fwnode, reg);
+  2575	}
+  2576	
 
 -- 
 0-DAY CI Kernel Test Service
