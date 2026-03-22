@@ -1,303 +1,196 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0107282F0E
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Mar 2026 05:39:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD8A36DA1F;
+	Sun, 22 Mar 2026 05:53:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774157983; cv=none; b=ZShTvIhMyX1UpK53MqOOa057n4Z8V24DHfI8OvF80ccjW3SBfVWECuaK619hiumlBpPFC+e0o5BIytYFm3h+38lQO1anz2d01yjjUfBZy1TmQH1BuYYsLMRGDBUvwctuKevZYoWoy19RWaMolEJsYhWib2GbKiWIhpiI4krKKfI=
+	t=1774158843; cv=none; b=bk3IzQKgmOZMRBSFglPpQUxUKvcINm/Kf9KiSCZfzqwvdLpPrdDGQESHc8h/RV7sXFelSk1+ycS6pcqdjkZSFwHpwhOSPLr6u8atAGq1hKbPuwbZONxVUtX0B5DurntBapQ50R7/Afi822HDfHqi8uNwPCeJVtT9cZISttcmqEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774157983; c=relaxed/simple;
-	bh=SW8ewo7pzKknLsIDyibreGqtdxuPOeuHsUO7wXfGxyE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lzyOkIRu/WnrFcS9+4NqQstydF85V6OuRkHW7cYA28cnTZAUZKCV1+Z34eVWhS88rv7crkvY7XUiGfgzVPMJuWAhEECfkYAVAl0ouRqHZjrBgxv1LcvZ4OMA7/1TiCywX1td+1u++PgJRQBjXcRiOtZG2eO5c6Ce1eds/6nMkcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VUP7b56Y; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1774158843; c=relaxed/simple;
+	bh=Ugk/mZdnf4BBglsm37SaYfJeiv6BykBtxi1sFDjpmCk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FZX2a5irRqGrtjsDKYA+gF4IC+kuR6yglKG+e2lzY4M3wYg5i/g+PGcRIl/4MCy0Wtu+cG2m9+Q82SqyyD/fczdjGPe0EHgWr8Pr3lBaBAbjV00/GtDtYU0cVOfZrtLTDx4kFwWZOfXeNzw87+DxXwqm7b4BIqGMmeIPYaHxmJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W0SKarqo; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VUP7b56Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W0SKarqo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774157981; x=1805693981;
-  h=date:from:to:cc:subject:message-id;
-  bh=SW8ewo7pzKknLsIDyibreGqtdxuPOeuHsUO7wXfGxyE=;
-  b=VUP7b56YKKeJckgmobp5CCbHkhLkbI6hhVDpbP4KSluLiXz4TvivUvT6
-   69jBUW0vsAvKUMJD29ayTTvs4CUMh7RvnUudep7th1hC09zHzHpWh52ld
-   Akl58gjp4PPQJsPHlZMd7XDUqkywj6IwLpqMCFEM3tWTHLmJtiAkklFCH
-   vfqJoDGUKSVaFgles9bTXaPYsc8Mo5EFOI4pfsVFLmsBWm8eNAmNhhvjY
-   IaWvX/Bhu8x/ssoDuqwNFqPYm7eljgFoQMdZdqKSa/73A+JVoQaBtMIdX
-   1tAOPyeKsx6DAtHazXCnHPlD5RD/zWvs+T24T0XcgJcN0oyon6avvo59o
+  t=1774158840; x=1805694840;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ugk/mZdnf4BBglsm37SaYfJeiv6BykBtxi1sFDjpmCk=;
+  b=W0SKarqozI8pwvSXFSmQXot7Kcpirs31AXuREfcJj5we4rbwM2f2x/Ht
+   kH3CiAj589pKb3QhR3Zi5EeuY1337NwJkG12eg4IAv8gXCFMqXkF0ST95
+   zsNM1LteUyW+HE8GY180b9xiIfK3AUuxtN6ccC4kvv8YGAhXbhrlCgrSX
+   VpkCfVW9/cmVLO2oe7p25ecHnTl5/IXF1Qh87paY4/GqNT1FGNnf7FBQH
+   /UbkjqKwi+L4sSkOMS2SYGvdpMlEKurVZ92sktOoEEpmH41TBRp7JmqeQ
+   0RHFg2huuYgQYFn+5O5moH5s94+DK1GrvQPLg4/+iEC2SKUeQndS+WPD9
    w==;
-X-CSE-ConnectionGUID: ELxkNl4kSNWD3Yn+bph2+Q==
-X-CSE-MsgGUID: FB8yI1p8Tsq+l8eoF/BQjQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11736"; a="92574395"
+X-CSE-ConnectionGUID: x+sCsW+ISZSCh4TlfGMJEw==
+X-CSE-MsgGUID: 5qG0/A4LQ7KzqpOs0CH1uw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11736"; a="75315466"
 X-IronPort-AV: E=Sophos;i="6.23,134,1770624000"; 
-   d="scan'208";a="92574395"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2026 22:39:41 -0700
-X-CSE-ConnectionGUID: 27r/sfy+Tp+k/l1TwGjNUw==
-X-CSE-MsgGUID: U/mPPSleRWC7RsIc5H1yXg==
+   d="scan'208";a="75315466"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2026 22:53:59 -0700
+X-CSE-ConnectionGUID: QmiY/CTFR1W97vIkOKwrAg==
+X-CSE-MsgGUID: KvbTIfw9TeWe6DrTOa4UvQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,134,1770624000"; 
-   d="scan'208";a="261603368"
+   d="scan'208";a="220511544"
 Received: from lkp-server02.sh.intel.com (HELO d7fefbca0d04) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 21 Mar 2026 22:39:39 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 21 Mar 2026 22:53:57 -0700
 Received: from kbuild by d7fefbca0d04 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w4BWb-000000001kT-3WlZ;
-	Sun, 22 Mar 2026 05:39:11 +0000
-Date: Sun, 22 Mar 2026 13:38:11 +0800
+	id 1w4Bka-000000001kr-0kHf;
+	Sun, 22 Mar 2026 05:53:32 +0000
+Date: Sun, 22 Mar 2026 13:53:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kas:pte_size 17/30]
- include/asm-generic/memory_model.h:62:23: error: '__ret' undeclared
-Message-ID: <202603221339.2UXgyMXN-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: David Timber <dxdt@dev.snart.me>, linkinjeon@kernel.org,
+	hyc.lee@gmail.com, almaz.alexandrovich@paragon-software.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, ntfs3@lists.linux.dev,
+	David Timber <dxdt@dev.snart.me>
+Subject: Re: [PATCH] ntfs(3): export super block magic
+Message-ID: <202603221308.oDwds9wL-lkp@intel.com>
+References: <20260319234047.43253-1-dxdt@dev.snart.me>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260319234047.43253-1-dxdt@dev.snart.me>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kas/linux.git pte_size
-head:   3ecd2bc82d7d0382233099de8d07616df26745c4
-commit: 28dbc88fd3353ba1e303dbfbd351218964beef77 [17/30] mm: Update memory model macros to support PTE_SIZE units
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260322/202603221339.2UXgyMXN-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260322/202603221339.2UXgyMXN-lkp@intel.com/reproduce)
+Hi David,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20260319]
+[cannot apply to brauner-vfs/vfs.all linus/master v7.0-rc4 v7.0-rc3 v7.0-rc2 v7.0-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Timber/ntfs-3-export-super-block-magic/20260320-181810
+base:   next-20260319
+patch link:    https://lore.kernel.org/r/20260319234047.43253-1-dxdt%40dev.snart.me
+patch subject: [PATCH] ntfs(3): export super block magic
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260322/202603221308.oDwds9wL-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260322/202603221308.oDwds9wL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603221339.2UXgyMXN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603221308.oDwds9wL-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/alpha/include/asm/page.h:84,
-                    from include/linux/shm.h:6,
-                    from include/linux/sched.h:23,
-                    from arch/alpha/kernel/asm-offsets.c:11:
-   include/linux/mm.h: In function 'folio_pfn':
-   include/asm-generic/memory_model.h:62:23: error: expected '=', ',', ';', 'asm' or '__attribute__' before '__ret'
-      62 |         unsigned logn __ret;                                            \
-         |                       ^~~~~
-   include/asm-generic/memory_model.h:81:21: note: in expansion of macro '__page_to_pfn'
-      81 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   include/linux/mm.h:2269:16: note: in expansion of macro 'page_to_pfn'
-    2269 |         return page_to_pfn(&folio->page);
-         |                ^~~~~~~~~~~
->> include/asm-generic/memory_model.h:62:23: error: '__ret' undeclared (first use in this function)
-      62 |         unsigned logn __ret;                                            \
-         |                       ^~~~~
-   include/asm-generic/memory_model.h:81:21: note: in expansion of macro '__page_to_pfn'
-      81 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   include/linux/mm.h:2269:16: note: in expansion of macro 'page_to_pfn'
-    2269 |         return page_to_pfn(&folio->page);
-         |                ^~~~~~~~~~~
-   include/asm-generic/memory_model.h:62:23: note: each undeclared identifier is reported only once for each function it appears in
-      62 |         unsigned logn __ret;                                            \
-         |                       ^~~~~
-   include/asm-generic/memory_model.h:81:21: note: in expansion of macro '__page_to_pfn'
-      81 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   include/linux/mm.h:2269:16: note: in expansion of macro 'page_to_pfn'
-    2269 |         return page_to_pfn(&folio->page);
-         |                ^~~~~~~~~~~
->> include/asm-generic/memory_model.h:66:1: error: expected ';' before '}' token
-      66 | })
-         | ^
-   include/asm-generic/memory_model.h:81:21: note: in expansion of macro '__page_to_pfn'
-      81 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   include/linux/mm.h:2269:16: note: in expansion of macro 'page_to_pfn'
-    2269 |         return page_to_pfn(&folio->page);
-         |                ^~~~~~~~~~~
-   include/linux/mm.h: In function 'mkpte':
-   include/asm-generic/memory_model.h:62:23: error: expected '=', ',', ';', 'asm' or '__attribute__' before '__ret'
-      62 |         unsigned logn __ret;                                            \
-         |                       ^~~~~
-   include/asm-generic/memory_model.h:81:21: note: in expansion of macro '__page_to_pfn'
-      81 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   include/linux/mm.h:2290:24: note: in expansion of macro 'page_to_pfn'
-    2290 |         return pfn_pte(page_to_pfn(page) + off, pgprot);
-         |                        ^~~~~~~~~~~
->> include/asm-generic/memory_model.h:62:23: error: '__ret' undeclared (first use in this function)
-      62 |         unsigned logn __ret;                                            \
-         |                       ^~~~~
-   include/asm-generic/memory_model.h:81:21: note: in expansion of macro '__page_to_pfn'
-      81 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   include/linux/mm.h:2290:24: note: in expansion of macro 'page_to_pfn'
-    2290 |         return pfn_pte(page_to_pfn(page) + off, pgprot);
-         |                        ^~~~~~~~~~~
->> include/asm-generic/memory_model.h:66:1: error: expected ';' before '}' token
-      66 | })
-         | ^
-   include/asm-generic/memory_model.h:81:21: note: in expansion of macro '__page_to_pfn'
-      81 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   include/linux/mm.h:2290:24: note: in expansion of macro 'page_to_pfn'
-    2290 |         return pfn_pte(page_to_pfn(page) + off, pgprot);
-         |                        ^~~~~~~~~~~
-   include/linux/mm.h: In function 'is_zero_page':
-   include/asm-generic/memory_model.h:62:23: error: expected '=', ',', ';', 'asm' or '__attribute__' before '__ret'
-      62 |         unsigned logn __ret;                                            \
-         |                       ^~~~~
-   include/asm-generic/memory_model.h:81:21: note: in expansion of macro '__page_to_pfn'
-      81 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   include/linux/mm.h:2433:28: note: in expansion of macro 'page_to_pfn'
-    2433 |         return is_zero_pfn(page_to_pfn(page));
-         |                            ^~~~~~~~~~~
->> include/asm-generic/memory_model.h:62:23: error: '__ret' undeclared (first use in this function)
-      62 |         unsigned logn __ret;                                            \
-         |                       ^~~~~
-   include/asm-generic/memory_model.h:81:21: note: in expansion of macro '__page_to_pfn'
-      81 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   include/linux/mm.h:2433:28: note: in expansion of macro 'page_to_pfn'
-    2433 |         return is_zero_pfn(page_to_pfn(page));
-         |                            ^~~~~~~~~~~
->> include/asm-generic/memory_model.h:66:1: error: expected ';' before '}' token
-      66 | })
-         | ^
-   include/asm-generic/memory_model.h:81:21: note: in expansion of macro '__page_to_pfn'
-      81 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   include/linux/mm.h:2433:28: note: in expansion of macro 'page_to_pfn'
-    2433 |         return is_zero_pfn(page_to_pfn(page));
-         |                            ^~~~~~~~~~~
-   include/linux/mm.h: In function 'folio_is_longterm_pinnable':
-   include/asm-generic/memory_model.h:62:23: error: expected '=', ',', ';', 'asm' or '__attribute__' before '__ret'
-      62 |         unsigned logn __ret;                                            \
-         |                       ^~~~~
-   include/asm-generic/memory_model.h:81:21: note: in expansion of macro '__page_to_pfn'
-      81 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   include/linux/mmzone.h:133:40: note: in expansion of macro 'page_to_pfn'
-     133 |         get_pfnblock_migratetype(page, page_to_pfn(page))
-         |                                        ^~~~~~~~~~~
-   include/linux/mmzone.h:136:9: note: in expansion of macro 'get_pageblock_migratetype'
-     136 |         get_pageblock_migratetype(&folio->page)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mm.h:2452:18: note: in expansion of macro 'folio_migratetype'
-    2452 |         int mt = folio_migratetype(folio);
-         |                  ^~~~~~~~~~~~~~~~~
->> include/asm-generic/memory_model.h:62:23: error: '__ret' undeclared (first use in this function)
-      62 |         unsigned logn __ret;                                            \
-         |                       ^~~~~
-   include/asm-generic/memory_model.h:81:21: note: in expansion of macro '__page_to_pfn'
-      81 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   include/linux/mmzone.h:133:40: note: in expansion of macro 'page_to_pfn'
-     133 |         get_pfnblock_migratetype(page, page_to_pfn(page))
-         |                                        ^~~~~~~~~~~
-   include/linux/mmzone.h:136:9: note: in expansion of macro 'get_pageblock_migratetype'
-     136 |         get_pageblock_migratetype(&folio->page)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mm.h:2452:18: note: in expansion of macro 'folio_migratetype'
-    2452 |         int mt = folio_migratetype(folio);
-         |                  ^~~~~~~~~~~~~~~~~
->> include/asm-generic/memory_model.h:66:1: error: expected ';' before '}' token
-      66 | })
-         | ^
-   include/asm-generic/memory_model.h:81:21: note: in expansion of macro '__page_to_pfn'
-      81 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   include/linux/mmzone.h:133:40: note: in expansion of macro 'page_to_pfn'
-     133 |         get_pfnblock_migratetype(page, page_to_pfn(page))
-         |                                        ^~~~~~~~~~~
-   include/linux/mmzone.h:136:9: note: in expansion of macro 'get_pageblock_migratetype'
-     136 |         get_pageblock_migratetype(&folio->page)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mm.h:2452:18: note: in expansion of macro 'folio_migratetype'
-    2452 |         int mt = folio_migratetype(folio);
-         |                  ^~~~~~~~~~~~~~~~~
-   include/linux/mm.h: In function 'lowmem_page_address':
-   include/asm-generic/memory_model.h:62:23: error: expected '=', ',', ';', 'asm' or '__attribute__' before '__ret'
-      62 |         unsigned logn __ret;                                            \
-         |                       ^~~~~
-   arch/alpha/include/asm/page.h:79:60: note: in definition of macro '__va'
-      79 | #define __va(x)                 ((void *)((unsigned long) (x) + PAGE_OFFSET))
-         |                                                            ^
-   include/linux/mm.h:121:30: note: in expansion of macro 'PFN_PHYS'
-     121 | #define page_to_virt(x) __va(PFN_PHYS(page_to_pfn(x)))
-         |                              ^~~~~~~~
-   include/asm-generic/memory_model.h:81:21: note: in expansion of macro '__page_to_pfn'
-      81 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   include/linux/mm.h:121:39: note: in expansion of macro 'page_to_pfn'
-     121 | #define page_to_virt(x) __va(PFN_PHYS(page_to_pfn(x)))
-         |                                       ^~~~~~~~~~~
-   include/linux/mm.h:2766:16: note: in expansion of macro 'page_to_virt'
-    2766 |         return page_to_virt(page);
-         |                ^~~~~~~~~~~~
->> include/asm-generic/memory_model.h:62:23: error: '__ret' undeclared (first use in this function)
-      62 |         unsigned logn __ret;                                            \
-         |                       ^~~~~
-   arch/alpha/include/asm/page.h:79:60: note: in definition of macro '__va'
-      79 | #define __va(x)                 ((void *)((unsigned long) (x) + PAGE_OFFSET))
-         |                                                            ^
-   include/linux/mm.h:121:30: note: in expansion of macro 'PFN_PHYS'
-     121 | #define page_to_virt(x) __va(PFN_PHYS(page_to_pfn(x)))
-         |                              ^~~~~~~~
-   include/asm-generic/memory_model.h:81:21: note: in expansion of macro '__page_to_pfn'
-      81 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   include/linux/mm.h:121:39: note: in expansion of macro 'page_to_pfn'
-     121 | #define page_to_virt(x) __va(PFN_PHYS(page_to_pfn(x)))
-         |                                       ^~~~~~~~~~~
-   include/linux/mm.h:2766:16: note: in expansion of macro 'page_to_virt'
-    2766 |         return page_to_virt(page);
-         |                ^~~~~~~~~~~~
->> include/asm-generic/memory_model.h:66:1: error: expected ';' before '}' token
-      66 | })
-         | ^
-   arch/alpha/include/asm/page.h:79:60: note: in definition of macro '__va'
-      79 | #define __va(x)                 ((void *)((unsigned long) (x) + PAGE_OFFSET))
-         |                                                            ^
-   include/linux/mm.h:121:30: note: in expansion of macro 'PFN_PHYS'
-     121 | #define page_to_virt(x) __va(PFN_PHYS(page_to_pfn(x)))
-         |                              ^~~~~~~~
-   include/asm-generic/memory_model.h:81:21: note: in expansion of macro '__page_to_pfn'
-      81 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   include/linux/mm.h:121:39: note: in expansion of macro 'page_to_pfn'
-     121 | #define page_to_virt(x) __va(PFN_PHYS(page_to_pfn(x)))
-         |                                       ^~~~~~~~~~~
-   include/linux/mm.h:2766:16: note: in expansion of macro 'page_to_virt'
-    2766 |         return page_to_virt(page);
-         |                ^~~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:184: arch/alpha/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1333: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+>> fs/ntfs/super.c:2152:18: error: use of undeclared identifier 'NTFS_SUPER_MAGIC'
+    2152 |         sfs->f_type   = NTFS_SUPER_MAGIC;
+         |                         ^
+   fs/ntfs/super.c:2355:16: error: use of undeclared identifier 'NTFS_SUPER_MAGIC'
+    2355 |         sb->s_magic = NTFS_SUPER_MAGIC;
+         |                       ^
+   2 errors generated.
+--
+>> fs/ntfs3/super.c:734:16: error: use of undeclared identifier 'NTFS3_SUPER_MAGIC'
+     734 |         buf->f_type = NTFS3_SUPER_MAGIC;
+         |                       ^
+   fs/ntfs3/super.c:1282:16: error: use of undeclared identifier 'NTFS3_SUPER_MAGIC'
+    1282 |         sb->s_magic = NTFS3_SUPER_MAGIC;
+         |                       ^
+   2 errors generated.
 
 
-vim +/__ret +62 include/asm-generic/memory_model.h
+vim +/NTFS_SUPER_MAGIC +2152 fs/ntfs/super.c
 
-    53	
-    54	#elif defined(CONFIG_SPARSEMEM)
-    55	/*
-    56	 * Note: section's mem_map is encoded to reflect its start_pfn.
-    57	 * section[i].section_mem_map == mem_map's address - start_pfn;
-    58	 */
-    59	#define __page_to_pfn(pg)						\
-    60	({	const struct page *__pg = (pg);					\
-    61		int __sec = memdesc_section(__pg->flags);			\
-  > 62		unsigned logn __ret;						\
-    63		__ret = (unsigned long)(__pg -					\
-    64			__section_mem_map_addr(__nr_to_section(__sec)));	\
-    65		PAGES_TO_PTES(__ret)						\
-  > 66	})
-    67	
+  2123	
+  2124	/*
+  2125	 * ntfs_statfs - return information about mounted NTFS volume
+  2126	 * @dentry:	dentry from mounted volume
+  2127	 * @sfs:	statfs structure in which to return the information
+  2128	 *
+  2129	 * Return information about the mounted NTFS volume @dentry in the statfs structure
+  2130	 * pointed to by @sfs (this is initialized with zeros before ntfs_statfs is
+  2131	 * called). We interpret the values to be correct of the moment in time at
+  2132	 * which we are called. Most values are variable otherwise and this isn't just
+  2133	 * the free values but the totals as well. For example we can increase the
+  2134	 * total number of file nodes if we run out and we can keep doing this until
+  2135	 * there is no more space on the volume left at all.
+  2136	 *
+  2137	 * Called from vfs_statfs which is used to handle the statfs, fstatfs, and
+  2138	 * ustat system calls.
+  2139	 *
+  2140	 * Return 0 on success or -errno on error.
+  2141	 */
+  2142	static int ntfs_statfs(struct dentry *dentry, struct kstatfs *sfs)
+  2143	{
+  2144		struct super_block *sb = dentry->d_sb;
+  2145		s64 size;
+  2146		struct ntfs_volume *vol = NTFS_SB(sb);
+  2147		struct ntfs_inode *mft_ni = NTFS_I(vol->mft_ino);
+  2148		unsigned long flags;
+  2149	
+  2150		ntfs_debug("Entering.");
+  2151		/* Type of filesystem. */
+> 2152		sfs->f_type   = NTFS_SUPER_MAGIC;
+  2153		/* Optimal transfer block size. */
+  2154		sfs->f_bsize = vol->cluster_size;
+  2155		/* Fundamental file system block size, used as the unit. */
+  2156		sfs->f_frsize = vol->cluster_size;
+  2157	
+  2158		/*
+  2159		 * Total data blocks in filesystem in units of f_bsize and since
+  2160		 * inodes are also stored in data blocs ($MFT is a file) this is just
+  2161		 * the total clusters.
+  2162		 */
+  2163		sfs->f_blocks = vol->nr_clusters;
+  2164	
+  2165		/* wait event */
+  2166		if (!NVolFreeClusterKnown(vol))
+  2167			wait_event(vol->free_waitq, NVolFreeClusterKnown(vol));
+  2168	
+  2169		/* Free data blocks in filesystem in units of f_bsize. */
+  2170		size = atomic64_read(&vol->free_clusters) -
+  2171			atomic64_read(&vol->dirty_clusters);
+  2172		if (size < 0LL)
+  2173			size = 0LL;
+  2174	
+  2175		/* Free blocks avail to non-superuser, same as above on NTFS. */
+  2176		sfs->f_bavail = sfs->f_bfree = size;
+  2177	
+  2178		/* Number of inodes in filesystem (at this point in time). */
+  2179		read_lock_irqsave(&mft_ni->size_lock, flags);
+  2180		sfs->f_files = i_size_read(vol->mft_ino) >> vol->mft_record_size_bits;
+  2181		read_unlock_irqrestore(&mft_ni->size_lock, flags);
+  2182	
+  2183		/* Free inodes in fs (based on current total count). */
+  2184		sfs->f_ffree = atomic64_read(&vol->free_mft_records);
+  2185	
+  2186		/*
+  2187		 * File system id. This is extremely *nix flavour dependent and even
+  2188		 * within Linux itself all fs do their own thing. I interpret this to
+  2189		 * mean a unique id associated with the mounted fs and not the id
+  2190		 * associated with the filesystem driver, the latter is already given
+  2191		 * by the filesystem type in sfs->f_type. Thus we use the 64-bit
+  2192		 * volume serial number splitting it into two 32-bit parts. We enter
+  2193		 * the least significant 32-bits in f_fsid[0] and the most significant
+  2194		 * 32-bits in f_fsid[1].
+  2195		 */
+  2196		sfs->f_fsid = u64_to_fsid(vol->serial_no);
+  2197		/* Maximum length of filenames. */
+  2198		sfs->f_namelen	   = NTFS_MAX_NAME_LEN;
+  2199	
+  2200		return 0;
+  2201	}
+  2202	
 
 -- 
 0-DAY CI Kernel Test Service
