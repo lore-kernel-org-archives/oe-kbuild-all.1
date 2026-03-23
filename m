@@ -1,81 +1,98 @@
-Received: from hr2.samba.org (hr2.samba.org [144.76.82.148])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED7313B27D0;
-	Mon, 23 Mar 2026 14:52:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.82.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14A893B6363
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Mar 2026 15:13:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774277552; cv=none; b=B2M6CQxGORGB6uGzgI7CdsuTBQNUSWr/rPa8S6mQ8MglFlvuCHRtWKw4hbed3qoBWPMlIYQ1mhmHwFlHnKuEM42iaT3CaJ/3eYOZyXLZ17AJfhee7aim66gyjGakp3xTJVzvIgAKnGaOoDrxdR3UM7GsmN4knhgYFl4uWvnqsFM=
+	t=1774278794; cv=none; b=dPZwZX6umwaDi/zUGSSpVytQnNOB/RE9Fo9ffxxUYEW+ntjQwV4hsOFlPYQ6kZIJ+DRo8hd1pORIojkRJT9ktpQyio7S820mtd6PFNNBGw/C7VBqIFFqIF+8GlbdaR5J1lI5esmDbg0lk7W45TtaUeqJckXqxqLJ+LeHtkVH2vE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774277552; c=relaxed/simple;
-	bh=KbfctE9xbMaq8z82UyfhfkaRlUugJsUcn7ei3aJP0ck=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cLAKmq4Aa4OmjQvOV5FyAMdCeS3dJ4db+um+rfFzrhJJZC1aG1yvT36Ni4V7rW4IypW4LVlsoQC/Q+F8Fym4tNq/KgIVPNyGSnqjp5xGTwS+2coOHpSDnN3YBxoqlBMjLo4u1+Wi59Bwiv05kBru1KPlHDzH3Tn2JoIn9tuS3sA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=samba.org; spf=pass smtp.mailfrom=samba.org; dkim=pass (3072-bit key) header.d=samba.org header.i=@samba.org header.b=idjAmKJn; arc=none smtp.client-ip=144.76.82.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=samba.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samba.org
+	s=arc-20240116; t=1774278794; c=relaxed/simple;
+	bh=2+gH9APRNX+3Ob8jqA/zpvpm1qi4gqLKK6cs/fc/YQY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mkbluDkaG5Gm1SLUPQdUMk4LmB+vU9y6hDcsgYU2RWm7K93Zo7YZ3EVR7am5gpjitNQydV2Z2KIuJnAgcTfaJo+j8z4s8ch6iI/9CEWRzrMJ8h2iSUny3v6HOCe3o8OcWRsIeu9FQIRgdXenuyRlyEgnSJFODsnK9i4kxvpAQpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yzl281/V; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (3072-bit key) header.d=samba.org header.i=@samba.org header.b="idjAmKJn"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=samba.org;
-	s=42; h=From:Cc:To:Date:Message-ID;
-	bh=KbfctE9xbMaq8z82UyfhfkaRlUugJsUcn7ei3aJP0ck=; b=idjAmKJndQK6w0F9Fk3UKCTEXB
-	uD7ZpClad8U/fhD+e7TDHDNe7EQ8M1uyeUJdHjeLkZsnYqsWONaQIhQth/6swG0uHWkelubCBSWee
-	2y+b7Bk2gjaaBhIhh6BdfdnZoCbjj5GxrN+ZaTzyRsTkm1t9GapMCgb/fgVqgZTZzh/3BXCqIhc35
-	p2Lw03TXFWAdlw92Fph4+h0NBTGnMcNwikUDcHNME26WHTa9cHs0kTycJlD3b1pJm4mzPDdEWVrbf
-	L92hS2JrJM4LmNgh1NY7PC2dXRwqEuxSOhf7/6nNYiT2pwvTd9iB37HORc1B1hg1oWxtHw7+rJAJ8
-	EtMhqsToxc3TyFV2VQ18vKku2cCx0SN5++2iiqXddfwWBj0uTkYzEb/UJ8xUd+6ZFNZIj31iIL1+K
-	eFsHuOf4SmWfFR9TekWYT6BD512p/pxl8RVfHr/2Di5BJwb5amio86ZTU7V2OhPEQoQcbX7ljlB1u
-	RGh3ZtTW7YkgW89Sb5BIP+LO;
-Received: from [127.0.0.2] (localhost [127.0.0.1])
-	by hr2.samba.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__ECDSA_SECP256R1_SHA256__CHACHA20_POLY1305:256)
-	(Exim)
-	id 1w4gdn-000000036Ya-3TjC;
-	Mon, 23 Mar 2026 14:52:27 +0000
-Message-ID: <69c54f80-dff1-4c02-af97-08799fe59b94@samba.org>
-Date: Mon, 23 Mar 2026 15:52:27 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yzl281/V"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774278792; x=1805814792;
+  h=date:from:to:cc:subject:message-id;
+  bh=2+gH9APRNX+3Ob8jqA/zpvpm1qi4gqLKK6cs/fc/YQY=;
+  b=Yzl281/VrhuSZW8kv1tky4Cc45PJkShlslclsq7ihRVUwWSR5VSCOAC2
+   3JPS0ttycdcA4HN0BsxC9hwdxRchqxUu/PdN+O+NueTRJ33+kE5d0jN8+
+   a2rL/zVcK2pGGvbARB4qyaSFt4ZNOL9YsLmlzUpugEUV762Gf/WKzxvFc
+   ibc67Mx3qTg/+nBlnufJsRKAl9hUdYxn1ThvoD9yTAMOABcyGrFYiqfsA
+   WK5wZcEXoD3RgoWzkw6/AIY0ix90z+3PeeNbxLtqEpVrr7CO0Ldyjs6pm
+   eedfPzy1y3/V6pj8kBzfb2FaPciITtbdP02733pm6qca5+fTNA9kUDozU
+   g==;
+X-CSE-ConnectionGUID: K0OJC+uvTHC4GCuOciCDYA==
+X-CSE-MsgGUID: iBwhIzVqShmwCwP88O9yKQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="97898786"
+X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
+   d="scan'208";a="97898786"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 08:13:12 -0700
+X-CSE-ConnectionGUID: jU/yviJZQEicINqmr4m0bg==
+X-CSE-MsgGUID: H/nSozjgQH6z38j/o6hTAQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
+   d="scan'208";a="228782859"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 23 Mar 2026 08:13:11 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w4gxo-000000001hj-4B0I;
+	Mon, 23 Mar 2026 15:13:08 +0000
+Date: Mon, 23 Mar 2026 23:12:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 36/36]
+ drivers/base/power/wakeup.c:1219:5: warning: no previous prototype for
+ 'wakeup_sources_stats_open'
+Message-ID: <202603232346.PjsWu9AC-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [samba-ksmbd:ksmbd-for-next-next 11/12]
- fs/smb/server/smb2pdu.c:5723:3: warning: variable 'pntsd' is uninitialized
- when used here
-To: Namjae Jeon <linkinjeon@kernel.org>, Steve French <smfrench@gmail.com>
-Cc: Asim Viladi Oglu Manizada <manizada@pm.me>,
- kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, Steve French <stfrench@microsoft.com>,
- "linux-cifs@vger.kernel.org" <linux-cifs@vger.kernel.org>
-References: <202603180118.ClDWNtId-lkp@intel.com>
- <b859bfa1-7844-4b23-91a4-bbd526ffc19b@samba.org>
- <CAH2r5mvvjWtJza+9YrLYvneysyEQa5rENhTYiFTAwrE+KhOy8Q@mail.gmail.com>
- <CAKYAXd_yLYLD5SsRUZy8d6u7vknTPuN8Cbe11HJt0Eq6bLzBBw@mail.gmail.com>
-Content-Language: en-US
-From: Stefan Metzmacher <metze@samba.org>
-In-Reply-To: <CAKYAXd_yLYLD5SsRUZy8d6u7vknTPuN8Cbe11HJt0Eq6bLzBBw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-Am 23.03.26 um 15:43 schrieb Namjae Jeon:
-> On Mon, Mar 23, 2026 at 10:22 PM Steve French <smfrench@gmail.com> wrote:
->>
->> looks like a simple fix to initialize it to null at declaration, right?
-> It seems this test was performed on an outdated version. The current
-> ksmbd-for-next already includes the updated one, so we don't need to
-> check it.
+Hi Bo,
 
-For it still happens with the current state:
+FYI, the error/warning still remains.
 
-1ce4e48216b84385319da308f2262eb11ee7e459
-(smfrench-smb3-kernel/ksmbd-for-next) smb: smbdirect: fix inverted comparison operator in negotiation log message
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   b98cfc3cd4ab26abf9d75eaa32b740007d196796
+commit: 5df128deb8f2e04a46acb77df6aec44b1d343583 [36/36] ANDROID: Allow vendor modules to get wakeup sources data.
+config: x86_64-buildonly-randconfig-003-20260323 (https://download.01.org/0day-ci/archive/20260323/202603232346.PjsWu9AC-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260323/202603232346.PjsWu9AC-lkp@intel.com/reproduce)
 
-And there it's likely:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603232346.PjsWu9AC-lkp@intel.com/
 
-6a0795e46296589d8eba6c194586e9e65974d73f
-ksmbd: fix OOB write in QUERY_INFO for compound requests
+All warnings (new ones prefixed by >>):
 
-With setting it to NULL the smatch warning goes away.
+>> drivers/base/power/wakeup.c:1219:5: warning: no previous prototype for 'wakeup_sources_stats_open' [-Wmissing-prototypes]
+    1219 | int wakeup_sources_stats_open(struct inode *inode, struct file *file)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
 
-metze
+
+vim +/wakeup_sources_stats_open +1219 drivers/base/power/wakeup.c
+
+  1218	
+> 1219	int wakeup_sources_stats_open(struct inode *inode, struct file *file)
+  1220	{
+  1221		return seq_open_private(file, &wakeup_sources_stats_seq_ops, sizeof(int));
+  1222	}
+  1223	EXPORT_SYMBOL_GPL(wakeup_sources_stats_open);
+  1224	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
