@@ -1,81 +1,141 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF68938910C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Mar 2026 09:58:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD51A38B148
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Mar 2026 10:20:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774259941; cv=none; b=YtQ5vTbqN4uZRaKlUijEt3f0q0AooQYzLB3Hznn6ninV3GCFxdgljScqPe1kpoT4xyV+3RfMRT356jszRlxrAknI1RabvRLmpNNxC0RiMhiJpCQmIf2jjzaCo2I0pkovl1juRuD3w5wbIRic1EorhKxuvaL7Fmd4Oiv7wZN0Fb0=
+	t=1774261209; cv=none; b=LCA465uLoVRGvjc2FnRx5xDmL+AhPj2ocfQOYlc/ZKgD/MsZTOBKIs6hce8vD4/ja2CIvDfui/tP1xpbmrv15D7Sbs5Vgl0s7SHZ7aeeLItFTZiZEyMBstIFZg9KCi35D+afcDy5Q+ROY3BL8yJQhpGjoHqRGhNeFeABWyp4faI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774259941; c=relaxed/simple;
-	bh=2V/5hjdOqIOki0hxU/OUGni6YNUcrMavoWQV4kuuVjk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Y0YpIm5l+HVNkWF8rgACPD/kb8Hcy64pjnSgcj3RY463GoH4eti0txC5uAUdiKtZFWXaKzcga4eovG6zGyPluhSZtzj1KaftwzLfdtgFqcVoJB2t/pEYLOKAUHQ1NiQs8Zozrjox/ftWEHKJilHyoViLFGkFRacPSDDeFcMwsjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VAItJyOh; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1774261209; c=relaxed/simple;
+	bh=yXatQ4JO8B9DvDgSV+G8n5ZDZn06+ptILBIxSJt93bs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K8cckFgJyP/0wxQ8vs5cHea4cfPhCG9mCm1kuxEwuBfvHjFkpXdHHFBRPPPdk34ET3/wyppQJJpM2kymlOaxMrp5srP2aMKlmvreY58VA/OQAVBnWfDzQ/2r3WhsT/IyCxpx+DqRGG2hfvBQuNjFkNW7sIMvmGU1lBgI/szNh9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kFISh3wq; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VAItJyOh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kFISh3wq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774259940; x=1805795940;
-  h=date:from:to:cc:subject:message-id;
-  bh=2V/5hjdOqIOki0hxU/OUGni6YNUcrMavoWQV4kuuVjk=;
-  b=VAItJyOhq0phgdpntSQIBm8E7DrNyHYqNVgA9DAMIUTO38yGNs8dWdnm
-   QtaRTCmiCue8CVu1T428i23ipfrv7KxBrDkAIgjTjuZNFuJvZ+I4wCDfb
-   oC81rdIhtdcNMMk4SagnZdbURq4Zsn3NxWbvaUuWHSUzL+XGvpRPlzB35
-   /tL3XI3yVm/o3Sx2ET4YAZs1fd5qBmeKyXg5kWH5BmuwJV9hJWfKci2eT
-   YvpS/RrzVfAjJjqfJxa0S5faNBi0Qf/3lOxQw2PNLCsYx3nLDi2BeZL37
-   YgN59BiEJncbV6B+HENGaslcsEJZcLYGO/hemcPaDGtlY9HbMlLx5PtRj
+  t=1774261207; x=1805797207;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yXatQ4JO8B9DvDgSV+G8n5ZDZn06+ptILBIxSJt93bs=;
+  b=kFISh3wqEjKVQ8/z1uX5t5nfAnLoEsrflzIdKh9H/7cujS5Kgg8X9JuK
+   8sJtdesRURh2IrBlH2x7/sgJ5Oz1xoGLx1zNfTfc6j/HbogSbtzDyJJN6
+   FHNXJD/DbeJtNzL9cyHQALy0+t1k4fVttbGf/HLU8gXibVY8teOwIn8ax
+   GLqG/sTYBsABCUUZqRGZyOdk3qcTouBH7SUOq8hA9XRMUl5MvW9RlxKK0
+   M0RCX2f3WrUSp9+5q1LEwvwA9VIP/ZEYY5jErP/RmXFaARKRex10PhB7Z
+   opcmzEp8qz/w18dDAR+8cGb9JxxuVNmzPWy9ZTqhwf9ezshMWdRDl2aKA
    A==;
-X-CSE-ConnectionGUID: BsMOiFb7RZiRbvvlnJBeKg==
-X-CSE-MsgGUID: V371ERWHSgan5pIuRQ4NDw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="75319693"
+X-CSE-ConnectionGUID: XQ71WEEhRLO11DYiNJY1Fg==
+X-CSE-MsgGUID: YoBJ5rhnRX2dpYKk2tXG8w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="74433429"
 X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="75319693"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 02:58:59 -0700
-X-CSE-ConnectionGUID: JtFsfbMdScKwdJCsvHv+2g==
-X-CSE-MsgGUID: UazV1mL6RCeCScVQ1vIm7g==
+   d="scan'208";a="74433429"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 03:20:07 -0700
+X-CSE-ConnectionGUID: sdWJRHdHQlOkec0YBpFIgQ==
+X-CSE-MsgGUID: nHQx2jjIRzyJoC4IQ2Koiw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="223174225"
+   d="scan'208";a="228707869"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 23 Mar 2026 02:58:58 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 23 Mar 2026 03:20:01 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w4c3j-000000000Jp-2Q2z;
-	Mon, 23 Mar 2026 09:58:55 +0000
-Date: Mon, 23 Mar 2026 17:58:10 +0800
+	id 1w4cO6-000000000LJ-0Inl;
+	Mon, 23 Mar 2026 10:19:58 +0000
+Date: Mon, 23 Mar 2026 18:19:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-misc:lib-raid6 32/44] Warning:
- lib/raid/raid6/algos.c:76 function parameter 'start' not described in
- 'raid6_xor_syndrome'
-Message-ID: <202603231723.k8XPK91E-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Pingfan Liu <piliu@redhat.com>, kexec@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, Pingfan Liu <piliu@redhat.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	Jeremy Linton <jeremy.linton@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+	Simon Horman <horms@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Philipp Rudo <prudo@redhat.com>, Viktor Malik <vmalik@redhat.com>,
+	Jan Hendrik Farr <kernel@jfarr.cc>, Baoquan He <bhe@redhat.com>,
+	Dave Young <dyoung@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	bpf@vger.kernel.org, systemd-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCHv7 08/13] kexec_file: Factor out routine to find a symbol
+ in ELF
+Message-ID: <202603231812.ZGRRlzPe-lkp@intel.com>
+References: <20260322014402.8815-9-piliu@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260322014402.8815-9-piliu@redhat.com>
 
-tree:   git://git.infradead.org/users/hch/misc.git lib-raid6
-head:   f423762908f818de59bf73cf8f6c1bb45c5e595a
-commit: 434f25b115208d66e4b7d7724fa09e6edfa4fc40 [32/44] raid6: provide a procedural public interface
-config: loongarch-randconfig-001-20260323 (https://download.01.org/0day-ci/archive/20260323/202603231723.k8XPK91E-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260323/202603231723.k8XPK91E-lkp@intel.com/reproduce)
+Hi Pingfan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/net]
+[also build test ERROR on bpf-next/master bpf/master akpm-mm/mm-nonmm-unstable linus/master v7.0-rc5 next-20260320]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pingfan-Liu/bpf-Introduce-kfuncs-to-parser-buffer-content/20260323-084500
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git net
+patch link:    https://lore.kernel.org/r/20260322014402.8815-9-piliu%40redhat.com
+patch subject: [PATCHv7 08/13] kexec_file: Factor out routine to find a symbol in ELF
+config: x86_64-randconfig-002-20260323 (https://download.01.org/0day-ci/archive/20260323/202603231812.ZGRRlzPe-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260323/202603231812.ZGRRlzPe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603231723.k8XPK91E-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603231812.ZGRRlzPe-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: lib/raid/raid6/algos.c:76 function parameter 'start' not described in 'raid6_xor_syndrome'
->> Warning: lib/raid/raid6/algos.c:76 function parameter 'start' not described in 'raid6_xor_syndrome'
+>> kernel/kexec_file.c:1276:23: error: redefinition of 'kexec_purgatory_find_symbol'
+    1276 | static const Elf_Sym *kexec_purgatory_find_symbol(struct purgatory_info *pi,
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/kexec_file.c:958:23: note: previous definition of 'kexec_purgatory_find_symbol' with type 'const Elf64_Sym *(struct purgatory_info *, const char *)' {aka 'const struct elf64_sym *(struct purgatory_info *, const char *)'}
+     958 | static const Elf_Sym *kexec_purgatory_find_symbol(struct purgatory_info *pi,
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/kexec_purgatory_find_symbol +1276 kernel/kexec_file.c
+
+  1268	
+  1269	/*
+  1270	 * kexec_purgatory_find_symbol - find a symbol in the purgatory
+  1271	 * @pi:		Purgatory to search in.
+  1272	 * @name:	Name of the symbol.
+  1273	 *
+  1274	 * Return: pointer to symbol in read-only symtab on success, NULL on error.
+  1275	 */
+> 1276	static const Elf_Sym *kexec_purgatory_find_symbol(struct purgatory_info *pi,
+  1277							  const char *name)
+  1278	{
+  1279		if (!pi->ehdr)
+  1280			return NULL;
+  1281	
+  1282		return elf_find_symbol(pi->ehdr, name);
+  1283	}
+  1284	
 
 -- 
 0-DAY CI Kernel Test Service
