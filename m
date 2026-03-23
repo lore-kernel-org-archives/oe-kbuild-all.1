@@ -1,62 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 688543E025D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Mar 2026 20:37:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4387A3E0C6B;
+	Mon, 23 Mar 2026 20:37:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774298223; cv=none; b=GHaVXk/SyQjkbHLm+iEDQDz4wwK7EMg7K7jmjdBEEy8sz61fZlb6gWpk/F3Xx8lWKBnIKsa9rzdgkGr/UETfnOQsxKkzJbIo8hgcSxZcC6QtzhESkLaHcZK1lUJSqNZ6gvFxs4fND3PyuGIQca1Ho0ma6zyAEED+1Sb1Stsn8NU=
+	t=1774298225; cv=none; b=WtWuoHXjmMh+I5M71/k2yl4c+qHwGJTo0Y9QQ0defS9ufTYEirHcjGOBPMuGWDvN4cAi6DUlzip8MXKA8vQ3ZUqCLIJsj7e3GpdGmXrkdFYI/R9NNlnf3U0ChV8YQnVi0NkN+yLhDCQ+g5I2Xf/l/8yfjtnnmv9DeWF6JSBSb4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774298223; c=relaxed/simple;
-	bh=ST5cl4uufkxlawV++y9/azp3LoDBvn1QizhzqVpQ1yU=;
+	s=arc-20240116; t=1774298225; c=relaxed/simple;
+	bh=yGyce9YhsfprRiXcjDxa0I2ZHxLi8y3Dztmn/6a58nM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nFPLG17ipwMiPs41U1t/DjC/3W0mx972w+9BNZdHFd7p8X6mv/rZfTt4mPMxiWYO8iDgvsqOcecsTUA73e6XICh/SKLbKUXd3VgpgA5dAPfEcb6WKqAXGuI98AqGNWOs5sIZ6zMMMzUn7pujH203YIahMIWEoIrWRnHFX6ckaxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S/DbV3C+; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=Flp42YNmppdoDKMmXr468azbx9CX8XUCclrfjCRKyMrC4PCQBWF0hY+7DRVXFhvJLqyfsU2hSK0noNIBJ90LrrVZtWm8qUDSX0PveGEM+G/w/PWQLvCntps+X6aEozdDPmI5vu4HNcLoYYNqS9yWaJBDPsEfMCzkvNJJbEhEI/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zmtj3X1p; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S/DbV3C+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zmtj3X1p"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774298221; x=1805834221;
+  t=1774298223; x=1805834223;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ST5cl4uufkxlawV++y9/azp3LoDBvn1QizhzqVpQ1yU=;
-  b=S/DbV3C+PcyiQjPwxv93yIUHvLMTMrs0WXEdLt7XxTN9H7awhlYxHMN9
-   wN3Zu1oDHmiQJQvPiUbdyf8JscawJhdUkc9IJIbAK+Fc8feZvrdrD2I+z
-   cqhbl+zoZ6yPTfFZq/CEH+uTsp7uhT0/G7GknyYPjTSI8LjjOnpORhgi7
-   DK8vANMavOCDL6UhiaZBrOotsGZN9Ctmq8cWvF4C+yy5eFmOuvvA5k4y4
-   ayEl8pH2wZiWfSAKFb0XATiI5lSxVlHy4Dteq1pu95U5q4v80x2Wpkc3J
-   G4qFeBiquTQh+YGIyp4COaNBmtKZn4TXvQmuqOQsY5D64UNFQnf9tL1Ak
-   g==;
-X-CSE-ConnectionGUID: E3fGh6bwQsODVJ2mYXfBxw==
-X-CSE-MsgGUID: BNboC4F9TwSLku04UhORpw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="100758856"
+  bh=yGyce9YhsfprRiXcjDxa0I2ZHxLi8y3Dztmn/6a58nM=;
+  b=Zmtj3X1pN3DieS9mGSvTqAGm5puLyKut6FEdPAZZ6dgCf8OWADg0Yi0k
+   9iTy3upmTKVAvWWuWu1bCeLOiXonySzJI5LZgvYQGp86uj4txCpSDSVSQ
+   bR6Py18Z6o1MCQwNPX83qYbiGk3xkz25MZgrup4VZdn03rfjhdt4nSWJp
+   fArIYbBIMuXtKMMCCWkSt/sFJulLcLhfpFGb1a9ZfXvHG/roZPWmonp/h
+   MsgsdkPKnG4HDCM6gLftllN6COnQO5NdvW0nYma/1RMBLcXXkmojwyybQ
+   8jTMeRa9qbrCgf3Ph+UJQ/azs7ypQHL2JwYSbSC7afFrijmP7v0GEMMul
+   Q==;
+X-CSE-ConnectionGUID: qxNXOpFlTCulyeK1IUnDPw==
+X-CSE-MsgGUID: sxIOue6BTHSJVAN/iwVFpw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="100758863"
 X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="100758856"
+   d="scan'208";a="100758863"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 13:37:00 -0700
-X-CSE-ConnectionGUID: tkaXJIdzSgqBLLFiEK8RbQ==
-X-CSE-MsgGUID: 5Fj+022rSjWlQq7pHcuutg==
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 13:37:01 -0700
+X-CSE-ConnectionGUID: wPSxvJFrT6iCol+Am0aGUw==
+X-CSE-MsgGUID: F8gtb9JJSbOTu/qh2tdM/w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="247840997"
+   d="scan'208";a="247840996"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
   by fmviesa001.fm.intel.com with ESMTP; 23 Mar 2026 13:36:58 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w4m19-000000003Cj-1niq;
+	id 1w4m19-000000003Cl-1s7b;
 	Mon, 23 Mar 2026 20:36:55 +0000
-Date: Tue, 24 Mar 2026 04:36:26 +0800
+Date: Tue, 24 Mar 2026 04:36:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: Pengpeng Hou <pengpeng@iscas.ac.cn>, mchehab@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, hverkuil@kernel.org,
-	nicolas.dufresne@collabora.com, sakari.ailus@linux.intel.com,
-	laurent.pinchart@ideasonboard.com, opensource206@gmail.com,
-	jernej.skrabec@gmail.com, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, pengpeng@iscas.ac.cn
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	hverkuil@kernel.org, nicolas.dufresne@collabora.com,
+	sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
+	opensource206@gmail.com, jernej.skrabec@gmail.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	pengpeng@iscas.ac.cn
 Subject: Re: [PATCH v2] media: v4l2-ctrls: validate HEVC slice reference lists
-Message-ID: <202603240420.trq8jAvG-lkp@intel.com>
+Message-ID: <202603240457.8kfXE4xy-lkp@intel.com>
 References: <20260323083031.30941-1-pengpeng@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -82,24 +83,80 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Pengpeng-Hou/media-v4l2-c
 base:   https://git.linuxtv.org/media-ci/media-pending.git master
 patch link:    https://lore.kernel.org/r/20260323083031.30941-1-pengpeng%40iscas.ac.cn
 patch subject: [PATCH v2] media: v4l2-ctrls: validate HEVC slice reference lists
-config: csky-randconfig-r071-20260324 (https://download.01.org/0day-ci/archive/20260324/202603240420.trq8jAvG-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 15.2.0
-smatch: v0.5.0-9004-gb810ac53
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260324/202603240420.trq8jAvG-lkp@intel.com/reproduce)
+config: s390-randconfig-002-20260324 (https://download.01.org/0day-ci/archive/20260324/202603240457.8kfXE4xy-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260324/202603240457.8kfXE4xy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603240420.trq8jAvG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603240457.8kfXE4xy-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/media/v4l2-core/v4l2-ctrls-core.c: In function 'std_validate_compound':
->> drivers/media/v4l2-core/v4l2-ctrls-core.c:1263:17: error: 'p_hevc_slice_params' undeclared (first use in this function); did you mean 'p_h264_slice_params'?
+>> drivers/media/v4l2-core/v4l2-ctrls-core.c:1263:3: error: use of undeclared identifier 'p_hevc_slice_params'; did you mean 'p_h264_slice_params'?
     1263 |                 p_hevc_slice_params = p;
          |                 ^~~~~~~~~~~~~~~~~~~
          |                 p_h264_slice_params
-   drivers/media/v4l2-core/v4l2-ctrls-core.c:1263:17: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:968:38: note: 'p_h264_slice_params' declared here
+     968 |         struct v4l2_ctrl_h264_slice_params *p_h264_slice_params;
+         |                                             ^
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:1265:7: error: use of undeclared identifier 'p_hevc_slice_params'; did you mean 'p_h264_slice_params'?
+    1265 |                 if (p_hevc_slice_params->num_ref_idx_l0_active_minus1 >=
+         |                     ^~~~~~~~~~~~~~~~~~~
+         |                     p_h264_slice_params
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:968:38: note: 'p_h264_slice_params' declared here
+     968 |         struct v4l2_ctrl_h264_slice_params *p_h264_slice_params;
+         |                                             ^
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:1269:20: error: use of undeclared identifier 'p_hevc_slice_params'; did you mean 'p_h264_slice_params'?
+    1269 |                 for (i = 0; i <= p_hevc_slice_params->num_ref_idx_l0_active_minus1;
+         |                                  ^~~~~~~~~~~~~~~~~~~
+         |                                  p_h264_slice_params
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:968:38: note: 'p_h264_slice_params' declared here
+     968 |         struct v4l2_ctrl_h264_slice_params *p_h264_slice_params;
+         |                                             ^
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:1271:8: error: use of undeclared identifier 'p_hevc_slice_params'; did you mean 'p_h264_slice_params'?
+    1271 |                         if (p_hevc_slice_params->ref_idx_l0[i] >=
+         |                             ^~~~~~~~~~~~~~~~~~~
+         |                             p_h264_slice_params
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:968:38: note: 'p_h264_slice_params' declared here
+     968 |         struct v4l2_ctrl_h264_slice_params *p_h264_slice_params;
+         |                                             ^
+>> drivers/media/v4l2-core/v4l2-ctrls-core.c:1271:29: error: no member named 'ref_idx_l0' in 'struct v4l2_ctrl_h264_slice_params'
+    1271 |                         if (p_hevc_slice_params->ref_idx_l0[i] >=
+         |                             ~~~~~~~~~~~~~~~~~~~  ^
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:1275:7: error: use of undeclared identifier 'p_hevc_slice_params'; did you mean 'p_h264_slice_params'?
+    1275 |                 if (p_hevc_slice_params->slice_type != V4L2_HEVC_SLICE_TYPE_B)
+         |                     ^~~~~~~~~~~~~~~~~~~
+         |                     p_h264_slice_params
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:968:38: note: 'p_h264_slice_params' declared here
+     968 |         struct v4l2_ctrl_h264_slice_params *p_h264_slice_params;
+         |                                             ^
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:1278:7: error: use of undeclared identifier 'p_hevc_slice_params'; did you mean 'p_h264_slice_params'?
+    1278 |                 if (p_hevc_slice_params->num_ref_idx_l1_active_minus1 >=
+         |                     ^~~~~~~~~~~~~~~~~~~
+         |                     p_h264_slice_params
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:968:38: note: 'p_h264_slice_params' declared here
+     968 |         struct v4l2_ctrl_h264_slice_params *p_h264_slice_params;
+         |                                             ^
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:1282:20: error: use of undeclared identifier 'p_hevc_slice_params'; did you mean 'p_h264_slice_params'?
+    1282 |                 for (i = 0; i <= p_hevc_slice_params->num_ref_idx_l1_active_minus1;
+         |                                  ^~~~~~~~~~~~~~~~~~~
+         |                                  p_h264_slice_params
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:968:38: note: 'p_h264_slice_params' declared here
+     968 |         struct v4l2_ctrl_h264_slice_params *p_h264_slice_params;
+         |                                             ^
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:1284:8: error: use of undeclared identifier 'p_hevc_slice_params'; did you mean 'p_h264_slice_params'?
+    1284 |                         if (p_hevc_slice_params->ref_idx_l1[i] >=
+         |                             ^~~~~~~~~~~~~~~~~~~
+         |                             p_h264_slice_params
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:968:38: note: 'p_h264_slice_params' declared here
+     968 |         struct v4l2_ctrl_h264_slice_params *p_h264_slice_params;
+         |                                             ^
+>> drivers/media/v4l2-core/v4l2-ctrls-core.c:1284:29: error: no member named 'ref_idx_l1' in 'struct v4l2_ctrl_h264_slice_params'
+    1284 |                         if (p_hevc_slice_params->ref_idx_l1[i] >=
+         |                             ~~~~~~~~~~~~~~~~~~~  ^
+   10 errors generated.
 
 
 vim +1263 drivers/media/v4l2-core/v4l2-ctrls-core.c
@@ -423,7 +480,7 @@ vim +1263 drivers/media/v4l2-core/v4l2-ctrls-core.c
   1268	
   1269			for (i = 0; i <= p_hevc_slice_params->num_ref_idx_l0_active_minus1;
   1270			     i++)
-  1271				if (p_hevc_slice_params->ref_idx_l0[i] >=
+> 1271				if (p_hevc_slice_params->ref_idx_l0[i] >=
   1272				    V4L2_HEVC_DPB_ENTRIES_NUM_MAX)
   1273					return -EINVAL;
   1274	
@@ -436,7 +493,7 @@ vim +1263 drivers/media/v4l2-core/v4l2-ctrls-core.c
   1281	
   1282			for (i = 0; i <= p_hevc_slice_params->num_ref_idx_l1_active_minus1;
   1283			     i++)
-  1284				if (p_hevc_slice_params->ref_idx_l1[i] >=
+> 1284				if (p_hevc_slice_params->ref_idx_l1[i] >=
   1285				    V4L2_HEVC_DPB_ENTRIES_NUM_MAX)
   1286					return -EINVAL;
   1287			break;
