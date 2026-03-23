@@ -1,71 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94D081F3B8A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Mar 2026 07:59:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A439F372B37
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Mar 2026 08:12:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774252794; cv=none; b=pq9y+DTcAYm9AaIK1lIfLFQTVMULTmd/aV8Rq5c7laSpPHkPG/uyZoTXd5KEc1R1tRlQotSDoyChdfvjAbr7O3UFmn9YpsNDr2Pz0pJ7RvGDPHlH7Vo8zV8qPYI+8/TsCqsEW2MzCSfAVwv3mRpvF0uXW+ca7iwPTEj+hG+6lnQ=
+	t=1774253526; cv=none; b=iYjoxRpT18qqHSXcs0Y0xFHcVQ84yutpJd9moZp+wnk2RwHj9e6xEoNOUHi1gzzoAMHF3sXsqs0PjiKdFLTQ2kOofa6GuOIyBFBI0XMy449+sodxtJUYCXkAZi+x9zOk0fkLjy9MQ8RWEyAnpeL5cY1Wytl2EyIC8rUdEDgU36g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774252794; c=relaxed/simple;
-	bh=vfhi3Ps1xybQUpsOUq/HS63EJdP2HKdHdNqKWN2eqRY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ecf4h0Bo/etLXDqBavkVIiF+Q+vqOBa8si3newdxSbhPFWvsP/kJ1QLG1hxv4vNMNXaND++LJKpmxZB/ZoJek2GVKBJkyaX0DYWUM+fANe1x/aYLQu0CXiSC/mJvLhU4zm/dfjNNWFgTlJz+TsaI83j5mzRfwyhI/ET8VB4E3qA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kUmBMpBn; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1774253526; c=relaxed/simple;
+	bh=PLCs5NV8GSZH9as7kyIhc7mjPehoJUe5dTLfJEwb4As=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=q06KGU/HKsUOf6X0skW54OSUC7EDv9gPEzig8Rz3BHURAtnasHKsQxnLPVZXkMfHPXAdCHhJc+XvJRnazQyrgS/WZS2k3dePk/HykjAM5+KaSLn5WEVfIOhQHDa80GSW6HlJFynpKVC7BOHrh7HC26FL80d2lUIlkMhqIvnB3FQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mxx0pVuv; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kUmBMpBn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774252793; x=1805788793;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vfhi3Ps1xybQUpsOUq/HS63EJdP2HKdHdNqKWN2eqRY=;
-  b=kUmBMpBn5FH5sgRD/CS30si6FIlW9lMYwbFn6+5k1oQFg9xP5+sNjc5a
-   1Bi56EqofsEBfXIO/VAQF0VDi259wEaFOj5GUAnYfDs/zbmgtVwu+U/5o
-   06DIpK6ULcafCR5pkxtk59eDUTxCRX9qkIQ//YMQyYcX/qb75xpvYgNLh
-   LT3ABKtaHyYknrQ70ZgbHsBZNBqqQz/xgTH6joTxa+lrKAAx9+1UcNQx9
-   CiPfwXQ51NPbvLyP+lYVraEsgvhcsp3+pMXzQl9tO+/sKnbBUAsx3enJz
-   jEVS2hggLQx0XHSZlh3Gfyrps6VvnbKie7uwAZLy5yRACCWrAKRKAvIld
-   A==;
-X-CSE-ConnectionGUID: z+el2W+pS+CYMqxLOzEnDg==
-X-CSE-MsgGUID: +Ip3ny0xRuWrXinMYTTBkw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="75271005"
-X-IronPort-AV: E=Sophos;i="6.23,136,1770624000"; 
-   d="scan'208";a="75271005"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 00:59:52 -0700
-X-CSE-ConnectionGUID: aZB7OY2PSqmJgeSeENoYoA==
-X-CSE-MsgGUID: I02FwbN8RcSBxMVoOTIq2A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,136,1770624000"; 
-   d="scan'208";a="225684844"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 23 Mar 2026 00:59:48 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w4aCQ-000000000BZ-0Fgi;
-	Mon, 23 Mar 2026 07:59:46 +0000
-Date: Mon, 23 Mar 2026 15:59:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Antoniu Miclaus <antoniu.miclaus@analog.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Olivier Moysan <olivier.moysan@foss.st.com>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v7 4/4] iio: adc: ad4080: add support for AD4880
- dual-channel ADC
-Message-ID: <202603231533.tcfdLyO9-lkp@intel.com>
-References: <20260321100154.1258-5-antoniu.miclaus@analog.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mxx0pVuv"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-48374014a77so37747225e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Mar 2026 01:12:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1774253522; x=1774858322; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qU2YzTy7ZSWGexZVKGiNCKGEO0C+xkUwcvfXto+gkIw=;
+        b=mxx0pVuv2ArW8QHKQbx8Z67sycp+Gn5dbIyaEM48uV9xnYmRWXHyVlwDcTC2tWdWiT
+         bWBC7VgGHDqHyG9G6aprv2jy10b2nE5uvRW7M15kFn38776vhHELlu51/zC6ExWn/CLG
+         A8XT7bfWnb1fVxUL7eqBUX9p/g8ZDDeTewIH/eCYPK6iqU2OELQyP2wTlH4B1AIIwN9W
+         Q59dJGMmTCPMvCyJhlRmFG5jMBYfrmOIPcUkKbcTEU9w5HVAjhn5VZmMUNL0qjDgA0RM
+         1SOP3lxtzPRN/uBMXYhk+/gn17FMOn9O6nM3Qvvqn85db2CoJB9YGQIA9YETzCJ9LcR0
+         3bnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774253522; x=1774858322;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qU2YzTy7ZSWGexZVKGiNCKGEO0C+xkUwcvfXto+gkIw=;
+        b=mvQMw+jqihhTW5KpW/T2L/CWXjvlv542thTaD3oPZUQ4xq36BA8dHqfZPXTWu4cnac
+         OUcuMGJF65MDq5G5EL0L9Cz0vB+BZDbHYaZ0DzI6F9m/aq6GI/QZBiOwLX07lN89ReTj
+         cqUGnCYJydN36XgTnBaLHpSJPcJWP/rqGIY1KKJBhC53vTDFK3ocg5Bv5KKUK45wwtUb
+         wrhm2NL31OOuPonqGoruJ22AikAbPXVhKJ7a0Xyfe/ynzcwoAEIq7HncB/zg7nhB9UD/
+         XCkHboMEH2Jv901iqMc/fK3HoyPtP63Dh9NOd8ZC58OdpI1RMt4KiOS4XLhlwVk386gj
+         tIkw==
+X-Forwarded-Encrypted: i=1; AJvYcCUkON4kgSPb5DWHnD/4Mqrf4jgITLKdYHck7ZJDo+E83ZoIdnyX7mjGUSMUhyxsUt892T63WFyRs+q5GXa9@lists.linux.dev
+X-Gm-Message-State: AOJu0YzDFoNBMBjGosAkuGm1fAzy0q4JoObKTLuwDYHria5LxPa58eoa
+	cqKghGyp6WOACDzHlCyTrROvXFd4GBlnOu1w64Trr21GiFfMvWTaviOuRpghgycqKYU=
+X-Gm-Gg: ATEYQzw2xMGaAJIstduJceKb6Y69m4OG+g8qpfl3ZrJ/SJuVC/zthr5SXiXPARPu7S2
+	YSVfnqdD8LfC8okEn8mwoYcQ9GI8iVelWBYZEOOFbRAe6lG1WzXbP5n8IiAhkL0NXn4DoQ5y/bq
+	6hsgqmwFTKdo4cmXpBY0UjRHTwpl1NCImFMs08OPAOBhi2YExx4CmKni8M7cKZyEeYqU0Ztmlac
+	YnaxBflvhS9IX4TlAARPOJG6wsX2Un4kCiYCpXMwKdQCeHDCmAsDk1NJzI+lCF0NxRoFkcmNWIu
+	5ANgDpSAIkYCZ3BdyFp4HgfiqzZ7itv8d/ycEyebKOwV8ZrZwZZYg8X19qJG0I9EZFD1NCAtuT+
+	TOHA5M/KJAalbUzfrmNTjzEQPVl8HZHK44I4angrqXVWr+SzeHoCu095AvkU3iKP8DnqF8jemYC
+	Bw7Ybw57oHzTghs1HxhZ9U3IZefxaD
+X-Received: by 2002:a05:600c:1f86:b0:480:1d0b:2d32 with SMTP id 5b1f17b1804b1-486fedb5916mr170412585e9.12.1774253521680;
+        Mon, 23 Mar 2026 01:12:01 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486fc4d90f4sm365081475e9.1.2026.03.23.01.12.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Mar 2026 01:12:01 -0700 (PDT)
+Date: Mon, 23 Mar 2026 11:11:58 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Alexei Starovoitov <ast@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [ast-bpf:stacklive 12/29] kernel/bpf/liveness.c:1991
+ print_subprog_arg_access() warn: variable dereferenced before check
+ 'info->at_in' (see line 1953)
+Message-ID: <202603222317.iHk1aquO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,139 +73,138 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260321100154.1258-5-antoniu.miclaus@analog.com>
 
-Hi Antoniu,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on v7.0-rc4]
-[also build test WARNING on linus/master]
-[cannot apply to jic23-iio/togreg next-20260320]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Antoniu-Miclaus/iio-backend-use-__free-fwnode_handle-for-automatic-cleanup/20260322-200018
-base:   v7.0-rc4
-patch link:    https://lore.kernel.org/r/20260321100154.1258-5-antoniu.miclaus%40analog.com
-patch subject: [PATCH v7 4/4] iio: adc: ad4080: add support for AD4880 dual-channel ADC
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260323/202603231533.tcfdLyO9-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260323/202603231533.tcfdLyO9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ast/bpf.git stacklive
+head:   bbe7785d7fc2e977a12e62212e014ed6ff8f05f2
+commit: 732f9788ec36481a13570fef2056408590d06413 [12/29] bpf: Add per-subprog arg tracking analysis
+config: microblaze-randconfig-r072-20260322 (https://download.01.org/0day-ci/archive/20260322/202603222317.iHk1aquO-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.5.0
+smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603231533.tcfdLyO9-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202603222317.iHk1aquO-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+kernel/bpf/liveness.c:1991 print_subprog_arg_access() warn: variable dereferenced before check 'info->at_in' (see line 1953)
 
-   drivers/iio/adc/ad4080.c: In function 'ad4080_probe':
-   drivers/iio/adc/ad4080.c:738:31: error: implicit declaration of function 'devm_spi_new_ancillary_device'; did you mean 'spi_new_ancillary_device'? [-Werror=implicit-function-declaration]
-     738 |                 st->spi[ch] = devm_spi_new_ancillary_device(spi, spi_get_chipselect(spi, ch));
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                               spi_new_ancillary_device
->> drivers/iio/adc/ad4080.c:738:29: warning: assignment to 'struct spi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     738 |                 st->spi[ch] = devm_spi_new_ancillary_device(spi, spi_get_chipselect(spi, ch));
-         |                             ^
-   cc1: some warnings being treated as errors
+vim +1991 kernel/bpf/liveness.c
 
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1912  static void print_subprog_arg_access(struct bpf_verifier_env *env,
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1913  				     int subprog,
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1914  				     struct subprog_at_info *info,
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1915  				     struct arg_track (*at_stack_in)[MAX_ARG_SPILL_SLOTS],
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1916  				     struct insn_live_regs *state,
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1917  				     u64 (*nonlocal_use)[MAX_CALL_FRAMES][2],
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1918  				     u64 (*nonlocal_def)[MAX_CALL_FRAMES][2])
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1919  {
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1920  	struct bpf_insn *insns = env->prog->insnsi;
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1921  	int start = env->subprog_info[subprog].start;
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1922  	int len = info->len;
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1923  	int i, r, f;
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1924  
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1925  	if (!(env->log.level & BPF_LOG_LEVEL2))
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1926  		return;
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1927  
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1928  	verbose(env, "subprog#%d %s:\n", subprog,
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1929  		env->prog->aux->func_info
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1930  		? btf_name_by_offset(env->prog->aux->btf,
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1931  				     btf_type_by_id(env->prog->aux->btf,
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1932  						    env->prog->aux->func_info[subprog].type_id)->name_off)
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1933  		: "");
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1934  	for (i = 0; i < len; i++) {
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1935  		int idx = start + i;
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1936  		bool has_extra = false;
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1937  		u8 cls = BPF_CLASS(insns[idx].code);
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1938  		bool is_ldx_stx_call = cls == BPF_LDX || cls == BPF_STX ||
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1939  				       insns[idx].code == (BPF_JMP | BPF_CALL);
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1940  
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1941  		verbose(env, "%3d: ", idx);
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1942  		verbose_insn(env, &insns[idx]);
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1943  
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1944  		/* Collect what needs printing */
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1945  		has_extra = !spis_is_zero(state[idx].stack_def) ||
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1946  			    !spis_is_zero(state[idx].stack_use);
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1947  		for (f = 0; f < MAX_CALL_FRAMES; f++) {
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1948  			if (!spis_is_zero(nonlocal_use[i][f]) ||
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1949  			    !spis_is_zero(nonlocal_def[i][f]))
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1950  				has_extra = true;
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1951  		}
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1952  		if (is_ldx_stx_call &&
+732f9788ec3648 Alexei Starovoitov 2026-03-08 @1953  		    info->at_in[i][0].frame != ARG_UNVISITED) {
+                                                                    ^^^^^^^^^^^^^^^^^
+info->at_in dereferenced without checking
 
-vim +738 drivers/iio/adc/ad4080.c
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1954  			for (r = 0; r < MAX_BPF_REG - 1; r++)
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1955  				if (info->at_in[i][r].frame != ARG_NONE &&
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1956  				    info->at_in[i][r].frame != ARG_UNVISITED)
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1957  					has_extra = true;
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1958  		}
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1959  		if (is_ldx_stx_call) {
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1960  			for (r = 0; r < MAX_ARG_SPILL_SLOTS; r++)
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1961  				if (at_stack_in[i][r].frame != ARG_NONE &&
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1962  				    at_stack_in[i][r].frame != ARG_UNVISITED)
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1963  					has_extra = true;
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1964  		}
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1965  
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1966  		if (!has_extra) {
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1967  			if (bpf_is_ldimm64(&insns[idx]))
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1968  				i++;
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1969  			continue;
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1970  		}
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1971  
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1972  		bpf_vlog_reset(&env->log, env->log.end_pos - 1);
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1973  		verbose(env, " //");
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1974  
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1975  		if (!spis_is_zero(state[idx].stack_def))
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1976  			verbose(env, " stack_def=%llx:%llx",
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1977  				state[idx].stack_def[1], state[idx].stack_def[0]);
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1978  		if (!spis_is_zero(state[idx].stack_use))
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1979  			verbose(env, " stack_use=%llx:%llx",
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1980  				state[idx].stack_use[1], state[idx].stack_use[0]);
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1981  
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1982  		for (f = 0; f < MAX_CALL_FRAMES; f++) {
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1983  			if (!spis_is_zero(nonlocal_use[i][f]))
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1984  				verbose(env, " nonlocal_use[%d]=%llx:%llx",
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1985  					f, nonlocal_use[i][f][1], nonlocal_use[i][f][0]);
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1986  			if (!spis_is_zero(nonlocal_def[i][f]))
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1987  				verbose(env, " nonlocal_def[%d]=%llx:%llx",
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1988  					f, nonlocal_def[i][f][1], nonlocal_def[i][f][0]);
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1989  		}
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1990  
+732f9788ec3648 Alexei Starovoitov 2026-03-08 @1991  		if (is_ldx_stx_call && info->at_in &&
+                                                                                       ^^^^^^^^^^^
+This check is too late.
 
-   704	
-   705	static int ad4080_probe(struct spi_device *spi)
-   706	{
-   707		struct iio_dev *indio_dev;
-   708		struct device *dev = &spi->dev;
-   709		struct ad4080_state *st;
-   710		struct clk *clk;
-   711		int ret;
-   712	
-   713		indio_dev = devm_iio_device_alloc(&spi->dev, sizeof(*st));
-   714		if (!indio_dev)
-   715			return -ENOMEM;
-   716	
-   717		st = iio_priv(indio_dev);
-   718	
-   719		ret = devm_regulator_bulk_get_enable(dev,
-   720						     ARRAY_SIZE(ad4080_power_supplies),
-   721						     ad4080_power_supplies);
-   722		if (ret)
-   723			return dev_err_probe(dev, ret,
-   724					     "failed to get and enable supplies\n");
-   725	
-   726		/* Setup primary SPI device (channel 0) */
-   727		st->spi[0] = spi;
-   728		st->regmap[0] = devm_regmap_init_spi(spi, &ad4080_regmap_config);
-   729		if (IS_ERR(st->regmap[0]))
-   730			return PTR_ERR(st->regmap[0]);
-   731	
-   732		st->info = spi_get_device_match_data(spi);
-   733		if (!st->info)
-   734			return -ENODEV;
-   735	
-   736		/* Setup ancillary SPI devices for additional channels */
-   737		for (unsigned int ch = 1; ch < st->info->num_channels; ch++) {
- > 738			st->spi[ch] = devm_spi_new_ancillary_device(spi, spi_get_chipselect(spi, ch));
-   739			if (IS_ERR(st->spi[ch]))
-   740				return dev_err_probe(dev, PTR_ERR(st->spi[ch]),
-   741						     "failed to register ancillary device\n");
-   742	
-   743			st->regmap[ch] = devm_regmap_init_spi(st->spi[ch], &ad4080_regmap_config);
-   744			if (IS_ERR(st->regmap[ch]))
-   745				return PTR_ERR(st->regmap[ch]);
-   746		}
-   747	
-   748		ret = devm_mutex_init(dev, &st->lock);
-   749		if (ret)
-   750			return ret;
-   751	
-   752		indio_dev->name = st->info->name;
-   753		indio_dev->channels = st->info->channels;
-   754		indio_dev->num_channels = st->info->num_channels;
-   755		indio_dev->info = st->info->num_channels > 1 ?
-   756				  &ad4880_iio_info : &ad4080_iio_info;
-   757	
-   758		ret = ad4080_properties_parse(st, dev);
-   759		if (ret)
-   760			return ret;
-   761	
-   762		clk = devm_clk_get_enabled(&spi->dev, "cnv");
-   763		if (IS_ERR(clk))
-   764			return PTR_ERR(clk);
-   765	
-   766		st->clk_rate = clk_get_rate(clk);
-   767	
-   768		/* Get backends for all channels */
-   769		for (unsigned int ch = 0; ch < st->info->num_channels; ch++) {
-   770			st->back[ch] = devm_iio_backend_get_by_index(dev, ch);
-   771			if (IS_ERR(st->back[ch]))
-   772				return PTR_ERR(st->back[ch]);
-   773	
-   774			ret = devm_iio_backend_enable(dev, st->back[ch]);
-   775			if (ret)
-   776				return ret;
-   777		}
-   778	
-   779		/*
-   780		 * Request buffer from the first backend only. For multi-channel
-   781		 * devices (e.g., AD4880), all backends share a single IIO buffer
-   782		 * as data from all ADC channels is interleaved into one stream.
-   783		 */
-   784		ret = devm_iio_backend_request_buffer(dev, st->back[0], indio_dev);
-   785		if (ret)
-   786			return ret;
-   787	
-   788		ret = ad4080_setup(indio_dev);
-   789		if (ret)
-   790			return ret;
-   791	
-   792		return devm_iio_device_register(&spi->dev, indio_dev);
-   793	}
-   794	
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1992  		    info->at_in[i][0].frame != ARG_UNVISITED) {
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1993  			for (r = 0; r < MAX_BPF_REG - 1; r++) {
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1994  				if (info->at_in[i][r].frame == ARG_NONE ||
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1995  				    info->at_in[i][r].frame == ARG_UNVISITED)
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1996  					continue;
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1997  				verbose(env, " r%d=", r);
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1998  				verbose_arg_track(env, &info->at_in[i][r]);
+732f9788ec3648 Alexei Starovoitov 2026-03-08  1999  			}
+732f9788ec3648 Alexei Starovoitov 2026-03-08  2000  		}
+732f9788ec3648 Alexei Starovoitov 2026-03-08  2001  
+732f9788ec3648 Alexei Starovoitov 2026-03-08  2002  		if (is_ldx_stx_call) {
+732f9788ec3648 Alexei Starovoitov 2026-03-08  2003  			for (r = 0; r < MAX_ARG_SPILL_SLOTS; r++) {
+732f9788ec3648 Alexei Starovoitov 2026-03-08  2004  				if (at_stack_in[i][r].frame == ARG_NONE ||
+732f9788ec3648 Alexei Starovoitov 2026-03-08  2005  				    at_stack_in[i][r].frame == ARG_UNVISITED)
+732f9788ec3648 Alexei Starovoitov 2026-03-08  2006  					continue;
+732f9788ec3648 Alexei Starovoitov 2026-03-08  2007  				verbose(env, " fp%+d=", -(r + 1) * 8);
+732f9788ec3648 Alexei Starovoitov 2026-03-08  2008  				verbose_arg_track(env, &at_stack_in[i][r]);
+732f9788ec3648 Alexei Starovoitov 2026-03-08  2009  			}
+732f9788ec3648 Alexei Starovoitov 2026-03-08  2010  		}
+732f9788ec3648 Alexei Starovoitov 2026-03-08  2011  
+732f9788ec3648 Alexei Starovoitov 2026-03-08  2012  		verbose(env, "\n");
+732f9788ec3648 Alexei Starovoitov 2026-03-08  2013  		if (bpf_is_ldimm64(&insns[idx]))
+732f9788ec3648 Alexei Starovoitov 2026-03-08  2014  			i++;
+732f9788ec3648 Alexei Starovoitov 2026-03-08  2015  	}
+732f9788ec3648 Alexei Starovoitov 2026-03-08  2016  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
