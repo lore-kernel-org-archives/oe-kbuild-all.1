@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7270372B53
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Mar 2026 23:36:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF1137B40C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Mar 2026 23:36:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774308986; cv=none; b=eCLtGkBM7cJA1raltsgilgTX/7RexNXNo8A0M2f2VIn1Rloa0GHTtNs3/pgSuz7rIsUv310Utk41we8fjfSGU6sqCbDNAKUXNUYJ6qId9KTqJUaA73xMp0Vvb01INpyJr7Q0WlDuroeAxtLkvLqEzVZGFi0djhz7Ydhu/PQEzpY=
+	t=1774308987; cv=none; b=DMTCg2Rq8XSzgkxZ8FNs4ca41XADveyG7lyx5lZNGM5w9ZQAqQ4R5wWDz1GcSZ2YBTJvvU8qHyKHO42KyyfcgSY8zGmSvQ2TzUkv+fk+V/1Vzy9Vi5mI58L90daYDWEDct3OZtFBQJ7GrwntYYjQ0FZ+By4Qa8t41IZHTtRuIoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774308986; c=relaxed/simple;
-	bh=om/4WTsH0avrplmibpmmkZqkKznqraryRYWY9bdnwdE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=g9OumGAJsIBDGrJd5hbOWxsf0a1GPX0ZhbVgSXy/wlsqlk1FHM9JDMwmFOASBSPs2Zzsrl3BLWLg7pk0dB3nN7EieTnTR3LH9WB6MVsfWLawECja4BRdOsOiIHb+eMvDxL9XtBk1I8MoVEffkd0i/bljg1caN7/NR7PVVPKgZnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZYv66EfQ; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1774308987; c=relaxed/simple;
+	bh=FojdXNmMGAxHzMoIBam1HX+QMvlL78P2pB0/bdu7Tpo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=U4fSj3eChiadMTnjRiJup28LdDylbsKVO6WEHq1NFMgqtvz6rJ46moqH7i6jJWeW9apvnN8egaGNTt+PVXpVXHTVu9tVHF6OliBJ497taK00dTo7seouShiPCjxrtBu11mHay14p8cyZWuUFYbpzdD69p3wySPOMG+45P5u+gxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mX+ewJCU; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZYv66EfQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mX+ewJCU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774308985; x=1805844985;
+  t=1774308986; x=1805844986;
   h=date:from:to:cc:subject:message-id;
-  bh=om/4WTsH0avrplmibpmmkZqkKznqraryRYWY9bdnwdE=;
-  b=ZYv66EfQH5SIjZyBFP7plnfON5sNzSNZzHYijRIbI6ejbkE8a7oIIWzi
-   +mQS3HS0CvCqjgmPXLQHA5d+34PAQho/V4a8kTxHgaivjxJttG6L7nlqi
-   8kXiu7+3qoR+KDeU+zmbAv6DAZN0meQvbsvRn9C6mxez7lrXQiHlYKSfd
-   IXKwxIVrirceLIIuQ9AZYujgtGJPdyrBBcH65XB5T9j5Dq0uikvoGyP25
-   NPuLgMS65pRGY90zwYrqEPP6SmSiL+L39vaD9a8TI4MtfLVXn4QP7mMUC
-   07gTrZPTmsfcMnBvPM/pVA1yPnef3b2BfJGWsG3kzP1wj5Nwk4YMifbpJ
+  bh=FojdXNmMGAxHzMoIBam1HX+QMvlL78P2pB0/bdu7Tpo=;
+  b=mX+ewJCUE6JF/O79hYdCGbV6O/8byp70qT+6L8YfEsOq3ZdyWMSOPjVK
+   7T4vkDjKSVSIJigoFGoBBCamAqv/AEw/iVU9qNL+weUTXMygypy6ip8OX
+   WQBIIeCgsp95PUCAWDWeJi2AawUdpYCIy972ZXVHGWpuBykD74TMPQH1d
+   nQAKSfBQc7xQpUGzOSN31/6Dpsub+I1ZiG5UAMIFLj+xoRkThpoaBXYFy
+   hRLiYi2rEz8SY0qf4pJEG1PMlyXlmh8Yi1Z01dwLYXmFn051/AIaYpU/l
+   l4mCzgVAwXELpWoREpvUxR29eV6CIVwSXNBRDQUE0JWteoJJ1TtsP2XSv
    A==;
-X-CSE-ConnectionGUID: nrgOhgM2QdWlkxyoRFhxiQ==
-X-CSE-MsgGUID: YbODxYNNTLuIHt75VPjRZg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="92895884"
+X-CSE-ConnectionGUID: QXe+RVOjSDKdlRnWN1NjvQ==
+X-CSE-MsgGUID: hfyFNG7+TYGn7SuvGvQruw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="75436421"
 X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="92895884"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 16:36:24 -0700
-X-CSE-ConnectionGUID: AsSEXqUxRXSo5vfimn+Tqg==
-X-CSE-MsgGUID: XxxR+AO3Sjqz9J93Y9fZqw==
+   d="scan'208";a="75436421"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 16:36:25 -0700
+X-CSE-ConnectionGUID: yDeBH2k+RFWtzKv5jgGlqw==
+X-CSE-MsgGUID: 6q4FIAv3S0mQiNRgvMAnKA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="247862124"
+   d="scan'208";a="254648917"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 23 Mar 2026 16:36:22 -0700
+  by orviesa002.jf.intel.com with ESMTP; 23 Mar 2026 16:36:23 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w4oom-000000003On-2cxy;
+	id 1w4oom-000000003Or-2qxb;
 	Mon, 23 Mar 2026 23:36:20 +0000
-Date: Tue, 24 Mar 2026 07:36:14 +0800
+Date: Tue, 24 Mar 2026 07:36:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 0/1]
- kernel/trace/ring_buffer.c:1821: warning: Function parameter or member
- 'writer' not described in '__ring_buffer_alloc'
-Message-ID: <202603240739.zzeHLKKA-lkp@intel.com>
+To: Dave Penkler <dpenkler@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c:1817:7-14:
+ WARNING opportunity for memdup_user
+Message-ID: <202603240737.Hzix2nb7-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,116 +59,58 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   3a8949cdc45bfeb1a68ac0e70e90909c13d3910e
-commit: bc115ff00f4cd4d21ddf7e6e200f389d81acc69e [0/1] ANDROID: ring-buffer: Introducing ring-buffer writer
-config: i386-buildonly-randconfig-001-20260324 (https://download.01.org/0day-ci/archive/20260324/202603240739.zzeHLKKA-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260324/202603240739.zzeHLKKA-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c369299895a591d96745d6492d4888259b004a9e
+commit: e6ab504633e4c06e35377ecf3c8cbc304de79858 staging: gpib: Destage gpib
+date:   4 months ago
+config: csky-randconfig-r063-20260324 (https://download.01.org/0day-ci/archive/20260324/202603240737.Hzix2nb7-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 11.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603240739.zzeHLKKA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603240737.Hzix2nb7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c:1817:7-14: WARNING opportunity for memdup_user
 
->> kernel/trace/ring_buffer.c:1821: warning: Function parameter or member 'writer' not described in '__ring_buffer_alloc'
+vim +1817 drivers/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c
 
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  1803  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  1804  /*
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  1805   * user space access to write function
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  1806   */
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  1807  
+8e7ff4e7a2358f drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2025-01-14  1808  static ssize_t skel_write(struct file *file, const char __user *user_buffer,
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  1809  			  size_t count, loff_t *ppos)
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  1810  {
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  1811  	struct usb_skel *dev;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  1812  	char *buf;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  1813  	ssize_t rv;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  1814  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  1815  	dev = file->private_data;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  1816  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18 @1817  	buf = kmalloc(count, GFP_KERNEL);
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  1818  	if (!buf)
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  1819  		return -ENOMEM;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  1820  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  1821  	if (copy_from_user(buf, user_buffer, count)) {
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  1822  		kfree(buf);
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  1823  		return -EFAULT;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  1824  	}
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  1825  
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  1826  	rv = skel_do_write(dev, buf, count);
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  1827  	kfree(buf);
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  1828  	return rv;
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  1829  }
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  1830  #endif
+fce79512a96afa drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c Dave Penkler 2024-09-18  1831  
 
-vim +1821 kernel/trace/ring_buffer.c
+:::::: The code at line 1817 was first introduced by commit
+:::::: fce79512a96afacbe297ba3c5c2f7ed34944540d staging: gpib: Add LPVO DIY USB GPIB driver
 
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1806  
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1807  /**
-d611851b421731 zhangwei(Jovi             2013-07-15  1808)  * __ring_buffer_alloc - allocate a new ring_buffer
-68814b58c52077 Robert Richter            2008-11-24  1809   * @size: the size in bytes per cpu that is needed.
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1810   * @flags: attributes to set for the ring buffer.
-59e7cffe5cca6f Fabian Frederick          2014-06-05  1811   * @key: ring buffer reader_lock_key.
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1812   *
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1813   * Currently the only flag that is available is the RB_FL_OVERWRITE
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1814   * flag. This flag means that the buffer will overwrite old data
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1815   * when the buffer wraps. If this flag is not set, the buffer will
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1816   * drop data when the tail hits the head.
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1817   */
-13292494379f92 Steven Rostedt (VMware    2019-12-13  1818) struct trace_buffer *__ring_buffer_alloc(unsigned long size, unsigned flags,
-bc115ff00f4cd4 Vincent Donnefort         2023-06-09  1819  					struct lock_class_key *key,
-bc115ff00f4cd4 Vincent Donnefort         2023-06-09  1820  					struct ring_buffer_writer *writer)
-7a8e76a3829f10 Steven Rostedt            2008-09-29 @1821  {
-13292494379f92 Steven Rostedt (VMware    2019-12-13  1822) 	struct trace_buffer *buffer;
-9b94a8fba501f3 Steven Rostedt (Red Hat   2016-05-12  1823) 	long nr_pages;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1824  	int bsize;
-9b94a8fba501f3 Steven Rostedt (Red Hat   2016-05-12  1825) 	int cpu;
-b32614c03413f8 Sebastian Andrzej Siewior 2016-11-27  1826  	int ret;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1827  
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1828  	/* keep it in its own cache line */
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1829  	buffer = kzalloc(ALIGN(sizeof(*buffer), cache_line_size()),
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1830  			 GFP_KERNEL);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1831  	if (!buffer)
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1832  		return NULL;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1833  
-b18cc3de00ec34 Sebastian Andrzej Siewior 2016-12-07  1834  	if (!zalloc_cpumask_var(&buffer->cpumask, GFP_KERNEL))
-9e01c1b74c9531 Rusty Russell             2009-01-01  1835  		goto fail_free_buffer;
-9e01c1b74c9531 Rusty Russell             2009-01-01  1836  
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  1837  	nr_pages = DIV_ROUND_UP(size, BUF_PAGE_SIZE);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1838  	buffer->flags = flags;
-37886f6a9f62d2 Steven Rostedt            2009-03-17  1839  	buffer->clock = trace_clock_local;
-1f8a6a10fb9437 Peter Zijlstra            2009-06-08  1840  	buffer->reader_lock_key = key;
-bc115ff00f4cd4 Vincent Donnefort         2023-06-09  1841  	if (writer) {
-bc115ff00f4cd4 Vincent Donnefort         2023-06-09  1842  		buffer->writer = writer;
-bc115ff00f4cd4 Vincent Donnefort         2023-06-09  1843  		atomic_inc(&buffer->record_disabled);
-bc115ff00f4cd4 Vincent Donnefort         2023-06-09  1844  	}
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1845  
-15693458c4bc06 Steven Rostedt (Red Hat   2013-02-28  1846) 	init_irq_work(&buffer->irq_work.work, rb_wake_up_waiters);
-f1dc6725882b5c Steven Rostedt (Red Hat   2013-03-04  1847) 	init_waitqueue_head(&buffer->irq_work.waiters);
-15693458c4bc06 Steven Rostedt (Red Hat   2013-02-28  1848) 
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1849  	/* need at least two pages */
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  1850  	if (nr_pages < 2)
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  1851  		nr_pages = 2;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1852  
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1853  	buffer->cpus = nr_cpu_ids;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1854  
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1855  	bsize = sizeof(void *) * nr_cpu_ids;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1856  	buffer->buffers = kzalloc(ALIGN(bsize, cache_line_size()),
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1857  				  GFP_KERNEL);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1858  	if (!buffer->buffers)
-9e01c1b74c9531 Rusty Russell             2009-01-01  1859  		goto fail_free_cpumask;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1860  
-b32614c03413f8 Sebastian Andrzej Siewior 2016-11-27  1861  	cpu = raw_smp_processor_id();
-b32614c03413f8 Sebastian Andrzej Siewior 2016-11-27  1862  	cpumask_set_cpu(cpu, buffer->cpumask);
-b32614c03413f8 Sebastian Andrzej Siewior 2016-11-27  1863  	buffer->buffers[cpu] = rb_allocate_cpu_buffer(buffer, nr_pages, cpu);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1864  	if (!buffer->buffers[cpu])
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1865  		goto fail_free_buffers;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1866  
-b32614c03413f8 Sebastian Andrzej Siewior 2016-11-27  1867  	ret = cpuhp_state_add_instance(CPUHP_TRACE_RB_PREPARE, &buffer->node);
-b32614c03413f8 Sebastian Andrzej Siewior 2016-11-27  1868  	if (ret < 0)
-b32614c03413f8 Sebastian Andrzej Siewior 2016-11-27  1869  		goto fail_free_buffers;
-554f786e284a6c Steven Rostedt            2009-03-11  1870  
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1871  	mutex_init(&buffer->mutex);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1872  
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1873  	return buffer;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1874  
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1875   fail_free_buffers:
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1876  	for_each_buffer_cpu(buffer, cpu) {
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1877  		if (buffer->buffers[cpu])
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1878  			rb_free_cpu_buffer(buffer->buffers[cpu]);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1879  	}
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1880  	kfree(buffer->buffers);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1881  
-9e01c1b74c9531 Rusty Russell             2009-01-01  1882   fail_free_cpumask:
-9e01c1b74c9531 Rusty Russell             2009-01-01  1883  	free_cpumask_var(buffer->cpumask);
-9e01c1b74c9531 Rusty Russell             2009-01-01  1884  
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1885   fail_free_buffer:
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1886  	kfree(buffer);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1887  	return NULL;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1888  }
-1f8a6a10fb9437 Peter Zijlstra            2009-06-08  1889  EXPORT_SYMBOL_GPL(__ring_buffer_alloc);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1890  
-
-:::::: The code at line 1821 was first introduced by commit
-:::::: 7a8e76a3829f1067b70f715771ff88baf2fbf3c3 tracing: unified trace buffer
-
-:::::: TO: Steven Rostedt <rostedt@goodmis.org>
-:::::: CC: Ingo Molnar <mingo@elte.hu>
+:::::: TO: Dave Penkler <dpenkler@gmail.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
