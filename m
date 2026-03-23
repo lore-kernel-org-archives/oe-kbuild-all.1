@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D6B036C9C8
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Mar 2026 20:02:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC9043E2749
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Mar 2026 20:13:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774296176; cv=none; b=PQCytWISybDBzkG3yj9Z4NGF/hmYVw164TfB8sO4yl5or7q854MBg1toDLh2/oGmffz9CcltJ5yH5ACVdgOW5XmvT3bNs4j6rMfGYjV9EIgG4kws4DzjnZxbUp80t1UorLq5nooops+bmt1CDhIWCwbBpVbMELxN0gDK3jOa6mA=
+	t=1774296840; cv=none; b=MexWi0qAWLQil72W63ENXNrsmaKXvXcV08QI0Q6A38rwlC2N6jIu105NM2xl/ql1GwLqyRGFcPqr3YmXPboBg57KdwsJUUfwVskMOCBH01a461xG3O8z5PQnGPNTu6kAnBrrQQal6T4l3tk7j2pGSVRI80kRt3eBs95WGEcX5jo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774296176; c=relaxed/simple;
-	bh=4XqwwHMgpmnw0xG/gsyscx0Tx711K0sBz1x2OpdUKqo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=PkZz9yA8e5kg8f9aH+jBsbdt6FhF5fCAhpy+5eZOBbj6F01bHZu0vMmHLrpRt/qSKsJiUrSvHQkRWhE5P5npBnPqA5V7CZMQzF06y8anHoKdTOgwA4lW2uL71QVpmiuSJ5jYyZN+BMgeK7qVDmQbPrxlzzofqjToUJQ5CJEk9J0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L7vvp6vl; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1774296840; c=relaxed/simple;
+	bh=2Lzpx7tgvOipAOKquvQOm30wDy6VLcCgjnXDI2LOQIo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=VTlhMhJncheSy8PXsb1/0oDvTD+JK9CWFDZuDM/h1khy2aNc9ilAmxA0uk3RQsoi0Xz+X63xIr3LbaAzS6mVipzzOtbRXWNM+cU9E52p8ClTt8Z2r0aMEWiUDUnacCwU1x6LjBArI7BIQ5XZ3YJh+VhMi8zf6tGD610niIhScWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GTRLr26H; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L7vvp6vl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GTRLr26H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774296174; x=1805832174;
+  t=1774296838; x=1805832838;
   h=date:from:to:cc:subject:message-id;
-  bh=4XqwwHMgpmnw0xG/gsyscx0Tx711K0sBz1x2OpdUKqo=;
-  b=L7vvp6vlpTSNiHwgPP5biEJbx/Avo61GITmnNnpZSrF/0vz3abfQq2VI
-   E0vlKzA5KPVs6xsrTegTbs6hDvPl2o5TSQ+RUwXwsDoxP5KfRO/hFTzxr
-   HtFZTFfwdLwnFCwNkw7C0m5LFe6/1Iroy2owUtUST0mtmHEsALfGdyqEw
-   2b5bC9fuW7d09OZc+2QYSWpaGknC2Qfg1zD56vej1F3gZCM1SOkuhFz+9
-   TzNx+w86JVHtr4sWPqtdPdF26aP8Muie6cK7lji04nSaZl7kWjQE1nHX+
-   jh0d094mfTDAdWBEmNJO7DptberKdhBFUE/MlDrpfOFPr39Q82XLLdi4U
-   g==;
-X-CSE-ConnectionGUID: eOyAEX3SSyqpuaZ/p0sdmg==
-X-CSE-MsgGUID: lqsTwopoRsSEkoOp2Sov4g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="79213917"
+  bh=2Lzpx7tgvOipAOKquvQOm30wDy6VLcCgjnXDI2LOQIo=;
+  b=GTRLr26HDhnA3P2E0zmsnoQy8xq7N/K2z5vs6EifMweUYavBEp/RRiXc
+   lVranHUGcfwxzVxJhC2SfVLainbLaDEg2YbF1c5yDHMEuamt1CKQ0OnZh
+   ReMppwvaZUYdhsY3vbNgqZGM7tKocbkoZbif+VTJ5SW0ygD9sDyJtcfX/
+   FqQ6vuqOc9yTPxM1WYP3FjtESt0m0WlifzzHz/GzipmaPSAkHBs1IYB4U
+   aYmiPkJcwZdlMrsCF8gr3T9vKky2JKqFT9uu7mrs1WPeyF9Knf3NLSl02
+   l5cxwfEBTOxW8h6SoGGOS/3hlcvPtKez3S9byqb6o92LVitxUmfq6A11Y
+   Q==;
+X-CSE-ConnectionGUID: 3kBvBrdATgWPXtBL+1lGgw==
+X-CSE-MsgGUID: kyhYE+TkSSKO/q3tBbMZdQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="92878191"
 X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="79213917"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 13:02:54 -0700
-X-CSE-ConnectionGUID: zBzl7d1vTnOfE0B0kop7xg==
-X-CSE-MsgGUID: ecvTAt+MQuazHhk6DVwm+Q==
+   d="scan'208";a="92878191"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 13:13:57 -0700
+X-CSE-ConnectionGUID: /9iFuxrVQWaaVoV5MNd3SQ==
+X-CSE-MsgGUID: 15RusDmzRJ26vO84hyY5LQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="219722124"
+   d="scan'208";a="247839579"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 23 Mar 2026 13:02:53 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 23 Mar 2026 13:13:56 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w4lUA-0000000039d-2mAw;
-	Mon, 23 Mar 2026 20:02:50 +0000
-Date: Tue, 24 Mar 2026 04:02:39 +0800
+	id 1w4ler-000000003A9-2itJ;
+	Mon, 23 Mar 2026 20:13:53 +0000
+Date: Tue, 24 Mar 2026 04:13:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-misc:setattr-cleanups 5/7] include/linux/fs.h:228:25:
- error: passing argument 4 of 'do_truncate' makes pointer from integer without
- a cast
-Message-ID: <202603240354.zQyASCVO-lkp@intel.com>
+Subject: [android-common:android16-6.12-desktop 36/36]
+ drivers/interconnect/debugfs-client.c:60:15: sparse: sparse: incompatible
+ types in comparison expression (different address spaces):
+Message-ID: <202603240405.VrM9PU4B-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,75 +60,97 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   git://git.infradead.org/users/hch/misc.git setattr-cleanups
-head:   e22469ce880a705f47908e2f012a7f0fdeab826b
-commit: fc6ce49614e5951db7205c96f4926fa8ad518a45 [5/7] fs: simplify do_truncate
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260324/202603240354.zQyASCVO-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260324/202603240354.zQyASCVO-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   463ed2ee7900b7f9a5b1ccfae6d9777214daf4a5
+commit: 4439db7b8f941e4e418fc4d07e84a2eb31c6f339 [36/36] ANDROID: interconnect: Enable debugfs client
+config: x86_64-randconfig-r112-20260324 (https://download.01.org/0day-ci/archive/20260324/202603240405.VrM9PU4B-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260324/202603240405.VrM9PU4B-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603240354.zQyASCVO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603240405.VrM9PU4B-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/interconnect/debugfs-client.c:60:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/interconnect/debugfs-client.c:60:15: sparse:    char [noderef] __rcu *
+   drivers/interconnect/debugfs-client.c:60:15: sparse:    char *
+   drivers/interconnect/debugfs-client.c:61:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/interconnect/debugfs-client.c:61:15: sparse:    char [noderef] __rcu *
+   drivers/interconnect/debugfs-client.c:61:15: sparse:    char *
 
-   In file included from fs/namei.c:22:
-   fs/namei.c: In function 'handle_truncate':
->> include/linux/fs.h:228:25: error: passing argument 4 of 'do_truncate' makes pointer from integer without a cast [-Wint-conversion]
-     228 | #define ATTR_MTIME      (1 << 5)
-         |                         ^
-         |                         |
-         |                         int
-   fs/namei.c:4280:37: note: in expansion of macro 'ATTR_MTIME'
-    4280 |                                     ATTR_MTIME|ATTR_CTIME|ATTR_OPEN,
-         |                                     ^~~~~~~~~~
-   In file included from fs/namei.c:46:
-   fs/internal.h:202:30: note: expected 'struct file *' but argument is of type 'int'
-     202 |                 struct file *file);
-         |                 ~~~~~~~~~~~~~^~~~
->> fs/namei.c:4279:25: error: too many arguments to function 'do_truncate'; expected 4, have 5
-    4279 |                 error = do_truncate(idmap, path->dentry, 0,
-         |                         ^~~~~~~~~~~
-   fs/internal.h:201:5: note: declared here
-     201 | int do_truncate(struct mnt_idmap *idmap, struct dentry *dentry, loff_t new_size,
-         |     ^~~~~~~~~~~
+vim +60 drivers/interconnect/debugfs-client.c
 
+770c69f037c18c Mike Tipton 2023-08-07   50  
+770c69f037c18c Mike Tipton 2023-08-07   51  static int icc_get_set(void *data, u64 val)
+770c69f037c18c Mike Tipton 2023-08-07   52  {
+770c69f037c18c Mike Tipton 2023-08-07   53  	struct debugfs_path *debugfs_path;
+770c69f037c18c Mike Tipton 2023-08-07   54  	char *src, *dst;
+770c69f037c18c Mike Tipton 2023-08-07   55  	int ret = 0;
+770c69f037c18c Mike Tipton 2023-08-07   56  
+770c69f037c18c Mike Tipton 2023-08-07   57  	mutex_lock(&debugfs_lock);
+770c69f037c18c Mike Tipton 2023-08-07   58  
+770c69f037c18c Mike Tipton 2023-08-07   59  	rcu_read_lock();
+770c69f037c18c Mike Tipton 2023-08-07  @60  	src = rcu_dereference(src_node);
+770c69f037c18c Mike Tipton 2023-08-07   61  	dst = rcu_dereference(dst_node);
+770c69f037c18c Mike Tipton 2023-08-07   62  
+770c69f037c18c Mike Tipton 2023-08-07   63  	/*
+770c69f037c18c Mike Tipton 2023-08-07   64  	 * If we've already looked up a path, then use the existing one instead
+770c69f037c18c Mike Tipton 2023-08-07   65  	 * of calling icc_get() again. This allows for updating previous BW
+770c69f037c18c Mike Tipton 2023-08-07   66  	 * votes when "get" is written to multiple times for multiple paths.
+770c69f037c18c Mike Tipton 2023-08-07   67  	 */
+770c69f037c18c Mike Tipton 2023-08-07   68  	cur_path = get_path(src, dst);
+770c69f037c18c Mike Tipton 2023-08-07   69  	if (cur_path) {
+770c69f037c18c Mike Tipton 2023-08-07   70  		rcu_read_unlock();
+770c69f037c18c Mike Tipton 2023-08-07   71  		goto out;
+770c69f037c18c Mike Tipton 2023-08-07   72  	}
+770c69f037c18c Mike Tipton 2023-08-07   73  
+770c69f037c18c Mike Tipton 2023-08-07   74  	src = kstrdup(src, GFP_ATOMIC);
+770c69f037c18c Mike Tipton 2023-08-07   75  	dst = kstrdup(dst, GFP_ATOMIC);
+770c69f037c18c Mike Tipton 2023-08-07   76  	rcu_read_unlock();
+770c69f037c18c Mike Tipton 2023-08-07   77  
+770c69f037c18c Mike Tipton 2023-08-07   78  	if (!src || !dst) {
+770c69f037c18c Mike Tipton 2023-08-07   79  		ret = -ENOMEM;
+770c69f037c18c Mike Tipton 2023-08-07   80  		goto err_free;
+770c69f037c18c Mike Tipton 2023-08-07   81  	}
+770c69f037c18c Mike Tipton 2023-08-07   82  
+770c69f037c18c Mike Tipton 2023-08-07   83  	cur_path = icc_get(&pdev->dev, src, dst);
+770c69f037c18c Mike Tipton 2023-08-07   84  	if (IS_ERR(cur_path)) {
+770c69f037c18c Mike Tipton 2023-08-07   85  		ret = PTR_ERR(cur_path);
+770c69f037c18c Mike Tipton 2023-08-07   86  		goto err_free;
+770c69f037c18c Mike Tipton 2023-08-07   87  	}
+770c69f037c18c Mike Tipton 2023-08-07   88  
+770c69f037c18c Mike Tipton 2023-08-07   89  	debugfs_path = kzalloc(sizeof(*debugfs_path), GFP_KERNEL);
+770c69f037c18c Mike Tipton 2023-08-07   90  	if (!debugfs_path) {
+770c69f037c18c Mike Tipton 2023-08-07   91  		ret = -ENOMEM;
+770c69f037c18c Mike Tipton 2023-08-07   92  		goto err_put;
+770c69f037c18c Mike Tipton 2023-08-07   93  	}
+770c69f037c18c Mike Tipton 2023-08-07   94  
+770c69f037c18c Mike Tipton 2023-08-07   95  	debugfs_path->path = cur_path;
+770c69f037c18c Mike Tipton 2023-08-07   96  	debugfs_path->src = src;
+770c69f037c18c Mike Tipton 2023-08-07   97  	debugfs_path->dst = dst;
+770c69f037c18c Mike Tipton 2023-08-07   98  	list_add_tail(&debugfs_path->list, &debugfs_paths);
+770c69f037c18c Mike Tipton 2023-08-07   99  
+770c69f037c18c Mike Tipton 2023-08-07  100  	goto out;
+770c69f037c18c Mike Tipton 2023-08-07  101  
+770c69f037c18c Mike Tipton 2023-08-07  102  err_put:
+770c69f037c18c Mike Tipton 2023-08-07  103  	icc_put(cur_path);
+770c69f037c18c Mike Tipton 2023-08-07  104  err_free:
+770c69f037c18c Mike Tipton 2023-08-07  105  	kfree(src);
+770c69f037c18c Mike Tipton 2023-08-07  106  	kfree(dst);
+770c69f037c18c Mike Tipton 2023-08-07  107  out:
+770c69f037c18c Mike Tipton 2023-08-07  108  	mutex_unlock(&debugfs_lock);
+770c69f037c18c Mike Tipton 2023-08-07  109  	return ret;
+770c69f037c18c Mike Tipton 2023-08-07  110  }
+770c69f037c18c Mike Tipton 2023-08-07  111  
 
-vim +/do_truncate +228 include/linux/fs.h
+:::::: The code at line 60 was first introduced by commit
+:::::: 770c69f037c18cfaa37c3d6c6ef8bd257635513f interconnect: Add debugfs test client
 
-a94204f4d48e28 Amir Goldstein 2024-11-15  218  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  219  /*
-^1da177e4c3f41 Linus Torvalds 2005-04-16  220   * Attribute flags.  These should be or-ed together to figure out what
-^1da177e4c3f41 Linus Torvalds 2005-04-16  221   * has been changed!
-^1da177e4c3f41 Linus Torvalds 2005-04-16  222   */
-9767d74957450d Miklos Szeredi 2008-07-01  223  #define ATTR_MODE	(1 << 0)
-9767d74957450d Miklos Szeredi 2008-07-01  224  #define ATTR_UID	(1 << 1)
-9767d74957450d Miklos Szeredi 2008-07-01  225  #define ATTR_GID	(1 << 2)
-9767d74957450d Miklos Szeredi 2008-07-01  226  #define ATTR_SIZE	(1 << 3)
-9767d74957450d Miklos Szeredi 2008-07-01  227  #define ATTR_ATIME	(1 << 4)
-9767d74957450d Miklos Szeredi 2008-07-01 @228  #define ATTR_MTIME	(1 << 5)
-9767d74957450d Miklos Szeredi 2008-07-01  229  #define ATTR_CTIME	(1 << 6)
-9767d74957450d Miklos Szeredi 2008-07-01  230  #define ATTR_ATIME_SET	(1 << 7)
-9767d74957450d Miklos Szeredi 2008-07-01  231  #define ATTR_MTIME_SET	(1 << 8)
-9767d74957450d Miklos Szeredi 2008-07-01  232  #define ATTR_FORCE	(1 << 9) /* Not a change, but a change it */
-afc5b36e29b95f Jeff Layton    2025-07-30  233  #define ATTR_CTIME_SET	(1 << 10)
-9767d74957450d Miklos Szeredi 2008-07-01  234  #define ATTR_KILL_SUID	(1 << 11)
-9767d74957450d Miklos Szeredi 2008-07-01  235  #define ATTR_KILL_SGID	(1 << 12)
-9767d74957450d Miklos Szeredi 2008-07-01  236  #define ATTR_FILE	(1 << 13)
-9767d74957450d Miklos Szeredi 2008-07-01  237  #define ATTR_KILL_PRIV	(1 << 14)
-9767d74957450d Miklos Szeredi 2008-07-01  238  #define ATTR_OPEN	(1 << 15) /* Truncating from open(O_TRUNC) */
-9767d74957450d Miklos Szeredi 2008-07-01  239  #define ATTR_TIMES_SET	(1 << 16)
-f2b20f6ee84231 Miklos Szeredi 2016-09-16  240  #define ATTR_TOUCH	(1 << 17)
-7e8ae8486e4471 Jeff Layton    2024-08-26  241  #define ATTR_DELEG	(1 << 18) /* Delegated attrs. Don't break write delegations */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  242  
-
-:::::: The code at line 228 was first introduced by commit
-:::::: 9767d74957450da6365c363d69e3d02d605d7375 [patch 1/4] vfs: utimes: move owner check into inode_change_ok()
-
-:::::: TO: Miklos Szeredi <mszeredi@suse.cz>
-:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
+:::::: TO: Mike Tipton <quic_mdtipton@quicinc.com>
+:::::: CC: Georgi Djakov <djakov@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
