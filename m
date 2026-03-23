@@ -1,124 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99C6372B53;
-	Mon, 23 Mar 2026 23:00:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12EB2331222;
+	Mon, 23 Mar 2026 23:19:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774306806; cv=none; b=fNDVR6PO+SQg9/hSy/SSxD2CBpsA54rEvriJKmqL9XR3O1qMerdtEpmKSuscCLoRW6Kbu6XcnH3Bn+s96Kb8P3LPhFqHHeDoNK0utJepoHQJVRoSWsQvJxu7+fMkjLcHKel+36fgDlbCApl1Yv03M/F31+PDGBCxMN4enjdmWCc=
+	t=1774307956; cv=none; b=ZVbYRp5wgVyNqdLrYInxY+QbD9eaB1ZmC6rL/+ngeBqy/6OF8Bg8nv0PaGsQGW14XYArghrCiBpmcWci0yVlfcr3lJQQopE4+asqloXYkBzUcejdCp4sW6dMK8ZXTvHJoEJh0L4YXRqL73mn7ytEvfB+vc629AjUJNjJJnbJAjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774306806; c=relaxed/simple;
-	bh=yjw+TiNpqD1VfNeyGmRFivTYYT/3Wszr7TD9QVBIE0A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FEk3B3Lyl/36EalzcaZgEViqyR1ig22CAV2C/DnFdAsDX7/HcHvK/qmPKIq0QMue8AvSFGrx71lr2FIPDkfs7Cb/exmWJvpEWusj3nciJ98nHZRRLXkh1UocziUPW+8Ij6LnFgDFeYheP+lQ+++yytJegrDpIrch9ts4oqqbJBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dneRFrsR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774307956; c=relaxed/simple;
+	bh=2lZiCeCc8SPkeJnBsKKB6eCHQ9MFJaxsrHM5lKPuCSY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=tgLIBxII2PUhmKB+6h6WCgt4aXR+fKwpnfYwGmQ7lYkHLLMg5XG4fV7suRUrMcFot1foHxaxEdCEVxgHIpYYG3JXujcbEvljPzCozjmb7AWkFgednyv/yGFX79QH9FboALgVZOvKcfj/jbipgPfDtkarn5jhJ2AckGgxzhKLyv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HNIzZSbF; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dneRFrsR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78087C4CEF7;
-	Mon, 23 Mar 2026 23:00:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774306806;
-	bh=yjw+TiNpqD1VfNeyGmRFivTYYT/3Wszr7TD9QVBIE0A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dneRFrsReDtZ+oCcjhi6PJinnu3Kp8XC0zSxcJiSXo5YrPOY+BGndBJb+h5SMaeGw
-	 9V6hq4VFHOXXCmQ8Nod6JWz1d17Zp+rsIzcY6g+4EiBrfqthFx0VXnMaBY+IAZhTZ9
-	 lnKnTOnyONUKyJRktyUSi8puI1sd0KzdAIZ00E2spAwtqPnBKXgqOkiSrMmucQTBRr
-	 I6UU/7qk+z9CZm7lkwWKFjx1SSVDtpaX7PExclJlK2wo/25/GbXwgYqbexWeZ0fT5Y
-	 C5tFkN0z6XrwnTlmS4YLlLRLQG+h56w0CxA0dSRrUbFT6MNUEZrxFvVyOvaSOIlCla
-	 cM2Ev7KSmPA0Q==
-Date: Mon, 23 Mar 2026 16:00:00 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: kernel test robot <lkp@intel.com>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Bera =?iso-8859-1?B?Wfx6bPw=?= <b9788213@gmail.com>,
-	gregkh@linuxfoundation.org, oe-kbuild-all@lists.linux.dev,
-	Yeking@red54.com, ethantidmore06@gmail.com, hansg@kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	rayfraytech@gmail.com, straube.linux@gmail.com
-Subject: Re: [PATCH v2] staging: rtl8723bs: remove reduntant functions
-Message-ID: <20260323230000.GA2585066@ax162>
-References: <20260321104001.46968-2-b9788213@gmail.com>
- <202603230240.3WRmMrTj-lkp@intel.com>
- <acD4ojjTnoBRbUpa@ashevche-desk.local>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HNIzZSbF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774307954; x=1805843954;
+  h=date:from:to:cc:subject:message-id;
+  bh=2lZiCeCc8SPkeJnBsKKB6eCHQ9MFJaxsrHM5lKPuCSY=;
+  b=HNIzZSbFeOjiAoDIU5NsY6hNcNfOFGFrqM2dcnjvZyWW2J7ZDb0ltjlc
+   53KdRSzB3z+2sHeYUD0+6b3gi9fuBWEEBBDaJgYKCxYzB7tVQ4Gh0nrzu
+   ec2i0jltGA621hVVBgHciYTqNAmNrucE8mM/5Z77NG5J02TSMztwZDQUo
+   +oCFBnqP59hIj4YErmavjhL7A/N80QoyZzYTAClLwPnWNqt1I1M0NQiV7
+   cdkoSvrECQ1Sg3/wmEivhn/1WoRxiUt1+KgltkNcaV/H2tlRW+nX5fKB7
+   aVo4zYf9CF1wBR8OazgRtSAcqf+l2WRAJXjuAZEJqbubHxgixXQ9fe9Ed
+   w==;
+X-CSE-ConnectionGUID: TtH6aMtwTh2MTSnw0XTFtw==
+X-CSE-MsgGUID: /Ge+i+WaTDS/hAmroNkQjg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="79225232"
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="79225232"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 16:19:13 -0700
+X-CSE-ConnectionGUID: 6fTx2JidSemOBdakFOsHpQ==
+X-CSE-MsgGUID: EQqdEIXwTHuJ/EK/iukEZw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="247860433"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 23 Mar 2026 16:19:12 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w4oYA-000000006kb-03BI;
+	Mon, 23 Mar 2026 23:19:10 +0000
+Date: Tue, 24 Mar 2026 00:19:02 +0100
+From: kernel test robot <lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:netfs-crypt 34/42] vmlinux.o: warning: objtool:
+ netfs_prepare_write_buffer+0x38e: netfs_wait_for_encryption() missing
+ __noreturn in .c/.h or NORETURN() in noreturns.h
+Message-ID: <202603240027.f0i73Kcq-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <acD4ojjTnoBRbUpa@ashevche-desk.local>
 
-On Mon, Mar 23, 2026 at 10:24:02AM +0200, Andy Shevchenko wrote:
-> On Mon, Mar 23, 2026 at 02:47:35AM +0800, kernel test robot wrote:
-> > Hi Bera,
-> > 
-> > kernel test robot noticed the following build errors:
-> 
-> I can't reproduce this with clang 19:
-> $ clang --version
-> Debian clang version 19.1.7 (3+b1)
-> Target: x86_64-pc-linux-gnu
-> Thread model: posix
-> InstalledDir: /usr/lib/llvm-19/bin
-> 
-> Bug in Clang? Or something happened to LKP?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-crypt
+head:   ae7ccdf83025020c44837849de26fb4546fbf825
+commit: d045bc8a941a2f79f07a9d3fc62b3596fa4a4326 [34/42] netfs: Perform content encryption for buffered writeback
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260324/202603240027.f0i73Kcq-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260324/202603240027.f0i73Kcq-lkp@intel.com/reproduce)
 
-This is reproducible with GCC 15.2.0 for me:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603240027.f0i73Kcq-lkp@intel.com/
 
-  $ curl -LSso .config https://download.01.org/0day-ci/archive/20260323/202603230240.3WRmMrTj-lkp@intel.com/config
+All warnings (new ones prefixed by >>):
 
-  $ make -skj"$(nproc)" ARCH=i386 CROSS_COMPILE=i386-linux- olddefconfig all
-  ERROR: modpost: "ODM_ReadAndConfig_MP_8723B_TXPWR_LMT" [drivers/staging/rtl8723bs/r8723bs.ko] undefined!
-  make[4]: *** [scripts/Makefile.modpost:147: Module.symvers] Error 1
+>> vmlinux.o: warning: objtool: netfs_prepare_write_buffer+0x38e: netfs_wait_for_encryption() missing __noreturn in .c/.h or NORETURN() in noreturns.h
 
-> +Cc: Nathan et alii.
-> 
-> Also, looking at the code I don't see how it's possible (yes, there is a
-> dangling declaration which has to be removed, but shouldn't it be rather a
-> compiler warning something near to declared-but-not-used?).
-
-ODM_ReadAndConfig_MP_8723B_TXPWR_LMT() is used through READ_AND_CONFIG()
-in drivers/staging/rtl8723bs/hal/odm_HWConfig.c:
-
-  $ rg READ_AND_CONFIG drivers/staging/rtl8723bs/hal/odm_HWConfig.c
-  10:#define READ_AND_CONFIG_MP(ic, txt) (ODM_ReadAndConfig_MP_##ic##txt(pDM_Odm))
-  11:#define READ_AND_CONFIG     READ_AND_CONFIG_MP
-  418:            READ_AND_CONFIG(8723B, _RadioA);
-  420:            READ_AND_CONFIG(8723B, _TXPWR_LMT);
-  428:            READ_AND_CONFIG(8723B, _TxPowerTrack_SDIO);
-  438:            READ_AND_CONFIG(8723B, _PHY_REG);
-  440:            READ_AND_CONFIG(8723B, _AGC_TAB);
-  442:            READ_AND_CONFIG(8723B, _PHY_REG_PG);
-
-> Bera, you need to remove the definition from
-> drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.h.
-> 
-> > [auto build test ERROR on staging/staging-testing]
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Bera-Y-zl/staging-rtl8723bs-remove-reduntant-functions/20260322-055430
-> > base:   staging/staging-testing
-> > patch link:    https://lore.kernel.org/r/20260321104001.46968-2-b9788213%40gmail.com
-> > patch subject: [PATCH v2] staging: rtl8723bs: remove reduntant functions
-> > config: i386-randconfig-051-20260322 (https://download.01.org/0day-ci/archive/20260323/202603230240.3WRmMrTj-lkp@intel.com/config)
-> > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260323/202603230240.3WRmMrTj-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202603230240.3WRmMrTj-lkp@intel.com/
-> > 
-> > All errors (new ones prefixed by >>, old ones prefixed by <<):
-> > 
-> > >> ERROR: modpost: "ODM_ReadAndConfig_MP_8723B_TXPWR_LMT" [drivers/staging/rtl8723bs/r8723bs.ko] undefined!
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-> 
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
