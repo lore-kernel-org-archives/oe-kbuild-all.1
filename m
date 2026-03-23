@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EA0D3E4C6A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Mar 2026 20:47:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ECCE3164DF;
+	Mon, 23 Mar 2026 20:57:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774298823; cv=none; b=BIngZeihMr+ZTja6Ji1dxrpY+4MGtWzdHzeolckwJzRXoQFilAoLVGZMi2pg52tg+3cBDL2XyAMMqjZ+8bfn312+A8O2f7dQgc0FM7f4m9qHbacHifUCBGwDAIaDc+HouF2GxmY+WCVNeetcLiT2y7LPoUZvQuvff0PJqbCLYUY=
+	t=1774299433; cv=none; b=HHXDIKKfvVZf3bSDf1axluFk4v30+OF+/ZB7JieCOia+xVaTgNOEFylPhq9v8FBLlIPtNpz1szGaVhVqTkbKSYYsgL6heaqao1jKsJBVeCnRimrWQ6sXmm89nmhbgfv0dh0lZxBvBQbH666K2NpZM1om7y0MfglGOEvYNzYgsnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774298823; c=relaxed/simple;
-	bh=Fpc13MVo7lYRnEN6LeyyLxp4Da0+KmYvCm0bGsC5JK0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NRwy1ZP95z3dR3QOMC0uAWsLv5RBYABkUqngKILRzilzGeZbpi/8jqNXbd77qpZ3YxZjTB7XDM9RqbaA/6/ETcwGVs0lyI1xKbCyNmMd2AkF1BiIle7OTmf6d+AoUF0kExsaR0/l9xtRiwgmp5dhqoyhQSRzQ8Q6CX5AiWLidJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TI+xB1zy; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1774299433; c=relaxed/simple;
+	bh=9eyzVsezjTHr9B48nfZy+80UyoUgZl9UKU6dVKA/LmA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mUOT1NNt2Mmxpjj/JoKsLeLLa7tekPXL6mCMR/RuyR8/WWYtwKQ5g4fFd/zsCX78g/oIKFfLnPiy9hhCEl/edawaqV+EaedL/3clxZCJLgAXRit+HzQbRnnJivtqOHZRDotqMZLR1Qjo25eUczQmPiSuUY34owrJ/ljPwsp67qU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EXwBoK5A; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TI+xB1zy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EXwBoK5A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774298820; x=1805834820;
+  t=1774299433; x=1805835433;
   h=date:from:to:cc:subject:message-id;
-  bh=Fpc13MVo7lYRnEN6LeyyLxp4Da0+KmYvCm0bGsC5JK0=;
-  b=TI+xB1zy4+h0GJkz+/Z1LZe2raX15CvXrDAptmqteMxP+pn1lWuyi9VO
-   PgFC2bTK8yIVUPUKDvuHLeslzE7gPy/Y7Iq785i0Mc/lsro0tCUelphEa
-   KD2ADvr3lIIqVem/IhGW0RBGYnnMHgNhAwb2di3+yca4Sy0F2ioLgKEeN
-   fEyj4VuLHqY77zKnoNLagC4HqDFG/N+7jPc00bX1Lb44PuBndCe7wMUoe
-   4kqHgqu5awqcg/wfyEdCDyadPaPy4udrSwGmd/WpKqZqsuWwu6JZApGMm
-   s6qfiVYuRIPbws9YUTaRYtQ8lC8l+9SaOSW4+dogL6dly4BHZiQHZwz+C
+  bh=9eyzVsezjTHr9B48nfZy+80UyoUgZl9UKU6dVKA/LmA=;
+  b=EXwBoK5AJ4uP5CKx2Ib86afxZrHThe3QXkWWLQiSSF2MFjy748sm7Zyu
+   F9onrS30wYb0su2drLyS+dKkkD1pxu36NpdbJBDDEJSV6aTnqG72byY1n
+   6qPW5JftStpEJ8lZALKP3m9x8KbzCUi5QXJo/dbKjaUH4vwTSRMFaOTsd
+   hk5QbR+BSXrZmeIXXLemxzh3YfLwo10YjvYSBqjJN0DQpI9PoWrAR0dJ5
+   B34r4S6uwiH/A0hX2dbHk2uI8zd1YXA+b2qrEq70MVDS4qscT+FwA0Ko/
+   BVr3zj+3tgMmLyz0vVDkY2a6GN9rmAYI9Fo5WIlng+jAvObdUvGebMkZ1
    w==;
-X-CSE-ConnectionGUID: Tqg6vB/qT1mtBOozICF9BQ==
-X-CSE-MsgGUID: JnKGwNH9QN6nY3hjuNKR+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="74489698"
+X-CSE-ConnectionGUID: i/TkKaONRRKp6ruGVrFbUw==
+X-CSE-MsgGUID: hnNBfsL6TSGZc7BcW4zcPg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="62864802"
 X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="74489698"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 13:46:59 -0700
-X-CSE-ConnectionGUID: N4/M4hoMQO6ssL9IIBCVyQ==
-X-CSE-MsgGUID: c1nMLhbNTYeVuFAx4c12Ow==
+   d="scan'208";a="62864802"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 13:57:12 -0700
+X-CSE-ConnectionGUID: Ski626+SSauqraUi0+MF/Q==
+X-CSE-MsgGUID: F2oYxVv3St+VT3ADYm5hxg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="228874294"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 23 Mar 2026 13:46:58 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+   d="scan'208";a="247183189"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa002.fm.intel.com with ESMTP; 23 Mar 2026 13:57:10 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w4mAq-000000003DF-109U;
-	Mon, 23 Mar 2026 20:46:56 +0000
-Date: Tue, 24 Mar 2026 04:46:54 +0800
+	id 1w4mKi-000000006in-1j8G;
+	Mon, 23 Mar 2026 20:57:08 +0000
+Date: Mon, 23 Mar 2026 21:57:05 +0100
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 5/5]
- fs/fuse/backing.c:156:16: sparse: sparse: Using plain integer as NULL pointer
-Message-ID: <202603240442.cEamc4nT-lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:netfs-crypt 37/42]
+ fs/netfs/direct_read.c:86:20: warning: variable 'len' is uninitialized when
+ used here
+Message-ID: <202603232150.smRruVIF-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,47 +60,87 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   c77dc98143521f8761dda88c7b8d04fc0e35c5fc
-commit: 8be90ef631b70dedc3c43b247aeae296a633dcb2 [5/5] ANDROID: fuse-bpf: fuse-bpf v1.2
-config: i386-randconfig-r121-20260324 (https://download.01.org/0day-ci/archive/20260324/202603240442.cEamc4nT-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260324/202603240442.cEamc4nT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-crypt
+head:   ae7ccdf83025020c44837849de26fb4546fbf825
+commit: e7c8280c95acfbbef1fc569cbb950835ab68c7f2 [37/42] netfs: Implement bounce-buffering for unbuffered/DIO read
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260323/202603232150.smRruVIF-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260323/202603232150.smRruVIF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603240442.cEamc4nT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603232150.smRruVIF-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/fuse/backing.c:156:16: sparse: sparse: Using plain integer as NULL pointer
-   fs/fuse/backing.c:314:16: sparse: sparse: Using plain integer as NULL pointer
->> fs/fuse/backing.c:861:48: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __kernel_rwf_t [usertype] flags @@     got int @@
-   fs/fuse/backing.c:861:48: sparse:     expected restricted __kernel_rwf_t [usertype] flags
-   fs/fuse/backing.c:861:48: sparse:     got int
-   fs/fuse/backing.c:949:59: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __kernel_rwf_t [usertype] flags @@     got int @@
-   fs/fuse/backing.c:949:59: sparse:     expected restricted __kernel_rwf_t [usertype] flags
-   fs/fuse/backing.c:949:59: sparse:     got int
->> fs/fuse/backing.c:2097:18: sparse: sparse: Initializer entry defined twice
-   fs/fuse/backing.c:2098:18: sparse:   also defined here
+All warnings (new ones prefixed by >>):
 
-vim +156 fs/fuse/backing.c
+>> fs/netfs/direct_read.c:86:20: warning: variable 'len' is uninitialized when used here [-Wuninitialized]
+      86 |                 len = round_down(len, rreq->crypto_bsize);
+         |                                  ^~~
+   include/linux/math.h:35:28: note: expanded from macro 'round_down'
+      35 | #define round_down(x, y) ((x) & ~__round_mask(x, y))
+         |                            ^
+   fs/netfs/direct_read.c:74:12: note: initialize the variable 'len' to silence this warning
+      74 |         size_t len;
+         |                   ^
+         |                    = 0
+   1 warning generated.
 
-   145	
-   146	void *fuse_open_finalize(struct fuse_bpf_args *fa,
-   147			       struct inode *inode, struct file *file, bool isdir)
-   148	{
-   149		struct fuse_file *ff = file->private_data;
-   150		struct fuse_open_out *foo = fa->out_args[0].value;
-   151	
-   152		if (ff) {
-   153			ff->fh = foo->fh;
-   154			ff->nodeid = get_fuse_inode(inode)->nodeid;
-   155		}
- > 156		return 0;
-   157	}
-   158	
+
+vim +/len +86 fs/netfs/direct_read.c
+
+    64	
+    65	/*
+    66	 * Prepare the buffer for the read RPC.  Limits are applied and the buffer may
+    67	 * be rounded down.  Bounce bufferage will be added if necessary.
+    68	 */
+    69	int netfs_prepare_unbuffered_read_buffer(struct netfs_io_subrequest *subreq,
+    70						 unsigned int max_segs)
+    71	{
+    72		struct netfs_io_request *rreq = subreq->rreq;
+    73		struct netfs_io_stream *stream = &rreq->io_streams[0];
+    74		size_t len;
+    75		int ret;
+    76	
+    77		bvecq_pos_set(&subreq->dispatch_pos, &stream->dispatch_cursor);
+    78		bvecq_pos_set(&subreq->content, &stream->dispatch_cursor);
+    79	
+    80		/* Limit encrypted reads so that we don't split an encryption block
+    81		 * across two subrequests unless the filesystem doesn't support blocks
+    82		 * that big.
+    83		 */
+    84		if (subreq->len > rreq->crypto_bsize &&
+    85		    test_bit(NETFS_RREQ_CONTENT_ENCRYPTION, &rreq->flags)) {
+  > 86			len = round_down(len, rreq->crypto_bsize);
+    87			if (WARN_ON_ONCE(len == 0))
+    88				return -EIO;
+    89		}
+    90	
+    91		/* Expand the bounce buffer so that we've got something to read into. */
+    92		if (test_bit(NETFS_RREQ_USE_BOUNCE_BUFFER, &rreq->flags)) {
+    93			ret = bvecq_buffer_add_space(&rreq->bounce_cursor,
+    94						     &rreq->bounce_alloc_to,
+    95						     subreq->start + subreq->len,
+    96						     round_up(rreq->start + rreq->len,
+    97							      rreq->crypto_bsize),
+    98						     false, GFP_KERNEL);
+    99			if (ret < 0)
+   100				return ret;
+   101		}
+   102	
+   103		len = bvecq_slice(&stream->dispatch_cursor, subreq->len, max_segs,
+   104				  &subreq->nr_segs);
+   105	
+   106		if (len < subreq->len) {
+   107			subreq->len = len;
+   108			trace_netfs_sreq(subreq, netfs_sreq_trace_limited);
+   109		}
+   110	
+   111		stream->buffered   -= subreq->len;
+   112		stream->issue_from += subreq->len;
+   113		return 0;
+   114	}
+   115	
 
 -- 
 0-DAY CI Kernel Test Service
