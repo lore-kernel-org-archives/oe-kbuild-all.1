@@ -1,70 +1,72 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A439F372B37
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Mar 2026 08:12:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7AE435BDAA
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Mar 2026 08:21:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774253526; cv=none; b=iYjoxRpT18qqHSXcs0Y0xFHcVQ84yutpJd9moZp+wnk2RwHj9e6xEoNOUHi1gzzoAMHF3sXsqs0PjiKdFLTQ2kOofa6GuOIyBFBI0XMy449+sodxtJUYCXkAZi+x9zOk0fkLjy9MQ8RWEyAnpeL5cY1Wytl2EyIC8rUdEDgU36g=
+	t=1774254077; cv=none; b=FOFmf0NR6rZm4Ah8jH74nteq4ZI6239z8pDDGnJa7tW8eh03l1sjmhx8zt7fXFZUIUV86WdRVtGpt77KZ6wMAwi/+60DYZtAZAR1radBqkbxLEIUMqwo7LPFIqIhcdCuSU8Bj5P9iG6TeeeuqfFP9xuV09YfSwo9hJhPcthLTpY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774253526; c=relaxed/simple;
-	bh=PLCs5NV8GSZH9as7kyIhc7mjPehoJUe5dTLfJEwb4As=;
+	s=arc-20240116; t=1774254077; c=relaxed/simple;
+	bh=GM8x3oyUxbRyQWgmKCxtMi8x5dV7Q4tnuubuBpQekp0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=q06KGU/HKsUOf6X0skW54OSUC7EDv9gPEzig8Rz3BHURAtnasHKsQxnLPVZXkMfHPXAdCHhJc+XvJRnazQyrgS/WZS2k3dePk/HykjAM5+KaSLn5WEVfIOhQHDa80GSW6HlJFynpKVC7BOHrh7HC26FL80d2lUIlkMhqIvnB3FQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mxx0pVuv; arc=none smtp.client-ip=209.85.128.44
+	 Content-Disposition; b=efFkG1u2X9rkX9ZCw5JDwP639QERa3FdkvbGGYQE4IjBHebGU9KWfwzHn6ar9xatQx94YPv2LPtgBtexqEjY+e/55a8zB7NadgHiWE6ihEipM1N0CihHzCcSnkq0rah2OrI7IVNHVNcK8eTp6tbCk46jcx6yygF0sfvsaaKaAmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NxnnQJjn; arc=none smtp.client-ip=209.85.221.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mxx0pVuv"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-48374014a77so37747225e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Mar 2026 01:12:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NxnnQJjn"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-439b9b1900bso1729102f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Mar 2026 01:21:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1774253522; x=1774858322; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1774254073; x=1774858873; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=qU2YzTy7ZSWGexZVKGiNCKGEO0C+xkUwcvfXto+gkIw=;
-        b=mxx0pVuv2ArW8QHKQbx8Z67sycp+Gn5dbIyaEM48uV9xnYmRWXHyVlwDcTC2tWdWiT
-         bWBC7VgGHDqHyG9G6aprv2jy10b2nE5uvRW7M15kFn38776vhHELlu51/zC6ExWn/CLG
-         A8XT7bfWnb1fVxUL7eqBUX9p/g8ZDDeTewIH/eCYPK6iqU2OELQyP2wTlH4B1AIIwN9W
-         Q59dJGMmTCPMvCyJhlRmFG5jMBYfrmOIPcUkKbcTEU9w5HVAjhn5VZmMUNL0qjDgA0RM
-         1SOP3lxtzPRN/uBMXYhk+/gn17FMOn9O6nM3Qvvqn85db2CoJB9YGQIA9YETzCJ9LcR0
-         3bnw==
+        bh=UY+UoW+/BMSdhh0KdbnqTpPp259N8c4v9xdTx5HyxAc=;
+        b=NxnnQJjn72CvpDxtDDbZinVN/Z/9VVQFqIBzHjPG77xjI8cRGVeFeqoy9fJJLvGduK
+         C1Cf07UFnTMGGuNRLUkddlr9J6/ioURRqKmq0wYTVkPDenMokcp84CSj/QTxPnlnhcwT
+         /sc5Rj/DoHB2xMPufoa6QkEJ0YBMlobqKUX5PuigAuIRxwEjQoqvDdVhnkmsg9mOdEi7
+         VuPX8pOOoWo7u6fqKEADP0QMyKO7H1nyvLfebWbSav6N5SydGkhDW+TFUWYnDt03xL/G
+         TvIXeBVZh/0yF2lb+DYWRyunyn3jO7xpBnaPHexc7ONECizElndEe+uIYw/5Od7386a1
+         QJ0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774253522; x=1774858322;
+        d=1e100.net; s=20251104; t=1774254073; x=1774858873;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qU2YzTy7ZSWGexZVKGiNCKGEO0C+xkUwcvfXto+gkIw=;
-        b=mvQMw+jqihhTW5KpW/T2L/CWXjvlv542thTaD3oPZUQ4xq36BA8dHqfZPXTWu4cnac
-         OUcuMGJF65MDq5G5EL0L9Cz0vB+BZDbHYaZ0DzI6F9m/aq6GI/QZBiOwLX07lN89ReTj
-         cqUGnCYJydN36XgTnBaLHpSJPcJWP/rqGIY1KKJBhC53vTDFK3ocg5Bv5KKUK45wwtUb
-         wrhm2NL31OOuPonqGoruJ22AikAbPXVhKJ7a0Xyfe/ynzcwoAEIq7HncB/zg7nhB9UD/
-         XCkHboMEH2Jv901iqMc/fK3HoyPtP63Dh9NOd8ZC58OdpI1RMt4KiOS4XLhlwVk386gj
-         tIkw==
-X-Forwarded-Encrypted: i=1; AJvYcCUkON4kgSPb5DWHnD/4Mqrf4jgITLKdYHck7ZJDo+E83ZoIdnyX7mjGUSMUhyxsUt892T63WFyRs+q5GXa9@lists.linux.dev
-X-Gm-Message-State: AOJu0YzDFoNBMBjGosAkuGm1fAzy0q4JoObKTLuwDYHria5LxPa58eoa
-	cqKghGyp6WOACDzHlCyTrROvXFd4GBlnOu1w64Trr21GiFfMvWTaviOuRpghgycqKYU=
-X-Gm-Gg: ATEYQzw2xMGaAJIstduJceKb6Y69m4OG+g8qpfl3ZrJ/SJuVC/zthr5SXiXPARPu7S2
-	YSVfnqdD8LfC8okEn8mwoYcQ9GI8iVelWBYZEOOFbRAe6lG1WzXbP5n8IiAhkL0NXn4DoQ5y/bq
-	6hsgqmwFTKdo4cmXpBY0UjRHTwpl1NCImFMs08OPAOBhi2YExx4CmKni8M7cKZyEeYqU0Ztmlac
-	YnaxBflvhS9IX4TlAARPOJG6wsX2Un4kCiYCpXMwKdQCeHDCmAsDk1NJzI+lCF0NxRoFkcmNWIu
-	5ANgDpSAIkYCZ3BdyFp4HgfiqzZ7itv8d/ycEyebKOwV8ZrZwZZYg8X19qJG0I9EZFD1NCAtuT+
-	TOHA5M/KJAalbUzfrmNTjzEQPVl8HZHK44I4angrqXVWr+SzeHoCu095AvkU3iKP8DnqF8jemYC
-	Bw7Ybw57oHzTghs1HxhZ9U3IZefxaD
-X-Received: by 2002:a05:600c:1f86:b0:480:1d0b:2d32 with SMTP id 5b1f17b1804b1-486fedb5916mr170412585e9.12.1774253521680;
-        Mon, 23 Mar 2026 01:12:01 -0700 (PDT)
+        bh=UY+UoW+/BMSdhh0KdbnqTpPp259N8c4v9xdTx5HyxAc=;
+        b=Q7eyascTah9OpUxjVwu7tTdF2EPXKip/o56UOB2VDIyu4Ob7gOrQyDV7Ss+58n6GOz
+         Gt472AnkVK0SEq7wXZsQS8f32Y2oBEt5SMF6rM9RrbHdwRYi+Sdkldr1GWeYXWutYwTD
+         1cC8r1hPK2UjBE6yHNgzZDs/4w5p0FkuOdoofZJ0K9yJri9iRedgAahvDvuUZeDrhZNb
+         XioICAI+di0ZOoCTWLg0IFuq+u+rj4UsGLV2qNNcJMZ6Li1WhWE1JM2DWcNgNsPjOh8p
+         5SyD50dmVTvyGl52etWJv9uB/oqRQDAlGv8MQUKi/HoKQrSp3OG/Y7FrhemBqK5BdE0G
+         6yWA==
+X-Forwarded-Encrypted: i=1; AJvYcCU49Jae9e476i3RI40bltpN/F1UQXBVH8gFlYRqOoomsvC0/kyU14Vvo9Yb1+eHavbAxDQ14Z8AoTPij4CK@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy1fEhxh6wcc2ixfrus/deyiK8KgnqTZ/MIWckkRUiXrCMaslnS
+	/ZxReQP3Am0SjdY+lMkTQvmGswPULBDMja4sNhiCJaQG2fSE7nVd8LDNi99p5f5yNqw=
+X-Gm-Gg: ATEYQzwjwaGWHXQyYu6w6bqiIRHjtsmMPHIZvDi7ZjPZ0Jupy8InwDLoyH0qofHOpO/
+	0+M4Tn5JAt5qZAYA2yWvv1t0rcS6HRlfrTeoUf8DNFfbNXPEwgWuh2pavgGj2nGodZRHXeUsN74
+	Pw2o5INks7a81YNmCwk5l1tNNS54wUYU0nqYv6IP7t4/PAs3sgCbwq/E/m4lW9hOEsyzSZu7eIi
+	7pztQJByPK2NLqRquj1ItLcrRc/UjYnvDWG8DQOs08bgxFOnNvXG4w4mCbj5Pa/2JQv6wXz1w3n
+	sYCcmUY2mg1tGfyJqq+2sfc9L6JYgxQfkW0/gwj1v0n9PJzlcKRn/IkzI5lQfGTxt3RHvftviF4
+	hNElANsscgu1xacGEklOfOqyIMNusZl/8SzKFaKf8GLr77YzKy+L3uuo3aQlpBISOLk/cY/qNmj
+	05JlCPn92UkWCtuzVvCwfv6U4qCiO+
+X-Received: by 2002:a05:6000:2f84:b0:43b:4273:a6ce with SMTP id ffacd0b85a97d-43b6423ebe4mr15440452f8f.3.1774254073135;
+        Mon, 23 Mar 2026 01:21:13 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486fc4d90f4sm365081475e9.1.2026.03.23.01.12.00
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b644bd38bsm27723091f8f.10.2026.03.23.01.21.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 01:12:01 -0700 (PDT)
-Date: Mon, 23 Mar 2026 11:11:58 +0300
+        Mon, 23 Mar 2026 01:21:12 -0700 (PDT)
+Date: Mon, 23 Mar 2026 11:21:09 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Alexei Starovoitov <ast@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [ast-bpf:stacklive 12/29] kernel/bpf/liveness.c:1991
- print_subprog_arg_access() warn: variable dereferenced before check
- 'info->at_in' (see line 1953)
-Message-ID: <202603222317.iHk1aquO-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, Anna Schumaker <anna.schumaker@oracle.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Trond Myklebust <trond.myklebust@hammerspace.com>,
+	Benjamin Coddington <bcodding@redhat.com>
+Subject: net/sunrpc/sysfs.c:343 rpc_sysfs_xprt_switch_add_xprt_store() warn:
+ passing zero to 'PTR_ERR'
+Message-ID: <202603230618.haJICSqp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,135 +76,78 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ast/bpf.git stacklive
-head:   bbe7785d7fc2e977a12e62212e014ed6ff8f05f2
-commit: 732f9788ec36481a13570fef2056408590d06413 [12/29] bpf: Add per-subprog arg tracking analysis
-config: microblaze-randconfig-r072-20260322 (https://download.01.org/0day-ci/archive/20260322/202603222317.iHk1aquO-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.5.0
+[ Zero day bot is going through old warnings and resending.  It looks like
+  a valid issue to me? -dan ]
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ec69c9e88315c4be70c283f18c2ff130da6320b5
+commit: df210d9b0951d714c1668c511ca5c8ff38cf6916 sunrpc: Add a sysfs file for adding a new xprt
+config: x86_64-randconfig-161-20260322 (https://download.01.org/0day-ci/archive/20260323/202603230618.haJICSqp-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
 smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202603222317.iHk1aquO-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202603230618.haJICSqp-lkp@intel.com/
 
-smatch warnings:
-kernel/bpf/liveness.c:1991 print_subprog_arg_access() warn: variable dereferenced before check 'info->at_in' (see line 1953)
+New smatch warnings:
+net/sunrpc/sysfs.c:343 rpc_sysfs_xprt_switch_add_xprt_store() warn: passing zero to 'PTR_ERR'
 
-vim +1991 kernel/bpf/liveness.c
+vim +/PTR_ERR +343 net/sunrpc/sysfs.c
 
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1912  static void print_subprog_arg_access(struct bpf_verifier_env *env,
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1913  				     int subprog,
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1914  				     struct subprog_at_info *info,
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1915  				     struct arg_track (*at_stack_in)[MAX_ARG_SPILL_SLOTS],
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1916  				     struct insn_live_regs *state,
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1917  				     u64 (*nonlocal_use)[MAX_CALL_FRAMES][2],
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1918  				     u64 (*nonlocal_def)[MAX_CALL_FRAMES][2])
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1919  {
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1920  	struct bpf_insn *insns = env->prog->insnsi;
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1921  	int start = env->subprog_info[subprog].start;
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1922  	int len = info->len;
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1923  	int i, r, f;
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1924  
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1925  	if (!(env->log.level & BPF_LOG_LEVEL2))
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1926  		return;
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1927  
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1928  	verbose(env, "subprog#%d %s:\n", subprog,
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1929  		env->prog->aux->func_info
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1930  		? btf_name_by_offset(env->prog->aux->btf,
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1931  				     btf_type_by_id(env->prog->aux->btf,
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1932  						    env->prog->aux->func_info[subprog].type_id)->name_off)
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1933  		: "");
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1934  	for (i = 0; i < len; i++) {
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1935  		int idx = start + i;
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1936  		bool has_extra = false;
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1937  		u8 cls = BPF_CLASS(insns[idx].code);
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1938  		bool is_ldx_stx_call = cls == BPF_LDX || cls == BPF_STX ||
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1939  				       insns[idx].code == (BPF_JMP | BPF_CALL);
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1940  
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1941  		verbose(env, "%3d: ", idx);
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1942  		verbose_insn(env, &insns[idx]);
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1943  
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1944  		/* Collect what needs printing */
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1945  		has_extra = !spis_is_zero(state[idx].stack_def) ||
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1946  			    !spis_is_zero(state[idx].stack_use);
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1947  		for (f = 0; f < MAX_CALL_FRAMES; f++) {
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1948  			if (!spis_is_zero(nonlocal_use[i][f]) ||
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1949  			    !spis_is_zero(nonlocal_def[i][f]))
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1950  				has_extra = true;
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1951  		}
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1952  		if (is_ldx_stx_call &&
-732f9788ec3648 Alexei Starovoitov 2026-03-08 @1953  		    info->at_in[i][0].frame != ARG_UNVISITED) {
-                                                                    ^^^^^^^^^^^^^^^^^
-info->at_in dereferenced without checking
+df210d9b0951d7 Anna Schumaker 2025-02-07  315  static ssize_t rpc_sysfs_xprt_switch_add_xprt_store(struct kobject *kobj,
+df210d9b0951d7 Anna Schumaker 2025-02-07  316  						    struct kobj_attribute *attr,
+df210d9b0951d7 Anna Schumaker 2025-02-07  317  						    const char *buf, size_t count)
+df210d9b0951d7 Anna Schumaker 2025-02-07  318  {
+df210d9b0951d7 Anna Schumaker 2025-02-07  319  	struct rpc_xprt_switch *xprt_switch =
+df210d9b0951d7 Anna Schumaker 2025-02-07  320  		rpc_sysfs_xprt_switch_kobj_get_xprt(kobj);
+df210d9b0951d7 Anna Schumaker 2025-02-07  321  	struct xprt_create xprt_create_args;
+df210d9b0951d7 Anna Schumaker 2025-02-07  322  	struct rpc_xprt *xprt, *new;
+df210d9b0951d7 Anna Schumaker 2025-02-07  323  
+df210d9b0951d7 Anna Schumaker 2025-02-07  324  	if (!xprt_switch)
+df210d9b0951d7 Anna Schumaker 2025-02-07  325  		return 0;
+df210d9b0951d7 Anna Schumaker 2025-02-07  326  
+df210d9b0951d7 Anna Schumaker 2025-02-07  327  	xprt = rpc_xprt_switch_get_main_xprt(xprt_switch);
+df210d9b0951d7 Anna Schumaker 2025-02-07  328  	if (!xprt)
+df210d9b0951d7 Anna Schumaker 2025-02-07  329  		goto out;
 
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1954  			for (r = 0; r < MAX_BPF_REG - 1; r++)
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1955  				if (info->at_in[i][r].frame != ARG_NONE &&
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1956  				    info->at_in[i][r].frame != ARG_UNVISITED)
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1957  					has_extra = true;
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1958  		}
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1959  		if (is_ldx_stx_call) {
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1960  			for (r = 0; r < MAX_ARG_SPILL_SLOTS; r++)
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1961  				if (at_stack_in[i][r].frame != ARG_NONE &&
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1962  				    at_stack_in[i][r].frame != ARG_UNVISITED)
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1963  					has_extra = true;
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1964  		}
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1965  
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1966  		if (!has_extra) {
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1967  			if (bpf_is_ldimm64(&insns[idx]))
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1968  				i++;
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1969  			continue;
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1970  		}
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1971  
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1972  		bpf_vlog_reset(&env->log, env->log.end_pos - 1);
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1973  		verbose(env, " //");
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1974  
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1975  		if (!spis_is_zero(state[idx].stack_def))
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1976  			verbose(env, " stack_def=%llx:%llx",
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1977  				state[idx].stack_def[1], state[idx].stack_def[0]);
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1978  		if (!spis_is_zero(state[idx].stack_use))
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1979  			verbose(env, " stack_use=%llx:%llx",
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1980  				state[idx].stack_use[1], state[idx].stack_use[0]);
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1981  
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1982  		for (f = 0; f < MAX_CALL_FRAMES; f++) {
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1983  			if (!spis_is_zero(nonlocal_use[i][f]))
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1984  				verbose(env, " nonlocal_use[%d]=%llx:%llx",
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1985  					f, nonlocal_use[i][f][1], nonlocal_use[i][f][0]);
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1986  			if (!spis_is_zero(nonlocal_def[i][f]))
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1987  				verbose(env, " nonlocal_def[%d]=%llx:%llx",
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1988  					f, nonlocal_def[i][f][1], nonlocal_def[i][f][0]);
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1989  		}
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1990  
-732f9788ec3648 Alexei Starovoitov 2026-03-08 @1991  		if (is_ldx_stx_call && info->at_in &&
-                                                                                       ^^^^^^^^^^^
-This check is too late.
+Shouldn't we set "count = -EINVAL;" or something here?
 
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1992  		    info->at_in[i][0].frame != ARG_UNVISITED) {
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1993  			for (r = 0; r < MAX_BPF_REG - 1; r++) {
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1994  				if (info->at_in[i][r].frame == ARG_NONE ||
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1995  				    info->at_in[i][r].frame == ARG_UNVISITED)
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1996  					continue;
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1997  				verbose(env, " r%d=", r);
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1998  				verbose_arg_track(env, &info->at_in[i][r]);
-732f9788ec3648 Alexei Starovoitov 2026-03-08  1999  			}
-732f9788ec3648 Alexei Starovoitov 2026-03-08  2000  		}
-732f9788ec3648 Alexei Starovoitov 2026-03-08  2001  
-732f9788ec3648 Alexei Starovoitov 2026-03-08  2002  		if (is_ldx_stx_call) {
-732f9788ec3648 Alexei Starovoitov 2026-03-08  2003  			for (r = 0; r < MAX_ARG_SPILL_SLOTS; r++) {
-732f9788ec3648 Alexei Starovoitov 2026-03-08  2004  				if (at_stack_in[i][r].frame == ARG_NONE ||
-732f9788ec3648 Alexei Starovoitov 2026-03-08  2005  				    at_stack_in[i][r].frame == ARG_UNVISITED)
-732f9788ec3648 Alexei Starovoitov 2026-03-08  2006  					continue;
-732f9788ec3648 Alexei Starovoitov 2026-03-08  2007  				verbose(env, " fp%+d=", -(r + 1) * 8);
-732f9788ec3648 Alexei Starovoitov 2026-03-08  2008  				verbose_arg_track(env, &at_stack_in[i][r]);
-732f9788ec3648 Alexei Starovoitov 2026-03-08  2009  			}
-732f9788ec3648 Alexei Starovoitov 2026-03-08  2010  		}
-732f9788ec3648 Alexei Starovoitov 2026-03-08  2011  
-732f9788ec3648 Alexei Starovoitov 2026-03-08  2012  		verbose(env, "\n");
-732f9788ec3648 Alexei Starovoitov 2026-03-08  2013  		if (bpf_is_ldimm64(&insns[idx]))
-732f9788ec3648 Alexei Starovoitov 2026-03-08  2014  			i++;
-732f9788ec3648 Alexei Starovoitov 2026-03-08  2015  	}
-732f9788ec3648 Alexei Starovoitov 2026-03-08  2016  }
+df210d9b0951d7 Anna Schumaker 2025-02-07  330  
+df210d9b0951d7 Anna Schumaker 2025-02-07  331  	xprt_create_args.ident = xprt->xprt_class->ident;
+df210d9b0951d7 Anna Schumaker 2025-02-07  332  	xprt_create_args.net = xprt->xprt_net;
+df210d9b0951d7 Anna Schumaker 2025-02-07  333  	xprt_create_args.dstaddr = (struct sockaddr *)&xprt->addr;
+df210d9b0951d7 Anna Schumaker 2025-02-07  334  	xprt_create_args.addrlen = xprt->addrlen;
+df210d9b0951d7 Anna Schumaker 2025-02-07  335  	xprt_create_args.servername = xprt->servername;
+df210d9b0951d7 Anna Schumaker 2025-02-07  336  	xprt_create_args.bc_xprt = xprt->bc_xprt;
+df210d9b0951d7 Anna Schumaker 2025-02-07  337  	xprt_create_args.xprtsec = xprt->xprtsec;
+df210d9b0951d7 Anna Schumaker 2025-02-07  338  	xprt_create_args.connect_timeout = xprt->connect_timeout;
+df210d9b0951d7 Anna Schumaker 2025-02-07  339  	xprt_create_args.reconnect_timeout = xprt->max_reconnect_timeout;
+df210d9b0951d7 Anna Schumaker 2025-02-07  340  
+df210d9b0951d7 Anna Schumaker 2025-02-07  341  	new = xprt_create_transport(&xprt_create_args);
+df210d9b0951d7 Anna Schumaker 2025-02-07  342  	if (IS_ERR_OR_NULL(new)) {
+
+This should just be if (IS_ERR(new)) { since xprt_create_transport()
+can't return NULL.  Returning count = 0 indicates EOF which would
+be strange.
+
+https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
+
+df210d9b0951d7 Anna Schumaker 2025-02-07 @343  		count = PTR_ERR(new);
+df210d9b0951d7 Anna Schumaker 2025-02-07  344  		goto out_put_xprt;
+df210d9b0951d7 Anna Schumaker 2025-02-07  345  	}
+df210d9b0951d7 Anna Schumaker 2025-02-07  346  
+df210d9b0951d7 Anna Schumaker 2025-02-07  347  	rpc_xprt_switch_add_xprt(xprt_switch, new);
+df210d9b0951d7 Anna Schumaker 2025-02-07  348  	xprt_put(new);
+df210d9b0951d7 Anna Schumaker 2025-02-07  349  
+df210d9b0951d7 Anna Schumaker 2025-02-07  350  out_put_xprt:
+df210d9b0951d7 Anna Schumaker 2025-02-07  351  	xprt_put(xprt);
+df210d9b0951d7 Anna Schumaker 2025-02-07  352  out:
+df210d9b0951d7 Anna Schumaker 2025-02-07  353  	xprt_switch_put(xprt_switch);
+df210d9b0951d7 Anna Schumaker 2025-02-07  354  	return count;
+df210d9b0951d7 Anna Schumaker 2025-02-07  355  }
 
 -- 
 0-DAY CI Kernel Test Service
