@@ -1,144 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB9E3B95F8
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Mar 2026 15:24:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774279463; cv=none; b=E42NDKwT6zQk89mwUV5xho7CF41me2efpgtbvd95AeDw+d54wXaWG0XkWbv5/KYkxSTN2ZKHZzGhHWWofDwudatzNhhWexwFXpgGle77K/nsPNZkE0NVwoDSkbcNlkFQnfeU7c/NK95DMkKq23KNYToSYmmqGsAUt1fx9fFy03I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774279463; c=relaxed/simple;
-	bh=Q3OXnSNiSIVpROPJh8+cE0EDBATa7Leu0mQwtPyET/M=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=uZ4rNO2rM+DV5CY7ITOcrf6tbAUb47M7PWwVFJ9dT+iGzXtTBI/FeQyP3338QXEFDPtVi3LF8yaYe9sTqMcmb7w7ntI8ALTHr2GMxzNNCyijDRQ+wwlqYvZEDz//bgFnr8qdQzuLIIj2rA8ds4kM4USugaUmzBZ74/P+JHcZXZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZMwg0SeU; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A173BE17D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Mar 2026 15:38:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.178
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774280334; cv=pass; b=r56Zi27K/YTpor2OQRLh8Tx5VZY11ppPsuwKu5XlOFaA5kHXSHOV/Yop7tKv64CNyd+lj3QoOi3U+UQSpFxnhR4Ngqy4vRZ9biLBuLK5Fq/vdTbufordFoR1BW6F9FSxJf3BM28ymYPDB8pNX3hyjdrCbSzpmPDCjvZF7qqo0NQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774280334; c=relaxed/simple;
+	bh=ZmWh/DuRvSZu1elnpeWrQV+U187fmJiYXIaGuwiNT00=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ALi2YsCcMSPHUcnkngws8ans4rwiNcJvpupR5XM9XOGxFha6mfThIuF2oRAiXyiFujgX+qMRiKe5bpb7QWEt/CIOCeNFLrsbRXtCFcYBuDdSuusugetNbLgzjutMEhZkWsVU/91koHBghfyL0seBkd/tMRU/NDRYL62s000JPLg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UihAU7mh; arc=pass smtp.client-ip=209.85.222.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZMwg0SeU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774279461; x=1805815461;
-  h=date:from:to:cc:subject:message-id;
-  bh=Q3OXnSNiSIVpROPJh8+cE0EDBATa7Leu0mQwtPyET/M=;
-  b=ZMwg0SeUNjPZ61exs4pT7J3CoUW7cpFw6ufRLKYUphq6k+v2w0V2zDdC
-   421EduXMTK7x/wBIZX+AH7/Dgqhg1iBK7W/eraBorEociFni7spaVb96E
-   datikUUorw7sCzO0FPJfBDGKIvvW2gM0h6xzLqDgNABwxy7eSClZ1Sk9z
-   ZZ86d+8TltgfxjsJU1HohXRUAlrPSwhea3k1tw3EtZB/zP/+RGacuqGUa
-   gjjtokBADYdsZp0s06rSMgbaT7SiUnK3zYvla2dN/i14cRT9iG8hHl1jh
-   FCRUbYSEhOs6P6sMau8z0uYK6ArGwlH0BBuPNU+toN+qPCzDoNtDDPRzI
-   g==;
-X-CSE-ConnectionGUID: i0dfkYRhS+uo1NrnDUf1ig==
-X-CSE-MsgGUID: R7SNrl8NSzath8nv1ySEhg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="75347464"
-X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="75347464"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 08:24:20 -0700
-X-CSE-ConnectionGUID: X7HJs5M9RuK0DDEgI4ejTQ==
-X-CSE-MsgGUID: H+EFPNosTveKmt5zkAPqTw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="247088981"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 23 Mar 2026 08:24:19 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w4h8a-000000001qt-280n;
-	Mon, 23 Mar 2026 15:24:16 +0000
-Date: Mon, 23 Mar 2026 23:24:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bvanassche:thread-safety 22/95]
- drivers/input/misc/pf1550-onkey.c:179:26: error: 'pf1550_onkey_resume'
- undeclared here (not in a function); did you mean 'pf1550_onkey_probe'?
-Message-ID: <202603232357.66WjlzUg-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UihAU7mh"
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-8cb38e86cf2so414471585a.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Mar 2026 08:38:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774280332; cv=none;
+        d=google.com; s=arc-20240605;
+        b=j85rHu+eoMh269MAYWwna6zYE1MOjRMj3j9DONP10Y0jm7RDDFccqKGn9zJwW6ggno
+         +LOYPkCk1rZ/Ade0oxuJ18FzWQpxmY2ibXqyROWtzvJfG2gUM7HyVJp7SzQ1ccy1jMMu
+         CaMdf1QuNfZ+zhyqkWUP2hSnk6p4GnqDHx5Wl5/N+Yqpoet1o01skWmNNi9UIXWJW/Bo
+         fbqDYplla6GIbmdzJH/M4Ut6ddPYo7sQBnXkiFC0tEdZTzJXD+zP+a4oSNzUQvvu5kbk
+         tuqWXcIVm0wbUD5XJMxDpcBSp7VKkEUsfvkdTb5JevLb9n+HLvNhOwQ1IHs6lDdMNLmC
+         Xx+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=WzHQP2pHDPf8b/aNOBFwrKe9Fe+VkqE7R9SoZi1QpZg=;
+        fh=qQ1I+6y8jcH7T+h9ErPuIeEmYhwtwlJm1kKuMSiyeNM=;
+        b=YuC+11JJ9UoDSrFiJYIGwoUGUO8ABrn0wkNIODFc64GCJzctd8ykQsho1CIIWmTNIJ
+         BozM4ahel0ry0vgcqOCJpv0TezYH/0W2AKVbcEUJ7Si80h2FsyiPfntTsWZ65yMmPI9d
+         p3CPZjC0yrlMOW86skpl+PrXCRelcO+aFJy+nScDItJ+6U/+QESqbrO+PHT0FALF9HlK
+         xD+Pb2UmBr7pTAlqyGPzh53uUAGlCnJpAbcMqAoVYvx/SpzkfVFOfeXhJz9ZRyz2ED52
+         dX+d1EYmxamwSb5XWZWYalbmIi4apcVWJwNrUsLJDsXZyWRGJfthD3kARDBKWQy7FDCw
+         z1Zg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1774280332; x=1774885132; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WzHQP2pHDPf8b/aNOBFwrKe9Fe+VkqE7R9SoZi1QpZg=;
+        b=UihAU7mheCqvn3V6hdiD7tzqtZRPQBW5NFRsbUXs5HYNSdgR/62w8j5MzJf1fe5j8X
+         8ls1w3gQlpxiN7mED0L6O51EcKeEO28oUMQYC10UaVnjFjGKOvTrN2fMD/euPqDr8JqY
+         8m1VmE17ZDkg53vWbOqw3fBn3QQVDPul4Q8VkTz9POseBr8j6YCgbyYxyAJ8UXe5Yz4X
+         T5NoHyWZXkuGkbT8+LJpoH+fflzlEBsJYFFLpnu12JKadwMjRQvp3WVAXiT1KLuDROLD
+         R41fdjeGlBxYsYAHahLpPw/CxJ8qWYtM7BhS9dDm80A1R2SFbSyjE6GR4Zrm4xgIhHAd
+         Z9ZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774280332; x=1774885132;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=WzHQP2pHDPf8b/aNOBFwrKe9Fe+VkqE7R9SoZi1QpZg=;
+        b=fwaOyvqbPilTk7/08cYIgJvNIO6vWnDrovJxAMvXGpN0VeL6f+dSZySg/m6EaupCkQ
+         y66JQ0/ys6Y1NUGcUDdi7x9JorrJvs0vFR7mBCHBsb4XzthiZuZYBosJzG7hsOtvkY04
+         CTKJND+c1Pet5Za9Jc1eNXT3KZAWgBwbl3bPN/ahy5ZW2aOy4zmjqmKBwuZ1Czc6BO3l
+         Kle4JGbZ9xJpFUnyZ0qk5p2eVpXZMB3BtG77/gWZPh+weJXWd7zfSxN8tZPFaixJuiA+
+         D/ObbUSziVkaqFxBeVwgvID1bmTmLjUkc86v/2oPJxIeK0QB0BBDjDY2X7xA2lCHquyi
+         FW8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWTE29rx/m/bv4YYS6NfrKAnyDrFst+RZm5ykACNhNaA2o/08KmmnIpwNV1AMlMbQ7XFspU7DAAYt6530ll@lists.linux.dev
+X-Gm-Message-State: AOJu0YyiCq+BnnhymMnDpCZAYelIFgLCGa96F0grLHi66qmmvm5TKk/3
+	zfOE+gJuNCq9Fzib5ksRepuJ44c5O07t5HdRl60Egv8YwxV85stdLauA7hsXFt0F9Fo/Piq4jjP
+	D7oEYxPHQ4+E24PXFe5dmHoxeJJDjOSNgnPCB
+X-Gm-Gg: ATEYQzx0/6KF60tr45JNTed6uRjEDu6Hj/anBNYrmJXjt8/1VK8duqEpBiIJY7IY9Z8
+	eJam5SRbokdsmQJMxM9VS+ib9r0AXYohz3AZtDV9ixXTtsOKEceA7CfRP4Gt0Pl6rXzBGzgBCJ1
+	a0vctB8QK49yTGXi2IffzVEU+8mcfsG2A7bRbObEIeXqzkojYmRH0gst/NgXSzccg5yZvFTzjNQ
+	OFXXqpeLYM0AzWo7HR3AnHdZP3uNU1bT1ow0t9ttExSmWZ7bnqA+g0Qnbkb3ibpdanXDqV9VR1Y
+	JCPuvLfo3M+tUtKp9GUfTqEfDLnkf15loIKT2CCvj1CchzpQ7EKUqY/9883QKaf6kDt5qYuYauU
+	DSYOIIR9JYElEOQgnCPVUQ/ACUvLcOZFKr+ger4GNesW/cFjfd0gncuPu44XGYrMuhw==
+X-Received: by 2002:a0c:f101:0:b0:89a:6f04:ac85 with SMTP id
+ 6a1803df08f44-89c85a9043fmr158483166d6.54.1774280332010; Mon, 23 Mar 2026
+ 08:38:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <202603180118.ClDWNtId-lkp@intel.com> <b859bfa1-7844-4b23-91a4-bbd526ffc19b@samba.org>
+ <CAH2r5mvvjWtJza+9YrLYvneysyEQa5rENhTYiFTAwrE+KhOy8Q@mail.gmail.com>
+ <CAKYAXd_yLYLD5SsRUZy8d6u7vknTPuN8Cbe11HJt0Eq6bLzBBw@mail.gmail.com> <69c54f80-dff1-4c02-af97-08799fe59b94@samba.org>
+In-Reply-To: <69c54f80-dff1-4c02-af97-08799fe59b94@samba.org>
+From: Steve French <smfrench@gmail.com>
+Date: Mon, 23 Mar 2026 10:38:40 -0500
+X-Gm-Features: AQROBzB9SG6sPgo5T8QjqxwVih72HS4tyEMWLFluaBLXGLnuGbVnDzT8w0i3o6U
+Message-ID: <CAH2r5msADO+SbgJxwX0vNU0keHb5WScqOmrb+uszmG2uZt9Qrw@mail.gmail.com>
+Subject: Re: [samba-ksmbd:ksmbd-for-next-next 11/12] fs/smb/server/smb2pdu.c:5723:3:
+ warning: variable 'pntsd' is uninitialized when used here
+To: Stefan Metzmacher <metze@samba.org>
+Cc: Namjae Jeon <linkinjeon@kernel.org>, Asim Viladi Oglu Manizada <manizada@pm.me>, 
+	kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	Steve French <stfrench@microsoft.com>, 
+	"linux-cifs@vger.kernel.org" <linux-cifs@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/bvanassche/linux thread-safety
-head:   01c25d61d382657141c2c31e1363a4daf850670a
-commit: c798977808ceab61b8de2d2f4ab41f415ae54f42 [22/95] Input: pf1550 - Fix the !CONFIG_PM_SLEEP build
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260323/202603232357.66WjlzUg-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260323/202603232357.66WjlzUg-lkp@intel.com/reproduce)
+I agree - looks like a bug.  Should be setting the declaration to null
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603232357.66WjlzUg-lkp@intel.com/
+   struct smb_ntsd *pntsd =3D NULL;
 
-All errors (new ones prefixed by >>):
+since the initialization of ptsd is in an if clause, you could end up
+doing kfree of uninitialized pntsd pointer on line 5801
 
-   In file included from include/linux/kernel.h:35,
-                    from include/linux/random.h:7,
-                    from include/linux/nodemask.h:94,
-                    from include/linux/numa.h:6,
-                    from include/linux/cpumask.h:15,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/sched.h:37,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/input.h:19,
-                    from drivers/input/misc/pf1550-onkey.c:11:
-   drivers/input/misc/pf1550-onkey.c:178:54: error: 'pf1550_onkey_suspend' undeclared here (not in a function); did you mean 'pf1550_onkey_probe'?
-     178 | static DEFINE_SIMPLE_DEV_PM_OPS(pf1550_onkey_pm_ops, pf1550_onkey_suspend,
-         |                                                      ^~~~~~~~~~~~~~~~~~~~
-   include/linux/util_macros.h:136:44: note: in definition of macro 'PTR_IF'
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                            ^~~
-   include/linux/pm.h:315:20: note: in expansion of macro 'pm_sleep_ptr'
-     315 |         .suspend = pm_sleep_ptr(suspend_fn), \
-         |                    ^~~~~~~~~~~~
-   include/linux/pm.h:375:9: note: in expansion of macro 'SYSTEM_SLEEP_PM_OPS'
-     375 |         SYSTEM_SLEEP_PM_OPS(suspend_fn, resume_fn) \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/pm.h:417:9: note: in expansion of macro '_DEFINE_DEV_PM_OPS'
-     417 |         _DEFINE_DEV_PM_OPS(name, suspend_fn, resume_fn, NULL, NULL, NULL)
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/input/misc/pf1550-onkey.c:178:8: note: in expansion of macro 'DEFINE_SIMPLE_DEV_PM_OPS'
-     178 | static DEFINE_SIMPLE_DEV_PM_OPS(pf1550_onkey_pm_ops, pf1550_onkey_suspend,
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/input/misc/pf1550-onkey.c:179:26: error: 'pf1550_onkey_resume' undeclared here (not in a function); did you mean 'pf1550_onkey_probe'?
-     179 |                          pf1550_onkey_resume);
-         |                          ^~~~~~~~~~~~~~~~~~~
-   include/linux/util_macros.h:136:44: note: in definition of macro 'PTR_IF'
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                            ^~~
-   include/linux/pm.h:316:19: note: in expansion of macro 'pm_sleep_ptr'
-     316 |         .resume = pm_sleep_ptr(resume_fn), \
-         |                   ^~~~~~~~~~~~
-   include/linux/pm.h:375:9: note: in expansion of macro 'SYSTEM_SLEEP_PM_OPS'
-     375 |         SYSTEM_SLEEP_PM_OPS(suspend_fn, resume_fn) \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/pm.h:417:9: note: in expansion of macro '_DEFINE_DEV_PM_OPS'
-     417 |         _DEFINE_DEV_PM_OPS(name, suspend_fn, resume_fn, NULL, NULL, NULL)
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/input/misc/pf1550-onkey.c:178:8: note: in expansion of macro 'DEFINE_SIMPLE_DEV_PM_OPS'
-     178 | static DEFINE_SIMPLE_DEV_PM_OPS(pf1550_onkey_pm_ops, pf1550_onkey_suspend,
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~
+On Mon, Mar 23, 2026 at 9:52=E2=80=AFAM Stefan Metzmacher <metze@samba.org>=
+ wrote:
+>
+> Am 23.03.26 um 15:43 schrieb Namjae Jeon:
+> > On Mon, Mar 23, 2026 at 10:22=E2=80=AFPM Steve French <smfrench@gmail.c=
+om> wrote:
+> >>
+> >> looks like a simple fix to initialize it to null at declaration, right=
+?
+> > It seems this test was performed on an outdated version. The current
+> > ksmbd-for-next already includes the updated one, so we don't need to
+> > check it.
+>
+> For it still happens with the current state:
+>
+> 1ce4e48216b84385319da308f2262eb11ee7e459
+> (smfrench-smb3-kernel/ksmbd-for-next) smb: smbdirect: fix inverted compar=
+ison operator in negotiation log message
+>
+> And there it's likely:
+>
+> 6a0795e46296589d8eba6c194586e9e65974d73f
+> ksmbd: fix OOB write in QUERY_INFO for compound requests
+>
+> With setting it to NULL the smatch warning goes away.
+>
+> metze
 
 
-vim +179 drivers/input/misc/pf1550-onkey.c
 
-9acb215cbebdce Samuel Kayode 2025-10-01  177  
-673b192dbe174b Vaibhav Gupta 2025-12-10  178  static DEFINE_SIMPLE_DEV_PM_OPS(pf1550_onkey_pm_ops, pf1550_onkey_suspend,
-9acb215cbebdce Samuel Kayode 2025-10-01 @179  			 pf1550_onkey_resume);
-9acb215cbebdce Samuel Kayode 2025-10-01  180  
+--=20
+Thanks,
 
-:::::: The code at line 179 was first introduced by commit
-:::::: 9acb215cbebdce721af2219e2859ad17342c9084 Input: pf1550 - add onkey support
-
-:::::: TO: Samuel Kayode <samuel.kayode@savoirfairelinux.com>
-:::::: CC: Lee Jones <lee@kernel.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Steve
