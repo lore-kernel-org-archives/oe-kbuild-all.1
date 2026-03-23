@@ -1,115 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from hr2.samba.org (hr2.samba.org [144.76.82.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BAD62741A0
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Mar 2026 14:51:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED7313B27D0;
+	Mon, 23 Mar 2026 14:52:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.82.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774277517; cv=none; b=K6YwXXTV8ijY3UdHZH+4qDspniLAgQbL0JRO2bf05Va8P5rPat6d3JcgeMBYB5ba4/5S2g8W7fGBZJoF/qhI+BVBe3EabTPDJWlRVE66MajQUjnvzTPZetjMBiDqiBHEJIyiY41fadlsbWIq4nER0yNneATkat/aXpofcvtTP/g=
+	t=1774277552; cv=none; b=B2M6CQxGORGB6uGzgI7CdsuTBQNUSWr/rPa8S6mQ8MglFlvuCHRtWKw4hbed3qoBWPMlIYQ1mhmHwFlHnKuEM42iaT3CaJ/3eYOZyXLZ17AJfhee7aim66gyjGakp3xTJVzvIgAKnGaOoDrxdR3UM7GsmN4knhgYFl4uWvnqsFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774277517; c=relaxed/simple;
-	bh=nDubeEG2JN1lQEIlkTDp7BaQtFKLKy6ZWmqC5aQFXA0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=vAwTmNmhUUd55YM5kKVCTuZWkCNnp6Qoz6w4h6jZ3ODqBsFeORMG+1N4OshoIzL5H30iRmFKDjKGw7MeXtfj2rQfRMYyNGuqQIXCTe5PzzGKs5cvWu+kcwWR5TSdHuNk1O1UNrtERQajgLuqh97Dq1Fptjbx6z+R5q/7+MH1OZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a5LUfLAS; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1774277552; c=relaxed/simple;
+	bh=KbfctE9xbMaq8z82UyfhfkaRlUugJsUcn7ei3aJP0ck=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cLAKmq4Aa4OmjQvOV5FyAMdCeS3dJ4db+um+rfFzrhJJZC1aG1yvT36Ni4V7rW4IypW4LVlsoQC/Q+F8Fym4tNq/KgIVPNyGSnqjp5xGTwS+2coOHpSDnN3YBxoqlBMjLo4u1+Wi59Bwiv05kBru1KPlHDzH3Tn2JoIn9tuS3sA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=samba.org; spf=pass smtp.mailfrom=samba.org; dkim=pass (3072-bit key) header.d=samba.org header.i=@samba.org header.b=idjAmKJn; arc=none smtp.client-ip=144.76.82.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=samba.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samba.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a5LUfLAS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774277515; x=1805813515;
-  h=date:from:to:cc:subject:message-id;
-  bh=nDubeEG2JN1lQEIlkTDp7BaQtFKLKy6ZWmqC5aQFXA0=;
-  b=a5LUfLASt3C+GqqmTkFHyOMQ7QZ8QDbxCIASczOC0RX56OfZHPbG/oIc
-   GpnzvHmXXCD+n3gL/mv2VTsrPLNoQRMhI+Xkunm1J/mI8R3Lt0NjFWd5d
-   6FbQP8lZkyPfWHydZhX+WUBiLUAxVopBra2VC0IvSUh07478iyQnlGde6
-   Ei7NWp0+04JznQt3PykKWXbp1+9VOk1Xh7+u2Al6NhWWA2mso7Q6zTMgh
-   3/a7AEh2EgbJ0U5dYzRHYQLeSlpbp50veGKb8rTUnIf8SCdex72GGkCiK
-   KFBMMleCQvbaxnjapcapcQztTM0ikz4q6sf9C/an7KEnGjvP7s4bbUSN/
-   w==;
-X-CSE-ConnectionGUID: zjvu3QMzRDigZkeLZLu8ew==
-X-CSE-MsgGUID: 0/q6mWLGQAO+/hhDcQMSyw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="86351188"
-X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="86351188"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 07:51:55 -0700
-X-CSE-ConnectionGUID: RT8VAfzESPCARGBQO+dn/g==
-X-CSE-MsgGUID: 0KbaIKRlQha9tAcUA6XsCg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="247079353"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 23 Mar 2026 07:51:53 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w4gdD-000000001Kr-1PX3;
-	Mon, 23 Mar 2026 14:51:51 +0000
-Date: Mon, 23 Mar 2026 22:51:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 7/7]
- drivers/usb/host/xhci-mem.c:79:6: warning: no previous prototype for
- 'xhci_free_segments_for_ring'
-Message-ID: <202603232218.XO4odkw2-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (3072-bit key) header.d=samba.org header.i=@samba.org header.b="idjAmKJn"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=samba.org;
+	s=42; h=From:Cc:To:Date:Message-ID;
+	bh=KbfctE9xbMaq8z82UyfhfkaRlUugJsUcn7ei3aJP0ck=; b=idjAmKJndQK6w0F9Fk3UKCTEXB
+	uD7ZpClad8U/fhD+e7TDHDNe7EQ8M1uyeUJdHjeLkZsnYqsWONaQIhQth/6swG0uHWkelubCBSWee
+	2y+b7Bk2gjaaBhIhh6BdfdnZoCbjj5GxrN+ZaTzyRsTkm1t9GapMCgb/fgVqgZTZzh/3BXCqIhc35
+	p2Lw03TXFWAdlw92Fph4+h0NBTGnMcNwikUDcHNME26WHTa9cHs0kTycJlD3b1pJm4mzPDdEWVrbf
+	L92hS2JrJM4LmNgh1NY7PC2dXRwqEuxSOhf7/6nNYiT2pwvTd9iB37HORc1B1hg1oWxtHw7+rJAJ8
+	EtMhqsToxc3TyFV2VQ18vKku2cCx0SN5++2iiqXddfwWBj0uTkYzEb/UJ8xUd+6ZFNZIj31iIL1+K
+	eFsHuOf4SmWfFR9TekWYT6BD512p/pxl8RVfHr/2Di5BJwb5amio86ZTU7V2OhPEQoQcbX7ljlB1u
+	RGh3ZtTW7YkgW89Sb5BIP+LO;
+Received: from [127.0.0.2] (localhost [127.0.0.1])
+	by hr2.samba.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__ECDSA_SECP256R1_SHA256__CHACHA20_POLY1305:256)
+	(Exim)
+	id 1w4gdn-000000036Ya-3TjC;
+	Mon, 23 Mar 2026 14:52:27 +0000
+Message-ID: <69c54f80-dff1-4c02-af97-08799fe59b94@samba.org>
+Date: Mon, 23 Mar 2026 15:52:27 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [samba-ksmbd:ksmbd-for-next-next 11/12]
+ fs/smb/server/smb2pdu.c:5723:3: warning: variable 'pntsd' is uninitialized
+ when used here
+To: Namjae Jeon <linkinjeon@kernel.org>, Steve French <smfrench@gmail.com>
+Cc: Asim Viladi Oglu Manizada <manizada@pm.me>,
+ kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, Steve French <stfrench@microsoft.com>,
+ "linux-cifs@vger.kernel.org" <linux-cifs@vger.kernel.org>
+References: <202603180118.ClDWNtId-lkp@intel.com>
+ <b859bfa1-7844-4b23-91a4-bbd526ffc19b@samba.org>
+ <CAH2r5mvvjWtJza+9YrLYvneysyEQa5rENhTYiFTAwrE+KhOy8Q@mail.gmail.com>
+ <CAKYAXd_yLYLD5SsRUZy8d6u7vknTPuN8Cbe11HJt0Eq6bLzBBw@mail.gmail.com>
+Content-Language: en-US
+From: Stefan Metzmacher <metze@samba.org>
+In-Reply-To: <CAKYAXd_yLYLD5SsRUZy8d6u7vknTPuN8Cbe11HJt0Eq6bLzBBw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Howard,
+Am 23.03.26 um 15:43 schrieb Namjae Jeon:
+> On Mon, Mar 23, 2026 at 10:22 PM Steve French <smfrench@gmail.com> wrote:
+>>
+>> looks like a simple fix to initialize it to null at declaration, right?
+> It seems this test was performed on an outdated version. The current
+> ksmbd-for-next already includes the updated one, so we don't need to
+> check it.
 
-FYI, the error/warning still remains.
+For it still happens with the current state:
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   b8fc2a67e08ecb1e9ba7f5f5ee2352b956ca941e
-commit: 6496f6cfbbd3bf241c6f16c7621db32088a1f073 [7/7] ANDROID: usb: host: export symbols for xhci hooks usage
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20260323/202603232218.XO4odkw2-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260323/202603232218.XO4odkw2-lkp@intel.com/reproduce)
+1ce4e48216b84385319da308f2262eb11ee7e459
+(smfrench-smb3-kernel/ksmbd-for-next) smb: smbdirect: fix inverted comparison operator in negotiation log message
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603232218.XO4odkw2-lkp@intel.com/
+And there it's likely:
 
-All warnings (new ones prefixed by >>):
+6a0795e46296589d8eba6c194586e9e65974d73f
+ksmbd: fix OOB write in QUERY_INFO for compound requests
 
-   drivers/usb/host/xhci-mem.c:68:6: warning: no previous prototype for 'xhci_segment_free' [-Wmissing-prototypes]
-      68 | void xhci_segment_free(struct xhci_hcd *xhci, struct xhci_segment *seg)
-         |      ^~~~~~~~~~~~~~~~~
->> drivers/usb/host/xhci-mem.c:79:6: warning: no previous prototype for 'xhci_free_segments_for_ring' [-Wmissing-prototypes]
-      79 | void xhci_free_segments_for_ring(struct xhci_hcd *xhci,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-mem.c:100:6: warning: no previous prototype for 'xhci_link_segments' [-Wmissing-prototypes]
-     100 | void xhci_link_segments(struct xhci_segment *prev,
-         |      ^~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-mem.c:2075:5: warning: no previous prototype for 'xhci_check_trb_in_td_math' [-Wmissing-prototypes]
-    2075 | int xhci_check_trb_in_td_math(struct xhci_hcd *xhci)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+With setting it to NULL the smatch warning goes away.
 
-
-vim +/xhci_free_segments_for_ring +79 drivers/usb/host/xhci-mem.c
-
-    78	
-  > 79	void xhci_free_segments_for_ring(struct xhci_hcd *xhci,
-    80					struct xhci_segment *first)
-    81	{
-    82		struct xhci_segment *seg;
-    83	
-    84		seg = first->next;
-    85		while (seg != first) {
-    86			struct xhci_segment *next = seg->next;
-    87			xhci_segment_free(xhci, seg);
-    88			seg = next;
-    89		}
-    90		xhci_segment_free(xhci, first);
-    91	}
-    92	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+metze
