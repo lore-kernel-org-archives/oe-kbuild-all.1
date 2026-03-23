@@ -1,133 +1,103 @@
-Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36F473822BB
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Mar 2026 22:43:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82FB230FC1D;
+	Mon, 23 Mar 2026 22:45:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774305781; cv=none; b=AfwaLtm36GMjdszfRfNLCJ5OvxwR7WJccXa2fCDxCvAG4PE3hh0SlEoTeGMMSE8PAUDH95C4yN4C6DK+iSACieZSnC8G2EWBEInWdGY6AmK/T2uBK+cBqCiSaXgqiSFYFvmCsnNBhRDuWKCbmlA9IfTkRwAIK8Ooe6HJcTs79j4=
+	t=1774305921; cv=none; b=geXTvzppFaKnMCt3MKYlL2B0bVWBgv/YiTOfpotKe4FV9z/PpDOtO8BlJGczGY0wSax0jOoKL7ZHU5Q3RKsYrOmpO9KT90zRdyNxu+RREHazrgJlKhvuVnRhiv5gvHA8XXxlYmk01lOE/tv45RFpn1r04ZlJLGrzTsoOmp9pIPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774305781; c=relaxed/simple;
-	bh=eY/l0pNNsKlt6FeaeoIeAQ6qCqKnez5RHCGxpugoodE=;
+	s=arc-20240116; t=1774305921; c=relaxed/simple;
+	bh=HB855h5KUQIUJ49ih92q+X2WC/COaUd5j7Ixy3OTvJs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iStGhKprwSWHQx6D3pLFH8h/Je0+8237xIhT0GlHxd80h/CUhIJW/G5W2OiIMidd6FFngyH9bvvWaKdDdmKWWtbxvOmkPCQupqxzlc3vLnM6WDpwmfuhCLoQOBan4poKsoZXhg7MbsYMJkoCVHZDfyoEc043VTuOWdbNv1QQeRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ki6gCBJo; arc=none smtp.client-ip=74.125.82.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=iy7rj5pGRjfIlhje7Fy3Pj4HqJCXpMKhTEc2ATH+a9YNBHWfjq6aJI5neLh4pib00ae0AOke4GSOcrdSexdSEaHkC7/zhc1a67hziQzVt0qQMToAZDJAKtRg9xPc532yinRArsj8j2g8zi0K6HLZhrCu+xN82ywrGPeWdeT5OWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aM0Y4z8/; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ki6gCBJo"
-Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-2c11c43aca0so1561020eec.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Mar 2026 15:43:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774305779; x=1774910579; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=fQitIt/VZw/RqI0BD0y4OU+WxRTPVb199E6XKyMY7/Q=;
-        b=ki6gCBJoN/gXgUxu66jO/zD1EHp2EohZMBRBJLilcT87IdXuTd42re3g7Xx1wsyAAH
-         2Va/2VU4Ut3095GIkUDIgMrz1IGdU2Ivi28DyYIqtW+BT2Ip2kjKML31wcYXhs0DuC7a
-         BpNA2KxQr5YBCJnK6SSl7zzYZexVfkJnWbKS0+RfLCs54nhNRV8C3jP6yRTZnaLMKKAw
-         uktYKpab44Qtj9umKs8gFqESRjzXBu+cggyZ72h+KWpF4PxtcrKNHxMFNyLF6drp5+Ed
-         E7dj4ab1InDmz7jcnj8IEfKpZF3o48zBfoerQFnwJKKDfipYJ+CrEIdGyroVNMPABEbA
-         fyow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774305779; x=1774910579;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fQitIt/VZw/RqI0BD0y4OU+WxRTPVb199E6XKyMY7/Q=;
-        b=SRPbpIGEi//gix6MQWZAqk6ie/m1DiTH9n7lTbOWQ0Q5we1WFTSzxqYfA7X0amn7JD
-         UvxxensWY3yB1Jyd3Y4V/1KlCYK86qTgGta8AuZfPaVM2vgPl+I5v0gsf3hvKyQjkXxK
-         0iKy7KMQuS150tlw29Olxkooh4ITTFq+UK2x/NIajElXWuwYV1AQfDtBEVK90D+gO8Fi
-         EIQSSbpMQpueVTdg50Mo0lpJRuj8dI3mFZhYg/jGF2LlfjtrKubZqYySxKdCWmGvK4p2
-         r0fUl+PVke/IfrweWScxGrBt8ftCuno/beF9397QxXwKOBs90HQkt9rpPD6h6yEOSoTD
-         7bPA==
-X-Forwarded-Encrypted: i=1; AJvYcCXw7WNW/ymWi07u2nKGOFtDCNkMfzDpKmCYG0ehGttmz66+omNPTA6XKzJ0ufzOjIlVQ/jmJzhdhlkoIhvI@lists.linux.dev
-X-Gm-Message-State: AOJu0YxcBwGSzzg1H4DBTR9xJKFyfhc2w+DHCVm53+5YIxtajLOwbgfA
-	LXlLbMttJUXRGOcH3ZblA5qK+nGvodf8IzuP+EL35ljizQBQKtM5LG7h
-X-Gm-Gg: ATEYQzwTV+jJ8Vi8GrOKdpQirWkL1OIuDM2OwaEA3/KPU/Z+kXFTLKAPeuAwujT5Ruj
-	ff3ggsXWA7keYWBYNuKr7wHXpxMvWQhl9agwkqLSmt9hpJxCavMKcLlX9yHX+XOFKYiPb4VCkN8
-	bfVoP5g9ZimCJOdpouu95Qc9VwZ5FUtrG7946rao211TC0SOdOyOmY1RGiE7BCsYUu7sThjoWk1
-	ksTdHYROJG0OmmKduDlPo6C3dT26KDsXjo6GL+picjpQPMefpcA/Ojy8QbHaJZ/law3HczTs1GI
-	jZyp0U0xA/dM+M2lVQwDJz+ypBwGyYnhx3xdYuJDd+N27+iGO2VD7cUTVT//USm+uB8JxqijAFN
-	LjTPpzM1NerFSW5nmf0f0/vgoAuaXcmgAd1SoIVMKmft6wJCufPOZvgwx8uSJ9NtVzqOuO2OLeP
-	l/Ojvh/wIKjPZ1yWAoG79+0p+JfxxMzscnxKL23Ggh86tkAtFyXF/H71KjoKGK7iSk
-X-Received: by 2002:a05:7300:bc85:b0:2be:1a8e:10bb with SMTP id 5a478bee46e88-2c14b5271damr517863eec.12.1774305779340;
-        Mon, 23 Mar 2026 15:42:59 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2ebe:8:a296:1211:5ab0:bc95])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c10b17b8f2sm18575186eec.9.2026.03.23.15.42.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 15:42:58 -0700 (PDT)
-Date: Mon, 23 Mar 2026 15:42:55 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, Lee Jones <lee@kernel.org>, 
-	Hans de Goede <hansg@kernel.org>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Peter Tyser <ptyser@xes-inc.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v3] platform/x86: meraki-mx100: use real software node
- references
-Message-ID: <acHBpaEIfS71oryo@google.com>
-References: <20260316-meraki-swnodes-v3-1-15501a52300e@oss.qualcomm.com>
- <202603201641.qJ8m8Nhn-lkp@intel.com>
- <CAMRc=MfWsChQc-xHiBtL6HKv6ax36szfEE8Ckjf7VUfhxzG9OA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aM0Y4z8/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774305920; x=1805841920;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HB855h5KUQIUJ49ih92q+X2WC/COaUd5j7Ixy3OTvJs=;
+  b=aM0Y4z8/bRURhDGPOgT5xQW0pv5u82TzXwX7vfAXF1u5bI6qbO1DASbv
+   gD1kjzl2rvNZ4MqF33GrJ/Rj555S8+up61KipvKXyGMhjLs8Fjn0aziDI
+   wa3n+wInuRWOf+RQ/+qsqqttN213uIZP3q4AQAULaLR456lvKUghweJmU
+   /DUYyBwss+7zDq6DydjUXHtz4X0oS4QF1jW4yq5U6NKTVWqx9FyHMKZiP
+   Em0otFBVwwQ6Au34hQSV4OfRY/A6KAXxElPWNd598BUEshVSA9CZzClfZ
+   CBrTvgy+QrYcKtYZCal9HqyzSBzDkXZHrvAfR3+EmVAxgXbzIueA/qbzL
+   Q==;
+X-CSE-ConnectionGUID: +fpakMnrQTCzGjQ3vFEedw==
+X-CSE-MsgGUID: bKhpDwHQTziF/3jIYKBSsw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="86389497"
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="86389497"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 15:45:20 -0700
+X-CSE-ConnectionGUID: NCCFSdcBTmWDAy0PZsSmyg==
+X-CSE-MsgGUID: L6Yuv4Y7QTW7rFnfmMzlLQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="220860610"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 23 Mar 2026 15:45:18 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w4o1L-000000003LR-3L2G;
+	Mon, 23 Mar 2026 22:45:15 +0000
+Date: Tue, 24 Mar 2026 06:44:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Rosen Penev <rosenp@gmail.com>, linux-tegra@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] firmware/tegra: add COMPILE_TEST
+Message-ID: <202603240615.RVT9LSpj-lkp@intel.com>
+References: <20260320064503.57620-1-rosenp@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMRc=MfWsChQc-xHiBtL6HKv6ax36szfEE8Ckjf7VUfhxzG9OA@mail.gmail.com>
+In-Reply-To: <20260320064503.57620-1-rosenp@gmail.com>
 
-On Mon, Mar 23, 2026 at 10:39:30AM +0100, Bartosz Golaszewski wrote:
-> On Fri, Mar 20, 2026 at 9:18 AM kernel test robot <lkp@intel.com> wrote:
-> >
-> > Hi Bartosz,
-> >
-> > kernel test robot noticed the following build errors:
-> >
-> > [auto build test ERROR on b84a0ebe421ca56995ff78b66307667b62b3a900]
-> >
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/platform-x86-meraki-mx100-use-real-software-node-references/20260316-165120
-> > base:   b84a0ebe421ca56995ff78b66307667b62b3a900
-> > patch link:    https://lore.kernel.org/r/20260316-meraki-swnodes-v3-1-15501a52300e%40oss.qualcomm.com
-> > patch subject: [PATCH v3] platform/x86: meraki-mx100: use real software node references
-> > config: x86_64-buildonly-randconfig-001-20260320 (https://download.01.org/0day-ci/archive/20260320/202603201641.qJ8m8Nhn-lkp@intel.com/config)
-> > compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260320/202603201641.qJ8m8Nhn-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202603201641.qJ8m8Nhn-lkp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >    ld: vmlinux.o: in function `lkdtm_rodata_do_nothing':
-> > >> (.rodata+0xa9b6c0): undefined reference to `lpc_ich_gpio_swnode'
-> > >> ld: (.rodata+0xa9b840): undefined reference to `lpc_ich_gpio_swnode'
-> >    ld: (.rodata+0xa9b960): undefined reference to `lpc_ich_gpio_swnode'
-> >    ld: (.rodata+0xa9ba80): undefined reference to `lpc_ich_gpio_swnode'
-> >    ld: (.rodata+0xa9bba0): undefined reference to `lpc_ich_gpio_swnode'
-> >    ld: vmlinux.o:(.rodata+0xa9bcc0): more undefined references to `lpc_ich_gpio_swnode' follow
-> >
-> > --
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests/wiki
-> 
-> FYI this is a false-positive - the prerequisite patch is already in Lee's tree.
+Hi Rosen,
 
-It is not: you did not define a dependency on LPC_ICH, so in the 0-day
-.config it is not enabled.
+kernel test robot noticed the following build errors:
 
-This is what I mean by tight coupling.
+[auto build test ERROR on tegra/for-next]
+[also build test ERROR on linus/master v7.0-rc5 next-20260323]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thanks.
+url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/firmware-tegra-add-COMPILE_TEST/20260321-064927
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git for-next
+patch link:    https://lore.kernel.org/r/20260320064503.57620-1-rosenp%40gmail.com
+patch subject: [PATCH] firmware/tegra: add COMPILE_TEST
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260324/202603240615.RVT9LSpj-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260324/202603240615.RVT9LSpj-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603240615.RVT9LSpj-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> ld.lld: error: undefined symbol: tegra_bpmp_init_clocks
+   >>> referenced by bpmp.c
+   >>>               drivers/firmware/tegra/bpmp.o:(tegra_bpmp_probe) in archive vmlinux.a
+   >>> referenced by bpmp.c
+   >>>               drivers/firmware/tegra/bpmp.o:(tegra_bpmp_probe) in archive vmlinux.a
 
 -- 
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
