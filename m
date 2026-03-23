@@ -1,84 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3EA4175A68
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Mar 2026 12:45:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42DC02DE6F1;
+	Mon, 23 Mar 2026 13:06:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774269919; cv=none; b=t7oXZt9cOHJVAc6tdO3yWfflSaS9ihi1B5XpSq4QJuLUVk34gBPDobLq1scf9vXxCA3XLz2y9Fb3r1599oVs5wjcslXJORFLw6ipieFucIXdMjSX6ilPYqh6gsSc5aNyrf1/l5VaucdNJlI1VhSWhQ/Ne61XoX+Kz9F/pN5W51A=
+	t=1774271190; cv=none; b=jLrMFxaXCXDlX9jw1PQDIWY5D4VVULchtLH5pyu5GQqFdfRLoPUwnW9seqvkuJA73T3dpAuxT7MgVF3gD5QyZnlswAzktkxjSHKsp692iWV00r3HFmVD1/SU+ypVKLKAQ6AwQWO4n+j4rrFw/DVGkkndIFES9FccQWJhXdizFXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774269919; c=relaxed/simple;
-	bh=+lSk9pAMh/+ysUYDJ00kcmChf6evLNFbq6VKXFr8+mA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=dsf3Ix3IHtxOokCQLoYV9vTuR1xw8PMQ/iTJ/TvaxQzypFPE/dSJec4Z2lBNmEJ1qAZ/zsp43pveTcvrhKsZmD2HwjzFVRYImMB39z2Jgvqh1S+GILREx0UxvxLFG69sJZGYcU7mxqJZ+H5zghK+ipoKOpj+K+NE+ijNSuFbjj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q8GDRtnv; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1774271190; c=relaxed/simple;
+	bh=gOgv5bKsksgGx3nrv4fb0woIoZIh4/V/CUpY0JM0vXI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fSlmRaQFAVWCxHT2DHUVzG3JWlHtZXo457aMPGHeu34n6+9t9QQLwUhFQB8UwIghgwOS1HOVZm5Wf42C/BwEsl4o0RFESP79xgTZ2GHa8BtWDb3zgbTqANBzrr8mePGPLZhrn24AefzUSXpgybemCX1wdWqJ3tx09Ng+nxf3bZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ikl1fSsQ; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q8GDRtnv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ikl1fSsQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774269916; x=1805805916;
-  h=date:from:to:cc:subject:message-id;
-  bh=+lSk9pAMh/+ysUYDJ00kcmChf6evLNFbq6VKXFr8+mA=;
-  b=Q8GDRtnvRuzEHiYWNmm+XeCL9PFY55/XTnEVOQpALxTU9It+6bYlV3lj
-   mA/pFxfR0qFawcip1HAnD34aqUc3phHcjJZEqp3pFWiNLmq4pMbtCOTUY
-   VlNjlzYDtcJ5KWQQFGoPwMiBoFM+AdUDcNMoSmvymx5y8KK5umn1jVNCv
-   1BNUH4bEu/RHurbDuNpNSGQ1Zt3FLgZjqrJf8lfxMcMwjMg1vaV+miw/A
-   ZLdqRIAn5VuvcF+ZyIpA+Z7xWstv68btJuQqRJ0lCTZT/1yrPtEp4xlon
-   kqRFryRLT361ZcKS0SyeLTmWmNwEOskzmkaC5rWYULOrctzcUDE+9ssqU
-   w==;
-X-CSE-ConnectionGUID: mVv5VDEWSq+Cnqwt0ycnEA==
-X-CSE-MsgGUID: UB9NRsj7QPOznO86Zp2dGw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="75147447"
+  t=1774271189; x=1805807189;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gOgv5bKsksgGx3nrv4fb0woIoZIh4/V/CUpY0JM0vXI=;
+  b=ikl1fSsQN01POC/6fLBTSOAH+OphbMORWXCkkgvlxB7EDKyVDyqiiDjw
+   OFAaCh30UnaP8gMChjGQxp9/qPI7B0Ktoor4UO5k2Y3UxptjGSaT+QRvG
+   0VjPnaemMjlOKzxCwEGsSPQWQwGlr3Zw4n85ASt0CHC6FYPIqN5LbCsyE
+   qOsk3sKkE8ZwJkaUXx4iPWUS2SxFzXrN1KgmSSv2CuCCsyaEDuoSO1fbm
+   vXy7BPsSr4EaszajvsmvWAB2acqXpl0uI/VQD6L2DnOp7TV7uc4rVk0OO
+   6AkFumiIqx7r4OEPJy6Y2+Gr70yWmbDSTJDU4PXK5putxXwTIxoVKUAqq
+   A==;
+X-CSE-ConnectionGUID: dpCnqqcBRS6L1w1xpT/paA==
+X-CSE-MsgGUID: tRXUu97QTOyicYiorIY5Vg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="75332741"
 X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="75147447"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 05:45:16 -0700
-X-CSE-ConnectionGUID: Lm/Rs391SnONICfm8gAYPw==
-X-CSE-MsgGUID: gb/jiXJ2TtG5fQP2a2g6ZQ==
+   d="scan'208";a="75332741"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 06:06:28 -0700
+X-CSE-ConnectionGUID: W/sWqUpCSw2K+giilmXCDw==
+X-CSE-MsgGUID: K15JoVVdTbGmKczSDs/sOw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="254498036"
+   d="scan'208";a="224235586"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 23 Mar 2026 05:45:15 -0700
+  by orviesa007.jf.intel.com with ESMTP; 23 Mar 2026 06:06:21 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w4eee-000000000Wv-0qZE;
-	Mon, 23 Mar 2026 12:45:12 +0000
-Date: Mon, 23 Mar 2026 20:44:12 +0800
+	id 1w4ez2-000000000Zt-0X7C;
+	Mon, 23 Mar 2026 13:06:16 +0000
+Date: Mon, 23 Mar 2026 21:06:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 0/5] WARNING: modpost:
- vmlinux: memblock_end_of_DRAM: EXPORT_SYMBOL used for init symbol. Remove
- __init or EXPORT_SYMBOL.
-Message-ID: <202603232007.DBddFSHX-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
+	linux-gpio@vger.kernel.org, Radu Sabau <radu.sabau@analog.com>
+Subject: Re: [PATCH v4 4/4] iio: adc: ad4691: add SPI offload support
+Message-ID: <202603232017.8IO2whBG-lkp@intel.com>
+References: <20260320-ad4692-multichannel-sar-adc-driver-v4-4-052c1050507a@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260320-ad4692-multichannel-sar-adc-driver-v4-4-052c1050507a@analog.com>
 
-Hi Zhou,
+Hi Radu,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   037660b116cb733997f7aac8aa34d76a7da7905e
-commit: c0383ca2116fdaefcc84987374253442c64a6675 [0/5] Revert "ANDROID: memblock: Remove memblock_end_of_DRAM() export"
-config: x86_64-buildonly-randconfig-004-20260323 (https://download.01.org/0day-ci/archive/20260323/202603232007.DBddFSHX-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260323/202603232007.DBddFSHX-lkp@intel.com/reproduce)
+[auto build test WARNING on 11439c4635edd669ae435eec308f4ab8a0804808]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Radu-Sabau-via-B4-Relay/dt-bindings-iio-adc-add-AD4691-family/20260321-120718
+base:   11439c4635edd669ae435eec308f4ab8a0804808
+patch link:    https://lore.kernel.org/r/20260320-ad4692-multichannel-sar-adc-driver-v4-4-052c1050507a%40analog.com
+patch subject: [PATCH v4 4/4] iio: adc: ad4691: add SPI offload support
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260323/202603232017.8IO2whBG-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260323/202603232017.8IO2whBG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603232007.DBddFSHX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603232017.8IO2whBG-lkp@intel.com/
 
 All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
->> WARNING: modpost: vmlinux: memblock_end_of_DRAM: EXPORT_SYMBOL used for init symbol. Remove __init or EXPORT_SYMBOL.
+>> WARNING: modpost: module ad4691 uses symbol devm_iio_dmaengine_buffer_setup_with_handle from namespace IIO_DMAENGINE_BUFFER, but does not import it.
 
 -- 
 0-DAY CI Kernel Test Service
