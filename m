@@ -1,103 +1,130 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9398383C78
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Mar 2026 22:55:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A21F378839
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Mar 2026 22:55:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774306523; cv=none; b=B591rpJqmkQ3f2O7oSmfWDTtf6Qo9gD+3yqzYgPeo0atXDt7xDgZqTCLrleOManR1VDB+AGegqGCyvrTcLrt5EbKRJ8vjpTcy7bzXb9l+fm3fMyqIUsHlXZKKLO0cb24GL/+7GBo9IBpQFxzL7I0/JceAHTr910a4K7EiXMuqOA=
+	t=1774306525; cv=none; b=qMAw9PtSKVnrghaReT/uNmFe/FGIafbPReIPGOpCrJeA+zcr92cvyyf9lDIJakdZwWpw0SpytGT01qU950iHWGXuNvSjTMNdUfOn19bA8Nr/69td1mRBzSSrHZxp/XGJXRmAEHz6c+PSOExis7Sv4oa6MSjbUF+TEJSHrwpm7Dc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774306523; c=relaxed/simple;
-	bh=8vkcENjgQqFXNlFECp/e0yeDGOKHLRKYyrGr/ZfpEYU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Zp77hB0JV6Lu+Ut+1S4+yH7kihhgzdbtmFbUy/Eg6dR8NeJrTMphPg1UKZmtvl4nLvPgQYpPvo/wgJ96dhQVnNqWrJ6m0zYSUT6dAkVPgtqj70fpHdIp/0JIJ4X9JfXU5CM4OMQDOhFuH95wI+Go+aXPCr1PLGxQ3RF1vMHv4n8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PEaXMLH0; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1774306525; c=relaxed/simple;
+	bh=obUpamcW4SXV1lZNedXwbRTWMDTBANY2dB2b8QgkLJU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HokbIUG5TO4P9rwu3okhuUna+ajGyWvPNTNGlthguUbzYzv9Napz6yym0HbaM/kLOX/FrFaRUqCFzB2SiKUtHEEeCMGJiuMZ2GmDsiT6Q+mkYMwvU4wAms692VsLVJVHQy8Lor0gECRLmuSxXvcj5Tmr1oZB03nIg9YpI7Pazns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nmw1buHL; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PEaXMLH0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nmw1buHL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774306521; x=1805842521;
-  h=date:from:to:cc:subject:message-id;
-  bh=8vkcENjgQqFXNlFECp/e0yeDGOKHLRKYyrGr/ZfpEYU=;
-  b=PEaXMLH0t9zpuhz6vqF30xFgvEhC5s18F7d62kH/RegZ67erLtF9PEC7
-   5ZGyofELC5KicY+DKUKefgPnSrzt4KfBShbLFVF0yg4kUgKB0ZMMDWS8p
-   Xc7AoYiwdwJ9KlxXyHM4c+a5/fUxUy7PAyyxPxR8O/EnrUNCSZfhmBt48
-   Kp09RiwHGZ/gktNff4k/6VXQ17KHytueWzzvkyZOaELbBjB1A7IaUw0e5
-   mMG+9w5DNzWvrxzUpWJnXURhQ4K25T6cEV5hBlxcLHuZUsE78niX/8hfO
-   oi2nlfH5gvLw+IehiX2cWWpkjFKId/UeiVPD1vJG9QsnPB+8hTFYPw17G
-   Q==;
-X-CSE-ConnectionGUID: Nygxfr4MTvOloIsd5aUzqg==
-X-CSE-MsgGUID: pSqER6WUSQ6UVXsDYhqcBA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="86685644"
+  t=1774306524; x=1805842524;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=obUpamcW4SXV1lZNedXwbRTWMDTBANY2dB2b8QgkLJU=;
+  b=Nmw1buHLVPC1Ks++670Vu+MuKDtQvIiwkFNbeKc6ooWbzSLso3G8Vb5Q
+   Z1+mxNwXY8CJyjXPpXCtsT6RpnZmwyUCU1w9bged7w5FjAw7R1XKnb8p0
+   x0C/YAG5oT1v5NSa3+hzG5PV+yFNv7JejXzlJmni50FO06CA1bzQ50I1G
+   u1nZ9uQSD4+huk5T6Ex116TjaGqo/w0bJkZZs9LkjcQpc/pv+qSVUPWbk
+   fzvWHAuZggZ5hy7SGIzcohAfk6NTgRRnkC+7p6tVJG0ccq3K1X/hHfRX4
+   DcE+ikAg3n7BESB+YC4RctfDhP6ClPTVKHjXdCpfJq+WyTyfur6qR2b0+
+   A==;
+X-CSE-ConnectionGUID: N4Xng7HbR3CZiapGi4Iedg==
+X-CSE-MsgGUID: 6wNl4ck9TGKo9gCwuB6NTA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="75200031"
 X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="86685644"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 15:55:21 -0700
-X-CSE-ConnectionGUID: 3SS9XGXoQO25fvbiHGCnVQ==
-X-CSE-MsgGUID: 30swnMIMTIiPH5uQCeeJvw==
+   d="scan'208";a="75200031"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 15:55:24 -0700
+X-CSE-ConnectionGUID: rwro3G/aSRygcqgDcCEPkQ==
+X-CSE-MsgGUID: ZTQtoYOrRMipHeEYtZ4Geg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="262085543"
+   d="scan'208";a="228902325"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 23 Mar 2026 15:55:19 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 23 Mar 2026 15:55:20 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w4oB3-000000003MZ-1ooy;
+	id 1w4oB3-000000003MX-1jgX;
 	Mon, 23 Mar 2026 22:55:17 +0000
-Date: Tue, 24 Mar 2026 06:55:05 +0800
+Date: Tue, 24 Mar 2026 06:55:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 5/5] mm/gcma.c:459:9: sparse:
- sparse: Using plain integer as NULL pointer
-Message-ID: <202603240637.XGF1PHKY-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: David Howells <dhowells@redhat.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, David Howells <dhowells@redhat.com>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	linux-afs@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	John Johansen <john.johansen@canonical.com>,
+	Simon Horman <horms@kernel.org>, apparmor@lists.ubuntu.com,
+	stable@kernel.org
+Subject: Re: [PATCH net v2 04/10] list: Move on_list_rcu() to list.h and add
+ on_list() also
+Message-ID: <202603240650.DP6vwmk9-lkp@intel.com>
+References: <20260323150505.3513839-5-dhowells@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260323150505.3513839-5-dhowells@redhat.com>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   14b4f4e6ece41c19c9f4f6c76b62f8f9690d3e33
-commit: ccf872ebe474a33123adc0f822915b4cea59e684 [5/5] ANDROID: mm: introduce GCMA
-config: i386-randconfig-r121-20260324 (https://download.01.org/0day-ci/archive/20260324/202603240637.XGF1PHKY-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260324/202603240637.XGF1PHKY-lkp@intel.com/reproduce)
+Hi David,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Howells/rxrpc-Fix-key-quota-calculation-for-multitoken-keys/20260323-234846
+base:   net/main
+patch link:    https://lore.kernel.org/r/20260323150505.3513839-5-dhowells%40redhat.com
+patch subject: [PATCH net v2 04/10] list: Move on_list_rcu() to list.h and add on_list() also
+config: arc-randconfig-r071-20260324 (https://download.01.org/0day-ci/archive/20260324/202603240650.DP6vwmk9-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 10.5.0
+smatch: v0.5.0-9004-gb810ac53
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260324/202603240650.DP6vwmk9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603240637.XGF1PHKY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603240650.DP6vwmk9-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/gcma.c:459:9: sparse: sparse: Using plain integer as NULL pointer
->> mm/gcma.c:995:23: sparse: sparse: symbol 'gcma_cleancache_ops' was not declared. Should it be static?
-   mm/gcma.c:321:13: sparse: sparse: context imbalance in 'page_area_lock' - wrong count at exit
-   mm/gcma.c:331:13: sparse: sparse: context imbalance in 'page_area_unlock' - unexpected unlock
+All errors (new ones prefixed by >>):
 
-vim +459 mm/gcma.c
+>> drivers/usb/dwc2/gadget.c:4313:13: error: conflicting types for 'on_list'
+    4313 | static bool on_list(struct dwc2_hsotg_ep *ep, struct dwc2_hsotg_req *test)
+         |             ^~~~~~~
+   In file included from include/linux/module.h:12,
+                    from drivers/usb/dwc2/gadget.c:15:
+   include/linux/list.h:392:20: note: previous definition of 'on_list' was here
+     392 | static inline bool on_list(const struct list_head *entry)
+         |                    ^~~~~~~
 
-   449	
-   450	static void gcma_erase_page(struct gcma_inode *inode, unsigned long index,
-   451				    struct page *page, bool put_page)
-   452	{
-   453		void *old;
-   454	
-   455		lockdep_assert_held(&inode->pages.xa_lock);
-   456	
-   457		/* The inode refcount will decrease when the page is freed */
-   458		old = __xa_erase(&inode->pages, index);
- > 459		VM_BUG_ON(old == 0);
-   460		delete_page_from_lru(page);
-   461		if (put_page)
-   462			gcma_put_page(page);
-   463	
-   464		check_and_remove_inode(inode);
-   465	}
-   466	
+
+vim +/on_list +4313 drivers/usb/dwc2/gadget.c
+
+4fe4f9fecc3695 drivers/usb/dwc2/gadget.c      Minas Harutyunyan 2018-12-10  4307  
+5b7d70c6dbf2db drivers/usb/gadget/s3c-hsotg.c Ben Dooks         2009-06-02  4308  /**
+5b7d70c6dbf2db drivers/usb/gadget/s3c-hsotg.c Ben Dooks         2009-06-02  4309   * on_list - check request is on the given endpoint
+5b7d70c6dbf2db drivers/usb/gadget/s3c-hsotg.c Ben Dooks         2009-06-02  4310   * @ep: The endpoint to check.
+5b7d70c6dbf2db drivers/usb/gadget/s3c-hsotg.c Ben Dooks         2009-06-02  4311   * @test: The request to test if it is on the endpoint.
+5b7d70c6dbf2db drivers/usb/gadget/s3c-hsotg.c Ben Dooks         2009-06-02  4312   */
+1f91b4cc03556b drivers/usb/dwc2/gadget.c      Felipe Balbi      2015-08-06 @4313  static bool on_list(struct dwc2_hsotg_ep *ep, struct dwc2_hsotg_req *test)
+5b7d70c6dbf2db drivers/usb/gadget/s3c-hsotg.c Ben Dooks         2009-06-02  4314  {
+1f91b4cc03556b drivers/usb/dwc2/gadget.c      Felipe Balbi      2015-08-06  4315  	struct dwc2_hsotg_req *req, *treq;
+5b7d70c6dbf2db drivers/usb/gadget/s3c-hsotg.c Ben Dooks         2009-06-02  4316  
+5b7d70c6dbf2db drivers/usb/gadget/s3c-hsotg.c Ben Dooks         2009-06-02  4317  	list_for_each_entry_safe(req, treq, &ep->queue, queue) {
+5b7d70c6dbf2db drivers/usb/gadget/s3c-hsotg.c Ben Dooks         2009-06-02  4318  		if (req == test)
+5b7d70c6dbf2db drivers/usb/gadget/s3c-hsotg.c Ben Dooks         2009-06-02  4319  			return true;
+5b7d70c6dbf2db drivers/usb/gadget/s3c-hsotg.c Ben Dooks         2009-06-02  4320  	}
+5b7d70c6dbf2db drivers/usb/gadget/s3c-hsotg.c Ben Dooks         2009-06-02  4321  
+5b7d70c6dbf2db drivers/usb/gadget/s3c-hsotg.c Ben Dooks         2009-06-02  4322  	return false;
+5b7d70c6dbf2db drivers/usb/gadget/s3c-hsotg.c Ben Dooks         2009-06-02  4323  }
+5b7d70c6dbf2db drivers/usb/gadget/s3c-hsotg.c Ben Dooks         2009-06-02  4324  
 
 -- 
 0-DAY CI Kernel Test Service
