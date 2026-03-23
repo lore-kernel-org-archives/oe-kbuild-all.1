@@ -1,79 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD51A38B148
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Mar 2026 10:20:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD5338D003;
+	Mon, 23 Mar 2026 10:40:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774261209; cv=none; b=LCA465uLoVRGvjc2FnRx5xDmL+AhPj2ocfQOYlc/ZKgD/MsZTOBKIs6hce8vD4/ja2CIvDfui/tP1xpbmrv15D7Sbs5Vgl0s7SHZ7aeeLItFTZiZEyMBstIFZg9KCi35D+afcDy5Q+ROY3BL8yJQhpGjoHqRGhNeFeABWyp4faI=
+	t=1774262413; cv=none; b=OWLfYEo7kEL9tLUdY46Jrfz/rLm7cvwGiVHrOaQyxfFlwOYiOdDe3z5uG4UF6zlAKYotO9+0vDDcFTJ+S/QWwoc3duASr/CacGriZdLEJFc69hGRAkL05eBJIIS+3GpLvdvc1Ns3hFfuW8DAeEW05jtl30IcvMJw8tYLksQ0guA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774261209; c=relaxed/simple;
-	bh=yXatQ4JO8B9DvDgSV+G8n5ZDZn06+ptILBIxSJt93bs=;
+	s=arc-20240116; t=1774262413; c=relaxed/simple;
+	bh=jl17xFX7FL3kILYlXWNhW78Mu/pU5NxzStolON6Tmh8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K8cckFgJyP/0wxQ8vs5cHea4cfPhCG9mCm1kuxEwuBfvHjFkpXdHHFBRPPPdk34ET3/wyppQJJpM2kymlOaxMrp5srP2aMKlmvreY58VA/OQAVBnWfDzQ/2r3WhsT/IyCxpx+DqRGG2hfvBQuNjFkNW7sIMvmGU1lBgI/szNh9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kFISh3wq; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=I6kRt1nln+cpNTw0S2EmNyJ0LLCw0ZgBH3gk6vCnChyhgBxCFdmRVF5TSTv52KTUCsvaNUvz9Q2CwD/qFto0XK9KFY0tyiVJKd10oGAPXacDGYGsszUYobPsVXdlKaszeSz7y/3VjGz6NujNXOUvC3wt4wXvUe+/IF2OEDkzmI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g539zflo; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kFISh3wq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g539zflo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774261207; x=1805797207;
+  t=1774262411; x=1805798411;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=yXatQ4JO8B9DvDgSV+G8n5ZDZn06+ptILBIxSJt93bs=;
-  b=kFISh3wqEjKVQ8/z1uX5t5nfAnLoEsrflzIdKh9H/7cujS5Kgg8X9JuK
-   8sJtdesRURh2IrBlH2x7/sgJ5Oz1xoGLx1zNfTfc6j/HbogSbtzDyJJN6
-   FHNXJD/DbeJtNzL9cyHQALy0+t1k4fVttbGf/HLU8gXibVY8teOwIn8ax
-   GLqG/sTYBsABCUUZqRGZyOdk3qcTouBH7SUOq8hA9XRMUl5MvW9RlxKK0
-   M0RCX2f3WrUSp9+5q1LEwvwA9VIP/ZEYY5jErP/RmXFaARKRex10PhB7Z
-   opcmzEp8qz/w18dDAR+8cGb9JxxuVNmzPWy9ZTqhwf9ezshMWdRDl2aKA
+  bh=jl17xFX7FL3kILYlXWNhW78Mu/pU5NxzStolON6Tmh8=;
+  b=g539zfloFKdnLgg/NCpCk7Tt53fvi4HJyCzuhHD9SrZ6EDSn7cBKqv/C
+   CjRi0MUrp7Nj4qADCrdTTVdjvlQKjtF7H+K5qTXzvgpiN+CpuGv+XwTNG
+   dWc40htuqPoQKzY3ADl6+0nG0j6z9hhjp+kY37Sq7Ap3MICU5+6FJuckw
+   TA57HtrMtOGa7bd9N9QBd+nhnvIfaX1HqIIB5qhydsMYoKeKDD7aLhqS8
+   iM8AMvo8h+O9E3CvB6jTI05TPwdHQAEAMR0R3d4o7bjFqLKjYJf6xoE97
+   2obQoOiJlX5PTZiOGSy5H1yJ8+zm2yOPq0GhcmvNgrW/IOw1yLWYIyFFW
    A==;
-X-CSE-ConnectionGUID: XQ71WEEhRLO11DYiNJY1Fg==
-X-CSE-MsgGUID: YoBJ5rhnRX2dpYKk2tXG8w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="74433429"
+X-CSE-ConnectionGUID: w5UTYy+kTPqsvqERnuBrLg==
+X-CSE-MsgGUID: 08dTL4MzSAKi10ZvymFa/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="75138955"
 X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="74433429"
+   d="scan'208";a="75138955"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 03:20:07 -0700
-X-CSE-ConnectionGUID: sdWJRHdHQlOkec0YBpFIgQ==
-X-CSE-MsgGUID: nHQx2jjIRzyJoC4IQ2Koiw==
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 03:40:11 -0700
+X-CSE-ConnectionGUID: IO9fLRWCQo215NjF5gWDdg==
+X-CSE-MsgGUID: VV63WbT1TuOjk7451sldHA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="228707869"
+   d="scan'208";a="228713292"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 23 Mar 2026 03:20:01 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 23 Mar 2026 03:40:03 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w4cO6-000000000LJ-0Inl;
-	Mon, 23 Mar 2026 10:19:58 +0000
-Date: Mon, 23 Mar 2026 18:19:04 +0800
+	id 1w4chU-000000000Mr-01qN;
+	Mon, 23 Mar 2026 10:40:00 +0000
+Date: Mon, 23 Mar 2026 18:39:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pingfan Liu <piliu@redhat.com>, kexec@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, Pingfan Liu <piliu@redhat.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Jeremy Linton <jeremy.linton@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
-	Simon Horman <horms@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Philipp Rudo <prudo@redhat.com>, Viktor Malik <vmalik@redhat.com>,
-	Jan Hendrik Farr <kernel@jfarr.cc>, Baoquan He <bhe@redhat.com>,
-	Dave Young <dyoung@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	bpf@vger.kernel.org, systemd-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCHv7 08/13] kexec_file: Factor out routine to find a symbol
- in ELF
-Message-ID: <202603231812.ZGRRlzPe-lkp@intel.com>
-References: <20260322014402.8815-9-piliu@redhat.com>
+To: Daniel Golle <daniel@makrotopia.org>, Andrew Lunn <andrew@lunn.ch>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Russell King <linux@armlinux.org.uk>, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, Frank Wunderlich <frankwu@gmx.de>,
+	Chad Monroe <chad@monroe.io>,
+	Cezary Wilmanski <cezary.wilmanski@adtran.com>,
+	Liang Xu <lxu@maxlinear.com>,
+	"Benny (Ying-Tsan) Weng" <yweng@maxlinear.com>,
+	Jose Maria Verdu Munoz <jverdu@maxlinear.com>,
+	Avinash Jayaraman <ajayaraman@maxlinear.com>,
+	John Crispin <john@phrozen.org>
+Subject: Re: [PATCH net-next v6 2/4] net: dsa: add bridge member iteration
+ macro and port mask helper
+Message-ID: <202603231807.3CRfrjTg-lkp@intel.com>
+References: <ff936ce4ad3044102c367c55e7a455ab0020e4b7.1774136876.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,60 +77,120 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260322014402.8815-9-piliu@redhat.com>
+In-Reply-To: <ff936ce4ad3044102c367c55e7a455ab0020e4b7.1774136876.git.daniel@makrotopia.org>
 
-Hi Pingfan,
+Hi Daniel,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on bpf-next/net]
-[also build test ERROR on bpf-next/master bpf/master akpm-mm/mm-nonmm-unstable linus/master v7.0-rc5 next-20260320]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Pingfan-Liu/bpf-Introduce-kfuncs-to-parser-buffer-content/20260323-084500
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git net
-patch link:    https://lore.kernel.org/r/20260322014402.8815-9-piliu%40redhat.com
-patch subject: [PATCHv7 08/13] kexec_file: Factor out routine to find a symbol in ELF
-config: x86_64-randconfig-002-20260323 (https://download.01.org/0day-ci/archive/20260323/202603231812.ZGRRlzPe-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260323/202603231812.ZGRRlzPe-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Golle/net-dsa-add-driver-private-pointer-to-struct-dsa_bridge/20260323-041502
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/ff936ce4ad3044102c367c55e7a455ab0020e4b7.1774136876.git.daniel%40makrotopia.org
+patch subject: [PATCH net-next v6 2/4] net: dsa: add bridge member iteration macro and port mask helper
+config: arm-randconfig-002-20260323 (https://download.01.org/0day-ci/archive/20260323/202603231807.3CRfrjTg-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c911b8492374942bf4cfe35411e90a35d3837f6a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260323/202603231807.3CRfrjTg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603231812.ZGRRlzPe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603231807.3CRfrjTg-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/kexec_file.c:1276:23: error: redefinition of 'kexec_purgatory_find_symbol'
-    1276 | static const Elf_Sym *kexec_purgatory_find_symbol(struct purgatory_info *pi,
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/kexec_file.c:958:23: note: previous definition of 'kexec_purgatory_find_symbol' with type 'const Elf64_Sym *(struct purgatory_info *, const char *)' {aka 'const struct elf64_sym *(struct purgatory_info *, const char *)'}
-     958 | static const Elf_Sym *kexec_purgatory_find_symbol(struct purgatory_info *pi,
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/dsa/yt921x.c:2158:1: error: conflicting types for 'dsa_bridge_ports'
+    2158 | dsa_bridge_ports(struct dsa_switch *ds, const struct net_device *bdev)
+         | ^
+   include/net/dsa.h:845:19: note: previous definition is here
+     845 | static inline u32 dsa_bridge_ports(struct dsa_switch *ds,
+         |                   ^
+>> drivers/net/dsa/yt921x.c:2213:38: error: incompatible pointer types passing 'struct net_device *' to parameter of type 'const struct dsa_bridge *' [-Wincompatible-pointer-types]
+    2213 |                         ports_mask = dsa_bridge_ports(ds, bdev);
+         |                                                           ^~~~
+   include/net/dsa.h:846:33: note: passing argument to parameter 'bridge' here
+     846 |                                    const struct dsa_bridge *bridge)
+         |                                                             ^
+   drivers/net/dsa/yt921x.c:2285:36: error: incompatible pointer types passing 'struct net_device *' to parameter of type 'const struct dsa_bridge *' [-Wincompatible-pointer-types]
+    2285 |         ports_mask = dsa_bridge_ports(ds, bridge.dev);
+         |                                           ^~~~~~~~~~
+   include/net/dsa.h:846:33: note: passing argument to parameter 'bridge' here
+     846 |                                    const struct dsa_bridge *bridge)
+         |                                                             ^
+   3 errors generated.
 
 
-vim +/kexec_purgatory_find_symbol +1276 kernel/kexec_file.c
+vim +/dsa_bridge_ports +2158 drivers/net/dsa/yt921x.c
 
-  1268	
-  1269	/*
-  1270	 * kexec_purgatory_find_symbol - find a symbol in the purgatory
-  1271	 * @pi:		Purgatory to search in.
-  1272	 * @name:	Name of the symbol.
-  1273	 *
-  1274	 * Return: pointer to symbol in read-only symtab on success, NULL on error.
-  1275	 */
-> 1276	static const Elf_Sym *kexec_purgatory_find_symbol(struct purgatory_info *pi,
-  1277							  const char *name)
-  1278	{
-  1279		if (!pi->ehdr)
-  1280			return NULL;
-  1281	
-  1282		return elf_find_symbol(pi->ehdr, name);
-  1283	}
-  1284	
+186623f4aa724c David Yang 2025-10-17  2156  
+186623f4aa724c David Yang 2025-10-17  2157  static u32
+186623f4aa724c David Yang 2025-10-17 @2158  dsa_bridge_ports(struct dsa_switch *ds, const struct net_device *bdev)
+186623f4aa724c David Yang 2025-10-17  2159  {
+186623f4aa724c David Yang 2025-10-17  2160  	struct dsa_port *dp;
+186623f4aa724c David Yang 2025-10-17  2161  	u32 mask = 0;
+186623f4aa724c David Yang 2025-10-17  2162  
+186623f4aa724c David Yang 2025-10-17  2163  	dsa_switch_for_each_user_port(dp, ds)
+186623f4aa724c David Yang 2025-10-17  2164  		if (dsa_port_offloads_bridge_dev(dp, bdev))
+186623f4aa724c David Yang 2025-10-17  2165  			mask |= BIT(dp->index);
+186623f4aa724c David Yang 2025-10-17  2166  
+186623f4aa724c David Yang 2025-10-17  2167  	return mask;
+186623f4aa724c David Yang 2025-10-17  2168  }
+186623f4aa724c David Yang 2025-10-17  2169  
+186623f4aa724c David Yang 2025-10-17  2170  static int
+186623f4aa724c David Yang 2025-10-17  2171  yt921x_bridge_flags(struct yt921x_priv *priv, int port,
+186623f4aa724c David Yang 2025-10-17  2172  		    struct switchdev_brport_flags flags)
+186623f4aa724c David Yang 2025-10-17  2173  {
+186623f4aa724c David Yang 2025-10-17  2174  	struct yt921x_port *pp = &priv->ports[port];
+186623f4aa724c David Yang 2025-10-17  2175  	bool do_flush;
+186623f4aa724c David Yang 2025-10-17  2176  	u32 mask;
+186623f4aa724c David Yang 2025-10-17  2177  	int res;
+186623f4aa724c David Yang 2025-10-17  2178  
+186623f4aa724c David Yang 2025-10-17  2179  	if (flags.mask & BR_LEARNING) {
+186623f4aa724c David Yang 2025-10-17  2180  		bool learning = flags.val & BR_LEARNING;
+186623f4aa724c David Yang 2025-10-17  2181  
+186623f4aa724c David Yang 2025-10-17  2182  		mask = YT921X_PORT_LEARN_DIS;
+186623f4aa724c David Yang 2025-10-17  2183  		res = yt921x_reg_toggle_bits(priv, YT921X_PORTn_LEARN(port),
+186623f4aa724c David Yang 2025-10-17  2184  					     mask, !learning);
+186623f4aa724c David Yang 2025-10-17  2185  		if (res)
+186623f4aa724c David Yang 2025-10-17  2186  			return res;
+186623f4aa724c David Yang 2025-10-17  2187  	}
+186623f4aa724c David Yang 2025-10-17  2188  
+186623f4aa724c David Yang 2025-10-17  2189  	/* BR_FLOOD, BR_MCAST_FLOOD: see the comment where ACT_UNK_ACTn_TRAP
+186623f4aa724c David Yang 2025-10-17  2190  	 * is set
+186623f4aa724c David Yang 2025-10-17  2191  	 */
+186623f4aa724c David Yang 2025-10-17  2192  
+186623f4aa724c David Yang 2025-10-17  2193  	/* BR_BCAST_FLOOD: we can filter bcast, but cannot trap them */
+186623f4aa724c David Yang 2025-10-17  2194  
+186623f4aa724c David Yang 2025-10-17  2195  	do_flush = false;
+186623f4aa724c David Yang 2025-10-17  2196  	if (flags.mask & BR_HAIRPIN_MODE) {
+186623f4aa724c David Yang 2025-10-17  2197  		pp->hairpin = flags.val & BR_HAIRPIN_MODE;
+186623f4aa724c David Yang 2025-10-17  2198  		do_flush = true;
+186623f4aa724c David Yang 2025-10-17  2199  	}
+186623f4aa724c David Yang 2025-10-17  2200  	if (flags.mask & BR_ISOLATED) {
+186623f4aa724c David Yang 2025-10-17  2201  		pp->isolated = flags.val & BR_ISOLATED;
+186623f4aa724c David Yang 2025-10-17  2202  		do_flush = true;
+186623f4aa724c David Yang 2025-10-17  2203  	}
+186623f4aa724c David Yang 2025-10-17  2204  	if (do_flush) {
+186623f4aa724c David Yang 2025-10-17  2205  		struct dsa_switch *ds = &priv->ds;
+186623f4aa724c David Yang 2025-10-17  2206  		struct dsa_port *dp = dsa_to_port(ds, port);
+186623f4aa724c David Yang 2025-10-17  2207  		struct net_device *bdev;
+186623f4aa724c David Yang 2025-10-17  2208  
+186623f4aa724c David Yang 2025-10-17  2209  		bdev = dsa_port_bridge_dev_get(dp);
+186623f4aa724c David Yang 2025-10-17  2210  		if (bdev) {
+186623f4aa724c David Yang 2025-10-17  2211  			u32 ports_mask;
+186623f4aa724c David Yang 2025-10-17  2212  
+186623f4aa724c David Yang 2025-10-17 @2213  			ports_mask = dsa_bridge_ports(ds, bdev);
+186623f4aa724c David Yang 2025-10-17  2214  			ports_mask |= priv->cpu_ports_mask;
+186623f4aa724c David Yang 2025-10-17  2215  			res = yt921x_bridge(priv, ports_mask);
+186623f4aa724c David Yang 2025-10-17  2216  			if (res)
+186623f4aa724c David Yang 2025-10-17  2217  				return res;
+186623f4aa724c David Yang 2025-10-17  2218  		}
+186623f4aa724c David Yang 2025-10-17  2219  	}
+186623f4aa724c David Yang 2025-10-17  2220  
+186623f4aa724c David Yang 2025-10-17  2221  	return 0;
+186623f4aa724c David Yang 2025-10-17  2222  }
+186623f4aa724c David Yang 2025-10-17  2223  
 
 -- 
 0-DAY CI Kernel Test Service
