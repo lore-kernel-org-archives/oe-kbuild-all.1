@@ -1,193 +1,179 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEFC71AAE17;
-	Tue, 24 Mar 2026 04:20:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 940DD241695
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Mar 2026 05:05:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774326056; cv=none; b=oUuaIOj+/cv9I9/G+oe1aq1Cq3NFPKPWcHiI9Vcp6/HjvtZUSKPQzzxCXDgWsvmTXgWwPoeRdt+GHjB2rxyjTaC9FN8k5ckto4gsxzeAOh+UyzMnY5VFAZQL3nkAWmxgZuDYgNgjsRC1fbVUppc4LtJj0wqMikVTPDs4AjHL0SQ=
+	t=1774328702; cv=none; b=oB/yVTVdqCaRKVpED+txDTPfAz/A1z1wFnEn7QkBoH8cuaqSkC4OLdqROzo5AdQ79I4lF8jWCkMypGJAHLEqjpkEUwe4zsXjT+cKFAQ/15YhrYABtT803z2yJJaWXYKs6UUgWp3pSCFLJdvaUpt5DOHFYHKufxhgHFtGDhF7pLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774326056; c=relaxed/simple;
-	bh=OqHoKJWvvmhgynw9NqNETcNSrVpJiY3jiGOP7/yHmHA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QDIzb6ipSKo87W+5VMUJST4sH+uK7OGF7pvXXaX7LH8b2XWfPOJT7mM5oLH2Jud7/g85MXdhehvMy+by8BOvUSyZh+FjsYUUJfC5Yd/bf4OKMav7OVMpiql4nAF+LA6ojk8nUP6hNwhr+5LZ7vEqcLIXyyqtXFITPJQSxeQkUMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LQz+jxEj; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1774328702; c=relaxed/simple;
+	bh=P4ZXWtD9RN01IBVgESDcqWgV9B9VyT4rKzP5GNz47Ro=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UwHZ0/PgukQ6y0LgCbMHZ3pN/2xip5lHmFekFMUjhqPnASVjfo/dygFg04pv5FZmPTZp9jnY5LzRbK0yXLVOIMxfINFscJ+CR5rRK7iciHW0Luru6jPvk8qV39oHCBaqcIJXL7O6eqmsJiIaSYGkHIsfe6hQuTUl2Wn0ISWA/W0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SWK7jcjI; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LQz+jxEj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SWK7jcjI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774326055; x=1805862055;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OqHoKJWvvmhgynw9NqNETcNSrVpJiY3jiGOP7/yHmHA=;
-  b=LQz+jxEjForzET41En+cYs9spbYMA2uGAj/Gk3IfeREHLNnhTDYk/ibc
-   nDUlVZYq3tep4LfCG0PebSZ2UMD+l1J8XdkuaM8nU/qazxZKXGWSf74SW
-   LgreEZz6/1cCEIpVacWe8wGV1h0dRkdAWH32jqj0jo9EtSef2K7sjxjJg
-   6R1G5aWVbVFUAgtRIiwj7llbBb4IJ4mdpm4OGjREFz5oyoi8lXhrFbyEx
-   yTgVm88VvctfxNR73OqWkCQIlBK3WNiTZVP+CEM38IsRH7D3v8kmywVh7
-   qAg0a7kL1wio9/8k4JWF8LRwlz7EligAzc5Aa8f/jJZpDwTbNpthNZm+k
+  t=1774328701; x=1805864701;
+  h=date:from:to:cc:subject:message-id;
+  bh=P4ZXWtD9RN01IBVgESDcqWgV9B9VyT4rKzP5GNz47Ro=;
+  b=SWK7jcjIF3VNfxDPfZxL8hoIFd8qNQD5d5SeClHiBIkZWDr1t0vfx5vF
+   0x5r+ngteLAdCHKX/Ee46x073vUx8R5IT1ykP3Ns4IhEvw3OmP2nmlNPe
+   SGE8acjIGER1ZJChYJHNJVMI/TYiy/u5ZLewgEmEFH2tw3JnQD9xvD4H2
+   tVNVmgfeQDAErrGvo2cFZQTie086AOkV8X91JmAAcueA3R+SviTRtIDyH
+   GgGAa6wMGMPSv9OfZKVOGyfu7jnWM3lAj25wOiPeMMRccTTHzPy+lNtXI
+   3qDL3P0Fq9/xK4yxbb0QEC86UGXWn/xcf0+akvZZjlKLE2bKaiYNeEV3N
    g==;
-X-CSE-ConnectionGUID: PAMfKslHRs2plXJE7sImUg==
-X-CSE-MsgGUID: BLUjfnfvS2Wzhj/jv+bC2w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="75359537"
+X-CSE-ConnectionGUID: pO3Rv7YhQ022oKGwGH6Rzg==
+X-CSE-MsgGUID: sR32hgoyTWGdc6WnQzAYJA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="74358395"
 X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="75359537"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 21:20:55 -0700
-X-CSE-ConnectionGUID: LAP6mxm/SrGJeXeSAnuoBg==
-X-CSE-MsgGUID: 77j8BtE7QLKvHvvTDE1c7g==
+   d="scan'208";a="74358395"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 22:05:00 -0700
+X-CSE-ConnectionGUID: q6ZAE5dCRF+5MkIw64SIgQ==
+X-CSE-MsgGUID: UEKzw9s/QAaTo0bqnHh07A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="223309159"
+   d="scan'208";a="225901089"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 23 Mar 2026 21:20:52 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 23 Mar 2026 22:04:58 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w4tG5-000000003mP-1gTE;
-	Tue, 24 Mar 2026 04:20:49 +0000
-Date: Tue, 24 Mar 2026 12:20:34 +0800
+	id 1w4twm-000000003rd-0DLU;
+	Tue, 24 Mar 2026 05:04:56 +0000
+Date: Tue, 24 Mar 2026 13:04:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: songxiebing <songxiebing@kylinos.cn>, tiwai@suse.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	songxiebing@kylinos.cn, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] ALSA: core/seq: Optimize the return logic in
- cc_ev_to_ump_midi2
-Message-ID: <202603241242.5Kms3LqO-lkp@intel.com>
-References: <20260323024742.220707-1-songxiebing@kylinos.cn>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:ceph-iter 76/77]
+ net/ceph/messenger_v2.c:3216:36: error: 'struct ceph_connection_v2_info' has
+ no member named 'out_enc_pages'; did you mean 'in_enc_pages'?
+Message-ID: <202603241236.oC1r9XIM-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260323024742.220707-1-songxiebing@kylinos.cn>
 
-Hi songxiebing,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tiwai-sound/for-next]
-[also build test WARNING on tiwai-sound/for-linus linus/master v7.0-rc5 next-20260323]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/songxiebing/ALSA-core-seq-Optimize-the-return-logic-in-cc_ev_to_ump_midi2/20260324-013342
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-patch link:    https://lore.kernel.org/r/20260323024742.220707-1-songxiebing%40kylinos.cn
-patch subject: [PATCH] ALSA: core/seq: Optimize the return logic in cc_ev_to_ump_midi2
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260324/202603241242.5Kms3LqO-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260324/202603241242.5Kms3LqO-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git ceph-iter
+head:   05d546a07e9a570d280344cff29c354b67fda562
+commit: 106815df58fb06630dd028b8e628aeeec568abc9 [76/77] ceph: Don't use data_pages
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260324/202603241236.oC1r9XIM-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260324/202603241236.oC1r9XIM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603241242.5Kms3LqO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603241236.oC1r9XIM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> sound/core/seq/seq_ump_convert.c:881:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-     881 |         case UMP_CC_BANK_SELECT_LSB:
-         |         ^
-   sound/core/seq/seq_ump_convert.c:881:2: note: insert '__attribute__((fallthrough));' to silence this warning
-     881 |         case UMP_CC_BANK_SELECT_LSB:
-         |         ^
-         |         __attribute__((fallthrough)); 
-   sound/core/seq/seq_ump_convert.c:881:2: note: insert 'break;' to avoid fall-through
-     881 |         case UMP_CC_BANK_SELECT_LSB:
-         |         ^
-         |         break; 
-   sound/core/seq/seq_ump_convert.c:885:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-     885 |         case UMP_CC_DATA_LSB:
-         |         ^
-   sound/core/seq/seq_ump_convert.c:885:2: note: insert '__attribute__((fallthrough));' to silence this warning
-     885 |         case UMP_CC_DATA_LSB:
-         |         ^
-         |         __attribute__((fallthrough)); 
-   sound/core/seq/seq_ump_convert.c:885:2: note: insert 'break;' to avoid fall-through
-     885 |         case UMP_CC_DATA_LSB:
-         |         ^
-         |         break; 
-   2 warnings generated.
+   net/ceph/messenger_v2.c: In function 'queue_enc_page':
+>> net/ceph/messenger_v2.c:3216:36: error: 'struct ceph_connection_v2_info' has no member named 'out_enc_pages'; did you mean 'in_enc_pages'?
+    3216 |         bvec_set_page(&bv, con->v2.out_enc_pages[con->v2.out_enc_i],
+         |                                    ^~~~~~~~~~~~~
+         |                                    in_enc_pages
+   In file included from include/linux/bug.h:5,
+                    from include/linux/instrumented.h:10,
+                    from include/linux/atomic/atomic-instrumented.h:17,
+                    from include/linux/atomic.h:82,
+                    from include/crypto/aead.h:11,
+                    from net/ceph/messenger_v2.c:10:
+>> net/ceph/messenger_v2.c:3224:46: error: 'OUT_S_QUEUE_ENC_PAGE' undeclared (first use in this function); did you mean 'OUT_S_QUEUE_ENC_BVECQ'?
+    3224 |                 WARN_ON(con->v2.out_state != OUT_S_QUEUE_ENC_PAGE);
+         |                                              ^~~~~~~~~~~~~~~~~~~~
+   arch/sh/include/asm/bug.h:69:32: note: in definition of macro 'WARN_ON'
+      69 |         int __ret_warn_on = !!(x);                              \
+         |                                ^
+   net/ceph/messenger_v2.c:3224:46: note: each undeclared identifier is reported only once for each function it appears in
+    3224 |                 WARN_ON(con->v2.out_state != OUT_S_QUEUE_ENC_PAGE);
+         |                                              ^~~~~~~~~~~~~~~~~~~~
+   arch/sh/include/asm/bug.h:69:32: note: in definition of macro 'WARN_ON'
+      69 |         int __ret_warn_on = !!(x);                              \
+         |                                ^
+   net/ceph/messenger_v2.c: In function 'finish_message':
+   net/ceph/messenger_v2.c:3262:21: error: 'struct ceph_connection_v2_info' has no member named 'out_enc_pages'; did you mean 'in_enc_pages'?
+    3262 |         if (con->v2.out_enc_pages) {
+         |                     ^~~~~~~~~~~~~
+         |                     in_enc_pages
+   net/ceph/messenger_v2.c:3264:50: error: 'struct ceph_connection_v2_info' has no member named 'out_enc_pages'; did you mean 'in_enc_pages'?
+    3264 |                 ceph_release_page_vector(con->v2.out_enc_pages,
+         |                                                  ^~~~~~~~~~~~~
+         |                                                  in_enc_pages
+   net/ceph/messenger_v2.c:3266:25: error: 'struct ceph_connection_v2_info' has no member named 'out_enc_pages'; did you mean 'in_enc_pages'?
+    3266 |                 con->v2.out_enc_pages = NULL;
+         |                         ^~~~~~~~~~~~~
+         |                         in_enc_pages
+   net/ceph/messenger_v2.c: In function 'populate_out_iter':
+   net/ceph/messenger_v2.c:3302:14: error: 'OUT_S_QUEUE_ENC_PAGE' undeclared (first use in this function); did you mean 'OUT_S_QUEUE_ENC_BVECQ'?
+    3302 |         case OUT_S_QUEUE_ENC_PAGE:
+         |              ^~~~~~~~~~~~~~~~~~~~
+         |              OUT_S_QUEUE_ENC_BVECQ
+   net/ceph/messenger_v2.c: In function 'ceph_con_v2_revoke':
+   net/ceph/messenger_v2.c:3626:46: error: 'OUT_S_QUEUE_ENC_PAGE' undeclared (first use in this function); did you mean 'OUT_S_QUEUE_ENC_BVECQ'?
+    3626 |                 WARN_ON(con->v2.out_state != OUT_S_QUEUE_ENC_PAGE &&
+         |                                              ^~~~~~~~~~~~~~~~~~~~
+   arch/sh/include/asm/bug.h:69:32: note: in definition of macro 'WARN_ON'
+      69 |         int __ret_warn_on = !!(x);                              \
+         |                                ^
+   net/ceph/messenger_v2.c: In function 'ceph_con_v2_reset_protocol':
+   net/ceph/messenger_v2.c:3794:21: error: 'struct ceph_connection_v2_info' has no member named 'out_enc_pages'; did you mean 'in_enc_pages'?
+    3794 |         if (con->v2.out_enc_pages) {
+         |                     ^~~~~~~~~~~~~
+         |                     in_enc_pages
+   net/ceph/messenger_v2.c:3796:50: error: 'struct ceph_connection_v2_info' has no member named 'out_enc_pages'; did you mean 'in_enc_pages'?
+    3796 |                 ceph_release_page_vector(con->v2.out_enc_pages,
+         |                                                  ^~~~~~~~~~~~~
+         |                                                  in_enc_pages
+   net/ceph/messenger_v2.c:3798:25: error: 'struct ceph_connection_v2_info' has no member named 'out_enc_pages'; did you mean 'in_enc_pages'?
+    3798 |                 con->v2.out_enc_pages = NULL;
+         |                         ^~~~~~~~~~~~~
+         |                         in_enc_pages
 
 
-vim +881 sound/core/seq/seq_ump_convert.c
+vim +3216 net/ceph/messenger_v2.c
 
-e9e02819a98a50 Takashi Iwai 2023-05-23  833  
-e9e02819a98a50 Takashi Iwai 2023-05-23  834  /* convert CC event to MIDI 2.0 UMP */
-e9e02819a98a50 Takashi Iwai 2023-05-23  835  static int cc_ev_to_ump_midi2(const struct snd_seq_event *event,
-e9e02819a98a50 Takashi Iwai 2023-05-23  836  			      struct snd_seq_client_port *dest_port,
-e9e02819a98a50 Takashi Iwai 2023-05-23  837  			      union snd_ump_midi2_msg *data,
-e9e02819a98a50 Takashi Iwai 2023-05-23  838  			      unsigned char status)
-e9e02819a98a50 Takashi Iwai 2023-05-23  839  {
-e9e02819a98a50 Takashi Iwai 2023-05-23  840  	unsigned char channel = event->data.control.channel & 0x0f;
-e9e02819a98a50 Takashi Iwai 2023-05-23  841  	unsigned char index = event->data.control.param & 0x7f;
-e9e02819a98a50 Takashi Iwai 2023-05-23  842  	unsigned char val = event->data.control.value & 0x7f;
-a683030606fa5f Takashi Iwai 2024-07-31  843  	struct ump_cvt_to_ump_bank *cc = &dest_port->midi2_bank[channel];
-521be8ec43cb74 songxiebing  2026-03-23  844  	int ret = 0;
-e9e02819a98a50 Takashi Iwai 2023-05-23  845  
-e9e02819a98a50 Takashi Iwai 2023-05-23  846  	/* process special CC's (bank/rpn/nrpn) */
-e9e02819a98a50 Takashi Iwai 2023-05-23  847  	switch (index) {
-e9e02819a98a50 Takashi Iwai 2023-05-23  848  	case UMP_CC_RPN_MSB:
-a4ff92ff0bdd73 Takashi Iwai 2024-07-31  849  		ret = fill_rpn(cc, data, channel, true);
-e9e02819a98a50 Takashi Iwai 2023-05-23  850  		cc->rpn_set = 1;
-e9e02819a98a50 Takashi Iwai 2023-05-23  851  		cc->cc_rpn_msb = val;
-98ea612dd1150a Takashi Iwai 2024-07-31  852  		if (cc->cc_rpn_msb == 0x7f && cc->cc_rpn_lsb == 0x7f)
-98ea612dd1150a Takashi Iwai 2024-07-31  853  			reset_rpn(cc);
-521be8ec43cb74 songxiebing  2026-03-23  854  		break;
-e9e02819a98a50 Takashi Iwai 2023-05-23  855  	case UMP_CC_RPN_LSB:
-a4ff92ff0bdd73 Takashi Iwai 2024-07-31  856  		ret = fill_rpn(cc, data, channel, true);
-e9e02819a98a50 Takashi Iwai 2023-05-23  857  		cc->rpn_set = 1;
-e9e02819a98a50 Takashi Iwai 2023-05-23  858  		cc->cc_rpn_lsb = val;
-98ea612dd1150a Takashi Iwai 2024-07-31  859  		if (cc->cc_rpn_msb == 0x7f && cc->cc_rpn_lsb == 0x7f)
-98ea612dd1150a Takashi Iwai 2024-07-31  860  			reset_rpn(cc);
-521be8ec43cb74 songxiebing  2026-03-23  861  		break;
-e9e02819a98a50 Takashi Iwai 2023-05-23  862  	case UMP_CC_NRPN_MSB:
-a4ff92ff0bdd73 Takashi Iwai 2024-07-31  863  		ret = fill_rpn(cc, data, channel, true);
-e9e02819a98a50 Takashi Iwai 2023-05-23  864  		cc->nrpn_set = 1;
-e9e02819a98a50 Takashi Iwai 2023-05-23  865  		cc->cc_nrpn_msb = val;
-521be8ec43cb74 songxiebing  2026-03-23  866  		break;
-e9e02819a98a50 Takashi Iwai 2023-05-23  867  	case UMP_CC_NRPN_LSB:
-a4ff92ff0bdd73 Takashi Iwai 2024-07-31  868  		ret = fill_rpn(cc, data, channel, true);
-e9e02819a98a50 Takashi Iwai 2023-05-23  869  		cc->nrpn_set = 1;
-e9e02819a98a50 Takashi Iwai 2023-05-23  870  		cc->cc_nrpn_lsb = val;
-521be8ec43cb74 songxiebing  2026-03-23  871  		break;
-e9e02819a98a50 Takashi Iwai 2023-05-23  872  	case UMP_CC_DATA:
-a4ff92ff0bdd73 Takashi Iwai 2024-07-31  873  		cc->cc_data_msb_set = 1;
-e9e02819a98a50 Takashi Iwai 2023-05-23  874  		cc->cc_data_msb = val;
-521be8ec43cb74 songxiebing  2026-03-23  875  		ret = fill_rpn(cc, data, channel, false);
-521be8ec43cb74 songxiebing  2026-03-23  876  		break;
-e9e02819a98a50 Takashi Iwai 2023-05-23  877  	case UMP_CC_BANK_SELECT:
-e9e02819a98a50 Takashi Iwai 2023-05-23  878  		cc->bank_set = 1;
-e9e02819a98a50 Takashi Iwai 2023-05-23  879  		cc->cc_bank_msb = val;
-521be8ec43cb74 songxiebing  2026-03-23  880  		ret = 0; // skip
-e9e02819a98a50 Takashi Iwai 2023-05-23 @881  	case UMP_CC_BANK_SELECT_LSB:
-e9e02819a98a50 Takashi Iwai 2023-05-23  882  		cc->bank_set = 1;
-e9e02819a98a50 Takashi Iwai 2023-05-23  883  		cc->cc_bank_lsb = val;
-521be8ec43cb74 songxiebing  2026-03-23  884  		ret = 0; // skip
-e9e02819a98a50 Takashi Iwai 2023-05-23  885  	case UMP_CC_DATA_LSB:
-a4ff92ff0bdd73 Takashi Iwai 2024-07-31  886  		cc->cc_data_lsb_set = 1;
-e9e02819a98a50 Takashi Iwai 2023-05-23  887  		cc->cc_data_lsb = val;
-521be8ec43cb74 songxiebing  2026-03-23  888  		ret = fill_rpn(cc, data, channel, false);
-521be8ec43cb74 songxiebing  2026-03-23  889  		break;
-521be8ec43cb74 songxiebing  2026-03-23  890  	default:
-e9e02819a98a50 Takashi Iwai 2023-05-23  891  		data->cc.status = status;
-e9e02819a98a50 Takashi Iwai 2023-05-23  892  		data->cc.channel = channel;
-e9e02819a98a50 Takashi Iwai 2023-05-23  893  		data->cc.index = index;
-e9e02819a98a50 Takashi Iwai 2023-05-23  894  		data->cc.data = upscale_7_to_32bit(event->data.control.value & 0x7f);
-521be8ec43cb74 songxiebing  2026-03-23  895  		ret = 1;
-521be8ec43cb74 songxiebing  2026-03-23  896  		break;
-521be8ec43cb74 songxiebing  2026-03-23  897  	}
-521be8ec43cb74 songxiebing  2026-03-23  898  
-521be8ec43cb74 songxiebing  2026-03-23  899  	return ret;
-e9e02819a98a50 Takashi Iwai 2023-05-23  900  }
-e9e02819a98a50 Takashi Iwai 2023-05-23  901  
+cd1a677cad9940 Ilya Dryomov      2020-11-19  3207  
+cd1a677cad9940 Ilya Dryomov      2020-11-19  3208  static void queue_enc_page(struct ceph_connection *con)
+cd1a677cad9940 Ilya Dryomov      2020-11-19  3209  {
+cd1a677cad9940 Ilya Dryomov      2020-11-19  3210  	struct bio_vec bv;
+cd1a677cad9940 Ilya Dryomov      2020-11-19  3211  
+cd1a677cad9940 Ilya Dryomov      2020-11-19  3212  	dout("%s con %p i %d resid %d\n", __func__, con, con->v2.out_enc_i,
+cd1a677cad9940 Ilya Dryomov      2020-11-19  3213  	     con->v2.out_enc_resid);
+cd1a677cad9940 Ilya Dryomov      2020-11-19  3214  	WARN_ON(!con->v2.out_enc_resid);
+cd1a677cad9940 Ilya Dryomov      2020-11-19  3215  
+1eb9cd15004fa9 Christoph Hellwig 2023-02-03 @3216  	bvec_set_page(&bv, con->v2.out_enc_pages[con->v2.out_enc_i],
+1eb9cd15004fa9 Christoph Hellwig 2023-02-03  3217  		      min(con->v2.out_enc_resid, (int)PAGE_SIZE), 0);
+cd1a677cad9940 Ilya Dryomov      2020-11-19  3218  
+cd1a677cad9940 Ilya Dryomov      2020-11-19  3219  	set_out_bvec(con, &bv, false);
+cd1a677cad9940 Ilya Dryomov      2020-11-19  3220  	con->v2.out_enc_i++;
+cd1a677cad9940 Ilya Dryomov      2020-11-19  3221  	con->v2.out_enc_resid -= bv.bv_len;
+cd1a677cad9940 Ilya Dryomov      2020-11-19  3222  
+cd1a677cad9940 Ilya Dryomov      2020-11-19  3223  	if (con->v2.out_enc_resid) {
+cd1a677cad9940 Ilya Dryomov      2020-11-19 @3224  		WARN_ON(con->v2.out_state != OUT_S_QUEUE_ENC_PAGE);
+cd1a677cad9940 Ilya Dryomov      2020-11-19  3225  		return;
+cd1a677cad9940 Ilya Dryomov      2020-11-19  3226  	}
+cd1a677cad9940 Ilya Dryomov      2020-11-19  3227  
+cd1a677cad9940 Ilya Dryomov      2020-11-19  3228  	/*
+cd1a677cad9940 Ilya Dryomov      2020-11-19  3229  	 * We've queued the last piece of ciphertext (ending with
+cd1a677cad9940 Ilya Dryomov      2020-11-19  3230  	 * epilogue) + auth tag.  Once it's written, we are done.
+cd1a677cad9940 Ilya Dryomov      2020-11-19  3231  	 */
+cd1a677cad9940 Ilya Dryomov      2020-11-19  3232  	WARN_ON(con->v2.out_enc_i != con->v2.out_enc_page_cnt);
+cd1a677cad9940 Ilya Dryomov      2020-11-19  3233  	con->v2.out_state = OUT_S_FINISH_MESSAGE;
+cd1a677cad9940 Ilya Dryomov      2020-11-19  3234  }
+cd1a677cad9940 Ilya Dryomov      2020-11-19  3235  
+
+:::::: The code at line 3216 was first introduced by commit
+:::::: 1eb9cd15004fa91b6d1911af9fbaff299d8e9e45 libceph: use bvec_set_page to initialize bvecs
+
+:::::: TO: Christoph Hellwig <hch@lst.de>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- 
 0-DAY CI Kernel Test Service
