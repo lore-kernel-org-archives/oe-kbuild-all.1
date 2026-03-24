@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4A7026ED4F;
-	Tue, 24 Mar 2026 19:32:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FB9D2773EE
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Mar 2026 19:32:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774380729; cv=none; b=nrv/ENb2epbIPna29IIDmqdZ6hjy/70aZ/G1oRX4fvnGKO9YLd0z1hBCHoyao7UiHqkCqwhiT0E/AiJa4Rp6iTzpKg4dttqhwj8BM/26lZHWPOSmYAbo2qzC0qyByldFW0z/7K7QWEj+f94qTwr3D7v1oTPj5xOCXe5Qk91KBb8=
+	t=1774380729; cv=none; b=bVIlGQdXDwHBDMq2x50j0FVqyg9kSbe33sfqMp9FwfHr7iCxLZ/ytkZ/V4TfOzjxtvyyFOc6JVTzlQ+6xCMN2VboTQDUTbqUhVUxiSbytt9CCY5GppT+5979QkTwKhMgem/WJ2EYlHAqSF3tl018tPCFu3ATNIWz7+Yw49XPXEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774380729; c=relaxed/simple;
-	bh=7zIHJv77EOTJAqcCZSvyswoLbZopEbkgXMF+9ayujNE=;
+	bh=UqtlAU0pEqA1OS50CvpiIGl9s+vH6ssrkyeSTiN9ZpU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J3RPzdAn6WgZ5HnJ/drp2K0EDu9oHkWn62xLQ5NLLo4JKpKa8GNq4fmhUYAvjtKZaE5VBOuw854rnFDYHWvfKefFmizmctlfAZ6AYmVfdUUHnJLnRY3uSzT+StnFUhxpsRmv9nFRaoi8M0qHQaQyn8jsnTh+V2b0vQ81lx1ZVk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bsFD/Rvy; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=E7gB0unl2697pCfjDYlfJLPV/ZbL4j4PRWN0nFfWeneqFJ7EOazg6jQa4B6WJkzLIqr/4vbxDiLs5CDCKPRcmrpTCWF7DWZjsVT2xdhkGEAnAPS+IOEDO+F1AhjlHplvFrYQ77/J6/HjjPjlAWIPzcgj2kNVEMydh6ckF33E4lY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iC9RTqDD; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bsFD/Rvy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iC9RTqDD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1774380727; x=1805916727;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=7zIHJv77EOTJAqcCZSvyswoLbZopEbkgXMF+9ayujNE=;
-  b=bsFD/RvyfdjsRk+ggATegJMhQT550JnS/+nnV/f4Z7s3WuU2s2dnWu0r
-   BpkiwnFoA5B1MmqtrQ8ISlgKA2V7wYW/GHycjzlWDA8Xptn5SDaBPKadu
-   RLtH/FbtBaj/oZAiSt1GcKkKHw/lvE7iTOZUlpXokxcN/Ob4MjavpLsux
-   c4UekyObd+3sWOv4ghCeexMux/kN8ZmHRdG82TSpYyRCzDYA8fX+eThc7
-   cIsuxrF2L8v0SwCFvbpRvIlWMBY5ai2Z3Xov122d5Y+BG32hba1xBxK7T
-   8IY0yxxhIkJlRhrNSrC/EB05fBpe+RLsKuIWEBPCx6MEpEdht7cGE1PUY
-   A==;
-X-CSE-ConnectionGUID: ZMTKpkz5Q2a1Y6lNGSZoyg==
-X-CSE-MsgGUID: 0jTcYIuAQI+htDe/bp9wKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="92793514"
+  bh=UqtlAU0pEqA1OS50CvpiIGl9s+vH6ssrkyeSTiN9ZpU=;
+  b=iC9RTqDDPlE70J3Cx2FD4y2IsZF8MqhwqD7eJoB/E+cNviiW36UwAWl5
+   DeqY9i66ozl6OB/aK1Gh/usjsfACSzFIKu8w/jyzzuTvvgTEVY6cVw7Y7
+   WTZPjW0GQLpklpHFMu5DXiVEctFZp8c79JGASaISEq+S5v9f4HVHaL8Ix
+   egNFePL9Op2GCp8ZqK7WAApfnIqHEAXcyyLKI4qoW0H3B6VwRcIZJ0Iab
+   DyETV41YuqMhYPczSOzAnBn1hcZBDUpGq2VbQk2XTmdSbrKhXjSg/1XWu
+   V6d1BAPpKpIY22OGgOdhyy3m1OdTJWs0lTOkckt6Qk1LCSyxlKvEDDoG0
+   Q==;
+X-CSE-ConnectionGUID: 3Uciz4yXTz+t2+q3lD/egg==
+X-CSE-MsgGUID: 4G2eJMcdTHW64NWj2e1zfQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="62961298"
 X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="92793514"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 12:32:07 -0700
-X-CSE-ConnectionGUID: R8FL05HLR1qA1sTdl4F8KA==
-X-CSE-MsgGUID: +00yFionSKiU5ktS0S6AAQ==
+   d="scan'208";a="62961298"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 12:32:06 -0700
+X-CSE-ConnectionGUID: F+/CIvQBQyujQnpKa0GX8g==
+X-CSE-MsgGUID: 4azcV2UFTIaQ8rReTd55Iw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="247502691"
+   d="scan'208";a="224408903"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 24 Mar 2026 12:32:04 -0700
+  by orviesa009.jf.intel.com with ESMTP; 24 Mar 2026 12:32:05 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w57Tu-000000005LV-3DGb;
+	id 1w57Tu-000000005LX-3MIE;
 	Tue, 24 Mar 2026 19:32:02 +0000
-Date: Wed, 25 Mar 2026 03:31:44 +0800
+Date: Wed, 25 Mar 2026 03:31:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: Paul Moore <paul@paul-moore.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [RFC PATCH v2 1/2] lsm: add backing_file LSM hooks
-Message-ID: <202603250333.LaZDZOEq-lkp@intel.com>
+Message-ID: <202603250308.5J5NvIuE-lkp@intel.com>
 References: <20260323042510.3331778-5-paul@paul-moore.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -67,10 +67,10 @@ In-Reply-To: <20260323042510.3331778-5-paul@paul-moore.com>
 Hi Paul,
 
 [This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on pcmoore-selinux/next]
-[also build test WARNING on xiang-erofs/dev-test xiang-erofs/dev xiang-erofs/fixes linus/master v7.0-rc5 next-20260323]
+[auto build test ERROR on pcmoore-selinux/next]
+[also build test ERROR on xiang-erofs/dev-test xiang-erofs/dev xiang-erofs/fixes linus/master v7.0-rc5 next-20260324]
 [cannot apply to brauner-vfs/vfs.all]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
@@ -80,76 +80,349 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Moore/lsm-add-backin
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/selinux.git next
 patch link:    https://lore.kernel.org/r/20260323042510.3331778-5-paul%40paul-moore.com
 patch subject: [RFC PATCH v2 1/2] lsm: add backing_file LSM hooks
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260325/202603250333.LaZDZOEq-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603250333.LaZDZOEq-lkp@intel.com/reproduce)
+config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20260325/202603250308.5J5NvIuE-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603250308.5J5NvIuE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603250333.LaZDZOEq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603250308.5J5NvIuE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:64:
-   In file included from include/linux/syscalls_api.h:1:
-   In file included from include/linux/syscalls.h:95:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:10:
-   In file included from include/linux/perf_event.h:53:
->> include/linux/security.h:1149:5: warning: no previous prototype for function 'security_backing_file_alloc' [-Wmissing-prototypes]
-    1149 | int security_backing_file_alloc(void **backing_file_blobp,
-         |     ^
-   include/linux/security.h:1149:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1149 | int security_backing_file_alloc(void **backing_file_blobp,
-         | ^
-         | static 
->> include/linux/security.h:1155:6: warning: no previous prototype for function 'security_backing_file_free' [-Wmissing-prototypes]
-    1155 | void security_backing_file_free(void **backing_file_blobp)
-         |      ^
-   include/linux/security.h:1155:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1155 | void security_backing_file_free(void **backing_file_blobp)
-         | ^
-         | static 
-   2 warnings generated.
+   hppa-linux-ld: init/do_mounts.o: in function `security_backing_file_alloc':
+>> (.text+0x40): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: init/do_mounts.o: in function `security_backing_file_free':
+>> (.text+0x80): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: init/noinitramfs.o: in function `security_backing_file_alloc':
+   (.text+0x0): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: init/noinitramfs.o: in function `security_backing_file_free':
+   (.text+0x40): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: arch/parisc/mm/fault.o: in function `security_backing_file_alloc':
+   (.text+0x0): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: arch/parisc/mm/fault.o: in function `security_backing_file_free':
+   (.text+0x40): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: arch/parisc/kernel/cache.o: in function `security_backing_file_alloc':
+   (.text+0x4c0): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: arch/parisc/kernel/cache.o: in function `security_backing_file_free':
+   (.text+0x500): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: arch/parisc/kernel/traps.o: in function `security_backing_file_alloc':
+   (.text+0x0): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: arch/parisc/kernel/traps.o: in function `security_backing_file_free':
+   (.text+0x40): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: arch/parisc/kernel/sys_parisc.o: in function `security_backing_file_alloc':
+   (.text+0x400): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: arch/parisc/kernel/sys_parisc.o: in function `security_backing_file_free':
+   (.text+0x440): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: arch/parisc/kernel/ptrace.o: in function `security_backing_file_alloc':
+   (.text+0x540): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: arch/parisc/kernel/ptrace.o: in function `security_backing_file_free':
+   (.text+0x580): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: arch/parisc/kernel/parisc_ksyms.o: in function `security_backing_file_alloc':
+   (.text+0x0): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: arch/parisc/kernel/parisc_ksyms.o: in function `security_backing_file_free':
+   (.text+0x40): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: arch/parisc/kernel/unaligned.o: in function `security_backing_file_alloc':
+   (.text+0x280): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: arch/parisc/kernel/unaligned.o: in function `security_backing_file_free':
+   (.text+0x2c0): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: kernel/fork.o: in function `security_backing_file_alloc':
+   (.text+0xd80): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: kernel/fork.o: in function `security_backing_file_free':
+   (.text+0xdc0): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: kernel/exec_domain.o: in function `security_backing_file_alloc':
+>> (.text+0x40): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: kernel/exec_domain.o: in function `security_backing_file_free':
+>> (.text+0x80): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: kernel/cpu.o: in function `security_backing_file_alloc':
+   (.text+0x800): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: kernel/cpu.o: in function `security_backing_file_free':
+   (.text+0x840): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: kernel/exit.o: in function `security_backing_file_alloc':
+   (.text+0x980): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: kernel/exit.o: in function `security_backing_file_free':
+   (.text+0x9c0): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: kernel/resource.o: in function `security_backing_file_alloc':
+   (.text+0x1640): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: kernel/resource.o: in function `security_backing_file_free':
+   (.text+0x1680): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: kernel/sysctl.o: in function `security_backing_file_alloc':
+   (.text+0x1a80): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: kernel/sysctl.o: in function `security_backing_file_free':
+   (.text+0x1ac0): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: kernel/capability.o: in function `security_backing_file_alloc':
+   (.text+0x680): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: kernel/capability.o: in function `security_backing_file_free':
+   (.text+0x6c0): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: kernel/ptrace.o: in function `security_backing_file_alloc':
+   (.text+0x780): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: kernel/ptrace.o: in function `security_backing_file_free':
+   (.text+0x7c0): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: kernel/signal.o: in function `security_backing_file_alloc':
+   (.text+0x1f00): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: kernel/signal.o: in function `security_backing_file_free':
+   (.text+0x1f40): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: kernel/sys.o: in function `security_backing_file_alloc':
+   (.text+0x14c0): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: kernel/sys.o: in function `security_backing_file_free':
+   (.text+0x1500): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: kernel/umh.o: in function `security_backing_file_alloc':
+   (.text+0x9c0): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: kernel/umh.o: in function `security_backing_file_free':
+   (.text+0xa00): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: kernel/pid.o: in function `security_backing_file_alloc':
+   (.text+0xa40): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: kernel/pid.o: in function `security_backing_file_free':
+   (.text+0xa80): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: kernel/extable.o: in function `security_backing_file_alloc':
+   (.text+0x0): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: kernel/extable.o: in function `security_backing_file_free':
+   (.text+0x40): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: kernel/params.o: in function `security_backing_file_alloc':
+   (.text+0x1100): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: kernel/params.o: in function `security_backing_file_free':
+   (.text+0x1140): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: kernel/nsproxy.o: in function `security_backing_file_alloc':
+   (.text+0x440): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: kernel/nsproxy.o: in function `security_backing_file_free':
+   (.text+0x480): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: kernel/nstree.o: in function `security_backing_file_alloc':
+   (.text+0xc00): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: kernel/nstree.o: in function `security_backing_file_free':
+   (.text+0xc40): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: kernel/cred.o: in function `security_backing_file_alloc':
+   (.text+0x900): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: kernel/cred.o: in function `security_backing_file_free':
+   (.text+0x940): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: kernel/reboot.o: in function `security_backing_file_alloc':
+   (.text+0xec0): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: kernel/reboot.o: in function `security_backing_file_free':
+   (.text+0xf00): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: kernel/ksyms_common.o: in function `security_backing_file_alloc':
+   (.text+0x0): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: kernel/ksyms_common.o: in function `security_backing_file_free':
+   (.text+0x40): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: kernel/groups.o: in function `security_backing_file_alloc':
+   (.text+0x3c0): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: kernel/groups.o: in function `security_backing_file_free':
+   (.text+0x400): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: kernel/sched/core.o: in function `security_backing_file_alloc':
+   (.text+0xac0): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: kernel/sched/core.o: in function `security_backing_file_free':
+   (.text+0xb00): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: kernel/sched/fair.o: in function `security_backing_file_alloc':
+   (.text+0x48c0): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: kernel/sched/fair.o: in function `security_backing_file_free':
+   (.text+0x4900): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: kernel/sched/build_policy.o: in function `security_backing_file_alloc':
+   (.text+0x5240): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: kernel/sched/build_policy.o: in function `security_backing_file_free':
+   (.text+0x5280): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: kernel/sched/build_utility.o: in function `security_backing_file_alloc':
+   (.text+0x3480): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: kernel/sched/build_utility.o: in function `security_backing_file_free':
+   (.text+0x34c0): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: kernel/power/qos.o: in function `security_backing_file_alloc':
+   (.text+0x200): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: kernel/power/qos.o: in function `security_backing_file_free':
+   (.text+0x240): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: kernel/printk/printk.o: in function `security_backing_file_alloc':
+   (.text+0x2700): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: kernel/printk/printk.o: in function `security_backing_file_free':
+   (.text+0x2740): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: kernel/time/time.o: in function `security_backing_file_alloc':
+   (.text+0x29c0): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: kernel/time/time.o: in function `security_backing_file_free':
+   (.text+0x2a00): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
 --
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:64:
-   In file included from include/linux/syscalls_api.h:1:
-   In file included from include/linux/syscalls.h:95:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:10:
-   In file included from include/linux/perf_event.h:53:
->> include/linux/security.h:1149:5: warning: no previous prototype for function 'security_backing_file_alloc' [-Wmissing-prototypes]
-    1149 | int security_backing_file_alloc(void **backing_file_blobp,
-         |     ^
-   include/linux/security.h:1149:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1149 | int security_backing_file_alloc(void **backing_file_blobp,
-         | ^
-         | static 
->> include/linux/security.h:1155:6: warning: no previous prototype for function 'security_backing_file_free' [-Wmissing-prototypes]
-    1155 | void security_backing_file_free(void **backing_file_blobp)
-         |      ^
-   include/linux/security.h:1155:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1155 | void security_backing_file_free(void **backing_file_blobp)
-         | ^
-         | static 
-   2 warnings generated.
-
-
-vim +/security_backing_file_alloc +1149 include/linux/security.h
-
-  1148	
-> 1149	int security_backing_file_alloc(void **backing_file_blobp,
-  1150					const struct file *user_file)
-  1151	{
-  1152		return 0;
-  1153	}
-  1154	
-> 1155	void security_backing_file_free(void **backing_file_blobp)
-  1156	{ }
-  1157	
+   (.text+0x180): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: fs/nullfs.o: in function `security_backing_file_free':
+   (.text+0x1c0): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: fs/proc_namespace.o: in function `security_backing_file_alloc':
+   (.text+0xbc0): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: fs/proc_namespace.o: in function `security_backing_file_free':
+   (.text+0xc00): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: fs/eventpoll.o: in function `security_backing_file_alloc':
+   (.text+0x1ec0): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: fs/eventpoll.o: in function `security_backing_file_free':
+   (.text+0x1f00): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: fs/anon_inodes.o: in function `security_backing_file_alloc':
+   (.text+0x6c0): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: fs/anon_inodes.o: in function `security_backing_file_free':
+   (.text+0x700): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: fs/signalfd.o: in function `security_backing_file_alloc':
+   (.text+0x840): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: fs/signalfd.o: in function `security_backing_file_free':
+   (.text+0x880): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: fs/timerfd.o: in function `security_backing_file_alloc':
+   (.text+0x1040): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: fs/timerfd.o: in function `security_backing_file_free':
+   (.text+0x1080): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: fs/eventfd.o: in function `security_backing_file_alloc':
+   (.text+0xc80): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: fs/eventfd.o: in function `security_backing_file_free':
+   (.text+0xcc0): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: fs/aio.o: in function `security_backing_file_alloc':
+   (.text+0x3240): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: fs/aio.o: in function `security_backing_file_free':
+   (.text+0x3280): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: fs/locks.o: in function `security_backing_file_alloc':
+   (.text+0x49c0): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: fs/locks.o: in function `security_backing_file_free':
+   (.text+0x4a00): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: fs/coredump.o: in function `security_backing_file_alloc':
+   (.text+0x2380): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: fs/coredump.o: in function `security_backing_file_free':
+   (.text+0x23c0): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: fs/fhandle.o: in function `security_backing_file_alloc':
+   (.text+0x840): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: fs/fhandle.o: in function `security_backing_file_free':
+   (.text+0x880): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: fs/proc/task_mmu.o: in function `security_backing_file_alloc':
+   (.text+0x3a00): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: fs/proc/task_mmu.o: in function `security_backing_file_free':
+   (.text+0x3a40): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: fs/proc/root.o: in function `security_backing_file_alloc':
+   (.text+0x8c0): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: fs/proc/root.o: in function `security_backing_file_free':
+   (.text+0x900): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: fs/proc/base.o: in function `security_backing_file_alloc':
+   (.text+0x3440): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: fs/proc/base.o: in function `security_backing_file_free':
+   (.text+0x3480): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: fs/proc/fd.o: in function `security_backing_file_alloc':
+   (.text+0xf40): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: fs/proc/fd.o: in function `security_backing_file_free':
+   (.text+0xf80): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: fs/proc/proc_sysctl.o: in function `security_backing_file_alloc':
+   (.text+0x2bc0): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: fs/proc/proc_sysctl.o: in function `security_backing_file_free':
+   (.text+0x2c00): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: fs/kernfs/mount.o: in function `security_backing_file_alloc':
+   (.text+0x4c0): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: fs/kernfs/mount.o: in function `security_backing_file_free':
+   (.text+0x500): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: fs/kernfs/inode.o: in function `security_backing_file_alloc':
+   (.text+0x700): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: fs/kernfs/inode.o: in function `security_backing_file_free':
+   (.text+0x740): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: fs/kernfs/dir.o: in function `security_backing_file_alloc':
+   (.text+0x1b00): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: fs/kernfs/dir.o: in function `security_backing_file_free':
+   (.text+0x1b40): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: fs/kernfs/file.o: in function `security_backing_file_alloc':
+   (.text+0x1580): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: fs/kernfs/file.o: in function `security_backing_file_free':
+   (.text+0x15c0): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: fs/kernfs/symlink.o: in function `security_backing_file_alloc':
+   (.text+0x280): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: fs/kernfs/symlink.o: in function `security_backing_file_free':
+   (.text+0x2c0): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: fs/sysfs/symlink.o: in function `security_backing_file_alloc':
+   (.text+0x240): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: fs/sysfs/symlink.o: in function `security_backing_file_free':
+   (.text+0x280): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: fs/sysfs/mount.o: in function `security_backing_file_alloc':
+   (.text+0x200): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: fs/sysfs/mount.o: in function `security_backing_file_free':
+   (.text+0x240): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: fs/devpts/inode.o: in function `security_backing_file_alloc':
+   (.text+0x600): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: fs/devpts/inode.o: in function `security_backing_file_free':
+   (.text+0x640): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: fs/ramfs/inode.o: in function `security_backing_file_alloc':
+   (.text+0x240): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: fs/ramfs/inode.o: in function `security_backing_file_free':
+   (.text+0x280): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: fs/ramfs/file-mmu.o: in function `security_backing_file_alloc':
+>> (.text+0x40): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: fs/ramfs/file-mmu.o: in function `security_backing_file_free':
+>> (.text+0x80): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: security/commoncap.o: in function `security_backing_file_alloc':
+   (.text+0x80): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: security/commoncap.o: in function `security_backing_file_free':
+   (.text+0xc0): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: security/min_addr.o: in function `security_backing_file_alloc':
+   (.text+0x80): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: security/min_addr.o: in function `security_backing_file_free':
+   (.text+0xc0): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: block/bdev.o: in function `security_backing_file_alloc':
+   (.text+0x1580): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: block/bdev.o: in function `security_backing_file_free':
+   (.text+0x15c0): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: block/blk-ioc.o: in function `security_backing_file_alloc':
+   (.text+0x1c0): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: block/blk-ioc.o: in function `security_backing_file_free':
+   (.text+0x200): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: block/ioprio.o: in function `security_backing_file_alloc':
+   (.text+0x380): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: block/ioprio.o: in function `security_backing_file_free':
+   (.text+0x3c0): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: io_uring/io_uring.o: in function `security_backing_file_alloc':
+   (.text+0x9c0): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: io_uring/io_uring.o: in function `security_backing_file_free':
+   (.text+0xa00): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: io_uring/notif.o: in function `security_backing_file_alloc':
+   (.text+0x3c0): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: io_uring/notif.o: in function `security_backing_file_free':
+   (.text+0x400): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: io_uring/poll.o: in function `security_backing_file_alloc':
+   (.text+0x1080): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: io_uring/poll.o: in function `security_backing_file_free':
+   (.text+0x10c0): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: io_uring/wait.o: in function `security_backing_file_alloc':
+   (.text+0x300): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: io_uring/wait.o: in function `security_backing_file_free':
+   (.text+0x340): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: io_uring/uring_cmd.o: in function `security_backing_file_alloc':
+   (.text+0x8c0): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: io_uring/uring_cmd.o: in function `security_backing_file_free':
+   (.text+0x900): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: io_uring/sqpoll.o: in function `security_backing_file_alloc':
+   (.text+0x380): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: io_uring/sqpoll.o: in function `security_backing_file_free':
+   (.text+0x3c0): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: io_uring/register.o: in function `security_backing_file_alloc':
+   (.text+0x1140): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: io_uring/register.o: in function `security_backing_file_free':
+   (.text+0x1180): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: io_uring/truncate.o: in function `security_backing_file_alloc':
+   (.text+0x0): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: io_uring/truncate.o: in function `security_backing_file_free':
+   (.text+0x40): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: drivers/char/mem.o: in function `security_backing_file_alloc':
+   (.text+0x640): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: drivers/char/mem.o: in function `security_backing_file_free':
+   (.text+0x680): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: drivers/char/random.o: in function `security_backing_file_alloc':
+   (.text+0x1fc0): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: drivers/char/random.o: in function `security_backing_file_free':
+   (.text+0x2000): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: drivers/base/core.o: in function `security_backing_file_alloc':
+   (.text+0x5f40): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: drivers/base/core.o: in function `security_backing_file_free':
+   (.text+0x5f80): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: drivers/base/syscore.o: in function `security_backing_file_alloc':
+   (.text+0x100): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: drivers/base/syscore.o: in function `security_backing_file_free':
+   (.text+0x140): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: drivers/base/property.o: in function `security_backing_file_alloc':
+   (.text+0x2680): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: drivers/base/property.o: in function `security_backing_file_free':
+   (.text+0x26c0): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: drivers/base/firmware_loader/main.o: in function `security_backing_file_alloc':
+   (.text+0x480): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: drivers/base/firmware_loader/main.o: in function `security_backing_file_free':
+   (.text+0x4c0): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: lib/kobject_uevent.o: in function `security_backing_file_alloc':
+   (.text+0x700): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: lib/kobject_uevent.o: in function `security_backing_file_free':
+   (.text+0x740): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
+   hppa-linux-ld: lib/vsprintf.o: in function `security_backing_file_alloc':
+   (.text+0x7540): multiple definition of `security_backing_file_alloc'; init/main.o:(.text+0x0): first defined here
+   hppa-linux-ld: lib/vsprintf.o: in function `security_backing_file_free':
+   (.text+0x7580): multiple definition of `security_backing_file_free'; init/main.o:(.text+0x40): first defined here
 
 -- 
 0-DAY CI Kernel Test Service
