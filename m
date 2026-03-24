@@ -1,172 +1,229 @@
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91E1E3DEAC9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Mar 2026 10:54:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774349677; cv=pass; b=qIUZgE/4/bsUWfgJ96Y9EZEWZn4LyX8yUwIQ1Tx5R9j57jpymXm/ntDB4i2WBQJ79lQXH+6BfccvONT/Osj9OTfhsf30Bzh10enm9rfGWxDtKUCOq8mBW1R5wChKBeSCCwM6MCVmIC7pUpe7eFlyLgG1erAiA+tfDNl+p8z+cd4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774349677; c=relaxed/simple;
-	bh=RES/GDDu6KBclak6NqQ4jqepO12FsJpn6soJLgJMk2Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TmXWIhNdpJ+ghChas0jw6UAIpG70EEupAhyz9XAELCFHtCClUQtCrgzF11wIKVyloFrbQ+g6dAHXGMtT2XXrHh6SPc/6UBxdIlQqJLfcMq+dnbzATjF9s/CXWk+bqrzuYqbGvd/3+ggAtvsZcT7Ul19l3Pjvgs3KkW+MF01eqgs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EZuHGbKf; arc=pass smtp.client-ip=209.85.161.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9962F3DDDB5
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Mar 2026 11:04:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774350246; cv=none; b=TWxgW1VmhiZ20ir5GgweRf/RbbdZHq5/zr03OQo/twCw9BPDtHRJuynEEqIIEjCwxyqZ8Qp/rXgi24hZDIyTEQ0TVCqCdWizQ22sS3aoQOVJNho6+Q7Vjh4Y/DI1Z2n3dLKLyxImA0Vd2hpyNm7GRVOGm+kwId7lGfSCvTuMGKU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774350246; c=relaxed/simple;
+	bh=MX9LCw5/KwgBkD+IkHGmycVb4kqr/mVb5Dmwov+2hPw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=L67VIfPaTbDgVCgZUSrNKjCGSkzOpZaAjG6jmS9rMJVjsBHqSUx7HqbD3IIEfWz0G3n6pej0kWEEaC/u8lkTExwa5/VkCYmLriwfRU0Iy0Ujo5s/OdFYaLSswcRgVTQ/mrGyj32If2mqik20zzj4Qeo33R4+oAZ908zkcw3YI88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AGm3GLGW; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EZuHGbKf"
-Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-67baebf716bso638141eaf.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Mar 2026 03:54:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774349675; cv=none;
-        d=google.com; s=arc-20240605;
-        b=AKJmYyyYufCXXj4GkcB27FBBE//SJl7WcwCtHPu6Z8h9rdrGNzRE/ZaSZf/lo1a/Mv
-         QdIiNUGr+ORHFaEBqWABSpp0ZaxYFtOudjr8RjYnv1JReXypBXI8ew/HbxiJMxhEUmxH
-         somYbA+YDhqLtzaugeBe8VNia+4vlSFvVE/9pJtIT4DkQyQzxz726qyLn31l0JHm6+J6
-         TxG8PI4D47AwdFbgaM4U5muo8eYWRvHtpNDZWBOl1zZImEDED31Q1AdP8dKVD73ccUV+
-         ZaxrvsbWvt5ohsn0MRzbi0ES2UaYc77nHkLShGFybMsIpy1s3brUSbZ/AqKEHdGEElWv
-         MC0g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=4xZa/0j22+oqg1nMErzFxx2lp9k+a1i473iPRNI2fUs=;
-        fh=TkkxnlyFKcmIFesI1/PHEU80wJjm0DT4oYhbtly5iuU=;
-        b=c3oMuY1lDpWNg4nZ/+Yf5WgaV9bRSCFMtkJ/7rdEmeRUC03q2tMTKMsszz4P3312a7
-         huD3zlWj+KteqFf1pEcwsRti/8pe8bl7jsSjkA8gM4JqkC2kaR4LopNwz0YM44itvtVQ
-         l11menTRzOkCC+WSCCYWfXK5oI8fNTJCJ2tFpb/vOItBipDjXZ/J/P7z4kRBpA33r+V9
-         GxfaBBkkk2SL8jHhCfbCcqfsbwmgGZSsuFieLTYZQ2cG979VCA5q1c7Vf+/MwwN1PoqY
-         +YyWfWbJwkTrd8Vl5CYX6bIGdQoiqWZPxFTzC1DB5BbcjsipY4aYXCXbxKGX1xzKLF6E
-         6seQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774349675; x=1774954475; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=4xZa/0j22+oqg1nMErzFxx2lp9k+a1i473iPRNI2fUs=;
-        b=EZuHGbKfio0kR0qmyzQpj7EaX64kCsbdQGUamgzpA5aB/4NIsv/ZTaZurn0dHhHgqo
-         6yVJHGyWpyUEQ7OB6mqIXn6+3YZ1brRXM/wEvnb+MYeG7FAg4fcE+8Aj3A7McBA1ajmz
-         b5ZpQM+SMeE2M+g0G3bPHg3FNHGeCKneTbv1kogw58hvtYS2LkjZ+jSUeQzD6lorxRYt
-         1tr+592F/7CT73HIm3DWkr7SmcDL/KksBMp0akIoVS1v4dbtZZZ/0A8Ifhgu9eDYSP6g
-         cgtst4/9lqXmtio4vtIWJ4Rlqq0lR2wYzepQQhqzx/VU5+FSuCIoDfD9Fs5n9yYo3L7S
-         Iumg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774349675; x=1774954475;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4xZa/0j22+oqg1nMErzFxx2lp9k+a1i473iPRNI2fUs=;
-        b=VurMZc6sjtHj4SGmQgwLrn7peYwKwVLOAVDyQINu4Q3kW26J0QKUGyqFNir2VuU+MR
-         1Hc8BtIhd+TcpQl5PanEZXoSMy2oCzANOpKC3i1yqMZDbokwkD5/EnrEdkdbYk3av/E1
-         eKknc+FRXMswvW2pRRk3bopTzGjWpvMH/MdAKOJh9C6XpCIlLEx9YScM7aS2Xv/w0AeT
-         yE9GOmMIKJbV+yaukOdvF4LEHnycl9drwLfd44BidDaabfpGmhrlXdsShPwcm4wY8qNe
-         yBSq5LvF5nqNAtc/8Qd1v8zIKPAuLCWa3EZSJ+cUoFzF1LTgt7ONNzYtU+sd7NtMy7k3
-         U1Rw==
-X-Forwarded-Encrypted: i=1; AJvYcCVMBrrTNudunZQgtO7qxP9xUwyDvrXFuY0+LnragqYMOMTM5R939IH3Esp94Nxm+fLOfiiJ1yGC2B6+958P@lists.linux.dev
-X-Gm-Message-State: AOJu0YzVhAxVoQuBEoogCvq16zJpjjk+ywyFAKAfnm/9pJMKAyKcrYi9
-	ABKolYqrI3njj7ij7ayuDBoF/BEdbx46WhMFT+BglcaC9UaRgYXmpQEH4A7obRMJlyqaavsQ1Gb
-	U00WrdMuhpkZAFo91mSJoGS+B90ke488=
-X-Gm-Gg: ATEYQzzAUaYFpMHytGnOLW4CM3fulzBq+5fLn2h+qiVvpcruSR6Icz/NcgIiXrNHiTj
-	seYdgC2Non2Xb2NHMRjFZQ63MPsmZm0KOPHBW0TmY8ry7xUxCWLC8RhIaA79IaxP7PTH3YOwkAG
-	WXfyVI0R9QnGrUPozjgFCe0unAc6AlSPgLZp5ICzxxfsW5fid4eNGU80rcVkLBl/U8XY+NOH68R
-	SiPmQdgKAnIk9J+PNeSXXGpCnCuw7I8coW/jWWb9i9/qUgX/SzMvpCrne0QcQtIenlFxpz2okNG
-	uv8MEtZjadhhza37PWMT9/rUvqMxDDMABqA+lSnKwY/BnNPF
-X-Received: by 2002:a05:6820:2d4a:b0:677:98b4:79ab with SMTP id
- 006d021491bc7-67c22f74118mr13202109eaf.33.1774349675421; Tue, 24 Mar 2026
- 03:54:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AGm3GLGW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774350245; x=1805886245;
+  h=date:from:to:cc:subject:message-id;
+  bh=MX9LCw5/KwgBkD+IkHGmycVb4kqr/mVb5Dmwov+2hPw=;
+  b=AGm3GLGWxagpLUF//YwvMhu031USrEBdfnBAWzf6OlJYC6eng282jUZs
+   BirOLeIYr+rMFkFSqhxj/Yez8OIWLQDnmmq7CtQF1nS4KeEafrPybbu2t
+   xqrWUzYk4u4SBUNk3YyATTzCs/lupeXMbBsfy05Z6u622XTYCp9eDvcau
+   E0VLWqnptUAY41+8cYTL9bPmO13MMSDXeRTtPgIN7y7A/waGHJ3GBJWOB
+   WrvUfLAxrMxLZbKlBeLfh/9FSGgzTsf0pv5rTkMS9aHHqxLEAlqCYJNSO
+   NkYOw9CH8eiJvjxuXGuNgAN6Ir05AKHSF9nT6WpI1wipgF3/JiABDG5CR
+   w==;
+X-CSE-ConnectionGUID: O22tkleOSSK8i0e8Djrjig==
+X-CSE-MsgGUID: F1frY30mQFOVxNGioCyn+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="75247438"
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="75247438"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 04:04:04 -0700
+X-CSE-ConnectionGUID: pSQpQhvBT6qW8+F3unYGuQ==
+X-CSE-MsgGUID: r4NXOGPmQKmS23ffCib8+A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="219430507"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 24 Mar 2026 04:04:02 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w4zYF-000000004Sv-36Jz;
+	Tue, 24 Mar 2026 11:03:59 +0000
+Date: Tue, 24 Mar 2026 19:03:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mark Harmstone <mark@harmstone.com>
+Cc: oe-kbuild-all@lists.linux.dev, David Sterba <dsterba@suse.com>
+Subject: [kdave-btrfs-devel:misc-next 102/115]
+ fs/btrfs/tree-checker.c:812:undefined reference to `__udivdi3'
+Message-ID: <202603241841.H5vud1i3-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260322164943.37460-1-devnexen@gmail.com> <202603241635.qNXDPwjs-lkp@intel.com>
-In-Reply-To: <202603241635.qNXDPwjs-lkp@intel.com>
-From: David CARLIER <devnexen@gmail.com>
-Date: Tue, 24 Mar 2026 10:54:23 +0000
-X-Gm-Features: AaiRm50vrYNk_mlAnRdMfp0nxFOpfo962oTnSfj2Jot4SGUmcie4lybU4o5qGTY
-Message-ID: <CA+XhMqzK39zZu7_KG37RJSeiR56fUON2CQsDN_L1W3+BuZzHmA@mail.gmail.com>
-Subject: Re: [PATCH] mm/memcontrol: fix obj_cgroup leak in mem_cgroup_css_online()
- error path
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Johannes Weiner <hannes@cmpxchg.org>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
-	Andrew Morton <akpm@linux-foundation.org>, Qi Zheng <zhengqi.arch@bytedance.com>, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 
-Hi Dan,
+tree:   https://github.com/kdave/btrfs-devel.git misc-next
+head:   5c167fff9f9032fd34942c568393933236467af6
+commit: 29416ccaeb36941aa65b571a09cea90bcca8213e [102/115] btrfs: add remap-tree checks to check_block_group_item()
+config: i386-randconfig-007-20260324 (https://download.01.org/0day-ci/archive/20260324/202603241841.H5vud1i3-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260324/202603241841.H5vud1i3-lkp@intel.com/reproduce)
 
-On Tue, 24 Mar 2026 at 09:10, Dan Carpenter <dan.carpenter@linaro.org> wrote:
->
-> Hi David,
->
-> kernel test robot noticed the following build warnings:
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/David-Carlier/mm-memcontrol-fix-obj_cgroup-leak-in-mem_cgroup_css_online-error-path/20260324-010357
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> patch link:    https://lore.kernel.org/r/20260322164943.37460-1-devnexen%40gmail.com
-> patch subject: [PATCH] mm/memcontrol: fix obj_cgroup leak in mem_cgroup_css_online() error path
-> config: arm64-randconfig-r072-20260324 (https://download.01.org/0day-ci/archive/20260324/202603241635.qNXDPwjs-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 14.3.0
-> smatch: v0.5.0-9004-gb810ac53
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202603241635.qNXDPwjs-lkp@intel.com/
->
-> smatch warnings:
-> mm/memcontrol.c:4180 mem_cgroup_css_online() warn: variable dereferenced before check 'pn' (see line 4176)
->
-> vim +/pn +4180 mm/memcontrol.c
->
-> 6f0df8e16eb543 Johannes Weiner  2023-08-23  4168         * regular ID destruction during offlining.
-> 6f0df8e16eb543 Johannes Weiner  2023-08-23  4169         */
-> e77786b4682e69 Shakeel Butt     2025-12-25  4170        xa_store(&mem_cgroup_private_ids, memcg->id.id, memcg, GFP_KERNEL);
-> 6f0df8e16eb543 Johannes Weiner  2023-08-23  4171
-> 2f7dd7a4100ad4 Johannes Weiner  2014-10-02  4172        return 0;
-> 098fad3e1621cb Qi Zheng         2026-03-05  4173  free_objcg:
-> 098fad3e1621cb Qi Zheng         2026-03-05  4174        for_each_node(nid) {
-> 098fad3e1621cb Qi Zheng         2026-03-05  4175                struct mem_cgroup_per_node *pn = memcg->nodeinfo[nid];
-> 59f75a1877fbf7 David Carlier    2026-03-22 @4176                objcg = rcu_replace_pointer(pn->objcg, NULL, true);
->                                                                                             ^^^^^^^^^
-> Dereference
->
-> 59f75a1877fbf7 David Carlier    2026-03-22  4177                if (objcg)
-> 59f75a1877fbf7 David Carlier    2026-03-22  4178                        percpu_ref_kill(&objcg->refcnt);
-> 098fad3e1621cb Qi Zheng         2026-03-05  4179
-> 4a2f95f5c79e02 Qi Zheng         2026-03-09 @4180                if (pn && pn->orig_objcg) {
->                                                                     ^^
-> Checked too late.
->
-> 098fad3e1621cb Qi Zheng         2026-03-05  4181                        obj_cgroup_put(pn->orig_objcg);
-> 4a2f95f5c79e02 Qi Zheng         2026-03-09  4182                        /*
-> 02b5fc7885d9f8 Andrew Morton    2026-03-09  4183                         * Reset pn->orig_objcg to NULL to prevent
-> 02b5fc7885d9f8 Andrew Morton    2026-03-09  4184                         * obj_cgroup_put() from being called again in
-> 02b5fc7885d9f8 Andrew Morton    2026-03-09  4185                         * __mem_cgroup_free().
-> 4a2f95f5c79e02 Qi Zheng         2026-03-09  4186                         */
-> 4a2f95f5c79e02 Qi Zheng         2026-03-09  4187                        pn->orig_objcg = NULL;
-> 4a2f95f5c79e02 Qi Zheng         2026-03-09  4188                }
-> 098fad3e1621cb Qi Zheng         2026-03-05  4189        }
-> a0dd8b1942f5bf Muchun Song      2026-03-05  4190        free_shrinker_info(memcg);
-> da0efe30944476 Muchun Song      2022-03-22  4191  offline_kmem:
-> da0efe30944476 Muchun Song      2022-03-22  4192        memcg_offline_kmem(memcg);
-> e77786b4682e69 Shakeel Butt     2025-12-25  4193        mem_cgroup_private_id_remove(memcg);
-> da0efe30944476 Muchun Song      2022-03-22  4194        return -ENOMEM;
-> 8cdea7c0545426 Balbir Singh     2008-02-07  4195  }
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603241841.H5vud1i3-lkp@intel.com/
 
-Seems Smatch is flagging the inconsistency, but pn cannot be NULL at
-the free_objcg label because all nodeinfo[] entries were fully
-allocated in
-  mem_cgroup_alloc() before css_online() runs. The old pn && check was
-unnecessary defensive code.
-Kind regards.
+All errors (new ones prefixed by >>):
+
+   ld: fs/btrfs/tree-checker.o: in function `check_block_group_item':
+>> fs/btrfs/tree-checker.c:812:(.text+0x5c2): undefined reference to `__udivdi3'
+
+
+vim +812 fs/btrfs/tree-checker.c
+
+   681	
+   682	static int check_block_group_item(struct extent_buffer *leaf,
+   683					  struct btrfs_key *key, int slot)
+   684	{
+   685		struct btrfs_fs_info *fs_info = leaf->fs_info;
+   686		struct btrfs_block_group_item bgi;
+   687		u32 item_size = btrfs_item_size(leaf, slot);
+   688		u64 chunk_objectid;
+   689		u64 flags;
+   690		u64 type;
+   691		size_t exp_size;
+   692	
+   693		/*
+   694		 * Here we don't really care about alignment since extent allocator can
+   695		 * handle it.  We care more about the size.
+   696		 */
+   697		if (unlikely(key->offset == 0)) {
+   698			block_group_err(leaf, slot,
+   699					"invalid block group size 0");
+   700			return -EUCLEAN;
+   701		}
+   702	
+   703		if (btrfs_fs_incompat(fs_info, REMAP_TREE))
+   704			exp_size = sizeof(struct btrfs_block_group_item_v2);
+   705		else
+   706			exp_size = sizeof(struct btrfs_block_group_item);
+   707	
+   708		if (unlikely(item_size != exp_size)) {
+   709			block_group_err(leaf, slot,
+   710				"invalid item size, have %u expect %zu",
+   711					item_size, exp_size);
+   712			return -EUCLEAN;
+   713		}
+   714	
+   715		read_extent_buffer(leaf, &bgi, btrfs_item_ptr_offset(leaf, slot),
+   716				   sizeof(bgi));
+   717		chunk_objectid = btrfs_stack_block_group_chunk_objectid(&bgi);
+   718		if (btrfs_fs_incompat(fs_info, EXTENT_TREE_V2)) {
+   719			/*
+   720			 * We don't init the nr_global_roots until we load the global
+   721			 * roots, so this could be 0 at mount time.  If it's 0 we'll
+   722			 * just assume we're fine, and later we'll check against our
+   723			 * actual value.
+   724			 */
+   725			if (unlikely(fs_info->nr_global_roots &&
+   726				     chunk_objectid >= fs_info->nr_global_roots)) {
+   727				block_group_err(leaf, slot,
+   728		"invalid block group global root id, have %llu, needs to be <= %llu",
+   729						chunk_objectid,
+   730						fs_info->nr_global_roots);
+   731				return -EUCLEAN;
+   732			}
+   733		} else if (unlikely(chunk_objectid != BTRFS_FIRST_CHUNK_TREE_OBJECTID)) {
+   734			block_group_err(leaf, slot,
+   735			"invalid block group chunk objectid, have %llu expect %llu",
+   736					btrfs_stack_block_group_chunk_objectid(&bgi),
+   737					BTRFS_FIRST_CHUNK_TREE_OBJECTID);
+   738			return -EUCLEAN;
+   739		}
+   740	
+   741		if (unlikely(btrfs_stack_block_group_used(&bgi) > key->offset)) {
+   742			block_group_err(leaf, slot,
+   743				"invalid block group used, have %llu expect [0, %llu)",
+   744					btrfs_stack_block_group_used(&bgi), key->offset);
+   745			return -EUCLEAN;
+   746		}
+   747	
+   748		flags = btrfs_stack_block_group_flags(&bgi);
+   749		if (unlikely(hweight64(flags & BTRFS_BLOCK_GROUP_PROFILE_MASK) > 1)) {
+   750			block_group_err(leaf, slot,
+   751	"invalid profile flags, have 0x%llx (%lu bits set) expect no more than 1 bit set",
+   752				flags & BTRFS_BLOCK_GROUP_PROFILE_MASK,
+   753				hweight64(flags & BTRFS_BLOCK_GROUP_PROFILE_MASK));
+   754			return -EUCLEAN;
+   755		}
+   756	
+   757		if (unlikely(flags & BTRFS_BLOCK_GROUP_METADATA_REMAP &&
+   758			     !btrfs_fs_incompat(fs_info, REMAP_TREE))) {
+   759			block_group_err(leaf, slot,
+   760	"invalid flags, have 0x%llx (METADATA_REMAP flag set) but no remap-tree incompat flag",
+   761					flags);
+   762			return -EUCLEAN;
+   763		}
+   764	
+   765		type = flags & BTRFS_BLOCK_GROUP_TYPE_MASK;
+   766		if (unlikely(type != BTRFS_BLOCK_GROUP_DATA &&
+   767			     type != BTRFS_BLOCK_GROUP_METADATA &&
+   768			     type != BTRFS_BLOCK_GROUP_SYSTEM &&
+   769			     type != BTRFS_BLOCK_GROUP_METADATA_REMAP &&
+   770			     type != (BTRFS_BLOCK_GROUP_METADATA |
+   771				      BTRFS_BLOCK_GROUP_DATA))) {
+   772			block_group_err(leaf, slot,
+   773	"invalid type, have 0x%llx (%lu bits set) expect either 0x%llx, 0x%llx, 0x%llx, 0x%llx or 0x%llx",
+   774				type, hweight64(type),
+   775				BTRFS_BLOCK_GROUP_DATA, BTRFS_BLOCK_GROUP_METADATA,
+   776				BTRFS_BLOCK_GROUP_SYSTEM, BTRFS_BLOCK_GROUP_METADATA_REMAP,
+   777				BTRFS_BLOCK_GROUP_METADATA | BTRFS_BLOCK_GROUP_DATA);
+   778			return -EUCLEAN;
+   779		}
+   780	
+   781		if (unlikely(!btrfs_fs_incompat(fs_info, REMAP_TREE) &&
+   782			     type == BTRFS_BLOCK_GROUP_METADATA_REMAP)) {
+   783			block_group_err(leaf, slot,
+   784	"invalid type, METADATA_REMAP set but REMAP_TREE incompat flag not set");
+   785			return -EUCLEAN;
+   786		}
+   787	
+   788		if (unlikely(!btrfs_fs_incompat(fs_info, REMAP_TREE) &&
+   789			     flags & BTRFS_BLOCK_GROUP_REMAPPED)) {
+   790			block_group_err(leaf, slot,
+   791	"invalid flags, REMAPPED set but REMAP_TREE incompat flag not set");
+   792			return -EUCLEAN;
+   793		}
+   794	
+   795		if (item_size == sizeof(struct btrfs_block_group_item_v2)) {
+   796			struct btrfs_block_group_item_v2 *bgi2;
+   797			u64 remap_bytes;
+   798			u32 identity_remap_count;
+   799	
+   800			bgi2 = btrfs_item_ptr(leaf, slot, struct btrfs_block_group_item_v2);
+   801	
+   802			remap_bytes = btrfs_block_group_v2_remap_bytes(leaf, bgi2);
+   803	
+   804			if (unlikely(remap_bytes > key->offset)) {
+   805				block_group_err(leaf, slot,
+   806					"invalid remap_bytes, have %llu expect [0, %llu]",
+   807						remap_bytes, key->offset);
+   808				return -EUCLEAN;
+   809			}
+   810	
+   811			identity_remap_count = btrfs_block_group_v2_identity_remap_count(leaf, bgi2);
+ > 812			if (unlikely((u64)identity_remap_count >
+   813				     key->offset / fs_info->sectorsize)) {
+   814				block_group_err(leaf, slot,
+   815					"invalid identity_remap_count, have %u expect [0, %llu]",
+   816						identity_remap_count,
+   817						key->offset / fs_info->sectorsize);
+   818				return -EUCLEAN;
+   819			}
+   820		}
+   821	
+   822		return 0;
+   823	}
+   824	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
