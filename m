@@ -1,140 +1,511 @@
-Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013025.outbound.protection.outlook.com [40.107.201.25])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F378524BBF4;
-	Tue, 24 Mar 2026 17:22:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774372969; cv=fail; b=Cn0pa3NExgZins9g+atbzz4OVR5FOtuVlq+rDJuYqQVGLjMgYR7WdDdRPCbZbWiWwZBFslIH3YxeGfawiSOK5jZbqQXDTd9yW9urHk3UxUhf/SNnbSTGF17RWOej3yDph0qTe9we1Icq1daaGz4mQiRt1fBtJaI8BQvpJy0bByo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774372969; c=relaxed/simple;
-	bh=ijT+PgY21oZUROO4eaO3LpGQqk3ssFlnhBPB460XK0E=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uyuEW1z/AVotoarxznCkoxWqLGhrj2GGTz6eC8y9qYSVmu9o9xW6MmqnzQZJJnzY5Ux8YNysOcVRa8f257bkWC7PwpF9pEXMnYZzHOvduQKDtObV/uSdSysppC6F9DmX8kSDbFF1K34LXDzHRf72Ebt44dW7CzZyLJS+ML+W3T8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=hmZl7Egm; arc=fail smtp.client-ip=40.107.201.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3C75390CA4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Mar 2026 18:26:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774376775; cv=none; b=uOEuRAI3IbECpOViiWo1xJWrlHKiVrURqsZbbEBbdjPpfZkpxrf/wOlZ2GixF85L+9mv3BTtJh/7KSlOhj4gPNj+uJa1cd8STNZ72i+bABCLKfKtioZbqxog8i5GXjtNZI+EqEqBZkOAQzwIXAaC0yIvMEbfz21sPibeK+0uo1Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774376775; c=relaxed/simple;
+	bh=mgrSTeQ0pdxscHDQs8mDL5973z8CyUeBx5BMLxSXTvU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=JKXaLVDPXPyggvdHurkEutYsvlDlCKaZHBTw7iBGD10EPnTz+4LQAyGn0dcGkbAcwrZwSCAcOJ7Zc94xqstUlX7ZX9fH71askY3Ei1Abymh8DS46qQ+1g/xu7Y1LczcysZb2wCL+veW4CkmCgMkFq7qLHznE1LvY76miIxE8b6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m2EHUFWn; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="hmZl7Egm"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=w1vgjd+P/Xpy4aCva3RBYCh5ZlOIUJkm1IEEcGBi5GWORW1RDPNLRITiJqvgkaf22+Cdc3ETfHDWjQoLlD0nTJn/lLVnmfagE2R0NqQV9e2kyHQSkRPLf35jsQrsfdUGDZxJXXIZIQ2CaSa1rTUNGaWLcL3fruY+2SpyNd/w7oukberZtIaOe6SEwVK1ExhGe55ci5tCgrihDL+ADUQTGg0RW1aAUXqyR1MSqkQ5LOiDqTQ3CK8kKFgKFOQRMt4txQ5DuokCZKcHoi0N3Gz6pKFV3VjZpKqtCCLwxIUVmNz58PHemPYPbM7kt9xNc6yzf/bN2QKG9wgZxlJ+8zoiTg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=e44Bi+hnTC9Z/DjGZmffh7y/+KG5uB3gr/HdEQjzUVM=;
- b=D9Uxy9TfeWOQTrMwym83ic3wLWw41WgLd57L7BeruzU+T/o1HZ9kKva3dtIDFm6rpRpD4e8ZIaB1UVJhZ4yS5DDwEyECcm+nhNgJibtcfjnB4bhPrSSX+D4G2GBIQjC/CAEqaNHOq/PCrDD7uStQpW9NSx63pDPZCD46hvuZxwFbj7ztH2Pg4iPY5J6+PVJ0jH6MUQgodBSX+/+8W+AqaaNpP9fUw8lDqpECjMDgWdqu0q8YDIWuG+j4mLkO/7G3oaygL1F5o5tVEfBnK6r5VLpwzkjd7+OdL7DYHFGfHTqUWwWPPQw+T7rwo7quuaZhtHmXVUakwgjdCDJjzCGa3w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=bootlin.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e44Bi+hnTC9Z/DjGZmffh7y/+KG5uB3gr/HdEQjzUVM=;
- b=hmZl7Egm0rWwcgSrUpMxLz0FKCLv+/kaAbu3HW+qZlksA/q/Bg21DUzfj/OQYlECQOITY5ydBjo9EP8pEzAuZ4i66zucqmJDwJuCfuV84Ir7JgtbXADmBIn2XjTIpUGdZz48pjQKb0SrET6qlFvX0WDwlNNkua1sWOOo8FSaINRQe4tCGWmEgQyCJI+JdpqmP6O1aSqbif3A+XQzjzntjRbWj8Np0p+dY/lxqbDVC8k5RsEkwB9I0jMVcibCIw9PytZ9Hqvi73btHc0HAcgiboXLNCs+B1zRgJgKh7jg6b5dgK8Nu457w4zUsjqWMK0/5rpk4G0BaoLZvytIfmafDw==
-Received: from DM6PR08CA0035.namprd08.prod.outlook.com (2603:10b6:5:80::48) by
- CY3PR12MB9655.namprd12.prod.outlook.com (2603:10b6:930:100::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Tue, 24 Mar
- 2026 17:22:42 +0000
-Received: from CY4PEPF0000E9D2.namprd03.prod.outlook.com
- (2603:10b6:5:80:cafe::5e) by DM6PR08CA0035.outlook.office365.com
- (2603:10b6:5:80::48) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.31 via Frontend
- Transport; Tue, 24 Mar 2026 17:22:44 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- CY4PEPF0000E9D2.mail.protection.outlook.com (10.167.241.137) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9723.19 via Frontend Transport; Tue, 24 Mar 2026 17:22:41 +0000
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 24 Mar
- 2026 10:22:23 -0700
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail202.nvidia.com
- (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 24 Mar
- 2026 10:22:23 -0700
-Received: from BUILDSERVER-IO-L4T.nvidia.com (10.127.8.9) by mail.nvidia.com
- (10.129.68.9) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
- Transport; Tue, 24 Mar 2026 10:22:16 -0700
-From: Akhil R <akhilrajeev@nvidia.com>
-To: <alexandre.belloni@bootlin.com>
-CC: <Frank.Li@nxp.com>, <acpica-devel@lists.linux.dev>,
-	<akhilrajeev@nvidia.com>, <conor+dt@kernel.org>,
-	<devicetree@vger.kernel.org>, <ebiggers@kernel.org>,
-	<fredrik.markstrom@est.tech>, <jonathanh@nvidia.com>, <krzk@kernel.org>,
-	<lenb@kernel.org>, <linux-acpi@vger.kernel.org>,
-	<linux-hwmon@vger.kernel.org>, <linux-i3c@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-	<linux@roeck-us.net>, <lkp@intel.com>, <llvm@lists.linux.dev>,
-	<miquel.raynal@bootlin.com>, <oe-kbuild-all@lists.linux.dev>,
-	<p.zabel@pengutronix.de>, <rafael@kernel.org>, <robert.moore@intel.com>,
-	<robh@kernel.org>, <smangipudi@nvidia.com>, <thierry.reding@kernel.org>
-Subject: Re: [PATCH 04/12] i3c: master: Support ACPI enumeration
-Date: Tue, 24 Mar 2026 22:52:15 +0530
-Message-ID: <20260324172215.31540-1-akhilrajeev@nvidia.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <202603240843279c9e8b90@mail.local>
-References: <202603240843279c9e8b90@mail.local>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m2EHUFWn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774376773; x=1805912773;
+  h=date:from:to:cc:subject:message-id;
+  bh=mgrSTeQ0pdxscHDQs8mDL5973z8CyUeBx5BMLxSXTvU=;
+  b=m2EHUFWnn4oOauxzfSEiJY8pRfQUfla6Xd6N9Dk34oCzK9AobRzvrLEH
+   GQsfRY03Q4HQ3AvCaGTCL8kC04k9lNLCyXGR7XewojXZdQi+HK3DG/TJm
+   aH8kfboxz0ErDMUeV6Y1VmW+bmTOo78A++AvJ6iV45SVjWQAxqVr7xpyI
+   YZEenJtDVj2McvBPHiA2cfslJ+iS5CPIKdhEsE86eK4BjW7yHauqIBAu3
+   jCxJN9j9Fym+zULn1Q8JRX2U2t0Qa0d7/qtDrWZcVpUv8mMn65/iIjlUz
+   WMO8UuzTWywDY6E4vSvG63YNUm1C613lZ1PloWQmc4NdgF0DD9xoA+Tko
+   w==;
+X-CSE-ConnectionGUID: saefrzdjSdS+izZ7CbOMCQ==
+X-CSE-MsgGUID: 2Y+e3gwCRByoSi+clbt96A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="75431093"
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="75431093"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 11:26:13 -0700
+X-CSE-ConnectionGUID: mXESekENSsCPYUECG8X10A==
+X-CSE-MsgGUID: B9yH1yVkQDeqqrSeTmq6nA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="220010778"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 24 Mar 2026 11:26:09 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w56S7-000000005CZ-2Ryr;
+	Tue, 24 Mar 2026 18:26:07 +0000
+Date: Wed, 25 Mar 2026 02:25:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 1/1]
+ arch/arm64/kvm/hyp/nvhe/device/device.c:163:28: error: invalid use of
+ undefined type 'struct pkvm_device_ops'
+Message-ID: <202603250211.vKUSJdno-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9D2:EE_|CY3PR12MB9655:EE_
-X-MS-Office365-Filtering-Correlation-Id: ed63bd4f-0c22-4b0c-4bb1-08de89c9f461
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700016|376014|7416014|1800799024|18002099003|56012099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	YtYgX4QqLVx6KszpDLHCk/yIFztDUw8MMaGaL15XlEi0776586u9MIWwdgTWlF3YmBre1Hou/fne7E7YFBTJtTHKRJp29WfEfzhsmymO3sbcOhBmF2P58uxCyfr2c8/bmDqCovSdxrP4h3HNDHjslD2Buy+lOA51O180ECABVbWGPztos7IE/Bs3JuLh3Pn3z6eYSNiAfkcOrpBqFwjQoV2YeT2fl1MJK90n9qX1VqlSa4Biff6yNrxY/Ii4j8hLb4fTGgkk7ujSseRy9j1AFDcI1iqZx9W0iF2WGuoZ3xkdEOGN5xa2TnOaXt7dvtfyytWx0kNloJ9vVN9JeV/OI3QQYZo7bGrZ23CrRuzI4pcTOK0bbiAEy7w46BFmcdGYgU0rKKlfSA3oXr4Yek5SSY+2nv3FNu/JnXR4vs/NryMIJCE/obXKanJ4Vylan13g2eo8fFfmXEkyvvZA4v/s+eGuaIDJb7qpVPjnchFz2Kaz8zZWTWk9RIfzGYanP3ELRIScJhqdqml1TZVGLdNFVgCT+BbR9LGRpLyO60stH2dkXuaXAvB0Kdo0xeHTwFVxh3eMWXpaC6IpqGaWcYHvMtrs6+pvrB849ODg5XU1XlIeXpBlfurhyrxQUjVP+zXZRYSGE/V2YEx5QavKv0CInTrZBtP1TjZ0bH/ZnNbNrLOOckBTLCAml0wedEIEhdK/USZGH9050PfANixUCN4YGEU2r3CqjCytIDtzaFIIwhh8i2l1wetkpCwKCXWwcQsXZ9nyx7uqtn/N7+Kghn5Bfw==
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(376014)(7416014)(1800799024)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	Or6ssy8Ks6m3CBwDmXq/tL6nh0qKA65g+oC7q4IVbz1yqGPtt/s7JDhEpbwUA2OeYbENZm/HiZVXtJfkrk1gW3ea3MiwPsWor85jRJt1xedSzb2n+J9eyZ4JTLznax1LH3nbfYW5RJMEVGrUh4wJub7POGI2JdrkFedpIQozyMJ79SaezvurwCdusfLokju6v/syfIepdFr1mV86FN8Nra3rN6Nk+2bCSU1ObyhpRJYzE21m9MKxaHyd9BFhEo4Kc2OIMvEF6jIIsCPugprYtqoXRldWSNTGWo+JnSyV7ZAJiiO3riX5QJCuxSugELzvE0nvKrRkCOr8i7QY76NhjwqJOWAt9lPcPBeGVtNQdhn6ytxSnWc0YCa4biyvYMt1sSwy80DtQAYMcMzHKQv9Eiw/zE9KTAskQOxMiYRjrLnfG0BBJH8erDOOnKufzVZJ
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2026 17:22:41.3517
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed63bd4f-0c22-4b0c-4bb1-08de89c9f461
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000E9D2.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY3PR12MB9655
 
-On Tue, 24 Mar 2026 09:43:27 +0100, Alexandre Belloni wrote:
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   6355550c251f2498dbaa876c13f44d99fff86935
+commit: 2d2f67ab8cbe5896278bbd7716c2bcad9f8cfc71 [1/1] ANDROID: KVM: arm64: power_lock for pKVM modules
+config: arm64-randconfig-r122-20260324 (https://download.01.org/0day-ci/archive/20260325/202603250211.vKUSJdno-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603250211.vKUSJdno-lkp@intel.com/reproduce)
 
-...
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603250211.vKUSJdno-lkp@intel.com/
 
->> #include <linux/acpi.h> is added in PATCH 03/12. The functions' prototypes
->> are present in acpi.h. I think the bot checked this patch individually,
->> or did I miss something?
->> 
-> 
-> #include <acpi/acpi_bus.h> is behind an #ifdef in acpi.h and your code
-> is not.
+All error/warnings (new ones prefixed by >>):
 
-Thanks for pointing Alexandre and Guenter. I also noticed that we do not
-have stub functions for a few of the acpi_* functions in #else.
+   In file included from arch/arm64/kvm/hyp/hyp-constants.c:5:
+>> arch/arm64/kvm/hyp/include/nvhe/pkvm.h:222:47: warning: 'struct pkvm_device_ops' declared inside parameter list will not be visible outside of this definition or declaration
+     222 | int pkvm_device_register_ops(u64 phys, struct pkvm_device_ops *ops, void *cookie);
+         |                                               ^~~~~~~~~~~~~~~
+--
+   In file included from arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:16,
+                    from arch/arm64/kvm/hyp/nvhe/switch.c:29:
+>> arch/arm64/kvm/hyp/include/nvhe/pkvm.h:222:47: warning: 'struct pkvm_device_ops' declared inside parameter list will not be visible outside of this definition or declaration
+     222 | int pkvm_device_register_ops(u64 phys, struct pkvm_device_ops *ops, void *cookie);
+         |                                               ^~~~~~~~~~~~~~~
+   In file included from arch/arm64/kvm/hyp/nvhe/switch.c:29:
+   arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:50:42: warning: 'struct pkvm_sglist_page' declared inside parameter list will not be visible outside of this definition or declaration
+      50 | int __pkvm_host_donate_sglist_hyp(struct pkvm_sglist_page *sglist, size_t nr_pages);
+         |                                          ^~~~~~~~~~~~~~~~
+   In file included from arch/arm64/kvm/hyp/nvhe/switch.c:30:
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:43:6: warning: no previous prototype for 'module_handle_host_perm_fault' [-Wmissing-prototypes]
+      43 | bool module_handle_host_perm_fault(struct user_pt_regs *regs, u64 esr, u64 addr) { return false; }
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:44:6: warning: no previous prototype for 'module_handle_host_smc' [-Wmissing-prototypes]
+      44 | bool module_handle_host_smc(struct user_pt_regs *regs) { return false; }
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:46:1: error: return type is an incomplete type
+      46 | module_handle_guest_smc(struct arm_smccc_1_2_regs *regs, struct arm_smccc_1_2_regs *res,
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:46:1: warning: no previous prototype for 'module_handle_guest_smc' [-Wmissing-prototypes]
+   arch/arm64/kvm/hyp/include/nvhe/modules.h: In function 'module_handle_guest_smc':
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:49:9: warning: 'return' with a value, in function returning void [-Wreturn-type]
+      49 |  return false;
+         |         ^~~~~
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:46:1: note: declared here
+      46 | module_handle_guest_smc(struct arm_smccc_1_2_regs *regs, struct arm_smccc_1_2_regs *res,
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:16,
+                    from arch/arm64/kvm/hyp/nvhe/tlb.c:11:
+>> arch/arm64/kvm/hyp/include/nvhe/pkvm.h:222:47: warning: 'struct pkvm_device_ops' declared inside parameter list will not be visible outside of this definition or declaration
+     222 | int pkvm_device_register_ops(u64 phys, struct pkvm_device_ops *ops, void *cookie);
+         |                                               ^~~~~~~~~~~~~~~
+   In file included from arch/arm64/kvm/hyp/nvhe/tlb.c:11:
+   arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:50:42: warning: 'struct pkvm_sglist_page' declared inside parameter list will not be visible outside of this definition or declaration
+      50 | int __pkvm_host_donate_sglist_hyp(struct pkvm_sglist_page *sglist, size_t nr_pages);
+         |                                          ^~~~~~~~~~~~~~~~
+--
+   In file included from arch/arm64/kvm/hyp/include/nvhe/ffa.h:10,
+                    from arch/arm64/kvm/hyp/nvhe/hyp-main.c:23:
+>> arch/arm64/kvm/hyp/include/nvhe/pkvm.h:222:47: warning: 'struct pkvm_device_ops' declared inside parameter list will not be visible outside of this definition or declaration
+     222 | int pkvm_device_register_ops(u64 phys, struct pkvm_device_ops *ops, void *cookie);
+         |                                               ^~~~~~~~~~~~~~~
+   In file included from arch/arm64/kvm/hyp/nvhe/hyp-main.c:25:
+   arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:50:42: warning: 'struct pkvm_sglist_page' declared inside parameter list will not be visible outside of this definition or declaration
+      50 | int __pkvm_host_donate_sglist_hyp(struct pkvm_sglist_page *sglist, size_t nr_pages);
+         |                                          ^~~~~~~~~~~~~~~~
+   In file included from arch/arm64/kvm/hyp/nvhe/hyp-main.c:26:
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:43:6: warning: no previous prototype for 'module_handle_host_perm_fault' [-Wmissing-prototypes]
+      43 | bool module_handle_host_perm_fault(struct user_pt_regs *regs, u64 esr, u64 addr) { return false; }
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:44:6: warning: no previous prototype for 'module_handle_host_smc' [-Wmissing-prototypes]
+      44 | bool module_handle_host_smc(struct user_pt_regs *regs) { return false; }
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:46:1: error: return type is an incomplete type
+      46 | module_handle_guest_smc(struct arm_smccc_1_2_regs *regs, struct arm_smccc_1_2_regs *res,
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:46:1: warning: no previous prototype for 'module_handle_guest_smc' [-Wmissing-prototypes]
+   arch/arm64/kvm/hyp/include/nvhe/modules.h: In function 'module_handle_guest_smc':
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:49:9: warning: 'return' with a value, in function returning void [-Wreturn-type]
+      49 |  return false;
+         |         ^~~~~
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:46:1: note: declared here
+      46 | module_handle_guest_smc(struct arm_smccc_1_2_regs *regs, struct arm_smccc_1_2_regs *res,
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c: At top level:
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:443:22: warning: initialized field overwritten [-Woverride-init]
+     443 |  [ESR_ELx_EC_WFx]  = handle_pvm_entry_wfx,
+         |                      ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:443:22: note: (near initialization for 'entry_hyp_pvm_handlers[1]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:444:24: warning: initialized field overwritten [-Woverride-init]
+     444 |  [ESR_ELx_EC_HVC64]  = handle_pvm_entry_hvc64,
+         |                        ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:444:24: note: (near initialization for 'entry_hyp_pvm_handlers[22]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:445:24: warning: initialized field overwritten [-Woverride-init]
+     445 |  [ESR_ELx_EC_SYS64]  = handle_pvm_entry_sys64,
+         |                        ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:445:24: note: (near initialization for 'entry_hyp_pvm_handlers[24]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:446:27: warning: initialized field overwritten [-Woverride-init]
+     446 |  [ESR_ELx_EC_IABT_LOW]  = handle_pvm_entry_iabt,
+         |                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:446:27: note: (near initialization for 'entry_hyp_pvm_handlers[32]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:447:27: warning: initialized field overwritten [-Woverride-init]
+     447 |  [ESR_ELx_EC_DABT_LOW]  = handle_pvm_entry_dabt,
+         |                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:447:27: note: (near initialization for 'entry_hyp_pvm_handlers[36]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:452:22: warning: initialized field overwritten [-Woverride-init]
+     452 |  [ESR_ELx_EC_WFx]  = handle_pvm_exit_wfx,
+         |                      ^~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:452:22: note: (near initialization for 'exit_hyp_pvm_handlers[1]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:453:24: warning: initialized field overwritten [-Woverride-init]
+     453 |  [ESR_ELx_EC_HVC64]  = handle_pvm_exit_hvc64,
+         |                        ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:453:24: note: (near initialization for 'exit_hyp_pvm_handlers[22]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:454:24: warning: initialized field overwritten [-Woverride-init]
+     454 |  [ESR_ELx_EC_SYS64]  = handle_pvm_exit_sys64,
+         |                        ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:454:24: note: (near initialization for 'exit_hyp_pvm_handlers[24]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:455:27: warning: initialized field overwritten [-Woverride-init]
+     455 |  [ESR_ELx_EC_IABT_LOW]  = handle_pvm_exit_iabt,
+         |                           ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:455:27: note: (near initialization for 'exit_hyp_pvm_handlers[32]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:456:27: warning: initialized field overwritten [-Woverride-init]
+     456 |  [ESR_ELx_EC_DABT_LOW]  = handle_pvm_exit_dabt,
+         |                           ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:456:27: note: (near initialization for 'exit_hyp_pvm_handlers[36]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:465:27: warning: initialized field overwritten [-Woverride-init]
+     465 |  [ESR_ELx_EC_IABT_LOW]  = handle_vm_exit_abt,
+         |                           ^~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:465:27: note: (near initialization for 'exit_hyp_vm_handlers[32]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:466:27: warning: initialized field overwritten [-Woverride-init]
+     466 |  [ESR_ELx_EC_DABT_LOW]  = handle_vm_exit_abt,
+         |                           ^~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:466:27: note: (near initialization for 'exit_hyp_vm_handlers[36]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c: In function 'handle_host_hcall':
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:2076:32: error: passing argument 1 of 'handle_host_dynamic_hcall' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    2076 |  if (handle_host_dynamic_hcall(&host_ctxt->regs, id) == HCALL_HANDLED)
+         |                                ^~~~~~~~~~~~~~~~
+         |                                |
+         |                                struct user_pt_regs *
+   In file included from arch/arm64/kvm/hyp/nvhe/hyp-main.c:26:
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:38:51: note: expected 'struct kvm_cpu_context *' but argument is of type 'struct user_pt_regs *'
+      38 | handle_host_dynamic_hcall(struct kvm_cpu_context *host_ctxt, int id)
+         |                           ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:16,
+                    from arch/arm64/kvm/hyp/nvhe/psci-relay.c:15:
+>> arch/arm64/kvm/hyp/include/nvhe/pkvm.h:222:47: warning: 'struct pkvm_device_ops' declared inside parameter list will not be visible outside of this definition or declaration
+     222 | int pkvm_device_register_ops(u64 phys, struct pkvm_device_ops *ops, void *cookie);
+         |                                               ^~~~~~~~~~~~~~~
+   In file included from arch/arm64/kvm/hyp/nvhe/psci-relay.c:15:
+   arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:50:42: warning: 'struct pkvm_sglist_page' declared inside parameter list will not be visible outside of this definition or declaration
+      50 | int __pkvm_host_donate_sglist_hyp(struct pkvm_sglist_page *sglist, size_t nr_pages);
+         |                                          ^~~~~~~~~~~~~~~~
+   In file included from arch/arm64/kvm/hyp/nvhe/psci-relay.c:17:
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:43:6: warning: no previous prototype for 'module_handle_host_perm_fault' [-Wmissing-prototypes]
+      43 | bool module_handle_host_perm_fault(struct user_pt_regs *regs, u64 esr, u64 addr) { return false; }
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:44:6: warning: no previous prototype for 'module_handle_host_smc' [-Wmissing-prototypes]
+      44 | bool module_handle_host_smc(struct user_pt_regs *regs) { return false; }
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:46:1: error: return type is an incomplete type
+      46 | module_handle_guest_smc(struct arm_smccc_1_2_regs *regs, struct arm_smccc_1_2_regs *res,
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:46:1: warning: no previous prototype for 'module_handle_guest_smc' [-Wmissing-prototypes]
+   arch/arm64/kvm/hyp/include/nvhe/modules.h: In function 'module_handle_guest_smc':
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:49:9: warning: 'return' with a value, in function returning void [-Wreturn-type]
+      49 |  return false;
+         |         ^~~~~
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:46:1: note: declared here
+      46 | module_handle_guest_smc(struct arm_smccc_1_2_regs *regs, struct arm_smccc_1_2_regs *res,
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c: At top level:
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:30:58: error: parameter 1 ('notif') has incomplete type
+      30 | static void pkvm_psci_notify(enum pkvm_psci_notification notif, struct kvm_cpu_context *host_ctxt)
+         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:30:13: error: function declaration isn't a prototype [-Werror=strict-prototypes]
+      30 | static void pkvm_psci_notify(enum pkvm_psci_notification notif, struct kvm_cpu_context *host_ctxt)
+         |             ^~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c: In function 'pkvm_psci_notify':
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:33:22: error: type of formal parameter 1 is incomplete
+      33 |   pkvm_psci_notifier(notif, &host_ctxt->regs);
+         |                      ^~~~~
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c: In function 'psci_cpu_suspend':
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:192:19: error: 'PKVM_PSCI_CPU_SUSPEND' undeclared (first use in this function); did you mean 'KVM_PSCI_FN_CPU_SUSPEND'?
+     192 |  pkvm_psci_notify(PKVM_PSCI_CPU_SUSPEND, host_ctxt);
+         |                   ^~~~~~~~~~~~~~~~~~~~~
+         |                   KVM_PSCI_FN_CPU_SUSPEND
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:192:19: note: each undeclared identifier is reported only once for each function it appears in
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c: In function 'psci_system_suspend':
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:223:19: error: 'PKVM_PSCI_SYSTEM_SUSPEND' undeclared (first use in this function); did you mean 'KVM_PSCI_FN_CPU_SUSPEND'?
+     223 |  pkvm_psci_notify(PKVM_PSCI_SYSTEM_SUSPEND, host_ctxt);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                   KVM_PSCI_FN_CPU_SUSPEND
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c: In function '__kvm_host_psci_cpu_entry':
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:254:19: error: 'PKVM_PSCI_CPU_ENTRY' undeclared (first use in this function)
+     254 |  pkvm_psci_notify(PKVM_PSCI_CPU_ENTRY, host_ctxt);
+         |                   ^~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:16,
+                    from arch/arm64/kvm/hyp/nvhe/mem_protect.c:22:
+>> arch/arm64/kvm/hyp/include/nvhe/pkvm.h:222:47: warning: 'struct pkvm_device_ops' declared inside parameter list will not be visible outside of this definition or declaration
+     222 | int pkvm_device_register_ops(u64 phys, struct pkvm_device_ops *ops, void *cookie);
+         |                                               ^~~~~~~~~~~~~~~
+   In file included from arch/arm64/kvm/hyp/nvhe/mem_protect.c:22:
+   arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:50:42: warning: 'struct pkvm_sglist_page' declared inside parameter list will not be visible outside of this definition or declaration
+      50 | int __pkvm_host_donate_sglist_hyp(struct pkvm_sglist_page *sglist, size_t nr_pages);
+         |                                          ^~~~~~~~~~~~~~~~
+   In file included from arch/arm64/kvm/hyp/nvhe/mem_protect.c:24:
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:43:6: warning: no previous prototype for 'module_handle_host_perm_fault' [-Wmissing-prototypes]
+      43 | bool module_handle_host_perm_fault(struct user_pt_regs *regs, u64 esr, u64 addr) { return false; }
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:44:6: warning: no previous prototype for 'module_handle_host_smc' [-Wmissing-prototypes]
+      44 | bool module_handle_host_smc(struct user_pt_regs *regs) { return false; }
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:46:1: error: return type is an incomplete type
+      46 | module_handle_guest_smc(struct arm_smccc_1_2_regs *regs, struct arm_smccc_1_2_regs *res,
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:46:1: warning: no previous prototype for 'module_handle_guest_smc' [-Wmissing-prototypes]
+   arch/arm64/kvm/hyp/include/nvhe/modules.h: In function 'module_handle_guest_smc':
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:49:9: warning: 'return' with a value, in function returning void [-Wreturn-type]
+      49 |  return false;
+         |         ^~~~~
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:46:1: note: declared here
+      46 | module_handle_guest_smc(struct arm_smccc_1_2_regs *regs, struct arm_smccc_1_2_regs *res,
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/mem_protect.c: At top level:
+   arch/arm64/kvm/hyp/nvhe/mem_protect.c:1625:42: warning: 'struct pkvm_sglist_page' declared inside parameter list will not be visible outside of this definition or declaration
+    1625 | int __pkvm_host_donate_sglist_hyp(struct pkvm_sglist_page *sglist, size_t nr_pages)
+         |                                          ^~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/mem_protect.c:1625:5: error: conflicting types for '__pkvm_host_donate_sglist_hyp'
+    1625 | int __pkvm_host_donate_sglist_hyp(struct pkvm_sglist_page *sglist, size_t nr_pages)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/arm64/kvm/hyp/nvhe/mem_protect.c:22:
+   arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:50:5: note: previous declaration of '__pkvm_host_donate_sglist_hyp' was here
+      50 | int __pkvm_host_donate_sglist_hyp(struct pkvm_sglist_page *sglist, size_t nr_pages);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/arm64/include/asm/bug.h:26,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from arch/arm64/include/asm/processor.h:35,
+                    from include/linux/sched.h:13,
+                    from include/linux/resume_user_mode.h:6,
+                    from include/linux/entry-virt.h:6,
+                    from include/linux/kvm_host.h:5,
+                    from arch/arm64/kvm/hyp/nvhe/mem_protect.c:7:
+   arch/arm64/kvm/hyp/nvhe/mem_protect.c: In function '__pkvm_host_donate_sglist_hyp':
+   arch/arm64/kvm/hyp/nvhe/mem_protect.c:1633:69: error: invalid application of 'sizeof' to incomplete type 'struct pkvm_sglist_page'
+    1633 |  WARN_ON(__hyp_check_page_state_range((u64)sglist, nr_pages * sizeof(*sglist),
+         |                                                                     ^
+   include/asm-generic/bug.h:123:25: note: in definition of macro 'WARN_ON'
+     123 |  int __ret_warn_on = !!(condition);    \
+         |                         ^~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/mem_protect.c:1641:13: error: invalid use of undefined type 'struct pkvm_sglist_page'
+    1641 |   if (sglist[p].order > max_order) {
+         |             ^
+   arch/arm64/kvm/hyp/nvhe/mem_protect.c:1641:16: error: invalid use of undefined type 'struct pkvm_sglist_page'
+    1641 |   if (sglist[p].order > max_order) {
+         |                ^
+   arch/arm64/kvm/hyp/nvhe/mem_protect.c:1645:29: error: invalid use of undefined type 'struct pkvm_sglist_page'
+    1645 |   size = PAGE_SIZE << sglist[p].order;
+         |                             ^
+   arch/arm64/kvm/hyp/nvhe/mem_protect.c:1645:32: error: invalid use of undefined type 'struct pkvm_sglist_page'
+    1645 |   size = PAGE_SIZE << sglist[p].order;
+         |                                ^
+   arch/arm64/kvm/hyp/nvhe/mem_protect.c:1647:33: error: invalid use of undefined type 'struct pkvm_sglist_page'
+    1647 |   if (!pfn_range_is_valid(sglist[p].pfn, size >> PAGE_SHIFT)) {
+         |                                 ^
+   arch/arm64/kvm/hyp/nvhe/mem_protect.c:1647:36: error: invalid use of undefined type 'struct pkvm_sglist_page'
+    1647 |   if (!pfn_range_is_valid(sglist[p].pfn, size >> PAGE_SHIFT)) {
+         |                                    ^
+   In file included from arch/arm64/kvm/hyp/include/nvhe/gfp.h:7,
+                    from arch/arm64/kvm/hyp/nvhe/mem_protect.c:19:
+   arch/arm64/kvm/hyp/nvhe/mem_protect.c:1651:32: error: invalid use of undefined type 'struct pkvm_sglist_page'
+    1651 |   phys = hyp_pfn_to_phys(sglist[p].pfn);
+         |                                ^
+   arch/arm64/kvm/hyp/include/nvhe/memory.h:87:46: note: in definition of macro 'hyp_pfn_to_phys'
+      87 | #define hyp_pfn_to_phys(pfn) ((phys_addr_t)((pfn) << PAGE_SHIFT))
+         |                                              ^~~
+   arch/arm64/kvm/hyp/nvhe/mem_protect.c:1651:35: error: invalid use of undefined type 'struct pkvm_sglist_page'
+    1651 |   phys = hyp_pfn_to_phys(sglist[p].pfn);
+         |                                   ^
+   arch/arm64/kvm/hyp/include/nvhe/memory.h:87:46: note: in definition of macro 'hyp_pfn_to_phys'
+      87 | #define hyp_pfn_to_phys(pfn) ((phys_addr_t)((pfn) << PAGE_SHIFT))
+         |                                              ^~~
+   arch/arm64/kvm/hyp/nvhe/mem_protect.c:1663:36: error: invalid use of undefined type 'struct pkvm_sglist_page'
+    1663 |   size_t size = PAGE_SIZE << sglist[p].order;
+         |                                    ^
+   arch/arm64/kvm/hyp/nvhe/mem_protect.c:1663:39: error: invalid use of undefined type 'struct pkvm_sglist_page'
+    1663 |   size_t size = PAGE_SIZE << sglist[p].order;
+         |                                       ^
+   In file included from arch/arm64/kvm/hyp/include/nvhe/gfp.h:7,
+                    from arch/arm64/kvm/hyp/nvhe/mem_protect.c:19:
+   arch/arm64/kvm/hyp/nvhe/mem_protect.c:1664:36: error: invalid use of undefined type 'struct pkvm_sglist_page'
+    1664 |   u64 phys = hyp_pfn_to_phys(sglist[p].pfn);
+         |                                    ^
+   arch/arm64/kvm/hyp/include/nvhe/memory.h:87:46: note: in definition of macro 'hyp_pfn_to_phys'
+      87 | #define hyp_pfn_to_phys(pfn) ((phys_addr_t)((pfn) << PAGE_SHIFT))
+         |                                              ^~~
+   arch/arm64/kvm/hyp/nvhe/mem_protect.c:1664:39: error: invalid use of undefined type 'struct pkvm_sglist_page'
+    1664 |   u64 phys = hyp_pfn_to_phys(sglist[p].pfn);
+         |                                       ^
+--
+   In file included from arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:16,
+                    from arch/arm64/kvm/hyp/nvhe/device/device.c:8:
+>> arch/arm64/kvm/hyp/include/nvhe/pkvm.h:222:47: warning: 'struct pkvm_device_ops' declared inside parameter list will not be visible outside of this definition or declaration
+     222 | int pkvm_device_register_ops(u64 phys, struct pkvm_device_ops *ops, void *cookie);
+         |                                               ^~~~~~~~~~~~~~~
+   In file included from arch/arm64/kvm/hyp/nvhe/device/device.c:8:
+   arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:50:42: warning: 'struct pkvm_sglist_page' declared inside parameter list will not be visible outside of this definition or declaration
+      50 | int __pkvm_host_donate_sglist_hyp(struct pkvm_sglist_page *sglist, size_t nr_pages);
+         |                                          ^~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/device/device.c: In function 'pkvm_device_reset':
+>> arch/arm64/kvm/hyp/nvhe/device/device.c:163:28: error: invalid use of undefined type 'struct pkvm_device_ops'
+     163 |  if (!dev->ops || !dev->ops->reset)
+         |                            ^~
+   arch/arm64/kvm/hyp/nvhe/device/device.c:166:16: error: invalid use of undefined type 'struct pkvm_device_ops'
+     166 |  ret = dev->ops->reset(dev->cookie, host_to_guest);
+         |                ^~
+   arch/arm64/kvm/hyp/nvhe/device/device.c: In function '__pkvm_device_assign':
+   arch/arm64/kvm/hyp/nvhe/device/device.c:194:26: error: invalid use of undefined type 'struct pkvm_device_ops'
+     194 |  if (dev->ops && dev->ops->power_lock) {
+         |                          ^~
+   arch/arm64/kvm/hyp/nvhe/device/device.c:195:17: error: invalid use of undefined type 'struct pkvm_device_ops'
+     195 |   ret = dev->ops->power_lock(dev->cookie, true);
+         |                 ^~
+   In file included from arch/arm64/include/asm/bug.h:26,
+                    from include/linux/bug.h:5,
+                    from include/linux/cpumask.h:15,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/mutex.h:17,
+                    from include/linux/kvm_types.h:20,
+                    from arch/arm64/include/asm/kvm_host.h:18,
+                    from arch/arm64/kvm/hyp/include/nvhe/iommu.h:5,
+                    from arch/arm64/kvm/hyp/nvhe/device/device.c:7:
+   arch/arm64/kvm/hyp/nvhe/device/device.c: In function 'pkvm_devices_teardown':
+   arch/arm64/kvm/hyp/nvhe/device/device.c:356:19: error: invalid use of undefined type 'struct pkvm_device_ops'
+     356 |   WARN_ON(dev->ops->power_lock && dev->ops->power_lock(dev->cookie, false));
+         |                   ^~
+   include/asm-generic/bug.h:123:25: note: in definition of macro 'WARN_ON'
+     123 |  int __ret_warn_on = !!(condition);    \
+         |                         ^~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/device/device.c:356:43: error: invalid use of undefined type 'struct pkvm_device_ops'
+     356 |   WARN_ON(dev->ops->power_lock && dev->ops->power_lock(dev->cookie, false));
+         |                                           ^~
+   include/asm-generic/bug.h:123:25: note: in definition of macro 'WARN_ON'
+     123 |  int __ret_warn_on = !!(condition);    \
+         |                         ^~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/device/device.c: At top level:
+   arch/arm64/kvm/hyp/nvhe/device/device.c:410:5: error: conflicting types for 'pkvm_device_register_ops'
+     410 | int pkvm_device_register_ops(u64 phys, struct pkvm_device_ops *ops, void *cookie)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:16,
+                    from arch/arm64/kvm/hyp/nvhe/device/device.c:8:
+   arch/arm64/kvm/hyp/include/nvhe/pkvm.h:222:5: note: previous declaration of 'pkvm_device_register_ops' was here
+     222 | int pkvm_device_register_ops(u64 phys, struct pkvm_device_ops *ops, void *cookie);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+..
 
-Looks like I will have to guard calls to these functions under
-#ifdef CONFIG_ACPI.
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=y] && WIRELESS [=n] && PROC_FS [=n] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for PHY_PACKAGE
+   Depends on [n]: NETDEVICES [=n] && PHYLIB [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_PHY_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=y] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=n] && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
 
-Best Regards,
-Akhil
+
+vim +163 arch/arm64/kvm/hyp/nvhe/device/device.c
+
+   153	
+   154	static int pkvm_device_reset(struct pkvm_device *dev, bool host_to_guest)
+   155	{
+   156		struct pkvm_dev_iommu *iommu;
+   157		int ret;
+   158		int i;
+   159	
+   160		hyp_assert_lock_held(&device_spinlock);
+   161	
+   162		/* Reset is mandatory. */
+ > 163		if (!dev->ops || !dev->ops->reset)
+   164			return -ENODEV;
+   165	
+   166		ret = dev->ops->reset(dev->cookie, host_to_guest);
+   167		if (ret)
+   168			return ret;
+   169	
+   170		for (i = 0 ; i < dev->nr_iommus ; ++i) {
+   171			iommu = &dev->iommus[i];
+   172			ret = kvm_iommu_dev_block_dma(iommu->id, iommu->endpoint, host_to_guest);
+   173			if (WARN_ON(ret))
+   174				return ret;
+   175		}
+   176		return 0;
+   177	}
+   178	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
