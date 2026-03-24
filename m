@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A5963A3808;
-	Tue, 24 Mar 2026 03:56:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 091C33A3810
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Mar 2026 04:07:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774324618; cv=none; b=dt14Vd4DFQ+HkfNef+Tc2xG0mc0sa4Uw7zml3LYB2oY2WOFKygLuD3fQUddsfEeP44vAVTc75+tCQJMceEA7fMwMj0Dv38j0dXM+bAvEaxJnT/NfPIDcb2G6R/nvdC3Z1hgjOfdwD2Ygqu+GOfxc/SXtJDuGUgsBdvpD7tiGMPY=
+	t=1774325280; cv=none; b=O4D+WEYerz+qvm4USd1PXj9LSCW3IQHKqlO9VyR6gc6m2aIYrYM3zYIAYcdcB/0no81oIti4VICRkPmrk5LabtuSI6sGJSOIT5bMcUBYroB7IoIzmPXEJAndyhKJ/iMNnRQMEU+uVmwsPMxrt68/kkmdQH8dVUFOmVlpv2L6Ywg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774324618; c=relaxed/simple;
-	bh=WwVZz3NgDZaGZUGRW+YlV0lIOfLFbXHhI0EdasgTXEU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=thywq+wtXqsZZKBjw2QXnc6AupJmnwQkc2TAaBZVmw+0li6GP9fgkiWKUgfVD6L63AUOR36gN1pY5BsF/5hi9ohUGBr953qZnfSkcdhWMQ1P2wTQybVjs45/U0lG5ZARYfgzcBN7wT9alrrQLaCldoGBPraFK2y6gtOuICHxvgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RLcyqWyA; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1774325280; c=relaxed/simple;
+	bh=ZxwP0MrVph+E3CcWuL8OLj8MnOwuGjcItcXwtVYboG4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=bailnzN4FBV6W7oZngRBDTUcizEc56zcVhKVSzZ4tPLoXBWB0nLtkcJOwBPfUxN6cKiG1lIZbxhlYWL76K8h/y+iArTbpFjvRbkIZZOOPWbuqR9zEvPdcHayZxtJPJOlr5vIajqL1GUJea9o5pcGBi6m+p49zoUVLBGeH39IcRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XRWm1XNK; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RLcyqWyA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XRWm1XNK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774324615; x=1805860615;
+  t=1774325278; x=1805861278;
   h=date:from:to:cc:subject:message-id;
-  bh=WwVZz3NgDZaGZUGRW+YlV0lIOfLFbXHhI0EdasgTXEU=;
-  b=RLcyqWyA4/XLZBB0FhYxb2Xc4rGBIKgtOFi4YVe3uNX4DE2OR1qsKv8S
-   yY5F2j/6aJLGn/dvySUf7gNADPSUZp6UtkFsTPM4uVRwRfbT+Y648e9h8
-   bEEA0ZF4dDgD8nFdBBHxH/stqFPN5dk2XaDcj4G5oYVs9ZCMswwEgc/fk
-   dCK9c3y93zN/HABTjr2xvEqe24oBDAjPe7EVTk6SDnWLa/OjCEwhe+owm
-   6sUQELn35J8Mzzgv7w6CLBtqrl17u90szK5/OYSWIRgljYUi9Hsn/GLAj
-   XGVoFeLqBtINBsWnnBZXoUg9wQydX7yQ7Zb8FXx8uPBrWEGuCq1cpIw0p
-   g==;
-X-CSE-ConnectionGUID: vHIy0sg4T36yHBWgJUeukw==
-X-CSE-MsgGUID: XVpNED3ETCG4txvpPkA7yw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="74354649"
+  bh=ZxwP0MrVph+E3CcWuL8OLj8MnOwuGjcItcXwtVYboG4=;
+  b=XRWm1XNKGS0at7j6s3Q/EKLgWVO9uy2mqKUcpMFXg/9c16qY2pUt8PaM
+   aqN1wXgDsHk2ij4KbTRchkecvjfZD7ldZtNr2ydAk8UMAeLprH2VIHojw
+   hn/XPhCz+UZHqQyJQLrTXcglOkNu/xeE0mOEvxRsYdovoc9jhwcw4zO9V
+   RKNosAWWysDGZeYyxp7IV3PPcLNEhKhKa1oHNObwMmcCkk31GbHlzJRgB
+   4kM3o5W0oCKf4HXd64flksOPqYOdQiueVzeS47XbB7uPGmJT15qEeNV+K
+   ynf5thWbSguOCRfFjnFb8JYxorW0R7CEj0bJtwIFAgPqXiq0/OfJnWHuJ
+   Q==;
+X-CSE-ConnectionGUID: WNxNNZ2vQ1CLoU0zoZR41A==
+X-CSE-MsgGUID: zu6qzsTxS8qxrcgZCozYTg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="75525715"
 X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="74354649"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 20:56:52 -0700
-X-CSE-ConnectionGUID: dRtSxtxHSJ6GIKQj4qR7Fg==
-X-CSE-MsgGUID: sG8pHMwUSjOqtW8oreRe7Q==
+   d="scan'208";a="75525715"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 21:07:58 -0700
+X-CSE-ConnectionGUID: CAfnw1DQQ+2pD/UOfenZDQ==
+X-CSE-MsgGUID: ZddBwP1aTZm2HKSMCQHDbQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="223304106"
+   d="scan'208";a="224453235"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 23 Mar 2026 20:56:50 -0700
+  by orviesa007.jf.intel.com with ESMTP; 23 Mar 2026 21:07:55 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w4sso-000000003kR-3kwj;
-	Tue, 24 Mar 2026 03:56:46 +0000
-Date: Tue, 24 Mar 2026 11:56:25 +0800
+	id 1w4t3U-000000003lj-19kJ;
+	Tue, 24 Mar 2026 04:07:48 +0000
+Date: Tue, 24 Mar 2026 12:06:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:ceph-iter 44/77] fs/ceph/inode.c:2450:6:
- warning: variable 'header' is used uninitialized whenever 'if' condition is
- true
-Message-ID: <202603241146.5mfqiOUc-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 5/5]
+ kernel/sched/core.c:6878:56: sparse: sparse: incorrect type in argument 3
+ (different address spaces)
+Message-ID: <202603241106.Gsk66gBT-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,219 +60,300 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git ceph-iter
-head:   05d546a07e9a570d280344cff29c354b67fda562
-commit: 46123cb68a649df7d94a5e2e2d199ee7c86c13ef [44/77] ceph: Convert ceph_mds_request::r_pagelist to a databuf
-config: riscv-randconfig-002-20260324 (https://download.01.org/0day-ci/archive/20260324/202603241146.5mfqiOUc-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260324/202603241146.5mfqiOUc-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   487e818b8c0f11de2d03896c8cb09695003a2f59
+commit: e4239ea599c633d8a2bc0440ffd64f96a7bfac1c [5/5] ANDROID: sched: Handle blocked-waiter migration (and return migration)
+config: i386-randconfig-r111-20260324 (https://download.01.org/0day-ci/archive/20260324/202603241106.Gsk66gBT-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260324/202603241106.Gsk66gBT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603241146.5mfqiOUc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603241106.Gsk66gBT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/sched/core.c:3983:31: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:3983:31: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:3983:31: sparse:     got struct rq *
+   kernel/sched/core.c:3999:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:3999:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:3999:25: sparse:     got struct rq *
+   kernel/sched/core.c:4009:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:4009:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:4009:25: sparse:     got struct rq *
+   kernel/sched/core.c:4014:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/core.c:4014:36: sparse:     expected struct task_struct const *p
+   kernel/sched/core.c:4014:36: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/core.c:4127:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:4127:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:4127:25: sparse:     got struct rq *
+   kernel/sched/core.c:4468:45: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:4468:45: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:4468:45: sparse:     got struct rq *
+   kernel/sched/core.c:4587:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:4587:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:4587:25: sparse:     got struct rq *
+   kernel/sched/core.c:4593:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:4593:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:4593:13: sparse:     got struct rq *
+   kernel/sched/core.c:4593:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:4593:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:4593:13: sparse:     got struct rq *
+   kernel/sched/core.c:4593:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:4593:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:4593:13: sparse:     got struct rq *
+   kernel/sched/core.c:4593:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:4593:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:4593:13: sparse:     got struct rq *
+   kernel/sched/core.c:4593:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:4593:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:4593:13: sparse:     got struct rq *
+   kernel/sched/core.c:4593:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:4593:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:4593:13: sparse:     got struct rq *
+   kernel/sched/core.c:4593:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:4593:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:4593:13: sparse:     got struct rq *
+   kernel/sched/core.c:4593:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:4593:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:4593:13: sparse:     got struct rq *
+   kernel/sched/core.c:4593:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:4593:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:4593:13: sparse:     got struct rq *
+   kernel/sched/core.c:4593:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:4593:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:4593:13: sparse:     got struct rq *
+   kernel/sched/core.c:4593:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:4593:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:4593:13: sparse:     got struct rq *
+   kernel/sched/core.c:4593:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:4593:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:4593:13: sparse:     got struct rq *
+   kernel/sched/core.c:4593:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:4593:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:4593:13: sparse:     got struct rq *
+   kernel/sched/core.c:4593:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:4593:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:4593:13: sparse:     got struct rq *
+   kernel/sched/core.c:8523:43: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *push_task @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/core.c:8523:43: sparse:     expected struct task_struct *push_task
+   kernel/sched/core.c:8523:43: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/core.c:8536:42: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:8536:42: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:8536:42: sparse:     got struct rq *
+   kernel/sched/core.c:5400:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:5400:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:5400:25: sparse:     got struct rq *
+   kernel/sched/core.c:5585:24: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:5585:24: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:5585:24: sparse:     got struct rq *
+   kernel/sched/core.c:5605:16: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:5605:16: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:5605:16: sparse:     got struct rq *
+   kernel/sched/core.c:5611:16: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:5611:16: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:5611:16: sparse:     got struct rq *
+   kernel/sched/core.c:5620:24: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:5620:24: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:5620:24: sparse:     got struct rq *
+   kernel/sched/core.c:5634:29: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:5634:29: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:5634:29: sparse:     got struct rq *
+   kernel/sched/core.c:5832:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:5832:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:5832:25: sparse:     got struct rq *
+   kernel/sched/core.c:5845:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/core.c:5845:15: sparse:     expected struct task_struct *donor
+   kernel/sched/core.c:5845:15: sparse:     got struct task_struct [noderef] __rcu *donor
+   kernel/sched/core.c:6857:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:6857:21: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:6857:21: sparse:     got struct rq *
+   kernel/sched/core.c:6878:45: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/core.c:6878:45: sparse:     expected struct task_struct *prev
+   kernel/sched/core.c:6878:45: sparse:     got struct task_struct [noderef] __rcu *donor
+>> kernel/sched/core.c:6878:56: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected struct task_struct *next @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/core.c:6878:56: sparse:     expected struct task_struct *next
+   kernel/sched/core.c:6878:56: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/core.c:6879:29: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/core.c:6879:29: sparse:     expected struct task_struct *prev
+   kernel/sched/core.c:6879:29: sparse:     got struct task_struct [noderef] __rcu *donor
+   kernel/sched/core.c:6880:28: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *t @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/core.c:6880:28: sparse:     expected struct task_struct *t
+   kernel/sched/core.c:6880:28: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/core.c:6881:29: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *next @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/core.c:6881:29: sparse:     expected struct task_struct *next
+   kernel/sched/core.c:6881:29: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/core.c:6883:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/core.c:6883:9: sparse:    struct task_struct *
+   kernel/sched/core.c:6883:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/core.c:7202:14: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:7202:14: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:7202:14: sparse:     got struct rq *
+   kernel/sched/core.c:7203:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/core.c:7203:14: sparse:     expected struct task_struct *prev
+   kernel/sched/core.c:7203:14: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/core.c:7261:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/core.c:7261:37: sparse:     expected struct task_struct *prev
+   kernel/sched/core.c:7261:37: sparse:     got struct task_struct [noderef] __rcu *donor
+   kernel/sched/core.c:7772:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/core.c:7772:17: sparse:    struct task_struct *
+   kernel/sched/core.c:7772:17: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/core.c:8320:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:8320:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:8320:25: sparse:     got struct rq *
+   kernel/sched/core.c:8478:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:8478:9: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:8478:9: sparse:     got struct rq *
+   kernel/sched/core.c:8491:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:8491:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:8491:25: sparse:     got struct rq *
+   kernel/sched/core.c:8500:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:8500:13: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:8500:13: sparse:     got struct rq *
+   kernel/sched/core.c:8586:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:8586:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:8586:25: sparse:     got struct rq *
+   kernel/sched/core.c:8607:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:8607:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:8607:25: sparse:     got struct rq *
+   kernel/sched/core.c:8753:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:8753:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:8753:25: sparse:     got struct rq *
+   kernel/sched/core.c:8791:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:8791:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:8791:25: sparse:     got struct rq *
+   kernel/sched/core.c:8854:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:8854:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:8854:25: sparse:     got struct rq *
+   kernel/sched/core.c:8926:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:8926:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:8926:25: sparse:     got struct rq *
+   kernel/sched/core.c:9081:22: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:9081:22: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:9081:22: sparse:     got struct rq *
+   kernel/sched/core.c:10678:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rq * @@
+   kernel/sched/core.c:10678:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/sched/core.c:10678:25: sparse:     got struct rq *
+   kernel/sched/core.c:10678:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/core.c:10678:25: sparse:     expected struct task_struct *p
+   kernel/sched/core.c:10678:25: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/core.c:628:6: sparse: sparse: context imbalance in 'raw_spin_rq_lock_nested' - wrong count at exit
+   kernel/sched/core.c:654:6: sparse: sparse: context imbalance in 'raw_spin_rq_trylock' - wrong count at exit
+   kernel/sched/core.c:678:6: sparse: sparse: context imbalance in 'raw_spin_rq_unlock' - unexpected unlock
+   kernel/sched/core.c: note: in included file:
+   kernel/sched/sched.h:1767:9: sparse: sparse: context imbalance in '__task_rq_lock' - wrong count at exit
+   kernel/sched/sched.h:1767:9: sparse: sparse: context imbalance in 'task_rq_lock' - wrong count at exit
+   kernel/sched/core.c: note: in included file:
+   kernel/sched/pelt.h:106:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/pelt.h:106:13: sparse:     expected struct task_struct const *p
+   kernel/sched/pelt.h:106:13: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/core.c:2289:35: sparse: sparse: context imbalance in 'wait_task_inactive' - different lock contexts for basic block
+   kernel/sched/core.c: note: in included file:
+   kernel/sched/sched.h:2292:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2292:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2292:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2491:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2491:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2491:9: sparse:    struct task_struct *
+   kernel/sched/sched.h:2292:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2292:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2292:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2281:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2281:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2281:25: sparse:    struct task_struct *
+   kernel/sched/core.c:2171:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/core.c:2171:38: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/core.c:2171:38: sparse:    struct task_struct const *
+   kernel/sched/sched.h:2281:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2281:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2281:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2292:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2292:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2292:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2491:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2491:9: sparse:    struct task_struct [noderef] __rcu *
 
->> fs/ceph/inode.c:2450:6: warning: variable 'header' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    2450 |         if (ret < 0)
-         |             ^~~~~~~
-   fs/ceph/inode.c:2510:15: note: uninitialized use occurs here
-    2510 |         kunmap_local(header);
-         |                      ^~~~~~
-   fs/ceph/inode.c:2450:2: note: remove the 'if' if its condition is always false
-    2450 |         if (ret < 0)
-         |         ^~~~~~~~~~~~
-    2451 |                 goto out;
-         |                 ~~~~~~~~
-   fs/ceph/inode.c:2442:6: warning: variable 'header' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    2442 |         if (ceph_bvecq_insert_frag(dbuf, 0, sizeof(*header), GFP_KERNEL) < 0 ||
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2443 |             ceph_bvecq_insert_frag(dbuf, 1, PAGE_SIZE, GFP_KERNEL) < 0)
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ceph/inode.c:2510:15: note: uninitialized use occurs here
-    2510 |         kunmap_local(header);
-         |                      ^~~~~~
-   fs/ceph/inode.c:2442:2: note: remove the 'if' if its condition is always false
-    2442 |         if (ceph_bvecq_insert_frag(dbuf, 0, sizeof(*header), GFP_KERNEL) < 0 ||
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2443 |             ceph_bvecq_insert_frag(dbuf, 1, PAGE_SIZE, GFP_KERNEL) < 0)
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2444 |                 goto out;
-         |                 ~~~~~~~~
->> fs/ceph/inode.c:2442:6: warning: variable 'header' is used uninitialized whenever '||' condition is true [-Wsometimes-uninitialized]
-    2442 |         if (ceph_bvecq_insert_frag(dbuf, 0, sizeof(*header), GFP_KERNEL) < 0 ||
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ceph/inode.c:2510:15: note: uninitialized use occurs here
-    2510 |         kunmap_local(header);
-         |                      ^~~~~~
-   fs/ceph/inode.c:2442:6: note: remove the '||' if its condition is always false
-    2442 |         if (ceph_bvecq_insert_frag(dbuf, 0, sizeof(*header), GFP_KERNEL) < 0 ||
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ceph/inode.c:2439:6: warning: variable 'header' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    2439 |         if (!dbuf)
-         |             ^~~~~
-   fs/ceph/inode.c:2510:15: note: uninitialized use occurs here
-    2510 |         kunmap_local(header);
-         |                      ^~~~~~
-   fs/ceph/inode.c:2439:2: note: remove the 'if' if its condition is always false
-    2439 |         if (!dbuf)
-         |         ^~~~~~~~~~
-    2440 |                 goto out;
-         |                 ~~~~~~~~
-   fs/ceph/inode.c:2433:7: warning: variable 'header' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    2433 |                 if (ret < 0)
-         |                     ^~~~~~~
-   fs/ceph/inode.c:2510:15: note: uninitialized use occurs here
-    2510 |         kunmap_local(header);
-         |                      ^~~~~~
-   fs/ceph/inode.c:2433:3: note: remove the 'if' if its condition is always false
-    2433 |                 if (ret < 0)
-         |                 ^~~~~~~~~~~~
-    2434 |                         goto out;
-         |                         ~~~~~~~~
-   fs/ceph/inode.c:2409:50: note: initialize the variable 'header' to silence this warning
-    2409 |         struct ceph_fscrypt_truncate_size_header *header;
-         |                                                         ^
-         |                                                          = NULL
-   5 warnings generated.
+vim +6878 kernel/sched/core.c
 
-
-vim +2450 fs/ceph/inode.c
-
-79f2f6ad878c1f Jeff Layton   2020-09-03  2389  
-5c64737d253683 Xiubo Li      2022-08-25  2390  /*
-5c64737d253683 Xiubo Li      2022-08-25  2391   * Transfer the encrypted last block to the MDS and the MDS
-5c64737d253683 Xiubo Li      2022-08-25  2392   * will help update it when truncating a smaller size.
-5c64737d253683 Xiubo Li      2022-08-25  2393   *
-5c64737d253683 Xiubo Li      2022-08-25  2394   * We don't support a PAGE_SIZE that is smaller than the
-5c64737d253683 Xiubo Li      2022-08-25  2395   * CEPH_FSCRYPT_BLOCK_SIZE.
-5c64737d253683 Xiubo Li      2022-08-25  2396   */
-5c64737d253683 Xiubo Li      2022-08-25  2397  static int fill_fscrypt_truncate(struct inode *inode,
-5c64737d253683 Xiubo Li      2022-08-25  2398  				 struct ceph_mds_request *req,
-5c64737d253683 Xiubo Li      2022-08-25  2399  				 struct iattr *attr)
-5c64737d253683 Xiubo Li      2022-08-25  2400  {
-38d46409c4639a Xiubo Li      2023-06-12  2401  	struct ceph_client *cl = ceph_inode_to_client(inode);
-5c64737d253683 Xiubo Li      2022-08-25  2402  	struct ceph_inode_info *ci = ceph_inode(inode);
-5c64737d253683 Xiubo Li      2022-08-25  2403  	int boff = attr->ia_size % CEPH_FSCRYPT_BLOCK_SIZE;
-5c64737d253683 Xiubo Li      2022-08-25  2404  	loff_t pos, orig_pos = round_down(attr->ia_size,
-5c64737d253683 Xiubo Li      2022-08-25  2405  					  CEPH_FSCRYPT_BLOCK_SIZE);
-5c64737d253683 Xiubo Li      2022-08-25  2406  	u64 block = orig_pos >> CEPH_FSCRYPT_BLOCK_SHIFT;
-46123cb68a649d David Howells 2023-08-03  2407  	struct bvecq *dbuf = NULL;
-5c64737d253683 Xiubo Li      2022-08-25  2408  	struct iov_iter iter;
-46123cb68a649d David Howells 2023-08-03  2409  	struct ceph_fscrypt_truncate_size_header *header;
-46123cb68a649d David Howells 2023-08-03  2410  	void *p;
-5c64737d253683 Xiubo Li      2022-08-25  2411  	int retry_op = 0;
-5c64737d253683 Xiubo Li      2022-08-25  2412  	int len = CEPH_FSCRYPT_BLOCK_SIZE;
-5c64737d253683 Xiubo Li      2022-08-25  2413  	loff_t i_size = i_size_read(inode);
-5c64737d253683 Xiubo Li      2022-08-25  2414  	int got, ret, issued;
-5c64737d253683 Xiubo Li      2022-08-25  2415  	u64 objver;
-5c64737d253683 Xiubo Li      2022-08-25  2416  
-5c64737d253683 Xiubo Li      2022-08-25  2417  	ret = __ceph_get_caps(inode, NULL, CEPH_CAP_FILE_RD, 0, -1, &got);
-5c64737d253683 Xiubo Li      2022-08-25  2418  	if (ret < 0)
-5c64737d253683 Xiubo Li      2022-08-25  2419  		return ret;
-5c64737d253683 Xiubo Li      2022-08-25  2420  
-5c64737d253683 Xiubo Li      2022-08-25  2421  	issued = __ceph_caps_issued(ci, NULL);
-5c64737d253683 Xiubo Li      2022-08-25  2422  
-38d46409c4639a Xiubo Li      2023-06-12  2423  	doutc(cl, "size %lld -> %lld got cap refs on %s, issued %s\n",
-5c64737d253683 Xiubo Li      2022-08-25  2424  	      i_size, attr->ia_size, ceph_cap_string(got),
-5c64737d253683 Xiubo Li      2022-08-25  2425  	      ceph_cap_string(issued));
-5c64737d253683 Xiubo Li      2022-08-25  2426  
-5c64737d253683 Xiubo Li      2022-08-25  2427  	/* Try to writeback the dirty pagecaches */
-5c64737d253683 Xiubo Li      2022-08-25  2428  	if (issued & (CEPH_CAP_FILE_BUFFER)) {
-f452a2204614fc David Howells 2025-03-12  2429  		loff_t lend = orig_pos + CEPH_FSCRYPT_BLOCK_SIZE - 1;
-5c64737d253683 Xiubo Li      2022-08-25  2430  
-5c64737d253683 Xiubo Li      2022-08-25  2431  		ret = filemap_write_and_wait_range(inode->i_mapping,
-5c64737d253683 Xiubo Li      2022-08-25  2432  						   orig_pos, lend);
-5c64737d253683 Xiubo Li      2022-08-25  2433  		if (ret < 0)
-5c64737d253683 Xiubo Li      2022-08-25  2434  			goto out;
-5c64737d253683 Xiubo Li      2022-08-25  2435  	}
-5c64737d253683 Xiubo Li      2022-08-25  2436  
-5c64737d253683 Xiubo Li      2022-08-25  2437  	ret = -ENOMEM;
-46123cb68a649d David Howells 2023-08-03  2438  	dbuf = bvecq_alloc_chain(2, GFP_KERNEL);
-46123cb68a649d David Howells 2023-08-03  2439  	if (!dbuf)
-5c64737d253683 Xiubo Li      2022-08-25  2440  		goto out;
-5c64737d253683 Xiubo Li      2022-08-25  2441  
-46123cb68a649d David Howells 2023-08-03 @2442  	if (ceph_bvecq_insert_frag(dbuf, 0, sizeof(*header), GFP_KERNEL) < 0 ||
-46123cb68a649d David Howells 2023-08-03  2443  	    ceph_bvecq_insert_frag(dbuf, 1, PAGE_SIZE, GFP_KERNEL) < 0)
-5c64737d253683 Xiubo Li      2022-08-25  2444  		goto out;
-5c64737d253683 Xiubo Li      2022-08-25  2445  
-46123cb68a649d David Howells 2023-08-03  2446  	iov_iter_bvec_queue(&iter, ITER_DEST, dbuf, 1, 0, len);
-5c64737d253683 Xiubo Li      2022-08-25  2447  
-5c64737d253683 Xiubo Li      2022-08-25  2448  	pos = orig_pos;
-5c64737d253683 Xiubo Li      2022-08-25  2449  	ret = __ceph_sync_read(inode, &pos, &iter, &retry_op, &objver);
-5c64737d253683 Xiubo Li      2022-08-25 @2450  	if (ret < 0)
-5c64737d253683 Xiubo Li      2022-08-25  2451  		goto out;
-5c64737d253683 Xiubo Li      2022-08-25  2452  
-46123cb68a649d David Howells 2023-08-03  2453  	header = kmap_local_bvecq(dbuf, 0);
-46123cb68a649d David Howells 2023-08-03  2454  
-5c64737d253683 Xiubo Li      2022-08-25  2455  	/* Insert the header first */
-46123cb68a649d David Howells 2023-08-03  2456  	header->ver = 1;
-46123cb68a649d David Howells 2023-08-03  2457  	header->compat = 1;
-46123cb68a649d David Howells 2023-08-03  2458  	header->change_attr = cpu_to_le64(inode_peek_iversion_raw(inode));
-5c64737d253683 Xiubo Li      2022-08-25  2459  
-5c64737d253683 Xiubo Li      2022-08-25  2460  	/*
-5c64737d253683 Xiubo Li      2022-08-25  2461  	 * Always set the block_size to CEPH_FSCRYPT_BLOCK_SIZE,
-5c64737d253683 Xiubo Li      2022-08-25  2462  	 * because in MDS it may need this to do the truncate.
-5c64737d253683 Xiubo Li      2022-08-25  2463  	 */
-46123cb68a649d David Howells 2023-08-03  2464  	header->block_size = cpu_to_le32(CEPH_FSCRYPT_BLOCK_SIZE);
-5c64737d253683 Xiubo Li      2022-08-25  2465  
-5c64737d253683 Xiubo Li      2022-08-25  2466  	/*
-5c64737d253683 Xiubo Li      2022-08-25  2467  	 * If we hit a hole here, we should just skip filling
-5c64737d253683 Xiubo Li      2022-08-25  2468  	 * the fscrypt for the request, because once the fscrypt
-5c64737d253683 Xiubo Li      2022-08-25  2469  	 * is enabled, the file will be split into many blocks
-5c64737d253683 Xiubo Li      2022-08-25  2470  	 * with the size of CEPH_FSCRYPT_BLOCK_SIZE, if there
-5c64737d253683 Xiubo Li      2022-08-25  2471  	 * has a hole, the hole size should be multiple of block
-5c64737d253683 Xiubo Li      2022-08-25  2472  	 * size.
-5c64737d253683 Xiubo Li      2022-08-25  2473  	 *
-5c64737d253683 Xiubo Li      2022-08-25  2474  	 * If the Rados object doesn't exist, it will be set to 0.
-5c64737d253683 Xiubo Li      2022-08-25  2475  	 */
-5c64737d253683 Xiubo Li      2022-08-25  2476  	if (!objver) {
-38d46409c4639a Xiubo Li      2023-06-12  2477  		doutc(cl, "hit hole, ppos %lld < size %lld\n", pos, i_size);
-5c64737d253683 Xiubo Li      2022-08-25  2478  
-46123cb68a649d David Howells 2023-08-03  2479  		header->data_len = cpu_to_le32(8 + 8 + 4);
-46123cb68a649d David Howells 2023-08-03  2480  		header->file_offset = 0;
-5c64737d253683 Xiubo Li      2022-08-25  2481  		ret = 0;
-5c64737d253683 Xiubo Li      2022-08-25  2482  	} else {
-46123cb68a649d David Howells 2023-08-03  2483  		header->data_len = cpu_to_le32(8 + 8 + 4 + CEPH_FSCRYPT_BLOCK_SIZE);
-46123cb68a649d David Howells 2023-08-03  2484  		header->file_offset = cpu_to_le64(orig_pos);
-5c64737d253683 Xiubo Li      2022-08-25  2485  
-38d46409c4639a Xiubo Li      2023-06-12  2486  		doutc(cl, "encrypt block boff/bsize %d/%lu\n", boff,
-38d46409c4639a Xiubo Li      2023-06-12  2487  		      CEPH_FSCRYPT_BLOCK_SIZE);
-295fc4aa7de4b7 Xiubo Li      2023-03-06  2488  
-5c64737d253683 Xiubo Li      2022-08-25  2489  		/* truncate and zero out the extra contents for the last block */
-46123cb68a649d David Howells 2023-08-03  2490  		p = kmap_local_bvecq(dbuf, 1);
-46123cb68a649d David Howells 2023-08-03  2491  		memset(p + boff, 0, PAGE_SIZE - boff);
-46123cb68a649d David Howells 2023-08-03  2492  		kunmap_local(p);
-5c64737d253683 Xiubo Li      2022-08-25  2493  
-5c64737d253683 Xiubo Li      2022-08-25  2494  		/* encrypt the last block */
-46123cb68a649d David Howells 2023-08-03  2495  		ret = ceph_fscrypt_encrypt_block_inplace(inode, dbuf->bv[0].bv_page,
-5c64737d253683 Xiubo Li      2022-08-25  2496  							 CEPH_FSCRYPT_BLOCK_SIZE,
-fa65058063cbab Eric Biggers  2025-07-09  2497  							 0, block);
-5c64737d253683 Xiubo Li      2022-08-25  2498  		if (ret)
-5c64737d253683 Xiubo Li      2022-08-25  2499  			goto out;
-5c64737d253683 Xiubo Li      2022-08-25  2500  	}
-5c64737d253683 Xiubo Li      2022-08-25  2501  
-46123cb68a649d David Howells 2023-08-03  2502  	req->r_dbuf = dbuf;
-46123cb68a649d David Howells 2023-08-03  2503  	req->r_dbuf_len = sizeof(*header);
-46123cb68a649d David Howells 2023-08-03  2504  	if (header->block_size)
-46123cb68a649d David Howells 2023-08-03  2505  		req->r_dbuf_len += CEPH_FSCRYPT_BLOCK_SIZE;
-5c64737d253683 Xiubo Li      2022-08-25  2506  out:
-38d46409c4639a Xiubo Li      2023-06-12  2507  	doutc(cl, "%p %llx.%llx size dropping cap refs on %s\n", inode,
-38d46409c4639a Xiubo Li      2023-06-12  2508  	      ceph_vinop(inode), ceph_cap_string(got));
-5c64737d253683 Xiubo Li      2022-08-25  2509  	ceph_put_cap_refs(ci, got);
-46123cb68a649d David Howells 2023-08-03  2510  	kunmap_local(header);
-46123cb68a649d David Howells 2023-08-03  2511  	if (ret)
-46123cb68a649d David Howells 2023-08-03  2512  		bvecq_put(dbuf);
-5c64737d253683 Xiubo Li      2022-08-25  2513  	return ret;
-5c64737d253683 Xiubo Li      2022-08-25  2514  }
-5c64737d253683 Xiubo Li      2022-08-25  2515  
-
-:::::: The code at line 2450 was first introduced by commit
-:::::: 5c64737d253683b7d138dde0da513a9ade16a170 ceph: add truncate size handling support for fscrypt
-
-:::::: TO: Xiubo Li <xiubli@redhat.com>
-:::::: CC: Ilya Dryomov <idryomov@gmail.com>
+  6837	
+  6838	#ifdef CONFIG_SMP
+  6839	/*
+  6840	 * If the blocked-on relationship crosses CPUs, migrate @p to the
+  6841	 * owner's CPU.
+  6842	 *
+  6843	 * This is because we must respect the CPU affinity of execution
+  6844	 * contexts (owner) but we can ignore affinity for scheduling
+  6845	 * contexts (@p). So we have to move scheduling contexts towards
+  6846	 * potential execution contexts.
+  6847	 *
+  6848	 * Note: The owner can disappear, but simply migrate to @target_cpu
+  6849	 * and leave that CPU to sort things out.
+  6850	 */
+  6851	static void proxy_migrate_task(struct rq *rq, struct rq_flags *rf,
+  6852				       struct task_struct *p, int target_cpu)
+  6853	{
+  6854		struct rq *target_rq;
+  6855	
+  6856		lockdep_assert_rq_held(rq);
+  6857		target_rq = cpu_rq(target_cpu);
+  6858	
+  6859		/*
+  6860		 * Since we're going to drop @rq, we have to put(@rq->donor) first,
+  6861		 * otherwise we have a reference that no longer belongs to us.
+  6862		 *
+  6863		 * Additionally, as we put_prev_task(prev) earlier, its possible that
+  6864		 * prev will migrate away as soon as we drop the rq lock, however we
+  6865		 * still have it marked as rq->curr, as we've not yet switched tasks.
+  6866		 *
+  6867		 * After the migration, we are going to pick_again in the __schedule
+  6868		 * logic, so backtrack a bit before we release the lock:
+  6869		 * Put rq->donor, and set rq->curr as rq->donor and set_next_task,
+  6870		 * so that we're close to the situation we had entering __schedule
+  6871		 * the first time.
+  6872		 *
+  6873		 * Then when we re-aquire the lock, we will re-put rq->curr then
+  6874		 * rq_set_donor(rq->idle) and set_next_task(rq->idle), before
+  6875		 * picking again.
+  6876		 */
+  6877		/* XXX - Added to address problems with changed dl_server semantics - double check */
+> 6878		__put_prev_set_next_dl_server(rq, rq->donor, rq->curr);
+  6879		put_prev_task(rq, rq->donor);
+  6880		rq_set_donor(rq, rq->curr);
+  6881		set_next_task(rq, rq->curr);
+  6882	
+  6883		WARN_ON(p == rq->curr);
+  6884	
+  6885		deactivate_task(rq, p, 0);
+  6886		proxy_set_task_cpu(p, target_cpu);
+  6887	
+  6888		zap_balance_callbacks(rq);
+  6889		rq_unpin_lock(rq, rf);
+  6890		raw_spin_rq_unlock(rq);
+  6891		raw_spin_rq_lock(target_rq);
+  6892	
+  6893		activate_task(target_rq, p, 0);
+  6894		wakeup_preempt(target_rq, p, 0);
+  6895	
+  6896		raw_spin_rq_unlock(target_rq);
+  6897		raw_spin_rq_lock(rq);
+  6898		rq_repin_lock(rq, rf);
+  6899	
+  6900		/*
+  6901		 * Ok, now we have the lock again, put rq->curr and
+  6902		 * set_next_task() to idle
+  6903		 */
+  6904		proxy_resched_idle(rq);
+  6905	}
+  6906	#else /* !CONFIG_SMP */
+  6907	static inline
+  6908	void proxy_migrate_task(struct rq *rq, struct rq_flags *rf,
+  6909				struct task_struct *p, int target_cpu)
+  6910	{
+  6911	}
+  6912	#endif /* CONFIG_SMP */
+  6913	
 
 -- 
 0-DAY CI Kernel Test Service
