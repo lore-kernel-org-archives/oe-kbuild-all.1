@@ -1,142 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42834231830
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Mar 2026 14:41:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE5C3FFADE
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Mar 2026 15:11:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774363285; cv=none; b=Q4GCN0sWTXHkhG4Np10sKLE6BSRpxkIa2jKk9L79UGrp1gbqzLLLixZtxBBNJF2CsYjDZAkayXA/YzqxpVLhoTVjq0JeTYp0L597W3ol8BOH1DOvjQHr+vchQNT2AL29hgHu8pdEV7Nn/e46qhmqTxlAZiexvka31Yfk+jSLlUs=
+	t=1774365085; cv=none; b=keS9RO24zMBkkdyfkiNCBinH1xkiLStKT7iJWfQTZfZwXbXafCnQo0lbKUzQiwfG4JJ0pCDyzqCeIvFhLkorV664DHzLcSyD1AQ9OtLLzTMse/MzhCu5hjiNqKntzfdXQR1EowHbKsMnvIsTJgCPwf2d2vygkSS5s0HfsThp47w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774363285; c=relaxed/simple;
-	bh=l75KZj5b4rmbm/g0eeywloWjYWlOWs5V8/y0ZPlQ6kk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MIyHV0C9BovkFd7WXO0HxyV3zhmBXdYq+rui+dRwlhpimmn7CkTxY/doMiqoHULZqdp5EcTmY/Z4s/6YzWMe9/qTLRDTX5UZ/ZxXazwfidZyRVUogNCPd24GOphXv86RUIFqwfpRpFoxZaI8K1FfiFOaao1tQkSdjIBFrjGUi3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LDzgYb8p; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1774365085; c=relaxed/simple;
+	bh=zf2PN4plkjkIbpjVAdvFioZnInp330jVysUmpalQZ/M=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=H7F+jNy2/eXewNVBE3mvMsBjncbH1hWD+rAmo+a0AW4RTLdH/umNXL3r0x5O06Hv7P/G3dXAH3oZOgEUg+mypqPxqOD3zxxJu3YrIsfeqQlAzg3R4ki+eQF0Fgt6lbdIkrytBPfSK71R8UzCwRxAxa39pjB409onwdfoEs9OUW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qmh70d18; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LDzgYb8p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qmh70d18"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774363283; x=1805899283;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=l75KZj5b4rmbm/g0eeywloWjYWlOWs5V8/y0ZPlQ6kk=;
-  b=LDzgYb8paZkzlG0pDQPCWNMyL2tqGYdI0MkoG2eFf6aL7lbUVeaBm6s3
-   Wju33f+6WWURC6XNfpMJyYP4s6ji6AZn80Kf42BnkX0M7oxhgl9kvsmo0
-   hBzaK/QI9vnmTnmvu5BhF5LDHgvFTSA4T5jFoJr6f/iagkVVgT11TN6Fo
-   r0e2cItVczkw+0NEZLKfxbRg6hsnROmu56ftC3cVozbbBIH+xLm8yI5E0
-   X0R9Fmr7dFJAnLVSXeLwFckJqPcY62n1C+BM1+Pasv2LXalXzmF8p62gn
-   02Suphg5vKYJVFrcHHHDlJSluGkdWxgwPzCQUWUqFXv+xkFP4x1mwIY88
-   Q==;
-X-CSE-ConnectionGUID: 3eC+QD+hSP+kMaioTDT+Qg==
-X-CSE-MsgGUID: jlT8r0n3Scmjl5sKfXJ2MQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="75450914"
+  t=1774365083; x=1805901083;
+  h=date:from:to:cc:subject:message-id;
+  bh=zf2PN4plkjkIbpjVAdvFioZnInp330jVysUmpalQZ/M=;
+  b=Qmh70d1888S42ENRbiFqbIlQC+9Xci1az3vCSW1yTADnc31N91B33BQZ
+   O8Khm879FU7lxa/LqpSlYEoxQJ0cUtj8vd/tbTq4/uK/Er7haWmwtR1wB
+   QmbBN1KyMXhrfPCdHseSaina3T9bdXhDuDf5iZoiJc7YSsf8v5Qqc/+ym
+   zlfIhynWr1JwZM9mQQJJQ4vTX7d4VKZ+8xDsO2UYHsRDBGoMxX8nrMIBo
+   aP6flJkJoERhpig4NN/7DyYlShQShO7zor8jhRKmSTCXTibkfFSdlm01o
+   oVvygRwymufNTBQjfCZ1Kb39FqU6xmUm5BhlMcxYXmk8Ffy5PUL57XsIG
+   A==;
+X-CSE-ConnectionGUID: zovDWg3KTSab1xaMX5xH7w==
+X-CSE-MsgGUID: gAyVR6lbRmOF6wEu6dxovA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="86757650"
 X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="75450914"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 07:41:22 -0700
-X-CSE-ConnectionGUID: vibDIaYYTHemfPPXCqM2YA==
-X-CSE-MsgGUID: 75cU/oM9QDeLAERDEQykqg==
+   d="scan'208";a="86757650"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 08:11:23 -0700
+X-CSE-ConnectionGUID: 8U4FfkgvS5+P0YfsxmlwFA==
+X-CSE-MsgGUID: ouuOLXPzQleG9ZOHAmP9KQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="247437068"
+   d="scan'208";a="228856326"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 24 Mar 2026 07:41:20 -0700
+  by orviesa004.jf.intel.com with ESMTP; 24 Mar 2026 08:11:22 -0700
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w52wY-000000006u9-1PeW;
-	Tue, 24 Mar 2026 14:41:18 +0000
-Date: Tue, 24 Mar 2026 15:40:22 +0100
+	id 1w53Pa-000000006uf-3Jsn;
+	Tue, 24 Mar 2026 15:11:18 +0000
+Date: Tue, 24 Mar 2026 16:11:01 +0100
 From: kernel test robot <lkp@intel.com>
-To: Artem Lytkin <iprintercanon@gmail.com>, netdev@vger.kernel.org,
-	rust-for-linux@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, fujita.tomonori@gmail.com,
-	andrew@lunn.ch, hkallweit1@gmail.com, tmgross@umich.edu,
-	ojeda@kernel.org, dakr@kernel.org
-Subject: Re: [PATCH 2/4] rust: phy: add paged register access and bit
- manipulation helpers
-Message-ID: <202603241502.8mYbVohd-lkp@intel.com>
-References: <20260323201925.8405-2-iprintercanon@gmail.com>
+To: Justin Stitt <justinstitt@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, Kees Cook <kees@kernel.org>,
+ linux-doc@vger.kernel.org
+Subject: [kees:dev/v7.0-rc2/obt 2/4] htmldocs:
+ Documentation/process/arithmetic-overflow.rst: WARNING: document isn't
+ included in any toctree [toc.not_included]
+Message-ID: <202603241633.kh2zxFVG-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260323201925.8405-2-iprintercanon@gmail.com>
 
-Hi Artem,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on rust/rust-next]
-[also build test ERROR on linus/master v7.0-rc5 next-20260323]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Artem-Lytkin/rust-phy-add-paged-register-access-and-bit-manipulation-helpers/20260324-155532
-base:   https://github.com/Rust-for-Linux/linux rust-next
-patch link:    https://lore.kernel.org/r/20260323201925.8405-2-iprintercanon%40gmail.com
-patch subject: [PATCH 2/4] rust: phy: add paged register access and bit manipulation helpers
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260324/202603241502.8mYbVohd-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git dev/v7.0-rc2/obt
+head:   537858cd27d509ec0dedfa4b96bc1d0e461367b1
+commit: 9e0190e84f2ecf5ff7314441655d71913095654e [2/4] compiler_attributes: Add overflow_behavior macros __wrap and __trap
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260324/202603241502.8mYbVohd-lkp@intel.com/reproduce)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260324/202603241633.kh2zxFVG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603241502.8mYbVohd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603241633.kh2zxFVG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS=\ -fno-crash-diagnostics\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck 
-   make: Entering directory '/kbuild/src/consumer'
-   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
->> Diff in rust/kernel/net/phy.rs:246:
-            let phydev = self.0.get();
-            // SAFETY: `phydev` is pointing to a valid object by the type invariant of `Self`.
-            // So it's just an FFI call.
-   -        let ret =
-   -            unsafe { bindings::phy_write_paged(phydev, page.into(), regnum.into(), val) };
-   +        let ret = unsafe { bindings::phy_write_paged(phydev, page.into(), regnum.into(), val) };
-    
-            to_result(ret)
-        }
->> Diff in rust/kernel/net/phy.rs:246:
-            let phydev = self.0.get();
-            // SAFETY: `phydev` is pointing to a valid object by the type invariant of `Self`.
-            // So it's just an FFI call.
-   -        let ret =
-   -            unsafe { bindings::phy_write_paged(phydev, page.into(), regnum.into(), val) };
-   +        let ret = unsafe { bindings::phy_write_paged(phydev, page.into(), regnum.into(), val) };
-    
-            to_result(ret)
-        }
->> Diff in rust/kernel/net/phy.rs:246:
-            let phydev = self.0.get();
-            // SAFETY: `phydev` is pointing to a valid object by the type invariant of `Self`.
-            // So it's just an FFI call.
-   -        let ret =
-   -            unsafe { bindings::phy_write_paged(phydev, page.into(), regnum.into(), val) };
-   +        let ret = unsafe { bindings::phy_write_paged(phydev, page.into(), regnum.into(), val) };
-    
-            to_result(ret)
-        }
-   make[2]: *** [Makefile:1912: rustfmt] Error 123
-   make[2]: Target 'rustfmtcheck' not remade because of errors.
-   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'rustfmtcheck' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'rustfmtcheck' not remade because of errors.
-   make: Leaving directory '/kbuild/src/consumer'
+   Documentation/userspace-api/landlock:526: ./include/uapi/linux/landlock.h:45: ERROR: Unknown target name: "network flags". [docutils]
+   Documentation/userspace-api/landlock:526: ./include/uapi/linux/landlock.h:50: ERROR: Unknown target name: "scope flags". [docutils]
+   Documentation/userspace-api/landlock:526: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:535: ./include/uapi/linux/landlock.h:166: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:535: ./include/uapi/linux/landlock.h:189: ERROR: Unknown target name: "network flags". [docutils]
+>> Documentation/process/arithmetic-overflow.rst: WARNING: document isn't included in any toctree [toc.not_included]
+   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
+>> Documentation/process/arithmetic-overflow.rst:25: WARNING: undefined label: '_open_coded_wrap_around' [ref.ref]
 
 -- 
 0-DAY CI Kernel Test Service
