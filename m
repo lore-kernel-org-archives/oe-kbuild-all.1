@@ -1,57 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A08A3373C12
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Mar 2026 13:16:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE5182C026C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Mar 2026 13:16:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774358177; cv=none; b=Ama+s52tDa2NJ9zxw0CSNQzNsII6mhCfU6wqP1T5BKabJf8TkA+c2vQt2UiTHQuwpXrcXFB5tgeQKG5bvQmCSNjdvj5NIJ6kg6BfOyfR0K7D5fMUO+cYxYZmVXsBLUFZx7nQq7sBKD0MxGbRgkBOG/F43p8ZVuQUTJ5aHd9fifs=
+	t=1774358179; cv=none; b=PJHrL55856Oy5xjrEqZ7RfXxkmZBbIp06mFCQW7Tw2ZD96t4LskDvErwJC0+Bvdym5Zgp1aNuJRsRKWBK34/O8fXg3CQRTBKN5gROrNBJcwi+X0fcP8cCu7k274qKKU3B6amu/y0b1Pv5vHJh6p+HkXyQ8yPySgBiNmHliMasss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774358177; c=relaxed/simple;
-	bh=ORaEMz4s5NKZu5MytxQywhUhnMMIFOg/GhFn0AZDAf8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TgwwmnNbOwilC0a9G2qlmgDi3HRoJ8NOAD/a7k+Gz3iz+rOBP79lQXHCTtOtmoWZ8eLh+ih6VmYQM5W2y82k6VNdo0pw/NY/IxTFm7WTcYsnFt3rar1dVQiDsTqNQTD0FdxNkw1ezEz9e4s3dZCwr/wisduQk6nTjoK3dkQv7fk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kJlOYZGZ; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1774358179; c=relaxed/simple;
+	bh=w7P6tIEiB8EHGxZMrg2g+BO0Y+iv//hr3Ibt9P5R50Y=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QP7LgwaorQA6x4d/mKlio8+iCmGxu5OwpM9OdUrEB7GXETzcV3wrh9PKP5aCajCFDsD12oFG2jH5ABB2gAeoeWmzhjy1A+FXoMLfLrVm12MgkR9NSGbDwqEuR+x4mUI9L3Rij6+1WvRzT0poP0vsvMhVQdwOqtex/08sLrJk67w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JllKNEp+; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kJlOYZGZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JllKNEp+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774358174; x=1805894174;
+  t=1774358178; x=1805894178;
   h=date:from:to:cc:subject:message-id;
-  bh=ORaEMz4s5NKZu5MytxQywhUhnMMIFOg/GhFn0AZDAf8=;
-  b=kJlOYZGZfc0/zBLbLBOEpIKbd5rJlhrE13tYm3bJCB7lToxsk4aY03cn
-   6xJR7yP0/FR0yR1DpBVWr+BSZVSo2Ym/XQNnt/HzdnqgwVeJYS6fsvtE6
-   DT2ALF6zqHnZXJR1xA1I/Plp2LbRvFCOl+6jahEI3ad9u73ptvqlIQ24x
-   GFLL+aB7KmQ6XncEJ9TpSL3VZkeG18G/6Jj2c5NAl3jXraqZ/yXuO6bYI
-   tofadqaObQEVkI1Xr+c7P0ihBJMm/yOWs4xvVAqczrIGr7V1OatwKWgWY
-   io/YQ91CODNGpdg4sAnF/twtbm9Qkp5gUBygCRUIDyDn/2cttu7EUftKj
-   g==;
-X-CSE-ConnectionGUID: 2Ga47BboT2CzAAoYFgWgtg==
-X-CSE-MsgGUID: JolJCmUtSYGKxsR1rgV5yg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="62923533"
+  bh=w7P6tIEiB8EHGxZMrg2g+BO0Y+iv//hr3Ibt9P5R50Y=;
+  b=JllKNEp+ZynI3GT8GrP3Vwa841VOW9aMHA43qctFbuzeDqnS6Sv8srv9
+   /KTTOI9kVlrVl980G0TVjniaQbKuYPcV9VEQCwYQQWBI2b18o+yjRqLDp
+   w4jrVvYwCcGjiBNydh7rgmNiE19YistAvjY1rOaX4BCzvkTj/2RoJudq4
+   ZxUh96iN0bQnkl/vEaZWPPH5fHLji0z6zR4t97MHcdKXj+viOrUHqV0c6
+   03Q3cnOlBLA3mT+9RtV+S2IVJLoGAp7E725K2Js01yaCgT/raqZHI9C3k
+   cP/OR745ULCI0gDPdrspxyA2sJADz3OJK4a3ZX3GNkY5kXu5XWUCHBvKa
+   Q==;
+X-CSE-ConnectionGUID: 1c46ZEInT5iu3WgBle3zeQ==
+X-CSE-MsgGUID: b3soSAwTQcGk/v6XJoNEyg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="62923537"
 X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="62923533"
+   d="scan'208";a="62923537"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 06:16:13 -0700
-X-CSE-ConnectionGUID: dZUINQ/aSv6QAES3TGJryA==
-X-CSE-MsgGUID: snTGVFmwSAWMauAibwvgnw==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 06:16:14 -0700
+X-CSE-ConnectionGUID: GjK9Je9kT2COjGEvmeMmfA==
+X-CSE-MsgGUID: WkZNJPBWQXWCsyCd5QJt6w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="225993309"
+   d="scan'208";a="225993313"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
   by fmviesa004.fm.intel.com with ESMTP; 24 Mar 2026 06:16:12 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w51cA-000000004bT-0RVl;
+	id 1w51cA-000000004bV-0bPE;
 	Tue, 24 Mar 2026 13:16:10 +0000
-Date: Tue, 24 Mar 2026 21:15:40 +0800
+Date: Tue, 24 Mar 2026 21:15:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jirislaby:devel 20/27] drivers/tty/tty_io.c:3453:42: error:
- subscripted value is neither array nor pointer nor vector
-Message-ID: <202603242159.DuocgE3Z-lkp@intel.com>
+To: Teguh Sobirin <teguh@sobir.in>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
+ Aaron Kling <webgeek1234@gmail.com>
+Subject: [linux-next:master 5148/8143] include/linux/property.h:264:
+ undefined reference to `wm_halo_init'
+Message-ID: <202603242142.PjJp7e5d-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,122 +60,121 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
-head:   5d42f0e906f51125dada29404e4278e3f40130e4
-commit: 764e0f454dded65101e69eca896f8851d16f9b62 [20/27] tty: convert driver::ports to xarray
-config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20260324/202603242159.DuocgE3Z-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260324/202603242159.DuocgE3Z-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   09c0f7f1bcdbc3c37a5a760cbec76bf18f278406
+commit: fc1fbafc18a0352f1f23cdff3533fbd0276dd58e [5148/8143] ASoC: codecs: aw88166: Support device specific firmware
+config: xtensa-randconfig-001-20260324 (https://download.01.org/0day-ci/archive/20260324/202603242142.PjJp7e5d-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260324/202603242142.PjJp7e5d-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603242159.DuocgE3Z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603242142.PjJp7e5d-lkp@intel.com/
+
+Note: the linux-next/master HEAD 09c0f7f1bcdbc3c37a5a760cbec76bf18f278406 builds fine.
+      It may have been fixed somewhere.
 
 All errors (new ones prefixed by >>):
 
-   drivers/tty/tty_io.c: In function 'tty_register_driver':
->> drivers/tty/tty_io.c:3453:42: error: subscripted value is neither array nor pointer nor vector
-    3453 |                         if (driver->ports[i])
-         |                                          ^
-   drivers/tty/tty_io.c:3454:70: error: subscripted value is neither array nor pointer nor vector
-    3454 |                                 tty_port_link_driver_wq(driver->ports[i], driver);
-         |                                                                      ^
+   xtensa-linux-ld: sound/soc/codecs/cs35l41.o: in function `cs35l41_dai_set_sysclk':
+   sound/soc/codecs/cs35l41.c:879: undefined reference to `wm_adsp2_component_remove'
+   xtensa-linux-ld: sound/soc/codecs/cs35l41.o: in function `cs35l41_set_channel_map':
+   sound/soc/codecs/cs35l41.c:678: undefined reference to `wm_adsp2_component_remove'
+   xtensa-linux-ld: sound/soc/codecs/cs35l41.c:681: undefined reference to `wm_adsp2_component_probe'
+   xtensa-linux-ld: sound/soc/codecs/cs35l41.o: in function `cs35l41_component_remove':
+   sound/soc/codecs/cs35l41.c:953: undefined reference to `wm_adsp2_component_probe'
+   xtensa-linux-ld: sound/soc/codecs/cs35l41.o: in function `cs35l41_main_amp_event':
+   sound/soc/codecs/cs35l41.c:511: undefined reference to `wm_adsp_event'
+   xtensa-linux-ld: sound/soc/codecs/cs35l41.c:525: undefined reference to `wm_adsp_event'
+   xtensa-linux-ld: sound/soc/codecs/cs35l41.c:215: undefined reference to `wm_adsp_early_event'
+   xtensa-linux-ld: sound/soc/codecs/cs35l41.o: in function `cs35l41_dsp_audio_ev':
+   sound/soc/codecs/cs35l41.c:233: undefined reference to `wm_adsp_early_event'
+   xtensa-linux-ld: sound/soc/codecs/cs35l41.c:246: undefined reference to `wm_adsp_event'
+   xtensa-linux-ld: sound/soc/codecs/cs35l41.o: in function `cs35l41_boost_enable':
+   sound/soc/codecs/cs35l41.c:385: undefined reference to `wm_adsp2_remove'
+   xtensa-linux-ld: sound/soc/codecs/cs35l41.o: in function `cs35l41_irq':
+   sound/soc/codecs/cs35l41.c:406: undefined reference to `wm_adsp2_remove'
+   xtensa-linux-ld: sound/soc/codecs/cs35l41.c:433: undefined reference to `wm_halo_init'
+   xtensa-linux-ld: sound/soc/codecs/cs35l41.o: in function `device_property_read_u32':
+>> include/linux/property.h:264: undefined reference to `wm_halo_init'
+>> xtensa-linux-ld: include/linux/property.h:264: undefined reference to `wm_adsp2_remove'
+   xtensa-linux-ld: sound/soc/codecs/cs35l41.o: in function `cs35l41_probe':
+   sound/soc/codecs/cs35l41.c:1222: undefined reference to `wm_adsp2_remove'
+   xtensa-linux-ld: sound/soc/codecs/cs35l41.o:(.rodata+0x2ebc): undefined reference to `wm_adsp2_preloader_get'
+   xtensa-linux-ld: sound/soc/codecs/cs35l41.o:(.rodata+0x2ec0): undefined reference to `wm_adsp2_preloader_put'
+   xtensa-linux-ld: sound/soc/codecs/cs35l41.o:(.rodata+0x2eec): undefined reference to `wm_adsp_fw_get'
+   xtensa-linux-ld: sound/soc/codecs/cs35l41.o:(.rodata+0x2ef0): undefined reference to `wm_adsp_fw_put'
+   xtensa-linux-ld: sound/soc/codecs/cs35l41.o:(.rodata+0x2ef8): undefined reference to `wm_adsp_fw_enum'
+   xtensa-linux-ld: sound/soc/codecs/cs35l45.o: in function `cs35l45_pll_unlock':
+   sound/soc/codecs/cs35l45.c:1230: undefined reference to `wm_adsp2_remove'
+   xtensa-linux-ld: sound/soc/codecs/cs35l45.o: in function `cs35l45_asp_hw_params':
+   sound/soc/codecs/cs35l45.c:787: undefined reference to `wm_adsp2_component_remove'
+   xtensa-linux-ld: sound/soc/codecs/cs35l45.o: in function `cs35l45_asp_set_sysclk':
+   sound/soc/codecs/cs35l45.c:791: undefined reference to `wm_adsp2_component_probe'
+   xtensa-linux-ld: sound/soc/codecs/cs35l45.c:810: undefined reference to `wm_adsp_event'
+   xtensa-linux-ld: sound/soc/codecs/cs35l45.o: in function `cs35l45_mute_stream':
+   sound/soc/codecs/cs35l45.c:819: undefined reference to `wm_adsp_early_event'
+   xtensa-linux-ld: sound/soc/codecs/cs35l45.c:827: undefined reference to `wm_adsp_event'
+   xtensa-linux-ld: sound/soc/codecs/cs35l45.o: in function `cs35l45_probe':
+   sound/soc/codecs/cs35l45.c:1402: undefined reference to `wm_halo_init'
+   xtensa-linux-ld: sound/soc/codecs/cs35l45.o: in function `cs35l45_initialize':
+   sound/soc/codecs/cs35l45.c:1286: undefined reference to `wm_adsp2_remove'
+   xtensa-linux-ld: sound/soc/codecs/cs35l45.o:(.rodata+0x6c0): undefined reference to `wm_adsp2_preloader_get'
+   xtensa-linux-ld: sound/soc/codecs/cs35l45.o:(.rodata+0x6c4): undefined reference to `wm_adsp2_preloader_put'
+   xtensa-linux-ld: sound/soc/codecs/cs35l45.o:(.rodata+0x6f0): undefined reference to `wm_adsp_fw_get'
+   xtensa-linux-ld: sound/soc/codecs/cs35l45.o:(.rodata+0x6f4): undefined reference to `wm_adsp_fw_put'
+   xtensa-linux-ld: sound/soc/codecs/cs35l45.o:(.rodata+0x6fc): undefined reference to `wm_adsp_fw_enum'
+   xtensa-linux-ld: sound/soc/codecs/cs35l56.o: in function `cs35l56_asp_dai_hw_params':
+   sound/soc/codecs/cs35l56.c:516: undefined reference to `wm_adsp_power_down'
+   xtensa-linux-ld: sound/soc/codecs/cs35l56.c:525: undefined reference to `wm_adsp_power_down'
+   xtensa-linux-ld: sound/soc/codecs/cs35l56.c:525: undefined reference to `wm_adsp2_component_remove'
+   xtensa-linux-ld: sound/soc/codecs/cs35l56.o: in function `cs35l56_asp_dai_set_fmt':
+   sound/soc/codecs/cs35l56.c:380: undefined reference to `wm_adsp2_component_probe'
+   xtensa-linux-ld: sound/soc/codecs/cs35l56.o: in function `dev_get_drvdata':
+   include/linux/device.h:782: undefined reference to `wm_adsp_event'
+   xtensa-linux-ld: sound/soc/codecs/cs35l56.o: in function `cs35l56_set_bias_level':
+   sound/soc/codecs/cs35l56.c:1342: undefined reference to `wm_adsp_power_up'
+   xtensa-linux-ld: sound/soc/codecs/cs35l56.c:1309: undefined reference to `wm_adsp_power_up'
+   xtensa-linux-ld: sound/soc/codecs/cs35l56.o: in function `cs35l56_component_remove':
+   sound/soc/codecs/cs35l56.c:1316: undefined reference to `wm_adsp_power_up'
+   xtensa-linux-ld: sound/soc/codecs/cs35l56.c:1319: undefined reference to `wm_adsp_run'
+   xtensa-linux-ld: sound/soc/codecs/cs35l56.c:1319: undefined reference to `wm_adsp_stop'
+   xtensa-linux-ld: sound/soc/codecs/cs35l56.c:1328: undefined reference to `wm_adsp_run'
+   xtensa-linux-ld: sound/soc/codecs/cs35l56.c:1237: undefined reference to `wm_adsp_stop'
+   xtensa-linux-ld: sound/soc/codecs/cs35l56.o: in function `cs35l56_patch':
+   sound/soc/codecs/cs35l56.c:826: undefined reference to `wm_halo_init'
+   xtensa-linux-ld: sound/soc/codecs/cs35l56-shared.o: in function `cs35l56_runtime_suspend_common':
+   sound/soc/codecs/cs35l56-shared.c:568: undefined reference to `cs_dsp_get_ctl'
+   xtensa-linux-ld: sound/soc/codecs/cs35l56-shared.c:568: undefined reference to `cs_dsp_coeff_read_ctrl'
+   xtensa-linux-ld: sound/soc/codecs/cs35l56-shared.o: in function `cs35l56_system_reset':
+   sound/soc/codecs/cs35l56-shared.c:580: undefined reference to `cs_dsp_get_ctl'
+   xtensa-linux-ld: sound/soc/codecs/cs35l56-shared.c:584: undefined reference to `cs_dsp_coeff_read_ctrl'
+   xtensa-linux-ld: sound/soc/codecs/cs35l56-shared.o: in function `cs35l56_irq_request':
+   sound/soc/codecs/cs35l56-shared.c:632: undefined reference to `cs_dsp_get_ctl'
+   xtensa-linux-ld: sound/soc/codecs/cs35l56-shared.c:632: undefined reference to `cs_dsp_coeff_read_ctrl'
+   xtensa-linux-ld: sound/soc/codecs/cs35l56-shared.c:636: undefined reference to `cs_dsp_get_ctl'
+   xtensa-linux-ld: sound/soc/codecs/cs35l56-shared.c:636: undefined reference to `cs_dsp_coeff_read_ctrl'
+   xtensa-linux-ld: sound/soc/codecs/cs35l56-shared.o: in function `cs35l56_irq':
+   sound/soc/codecs/cs35l56-shared.c:636: undefined reference to `cs_dsp_get_ctl'
+   xtensa-linux-ld: sound/soc/codecs/cs35l56-shared.c:645: undefined reference to `cs_dsp_coeff_read_ctrl'
 
 
-vim +3453 drivers/tty/tty_io.c
+vim +264 include/linux/property.h
 
-7d7b93c1452f381 drivers/char/tty_io.c Alan Cox           2008-10-13  3413  
-385812835431c90 drivers/tty/tty_io.c  Jiri Slaby         2021-11-26  3414  /**
-c38f45ef5fe2236 drivers/tty/tty_io.c  Jiri Slaby (SUSE   2023-09-19  3415)  * tty_register_driver - register a tty driver
-385812835431c90 drivers/tty/tty_io.c  Jiri Slaby         2021-11-26  3416   * @driver: driver to register
-385812835431c90 drivers/tty/tty_io.c  Jiri Slaby         2021-11-26  3417   *
-^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3418   * Called by a tty driver to register itself.
-^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3419   */
-^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3420  int tty_register_driver(struct tty_driver *driver)
-^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3421  {
-^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3422  	int error;
-^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3423  	int i;
-^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3424  	dev_t dev;
-b670bde0b249796 drivers/char/tty_io.c Vasiliy Kulikov    2010-09-05  3425  	struct device *d;
-^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3426  
-^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3427  	if (!driver->major) {
-37bdfb074ec0358 drivers/char/tty_io.c Alan Cox           2008-02-08  3428  		error = alloc_chrdev_region(&dev, driver->minor_start,
-37bdfb074ec0358 drivers/char/tty_io.c Alan Cox           2008-02-08  3429  						driver->num, driver->name);
-^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3430  		if (!error) {
-^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3431  			driver->major = MAJOR(dev);
-^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3432  			driver->minor_start = MINOR(dev);
-^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3433  		}
-^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3434  	} else {
-^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3435  		dev = MKDEV(driver->major, driver->minor_start);
-e5717c48ed52fee drivers/char/tty_io.c Geert Uytterhoeven 2007-02-20  3436  		error = register_chrdev_region(dev, driver->num, driver->name);
-^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3437  	}
-9bb8a3d4109f3b2 drivers/tty/tty_io.c  Jiri Slaby         2012-06-04  3438  	if (error < 0)
-16a02081baa15be drivers/tty/tty_io.c  Jiri Slaby         2012-08-08  3439  		goto err;
-^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3440  
-eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3441  	/*
-eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3442  	 * Drivers that do not define driver_name are potentially in-memory devices
-eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3443  	 * like vty, which generally do not require special workqueue settings.
-eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3444  	 */
-eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3445  	if (!(driver->flags & TTY_DRIVER_NO_WORKQUEUE) && driver->driver_name) {
-eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3446  		driver->flip_wq = alloc_workqueue("%s-%s", WQ_UNBOUND | WQ_SYSFS,
-eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3447  						  0, driver->name, driver->driver_name);
-eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3448  		if (!driver->flip_wq) {
-eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3449  			error = -ENOMEM;
-eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3450  			goto err_unreg_char;
-eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3451  		}
-eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3452  		for (i = 0; i < driver->num; i++) {
-eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13 @3453  			if (driver->ports[i])
-eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3454  				tty_port_link_driver_wq(driver->ports[i], driver);
-eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3455  		}
-eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3456  	}
-eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3457  
-7e73eca6a7b2967 drivers/tty/tty_io.c  Jiri Slaby         2012-08-08  3458  	if (driver->flags & TTY_DRIVER_DYNAMIC_ALLOC) {
-7e73eca6a7b2967 drivers/tty/tty_io.c  Jiri Slaby         2012-08-08  3459  		error = tty_cdev_add(driver, dev, 0, driver->num);
-9bb8a3d4109f3b2 drivers/tty/tty_io.c  Jiri Slaby         2012-06-04  3460  		if (error)
-eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3461  			goto err_destroy_wq;
-7e73eca6a7b2967 drivers/tty/tty_io.c  Jiri Slaby         2012-08-08  3462  	}
-^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3463  
-f49573f2f53e0f6 drivers/tty/tty_io.c  Jiri Slaby (SUSE   2025-04-25  3464) 	scoped_guard(mutex, &tty_mutex)
-^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3465  		list_add(&driver->tty_drivers, &tty_drivers);
-^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3466  
-331b831983f9d70 drivers/char/tty_io.c Greg Kroah-Hartman 2005-06-20  3467  	if (!(driver->flags & TTY_DRIVER_DYNAMIC_DEV)) {
-b670bde0b249796 drivers/char/tty_io.c Vasiliy Kulikov    2010-09-05  3468  		for (i = 0; i < driver->num; i++) {
-b670bde0b249796 drivers/char/tty_io.c Vasiliy Kulikov    2010-09-05  3469  			d = tty_register_device(driver, i, NULL);
-b670bde0b249796 drivers/char/tty_io.c Vasiliy Kulikov    2010-09-05  3470  			if (IS_ERR(d)) {
-b670bde0b249796 drivers/char/tty_io.c Vasiliy Kulikov    2010-09-05  3471  				error = PTR_ERR(d);
-16a02081baa15be drivers/tty/tty_io.c  Jiri Slaby         2012-08-08  3472  				goto err_unreg_devs;
-b670bde0b249796 drivers/char/tty_io.c Vasiliy Kulikov    2010-09-05  3473  			}
-b670bde0b249796 drivers/char/tty_io.c Vasiliy Kulikov    2010-09-05  3474  		}
-^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3475  	}
-^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3476  	proc_tty_register_driver(driver);
-7d7b93c1452f381 drivers/char/tty_io.c Alan Cox           2008-10-13  3477  	driver->flags |= TTY_DRIVER_INSTALLED;
-^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3478  	return 0;
-b670bde0b249796 drivers/char/tty_io.c Vasiliy Kulikov    2010-09-05  3479  
-16a02081baa15be drivers/tty/tty_io.c  Jiri Slaby         2012-08-08  3480  err_unreg_devs:
-b670bde0b249796 drivers/char/tty_io.c Vasiliy Kulikov    2010-09-05  3481  	for (i--; i >= 0; i--)
-b670bde0b249796 drivers/char/tty_io.c Vasiliy Kulikov    2010-09-05  3482  		tty_unregister_device(driver, i);
-b670bde0b249796 drivers/char/tty_io.c Vasiliy Kulikov    2010-09-05  3483  
-f49573f2f53e0f6 drivers/tty/tty_io.c  Jiri Slaby (SUSE   2025-04-25  3484) 	scoped_guard(mutex, &tty_mutex)
-b670bde0b249796 drivers/char/tty_io.c Vasiliy Kulikov    2010-09-05  3485  		list_del(&driver->tty_drivers);
-b670bde0b249796 drivers/char/tty_io.c Vasiliy Kulikov    2010-09-05  3486  
-eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3487  err_destroy_wq:
-eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3488  	if (driver->flip_wq)
-eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3489  		destroy_workqueue(driver->flip_wq);
-eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3490  
-9bb8a3d4109f3b2 drivers/tty/tty_io.c  Jiri Slaby         2012-06-04  3491  err_unreg_char:
-b670bde0b249796 drivers/char/tty_io.c Vasiliy Kulikov    2010-09-05  3492  	unregister_chrdev_region(dev, driver->num);
-16a02081baa15be drivers/tty/tty_io.c  Jiri Slaby         2012-08-08  3493  err:
-b670bde0b249796 drivers/char/tty_io.c Vasiliy Kulikov    2010-09-05  3494  	return error;
-^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3495  }
-^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3496  EXPORT_SYMBOL(tty_register_driver);
-^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3497  
+b31384fa5de37a Rafael J. Wysocki 2014-11-04  260  
+046b6a171009e1 Guenter Roeck     2023-04-19  261  static inline int device_property_read_u32(const struct device *dev,
+b31384fa5de37a Rafael J. Wysocki 2014-11-04  262  					   const char *propname, u32 *val)
+b31384fa5de37a Rafael J. Wysocki 2014-11-04  263  {
+b31384fa5de37a Rafael J. Wysocki 2014-11-04 @264  	return device_property_read_u32_array(dev, propname, val, 1);
+b31384fa5de37a Rafael J. Wysocki 2014-11-04  265  }
+b31384fa5de37a Rafael J. Wysocki 2014-11-04  266  
 
-:::::: The code at line 3453 was first introduced by commit
-:::::: eb3b0d92c9c39890592cca6647601fe5c631efea tty: tty_port: add workqueue to flip TTY buffer
+:::::: The code at line 264 was first introduced by commit
+:::::: b31384fa5de37a100507751dfb5c0a49d06cee67 Driver core: Unified device properties interface for platform firmware
 
-:::::: TO: Xin Zhao <jackzxcui1989@163.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+:::::: TO: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
