@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A74B83BC680
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Mar 2026 13:05:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A08A3373C12
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Mar 2026 13:16:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774357517; cv=none; b=mLcVu/f9ey8fgjbEmE7fVFIOLooff6n3GXWMge6p0vcCDztZyr0y15uBiShUzZyRj/RJ0KHJqTrtoMNwk+GvBB1QMGswykJAlafx8j0FqnKGf//CpcuUS5uvIyT/O1bNMnBDz4MnjN17R7A5LpvaD+RyDufJbsh027QmwueGa9I=
+	t=1774358177; cv=none; b=Ama+s52tDa2NJ9zxw0CSNQzNsII6mhCfU6wqP1T5BKabJf8TkA+c2vQt2UiTHQuwpXrcXFB5tgeQKG5bvQmCSNjdvj5NIJ6kg6BfOyfR0K7D5fMUO+cYxYZmVXsBLUFZx7nQq7sBKD0MxGbRgkBOG/F43p8ZVuQUTJ5aHd9fifs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774357517; c=relaxed/simple;
-	bh=U+EVYy/nC6iK++7lfrJUfFtHGWFIORftXfy2rBb7ybo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Ibr9/Tblp61/VA84oVMxQ9NRt8MuZg+VNN2DUrYN1WTb4HgFortenZ9bg10QxX0cXWxcoWIcGEmSPIG26mpVzpdTdpvTvIbeHxi6GZPZ3bcsEIdbuKNPIXMPZg+CNu4XqkWr/YlHJ72uUugnWj4xZZZN2/hnO7iJ92ob8Gk2zok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hj4eoz03; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1774358177; c=relaxed/simple;
+	bh=ORaEMz4s5NKZu5MytxQywhUhnMMIFOg/GhFn0AZDAf8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=TgwwmnNbOwilC0a9G2qlmgDi3HRoJ8NOAD/a7k+Gz3iz+rOBP79lQXHCTtOtmoWZ8eLh+ih6VmYQM5W2y82k6VNdo0pw/NY/IxTFm7WTcYsnFt3rar1dVQiDsTqNQTD0FdxNkw1ezEz9e4s3dZCwr/wisduQk6nTjoK3dkQv7fk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kJlOYZGZ; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hj4eoz03"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kJlOYZGZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774357516; x=1805893516;
+  t=1774358174; x=1805894174;
   h=date:from:to:cc:subject:message-id;
-  bh=U+EVYy/nC6iK++7lfrJUfFtHGWFIORftXfy2rBb7ybo=;
-  b=Hj4eoz0355ccNmXYX9hwAT/7bHkxuuiz5RW9g/9XMXvGM/qmwmPOYEmq
-   4jZX3QtceuZguOccQc+sS5b0mLuVRh2OuwgCDCOo7VDRWIBk351FhfioK
-   gw9mV7dE3ZtW/3uTurImxt2s7wI05C8YVMAzlr3TAH0AXsTKXtteTxFta
-   be27nL0pyL1OkMUPBDFSgIbMaFOxAcOganfoB/8+bJ3GqWvruO7vBiIql
-   XUaKKYOtgtczlcykV6qZBLsVRuM7lRV4IjL1u6+SDgJNk2m/81FrM7Fg+
-   8d2gyZvizLPsrJq90ahP7F53f+3+PIsi3NBxoXQKDyliH8iOT2aDYBCSp
-   w==;
-X-CSE-ConnectionGUID: MjgPt70nSumHWjVACM7ZnQ==
-X-CSE-MsgGUID: cAopgMh5SGWY5f3QFjRsYw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="77975393"
+  bh=ORaEMz4s5NKZu5MytxQywhUhnMMIFOg/GhFn0AZDAf8=;
+  b=kJlOYZGZfc0/zBLbLBOEpIKbd5rJlhrE13tYm3bJCB7lToxsk4aY03cn
+   6xJR7yP0/FR0yR1DpBVWr+BSZVSo2Ym/XQNnt/HzdnqgwVeJYS6fsvtE6
+   DT2ALF6zqHnZXJR1xA1I/Plp2LbRvFCOl+6jahEI3ad9u73ptvqlIQ24x
+   GFLL+aB7KmQ6XncEJ9TpSL3VZkeG18G/6Jj2c5NAl3jXraqZ/yXuO6bYI
+   tofadqaObQEVkI1Xr+c7P0ihBJMm/yOWs4xvVAqczrIGr7V1OatwKWgWY
+   io/YQ91CODNGpdg4sAnF/twtbm9Qkp5gUBygCRUIDyDn/2cttu7EUftKj
+   g==;
+X-CSE-ConnectionGUID: 2Ga47BboT2CzAAoYFgWgtg==
+X-CSE-MsgGUID: JolJCmUtSYGKxsR1rgV5yg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="62923533"
 X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="77975393"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 06:05:14 -0700
-X-CSE-ConnectionGUID: ebhJKdNqSHKhuLXMW/pbkw==
-X-CSE-MsgGUID: aKldYKZORm2oX8i8LtDOOQ==
+   d="scan'208";a="62923533"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 06:16:13 -0700
+X-CSE-ConnectionGUID: dZUINQ/aSv6QAES3TGJryA==
+X-CSE-MsgGUID: snTGVFmwSAWMauAibwvgnw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="229095423"
+   d="scan'208";a="225993309"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 24 Mar 2026 06:05:12 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 24 Mar 2026 06:16:12 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w51RV-000000004ah-2MVy;
-	Tue, 24 Mar 2026 13:05:09 +0000
-Date: Tue, 24 Mar 2026 21:04:31 +0800
+	id 1w51cA-000000004bT-0RVl;
+	Tue, 24 Mar 2026 13:16:10 +0000
+Date: Tue, 24 Mar 2026 21:15:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 36/36]
- drivers/virt/gunyah/rsc_mgr.c:162: warning: Function parameter or struct
- member 'pm_nb' not described in 'gunyah_rm'
-Message-ID: <202603242012.8jAkuvin-lkp@intel.com>
+Subject: [jirislaby:devel 20/27] drivers/tty/tty_io.c:3453:42: error:
+ subscripted value is neither array nor pointer nor vector
+Message-ID: <202603242159.DuocgE3Z-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,81 +59,122 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Hrishabh,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   2d13a0e00b4d9cf3601b0e0d2c1838ec962f4e88
-commit: 7d9fe864dc6289d8c10246453b0c7d3cb3f983f6 [36/36] ANDROID: virt: gunyah: Fetch fresh Gunyah information after restore
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260324/202603242012.8jAkuvin-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260324/202603242012.8jAkuvin-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
+head:   5d42f0e906f51125dada29404e4278e3f40130e4
+commit: 764e0f454dded65101e69eca896f8851d16f9b62 [20/27] tty: convert driver::ports to xarray
+config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20260324/202603242159.DuocgE3Z-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260324/202603242159.DuocgE3Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603242012.8jAkuvin-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603242159.DuocgE3Z-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/virt/gunyah/rsc_mgr.c:126: warning: Excess struct member 'ret' description in 'gunyah_rm_message'
-   drivers/virt/gunyah/rsc_mgr.c:162: warning: Function parameter or struct member 'adev' not described in 'gunyah_rm'
->> drivers/virt/gunyah/rsc_mgr.c:162: warning: Function parameter or struct member 'pm_nb' not described in 'gunyah_rm'
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for INTEL_MEI_ME
-   Depends on [n]: X86 && PCI [=y]
-   Selected by [m]:
-   - INTEL_MEI_HDCP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
-   - INTEL_MEI_PXP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
+   drivers/tty/tty_io.c: In function 'tty_register_driver':
+>> drivers/tty/tty_io.c:3453:42: error: subscripted value is neither array nor pointer nor vector
+    3453 |                         if (driver->ports[i])
+         |                                          ^
+   drivers/tty/tty_io.c:3454:70: error: subscripted value is neither array nor pointer nor vector
+    3454 |                                 tty_port_link_driver_wq(driver->ports[i], driver);
+         |                                                                      ^
 
 
-vim +162 drivers/virt/gunyah/rsc_mgr.c
+vim +3453 drivers/tty/tty_io.c
 
-4c11c572f413d00 Elliot Berman   2024-02-22  127  
-4c11c572f413d00 Elliot Berman   2024-02-22  128  /**
-4c11c572f413d00 Elliot Berman   2024-02-22  129   * struct gunyah_rm - private data for communicating w/Gunyah resource manager
-4c11c572f413d00 Elliot Berman   2024-02-22  130   * @tx_ghrsc: message queue resource to TX to RM
-4c11c572f413d00 Elliot Berman   2024-02-22  131   * @rx_ghrsc: message queue resource to RX from RM
-4c11c572f413d00 Elliot Berman   2024-02-22  132   * @active_rx_message: ongoing gunyah_rm_message for which we're receiving fragments
-4c11c572f413d00 Elliot Berman   2024-02-22  133   * @call_xarray: xarray to allocate & lookup sequence IDs for Request/Response flows
-4c11c572f413d00 Elliot Berman   2024-02-22  134   * @next_seq: next ID to allocate (for xa_alloc_cyclic)
-4c11c572f413d00 Elliot Berman   2024-02-22  135   * @recv_msg: cached allocation for Rx messages
-4c11c572f413d00 Elliot Berman   2024-02-22  136   * @send_msg: cached allocation for Tx messages. Must hold @send_lock to manipulate.
-4c11c572f413d00 Elliot Berman   2024-02-22  137   * @send_lock: synchronization to allow only one request to be sent at a time
-4c11c572f413d00 Elliot Berman   2024-02-22  138   * @send_ready: completed when we know Tx message queue can take more messages
-4c11c572f413d00 Elliot Berman   2024-02-22  139   * @nh: notifier chain for clients interested in RM notification messages
-b387fa408e4054a Elliot Berman   2024-02-22  140   * @miscdev: /dev/gunyah
-9281f214814eb6f Elliot Berman   2024-02-22  141   * @parent_fwnode: Parent IRQ fwnode to translate Gunyah hwirqs to Linux irqs
-4c11c572f413d00 Elliot Berman   2024-02-22  142   */
-4c11c572f413d00 Elliot Berman   2024-02-22  143  struct gunyah_rm {
-4c11c572f413d00 Elliot Berman   2024-02-22  144  	struct gunyah_resource tx_ghrsc;
-4c11c572f413d00 Elliot Berman   2024-02-22  145  	struct gunyah_resource rx_ghrsc;
-4c11c572f413d00 Elliot Berman   2024-02-22  146  	struct gunyah_rm_message *active_rx_message;
-4c11c572f413d00 Elliot Berman   2024-02-22  147  
-4c11c572f413d00 Elliot Berman   2024-02-22  148  	struct xarray call_xarray;
-4c11c572f413d00 Elliot Berman   2024-02-22  149  	u32 next_seq;
-4c11c572f413d00 Elliot Berman   2024-02-22  150  
-4c11c572f413d00 Elliot Berman   2024-02-22  151  	unsigned char recv_msg[GUNYAH_RM_MSGQ_MSG_SIZE];
-4c11c572f413d00 Elliot Berman   2024-02-22  152  	unsigned char send_msg[GUNYAH_RM_MSGQ_MSG_SIZE];
-4c11c572f413d00 Elliot Berman   2024-02-22  153  	struct mutex send_lock;
-4c11c572f413d00 Elliot Berman   2024-02-22  154  	struct completion send_ready;
-4c11c572f413d00 Elliot Berman   2024-02-22  155  	struct blocking_notifier_head nh;
-b387fa408e4054a Elliot Berman   2024-02-22  156  
-8c11dcc79b79d48 Sreenad Menon   2024-05-02  157  	struct auxiliary_device adev;
-b387fa408e4054a Elliot Berman   2024-02-22  158  	struct miscdevice miscdev;
-9281f214814eb6f Elliot Berman   2024-02-22  159  	struct fwnode_handle *parent_fwnode;
-7d9fe864dc6289d Hrishabh Rajput 2025-08-13  160  
-7d9fe864dc6289d Hrishabh Rajput 2025-08-13  161  	struct notifier_block pm_nb;
-4c11c572f413d00 Elliot Berman   2024-02-22 @162  };
-4c11c572f413d00 Elliot Berman   2024-02-22  163  
+7d7b93c1452f381 drivers/char/tty_io.c Alan Cox           2008-10-13  3413  
+385812835431c90 drivers/tty/tty_io.c  Jiri Slaby         2021-11-26  3414  /**
+c38f45ef5fe2236 drivers/tty/tty_io.c  Jiri Slaby (SUSE   2023-09-19  3415)  * tty_register_driver - register a tty driver
+385812835431c90 drivers/tty/tty_io.c  Jiri Slaby         2021-11-26  3416   * @driver: driver to register
+385812835431c90 drivers/tty/tty_io.c  Jiri Slaby         2021-11-26  3417   *
+^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3418   * Called by a tty driver to register itself.
+^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3419   */
+^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3420  int tty_register_driver(struct tty_driver *driver)
+^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3421  {
+^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3422  	int error;
+^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3423  	int i;
+^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3424  	dev_t dev;
+b670bde0b249796 drivers/char/tty_io.c Vasiliy Kulikov    2010-09-05  3425  	struct device *d;
+^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3426  
+^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3427  	if (!driver->major) {
+37bdfb074ec0358 drivers/char/tty_io.c Alan Cox           2008-02-08  3428  		error = alloc_chrdev_region(&dev, driver->minor_start,
+37bdfb074ec0358 drivers/char/tty_io.c Alan Cox           2008-02-08  3429  						driver->num, driver->name);
+^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3430  		if (!error) {
+^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3431  			driver->major = MAJOR(dev);
+^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3432  			driver->minor_start = MINOR(dev);
+^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3433  		}
+^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3434  	} else {
+^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3435  		dev = MKDEV(driver->major, driver->minor_start);
+e5717c48ed52fee drivers/char/tty_io.c Geert Uytterhoeven 2007-02-20  3436  		error = register_chrdev_region(dev, driver->num, driver->name);
+^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3437  	}
+9bb8a3d4109f3b2 drivers/tty/tty_io.c  Jiri Slaby         2012-06-04  3438  	if (error < 0)
+16a02081baa15be drivers/tty/tty_io.c  Jiri Slaby         2012-08-08  3439  		goto err;
+^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3440  
+eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3441  	/*
+eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3442  	 * Drivers that do not define driver_name are potentially in-memory devices
+eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3443  	 * like vty, which generally do not require special workqueue settings.
+eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3444  	 */
+eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3445  	if (!(driver->flags & TTY_DRIVER_NO_WORKQUEUE) && driver->driver_name) {
+eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3446  		driver->flip_wq = alloc_workqueue("%s-%s", WQ_UNBOUND | WQ_SYSFS,
+eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3447  						  0, driver->name, driver->driver_name);
+eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3448  		if (!driver->flip_wq) {
+eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3449  			error = -ENOMEM;
+eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3450  			goto err_unreg_char;
+eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3451  		}
+eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3452  		for (i = 0; i < driver->num; i++) {
+eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13 @3453  			if (driver->ports[i])
+eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3454  				tty_port_link_driver_wq(driver->ports[i], driver);
+eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3455  		}
+eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3456  	}
+eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3457  
+7e73eca6a7b2967 drivers/tty/tty_io.c  Jiri Slaby         2012-08-08  3458  	if (driver->flags & TTY_DRIVER_DYNAMIC_ALLOC) {
+7e73eca6a7b2967 drivers/tty/tty_io.c  Jiri Slaby         2012-08-08  3459  		error = tty_cdev_add(driver, dev, 0, driver->num);
+9bb8a3d4109f3b2 drivers/tty/tty_io.c  Jiri Slaby         2012-06-04  3460  		if (error)
+eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3461  			goto err_destroy_wq;
+7e73eca6a7b2967 drivers/tty/tty_io.c  Jiri Slaby         2012-08-08  3462  	}
+^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3463  
+f49573f2f53e0f6 drivers/tty/tty_io.c  Jiri Slaby (SUSE   2025-04-25  3464) 	scoped_guard(mutex, &tty_mutex)
+^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3465  		list_add(&driver->tty_drivers, &tty_drivers);
+^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3466  
+331b831983f9d70 drivers/char/tty_io.c Greg Kroah-Hartman 2005-06-20  3467  	if (!(driver->flags & TTY_DRIVER_DYNAMIC_DEV)) {
+b670bde0b249796 drivers/char/tty_io.c Vasiliy Kulikov    2010-09-05  3468  		for (i = 0; i < driver->num; i++) {
+b670bde0b249796 drivers/char/tty_io.c Vasiliy Kulikov    2010-09-05  3469  			d = tty_register_device(driver, i, NULL);
+b670bde0b249796 drivers/char/tty_io.c Vasiliy Kulikov    2010-09-05  3470  			if (IS_ERR(d)) {
+b670bde0b249796 drivers/char/tty_io.c Vasiliy Kulikov    2010-09-05  3471  				error = PTR_ERR(d);
+16a02081baa15be drivers/tty/tty_io.c  Jiri Slaby         2012-08-08  3472  				goto err_unreg_devs;
+b670bde0b249796 drivers/char/tty_io.c Vasiliy Kulikov    2010-09-05  3473  			}
+b670bde0b249796 drivers/char/tty_io.c Vasiliy Kulikov    2010-09-05  3474  		}
+^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3475  	}
+^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3476  	proc_tty_register_driver(driver);
+7d7b93c1452f381 drivers/char/tty_io.c Alan Cox           2008-10-13  3477  	driver->flags |= TTY_DRIVER_INSTALLED;
+^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3478  	return 0;
+b670bde0b249796 drivers/char/tty_io.c Vasiliy Kulikov    2010-09-05  3479  
+16a02081baa15be drivers/tty/tty_io.c  Jiri Slaby         2012-08-08  3480  err_unreg_devs:
+b670bde0b249796 drivers/char/tty_io.c Vasiliy Kulikov    2010-09-05  3481  	for (i--; i >= 0; i--)
+b670bde0b249796 drivers/char/tty_io.c Vasiliy Kulikov    2010-09-05  3482  		tty_unregister_device(driver, i);
+b670bde0b249796 drivers/char/tty_io.c Vasiliy Kulikov    2010-09-05  3483  
+f49573f2f53e0f6 drivers/tty/tty_io.c  Jiri Slaby (SUSE   2025-04-25  3484) 	scoped_guard(mutex, &tty_mutex)
+b670bde0b249796 drivers/char/tty_io.c Vasiliy Kulikov    2010-09-05  3485  		list_del(&driver->tty_drivers);
+b670bde0b249796 drivers/char/tty_io.c Vasiliy Kulikov    2010-09-05  3486  
+eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3487  err_destroy_wq:
+eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3488  	if (driver->flip_wq)
+eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3489  		destroy_workqueue(driver->flip_wq);
+eb3b0d92c9c3989 drivers/tty/tty_io.c  Xin Zhao           2026-02-13  3490  
+9bb8a3d4109f3b2 drivers/tty/tty_io.c  Jiri Slaby         2012-06-04  3491  err_unreg_char:
+b670bde0b249796 drivers/char/tty_io.c Vasiliy Kulikov    2010-09-05  3492  	unregister_chrdev_region(dev, driver->num);
+16a02081baa15be drivers/tty/tty_io.c  Jiri Slaby         2012-08-08  3493  err:
+b670bde0b249796 drivers/char/tty_io.c Vasiliy Kulikov    2010-09-05  3494  	return error;
+^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3495  }
+^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3496  EXPORT_SYMBOL(tty_register_driver);
+^1da177e4c3f415 drivers/char/tty_io.c Linus Torvalds     2005-04-16  3497  
 
-:::::: The code at line 162 was first introduced by commit
-:::::: 4c11c572f413d00b06538a5b8c1ab6c5267232ea FROMLIST: gunyah: rsc_mgr: Add resource manager RPC core
+:::::: The code at line 3453 was first introduced by commit
+:::::: eb3b0d92c9c39890592cca6647601fe5c631efea tty: tty_port: add workqueue to flip TTY buffer
 
-:::::: TO: Elliot Berman <quic_eberman@quicinc.com>
-:::::: CC: Treehugger Robot <android-test-infra-autosubmit@system.gserviceaccount.com>
+:::::: TO: Xin Zhao <jackzxcui1989@163.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
