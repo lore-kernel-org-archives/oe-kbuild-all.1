@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD19E24CEEA
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Mar 2026 21:52:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97CC71FF7C8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Mar 2026 22:16:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774389146; cv=none; b=jbamRX7z/2dP7RKmgzNaDSlc1PzYTMn6eQYbm7qzvlVboEd4TYsxh7lMySpggTPHtgbMLqM1nLdCoYSH2ZtekimWZKUn41sJbRJr16ZhfYuY1tvX/SOXktMsS1MtqTMWHQ9rBMR/t5HM3Fg/kxdt1amXM19iRmxHhjGfxKRzDfQ=
+	t=1774390589; cv=none; b=iTm7tCef+hWY+jRYylzZXPeaKLXsiyq7ghB0URkqr0LhawItdVvIW0YbwovtT6rWxFD4vFChwVJ4Litwp7DEszUMsuAaTXb0plAdGC5ktutJvHPBS7HzYom4kpFUaJvGsqJoCF5ezsGEDp0ztb41WyQ1WBF0jHnbyw1DVAGFeyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774389146; c=relaxed/simple;
-	bh=rv9MdSSQwokfy4/AFZ8+hKQ9g2TqP1WZmQairp61M9w=;
+	s=arc-20240116; t=1774390589; c=relaxed/simple;
+	bh=B1bP6pX299IkXbxylHE+45mmAxSmRKP/oz6tHeuqiSY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kftV0f9PsO85AxuCGLHl0vNhN1SMX9Xhh31jbRG1zC2FQOPkJUbl3UIcyk0kVDq3JN7Vch0YnWK+KNVdPbuJeOj/3ok/WQFwlRvRVcs0s2I7KIURAyLFxeW7OGln2QOI6SzFuvufqkm65WnCypBQt4S+N4pPo8smAq9I2AVD5C0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=euE0Ci+o; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=NrDxe7GocNa8ylppOSrLp+Ixmn8wudG/D5uUJsjeNw9dBlnuMfFrHYAg3WpB0KsJIxU3I3VySyAday8CZzmqKu4dqItu6LuG2odgHevpzrIvK8uJib4cYJvS/A+O0X181757RLZ8gQHXxuK2rERt4bq/4FHvEqR2dxydCuMhvvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YcITY5eJ; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="euE0Ci+o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YcITY5eJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774389145; x=1805925145;
+  t=1774390586; x=1805926586;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=rv9MdSSQwokfy4/AFZ8+hKQ9g2TqP1WZmQairp61M9w=;
-  b=euE0Ci+oLaB8cLm+AbMmE+8QOx6uwQn5WOTkf3lzf8jRRCUvCqGFLMxD
-   DaEkVjZnaf34q5LFo7EfFrloZspJeSpr/gqXR4YbgwvyiKCylou/QgAX5
-   BpHEyUXN4SXQjyUhriWgsAWWmDk2+Qn9w6KUfPjxcDdrhgi6HCOd/O/9Z
-   klQfAjr7Xzjj2DF/bvE9FwxKynuL1paNmIqo6vFny1YPm/x+qLAB+pfOw
-   NjFt15O78jRRaBhb60Xq7/w+6Asp/intjIHJqHT02882Bw9uXllJTjn7z
-   UmrBFRyTHtaGY/PX5ZWQ49rH0IGIYN2ANHvXDtfUKHAavvV0i9KREdWw9
-   w==;
-X-CSE-ConnectionGUID: ot2uD8UKRhmm/pze+vffjw==
-X-CSE-MsgGUID: 9zwVCXi/RMCm4H1593rcAg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="100865685"
+  bh=B1bP6pX299IkXbxylHE+45mmAxSmRKP/oz6tHeuqiSY=;
+  b=YcITY5eJwI/ga5NSpWf03IBx1uRGkQyRzRTX8tIjSsfce18+95rdVwPV
+   YJx+aXQNfDFumylL/GdaEme5hqjPJnCEOJTbw+v5/mO11VWdFk6MJcZnm
+   pGGAj431WPE3CkRNS1xSnTRdKXB6qvO5GnfvHhkCbua3KrGteDeoN+J3y
+   pnNB/sVmS+HwYG6lY838Ar1tKah32XVE0VwN4CJIAs/PwOqxORwnKGmXx
+   X1P7lclTRYjyHeADEE3yxPzw+1bHoECXaj2iMrHppib21gnLCWH2cld6q
+   iOKc73GNKSCT3Fo323rb9tWg06sm5ZiHyn4QpYWTZwlrDKr5FnvluXqRV
+   A==;
+X-CSE-ConnectionGUID: U9563iGtTMyAyXODcLdMpA==
+X-CSE-MsgGUID: f32s4j25SnuH1fF7ueklqg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="79332224"
 X-IronPort-AV: E=Sophos;i="6.23,139,1770624000"; 
-   d="scan'208";a="100865685"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 14:52:24 -0700
-X-CSE-ConnectionGUID: PloafhW3TB2TphiQo53z0w==
-X-CSE-MsgGUID: 0EbXlr8RRRCtPeRxIey8aQ==
+   d="scan'208";a="79332224"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 15:16:26 -0700
+X-CSE-ConnectionGUID: RDISz2itQOyLutUadW4d5Q==
+X-CSE-MsgGUID: OgTMIX3mQ56kKpJKiDIACA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,139,1770624000"; 
-   d="scan'208";a="224495875"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 24 Mar 2026 14:52:22 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+   d="scan'208";a="229259516"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 24 Mar 2026 15:16:24 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w59ff-000000005Td-0IF8;
-	Tue, 24 Mar 2026 21:52:19 +0000
-Date: Wed, 25 Mar 2026 05:51:53 +0800
+	id 1w5A2v-000000006xp-2zIn;
+	Tue, 24 Mar 2026 22:16:21 +0000
+Date: Tue, 24 Mar 2026 23:15:48 +0100
 From: kernel test robot <lkp@intel.com>
 To: Charles Yeh <charlesyeh522@gmail.com>, gregkh@linuxfoundation.org,
 	johan@kernel.org, linux-usb@vger.kernel.org
@@ -55,7 +55,7 @@ Cc: oe-kbuild-all@lists.linux.dev, charles-yeh@prolific.com.tw,
 	Charles Yeh <charlesyeh522@gmail.com>
 Subject: Re: [PATCH] USB: serial: pl2303: add new PID to support PL256X
  (TYPE_MP)
-Message-ID: <202603250523.9ktgw2Ju-lkp@intel.com>
+Message-ID: <202603242312.CO0aTujP-lkp@intel.com>
 References: <20260324124619.843-1-charlesyeh522@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -72,7 +72,8 @@ Hi Charles,
 kernel test robot noticed the following build warnings:
 
 [auto build test WARNING on johan-usb-serial/usb-next]
-[also build test WARNING on johan-usb-serial/usb-linus usb/usb-testing usb/usb-next usb/usb-linus tty/tty-testing tty/tty-next tty/tty-linus linus/master v7.0-rc5 next-20260324]
+[also build test WARNING on johan-usb-serial/usb-linus usb/usb-testing usb/usb-next usb/usb-linus tty/tty-testing tty/tty-next tty/tty-linus next-20260324]
+[cannot apply to linus/master v6.16-rc1]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
@@ -81,15 +82,14 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Charles-Yeh/USB-serial-pl
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git usb-next
 patch link:    https://lore.kernel.org/r/20260324124619.843-1-charlesyeh522%40gmail.com
 patch subject: [PATCH] USB: serial: pl2303: add new PID to support PL256X (TYPE_MP)
-config: i386-randconfig-141-20260325 (https://download.01.org/0day-ci/archive/20260325/202603250523.9ktgw2Ju-lkp@intel.com/config)
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260324/202603242312.CO0aTujP-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9004-gb810ac53
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603250523.9ktgw2Ju-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260324/202603242312.CO0aTujP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603250523.9ktgw2Ju-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603242312.CO0aTujP-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
