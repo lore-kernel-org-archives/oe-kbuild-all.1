@@ -1,88 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE5C3FFADE
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Mar 2026 15:11:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7616E37C107
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Mar 2026 15:52:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774365085; cv=none; b=keS9RO24zMBkkdyfkiNCBinH1xkiLStKT7iJWfQTZfZwXbXafCnQo0lbKUzQiwfG4JJ0pCDyzqCeIvFhLkorV664DHzLcSyD1AQ9OtLLzTMse/MzhCu5hjiNqKntzfdXQR1EowHbKsMnvIsTJgCPwf2d2vygkSS5s0HfsThp47w=
+	t=1774367546; cv=none; b=Wp1/VoCAORFveY7MN5ks2VteAtgbCPtRRJnP9rBpkxY5QgNcRuURz/ywWb7DkazmlYo4vkDibpN+GbEt4mccPAGVFfS42ah8nn26Egq3KB06Ug42wzYoM7xnCiD7h1jAMpK6twlvvqSv+bmiKtFVW0QobZjdqjBgzc7E4bxW5nQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774365085; c=relaxed/simple;
-	bh=zf2PN4plkjkIbpjVAdvFioZnInp330jVysUmpalQZ/M=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=H7F+jNy2/eXewNVBE3mvMsBjncbH1hWD+rAmo+a0AW4RTLdH/umNXL3r0x5O06Hv7P/G3dXAH3oZOgEUg+mypqPxqOD3zxxJu3YrIsfeqQlAzg3R4ki+eQF0Fgt6lbdIkrytBPfSK71R8UzCwRxAxa39pjB409onwdfoEs9OUW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qmh70d18; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1774367546; c=relaxed/simple;
+	bh=HyEhqdBvfa3r9tYRrYSgodtwHMxVIZ/6Kc/3pc0VDK0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C8czaNRNYq8PnkP5LBz1/K4CSQw9ZgBBUXqH8/lyioimSvBkCZ3lJkSTW5ZmG5c+aMwQyD2ZOyHyKmc6McDIRAf1xZ4XXIs+9RoUNJCqsIY+0HY1xuX1sZlWchfxw97dZLJNXqVjSjq1rO3Pe/A84e8ZRLcusvSjmYHEJEpdoLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OdI6f/H9; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qmh70d18"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OdI6f/H9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774365083; x=1805901083;
-  h=date:from:to:cc:subject:message-id;
-  bh=zf2PN4plkjkIbpjVAdvFioZnInp330jVysUmpalQZ/M=;
-  b=Qmh70d1888S42ENRbiFqbIlQC+9Xci1az3vCSW1yTADnc31N91B33BQZ
-   O8Khm879FU7lxa/LqpSlYEoxQJ0cUtj8vd/tbTq4/uK/Er7haWmwtR1wB
-   QmbBN1KyMXhrfPCdHseSaina3T9bdXhDuDf5iZoiJc7YSsf8v5Qqc/+ym
-   zlfIhynWr1JwZM9mQQJJQ4vTX7d4VKZ+8xDsO2UYHsRDBGoMxX8nrMIBo
-   aP6flJkJoERhpig4NN/7DyYlShQShO7zor8jhRKmSTCXTibkfFSdlm01o
-   oVvygRwymufNTBQjfCZ1Kb39FqU6xmUm5BhlMcxYXmk8Ffy5PUL57XsIG
-   A==;
-X-CSE-ConnectionGUID: zovDWg3KTSab1xaMX5xH7w==
-X-CSE-MsgGUID: gAyVR6lbRmOF6wEu6dxovA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="86757650"
+  t=1774367545; x=1805903545;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HyEhqdBvfa3r9tYRrYSgodtwHMxVIZ/6Kc/3pc0VDK0=;
+  b=OdI6f/H9jEZOExpcH8b4S/+/sG/tPTHIABSWoDwNbWXMiT5Rh/0v6X6Y
+   LnQOc3zA0sRIs0rJpVq87QRr4C4J4aFAmuqkyVreEvUKtVFBbnaxgAXMb
+   bMU4Z2BpBunhLm3W0YCl6FMoZ5n2MdoQeB70Y1uXTCFAsKxKyD86AYqAO
+   8G6zeJ2Tp+IfksZprMNmxNLCLOLYSldVPCkHDDM+adATcNzJp6NNGfmBB
+   41Z4ClekuH/BKcumdW+X55ITawvi1BNASD5iwZobPWKNGPOPWU4YJsXPK
+   v2+PsnZnkAPlNoyc0WwNG3tX+qOip+s0kY0nv0RKnNHgGdxF3XMMahqVS
+   w==;
+X-CSE-ConnectionGUID: 6x5pFdUmQj2D8w815t8X8g==
+X-CSE-MsgGUID: 2Ye+hVXcQLCdbLduJnYt5w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="77989928"
 X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="86757650"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 08:11:23 -0700
-X-CSE-ConnectionGUID: 8U4FfkgvS5+P0YfsxmlwFA==
-X-CSE-MsgGUID: ouuOLXPzQleG9ZOHAmP9KQ==
+   d="scan'208";a="77989928"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 08:52:24 -0700
+X-CSE-ConnectionGUID: ktOYh7fOQeW8ut6uCDpn3g==
+X-CSE-MsgGUID: 4HzScUrOR0qbSB6nEheW1A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="228856326"
+   d="scan'208";a="223462626"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 24 Mar 2026 08:11:22 -0700
+  by orviesa006.jf.intel.com with ESMTP; 24 Mar 2026 08:52:22 -0700
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w53Pa-000000006uf-3Jsn;
-	Tue, 24 Mar 2026 15:11:18 +0000
-Date: Tue, 24 Mar 2026 16:11:01 +0100
+	id 1w543H-000000006vF-1GXR;
+	Tue, 24 Mar 2026 15:52:19 +0000
+Date: Tue, 24 Mar 2026 16:51:45 +0100
 From: kernel test robot <lkp@intel.com>
-To: Justin Stitt <justinstitt@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, Kees Cook <kees@kernel.org>,
- linux-doc@vger.kernel.org
-Subject: [kees:dev/v7.0-rc2/obt 2/4] htmldocs:
- Documentation/process/arithmetic-overflow.rst: WARNING: document isn't
- included in any toctree [toc.not_included]
-Message-ID: <202603241633.kh2zxFVG-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Artem Lytkin <iprintercanon@gmail.com>, netdev@vger.kernel.org,
+	rust-for-linux@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, fujita.tomonori@gmail.com,
+	andrew@lunn.ch, hkallweit1@gmail.com, tmgross@umich.edu,
+	ojeda@kernel.org, dakr@kernel.org
+Subject: Re: [PATCH 4/4] rust: phy: add interrupt support
+Message-ID: <202603241610.omlicT8x-lkp@intel.com>
+References: <20260323201925.8405-4-iprintercanon@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260323201925.8405-4-iprintercanon@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git dev/v7.0-rc2/obt
-head:   537858cd27d509ec0dedfa4b96bc1d0e461367b1
-commit: 9e0190e84f2ecf5ff7314441655d71913095654e [2/4] compiler_attributes: Add overflow_behavior macros __wrap and __trap
+Hi Artem,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on rust/rust-next]
+[also build test WARNING on linus/master v7.0-rc5 next-20260323]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Artem-Lytkin/rust-phy-add-paged-register-access-and-bit-manipulation-helpers/20260324-155532
+base:   https://github.com/Rust-for-Linux/linux rust-next
+patch link:    https://lore.kernel.org/r/20260323201925.8405-4-iprintercanon%40gmail.com
+patch subject: [PATCH 4/4] rust: phy: add interrupt support
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260324/202603241610.omlicT8x-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260324/202603241633.kh2zxFVG-lkp@intel.com/reproduce)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260324/202603241610.omlicT8x-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603241633.kh2zxFVG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603241610.omlicT8x-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Documentation/userspace-api/landlock:526: ./include/uapi/linux/landlock.h:45: ERROR: Unknown target name: "network flags". [docutils]
-   Documentation/userspace-api/landlock:526: ./include/uapi/linux/landlock.h:50: ERROR: Unknown target name: "scope flags". [docutils]
-   Documentation/userspace-api/landlock:526: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:535: ./include/uapi/linux/landlock.h:166: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:535: ./include/uapi/linux/landlock.h:189: ERROR: Unknown target name: "network flags". [docutils]
->> Documentation/process/arithmetic-overflow.rst: WARNING: document isn't included in any toctree [toc.not_included]
-   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
->> Documentation/process/arithmetic-overflow.rst:25: WARNING: undefined label: '_open_coded_wrap_around' [ref.ref]
+>> warning: unsafe function's docs are missing a `# Safety` section
+   --> rust/kernel/net/phy.rs:564:5
+   |
+   564 |     unsafe extern "C" fn config_aneg_callback(phydev: *mut bindings::phy_device) -> c_int {
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#missing_safety_doc
+   = note: `-W clippy::missing-safety-doc` implied by `-W clippy::all`
+   = help: to override `-W clippy::all` add `#[allow(clippy::missing_safety_doc)]`
 
 -- 
 0-DAY CI Kernel Test Service
