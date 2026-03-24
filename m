@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C79CF3A4535
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Mar 2026 13:05:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A74B83BC680
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Mar 2026 13:05:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774357516; cv=none; b=mhErCFce3MpRJjlu2nEnv12mBv9MhXCJsH6p9HRMCY+JCxiQjq4OiAxjnCGENXq79OFVBj1Vg+OwF+QwQHgAFGj7pwqYSr6mbhBMVoB4cn4ErJO9QcTUQ4ieCBXbWSVW515NsmPI8cxTLKxD8/W9bUn8nSClX9WiGe3Chlgyouw=
+	t=1774357517; cv=none; b=mLcVu/f9ey8fgjbEmE7fVFIOLooff6n3GXWMge6p0vcCDztZyr0y15uBiShUzZyRj/RJ0KHJqTrtoMNwk+GvBB1QMGswykJAlafx8j0FqnKGf//CpcuUS5uvIyT/O1bNMnBDz4MnjN17R7A5LpvaD+RyDufJbsh027QmwueGa9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774357516; c=relaxed/simple;
-	bh=/LiWKgLeatosusPXHRguNH3kdrEQrVnXP1FgUZhi3dA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ZEDKXba+U/gBrST127ki+EdN2n6BEitEkRZ0mHEgwP2R9FKF2AhEb//si5ncFewrLDxXlPlb3Nu3RZ5/wNBxCqp3jzSLVFPZhwlalBxzEr4sbALBYTU3zKLRcHRaFYyeOjTQbIU9TuyVjL8k4ejg0Kf55Y6nGS8UeZ8/OW13oUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QnaQWwak; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1774357517; c=relaxed/simple;
+	bh=U+EVYy/nC6iK++7lfrJUfFtHGWFIORftXfy2rBb7ybo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Ibr9/Tblp61/VA84oVMxQ9NRt8MuZg+VNN2DUrYN1WTb4HgFortenZ9bg10QxX0cXWxcoWIcGEmSPIG26mpVzpdTdpvTvIbeHxi6GZPZ3bcsEIdbuKNPIXMPZg+CNu4XqkWr/YlHJ72uUugnWj4xZZZN2/hnO7iJ92ob8Gk2zok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hj4eoz03; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QnaQWwak"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hj4eoz03"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774357514; x=1805893514;
+  t=1774357516; x=1805893516;
   h=date:from:to:cc:subject:message-id;
-  bh=/LiWKgLeatosusPXHRguNH3kdrEQrVnXP1FgUZhi3dA=;
-  b=QnaQWwak7HClMa4+2Beu0xHTNqze7SSVAG3zNUUsRg5vZyaz6TkT2+sT
-   osVLW61lm742UCU8ku2EP41olLK7F9SfFTiWrqlY5pBsFQJB8wYDFshgs
-   B8awle+Fpi7fJS8Y+iRXBaglFyYqB4D+SFtc8G5NdjrPk/womEydM3J0O
-   Yaog/4XVk7sP5dQBZeZzT8jnZWzab/vAWxxXMS+gdSzad1JIo8mJ2CGwA
-   qubO4lQ0cyu9QtyWOLTp32sWfIGH/0rgQDnupH9eoqFHBWokxj9mmbFxS
-   M+AeS3z0DNnjDC4EuOtLOeSv6YTFo66G3BJAasRTuxbWL+p0+E7XBGHw5
-   A==;
-X-CSE-ConnectionGUID: +ZbjqcSDT8a/Orpr5anlug==
-X-CSE-MsgGUID: y+5xgULISAyYd3EOr7n+tQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="77975395"
+  bh=U+EVYy/nC6iK++7lfrJUfFtHGWFIORftXfy2rBb7ybo=;
+  b=Hj4eoz0355ccNmXYX9hwAT/7bHkxuuiz5RW9g/9XMXvGM/qmwmPOYEmq
+   4jZX3QtceuZguOccQc+sS5b0mLuVRh2OuwgCDCOo7VDRWIBk351FhfioK
+   gw9mV7dE3ZtW/3uTurImxt2s7wI05C8YVMAzlr3TAH0AXsTKXtteTxFta
+   be27nL0pyL1OkMUPBDFSgIbMaFOxAcOganfoB/8+bJ3GqWvruO7vBiIql
+   XUaKKYOtgtczlcykV6qZBLsVRuM7lRV4IjL1u6+SDgJNk2m/81FrM7Fg+
+   8d2gyZvizLPsrJq90ahP7F53f+3+PIsi3NBxoXQKDyliH8iOT2aDYBCSp
+   w==;
+X-CSE-ConnectionGUID: MjgPt70nSumHWjVACM7ZnQ==
+X-CSE-MsgGUID: cAopgMh5SGWY5f3QFjRsYw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="77975393"
 X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="77975395"
+   d="scan'208";a="77975393"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
   by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 06:05:14 -0700
-X-CSE-ConnectionGUID: 9ZocoLI/TUKjCfe7PAk9cA==
-X-CSE-MsgGUID: bTmbGSwXQSq7Y0tEW1+zTA==
+X-CSE-ConnectionGUID: ebhJKdNqSHKhuLXMW/pbkw==
+X-CSE-MsgGUID: aKldYKZORm2oX8i8LtDOOQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="229095425"
+   d="scan'208";a="229095423"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
   by fmviesa005.fm.intel.com with ESMTP; 24 Mar 2026 06:05:12 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w51RV-000000004af-2B1V;
+	id 1w51RV-000000004ah-2MVy;
 	Tue, 24 Mar 2026 13:05:09 +0000
-Date: Tue, 24 Mar 2026 21:04:32 +0800
+Date: Tue, 24 Mar 2026 21:04:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.10 0/1]
- kernel/trace/blktrace.c:1087: warning: Excess function parameter 'q'
- description in 'blk_add_trace_rq_remap'
-Message-ID: <202603242045.7cu4JkBx-lkp@intel.com>
+Subject: [android-common:android16-6.12-desktop 36/36]
+ drivers/virt/gunyah/rsc_mgr.c:162: warning: Function parameter or struct
+ member 'pm_nb' not described in 'gunyah_rm'
+Message-ID: <202603242012.8jAkuvin-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,72 +60,81 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Christoph,
+Hi Hrishabh,
 
 FYI, the error/warning still remains.
 
-tree:   https://android.googlesource.com/kernel/common android13-5.10
-head:   6bf9814ea94a96f4806f072609acf66d43ffef39
-commit: 1cb3032406423b25aa984854b4d78e0100d292dd [0/1] block: remove the request_queue to argument request based tracepoints
-config: x86_64-randconfig-014-20260324 (https://download.01.org/0day-ci/archive/20260324/202603242045.7cu4JkBx-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260324/202603242045.7cu4JkBx-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   2d13a0e00b4d9cf3601b0e0d2c1838ec962f4e88
+commit: 7d9fe864dc6289d8c10246453b0c7d3cb3f983f6 [36/36] ANDROID: virt: gunyah: Fetch fresh Gunyah information after restore
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260324/202603242012.8jAkuvin-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260324/202603242012.8jAkuvin-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603242045.7cu4JkBx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603242012.8jAkuvin-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/trace/blktrace.c:1087: warning: Excess function parameter 'q' description in 'blk_add_trace_rq_remap'
+   drivers/virt/gunyah/rsc_mgr.c:126: warning: Excess struct member 'ret' description in 'gunyah_rm_message'
+   drivers/virt/gunyah/rsc_mgr.c:162: warning: Function parameter or struct member 'adev' not described in 'gunyah_rm'
+>> drivers/virt/gunyah/rsc_mgr.c:162: warning: Function parameter or struct member 'pm_nb' not described in 'gunyah_rm'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for INTEL_MEI_ME
+   Depends on [n]: X86 && PCI [=y]
+   Selected by [m]:
+   - INTEL_MEI_HDCP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
+   - INTEL_MEI_PXP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
 
 
-vim +1087 kernel/trace/blktrace.c
+vim +162 drivers/virt/gunyah/rsc_mgr.c
 
-5f3ea37c7716db block/blktrace.c        Arnaldo Carvalho de Melo 2008-10-30  1071  
-b0da3f0dada788 kernel/trace/blktrace.c Jun'ichi Nomura          2009-10-01  1072  /**
-b0da3f0dada788 kernel/trace/blktrace.c Jun'ichi Nomura          2009-10-01  1073   * blk_add_trace_rq_remap - Add a trace for a request-remap operation
-546cf44a1b507c kernel/trace/blktrace.c Randy Dunlap             2010-05-29  1074   * @ignore:	trace callback data parameter (not used)
-b0da3f0dada788 kernel/trace/blktrace.c Jun'ichi Nomura          2009-10-01  1075   * @q:		queue the io is for
-b0da3f0dada788 kernel/trace/blktrace.c Jun'ichi Nomura          2009-10-01  1076   * @rq:		the source request
-b0da3f0dada788 kernel/trace/blktrace.c Jun'ichi Nomura          2009-10-01  1077   * @dev:	target device
-b0da3f0dada788 kernel/trace/blktrace.c Jun'ichi Nomura          2009-10-01  1078   * @from:	source sector
-b0da3f0dada788 kernel/trace/blktrace.c Jun'ichi Nomura          2009-10-01  1079   *
-b0da3f0dada788 kernel/trace/blktrace.c Jun'ichi Nomura          2009-10-01  1080   * Description:
-b0da3f0dada788 kernel/trace/blktrace.c Jun'ichi Nomura          2009-10-01  1081   *     Device mapper remaps request to other devices.
-b0da3f0dada788 kernel/trace/blktrace.c Jun'ichi Nomura          2009-10-01  1082   *     Add a trace for that action.
-b0da3f0dada788 kernel/trace/blktrace.c Jun'ichi Nomura          2009-10-01  1083   *
-b0da3f0dada788 kernel/trace/blktrace.c Jun'ichi Nomura          2009-10-01  1084   **/
-1cb3032406423b kernel/trace/blktrace.c Christoph Hellwig        2020-12-03  1085  static void blk_add_trace_rq_remap(void *ignore, struct request *rq, dev_t dev,
-b0da3f0dada788 kernel/trace/blktrace.c Jun'ichi Nomura          2009-10-01  1086  				   sector_t from)
-b0da3f0dada788 kernel/trace/blktrace.c Jun'ichi Nomura          2009-10-01 @1087  {
-c780e86dd48ef6 kernel/trace/blktrace.c Jan Kara                 2020-02-06  1088  	struct blk_trace *bt;
-b0da3f0dada788 kernel/trace/blktrace.c Jun'ichi Nomura          2009-10-01  1089  	struct blk_io_trace_remap r;
-b0da3f0dada788 kernel/trace/blktrace.c Jun'ichi Nomura          2009-10-01  1090  
-c780e86dd48ef6 kernel/trace/blktrace.c Jan Kara                 2020-02-06  1091  	rcu_read_lock();
-1cb3032406423b kernel/trace/blktrace.c Christoph Hellwig        2020-12-03  1092  	bt = rcu_dereference(rq->q->blk_trace);
-c780e86dd48ef6 kernel/trace/blktrace.c Jan Kara                 2020-02-06  1093  	if (likely(!bt)) {
-c780e86dd48ef6 kernel/trace/blktrace.c Jan Kara                 2020-02-06  1094  		rcu_read_unlock();
-b0da3f0dada788 kernel/trace/blktrace.c Jun'ichi Nomura          2009-10-01  1095  		return;
-c780e86dd48ef6 kernel/trace/blktrace.c Jan Kara                 2020-02-06  1096  	}
-b0da3f0dada788 kernel/trace/blktrace.c Jun'ichi Nomura          2009-10-01  1097  
-b0da3f0dada788 kernel/trace/blktrace.c Jun'ichi Nomura          2009-10-01  1098  	r.device_from = cpu_to_be32(dev);
-b0da3f0dada788 kernel/trace/blktrace.c Jun'ichi Nomura          2009-10-01  1099  	r.device_to   = cpu_to_be32(disk_devt(rq->rq_disk));
-b0da3f0dada788 kernel/trace/blktrace.c Jun'ichi Nomura          2009-10-01  1100  	r.sector_from = cpu_to_be64(from);
-b0da3f0dada788 kernel/trace/blktrace.c Jun'ichi Nomura          2009-10-01  1101  
-b0da3f0dada788 kernel/trace/blktrace.c Jun'ichi Nomura          2009-10-01  1102  	__blk_add_trace(bt, blk_rq_pos(rq), blk_rq_bytes(rq),
-caf7df12272118 kernel/trace/blktrace.c Christoph Hellwig        2017-04-20  1103  			rq_data_dir(rq), 0, BLK_TA_REMAP, 0,
-1cb3032406423b kernel/trace/blktrace.c Christoph Hellwig        2020-12-03  1104  			sizeof(r), &r, blk_trace_request_get_cgid(rq));
-c780e86dd48ef6 kernel/trace/blktrace.c Jan Kara                 2020-02-06  1105  	rcu_read_unlock();
-b0da3f0dada788 kernel/trace/blktrace.c Jun'ichi Nomura          2009-10-01  1106  }
-b0da3f0dada788 kernel/trace/blktrace.c Jun'ichi Nomura          2009-10-01  1107  
+4c11c572f413d00 Elliot Berman   2024-02-22  127  
+4c11c572f413d00 Elliot Berman   2024-02-22  128  /**
+4c11c572f413d00 Elliot Berman   2024-02-22  129   * struct gunyah_rm - private data for communicating w/Gunyah resource manager
+4c11c572f413d00 Elliot Berman   2024-02-22  130   * @tx_ghrsc: message queue resource to TX to RM
+4c11c572f413d00 Elliot Berman   2024-02-22  131   * @rx_ghrsc: message queue resource to RX from RM
+4c11c572f413d00 Elliot Berman   2024-02-22  132   * @active_rx_message: ongoing gunyah_rm_message for which we're receiving fragments
+4c11c572f413d00 Elliot Berman   2024-02-22  133   * @call_xarray: xarray to allocate & lookup sequence IDs for Request/Response flows
+4c11c572f413d00 Elliot Berman   2024-02-22  134   * @next_seq: next ID to allocate (for xa_alloc_cyclic)
+4c11c572f413d00 Elliot Berman   2024-02-22  135   * @recv_msg: cached allocation for Rx messages
+4c11c572f413d00 Elliot Berman   2024-02-22  136   * @send_msg: cached allocation for Tx messages. Must hold @send_lock to manipulate.
+4c11c572f413d00 Elliot Berman   2024-02-22  137   * @send_lock: synchronization to allow only one request to be sent at a time
+4c11c572f413d00 Elliot Berman   2024-02-22  138   * @send_ready: completed when we know Tx message queue can take more messages
+4c11c572f413d00 Elliot Berman   2024-02-22  139   * @nh: notifier chain for clients interested in RM notification messages
+b387fa408e4054a Elliot Berman   2024-02-22  140   * @miscdev: /dev/gunyah
+9281f214814eb6f Elliot Berman   2024-02-22  141   * @parent_fwnode: Parent IRQ fwnode to translate Gunyah hwirqs to Linux irqs
+4c11c572f413d00 Elliot Berman   2024-02-22  142   */
+4c11c572f413d00 Elliot Berman   2024-02-22  143  struct gunyah_rm {
+4c11c572f413d00 Elliot Berman   2024-02-22  144  	struct gunyah_resource tx_ghrsc;
+4c11c572f413d00 Elliot Berman   2024-02-22  145  	struct gunyah_resource rx_ghrsc;
+4c11c572f413d00 Elliot Berman   2024-02-22  146  	struct gunyah_rm_message *active_rx_message;
+4c11c572f413d00 Elliot Berman   2024-02-22  147  
+4c11c572f413d00 Elliot Berman   2024-02-22  148  	struct xarray call_xarray;
+4c11c572f413d00 Elliot Berman   2024-02-22  149  	u32 next_seq;
+4c11c572f413d00 Elliot Berman   2024-02-22  150  
+4c11c572f413d00 Elliot Berman   2024-02-22  151  	unsigned char recv_msg[GUNYAH_RM_MSGQ_MSG_SIZE];
+4c11c572f413d00 Elliot Berman   2024-02-22  152  	unsigned char send_msg[GUNYAH_RM_MSGQ_MSG_SIZE];
+4c11c572f413d00 Elliot Berman   2024-02-22  153  	struct mutex send_lock;
+4c11c572f413d00 Elliot Berman   2024-02-22  154  	struct completion send_ready;
+4c11c572f413d00 Elliot Berman   2024-02-22  155  	struct blocking_notifier_head nh;
+b387fa408e4054a Elliot Berman   2024-02-22  156  
+8c11dcc79b79d48 Sreenad Menon   2024-05-02  157  	struct auxiliary_device adev;
+b387fa408e4054a Elliot Berman   2024-02-22  158  	struct miscdevice miscdev;
+9281f214814eb6f Elliot Berman   2024-02-22  159  	struct fwnode_handle *parent_fwnode;
+7d9fe864dc6289d Hrishabh Rajput 2025-08-13  160  
+7d9fe864dc6289d Hrishabh Rajput 2025-08-13  161  	struct notifier_block pm_nb;
+4c11c572f413d00 Elliot Berman   2024-02-22 @162  };
+4c11c572f413d00 Elliot Berman   2024-02-22  163  
 
-:::::: The code at line 1087 was first introduced by commit
-:::::: b0da3f0dada78832c9da03ad2152ae76bd9a2496 Add a tracepoint for block request remapping
+:::::: The code at line 162 was first introduced by commit
+:::::: 4c11c572f413d00b06538a5b8c1ab6c5267232ea FROMLIST: gunyah: rsc_mgr: Add resource manager RPC core
 
-:::::: TO: Jun'ichi Nomura <j-nomura@ce.jp.nec.com>
-:::::: CC: Jens Axboe <jens.axboe@oracle.com>
+:::::: TO: Elliot Berman <quic_eberman@quicinc.com>
+:::::: CC: Treehugger Robot <android-test-infra-autosubmit@system.gserviceaccount.com>
 
 -- 
 0-DAY CI Kernel Test Service
