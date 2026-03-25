@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92F183064B5
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 04:40:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A4C830AACD;
+	Wed, 25 Mar 2026 04:40:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774413616; cv=none; b=cFGMazfvEWFYyBDyxKswKmPLldoz5tHJA3AkYzUQhs0Kl8k+Ydx4Z66F3W3sSJ9jNBBvxj/0QuWY7FIETUhidJDRtE1IAgCFEBFUN+nwOE35VhvVhUMl75kKYYychxT6XbvOh0BLSGe6fWzTEIEzU44OkqBq3kQyE8jCgNcHgHY=
+	t=1774413618; cv=none; b=CW4OmB6FXfSJiic26WPqTPsMzo6LLYDJJy3LCtpzDbgFZnK/KgmXP6JeOXxfIMV/Og8CRMMw1sSlPhmvOvavPJEWLzvZmMC1FpMU4ch14hloIbZA1Gtv1WoFsDPOGCbTgvA+9toEPI1gEvfficFv4lwAAQoOoVB9ITTCFHyZAP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774413616; c=relaxed/simple;
-	bh=LmgNB1xmjZImgFB93fYZvPh1g7vCeskBJ9iPGGzmlsE=;
+	s=arc-20240116; t=1774413618; c=relaxed/simple;
+	bh=FdrSZZJWlda4b/iHdGvUBNw53MhgoxQX4XFQbplHhPU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LeGtGbZNgqG/O3G1F2PxcAcyCQFaZdmozE4V9f1sIn14aWeCS2h8AIAAqlHh55Q6Ll5jYM9/okBsO+qONYnrW2ZVisj1zJ0DRUc0z23+yxeAKpDUYdShjd09s/mwhYTSg9ZzkRU+7JZuC931/8jK6Gcf/pdqMPrbngNNcbVg0tg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nex4POUQ; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=XrXrE1RI2bFxyKgOC3gO6SjxQ3OhvzrtrU2DiznNMubxDwKOFJ/DxWSLjZw15cn9gKTfGHBKoiZIpvmxil/uwo01tFveRJooB5+zrzb+Up6IQwwM7I09YugWqB3D1BynQtQSOby3KF6Zp8FkSssM3Y3eD5tuHsbJyNCFJS8ffqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CI1SNkGD; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nex4POUQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CI1SNkGD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774413616; x=1805949616;
+  t=1774413617; x=1805949617;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=LmgNB1xmjZImgFB93fYZvPh1g7vCeskBJ9iPGGzmlsE=;
-  b=nex4POUQStQn/kYzVEJh29ba8ZCaaQ9u/DXsBy5Bt3LzQudk/hNF1D/c
-   pZ9rIcYKHqgChUc0RRB++d0YwMOry5POKJlUc3W+g2HMIx8eNo7PU/gim
-   gZtWoAhBcXQ8dU/AGB2NuodeTEu6SXIIzLOrDE4aP40edNYBA3Ao0RD61
-   xCiUhtJ8qYUOirSbdUkIU3H0Drhh6cc9+qdPftCUDkoUyRBSmIyqLuNc1
-   K5Q/olLPV5uQEM5OuFbOZDmGhtpZRq/sJV+IxUADYMLd6miV9SsqmqkJs
-   d8LO3erCo37/X1m9TyYCm4QWZOwHHeWOphUBPcBU/aYTZy+aqqtVv3jtx
-   g==;
-X-CSE-ConnectionGUID: pldbFljcT+WV1IY50NZI6g==
-X-CSE-MsgGUID: 1zHeSHe6SueOk9EGmjq2Eg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="79351760"
+  bh=FdrSZZJWlda4b/iHdGvUBNw53MhgoxQX4XFQbplHhPU=;
+  b=CI1SNkGDRIkKrCxjXp5jLLmqZ0yXEOKUquAULLfmv+jHChlpNc1XWQNq
+   iOQI/KeN35jGhxIB52l7ScPCl8ykDOsMRn0PPAn5YsasB1Hf53Bl0CA4O
+   FG1isnq2Qw3P1NyIpKQNiSzhTQ/fanX8fID5sYPDEZIk4sAmGomA/w0wh
+   yNixwunWMjBAuL3EMaqw+TspqDy7c1yYGn/vBLI/OsN/IX4LgCA3Isn19
+   Y2n/MS3GmUrUVE7i4iobRUw+C4hLw6K74Nza9S4nDLxlozm+owuNGK2KE
+   TPkn00qGhJeezlRA0Ed5FBgQxs/XkTZTrLvoK23r7Z2rsr131U4rHZ/o9
+   w==;
+X-CSE-ConnectionGUID: Jfwk1qDSTkm1QnK51uctAQ==
+X-CSE-MsgGUID: X2caJsJDQ+eOq0O55jwfnw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="79351764"
 X-IronPort-AV: E=Sophos;i="6.23,139,1770624000"; 
-   d="scan'208";a="79351760"
+   d="scan'208";a="79351764"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
   by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 21:40:15 -0700
-X-CSE-ConnectionGUID: WQf4wyTNRAakbP4ADsMSVw==
-X-CSE-MsgGUID: c4Mg+jETRBu1i442LZxmzg==
+X-CSE-ConnectionGUID: ikyhIFZZQWCB7XOgW7Cv+g==
+X-CSE-MsgGUID: 7BUuh80bRCCN7c6107pPyw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,139,1770624000"; 
-   d="scan'208";a="228633804"
+   d="scan'208";a="228633803"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
   by orviesa003.jf.intel.com with ESMTP; 24 Mar 2026 21:40:11 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5G2K-0000000064t-0l4S;
+	id 1w5G2K-0000000064r-0e7u;
 	Wed, 25 Mar 2026 04:40:08 +0000
-Date: Wed, 25 Mar 2026 12:39:37 +0800
+Date: Wed, 25 Mar 2026 12:39:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: Carlo Szelinsky <github@szelinsky.de>,
 	Oleksij Rempel <o.rempel@pengutronix.de>,
 	Kory Maincent <kory.maincent@bootlin.com>
-Cc: oe-kbuild-all@lists.linux.dev, Andrew Lunn <andrew+netdev@lunn.ch>,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
 	"David S . Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
@@ -60,7 +61,7 @@ Cc: oe-kbuild-all@lists.linux.dev, Andrew Lunn <andrew+netdev@lunn.ch>,
 	linux-leds@vger.kernel.org, Carlo Szelinsky <github@szelinsky.de>
 Subject: Re: [PATCH v2 3/3] net: pse-pd: add LED trigger support via
  notification path
-Message-ID: <202603251250.cuMCk5Yv-lkp@intel.com>
+Message-ID: <202603251254.o5PqMBRU-lkp@intel.com>
 References: <20260323201225.1836561-4-github@szelinsky.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -86,21 +87,21 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Carlo-Szelinsky/dt-bindin
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
 patch link:    https://lore.kernel.org/r/20260323201225.1836561-4-github%40szelinsky.de
 patch subject: [PATCH v2 3/3] net: pse-pd: add LED trigger support via notification path
-config: sh-randconfig-002-20260325 (https://download.01.org/0day-ci/archive/20260325/202603251250.cuMCk5Yv-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603251250.cuMCk5Yv-lkp@intel.com/reproduce)
+config: hexagon-randconfig-001-20260325 (https://download.01.org/0day-ci/archive/20260325/202603251254.o5PqMBRU-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603251254.o5PqMBRU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603251250.cuMCk5Yv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603251254.o5PqMBRU-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/net/pse-pd/pse_core.c: In function 'pse_controller_register':
->> drivers/net/pse-pd/pse_core.c:1221:22: error: 'struct pse_controller_dev' has no member named 'pi_led_trigs'
+>> drivers/net/pse-pd/pse_core.c:1221:10: error: no member named 'pi_led_trigs' in 'struct pse_controller_dev'
     1221 |                 pcdev->pi_led_trigs = NULL;
-         |                      ^~
+         |                 ~~~~~  ^
+   1 error generated.
 
 
 vim +1221 drivers/net/pse-pd/pse_core.c
