@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5CC93C944C;
-	Wed, 25 Mar 2026 12:18:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E4183081D6
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 12:31:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774441116; cv=none; b=jsQzbBN+8gwC0sgoY4Je577OFjDEOg8ZjmJYRTwL77FfocpiWxXkGZ8P8ew2TWt4ihGWhrKt4gcYO4yoQyRdSNmoA04IE+rxBfkAEXIcssHSWeXt9qLX9DyfoezHehGNqdxOcHu/oqnRTPpnqGNpnLhJRGq5nxuZIqDRD38bhlA=
+	t=1774441896; cv=none; b=OgKPzQvD12jSMYZYmrOXZ7Xl8dUxDuO+cXpcVEG/Og60RMH+vRQe2M9kS4ITlo2G7wXQKBQccT2p7vS1e/tulv0vUX8ht893dGsqYVUsZEpmymCu98HbH+JfPBrcND/kSefudWHlpOUSYbWyBeb3AnkPewcNYwxBYbmAoA8k5mg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774441116; c=relaxed/simple;
-	bh=JGE39YxQ0nxW3TreMOoAiPOjtCFSRAiNbRwjPQ5P61o=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KFFFaBPzhShqINhhd9f4pC6ebh5ORw2V1yxGaWhw6tKi78E8KCRM0Td1AD8HqeJEVxj5MojhVdnEVldA5Iv4wvYg2U+Thynu0dIxyEsoO86mseqmyZOv4I/LnWvWS2lZgj2jEES1Q75Z94jyxXGCLGCVozNHix4cbPZKxSetzIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g/lxbSXU; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1774441896; c=relaxed/simple;
+	bh=FaE9KC7eeYl4GqFCpDP4T/ru7BQ340pCEYq6kGp+IO4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Mv4oTTa5p4qBgKkHM2mhPs9GWperd672pdpKy5ww5y69nDfKMorUYTHrXp7liszqAVOLgLn01I1F5vUb1qN5j2V0c2+7ct7wmSt3bkZJMTgpxsawFma4WCztRQZCcnzWmB9eyy5lRzVdLUPIIDLRIXvvzStSJ755/ZJLD+0Mthc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ef7QB3ZL; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g/lxbSXU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ef7QB3ZL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774441114; x=1805977114;
+  t=1774441895; x=1805977895;
   h=date:from:to:cc:subject:message-id;
-  bh=JGE39YxQ0nxW3TreMOoAiPOjtCFSRAiNbRwjPQ5P61o=;
-  b=g/lxbSXUBEMyvIMTffAgI34Q+1po330M54gKLePXSkLoxguQ1eSfm5J0
-   6Kd/RSkwFj6ikPMFAiRJdWBe8bEpfiNTbajqfa6dByAL182COWM3x/jY3
-   BCGLAt9N4Ff5yKU0jjNeR/qTiv4jxP6xQBHXHa20AA0mk8cNdz7icj3YX
-   4y05WrzLSFIn2Ha+f0TPs7uGQpdU3JBR9CHmknkSFFG9IWrOkGONgHg6e
-   nlQZ8PJQ9QgG1U3ZXHSit4f6s2kxlMJF3uUpFN2wIdMLSE+Rgq6Wz6RGK
-   vIIyZ0ptE5SHqyFkKT6TMptBkPf3Z/pPWq0lgmVOGzm0rrYN5F4XDUEOX
-   Q==;
-X-CSE-ConnectionGUID: tIVMB8FhRuCPAGFeEEbq3Q==
-X-CSE-MsgGUID: KRkDdvbxTIKI0vL9ZKtC1w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="86553461"
+  bh=FaE9KC7eeYl4GqFCpDP4T/ru7BQ340pCEYq6kGp+IO4=;
+  b=ef7QB3ZLMBAsB/BBFvTnmBiq5KktIhFqRtEjbU+R4WRHoVIUGGen55xY
+   7KE2GHPa8R6Coalw54twDjJ2tZGYHj59EUeqFl6uCxI/WCncksRtNJHxf
+   lW2JH19sGU2IMRJn7QZPUAGf2ajLQM7L7QiIMm01tQv9yLhtS/mRXrp/+
+   1HcXW67AK+R7oZZAfCfsFzS/z2eCdjGXBoVxJfXAJX8dblFFKAMLZQ5rg
+   Kknu4mG2MBm/YaV3Z5YVYVLCBHZb8X7Sl2cyzZ02Cme8QOvzBGCyTbItl
+   Kp2iPfmrjKL5oHpUlCoqaI0RF0bThWwrMebxTx0h84bKizL5ubrtvyeKL
+   g==;
+X-CSE-ConnectionGUID: cCOM7N05RNyoIEEFpwb/1w==
+X-CSE-MsgGUID: wczwwGGQTRizo+MeZEyyLg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="75364089"
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="86553461"
+   d="scan'208";a="75364089"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 05:18:34 -0700
-X-CSE-ConnectionGUID: dDxz0SJ/RZmOF9+kCWoxoA==
-X-CSE-MsgGUID: zYe+N82fTC+djKnhNXPqgA==
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 05:31:35 -0700
+X-CSE-ConnectionGUID: N/ZTlroBRHKgHfX1s6cp2g==
+X-CSE-MsgGUID: LYuGZmbQRXCTHVEyclLf6w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="248183384"
+   d="scan'208";a="248184785"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 25 Mar 2026 05:18:32 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 25 Mar 2026 05:31:33 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5NBt-000000006nJ-3xpa;
-	Wed, 25 Mar 2026 12:18:29 +0000
-Date: Wed, 25 Mar 2026 20:18:17 +0800
+	id 1w5NOU-000000006oN-390Y;
+	Wed, 25 Mar 2026 12:31:30 +0000
+Date: Wed, 25 Mar 2026 20:30:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Harald Freudenberger <freude@linux.ibm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-s390@vger.kernel.org, Vasily Gorbik <gor@linux.ibm.com>,
- Holger Dengler <dengler@linux.ibm.com>,
- Anthony Krowiak <akrowiak@linux.ibm.com>, linux-doc@vger.kernel.org
-Subject: [s390:features 6/11] Warning:
- drivers/s390/crypto/zcrypt_msgtype6.c:1253 This comment starts with '/**',
- but isn't a kernel-doc comment. Refer to
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202603252022.vEojGo3V-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 1/1]
+ arch/arm64/kvm/hyp/nvhe/serial.c:60:6: warning: no previous prototype for
+ 'hyp_putc'
+Message-ID: <202603252025.nhucJJaN-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -64,22 +60,43 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git features
-head:   2a0a1db5081df02d6753deb1826fd3932a1ab168
-commit: 23a4757d6d699e602b358808359149d0e8be6db9 [6/11] s390/zcrypt: Move inline function rng_type6cprb_msgx from header to code
-config: s390-randconfig-001-20260325 (https://download.01.org/0day-ci/archive/20260325/202603252022.vEojGo3V-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603252022.vEojGo3V-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   36e33448be90aea3d2e98da271b35aac511b8dc6
+commit: 485b479fee4fbb2f2b8ac3bce7cc7f994b300303 [1/1] ANDROID: KVM: arm64: Add serial framework for pKVM
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20260325/202603252025.nhucJJaN-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603252025.nhucJJaN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603252022.vEojGo3V-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603252025.nhucJJaN-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: drivers/s390/crypto/zcrypt_msgtype6.c:1253 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Prepare a type6 CPRB message for random number generation
+   arch/arm64/kvm/hyp/nvhe/serial.c:42:6: warning: no previous prototype for 'hyp_puts' [-Wmissing-prototypes]
+      42 | void hyp_puts(const char *s)
+         |      ^~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/serial.c:54:6: warning: no previous prototype for 'hyp_putx64' [-Wmissing-prototypes]
+      54 | void hyp_putx64(u64 x)
+         |      ^~~~~~~~~~
+>> arch/arm64/kvm/hyp/nvhe/serial.c:60:6: warning: no previous prototype for 'hyp_putc' [-Wmissing-prototypes]
+      60 | void hyp_putc(char c)
+         |      ^~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/serial.c:66:5: warning: no previous prototype for '__pkvm_register_serial_driver' [-Wmissing-prototypes]
+      66 | int __pkvm_register_serial_driver(void (*cb)(char))
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/hyp_putc +60 arch/arm64/kvm/hyp/nvhe/serial.c
+
+    59	
+  > 60	void hyp_putc(char c)
+    61	{
+    62		if (hyp_serial_enabled())
+    63			__hyp_putc(c);
+    64	}
+    65	
 
 -- 
 0-DAY CI Kernel Test Service
