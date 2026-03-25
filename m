@@ -1,163 +1,182 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A1623002CF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Mar 2026 23:07:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC29E1FC7C5
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 00:50:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774393653; cv=none; b=uvwYniLbht6wT54ptmlDBAUlj3cfK5Xulw6W5idH2v/Ucsq4eGouZ9AvNkd5oBRyNBtEe3+5lW2P302gw+XqZURoF+9o8iIgHH7DvXvcxZj2PjXiaEilY0oL17arURGx6hn7Npc0CbCt17Ouu7q3O+ejrfKHfgh6UEJeW1/JljA=
+	t=1774399840; cv=none; b=lk4e+U6zx9RzaKjeucE2GmKYrC36T5avOF6z1uP6fBv6ZqDuZJasGmj1u5pgts7FYfVJBYCF/7Nfp+9JvBZNOp6Fw/hoieyCY0+ySi+xq1hmJ5FIi1udOvMe4lY2CwDcPQJ23qq76Antuk7mBbg6mHGxFuw4zlrtg7i1AzOAM2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774393653; c=relaxed/simple;
-	bh=Fk4wnbWrvlRCpYY7EBpy23iVhDEFFSBBmhNUHDrnqG4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DDHNyGG+4ra2N/XZ+tFqC0NVDALTpy9AGUJ6hEQBfPwG0rAlbN2SJG24LYPY1Hk/RURfWqcRuV1Xm7RFwNhYSrHTtdE14Q6udNk3gTfI9HQtnGY9jLXI1ZL/NVfxMRR9R3lAF+KDoC/i7Z9PF3RwAYVCwDp/N3TLKmMiUnNQVo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aDSKXnum; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1774399840; c=relaxed/simple;
+	bh=iU6hKwEb3SZYBncx8DNKYuGFWs+HIMXHSdIuwvrQ45s=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=nzwVQvDiF3V7keFUBkjagoxZG2GEa+F7diP4Qmgq4RRb6gvG5ZlqwPTp58S+rFr3BafBM+OFKiWorqxr+o9jK0hsyaGrjbI7/3spLXKB3U/FSqRFTdaY8C3/151TErabPDFfzBs9uS0UWHqiHH312557EsAeY3+nf+eY5DPZrIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eHF669O9; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aDSKXnum"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eHF669O9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774393651; x=1805929651;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Fk4wnbWrvlRCpYY7EBpy23iVhDEFFSBBmhNUHDrnqG4=;
-  b=aDSKXnumR8zhloF71Id+ISuPShHU6Dz1GIfvMd7DGvb+nnPSxTZjzchu
-   pYQvTt7VZFZnm3UJMpJTua5JBEc8alMW040s6PCzXEm4isgV2rpk//lfZ
-   ZFn94XPWhagmoJ8DDJH7IqsIkm4JOPz2maPxK9gn0fOg6nXUWf8B0gE9Z
-   jDjoVGmye5TqY/4b9B/4P4GyeI+KIGIgSEVh0y7EP7uuDH7sWRqsRvkjC
-   Jc7Zq9eVhueDhbb4N5ESaTHpHHnd7iIAc6xnteLj5Vbs4hCDd8K8O93Pm
-   EbISxbukq5vLX3wcAOmdP/a/9hSfPoKzrFdKfFddwNKMvFmuulMJj+xjN
+  t=1774399838; x=1805935838;
+  h=date:from:to:cc:subject:message-id;
+  bh=iU6hKwEb3SZYBncx8DNKYuGFWs+HIMXHSdIuwvrQ45s=;
+  b=eHF669O9LsVL3UlDyjpfHyVRlxGtru6V+RR80zix4iRCT4LWj5DG3FlG
+   cUcosRc/Y5fpl9ckdOwpO9Z5Q1arCbHenCGWMZ20ZC2mwsx5gblJXqn9T
+   4vNoDSxjiO3q0nC0JdyIeWT0aRZu1hs/AswEhHMQGGYbdu4Zt8PeOy64u
+   /xCjTpAuRwFNh/yn9RivXjtqMxCGkbyuV4bUgYY97vJVVJZS6KLLx90ZB
+   B5k5ngi0guGBghhTUyYS2JfFuH5qw33wI8A18cCzrP0IHGa6vHpbt4+eG
+   q6VPuuaWJEpDo1I9XnrYnxzDg80XQEKBdoPUC8KUmm/PM0EqlieBi6c5D
    w==;
-X-CSE-ConnectionGUID: V2DbI4g4QR6uOaoUXVb1/w==
-X-CSE-MsgGUID: 8P3Cy/dOTLmS+cYuPqKxKg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="75618053"
+X-CSE-ConnectionGUID: DJ0YjsKZQNa239lHgct17A==
+X-CSE-MsgGUID: rMzjBZK5QH2DfPtbeXMTsQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="85739689"
 X-IronPort-AV: E=Sophos;i="6.23,139,1770624000"; 
-   d="scan'208";a="75618053"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 16:07:31 -0700
-X-CSE-ConnectionGUID: SrpYwx6GQpubSXWUutx8/A==
-X-CSE-MsgGUID: wFIBomXZTwmmjw22K+0L0A==
+   d="scan'208";a="85739689"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 17:50:36 -0700
+X-CSE-ConnectionGUID: TqbSgbXZRAamxEir2+KKFA==
+X-CSE-MsgGUID: +nydbD99RjacUAo5FBxygw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,139,1770624000"; 
-   d="scan'208";a="224511070"
+   d="scan'208";a="224780494"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 24 Mar 2026 16:07:26 -0700
+  by orviesa007.jf.intel.com with ESMTP; 24 Mar 2026 17:50:34 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5AqJ-000000005YH-1gIj;
-	Tue, 24 Mar 2026 23:07:23 +0000
-Date: Wed, 25 Mar 2026 07:06:56 +0800
+	id 1w5CS7-000000005el-3NHa;
+	Wed, 25 Mar 2026 00:50:31 +0000
+Date: Wed, 25 Mar 2026 08:50:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yu-Chun Lin <eleanor.lin@realtek.com>, mturquette@baylibre.com,
-	sboyd@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, p.zabel@pengutronix.de, cylee12@realtek.com,
-	afaerber@suse.com, jyanchou@realtek.com
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-realtek-soc@lists.infradead.org, james.tai@realtek.com,
-	cy.huang@realtek.com, stanley_chang@realtek.com,
-	eleanor.lin@realtek.com
-Subject: Re: [PATCH v5 09/10] clk: realtek: Add RTD1625-CRT clock controller
- driver
-Message-ID: <202603250636.b3J5aCGL-lkp@intel.com>
-References: <20260324025332.3416977-10-eleanor.lin@realtek.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Lee Jones <lee@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [lee-mfd:for-mfd-next 23/25] drivers/mfd/ezx-pcap.c:412:20:
+ error: implicit declaration of function 'devm_alloc_ordered_workqueue'; did
+ you mean 'alloc_ordered_workqueue'?
+Message-ID: <202603250850.8C5TBMn1-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260324025332.3416977-10-eleanor.lin@realtek.com>
 
-Hi Yu-Chun,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on clk/clk-next]
-[also build test ERROR on robh/for-next linus/master v7.0-rc5 next-20260324]
-[cannot apply to pza/reset/next pza/imx-drm/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yu-Chun-Lin/dt-bindings-clock-Add-Realtek-RTD1625-Clock-Reset-Controller/20260324-171912
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/20260324025332.3416977-10-eleanor.lin%40realtek.com
-patch subject: [PATCH v5 09/10] clk: realtek: Add RTD1625-CRT clock controller driver
-config: nios2-randconfig-001-20260325 (https://download.01.org/0day-ci/archive/20260325/202603250636.b3J5aCGL-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603250636.b3J5aCGL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
+head:   a526075f56fb8f2fd96f791654ff1557e6680bde
+commit: 356ee03f6ae7d04f90d8e2104660193c4f3a071c [23/25] mfd: ezx-pcap: Avoid rescheduling after destroying workqueue
+config: parisc-randconfig-001-20260325 (https://download.01.org/0day-ci/archive/20260325/202603250850.8C5TBMn1-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603250850.8C5TBMn1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603250636.b3J5aCGL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603250850.8C5TBMn1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   nios2-linux-ld: drivers/clk/realtek/common.o: in function `rtk_clk_probe':
->> drivers/clk/realtek/common.c:54: undefined reference to `rtk_reset_controller_add'
->> drivers/clk/realtek/common.c:54:(.text+0x134): relocation truncated to fit: R_NIOS2_CALL26 against `rtk_reset_controller_add'
+   drivers/mfd/ezx-pcap.c: In function 'ezx_pcap_probe':
+>> drivers/mfd/ezx-pcap.c:412:20: error: implicit declaration of function 'devm_alloc_ordered_workqueue'; did you mean 'alloc_ordered_workqueue'? [-Werror=implicit-function-declaration]
+     pcap->workqueue = devm_alloc_ordered_workqueue(&spi->dev, "pcapd", 0);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                       alloc_ordered_workqueue
+>> drivers/mfd/ezx-pcap.c:412:18: warning: assignment to 'struct workqueue_struct *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     pcap->workqueue = devm_alloc_ordered_workqueue(&spi->dev, "pcapd", 0);
+                     ^
+   cc1: some warnings being treated as errors
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for RTK_CLK_COMMON
-   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_REALTEK [=y] && RESET_CONTROLLER [=n]
-   Selected by [y]:
-   - COMMON_CLK_RTD1625 [=y] && COMMON_CLK [=y] && COMMON_CLK_REALTEK [=y]
 
+vim +412 drivers/mfd/ezx-pcap.c
 
-vim +54 drivers/clk/realtek/common.c
-
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  12  
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  13  int rtk_clk_probe(struct platform_device *pdev, const struct rtk_clk_desc *desc)
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  14  {
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  15  	int i, ret;
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  16  	struct regmap *regmap;
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  17  	struct device *dev = &pdev->dev;
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  18  	struct rtk_reset_initdata reset_initdata = {0};
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  19  
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  20  	regmap = device_node_to_regmap(pdev->dev.of_node);
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  21  	if (IS_ERR(regmap))
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  22  		return dev_err_probe(dev, PTR_ERR(regmap), "failed to get regmap\n");
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  23  
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  24  	for (i = 0; i < desc->num_clks; i++)
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  25  		desc->clks[i]->regmap = regmap;
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  26  
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  27  	for (i = 0; i < desc->clk_data->num; i++) {
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  28  		struct clk_hw *hw = desc->clk_data->hws[i];
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  29  
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  30  		if (!hw)
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  31  			continue;
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  32  
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  33  		ret = devm_clk_hw_register(dev, hw);
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  34  
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  35  		if (ret) {
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  36  			dev_warn(dev, "failed to register hw of clk%d: %d\n", i,
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  37  				 ret);
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  38  			desc->clk_data->hws[i] = NULL;
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  39  		}
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  40  	}
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  41  
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  42  	ret = devm_of_clk_add_hw_provider(dev, of_clk_hw_onecell_get,
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  43  					  desc->clk_data);
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  44  	if (ret)
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  45  		return dev_err_probe(dev, ret, "failed to add clock provider\n");
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  46  
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  47  	if (!desc->num_reset_descs)
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  48  		return 0;
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  49  
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  50  	reset_initdata.regmap = regmap;
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  51  	reset_initdata.num_descs = desc->num_reset_descs;
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  52  	reset_initdata.descs = desc->reset_descs;
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  53  
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24 @54  	return rtk_reset_controller_add(dev, &reset_initdata);
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  55  }
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  56  EXPORT_SYMBOL_GPL(rtk_clk_probe);
-105a817ead5cd3 Cheng-Yu Lee 2026-03-24  57  
+   379	
+   380	static int ezx_pcap_probe(struct spi_device *spi)
+   381	{
+   382		struct pcap_platform_data *pdata = dev_get_platdata(&spi->dev);
+   383		struct pcap_chip *pcap;
+   384		int i, adc_irq;
+   385		int ret;
+   386	
+   387		/* platform data is required */
+   388		if (!pdata)
+   389			return -ENODEV;
+   390	
+   391		pcap = devm_kzalloc(&spi->dev, sizeof(*pcap), GFP_KERNEL);
+   392		if (!pcap)
+   393			return -ENOMEM;
+   394	
+   395		spin_lock_init(&pcap->io_lock);
+   396		spin_lock_init(&pcap->adc_lock);
+   397		INIT_WORK(&pcap->isr_work, pcap_isr_work);
+   398		INIT_WORK(&pcap->msr_work, pcap_msr_work);
+   399		spi_set_drvdata(spi, pcap);
+   400	
+   401		/* setup spi */
+   402		spi->bits_per_word = 32;
+   403		spi->mode = SPI_MODE_0 | (pdata->config & PCAP_CS_AH ? SPI_CS_HIGH : 0);
+   404		ret = spi_setup(spi);
+   405		if (ret)
+   406			return ret;
+   407	
+   408		pcap->spi = spi;
+   409	
+   410		/* setup irq */
+   411		pcap->irq_base = pdata->irq_base;
+ > 412		pcap->workqueue = devm_alloc_ordered_workqueue(&spi->dev, "pcapd", 0);
+   413		if (!pcap->workqueue)
+   414			return -ENOMEM;
+   415	
+   416		/* redirect interrupts to AP, except adcdone2 */
+   417		if (!(pdata->config & PCAP_SECOND_PORT))
+   418			ezx_pcap_write(pcap, PCAP_REG_INT_SEL,
+   419						(1 << PCAP_IRQ_ADCDONE2));
+   420	
+   421		/* setup irq chip */
+   422		for (i = pcap->irq_base; i < (pcap->irq_base + PCAP_NIRQS); i++) {
+   423			irq_set_chip_and_handler(i, &pcap_irq_chip, handle_simple_irq);
+   424			irq_set_chip_data(i, pcap);
+   425			irq_clear_status_flags(i, IRQ_NOREQUEST | IRQ_NOPROBE);
+   426		}
+   427	
+   428		/* mask/ack all PCAP interrupts */
+   429		ezx_pcap_write(pcap, PCAP_REG_MSR, PCAP_MASK_ALL_INTERRUPT);
+   430		ezx_pcap_write(pcap, PCAP_REG_ISR, PCAP_CLEAR_INTERRUPT_REGISTER);
+   431		pcap->msr = PCAP_MASK_ALL_INTERRUPT;
+   432	
+   433		irq_set_irq_type(spi->irq, IRQ_TYPE_EDGE_RISING);
+   434		irq_set_chained_handler_and_data(spi->irq, pcap_irq_handler, pcap);
+   435		irq_set_irq_wake(spi->irq, 1);
+   436	
+   437		/* ADC */
+   438		adc_irq = pcap_to_irq(pcap, (pdata->config & PCAP_SECOND_PORT) ?
+   439						PCAP_IRQ_ADCDONE2 : PCAP_IRQ_ADCDONE);
+   440	
+   441		ret = devm_request_irq(&spi->dev, adc_irq, pcap_adc_irq, 0, "ADC",
+   442					pcap);
+   443		if (ret)
+   444			goto free_irqchip;
+   445	
+   446		/* setup subdevs */
+   447		for (i = 0; i < pdata->num_subdevs; i++) {
+   448			ret = pcap_add_subdev(pcap, &pdata->subdevs[i]);
+   449			if (ret)
+   450				goto remove_subdevs;
+   451		}
+   452	
+   453		/* board specific quirks */
+   454		if (pdata->init)
+   455			pdata->init(pcap);
+   456	
+   457		return 0;
+   458	
+   459	remove_subdevs:
+   460		device_for_each_child(&spi->dev, NULL, pcap_remove_subdev);
+   461	free_irqchip:
+   462		for (i = pcap->irq_base; i < (pcap->irq_base + PCAP_NIRQS); i++)
+   463			irq_set_chip_and_handler(i, NULL, NULL);
+   464	
+   465		return ret;
+   466	}
+   467	
 
 -- 
 0-DAY CI Kernel Test Service
