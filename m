@@ -1,136 +1,160 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A54F3D330C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 12:13:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14C4C34D902
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 12:18:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774440832; cv=none; b=mMOLQbJi8H8r+WzJOUopVHjF2ZLhwd5TfSjDcTIKjzIyUzf/Fgmt5S3Qo/W811sAed2WtmXsNgzlT0c3KEGmnkHMcltuPtkYU1qI/QwgoPuImu6ure1GKPHo/zlDR4mZ8aLJnmWaDE8b5/CRS/x5bQcH/1Mjeol63qoy0iwOXQc=
+	t=1774441115; cv=none; b=Xkz6uOWtCVcg/JB9T7RskJrN0yjeuM/NWIAenpUqq0dJP7j7w5llAvKGi/BxcC/xxhyET9eNvJ3QEdZ/+9hLlnmOxdMwW+nGDZp6fM9GPKXR3YRTKmZK+/HoKsD7Fjd55AQuiOXSYKHnJUol2oNOnYtl/CldFBuaTjbJf+JcjFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774440832; c=relaxed/simple;
-	bh=Fb2dFEFBTzTYZiSW4NQ8boEo0Fa4e1j9QdAbr1VO+D4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tZM5/k7PiKN6bRcqCa07rTXK0Mz3n9hPy51/fC9AL0THCn4AUww36LbF8MicvATkpFtxVxWzkzq2wvomZ6/zSRvUAHgClelyHcvgTeM1Hqu+p1NqEaReI2FzdWXnIWmw71VPr2A5PDAyTP3T4iA6foi0AQjdyYE7SsjT+hC0isI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=q8pGUaKQ; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1774441115; c=relaxed/simple;
+	bh=bqK0L16wtxKKxO95+QIb/J7Bx/23mMyR1swl0kBkmZs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Ytf1pQPfPShD3NuVO3LBf289XoWXZ5NlEsWVYxfldt37rm4KDxaR2rrbLwNJW/IN6X+5XCX/NTegrg/O5kW7wpqadUeSIt8JK/XVj9t3SwRPoBquziMBWAZp4xmGkIyVqcJvW+dlld/s97Xe9nc+D15231shej4ufuPAg2e8IWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gPQ1sMf0; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="q8pGUaKQ"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-486fb439299so54290145e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 05:13:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1774440829; x=1775045629; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=h5E6moPRnekbmqdlOzYEpEz2bsLuOvHYrX+9kNxnP+U=;
-        b=q8pGUaKQj2RYpzCZz7fqkB+VEvhZjpDY7nHX4LK68xMr4lqdXej1SFTOIk83EYAbIK
-         qeERdSxmeNiiNyNiTYQ8Be0iPPVlnBvOIlGrheQD9Z5KprdQox7p8ddc4JMFD7RIV62U
-         m5LG+qfqdEZ/5Pl7R3+bEmmdKR9uRRdcIl+LzH53cXld9CoHtVyiA0xNGaKCIMMJa/hy
-         0GSJ+NTiSaMdmh7SF4jMTVnEEMVELODpNkO9TGtcZna/imOznCdMnu43ySjUOvzsogT/
-         NnZ7NbQU2c3637kFP7viSVzLBfU/yO29SsXP5pi1kBGikY0iu6jpksFC3Us/lBzKpVrn
-         lH1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774440829; x=1775045629;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=h5E6moPRnekbmqdlOzYEpEz2bsLuOvHYrX+9kNxnP+U=;
-        b=JnLVfXLNuCSe52uuOywKcrHqLSwnMkJFVJbr3QOCowR/OlQE6Y/KwiKfPb69GRKnNw
-         vi/xXdFdCBJsZLVmQ6u/C2vREZSJMt7f5uQx9Tp8z3mRWJEEHv9Z8p/3btZ1421Z6l3K
-         W/oU1uylX0EqVO/7cRNEdBWmefpYrkOaN30XuXj7kSOgxV7Jj2Al33l5V5nwPIfRow2D
-         p4fqmlwyZhlzVG4HKg4nnes8KEMJie2WERZOBgy+OYUSOM6/OjB6C0DrjRyhJgah8bBy
-         mLJoPu2MHB3WyIbXyVTCjLFXtC9MybeaxvKb59j8dyZXicK7bMFo+QOR18trR51uHgrY
-         h/6g==
-X-Forwarded-Encrypted: i=1; AJvYcCXFEr4BL/TxWzourMWkEjqQg3LzpgBz8Q5yzsVpIih8Lp8/pyBQWBvUxhqhyzh0vVB8em+THiqaT+2qOLQA@lists.linux.dev
-X-Gm-Message-State: AOJu0YxIWxoB36NGvyJyquim9e97b1EOdKGfjWHdyCz6g/9ptSThoj+p
-	QgnZcqVg5AkGqXfc1i2Fz8NLHzE3zLBBrtNVtvQ9EZjydaUX13yoQvaCpFVl1Bu9suk=
-X-Gm-Gg: ATEYQzzJG/85xZ7mh0LjwImKXQo5sSsxbW719gDpsESEqkqdN9hKjA4bBJTYWZfbAKO
-	vDv6fFgw5DBF/jd+deIFyIC3s7pQy8B0bOGDVROPNYap2vOl7mIDRS1OxFFPmNik0APS+AK6aV3
-	LN3wurnkRMwJ/KxLoSM9uynaBg6nlS3Y6bHIHzdnpxptEEoiPxoGm3UMgQq95gKR3N8bOoXstNC
-	37sT0L80jyUZRr28pAm/ILChCNX0kFP8bQuFrB7rAgroE5XFo55XSE9WfZ93xjuDEBKSt+bWaul
-	J+U9B30gpjvXsiIBGEPgGZ2tA5Biaac+ATdvUYIvj9ZDtCRWVnKrjMptemFGD7/0jd2JSbvk8L6
-	yOyzM/FuDFABRCu73hjBzeIQSAoENR+Ai02CsJezUTpS489bB4N9SY5sc1bu4JW8RdkZm9DRChd
-	qrXuaTYPrkl6vJCMLp8FqzkStJY7gE
-X-Received: by 2002:a05:600c:45c4:b0:485:3c8f:e4d9 with SMTP id 5b1f17b1804b1-48716067413mr46067455e9.26.1774440828759;
-        Wed, 25 Mar 2026 05:13:48 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b64714e2esm49760795f8f.32.2026.03.25.05.13.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2026 05:13:47 -0700 (PDT)
-Date: Wed, 25 Mar 2026 15:13:44 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Michal Wilczynski <m.wilczynski@samsung.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>,
-	Kees Cook <kees@kernel.org>
-Subject: drivers/firmware/thead,th1520-aon.c:174 th1520_aon_power_update()
- error: buffer overflow 'data' 2 <= 3
-Message-ID: <202603251917.9rxYz4kf-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gPQ1sMf0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774441114; x=1805977114;
+  h=date:from:to:cc:subject:message-id;
+  bh=bqK0L16wtxKKxO95+QIb/J7Bx/23mMyR1swl0kBkmZs=;
+  b=gPQ1sMf0/CbRaVrCvgxe0baj1mYkbPFVfpxyfO+SZ0AknV6o9OS+2DJq
+   OWvVEU5AvZqeymLzr3tNoi5b9Edo9lX4441eo/KiaVnhVGnmZcAF0CIXa
+   938GlHWrWvIWGGq0seet8QfQCZNVJldoLaVTD9aa7/Kz1UTh4sd+TY4Yp
+   CkPK+kE3aaz3L3xRGsdMKgRoQbmjk9FQTaxwMa79ArXX7bBlwMp0IxcmQ
+   KruCH9R08i5oNfC9XmAJSMhvOeVoPzi98cTR0CrM7VbFshrmj+7xK7GdC
+   J8kRr/PvU3rsUDlzjQ4nmB7Rd0T/on71o9wsm8/Mh2RQlc+r4RSnLODDD
+   Q==;
+X-CSE-ConnectionGUID: Q9MT7B0+RiKLQmlEwaAAtw==
+X-CSE-MsgGUID: gkBIbghNSWOUJrVCF8WvGQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="75590036"
+X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
+   d="scan'208";a="75590036"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 05:18:33 -0700
+X-CSE-ConnectionGUID: i3lGmdFySeqfJQ6TwSyaPQ==
+X-CSE-MsgGUID: Kxkh23qoQR6q3fXEAzu6iA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
+   d="scan'208";a="220260739"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 25 Mar 2026 05:18:32 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w5NBt-000000006nD-3diS;
+	Wed, 25 Mar 2026 12:18:29 +0000
+Date: Wed, 25 Mar 2026 20:18:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org
+Subject: [dtor-input:next 32/43]
+ drivers/input/touchscreen/mxs-lradc-ts.c:508:8: error: macro
+ "class_spinlock_irqsave_constructor" passed 2 arguments, but takes just 1
+Message-ID: <202603252057.JgSqGyIe-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   bbeb83d3182abe0d245318e274e8531e5dd7a948
-commit: e4b3cbd840e565484d0ad8d260d27c057466ed17 firmware: thead: Add AON firmware protocol driver
-config: riscv-randconfig-r073-20260325 (https://download.01.org/0day-ci/archive/20260325/202603251917.9rxYz4kf-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-smatch: v0.5.0-9004-gb810ac53
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+head:   303cdff39cdb1895a6d2b08e8946cc89feaf405c
+commit: a995f3ca3bd51c348bd4c8d1833d318bef1a5001 [32/43] Input: mxs-lradc-ts - use guard notation when acquiring spinlock
+config: sparc-randconfig-r134-20260325 (https://download.01.org/0day-ci/archive/20260325/202603252057.JgSqGyIe-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 14.3.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603252057.JgSqGyIe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202603251917.9rxYz4kf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603252057.JgSqGyIe-lkp@intel.com/
 
-New smatch warnings:
-drivers/firmware/thead,th1520-aon.c:174 th1520_aon_power_update() error: buffer overflow 'data' 2 <= 3
+All errors (new ones prefixed by >>):
 
-vim +/data +174 drivers/firmware/thead,th1520-aon.c
+   drivers/input/touchscreen/mxs-lradc-ts.c: In function 'mxs_lradc_ts_handle_irq':
+>> drivers/input/touchscreen/mxs-lradc-ts.c:508:8: error: macro "class_spinlock_irqsave_constructor" passed 2 arguments, but takes just 1
+     508 |                 scoped_guard(spinlock_irqsave, &ts->lock, flags) {
+         | ^               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/sched.h:37,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from drivers/input/touchscreen/mxs-lradc-ts.c:13:
+   include/linux/spinlock.h:623:9: note: macro "class_spinlock_irqsave_constructor" defined here
+     623 | #define class_spinlock_irqsave_constructor(_T) WITH_LOCK_GUARD_1_ATTRS(spinlock_irqsave, _T)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/irqflags.h:17,
+                    from include/asm-generic/cmpxchg-local.h:6,
+                    from arch/sparc/include/asm/cmpxchg_32.h:67,
+                    from arch/sparc/include/asm/cmpxchg.h:7,
+                    from arch/sparc/include/asm/atomic_32.h:17,
+                    from arch/sparc/include/asm/atomic.h:7,
+                    from include/linux/atomic.h:7,
+                    from include/asm-generic/bitops/lock.h:5,
+                    from arch/sparc/include/asm/bitops_32.h:102,
+                    from arch/sparc/include/asm/bitops.h:7,
+                    from include/linux/bitops.h:67,
+                    from include/linux/log2.h:12,
+                    from include/asm-generic/div64.h:55,
+                    from ./arch/sparc/include/generated/asm/div64.h:1,
+                    from include/linux/math.h:6,
+                    from include/linux/math64.h:6,
+                    from include/linux/time64.h:5,
+                    from include/linux/restart_block.h:9,
+                    from include/linux/thread_info.h:14,
+                    from arch/sparc/include/asm/current.h:15,
+                    from include/linux/sched.h:12:
+>> include/linux/cleanup.h:300:17: error: invalid initializer
+     300 |                 class_##_name##_constructor
+         |                 ^~~~~~
+   include/linux/cleanup.h:438:14: note: in expansion of macro 'CLASS'
+     438 |         for (CLASS(_name, scope)(args);                                 \
+         |              ^~~~~
+   include/linux/cleanup.h:447:9: note: in expansion of macro '__scoped_guard'
+     447 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   drivers/input/touchscreen/mxs-lradc-ts.c:508:17: note: in expansion of macro 'scoped_guard'
+     508 |                 scoped_guard(spinlock_irqsave, &ts->lock, flags) {
+         |                 ^~~~~~~~~~~~
 
-e4b3cbd840e5654 Michal Wilczynski 2025-03-11  162  int th1520_aon_power_update(struct th1520_aon_chan *aon_chan, u16 rsrc,
-e4b3cbd840e5654 Michal Wilczynski 2025-03-11  163  			    bool power_on)
-e4b3cbd840e5654 Michal Wilczynski 2025-03-11  164  {
-e4b3cbd840e5654 Michal Wilczynski 2025-03-11  165  	struct th1520_aon_msg_req_set_resource_power_mode msg = {};
-e4b3cbd840e5654 Michal Wilczynski 2025-03-11  166  	struct th1520_aon_rpc_msg_hdr *hdr = &msg.hdr;
-e4b3cbd840e5654 Michal Wilczynski 2025-03-11  167  	int ret;
-e4b3cbd840e5654 Michal Wilczynski 2025-03-11  168  
-e4b3cbd840e5654 Michal Wilczynski 2025-03-11  169  	hdr->svc = TH1520_AON_RPC_SVC_PM;
-e4b3cbd840e5654 Michal Wilczynski 2025-03-11  170  	hdr->func = TH1520_AON_PM_FUNC_SET_RESOURCE_POWER_MODE;
-e4b3cbd840e5654 Michal Wilczynski 2025-03-11  171  	hdr->size = TH1520_AON_RPC_MSG_NUM;
-e4b3cbd840e5654 Michal Wilczynski 2025-03-11  172  
-e4b3cbd840e5654 Michal Wilczynski 2025-03-11  173  	RPC_SET_BE16(&msg.resource, 0, rsrc);
-e4b3cbd840e5654 Michal Wilczynski 2025-03-11 @174  	RPC_SET_BE16(&msg.resource, 2,
-e4b3cbd840e5654 Michal Wilczynski 2025-03-11  175  		     (power_on ? TH1520_AON_PM_PW_MODE_ON :
-e4b3cbd840e5654 Michal Wilczynski 2025-03-11  176  				 TH1520_AON_PM_PW_MODE_OFF));
 
-This is deliberate, but I'm surprised the runtime hardening we have
-done doesn't complain that we're writing outside the &msg.resource
-struct member...  Maybe the RPC_SET_BE16() macro adds enough indirection
-to confuse the checker.
+vim +/class_spinlock_irqsave_constructor +508 drivers/input/touchscreen/mxs-lradc-ts.c
 
-Why not just do?:
-
-	msg.mode = cpu_to_be16(power_on ?
-			       TH1520_AON_PM_PW_MODE_ON :
-			       TH1520_AON_PM_PW_MODE_OFF);
-
-e4b3cbd840e5654 Michal Wilczynski 2025-03-11  177  
-e4b3cbd840e5654 Michal Wilczynski 2025-03-11  178  	ret = th1520_aon_call_rpc(aon_chan, &msg);
-e4b3cbd840e5654 Michal Wilczynski 2025-03-11  179  	if (ret)
-e4b3cbd840e5654 Michal Wilczynski 2025-03-11  180  		dev_err(aon_chan->cl.dev, "failed to power %s resource %d ret %d\n",
-e4b3cbd840e5654 Michal Wilczynski 2025-03-11  181  			power_on ? "up" : "off", rsrc, ret);
-e4b3cbd840e5654 Michal Wilczynski 2025-03-11  182  
-e4b3cbd840e5654 Michal Wilczynski 2025-03-11  183  	return ret;
-e4b3cbd840e5654 Michal Wilczynski 2025-03-11  184  }
+   491	
+   492	/* IRQ Handling */
+   493	static irqreturn_t mxs_lradc_ts_handle_irq(int irq, void *data)
+   494	{
+   495		struct mxs_lradc_ts *ts = data;
+   496		struct mxs_lradc *lradc = ts->lradc;
+   497		unsigned long reg = readl(ts->base + LRADC_CTRL1);
+   498		u32 clr_irq = mxs_lradc_irq_mask(lradc);
+   499		const u32 ts_irq_mask =
+   500			LRADC_CTRL1_TOUCH_DETECT_IRQ |
+   501			LRADC_CTRL1_LRADC_IRQ(TOUCHSCREEN_VCHANNEL1) |
+   502			LRADC_CTRL1_LRADC_IRQ(TOUCHSCREEN_VCHANNEL2);
+   503	
+   504		if (!(reg & mxs_lradc_irq_mask(lradc)))
+   505			return IRQ_NONE;
+   506	
+   507		if (reg & ts_irq_mask) {
+ > 508			scoped_guard(spinlock_irqsave, &ts->lock, flags) {
+   509				mxs_lradc_handle_touch(ts);
+   510			}
+   511			/* Make sure we don't clear the next conversion's interrupt. */
+   512			clr_irq &= ~(LRADC_CTRL1_LRADC_IRQ(TOUCHSCREEN_VCHANNEL1) |
+   513					LRADC_CTRL1_LRADC_IRQ(TOUCHSCREEN_VCHANNEL2));
+   514			writel(reg & clr_irq,
+   515			       ts->base + LRADC_CTRL1 + STMP_OFFSET_REG_CLR);
+   516		}
+   517	
+   518		return IRQ_HANDLED;
+   519	}
+   520	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
