@@ -1,199 +1,200 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A4C830AACD;
-	Wed, 25 Mar 2026 04:40:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774413618; cv=none; b=CW4OmB6FXfSJiic26WPqTPsMzo6LLYDJJy3LCtpzDbgFZnK/KgmXP6JeOXxfIMV/Og8CRMMw1sSlPhmvOvavPJEWLzvZmMC1FpMU4ch14hloIbZA1Gtv1WoFsDPOGCbTgvA+9toEPI1gEvfficFv4lwAAQoOoVB9ITTCFHyZAP8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774413618; c=relaxed/simple;
-	bh=FdrSZZJWlda4b/iHdGvUBNw53MhgoxQX4XFQbplHhPU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XrXrE1RI2bFxyKgOC3gO6SjxQ3OhvzrtrU2DiznNMubxDwKOFJ/DxWSLjZw15cn9gKTfGHBKoiZIpvmxil/uwo01tFveRJooB5+zrzb+Up6IQwwM7I09YugWqB3D1BynQtQSOby3KF6Zp8FkSssM3Y3eD5tuHsbJyNCFJS8ffqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CI1SNkGD; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75C01823DD
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 05:04:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774415059; cv=fail; b=o7qWVo+Vf6sE/FXtLbHqg3gXPIcvRVkmhR/AWCacZi1CL4yPDtjg0s3l+rbGbfLyTLmrzUgr06PncKyBmcBC9x3JUb2Zib05fZVsPoPgqSmhCsBnoj8zddjZO4x44yKjBeCNl7bzz+sbys21KuVb58N3bdTWN7me2zXlt6dlnQQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774415059; c=relaxed/simple;
+	bh=bQC2mVxuv5Hyju2SVTnUQDMy1xV06iGyJHspPD6oMwg=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=S8pEvC8x5BQIZ7xMqdv+7XL1xUswFRtAvPT3PDUTIr0jajLrFDNKmfglDgQAE7rSR6ZemWwn+TaSD5Kv7W7pccRaeWl+Ayf8aSxP+ISL4yJ4y0p1Rb9L8EuH25xeONDNs/xHStOjBURfj2iK7reaMRrbI61TY76k3gOasbItkJ0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=elNJZy7v; arc=fail smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CI1SNkGD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="elNJZy7v"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774413617; x=1805949617;
+  t=1774415057; x=1805951057;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FdrSZZJWlda4b/iHdGvUBNw53MhgoxQX4XFQbplHhPU=;
-  b=CI1SNkGDRIkKrCxjXp5jLLmqZ0yXEOKUquAULLfmv+jHChlpNc1XWQNq
-   iOQI/KeN35jGhxIB52l7ScPCl8ykDOsMRn0PPAn5YsasB1Hf53Bl0CA4O
-   FG1isnq2Qw3P1NyIpKQNiSzhTQ/fanX8fID5sYPDEZIk4sAmGomA/w0wh
-   yNixwunWMjBAuL3EMaqw+TspqDy7c1yYGn/vBLI/OsN/IX4LgCA3Isn19
-   Y2n/MS3GmUrUVE7i4iobRUw+C4hLw6K74Nza9S4nDLxlozm+owuNGK2KE
-   TPkn00qGhJeezlRA0Ed5FBgQxs/XkTZTrLvoK23r7Z2rsr131U4rHZ/o9
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=bQC2mVxuv5Hyju2SVTnUQDMy1xV06iGyJHspPD6oMwg=;
+  b=elNJZy7v1rh1vVGBsdKyBEu2lfh4aSmLKONw0jWLhf79jR2xR2jlWJpq
+   hJzJv/ZLHgdsHFY981KBAvtZRCVAlrvvbZnZwlUyUSNk8XFxQInALDYAR
+   1SzKbIXE3dRtvQtUtcSUDAElMQJ4gDEpD7OmxqcraTfaJXNbPjMKv/LJ9
+   g3B5xh7eNJGztOp45LqUu+hvbkVZIgbd6zdxXUCIZyvl4+DfGa6lXXFDY
+   NDnb6gSngXJl5V84gBwBbcfFOmG/3QyXWaxaFYOM1XStWhLXn0pZVkwI9
+   63pXeA4UlXCM7EODhPtzaP2iizq6WwXJq35DA4cB4lrQAXoRkDZXiPohB
    w==;
-X-CSE-ConnectionGUID: Jfwk1qDSTkm1QnK51uctAQ==
-X-CSE-MsgGUID: X2caJsJDQ+eOq0O55jwfnw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="79351764"
+X-CSE-ConnectionGUID: Re1ZjQy2QsmA0FxXJZT9eg==
+X-CSE-MsgGUID: dzqcULH9RKywW1INq+lipQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="86818593"
 X-IronPort-AV: E=Sophos;i="6.23,139,1770624000"; 
-   d="scan'208";a="79351764"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 21:40:15 -0700
-X-CSE-ConnectionGUID: ikyhIFZZQWCB7XOgW7Cv+g==
-X-CSE-MsgGUID: 7BUuh80bRCCN7c6107pPyw==
+   d="scan'208";a="86818593"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 22:04:16 -0700
+X-CSE-ConnectionGUID: YbA9N1+pTxWZct82NQSjpQ==
+X-CSE-MsgGUID: xBMojPr0RICi1Z+kiXQ5Iw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,139,1770624000"; 
-   d="scan'208";a="228633803"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 24 Mar 2026 21:40:11 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w5G2K-0000000064r-0e7u;
-	Wed, 25 Mar 2026 04:40:08 +0000
-Date: Wed, 25 Mar 2026 12:39:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: Carlo Szelinsky <github@szelinsky.de>,
-	Oleksij Rempel <o.rempel@pengutronix.de>,
-	Kory Maincent <kory.maincent@bootlin.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org, Carlo Szelinsky <github@szelinsky.de>
-Subject: Re: [PATCH v2 3/3] net: pse-pd: add LED trigger support via
- notification path
-Message-ID: <202603251254.o5PqMBRU-lkp@intel.com>
-References: <20260323201225.1836561-4-github@szelinsky.de>
+   d="scan'208";a="221675870"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 22:04:16 -0700
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Tue, 24 Mar 2026 22:04:16 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Tue, 24 Mar 2026 22:04:16 -0700
+Received: from CY7PR03CU001.outbound.protection.outlook.com (40.93.198.58) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Tue, 24 Mar 2026 22:04:16 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Xj7ADFo2ixsF9Ato/hPR4pDneZ+V/tmwwZnY8S/JgEt4y7HIUURtxcTg7QIlZo0upXvyk0FPQjBUqbeqeNG9QZsqJgAJolppU12JAf41qPq9ZuJtxEpve40onOkfQIwl16jiOeah2PYZBtOzYSQzonBHcg1X09u0Us7aZwpUvrG58nBIB2tcWmfkY5NhAOm0jeIivzvzm718NZ01fxSKu65BkLIHBgWzDXJjtEL4FpgDOb6NQfzEYMF0DMQdUeEcPpp9yu1abpL4sBL4CYTtpYLTPssSMGDAhWoDdulFXVvLH8uQCAQo4xb2aQ99CDfexPZNSmUl680co2uLiyJT/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5QYp8cuLIX6n1GG1MjEwUb+rBbncSQBRnjuQaUKnmKA=;
+ b=kvaNcxoW5TWHHT1Cb9fiXgMM6954XYdCDiao+skZN+AL5NesYU7u7h5Yz+vdBr7SY4inwrmeGpqMPhYvgL7On4/ueE4V+3pk3g/rrc2ca6Z8OG3/gU2Z0LqzY5JkMqxMgEa1gHqxyIiOTsxcG2FtaFql3K1/EatoxYiPVN3hmZHtiRnJgofMWqgSxtTcgCbaBdS1D1dc6pkYZHla064OgK+eUnBJ7sRRX+mVLhNJN15Uj1GuVE8zfHd3EewWj9Gl25X/QgsPOHGRzAZinExXa09FgSp5FFL7U90Ud/0w6W7rGjbWZxVEqOG4FdqgvJVcQKm2K4QX+DwWTlGe32edvQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BYAPR11MB2808.namprd11.prod.outlook.com (2603:10b6:a02:c8::26)
+ by IA1PR11MB8785.namprd11.prod.outlook.com (2603:10b6:208:599::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.15; Wed, 25 Mar
+ 2026 05:04:12 +0000
+Received: from BYAPR11MB2808.namprd11.prod.outlook.com
+ ([fe80::defa:788:da96:2f9a]) by BYAPR11MB2808.namprd11.prod.outlook.com
+ ([fe80::defa:788:da96:2f9a%4]) with mapi id 15.20.9745.007; Wed, 25 Mar 2026
+ 05:04:12 +0000
+Date: Wed, 25 Mar 2026 13:04:03 +0800
+From: Philip Li <philip.li@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+CC: kernel test robot <lkp@intel.com>, Chengkaitao <chengkaitao@kylinos.cn>,
+	<oe-kbuild-all@lists.linux.dev>, David Hildenbrand <david@kernel.org>, "Linux
+ Memory Management List" <linux-mm@kvack.org>
+Subject: Re: [akpm-mm:mm-stable 72/140] arch/sparc/mm/init_64.c:2582:16:
+ error: implicit declaration of function 'vmemmap_pgd_populate'; did you mean
+ 'vmemmap_populate'?
+Message-ID: <acNsw6lmMmSpk+c1@rli9-mobl>
+References: <202603251147.CtgepAeH-lkp@intel.com>
+ <20260324202754.6f29c4f6530ec7ea9d1f753d@linux-foundation.org>
+ <acNdJ/q5tNB0nNjp@rli9-mobl>
+ <20260324212658.a267bb861af1dcbf119a1901@linux-foundation.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260324212658.a267bb861af1dcbf119a1901@linux-foundation.org>
+X-ClientProxiedBy: SG2PR04CA0159.apcprd04.prod.outlook.com (2603:1096:4::21)
+ To BYAPR11MB2808.namprd11.prod.outlook.com (2603:10b6:a02:c8::26)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260323201225.1836561-4-github@szelinsky.de>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR11MB2808:EE_|IA1PR11MB8785:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1e727321-3d67-40a2-47f6-08de8a2bf48b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|22082099003|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info: c/WaqtupdN42mYRlE269LKG0GCYv6dQVpw1un6JZuctZx93QlhM0MB9n6qV2YpOkzwm/0gPEYgRy6mbDcQWgj8BDQaNqEwiXRK6xdEj6eYW3JtlpqDS7EeSBSG4SRCgD3X0njCcX+VJcKh68d4A6PFch8vkgy643WWnWGrBxXB7TekF98b5OVi3O67jRy4rpy9ZzaDYUaqvYQeqENn/o9MB5wTmUVuJTap4/SzV1hpQ6qyS07dMbXWZXarD4+rJaAbmuGbGfHkPNR/pbOcCZVtekBRzBX7UBEiQLrxPevWLSXdw6xSLJryJ//B74t+hlnhXohaNlkkguDSDJD9BuzavXe2KtyJPX0B4xY0mMTWQ3j9lYjw38hXlox5SnP5OdkRi7vfH0CAFV/BgNX0V4rtsqm/YgubzQylibzg2hH5FK3GL0M8D/5WN7jFSvpJmEoS35RLJnHBBchDaOYUcE+PZ+kXDxugkZRTm/nkDLwf9r4aH8ko9GYkfEadPQ14D+aO7lda/3GtpaqgvHJiiQw6jh5zBMZb7oXlW7UdYWNE2gR3KS/NQRv7OOg941ODLJSzqZpvK06H1Xr66T518k7E9+RRM6q5vKH+q3/hdvm28gvMQSZnqkCZjZ7jBUydqYn1+LdpxwxoQU3f5UYwLC9QMwJLNmXYeXSDuZ6t+SyOx8o99TZK7fdQrxqVQyTHtcrbU/zCGgJTGQQGvcLQPECCuNEebpBjW/ToQEGDKeL0g=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB2808.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aWtGaHVzN0htclVWL3hrb09FVUdCdVpUNnZKTWhoZ3EvSHhqWWtybEkwc05W?=
+ =?utf-8?B?b210cm9ZY3hnWk5yN01JamI4L0N2TWxRaHdKY3pESGp4WEY1TVgxQkZLN2k2?=
+ =?utf-8?B?SCt4YmUycHUzZ1V3V0tBOGJYam9NNFN4U25GQW9OSjFCb1JJeUxZS2hOeEFh?=
+ =?utf-8?B?ekNsMWUzTVFBYzBtU1JZRXZ2N0JqRHpyeG1ubndnUm5hRUdEZkF4T2FBdGRR?=
+ =?utf-8?B?YUFjWnVvY0pWTUJZMHQxQ1ZXOE51NnplRWpiaTYwQ0RKQnBhd1RwUnNHSk1z?=
+ =?utf-8?B?S1h3RVVlU29ONWp2cHBHU1FTcFgyUTVyVXN4a1NKZVBqYzdvVUc0MnJYT0VU?=
+ =?utf-8?B?STc3UHVrNXhpUGh2YjFFdFArZnJrcWV1WklhZU9ySFE5MUo3SW5CTjlyaXRZ?=
+ =?utf-8?B?Q21mcXVML0x1YmVONnprK3BxcUk0OHllVUhKRktOS0tGdCs3WXdRY3ZJdTdl?=
+ =?utf-8?B?LzRoSGFjMGFFNmlYU3Q4QkhTbTh6eDFialBlRGdCQm1qVS9udCs2N1FQZFR4?=
+ =?utf-8?B?QmhDNDFyWU9hbHNOTzR3RXZ6UnczemxJSEdTNWNRSVloTWlVN1BzM3ROLzY2?=
+ =?utf-8?B?MFdkK3d5VVh5NWZFUC9CZVV3bXBwbG0vbXdiMGZlTjkxdkJ2VUZ4SktmcVJQ?=
+ =?utf-8?B?UDRkUHcrZVhYUkFLWUtIUDFHUENFNnpRVS8zV3c1ZkxEZFZtTUV3VEtoazVR?=
+ =?utf-8?B?VlAvS1ZhRk10Nk1rcU1iYTY4MEpRU2lGRllvZTZUenMyUjhPb1VPTnZqWUMr?=
+ =?utf-8?B?K3VOaEtOTWJ2NThQYzZBRmxteEpVdGJmNWhJYkpiRFVFeG5uNHp5S2pxLzR3?=
+ =?utf-8?B?WnduMWZnT1FpOWZWdXRZai8vcUlmZFpMZEpIQ3YxV2h1djk1aFo3ZE1jNTVC?=
+ =?utf-8?B?MEtkcFk1UEUwK1M1M1l4QXk2RzUrQ0lEUEJqS1BVZll4K1FUTW95S09lcnhx?=
+ =?utf-8?B?RUliOGxPdUozd0ZUcGdMOHQrY2dnR3NiczlYOGljcGgrYnduSkVUVlRWQmhp?=
+ =?utf-8?B?aURPOVc0eldQRHVNM1BydWwyYTJISVhYeHA4a051R3RqSnp2bUxheFBkSU9J?=
+ =?utf-8?B?dldvN3MwSVJVQ3lVOXdSczRzUXlaT0lCdm5qREFydXpsTVF1M0lHVktOR21R?=
+ =?utf-8?B?Q24rTEt2N29HNm1FeTBHUk0rYUFhb0lKdW9NZW1nN2NMQzNxaHpmc1kyTE1V?=
+ =?utf-8?B?N0MwUDlLNE9JK3NadE5KOUJ6NWJzMk9Dc1MxakVxaTE1WnkwN3daTUpCQ0pN?=
+ =?utf-8?B?UGdMSS9GQ2J6VVd0NTlIMThoTkg3bHVoZ3FkbDlmVkFrWklBdlQyejFwVXQ2?=
+ =?utf-8?B?Y09PMDdGcUNCQ0NMV1d3cldJdWdxNk5Xc2YxbjdreHQvaUUvUVE5dVlIM3dW?=
+ =?utf-8?B?WHNlTUNHMVlBRXdSMzMxMEUwNGxkTmE3Y3FvM2dQL3Z4alNSQWxRRmxNM0pI?=
+ =?utf-8?B?enEycm94UTRhL1FYS29yaVcySnhiTjhmSFdmZC9vUlYvaVdWUzBXWWE4UEtu?=
+ =?utf-8?B?aDB4aHcrOEJEbTIxUXVmdkVHNVpZOTE1TkpxRGlvTW9UZGhkOWhzMStpZ3ZM?=
+ =?utf-8?B?WjhrMVZrVEFCY2ZScVpKRFFWaDdGTHlSd2E1QW5EZVNwSDlRZGFZL0JzUS8x?=
+ =?utf-8?B?bUw1YTJzeEFxSVgwbEthMm1UWXJiNmlnSzZtSGQrVTNWNE44VEthUHY3blMx?=
+ =?utf-8?B?NllBaDZFS0VRNnFiQnNDdG4yaDlhYSthVVdkZ05CR1RIZ0N5MzhRcXErMUN5?=
+ =?utf-8?B?bGhwWENic3NWRlBMMzFGQTVETXR4R3JhUVh1RkZwT3BUazlyMkR2TngrVWxF?=
+ =?utf-8?B?UUx4djdVdFBscXNWUTZtekcrK2RBejJkdFVwYmRqMUpyZ1NKQ1gvYjhac0tM?=
+ =?utf-8?B?aWFwVFYyREVkQ0Z3aVpWblhMN3prcytSUWpXTVl6Z0pKQU5lVUhMeDkxaW90?=
+ =?utf-8?B?YytBSXVNcktnSXhCNjRjUWVGUkVKWW0wbjROSnpIUDZwM2R4VVhGT09IdGRz?=
+ =?utf-8?B?TWQzWFpqblBSMkxzdTlwWk1iVEU4MS9jMXVhT3BxeXJSbFBCdUlKZ3VJaDZ6?=
+ =?utf-8?B?US9HcU1qV0hXb3VSNkh1Mm5KdUZxcmo0ZDJVRk54Wm14cHUrVndtcTFWY21O?=
+ =?utf-8?B?RVFrUXc2M3BoRXphVEtTd05kK0FnUm9ZbkRnU2ppcEZJRzJYYThET1J2VXpN?=
+ =?utf-8?B?WmhZMjIrTVRPY2FoaVpOdGlVSTZTaTQ5b2hnM2xMRU9mNmY5MnN2eHZzdW1l?=
+ =?utf-8?B?OU44YnRhdzFNZEtrbjY2eThLdnJUakJHdHJZTVNndW56c0dGbmJ2cEhUbjVx?=
+ =?utf-8?B?QUFrUUIvWnV3Y0hiUUw2SERvZ01FSk5qVEZhYnBiSFBra1hUbmp6dz09?=
+X-Exchange-RoutingPolicyChecked: h4jr7G++NnhXucthD4dKGA44AiYe7ydZk5w6eYFQ6CeITrJ70cCis9V84RH3uuW38kAgGcjTYhdQVI1KmjkW7YexbrFEqu0z7eDgkkT33fwK1CtPHRw9Vaa8I03OOsjKsJTlLPTxAvYPTnUsDKVM8k1EWNaoTZsbgX52WO/KOhShRMV+c55B+OSpG43+KaJtz8jb9jg9TwTqiE6vAc9VQ4tvSU0H7mzPFErDaSI55PFWQ0FL9PTUYDCS1KwgNtHyoJBR8CuvB1HaeUOCAF0NWvBjz0PnEoYKUS4BnLn1SXJYz+va7/FTBwC/aErN1hjw9Syz8pA4hD7OOtn21dLW4w==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1e727321-3d67-40a2-47f6-08de8a2bf48b
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2808.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2026 05:04:12.6988
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: iHThKskqUKpD4GfTpGx9Iac+r4sQ1fMDqtHhcTWgIvlXHQfXX6IRTLTcIy8gfdP0ryVXt7NK/9Ic+FA+1K+/2A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB8785
+X-OriginatorOrg: intel.com
 
-Hi Carlo,
+On Tue, Mar 24, 2026 at 09:26:58PM -0700, Andrew Morton wrote:
+> On Wed, 25 Mar 2026 11:57:27 +0800 Philip Li <philip.li@intel.com> wrote:
+> 
+> > > The coincidence is too great.  I assume Kernel Test Robot is somehow
+> > > treating the mm-stable differently from other branches?  Can we please
+> > > not do that?
+> > 
+> > Sorry for this "coincidence", the bot does treat all branches equally and
+> > there's no special handling of mm-stable. One possibility is the randconfig
+> > is just generated on 20260325 "sparc-randconfig-001-20260325", which is able
+> > to expose this issue for sparc arch.
+> 
+> huh, OK, thanks.  I was able to reproduce it with sparc64 defconfig.
 
-kernel test robot noticed the following build errors:
+Apologize for my conclusion, i did a check of internal data when replies mail at
+that time and only find the errors of randconfig. Since sparc64-defconfig is recorded
+as done but not shown in the error record, I made the wrong conclusion that this is
+exposed by randconfig. The truth is sparc64-defconfig does cause build failure.
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on net-next/main net/main linus/master v7.0-rc5 next-20260324]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+recent_errors/
+└── sparc-randconfig-001-20260325
+    ├── arch-sparc-mm-init_64.c:error:implicit-declaration-of-function-vmemmap_p4d_populate
+    ├── arch-sparc-mm-init_64.c:error:implicit-declaration-of-function-vmemmap_pgd_populate
+    ├── arch-sparc-mm-init_64.c:error:implicit-declaration-of-function-vmemmap_pud_populate
+    ├── arch-sparc-mm-init_64.c:warning:assignment-to-p4d_t-aka-struct-anonymous-from-int-makes-pointer-from-integer-without-a-cast
+    ├── arch-sparc-mm-init_64.c:warning:assignment-to-pud_t-aka-struct-anonymous-from-int-makes-pointer-from-integer-without-a-cast
+    └── arch-sparc-mm-init_64.c:warning:initialization-of-pgd_t-aka-struct-anonymous-from-int-makes-pointer-from-integer-without-a-cast
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Carlo-Szelinsky/dt-bindings-net-pse-pd-add-poll-interval-ms-property/20260325-040935
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20260323201225.1836561-4-github%40szelinsky.de
-patch subject: [PATCH v2 3/3] net: pse-pd: add LED trigger support via notification path
-config: hexagon-randconfig-001-20260325 (https://download.01.org/0day-ci/archive/20260325/202603251254.o5PqMBRU-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603251254.o5PqMBRU-lkp@intel.com/reproduce)
+I will do more investigation to understand why bot doesn't report issue out during the
+7 weeks window, and fix the bug. Sorry again about this miss.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603251254.o5PqMBRU-lkp@intel.com/
+Thanks
 
-All errors (new ones prefixed by >>):
-
->> drivers/net/pse-pd/pse_core.c:1221:10: error: no member named 'pi_led_trigs' in 'struct pse_controller_dev'
-    1221 |                 pcdev->pi_led_trigs = NULL;
-         |                 ~~~~~  ^
-   1 error generated.
-
-
-vim +1221 drivers/net/pse-pd/pse_core.c
-
-  1141	
-  1142	/**
-  1143	 * pse_controller_register - register a PSE controller device
-  1144	 * @pcdev: a pointer to the initialized PSE controller device
-  1145	 *
-  1146	 * Return: 0 on success and failure value on error
-  1147	 */
-  1148	int pse_controller_register(struct pse_controller_dev *pcdev)
-  1149	{
-  1150		size_t reg_name_len;
-  1151		int ret, i;
-  1152	
-  1153		mutex_init(&pcdev->lock);
-  1154		INIT_LIST_HEAD(&pcdev->pse_control_head);
-  1155		spin_lock_init(&pcdev->ntf_fifo_lock);
-  1156		ret = kfifo_alloc(&pcdev->ntf_fifo, pcdev->nr_lines, GFP_KERNEL);
-  1157		if (ret) {
-  1158			dev_err(pcdev->dev, "failed to allocate kfifo notifications\n");
-  1159			return ret;
-  1160		}
-  1161		INIT_WORK(&pcdev->ntf_work, pse_send_ntf_worker);
-  1162	
-  1163		if (!pcdev->nr_lines)
-  1164			pcdev->nr_lines = 1;
-  1165	
-  1166		if (!pcdev->ops->pi_get_admin_state ||
-  1167		    !pcdev->ops->pi_get_pw_status) {
-  1168			dev_err(pcdev->dev,
-  1169				"Mandatory status report callbacks are missing");
-  1170			return -EINVAL;
-  1171		}
-  1172	
-  1173		ret = of_load_pse_pis(pcdev);
-  1174		if (ret)
-  1175			return ret;
-  1176	
-  1177		if (pcdev->ops->setup_pi_matrix) {
-  1178			ret = pcdev->ops->setup_pi_matrix(pcdev);
-  1179			if (ret)
-  1180				return ret;
-  1181		}
-  1182	
-  1183		/* Each regulator name len is pcdev dev name + 7 char +
-  1184		 * int max digit number (10) + 1
-  1185		 */
-  1186		reg_name_len = strlen(dev_name(pcdev->dev)) + 18;
-  1187	
-  1188		/* Register PI regulators */
-  1189		for (i = 0; i < pcdev->nr_lines; i++) {
-  1190			char *reg_name;
-  1191	
-  1192			/* Do not register regulator for PIs not described */
-  1193			if (!pcdev->no_of_pse_pi && !pcdev->pi[i].np)
-  1194				continue;
-  1195	
-  1196			reg_name = devm_kzalloc(pcdev->dev, reg_name_len, GFP_KERNEL);
-  1197			if (!reg_name)
-  1198				return -ENOMEM;
-  1199	
-  1200			snprintf(reg_name, reg_name_len, "pse-%s_pi%d",
-  1201				 dev_name(pcdev->dev), i);
-  1202	
-  1203			ret = devm_pse_pi_regulator_register(pcdev, reg_name, i);
-  1204			if (ret)
-  1205				return ret;
-  1206		}
-  1207	
-  1208		ret = pse_register_pw_ds(pcdev);
-  1209		if (ret)
-  1210			return ret;
-  1211	
-  1212		mutex_lock(&pse_list_mutex);
-  1213		list_add(&pcdev->list, &pse_controller_list);
-  1214		mutex_unlock(&pse_list_mutex);
-  1215	
-  1216		ret = pse_led_triggers_register(pcdev);
-  1217		if (ret) {
-  1218			dev_warn(pcdev->dev, "Failed to register LED triggers: %d\n",
-  1219				 ret);
-  1220			/* Ensure pse_led_update() is a no-op on partial failure */
-> 1221			pcdev->pi_led_trigs = NULL;
-  1222		}
-  1223	
-  1224		return 0;
-  1225	}
-  1226	EXPORT_SYMBOL_GPL(pse_controller_register);
-  1227	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> 
