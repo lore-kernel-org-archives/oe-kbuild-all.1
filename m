@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 514C43242AC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 18:24:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 481863264ED
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 18:24:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774463066; cv=none; b=pKW7sU1nR3/ZHFXzEMrpwKTvQUmjW6RzBaqDMmq5FfAG6bhJctB5hzSM4Rbp8S5FQDNxycbs2cVqYEGAjSBXxxKfwEmybl2e/OmP9R8x3Cvc1hrgxotmCP6hRFUFdTfKff/Q8BK0Fo95vJiRcMY3dP3B1kZqImMcjXpQkYpeelY=
+	t=1774463068; cv=none; b=mRpZZETBN8YEiBGKfZBJAY0SVCkxQqhgSLBjurVxWYMTC+usseBjaJHeFPyl/1ITG4wrN6mYXmT6azG6iYS83moWhnd1yx0iIFjcCoxxvb223h8Yd4PgqjLBObSwv9at3/J7G5DFHPVasd18Dg9YOpd0XoVlrTH/gfq1w11mRrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774463066; c=relaxed/simple;
-	bh=BScODBPRan99oajzaNiU1TiL44/3lKZRK7cVeyN2fkE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=i2odnCzmb5WCjc9JExNyxOIHYK7+zUMejkrWZmXc0sLs3J/0wflru8YIggeHJl7fSuu8atIJL/0kBbtMTpX7OYsjUv8Er+lI6VucwF6Y671KXbGMElgcEzUJcgfFy7NDXByd2oCbQ2Z+aAhuYYiUXBZx/lev8rV1dZbinFb352w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QlgLuNvM; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1774463068; c=relaxed/simple;
+	bh=Hj/6sgYJrP8x3nBFA9QPr3ORaz6rBNL24TP89czKAlc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=kPa2IvZugcZtESvlbwUn46Xjz37uyL6K3zOltk0kUIZI4RwkjNUy7l2/3ABEzS0c6YAhZ30+VGqmtVqUGcpCZluRuYYh4RYFNYyn/jBRpV8IikfHoZWoATOWP3DguROfRVip2XXBrX83ohHm0LC81SSQP4B92dIh4yfnlHhD49c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AMoXaOSY; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QlgLuNvM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AMoXaOSY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774463063; x=1805999063;
+  t=1774463066; x=1805999066;
   h=date:from:to:cc:subject:message-id;
-  bh=BScODBPRan99oajzaNiU1TiL44/3lKZRK7cVeyN2fkE=;
-  b=QlgLuNvM1d/wITOGO9jlldPti0MSi6PjWE6OW+MkGlK7nQBY4/B27hnV
-   unqRWviWheSpO1hvaK8pjj46t2Qy2CdFSG8yOdgXRL3VGS2r/pM1Y+QF0
-   aiuhfoj9EIkEgu0YfXPepnwQ5xyLMdtR/szT0Ke7u9FrRXKMuN++j1SNb
-   9D0vRAfzvoK9up9LIYiSaQRKIcbqG8+wdgcx+xTFk/Ngvz3OSBI7vcOpJ
-   XXZsJ5zv8VumOTtPG4aiC+m8uy+GMHJMk/mppVNMnEPE5NCw4d1/mwNH6
-   eMxJYLaVwR17aDDjFgHhVt5KDGlmjBxguGG6OIW7oXZn70hcp57kgS13q
-   Q==;
-X-CSE-ConnectionGUID: 3vN2mPtTTqS+JFOK8d2xmA==
-X-CSE-MsgGUID: 6jj73IncS8OzEdNlA9+fFw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="86887642"
+  bh=Hj/6sgYJrP8x3nBFA9QPr3ORaz6rBNL24TP89czKAlc=;
+  b=AMoXaOSYBewPIjodUbmWkSXdfgyvQQrFk/gogEuG6rvt3mdFcA/TQOp0
+   SVKdy9lt666qx+klbDSqQeVfyGkQWhUGFp2BULDElzAI34qccNVWXNRsZ
+   mwyGdlS2oDVBNNeqrK9ksb+5LewUD7IWp6n+p8T9zHgo5mNCKpDXelxCs
+   7TooN4KRvquFkv+RcImXjF8Sww9zkWqFtsu05h22zsJGhM6vhL1ha8c54
+   T3RN78X8rGIN0kBQTVidgnK62dTLKD25Tw4aI0WRRJC/ttQ8EgsfXj9Rz
+   HbIlYNuRB2ZfVkA+OWXwR4JqsOcjLNWSDFvzkZwhStdXRGeOOPzpsJuPp
+   g==;
+X-CSE-ConnectionGUID: TF+NMKInRZm4UB/Z/wBV0w==
+X-CSE-MsgGUID: r3WCntxdQ9GBI2BWRpdexQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="86887644"
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="86887642"
+   d="scan'208";a="86887644"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
   by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 11:24:23 -0700
-X-CSE-ConnectionGUID: 9eDcHOKjTE6SqKxGie+BgA==
-X-CSE-MsgGUID: nLfsyEjWQBy4fl8tIofthA==
+X-CSE-ConnectionGUID: TapLfVJ/SCmeLhS9bXKLLQ==
+X-CSE-MsgGUID: quw4hleRRTeiOFvhI9fUmQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="224712727"
+   d="scan'208";a="224712729"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
   by orviesa009.jf.intel.com with ESMTP; 25 Mar 2026 11:24:22 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5Stu-000000007Sv-2xBQ;
+	id 1w5Stu-000000007Sx-3AVW;
 	Wed, 25 Mar 2026 18:24:18 +0000
-Date: Thu, 26 Mar 2026 02:23:25 +0800
+Date: Thu, 26 Mar 2026 02:23:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 1/1]
- drivers/iommu/io-pgtable-arm-common.c:139:5: warning: no previous prototype
- for '__arm_lpae_map'
-Message-ID: <202603260259.gNs7mu60-lkp@intel.com>
+Subject: [android-common:android16-6.12 0/1]
+ drivers/usb/gadget/function/android_f_accessory.c:1392:6: warning: no
+ previous prototype for function '__acc_req_match'
+Message-ID: <202603260227.Ke3b8mh6-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,89 +60,73 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Jean-Philippe,
+Hi Neill,
 
 FYI, the error/warning still remains.
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   36e33448be90aea3d2e98da271b35aac511b8dc6
-commit: cf616fc76f2555d91fc88a543badc8a051f749c9 [1/1] BACKPORT: FROMLIST: iommu/io-pgtable-arm: Split the page table driver
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20260326/202603260259.gNs7mu60-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260326/202603260259.gNs7mu60-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   ff78c78d65d3b2e46c6cd4c1b59e8e0e6150cdae
+commit: d718cad4b605a726d93e9d6fc032fed768a7fcdb [0/1] ANDROID: usb: gadget: Add Android Accessory Function
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20260326/202603260227.Ke3b8mh6-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260326/202603260227.Ke3b8mh6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603260259.gNs7mu60-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603260227.Ke3b8mh6-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/iommu/io-pgtable-arm-common.c:139:5: warning: no previous prototype for '__arm_lpae_map' [-Wmissing-prototypes]
-     139 | int __arm_lpae_map(struct arm_lpae_io_pgtable *data, unsigned long iova,
-         |     ^~~~~~~~~~~~~~
+>> drivers/usb/gadget/function/android_f_accessory.c:1392:6: warning: no previous prototype for function '__acc_req_match' [-Wmissing-prototypes]
+    1392 | bool __acc_req_match(const struct usb_ctrlrequest *ctrl)
+         |      ^
+   drivers/usb/gadget/function/android_f_accessory.c:1392:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1392 | bool __acc_req_match(const struct usb_ctrlrequest *ctrl)
+         | ^
+         | static 
+   1 warning generated.
 
 
-vim +/__arm_lpae_map +139 drivers/iommu/io-pgtable-arm-common.c
+vim +/__acc_req_match +1392 drivers/usb/gadget/function/android_f_accessory.c
 
-   138	
- > 139	int __arm_lpae_map(struct arm_lpae_io_pgtable *data, unsigned long iova,
-   140			   phys_addr_t paddr, size_t size, size_t pgcount,
-   141			   arm_lpae_iopte prot, int lvl, arm_lpae_iopte *ptep,
-   142			   gfp_t gfp, size_t *mapped)
-   143	{
-   144		arm_lpae_iopte *cptep, pte;
-   145		size_t block_size = ARM_LPAE_BLOCK_SIZE(lvl, data);
-   146		size_t tblsz = ARM_LPAE_GRANULE(data);
-   147		struct io_pgtable_cfg *cfg = &data->iop.cfg;
-   148		int ret = 0, num_entries, max_entries, map_idx_start;
-   149	
-   150		/* Find our entry at the current level */
-   151		map_idx_start = ARM_LPAE_LVL_IDX(iova, lvl, data);
-   152		ptep += map_idx_start;
-   153	
-   154		/* If we can install a leaf entry at this level, then do so */
-   155		if (size == block_size) {
-   156			max_entries = ARM_LPAE_PTES_PER_TABLE(data) - map_idx_start;
-   157			num_entries = min_t(int, pgcount, max_entries);
-   158			ret = arm_lpae_init_pte(data, iova, paddr, prot, lvl, num_entries, ptep);
-   159			if (!ret)
-   160				*mapped += num_entries * size;
-   161	
-   162			return ret;
-   163		}
-   164	
-   165		/* We can't allocate tables at the final level */
-   166		if (WARN_ON(lvl >= ARM_LPAE_MAX_LEVELS - 1))
-   167			return -EINVAL;
-   168	
-   169		/* Grab a pointer to the next level */
-   170		pte = READ_ONCE(*ptep);
-   171		if (!pte) {
-   172			cptep = __arm_lpae_alloc_pages(tblsz, gfp, cfg);
-   173			if (!cptep)
-   174				return -ENOMEM;
-   175	
-   176			pte = arm_lpae_install_table(cptep, ptep, 0, data);
-   177			if (pte)
-   178				__arm_lpae_free_pages(cptep, tblsz, cfg);
-   179		} else if (!cfg->coherent_walk && !(pte & ARM_LPAE_PTE_SW_SYNC)) {
-   180			__arm_lpae_sync_pte(ptep, 1, cfg);
-   181		}
-   182	
-   183		if (pte && !iopte_leaf(pte, lvl, data->iop.fmt)) {
-   184			cptep = iopte_deref(pte, data);
-   185		} else if (pte) {
-   186			/* We require an unmap first */
-   187			WARN_ON(!selftest_running);
-   188			return -EEXIST;
-   189		}
-   190	
-   191		/* Rinse, repeat */
-   192		return __arm_lpae_map(data, iova, paddr, size, pgcount, prot, lvl + 1,
-   193				      cptep, gfp, mapped);
-   194	}
-   195	
+  1391	
+> 1392	bool __acc_req_match(const struct usb_ctrlrequest *ctrl)
+  1393	{
+  1394		struct acc_dev *dev = get_acc_dev();
+  1395		u8 bRequestType = ctrl->bRequestType;
+  1396		u8 bRequest = ctrl->bRequest;
+  1397		bool ret = false;
+  1398	
+  1399		/*
+  1400		 * If instance is not created which is the case in power off charging
+  1401		 * mode, dev will be NULL. Hence return error if it is the case.
+  1402		 */
+  1403		if (!dev)
+  1404			return false;
+  1405	
+  1406		if (bRequestType == (USB_DIR_OUT | USB_TYPE_VENDOR)) {
+  1407			switch (bRequest) {
+  1408			case ACCESSORY_START:
+  1409			case ACCESSORY_SEND_STRING:
+  1410			case ACCESSORY_SET_AUDIO_MODE:
+  1411			case ACCESSORY_REGISTER_HID:
+  1412			case ACCESSORY_UNREGISTER_HID:
+  1413			case ACCESSORY_SET_HID_REPORT_DESC:
+  1414			case ACCESSORY_SEND_HID_EVENT:
+  1415				ret = true;
+  1416				break;
+  1417			default:
+  1418				ret = false;
+  1419			}
+  1420		} else if ((bRequestType == (USB_DIR_IN | USB_TYPE_VENDOR)) &&
+  1421				(bRequest == ACCESSORY_GET_PROTOCOL))
+  1422			ret = true;
+  1423	
+  1424		put_acc_dev(dev);
+  1425		return ret;
+  1426	}
+  1427	
 
 -- 
 0-DAY CI Kernel Test Service
