@@ -1,167 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BF6C2DB7BD;
-	Wed, 25 Mar 2026 05:36:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13A19312815
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 05:49:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774416981; cv=none; b=mUfDMWj4WkXaqHTjBWZYc0oljmID0vaPjj4F+PHCOXc8fRY5jCQfyhzfm45yNEuXGFrHLodqGsyKwvFbr0IXug5Ey5MxKoIVxYr1ltImNInX66a/G7RlFitc5T4fyo2RnzMz2CxrUvYz1NiVBSl8oo97HP1pkwfaYqES/CzpzhY=
+	t=1774417761; cv=none; b=FxmjOpPjy2GLdHv8BO9zi6xpaCewGHyfI/23BUCnkJ4SopW49yoKGNHH5shtXzUDyPvsMM12MRQYF+IqRsBoq1iLCAwk9zurIdX731zCKBL1I+gAO5OYlHEKBctcso+pJtpBKmmsrvM07wokKvuUMu4ydW7rkFKoVmA7y8mWlkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774416981; c=relaxed/simple;
-	bh=lw2dF1Jz7k5PP1qT6ep8zHjP8aZcyJlc8wVKL2yCQYc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Vj1K/bVxcQNjw5NFpBp9XMpYKrBZRuorVtiqgVPoOI/MRS1iQdRLYjcoP60qtYzMU//8sl2RD5NQneawpjfGKGymVfnA4Jzb4W4oJb8rwF63M+LhWAFqWaDaY/nfkmjDWAcmVGXej3I2Oi/D6b7/3FTvJvwC7J2PeiND4XJXXs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KgCOyUaU; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1774417761; c=relaxed/simple;
+	bh=llu1MMvw2SxUdoVVteWTUFklzRA6uLgbnC0urwp4tWw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=SPWU5gadjRSLPXQZH6YiYqT5CjpBXIo7LCfZdj7eYeqGVJw0+eUuO12YuHEleVkYccs28RtRffZpYgOw4BAv28jOEuUONveo9c2ZrGViAu5s02oV+BYIvfu35aJ5jbOMm9MKm9N2fvIxtqLbI1zW93dTzbSzZW+0Kv6RdUBaeH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V+54NpSG; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KgCOyUaU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V+54NpSG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774416979; x=1805952979;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=lw2dF1Jz7k5PP1qT6ep8zHjP8aZcyJlc8wVKL2yCQYc=;
-  b=KgCOyUaUnvExCdxAP3z0t6NB8Kk4C177KXcXjINXICc2qHv4/QmYHsMH
-   bhA0TfQTb2Ab5c08g3HgL2mGbtkOwGioH2fMsQ6YdnNHr+xMLcPauxmpY
-   2NZR1+mmiw7F21TiAjhE+6CiXMnTUgqm/A4E4IcZ8a0EklRGIc1DS1uc7
-   MuWSBQAFQQYGYyLZkrY/j4X28ATOul6vQvhfBijqgl/BS3t18gmncTOiu
-   q30mUmenVGzR0H4jfatHA+xNyyCBGS/OsVR9qBXT/A18MDrABfhR9SW1j
-   TaH8lOmq2FjjdqT8PDOvyi7AdU3dGBiDkxry31/k+chnqlrq3vsB36IQq
-   A==;
-X-CSE-ConnectionGUID: oH3+6+Y+Qoi8cY2mpcr/dQ==
-X-CSE-MsgGUID: 9hXiYxnURaCU3tRxmSaHJw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="86820060"
+  t=1774417760; x=1805953760;
+  h=date:from:to:cc:subject:message-id;
+  bh=llu1MMvw2SxUdoVVteWTUFklzRA6uLgbnC0urwp4tWw=;
+  b=V+54NpSGNhDQxAK/iFr+2AGMbQlytrXq4PNPm9pjXte7NL3OB2GGrPd4
+   GZbllv3dq0SWyeVJ9gNgO8JSam5XkVMtJlqSfhw8lmhbsjb2PxaDOV65I
+   pKy7NrD0YJ3K7Dgk5wUL+yT63inj587e1C5LZjg3SbJyJYnFyZCE0whOH
+   lA9UAbLN1GQrd0GGo6bJHDgYCRkl1X7+bfibbtZAGTpOfdW+OKI4/337x
+   LC5UIS6HJDMdMSO9rCTI/M85qsnTocy0NZkqm5J8QvA2UZZHWe3LTRl1y
+   glxwAmajUGaGnlhV+mQSBBZYAXtnAGZerv/+ZHRl9Ky56/1sZjtB4MTBq
+   Q==;
+X-CSE-ConnectionGUID: B5EHyqnmQve77Q0dmm0XCg==
+X-CSE-MsgGUID: A/fhMiMnR4+HNCysXa0l3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="86142216"
 X-IronPort-AV: E=Sophos;i="6.23,139,1770624000"; 
-   d="scan'208";a="86820060"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 22:36:19 -0700
-X-CSE-ConnectionGUID: vjaviDabQOKiGJfwMnZY+g==
-X-CSE-MsgGUID: qPYsJTYbT7Cf/v995+SRQw==
+   d="scan'208";a="86142216"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 22:49:18 -0700
+X-CSE-ConnectionGUID: v6mRHOoyTsixH/UNaUfihQ==
+X-CSE-MsgGUID: 4tR+5TolTteORWh5SQQJ5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,139,1770624000"; 
-   d="scan'208";a="247610019"
+   d="scan'208";a="228647095"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 24 Mar 2026 22:36:16 -0700
+  by orviesa003.jf.intel.com with ESMTP; 24 Mar 2026 22:49:17 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5Guc-000000006FP-1160;
-	Wed, 25 Mar 2026 05:36:14 +0000
-Date: Wed, 25 Mar 2026 13:35:45 +0800
+	id 1w5H7C-000000006GJ-38IP;
+	Wed, 25 Mar 2026 05:49:14 +0000
+Date: Wed, 25 Mar 2026 13:48:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Simon Richter <Simon.Richter@hogyros.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-pci@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>
-Subject: [pci:vga 3/5] drivers/gpu/drm/i915/display/intel_vga.c:68:2:
- warning: ignoring return value of function declared with 'warn_unused_result'
- attribute
-Message-ID: <202603251309.Q7UMM0U3-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.15 4/4]
+ arch/x86/platform/efi/memmap.c:94: warning: Function parameter or member
+ 'data' not described in 'efi_memmap_install'
+Message-ID: <202603251358.4YpD6m0L-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git vga
-head:   aac641c7e5feb2d966a07f7f5da5ddecb5f07e13
-commit: c75d295afc77223a889bed578e4a686e000c1691 [3/5] PCI/VGA: Mark vga_ge=
-t() and wrappers as __must_check
-config: i386-defconfig (https://download.01.org/0day-ci/archive/20260325/20=
-2603251309.Q7UMM0U3-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f022=
-7cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260325/202603251309.Q7UMM0U3-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.15
+head:   fc88a7504f0f262cc5b2e8a7f58b2a1108034856
+commit: b898fae96331e9b9d67707e91c073118ae9e456d [4/4] efi: memmap: Move manipulation routines into x86 arch tree
+config: i386-buildonly-randconfig-004-20260325 (https://download.01.org/0day-ci/archive/20260325/202603251358.4YpD6m0L-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603251358.4YpD6m0L-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603251309.Q7UMM0U3-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603251358.4YpD6m0L-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/i915/display/intel_vga.c:68:2: warning: ignoring return =
-value of function declared with 'warn_unused_result' attribute [-Wunused-re=
-sult]
-      68 |         vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_vga.c:93:2: warning: ignoring return =
-value of function declared with 'warn_unused_result' attribute [-Wunused-re=
-sult]
-      93 |         vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~
-   2 warnings generated.
+>> arch/x86/platform/efi/memmap.c:94: warning: Function parameter or member 'data' not described in 'efi_memmap_install'
+   arch/x86/platform/efi/memmap.c:94: warning: Excess function parameter 'ctx' description in 'efi_memmap_install'
 
 
-vim +/warn_unused_result +68 drivers/gpu/drm/i915/display/intel_vga.c
+vim +94 arch/x86/platform/efi/memmap.c
 
-0c80d60ae63461c Ville Syrj=C3=A4l=C3=A4 2025-04-17  43 =20
-4fb8783165b7c6f Jani Nikula   2019-10-01  44  /* Disable the VGA plane that=
- we never use */
-4b6e05c43b7542e Ville Syrj=C3=A4l=C3=A4 2024-09-06  45  void intel_vga_disa=
-ble(struct intel_display *display)
-4fb8783165b7c6f Jani Nikula   2019-10-01  46  {
-4b6e05c43b7542e Ville Syrj=C3=A4l=C3=A4 2024-09-06  47  	struct pci_dev *pd=
-ev =3D to_pci_dev(display->drm->dev);
-4b6e05c43b7542e Ville Syrj=C3=A4l=C3=A4 2024-09-06  48  	i915_reg_t vga_reg=
- =3D intel_vga_cntrl_reg(display);
-0c80d60ae63461c Ville Syrj=C3=A4l=C3=A4 2025-04-17  49  	enum pipe pipe;
-0c80d60ae63461c Ville Syrj=C3=A4l=C3=A4 2025-04-17  50  	u32 tmp;
-4fb8783165b7c6f Jani Nikula   2019-10-01  51  	u8 sr1;
-4fb8783165b7c6f Jani Nikula   2019-10-01  52 =20
-0c80d60ae63461c Ville Syrj=C3=A4l=C3=A4 2025-04-17  53  	tmp =3D intel_de_r=
-ead(display, vga_reg);
-0c80d60ae63461c Ville Syrj=C3=A4l=C3=A4 2025-04-17  54  	if (tmp & VGA_DISP=
-_DISABLE)
-a3af0140663dc33 Emil Velikov  2021-06-04  55  		return;
-a3af0140663dc33 Emil Velikov  2021-06-04  56 =20
-0c80d60ae63461c Ville Syrj=C3=A4l=C3=A4 2025-04-17  57  	if (display->platf=
-orm.cherryview)
-0c80d60ae63461c Ville Syrj=C3=A4l=C3=A4 2025-04-17  58  		pipe =3D REG_FIEL=
-D_GET(VGA_PIPE_SEL_MASK_CHV, tmp);
-0c80d60ae63461c Ville Syrj=C3=A4l=C3=A4 2025-04-17  59  	else if (has_vga_p=
-ipe_sel(display))
-0c80d60ae63461c Ville Syrj=C3=A4l=C3=A4 2025-04-17  60  		pipe =3D REG_FIEL=
-D_GET(VGA_PIPE_SEL_MASK, tmp);
-0c80d60ae63461c Ville Syrj=C3=A4l=C3=A4 2025-04-17  61  	else
-0c80d60ae63461c Ville Syrj=C3=A4l=C3=A4 2025-04-17  62  		pipe =3D PIPE_A;
-0c80d60ae63461c Ville Syrj=C3=A4l=C3=A4 2025-04-17  63 =20
-0c80d60ae63461c Ville Syrj=C3=A4l=C3=A4 2025-04-17  64  	drm_dbg_kms(displa=
-y->drm, "Disabling VGA plane on pipe %c\n",
-0c80d60ae63461c Ville Syrj=C3=A4l=C3=A4 2025-04-17  65  		    pipe_name(pip=
-e));
-0c80d60ae63461c Ville Syrj=C3=A4l=C3=A4 2025-04-17  66 =20
-4fb8783165b7c6f Jani Nikula   2019-10-01  67  	/* WaEnableVGAAccessThroughI=
-OPort:ctg,elk,ilk,snb,ivb,vlv,hsw */
-4fb8783165b7c6f Jani Nikula   2019-10-01 @68  	vga_get_uninterruptible(pdev=
-, VGA_RSRC_LEGACY_IO);
-f0bb41fad02e031 Jani Nikula   2022-02-02  69  	outb(0x01, VGA_SEQ_I);
-f0bb41fad02e031 Jani Nikula   2022-02-02  70  	sr1 =3D inb(VGA_SEQ_D);
-f0bb41fad02e031 Jani Nikula   2022-02-02  71  	outb(sr1 | VGA_SR01_SCREEN_O=
-FF, VGA_SEQ_D);
-4fb8783165b7c6f Jani Nikula   2019-10-01  72  	vga_put(pdev, VGA_RSRC_LEGAC=
-Y_IO);
-4fb8783165b7c6f Jani Nikula   2019-10-01  73  	udelay(300);
-4fb8783165b7c6f Jani Nikula   2019-10-01  74 =20
-4b6e05c43b7542e Ville Syrj=C3=A4l=C3=A4 2024-09-06  75  	intel_de_write(dis=
-play, vga_reg, VGA_DISP_DISABLE);
-4b6e05c43b7542e Ville Syrj=C3=A4l=C3=A4 2024-09-06  76  	intel_de_posting_r=
-ead(display, vga_reg);
-4fb8783165b7c6f Jani Nikula   2019-10-01  77  }
-4fb8783165b7c6f Jani Nikula   2019-10-01  78 =20
+    82	
+    83	/**
+    84	 * efi_memmap_install - Install a new EFI memory map in efi.memmap
+    85	 * @ctx: map allocation parameters (address, size, flags)
+    86	 *
+    87	 * Unlike efi_memmap_init_*(), this function does not allow the caller
+    88	 * to switch from early to late mappings. It simply uses the existing
+    89	 * mapping function and installs the new memmap.
+    90	 *
+    91	 * Returns zero on success, a negative error code on failure.
+    92	 */
+    93	int __init efi_memmap_install(struct efi_memory_map_data *data)
+  > 94	{
+    95		efi_memmap_unmap();
+    96	
+    97		return __efi_memmap_init(data);
+    98	}
+    99	
 
-:::::: The code at line 68 was first introduced by commit
-:::::: 4fb8783165b7c6fb4b52428dbb80da8554e5fd1e drm/i915/display: abstract =
-all vgaarb access to intel_vga.[ch]
-
-:::::: TO: Jani Nikula <jani.nikula@intel.com>
-:::::: CC: Jani Nikula <jani.nikula@intel.com>
-
---=20
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
