@@ -1,66 +1,67 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9439C3D171D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 14:09:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5BAE34C815;
+	Wed, 25 Mar 2026 14:28:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774447760; cv=none; b=nkIl4UMeKhA6WVHUPIfyyXSguWXLMse2ziXg4WvDkGc9eKJND/iRxxKb2ZrYNfsQPaIPvvOBy8wUhqa5wb5KM7DIMZSCbDk2zJ9761zVrPeJJXj2IjupT/3H0naDrESv2lohm/eZgmMgiCwaEogvKQ5LZBxPe9FPkLgDEnABMec=
+	t=1774448941; cv=none; b=ptYh+8yxMwd2cyMt5Dz2RZK5lDE6Up6Fei7+GgWwM8SPnPJHXMJT8kLv1CBPp1LZKGT3J8F6X0PCaM4jXw9MpTR9uLVM9Xcx3iCBpyQWdVemAHwjviuhxnfWntA6DH2U25gUZ64xKSY4KvCSBqWMZzk4WhpEI9uKG/dhYRP+ZG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774447760; c=relaxed/simple;
-	bh=zINyXURPRkSQxMi/WjRfTaKZMPEt9S0pIXigWDuX/s8=;
+	s=arc-20240116; t=1774448941; c=relaxed/simple;
+	bh=ObVcg9Az6aWl7w8xQglDyUMIegIcZElb95yo2tp5zRc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oy8GcM2sImpL4camp7x+a8trV8OhOYLAQnDmGbIYxBMDskbs4t7MuU5GpqNjxs3LlVYuFtwxZRBuArWFSY8/7iYK9ccV63Nf2TRGMK/sZfqIgxQVIevxZO7XmwVBOJkoyXOL8ktMVXq2opXoY3D0UcblHgmreFnXGhu1naPmaoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WZXMP6l1; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=j8I6wuZ5G1bMHeBok1QUgvSbsq9C202E616lhTCrE2zWRyIb9qV2QSXo4b4b+pnnCqky2UV5S3z5M46BENsAVRCYxUIpXfai4RWQks3IkPITAcjeu2pKwr5EEm0uS0aeDMjKasdzjPW+blg4DA+3a6XEHsAtJydmEx0TbHkNvDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kEdq7Vpz; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WZXMP6l1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kEdq7Vpz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774447759; x=1805983759;
+  t=1774448938; x=1805984938;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=zINyXURPRkSQxMi/WjRfTaKZMPEt9S0pIXigWDuX/s8=;
-  b=WZXMP6l1t4F4FIiHIYCZWOb2tGDu7Ys/bnvwRyntVDFtofWK2VXWACJq
-   m1Q3UuFzo8rmeNQA9E/mty2TxcRa0S4834SPcKWyoGq/3uM+CQGA4zT9E
-   534sD/ixyT9DSztqRcH/thvLCWJiSv0Xt/YmE8CRBIWizXYNE+Knvi552
-   gxKWCWBaJ6qz47uaX0iYocUzuiu3bm84kLKhb9ClWfS0ycSiDItZWQ3/v
-   gBxSA63gEmMkiHzlmy3DMQJ9StKYftgSpmL85tWAKkV1fiYTjp6q/be2p
-   9b3VomsR0P82aePofyrI6ZRfAcdmiVVgej2rZJowChTWxEYHVxpY02sAG
-   w==;
-X-CSE-ConnectionGUID: gwCDH/LWRyyoxnMau+JfcA==
-X-CSE-MsgGUID: loA3xKwOQmauQiFnTXtTkw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="74512303"
+  bh=ObVcg9Az6aWl7w8xQglDyUMIegIcZElb95yo2tp5zRc=;
+  b=kEdq7Vpzw6ZssYKvbeZPHclEf1fhc4qRTezBkSVXeAMW7iguhmmND5aW
+   gHT93iXkGakm2BOmFoman3CzEVX9lO2GdjKAhv/O10ec7K6s5kpGJE2dw
+   fslah8ZnZtOJkl4F+Nsj5E4QZawmrJzg12NBVaMqMh82nVyBlNefZ0ZvJ
+   d2CKwDfN/VKSERPdUNECr3+y7y9fbyNkvRJE/zA3SH9DgQVP1AwPvLa6d
+   7BF4BIIqbJA/wfVRHbZWi3GnVBuM2a0HbmPpthQzi7S85Doi7G1S4fjS0
+   PtXCUssdTVLb4ASZLMDcMBCSZW0FW3Q2LGDSdjssn2t8oqj1recVlfFCV
+   g==;
+X-CSE-ConnectionGUID: iniGj701TeCE/T9gMWSfQw==
+X-CSE-MsgGUID: 67koRF0ORyGFTQh4Al5pMw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="74516363"
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="74512303"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 07:08:58 -0700
-X-CSE-ConnectionGUID: ZXmuy7ViQtuvcYdcy5FvpA==
-X-CSE-MsgGUID: /Jc5Yr50SB6UUJkUrLcBNg==
+   d="scan'208";a="74516363"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 07:28:56 -0700
+X-CSE-ConnectionGUID: rvY5SkghQRWufj8rC5J7Lg==
+X-CSE-MsgGUID: KwG3LDSfQUGugL9HoWOxWg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="223762950"
+   d="scan'208";a="229635308"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 25 Mar 2026 07:08:52 -0700
+  by orviesa005.jf.intel.com with ESMTP; 25 Mar 2026 07:28:53 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5Ouf-0000000072P-2OET;
-	Wed, 25 Mar 2026 14:08:49 +0000
-Date: Wed, 25 Mar 2026 22:08:19 +0800
+	id 1w5PE2-0000000073V-2lv8;
+	Wed, 25 Mar 2026 14:28:50 +0000
+Date: Wed, 25 Mar 2026 22:28:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Harshitha Ramamurthy <hramamurthy@google.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, joshwash@google.com,
-	hramamurthy@google.com, andrew+netdev@lunn.ch, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	richardcochran@gmail.com, willemb@google.com, nktgrg@google.com,
-	jfraker@google.com, ziweixiao@google.com, maolson@google.com,
-	thostet@google.com, jordanrhee@google.com, jefrogers@google.com,
-	alok.a.tiwari@oracle.com, linux-kernel@vger.kernel.org,
-	Kevin Yang <yyd@google.com>, Naman Gulati <namangulati@google.com>
-Subject: Re: [PATCH net-next 3/3] gve: implement PTP gettimex64
-Message-ID: <202603252126.CrpQ8IIi-lkp@intel.com>
-References: <20260323234829.3185051-4-hramamurthy@google.com>
+To: "Derek J. Clark" <derekjohn.clark@gmail.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Hans de Goede <hansg@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	Armin Wolf <W_Armin@gmx.de>, Jonathan Corbet <corbet@lwn.net>,
+	Rong Zhang <i@rong.moe>, Kurt Borja <kuurtb@gmail.com>,
+	"Derek J . Clark" <derekjohn.clark@gmail.com>,
+	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 8/8] platform/x86: lenovo-wmi-other: Add WMI battery
+ charge limiting
+Message-ID: <202603252259.gHvJDyh3-lkp@intel.com>
+References: <20260324221032.1333636-9-derekjohn.clark@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,138 +70,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260323234829.3185051-4-hramamurthy@google.com>
+In-Reply-To: <20260324221032.1333636-9-derekjohn.clark@gmail.com>
 
-Hi Harshitha,
+Hi Derek,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 5446b8691eb8278f10deca92048fad84ffd1e4d5]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v7.0-rc5 next-20260324]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Harshitha-Ramamurthy/gve-skip-error-logging-for-retryable-AdminQ-commands/20260324-133808
-base:   5446b8691eb8278f10deca92048fad84ffd1e4d5
-patch link:    https://lore.kernel.org/r/20260323234829.3185051-4-hramamurthy%40google.com
-patch subject: [PATCH net-next 3/3] gve: implement PTP gettimex64
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260325/202603252126.CrpQ8IIi-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603252126.CrpQ8IIi-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Derek-J-Clark/platform-x86-lenovo-wmi-other-Move-LWMI_FAN_DIV/20260325-070851
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260324221032.1333636-9-derekjohn.clark%40gmail.com
+patch subject: [PATCH v5 8/8] platform/x86: lenovo-wmi-other: Add WMI battery charge limiting
+config: i386-buildonly-randconfig-006-20260325 (https://download.01.org/0day-ci/archive/20260325/202603252259.gHvJDyh3-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603252259.gHvJDyh3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603252126.CrpQ8IIi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603252259.gHvJDyh3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from include/linux/device.h:15,
-                    from include/linux/dma-mapping.h:5,
-                    from drivers/net/ethernet/google/gve/gve.h:10,
-                    from drivers/net/ethernet/google/gve/gve_ptp.c:7:
-   drivers/net/ethernet/google/gve/gve_ptp.c: In function 'gve_ptp_gettimex64':
->> drivers/net/ethernet/google/gve/gve_ptp.c:186:45: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 3 has type 'cycles_t' {aka 'long unsigned int'} [-Wformat=]
-     186 |                                             "AdminQ system clock cycle counts out of order. Expecting %llu <= %llu <= %llu <= %llu\n",
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   include/linux/dev_printk.h:215:17: note: in expansion of macro 'dev_err'
-     215 |                 dev_level(dev, fmt, ##__VA_ARGS__);                     \
-         |                 ^~~~~~~~~
-   include/linux/dev_printk.h:225:9: note: in expansion of macro 'dev_level_ratelimited'
-     225 |         dev_level_ratelimited(dev_err, dev, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/google/gve/gve_ptp.c:185:25: note: in expansion of macro 'dev_err_ratelimited'
-     185 |                         dev_err_ratelimited(&priv->pdev->dev,
-         |                         ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/google/gve/gve_ptp.c:186:106: note: format string is defined here
-     186 |                                             "AdminQ system clock cycle counts out of order. Expecting %llu <= %llu <= %llu <= %llu\n",
-         |                                                                                                       ~~~^
-         |                                                                                                          |
-         |                                                                                                          long long unsigned int
-         |                                                                                                       %lu
-   drivers/net/ethernet/google/gve/gve_ptp.c:186:45: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 6 has type 'cycles_t' {aka 'long unsigned int'} [-Wformat=]
-     186 |                                             "AdminQ system clock cycle counts out of order. Expecting %llu <= %llu <= %llu <= %llu\n",
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   include/linux/dev_printk.h:215:17: note: in expansion of macro 'dev_err'
-     215 |                 dev_level(dev, fmt, ##__VA_ARGS__);                     \
-         |                 ^~~~~~~~~
-   include/linux/dev_printk.h:225:9: note: in expansion of macro 'dev_level_ratelimited'
-     225 |         dev_level_ratelimited(dev_err, dev, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/google/gve/gve_ptp.c:185:25: note: in expansion of macro 'dev_err_ratelimited'
-     185 |                         dev_err_ratelimited(&priv->pdev->dev,
-         |                         ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/google/gve/gve_ptp.c:186:130: note: format string is defined here
-     186 |                                             "AdminQ system clock cycle counts out of order. Expecting %llu <= %llu <= %llu <= %llu\n",
-         |                                                                                                                               ~~~^
-         |                                                                                                                                  |
-         |                                                                                                                                  long long unsigned int
-         |                                                                                                                               %lu
+>> ERROR: modpost: "lwmi_cd_match_add_all" [drivers/platform/x86/lenovo/lenovo-wmi-other.ko] undefined!
+>> ERROR: modpost: "lwmi_attr_id" [drivers/platform/x86/lenovo/lenovo-wmi-other.ko] undefined!
+>> ERROR: modpost: "lwmi_cd00_get_data" [drivers/platform/x86/lenovo/lenovo-wmi-other.ko] undefined!
+ERROR: modpost: "devm_battery_hook_register" [drivers/platform/x86/lenovo/lenovo-wmi-other.ko] undefined!
+>> ERROR: modpost: "firmware_attributes_class" [drivers/platform/x86/lenovo/lenovo-wmi-other.ko] undefined!
+>> ERROR: modpost: "lwmi_cd01_get_data" [drivers/platform/x86/lenovo/lenovo-wmi-other.ko] undefined!
+>> ERROR: modpost: "lwmi_cd_fan_get_data" [drivers/platform/x86/lenovo/lenovo-wmi-other.ko] undefined!
 
-
-vim +186 drivers/net/ethernet/google/gve/gve_ptp.c
-
-   160	
-   161	static int gve_ptp_gettimex64(struct ptp_clock_info *info,
-   162				      struct timespec64 *ts,
-   163				      struct ptp_system_timestamp *sts)
-   164	{
-   165		struct gve_ptp *ptp = container_of(info, struct gve_ptp, info);
-   166		struct gve_sysclock_sample sysclock = {0};
-   167		struct gve_priv *priv = ptp->priv;
-   168		struct system_time_snapshot snap;
-   169		u64 nic_ts;
-   170		int err;
-   171	
-   172		/* Take system clock snapshot before sampling cycle counters */
-   173		if (sts)
-   174			ktime_get_snapshot(&snap);
-   175	
-   176		err = gve_clock_nic_ts_read(priv, &nic_ts, &sysclock);
-   177		if (err)
-   178			return err;
-   179	
-   180		if (sts) {
-   181			/* Reject samples with out of order system clock values */
-   182			if (!(sysclock.host_pre_cycles <= sysclock.nic_pre_cycles &&
-   183			      sysclock.nic_pre_cycles  <= sysclock.nic_post_cycles &&
-   184			      sysclock.nic_post_cycles <= sysclock.host_post_cycles)) {
-   185				dev_err_ratelimited(&priv->pdev->dev,
- > 186						    "AdminQ system clock cycle counts out of order. Expecting %llu <= %llu <= %llu <= %llu\n",
-   187						    sysclock.host_pre_cycles,
-   188						    sysclock.nic_pre_cycles,
-   189						    sysclock.nic_post_cycles,
-   190						    sysclock.host_post_cycles);
-   191				return -EBADMSG;
-   192			}
-   193	
-   194			err = gve_cycles_to_timespec64(priv, sts->clockid, &snap,
-   195						       sysclock.nic_pre_cycles,
-   196						       &sts->pre_ts);
-   197			if (err)
-   198				return err;
-   199	
-   200			err = gve_cycles_to_timespec64(priv, sts->clockid, &snap,
-   201						       sysclock.nic_post_cycles,
-   202						       &sts->post_ts);
-   203			if (err)
-   204				return err;
-   205		}
-   206	
-   207		*ts = ns_to_timespec64(nic_ts);
-   208	
-   209		return 0;
-   210	}
-   211	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for LENOVO_WMI_TUNING
+   Depends on [n]: X86_PLATFORM_DEVICES [=y] && ACPI_WMI [=y] && ACPI_BATTERY [=n]
+   Selected by [m]:
+   - LENOVO_WMI_GAMEZONE [=m] && X86_PLATFORM_DEVICES [=y] && ACPI_WMI [=y] && DMI [=y]
 
 -- 
 0-DAY CI Kernel Test Service
