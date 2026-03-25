@@ -1,178 +1,165 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B64D43C279A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 15:02:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C559023D291
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 15:23:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774450924; cv=none; b=AwZJa55mZa87IFUp2ZA3fbrAWG9SJZsaoaQRSyf9dqoi4AZbhrtk5FTYTFJySCYs73q9jL2pN77dNzN0167QhuvO4qTUzsAXa14bbIMg5lQf8D0IKN/klLVSQdAjE39iAhBmNfW8XD9rsniwCapgNH3qshjmkqF2NHJI2U42Hao=
+	t=1774452195; cv=none; b=r7Vqq1FXD03KmMT0lBKKvOjU7b3TnWZsiyEQ2BzB/aUweDUrXgB7j6Pxh7HXDal0DORFG900Zc07mF5iKxrA/SPpEIA+6whFb/e84USPQmJikLSTtHrrP0i4cgJCaKN4qGHZnHYn2LjYlSHE+STkz2ubfCqABrO0xz0PY3EGxrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774450924; c=relaxed/simple;
-	bh=gIUfeBRRWBa0s/P/ovRzF4jBgBesrI0Q2uvAtRlUSL8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i51GRu2oidwcCdKhphGYGjLO03LmKsC+4jmT3qcjNuJl32LgmChiyqVgVvwYtSJ2DL1PX+NLG5+sP4AF2k7Rul9DgYVw/qWVxlbUedv4d8lrwnQ2B+EesesQUrZtfBD2WIOSk/qckV7eDuDArGnIChRh2/DdsHsBQwli8HP57g8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B5qtIkjM; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1774452195; c=relaxed/simple;
+	bh=dKYKbIw8BE1CFqfs79B8vp7USF48H8mmcVvt0VN/WeU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=CYVJW6OctXFOg2CKM4Hth+ElInk5GkHESYiyqBYjYeU7PEBhdI4WlQjkhY6SOz9N1XsuhhIU5AIyBBMTfc8CQFfONNC02Z93ex+haM/HoIAjFT9dW28cvWpa/Y6Ql7JgkZdyDkmTJ+24sN1dT13qfr04rescCp0u+b7C6X2iLKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kmREL0Iw; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B5qtIkjM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kmREL0Iw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774450923; x=1805986923;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gIUfeBRRWBa0s/P/ovRzF4jBgBesrI0Q2uvAtRlUSL8=;
-  b=B5qtIkjMAZpsDE68/3NKZpe9WBe7Xhp0foPie7FiLojMFCQaicRqaG9w
-   G/3CZ8DFm5PSkwk5Zc9KMQ4516ShY9/14g1GEYiFtGeEoBYdp0jILLXW7
-   IdBvR+X7TsYZdmCmkp436XzDRmxHmOkZkkn00laoB4I7Pit9+cHtfxHqM
-   mZxzgde5m1U4FX711LfcT678edu1JtXKi/IXVFqGYLkK9TWGXw/OFkzlE
-   3GvxnxjqWsBWdcWqIxxsowX4Mql76g5nWh8yiT3X3debo+uRqWtdXaePZ
-   XT7lRgdoyrXFtVccyzBE9co7llAvgpSuyAG7IdnDRk0+4wr9tPiC8V0BI
-   Q==;
-X-CSE-ConnectionGUID: BhwHT2q9Qb6SFNESgZD11w==
-X-CSE-MsgGUID: SZl1xTMcS9S7duQldKuu3g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="75395805"
+  t=1774452193; x=1805988193;
+  h=date:from:to:cc:subject:message-id;
+  bh=dKYKbIw8BE1CFqfs79B8vp7USF48H8mmcVvt0VN/WeU=;
+  b=kmREL0IwweF7GqcHB2a5nKLOA5zPlOT/uqCtiyDMJzMpWxdaROOYDVBE
+   dYfhnp2hqvjMmCfXmvEN28YmMxgH1zlgMVCtydpG8QHLc7T1+MYltBmde
+   anfaYLyIQSWvwfDhFtpC4JutrIQU1UB7BWnOddyTHwmfCsT9b9tJwRL6D
+   w3Q86PabRTgkegzoHsCOwwWVdQqZMkGsxTlxQVnYFlMF4Gmnwef4RILKO
+   x2V6aCIf9Z+ul/XDDK4p065wMSXnwlaQZEWS6t8c0a7l5IQ0o6K0vRLxF
+   H4K3OnIDdPni95JtivQmTxqBT6FF8LV3nNk9houuSHhr8ZWhjzRTohZCg
+   A==;
+X-CSE-ConnectionGUID: y9nlR9qHRCaiIwAPWbk4PA==
+X-CSE-MsgGUID: IRKDVOu/RwOOyTXtOw1QsA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="86572243"
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="75395805"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 08:02:02 -0700
-X-CSE-ConnectionGUID: 73C6AkAaTH+hmQJStSXH5A==
-X-CSE-MsgGUID: wzCUs5cJQuy8BEO4N6nDLg==
+   d="scan'208";a="86572243"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 08:23:00 -0700
+X-CSE-ConnectionGUID: VuGJOWEPQ4Ss2Ek3n2vfvQ==
+X-CSE-MsgGUID: kHJCCtJJSCuFBqvTx8usAQ==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
+   d="scan'208";a="248211225"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 25 Mar 2026 08:01:57 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 25 Mar 2026 08:22:59 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5Pk2-0000000074z-3dZS;
-	Wed, 25 Mar 2026 15:01:54 +0000
-Date: Wed, 25 Mar 2026 23:01:15 +0800
+	id 1w5Q4O-0000000077h-3Ign;
+	Wed, 25 Mar 2026 15:22:56 +0000
+Date: Wed, 25 Mar 2026 23:22:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
-	Radu Sabau <radu.sabau@analog.com>
-Subject: Re: [PATCH v3 2/4] iio: adc: ad4691: add initial driver for AD4691
- family
-Message-ID: <202603252241.8UAUrLG4-lkp@intel.com>
-References: <20260313-ad4692-multichannel-sar-adc-driver-v3-2-b4d14d81a181@analog.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 1/1]
+ arch/arm64/kvm/hyp/nvhe/switch.c:411:5: warning: no previous prototype for
+ '__pkvm_register_hyp_panic_notifier'
+Message-ID: <202603252315.lKbm8ENn-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260313-ad4692-multichannel-sar-adc-driver-v3-2-b4d14d81a181@analog.com>
 
-Hi Radu,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 11439c4635edd669ae435eec308f4ab8a0804808]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Radu-Sabau-via-B4-Relay/dt-bindings-iio-adc-add-bindings-for-AD4691-family/20260314-040740
-base:   11439c4635edd669ae435eec308f4ab8a0804808
-patch link:    https://lore.kernel.org/r/20260313-ad4692-multichannel-sar-adc-driver-v3-2-b4d14d81a181%40analog.com
-patch subject: [PATCH v3 2/4] iio: adc: ad4691: add initial driver for AD4691 family
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260325/202603252241.8UAUrLG4-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603252241.8UAUrLG4-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   36e33448be90aea3d2e98da271b35aac511b8dc6
+commit: 9cf9fea7b7c229f272fdd6a9d9cbb114ff69c352 [1/1] ANDROID: KVM: arm64: Introduce a hyp panic module notifier
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20260325/202603252315.lKbm8ENn-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603252315.lKbm8ENn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603252241.8UAUrLG4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603252315.lKbm8ENn-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   drivers/iio/adc/ad4691.c: In function '__ad4691_set_sampling_freq':
->> include/linux/compiler_types.h:706:45: error: call to '__compiletime_assert_418' declared with attribute error: clamp(freq, 1, st->chip->max_rate) signedness error
-     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:687:25: note: in definition of macro '__compiletime_assert'
-     687 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
-     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:190:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-     190 |         BUILD_BUG_ON_MSG(!__types_ok3(uval, ulo, uhi),                          \
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:195:9: note: in expansion of macro '__clamp_once'
-     195 |         __clamp_once(type, val, lo, hi, __UNIQUE_ID(v_), __UNIQUE_ID(l_), __UNIQUE_ID(h_))
-         |         ^~~~~~~~~~~~
-   include/linux/minmax.h:206:28: note: in expansion of macro '__careful_clamp'
-     206 | #define clamp(val, lo, hi) __careful_clamp(auto, val, lo, hi)
-         |                            ^~~~~~~~~~~~~~~
-   drivers/iio/adc/ad4691.c:419:16: note: in expansion of macro 'clamp'
-     419 |         freq = clamp(freq, 1, st->chip->max_rate);
-         |                ^~~~~
---
-   In file included from <command-line>:
-   ad4691.c: In function '__ad4691_set_sampling_freq':
->> include/linux/compiler_types.h:706:45: error: call to '__compiletime_assert_418' declared with attribute error: clamp(freq, 1, st->chip->max_rate) signedness error
-     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:687:25: note: in definition of macro '__compiletime_assert'
-     687 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
-     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:190:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-     190 |         BUILD_BUG_ON_MSG(!__types_ok3(uval, ulo, uhi),                          \
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:195:9: note: in expansion of macro '__clamp_once'
-     195 |         __clamp_once(type, val, lo, hi, __UNIQUE_ID(v_), __UNIQUE_ID(l_), __UNIQUE_ID(h_))
-         |         ^~~~~~~~~~~~
-   include/linux/minmax.h:206:28: note: in expansion of macro '__careful_clamp'
-     206 | #define clamp(val, lo, hi) __careful_clamp(auto, val, lo, hi)
-         |                            ^~~~~~~~~~~~~~~
-   ad4691.c:419:16: note: in expansion of macro 'clamp'
-     419 |         freq = clamp(freq, 1, st->chip->max_rate);
-         |                ^~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:233:43: warning: initialized field overwritten [-Woverride-init]
+     233 |         [ESR_ELx_EC_CP15_32]            = kvm_hyp_handle_cp15_32,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:233:43: note: (near initialization for 'hyp_exit_handlers[3]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:234:43: warning: initialized field overwritten [-Woverride-init]
+     234 |         [ESR_ELx_EC_HVC64]              = kvm_hyp_handle_hvc64,
+         |                                           ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:234:43: note: (near initialization for 'hyp_exit_handlers[22]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:235:43: warning: initialized field overwritten [-Woverride-init]
+     235 |         [ESR_ELx_EC_SYS64]              = kvm_hyp_handle_sysreg,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:235:43: note: (near initialization for 'hyp_exit_handlers[24]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:236:43: warning: initialized field overwritten [-Woverride-init]
+     236 |         [ESR_ELx_EC_SVE]                = kvm_hyp_handle_fpsimd,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:236:43: note: (near initialization for 'hyp_exit_handlers[25]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:237:43: warning: initialized field overwritten [-Woverride-init]
+     237 |         [ESR_ELx_EC_FP_ASIMD]           = kvm_hyp_handle_fpsimd,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:237:43: note: (near initialization for 'hyp_exit_handlers[7]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:238:43: warning: initialized field overwritten [-Woverride-init]
+     238 |         [ESR_ELx_EC_IABT_LOW]           = kvm_hyp_handle_iabt_low,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:238:43: note: (near initialization for 'hyp_exit_handlers[32]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:239:43: warning: initialized field overwritten [-Woverride-init]
+     239 |         [ESR_ELx_EC_DABT_LOW]           = kvm_hyp_handle_dabt_low,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:239:43: note: (near initialization for 'hyp_exit_handlers[36]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:240:43: warning: initialized field overwritten [-Woverride-init]
+     240 |         [ESR_ELx_EC_WATCHPT_LOW]        = kvm_hyp_handle_watchpt_low,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:240:43: note: (near initialization for 'hyp_exit_handlers[52]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:241:43: warning: initialized field overwritten [-Woverride-init]
+     241 |         [ESR_ELx_EC_PAC]                = kvm_hyp_handle_ptrauth,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:241:43: note: (near initialization for 'hyp_exit_handlers[9]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:246:43: warning: initialized field overwritten [-Woverride-init]
+     246 |         [ESR_ELx_EC_HVC64]              = kvm_handle_pvm_hvc64,
+         |                                           ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:246:43: note: (near initialization for 'pvm_exit_handlers[22]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:247:43: warning: initialized field overwritten [-Woverride-init]
+     247 |         [ESR_ELx_EC_SYS64]              = kvm_handle_pvm_sys64,
+         |                                           ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:247:43: note: (near initialization for 'pvm_exit_handlers[24]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:248:43: warning: initialized field overwritten [-Woverride-init]
+     248 |         [ESR_ELx_EC_SVE]                = kvm_hyp_handle_fpsimd,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:248:43: note: (near initialization for 'pvm_exit_handlers[25]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:249:43: warning: initialized field overwritten [-Woverride-init]
+     249 |         [ESR_ELx_EC_SME]                = kvm_handle_pvm_restricted,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:249:43: note: (near initialization for 'pvm_exit_handlers[29]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:250:43: warning: initialized field overwritten [-Woverride-init]
+     250 |         [ESR_ELx_EC_FP_ASIMD]           = kvm_hyp_handle_fpsimd,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:250:43: note: (near initialization for 'pvm_exit_handlers[7]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:251:43: warning: initialized field overwritten [-Woverride-init]
+     251 |         [ESR_ELx_EC_IABT_LOW]           = kvm_hyp_handle_iabt_low,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:251:43: note: (near initialization for 'pvm_exit_handlers[32]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:252:43: warning: initialized field overwritten [-Woverride-init]
+     252 |         [ESR_ELx_EC_DABT_LOW]           = kvm_hyp_handle_dabt_low,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:252:43: note: (near initialization for 'pvm_exit_handlers[36]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:253:43: warning: initialized field overwritten [-Woverride-init]
+     253 |         [ESR_ELx_EC_WATCHPT_LOW]        = kvm_hyp_handle_watchpt_low,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:253:43: note: (near initialization for 'pvm_exit_handlers[52]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:254:43: warning: initialized field overwritten [-Woverride-init]
+     254 |         [ESR_ELx_EC_PAC]                = kvm_hyp_handle_ptrauth,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:254:43: note: (near initialization for 'pvm_exit_handlers[9]')
+>> arch/arm64/kvm/hyp/nvhe/switch.c:411:5: warning: no previous prototype for '__pkvm_register_hyp_panic_notifier' [-Wmissing-prototypes]
+     411 | int __pkvm_register_hyp_panic_notifier(void (*cb)(struct user_pt_regs *regs))
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/__compiletime_assert_418 +706 include/linux/compiler_types.h
+vim +/__pkvm_register_hyp_panic_notifier +411 arch/arm64/kvm/hyp/nvhe/switch.c
 
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  692  
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  693  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  694  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  695  
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  696  /**
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  697   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  698   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  699   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  700   *
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  701   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  702   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  703   * compiler has support to do so.
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  704   */
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  705  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2d Will Deacon 2020-07-21 @706  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  707  
+   409	
+   410	static void (*hyp_panic_notifier)(struct user_pt_regs *regs);
+ > 411	int __pkvm_register_hyp_panic_notifier(void (*cb)(struct user_pt_regs *regs))
+   412	{
+   413		return cmpxchg(&hyp_panic_notifier, NULL, cb) ? -EBUSY : 0;
+   414	}
+   415	
 
 -- 
 0-DAY CI Kernel Test Service
