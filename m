@@ -1,66 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D152534B1A1
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 18:57:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C3DC30DD0A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 19:20:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774465048; cv=none; b=Pp3vxC77DUhTqP+i217tsUaasWOcDguFkfZU/zz8LnMeXz8uJCbQG7Kye65KIIFllsDIf2f3c8nPHB+bd7Ewl4XO+ZU3+uSmbxqskYGROWaiu3QQDkXtzHEIbtKXo8te1WYbE2lPABR9DmLOGssN3OWrRdzIWjIEHWnBHkIG6jA=
+	t=1774466432; cv=none; b=q14kgTotBGo1LR6Jw213t0Ipd20xztk0ZdygiXvIUTQ5BsatbyXzBcocNpgQbtrgF2pWPynAotU9I7WsIIdD5eMnxgtHhzBothe/Bgq7ImMb5NZz8Iw5Y7lnEfGmAnCfqPaZYWuO0qGR962wMKsHAKGU2Yvfqhu+plaEjyCU/sQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774465048; c=relaxed/simple;
-	bh=aChN73re9+mDwaRjlRj252C+1Dh7cQiHjrvH4XH2fpA=;
+	s=arc-20240116; t=1774466432; c=relaxed/simple;
+	bh=dzrmiDrpjwtz7HrFYySUYf9NMlZDdBeWMFnfWDj3RAg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TuZ2w/ENF5KKXSGD19r7OZwzEDnhy8DBStuN3lphqczTuqQvvg0/O5UIVP9vJ16AKUPWbY9Le6Czgyj1SkKxTNxINirGE0ae5pmDYNnYKN087FDba4yPhoOeSsSFQSjti2HHvzSWodn4PGrVbJVT/8ALBDjXEgUwfeDIhNfX460=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AL0Dlz26; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=m0LPoDMKZ/hi/R8KLE+gDPdlze3zrxjfOGSGvonp1hwgSvruo2+AQf9fd6qokkkpB3eyLmrrolPHqZgZQ3OaB3hJtZ1adKhYdtFmGDsvGwSjAzBjiGrs3ahRSXgZJQC6hWuqMqyjiRA/pNCFWa3hhffuqyKouTcb/7GbUPTUmGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PIZJt5X9; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AL0Dlz26"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PIZJt5X9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774465047; x=1806001047;
+  t=1774466430; x=1806002430;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=aChN73re9+mDwaRjlRj252C+1Dh7cQiHjrvH4XH2fpA=;
-  b=AL0Dlz2656AzerMZuojBPYt35JNkuDqBS1h4N6Faz8HIE8QtMUT7CiEC
-   kfR18klm8V/bYe3D3QJArUS+NuyoHwGrT9iGlur04Qer56USpAV8Eu7Uc
-   kMPxNEfL9lJH5Yf8xyE0OJAw7xHaF465vNr7SEy8JFR7kT6n5k+p4YOJu
-   ZEDlgOqjkWlI0zRpTPUgMEefPomb+dLnjIUlriGHCcAGGPSwMtJPLklqA
-   vAjfKi0nNZwI6vlCykYxLk1l+VuCXPNsU2V2mzMkK0fx1ZGuwFkRnv5ME
-   MXaxsfKllH4dEGxBxmrT7Ry6l0euwqy8RVdW5CfZIjeEBf531guQO9cRE
-   w==;
-X-CSE-ConnectionGUID: K3ZRnFAbRJa0kwFndgBHjw==
-X-CSE-MsgGUID: j9rI/EuwRlK+mP1rFux9Ow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="75230447"
+  bh=dzrmiDrpjwtz7HrFYySUYf9NMlZDdBeWMFnfWDj3RAg=;
+  b=PIZJt5X9+dHZ717aeIIEh+C24zisRAgmuInXofWywrALPmepg9EP3pGd
+   FHZb+6QsDgX8U8D5+6VRdXLrtK+AlS49rsj3HQocuXbKbJEwit/eH+zJA
+   2ZJfF8hC/WHS4HW3ufrSYAOFaz5n2fAQVYHGo6MkTW1VniEjXRfVooZjp
+   KjFqTdiT1iKHYGVYdZM8VLmQBxdRyvEKXnfqm/lp8z1WxtuNFMpP8f+9u
+   +uMVIvfOpXrhcgZzjDsw3mA6LRUG+dZwdtQT24tmvgizALSHcSgsyCXJL
+   XIKQL0MG5BIReIJeqNe9S0AcL9ea9m9AEaps+dCVl981ABGd/K8omcEj8
+   g==;
+X-CSE-ConnectionGUID: x5kmqungRXGNkfTZ7wMUiw==
+X-CSE-MsgGUID: OvavDYMKQsWlWGymaV/6pA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="79422210"
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="75230447"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 11:57:27 -0700
-X-CSE-ConnectionGUID: D6UEZT7PS+KeWoHvhF6ZIw==
-X-CSE-MsgGUID: JZ77ZO8xQaWiJnHqdFbBeA==
+   d="scan'208";a="79422210"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 12:20:30 -0700
+X-CSE-ConnectionGUID: 6Yd1g75vRnqfwEGqqvMsnA==
+X-CSE-MsgGUID: pkwabnNUTMmK1Y1+i1ycCw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="229544630"
+   d="scan'208";a="229235211"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 25 Mar 2026 11:57:22 -0700
+  by orviesa004.jf.intel.com with ESMTP; 25 Mar 2026 12:20:28 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5TPs-000000007Uf-1EVv;
-	Wed, 25 Mar 2026 18:57:20 +0000
-Date: Thu, 26 Mar 2026 02:57:18 +0800
+	id 1w5TmC-000000007ZZ-2XWC;
+	Wed, 25 Mar 2026 19:20:24 +0000
+Date: Thu, 26 Mar 2026 03:20:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lakshay Piplani <lakshay.piplani@nxp.com>, linux-kernel@vger.kernel.org,
-	linux-i3c@lists.infradead.org, alexandre.belloni@bootlin.com,
-	krzk+dt@kernel.org, robh@kernel.org, conor+dt@kernel.org,
-	devicetree@vger.kernel.org, broonie@kernel.org, lee@kernel.org,
-	Frank.Li@nxp.com, lgirdwood@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, vikash.bansal@nxp.com,
-	priyanka.jain@nxp.com, aman.kumarpandey@nxp.com,
-	lakshay.piplani@nxp.com
-Subject: Re: [PATCH v8 7/7] i3c: hub: p3h2x4x: Add support for NXP P3H2x4x
- I3C hub functionality
-Message-ID: <202603260207.uKW7MqMC-lkp@intel.com>
-References: <20260323062737.886728-8-lakshay.piplani@nxp.com>
+To: Francesco Lavra <flavra@baylibre.com>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v9 6/6] iio: imu: st_lsm6dsx: Add support for rotation
+ sensor
+Message-ID: <202603260349.g0aoRPw8-lkp@intel.com>
+References: <20260324084808.654118-1-flavra@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,70 +69,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260323062737.886728-8-lakshay.piplani@nxp.com>
+In-Reply-To: <20260324084808.654118-1-flavra@baylibre.com>
 
-Hi Lakshay,
+Hi Francesco,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on broonie-regulator/for-next]
-[also build test ERROR on linus/master v7.0-rc5 next-20260324]
-[cannot apply to i3c/i3c/next lee-mfd/for-mfd-next lee-mfd/for-mfd-fixes]
+[auto build test ERROR on next-20260323]
+[cannot apply to jic23-iio/togreg linus/master v7.0-rc5 v7.0-rc4 v7.0-rc3 v7.0-rc5]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lakshay-Piplani/i3c-master-Expose-the-APIs-to-support-I3C-hub/20260325-150847
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
-patch link:    https://lore.kernel.org/r/20260323062737.886728-8-lakshay.piplani%40nxp.com
-patch subject: [PATCH v8 7/7] i3c: hub: p3h2x4x: Add support for NXP P3H2x4x I3C hub functionality
-config: um-randconfig-002-20260326 (https://download.01.org/0day-ci/archive/20260326/202603260207.uKW7MqMC-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260326/202603260207.uKW7MqMC-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Francesco-Lavra/iio-imu-st_lsm6dsx-Fix-check-for-invalid-samples-from-FIFO/20260325-021519
+base:   next-20260323
+patch link:    https://lore.kernel.org/r/20260324084808.654118-1-flavra%40baylibre.com
+patch subject: [PATCH v9 6/6] iio: imu: st_lsm6dsx: Add support for rotation sensor
+config: parisc-randconfig-r072-20260326 (https://download.01.org/0day-ci/archive/20260326/202603260349.g0aoRPw8-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
+smatch: v0.5.0-9004-gb810ac53
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260326/202603260349.g0aoRPw8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603260207.uKW7MqMC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603260349.g0aoRPw8-lkp@intel.com/
 
 All error/warnings (new ones prefixed by >>):
 
->> drivers/i3c/hub/p3h2840_i3c_hub_smbus.c:357:10: error: 'struct i2c_algorithm' has no member named 'reg_slave'
-     357 |         .reg_slave = p3h2x4x_tp_i2c_reg_slave,
-         |          ^~~~~~~~~
->> drivers/i3c/hub/p3h2840_i3c_hub_smbus.c:357:22: error: initialization of 'int (*)(struct i2c_adapter *, struct i2c_msg *, int)' from incompatible pointer type 'int (*)(struct i2c_client *)' [-Wincompatible-pointer-types]
-     357 |         .reg_slave = p3h2x4x_tp_i2c_reg_slave,
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/i3c/hub/p3h2840_i3c_hub_smbus.c:357:22: note: (near initialization for 'p3h2x4x_tp_i2c_algorithm.<anonymous>.xfer_atomic')
->> drivers/i3c/hub/p3h2840_i3c_hub_smbus.c:358:10: error: 'struct i2c_algorithm' has no member named 'unreg_slave'
-     358 |         .unreg_slave = p3h2x4x_tp_i2c_unreg_slave,
-         |          ^~~~~~~~~~~
->> drivers/i3c/hub/p3h2840_i3c_hub_smbus.c:358:24: error: initialization of 'int (*)(struct i2c_adapter *, u16,  short unsigned int,  char,  u8,  int,  union i2c_smbus_data *)' {aka 'int (*)(struct i2c_adapter *, short unsigned int,  short unsigned int,  char,  unsigned char,  int,  union i2c_smbus_data *)'} from incompatible pointer type 'int (*)(struct i2c_client *)' [-Wincompatible-pointer-types]
-     358 |         .unreg_slave = p3h2x4x_tp_i2c_unreg_slave,
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/i3c/hub/p3h2840_i3c_hub_smbus.c:358:24: note: (near initialization for 'p3h2x4x_tp_i2c_algorithm.smbus_xfer')
->> drivers/i3c/hub/p3h2840_i3c_hub_smbus.c:355:56: warning: missing braces around initializer [-Wmissing-braces]
-     355 | static struct i2c_algorithm p3h2x4x_tp_i2c_algorithm = {
-         |                                                        ^
-     356 |         .master_xfer    = p3h2x4x_tp_i2c_xfer,
-         |                                              }
-     357 |         .reg_slave = p3h2x4x_tp_i2c_reg_slave,
-         |                      {                       }
+   drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_fusion.c: In function 'st_lsm6dsx_fusion_set_odr':
+>> drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_fusion.c:137:1: error: label at end of compound statement
+    out:
+    ^~~
+>> drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_fusion.c:137:1: warning: label 'out' defined but not used [-Wunused-label]
 
 
-vim +357 drivers/i3c/hub/p3h2840_i3c_hub_smbus.c
+vim +137 drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_fusion.c
 
-   351	
-   352	/*
-   353	 * I2C algorithm Structure
-   354	 */
- > 355	static struct i2c_algorithm p3h2x4x_tp_i2c_algorithm = {
-   356		.master_xfer    = p3h2x4x_tp_i2c_xfer,
- > 357		.reg_slave = p3h2x4x_tp_i2c_reg_slave,
- > 358		.unreg_slave = p3h2x4x_tp_i2c_unreg_slave,
-   359		.functionality  = p3h2x4x_tp_smbus_funcs,
-   360	};
-   361	
+   117	
+   118	int st_lsm6dsx_fusion_set_odr(struct st_lsm6dsx_sensor *sensor, bool enable)
+   119	{
+   120		struct st_lsm6dsx_hw *hw = sensor->hw;
+   121		int err;
+   122	
+   123		guard(mutex)(&hw->page_lock);
+   124	
+   125		err = st_lsm6dsx_fusion_page_enable(hw);
+   126		if (err)
+   127			return err;
+   128	
+   129		err = st_lsm6dsx_fusion_set_odr_locked(sensor, enable);
+   130		if (err) {
+   131			st_lsm6dsx_fusion_page_disable(hw);
+   132			return err;
+   133		}
+   134	
+   135		return st_lsm6dsx_fusion_page_disable(hw);
+   136	
+ > 137	out:
+   138	}
+   139	
 
 -- 
 0-DAY CI Kernel Test Service
