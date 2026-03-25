@@ -1,122 +1,133 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63B0418D636
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 12:52:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 062061D61BC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 12:53:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774443158; cv=none; b=o8C9H5zIgeVSz1ID6o/4cIyl8ztT6BsEaWyjI1LyAPctcgj/SADGnhDTC6u2jUrSInRJdLB+ywgzUdzueTS5Wg+5kUVxfLYxIE/89FFy8LgjNFVfBSops4Guz425RRHTmYV4mTft+8CVVpn+zg8Mh06YHRdlzvExUgTWjkoSDGI=
+	t=1774443213; cv=none; b=quK87xfZY4xNSmLW6etoB6jN8eJb3KSdC3l0SJRZmoyyYQ9E54nH93Q810nLJJYRvSyhDT06iakxWjTJJSrArwiFr+32m7LHoYHdRFDxvg7O/n7P63Dhm0TCEtVCrOL8ESmLR/JmRPIqqtfsNBF8tUXFX3ffkTht+vELV/EZeIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774443158; c=relaxed/simple;
-	bh=RVCb4WNUH4ZLQFWYy8exP+Bz3M2wzIVpqllh3M8xU0E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rhbMmb2chyJ96JRy9+NTf9Gn/n9SY7D4LFELThMapRNkBNzDE5lLsEVPh4Fh9/wdzPDaMNtg9sCwgvMsT9xB4feY+oY9egor09Ac2eAR/lK+NJ4OzPdHxDV08XZ1sknzreuSBx2TBSkle0Rqfw7IZLBLWTzp+9EHqqY8IyZvSrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FJSqfJPn; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1774443213; c=relaxed/simple;
+	bh=wd6qcLyIyBnt4tHj2qbcBMKAd7V/rlQdFXPodyXLGJc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=IOoAKEZeQK3bRelVl7FpJMoqYVuSpcu5uVNwYizR+hatjheEYjZgupf7OrZPSHipbiIwCv7hWIqKv8GZjXHfvtSaw8XrFJNB3AswlrVkkexWMA8UgpsSvOjaGWl7U1Z07RxKkUUbphnevXU7xX9EPUZI/tlk1icd0I38Xazbj/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=Wqdb+Y9U; arc=none smtp.client-ip=210.118.77.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FJSqfJPn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774443157; x=1805979157;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RVCb4WNUH4ZLQFWYy8exP+Bz3M2wzIVpqllh3M8xU0E=;
-  b=FJSqfJPnlvmHws5UejVmC6DxgfMVCH93CXlRR+E4kfe0p3TZlPMXOTAQ
-   oNImBMQ0ZWEZAXkKCVD9cHALDsdSnj69U8Jd0StfbaHwquIS7jVK3USmU
-   t6gWSjsk+6VXKSgoVi2rU+aADSeVR+JDPfOCpcKJcAYC8h4NmyPVJ/lSP
-   3zxmlkXigMW5At3I8I/ClJ+8LdCGScYBnUEeeK1ONWUG9ES9Kd2ubR5gC
-   XfnlZ5AI90A/iNKC0OtZ40tpE6zxuewhLjOtzzquI8HdTuQVRm8dWhfEK
-   QrXCL9DjYYgBjfCgGU9+ag4xwIRRPnrN5Nh7+3x8DqcXR3L0ozMI0HlYi
-   g==;
-X-CSE-ConnectionGUID: IPjKPDa/Rw2yts9hMCxHCg==
-X-CSE-MsgGUID: aI+vCnLqR7Oz2JBkqzAPlg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="93055377"
-X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="93055377"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 05:52:37 -0700
-X-CSE-ConnectionGUID: ODRHO7rwQ3iuaKdTuKTzEg==
-X-CSE-MsgGUID: UmQdDbavSoWbzhlAVZ0p1w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="224932699"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 25 Mar 2026 05:52:35 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w5Niq-000000006qL-45Gq;
-	Wed, 25 Mar 2026 12:52:32 +0000
-Date: Wed, 25 Mar 2026 20:52:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: hamjin <jinham@qq.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, hamjin <jinham@qq.com>
-Subject: Re: [PATCH] lib: typecheck: initialize const variable to avoid Clang
- warning
-Message-ID: <202603252052.cM1GQIHa-lkp@intel.com>
-References: <tencent_274FD06231C70768C2C28FD13673A24C2B08@qq.com>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="Wqdb+Y9U"
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20260325125329euoutp01480fde195a49195616757ab6f34d9be8~gFrKJiGyf0193701937euoutp01S
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 12:53:29 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20260325125329euoutp01480fde195a49195616757ab6f34d9be8~gFrKJiGyf0193701937euoutp01S
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1774443209;
+	bh=1/6T2FpQgsppkaTR/3bl5Vlomn0KI9cxE87fYMkK9uU=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=Wqdb+Y9UlsW9EFwsXfHqTjfiI4vRMzLfSdj4WOLBPn1Py3svAOpogoPH449ZLVQgI
+	 8EpUwwhdomV3AD9wY3Qt5LQKDuY/fqT/3jriVCti9PGL4YKhlooGg6WNRiw+lTmJoT
+	 9OqF5sGzjSn0B60QoXuKSob7HRJMFXkhnLjf9qoQ=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20260325125328eucas1p2c331247db3de72353af82fed8494ed8b~gFrJuwxpf1760517605eucas1p2J;
+	Wed, 25 Mar 2026 12:53:28 +0000 (GMT)
+Received: from [192.168.1.44] (unknown [106.210.136.40]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20260325125328eusmtip21911f3510691319c3da0ac95e19553d4~gFrJaSAeG1984519845eusmtip2w;
+	Wed, 25 Mar 2026 12:53:28 +0000 (GMT)
+Message-ID: <41ff0286-a70c-43fb-b992-e5f30774c20a@samsung.com>
+Date: Wed, 25 Mar 2026 13:53:28 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tencent_274FD06231C70768C2C28FD13673A24C2B08@qq.com>
-
-Hi hamjin,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v7.0-rc5 next-20260324]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/hamjin/lib-typecheck-initialize-const-variable-to-avoid-Clang-warning/20260315-165617
-base:   linus/master
-patch link:    https://lore.kernel.org/r/tencent_274FD06231C70768C2C28FD13673A24C2B08%40qq.com
-patch subject: [PATCH] lib: typecheck: initialize const variable to avoid Clang warning
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20260325/202603252052.cM1GQIHa-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603252052.cM1GQIHa-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603252052.cM1GQIHa-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from arch/s390/include/asm/lowcore.h:14,
-                    from arch/s390/include/asm/current.h:13,
-                    from include/linux/sched.h:12,
-                    from arch/s390/kernel/asm-offsets.c:10:
-   arch/s390/include/asm/ptrace.h: In function 'user_mode':
->> arch/s390/include/asm/ptrace.h:224:9: error: conversion to non-scalar type requested
-     224 |         return psw_bits(regs->psw).pstate;
-         |         ^~~~~~
-   make[3]: *** [scripts/Makefile.build:184: arch/s390/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1337: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+User-Agent: Mozilla Thunderbird
+Subject: Re: drivers/firmware/thead,th1520-aon.c:174
+ th1520_aon_power_update() error: buffer overflow 'data' 2 <= 3
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev, Ulf
+	Hansson <ulf.hansson@linaro.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Kees Cook <kees@kernel.org>
+Content-Language: en-US
+From: Michal Wilczynski <m.wilczynski@samsung.com>
+In-Reply-To: <202603251917.9rxYz4kf-lkp@intel.com>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20260325125328eucas1p2c331247db3de72353af82fed8494ed8b
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20260325121354eucas1p23128fc76e3662308baedfcc0f970fc72
+X-EPHeader: CA
+X-CMS-RootMailID: 20260325121354eucas1p23128fc76e3662308baedfcc0f970fc72
+References: <CGME20260325121354eucas1p23128fc76e3662308baedfcc0f970fc72@eucas1p2.samsung.com>
+	<202603251917.9rxYz4kf-lkp@intel.com>
 
 
-vim +224 arch/s390/include/asm/ptrace.h
+Hi,
+On 3/25/26 13:13, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   bbeb83d3182abe0d245318e274e8531e5dd7a948
+> commit: e4b3cbd840e565484d0ad8d260d27c057466ed17 firmware: thead: Add AON firmware protocol driver
+> config: riscv-randconfig-r073-20260325 (https://download.01.org/0day-ci/archive/20260325/202603251917.9rxYz4kf-lkp@intel.com/config)
+> compiler: clang version 23.0.0git (https://protect2.fireeye.com/v1/url?k=d678e7b9-b7f3f28f-d6796cf6-74fe485fffe0-2c4534b9bc72cb13&q=1&e=1ce670d0-4eef-4bf7-a0c1-c4094e13228a&u=https%3A%2F%2Fgithub.com%2Fllvm%2Fllvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
+> rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+> smatch: v0.5.0-9004-gb810ac53
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202603251917.9rxYz4kf-lkp@intel.com/
+> 
+> New smatch warnings:
+> drivers/firmware/thead,th1520-aon.c:174 th1520_aon_power_update() error: buffer overflow 'data' 2 <= 3
+> 
+> vim +/data +174 drivers/firmware/thead,th1520-aon.c
+> 
+> e4b3cbd840e5654 Michal Wilczynski 2025-03-11  162  int th1520_aon_power_update(struct th1520_aon_chan *aon_chan, u16 rsrc,
+> e4b3cbd840e5654 Michal Wilczynski 2025-03-11  163  			    bool power_on)
+> e4b3cbd840e5654 Michal Wilczynski 2025-03-11  164  {
+> e4b3cbd840e5654 Michal Wilczynski 2025-03-11  165  	struct th1520_aon_msg_req_set_resource_power_mode msg = {};
+> e4b3cbd840e5654 Michal Wilczynski 2025-03-11  166  	struct th1520_aon_rpc_msg_hdr *hdr = &msg.hdr;
+> e4b3cbd840e5654 Michal Wilczynski 2025-03-11  167  	int ret;
+> e4b3cbd840e5654 Michal Wilczynski 2025-03-11  168  
+> e4b3cbd840e5654 Michal Wilczynski 2025-03-11  169  	hdr->svc = TH1520_AON_RPC_SVC_PM;
+> e4b3cbd840e5654 Michal Wilczynski 2025-03-11  170  	hdr->func = TH1520_AON_PM_FUNC_SET_RESOURCE_POWER_MODE;
+> e4b3cbd840e5654 Michal Wilczynski 2025-03-11  171  	hdr->size = TH1520_AON_RPC_MSG_NUM;
+> e4b3cbd840e5654 Michal Wilczynski 2025-03-11  172  
+> e4b3cbd840e5654 Michal Wilczynski 2025-03-11  173  	RPC_SET_BE16(&msg.resource, 0, rsrc);
+> e4b3cbd840e5654 Michal Wilczynski 2025-03-11 @174  	RPC_SET_BE16(&msg.resource, 2,
+> e4b3cbd840e5654 Michal Wilczynski 2025-03-11  175  		     (power_on ? TH1520_AON_PM_PW_MODE_ON :
+> e4b3cbd840e5654 Michal Wilczynski 2025-03-11  176  				 TH1520_AON_PM_PW_MODE_OFF));
+> 
+> This is deliberate, but I'm surprised the runtime hardening we have
+> done doesn't complain that we're writing outside the &msg.resource
+> struct member...  Maybe the RPC_SET_BE16() macro adds enough indirection
+> to confuse the checker.
+> 
+> Why not just do?:
+> 
+> 	msg.mode = cpu_to_be16(power_on ?
+> 			       TH1520_AON_PM_PW_MODE_ON :
+> 			       TH1520_AON_PM_PW_MODE_OFF);
 
-952974ac61f686 Heiko Carstens 2010-02-12  221  
-afa8fa52a42c31 Jens Remus     2025-12-11  222  static __always_inline bool user_mode(const struct pt_regs *regs)
-afa8fa52a42c31 Jens Remus     2025-12-11  223  {
-afa8fa52a42c31 Jens Remus     2025-12-11 @224  	return psw_bits(regs->psw).pstate;
-afa8fa52a42c31 Jens Remus     2025-12-11  225  }
-afa8fa52a42c31 Jens Remus     2025-12-11  226  
+I've sent a patch last year to fix this [1]. Maybe it can be picked up ?
 
+[1] - https://lore.kernel.org/all/20250403131051.1097423-1-m.wilczynski@samsung.com/
+
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Michal Wilczynski <m.wilczynski@samsung.com>
+
+> 
+> e4b3cbd840e5654 Michal Wilczynski 2025-03-11  177  
+> e4b3cbd840e5654 Michal Wilczynski 2025-03-11  178  	ret = th1520_aon_call_rpc(aon_chan, &msg);
+> e4b3cbd840e5654 Michal Wilczynski 2025-03-11  179  	if (ret)
+> e4b3cbd840e5654 Michal Wilczynski 2025-03-11  180  		dev_err(aon_chan->cl.dev, "failed to power %s resource %d ret %d\n",
+> e4b3cbd840e5654 Michal Wilczynski 2025-03-11  181  			power_on ? "up" : "off", rsrc, ret);
+> e4b3cbd840e5654 Michal Wilczynski 2025-03-11  182  
+> e4b3cbd840e5654 Michal Wilczynski 2025-03-11  183  	return ret;
+> e4b3cbd840e5654 Michal Wilczynski 2025-03-11  184  }
+> 
+
