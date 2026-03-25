@@ -1,143 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45C01359A67;
-	Wed, 25 Mar 2026 06:52:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81A3A2ED154
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 06:57:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774421550; cv=none; b=EcWCOoReO0y1slrZ/VZnO16MeN9yQ6zyuz+KLI8z0MLRZXWKgSI25hRk4Zz7DAlqopuMoyCL/Gm7Wku0XRl/DxaR548iSzGyESzakmSrG3AnMBDqs2OUFFdjL2k5YFb03p6Sa9x2aUPntmdb6yAzyjXHzoSrvmqjpVvFQXWSM3E=
+	t=1774421824; cv=none; b=c3t9d5LnXr64KrzmPW/Olv2YUyraeEZ6jZCK5NhmR+rXJbDVKGqMnLaLSJ/3G440EREWORt9l4vUPh2qCyxJhat8jIg4u2T5egD6FPs24vsD4Myho+Bp0CnJmTMSSVKj6Ta9i126MesC4uI5gscPqn14IYJClSZgmbcE9yFH5v0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774421550; c=relaxed/simple;
-	bh=fU/VJh0UztktKXhSBTPB1iPWDk4L9bU53cVBSq8CXbg=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=b2fMDvBFnO3FMT5nbRfTtmPwrjIdpKu+NZO54kMQuOrisLeQ0lE4O6J72stO73rplQWXJQtqvOlxg3LoebSEUma6jGv1PiuIWwrd0ys6HQWE0Huw/v7Y14TFIU891zHuzQae3dBP3fwCXeMGekKOOIaEe1sZXsFlli0TmJAc4xA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OZM3lVxg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774421824; c=relaxed/simple;
+	bh=CVFMRPTAK0hGO4MujQKu9Ef2pPzO/KsQ0RZwATi55XY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ROrvVH/Ly9Sjo3dSrwN88HVGjSuqH2xfB65ENEdurWsu9GEzGLngvJoD1H0u/h7VtS9PmmJ68g4hS8a2+TQemLYhPsIsbvjJzcpYLCLaTx5UGeiKpz8MMMPwcTD88m8xuw4Sf/pZdDMQHJW6iTyeXlL/1bfg4+WRZwuDC0WPD5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OHFVQuWa; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OZM3lVxg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 192BCC4CEF7;
-	Wed, 25 Mar 2026 06:52:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774421549;
-	bh=fU/VJh0UztktKXhSBTPB1iPWDk4L9bU53cVBSq8CXbg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=OZM3lVxgorgE0odGqelej3/fjAhHD7YeknyfI7SVjzBgob8jn7kPaFwfMvKuoWUA8
-	 yk+9A0NJido9xTQjWNWp2CepFEnHiaryCVLuKGKblNi7imMKyE527KGnSZx5as7Ajy
-	 JOzWMw+goyCyiGCbBrsg5BffnhbbfzrkfiHhOE4vWDPMe4L6r9a5RVOoXqGQ3RQgrT
-	 8mCmZjmmQXtlmYIqAuA4rKxKpQzILXO4QRNOGaTdIqGZHPnulVqpotW/UnP0Izx7eg
-	 9OP8frL7ju0zcB5t6teZSXdgHzCdkF4s1noZnYVAgE3ArPCCnOqGn/Cdxp5qoW0Y6r
-	 fH84+JpSeCONA==
-Date: Wed, 25 Mar 2026 15:52:27 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Breno Leitao <leitao@debian.org>, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, "Masami Hiramatsu (Google)"
- <mhiramat@kernel.org>
-Subject: Re: [trace:bootconfig/for-next 16/16] init/main.c:437:20: warning:
- stack frame size (4192) exceeds limit (2048) in
- 'bootconfig_apply_early_params'
-Message-Id: <20260325155227.55cdfb9f4ce96c335d0c7f18@kernel.org>
-In-Reply-To: <202603251010.5Ui0yrB2-lkp@intel.com>
-References: <202603251010.5Ui0yrB2-lkp@intel.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OHFVQuWa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774421822; x=1805957822;
+  h=date:from:to:cc:subject:message-id;
+  bh=CVFMRPTAK0hGO4MujQKu9Ef2pPzO/KsQ0RZwATi55XY=;
+  b=OHFVQuWaSjgHls8QcTDPeCKGo8gWsscPM5ta8dJoD3vLSAdb/xme7Qeo
+   eLNS6czFyA4uMmOf7TK/3UFRtkp+2c8EqTY9x7UhKgxrNu4YOvVUFeSH/
+   kGC+4X+72j2NLnJpNOOnb0xxk8ybX13tHqJmiJiQHOUtMBmaMutDKt6Rb
+   ys4X7VCFwVYqWBfdxAVYrqPgU+9PoY6MI1U1Ch7OW+69e1DZvw6wU9DLt
+   hXMpohEwde/twXZh037/sTZU8eKg3NJSJggVlwzpC/MDxKhQJyiUQQRWo
+   mj0ySlbOrejBnVLEN530bqnYyi9PSmRTFSYKgflyueX7yY5lsZVt3wqT0
+   g==;
+X-CSE-ConnectionGUID: 51XJ0HN3RLaVsgdR85z6Lg==
+X-CSE-MsgGUID: WYJieaalSxW9gceDLQybvg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="75169932"
+X-IronPort-AV: E=Sophos;i="6.23,139,1770624000"; 
+   d="scan'208";a="75169932"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 23:57:02 -0700
+X-CSE-ConnectionGUID: w9QJbjYSSqSrduGO3u1Z7Q==
+X-CSE-MsgGUID: C1QiigXURYO4CWDANz8+ZA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,139,1770624000"; 
+   d="scan'208";a="226227728"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 24 Mar 2026 23:57:00 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w5IAk-000000006NJ-0TpC;
+	Wed, 25 Mar 2026 06:56:58 +0000
+Date: Wed, 25 Mar 2026 14:56:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 0/44]
+ drivers/power/supply/power_supply_core.c:580:13: warning: variable 'ret' set
+ but not used
+Message-ID: <202603251408.4x28wITg-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-On Wed, 25 Mar 2026 10:37:25 +0800
-kernel test robot <lkp@intel.com> wrote:
+Hi Badhri,
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace bootconfig/for-next
-> head:   1a427f2a710583872b6176ea8378e0a1a8719fc4
-> commit: 1a427f2a710583872b6176ea8378e0a1a8719fc4 [16/16] bootconfig: Apply early options from embedded config
-> config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20260325/202603251010.5Ui0yrB2-lkp@intel.com/config)
-> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603251010.5Ui0yrB2-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202603251010.5Ui0yrB2-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> init/main.c:437:20: warning: stack frame size (4192) exceeds limit (2048) in 'bootconfig_apply_early_params' [-Wframe-larger-than]
->      437 | static void __init bootconfig_apply_early_params(void)
->          |                    ^
->    1 warning generated.
-> 
-> 
-> vim +/bootconfig_apply_early_params +437 init/main.c
-> 
->    416	
->    417	/*
->    418	 * do_early_param() is defined later in this file but called from
->    419	 * bootconfig_apply_early_params() below, so we need a forward declaration.
->    420	 */
->    421	static int __init do_early_param(char *param, char *val,
->    422					 const char *unused, void *arg);
->    423	
->    424	/*
->    425	 * bootconfig_apply_early_params - dispatch kernel.* keys from the embedded
->    426	 * bootconfig as early_param() calls.
->    427	 *
->    428	 * early_param() handlers must run before most of the kernel initialises
->    429	 * (e.g. before the GIC driver reads irqchip.gicv3_pseudo_nmi).  A bootconfig
->    430	 * attached to the initrd arrives too late for this because the initrd is not
->    431	 * mapped yet when early params are processed.  The embedded bootconfig lives
->    432	 * in the kernel image itself (.init.data), so it is always reachable.
->    433	 *
->    434	 * This function is called from setup_boot_config() which runs in
->    435	 * start_kernel() before parse_early_param(), making the timing correct.
->    436	 */
->  > 437	static void __init bootconfig_apply_early_params(void)
->    438	{
->    439		char val_buf[COMMAND_LINE_SIZE];
+FYI, the error/warning still remains.
 
-Ah, this COMMAND_LINE_SIZE is too big to allocate it on stack.
-We need to make it as a static __initdata variable.
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   bb47b925bb600e95cd776d4ab19d2b6c2ae342c7
+commit: dea1a925f6a164bc2b21ac2484983ae40347f012 [0/44] ANDROID: power_supply: Add a helper function to retrieve psy array from phandle
+config: i386-randconfig-003-20260325 (https://download.01.org/0day-ci/archive/20260325/202603251408.4x28wITg-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603251408.4x28wITg-lkp@intel.com/reproduce)
 
-Thank you,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603251408.4x28wITg-lkp@intel.com/
 
->    440		struct xbc_node *knode, *root;
->    441		const char *val;
->    442	
->    443		root = xbc_find_node("kernel");
->    444		if (!root)
->    445			return;
->    446	
->    447		/*
->    448		 * Keys that do not match any early_param() handler are silently
->    449		 * ignored — do_early_param() always returns 0.
->    450		 */
->    451		xbc_node_for_each_key_value(root, knode, val) {
->    452			if (xbc_node_compose_key_after(root, knode, xbc_namebuf, XBC_KEYLEN_MAX) < 0)
->    453				continue;
->    454	
->    455			if (!val) {
->    456				do_early_param(xbc_namebuf, NULL, NULL, NULL);
->    457				continue;
->    458			}
->    459	
->    460			/*
->    461			 * We need to copy const char *val to a char pointer,
->    462			 * which is what do_early_param() need, given it might
->    463			 * call strsep(), strtok() later.
->    464			 */
->    465			strscpy(val_buf, val, sizeof(val_buf));
->    466			do_early_param(xbc_namebuf, val_buf, NULL, NULL);
->    467		}
->    468	}
->    469	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+All warnings (new ones prefixed by >>):
 
+   In file included from include/linux/gfp.h:6,
+                    from include/linux/umh.h:4,
+                    from include/linux/kmod.h:9,
+                    from include/linux/module.h:16,
+                    from drivers/power/supply/power_supply_core.c:12:
+   include/linux/mmzone.h: In function '__nr_to_section':
+   include/linux/mmzone.h:1224:13: warning: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Waddress]
+    1224 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
+         |             ^
+   include/linux/mmzone.h:1210:27: note: 'mem_section' declared here
+    1210 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
+         |                           ^~~~~~~~~~~
+   drivers/power/supply/power_supply_core.c: In function 'power_supply_get_by_phandle_array':
+>> drivers/power/supply/power_supply_core.c:580:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     580 |         int ret;
+         |             ^~~
+
+
+vim +/ret +580 drivers/power/supply/power_supply_core.c
+
+   553	
+   554	/**
+   555	 * power_supply_get_by_phandle_array() - Similar to
+   556	 * power_supply_get_by_phandle but returns an array of power supply
+   557	 * objects which are associated with the phandle.
+   558	 * @np: Pointer to device node holding phandle property.
+   559	 * @property: Name of property holding a power supply name.
+   560	 * @psy: Array of power_supply pointers provided by the client which is
+   561	 * filled by power_supply_get_by_phandle_array.
+   562	 * @size: size of power_supply pointer array.
+   563	 *
+   564	 * If power supply was found, it increases reference count for the
+   565	 * internal power supply's device. The user should power_supply_put()
+   566	 * after usage.
+   567	 *
+   568	 * Return: On success returns the number of power supply objects filled
+   569	 * in the @psy array.
+   570	 * -EOVERFLOW when size of @psy array is not suffice.
+   571	 * -EINVAL when @psy is NULL or @size is 0.
+   572	 * -ENODEV when matching device_node is not found.
+   573	 */
+   574	int power_supply_get_by_phandle_array(struct device_node *np,
+   575					      const char *property,
+   576					      struct power_supply **psy,
+   577					      ssize_t size)
+   578	{
+   579		struct device_node *power_supply_np;
+ > 580		int ret;
+   581		struct match_device_node_array_param param;
+   582	
+   583		if (!psy || !size)
+   584			return -EINVAL;
+   585	
+   586		power_supply_np = of_parse_phandle(np, property, 0);
+   587		if (!power_supply_np)
+   588			return -ENODEV;
+   589	
+   590		param.parent_of_node = power_supply_np;
+   591		param.psy = psy;
+   592		param.psy_size = size;
+   593		param.psy_count = 0;
+   594		ret = class_for_each_device(power_supply_class, NULL, &param,
+   595					    power_supply_match_device_node_array);
+   596	
+   597		of_node_put(power_supply_np);
+   598	
+   599		return param.psy_count;
+   600	}
+   601	EXPORT_SYMBOL_GPL(power_supply_get_by_phandle_array);
+   602	
 
 -- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
