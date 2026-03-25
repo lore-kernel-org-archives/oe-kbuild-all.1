@@ -1,63 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CA2D3F9F43
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 19:43:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDCD83EFD03
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 19:43:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774467817; cv=none; b=TQXmx6z8YjgyEm8mdXiQ84LCZ7Q6rPfeKTnNNluCLCfz3a90vVnjpWJrcDiafkFPlo3QORqZKFBwKunJPV0k/IFZ0Qs+VX7m27pzSFo/yYAoh+4clxkJl1rVQsJx4lf5TkEyqIk1sK24zja5Fk+CSzLlfyIvRGofentzZGRE61c=
+	t=1774467818; cv=none; b=IA3DYF9qfmqS9Mgc4ugOji/LUrPFWd7HCbDHbkHmS5KPvIW5wt8XDrFfs1ej4lTUgimsdbQ1UkV0yAKgnWllaPvyzwz5rnwN0Ipm9m9M0T12hcOWQE64DkjAf0FoCaenpMsFalL5CvBjWEKjRNkOkV36UnfebdjG+9KOBFCGtKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774467817; c=relaxed/simple;
-	bh=h+2et9AATJvAXKRz1JEaiYX/PdeNyQMAxsAsRq8acjA=;
+	s=arc-20240116; t=1774467818; c=relaxed/simple;
+	bh=rYgsNbdWUy7p1aot6oXS/5j4DhaHYPzXO39UqVlBtTk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HRESWcjKOE+NnvOhiUJgiTKRIXSv2d7Xk8MFnHxKAhFG88uri8ZQpEhcFMr5x8CdHxzVpiKpIkCdGVD+XKe7Y3zAbfy/QT/pEVfRkVU3QUw9HGWgUyZs4npUXPesDaY/2ZZZzv8WfP5oPUTwVHbv9qPdUgnZDhjkIipW2mJS9TM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mud1EH0r; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=kEoa+OYeafFTznrRM8PtlVBGIGRxAahl6KrcO5GsHUlAooSecsNCYWpAs6WBEGwfc5K8rfXK0a0I9TdnGIubJEt/9spcePF0QVLUeLSSjq0tyn4NVsFdiUQ++2iDEEkdrOb8jLbQyUX8XIpEIT5T36H50zfsXz647UxipeD6cgI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mmHM42yS; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mud1EH0r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mmHM42yS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1774467812; x=1806003812;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=h+2et9AATJvAXKRz1JEaiYX/PdeNyQMAxsAsRq8acjA=;
-  b=mud1EH0ra36Qh4/DNbJbp2wn7y6JlxCMbfY6HKF3OyMCn7QGH/5vKbGi
-   t4Nk7DNQLSwHawCqntrg5NdvXZnSqxZuzJnX6H6/ta9/FPcvg/0LBk5fE
-   iNWodP4sy6h2KM19DQhLmMgtzIi3nsSM0NDqH9WJ8d4xuFI/QWnz+t0ae
-   YqQIs+trDLRLZZ8rGF3XfBXeWBRbJ4uVOnSHR01HB9qesDiHEkUeP/pv/
-   QlaCXyxEqLf7L9fm780PF57nyR+rw3GzH40ZqVGNLp5htmvkEHvlTud9y
-   h9S2mzJlHIbxzTXVNi5Sn0r3q44QA0IZ7jsOhMmCU1WZS1/4Ck9kBLuPo
-   A==;
-X-CSE-ConnectionGUID: VwhNVVhiSweJO9fqz4ToQQ==
-X-CSE-MsgGUID: ziQ5yYCYSjeAQ2VAq/rf3Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="86894738"
+  bh=rYgsNbdWUy7p1aot6oXS/5j4DhaHYPzXO39UqVlBtTk=;
+  b=mmHM42ySTaGZnqqRBJTREw+bmNH8S6NX2QYdpyAU5kuI4hFFccUE75lk
+   zGHKiiiSjcKyWC5fft1P3Dd/e7tOWHtTnaOirynJN2n+LN3Bxecz24KMK
+   byZ58T9cMI2B5Pf0XBKzbeMZAXJQHD2PS27CdpYv8KDa+NVcDBvF5PJGA
+   +jTTYioqIOhzM9RI2jIrEFK2dZrfDalC37CPpjVTJi2ODS++XaICoN/hw
+   h6Gyx4Nfs+F8F1oo/+pgkgaN+64L3mnm6r+eIyh7PSgkHKp04DVF5FasQ
+   wHpEGia+SRN8R4puh0gJpnou1G203od40ymyqRxR8n3b62aeJrBnFTB23
+   g==;
+X-CSE-ConnectionGUID: wJh1j5ocSJi17AjfXYFfaw==
+X-CSE-MsgGUID: 3yP1uJClTli2Lc3a88FO0g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="75402417"
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="86894738"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 12:43:31 -0700
-X-CSE-ConnectionGUID: w/GBflgjQe6ihgbKLxjR0Q==
-X-CSE-MsgGUID: xuQClG6hSwWUkPukvBv7dw==
+   d="scan'208";a="75402417"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 12:43:32 -0700
+X-CSE-ConnectionGUID: ifk88IbyS7Kr1yPKwJUlPA==
+X-CSE-MsgGUID: 4I7rBnVYTMq9+A03FZt5WA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="255275032"
+   d="scan'208";a="247810784"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 25 Mar 2026 12:43:29 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 25 Mar 2026 12:43:29 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5U8U-000000007bl-1CTb;
+	id 1w5U8U-000000007bn-1Iku;
 	Wed, 25 Mar 2026 19:43:26 +0000
-Date: Thu, 26 Mar 2026 03:42:49 +0800
+Date: Thu, 26 Mar 2026 03:42:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gabriel Rondon <grondon@gmail.com>, Jonathan Cameron <jic23@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] iio: adc: ti-ads8688: use read_avail for available
- attributes
-Message-ID: <202603260345.PUPcPFND-lkp@intel.com>
-References: <20260325110942.65337-1-grondon@gmail.com>
+To: "Derek J. Clark" <derekjohn.clark@gmail.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Hans de Goede <hansg@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Pearson <mpearson-lenovo@squebb.ca>,
+	Armin Wolf <W_Armin@gmx.de>, Jonathan Corbet <corbet@lwn.net>,
+	Rong Zhang <i@rong.moe>, Kurt Borja <kuurtb@gmail.com>,
+	"Derek J . Clark" <derekjohn.clark@gmail.com>,
+	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 8/8] platform/x86: lenovo-wmi-other: Add WMI battery
+ charge limiting
+Message-ID: <202603260302.X0NjQOda-lkp@intel.com>
+References: <20260324221032.1333636-9-derekjohn.clark@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,46 +69,118 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260325110942.65337-1-grondon@gmail.com>
+In-Reply-To: <20260324221032.1333636-9-derekjohn.clark@gmail.com>
 
-Hi Gabriel,
+Hi Derek,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on linus/master v7.0-rc5 next-20260325]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v7.0-rc5 next-20260324]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gabriel-Rondon/iio-adc-ti-ads8688-use-read_avail-for-available-attributes/20260325-195933
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20260325110942.65337-1-grondon%40gmail.com
-patch subject: [PATCH v2] iio: adc: ti-ads8688: use read_avail for available attributes
-config: riscv-randconfig-001-20260326 (https://download.01.org/0day-ci/archive/20260326/202603260345.PUPcPFND-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260326/202603260345.PUPcPFND-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Derek-J-Clark/platform-x86-lenovo-wmi-other-Move-LWMI_FAN_DIV/20260325-070851
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260324221032.1333636-9-derekjohn.clark%40gmail.com
+patch subject: [PATCH v5 8/8] platform/x86: lenovo-wmi-other: Add WMI battery charge limiting
+config: x86_64-randconfig-005-20260325 (https://download.01.org/0day-ci/archive/20260326/202603260302.X0NjQOda-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260326/202603260302.X0NjQOda-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603260345.PUPcPFND-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603260302.X0NjQOda-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/iio/adc/ti-ads8688.c:117:2: warning: overflow in conversion from 'long unsigned int' to 'int' changes value from '18446744073709518848' to '-32768' [-Woverflow]
-     117 |  -BIT(ADS8688_REALBITS - 1),
-         |  ^
+   ld: vmlinux.o: in function `lwmi_om_fan_get_set':
+>> drivers/platform/x86/lenovo/wmi-other.c:206:(.text+0x1b74542): undefined reference to `lwmi_attr_id'
+   ld: vmlinux.o: in function `lwmi_attr_01_is_supported':
+   drivers/platform/x86/lenovo/wmi-other.c:1267:(.text+0x1b74fdf): undefined reference to `lwmi_attr_id'
+>> ld: drivers/platform/x86/lenovo/wmi-other.c:1270:(.text+0x1b75013): undefined reference to `lwmi_cd01_get_data'
+>> ld: drivers/platform/x86/lenovo/wmi-other.c:1283:(.text+0x1b7515b): undefined reference to `lwmi_attr_id'
+   ld: drivers/platform/x86/lenovo/wmi-other.c:1299:(.text+0x1b752f4): undefined reference to `lwmi_attr_id'
+   ld: vmlinux.o: in function `lwmi_om_fan_info_collect_cd_fan':
+>> drivers/platform/x86/lenovo/wmi-other.c:565:(.text+0x1b75ca3): undefined reference to `lwmi_cd_fan_get_data'
+   ld: vmlinux.o: in function `lwmi_psy_prop_is_writeable':
+   drivers/platform/x86/lenovo/wmi-other.c:687:(.text+0x1b75e2f): undefined reference to `lwmi_attr_id'
+>> ld: drivers/platform/x86/lenovo/wmi-other.c:690:(.text+0x1b75e5a): undefined reference to `lwmi_cd00_get_data'
+   ld: vmlinux.o: in function `lwmi_psy_ext_set_prop':
+   drivers/platform/x86/lenovo/wmi-other.c:649:(.text+0x1b75f9b): undefined reference to `lwmi_attr_id'
+   ld: vmlinux.o: in function `lwmi_psy_ext_get_prop':
+   drivers/platform/x86/lenovo/wmi-other.c:603:(.text+0x1b761aa): undefined reference to `lwmi_attr_id'
+   ld: vmlinux.o: in function `lwmi_other_probe':
+>> drivers/platform/x86/lenovo/wmi-other.c:1612:(.text+0x1b764eb): undefined reference to `lwmi_cd_match_add_all'
+   ld: vmlinux.o: in function `lwmi_om_fan_info_collect_cd00':
+   drivers/platform/x86/lenovo/wmi-other.c:540:(.text+0x1b7680f): undefined reference to `lwmi_attr_id'
+   ld: drivers/platform/x86/lenovo/wmi-other.c:540:(.text+0x1b76838): undefined reference to `lwmi_cd00_get_data'
+   ld: vmlinux.o: in function `lwmi_om_ps_ext_init':
+>> drivers/platform/x86/lenovo/wmi-other.c:806:(.text+0x1b76a57): undefined reference to `devm_battery_hook_register'
+   ld: vmlinux.o: in function `lwmi_om_fw_attr_add':
+>> drivers/platform/x86/lenovo/wmi-other.c:1474:(.text+0x1b76afa): undefined reference to `firmware_attributes_class'
+   ld: vmlinux.o: in function `attr_current_value_show':
+   drivers/platform/x86/lenovo/wmi-other.c:1225:(.text+0x1b77015): undefined reference to `lwmi_attr_id'
+   ld: vmlinux.o: in function `attr_current_value_store':
+   drivers/platform/x86/lenovo/wmi-other.c:1165:(.text+0x1b776e2): undefined reference to `lwmi_attr_id'
+   ld: drivers/platform/x86/lenovo/wmi-other.c:1168:(.text+0x1b7771c): undefined reference to `lwmi_cd01_get_data'
+   ld: drivers/platform/x86/lenovo/wmi-other.c:1179:(.text+0x1b7781e): undefined reference to `lwmi_attr_id'
+   ld: vmlinux.o: in function `attr_capdata01_show':
+   drivers/platform/x86/lenovo/wmi-other.c:1099:(.text+0x1b77e38): undefined reference to `lwmi_attr_id'
+   ld: drivers/platform/x86/lenovo/wmi-other.c:1102:(.text+0x1b77e67): undefined reference to `lwmi_cd01_get_data'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for LENOVO_WMI_TUNING
+   Depends on [m]: X86_PLATFORM_DEVICES [=y] && ACPI_WMI [=y] && ACPI_BATTERY [=m]
+   Selected by [y]:
+   - LENOVO_WMI_GAMEZONE [=y] && X86_PLATFORM_DEVICES [=y] && ACPI_WMI [=y] && DMI [=y]
 
 
-vim +117 drivers/iio/adc/ti-ads8688.c
+vim +206 drivers/platform/x86/lenovo/wmi-other.c
 
-   115	
-   116	static const int ads8688_offset_avail[] = {
- > 117		-BIT(ADS8688_REALBITS - 1),
-   118		0
-   119	};
-   120	
+51ed34282f63fa Rong Zhang 2026-01-21  186  
+51ed34282f63fa Rong Zhang 2026-01-21  187  /**
+51ed34282f63fa Rong Zhang 2026-01-21  188   * lwmi_om_fan_get_set() - Get or set fan RPM value of specified fan
+51ed34282f63fa Rong Zhang 2026-01-21  189   * @priv: Driver private data structure
+51ed34282f63fa Rong Zhang 2026-01-21  190   * @channel: Fan channel index (0-based)
+51ed34282f63fa Rong Zhang 2026-01-21  191   * @val: Pointer to value (input for set, output for get)
+51ed34282f63fa Rong Zhang 2026-01-21  192   * @set: True to set value, false to get value
+51ed34282f63fa Rong Zhang 2026-01-21  193   *
+51ed34282f63fa Rong Zhang 2026-01-21  194   * Communicates with WMI interface to either retrieve current fan RPM
+51ed34282f63fa Rong Zhang 2026-01-21  195   * or set target fan RPM.
+51ed34282f63fa Rong Zhang 2026-01-21  196   *
+51ed34282f63fa Rong Zhang 2026-01-21  197   * Return: 0 on success, or an error code.
+51ed34282f63fa Rong Zhang 2026-01-21  198   */
+51ed34282f63fa Rong Zhang 2026-01-21  199  static int lwmi_om_fan_get_set(struct lwmi_om_priv *priv, int channel, u32 *val, bool set)
+51ed34282f63fa Rong Zhang 2026-01-21  200  {
+51ed34282f63fa Rong Zhang 2026-01-21  201  	struct wmi_method_args_32 args;
+51ed34282f63fa Rong Zhang 2026-01-21  202  	u32 method_id, retval;
+51ed34282f63fa Rong Zhang 2026-01-21  203  	int err;
+51ed34282f63fa Rong Zhang 2026-01-21  204  
+51ed34282f63fa Rong Zhang 2026-01-21  205  	method_id = set ? LWMI_FEATURE_VALUE_SET : LWMI_FEATURE_VALUE_GET;
+51ed34282f63fa Rong Zhang 2026-01-21 @206  	args.arg0 = LWMI_ATTR_ID_FAN_RPM(channel);
+51ed34282f63fa Rong Zhang 2026-01-21  207  	args.arg1 = set ? *val : 0;
+51ed34282f63fa Rong Zhang 2026-01-21  208  
+51ed34282f63fa Rong Zhang 2026-01-21  209  	err = lwmi_dev_evaluate_int(priv->wdev, 0x0, method_id,
+51ed34282f63fa Rong Zhang 2026-01-21  210  				    (unsigned char *)&args, sizeof(args), &retval);
+51ed34282f63fa Rong Zhang 2026-01-21  211  	if (err)
+51ed34282f63fa Rong Zhang 2026-01-21  212  		return err;
+51ed34282f63fa Rong Zhang 2026-01-21  213  
+51ed34282f63fa Rong Zhang 2026-01-21  214  	if (!set) {
+51ed34282f63fa Rong Zhang 2026-01-21  215  		*val = retval;
+51ed34282f63fa Rong Zhang 2026-01-21  216  		return 0;
+51ed34282f63fa Rong Zhang 2026-01-21  217  	}
+51ed34282f63fa Rong Zhang 2026-01-21  218  
+51ed34282f63fa Rong Zhang 2026-01-21  219  	/*
+51ed34282f63fa Rong Zhang 2026-01-21  220  	 * It seems that 0 means "no error" and 1 means "done". Apparently
+51ed34282f63fa Rong Zhang 2026-01-21  221  	 * different firmware teams have different thoughts on indicating
+51ed34282f63fa Rong Zhang 2026-01-21  222  	 * success, so we accepts both.
+51ed34282f63fa Rong Zhang 2026-01-21  223  	 */
+51ed34282f63fa Rong Zhang 2026-01-21  224  	return (retval == 0 || retval == 1) ? 0 : -EIO;
+51ed34282f63fa Rong Zhang 2026-01-21  225  }
+51ed34282f63fa Rong Zhang 2026-01-21  226  
 
 -- 
 0-DAY CI Kernel Test Service
