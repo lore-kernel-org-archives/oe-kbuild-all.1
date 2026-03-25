@@ -1,104 +1,168 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F19B26ACC;
-	Wed, 25 Mar 2026 03:00:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EE67200C2
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 03:11:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774407648; cv=none; b=Z5aUkHGvKWKUJkICw4hBlig4xc1zHCP3+oC/bmEcepZwhLrh7pDoPwKTvTqGGjKCWZ9m/28VN96Fpi2jAQoAiuj1zhpC1jXZd3kTNL6iFKqhAR84wcScZhXJ8V3AN/qNpnGwNKC9pWyGa0FrUKj+Ux4A5Gr5jEp8hi02d+PsYIk=
+	t=1774408308; cv=none; b=f9QMYcSyzcetzzFbQd27+kS7b61fzSkne2E+D8iRIFrDwPRMGwwMLm4gePlKPbH+81ebcFO6SOTBHxqXqYk75WWtuenZyCXrYZ/+z6fnueAfm86e0vQOaJuVNsYVWEqPnZLRmBLCPbf37e6TXApSQTMNnarW5dLXLDEo41IJZEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774407648; c=relaxed/simple;
-	bh=9+Or/O2QRNSuXfOKnlqTobmm6AJcAP1aCebqTGA81ps=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=SnmQGJOaQZQAX+/0JoFfjoD00ClLOth0zOBRv079FX/LcEe+/UU01dEsztCfJH+eSSSSlL4cIW8fy11AOM1JIcojDbUn1aIuNKhPZlyz7hs3q/1iOFV3rSE9HSrXbCOvIcfZkJTLTf5RnPXRlslSgPuYQRkThi21W0eOMQqlDg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Co4d3Ha4; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1774408308; c=relaxed/simple;
+	bh=ZkltJBbc0+wxrNQ/PVi2SHIeuCkmUfAXUF66t+KSeNA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DfJfQEweZIiMa4R2adE/sJrcqmjc6zOb7P8ho/miPBrZHBd63BgcJHgLrAprLYOg4I63NxnWbPsKlJTjcaTaIBNXtcjdQZKnFUZ4tWLzl+/QVW1pY4PQZIpf+gqi9Bo5HwVSoMngu+as5v7Nx7FMJCGD+5TKLmZMjQ21fG4W+qs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lRQh43mC; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Co4d3Ha4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lRQh43mC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774407647; x=1805943647;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9+Or/O2QRNSuXfOKnlqTobmm6AJcAP1aCebqTGA81ps=;
-  b=Co4d3Ha4tuxynsTg2S1mIVbp068ME4oOIlGH9TNVzx7GnVwNadv5BRlm
-   Vcmb75fThx+Qw8shkrKMoPGExvjfDD65dHXchvhhG+/Q5k9WkN6KmvjyK
-   OpQrF1BF+KZ/MlHuOcyMs1a/4GQu0XCgRIs09IoyXRXgz7tdh0FluRkGO
-   ABQHTz5QbfYbOb73ysnzFm1NTNYt729u/+uMvp0PoY+tMs/9QgA0MZaaQ
-   ZxSuPgDzIb/a9IPFdhFn1MziMS0HnYlGZL9OYYrD4xnQsdbewtbUXcu6y
-   yGfOnbse3QjgcktCMrtVCdQ2aRnHOfV8bGbsNgnRSHjOnc5wmkY/BAnzO
-   w==;
-X-CSE-ConnectionGUID: LaWqqFfxS9m7LdYBz+qJqw==
-X-CSE-MsgGUID: 4c26ZkJIS2iSjaL0675FGw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="62988146"
+  t=1774408307; x=1805944307;
+  h=date:from:to:cc:subject:message-id;
+  bh=ZkltJBbc0+wxrNQ/PVi2SHIeuCkmUfAXUF66t+KSeNA=;
+  b=lRQh43mCpb4lZ85Muh4z9hv55DerTe1IVAofQ3HNs7kL0K4RNdrGAy9J
+   Swci5Eq4M0NYEMXXytx9iJPTnzlLmfWCqaG6xkMscr6fzls3j05k72cQf
+   rjbLkR/2jnbyf8cPpp6EO0vCn2to0NhyZwtvicRDMYYs8c06vRaUzBVUG
+   t6ArluFzHBgvsMEsnMmRpyujbLhunlBgbyLlvpM27LRIx97TYdRIEFG1R
+   BsXZVnDslkx6/eN1bg4OpoSYnP8pJMbOx5QcgMumOZmMU6AFVDYyoHMKz
+   Ce0cIVdCOnSltNeGN7xMcQ8ZsmG4RaZ61p5IdD3VpK5lk1oRX7HTs1c91
+   A==;
+X-CSE-ConnectionGUID: 9ue09hvlTDKS+yG6V0UplA==
+X-CSE-MsgGUID: p9BTmrMjS3iRvlfYJRD70A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="86915769"
 X-IronPort-AV: E=Sophos;i="6.23,139,1770624000"; 
-   d="scan'208";a="62988146"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 20:00:46 -0700
-X-CSE-ConnectionGUID: aMcm8Gz2TueBkRKbaX3zxw==
-X-CSE-MsgGUID: yE+pH8MYRq2lfpwPK18/5Q==
+   d="scan'208";a="86915769"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 20:11:46 -0700
+X-CSE-ConnectionGUID: a9TdcdxfTnGFS7uzWEVNOw==
+X-CSE-MsgGUID: kolyf6s8QRuLXILDEdlCMQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,139,1770624000"; 
-   d="scan'208";a="229013959"
+   d="scan'208";a="221208232"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 24 Mar 2026 20:00:44 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 24 Mar 2026 20:11:44 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5EU5-000000005ob-1RnS;
-	Wed, 25 Mar 2026 03:00:41 +0000
-Date: Wed, 25 Mar 2026 11:00:22 +0800
+	id 1w5Eej-000000005on-1vzE;
+	Wed, 25 Mar 2026 03:11:41 +0000
+Date: Wed, 25 Mar 2026 11:10:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <linux@weissschuh.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/vdso-ifdeffery 4/6]
- arch/s390/kernel/vdso/../../../../lib/vdso/gettimeofday.c:446:21: error:
- conflicting types for 'clock_getres_fallback'
-Message-ID: <202603251030.3ui5hvv6-lkp@intel.com>
+To: Chengkaitao <chengkaitao@kylinos.cn>
+Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>
+Subject: [akpm-mm:mm-stable 72/140] arch/sparc/mm/init_64.c:2582:16:
+ error: implicit declaration of function 'vmemmap_pgd_populate'; did you mean
+ 'vmemmap_populate'?
+Message-ID: <202603251147.CtgepAeH-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/vdso-ifdeffery
-head:   45c96fcd1b5efdc20a7638f8aafec16f4572a94b
-commit: 541db7c42182bf886177c34f5bef756f958e99e2 [4/6] getres fallbacks
-config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20260325/202603251030.3ui5hvv6-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603251030.3ui5hvv6-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-stable
+head:   e393ce79b3cf63c2810be882eb6e531a54f520f4
+commit: e504282091c8e4dc4f945c89d9b44ac2e0bfe504 [72/140] mm: convert vmemmap_p?d_populate() to static functions
+config: sparc-randconfig-001-20260325 (https://download.01.org/0day-ci/archive/20260325/202603251147.CtgepAeH-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603251147.CtgepAeH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603251030.3ui5hvv6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603251147.CtgepAeH-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from arch/s390/kernel/vdso/vdso_generic.c:2:
->> arch/s390/kernel/vdso/../../../../lib/vdso/gettimeofday.c:446:21: error: conflicting types for 'clock_getres_fallback'
-     446 | __always_inline int clock_getres_fallback(clockid_t _clkid, struct __kernel_timespec *_ts);
-         |                     ^
-   arch/s390/include/asm/vdso/gettimeofday.h:34:6: note: previous definition is here
-      34 | long clock_getres_fallback(clockid_t clkid, struct __kernel_timespec *ts)
-         |      ^
-   1 error generated.
-   make[3]: *** [arch/s390/kernel/vdso/Makefile:62: arch/s390/kernel/vdso/vdso_generic.o] Error 1
-   make[3]: Target 'include/generated/vdso-offsets.h' not remade because of errors.
-   make[2]: *** [arch/s390/Makefile:154: vdso_prepare] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   arch/sparc/mm/init_64.c: In function 'sun4v_linear_pte_xor_finalize':
+   arch/sparc/mm/init_64.c:2202:16: warning: variable 'pagecv_flag' set but not used [-Wunused-but-set-variable]
+     unsigned long pagecv_flag;
+                   ^~~~~~~~~~~
+   arch/sparc/mm/init_64.c: In function 'vmemmap_populate':
+>> arch/sparc/mm/init_64.c:2582:16: error: implicit declaration of function 'vmemmap_pgd_populate'; did you mean 'vmemmap_populate'? [-Werror=implicit-function-declaration]
+      pgd_t *pgd = vmemmap_pgd_populate(vstart, node);
+                   ^~~~~~~~~~~~~~~~~~~~
+                   vmemmap_populate
+>> arch/sparc/mm/init_64.c:2582:16: warning: initialization of 'pgd_t *' {aka 'struct <anonymous> *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>> arch/sparc/mm/init_64.c:2591:9: error: implicit declaration of function 'vmemmap_p4d_populate'; did you mean 'vmemmap_populate'? [-Werror=implicit-function-declaration]
+      p4d = vmemmap_p4d_populate(pgd, vstart, node);
+            ^~~~~~~~~~~~~~~~~~~~
+            vmemmap_populate
+>> arch/sparc/mm/init_64.c:2591:7: warning: assignment to 'p4d_t *' {aka 'struct <anonymous> *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      p4d = vmemmap_p4d_populate(pgd, vstart, node);
+          ^
+>> arch/sparc/mm/init_64.c:2595:9: error: implicit declaration of function 'vmemmap_pud_populate'; did you mean 'vmemmap_populate'? [-Werror=implicit-function-declaration]
+      pud = vmemmap_pud_populate(p4d, vstart, node);
+            ^~~~~~~~~~~~~~~~~~~~
+            vmemmap_populate
+>> arch/sparc/mm/init_64.c:2595:7: warning: assignment to 'pud_t *' {aka 'struct <anonymous> *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      pud = vmemmap_pud_populate(p4d, vstart, node);
+          ^
+   cc1: some warnings being treated as errors
 
 
-vim +/clock_getres_fallback +446 arch/s390/kernel/vdso/../../../../lib/vdso/gettimeofday.c
+vim +2582 arch/sparc/mm/init_64.c
 
-   445	
- > 446	__always_inline int clock_getres_fallback(clockid_t _clkid, struct __kernel_timespec *_ts);
-   447	
+c4bce90ea2069e arch/sparc64/mm/init.c  David S. Miller   2006-02-11  2563  
+46644c2477c589 arch/sparc64/mm/init.c  David Miller      2007-10-16  2564  #ifdef CONFIG_SPARSEMEM_VMEMMAP
+0aad818b2de455 arch/sparc/mm/init_64.c Johannes Weiner   2013-04-29  2565  int __meminit vmemmap_populate(unsigned long vstart, unsigned long vend,
+7b73d978a5d0d2 arch/sparc/mm/init_64.c Christoph Hellwig 2017-12-29  2566  			       int node, struct vmem_altmap *altmap)
+46644c2477c589 arch/sparc64/mm/init.c  David Miller      2007-10-16  2567  {
+46644c2477c589 arch/sparc64/mm/init.c  David Miller      2007-10-16  2568  	unsigned long pte_base;
+46644c2477c589 arch/sparc64/mm/init.c  David Miller      2007-10-16  2569  
+46644c2477c589 arch/sparc64/mm/init.c  David Miller      2007-10-16  2570  	pte_base = (_PAGE_VALID | _PAGE_SZ4MB_4U |
+46644c2477c589 arch/sparc64/mm/init.c  David Miller      2007-10-16  2571  		    _PAGE_CP_4U | _PAGE_CV_4U |
+46644c2477c589 arch/sparc64/mm/init.c  David Miller      2007-10-16  2572  		    _PAGE_P_4U | _PAGE_W_4U);
+46644c2477c589 arch/sparc64/mm/init.c  David Miller      2007-10-16  2573  	if (tlb_type == hypervisor)
+46644c2477c589 arch/sparc64/mm/init.c  David Miller      2007-10-16  2574  		pte_base = (_PAGE_VALID | _PAGE_SZ4MB_4V |
+494e5b6faeda1d arch/sparc/mm/init_64.c Khalid Aziz       2015-05-27  2575  			    page_cache4v_flag | _PAGE_P_4V | _PAGE_W_4V);
+46644c2477c589 arch/sparc64/mm/init.c  David Miller      2007-10-16  2576  
+c06240c7f5c39c arch/sparc/mm/init_64.c David S. Miller   2014-09-24  2577  	pte_base |= _PAGE_PMD_HUGE;
+46644c2477c589 arch/sparc64/mm/init.c  David Miller      2007-10-16  2578  
+c06240c7f5c39c arch/sparc/mm/init_64.c David S. Miller   2014-09-24  2579  	vstart = vstart & PMD_MASK;
+c06240c7f5c39c arch/sparc/mm/init_64.c David S. Miller   2014-09-24  2580  	vend = ALIGN(vend, PMD_SIZE);
+c06240c7f5c39c arch/sparc/mm/init_64.c David S. Miller   2014-09-24  2581  	for (; vstart < vend; vstart += PMD_SIZE) {
+df8ee578894ebb arch/sparc/mm/init_64.c Pavel Tatashin    2017-11-15 @2582  		pgd_t *pgd = vmemmap_pgd_populate(vstart, node);
+c06240c7f5c39c arch/sparc/mm/init_64.c David S. Miller   2014-09-24  2583  		unsigned long pte;
+5637bc50483404 arch/sparc/mm/init_64.c Mike Rapoport     2019-11-24  2584  		p4d_t *p4d;
+c06240c7f5c39c arch/sparc/mm/init_64.c David S. Miller   2014-09-24  2585  		pud_t *pud;
+c06240c7f5c39c arch/sparc/mm/init_64.c David S. Miller   2014-09-24  2586  		pmd_t *pmd;
+46644c2477c589 arch/sparc64/mm/init.c  David Miller      2007-10-16  2587  
+df8ee578894ebb arch/sparc/mm/init_64.c Pavel Tatashin    2017-11-15  2588  		if (!pgd)
+c06240c7f5c39c arch/sparc/mm/init_64.c David S. Miller   2014-09-24  2589  			return -ENOMEM;
+c06240c7f5c39c arch/sparc/mm/init_64.c David S. Miller   2014-09-24  2590  
+5637bc50483404 arch/sparc/mm/init_64.c Mike Rapoport     2019-11-24 @2591  		p4d = vmemmap_p4d_populate(pgd, vstart, node);
+5637bc50483404 arch/sparc/mm/init_64.c Mike Rapoport     2019-11-24  2592  		if (!p4d)
+5637bc50483404 arch/sparc/mm/init_64.c Mike Rapoport     2019-11-24  2593  			return -ENOMEM;
+5637bc50483404 arch/sparc/mm/init_64.c Mike Rapoport     2019-11-24  2594  
+5637bc50483404 arch/sparc/mm/init_64.c Mike Rapoport     2019-11-24 @2595  		pud = vmemmap_pud_populate(p4d, vstart, node);
+df8ee578894ebb arch/sparc/mm/init_64.c Pavel Tatashin    2017-11-15  2596  		if (!pud)
+c06240c7f5c39c arch/sparc/mm/init_64.c David S. Miller   2014-09-24  2597  			return -ENOMEM;
+c06240c7f5c39c arch/sparc/mm/init_64.c David S. Miller   2014-09-24  2598  
+c06240c7f5c39c arch/sparc/mm/init_64.c David S. Miller   2014-09-24  2599  		pmd = pmd_offset(pud, vstart);
+c06240c7f5c39c arch/sparc/mm/init_64.c David S. Miller   2014-09-24  2600  		pte = pmd_val(*pmd);
+c06240c7f5c39c arch/sparc/mm/init_64.c David S. Miller   2014-09-24  2601  		if (!(pte & _PAGE_VALID)) {
+c06240c7f5c39c arch/sparc/mm/init_64.c David S. Miller   2014-09-24  2602  			void *block = vmemmap_alloc_block(PMD_SIZE, node);
+c06240c7f5c39c arch/sparc/mm/init_64.c David S. Miller   2014-09-24  2603  
+c06240c7f5c39c arch/sparc/mm/init_64.c David S. Miller   2014-09-24  2604  			if (!block)
+c06240c7f5c39c arch/sparc/mm/init_64.c David S. Miller   2014-09-24  2605  				return -ENOMEM;
+c06240c7f5c39c arch/sparc/mm/init_64.c David S. Miller   2014-09-24  2606  
+c06240c7f5c39c arch/sparc/mm/init_64.c David S. Miller   2014-09-24  2607  			pmd_val(*pmd) = pte_base | __pa(block);
+46644c2477c589 arch/sparc64/mm/init.c  David Miller      2007-10-16  2608  		}
+46644c2477c589 arch/sparc64/mm/init.c  David Miller      2007-10-16  2609  	}
+2856cc2e4d0852 arch/sparc/mm/init_64.c David S. Miller   2012-08-15  2610  
+c06240c7f5c39c arch/sparc/mm/init_64.c David S. Miller   2014-09-24  2611  	return 0;
+2856cc2e4d0852 arch/sparc/mm/init_64.c David S. Miller   2012-08-15  2612  }
+46644c2477c589 arch/sparc64/mm/init.c  David Miller      2007-10-16  2613  #endif /* CONFIG_SPARSEMEM_VMEMMAP */
+46644c2477c589 arch/sparc64/mm/init.c  David Miller      2007-10-16  2614  
+
+:::::: The code at line 2582 was first introduced by commit
+:::::: df8ee578894ebb591c2995cce422e6189c8bb757 sparc64: simplify vmemmap_populate
+
+:::::: TO: Pavel Tatashin <pasha.tatashin@oracle.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
