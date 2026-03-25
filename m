@@ -1,58 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095E6394464
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 08:13:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E23F394464
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 08:13:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774426412; cv=none; b=Rosau9yFWVrT99jU9NTun9slXn1oi03demSEbHi+hNDK0/tPf1WMWhXpVmwlOu0J3lPU9+lTaOmrzgsa2ONFxFCZwEqOtlDk2112pncgCxI/iuTYmU7BD3cUYWEiKPnS2HS5nSfM0lFRQG8YpjTwNFgKCHu/+LujMYhGRiKNnOk=
+	t=1774426414; cv=none; b=k+sc4lbyyUfWDcJKO4yHgosnpUCBQr+EHUJW4IpHPMI6TYHaeFMldXrCYgqvmX2C+G62AHAeZztcTlIGYTAdaO/ydkqYg9N80CwJJUA9MLrZh2jPKYDFhKzspkugH0HlMGkMkZAcsA76Tapi0EL7GhlZnpRTvdGnz/WpaVfyjO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774426412; c=relaxed/simple;
-	bh=Ec8nF9HFlePCLiOWz0x3BZrdBXI6kX4GYe8dqtQm9wQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=RrAmyx9UFIpTdaqJQExQSuXEcQHgrmmEwSizXorX8rX375kBV9742+/LOR4yKa8blxbh6df+mrlO0JQ0QRXiMv8lecqr1DDGNies+mL29BoYzWuZigYqmRdXkJk1bGnCVk8jt3fDECQsYPN79nhak4iqtl8NvBXhb5Dy0JKtUFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fLPeoRde; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1774426414; c=relaxed/simple;
+	bh=HNn7EDQywEJX+gVeKleGiQDRKcBmgyu509R5Xi6zokU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=LAAwVnOm9ICUJpyKIKrUbpa5DYKTokB1cVjjiB3x3P2qZK4hQn9VipMNgcI+45R4ed7WRxiHTVKsb4PfcEBU5R5TafLfw6He1sEANlJuALaLCnnEIARXF/NyYrwUF+5YVfBs/eqPi6fKgvs5T9kYGjFmQa3kj3L2p1yoUZ/kzBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f9jDbXrb; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fLPeoRde"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f9jDbXrb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774426410; x=1805962410;
+  t=1774426412; x=1805962412;
   h=date:from:to:cc:subject:message-id;
-  bh=Ec8nF9HFlePCLiOWz0x3BZrdBXI6kX4GYe8dqtQm9wQ=;
-  b=fLPeoRdeobrqqpwLLwHgNqeMuBCXf6DUXw7BPBGINfYQC050Pgpa9ROn
-   MsNJ8/NceMrW0euhEYBRzjofOuEOo6+gqMqgbXRV8T7nGiyC9th4NEN7O
-   +4y8BqgQwqcBpDXDqcwfJOGIvbi0sdRrJ4uwUhBnpkAdtjNuiWWVy3ejI
-   MM/G+AMFaCUp2xsoI4Iei1YilMG2D43E5S1G9o19g+pX1bQ+TN/3VWbvJ
-   5WunFJAAGXLhQDuMWd/TwNjRVudlzyrsZsRBGwVMrX7bMu/rxCRke/uVs
-   SaazVZFW2xtBK+TXbPZnzmPh9zijvWf6ZrJiaovdfNfZfrOo4Alz0rM7j
-   g==;
-X-CSE-ConnectionGUID: WhozwfZSSaeoATScpFzJjg==
-X-CSE-MsgGUID: AWBYsTsIRhKLI6E4VwKxoQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="86152198"
+  bh=HNn7EDQywEJX+gVeKleGiQDRKcBmgyu509R5Xi6zokU=;
+  b=f9jDbXrbdIy0lSD8DTXy1dASaJW9EMN3MZeXEYRCcGqAv2kp/Xhtv7HC
+   +NNvYBdCbydcyIQMhenAW0q5cz3NXGXVbvX++rZGvix3g7LbAef423dpO
+   JkO9O43XXCyFanc6AvvfCfZKEO5scKWK4or1O0TNL14btDD4OWBbYdDbC
+   xFcYyp80mvGidaTQUeVrqrEL/VnVtVuz9KrZIcN8gCocCP9xobLBQN+Hw
+   Akx162Q24cK82kPdfQoFsyeepSZ6bXYZ6ACmSOZ8Uk1kJZaJeYTuhN2NK
+   PoPDn7vTqcXdS+LYnG57aKVGYGKY4hJ2/Gay4eo+Tr6tPcQzIGlM0FLyc
+   Q==;
+X-CSE-ConnectionGUID: QBwfcW+FRQCcO82Y5uBLMA==
+X-CSE-MsgGUID: 3i/zIgIQRGW9zYgpVvebAQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="75526351"
 X-IronPort-AV: E=Sophos;i="6.23,139,1770624000"; 
-   d="scan'208";a="86152198"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 01:13:29 -0700
-X-CSE-ConnectionGUID: 9QNNqc9jRg+assYOvWhulw==
-X-CSE-MsgGUID: UIA0VlBLTs2lixJZAdl8PA==
+   d="scan'208";a="75526351"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 01:13:31 -0700
+X-CSE-ConnectionGUID: HeCb7w5EQuCmV5gPEbw9Xw==
+X-CSE-MsgGUID: NzUZlmlgT422cXo/4BgBIA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,139,1770624000"; 
-   d="scan'208";a="220195768"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 25 Mar 2026 01:13:28 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+   d="scan'208";a="262538004"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 25 Mar 2026 01:13:29 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5JMj-000000006TN-1xPm;
-	Wed, 25 Mar 2026 08:13:25 +0000
-Date: Wed, 25 Mar 2026 16:12:59 +0800
+	id 1w5JMk-0000000073d-3Zy6;
+	Wed, 25 Mar 2026 08:13:26 +0000
+Date: Wed, 25 Mar 2026 09:12:31 +0100
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 1/1]
- drivers/virt/gunyah/vm_mgr.c:887:5: warning: no previous prototype for
- function 'gunyah_gup_reclaim_parcel'
-Message-ID: <202603251635.nmE3jxBx-lkp@intel.com>
+To: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abel Vesa <abel.vesa@oss.qualcomm.com>
+Subject: [linux-next:master 7247/8611]
+ arch/arm64/boot/dts/qcom/glymur-crd.dtb: clock-controller@100000
+ (qcom,glymur-gcc): clocks: [[58, 0], [58, 1], [59], [0], [0], [0], [0], [0],
+ [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [60], [61], [62],
+ [63], [0], [0], [0], [0], [0], [0], [0],...
+Message-ID: <202603250928.hGD5tCON-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,125 +66,132 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Sreenad,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   36e33448be90aea3d2e98da271b35aac511b8dc6
-commit: 296cceed084451decfd348415b1db9c833443713 [1/1] ANDROID: virt: gunyah: Add gup based demand paging support
-config: arm64-randconfig-r054-20260325 (https://download.01.org/0day-ci/archive/20260325/202603251635.nmE3jxBx-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603251635.nmE3jxBx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   85964cdcad0fac9a0eb7b87a0f9d88cc074b854c
+commit: 83f88b7dda2c71fd5ff0b0b44b47e20a51270ae4 [7247/8611] arm64: dts: qcom: glymur: Add USB related nodes
+config: arm64-randconfig-2051-20260324 (https://download.01.org/0day-ci/archive/20260325/202603250928.hGD5tCON-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+dtschema: 2025.13.dev8+g0515abdd9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603250928.hGD5tCON-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603251635.nmE3jxBx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603250928.hGD5tCON-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   In file included from <built-in>:3:
-   In file included from include/linux/compiler_types.h:150:
-   include/linux/compiler-clang.h:33:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
-      33 | #define __SANITIZE_ADDRESS__
-         |         ^
-   <built-in>:367:9: note: previous definition is here
-     367 | #define __SANITIZE_ADDRESS__ 1
-         |         ^
-   In file included from drivers/virt/gunyah/vm_mgr.c:18:
-   In file included from drivers/virt/gunyah/vm_mgr.h:13:
-   In file included from include/linux/pagemap.h:8:
-   In file included from include/linux/mm.h:2224:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   drivers/virt/gunyah/vm_mgr.c:183:21: error: call to undeclared function 'module_refcount'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     183 |         WARN_ON(fn->mod && module_refcount(fn->mod));
-         |                            ^
->> drivers/virt/gunyah/vm_mgr.c:887:5: warning: no previous prototype for function 'gunyah_gup_reclaim_parcel' [-Wmissing-prototypes]
-     887 | int gunyah_gup_reclaim_parcel(struct gunyah_vm *ghvm,
-         |     ^
-   drivers/virt/gunyah/vm_mgr.c:887:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     887 | int gunyah_gup_reclaim_parcel(struct gunyah_vm *ghvm,
-         | ^
-         | static 
-   7 warnings and 1 error generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-
-
-vim +/gunyah_gup_reclaim_parcel +887 drivers/virt/gunyah/vm_mgr.c
-
-   886	
- > 887	int gunyah_gup_reclaim_parcel(struct gunyah_vm *ghvm,
-   888				       struct gunyah_rm_mem_parcel *parcel, u64 gfn,
-   889				       u64 nr)
-   890	{
-   891		struct gunyah_rm_mem_entry *entry;
-   892		struct folio *folio;
-   893		pgoff_t i;
-   894		int ret;
-   895	
-   896		if (parcel->mem_handle != GUNYAH_MEM_HANDLE_INVAL) {
-   897			ret = gunyah_rm_mem_reclaim(ghvm->rm, parcel);
-   898			if (ret) {
-   899				dev_err(ghvm->parent, "Failed to reclaim parcel: %d\n",
-   900					ret);
-   901				/* We can't reclaim the pages -- hold onto the pages
-   902				 * forever because we don't know what state the memory
-   903				 * is in
-   904				 */
-   905				return ret;
-   906			}
-   907			parcel->mem_handle = GUNYAH_MEM_HANDLE_INVAL;
-   908	
-   909			for (i = 0; i < parcel->n_mem_entries; i++) {
-   910				entry = &parcel->mem_entries[i];
-   911	
-   912				folio = pfn_folio(PHYS_PFN(le64_to_cpu(entry->phys_addr)));
-   913	
-   914				if (folio_test_private(folio))
-   915					gunyah_folio_host_reclaim(folio);
-   916	
-   917				folio_put(folio);
-   918			}
-   919	
-   920			kfree(parcel->mem_entries);
-   921			kfree(parcel->acl_entries);
-   922		}
-   923	
-   924		return 0;
-   925	}
-   926	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/glymur.dtsi:3998.23-4064.5: Warning (simple_bus_reg): /soc@0/usb@a2f8800: simple-bus unit address format error, expected "a200000"
+   arch/arm64/boot/dts/qcom/glymur.dtsi:5422.36-5454.5: Warning (simple_bus_reg): /soc@0/system-cache-controller@20400000: simple-bus unit address format error, expected "21800000"
+   arch/arm64/boot/dts/qcom/glymur.dtsi:5463.23-5480.5: Warning (simple_bus_reg): /soc@0/sram@81e08000: simple-bus unit address format error, expected "81e08600"
+>> arch/arm64/boot/dts/qcom/glymur-crd.dtb: clock-controller@100000 (qcom,glymur-gcc): clocks: [[58, 0], [58, 1], [59], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [60], [61], [62], [63], [0], [0], [0], [0], [0], [0], [0], [0], [0], [64, 0], [65, 0], [66, 0], [67], [0], [68], [0], [0], [0], [0], [0], [0], [0]] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,glymur-gcc.yaml
+>> arch/arm64/boot/dts/qcom/glymur-crd.dtb: phy@fa3000 (qcom,glymur-qmp-usb3-uni-phy): clock-names:1: 'ref' was expected
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml
+>> arch/arm64/boot/dts/qcom/glymur-crd.dtb: phy@fa3000 (qcom,glymur-qmp-usb3-uni-phy): clock-names:2: 'com_aux' was expected
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml
+>> arch/arm64/boot/dts/qcom/glymur-crd.dtb: phy@fa3000 (qcom,glymur-qmp-usb3-uni-phy): clock-names:3: 'pipe' was expected
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml
+>> arch/arm64/boot/dts/qcom/glymur-crd.dtb: phy@fa3000 (qcom,glymur-qmp-usb3-uni-phy): clock-names: ['aux', 'clkref', 'ref', 'com_aux', 'pipe'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml
+>> arch/arm64/boot/dts/qcom/glymur-crd.dtb: phy@fa3000 (qcom,glymur-qmp-usb3-uni-phy): clocks: [[70, 329], [42, 9], [58, 0], [70, 331], [70, 332]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml
+>> arch/arm64/boot/dts/qcom/glymur-crd.dtb: phy@fa5000 (qcom,glymur-qmp-usb3-uni-phy): clock-names:1: 'ref' was expected
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml
+>> arch/arm64/boot/dts/qcom/glymur-crd.dtb: phy@fa5000 (qcom,glymur-qmp-usb3-uni-phy): clock-names:2: 'com_aux' was expected
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml
+>> arch/arm64/boot/dts/qcom/glymur-crd.dtb: phy@fa5000 (qcom,glymur-qmp-usb3-uni-phy): clock-names:3: 'pipe' was expected
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml
+>> arch/arm64/boot/dts/qcom/glymur-crd.dtb: phy@fa5000 (qcom,glymur-qmp-usb3-uni-phy): clock-names: ['aux', 'clkref', 'ref', 'com_aux', 'pipe'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml
+>> arch/arm64/boot/dts/qcom/glymur-crd.dtb: phy@fa5000 (qcom,glymur-qmp-usb3-uni-phy): clocks: [[70, 329], [42, 10], [58, 0], [70, 331], [70, 334]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml
+>> arch/arm64/boot/dts/qcom/glymur-crd.dtb: phy@fde000 (qcom,glymur-qmp-usb3-dp-phy): clock-names: ['aux', 'ref', 'com_aux', 'usb3_pipe', 'clkref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml
+>> arch/arm64/boot/dts/qcom/glymur-crd.dtb: phy@fde000 (qcom,glymur-qmp-usb3-dp-phy): clocks: [[70, 341], [58, 0], [70, 343], [70, 344], [42, 11]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml
+>> arch/arm64/boot/dts/qcom/glymur-crd.dtb: phy@fde000 (qcom,glymur-qmp-usb3-dp-phy): clock-names:4: 'cfg_ahb' was expected
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml
+>> arch/arm64/boot/dts/qcom/glymur-crd.dtb: phy@88e1000 (qcom,glymur-qmp-usb3-dp-phy): clock-names: ['aux', 'ref', 'com_aux', 'usb3_pipe', 'clkref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml
+>> arch/arm64/boot/dts/qcom/glymur-crd.dtb: phy@88e1000 (qcom,glymur-qmp-usb3-dp-phy): clocks: [[70, 346], [58, 0], [70, 348], [70, 349], [42, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml
+>> arch/arm64/boot/dts/qcom/glymur-crd.dtb: phy@88e1000 (qcom,glymur-qmp-usb3-dp-phy): clock-names:4: 'cfg_ahb' was expected
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml
+   arch/arm64/boot/dts/qcom/glymur-crd.dtb: usb@a2f8800 (qcom,glymur-dwc3): interrupt-names:4: 'ss_phy_irq' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml
+--
+   arch/arm64/boot/dts/qcom/glymur.dtsi:3998.23-4064.5: Warning (simple_bus_reg): /soc@0/usb@a2f8800: simple-bus unit address format error, expected "a200000"
+   arch/arm64/boot/dts/qcom/glymur.dtsi:5422.36-5454.5: Warning (simple_bus_reg): /soc@0/system-cache-controller@20400000: simple-bus unit address format error, expected "21800000"
+   arch/arm64/boot/dts/qcom/glymur.dtsi:5463.23-5480.5: Warning (simple_bus_reg): /soc@0/sram@81e08000: simple-bus unit address format error, expected "81e08600"
+   arch/arm64/boot/dts/qcom/mahua-crd.dtb: interconnect-0 (qcom,mahua-clk-virt): compatible:0: 'qcom,mahua-clk-virt' is not one of ['qcom,glymur-aggre1-noc', 'qcom,glymur-aggre2-noc', 'qcom,glymur-aggre3-noc', 'qcom,glymur-aggre4-noc', 'qcom,glymur-clk-virt', 'qcom,glymur-cnoc-cfg', 'qcom,glymur-cnoc-main', 'qcom,glymur-hscnoc', 'qcom,glymur-lpass-ag-noc', 'qcom,glymur-lpass-lpiaon-noc', 'qcom,glymur-lpass-lpicx-noc', 'qcom,glymur-mc-virt', 'qcom,glymur-mmss-noc', 'qcom,glymur-nsinoc', 'qcom,glymur-nsp-noc', 'qcom,glymur-oobm-ss-noc', 'qcom,glymur-pcie-east-anoc', 'qcom,glymur-pcie-east-slv-noc', 'qcom,glymur-pcie-west-anoc', 'qcom,glymur-pcie-west-slv-noc', 'qcom,glymur-system-noc']
+   	from schema $id: http://devicetree.org/schemas/interconnect/qcom,glymur-rpmh.yaml
+   arch/arm64/boot/dts/qcom/mahua-crd.dtb: interconnect-0 (qcom,mahua-clk-virt): compatible: ['qcom,mahua-clk-virt', 'qcom,glymur-clk-virt'] is too long
+   	from schema $id: http://devicetree.org/schemas/interconnect/qcom,glymur-rpmh.yaml
+   arch/arm64/boot/dts/qcom/mahua-crd.dtb: /interconnect-0: failed to match any schema with compatible: ['qcom,mahua-clk-virt', 'qcom,glymur-clk-virt']
+   arch/arm64/boot/dts/qcom/mahua-crd.dtb: /interconnect-1: failed to match any schema with compatible: ['qcom,mahua-mc-virt']
+>> arch/arm64/boot/dts/qcom/mahua-crd.dtb: clock-controller@100000 (qcom,glymur-gcc): clocks: [[44, 0], [44, 1], [45], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [46], [47], [48], [49], [0], [0], [0], [0], [0], [0], [0], [0], [0], [50, 0], [51, 0], [52, 0], [53], [0], [54], [0], [0], [0], [0], [0], [0], [0]] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,glymur-gcc.yaml
+>> arch/arm64/boot/dts/qcom/mahua-crd.dtb: phy@fa3000 (qcom,glymur-qmp-usb3-uni-phy): clock-names:1: 'ref' was expected
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml
+>> arch/arm64/boot/dts/qcom/mahua-crd.dtb: phy@fa3000 (qcom,glymur-qmp-usb3-uni-phy): clock-names:2: 'com_aux' was expected
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml
+>> arch/arm64/boot/dts/qcom/mahua-crd.dtb: phy@fa3000 (qcom,glymur-qmp-usb3-uni-phy): clock-names:3: 'pipe' was expected
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml
+>> arch/arm64/boot/dts/qcom/mahua-crd.dtb: phy@fa3000 (qcom,glymur-qmp-usb3-uni-phy): clock-names: ['aux', 'clkref', 'ref', 'com_aux', 'pipe'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml
+>> arch/arm64/boot/dts/qcom/mahua-crd.dtb: phy@fa3000 (qcom,glymur-qmp-usb3-uni-phy): clocks: [[56, 329], [29, 9], [44, 0], [56, 331], [56, 332]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml
+>> arch/arm64/boot/dts/qcom/mahua-crd.dtb: phy@fa5000 (qcom,glymur-qmp-usb3-uni-phy): clock-names:1: 'ref' was expected
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml
+>> arch/arm64/boot/dts/qcom/mahua-crd.dtb: phy@fa5000 (qcom,glymur-qmp-usb3-uni-phy): clock-names:2: 'com_aux' was expected
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml
+>> arch/arm64/boot/dts/qcom/mahua-crd.dtb: phy@fa5000 (qcom,glymur-qmp-usb3-uni-phy): clock-names:3: 'pipe' was expected
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml
+>> arch/arm64/boot/dts/qcom/mahua-crd.dtb: phy@fa5000 (qcom,glymur-qmp-usb3-uni-phy): clock-names: ['aux', 'clkref', 'ref', 'com_aux', 'pipe'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml
+>> arch/arm64/boot/dts/qcom/mahua-crd.dtb: phy@fa5000 (qcom,glymur-qmp-usb3-uni-phy): clocks: [[56, 329], [29, 10], [44, 0], [56, 331], [56, 334]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml
+>> arch/arm64/boot/dts/qcom/mahua-crd.dtb: phy@fde000 (qcom,glymur-qmp-usb3-dp-phy): clock-names: ['aux', 'ref', 'com_aux', 'usb3_pipe', 'clkref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml
+>> arch/arm64/boot/dts/qcom/mahua-crd.dtb: phy@fde000 (qcom,glymur-qmp-usb3-dp-phy): clocks: [[56, 341], [44, 0], [56, 343], [56, 344], [29, 11]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml
+>> arch/arm64/boot/dts/qcom/mahua-crd.dtb: phy@fde000 (qcom,glymur-qmp-usb3-dp-phy): clock-names:4: 'cfg_ahb' was expected
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml
+   arch/arm64/boot/dts/qcom/mahua-crd.dtb: interconnect@1500000 (qcom,mahua-cnoc-main): compatible:0: 'qcom,mahua-cnoc-main' is not one of ['qcom,glymur-aggre1-noc', 'qcom,glymur-aggre2-noc', 'qcom,glymur-aggre3-noc', 'qcom,glymur-aggre4-noc', 'qcom,glymur-clk-virt', 'qcom,glymur-cnoc-cfg', 'qcom,glymur-cnoc-main', 'qcom,glymur-hscnoc', 'qcom,glymur-lpass-ag-noc', 'qcom,glymur-lpass-lpiaon-noc', 'qcom,glymur-lpass-lpicx-noc', 'qcom,glymur-mc-virt', 'qcom,glymur-mmss-noc', 'qcom,glymur-nsinoc', 'qcom,glymur-nsp-noc', 'qcom,glymur-oobm-ss-noc', 'qcom,glymur-pcie-east-anoc', 'qcom,glymur-pcie-east-slv-noc', 'qcom,glymur-pcie-west-anoc', 'qcom,glymur-pcie-west-slv-noc', 'qcom,glymur-system-noc']
+   	from schema $id: http://devicetree.org/schemas/interconnect/qcom,glymur-rpmh.yaml
+   arch/arm64/boot/dts/qcom/mahua-crd.dtb: interconnect@1500000 (qcom,mahua-cnoc-main): compatible: ['qcom,mahua-cnoc-main', 'qcom,glymur-cnoc-main'] is too long
+   	from schema $id: http://devicetree.org/schemas/interconnect/qcom,glymur-rpmh.yaml
+   arch/arm64/boot/dts/qcom/mahua-crd.dtb: /soc@0/interconnect@1500000: failed to match any schema with compatible: ['qcom,mahua-cnoc-main', 'qcom,glymur-cnoc-main']
+   arch/arm64/boot/dts/qcom/mahua-crd.dtb: /soc@0/interconnect@1600000: failed to match any schema with compatible: ['qcom,mahua-cnoc-cfg']
+   arch/arm64/boot/dts/qcom/mahua-crd.dtb: interconnect@1680000 (qcom,mahua-system-noc): compatible:0: 'qcom,mahua-system-noc' is not one of ['qcom,glymur-aggre1-noc', 'qcom,glymur-aggre2-noc', 'qcom,glymur-aggre3-noc', 'qcom,glymur-aggre4-noc', 'qcom,glymur-clk-virt', 'qcom,glymur-cnoc-cfg', 'qcom,glymur-cnoc-main', 'qcom,glymur-hscnoc', 'qcom,glymur-lpass-ag-noc', 'qcom,glymur-lpass-lpiaon-noc', 'qcom,glymur-lpass-lpicx-noc', 'qcom,glymur-mc-virt', 'qcom,glymur-mmss-noc', 'qcom,glymur-nsinoc', 'qcom,glymur-nsp-noc', 'qcom,glymur-oobm-ss-noc', 'qcom,glymur-pcie-east-anoc', 'qcom,glymur-pcie-east-slv-noc', 'qcom,glymur-pcie-west-anoc', 'qcom,glymur-pcie-west-slv-noc', 'qcom,glymur-system-noc']
+   	from schema $id: http://devicetree.org/schemas/interconnect/qcom,glymur-rpmh.yaml
+   arch/arm64/boot/dts/qcom/mahua-crd.dtb: interconnect@1680000 (qcom,mahua-system-noc): compatible: ['qcom,mahua-system-noc', 'qcom,glymur-system-noc'] is too long
+--
+   arch/arm64/boot/dts/qcom/mahua-crd.dtb: interconnect@7420000 (qcom,mahua-lpass-lpicx-noc): compatible:0: 'qcom,mahua-lpass-lpicx-noc' is not one of ['qcom,glymur-aggre1-noc', 'qcom,glymur-aggre2-noc', 'qcom,glymur-aggre3-noc', 'qcom,glymur-aggre4-noc', 'qcom,glymur-clk-virt', 'qcom,glymur-cnoc-cfg', 'qcom,glymur-cnoc-main', 'qcom,glymur-hscnoc', 'qcom,glymur-lpass-ag-noc', 'qcom,glymur-lpass-lpiaon-noc', 'qcom,glymur-lpass-lpicx-noc', 'qcom,glymur-mc-virt', 'qcom,glymur-mmss-noc', 'qcom,glymur-nsinoc', 'qcom,glymur-nsp-noc', 'qcom,glymur-oobm-ss-noc', 'qcom,glymur-pcie-east-anoc', 'qcom,glymur-pcie-east-slv-noc', 'qcom,glymur-pcie-west-anoc', 'qcom,glymur-pcie-west-slv-noc', 'qcom,glymur-system-noc']
+   	from schema $id: http://devicetree.org/schemas/interconnect/qcom,glymur-rpmh.yaml
+   arch/arm64/boot/dts/qcom/mahua-crd.dtb: interconnect@7420000 (qcom,mahua-lpass-lpicx-noc): compatible: ['qcom,mahua-lpass-lpicx-noc', 'qcom,glymur-lpass-lpicx-noc'] is too long
+   	from schema $id: http://devicetree.org/schemas/interconnect/qcom,glymur-rpmh.yaml
+   arch/arm64/boot/dts/qcom/mahua-crd.dtb: /soc@0/interconnect@7420000: failed to match any schema with compatible: ['qcom,mahua-lpass-lpicx-noc', 'qcom,glymur-lpass-lpicx-noc']
+   arch/arm64/boot/dts/qcom/mahua-crd.dtb: interconnect@7e40000 (qcom,mahua-lpass-ag-noc): compatible:0: 'qcom,mahua-lpass-ag-noc' is not one of ['qcom,glymur-aggre1-noc', 'qcom,glymur-aggre2-noc', 'qcom,glymur-aggre3-noc', 'qcom,glymur-aggre4-noc', 'qcom,glymur-clk-virt', 'qcom,glymur-cnoc-cfg', 'qcom,glymur-cnoc-main', 'qcom,glymur-hscnoc', 'qcom,glymur-lpass-ag-noc', 'qcom,glymur-lpass-lpiaon-noc', 'qcom,glymur-lpass-lpicx-noc', 'qcom,glymur-mc-virt', 'qcom,glymur-mmss-noc', 'qcom,glymur-nsinoc', 'qcom,glymur-nsp-noc', 'qcom,glymur-oobm-ss-noc', 'qcom,glymur-pcie-east-anoc', 'qcom,glymur-pcie-east-slv-noc', 'qcom,glymur-pcie-west-anoc', 'qcom,glymur-pcie-west-slv-noc', 'qcom,glymur-system-noc']
+   	from schema $id: http://devicetree.org/schemas/interconnect/qcom,glymur-rpmh.yaml
+   arch/arm64/boot/dts/qcom/mahua-crd.dtb: interconnect@7e40000 (qcom,mahua-lpass-ag-noc): compatible: ['qcom,mahua-lpass-ag-noc', 'qcom,glymur-lpass-ag-noc'] is too long
+   	from schema $id: http://devicetree.org/schemas/interconnect/qcom,glymur-rpmh.yaml
+   arch/arm64/boot/dts/qcom/mahua-crd.dtb: /soc@0/interconnect@7e40000: failed to match any schema with compatible: ['qcom,mahua-lpass-ag-noc', 'qcom,glymur-lpass-ag-noc']
+>> arch/arm64/boot/dts/qcom/mahua-crd.dtb: phy@88e1000 (qcom,glymur-qmp-usb3-dp-phy): clock-names: ['aux', 'ref', 'com_aux', 'usb3_pipe', 'clkref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml
+>> arch/arm64/boot/dts/qcom/mahua-crd.dtb: phy@88e1000 (qcom,glymur-qmp-usb3-dp-phy): clocks: [[56, 346], [44, 0], [56, 348], [56, 349], [29, 12]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml
+>> arch/arm64/boot/dts/qcom/mahua-crd.dtb: phy@88e1000 (qcom,glymur-qmp-usb3-dp-phy): clock-names:4: 'cfg_ahb' was expected
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml
+   arch/arm64/boot/dts/qcom/mahua-crd.dtb: usb@a2f8800 (qcom,glymur-dwc3): interrupt-names:4: 'ss_phy_irq' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml
+   arch/arm64/boot/dts/qcom/mahua-crd.dtb: interconnect@1d600000 (qcom,mahua-nsinoc): compatible:0: 'qcom,mahua-nsinoc' is not one of ['qcom,glymur-aggre1-noc', 'qcom,glymur-aggre2-noc', 'qcom,glymur-aggre3-noc', 'qcom,glymur-aggre4-noc', 'qcom,glymur-clk-virt', 'qcom,glymur-cnoc-cfg', 'qcom,glymur-cnoc-main', 'qcom,glymur-hscnoc', 'qcom,glymur-lpass-ag-noc', 'qcom,glymur-lpass-lpiaon-noc', 'qcom,glymur-lpass-lpicx-noc', 'qcom,glymur-mc-virt', 'qcom,glymur-mmss-noc', 'qcom,glymur-nsinoc', 'qcom,glymur-nsp-noc', 'qcom,glymur-oobm-ss-noc', 'qcom,glymur-pcie-east-anoc', 'qcom,glymur-pcie-east-slv-noc', 'qcom,glymur-pcie-west-anoc', 'qcom,glymur-pcie-west-slv-noc', 'qcom,glymur-system-noc']
+   	from schema $id: http://devicetree.org/schemas/interconnect/qcom,glymur-rpmh.yaml
+   arch/arm64/boot/dts/qcom/mahua-crd.dtb: interconnect@1d600000 (qcom,mahua-nsinoc): compatible: ['qcom,mahua-nsinoc', 'qcom,glymur-nsinoc'] is too long
+   	from schema $id: http://devicetree.org/schemas/interconnect/qcom,glymur-rpmh.yaml
+   arch/arm64/boot/dts/qcom/mahua-crd.dtb: /soc@0/interconnect@1d600000: failed to match any schema with compatible: ['qcom,mahua-nsinoc', 'qcom,glymur-nsinoc']
+   arch/arm64/boot/dts/qcom/mahua-crd.dtb: interconnect@1f300000 (qcom,mahua-oobm-ss-noc): compatible:0: 'qcom,mahua-oobm-ss-noc' is not one of ['qcom,glymur-aggre1-noc', 'qcom,glymur-aggre2-noc', 'qcom,glymur-aggre3-noc', 'qcom,glymur-aggre4-noc', 'qcom,glymur-clk-virt', 'qcom,glymur-cnoc-cfg', 'qcom,glymur-cnoc-main', 'qcom,glymur-hscnoc', 'qcom,glymur-lpass-ag-noc', 'qcom,glymur-lpass-lpiaon-noc', 'qcom,glymur-lpass-lpicx-noc', 'qcom,glymur-mc-virt', 'qcom,glymur-mmss-noc', 'qcom,glymur-nsinoc', 'qcom,glymur-nsp-noc', 'qcom,glymur-oobm-ss-noc', 'qcom,glymur-pcie-east-anoc', 'qcom,glymur-pcie-east-slv-noc', 'qcom,glymur-pcie-west-anoc', 'qcom,glymur-pcie-west-slv-noc', 'qcom,glymur-system-noc']
+   	from schema $id: http://devicetree.org/schemas/interconnect/qcom,glymur-rpmh.yaml
 
 -- 
 0-DAY CI Kernel Test Service
