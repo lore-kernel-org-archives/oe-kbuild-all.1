@@ -1,195 +1,244 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 224A73CF691
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 11:45:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D953D47D7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 12:08:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774439121; cv=none; b=pSfYYhTT7EeHSSI6kr3lojfNW7zRcV/59+UVc/FA48sVU4iM3h+Uh2gI+YiWaE0OXJI7RwKgilPiTbRZ8P8pmOENxCuc0lwZF9Zu7vUKlUm58zsPDIFKJoTX/va7GQbXg3h5egHIY3gPM4OTSTjXyGK/yqGGFcxelZ/7sXHp5aE=
+	t=1774440515; cv=none; b=YJ76V7MWbZFLcJCj/T470oxvgW7Oc28oO3bqjUH7FfUqZHV0xLZs9fJrHXasZnrE3y3KqUyDJ2iCPlaAktLWpACpRglwid1xKXIlz82KssO9HQ8vdZ72t4sbtQZ07yJM0t7W0a+8MVYoRFYwCTrz4vkFjU6rB5hzP9q0sv7B8Ww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774439121; c=relaxed/simple;
-	bh=VeDpg5H3Mu1ymhqFJARxM/ReOhJ8aSS48B4t1KpwAfQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eRFnoh/ntbQJseuCAmZAsJA+j5d5Qr9JS/cFKnsmwvStRVBuGMbwYAD+Nbrmbzc/u79YSWbEBXfc2oOpzA4qKljLbMBKcX927HVjv2cXeeaf47/5djaEvTyVLYy5SO5L++4eJrGGrbGlV5nIdJYqo/MlZ1mot0wq6VyLgRinreY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=LqDb8+pg; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=hkCrsfl9; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1774440515; c=relaxed/simple;
+	bh=YGxXisc98Lij+dLiELcRr0T5li9WzTUGonUpLiABE9M=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ERaoEzhbxNPW+Ew9hb5dfHt69zeDDC9fvKGXJbKMHd+gY/xrzblndy5f+R3D1bWUS2FwTQ8LaLzAxMQYNaQl5LiVhQHTcPx5R82F1vWQhDXh5M7M9jpXBwSXJycosBqYimoogLto5cZYXBK6+jyWs5+j5I0Q3+rvThxSaAvANyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d3hhBJ25; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="LqDb8+pg";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="hkCrsfl9"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62PBGVuf1895896
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 11:45:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	iNU90VtVCZvNVrVMZ9CCy3RANpzV2GHcpjLzCXdmjpQ=; b=LqDb8+pgRIqCCE4N
-	DmDsucvK/TYExS/xoduEj8FVcv5XkNAj8IfdmqbLZ4SquUd007a3IGYl0HtEuv89
-	6r5YUJ5r3JjWZ0H9fv3TwTa0qbeIwUlfDmzms26b+8gq8NMkc2cz1NG/ZkAofiQu
-	WP+9lzQsOJohWqFBlyTmHFQ8ppjNuRUx5FM0NnXaRRBjP3crHOAZZnCwUwEzWk3b
-	B13hSt7E1X9jHQGg0Gp9vAJtSh+4zHWm0gyiZyY6oiPVzW8JkVetdZAk+Xpy/Q9w
-	GOEBBlzOkPf0PBhsSgfh4oJoTL+jX9gcUSuiHc/yRHZnXozO8CoYtaubKVdkKy56
-	i8ZK/g==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d489mhm9v-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 11:45:19 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-5090bc4823cso31700531cf.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 04:45:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1774439118; x=1775043918; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=iNU90VtVCZvNVrVMZ9CCy3RANpzV2GHcpjLzCXdmjpQ=;
-        b=hkCrsfl9/2cko1y/ehfZQpAJ1ugz9IdrIJ9oe4uVwS34C+KBM06/HNrkx8wC3AhT6k
-         0qr/fjk1XQ7ELLNw3WmVejzlwEPqGtpYR73B6u2DI0HmDBSo1vZS5u4ikQC6fnStBGS8
-         D3SGZXvHzb9LJ8BLEzDsfKtIf0VbW7Vcwp4WNDImkfCqtNoWEM8USlpuwsaBmjrTTfEH
-         2U6o9rx1tQUJuOuiPLfqxiKbmSg4FR8mQGWlNC3M1w5/9wW8gna8Bsec/ay1ZFv0ZBeI
-         NZ3SXN6kIQXst6KC+k160faeKvydqJen2MZZ4EnMEc0Fa8fy6w/silkvwuBNqQDc7NwZ
-         5Lzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774439118; x=1775043918;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iNU90VtVCZvNVrVMZ9CCy3RANpzV2GHcpjLzCXdmjpQ=;
-        b=micoxihDC+B1WumQFcz7yyqWOSp0tyc8juu62SaU+L9VttgVdPM93WgTNdVjjSIkrS
-         vXaX65fyQRs1l0Jq8lZwza7ZQZz442KxrWy0X7jBd17FvTb1ZM+fH990s8pZ1IF3Vy0y
-         12Ks12oAF1ImCYZT9Nx756fsqAY2EdPLWQZXOo14Gm/gAjG402HjQgkmrxMbRiiTYFHB
-         eKPlpcaXLubd1kdKDa2BTUxUTOSOW9V+0EeyFtS3IiTYP99yxaM9Vwyhlkp7K77ElDcv
-         UxtOEz3n2b5ZYuimFLScKQQJCxQGy4OwnjlQN145e3Qd8+wdrBEaN5kYuEF1eP9pxF0s
-         lvaQ==
-X-Gm-Message-State: AOJu0YyBaxhNg7DChUFlf6dSEBCbfY3xkigIk7ukKTWA4h0DkApNRbad
-	ESf0TrFDWxRbIPOqYbdAKdPfKMWwWHIsjPQGF2Tb4mqq2QbJKm5CxAtWyFLE6M/JJnq8FO8M27i
-	r8rffd22GVjsCukle3ZXGe72NaSeFwpjS8S1Oka2dobXuH791dJpEri0QiqFU6VeKV/uL
-X-Gm-Gg: ATEYQzwnRe5AVUH3mlkjgNJza9ttp6fjg2DQm+GTwG9uNrIw322gJDPSU1I5L45NzUa
-	bLSlh4gqcw7J6+vKsFugiUsqOWjOQ+szNm6h6EffTtxLvP0eAmQaU5whi1hseMe++TWS8ezlW+D
-	LZtARfadN6T6LCKt3xnqzwYrdD0AyOI9Qu9tgOJgifF9WzB9WRvngX+jk8uo9jDh20CKU160GXz
-	ztrnLoRdUyB3w3p4vrdB4QA3FNOmyGQg2saImx31Za4Y27kgd+ogubBhVolOy6xzOY2FQ9VMlFN
-	0rgSYhcqC5qR2zflF8DnvUOhraglXezNsZ6XiHBECOMt/CxOujCN8SuwZkNyEJWK+oJRQW/bdaK
-	7WPKqtUQgfXke1YJFDcan8xmZzug9/KnpxDG8CMV9GIL7GyPo
-X-Received: by 2002:a05:622a:a6c2:b0:50b:3e05:5ed1 with SMTP id d75a77b69052e-50b80e445e5mr37759571cf.53.1774439118322;
-        Wed, 25 Mar 2026 04:45:18 -0700 (PDT)
-X-Received: by 2002:a05:622a:a6c2:b0:50b:3e05:5ed1 with SMTP id d75a77b69052e-50b80e445e5mr37758651cf.53.1774439117600;
-        Wed, 25 Mar 2026 04:45:17 -0700 (PDT)
-Received: from [192.168.68.114] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4871a937bdfsm78325945e9.9.2026.03.25.04.45.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Mar 2026 04:45:16 -0700 (PDT)
-Message-ID: <0f5de4aa-ea9a-4e5a-bbf0-58a18e644b55@oss.qualcomm.com>
-Date: Wed, 25 Mar 2026 11:45:15 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d3hhBJ25"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774440515; x=1805976515;
+  h=date:from:to:cc:subject:message-id;
+  bh=YGxXisc98Lij+dLiELcRr0T5li9WzTUGonUpLiABE9M=;
+  b=d3hhBJ25mc20P3UnGG8SSYqe/XZuZbmDskCNc7s3QxNB9jZprVzkXaZE
+   ERYBLhzbPW/iNdCAXdAZ3yItnxGAz5iypdDKngI/twzpw74gBqfcEHF4e
+   fGJi0BI9NFFCkTI7aMi8EvMpr0VPz0oXVGF5BJDzdK/xa62gbkhKJuj4I
+   /5Jj5KFraWRFze9fSP0UkOJWDnziAl/iSyI7iKuAhGy9j0dBFJupUh1cu
+   Qu4XX0M6P+YBPvVJP/W0GvxTylm+s4lvdXm9JAi+6YTJn/tTzcYtQuIRw
+   iLbwDWJJEwpU2L9ttCmPCzHx+5NPN98GsjndmKpCb47RPTMMS4gHfe7CS
+   g==;
+X-CSE-ConnectionGUID: xtfCMXYdSWagKKyC7VF4Rw==
+X-CSE-MsgGUID: ikqjrmZ3TviapIwNk1a90w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="79330527"
+X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
+   d="scan'208";a="79330527"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 05:08:35 -0700
+X-CSE-ConnectionGUID: GGEGxIJ7RFixMSctUqeNyQ==
+X-CSE-MsgGUID: t3m7ydYFSNWdADAFL0C/Wg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
+   d="scan'208";a="224925539"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 25 Mar 2026 05:08:33 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w5N2D-000000006mN-06ul;
+	Wed, 25 Mar 2026 12:08:29 +0000
+Date: Wed, 25 Mar 2026 20:07:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 36/36]
+ drivers/usb/host/xhci-sideband.c:345: warning: Function parameter or struct
+ member 'type' not described in 'xhci_sideband_register'
+Message-ID: <202603252008.9abpxxhD-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 13/13] ASoC: qcom: q6apm: Add support for early buffer
- mapping on DSP
-To: kernel test robot <lkp@intel.com>,
-        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-        broonie@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-        conor+dt@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, mohammad.rafi.shaik@oss.qualcomm.com,
-        linux-sound@vger.kernel.org, lgirdwood@gmail.com, perex@perex.cz,
-        tiwai@suse.com, johan@kernel.org, dmitry.baryshkov@oss.qualcomm.com,
-        konrad.dybcio@oss.qualcomm.com, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        srini@kernel.org, val@packett.cool, mailingradian@gmail.com
-References: <20260323223845.2126142-14-srinivas.kandagatla@oss.qualcomm.com>
- <202603250417.fEMbsde2-lkp@intel.com>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-In-Reply-To: <202603250417.fEMbsde2-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI1MDA4NCBTYWx0ZWRfX6hWyfY5Vd9sm
- pG7JrEYXAK63GzHZHxmZ3lUc7mSP88Pk3IAKOjGgc9vFp5zm60Zx/G3LN5i/sodPQKnGELmMW1v
- ifI5Lgv0Q8EjpaAnPwGBmp5npWX2P+ao0poUX4NPjFR+YxBY0aaXjETFCs8m3PyZQBWnMoUo4Jf
- 7KyC8yit8wyOZF9Y5tTWbjpbkOLJmNpUlpXg2ZrzfClPQrjmJTO9RMeyrZxba11u9u71fSTpeeC
- VE8qwn/QBTHcVR7HlEBcsEK4/RDy40QG/BlBtefaAPMtD9C9w+fZAVSoWy7I+2PcWY+QYf7LzMW
- ++UgVjMn6K+AahAdjAyivvB6qtaiUmRvP3fLzJexXyLmVxknv0qADdqbwBBbAVBRgK0vFx6L38/
- da8TyRFwkScJ61CRwggiIQZiTTAfvwz4lYYOAgFqAyLzgAps5bmyvGzBuw8zoEDdguEoOUPnfcX
- 4x8+cSugVYFQoD/zQOQ==
-X-Proofpoint-GUID: TOiqXVmw4If7ec_X0n4zfsNL5pEmOX-W
-X-Proofpoint-ORIG-GUID: TOiqXVmw4If7ec_X0n4zfsNL5pEmOX-W
-X-Authority-Analysis: v=2.4 cv=AKSYvs3t c=1 sm=1 tr=0 ts=69c3cacf cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=anyJmfQTAAAA:8 a=NEAV23lmAAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8 a=5X_j558OWs3QqKC_3BEA:9 a=QEXdDO2ut3YA:10
- a=kacYvNCVWA4VmyqE58fU:22 a=mmqRlSCDY2ywfjPLJ4af:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-25_04,2026-03-24_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 phishscore=0 adultscore=0 lowpriorityscore=0
- malwarescore=0 suspectscore=0 bulkscore=0 clxscore=1011 impostorscore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
- definitions=main-2603250084
+
+Hi Mathias,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   bb47b925bb600e95cd776d4ab19d2b6c2ae342c7
+commit: 7b946a32948f90b198e3e51c824576458ceda3a4 [36/36] FROMLIST: xhci: sideband: add initial api to register a secondary interrupter entity
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260325/202603252008.9abpxxhD-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603252008.9abpxxhD-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603252008.9abpxxhD-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/usb/host/xhci-sideband.c:263: warning: Function parameter or struct member 'imod_interval' not described in 'xhci_sideband_create_interrupter'
+>> drivers/usb/host/xhci-sideband.c:345: warning: Function parameter or struct member 'type' not described in 'xhci_sideband_register'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for INTEL_MEI_ME
+   Depends on [n]: X86 && PCI [=y]
+   Selected by [y]:
+   - INTEL_MEI_HDCP [=y] && (DRM_I915 [=n] || DRM_XE [=y])
+   - INTEL_MEI_PXP [=y] && (DRM_I915 [=n] || DRM_XE [=y])
 
 
+vim +345 drivers/usb/host/xhci-sideband.c
 
-On 3/24/26 8:25 PM, kernel test robot wrote:
-> Hi Srinivas,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on broonie-sound/for-next]
-> [also build test WARNING on next-20260324]
-> [cannot apply to robh/for-next tiwai-sound/for-next tiwai-sound/for-linus linus/master v7.0-rc5]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Srinivas-Kandagatla/ASoC-qcom-q6apm-move-component-registration-to-unmanaged-version/20260324-160527
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-> patch link:    https://lore.kernel.org/r/20260323223845.2126142-14-srinivas.kandagatla%40oss.qualcomm.com
-> patch subject: [PATCH v7 13/13] ASoC: qcom: q6apm: Add support for early buffer mapping on DSP
-> config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260325/202603250417.fEMbsde2-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 15.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603250417.fEMbsde2-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202603250417.fEMbsde2-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    sound/soc/qcom/qdsp6/q6apm.c: In function 'q6apm_free_fragments':
->>> sound/soc/qcom/qdsp6/q6apm.c:321:39: warning: variable 'data' set but not used [-Wunused-but-set-variable]
+   244	
+   245	/**
+   246	 * xhci_sideband_create_interrupter - creates a new interrupter for this sideband
+   247	 * @sb: sideband instance for this usb device
+   248	 * @num_seg: number of event ring segments to allocate
+   249	 * @ip_autoclear: IP autoclearing support such as MSI implemented
+   250	 *
+   251	 * Sets up a xhci interrupter that can be used for this sideband accessed usb
+   252	 * device. Transfer events for this device can be routed to this interrupters
+   253	 * event ring by setting the 'Interrupter Target' field correctly when queueing
+   254	 * the transfer TRBs.
+   255	 * Once this interrupter is created the interrupter target ID can be obtained
+   256	 * by calling xhci_sideband_interrupter_id()
+   257	 *
+   258	 * Returns 0 on success, negative error otherwise
+   259	 */
+   260	int
+   261	xhci_sideband_create_interrupter(struct xhci_sideband *sb, int num_seg,
+   262					 bool ip_autoclear, u32 imod_interval)
+ > 263	{
+   264		int ret = 0;
+   265	
+   266		if (!sb || !sb->xhci)
+   267			return -ENODEV;
+   268	
+   269		mutex_lock(&sb->mutex);
+   270		if (sb->ir) {
+   271			ret = -EBUSY;
+   272			goto out;
+   273		}
+   274	
+   275		sb->ir = xhci_create_secondary_interrupter(xhci_to_hcd(sb->xhci),
+   276							   num_seg, imod_interval);
+   277		if (!sb->ir) {
+   278			ret = -ENOMEM;
+   279			goto out;
+   280		}
+   281	
+   282		sb->ir->ip_autoclear = ip_autoclear;
+   283	
+   284	out:
+   285		mutex_unlock(&sb->mutex);
+   286	
+   287		return ret;
+   288	}
+   289	EXPORT_SYMBOL_GPL(xhci_sideband_create_interrupter);
+   290	
+   291	/**
+   292	 * xhci_sideband_remove_interrupter - remove the interrupter from a sideband
+   293	 * @sb: sideband instance for this usb device
+   294	 *
+   295	 * Removes a registered interrupt for a sideband.  This would allow for other
+   296	 * sideband users to utilize this interrupter.
+   297	 */
+   298	void
+   299	xhci_sideband_remove_interrupter(struct xhci_sideband *sb)
+   300	{
+   301		if (!sb || !sb->ir)
+   302			return;
+   303	
+   304		mutex_lock(&sb->mutex);
+   305		xhci_remove_secondary_interrupter(xhci_to_hcd(sb->xhci), sb->ir);
+   306	
+   307		sb->ir = NULL;
+   308		mutex_unlock(&sb->mutex);
+   309	}
+   310	EXPORT_SYMBOL_GPL(xhci_sideband_remove_interrupter);
+   311	
+   312	/**
+   313	 * xhci_sideband_interrupter_id - return the interrupter target id
+   314	 * @sb: sideband instance for this usb device
+   315	 *
+   316	 * If a secondary xhci interrupter is set up for this usb device then this
+   317	 * function returns the ID used by the interrupter. The sideband client
+   318	 * needs to write this ID to the 'Interrupter Target' field of the transfer TRBs
+   319	 * it queues on the endpoints transfer ring to ensure transfer completion event
+   320	 * are written by xHC to the correct interrupter event ring.
+   321	 *
+   322	 * Returns interrupter id on success, negative error othgerwise
+   323	 */
+   324	int
+   325	xhci_sideband_interrupter_id(struct xhci_sideband *sb)
+   326	{
+   327		if (!sb || !sb->ir)
+   328			return -ENODEV;
+   329	
+   330		return sb->ir->intr_num;
+   331	}
+   332	EXPORT_SYMBOL_GPL(xhci_sideband_interrupter_id);
+   333	
+   334	/**
+   335	 * xhci_sideband_register - register a sideband for a usb device
+   336	 * @intf: usb interface associated with the sideband device
+   337	 *
+   338	 * Allows for clients to utilize XHCI interrupters and fetch transfer and event
+   339	 * ring parameters for executing data transfers.
+   340	 *
+   341	 * Return: pointer to a new xhci_sideband instance if successful. NULL otherwise.
+   342	 */
+   343	struct xhci_sideband *
+   344	xhci_sideband_register(struct usb_interface *intf, enum xhci_sideband_type type)
+ > 345	{
+   346		struct usb_device *udev = interface_to_usbdev(intf);
+   347		struct usb_hcd *hcd = bus_to_hcd(udev->bus);
+   348		struct xhci_hcd *xhci = hcd_to_xhci(hcd);
+   349		struct xhci_virt_device *vdev;
+   350		struct xhci_sideband *sb;
+   351	
+   352		/*
+   353		 * Make sure the usb device is connected to a xhci controller.  Fail
+   354		 * registration if the type is anything other than  XHCI_SIDEBAND_VENDOR,
+   355		 * as this is the only type that is currently supported by xhci-sideband.
+   356		 */
+   357		if (!udev->slot_id || type != XHCI_SIDEBAND_VENDOR)
+   358			return NULL;
+   359	
+   360		sb = kzalloc_node(sizeof(*sb), GFP_KERNEL, dev_to_node(hcd->self.sysdev));
+   361		if (!sb)
+   362			return NULL;
+   363	
+   364		mutex_init(&sb->mutex);
+   365	
+   366		/* check this device isn't already controlled via sideband */
+   367		spin_lock_irq(&xhci->lock);
+   368	
+   369		vdev = xhci->devs[udev->slot_id];
+   370	
+   371		if (!vdev || vdev->sideband) {
+   372			xhci_warn(xhci, "XHCI sideband for slot %d already in use\n",
+   373				  udev->slot_id);
+   374			spin_unlock_irq(&xhci->lock);
+   375			kfree(sb);
+   376			return NULL;
+   377		}
+   378	
+   379		sb->xhci = xhci;
+   380		sb->vdev = vdev;
+   381		sb->intf = intf;
+   382		sb->type = type;
+   383		vdev->sideband = sb;
+   384	
+   385		spin_unlock_irq(&xhci->lock);
+   386	
+   387		return sb;
+   388	}
+   389	EXPORT_SYMBOL_GPL(xhci_sideband_register);
+   390	
 
-Looks like some last minute cleanup added this warning, will fix this in
-next spin, thanks for reporting this.
-
---srini
->      321 |         struct audioreach_graph_data *data;
->          |                                       ^~~~
-> 
-> 
-> vim +/data +321 sound/soc/qcom/qdsp6/q6apm.c
-> 
-> 25ab80db6b133c Srinivas Kandagatla 2021-10-26  318  
-> ab4c5c6ed2ed1e Srinivas Kandagatla 2026-03-23  319  int q6apm_free_fragments(struct q6apm_graph *graph, unsigned int dir)
-> 25ab80db6b133c Srinivas Kandagatla 2021-10-26  320  {
-> 25ab80db6b133c Srinivas Kandagatla 2021-10-26 @321  	struct audioreach_graph_data *data;
-> 25ab80db6b133c Srinivas Kandagatla 2021-10-26  322  
-> 25ab80db6b133c Srinivas Kandagatla 2021-10-26  323  	if (dir == SNDRV_PCM_STREAM_PLAYBACK)
-> 25ab80db6b133c Srinivas Kandagatla 2021-10-26  324  		data = &graph->rx_data;
-> 25ab80db6b133c Srinivas Kandagatla 2021-10-26  325  	else
-> 25ab80db6b133c Srinivas Kandagatla 2021-10-26  326  		data = &graph->tx_data;
-> 25ab80db6b133c Srinivas Kandagatla 2021-10-26  327  
-> 25ab80db6b133c Srinivas Kandagatla 2021-10-26  328  	audioreach_graph_free_buf(graph);
-> 25ab80db6b133c Srinivas Kandagatla 2021-10-26  329  
-> ab4c5c6ed2ed1e Srinivas Kandagatla 2026-03-23  330  	return 0;
-> 25ab80db6b133c Srinivas Kandagatla 2021-10-26  331  }
-> ab4c5c6ed2ed1e Srinivas Kandagatla 2026-03-23  332  EXPORT_SYMBOL_GPL(q6apm_free_fragments);
-> 25ab80db6b133c Srinivas Kandagatla 2021-10-26  333  
-> 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
