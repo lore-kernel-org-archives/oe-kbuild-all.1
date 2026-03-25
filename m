@@ -1,118 +1,161 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED0CD175A8F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 02:14:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77329200C2;
+	Wed, 25 Mar 2026 02:37:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774404886; cv=none; b=QrCsEN6uWk4xilLlIwVpEDMeB4oo/0NwmP7rVIRawVjXTuqGDe3PupY4ulHsmXD91OYH65oti7cTWfpImvQVvmJTA5fPnTS5ugaPUUBtjud8g/MPGbpk9SILYkhezykXpbaPS4IZpRB76XtifOdzjTf2s/TbXyPp1Jq9ww575CA=
+	t=1774406268; cv=none; b=jkr52GYTaz2O+Sb74C56AKRl18dCfEhkMZxuatqJ3XdKu0TfvqrqsBlcbiCJALskBEiAOfxf3TYwRC9uwaIereOJfW8OKjA+wbFLx+ODP/8M3DeNJcvrgrnswOWAptt9yQmOx09L7RtX4BvJxnwUTbydWUSlgfb7qOL08Stc/ig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774404886; c=relaxed/simple;
-	bh=HKC0V81SUeg+fv4K4gpJ4NRVAlBhrHQBKmVuDbASspQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bW0fZIBmaekj0nqmM4mRi3NBDu78x9aqqeZMxLcEq5giCOvpMDw1l2L5yrqjJdhsj+x/aFi7TEL71W2ZVuE0rBVnAmr2DLtdtGhIakWS9NGx9bKc4I1EZozarPpvNpvVDannB0wPT+ncGlPZUIw7Cl+o8iUrOutT0jyNwmAmmJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nnhy8WyO; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1774406268; c=relaxed/simple;
+	bh=y7oR0qlRGqTwWhoBBY+minKc+cqz/3MynZaKcvk8uPY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OowY0bTE9VMOC33EgCHy7xOomlnQeoxdSB7ByTAmy5eX13YcuaD260H5Bn8g4FPT8YQ7xTm6PU7el4DtrnwtQu2eFqn5P9IgeB3zdMl4hO30JP1eNrmWZoonsvuPGWi5a+jq+pLZoZheyAFr6S7bpvfRlrwKcw3dCS8LhGfBCNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aJUNF0Q0; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nnhy8WyO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aJUNF0Q0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774404884; x=1805940884;
-  h=date:from:to:cc:subject:message-id;
-  bh=HKC0V81SUeg+fv4K4gpJ4NRVAlBhrHQBKmVuDbASspQ=;
-  b=nnhy8WyOraz9Ch1tMavlhoOPIm8UWEOzP8kk+bp8qTbNKxcZYdMTcKw+
-   YDEbTCnn/4oJsoQOayM0D5r7IZETpH3lSFyKZIcq7RpHhhFeEBDyQfbv9
-   RTeyTxVo35l0BVMWoJeFlvTYCt3b5LHo9FIYUXMrIrVW+9yTksJ3T2FLA
-   EGZB8jrXYb76phL1Sy3wXp6GKfksbArMEjN0sUcSXIbASZGCLcQENLqaQ
-   HhTSELdc2kLTXVeTgqaLlF/OGihP6/AkZP9/YtZQ8EbzIAX/RrClc7IRk
-   q0NpK/sb/KTweMaAVmvq+1bIP5eMarpticklkl/pV+vjyxKyKVT6xI+AJ
-   g==;
-X-CSE-ConnectionGUID: D6sUHb2zQiywsifKYkrrUA==
-X-CSE-MsgGUID: Qjf6Sn14TVy3v4Ssp3s6fg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="93010527"
+  t=1774406267; x=1805942267;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=y7oR0qlRGqTwWhoBBY+minKc+cqz/3MynZaKcvk8uPY=;
+  b=aJUNF0Q0B474qpv4BdTCLTgVMfyOwxHGZqVqZlPcF8q7hSeZl7TrBG3n
+   QIbj6fWV9KpIC5C7kvdFYeRunmdg9uGLdg8QcV2JGheaf2B9fHXAzZdEj
+   fIW1CZb1uz6mdeGtNNwnSJBR28/pLsU1tIvgcdEYYjgRRMSfxeCSseoXz
+   VpKbmqkMmBvEQBzrrNGdRmqECEBK7eXdOmKt8vDzz1KQOCNEr5g5XuAso
+   9nnt6xW5bFTT6yZFriGXf33NSxVKgtA5cC7GqhR3oi0UBxHYGtRe8kg0j
+   1L9JP328cttGvHoUBR5oaMYzjPPnm1avmGH/mx4p6VvpUKnT4U0INRq1I
+   A==;
+X-CSE-ConnectionGUID: hsPhFBRJR0i8klHzsk4/ig==
+X-CSE-MsgGUID: kKevDEI0ThKJeNnWQno5Nw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="93012423"
 X-IronPort-AV: E=Sophos;i="6.23,139,1770624000"; 
-   d="scan'208";a="93010527"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 19:14:43 -0700
-X-CSE-ConnectionGUID: o2iIP0qBQeS64ia3gLKISQ==
-X-CSE-MsgGUID: 1jqbUH5UTa2RWjEKxoV0Zg==
+   d="scan'208";a="93012423"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 19:37:46 -0700
+X-CSE-ConnectionGUID: A0Zb+U/nRtCsULoVvUJ0GA==
+X-CSE-MsgGUID: 8yZ7YyEHRH6LPK/HGlB2lw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,139,1770624000"; 
-   d="scan'208";a="220121080"
+   d="scan'208";a="223742248"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 24 Mar 2026 19:14:41 -0700
+  by orviesa010.jf.intel.com with ESMTP; 24 Mar 2026 19:37:43 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5DlW-000000005ll-3YKb;
-	Wed, 25 Mar 2026 02:14:38 +0000
-Date: Wed, 25 Mar 2026 10:13:44 +0800
+	id 1w5E7o-000000005n7-0EGZ;
+	Wed, 25 Mar 2026 02:37:40 +0000
+Date: Wed, 25 Mar 2026 10:37:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, Will Deacon <will@kernel.org>,
- Ilkka Koskinen <ilkka@os.amperecomputing.com>
-Subject: [arm-perf:for-next/perf 4/11]
- drivers/perf/arm-cmn.c:2149:45: warning: format '%llx' expects argument of
- type 'long long unsigned int', but argument 4 has type 'resource_size_t' {aka
- 'unsigned int'}
-Message-ID: <202603251029.epC7wJIx-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Kartik Rajput <kkartik@nvidia.com>, thierry.reding@gmail.com,
+	jonathanh@nvidia.com, kees@kernel.org, linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] soc/tegra: fuse: Register nvmem lookups at probe
+Message-ID: <202603251045.wm2KjZbP-lkp@intel.com>
+References: <20260324114242.551939-1-kkartik@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260324114242.551939-1-kkartik@nvidia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git for-next/perf
-head:   2f89b7f78c50ca973ca035ceb30426f78d9e0996
-commit: 5394396ff5488f007248727988b722c5d4f0638b [4/11] perf/arm-cmn: Stop claiming entire iomem region
-config: arm-randconfig-001-20260325 (https://download.01.org/0day-ci/archive/20260325/202603251029.epC7wJIx-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603251029.epC7wJIx-lkp@intel.com/reproduce)
+Hi Kartik,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tegra/for-next]
+[also build test WARNING on linus/master v7.0-rc5 next-20260324]
+[cannot apply to drm-tegra/drm/tegra/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kartik-Rajput/soc-tegra-fuse-Register-nvmem-lookups-at-probe/20260325-020016
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git for-next
+patch link:    https://lore.kernel.org/r/20260324114242.551939-1-kkartik%40nvidia.com
+patch subject: [PATCH] soc/tegra: fuse: Register nvmem lookups at probe
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20260325/202603251045.wm2KjZbP-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603251045.wm2KjZbP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603251029.epC7wJIx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603251045.wm2KjZbP-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/perf/arm-cmn.c: In function 'arm_cmn_init_dtc':
->> drivers/perf/arm-cmn.c:2149:45: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 4 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
-             "Failed to request DTC region 0x%llx\n", base);
-                                             ~~~^     ~~~~
-                                             %x
+>> drivers/soc/tegra/fuse/fuse-tegra.c:569:9: warning: variable 'err' is uninitialized when used here [-Wuninitialized]
+     569 |         return err;
+         |                ^~~
+   drivers/soc/tegra/fuse/fuse-tegra.c:476:9: note: initialize the variable 'err' to silence this warning
+     476 |         int err;
+         |                ^
+         |                 = 0
+   1 warning generated.
 
 
-vim +2149 drivers/perf/arm-cmn.c
+vim +/err +569 drivers/soc/tegra/fuse/fuse-tegra.c
 
-  2131	
-  2132	static int arm_cmn_init_dtc(struct arm_cmn *cmn, struct arm_cmn_node *dn, int idx)
-  2133	{
-  2134		struct arm_cmn_dtc *dtc = cmn->dtc + idx;
-  2135		const struct resource *cfg;
-  2136		resource_size_t base, size;
-  2137	
-  2138		dtc->pmu_base = dn->pmu_base;
-  2139		dtc->base = dtc->pmu_base - arm_cmn_pmu_offset(cmn, dn);
-  2140		dtc->irq = platform_get_irq(to_platform_device(cmn->dev), idx);
-  2141		if (dtc->irq < 0)
-  2142			return dtc->irq;
-  2143	
-  2144		cfg = platform_get_resource(to_platform_device(cmn->dev), IORESOURCE_MEM, 0);
-  2145		base = dtc->base - cmn->base + cfg->start;
-  2146		size = cmn->part == PART_CMN600 ? SZ_16K : SZ_64K;
-  2147		if (!devm_request_mem_region(cmn->dev, base, size, dev_name(cmn->dev)))
-  2148			return dev_err_probe(cmn->dev, -EBUSY,
-> 2149					     "Failed to request DTC region 0x%llx\n", base);
-  2150	
-  2151		writel_relaxed(CMN_DT_DTC_CTL_DT_EN, dtc->base + CMN_DT_DTC_CTL);
-  2152		writel_relaxed(CMN_DT_PMCR_PMU_EN | CMN_DT_PMCR_OVFL_INTR_EN, CMN_DT_PMCR(dtc));
-  2153		writeq_relaxed(0, CMN_DT_PMCCNTR(dtc));
-  2154		writel_relaxed(0x1ff, CMN_DT_PMOVSR_CLR(dtc));
-  2155	
-  2156		return 0;
-  2157	}
-  2158	
+7e939de1b2bb26 Thierry Reding     2015-04-29  521  
+7e939de1b2bb26 Thierry Reding     2015-04-29  522  			default:
+7e939de1b2bb26 Thierry Reding     2015-04-29  523  				pr_warn("Unsupported SoC: %02x\n", chip);
+7e939de1b2bb26 Thierry Reding     2015-04-29  524  				break;
+7e939de1b2bb26 Thierry Reding     2015-04-29  525  			}
+7e939de1b2bb26 Thierry Reding     2015-04-29  526  		} else {
+7e939de1b2bb26 Thierry Reding     2015-04-29  527  			/*
+7e939de1b2bb26 Thierry Reding     2015-04-29  528  			 * At this point we're not running on Tegra, so play
+7e939de1b2bb26 Thierry Reding     2015-04-29  529  			 * nice with multi-platform kernels.
+7e939de1b2bb26 Thierry Reding     2015-04-29  530  			 */
+24fa5af81059af Thierry Reding     2014-07-11  531  			return 0;
+7e939de1b2bb26 Thierry Reding     2015-04-29  532  		}
+7e939de1b2bb26 Thierry Reding     2015-04-29  533  	} else {
+7e939de1b2bb26 Thierry Reding     2015-04-29  534  		/*
+7e939de1b2bb26 Thierry Reding     2015-04-29  535  		 * Extract information from the device tree if we've found a
+7e939de1b2bb26 Thierry Reding     2015-04-29  536  		 * matching node.
+7e939de1b2bb26 Thierry Reding     2015-04-29  537  		 */
+7e939de1b2bb26 Thierry Reding     2015-04-29  538  		if (of_address_to_resource(np, 0, &regs) < 0) {
+7e939de1b2bb26 Thierry Reding     2015-04-29  539  			pr_err("failed to get FUSE register\n");
+7e939de1b2bb26 Thierry Reding     2015-04-29  540  			return -ENXIO;
+7e939de1b2bb26 Thierry Reding     2015-04-29  541  		}
+24fa5af81059af Thierry Reding     2014-07-11  542  
+7e939de1b2bb26 Thierry Reding     2015-04-29  543  		fuse->soc = match->data;
+7e939de1b2bb26 Thierry Reding     2015-04-29  544  	}
+783c8f4c84451b Peter De Schrijver 2014-06-12  545  
+783c8f4c84451b Peter De Schrijver 2014-06-12  546  	np = of_find_matching_node(NULL, car_match);
+7e939de1b2bb26 Thierry Reding     2015-04-29  547  	if (np) {
+7e939de1b2bb26 Thierry Reding     2015-04-29  548  		void __iomem *base = of_iomap(np, 0);
+e941712cccab8a Liang He           2022-06-16  549  		of_node_put(np);
+7e939de1b2bb26 Thierry Reding     2015-04-29  550  		if (base) {
+7e939de1b2bb26 Thierry Reding     2015-04-29  551  			tegra_enable_fuse_clk(base);
+7e939de1b2bb26 Thierry Reding     2015-04-29  552  			iounmap(base);
+783c8f4c84451b Peter De Schrijver 2014-06-12  553  		} else {
+7e939de1b2bb26 Thierry Reding     2015-04-29  554  			pr_err("failed to map clock registers\n");
+7e939de1b2bb26 Thierry Reding     2015-04-29  555  			return -ENXIO;
+7e939de1b2bb26 Thierry Reding     2015-04-29  556  		}
+7e939de1b2bb26 Thierry Reding     2015-04-29  557  	}
+7e939de1b2bb26 Thierry Reding     2015-04-29  558  
+4bdc0d676a6431 Christoph Hellwig  2020-01-06  559  	fuse->base = ioremap(regs.start, resource_size(&regs));
+7e939de1b2bb26 Thierry Reding     2015-04-29  560  	if (!fuse->base) {
+7e939de1b2bb26 Thierry Reding     2015-04-29  561  		pr_err("failed to map FUSE registers\n");
+24fa5af81059af Thierry Reding     2014-07-11  562  		return -ENXIO;
+783c8f4c84451b Peter De Schrijver 2014-06-12  563  	}
+783c8f4c84451b Peter De Schrijver 2014-06-12  564  
+7e939de1b2bb26 Thierry Reding     2015-04-29  565  	fuse->soc->init(fuse);
+783c8f4c84451b Peter De Schrijver 2014-06-12  566  
+13a69354147e0a Kartik             2023-10-17  567  	tegra_fuse_print_sku_info(&tegra_sku_info);
+24fa5af81059af Thierry Reding     2014-07-11  568  
+71661c1c8c34d1 Kartik             2023-10-17 @569  	return err;
+783c8f4c84451b Peter De Schrijver 2014-06-12  570  }
+24fa5af81059af Thierry Reding     2014-07-11  571  early_initcall(tegra_init_fuse);
+27a0342ac162bf Thierry Reding     2017-08-17  572  
 
 -- 
 0-DAY CI Kernel Test Service
