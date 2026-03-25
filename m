@@ -1,186 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDCD83EFD03
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 19:43:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4679219A8A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 19:53:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774467818; cv=none; b=IA3DYF9qfmqS9Mgc4ugOji/LUrPFWd7HCbDHbkHmS5KPvIW5wt8XDrFfs1ej4lTUgimsdbQ1UkV0yAKgnWllaPvyzwz5rnwN0Ipm9m9M0T12hcOWQE64DkjAf0FoCaenpMsFalL5CvBjWEKjRNkOkV36UnfebdjG+9KOBFCGtKk=
+	t=1774468412; cv=none; b=DlSspe8mnb10f6WWqyo452LJQaZgOHftppzBrkkA3KOgUe/rML9NOKUaLKvIyhafmQSli7S4YbTMwQY+ZJ7vICIbZK6shVXVTjCZFUuDGgCKq9hgeIV03IKkE9wrrmZy4qhNwPTPZWV+al+E5gIfh9H3vW6vzOn7J+7JoFmOamo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774467818; c=relaxed/simple;
-	bh=rYgsNbdWUy7p1aot6oXS/5j4DhaHYPzXO39UqVlBtTk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kEoa+OYeafFTznrRM8PtlVBGIGRxAahl6KrcO5GsHUlAooSecsNCYWpAs6WBEGwfc5K8rfXK0a0I9TdnGIubJEt/9spcePF0QVLUeLSSjq0tyn4NVsFdiUQ++2iDEEkdrOb8jLbQyUX8XIpEIT5T36H50zfsXz647UxipeD6cgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mmHM42yS; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1774468412; c=relaxed/simple;
+	bh=m7h2Ib92dPe1KkQt+vKIodMx6DIT3z5tfTO9XzoGxPM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ha5VxDZ9V5VfJyMmtmAN9bvVuAvysD+hYbhtSP3irq1QlPTUTnZyb1Z31wG7h0sBhYnEeKpF97nIDKGu56s1js1bfK42RcAdjuuAQ5qs7kZRtcYn9NSdt4x6kceUiC8jnwTEl98PwxR8cdaeWFkjX9bUTaY4kuFDA3a9Cw9C9wM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nqmAK78u; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mmHM42yS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nqmAK78u"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774467812; x=1806003812;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rYgsNbdWUy7p1aot6oXS/5j4DhaHYPzXO39UqVlBtTk=;
-  b=mmHM42ySTaGZnqqRBJTREw+bmNH8S6NX2QYdpyAU5kuI4hFFccUE75lk
-   zGHKiiiSjcKyWC5fft1P3Dd/e7tOWHtTnaOirynJN2n+LN3Bxecz24KMK
-   byZ58T9cMI2B5Pf0XBKzbeMZAXJQHD2PS27CdpYv8KDa+NVcDBvF5PJGA
-   +jTTYioqIOhzM9RI2jIrEFK2dZrfDalC37CPpjVTJi2ODS++XaICoN/hw
-   h6Gyx4Nfs+F8F1oo/+pgkgaN+64L3mnm6r+eIyh7PSgkHKp04DVF5FasQ
-   wHpEGia+SRN8R4puh0gJpnou1G203od40ymyqRxR8n3b62aeJrBnFTB23
-   g==;
-X-CSE-ConnectionGUID: wJh1j5ocSJi17AjfXYFfaw==
-X-CSE-MsgGUID: 3yP1uJClTli2Lc3a88FO0g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="75402417"
+  t=1774468411; x=1806004411;
+  h=date:from:to:cc:subject:message-id;
+  bh=m7h2Ib92dPe1KkQt+vKIodMx6DIT3z5tfTO9XzoGxPM=;
+  b=nqmAK78ufgdOBDmK8LRWtTUvYn2n8tKa5i9CmCpabe033LykOv54F4Sh
+   XKG3cdDzpw4dQTwl1bbFIvObEnVm8XnpbMhHHM6u/YyJjDZkOedFI/Yns
+   53M4C3RC27DfcGxv10SsMK/f4VCFIFgliFNY3jdfvWqK8IJRzz/hPKyog
+   LlqrDor5x3W0C58T1PsQweH0Clvy3kE8eABk6E7/xu2H0i5G3CtB5iyCy
+   tRd23Il2IiD/VAjMnUySMJ8+BC3WuWzKT0ZQs18KXyhhKJ/FHnrpuMptP
+   WmT0iIjFfGLrIL7mcqJy79zRIjAs8NutlclgkqYYwDUWasRVZs7pDoJt2
+   Q==;
+X-CSE-ConnectionGUID: iAAVvYqaT56GPCACSXDx3A==
+X-CSE-MsgGUID: t2Xm5IuNQSesIPduuNbVOw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="98138736"
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="75402417"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 12:43:32 -0700
-X-CSE-ConnectionGUID: ifk88IbyS7Kr1yPKwJUlPA==
-X-CSE-MsgGUID: 4I7rBnVYTMq9+A03FZt5WA==
+   d="scan'208";a="98138736"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 12:53:31 -0700
+X-CSE-ConnectionGUID: wMWQDf8WSE+JvdMxX6vGxw==
+X-CSE-MsgGUID: v2I7DinCRx6BiJwTku76jQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="247810784"
+   d="scan'208";a="226414921"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 25 Mar 2026 12:43:29 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 25 Mar 2026 12:53:29 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5U8U-000000007bn-1Iku;
-	Wed, 25 Mar 2026 19:43:26 +0000
-Date: Thu, 26 Mar 2026 03:42:48 +0800
+	id 1w5UIA-000000007cD-2gAH;
+	Wed, 25 Mar 2026 19:53:26 +0000
+Date: Thu, 26 Mar 2026 03:53:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Derek J. Clark" <derekjohn.clark@gmail.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Hans de Goede <hansg@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Pearson <mpearson-lenovo@squebb.ca>,
-	Armin Wolf <W_Armin@gmx.de>, Jonathan Corbet <corbet@lwn.net>,
-	Rong Zhang <i@rong.moe>, Kurt Borja <kuurtb@gmail.com>,
-	"Derek J . Clark" <derekjohn.clark@gmail.com>,
-	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 8/8] platform/x86: lenovo-wmi-other: Add WMI battery
- charge limiting
-Message-ID: <202603260302.X0NjQOda-lkp@intel.com>
-References: <20260324221032.1333636-9-derekjohn.clark@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 1/1]
+ drivers/dma-buf/heaps/page_pool.c:46: warning: Function parameter or member
+ 'count' not described in 'dmabuf_page_pool'
+Message-ID: <202603260314.9lWlkJzi-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260324221032.1333636-9-derekjohn.clark@gmail.com>
 
-Hi Derek,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v7.0-rc5 next-20260324]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Derek-J-Clark/platform-x86-lenovo-wmi-other-Move-LWMI_FAN_DIV/20260325-070851
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260324221032.1333636-9-derekjohn.clark%40gmail.com
-patch subject: [PATCH v5 8/8] platform/x86: lenovo-wmi-other: Add WMI battery charge limiting
-config: x86_64-randconfig-005-20260325 (https://download.01.org/0day-ci/archive/20260326/202603260302.X0NjQOda-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   36e33448be90aea3d2e98da271b35aac511b8dc6
+commit: bbfbad63bb7babae84bb178a0b335880406847d1 [1/1] ANDROID: dma-buf: heaps: Move dmabuf_page_pool struct out of the KMI
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260326/202603260314.9lWlkJzi-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260326/202603260302.X0NjQOda-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260326/202603260314.9lWlkJzi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603260302.X0NjQOda-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603260314.9lWlkJzi-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: vmlinux.o: in function `lwmi_om_fan_get_set':
->> drivers/platform/x86/lenovo/wmi-other.c:206:(.text+0x1b74542): undefined reference to `lwmi_attr_id'
-   ld: vmlinux.o: in function `lwmi_attr_01_is_supported':
-   drivers/platform/x86/lenovo/wmi-other.c:1267:(.text+0x1b74fdf): undefined reference to `lwmi_attr_id'
->> ld: drivers/platform/x86/lenovo/wmi-other.c:1270:(.text+0x1b75013): undefined reference to `lwmi_cd01_get_data'
->> ld: drivers/platform/x86/lenovo/wmi-other.c:1283:(.text+0x1b7515b): undefined reference to `lwmi_attr_id'
-   ld: drivers/platform/x86/lenovo/wmi-other.c:1299:(.text+0x1b752f4): undefined reference to `lwmi_attr_id'
-   ld: vmlinux.o: in function `lwmi_om_fan_info_collect_cd_fan':
->> drivers/platform/x86/lenovo/wmi-other.c:565:(.text+0x1b75ca3): undefined reference to `lwmi_cd_fan_get_data'
-   ld: vmlinux.o: in function `lwmi_psy_prop_is_writeable':
-   drivers/platform/x86/lenovo/wmi-other.c:687:(.text+0x1b75e2f): undefined reference to `lwmi_attr_id'
->> ld: drivers/platform/x86/lenovo/wmi-other.c:690:(.text+0x1b75e5a): undefined reference to `lwmi_cd00_get_data'
-   ld: vmlinux.o: in function `lwmi_psy_ext_set_prop':
-   drivers/platform/x86/lenovo/wmi-other.c:649:(.text+0x1b75f9b): undefined reference to `lwmi_attr_id'
-   ld: vmlinux.o: in function `lwmi_psy_ext_get_prop':
-   drivers/platform/x86/lenovo/wmi-other.c:603:(.text+0x1b761aa): undefined reference to `lwmi_attr_id'
-   ld: vmlinux.o: in function `lwmi_other_probe':
->> drivers/platform/x86/lenovo/wmi-other.c:1612:(.text+0x1b764eb): undefined reference to `lwmi_cd_match_add_all'
-   ld: vmlinux.o: in function `lwmi_om_fan_info_collect_cd00':
-   drivers/platform/x86/lenovo/wmi-other.c:540:(.text+0x1b7680f): undefined reference to `lwmi_attr_id'
-   ld: drivers/platform/x86/lenovo/wmi-other.c:540:(.text+0x1b76838): undefined reference to `lwmi_cd00_get_data'
-   ld: vmlinux.o: in function `lwmi_om_ps_ext_init':
->> drivers/platform/x86/lenovo/wmi-other.c:806:(.text+0x1b76a57): undefined reference to `devm_battery_hook_register'
-   ld: vmlinux.o: in function `lwmi_om_fw_attr_add':
->> drivers/platform/x86/lenovo/wmi-other.c:1474:(.text+0x1b76afa): undefined reference to `firmware_attributes_class'
-   ld: vmlinux.o: in function `attr_current_value_show':
-   drivers/platform/x86/lenovo/wmi-other.c:1225:(.text+0x1b77015): undefined reference to `lwmi_attr_id'
-   ld: vmlinux.o: in function `attr_current_value_store':
-   drivers/platform/x86/lenovo/wmi-other.c:1165:(.text+0x1b776e2): undefined reference to `lwmi_attr_id'
-   ld: drivers/platform/x86/lenovo/wmi-other.c:1168:(.text+0x1b7771c): undefined reference to `lwmi_cd01_get_data'
-   ld: drivers/platform/x86/lenovo/wmi-other.c:1179:(.text+0x1b7781e): undefined reference to `lwmi_attr_id'
-   ld: vmlinux.o: in function `attr_capdata01_show':
-   drivers/platform/x86/lenovo/wmi-other.c:1099:(.text+0x1b77e38): undefined reference to `lwmi_attr_id'
-   ld: drivers/platform/x86/lenovo/wmi-other.c:1102:(.text+0x1b77e67): undefined reference to `lwmi_cd01_get_data'
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for LENOVO_WMI_TUNING
-   Depends on [m]: X86_PLATFORM_DEVICES [=y] && ACPI_WMI [=y] && ACPI_BATTERY [=m]
-   Selected by [y]:
-   - LENOVO_WMI_GAMEZONE [=y] && X86_PLATFORM_DEVICES [=y] && ACPI_WMI [=y] && DMI [=y]
+>> drivers/dma-buf/heaps/page_pool.c:46: warning: Function parameter or member 'count' not described in 'dmabuf_page_pool'
+>> drivers/dma-buf/heaps/page_pool.c:46: warning: Function parameter or member 'items' not described in 'dmabuf_page_pool'
 
 
-vim +206 drivers/platform/x86/lenovo/wmi-other.c
+vim +46 drivers/dma-buf/heaps/page_pool.c
 
-51ed34282f63fa Rong Zhang 2026-01-21  186  
-51ed34282f63fa Rong Zhang 2026-01-21  187  /**
-51ed34282f63fa Rong Zhang 2026-01-21  188   * lwmi_om_fan_get_set() - Get or set fan RPM value of specified fan
-51ed34282f63fa Rong Zhang 2026-01-21  189   * @priv: Driver private data structure
-51ed34282f63fa Rong Zhang 2026-01-21  190   * @channel: Fan channel index (0-based)
-51ed34282f63fa Rong Zhang 2026-01-21  191   * @val: Pointer to value (input for set, output for get)
-51ed34282f63fa Rong Zhang 2026-01-21  192   * @set: True to set value, false to get value
-51ed34282f63fa Rong Zhang 2026-01-21  193   *
-51ed34282f63fa Rong Zhang 2026-01-21  194   * Communicates with WMI interface to either retrieve current fan RPM
-51ed34282f63fa Rong Zhang 2026-01-21  195   * or set target fan RPM.
-51ed34282f63fa Rong Zhang 2026-01-21  196   *
-51ed34282f63fa Rong Zhang 2026-01-21  197   * Return: 0 on success, or an error code.
-51ed34282f63fa Rong Zhang 2026-01-21  198   */
-51ed34282f63fa Rong Zhang 2026-01-21  199  static int lwmi_om_fan_get_set(struct lwmi_om_priv *priv, int channel, u32 *val, bool set)
-51ed34282f63fa Rong Zhang 2026-01-21  200  {
-51ed34282f63fa Rong Zhang 2026-01-21  201  	struct wmi_method_args_32 args;
-51ed34282f63fa Rong Zhang 2026-01-21  202  	u32 method_id, retval;
-51ed34282f63fa Rong Zhang 2026-01-21  203  	int err;
-51ed34282f63fa Rong Zhang 2026-01-21  204  
-51ed34282f63fa Rong Zhang 2026-01-21  205  	method_id = set ? LWMI_FEATURE_VALUE_SET : LWMI_FEATURE_VALUE_GET;
-51ed34282f63fa Rong Zhang 2026-01-21 @206  	args.arg0 = LWMI_ATTR_ID_FAN_RPM(channel);
-51ed34282f63fa Rong Zhang 2026-01-21  207  	args.arg1 = set ? *val : 0;
-51ed34282f63fa Rong Zhang 2026-01-21  208  
-51ed34282f63fa Rong Zhang 2026-01-21  209  	err = lwmi_dev_evaluate_int(priv->wdev, 0x0, method_id,
-51ed34282f63fa Rong Zhang 2026-01-21  210  				    (unsigned char *)&args, sizeof(args), &retval);
-51ed34282f63fa Rong Zhang 2026-01-21  211  	if (err)
-51ed34282f63fa Rong Zhang 2026-01-21  212  		return err;
-51ed34282f63fa Rong Zhang 2026-01-21  213  
-51ed34282f63fa Rong Zhang 2026-01-21  214  	if (!set) {
-51ed34282f63fa Rong Zhang 2026-01-21  215  		*val = retval;
-51ed34282f63fa Rong Zhang 2026-01-21  216  		return 0;
-51ed34282f63fa Rong Zhang 2026-01-21  217  	}
-51ed34282f63fa Rong Zhang 2026-01-21  218  
-51ed34282f63fa Rong Zhang 2026-01-21  219  	/*
-51ed34282f63fa Rong Zhang 2026-01-21  220  	 * It seems that 0 means "no error" and 1 means "done". Apparently
-51ed34282f63fa Rong Zhang 2026-01-21  221  	 * different firmware teams have different thoughts on indicating
-51ed34282f63fa Rong Zhang 2026-01-21  222  	 * success, so we accepts both.
-51ed34282f63fa Rong Zhang 2026-01-21  223  	 */
-51ed34282f63fa Rong Zhang 2026-01-21  224  	return (retval == 0 || retval == 1) ? 0 : -EIO;
-51ed34282f63fa Rong Zhang 2026-01-21  225  }
-51ed34282f63fa Rong Zhang 2026-01-21  226  
+    26	
+    27	/**
+    28	 * struct dmabuf_page_pool - pagepool struct
+    29	 * @count[]:		array of number of pages of that type in the pool
+    30	 * @items[]:		array of list of pages of the specific type
+    31	 * @lock:		lock protecting this struct and especially the count
+    32	 *			item list
+    33	 * @gfp_mask:		gfp_mask to use from alloc
+    34	 * @order:		order of pages in the pool
+    35	 * @list:		list node for list of pools
+    36	 *
+    37	 * Allows you to keep a pool of pre allocated pages to use
+    38	 */
+    39	struct dmabuf_page_pool {
+    40		int count[POOL_TYPE_SIZE];
+    41		struct list_head items[POOL_TYPE_SIZE];
+    42		struct spinlock lock;
+    43		gfp_t gfp_mask;
+    44		unsigned int order;
+    45		struct list_head list;
+  > 46	};
+    47	
 
 -- 
 0-DAY CI Kernel Test Service
