@@ -1,204 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C51B02E54B6
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Mar 2026 18:50:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F46337F736;
+	Thu, 26 Mar 2026 19:13:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774551057; cv=none; b=La69S1huswU4EC8ENMupanEZ1VYP1V3vXy+bwp2qYMWmVofilyYA4HK0FQcpUzTsQGZ/AV7UjBv1uvMmCSfPPHDamzSAbvmzUZXyyloNbUSrABIPpa4ANK1LRUBADvKldFU9GSuRottb8NursZ4RNzOM+cFhOAK+vz/0jKbyorQ=
+	t=1774552440; cv=none; b=JzLQearXT95T13SLEMY5iXWhO8YKPX3NNPBMdxRreCVBiDt9TsarfyT5KNsc80BI233ZH9NH4rWOz75mWSSPbFLCz3AW5hWNpzxNtxUTGfkCxyMkBwUVQStNjU4zedlLhWtHhBTuZUNKNwjPt1VXzio8Oqd2ESSKfig6VJ8zL9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774551057; c=relaxed/simple;
-	bh=hwytOT5AHQkhNuXB7Dk7q9CVQJ+sv6oWC8s4nFu+akg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=R7E7ACBBhQHk9p0EXLun4ykXRVyga4SeoBnO5csN0WV6a+YDbO5mu/vQ2kFHISjOr5kzv0yGtGw8PT8hoW/kh1WNyrA/kxu2CfbhEftrTeCV0X/UV0puowiMxNFoyv2+P9l29FqakLpO9r035iJUjk6J5aRDw1ZgYbuwC3g5nmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jLXzqBbQ; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1774552440; c=relaxed/simple;
+	bh=tltjxf8jFcPq7OEubyq8By6LslzVEqdhOSnFAcg5Ie4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Zj4aoz0QuB3aczy1VSMoFMQ6Njv9LyyH8JM6qKrkGGn6kFa3aNBSa1ictNPYNEq32SU2x35dh0QEW9nqf4VHUsuxL3e68uEqGimD+AYzJIvdoKxXELQRm66Dwtisez17002p4b6U1DUFVzQhK39lMjA8dXZuj+eyJriKY+7Npsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CWqKwkgW; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jLXzqBbQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CWqKwkgW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774551056; x=1806087056;
-  h=date:from:to:cc:subject:message-id;
-  bh=hwytOT5AHQkhNuXB7Dk7q9CVQJ+sv6oWC8s4nFu+akg=;
-  b=jLXzqBbQcJ0zksqhnOoYA8qcGQucu9jOy90Seib56d4uwkyB9VlU/wmx
-   fVydqZYAdlXclglE7PwQwP9pnaAqSzbLZb/JHOzoKONtlavKuOjfcHsT6
-   KWkhpz/EqyHcUs5v9HvBPHdcRbMOBZmnVJEa9cTv/RZwQ3k0O4xF9QQDe
-   b5t+pyZ1HUwQTQD9X/GhKnnKoBJwTVccyMUYPsvNmjbNeFzGO6Ri0upqU
-   X4IuDRB3CCKf4ZiMzgqqCRK/wRF4Wz8Wy8XLDRjvm45cezoI2zjF1nIkR
-   /RxAn10B27sbuY6muHQt1Oxy6DBGq10SMj9cwwp3qs08iM+qkozOVifhI
-   A==;
-X-CSE-ConnectionGUID: PUUw6u99R2+V+AKJcBzBZA==
-X-CSE-MsgGUID: zn4p+g6ZTRK2azQWVjj+Kw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="75689963"
+  t=1774552439; x=1806088439;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tltjxf8jFcPq7OEubyq8By6LslzVEqdhOSnFAcg5Ie4=;
+  b=CWqKwkgWezV/0YJ0ONZvjKb9xHyifl9DWfFi/657WpGo7cWbg0UWsp/u
+   ZRz4gS5LYbhijQQYgisX5idHqIMKX9QJ9PCOu4E+85bOTlq8FPztNqflX
+   YwKxn7Aphzzh81nyKk+CHAAe6QO9yngtbNg5yQW/fD3VuMpWhGDmN5oH1
+   PICJGaubJnrVRrTvlODid1q/F0ZCbQ3Wc4wF7HRS0MUEkvX2GP05vyVBy
+   jMdk/Q6BTYxp1m98cZmFqe+IjRPRyK9+z+D0pP57WdpSLbYVpG57m85DQ
+   De8OPeHP3qBbHX/Zu2WyedtxGKhkoaYPiJMCfZ3X5yR0kYPiaoSaAXFRJ
+   g==;
+X-CSE-ConnectionGUID: I0xzm4RBQ3aZpB7uzjAzSg==
+X-CSE-MsgGUID: ZuZatRzVSWmzlI4NByacdQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="63181177"
 X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="75689963"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 11:50:55 -0700
-X-CSE-ConnectionGUID: 7gIzdKNuQzy1e9PNu2krnw==
-X-CSE-MsgGUID: eXT5pWAYTFiVF9o6PemF5g==
+   d="scan'208";a="63181177"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 12:13:59 -0700
+X-CSE-ConnectionGUID: weliWc2oSCaLWztwRBeIEg==
+X-CSE-MsgGUID: bRjTQAYVTpiEQpSUIRbmlA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="224271191"
+   d="scan'208";a="222183335"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 26 Mar 2026 11:50:53 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 26 Mar 2026 12:13:56 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5pn8-000000009Dv-3kJ0;
-	Thu, 26 Mar 2026 18:50:50 +0000
-Date: Fri, 27 Mar 2026 02:50:48 +0800
+	id 1w5q9R-000000009FV-2Up5;
+	Thu, 26 Mar 2026 19:13:53 +0000
+Date: Fri, 27 Mar 2026 03:13:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bradford Love <brad@nextdimension.cc>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
- Hans Verkuil <hverkuil@kernel.org>
-Subject: [linuxtv-media-pending:next 144/157]
- drivers/media/usb/em28xx/em28xx-cards.c:3889:2-3: Unneeded semicolon
-Message-ID: <202603270214.pyo7p8m7-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Kuniyuki Iwashima <kuniyu@google.com>,
+	Josef Bacik <josef@toxicpanda.com>, Jens Axboe <axboe@kernel.dk>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Simon Horman <horms@kernel.org>,
+	Kuniyuki Iwashima <kuniyu@google.com>, linux-block@vger.kernel.org,
+	nbd@other.debian.org, netdev@vger.kernel.org,
+	syzbot+7b4f368d3955d2c9950e@syzkaller.appspotmail.com
+Subject: Re: [PATCH 5/5] nbd: Use lock_sock_try() for TCP sendmsg() and
+ shutdown().
+Message-ID: <202603270301.kJulQgkT-lkp@intel.com>
+References: <20260325063843.1790782-6-kuniyu@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260325063843.1790782-6-kuniyu@google.com>
 
-tree:   https://git.linuxtv.org/media-ci/media-pending.git next
-head:   ebeec2b000a90cd8aae86d1931ff5ef23af8284e
-commit: 8e53399c63c3152fd572596acedcdaea4cabbc45 [144/157] media: em28xx: Add support for Empia em2828X bridge
-config: riscv-randconfig-r064-20260326 (https://download.01.org/0day-ci/archive/20260327/202603270214.pyo7p8m7-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+Hi Kuniyuki,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on axboe/for-next]
+[also build test ERROR on linus/master v7.0-rc5]
+[cannot apply to next-20260325]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/nbd-Remove-redundant-sock-ops-shutdown-check-in-nbd_get_socket/20260325-175457
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git for-next
+patch link:    https://lore.kernel.org/r/20260325063843.1790782-6-kuniyu%40google.com
+patch subject: [PATCH 5/5] nbd: Use lock_sock_try() for TCP sendmsg() and shutdown().
+config: x86_64-buildonly-randconfig-004-20260326 (https://download.01.org/0day-ci/archive/20260327/202603270301.kJulQgkT-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603270301.kJulQgkT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603270214.pyo7p8m7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603270301.kJulQgkT-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/media/usb/em28xx/em28xx-cards.c:3889:2-3: Unneeded semicolon
+All errors (new ones prefixed by >>):
+
+>> ld.lld: error: undefined symbol: inet_shutdown_locked
+   >>> referenced by nbd.c
+   >>>               drivers/block/nbd.o:(nbd_mark_nsock_dead) in archive vmlinux.a
 --
->> drivers/media/usb/em28xx/em28xx-core.c:635:2-3: Unneeded semicolon
-
-vim +3889 drivers/media/usb/em28xx/em28xx-cards.c
-
-  3771	
-  3772	static void em28xx_check_usb_descriptor(struct em28xx *dev,
-  3773						struct usb_device *udev,
-  3774						struct usb_interface *intf,
-  3775						int alt, int ep,
-  3776						bool *has_vendor_audio,
-  3777						bool *has_video,
-  3778						bool *has_dvb)
-  3779	{
-  3780		const struct usb_endpoint_descriptor *e;
-  3781		int sizedescr, size;
-  3782	
-  3783		/*
-  3784		 * NOTE:
-  3785		 *
-  3786		 * Old logic with support for isoc transfers only was:
-  3787		 *  0x82	isoc		=> analog
-  3788		 *  0x83	isoc		=> audio
-  3789		 *  0x84	isoc		=> digital
-  3790		 *
-  3791		 * New logic with support for bulk transfers
-  3792		 *  0x82	isoc		=> analog
-  3793		 *  0x82	bulk		=> analog
-  3794		 *  0x83	isoc*		=> audio
-  3795		 *  0x84	isoc		=> digital
-  3796		 *  0x84	bulk		=> analog or digital**
-  3797		 *  0x85	isoc		=> digital TS2
-  3798		 *  0x85	bulk		=> digital TS2
-  3799		 *  0x8a	isoc		=> digital video
-  3800		 * (*: audio should always be isoc)
-  3801		 * (**: analog, if ep 0x82 is isoc, otherwise digital)
-  3802		 *
-  3803		 * The new logic preserves backwards compatibility and
-  3804		 * reflects the endpoint configurations we have seen
-  3805		 * so far. But there might be devices for which this
-  3806		 * logic is not sufficient...
-  3807		 */
-  3808	
-  3809		e = &intf->altsetting[alt].endpoint[ep].desc;
-  3810	
-  3811		if (!usb_endpoint_dir_in(e))
-  3812			return;
-  3813	
-  3814		sizedescr = le16_to_cpu(e->wMaxPacketSize);
-  3815		size = sizedescr & 0x7ff;
-  3816	
-  3817		if (udev->speed == USB_SPEED_HIGH)
-  3818			size = size * hb_mult(sizedescr);
-  3819	
-  3820		/* Only inspect input endpoints */
-  3821	
-  3822		switch (e->bEndpointAddress) {
-  3823		case 0x81:	/* unknown function */
-  3824			return;
-  3825		case 0x82:
-  3826			*has_video = true;
-  3827			if (usb_endpoint_xfer_isoc(e)) {
-  3828				dev->analog_ep_isoc = e->bEndpointAddress;
-  3829				dev->alt_max_pkt_size_isoc[alt] = size;
-  3830			} else if (usb_endpoint_xfer_bulk(e)) {
-  3831				dev->analog_ep_bulk = e->bEndpointAddress;
-  3832			}
-  3833			return;
-  3834		case 0x83:
-  3835			if (usb_endpoint_xfer_isoc(e))
-  3836				*has_vendor_audio = true;
-  3837			else
-  3838				dev_err(&intf->dev,
-  3839					"error: skipping audio endpoint 0x83, because it uses bulk transfers !\n");
-  3840			return;
-  3841		case 0x84:
-  3842			if (*has_dvb && (usb_endpoint_xfer_bulk(e))) {
-  3843				*has_dvb = true;
-  3844				dev->dvb_ep_bulk = e->bEndpointAddress;
-  3845			} else if (*has_video && (usb_endpoint_xfer_bulk(e))) {
-  3846				dev->analog_ep_bulk = e->bEndpointAddress;
-  3847			} else {
-  3848				if (usb_endpoint_xfer_isoc(e)) {
-  3849					if (size > dev->dvb_max_pkt_size_isoc) {
-  3850						/*
-  3851						 * 2) some manufacturers (e.g. Terratec)
-  3852						 * disable endpoints by setting
-  3853						 * wMaxPacketSize to 0 bytes for all
-  3854						 * alt settings. So far, we've seen
-  3855						 * this for DVB isoc endpoints only.
-  3856						 */
-  3857						*has_dvb = true;
-  3858						dev->dvb_ep_isoc = e->bEndpointAddress;
-  3859						dev->dvb_max_pkt_size_isoc = size;
-  3860						dev->dvb_alt_isoc = alt;
-  3861					}
-  3862				} else {
-  3863					*has_dvb = true;
-  3864					dev->dvb_ep_bulk = e->bEndpointAddress;
-  3865				}
-  3866			}
-  3867			return;
-  3868		case 0x85:
-  3869			if (usb_endpoint_xfer_isoc(e)) {
-  3870				if (size > dev->dvb_max_pkt_size_isoc_ts2) {
-  3871					dev->dvb_ep_isoc_ts2 = e->bEndpointAddress;
-  3872					dev->dvb_max_pkt_size_isoc_ts2 = size;
-  3873					dev->dvb_alt_isoc = alt;
-  3874				}
-  3875			} else {
-  3876				dev->dvb_ep_bulk_ts2 = e->bEndpointAddress;
-  3877			}
-  3878			return;
-  3879		case 0x8a:
-  3880			*has_video = true;
-  3881			*has_dvb = true;
-  3882			if (usb_endpoint_xfer_isoc(e)) {
-  3883				dev->analog_ep_isoc = e->bEndpointAddress;
-  3884				dev->alt_max_pkt_size_isoc[alt] = size;
-  3885			} else if (usb_endpoint_xfer_bulk(e)) {
-  3886				dev->analog_ep_bulk = e->bEndpointAddress;
-  3887			}
-  3888			return;
-> 3889		};
-  3890	}
-  3891	
+>> ld.lld: error: undefined symbol: tcp_sendmsg_locked
+   >>> referenced by nbd.c
+   >>>               drivers/block/nbd.o:(__sock_xmit) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
