@@ -1,236 +1,467 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4AA2426EAA
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Mar 2026 17:33:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5034405AC1;
+	Thu, 26 Mar 2026 17:44:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774546433; cv=none; b=hTuGQgrikm+0/5PfJuN69gxwFrAuKLjdOEjiKJ0AIwZ/fvDnOCTNlL2IdOz0EGztYknUVQy2Q9DPh+LGCNqRWLWEHPk1EJQNVEUKj7aJHxtRn9I0WLPuKvpEttRW5fACUN7zb2va9BYuH2gD0vd1i430bUXfz1k7oRy4c8niZ10=
+	t=1774547098; cv=none; b=sonOJzam4xvgrDRna5i2kbKJJ3BjhlK8c2stC1L/xB/WY73O0JafJu8OaFhT19IaUIeKtKP8nVYH+omOIO2o2n/+ioKtyPJIZVQfGwQKuvRDf0u1yIcqoxFlVium5pnsX7yNWreBkJ9uQJsJ17maWpnZSy3WC+QR3xXcV0JNRgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774546433; c=relaxed/simple;
-	bh=q6vXLbRYJtEyxWWgaXXaa3s0NjDm9ZYKIW0aT/UZHq0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=h45Zwa3mXOzTw9xbqItLetFjiWxflo4PQY1AHRZzUl2SjvQ49uWY07+wUaNa6xj+t5mGNpA9en29sS/ARkTwDY6aC9PWiijEbe0YJh1EG60Hl9m7VEWfMukm9sE2DfLBnL0Pnkbd1C1q2cCjn3+4TZPTJGnanlcuDj7VMcfZYrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GAbeq/fQ; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1774547098; c=relaxed/simple;
+	bh=N48O+VJuVyeYbIA1zLz14U+1OYf0Z+vKaFljbngpqSE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Mc2LKf2XGN4R/BsER8RW2LvQ91VEoGf/g829XLFNp00pqCGXuVHUUfoilxNo/8Fh5rFdgA4UcNKFBjmiVJvQ5W8BuRqQDToKqqkSQs6U2OPvwj9lnNEV2ayw2MGTnm+BF7dUV/rIRE8Rfcx/w9AKMhMBhEFGZtLsXP4sArazurs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a011wp32; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GAbeq/fQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a011wp32"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774546430; x=1806082430;
-  h=date:from:to:cc:subject:message-id;
-  bh=q6vXLbRYJtEyxWWgaXXaa3s0NjDm9ZYKIW0aT/UZHq0=;
-  b=GAbeq/fQE98NwBwtDzSNxbaX3kIot9EPF/qTYHt939frXX3Nn3q24hcE
-   ANMaC+uqJqO+2ySLObXFo8Q8XqAvA16Vbol9Fxd4p8j03v+sCe3dOpKkM
-   rApJD6kmQKDorXUTdbaJypGJs68XxAN+hAEGnvZvp+/y2ng+ZivRrxd4y
-   ZCJvoVG+mIoiKwsPpqKIETAwLGOdjo04Da2yykvJ/KHn0jVcoRf9Xe3xK
-   aMjnolGdHUJYNj1C9GNKGMrzoFORN2culVA2aMwG3IxxsFISCSVj2RRPm
-   kXBYZnT0vM1ubz1PQeZKuL7Vsabp/gdB5tGvVyD10PWorWXEFOGcoVNXw
-   w==;
-X-CSE-ConnectionGUID: 0/DQ/yyISHi5JiIwrBfkrQ==
-X-CSE-MsgGUID: vRgEeYzeSIiq6P+DwV3Qwg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="75727568"
+  t=1774547094; x=1806083094;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=N48O+VJuVyeYbIA1zLz14U+1OYf0Z+vKaFljbngpqSE=;
+  b=a011wp325i2WIWBjdY2eQghrnzXmxPvi0GkJ43jBTw/gIMcocoi4zTgP
+   ccs3MIsxfMgW8VRgwELaYZN5BZ5Faj2ZZ3A8a35ZL5Zwmq9DZ75lnm7nJ
+   htVPJNvL9giBMn5aLWOHFinPXVzm/mfF+7+bHsHU6LhaU59FlraumAXE6
+   ymiaM3RPWEGwQdIWDlegrvASksNjIyOvKS2TJUwtKqL1X0tGaJDjK22Sq
+   Zge2kWlEPR3VTgwtawUzenJlJdoyF53Zr6WvyvfFq1wGrhxWH/e+g2464
+   vmHimsAHOBNxaVxNnoAGbvydFPabmE77OT34MMWQXMgVUStaT/WCA8ivQ
+   Q==;
+X-CSE-ConnectionGUID: 36BhH6PlRoGBEsWKoMsQfw==
+X-CSE-MsgGUID: L23Z+cMhStCMwDnecDaQiA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="98234740"
 X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="75727568"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 10:33:49 -0700
-X-CSE-ConnectionGUID: kSonwg4HSV2qlYhTeKwwDw==
-X-CSE-MsgGUID: 7uCDXF6uSIm5eNGNLyP3Ag==
+   d="scan'208";a="98234740"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 10:44:50 -0700
+X-CSE-ConnectionGUID: es1pv1CMRImtKQ9jUngWjQ==
+X-CSE-MsgGUID: 89StwfooSZ2IyzlqHZoqFg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="225326667"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 26 Mar 2026 10:33:47 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 26 Mar 2026 10:44:47 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5oaW-0000000098l-0oaD;
-	Thu, 26 Mar 2026 17:33:44 +0000
-Date: Fri, 27 Mar 2026 01:33:36 +0800
+	id 1w5olB-0000000099P-110G;
+	Thu, 26 Mar 2026 17:44:45 +0000
+Date: Fri, 27 Mar 2026 01:44:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:new_tests 18/25]
- drivers/net/ethernet/mellanox/mlx4/fw.c:1285:17: warning: variable
- 'first_port' set but not used
-Message-ID: <202603270102.u4R6IkoR-lkp@intel.com>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/kunit-kselftests 3/18]
+ samples/trace_events/trace-events-sample.h:306:3: error: diagnostic behavior
+ may be improved by adding the 'format(printf, 7, 0)' attribute to the
+ declaration of 'trace_event_get_offsets_foo_bar'
+Message-ID: <202603270156.zDpTyfwX-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-tree:   https://github.com/norov/linux new_tests
-head:   7402f5cc9265ac58854a5e28fa0305bda6f459ab
-commit: 9c19f38601eb29dfc08c3db08940f467f48b1d79 [18/25] mellanox: cleanup mlx5_cmd_all_stalled()
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260327/202603270102.u4R6IkoR-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603270102.u4R6IkoR-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/kunit-kselftests
+head:   fb40de0a3d3ef218f63b2eb7698903d2328f3593
+commit: 972c95c4ea353a5734cab4fc9a9308b05ceeefe8 [3/18] run-tests
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260327/202603270156.zDpTyfwX-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603270156.zDpTyfwX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603270102.u4R6IkoR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603270156.zDpTyfwX-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/mellanox/mlx4/fw.c: In function 'mlx4_QUERY_DEV_CAP_wrapper':
-   drivers/net/ethernet/mellanox/mlx4/fw.c:1302:65: error: expected ';' before 'for'
-    1302 |         w = bitmap_weight(actv_ports.ports, dev->caps.num_ports)
-         |                                                                 ^
-         |                                                                 ;
-    1303 |         for (slave_port = 0, real_port = first_port;
-         |         ~~~                                                      
-   drivers/net/ethernet/mellanox/mlx4/fw.c:1319:9: error: implicit declaration of function 'FIELD_MODIFY' [-Wimplicit-function-declaration]
-    1319 |         FIELD_MODIFY(0x0F, &field, w);
-         |         ^~~~~~~~~~~~
->> drivers/net/ethernet/mellanox/mlx4/fw.c:1285:17: warning: variable 'first_port' set but not used [-Wunused-but-set-variable]
-    1285 |         int     first_port;
-         |                 ^~~~~~~~~~
->> drivers/net/ethernet/mellanox/mlx4/fw.c:1284:17: warning: unused variable 'slave_port' [-Wunused-variable]
-    1284 |         int     slave_port;
-         |                 ^~~~~~~~~~
->> drivers/net/ethernet/mellanox/mlx4/fw.c:1283:17: warning: unused variable 'real_port' [-Wunused-variable]
-    1283 |         int     real_port;
-         |                 ^~~~~~~~~
+   In file included from samples/trace_events/trace-events-sample.c:12:
+   In file included from samples/trace_events/trace-events-sample.h:640:
+   In file included from include/trace/define_trace.h:132:
+   In file included from include/trace/trace_events.h:293:
+>> samples/trace_events/trace-events-sample.h:306:3: error: diagnostic behavior may be improved by adding the 'format(printf, 7, 0)' attribute to the declaration of 'trace_event_get_offsets_foo_bar' [-Werror,-Wmissing-format-attribute]
+     291 | TRACE_EVENT(foo_bar,
+         | __attribute__((format(printf, 7, 0))) 
+     292 | 
+     293 |         TP_PROTO(const char *foo, int bar, const int *lst,
+     294 |                  const char *string, const struct cpumask *mask,
+     295 |                  const char *fmt, va_list *va),
+     296 | 
+     297 |         TP_ARGS(foo, bar, lst, string, mask, fmt, va),
+     298 | 
+     299 |         TP_STRUCT__entry(
+     300 |                 __array(        char,   foo,    10              )
+     301 |                 __field(        int,    bar                     )
+     302 |                 __dynamic_array(int,    list,   __length_of(lst))
+     303 |                 __string(       str,    string                  )
+     304 |                 __bitmask(      cpus,   num_possible_cpus()     )
+     305 |                 __cpumask(      cpum                            )
+     306 |                 __vstring(      vstr,   fmt,    va              )
+         |                 ^
+   include/trace/stages/stage5_get_offsets.h:69:9: note: expanded from macro '__vstring'
+      69 |                       __trace_event_vstr_len(fmt, ap))
+         |                       ^
+   include/linux/trace_events.h:956:38: note: expanded from macro '__trace_event_vstr_len'
+     956 |         __ret = vsnprintf(NULL, 0, fmt, __ap) + 1;      \
+         |                                             ^
+   include/trace/stages/stage5_get_offsets.h:52:19: note: expanded from macro '__dynamic_array'
+      52 |         __item_length = (len) * sizeof(type);                           \
+         |                          ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/trace/trace_events.h:43:16: note: expanded from macro 'TRACE_EVENT'
+      43 |                              PARAMS(tstruct),                  \
+         |                                     ^
+   include/linux/tracepoint.h:140:25: note: expanded from macro 'PARAMS'
+     140 | #define PARAMS(args...) args
+         |                         ^
+   include/trace/trace_events.h:285:2: note: expanded from macro 'DECLARE_EVENT_CLASS'
+     285 |         tstruct;                                                        \
+         |         ^
+   samples/trace_events/trace-events-sample.h:291:1: note: 'trace_event_get_offsets_foo_bar' declared here
+     291 | TRACE_EVENT(foo_bar,
+         | ^
+   include/trace/trace_events.h:40:2: note: expanded from macro 'TRACE_EVENT'
+      40 |         DECLARE_EVENT_CLASS(name,                              \
+         |         ^
+   include/trace/trace_events.h:278:27: note: expanded from macro 'DECLARE_EVENT_CLASS'
+     278 | static inline notrace int trace_event_get_offsets_##call(               \
+         |                           ^
+   <scratch space>:50:1: note: expanded from here
+      50 | trace_event_get_offsets_foo_bar
+         | ^
+   In file included from samples/trace_events/trace-events-sample.c:12:
+   In file included from samples/trace_events/trace-events-sample.h:640:
+   In file included from include/trace/define_trace.h:132:
+   In file included from include/trace/trace_events.h:468:
+>> samples/trace_events/trace-events-sample.h:291:1: error: diagnostic behavior may be improved by adding the 'format(printf, 7, 0)' attribute to the declaration of 'do_trace_event_raw_event_foo_bar' [-Werror,-Wmissing-format-attribute]
+     291 | TRACE_EVENT(foo_bar,
+         | ^
+         | __attribute__((format(printf, 7, 0))) 
+   include/trace/trace_events.h:40:2: note: expanded from macro 'TRACE_EVENT'
+      40 |         DECLARE_EVENT_CLASS(name,                              \
+         |         ^
+   include/trace/trace_events.h:433:72: note: expanded from macro 'DECLARE_EVENT_CLASS'
+     433 | #define DECLARE_EVENT_CLASS(call, proto, args, tstruct, assign, print)  \
+         |                                                                         ^
+   include/trace/trace_events.h:417:68: note: expanded from macro '\
+   __DECLARE_EVENT_CLASS'
+     417 |         __data_size = trace_event_get_offsets_##call(&__data_offsets, args); \
+         |                                                                           ^
+   samples/trace_events/trace-events-sample.h:291:1: note: 'do_trace_event_raw_event_foo_bar' declared here
+   include/trace/trace_events.h:40:2: note: expanded from macro 'TRACE_EVENT'
+      40 |         DECLARE_EVENT_CLASS(name,                              \
+         |         ^
+   include/trace/trace_events.h:433:72: note: expanded from macro 'DECLARE_EVENT_CLASS'
+     433 | #define DECLARE_EVENT_CLASS(call, proto, args, tstruct, assign, print)  \
+         |                                                                         ^
+   include/trace/trace_events.h:405:27: note: expanded from macro '\
+   __DECLARE_EVENT_CLASS'
+     405 | static notrace void                                                     \
+         |                                                                         ^
+   <scratch space>:127:1: note: expanded from here
+     127 | do_trace_event_raw_event_foo_bar
+         | ^
+   In file included from samples/trace_events/trace-events-sample.c:12:
+   In file included from samples/trace_events/trace-events-sample.h:640:
+   In file included from include/trace/define_trace.h:132:
+   In file included from include/trace/trace_events.h:468:
+>> samples/trace_events/trace-events-sample.h:291:1: error: diagnostic behavior may be improved by adding the 'format(printf, 7, 0)' attribute to the declaration of 'trace_event_raw_event_foo_bar' [-Werror,-Wmissing-format-attribute]
+     291 | TRACE_EVENT(foo_bar,
+         | ^
+   include/trace/trace_events.h:40:2: note: expanded from macro 'TRACE_EVENT'
+      40 |         DECLARE_EVENT_CLASS(name,                              \
+         |         ^
+   include/trace/trace_events.h:440:46: note: expanded from macro 'DECLARE_EVENT_CLASS'
+     440 |         do_trace_event_raw_event_##call(__data, args);                  \
+         |                                                     ^
+   samples/trace_events/trace-events-sample.h:291:1: note: 'trace_event_raw_event_foo_bar' declared here
+   include/trace/trace_events.h:40:2: note: expanded from macro 'TRACE_EVENT'
+      40 |         DECLARE_EVENT_CLASS(name,                              \
+         |         ^
+   include/trace/trace_events.h:436:27: note: expanded from macro 'DECLARE_EVENT_CLASS'
+     436 | static notrace void                                                     \
+         |                                                                         ^
+   <scratch space>:131:1: note: expanded from here
+     131 | trace_event_raw_event_foo_bar
+         | ^
+   In file included from samples/trace_events/trace-events-sample.c:12:
+   In file included from samples/trace_events/trace-events-sample.h:640:
+   In file included from include/trace/define_trace.h:133:
+   In file included from include/trace/perf.h:110:
+>> samples/trace_events/trace-events-sample.h:291:1: error: diagnostic behavior may be improved by adding the 'format(printf, 7, 0)' attribute to the declaration of 'do_perf_trace_foo_bar' [-Werror,-Wmissing-format-attribute]
+     291 | TRACE_EVENT(foo_bar,
+         | ^
+         | __attribute__((format(printf, 7, 0))) 
+   include/trace/trace_events.h:40:2: note: expanded from macro 'TRACE_EVENT'
+      40 |         DECLARE_EVENT_CLASS(name,                              \
+         |         ^
+   include/trace/perf.h:65:72: note: expanded from macro 'DECLARE_EVENT_CLASS'
+      65 | #define DECLARE_EVENT_CLASS(call, proto, args, tstruct, assign, print)  \
+         |                                                                         ^
+   include/trace/perf.h:31:68: note: expanded from macro '\
+   __DECLARE_EVENT_CLASS'
+      31 |         __data_size = trace_event_get_offsets_##call(&__data_offsets, args); \
+         |                                                                           ^
+   samples/trace_events/trace-events-sample.h:291:1: note: 'do_perf_trace_foo_bar' declared here
+   include/trace/trace_events.h:40:2: note: expanded from macro 'TRACE_EVENT'
+      40 |         DECLARE_EVENT_CLASS(name,                              \
+         |         ^
+   include/trace/perf.h:65:72: note: expanded from macro 'DECLARE_EVENT_CLASS'
+      65 | #define DECLARE_EVENT_CLASS(call, proto, args, tstruct, assign, print)  \
+         |                                                                         ^
+   include/trace/perf.h:17:27: note: expanded from macro '\
+   __DECLARE_EVENT_CLASS'
+      17 | static notrace void                                                     \
+         |                                                                         ^
+   <scratch space>:112:1: note: expanded from here
+     112 | do_perf_trace_foo_bar
+         | ^
+   In file included from samples/trace_events/trace-events-sample.c:12:
+   In file included from samples/trace_events/trace-events-sample.h:640:
+   In file included from include/trace/define_trace.h:133:
+   In file included from include/trace/perf.h:110:
+>> samples/trace_events/trace-events-sample.h:291:1: error: diagnostic behavior may be improved by adding the 'format(printf, 7, 0)' attribute to the declaration of 'perf_trace_foo_bar' [-Werror,-Wmissing-format-attribute]
+     291 | TRACE_EVENT(foo_bar,
+         | ^
+   include/trace/trace_events.h:40:2: note: expanded from macro 'TRACE_EVENT'
+      40 |         DECLARE_EVENT_CLASS(name,                              \
+         |         ^
+   include/trace/perf.h:75:35: note: expanded from macro 'DECLARE_EVENT_CLASS'
+      75 |         do_perf_trace_##call(__data, args);                             \
+         |                                          ^
+   samples/trace_events/trace-events-sample.h:291:1: note: 'perf_trace_foo_bar' declared here
+     291 | TRACE_EVENT(foo_bar,
+         | ^
+   include/trace/trace_events.h:40:2: note: expanded from macro 'TRACE_EVENT'
+      40 |         DECLARE_EVENT_CLASS(name,                              \
+         |         ^
+   include/trace/trace_events.h:475:72: note: expanded from macro 'DECLARE_EVENT_CLASS'
+     475 | #define DECLARE_EVENT_CLASS(call, proto, args, tstruct, assign, print)  \
+         |                                                                         ^
+   include/trace/trace_events.h:390:2: note: expanded from macro '\
+   _TRACE_PERF_PROTO'
+     390 |         perf_trace_##call(void *__data, proto);
+         |         ^
+   <scratch space>:96:1: note: expanded from here
+      96 | perf_trace_foo_bar
+         | ^
+   5 errors generated.
 --
-   drivers/net/ethernet/mellanox/mlx5/core/cmd.c: In function 'mlx5_cmd_all_stalled':
->> drivers/net/ethernet/mellanox/mlx5/core/cmd.c:1228:19: warning: right-hand operand of comma expression has no effect [-Wunused-value]
-    1228 |         for (i = 0, i < cmd->vars.max_reg_cmds; i++) {
-         |                   ^
-   drivers/net/ethernet/mellanox/mlx5/core/cmd.c:1228:52: error: expected ';' before ')' token
-    1228 |         for (i = 0, i < cmd->vars.max_reg_cmds; i++) {
-         |                                                    ^
-         |                                                    ;
+>> arch/sparc/kernel/uprobes.c:284:2: error: unannotated fall-through between switch labels [-Werror,-Wimplicit-fallthrough]
+     284 |         default:
+         |         ^
+   arch/sparc/kernel/uprobes.c:284:2: note: insert 'break;' to avoid fall-through
+     284 |         default:
+         |         ^
+         |         break; 
+   1 error generated.
+--
+>> drivers/clk/clk-qoriq.c:925:39: error: diagnostic behavior may be improved by adding the 'format(printf, 7, 8)' attribute to the declaration of 'create_mux_common' [-Werror,-Wmissing-format-attribute]
+     910 | static struct clk * __init create_mux_common(struct clockgen *cg,
+         | __attribute__((format(printf, 7, 8))) 
+     911 |                                              struct mux_hwclock *hwc,
+     912 |                                              const struct clk_ops *ops,
+     913 |                                              unsigned long min_rate,
+     914 |                                              unsigned long max_rate,
+     915 |                                              unsigned long pct80_rate,
+     916 |                                              const char *fmt, int idx)
+     917 | {
+     918 |         struct clk_init_data init = {};
+     919 |         struct clk *clk;
+     920 |         const struct clockgen_pll_div *div;
+     921 |         const char *parent_names[NUM_MUX_PARENTS];
+     922 |         char name[32];
+     923 |         int i, j;
+     924 | 
+     925 |         snprintf(name, sizeof(name), fmt, idx);
+         |                                              ^
+   drivers/clk/clk-qoriq.c:910:28: note: 'create_mux_common' declared here
+     910 | static struct clk * __init create_mux_common(struct clockgen *cg,
+         |                            ^
+   1 error generated.
+--
+>> drivers/cpufreq/sparc-us2e-cpufreq.c:247:26: error: variable 'new_freq' set but not used [-Werror,-Wunused-but-set-variable]
+     247 |         unsigned long new_bits, new_freq;
+         |                                 ^
+   1 error generated.
+--
+>> drivers/scsi/esas2r/esas2r_log.c:160:50: error: diagnostic behavior may be improved by adding the 'format(printf, 3, 0)' attribute to the declaration of 'esas2r_log_master' [-Werror,-Wmissing-format-attribute]
+     121 |                 retval = vsnprintf(buffer, buflen, format, args);
+         |                                                                ^
+   drivers/scsi/esas2r/esas2r_log.c:121:12: note: 'esas2r_log_master' declared here
+     121 | static int esas2r_log_master(const long level,
+         |            ^
+   1 error generated.
+--
+>> drivers/infiniband/hw/ionic/ionic_datapath.c:902:18: error: conditional expression between different enumeration types ('enum ionic_v1_op' and 'enum ionic_v2_op') [-Werror,-Wenum-compare-conditional]
+     902 |                 wqe->base.op = IONIC_OP(dev->lif_cfg.rdma_version, SEND);
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/infiniband/hw/ionic/ionic_datapath.c:13:17: note: expanded from macro 'IONIC_OP'
+      13 |         ((version) < 2 ? IONIC_V1_OP_##opname : IONIC_V2_OP_##opname)
+         |                        ^ ~~~~~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/infiniband/hw/ionic/ionic_datapath.c:905:18: error: conditional expression between different enumeration types ('enum ionic_v1_op' and 'enum ionic_v2_op') [-Werror,-Wenum-compare-conditional]
+     905 |                 wqe->base.op = IONIC_OP(dev->lif_cfg.rdma_version, SEND_IMM);
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/infiniband/hw/ionic/ionic_datapath.c:13:17: note: expanded from macro 'IONIC_OP'
+      13 |         ((version) < 2 ? IONIC_V1_OP_##opname : IONIC_V2_OP_##opname)
+         |                        ^ ~~~~~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/infiniband/hw/ionic/ionic_datapath.c:909:18: error: conditional expression between different enumeration types ('enum ionic_v1_op' and 'enum ionic_v2_op') [-Werror,-Wenum-compare-conditional]
+     909 |                 wqe->base.op = IONIC_OP(dev->lif_cfg.rdma_version, SEND_INV);
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/infiniband/hw/ionic/ionic_datapath.c:13:17: note: expanded from macro 'IONIC_OP'
+      13 |         ((version) < 2 ? IONIC_V1_OP_##opname : IONIC_V2_OP_##opname)
+         |                        ^ ~~~~~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/infiniband/hw/ionic/ionic_datapath.c:946:18: error: conditional expression between different enumeration types ('enum ionic_v1_op' and 'enum ionic_v2_op') [-Werror,-Wenum-compare-conditional]
+     946 |                 wqe->base.op = IONIC_OP(dev->lif_cfg.rdma_version, SEND);
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/infiniband/hw/ionic/ionic_datapath.c:13:17: note: expanded from macro 'IONIC_OP'
+      13 |         ((version) < 2 ? IONIC_V1_OP_##opname : IONIC_V2_OP_##opname)
+         |                        ^ ~~~~~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/infiniband/hw/ionic/ionic_datapath.c:949:18: error: conditional expression between different enumeration types ('enum ionic_v1_op' and 'enum ionic_v2_op') [-Werror,-Wenum-compare-conditional]
+     949 |                 wqe->base.op = IONIC_OP(dev->lif_cfg.rdma_version, SEND_IMM);
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/infiniband/hw/ionic/ionic_datapath.c:13:17: note: expanded from macro 'IONIC_OP'
+      13 |         ((version) < 2 ? IONIC_V1_OP_##opname : IONIC_V2_OP_##opname)
+         |                        ^ ~~~~~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/infiniband/hw/ionic/ionic_datapath.c:978:18: error: conditional expression between different enumeration types ('enum ionic_v1_op' and 'enum ionic_v2_op') [-Werror,-Wenum-compare-conditional]
+     978 |                 wqe->base.op = IONIC_OP(dev->lif_cfg.rdma_version, RDMA_READ);
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/infiniband/hw/ionic/ionic_datapath.c:13:17: note: expanded from macro 'IONIC_OP'
+      13 |         ((version) < 2 ? IONIC_V1_OP_##opname : IONIC_V2_OP_##opname)
+         |                        ^ ~~~~~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/infiniband/hw/ionic/ionic_datapath.c:983:18: error: conditional expression between different enumeration types ('enum ionic_v1_op' and 'enum ionic_v2_op') [-Werror,-Wenum-compare-conditional]
+     983 |                 wqe->base.op = IONIC_OP(dev->lif_cfg.rdma_version, RDMA_WRITE);
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/infiniband/hw/ionic/ionic_datapath.c:13:17: note: expanded from macro 'IONIC_OP'
+      13 |         ((version) < 2 ? IONIC_V1_OP_##opname : IONIC_V2_OP_##opname)
+         |                        ^ ~~~~~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/infiniband/hw/ionic/ionic_datapath.c:986:18: error: conditional expression between different enumeration types ('enum ionic_v1_op' and 'enum ionic_v2_op') [-Werror,-Wenum-compare-conditional]
+     986 |                 wqe->base.op = IONIC_OP(dev->lif_cfg.rdma_version, RDMA_WRITE_IMM);
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/infiniband/hw/ionic/ionic_datapath.c:13:17: note: expanded from macro 'IONIC_OP'
+      13 |         ((version) < 2 ? IONIC_V1_OP_##opname : IONIC_V2_OP_##opname)
+         |                        ^ ~~~~~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/infiniband/hw/ionic/ionic_datapath.c:1023:18: error: conditional expression between different enumeration types ('enum ionic_v1_op' and 'enum ionic_v2_op') [-Werror,-Wenum-compare-conditional]
+    1023 |                 wqe->base.op = IONIC_OP(dev->lif_cfg.rdma_version, ATOMIC_CS);
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/infiniband/hw/ionic/ionic_datapath.c:13:17: note: expanded from macro 'IONIC_OP'
+      13 |         ((version) < 2 ? IONIC_V1_OP_##opname : IONIC_V2_OP_##opname)
+         |                        ^ ~~~~~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/infiniband/hw/ionic/ionic_datapath.c:1031:18: error: conditional expression between different enumeration types ('enum ionic_v1_op' and 'enum ionic_v2_op') [-Werror,-Wenum-compare-conditional]
+    1031 |                 wqe->base.op = IONIC_OP(dev->lif_cfg.rdma_version, ATOMIC_FA);
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/infiniband/hw/ionic/ionic_datapath.c:13:17: note: expanded from macro 'IONIC_OP'
+      13 |         ((version) < 2 ? IONIC_V1_OP_##opname : IONIC_V2_OP_##opname)
+         |                        ^ ~~~~~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/infiniband/hw/ionic/ionic_datapath.c:1066:17: error: conditional expression between different enumeration types ('enum ionic_v1_op' and 'enum ionic_v2_op') [-Werror,-Wenum-compare-conditional]
+    1066 |         wqe->base.op = IONIC_OP(dev->lif_cfg.rdma_version, LOCAL_INV);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/infiniband/hw/ionic/ionic_datapath.c:13:17: note: expanded from macro 'IONIC_OP'
+      13 |         ((version) < 2 ? IONIC_V1_OP_##opname : IONIC_V2_OP_##opname)
+         |                        ^ ~~~~~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/infiniband/hw/ionic/ionic_datapath.c:1101:17: error: conditional expression between different enumeration types ('enum ionic_v1_op' and 'enum ionic_v2_op') [-Werror,-Wenum-compare-conditional]
+    1101 |         wqe->base.op = IONIC_OP(dev->lif_cfg.rdma_version, REG_MR);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/infiniband/hw/ionic/ionic_datapath.c:13:17: note: expanded from macro 'IONIC_OP'
+      13 |         ((version) < 2 ? IONIC_V1_OP_##opname : IONIC_V2_OP_##opname)
+         |                        ^ ~~~~~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~
+   12 errors generated.
+--
+>> drivers/net/ethernet/sfc/ethtool_common.c:274:60: error: diagnostic behavior may be improved by adding the 'format(printf, 7, 8)' attribute to the declaration of 'efx_fill_test' [-Werror,-Wmissing-format-attribute]
+     257 |                 snprintf(test_str, sizeof(test_str), test_format, test_id);
+         |                                                                          ^
+   drivers/net/ethernet/sfc/ethtool_common.c:257:13: note: 'efx_fill_test' declared here
+     257 | static void efx_fill_test(unsigned int test_index, u8 *strings, u64 *data,
+         |             ^
+>> drivers/net/ethernet/sfc/ethtool_common.c:352:28: error: data argument not used by format string [-Werror,-Wformat-extra-args]
+     352 |                       "phy", 0, "alive", NULL);
+         |                                 ~~~~~~~  ^
+   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+       8 | #define NULL ((void *)0)
+         |              ^
+   drivers/net/ethernet/sfc/ethtool_common.c:354:29: error: data argument not used by format string [-Werror,-Wformat-extra-args]
+     354 |                       "core", 0, "nvram", NULL);
+         |                                  ~~~~~~~  ^
+   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+       8 | #define NULL ((void *)0)
+         |              ^
+   drivers/net/ethernet/sfc/ethtool_common.c:356:33: error: data argument not used by format string [-Werror,-Wformat-extra-args]
+     356 |                       "core", 0, "interrupt", NULL);
+         |                                  ~~~~~~~~~~~  ^
+   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+       8 | #define NULL ((void *)0)
+         |              ^
+   drivers/net/ethernet/sfc/ethtool_common.c:363:24: error: data argument not used by format string [-Werror,-Wformat-extra-args]
+     363 |                               "eventq.dma", NULL);
+         |                               ~~~~~~~~~~~~  ^
+   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+       8 | #define NULL ((void *)0)
+         |              ^
+   drivers/net/ethernet/sfc/ethtool_common.c:367:24: error: data argument not used by format string [-Werror,-Wformat-extra-args]
+     367 |                               "eventq.int", NULL);
+         |                               ~~~~~~~~~~~~  ^
+   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+       8 | #define NULL ((void *)0)
+         |              ^
+   drivers/net/ethernet/sfc/ethtool_common.c:371:30: error: data argument not used by format string [-Werror,-Wformat-extra-args]
+     371 |                       "core", 0, "memory", NULL);
+         |                                  ~~~~~~~~  ^
+   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+       8 | #define NULL ((void *)0)
+         |              ^
+   drivers/net/ethernet/sfc/ethtool_common.c:373:33: error: data argument not used by format string [-Werror,-Wformat-extra-args]
+     373 |                       "core", 0, "registers", NULL);
+         |                                  ~~~~~~~~~~~  ^
+   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+       8 | #define NULL ((void *)0)
+         |              ^
+   8 errors generated.
+..
 
 
-vim +/first_port +1285 drivers/net/ethernet/mellanox/mlx4/fw.c
+vim +306 samples/trace_events/trace-events-sample.h
 
-383677da43fa83 Or Gerlitz          2014-12-11  1271  
-b91cb3ebcd5ef8 Jack Morgenstein    2012-05-30  1272  int mlx4_QUERY_DEV_CAP_wrapper(struct mlx4_dev *dev, int slave,
-b91cb3ebcd5ef8 Jack Morgenstein    2012-05-30  1273  			       struct mlx4_vhcr *vhcr,
-b91cb3ebcd5ef8 Jack Morgenstein    2012-05-30  1274  			       struct mlx4_cmd_mailbox *inbox,
-b91cb3ebcd5ef8 Jack Morgenstein    2012-05-30  1275  			       struct mlx4_cmd_mailbox *outbox,
-b91cb3ebcd5ef8 Jack Morgenstein    2012-05-30  1276  			       struct mlx4_cmd_info *cmd)
-b91cb3ebcd5ef8 Jack Morgenstein    2012-05-30  1277  {
-2a4fae148cf4b6 Jack Morgenstein    2012-08-03  1278  	u64	flags;
-9c19f38601eb29 Yury Norov (NVIDIA  2025-12-07  1279) 	int	w, err = 0;
-b91cb3ebcd5ef8 Jack Morgenstein    2012-05-30  1280  	u8	field;
-fc31e2560a2443 Or Gerlitz          2015-03-18  1281  	u16	field16;
-383677da43fa83 Or Gerlitz          2014-12-11  1282  	u32	bmme_flags, field32;
-449fc48866f7d8 Matan Barak         2014-03-19 @1283  	int	real_port;
-449fc48866f7d8 Matan Barak         2014-03-19 @1284  	int	slave_port;
-449fc48866f7d8 Matan Barak         2014-03-19 @1285  	int	first_port;
-449fc48866f7d8 Matan Barak         2014-03-19  1286  	struct mlx4_active_ports actv_ports;
-b91cb3ebcd5ef8 Jack Morgenstein    2012-05-30  1287  
-b91cb3ebcd5ef8 Jack Morgenstein    2012-05-30  1288  	err = mlx4_cmd_box(dev, 0, outbox->dma, 0, 0, MLX4_CMD_QUERY_DEV_CAP,
-b91cb3ebcd5ef8 Jack Morgenstein    2012-05-30  1289  			   MLX4_CMD_TIME_CLASS_A, MLX4_CMD_NATIVE);
-b91cb3ebcd5ef8 Jack Morgenstein    2012-05-30  1290  	if (err)
-b91cb3ebcd5ef8 Jack Morgenstein    2012-05-30  1291  		return err;
-b91cb3ebcd5ef8 Jack Morgenstein    2012-05-30  1292  
-d8ae914196d35b Moni Shoua          2016-01-14  1293  	disable_unsupported_roce_caps(outbox->buf);
-cc1ade94eeaa23 Shani Michaeli      2013-02-06  1294  	/* add port mng change event capability and disable mw type 1
-cc1ade94eeaa23 Shani Michaeli      2013-02-06  1295  	 * unconditionally to slaves
-cc1ade94eeaa23 Shani Michaeli      2013-02-06  1296  	 */
-2a4fae148cf4b6 Jack Morgenstein    2012-08-03  1297  	MLX4_GET(flags, outbox->buf, QUERY_DEV_CAP_EXT_FLAGS_OFFSET);
-2a4fae148cf4b6 Jack Morgenstein    2012-08-03  1298  	flags |= MLX4_DEV_CAP_FLAG_PORT_MNG_CHG_EV;
-cc1ade94eeaa23 Shani Michaeli      2013-02-06  1299  	flags &= ~MLX4_DEV_CAP_FLAG_MEM_WINDOW;
-449fc48866f7d8 Matan Barak         2014-03-19  1300  	actv_ports = mlx4_get_active_ports(dev, slave);
-449fc48866f7d8 Matan Barak         2014-03-19  1301  	first_port = find_first_bit(actv_ports.ports, dev->caps.num_ports);
-9c19f38601eb29 Yury Norov (NVIDIA  2025-12-07 @1302) 	w = bitmap_weight(actv_ports.ports, dev->caps.num_ports)
-449fc48866f7d8 Matan Barak         2014-03-19  1303  	for (slave_port = 0, real_port = first_port;
-9c19f38601eb29 Yury Norov (NVIDIA  2025-12-07  1304) 	     real_port < first_port + w;
-449fc48866f7d8 Matan Barak         2014-03-19  1305  	     ++real_port, ++slave_port) {
-449fc48866f7d8 Matan Barak         2014-03-19  1306  		if (flags & (MLX4_DEV_CAP_FLAG_WOL_PORT1 << real_port))
-449fc48866f7d8 Matan Barak         2014-03-19  1307  			flags |= MLX4_DEV_CAP_FLAG_WOL_PORT1 << slave_port;
-449fc48866f7d8 Matan Barak         2014-03-19  1308  		else
-449fc48866f7d8 Matan Barak         2014-03-19  1309  			flags &= ~(MLX4_DEV_CAP_FLAG_WOL_PORT1 << slave_port);
-449fc48866f7d8 Matan Barak         2014-03-19  1310  	}
-449fc48866f7d8 Matan Barak         2014-03-19  1311  	for (; slave_port < dev->caps.num_ports; ++slave_port)
-449fc48866f7d8 Matan Barak         2014-03-19  1312  		flags &= ~(MLX4_DEV_CAP_FLAG_WOL_PORT1 << slave_port);
-802f42a8d99254 Ido Shamay          2015-04-02  1313  
-802f42a8d99254 Ido Shamay          2015-04-02  1314  	/* Not exposing RSS IP fragments to guests */
-802f42a8d99254 Ido Shamay          2015-04-02  1315  	flags &= ~MLX4_DEV_CAP_FLAG_RSS_IP_FRAG;
-2a4fae148cf4b6 Jack Morgenstein    2012-08-03  1316  	MLX4_PUT(outbox->buf, flags, QUERY_DEV_CAP_EXT_FLAGS_OFFSET);
-2a4fae148cf4b6 Jack Morgenstein    2012-08-03  1317  
-449fc48866f7d8 Matan Barak         2014-03-19  1318  	MLX4_GET(field, outbox->buf, QUERY_DEV_CAP_VL_PORT_OFFSET);
-9c19f38601eb29 Yury Norov (NVIDIA  2025-12-07 @1319) 	FIELD_MODIFY(0x0F, &field, w);
-449fc48866f7d8 Matan Barak         2014-03-19  1320  	MLX4_PUT(outbox->buf, field, QUERY_DEV_CAP_VL_PORT_OFFSET);
-449fc48866f7d8 Matan Barak         2014-03-19  1321  
-30b40c31c2eeaa Amir Vadai          2013-04-25  1322  	/* For guests, disable timestamp */
-30b40c31c2eeaa Amir Vadai          2013-04-25  1323  	MLX4_GET(field, outbox->buf, QUERY_DEV_CAP_CQ_TS_SUPPORT_OFFSET);
-30b40c31c2eeaa Amir Vadai          2013-04-25  1324  	field &= 0x7f;
-30b40c31c2eeaa Amir Vadai          2013-04-25  1325  	MLX4_PUT(outbox->buf, field, QUERY_DEV_CAP_CQ_TS_SUPPORT_OFFSET);
-30b40c31c2eeaa Amir Vadai          2013-04-25  1326  
-3742cc65512cd4 Ido Shamay          2015-04-02  1327  	/* For guests, disable vxlan tunneling and QoS support */
-57352ef4f5f199 Amir Vadai          2014-03-06  1328  	MLX4_GET(field, outbox->buf, QUERY_DEV_CAP_VXLAN);
-3742cc65512cd4 Ido Shamay          2015-04-02  1329  	field &= 0xd7;
-7ffdf726cfe0d1 Or Gerlitz          2013-12-23  1330  	MLX4_PUT(outbox->buf, field, QUERY_DEV_CAP_VXLAN);
-7ffdf726cfe0d1 Or Gerlitz          2013-12-23  1331  
-51af33cfed248d Ido Shamay          2015-04-02  1332  	/* For guests, disable port BEACON */
-51af33cfed248d Ido Shamay          2015-04-02  1333  	MLX4_GET(field, outbox->buf, QUERY_DEV_CAP_PORT_BEACON_OFFSET);
-51af33cfed248d Ido Shamay          2015-04-02  1334  	field &= 0x7f;
-51af33cfed248d Ido Shamay          2015-04-02  1335  	MLX4_PUT(outbox->buf, field, QUERY_DEV_CAP_PORT_BEACON_OFFSET);
-51af33cfed248d Ido Shamay          2015-04-02  1336  
-b91cb3ebcd5ef8 Jack Morgenstein    2012-05-30  1337  	/* For guests, report Blueflame disabled */
-b91cb3ebcd5ef8 Jack Morgenstein    2012-05-30  1338  	MLX4_GET(field, outbox->buf, QUERY_DEV_CAP_BF_OFFSET);
-b91cb3ebcd5ef8 Jack Morgenstein    2012-05-30  1339  	field &= 0x7f;
-b91cb3ebcd5ef8 Jack Morgenstein    2012-05-30  1340  	MLX4_PUT(outbox->buf, field, QUERY_DEV_CAP_BF_OFFSET);
-b91cb3ebcd5ef8 Jack Morgenstein    2012-05-30  1341  
-59e14e325066be Moni Shoua          2015-02-03  1342  	/* For guests, disable mw type 2 and port remap*/
-57352ef4f5f199 Amir Vadai          2014-03-06  1343  	MLX4_GET(bmme_flags, outbox->buf, QUERY_DEV_CAP_BMME_FLAGS_OFFSET);
-cc1ade94eeaa23 Shani Michaeli      2013-02-06  1344  	bmme_flags &= ~MLX4_BMME_FLAG_TYPE_2_WIN;
-59e14e325066be Moni Shoua          2015-02-03  1345  	bmme_flags &= ~MLX4_FLAG_PORT_REMAP;
-cc1ade94eeaa23 Shani Michaeli      2013-02-06  1346  	MLX4_PUT(outbox->buf, bmme_flags, QUERY_DEV_CAP_BMME_FLAGS_OFFSET);
-cc1ade94eeaa23 Shani Michaeli      2013-02-06  1347  
-0081c8f3814a83 Jack Morgenstein    2013-03-07  1348  	/* turn off device-managed steering capability if not enabled */
-0081c8f3814a83 Jack Morgenstein    2013-03-07  1349  	if (dev->caps.steering_mode != MLX4_STEERING_MODE_DEVICE_MANAGED) {
-0081c8f3814a83 Jack Morgenstein    2013-03-07  1350  		MLX4_GET(field, outbox->buf,
-0081c8f3814a83 Jack Morgenstein    2013-03-07  1351  			 QUERY_DEV_CAP_FLOW_STEERING_RANGE_EN_OFFSET);
-0081c8f3814a83 Jack Morgenstein    2013-03-07  1352  		field &= 0x7f;
-0081c8f3814a83 Jack Morgenstein    2013-03-07  1353  		MLX4_PUT(outbox->buf, field,
-0081c8f3814a83 Jack Morgenstein    2013-03-07  1354  			 QUERY_DEV_CAP_FLOW_STEERING_RANGE_EN_OFFSET);
-0081c8f3814a83 Jack Morgenstein    2013-03-07  1355  	}
-4de6580360867d Matan Barak         2013-11-07  1356  
-4de6580360867d Matan Barak         2013-11-07  1357  	/* turn off ipoib managed steering for guests */
-57352ef4f5f199 Amir Vadai          2014-03-06  1358  	MLX4_GET(field, outbox->buf, QUERY_DEV_CAP_FLOW_STEERING_IPOIB_OFFSET);
-4de6580360867d Matan Barak         2013-11-07  1359  	field &= ~0x80;
-4de6580360867d Matan Barak         2013-11-07  1360  	MLX4_PUT(outbox->buf, field, QUERY_DEV_CAP_FLOW_STEERING_IPOIB_OFFSET);
-4de6580360867d Matan Barak         2013-11-07  1361  
-383677da43fa83 Or Gerlitz          2014-12-11  1362  	/* turn off host side virt features (VST, FSM, etc) for guests */
-383677da43fa83 Or Gerlitz          2014-12-11  1363  	MLX4_GET(field32, outbox->buf, QUERY_DEV_CAP_EXT_2_FLAGS_OFFSET);
-383677da43fa83 Or Gerlitz          2014-12-11  1364  	field32 &= ~(DEV_CAP_EXT_2_FLAG_VLAN_CONTROL | DEV_CAP_EXT_2_FLAG_80_VFS |
-0b131561a7d639 Matan Barak         2015-03-30  1365  		     DEV_CAP_EXT_2_FLAG_FSM | DEV_CAP_EXT_2_FLAG_PFC_COUNTERS);
-383677da43fa83 Or Gerlitz          2014-12-11  1366  	MLX4_PUT(outbox->buf, field32, QUERY_DEV_CAP_EXT_2_FLAGS_OFFSET);
-383677da43fa83 Or Gerlitz          2014-12-11  1367  
-d237baa1cbb3a2 Shani Michaeli      2015-03-05  1368  	/* turn off QCN for guests */
-d237baa1cbb3a2 Shani Michaeli      2015-03-05  1369  	MLX4_GET(field, outbox->buf, QUERY_DEV_CAP_ECN_QCN_VER_OFFSET);
-d237baa1cbb3a2 Shani Michaeli      2015-03-05  1370  	field &= 0xfe;
-d237baa1cbb3a2 Shani Michaeli      2015-03-05  1371  	MLX4_PUT(outbox->buf, field, QUERY_DEV_CAP_ECN_QCN_VER_OFFSET);
-d237baa1cbb3a2 Shani Michaeli      2015-03-05  1372  
-fc31e2560a2443 Or Gerlitz          2015-03-18  1373  	/* turn off QP max-rate limiting for guests */
-fc31e2560a2443 Or Gerlitz          2015-03-18  1374  	field16 = 0;
-fc31e2560a2443 Or Gerlitz          2015-03-18  1375  	MLX4_PUT(outbox->buf, field16, QUERY_DEV_CAP_QP_RATE_LIMIT_NUM_OFFSET);
-fc31e2560a2443 Or Gerlitz          2015-03-18  1376  
-d019fcb2244519 Ido Shamay          2015-04-02  1377  	/* turn off QoS per VF support for guests */
-d019fcb2244519 Ido Shamay          2015-04-02  1378  	MLX4_GET(field, outbox->buf, QUERY_DEV_CAP_CQ_EQ_CACHE_LINE_STRIDE);
-d019fcb2244519 Ido Shamay          2015-04-02  1379  	field &= 0xef;
-d019fcb2244519 Ido Shamay          2015-04-02  1380  	MLX4_PUT(outbox->buf, field, QUERY_DEV_CAP_CQ_EQ_CACHE_LINE_STRIDE);
-d019fcb2244519 Ido Shamay          2015-04-02  1381  
-78500b8c03236a Muhammad Mahajna    2015-04-02  1382  	/* turn off ignore FCS feature for guests */
-78500b8c03236a Muhammad Mahajna    2015-04-02  1383  	MLX4_GET(field, outbox->buf, QUERY_DEV_CAP_CONFIG_DEV_OFFSET);
-78500b8c03236a Muhammad Mahajna    2015-04-02  1384  	field &= 0xfb;
-78500b8c03236a Muhammad Mahajna    2015-04-02  1385  	MLX4_PUT(outbox->buf, field, QUERY_DEV_CAP_CONFIG_DEV_OFFSET);
-78500b8c03236a Muhammad Mahajna    2015-04-02  1386  
-b91cb3ebcd5ef8 Jack Morgenstein    2012-05-30  1387  	return 0;
-b91cb3ebcd5ef8 Jack Morgenstein    2012-05-30  1388  }
-b91cb3ebcd5ef8 Jack Morgenstein    2012-05-30  1389  
+32eb3d0d09943ab Steven Rostedt (Red Hat  2015-04-01  290) 
+9cfe06f8cd5c8c3 Steven Rostedt           2009-04-14 @291  TRACE_EVENT(foo_bar,
+9cfe06f8cd5c8c3 Steven Rostedt           2009-04-14  292  
+4e20e3a60b57efa Steven Rostedt (Red Hat  2015-02-09  293) 	TP_PROTO(const char *foo, int bar, const int *lst,
+fea6ac554d9dea8 Steven Rostedt (Google   2022-07-15  294) 		 const char *string, const struct cpumask *mask,
+fea6ac554d9dea8 Steven Rostedt (Google   2022-07-15  295) 		 const char *fmt, va_list *va),
+9cfe06f8cd5c8c3 Steven Rostedt           2009-04-14  296  
+fea6ac554d9dea8 Steven Rostedt (Google   2022-07-15  297) 	TP_ARGS(foo, bar, lst, string, mask, fmt, va),
+9cfe06f8cd5c8c3 Steven Rostedt           2009-04-14  298  
+9cfe06f8cd5c8c3 Steven Rostedt           2009-04-14  299  	TP_STRUCT__entry(
+9cfe06f8cd5c8c3 Steven Rostedt           2009-04-14  300  		__array(	char,	foo,    10		)
+9cfe06f8cd5c8c3 Steven Rostedt           2009-04-14  301  		__field(	int,	bar			)
+4e20e3a60b57efa Steven Rostedt (Red Hat  2015-02-09  302) 		__dynamic_array(int,	list,   __length_of(lst))
+4e20e3a60b57efa Steven Rostedt (Red Hat  2015-02-09  303) 		__string(	str,	string			)
+4e20e3a60b57efa Steven Rostedt (Red Hat  2015-02-09  304) 		__bitmask(	cpus,	num_possible_cpus()	)
+8230f27b1ccc4b8 Steven Rostedt (Google   2022-10-14  305) 		__cpumask(	cpum				)
+fea6ac554d9dea8 Steven Rostedt (Google   2022-07-15 @306) 		__vstring(	vstr,	fmt,	va		)
+dd6ae6d90a84d4b Steven Rostedt (Google   2024-02-23  307) 		__string_len(	lstr,	foo,	bar / 2 < strlen(foo) ? bar / 2 : strlen(foo) )
+9cfe06f8cd5c8c3 Steven Rostedt           2009-04-14  308  	),
+9cfe06f8cd5c8c3 Steven Rostedt           2009-04-14  309  
+9cfe06f8cd5c8c3 Steven Rostedt           2009-04-14  310  	TP_fast_assign(
+40b2519d7566266 Kees Cook                2023-11-16  311  		strscpy(__entry->foo, foo, 10);
+9cfe06f8cd5c8c3 Steven Rostedt           2009-04-14  312  		__entry->bar	= bar;
+4e20e3a60b57efa Steven Rostedt (Red Hat  2015-02-09  313) 		memcpy(__get_dynamic_array(list), lst,
+4e20e3a60b57efa Steven Rostedt (Red Hat  2015-02-09  314) 		       __length_of(lst) * sizeof(int));
+2c92ca849fcc6ee Steven Rostedt (Google   2024-05-16  315) 		__assign_str(str);
+2c92ca849fcc6ee Steven Rostedt (Google   2024-05-16  316) 		__assign_str(lstr);
+fea6ac554d9dea8 Steven Rostedt (Google   2022-07-15  317) 		__assign_vstr(vstr, fmt, va);
+4e20e3a60b57efa Steven Rostedt (Red Hat  2015-02-09  318) 		__assign_bitmask(cpus, cpumask_bits(mask), num_possible_cpus());
+8230f27b1ccc4b8 Steven Rostedt (Google   2022-10-14  319) 		__assign_cpumask(cpum, cpumask_bits(mask));
+9cfe06f8cd5c8c3 Steven Rostedt           2009-04-14  320  	),
+9cfe06f8cd5c8c3 Steven Rostedt           2009-04-14  321  
+ea8d7647f9ddf1f Steven Rostedt           2025-03-27  322  	TP_printk("foo %s %d %s %s %s %s %s %s (%s) (%s) %s [%d] %*pbl",
+ea8d7647f9ddf1f Steven Rostedt           2025-03-27  323  		  __entry->foo, __entry->bar,
+32eb3d0d09943ab Steven Rostedt (Red Hat  2015-04-01  324) 
 
-:::::: The code at line 1285 was first introduced by commit
-:::::: 449fc48866f7d84b0d9a19201de18a4dd4d3488c net/mlx4: Adapt code for N-Port VF
+:::::: The code at line 306 was first introduced by commit
+:::::: fea6ac554d9dea849e2517284b17f99fb9be423a tracing: Add example and documentation for new __vstring() macro
 
-:::::: TO: Matan Barak <matanb@mellanox.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
