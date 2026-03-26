@@ -1,144 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 159C334D3BF
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Mar 2026 23:10:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B981831ED93
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Mar 2026 23:18:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774566628; cv=none; b=iD9WYjh3ehpcmj3l/SOTMUi1o6kPdGBPtJsUonJ9L6nr8GqM5XhPhrZEAcb3dUn3sIty2Z8jTwwzvDXoL8UBx3StmDLvMOtIF1vED/mR8AFFIbDNz8Cf/ygAZghgtVGa0evyzexYG1YjiU6MsihXn1K5bSdSo2gqQyEGJfeXzhE=
+	t=1774567117; cv=none; b=W0EjaMTqb64JDufE7EIeadkgZed/iUDeUKrOheShjNchijS61kWtAZI/8nukr0JskCTMLuTYop3M8pzzakeNlzHVs9Uy0AjNaawRL+qHU3utbOmk7B22MDxMdwFIPRyey4iO7QhN5IfZr7fUJnXhx+aSH+9xz0Obe19Mkcq7j9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774566628; c=relaxed/simple;
-	bh=U6uHve08WapMK1Ga5lLzzSu2D57+ysPCbgeH42HFexY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lRFaED3aPaOxCifgKaOBZwdIVrl28vM8lSjSXZnFdHD84ngGsPS1J0dxbhsQBko8vHJqh4lIrcMTPWmB1MQdPJvk8wgyvbPvk+RG5fJMNmSzvVzw98NC7g3LlO5nL9/KMUZ4jLv9odru7IPamAwBPGC0jl55A3YUWgsKqSA6iZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bOROh/N8; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1774567117; c=relaxed/simple;
+	bh=8W0748SGA3a4asDg7zCZJmROZ8aIYjkamf7rs7VPh30=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rrCJZBOyrI50KcB+Q4OnVWDId+oA4Dzaacl+2vGFTuf4TwlwqN3XBvoRBavEJm1biAVnkt8NcdAMk2rNr4wrALlHvyl0CscxsueFoe92Ynj3bfLw+Oa8blv+jOJr0ci8gWMHSFSm8R8itTVLdvHnoUhYtgJe07zetoOP0tTW/VE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=doLmvjkx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bOROh/N8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774566626; x=1806102626;
-  h=date:from:to:cc:subject:message-id;
-  bh=U6uHve08WapMK1Ga5lLzzSu2D57+ysPCbgeH42HFexY=;
-  b=bOROh/N8+mZiVWnXawKqPl4YWhwSRnpmWuQ8qen+NDc/5c3NJdOyUMYR
-   piXbxhoRTuCQTlTueRLcw4grKney4qkrTIYwphR4wdRRANr0MOhhckNeu
-   pmbKQ7EuFKaujCcDWXwI+rCxVZh8lQoCJmC9QLV+QsT1thSJfSETY3f+Z
-   LLjxAxKptQpnWhYVj9Hf9pklOHvLkUVckQxBGLaYDU6dn09/vbfBUQb6L
-   DQpAQuoM6nvG7DlyIKokSI0MjOEwkHl/6jjjc0lmL0td4lwlZcQxaBW48
-   A8wHPCnLkZvSrql8Sh3ArwvC5ab1YRCQxEMriBog8v9m4oMoxLVutozj6
-   g==;
-X-CSE-ConnectionGUID: mV/zS547QXOk50+eE6H3ng==
-X-CSE-MsgGUID: k+7sFeigS7G0HUK/n5BUzw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="75531861"
-X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="75531861"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 16:10:26 -0700
-X-CSE-ConnectionGUID: CYXftdF3TlC6+XV+7FcQeQ==
-X-CSE-MsgGUID: FR2g0kEHQMuhu33sRhc2+w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="218530430"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 26 Mar 2026 16:10:24 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w5tqH-000000009TR-3RTH;
-	Thu, 26 Mar 2026 23:10:21 +0000
-Date: Fri, 27 Mar 2026 07:10:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bvanassche:thread-safety 9/95]
- drivers/input/misc/pf1550-onkey.c:178:54: error: 'pf1550_onkey_suspend'
- undeclared here (not in a function); did you mean 'pf1550_onkey_probe'?
-Message-ID: <202603270630.GrcCkWk3-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="doLmvjkx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D98EC4AF0B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Mar 2026 23:18:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774567117;
+	bh=8W0748SGA3a4asDg7zCZJmROZ8aIYjkamf7rs7VPh30=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=doLmvjkx9xDrvQDTMn+M08liJvQJ89rIWFJQN9zy9aE8FQBxLYgGvO1JdvOy/2chk
+	 H1v+5B9RNq0b1p/EqGKO1waqxiZHAo4ZxKul3CHHjLwjrGQRv/p1ajDC/GNpfFm+u4
+	 XExrgP3v9UQso7Sphl32++2bQctwFKGefocjUT7W56Chhk2eV9cJC6S8ixjzsGixs5
+	 DdrdaPqP05ewklAjISerOYar/96rL4NZHMmKkwJgU7tMpH+gM1JM+BT1ivxe5ePBB7
+	 2wLV05NXZlzUJAvFPa40EivMoDPYBQIAkHEusE6vNQHoMwXOmPwwPVGk56nxeS48ZN
+	 OY8wYM69O+qAQ==
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b886fc047d5so238216066b.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Mar 2026 16:18:37 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVNWTp81BeAtrldR32zj9U62N4Y0xUyK/PZHhw1YQAsWApQdiV7RamTVQnPvFA2u3D8Ct4u4ubN7et3OTnU@lists.linux.dev
+X-Gm-Message-State: AOJu0YxfJu75zx1Wsus/+hGOfbbP72BbQyFneNsaJEi0pqbtG5zDnFK+
+	qk7i51F8KtlrM+fRSCFT9/AB7siz/YOxL36fuJK7K3KSoBXTYpxiNeFqX/F/k9sJNe9HlvEvsp/
+	ksWPXBc5NF13t/SsCBRPDIgd6YdQhfcQ=
+X-Received: by 2002:a17:907:3e07:b0:b98:2888:6ee9 with SMTP id
+ a640c23a62f3a-b9b507968c5mr16784866b.40.1774567116405; Thu, 26 Mar 2026
+ 16:18:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <20260326031150.3774017-3-yosry@kernel.org> <202603270611.WB2i1rjQ-lkp@intel.com>
+In-Reply-To: <202603270611.WB2i1rjQ-lkp@intel.com>
+From: Yosry Ahmed <yosry@kernel.org>
+Date: Thu, 26 Mar 2026 16:18:25 -0700
+X-Gmail-Original-Message-ID: <CAO9r8zPuDcHMObfzTQVY-P0Z3kXZbw6y5KJizxvpFWXdW7uKbQ@mail.gmail.com>
+X-Gm-Features: AQROBzCJlt8Vy2TBMr8SwNB2MknkvCsicM7UuYcuxTf2vwCM_WDEcuVWpIrY6Ps
+Message-ID: <CAO9r8zPuDcHMObfzTQVY-P0Z3kXZbw6y5KJizxvpFWXdW7uKbQ@mail.gmail.com>
+Subject: Re: [PATCH v4 2/6] KVM: x86: Move guest_mode helpers to x86.h
+To: kernel test robot <lkp@intel.com>
+Cc: Sean Christopherson <seanjc@google.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	Paolo Bonzini <pbonzini@redhat.com>, Jim Mattson <jmattson@google.com>, kvm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/bvanassche/linux thread-safety
-head:   3725aac930bc010283e98a5bc020c40abc6eaa4b
-commit: eb51c55c1283faa39529543e95c30ee1929671d9 [9/95] Input: pf1550 - Fix the !CONFIG_PM build
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260327/202603270630.GrcCkWk3-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603270630.GrcCkWk3-lkp@intel.com/reproduce)
+On Thu, Mar 26, 2026 at 3:49=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Yosry,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on 3d6cdcc8883b5726513d245eef0e91cabfc397f7]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Yosry-Ahmed/KVM-x8=
+6-Move-enable_pmu-enable_mediated_pmu-to-pmu-h-and-pmu-c/20260326-191518
+> base:   3d6cdcc8883b5726513d245eef0e91cabfc397f7
+> patch link:    https://lore.kernel.org/r/20260326031150.3774017-3-yosry%4=
+0kernel.org
+> patch subject: [PATCH v4 2/6] KVM: x86: Move guest_mode helpers to x86.h
+> config: x86_64-buildonly-randconfig-004-20260327 (https://download.01.org=
+/0day-ci/archive/20260327/202603270611.WB2i1rjQ-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0=
+227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20260327/202603270611.WB2i1rjQ-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202603270611.WB2i1rjQ-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    In file included from arch/x86/kvm/svm/svm_onhyperv.c:11:
+> >> arch/x86/kvm/svm/svm.h:520:6: error: call to undeclared function 'is_g=
+uest_mode'; ISO C99 and later do not support implicit function declarations=
+ [-Wimplicit-function-declaration]
+>      520 |         if (is_guest_mode(&svm->vcpu))
+>          |             ^
+>    arch/x86/kvm/svm/svm.h:578:6: error: call to undeclared function 'is_g=
+uest_mode'; ISO C99 and later do not support implicit function declarations=
+ [-Wimplicit-function-declaration]
+>      578 |         if (is_guest_mode(&svm->vcpu) && !nested_vgif_enabled(=
+svm))
+>          |             ^
+>    arch/x86/kvm/svm/svm.h:639:6: error: call to undeclared function 'is_g=
+uest_mode'; ISO C99 and later do not support implicit function declarations=
+ [-Wimplicit-function-declaration]
+>      639 |         if (is_guest_mode(&svm->vcpu))
+>          |             ^
+>    arch/x86/kvm/svm/svm.h:802:9: error: call to undeclared function 'is_g=
+uest_mode'; ISO C99 and later do not support implicit function declarations=
+ [-Wimplicit-function-declaration]
+>      802 |         return is_guest_mode(vcpu) && (svm->nested.ctl.int_ctl=
+ & V_INTR_MASKING_MASK);
+>          |                ^
+>    In file included from arch/x86/kvm/svm/svm_onhyperv.c:12:
+>    In file included from arch/x86/kvm/svm/svm_ops.h:7:
+> >> arch/x86/kvm/x86.h:169:20: error: conflicting types for 'is_guest_mode=
+'
+>      169 | static inline bool is_guest_mode(struct kvm_vcpu *vcpu)
+>          |                    ^
+>    arch/x86/kvm/svm/svm.h:520:6: note: previous implicit declaration is h=
+ere
+>      520 |         if (is_guest_mode(&svm->vcpu))
+>          |             ^
+>    5 errors generated.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603270630.GrcCkWk3-lkp@intel.com/
+Sashiko caught this first :)
+https://sashiko.dev/#/patchset/20260326031150.3774017-1-yosry%40kernel.org
 
-All errors (new ones prefixed by >>):
+I think we just need to fold in including x86.h in svm.h, this fixes it for=
+ me:
 
-   In file included from include/linux/kernel.h:35,
-                    from include/linux/random.h:7,
-                    from include/linux/nodemask.h:94,
-                    from include/linux/numa.h:6,
-                    from include/linux/cpumask.h:15,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/sched.h:37,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/input.h:19,
-                    from drivers/input/misc/pf1550-onkey.c:11:
->> drivers/input/misc/pf1550-onkey.c:178:54: error: 'pf1550_onkey_suspend' undeclared here (not in a function); did you mean 'pf1550_onkey_probe'?
-     178 | static DEFINE_SIMPLE_DEV_PM_OPS(pf1550_onkey_pm_ops, pf1550_onkey_suspend,
-         |                                                      ^~~~~~~~~~~~~~~~~~~~
-   include/linux/util_macros.h:136:44: note: in definition of macro 'PTR_IF'
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                            ^~~
-   include/linux/pm.h:315:20: note: in expansion of macro 'pm_sleep_ptr'
-     315 |         .suspend = pm_sleep_ptr(suspend_fn), \
-         |                    ^~~~~~~~~~~~
-   include/linux/pm.h:375:9: note: in expansion of macro 'SYSTEM_SLEEP_PM_OPS'
-     375 |         SYSTEM_SLEEP_PM_OPS(suspend_fn, resume_fn) \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/pm.h:417:9: note: in expansion of macro '_DEFINE_DEV_PM_OPS'
-     417 |         _DEFINE_DEV_PM_OPS(name, suspend_fn, resume_fn, NULL, NULL, NULL)
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/input/misc/pf1550-onkey.c:178:8: note: in expansion of macro 'DEFINE_SIMPLE_DEV_PM_OPS'
-     178 | static DEFINE_SIMPLE_DEV_PM_OPS(pf1550_onkey_pm_ops, pf1550_onkey_suspend,
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/input/misc/pf1550-onkey.c:179:26: error: 'pf1550_onkey_resume' undeclared here (not in a function); did you mean 'pf1550_onkey_probe'?
-     179 |                          pf1550_onkey_resume);
-         |                          ^~~~~~~~~~~~~~~~~~~
-   include/linux/util_macros.h:136:44: note: in definition of macro 'PTR_IF'
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                            ^~~
-   include/linux/pm.h:316:19: note: in expansion of macro 'pm_sleep_ptr'
-     316 |         .resume = pm_sleep_ptr(resume_fn), \
-         |                   ^~~~~~~~~~~~
-   include/linux/pm.h:375:9: note: in expansion of macro 'SYSTEM_SLEEP_PM_OPS'
-     375 |         SYSTEM_SLEEP_PM_OPS(suspend_fn, resume_fn) \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/pm.h:417:9: note: in expansion of macro '_DEFINE_DEV_PM_OPS'
-     417 |         _DEFINE_DEV_PM_OPS(name, suspend_fn, resume_fn, NULL, NULL, NULL)
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/input/misc/pf1550-onkey.c:178:8: note: in expansion of macro 'DEFINE_SIMPLE_DEV_PM_OPS'
-     178 | static DEFINE_SIMPLE_DEV_PM_OPS(pf1550_onkey_pm_ops, pf1550_onkey_suspend,
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~
+diff --git a/arch/x86/kvm/svm/svm.h b/arch/x86/kvm/svm/svm.h
+index ff1e4b4dc9986..2d55c6bf15b32 100644
+--- a/arch/x86/kvm/svm/svm.h
++++ b/arch/x86/kvm/svm/svm.h
+@@ -24,6 +24,7 @@
 
+ #include "cpuid.h"
+ #include "kvm_cache_regs.h"
++#include "x86.h"
 
-vim +178 drivers/input/misc/pf1550-onkey.c
-
-9acb215cbebdce Samuel Kayode 2025-10-01  177  
-673b192dbe174b Vaibhav Gupta 2025-12-10 @178  static DEFINE_SIMPLE_DEV_PM_OPS(pf1550_onkey_pm_ops, pf1550_onkey_suspend,
-9acb215cbebdce Samuel Kayode 2025-10-01  179  			 pf1550_onkey_resume);
-9acb215cbebdce Samuel Kayode 2025-10-01  180  
-
-:::::: The code at line 178 was first introduced by commit
-:::::: 673b192dbe174b61bdf784d293b5a6e7f2fd20f6 Input: pf1550 - remove "defined but unused" warning
-
-:::::: TO: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-:::::: CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+ /*
+  * Helpers to convert to/from physical addresses for pages whose address i=
+s
