@@ -1,219 +1,152 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D94E039FCD6
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Mar 2026 19:36:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774553763; cv=none; b=Peca8IGaf4xa650rq+8CqSC4b4qXDkJVkWg74FoVmnd9tpvnjJXJE8t8zZu0YzWSi3fH11vY/FYy1t+W4d5cC+YfwYge+zc3Rhr1EL0ZWRkATozq4LcK47Y98WsKTALoySycdN3XS7yiXbKBFmrxWUVwu/cNwwMNKblWPyAN7RA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774553763; c=relaxed/simple;
-	bh=Ms5TVuiQzhL+jqryxb6U+ELUeVyocDJ/o3lZudoEwrE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fFG6mH3PgUKuzYHG5myrznX09+z4jDRj32TOEVOLieFnngNYnrTkJBeofr1HG5LgB212RClPsSsq7FUrXKLoWl6EsvoSBTwMn6bW0IK8hloNQzcfmq6sODCJwsX/SuxKX6qrTgHMDMCFrd9rKzsAPz2tXU4qImdpH0qgD/7AMDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WvM2fu3a; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7475A32AAA0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Mar 2026 19:38:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774553925; cv=pass; b=ZB9yBstwM4TW+ivqe/RwtCVtc9OjP0itgun/aKyMTs5mOimyi7Ksw4MKbq3nc6kdTndTz0l1YzM0HydBhhNA+B6XOmjKYn8RsMowTzCoCivMf1YFG3cgF+SivnSbCqE9q6N3cQLbTNXorpMIn7MrG24kE+BBH1DegsrrvRREDgY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774553925; c=relaxed/simple;
+	bh=Db4TAAnVc2T0Rf7Wc2cEY/pwtSDY+KMo+MImooH/kK4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=H6dBU+Z4Zr+EfnVn9pGrSw1aID0NKG/UCCmhPMuhuKu8WuNJCzHPFRXa5K1ilbSY4BIXdUi/zjxjcKaqpb3vl+cL8w/kf8BBpvm6QyWKmYAaFqG7FFzPjoEleve9NFtPdOAUK++8Lx98cuodL4bUzHvdl/wT3XWdSijw5Of30WM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fWpJeIUW; arc=pass smtp.client-ip=74.125.82.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WvM2fu3a"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774553761; x=1806089761;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ms5TVuiQzhL+jqryxb6U+ELUeVyocDJ/o3lZudoEwrE=;
-  b=WvM2fu3aklspBuTz3Byr1aMB49pbegzWK6U2dipylOdC2o1f9ZftBeDX
-   WlDCX/xjYgFUPDKK6o+ORykopkasMifCrjbENx2sHvkIhiOR2M1mfbV/s
-   kg3IWg0lRZjZ6tPJF40gkvBg31ghEb97QjhJVr5sCD2hKKdyMyEbkUAv/
-   QqmJS0IEfFK4GlBIkxeJfSdsPy+fibluqII7p8jFp+ohPwOjNiqYCR2ug
-   yeP5FmRsU+MndTGJaI7PSVSnZK2sama8XwW6096U7KyzNgCpirD/zHRU0
-   Ft60aTr9/GqST3wWgIFDZJmEqarj32F7fDFFNtH5tjj3vJrpWyZ9jkgDd
-   A==;
-X-CSE-ConnectionGUID: wYwnx9abRaq2Dq06zQGLtg==
-X-CSE-MsgGUID: 2qH/ph09QPOLkdwk/AtQWw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="79224187"
-X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="79224187"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 12:36:00 -0700
-X-CSE-ConnectionGUID: YIdT5BSGSlaV8cl/W5VeVQ==
-X-CSE-MsgGUID: 0LJ8LOGIRJqQbalU7Pwlvg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="230048594"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 26 Mar 2026 12:35:58 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w5qUl-000000009Gr-1k2T;
-	Thu, 26 Mar 2026 19:35:55 +0000
-Date: Fri, 27 Mar 2026 03:35:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Rosen Penev <rosenp@gmail.com>, linux-tegra@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>, linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCHv2] firmware/tegra: add COMPILE_TEST
-Message-ID: <202603270305.aMVfb5Bs-lkp@intel.com>
-References: <20260324015722.12507-1-rosenp@gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fWpJeIUW"
+Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-1273349c56bso1761941c88.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Mar 2026 12:38:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774553923; cv=none;
+        d=google.com; s=arc-20240605;
+        b=gGP71eEBSwhQ872+EJToRqawetpoXws15Sf8dkCOqX6/GP/GaLvfT38/tGPnYU1cxF
+         8km1FWTXN832X4/D0cVDzpKMFQ38GPeE7UOyMxs/gy0aIg9sVaHON9tT/VQXjzFzHWDV
+         DPwidw8lPOICBpkCkiXQ5hCb+SmCVBye+5MNSafBN/6AGQ6eWiw5i1J2ClI1JTDJKNgQ
+         NBYrauXxuBxsVCvAX+S9b9zv/MOn+chbnVGeYVXd/aojwkUUH+45+imNA70SyexiXgy4
+         GH6F/S9jF/baXxkd3Hlt9RatEvAyvraeJGt/+C52iGj+vNCa6tEAWBGziDKKdK0Ze1Kz
+         nr8w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=6mCMJ7IYsFJz0Hh2fdQYOLxKjKcxltIu2zRqwDNj3FY=;
+        fh=S/FdSn/Z9nFhWHNyAoT374vBnusGGltfOZzwdsuEIwA=;
+        b=aHCq6Bs8ZSW5RgxkmKdouB1EgCXy5f9EgNaCphKW8ekEv6b5Fuw/bVlOtpGCtqcJAQ
+         8/NHww2dx3K2USJmizsH8ueEUW1l7POvO1hUPSSpfaHc9jiOAVYd02cby9Mp1UZeoKxX
+         +iY4C9mawBlnkz+z6fG+uGGORq3FfgW4EYIkQFiVPqCdgdQDXhfqUIL17WsH2hspJ+lA
+         OgsDw3mGLf1EaNRjhNh4jLeRXM958EEzKU/hH8oQ/Dl3yWawFYJ/lRkHlskZzKO4iIA1
+         VTm2e7pdxzkIVr8UEYp3dj81kA4Y0f27lopneKvRLoMxbYyAU/AwGwpf2ZJvME/TcObr
+         GaXQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1774553923; x=1775158723; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6mCMJ7IYsFJz0Hh2fdQYOLxKjKcxltIu2zRqwDNj3FY=;
+        b=fWpJeIUWBEK5XRwul6JQeA855tMPkdM5NQ2ffzgDGhDObRJOfBY4mGuWcF+AtgmzWi
+         Ak+oPEQCSEcaszu0Hy17OhlwstZGW6epweermhyYeUYymlwp5UXNtli0YEwE2D97QNKw
+         P6+ObDQRVshjlgrA8QPqBOIu82iXtE1VePyiRppxnhZpmnPAxyeoJafyRrYq5w/tyGnp
+         qMeGUwZHX7e3/4n+dj6bIttrooFHb3BOWdLrDeT0+m1gtRb3JFlbvdIGPMaaPJ0SEjsV
+         7p2vmbWavwuxykTPGpL2L22bJfJ9wEVok3zHsuWxkErFtb6U0TBPca8pfQGINkKcixII
+         DIgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774553923; x=1775158723;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=6mCMJ7IYsFJz0Hh2fdQYOLxKjKcxltIu2zRqwDNj3FY=;
+        b=PyP4sB57dpRUtr+FL0SlJnoeMN2vukcermq01yYDm8fP2JXZch2kEDY3jkKml7GfNk
+         verEgln9wLg4q9fuBvmlK3XZDhg29Exuwx+JR3FAYuMZz3ohcKS41PRSgRRdn47YCMeU
+         sxmZfE7fmG34PI5P4oyuRrzq1loSffnfFEwojPN+aJz2IeSMPzg2zcUNIVpvhO1L/CCE
+         YCOcYh/5oX6pNdZh3HApt9gnumUZ110lKY+ohBS6OVqmOnCUoKvcp3BhoN9yfC/leP2e
+         50RYcQ7HbXYGnQvx5vt+p5UMKg2mUZ4jtL8UU/Kj2C/wQEkJmp3WdOioMYxJcBq3Xt3Q
+         EGPw==
+X-Forwarded-Encrypted: i=1; AJvYcCUIorkO8nM62DJ/c/qajaJsR94wsqlPidrYN1KdA+JNZnI44aCkPqoJUgz2zb4XKIA9GzOJoOJkwsaVSC8b@lists.linux.dev
+X-Gm-Message-State: AOJu0YzaTmXARSas5KgNvEHg3L+H3qcbw5uGjh64l8Q+D+SxWnFdHr97
+	ncuh0UWtFFPxtkwJGc4R094MMwymAo1B2OXBJjbDG+UwCYfuQiVX7IreU7CR2uOVxq8h32+lYaG
+	TwGODKSeW7mGdEtA4fHhKSDWM+4avi9p/EeN++MDi
+X-Gm-Gg: ATEYQzyw052lmhSBeZDH9PBVvLKTlyCRcNVCsd61bXQB7x0LG0UZeA9QdRkXqt/BYc0
+	A+xKqW03pU1jXc3Yvvbh31UlLH2vZD6VnQPZ68gIjcsrPNOfZsWvYSteSqqhKl8C94lZRFRPkPV
+	SSmLlRUnbAePTu0zNKaPQzf0XJ/uinftzTEeNzkGEOzizO0c2p0qxGY9S6pDg82OiFvWCcVrTmo
+	vLTH/PD2GuCuPHEb+q2IxiHZ79RWVVw/8g7xBruCbFJUOe2SWU5Z0HIe/7WJd4rW9jh1APjXb+X
+	jmsAxn7n3ZiOpVJpMYIk4bGBytLXLzwO4lo4+RHsr0f08bK/MnAzqUkf4wYYP20HL70bQg==
+X-Received: by 2002:a05:7022:ff45:b0:128:d51a:5157 with SMTP id
+ a92af1059eb24-12a96f09443mr4300359c88.33.1774553923052; Thu, 26 Mar 2026
+ 12:38:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260324015722.12507-1-rosenp@gmail.com>
+References: <20260325063843.1790782-6-kuniyu@google.com> <202603270301.kJulQgkT-lkp@intel.com>
+In-Reply-To: <202603270301.kJulQgkT-lkp@intel.com>
+From: Kuniyuki Iwashima <kuniyu@google.com>
+Date: Thu, 26 Mar 2026 12:38:31 -0700
+X-Gm-Features: AQROBzC56kOOvilMQ9x7JfCrqjezesmORZsrlXxqw-kdyJdYRmxiltxnB1IbvvY
+Message-ID: <CAAVpQUBdco4wFmdVFdi4yQbH38fDCNLL-SUD=udBUy8uJ0spqQ@mail.gmail.com>
+Subject: Re: [PATCH 5/5] nbd: Use lock_sock_try() for TCP sendmsg() and shutdown().
+To: kernel test robot <lkp@intel.com>
+Cc: Josef Bacik <josef@toxicpanda.com>, Jens Axboe <axboe@kernel.dk>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, Simon Horman <horms@kernel.org>, 
+	linux-block@vger.kernel.org, nbd@other.debian.org, netdev@vger.kernel.org, 
+	syzbot+7b4f368d3955d2c9950e@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Rosen,
+On Thu, Mar 26, 2026 at 12:14=E2=80=AFPM kernel test robot <lkp@intel.com> =
+wrote:
+>
+> Hi Kuniyuki,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on axboe/for-next]
+> [also build test ERROR on linus/master v7.0-rc5]
+> [cannot apply to next-20260325]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/=
+nbd-Remove-redundant-sock-ops-shutdown-check-in-nbd_get_socket/20260325-175=
+457
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git f=
+or-next
+> patch link:    https://lore.kernel.org/r/20260325063843.1790782-6-kuniyu%=
+40google.com
+> patch subject: [PATCH 5/5] nbd: Use lock_sock_try() for TCP sendmsg() and=
+ shutdown().
+> config: x86_64-buildonly-randconfig-004-20260326 (https://download.01.org=
+/0day-ci/archive/20260327/202603270301.kJulQgkT-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0=
+227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20260327/202603270301.kJulQgkT-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202603270301.kJulQgkT-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+> >> ld.lld: error: undefined symbol: inet_shutdown_locked
+>    >>> referenced by nbd.c
+>    >>>               drivers/block/nbd.o:(nbd_mark_nsock_dead) in archive=
+ vmlinux.a
+> --
+> >> ld.lld: error: undefined symbol: tcp_sendmsg_locked
+>    >>> referenced by nbd.c
+>    >>>               drivers/block/nbd.o:(__sock_xmit) in archive vmlinux=
+.a
 
-kernel test robot noticed the following build errors:
+ah, CONFIG_INET=3Dn.  Will fix it in v2.
 
-[auto build test ERROR on next-20260325]
-[cannot apply to tegra/for-next clk/clk-next drm-tegra/drm/tegra/for-next v7.0-rc5 v7.0-rc4 v7.0-rc3 linus/master v7.0-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/firmware-tegra-add-COMPILE_TEST/20260326-124230
-base:   next-20260325
-patch link:    https://lore.kernel.org/r/20260324015722.12507-1-rosenp%40gmail.com
-patch subject: [PATCHv2] firmware/tegra: add COMPILE_TEST
-config: sparc-allnoconfig (https://download.01.org/0day-ci/archive/20260327/202603270305.aMVfb5Bs-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603270305.aMVfb5Bs-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603270305.aMVfb5Bs-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   sparc-linux-ld: drivers/clk/tegra/clk.o: in function `tegra_register_devclks':
-   clk.c:(.text+0x4b0): undefined reference to `clk_register_clkdev'
->> sparc-linux-ld: clk.c:(.text+0x520): undefined reference to `__clk_get_name'
->> sparc-linux-ld: clk.c:(.text+0x530): undefined reference to `clk_register_clkdev'
-   sparc-linux-ld: drivers/clk/tegra/clk.o: in function `tegra_clk_dev_register':
-   clk.c:(.text+0x5fc): undefined reference to `clk_register'
->> sparc-linux-ld: clk.c:(.text+0x664): undefined reference to `clk_register'
-   sparc-linux-ld: drivers/clk/tegra/clk.o: in function `tegra_init_dup_clks':
-   clk.c:(.init.text+0x10c): undefined reference to `clkdev_add'
-   sparc-linux-ld: drivers/clk/tegra/clk.o: in function `tegra_add_of_provider':
-   clk.c:(.init.text+0x1a0): undefined reference to `of_clk_add_provider'
-   sparc-linux-ld: drivers/clk/tegra/clk-audio-sync.o: in function `tegra_clk_register_sync_source':
-   clk-audio-sync.c:(.text+0x128): undefined reference to `clk_register'
-   sparc-linux-ld: drivers/clk/tegra/clk-dfll.o: in function `tegra_dfll_unregister':
-   clk-dfll.c:(.text+0x19c): undefined reference to `of_clk_del_provider'
->> sparc-linux-ld: clk-dfll.c:(.text+0x1a4): undefined reference to `clk_unregister'
-   sparc-linux-ld: drivers/clk/tegra/clk-divider.o: in function `clk_divider_restore_context':
-   clk-divider.c:(.text+0x2c4): undefined reference to `clk_hw_get_parent'
->> sparc-linux-ld: clk-divider.c:(.text+0x2cc): undefined reference to `clk_hw_get_rate'
-   sparc-linux-ld: clk-divider.c:(.text+0x2d8): undefined reference to `clk_hw_get_rate'
-   sparc-linux-ld: drivers/clk/tegra/clk-divider.o: in function `tegra_clk_register_divider':
-   clk-divider.c:(.text+0x3b4): undefined reference to `clk_register'
-   sparc-linux-ld: drivers/clk/tegra/clk-divider.o: in function `tegra_clk_register_mc':
-   clk-divider.c:(.text+0x438): undefined reference to `clk_register_divider_table'
-   sparc-linux-ld: drivers/clk/tegra/clk-periph.o: in function `clk_periph_restore_context':
-   clk-periph.c:(.text+0x248): undefined reference to `clk_hw_get_parent_index'
-   sparc-linux-ld: drivers/clk/tegra/clk-periph.o: in function `tegra_clk_register_periph':
-   clk-periph.c:(.text+0x350): undefined reference to `clk_register'
->> sparc-linux-ld: clk-periph.c:(.text+0x3d4): undefined reference to `clk_register'
-   sparc-linux-ld: drivers/clk/tegra/clk-periph.o: in function `tegra_clk_register_periph_nodiv':
-   clk-periph.c:(.text+0x484): undefined reference to `clk_register'
-   sparc-linux-ld: drivers/clk/tegra/clk-periph.o: in function `tegra_clk_register_periph_data':
-   clk-periph.c:(.text+0x560): undefined reference to `clk_register'
-   sparc-linux-ld: clk-periph.c:(.text+0x5e4): undefined reference to `clk_register'
->> sparc-linux-ld: drivers/clk/tegra/clk-periph.o:(.rodata+0x94): undefined reference to `clk_hw_determine_rate_no_reparent'
-   sparc-linux-ld: drivers/clk/tegra/clk-periph-fixed.o: in function `tegra_clk_register_periph_fixed':
-   clk-periph-fixed.c:(.text+0x2fc): undefined reference to `clk_register'
-   sparc-linux-ld: drivers/clk/tegra/clk-periph-gate.o: in function `tegra_clk_register_periph_gate':
-   clk-periph-gate.c:(.text+0x448): undefined reference to `clk_register'
-   sparc-linux-ld: drivers/clk/tegra/clk-pll.o: in function `clk_pll_determine_rate':
-   clk-pll.c:(.text+0x764): undefined reference to `clk_hw_get_rate'
-   sparc-linux-ld: drivers/clk/tegra/clk-pll.o: in function `clk_pll_wait_for_lock':
-   clk-pll.c:(.text+0x860): undefined reference to `clk_hw_get_name'
-   sparc-linux-ld: drivers/clk/tegra/clk-pll.o: in function `clk_pllu_enable':
-   clk-pll.c:(.text+0x1244): undefined reference to `clk_hw_get_parent'
->> sparc-linux-ld: clk-pll.c:(.text+0x124c): undefined reference to `clk_hw_get_parent'
->> sparc-linux-ld: clk-pll.c:(.text+0x1260): undefined reference to `clk_hw_get_rate'
-   sparc-linux-ld: drivers/clk/tegra/clk-pll.o: in function `clk_pll_set_rate':
-   clk-pll.c:(.text+0x20d8): undefined reference to `clk_hw_get_name'
->> sparc-linux-ld: clk-pll.c:(.text+0x2110): undefined reference to `clk_hw_get_name'
-   sparc-linux-ld: drivers/clk/tegra/clk-pll.o: in function `tegra_clk_pll_restore_context':
-   clk-pll.c:(.text+0x2184): undefined reference to `clk_hw_get_parent'
-   sparc-linux-ld: clk-pll.c:(.text+0x218c): undefined reference to `clk_hw_get_rate'
-   sparc-linux-ld: clk-pll.c:(.text+0x2198): undefined reference to `clk_hw_get_rate'
->> sparc-linux-ld: clk-pll.c:(.text+0x21e4): undefined reference to `__clk_get_enable_count'
-   sparc-linux-ld: drivers/clk/tegra/clk-pll.o: in function `clk_pll_recalc_rate':
-   clk-pll.c:(.text+0x243c): undefined reference to `clk_hw_get_name'
-   sparc-linux-ld: clk-pll.c:(.text+0x248c): undefined reference to `clk_hw_get_name'
-   sparc-linux-ld: drivers/clk/tegra/clk-pll.o: in function `clk_plle_enable':
-   clk-pll.c:(.text+0x24f4): undefined reference to `clk_hw_get_parent'
-   sparc-linux-ld: clk-pll.c:(.text+0x24fc): undefined reference to `clk_hw_get_rate'
-   sparc-linux-ld: drivers/clk/tegra/clk-pll-out.o: in function `tegra_clk_pll_out_restore_context':
-   clk-pll-out.c:(.text+0x284): undefined reference to `__clk_get_enable_count'
-   sparc-linux-ld: drivers/clk/tegra/clk-pll-out.o: in function `tegra_clk_register_pll_out':
-   clk-pll-out.c:(.text+0x364): undefined reference to `clk_register'
-   sparc-linux-ld: drivers/clk/tegra/clk-sdmmc-mux.o: in function `clk_sdmmc_mux_get_parent':
-   clk-sdmmc-mux.c:(.text+0x244): undefined reference to `clk_hw_get_num_parents'
-   sparc-linux-ld: drivers/clk/tegra/clk-sdmmc-mux.o: in function `clk_sdmmc_mux_restore_context':
-   clk-sdmmc-mux.c:(.text+0x4c4): undefined reference to `clk_hw_get_parent'
->> sparc-linux-ld: clk-sdmmc-mux.c:(.text+0x4cc): undefined reference to `clk_hw_get_rate'
-   sparc-linux-ld: clk-sdmmc-mux.c:(.text+0x4d8): undefined reference to `clk_hw_get_rate'
->> sparc-linux-ld: clk-sdmmc-mux.c:(.text+0x4e4): undefined reference to `clk_hw_get_parent_index'
-   sparc-linux-ld: drivers/clk/tegra/clk-sdmmc-mux.o: in function `tegra_clk_register_sdmmc_mux_div':
-   clk-sdmmc-mux.c:(.text+0x5f8): undefined reference to `clk_register'
-   sparc-linux-ld: drivers/clk/tegra/clk-super.o: in function `clk_super_restore_context':
-   clk-super.c:(.text+0x404): undefined reference to `clk_hw_get_parent_index'
-   sparc-linux-ld: drivers/clk/tegra/clk-super.o: in function `clk_super_mux_restore_context':
-   clk-super.c:(.text+0x484): undefined reference to `clk_hw_get_parent_index'
-   sparc-linux-ld: drivers/clk/tegra/clk-super.o: in function `tegra_clk_register_super_clk':
-   clk-super.c:(.text+0x620): undefined reference to `clk_register'
->> sparc-linux-ld: drivers/clk/tegra/clk-super.o:(.rodata+0x94): undefined reference to `clk_hw_determine_rate_no_reparent'
-   sparc-linux-ld: drivers/clk/tegra/clk-tegra-audio.o: in function `tegra_audio_sync_clk_init.constprop.0':
-   clk-tegra-audio.c:(.init.text+0x54): undefined reference to `clk_register_mux_table'
->> sparc-linux-ld: clk-tegra-audio.c:(.init.text+0x94): undefined reference to `clk_register_gate'
-   sparc-linux-ld: drivers/clk/tegra/clk-tegra-audio.o: in function `tegra_audio_clk_init':
-   clk-tegra-audio.c:(.init.text+0x29c): undefined reference to `clk_register_fixed_factor'
->> sparc-linux-ld: drivers/clk/tegra/clk-tegra-periph.o:(.data+0x10c): undefined reference to `clk_mux_ops'
-   sparc-linux-ld: drivers/clk/tegra/clk-tegra-periph.o:(.data+0x1a4): undefined reference to `clk_mux_ops'
-   sparc-linux-ld: drivers/clk/tegra/clk-tegra-periph.o:(.data+0x23c): undefined reference to `clk_mux_ops'
-   sparc-linux-ld: drivers/clk/tegra/clk-tegra-periph.o:(.data+0x2d4): undefined reference to `clk_mux_ops'
-   sparc-linux-ld: drivers/clk/tegra/clk-tegra-periph.o:(.data+0x36c): undefined reference to `clk_mux_ops'
-   sparc-linux-ld: drivers/clk/tegra/clk-tegra-periph.o:(.data+0x404): more undefined references to `clk_mux_ops' follow
-   sparc-linux-ld: drivers/clk/tegra/clk-tegra-periph.o: in function `init_pllp':
-   clk-tegra-periph.c:(.init.text+0x48): undefined reference to `clk_register_clkdev'
->> sparc-linux-ld: clk-tegra-periph.c:(.init.text+0x1c8): undefined reference to `clk_register_gate'
-   sparc-linux-ld: clk-tegra-periph.c:(.init.text+0x20c): undefined reference to `clk_register_gate'
->> sparc-linux-ld: clk-tegra-periph.c:(.init.text+0x21c): undefined reference to `clk_register_clkdev'
-   sparc-linux-ld: drivers/clk/tegra/clk-tegra-fixed.o: in function `tegra_osc_clk_init':
-   clk-tegra-fixed.c:(.init.text+0x98): undefined reference to `clk_register_fixed_rate'
->> sparc-linux-ld: clk-tegra-fixed.c:(.init.text+0xd0): undefined reference to `clk_register_fixed_factor'
-   sparc-linux-ld: clk-tegra-fixed.c:(.init.text+0x108): undefined reference to `clk_register_fixed_factor'
-   sparc-linux-ld: clk-tegra-fixed.c:(.init.text+0x140): undefined reference to `clk_register_fixed_factor'
-   sparc-linux-ld: clk-tegra-fixed.c:(.init.text+0x184): undefined reference to `clk_register_fixed_factor'
-   sparc-linux-ld: drivers/clk/tegra/clk-tegra-fixed.o: in function `tegra_fixed_clk_init':
-   clk-tegra-fixed.c:(.init.text+0x1d8): undefined reference to `clk_register_fixed_rate'
-   sparc-linux-ld: drivers/clk/tegra/clk-tegra-super-cclk.o: in function `cclk_super_determine_rate':
-   clk-tegra-super-cclk.c:(.text+0xc8): undefined reference to `clk_hw_get_parent_by_index'
->> sparc-linux-ld: clk-tegra-super-cclk.c:(.text+0xd8): undefined reference to `clk_hw_get_parent_by_index'
-   sparc-linux-ld: clk-tegra-super-cclk.c:(.text+0xfc): undefined reference to `clk_hw_get_rate'
-   sparc-linux-ld: clk-tegra-super-cclk.c:(.text+0x144): undefined reference to `clk_hw_round_rate'
-   sparc-linux-ld: clk-tegra-super-cclk.c:(.text+0x194): undefined reference to `clk_hw_get_rate_range'
-   sparc-linux-ld: drivers/clk/tegra/clk-tegra-super-cclk.o: in function `tegra_clk_register_super_cclk':
-   clk-tegra-super-cclk.c:(.text+0x420): undefined reference to `clk_register'
-   sparc-linux-ld: drivers/clk/tegra/clk-tegra-super-gen4.o: in function `tegra_sclk_init':
-   clk-tegra-super-gen4.c:(.init.text+0x98): undefined reference to `clk_register_divider_table'
-   sparc-linux-ld: clk-tegra-super-gen4.c:(.init.text+0x140): undefined reference to `clk_register_divider_table'
-   sparc-linux-ld: clk-tegra-super-gen4.c:(.init.text+0x16c): undefined reference to `clk_register_gate'
-   sparc-linux-ld: clk-tegra-super-gen4.c:(.init.text+0x1c4): undefined reference to `clk_register_divider_table'
-   sparc-linux-ld: clk-tegra-super-gen4.c:(.init.text+0x1f0): undefined reference to `clk_register_gate'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks
