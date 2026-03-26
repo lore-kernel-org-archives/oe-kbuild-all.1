@@ -1,121 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2DF9344DA4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFC8433B96F
 	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Mar 2026 06:43:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774507403; cv=none; b=erqvGf9vLIChjiDuTI1kqrZz2w1ScD1xoiiNEXyaEgDnK0hhwipbA6M6U/jvecrMThieNJ9Z7yuY3mPSJtmkSjRGR6GRnvJkJ0rbPtnmgSVaBiMaANd+BXui7/4rxrRvzXg7UEvz/jD7Jmnr/kezmTmZZgeTbnwn90CNjxwZWo4=
+	t=1774507403; cv=none; b=Ej4T4CdMzja5DdH1MBKxHmxOcB7HsMA/In+nPwAVNprbOFTy7j4MhncVrrDE3y2/GXZhG/wfpoviyrbdqsDTgZ2O3jjY2YR44PKXYu82FyQfIBY9oRDb6A2sc5WrbpE2HxOAXr4xsEUpW5BEDGkbk0e4eZ0Jml9u5eeKqD1y19Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774507403; c=relaxed/simple;
-	bh=ezbL+eLzRMxTxr/xJdGmP8c9XwwaludvhXL/TnWT7wA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=UFjvgQCquVm3NJnSlCOlnBBNrPtvvMFP4d4UWeKOLH1Aqve3zo09K9QufkvvU5osxbbdKIzVbZSyCCeVJLn2pWLe9DBdtEcsZjI1OISvq76aKlRRH0+DBZUOjaL6GD9wb/dW7WH1ya0LyIFsY8Amrv9zxgsn25SACeasyPIZGuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=czjaelzh; arc=none smtp.client-ip=198.175.65.13
+	bh=MTEdv3CJxRnj0pUKyxNNSBzc+VgQJPKZ4ByoTYSlpto=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ntf4Q5a+XZtDSTZaINMZ1stSWLNksLknE/87Qk58XSDBc46vYYCju+TXjOJ5HXj9vAblj1m71p2RzhDWmv1CBPF6Ps8BMHaVVcc5OdqroWF6YwhK8KtOFiS51VqglQcZyWjtz31JgvGUtw5VmM+9ydftuOEY1J3aI6yCuSCTCW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DWXCIBN9; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="czjaelzh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DWXCIBN9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1774507402; x=1806043402;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ezbL+eLzRMxTxr/xJdGmP8c9XwwaludvhXL/TnWT7wA=;
-  b=czjaelzhW6QQrNiQ6uJgCb/LOxeRf9Iareu2QbedM0r8YgWPOsy6aZVf
-   4Dfz7Vv7Bg9o+N7FSmrBaOWMAxT3F3Iy1mmHlHRXlrP/D9ePeVAfWEhrn
-   7LrB8fjkUKxmI39GgLCuhNv5pUmqnmJPxjuh0iFI+wSxh0bUgJod93lgO
-   7Hk+poIQseKoqyxj9h2tFkFKKDb7lNAFtxWEtLeITBqdbbabdtZ6VKb0l
-   turmVG13jN9UAItCuvA1ULvBbyIgKoHt+NzEesKwnjZeuXVhQ5ySClSNj
-   U5Cm9EqLsE6MMkKnHSQULqMZzNOI2885pelJkpDlmuDyytEQ10GKoH63Q
-   g==;
-X-CSE-ConnectionGUID: jphH3PKLTtKX0sjCzQ8wcA==
-X-CSE-MsgGUID: CxB7hrQ/RSGvbQNuaDYG+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="86635071"
+  h=date:from:to:cc:subject:message-id;
+  bh=MTEdv3CJxRnj0pUKyxNNSBzc+VgQJPKZ4ByoTYSlpto=;
+  b=DWXCIBN9IR/EA/yaGXtPze2HfudXR2nHQ0+Q0Ph2VeEvwWevZNZ0LFjt
+   i5TGLIBt+x//ZVNojHTAi6fW5PUyG2ZFa8mMmAF61ZcTESNQGf8ghiZXE
+   SDJwU2SzJH1rujRZFAirG0BtvJCqNN4A3mHUNJnIRElywAC0quttz8b6E
+   /qqEBtYgQdB/UY8HaVjHqgDax8ITNKaHJUI+15abAOAfizJYZMNycYIee
+   11lGD/cHN3DdkG4ihe+0v5dP8DYUyYBQKaP2LR+QsgRAzp8shC+PnzUel
+   U0MWLf4wbCcjsZzVTREjgatAzCuHQT40X2cmUd34lazOadNfq0jUxfrh6
+   Q==;
+X-CSE-ConnectionGUID: p6MpzdcKRPGz/KmCvoM87g==
+X-CSE-MsgGUID: Wa/BzMbeRa6lbzI7PU1i3Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="79462649"
 X-IronPort-AV: E=Sophos;i="6.23,141,1770624000"; 
-   d="scan'208";a="86635071"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 23:43:22 -0700
-X-CSE-ConnectionGUID: Z2f9Q554QiW0r1/7akoewQ==
-X-CSE-MsgGUID: FAHTLyqAT5iwk/cVvF9Fug==
+   d="scan'208";a="79462649"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 23:43:21 -0700
+X-CSE-ConnectionGUID: w5U4/lL+SM+i+UW4CEkvZg==
+X-CSE-MsgGUID: PIEVFqPiTE6pbpsvW/4AkQ==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,141,1770624000"; 
+   d="scan'208";a="255404108"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 25 Mar 2026 23:43:19 -0700
+  by orviesa002.jf.intel.com with ESMTP; 25 Mar 2026 23:43:19 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5eR3-000000008MR-0DCJ;
+	id 1w5eR3-000000008MP-05j7;
 	Thu, 26 Mar 2026 06:43:17 +0000
-Date: Thu, 26 Mar 2026 14:42:56 +0800
+Date: Thu, 26 Mar 2026 14:43:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?utf-8?Q?"G=C3=BCnther?= Noack" <gnoack3000@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, =?utf-8?Q?"Micka=C3=ABl?= =?utf-8?Q?_Sala=C3=BCn"?= <mic@digikod.net>
-Subject: [mic:next 16/24] include/linux/build_bug.h:78:41: error:
- static assertion failed: "sizeof(typeof_member(union access_masks_all,
- masks)) == sizeof(typeof_member(union access_masks_all, all))"
-Message-ID: <202603261438.jBx2DGNe-lkp@intel.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jlayton:kdevops 15/26] ERROR: modpost:
+ "nfsd_handle_dir_event" [fs/nfsd/nfsd.ko] undefined!
+Message-ID: <202603261402.zJvrEruf-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mic/linux.git next
-head:   42d105958e98c6ae8fd6d62b38727444d25e735d
-commit: 8dcfb7e52f844e73413d7f743945e135747a1048 [16/24] landlock: Control pathname UNIX domain socket resolution by path
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260326/202603261438.jBx2DGNe-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260326/202603261438.jBx2DGNe-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git kdevops
+head:   996759a25534ab4a7e986fe0153659e93c1611ec
+commit: 0f5a8e88ca922de5284bcbf63b64b120b5a58947 [15/26] nfsd: add notification handlers for dir events
+config: alpha-defconfig (https://download.01.org/0day-ci/archive/20260326/202603261402.zJvrEruf-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260326/202603261402.zJvrEruf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603261438.jBx2DGNe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603261402.zJvrEruf-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from include/linux/bits.h:30,
-                    from security/landlock/setup.c:9:
->> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(typeof_member(union access_masks_all, masks)) == sizeof(typeof_member(union access_masks_all, all))"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   security/landlock/access.h:61:1: note: in expansion of macro 'static_assert'
-      61 | static_assert(sizeof(typeof_member(union access_masks_all, masks)) ==
-         | ^~~~~~~~~~~~~
-
-
-vim +78 include/linux/build_bug.h
-
-bc6245e5efd70c Ian Abbott       2017-07-10  60  
-6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
-6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
-6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
-6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
-6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
-6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
-6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
-6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
-6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
-6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
-6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
-6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
-6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
-6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-6bab69c65013be Rasmus Villemoes 2019-03-07  79  
-07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
-
-:::::: The code at line 78 was first introduced by commit
-:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
-
-:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+WARNING: modpost: "saved_config" [vmlinux] is COMMON symbol
+>> ERROR: modpost: "nfsd_handle_dir_event" [fs/nfsd/nfsd.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
