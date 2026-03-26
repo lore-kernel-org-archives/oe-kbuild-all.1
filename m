@@ -1,272 +1,183 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD3C3537C7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Mar 2026 02:12:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774491177; cv=pass; b=roCAky3edXhtADnHxgdHQsF4fkXkhGYzak6ge57Mwx9X3CzSCnY6TxUVLoxniyNelG0XLN5Yjxc0wBPSOBtcgT1CU1Wz2tP0P4JdKdDlAni5EcPmCp8e2ZgwWbqBIgcGKR/INcCDC9h6zigplcJ2eSIjYUSzUcAUQR2nFa97LFA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774491177; c=relaxed/simple;
-	bh=tv5nfp1dvu/Tkr8TpVf2gegTD+Ef12uY2ylzmRm9r14=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=luIxqbW4p8uhGsRFxiTvOLeGkhe4CKAGxf3tQ6xSFPw+QyypxbjfpT0w5Bh4JNUG0btpHDLwKuSbz5PZX1jUdIlRBaieByo4g66M+OAJbuxC/Sde5xL+rOY5Dtp2D7usrSnIETs8a+xOdOBCiPhrJh673FCNThRp4utzUqSRduU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UU0Oz8v0; arc=pass smtp.client-ip=209.85.219.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C1DD37F73C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Mar 2026 02:36:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774492607; cv=none; b=rKIRckq38p0xkk/P1yv3LjINt/BHWuPYGxg2LLbdsvmcjq2Cpl34QVGBqAtFFGpEWQblXodhragPnrZx0dqvZ2XEB+uYE9BK9Ptktqr6eqnGlPAw3vdqlEBCaKPW99AXUXDFdIyVHxbc5tVcUsUi0n6truIk5/LT3lU1B0QgBIU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774492607; c=relaxed/simple;
+	bh=h51sL9PmeyrBKQX01T7ZklE2Ap3Z+ATO2jaqwTZrFf8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NBdviHn7k2MrUtRkP8KgKfKIgyu5TujxShCJWy/jBafcBNPveRGc7qNOpxSf8gw524wlBsqYO3vEVy+qLmeQHdbnuxWmD8rSpkYuSgq8ln1lqkPokZ21usigD+NpNp+JkmL7cuCuPdpul7W72HThF7GjbkKMFO98gQ6dg6X6ga4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GCv94xcz; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UU0Oz8v0"
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-89a0ecbc713so5105506d6.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Mar 2026 19:12:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774491174; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Sb+wu47HDXXfOVDJ53MLgrMU9lLVaJ+CwuqpZmMXLUK2jsLGgNdaW/uZRsrbRQSfDc
-         h9k8j5CNBNLFmD6c/AK8lVJGJnujtLfL77qwaaWktSylpmT2dEpC24A1Pf1lSdHQPXdK
-         yjF9wVGlvLmEyWSNLas2C/izSFFDSmuYclJ0uL99W5RdSuZXzdL2A35zRsujina9fdIA
-         BNi+pyo5D+P40kmsrTY/6RjNbZBgT50e+EZIbVYmJ/QS+2ggrwuIOBVTvlBAXMUj26mI
-         TEilGzTetckirsCWhiqslxtYmcqGVXjhN0Y5FeXSsWnS3OJtHSkyInkhCOpgWCAnW53t
-         2QLA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=8LZz/ifoYRb/n1L6k1t1xrO6vM8B/9SjmCeNM7ARg2A=;
-        fh=H5CELjsJmwZ+g0l/sUNznKhdGRpFbv/gVCO/baK/AEk=;
-        b=BfmYPhK19bugxVV0tfhzkdJx/CF+ieoCSe750LSw7Hm6WwhkwVglU7ksYlUHTaN1qv
-         HaqaLECNHuzwhIfZY91IxSIL/obwcH8K3qgggQp34qPXDSfkemlaBux5CUh7PNcWO+kZ
-         hpbqJl+B+uLoz9Y43JL0uFeF6d1SqskA5V/PLhE//HDHuqPrFWDHoAczTsCJF3U3NUTO
-         bns3bNtxUYquxXdhDxVne/l9obbPvvB3+xhl/p/UtgvVBBem1p7w6A1OQgWok6CYyFIb
-         s/YUTyf9p7Mx0arZ04mSayFK/kL68THdTWBkw6hY8u8WjU54SItj8eFDuBz+vU6szKzq
-         pAIw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774491174; x=1775095974; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8LZz/ifoYRb/n1L6k1t1xrO6vM8B/9SjmCeNM7ARg2A=;
-        b=UU0Oz8v0cTvzFf2orwb96RunO9PXB9XC+z0AlBGHTDy6HsOZg62dtJ1cIts/7vf8f/
-         tmXgomzCBlNFW30LSg+WHOHiW5SdRHrlO8CvtrTXLrqvGg//Sm0HvwyMDxAx0HGczrzo
-         XDdrY1bqiEeYXd+d6+GhWzFpQDBpEsAH7ZX/gtCVaa0c2xSLBNxexY7a7joeOQtcpsMs
-         WXaWhnLjyaHytXHePtwNAN3KPQH5h+wOGmYEN3h8yX/WeaWfe+rtx4n7pqrfvF7AmuCz
-         bM8lpfiuHej4i8ErY2VCpYEJSb2Xau99mbdfLI2LHQljHQhsvjVwVCtATUtQibTzRUKB
-         +Qgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774491174; x=1775095974;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8LZz/ifoYRb/n1L6k1t1xrO6vM8B/9SjmCeNM7ARg2A=;
-        b=kMrzMp2cXl07WhFHuNG9zInzpQ3o9KmFL/hqCbHZY0EtjCPnAPty7yjqmGt8GVTulV
-         DJAyO9EkC4HE5RuY4SeIhvCpKuv0tCufUkdEgk/hObMoyw6o4KympDDZ/qBlK4wlUP+e
-         rN3GsTlo4EJbPnAWRkLluK623LHOe+1gZ+Hw+M9bc3biQ2akWxA0PGrGjPCzE4o2+hjL
-         ZLwtIOOeCqfEnj47+4hiGIaq+x09UKzYoqBnhy0J3/tBXgWzdVgxLZytPAFQcDLEeyaP
-         vtxt9/rKNf2SV6nZ6sKa9qETA1rBPKaF35QfAugjcRowwqI4F4He35DCov1I24jI69OQ
-         GqJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW5ImGAjiE/ngSn6+Ju2RPuTN9FvrqGE05Djl3tQ2b5lZZvi7vh9X2zcKs+IBj62e/wdqvfXnRfnMixqR/3@lists.linux.dev
-X-Gm-Message-State: AOJu0YyS/clhjQshLJxBqYAIe9jrFikzgXa2zYHHlC2/9y4KNVbMoH3t
-	T/H/Ouq01vwLOjpiK78a2I0Gm2udcr3gyQ3IYdLGebY0lPE5MNjdiXDcSO6ViDll7Y8m8ShHBgu
-	Hocz4vqO65djC09ByfQvmhvE1X+BQ6hY=
-X-Gm-Gg: ATEYQzxtKX0QcANAtYf5FnplLydytfj4gUogjvHL6Ng/YAa8NL/OyRAuzfXSq0Y2ba9
-	wgvtOPgCx8xk8NsolwbdSseayMNnvfTHm8jBnKMySl0lIFyOOgZ8BEpo+5uMxlWkB55toiCM3As
-	dkplL57p19T0PMZPQqwgRo0klSopnxtqSw1IkJ4xvCaD79OR3I28cBT2FBlhjrtepH8FKdKa3vA
-	Io7jGjxpjl2NZJYdBwhNiGdhAdANoO9GhVqqqqjtayzOZLeeJklkkUbcq0WeMGc830W1K9LGVrD
-	kLSAWgnmnfOZ0zMZ4Qw=
-X-Received: by 2002:a05:6214:478c:b0:89a:8434:108c with SMTP id
- 6a1803df08f44-89cc42a59d0mr75882416d6.15.1774491174273; Wed, 25 Mar 2026
- 19:12:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GCv94xcz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774492606; x=1806028606;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=h51sL9PmeyrBKQX01T7ZklE2Ap3Z+ATO2jaqwTZrFf8=;
+  b=GCv94xcz9kp7BKrA5mPzShHAfRu5mvWc0Vn2qJdsli/Ts73E01C/clJv
+   ERBT2jHQsSF3bEnVeTlj8kO7rz71wCQsqOOWv3lxye3HiY3VueSNWr+b8
+   S9hHzYxo+pjM7kdQmwaGGUDrhGbF7wNKnub01Pxz6IyQctbGXeav/k03s
+   fyNR+rqG1hoK6jmxVub60b1wRV4636EtAOwcRI95AIOdDVZQOyWnU1Cvy
+   SNBv5+ysAngtahtCMw0ceO3JXcP6/wWZu+xd7wcG0A8cgUHhzKg4t12Uz
+   bcFDhwxZh+WPRaEj4hOk1bhkARo79ryHOIOoQd9114sZhm7igwXiOkyHY
+   A==;
+X-CSE-ConnectionGUID: 7RzPhV2TT+2tuXyeHVJRmw==
+X-CSE-MsgGUID: rzr3m122S8af0ulsMGfKrw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="79448440"
+X-IronPort-AV: E=Sophos;i="6.23,141,1770624000"; 
+   d="scan'208";a="79448440"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 19:36:45 -0700
+X-CSE-ConnectionGUID: oXNf72ZoT+K6i0Yp0FJ4jA==
+X-CSE-MsgGUID: +tiT538TQOSn1dpq58/bWQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,141,1770624000"; 
+   d="scan'208";a="224051098"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa010.jf.intel.com with ESMTP; 25 Mar 2026 19:36:39 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w5aaJ-000000007DJ-1iqb;
+	Thu, 26 Mar 2026 02:36:35 +0000
+Date: Thu, 26 Mar 2026 03:35:39 +0100
+From: kernel test robot <lkp@intel.com>
+To: Qi Zheng <qi.zheng@linux.dev>, hannes@cmpxchg.org, hughd@google.com,
+	mhocko@suse.com, roman.gushchin@linux.dev, shakeel.butt@linux.dev,
+	muchun.song@linux.dev, david@kernel.org, lorenzo.stoakes@oracle.com,
+	ziy@nvidia.com, harry.yoo@oracle.com, yosry.ahmed@linux.dev,
+	imran.f.khan@oracle.com, kamalesh.babulal@oracle.com,
+	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com,
+	chenridong@huaweicloud.com, mkoutny@suse.com,
+	akpm@linux-foundation.org, hamzamahfooz@linux.microsoft.com,
+	apais@linux.microsoft.com, lance.yang@linux.dev, bhe@redhat.com,
+	usamaarif642@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, Qi Zheng <zhengqi.arch@bytedance.com>
+Subject: Re: [PATCH 3/3] mm: memcontrol: correct the nr_pages parameter type
+ of mem_cgroup_update_lru_size()
+Message-ID: <202603260338.GfCrsaVO-lkp@intel.com>
+References: <2cf06f9faf51900ce6acbb4740fc60355a2842ed.1774342371.git.zhengqi.arch@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260324221032.1333636-9-derekjohn.clark@gmail.com> <202603260302.X0NjQOda-lkp@intel.com>
-In-Reply-To: <202603260302.X0NjQOda-lkp@intel.com>
-From: Derek John Clark <derekjohn.clark@gmail.com>
-Date: Wed, 25 Mar 2026 19:12:43 -0700
-X-Gm-Features: AQROBzCCMauqzLcmBl2kKVUIVShU14LLDgvO9-3x4yc_nzuajvT4xQWqyoEo6mk
-Message-ID: <CAFqHKT==yv=1E9Tjz+xbMZpS+33_jFYe6hCVdktmctaKiAUHZQ@mail.gmail.com>
-Subject: Re: [PATCH v5 8/8] platform/x86: lenovo-wmi-other: Add WMI battery
- charge limiting
-To: kernel test robot <lkp@intel.com>
-Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Hans de Goede <hansg@kernel.org>, oe-kbuild-all@lists.linux.dev, 
-	Mark Pearson <mpearson-lenovo@squebb.ca>, Armin Wolf <W_Armin@gmx.de>, 
-	Jonathan Corbet <corbet@lwn.net>, Rong Zhang <i@rong.moe>, Kurt Borja <kuurtb@gmail.com>, 
-	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2cf06f9faf51900ce6acbb4740fc60355a2842ed.1774342371.git.zhengqi.arch@bytedance.com>
 
-On Wed, Mar 25, 2026 at 12:43=E2=80=AFPM kernel test robot <lkp@intel.com> =
-wrote:
->
-> Hi Derek,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on linus/master]
-> [also build test ERROR on v7.0-rc5 next-20260324]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Derek-J-Clark/plat=
-form-x86-lenovo-wmi-other-Move-LWMI_FAN_DIV/20260325-070851
-> base:   linus/master
-> patch link:    https://lore.kernel.org/r/20260324221032.1333636-9-derekjo=
-hn.clark%40gmail.com
-> patch subject: [PATCH v5 8/8] platform/x86: lenovo-wmi-other: Add WMI bat=
-tery charge limiting
-> config: x86_64-randconfig-005-20260325 (https://download.01.org/0day-ci/a=
-rchive/20260326/202603260302.X0NjQOda-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20260326/202603260302.X0NjQOda-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202603260302.X0NjQOda-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    ld: vmlinux.o: in function `lwmi_om_fan_get_set':
-> >> drivers/platform/x86/lenovo/wmi-other.c:206:(.text+0x1b74542): undefin=
-ed reference to `lwmi_attr_id'
->    ld: vmlinux.o: in function `lwmi_attr_01_is_supported':
->    drivers/platform/x86/lenovo/wmi-other.c:1267:(.text+0x1b74fdf): undefi=
-ned reference to `lwmi_attr_id'
-> >> ld: drivers/platform/x86/lenovo/wmi-other.c:1270:(.text+0x1b75013): un=
-defined reference to `lwmi_cd01_get_data'
-> >> ld: drivers/platform/x86/lenovo/wmi-other.c:1283:(.text+0x1b7515b): un=
-defined reference to `lwmi_attr_id'
->    ld: drivers/platform/x86/lenovo/wmi-other.c:1299:(.text+0x1b752f4): un=
-defined reference to `lwmi_attr_id'
->    ld: vmlinux.o: in function `lwmi_om_fan_info_collect_cd_fan':
-> >> drivers/platform/x86/lenovo/wmi-other.c:565:(.text+0x1b75ca3): undefin=
-ed reference to `lwmi_cd_fan_get_data'
->    ld: vmlinux.o: in function `lwmi_psy_prop_is_writeable':
->    drivers/platform/x86/lenovo/wmi-other.c:687:(.text+0x1b75e2f): undefin=
-ed reference to `lwmi_attr_id'
-> >> ld: drivers/platform/x86/lenovo/wmi-other.c:690:(.text+0x1b75e5a): und=
-efined reference to `lwmi_cd00_get_data'
->    ld: vmlinux.o: in function `lwmi_psy_ext_set_prop':
->    drivers/platform/x86/lenovo/wmi-other.c:649:(.text+0x1b75f9b): undefin=
-ed reference to `lwmi_attr_id'
->    ld: vmlinux.o: in function `lwmi_psy_ext_get_prop':
->    drivers/platform/x86/lenovo/wmi-other.c:603:(.text+0x1b761aa): undefin=
-ed reference to `lwmi_attr_id'
->    ld: vmlinux.o: in function `lwmi_other_probe':
-> >> drivers/platform/x86/lenovo/wmi-other.c:1612:(.text+0x1b764eb): undefi=
-ned reference to `lwmi_cd_match_add_all'
->    ld: vmlinux.o: in function `lwmi_om_fan_info_collect_cd00':
->    drivers/platform/x86/lenovo/wmi-other.c:540:(.text+0x1b7680f): undefin=
-ed reference to `lwmi_attr_id'
->    ld: drivers/platform/x86/lenovo/wmi-other.c:540:(.text+0x1b76838): und=
-efined reference to `lwmi_cd00_get_data'
->    ld: vmlinux.o: in function `lwmi_om_ps_ext_init':
-> >> drivers/platform/x86/lenovo/wmi-other.c:806:(.text+0x1b76a57): undefin=
-ed reference to `devm_battery_hook_register'
->    ld: vmlinux.o: in function `lwmi_om_fw_attr_add':
-> >> drivers/platform/x86/lenovo/wmi-other.c:1474:(.text+0x1b76afa): undefi=
-ned reference to `firmware_attributes_class'
->    ld: vmlinux.o: in function `attr_current_value_show':
->    drivers/platform/x86/lenovo/wmi-other.c:1225:(.text+0x1b77015): undefi=
-ned reference to `lwmi_attr_id'
->    ld: vmlinux.o: in function `attr_current_value_store':
->    drivers/platform/x86/lenovo/wmi-other.c:1165:(.text+0x1b776e2): undefi=
-ned reference to `lwmi_attr_id'
->    ld: drivers/platform/x86/lenovo/wmi-other.c:1168:(.text+0x1b7771c): un=
-defined reference to `lwmi_cd01_get_data'
->    ld: drivers/platform/x86/lenovo/wmi-other.c:1179:(.text+0x1b7781e): un=
-defined reference to `lwmi_attr_id'
->    ld: vmlinux.o: in function `attr_capdata01_show':
->    drivers/platform/x86/lenovo/wmi-other.c:1099:(.text+0x1b77e38): undefi=
-ned reference to `lwmi_attr_id'
->    ld: drivers/platform/x86/lenovo/wmi-other.c:1102:(.text+0x1b77e67): un=
-defined reference to `lwmi_cd01_get_data'
->
-> Kconfig warnings: (for reference only)
->    WARNING: unmet direct dependencies detected for LENOVO_WMI_TUNING
->    Depends on [m]: X86_PLATFORM_DEVICES [=3Dy] && ACPI_WMI [=3Dy] && ACPI=
-_BATTERY [=3Dm]
->    Selected by [y]:
->    - LENOVO_WMI_GAMEZONE [=3Dy] && X86_PLATFORM_DEVICES [=3Dy] && ACPI_WM=
-I [=3Dy] && DMI [=3Dy]
->
->
-> vim +206 drivers/platform/x86/lenovo/wmi-other.c
->
-> 51ed34282f63fa Rong Zhang 2026-01-21  186
-> 51ed34282f63fa Rong Zhang 2026-01-21  187  /**
-> 51ed34282f63fa Rong Zhang 2026-01-21  188   * lwmi_om_fan_get_set() - Get=
- or set fan RPM value of specified fan
-> 51ed34282f63fa Rong Zhang 2026-01-21  189   * @priv: Driver private data =
-structure
-> 51ed34282f63fa Rong Zhang 2026-01-21  190   * @channel: Fan channel index=
- (0-based)
-> 51ed34282f63fa Rong Zhang 2026-01-21  191   * @val: Pointer to value (inp=
-ut for set, output for get)
-> 51ed34282f63fa Rong Zhang 2026-01-21  192   * @set: True to set value, fa=
-lse to get value
-> 51ed34282f63fa Rong Zhang 2026-01-21  193   *
-> 51ed34282f63fa Rong Zhang 2026-01-21  194   * Communicates with WMI inter=
-face to either retrieve current fan RPM
-> 51ed34282f63fa Rong Zhang 2026-01-21  195   * or set target fan RPM.
-> 51ed34282f63fa Rong Zhang 2026-01-21  196   *
-> 51ed34282f63fa Rong Zhang 2026-01-21  197   * Return: 0 on success, or an=
- error code.
-> 51ed34282f63fa Rong Zhang 2026-01-21  198   */
-> 51ed34282f63fa Rong Zhang 2026-01-21  199  static int lwmi_om_fan_get_set=
-(struct lwmi_om_priv *priv, int channel, u32 *val, bool set)
-> 51ed34282f63fa Rong Zhang 2026-01-21  200  {
-> 51ed34282f63fa Rong Zhang 2026-01-21  201       struct wmi_method_args_32=
- args;
-> 51ed34282f63fa Rong Zhang 2026-01-21  202       u32 method_id, retval;
-> 51ed34282f63fa Rong Zhang 2026-01-21  203       int err;
-> 51ed34282f63fa Rong Zhang 2026-01-21  204
-> 51ed34282f63fa Rong Zhang 2026-01-21  205       method_id =3D set ? LWMI_=
-FEATURE_VALUE_SET : LWMI_FEATURE_VALUE_GET;
-> 51ed34282f63fa Rong Zhang 2026-01-21 @206       args.arg0 =3D LWMI_ATTR_I=
-D_FAN_RPM(channel);
-> 51ed34282f63fa Rong Zhang 2026-01-21  207       args.arg1 =3D set ? *val =
-: 0;
-> 51ed34282f63fa Rong Zhang 2026-01-21  208
-> 51ed34282f63fa Rong Zhang 2026-01-21  209       err =3D lwmi_dev_evaluate=
-_int(priv->wdev, 0x0, method_id,
-> 51ed34282f63fa Rong Zhang 2026-01-21  210                                =
-   (unsigned char *)&args, sizeof(args), &retval);
-> 51ed34282f63fa Rong Zhang 2026-01-21  211       if (err)
-> 51ed34282f63fa Rong Zhang 2026-01-21  212               return err;
-> 51ed34282f63fa Rong Zhang 2026-01-21  213
-> 51ed34282f63fa Rong Zhang 2026-01-21  214       if (!set) {
-> 51ed34282f63fa Rong Zhang 2026-01-21  215               *val =3D retval;
-> 51ed34282f63fa Rong Zhang 2026-01-21  216               return 0;
-> 51ed34282f63fa Rong Zhang 2026-01-21  217       }
-> 51ed34282f63fa Rong Zhang 2026-01-21  218
-> 51ed34282f63fa Rong Zhang 2026-01-21  219       /*
-> 51ed34282f63fa Rong Zhang 2026-01-21  220        * It seems that 0 means =
-"no error" and 1 means "done". Apparently
-> 51ed34282f63fa Rong Zhang 2026-01-21  221        * different firmware tea=
-ms have different thoughts on indicating
-> 51ed34282f63fa Rong Zhang 2026-01-21  222        * success, so we accepts=
- both.
-> 51ed34282f63fa Rong Zhang 2026-01-21  223        */
-> 51ed34282f63fa Rong Zhang 2026-01-21  224       return (retval =3D=3D 0 |=
-| retval =3D=3D 1) ? 0 : -EIO;
-> 51ed34282f63fa Rong Zhang 2026-01-21  225  }
-> 51ed34282f63fa Rong Zhang 2026-01-21  226
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+Hi Qi,
 
-Can someone explain to me why this is happening? I cannot reproduce
-these locally with W=3D1 and/or C=3D1. I'd prefer to resolve this before
-submitting a v6.
+kernel test robot noticed the following build warnings:
 
-Thanks,
-Derek
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on next-20260325]
+[cannot apply to trace/for-next linus/master v7.0-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Qi-Zheng/mm-memcontrol-correct-the-type-of-stats_updates-to-unsigned-long/20260325-230337
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/2cf06f9faf51900ce6acbb4740fc60355a2842ed.1774342371.git.zhengqi.arch%40bytedance.com
+patch subject: [PATCH 3/3] mm: memcontrol: correct the nr_pages parameter type of mem_cgroup_update_lru_size()
+config: riscv-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260326/202603260338.GfCrsaVO-lkp@intel.com/config)
+compiler: riscv64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260326/202603260338.GfCrsaVO-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603260338.GfCrsaVO-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from ./arch/riscv/include/asm/bug.h:90,
+                    from ./include/linux/bug.h:5,
+                    from ./arch/riscv/include/asm/cmpxchg.h:9,
+                    from ./arch/riscv/include/asm/barrier.h:14,
+                    from ./include/linux/list.h:11,
+                    from ./include/linux/cgroup-defs.h:12,
+                    from mm/memcontrol.c:28:
+   mm/memcontrol.c: In function 'mem_cgroup_update_lru_size':
+>> mm/memcontrol.c:1486:17: warning: format '%d' expects argument of type 'int', but argument 5 has type 'long int' [-Wformat=]
+    1486 |                 "%s(%p, %d, %d): lru_size %ld\n",
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1487 |                 __func__, lruvec, lru, nr_pages, size)) {
+         |                                        ~~~~~~~~
+         |                                        |
+         |                                        long int
+   ./include/asm-generic/bug.h:133:31: note: in definition of macro '__WARN_printf'
+     133 |                 __warn_printk(arg);                                     \
+         |                               ^~~
+   ./include/linux/once_lite.h:31:25: note: in expansion of macro 'WARN'
+      31 |                         func(__VA_ARGS__);                              \
+         |                         ^~~~
+   ./include/asm-generic/bug.h:185:9: note: in expansion of macro 'DO_ONCE_LITE_IF'
+     185 |         DO_ONCE_LITE_IF(condition, WARN, 1, format)
+         |         ^~~~~~~~~~~~~~~
+   mm/memcontrol.c:1485:13: note: in expansion of macro 'WARN_ONCE'
+    1485 |         if (WARN_ONCE(size < 0,
+         |             ^~~~~~~~~
+   mm/memcontrol.c:1486:30: note: format string is defined here
+    1486 |                 "%s(%p, %d, %d): lru_size %ld\n",
+         |                             ~^
+         |                              |
+         |                              int
+         |                             %ld
+
+
+vim +1486 mm/memcontrol.c
+
+6168d0da2b479ce Alex Shi           2020-12-15  1457  
+925b7673cce3911 Johannes Weiner    2012-01-12  1458  /**
+fa9add641b1b1c5 Hugh Dickins       2012-05-29  1459   * mem_cgroup_update_lru_size - account for adding or removing an lru page
+fa9add641b1b1c5 Hugh Dickins       2012-05-29  1460   * @lruvec: mem_cgroup per zone lru vector
+fa9add641b1b1c5 Hugh Dickins       2012-05-29  1461   * @lru: index of lru list the page is sitting on
+b4536f0c829c858 Michal Hocko       2017-01-10  1462   * @zid: zone id of the accounted pages
+fa9add641b1b1c5 Hugh Dickins       2012-05-29  1463   * @nr_pages: positive when adding or negative when removing
+925b7673cce3911 Johannes Weiner    2012-01-12  1464   *
+ca707239e8a7958 Hugh Dickins       2016-05-19  1465   * This function must be called under lru_lock, just before a page is added
+07ca760673088f2 Hugh Dickins       2022-02-14  1466   * to or just after a page is removed from an lru list.
+925b7673cce3911 Johannes Weiner    2012-01-12  1467   */
+fa9add641b1b1c5 Hugh Dickins       2012-05-29  1468  void mem_cgroup_update_lru_size(struct lruvec *lruvec, enum lru_list lru,
+6a3cda9fd4d0f0b Qi Zheng           2026-03-24  1469  				int zid, long nr_pages)
+08e552c69c6930d KAMEZAWA Hiroyuki  2009-01-07  1470  {
+ef8f2327996b5c2 Mel Gorman         2016-07-28  1471  	struct mem_cgroup_per_node *mz;
+fa9add641b1b1c5 Hugh Dickins       2012-05-29  1472  	unsigned long *lru_size;
+ca707239e8a7958 Hugh Dickins       2016-05-19  1473  	long size;
+08e552c69c6930d KAMEZAWA Hiroyuki  2009-01-07  1474  
+f8d665422603ee1 Hirokazu Takahashi 2009-01-07  1475  	if (mem_cgroup_disabled())
+08e552c69c6930d KAMEZAWA Hiroyuki  2009-01-07  1476  		return;
+6d12e2d8ddbe653 KAMEZAWA Hiroyuki  2008-02-07  1477  
+ef8f2327996b5c2 Mel Gorman         2016-07-28  1478  	mz = container_of(lruvec, struct mem_cgroup_per_node, lruvec);
+b4536f0c829c858 Michal Hocko       2017-01-10  1479  	lru_size = &mz->lru_zone_size[zid][lru];
+ca707239e8a7958 Hugh Dickins       2016-05-19  1480  
+ca707239e8a7958 Hugh Dickins       2016-05-19  1481  	if (nr_pages < 0)
+ca707239e8a7958 Hugh Dickins       2016-05-19  1482  		*lru_size += nr_pages;
+ca707239e8a7958 Hugh Dickins       2016-05-19  1483  
+ca707239e8a7958 Hugh Dickins       2016-05-19  1484  	size = *lru_size;
+b4536f0c829c858 Michal Hocko       2017-01-10  1485  	if (WARN_ONCE(size < 0,
+b4536f0c829c858 Michal Hocko       2017-01-10 @1486  		"%s(%p, %d, %d): lru_size %ld\n",
+b4536f0c829c858 Michal Hocko       2017-01-10  1487  		__func__, lruvec, lru, nr_pages, size)) {
+ca707239e8a7958 Hugh Dickins       2016-05-19  1488  		VM_BUG_ON(1);
+ca707239e8a7958 Hugh Dickins       2016-05-19  1489  		*lru_size = 0;
+ca707239e8a7958 Hugh Dickins       2016-05-19  1490  	}
+ca707239e8a7958 Hugh Dickins       2016-05-19  1491  
+ca707239e8a7958 Hugh Dickins       2016-05-19  1492  	if (nr_pages > 0)
+fa9add641b1b1c5 Hugh Dickins       2012-05-29  1493  		*lru_size += nr_pages;
+08e552c69c6930d KAMEZAWA Hiroyuki  2009-01-07  1494  }
+544122e5e0ee27d KAMEZAWA Hiroyuki  2009-01-07  1495  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
