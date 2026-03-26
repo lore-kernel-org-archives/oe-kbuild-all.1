@@ -1,208 +1,132 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E393FE34A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Mar 2026 14:55:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 285F23FA5F9
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Mar 2026 15:26:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774536938; cv=none; b=TfN2PxPvHwJYWfEXRCqPvvQaWcGMNUF1y8sWLxfe0MQ0lekRvKoxI74wzfATXkpB0aYRNzwi5vHMx1NGVQ+Q0HOcqOMCupDSyRrOnzGwGQ8xKepykLkFxkfqJEgK/wUBwP0NtaU3BxX1vSzxT80m7lHY6fHPM2fIhWGOxbn0l70=
+	t=1774538813; cv=none; b=lFBmg0GaD6UkbKcVX8YtEYhGpupttU2ss1TMu+STpVa1Cl+rZ6k3qjRr446E02Or/eYmi9TH9Xcc+io7u9szGBRfREt3sQoNeQF5koLM3grOx/Zbv1lcA6kroPxUqxRLEpW/SUrSnQsIOchAA3zHyZ4TrEO6/Ik4pPFZ+i79ySo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774536938; c=relaxed/simple;
-	bh=V3UoIwjSt7joa0kafyldGhExlDZtZZor4stfWZARBz8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=jL/NcTWpmc96raQ/urKReTqXhziKZE4qkkzcQRIs2wa7rTG3X0yWFngLEOma7zJxeW38DjvsNPGtSs8cD8+NDFyRNjKHuLHGcGs3w4CkCKx0DUSfKhk6+qA/snQx0JjONHQQN0ae214OQ3lK+HUlw75HZ+JfM5bUKYKEVG7B5Do=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dZ/lxs0o; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1774538813; c=relaxed/simple;
+	bh=vrxSfkQYTfwx+AnpYheSvatnv7lcbjLvz4Ct2Qyi/pg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZY+P/Nj2p1X9W95lESc+51sBo72zOAtvLZLNQb1BBi4aBmJO6FieLxKv/4z/qD76now73X0ksUN566gYk7cLzRtSN6e/JHrt/TUdZ4hJl9KE62zVF4Y0p9IpUzoxF1anNur6xYOls8P07zGIeS2wSYBxq7dOd88aORJts6JSwJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A+ZEzQO0; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dZ/lxs0o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A+ZEzQO0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774536933; x=1806072933;
-  h=date:from:to:cc:subject:message-id;
-  bh=V3UoIwjSt7joa0kafyldGhExlDZtZZor4stfWZARBz8=;
-  b=dZ/lxs0oU4qEVhd42YHCLnS1kwzaCvXuq+8E3/tNdW54rxSsIVRcP9b/
-   2iXtt2ObqQAhhepW8sysdGo31J6/kYChX1lvDLjzpHfGYxviKemCOTdJT
-   Ud+Z+z2ly1bXp1T89WEM8quYZDj4L+fXyNs8+a8dFtZQHkaQ2DMk4Mhn/
-   mot64xWtGb1jMk6ToSbwIwGFJUrs4WIsmqzZkXSslzZh0yGwEzLLSOKfD
-   Ec8nxFbf4NWfPvMrTTyCgmzB84Q1q0aE0f0mDobDiyFpZfiIACQoTXVso
-   1ghQhEQQ9gAzAUSmGN/hDIUu9FHKmKhL7CIT7JMCJleJXDm0xQof60n9j
-   w==;
-X-CSE-ConnectionGUID: EjrXjbJzTSyM1rjWe19v6A==
-X-CSE-MsgGUID: oH6zOLQgSz+6ov/CqV2nHw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="87070029"
+  t=1774538812; x=1806074812;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vrxSfkQYTfwx+AnpYheSvatnv7lcbjLvz4Ct2Qyi/pg=;
+  b=A+ZEzQO0KW49ncGo2S1C4DWekKrsPQP8CDS9ZafW1SWU6o9HvA2eELif
+   Bwcwx2pUZBUJd/lqvw9EQWDBtXMMZwbiVwlAWg1vVBaq2H0RfLId5390K
+   44bCyRz0AFeKce8ERf2/S7ZprMNHJ6eEM6c7t2QXXOZE0Cf5aaG2GGsLZ
+   9nJn8e22P3i9CGtF49A7khfk9a33ic92GT+mS45irtkH48vwpsJRko24w
+   4jH9b6p8ZSn5+b93ux1nACm9UqWqrzlH5KaN6RZloPBi1hs6wLQ2aUurx
+   OEh1qyrc9zAUpEj6TVgm3RQoSmJYiaYrZit6Po3cHRgPzGnHNPvzY1GLt
+   Q==;
+X-CSE-ConnectionGUID: vWc4kxMGQXi0C4sw4pVR3w==
+X-CSE-MsgGUID: dzBeUBq1QiGAuCl1Iic3Qw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="75668928"
 X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="87070029"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 07:55:32 -0700
-X-CSE-ConnectionGUID: pshME199TY249T/gKvW1Dw==
-X-CSE-MsgGUID: 08j69PYcQcOBpLjmUrYJpQ==
+   d="scan'208";a="75668928"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 08:26:48 -0700
+X-CSE-ConnectionGUID: CAcWgENtR1ORa6Hew/zH8w==
+X-CSE-MsgGUID: DauhxJP0RGGTPPPbbSZcOA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="248426656"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 26 Mar 2026 07:55:30 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+   d="scan'208";a="224105462"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 26 Mar 2026 08:26:44 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5m7M-000000008wD-1OOB;
-	Thu, 26 Mar 2026 14:55:28 +0000
-Date: Thu, 26 Mar 2026 22:54:35 +0800
+	id 1w5mbZ-000000007JR-0kBX;
+	Thu, 26 Mar 2026 15:26:41 +0000
+Date: Thu, 26 Mar 2026 16:26:05 +0100
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 1/1]
- drivers/md/dm-bow.c:1293:6: warning: no previous prototype for function
- 'dm_bow_exit'
-Message-ID: <202603262256.Ts6AEUb5-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Christian Loehle <christian.loehle@arm.com>, arighi@nvidia.com
+Cc: oe-kbuild-all@lists.linux.dev, peterz@infradead.org,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	valentin.schneider@arm.com, mingo@redhat.com, rostedt@goodmis.org,
+	segall@google.com, mgorman@suse.de, catalin.marinas@arm.com,
+	will@kernel.org, sudeep.holla@arm.com, rafael@kernel.org,
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	juri.lelli@redhat.com, kobak@nvidia.com, fabecassis@nvidia.com,
+	Christian Loehle <christian.loehle@arm.com>
+Subject: Re: [PATCH 1/3] sched/topology: Introduce arch hooks for asympacking
+Message-ID: <202603261609.fazAo3mx-lkp@intel.com>
+References: <20260325181314.3875909-2-christian.loehle@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260325181314.3875909-2-christian.loehle@arm.com>
 
-Hi Paul,
+Hi Christian,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   d73a8ddf419e5ee819fff624cf35bfedd85b5609
-commit: dcb994383d2b1641ebe7b518caab88d2d9dbfa72 [1/1] Revert "ANDROID: dm-bow: remove dm-bow"
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260326/202603262256.Ts6AEUb5-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260326/202603262256.Ts6AEUb5-lkp@intel.com/reproduce)
+[auto build test ERROR on tip/sched/core]
+[also build test ERROR on arm64/for-next/core driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus peterz-queue/sched/core next-20260325]
+[cannot apply to linus/master v6.16-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Loehle/sched-topology-Introduce-arch-hooks-for-asympacking/20260326-145644
+base:   tip/sched/core
+patch link:    https://lore.kernel.org/r/20260325181314.3875909-2-christian.loehle%40arm.com
+patch subject: [PATCH 1/3] sched/topology: Introduce arch hooks for asympacking
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260326/202603261609.fazAo3mx-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260326/202603261609.fazAo3mx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603262256.Ts6AEUb5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603261609.fazAo3mx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/arm64/include/asm/cacheflush.h:11:
-   In file included from include/linux/kgdb.h:19:
-   In file included from include/linux/kprobes.h:28:
-   In file included from include/linux/ftrace.h:13:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     529 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/dm-bow.c:97:10: warning: no previous prototype for function 'range_top' [-Wmissing-prototypes]
-      97 | sector_t range_top(struct bow_range *br)
-         |          ^
-   drivers/md/dm-bow.c:97:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      97 | sector_t range_top(struct bow_range *br)
-         | ^
-         | static 
-   drivers/md/dm-bow.c:103:5: warning: no previous prototype for function 'range_size' [-Wmissing-prototypes]
-     103 | u64 range_size(struct bow_range *br)
-         |     ^
-   drivers/md/dm-bow.c:103:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     103 | u64 range_size(struct bow_range *br)
-         | ^
-         | static 
-   drivers/md/dm-bow.c:148:6: warning: no previous prototype for function 'add_before' [-Wmissing-prototypes]
-     148 | void add_before(struct rb_root *ranges, struct bow_range *new_br,
-         |      ^
-   drivers/md/dm-bow.c:148:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     148 | void add_before(struct rb_root *ranges, struct bow_range *new_br,
-         | ^
-         | static 
-   drivers/md/dm-bow.c:592:3: error: field designator 'default_attrs' does not refer to any field in type 'struct kobj_type'
-     592 |         .default_attrs = bow_attrs,
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/dm-bow.c:712:6: error: no member named 'num_write_same_bios' in 'struct dm_target'; did you mean 'num_write_zeroes_bios'?
-     712 |         ti->num_write_same_bios = 1;
-         |             ^~~~~~~~~~~~~~~~~~~
-         |             num_write_zeroes_bios
-   include/linux/device-mapper.h:339:15: note: 'num_write_zeroes_bios' declared here
-     339 |         unsigned int num_write_zeroes_bios;
-         |                      ^
-   drivers/md/dm-bow.c:749:19: error: too few arguments to function call, expected 7, have 6
-     748 |         bc->bufio = dm_bufio_client_create(bc->dev->bdev, bc->block_size, 1, 0,
-         |                     ~~~~~~~~~~~~~~~~~~~~~~
-     749 |                                            NULL, NULL);
-         |                                                      ^
-   include/linux/dm-bufio.h:30:1: note: 'dm_bufio_client_create' declared here
-      30 | dm_bufio_client_create(struct block_device *bdev, unsigned int block_size,
-         | ^                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      31 |                        unsigned int reserved_buffers, unsigned int aux_size,
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      32 |                        void (*alloc_callback)(struct dm_buffer *),
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      33 |                        void (*write_callback)(struct dm_buffer *),
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      34 |                        unsigned int flags);
-         |                        ~~~~~~~~~~~~~~~~~~
-   drivers/md/dm-bow.c:1096:5: warning: no previous prototype for function 'remap_unless_illegal_trim' [-Wmissing-prototypes]
-    1096 | int remap_unless_illegal_trim(struct bow_context *bc, struct bio *bio)
-         |     ^
-   drivers/md/dm-bow.c:1096:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1096 | int remap_unless_illegal_trim(struct bow_context *bc, struct bio *bio)
-         | ^
-         | static 
-   drivers/md/dm-bow.c:1259:43: error: no member named 'bd_inode' in 'struct block_device'
-    1259 |         return ti->len != i_size_read(dev->bdev->bd_inode) >> SECTOR_SHIFT;
-         |                                       ~~~~~~~~~  ^
-   drivers/md/dm-bow.c:1252:5: warning: no previous prototype for function 'dm_bow_prepare_ioctl' [-Wmissing-prototypes]
-    1252 | int dm_bow_prepare_ioctl(struct dm_target *ti, struct block_device **bdev)
-         |     ^
-   drivers/md/dm-bow.c:1252:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1252 | int dm_bow_prepare_ioctl(struct dm_target *ti, struct block_device **bdev)
-         | ^
-         | static 
-   drivers/md/dm-bow.c:1284:12: warning: no previous prototype for function 'dm_bow_init' [-Wmissing-prototypes]
-    1284 | int __init dm_bow_init(void)
-         |            ^
-   drivers/md/dm-bow.c:1284:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1284 | int __init dm_bow_init(void)
-         | ^
-         | static 
->> drivers/md/dm-bow.c:1293:6: warning: no previous prototype for function 'dm_bow_exit' [-Wmissing-prototypes]
-    1293 | void dm_bow_exit(void)
-         |      ^
-   drivers/md/dm-bow.c:1293:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1293 | void dm_bow_exit(void)
-         | ^
-         | static 
-   12 warnings and 4 errors generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for INTEL_MEI_ME
-   Depends on [n]: X86 && PCI [=y]
-   Selected by [m]:
-   - INTEL_MEI_HDCP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
-   - INTEL_MEI_PXP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
+   In file included from include/linux/topology.h:30,
+                    from include/linux/sched/topology.h:5,
+                    from include/linux/cpuset.h:13,
+                    from arch/x86/kernel/itmt.c:21:
+>> include/linux/arch_topology.h:131:32: error: redefinition of 'topology_arch_asym_cpu_priority'
+     131 | #define arch_asym_cpu_priority topology_arch_asym_cpu_priority
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kernel/itmt.c:168:5: note: in expansion of macro 'arch_asym_cpu_priority'
+     168 | int arch_asym_cpu_priority(int cpu)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arch_topology.h:132:19: note: previous definition of 'topology_arch_asym_cpu_priority' with type 'int(int)'
+     132 | static inline int topology_arch_asym_cpu_priority(int cpu)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/dm_bow_exit +1293 drivers/md/dm-bow.c
+vim +/topology_arch_asym_cpu_priority +131 include/linux/arch_topology.h
 
-  1292	
-> 1293	void dm_bow_exit(void)
-  1294	{
-  1295		dm_unregister_target(&bow_target);
-  1296	}
-  1297	
+   125	
+   126	/*
+   127	 * Architectures may override this to provide a custom CPU priority for
+   128	 * asymmetric packing.
+   129	 */
+   130	#ifndef arch_asym_cpu_priority
+ > 131	#define arch_asym_cpu_priority topology_arch_asym_cpu_priority
+   132	static inline int topology_arch_asym_cpu_priority(int cpu)
+   133	{
+   134		return -cpu;
+   135	}
+   136	#endif
+   137	
 
 -- 
 0-DAY CI Kernel Test Service
