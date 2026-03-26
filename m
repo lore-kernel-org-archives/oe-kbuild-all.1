@@ -1,53 +1,53 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 285F23FA5F9
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Mar 2026 15:26:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11BCA402431
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Mar 2026 15:47:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774538813; cv=none; b=lFBmg0GaD6UkbKcVX8YtEYhGpupttU2ss1TMu+STpVa1Cl+rZ6k3qjRr446E02Or/eYmi9TH9Xcc+io7u9szGBRfREt3sQoNeQF5koLM3grOx/Zbv1lcA6kroPxUqxRLEpW/SUrSnQsIOchAA3zHyZ4TrEO6/Ik4pPFZ+i79ySo=
+	t=1774540063; cv=none; b=mMMvUHsR9z+z19GJW8OyKzmO9CxLgDkruKKVSx2g2uY522pPioHnK7oJ1SnM+Ep3kbXC3pmkeHRCQDnoZpFj9r0Oy4aY30xPJwveVmlsNAxhadxZdDvtTFjgtNETsR/9jsDiN2rpqeNDtYIuoGllu0ler2JW9CJ2PLOkZHadziQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774538813; c=relaxed/simple;
-	bh=vrxSfkQYTfwx+AnpYheSvatnv7lcbjLvz4Ct2Qyi/pg=;
+	s=arc-20240116; t=1774540063; c=relaxed/simple;
+	bh=7hZqaL4ZV9G0GsFJ4XspY2AfsRdOOg/Kciwg94rdwXY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZY+P/Nj2p1X9W95lESc+51sBo72zOAtvLZLNQb1BBi4aBmJO6FieLxKv/4z/qD76now73X0ksUN566gYk7cLzRtSN6e/JHrt/TUdZ4hJl9KE62zVF4Y0p9IpUzoxF1anNur6xYOls8P07zGIeS2wSYBxq7dOd88aORJts6JSwJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A+ZEzQO0; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=iDfjXMt95zV1UZ01JxsdSBFxeGHYDp+vPhxt09eRdeW96UeSLTF2wPb7Dss77dV6JZepE8O/Rabzv4hNO4Rq2y4eIV6XNumTRwBPtUhKU2hF5kVZhIsXiPtdykwiAbgbXC/0n7Zjz3Z0laMRmujZS6V07GfAvjNyeX68RiFBJRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lAnyAkMV; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A+ZEzQO0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lAnyAkMV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774538812; x=1806074812;
+  t=1774540062; x=1806076062;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=vrxSfkQYTfwx+AnpYheSvatnv7lcbjLvz4Ct2Qyi/pg=;
-  b=A+ZEzQO0KW49ncGo2S1C4DWekKrsPQP8CDS9ZafW1SWU6o9HvA2eELif
-   Bwcwx2pUZBUJd/lqvw9EQWDBtXMMZwbiVwlAWg1vVBaq2H0RfLId5390K
-   44bCyRz0AFeKce8ERf2/S7ZprMNHJ6eEM6c7t2QXXOZE0Cf5aaG2GGsLZ
-   9nJn8e22P3i9CGtF49A7khfk9a33ic92GT+mS45irtkH48vwpsJRko24w
-   4jH9b6p8ZSn5+b93ux1nACm9UqWqrzlH5KaN6RZloPBi1hs6wLQ2aUurx
-   OEh1qyrc9zAUpEj6TVgm3RQoSmJYiaYrZit6Po3cHRgPzGnHNPvzY1GLt
+  bh=7hZqaL4ZV9G0GsFJ4XspY2AfsRdOOg/Kciwg94rdwXY=;
+  b=lAnyAkMVGXA4O+n0otSg5cQuSmagXA9kCB1XgcdSPEW+2p/8NtZjx3Uq
+   jdRO7U2Z0MsOCspW7PSxH7CqidQcLNxTnjrgX9zb4O2JsyJ71KcU0Q5Ox
+   9cloH84n/owzCF1rConUsj4WGmT7KBEGIgmAOCOGDWrMfXCFjIecK+UE2
+   /+BP8p8fG/MJ5KNQErNdvm+EmahSrnaQKiIV47ietqBqpnHFbKvWPOfsN
+   ZLkU8YTTniue9jHpbuPEEENoSOPrgKVh6NlE8GzVnZiRyUbujSJjYt2OF
+   wQzBre3yKxna61vmXnDAvrdrf25c+VBszlYGlrZ8AH3ue//jtaxecisKG
    Q==;
-X-CSE-ConnectionGUID: vWc4kxMGQXi0C4sw4pVR3w==
-X-CSE-MsgGUID: dzBeUBq1QiGAuCl1Iic3Qw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="75668928"
+X-CSE-ConnectionGUID: JXDouZGrS3+z7vQugJ7t1g==
+X-CSE-MsgGUID: ytNEFBQ6RFSytMQTbrDHzA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="75670667"
 X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="75668928"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 08:26:48 -0700
-X-CSE-ConnectionGUID: CAcWgENtR1ORa6Hew/zH8w==
-X-CSE-MsgGUID: DauhxJP0RGGTPPPbbSZcOA==
+   d="scan'208";a="75670667"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 08:47:41 -0700
+X-CSE-ConnectionGUID: 6t72dBeoQm+q0gEY3psBdg==
+X-CSE-MsgGUID: aMaov3SwQs+WRdLtBOsT9g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="224105462"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 26 Mar 2026 08:26:44 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="224965421"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 26 Mar 2026 08:47:37 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5mbZ-000000007JR-0kBX;
-	Thu, 26 Mar 2026 15:26:41 +0000
-Date: Thu, 26 Mar 2026 16:26:05 +0100
+	id 1w5mvl-000000008yP-35cp;
+	Thu, 26 Mar 2026 15:47:33 +0000
+Date: Thu, 26 Mar 2026 23:47:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: Christian Loehle <christian.loehle@arm.com>, arighi@nvidia.com
 Cc: oe-kbuild-all@lists.linux.dev, peterz@infradead.org,
@@ -58,9 +58,9 @@ Cc: oe-kbuild-all@lists.linux.dev, peterz@infradead.org,
 	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
 	juri.lelli@redhat.com, kobak@nvidia.com, fabecassis@nvidia.com,
 	Christian Loehle <christian.loehle@arm.com>
-Subject: Re: [PATCH 1/3] sched/topology: Introduce arch hooks for asympacking
-Message-ID: <202603261609.fazAo3mx-lkp@intel.com>
-References: <20260325181314.3875909-2-christian.loehle@arm.com>
+Subject: Re: [PATCH 3/3] arm64/sched: Enable CPPC-based asympacking
+Message-ID: <202603262311.bSaX71dF-lkp@intel.com>
+References: <20260325181314.3875909-4-christian.loehle@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,64 +69,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260325181314.3875909-2-christian.loehle@arm.com>
+In-Reply-To: <20260325181314.3875909-4-christian.loehle@arm.com>
 
 Hi Christian,
 
 kernel test robot noticed the following build errors:
 
 [auto build test ERROR on tip/sched/core]
-[also build test ERROR on arm64/for-next/core driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus peterz-queue/sched/core next-20260325]
-[cannot apply to linus/master v6.16-rc1]
+[also build test ERROR on arm64/for-next/core driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus peterz-queue/sched/core linus/master v7.0-rc5 next-20260325]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Loehle/sched-topology-Introduce-arch-hooks-for-asympacking/20260326-145644
 base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/20260325181314.3875909-2-christian.loehle%40arm.com
-patch subject: [PATCH 1/3] sched/topology: Introduce arch hooks for asympacking
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260326/202603261609.fazAo3mx-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260326/202603261609.fazAo3mx-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20260325181314.3875909-4-christian.loehle%40arm.com
+patch subject: [PATCH 3/3] arm64/sched: Enable CPPC-based asympacking
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20260326/202603262311.bSaX71dF-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260326/202603262311.bSaX71dF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603261609.fazAo3mx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603262311.bSaX71dF-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/topology.h:30,
-                    from include/linux/sched/topology.h:5,
-                    from include/linux/cpuset.h:13,
-                    from arch/x86/kernel/itmt.c:21:
->> include/linux/arch_topology.h:131:32: error: redefinition of 'topology_arch_asym_cpu_priority'
-     131 | #define arch_asym_cpu_priority topology_arch_asym_cpu_priority
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/kernel/itmt.c:168:5: note: in expansion of macro 'arch_asym_cpu_priority'
-     168 | int arch_asym_cpu_priority(int cpu)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/arch_topology.h:132:19: note: previous definition of 'topology_arch_asym_cpu_priority' with type 'int(int)'
-     132 | static inline int topology_arch_asym_cpu_priority(int cpu)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/topology_arch_asym_cpu_priority +131 include/linux/arch_topology.h
-
-   125	
-   126	/*
-   127	 * Architectures may override this to provide a custom CPU priority for
-   128	 * asymmetric packing.
-   129	 */
-   130	#ifndef arch_asym_cpu_priority
- > 131	#define arch_asym_cpu_priority topology_arch_asym_cpu_priority
-   132	static inline int topology_arch_asym_cpu_priority(int cpu)
-   133	{
-   134		return -cpu;
-   135	}
-   136	#endif
-   137	
+   or1k-linux-ld: kernel/sched/build_utility.o: in function `sd_init.constprop.0':
+   build_utility.c:(.text+0x1840): undefined reference to `arch_sched_asym_flags'
+>> build_utility.c:(.text+0x1840): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `arch_sched_asym_flags'
 
 -- 
 0-DAY CI Kernel Test Service
