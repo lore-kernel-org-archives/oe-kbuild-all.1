@@ -1,143 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B981831ED93
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Mar 2026 23:18:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75498171BB
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Mar 2026 23:42:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774567117; cv=none; b=W0EjaMTqb64JDufE7EIeadkgZed/iUDeUKrOheShjNchijS61kWtAZI/8nukr0JskCTMLuTYop3M8pzzakeNlzHVs9Uy0AjNaawRL+qHU3utbOmk7B22MDxMdwFIPRyey4iO7QhN5IfZr7fUJnXhx+aSH+9xz0Obe19Mkcq7j9M=
+	t=1774568551; cv=none; b=rI4CmIzFlw+el/zEBLri1UMJvTpsVNKAYGAtwWkpHGS3QEzM3MW/FIRzRzJ0q554xjvynf4RUl9nM+xAHZZlfEUboGc0N8gycldkBHBtzL/SrH1scjVP52yJnu3qP5VDX4UCQVqXEzdFASNt67MczWerUX0IH9aYo8tKSEERLJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774567117; c=relaxed/simple;
-	bh=8W0748SGA3a4asDg7zCZJmROZ8aIYjkamf7rs7VPh30=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rrCJZBOyrI50KcB+Q4OnVWDId+oA4Dzaacl+2vGFTuf4TwlwqN3XBvoRBavEJm1biAVnkt8NcdAMk2rNr4wrALlHvyl0CscxsueFoe92Ynj3bfLw+Oa8blv+jOJr0ci8gWMHSFSm8R8itTVLdvHnoUhYtgJe07zetoOP0tTW/VE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=doLmvjkx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774568551; c=relaxed/simple;
+	bh=DVgdqKnMWNFyThOMGFd/+EWXPj0UcVxJWcvBvTKWHPI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=AeOAZnhXmVJC8/zJ2QRa4K0wK5BH6vKlhVmjS2pOBKYC8P7S034fPCQZ+dQn0gdLI8CGWFohkj4ZZOU1mloGn+CIiOLZH02g6MRKNC8IAsJHhpMQ5JVb7YJoZo45PnArcGb6EKhG/DdxmrzdRkzs/e4ZHLl46KSOWLvfEmcyRXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bROWFXxI; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="doLmvjkx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D98EC4AF0B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Mar 2026 23:18:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774567117;
-	bh=8W0748SGA3a4asDg7zCZJmROZ8aIYjkamf7rs7VPh30=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=doLmvjkx9xDrvQDTMn+M08liJvQJ89rIWFJQN9zy9aE8FQBxLYgGvO1JdvOy/2chk
-	 H1v+5B9RNq0b1p/EqGKO1waqxiZHAo4ZxKul3CHHjLwjrGQRv/p1ajDC/GNpfFm+u4
-	 XExrgP3v9UQso7Sphl32++2bQctwFKGefocjUT7W56Chhk2eV9cJC6S8ixjzsGixs5
-	 DdrdaPqP05ewklAjISerOYar/96rL4NZHMmKkwJgU7tMpH+gM1JM+BT1ivxe5ePBB7
-	 2wLV05NXZlzUJAvFPa40EivMoDPYBQIAkHEusE6vNQHoMwXOmPwwPVGk56nxeS48ZN
-	 OY8wYM69O+qAQ==
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b886fc047d5so238216066b.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Mar 2026 16:18:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVNWTp81BeAtrldR32zj9U62N4Y0xUyK/PZHhw1YQAsWApQdiV7RamTVQnPvFA2u3D8Ct4u4ubN7et3OTnU@lists.linux.dev
-X-Gm-Message-State: AOJu0YxfJu75zx1Wsus/+hGOfbbP72BbQyFneNsaJEi0pqbtG5zDnFK+
-	qk7i51F8KtlrM+fRSCFT9/AB7siz/YOxL36fuJK7K3KSoBXTYpxiNeFqX/F/k9sJNe9HlvEvsp/
-	ksWPXBc5NF13t/SsCBRPDIgd6YdQhfcQ=
-X-Received: by 2002:a17:907:3e07:b0:b98:2888:6ee9 with SMTP id
- a640c23a62f3a-b9b507968c5mr16784866b.40.1774567116405; Thu, 26 Mar 2026
- 16:18:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bROWFXxI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774568549; x=1806104549;
+  h=date:from:to:cc:subject:message-id;
+  bh=DVgdqKnMWNFyThOMGFd/+EWXPj0UcVxJWcvBvTKWHPI=;
+  b=bROWFXxImOnGWFFZ86/wYpIOwSNlUsrig7H3KwB10SQxk8L/bL8lcdsw
+   dRARdewO69m0iZtUvVBoSNjHvPom1R2FPE6BkYgCy2NRfLnNCx7JIWxMn
+   erqalW6/ngOVk3mt+C+yn4EMtxfvIQZYXEmVPtWeO3+Bi7fHFuwQWCS7p
+   eMQcTahvZmF03LA7l91VwvdH9h1lBQkoHoEADC9GeLYSK9pracNTjc6nO
+   SRFbqdQ3XvnJhHbuEcWCQfdMo5jlQBgudRtu5jxrZnrvRhd/loPPcBggU
+   omhlx3kaNTSBwXfb+tWElAkzFaPsbuu9xIAZ2OggS6A2zJYb+scYeSA5Q
+   w==;
+X-CSE-ConnectionGUID: MFSjB5LfQAW4XYtKjELwkA==
+X-CSE-MsgGUID: e63cthjhToa/NLY6d7hKtQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="85946461"
+X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
+   d="scan'208";a="85946461"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 16:42:28 -0700
+X-CSE-ConnectionGUID: 9pvTTMDBRfa1qiRN1DqsOQ==
+X-CSE-MsgGUID: 2X1c2Wl1R5qmVuVJeyWqmA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
+   d="scan'208";a="226780273"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 26 Mar 2026 16:42:26 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w5uLH-000000009Uz-351P;
+	Thu, 26 Mar 2026 23:42:23 +0000
+Date: Fri, 27 Mar 2026 07:42:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.10 1/1] fs/proc/vmcore.c:131:45:
+ sparse: sparse: incorrect type in argument 1 (different address spaces)
+Message-ID: <202603270746.sO3gIxTu-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260326031150.3774017-3-yosry@kernel.org> <202603270611.WB2i1rjQ-lkp@intel.com>
-In-Reply-To: <202603270611.WB2i1rjQ-lkp@intel.com>
-From: Yosry Ahmed <yosry@kernel.org>
-Date: Thu, 26 Mar 2026 16:18:25 -0700
-X-Gmail-Original-Message-ID: <CAO9r8zPuDcHMObfzTQVY-P0Z3kXZbw6y5KJizxvpFWXdW7uKbQ@mail.gmail.com>
-X-Gm-Features: AQROBzCJlt8Vy2TBMr8SwNB2MknkvCsicM7UuYcuxTf2vwCM_WDEcuVWpIrY6Ps
-Message-ID: <CAO9r8zPuDcHMObfzTQVY-P0Z3kXZbw6y5KJizxvpFWXdW7uKbQ@mail.gmail.com>
-Subject: Re: [PATCH v4 2/6] KVM: x86: Move guest_mode helpers to x86.h
-To: kernel test robot <lkp@intel.com>
-Cc: Sean Christopherson <seanjc@google.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	Paolo Bonzini <pbonzini@redhat.com>, Jim Mattson <jmattson@google.com>, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 26, 2026 at 3:49=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Yosry,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on 3d6cdcc8883b5726513d245eef0e91cabfc397f7]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Yosry-Ahmed/KVM-x8=
-6-Move-enable_pmu-enable_mediated_pmu-to-pmu-h-and-pmu-c/20260326-191518
-> base:   3d6cdcc8883b5726513d245eef0e91cabfc397f7
-> patch link:    https://lore.kernel.org/r/20260326031150.3774017-3-yosry%4=
-0kernel.org
-> patch subject: [PATCH v4 2/6] KVM: x86: Move guest_mode helpers to x86.h
-> config: x86_64-buildonly-randconfig-004-20260327 (https://download.01.org=
-/0day-ci/archive/20260327/202603270611.WB2i1rjQ-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0=
-227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20260327/202603270611.WB2i1rjQ-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202603270611.WB2i1rjQ-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    In file included from arch/x86/kvm/svm/svm_onhyperv.c:11:
-> >> arch/x86/kvm/svm/svm.h:520:6: error: call to undeclared function 'is_g=
-uest_mode'; ISO C99 and later do not support implicit function declarations=
- [-Wimplicit-function-declaration]
->      520 |         if (is_guest_mode(&svm->vcpu))
->          |             ^
->    arch/x86/kvm/svm/svm.h:578:6: error: call to undeclared function 'is_g=
-uest_mode'; ISO C99 and later do not support implicit function declarations=
- [-Wimplicit-function-declaration]
->      578 |         if (is_guest_mode(&svm->vcpu) && !nested_vgif_enabled(=
-svm))
->          |             ^
->    arch/x86/kvm/svm/svm.h:639:6: error: call to undeclared function 'is_g=
-uest_mode'; ISO C99 and later do not support implicit function declarations=
- [-Wimplicit-function-declaration]
->      639 |         if (is_guest_mode(&svm->vcpu))
->          |             ^
->    arch/x86/kvm/svm/svm.h:802:9: error: call to undeclared function 'is_g=
-uest_mode'; ISO C99 and later do not support implicit function declarations=
- [-Wimplicit-function-declaration]
->      802 |         return is_guest_mode(vcpu) && (svm->nested.ctl.int_ctl=
- & V_INTR_MASKING_MASK);
->          |                ^
->    In file included from arch/x86/kvm/svm/svm_onhyperv.c:12:
->    In file included from arch/x86/kvm/svm/svm_ops.h:7:
-> >> arch/x86/kvm/x86.h:169:20: error: conflicting types for 'is_guest_mode=
-'
->      169 | static inline bool is_guest_mode(struct kvm_vcpu *vcpu)
->          |                    ^
->    arch/x86/kvm/svm/svm.h:520:6: note: previous implicit declaration is h=
-ere
->      520 |         if (is_guest_mode(&svm->vcpu))
->          |             ^
->    5 errors generated.
+tree:   https://android.googlesource.com/kernel/common android12-5.10
+head:   767574e87d5c797ccebbf3b513b0fac4e5102be7
+commit: a8a917058faf4abaec9fb614bb6d5f8fe3529ec6 [1/1] proc/vmcore: fix clearing user buffer by properly using clear_user()
+config: arm-randconfig-r134-20260325 (https://download.01.org/0day-ci/archive/20260327/202603270746.sO3gIxTu-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603270746.sO3gIxTu-lkp@intel.com/reproduce)
 
-Sashiko caught this first :)
-https://sashiko.dev/#/patchset/20260326031150.3774017-1-yosry%40kernel.org
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603270746.sO3gIxTu-lkp@intel.com/
 
-I think we just need to fold in including x86.h in svm.h, this fixes it for=
- me:
+sparse warnings: (new ones prefixed by >>)
+>> fs/proc/vmcore.c:131:45: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got char *buf @@
+   fs/proc/vmcore.c:131:45: sparse:     expected void [noderef] __user *to
+   fs/proc/vmcore.c:131:45: sparse:     got char *buf
 
-diff --git a/arch/x86/kvm/svm/svm.h b/arch/x86/kvm/svm/svm.h
-index ff1e4b4dc9986..2d55c6bf15b32 100644
---- a/arch/x86/kvm/svm/svm.h
-+++ b/arch/x86/kvm/svm/svm.h
-@@ -24,6 +24,7 @@
+vim +131 fs/proc/vmcore.c
 
- #include "cpuid.h"
- #include "kvm_cache_regs.h"
-+#include "x86.h"
+   104	
+   105	/* Reads a page from the oldmem device from given offset. */
+   106	ssize_t read_from_oldmem(char *buf, size_t count,
+   107				 u64 *ppos, int userbuf,
+   108				 bool encrypted)
+   109	{
+   110		unsigned long pfn, offset;
+   111		size_t nr_bytes;
+   112		ssize_t read = 0, tmp;
+   113	
+   114		if (!count)
+   115			return 0;
+   116	
+   117		offset = (unsigned long)(*ppos % PAGE_SIZE);
+   118		pfn = (unsigned long)(*ppos / PAGE_SIZE);
+   119	
+   120		do {
+   121			if (count > (PAGE_SIZE - offset))
+   122				nr_bytes = PAGE_SIZE - offset;
+   123			else
+   124				nr_bytes = count;
+   125	
+   126			/* If pfn is not ram, return zeros for sparse dump files */
+   127			if (pfn_is_ram(pfn) == 0) {
+   128				tmp = 0;
+   129				if (!userbuf)
+   130					memset(buf, 0, nr_bytes);
+ > 131				else if (clear_user(buf, nr_bytes))
+   132					tmp = -EFAULT;
+   133			} else {
+   134				if (encrypted)
+   135					tmp = copy_oldmem_page_encrypted(pfn, buf,
+   136									 nr_bytes,
+   137									 offset,
+   138									 userbuf);
+   139				else
+   140					tmp = copy_oldmem_page(pfn, buf, nr_bytes,
+   141							       offset, userbuf);
+   142			}
+   143			if (tmp < 0)
+   144				return tmp;
+   145	
+   146			*ppos += nr_bytes;
+   147			count -= nr_bytes;
+   148			buf += nr_bytes;
+   149			read += nr_bytes;
+   150			++pfn;
+   151			offset = 0;
+   152		} while (count);
+   153	
+   154		return read;
+   155	}
+   156	
 
- /*
-  * Helpers to convert to/from physical addresses for pages whose address i=
-s
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
