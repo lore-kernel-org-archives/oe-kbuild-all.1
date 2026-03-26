@@ -1,110 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA08E3F65EE;
-	Thu, 26 Mar 2026 12:08:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774526911; cv=none; b=nQnzm2kqAgUoFIkUV8GJuUbfu6obCalSr7RGUOc9VYZ0Nwtxlh3K8EnTJCpn+h/k+39OOybQiEcYbIqs/PPqYJhpTqhmNjTAXnVtywLf0iziJrDrxpxODlNfSkhIFEXsHW6Ohvslze53e4nhUT0xI/Oxwrqt75N0Dxt/xWXh+wY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774526911; c=relaxed/simple;
-	bh=kDjocMmCFSwRx37gmNF+2gImpzJwY2rCLwY4Q2xwfzg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k1j7piIdsoCAHq/AI7cJCfBhJkaQjWQSMJj1QEs12tJW5BSZncZh7Snd7XBzAsDTRSUyOoI4v3dl/99XgCyJexefv5NBeCu7YkWfkOPGqyElfL38MEVQsvIkIQwb7A4gjybk0N+uTzFzJWtKtq90v50dq04cP056pTSrL2E04FA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NWPdoNI1; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DBE223D2AB
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Mar 2026 12:56:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774529804; cv=pass; b=KsxXn1q8LmEK50Y1vna1IiFXjGQK2FS4K9oszgGISZMur0x8ul96wAb8dWHjJlvnTxpvD+n2AbTN5KBGBgUlcSiZJwytg24SCMwljZjAnUa80Iqmoim+W+JAfILR17nXNDNDwMieMX1NbyoLEt4zEeBdjF5ARHBcqoK9V28ASdY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774529804; c=relaxed/simple;
+	bh=g9+Va9TZCkDh+UZztowq9t+kAPcN+Y1f7CB0ZpxAfZc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=S4JhyeumkaHFGdKNIzcNLzpno2pLjOjAAVSFMnfeMSDjxVKcnGOzIha7TNKmP/uGT9aqJApQDLjYLBgWTygwieNajSpxEvWzb8YixdHj7lh0B/cz7i8sDPmG9Owqi6vvXAktwcwmWoQjnql89dnPB7u3Hd2lVF+0Lj3VFJntJMQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0x0f.com; spf=pass smtp.mailfrom=0x0f.com; dkim=pass (1024-bit key) header.d=0x0f.com header.i=@0x0f.com header.b=UZiO9eiO; arc=pass smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0x0f.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0x0f.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NWPdoNI1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774526908; x=1806062908;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kDjocMmCFSwRx37gmNF+2gImpzJwY2rCLwY4Q2xwfzg=;
-  b=NWPdoNI19ePGAg9riiD3uOWfmPNLCJubqb9g0uamSVnTI7h0cJUt2gUk
-   pBKs3NuOsgt6LGno5Tgci+6afo/hjaZpGp4AOWKMBkmzxnfqOkb4dICg+
-   Zr2gU4mZBJbOP5ewUPUH1LbtuxDVM1tSiHTNPqHGWUxo+3+32XFS9Sav7
-   MCi8K3NhoOKtfxXTADvvkqW/g6gxTha9GJQEiRZ5cvIj8mIH8Zga2gwgw
-   Y/7L/tOhVahScVNRyYcpanfynuCAuxdbfQPjHuKKpF0O/YTPLnqbzC4Wc
-   XFOU/3sm3CTLKk72keq1yaqGeQSPrTPT6pmhaBcb7YaCMjAc665znGImf
-   A==;
-X-CSE-ConnectionGUID: a/8fJWW8SNCtMQF+9qNB2Q==
-X-CSE-MsgGUID: 3DNIdW11TimkOmB/TTIvKw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="92963629"
-X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="92963629"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 05:08:27 -0700
-X-CSE-ConnectionGUID: +27luCfxS0OUsXYAhLG0VA==
-X-CSE-MsgGUID: zWXgcWE6SXqEWhvVCQ1kZg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="255484732"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 26 Mar 2026 05:08:25 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w5jVd-000000008pd-2WU2;
-	Thu, 26 Mar 2026 12:08:21 +0000
-Date: Thu, 26 Mar 2026 20:08:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Fernando Fernandez Mancera <fmancera@suse.de>, netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, horms@kernel.org,
-	pabeni@redhat.com, kuba@kernel.org, edumazet@google.com,
-	dsahern@kernel.org, davem@davemloft.net,
-	Fernando Fernandez Mancera <fmancera@suse.de>
-Subject: Re: [PATCH 2/2 net-next] ipv4: ipv4: handle devconf post-set actions
- on netlink updates
-Message-ID: <202603261933.hgl2CPHS-lkp@intel.com>
-References: <20260325161020.3516-2-fmancera@suse.de>
+	dkim=pass (1024-bit key) header.d=0x0f.com header.i=@0x0f.com header.b="UZiO9eiO"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-66b0f489f3aso63127a12.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Mar 2026 05:56:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774529801; cv=none;
+        d=google.com; s=arc-20240605;
+        b=GextRS5OVYdp+I1H/L/RlyKDeF14ajWIFjjeSrUubxO5KFlsTKim4EA+FiN60M/WlD
+         rXg53xlgXS68DAnT/cbTbolzkp+y0I+pcL727Kv8waVqdJwLg2q8JuGiXOPFCox9ab09
+         KI6Io97mXf86563jDiNW9U6KNbtOeHFLp60T5awg84KzHY2J0wWIFHkXKNR0RHf2wEcu
+         Yic/7zY2e/X6FMwyiQ7PYr2iisJzC94RyghllwfvQI6Ob2uHw4QsG1o2AEy43ra9mYKr
+         4+HYAxr7IO4gjqC/udRAplG81iOGn78NIsaQM1Oa9AeVNcMzUUyKvO5rzlejG/eR+3m/
+         w7Qg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=b7WBrdkJyJ8ilFsOjziO6DcmQMXZYqd7ADy5vYhUj8k=;
+        fh=Q6eC3KLLO38h71hT0xxM6EiCILRWK/TPIi9F+IodBwE=;
+        b=ZP3jhmCl2MWf57VzT8da4lElecA/0Wml+bvD0vfS9MJ5CusUUs32SJVGV0cSVjMREr
+         kzOGt1+yq08SxTLO0QuR029WkjsZzMx+xAvoy0+sKcpNSxxSUzdqD0y9/8yKFQkrvL/4
+         1R0mbQeS0FUglUUySbleJh9/DbiQEuXyeFOoEyzu0BR/RByImKT90nq3nLdWac5svm9g
+         L7wwoNn536sdGOMfknwd40WaGPstEkd88VwbfdBW9X7wAmSK1W5oicpYaGwyDWIe94Qx
+         5/4zHz+Wu8F/ZLu67AxwLImnOUN7OXRWBfwRhLjlNjargcoWDbEHnttjuUkUgDoZ74MQ
+         RFbQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=0x0f.com; s=google; t=1774529801; x=1775134601; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=b7WBrdkJyJ8ilFsOjziO6DcmQMXZYqd7ADy5vYhUj8k=;
+        b=UZiO9eiORKFNfHVEh9i/z0qr5uuwuTj4oYiIhTsrzvvNhOAcW1GgqhOWRFJ0MjGRRY
+         E8c3vti8Z6Z9nKM8GJ8FfsaVrSMSq5gsdCwNhFABdaoja7JbfTI5OE8WHBUlR89xar2s
+         H3s5WGVM/06oxzG0VKFcAHw6dzOwlzJ6zsAOs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774529801; x=1775134601;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=b7WBrdkJyJ8ilFsOjziO6DcmQMXZYqd7ADy5vYhUj8k=;
+        b=lcJWivLEGc0oSM4nc1AWXEQBm4vXDWzH/ZcenFOHC7vlk3qg/oWGZ6xF33rA6IxNQE
+         FPGMyBgnUPKbyDV7j3Mx9sExnYPK6293TT4XB1Qw/zMOjhXsbl6dJlRJV5RGK6xEVNBA
+         YZtuaIh9YRJVtFIvQv3ZYLCZcZfybzr7qULls0T7HxDBiJ/IHi+TpYwVRAn/4fre+Gxq
+         DNKlH5TFLJBH5hQ8yhyLyQsqj228Km1jvDUTDz4aFNRsCNVOd3cexQOu7Q2pxuTu9BXy
+         0O0aSe6HwQvLSOPSBfLslkj+Zo/h3yjCHmAQ4voWPoNWhf9WtXzld8b6wAN5a4RX8FaU
+         O8pg==
+X-Gm-Message-State: AOJu0Yw3MHF3ip5/wu9opRdOcqarV0Wa8RGf0FLrom+30cNOGZCFnt1q
+	j+DEMd4CylGZwFugODLKIU1szmbH0tbcRI0H0qxOZdZ/FP4nIEQrL68hw0xW2kXd8LxqzMZR+fb
+	2/TBefE0oFvmcQbV9BvNxpOreI7/IK/pUiVEunBX+t/gK9CYSihU5
+X-Gm-Gg: ATEYQzxW8YXtu1ZT6Zt19OjGcj/sndX7h/pp79bJiPJAphrvq65XvAIXGCNySWsVfWJ
+	0+yK03ffwZNO6NJV/W+7lR/ZOOnL79BmS7D2vuSq1lj0VXhkm+kM488Sw9smtHGHhAqSIvRfRkb
+	7brZI0NxUPluZaRHRJ66uyHsc4zlF2buSgH0ViROBUqRlbOtCoFuo5fx5zXee+EaY96BQQLl2wz
+	me9Oj3xD/lus8jfvmN911ByQQHK5ibrdKkOHKySlR1zh4hxvm95MLvKHzgS+sP0v54xsX0EBSj0
+	wIyb
+X-Received: by 2002:a05:6402:44d8:b0:66a:19aa:4ff6 with SMTP id
+ 4fb4d7f45d1cf-66a826152f0mr4161210a12.3.1774529800453; Thu, 26 Mar 2026
+ 05:56:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260325161020.3516-2-fmancera@suse.de>
+References: <202603260904.0mYHPZwr-lkp@intel.com>
+In-Reply-To: <202603260904.0mYHPZwr-lkp@intel.com>
+From: Daniel Palmer <daniel@0x0f.com>
+Date: Thu, 26 Mar 2026 21:56:27 +0900
+X-Gm-Features: AQROBzAMcch5PT0CooFXctG5_MkyeIjmuz048l8HhSyb6aNeHSDIdZ7QdVfdEEQ
+Message-ID: <CAFr9PX=WBVw9jzokOLpsiPG6zh54_V20M53ZNP85UJmOJ9Jy3Q@mail.gmail.com>
+Subject: Re: tc358746.c:(.text.tc358746_probe+0x472): undefined reference to `devm_clk_hw_register'
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Geert Uytterhoeven <geert@linux-m68k.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Fernando,
+Hello robot,
 
-kernel test robot noticed the following build warnings:
+On Thu, 26 Mar 2026 at 10:13, kernel test robot <lkp@intel.com> wrote:
+> All errors (new ones prefixed by >>):
+>
+>    m68k-linux-ld: drivers/media/i2c/tc358746.o: in function `tc358746_probe':
+> >> tc358746.c:(.text.tc358746_probe+0x472): undefined reference to `devm_clk_hw_register'
 
-[auto build test WARNING on net-next/main]
+Fix is sent but the issue seems to have nothing to do with my commit.
+The driver isn't depending on the common clock framework but using it.
+This would have failed to build even without the blamed commit as far
+as I can tell.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Fernando-Fernandez-Mancera/ipv4-ipv4-handle-devconf-post-set-actions-on-netlink-updates/20260326-020953
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260325161020.3516-2-fmancera%40suse.de
-patch subject: [PATCH 2/2 net-next] ipv4: ipv4: handle devconf post-set actions on netlink updates
-config: x86_64-buildonly-randconfig-003-20260326 (https://download.01.org/0day-ci/archive/20260326/202603261933.hgl2CPHS-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260326/202603261933.hgl2CPHS-lkp@intel.com/reproduce)
+Cheers,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603261933.hgl2CPHS-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> net/ipv4/devinet.c:2131:13: warning: function 'devinet_conf_post_set' has internal linkage but is not defined [-Wundefined-internal]
-    2131 | static bool devinet_conf_post_set(struct net *net, struct ipv4_devconf *cnf,
-         |             ^
-   net/ipv4/devinet.c:2155:8: note: used here
-    2155 |                         if (devinet_conf_post_set(net, &in_dev->cnf, nla_type(a), new_value,
-         |                             ^
-   1 warning generated.
-
-
-vim +/devinet_conf_post_set +2131 net/ipv4/devinet.c
-
-  2130	
-> 2131	static bool devinet_conf_post_set(struct net *net, struct ipv4_devconf *cnf,
-  2132					  int attr, int new, int old, int index);
-  2133	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Daniel
