@@ -1,85 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F10C82D8364;
-	Thu, 26 Mar 2026 03:36:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 444D919F121
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Mar 2026 03:40:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774496216; cv=none; b=epnm8hnmTLyC/JiboJVhZ+KWV36+e19dxgvV+t0V7yFhxz9WO/bR+6Hn3/iFl+lbXajhkTLzKR5QRzK+JZBDi1BGws3i4OCRBoNnR+hr+Byw4vR83B5EH5UwqkC5ZEq2KuHsUVcsmqIPRvwUV86mUWkXK43UlGmh7Q0glb8f5hc=
+	t=1774496401; cv=none; b=Wwr5oO/mdL1S271HhjMZLBD3caWKCrRUwjHiiFHUoL3LjBPvtkh4utlOcoOi3gSOrpJeEWVGPhRAYLx+ukIPLI9v4SAxdPE6HRPo0uPHYBBzl9NHTa3M+t/W5E/9+vPSbfhJ8XzBNH+qFygi5df29T4VQ00IR9zwjsGMSFjHoRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774496216; c=relaxed/simple;
-	bh=CqQntqxnCRIB6D4N7KvDeKcg74YX7cXVaqW8OLCN0lo=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=oek96fQ6H4LAlHoN5BEe051Pi8GdHGTG8w6rH7ItuvYCzhXIgt/cUTjkKhq02nv2IpoyIgIVlNoQBCzghpueO5AVLeR4iGqXbNWEgGI/cfnAAG59FmXVT4ivgQD1KNNXzcZD1o7P9rCIKdETbbhgdFmMzg31le5Nv3vTN+/DiV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=bMgcC3g1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774496401; c=relaxed/simple;
+	bh=TMDivWj59GFG2B2x38eU+oY0bhgN3gKPnQXW3F47Hlc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oJZxyMoWuONBizD3MbM6pKT7uijbSWq8uMzKNfi+U6CL+qsvcpmICZzXZqVvlI72YeHivLmGH9gUDw2+acDWI1ng+ilJsRjMSwAaNN+cbOEtIROfks7HKDEtb/iC9L+hMVrP9OqOre3yEiDRlPmlX8R0UpwFgRq2HIzhPisjrao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iPrJSbVp; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="bMgcC3g1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 419D3C4CEF7;
-	Thu, 26 Mar 2026 03:36:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1774496215;
-	bh=CqQntqxnCRIB6D4N7KvDeKcg74YX7cXVaqW8OLCN0lo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=bMgcC3g15oxLe2s+2mgU5KIVNpzgBLbCCrlKLe7f61tbsM/5kGTaLmcJqSVMimfFd
-	 hmbt1dsDCBq6u1CEaoBWZUontraFkC40SqxpxoShK66/95UQBU5N2tMPAYdzJBbQmn
-	 zmJtlpz0SJY3T8jkmOeGFmYYAGyKjl44NNZxfZK4=
-Date: Wed, 25 Mar 2026 20:36:53 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Qi Zheng <qi.zheng@linux.dev>, hannes@cmpxchg.org, hughd@google.com,
- mhocko@suse.com, roman.gushchin@linux.dev, shakeel.butt@linux.dev,
- muchun.song@linux.dev, david@kernel.org, lorenzo.stoakes@oracle.com,
- ziy@nvidia.com, harry.yoo@oracle.com, yosry.ahmed@linux.dev,
- imran.f.khan@oracle.com, kamalesh.babulal@oracle.com,
- axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com,
- chenridong@huaweicloud.com, mkoutny@suse.com,
- hamzamahfooz@linux.microsoft.com, apais@linux.microsoft.com,
- lance.yang@linux.dev, bhe@redhat.com, usamaarif642@gmail.com,
- oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, Qi Zheng <zhengqi.arch@bytedance.com>
-Subject: Re: [PATCH 3/3] mm: memcontrol: correct the nr_pages parameter type
- of mem_cgroup_update_lru_size()
-Message-Id: <20260325203653.5abdac45e7d22ca648fe23b4@linux-foundation.org>
-In-Reply-To: <202603260338.GfCrsaVO-lkp@intel.com>
-References: <2cf06f9faf51900ce6acbb4740fc60355a2842ed.1774342371.git.zhengqi.arch@bytedance.com>
-	<202603260338.GfCrsaVO-lkp@intel.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iPrJSbVp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774496400; x=1806032400;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TMDivWj59GFG2B2x38eU+oY0bhgN3gKPnQXW3F47Hlc=;
+  b=iPrJSbVptU0qvlt0tPrH+d+AuZwSzlcpkzU68jm/RUeWBchHVGO+79vT
+   0W13zym3+9Q5PJhqznIJCYKNFIcwAnI1sjZQiwYxt7AhXGaEUr0oywK0s
+   EQPP4KA7JJm7/VEztEolzxXCd+vRKBKrl4hBokDkSTYdd9u2RAffj3Djs
+   FF60iXnvnd8PUZlL/2Q9/Py34k0TabCivGaQs6bkORZaCUcFPU/bcW9mr
+   aYmb76ozWouKzt/zLINBRT8+q6cRtOmc8gzunv4zESXiI7S6ByDxtz06S
+   qm2LU3/ekPzWDuwwx1Kfstn2Ykw/1z8pmjUxu6+RFWrH7jUHz+RQXHfrS
+   A==;
+X-CSE-ConnectionGUID: 82kmDWhrRg2777wiHWZ+cg==
+X-CSE-MsgGUID: UB3XKV61RMO26KabGSy+7w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="86922265"
+X-IronPort-AV: E=Sophos;i="6.23,141,1770624000"; 
+   d="scan'208";a="86922265"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 20:40:00 -0700
+X-CSE-ConnectionGUID: 1y65ayX4QM2CZYguO3k8Ug==
+X-CSE-MsgGUID: HDBiyDr/TvS5rAAGUti7Ng==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,141,1770624000"; 
+   d="scan'208";a="218284113"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 25 Mar 2026 20:39:58 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w5bZb-0000000086D-0XDC;
+	Thu, 26 Mar 2026 03:39:55 +0000
+Date: Thu, 26 Mar 2026 11:39:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Fernando Fernandez Mancera <fmancera@suse.de>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, horms@kernel.org, pabeni@redhat.com,
+	kuba@kernel.org, edumazet@google.com, dsahern@kernel.org,
+	davem@davemloft.net, Fernando Fernandez Mancera <fmancera@suse.de>
+Subject: Re: [PATCH 2/2 net-next] ipv4: ipv4: handle devconf post-set actions
+ on netlink updates
+Message-ID: <202603261127.QrC9E9f0-lkp@intel.com>
+References: <20260325161020.3516-2-fmancera@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260325161020.3516-2-fmancera@suse.de>
 
-On Thu, 26 Mar 2026 03:35:39 +0100 kernel test robot <lkp@intel.com> wrote:
+Hi Fernando,
 
-> Hi Qi,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on akpm-mm/mm-everything]
-> [also build test WARNING on next-20260325]
-> [cannot apply to trace/for-next linus/master v7.0-rc5]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Qi-Zheng/mm-memcontrol-correct-the-type-of-stats_updates-to-unsigned-long/20260325-230337
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> patch link:    https://lore.kernel.org/r/2cf06f9faf51900ce6acbb4740fc60355a2842ed.1774342371.git.zhengqi.arch%40bytedance.com
-> patch subject: [PATCH 3/3] mm: memcontrol: correct the nr_pages parameter type of mem_cgroup_update_lru_size()
-> config: riscv-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260326/202603260338.GfCrsaVO-lkp@intel.com/config)
-> compiler: riscv64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260326/202603260338.GfCrsaVO-lkp@intel.com/reproduce)
+kernel test robot noticed the following build warnings:
 
-Thanks.  Can't reproduce. (there are meds for this!)
+[auto build test WARNING on net-next/main]
 
-> b4536f0c829c858 Michal Hocko       2017-01-10 @1486  		"%s(%p, %d, %d): lru_size %ld\n",
+url:    https://github.com/intel-lab-lkp/linux/commits/Fernando-Fernandez-Mancera/ipv4-ipv4-handle-devconf-post-set-actions-on-netlink-updates/20260326-020953
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260325161020.3516-2-fmancera%40suse.de
+patch subject: [PATCH 2/2 net-next] ipv4: ipv4: handle devconf post-set actions on netlink updates
+config: arm-randconfig-002-20260326 (https://download.01.org/0day-ci/archive/20260326/202603261127.QrC9E9f0-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260326/202603261127.QrC9E9f0-lkp@intel.com/reproduce)
 
-We presently have
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603261127.QrC9E9f0-lkp@intel.com/
 
-		"%s(%p, %d, %ld): lru_size %ld\n",
+All warnings (new ones prefixed by >>):
 
-so it appears we fixed this recently.
+>> net/ipv4/devinet.c:2131:13: warning: 'devinet_conf_post_set' used but never defined
+    2131 | static bool devinet_conf_post_set(struct net *net, struct ipv4_devconf *cnf,
+         |             ^~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/devinet_conf_post_set +2131 net/ipv4/devinet.c
+
+  2130	
+> 2131	static bool devinet_conf_post_set(struct net *net, struct ipv4_devconf *cnf,
+  2132					  int attr, int new, int old, int index);
+  2133	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
