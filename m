@@ -1,106 +1,132 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E03B3A7582
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Mar 2026 21:32:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 113963A75AA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Mar 2026 21:32:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774560735; cv=none; b=upjduE1u88FQWihtA3fdQKjg7Xl7jltwo+ewx1TrWZ2YME+TztQh9V4tNw5P4qCr3M39twcd+vWkQd+uNoJ7MzLyK5QJI4WMz8hFN0pZBxO3f9njc6qXqOZ9aWCqDG5QyTaNCwr76zQHyEg5xxvkxEIpL3MlRz4oAg2BiS3Xbt8=
+	t=1774560739; cv=none; b=l7O+va9JgE09gVxhhbdey0FLwCMhFz4xFeZaa2+9OZGotxxujbwQvUkvh15k+VnIkThfdzmFi2DtPcAR5vpLQfzUd31YSVFqt8ilyqWVUjIAujdSltqo5XLxJ0yW4vW365QSgCkX5In9gyllGQs00aSWb/FQsIGEDR7nyFXfTxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774560735; c=relaxed/simple;
-	bh=w+I808tWVVKcC7d7lQyp7V/WXLTeiZUOctEZ8NQN9/s=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=qiuZ4axJX7n+9wGFnyxKeku+F2F35G1dWa8vlBnZywGKYq7VGieM3lWMUi07QW8iMgcZKXGIZ18iw62ezM7bFcxt3tzI84/hYm07agzbliNvJql9qtbjMXOZR9Xi6SJb9IH+X9mxoIII0CSXYC5qoMs6EztJX6Ud+W6q9OAbeH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YH+XWiHs; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1774560739; c=relaxed/simple;
+	bh=bX5g7DDn7F8faaR5o91dGJpAln6MtJLyD9kEnxKSA1s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eZ6WNgEPVzl5C9rYbMgTIFTAfyYkSxfcL30oI6P8pU4hqEetdcX5iqrK/MN2vrOJRrna0Qouod3K2/gZkgBoWvwDFib7jx7hBTE5TGpPVblg4gz2/UWzCbFjHxzbbaXI4PuRXlYB0iJTPqk0bgZvl+cmbzWG6LWXznaJJbKZmVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SbCNAt9e; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YH+XWiHs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SbCNAt9e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774560734; x=1806096734;
-  h=date:from:to:cc:subject:message-id;
-  bh=w+I808tWVVKcC7d7lQyp7V/WXLTeiZUOctEZ8NQN9/s=;
-  b=YH+XWiHseduuRGUvcoDtV3kDlQQBF34SLK5ZFCZqGsx8T5yB6fe7vpKB
-   hxYwZknxbPBvwVeClcuhihgq248oaKkshvffnJJZPHxNsZt3XyPs5o6bg
-   dKoGDA4vEqnlLzIBVMLT74GwwtgG0mKag4MlQ8nxyh43U3t7bfS/Da7gY
-   oaqiHZU49YITC4FLR0OWXvsqfwNIfZGiDnTPn2mE97m6qG1nW1HzrgfJ9
-   359iXkScp3m39gVtWBOLX6K722y3v2w7m+QOkG1RPkQ8dPH033LjqDizN
-   um9JCOlqfvI11ZmZsROAb1saKpV0NzbX5yMIQBLqrn3GFyP5sf8hvjY2K
-   Q==;
-X-CSE-ConnectionGUID: mu4UoxI5TPqRkoOb4vZ4eg==
-X-CSE-MsgGUID: RVIMZraDQDisHS4LR2G2gA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="93018373"
+  t=1774560735; x=1806096735;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bX5g7DDn7F8faaR5o91dGJpAln6MtJLyD9kEnxKSA1s=;
+  b=SbCNAt9etwTbca0XgasLMsUNVl8DkcGwK0FKsbjYMg4asOUNGtskJkXq
+   fcs/OhaoA/I/OwvgwTZ5gvlbrbT9W7cKf0gIEaGWYvv2GQDTiu6/1rRBh
+   oaHO5WifoNloA6mJuZkXQ8HJIbwp43VYFNeeZFb95I4tpHaFgq8Nuq0Ea
+   QNgYUNVFNMI63MJX5d/3ouAHr+CQ1FQ/XpgnGS0M59UyydbTGipYi6Rc6
+   vPKwWI9JMP+p4a5yKAxm2jevGAkbFL9lR095Sid3fnGMaoe75sjJOJ2jN
+   KuRnTaxvkyqMLqCA2Zoa6DvVxUcXGADQfaU6ICngnOrsezQLOR+xAC+u/
+   A==;
+X-CSE-ConnectionGUID: eGRoFm4DQ8aO0s2AKee9fg==
+X-CSE-MsgGUID: Zmt9tvpASquYA4oikc1ecQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="93215280"
 X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="93018373"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 14:32:13 -0700
-X-CSE-ConnectionGUID: c5I706e2RauX93BSZqdrIQ==
-X-CSE-MsgGUID: XReg+vJmTnONmbc/uU1+rA==
+   d="scan'208";a="93215280"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 14:32:14 -0700
+X-CSE-ConnectionGUID: s/y8W1YJSlaPevsDde3ncw==
+X-CSE-MsgGUID: zqdMf4JTQS+S+7KiNNN2cg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="263036178"
+   d="scan'208";a="225059468"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 26 Mar 2026 14:32:11 -0700
+  by orviesa009.jf.intel.com with ESMTP; 26 Mar 2026 14:32:11 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5sJE-000000009Od-1UMc;
+	id 1w5sJE-000000009Ob-1O3K;
 	Thu, 26 Mar 2026 21:32:08 +0000
-Date: Fri, 27 Mar 2026 05:31:18 +0800
+Date: Fri, 27 Mar 2026 05:31:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- "Paul E. McKenney" <paulmck@kernel.org>
-Subject: {standard input}:384: Error: Invalid operands
-Message-ID: <202603270555.zPdpChGv-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: luka.gejak@linux.dev, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, horms@kernel.org, fmaurer@redhat.com,
+	liuhangbin@gmail.com, linux-kernel@vger.kernel.org,
+	Luka Gejak <luka.gejak@linux.dev>
+Subject: Re: [PATCH net-next v1 2/7] net: hsr: replace fallthrough comments
+ with fallthrough macro
+Message-ID: <202603270549.2hiC5jsf-lkp@intel.com>
+References: <20260324144630.189094-3-luka.gejak@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260324144630.189094-3-luka.gejak@linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d813f421930c5b01b9f61043932de02602dd6ae3
-commit: a46023d5616ed3ed781e56ca93400eb9490e3646 tracing: Guard __DECLARE_TRACE() use of __DO_TRACE_CALL() with SRCU-fast
-date:   8 weeks ago
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20260327/202603270555.zPdpChGv-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603270555.zPdpChGv-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/luka-gejak-linux-dev/net-hsr-constify-hsr_ops-and-prp_ops-protocol-operation-structures/20260326-143638
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260324144630.189094-3-luka.gejak%40linux.dev
+patch subject: [PATCH net-next v1 2/7] net: hsr: replace fallthrough comments with fallthrough macro
+config: parisc-randconfig-002-20260327 (https://download.01.org/0day-ci/archive/20260327/202603270549.2hiC5jsf-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603270549.2hiC5jsf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603270555.zPdpChGv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603270549.2hiC5jsf-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   during RTL pass: final
-   fs/smb/client/netmisc.c: In function 'map_smb_to_linux_error':
-   fs/smb/client/netmisc.c:893:1: internal compiler error: output_operand: operand number missing after %-letter
-     893 | }
-         | ^
-   0x7fdfba8c1d64 __libc_start_main
-   	???:0
-   Please submit a full bug report, with preprocessed source (by using -freport-bug).
-   Please include the complete backtrace with any bug report.
-   See <https://gcc.gnu.org/bugs/> for instructions.
-   {standard input}: Assembler messages:
-   {standard input}:383: Warning: end of file not at end of a line; newline inserted
->> {standard input}:384: Error: Invalid operands 
---
-   during RTL pass: final
-   netmisc.c: In function 'map_smb_to_linux_error':
-   netmisc.c:893:1: internal compiler error: output_operand: operand number missing after %-letter
-     893 | }
-         | ^
-   0x7f0298cd2d64 __libc_start_main
-   	???:0
-   Please submit a full bug report, with preprocessed source (by using -freport-bug).
-   Please include the complete backtrace with any bug report.
-   See <https://gcc.gnu.org/bugs/> for instructions.
-   {standard input}: Assembler messages:
-   {standard input}:383: Warning: end of file not at end of a line; newline inserted
->> {standard input}:384: Error: Invalid operands 
+   In file included from include/linux/compiler_types.h:88,
+                    from <command-line>:
+   net/hsr/hsr_netlink.c: In function 'hsr_get_node_list':
+>> include/linux/compiler_attributes.h:214:41: error: invalid use of attribute 'fallthrough'
+    # define fallthrough                    __attribute__((__fallthrough__))
+                                            ^~~~~~~~~~~~~
+   net/hsr/hsr_netlink.c:527:2: note: in expansion of macro 'fallthrough'
+     fallthrough;
+     ^~~~~~~~~~~
+   net/hsr/hsr_netlink.c: In function 'hsr_get_node_status':
+>> include/linux/compiler_attributes.h:214:41: error: invalid use of attribute 'fallthrough'
+    # define fallthrough                    __attribute__((__fallthrough__))
+                                            ^~~~~~~~~~~~~
+   net/hsr/hsr_netlink.c:436:2: note: in expansion of macro 'fallthrough'
+     fallthrough;
+     ^~~~~~~~~~~
+
+
+vim +/fallthrough +214 include/linux/compiler_attributes.h
+
+294f69e662d157 Joe Perches   2019-10-05  201  
+294f69e662d157 Joe Perches   2019-10-05  202  /*
+294f69e662d157 Joe Perches   2019-10-05  203   * Add the pseudo keyword 'fallthrough' so case statement blocks
+294f69e662d157 Joe Perches   2019-10-05  204   * must end with any of these keywords:
+294f69e662d157 Joe Perches   2019-10-05  205   *   break;
+294f69e662d157 Joe Perches   2019-10-05  206   *   fallthrough;
+ca0760e7d79e2b Wei Ming Chen 2021-05-06  207   *   continue;
+294f69e662d157 Joe Perches   2019-10-05  208   *   goto <label>;
+294f69e662d157 Joe Perches   2019-10-05  209   *   return [expression];
+294f69e662d157 Joe Perches   2019-10-05  210   *
+294f69e662d157 Joe Perches   2019-10-05  211   *  gcc: https://gcc.gnu.org/onlinedocs/gcc/Statement-Attributes.html#Statement-Attributes
+294f69e662d157 Joe Perches   2019-10-05  212   */
+294f69e662d157 Joe Perches   2019-10-05  213  #if __has_attribute(__fallthrough__)
+294f69e662d157 Joe Perches   2019-10-05 @214  # define fallthrough                    __attribute__((__fallthrough__))
+294f69e662d157 Joe Perches   2019-10-05  215  #else
+294f69e662d157 Joe Perches   2019-10-05  216  # define fallthrough                    do {} while (0)  /* fallthrough */
+a3f8a30f3f0079 Miguel Ojeda  2018-08-30  217  #endif
+a3f8a30f3f0079 Miguel Ojeda  2018-08-30  218  
 
 -- 
 0-DAY CI Kernel Test Service
