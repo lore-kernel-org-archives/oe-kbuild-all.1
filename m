@@ -1,66 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69144346E78
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Mar 2026 09:26:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0A034D3BF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Mar 2026 09:41:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774517179; cv=none; b=meM/tBDzIJ/WMrG3Fueh0Dwp/ntJwPx0UR/vHZVbsYfBjpbvSuwr3DtFoXcuYvaz0HRAA2JJcqeL5GG9wC9gpvBE84vBDllP5Ea9rf7Umb8VUw5B4bA35VFnRCmmnvITAZbzh6m0IVfoaFdveHDIhmledA71snIsYgrn5ZLUaGo=
+	t=1774518104; cv=none; b=H+tc1J3NXoRS7tr/Bq2XHaQTBTd74LPkz30p5Q3CtGxoeK2gtToJOQAoevWQd2i9cPBC3tzJpx0qSAgSXgepfWMVMLQJEnCmoWhDSXha/grAxYEmgGrlZwrhhLRTiT8XGhGqAPtP7Uvit+Qn1wIH+BghvIOxx5OzhbHiiw2EA68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774517179; c=relaxed/simple;
-	bh=XafrxAte6tbTgT1l7MwqogYylofhNsOE8vVj21EiJ04=;
+	s=arc-20240116; t=1774518104; c=relaxed/simple;
+	bh=Zx9y8XwTtPeFEXKPIT3f8JrBeN6tj267+ZQZMnclteE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bGf9HwlIfL2tYTn+45vW6KsgIDHn21Ie1dIlLPRW1enmhlAJn7SuGVcsspETU01+hHjq5C/8wSYzJTH4JGbHWjFl+dX3uywspe3SYjudK+5N+sKe+lFgBNaTWq1mGNndgnlAzR9QNMdLe1KUCI5s3vHhfJyi2uOFeZ2dWC5obtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fv5P5Hvr; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=HpLNnyYvQeLUKMwWdGola5uA6XBTdXMQsVOZEIVTy0lfcQ7lj2PkPJuQ/X2xCUC9r2jKHEXfxtPIaKw7ed1DT7SEgJgOij+sLm3fiGOv82RUs6JWfzJ0dNX1p2iqkmQWeW4gxQwnEWEr7DurTmjBfpAccM9KuWI/a/XpZxL0Wes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TVBHmtAd; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fv5P5Hvr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TVBHmtAd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774517177; x=1806053177;
+  t=1774518103; x=1806054103;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=XafrxAte6tbTgT1l7MwqogYylofhNsOE8vVj21EiJ04=;
-  b=Fv5P5Hvr3wQvkybjeo2MuG5sGEdREe0Z1Zw/6T2phoFuOPCefl7TU5K+
-   4hM08edugnGWZnc3RzU1Z+wqDeC+xIbYvoacCfF7qqfkL405FQbjX37QO
-   f/BFaZiNCP62gle9oMVGf6zTNPVnfFIK7wec4yg8FPibhGrifq4HTOjyp
-   ovYEp2L9osA2ZuDcBF44bT6tM7LPGcx9Y10nhSpvxOQcMiy0+Qqg1nrlx
-   nApYpeReHr4ms2slaBs2gCz73gQSC8HU+W+U1TzoM0tslWKLBLXZLfC3I
-   Af2A9e6xhfr9v4JA/IHcLpuR2IfiZS6epd0bKb9otEzIU7ZW5QTG6AqjB
-   A==;
-X-CSE-ConnectionGUID: E5Hqv3YzQcKnZkIwkI5Rkw==
-X-CSE-MsgGUID: T+APt+KpS72zgZp/xURm8g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="75591878"
+  bh=Zx9y8XwTtPeFEXKPIT3f8JrBeN6tj267+ZQZMnclteE=;
+  b=TVBHmtAds9C22np8c41ymHY6Wtk+NSXwqfCkU57Wa+zKbqpklCrMvmoF
+   3TbCZ5YcXGJ5IazJYgtIIKYEhDfvg3mwywjdURpOuUTJf8qP8BfqdPbs5
+   0FGE1n/oGeMH4aYW9P35fzfdc5U3BRC8jaWCEip9DO/TgIMaKX5qbg6+R
+   XVmLjddNcdjGP823XqxU3X53Ny3TpaMa2HSCBvxwvE61yUKyOIodhyyf7
+   SrLqWVVNyTRBBpVbdARP08v7PbzRn9qOGG4binpCZf6wTarKxGgvyBuOF
+   pPUO4twSELxyFSixjZGyx4NGza6+nETkMi0ILG2M7BK5mIVFfgT9sEL16
+   g==;
+X-CSE-ConnectionGUID: 38rvRaTzRMKn5S65/NiFKg==
+X-CSE-MsgGUID: xoWgBxH+QWm1d96fJbSLpg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="86944990"
 X-IronPort-AV: E=Sophos;i="6.23,141,1770624000"; 
-   d="scan'208";a="75591878"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 02:26:16 -0700
-X-CSE-ConnectionGUID: nTi7nr8XRjSedR+PizMFUA==
-X-CSE-MsgGUID: tX1gQux9TlytFAEAsjhFtA==
+   d="scan'208";a="86944990"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 02:41:42 -0700
+X-CSE-ConnectionGUID: PnX7rrChQfmeorTq4tdqhA==
+X-CSE-MsgGUID: 36RD2GkkTtODpsI2dGSYyw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,141,1770624000"; 
-   d="scan'208";a="221644480"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 26 Mar 2026 02:26:12 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+   d="scan'208";a="262870300"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 26 Mar 2026 02:41:41 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5gyf-000000008if-31df;
-	Thu, 26 Mar 2026 09:26:09 +0000
-Date: Thu, 26 Mar 2026 17:25:58 +0800
+	id 1w5hDd-000000007Fd-33uV;
+	Thu, 26 Mar 2026 09:41:37 +0000
+Date: Thu, 26 Mar 2026 10:41:10 +0100
 From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linusw@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Jaya Kumar <jayakumar.alsa@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Bartosz Golaszewski <brgl@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
-	linux-gpio@vger.kernel.org, Linus Walleij <linusw@kernel.org>
-Subject: Re: [PATCH] RFT: x86_32: Move OLPC XO-1 audio GPIO to software nodes
-Message-ID: <202603261701.n5u236ZK-lkp@intel.com>
-References: <20260325-asoc-olpc-v1-1-ebe6de05c7e2@kernel.org>
+To: Bitterblue Smith <rtl8821cerfe2@gmail.com>,
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Ping-Ke Shih <pkshih@realtek.com>
+Subject: Re: [PATCH rtw-next] wifi: rtw89: Fill fw_version member of struct
+ wiphy
+Message-ID: <202603261021.wmsdP9pa-lkp@intel.com>
+References: <60bdb2f8-d5dd-46a3-8679-5b4a5fd0604b@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,84 +64,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260325-asoc-olpc-v1-1-ebe6de05c7e2@kernel.org>
+In-Reply-To: <60bdb2f8-d5dd-46a3-8679-5b4a5fd0604b@gmail.com>
 
-Hi Linus,
+Hi Bitterblue,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f]
+[auto build test ERROR on wireless-next/main]
+[also build test ERROR on wireless/main linus/master v7.0-rc5 next-20260325]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Linus-Walleij/RFT-x86_32-Move-OLPC-XO-1-audio-GPIO-to-software-nodes/20260326-073823
-base:   6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
-patch link:    https://lore.kernel.org/r/20260325-asoc-olpc-v1-1-ebe6de05c7e2%40kernel.org
-patch subject: [PATCH] RFT: x86_32: Move OLPC XO-1 audio GPIO to software nodes
-config: sparc-randconfig-001-20260326 (https://download.01.org/0day-ci/archive/20260326/202603261701.n5u236ZK-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260326/202603261701.n5u236ZK-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Bitterblue-Smith/wifi-rtw89-Fill-fw_version-member-of-struct-wiphy/20260326-082721
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/60bdb2f8-d5dd-46a3-8679-5b4a5fd0604b%40gmail.com
+patch subject: [PATCH rtw-next] wifi: rtw89: Fill fw_version member of struct wiphy
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260326/202603261021.wmsdP9pa-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260326/202603261021.wmsdP9pa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603261701.n5u236ZK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603261021.wmsdP9pa-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   sound/pci/cs5535audio/cs5535audio.c: In function 'snd_cs5535audio_mixer':
->> sound/pci/cs5535audio/cs5535audio.c:167:26: error: passing argument 2 of 'olpc_quirks' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     err = olpc_quirks(card, cs5535au);
-                             ^~~~~~~~
-   In file included from sound/pci/cs5535audio/cs5535audio.c:24:
-   sound/pci/cs5535audio/cs5535audio.h:128:71: note: expected 'struct snd_ac97 *' but argument is of type 'struct cs5535audio *'
-    static inline int olpc_quirks(struct snd_card *card, struct snd_ac97 *ac97)
-                                                         ~~~~~~~~~~~~~~~~~^~~~
-   cc1: some warnings being treated as errors
+   drivers/net/wireless/realtek/rtw89/fw.c: In function 'rtw89_fw_update_ver':
+>> drivers/net/wireless/realtek/rtw89/fw.c:759:21: error: 'RTW89_FW_NORMAL_B' undeclared (first use in this function); did you mean 'RTW89_FW_NORMAL_CE'?
+     759 |             type == RTW89_FW_NORMAL_B)
+         |                     ^~~~~~~~~~~~~~~~~
+         |                     RTW89_FW_NORMAL_CE
+   drivers/net/wireless/realtek/rtw89/fw.c:759:21: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/olpc_quirks +167 sound/pci/cs5535audio/cs5535audio.c
+vim +759 drivers/net/wireless/realtek/rtw89/fw.c
 
-   134	
-   135	static int snd_cs5535audio_mixer(struct cs5535audio *cs5535au)
-   136	{
-   137		struct snd_card *card = cs5535au->card;
-   138		struct snd_ac97_bus *pbus;
-   139		struct snd_ac97_template ac97;
-   140		int err;
-   141		static const struct snd_ac97_bus_ops ops = {
-   142			.write = snd_cs5535audio_ac97_codec_write,
-   143			.read = snd_cs5535audio_ac97_codec_read,
-   144		};
-   145	
-   146		err = snd_ac97_bus(card, 0, &ops, NULL, &pbus);
-   147		if (err < 0)
-   148			return err;
-   149	
-   150		memset(&ac97, 0, sizeof(ac97));
-   151		ac97.scaps = AC97_SCAP_AUDIO | AC97_SCAP_SKIP_MODEM
-   152				| AC97_SCAP_POWER_SAVE;
-   153		ac97.private_data = cs5535au;
-   154		ac97.pci = cs5535au->pci;
-   155	
-   156		/* set any OLPC-specific scaps */
-   157		olpc_prequirks(card, &ac97);
-   158	
-   159		err = snd_ac97_mixer(pbus, &ac97, &cs5535au->ac97);
-   160		if (err < 0) {
-   161			dev_err(card->dev, "mixer failed\n");
-   162			return err;
-   163		}
-   164	
-   165		snd_ac97_tune_hardware(cs5535au->ac97, ac97_quirks, ac97_quirk);
-   166	
- > 167		err = olpc_quirks(card, cs5535au);
-   168		if (err < 0) {
-   169			dev_err(card->dev, "olpc quirks failed\n");
-   170			return err;
-   171		}
-   172	
-   173		return 0;
-   174	}
-   175	
+   726	
+   727	static int rtw89_fw_update_ver(struct rtw89_dev *rtwdev,
+   728				       enum rtw89_fw_type type,
+   729				       struct rtw89_fw_suit *fw_suit)
+   730	{
+   731		const struct rtw89_fw_hdr *v0 = (const struct rtw89_fw_hdr *)fw_suit->data;
+   732		const struct rtw89_fw_hdr_v1 *v1 = (const struct rtw89_fw_hdr_v1 *)fw_suit->data;
+   733	
+   734		if (type == RTW89_FW_LOGFMT)
+   735			return 0;
+   736	
+   737		fw_suit->type = type;
+   738		fw_suit->hdr_ver = le32_get_bits(v0->w3, FW_HDR_W3_HDR_VER);
+   739	
+   740		switch (fw_suit->hdr_ver) {
+   741		case 0:
+   742			rtw89_fw_update_ver_v0(rtwdev, fw_suit, v0);
+   743			break;
+   744		case 1:
+   745			rtw89_fw_update_ver_v1(rtwdev, fw_suit, v1);
+   746			break;
+   747		default:
+   748			rtw89_err(rtwdev, "Unknown firmware header version %u\n",
+   749				  fw_suit->hdr_ver);
+   750			return -ENOENT;
+   751		}
+   752	
+   753		rtw89_info(rtwdev,
+   754			   "Firmware version %u.%u.%u.%u (%08x), cmd version %u, type %u\n",
+   755			   fw_suit->major_ver, fw_suit->minor_ver, fw_suit->sub_ver,
+   756			   fw_suit->sub_idex, fw_suit->commitid, fw_suit->cmd_ver, type);
+   757	
+   758		if (type == RTW89_FW_NORMAL || type == RTW89_FW_NORMAL_CE ||
+ > 759		    type == RTW89_FW_NORMAL_B)
+   760			snprintf(rtwdev->hw->wiphy->fw_version,
+   761				 sizeof(rtwdev->hw->wiphy->fw_version),
+   762				 "%u.%u.%u.%u",
+   763				 fw_suit->major_ver, fw_suit->minor_ver,
+   764				 fw_suit->sub_ver, fw_suit->sub_idex);
+   765	
+   766		return 0;
+   767	}
+   768	
 
 -- 
 0-DAY CI Kernel Test Service
