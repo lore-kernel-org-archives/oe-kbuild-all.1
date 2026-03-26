@@ -1,276 +1,184 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ADA628467D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Mar 2026 13:01:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B78CE50276
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Mar 2026 13:10:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774530091; cv=none; b=k70QufdpnEF5hN+Qw/5K5ZYeXhfDvGSDYEYOExZrdH49iTdyulvCy3pkPjujo3VQ7w2aQ3Vv84fCwmEcGW1Cx/J2NyG2p7I5khitzt/7YVe4bAgrDarvgzByswOWH1JDtSh+iB0ZiPep+GisZoier58Zv2GIalPPjTxbV1fN5Jc=
+	t=1774530637; cv=none; b=TGIotg/PeouknFwvY0m9f3kVUUP5H7fr0RRA+bs5kiFlEwrytXXwqBmHM9N2/njml2h0bqUQN5NV/liWr2QvAPORU77sKKN5Ph0HCjeqbRy2q05/S7pucaXlu0xOmfMz7lscjJX1IwiHhiY6XHzFQIurTqLV/HmKLgyOa1VtF2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774530091; c=relaxed/simple;
-	bh=Tm4OFFn11Zj9gWoQZOcuZVzuYa3uAyHzJwqHcR1W1Ho=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=BaT2qmLXC6Z6eHUNNWjTfi1VgGg8pIo8InINb7WtCMV9l2cXB0uJAcXxPsW8g/XMYEHBGiv44Rob8+upfEgw1kYK+p8TPSXn0/TMCn9KFpC4hkIBlcwMLUTAq8NFxhUrU/0Fo3/mbJ00D5exAEU5eRxYP3lptKqL+3mtutgiH0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FUE61+Md; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1774530637; c=relaxed/simple;
+	bh=0CR20ofdN14Xriy1osguvdFPMVR5SvBt00eel497LBk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RqBLJCWLbXovObqyT3uXC2oH/PosEQWiNMX0Ba/ZEeB0XgqR3PeYq+ErO5ogYER9OJPza4C48DHztAd6YuM2TLJFWGv+1oYA0+Abp2soBdH/gXELt4/PzxkQSIcEqg0pBEfOsbnkqHyZ8EhhyfRr6L8/et55CV15kI6+wbXPfXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KFLfhMAz; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FUE61+Md"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774530088; x=1806066088;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Tm4OFFn11Zj9gWoQZOcuZVzuYa3uAyHzJwqHcR1W1Ho=;
-  b=FUE61+MdcT4AHMo5YG08IWmikMB472nK6UDzmH5tAHtT26c6QV27zQSD
-   5DgfbxoIS3WSu2zcpYSm5fYWYxLLb4hR4uOCu43zOPbygvuGH3B4NMhz6
-   W0RiuyGWXLMwQNHHQrJ7EwTHoDorBhPxzWtHfsGhmLjVQAZjnHBYpkadg
-   3JKCObtH6Jf1uilsEhB5+niwJ5K8B1GF2smVk+wiIWSeNQa1JWqztIICL
-   lA6Ov84wow46svL9T/BySoHjtjIsbr9p6j8syCp8ZK/+hnPkdd4yDY/Kv
-   4FCpHJznLWWbX9lN0m8zg0SLT2DzqCG59JpmfIBx7O1vaDzMuKHgQ11r+
-   w==;
-X-CSE-ConnectionGUID: pUiASNFRSzO7hxBCSvxrmA==
-X-CSE-MsgGUID: 27rbshp/Q02vG3y9mK20/Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="86276895"
-X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="86276895"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 06:01:28 -0700
-X-CSE-ConnectionGUID: /zTSiz/HTMyLgBhiJuN6IQ==
-X-CSE-MsgGUID: Q36sqiSVRnCWCUmkZzoZ6Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="229941310"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 26 Mar 2026 06:01:27 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w5kKx-000000008sH-3TKe;
-	Thu, 26 Mar 2026 13:01:23 +0000
-Date: Thu, 26 Mar 2026 21:00:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/kunit-kselftests 3/18]
- arch/nios2/kernel/misaligned.c:66:17: error: no previous prototype for
- 'handle_unaligned_c'
-Message-ID: <202603262039.UgXuJ7bb-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KFLfhMAz"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-486fc4725f0so8375875e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Mar 2026 06:10:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1774530634; x=1775135434; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=o7DXD+hPkzLT/JkKvA59t+Tu0o4YIwychG/Bmk2dUEM=;
+        b=KFLfhMAzqbIF8VA+RhyrTX7dhFTFiuTdRfOIv/JyDQUz1FmiotpMZcO+nCaHbjitQZ
+         l6Gb2oZqXb15axqE3eUEH0UaNJBIwGgDnm9R08UfXxEkjWIcsrQUZF0xZBh1CsEZfuWr
+         ZQ8Q4t76eBUpgsbgbOEepgGW8WBaFNAHa2681jtN3hTOSULybxcw1W957JoByRU6Oom0
+         /fFadgUiNcKJ8KMVV8duojUgAtmrGrSEJkDSs8uFaqUHp8t1rA/tc5HLWqle0S2+MfXk
+         DKYIX6Az2lJ6iGpKCW3et8vAauEfBioW1dZ8VKHb6H1ZEgcpwy1t1pCdsc9po9SldvL/
+         otwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774530634; x=1775135434;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=o7DXD+hPkzLT/JkKvA59t+Tu0o4YIwychG/Bmk2dUEM=;
+        b=QT+AVsJfU73nwxz7C9Cg4j+zNu9xW4fUuxZpKxfeDrI2BLyLTJPan3dbcB/c767290
+         9M4u8bpG5t5HpZDK0KuZeP1RSiQlQGQLUzTVILmNCf+HGL1/Z5+YR6eR8M8Y6ekc1orD
+         NQdSDzp/KlWPT06dFrUIbqwiZIjKEt5IcXlhZIakVZLaZ2nnyzPXvD8+3G+sAskBHZnh
+         DpVfVoOUbRN1VP+1KQYxtrg+RZ0r38d/XXdA5fqLNT9801cKL+ENDwBOq1r5cSF1X+0M
+         vb2GP51HXtnjQ/TRnJdavnlqNVDBMawpmEyG7VHIqo5MSW7lXYcsSWZttJh4l0HvTc3M
+         A51g==
+X-Forwarded-Encrypted: i=1; AJvYcCVzprnuOMqIWzZ7EcZ/CsXnblLFjbXCLrNEGh1jehHVBLb6CZuGlY6SHjwK7o7Wv+E/pn7JNd0Id+3WfVjb@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx7VWENyttcrBcq3V2Nfvh8yMscszdrCdFGUhRNC78+tIDvZf5E
+	GN1OjXz73KwOtPkNHl8ntG5E8lktI6UHGgdNAY79hQSDKJEgc3XIYeSzD6/yLBgBp3l10pwoRv4
+	rOpijBP0K
+X-Gm-Gg: ATEYQzyfszLZ9p+sP9nSkTDhzjnsyh0ALHYETT+TPfh+EoHsZC5Ks7fszxAoW2Lbeso
+	6yy5cBdzXt+NzpHloQyn9GCkl23zc2bd3KHYNSfsfyT1UhGqprF5SiuX33aHcgG68RB5ILNQwTv
+	XsYEcCPdF4NVXmKDIQqRFVVeOrkYwzmiVsQ5n9t/gK5zNJt99mxZjpheLb0WnFW7uItUgt+qEj+
+	HWq9LtAWe9zWY1q0JFki8eJrLdgjv6wtEPjuKxyiKgPCGSBChlmNRBQvqX4NhXeLwQJt5893cPE
+	7r8vagi2ShWI1OVxb1f72T/88I6Wq74LtF6MsV8ecahTpXqQJa336jyHo9p6n+awHgo0HLltu8L
+	h6ikWracnojeivaSoX/dOMu55EjXuCghWrbfND5q97fJPoXD0jpxeKpzHRbq5q8ER70rWdSKnpd
+	UkIT0t9vy6Zm1WPjJ+vDrDxRcu5RBfo2+dLz0GFzB9zxAbvKdNKPNdRw==
+X-Received: by 2002:a05:600c:3ba1:b0:46e:59bd:f7e2 with SMTP id 5b1f17b1804b1-48722bdfeebmr26820265e9.11.1774530633518;
+        Thu, 26 Mar 2026 06:10:33 -0700 (PDT)
+Received: from google.com ([2a00:79e0:288a:8:3224:f466:7352:9572])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487208b206dsm48271535e9.1.2026.03.26.06.10.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Mar 2026 06:10:32 -0700 (PDT)
+Date: Thu, 26 Mar 2026 14:10:27 +0100
+From: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>
+To: kernel test robot <lkp@intel.com>
+Cc: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>,
+	oe-kbuild-all@lists.linux.dev,
+	=?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+Subject: Re: [mic:next 16/24] include/linux/build_bug.h:78:41: error: static
+ assertion failed: "sizeof(typeof_member(union access_masks_all, masks)) ==
+ sizeof(typeof_member(union access_masks_all, all))"
+Message-ID: <acUwQ1AMUjwaHL7G@google.com>
+References: <202603261438.jBx2DGNe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <202603261438.jBx2DGNe-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/kunit-kselftests
-head:   fb40de0a3d3ef218f63b2eb7698903d2328f3593
-commit: 972c95c4ea353a5734cab4fc9a9308b05ceeefe8 [3/18] run-tests
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260326/202603262039.UgXuJ7bb-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260326/202603262039.UgXuJ7bb-lkp@intel.com/reproduce)
+On Thu, Mar 26, 2026 at 02:42:56PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mic/linux.git next
+> head:   42d105958e98c6ae8fd6d62b38727444d25e735d
+> commit: 8dcfb7e52f844e73413d7f743945e135747a1048 [16/24] landlock: Control pathname UNIX domain socket resolution by path
+> config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260326/202603261438.jBx2DGNe-lkp@intel.com/config)
+> compiler: m68k-linux-gcc (GCC) 15.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260326/202603261438.jBx2DGNe-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202603261438.jBx2DGNe-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from include/linux/bits.h:30,
+>                     from security/landlock/setup.c:9:
+> >> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(typeof_member(union access_masks_all, masks)) == sizeof(typeof_member(union access_masks_all, all))"
+>       78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+>          |                                         ^~~~~~~~~~~~~~
+>    include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+>       77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+>          |                                  ^~~~~~~~~~~~~~~
+>    security/landlock/access.h:61:1: note: in expansion of macro 'static_assert'
+>       61 | static_assert(sizeof(typeof_member(union access_masks_all, masks)) ==
+>          | ^~~~~~~~~~~~~
+> 
+> 
+> vim +78 include/linux/build_bug.h
+> 
+> bc6245e5efd70c Ian Abbott       2017-07-10  60  
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+> 6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  79  
+> 07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
+> 
+> :::::: The code at line 78 was first introduced by commit
+> :::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
+> 
+> :::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+> :::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603262039.UgXuJ7bb-lkp@intel.com/
+Hmm, intuitively, it might have been introduced by the Unix Connect
+Control patch set which was recently added to mic-next:
 
-All errors (new ones prefixed by >>):
+https://git.kernel.org/pub/scm/linux/kernel/git/mic/linux.git/commit/?h=next&id=8dcfb7e52f844e73413d7f743945e135747a1048
 
->> arch/nios2/kernel/misaligned.c:66:17: error: no previous prototype for 'handle_unaligned_c' [-Werror=missing-prototypes]
-      66 | asmlinkage void handle_unaligned_c(struct pt_regs *fp, int cause)
-         |                 ^~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
-   In file included from include/linux/device.h:15,
-                    from include/linux/input.h:19,
-                    from include/linux/input/mt.h:11,
-                    from drivers/input/mouse/synaptics.c:26:
-   drivers/input/mouse/synaptics.c: In function 'synaptics_init_ps2':
->> include/linux/dev_printk.h:160:31: error: '%s' directive argument is null [-Werror=format-overflow=]
-     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                               ^
-   include/linux/dev_printk.h:110:17: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                 ^~~~~~~
-   drivers/input/mouse/psmouse.h:204:9: note: in expansion of macro 'dev_info'
-     204 |         dev_info(&(psmouse)->ps2dev.serio->dev,         \
-         |         ^~~~~~~~
-   drivers/input/mouse/synaptics.c:1675:17: note: in expansion of macro 'psmouse_info'
-    1675 |                 psmouse_info(psmouse,
-         |                 ^~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
-   In file included from include/linux/device.h:15,
-                    from include/linux/input.h:19,
-                    from include/linux/input/mt.h:11,
-                    from synaptics.c:26:
-   synaptics.c: In function 'synaptics_init_ps2':
->> include/linux/dev_printk.h:160:31: error: '%s' directive argument is null [-Werror=format-overflow=]
-     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                               ^
-   include/linux/dev_printk.h:110:17: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                 ^~~~~~~
-   psmouse.h:204:9: note: in expansion of macro 'dev_info'
-     204 |         dev_info(&(psmouse)->ps2dev.serio->dev,         \
-         |         ^~~~~~~~
-   synaptics.c:1675:17: note: in expansion of macro 'psmouse_info'
-    1675 |                 psmouse_info(psmouse,
-         |                 ^~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+m68k is a 32-bit architecture.
 
+We are introducing the 17th filesystem access bit, and changing the
+size of access_mask_t from u16 to u32 there,
 
-vim +/handle_unaligned_c +66 arch/nios2/kernel/misaligned.c
+The relevant code is:
 
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   62  
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   63  /*
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   64   * (mis)alignment handler
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   65   */
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  @66  asmlinkage void handle_unaligned_c(struct pt_regs *fp, int cause)
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   67  {
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   68  	u32 isn, addr, val;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   69  	int in_kernel;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   70  	u8 a, b, d0, d1, d2, d3;
-db5a7e55468147 Bernd Weiberg 2015-09-04   71  	s16 imm16;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   72  	unsigned int fault;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   73  
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   74  	/* back up one instruction */
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   75  	fp->ea -= 4;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   76  
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   77  	if (fixup_exception(fp)) {
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   78  		return;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   79  	}
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   80  
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   81  	in_kernel = !user_mode(fp);
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   82  
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   83  	isn = *(unsigned long *)(fp->ea);
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   84  
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   85  	fault = 0;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   86  
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   87  	/* do fixup if in kernel or mode turned on */
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   88  	if (in_kernel || (ma_usermode & UM_FIXUP)) {
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   89  		/* decompose instruction */
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   90  		a = (isn >> 27) & 0x1f;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   91  		b = (isn >> 22) & 0x1f;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   92  		imm16 = (isn >> 6) & 0xffff;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   93  		addr = get_reg_val(fp, a) + imm16;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   94  
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   95  		/* do fixup to saved registers */
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   96  		switch (isn & 0x3f) {
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   97  		case INST_LDHU:
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   98  			fault |= __get_user(d0, (u8 *)(addr+0));
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06   99  			fault |= __get_user(d1, (u8 *)(addr+1));
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  100  			val = (d1 << 8) | d0;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  101  			put_reg_val(fp, b, val);
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  102  			break;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  103  		case INST_STH:
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  104  			val = get_reg_val(fp, b);
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  105  			d1 = val >> 8;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  106  			d0 = val >> 0;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  107  			if (in_kernel) {
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  108  				*(u8 *)(addr+0) = d0;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  109  				*(u8 *)(addr+1) = d1;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  110  			} else {
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  111  				fault |= __put_user(d0, (u8 *)(addr+0));
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  112  				fault |= __put_user(d1, (u8 *)(addr+1));
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  113  			}
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  114  			break;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  115  		case INST_LDH:
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  116  			fault |= __get_user(d0, (u8 *)(addr+0));
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  117  			fault |= __get_user(d1, (u8 *)(addr+1));
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  118  			val = (short)((d1 << 8) | d0);
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  119  			put_reg_val(fp, b, val);
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  120  			break;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  121  		case INST_STW:
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  122  			val = get_reg_val(fp, b);
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  123  			d3 = val >> 24;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  124  			d2 = val >> 16;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  125  			d1 = val >> 8;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  126  			d0 = val >> 0;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  127  			if (in_kernel) {
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  128  				*(u8 *)(addr+0) = d0;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  129  				*(u8 *)(addr+1) = d1;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  130  				*(u8 *)(addr+2) = d2;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  131  				*(u8 *)(addr+3) = d3;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  132  			} else {
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  133  				fault |= __put_user(d0, (u8 *)(addr+0));
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  134  				fault |= __put_user(d1, (u8 *)(addr+1));
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  135  				fault |= __put_user(d2, (u8 *)(addr+2));
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  136  				fault |= __put_user(d3, (u8 *)(addr+3));
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  137  			}
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  138  			break;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  139  		case INST_LDW:
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  140  			fault |= __get_user(d0, (u8 *)(addr+0));
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  141  			fault |= __get_user(d1, (u8 *)(addr+1));
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  142  			fault |= __get_user(d2, (u8 *)(addr+2));
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  143  			fault |= __get_user(d3, (u8 *)(addr+3));
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  144  			val = (d3 << 24) | (d2 << 16) | (d1 << 8) | d0;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  145  			put_reg_val(fp, b, val);
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  146  			break;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  147  		}
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  148  	}
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  149  
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  150  	addr = RDCTL(CTL_BADADDR);
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  151  	cause >>= 2;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  152  
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  153  	if (fault) {
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  154  		if (in_kernel) {
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  155  			pr_err("fault during kernel misaligned fixup @ %#lx; addr 0x%08x; isn=0x%08x\n",
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  156  				fp->ea, (unsigned int)addr,
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  157  				(unsigned int)isn);
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  158  		} else {
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  159  			pr_err("fault during user misaligned fixup @ %#lx; isn=%08x addr=0x%08x sp=0x%08lx pid=%d\n",
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  160  				fp->ea,
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  161  				(unsigned int)isn, addr, fp->sp,
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  162  				current->pid);
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  163  
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  164  			_exception(SIGSEGV, fp, SEGV_MAPERR, fp->ea);
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  165  			return;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  166  		}
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  167  	}
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  168  
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  169  	/*
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  170  	 * kernel mode -
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  171  	 *  note exception and skip bad instruction (return)
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  172  	 */
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  173  	if (in_kernel) {
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  174  		fp->ea += 4;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  175  
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  176  		if (ma_usermode & KM_WARN) {
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  177  			pr_err("kernel unaligned access @ %#lx; BADADDR 0x%08x; cause=%d, isn=0x%08x\n",
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  178  				fp->ea,
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  179  				(unsigned int)addr, cause,
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  180  				(unsigned int)isn);
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  181  			/* show_regs(fp); */
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  182  		}
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  183  
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  184  		return;
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  185  	}
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  186  
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  187  	/*
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  188  	 * user mode -
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  189  	 *  possibly warn,
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  190  	 *  possibly send SIGBUS signal to process
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  191  	 */
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  192  	if (ma_usermode & UM_WARN) {
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  193  		pr_err("user unaligned access @ %#lx; isn=0x%08lx ea=0x%08lx ra=0x%08lx sp=0x%08lx\n",
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  194  			(unsigned long)addr, (unsigned long)isn,
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  195  			fp->ea, fp->ra, fp->sp);
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  196  	}
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  197  
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  198  	if (ma_usermode & UM_SIGNAL)
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  199  		_exception(SIGBUS, fp, BUS_ADRALN, fp->ea);
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  200  	else
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  201  		fp->ea += 4;	/* else advance */
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  202  }
-82ed08dd1b0e0e Ley Foon Tan  2014-11-06  203  
+```
+/* Ruleset access masks. */
+struct access_masks {
+	access_mask_t fs : LANDLOCK_NUM_ACCESS_FS;    /* 17 */
+	access_mask_t net : LANDLOCK_NUM_ACCESS_NET;  /*  2 */
+	access_mask_t scope : LANDLOCK_NUM_SCOPE;     /*  2 */
+};
 
-:::::: The code at line 66 was first introduced by commit
-:::::: 82ed08dd1b0e0e0728f9188f66795c49dffe437d nios2: Exception handling
+union access_masks_all {
+	struct access_masks masks;
+	u32 all;
+};
 
-:::::: TO: Ley Foon Tan <lftan@altera.com>
-:::::: CC: Ley Foon Tan <lftan@altera.com>
+/* Makes sure all fields are covered. */
+static_assert(sizeof(typeof_member(union access_masks_all, masks)) ==
+	      sizeof(typeof_member(union access_masks_all, all)));
+```
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Intuitively, it is not clear why that static assertion suddenly fails;
+17+2+2 is still well below 32.  I see that the C standard does not
+give strong guarantees about the memory layout of this, though.
+
+I'll need to have a closer look later. I can imagine that there is an
+attribute or such that will hint the compiler to pack these bits
+tighter.
+
+—Günther
