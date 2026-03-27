@@ -1,126 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2493F9FB
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 13:53:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F1A349AE1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 13:54:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774619623; cv=none; b=hDPLPqgBFrNWg42H+UNqM7BXKM6aTERoZDwI+EyXyx9BxS71wb4JzZb0NC9T0b1+a6Qz1K1TptDHjWotiYsfFy8bzD4qlLr0GkW2mSsGaqlIZe+fdCV66PiZZEa3LAQfhoi7g7C48JJNmA5zv46Zj+bxokB3ZlML1goU8Y913AA=
+	t=1774619658; cv=none; b=AozGrOuBVUgDsAJAI3pRB3hGE9yvSqAQvTQefOPbA91lIUzPWVuJ5XhidSrghwINS9em5wtKcnD8l/an1H7IYe/o5OGDPpTW2RRjt7iABxv8E5yy1ayXZPhJd0IcpyNF1KkDAexypz4MpM6QVZa7XzVErzVmngrMIQ5IpDlc5b0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774619623; c=relaxed/simple;
-	bh=rPv1tCnkNa+VvwyXLvuBBya0JVOEQ1HbdTVUPPCL2CE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gQv/WK7mzxg9Le1oyKrUWHsZxDQeI6xB8Z+RYdycXLlimxproLVIZ4U4FHCuslSt0qnID5QZMnbfuZGhndNq3niomkC+bEnphJrFf+GzKBphEEAegfrZSc+ty9xZiDVp1ozf9bFHszw0sy4nWS/1EbPIuPwKWuuyoFfTfMNU6z8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=krBHkvSC; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1774619658; c=relaxed/simple;
+	bh=F8nqQtP6HknANaBoPAe6dwl5ApJC8kya6guOXtyTiPg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=V6P0tzmPcrqMGwAkhkrThUSDnlvxhnAhBdiLSuSrID7augSo0c4a1k3sS2JjQKYDgaikVFigwrgVhoy7wLR0Joyr6tdHOvOH1F//ltthwCt6PI0eYj1Iolz0zUKmdX3dAOieUURm0N/MYy+vbsYasGswNmiskuAtz8MAgVRpr9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=rb4bgXIG; arc=none smtp.client-ip=209.85.210.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="krBHkvSC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774619622; x=1806155622;
-  h=date:from:to:cc:subject:message-id;
-  bh=rPv1tCnkNa+VvwyXLvuBBya0JVOEQ1HbdTVUPPCL2CE=;
-  b=krBHkvSCSrvt1ITjhg000GqXEIByyXwlsBOjq92+U6XPlYNbRYcaqHzN
-   TUzQ3f0XsmTScjPwttn1lhxGTZ2c1eg9yN8D0NcWmUf2lE3FAuV1a/aBW
-   a1F1bZ5nuYlJZpPSQFrpwI9jZqhs4py51+rZKJAPeXNE/pqajdyD6I+Sp
-   uK5EL2dQJ8gHkq3DHzRACM3eO1QFdb2JVzYB3cq7aIO8f8+6tT5mCj0gO
-   tqBy3KHCwfy9mKN+7NxOFpHSnJmo6EUy1l24da9D5e2XlWWIxgDM3w5KN
-   JxSyFg2lmsXsxmT/VJtKK1N09I73+ddfa+S2jHCGtrd0M28DIY862WMun
-   A==;
-X-CSE-ConnectionGUID: m3Br9mdVQQWtKIPPUyed7g==
-X-CSE-MsgGUID: hbikG9LqQ6qn8HKs1Ug/Fg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="98307704"
-X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="98307704"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 06:53:41 -0700
-X-CSE-ConnectionGUID: XS77X+HfRJ2E3ix5xDUY2g==
-X-CSE-MsgGUID: UUfpFDZoQyGAkH1c9pEZAw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="226919425"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 27 Mar 2026 06:53:39 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w67d3-00000000ALB-15Cy;
-	Fri, 27 Mar 2026 13:53:37 +0000
-Date: Fri, 27 Mar 2026 21:52:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15 4/4]
- include/linux/userfaultfd_k.h:81:64: sparse: sparse: incompatible types in
- comparison expression (different address spaces):
-Message-ID: <202603272106.IALaEpg0-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="rb4bgXIG"
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7d55b97f358so1266782a34.3
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 06:54:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1774619654; x=1775224454; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FsiRzlu0kDThiDmUQXOxPDfKN3XDauB2BbTLDlcDoZY=;
+        b=rb4bgXIGFyBNAsotFItxzbL6WFGKnIK7jdv1eCn9TJVjpZpfA5+5V0JAIZvoZzQRRu
+         83tRnfwv4M5id2H86YxJc2ragyaW5UazsnrA3rfSA7qpd0SJ+eImdUTSO7fPbxDb4HEE
+         QSlRJCtPANJ9WSmtpEvP+sE0m7CFX3ObjHkAu9WFFmj1EUJv/M8n9vzeuKEAdXqLNnJA
+         Yy2+w6U9tFGJY+wI1MXQQ11XEUCO/ssDNkkJeV4kOyb47EiFCec2K/8xCMn4NcL60eoo
+         oHDwwCmOm3Ro1IVIiL3f5OCFfO24IRUpVMBAvLUn5GnoguQKRlad6DjHyf7KGjlFF0MD
+         NFDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774619654; x=1775224454;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FsiRzlu0kDThiDmUQXOxPDfKN3XDauB2BbTLDlcDoZY=;
+        b=EKXw6P07Jlvm1hou2H5I7gEAbdOlUvQJC2S0bN8IuJl6ohgu9ORoMpoMOhRuJwwbjQ
+         ailg5LY4T/3R4mamjsPfYFsUZb5BFquV5DP0aAIJS9q4slZkcGs5Z21XRH1rNSJVncEv
+         VPud+TDfcHLpbtI20lLFGZLGEeilyEJuyPMloatOA+Zxw6OpcFmkrnFCWlWYD5eXPote
+         oXwBjMlvA+zpV7dwcehLREymEDW4RxD3JFa5aenYs3/Q5o71EK24wxW/IUWlzWqDaZMG
+         /4tjGtGvbIYcTLJLBvKlTfIFzPgvr9N0xuk3TCn9QO5MvprIMAu3U+eR8MLdezNHVF0j
+         DLGg==
+X-Forwarded-Encrypted: i=1; AJvYcCWWoh8iuEgvmHtj671RQ4uDPbNy6PGVb9mCiB3aNDckw5IZec4KdsaSYmECW3F3O0+Fhqvk2jrPcp/M9QXu@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxmvm38w+NW4EbQ7PnDlhaRUGMVYMtOL9ESbNPx99mBVMLt+ITj
+	2wWzILYnJkMCWDPScyryLDKr54G/lmRQClRojVAIp2kgSuvmD2QxflDerr0aAaJO8aw=
+X-Gm-Gg: ATEYQzyotC4HyJbzYOtGOYlcFOxiMlcyPRFe8OIgOGq4Z5ZSKNDNfdHVp72RZ9mxNIv
+	LsQ9b/Z1s+5O5RtukO78GrKAr5iBCjBno/hgAiwXznEGhsnVdz7hdZ30Tlz+BezWT4tE8N/HLXG
+	rZx83qFh5ncrrFkPW2zvaep6AthEDOwDwgPQtyxMwvh+05NY7KXyjVYO9d9XZXAJ15i9vRyahv1
+	ERRtcRlqqOM3qUYZ9apRXQVHXTsk0fDidEc8do5H+t6MnMycPTwRbg8H3c6KEtePc5TDniTW94q
+	8jOjYo/TehWPUtlMEW6QjOBxhMuQG4Dsafe7UQSAnQiJM4ptTrsL8LTPIfhuiFUGNSohdzZNH/0
+	eU6iNqQRMSP5gjGpoPbRQqPGoZaDR/soxt1DdY7eh3Z7N/GB+fwZFrHzYahoA/a/fScQ01bfv79
+	wWR4bnV8JlPi+qpMWUj4mEKWyyEGpV6oyHSblnr4eGajPK2hwjkf/rpZjB3uCvynHYlSjSz27Nv
+	g==
+X-Received: by 2002:a05:6830:4392:b0:7d7:f617:3573 with SMTP id 46e09a7af769-7d9fadfd5a3mr1377794a34.10.1774619654222;
+        Fri, 27 Mar 2026 06:54:14 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:500:54a7:4cbc:7d2e:3b99? ([2600:8803:e7e4:500:54a7:4cbc:7d2e:3b99])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d9e724e977sm4787166a34.22.2026.03.27.06.54.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Mar 2026 06:54:13 -0700 (PDT)
+Message-ID: <3558dc31-e998-4a50-9732-0ae751b4fd7a@baylibre.com>
+Date: Fri, 27 Mar 2026 08:54:11 -0500
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] iio: adc: ti-adc161s626: use DMA-safe memory for
+ spi_read()
+To: Andy Shevchenko <andriy.shevchenko@intel.com>,
+ kernel test robot <lkp@intel.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
+ Matt Ranostay <mranostay@gmail.com>, oe-kbuild-all@lists.linux.dev,
+ linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260314-iio-adc-ti-adc161s626-fix-scan-buf-v1-2-56243b11e87b@baylibre.com>
+ <202603271734.pnWuSmNr-lkp@intel.com> <acZRgSH2Vvmm1Usg@ashevche-desk.local>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <acZRgSH2Vvmm1Usg@ashevche-desk.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15
-head:   fc88a7504f0f262cc5b2e8a7f58b2a1108034856
-commit: 9b613572d6246da9b616f34e4a0e0b5ac74b2dd0 [4/4] ANDROID: userfaultfd: allow SPF for UFFD_FEATURE_SIGBUS on private+anon
-config: i386-randconfig-r133-20260325 (https://download.01.org/0day-ci/archive/20260327/202603272106.IALaEpg0-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603272106.IALaEpg0-lkp@intel.com/reproduce)
+On 3/27/26 4:44 AM, Andy Shevchenko wrote:
+> On Fri, Mar 27, 2026 at 05:13:16PM +0800, kernel test robot wrote:
+>> Hi David,
+>>
+>> kernel test robot noticed the following build errors:
+> 
+> 
+>> All errors (new ones prefixed by >>):
+>>
+>>    drivers/iio/adc/ti-adc161s626.c: In function 'ti_adc_read_measurement':
+>>>> drivers/iio/adc/ti-adc161s626.c:87:24: error: implicit declaration of function 'get_unaligned_be16' [-Wimplicit-function-declaration]
+>>       87 |                 *val = get_unaligned_be16(data->buf);
+>>          |                        ^~~~~~~~~~~~~~~~~~
+>>>> drivers/iio/adc/ti-adc161s626.c:94:24: error: implicit declaration of function 'get_unaligned_be24' [-Wimplicit-function-declaration]
+>>       94 |                 *val = get_unaligned_be24(data->buf);
+>>          |                        ^~~~~~~~~~~~~~~~~~
+> 
+> + linux/unaligned.h should fix this.
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603272106.IALaEpg0-lkp@intel.com/
+Jonathan caught this already [1], so should be fixed already [2].
 
-sparse warnings: (new ones prefixed by >>)
-   mm/mmap.c: note: in included file (through include/linux/hugetlb.h):
->> include/linux/userfaultfd_k.h:81:64: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/userfaultfd_k.h:81:64: sparse:    struct userfaultfd_ctx *
-   include/linux/userfaultfd_k.h:81:64: sparse:    struct userfaultfd_ctx [noderef] __rcu *
->> include/linux/userfaultfd_k.h:81:64: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/userfaultfd_k.h:81:64: sparse:    struct userfaultfd_ctx *
-   include/linux/userfaultfd_k.h:81:64: sparse:    struct userfaultfd_ctx [noderef] __rcu *
---
->> fs/userfaultfd.c:757:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct userfaultfd_ctx [noderef] __rcu *ctx @@     got struct userfaultfd_ctx *[assigned] ctx @@
-   fs/userfaultfd.c:757:29: sparse:     expected struct userfaultfd_ctx [noderef] __rcu *ctx
-   fs/userfaultfd.c:757:29: sparse:     got struct userfaultfd_ctx *[assigned] ctx
->> fs/userfaultfd.c:771:45: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct userfaultfd_ctx *ctx @@     got struct userfaultfd_ctx [noderef] __rcu *ctx @@
-   fs/userfaultfd.c:771:45: sparse:     expected struct userfaultfd_ctx *ctx
-   fs/userfaultfd.c:771:45: sparse:     got struct userfaultfd_ctx [noderef] __rcu *ctx
->> fs/userfaultfd.c:1483:64: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct userfaultfd_ctx [noderef] __rcu *ctx @@     got struct userfaultfd_ctx *ctx @@
-   fs/userfaultfd.c:1483:64: sparse:     expected struct userfaultfd_ctx [noderef] __rcu *ctx
-   fs/userfaultfd.c:1483:64: sparse:     got struct userfaultfd_ctx *ctx
-
-vim +81 include/linux/userfaultfd_k.h
-
-    58	
-    59	extern int mfill_atomic_install_pte(struct mm_struct *dst_mm, pmd_t *dst_pmd,
-    60					    struct vm_area_struct *dst_vma,
-    61					    unsigned long dst_addr, struct page *page,
-    62					    bool newly_allocated, bool wp_copy);
-    63	
-    64	extern ssize_t mcopy_atomic(struct mm_struct *dst_mm, unsigned long dst_start,
-    65				    unsigned long src_start, unsigned long len,
-    66				    atomic_t *mmap_changing, __u64 mode);
-    67	extern ssize_t mfill_zeropage(struct mm_struct *dst_mm,
-    68				      unsigned long dst_start,
-    69				      unsigned long len,
-    70				      atomic_t *mmap_changing);
-    71	extern ssize_t mcopy_continue(struct mm_struct *dst_mm, unsigned long dst_start,
-    72				      unsigned long len, atomic_t *mmap_changing);
-    73	extern int mwriteprotect_range(struct mm_struct *dst_mm,
-    74				       unsigned long start, unsigned long len,
-    75				       bool enable_wp, atomic_t *mmap_changing);
-    76	
-    77	/* mm helpers */
-    78	static inline bool is_mergeable_vm_userfaultfd_ctx(struct vm_area_struct *vma,
-    79						struct vm_userfaultfd_ctx vm_ctx)
-    80	{
-  > 81		return rcu_access_pointer(vma->vm_userfaultfd_ctx.ctx) == vm_ctx.ctx;
-    82	}
-    83	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+[1]: https://lore.kernel.org/linux-iio/20260321204506.4b5df02a@jic23-huawei/
+[2]: https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git/commit/?h=fixes-togreg&id=768461517a28d80fe81ea4d5d03a90cd184ea6ad
