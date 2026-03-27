@@ -1,505 +1,175 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9DA3783A1
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 11:25:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 705AD2EB878
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 11:35:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774610750; cv=none; b=nAIMDwQkTiJ+6o6VD9IZqI0fL3z9YA1zXSQD7ADcEmWnT6xrJO4lfE7CqFtXlF3wxZ9VgfuIcI6T6o9s0J9MwTSbKi4SfqabKdDQJcgR4iESpwEPdsc7ZD2v4mMpQKbpiG4fpi6+ycy/xxG12pMwQ4PkD+8y22I7AsCCMt+iACs=
+	t=1774611332; cv=none; b=FC2O4UmvaUR4HyHpjrRsr8Jltpgz0fFcRLBDDYWFb/ukvV4ljcMkZMsa5DdGZoVnQ4aUOethSe08QBeTZMrMk9J3x34xO1HZVUzT7hJp8jfCHXubpDAOVkqODhgd5ySakr/VOmJaEhyW6e0UX2ngQSMh1Ywg1Ve/KwS1Fwr35jE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774610750; c=relaxed/simple;
-	bh=M2loDaZhXemNpvWsIo1YybavRQNIUtIs+a5uaBhfFic=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=lIyx1xOr5fhdciYCAisqInBGoX3KJNhlY1U0fsZAjPveFMBdEYF36mMVwEaihRoldiXYu5UqF7G4DXh5HDIJ/LZkTauJRp2i7m6eNPkSARCXfOfMY+MjrC75aVKaYf/fERa61TEqUfmf1POOiRLOiDJb1OE8zRJiBs0ubStB2PQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oEATuIPt; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1774611332; c=relaxed/simple;
+	bh=a6vK7BRDa4IMNRDndtHs45hTINtUqOoxZyzwKLiWerM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=de579koIOnvRUreYW8W41zOUtpgrMHyTY1Eu/UJxYSU9c48xNiX8TrwlZjP13RlsAZrpM6tv+9elRR4BUCVZR0nU3UJhaIrrNCNhJmuoa0doQpXqyJ0wX0SVrglgGHLNgA2I9PLZsCvtge/MS8nukVOMJezH72WIPQwZ/xCnNQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EuPHCu1A; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oEATuIPt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EuPHCu1A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774610747; x=1806146747;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=M2loDaZhXemNpvWsIo1YybavRQNIUtIs+a5uaBhfFic=;
-  b=oEATuIPtVIpgvZXP1K0xi6wVKiJpTsvVEpxDPfD94TxrBSvQUQwONif/
-   lrUc6nIr+JxDt23LLeVuhsC1HBvoSLjKsdA49dqUJmI9AtL3d/zwlUoG6
-   MAXagmPHb8wGw2hQ2S7s6lZi8L8PXFlQus4ZiOu0GGmMv8IKNNiqUcBnE
-   vOqzyqMfkbdcbNrh2jA5QO5f66RzqDHkxPHzLBD/rp6kH29bc3w5I19Lu
-   zsnSGjBO0TGaU+iQYOr+8D6FXCTDqDMQl8fseg741+JiAJdPwGl9G86bM
-   f38SzdiHnjs7Y7OuTRVTwdp+LDVwTpUotGOWIa0zCj5aCHOaQhVGOK/5a
+  t=1774611331; x=1806147331;
+  h=date:from:to:cc:subject:message-id;
+  bh=a6vK7BRDa4IMNRDndtHs45hTINtUqOoxZyzwKLiWerM=;
+  b=EuPHCu1AUdxd+iQZ/TvymNIhug29jV0efY93ArWqW34QwCxfiA+hwoj9
+   ciSCTGnuEKG97XFiRxTgAHQc/q4XeEDvuZATTWRZHb/NBZi8/xyUMHBMP
+   7EwgOrkV600s9wOSsVO5IFnrKi5dnW1eIa2RgLJXhGocxsOYbHQ3dV410
+   7k3BHuMNqhZjMRuGLWF50GckW3TfPzTV592lFWMP4eBuCPZ7HJD8RIlGE
+   oUB2sMl3CH87Dk45fZ8tJrF6BMJdmPySzGxQxZXKrn/DayVN7IGjz5QIG
+   14nFIY8pJmWO+OzJ0J9eU37qfb0okaF6bW2rEdYBDIR9zKpS+cQMaD+eS
    Q==;
-X-CSE-ConnectionGUID: hq+sCArtSmWgXSN0yyMq/w==
-X-CSE-MsgGUID: 0prEU1SOQAqxU6pC9NJ0TA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="75563050"
+X-CSE-ConnectionGUID: ZziytmqKQvi3i12vDwOD6w==
+X-CSE-MsgGUID: YP5+NMjmTKCtEqy1h9AtJg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="101141909"
 X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="75563050"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 04:25:46 -0700
-X-CSE-ConnectionGUID: l+r004jqRmOYUu9jWAW/fg==
-X-CSE-MsgGUID: EZkUO/mvQROmXER8fL+1/g==
+   d="scan'208";a="101141909"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 04:35:30 -0700
+X-CSE-ConnectionGUID: X1EeilwUSkKE99DoMLncog==
+X-CSE-MsgGUID: B25qxIK6Toio1Qw5Q9FpdQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="224331225"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.186])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 04:25:40 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Fri, 27 Mar 2026 13:25:37 +0200 (EET)
-To: Rong Zhang <i@rong.moe>
-cc: Derek John Clark <derekjohn.clark@gmail.com>, 
-    Hans de Goede <hansg@kernel.org>, oe-kbuild-all@lists.linux.dev, 
-    Mark Pearson <mpearson-lenovo@squebb.ca>, Armin Wolf <W_Armin@gmx.de>, 
-    Jonathan Corbet <corbet@lwn.net>, Kurt Borja <kuurtb@gmail.com>, 
-    platform-driver-x86@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-    kernel test robot <lkp@intel.com>, stable@vger.kernel.org
-Subject: Re: [PATCH] platform/x86: lenovo: Decouple lenovo-wmi-gamezone and
- lenovo-wmi-other
-In-Reply-To: <20260326161724.72186-1-i@rong.moe>
-Message-ID: <d824bf55-8c1a-1374-04f9-aff9ffdaaa0d@linux.intel.com>
-References: <861d0276a759461be446df8e996d196037c9b581.camel@rong.moe> <20260326161724.72186-1-i@rong.moe>
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 27 Mar 2026 04:35:28 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w65TK-00000000ADv-08XU;
+	Fri, 27 Mar 2026 11:35:26 +0000
+Date: Fri, 27 Mar 2026 19:35:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 2/2]
+ arch/arm64/kvm/hyp/nvhe/hyp-main.c:1652:32: error: incompatible pointer types
+ passing 'struct user_pt_regs *' to parameter of type 'struct kvm_cpu_context
+ *'
+Message-ID: <202603271932.9KZJHJmo-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 
-On Fri, 27 Mar 2026, Rong Zhang wrote:
+Hi Vincent,
 
-> Currently, lenovo-wmi-gamezone depends on lenovo-wmi-other as the former
-> imports symbols from the latter. The imported symbols are just used to
-> register a notifier block. However, there is no runtime dependency
-> between both drivers, and either of them can run without the other,
-> which is the major purpose of using the notifier framework.
-> 
-> Such a link-time dependency is non-optimal. A previous attempt to "fix"
-> it made LENOVO_WMI_GAMEZONE select LENOVO_WMI_TUNING, which was
-> fundamentally broken and resulted in undefined Kconfig behavior, as
-> `select' cannot be used on a symbol with potentially unmet dependencies.
-> 
-> Decouple both drivers by moving the thermal mode notifier chain to
-> lenovo-wmi-helpers. Methods for notifier block (un)registration are
-> exported for lenovo-wmi-gamezone, while a method for querying the
-> current thermal mode are exported for lenovo-wmi-other.
-> 
-> This turns the dependency graph from
-> 
->             +------------ lenovo-wmi-gamezone
->             |                     |
->             v                     |
->     lenovo-wmi-helpers            |
->             ^                     |
->             |                     V
->             +------------ lenovo-wmi-other
-> 
-> into
-> 
->             +------------ lenovo-wmi-gamezone
->             |
->             v
->     lenovo-wmi-helpers
->             ^
->             |
->             +------------ lenovo-wmi-other
-> 
-> To make it clear, the name of the notifier chain is also renamed from
-> `om_chain_head' to `tm_chain_head', indicating that it's used to query
-> the current thermal mode.
-> 
-> No functional change intended.
-> 
-> Fixes: 6e38b9fcbfa3 ("platform/x86: lenovo: gamezone needs "other mode"")
-> Cc: stable@vger.kernel.org
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202603252259.gHvJDyh3-lkp@intel.com/
-> Closes: https://lore.kernel.org/oe-kbuild-all/202603260302.X0NjQOda-lkp@intel.com/
-> Signed-off-by: Rong Zhang <i@rong.moe>
-> ---
->  drivers/platform/x86/lenovo/Kconfig        |   1 -
->  drivers/platform/x86/lenovo/wmi-gamezone.c |   4 +-
->  drivers/platform/x86/lenovo/wmi-helpers.c  | 102 ++++++++++++++++++++
->  drivers/platform/x86/lenovo/wmi-helpers.h  |   8 ++
->  drivers/platform/x86/lenovo/wmi-other.c    | 104 +--------------------
->  drivers/platform/x86/lenovo/wmi-other.h    |  16 ----
->  6 files changed, 113 insertions(+), 122 deletions(-)
->  delete mode 100644 drivers/platform/x86/lenovo/wmi-other.h
-> 
-> diff --git a/drivers/platform/x86/lenovo/Kconfig b/drivers/platform/x86/lenovo/Kconfig
-> index f885127b007f..09b1b055d2e0 100644
-> --- a/drivers/platform/x86/lenovo/Kconfig
-> +++ b/drivers/platform/x86/lenovo/Kconfig
-> @@ -252,7 +252,6 @@ config LENOVO_WMI_GAMEZONE
->  	select ACPI_PLATFORM_PROFILE
->  	select LENOVO_WMI_EVENTS
->  	select LENOVO_WMI_HELPERS
-> -	select LENOVO_WMI_TUNING
->  	help
->  	  Say Y here if you have a WMI aware Lenovo Legion device and would like to use the
->  	  platform-profile firmware interface to manage power usage.
-> diff --git a/drivers/platform/x86/lenovo/wmi-gamezone.c b/drivers/platform/x86/lenovo/wmi-gamezone.c
-> index c7fe7e3c9f17..92020225db27 100644
-> --- a/drivers/platform/x86/lenovo/wmi-gamezone.c
-> +++ b/drivers/platform/x86/lenovo/wmi-gamezone.c
-> @@ -23,7 +23,6 @@
->  #include "wmi-events.h"
->  #include "wmi-gamezone.h"
->  #include "wmi-helpers.h"
-> -#include "wmi-other.h"
->  
->  #define LENOVO_GAMEZONE_GUID "887B54E3-DDDC-4B2C-8B88-68A26A8835D0"
->  
-> @@ -383,7 +382,7 @@ static int lwmi_gz_probe(struct wmi_device *wdev, const void *context)
->  		return ret;
->  
->  	priv->mode_nb.notifier_call = lwmi_gz_mode_call;
-> -	return devm_lwmi_om_register_notifier(&wdev->dev, &priv->mode_nb);
-> +	return devm_lwmi_tm_register_notifier(&wdev->dev, &priv->mode_nb);
->  }
->  
->  static const struct wmi_device_id lwmi_gz_id_table[] = {
-> @@ -405,7 +404,6 @@ module_wmi_driver(lwmi_gz_driver);
->  
->  MODULE_IMPORT_NS("LENOVO_WMI_EVENTS");
->  MODULE_IMPORT_NS("LENOVO_WMI_HELPERS");
-> -MODULE_IMPORT_NS("LENOVO_WMI_OTHER");
->  MODULE_DEVICE_TABLE(wmi, lwmi_gz_id_table);
->  MODULE_AUTHOR("Derek J. Clark <derekjohn.clark@gmail.com>");
->  MODULE_DESCRIPTION("Lenovo GameZone WMI Driver");
-> diff --git a/drivers/platform/x86/lenovo/wmi-helpers.c b/drivers/platform/x86/lenovo/wmi-helpers.c
-> index 7379defac500..5a88bccb5037 100644
-> --- a/drivers/platform/x86/lenovo/wmi-helpers.c
-> +++ b/drivers/platform/x86/lenovo/wmi-helpers.c
-> @@ -21,11 +21,16 @@
->  #include <linux/errno.h>
->  #include <linux/export.h>
->  #include <linux/module.h>
-> +#include <linux/notifier.h>
->  #include <linux/unaligned.h>
->  #include <linux/wmi.h>
->  
-> +#include "wmi-gamezone.h"
->  #include "wmi-helpers.h"
->  
-> +/* Thermal mode notifier chain. */
-> +static BLOCKING_NOTIFIER_HEAD(tm_chain_head);
-> +
->  /**
->   * lwmi_dev_evaluate_int() - Helper function for calling WMI methods that
->   * return an integer.
-> @@ -84,6 +89,103 @@ int lwmi_dev_evaluate_int(struct wmi_device *wdev, u8 instance, u32 method_id,
->  };
->  EXPORT_SYMBOL_NS_GPL(lwmi_dev_evaluate_int, "LENOVO_WMI_HELPERS");
->  
-> +/**
-> + * lwmi_tm_register_notifier() - Add a notifier to the blocking notifier chain
-> + * @nb: The notifier_block struct to register
-> + *
-> + * Call blocking_notifier_chain_register to register the notifier block to the
-> + * thermal mode notifier chain.
-> + *
-> + * Return: 0 on success, %-EEXIST on error.
-> + */
-> +int lwmi_tm_register_notifier(struct notifier_block *nb)
-> +{
-> +	return blocking_notifier_chain_register(&tm_chain_head, nb);
-> +}
-> +EXPORT_SYMBOL_NS_GPL(lwmi_tm_register_notifier, "LENOVO_WMI_HELPERS");
-> +
-> +/**
-> + * lwmi_tm_unregister_notifier() - Remove a notifier from the blocking notifier
-> + * chain.
-> + * @nb: The notifier_block struct to register
-> + *
-> + * Call blocking_notifier_chain_unregister to unregister the notifier block from the
-> + * thermal mode notifier chain.
-> + *
-> + * Return: 0 on success, %-ENOENT on error.
-> + */
-> +int lwmi_tm_unregister_notifier(struct notifier_block *nb)
-> +{
-> +	return blocking_notifier_chain_unregister(&tm_chain_head, nb);
-> +}
-> +EXPORT_SYMBOL_NS_GPL(lwmi_tm_unregister_notifier, "LENOVO_WMI_HELPERS");
-> +
-> +/**
-> + * devm_lwmi_tm_unregister_notifier() - Remove a notifier from the blocking
-> + * notifier chain.
-> + * @data: Void pointer to the notifier_block struct to register.
-> + *
-> + * Call lwmi_tm_unregister_notifier to unregister the notifier block from the
-> + * thermal mode notifier chain.
-> + *
-> + * Return: 0 on success, %-ENOENT on error.
-> + */
-> +static void devm_lwmi_tm_unregister_notifier(void *data)
-> +{
-> +	struct notifier_block *nb = data;
-> +
-> +	lwmi_tm_unregister_notifier(nb);
-> +}
-> +
-> +/**
-> + * devm_lwmi_tm_register_notifier() - Add a notifier to the blocking notifier
-> + * chain.
-> + * @dev: The parent device of the notifier_block struct.
-> + * @nb: The notifier_block struct to register
-> + *
-> + * Call lwmi_tm_register_notifier to register the notifier block to the
-> + * thermal mode notifier chain. Then add devm_lwmi_tm_unregister_notifier
-> + * as a device managed action to automatically unregister the notifier block
-> + * upon parent device removal.
-> + *
-> + * Return: 0 on success, or an error code.
-> + */
-> +int devm_lwmi_tm_register_notifier(struct device *dev,
-> +				   struct notifier_block *nb)
-> +{
-> +	int ret;
-> +
-> +	ret = lwmi_tm_register_notifier(nb);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return devm_add_action_or_reset(dev, devm_lwmi_tm_unregister_notifier,
-> +					nb);
-> +}
-> +EXPORT_SYMBOL_NS_GPL(devm_lwmi_tm_register_notifier, "LENOVO_WMI_HELPERS");
-> +
-> +/**
-> + * lwmi_tm_notifier_call() - Call functions for the notifier call chain.
-> + * @mode: Pointer to a thermal mode enum to retrieve the data from.
-> + *
-> + * Call blocking_notifier_call_chain to retrieve the thermal mode from the
-> + * lenovo-wmi-gamezone driver.
-> + *
-> + * Return: 0 on success, or an error code.
-> + */
-> +int lwmi_tm_notifier_call(enum thermal_mode *mode)
-> +{
-> +	int ret;
-> +
-> +	ret = blocking_notifier_call_chain(&tm_chain_head,
-> +					   LWMI_GZ_GET_THERMAL_MODE, &mode);
-> +	if ((ret & ~NOTIFY_STOP_MASK) != NOTIFY_OK)
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_NS_GPL(lwmi_tm_notifier_call, "LENOVO_WMI_HELPERS");
-> +
->  MODULE_AUTHOR("Derek J. Clark <derekjohn.clark@gmail.com>");
->  MODULE_DESCRIPTION("Lenovo WMI Helpers Driver");
->  MODULE_LICENSE("GPL");
-> diff --git a/drivers/platform/x86/lenovo/wmi-helpers.h b/drivers/platform/x86/lenovo/wmi-helpers.h
-> index 20fd21749803..651a039228ed 100644
-> --- a/drivers/platform/x86/lenovo/wmi-helpers.h
-> +++ b/drivers/platform/x86/lenovo/wmi-helpers.h
-> @@ -7,6 +7,8 @@
->  
->  #include <linux/types.h>
->  
-> +struct device;
-> +struct notifier_block;
->  struct wmi_device;
->  
->  struct wmi_method_args_32 {
-> @@ -17,4 +19,10 @@ struct wmi_method_args_32 {
->  int lwmi_dev_evaluate_int(struct wmi_device *wdev, u8 instance, u32 method_id,
->  			  unsigned char *buf, size_t size, u32 *retval);
->  
-> +int lwmi_tm_register_notifier(struct notifier_block *nb);
-> +int lwmi_tm_unregister_notifier(struct notifier_block *nb);
-> +int devm_lwmi_tm_register_notifier(struct device *dev,
-> +				   struct notifier_block *nb);
-> +int lwmi_tm_notifier_call(enum thermal_mode *mode);
+FYI, the error/warning still remains.
 
-This enum is not introduced earlier within this header?
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   bc39b9ac67e8f57d48676c9da3aca1b944590ea6
+commit: 718bf2535e3912862e7f3aedb4a04f7377e7af3b [2/2] ANDROID: KVM: arm64: Fix missing mask for custom hypercall handling
+config: arm64-randconfig-r062-20260327 (https://download.01.org/0day-ci/archive/20260327/202603271932.9KZJHJmo-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603271932.9KZJHJmo-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603271932.9KZJHJmo-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from arch/arm64/kvm/hyp/nvhe/hyp-main.c:7:
+   In file included from include/kvm/arm_hypercalls.h:7:
+   In file included from arch/arm64/include/asm/kvm_emulate.h:14:
+   In file included from include/linux/kvm_host.h:16:
+   In file included from include/linux/mm.h:2180:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from arch/arm64/kvm/hyp/nvhe/hyp-main.c:23:
+   In file included from arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:14:
+   In file included from arch/arm64/kvm/hyp/include/nvhe/memory.h:9:
+   arch/arm64/kvm/hyp/include/nvhe/refcount.h:35:15: error: expected string literal in 'asm'
+      35 |         asm volatile(__LSE_PREAMBLE
+         |                      ^
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:88:6: warning: no previous prototype for function '__pkvm_unmask_serror' [-Wmissing-prototypes]
+      88 | void __pkvm_unmask_serror(void)
+         |      ^
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:88:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      88 | void __pkvm_unmask_serror(void)
+         | ^
+         | static 
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:796:8: warning: unused variable 'vq_len' [-Wunused-variable]
+     796 |                         u64 vq_len = sve_vq_from_vl(kvm_host_sve_max_vl) - 1;
+         |                             ^~~~~~
+>> arch/arm64/kvm/hyp/nvhe/hyp-main.c:1652:32: error: incompatible pointer types passing 'struct user_pt_regs *' to parameter of type 'struct kvm_cpu_context *' [-Werror,-Wincompatible-pointer-types]
+    1652 |         if (handle_host_dynamic_hcall(&host_ctxt->regs, id) == HCALL_HANDLED)
+         |                                       ^~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:25:51: note: passing argument to parameter 'host_ctxt' here
+      25 | handle_host_dynamic_hcall(struct kvm_cpu_context *host_ctxt, int id)
+         |                                                   ^
+   3 warnings and 2 errors generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+
+
+vim +1652 arch/arm64/kvm/hyp/nvhe/hyp-main.c
+
+  1630	
+  1631	static void handle_host_hcall(struct kvm_cpu_context *host_ctxt)
+  1632	{
+  1633		DECLARE_REG(unsigned long, id, host_ctxt, 0);
+  1634		unsigned long hcall_min = 0;
+  1635		hcall_t hfn;
+  1636	
+  1637		/*
+  1638		 * If pKVM has been initialised then reject any calls to the
+  1639		 * early "privileged" hypercalls. Note that we cannot reject
+  1640		 * calls to __pkvm_prot_finalize for two reasons: (1) The static
+  1641		 * key used to determine initialisation must be toggled prior to
+  1642		 * finalisation and (2) finalisation is performed on a per-CPU
+  1643		 * basis. This is all fine, however, since __pkvm_prot_finalize
+  1644		 * returns -EPERM after the first call for a given CPU.
+  1645		 */
+  1646		if (static_branch_unlikely(&kvm_protected_mode_initialized))
+  1647			hcall_min = __KVM_HOST_SMCCC_FUNC___pkvm_prot_finalize;
+  1648	
+  1649		id &= ~ARM_SMCCC_CALL_HINTS;
+  1650		id -= KVM_HOST_SMCCC_ID(0);
+  1651	
+> 1652		if (handle_host_dynamic_hcall(&host_ctxt->regs, id) == HCALL_HANDLED)
+  1653			goto end;
+  1654	
+  1655		if (unlikely(id < hcall_min || id >= ARRAY_SIZE(host_hcall)))
+  1656			goto inval;
+  1657	
+  1658		hfn = host_hcall[id];
+  1659		if (unlikely(!hfn))
+  1660			goto inval;
+  1661	
+  1662		cpu_reg(host_ctxt, 0) = SMCCC_RET_SUCCESS;
+  1663		hfn(host_ctxt);
+  1664	end:
+  1665		trace_host_hcall(id, 0);
+  1666	
+  1667		return;
+  1668	inval:
+  1669		trace_host_hcall(id, 1);
+  1670		cpu_reg(host_ctxt, 0) = SMCCC_RET_NOT_SUPPORTED;
+  1671	}
+  1672	
 
 -- 
- i.
-
-> +
->  #endif /* !_LENOVO_WMI_HELPERS_H_ */
-> diff --git a/drivers/platform/x86/lenovo/wmi-other.c b/drivers/platform/x86/lenovo/wmi-other.c
-> index 6040f45aa2b0..b394cc8168a6 100644
-> --- a/drivers/platform/x86/lenovo/wmi-other.c
-> +++ b/drivers/platform/x86/lenovo/wmi-other.c
-> @@ -40,7 +40,6 @@
->  #include <linux/kobject.h>
->  #include <linux/limits.h>
->  #include <linux/module.h>
-> -#include <linux/notifier.h>
->  #include <linux/platform_profile.h>
->  #include <linux/types.h>
->  #include <linux/wmi.h>
-> @@ -49,7 +48,6 @@
->  #include "wmi-events.h"
->  #include "wmi-gamezone.h"
->  #include "wmi-helpers.h"
-> -#include "wmi-other.h"
->  #include "../firmware_attributes_class.h"
->  
->  #define LENOVO_OTHER_MODE_GUID "DC2A8805-3A8C-41BA-A6F7-092E0089CD3B"
-> @@ -81,7 +79,6 @@
->  #define LWMI_OM_FW_ATTR_BASE_PATH "lenovo-wmi-other"
->  #define LWMI_OM_HWMON_NAME "lenovo_wmi_other"
->  
-> -static BLOCKING_NOTIFIER_HEAD(om_chain_head);
->  static DEFINE_IDA(lwmi_om_ida);
->  
->  enum attribute_property {
-> @@ -109,7 +106,6 @@ struct lwmi_om_priv {
->  	struct device *hwmon_dev;
->  	struct device *fw_attr_dev;
->  	struct kset *fw_attr_kset;
-> -	struct notifier_block nb;
->  	struct wmi_device *wdev;
->  	int ida_id;
->  
-> @@ -576,102 +572,6 @@ struct capdata01_attr_group {
->  	struct tunable_attr_01 *tunable_attr;
->  };
->  
-> -/**
-> - * lwmi_om_register_notifier() - Add a notifier to the blocking notifier chain
-> - * @nb: The notifier_block struct to register
-> - *
-> - * Call blocking_notifier_chain_register to register the notifier block to the
-> - * lenovo-wmi-other driver notifier chain.
-> - *
-> - * Return: 0 on success, %-EEXIST on error.
-> - */
-> -int lwmi_om_register_notifier(struct notifier_block *nb)
-> -{
-> -	return blocking_notifier_chain_register(&om_chain_head, nb);
-> -}
-> -EXPORT_SYMBOL_NS_GPL(lwmi_om_register_notifier, "LENOVO_WMI_OTHER");
-> -
-> -/**
-> - * lwmi_om_unregister_notifier() - Remove a notifier from the blocking notifier
-> - * chain.
-> - * @nb: The notifier_block struct to register
-> - *
-> - * Call blocking_notifier_chain_unregister to unregister the notifier block from the
-> - * lenovo-wmi-other driver notifier chain.
-> - *
-> - * Return: 0 on success, %-ENOENT on error.
-> - */
-> -int lwmi_om_unregister_notifier(struct notifier_block *nb)
-> -{
-> -	return blocking_notifier_chain_unregister(&om_chain_head, nb);
-> -}
-> -EXPORT_SYMBOL_NS_GPL(lwmi_om_unregister_notifier, "LENOVO_WMI_OTHER");
-> -
-> -/**
-> - * devm_lwmi_om_unregister_notifier() - Remove a notifier from the blocking
-> - * notifier chain.
-> - * @data: Void pointer to the notifier_block struct to register.
-> - *
-> - * Call lwmi_om_unregister_notifier to unregister the notifier block from the
-> - * lenovo-wmi-other driver notifier chain.
-> - *
-> - * Return: 0 on success, %-ENOENT on error.
-> - */
-> -static void devm_lwmi_om_unregister_notifier(void *data)
-> -{
-> -	struct notifier_block *nb = data;
-> -
-> -	lwmi_om_unregister_notifier(nb);
-> -}
-> -
-> -/**
-> - * devm_lwmi_om_register_notifier() - Add a notifier to the blocking notifier
-> - * chain.
-> - * @dev: The parent device of the notifier_block struct.
-> - * @nb: The notifier_block struct to register
-> - *
-> - * Call lwmi_om_register_notifier to register the notifier block to the
-> - * lenovo-wmi-other driver notifier chain. Then add devm_lwmi_om_unregister_notifier
-> - * as a device managed action to automatically unregister the notifier block
-> - * upon parent device removal.
-> - *
-> - * Return: 0 on success, or an error code.
-> - */
-> -int devm_lwmi_om_register_notifier(struct device *dev,
-> -				   struct notifier_block *nb)
-> -{
-> -	int ret;
-> -
-> -	ret = lwmi_om_register_notifier(nb);
-> -	if (ret < 0)
-> -		return ret;
-> -
-> -	return devm_add_action_or_reset(dev, devm_lwmi_om_unregister_notifier,
-> -					nb);
-> -}
-> -EXPORT_SYMBOL_NS_GPL(devm_lwmi_om_register_notifier, "LENOVO_WMI_OTHER");
-> -
-> -/**
-> - * lwmi_om_notifier_call() - Call functions for the notifier call chain.
-> - * @mode: Pointer to a thermal mode enum to retrieve the data from.
-> - *
-> - * Call blocking_notifier_call_chain to retrieve the thermal mode from the
-> - * lenovo-wmi-gamezone driver.
-> - *
-> - * Return: 0 on success, or an error code.
-> - */
-> -static int lwmi_om_notifier_call(enum thermal_mode *mode)
-> -{
-> -	int ret;
-> -
-> -	ret = blocking_notifier_call_chain(&om_chain_head,
-> -					   LWMI_GZ_GET_THERMAL_MODE, &mode);
-> -	if ((ret & ~NOTIFY_STOP_MASK) != NOTIFY_OK)
-> -		return -EINVAL;
-> -
-> -	return 0;
-> -}
-> -
->  /* Attribute Methods */
->  
->  /**
-> @@ -780,7 +680,7 @@ static ssize_t attr_current_value_store(struct kobject *kobj,
->  	u32 value;
->  	int ret;
->  
-> -	ret = lwmi_om_notifier_call(&mode);
-> +	ret = lwmi_tm_notifier_call(&mode);
->  	if (ret)
->  		return ret;
->  
-> @@ -842,7 +742,7 @@ static ssize_t attr_current_value_show(struct kobject *kobj,
->  	int retval;
->  	int ret;
->  
-> -	ret = lwmi_om_notifier_call(&mode);
-> +	ret = lwmi_tm_notifier_call(&mode);
->  	if (ret)
->  		return ret;
->  
-> diff --git a/drivers/platform/x86/lenovo/wmi-other.h b/drivers/platform/x86/lenovo/wmi-other.h
-> deleted file mode 100644
-> index 8ebf5602bb99..000000000000
-> --- a/drivers/platform/x86/lenovo/wmi-other.h
-> +++ /dev/null
-> @@ -1,16 +0,0 @@
-> -/* SPDX-License-Identifier: GPL-2.0-or-later */
-> -
-> -/* Copyright (C) 2025 Derek J. Clark <derekjohn.clark@gmail.com> */
-> -
-> -#ifndef _LENOVO_WMI_OTHER_H_
-> -#define _LENOVO_WMI_OTHER_H_
-> -
-> -struct device;
-> -struct notifier_block;
-> -
-> -int lwmi_om_register_notifier(struct notifier_block *nb);
-> -int lwmi_om_unregister_notifier(struct notifier_block *nb);
-> -int devm_lwmi_om_register_notifier(struct device *dev,
-> -				   struct notifier_block *nb);
-> -
-> -#endif /* !_LENOVO_WMI_OTHER_H_ */
-> 
-> base-commit: 0138af2472dfdef0d56fc4697416eaa0ff2589bd
-> 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
