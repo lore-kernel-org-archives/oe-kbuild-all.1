@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63BC71A08AF
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 02:02:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C18E368296
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 03:15:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774576960; cv=none; b=AclIp2T3tY5Xcm7XLFv+3Bnlzl969D8BvytPMYZTu/rtmXXanbLEeJFqhmaaDNoiF+uTj35qDgJf5cdvYrZsisxBnmDdv+9z+UrfG14MOUnd2xn0vAxImd9P+6w7KuHOOQp4qKdLjlJj67eQIPsErRClhoWSDIQV9KyqVTaknRw=
+	t=1774581345; cv=none; b=Okx20OvIzwu2tdNwii/GMknFeexUCaTS+BiU5mvrXN13CLml277VWjZywoRDd6mQK2LuuKv39sl4pUCS7RtFi2lNoc5x82zX+WGigE46knR5fSUQ9AFTQG0vIYw4Hd6xQzefRDuZUwIzB4eIyYqyD9DGSDC8WTjDKb1BDfg7cv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774576960; c=relaxed/simple;
-	bh=FzdE07b2tYW45qx8aG1KgKrXn+V2mnBg1Hg2NjRtGZE=;
+	s=arc-20240116; t=1774581345; c=relaxed/simple;
+	bh=fQPlU7/Z7DRYjinTle+GkOZKLOiZiZPrCs7WOMiVU5A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P24HiSkFnthnIr6/wXkBQFsa6o83ckz5qw45xbLeaN72pYLQnj09dcPQVsKmrmwRZdAADYwMbgpcaDzWdWOoYgtxSkl0IKMOngXRGu2kWFvaYU7X2jF0kmoGFZ9BIblbdaT7NkUkvbTL13fAKTpNYw9xFlo4+dYcZ+muJDHlp3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R569ta++; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=m3nh30aVakx1mBta6JrsxS0XiAD8+SLWOm2lp1wA2/9K3/S7cPleFIFJ55fv9m6acFDq9vbMZUmJwn9zU/2oZr8bmozXjvUF5J7NCs9QhJvAGVNRVyUIREkF4GLpgcSCTFLF/8MPjLuG1Qk56z0B3XujyURu31uiARlvmPtsLG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rzr4cZNh; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R569ta++"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rzr4cZNh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774576959; x=1806112959;
+  t=1774581345; x=1806117345;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=FzdE07b2tYW45qx8aG1KgKrXn+V2mnBg1Hg2NjRtGZE=;
-  b=R569ta++Q5vhCaPPYQhgv2EcRCPW2FZW3HpfoTjCJlF0Vc/YVPtSWRxH
-   7VZVg2v8nGLWmQgw+THBRxUfvHyxkhko2M6C3cP8Y40dYYMjizu2ibINK
-   elw04H3mDCfTxUKeg712ozYVcfcjowxN0lvAtOfXnQ05VavmqoR5gnEjd
-   OnMXfc4tzb2DDmx71rua7mIjxa4pRH0ivZMxbdC5ASIhLZceUhKBFBUxU
-   VzCvwWE0s+tFSKS8eqOHrI9qQqnDOJ1HDMO2xqYNodf0k9t1gDF6anVhz
-   UfXjOUamSbyo3f5bMxw09/YQrVLaDO/6Y7TuM3zbKInDSh6rFFCHhb+la
-   A==;
-X-CSE-ConnectionGUID: 72wM3DJ5SxizNs1wE488uw==
-X-CSE-MsgGUID: bKtsY5wvRgql/7uBfmetYA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="86342211"
+  bh=fQPlU7/Z7DRYjinTle+GkOZKLOiZiZPrCs7WOMiVU5A=;
+  b=Rzr4cZNhiOE9ReHtZlBTRhNp4NlTPr/Qx6nsb9b7T/uZNxJuqY0oP6+D
+   eANvBGDzv+2d0m6Qpt7/YLqMrCe4GpFUbu3KuO0CGqob5fUPKEGcPFgZy
+   pUQVmPQq2X93YvRJ6V0STbF6GO74G3PhQxGfB04tVU+frkKgyPuKTBtpu
+   2IXBnuSLSsrxw4GcE0nUfyhZeKLc24p2hINb198KbnwuU6q8BW/Z2dUKx
+   cAZnACMc1d1Iy/m7WZijz8ahqTRIQUSUpipRoHuytdqtPcGm6K1eIY/aW
+   LUAYy4poTX87EZSiFxLyAusIHcUT6Z+ocvmM00Stav/ZMEarDM1ekPDRi
+   g==;
+X-CSE-ConnectionGUID: V6adGZDXSZWAQasrz+ZXXQ==
+X-CSE-MsgGUID: 6X4SDj26SCiYAxlZB9aX2A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="75620423"
 X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="86342211"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 19:02:38 -0700
-X-CSE-ConnectionGUID: rfb/XM8NTw+aZJ5SeDGSAQ==
-X-CSE-MsgGUID: lPaqEe1WTpuvzSZ78gXIMg==
+   d="scan'208";a="75620423"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 20:15:45 -0700
+X-CSE-ConnectionGUID: fgdNJfD2RxeE8wneYslVhA==
+X-CSE-MsgGUID: TYwQd9FQTXysIQeRRWnxqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="221864164"
+   d="scan'208";a="248232807"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 26 Mar 2026 19:02:38 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 26 Mar 2026 20:15:42 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5wWx-000000009eb-2Yl1;
-	Fri, 27 Mar 2026 02:02:35 +0000
-Date: Fri, 27 Mar 2026 10:02:02 +0800
+	id 1w5xff-000000009if-3DD9;
+	Fri, 27 Mar 2026 03:15:39 +0000
+Date: Fri, 27 Mar 2026 11:15:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tianyu Lan <ltykernel@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH V3] x86/VMBus: Confidential VMBus for dynamic DMA
- transfers
-Message-ID: <202603270900.wxNPPy02-lkp@intel.com>
-References: <20260325075649.248241-1-tiala@microsoft.com>
+To: Yosry Ahmed <yosry@kernel.org>, Sean Christopherson <seanjc@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, Paolo Bonzini <pbonzini@redhat.com>,
+	Jim Mattson <jmattson@google.com>, kvm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Yosry Ahmed <yosry@kernel.org>
+Subject: Re: [PATCH v4 2/6] KVM: x86: Move guest_mode helpers to x86.h
+Message-ID: <202603271150.0WNYfBuF-lkp@intel.com>
+References: <20260326031150.3774017-3-yosry@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,116 +64,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260325075649.248241-1-tiala@microsoft.com>
+In-Reply-To: <20260326031150.3774017-3-yosry@kernel.org>
 
-Hi Tianyu,
+Hi Yosry,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v7.0-rc5 next-20260326]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 3d6cdcc8883b5726513d245eef0e91cabfc397f7]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tianyu-Lan/x86-VMBus-Confidential-VMBus-for-dynamic-DMA-transfers/20260325-162853
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260325075649.248241-1-tiala%40microsoft.com
-patch subject: [RFC PATCH V3] x86/VMBus: Confidential VMBus for dynamic DMA transfers
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260327/202603270900.wxNPPy02-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Yosry-Ahmed/KVM-x86-Move-enable_pmu-enable_mediated_pmu-to-pmu-h-and-pmu-c/20260326-191518
+base:   3d6cdcc8883b5726513d245eef0e91cabfc397f7
+patch link:    https://lore.kernel.org/r/20260326031150.3774017-3-yosry%40kernel.org
+patch subject: [PATCH v4 2/6] KVM: x86: Move guest_mode helpers to x86.h
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260327/202603271150.0WNYfBuF-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603270900.wxNPPy02-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603271150.0WNYfBuF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603270900.wxNPPy02-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603271150.0WNYfBuF-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/hv/vmbus_drv.c: In function 'vmbus_device_register':
->> drivers/hv/vmbus_drv.c:2194:17: error: implicit declaration of function 'swiotlb_dev_disable' [-Wimplicit-function-declaration]
-    2194 |                 swiotlb_dev_disable(&child_device_obj->device);
-         |                 ^~~~~~~~~~~~~~~~~~~
+   In file included from arch/x86/kvm/svm/svm_onhyperv.c:11:
+   arch/x86/kvm/svm/svm.h: In function 'svm_mark_intercepts_dirty':
+>> arch/x86/kvm/svm/svm.h:520:13: error: implicit declaration of function 'is_guest_mode' [-Wimplicit-function-declaration]
+     520 |         if (is_guest_mode(&svm->vcpu))
+         |             ^~~~~~~~~~~~~
+   In file included from arch/x86/kvm/svm/svm_ops.h:7,
+                    from arch/x86/kvm/svm/svm_onhyperv.c:12:
+   arch/x86/kvm/x86.h: At top level:
+>> arch/x86/kvm/x86.h:169:20: error: conflicting types for 'is_guest_mode'; have 'bool(struct kvm_vcpu *)' {aka '_Bool(struct kvm_vcpu *)'}
+     169 | static inline bool is_guest_mode(struct kvm_vcpu *vcpu)
+         |                    ^~~~~~~~~~~~~
+   arch/x86/kvm/svm/svm.h:520:13: note: previous implicit declaration of 'is_guest_mode' with type 'int()'
+     520 |         if (is_guest_mode(&svm->vcpu))
+         |             ^~~~~~~~~~~~~
+--
+   In file included from kvm/svm/svm_onhyperv.c:11:
+   kvm/svm/svm.h: In function 'svm_mark_intercepts_dirty':
+   kvm/svm/svm.h:520:13: error: implicit declaration of function 'is_guest_mode' [-Wimplicit-function-declaration]
+     520 |         if (is_guest_mode(&svm->vcpu))
+         |             ^~~~~~~~~~~~~
+   In file included from kvm/svm/svm_ops.h:7,
+                    from kvm/svm/svm_onhyperv.c:12:
+   arch/x86/kvm/x86.h: At top level:
+>> arch/x86/kvm/x86.h:169:20: error: conflicting types for 'is_guest_mode'; have 'bool(struct kvm_vcpu *)' {aka '_Bool(struct kvm_vcpu *)'}
+     169 | static inline bool is_guest_mode(struct kvm_vcpu *vcpu)
+         |                    ^~~~~~~~~~~~~
+   kvm/svm/svm.h:520:13: note: previous implicit declaration of 'is_guest_mode' with type 'int()'
+     520 |         if (is_guest_mode(&svm->vcpu))
+         |             ^~~~~~~~~~~~~
 
 
-vim +/swiotlb_dev_disable +2194 drivers/hv/vmbus_drv.c
+vim +/is_guest_mode +520 arch/x86/kvm/svm/svm.h
 
-  2172	
-  2173	/*
-  2174	 * vmbus_device_register - Register the child device
-  2175	 */
-  2176	int vmbus_device_register(struct hv_device *child_device_obj)
-  2177	{
-  2178		struct kobject *kobj = &child_device_obj->device.kobj;
-  2179		int ret;
-  2180	
-  2181		dev_set_name(&child_device_obj->device, "%pUl",
-  2182			     &child_device_obj->channel->offermsg.offer.if_instance);
-  2183	
-  2184		child_device_obj->device.bus = &hv_bus;
-  2185		child_device_obj->device.parent = vmbus_root_device;
-  2186		child_device_obj->device.release = vmbus_device_release;
-  2187	
-  2188		child_device_obj->device.dma_parms = &child_device_obj->dma_parms;
-  2189		child_device_obj->device.dma_mask = &child_device_obj->dma_mask;
-  2190		dma_set_mask(&child_device_obj->device, DMA_BIT_MASK(64));
-  2191	
-  2192		device_initialize(&child_device_obj->device);
-  2193		if (child_device_obj->channel->co_external_memory)
-> 2194			swiotlb_dev_disable(&child_device_obj->device);
-  2195	
-  2196		/*
-  2197		 * Register with the LDM. This will kick off the driver/device
-  2198		 * binding...which will eventually call vmbus_match() and vmbus_probe()
-  2199		 */
-  2200		ret = device_add(&child_device_obj->device);
-  2201		if (ret) {
-  2202			pr_err("Unable to register child device\n");
-  2203			put_device(&child_device_obj->device);
-  2204			return ret;
-  2205		}
-  2206	
-  2207		/*
-  2208		 * If device_register() found a driver to assign to the device, the
-  2209		 * driver's probe function has already run at this point. If that
-  2210		 * probe function accesses or operates on the "channels" subdirectory
-  2211		 * in sysfs, those operations will have failed because the "channels"
-  2212		 * subdirectory doesn't exist until the code below runs. Or if the
-  2213		 * probe function creates a /dev entry, a user space program could
-  2214		 * find and open the /dev entry, and then create a race by accessing
-  2215		 * the "channels" subdirectory while the creation steps are in progress
-  2216		 * here. The race can't result in a kernel failure, but the user space
-  2217		 * program may get an error in accessing "channels" or its
-  2218		 * subdirectories. See also comments with vmbus_add_dynid() about a
-  2219		 * related race condition.
-  2220		 */
-  2221		child_device_obj->channels_kset = kset_create_and_add("channels",
-  2222								      NULL, kobj);
-  2223		if (!child_device_obj->channels_kset) {
-  2224			ret = -ENOMEM;
-  2225			goto err_dev_unregister;
-  2226		}
-  2227	
-  2228		ret = vmbus_add_channel_kobj(child_device_obj,
-  2229					     child_device_obj->channel);
-  2230		if (ret) {
-  2231			pr_err("Unable to register primary channel\n");
-  2232			goto err_kset_unregister;
-  2233		}
-  2234		hv_debug_add_dev_dir(child_device_obj);
-  2235	
-  2236		return 0;
-  2237	
-  2238	err_kset_unregister:
-  2239		kset_unregister(child_device_obj->channels_kset);
-  2240	
-  2241	err_dev_unregister:
-  2242		device_unregister(&child_device_obj->device);
-  2243		return ret;
-  2244	}
-  2245	
+0b97f929831a70 Sean Christopherson 2026-02-18  509  
+0b97f929831a70 Sean Christopherson 2026-02-18  510  static inline void svm_mark_intercepts_dirty(struct vcpu_svm *svm)
+0b97f929831a70 Sean Christopherson 2026-02-18  511  {
+0b97f929831a70 Sean Christopherson 2026-02-18  512  	vmcb_mark_dirty(svm->vmcb01.ptr, VMCB_INTERCEPTS);
+0b97f929831a70 Sean Christopherson 2026-02-18  513  
+0b97f929831a70 Sean Christopherson 2026-02-18  514  	/*
+0b97f929831a70 Sean Christopherson 2026-02-18  515  	 * If L2 is active, recalculate the intercepts for vmcb02 to account
+0b97f929831a70 Sean Christopherson 2026-02-18  516  	 * for the changes made to vmcb01.  All intercept configuration is done
+0b97f929831a70 Sean Christopherson 2026-02-18  517  	 * for vmcb01 and then propagated to vmcb02 to combine KVM's intercepts
+0b97f929831a70 Sean Christopherson 2026-02-18  518  	 * with L1's intercepts (from the vmcb12 snapshot).
+0b97f929831a70 Sean Christopherson 2026-02-18  519  	 */
+0b97f929831a70 Sean Christopherson 2026-02-18 @520  	if (is_guest_mode(&svm->vcpu))
+0b97f929831a70 Sean Christopherson 2026-02-18  521  		nested_vmcb02_recalc_intercepts(svm);
+0b97f929831a70 Sean Christopherson 2026-02-18  522  }
+0b97f929831a70 Sean Christopherson 2026-02-18  523  
 
 -- 
 0-DAY CI Kernel Test Service
