@@ -1,73 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E10B37FF46;
-	Fri, 27 Mar 2026 20:36:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF8C38D681
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 20:58:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774643785; cv=none; b=TuYy+Tu+ynWFVL9CgTstuAT4wyj67+S137BwR0tPM1CXzncu1v3qfaORnOSU9FSPMF0oI03CHCnhjKewRfxRnb8MvdPU3Zps6Ps3kbuFCvGBtgHzf1FdX4MEfs+3c8O+dCftsJtu3AXHd84xu03gvsLvy7e25yWmOAdJCyrHlyg=
+	t=1774645107; cv=none; b=qhNO6cz+rgH+ieTZa6dlfTDdP7XKeW7usKXYRt2l+cv6kJbp1u7lzYF6uHuw/jWF97sjvLdw02j22Vs0Rfgit7gO9n2d3c/tV/5CqUEvluZlAlczbsqLCrFkcW0K6HxHCeyY0398tiBnJrRCkrdYsZRkYioi5zs3lc9erXqBUmM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774643785; c=relaxed/simple;
-	bh=K+3x6PtritfWk9C1nQwD73Ya4/x0FXHq0EqkCD8gGFY=;
+	s=arc-20240116; t=1774645107; c=relaxed/simple;
+	bh=SQR0YyvvNKZ19ivSH0b+y9Tjg/QCeOc1Y/8TMEN1CZY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PAmvcbkresI5vPvaoXDA8GdZiGCuAQBDzupwe8/UW3ON16RsgzTD9RysmTlHsKc50kzgC3/hKDWZ6vr4QtxVwRWK5JfxhAQF1qkgJKqedbNfV/Oa1TL/jnE2ApfuiQMzYoUYJjeNafluggrFKVfiW/RSr4kPldctUz6m+eOLTxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bwpxDlR9; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZRn5T345/JAWGL7N/PdTqtrUv8rmDEwQzPLfi3NWA7EH0NzRcb6v05z0xlLioKlwEP6HsPF6H1qebmYS1aSV4foFfrHMg6vd0DLV4Mc8CMpFSCAqqxL9CFUXeZfHYRLEkZd6+zLZbQ66CZPiv6nOauqWfoSQ5N+J6vPnGYVIczs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lD6nwNrx; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bwpxDlR9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lD6nwNrx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774643783; x=1806179783;
+  t=1774645106; x=1806181106;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=K+3x6PtritfWk9C1nQwD73Ya4/x0FXHq0EqkCD8gGFY=;
-  b=bwpxDlR9YMcSmsqGmgmUt2npDtVxrGI2rYYKftzAkivpAHbKlCu2WOHC
-   duNrK4Jj9n1CwOuzCFePxcDN864fZEZccjPwx02/hZCoONF54tUeuIFR8
-   nIfja1qblNXnZp2MyN4bR0nBd3CkyWWNqF4EEbCjqRXttPnypGBQ8p2x9
-   ytYixxZjogJ5xN+nIv0ALXfM/OAClQao18IYN1CeqNP6wUhnmxzHdi6cF
-   RA41rR3DZVQrYGfb4HLDSQFXro7SrTGvNjIXuo5M/9EOf1Kzy06bnXGwI
-   kVt4FyHlzU3hXiK+tFebspnji3JwTK1EpoTCRMwNBfvx5s+wPjBYNPGoy
-   Q==;
-X-CSE-ConnectionGUID: Z4WDEqmJT0CU/ubVYF+y3w==
-X-CSE-MsgGUID: Lf1i62LJRgGZkoVFyO4iBQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="75837767"
+  bh=SQR0YyvvNKZ19ivSH0b+y9Tjg/QCeOc1Y/8TMEN1CZY=;
+  b=lD6nwNrxz5fEkD/rjuOV/yxrAuQSTOwl4XbcnbF5GgdjSX38135XdgRt
+   1jGaLB4w635yI3iSNpzbtuAf9BHn4pNucgulT8ZeDCbCJwDsQDQ8IG7mT
+   egbC3bJcXw8F07ZXa5HNnwdJwTwy6JD6WPi8Y8GkPWQPUZGvJbGD7hd+J
+   uPVZcBUMrb1YhQsX25g166hzCC1jHQCesDbv8nmHbpDehobPlHjAJVKYz
+   GRoSZe8bH0je5cRr3EYc3UWJEWFXRbSDKAH7g/uucXr6DEKt9SetUFMs7
+   U87VseAAnxkEcYgAVNkHHEbaaHlFXpYugF+IMjL/1gmNw+Yz0BDn2gyyw
+   w==;
+X-CSE-ConnectionGUID: LZ9s4fwmRdGbQ448TesYNA==
+X-CSE-MsgGUID: IThAgbsXRuS41lY58E53Ng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="75439711"
 X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="75837767"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 13:36:23 -0700
-X-CSE-ConnectionGUID: 5h9g+1yxSHCGjuLUf+1o7w==
-X-CSE-MsgGUID: /t6mi/JvTl6RnRPEiOcDLA==
+   d="scan'208";a="75439711"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 13:58:25 -0700
+X-CSE-ConnectionGUID: UYhKLyDwTgG2QT2x7s+T8g==
+X-CSE-MsgGUID: hT6cdgmqQ9CvuiYlrtr0LA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="222544307"
+   d="scan'208";a="221023310"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 27 Mar 2026 13:36:19 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 27 Mar 2026 13:58:21 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w6Dui-00000000Air-0iAE;
-	Fri, 27 Mar 2026 20:36:16 +0000
-Date: Sat, 28 Mar 2026 04:35:55 +0800
+	id 1w6EG2-00000000Ak1-2ELz;
+	Fri, 27 Mar 2026 20:58:18 +0000
+Date: Sat, 28 Mar 2026 04:58:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Ahmed S. Darwish" <darwi@linutronix.de>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Ingo Molnar <mingo@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, Thomas Gleixner <tglx@linutronix.de>,
-	Andrew Cooper <andrew.cooper3@citrix.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Sean Christopherson <seanjc@google.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Christian Ludloff <ludloff@gmail.com>,
-	Sohil Mehta <sohil.mehta@intel.com>,
-	John Ogness <john.ogness@linutronix.de>, x86@kernel.org,
-	x86-cpuid@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
-	"Ahmed S. Darwish" <darwi@linutronix.de>
-Subject: Re: [PATCH v6 86/90] x86/cpu/transmeta: Remove x86_capability[]
- CPUID initialization
-Message-ID: <202603280449.C5WZiJry-lkp@intel.com>
-References: <20260327021645.555257-87-darwi@linutronix.de>
+To: Ryan Chen <ryan_chen@aspeedtech.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Thomas Gleixner <tglx@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+	Ryan Chen <ryan_chen@aspeedtech.com>
+Subject: Re: [PATCH v3 3/4] irqchip/ast2700-intc: Add KUnit tests for route
+ resolution
+Message-ID: <202603280415.xv0eHt8u-lkp@intel.com>
+References: <20260326-irqchip-v3-3-366739f57acf@aspeedtech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,58 +72,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260327021645.555257-87-darwi@linutronix.de>
+In-Reply-To: <20260326-irqchip-v3-3-366739f57acf@aspeedtech.com>
 
-Hi Ahmed,
+Hi Ryan,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on c369299895a591d96745d6492d4888259b004a9e]
+[auto build test WARNING on 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ahmed-S-Darwish/ASoC-Intel-avs-Check-maximum-valid-CPUID-leaf/20260327-215933
-base:   c369299895a591d96745d6492d4888259b004a9e
-patch link:    https://lore.kernel.org/r/20260327021645.555257-87-darwi%40linutronix.de
-patch subject: [PATCH v6 86/90] x86/cpu/transmeta: Remove x86_capability[] CPUID initialization
-config: i386-buildonly-randconfig-006-20260328 (https://download.01.org/0day-ci/archive/20260328/202603280449.C5WZiJry-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603280449.C5WZiJry-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Chen/dt-bindings-interrupt-controller-Describe-AST2700-A2-hardware-instead-of-A0/20260327-190127
+base:   6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+patch link:    https://lore.kernel.org/r/20260326-irqchip-v3-3-366739f57acf%40aspeedtech.com
+patch subject: [PATCH v3 3/4] irqchip/ast2700-intc: Add KUnit tests for route resolution
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260328/202603280415.xv0eHt8u-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603280415.xv0eHt8u-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603280449.C5WZiJry-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603280415.xv0eHt8u-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/x86/kernel/cpu/transmeta.c: In function 'init_transmeta':
->> arch/x86/kernel/cpu/transmeta.c:70:9: error: implicit declaration of function 'early_init_transmeta'; did you mean 'init_transmeta'? [-Wimplicit-function-declaration]
-      70 |         early_init_transmeta(c);
-         |         ^~~~~~~~~~~~~~~~~~~~
-         |         init_transmeta
+   drivers/irqchip/irq-ast2700-intc0-test.c: In function 'aspeed_intc0_resolve_route_c1i1o1mc0i2o1':
+>> drivers/irqchip/irq-ast2700-intc0-test.c:351:1: warning: the frame size of 1296 bytes is larger than 1280 bytes [-Wframe-larger-than=]
+     351 | }
+         | ^
+   drivers/irqchip/irq-ast2700-intc0-test.c: In function 'aspeed_intc0_resolve_route_c1i2o2mc0i1o1':
+   drivers/irqchip/irq-ast2700-intc0-test.c:292:1: warning: the frame size of 1296 bytes is larger than 1280 bytes [-Wframe-larger-than=]
+     292 | }
+         | ^
 
 
-vim +70 arch/x86/kernel/cpu/transmeta.c
+vim +351 drivers/irqchip/irq-ast2700-intc0-test.c
 
-fe8a36b887f719 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27  65  
-fe8a36b887f719 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27  66  static void init_transmeta(struct cpuinfo_x86 *c)
-fe8a36b887f719 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27  67  {
-fe8a36b887f719 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27  68  	unsigned int cap_mask, uk;
-fe8a36b887f719 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27  69  
-fe8a36b887f719 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27 @70  	early_init_transmeta(c);
-fe8a36b887f719 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27  71  	cpu_detect_cache_sizes(c);
-fe8a36b887f719 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27  72  
-fe8a36b887f719 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27  73  	print_cpu_revision(c);
-fe8a36b887f719 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27  74  	print_cpu_info_string(c);
-^1da177e4c3f41 arch/i386/kernel/cpu/transmeta.c Linus Torvalds   2005-04-16  75  
-^1da177e4c3f41 arch/i386/kernel/cpu/transmeta.c Linus Torvalds   2005-04-16  76  	/* Unhide possibly hidden capability flags */
-^1da177e4c3f41 arch/i386/kernel/cpu/transmeta.c Linus Torvalds   2005-04-16  77  	rdmsr(0x80860004, cap_mask, uk);
-^1da177e4c3f41 arch/i386/kernel/cpu/transmeta.c Linus Torvalds   2005-04-16  78  	wrmsr(0x80860004, ~0, uk);
-3ad602b4fa9f92 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27  79  	cpuid_refresh_leaf(c, 0x1);
-^1da177e4c3f41 arch/i386/kernel/cpu/transmeta.c Linus Torvalds   2005-04-16  80  	wrmsr(0x80860004, cap_mask, uk);
-^1da177e4c3f41 arch/i386/kernel/cpu/transmeta.c Linus Torvalds   2005-04-16  81  
-30b82ea08c3365 arch/i386/kernel/cpu/transmeta.c H. Peter Anvin   2007-02-13  82  	/* All Transmeta CPUs have a constant TSC */
-10cd5a1e5403d7 arch/x86/kernel/cpu/transmeta.c  Ingo Molnar      2008-02-26  83  	set_cpu_cap(c, X86_FEATURE_CONSTANT_TSC);
-30b82ea08c3365 arch/i386/kernel/cpu/transmeta.c H. Peter Anvin   2007-02-13  84  
+   293	
+   294	static void aspeed_intc0_resolve_route_c1i1o1mc0i2o1(struct kunit *test)
+   295	{
+   296		struct device_node intc0_node = {
+   297			.fwnode = { .ops = &intc0_fwnode_ops },
+   298		};
+   299		struct aspeed_intc_interrupt_range c1ranges[] = {
+   300			{
+   301				.start = 0,
+   302				.count = 1,
+   303				.upstream = {
+   304					.fwnode = &intc0_node.fwnode,
+   305					.param_count = 1,
+   306					.param = { 510 }
+   307				}
+   308			},
+   309		};
+   310		static const u32 c1outs[] = { 0 };
+   311		struct aspeed_intc_interrupt_range resolved;
+   312		struct aspeed_intc_interrupt_range intc0_ranges[] = {
+   313			{
+   314				.start = 192,
+   315				.count = 1,
+   316				.upstream = {
+   317					.fwnode = NULL,
+   318					.param_count = 0,
+   319					.param = {0},
+   320				}
+   321			},
+   322			{
+   323				.start = 208,
+   324				.count = 1,
+   325				.upstream = {
+   326					.fwnode = NULL,
+   327					.param_count = 0,
+   328					.param = {0},
+   329				}
+   330			}
+   331		};
+   332		struct aspeed_intc0 intc0 = {
+   333			.ranges = {
+   334				.ranges = intc0_ranges,
+   335				.nranges = ARRAY_SIZE(intc0_ranges),
+   336			}
+   337		};
+   338		const struct irq_domain c0domain = {
+   339			.host_data = &intc0,
+   340			.fwnode = &intc0_node.fwnode
+   341		};
+   342		int rc;
+   343	
+   344		rc = aspeed_intc0_resolve_route(&c0domain, ARRAY_SIZE(c1outs), c1outs,
+   345						ARRAY_SIZE(c1ranges), c1ranges,
+   346						&resolved);
+   347		KUNIT_EXPECT_EQ(test, rc, 0);
+   348		KUNIT_EXPECT_EQ(test, resolved.start, 0);
+   349		KUNIT_EXPECT_EQ(test, resolved.count, 1);
+   350		KUNIT_EXPECT_EQ(test, resolved.upstream.param[0], 510);
+ > 351	}
+   352	
 
 -- 
 0-DAY CI Kernel Test Service
