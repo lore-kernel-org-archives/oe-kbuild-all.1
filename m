@@ -1,155 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33813396B69;
-	Fri, 27 Mar 2026 12:51:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2493F9FB
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 13:53:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774615901; cv=none; b=QZp1k/x2+wKAHCaUfGqebRhUhGtQ/uVxWkC2P9kSMjq3SgGeWVzPaCJmIMvbAO1aEhsaYDa4DzsDi64XBftwqbm4NwCdqEP4hFC9mpjXPQCW5niTrzjMYmqCscs/LHaU0grR/Y1JOJtTzUeJm4ycVW0JLeNWY6cOTVuHfYlK6bw=
+	t=1774619623; cv=none; b=hDPLPqgBFrNWg42H+UNqM7BXKM6aTERoZDwI+EyXyx9BxS71wb4JzZb0NC9T0b1+a6Qz1K1TptDHjWotiYsfFy8bzD4qlLr0GkW2mSsGaqlIZe+fdCV66PiZZEa3LAQfhoi7g7C48JJNmA5zv46Zj+bxokB3ZlML1goU8Y913AA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774615901; c=relaxed/simple;
-	bh=igR2uwWnIP1vFte7MCw7gFeiS0hftkmp0XPSK5xd0BI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tjLrOFpsvRjb0WUvDSdSzJzLKJl//RGKk3tTPptOmzHIXZ2w6GqLpb4v28+/6ohHs4Rs8Lu7xIqfpDtBLX6/Apg4PKD8tFLbUHWGWNRMsAtBlqGLquKXXOsN9XfotGGqvrsMOKuGUwItfe42BqoAMWRac27uBY3RXj/JKmbVSYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lW+svofX; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1774619623; c=relaxed/simple;
+	bh=rPv1tCnkNa+VvwyXLvuBBya0JVOEQ1HbdTVUPPCL2CE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=gQv/WK7mzxg9Le1oyKrUWHsZxDQeI6xB8Z+RYdycXLlimxproLVIZ4U4FHCuslSt0qnID5QZMnbfuZGhndNq3niomkC+bEnphJrFf+GzKBphEEAegfrZSc+ty9xZiDVp1ozf9bFHszw0sy4nWS/1EbPIuPwKWuuyoFfTfMNU6z8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=krBHkvSC; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lW+svofX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="krBHkvSC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774615899; x=1806151899;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=igR2uwWnIP1vFte7MCw7gFeiS0hftkmp0XPSK5xd0BI=;
-  b=lW+svofXR1dcb7xz1skBx55OYpbI+0167QdgBl+c2uI/NLfnknDEM2sV
-   RNiQfh/vrZ5V2GjPV2QRYqMLOJVk9KkQCNCEHTP/wkzoFSNbpeip94Eox
-   Q2eoHCx8+aRdc+ULHYFnVfJRzWAx2nO7U4G0nqLjiaxHEPGjrF3mwzSkZ
-   Q9+kjMMufibRNTiJFgrqhW7D0ijTxO7/H+fhjoaIOIbqpPyLc6OTdXdk4
-   EXePy9fIEj7y+w7Aeg13+UZGiWIw79t7kPUIjfTo7tkQJt1eq46Anlvwh
-   dMr+jPwM6awZy8zXbq4FhKid23XA0g7rYwgUOX7tS/qHoQFzD+ocvdExz
+  t=1774619622; x=1806155622;
+  h=date:from:to:cc:subject:message-id;
+  bh=rPv1tCnkNa+VvwyXLvuBBya0JVOEQ1HbdTVUPPCL2CE=;
+  b=krBHkvSCSrvt1ITjhg000GqXEIByyXwlsBOjq92+U6XPlYNbRYcaqHzN
+   TUzQ3f0XsmTScjPwttn1lhxGTZ2c1eg9yN8D0NcWmUf2lE3FAuV1a/aBW
+   a1F1bZ5nuYlJZpPSQFrpwI9jZqhs4py51+rZKJAPeXNE/pqajdyD6I+Sp
+   uK5EL2dQJ8gHkq3DHzRACM3eO1QFdb2JVzYB3cq7aIO8f8+6tT5mCj0gO
+   tqBy3KHCwfy9mKN+7NxOFpHSnJmo6EUy1l24da9D5e2XlWWIxgDM3w5KN
+   JxSyFg2lmsXsxmT/VJtKK1N09I73+ddfa+S2jHCGtrd0M28DIY862WMun
    A==;
-X-CSE-ConnectionGUID: j8ze4pDoR2adBQZUEI0Nsg==
-X-CSE-MsgGUID: k1+CI9PlTOGQvPvAY0xw/A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="75568912"
+X-CSE-ConnectionGUID: m3Br9mdVQQWtKIPPUyed7g==
+X-CSE-MsgGUID: hbikG9LqQ6qn8HKs1Ug/Fg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="98307704"
 X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="75568912"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 05:51:39 -0700
-X-CSE-ConnectionGUID: nq3KOzv7TLGgC553Odh24w==
-X-CSE-MsgGUID: Uc94TcatTb2g+eOOvM9m6A==
+   d="scan'208";a="98307704"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 06:53:41 -0700
+X-CSE-ConnectionGUID: XS77X+HfRJ2E3ix5xDUY2g==
+X-CSE-MsgGUID: UUfpFDZoQyGAkH1c9pEZAw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="221981797"
+   d="scan'208";a="226919425"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 27 Mar 2026 05:51:36 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 27 Mar 2026 06:53:39 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w66f0-00000000AIn-07pQ;
-	Fri, 27 Mar 2026 12:51:34 +0000
-Date: Fri, 27 Mar 2026 20:50:37 +0800
+	id 1w67d3-00000000ALB-15Cy;
+	Fri, 27 Mar 2026 13:53:37 +0000
+Date: Fri, 27 Mar 2026 21:52:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Law <objecting@objecting.org>, SeongJae Park <sj@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	damon@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Josh Law <objecting@objecting.org>
-Subject: Re: [PATCH] mm/damon: introduce DAMON-based NUMA memory tiering
- module
-Message-ID: <202603272022.tcaGCvSO-lkp@intel.com>
-References: <20260326072737.341964-1-objecting@objecting.org>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.15 4/4]
+ include/linux/userfaultfd_k.h:81:64: sparse: sparse: incompatible types in
+ comparison expression (different address spaces):
+Message-ID: <202603272106.IALaEpg0-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260326072737.341964-1-objecting@objecting.org>
 
-Hi Josh,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Josh-Law/mm-damon-introduce-DAMON-based-NUMA-memory-tiering-module/20260327-033827
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20260326072737.341964-1-objecting%40objecting.org
-patch subject: [PATCH] mm/damon: introduce DAMON-based NUMA memory tiering module
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260327/202603272022.tcaGCvSO-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603272022.tcaGCvSO-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.15
+head:   fc88a7504f0f262cc5b2e8a7f58b2a1108034856
+commit: 9b613572d6246da9b616f34e4a0e0b5ac74b2dd0 [4/4] ANDROID: userfaultfd: allow SPF for UFFD_FEATURE_SIGBUS on private+anon
+config: i386-randconfig-r133-20260325 (https://download.01.org/0day-ci/archive/20260327/202603272106.IALaEpg0-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603272106.IALaEpg0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603272022.tcaGCvSO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603272106.IALaEpg0-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   mm/mmap.c: note: in included file (through include/linux/hugetlb.h):
+>> include/linux/userfaultfd_k.h:81:64: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/userfaultfd_k.h:81:64: sparse:    struct userfaultfd_ctx *
+   include/linux/userfaultfd_k.h:81:64: sparse:    struct userfaultfd_ctx [noderef] __rcu *
+>> include/linux/userfaultfd_k.h:81:64: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/userfaultfd_k.h:81:64: sparse:    struct userfaultfd_ctx *
+   include/linux/userfaultfd_k.h:81:64: sparse:    struct userfaultfd_ctx [noderef] __rcu *
+--
+>> fs/userfaultfd.c:757:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct userfaultfd_ctx [noderef] __rcu *ctx @@     got struct userfaultfd_ctx *[assigned] ctx @@
+   fs/userfaultfd.c:757:29: sparse:     expected struct userfaultfd_ctx [noderef] __rcu *ctx
+   fs/userfaultfd.c:757:29: sparse:     got struct userfaultfd_ctx *[assigned] ctx
+>> fs/userfaultfd.c:771:45: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct userfaultfd_ctx *ctx @@     got struct userfaultfd_ctx [noderef] __rcu *ctx @@
+   fs/userfaultfd.c:771:45: sparse:     expected struct userfaultfd_ctx *ctx
+   fs/userfaultfd.c:771:45: sparse:     got struct userfaultfd_ctx [noderef] __rcu *ctx
+>> fs/userfaultfd.c:1483:64: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct userfaultfd_ctx [noderef] __rcu *ctx @@     got struct userfaultfd_ctx *ctx @@
+   fs/userfaultfd.c:1483:64: sparse:     expected struct userfaultfd_ctx [noderef] __rcu *ctx
+   fs/userfaultfd.c:1483:64: sparse:     got struct userfaultfd_ctx *ctx
 
->> mm/damon/tier.c:283:30: error: too few arguments to function call, expected 5, have 4
-                                           param_ctx->min_region_sz);
-                                                                   ^
-   include/linux/damon.h:995:5: note: 'damon_set_region_biggest_system_ram_default' declared here
-   int damon_set_region_biggest_system_ram_default(struct damon_target *t,
-       ^
-   1 error generated.
+vim +81 include/linux/userfaultfd_k.h
 
-
-vim +283 mm/damon/tier.c
-
-   243	
-   244	static int damon_tier_apply_parameters(void)
-   245	{
-   246		struct damon_ctx *param_ctx;
-   247		struct damon_target *param_target;
-   248		struct damos *promote_scheme, *demote_scheme;
-   249		int err;
-   250	
-   251		err = damon_modules_new_paddr_ctx_target(&param_ctx, &param_target);
-   252		if (err)
-   253			return err;
-   254	
-   255		err = damon_set_attrs(param_ctx, &damon_tier_mon_attrs);
-   256		if (err)
-   257			goto out;
-   258	
-   259		err = -ENOMEM;
-   260		promote_scheme = damon_tier_new_promote_scheme();
-   261		if (!promote_scheme)
-   262			goto out;
-   263	
-   264		demote_scheme = damon_tier_new_demote_scheme();
-   265		if (!demote_scheme) {
-   266			damon_destroy_scheme(promote_scheme);
-   267			goto out;
-   268		}
-   269	
-   270		damon_set_schemes(param_ctx, &promote_scheme, 1);
-   271		damon_add_scheme(param_ctx, demote_scheme);
-   272	
-   273		err = damon_tier_add_quota_goals(promote_scheme, demote_scheme);
-   274		if (err)
-   275			goto out;
-   276		err = damon_tier_add_filters(promote_scheme, demote_scheme);
-   277		if (err)
-   278			goto out;
-   279	
-   280		err = damon_set_region_biggest_system_ram_default(param_target,
-   281						&monitor_region_start,
-   282						&monitor_region_end,
- > 283						param_ctx->min_region_sz);
-   284		if (err)
-   285			goto out;
-   286		err = damon_commit_ctx(ctx, param_ctx);
-   287	out:
-   288		damon_destroy_ctx(param_ctx);
-   289		return err;
-   290	}
-   291	
+    58	
+    59	extern int mfill_atomic_install_pte(struct mm_struct *dst_mm, pmd_t *dst_pmd,
+    60					    struct vm_area_struct *dst_vma,
+    61					    unsigned long dst_addr, struct page *page,
+    62					    bool newly_allocated, bool wp_copy);
+    63	
+    64	extern ssize_t mcopy_atomic(struct mm_struct *dst_mm, unsigned long dst_start,
+    65				    unsigned long src_start, unsigned long len,
+    66				    atomic_t *mmap_changing, __u64 mode);
+    67	extern ssize_t mfill_zeropage(struct mm_struct *dst_mm,
+    68				      unsigned long dst_start,
+    69				      unsigned long len,
+    70				      atomic_t *mmap_changing);
+    71	extern ssize_t mcopy_continue(struct mm_struct *dst_mm, unsigned long dst_start,
+    72				      unsigned long len, atomic_t *mmap_changing);
+    73	extern int mwriteprotect_range(struct mm_struct *dst_mm,
+    74				       unsigned long start, unsigned long len,
+    75				       bool enable_wp, atomic_t *mmap_changing);
+    76	
+    77	/* mm helpers */
+    78	static inline bool is_mergeable_vm_userfaultfd_ctx(struct vm_area_struct *vma,
+    79						struct vm_userfaultfd_ctx vm_ctx)
+    80	{
+  > 81		return rcu_access_pointer(vma->vm_userfaultfd_ctx.ctx) == vm_ctx.ctx;
+    82	}
+    83	
 
 -- 
 0-DAY CI Kernel Test Service
