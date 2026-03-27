@@ -1,111 +1,107 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F1A349AE1
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 13:54:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1D553E47B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 14:13:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774619658; cv=none; b=AozGrOuBVUgDsAJAI3pRB3hGE9yvSqAQvTQefOPbA91lIUzPWVuJ5XhidSrghwINS9em5wtKcnD8l/an1H7IYe/o5OGDPpTW2RRjt7iABxv8E5yy1ayXZPhJd0IcpyNF1KkDAexypz4MpM6QVZa7XzVErzVmngrMIQ5IpDlc5b0=
+	t=1774620823; cv=none; b=pwQjBnwEgQicN0sJOErg9lYKq1NiPF/AYEOxCxBpwQm44cWx2VRowyFJQGMcpj7bhHiDDUPorrnhRXKznuZYpHENQaLby5AxVQIs3YRHneBvkge5GBbPaU5pP+30gnU7cDDsNJaMALadK1twxaECDQQZ0/62SzySA2lCSf78qXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774619658; c=relaxed/simple;
-	bh=F8nqQtP6HknANaBoPAe6dwl5ApJC8kya6guOXtyTiPg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V6P0tzmPcrqMGwAkhkrThUSDnlvxhnAhBdiLSuSrID7augSo0c4a1k3sS2JjQKYDgaikVFigwrgVhoy7wLR0Joyr6tdHOvOH1F//ltthwCt6PI0eYj1Iolz0zUKmdX3dAOieUURm0N/MYy+vbsYasGswNmiskuAtz8MAgVRpr9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=rb4bgXIG; arc=none smtp.client-ip=209.85.210.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1774620823; c=relaxed/simple;
+	bh=eW/JcX2ugPus+OlAMzwAKlGijaUbhW/Av2YZLKDyCog=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=FOdTIP8rdyfQJuUOb3S4fyhP6+2esD/dgIjmpvXtAEJ2FAlBCND1pzu7X2OFU9EoZZTglOSPTYyRVnRuoahDiJg8yT/LqCvtfMf0wltqPAJGLq96WvOObhC9HF7uhmjO7PZ1cL7MpQPovHL3BiVwY7+81zoOBJ4W5zB18XIypZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HsSCGdyK; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="rb4bgXIG"
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7d55b97f358so1266782a34.3
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 06:54:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1774619654; x=1775224454; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FsiRzlu0kDThiDmUQXOxPDfKN3XDauB2BbTLDlcDoZY=;
-        b=rb4bgXIGFyBNAsotFItxzbL6WFGKnIK7jdv1eCn9TJVjpZpfA5+5V0JAIZvoZzQRRu
-         83tRnfwv4M5id2H86YxJc2ragyaW5UazsnrA3rfSA7qpd0SJ+eImdUTSO7fPbxDb4HEE
-         QSlRJCtPANJ9WSmtpEvP+sE0m7CFX3ObjHkAu9WFFmj1EUJv/M8n9vzeuKEAdXqLNnJA
-         Yy2+w6U9tFGJY+wI1MXQQ11XEUCO/ssDNkkJeV4kOyb47EiFCec2K/8xCMn4NcL60eoo
-         oHDwwCmOm3Ro1IVIiL3f5OCFfO24IRUpVMBAvLUn5GnoguQKRlad6DjHyf7KGjlFF0MD
-         NFDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774619654; x=1775224454;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FsiRzlu0kDThiDmUQXOxPDfKN3XDauB2BbTLDlcDoZY=;
-        b=EKXw6P07Jlvm1hou2H5I7gEAbdOlUvQJC2S0bN8IuJl6ohgu9ORoMpoMOhRuJwwbjQ
-         ailg5LY4T/3R4mamjsPfYFsUZb5BFquV5DP0aAIJS9q4slZkcGs5Z21XRH1rNSJVncEv
-         VPud+TDfcHLpbtI20lLFGZLGEeilyEJuyPMloatOA+Zxw6OpcFmkrnFCWlWYD5eXPote
-         oXwBjMlvA+zpV7dwcehLREymEDW4RxD3JFa5aenYs3/Q5o71EK24wxW/IUWlzWqDaZMG
-         /4tjGtGvbIYcTLJLBvKlTfIFzPgvr9N0xuk3TCn9QO5MvprIMAu3U+eR8MLdezNHVF0j
-         DLGg==
-X-Forwarded-Encrypted: i=1; AJvYcCWWoh8iuEgvmHtj671RQ4uDPbNy6PGVb9mCiB3aNDckw5IZec4KdsaSYmECW3F3O0+Fhqvk2jrPcp/M9QXu@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxmvm38w+NW4EbQ7PnDlhaRUGMVYMtOL9ESbNPx99mBVMLt+ITj
-	2wWzILYnJkMCWDPScyryLDKr54G/lmRQClRojVAIp2kgSuvmD2QxflDerr0aAaJO8aw=
-X-Gm-Gg: ATEYQzyotC4HyJbzYOtGOYlcFOxiMlcyPRFe8OIgOGq4Z5ZSKNDNfdHVp72RZ9mxNIv
-	LsQ9b/Z1s+5O5RtukO78GrKAr5iBCjBno/hgAiwXznEGhsnVdz7hdZ30Tlz+BezWT4tE8N/HLXG
-	rZx83qFh5ncrrFkPW2zvaep6AthEDOwDwgPQtyxMwvh+05NY7KXyjVYO9d9XZXAJ15i9vRyahv1
-	ERRtcRlqqOM3qUYZ9apRXQVHXTsk0fDidEc8do5H+t6MnMycPTwRbg8H3c6KEtePc5TDniTW94q
-	8jOjYo/TehWPUtlMEW6QjOBxhMuQG4Dsafe7UQSAnQiJM4ptTrsL8LTPIfhuiFUGNSohdzZNH/0
-	eU6iNqQRMSP5gjGpoPbRQqPGoZaDR/soxt1DdY7eh3Z7N/GB+fwZFrHzYahoA/a/fScQ01bfv79
-	wWR4bnV8JlPi+qpMWUj4mEKWyyEGpV6oyHSblnr4eGajPK2hwjkf/rpZjB3uCvynHYlSjSz27Nv
-	g==
-X-Received: by 2002:a05:6830:4392:b0:7d7:f617:3573 with SMTP id 46e09a7af769-7d9fadfd5a3mr1377794a34.10.1774619654222;
-        Fri, 27 Mar 2026 06:54:14 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:500:54a7:4cbc:7d2e:3b99? ([2600:8803:e7e4:500:54a7:4cbc:7d2e:3b99])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d9e724e977sm4787166a34.22.2026.03.27.06.54.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Mar 2026 06:54:13 -0700 (PDT)
-Message-ID: <3558dc31-e998-4a50-9732-0ae751b4fd7a@baylibre.com>
-Date: Fri, 27 Mar 2026 08:54:11 -0500
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HsSCGdyK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774620822; x=1806156822;
+  h=date:from:to:cc:subject:message-id;
+  bh=eW/JcX2ugPus+OlAMzwAKlGijaUbhW/Av2YZLKDyCog=;
+  b=HsSCGdyK5bJmbUmbFtvZ/by+UD+9wnsFZNOJOEPLuoXB3HKYid/UqO/g
+   NJlfm7kdMsItKvGMwMBo5+l+HGZPsPBLrn1eKzKS6orqwNtdSAfl/poG8
+   qLEMlPV48zYl9eJlgPq0MMuPvJ6Hujf6ah1x0Owi5CdUDb16a8eGx9IJd
+   Zlyi5HcMylS/Nr8jsfvVEGez0upL+bJh+MGJjz6BuRcbloJeF8Btf3T54
+   9q6uJbZet0cnqxyC82XVX3XwW+eaU1xSF2Tm6kOl6MXrgefdE/lon76GR
+   ntTeLIE5YW2h+NirgnFWB4FPGvkCqn/crhb4IazE6sJqOvmQz81p57K1w
+   A==;
+X-CSE-ConnectionGUID: yRJ6YSDfREONOz8rQ6Q/OA==
+X-CSE-MsgGUID: /NSzXAurQQy2L035M15lvQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="75892044"
+X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
+   d="scan'208";a="75892044"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 07:13:42 -0700
+X-CSE-ConnectionGUID: xtfHdsIZTy2WRWxQ9ciOZA==
+X-CSE-MsgGUID: 9Gf0IFYtRzGBMWgwnmGsQA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
+   d="scan'208";a="229809667"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 27 Mar 2026 07:13:41 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w67wP-00000000ALj-33W1;
+	Fri, 27 Mar 2026 14:13:37 +0000
+Date: Fri, 27 Mar 2026 22:13:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 2/2]
+ drivers/iommu/arm/arm-smmu-v3/pkvm/pv/arm-smmu-v3-pv.c:1085:6: warning:
+ variable 'ret' set but not used
+Message-ID: <202603272215.bRKdK7e2-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] iio: adc: ti-adc161s626: use DMA-safe memory for
- spi_read()
-To: Andy Shevchenko <andriy.shevchenko@intel.com>,
- kernel test robot <lkp@intel.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, =?UTF-8?Q?Nuno_S=C3=A1?=
- <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- Matt Ranostay <mranostay@gmail.com>, oe-kbuild-all@lists.linux.dev,
- linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260314-iio-adc-ti-adc161s626-fix-scan-buf-v1-2-56243b11e87b@baylibre.com>
- <202603271734.pnWuSmNr-lkp@intel.com> <acZRgSH2Vvmm1Usg@ashevche-desk.local>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <acZRgSH2Vvmm1Usg@ashevche-desk.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 3/27/26 4:44 AM, Andy Shevchenko wrote:
-> On Fri, Mar 27, 2026 at 05:13:16PM +0800, kernel test robot wrote:
->> Hi David,
->>
->> kernel test robot noticed the following build errors:
-> 
-> 
->> All errors (new ones prefixed by >>):
->>
->>    drivers/iio/adc/ti-adc161s626.c: In function 'ti_adc_read_measurement':
->>>> drivers/iio/adc/ti-adc161s626.c:87:24: error: implicit declaration of function 'get_unaligned_be16' [-Wimplicit-function-declaration]
->>       87 |                 *val = get_unaligned_be16(data->buf);
->>          |                        ^~~~~~~~~~~~~~~~~~
->>>> drivers/iio/adc/ti-adc161s626.c:94:24: error: implicit declaration of function 'get_unaligned_be24' [-Wimplicit-function-declaration]
->>       94 |                 *val = get_unaligned_be24(data->buf);
->>          |                        ^~~~~~~~~~~~~~~~~~
-> 
-> + linux/unaligned.h should fix this.
-> 
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   453cb76c605cfc3405a95bee4888782c7218b92a
+commit: 454abc918f65815dd63b8564051ce358364e1f2d [2/2] ANDROID: iommu/arm-smmu-v3-kvm-pv: Support power management
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260327/202603272215.bRKdK7e2-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603272215.bRKdK7e2-lkp@intel.com/reproduce)
 
-Jonathan caught this already [1], so should be fixed already [2].
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603272215.bRKdK7e2-lkp@intel.com/
 
-[1]: https://lore.kernel.org/linux-iio/20260321204506.4b5df02a@jic23-huawei/
-[2]: https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git/commit/?h=fixes-togreg&id=768461517a28d80fe81ea4d5d03a90cd184ea6ad
+All warnings (new ones prefixed by >>):
+
+>> drivers/iommu/arm/arm-smmu-v3/pkvm/pv/arm-smmu-v3-pv.c:1085:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+    1085 |         int ret;
+         |             ^
+   1 warning generated.
+
+
+vim +/ret +1085 drivers/iommu/arm/arm-smmu-v3/pkvm/pv/arm-smmu-v3-pv.c
+
+  1082	
+  1083	static int smmu_power_off(struct kvm_power_domain *pd)
+  1084	{
+> 1085		int ret;
+  1086		struct hyp_arm_smmu_v3_device_pv *smmu = container_of(pd,
+  1087								      struct hyp_arm_smmu_v3_device_pv,
+  1088								      power_domain);
+  1089	
+  1090		kvm_smmu_lock(&smmu->common);
+  1091		smmu->power_is_off = true;
+  1092		/*
+  1093		 * Disable translation, GBPA is validated at probe to be set, so all translation
+  1094		 * would be aborted when SMMU is disabled.
+  1095		 */
+  1096		ret = smmu_write_cr0(&smmu->common, 0);
+  1097		kvm_smmu_unlock(&smmu->common);
+  1098		return 0;
+  1099	}
+  1100	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
