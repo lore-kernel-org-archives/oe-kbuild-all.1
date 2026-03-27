@@ -1,137 +1,156 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7D103CCFDE
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 09:14:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7704536AB46;
+	Fri, 27 Mar 2026 09:36:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774602863; cv=none; b=deuarBxGwTkfCMkZbjLecpp7LGMVCDbsGAejDmkE2hT53ygMCITldZmGka8u/Rd7l2F2gB8cfEXtQhwobtjcPCRW0WnmUyww5vS6wWN7CedlwvdUUtxgGdah4KEYnGnXlEh5R+j595lowE0uVQt+vUFSGWAHiKIsDIpbtm9kpsE=
+	t=1774604182; cv=none; b=spuhYrVkXFZWWFviiXNqlVDQfH0kVSR62pmlXtT7yKkSfGYXmeo1/LAdkSHy5AyuCCe1xyQpGR69kePaxaZmWrF31gju9E+1Xr9ibbzMmVZ3XdkEiem7zg1GNBJO9S9ihSmTX0iw46/yHzNBO552OticU44hufBGyFSoGoEHHjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774602863; c=relaxed/simple;
-	bh=tcEHF6ZmG+i3/sYhYQxaSi2YTNbDHBsiC+5pE7pekMM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I1cIJ0dYvkhFsBLqysSGCPrJeB28oVgr8IYn22CeiM4HiHLyqoxMX+jIsflm+qz1xQC0BlevSpY8YqircAA/cfZNtPevcfcS+LcXpF8yCF2oBpNyhBfly2xnFCC2Yt91ZGIRvnbiYqqaMLUnq/YMrH6XM+t+JmU50l9jUeUBudw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZD0l9JUF; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1774604182; c=relaxed/simple;
+	bh=PBwhHdoRja7dlpN2hamBn1BpdzNzw6McKoVgUYzeL/Q=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=BxvOIPiUQ7KVt2WmakPrQUJzhN5coE0CT8q/nilh9Rs2PKf7F0LAwdbpfP45vOc3kCe+a1Q8Uqx3LXtl0eFYo+Av2sXzPGSDWOz+m8uReXvHvFLRsMNBGaXka5/p/KfJTeqt3gnx5izMIZcvGnswmzXEKaWdgYPRtYerrsrFcoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YwRaLjuP; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZD0l9JUF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YwRaLjuP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774602861; x=1806138861;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tcEHF6ZmG+i3/sYhYQxaSi2YTNbDHBsiC+5pE7pekMM=;
-  b=ZD0l9JUFHpafqmUuXShRghjfH3JnHRMiCe4EQr/i4/luLCNo9gO0nd64
-   clJkrAwU3Nb7lH8l0rr6TxOkzNDCAj3qFwTXXSByPS/1ZsmSgRJ/ElrhT
-   cRdeeGJ0C94XCAR2YDX1+3dbYq3y2MEGNUP72aB1aAUovG9PPjad0rFhG
-   t6t3CTlfZ2oEBLXOA+iTpfaEXnjkmgHgZNSuZLC3bkLQ9ERiEyAhT1wUn
-   iHsDCKSwQTQ5ngrNzR43Gg5NDU18UTRbbBplfFgVayy2x4RbFGWk+1dXj
-   N1ilAyeGPoye5ci0fLv1a5//t3IbrrrkO9wH8OfPq1hX+WUQL12XlmvVl
+  t=1774604182; x=1806140182;
+  h=date:from:to:cc:subject:message-id;
+  bh=PBwhHdoRja7dlpN2hamBn1BpdzNzw6McKoVgUYzeL/Q=;
+  b=YwRaLjuPZXRaXsF5dZjgDSRG0sY8Kn7S2Qnm9cv6fOn20ZA68JU1QwoM
+   t2qpJkwMVOSHA9eigauDIt6vm+O7G4nhh8TD85mQA9h3Yal4rghyEi23b
+   G2MNXFqwzyA0NQFmhMd6bG5SoNsMKhJAFhyI4+CF329wOYz2Ogi7wkUUh
+   EI4VY5Yhy1Tpz61IoJQ2g4K4RLhB87z4OncnauHU9++4iEUKuNGrg2+5p
+   Zb3v77a8TnBiyf/N053y30ocbWfKA2v1VHlQSq8WptpVvugCm9OnXgzXG
+   znD4roDv8OvCUQd7cxL9VCWnd3hj3p1lA0G963/8frFuOCp+u4vgj7JMg
    A==;
-X-CSE-ConnectionGUID: RDtZxlTSTOWcRDfFvGYDuw==
-X-CSE-MsgGUID: V7vEzJApQxuqIe8jBFAmVA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="79274908"
+X-CSE-ConnectionGUID: JePocGFNQtCMqqBpoG6gBw==
+X-CSE-MsgGUID: ZzBjMBzhRP+my15DnSfjkw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="101134434"
 X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="79274908"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 02:14:21 -0700
-X-CSE-ConnectionGUID: 4X9xTXyeSaWOXDWm0e9Npg==
-X-CSE-MsgGUID: KuEW1thcQyeui24AduETKw==
+   d="scan'208";a="101134434"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 02:36:21 -0700
+X-CSE-ConnectionGUID: SQOR4W0VQjSi/w7j2odH9A==
+X-CSE-MsgGUID: wwSF5KTvS/WWqsvHE5GyhA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="263203659"
+   d="scan'208";a="222390876"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 27 Mar 2026 02:14:19 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 27 Mar 2026 02:36:19 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w63Gi-00000000A6n-0hsi;
-	Fri, 27 Mar 2026 09:14:16 +0000
-Date: Fri, 27 Mar 2026 17:13:16 +0800
+	id 1w63c1-00000000A7p-0ASF;
+	Fri, 27 Mar 2026 09:36:17 +0000
+Date: Fri, 27 Mar 2026 17:35:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Lechner <dlechner@baylibre.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Matt Ranostay <mranostay@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, David Lechner <dlechner@baylibre.com>
-Subject: Re: [PATCH 2/2] iio: adc: ti-adc161s626: use DMA-safe memory for
- spi_read()
-Message-ID: <202603271734.pnWuSmNr-lkp@intel.com>
-References: <20260314-iio-adc-ti-adc161s626-fix-scan-buf-v1-2-56243b11e87b@baylibre.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [axboe:rw_iter 322/525] arch/powerpc/kvm/timing.c:172:6:
+ error: cannot take the address of an rvalue of type 'char *'
+Message-ID: <202603271712.kT4rdiHD-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260314-iio-adc-ti-adc161s626-fix-scan-buf-v1-2-56243b11e87b@baylibre.com>
 
-Hi David,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on ff0843ceb1fb11a6b73e0e77b932ef7967aecd4b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/iio-adc-ti-adc161s626-fix-buffer-read-on-big-endian/20260315-092711
-base:   ff0843ceb1fb11a6b73e0e77b932ef7967aecd4b
-patch link:    https://lore.kernel.org/r/20260314-iio-adc-ti-adc161s626-fix-scan-buf-v1-2-56243b11e87b%40baylibre.com
-patch subject: [PATCH 2/2] iio: adc: ti-adc161s626: use DMA-safe memory for spi_read()
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260327/202603271734.pnWuSmNr-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603271734.pnWuSmNr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git rw_iter
+head:   520344cda122ca1903fafb19768f56509e3db8b1
+commit: 347664d07e7cc165e1dae2f95b2f6f1053a62844 [322/525] powerpc/kvm: convert to read/write iterators
+config: powerpc64-randconfig-002-20260327 (https://download.01.org/0day-ci/archive/20260327/202603271712.kT4rdiHD-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603271712.kT4rdiHD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603271734.pnWuSmNr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603271712.kT4rdiHD-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/iio/adc/ti-adc161s626.c: In function 'ti_adc_read_measurement':
->> drivers/iio/adc/ti-adc161s626.c:87:24: error: implicit declaration of function 'get_unaligned_be16' [-Wimplicit-function-declaration]
-      87 |                 *val = get_unaligned_be16(data->buf);
-         |                        ^~~~~~~~~~~~~~~~~~
->> drivers/iio/adc/ti-adc161s626.c:94:24: error: implicit declaration of function 'get_unaligned_be24' [-Wimplicit-function-declaration]
-      94 |                 *val = get_unaligned_be24(data->buf);
-         |                        ^~~~~~~~~~~~~~~~~~
+>> arch/powerpc/kvm/timing.c:172:6: error: cannot take the address of an rvalue of type 'char *'
+     172 |         if (get_iter(&c, from)) {
+         |             ^        ~~
+   include/linux/uio.h:243:50: note: expanded from macro 'get_iter'
+     243 | #define get_iter(val, from)     !copy_from_iter_full(&(val), sizeof((val)), from)
+         |                                                      ^ ~~~
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:52: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                    ^~~~
+>> arch/powerpc/kvm/timing.c:172:6: error: cannot take the address of an rvalue of type 'char *'
+     172 |         if (get_iter(&c, from)) {
+         |             ^        ~~
+   include/linux/uio.h:243:50: note: expanded from macro 'get_iter'
+     243 | #define get_iter(val, from)     !copy_from_iter_full(&(val), sizeof((val)), from)
+         |                                                      ^ ~~~
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:61: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                             ^~~~
+>> arch/powerpc/kvm/timing.c:172:6: error: cannot take the address of an rvalue of type 'char *'
+     172 |         if (get_iter(&c, from)) {
+         |             ^        ~~
+   include/linux/uio.h:243:50: note: expanded from macro 'get_iter'
+     243 | #define get_iter(val, from)     !copy_from_iter_full(&(val), sizeof((val)), from)
+         |                                                      ^ ~~~
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:86: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                                                      ^~~~
+   include/linux/compiler.h:68:3: note: expanded from macro '__trace_if_value'
+      68 |         (cond) ?                                        \
+         |          ^~~~
+   3 errors generated.
 
 
-vim +/get_unaligned_be16 +87 drivers/iio/adc/ti-adc161s626.c
+vim +172 arch/powerpc/kvm/timing.c
 
-    75	
-    76	static int ti_adc_read_measurement(struct ti_adc_data *data,
-    77					   struct iio_chan_spec const *chan, int *val)
-    78	{
-    79		int ret;
-    80	
-    81		switch (data->read_size) {
-    82		case 2:
-    83			ret = spi_read(data->spi, data->buf, 2);
-    84			if (ret)
-    85				return ret;
-    86	
-  > 87			*val = get_unaligned_be16(data->buf);
-    88			break;
-    89		case 3:
-    90			ret = spi_read(data->spi, data->buf, 3);
-    91			if (ret)
-    92				return ret;
-    93	
-  > 94			*val = get_unaligned_be24(data->buf);
-    95			break;
-    96		default:
-    97			return -EINVAL;
-    98		}
-    99	
-   100		*val = sign_extend32(*val >> data->shift, chan->scan_type.realbits - 1);
-   101	
-   102		return 0;
-   103	}
-   104	
+   159	
+   160	/* Write 'c' to clear the timing statistics. */
+   161	static ssize_t kvmppc_exit_timing_write(struct kiocb *iocb,
+   162						struct iov_iter *from)
+   163	{
+   164		size_t count = iov_iter_count(from);
+   165		int err = -EINVAL;
+   166		char c;
+   167	
+   168		if (count > 1) {
+   169			goto done;
+   170		}
+   171	
+ > 172		if (get_iter(&c, from)) {
+   173			err = -EFAULT;
+   174			goto done;
+   175		}
+   176	
+   177		if (c == 'c') {
+   178			struct seq_file *seqf = iocb->ki_filp->private_data;
+   179			struct kvm_vcpu *vcpu = seqf->private;
+   180			/* Write does not affect our buffers previously generated with
+   181			 * show. seq_file is locked here to prevent races of init with
+   182			 * a show call */
+   183			mutex_lock(&seqf->lock);
+   184			kvmppc_init_timing_stats(vcpu);
+   185			mutex_unlock(&seqf->lock);
+   186			err = count;
+   187		}
+   188	
+   189	done:
+   190		return err;
+   191	}
+   192	
 
 -- 
 0-DAY CI Kernel Test Service
