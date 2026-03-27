@@ -1,58 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 583DA3FEB14
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 17:46:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C2D32694E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 18:38:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774633563; cv=none; b=mruNjDJQL6XM2QR1raLTGHKv+G7ACqwzW/OLduagICbuulpWkS2gsEV8gWRe+g6E/6de0KH7dLFYfHX5Xs6B6DBbsPe3E8Vu0LRLotH7gKruoClxt+pNQOCJ/ZvcwprDP0vzllnqtmE25M0/Y2Nyl/2pX8e1Ujr4JxGC3cjAj5s=
+	t=1774636685; cv=none; b=jlyzl3fN3WYrTRJH1HRNl9D5c9yg1999nR7151Hvp+kfJLoksJ8tv4XO4Dj1omfsZgo2HiZU2S83PCZt+gZaGwH1urofL6MQilT4jANyH9Et4dR7yG0KZy9FDTseQTb+fHRCFND5fztuwjbP6xJjr+dMrJKT5/hjUgpLErnJIcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774633563; c=relaxed/simple;
-	bh=VLCA2EKRhguK4rc+mD7/EgnLReoL7/Fjd1u97V5RP3o=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=j6aIWUpBu+zP6yjlvYsKkcddE0+SQ9zl8blMWjNYVhDqwePjM0aYpHqNzMCZLytcgTlP13nyoOyeZWaSPFUuGh0KDXFkP50/M6qltduugw/jcXDLnSdRmsJ43o8wXuQrllq67pG80jdFZlMf3lNpuCpgNhx1pzu1Hc2o0OOcL8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KY4SrKQM; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1774636685; c=relaxed/simple;
+	bh=+Sf8BrIrmA7OzXVWax667BnF8tNmepZpNB+fUl4ffdw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=BoABFIaEvc2OIwW0avXGTfBrxEICrvpCsaIAfqz30DlD44Th8FtFMtNiQ4ZnXE9k8EQDY4gbRY45GudlnKoauvd3t8xkDbMKTFSZFO772/z2NnoHnbqtzElmG3EHz9NTfy/quxhGpxOBk98qQeeJR4O28iBsXltrzp9kDbrR0oM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c4W2vCTb; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KY4SrKQM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c4W2vCTb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774633561; x=1806169561;
+  t=1774636684; x=1806172684;
   h=date:from:to:cc:subject:message-id;
-  bh=VLCA2EKRhguK4rc+mD7/EgnLReoL7/Fjd1u97V5RP3o=;
-  b=KY4SrKQMO6zN/GYzBW09+yXzwIyfbZV+dqTMvmbfAAXGuNUaMkbEZOpK
-   g4R4r8aZJgB8fJAStZ+UAi6MuSZyF2dGxsQycexG2VkB/Y0epio9FvJMP
-   0/yWfxQJ5U/plEcJ+EHRYGKc62sPFfhnxjDFkgCB3z9VAA86D/Tg8eGyj
-   y8DZY/ZHo1MUctd07G05s/rqbEAPWa6v19NXuZivFFcdO06PaV9s87ILA
-   2ldtryFf739H1NzF5c2vNUMO3QRPzFGlIjJP1b4TVLIiL8JhC8d+X9H15
-   Ugz9I23v3U78oBr8IxOU3S3VS34HceiVnEixKEoldRObqg0IzvJ7SqEff
-   Q==;
-X-CSE-ConnectionGUID: 7xYw1s64Q2+Nqqy/QT7cbA==
-X-CSE-MsgGUID: ztHd3v1STNiYwiO+b3CN4Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="87185721"
+  bh=+Sf8BrIrmA7OzXVWax667BnF8tNmepZpNB+fUl4ffdw=;
+  b=c4W2vCTbh0r2nsF3zYYYmmneyWj+XhK431GjypB11nQCIgBVv0Qv6O6y
+   tu6Pe1qb4RjlT36M7MVmpQjcfuFsuEowVRqQH5xZVY9Bx1eglcXYUuHv3
+   vontkjlzeHRLQWGihgetRiZYjmTJPmoKUD8AoMkfSEO7doZOwa8n7m47Z
+   lgmvarx6DdA57ZATIcU0xStB2sgeaJOA2UYuLXEjsa00PV/KdWBglchpg
+   69hVZJO71EN0Ifbx4DrwG4miFLrWY0Pj6SztOeXBqmcBtoXfnAcTiLjrY
+   iQau+hlgm2aymC9vBQQjBkmpy/oxLFYI7XvUKzcnwlbu4NVpzEwIydjYo
+   g==;
+X-CSE-ConnectionGUID: mQckPzKtQsuDgDcKpwlEng==
+X-CSE-MsgGUID: YDZ2j/9XQTmbA9nMmSSuXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="74747346"
 X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="87185721"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 10:45:59 -0700
-X-CSE-ConnectionGUID: qp1NU4msSIGQVMMW2mXwOg==
-X-CSE-MsgGUID: 7jzTJ/ZDSYOx/yS+fB8skw==
+   d="scan'208";a="74747346"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 11:38:03 -0700
+X-CSE-ConnectionGUID: oIwMui5fRweNdvI93fi0WA==
+X-CSE-MsgGUID: AMk26QLKSV6UYTkLG6AkuA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="229456758"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 27 Mar 2026 10:45:58 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 27 Mar 2026 11:38:02 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w6BFr-00000000AXx-1hkm;
-	Fri, 27 Mar 2026 17:45:55 +0000
-Date: Sat, 28 Mar 2026 01:45:27 +0800
+	id 1w6C4F-00000000AbV-2Ssd;
+	Fri, 27 Mar 2026 18:37:59 +0000
+Date: Sat, 28 Mar 2026 02:37:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org
-Subject: [brgl:gpio/for-next 57/59]
- drivers/gpio/gpio-tegra186.c:502:18: error: 'struct gpio_chip' has no member
- named 'of_gpio_n_cells'
-Message-ID: <202603280145.tWkm6Erp-lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-cleanup-2026-03-27 99/106]
+ sound/soc/codecs/max98088.c:1433 max98088_setup_eq1() warn: inconsistent
+ indenting
+Message-ID: <202603280226.FbbINgDV-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,141 +58,249 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Bartosz,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-head:   af475c16bc02a08ed6af6ca0c920f98a45611fe6
-commit: 7803501e5754dc4b295ab22b20562e2b965358ba [57/59] gpio: drop unneeded Kconfig dependencies on OF_GPIO
-config: sh-randconfig-r112-20260326 (https://download.01.org/0day-ci/archive/20260328/202603280145.tWkm6Erp-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 9.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603280145.tWkm6Erp-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-cleanup-2026-03-27
+head:   b547ff73a13ed8ce92e8e208ccd27884077b160b
+commit: 879b75696a5873f14bab3b278b787629fdb3f010 [99/106] don't use snd_soc_component_get_drvdata()
+config: hexagon-randconfig-r073-20260327 (https://download.01.org/0day-ci/archive/20260328/202603280226.FbbINgDV-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
+smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603280145.tWkm6Erp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603280226.FbbINgDV-lkp@intel.com/
 
-Note: the brgl/gpio/for-next HEAD af475c16bc02a08ed6af6ca0c920f98a45611fe6 builds fine.
-      It only hurts bisectability.
+New smatch warnings:
+sound/soc/codecs/max98088.c:1433 max98088_setup_eq1() warn: inconsistent indenting
+sound/soc/codecs/max98088.c:1481 max98088_setup_eq2() warn: inconsistent indenting
+sound/soc/codecs/max98088.c:1580 max98088_handle_eq_pdata() warn: inconsistent indenting
+sound/soc/codecs/max98088.c:1641 max98088_handle_pdata() warn: inconsistent indenting
+sound/soc/codecs/max98088.c:1674 max98088_probe() warn: inconsistent indenting
+sound/soc/codecs/max98088.c:1735 max98088_remove() warn: inconsistent indenting
 
-All error/warnings (new ones prefixed by >>):
+Old smatch warnings:
+sound/soc/codecs/max98088.c:657 max98088_line_pga() warn: inconsistent indenting
+sound/soc/codecs/max98088.c:1026 max98088_dai2_hw_params() warn: inconsistent indenting
+sound/soc/codecs/max98088.c:1096 max98088_dai_set_sysclk() warn: inconsistent indenting
+sound/soc/codecs/max98088.c:1100 max98088_dai_set_sysclk() warn: inconsistent indenting
+sound/soc/codecs/max98088.c:1112 max98088_dai_set_sysclk() warn: inconsistent indenting
+sound/soc/codecs/max98088.c:1141 max98088_dai1_set_fmt() warn: inconsistent indenting
+sound/soc/codecs/max98088.c:1212 max98088_dai2_set_fmt() warn: inconsistent indenting
+sound/soc/codecs/max98088.c:1279 max98088_dai1_mute() warn: inconsistent indenting
+sound/soc/codecs/max98088.c:1295 max98088_dai2_mute() warn: inconsistent indenting
+sound/soc/codecs/max98088.c:1536 max98088_put_eq_enum() warn: inconsistent indenting
 
-   In file included from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/sh/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/irq.h:14,
-                    from include/linux/irqchip/chained_irq.h:10,
-                    from include/linux/gpio/driver.h:8,
-                    from drivers/gpio/gpio-tegra186.c:9:
-   drivers/gpio/gpio-tegra186.c: In function 'tegra186_gpio_of_xlate':
->> drivers/gpio/gpio-tegra186.c:502:18: error: 'struct gpio_chip' has no member named 'of_gpio_n_cells'
-     502 |  if (WARN_ON(chip->of_gpio_n_cells < 2))
-         |                  ^~
-   arch/sh/include/asm/bug.h:69:25: note: in definition of macro 'WARN_ON'
-      69 |  int __ret_warn_on = !!(x);    \
-         |                         ^
-   drivers/gpio/gpio-tegra186.c:505:37: error: 'struct gpio_chip' has no member named 'of_gpio_n_cells'
-     505 |  if (WARN_ON(spec->args_count < chip->of_gpio_n_cells))
-         |                                     ^~
-   arch/sh/include/asm/bug.h:69:25: note: in definition of macro 'WARN_ON'
-      69 |  int __ret_warn_on = !!(x);    \
-         |                         ^
-   drivers/gpio/gpio-tegra186.c: In function 'tegra186_gpio_irq_domain_translate':
-   drivers/gpio/gpio-tegra186.c:709:24: error: 'struct gpio_chip' has no member named 'of_gpio_n_cells'
-     709 |  if (WARN_ON(gpio->gpio.of_gpio_n_cells < 2))
-         |                        ^
-   arch/sh/include/asm/bug.h:69:25: note: in definition of macro 'WARN_ON'
-      69 |  int __ret_warn_on = !!(x);    \
-         |                         ^
-   drivers/gpio/gpio-tegra186.c:712:46: error: 'struct gpio_chip' has no member named 'of_gpio_n_cells'
-     712 |  if (WARN_ON(fwspec->param_count < gpio->gpio.of_gpio_n_cells))
-         |                                              ^
-   arch/sh/include/asm/bug.h:69:25: note: in definition of macro 'WARN_ON'
-      69 |  int __ret_warn_on = !!(x);    \
-         |                         ^
-   At top level:
->> drivers/gpio/gpio-tegra186.c:495:12: warning: 'tegra186_gpio_of_xlate' defined but not used [-Wunused-function]
-     495 | static int tegra186_gpio_of_xlate(struct gpio_chip *chip,
-         |            ^~~~~~~~~~~~~~~~~~~~~~
---
-   drivers/gpio/gpio-brcmstb.c: In function 'brcmstb_gpio_of_xlate':
->> drivers/gpio/gpio-brcmstb.c:435:8: error: 'struct gpio_chip' has no member named 'of_gpio_n_cells'
-     435 |  if (gc->of_gpio_n_cells != 2) {
-         |        ^~
-   In file included from include/linux/bug.h:5,
-                    from include/linux/instrumented.h:10,
-                    from include/linux/atomic/atomic-instrumented.h:17,
-                    from include/linux/atomic.h:82,
-                    from include/asm-generic/bitops/lock.h:5,
-                    from arch/sh/include/asm/bitops.h:63,
-                    from include/linux/bitops.h:67,
-                    from drivers/gpio/gpio-brcmstb.c:4:
-   drivers/gpio/gpio-brcmstb.c:440:39: error: 'struct gpio_chip' has no member named 'of_gpio_n_cells'
-     440 |  if (WARN_ON(gpiospec->args_count < gc->of_gpio_n_cells))
-         |                                       ^~
-   arch/sh/include/asm/bug.h:69:25: note: in definition of macro 'WARN_ON'
-      69 |  int __ret_warn_on = !!(x);    \
-         |                         ^
-   drivers/gpio/gpio-brcmstb.c: In function 'brcmstb_gpio_probe':
-   drivers/gpio/gpio-brcmstb.c:736:5: error: 'struct gpio_chip' has no member named 'of_gpio_n_cells'
-     736 |   gc->of_gpio_n_cells = 2;
-         |     ^~
->> drivers/gpio/gpio-brcmstb.c:737:5: error: 'struct gpio_chip' has no member named 'of_xlate'
-     737 |   gc->of_xlate = brcmstb_gpio_of_xlate;
-         |     ^~
+vim +1433 sound/soc/codecs/max98088.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GPIO_SYSCON
-   Depends on [n]: GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && OF [=n]
-   Selected by [y]:
-   - GPIO_SAMA5D2_PIOBU [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && (ARCH_AT91 || COMPILE_TEST [=y])
-
-
-vim +502 drivers/gpio/gpio-tegra186.c
-
-b64d6c9a6a050d Thierry Reding 2020-03-19  494  
-5b2b135a87fcfb Thierry Reding 2017-11-07 @495  static int tegra186_gpio_of_xlate(struct gpio_chip *chip,
-5b2b135a87fcfb Thierry Reding 2017-11-07  496  				  const struct of_phandle_args *spec,
-5b2b135a87fcfb Thierry Reding 2017-11-07  497  				  u32 *flags)
-5b2b135a87fcfb Thierry Reding 2017-11-07  498  {
-5b2b135a87fcfb Thierry Reding 2017-11-07  499  	struct tegra_gpio *gpio = gpiochip_get_data(chip);
-5b2b135a87fcfb Thierry Reding 2017-11-07  500  	unsigned int port, pin, i, offset = 0;
-5b2b135a87fcfb Thierry Reding 2017-11-07  501  
-5b2b135a87fcfb Thierry Reding 2017-11-07 @502  	if (WARN_ON(chip->of_gpio_n_cells < 2))
-5b2b135a87fcfb Thierry Reding 2017-11-07  503  		return -EINVAL;
-5b2b135a87fcfb Thierry Reding 2017-11-07  504  
-5b2b135a87fcfb Thierry Reding 2017-11-07  505  	if (WARN_ON(spec->args_count < chip->of_gpio_n_cells))
-5b2b135a87fcfb Thierry Reding 2017-11-07  506  		return -EINVAL;
-5b2b135a87fcfb Thierry Reding 2017-11-07  507  
-5b2b135a87fcfb Thierry Reding 2017-11-07  508  	port = spec->args[0] / 8;
-5b2b135a87fcfb Thierry Reding 2017-11-07  509  	pin = spec->args[0] % 8;
-5b2b135a87fcfb Thierry Reding 2017-11-07  510  
-5b2b135a87fcfb Thierry Reding 2017-11-07  511  	if (port >= gpio->soc->num_ports) {
-5b2b135a87fcfb Thierry Reding 2017-11-07  512  		dev_err(chip->parent, "invalid port number: %u\n", port);
-5b2b135a87fcfb Thierry Reding 2017-11-07  513  		return -EINVAL;
-5b2b135a87fcfb Thierry Reding 2017-11-07  514  	}
-5b2b135a87fcfb Thierry Reding 2017-11-07  515  
-5b2b135a87fcfb Thierry Reding 2017-11-07  516  	for (i = 0; i < port; i++)
-5b2b135a87fcfb Thierry Reding 2017-11-07  517  		offset += gpio->soc->ports[i].pins;
-5b2b135a87fcfb Thierry Reding 2017-11-07  518  
-5b2b135a87fcfb Thierry Reding 2017-11-07  519  	if (flags)
-5b2b135a87fcfb Thierry Reding 2017-11-07  520  		*flags = spec->args[1];
-5b2b135a87fcfb Thierry Reding 2017-11-07  521  
-5b2b135a87fcfb Thierry Reding 2017-11-07  522  	return offset + pin;
-5b2b135a87fcfb Thierry Reding 2017-11-07  523  }
-5b2b135a87fcfb Thierry Reding 2017-11-07  524  
-
-:::::: The code at line 502 was first introduced by commit
-:::::: 5b2b135a87fcfb2b27c3c192fd7c3b053f0c5fa2 gpio: Add Tegra186 support
-
-:::::: TO: Thierry Reding <treding@nvidia.com>
-:::::: CC: Linus Walleij <linus.walleij@linaro.org>
+  1429	
+  1430	static void max98088_setup_eq1(struct snd_soc_component *component)
+  1431	{
+  1432		struct device *dev = snd_soc_component_to_dev(component);
+> 1433	       struct max98088_priv *max98088 = dev_get_drvdata(dev);
+  1434	       struct max98088_pdata *pdata = max98088->pdata;
+  1435	       struct max98088_eq_cfg *coef_set;
+  1436	       int best, best_val, save, i, sel, fs;
+  1437	       struct max98088_cdata *cdata;
+  1438	
+  1439	       cdata = &max98088->dai[0];
+  1440	
+  1441	       if (!pdata || !max98088->eq_textcnt)
+  1442	               return;
+  1443	
+  1444	       /* Find the selected configuration with nearest sample rate */
+  1445	       fs = cdata->rate;
+  1446	       sel = cdata->eq_sel;
+  1447	
+  1448	       best = 0;
+  1449	       best_val = INT_MAX;
+  1450	       for (i = 0; i < pdata->eq_cfgcnt; i++) {
+  1451	               if (strcmp(pdata->eq_cfg[i].name, max98088->eq_texts[sel]) == 0 &&
+  1452	                   abs(pdata->eq_cfg[i].rate - fs) < best_val) {
+  1453	                       best = i;
+  1454	                       best_val = abs(pdata->eq_cfg[i].rate - fs);
+  1455	               }
+  1456	       }
+  1457	
+  1458	       dev_dbg(dev, "Selected %s/%dHz for %dHz sample rate\n",
+  1459	               pdata->eq_cfg[best].name,
+  1460	               pdata->eq_cfg[best].rate, fs);
+  1461	
+  1462	       /* Disable EQ while configuring, and save current on/off state */
+  1463	       save = snd_soc_component_read(component, M98088_REG_49_CFG_LEVEL);
+  1464	       snd_soc_component_update_bits(component, M98088_REG_49_CFG_LEVEL, M98088_EQ1EN, 0);
+  1465	
+  1466	       coef_set = &pdata->eq_cfg[sel];
+  1467	
+  1468	       m98088_eq_band(component, 0, 0, coef_set->band1);
+  1469	       m98088_eq_band(component, 0, 1, coef_set->band2);
+  1470	       m98088_eq_band(component, 0, 2, coef_set->band3);
+  1471	       m98088_eq_band(component, 0, 3, coef_set->band4);
+  1472	       m98088_eq_band(component, 0, 4, coef_set->band5);
+  1473	
+  1474	       /* Restore the original on/off state */
+  1475	       snd_soc_component_update_bits(component, M98088_REG_49_CFG_LEVEL, M98088_EQ1EN, save);
+  1476	}
+  1477	
+  1478	static void max98088_setup_eq2(struct snd_soc_component *component)
+  1479	{
+  1480		struct device *dev = snd_soc_component_to_dev(component);
+> 1481	       struct max98088_priv *max98088 = dev_get_drvdata(dev);
+  1482	       struct max98088_pdata *pdata = max98088->pdata;
+  1483	       struct max98088_eq_cfg *coef_set;
+  1484	       int best, best_val, save, i, sel, fs;
+  1485	       struct max98088_cdata *cdata;
+  1486	
+  1487	       cdata = &max98088->dai[1];
+  1488	
+  1489	       if (!pdata || !max98088->eq_textcnt)
+  1490	               return;
+  1491	
+  1492	       /* Find the selected configuration with nearest sample rate */
+  1493	       fs = cdata->rate;
+  1494	
+  1495	       sel = cdata->eq_sel;
+  1496	       best = 0;
+  1497	       best_val = INT_MAX;
+  1498	       for (i = 0; i < pdata->eq_cfgcnt; i++) {
+  1499	               if (strcmp(pdata->eq_cfg[i].name, max98088->eq_texts[sel]) == 0 &&
+  1500	                   abs(pdata->eq_cfg[i].rate - fs) < best_val) {
+  1501	                       best = i;
+  1502	                       best_val = abs(pdata->eq_cfg[i].rate - fs);
+  1503	               }
+  1504	       }
+  1505	
+  1506	       dev_dbg(dev, "Selected %s/%dHz for %dHz sample rate\n",
+  1507	               pdata->eq_cfg[best].name,
+  1508	               pdata->eq_cfg[best].rate, fs);
+  1509	
+  1510	       /* Disable EQ while configuring, and save current on/off state */
+  1511	       save = snd_soc_component_read(component, M98088_REG_49_CFG_LEVEL);
+  1512	       snd_soc_component_update_bits(component, M98088_REG_49_CFG_LEVEL, M98088_EQ2EN, 0);
+  1513	
+  1514	       coef_set = &pdata->eq_cfg[sel];
+  1515	
+  1516	       m98088_eq_band(component, 1, 0, coef_set->band1);
+  1517	       m98088_eq_band(component, 1, 1, coef_set->band2);
+  1518	       m98088_eq_band(component, 1, 2, coef_set->band3);
+  1519	       m98088_eq_band(component, 1, 3, coef_set->band4);
+  1520	       m98088_eq_band(component, 1, 4, coef_set->band5);
+  1521	
+  1522	       /* Restore the original on/off state */
+  1523	       snd_soc_component_update_bits(component, M98088_REG_49_CFG_LEVEL, M98088_EQ2EN,
+  1524	               save);
+  1525	}
+  1526	
+  1527	static int max98088_put_eq_enum(struct snd_kcontrol *kcontrol,
+  1528	                                struct snd_ctl_elem_value *ucontrol)
+  1529	{
+  1530	       struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+  1531	       struct device *dev = snd_soc_component_to_dev(component);
+  1532	       struct max98088_priv *max98088 = dev_get_drvdata(dev);
+  1533	       struct max98088_pdata *pdata = max98088->pdata;
+  1534	       int channel = max98088_get_channel(component, kcontrol->id.name);
+  1535	       struct max98088_cdata *cdata;
+  1536		int sel = ucontrol->value.enumerated.item[0];
+  1537	
+  1538	       if (channel < 0)
+  1539		       return channel;
+  1540	
+  1541	       cdata = &max98088->dai[channel];
+  1542	
+  1543	       if (sel >= pdata->eq_cfgcnt)
+  1544	               return -EINVAL;
+  1545	
+  1546	       cdata->eq_sel = sel;
+  1547	
+  1548	       switch (channel) {
+  1549	       case 0:
+  1550	               max98088_setup_eq1(component);
+  1551	               break;
+  1552	       case 1:
+  1553	               max98088_setup_eq2(component);
+  1554	               break;
+  1555	       }
+  1556	
+  1557	       return 0;
+  1558	}
+  1559	
+  1560	static int max98088_get_eq_enum(struct snd_kcontrol *kcontrol,
+  1561	                                struct snd_ctl_elem_value *ucontrol)
+  1562	{
+  1563	       struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+  1564	       struct device *dev = snd_soc_component_to_dev(component);
+  1565	       struct max98088_priv *max98088 = dev_get_drvdata(dev);
+  1566	       int channel = max98088_get_channel(component, kcontrol->id.name);
+  1567	       struct max98088_cdata *cdata;
+  1568	
+  1569	       if (channel < 0)
+  1570		       return channel;
+  1571	
+  1572	       cdata = &max98088->dai[channel];
+  1573	       ucontrol->value.enumerated.item[0] = cdata->eq_sel;
+  1574	       return 0;
+  1575	}
+  1576	
+  1577	static void max98088_handle_eq_pdata(struct snd_soc_component *component)
+  1578	{
+  1579		struct device *dev = snd_soc_component_to_dev(component);
+> 1580	       struct max98088_priv *max98088 = dev_get_drvdata(dev);
+  1581	       struct max98088_pdata *pdata = max98088->pdata;
+  1582	       struct max98088_eq_cfg *cfg;
+  1583	       unsigned int cfgcnt;
+  1584	       int i, j;
+  1585	       const char **t;
+  1586	       int ret;
+  1587	       struct snd_kcontrol_new controls[] = {
+  1588	               SOC_ENUM_EXT((char *)eq_mode_name[0],
+  1589	                       max98088->eq_enum,
+  1590	                       max98088_get_eq_enum,
+  1591	                       max98088_put_eq_enum),
+  1592	               SOC_ENUM_EXT((char *)eq_mode_name[1],
+  1593	                       max98088->eq_enum,
+  1594	                       max98088_get_eq_enum,
+  1595	                       max98088_put_eq_enum),
+  1596	       };
+  1597	       BUILD_BUG_ON(ARRAY_SIZE(controls) != ARRAY_SIZE(eq_mode_name));
+  1598	
+  1599	       cfg = pdata->eq_cfg;
+  1600	       cfgcnt = pdata->eq_cfgcnt;
+  1601	
+  1602	       /* Setup an array of texts for the equalizer enum.
+  1603	        * This is based on Mark Brown's equalizer driver code.
+  1604	        */
+  1605	       max98088->eq_textcnt = 0;
+  1606	       max98088->eq_texts = NULL;
+  1607	       for (i = 0; i < cfgcnt; i++) {
+  1608	               for (j = 0; j < max98088->eq_textcnt; j++) {
+  1609	                       if (strcmp(cfg[i].name, max98088->eq_texts[j]) == 0)
+  1610	                               break;
+  1611	               }
+  1612	
+  1613	               if (j != max98088->eq_textcnt)
+  1614	                       continue;
+  1615	
+  1616	               /* Expand the array */
+  1617	               t = krealloc(max98088->eq_texts,
+  1618	                            sizeof(char *) * (max98088->eq_textcnt + 1),
+  1619	                            GFP_KERNEL);
+  1620	               if (t == NULL)
+  1621	                       continue;
+  1622	
+  1623	               /* Store the new entry */
+  1624	               t[max98088->eq_textcnt] = cfg[i].name;
+  1625	               max98088->eq_textcnt++;
+  1626	               max98088->eq_texts = t;
+  1627	       }
+  1628	
+  1629	       /* Now point the soc_enum to .texts array items */
+  1630	       max98088->eq_enum.texts = max98088->eq_texts;
+  1631	       max98088->eq_enum.items = max98088->eq_textcnt;
+  1632	
+  1633	       ret = snd_soc_component_add_controls(component, controls, ARRAY_SIZE(controls));
+  1634	       if (ret != 0)
+  1635	               dev_err(component->dev, "Failed to add EQ control: %d\n", ret);
+  1636	}
+  1637	
 
 -- 
 0-DAY CI Kernel Test Service
