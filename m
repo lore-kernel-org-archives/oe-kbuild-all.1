@@ -1,42 +1,64 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D95FC347FEE
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 09:53:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E7473AA4ED;
+	Fri, 27 Mar 2026 10:08:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774605202; cv=none; b=CiNntubAymWkgQNiEBT9swt7VkojsI3Xr7uFt6OesFdkeVpwLyeBw6JDxOFnWL8vl0AEsprFaSzTS2NegcO9mDlkCAGyvhaUyO9g9NWusJNwjcLR+uicFtvNrBZv+hiBvitTjlylDZNDxsM4+aBD6UYK+Y9gd1wdb1P+tafdFRc=
+	t=1774606108; cv=none; b=Ke0T2uffZmpouXVB3X8nBGWPj3hM5RkncS6hozPmLFlW1auwSQS6phj5nQL2iuCRGKphrmiw/YdJalGPejo6FRCkOZ/9kY744xiaj+JmMuerNiUi1m7Ty6jZh31wyk21fkln04zTKs5vC4SNwGwL91kRP4al/3rvkzeBiceO4RA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774605202; c=relaxed/simple;
-	bh=a0+C+r48lnFXSI/hQ4vr2P6zw45N+Hwo8ElGgF81vGU=;
+	s=arc-20240116; t=1774606108; c=relaxed/simple;
+	bh=nfJEz6wPuVKV8Cl7qtJJ9mGOW0YUkHEiV0LQPiDonk0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=To7l5P4o8KIDSdjmR4rB1I01Lce0BdE1Y0oDndQxDjVcKkpwObZWXMvQn52KZ3LLv+312IiE6AMea3ZmhXWwDJaxsPz/XmGeDMAiTMeURJQ/qaDXzAnZOa4WaMhvRunrGDdd4C8XSKBE2rNJgj5xJqSt9zJdTSYifliXS/YyeoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SvIig167; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=olduCawrQj91PYfuBtnE3h18ZA5E5gVcGXI8xPs4E6JaE0qF0kMazoM3K5DEhdCGAs9dxaIn1391mQfKWuNkSWdDaxIOBlCICxw1rh5obTbws0i8P/xJg64BYWEKw5ubg5Nrfn6SRl5979FzAhqYubG3erZvfJCGwTXAVpn1YrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K59sa5VI; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SvIig167"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30D31C19423;
-	Fri, 27 Mar 2026 09:53:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774605202;
-	bh=a0+C+r48lnFXSI/hQ4vr2P6zw45N+Hwo8ElGgF81vGU=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=SvIig167JuySveEeuvYBMZAItd6HL59G/ef+KPZOFoku2vV73JaRj7UVzstpCnU49
-	 HsMsdwp1FD4yEDGk0rR9KTvIkUsi5RkPpRZ2NPg1yw37d6vIjmhXrMvQrciAWxUBxJ
-	 FiHPp1dQVOpY+/qRCj/T7j4hsLJ2eDthm3SdVsOkMJBhRznx62ubAnqkKPT5TeMka+
-	 WxwofDXB6FCuq/HW98OMlr20k2cNZbxak1DoorIOR5vnrKNtOwCaUB9wmsewo30BBc
-	 p32Y2YFgsn7CYg1EdKg08REDkT6QTNWBsZDptmel+0NoPzoACFGPscNO7kVQyZy3DD
-	 bwC/FQPJWe9PQ==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 024AACE0C96; Fri, 27 Mar 2026 02:53:19 -0700 (PDT)
-Date: Fri, 27 Mar 2026 02:53:19 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [paulmckrcu:dev 25/27] ERROR: modpost:
- "torture_sched_setaffinity" [kernel/locking/locktorture.ko] undefined!
-Message-ID: <1e106e7f-145d-4e82-89cc-505d3b33a10a@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <202603271720.pkB1CgQm-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K59sa5VI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774606106; x=1806142106;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nfJEz6wPuVKV8Cl7qtJJ9mGOW0YUkHEiV0LQPiDonk0=;
+  b=K59sa5VIrncpkOSCAuwPYcjxDTx9wa/vvFnHuSVuBCVXZxcfbAzKmhg/
+   83RuTpCSvA2d7RIZq5Hjuup6qye1r3yRa/rCV8e3j/pnjavM1JZkC4s9D
+   Q+aVoW06EzdfQWIrt+owMV5yZpSeu0xgrWB1W0IlJ1ctwNCIhWnlHCeg+
+   yy1XlovHqB7mNrxX6hZpRXgG9f59Ptm5jaAotkzfiye2c88Ji0iOKbf3h
+   ftcH5GZA7htn3pkHbhMVH/KICtI4lGwGO5gqxDw87M258/SwxKYowvS9O
+   0xwbzDdtex0XNh6ZLQhDlb07EZ/+vfPECfpHwoMmLilbjzKm29+bDTvXs
+   A==;
+X-CSE-ConnectionGUID: HoaLzfoAQdmwXqe0W7NOTQ==
+X-CSE-MsgGUID: khmCXrGjSuOIlbPd1da5OQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="79581552"
+X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
+   d="scan'208";a="79581552"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 03:08:25 -0700
+X-CSE-ConnectionGUID: 2W9uDgkIRfuEhcY4dYfpgA==
+X-CSE-MsgGUID: +GzRkPzkQU6S4yIEB6A96Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
+   d="scan'208";a="255773478"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 27 Mar 2026 03:08:22 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w6471-00000000A8r-1qp5;
+	Fri, 27 Mar 2026 10:08:19 +0000
+Date: Fri, 27 Mar 2026 18:08:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chuck Lever <cel@kernel.org>, NeilBrown <neil@brown.name>,
+	Jeff Layton <jlayton@kernel.org>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Chuck Lever <chuck.lever@oracle.com>
+Subject: Re: [PATCH v5 1/7] NFSD: Extract revoke_one_stid() utility function
+Message-ID: <202603271711.Pbg3v6zE-lkp@intel.com>
+References: <20260326-umount-kills-nfsv4-state-v5-1-d2ce071b3570@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,32 +67,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202603271720.pkB1CgQm-lkp@intel.com>
+In-Reply-To: <20260326-umount-kills-nfsv4-state-v5-1-d2ce071b3570@oracle.com>
 
-On Fri, Mar 27, 2026 at 05:46:11PM +0800, kernel test robot wrote:
-> Hi Paul,
-> 
-> FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-> 
-> tree:   https://github.com/paulmckrcu/linux dev
-> head:   bc9d500f1f9bb52f09c7b085c08fd0319ad756d3
-> commit: c34dc928341480ede82702b6ee0e594b06e9c07f [25/27] fixup! torture: Add a hazptrtorture.c stress test
-> config: i386-randconfig-003-20260327 (https://download.01.org/0day-ci/archive/20260327/202603271720.pkB1CgQm-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603271720.pkB1CgQm-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202603271720.pkB1CgQm-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
-> 
-> >> ERROR: modpost: "torture_sched_setaffinity" [kernel/locking/locktorture.ko] undefined!
-> >> ERROR: modpost: "torture_sched_setaffinity" [kernel/rcu/rcutorture.ko] undefined!
+Hi Chuck,
 
-Good catch!  But this time I beat you to it.  This *should* be fixed by
-c34dc9283414 ("fixup! torture: Add a hazptrtorture.c stress test"), which
-makes this symbol available to hazptrtorture.c.
+kernel test robot noticed the following build errors:
 
-							Thanx, Paul
+[auto build test ERROR on 65058e9e9b20619f920397f529072e853dd43811]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chuck-Lever/NFSD-Extract-revoke_one_stid-utility-function/20260327-081757
+base:   65058e9e9b20619f920397f529072e853dd43811
+patch link:    https://lore.kernel.org/r/20260326-umount-kills-nfsv4-state-v5-1-d2ce071b3570%40oracle.com
+patch subject: [PATCH v5 1/7] NFSD: Extract revoke_one_stid() utility function
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20260327/202603271711.Pbg3v6zE-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603271711.Pbg3v6zE-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603271711.Pbg3v6zE-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   fs/nfsd/nfs4state.c:1830:14: error: use of undeclared identifier 'state_lock'; did you mean 'task_lock'?
+    1830 |                 spin_lock(&state_lock);
+         |                            ^~~~~~~~~~
+         |                            task_lock
+   include/linux/sched/task.h:216:20: note: 'task_lock' declared here
+     216 | static inline void task_lock(struct task_struct *p)
+         |                    ^
+>> fs/nfsd/nfs4state.c:1830:13: error: incompatible pointer types passing 'void (*)(struct task_struct *)' to parameter of type 'spinlock_t *' (aka 'struct spinlock *') [-Wincompatible-pointer-types]
+    1830 |                 spin_lock(&state_lock);
+         |                           ^~~~~~~~~~~
+   include/linux/spinlock.h:338:51: note: passing argument to parameter 'lock' here
+     338 | static __always_inline void spin_lock(spinlock_t *lock)
+         |                                                   ^
+   fs/nfsd/nfs4state.c:1833:16: error: use of undeclared identifier 'state_lock'; did you mean 'task_lock'?
+    1833 |                 spin_unlock(&state_lock);
+         |                              ^~~~~~~~~~
+         |                              task_lock
+   include/linux/sched/task.h:216:20: note: 'task_lock' declared here
+     216 | static inline void task_lock(struct task_struct *p)
+         |                    ^
+   fs/nfsd/nfs4state.c:1833:15: error: incompatible pointer types passing 'void (*)(struct task_struct *)' to parameter of type 'spinlock_t *' (aka 'struct spinlock *') [-Wincompatible-pointer-types]
+    1833 |                 spin_unlock(&state_lock);
+         |                             ^~~~~~~~~~~
+   include/linux/spinlock.h:386:53: note: passing argument to parameter 'lock' here
+     386 | static __always_inline void spin_unlock(spinlock_t *lock)
+         |                                                     ^
+   4 errors generated.
+
+
+vim +1830 fs/nfsd/nfs4state.c
+
+  1805	
+  1806	static void revoke_one_stid(struct nfs4_client *clp, struct nfs4_stid *stid)
+  1807	{
+  1808		struct nfs4_ol_stateid *stp;
+  1809		struct nfs4_delegation *dp;
+  1810	
+  1811		switch (stid->sc_type) {
+  1812		case SC_TYPE_OPEN:
+  1813			stp = openlockstateid(stid);
+  1814			mutex_lock_nested(&stp->st_mutex, OPEN_STATEID_MUTEX);
+  1815			revoke_ol_stid(clp, stp);
+  1816			mutex_unlock(&stp->st_mutex);
+  1817			break;
+  1818		case SC_TYPE_LOCK:
+  1819			stp = openlockstateid(stid);
+  1820			mutex_lock_nested(&stp->st_mutex, LOCK_STATEID_MUTEX);
+  1821			revoke_ol_stid(clp, stp);
+  1822			mutex_unlock(&stp->st_mutex);
+  1823			break;
+  1824		case SC_TYPE_DELEG:
+  1825			/*
+  1826			 * Extra reference guards against concurrent FREE_STATEID.
+  1827			 */
+  1828			refcount_inc(&stid->sc_count);
+  1829			dp = delegstateid(stid);
+> 1830			spin_lock(&state_lock);
+  1831			if (!unhash_delegation_locked(dp, SC_STATUS_ADMIN_REVOKED))
+  1832				dp = NULL;
+  1833			spin_unlock(&state_lock);
+  1834			if (dp)
+  1835				revoke_delegation(dp);
+  1836			else
+  1837				nfs4_put_stid(stid);
+  1838			break;
+  1839		case SC_TYPE_LAYOUT:
+  1840			nfsd4_close_layout(layoutstateid(stid));
+  1841			break;
+  1842		}
+  1843	}
+  1844	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
