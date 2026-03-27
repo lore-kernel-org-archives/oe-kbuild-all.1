@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A79D32A3EC
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 23:53:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7409E32FA29
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 23:53:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774655620; cv=none; b=aZp31o+R+p9plXDu2LXsprvMCWl/FcRG8IYyY0SR/H2wHETmeojgC1lFqyH35YQKTpBxh1MnFB6BLKNBWo9jIfxv4Pz8BIHpan0zYBmglKwy55Ej2M7PELp2tdJvM+D9/3sE/lJMDJZ5VbqKcoyW1WnJqtBXOAuWf1UDwj50YVY=
+	t=1774655622; cv=none; b=vEs7mHs7pu6xGLCITOSUZiAR/uiFokQbjddIH3Tpxwh8r1aeIbCxe/i+O3xOGrEeBlduujNqMEmhg2cd77raE6nr7N7rGvEGXNc+yCw/y5OMZa7kHk78JimsttFQ66fK9lEq496WQcV7lRkSJeNTFOlbYXoloNtYi93dzfxkSyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774655620; c=relaxed/simple;
-	bh=JxqxpCtQxrQ9llftSAzCkNbdiJnG0nuZ64cx8DqyiJk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=c8laOv2pD+uuKJV5Bczv9eXPPwd7fOODzCZIspUyJu6xhO1pS50ZCCWpJaHlWKgvKj4VV1/a3LoSURnfdnPoBS6vOxYwFnN2txdH03uGnkCRJuoQhFm47bxDn75VBeZ1Afgmz0OOAEObDkAGVI2vQNU0B4RYmXlFf1HnkExkTQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A9J3NGID; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1774655622; c=relaxed/simple;
+	bh=cVoIwrWV4eiu7ul1ElhsMumTCSolrMbRX9v70skgJnY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=VFnDG68BvRP6KRrUI0mutuh/siRBNwPKj4Mj7DlM/VUKbsOwFZn0Rk8kIffrb8LlJ9ceQG7ritILeDQkIWB+mUpzOo3F5wEOS6Uhrd+g4A9sm7Fk3THSJd5DZ2QsgMerJT+/4rTk9EvEK0lPx5GQPYxfEnr1NSEq/deo2Ka1pxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e9WILInM; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A9J3NGID"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e9WILInM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774655618; x=1806191618;
+  t=1774655621; x=1806191621;
   h=date:from:to:cc:subject:message-id;
-  bh=JxqxpCtQxrQ9llftSAzCkNbdiJnG0nuZ64cx8DqyiJk=;
-  b=A9J3NGID7UVJsXn1hTSDXujIWJQanzzTGhh159O13M+fXHUNrrWj4AcB
-   w8cWawXmA0cIHO1tDB9VpQze2sgkuOwHQFymbvhO03UXiJ0DPi0ObbbzB
-   hr7VatjKm/u++OL5z/l0pVhMpOC33/bHa+YgGiX0wZ8EBqN/FZhFhHdzR
-   lBcYPk2NPYfsHZr8LrZwrE1E+Ym30UYStMPmp32X+zm2yj0blP2XBnJ9K
-   eR466+Z0eCMxqkO7yJ3U+b6GDhsLjFnclPUSj2XXfKtS6dnAGIItE1Snj
-   RLDgtQq21IWNM8hE1kTv5yfe8FC8YUK5V8Z1jHy1CZkNtHAxAHBJ1Rwz/
+  bh=cVoIwrWV4eiu7ul1ElhsMumTCSolrMbRX9v70skgJnY=;
+  b=e9WILInMgVkthUt4S2H016po9m0W2O+d8wBwgyQ0jdoDFctQAtQbxwdU
+   fjU9jt2qF/ySbzK9oHHvyQgnxlI+UglwdpYUBEPV508NVWAUwYpym8JVf
+   hiPQc36RZFSRdwNEWp6Hu9sVpHZsLIoAiFxkZWL+4FTZkdaUW+GOKPZ2f
+   +Npd0DdADzzTQZoJ1Htv5ciVE8EidQb2fJjuYY3p9zuEMKIJpRaE7Q+4Y
+   iaNwRyXDINAglZ4yBDS93ikP7xU4fBsdUWPLpvJyFJikKSHt5B/vh2X+3
+   KfcpXzfTwLvyNaTj/8Dw9h8H0K1ikBC6+aCqGFfgodzVv9mz1udm5Fi5O
    g==;
-X-CSE-ConnectionGUID: nzOCe1OcS9W7VRipS2b0iQ==
-X-CSE-MsgGUID: 4xiwaZiLT3G6VUOZqA5viw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="63288664"
+X-CSE-ConnectionGUID: oFhfDywsT8qX6doHcl4MZA==
+X-CSE-MsgGUID: LqRC32tTSBWZnZk2t4OfdQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="63288662"
 X-IronPort-AV: E=Sophos;i="6.23,145,1770624000"; 
-   d="scan'208";a="63288664"
+   d="scan'208";a="63288662"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
   by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 16:53:38 -0700
-X-CSE-ConnectionGUID: MCrORBUyQzGteWqMCFLsKQ==
-X-CSE-MsgGUID: bVWHrccDSFedHI+Um65qjw==
+X-CSE-ConnectionGUID: 8DlIKRUNREKNghV09SG+Pg==
+X-CSE-MsgGUID: 7jL++pk9R3WEEYGr46IP7w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,145,1770624000"; 
-   d="scan'208";a="230238700"
+   d="scan'208";a="230238699"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
   by fmviesa005.fm.intel.com with ESMTP; 27 Mar 2026 16:53:36 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w6Gze-00000000Atz-08Nh;
+	id 1w6Gze-00000000Atx-027V;
 	Fri, 27 Mar 2026 23:53:34 +0000
-Date: Sat, 28 Mar 2026 07:52:40 +0800
+Date: Sat, 28 Mar 2026 07:52:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-cleanup-2026-03-27 95/106]
- sound/soc/pxa/mmp-sspa.c:110:23: warning: initialization of 'struct device *'
- from 'int' makes pointer from integer without a cast
-Message-ID: <202603280752.qonDQ5vF-lkp@intel.com>
+Subject: [android-common:android14-6.1 0/2]
+ drivers/ufs/core/ufs-mcq.c:608: warning: Function parameter or member 'cmd'
+ not described in 'ufshcd_mcq_abort'
+Message-ID: <202603280753.sKBIp12W-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,74 +60,167 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/morimoto/linux sound-cleanup-2026-03-27
-head:   b547ff73a13ed8ce92e8e208ccd27884077b160b
-commit: 09f6604cc02792c7e69777d60b23ac6314ee428c [95/106] dai
-config: arm64-randconfig-004-20260328 (https://download.01.org/0day-ci/archive/20260328/202603280752.qonDQ5vF-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603280752.qonDQ5vF-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   5358ce5b12374ccfca58d40797ac7c5dad72ff05
+commit: e3d62e38a9d5dde5e491c5aeefffb35d6d71e8df [0/2] FROMLIST: ufs: mcq: Added ufshcd_mcq_abort()
+config: i386-buildonly-randconfig-004-20260327 (https://download.01.org/0day-ci/archive/20260328/202603280753.sKBIp12W-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603280753.sKBIp12W-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603280752.qonDQ5vF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603280753.sKBIp12W-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   sound/soc/pxa/mmp-sspa.c: In function 'mmp_sspa_set_dai_sysclk':
-   sound/soc/pxa/mmp-sspa.c:110:23: error: implicit declaration of function 'snd_soc_dai_to_dev'; did you mean 'snd_soc_dapm_to_dev'? [-Werror=implicit-function-declaration]
-     struct device *dev = snd_soc_dai_to_dev(cpu_dai);
-                          ^~~~~~~~~~~~~~~~~~
-                          snd_soc_dapm_to_dev
->> sound/soc/pxa/mmp-sspa.c:110:23: warning: initialization of 'struct device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   sound/soc/pxa/mmp-sspa.c: In function 'mmp_sspa_set_dai_pll':
-   sound/soc/pxa/mmp-sspa.c:138:23: warning: initialization of 'struct device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     struct device *dev = snd_soc_dai_to_dev(cpu_dai);
-                          ^~~~~~~~~~~~~~~~~~
-   sound/soc/pxa/mmp-sspa.c: In function 'mmp_sspa_hw_params':
-   sound/soc/pxa/mmp-sspa.c:216:23: warning: initialization of 'struct device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     struct device *dev = snd_soc_dai_to_dev(dai);
-                          ^~~~~~~~~~~~~~~~~~
-   sound/soc/pxa/mmp-sspa.c: In function 'mmp_sspa_probe':
-   sound/soc/pxa/mmp-sspa.c:327:23: warning: initialization of 'struct device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     struct device *dev = snd_soc_dai_to_dev(dai);
-                          ^~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   drivers/ufs/core/ufs-mcq.c:483: warning: Function parameter or member 'hba' not described in 'ufshcd_mcq_sq_cleanup'
+   drivers/ufs/core/ufs-mcq.c:483: warning: Function parameter or member 'task_tag' not described in 'ufshcd_mcq_sq_cleanup'
+   drivers/ufs/core/ufs-mcq.c:541: warning: Function parameter or member 'utrd' not described in 'ufshcd_mcq_nullify_sqe'
+   drivers/ufs/core/ufs-mcq.c:564: warning: Function parameter or member 'hba' not described in 'ufshcd_mcq_sqe_search'
+   drivers/ufs/core/ufs-mcq.c:564: warning: Function parameter or member 'hwq' not described in 'ufshcd_mcq_sqe_search'
+   drivers/ufs/core/ufs-mcq.c:564: warning: Function parameter or member 'task_tag' not described in 'ufshcd_mcq_sqe_search'
+>> drivers/ufs/core/ufs-mcq.c:608: warning: Function parameter or member 'cmd' not described in 'ufshcd_mcq_abort'
 
 
-vim +110 sound/soc/pxa/mmp-sspa.c
+vim +608 drivers/ufs/core/ufs-mcq.c
 
-   102	
-   103	/*
-   104	 * Set the SSP ports SYSCLK.
-   105	 */
-   106	static int mmp_sspa_set_dai_sysclk(struct snd_soc_dai *cpu_dai,
-   107					    int clk_id, unsigned int freq, int dir)
-   108	{
-   109		struct sspa_priv *sspa = snd_soc_dai_get_drvdata(cpu_dai);
- > 110		struct device *dev = snd_soc_dai_to_dev(cpu_dai);
-   111		int ret = 0;
-   112	
-   113		if (dev->of_node)
-   114			return -ENOTSUPP;
-   115	
-   116		switch (clk_id) {
-   117		case MMP_SSPA_CLK_AUDIO:
-   118			ret = clk_set_rate(sspa->audio_clk, freq);
-   119			if (ret)
-   120				return ret;
-   121			break;
-   122		case MMP_SSPA_CLK_PLL:
-   123		case MMP_SSPA_CLK_VCXO:
-   124			/* not support yet */
-   125			return -EINVAL;
-   126		default:
-   127			return -EINVAL;
-   128		}
-   129	
-   130		return 0;
-   131	}
-   132	
+   473	
+   474	/**
+   475	 * ufshcd_mcq_sq_cleanup - Clean up submission queue resources
+   476	 * associated with the pending command.
+   477	 * @hba - per adapter instance.
+   478	 * @task_tag - The command's task tag.
+   479	 *
+   480	 * Returns 0 for success; error code otherwise.
+   481	 */
+   482	int ufshcd_mcq_sq_cleanup(struct ufs_hba *hba, int task_tag)
+ > 483	{
+   484		struct ufshcd_lrb *lrbp = &hba->lrb[task_tag];
+   485		struct scsi_cmnd *cmd = lrbp->cmd;
+   486		struct ufs_hw_queue *hwq;
+   487		void __iomem *reg, *opr_sqd_base;
+   488		u32 nexus, id, val;
+   489		int err;
+   490	
+   491		if (task_tag != hba->nutrs - UFSHCD_NUM_RESERVED) {
+   492			if (!cmd)
+   493				return -EINVAL;
+   494			hwq = ufshcd_mcq_req_to_hwq(hba, scsi_cmd_to_rq(cmd));
+   495		} else {
+   496			hwq = hba->dev_cmd_queue;
+   497		}
+   498	
+   499		id = hwq->id;
+   500	
+   501		mutex_lock(&hwq->sq_mutex);
+   502	
+   503		/* stop the SQ fetching before working on it */
+   504		err = ufshcd_mcq_sq_stop(hba, hwq);
+   505		if (err)
+   506			goto unlock;
+   507	
+   508		/* SQCTI = EXT_IID, IID, LUN, Task Tag */
+   509		nexus = lrbp->lun << 8 | task_tag;
+   510		opr_sqd_base = mcq_opr_base(hba, OPR_SQD, id);
+   511		writel(nexus, opr_sqd_base + REG_SQCTI);
+   512	
+   513		/* SQRTCy.ICU = 1 */
+   514		writel(SQ_ICU, opr_sqd_base + REG_SQRTC);
+   515	
+   516		/* Poll SQRTSy.CUS = 1. Return result from SQRTSy.RTC */
+   517		reg = opr_sqd_base + REG_SQRTS;
+   518		err = read_poll_timeout(readl, val, val & SQ_CUS, 20,
+   519					MCQ_POLL_US, false, reg);
+   520		if (err)
+   521			dev_err(hba->dev, "%s: failed. hwq=%d, tag=%d err=%ld\n",
+   522				__func__, id, task_tag,
+   523				FIELD_GET(SQ_ICU_ERR_CODE_MASK, readl(reg)));
+   524	
+   525		if (ufshcd_mcq_sq_start(hba, hwq))
+   526			err = -ETIMEDOUT;
+   527	
+   528	unlock:
+   529		mutex_unlock(&hwq->sq_mutex);
+   530		return err;
+   531	}
+   532	
+   533	/**
+   534	 * ufshcd_mcq_nullify_sqe - Nullify the submission queue entry.
+   535	 * Write the sqe's Command Type to 0xF. The host controller will not
+   536	 * fetch any sqe with Command Type = 0xF.
+   537	 *
+   538	 * @utrd - UTP Transfer Request Descriptor to be nullified.
+   539	 */
+   540	static void ufshcd_mcq_nullify_sqe(struct utp_transfer_req_desc *utrd)
+   541	{
+   542		u32 dword_0;
+   543	
+   544		dword_0 = le32_to_cpu(utrd->header.dword_0);
+   545		dword_0 &= ~UPIU_COMMAND_TYPE_MASK;
+   546		dword_0 |= FIELD_PREP(UPIU_COMMAND_TYPE_MASK, 0xF);
+   547		utrd->header.dword_0 = cpu_to_le32(dword_0);
+   548	}
+   549	
+   550	/**
+   551	 * ufshcd_mcq_sqe_search - Search for the command in the submission queue
+   552	 * If the command is in the submission queue and not issued to the device yet,
+   553	 * nullify the sqe so the host controller will skip fetching the sqe.
+   554	 *
+   555	 * @hba - per adapter instance.
+   556	 * @hwq - Hardware Queue to be searched.
+   557	 * @task_tag - The command's task tag.
+   558	 *
+   559	 * Returns true if the SQE containing the command is present in the SQ
+   560	 * (not fetched by the controller); returns false if the SQE is not in the SQ.
+   561	 */
+   562	static bool ufshcd_mcq_sqe_search(struct ufs_hba *hba,
+   563					  struct ufs_hw_queue *hwq, int task_tag)
+   564	{
+   565		struct ufshcd_lrb *lrbp = &hba->lrb[task_tag];
+   566		struct utp_transfer_req_desc *utrd;
+   567		u32 mask = hwq->max_entries - 1;
+   568		__le64  cmd_desc_base_addr;
+   569		bool ret = false;
+   570		u64 addr, match;
+   571		u32 sq_head_slot;
+   572	
+   573		mutex_lock(&hwq->sq_mutex);
+   574	
+   575		ufshcd_mcq_sq_stop(hba, hwq);
+   576		sq_head_slot = ufshcd_mcq_get_sq_head_slot(hwq);
+   577		if (sq_head_slot == hwq->sq_tail_slot)
+   578			goto out;
+   579	
+   580		cmd_desc_base_addr = lrbp->utr_descriptor_ptr->command_desc_base_addr;
+   581		addr = le64_to_cpu(cmd_desc_base_addr) & CQE_UCD_BA;
+   582	
+   583		while (sq_head_slot != hwq->sq_tail_slot) {
+   584			utrd = hwq->sqe_base_addr +
+   585					sq_head_slot * sizeof(struct utp_transfer_req_desc);
+   586			match = le64_to_cpu(utrd->command_desc_base_addr) & CQE_UCD_BA;
+   587			if (addr == match) {
+   588				ufshcd_mcq_nullify_sqe(utrd);
+   589				ret = true;
+   590				goto out;
+   591			}
+   592			sq_head_slot = (sq_head_slot + 1) & mask;
+   593		}
+   594	
+   595	out:
+   596		ufshcd_mcq_sq_start(hba, hwq);
+   597		mutex_unlock(&hwq->sq_mutex);
+   598		return ret;
+   599	}
+   600	
+   601	/**
+   602	 * ufshcd_mcq_abort - Abort the command in MCQ.
+   603	 * @cmd - The command to be aborted.
+   604	 *
+   605	 * Returns SUCCESS or FAILED error codes
+   606	 */
+   607	int ufshcd_mcq_abort(struct scsi_cmnd *cmd)
+ > 608	{
 
 -- 
 0-DAY CI Kernel Test Service
