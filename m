@@ -1,115 +1,103 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E14F03BD651
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 06:38:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E00883BF696
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 07:28:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774593490; cv=none; b=ZdtQEFL+b/yxrdGtzMBZZmrj151bEeRx/isrF8o1w3EqEGQh+e2QpkxOqaAXPqmh5KPsQXjIdvPslzTifE8TsbjrMnhJ30bpRt43BIpUWoV2IhmgBLpY1235B9DPF1MPGPOm9g2JL0oPV+xMEfQwFJKXCJCj3f/10xWu3Qd51So=
+	t=1774596540; cv=none; b=IcHkscIqWHoXXmxdUzpjfs792fBV957xGY/l1+jGh7VbOE6YgrQ337eKi/T4TRMcZXT2JBaNv8wBND3RFKv0O2rlvsQ6WLOKkpsJj3Vx77cqHTgoVdjtzu2fmqez+k1x3OuumnYCY2w3ACFPnTtViKrcdsjk0jyHlzRNHvEkEec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774593490; c=relaxed/simple;
-	bh=tyMX3LXg4anTa4lMF4gwpF8nIwngi77aP2VaOWe8tK8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=H13DWRu0ZPTG48I7rAZvSFCxpsmfWt7m++IdjaQPyl+I+yKuRL1WjoLIOOItnwOYznabxN4mHgAabHqKbqXyCq5TS1Webi34wTx1mKInq4EWNJHau5GslzRR3Kky7XikwO+HIZS9dArzzg7CkdGEBRG+hHii6LEWmTdvyYEbyek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QWdf+BKs; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1774596540; c=relaxed/simple;
+	bh=V/vD5nwhMWjZen8sZJKGYg3mxV5U0mPfPQEQZfdzTuo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bO1DfPG0cSv/hKZcIgCwfbPeR0NN9MaOirqIWibLF5rFI/2epuc28WFSFGnKdHJM2H+4kttQldfrbxtS/bGg0utQad3ulC8CXCoF4DdYUUf5bq2SrQ5nxQITMX4KNqlr55XXBkgbUNBDa84WIWM4cpeuLnUuMPsR3RgswD239Ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MME8Fdbj; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QWdf+BKs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MME8Fdbj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774593481; x=1806129481;
-  h=date:from:to:cc:subject:message-id;
-  bh=tyMX3LXg4anTa4lMF4gwpF8nIwngi77aP2VaOWe8tK8=;
-  b=QWdf+BKs6NwpjwsHUPMWFqM7xAiLLEBSMCGWsKYK755l3vXM2mgKThGI
-   pkfd6/R4pkFpAYJPI5q0y0zyh7dk/bH0SFXZAqsGhUOaVOIltmYEQ4vye
-   LEwR66K7EYw/GV53bZ6sjGObZYTzeD6RIiJtddGjRWI8KXl8E3SRHBEV1
-   8/exuQJtGw77YRH5boIwj+vgyg0Tohxhho4eIdpRMxQ70C8nvuxP3srrX
-   Ez0g3rDAicUJEYmDWFtcHAiAkRn3zpB7V+MjVXCFTUUyOLAQo8fcrJ/7/
-   jBbf+Zj6t2cNx4l/kp++NJ60RB74D3O8Gm0HbSI1xxpGPqZQW0yxLYx+q
-   A==;
-X-CSE-ConnectionGUID: G66i1Z3eQnOfaFUHS6229Q==
-X-CSE-MsgGUID: b8mZ1yqaQO2sh0Wxc1zGlQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="86357441"
+  t=1774596534; x=1806132534;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=V/vD5nwhMWjZen8sZJKGYg3mxV5U0mPfPQEQZfdzTuo=;
+  b=MME8FdbjnOA85i2VqIQVoo+tV/tqui3jtBrJlmL73ucTY0dLdj6GtL92
+   X20ChftYvy5LPN+TXML/9Iy9+TtyjDU5UtLQYTYE3o+Kr6roTXE1zxupx
+   OyuaxtxdAe/mtLtbGI7tjbK37HU6ndbJ/Ocsz0kPvOVobx/3BDCptXGeW
+   NwqWeu7f8M8FjeoAt3VcCARwuy4iecHCEqb8nIy8fryWd45WCkoaYSm9I
+   jtp+T8oTCih+bN9Vr1sL1I0uei0CGqrRz5l8U4g53tsLK+G+1bGfrmkOn
+   Ue9bqZ/dVbI9g/1bpd/kAkrHL5sXkGlF2v0JG74Tz/N9ITxK0ppOm9IJc
+   g==;
+X-CSE-ConnectionGUID: m61CBNwXRVisqwgggh/OzQ==
+X-CSE-MsgGUID: tF02dEleS0SMg7+CNSExDQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="75633491"
 X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="86357441"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 23:37:59 -0700
-X-CSE-ConnectionGUID: F4MDUC/YSvKdP9F60zf+lQ==
-X-CSE-MsgGUID: aISyuXJDTyqooh4e1nlyAw==
+   d="scan'208";a="75633491"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 00:28:53 -0700
+X-CSE-ConnectionGUID: nw/w3xEXQbm7OmnTC0IuBQ==
+X-CSE-MsgGUID: tYebg695Rxy3lZMio+clYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="229296421"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 26 Mar 2026 23:37:57 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+   d="scan'208";a="225246742"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa008.jf.intel.com with ESMTP; 27 Mar 2026 00:28:52 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w60pO-000000009sH-39zR;
-	Fri, 27 Mar 2026 06:37:54 +0000
-Date: Fri, 27 Mar 2026 14:37:47 +0800
+	id 1w61cf-000000007Sn-0hyl;
+	Fri, 27 Mar 2026 07:28:49 +0000
+Date: Fri, 27 Mar 2026 08:28:13 +0100
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [axboe:rw_iter 453/525] drivers/gpu/drm/adp/adp_drv.c:85:3:
- error: 'const struct file_operations' has no member named 'read'
-Message-ID: <202603271444.h565k7iI-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Matthew Laux <matthew.laux@gmail.com>, linux-media@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, mchehab@kernel.org,
+	gregkh@linuxfoundation.org, Matthew Laux <matthew.laux@gmail.com>
+Subject: Re: [PATCH 1/1] staging: media: add driver for StarTech USB3HDCAP
+Message-ID: <202603270851.dIxOgNPA-lkp@intel.com>
+References: <20260325170634.55528-2-matthew.laux@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260325170634.55528-2-matthew.laux@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git rw_iter
-head:   520344cda122ca1903fafb19768f56509e3db8b1
-commit: e3309869a43c350b1fa73f117cf7f86246e70ccc [453/525] fs: finally remove ->read() and ->write() from file_operations
-config: arm64-randconfig-003-20260327 (https://download.01.org/0day-ci/archive/20260327/202603271444.h565k7iI-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603271444.h565k7iI-lkp@intel.com/reproduce)
+Hi Matthew,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 0e2c4117c3512cf6b8f54c2c3d37564bfa3ccd67]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Laux/staging-media-add-driver-for-StarTech-USB3HDCAP/20260327-130544
+base:   0e2c4117c3512cf6b8f54c2c3d37564bfa3ccd67
+patch link:    https://lore.kernel.org/r/20260325170634.55528-2-matthew.laux%40gmail.com
+patch subject: [PATCH 1/1] staging: media: add driver for StarTech USB3HDCAP
+reproduce: (https://download.01.org/0day-ci/archive/20260327/202603270851.dIxOgNPA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603271444.h565k7iI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603270851.dIxOgNPA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> drivers/gpu/drm/adp/adp_drv.c:85:3: error: 'const struct file_operations' has no member named 'read'
-      85 |  .read           = drm_read,
-         |   ^~~~
->> drivers/gpu/drm/adp/adp_drv.c:85:20: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
-      85 |  .read           = drm_read,
-         |                    ^~~~~~~~
-   drivers/gpu/drm/adp/adp_drv.c:85:20: note: (near initialization for 'adp_fops')
->> drivers/gpu/drm/adp/adp_drv.c:85:20: error: initialization of 'long int (*)(struct file *, unsigned int,  long unsigned int)' from incompatible pointer type 'ssize_t (*)(struct kiocb *, struct iov_iter *)' {aka 'long int (*)(struct kiocb *, struct iov_iter *)'} [-Werror=incompatible-pointer-types]
-   drivers/gpu/drm/adp/adp_drv.c:85:20: note: (near initialization for 'adp_fops.unlocked_ioctl')
-   drivers/gpu/drm/adp/adp_drv.c:85:20: warning: initialized field overwritten [-Woverride-init]
-   drivers/gpu/drm/adp/adp_drv.c:85:20: note: (near initialization for 'adp_fops.unlocked_ioctl')
-   cc1: some warnings being treated as errors
-
-
-vim +85 drivers/gpu/drm/adp/adp_drv.c
-
-332122eba628d5 Sasha Finkelstein 2025-02-24  77  
-332122eba628d5 Sasha Finkelstein 2025-02-24  78  static const struct file_operations adp_fops = {
-332122eba628d5 Sasha Finkelstein 2025-02-24  79  	.owner          = THIS_MODULE,
-332122eba628d5 Sasha Finkelstein 2025-02-24  80  	.open           = adp_open,
-332122eba628d5 Sasha Finkelstein 2025-02-24  81  	.release        = drm_release,
-332122eba628d5 Sasha Finkelstein 2025-02-24  82  	.unlocked_ioctl = drm_ioctl,
-332122eba628d5 Sasha Finkelstein 2025-02-24  83  	.compat_ioctl   = drm_compat_ioctl,
-332122eba628d5 Sasha Finkelstein 2025-02-24  84  	.poll           = drm_poll,
-01dd04d608e847 Jens Axboe        2026-03-04 @85  	.read           = drm_read,
-332122eba628d5 Sasha Finkelstein 2025-02-24  86  	.llseek         = noop_llseek,
-332122eba628d5 Sasha Finkelstein 2025-02-24  87  	.mmap           = drm_gem_mmap,
-332122eba628d5 Sasha Finkelstein 2025-02-24  88  	.fop_flags      = FOP_UNSIGNED_OFFSET,
-332122eba628d5 Sasha Finkelstein 2025-02-24  89  	DRM_GEM_DMA_UNMAPPED_AREA_FOPS
-332122eba628d5 Sasha Finkelstein 2025-02-24  90  };
-332122eba628d5 Sasha Finkelstein 2025-02-24  91  
-
-:::::: The code at line 85 was first introduced by commit
-:::::: 01dd04d608e847467c9faf9cd5959e56fa8947bf drm: convert remaining fops to read/write iterators
-
-:::::: TO: Jens Axboe <axboe@kernel.dk>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS=\ -fno-crash-diagnostics\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck 
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+>> ./drivers/staging/media/usb3hdcap/usb3hdcap-video.c: 7 linux/version.h not needed.
+   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 446: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
