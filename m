@@ -1,100 +1,115 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E59D392C48
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 18:49:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 447DF3019AA
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 18:59:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774637345; cv=none; b=XhuMfnqADFcXt+EhPDHdwHmVdenN4xh+R6/l8ztVTuXEAbr0+/AVWDBG7X882Yn957+Hqoe3UNWhHwhXdvYyNiYe/49oA3vOKPcqjZP2oAVrtogsP6qxoKyDKIitNxkbtKm/6P7DNpsxVpmxqekBAwE7EjC0ILeMo5RQgB2Ca0I=
+	t=1774637949; cv=none; b=MxblMeQtQ2He99wlgHKoX6V/3DH0OblxCkVJdiVSsRFZHSu7wwa5F6SfFWaYtyYSGj4HqoefneH4Czszu0yYMUSnz/p6DyoDcMeg5so25p7spDrRpv5JvD68Lc/zUE3EC7l/nrGcsl148fZhGSiKUUh3a7IeymDeHwX+Pjw/djo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774637345; c=relaxed/simple;
-	bh=8LsXGiGBAxk/QQ44Ytfnk5RdTMl+K280H72+JKoXr8Q=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=L97MnGjXCEM54LFRh+2Gc2JlZYJlRnGUgrs33jwr8WaO1iozZAzIKfS25940IPN1s1LddG8gBXQxnD10QyzPBv77NCjv4w/19UPY0C6gMOky4R+hz9wplpuLkMfVXnxkdVxhzsBFpjy2cWrpXXt8thR13csnseOawO94w6BBnic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O0SWqCjs; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1774637949; c=relaxed/simple;
+	bh=Q0dd9IOAI89ZSQkit8UCURS9a6et8dgdtMNLM9mGy0A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WUglTegTu4vpXSAHoYzQ2VT8XEEn+oEaZgUg89hvpWezgiw5cCa2TxVYGm3IAseofQklGGE3QOry9Bo/eufDESckP1ltLszz0b47X+/rTF+qXErX20Db9yPqZ9/Zy7H1Zj9IGTceLwyfFlk8V3TnVlmbg8C5lirwbjGM/1fgpWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dVfEJLzi; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O0SWqCjs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dVfEJLzi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774637344; x=1806173344;
-  h=date:from:to:cc:subject:message-id;
-  bh=8LsXGiGBAxk/QQ44Ytfnk5RdTMl+K280H72+JKoXr8Q=;
-  b=O0SWqCjsG0hHxa+tbM+7NzYgW1zq3kPDO4ImUbVzg286UPfRcCpMNJcH
-   skwozr85twxqAeLDU6Dtmez94SoP5SXVeszWH+3pu+CIocvx/9D1fTggF
-   f0KK9vJeWd8GVhEPOvwI3encWy1uSZ4168gfHRFlYc+zzePo7tSV/v/9H
-   k8LYh8h99wzhg4DME1TcI25AEw9oL6zJ0ivXTbr9n1wQyZ4CIMtYhTWjB
-   NDnQ2OyadFa5JiCjyX1lq3TahRB6rJVzL5SqZEwdrqiA7KWHoIUP88Yoe
-   7wlf9W8/RPiKeyoF/beh5maxc406SwA1iGP1AO29/d1BS52lvVZkdM18I
-   g==;
-X-CSE-ConnectionGUID: 9Wmbp1dxTL6dHOIT3Qbm2g==
-X-CSE-MsgGUID: 790mi/xTSHG8awclNw75pQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="87189788"
+  t=1774637948; x=1806173948;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Q0dd9IOAI89ZSQkit8UCURS9a6et8dgdtMNLM9mGy0A=;
+  b=dVfEJLziN3merfBhPm18HsJXm5rW8vbWxWa+LcUkpVou0BOPoc/e3MYm
+   POurXrU0IGer5M9Trk42Ts90qNIJ/UxxUlDyZlUaE1Re3n2Wb7hqUEGZD
+   D0dAYwjioPJIFZocD6I2ZqeV8Me5puf1KPhFaD2yGeV1XCpQtl0s4OIPY
+   aHpRBPpuLU4UnVd+eRxGTLBZ8rDMNxbPFkRLc+DbVpsb55WdyTpAJZrk6
+   HaBvX6Sk1bEuXBg5smeAcAlcU8kn8VsCyRfb6BIxKwBPVkAg7iCmEOl1w
+   DZFDAOhaltVZalTs6Wqcu8sSlLtTA0KQycl/8jalEYkqx3NdcWtEVWUN3
+   Q==;
+X-CSE-ConnectionGUID: wxTuuSF4Swyo2CtHxULNyA==
+X-CSE-MsgGUID: PU5f2ZvzRbOpgFji1P3KcA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="75916590"
 X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="87189788"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 11:49:03 -0700
-X-CSE-ConnectionGUID: 3iFks4tVT3q0XZ39PikS/Q==
-X-CSE-MsgGUID: 3KAlDEnkSuef56soqyfgAQ==
+   d="scan'208";a="75916590"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 11:59:08 -0700
+X-CSE-ConnectionGUID: BDEglK+nRymDseHdwIsjuQ==
+X-CSE-MsgGUID: 9MdtC+zWQFmIzAJA3CCdqA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="248673731"
+   d="scan'208";a="221001658"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 27 Mar 2026 11:49:02 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 27 Mar 2026 11:59:04 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w6CEt-00000000Abx-3XHd;
-	Fri, 27 Mar 2026 18:48:59 +0000
-Date: Sat, 28 Mar 2026 02:48:31 +0800
+	id 1w6COb-00000000AcL-1yVq;
+	Fri, 27 Mar 2026 18:59:01 +0000
+Date: Sat, 28 Mar 2026 02:58:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 0/2]
- drivers/usb/host/xhci-mem.c:79:6: sparse: sparse: symbol
- 'xhci_free_segments_for_ring' was not declared. Should it be static?
-Message-ID: <202603280247.3V8HuHl3-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Sai Krishna Potthuri <sai.krishna.potthuri@amd.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>, Nuno Sa <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Michal Simek <monstr@monstr.eu>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, saikrishna12468@gmail.com,
+	git@amd.com, Sai Krishna Potthuri <sai.krishna.potthuri@amd.com>
+Subject: Re: [PATCH v2 1/4] iio: adc: xilinx-xadc: Split driver into core and
+ platform files
+Message-ID: <202603280238.N4wp7jaC-lkp@intel.com>
+References: <20260323074505.3853353-2-sai.krishna.potthuri@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260323074505.3853353-2-sai.krishna.potthuri@amd.com>
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   c1bb2a3631361a534ff49b36ec755ba10aff9315
-commit: 6496f6cfbbd3bf241c6f16c7621db32088a1f073 [0/2] ANDROID: usb: host: export symbols for xhci hooks usage
-config: x86_64-randconfig-123-20260327 (https://download.01.org/0day-ci/archive/20260328/202603280247.3V8HuHl3-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+Hi Sai,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on robh/for-next linus/master v7.0-rc5 next-20260326]
+[cannot apply to xilinx-xlnx/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sai-Krishna-Potthuri/iio-adc-xilinx-xadc-Split-driver-into-core-and-platform-files/20260326-024045
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20260323074505.3853353-2-sai.krishna.potthuri%40amd.com
+patch subject: [PATCH v2 1/4] iio: adc: xilinx-xadc: Split driver into core and platform files
+config: hexagon-randconfig-r133-20260326 (https://download.01.org/0day-ci/archive/20260328/202603280238.N4wp7jaC-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603280247.3V8HuHl3-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603280238.N4wp7jaC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603280247.3V8HuHl3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603280238.N4wp7jaC-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/usb/host/xhci-mem.c:79:6: sparse: sparse: symbol 'xhci_free_segments_for_ring' was not declared. Should it be static?
-   drivers/usb/host/xhci-mem.c:395:16: sparse: sparse: Using plain integer as NULL pointer
-   drivers/usb/host/xhci-mem.c:1926:16: sparse: sparse: Using plain integer as NULL pointer
+>> drivers/iio/adc/xilinx-xadc-core.c:764:12: sparse: sparse: symbol 'xadc_type_names' was not declared. Should it be static?
 
-vim +/xhci_free_segments_for_ring +79 drivers/usb/host/xhci-mem.c
+vim +/xadc_type_names +764 drivers/iio/adc/xilinx-xadc-core.c
 
-    78	
-  > 79	void xhci_free_segments_for_ring(struct xhci_hcd *xhci,
-    80					struct xhci_segment *first)
-    81	{
-    82		struct xhci_segment *seg;
-    83	
-    84		seg = first->next;
-    85		while (seg != first) {
-    86			struct xhci_segment *next = seg->next;
-    87			xhci_segment_free(xhci, seg);
-    88			seg = next;
-    89		}
-    90		xhci_segment_free(xhci, first);
-    91	}
-    92	
+   763	
+ > 764	const char * const xadc_type_names[] = {
+   765		[XADC_TYPE_S7] = "xadc",
+   766		[XADC_TYPE_US] = "xilinx-system-monitor",
+   767	};
+   768	
 
 -- 
 0-DAY CI Kernel Test Service
