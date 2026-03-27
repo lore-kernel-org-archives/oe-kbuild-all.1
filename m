@@ -1,153 +1,133 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A79D3377553
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 20:36:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E10B37FF46;
+	Fri, 27 Mar 2026 20:36:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774643783; cv=none; b=mOvAphIxiI+857ovG/66POVWZ5UbB8J8muc+bX+R41/xOlyQQYLjfIB7emKcES7dZFwICYFA3wAsb5Xac5ZDgezwJ6kNArOef2tDNTQm2YMJ77r7DSBuc+DO6cWsRZYeNWY3jgbQrXPtssoNrp3rkXobbxu4b9s4+GjJRQLcGnc=
+	t=1774643785; cv=none; b=TuYy+Tu+ynWFVL9CgTstuAT4wyj67+S137BwR0tPM1CXzncu1v3qfaORnOSU9FSPMF0oI03CHCnhjKewRfxRnb8MvdPU3Zps6Ps3kbuFCvGBtgHzf1FdX4MEfs+3c8O+dCftsJtu3AXHd84xu03gvsLvy7e25yWmOAdJCyrHlyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774643783; c=relaxed/simple;
-	bh=ev4gvOphWfAh+vdu8KAuyQB7smUt/qhaaYFIat++A0k=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=YR+eNKW7IN67b4Z1w+Y/mjHVkJCyuTTTIe4n/xvkWkQ8eyb4Hb57w8f3mjZHcVU+CIfRjf/ZI/MmrXjdwAkPkher9LG2M+9MFGUw+mMDe4uVm7ErV8nWYq9B1MEmb5E9NHJVJPJTOQnv8vxDbuV2StDOx86a85IuW2GgyMfpZEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UuzJaW+V; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1774643785; c=relaxed/simple;
+	bh=K+3x6PtritfWk9C1nQwD73Ya4/x0FXHq0EqkCD8gGFY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PAmvcbkresI5vPvaoXDA8GdZiGCuAQBDzupwe8/UW3ON16RsgzTD9RysmTlHsKc50kzgC3/hKDWZ6vr4QtxVwRWK5JfxhAQF1qkgJKqedbNfV/Oa1TL/jnE2ApfuiQMzYoUYJjeNafluggrFKVfiW/RSr4kPldctUz6m+eOLTxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bwpxDlR9; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UuzJaW+V"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bwpxDlR9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774643781; x=1806179781;
-  h=date:from:to:cc:subject:message-id;
-  bh=ev4gvOphWfAh+vdu8KAuyQB7smUt/qhaaYFIat++A0k=;
-  b=UuzJaW+VMybq+AbGzCgdjOI0P/uIIQESkl0JHc3VLCgWyJjLHbsSrcV0
-   33Gr5rPY/kziuizO+92wDqM4vhUP4RtwCCSgn7AbPXAt2+RiASScD7OiH
-   6zHgxH6WFJ2k8hktGF2483E/u2yoJB7VbYLjMiFftLXFxGqwR1+HztOP1
-   4KoF1/f8YEAQvGOey6tFvTR5TW2NdLQFR2uT6Q5ecemPYMc5Pit3X/WDU
-   mDmy6Q/pSFwd+Q8TRtn1ZBQGRz05qNbktTKn/T+BLss5z1HEQc5sPa8AU
-   M8iSFmb5iwSZuCIOIz6Av446FkDgehv1lGSCGhusqyX1fvkra3SlhXzSK
+  t=1774643783; x=1806179783;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=K+3x6PtritfWk9C1nQwD73Ya4/x0FXHq0EqkCD8gGFY=;
+  b=bwpxDlR9YMcSmsqGmgmUt2npDtVxrGI2rYYKftzAkivpAHbKlCu2WOHC
+   duNrK4Jj9n1CwOuzCFePxcDN864fZEZccjPwx02/hZCoONF54tUeuIFR8
+   nIfja1qblNXnZp2MyN4bR0nBd3CkyWWNqF4EEbCjqRXttPnypGBQ8p2x9
+   ytYixxZjogJ5xN+nIv0ALXfM/OAClQao18IYN1CeqNP6wUhnmxzHdi6cF
+   RA41rR3DZVQrYGfb4HLDSQFXro7SrTGvNjIXuo5M/9EOf1Kzy06bnXGwI
+   kVt4FyHlzU3hXiK+tFebspnji3JwTK1EpoTCRMwNBfvx5s+wPjBYNPGoy
    Q==;
-X-CSE-ConnectionGUID: NKuj/w6jRAeFyx7VjMORhA==
-X-CSE-MsgGUID: gKZRKScFTG+3mJVPzE3CcA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="75438269"
+X-CSE-ConnectionGUID: Z4WDEqmJT0CU/ubVYF+y3w==
+X-CSE-MsgGUID: Lf1i62LJRgGZkoVFyO4iBQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="75837767"
 X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="75438269"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 13:36:21 -0700
-X-CSE-ConnectionGUID: CA8nsJucRUKMaJYiiYJcuQ==
-X-CSE-MsgGUID: zyYUsGJrROCBN54jSdhtNw==
+   d="scan'208";a="75837767"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 13:36:23 -0700
+X-CSE-ConnectionGUID: 5h9g+1yxSHCGjuLUf+1o7w==
+X-CSE-MsgGUID: /t6mi/JvTl6RnRPEiOcDLA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="221020653"
+   d="scan'208";a="222544307"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 27 Mar 2026 13:36:18 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 27 Mar 2026 13:36:19 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w6Dui-00000000Ait-0oFi;
+	id 1w6Dui-00000000Air-0iAE;
 	Fri, 27 Mar 2026 20:36:16 +0000
-Date: Sat, 28 Mar 2026 04:35:45 +0800
+Date: Sat, 28 Mar 2026 04:35:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15 4/4]
- kernel/hung_task.c:287:35: sparse: sparse: incorrect type in initializer
- (incompatible argument 3 (different address spaces))
-Message-ID: <202603280446.lvWmNccA-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: "Ahmed S. Darwish" <darwi@linutronix.de>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Ingo Molnar <mingo@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, Thomas Gleixner <tglx@linutronix.de>,
+	Andrew Cooper <andrew.cooper3@citrix.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Sean Christopherson <seanjc@google.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Christian Ludloff <ludloff@gmail.com>,
+	Sohil Mehta <sohil.mehta@intel.com>,
+	John Ogness <john.ogness@linutronix.de>, x86@kernel.org,
+	x86-cpuid@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
+	"Ahmed S. Darwish" <darwi@linutronix.de>
+Subject: Re: [PATCH v6 86/90] x86/cpu/transmeta: Remove x86_capability[]
+ CPUID initialization
+Message-ID: <202603280449.C5WZiJry-lkp@intel.com>
+References: <20260327021645.555257-87-darwi@linutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260327021645.555257-87-darwi@linutronix.de>
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15
-head:   fc88a7504f0f262cc5b2e8a7f58b2a1108034856
-commit: d96a8f8e86d1ae0b1652ff93ee06891962240232 [4/4] hung_task: move hung_task sysctl interface to hung_task.c
-config: i386-randconfig-r133-20260325 (https://download.01.org/0day-ci/archive/20260328/202603280446.lvWmNccA-lkp@intel.com/config)
+Hi Ahmed,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on c369299895a591d96745d6492d4888259b004a9e]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ahmed-S-Darwish/ASoC-Intel-avs-Check-maximum-valid-CPUID-leaf/20260327-215933
+base:   c369299895a591d96745d6492d4888259b004a9e
+patch link:    https://lore.kernel.org/r/20260327021645.555257-87-darwi%40linutronix.de
+patch subject: [PATCH v6 86/90] x86/cpu/transmeta: Remove x86_capability[] CPUID initialization
+config: i386-buildonly-randconfig-006-20260328 (https://download.01.org/0day-ci/archive/20260328/202603280449.C5WZiJry-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603280446.lvWmNccA-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603280449.C5WZiJry-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603280446.lvWmNccA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603280449.C5WZiJry-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/hung_task.c:237:52: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
-   kernel/hung_task.c:237:52: sparse:     expected void *
-   kernel/hung_task.c:237:52: sparse:     got void [noderef] __user *buffer
->> kernel/hung_task.c:287:35: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
-   kernel/hung_task.c:287:35: sparse:     expected int ( [usertype] *proc_handler )( ... )
-   kernel/hung_task.c:287:35: sparse:     got int ( * )( ... )
-   kernel/hung_task.c:295:35: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
-   kernel/hung_task.c:295:35: sparse:     expected int ( [usertype] *proc_handler )( ... )
-   kernel/hung_task.c:295:35: sparse:     got int ( * )( ... )
+All errors (new ones prefixed by >>):
 
-vim +287 kernel/hung_task.c
+   arch/x86/kernel/cpu/transmeta.c: In function 'init_transmeta':
+>> arch/x86/kernel/cpu/transmeta.c:70:9: error: implicit declaration of function 'early_init_transmeta'; did you mean 'init_transmeta'? [-Wimplicit-function-declaration]
+      70 |         early_init_transmeta(c);
+         |         ^~~~~~~~~~~~~~~~~~~~
+         |         init_transmeta
 
-   247	
-   248	/*
-   249	 * This is needed for proc_doulongvec_minmax of sysctl_hung_task_timeout_secs
-   250	 * and hung_task_check_interval_secs
-   251	 */
-   252	static const unsigned long hung_task_timeout_max = (LONG_MAX / HZ);
-   253	static struct ctl_table hung_task_sysctls[] = {
-   254	#ifdef CONFIG_SMP
-   255		{
-   256			.procname	= "hung_task_all_cpu_backtrace",
-   257			.data		= &sysctl_hung_task_all_cpu_backtrace,
-   258			.maxlen		= sizeof(int),
-   259			.mode		= 0644,
-   260			.proc_handler	= proc_dointvec_minmax,
-   261			.extra1		= SYSCTL_ZERO,
-   262			.extra2		= SYSCTL_ONE,
-   263		},
-   264	#endif /* CONFIG_SMP */
-   265		{
-   266			.procname	= "hung_task_panic",
-   267			.data		= &sysctl_hung_task_panic,
-   268			.maxlen		= sizeof(int),
-   269			.mode		= 0644,
-   270			.proc_handler	= proc_dointvec_minmax,
-   271			.extra1		= SYSCTL_ZERO,
-   272			.extra2		= SYSCTL_ONE,
-   273		},
-   274		{
-   275			.procname	= "hung_task_check_count",
-   276			.data		= &sysctl_hung_task_check_count,
-   277			.maxlen		= sizeof(int),
-   278			.mode		= 0644,
-   279			.proc_handler	= proc_dointvec_minmax,
-   280			.extra1		= SYSCTL_ZERO,
-   281		},
-   282		{
-   283			.procname	= "hung_task_timeout_secs",
-   284			.data		= &sysctl_hung_task_timeout_secs,
-   285			.maxlen		= sizeof(unsigned long),
-   286			.mode		= 0644,
- > 287			.proc_handler	= proc_dohung_task_timeout_secs,
-   288			.extra2		= (void *)&hung_task_timeout_max,
-   289		},
-   290		{
-   291			.procname	= "hung_task_check_interval_secs",
-   292			.data		= &sysctl_hung_task_check_interval_secs,
-   293			.maxlen		= sizeof(unsigned long),
-   294			.mode		= 0644,
-   295			.proc_handler	= proc_dohung_task_timeout_secs,
-   296			.extra2		= (void *)&hung_task_timeout_max,
-   297		},
-   298		{
-   299			.procname	= "hung_task_warnings",
-   300			.data		= &sysctl_hung_task_warnings,
-   301			.maxlen		= sizeof(int),
-   302			.mode		= 0644,
-   303			.proc_handler	= proc_dointvec_minmax,
-   304			.extra1		= SYSCTL_NEG_ONE,
-   305		},
-   306		{}
-   307	};
-   308	
+
+vim +70 arch/x86/kernel/cpu/transmeta.c
+
+fe8a36b887f719 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27  65  
+fe8a36b887f719 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27  66  static void init_transmeta(struct cpuinfo_x86 *c)
+fe8a36b887f719 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27  67  {
+fe8a36b887f719 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27  68  	unsigned int cap_mask, uk;
+fe8a36b887f719 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27  69  
+fe8a36b887f719 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27 @70  	early_init_transmeta(c);
+fe8a36b887f719 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27  71  	cpu_detect_cache_sizes(c);
+fe8a36b887f719 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27  72  
+fe8a36b887f719 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27  73  	print_cpu_revision(c);
+fe8a36b887f719 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27  74  	print_cpu_info_string(c);
+^1da177e4c3f41 arch/i386/kernel/cpu/transmeta.c Linus Torvalds   2005-04-16  75  
+^1da177e4c3f41 arch/i386/kernel/cpu/transmeta.c Linus Torvalds   2005-04-16  76  	/* Unhide possibly hidden capability flags */
+^1da177e4c3f41 arch/i386/kernel/cpu/transmeta.c Linus Torvalds   2005-04-16  77  	rdmsr(0x80860004, cap_mask, uk);
+^1da177e4c3f41 arch/i386/kernel/cpu/transmeta.c Linus Torvalds   2005-04-16  78  	wrmsr(0x80860004, ~0, uk);
+3ad602b4fa9f92 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27  79  	cpuid_refresh_leaf(c, 0x1);
+^1da177e4c3f41 arch/i386/kernel/cpu/transmeta.c Linus Torvalds   2005-04-16  80  	wrmsr(0x80860004, cap_mask, uk);
+^1da177e4c3f41 arch/i386/kernel/cpu/transmeta.c Linus Torvalds   2005-04-16  81  
+30b82ea08c3365 arch/i386/kernel/cpu/transmeta.c H. Peter Anvin   2007-02-13  82  	/* All Transmeta CPUs have a constant TSC */
+10cd5a1e5403d7 arch/x86/kernel/cpu/transmeta.c  Ingo Molnar      2008-02-26  83  	set_cpu_cap(c, X86_FEATURE_CONSTANT_TSC);
+30b82ea08c3365 arch/i386/kernel/cpu/transmeta.c H. Peter Anvin   2007-02-13  84  
 
 -- 
 0-DAY CI Kernel Test Service
