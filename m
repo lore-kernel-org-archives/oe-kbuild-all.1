@@ -1,240 +1,120 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C452931716B;
-	Fri, 27 Mar 2026 15:49:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2923D15A864;
+	Fri, 27 Mar 2026 16:00:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774626589; cv=none; b=g5hZKWabA/Ak1xIc1RDzZIxgczYccWg91BtPgneSg4pL6zsZCzCIMmZPk5pXFEW7Y8nS1aa/Q7kZ2Wue+G8sBoJkMNTmSmUWEcBJirVlFg4vCuOsjkAJaYpUDpnPT7xiCCe7BLinWdibxZrOB26p0H14AQijEZ2fo9FRRreB0ww=
+	t=1774627248; cv=none; b=rHKORy5eJ6k1gOcUkLelFHSyHsm3KXk6rBcDGvjmcpzjhj6gOIo3M7VxGqWUnbZPrAXqfCnWvCFQ4XPCtStD8MROlnOaIlwdaDfJUCV99Dr7V0qhW36MhzVwaT8j9WZzPsuvEUxXQhAuntzEeCwzPeZ0HyiksfwGvRYGTzgdBJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774626589; c=relaxed/simple;
-	bh=M+nenQkxk8SdEgDxtuXflZdhUfZnrTKyoQ5HfwuEvFU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aivuCZKOdCyOIjPiPNl5IyGpuJ53KzkT6Dzjw20/+Ykp7dmhXx3wWfXbT7iQmf7UlLbksDZV5jyZhOVGCArphdEbXEt7lJB5RXYyDjzkxZyITOpzLmd4vwiAOp8qoTHmnI+WC10WdPimgDC+VDpeHjDeHmlpTM5NImxtm4x2u+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mP3uBAG4; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1774627248; c=relaxed/simple;
+	bh=8ABsho9fB27uHd0E9e8vJwKZriqU6JH5Anl9iuDxn7o=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=HdjkN22hKVV1HWK+sMtTq46BwoG55XSMcwnoqsa0xbOZuCoCXpOttLgyp3PDsqVSrAvPMtUSJ/e2njGyupaYsAZBRGrjYMD9zVIvIkll/WGV8GFTaE19EEfg9q+PqUrAVAquBu2wQaFvsuFhsgTOTWLsv+D82EoR+XPRc6KxonY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LyuIozf/; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mP3uBAG4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LyuIozf/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774626588; x=1806162588;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=M+nenQkxk8SdEgDxtuXflZdhUfZnrTKyoQ5HfwuEvFU=;
-  b=mP3uBAG4SDSU3BVOxoHm2tNOCUtzGinSJtk/2WzMl2iZIvSu1EAU4Z9v
-   tilIfHkCq/O4eIVvQ7L6WTqpKqj9yRMy87hWwoFhlI2ZtQbhMV1QEgskm
-   COZzFewaVcf4RKq5c1/7hypwCXPwBJercCWfQVOwPZop6x808QCUOaojw
-   OmnzQkmCZImTHH65BzV+1Aoq7tbegnOZzRS0aUlZiEnvmNtBmqX4ePcUd
-   MNxHxAKdPehD+7iv21DbgWtDHHHQ4IxCS9OqxqEx68MReg+HeheYcFddY
-   1qFb03tlImOD+anMqItFd2mFuj5VzBcZN/Eqgsn8yEMlLfEy2Kahy39A4
+  t=1774627246; x=1806163246;
+  h=date:from:to:cc:subject:message-id;
+  bh=8ABsho9fB27uHd0E9e8vJwKZriqU6JH5Anl9iuDxn7o=;
+  b=LyuIozf/W8m9JQGuu4MeoE9vKaN3KLDFfXysueYd90VHhW9Pz5csTnVZ
+   rqIfKUt9iQF2fpx41OdwFlUCxTD4tVzs16Jgg7vdcX4Niiz1gT2aQL3r1
+   wWZTZmcf5AsG4FWB8TDcbCkcToCLrhBI9USZgqJfVv/Cqyiwk2R1UhPMb
+   mxf1cMsgssGOn+isl2OuEAMPe4rtlXVfngMJiEXxw3iXiATSu9kZk3Xjf
+   B851QLAUlivACni653l9EDy6LgzM7CdfxJOkX+53UcTTNyN+PQTYzr+50
+   ESTdcu82KeXl5t/086uReojMmaFA96fDgSG6xRKWotUGJQgJwG42q3BBV
    A==;
-X-CSE-ConnectionGUID: mtHHLv4kTvGx8j0wYOKDAg==
-X-CSE-MsgGUID: M5XJhCAsSLGjGiCX/OCJIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="75900934"
+X-CSE-ConnectionGUID: ++eWPBXHRzmCEmbQ5KFxOQ==
+X-CSE-MsgGUID: REjNc2kaTNKVzSlkqcpCew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="75901998"
 X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="75900934"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 08:49:47 -0700
-X-CSE-ConnectionGUID: rhMmywIISfyt2nMaqFTYlQ==
-X-CSE-MsgGUID: oyaYUmESTK+CrBvs8Tvlag==
+   d="scan'208";a="75901998"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 09:00:46 -0700
+X-CSE-ConnectionGUID: qG1QRG/FQAG2X5MZ3Lnbwg==
+X-CSE-MsgGUID: b6hQJ1YvQq2GH0n1dwv3cw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="226952013"
+   d="scan'208";a="248387157"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 27 Mar 2026 08:49:44 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 27 Mar 2026 09:00:44 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w69RN-00000000AQ9-0GBY;
-	Fri, 27 Mar 2026 15:49:41 +0000
-Date: Fri, 27 Mar 2026 23:49:35 +0800
+	id 1w69c1-00000000AQn-3O8v;
+	Fri, 27 Mar 2026 16:00:41 +0000
+Date: Sat, 28 Mar 2026 00:00:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ujjal Roy <royujjal@gmail.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Nikolay Aleksandrov <razor@blackwall.org>,
-	Ido Schimmel <idosch@nvidia.com>, David Ahern <dsahern@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Ujjal Roy <ujjal@alumnux.com>,
-	bridge@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/4] ipv6: mld: rename mldv2_mrc() and add mldv2_qqi()
-Message-ID: <202603272318.WLQHm8jS-lkp@intel.com>
-References: <20260326150742.50289-3-royujjal@gmail.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-cleanup-2026-03-27 82/106]
+ sound/soc/intel/avs/pcm.c:1403:10: warning: variable 'ret' is uninitialized
+ when used here
+Message-ID: <202603272354.8LQSBKkh-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260326150742.50289-3-royujjal@gmail.com>
 
-Hi Ujjal,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-[also build test WARNING on net/main klassert-ipsec/master linus/master v7.0-rc5 next-20260326]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ujjal-Roy/ipv4-igmp-get-rid-of-IGMPV3_-QQIC-MRC-and-simplify-calculation/20260327-083159
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260326150742.50289-3-royujjal%40gmail.com
-patch subject: [PATCH 2/4] ipv6: mld: rename mldv2_mrc() and add mldv2_qqi()
-config: x86_64-randconfig-121-20260327 (https://download.01.org/0day-ci/archive/20260327/202603272318.WLQHm8jS-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603272318.WLQHm8jS-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-cleanup-2026-03-27
+head:   b547ff73a13ed8ce92e8e208ccd27884077b160b
+commit: a22cf4c5c5139a4eb0afdd43d21ab0c8e359594b [82/106] ASoC: intel: avs: use snd_soc_component_alloc()
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260327/202603272354.8LQSBKkh-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603272354.8LQSBKkh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603272318.WLQHm8jS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603272354.8LQSBKkh-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   net/ipv6/mcast.c: note: in included file:
-   include/net/mld.h:32:43: sparse: sparse: array of flexible structures
->> include/net/mld.h:147:30: sparse: sparse: cast to restricted __be16
+All warnings (new ones prefixed by >>):
 
-vim +147 include/net/mld.h
+>> sound/soc/intel/avs/pcm.c:1403:10: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
+    1403 |                 return ret;
+         |                        ^~~
+   sound/soc/intel/avs/pcm.c:1391:9: note: initialize the variable 'ret' to silence this warning
+    1391 |         int ret;
+         |                ^
+         |                 = 0
+   1 warning generated.
 
-    29	
-    30	struct mld2_report {
-    31		struct icmp6hdr		mld2r_hdr;
-  > 32		struct mld2_grec	mld2r_grec[];
-    33	};
-    34	
-    35	#define mld2r_type		mld2r_hdr.icmp6_type
-    36	#define mld2r_resv1		mld2r_hdr.icmp6_code
-    37	#define mld2r_cksum		mld2r_hdr.icmp6_cksum
-    38	#define mld2r_resv2		mld2r_hdr.icmp6_dataun.un_data16[0]
-    39	#define mld2r_ngrec		mld2r_hdr.icmp6_dataun.un_data16[1]
-    40	
-    41	/* MLDv2 Query */
-    42	struct mld2_query {
-    43		struct icmp6hdr		mld2q_hdr;
-    44		struct in6_addr		mld2q_mca;
-    45	#if defined(__LITTLE_ENDIAN_BITFIELD)
-    46		__u8			mld2q_qrv:3,
-    47					mld2q_suppress:1,
-    48					mld2q_resv2:4;
-    49	#elif defined(__BIG_ENDIAN_BITFIELD)
-    50		__u8			mld2q_resv2:4,
-    51					mld2q_suppress:1,
-    52					mld2q_qrv:3;
-    53	#else
-    54	#error "Please fix <asm/byteorder.h>"
-    55	#endif
-    56		__u8			mld2q_qqic;
-    57		__be16			mld2q_nsrcs;
-    58		struct in6_addr		mld2q_srcs[];
-    59	};
-    60	
-    61	#define mld2q_type		mld2q_hdr.icmp6_type
-    62	#define mld2q_code		mld2q_hdr.icmp6_code
-    63	#define mld2q_cksum		mld2q_hdr.icmp6_cksum
-    64	#define mld2q_mrc		mld2q_hdr.icmp6_maxdelay
-    65	#define mld2q_resv1		mld2q_hdr.icmp6_dataun.un_data16[1]
-    66	
-    67	/* RFC3810, 5.1.3. Maximum Response Code:
-    68	 *
-    69	 * If Maximum Response Code >= 32768, Maximum Response Code represents a
-    70	 * floating-point value as follows:
-    71	 *
-    72	 *  0 1 2 3 4 5 6 7 8 9 A B C D E F
-    73	 * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    74	 * |1| exp |          mant         |
-    75	 * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    76	 */
-    77	#define MLDV2_MRC_EXP(value)	(((value) >> 12) & 0x0007)
-    78	#define MLDV2_MRC_MAN(value)	((value) & 0x0fff)
-    79	
-    80	/* RFC3810, 5.1.9. QQIC (Querier's Query Interval Code):
-    81	 *
-    82	 * If QQIC >= 128, QQIC represents a floating-point value as follows:
-    83	 *
-    84	 *  0 1 2 3 4 5 6 7
-    85	 * +-+-+-+-+-+-+-+-+
-    86	 * |1| exp | mant  |
-    87	 * +-+-+-+-+-+-+-+-+
-    88	 */
-    89	#define MLDV2_QQIC_EXP(value)	(((value) >> 4) & 0x07)
-    90	#define MLDV2_QQIC_MAN(value)	((value) & 0x0f)
-    91	
-    92	#define MLD_QQIC_MIN_THRESHOLD	128
-    93	#define MLD_MRC_MIN_THRESHOLD	32768UL
-    94	#define MLDV1_MRD_MAX_COMPAT	(MLD_MRC_MIN_THRESHOLD - 1)
-    95	
-    96	#define MLD_MAX_QUEUE		8
-    97	#define MLD_MAX_SKBS		32
-    98	
-    99	/* V2 exponential field decoding */
-   100	
-   101	/* Calculate Maximum Response Delay from Maximum Response Code
-   102	 *
-   103	 * RFC3810, 5.1.3. defines the decoding formula:
-   104	 *      0 1 2 3 4 5 6 7 8 9 A B C D E F
-   105	 *     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   106	 *     |1| exp |          mant         |
-   107	 *     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   108	 * Maximum Response Delay = (mant | 0x1000) << (exp+3)
-   109	 */
-   110	static inline unsigned long mldv2_mrd(const struct mld2_query *mlh2)
-   111	{
-   112		/* RFC3810, relevant sections:
-   113		 *  - 5.1.3. Maximum Response Code
-   114		 *  - 9.3. Query Response Interval
-   115		 */
-   116		unsigned long mc_mrc = ntohs(mlh2->mld2q_mrc);
-   117	
-   118		if (mc_mrc < MLD_MRC_MIN_THRESHOLD) {
-   119			return mc_mrc;
-   120		} else {
-   121			unsigned long mc_man, mc_exp;
-   122	
-   123			mc_exp = MLDV2_MRC_EXP(mc_mrc);
-   124			mc_man = MLDV2_MRC_MAN(mc_mrc);
-   125	
-   126			return ((mc_man | 0x1000) << (mc_exp + 3));
-   127		}
-   128	}
-   129	
-   130	/* Calculate Querier's Query Interval from Querier's Query Interval Code
-   131	 *
-   132	 * RFC3810, 5.1.9. defines the decoding formula:
-   133	 *      0 1 2 3 4 5 6 7
-   134	 *     +-+-+-+-+-+-+-+-+
-   135	 *     |1| exp | mant  |
-   136	 *     +-+-+-+-+-+-+-+-+
-   137	 * QQI = (mant | 0x10) << (exp + 3)
-   138	 */
-   139	static inline unsigned long mldv2_qqi(const struct mld2_query *mlh2)
-   140	{
-   141		/* RFC3810, relevant sections:
-   142		 *  - 5.1.9. QQIC (Querier's Query Interval Code)
-   143		 *  - 9.2. Query Interval
-   144		 *  - 9.12. Older Version Querier Present Timeout
-   145		 *    (the [Query Interval] in the last Query received)
-   146		 */
- > 147		unsigned long qqic = ntohs(mlh2->mld2q_qqic);
-   148	
-   149		if (qqic < MLD_QQIC_MIN_THRESHOLD) {
-   150			return qqic;
-   151		} else {
-   152			unsigned long mc_man, mc_exp;
-   153	
-   154			mc_exp = MLDV2_QQIC_EXP(qqic);
-   155			mc_man = MLDV2_QQIC_MAN(qqic);
-   156	
-   157			return ((mc_man | 0x10) << (mc_exp + 3));
-   158		}
-   159	}
-   160	
+
+vim +/ret +1403 sound/soc/intel/avs/pcm.c
+
+  1384	
+  1385	int avs_register_component(struct device *dev, const char *name,
+  1386				   struct snd_soc_component_driver *drv,
+  1387				   struct snd_soc_dai_driver *cpu_dais, int num_cpu_dais)
+  1388	{
+  1389		struct avs_soc_component *acomp;
+  1390		char *cpname;
+  1391		int ret;
+  1392	
+  1393		cpname = devm_kstrdup(dev, name, GFP_KERNEL);
+  1394		if (!cpname)
+  1395			return -ENOMEM;
+  1396	
+  1397		acomp = devm_kzalloc(dev, sizeof(*acomp), GFP_KERNEL);
+  1398		if (!acomp)
+  1399			return -ENOMEM;
+  1400	
+  1401		acomp->base = snd_soc_component_alloc(dev, drv, NULL, cpname, NULL, NULL);
+  1402		if (!acomp->base)
+> 1403			return ret;
+  1404	
+  1405		snd_soc_component_attach_priv(acomp->base, acomp);
+  1406		INIT_LIST_HEAD(&acomp->node);
+  1407	
+  1408		drv->use_dai_pcm_id = !obsolete_card_names;
+  1409	
+  1410		return snd_soc_component_add(acomp->base, cpu_dais, num_cpu_dais);
+  1411	}
+  1412	
 
 -- 
 0-DAY CI Kernel Test Service
