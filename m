@@ -1,67 +1,41 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FA4F3CB2EF
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 10:41:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2A9433F385
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 10:55:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774608094; cv=none; b=Bfi/o4nqxrD6jri8Aw9PAvcHwWKTjcBXUvETMTmARXaPHb4bbQz2IdnhHhzIRAt8G4XvEgVcvVyN9fdy+VIwUjwNGO1Ok/enQ05UtHAGVMK0OUC2x0SsTVHQrIKGjdf0QyaxHj2y8VFGU6Ds4Zg7tFRBN7OGf4cDuHyVt05GLMw=
+	t=1774608945; cv=none; b=PIvAjdneUw3S4iRqh4SaI+vvGlV2MVBe/vC4kGJl5jfsjqxq1YDyJp+jl8JKI9/3wkAvgVV978AaAb+k0ErQORfxyIQOyNVUOSgKR2p6+dLHvRIkfyYtbBXWXiW5wkTwkxBZn34a6gZ0FYmM0kZ6XZmFIgRrMwkfJ72e3mRD2ew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774608094; c=relaxed/simple;
-	bh=jWe6OEhA34gE7fEyHsXA6R0diYZ11O4QgBijUwIUAVI=;
+	s=arc-20240116; t=1774608945; c=relaxed/simple;
+	bh=OnNZiU3/2JpKPliKEYeVbD7OBy40yJs15/jP7cJER64=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZyA82ES6KApZRsV4L6iDujPrKVyrxoZjhaZvcvZX+AlaCQynkjZP9cm3rPzKTFpkB0dEw0V4IE0dq/qerhl/8HHISfDN9RqTJPEMVIU2KXaGiGvtVBXT3ym/A9cZyLGyTBfhyFt2QSgt06XRnxLtAP3hqwtp8953nkKnc0U5ED8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bm7BpwL1; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=FonhFTskqTeu/uNx0XoCA9+AgkZS/8UN9zZD+b2DDcGKnN3UgV2Mln0d6XSXXYkst+qRlOxMRwBMyRVD3Ej0IERK1DWh7n81XHfzzmb3bhQwNTgYb57YWRVF8GA6ueyb5FY6N4TVXB+lG33f7pwTEOOCFGiLfrWtcUABj4tw6c0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fV0km1q7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bm7BpwL1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774608092; x=1806144092;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jWe6OEhA34gE7fEyHsXA6R0diYZ11O4QgBijUwIUAVI=;
-  b=Bm7BpwL1tUU/sKnQ/sdScO1csjB7tM8DAoyRVa41XERmkQwAA2PvYv9/
-   GSHq3JNJ7H+5J/KjZvDnY7mN5WbS8l3LTLZdbmJGivhjwaSKB+scnmOgd
-   KlwUTjeGRXCfXxRFXD3ai5VLuD1wjV9BTS0oN1xhNxKmoAymRYW0MXCxH
-   czMUVkFVSzljmkDxeTS/+lRmF7Iq3S7UsxSm+OXRWY3JmF4ZSS148NnaB
-   rqMYlMzZhR7EapB+Zpp7dZpE/BjdnMeOsngclxZjB+A6WU7+5hZAAGuoi
-   Z09GOgOJmD5Orx6gw7M5mKv4W+ydrj5lOhfXla9b9TD9HyMjGN/Y/QyuB
-   w==;
-X-CSE-ConnectionGUID: Y5UAjguLS6iGh7bJv4VEIg==
-X-CSE-MsgGUID: bZDzoVZNSU6q2dnY4nXT1g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="85986958"
-X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="85986958"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 03:41:31 -0700
-X-CSE-ConnectionGUID: 5kkWXhs2TKi8vmT27S42Lg==
-X-CSE-MsgGUID: UZ64OI1qT/qx1vNhpOuskg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="225202172"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 27 Mar 2026 03:41:25 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w64cz-00000000AAp-16RM;
-	Fri, 27 Mar 2026 10:41:21 +0000
-Date: Fri, 27 Mar 2026 18:40:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kuniyuki Iwashima <kuniyu@google.com>,
-	Josef Bacik <josef@toxicpanda.com>, Jens Axboe <axboe@kernel.dk>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, Simon Horman <horms@kernel.org>,
-	Kuniyuki Iwashima <kuniyu@google.com>, linux-block@vger.kernel.org,
-	nbd@other.debian.org, netdev@vger.kernel.org,
-	syzbot+7b4f368d3955d2c9950e@syzkaller.appspotmail.com
-Subject: Re: [PATCH 5/5] nbd: Use lock_sock_try() for TCP sendmsg() and
- shutdown().
-Message-ID: <202603271810.hoQGfrEp-lkp@intel.com>
-References: <20260325063843.1790782-6-kuniyu@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fV0km1q7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03D2EC19423;
+	Fri, 27 Mar 2026 10:55:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774608945;
+	bh=OnNZiU3/2JpKPliKEYeVbD7OBy40yJs15/jP7cJER64=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fV0km1q7L/8x60xynQ3CoZH0kgAWkgwF7yWKaD4IULVH30RF3gEnspxV31EsHRkSc
+	 xNFKruMCKBR6P5YBqTaKdA+I/XrD1HtzXvs76vQglGg0GqOY0ws9cFveGJlv+eh5uq
+	 cav0c91sLFKChj/bJMgRu4z4eN5zU8fQs7NjoFvYsV720rL460ckXsNw5OXh1ghcle
+	 /7lKwWng2C6VCn/AoRSBzimyA2MEroigRat4FzYfxUIosr35SfL5wEUkloeiWZ0V1m
+	 CMDba15ct+hJCvoI66VEqCLkugjZeV+TLxMiz5lJb4uAKKy6Nsy8nijLmX5pmINyYb
+	 GGc/P8aIztC0g==
+Date: Fri, 27 Mar 2026 10:55:42 +0000
+From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>, 
+	Linux Memory Management List <linux-mm@kvack.org>, Chris Down <chris@chrisdown.name>
+Subject: Re: [akpm-mm:mm-unstable 199/330] vm_util.c:127:14: error: too few
+ arguments to function 'pagemap_scan_supported'
+Message-ID: <ea001104-8f08-4175-90cf-f667f703b5bf@lucifer.local>
+References: <202603271115.uE9vpppi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,41 +44,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260325063843.1790782-6-kuniyu@google.com>
+In-Reply-To: <202603271115.uE9vpppi-lkp@intel.com>
 
-Hi Kuniyuki,
+On Fri, Mar 27, 2026 at 11:20:28AM +0100, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+> head:   74dc4627271e6e367176b519565e901ed72d6e4c
+> commit: 9652b82ca963243fb80e645319d473a7dc65ee79 [199/330] selftests-mm-add-uffdio_move-huge-zeropage-pmd-regression-test-fix
+> config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260327/202603271115.uE9vpppi-lkp@intel.com/config)
+> compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603271115.uE9vpppi-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202603271115.uE9vpppi-lkp@intel.com/
+>
+> Note: the akpm-mm/mm-unstable HEAD 74dc4627271e6e367176b519565e901ed72d6e4c builds fine.
+>       It only hurts bisectability.
+>
+> All errors (new ones prefixed by >>):
+>
+>    vm_util.c: In function 'pagemap_is_huge_zero':
+> >> vm_util.c:127:14: error: too few arguments to function 'pagemap_scan_supported'
+>      127 |         if (!pagemap_scan_supported(fd))
+>          |              ^~~~~~~~~~~~~~~~~~~~~~
+>    vm_util.c:70:13: note: declared here
+>       70 | static bool pagemap_scan_supported(int fd, char *start)
+>          |             ^~~~~~~~~~~~~~~~~~~~~~
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
+>
 
-kernel test robot noticed the following build errors:
+See https://lore.kernel.org/linux-mm/815b2fc9-cee7-4bfa-8036-4b93d1b47b4e@lucifer.local/
 
-[auto build test ERROR on axboe/for-next]
-[also build test ERROR on linus/master v7.0-rc5]
-[cannot apply to next-20260326]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+This is because of a broken fix-patch that stuck around after something else got yanked.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/nbd-Remove-redundant-sock-ops-shutdown-check-in-nbd_get_socket/20260325-175457
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git for-next
-patch link:    https://lore.kernel.org/r/20260325063843.1790782-6-kuniyu%40google.com
-patch subject: [PATCH 5/5] nbd: Use lock_sock_try() for TCP sendmsg() and shutdown().
-config: arm64-randconfig-003-20260326 (https://download.01.org/0day-ci/archive/20260327/202603271810.hoQGfrEp-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603271810.hoQGfrEp-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603271810.hoQGfrEp-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
-   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
-   aarch64-linux-ld: drivers/block/nbd.o: in function `nbd_mark_nsock_dead':
->> nbd.c:(.text+0x1238): undefined reference to `inet_shutdown_locked'
-   aarch64-linux-ld: drivers/block/nbd.o: in function `__sock_xmit':
->> nbd.c:(.text+0x4fbc): undefined reference to `tcp_sendmsg_locked'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers, Lorenzo
