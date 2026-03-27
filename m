@@ -1,156 +1,200 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4657378D9F;
-	Fri, 27 Mar 2026 17:46:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 583DA3FEB14
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 17:46:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774633562; cv=none; b=S+xOCtmU9XzJV87lWfRyVZtY4uH44lSKmkYGPtqCfOUUGCb+XfXsJyegtGDf09d052XWZksm2vsRGoiKpRDsTFB75iTRZKcQSMAMeXaBvFAXpOcYxlyVd4hyN+OJL9NatmULN7J2kWExa7eoOF5BMLVln6ZlAVUmXLUfciyncE4=
+	t=1774633563; cv=none; b=mruNjDJQL6XM2QR1raLTGHKv+G7ACqwzW/OLduagICbuulpWkS2gsEV8gWRe+g6E/6de0KH7dLFYfHX5Xs6B6DBbsPe3E8Vu0LRLotH7gKruoClxt+pNQOCJ/ZvcwprDP0vzllnqtmE25M0/Y2Nyl/2pX8e1Ujr4JxGC3cjAj5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774633562; c=relaxed/simple;
-	bh=z/CH+fL/zxceLK7ru9wfJerm4tn4XlbqqXD2+K9ew8Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ca9W1JV9HYLxf+a14FZ1mZWBBpBQlJNyIOneajJOCrtsl/rTQWlh/enIYlG/ZYF7OzvXE8xC7wreNqlYPYSOd9RpudBXLJm7j03RiE44aHdTLqmaMLA13zjnmxdHElHrm9zL/ANFgktpxEEFuLkX/9CG2FhO7X7SOAt5ZtL/NuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mCccbtx6; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1774633563; c=relaxed/simple;
+	bh=VLCA2EKRhguK4rc+mD7/EgnLReoL7/Fjd1u97V5RP3o=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=j6aIWUpBu+zP6yjlvYsKkcddE0+SQ9zl8blMWjNYVhDqwePjM0aYpHqNzMCZLytcgTlP13nyoOyeZWaSPFUuGh0KDXFkP50/M6qltduugw/jcXDLnSdRmsJ43o8wXuQrllq67pG80jdFZlMf3lNpuCpgNhx1pzu1Hc2o0OOcL8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KY4SrKQM; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mCccbtx6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KY4SrKQM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1774633561; x=1806169561;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=z/CH+fL/zxceLK7ru9wfJerm4tn4XlbqqXD2+K9ew8Q=;
-  b=mCccbtx6cOon7UL/w/PTm4DtDkvCs9qqXikcofuBd0gqWRMFc8F2oqQ3
-   FYLXnXKAeizpIo3iUtAztUTt+EYHc0AZpJEDNNdsCZaDhwyiWiOu5ZwsL
-   GMwImVU79UMkP6qJDxSl+iMt26/rWGn1FiyK7DN3SeKt2kxQp6kX8xDSZ
-   yvzasMO6GDQrm8bZcUQFJaHxG2hQ36G/jve+neBwCA/F+lGxLOyUZy1NO
-   91Ra+SukWCFXwf9wX7a7f9lzyQwBPLPxb0R88vhUh2LGTGpEIdzBeJ8ga
-   khz72JP63KpdVrVkXH49b9HMISkvq2OeH0e5LJD969rF/EE2/C5NWZisS
-   g==;
-X-CSE-ConnectionGUID: NYYSukx+RkiCn0WRijppIQ==
-X-CSE-MsgGUID: u3Pp8ludS5mVH+xuzMemCg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="87099746"
+  h=date:from:to:cc:subject:message-id;
+  bh=VLCA2EKRhguK4rc+mD7/EgnLReoL7/Fjd1u97V5RP3o=;
+  b=KY4SrKQMO6zN/GYzBW09+yXzwIyfbZV+dqTMvmbfAAXGuNUaMkbEZOpK
+   g4R4r8aZJgB8fJAStZ+UAi6MuSZyF2dGxsQycexG2VkB/Y0epio9FvJMP
+   0/yWfxQJ5U/plEcJ+EHRYGKc62sPFfhnxjDFkgCB3z9VAA86D/Tg8eGyj
+   y8DZY/ZHo1MUctd07G05s/rqbEAPWa6v19NXuZivFFcdO06PaV9s87ILA
+   2ldtryFf739H1NzF5c2vNUMO3QRPzFGlIjJP1b4TVLIiL8JhC8d+X9H15
+   Ugz9I23v3U78oBr8IxOU3S3VS34HceiVnEixKEoldRObqg0IzvJ7SqEff
+   Q==;
+X-CSE-ConnectionGUID: 7xYw1s64Q2+Nqqy/QT7cbA==
+X-CSE-MsgGUID: ztHd3v1STNiYwiO+b3CN4Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="87185721"
 X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="87099746"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 10:46:00 -0700
-X-CSE-ConnectionGUID: AH8IA/21QmiQrQt0rorvmg==
-X-CSE-MsgGUID: mLSgDg5XTiiWjXhKV+dBVA==
+   d="scan'208";a="87185721"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 10:45:59 -0700
+X-CSE-ConnectionGUID: qp1NU4msSIGQVMMW2mXwOg==
+X-CSE-MsgGUID: 7jzTJ/ZDSYOx/yS+fB8skw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="229873595"
+   d="scan'208";a="229456758"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 27 Mar 2026 10:45:58 -0700
+  by orviesa003.jf.intel.com with ESMTP; 27 Mar 2026 10:45:58 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w6BFq-00000000AXt-3xVj;
-	Fri, 27 Mar 2026 17:45:54 +0000
-Date: Sat, 28 Mar 2026 01:45:29 +0800
+	id 1w6BFr-00000000AXx-1hkm;
+	Fri, 27 Mar 2026 17:45:55 +0000
+Date: Sat, 28 Mar 2026 01:45:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Law <objecting@objecting.org>, SeongJae Park <sj@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	damon@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Josh Law <objecting@objecting.org>
-Subject: Re: [PATCH] mm/damon: introduce DAMON-based NUMA memory tiering
- module
-Message-ID: <202603280122.ldJtc5AT-lkp@intel.com>
-References: <20260326072737.341964-1-objecting@objecting.org>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org
+Subject: [brgl:gpio/for-next 57/59]
+ drivers/gpio/gpio-tegra186.c:502:18: error: 'struct gpio_chip' has no member
+ named 'of_gpio_n_cells'
+Message-ID: <202603280145.tWkm6Erp-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260326072737.341964-1-objecting@objecting.org>
 
-Hi Josh,
+Hi Bartosz,
 
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Josh-Law/mm-damon-introduce-DAMON-based-NUMA-memory-tiering-module/20260327-033827
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20260326072737.341964-1-objecting%40objecting.org
-patch subject: [PATCH] mm/damon: introduce DAMON-based NUMA memory tiering module
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20260328/202603280122.ldJtc5AT-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603280122.ldJtc5AT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
+head:   af475c16bc02a08ed6af6ca0c920f98a45611fe6
+commit: 7803501e5754dc4b295ab22b20562e2b965358ba [57/59] gpio: drop unneeded Kconfig dependencies on OF_GPIO
+config: sh-randconfig-r112-20260326 (https://download.01.org/0day-ci/archive/20260328/202603280145.tWkm6Erp-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 9.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603280145.tWkm6Erp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603280122.ldJtc5AT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603280145.tWkm6Erp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+Note: the brgl/gpio/for-next HEAD af475c16bc02a08ed6af6ca0c920f98a45611fe6 builds fine.
+      It only hurts bisectability.
 
-   mm/damon/tier.c: In function 'damon_tier_apply_parameters':
->> mm/damon/tier.c:280:15: error: too few arguments to function 'damon_set_region_biggest_system_ram_default'; expected 5, have 4
-     280 |         err = damon_set_region_biggest_system_ram_default(param_target,
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from mm/damon/tier.c:13:
-   include/linux/damon.h:995:5: note: declared here
-     995 | int damon_set_region_biggest_system_ram_default(struct damon_target *t,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+All error/warnings (new ones prefixed by >>):
+
+   In file included from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/sh/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/irq.h:14,
+                    from include/linux/irqchip/chained_irq.h:10,
+                    from include/linux/gpio/driver.h:8,
+                    from drivers/gpio/gpio-tegra186.c:9:
+   drivers/gpio/gpio-tegra186.c: In function 'tegra186_gpio_of_xlate':
+>> drivers/gpio/gpio-tegra186.c:502:18: error: 'struct gpio_chip' has no member named 'of_gpio_n_cells'
+     502 |  if (WARN_ON(chip->of_gpio_n_cells < 2))
+         |                  ^~
+   arch/sh/include/asm/bug.h:69:25: note: in definition of macro 'WARN_ON'
+      69 |  int __ret_warn_on = !!(x);    \
+         |                         ^
+   drivers/gpio/gpio-tegra186.c:505:37: error: 'struct gpio_chip' has no member named 'of_gpio_n_cells'
+     505 |  if (WARN_ON(spec->args_count < chip->of_gpio_n_cells))
+         |                                     ^~
+   arch/sh/include/asm/bug.h:69:25: note: in definition of macro 'WARN_ON'
+      69 |  int __ret_warn_on = !!(x);    \
+         |                         ^
+   drivers/gpio/gpio-tegra186.c: In function 'tegra186_gpio_irq_domain_translate':
+   drivers/gpio/gpio-tegra186.c:709:24: error: 'struct gpio_chip' has no member named 'of_gpio_n_cells'
+     709 |  if (WARN_ON(gpio->gpio.of_gpio_n_cells < 2))
+         |                        ^
+   arch/sh/include/asm/bug.h:69:25: note: in definition of macro 'WARN_ON'
+      69 |  int __ret_warn_on = !!(x);    \
+         |                         ^
+   drivers/gpio/gpio-tegra186.c:712:46: error: 'struct gpio_chip' has no member named 'of_gpio_n_cells'
+     712 |  if (WARN_ON(fwspec->param_count < gpio->gpio.of_gpio_n_cells))
+         |                                              ^
+   arch/sh/include/asm/bug.h:69:25: note: in definition of macro 'WARN_ON'
+      69 |  int __ret_warn_on = !!(x);    \
+         |                         ^
+   At top level:
+>> drivers/gpio/gpio-tegra186.c:495:12: warning: 'tegra186_gpio_of_xlate' defined but not used [-Wunused-function]
+     495 | static int tegra186_gpio_of_xlate(struct gpio_chip *chip,
+         |            ^~~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/gpio/gpio-brcmstb.c: In function 'brcmstb_gpio_of_xlate':
+>> drivers/gpio/gpio-brcmstb.c:435:8: error: 'struct gpio_chip' has no member named 'of_gpio_n_cells'
+     435 |  if (gc->of_gpio_n_cells != 2) {
+         |        ^~
+   In file included from include/linux/bug.h:5,
+                    from include/linux/instrumented.h:10,
+                    from include/linux/atomic/atomic-instrumented.h:17,
+                    from include/linux/atomic.h:82,
+                    from include/asm-generic/bitops/lock.h:5,
+                    from arch/sh/include/asm/bitops.h:63,
+                    from include/linux/bitops.h:67,
+                    from drivers/gpio/gpio-brcmstb.c:4:
+   drivers/gpio/gpio-brcmstb.c:440:39: error: 'struct gpio_chip' has no member named 'of_gpio_n_cells'
+     440 |  if (WARN_ON(gpiospec->args_count < gc->of_gpio_n_cells))
+         |                                       ^~
+   arch/sh/include/asm/bug.h:69:25: note: in definition of macro 'WARN_ON'
+      69 |  int __ret_warn_on = !!(x);    \
+         |                         ^
+   drivers/gpio/gpio-brcmstb.c: In function 'brcmstb_gpio_probe':
+   drivers/gpio/gpio-brcmstb.c:736:5: error: 'struct gpio_chip' has no member named 'of_gpio_n_cells'
+     736 |   gc->of_gpio_n_cells = 2;
+         |     ^~
+>> drivers/gpio/gpio-brcmstb.c:737:5: error: 'struct gpio_chip' has no member named 'of_xlate'
+     737 |   gc->of_xlate = brcmstb_gpio_of_xlate;
+         |     ^~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GPIO_SYSCON
+   Depends on [n]: GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && OF [=n]
+   Selected by [y]:
+   - GPIO_SAMA5D2_PIOBU [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && (ARCH_AT91 || COMPILE_TEST [=y])
 
 
-vim +/damon_set_region_biggest_system_ram_default +280 mm/damon/tier.c
+vim +502 drivers/gpio/gpio-tegra186.c
 
-   243	
-   244	static int damon_tier_apply_parameters(void)
-   245	{
-   246		struct damon_ctx *param_ctx;
-   247		struct damon_target *param_target;
-   248		struct damos *promote_scheme, *demote_scheme;
-   249		int err;
-   250	
-   251		err = damon_modules_new_paddr_ctx_target(&param_ctx, &param_target);
-   252		if (err)
-   253			return err;
-   254	
-   255		err = damon_set_attrs(param_ctx, &damon_tier_mon_attrs);
-   256		if (err)
-   257			goto out;
-   258	
-   259		err = -ENOMEM;
-   260		promote_scheme = damon_tier_new_promote_scheme();
-   261		if (!promote_scheme)
-   262			goto out;
-   263	
-   264		demote_scheme = damon_tier_new_demote_scheme();
-   265		if (!demote_scheme) {
-   266			damon_destroy_scheme(promote_scheme);
-   267			goto out;
-   268		}
-   269	
-   270		damon_set_schemes(param_ctx, &promote_scheme, 1);
-   271		damon_add_scheme(param_ctx, demote_scheme);
-   272	
-   273		err = damon_tier_add_quota_goals(promote_scheme, demote_scheme);
-   274		if (err)
-   275			goto out;
-   276		err = damon_tier_add_filters(promote_scheme, demote_scheme);
-   277		if (err)
-   278			goto out;
-   279	
- > 280		err = damon_set_region_biggest_system_ram_default(param_target,
-   281						&monitor_region_start,
-   282						&monitor_region_end,
-   283						param_ctx->min_region_sz);
-   284		if (err)
-   285			goto out;
-   286		err = damon_commit_ctx(ctx, param_ctx);
-   287	out:
-   288		damon_destroy_ctx(param_ctx);
-   289		return err;
-   290	}
-   291	
+b64d6c9a6a050d Thierry Reding 2020-03-19  494  
+5b2b135a87fcfb Thierry Reding 2017-11-07 @495  static int tegra186_gpio_of_xlate(struct gpio_chip *chip,
+5b2b135a87fcfb Thierry Reding 2017-11-07  496  				  const struct of_phandle_args *spec,
+5b2b135a87fcfb Thierry Reding 2017-11-07  497  				  u32 *flags)
+5b2b135a87fcfb Thierry Reding 2017-11-07  498  {
+5b2b135a87fcfb Thierry Reding 2017-11-07  499  	struct tegra_gpio *gpio = gpiochip_get_data(chip);
+5b2b135a87fcfb Thierry Reding 2017-11-07  500  	unsigned int port, pin, i, offset = 0;
+5b2b135a87fcfb Thierry Reding 2017-11-07  501  
+5b2b135a87fcfb Thierry Reding 2017-11-07 @502  	if (WARN_ON(chip->of_gpio_n_cells < 2))
+5b2b135a87fcfb Thierry Reding 2017-11-07  503  		return -EINVAL;
+5b2b135a87fcfb Thierry Reding 2017-11-07  504  
+5b2b135a87fcfb Thierry Reding 2017-11-07  505  	if (WARN_ON(spec->args_count < chip->of_gpio_n_cells))
+5b2b135a87fcfb Thierry Reding 2017-11-07  506  		return -EINVAL;
+5b2b135a87fcfb Thierry Reding 2017-11-07  507  
+5b2b135a87fcfb Thierry Reding 2017-11-07  508  	port = spec->args[0] / 8;
+5b2b135a87fcfb Thierry Reding 2017-11-07  509  	pin = spec->args[0] % 8;
+5b2b135a87fcfb Thierry Reding 2017-11-07  510  
+5b2b135a87fcfb Thierry Reding 2017-11-07  511  	if (port >= gpio->soc->num_ports) {
+5b2b135a87fcfb Thierry Reding 2017-11-07  512  		dev_err(chip->parent, "invalid port number: %u\n", port);
+5b2b135a87fcfb Thierry Reding 2017-11-07  513  		return -EINVAL;
+5b2b135a87fcfb Thierry Reding 2017-11-07  514  	}
+5b2b135a87fcfb Thierry Reding 2017-11-07  515  
+5b2b135a87fcfb Thierry Reding 2017-11-07  516  	for (i = 0; i < port; i++)
+5b2b135a87fcfb Thierry Reding 2017-11-07  517  		offset += gpio->soc->ports[i].pins;
+5b2b135a87fcfb Thierry Reding 2017-11-07  518  
+5b2b135a87fcfb Thierry Reding 2017-11-07  519  	if (flags)
+5b2b135a87fcfb Thierry Reding 2017-11-07  520  		*flags = spec->args[1];
+5b2b135a87fcfb Thierry Reding 2017-11-07  521  
+5b2b135a87fcfb Thierry Reding 2017-11-07  522  	return offset + pin;
+5b2b135a87fcfb Thierry Reding 2017-11-07  523  }
+5b2b135a87fcfb Thierry Reding 2017-11-07  524  
+
+:::::: The code at line 502 was first introduced by commit
+:::::: 5b2b135a87fcfb2b27c3c192fd7c3b053f0c5fa2 gpio: Add Tegra186 support
+
+:::::: TO: Thierry Reding <treding@nvidia.com>
+:::::: CC: Linus Walleij <linus.walleij@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
