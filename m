@@ -1,166 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E7473AA4ED;
-	Fri, 27 Mar 2026 10:08:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F3E3AEF24
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 10:20:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774606108; cv=none; b=Ke0T2uffZmpouXVB3X8nBGWPj3hM5RkncS6hozPmLFlW1auwSQS6phj5nQL2iuCRGKphrmiw/YdJalGPejo6FRCkOZ/9kY744xiaj+JmMuerNiUi1m7Ty6jZh31wyk21fkln04zTKs5vC4SNwGwL91kRP4al/3rvkzeBiceO4RA=
+	t=1774606856; cv=none; b=hhgkGeezLU9rhGQgH7pHE9/wrQ41OdJMMgWAjHHDrsuwzAFJYzIoOVXKtfcFMJJzFRIT8Ue5oq4OkCCcmPjvx0Vq6nLcO0CQLPvYP7kqTeDEXL/yD3UBZBnRl13pfS62/obNnzoimqYCTwARoSzsFqkRve+vhe6m+nVyv/jSysY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774606108; c=relaxed/simple;
-	bh=nfJEz6wPuVKV8Cl7qtJJ9mGOW0YUkHEiV0LQPiDonk0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=olduCawrQj91PYfuBtnE3h18ZA5E5gVcGXI8xPs4E6JaE0qF0kMazoM3K5DEhdCGAs9dxaIn1391mQfKWuNkSWdDaxIOBlCICxw1rh5obTbws0i8P/xJg64BYWEKw5ubg5Nrfn6SRl5979FzAhqYubG3erZvfJCGwTXAVpn1YrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K59sa5VI; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1774606856; c=relaxed/simple;
+	bh=xZAFi59AJSs1E1d9hb+Z/RYKTP/h7jN0DjNoQakie6s=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=hofi5xkTK9DBglAYfTNaihZjD7WFKAGB/ivQrY0BSW3G/qgbJ/2POu5LGJpjFmGC3CmMV0HMXTMvyLsgVS59FCwmoaxhLQPkW3+3o057jnH6pE1sbEKWfZP3WsvjONP3Z6QOf3QARX5Mr50w1nm0zRUBh0MskBZPPv9a2vFHE4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jLUSmyip; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K59sa5VI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jLUSmyip"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774606106; x=1806142106;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nfJEz6wPuVKV8Cl7qtJJ9mGOW0YUkHEiV0LQPiDonk0=;
-  b=K59sa5VIrncpkOSCAuwPYcjxDTx9wa/vvFnHuSVuBCVXZxcfbAzKmhg/
-   83RuTpCSvA2d7RIZq5Hjuup6qye1r3yRa/rCV8e3j/pnjavM1JZkC4s9D
-   Q+aVoW06EzdfQWIrt+owMV5yZpSeu0xgrWB1W0IlJ1ctwNCIhWnlHCeg+
-   yy1XlovHqB7mNrxX6hZpRXgG9f59Ptm5jaAotkzfiye2c88Ji0iOKbf3h
-   ftcH5GZA7htn3pkHbhMVH/KICtI4lGwGO5gqxDw87M258/SwxKYowvS9O
-   0xwbzDdtex0XNh6ZLQhDlb07EZ/+vfPECfpHwoMmLilbjzKm29+bDTvXs
-   A==;
-X-CSE-ConnectionGUID: HoaLzfoAQdmwXqe0W7NOTQ==
-X-CSE-MsgGUID: khmCXrGjSuOIlbPd1da5OQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="79581552"
+  t=1774606854; x=1806142854;
+  h=date:from:to:cc:subject:message-id;
+  bh=xZAFi59AJSs1E1d9hb+Z/RYKTP/h7jN0DjNoQakie6s=;
+  b=jLUSmyipPLQXX49RGCOuItl6/ZNduMCodq5LGHonihWyZXPC5Atj6u8G
+   FJIYmjz+PwvETxp/wAMmO7sI6fZnN+4lzpSnjlutC6POebBzSPiMCFFTl
+   g7s9bUm/s4473KmzTsLG4oJv/oPkSftp4ZtHi8k3SzgAKBvxrDL827xi3
+   zNfcSfX0R8RmvYNA2bWBTK6MyftJ42VnxjKIA5CSdvqZAqNtFfk3ZFa2k
+   wgDGsmBVlALAa+h+Jt4pgITN7yLa6H5S+WyK5I4WfxNL0oDa2JfNF4UKf
+   rdig+aH00HfAIuYN3M6joiBCDTrGcvxZPcF5bKfjrwlD8bBUQ+XvAyAED
+   g==;
+X-CSE-ConnectionGUID: l6IQ1rSBQayOz5ys38VbOA==
+X-CSE-MsgGUID: ksm4nY58TBC/VoMsIXjYiQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="75793266"
 X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="79581552"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 03:08:25 -0700
-X-CSE-ConnectionGUID: 2W9uDgkIRfuEhcY4dYfpgA==
-X-CSE-MsgGUID: +GzRkPzkQU6S4yIEB6A96Q==
+   d="scan'208";a="75793266"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 03:20:54 -0700
+X-CSE-ConnectionGUID: Xm6neMTrQUC8vqSJcIkEmA==
+X-CSE-MsgGUID: GY0DnxXOSSOUIjBufEwuew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="255773478"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 27 Mar 2026 03:08:22 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+   d="scan'208";a="230199435"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 27 Mar 2026 03:20:52 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w6471-00000000A8r-1qp5;
-	Fri, 27 Mar 2026 10:08:19 +0000
-Date: Fri, 27 Mar 2026 18:08:18 +0800
+	id 1w64J7-000000007TV-3eco;
+	Fri, 27 Mar 2026 10:20:49 +0000
+Date: Fri, 27 Mar 2026 11:20:28 +0100
 From: kernel test robot <lkp@intel.com>
-To: Chuck Lever <cel@kernel.org>, NeilBrown <neil@brown.name>,
-	Jeff Layton <jlayton@kernel.org>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Chuck Lever <chuck.lever@oracle.com>
-Subject: Re: [PATCH v5 1/7] NFSD: Extract revoke_one_stid() utility function
-Message-ID: <202603271711.Pbg3v6zE-lkp@intel.com>
-References: <20260326-umount-kills-nfsv4-state-v5-1-d2ce071b3570@oracle.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Chris Down <chris@chrisdown.name>
+Subject: [akpm-mm:mm-unstable 199/330] vm_util.c:127:14: error: too
+ few arguments to function 'pagemap_scan_supported'
+Message-ID: <202603271115.uE9vpppi-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260326-umount-kills-nfsv4-state-v5-1-d2ce071b3570@oracle.com>
 
-Hi Chuck,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 65058e9e9b20619f920397f529072e853dd43811]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chuck-Lever/NFSD-Extract-revoke_one_stid-utility-function/20260327-081757
-base:   65058e9e9b20619f920397f529072e853dd43811
-patch link:    https://lore.kernel.org/r/20260326-umount-kills-nfsv4-state-v5-1-d2ce071b3570%40oracle.com
-patch subject: [PATCH v5 1/7] NFSD: Extract revoke_one_stid() utility function
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20260327/202603271711.Pbg3v6zE-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603271711.Pbg3v6zE-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   74dc4627271e6e367176b519565e901ed72d6e4c
+commit: 9652b82ca963243fb80e645319d473a7dc65ee79 [199/330] selftests-mm-add-uffdio_move-huge-zeropage-pmd-regression-test-fix
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260327/202603271115.uE9vpppi-lkp@intel.com/config)
+compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603271115.uE9vpppi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603271711.Pbg3v6zE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603271115.uE9vpppi-lkp@intel.com/
+
+Note: the akpm-mm/mm-unstable HEAD 74dc4627271e6e367176b519565e901ed72d6e4c builds fine.
+      It only hurts bisectability.
 
 All errors (new ones prefixed by >>):
 
-   fs/nfsd/nfs4state.c:1830:14: error: use of undeclared identifier 'state_lock'; did you mean 'task_lock'?
-    1830 |                 spin_lock(&state_lock);
-         |                            ^~~~~~~~~~
-         |                            task_lock
-   include/linux/sched/task.h:216:20: note: 'task_lock' declared here
-     216 | static inline void task_lock(struct task_struct *p)
-         |                    ^
->> fs/nfsd/nfs4state.c:1830:13: error: incompatible pointer types passing 'void (*)(struct task_struct *)' to parameter of type 'spinlock_t *' (aka 'struct spinlock *') [-Wincompatible-pointer-types]
-    1830 |                 spin_lock(&state_lock);
-         |                           ^~~~~~~~~~~
-   include/linux/spinlock.h:338:51: note: passing argument to parameter 'lock' here
-     338 | static __always_inline void spin_lock(spinlock_t *lock)
-         |                                                   ^
-   fs/nfsd/nfs4state.c:1833:16: error: use of undeclared identifier 'state_lock'; did you mean 'task_lock'?
-    1833 |                 spin_unlock(&state_lock);
-         |                              ^~~~~~~~~~
-         |                              task_lock
-   include/linux/sched/task.h:216:20: note: 'task_lock' declared here
-     216 | static inline void task_lock(struct task_struct *p)
-         |                    ^
-   fs/nfsd/nfs4state.c:1833:15: error: incompatible pointer types passing 'void (*)(struct task_struct *)' to parameter of type 'spinlock_t *' (aka 'struct spinlock *') [-Wincompatible-pointer-types]
-    1833 |                 spin_unlock(&state_lock);
-         |                             ^~~~~~~~~~~
-   include/linux/spinlock.h:386:53: note: passing argument to parameter 'lock' here
-     386 | static __always_inline void spin_unlock(spinlock_t *lock)
-         |                                                     ^
-   4 errors generated.
-
-
-vim +1830 fs/nfsd/nfs4state.c
-
-  1805	
-  1806	static void revoke_one_stid(struct nfs4_client *clp, struct nfs4_stid *stid)
-  1807	{
-  1808		struct nfs4_ol_stateid *stp;
-  1809		struct nfs4_delegation *dp;
-  1810	
-  1811		switch (stid->sc_type) {
-  1812		case SC_TYPE_OPEN:
-  1813			stp = openlockstateid(stid);
-  1814			mutex_lock_nested(&stp->st_mutex, OPEN_STATEID_MUTEX);
-  1815			revoke_ol_stid(clp, stp);
-  1816			mutex_unlock(&stp->st_mutex);
-  1817			break;
-  1818		case SC_TYPE_LOCK:
-  1819			stp = openlockstateid(stid);
-  1820			mutex_lock_nested(&stp->st_mutex, LOCK_STATEID_MUTEX);
-  1821			revoke_ol_stid(clp, stp);
-  1822			mutex_unlock(&stp->st_mutex);
-  1823			break;
-  1824		case SC_TYPE_DELEG:
-  1825			/*
-  1826			 * Extra reference guards against concurrent FREE_STATEID.
-  1827			 */
-  1828			refcount_inc(&stid->sc_count);
-  1829			dp = delegstateid(stid);
-> 1830			spin_lock(&state_lock);
-  1831			if (!unhash_delegation_locked(dp, SC_STATUS_ADMIN_REVOKED))
-  1832				dp = NULL;
-  1833			spin_unlock(&state_lock);
-  1834			if (dp)
-  1835				revoke_delegation(dp);
-  1836			else
-  1837				nfs4_put_stid(stid);
-  1838			break;
-  1839		case SC_TYPE_LAYOUT:
-  1840			nfsd4_close_layout(layoutstateid(stid));
-  1841			break;
-  1842		}
-  1843	}
-  1844	
+   vm_util.c: In function 'pagemap_is_huge_zero':
+>> vm_util.c:127:14: error: too few arguments to function 'pagemap_scan_supported'
+     127 |         if (!pagemap_scan_supported(fd))
+         |              ^~~~~~~~~~~~~~~~~~~~~~
+   vm_util.c:70:13: note: declared here
+      70 | static bool pagemap_scan_supported(int fd, char *start)
+         |             ^~~~~~~~~~~~~~~~~~~~~~
 
 -- 
 0-DAY CI Kernel Test Service
