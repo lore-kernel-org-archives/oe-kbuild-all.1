@@ -1,128 +1,178 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58702276050;
-	Fri, 27 Mar 2026 01:51:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63BC71A08AF
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 02:02:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774576314; cv=none; b=BbvyP92SrDhEfQI/JekwY5AuE0cyT8BVLqyT9k9etJ42nt0Keg/Cpfbno0kCvpuG493gDF3irpgYiINt7vkbFPFo9L5oQ28wIkGc3+TC5KR2FptVeHHkeNVvb22Bs/ziCVHfMfRB9SUEfr0wwTNRp3Uh2UTm9qYvbxB0npzmotc=
+	t=1774576960; cv=none; b=AclIp2T3tY5Xcm7XLFv+3Bnlzl969D8BvytPMYZTu/rtmXXanbLEeJFqhmaaDNoiF+uTj35qDgJf5cdvYrZsisxBnmDdv+9z+UrfG14MOUnd2xn0vAxImd9P+6w7KuHOOQp4qKdLjlJj67eQIPsErRClhoWSDIQV9KyqVTaknRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774576314; c=relaxed/simple;
-	bh=SZpKju/I8Pz2REnSInEB4qUIFbKAa3ondD3Kf8hFRn8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=kcbe1c1xgnNf3CoDetVSiQITbidL4EbfjXiqO6PD75pt/LwXWBuS5FmdHfIdEn+Uj1GGFM8sYFQ2S12VpxlFo/H+4k04CZ21x8ROPJj/rP66qPxsLWcoGwFbhTS+fLtnaRfsDXXcs8v3y+4O6QmdkRH/4ysS59rNH4nF0PqsTi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HK0LKGpG; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1774576960; c=relaxed/simple;
+	bh=FzdE07b2tYW45qx8aG1KgKrXn+V2mnBg1Hg2NjRtGZE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P24HiSkFnthnIr6/wXkBQFsa6o83ckz5qw45xbLeaN72pYLQnj09dcPQVsKmrmwRZdAADYwMbgpcaDzWdWOoYgtxSkl0IKMOngXRGu2kWFvaYU7X2jF0kmoGFZ9BIblbdaT7NkUkvbTL13fAKTpNYw9xFlo4+dYcZ+muJDHlp3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R569ta++; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HK0LKGpG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R569ta++"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774576313; x=1806112313;
-  h=date:from:to:cc:subject:message-id;
-  bh=SZpKju/I8Pz2REnSInEB4qUIFbKAa3ondD3Kf8hFRn8=;
-  b=HK0LKGpGabPtGf4ueX63/vvjhz5rJv2yuXfDogI8ZfNiAiuRvf2U53nu
-   T0IJBO9m2DBec2Lsq+5xEdmEcLVeKDatbR0XyPF6UQMlxnmls9pKTY1o5
-   UW2/XyIOo27YUQ3qr3o6oJOIaHZygiNLGK8kskeajWLJD4Ld4L6xLQTiC
-   nqKOGL1OGSn47CTz9KxqVujzey79jLzA9z0qDv4z/FL6UFV474QF9PMY0
-   wqXo5L91qef078dCG4WLLT0Dm322n13SovrzcFDH+I27JOhQosGXUeoju
-   Y0aGznShOcA4bkJPgc2bhce2xDilcNtsds/chIz7gdJMGzk24wxyr+wCS
-   w==;
-X-CSE-ConnectionGUID: R+pl07VNTVKsGvwaut/8RA==
-X-CSE-MsgGUID: hCXL5YUTSXqKNj1ZZ9YuYg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="75760864"
+  t=1774576959; x=1806112959;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FzdE07b2tYW45qx8aG1KgKrXn+V2mnBg1Hg2NjRtGZE=;
+  b=R569ta++Q5vhCaPPYQhgv2EcRCPW2FZW3HpfoTjCJlF0Vc/YVPtSWRxH
+   7VZVg2v8nGLWmQgw+THBRxUfvHyxkhko2M6C3cP8Y40dYYMjizu2ibINK
+   elw04H3mDCfTxUKeg712ozYVcfcjowxN0lvAtOfXnQ05VavmqoR5gnEjd
+   OnMXfc4tzb2DDmx71rua7mIjxa4pRH0ivZMxbdC5ASIhLZceUhKBFBUxU
+   VzCvwWE0s+tFSKS8eqOHrI9qQqnDOJ1HDMO2xqYNodf0k9t1gDF6anVhz
+   UfXjOUamSbyo3f5bMxw09/YQrVLaDO/6Y7TuM3zbKInDSh6rFFCHhb+la
+   A==;
+X-CSE-ConnectionGUID: 72wM3DJ5SxizNs1wE488uw==
+X-CSE-MsgGUID: bKtsY5wvRgql/7uBfmetYA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="86342211"
 X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="75760864"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 18:51:52 -0700
-X-CSE-ConnectionGUID: 4gkJHcdQQ/O0XOvi52Sl7A==
-X-CSE-MsgGUID: gOlRJUzDTaeldGoigpEWJQ==
+   d="scan'208";a="86342211"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 19:02:38 -0700
+X-CSE-ConnectionGUID: rfb/XM8NTw+aZJ5SeDGSAQ==
+X-CSE-MsgGUID: lPaqEe1WTpuvzSZ78gXIMg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="229954175"
+   d="scan'208";a="221864164"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 26 Mar 2026 18:51:38 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 26 Mar 2026 19:02:38 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5wMJ-000000009e7-0ydH;
-	Fri, 27 Mar 2026 01:51:35 +0000
-Date: Fri, 27 Mar 2026 09:51:33 +0800
+	id 1w5wWx-000000009eb-2Yl1;
+	Fri, 27 Mar 2026 02:02:35 +0000
+Date: Fri, 27 Mar 2026 10:02:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexandre Courbot <acourbot@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Mark Brown <broonie@kernel.org>
-Subject: [linux-next:master 9713/9801] error[E0277]: the trait bound
- `Object<T>: aref::AlwaysRefCounted` is not satisfied
-Message-ID: <202603270920.ZuE0FYNM-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Tianyu Lan <ltykernel@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH V3] x86/VMBus: Confidential VMBus for dynamic DMA
+ transfers
+Message-ID: <202603270900.wxNPPy02-lkp@intel.com>
+References: <20260325075649.248241-1-tiala@microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260325075649.248241-1-tiala@microsoft.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e77a5a5cfe43b4c25bd44a3818e487033287517f
-commit: 4b9d7feab6e745f6959e8b205159f522c70de18f [9713/9801] Merge branch 'drm-rust-next' of https://gitlab.freedesktop.org/drm/rust/kernel.git
-config: x86_64-randconfig-014-20260327 (https://download.01.org/0day-ci/archive/20260327/202603270920.ZuE0FYNM-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603270920.ZuE0FYNM-lkp@intel.com/reproduce)
+Hi Tianyu,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v7.0-rc5 next-20260326]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tianyu-Lan/x86-VMBus-Confidential-VMBus-for-dynamic-DMA-transfers/20260325-162853
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260325075649.248241-1-tiala%40microsoft.com
+patch subject: [RFC PATCH V3] x86/VMBus: Confidential VMBus for dynamic DMA transfers
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260327/202603270900.wxNPPy02-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603270900.wxNPPy02-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603270920.ZuE0FYNM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603270900.wxNPPy02-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> error[E0277]: the trait bound `Object<T>: aref::AlwaysRefCounted` is not satisfied
-   --> rust/kernel/drm/gem/mod.rs:142:41
-   |
-   142 | impl<T: DriverObject> IntoGEMObject for Object<T> {
-   |                                         ^^^^^^^^^ the trait `aref::AlwaysRefCounted` is not implemented for `Object<T>`
-   |
-   = help: the following other types implement trait `aref::AlwaysRefCounted`:
-   Credential
-   FwNode
-   I2cAdapter
-   I2cClient
-   LocalFile
-   Mm
-   MmWithUser
-   MmWithUserAsync
-   and 10 others
-   note: required by a bound in `IntoGEMObject`
-   --> rust/kernel/drm/gem/mod.rs:96:59
-   |
-   96  | pub trait IntoGEMObject: Sized + super::private::Sealed + AlwaysRefCounted {
-   |                                                           ^^^^^^^^^^^^^^^^ required by this bound in `IntoGEMObject`
---
->> error[E0277]: the trait bound `Object<T>: aref::AlwaysRefCounted` is not satisfied
-   --> rust/kernel/drm/gem/mod.rs:320:37
-   |
-   320 | impl<T: DriverObject> AllocImpl for Object<T> {
-   |                                     ^^^^^^^^^ the trait `aref::AlwaysRefCounted` is not implemented for `Object<T>`
-   |
-   = help: the following other types implement trait `aref::AlwaysRefCounted`:
-   Credential
-   FwNode
-   I2cAdapter
-   I2cClient
-   LocalFile
-   Mm
-   MmWithUser
-   MmWithUserAsync
-   and 10 others
-   note: required for `Object<T>` to implement `IntoGEMObject`
-   --> rust/kernel/drm/gem/mod.rs:96:11
-   |
-   96  | pub trait IntoGEMObject: Sized + super::private::Sealed + AlwaysRefCounted {
-   |           ^^^^^^^^^^^^^
-   note: required by a bound in `AllocImpl`
-   --> rust/kernel/drm/driver.rs:90:47
-   |
-   90  | pub trait AllocImpl: super::private::Sealed + drm::gem::IntoGEMObject {
-   |                                               ^^^^^^^^^^^^^^^^^^^^^^^ required by this bound in `AllocImpl`
+   drivers/hv/vmbus_drv.c: In function 'vmbus_device_register':
+>> drivers/hv/vmbus_drv.c:2194:17: error: implicit declaration of function 'swiotlb_dev_disable' [-Wimplicit-function-declaration]
+    2194 |                 swiotlb_dev_disable(&child_device_obj->device);
+         |                 ^~~~~~~~~~~~~~~~~~~
+
+
+vim +/swiotlb_dev_disable +2194 drivers/hv/vmbus_drv.c
+
+  2172	
+  2173	/*
+  2174	 * vmbus_device_register - Register the child device
+  2175	 */
+  2176	int vmbus_device_register(struct hv_device *child_device_obj)
+  2177	{
+  2178		struct kobject *kobj = &child_device_obj->device.kobj;
+  2179		int ret;
+  2180	
+  2181		dev_set_name(&child_device_obj->device, "%pUl",
+  2182			     &child_device_obj->channel->offermsg.offer.if_instance);
+  2183	
+  2184		child_device_obj->device.bus = &hv_bus;
+  2185		child_device_obj->device.parent = vmbus_root_device;
+  2186		child_device_obj->device.release = vmbus_device_release;
+  2187	
+  2188		child_device_obj->device.dma_parms = &child_device_obj->dma_parms;
+  2189		child_device_obj->device.dma_mask = &child_device_obj->dma_mask;
+  2190		dma_set_mask(&child_device_obj->device, DMA_BIT_MASK(64));
+  2191	
+  2192		device_initialize(&child_device_obj->device);
+  2193		if (child_device_obj->channel->co_external_memory)
+> 2194			swiotlb_dev_disable(&child_device_obj->device);
+  2195	
+  2196		/*
+  2197		 * Register with the LDM. This will kick off the driver/device
+  2198		 * binding...which will eventually call vmbus_match() and vmbus_probe()
+  2199		 */
+  2200		ret = device_add(&child_device_obj->device);
+  2201		if (ret) {
+  2202			pr_err("Unable to register child device\n");
+  2203			put_device(&child_device_obj->device);
+  2204			return ret;
+  2205		}
+  2206	
+  2207		/*
+  2208		 * If device_register() found a driver to assign to the device, the
+  2209		 * driver's probe function has already run at this point. If that
+  2210		 * probe function accesses or operates on the "channels" subdirectory
+  2211		 * in sysfs, those operations will have failed because the "channels"
+  2212		 * subdirectory doesn't exist until the code below runs. Or if the
+  2213		 * probe function creates a /dev entry, a user space program could
+  2214		 * find and open the /dev entry, and then create a race by accessing
+  2215		 * the "channels" subdirectory while the creation steps are in progress
+  2216		 * here. The race can't result in a kernel failure, but the user space
+  2217		 * program may get an error in accessing "channels" or its
+  2218		 * subdirectories. See also comments with vmbus_add_dynid() about a
+  2219		 * related race condition.
+  2220		 */
+  2221		child_device_obj->channels_kset = kset_create_and_add("channels",
+  2222								      NULL, kobj);
+  2223		if (!child_device_obj->channels_kset) {
+  2224			ret = -ENOMEM;
+  2225			goto err_dev_unregister;
+  2226		}
+  2227	
+  2228		ret = vmbus_add_channel_kobj(child_device_obj,
+  2229					     child_device_obj->channel);
+  2230		if (ret) {
+  2231			pr_err("Unable to register primary channel\n");
+  2232			goto err_kset_unregister;
+  2233		}
+  2234		hv_debug_add_dev_dir(child_device_obj);
+  2235	
+  2236		return 0;
+  2237	
+  2238	err_kset_unregister:
+  2239		kset_unregister(child_device_obj->channels_kset);
+  2240	
+  2241	err_dev_unregister:
+  2242		device_unregister(&child_device_obj->device);
+  2243		return ret;
+  2244	}
+  2245	
 
 -- 
 0-DAY CI Kernel Test Service
