@@ -1,60 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E00883BF696
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 07:28:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7D103CCFDE
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 09:14:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774596540; cv=none; b=IcHkscIqWHoXXmxdUzpjfs792fBV957xGY/l1+jGh7VbOE6YgrQ337eKi/T4TRMcZXT2JBaNv8wBND3RFKv0O2rlvsQ6WLOKkpsJj3Vx77cqHTgoVdjtzu2fmqez+k1x3OuumnYCY2w3ACFPnTtViKrcdsjk0jyHlzRNHvEkEec=
+	t=1774602863; cv=none; b=deuarBxGwTkfCMkZbjLecpp7LGMVCDbsGAejDmkE2hT53ygMCITldZmGka8u/Rd7l2F2gB8cfEXtQhwobtjcPCRW0WnmUyww5vS6wWN7CedlwvdUUtxgGdah4KEYnGnXlEh5R+j595lowE0uVQt+vUFSGWAHiKIsDIpbtm9kpsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774596540; c=relaxed/simple;
-	bh=V/vD5nwhMWjZen8sZJKGYg3mxV5U0mPfPQEQZfdzTuo=;
+	s=arc-20240116; t=1774602863; c=relaxed/simple;
+	bh=tcEHF6ZmG+i3/sYhYQxaSi2YTNbDHBsiC+5pE7pekMM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bO1DfPG0cSv/hKZcIgCwfbPeR0NN9MaOirqIWibLF5rFI/2epuc28WFSFGnKdHJM2H+4kttQldfrbxtS/bGg0utQad3ulC8CXCoF4DdYUUf5bq2SrQ5nxQITMX4KNqlr55XXBkgbUNBDa84WIWM4cpeuLnUuMPsR3RgswD239Ao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MME8Fdbj; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=I1cIJ0dYvkhFsBLqysSGCPrJeB28oVgr8IYn22CeiM4HiHLyqoxMX+jIsflm+qz1xQC0BlevSpY8YqircAA/cfZNtPevcfcS+LcXpF8yCF2oBpNyhBfly2xnFCC2Yt91ZGIRvnbiYqqaMLUnq/YMrH6XM+t+JmU50l9jUeUBudw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZD0l9JUF; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MME8Fdbj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZD0l9JUF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774596534; x=1806132534;
+  t=1774602861; x=1806138861;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=V/vD5nwhMWjZen8sZJKGYg3mxV5U0mPfPQEQZfdzTuo=;
-  b=MME8FdbjnOA85i2VqIQVoo+tV/tqui3jtBrJlmL73ucTY0dLdj6GtL92
-   X20ChftYvy5LPN+TXML/9Iy9+TtyjDU5UtLQYTYE3o+Kr6roTXE1zxupx
-   OyuaxtxdAe/mtLtbGI7tjbK37HU6ndbJ/Ocsz0kPvOVobx/3BDCptXGeW
-   NwqWeu7f8M8FjeoAt3VcCARwuy4iecHCEqb8nIy8fryWd45WCkoaYSm9I
-   jtp+T8oTCih+bN9Vr1sL1I0uei0CGqrRz5l8U4g53tsLK+G+1bGfrmkOn
-   Ue9bqZ/dVbI9g/1bpd/kAkrHL5sXkGlF2v0JG74Tz/N9ITxK0ppOm9IJc
-   g==;
-X-CSE-ConnectionGUID: m61CBNwXRVisqwgggh/OzQ==
-X-CSE-MsgGUID: tF02dEleS0SMg7+CNSExDQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="75633491"
+  bh=tcEHF6ZmG+i3/sYhYQxaSi2YTNbDHBsiC+5pE7pekMM=;
+  b=ZD0l9JUFHpafqmUuXShRghjfH3JnHRMiCe4EQr/i4/luLCNo9gO0nd64
+   clJkrAwU3Nb7lH8l0rr6TxOkzNDCAj3qFwTXXSByPS/1ZsmSgRJ/ElrhT
+   cRdeeGJ0C94XCAR2YDX1+3dbYq3y2MEGNUP72aB1aAUovG9PPjad0rFhG
+   t6t3CTlfZ2oEBLXOA+iTpfaEXnjkmgHgZNSuZLC3bkLQ9ERiEyAhT1wUn
+   iHsDCKSwQTQ5ngrNzR43Gg5NDU18UTRbbBplfFgVayy2x4RbFGWk+1dXj
+   N1ilAyeGPoye5ci0fLv1a5//t3IbrrrkO9wH8OfPq1hX+WUQL12XlmvVl
+   A==;
+X-CSE-ConnectionGUID: RDtZxlTSTOWcRDfFvGYDuw==
+X-CSE-MsgGUID: V7vEzJApQxuqIe8jBFAmVA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="79274908"
 X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="75633491"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 00:28:53 -0700
-X-CSE-ConnectionGUID: nw/w3xEXQbm7OmnTC0IuBQ==
-X-CSE-MsgGUID: tYebg695Rxy3lZMio+clYA==
+   d="scan'208";a="79274908"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 02:14:21 -0700
+X-CSE-ConnectionGUID: 4X9xTXyeSaWOXDWm0e9Npg==
+X-CSE-MsgGUID: KuEW1thcQyeui24AduETKw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="225246742"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 27 Mar 2026 00:28:52 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="263203659"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 27 Mar 2026 02:14:19 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w61cf-000000007Sn-0hyl;
-	Fri, 27 Mar 2026 07:28:49 +0000
-Date: Fri, 27 Mar 2026 08:28:13 +0100
+	id 1w63Gi-00000000A6n-0hsi;
+	Fri, 27 Mar 2026 09:14:16 +0000
+Date: Fri, 27 Mar 2026 17:13:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthew Laux <matthew.laux@gmail.com>, linux-media@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, mchehab@kernel.org,
-	gregkh@linuxfoundation.org, Matthew Laux <matthew.laux@gmail.com>
-Subject: Re: [PATCH 1/1] staging: media: add driver for StarTech USB3HDCAP
-Message-ID: <202603270851.dIxOgNPA-lkp@intel.com>
-References: <20260325170634.55528-2-matthew.laux@gmail.com>
+To: David Lechner <dlechner@baylibre.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Matt Ranostay <mranostay@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, David Lechner <dlechner@baylibre.com>
+Subject: Re: [PATCH 2/2] iio: adc: ti-adc161s626: use DMA-safe memory for
+ spi_read()
+Message-ID: <202603271734.pnWuSmNr-lkp@intel.com>
+References: <20260314-iio-adc-ti-adc161s626-fix-scan-buf-v1-2-56243b11e87b@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,41 +68,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260325170634.55528-2-matthew.laux@gmail.com>
+In-Reply-To: <20260314-iio-adc-ti-adc161s626-fix-scan-buf-v1-2-56243b11e87b@baylibre.com>
 
-Hi Matthew,
+Hi David,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 0e2c4117c3512cf6b8f54c2c3d37564bfa3ccd67]
+[auto build test ERROR on ff0843ceb1fb11a6b73e0e77b932ef7967aecd4b]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Laux/staging-media-add-driver-for-StarTech-USB3HDCAP/20260327-130544
-base:   0e2c4117c3512cf6b8f54c2c3d37564bfa3ccd67
-patch link:    https://lore.kernel.org/r/20260325170634.55528-2-matthew.laux%40gmail.com
-patch subject: [PATCH 1/1] staging: media: add driver for StarTech USB3HDCAP
-reproduce: (https://download.01.org/0day-ci/archive/20260327/202603270851.dIxOgNPA-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/iio-adc-ti-adc161s626-fix-buffer-read-on-big-endian/20260315-092711
+base:   ff0843ceb1fb11a6b73e0e77b932ef7967aecd4b
+patch link:    https://lore.kernel.org/r/20260314-iio-adc-ti-adc161s626-fix-scan-buf-v1-2-56243b11e87b%40baylibre.com
+patch subject: [PATCH 2/2] iio: adc: ti-adc161s626: use DMA-safe memory for spi_read()
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260327/202603271734.pnWuSmNr-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603271734.pnWuSmNr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603270851.dIxOgNPA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603271734.pnWuSmNr-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS=\ -fno-crash-diagnostics\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck 
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
->> ./drivers/staging/media/usb3hdcap/usb3hdcap-video.c: 7 linux/version.h not needed.
-   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 446: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+All errors (new ones prefixed by >>):
+
+   drivers/iio/adc/ti-adc161s626.c: In function 'ti_adc_read_measurement':
+>> drivers/iio/adc/ti-adc161s626.c:87:24: error: implicit declaration of function 'get_unaligned_be16' [-Wimplicit-function-declaration]
+      87 |                 *val = get_unaligned_be16(data->buf);
+         |                        ^~~~~~~~~~~~~~~~~~
+>> drivers/iio/adc/ti-adc161s626.c:94:24: error: implicit declaration of function 'get_unaligned_be24' [-Wimplicit-function-declaration]
+      94 |                 *val = get_unaligned_be24(data->buf);
+         |                        ^~~~~~~~~~~~~~~~~~
+
+
+vim +/get_unaligned_be16 +87 drivers/iio/adc/ti-adc161s626.c
+
+    75	
+    76	static int ti_adc_read_measurement(struct ti_adc_data *data,
+    77					   struct iio_chan_spec const *chan, int *val)
+    78	{
+    79		int ret;
+    80	
+    81		switch (data->read_size) {
+    82		case 2:
+    83			ret = spi_read(data->spi, data->buf, 2);
+    84			if (ret)
+    85				return ret;
+    86	
+  > 87			*val = get_unaligned_be16(data->buf);
+    88			break;
+    89		case 3:
+    90			ret = spi_read(data->spi, data->buf, 3);
+    91			if (ret)
+    92				return ret;
+    93	
+  > 94			*val = get_unaligned_be24(data->buf);
+    95			break;
+    96		default:
+    97			return -EINVAL;
+    98		}
+    99	
+   100		*val = sign_extend32(*val >> data->shift, chan->scan_type.realbits - 1);
+   101	
+   102		return 0;
+   103	}
+   104	
 
 -- 
 0-DAY CI Kernel Test Service
