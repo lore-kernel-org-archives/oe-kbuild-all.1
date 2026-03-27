@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 833DE37E2F5
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 21:31:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97F2B39B978
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 22:03:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774647086; cv=none; b=Gf73Q4gLHu/3lQjpGLn6SdvwFFHbNAe1nZZvyWD39LtG4RKzvfF7INNEtzsQRXlrdN40lFqAfzu+Qb+0FfPS6dXga0BMALk19JVHhxPIt2AQlfUAJInRb3V8WODxsY1WLACHVK5qYgLUnyWmSA0zHbK95l0p+MBGzO9OKr/5FNU=
+	t=1774649015; cv=none; b=ZE7rFOqKEkwDCUTC5XluC1JFmI0QfRc7+0DXDE+d4vZs16VCt/GB1ISG5si0oNcv/ktR1Qurw2lfnJcWZ8j8DUiFe7nrJcBym+wnc3gs3cNKPdQqv9kHLUSkxMHdRn70v3KIuzK+C1mzStSFKc1lfm0PyH/cL/bj471SJsmgLF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774647086; c=relaxed/simple;
-	bh=EUA2Y42EM4vmeBZgHrM36JJj5y6i+U3mjHC7Bk8Ww6M=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=uZO5sNdlbfhFZ0HdP71a6ORdIX+s6YaM8oYcW3JQYCZI5bGJS/oD68Kucm40k8M6IXstBO+r24LMwGIHC+JYrFU2GF2gGaONx1tuJNxsec6CKi8AeLStRvzYktL/BZ8l/YjcgSpwGevna9p61dHb4g7RR/zd/OE1WL4FD3veZ9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E/R/tM/t; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1774649015; c=relaxed/simple;
+	bh=ktRHaeyMzoL5dfm6sBhgY0ozEPRUe9w9y8EUUD4aSS0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=hAWTlPuCx2DcZeb/RmhOJX/TrUPL5jvHHDGtajCH1ncCzGZHgvZIG9PFWolwNeN59yvTLbQda3GK6hOZb/VjpR+CCog5ybokyF2QQ5OTi4Q6LElbYxZuOGAe/Nz8fF//z9MDXfDwnWEFL3TOuiRmNUkw2BmdoYN+hQQeW/aP7NM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lWBn8nmO; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E/R/tM/t"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lWBn8nmO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774647085; x=1806183085;
+  t=1774649013; x=1806185013;
   h=date:from:to:cc:subject:message-id;
-  bh=EUA2Y42EM4vmeBZgHrM36JJj5y6i+U3mjHC7Bk8Ww6M=;
-  b=E/R/tM/tlMPwgwmzF8LCIYpH2rkelMoyzIU7ioSfppK6kLkCxouNQYwB
-   d9RopCaKwOsSGWZAXfmS8FpzfGnoRRxh1enLpIRsnGQTQ4I9ncPqgZ6nM
-   gJze/BxvC03QVKZrKINim4MdcqMLjEYjAquV5dHuOn2FZgXhU5quGjdK1
-   OAB+PmWHclAaI5Mtq9d18S8bVdNzTW8rpYKdtGrlxPI7R/iTaf37iX+9j
-   Pdqi6gd12b+jezn3q4600qwzimpB3OM94r/Wz1LVnv03L8mVwjybM3GHH
-   GhWIbq12LtEuTUzM36Sd1pLCdGMcx77R0QWjYRskQ34la2nNtYeF2lDbe
+  bh=ktRHaeyMzoL5dfm6sBhgY0ozEPRUe9w9y8EUUD4aSS0=;
+  b=lWBn8nmOSha0w7LGRcbgJfIcyTxaBXnX1GWKyLSjEOfsi0/WmufPkDl4
+   0hNmEMQsOmzmvpKHiqHsbdpkjJLApv3j70KGyPbEWCjFrYK2YbT1dBdL2
+   0BtDsYruVRCY5u2pSIKq6+KLXe0DcENMkWpDZoNbPAYn1Bd3bsHa/USk9
+   tb+DKYKUURcAvaPr8/ifR1R+ZcWZXi6RxDUswzROjMjIUOHbZS7+2Fvpk
+   ycJSjgVgjpcBX113ORF6qak7+XpvO/bLtI0vt1Ag+i5QazUF9ADqABS/W
+   L+pm99mAEp+Wfo76t5WBlln6gKuACi/3S3oy4ochFEO5RzFOW2Oj9ZeDJ
    A==;
-X-CSE-ConnectionGUID: PvjMYi+KRPK+H4GJ0Xl7Pg==
-X-CSE-MsgGUID: Qz+0ffpGTAG0QVMuaO7udQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="93307805"
+X-CSE-ConnectionGUID: zIL5x+S+TP6nlp/TsgISOw==
+X-CSE-MsgGUID: TNrhu00DQJ+N8GQtkwkwaw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="75610224"
 X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="93307805"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 14:31:24 -0700
-X-CSE-ConnectionGUID: HQ+FYrxRSoqH+b/15r+Prg==
-X-CSE-MsgGUID: TUqxvjuZTCyuiDVrsi6ggw==
+   d="scan'208";a="75610224"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 15:03:32 -0700
+X-CSE-ConnectionGUID: TRsOO1oWTJ2a+T9qWAFU0w==
+X-CSE-MsgGUID: actZ20tXRU28Z6RLc6iINg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="227031761"
+   d="scan'208";a="248473039"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 27 Mar 2026 14:31:23 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 27 Mar 2026 15:03:31 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w6Em0-00000000Amn-2JUJ;
-	Fri, 27 Mar 2026 21:31:20 +0000
-Date: Sat, 28 Mar 2026 05:30:54 +0800
+	id 1w6FH6-00000000Ao1-1FOE;
+	Fri, 27 Mar 2026 22:03:28 +0000
+Date: Sat, 28 Mar 2026 06:03:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Eric Biggers <ebiggers@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 5/5]
- kernel/sched/fair.c:4492:6: warning: no previous prototype for function
- 'set_next_entity'
-Message-ID: <202603280510.JE3KUmG2-lkp@intel.com>
+Subject: [ebiggers:crypto-pending 14/17]
+ crypto/crypto_user.c:370:undefined reference to `crypto_del_default_rng'
+Message-ID: <202603280530.WF9vWC8A-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,132 +59,43 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Shaleen,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   5358ce5b12374ccfca58d40797ac7c5dad72ff05
-commit: f94f1b91143ed44a6c64a6d201cd3b41e3c90863 [5/5] ANDROID: sched: Export set_next_entity
-config: x86_64-randconfig-104-20260322 (https://download.01.org/0day-ci/archive/20260328/202603280510.JE3KUmG2-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603280510.JE3KUmG2-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git crypto-pending
+head:   43db047ef6a205fcfd7e4461bf7b7dadcbb9830b
+commit: e4af28798c82aaaa1c17dc116e3ec2192ae6b642 [14/17] crypto: rng - Don't pull in DRBG when CRYPTO_FIPS=n
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20260328/202603280530.WF9vWC8A-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603280530.WF9vWC8A-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603280510.JE3KUmG2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603280530.WF9vWC8A-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/sched/fair.c:4492:6: warning: no previous prototype for function 'set_next_entity' [-Wmissing-prototypes]
-    4492 | void set_next_entity(struct cfs_rq *cfs_rq, struct sched_entity *se)
-         |      ^
-   kernel/sched/fair.c:4492:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4492 | void set_next_entity(struct cfs_rq *cfs_rq, struct sched_entity *se)
-         | ^
-         | static 
-   kernel/sched/fair.c:5506:6: warning: no previous prototype for function 'init_cfs_bandwidth' [-Wmissing-prototypes]
-    5506 | void init_cfs_bandwidth(struct cfs_bandwidth *cfs_b) {}
-         |      ^
-   kernel/sched/fair.c:5506:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    5506 | void init_cfs_bandwidth(struct cfs_bandwidth *cfs_b) {}
-         | ^
-         | static 
-   kernel/sched/fair.c:11140:6: warning: no previous prototype for function 'task_vruntime_update' [-Wmissing-prototypes]
-    11140 | void task_vruntime_update(struct rq *rq, struct task_struct *p, bool in_fi)
-          |      ^
-   kernel/sched/fair.c:11140:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    11140 | void task_vruntime_update(struct rq *rq, struct task_struct *p, bool in_fi)
-          | ^
-          | static 
-   kernel/sched/fair.c:11752:6: warning: no previous prototype for function 'free_fair_sched_group' [-Wmissing-prototypes]
-    11752 | void free_fair_sched_group(struct task_group *tg) { }
-          |      ^
-   kernel/sched/fair.c:11752:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    11752 | void free_fair_sched_group(struct task_group *tg) { }
-          | ^
-          | static 
-   kernel/sched/fair.c:11754:5: warning: no previous prototype for function 'alloc_fair_sched_group' [-Wmissing-prototypes]
-    11754 | int alloc_fair_sched_group(struct task_group *tg, struct task_group *parent)
-          |     ^
-   kernel/sched/fair.c:11754:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    11754 | int alloc_fair_sched_group(struct task_group *tg, struct task_group *parent)
-          | ^
-          | static 
-   kernel/sched/fair.c:11759:6: warning: no previous prototype for function 'online_fair_sched_group' [-Wmissing-prototypes]
-    11759 | void online_fair_sched_group(struct task_group *tg) { }
-          |      ^
-   kernel/sched/fair.c:11759:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    11759 | void online_fair_sched_group(struct task_group *tg) { }
-          | ^
-          | static 
-   kernel/sched/fair.c:11761:6: warning: no previous prototype for function 'unregister_fair_sched_group' [-Wmissing-prototypes]
-    11761 | void unregister_fair_sched_group(struct task_group *tg) { }
-          |      ^
-   kernel/sched/fair.c:11761:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    11761 | void unregister_fair_sched_group(struct task_group *tg) { }
-          | ^
-          | static 
-   kernel/sched/fair.c:469:20: warning: unused function 'list_del_leaf_cfs_rq' [-Wunused-function]
-     469 | static inline void list_del_leaf_cfs_rq(struct cfs_rq *cfs_rq)
-         |                    ^~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:490:19: warning: unused function 'tg_is_idle' [-Wunused-function]
-     490 | static inline int tg_is_idle(struct task_group *tg)
-         |                   ^~~~~~~~~~
-   kernel/sched/fair.c:5487:20: warning: unused function 'sync_throttle' [-Wunused-function]
-    5487 | static inline void sync_throttle(struct task_group *tg, int cpu) {}
-         |                    ^~~~~~~~~~~~~
-   kernel/sched/fair.c:5512:37: warning: unused function 'tg_cfs_bandwidth' [-Wunused-function]
-    5512 | static inline struct cfs_bandwidth *tg_cfs_bandwidth(struct task_group *tg)
-         |                                     ^~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:5516:20: warning: unused function 'destroy_cfs_bandwidth' [-Wunused-function]
-    5516 | static inline void destroy_cfs_bandwidth(struct cfs_bandwidth *cfs_b) {}
-         |                    ^~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:8609:19: warning: unused function 'check_misfit_status' [-Wunused-function]
-    8609 | static inline int check_misfit_status(struct rq *rq, struct sched_domain *sd)
-         |                   ^~~~~~~~~~~~~~~~~~~
-   13 warnings generated.
+   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+   aarch64-linux-ld: crypto/crypto_user.o: in function `crypto_del_rng':
+>> crypto/crypto_user.c:370:(.text+0x158): undefined reference to `crypto_del_default_rng'
 
 
-vim +/set_next_entity +4492 kernel/sched/fair.c
+vim +370 crypto/crypto_user.c
 
-  4491	
-> 4492	void set_next_entity(struct cfs_rq *cfs_rq, struct sched_entity *se)
-  4493	{
-  4494		clear_buddies(cfs_rq, se);
-  4495	
-  4496		/* 'current' is not kept within the tree. */
-  4497		if (se->on_rq) {
-  4498			/*
-  4499			 * Any task has to be enqueued before it get to execute on
-  4500			 * a CPU. So account for the time it spent waiting on the
-  4501			 * runqueue.
-  4502			 */
-  4503			update_stats_wait_end(cfs_rq, se);
-  4504			__dequeue_entity(cfs_rq, se);
-  4505			update_load_avg(cfs_rq, se, UPDATE_TG);
-  4506		}
-  4507	
-  4508		update_stats_curr_start(cfs_rq, se);
-  4509		cfs_rq->curr = se;
-  4510	
-  4511		/*
-  4512		 * Track our maximum slice length, if the CPU's load is at
-  4513		 * least twice that of our own weight (i.e. dont track it
-  4514		 * when there are only lesser-weight tasks around):
-  4515		 */
-  4516		if (schedstat_enabled() &&
-  4517		    rq_of(cfs_rq)->cfs.load.weight >= 2*se->load.weight) {
-  4518			schedstat_set(se->statistics.slice_max,
-  4519				max((u64)schedstat_val(se->statistics.slice_max),
-  4520				    se->sum_exec_runtime - se->prev_sum_exec_runtime));
-  4521		}
-  4522	
-  4523		se->prev_sum_exec_runtime = se->sum_exec_runtime;
-  4524	}
-  4525	EXPORT_SYMBOL_GPL(set_next_entity);
-  4526	
+a38f7907b926e4c Steffen Klassert 2011-09-27  364  
+9aa867e46565d61 Herbert Xu       2015-06-21  365  static int crypto_del_rng(struct sk_buff *skb, struct nlmsghdr *nlh,
+9aa867e46565d61 Herbert Xu       2015-06-21  366  			  struct nlattr **attrs)
+9aa867e46565d61 Herbert Xu       2015-06-21  367  {
+9aa867e46565d61 Herbert Xu       2015-06-21  368  	if (!netlink_capable(skb, CAP_NET_ADMIN))
+9aa867e46565d61 Herbert Xu       2015-06-21  369  		return -EPERM;
+9aa867e46565d61 Herbert Xu       2015-06-21 @370  	return crypto_del_default_rng();
+9aa867e46565d61 Herbert Xu       2015-06-21  371  }
+9aa867e46565d61 Herbert Xu       2015-06-21  372  
+
+:::::: The code at line 370 was first introduced by commit
+:::::: 9aa867e46565d61491f884c793e4988678fbffa3 crypto: user - Add CRYPTO_MSG_DELRNG
+
+:::::: TO: Herbert Xu <herbert@gondor.apana.org.au>
+:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
 
 -- 
 0-DAY CI Kernel Test Service
