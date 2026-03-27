@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5202C215F7D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 05:02:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BF6F25B1CB
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 05:12:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774587774; cv=none; b=PqCjmzZJf3ZttNREwsSCo/5AJ2mpMWFHN6aTH8xAI/B7woLJG7hs7JWZtnXjZc8iebk2Dg9X2IetVvvvAF7HFVsL4Cq8C8aX+ZCZSS9AgMVP+9MVIRA6H73F7rBNNrLMmAOepRGRFSXcCp6UerxrMseThpGJA9Alt6qprYajheQ=
+	t=1774588375; cv=none; b=Khp3maKgoLDS2uUxwICkPv7WinBEzoYCPp5GPnaiLLB/IzPxW2zwaua4nTQKrcXu33jep10Mn1p15WMdzBMp0HbByCQZyTsR6AyU+TaKgf7Fmz27vjtNozIXktRH0rB7Nqh+qdBuwoQM8x6oSUGJGwiwD8vlDFp6wGFYGAwsnj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774587774; c=relaxed/simple;
-	bh=odbkMhAeYthZEUs7+W+yr3VdSZUV2X2cqSt2IR8ba+A=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=H6PtmBX5TGcgtYuuu61TUQmqd8VV5em+LZCbG0DCi30/Zq1KfSIewvDzckiaHWCwnaAUnt7Wr+KcmxcWPCCROp7zLY3yY8kV9HymRWRBGnCxAlif8WLvXW/QqY6j9yk1kbedw4xEMDIFdESuu6hq8N2FNLMtJ0B4PfBLZwRXKaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LumajpYA; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1774588375; c=relaxed/simple;
+	bh=QO+LPmXeaZr5Nd7hgD1Xot71U2yAsIPk9WodJkCWOuY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mRBGPa58ID6+xRyYHZiOp5iDvWOkxRykUSoWGX3mPpMA8ajuZKRj+E9KzFO+q//M/2uMhzuT+LstjpaybpR3+Z3Zb3CKigs4AAyx0wclbPq1Qzke7WKRAYCXJI1Ezq+eEwp+HNNmibZ3hye+wnS4I/lDvcKWKuoCwJncNEC8XGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lxavwwh2; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LumajpYA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lxavwwh2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774587772; x=1806123772;
+  t=1774588374; x=1806124374;
   h=date:from:to:cc:subject:message-id;
-  bh=odbkMhAeYthZEUs7+W+yr3VdSZUV2X2cqSt2IR8ba+A=;
-  b=LumajpYARXV48IniEKNTApNpucL/CXqjVFEiIybJtze1aQ2FuO4MiFeQ
-   RZStZdYtHcBoFISn9uiXh2me7CfsFKqoHq9X04asbX5E1HC+ivdBFfYBq
-   32M6H7U8ZiZgYbNg/tYeD9/M2BR9kkdSci3rEKoJFIcT5zpihlzoG5+yn
-   f22OqrkAEc2BmIFBdS7t0B8/dZlrn3UnJZ4+tdjMevCuvCYBWnCvoRWsR
-   ylbiTMeExjwllrOh8jWf14hQy3UTfRVm7NLmKWszpsc+7Bi1Yt4aospZS
-   o/vcjiDObRXbRQ6tR/5fD+E44tPjheN/f1eyNP+AZ5UxKF1k7pCfkIO8u
-   w==;
-X-CSE-ConnectionGUID: JNk7AU+CRsKTCedY6qwQUA==
-X-CSE-MsgGUID: UnzYnnciSO6MiF7TSI5nEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="98275503"
+  bh=QO+LPmXeaZr5Nd7hgD1Xot71U2yAsIPk9WodJkCWOuY=;
+  b=Lxavwwh2GvtkgPnvoxiYKQSoQ3KlFWvgOjIyY587uJUq9hZgmNnPoN2V
+   l0gPwkw1Ln0zSN4So2TVYhwKvpO9S4k+AzLZ4iChzySO3ZnqKZ0pPCTE6
+   x8bHpOWgOmC3pGuS7LnSzJ/vERO83CfEvOfdXw+mN1XvUypNPsoBcR176
+   IRLRk93Ox62R4yyK3wqH9H7QpmNrnvPjCPrDs2l0acJ7Q5GuGOI6FVJ0p
+   3OXlhnPv7RfDuYYzrlK+Qudev/dtkz0Tu/r5AXMyDAxZvfPovcoqr6i1c
+   OWXCN26+Gz3AKF64rIN8ELvUPfExPEPDYMDbRCao20hFFMxkYet1t0Y25
+   Q==;
+X-CSE-ConnectionGUID: A8Jlxo4BTF6Pq1/jfGRCQQ==
+X-CSE-MsgGUID: CyrPyV4TRYeHTfyrWtbtNQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="86279700"
 X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="98275503"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 22:02:51 -0700
-X-CSE-ConnectionGUID: 08V1Dgz5SEOCnET2GmhH1w==
-X-CSE-MsgGUID: ygwinpRHT2q+GANa9Vu8Ng==
+   d="scan'208";a="86279700"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 22:12:53 -0700
+X-CSE-ConnectionGUID: CgaggoZETO2SsDnGThFx2g==
+X-CSE-MsgGUID: Dta2SMwPQzG1seju0jtSXg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="218592641"
+   d="scan'208";a="229994309"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 26 Mar 2026 22:02:51 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 26 Mar 2026 22:12:52 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5zLN-000000009nr-0xLN;
-	Fri, 27 Mar 2026 05:02:49 +0000
-Date: Fri, 27 Mar 2026 13:02:19 +0800
+	id 1w5zV3-000000009oX-2w8C;
+	Fri, 27 Mar 2026 05:12:49 +0000
+Date: Fri, 27 Mar 2026 13:12:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@kernel.org>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:irq/core 13/14] kernel/irq/proc.h:7:20: error:
- redefinition of 'irq_proc_calc_prec'
-Message-ID: <202603271345.EiGT0FR3-lkp@intel.com>
+Subject: [android-common:android13-5.15 0/1]
+ drivers/net/xen-netfront.c:678:17: warning: no previous prototype for
+ function 'bounce_skb'
+Message-ID: <202603271342.Tmcs2KUQ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,49 +60,87 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git irq/core
-head:   579e60ae89fabd45c50557035a5c04cb32f9e203
-commit: 70db66bab64e3ab73a66f937f80829cafe2927e7 [13/14] genirq/proc: Runtime size the chip name
-config: powerpc-randconfig-001-20260327 (https://download.01.org/0day-ci/archive/20260327/202603271345.EiGT0FR3-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603271345.EiGT0FR3-lkp@intel.com/reproduce)
+Hi Roger,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android13-5.15
+head:   fc88a7504f0f262cc5b2e8a7f58b2a1108034856
+commit: ed3cfc690675d852c3416aedb271e0e7d179bf49 [0/1] xen/netfront: force data bouncing when backend is untrusted
+config: x86_64-randconfig-014-20260324 (https://download.01.org/0day-ci/archive/20260327/202603271342.Tmcs2KUQ-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603271342.Tmcs2KUQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603271345.EiGT0FR3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603271342.Tmcs2KUQ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from kernel/irq/internals.h:15,
-                    from kernel/irq/irqdomain.c:2087:
->> kernel/irq/proc.h:7:20: error: redefinition of 'irq_proc_calc_prec'
-    static inline void irq_proc_calc_prec(void) { }
-                       ^~~~~~~~~~~~~~~~~~
-   In file included from kernel/irq/irqdomain.c:23:
-   kernel/irq/proc.h:7:20: note: previous definition of 'irq_proc_calc_prec' was here
-    static inline void irq_proc_calc_prec(void) { }
-                       ^~~~~~~~~~~~~~~~~~
-   In file included from kernel/irq/internals.h:15,
-                    from kernel/irq/irqdomain.c:2087:
->> kernel/irq/proc.h:8:20: error: redefinition of 'irq_proc_update_chip'
-    static inline void irq_proc_update_chip(const struct irq_chip *chip) { }
-                       ^~~~~~~~~~~~~~~~~~~~
-   In file included from kernel/irq/irqdomain.c:23:
-   kernel/irq/proc.h:8:20: note: previous definition of 'irq_proc_update_chip' was here
-    static inline void irq_proc_update_chip(const struct irq_chip *chip) { }
-                       ^~~~~~~~~~~~~~~~~~~~
+   In file included from <built-in>:3:
+   In file included from include/linux/compiler_types.h:80:
+   include/linux/compiler-clang.h:24:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+      24 | #define __SANITIZE_ADDRESS__
+         |         ^
+   <built-in>:352:9: note: previous definition is here
+     352 | #define __SANITIZE_ADDRESS__ 1
+         |         ^
+   In file included from drivers/net/xen-netfront.c:41:
+   In file included from include/net/tcp.h:38:
+   include/net/ip.h:448:14: warning: default initialization of an object of type 'typeof (rt->dst.expires)' (aka 'const unsigned long') leaves the object uninitialized [-Wdefault-const-init-var-unsafe]
+     448 |                 if (mtu && time_before(jiffies, rt->dst.expires))
+         |                            ^
+   include/linux/jiffies.h:108:26: note: expanded from macro 'time_before'
+     108 | #define time_before(a,b)        time_after(b,a)
+         |                                 ^
+   include/linux/jiffies.h:105:3: note: expanded from macro 'time_after'
+     105 |         (typecheck(unsigned long, a) && \
+         |          ^
+   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
+      11 |         typeof(x) __dummy2; \
+         |                   ^
+>> drivers/net/xen-netfront.c:678:17: warning: no previous prototype for function 'bounce_skb' [-Wmissing-prototypes]
+     678 | struct sk_buff *bounce_skb(const struct sk_buff *skb)
+         |                 ^
+   drivers/net/xen-netfront.c:678:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     678 | struct sk_buff *bounce_skb(const struct sk_buff *skb)
+         | ^
+         | static 
+   3 warnings generated.
 
 
-vim +/irq_proc_calc_prec +7 kernel/irq/proc.h
+vim +/bounce_skb +678 drivers/net/xen-netfront.c
 
-     2	
-     3	#if defined(CONFIG_PROC_FS) && defined(CONFIG_GENERIC_IRQ_SHOW)
-     4	void irq_proc_calc_prec(void);
-     5	void irq_proc_update_chip(const struct irq_chip *chip);
-     6	#else
-   > 7	static inline void irq_proc_calc_prec(void) { }
-   > 8	static inline void irq_proc_update_chip(const struct irq_chip *chip) { }
+   677	
+ > 678	struct sk_buff *bounce_skb(const struct sk_buff *skb)
+   679	{
+   680		unsigned int headerlen = skb_headroom(skb);
+   681		/* Align size to allocate full pages and avoid contiguous data leaks */
+   682		unsigned int size = ALIGN(skb_end_offset(skb) + skb->data_len,
+   683					  XEN_PAGE_SIZE);
+   684		struct sk_buff *n = alloc_skb(size, GFP_ATOMIC | __GFP_ZERO);
+   685	
+   686		if (!n)
+   687			return NULL;
+   688	
+   689		if (!IS_ALIGNED((uintptr_t)n->head, XEN_PAGE_SIZE)) {
+   690			WARN_ONCE(1, "misaligned skb allocated\n");
+   691			kfree_skb(n);
+   692			return NULL;
+   693		}
+   694	
+   695		/* Set the data pointer */
+   696		skb_reserve(n, headerlen);
+   697		/* Set the tail pointer and length */
+   698		skb_put(n, skb->len);
+   699	
+   700		BUG_ON(skb_copy_bits(skb, -headerlen, n->head, headerlen + skb->len));
+   701	
+   702		skb_copy_header(n, skb);
+   703		return n;
+   704	}
+   705	
 
 -- 
 0-DAY CI Kernel Test Service
