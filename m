@@ -1,70 +1,64 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67BC13C1998
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 10:59:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A43473CA4BD;
+	Fri, 27 Mar 2026 11:13:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774609152; cv=none; b=hisk1DL0Qtq+S+dT8hfy0u71jhVMeV3KeTSxB6U7ve61EbcpTRuW7ljxsLYJHOL7eTK4cutlacI52TQUi8VbITLvpxlLyI8L8FbyaDsgXtiBBXFavezUo19k+8yLxACkdDHduvdrC7nEBcP5u8z8v3xfYoxwBdl7OyHo4wHKFPY=
+	t=1774610015; cv=none; b=Y3GVjRZKv5Nc/I7NiiLL037rJivHRZCHFUiyh+L7VhainLf4wjH01S8XT8dod6cApM5fQOsY4R/0g9mxs8DLe+ukShnviapbFbeojifM5L/QzLI2h5UAeAW1GTgDzM+ejuNOH5iO3iYQioAqyn9lD1JyeGLFrTVNw3ayn6S9w50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774609152; c=relaxed/simple;
-	bh=47TLrTH91euHwTmAWHlGWmLZWvb51b3gev6G9GRLSC8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FEAjv1dniSkY/aFu7QUYUCUNcVv3Ii+JKSEsR7rbaQ517OyvGINC2Mrw4AOjanJOlaulAhZ35FQCeA/hqsP2rYD4dtPxfrhNW0gRb85yi0WbPDLJzArnlHT6aR3PfilUHgwyHlk0VbbggZuEyS2tTeC0oG/MN+Op9QWS4OZ382I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fT4mCdsy; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1774610015; c=relaxed/simple;
+	bh=nJUYpm8Tn5AiiOGRCA1EAgbdYknTx+zBAyjjwOQbGKs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a0GVrjGB/lwG+CFZunDzEw20UkjxZ76Xg6Xj0900/kwKjdiC5B7T192RJmzZLpHIHsJek7AUfKsUkAjnxdZ8t67JQjYRKdE/vtNenaGOqhAaFvvcR245OPVegPdSp0saFW45+JFA1dvicNd27UtyBgRvy35XtbNcvtZu6mycTRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Te1rXvG8; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fT4mCdsy"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4852a9c6309so17734045e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 03:59:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1774609146; x=1775213946; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UMs1R3aANdS20W9BH1T38sqaIXeaYHgJNSTENUzzVug=;
-        b=fT4mCdsy1pQSAK/jP/k/ZrIfPPdHRzoVCGw7AHKUgY3wF8hQgpr5fM8MlFbCeeNCUh
-         yjl/QTmN836GowHKhPodEwg2b67AWkVlTbLODydUeGTcEEsSM+D6YYnRZ3EP1vH15GuN
-         idQujnAh9TYUD3cg+0AHrmgzOn9ivrAn3B2Ioyrpae72j41cDROIG8kuYXN8E+Jlcn17
-         Ni8o+fEDjT6bKkeZj/bFQC/+v6C0CF3nkbBxapXsPMf7q39HtbHHzMdev9hw1setknwb
-         MJ8i9LTkA+x0qlhRpXxd/vQoLdChXp6zUiJ6rCLlNkeWxDQsMzUBkuBk+hDze+I2QYei
-         lHbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774609146; x=1775213946;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UMs1R3aANdS20W9BH1T38sqaIXeaYHgJNSTENUzzVug=;
-        b=kLvxLBh67RHE53LmtzIh+smuFUow+xRC5JE7EUOk5Buf5444+DWm2jcMM+JRh+ajtx
-         Arm9bzqxfLP7wbTBy64Z03WYbh4YxBx4si9LfFLlNUabk6oiaovOzsx3J3bTyx1ZO4ek
-         5ubnBdjQ2Xaij9GAZy8GPIY2LMskE3pUu322L1nUFGMCtFUitTkCmDOEGM3SRO8NiDKg
-         zJADWWgL1TB6upwwkSkPcc1z2W9oiSiIFjKAS5FvXDoZuLwE8SnBd5/CozRbMDdnqBQ0
-         77K8nqBXEyroSimzWBmZ5GG2cYJao0TyO5AD1F0edHFaDSX7RvG1+EG/cqhdnYflrSMj
-         N9iw==
-X-Forwarded-Encrypted: i=1; AJvYcCW4yU/ZMbUY9eqwd6fatUDh5lQBhzKts6+5SKD6BfPsUa+i5bxqMLeneLB9DfEwgL3LJRXJdDn6LUUx+5K/@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywnj3HXd0+82N6yZNY3CkvbvapeGwwI43oRilUNaFYHNcqECyFe
-	cuNhJfhZfnJSTKYOML4j6GIYyhf//qAi/Sb/CSPwzujP+hCdrYYZJtJzCWXKoF2n+7w=
-X-Gm-Gg: ATEYQzxGrFCA4Ot3OpfB+Vs/lJlYVwjsLsFaDEyrY5JD4XRuRTg8OXcyduELvz5/72x
-	lw8juXUVwiJpujrBiazivuZmUg0xi2eNJSFI1OgnRGnUx7u8QCEvgeexA3FncYWd3FtU9rGfgRS
-	EZfIJ/MHDJ5RTXHesuL7C2OTl8Svgxzkhm7FTqUqBWi9A7UvwS0vhgVj96hRAzVgq/HqKIHjQ5m
-	anBuJZ20+wfGHjIyDzq9AAwrximn88tA+ZHj8rmZsbY+S0AvWfjVHpg+OeOSWAwFQOSah5XPK1V
-	EoNpP7vhHagbHLYU7nssrafnqNnXKfnHYvOY7qXnosKcrbuGWxplI+Gcy7DhK4pZDIv8gHfFlPz
-	JbhD0wUUxacwypW7V7NLkfp8rS3g7GSPhqvTB24X4ec5QA86SbCzQHG2SKBNGstwDHYVzDvJ2Wy
-	JYN9LoFYkCdVzeCRXwr1kyy/RDZzU4
-X-Received: by 2002:a05:600c:4f53:b0:485:9a50:338d with SMTP id 5b1f17b1804b1-48727ee988cmr29994685e9.3.1774609145762;
-        Fri, 27 Mar 2026 03:59:05 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48722d23679sm175083035e9.9.2026.03.27.03.59.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Mar 2026 03:59:05 -0700 (PDT)
-Date: Fri, 27 Mar 2026 13:59:02 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Jens Axboe <axboe@kernel.dk>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [axboe:rw_iter 204/525] drivers/misc/bcm-vk/bcm_vk_msg.c:1054
- bcm_vk_read() error: we previously assumed 'entry' could be null (see line
- 1045)
-Message-ID: <202603271746.xX5EENwP-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Te1rXvG8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774610010; x=1806146010;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nJUYpm8Tn5AiiOGRCA1EAgbdYknTx+zBAyjjwOQbGKs=;
+  b=Te1rXvG8RLdagVEqYeX1Ahnec0OgXkzCEmT3/UTGjR/Aq7YAJtHqGHvT
+   sxA94AsyXHHcFzK8XyCeQ5GtzSOA75STw76W3zuQsy+1gJaEuATl0etzW
+   hxdidY2o35inGG9xOyQ+DNizCus7XHVpWHr3EItxtYf1Gx9GmfjagewyD
+   mifOqboSXpK2RLAVD8BnIsNrEyAniztWRynlSTkCbnfzDleryZY6w3SCC
+   mJadUHGeVTL47njB4glLxaUf5HQXdbXok0r3DBBrZ+wInV+BnIiMuYuHc
+   f1kDJS/BofN3fJiRQIFJyU7gk8g0CCGZBfv8PNSRem0bkA/qOCz2EpOup
+   A==;
+X-CSE-ConnectionGUID: GHv96KBxQqOy0tPzA5rLuw==
+X-CSE-MsgGUID: +SwYqzT4SMK6ZQqSoJnmxw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="79541075"
+X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
+   d="scan'208";a="79541075"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 04:13:28 -0700
+X-CSE-ConnectionGUID: FbS0Pl5SS72d8TkKR100bQ==
+X-CSE-MsgGUID: Whxc+k1LRE+NYZQX0v1XmQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
+   d="scan'208";a="224329385"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 27 Mar 2026 04:13:26 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w657z-00000000ACT-0qDN;
+	Fri, 27 Mar 2026 11:13:23 +0000
+Date: Fri, 27 Mar 2026 19:13:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chuck Lever <cel@kernel.org>, NeilBrown <neil@brown.name>,
+	Jeff Layton <jlayton@kernel.org>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Chuck Lever <chuck.lever@oracle.com>
+Subject: Re: [PATCH v5 1/7] NFSD: Extract revoke_one_stid() utility function
+Message-ID: <202603271905.vZdE0ulk-lkp@intel.com>
+References: <20260326-umount-kills-nfsv4-state-v5-1-d2ce071b3570@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,105 +67,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260326-umount-kills-nfsv4-state-v5-1-d2ce071b3570@oracle.com>
 
+Hi Chuck,
 
-This was fixed in ba75ecb97d3f ("misc: bcm_vk: Fix possible null-pointer
-dereferences in bcm_vk_read()").  Why are you working against a 2 year
-old tree, Jens?  :P
+kernel test robot noticed the following build errors:
 
+[auto build test ERROR on 65058e9e9b20619f920397f529072e853dd43811]
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git rw_iter
-head:   520344cda122ca1903fafb19768f56509e3db8b1
-commit: 0629d32f614c429b7dc371a2ac04475bb82b909f [204/525] misc: bcm_vk: convert to iterators
-config: loongarch-randconfig-r072-20260327 (https://download.01.org/0day-ci/archive/20260327/202603271746.xX5EENwP-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.2.0
-smatch: v0.5.0-9004-gb810ac53
+url:    https://github.com/intel-lab-lkp/linux/commits/Chuck-Lever/NFSD-Extract-revoke_one_stid-utility-function/20260327-081757
+base:   65058e9e9b20619f920397f529072e853dd43811
+patch link:    https://lore.kernel.org/r/20260326-umount-kills-nfsv4-state-v5-1-d2ce071b3570%40oracle.com
+patch subject: [PATCH v5 1/7] NFSD: Extract revoke_one_stid() utility function
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20260327/202603271905.vZdE0ulk-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603271905.vZdE0ulk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202603271746.xX5EENwP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603271905.vZdE0ulk-lkp@intel.com/
 
-smatch warnings:
-drivers/misc/bcm-vk/bcm_vk_msg.c:1054 bcm_vk_read() error: we previously assumed 'entry' could be null (see line 1045)
+All errors (new ones prefixed by >>):
 
-vim +/entry +1054 drivers/misc/bcm-vk/bcm_vk_msg.c
+>> fs/nfsd/nfs4state.c:1830:14: error: use of undeclared identifier 'state_lock'; did you mean 'task_lock'?
+    1830 |                 spin_lock(&state_lock);
+         |                            ^~~~~~~~~~
+         |                            task_lock
+   include/linux/sched/task.h:216:20: note: 'task_lock' declared here
+     216 | static inline void task_lock(struct task_struct *p)
+         |                    ^
+   fs/nfsd/nfs4state.c:1833:16: error: use of undeclared identifier 'state_lock'; did you mean 'task_lock'?
+    1833 |                 spin_unlock(&state_lock);
+         |                              ^~~~~~~~~~
+         |                              task_lock
+   include/linux/sched/task.h:216:20: note: 'task_lock' declared here
+     216 | static inline void task_lock(struct task_struct *p)
+         |                    ^
+   2 errors generated.
 
-0629d32f614c429 Jens Axboe    2024-04-05  1002  ssize_t bcm_vk_read(struct kiocb *iocb, struct iov_iter *to)
-111d746bb4767ad Scott Branden 2021-01-20  1003  {
-111d746bb4767ad Scott Branden 2021-01-20  1004  	ssize_t rc = -ENOMSG;
-0629d32f614c429 Jens Axboe    2024-04-05  1005  	struct bcm_vk_ctx *ctx = iocb->ki_filp->private_data;
-111d746bb4767ad Scott Branden 2021-01-20  1006  	struct bcm_vk *vk = container_of(ctx->miscdev, struct bcm_vk,
-111d746bb4767ad Scott Branden 2021-01-20  1007  					 miscdev);
-111d746bb4767ad Scott Branden 2021-01-20  1008  	struct device *dev = &vk->pdev->dev;
-111d746bb4767ad Scott Branden 2021-01-20  1009  	struct bcm_vk_msg_chan *chan = &vk->to_h_msg_chan;
-88517757a829e9c Jakob Koschel 2022-03-27  1010  	struct bcm_vk_wkent *entry = NULL, *iter;
-0629d32f614c429 Jens Axboe    2024-04-05  1011  	size_t count = iov_iter_count(to);
-111d746bb4767ad Scott Branden 2021-01-20  1012  	u32 q_num;
-111d746bb4767ad Scott Branden 2021-01-20  1013  	u32 rsp_length;
-111d746bb4767ad Scott Branden 2021-01-20  1014  
-111d746bb4767ad Scott Branden 2021-01-20  1015  	if (!bcm_vk_drv_access_ok(vk))
-111d746bb4767ad Scott Branden 2021-01-20  1016  		return -EPERM;
-111d746bb4767ad Scott Branden 2021-01-20  1017  
-111d746bb4767ad Scott Branden 2021-01-20  1018  	dev_dbg(dev, "Buf count %zu\n", count);
-111d746bb4767ad Scott Branden 2021-01-20  1019  
-111d746bb4767ad Scott Branden 2021-01-20  1020  	/*
-111d746bb4767ad Scott Branden 2021-01-20  1021  	 * search through the pendq on the to_h chan, and return only those
-111d746bb4767ad Scott Branden 2021-01-20  1022  	 * that belongs to the same context.  Search is always from the high to
-111d746bb4767ad Scott Branden 2021-01-20  1023  	 * the low priority queues
-111d746bb4767ad Scott Branden 2021-01-20  1024  	 */
-111d746bb4767ad Scott Branden 2021-01-20  1025  	spin_lock(&chan->pendq_lock);
-111d746bb4767ad Scott Branden 2021-01-20  1026  	for (q_num = 0; q_num < chan->q_nr; q_num++) {
-88517757a829e9c Jakob Koschel 2022-03-27  1027  		list_for_each_entry(iter, &chan->pendq[q_num], node) {
-88517757a829e9c Jakob Koschel 2022-03-27  1028  			if (iter->ctx->idx == ctx->idx) {
-111d746bb4767ad Scott Branden 2021-01-20  1029  				if (count >=
-88517757a829e9c Jakob Koschel 2022-03-27  1030  				    (iter->to_h_blks * VK_MSGQ_BLK_SIZE)) {
-88517757a829e9c Jakob Koschel 2022-03-27  1031  					list_del(&iter->node);
-111d746bb4767ad Scott Branden 2021-01-20  1032  					atomic_dec(&ctx->pend_cnt);
-88517757a829e9c Jakob Koschel 2022-03-27  1033  					entry = iter;
-111d746bb4767ad Scott Branden 2021-01-20  1034  				} else {
-111d746bb4767ad Scott Branden 2021-01-20  1035  					/* buffer not big enough */
-111d746bb4767ad Scott Branden 2021-01-20  1036  					rc = -EMSGSIZE;
-111d746bb4767ad Scott Branden 2021-01-20  1037  				}
-111d746bb4767ad Scott Branden 2021-01-20  1038  				goto read_loop_exit;
-111d746bb4767ad Scott Branden 2021-01-20  1039  			}
-111d746bb4767ad Scott Branden 2021-01-20  1040  		}
-111d746bb4767ad Scott Branden 2021-01-20  1041  	}
-111d746bb4767ad Scott Branden 2021-01-20  1042  read_loop_exit:
-111d746bb4767ad Scott Branden 2021-01-20  1043  	spin_unlock(&chan->pendq_lock);
-111d746bb4767ad Scott Branden 2021-01-20  1044  
-88517757a829e9c Jakob Koschel 2022-03-27 @1045  	if (entry) {
-                                                            ^^^^^
 
-111d746bb4767ad Scott Branden 2021-01-20  1046  		/* retrieve the passed down msg_id */
-111d746bb4767ad Scott Branden 2021-01-20  1047  		set_msg_id(&entry->to_h_msg[0], entry->usr_msg_id);
-111d746bb4767ad Scott Branden 2021-01-20  1048  		rsp_length = entry->to_h_blks * VK_MSGQ_BLK_SIZE;
-0629d32f614c429 Jens Axboe    2024-04-05  1049  		if (!copy_to_iter_full(entry->to_h_msg, rsp_length, to))
-111d746bb4767ad Scott Branden 2021-01-20  1050  			rc = rsp_length;
-111d746bb4767ad Scott Branden 2021-01-20  1051  
-111d746bb4767ad Scott Branden 2021-01-20  1052  		bcm_vk_free_wkent(dev, entry);
-111d746bb4767ad Scott Branden 2021-01-20  1053  	} else if (rc == -EMSGSIZE) {
-0629d32f614c429 Jens Axboe    2024-04-05 @1054  		struct vk_msg_blk tmp_msg = entry->to_h_msg[0];
-                                                                                            ^^^^^^^
-entry is NULL at this point.
+vim +1830 fs/nfsd/nfs4state.c
 
-0629d32f614c429 Jens Axboe    2024-04-05  1055  
-111d746bb4767ad Scott Branden 2021-01-20  1056  		/*
-111d746bb4767ad Scott Branden 2021-01-20  1057  		 * in this case, return just the first block, so
-111d746bb4767ad Scott Branden 2021-01-20  1058  		 * that app knows what size it is looking for.
-111d746bb4767ad Scott Branden 2021-01-20  1059  		 */
-0629d32f614c429 Jens Axboe    2024-04-05  1060  		set_msg_id(&tmp_msg, entry->usr_msg_id);
-0629d32f614c429 Jens Axboe    2024-04-05  1061  		tmp_msg.size = entry->to_h_blks - 1;
-0629d32f614c429 Jens Axboe    2024-04-05  1062  		if (!copy_to_iter_full(&tmp_msg, VK_MSGQ_BLK_SIZE, to)) {
-111d746bb4767ad Scott Branden 2021-01-20  1063  			dev_err(dev, "Error return 1st block in -EMSGSIZE\n");
-111d746bb4767ad Scott Branden 2021-01-20  1064  			rc = -EFAULT;
-111d746bb4767ad Scott Branden 2021-01-20  1065  		}
-111d746bb4767ad Scott Branden 2021-01-20  1066  	}
-111d746bb4767ad Scott Branden 2021-01-20  1067  	return rc;
-111d746bb4767ad Scott Branden 2021-01-20  1068  }
+  1805	
+  1806	static void revoke_one_stid(struct nfs4_client *clp, struct nfs4_stid *stid)
+  1807	{
+  1808		struct nfs4_ol_stateid *stp;
+  1809		struct nfs4_delegation *dp;
+  1810	
+  1811		switch (stid->sc_type) {
+  1812		case SC_TYPE_OPEN:
+  1813			stp = openlockstateid(stid);
+  1814			mutex_lock_nested(&stp->st_mutex, OPEN_STATEID_MUTEX);
+  1815			revoke_ol_stid(clp, stp);
+  1816			mutex_unlock(&stp->st_mutex);
+  1817			break;
+  1818		case SC_TYPE_LOCK:
+  1819			stp = openlockstateid(stid);
+  1820			mutex_lock_nested(&stp->st_mutex, LOCK_STATEID_MUTEX);
+  1821			revoke_ol_stid(clp, stp);
+  1822			mutex_unlock(&stp->st_mutex);
+  1823			break;
+  1824		case SC_TYPE_DELEG:
+  1825			/*
+  1826			 * Extra reference guards against concurrent FREE_STATEID.
+  1827			 */
+  1828			refcount_inc(&stid->sc_count);
+  1829			dp = delegstateid(stid);
+> 1830			spin_lock(&state_lock);
+  1831			if (!unhash_delegation_locked(dp, SC_STATUS_ADMIN_REVOKED))
+  1832				dp = NULL;
+  1833			spin_unlock(&state_lock);
+  1834			if (dp)
+  1835				revoke_delegation(dp);
+  1836			else
+  1837				nfs4_put_stid(stid);
+  1838			break;
+  1839		case SC_TYPE_LAYOUT:
+  1840			nfsd4_close_layout(layoutstateid(stid));
+  1841			break;
+  1842		}
+  1843	}
+  1844	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
