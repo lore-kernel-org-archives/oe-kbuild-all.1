@@ -1,98 +1,131 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B7F23D2AB
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 04:08:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEC6933D6F0
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 04:18:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774584530; cv=none; b=m+nkmfwJp8GjYfq0GfLyBBTiT/KmV7h8XQgtpkaJRLkq7yb6O63zpg+dom4I0I2Tyre6BwzYpv0uISEbp8KErqysVnRVypWBE6IDPOvHyREABFcUdOkMnRS8SDUBkZJN15WHFujtXcKdmocIkUtnS1VPBIiiD5nL0TcOrMXE6jg=
+	t=1774585131; cv=none; b=BhyYgnbUL/y2MJeHkVREYg66nu6/y/AW5i51pwPnyVgAEHmeZnCIil5FWFwtHkoLTcBwaRv2AhUEmjW1r9wJDW9rpyZSxyPFFo68hVU0TIOXw6ufyw5ZOKYi35zoXir2AAvFe0DBz3ovJ37JYgUxnRnX3psZZD8qbBddEQzPv88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774584530; c=relaxed/simple;
-	bh=5OE12eXjQL7qATmDS8N+Rda04UufUGc4IKzKHXhUjWk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=O9ikCJ3ULXQaYh50Haz+sAFpe9yuNtdpdM1J8B1acR5dDVCYy6e66UhrMnh4WFEQ+9kzrUop7y46K238IMm3VhSRsCQNvo5aVV9uBWeHcvi7P/5Lj50JOTYC5VFrg8DOisgiEA0A0sy8LyQCPV9XZ58r2zMluxvFjUsRMRX7D7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nXXYTimw; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1774585131; c=relaxed/simple;
+	bh=2ERgDbodP9pcw0lcX9lf9Npl/24/+cJ1rqbdLBC4gxg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GswbNGX/gvCcpycDjqnM5sU6xlI/pNXIRfkuewSaWWKh4cmqoHoyJCEP0x7YgeAJ3g+Rp7B4EYpCZnOyD0F9Gs9UaniCdt2weCA6dJ8DgfAeZGeP6Y7IuOSFrMgg5tb5JHkYPNlO6hWUCeXpEs61lH9Zws22Q9U19TQnvFpWwfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xv0ZlFdw; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nXXYTimw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xv0ZlFdw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774584528; x=1806120528;
-  h=date:from:to:cc:subject:message-id;
-  bh=5OE12eXjQL7qATmDS8N+Rda04UufUGc4IKzKHXhUjWk=;
-  b=nXXYTimw2uspLa8e1HLlC/m2DOkLukO21hz4NDWvSBekTYkrCHcp5qIX
-   f7NyurZsAhuNav8DQfNKMtL1l2ibk3rg9iXSYdeYWeFyHyuOO2ahYFnPS
-   P03NWuCe0DkpHNCIiFV7kx1zLZl9rUZojlJBzxAyled05NotPZb4qb/b5
-   +JhpEe2xCVE76qzcpdImopebjlEGvS2CioEqxl+pChX5Rd2UU9tJghau7
-   O1GIActovEFAxhexiI0aELfitCy/ZhwNGOXb13oBtQGaOGplCcHLfOTrX
-   WWM+Ty/VSxQtlgrafpthGqdoK1bfFnG/0Q4R0qfZe8CCEViA8Y+/33XCN
-   g==;
-X-CSE-ConnectionGUID: LAqkr8DrQPa/pJoox2gjFg==
-X-CSE-MsgGUID: OLZgsk+IThq51zAAndbHBQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="78250843"
+  t=1774585130; x=1806121130;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2ERgDbodP9pcw0lcX9lf9Npl/24/+cJ1rqbdLBC4gxg=;
+  b=Xv0ZlFdw49fX78/XlkXWJODh01N6jvE8iOi+Do8kobEKQnS+GyBzEg9A
+   jcOGl/bXtEYzu/xpuXkKpnCzDKu4LsVl4D78CYtpQ1CfvVWuSgOC8JRol
+   Pxq5zzE0hHcqEduYSY1yzWr7dP7uJIncqSu+hqfULP1hvzK2hmXfI02+H
+   Mg2vQXRC56hSQpeHGBFJFDGcED9YFzsiULs2RyhiWcPo/fdoBMup6BK00
+   +3HDq/FfBRQX9p9hwVGQd6cwh/CPG0Y4EjTtPlOl7azlohWJ4CMvoLcrK
+   eUd6w2xPvqE2TzgZjpWyuGSR3/gl1jvgcZNjFzN7xVIrzSuFpDYXUHh/5
+   A==;
+X-CSE-ConnectionGUID: Nh3+UWxGTOq2tONVsnESfA==
+X-CSE-MsgGUID: FGa2yYm+Rh+X2SftEt6eig==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="75559741"
 X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="78250843"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 21:08:47 -0700
-X-CSE-ConnectionGUID: BafgOrwYTlOgt19el9OsNg==
-X-CSE-MsgGUID: PzFtFAZ3TBSOdR38aiXT4w==
+   d="scan'208";a="75559741"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 21:18:50 -0700
+X-CSE-ConnectionGUID: RZ3TBEvzTzGiLzTYPNdT1g==
+X-CSE-MsgGUID: aJpZXE+aQO+v9m8N7vmwVQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="224393924"
+   d="scan'208";a="220349608"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 26 Mar 2026 21:08:46 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 26 Mar 2026 21:18:46 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w5yV1-000000009l7-25Mh;
-	Fri, 27 Mar 2026 04:08:43 +0000
-Date: Fri, 27 Mar 2026 12:07:45 +0800
+	id 1w5yeh-000000009lV-2v2R;
+	Fri, 27 Mar 2026 04:18:43 +0000
+Date: Fri, 27 Mar 2026 12:18:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-2025-12 0/1]
- sound/soc/codecs/cs42l43.c:2446:9: sparse: sparse: Initializer entry defined
- twice
-Message-ID: <202603271124.rWlgmKeJ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Jiri Olsa <jolsa@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, Martin KaFai Lau <kafai@fb.com>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+	Menglong Dong <menglong8.dong@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCHv4 bpf-next 09/25] bpf: Add
+ bpf_trampoline_multi_attach/detach functions
+Message-ID: <202603271242.rKGaiSYu-lkp@intel.com>
+References: <20260324081846.2334094-10-jolsa@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260324081846.2334094-10-jolsa@kernel.org>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-12
-head:   7db1e563d6f73706150a812a21f13e5fbc14efde
-commit: 91e698058e91dcaef669afae07e2f23fee6bce9a [0/1] ASoC: cs42l43: Add codec force suspend/resume ops
-config: x86_64-randconfig-121-20260327 (https://download.01.org/0day-ci/archive/20260327/202603271124.rWlgmKeJ-lkp@intel.com/config)
+Hi Jiri,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiri-Olsa/ftrace-Add-ftrace_hash_count-function/20260326-101836
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20260324081846.2334094-10-jolsa%40kernel.org
+patch subject: [PATCHv4 bpf-next 09/25] bpf: Add bpf_trampoline_multi_attach/detach functions
+config: x86_64-randconfig-015-20260327 (https://download.01.org/0day-ci/archive/20260327/202603271242.rKGaiSYu-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603271124.rWlgmKeJ-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603271242.rKGaiSYu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603271124.rWlgmKeJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603271242.rKGaiSYu-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> sound/soc/codecs/cs42l43.c:2446:9: sparse: sparse: Initializer entry defined twice
-   sound/soc/codecs/cs42l43.c:2449:9: sparse:   also defined here
+All warnings (new ones prefixed by >>):
 
-vim +2446 sound/soc/codecs/cs42l43.c
+>> kernel/bpf/trampoline.c:100:13: warning: 'trampoline_unlock_all' defined but not used [-Wunused-function]
+     100 | static void trampoline_unlock_all(void)
+         |             ^~~~~~~~~~~~~~~~~~~~~
+>> kernel/bpf/trampoline.c:92:13: warning: 'trampoline_lock_all' defined but not used [-Wunused-function]
+      92 | static void trampoline_lock_all(void)
+         |             ^~~~~~~~~~~~~~~~~~~
 
-64353af49fecbde Charles Keepax 2024-02-06  2444  
-64353af49fecbde Charles Keepax 2024-02-06  2445  static const struct dev_pm_ops cs42l43_codec_pm_ops = {
-64353af49fecbde Charles Keepax 2024-02-06 @2446  	SYSTEM_SLEEP_PM_OPS(cs42l43_codec_suspend, cs42l43_codec_resume)
-64353af49fecbde Charles Keepax 2024-02-06  2447  	NOIRQ_SYSTEM_SLEEP_PM_OPS(cs42l43_codec_suspend_noirq, cs42l43_codec_resume_noirq)
-64353af49fecbde Charles Keepax 2024-02-06  2448  	RUNTIME_PM_OPS(NULL, cs42l43_codec_runtime_resume, NULL)
-91e698058e91dca Maciej Strozek 2025-01-09  2449  	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
-64353af49fecbde Charles Keepax 2024-02-06  2450  };
-fc918cbe874eee0 Charles Keepax 2023-08-04  2451  
 
-:::::: The code at line 2446 was first introduced by commit
-:::::: 64353af49fecbdec1de9aadf2369d54fc00f1899 ASoC: cs42l43: Add system suspend ops to disable IRQ
+vim +/trampoline_unlock_all +100 kernel/bpf/trampoline.c
 
-:::::: TO: Charles Keepax <ckeepax@opensource.cirrus.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+    91	
+  > 92	static void trampoline_lock_all(void)
+    93	{
+    94		int i;
+    95	
+    96		for (i = 0; i < TRAMPOLINE_LOCKS_TABLE_SIZE; i++)
+    97			mutex_lock(&trampoline_locks[i].mutex);
+    98	}
+    99	
+ > 100	static void trampoline_unlock_all(void)
+   101	{
+   102		int i;
+   103	
+   104		for (i = 0; i < TRAMPOLINE_LOCKS_TABLE_SIZE; i++)
+   105			mutex_unlock(&trampoline_locks[i].mutex);
+   106	}
+   107	#else
+   108	static struct bpf_trampoline *direct_ops_ip_lookup(struct ftrace_ops *ops, unsigned long ip)
+   109	{
+   110		return ops->private;
+   111	}
+   112	#endif /* CONFIG_HAVE_SINGLE_FTRACE_DIRECT_OPS */
+   113	
 
 -- 
 0-DAY CI Kernel Test Service
