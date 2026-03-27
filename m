@@ -1,69 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 447DF3019AA
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 18:59:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F49635DA50
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Mar 2026 19:07:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774637949; cv=none; b=MxblMeQtQ2He99wlgHKoX6V/3DH0OblxCkVJdiVSsRFZHSu7wwa5F6SfFWaYtyYSGj4HqoefneH4Czszu0yYMUSnz/p6DyoDcMeg5so25p7spDrRpv5JvD68Lc/zUE3EC7l/nrGcsl148fZhGSiKUUh3a7IeymDeHwX+Pjw/djo=
+	t=1774638422; cv=none; b=Yuuqh17cWSiPabr9T2xDnaBY93sEkP/7W8AwnP8q7XmlUhuYR6UCZAEozqJ80Y+3z9lgyG+gaVXp3cHj6nij/kbHfGEo4CW4jLTF/oJqrCXiun2iKjm8EemXlFsjGqpb27YbLUEPP4/4ZtwQ+2CDApPNB9p1mvWjOka85uj+Yv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774637949; c=relaxed/simple;
-	bh=Q0dd9IOAI89ZSQkit8UCURS9a6et8dgdtMNLM9mGy0A=;
+	s=arc-20240116; t=1774638422; c=relaxed/simple;
+	bh=8LZlpASHsA/Y6GOiRodaZwiHzKtI3/rlF/snT/eGlms=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WUglTegTu4vpXSAHoYzQ2VT8XEEn+oEaZgUg89hvpWezgiw5cCa2TxVYGm3IAseofQklGGE3QOry9Bo/eufDESckP1ltLszz0b47X+/rTF+qXErX20Db9yPqZ9/Zy7H1Zj9IGTceLwyfFlk8V3TnVlmbg8C5lirwbjGM/1fgpWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dVfEJLzi; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=IfRaMj9ENUBkGbkawWEfnr1dZR++mtf2uePYrNdDBJjuT9Qi9Oxxy1mEB+fkH0hguS70oERMG5MjQ6XW2/M3PCDT5451L4eEy75WczTPwqPT5T0Aek9hmUMwdbSxJLLgJrTCGj4AfAOhj+TFWlEMfygw/a0kKOV+fC6zP9uzGLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OI/YXARW; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dVfEJLzi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OI/YXARW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774637948; x=1806173948;
+  t=1774638420; x=1806174420;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Q0dd9IOAI89ZSQkit8UCURS9a6et8dgdtMNLM9mGy0A=;
-  b=dVfEJLziN3merfBhPm18HsJXm5rW8vbWxWa+LcUkpVou0BOPoc/e3MYm
-   POurXrU0IGer5M9Trk42Ts90qNIJ/UxxUlDyZlUaE1Re3n2Wb7hqUEGZD
-   D0dAYwjioPJIFZocD6I2ZqeV8Me5puf1KPhFaD2yGeV1XCpQtl0s4OIPY
-   aHpRBPpuLU4UnVd+eRxGTLBZ8rDMNxbPFkRLc+DbVpsb55WdyTpAJZrk6
-   HaBvX6Sk1bEuXBg5smeAcAlcU8kn8VsCyRfb6BIxKwBPVkAg7iCmEOl1w
-   DZFDAOhaltVZalTs6Wqcu8sSlLtTA0KQycl/8jalEYkqx3NdcWtEVWUN3
-   Q==;
-X-CSE-ConnectionGUID: wxTuuSF4Swyo2CtHxULNyA==
-X-CSE-MsgGUID: PU5f2ZvzRbOpgFji1P3KcA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="75916590"
+  bh=8LZlpASHsA/Y6GOiRodaZwiHzKtI3/rlF/snT/eGlms=;
+  b=OI/YXARWAMdQM4Ry7jZsrjoom0WibrfH2d2RjGGoOv+YBas0rCikCOVw
+   VIaYF9pxjKm2OuzyeNEvhHJkwlApMnQOOhDs4bYrtCcOzgrp3/xHTwnw3
+   lhXRQKmcrCBw/HOa/BXeyHS3BrHUbiYMCdByDD2bf5oajzlfDSmSC/ki+
+   tSdnuMKs2ySB4nNqmC09wLiOzxPJmATouj/3NnqgqWPxxbaK5yPe8WvIT
+   EiXPTdplm00A0bdl1A51iyWS1Tdnir8egjNp+5autzMcJVupiUzv7ItsB
+   i3hpDKHQ2o0DtWqWuF30aHfmKcpoHxYliJdPTGZJvEhWYG0lS0UAq51f7
+   w==;
+X-CSE-ConnectionGUID: bo51BD1NTFyz5rhTBI6KmA==
+X-CSE-MsgGUID: irddfjv6TpWU5OCgSe/fMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="87106867"
 X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="75916590"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 11:59:08 -0700
-X-CSE-ConnectionGUID: BDEglK+nRymDseHdwIsjuQ==
-X-CSE-MsgGUID: 9MdtC+zWQFmIzAJA3CCdqA==
+   d="scan'208";a="87106867"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 12:07:00 -0700
+X-CSE-ConnectionGUID: Z5niJQO1RvmVh1ZvWMioiw==
+X-CSE-MsgGUID: 9x50k4KTT0Ox7iyJ5PzXxA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="221001658"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 27 Mar 2026 11:59:04 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+   d="scan'208";a="222529332"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 27 Mar 2026 12:06:56 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w6COb-00000000AcL-1yVq;
-	Fri, 27 Mar 2026 18:59:01 +0000
-Date: Sat, 28 Mar 2026 02:58:57 +0800
+	id 1w6CWD-000000007Xh-48qU;
+	Fri, 27 Mar 2026 19:06:53 +0000
+Date: Fri, 27 Mar 2026 20:06:53 +0100
 From: kernel test robot <lkp@intel.com>
-To: Sai Krishna Potthuri <sai.krishna.potthuri@amd.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>, Nuno Sa <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Michal Simek <monstr@monstr.eu>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, saikrishna12468@gmail.com,
-	git@amd.com, Sai Krishna Potthuri <sai.krishna.potthuri@amd.com>
-Subject: Re: [PATCH v2 1/4] iio: adc: xilinx-xadc: Split driver into core and
- platform files
-Message-ID: <202603280238.N4wp7jaC-lkp@intel.com>
-References: <20260323074505.3853353-2-sai.krishna.potthuri@amd.com>
+To: Youngjun Park <youngjun.park@lge.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Chris Li <chrisl@kernel.org>, Youngjun Park <youngjun.park@lge.com>,
+	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kasong@tencent.com, hannes@cmpxchg.org, mhocko@kernel.org,
+	roman.gushchin@linux.dev, shakeel.butt@linux.dev,
+	muchun.song@linux.dev, shikemeng@huaweicloud.com, nphamcs@gmail.com,
+	bhe@redhat.com, baohua@kernel.org, gunho.lee@lge.com,
+	taejoon.song@lge.com, hyungjun.cho@lge.com, mkoutny@suse.com
+Subject: Re: [PATCH v5 2/4] mm: swap: associate swap devices with tiers
+Message-ID: <202603271922.UNxxB12b-lkp@intel.com>
+References: <20260325175453.2523280-3-youngjun.park@lge.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,44 +71,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260323074505.3853353-2-sai.krishna.potthuri@amd.com>
+In-Reply-To: <20260325175453.2523280-3-youngjun.park@lge.com>
 
-Hi Sai,
+Hi Youngjun,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on robh/for-next linus/master v7.0-rc5 next-20260326]
-[cannot apply to xilinx-xlnx/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 6381a729fa7dda43574d93ab9c61cec516dd885b]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sai-Krishna-Potthuri/iio-adc-xilinx-xadc-Split-driver-into-core-and-platform-files/20260326-024045
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20260323074505.3853353-2-sai.krishna.potthuri%40amd.com
-patch subject: [PATCH v2 1/4] iio: adc: xilinx-xadc: Split driver into core and platform files
-config: hexagon-randconfig-r133-20260326 (https://download.01.org/0day-ci/archive/20260328/202603280238.N4wp7jaC-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603280238.N4wp7jaC-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Youngjun-Park/mm-swap-introduce-swap-tier-infrastructure/20260327-203639
+base:   6381a729fa7dda43574d93ab9c61cec516dd885b
+patch link:    https://lore.kernel.org/r/20260325175453.2523280-3-youngjun.park%40lge.com
+patch subject: [PATCH v5 2/4] mm: swap: associate swap devices with tiers
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260327/202603271922.UNxxB12b-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603280238.N4wp7jaC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603271922.UNxxB12b-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/iio/adc/xilinx-xadc-core.c:764:12: sparse: sparse: symbol 'xadc_type_names' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/xadc_type_names +764 drivers/iio/adc/xilinx-xadc-core.c
+   Non-Preserved Properties
+   ======================== [docutils]
+>> Documentation/mm/swap-tier.rst:19: WARNING: Title underline too short.
+--
+   Documentation/userspace-api/landlock:526: ./include/uapi/linux/landlock.h:45: ERROR: Unknown target name: "network flags". [docutils]
+   Documentation/userspace-api/landlock:526: ./include/uapi/linux/landlock.h:50: ERROR: Unknown target name: "scope flags". [docutils]
+   Documentation/userspace-api/landlock:526: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:535: ./include/uapi/linux/landlock.h:166: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:535: ./include/uapi/linux/landlock.h:189: ERROR: Unknown target name: "network flags". [docutils]
+>> Documentation/mm/swap-tier.rst: WARNING: document isn't included in any toctree [toc.not_included]
+   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
 
-   763	
- > 764	const char * const xadc_type_names[] = {
-   765		[XADC_TYPE_S7] = "xadc",
-   766		[XADC_TYPE_US] = "xilinx-system-monitor",
-   767	};
-   768	
+
+vim +19 Documentation/mm/swap-tier.rst
+
+    17	
+    18	Use case
+  > 19	-------
+    20	
 
 -- 
 0-DAY CI Kernel Test Service
