@@ -1,133 +1,134 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073C9391504;
-	Fri, 27 Mar 2026 20:59:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D260237FF4D;
+	Fri, 27 Mar 2026 21:21:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774645143; cv=none; b=nyD/9PeIivPaholbndwfL4ISm46X4o331EAKzKLZ/rGHynPRcmtkBfg8+JWF8ciXjAyK3zNIkOCDIUf0Cumj1gmDFCpucWIq50/ZkOn1hJUDUP2HZtp/VsffE6BflCp81q9V5yj+Qr6g5b+yW54MmVdVSTSUJ328IUyYJ3ZIHwg=
+	t=1774646486; cv=none; b=uNA64GOoyOBUM0eMn2rY/yKHYeoEp+DxDaT5qHLQXgNW/y0oNLTLtRFRJMYc1988SF+P74SEJvLNMaXp+VDtkCnfqEyeklzl5//WOmdevx987qZ0MJ1qIjllct0OvdVmqxGpbXGj059tZHN5gtUgdLgPd0Anoo1u+yK6H3/HC1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774645143; c=relaxed/simple;
-	bh=JJOOXqCVOd6mcldHJfUPNs4DwLXJnmnqs72a5d3LhDk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=skI19pATK4+maV3KI6FqhcW5+o+leUp+J8kocnx0xnIEmC9O39MQaS5tH390FqIcOojPe5N7Op0hhIfcIH4LN2DkgaHIRv2LS3FyuVUwvhhYAotiXlOLhXASgKaOebLAI/VG5tw+UTiWbZZzCdHu/3d0bX4B+dLZaN1qfeQDgSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y4tZQns7; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1774646486; c=relaxed/simple;
+	bh=ikKvp8vuZvZhl+A28VqQRXv8ZOC9bVMoIk5cGTWv5oY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DxQQ4SA9RTWibZ6bV6jq5mLaE6wmoHyK1QyoHljOwtsPtYr1+v6aoDu68MsOaht+aVgPUYghyAjgVhsHi4wKglumil4PGAkN5uqhOHp16z+SBnxTbqxXotX+vaKANsed4oNW6DFcOcYJCjaQMDVdej8doq5C3rUIOBoS8oL1tNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WP1y/MbS; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y4tZQns7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WP1y/MbS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774645142; x=1806181142;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JJOOXqCVOd6mcldHJfUPNs4DwLXJnmnqs72a5d3LhDk=;
-  b=Y4tZQns7qHUde46XClqJQbgcNaLCCHLPrNZEe9JIGQGw6kxD5dVmYSj9
-   EBFs3E4CRFBYDVKnIAE6NGTt6k327Lb6cCY0u9B/hl6nMJzRssWDY2mdv
-   p4JiK8hkVQ6otgSsTjGww0l2LSq9o06p1q6oejvG8oDuocL+X5RDRF6sZ
-   eklDBlmJrJBsAbMn20EcYLNeQfBKfdp+AkSDgucWJZlV3/asW7obPpKET
-   ssCtorbGP/Mw4g/TgqyLNz2hWvdSQvqS4LVlOCi/RFomrn568NJq/6kby
-   0dSAXO/TWFkPOxQ/ay8CRmj5PB++uQC6JNtjNaoo0uoMx6bW9BGdKLUuN
-   g==;
-X-CSE-ConnectionGUID: wIWG8HBfTReJl9g8Z0pkgw==
-X-CSE-MsgGUID: su8AC+HST+WwuzMf9zEKWA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="79332724"
+  t=1774646484; x=1806182484;
+  h=date:from:to:cc:subject:message-id;
+  bh=ikKvp8vuZvZhl+A28VqQRXv8ZOC9bVMoIk5cGTWv5oY=;
+  b=WP1y/MbSO8uh0q00BzKr7tDVSaXO0nIb+XcmI/AVbdS84Lf1RM1tNDfg
+   zwHb5Kf/SIRJ3GqEM/KeWHJz83F3ouwQdD7xASSkp20fPvr1DRcJKKt+o
+   TqGpF26SXqdIp8dWh/lwXaBBio2fNf3X696XF90ffxLkrK8bna3RpGLDW
+   q9aNwVZhf6gNLLrx0kyvdiUeEKN2oF6EMFTyIVp4Z7XcuamE3MXmoVZDt
+   2//2aJLbxKdnul2I5p/EbKsBbRblmVQ89wbTU2wrSMBHALvawaCcdHzIZ
+   trsytMGq1+D1A9knzD3jSk8NJHeqID8KhaCs0FmSrgQCv38giZU9/0KjU
+   w==;
+X-CSE-ConnectionGUID: KnmDkHF0ReK71m3jIrCdXw==
+X-CSE-MsgGUID: EvoaQpGqSl+lPZErOmtX7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="75619214"
 X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="79332724"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 13:59:01 -0700
-X-CSE-ConnectionGUID: gLMdbSD2RymdAO6zRaqdPQ==
-X-CSE-MsgGUID: 4ZUXigKaR5uaNyN9fsTYXg==
+   d="scan'208";a="75619214"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 14:21:24 -0700
+X-CSE-ConnectionGUID: DCq18VdZQj+cr+8O43vB1Q==
+X-CSE-MsgGUID: Ohe0OIenRVmlszRCWs1xAA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="227024194"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 27 Mar 2026 13:58:56 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="255935284"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 27 Mar 2026 14:21:22 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w6EGc-000000007Y9-1aXL;
-	Fri, 27 Mar 2026 20:58:54 +0000
-Date: Fri, 27 Mar 2026 21:58:14 +0100
+	id 1w6EcJ-00000000AlH-1eEI;
+	Fri, 27 Mar 2026 21:21:19 +0000
+Date: Sat, 28 Mar 2026 05:20:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Ahmed S. Darwish" <darwi@linutronix.de>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Ingo Molnar <mingo@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, Thomas Gleixner <tglx@linutronix.de>,
-	Andrew Cooper <andrew.cooper3@citrix.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Sean Christopherson <seanjc@google.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Christian Ludloff <ludloff@gmail.com>,
-	Sohil Mehta <sohil.mehta@intel.com>,
-	John Ogness <john.ogness@linutronix.de>, x86@kernel.org,
-	x86-cpuid@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
-	"Ahmed S. Darwish" <darwi@linutronix.de>
-Subject: Re: [PATCH v6 86/90] x86/cpu/transmeta: Remove x86_capability[]
- CPUID initialization
-Message-ID: <202603272110.n460HyzQ-lkp@intel.com>
-References: <20260327021645.555257-87-darwi@linutronix.de>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-cleanup-2026-03-27 61/106]
+ sound/soc/soc-component.c:1684:39: error: no member named 'debugfs_prefix' in
+ 'struct snd_soc_component_driver'
+Message-ID: <202603280557.PX2kWAPU-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260327021645.555257-87-darwi@linutronix.de>
 
-Hi Ahmed,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on c369299895a591d96745d6492d4888259b004a9e]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ahmed-S-Darwish/ASoC-Intel-avs-Check-maximum-valid-CPUID-leaf/20260327-215933
-base:   c369299895a591d96745d6492d4888259b004a9e
-patch link:    https://lore.kernel.org/r/20260327021645.555257-87-darwi%40linutronix.de
-patch subject: [PATCH v6 86/90] x86/cpu/transmeta: Remove x86_capability[] CPUID initialization
-config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260327/202603272110.n460HyzQ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603272110.n460HyzQ-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-cleanup-2026-03-27
+head:   b547ff73a13ed8ce92e8e208ccd27884077b160b
+commit: 96ac5eb1c466226a2d0e2f1d8f681a46cbc97bc5 [61/106] ASoC: soc-component: add snd_soc_component_alloc()
+config: hexagon-randconfig-002-20260328 (https://download.01.org/0day-ci/archive/20260328/202603280557.PX2kWAPU-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603280557.PX2kWAPU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603272110.n460HyzQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603280557.PX2kWAPU-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/x86/kernel/cpu/transmeta.c: In function 'init_transmeta':
->> arch/x86/kernel/cpu/transmeta.c:70:9: error: implicit declaration of function 'early_init_transmeta'; did you mean 'init_transmeta'? [-Wimplicit-function-declaration]
-      70 |         early_init_transmeta(c);
-         |         ^~~~~~~~~~~~~~~~~~~~
-         |         init_transmeta
+>> sound/soc/soc-component.c:1684:39: error: no member named 'debugfs_prefix' in 'struct snd_soc_component_driver'
+    1684 |                 component->debugfs_prefix = driver->debugfs_prefix;
+         |                                             ~~~~~~  ^
+   1 error generated.
 
 
-vim +70 arch/x86/kernel/cpu/transmeta.c
+vim +1684 sound/soc/soc-component.c
 
-fe8a36b887f719 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27  65  
-fe8a36b887f719 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27  66  static void init_transmeta(struct cpuinfo_x86 *c)
-fe8a36b887f719 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27  67  {
-fe8a36b887f719 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27  68  	unsigned int cap_mask, uk;
-fe8a36b887f719 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27  69  
-fe8a36b887f719 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27 @70  	early_init_transmeta(c);
-fe8a36b887f719 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27  71  	cpu_detect_cache_sizes(c);
-fe8a36b887f719 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27  72  
-fe8a36b887f719 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27  73  	print_cpu_revision(c);
-fe8a36b887f719 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27  74  	print_cpu_info_string(c);
-^1da177e4c3f41 arch/i386/kernel/cpu/transmeta.c Linus Torvalds   2005-04-16  75  
-^1da177e4c3f41 arch/i386/kernel/cpu/transmeta.c Linus Torvalds   2005-04-16  76  	/* Unhide possibly hidden capability flags */
-^1da177e4c3f41 arch/i386/kernel/cpu/transmeta.c Linus Torvalds   2005-04-16  77  	rdmsr(0x80860004, cap_mask, uk);
-^1da177e4c3f41 arch/i386/kernel/cpu/transmeta.c Linus Torvalds   2005-04-16  78  	wrmsr(0x80860004, ~0, uk);
-3ad602b4fa9f92 arch/x86/kernel/cpu/transmeta.c  Ahmed S. Darwish 2026-03-27  79  	cpuid_refresh_leaf(c, 0x1);
-^1da177e4c3f41 arch/i386/kernel/cpu/transmeta.c Linus Torvalds   2005-04-16  80  	wrmsr(0x80860004, cap_mask, uk);
-^1da177e4c3f41 arch/i386/kernel/cpu/transmeta.c Linus Torvalds   2005-04-16  81  
-30b82ea08c3365 arch/i386/kernel/cpu/transmeta.c H. Peter Anvin   2007-02-13  82  	/* All Transmeta CPUs have a constant TSC */
-10cd5a1e5403d7 arch/x86/kernel/cpu/transmeta.c  Ingo Molnar      2008-02-26  83  	set_cpu_cap(c, X86_FEATURE_CONSTANT_TSC);
-30b82ea08c3365 arch/i386/kernel/cpu/transmeta.c H. Peter Anvin   2007-02-13  84  
+  1643	
+  1644	struct snd_soc_component *snd_soc_component_alloc(struct device *dev,
+  1645							  const struct snd_soc_component_driver *driver,
+  1646							  struct regmap *regmap,
+  1647							  const char *name,
+  1648							  const char *name_prefix,
+  1649							  const char *debugfs_prefix)
+  1650	{
+  1651		struct snd_soc_component *component;
+  1652		struct snd_soc_dapm_context *dapm;
+  1653	
+  1654		component = devm_kzalloc(dev, sizeof(*component), GFP_KERNEL);
+  1655		if (!component)
+  1656			return NULL;
+  1657	
+  1658		dapm = snd_soc_dapm_alloc(dev);
+  1659		if (!dapm)
+  1660			return NULL;
+  1661	
+  1662		if (!name)
+  1663			name = soc_fmt_single_name(dev, NULL);
+  1664	
+  1665		if (!name)
+  1666			return NULL;
+  1667	
+  1668		INIT_LIST_HEAD(&component->dai_list);
+  1669		INIT_LIST_HEAD(&component->dobj_list);
+  1670		INIT_LIST_HEAD(&component->card_list);
+  1671		INIT_LIST_HEAD(&component->list);
+  1672		INIT_LIST_HEAD(&component->card_aux_list);
+  1673		mutex_init(&component->io_mutex);
+  1674	
+  1675		component->name		= name;
+  1676		component->name_prefix	= name_prefix;
+  1677		component->dapm		= dapm;
+  1678		component->regmap	= regmap;
+  1679		component->dev		= dev;
+  1680		component->driver	= driver;
+  1681	
+  1682		component->debugfs_prefix = debugfs_prefix;
+  1683		if (!component->debugfs_prefix)
+> 1684			component->debugfs_prefix = driver->debugfs_prefix;
+  1685	
+  1686		return component;
+  1687	}
+  1688	EXPORT_SYMBOL_GPL(snd_soc_component_alloc);
+  1689	
 
 -- 
 0-DAY CI Kernel Test Service
