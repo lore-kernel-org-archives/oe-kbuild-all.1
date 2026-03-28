@@ -1,112 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 313632609E3
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Mar 2026 14:10:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC24530F7F3
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Mar 2026 14:14:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774707038; cv=none; b=UDqFX9TSjlPEoJFX25VVqdymExT+quQu2/Mcvq6B70yaY1QHIlz8dalVzTpiegOkXUW2l2BdfUQCE2wxC9Am9xpO93xZITiEBhsyA/Bx6nW3k11yCv9Dk9UShFj1d2/vBSv7pbe/rSRASHG7KVGDBOijSXzwJthzALTNrG5DR5U=
+	t=1774707248; cv=none; b=ZKiMIEtCf4fIKkcaLtnGZA1Aqvs6ecuTE5tuGfTRr4shVC0z1xi71CUp/oYufkkfqh4mhcBO9MuttkmujbMQl/TS+MPXY5Ouk4fmA5DrvK2laxi1kjjCXMK9NU6d9Q28A/y/OWAhYn1CsrF3DNb7zqbzaGO0JG4ICKInA7KKD5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774707038; c=relaxed/simple;
-	bh=eLNk7FG+GuOyFmDrkvkfvyCN+/xhFOpw629vK73opy4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=E2Bwn7cYbyuGa2Y9tc0fWwnWExo9VNKld61gGp46sNg1SJJPq6yTUI1DNu1lDDflm+qGki9ZxK//cudahru7XQpJ1xUHhIPmLtp9MqCOXy7K66KFVlNEwKOdBjpOngJQWNsLSA4coYJGJfn+qEbRgtfE+jCI2nGU4dPzbYGszBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m6i/i1th; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1774707248; c=relaxed/simple;
+	bh=/BGl0+Oz49k5tPl3ySgr/pb+u1t6ujQqJ5mp27HxMDw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y6gCDge5/LKbcWUrqoY0qror61d5wKABWYGaKCKBEiFUBWiMyLg0miwztmGwkBqKqODI1ijppBX7AfganQ3IGpeltNUdFSIDee6VecYcfH7+85LMycEbibGxiQrWd34cUHYaVgl1Wg4+YiJ4dx16IvjGQb0AWJZ9RlDfhQDmS4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y3ODqVsq; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m6i/i1th"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y3ODqVsq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774707036; x=1806243036;
-  h=date:from:to:cc:subject:message-id;
-  bh=eLNk7FG+GuOyFmDrkvkfvyCN+/xhFOpw629vK73opy4=;
-  b=m6i/i1thd06dKLBME6/zFKRcSsDuPasgmaJniBM08dCiDFkIsMwbxMWe
-   jaa80jAO7Nd9uxEX5eUzddBZfH/fx+/9KmGOSLcPSz7mYdlPL/h1zh4ct
-   TNncYfunUKTCuJINwxPk/g/GVXICfUGi2ebyKjc37TlzR3y/kGje8lK7f
-   IXJ8x793V3XstqFCWRTrvg/MaRuf0TIevXhIFOWZtqLa8vK68n0L6gkOI
-   DzXvvndXaz7bieMhcQLPqOP4JikuhYexLUszuPVZCInJG+0JNUAHCweG2
-   PEj61zWOn8RHR6T+w7I4egZPZRkHOOivTCVTeOCaF7gtxlEcgoUE4wsDo
-   A==;
-X-CSE-ConnectionGUID: lzqMc3f5THmpNjm7GlyXwA==
-X-CSE-MsgGUID: 4hxctsrwRQiGKbqeuLSg1Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="86451696"
+  t=1774707247; x=1806243247;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/BGl0+Oz49k5tPl3ySgr/pb+u1t6ujQqJ5mp27HxMDw=;
+  b=Y3ODqVsquWlyJFtGWX/gafDt/72nPIzLw/mw9Q/+D82hMrbu4AZysEOO
+   CiVapRyHWIE+D0jtGfo3dI+gHRX/Ar/eooSxluY5/7zQJEbkpeWgd9Q4o
+   xx8CUiFRvReLJqnke1cGNYpsQ8tM7jwrVW5NMn2x+GINRafgB/Cl05NyB
+   KFdjwh2ZUrm4WLSoxMruxXCub761la9c2JS9+Rsg2gti1wFZnkwPxzUEs
+   +/45CL76JqkCQRXEGDkbzUrdk5NgXMbI/dTIWPJkSZfCqJDNoUsYu4y1Q
+   PYVoxHo1aDfY2xtL4dFKHkpKIkhnNzMQmKVezkpdND9xB9LAuq6pYexF/
+   w==;
+X-CSE-ConnectionGUID: ANnzVUIiTea0XgZnIJ7/NQ==
+X-CSE-MsgGUID: qLk255/YRge3Dt9wy73s0A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="74794147"
 X-IronPort-AV: E=Sophos;i="6.23,146,1770624000"; 
-   d="scan'208";a="86451696"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2026 07:10:34 -0700
-X-CSE-ConnectionGUID: mrcOBv3aTha/CBqwHz4sig==
-X-CSE-MsgGUID: chhR5npDRJyWFGwfa/TPyA==
+   d="scan'208";a="74794147"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2026 07:14:06 -0700
+X-CSE-ConnectionGUID: xU7hdjRVT2C/niVXf//eRg==
+X-CSE-MsgGUID: 43dgNcz4TJGPHkxmuhIwYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,146,1770624000"; 
-   d="scan'208";a="224767597"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 28 Mar 2026 07:10:33 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+   d="scan'208";a="227187146"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa004.fm.intel.com with ESMTP; 28 Mar 2026 07:14:03 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w6UMw-00000000BTJ-2WdM;
-	Sat, 28 Mar 2026 14:10:30 +0000
-Date: Sat, 28 Mar 2026 22:09:41 +0800
+	id 1w6UQL-000000007gb-2MoE;
+	Sat, 28 Mar 2026 14:14:01 +0000
+Date: Sat, 28 Mar 2026 15:13:44 +0100
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 0/2]
- net/netfilter/core.c:43:30: sparse: sparse: symbol 'init_nf_hooks_bridge' was
- not declared. Should it be static?
-Message-ID: <202603282146.Uw3JL8iV-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>,
+	Jens Axboe <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev, drbd-dev@lists.linbit.com,
+	linux-kernel@vger.kernel.org,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	Philipp Reisner <philipp.reisner@linbit.com>,
+	linux-block@vger.kernel.org,
+	Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>,
+	Joel Colledge <joel.colledge@linbit.com>
+Subject: Re: [PATCH 02/20] drbd: extend wire protocol definitions for DRBD 9
+Message-ID: <202603281537.rTtvjPOL-lkp@intel.com>
+References: <20260327223820.2244227-3-christoph.boehmwalder@linbit.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260327223820.2244227-3-christoph.boehmwalder@linbit.com>
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   1c08e57193aa5219b8fa24e666d79da02af3adab
-commit: bc4d82ee40515f0c770b28d0dc4fa532a2b1850e [0/2] ANDROID: KMI workaround for CONFIG_NETFILTER_FAMILY_BRIDGE
-config: i386-randconfig-061-20260327 (https://download.01.org/0day-ci/archive/20260328/202603282146.Uw3JL8iV-lkp@intel.com/config)
+Hi Christoph,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 67807fbaf12719fca46a622d759484652b79c7c3]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christoph-B-hmwalder/drbd-mark-as-BROKEN-during-DRBD-9-rework/20260328-153634
+base:   67807fbaf12719fca46a622d759484652b79c7c3
+patch link:    https://lore.kernel.org/r/20260327223820.2244227-3-christoph.boehmwalder%40linbit.com
+patch subject: [PATCH 02/20] drbd: extend wire protocol definitions for DRBD 9
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603282146.Uw3JL8iV-lkp@intel.com/reproduce)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260328/202603281537.rTtvjPOL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603282146.Uw3JL8iV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603281537.rTtvjPOL-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> net/netfilter/core.c:43:30: sparse: sparse: symbol 'init_nf_hooks_bridge' was not declared. Should it be static?
-   net/netfilter/core.c:44:30: sparse: sparse: symbol 'init_nf_hooks_bridgep' redeclared with different type (different address spaces):
-   net/netfilter/core.c:44:30: sparse:    struct nf_hook_entries [noderef] __rcu **[addressable] [toplevel] init_nf_hooks_bridgep
-   net/netfilter/core.c: note: in included file (through include/linux/netdevice.h, include/linux/netfilter.h):
-   include/net/net_namespace.h:208:31: sparse: note: previously declared as:
-   include/net/net_namespace.h:208:31: sparse:    struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
->> include/net/net_namespace.h:215:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
-   include/net/net_namespace.h:215:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
-   include/net/net_namespace.h:215:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
->> include/net/net_namespace.h:215:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
-   include/net/net_namespace.h:215:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
-   include/net/net_namespace.h:215:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
---
-   net/netfilter/nf_queue.c: note: in included file (through include/linux/netdevice.h, include/linux/netfilter.h):
->> include/net/net_namespace.h:215:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
-   include/net/net_namespace.h:215:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
-   include/net/net_namespace.h:215:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
->> include/net/net_namespace.h:215:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
-   include/net/net_namespace.h:215:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
-   include/net/net_namespace.h:215:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
->> include/net/net_namespace.h:215:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
-   include/net/net_namespace.h:215:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
-   include/net/net_namespace.h:215:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+All warnings (new ones prefixed by >>):
 
-vim +/init_nf_hooks_bridge +43 net/netfilter/core.c
-
-    41	
-    42	#ifdef CONFIG_NETFILTER_FAMILY_BRIDGE
-  > 43	struct nf_hook_entries __rcu *init_nf_hooks_bridge[NF_INET_NUMHOOKS];
-    44	struct nf_hook_entries __rcu **init_nf_hooks_bridgep = &init_nf_hooks_bridge[0];
-    45	EXPORT_SYMBOL_GPL(init_nf_hooks_bridgep);
-    46	#endif
-    47	
+   Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst references a file that doesn't exist: Documentation/networking/xfrm_proc.rst
+   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
+   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
+>> Warning: drivers/block/drbd/drbd_protocol.h references a file that doesn't exist: Documentation/application-resync-synchronization.rst
+   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/virtual/lguest/lguest.c
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,\b(\S*)(Documentation/[A-Za-z0-9
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/devicetree/dt-object-internal.txt
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,^Documentation/scheduler/sched-pelt
 
 -- 
 0-DAY CI Kernel Test Service
