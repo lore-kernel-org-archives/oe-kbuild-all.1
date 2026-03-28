@@ -1,222 +1,116 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8239228371
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Mar 2026 08:08:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9723E1CD1E4
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Mar 2026 08:11:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774685336; cv=none; b=OjxB+ZOtf3R8vZviGs2jACoeYgHOghfK6QtPXKdQXeUxbUQSgc+r/kMWdOQw+PijjgNBhPo0qwCeToVgjk4yFx0keKmK1HReqe3bc71IDHGwqBQcKP+9iy1YvETigBHO5yA+BTUA4TZZtiCLCEjKpTmGkk9K24ufJKAIuIKNnBE=
+	t=1774685521; cv=none; b=MLAq+1Q5chGVgjCGzgfM7jrSL9Vg4QkG7p8P+wfnT6AtXeWpA0vfk/JJShxdRBfiQpwL0/OiebsG08ANWkSSodfUYMDB4ehXDDCHzj91Il7iCwTin+O7OVeU3obfeCyMQNUdm/2gDN6AF7X+Ab2tdOZ+t5UQycJEZgwGnfjt7kM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774685336; c=relaxed/simple;
-	bh=npMZwbAMAl/i0P4Nm3ZSZOdSrzcpa4RpUpMt7pR5WGk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=QEj5Jr6dmsH2pdOpk45tlCAjW/QS6Dblu66tgOZjF1x8qB4z4HWJ8+IqaoVxfrJVI+kMHssicdNMFVeiL6c2gAgabzDZONIGNwM6tqi4DhjdKJGxigqySm/bwCi2qTje0tDgHhmquwVsO8KCSPsS3IvSH1xfZNwvv1uv/sptwvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gXPG3KmV; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774685521; c=relaxed/simple;
+	bh=08yN4PM29GDqxMMsstjwlt+IX4akpyahgA8Ee3OdWVA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=PXKue/OOxA1J9vhKObbIzjJ/PmANbIiSiQ9SPjxgWuqztEUGs5FqqkWpIdifmhZkKCfJlC8y3ZJ4QQhRYCeyazdDdZlMxiXe8rG15YOuJ+9CKlVgwu2ZYy5Lf0f7XrDNuSwRILUesBhub3H2uI/Ztkm5w1eCkwWb2ssYxg3FcEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dne1wTqD; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gXPG3KmV"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-482f454be5bso36061515e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Mar 2026 01:08:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774685333; x=1775290133; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=IYtH4vInPi9cClgPJvN4EemSaGDns1ZER/0zgyBhAKI=;
-        b=gXPG3KmVvkQ0D+shC8kyvuQOPfoCNggxtIpmAt4smholq5lfbyi2BCrvS13ZiqBtnz
-         daRJYHFf+ycP772uZ7rCEMZusOL/WDzWCO3TcKlWPQuXwaGAsKbWfh7ElM4ZOSPxaM6p
-         QIo7PtCPdVTQSIcEqGrjfH0VT8N3vNYISkHBz/N1LpbxzsEtXArA19ebS//dIyJune0o
-         h7FbwtASqCQSjLa8GJDIIm91XwKco4RTRSH7S9IavxASsH4pem/X1uvJAfVBoce1nrVy
-         Uv/3l7Kxq/yMregjqoVr5It8yRC5nEVveJaWdtMK9f4VytrsYXTYYT/Ia6Mv4fPRC5/Q
-         XFGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774685333; x=1775290133;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IYtH4vInPi9cClgPJvN4EemSaGDns1ZER/0zgyBhAKI=;
-        b=GIer8pJX/Ai32zgkbnopQRjborwXaNkbd1hAo4xWSmZT3muCDeJdGugMuK0bOAeosE
-         M2Pdz1kT+otLsiMAc3e0Pd3qjKjGGwxGLm9Mb/F1Yz7sYkdaoIQp47emph4ZmFU9W9A1
-         Qcr08YZK2oTPvarqYV2DtTWlOz3ucdunq8Qs/JnmIVPdm4eB7vu4N4A0ufBORZ0usB1G
-         7TGuCz0SBUTIUoRreGZ/tYkR6qnQrd/WKoVvX1rUJW/ouJiWdJNdI0naMxYsNNUKov0r
-         5r7LCoT5fGFp/F61BrK/v9SeI0KeUuMYUT7wMvQS9B59gZDm3VVgKJtlFH7E+qQhv+98
-         BnqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVEj3CpwUDEbS2/NDkUYLefn469NI4iUqVa2x8krSruq/bYWfN4vqPFXPtuGEguwyBN+dqph56MuNYO4aJf@lists.linux.dev
-X-Gm-Message-State: AOJu0YwuhTfTAZMZYvP7tZa+q6FEQXfXEy2KUuZZg3K+Pc3dKgIuTvzS
-	h+YMTOr+KR9K15eUnUt5fHPDHASkrAiAkKZndZu7IA/AUOW8Pj9d0N6f
-X-Gm-Gg: ATEYQzyGg0LU+hyVOWovWkpShKkdZAgxhyUuiA1iKQhN+vWjMVMmxQN1Hlv3jr/RSft
-	cr9yl9Qw/U0YQFomxNoM/yFYeN2+mkRu7c1w7HFwKucvARrmWQMh0e2cVhfWNdrywTj8PQYQhQ1
-	qLp+n81ZyxB61SPZ39hH4lTnA6DiFYDOPHy8RtbL0n75Xzo4Vko4anHgZcKa+wZxIkhGINRsih2
-	gi4vgebmpCaOkeWJSsFAj3HXNYmrcYi4HCIi4OxexAdCkfBYZgEPpM5BnK2WzR105iuhHAxJBwO
-	pmKRaKj3TJn8bMnZ4kK2c3H5SR1qsfS1HGA5krvWUGfySdvptAgxXCRWB62TbpgAC5LpZqPgWVx
-	uO2tb1jKp4SNPZfyOrCO0UetJxcFaFUzO1GHN6xJW+HLlbpLHlo5zg7q/gzyTMhF0/sv1J6fWKy
-	VFMjiXov4LWFe4YCgUdU8=
-X-Received: by 2002:a05:600c:6487:b0:486:fe83:861c with SMTP id 5b1f17b1804b1-487290d098dmr71060835e9.7.1774685332786;
-        Sat, 28 Mar 2026 01:08:52 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48725fc4827sm31506925e9.11.2026.03.28.01.08.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Mar 2026 01:08:52 -0700 (PDT)
-Date: Sat, 28 Mar 2026 11:08:48 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Sanjay Chitroda <sanjayembeddedse@gmail.com>,
-	jic23@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com,
-	andy@kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, kees@kernel.org,
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	sanjayembeddedse@gmail.com
-Subject: Re: [PATCH v4 4/4] iio: ssp_sensors: reuse preallocated RX buffer
- for SPI transfers
-Message-ID: <202603281105.UIsb0ZYk-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dne1wTqD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774685520; x=1806221520;
+  h=date:from:to:cc:subject:message-id;
+  bh=08yN4PM29GDqxMMsstjwlt+IX4akpyahgA8Ee3OdWVA=;
+  b=Dne1wTqD5mpvp4IX/oicZ3dqMRgzbMgULEClANMHQhFaAOk/UkoTiaka
+   qcEJBaj/rTEbClCJ7UV1Z1V1EY9gFKjKRUSrZRjEZwgN9hEUZmZiWm7q+
+   I5+lvJJzQUiZbKcaiulpuL4/WAOmAXDtlihewLwl/jBVzXqbcJs3+nlsp
+   RxOLwdd7gqZJcOsaGiwdYbtatRqAKkL1PUc1O95DelPWrfCxc6OYptJiy
+   GbujScJUmigHgvYtCij5OrV01F7S9BXqJUKilD/ayeoy2hu7sL3uFLAoR
+   8WcLUcZreXcmdh5uspnY4LIdKNwIaScHxqId0wKCf7CHZazI4jPpigtEC
+   A==;
+X-CSE-ConnectionGUID: UOX8G7/4T7S55hxVs3ufXQ==
+X-CSE-MsgGUID: 3Mp9X6xTQdme1HssihAcsw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="75772394"
+X-IronPort-AV: E=Sophos;i="6.23,145,1770624000"; 
+   d="scan'208";a="75772394"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2026 01:11:59 -0700
+X-CSE-ConnectionGUID: stM3gLIwSYGw9SdzNUvmfA==
+X-CSE-MsgGUID: jKUinKjNSMeW/EsYuLU4Ww==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,145,1770624000"; 
+   d="scan'208";a="230312945"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 28 Mar 2026 01:11:57 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w6Olv-00000000BDZ-2PWZ;
+	Sat, 28 Mar 2026 08:11:55 +0000
+Date: Sat, 28 Mar 2026 16:11:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-kiwi-6.1 7/7]
+ drivers/mailbox/pcc.c:295:27: sparse: sparse: incorrect type in argument 1
+ (different base types)
+Message-ID: <202603281659.lBbVpJSa-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260326081815.925373-5-sanjayembedded@gmail.com>
 
-Hi Sanjay,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sanjay-Chitroda/iio-ssp_sensors-cleanup-codestyle-warning/20260327-131514
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20260326081815.925373-5-sanjayembedded%40gmail.com
-patch subject: [PATCH v4 4/4] iio: ssp_sensors: reuse preallocated RX buffer for SPI transfers
-config: x86_64-randconfig-161-20260328 (https://download.01.org/0day-ci/archive/20260328/202603281105.UIsb0ZYk-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-smatch: v0.5.0-9004-gb810ac53
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   d5b66ad86ec150afc5182b585139072bf0a60683
+commit: 84c351bc07a99d470dd91696b991a30b39db01f0 [7/7] mailbox: pcc: Check before sending MCTP PCC response ACK
+config: x86_64-randconfig-r112-20260324 (https://download.01.org/0day-ci/archive/20260328/202603281659.lBbVpJSa-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603281659.lBbVpJSa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202603281105.UIsb0ZYk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603281659.lBbVpJSa-lkp@intel.com/
 
-smatch warnings:
-drivers/iio/common/ssp_sensors/ssp_dev.c:523 ssp_probe() warn: missing unwind goto?
+sparse warnings: (new ones prefixed by >>)
+>> drivers/mailbox/pcc.c:295:27: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le32 const [usertype] *p @@     got unsigned int * @@
+   drivers/mailbox/pcc.c:295:27: sparse:     expected restricted __le32 const [usertype] *p
+   drivers/mailbox/pcc.c:295:27: sparse:     got unsigned int *
 
-vim +523 drivers/iio/common/ssp_sensors/ssp_dev.c
+vim +295 drivers/mailbox/pcc.c
 
-50dd64d57eee8ae Karol Wrona         2015-01-28  483  static int ssp_probe(struct spi_device *spi)
-50dd64d57eee8ae Karol Wrona         2015-01-28  484  {
-50dd64d57eee8ae Karol Wrona         2015-01-28  485  	int ret, i;
-50dd64d57eee8ae Karol Wrona         2015-01-28  486  	struct ssp_data *data;
-50dd64d57eee8ae Karol Wrona         2015-01-28  487  
-50dd64d57eee8ae Karol Wrona         2015-01-28  488  	data = ssp_parse_dt(&spi->dev);
-50dd64d57eee8ae Karol Wrona         2015-01-28  489  	if (!data) {
-50dd64d57eee8ae Karol Wrona         2015-01-28  490  		dev_err(&spi->dev, "Failed to find platform data\n");
-50dd64d57eee8ae Karol Wrona         2015-01-28  491  		return -ENODEV;
-50dd64d57eee8ae Karol Wrona         2015-01-28  492  	}
-50dd64d57eee8ae Karol Wrona         2015-01-28  493  
-4c6e3dbc6b4877c Krzysztof Kozlowski 2020-09-21  494  	ret = mfd_add_devices(&spi->dev, PLATFORM_DEVID_NONE,
-4c6e3dbc6b4877c Krzysztof Kozlowski 2020-09-21  495  			      sensorhub_sensor_devs,
-50dd64d57eee8ae Karol Wrona         2015-01-28  496  			      ARRAY_SIZE(sensorhub_sensor_devs), NULL, 0, NULL);
-50dd64d57eee8ae Karol Wrona         2015-01-28  497  	if (ret < 0) {
-50dd64d57eee8ae Karol Wrona         2015-01-28  498  		dev_err(&spi->dev, "mfd add devices fail\n");
-50dd64d57eee8ae Karol Wrona         2015-01-28  499  		return ret;
-50dd64d57eee8ae Karol Wrona         2015-01-28  500  	}
-50dd64d57eee8ae Karol Wrona         2015-01-28  501  
-50dd64d57eee8ae Karol Wrona         2015-01-28  502  	spi->mode = SPI_MODE_1;
-50dd64d57eee8ae Karol Wrona         2015-01-28  503  	ret = spi_setup(spi);
-50dd64d57eee8ae Karol Wrona         2015-01-28  504  	if (ret < 0) {
-50dd64d57eee8ae Karol Wrona         2015-01-28  505  		dev_err(&spi->dev, "Failed to setup spi\n");
-21553258b94861a Christophe JAILLET  2025-10-10  506  		goto err_setup_spi;
-50dd64d57eee8ae Karol Wrona         2015-01-28  507  	}
-50dd64d57eee8ae Karol Wrona         2015-01-28  508  
-50dd64d57eee8ae Karol Wrona         2015-01-28  509  	data->fw_dl_state = SSP_FW_DL_STATE_NONE;
-50dd64d57eee8ae Karol Wrona         2015-01-28  510  	data->spi = spi;
-50dd64d57eee8ae Karol Wrona         2015-01-28  511  	spi_set_drvdata(spi, data);
-50dd64d57eee8ae Karol Wrona         2015-01-28  512  
-50dd64d57eee8ae Karol Wrona         2015-01-28  513  	mutex_init(&data->comm_lock);
-50dd64d57eee8ae Karol Wrona         2015-01-28  514  
-5981e993e348918 Sanjay Chitroda     2026-03-26  515  	data->rx_buf_size = SSP_DATA_PACKET_SIZE;
-5981e993e348918 Sanjay Chitroda     2026-03-26  516  	data->rx_buf = devm_kzalloc(&spi->dev,
-5981e993e348918 Sanjay Chitroda     2026-03-26  517  				    data->rx_buf_size,
-5981e993e348918 Sanjay Chitroda     2026-03-26  518  				    GFP_KERNEL | GFP_DMA);
-5981e993e348918 Sanjay Chitroda     2026-03-26  519  
-5981e993e348918 Sanjay Chitroda     2026-03-26  520  	if (!data->rx_buf) {
-5981e993e348918 Sanjay Chitroda     2026-03-26  521  		dev_err(&spi->dev,
-5981e993e348918 Sanjay Chitroda     2026-03-26  522  			"Failed to allocate memory for rx_buf\n");
-5981e993e348918 Sanjay Chitroda     2026-03-26 @523  		return -ENOMEM;
-
-Need to goto destroy_comm_lock before returning.
-
-5981e993e348918 Sanjay Chitroda     2026-03-26  524  	}
-5981e993e348918 Sanjay Chitroda     2026-03-26  525  
-50dd64d57eee8ae Karol Wrona         2015-01-28  526  	for (i = 0; i < SSP_SENSOR_MAX; ++i) {
-50dd64d57eee8ae Karol Wrona         2015-01-28  527  		data->delay_buf[i] = SSP_DEFAULT_POLLING_DELAY;
-50dd64d57eee8ae Karol Wrona         2015-01-28  528  		data->batch_latency_buf[i] = 0;
-50dd64d57eee8ae Karol Wrona         2015-01-28  529  		data->batch_opt_buf[i] = 0;
-50dd64d57eee8ae Karol Wrona         2015-01-28  530  		data->check_status[i] = SSP_INITIALIZATION_STATE;
-50dd64d57eee8ae Karol Wrona         2015-01-28  531  	}
-50dd64d57eee8ae Karol Wrona         2015-01-28  532  
-50dd64d57eee8ae Karol Wrona         2015-01-28  533  	data->delay_buf[SSP_BIO_HRM_LIB] = 100;
-50dd64d57eee8ae Karol Wrona         2015-01-28  534  
-50dd64d57eee8ae Karol Wrona         2015-01-28  535  	data->time_syncing = true;
-50dd64d57eee8ae Karol Wrona         2015-01-28  536  
-50dd64d57eee8ae Karol Wrona         2015-01-28  537  	mutex_init(&data->pending_lock);
-50dd64d57eee8ae Karol Wrona         2015-01-28  538  	INIT_LIST_HEAD(&data->pending_list);
-50dd64d57eee8ae Karol Wrona         2015-01-28  539  
-50dd64d57eee8ae Karol Wrona         2015-01-28  540  	atomic_set(&data->enable_refcount, 0);
-50dd64d57eee8ae Karol Wrona         2015-01-28  541  
-50dd64d57eee8ae Karol Wrona         2015-01-28  542  	INIT_WORK(&data->work_wdt, ssp_wdt_work_func);
-50dd64d57eee8ae Karol Wrona         2015-01-28  543  	INIT_DELAYED_WORK(&data->work_refresh, ssp_refresh_task);
-50dd64d57eee8ae Karol Wrona         2015-01-28  544  
-e99e88a9d2b0674 Kees Cook           2017-10-16  545  	timer_setup(&data->wdt_timer, ssp_wdt_timer_func, 0);
-50dd64d57eee8ae Karol Wrona         2015-01-28  546  
-50dd64d57eee8ae Karol Wrona         2015-01-28  547  	ret = request_threaded_irq(data->spi->irq, NULL,
-50dd64d57eee8ae Karol Wrona         2015-01-28  548  				   ssp_irq_thread_fn,
-50dd64d57eee8ae Karol Wrona         2015-01-28  549  				   IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
-50dd64d57eee8ae Karol Wrona         2015-01-28  550  				   "SSP_Int", data);
-50dd64d57eee8ae Karol Wrona         2015-01-28  551  	if (ret < 0) {
-50dd64d57eee8ae Karol Wrona         2015-01-28  552  		dev_err(&spi->dev, "Irq request fail\n");
-50dd64d57eee8ae Karol Wrona         2015-01-28  553  		goto err_setup_irq;
-50dd64d57eee8ae Karol Wrona         2015-01-28  554  	}
-50dd64d57eee8ae Karol Wrona         2015-01-28  555  
-50dd64d57eee8ae Karol Wrona         2015-01-28  556  	/* Let's start with enabled one so irq balance could be ok */
-50dd64d57eee8ae Karol Wrona         2015-01-28  557  	data->shut_down = false;
-50dd64d57eee8ae Karol Wrona         2015-01-28  558  
-50dd64d57eee8ae Karol Wrona         2015-01-28  559  	/* just to avoid unbalanced irq set wake up */
-50dd64d57eee8ae Karol Wrona         2015-01-28  560  	enable_irq_wake(data->spi->irq);
-50dd64d57eee8ae Karol Wrona         2015-01-28  561  
-50dd64d57eee8ae Karol Wrona         2015-01-28  562  	data->fw_dl_state = ssp_check_fwbl(data);
-50dd64d57eee8ae Karol Wrona         2015-01-28  563  	if (data->fw_dl_state == SSP_FW_DL_STATE_NONE) {
-50dd64d57eee8ae Karol Wrona         2015-01-28  564  		ret = ssp_initialize_mcu(data);
-50dd64d57eee8ae Karol Wrona         2015-01-28  565  		if (ret < 0) {
-50dd64d57eee8ae Karol Wrona         2015-01-28  566  			dev_err(&spi->dev, "Initialize_mcu failed\n");
-50dd64d57eee8ae Karol Wrona         2015-01-28  567  			goto err_read_reg;
-50dd64d57eee8ae Karol Wrona         2015-01-28  568  		}
-50dd64d57eee8ae Karol Wrona         2015-01-28  569  	} else {
-50dd64d57eee8ae Karol Wrona         2015-01-28  570  		dev_err(&spi->dev, "Firmware version not supported\n");
-50dd64d57eee8ae Karol Wrona         2015-01-28  571  		ret = -EPERM;
-50dd64d57eee8ae Karol Wrona         2015-01-28  572  		goto err_read_reg;
-50dd64d57eee8ae Karol Wrona         2015-01-28  573  	}
-50dd64d57eee8ae Karol Wrona         2015-01-28  574  
-50dd64d57eee8ae Karol Wrona         2015-01-28  575  	return 0;
-50dd64d57eee8ae Karol Wrona         2015-01-28  576  
-50dd64d57eee8ae Karol Wrona         2015-01-28  577  err_read_reg:
-50dd64d57eee8ae Karol Wrona         2015-01-28  578  	free_irq(data->spi->irq, data);
-50dd64d57eee8ae Karol Wrona         2015-01-28  579  err_setup_irq:
-50dd64d57eee8ae Karol Wrona         2015-01-28  580  	mutex_destroy(&data->pending_lock);
-
-Add a destroy_comm_lock: label here.
-
-50dd64d57eee8ae Karol Wrona         2015-01-28  581  	mutex_destroy(&data->comm_lock);
-21553258b94861a Christophe JAILLET  2025-10-10  582  err_setup_spi:
-21553258b94861a Christophe JAILLET  2025-10-10  583  	mfd_remove_devices(&spi->dev);
-50dd64d57eee8ae Karol Wrona         2015-01-28  584  
-50dd64d57eee8ae Karol Wrona         2015-01-28  585  	dev_err(&spi->dev, "Probe failed!\n");
-50dd64d57eee8ae Karol Wrona         2015-01-28  586  
-50dd64d57eee8ae Karol Wrona         2015-01-28  587  	return ret;
-50dd64d57eee8ae Karol Wrona         2015-01-28  588  }
+   271	
+   272	static void check_and_ack(struct pcc_chan_info *pchan, struct mbox_chan *chan)
+   273	{
+   274		struct acpi_pcct_ext_pcc_shared_memory pcc_hdr;
+   275	
+   276		if (pchan->type != ACPI_PCCT_TYPE_EXT_PCC_SLAVE_SUBSPACE)
+   277			return;
+   278		/* If the memory region has not been mapped, we cannot
+   279		 * determine if we need to send the message, but we still
+   280		 * need to set the cmd_update flag before returning.
+   281		 */
+   282		if (pchan->chan.shmem == NULL) {
+   283			pcc_chan_reg_read_modify_write(&pchan->cmd_update);
+   284			return;
+   285		}
+   286		memcpy_fromio(&pcc_hdr, pchan->chan.shmem,
+   287			      sizeof(struct acpi_pcct_ext_pcc_shared_memory));
+   288		/*
+   289		 * The PCC slave subspace channel needs to set the command complete bit
+   290		 * after processing message. If the PCC_ACK_FLAG is set, it should also
+   291		 * ring the doorbell.
+   292		 *
+   293		 * The PCC master subspace channel clears chan_in_use to free channel.
+   294		 */
+ > 295		if (le32_to_cpup(&pcc_hdr.flags) & PCC_ACK_FLAG_MASK)
+   296			pcc_send_data(chan, NULL);
+   297		else
+   298			pcc_chan_reg_read_modify_write(&pchan->cmd_update);
+   299	}
+   300	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
