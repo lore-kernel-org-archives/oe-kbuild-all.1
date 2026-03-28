@@ -1,95 +1,149 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 952C513B5AE
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Mar 2026 10:38:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 084AE3783C9
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Mar 2026 11:50:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774694306; cv=none; b=RoBgxmlQzwtF/lXIXTOVrP2mFC8BRZ3GL5P6LZ4P4v6qBRZGvPQw0ZFgFUY0+Nou84fOxoaXMKmAXrzhjsufoYPNGmkWM7tztirXZmLLz9HzaK5KeG2JXxo8+Rblv1ECym4d1Ln2sRGaZ8jpBHir0HggCe0uADSLG9VpPV77M8o=
+	t=1774698631; cv=none; b=Vpf53m3wFMpMlzbrmNuJ+PCClVh0Zq7mhllB2SY0E0Hdt7K2WGrAII18heqNTrIMtsWFOrh1BB0RmYVPU6ntWOILSSoIda11JAMKVWWJdDMO6HS2M8HilfOPn9idWq6vNQgmQoSgT7AkrQVFWmGWzqiFOixzKZW4LpHnFvLC/hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774694306; c=relaxed/simple;
-	bh=w5VHaMRSV4lAq8ZaE82ODgDvXzyYfAgzKs58t1rVmXQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Acd4+8gF6YpvKLo0DpfmngRTHYJ3SxloQ1Roaf2QQZ78b5vUOwmutMqtbY/PDIyJkQvZdRF4TCWXJL8QDmLGtY+SdPVXjzE4hcmRMWWIcIq45bvA//06B8I2B++8vrV2vG2EHptb66SGbizH9yNtlZxc1rqFqJ7EZgIgRZYBYB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aXfTM3+F; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1774698631; c=relaxed/simple;
+	bh=0seqYhxQDMsWGpCXIvBhZ0959G2SjpqTcl9BBunVtIY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FP28UPSwyF2MmY8Z6lEcw6ypnjAXsjPLN8wyl4XPstVkQETjaJIPwjIsxtDAC/VvZ+PYCmPfVYjFd57w0fXUwvI97N+qlC6hSqK3ljB92BPa+3Z+yo1FjfcVpv4lVui7SyVGacaRBe7Naex4Kcqc3EDdr4BwpDD5jwEaGmzaGbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fv/QZ9Kq; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aXfTM3+F"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fv/QZ9Kq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774694305; x=1806230305;
-  h=date:from:to:cc:subject:message-id;
-  bh=w5VHaMRSV4lAq8ZaE82ODgDvXzyYfAgzKs58t1rVmXQ=;
-  b=aXfTM3+FFjui9FaS67RjpLW6fgAkf7wfRd84t4ixz6JBhviFVpxaMEJz
-   RDMBfG+2M6tKheBjTvBDAJ8U+25bRVFVCGi5ex0vdhMkgxb5sbme5cHGl
-   hQfK0sBi007Aa7nummgLWL9pA+/AjWWT37V3yQ2KUnhuPhNkfADttGh/g
-   HhSKuOaebV77j8moWANukuwvSSpjcKBqsiqbh+eMhZa5pKks/K7zvXBAc
-   YYq4QCtlcEe0XiXdHWuu59GLzZXFN75uVhywdAO98eTe+JraAlA1JdwIb
-   E1AIxpleETc0GsAJ0CMPxv4q8eqyWWVPFIHKdkcYhHfLWx2GnJ6a6Bo4A
+  t=1774698630; x=1806234630;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0seqYhxQDMsWGpCXIvBhZ0959G2SjpqTcl9BBunVtIY=;
+  b=Fv/QZ9KqdwUd3fd0rEOrzCk+JfgrKl82YyrHO7OFrYNtvUim5fh+tw85
+   Nvab5aIFTk9d+1UIkD9xTKvmA6i9iaP7CCuFl3OFrD/3c5vDKAFiKya6V
+   FwCvWGrVzKjSx4NKQQK4tp7BBT1B7Tlyz3smF5M5b4nm4lmDIVw0ej7iY
+   h9aWvZyfrPQ1o7CH8rY4vxrDRiFkwGo6vsEeo+DVb+jxKSDXDqXX2orIq
+   HZWpg/SZAuyi4UQQT1BDYauTxb06isYgG5B9LIv0rBbH0ZXSQJyofYl9G
+   zZQh35TditDneSP8HHB+TQnqbIucw8hglxBJr3TG5+x8Rd+gol3JBaUNg
    A==;
-X-CSE-ConnectionGUID: SpAyfHa2RWyJOu/bPPA4jQ==
-X-CSE-MsgGUID: g+rdd8WwTSCCDtyY/rp2AA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="75635737"
+X-CSE-ConnectionGUID: Wy30ZBLXRweBaUOBjNkIUA==
+X-CSE-MsgGUID: WQzLSNDATHal+D+XbNZ3bA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="101215716"
 X-IronPort-AV: E=Sophos;i="6.23,146,1770624000"; 
-   d="scan'208";a="75635737"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2026 03:38:25 -0700
-X-CSE-ConnectionGUID: 2iEW2c82ThmfhXAndNcHVg==
-X-CSE-MsgGUID: XiRsjR+EQJOXzcpBWBmzkw==
+   d="scan'208";a="101215716"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2026 04:50:29 -0700
+X-CSE-ConnectionGUID: skjAKRmaSv294qckSrQz/w==
+X-CSE-MsgGUID: 3mpm0e1sR7mUpD/vTggDNQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,146,1770624000"; 
-   d="scan'208";a="227159073"
+   d="scan'208";a="263505839"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 28 Mar 2026 03:38:22 -0700
+  by orviesa001.jf.intel.com with ESMTP; 28 Mar 2026 04:50:28 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w6R3b-00000000BJx-0DxV;
-	Sat, 28 Mar 2026 10:38:19 +0000
-Date: Sat, 28 Mar 2026 18:37:24 +0800
+	id 1w6SBM-00000000BNR-32zG;
+	Sat, 28 Mar 2026 11:50:24 +0000
+Date: Sat, 28 Mar 2026 19:49:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Morse <james.morse@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, Zeng Heng <zengheng4@huawei.com>,
- Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Gavin Shan <gshan@redhat.com>, Ben Horgan <ben.horgan@arm.com>
-Subject: [morse:mpam/glue/v7.0-rc3 33/40]
- drivers/resctrl/mpam_resctrl.c:25:1: sparse: sparse: symbol
- 'resctrl_mon_ctx_waiters' was not declared. Should it be static?
-Message-ID: <202603281842.c2K96tJA-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Konrad Dybcio <konradybcio@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] remoteproc: qcom: pas: Map/unmap subsystem region
+ before auth_and_reset
+Message-ID: <202603281911.4W11adGI-lkp@intel.com>
+References: <20260325191301.164579-2-mukesh.ojha@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260325191301.164579-2-mukesh.ojha@oss.qualcomm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/glue/v7.0-rc3
-head:   4ce0a2ccc0358f3f746fa50815a599f861fd5d68
-commit: 4aab135bda1661a795e4fe96418bf840833e1119 [33/40] arm64: mpam: Select ARCH_HAS_CPU_RESCTRL
-config: arm64-randconfig-r113-20260328 (https://download.01.org/0day-ci/archive/20260328/202603281842.c2K96tJA-lkp@intel.com/config)
+Hi Mukesh,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on remoteproc/rproc-next]
+[also build test WARNING on linus/master v7.0-rc5 next-20260327]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mukesh-Ojha/remoteproc-qcom-pas-Map-unmap-subsystem-region-before-auth_and_reset/20260328-004624
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git rproc-next
+patch link:    https://lore.kernel.org/r/20260325191301.164579-2-mukesh.ojha%40oss.qualcomm.com
+patch subject: [PATCH v2 2/3] remoteproc: qcom: pas: Map/unmap subsystem region before auth_and_reset
+config: arm64-randconfig-r113-20260328 (https://download.01.org/0day-ci/archive/20260328/202603281911.4W11adGI-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 8.5.0
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603281842.c2K96tJA-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603281911.4W11adGI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603281842.c2K96tJA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603281911.4W11adGI-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/resctrl/mpam_resctrl.c:25:1: sparse: sparse: symbol 'resctrl_mon_ctx_waiters' was not declared. Should it be static?
+>> drivers/soc/qcom/mdt_loader.c:496:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *mem_region @@     got void [noderef] __iomem * @@
+   drivers/soc/qcom/mdt_loader.c:496:20: sparse:     expected void *mem_region
+   drivers/soc/qcom/mdt_loader.c:496:20: sparse:     got void [noderef] __iomem *
+>> drivers/soc/qcom/mdt_loader.c:505:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *mem_region @@
+   drivers/soc/qcom/mdt_loader.c:505:17: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/soc/qcom/mdt_loader.c:505:17: sparse:     got void *mem_region
 
-vim +/resctrl_mon_ctx_waiters +25 drivers/resctrl/mpam_resctrl.c
+vim +496 drivers/soc/qcom/mdt_loader.c
 
-09e61daf8e96b9 James Morse 2026-03-13  24  
-2a3c79c6153977 James Morse 2026-03-13 @25  DECLARE_WAIT_QUEUE_HEAD(resctrl_mon_ctx_waiters);
-2a3c79c6153977 James Morse 2026-03-13  26  
-
-:::::: The code at line 25 was first introduced by commit
-:::::: 2a3c79c61539779a09928893518c8286d7774b54 arm_mpam: resctrl: Allow resctrl to allocate monitors
-
-:::::: TO: James Morse <james.morse@arm.com>
-:::::: CC: James Morse <james.morse@arm.com>
+   469	
+   470	/**
+   471	 * qcom_mdt_pas_load - Loads and authenticates the metadata of the firmware
+   472	 * (typically contained in the .mdt file), followed by loading the actual
+   473	 * firmware segments (e.g., .bXX files). Authentication of the segments done
+   474	 * by a separate call.
+   475	 *
+   476	 * The PAS context must be initialized using qcom_scm_pas_context_init()
+   477	 * prior to invoking this function.
+   478	 *
+   479	 * @ctx:        Pointer to the PAS (Peripheral Authentication Service) context
+   480	 * @fw:         Firmware object representing the .mdt file
+   481	 * @firmware:   Name of the firmware used to construct segment file names
+   482	 * @reloc_base: Physical address adjusted after relocation
+   483	 *
+   484	 * Return: 0 on success or a negative error code on failure.
+   485	 */
+   486	int qcom_mdt_pas_load(struct qcom_scm_pas_context *ctx, const struct firmware *fw,
+   487			      const char *firmware, phys_addr_t *reloc_base)
+   488	{
+   489		void *mem_region;
+   490		int ret;
+   491	
+   492		ret = __qcom_mdt_pas_init(ctx->dev, fw, firmware, ctx->pas_id, ctx->mem_phys, ctx);
+   493		if (ret)
+   494			return ret;
+   495	
+ > 496		mem_region = ioremap_wc(ctx->mem_phys, ctx->mem_size);
+   497		if (!mem_region) {
+   498			dev_err(ctx->dev, "unable to map memory region: %pa+%zx\n", &ctx->mem_phys,
+   499				ctx->mem_size);
+   500			return -EINVAL;
+   501		}
+   502	
+   503		ret = qcom_mdt_load_no_init(ctx->dev, fw, firmware, mem_region, ctx->mem_phys,
+   504					    ctx->mem_size, reloc_base);
+ > 505		iounmap(mem_region);
+   506		return ret;
+   507	}
+   508	EXPORT_SYMBOL_GPL(qcom_mdt_pas_load);
+   509	
 
 -- 
 0-DAY CI Kernel Test Service
