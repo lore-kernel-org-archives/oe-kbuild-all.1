@@ -1,162 +1,157 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C4062FF15B;
-	Sat, 28 Mar 2026 14:20:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B031EFFB7
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Mar 2026 14:52:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774707639; cv=none; b=rDQOZ/BX4E4d+lpLwXKLE5g+UrVyqTG7Z+yoxu4NnlItH9tzh9sx7m34D3w6LqGKPLBpLIBtrePrQc1RUIbeCshCi1MRtzMIhxXr3jQDz1wq82WttFqHQ+cpsMGo1sX2VxlMpZBxwYf90raRXD7kBt3/vd3q3Ew0wFaoIaYza+Y=
+	t=1774709567; cv=none; b=SmTRzzIUMDE+bJwjEe2OWVnznp6vGLJX+f1Ss6q+36d2wYYl5tzNktswi2L0XCc4bjtHpCHe5ubOjwuPK6QKzwisH+PC8IhQX4+9qE1rNohj7wdvDXjgcRWWenemfpeFTW9zt5q+8JrSci4ZN2v/Latqv4afGOwFzUhs9s67EE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774707639; c=relaxed/simple;
-	bh=xr7fm3XNdKFxhFsYnaPlMjk6niRTPElL9UdF0ILudQA=;
+	s=arc-20240116; t=1774709567; c=relaxed/simple;
+	bh=Di17zwN0Sm7uYjGVksCdE9bLHhI6vS1pfX/DA+RrmbU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U7YePqkYTbyWfRgSYBSS1ROvnJ6UlLui2hHCmZoANBVGEea/eXAhsac5goRrWJx0dUVjrNbvAZJaE3vXm+un34YZaLHFOyYWqhuEFcRWil2u3gd8TpF6nXDocr8IefnyZ6Z0CNav/W09FkJKm31Lcihbuzt7PvBpPxYRLd2EbB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cNIKbSps; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=msmci5wx7JAjQh8T/wC17WFtYjbIlQxNuyJwua8kRg+5qV7sLCIOeDXx01f7bpcTFua4ZtwZE4oG+4Ap+a/5M0pvaSEnuvL3/YjO98uUZqQtbNcgdIArEXKJiRPunV5L4ei0S+TFq+eBYh9RhfdxSZgYbOhSe9j0NTPSJFoEJWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NBEufRl2; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cNIKbSps"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NBEufRl2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774707636; x=1806243636;
+  t=1774709564; x=1806245564;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=xr7fm3XNdKFxhFsYnaPlMjk6niRTPElL9UdF0ILudQA=;
-  b=cNIKbSpsWHgFhP1tWFyDyWhBTFZ4Y/FuvfDw4wGy0kQOsGx1AI0lx85x
-   iM+3gTaeUmVuMzI2D6ItkVbrTurp/ofAe/7OhIvCmwsOlHw+qXZ+uPmX0
-   nT/eZm/uRhpEqr4vWjtcXPUsx5CJHeTOi9lLzt3xHe3uvSRSy2HD7Hd8y
-   chuw/RrL/bIhf5p8aFrTb3pFlnjrlSKW56A8yXn92ccck0OPWHMtGT53F
-   nBib5Nj9M5qLE6UlyGWhZIruyTUVM/hSKgmof63lktmL9J9jyc1QWh63a
-   z0wBr2A+/axbX2rIg0mKdz7nbRvsqkB0lfoDfLBY2vYZ5z3T9EhmEekW9
+   mime-version:in-reply-to;
+  bh=Di17zwN0Sm7uYjGVksCdE9bLHhI6vS1pfX/DA+RrmbU=;
+  b=NBEufRl2pS4NDJ/+Fk9uehVjEF8bx6mAAIuM4PMDMJBfGDVVw3ytlG2o
+   HzWiuDhwd/AUoaRENxw0+fiEJdrTjyNgpz6lcDlOkFqg+a/ENUST4sJ0/
+   yaU1e/vY5tfnHuqGGfmfuHqPg+FQEp12rhftd9wfV1M6r7ZveJwl4QSZz
+   WMseRDTo5x/9pvJHk2o189nuwFFKAQbwq1qsPXKSooDLL5mXjcXW/VEme
+   ezkCAgf4N9SLcyNvKqSBv3iR4niVBenDdAOSEvW5oY+9sXmMoCMZXQD3m
+   dlW0lm7GA92LrAC+EbrzTfWqIrIfACF0bRiVoaU6VdAsiCxU9Yep5ewvf
    w==;
-X-CSE-ConnectionGUID: WMP4OVV9QV2vwrihfaIWtw==
-X-CSE-MsgGUID: evdvH2+YRHeIHbX9jG9PMw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="79623480"
+X-CSE-ConnectionGUID: gW/73BtGRqG4anVLCcut8w==
+X-CSE-MsgGUID: t02IKWhZSJ+boCi/enxfCg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="86453618"
 X-IronPort-AV: E=Sophos;i="6.23,146,1770624000"; 
-   d="scan'208";a="79623480"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2026 07:20:36 -0700
-X-CSE-ConnectionGUID: 3xBoiMHYT3W+qHOk6uAp3A==
-X-CSE-MsgGUID: muGkjwO0Qf+P8icEx5iqKQ==
+   d="scan'208";a="86453618"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2026 07:52:43 -0700
+X-CSE-ConnectionGUID: /v9fj2iUR06nl6/nyFoVtQ==
+X-CSE-MsgGUID: F2NZwqAiSkCH73MKxMdGJw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,146,1770624000"; 
-   d="scan'208";a="225833073"
+   d="scan'208";a="225589029"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 28 Mar 2026 07:20:35 -0700
+  by orviesa008.jf.intel.com with ESMTP; 28 Mar 2026 07:52:37 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w6UWe-00000000BU3-1W1P;
-	Sat, 28 Mar 2026 14:20:32 +0000
-Date: Sat, 28 Mar 2026 22:20:04 +0800
+	id 1w6V1d-00000000BVB-0Wia;
+	Sat, 28 Mar 2026 14:52:33 +0000
+Date: Sat, 28 Mar 2026 22:52:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>,
-	Jens Axboe <axboe@kernel.dk>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	drbd-dev@lists.linbit.com, linux-kernel@vger.kernel.org,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	linux-block@vger.kernel.org,
-	Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>
-Subject: Re: [PATCH 20/20] drbd: remove BROKEN for DRBD
-Message-ID: <202603282234.zZBLE37a-lkp@intel.com>
-References: <20260327223820.2244227-21-christoph.boehmwalder@linbit.com>
+To: Chen-Yu Tsai <wenst@chromium.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: oe-kbuild-all@lists.linux.dev, Rob Herring <robh@kernel.org>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Chen-Yu Tsai <wenst@chromium.org>,
+	Sasha Finkelstein <fnkl.kernel@gmail.com>,
+	Janne Grunau <j@jannau.net>, Liviu Dudau <liviu.dudau@arm.com>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Yannick Fertre <yannick.fertre@foss.st.com>,
+	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+	Philippe Cornu <philippe.cornu@foss.st.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+	Icenowy Zheng <zhengxingda@iscas.ac.cn>
+Subject: Re: [PATCH v3 3/3] drm/gem-dma: Support DRM_MODE_DUMB_KERNEL_MAP flag
+Message-ID: <202603282230.Yz4kBrTt-lkp@intel.com>
+References: <20260326100248.1171828-4-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260327223820.2244227-21-christoph.boehmwalder@linbit.com>
+In-Reply-To: <20260326100248.1171828-4-wenst@chromium.org>
 
-Hi Christoph,
+Hi Chen-Yu,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 67807fbaf12719fca46a622d759484652b79c7c3]
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on next-20260327]
+[cannot apply to sunxi/sunxi/for-next linus/master v7.0-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christoph-B-hmwalder/drbd-mark-as-BROKEN-during-DRBD-9-rework/20260328-153634
-base:   67807fbaf12719fca46a622d759484652b79c7c3
-patch link:    https://lore.kernel.org/r/20260327223820.2244227-21-christoph.boehmwalder%40linbit.com
-patch subject: [PATCH 20/20] drbd: remove BROKEN for DRBD
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260328/202603282234.zZBLE37a-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603282234.zZBLE37a-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Yu-Tsai/drm-Introduce-DRM_MODE_DUMB_KERNEL_MAP-flag/20260328-141115
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20260326100248.1171828-4-wenst%40chromium.org
+patch subject: [PATCH v3 3/3] drm/gem-dma: Support DRM_MODE_DUMB_KERNEL_MAP flag
+config: arm-randconfig-001-20260328 (https://download.01.org/0day-ci/archive/20260328/202603282230.Yz4kBrTt-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603282230.Yz4kBrTt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603282234.zZBLE37a-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603282230.Yz4kBrTt-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/block/drbd/drbd_transport_rdma.c:618:11: warning: variable 'i' set but not used [-Wunused-but-set-variable]
-     618 |         int err, i = 0;
-         |                  ^
-   1 warning generated.
+   drivers/gpu/drm/stm/drv.c: In function 'stm_gem_dma_dumb_create':
+>> drivers/gpu/drm/stm/drv.c:55:23: error: 'DRM_MODE_DUMB_KERNEL_MAP' undeclared (first use in this function)
+      55 |         args->flags = DRM_MODE_DUMB_KERNEL_MAP;
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/stm/drv.c:55:23: note: each undeclared identifier is reported only once for each function it appears in
+--
+   drivers/gpu/drm/arm/malidp_drv.c: In function 'malidp_dumb_create':
+>> drivers/gpu/drm/arm/malidp_drv.c:467:23: error: 'DRM_MODE_DUMB_KERNEL_MAP' undeclared (first use in this function)
+     467 |         args->flags = DRM_MODE_DUMB_KERNEL_MAP;
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/arm/malidp_drv.c:467:23: note: each undeclared identifier is reported only once for each function it appears in
+--
+   drivers/gpu/drm/arm/display/komeda/komeda_kms.c: In function 'komeda_gem_dma_dumb_create':
+>> drivers/gpu/drm/arm/display/komeda/komeda_kms.c:32:23: error: 'DRM_MODE_DUMB_KERNEL_MAP' undeclared (first use in this function)
+      32 |         args->flags = DRM_MODE_DUMB_KERNEL_MAP;
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:32:23: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/i +618 drivers/block/drbd/drbd_transport_rdma.c
+vim +/DRM_MODE_DUMB_KERNEL_MAP +55 drivers/gpu/drm/stm/drv.c
 
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  610  
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  611  
-221cfdc61a60c9 Christoph Böhmwalder 2026-03-27  612  static int dtr_recv_bio(struct drbd_transport *transport, struct bio_list *bios, size_t size)
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  613  {
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  614  	struct dtr_transport *rdma_transport =
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  615  		container_of(transport, struct dtr_transport, transport);
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  616  	struct dtr_stream *rdma_stream = &rdma_transport->stream[DATA_STREAM];
-221cfdc61a60c9 Christoph Böhmwalder 2026-03-27  617  	struct page *page;
-221cfdc61a60c9 Christoph Böhmwalder 2026-03-27 @618  	int err, i = 0;
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  619  
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  620  	if (!dtr_transport_ok(transport))
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  621  		return -ECONNRESET;
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  622  
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  623  	// pr_info("%s: in recv_pages, size: %zu\n", rdma_stream->name, size);
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  624  	TR_ASSERT(transport, rdma_stream->current_rx.bytes_left == 0);
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  625  	dtr_recycle_rx_desc(transport, DATA_STREAM, &rdma_stream->current_rx.desc, GFP_NOIO);
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  626  	dtr_refill_rx_desc(rdma_transport, DATA_STREAM);
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  627  
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  628  	while (size) {
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  629  		struct dtr_rx_desc *rx_desc = NULL;
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  630  		long t;
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  631  
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  632  		t = wait_event_interruptible_timeout(rdma_stream->recv_wq,
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  633  					dtr_receive_rx_desc(rdma_transport, DATA_STREAM, &rx_desc),
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  634  					rdma_stream->recv_timeout);
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  635  
-221cfdc61a60c9 Christoph Böhmwalder 2026-03-27  636  		if (t <= 0)
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  637  			return t == 0 ? -EAGAIN : -EINTR;
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  638  
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  639  		page = rx_desc->page;
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  640  		/* put_page() if we would get_page() in
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  641  		 * dtr_create_rx_desc().  but we don't. We return the page
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  642  		 * chain to the user, which is supposed to give it back to
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  643  		 * drbd_free_pages() eventually. */
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  644  		rx_desc->page = NULL;
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  645  		size -= rx_desc->size;
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  646  
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  647  		/* If the sender did dtr_send_page every bvec of a bio with
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  648  		 * unaligned bvecs (as xfs often creates), rx_desc->size and
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  649  		 * offset may well be not the PAGE_SIZE and 0 we hope for.
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  650  		 */
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  651  
-221cfdc61a60c9 Christoph Böhmwalder 2026-03-27  652  		err = drbd_bio_add_page(transport, bios, page, rx_desc->size, 0);
-221cfdc61a60c9 Christoph Böhmwalder 2026-03-27  653  		if (err < 0)
-221cfdc61a60c9 Christoph Böhmwalder 2026-03-27  654  			return err;
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  655  
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  656  		atomic_dec(&rx_desc->cm->path->flow[DATA_STREAM].rx_descs_allocated);
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  657  		dtr_free_rx_desc(rx_desc);
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  658  
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  659  		i++;
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  660  		dtr_refill_rx_desc(rdma_transport, DATA_STREAM);
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  661  	}
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  662  
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  663  	// pr_info("%s: rcvd %d pages\n", rdma_stream->name, i);
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  664  	return 0;
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  665  }
-bc43430bc671a7 Christoph Böhmwalder 2026-03-27  666  
+    43	
+    44	static int stm_gem_dma_dumb_create(struct drm_file *file,
+    45					   struct drm_device *dev,
+    46					   struct drm_mode_create_dumb *args)
+    47	{
+    48		unsigned int min_pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
+    49	
+    50		/*
+    51		 * in order to optimize data transfer, pitch is aligned on
+    52		 * 128 bytes, height is aligned on 4 bytes
+    53		 */
+    54		args->height = roundup(args->height, 4);
+  > 55		args->flags = DRM_MODE_DUMB_KERNEL_MAP;
+    56		args->pitch = roundup(min_pitch, 128);
+    57	
+    58		return drm_gem_dma_dumb_create_internal(file, dev, args);
+    59	}
+    60	
 
 -- 
 0-DAY CI Kernel Test Service
