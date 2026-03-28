@@ -1,60 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F26322B72
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Mar 2026 18:22:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC9D3AA19D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Mar 2026 18:44:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774722171; cv=none; b=B2dYYCA4Z+CAkDl+CFY7cEYUn9sP8WXX6Acq/Z757U5GtgWKjB8aKcm74G3GqLaHwVHZkokmRlPJetK7F4kv3HNz4ipvTokohKkI5cDt4q9Gz+0f9980omaroKRFTxMHdFGccywjn0NciEM0Jrs3uOH7QiU2iXm+BBFLdd9Vqig=
+	t=1774723496; cv=none; b=IV73gbnpWJoyydPjqggxqU/wbPxSMLY3jDS+pbXqqKQz+X+bUhiwcs6ddiqtHWxX+SDUo56OnQWrZE1kOq5GPQr++TUQV1IOpwmrROlbMqBnA2x7lnkRS8VT/s8OJzxok8l5bCfQBoP3pvoctHhlb+zpddjYrz1a+yeKEZnelRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774722171; c=relaxed/simple;
-	bh=CzuVNhJpwZAXJUUW/ZrCk96LHGUyXq2gPHBmqUCTI9A=;
+	s=arc-20240116; t=1774723496; c=relaxed/simple;
+	bh=L4bpxF1/kagi643bP3KhVUSGAg+SlQcszygzmbQ68xI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uEZawVVKtbu13jukBCL0TIAKS5xX4U+InbbLfcI4BnA+zgqJEjghNscOiZ92Ts9oDhm/OMTkxdE6ircOOA/N5DErmX9JtAzX/DEbQYtbVyoJCjJYG7raTSMOkEm35dt5px3swenjLLGYu0ZFHU5bTodrcIQLVwPsSqxkxuUBUTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eRAEGkmy; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=G94fLP90hQy0p4E5+n/vdaIw1IrbtnqHP4bPrQ0E8sV162gU3HzfxQM6oH0n0o2gW+QZUexK9fURNdpzCYSVmemg01PbF78Y0j5c52bJ02GRGr37m/bYuZCnSPOsPb6m7VxlUzK7Gth9t/qll5Jbp8LiPhoh2FRibt6lU/Hk+rk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BBI1n5zK; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eRAEGkmy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BBI1n5zK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774722169; x=1806258169;
+  t=1774723493; x=1806259493;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=CzuVNhJpwZAXJUUW/ZrCk96LHGUyXq2gPHBmqUCTI9A=;
-  b=eRAEGkmy5rz0J0ipDWoW3skbQoCx3zSRneN4g02/NWskm8K0e8iKXVMa
-   z4iHA2XM4jBqcDZO3R+OsmxEChgYZNXPtUsPLpuGjMAJie5JreolS0/tR
-   vsFiI/RO/HU5RdCINTnxHduep0RNsVmwxDq+VjXKDkx0J8AHIi2Gzizj0
-   WsNIUcMZqRNNUnI31McObDJPDsBZxtzPnwxlRStuLNYRCIMAb7Kp3q+GG
-   Y5rHGlNx4M0oV++ZJFegq8YJBVCauOF/KN6XA93ISdiTa0ngJukUjby+p
-   WWX12pPyGuRqmM506Vbrr93mh8nmZ3T3Ta/CbMPvyzzS63TFJI7a3K9bd
-   g==;
-X-CSE-ConnectionGUID: oF3eT80VQFC7AsTjsY8vIw==
-X-CSE-MsgGUID: rXMTJLAOQ/iGSHN9JHiNOA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="86459786"
+  bh=L4bpxF1/kagi643bP3KhVUSGAg+SlQcszygzmbQ68xI=;
+  b=BBI1n5zKapGFGWARg8VSDqT9LnglZTlSi/k19QwhkFseOKcbqHU7NUle
+   gh8QH8nDP2aKYEQCHUV/qEE5JPLWklDJY/uYsIKKxc2LAXuG8lEKsHmjC
+   hKk4H8B3CthOY0Ad0C7NCbxNm5cuszm7+wmEJUw3MwucJkBy2m/SJ6zU0
+   BG5CKkg/qCx/lrq4ySYU2Gh4O5LEmI9ooHQMl6K+lCRHM+dxUvPSf0cer
+   tDdBmxwYmwyMGfrdjcFIao6Kl4Ghqido1mRARvLGOcBH13VCTUEAqfeeZ
+   VS/tQ7ZAQXe6OW/lOFMM6DA7qxQGzQUaUjxkrdt1Z3ndTTukaY50NlB1Y
+   Q==;
+X-CSE-ConnectionGUID: zxaZvKI3SZaKPP408ocDhQ==
+X-CSE-MsgGUID: EluzbeEqRkuAJspI/o7ZNw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="78367381"
 X-IronPort-AV: E=Sophos;i="6.23,146,1770624000"; 
-   d="scan'208";a="86459786"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2026 11:22:48 -0700
-X-CSE-ConnectionGUID: PHxrwSlSScKEM6Q2ETNRuQ==
-X-CSE-MsgGUID: nowOBQ30TvKHmsiUaopqKQ==
+   d="scan'208";a="78367381"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2026 11:44:51 -0700
+X-CSE-ConnectionGUID: 3pSdk3leRt6Lsz9G4EE95Q==
+X-CSE-MsgGUID: B7ePu1YqQkWZ5iR4wVxD7A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,146,1770624000"; 
-   d="scan'208";a="227228984"
+   d="scan'208";a="225624124"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 28 Mar 2026 11:22:47 -0700
+  by orviesa008.jf.intel.com with ESMTP; 28 Mar 2026 11:44:48 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w6YJ2-00000000Bf7-3mQK;
-	Sat, 28 Mar 2026 18:22:44 +0000
-Date: Sun, 29 Mar 2026 02:21:47 +0800
+	id 1w6YeL-00000000BgD-2wCm;
+	Sat, 28 Mar 2026 18:44:45 +0000
+Date: Sun, 29 Mar 2026 02:43:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC] btf: split core BTF parsing out of BPF subsystem into
- kernel/btf/
-Message-ID: <202603290251.bXJOBeBs-lkp@intel.com>
-References: <20260325011853.657295-1-sashal@kernel.org>
+To: Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+	herbert@gondor.apana.org.au
+Cc: oe-kbuild-all@lists.linux.dev, linux-crypto@vger.kernel.org,
+	qat-linux@intel.com, Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+	Suman Kumar Chakraborty <suman.kumar.chakraborty@intel.com>,
+	Laurent M Coquerel <laurent.m.coquerel@intel.com>
+Subject: Re: [PATCH] crypto: qat - add support for zstd
+Message-ID: <202603290259.Ig9kDOmI-lkp@intel.com>
+References: <20260327214645.2098424-1-giovanni.cabiddu@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,239 +66,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260325011853.657295-1-sashal@kernel.org>
+In-Reply-To: <20260327214645.2098424-1-giovanni.cabiddu@intel.com>
 
-Hi Sasha,
+Hi Giovanni,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on bpf-next/master]
-[also build test WARNING on bpf/master akpm-mm/mm-nonmm-unstable linus/master v7.0-rc5]
-[cannot apply to bpf-next/net next-20260327]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 93e03a16c015b8e55e2ec97865f67d9bf1ec1921]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sasha-Levin/btf-split-core-BTF-parsing-out-of-BPF-subsystem-into-kernel-btf/20260327-005818
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20260325011853.657295-1-sashal%40kernel.org
-patch subject: [RFC] btf: split core BTF parsing out of BPF subsystem into kernel/btf/
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20260329/202603290251.bXJOBeBs-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260329/202603290251.bXJOBeBs-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Giovanni-Cabiddu/crypto-qat-add-support-for-zstd/20260328-212011
+base:   93e03a16c015b8e55e2ec97865f67d9bf1ec1921
+patch link:    https://lore.kernel.org/r/20260327214645.2098424-1-giovanni.cabiddu%40intel.com
+patch subject: [PATCH] crypto: qat - add support for zstd
+config: alpha-randconfig-r071-20260329 (https://download.01.org/0day-ci/archive/20260329/202603290259.Ig9kDOmI-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.5.0
+smatch: v0.5.0-9004-gb810ac53
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260329/202603290259.Ig9kDOmI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603290251.bXJOBeBs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603290259.Ig9kDOmI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/bpf/core.c: In function 'bpf_prog_kallsyms_add':
-   kernel/bpf/core.c:589:54: warning: '%s' directive argument is null [-Wformat-truncation=]
-     589 |                 snprintf(sym, (size_t)(end - sym), "_%s", func_name);
-         |                                                      ^~
-   In file included from include/linux/uuid.h:11,
-                    from include/linux/mod_devicetable.h:14,
-                    from arch/parisc/include/asm/hardware.h:5,
-                    from arch/parisc/include/asm/processor.h:18,
-                    from arch/parisc/include/asm/spinlock.h:7,
-                    from arch/parisc/include/asm/atomic.h:22,
-                    from include/linux/atomic.h:7,
-                    from include/linux/filter.h:8,
-                    from kernel/bpf/core.c:21:
-   In function 'kbasename',
-       inlined from 'bpf_prog_get_file_line' at kernel/bpf/core.c:3352:11:
->> include/linux/string.h:381:28: warning: argument 1 null where non-null expected [-Wnonnull]
-     381 |         const char *tail = strrchr(path, '/');
-         |                            ^~~~~~~~~~~~~~~~~~
-   include/linux/string.h: In function 'bpf_prog_get_file_line':
-   include/linux/string.h:183:15: note: in a call to function 'strrchr' declared 'nonnull'
-     183 | extern char * strrchr(const char *,int);
-         |               ^~~~~~~
---
-   kernel/bpf/log.c: In function 'verbose_linfo':
->> kernel/bpf/log.c:423:17: warning: argument 1 null where non-null expected [-Wnonnull]
-     423 |         fname = strrchr(s, '/');
-         |                 ^~~~~~~~~~~~~~~
-   In file included from include/linux/uuid.h:11,
-                    from include/linux/mod_devicetable.h:14,
-                    from arch/parisc/include/asm/hardware.h:5,
-                    from arch/parisc/include/asm/processor.h:18,
-                    from arch/parisc/include/asm/spinlock.h:7,
-                    from arch/parisc/include/asm/atomic.h:22,
-                    from include/linux/atomic.h:7,
-                    from arch/parisc/include/asm/bitops.h:13,
-                    from include/linux/bitops.h:67,
-                    from include/linux/kernel.h:23,
-                    from kernel/bpf/log.c:7:
-   include/linux/string.h:183:15: note: in a call to function 'strrchr' declared 'nonnull'
-     183 | extern char * strrchr(const char *,int);
-         |               ^~~~~~~
-   kernel/bpf/log.c: In function 'print_reg_state':
-   kernel/bpf/log.c:702:30: warning: '%s' directive argument is null [-Wformat-overflow=]
-     702 |                 verbose(env, "%s", btf_type_name(reg->btf, reg->btf_id));
-         |                              ^~~~
-   kernel/bpf/log.c:14:64: note: in definition of macro 'verbose'
-      14 | #define verbose(env, fmt, args...) bpf_verifier_log_write(env, fmt, ##args)
-         |                                                                ^~~
-   kernel/bpf/log.c:702:31: note: format string is defined here
-     702 |                 verbose(env, "%s", btf_type_name(reg->btf, reg->btf_id));
-         |                               ^~
---
-   In file included from include/asm-generic/bug.h:31,
-                    from arch/parisc/include/asm/bug.h:97,
-                    from include/linux/bug.h:5,
-                    from include/linux/alloc_tag.h:8,
-                    from include/linux/workqueue.h:9,
-                    from include/linux/bpf.h:11,
-                    from kernel/bpf/bpf_struct_ops.c:4:
-   kernel/bpf/bpf_struct_ops.c: In function 'prepare_arg_info.constprop':
-   include/linux/kern_levels.h:5:25: warning: '%s' directive argument is null [-Wformat-overflow=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:483:25: note: in definition of macro 'printk_index_wrap'
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:564:9: note: in expansion of macro 'printk'
-     564 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
-      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:564:16: note: in expansion of macro 'KERN_WARNING'
-     564 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~~~~~
-   kernel/bpf/bpf_struct_ops.c:210:17: note: in expansion of macro 'pr_warn'
-     210 |                 pr_warn("the number of arguments of the stub function %s does not match the number of arguments of the member %s of struct %s\n",
-         |                 ^~~~~~~
-   include/linux/kern_levels.h:5:25: warning: '%s' directive argument is null [-Wformat-overflow=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:483:25: note: in definition of macro 'printk_index_wrap'
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:564:9: note: in expansion of macro 'printk'
-     564 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
-      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:564:16: note: in expansion of macro 'KERN_WARNING'
-     564 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~~~~~
-   kernel/bpf/bpf_struct_ops.c:191:17: note: in expansion of macro 'pr_warn'
-     191 |                 pr_warn("Cannot find the stub function name for the %s in struct %s\n",
-         |                 ^~~~~~~
-   In function 'is_module_member',
-       inlined from 'bpf_struct_ops_desc_init' at kernel/bpf/bpf_struct_ops.c:412:37:
->> kernel/bpf/bpf_struct_ops.c:321:17: warning: argument 1 null where non-null expected [-Wnonnull]
-     321 |         return !strcmp(btf_name_by_offset(btf, t->name_off), "module");
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/uuid.h:11,
-                    from include/linux/mod_devicetable.h:14,
-                    from arch/parisc/include/asm/hardware.h:5,
-                    from arch/parisc/include/asm/processor.h:18,
-                    from arch/parisc/include/asm/spinlock.h:7,
-                    from arch/parisc/include/asm/atomic.h:22,
-                    from include/linux/atomic.h:7,
-                    from arch/parisc/include/asm/bitops.h:13,
-                    from include/linux/bitops.h:67,
-                    from include/linux/log2.h:12,
-                    from include/asm-generic/div64.h:55,
-                    from ./arch/parisc/include/generated/asm/div64.h:1,
-                    from include/linux/math.h:6,
-                    from include/linux/math64.h:6,
-                    from include/linux/time64.h:5,
-                    from include/linux/restart_block.h:9,
-                    from include/linux/thread_info.h:14,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/parisc/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/alloc_tag.h:11:
-   include/linux/string.h: In function 'bpf_struct_ops_desc_init':
-   include/linux/string.h:161:12: note: in a call to function 'strcmp' declared 'nonnull'
-     161 | extern int strcmp(const char *,const char *);
-         |            ^~~~~~
-   include/linux/kern_levels.h:5:25: warning: '%s' directive argument is null [-Wformat-overflow=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:483:25: note: in definition of macro 'printk_index_wrap'
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:564:9: note: in expansion of macro 'printk'
-     564 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
-      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:564:16: note: in expansion of macro 'KERN_WARNING'
-     564 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~~~~~
-   kernel/bpf/bpf_struct_ops.c:406:25: note: in expansion of macro 'pr_warn'
-     406 |                         pr_warn("bit field member %s in struct %s is not supported\n",
-         |                         ^~~~~~~
-   include/linux/kern_levels.h:5:25: warning: '%s' directive argument is null [-Wformat-overflow=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:483:25: note: in definition of macro 'printk_index_wrap'
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:564:9: note: in expansion of macro 'printk'
-     564 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
-      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:564:16: note: in expansion of macro 'KERN_WARNING'
-     564 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~~~~~
-   kernel/bpf/bpf_struct_ops.c:432:33: note: in expansion of macro 'pr_warn'
-     432 |                                 pr_warn("func ptr %s in struct %s returns non-struct pointer, which is not supported\n",
-         |                                 ^~~~~~~
-   include/linux/kern_levels.h:5:25: warning: '%s' directive argument is null [-Wformat-overflow=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:483:25: note: in definition of macro 'printk_index_wrap'
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:564:9: note: in expansion of macro 'printk'
-     564 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
-      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:564:16: note: in expansion of macro 'KERN_WARNING'
-     564 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~~~~~
-   kernel/bpf/bpf_struct_ops.c:442:25: note: in expansion of macro 'pr_warn'
-     442 |                         pr_warn("Error in parsing func ptr %s in struct %s\n",
-         |                         ^~~~~~~
-   kernel/bpf/bpf_struct_ops.c: In function 'bpf_struct_ops_map_update_elem':
->> kernel/bpf/bpf_struct_ops.c:647:51: warning: '%s' directive argument is null [-Wformat-truncation=]
-     647 |         snprintf(ksym->name, KSYM_NAME_LEN, "bpf__%s_%s", tname, mname);
-         |                                                   ^~
+   alpha-linux-ld: drivers/crypto/intel/qat/qat_common/adf_gen4_hw_data.o: in function `adf_gen4_build_decomp_block':
+>> drivers/crypto/intel/qat/qat_common/icp_qat_hw_20_comp.h:141:(.text+0xeec): undefined reference to `__bswapsi2'
+>> alpha-linux-ld: drivers/crypto/intel/qat/qat_common/icp_qat_hw_20_comp.h:141:(.text+0xef8): undefined reference to `__bswapsi2'
+   alpha-linux-ld: drivers/crypto/intel/qat/qat_common/adf_gen4_hw_data.o: in function `adf_gen4_build_comp_block':
+   drivers/crypto/intel/qat/qat_common/icp_qat_hw_20_comp.h:57:(.text+0xf64): undefined reference to `__bswapsi2'
+   alpha-linux-ld: drivers/crypto/intel/qat/qat_common/icp_qat_hw_20_comp.h:57:(.text+0xf7c): undefined reference to `__bswapsi2'
 
 
-vim +381 include/linux/string.h
+vim +141 drivers/crypto/intel/qat/qat_common/icp_qat_hw_20_comp.h
 
-639b9e34f15e4b Akinobu Mita    2012-07-30  369  
-b18888ab256f05 Andy Shevchenko 2012-12-17  370  /**
-b18888ab256f05 Andy Shevchenko 2012-12-17  371   * kbasename - return the last part of a pathname.
-b18888ab256f05 Andy Shevchenko 2012-12-17  372   *
-b18888ab256f05 Andy Shevchenko 2012-12-17  373   * @path: path to extract the filename from.
-645b9ad2dc6b2d Kriish Sharma   2025-11-18  374   *
-645b9ad2dc6b2d Kriish Sharma   2025-11-18  375   * Returns:
-645b9ad2dc6b2d Kriish Sharma   2025-11-18  376   * Pointer to the filename portion inside @path. If no '/' exists,
-645b9ad2dc6b2d Kriish Sharma   2025-11-18  377   * returns @path unchanged.
-b18888ab256f05 Andy Shevchenko 2012-12-17  378   */
-b18888ab256f05 Andy Shevchenko 2012-12-17  379  static inline const char *kbasename(const char *path)
-b18888ab256f05 Andy Shevchenko 2012-12-17  380  {
-b18888ab256f05 Andy Shevchenko 2012-12-17 @381  	const char *tail = strrchr(path, '/');
-b18888ab256f05 Andy Shevchenko 2012-12-17  382  	return tail ? tail + 1 : path;
-b18888ab256f05 Andy Shevchenko 2012-12-17  383  }
-b18888ab256f05 Andy Shevchenko 2012-12-17  384  
+5b14b2b307e404 drivers/crypto/qat/qat_common/icp_qat_hw_20_comp.h Giovanni Cabiddu 2022-11-28  119  
+5b14b2b307e404 drivers/crypto/qat/qat_common/icp_qat_hw_20_comp.h Giovanni Cabiddu 2022-11-28  120  static inline __u32
+5b14b2b307e404 drivers/crypto/qat/qat_common/icp_qat_hw_20_comp.h Giovanni Cabiddu 2022-11-28  121  ICP_QAT_FW_DECOMP_20_BUILD_CONFIG_LOWER(struct icp_qat_hw_decomp_20_config_csr_lower csr)
+5b14b2b307e404 drivers/crypto/qat/qat_common/icp_qat_hw_20_comp.h Giovanni Cabiddu 2022-11-28  122  {
+5b14b2b307e404 drivers/crypto/qat/qat_common/icp_qat_hw_20_comp.h Giovanni Cabiddu 2022-11-28  123  	u32 val32 = 0;
+5b14b2b307e404 drivers/crypto/qat/qat_common/icp_qat_hw_20_comp.h Giovanni Cabiddu 2022-11-28  124  
+5b14b2b307e404 drivers/crypto/qat/qat_common/icp_qat_hw_20_comp.h Giovanni Cabiddu 2022-11-28  125  	QAT_FIELD_SET(val32, csr.hbs,
+5b14b2b307e404 drivers/crypto/qat/qat_common/icp_qat_hw_20_comp.h Giovanni Cabiddu 2022-11-28  126  		      ICP_QAT_HW_DECOMP_20_CONFIG_CSR_HBS_CONTROL_BITPOS,
+5b14b2b307e404 drivers/crypto/qat/qat_common/icp_qat_hw_20_comp.h Giovanni Cabiddu 2022-11-28  127  		      ICP_QAT_HW_DECOMP_20_CONFIG_CSR_HBS_CONTROL_MASK);
+5b14b2b307e404 drivers/crypto/qat/qat_common/icp_qat_hw_20_comp.h Giovanni Cabiddu 2022-11-28  128  	QAT_FIELD_SET(val32, csr.lbms,
+5b14b2b307e404 drivers/crypto/qat/qat_common/icp_qat_hw_20_comp.h Giovanni Cabiddu 2022-11-28  129  		      ICP_QAT_HW_DECOMP_20_CONFIG_CSR_LBMS_BITPOS,
+5b14b2b307e404 drivers/crypto/qat/qat_common/icp_qat_hw_20_comp.h Giovanni Cabiddu 2022-11-28  130  		      ICP_QAT_HW_DECOMP_20_CONFIG_CSR_LBMS_MASK);
+5b14b2b307e404 drivers/crypto/qat/qat_common/icp_qat_hw_20_comp.h Giovanni Cabiddu 2022-11-28  131  	QAT_FIELD_SET(val32, csr.algo,
+5b14b2b307e404 drivers/crypto/qat/qat_common/icp_qat_hw_20_comp.h Giovanni Cabiddu 2022-11-28  132  		      ICP_QAT_HW_DECOMP_20_CONFIG_CSR_HW_DECOMP_FORMAT_BITPOS,
+5b14b2b307e404 drivers/crypto/qat/qat_common/icp_qat_hw_20_comp.h Giovanni Cabiddu 2022-11-28  133  		      ICP_QAT_HW_DECOMP_20_CONFIG_CSR_HW_DECOMP_FORMAT_MASK);
+5b14b2b307e404 drivers/crypto/qat/qat_common/icp_qat_hw_20_comp.h Giovanni Cabiddu 2022-11-28  134  	QAT_FIELD_SET(val32, csr.mmctrl,
+5b14b2b307e404 drivers/crypto/qat/qat_common/icp_qat_hw_20_comp.h Giovanni Cabiddu 2022-11-28  135  		      ICP_QAT_HW_DECOMP_20_CONFIG_CSR_MIN_MATCH_CONTROL_BITPOS,
+5b14b2b307e404 drivers/crypto/qat/qat_common/icp_qat_hw_20_comp.h Giovanni Cabiddu 2022-11-28  136  		      ICP_QAT_HW_DECOMP_20_CONFIG_CSR_MIN_MATCH_CONTROL_MASK);
+5b14b2b307e404 drivers/crypto/qat/qat_common/icp_qat_hw_20_comp.h Giovanni Cabiddu 2022-11-28  137  	QAT_FIELD_SET(val32, csr.lbc,
+5b14b2b307e404 drivers/crypto/qat/qat_common/icp_qat_hw_20_comp.h Giovanni Cabiddu 2022-11-28  138  		      ICP_QAT_HW_DECOMP_20_CONFIG_CSR_LZ4_BLOCK_CHECKSUM_PRESENT_BITPOS,
+5b14b2b307e404 drivers/crypto/qat/qat_common/icp_qat_hw_20_comp.h Giovanni Cabiddu 2022-11-28  139  		      ICP_QAT_HW_DECOMP_20_CONFIG_CSR_LZ4_BLOCK_CHECKSUM_PRESENT_MASK);
+5b14b2b307e404 drivers/crypto/qat/qat_common/icp_qat_hw_20_comp.h Giovanni Cabiddu 2022-11-28  140  
+5b14b2b307e404 drivers/crypto/qat/qat_common/icp_qat_hw_20_comp.h Giovanni Cabiddu 2022-11-28 @141  	return __builtin_bswap32(val32);
+5b14b2b307e404 drivers/crypto/qat/qat_common/icp_qat_hw_20_comp.h Giovanni Cabiddu 2022-11-28  142  }
+5b14b2b307e404 drivers/crypto/qat/qat_common/icp_qat_hw_20_comp.h Giovanni Cabiddu 2022-11-28  143  
 
 -- 
 0-DAY CI Kernel Test Service
