@@ -1,63 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF98337883E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Mar 2026 09:30:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58A24348445
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Mar 2026 09:55:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774690212; cv=none; b=sC7fJtRYE1MhMEG9NLVhZOLSWruqlw1I8WRzqV9pzWqJ5rGkDXF0d30sHLeYG63qQ6BA1vfmZYTLvtcUi46KWMM2VPI636aNz9Frz0C5aBBaXxdxedl7wL3nZ6cUMNTERxRvJ0kzuT7qfMgncox6E51xQMIWkDge+kqaSfVR5Ds=
+	t=1774691722; cv=none; b=J0ZwR6pCXdfjZbBH8LqBWrZ89CZWyjW4ypKaFjXWDeyuVSP6fKqRQERzsDq5I0/GWFnmz7fGEYkdUs2rwM2wg1l0lGNWAhL3apXO1BTzwYXhVd7I0vMstgIxDjbxyDPv+qkW5WklncLILqESyeF6LXA5HPfgxOtUHQgaDqqBa34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774690212; c=relaxed/simple;
-	bh=ZIN3K4vAZh3AbifESV3YvOZ2UBDwIgV0cDjy1tNXvQ0=;
+	s=arc-20240116; t=1774691722; c=relaxed/simple;
+	bh=tGRNjEkmKkP55RyI36TLF24P2O39ClA0J2pu35ocaXQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NrKj+X5im4DpRx9Gn9sqIlTrZvHnDKbtQ/Tzco0DoAkKFL10ow9UsDG2le1teVKS8lMWmELcl1SDRhLuvHYI9pwa/PJM4RM3ydr/69y3Zb6HHf27tZaY0y1rvblv8SvMMHFGK9xWBfDDi3E9GaoBbCinSa9ymQ5Vu56EztkLGNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HwYKXg3G; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=i1cHWh5IHTmTOfaFQ+z8a/UpVYrGQ6HvSafMM/GG7RE1FepfoOY9FGOeLsSyOpBX4DuE9RCejCnmw2K+HO/bihIdh+0PlZDm1ua+Fqqx8r/SNWfs7ZQQ/JT63P6z5zal0jyZo4ec9sXO5mY5rWFZcU5237ws52XBpzGkK0zDQoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Td77NANE; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HwYKXg3G"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Td77NANE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774690207; x=1806226207;
+  t=1774691720; x=1806227720;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ZIN3K4vAZh3AbifESV3YvOZ2UBDwIgV0cDjy1tNXvQ0=;
-  b=HwYKXg3GDgfK23O9DJaQ5Iaz6MNpliB/1uMWvtOVy0vP7IP0yIx4IsHm
-   1hHySCcvgAdDix0ZR+thH3JKbxrWDBi8Pri3lc6voQbYqd4frOUR2a6Z0
-   TL8d/BN0wFcKcJVvnnuLpFMjBUfXEyFtILg2avnX8YcCI/K0StOEZfWgf
-   GBaY79y8MNjuurWtk3mDLoBX4WbESarpQEfluS5CtTwXl+LSOGzAugm9s
-   iUYy7levgNlvVUwofPgT9pMtdYdBeGc9WmdPD+Nw+1hmfvSK0YtqZi51K
-   UCPx1RZrngFYdzfTmHDl0S2qee0U3nRREIt2z6ampVuksSsL6lU03KdQ5
-   w==;
-X-CSE-ConnectionGUID: BizKOJjXTAmjgqa5DPX6KQ==
-X-CSE-MsgGUID: zfYeTu5VSe6d5M/Yks0FYg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="75722003"
+  bh=tGRNjEkmKkP55RyI36TLF24P2O39ClA0J2pu35ocaXQ=;
+  b=Td77NANE9E85rUskshjPxE+WliZPVu9phaaqu+WHFxlnlnMxJEmQEE9p
+   ZMRlQyE0MpRL87F/95nwzYQHClmBTmnM6mKS6o6BZJUbEvYNux/+taTeV
+   xXlIBJKcLVE2fY0eVcrGNn8O1YHdozx9QEsbEioJzu8c7xGIlP9i/Cn9m
+   ctyTyMlt9QA69Hv+kpl2Ulicg9+wsuKcdtN3NzkG9/Ua3Nbk27+VR0gi6
+   TSsBcQlRuoaqCJPE199FbUVy1scrIYvOKn0TXvFmxkClSzlVRAE11GWV5
+   kDDzSA+NSOG6vjkb9m3HG+ARacCu7/8bexJyDB1+7sJiOTyMXNhW8jOwn
+   g==;
+X-CSE-ConnectionGUID: VPnlebQDQ+CYdHQtzMNxUA==
+X-CSE-MsgGUID: dd9yqTZ3RLKhGmd85S8c3Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="75633810"
 X-IronPort-AV: E=Sophos;i="6.23,145,1770624000"; 
-   d="scan'208";a="75722003"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2026 02:30:05 -0700
-X-CSE-ConnectionGUID: begHELPwQrmwIbfPmJ5N3w==
-X-CSE-MsgGUID: gTghySnRSh+1Dz4nJQtBgg==
+   d="scan'208";a="75633810"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2026 02:55:19 -0700
+X-CSE-ConnectionGUID: v9BKKQRJS6W2wyd96Ksx5Q==
+X-CSE-MsgGUID: kuXnB5WIS620/P7LJwxCMw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,145,1770624000"; 
-   d="scan'208";a="256047578"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 28 Mar 2026 02:30:03 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="248786208"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 28 Mar 2026 02:55:13 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w6PzU-000000007ev-0K6O;
-	Sat, 28 Mar 2026 09:30:00 +0000
-Date: Sat, 28 Mar 2026 10:29:43 +0100
+	id 1w6QNp-00000000BI1-3ouf;
+	Sat, 28 Mar 2026 09:55:09 +0000
+Date: Sat, 28 Mar 2026 17:54:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Padmashree S S <padmashreess2006@gmail.com>, rafael@kernel.org,
-	tony.luck@intel.com
-Cc: oe-kbuild-all@lists.linux.dev, bp@alien8.de, guohanjun@huawei.com,
-	mchehab@kernel.org, xueshuai@linux.alibaba.com,
-	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Padmashree S S <padmashreess2006@gmail.com>
-Subject: Re: [PATCH] ACPI: APEI: EINJ: make einj_initialized static
-Message-ID: <202603281058.fgnC9vIy-lkp@intel.com>
-References: <20260325034626.405366-1-padmashreess2006@gmail.com>
+To: Zi Yan <ziy@nvidia.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Song Liu <songliubraving@fb.com>
+Cc: oe-kbuild-all@lists.linux.dev, Chris Mason <chris.mason@fusionio.com>,
+	David Sterba <dsterba@suse.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>, Zi Yan <ziy@nvidia.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+	Lance Yang <lance.yang@linux.dev>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-btrfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v1 07/10] mm/truncate: use folio_split() in
+ truncate_inode_partial_folio()
+Message-ID: <202603281704.ILlsxaUM-lkp@intel.com>
+References: <20260327014255.2058916-8-ziy@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,34 +84,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260325034626.405366-1-padmashreess2006@gmail.com>
+In-Reply-To: <20260327014255.2058916-8-ziy@nvidia.com>
 
-Hi Padmashree,
+Hi Zi,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on rafael-pm/bleeding-edge linus/master v7.0-rc5 next-20260327]
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on brauner-vfs/vfs.all kdave/for-next linus/master v7.0-rc5 next-20260327]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Padmashree-S-S/ACPI-APEI-EINJ-make-einj_initialized-static/20260328-022553
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20260325034626.405366-1-padmashreess2006%40gmail.com
-patch subject: [PATCH] ACPI: APEI: EINJ: make einj_initialized static
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260328/202603281058.fgnC9vIy-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603281058.fgnC9vIy-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Zi-Yan/mm-remove-READ_ONLY_THP_FOR_FS-Kconfig-option/20260327-142622
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20260327014255.2058916-8-ziy%40nvidia.com
+patch subject: [PATCH v1 07/10] mm/truncate: use folio_split() in truncate_inode_partial_folio()
+config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20260328/202603281704.ILlsxaUM-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603281704.ILlsxaUM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603281058.fgnC9vIy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603281704.ILlsxaUM-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All error/warnings (new ones prefixed by >>):
 
->> ERROR: modpost: "einj_initialized" [drivers/acpi/apei/einj.ko] undefined!
+   In file included from include/linux/mm.h:1746,
+                    from include/linux/pid_namespace.h:7,
+                    from include/linux/ptrace.h:10,
+                    from arch/nios2/kernel/asm-offsets.c:10:
+>> include/linux/huge_mm.h:625:1: error: expected identifier or '(' before '{' token
+     625 | {
+         | ^
+>> include/linux/huge_mm.h:623:19: warning: 'folio_split' declared 'static' but never defined [-Wunused-function]
+     623 | static inline int folio_split(struct folio *folio, unsigned int new_order,
+         |                   ^~~~~~~~~~~
+   make[3]: *** [scripts/Makefile.build:184: arch/nios2/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1337: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +625 include/linux/huge_mm.h
+
+e220917fa50774 Luis Chamberlain 2024-08-22  622  
+9ee18d22957981 Zi Yan           2026-03-26 @623  static inline int folio_split(struct folio *folio, unsigned int new_order,
+9ee18d22957981 Zi Yan           2026-03-26  624  		struct page *page, struct list_head *list);
+7460b470a131f9 Zi Yan           2025-03-07 @625  {
+a488ba3124c82d Pankaj Raghav    2025-09-05  626  	VM_WARN_ON_ONCE_FOLIO(1, folio);
+a488ba3124c82d Pankaj Raghav    2025-09-05  627  	return -EINVAL;
+7460b470a131f9 Zi Yan           2025-03-07  628  }
+7460b470a131f9 Zi Yan           2025-03-07  629  
 
 -- 
 0-DAY CI Kernel Test Service
