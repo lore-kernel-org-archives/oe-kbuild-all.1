@@ -1,60 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0561BE5E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Mar 2026 13:03:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C921D18A6A7
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Mar 2026 13:05:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774702988; cv=none; b=Fj0tATOIWx5HPLqWJaOkyL+N8bN1p4YvtbECf2zhimrCmwAbJGKlpUxc874wM8bIRvz68BhlNQ7HuyIJYLApa461vFlHzRg2A/Qzn0QsySAjyFj2K3FbB8OPPtyl4w06s1IuKVCUt3bs3EjPUw7Fzyh9buvONhG1urrLyHFmgzs=
+	t=1774703137; cv=none; b=UTYMHDQX451wURA1GEy8ZqivmBc5ILTFzEfsj1xfdR0PsOVFNtRDCemg/aNUxrDjGq568QPLEfMxUQEUAj7grKIZRd8r1NHmhfvRwYNhhp4ZlV4fqR2rjvMRorMAe1B28dRg5uLvUx9b4KWgy5sgspKSlkYSCGXvetDPfksq6WM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774702988; c=relaxed/simple;
-	bh=mpcl99Y1Wgs2WIaOOGVPg+jte1H/M3NUefB5eQJQNAU=;
+	s=arc-20240116; t=1774703137; c=relaxed/simple;
+	bh=dFwu7+FcyxEOTdnu8tJ8N17I9/uEAnan3lJlrWSQcCY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JPaeEvHBBaeGgw0WE6DVFM5gP1B9PHc2Z2hG0XXyT4QiPB2wZzkD9By42Vo1+KvmDqRpKCajVVY+7pIl47vhW6CPbbjEj3N2EkTWl3+2zVTlyAU5irw9+dzKztp5S67A5RYY903J74+07sl/kv/KRQVLSy4oxLsKFVd+KFufWv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X3qi5vFj; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=EkVHUpK3deGgXb/nHeiKDPgEoXHTldk8iXJMHbtEiXDJjeQlV4r7EHKwLPxqzTUhZO0PZn4+m2XToIuMPwodRYfG5EMhQ3DKSUR2rJ5eRE4IZuryd/64DgUsLqzf/0+U+R07NSAvGSR4jr0Q0sH/3hG0HitNBL7BtrvV2tzONYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n4wK9B2n; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X3qi5vFj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n4wK9B2n"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774702986; x=1806238986;
+  t=1774703135; x=1806239135;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=mpcl99Y1Wgs2WIaOOGVPg+jte1H/M3NUefB5eQJQNAU=;
-  b=X3qi5vFj+ifiVv2hRS3ewMz1tCiQjs5wOh6+98NxA1Ne2fv7uICacBgH
-   RnLEaIf9dW4ktnTubXADnOZlcnYIZ477v1LxqUAtvXV+o76thUY29MzKs
-   Ig7cJC+ccTMtweSvFMYlHEk58UpkWWbRwUl3jrLSOQErZ7EeztcxXXWoY
-   KQMU/94KPmVh8XOw12opeYP1AUJM38rjfo4gWGZFmAoAyNCicjV4aZFo1
-   ADzYbX0OYIZEvoclfqiwIwI8GDrN1GOKVLuPurtPMAXgitHTt0hiyZRzX
-   qvUZwRuf32ZGzSMpvVwe9mCFGBuyn89/JUswONTsgSNlAWDyIhZbS6EF7
-   A==;
-X-CSE-ConnectionGUID: 8YTgPokeSzqykdWh9jxFlQ==
-X-CSE-MsgGUID: vOmxOabcRGKU3BZaeke+eA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="87230958"
+  bh=dFwu7+FcyxEOTdnu8tJ8N17I9/uEAnan3lJlrWSQcCY=;
+  b=n4wK9B2nXHUHIUNJFrabme6BLWQk77qKipaJhZ+LWTdUBmXDrmLwyJVk
+   m0Wesa58lGr6Z5cDbjFsLKiwdYpu6EALQ0ZSQx1Pfhnkj5YtahrebCbZi
+   6ruYrzpMzVf17EswRrFh1m9tpeX0QaM9bUvNKqgAjRsHE2JYCa4NjnDRc
+   +cKw9pIeAqNZq4NWmUC7PnIL1+tnbFPpf1/Nb9mBiJJq+yXcqY4WmdFMk
+   tuiq+9qW3KIudVCPeW/UtIfEx1opPu4h/rr2D3I4jz6IZP8uJ6is9ODG+
+   VPIY5UPoIb5d0pt/CKYB8FGKGI+YzF3ZddGjV6jF8MXqqjBliOpNsKPA3
+   g==;
+X-CSE-ConnectionGUID: uWXzoswaTZC4edozqyZx9Q==
+X-CSE-MsgGUID: XZkhIchUSNKiWiv1cmWFkA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="75780612"
 X-IronPort-AV: E=Sophos;i="6.23,146,1770624000"; 
-   d="scan'208";a="87230958"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2026 06:03:05 -0700
-X-CSE-ConnectionGUID: 0BukFwvMS5StND6WXwRgPA==
-X-CSE-MsgGUID: z5dM877dSwW4E1p3bV6DCA==
+   d="scan'208";a="75780612"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2026 06:05:35 -0700
+X-CSE-ConnectionGUID: NZvih1LDR7OmR/xoSYb0fQ==
+X-CSE-MsgGUID: h4ynQMWJQvqx2GhJtiNQ/A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,146,1770624000"; 
-   d="scan'208";a="263514646"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 28 Mar 2026 06:03:03 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="256077544"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 28 Mar 2026 06:05:30 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w6TJd-000000007fx-0284;
-	Sat, 28 Mar 2026 13:03:01 +0000
-Date: Sat, 28 Mar 2026 14:02:20 +0100
+	id 1w6TLz-00000000BQv-3lM1;
+	Sat, 28 Mar 2026 13:05:27 +0000
+Date: Sat, 28 Mar 2026 21:05:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joanne Koong <joannelkoong@gmail.com>, axboe@kernel.dk
-Cc: oe-kbuild-all@lists.linux.dev, miklos@szeredi.hu, bschubert@ddn.com,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v1 8/9] fuse: add zero-copy over io-uring
-Message-ID: <202603281328.m7ticaDV-lkp@intel.com>
-References: <20260324224532.3733468-9-joannelkoong@gmail.com>
+To: Daniel Lezcano <daniel.lezcano@kernel.org>, tglx@kernel.org,
+	zhipeng.wang_1@nxp.com
+Cc: oe-kbuild-all@lists.linux.dev, shawnguo@kernel.org, jstultz@google.com,
+	linux-kernel@vger.kernel.org,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Arnd Bergmann <arnd@arndb.de>, Stephen Boyd <sboyd@kernel.org>
+Subject: Re: [PATCH resend v1 1/7] clocksource/drivers/timer-probe: Create a
+ platform_device before the framework is initialized
+Message-ID: <202603282049.OhKWsoYR-lkp@intel.com>
+References: <20260327180600.8150-2-daniel.lezcano@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,199 +72,156 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260324224532.3733468-9-joannelkoong@gmail.com>
+In-Reply-To: <20260327180600.8150-2-daniel.lezcano@kernel.org>
 
-Hi Joanne,
+Hi Daniel,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on mszeredi-fuse/for-next]
-[also build test ERROR on linus/master v7.0-rc5 next-20260327]
+[auto build test ERROR on tip/timers/core]
+[also build test ERROR on rockchip/for-next arnd-asm-generic/master linus/master v7.0-rc5 next-20260327]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Joanne-Koong/fuse-separate-next-request-fetching-from-sending-logic/20260328-142620
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git for-next
-patch link:    https://lore.kernel.org/r/20260324224532.3733468-9-joannelkoong%40gmail.com
-patch subject: [PATCH v1 8/9] fuse: add zero-copy over io-uring
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260328/202603281328.m7ticaDV-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Lezcano/clocksource-drivers-timer-probe-Create-a-platform_device-before-the-framework-is-initialized/20260328-080154
+base:   tip/timers/core
+patch link:    https://lore.kernel.org/r/20260327180600.8150-2-daniel.lezcano%40kernel.org
+patch subject: [PATCH resend v1 1/7] clocksource/drivers/timer-probe: Create a platform_device before the framework is initialized
+config: x86_64-randconfig-013-20260328 (https://download.01.org/0day-ci/archive/20260328/202603282049.OhKWsoYR-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603281328.m7ticaDV-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603282049.OhKWsoYR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603281328.m7ticaDV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603282049.OhKWsoYR-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/fuse/dev_uring.c: In function 'fuse_uring_req_end':
-   fs/fuse/dev_uring.c:132:17: error: implicit declaration of function 'io_buffer_unregister'; did you mean 'io_buffer_unregister_bvec'? [-Wimplicit-function-declaration]
-     132 |                 io_buffer_unregister(ent->cmd, ent->id, issue_flags);
-         |                 ^~~~~~~~~~~~~~~~~~~~
-         |                 io_buffer_unregister_bvec
-   fs/fuse/dev_uring.c: In function 'fuse_uring_get_buf_ring_headers':
-   fs/fuse/dev_uring.c:317:24: error: implicit declaration of function 'io_uring_registered_mem_region_get' [-Wimplicit-function-declaration]
-     317 |         mem_reg_addr = io_uring_registered_mem_region_get(cmd, &nr_pages,
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/fuse/dev_uring.c:317:22: error: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     317 |         mem_reg_addr = io_uring_registered_mem_region_get(cmd, &nr_pages,
-         |                      ^
-   fs/fuse/dev_uring.c: In function 'fuse_uring_buf_ring_setup':
-   fs/fuse/dev_uring.c:356:15: error: implicit declaration of function 'io_uring_buf_ring_pin'; did you mean 'fuse_uring_buf_ring_setup'? [-Wimplicit-function-declaration]
-     356 |         err = io_uring_buf_ring_pin(cmd, FUSE_URING_BUFRING_GROUP, issue_flags,
-         |               ^~~~~~~~~~~~~~~~~~~~~
-         |               fuse_uring_buf_ring_setup
-   fs/fuse/dev_uring.c:361:14: error: implicit declaration of function 'io_uring_is_kmbuf_ring' [-Wimplicit-function-declaration]
-     361 |         if (!io_uring_is_kmbuf_ring(cmd, FUSE_URING_BUFRING_GROUP, issue_flags))
-         |              ^~~~~~~~~~~~~~~~~~~~~~
-   fs/fuse/dev_uring.c:372:9: error: implicit declaration of function 'io_uring_buf_ring_unpin'; did you mean 'fuse_uring_buf_ring_setup'? [-Wimplicit-function-declaration]
-     372 |         io_uring_buf_ring_unpin(cmd, FUSE_URING_BUFRING_GROUP, issue_flags);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-         |         fuse_uring_buf_ring_setup
-   fs/fuse/dev_uring.c: In function 'fuse_uring_set_up_zero_copy':
-   fs/fuse/dev_uring.c:859:25: error: 'IO_BUF_DEST' undeclared (first use in this function)
-     859 |                 ddir |= IO_BUF_DEST;
-         |                         ^~~~~~~~~~~
-   fs/fuse/dev_uring.c:859:25: note: each undeclared identifier is reported only once for each function it appears in
-   fs/fuse/dev_uring.c:861:25: error: 'IO_BUF_SOURCE' undeclared (first use in this function); did you mean 'ITER_SOURCE'?
-     861 |                 ddir |= IO_BUF_SOURCE;
-         |                         ^~~~~~~~~~~~~
-         |                         ITER_SOURCE
-   fs/fuse/dev_uring.c:881:49: error: passing argument 2 of 'io_buffer_register_bvec' from incompatible pointer type [-Wincompatible-pointer-types]
-     881 |         err = io_buffer_register_bvec(ent->cmd, bvs, ap->num_folios,
-         |                                                 ^~~
-         |                                                 |
-         |                                                 struct bio_vec *
-   In file included from fs/fuse/dev_uring.c:14:
-   include/linux/io_uring/cmd.h:185:71: note: expected 'struct request *' but argument is of type 'struct bio_vec *'
-     185 | int io_buffer_register_bvec(struct io_uring_cmd *cmd, struct request *rq,
-         |                                                       ~~~~~~~~~~~~~~~~^~
-   fs/fuse/dev_uring.c:881:56: error: passing argument 3 of 'io_buffer_register_bvec' makes pointer from integer without a cast [-Wint-conversion]
-     881 |         err = io_buffer_register_bvec(ent->cmd, bvs, ap->num_folios,
-         |                                                      ~~^~~~~~~~~~~~
-         |                                                        |
-         |                                                        unsigned int
-   include/linux/io_uring/cmd.h:186:36: note: expected 'void (*)(void *)' but argument is of type 'unsigned int'
-     186 |                             void (*release)(void *), unsigned int index,
-         |                             ~~~~~~~^~~~~~~~~~~~~~~~
-   fs/fuse/dev_uring.c:882:39: error: passing argument 4 of 'io_buffer_register_bvec' makes integer from pointer without a cast [-Wint-conversion]
-     882 |                                       fuse_zero_copy_release, zc_bvs,
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~
-         |                                       |
-         |                                       void (*)(void *)
-   include/linux/io_uring/cmd.h:186:67: note: expected 'unsigned int' but argument is of type 'void (*)(void *)'
-     186 |                             void (*release)(void *), unsigned int index,
-         |                                                      ~~~~~~~~~~~~~^~~~~
-   fs/fuse/dev_uring.c:882:63: error: passing argument 5 of 'io_buffer_register_bvec' makes integer from pointer without a cast [-Wint-conversion]
-     882 |                                       fuse_zero_copy_release, zc_bvs,
-         |                                                               ^~~~~~
-         |                                                               |
-         |                                                               struct fuse_zero_copy_bvs *
-   include/linux/io_uring/cmd.h:187:42: note: expected 'unsigned int' but argument is of type 'struct fuse_zero_copy_bvs *'
-     187 |                             unsigned int issue_flags);
-         |                             ~~~~~~~~~~~~~^~~~~~~~~~~
->> fs/fuse/dev_uring.c:881:15: error: too many arguments to function 'io_buffer_register_bvec'
-     881 |         err = io_buffer_register_bvec(ent->cmd, bvs, ap->num_folios,
-         |               ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/io_uring/cmd.h:185:5: note: declared here
-     185 | int io_buffer_register_bvec(struct io_uring_cmd *cmd, struct request *rq,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/fuse/dev_uring.c: In function 'fuse_uring_select_buffer':
-   fs/fuse/dev_uring.c:1013:15: error: implicit declaration of function 'io_ring_buffer_select'; did you mean 'io_uring_cmd_buffer_select'? [-Wimplicit-function-declaration]
-    1013 |         sel = io_ring_buffer_select(cmd_to_io_kiocb(ent->cmd), &len,
-         |               ^~~~~~~~~~~~~~~~~~~~~
-         |               io_uring_cmd_buffer_select
-   fs/fuse/dev_uring.c:1013:15: error: incompatible types when assigning to type 'struct io_br_sel' from type 'int'
-   fs/fuse/dev_uring.c:1017:18: error: 'struct io_br_sel' has no member named 'kaddr'; did you mean 'addr'?
-    1017 |         if (!sel.kaddr)
-         |                  ^~~~~
-         |                  addr
-   fs/fuse/dev_uring.c:1020:42: error: 'struct io_br_sel' has no member named 'kaddr'; did you mean 'addr'?
-    1020 |         ent->payload_kvec.iov_base = sel.kaddr;
-         |                                          ^~~~~
-         |                                          addr
-   fs/fuse/dev_uring.c:1022:27: error: 'struct io_br_sel' has no member named 'buf_id'; did you mean 'buf_list'?
-    1022 |         ent->buf_id = sel.buf_id;
-         |                           ^~~~~~
-         |                           buf_list
-   In file included from arch/x86/include/asm/bug.h:193,
-                    from arch/x86/include/asm/alternative.h:9,
-                    from arch/x86/include/asm/segment.h:6,
-                    from arch/x86/include/asm/ptrace.h:5,
-                    from arch/x86/include/asm/math_emu.h:5,
-                    from arch/x86/include/asm/processor.h:13,
+   In file included from arch/x86/include/asm/current.h:11,
+                    from arch/x86/include/asm/processor.h:17,
                     from arch/x86/include/asm/timex.h:5,
                     from include/linux/timex.h:67,
                     from include/linux/time32.h:13,
                     from include/linux/time.h:60,
-                    from include/linux/stat.h:19,
-                    from include/linux/fs_dirent.h:5,
-                    from include/linux/fs/super_types.h:5,
-                    from include/linux/fs/super.h:5,
-                    from include/linux/fs.h:5,
-                    from fs/fuse/fuse_i.h:17,
-                    from fs/fuse/dev_uring.c:7:
-   fs/fuse/dev_uring.c: In function 'fuse_uring_recycle_buffer':
-   fs/fuse/dev_uring.c:1038:22: error: implicit declaration of function 'io_uring_kmbuf_recycle' [-Wimplicit-function-declaration]
-    1038 |         WARN_ON_ONCE(io_uring_kmbuf_recycle(ent->cmd, FUSE_URING_BUFRING_GROUP,
-         |                      ^~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/bug.h:120:32: note: in definition of macro 'WARN_ON_ONCE'
-     120 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
+                    from arch/x86/entry/vdso/vdso32/../common/vclock_gettime.c:11,
+                    from arch/x86/entry/vdso/vdso32/vclock_gettime.c:1:
+   arch/x86/include/asm/tlbflush.h: In function 'cpu_tlbstate_update_lam':
+   arch/x86/include/asm/tlbflush.h:468:46: warning: right shift count >= width of type [-Wshift-count-overflow]
+     468 |         this_cpu_write(cpu_tlbstate.lam, lam >> X86_CR3_LAM_U57_BIT);
+         |                                              ^~
+   arch/x86/include/asm/percpu.h:145:69: note: in definition of macro '__raw_cpu_write'
+     145 |         *(qual __my_cpu_type(pcp) * __force)__my_cpu_ptr(&(pcp)) = (val);       \
+         |                                                                     ^~~
+   include/linux/percpu-defs.h:369:25: note: in expansion of macro 'this_cpu_write_1'
+     369 |                 case 1: stem##1(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:500:41: note: in expansion of macro '__pcpu_size_call'
+     500 | #define this_cpu_write(pcp, val)        __pcpu_size_call(this_cpu_write_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   arch/x86/include/asm/tlbflush.h:468:9: note: in expansion of macro 'this_cpu_write'
+     468 |         this_cpu_write(cpu_tlbstate.lam, lam >> X86_CR3_LAM_U57_BIT);
+         |         ^~~~~~~~~~~~~~
+   arch/x86/include/asm/tlbflush.h:468:46: warning: right shift count >= width of type [-Wshift-count-overflow]
+     468 |         this_cpu_write(cpu_tlbstate.lam, lam >> X86_CR3_LAM_U57_BIT);
+         |                                              ^~
+   arch/x86/include/asm/percpu.h:145:69: note: in definition of macro '__raw_cpu_write'
+     145 |         *(qual __my_cpu_type(pcp) * __force)__my_cpu_ptr(&(pcp)) = (val);       \
+         |                                                                     ^~~
+   include/linux/percpu-defs.h:370:25: note: in expansion of macro 'this_cpu_write_2'
+     370 |                 case 2: stem##2(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:500:41: note: in expansion of macro '__pcpu_size_call'
+     500 | #define this_cpu_write(pcp, val)        __pcpu_size_call(this_cpu_write_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   arch/x86/include/asm/tlbflush.h:468:9: note: in expansion of macro 'this_cpu_write'
+     468 |         this_cpu_write(cpu_tlbstate.lam, lam >> X86_CR3_LAM_U57_BIT);
+         |         ^~~~~~~~~~~~~~
+   arch/x86/include/asm/tlbflush.h:468:46: warning: right shift count >= width of type [-Wshift-count-overflow]
+     468 |         this_cpu_write(cpu_tlbstate.lam, lam >> X86_CR3_LAM_U57_BIT);
+         |                                              ^~
+   arch/x86/include/asm/percpu.h:145:69: note: in definition of macro '__raw_cpu_write'
+     145 |         *(qual __my_cpu_type(pcp) * __force)__my_cpu_ptr(&(pcp)) = (val);       \
+         |                                                                     ^~~
+   include/linux/percpu-defs.h:371:25: note: in expansion of macro 'this_cpu_write_4'
+     371 |                 case 4: stem##4(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:500:41: note: in expansion of macro '__pcpu_size_call'
+     500 | #define this_cpu_write(pcp, val)        __pcpu_size_call(this_cpu_write_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   arch/x86/include/asm/tlbflush.h:468:9: note: in expansion of macro 'this_cpu_write'
+     468 |         this_cpu_write(cpu_tlbstate.lam, lam >> X86_CR3_LAM_U57_BIT);
+         |         ^~~~~~~~~~~~~~
+   In file included from arch/x86/include/asm/percpu.h:598:
+   arch/x86/include/asm/tlbflush.h:468:46: warning: right shift count >= width of type [-Wshift-count-overflow]
+     468 |         this_cpu_write(cpu_tlbstate.lam, lam >> X86_CR3_LAM_U57_BIT);
+         |                                              ^~
+   include/asm-generic/percpu.h:87:33: note: in definition of macro 'raw_cpu_generic_to_op'
+      87 |         *raw_cpu_ptr(&(pcp)) op val;                                    \
+         |                                 ^~~
+   include/asm-generic/percpu.h:412:41: note: in expansion of macro 'this_cpu_generic_to_op'
+     412 | #define this_cpu_write_8(pcp, val)      this_cpu_generic_to_op(pcp, val, =)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:372:25: note: in expansion of macro 'this_cpu_write_8'
+     372 |                 case 8: stem##8(variable, __VA_ARGS__);break;           \
+         |                         ^~~~
+   include/linux/percpu-defs.h:500:41: note: in expansion of macro '__pcpu_size_call'
+     500 | #define this_cpu_write(pcp, val)        __pcpu_size_call(this_cpu_write_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   arch/x86/include/asm/tlbflush.h:468:9: note: in expansion of macro 'this_cpu_write'
+     468 |         this_cpu_write(cpu_tlbstate.lam, lam >> X86_CR3_LAM_U57_BIT);
+         |         ^~~~~~~~~~~~~~
+   In file included from include/linux/kasan.h:38,
+                    from include/linux/slab.h:264,
+                    from include/linux/fs.h:45,
+                    from include/linux/compat.h:17,
+                    from arch/x86/include/asm/ia32.h:7,
+                    from arch/x86/include/asm/elf.h:10,
+                    from include/linux/elf.h:6,
+                    from include/linux/module.h:20,
+                    from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from include/linux/platform_device.h:13,
+                    from include/linux/clocksource.h:21,
+                    from include/clocksource/hyperv_timer.h:16,
+                    from arch/x86/include/asm/vdso/gettimeofday.h:20,
+                    from include/vdso/datapage.h:196,
+                    from arch/x86/include/uapi/../../../../lib/vdso/gettimeofday.c:6,
+                    from arch/x86/entry/vdso/vdso32/../common/vclock_gettime.c:16:
+   include/linux/pgtable.h: At top level:
+>> include/linux/pgtable.h:2204:2: error: #error Missing MAX_POSSIBLE_PHYSMEM_BITS definition
+    2204 | #error Missing MAX_POSSIBLE_PHYSMEM_BITS definition
+         |  ^~~~~
+   arch/x86/include/asm/ia32.h:28:8: error: redefinition of 'struct stat64'
+      28 | struct stat64 {
+         |        ^~~~~~
+   In file included from include/linux/stat.h:6,
+                    from include/linux/sysfs.h:22,
+                    from include/linux/kobject.h:20,
+                    from include/linux/of.h:18,
+                    from include/linux/clocksource.h:19:
+   arch/x86/include/uapi/asm/stat.h:42:8: note: originally defined here
+      42 | struct stat64 {
+         |        ^~~~~~
 
 
-vim +/io_buffer_register_bvec +881 fs/fuse/dev_uring.c
+vim +2204 include/linux/pgtable.h
 
-   847	
-   848	static int fuse_uring_set_up_zero_copy(struct fuse_ring_ent *ent,
-   849					       struct fuse_req *req,
-   850					       unsigned issue_flags)
-   851	{
-   852		struct fuse_args_pages *ap;
-   853		int err, i, ddir = 0;
-   854		struct fuse_zero_copy_bvs *zc_bvs;
-   855		struct bio_vec *bvs;
-   856	
-   857		/* out_pages indicates a read, in_pages indicates a write */
-   858		if (req->args->out_pages)
-   859			ddir |= IO_BUF_DEST;
-   860		if (req->args->in_pages)
-   861			ddir |= IO_BUF_SOURCE;
-   862	
-   863		WARN_ON_ONCE(!ddir);
-   864	
-   865		ap = container_of(req->args, typeof(*ap), args);
-   866	
-   867		zc_bvs = kmalloc(struct_size(zc_bvs, bvs, ap->num_folios),
-   868				 GFP_KERNEL_ACCOUNT);
-   869		if (!zc_bvs)
-   870			return -ENOMEM;
-   871	
-   872		zc_bvs->nr_bvs = ap->num_folios;
-   873		bvs = zc_bvs->bvs;
-   874		for (i = 0; i < ap->num_folios; i++) {
-   875			bvs[i].bv_page = folio_page(ap->folios[i], 0);
-   876			bvs[i].bv_offset = ap->descs[i].offset;
-   877			bvs[i].bv_len = ap->descs[i].length;
-   878			folio_get(page_folio(bvs[i].bv_page));
-   879		}
-   880	
- > 881		err = io_buffer_register_bvec(ent->cmd, bvs, ap->num_folios,
- > 882					      fuse_zero_copy_release, zc_bvs,
-   883					      ddir, ent->id,
-   884					      issue_flags);
-   885		if (err) {
-   886			fuse_zero_copy_release(zc_bvs);
-   887			return err;
-   888		}
-   889	
-   890		ent->zero_copied = true;
-   891	
-   892		return 0;
-   893	}
-   894	
+^1da177e4c3f41 include/asm-generic/pgtable.h Linus Torvalds 2005-04-16  2196  
+cef397038167ac include/linux/pgtable.h       Arnd Bergmann  2020-11-11  2197  #if !defined(MAX_POSSIBLE_PHYSMEM_BITS) && !defined(CONFIG_64BIT)
+cef397038167ac include/linux/pgtable.h       Arnd Bergmann  2020-11-11  2198  #ifdef CONFIG_PHYS_ADDR_T_64BIT
+cef397038167ac include/linux/pgtable.h       Arnd Bergmann  2020-11-11  2199  /*
+cef397038167ac include/linux/pgtable.h       Arnd Bergmann  2020-11-11  2200   * ZSMALLOC needs to know the highest PFN on 32-bit architectures
+cef397038167ac include/linux/pgtable.h       Arnd Bergmann  2020-11-11  2201   * with physical address space extension, but falls back to
+cef397038167ac include/linux/pgtable.h       Arnd Bergmann  2020-11-11  2202   * BITS_PER_LONG otherwise.
+cef397038167ac include/linux/pgtable.h       Arnd Bergmann  2020-11-11  2203   */
+cef397038167ac include/linux/pgtable.h       Arnd Bergmann  2020-11-11 @2204  #error Missing MAX_POSSIBLE_PHYSMEM_BITS definition
+cef397038167ac include/linux/pgtable.h       Arnd Bergmann  2020-11-11  2205  #else
+cef397038167ac include/linux/pgtable.h       Arnd Bergmann  2020-11-11  2206  #define MAX_POSSIBLE_PHYSMEM_BITS 32
+cef397038167ac include/linux/pgtable.h       Arnd Bergmann  2020-11-11  2207  #endif
+cef397038167ac include/linux/pgtable.h       Arnd Bergmann  2020-11-11  2208  #endif
+cef397038167ac include/linux/pgtable.h       Arnd Bergmann  2020-11-11  2209  
 
 -- 
 0-DAY CI Kernel Test Service
