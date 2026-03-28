@@ -1,213 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80492F83B7;
-	Sat, 28 Mar 2026 13:54:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 313632609E3
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Mar 2026 14:10:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774706048; cv=none; b=UsocC9j7DCIOiX10WiEiLLxYmlw/ZdMaYyciVS+8L7LyVx1tz1FwFgSoDqPExCHNcxamcJ7MhdyTWaTZPT+61hQKJXeJkNY1P5zKGshjZyzoHRhrIH7+s93Il0BMHh9fWFMzGgYy6ZFh+rbw4v6jT3okXXRNVPtT7ucwsO8QbCo=
+	t=1774707038; cv=none; b=UDqFX9TSjlPEoJFX25VVqdymExT+quQu2/Mcvq6B70yaY1QHIlz8dalVzTpiegOkXUW2l2BdfUQCE2wxC9Am9xpO93xZITiEBhsyA/Bx6nW3k11yCv9Dk9UShFj1d2/vBSv7pbe/rSRASHG7KVGDBOijSXzwJthzALTNrG5DR5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774706048; c=relaxed/simple;
-	bh=YVYCGntBvyIjUxMBKGP5U7zMPbdGlUZrGABdfrJgNn8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PrOE3DXp81779BO4gYZRw0Xa11651e6SPJf5dAGn/qCTVMEdoTVzfbOwbIFi16EvZnwTyKzfjig/9Lk/wPm7pkRtGUxudk+IesybdENUmMCCnw1lNrJjfoqXltZNN73yzlKLFNjwdygI4Hz1YMKd5xlCgVMTSDnqaKZS1B10KaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MWbzyuNv; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1774707038; c=relaxed/simple;
+	bh=eLNk7FG+GuOyFmDrkvkfvyCN+/xhFOpw629vK73opy4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=E2Bwn7cYbyuGa2Y9tc0fWwnWExo9VNKld61gGp46sNg1SJJPq6yTUI1DNu1lDDflm+qGki9ZxK//cudahru7XQpJ1xUHhIPmLtp9MqCOXy7K66KFVlNEwKOdBjpOngJQWNsLSA4coYJGJfn+qEbRgtfE+jCI2nGU4dPzbYGszBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m6i/i1th; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MWbzyuNv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m6i/i1th"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774706046; x=1806242046;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YVYCGntBvyIjUxMBKGP5U7zMPbdGlUZrGABdfrJgNn8=;
-  b=MWbzyuNv4VwvzxPeZv0FoM72h5XDaoH3FUXGwYFKSdvLoYftqZciBkS0
-   ulhtcNlWiG1Dz7yYCKoZGWKxaX4mHsl+H4lrcaeHqFWwKnNlzTe2kF6gU
-   vLlU9wMrQCPruoGGZ9eFwxNztsaS7ARPXWCT1yRJb4x8ARG8/U/PHe5nM
-   GAROcAe/q/G0o2+HhrsVgLVEFsOz87elxRWgY48UgeJnqrZJoTk4ccSrL
-   fQr+cQL5D0QycZwd3DMmcDv/Te5qT1DCs8eAkUCwRJPHiOvkLJnX/Ro5/
-   d0r8FxpJSn0R3FB5zHMOZZUanfz+GYiEeMeanqwzZXc8Dlg0tACvtOnrF
-   w==;
-X-CSE-ConnectionGUID: dW9Hnfy0TvOn/CHTSnLk5A==
-X-CSE-MsgGUID: sxo88KlSRfu4wtQLe2KddA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="75956179"
+  t=1774707036; x=1806243036;
+  h=date:from:to:cc:subject:message-id;
+  bh=eLNk7FG+GuOyFmDrkvkfvyCN+/xhFOpw629vK73opy4=;
+  b=m6i/i1thd06dKLBME6/zFKRcSsDuPasgmaJniBM08dCiDFkIsMwbxMWe
+   jaa80jAO7Nd9uxEX5eUzddBZfH/fx+/9KmGOSLcPSz7mYdlPL/h1zh4ct
+   TNncYfunUKTCuJINwxPk/g/GVXICfUGi2ebyKjc37TlzR3y/kGje8lK7f
+   IXJ8x793V3XstqFCWRTrvg/MaRuf0TIevXhIFOWZtqLa8vK68n0L6gkOI
+   DzXvvndXaz7bieMhcQLPqOP4JikuhYexLUszuPVZCInJG+0JNUAHCweG2
+   PEj61zWOn8RHR6T+w7I4egZPZRkHOOivTCVTeOCaF7gtxlEcgoUE4wsDo
+   A==;
+X-CSE-ConnectionGUID: lzqMc3f5THmpNjm7GlyXwA==
+X-CSE-MsgGUID: 4hxctsrwRQiGKbqeuLSg1Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="86451696"
 X-IronPort-AV: E=Sophos;i="6.23,146,1770624000"; 
-   d="scan'208";a="75956179"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2026 06:54:05 -0700
-X-CSE-ConnectionGUID: N4Wz+Lj9QBSno9x8XrH+sA==
-X-CSE-MsgGUID: 9hGTh2o3Ql6nYYjatSirrw==
+   d="scan'208";a="86451696"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2026 07:10:34 -0700
+X-CSE-ConnectionGUID: mrcOBv3aTha/CBqwHz4sig==
+X-CSE-MsgGUID: chhR5npDRJyWFGwfa/TPyA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,146,1770624000"; 
-   d="scan'208";a="248812701"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 28 Mar 2026 06:54:04 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="224767597"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 28 Mar 2026 07:10:33 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w6U6z-000000007gP-1bAH;
-	Sat, 28 Mar 2026 13:54:01 +0000
-Date: Sat, 28 Mar 2026 14:53:10 +0100
+	id 1w6UMw-00000000BTJ-2WdM;
+	Sat, 28 Mar 2026 14:10:30 +0000
+Date: Sat, 28 Mar 2026 22:09:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joanne Koong <joannelkoong@gmail.com>, axboe@kernel.dk
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, miklos@szeredi.hu,
-	bschubert@ddn.com, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v1 8/9] fuse: add zero-copy over io-uring
-Message-ID: <202603281401.HP3uX5G1-lkp@intel.com>
-References: <20260324224532.3733468-9-joannelkoong@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 0/2]
+ net/netfilter/core.c:43:30: sparse: sparse: symbol 'init_nf_hooks_bridge' was
+ not declared. Should it be static?
+Message-ID: <202603282146.Uw3JL8iV-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260324224532.3733468-9-joannelkoong@gmail.com>
 
-Hi Joanne,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on mszeredi-fuse/for-next]
-[also build test ERROR on linus/master v7.0-rc5 next-20260327]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Joanne-Koong/fuse-separate-next-request-fetching-from-sending-logic/20260328-142620
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git for-next
-patch link:    https://lore.kernel.org/r/20260324224532.3733468-9-joannelkoong%40gmail.com
-patch subject: [PATCH v1 8/9] fuse: add zero-copy over io-uring
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260328/202603281401.HP3uX5G1-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   1c08e57193aa5219b8fa24e666d79da02af3adab
+commit: bc4d82ee40515f0c770b28d0dc4fa532a2b1850e [0/2] ANDROID: KMI workaround for CONFIG_NETFILTER_FAMILY_BRIDGE
+config: i386-randconfig-061-20260327 (https://download.01.org/0day-ci/archive/20260328/202603282146.Uw3JL8iV-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603281401.HP3uX5G1-lkp@intel.com/reproduce)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603282146.Uw3JL8iV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603281401.HP3uX5G1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603282146.Uw3JL8iV-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> net/netfilter/core.c:43:30: sparse: sparse: symbol 'init_nf_hooks_bridge' was not declared. Should it be static?
+   net/netfilter/core.c:44:30: sparse: sparse: symbol 'init_nf_hooks_bridgep' redeclared with different type (different address spaces):
+   net/netfilter/core.c:44:30: sparse:    struct nf_hook_entries [noderef] __rcu **[addressable] [toplevel] init_nf_hooks_bridgep
+   net/netfilter/core.c: note: in included file (through include/linux/netdevice.h, include/linux/netfilter.h):
+   include/net/net_namespace.h:208:31: sparse: note: previously declared as:
+   include/net/net_namespace.h:208:31: sparse:    struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:215:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:215:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:215:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:215:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:215:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:215:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+--
+   net/netfilter/nf_queue.c: note: in included file (through include/linux/netdevice.h, include/linux/netfilter.h):
+>> include/net/net_namespace.h:215:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:215:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:215:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:215:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:215:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:215:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:215:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:215:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:215:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
 
->> fs/fuse/dev_uring.c:132:3: error: call to undeclared function 'io_buffer_unregister'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     132 |                 io_buffer_unregister(ent->cmd, ent->id, issue_flags);
-         |                 ^
-   fs/fuse/dev_uring.c:132:3: note: did you mean 'io_buffer_unregister_bvec'?
-   include/linux/io_uring/cmd.h:188:5: note: 'io_buffer_unregister_bvec' declared here
-     188 | int io_buffer_unregister_bvec(struct io_uring_cmd *cmd, unsigned int index,
-         |     ^
-   fs/fuse/dev_uring.c:317:17: error: call to undeclared function 'io_uring_registered_mem_region_get'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     317 |         mem_reg_addr = io_uring_registered_mem_region_get(cmd, &nr_pages,
-         |                        ^
-   fs/fuse/dev_uring.c:317:15: error: incompatible integer to pointer conversion assigning to 'void *' from 'int' [-Wint-conversion]
-     317 |         mem_reg_addr = io_uring_registered_mem_region_get(cmd, &nr_pages,
-         |                      ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     318 |                                                           issue_flags);
-         |                                                           ~~~~~~~~~~~~
-   fs/fuse/dev_uring.c:356:8: error: call to undeclared function 'io_uring_buf_ring_pin'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     356 |         err = io_uring_buf_ring_pin(cmd, FUSE_URING_BUFRING_GROUP, issue_flags,
-         |               ^
-   fs/fuse/dev_uring.c:361:7: error: call to undeclared function 'io_uring_is_kmbuf_ring'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     361 |         if (!io_uring_is_kmbuf_ring(cmd, FUSE_URING_BUFRING_GROUP, issue_flags))
-         |              ^
-   fs/fuse/dev_uring.c:372:2: error: call to undeclared function 'io_uring_buf_ring_unpin'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     372 |         io_uring_buf_ring_unpin(cmd, FUSE_URING_BUFRING_GROUP, issue_flags);
-         |         ^
-   fs/fuse/dev_uring.c:425:4: error: call to undeclared function 'io_uring_buf_ring_unpin'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     425 |                         io_uring_buf_ring_unpin(cmd, FUSE_URING_BUFRING_GROUP,
-         |                         ^
->> fs/fuse/dev_uring.c:859:11: error: use of undeclared identifier 'IO_BUF_DEST'
-     859 |                 ddir |= IO_BUF_DEST;
-         |                         ^
->> fs/fuse/dev_uring.c:861:11: error: use of undeclared identifier 'IO_BUF_SOURCE'
-     861 |                 ddir |= IO_BUF_SOURCE;
-         |                         ^
->> fs/fuse/dev_uring.c:883:11: error: too many arguments to function call, expected 5, have 8
-     881 |         err = io_buffer_register_bvec(ent->cmd, bvs, ap->num_folios,
-         |               ~~~~~~~~~~~~~~~~~~~~~~~
-     882 |                                       fuse_zero_copy_release, zc_bvs,
-     883 |                                       ddir, ent->id,
-         |                                       ^~~~~~~~~~~~~~
-     884 |                                       issue_flags);
-         |                                       ~~~~~~~~~~~
-   include/linux/io_uring/cmd.h:185:5: note: 'io_buffer_register_bvec' declared here
-     185 | int io_buffer_register_bvec(struct io_uring_cmd *cmd, struct request *rq,
-         |     ^                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     186 |                             void (*release)(void *), unsigned int index,
-         |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     187 |                             unsigned int issue_flags);
-         |                             ~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/fuse/dev_uring.c:1013:8: error: call to undeclared function 'io_ring_buffer_select'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1013 |         sel = io_ring_buffer_select(cmd_to_io_kiocb(ent->cmd), &len,
-         |               ^
-   fs/fuse/dev_uring.c:1013:8: note: did you mean 'io_uring_cmd_buffer_select'?
-   include/linux/io_uring/cmd.h:83:18: note: 'io_uring_cmd_buffer_select' declared here
-      83 | struct io_br_sel io_uring_cmd_buffer_select(struct io_uring_cmd *ioucmd,
-         |                  ^
-   fs/fuse/dev_uring.c:1013:6: error: assigning to 'struct io_br_sel' from incompatible type 'int'
-    1013 |         sel = io_ring_buffer_select(cmd_to_io_kiocb(ent->cmd), &len,
-         |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1014 |                                     ent->queue->bufring.list, issue_flags);
-         |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/fuse/dev_uring.c:1017:11: error: no member named 'kaddr' in 'struct io_br_sel'; did you mean 'addr'?
-    1017 |         if (!sel.kaddr)
-         |                  ^~~~~
-         |                  addr
-   include/linux/io_uring_types.h:100:16: note: 'addr' declared here
-     100 |                 void __user *addr;
-         |                              ^
-   fs/fuse/dev_uring.c:1020:35: error: no member named 'kaddr' in 'struct io_br_sel'; did you mean 'addr'?
-    1020 |         ent->payload_kvec.iov_base = sel.kaddr;
-         |                                          ^~~~~
-         |                                          addr
-   include/linux/io_uring_types.h:100:16: note: 'addr' declared here
-     100 |                 void __user *addr;
-         |                              ^
-   fs/fuse/dev_uring.c:1022:20: error: no member named 'buf_id' in 'struct io_br_sel'
-    1022 |         ent->buf_id = sel.buf_id;
-         |                       ~~~ ^
-   fs/fuse/dev_uring.c:1038:15: error: call to undeclared function 'io_uring_kmbuf_recycle'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1038 |         WARN_ON_ONCE(io_uring_kmbuf_recycle(ent->cmd, FUSE_URING_BUFRING_GROUP,
-         |                      ^
-   16 errors generated.
+vim +/init_nf_hooks_bridge +43 net/netfilter/core.c
 
-
-vim +/io_buffer_unregister +132 fs/fuse/dev_uring.c
-
-   110	
-   111	static void fuse_uring_req_end(struct fuse_ring_ent *ent, struct fuse_req *req,
-   112				       int error, unsigned issue_flags)
-   113	{
-   114		struct fuse_ring_queue *queue = ent->queue;
-   115		struct fuse_ring *ring = queue->ring;
-   116		struct fuse_conn *fc = ring->fc;
-   117	
-   118		lockdep_assert_not_held(&queue->lock);
-   119		spin_lock(&queue->lock);
-   120		ent->fuse_req = NULL;
-   121		list_del_init(&req->list);
-   122		if (test_bit(FR_BACKGROUND, &req->flags)) {
-   123			queue->active_background--;
-   124			spin_lock(&fc->bg_lock);
-   125			fuse_uring_flush_bg(queue);
-   126			spin_unlock(&fc->bg_lock);
-   127		}
-   128	
-   129		spin_unlock(&queue->lock);
-   130	
-   131		if (ent->zero_copied) {
- > 132			io_buffer_unregister(ent->cmd, ent->id, issue_flags);
-   133			ent->zero_copied = false;
-   134		}
-   135	
-   136		if (error)
-   137			req->out.h.error = error;
-   138	
-   139		clear_bit(FR_SENT, &req->flags);
-   140		fuse_request_end(req);
-   141	}
-   142	
+    41	
+    42	#ifdef CONFIG_NETFILTER_FAMILY_BRIDGE
+  > 43	struct nf_hook_entries __rcu *init_nf_hooks_bridge[NF_INET_NUMHOOKS];
+    44	struct nf_hook_entries __rcu **init_nf_hooks_bridgep = &init_nf_hooks_bridge[0];
+    45	EXPORT_SYMBOL_GPL(init_nf_hooks_bridgep);
+    46	#endif
+    47	
 
 -- 
 0-DAY CI Kernel Test Service
