@@ -1,85 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C651AAE28
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Mar 2026 06:39:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 986FE19A2A3
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Mar 2026 07:12:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774766359; cv=none; b=WbCncPBOf5kBhJRC0cFGuuxqelDab1JJzPCQPnfxgzQtfhDcBVUTylG4KnK+RDe3uV+WVWEuBjJfHOz+rG2Il9vzcu6I6/FhlooSA3SDAKFUx1fqm2CTJoVybaRLJB88ikoe3EWu2SB9MZtzZ+SD6sPuvbXCWvITLj53YAQ3Ms0=
+	t=1774768357; cv=none; b=qmozeGeOmHtYdKxeqTAldYdbHFzL0qewjJhePzA3Q4pjKVI3Wt9S9nJqZAUBtX8bOGpRC+Dp67cbeNaklJC02Jmh3ifczi5F4q3i7o6H/uT8gtQDFplOyAk1YLg2k4XMzMfdKV+b9oJM2e7gv9DNsPlbwD04rsxqjV2naUGonjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774766359; c=relaxed/simple;
-	bh=VcPmhHcEmifxYBbJsYS4iyFfMTV9gLR9RBAjGGnkYG8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tpOGjuuokiXmjxWKEGkwgWnBu9KzYgEVVrilYOH+ZGelXbZ2Qcb6nwVa8f7Uj551dM/Hts5ZW71owmhUKtt1YfC3ISU806Lr1Jt4/QId52KLrpYXfgHJgMBKyY50U5BOU9H12N0FA1HYJ9LyDqZ1GRk4/A0ALZWj2nsldNVGobs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j7lCYRd2; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1774768357; c=relaxed/simple;
+	bh=222N3yZc7l57S6b86csg8NsKTSFzJHiNy/SEUFMldsc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Q2zQpiUA8UYRCEfZgtyWgBLDCUKpkWXdt5NldSJ+cy5DWVqJqLJmfp03s0Gu07DW3MDFZ5gqLuHlofGlo9P3BdbUVIDeQQeURiUoxp5iDosKKSqj53C6qKzZG7Pxlsi56D2p4I7bfoVBTa6yOLIKttAyxI2AysJqY30julrTvqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fL8dkuh6; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j7lCYRd2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fL8dkuh6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774766357; x=1806302357;
-  h=date:from:to:cc:subject:message-id;
-  bh=VcPmhHcEmifxYBbJsYS4iyFfMTV9gLR9RBAjGGnkYG8=;
-  b=j7lCYRd2GD6rEce9jVV/hZiZIHH2Qh7uNLmrN6FeaZsJFgyhCoG0XpwN
-   e8g1qZbsnjN9yBuOc9I8mbdKOrSBN2sPGul9rT17COlaVvylmCLxtBjYN
-   wX11+IzQNRNcYc1wl5dpWDgdwvx4HDldK92ut+ub5qpRyqvn4Wcea6rhX
-   vPWpjsPmlqS56BT5a0iRaIUPtQJ+bT6QtoAVS71Juzbm4d06lilT27tLs
-   hYNXZXPCiiIjcOK5vJe+7mnGhm9naGKiHbFt9i0LUfVYJVGsA5XLjIGZ2
-   oPfLWuWdXxye0H3CDDQcEndMNb90/tWwvG7exUVYvvUfCloOrsRLdcxRm
-   A==;
-X-CSE-ConnectionGUID: LuhPG7+BS6a7N32ep9oYLQ==
-X-CSE-MsgGUID: xNh3w+UJSgulG3eiBrWLag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="75674188"
+  t=1774768355; x=1806304355;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=222N3yZc7l57S6b86csg8NsKTSFzJHiNy/SEUFMldsc=;
+  b=fL8dkuh6GjRDq/ok3LKVZ5B4VDmdEO6GP4iYNn6J7NePUFBFUW1BwPah
+   ahTHC2DJJBdZU7vHrVsTWDMyRyfh3eTEH6qWF/+vBP4IS4OYYS3EQzuXK
+   p4rKsljn/BpHOc6wkSHYXDvE5TibZHOBXoq/qUAu0S3krCnGZ/KUbk1/K
+   IB2QC4bMLRNFdUJdlfVtUs+HdX9GhH0ZtI0LemcxSGVbqjFbhYLu4znnN
+   MzgxZWG60vIeG4yaT+ZR2KQ0FTCAVwxaJg9MN9D5NtetG3xEZKv2YSMCY
+   ERrL1bo763CEAfub4JgCztJOMGai06ZjtvP67v/NfwwP3VJAUl1SD9RlC
+   Q==;
+X-CSE-ConnectionGUID: 7K0sAdTaRbKUO2u3GD7mKA==
+X-CSE-MsgGUID: pjB7FHv1Q/CEA7zPX5Cgng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="79691746"
 X-IronPort-AV: E=Sophos;i="6.23,147,1770624000"; 
-   d="scan'208";a="75674188"
+   d="scan'208";a="79691746"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2026 23:39:17 -0700
-X-CSE-ConnectionGUID: THAbWtpmTfa1iqqlk5Bnsg==
-X-CSE-MsgGUID: A7NvDiHeRjyRC+N9aUmTlw==
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2026 00:12:35 -0700
+X-CSE-ConnectionGUID: 3fhs/XkvRQijq+qMRVSuWQ==
+X-CSE-MsgGUID: HqDIBv53QkiskDWWzsJorQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,147,1770624000"; 
-   d="scan'208";a="256223949"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 28 Mar 2026 23:39:14 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="256243570"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 29 Mar 2026 00:12:34 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w6jnk-000000007rx-1La5;
-	Sun, 29 Mar 2026 06:39:12 +0000
-Date: Sun, 29 Mar 2026 08:38:47 +0200
+	id 1w6kJz-00000000CBB-0hgv;
+	Sun, 29 Mar 2026 07:12:31 +0000
+Date: Sun, 29 Mar 2026 15:12:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ronald Claveau <linux-kernel-dev@aliel.fr>
-Cc: oe-kbuild-all@lists.linux.dev,
- Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [linux-next:master 8726/10350]
- arch/arm64/boot/dts/amlogic/amlogic-t7-a311d2-khadas-vim4.dtb:
- regulator-sdcard-3v3 (regulator-fixed): Unevaluated properties are not
- allowed ('enable-active-low' was unexpected)
-Message-ID: <202603290828.5gt393t6-lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>,
+ =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dd-shrink-go 74/82] lib/dynamic_debug.c:1493:13:
+ warning: 'ddebug_clear_range' defined but not used
+Message-ID: <202603291542.tjCcRvDB-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   3b058d1aeeeff27a7289529c4944291613b364e9
-commit: 60eff75ac67bbf5445bdbd2842b0109ac591441c [8726/10350] arm64: dts: amlogic: t7: khadas-vim4: Add power regulators
-config: arm64-randconfig-2051-20260326 (https://download.01.org/0day-ci/archive/20260329/202603290828.5gt393t6-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema: 2025.13.dev8+g0515abdd9
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260329/202603290828.5gt393t6-lkp@intel.com/reproduce)
+tree:   https://github.com/jimc/linux.git dd-shrink-go
+head:   f409704b5c87caf13b0b57711d45606be12d5572
+commit: 36d5f5fb03554bcb2be5d68642ee6c165d8b83d4 [74/82] dyndbg: ddebug_clear_range - prune module's site info on rmmod
+config: nios2-randconfig-002-20260329 (https://download.01.org/0day-ci/archive/20260329/202603291542.tjCcRvDB-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260329/202603291542.tjCcRvDB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603290828.5gt393t6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603291542.tjCcRvDB-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/amlogic/amlogic-t7.dtsi:241.34-489.6: Warning (unit_address_vs_reg): /soc/bus@fe000000/pinctrl@4000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/amlogic/amlogic-t7.dtsi:241.34-489.6: Warning (simple_bus_reg): /soc/bus@fe000000/pinctrl@4000: missing or empty reg/ranges property
->> arch/arm64/boot/dts/amlogic/amlogic-t7-a311d2-khadas-vim4.dtb: regulator-sdcard-3v3 (regulator-fixed): Unevaluated properties are not allowed ('enable-active-low' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+All warnings (new ones prefixed by >>):
+
+   lib/dynamic_debug.c:1571:12: warning: 'ddebug_remove_module' declared 'static' but never defined [-Wunused-function]
+    1571 | static int ddebug_remove_module(const char *mod_name);
+         |            ^~~~~~~~~~~~~~~~~~~~
+>> lib/dynamic_debug.c:1493:13: warning: 'ddebug_clear_range' defined but not used [-Wunused-function]
+    1493 | static void ddebug_clear_range(const struct _ddebug_info *di)
+         |             ^~~~~~~~~~~~~~~~~~
+
+
+vim +/ddebug_clear_range +1493 lib/dynamic_debug.c
+
+  1492	
+> 1493	static void ddebug_clear_range(const struct _ddebug_info *di)
+  1494	{
+  1495		unsigned long start = (unsigned long) di->descs.start;
+  1496		unsigned long end = (unsigned long) &di->descs.start[di->descs.len - 1];
+  1497	
+  1498		MA_STATE(mod_mas, &dd_mod_map, start, end);
+  1499		MA_STATE(file_mas, &dd_file_map, start, end);
+  1500		MA_STATE(func_mas, &dd_func_map, start, end);
+  1501	
+  1502		v2pr_info("clearing %3d debugs of removed module %s\n",
+  1503			  di->descs.len, di->mod_name);
+  1504	
+  1505		mas_lock(&mod_mas);
+  1506		mas_erase(&mod_mas);
+  1507		mas_unlock(&mod_mas);
+  1508	
+  1509		mas_lock(&file_mas);
+  1510		mas_erase(&file_mas);
+  1511		mas_unlock(&file_mas);
+  1512	
+  1513		mas_lock(&func_mas);
+  1514		mas_erase(&func_mas);
+  1515		mas_unlock(&func_mas);
+  1516	}
+  1517	
 
 -- 
 0-DAY CI Kernel Test Service
