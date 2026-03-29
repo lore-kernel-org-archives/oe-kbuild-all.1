@@ -1,182 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC5E61AF0BB;
-	Sat, 28 Mar 2026 22:06:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3AC1DE2D8
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Mar 2026 02:35:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774735572; cv=none; b=uw0RqrZl2pfvmjFfG15Cx1TcyI9dN8XfkDnWAEm05FNQ7XRBaHNDaSuFzAa8ouDPs9ktxn7bdvQoxfqURiWgNjO4uHFFk2aAXZjt4JCJZhOp+l4s5t2LkgkHUjPM61pgGTxrJw+iUvraHxjmHjCfXkWp/3KIHrXwZmvvhCaZrKE=
+	t=1774751716; cv=none; b=e9VitEK9aOBS556WGFNHuOYqp2OUtU+riMjTPN5ar/Xt8vTFZNBnAhqwdAyJ3KMxhQl6CS8jArH9KXgbNLbuIa/WpUXR0UVmfOAKphqmhoybWAWwYNbG5eSNrOCWbyae1F1ImNLYdjWA1p2zZzsarQUkNiDwnIM01/ha96Hnnv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774735572; c=relaxed/simple;
-	bh=pzc/tpsXptWa/yPOeB/pL7zDiAuIXRW8wVhhv3EJYGc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IUhMUv57lJULBYpa5M48x8cRdnKZmmJjbVcY5C6fAXUZ8C/1vA6+Frkk2Y3oq/+k2jfwfQAy93/LaMKonudK+JVDMQrpVJfdWOzUfWSRGZxP+/GLMNAWIdhilyyBuPU/8s0D3xB1hWfytq98CIwVfif1O5ErckmvgSMpxNyiTrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O6yLyMe8; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1774751716; c=relaxed/simple;
+	bh=9Ac+RSLBl3qky9OwUZcUwRRdxwp3gQ2XnjjcUvvUvmU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=XqkJb7sg9sDI+nOaBMHoIM5JeYfMVonxKF21w+CvhFvfpN/P2AG/gSQ0QVqAtjUmYcw+1uKsuq/ippOe8uXoUF4aoC9Dd1qOF+ShCGir3DilpRk9GdsEZExT5m4UI9J1K4IaQXK2gpjop381KIl/gWz5s+fmgYJjpXiyplagiK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h6RGL9T8; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O6yLyMe8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h6RGL9T8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774735569; x=1806271569;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pzc/tpsXptWa/yPOeB/pL7zDiAuIXRW8wVhhv3EJYGc=;
-  b=O6yLyMe88Nhsc3aLW49+hkCqWDJzJjnGis0wr9dlRPeEjzyYLHFAN+xB
-   D/bJw3ud7WdgNMhcJV50VQKuIem66x86YG4jY+lYKMD48tP9m/VS8qArv
-   NHoTaJfD+FQDnXwob5oo4t4fm+aq55P5VKGeVpYqc0dcJRmbjTg3RlHaA
-   HZZRL/Yf5o3HbuXRiZd2Z/s4ps1MbEGP/FdlyC/XeqivGZy5oeBRDt0Nk
-   2LuZf4B/ZIvvaDilyQiN26fxYtdBVi6Yucmvc22s0vS3+/jhELLElTw+S
-   4OJzq4MOfecce/zSfSQIrz7vUxI3pAJjeZJ5kubWWSKyTJQM5qsUrMbuk
-   w==;
-X-CSE-ConnectionGUID: m2+9P1GuQCq/N4uamty7aA==
-X-CSE-MsgGUID: ouKcG8mtRS6/5k5s4l1msQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="75793924"
-X-IronPort-AV: E=Sophos;i="6.23,146,1770624000"; 
-   d="scan'208";a="75793924"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2026 15:06:09 -0700
-X-CSE-ConnectionGUID: w8xu/IBFTLKr5v3SzSh+tA==
-X-CSE-MsgGUID: +GVCDlQhQuiRiai87czLpA==
+  t=1774751715; x=1806287715;
+  h=date:from:to:cc:subject:message-id;
+  bh=9Ac+RSLBl3qky9OwUZcUwRRdxwp3gQ2XnjjcUvvUvmU=;
+  b=h6RGL9T8PqLlG+p++2gY4P4S9Et5j27bFxNBMJJ/l753JxmZa1IZjXCw
+   kedgF2+Ae5yjAuD/6GubwpyfWcMuJmPQ+WQjJs7Xh43I1U6/8EsRvmrRA
+   ul8wEXuf16IM6S5WOXtzRbx72yc3t5s60/c6fOJI7zh/VAJPtE3ZUQzyH
+   1GzQ9TkbtgOZbdrSSZo9qsarSeMXq3rlnWWO0dwizfNK62Ui49pF8tkPj
+   h3FG6A6XhxNNqeHysG54BiHrYL/rg1pw5NRvH9lqKLXTjdd7j2EJM5rIH
+   MTA+bRJRhaGBPxW6229I5M247OX8FQa3IexSIecCY8V2BCN1dvL65Oqiv
+   g==;
+X-CSE-ConnectionGUID: S+cMYfgBTdGJVZmrrvc8sA==
+X-CSE-MsgGUID: GB8nynnpQIm80KfTotW4aQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="75844510"
+X-IronPort-AV: E=Sophos;i="6.23,147,1770624000"; 
+   d="scan'208";a="75844510"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2026 19:35:12 -0700
+X-CSE-ConnectionGUID: x3HKWqNxS/i/bfpAQLqJ9w==
+X-CSE-MsgGUID: /nARMqSfRli6iV78q6y0vQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,146,1770624000"; 
-   d="scan'208";a="225545327"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 28 Mar 2026 15:06:04 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.23,147,1770624000"; 
+   d="scan'208";a="227311345"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa004.fm.intel.com with ESMTP; 28 Mar 2026 19:35:11 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w6bn6-00000000BoL-0LI1;
-	Sat, 28 Mar 2026 22:06:00 +0000
-Date: Sun, 29 Mar 2026 06:05:27 +0800
+	id 1w6fzZ-000000007nz-0UyO;
+	Sun, 29 Mar 2026 02:35:09 +0000
+Date: Sun, 29 Mar 2026 04:34:55 +0200
 From: kernel test robot <lkp@intel.com>
-To: Jay Liu <jay.liu@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Jay Liu <jay.liu@mediatek.com>
-Subject: Re: [PATCH v4 5/6] drm/mediatek: Support multiple CCORR component
-Message-ID: <202603290611.fr83Gu7M-lkp@intel.com>
-References: <20260324125315.4715-6-jay.liu@mediatek.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-mainline 12/12]
+ progs/hid_bpf_helpers.h:114:31: error: declaration of 'struct bpf_wq' will
+ not be visible outside of this function
+Message-ID: <202603290453.fNVfrWWe-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260324125315.4715-6-jay.liu@mediatek.com>
 
-Hi Jay,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm/drm-next pza/reset/next linus/master v7.0-rc5 next-20260327]
-[cannot apply to pza/imx-drm/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jay-Liu/dt-bindings-display-mediatek-gamma-Add-support-for-MT8196/20260328-083359
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20260324125315.4715-6-jay.liu%40mediatek.com
-patch subject: [PATCH v4 5/6] drm/mediatek: Support multiple CCORR component
-config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260329/202603290611.fr83Gu7M-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260329/202603290611.fr83Gu7M-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android-mainline
+head:   f913cf91bd605dfe1c02404e4ed46d65b9a40169
+commit: 662100c8e61044374da90c4088c255e43e63ed04 [12/12] Merge 88264981f208 ("Merge tag 'sched_ext-for-6.12' of git://git.kernel.org/pub/scm/linux/kernel/git/tj/sched_ext") into android-mainline
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260329/202603290453.fNVfrWWe-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260329/202603290453.fNVfrWWe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603290611.fr83Gu7M-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603290453.fNVfrWWe-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/mediatek/mtk_ddp_comp.c:461:3: error: use of undeclared identifier 'DDP_COMPONENT_CCORR0'; did you mean 'DDP_COMPONENT_CCORR'?
-     461 |         [DDP_COMPONENT_CCORR0]          = { MTK_DISP_CCORR,             0, &ddp_ccorr },
-         |          ^~~~~~~~~~~~~~~~~~~~
-         |          DDP_COMPONENT_CCORR
-   include/linux/soc/mediatek/mtk-mmsys.h:27:2: note: 'DDP_COMPONENT_CCORR' declared here
-      27 |         DDP_COMPONENT_CCORR,
-         |         ^
->> drivers/gpu/drm/mediatek/mtk_ddp_comp.c:462:3: error: use of undeclared identifier 'DDP_COMPONENT_CCORR1'; did you mean 'DDP_COMPONENT_CCORR'?
-     462 |         [DDP_COMPONENT_CCORR1]          = { MTK_DISP_CCORR,             1, &ddp_ccorr },
-         |          ^~~~~~~~~~~~~~~~~~~~
-         |          DDP_COMPONENT_CCORR
-   include/linux/soc/mediatek/mtk-mmsys.h:27:2: note: 'DDP_COMPONENT_CCORR' declared here
-      27 |         DDP_COMPONENT_CCORR,
-         |         ^
-   drivers/gpu/drm/mediatek/mtk_ddp_comp.c:462:28: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     462 |         [DDP_COMPONENT_CCORR1]          = { MTK_DISP_CCORR,             1, &ddp_ccorr },
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/mediatek/mtk_ddp_comp.c:461:28: note: previous initialization is here
-     461 |         [DDP_COMPONENT_CCORR0]          = { MTK_DISP_CCORR,             0, &ddp_ccorr },
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning and 2 errors generated.
-
-
-vim +461 drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-
-   456	
-   457	static const struct mtk_ddp_comp_match mtk_ddp_matches[DDP_COMPONENT_DRM_ID_MAX] = {
-   458		[DDP_COMPONENT_AAL0]		= { MTK_DISP_AAL,		0, &ddp_aal },
-   459		[DDP_COMPONENT_AAL1]		= { MTK_DISP_AAL,		1, &ddp_aal },
-   460		[DDP_COMPONENT_BLS]		= { MTK_DISP_BLS,		0, NULL },
- > 461		[DDP_COMPONENT_CCORR0]		= { MTK_DISP_CCORR,		0, &ddp_ccorr },
- > 462		[DDP_COMPONENT_CCORR1]		= { MTK_DISP_CCORR,		1, &ddp_ccorr },
-   463		[DDP_COMPONENT_COLOR0]		= { MTK_DISP_COLOR,		0, &ddp_color },
-   464		[DDP_COMPONENT_COLOR1]		= { MTK_DISP_COLOR,		1, &ddp_color },
-   465		[DDP_COMPONENT_DITHER0]		= { MTK_DISP_DITHER,		0, &ddp_dither },
-   466		[DDP_COMPONENT_DP_INTF0]	= { MTK_DP_INTF,		0, &ddp_dpi },
-   467		[DDP_COMPONENT_DP_INTF1]	= { MTK_DP_INTF,		1, &ddp_dpi },
-   468		[DDP_COMPONENT_DPI0]		= { MTK_DPI,			0, &ddp_dpi },
-   469		[DDP_COMPONENT_DPI1]		= { MTK_DPI,			1, &ddp_dpi },
-   470		[DDP_COMPONENT_DRM_OVL_ADAPTOR]	= { MTK_DISP_OVL_ADAPTOR,	0, &ddp_ovl_adaptor },
-   471		[DDP_COMPONENT_DSC0]		= { MTK_DISP_DSC,		0, &ddp_dsc },
-   472		[DDP_COMPONENT_DSC1]		= { MTK_DISP_DSC,		1, &ddp_dsc },
-   473		[DDP_COMPONENT_DSI0]		= { MTK_DSI,			0, &ddp_dsi },
-   474		[DDP_COMPONENT_DSI1]		= { MTK_DSI,			1, &ddp_dsi },
-   475		[DDP_COMPONENT_DSI2]		= { MTK_DSI,			2, &ddp_dsi },
-   476		[DDP_COMPONENT_DSI3]		= { MTK_DSI,			3, &ddp_dsi },
-   477		[DDP_COMPONENT_GAMMA]		= { MTK_DISP_GAMMA,		0, &ddp_gamma },
-   478		[DDP_COMPONENT_MERGE0]		= { MTK_DISP_MERGE,		0, &ddp_merge },
-   479		[DDP_COMPONENT_MERGE1]		= { MTK_DISP_MERGE,		1, &ddp_merge },
-   480		[DDP_COMPONENT_MERGE2]		= { MTK_DISP_MERGE,		2, &ddp_merge },
-   481		[DDP_COMPONENT_MERGE3]		= { MTK_DISP_MERGE,		3, &ddp_merge },
-   482		[DDP_COMPONENT_MERGE4]		= { MTK_DISP_MERGE,		4, &ddp_merge },
-   483		[DDP_COMPONENT_MERGE5]		= { MTK_DISP_MERGE,		5, &ddp_merge },
-   484		[DDP_COMPONENT_OD0]		= { MTK_DISP_OD,		0, &ddp_od },
-   485		[DDP_COMPONENT_OD1]		= { MTK_DISP_OD,		1, &ddp_od },
-   486		[DDP_COMPONENT_OVL0]		= { MTK_DISP_OVL,		0, &ddp_ovl },
-   487		[DDP_COMPONENT_OVL1]		= { MTK_DISP_OVL,		1, &ddp_ovl },
-   488		[DDP_COMPONENT_OVL_2L0]		= { MTK_DISP_OVL_2L,		0, &ddp_ovl },
-   489		[DDP_COMPONENT_OVL_2L1]		= { MTK_DISP_OVL_2L,		1, &ddp_ovl },
-   490		[DDP_COMPONENT_OVL_2L2]		= { MTK_DISP_OVL_2L,		2, &ddp_ovl },
-   491		[DDP_COMPONENT_POSTMASK0]	= { MTK_DISP_POSTMASK,		0, &ddp_postmask },
-   492		[DDP_COMPONENT_PWM0]		= { MTK_DISP_PWM,		0, NULL },
-   493		[DDP_COMPONENT_PWM1]		= { MTK_DISP_PWM,		1, NULL },
-   494		[DDP_COMPONENT_PWM2]		= { MTK_DISP_PWM,		2, NULL },
-   495		[DDP_COMPONENT_RDMA0]		= { MTK_DISP_RDMA,		0, &ddp_rdma },
-   496		[DDP_COMPONENT_RDMA1]		= { MTK_DISP_RDMA,		1, &ddp_rdma },
-   497		[DDP_COMPONENT_RDMA2]		= { MTK_DISP_RDMA,		2, &ddp_rdma },
-   498		[DDP_COMPONENT_RDMA4]		= { MTK_DISP_RDMA,		4, &ddp_rdma },
-   499		[DDP_COMPONENT_UFOE]		= { MTK_DISP_UFOE,		0, &ddp_ufoe },
-   500		[DDP_COMPONENT_WDMA0]		= { MTK_DISP_WDMA,		0, NULL },
-   501		[DDP_COMPONENT_WDMA1]		= { MTK_DISP_WDMA,		1, NULL },
-   502	};
-   503	
+   In file included from progs/hid.c:3:
+>> progs/hid_bpf_helpers.h:114:31: error: declaration of 'struct bpf_wq' will not be visible outside of this function [-Werror,-Wvisibility]
+     114 | extern int bpf_wq_init(struct bpf_wq *wq, void *p__map, unsigned int flags) __weak __ksym;
+         |                               ^
+   progs/hid_bpf_helpers.h:115:32: error: declaration of 'struct bpf_wq' will not be visible outside of this function [-Werror,-Wvisibility]
+     115 | extern int bpf_wq_start(struct bpf_wq *wq, unsigned int flags) __weak __ksym;
+         |                                ^
+   progs/hid_bpf_helpers.h:116:44: error: declaration of 'struct bpf_wq' will not be visible outside of this function [-Werror,-Wvisibility]
+     116 | extern int bpf_wq_set_callback_impl(struct bpf_wq *wq,
+         |                                            ^
+>> progs/hid.c:448:16: error: field has incomplete type 'struct bpf_wq'
+     448 |         struct bpf_wq work;
+         |                       ^
+   progs/hid.c:448:9: note: forward declaration of 'struct bpf_wq'
+     448 |         struct bpf_wq work;
+         |                ^
+>> progs/hid.c:487:18: error: incompatible pointer types passing 'struct bpf_wq *' to parameter of type 'struct bpf_wq *' [-Wincompatible-pointer-types]
+     487 |         if (bpf_wq_init(wq, &hmap, 0) != 0)
+         |                         ^~
+   progs/hid_bpf_helpers.h:114:39: note: passing argument to parameter 'wq' here
+     114 | extern int bpf_wq_init(struct bpf_wq *wq, void *p__map, unsigned int flags) __weak __ksym;
+         |                                       ^
+   progs/hid.c:490:26: error: incompatible pointer types passing 'struct bpf_wq *' to parameter of type 'struct bpf_wq *' [-Wincompatible-pointer-types]
+     490 |         if (bpf_wq_set_callback(wq, wq_cb_sleepable, 0))
+         |                                 ^~
+   progs/hid_bpf_helpers.h:116:52: note: passing argument to parameter 'wq' here
+     116 | extern int bpf_wq_set_callback_impl(struct bpf_wq *wq,
+         |                                                    ^
+   progs/hid.c:493:19: error: incompatible pointer types passing 'struct bpf_wq *' to parameter of type 'struct bpf_wq *' [-Wincompatible-pointer-types]
+     493 |         if (bpf_wq_start(wq, 0))
+         |                          ^~
+   progs/hid_bpf_helpers.h:115:40: note: passing argument to parameter 'wq' here
+     115 | extern int bpf_wq_start(struct bpf_wq *wq, unsigned int flags) __weak __ksym;
+         |                                        ^
+   progs/hid.c:503:24: error: incomplete definition of type 'struct hid_device'
+     503 |         int hid = hid_ctx->hid->id;
+         |                   ~~~~~~~~~~~~^
+   progs/hid_bpf_helpers.h:56:9: note: forward declaration of 'struct hid_device'
+      56 |         struct hid_device *hid;
+         |                ^
+   8 errors generated.
 
 -- 
 0-DAY CI Kernel Test Service
