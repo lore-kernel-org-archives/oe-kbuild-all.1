@@ -1,73 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10EB826AF4;
-	Sun, 29 Mar 2026 02:44:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E825175A99
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Mar 2026 03:36:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774752267; cv=none; b=ra8nDYx2o9nZ/Sb3nEbXeIWDUbap81CbG53WjGEnbAARjUwAMFzL7hZBc7lAgrhBJiw3DAc9XsJTeqbKcEZOHepVUWgQbYV2/aOjiFiuCBdMF/IimY1JUSJwQa4iwfVn3Z6tU2eTEkjeZ109g8sH4GEmlZnIrEWdSNDFTO7bQL8=
+	t=1774755376; cv=none; b=EZ5K5vLHKGc29XoJqNsU622URlLJMsHXkaTxRqsTaahUbCf/ZW8XG/a+PelOALCLq95iy42QRiB0xHzRQTmPWDDLQCLqAoWiw73OQlKbL/HjjhoCp9+D4uY//tTmFiz+5QqVW0bCyAkAVn6d9qbIioOqqm6GNSQODqhFLHLiHC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774752267; c=relaxed/simple;
-	bh=zP8pKciSR07cE+zE4CuckNxlz1naeSv/P8AgYFY+L+0=;
+	s=arc-20240116; t=1774755376; c=relaxed/simple;
+	bh=9ytAeKE/UzFshfNCHXMHWpVFEfff5dpY5i6td80F2xg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DEUIlqtvcJhBJKK9gQg6HVh8gsJr9+oPTnjL/XSW/iwGFwdpf40k9YQvZtHGiEAlT8Dq4J3GRZn8F/eP5WCWkiskgJXZwbmaxgqZeOsbL533mTfTLVeeRsTrDfP2HBCqhg0wmBiZWKjIUizp8VInyZASOaXzMLk2qY8Rc98l/yM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lJWFP9vO; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=BRrG3/Izzl6nFzsLLhi9loXZ9dSOVbvVk88wJuXL7j37Iswh8JXBbNzIqSYwn88KPOiy/rHUyEysKEL3Jy1S6YZkIbL+70Fcw9eynOjPhXISo+q0l5TIYv2pRQGRrVszG7tvrWvT4VHR1ztx77qm2Kq5ixZsT2Dg5y3r4nuNVns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QXuZwpdl; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lJWFP9vO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QXuZwpdl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774752266; x=1806288266;
+  t=1774755375; x=1806291375;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=zP8pKciSR07cE+zE4CuckNxlz1naeSv/P8AgYFY+L+0=;
-  b=lJWFP9vOPi5B8ij+TirJ1RfGtpFn6xCB76oo7hfifZMHJoQhF4YR8MVW
-   6tNSR15i+UzUwSRySedtAIs8P7JFqz/uqQIq8h3kYBliN/4PqHWZ6AwEq
-   trWPnIEqXhMP0eKhK7ZGwmVPKSJg4jvZ9lOd695/SXfqn2lbabOFMJAY/
-   vgYepJGigPl0AUAwPL+uLKtAuNR13BBtMLKlftnDTw/3gH0AW7AA8LvrH
-   +pokTqnVGG0FD7Z4LcyXmZEBjTHrk7ifRwaCgYfT1+1n+i0XlEfIsQ2ZS
-   7WdKHNDfKqYk09taY5vYBG35rK/EraQiVWa1emwackQY3cBm3zjpnOwPn
-   g==;
-X-CSE-ConnectionGUID: jyw2IWaVRc2yqrfOC3tEzA==
-X-CSE-MsgGUID: FSMAdOSYRhG3IR1Or24xPQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="93165224"
+  bh=9ytAeKE/UzFshfNCHXMHWpVFEfff5dpY5i6td80F2xg=;
+  b=QXuZwpdlTerkISOOLx4XUOs1JHAP6Xe4AgVhk0fVNFrxTb6mT9KRTPir
+   /gArLIkrOKRAR8eUtJ0DpoTUO0CS2gDa0ysJ8b+tQO0dvJ3C8T8WmgQDM
+   P3sGbBjVrCJazQNsoNpT0ZEWpVuGAtcdJxqu0JjMS7vcBF79ptJh6mDrC
+   Q/B7+wzYUGaI9835g3DOWLWyuLcMQRIUx0dp1YuIO0WJGmR/Eu0pyrz0P
+   PZi+dHO6dR8Uzfh/cyQrzgxOdWSPCTNnVuFL7hV41rlvO63rS+BSjS2ub
+   36UBbBEVcspEWckvi8q/d017jRzKxVfDMZgyIHbiBipJdKYNBLtcqnudY
+   A==;
+X-CSE-ConnectionGUID: 2iM6jE0YTsupg1Wn9FJDkA==
+X-CSE-MsgGUID: MmNeBjldQEmWnJcf1qHVRw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="75753741"
 X-IronPort-AV: E=Sophos;i="6.23,147,1770624000"; 
-   d="scan'208";a="93165224"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2026 19:44:25 -0700
-X-CSE-ConnectionGUID: /GOkUf93RbSK9TYX5Vm+Zw==
-X-CSE-MsgGUID: PiBYSUfHRqK2zAYwZmdP0g==
+   d="scan'208";a="75753741"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2026 20:36:14 -0700
+X-CSE-ConnectionGUID: f+eshzxOQVWnGfKu5XPiQA==
+X-CSE-MsgGUID: m6ahOgrAT2ul745eGhzoRw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,147,1770624000"; 
-   d="scan'208";a="224730212"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 28 Mar 2026 19:44:21 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+   d="scan'208";a="222386413"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 28 Mar 2026 20:36:12 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w6g8P-00000000C1B-46D9;
-	Sun, 29 Mar 2026 02:44:17 +0000
-Date: Sun, 29 Mar 2026 10:43:38 +0800
+	id 1w6gwb-000000007oz-3fPe;
+	Sun, 29 Mar 2026 03:36:09 +0000
+Date: Sun, 29 Mar 2026 05:36:06 +0200
 From: kernel test robot <lkp@intel.com>
-To: Otto =?iso-8859-1?Q?Pfl=FCger?= <otto.pflueger@abscue.de>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>, Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Sebastian Reichel <sre@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-rtc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	Otto =?iso-8859-1?Q?Pfl=FCger?= <otto.pflueger@abscue.de>
-Subject: Re: [PATCH v2 3/5] mfd: sprd-sc27xx: Switch to devm_mfd_add_devices()
-Message-ID: <202603291013.6DnmGjG3-lkp@intel.com>
-References: <20260325-sc27xx-mfd-cells-v2-3-d0ebb60aa4a7@abscue.de>
+To: Kuniyuki Iwashima <kuniyu@google.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Simon Horman <horms@kernel.org>,
+	Kuniyuki Iwashima <kuniyu@google.com>
+Subject: Re: [PATCH v1 net-next] tun: Ignore tun in netdev_lock_pos().
+Message-ID: <202603290553.sJzkZoGo-lkp@intel.com>
+References: <20260327213441.3781433-1-kuniyu@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,122 +70,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260325-sc27xx-mfd-cells-v2-3-d0ebb60aa4a7@abscue.de>
+In-Reply-To: <20260327213441.3781433-1-kuniyu@google.com>
 
-Hi Otto,
+Hi Kuniyuki,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 85964cdcad0fac9a0eb7b87a0f9d88cc074b854c]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Otto-Pfl-ger/dt-bindings-rtc-sc2731-Add-compatible-for-SC2730/20260327-162827
-base:   85964cdcad0fac9a0eb7b87a0f9d88cc074b854c
-patch link:    https://lore.kernel.org/r/20260325-sc27xx-mfd-cells-v2-3-d0ebb60aa4a7%40abscue.de
-patch subject: [PATCH v2 3/5] mfd: sprd-sc27xx: Switch to devm_mfd_add_devices()
-config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260329/202603291013.6DnmGjG3-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260329/202603291013.6DnmGjG3-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/tun-Ignore-tun-in-netdev_lock_pos/20260328-220059
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260327213441.3781433-1-kuniyu%40google.com
+patch subject: [PATCH v1 net-next] tun: Ignore tun in netdev_lock_pos().
+config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260329/202603290553.sJzkZoGo-lkp@intel.com/config)
+compiler: aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260329/202603290553.sJzkZoGo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603291013.6DnmGjG3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603290553.sJzkZoGo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/mfd/sprd-sc27xx-spi.c:188:14: warning: cast to smaller integer type 'enum sprd_pmic_type' from 'const void *' [-Wvoid-pointer-to-enum-cast]
-     188 |         pmic_type = (enum sprd_pmic_type)of_device_get_match_data(&spi->dev);
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+   aarch64-linux-gnu-ld: net/core/dev.o: in function `netdev_lock_pos':
+   net/core/dev.c:540:(.text+0x8088): undefined reference to `tun_link_ops'
+   aarch64-linux-gnu-ld: net/core/dev.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `tun_link_ops' which may bind externally can not be used when making a shared object; recompile with -fPIC
+>> net/core/dev.c:540:(.text+0x8088): dangerous relocation: unsupported relocation
+>> aarch64-linux-gnu-ld: net/core/dev.c:540:(.text+0x808c): undefined reference to `tun_link_ops'
+   aarch64-linux-gnu-ld: net/core/dev.c:540:(.text+0x29d70): undefined reference to `tun_link_ops'
+   aarch64-linux-gnu-ld: net/core/dev.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `tun_link_ops' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   net/core/dev.c:540:(.text+0x29d70): dangerous relocation: unsupported relocation
+   aarch64-linux-gnu-ld: net/core/dev.c:540:(.text+0x29d74): undefined reference to `tun_link_ops'
 
 
-vim +188 drivers/mfd/sprd-sc27xx-spi.c
+vim +540 net/core/dev.c
 
-   179	
-   180	static int sprd_pmic_probe(struct spi_device *spi)
-   181	{
-   182		struct sprd_pmic *ddata;
-   183		enum sprd_pmic_type pmic_type;
-   184		const struct sprd_pmic_data *pdata;
-   185		const struct mfd_cell *cells;
-   186		int ret, i, num_cells;
-   187	
- > 188		pmic_type = (enum sprd_pmic_type)of_device_get_match_data(&spi->dev);
-   189	
-   190		switch (pmic_type) {
-   191		case PMIC_TYPE_SC2730:
-   192			pdata = &sc2730_data;
-   193			cells = sc2730_devices;
-   194			num_cells = ARRAY_SIZE(sc2730_devices);
-   195			break;
-   196		case PMIC_TYPE_SC2731:
-   197			pdata = &sc2731_data;
-   198			cells = sc2731_devices;
-   199			num_cells = ARRAY_SIZE(sc2731_devices);
-   200			break;
-   201		default:
-   202			dev_err(&spi->dev, "Invalid device ID\n");
-   203			return -EINVAL;
-   204		}
-   205	
-   206		ddata = devm_kzalloc(&spi->dev, sizeof(*ddata), GFP_KERNEL);
-   207		if (!ddata)
-   208			return -ENOMEM;
-   209	
-   210		ddata->regmap = devm_regmap_init(&spi->dev, &sprd_pmic_regmap,
-   211						 &spi->dev, &sprd_pmic_config);
-   212		if (IS_ERR(ddata->regmap)) {
-   213			ret = PTR_ERR(ddata->regmap);
-   214			dev_err(&spi->dev, "Failed to allocate register map %d\n", ret);
-   215			return ret;
-   216		}
-   217	
-   218		spi_set_drvdata(spi, ddata);
-   219		ddata->dev = &spi->dev;
-   220		ddata->irq = spi->irq;
-   221		ddata->pdata = pdata;
-   222	
-   223		ddata->irq_chip.name = dev_name(&spi->dev);
-   224		ddata->irq_chip.status_base =
-   225			pdata->irq_base + SPRD_PMIC_INT_MASK_STATUS;
-   226		ddata->irq_chip.unmask_base = pdata->irq_base + SPRD_PMIC_INT_EN;
-   227		ddata->irq_chip.ack_base = 0;
-   228		ddata->irq_chip.num_regs = 1;
-   229		ddata->irq_chip.num_irqs = pdata->num_irqs;
-   230	
-   231		ddata->irqs = devm_kcalloc(&spi->dev,
-   232					   pdata->num_irqs, sizeof(struct regmap_irq),
-   233					   GFP_KERNEL);
-   234		if (!ddata->irqs)
-   235			return -ENOMEM;
-   236	
-   237		ddata->irq_chip.irqs = ddata->irqs;
-   238		for (i = 0; i < pdata->num_irqs; i++)
-   239			ddata->irqs[i].mask = BIT(i);
-   240	
-   241		ret = devm_regmap_add_irq_chip(&spi->dev, ddata->regmap, ddata->irq,
-   242					       IRQF_ONESHOT, 0,
-   243					       &ddata->irq_chip, &ddata->irq_data);
-   244		if (ret) {
-   245			dev_err(&spi->dev, "Failed to add PMIC irq chip %d\n", ret);
-   246			return ret;
-   247		}
-   248	
-   249		ret = devm_mfd_add_devices(&spi->dev, PLATFORM_DEVID_AUTO,
-   250					   cells, num_cells, NULL, 0,
-   251					   regmap_irq_get_domain(ddata->irq_data));
-   252		if (ret) {
-   253			dev_err(&spi->dev, "Failed to populate sub-devices %d\n", ret);
-   254			return ret;
-   255		}
-   256	
-   257		ret = devm_device_init_wakeup(&spi->dev);
-   258		if (ret)
-   259			return dev_err_probe(&spi->dev, ret, "Failed to init wakeup\n");
-   260	
-   261		return 0;
-   262	}
-   263	
+   529	
+   530	static inline unsigned short netdev_lock_pos(const struct net_device *dev)
+   531	{
+   532		unsigned short dev_type = dev->type;
+   533		int i;
+   534	
+   535		for (i = 0; i < ARRAY_SIZE(netdev_lock_type); i++)
+   536			if (netdev_lock_type[i] == dev_type)
+   537				return i;
+   538	
+   539		/* the last key is used by default */
+ > 540		WARN_ONCE(!netdev_is_tun(dev),
+   541			  "netdev_lock_pos() could not find dev_type=%u\n", dev_type);
+   542		return ARRAY_SIZE(netdev_lock_type) - 1;
+   543	}
+   544	
 
 -- 
 0-DAY CI Kernel Test Service
