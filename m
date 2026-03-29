@@ -1,163 +1,162 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C034033EC
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Mar 2026 20:37:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3D31256C84
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Mar 2026 22:40:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774816676; cv=none; b=QqfL3xeORSGdI8DKo2XX5FMzOdRD3p3+/3rHKKGXa/w6H29DW+iYnYRyAkMENtMWs++ab3sChfVbzmB9BI9Mh+4UxnOLaQ8j0zCmhs+YrNAyHPZdQAbpKJcLec6iBv8GsqfEl7lxgdfJDb3rDQ371bw/hoRV9ZJANdWWfOL/HmY=
+	t=1774824025; cv=none; b=hyy3s+gIrfDinEc9VNTtxHT3+cljSxdEXuCQMdvZmNsCPXpfMQSOzd7Vqc9Nwln8Le41pqaT+Y18DpnvgIMiPdxtHZXDv+5uBxQTb6OKOoGeFJJjGioJrnQ2T+CadhZ56sMObE+VbuABwabeYBeCRVbATozY9ympMRsJYVaL8vo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774816676; c=relaxed/simple;
-	bh=aigITbTVLfuJBr/qVXIS60k4FHN1WCz0am2GEPJu+Fc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LdUj75fQ0a/9KwaP2p/f/Md0IclZVNPWkR0IpCrnWzHG3LHcSJC7wEujF1ndwo7Dlii3tER8ihRtotNOxJlezFc29bU2KQmAnkjebRDt/uWwH7zU6xMNK6dome0dK9agsqVs5EOclCkaZgXhhErvjq8s3N9fZ2J48Qxs0P9eiqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B0/S4hRI; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1774824025; c=relaxed/simple;
+	bh=/s+X1yD5mjXWU5I1EzpCI3vFVo4LhkXD0z5KH/es/vw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ThbSXgxR/GfT5/rcdHgYQoHR/72905KflPiOHj+9aZaQ9Q287Xv8JOMYwXdj7PHm1ZGtf+ECjjtlgjFCZlKsn8fXqgSGSTX+OP2Kg8xKUCGlnBqyM9oDEuJbtrW7G5FezaGqq6tVc8FFL0sOi/plRBvAEl0a0UHTWKxFVK9R5as=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VFavpqeq; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B0/S4hRI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VFavpqeq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774816674; x=1806352674;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=aigITbTVLfuJBr/qVXIS60k4FHN1WCz0am2GEPJu+Fc=;
-  b=B0/S4hRIQKcRgxDSjIEb6PqyRQc5oyhoF1EmzWhKN2E+NNt1bzyv0F0y
-   UVl6/iLApk6qJwk1r6c8VnT9jsGEEk8h/A4a8lfGqPYQWTBMsamtkO0FA
-   4GUXgEImo20WgKjh/G0v6U2h6vUD3DmB2txKpvaITHowPXnWPPK2YB5Eu
-   +piTM6zwXp2H3Y4LaQMANdQTdKv5BqUCtdUAHtk2oBGtDg0BL8QDd+40z
-   91tKveSjP/QVlc+8uYJ3MGviTdh07AXFPXFydXzQXckpKWonVpjgBE7df
-   cNGuyhrZ0SZBhXdb5On29wu18pQiEOJ50lMrVZUWkhQUxSto/24s/SXR/
-   w==;
-X-CSE-ConnectionGUID: Ir++Uf3cR2KILlrK0JJI8g==
-X-CSE-MsgGUID: lbzFrVfORdCZUNAkQyNVIA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="101270370"
+  t=1774824023; x=1806360023;
+  h=date:from:to:cc:subject:message-id;
+  bh=/s+X1yD5mjXWU5I1EzpCI3vFVo4LhkXD0z5KH/es/vw=;
+  b=VFavpqeq6m5PRT8OmWiDn78I+z7vxy74VpLQjI0ewAWSUk2sJT9lnC47
+   ann+T9jpiKJPYYvZsKO/WNrn/A2WjPJd/Fi4bf65iRD/pF5WLuFpcpvpt
+   D3FoZMMsmkg6ebGi2aL7y25/Emtgr/sE2GS9vbcvYO4v1QCEeT2aV3Dig
+   KqFEt1ezC4CfUWI90TFj2qyuZoVzcWaKD2NEPgIkZwKxm1ynTjD43qzqy
+   1DVKDPmLMfyJRs17O/E71fzXnH0NNf3G/yzDqxBwuBQqT443c7AbAl721
+   UB4eit3yl5tz0WeL3Tzz+kO0RmnH9uHNUwCoYLfa3etPCC5ITM/R4iiQG
+   g==;
+X-CSE-ConnectionGUID: /d+9vkp2RQCL+u5IoAyGug==
+X-CSE-MsgGUID: 2mJuUWwIQ6q//nK2vZ5pgg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="75703499"
 X-IronPort-AV: E=Sophos;i="6.23,148,1770624000"; 
-   d="scan'208";a="101270370"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2026 13:37:54 -0700
-X-CSE-ConnectionGUID: oaAaCG26SzS+JV5fgg6dBw==
-X-CSE-MsgGUID: IHGeZN2OQoyAjWTle4KBOw==
+   d="scan'208";a="75703499"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2026 15:40:23 -0700
+X-CSE-ConnectionGUID: u0TUuzCbR/il+ysVty0oeQ==
+X-CSE-MsgGUID: 3ey5yqTDQ3a4douPYiFrFw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,148,1770624000"; 
-   d="scan'208";a="225865642"
-Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 29 Mar 2026 13:37:51 -0700
-Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
+   d="scan'208";a="230683899"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 29 Mar 2026 15:40:20 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w6wtI-0000000009N-1iRH;
-	Sun, 29 Mar 2026 20:37:48 +0000
-Date: Mon, 30 Mar 2026 04:36:50 +0800
+	id 1w6ynq-000000007z7-3DWX;
+	Sun, 29 Mar 2026 22:40:18 +0000
+Date: Mon, 30 Mar 2026 00:40:12 +0200
 From: kernel test robot <lkp@intel.com>
-To: Michael Dege <michael.dege@renesas.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Michael Dege <michael.dege@renesas.com>
-Subject: Re: [PATCH net-next v2 13/13] net: renesas: rswitch: add vlan aware
- switching
-Message-ID: <202603300436.ryIgiB0z-lkp@intel.com>
-References: <20260327-rswitch_add_vlans-v2-13-d7f4358ca57a@renesas.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 0/1] htmldocs:
+ Documentation/virt/kvm/devices/vfio.rst:21: WARNING: Definition list ends
+ without a blank line; unexpected unindent. [docutils]
+Message-ID: <202603300054.X5BzpfTJ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260327-rswitch_add_vlans-v2-13-d7f4358ca57a@renesas.com>
 
-Hi Michael,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 1f318b96cc84d7c2ab792fcc0bfd42a7ca890681]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Dege/net-renesas-rswitch-improve-port-change-mode-functions/20260329-154812
-base:   1f318b96cc84d7c2ab792fcc0bfd42a7ca890681
-patch link:    https://lore.kernel.org/r/20260327-rswitch_add_vlans-v2-13-d7f4358ca57a%40renesas.com
-patch subject: [PATCH net-next v2 13/13] net: renesas: rswitch: add vlan aware switching
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20260330/202603300436.ryIgiB0z-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260330/202603300436.ryIgiB0z-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   d36fd08818dc78f214d13bede4b8ae4d43848a08
+commit: 9256f713ae14e0aebd300c5152fc1f11cc71664b [0/1] ANDROID: KVM: arm64: Add documentation for pvIOMMU UAPI
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260330/202603300054.X5BzpfTJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603300436.ryIgiB0z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603300054.X5BzpfTJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
-   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
-   aarch64-linux-ld: drivers/net/ethernet/renesas/rswitch_l2.o: in function `rswitch_port_obj_do_add_gwca':
->> drivers/net/ethernet/renesas/rswitch_l2.c:443:(.text+0x11e0): undefined reference to `br_vlan_enabled'
-   aarch64-linux-ld: drivers/net/ethernet/renesas/rswitch_l2.o: in function `rswitch_port_obj_do_add':
-   drivers/net/ethernet/renesas/rswitch_l2.c:412:(.text+0x135c): undefined reference to `br_vlan_enabled'
->> aarch64-linux-ld: drivers/net/ethernet/renesas/rswitch_l2.c:423:(.text+0x13bc): undefined reference to `br_vlan_enabled'
+   ``ARM_SMCCC_VENDOR_HYP_KVM_PVIOMMU_OP_FUNC_ID``
+   -------------------------------------- [docutils]
+   Documentation/virt/kvm/arm/mmio-guard.rst:94: ERROR: Unexpected indentation. [docutils]
+>> Documentation/virt/kvm/devices/vfio.rst:21: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
+   Documentation/virt/kvm/devices/vfio.rst:77: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
+>> Documentation/virt/kvm/devices/vfio.rst:84: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/virt/kvm/devices/vfio.rst:88: ERROR: Unexpected indentation. [docutils]
+   Documentation/virt/kvm/devices/vfio.rst:97: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
+   Documentation/virt/kvm/devices/vfio.rst:105: ERROR: Unexpected indentation. [docutils]
+   Documentation/virt/kvm/devices/vfio.rst:106: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/filesystems/incfs.rst: WARNING: document isn't included in any toctree [toc.not_included]
 
 
-vim +443 drivers/net/ethernet/renesas/rswitch_l2.c
+vim +21 Documentation/virt/kvm/devices/vfio.rst
 
-   402	
-   403	static int rswitch_port_obj_do_add(struct net_device *ndev,
-   404					   struct switchdev_obj_port_vlan *p_vlan)
-   405	{
-   406		struct rswitch_device *rdev = netdev_priv(ndev);
-   407		struct rswitch_private *priv = rdev->priv;
-   408		struct rswitch_etha *etha = rdev->etha;
-   409		int err;
-   410	
-   411		/* Set Rswitch VLAN mode */
-   412		iowrite32(br_vlan_enabled(rdev->brdev) ? FIELD_PREP(FWGC_SVM, C_TAG) : 0,
-   413			  priv->addr + FWGC);
-   414	
-   415		err = rswitch_write_vlan_table(priv, p_vlan->vid, etha->index);
-   416		if (err < 0)
-   417			return err;
-   418	
-   419		/* If the default vlan for this port has been set, don't overwrite it. */
-   420		if (ioread32(etha->addr + EAVCC))
-   421			return NOTIFY_DONE;
-   422	
- > 423		if (br_vlan_enabled(rdev->brdev))
-   424			rswitch_modify(priv->addr, FWPC0(etha->index), 0, FWPC0_VLANSA | FWPC0_VLANRU);
-   425	
-   426		rswitch_modify(priv->addr, FWPC2(AGENT_INDEX_GWCA),
-   427			       FIELD_PREP(FWPC2_LTWFW, BIT(etha->index)),
-   428			       0);
-   429	
-   430		return rswitch_port_set_vlan_tag(etha, p_vlan, false);
-   431	}
-   432	
-   433	static int rswitch_port_obj_do_add_gwca(struct net_device *ndev,
-   434						struct rswitch_private *priv,
-   435						struct switchdev_obj_port_vlan *p_vlan)
-   436	{
-   437		int err;
-   438	
-   439		if (!(p_vlan->flags & BRIDGE_VLAN_INFO_BRENTRY))
-   440			return NOTIFY_DONE;
-   441	
-   442		/* Set Rswitch VLAN mode */
- > 443		iowrite32(br_vlan_enabled(ndev) ? FIELD_PREP(FWGC_SVM, C_TAG) : 0, priv->addr + FWGC);
-   444	
-   445		err = rswitch_write_vlan_table(priv, p_vlan->vid, AGENT_INDEX_GWCA);
-   446		if (err < 0)
-   447			return err;
-   448	
-   449		/* If the default vlan for this port has been set, don't overwrite it. */
-   450		if (ioread32(priv->addr + GWVCC))
-   451			return NOTIFY_DONE;
-   452	
-   453		return rswitch_gwca_set_vlan_tag(priv, p_vlan, false);
-   454	}
-   455	
+    17	
+    18	Groups:
+    19	  KVM_DEV_VFIO_FILE
+    20		alias: KVM_DEV_VFIO_GROUP
+  > 21	  KVM_DEV_VFIO_PVIOMMU
+    22	
+    23	KVM_DEV_VFIO_FILE attributes:
+    24	  KVM_DEV_VFIO_FILE_ADD: Add a VFIO file (group/device) to VFIO-KVM device
+    25		tracking
+    26	
+    27		kvm_device_attr.addr points to an int32_t file descriptor for the
+    28		VFIO file.
+    29	
+    30	  KVM_DEV_VFIO_FILE_DEL: Remove a VFIO file (group/device) from VFIO-KVM
+    31		device tracking
+    32	
+    33		kvm_device_attr.addr points to an int32_t file descriptor for the
+    34		VFIO file.
+    35	
+    36	KVM_DEV_VFIO_GROUP (legacy kvm device group restricted to the handling of VFIO group fd):
+    37	  KVM_DEV_VFIO_GROUP_ADD: same as KVM_DEV_VFIO_FILE_ADD for group fd only
+    38	
+    39	  KVM_DEV_VFIO_GROUP_DEL: same as KVM_DEV_VFIO_FILE_DEL for group fd only
+    40	
+    41	  KVM_DEV_VFIO_GROUP_SET_SPAPR_TCE: attaches a guest visible TCE table
+    42		allocated by sPAPR KVM.
+    43		kvm_device_attr.addr points to a struct::
+    44	
+    45			struct kvm_vfio_spapr_tce {
+    46				__s32	groupfd;
+    47				__s32	tablefd;
+    48			};
+    49	
+    50		where:
+    51	
+    52		- @groupfd is a file descriptor for a VFIO group;
+    53		- @tablefd is a file descriptor for a TCE table allocated via
+    54		  KVM_CREATE_SPAPR_TCE.
+    55	
+    56	The FILE/GROUP_ADD operation above should be invoked prior to accessing the
+    57	device file descriptor via VFIO_GROUP_GET_DEVICE_FD in order to support
+    58	drivers which require a kvm pointer to be set in their .open_device()
+    59	callback.  It is the same for device file descriptor via character device
+    60	open which gets device access via VFIO_DEVICE_BIND_IOMMUFD.  For such file
+    61	descriptors, FILE_ADD should be invoked before VFIO_DEVICE_BIND_IOMMUFD
+    62	to support the drivers mentioned in prior sentence as well.
+    63	
+    64	KVM_DEV_VFIO_PVIOMMU attributes:
+    65	  KVM_DEV_VFIO_PVIOMMU_ATTACH: Create and attach a pvIOMMU instance to the
+    66	    KVM VM associated with this device, returns a file descriptor "pviommufd"
+    67	    for this IOMMU which supports some IOCTLs.
+    68	
+    69	  KVM_DEV_VFIO_PVIOMMU_GET_INFO: Retrieve information about IOMMUs for a VFIO
+    70	    devicefd, using the following struct:
+    71	
+    72			struct kvm_vfio_iommu_info {
+    73				__u32 size;
+    74				__s32 device_fd;
+    75				__u32 out_nr_sids;
+    76				__u32 __reserved;
+    77			};
+    78	
+    79		  Where kvm_vfio_iommu_info.device_fd the input VFIO device ID, and
+    80		  kvm_vfio_iommu_info.out_nr_sids is the number stream IDs(endpoint) for
+    81		  this device, this similar to VFIO_DEVICE_GET_IRQ_INFO which returns the
+    82		  number of irqs for a VFIO device.
+    83		  size is added to allow the struct to be extended, while __reserved
+  > 84	      must be zero.
 
 -- 
 0-DAY CI Kernel Test Service
