@@ -1,89 +1,163 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7A123803DE;
-	Sun, 29 Mar 2026 20:03:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C034033EC
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Mar 2026 20:37:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774814635; cv=none; b=R+3zCwF+VXg7F3KsQUd7Lo9xYHkuZIC8B0qhA9GL5kn6+MwldYB9sm2VgqcdZkRriRlZBnP6hgDBVj9IOWf6BXCemWuhn4tqt7CUjOvh1IS4FL+LbbT/jqGJEALRM8VYgg+Fw6jpHG1GsWMuVwSjLf+v3S4Al8jLxmSZc2jUxKQ=
+	t=1774816676; cv=none; b=QqfL3xeORSGdI8DKo2XX5FMzOdRD3p3+/3rHKKGXa/w6H29DW+iYnYRyAkMENtMWs++ab3sChfVbzmB9BI9Mh+4UxnOLaQ8j0zCmhs+YrNAyHPZdQAbpKJcLec6iBv8GsqfEl7lxgdfJDb3rDQ371bw/hoRV9ZJANdWWfOL/HmY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774814635; c=relaxed/simple;
-	bh=O7U2Bjoez/wHT4Uyw55BMWeW8hLhvS/pD2bS+x8l8x4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=cfZQlZgmxxQK27AtOfc/ugX8ocz/c1JuY801OrXlTPxwp97/CxR2FFfpaVRkFH3gI4/cRoReiwjlhv+Oun0EFd/HIXB5ugoViwpsgSFphfIlI1iRIWhd0tLTuqdLRJP3ONSat51LlcbRcAQNQ3igJuUHbjqcMyRpbRj5E6PAmsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VUFVW3gk; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1774816676; c=relaxed/simple;
+	bh=aigITbTVLfuJBr/qVXIS60k4FHN1WCz0am2GEPJu+Fc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LdUj75fQ0a/9KwaP2p/f/Md0IclZVNPWkR0IpCrnWzHG3LHcSJC7wEujF1ndwo7Dlii3tER8ihRtotNOxJlezFc29bU2KQmAnkjebRDt/uWwH7zU6xMNK6dome0dK9agsqVs5EOclCkaZgXhhErvjq8s3N9fZ2J48Qxs0P9eiqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B0/S4hRI; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VUFVW3gk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B0/S4hRI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774814634; x=1806350634;
-  h=date:from:to:cc:subject:message-id;
-  bh=O7U2Bjoez/wHT4Uyw55BMWeW8hLhvS/pD2bS+x8l8x4=;
-  b=VUFVW3gkUEsMarPqrMpbhYcHl/GXBvwNTcSrFfxZoGeRARoX0vNwHeD9
-   bx9Q/3dyTMfWNMqcWqBDArd4tUXma5X6PnnP+PsNy6VyBdb/8QXd/4UEb
-   DXCOVMJo0VBRAnlVKD/ccBWKjim1kzPfpf8HliOUgNW/9HjQO0lV+NGR0
-   LUeMm3lsMwaRBKpY7VzE9Zuz7j70g+3R8yt/TXDokhv8jMHCXrHerUAPF
-   XbwZP1ZIdCG9sVVCU7C+txo2ERWCCQsfNhpOp4PDoUj3QADgjer4d22fh
-   WZZr3RoKp5gxtANPvWhHVdUW8t98CuZ+hBGb1lDEt8mHabERr9HQwMqXJ
-   g==;
-X-CSE-ConnectionGUID: KxylrIV6QSetgj4R5CxhXw==
-X-CSE-MsgGUID: xtZplPTJQ22Us+P50U/4oA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="75708674"
+  t=1774816674; x=1806352674;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=aigITbTVLfuJBr/qVXIS60k4FHN1WCz0am2GEPJu+Fc=;
+  b=B0/S4hRIQKcRgxDSjIEb6PqyRQc5oyhoF1EmzWhKN2E+NNt1bzyv0F0y
+   UVl6/iLApk6qJwk1r6c8VnT9jsGEEk8h/A4a8lfGqPYQWTBMsamtkO0FA
+   4GUXgEImo20WgKjh/G0v6U2h6vUD3DmB2txKpvaITHowPXnWPPK2YB5Eu
+   +piTM6zwXp2H3Y4LaQMANdQTdKv5BqUCtdUAHtk2oBGtDg0BL8QDd+40z
+   91tKveSjP/QVlc+8uYJ3MGviTdh07AXFPXFydXzQXckpKWonVpjgBE7df
+   cNGuyhrZ0SZBhXdb5On29wu18pQiEOJ50lMrVZUWkhQUxSto/24s/SXR/
+   w==;
+X-CSE-ConnectionGUID: Ir++Uf3cR2KILlrK0JJI8g==
+X-CSE-MsgGUID: lbzFrVfORdCZUNAkQyNVIA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="101270370"
 X-IronPort-AV: E=Sophos;i="6.23,148,1770624000"; 
-   d="scan'208";a="75708674"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2026 13:03:52 -0700
-X-CSE-ConnectionGUID: iYZk8nNxSGmjqWBSHgjjVw==
-X-CSE-MsgGUID: SOYAjNX0Qr20rbcAyHnU1g==
+   d="scan'208";a="101270370"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2026 13:37:54 -0700
+X-CSE-ConnectionGUID: oaAaCG26SzS+JV5fgg6dBw==
+X-CSE-MsgGUID: IHGeZN2OQoyAjWTle4KBOw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,148,1770624000"; 
-   d="scan'208";a="229927056"
+   d="scan'208";a="225865642"
 Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 29 Mar 2026 13:03:49 -0700
+  by orviesa008.jf.intel.com with ESMTP; 29 Mar 2026 13:37:51 -0700
 Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w6wMM-0000000007F-2m0M;
-	Sun, 29 Mar 2026 20:03:46 +0000
-Date: Mon, 30 Mar 2026 04:03:01 +0800
+	id 1w6wtI-0000000009N-1iRH;
+	Sun, 29 Mar 2026 20:37:48 +0000
+Date: Mon, 30 Mar 2026 04:36:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, Wedson Almeida Filho <wedsonaf@gmail.com>,
- Matt Gilbride <mattgilbride@google.com>
-Subject: Warning: drivers/android/binder/rust_binderfs.c:229 function
- parameter 'arg' not described in 'binder_ctl_ioctl'
-Message-ID: <202603300355.MIT20sJc-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Michael Dege <michael.dege@renesas.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Michael Dege <michael.dege@renesas.com>
+Subject: Re: [PATCH net-next v2 13/13] net: renesas: rswitch: add vlan aware
+ switching
+Message-ID: <202603300436.ryIgiB0z-lkp@intel.com>
+References: <20260327-rswitch_add_vlans-v2-13-d7f4358ca57a@renesas.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260327-rswitch_add_vlans-v2-13-d7f4358ca57a@renesas.com>
 
-Hi Alice,
+Hi Michael,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f242ac4a09443c6e2e0ec03d7e2a21b00cbb3907
-commit: eafedbc7c050c44744fbdf80bdf3315e860b7513 rust_binder: add Rust Binder driver
-date:   6 months ago
-config: x86_64-randconfig-003-20260329 (https://download.01.org/0day-ci/archive/20260330/202603300355.MIT20sJc-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260330/202603300355.MIT20sJc-lkp@intel.com/reproduce)
+[auto build test ERROR on 1f318b96cc84d7c2ab792fcc0bfd42a7ca890681]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Dege/net-renesas-rswitch-improve-port-change-mode-functions/20260329-154812
+base:   1f318b96cc84d7c2ab792fcc0bfd42a7ca890681
+patch link:    https://lore.kernel.org/r/20260327-rswitch_add_vlans-v2-13-d7f4358ca57a%40renesas.com
+patch subject: [PATCH net-next v2 13/13] net: renesas: rswitch: add vlan aware switching
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20260330/202603300436.ryIgiB0z-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260330/202603300436.ryIgiB0z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603300355.MIT20sJc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603300436.ryIgiB0z-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: drivers/android/binder/rust_binderfs.c:229 function parameter 'file' not described in 'binder_ctl_ioctl'
-   Warning: drivers/android/binder/rust_binderfs.c:229 function parameter 'cmd' not described in 'binder_ctl_ioctl'
->> Warning: drivers/android/binder/rust_binderfs.c:229 function parameter 'arg' not described in 'binder_ctl_ioctl'
+   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+   aarch64-linux-ld: drivers/net/ethernet/renesas/rswitch_l2.o: in function `rswitch_port_obj_do_add_gwca':
+>> drivers/net/ethernet/renesas/rswitch_l2.c:443:(.text+0x11e0): undefined reference to `br_vlan_enabled'
+   aarch64-linux-ld: drivers/net/ethernet/renesas/rswitch_l2.o: in function `rswitch_port_obj_do_add':
+   drivers/net/ethernet/renesas/rswitch_l2.c:412:(.text+0x135c): undefined reference to `br_vlan_enabled'
+>> aarch64-linux-ld: drivers/net/ethernet/renesas/rswitch_l2.c:423:(.text+0x13bc): undefined reference to `br_vlan_enabled'
+
+
+vim +443 drivers/net/ethernet/renesas/rswitch_l2.c
+
+   402	
+   403	static int rswitch_port_obj_do_add(struct net_device *ndev,
+   404					   struct switchdev_obj_port_vlan *p_vlan)
+   405	{
+   406		struct rswitch_device *rdev = netdev_priv(ndev);
+   407		struct rswitch_private *priv = rdev->priv;
+   408		struct rswitch_etha *etha = rdev->etha;
+   409		int err;
+   410	
+   411		/* Set Rswitch VLAN mode */
+   412		iowrite32(br_vlan_enabled(rdev->brdev) ? FIELD_PREP(FWGC_SVM, C_TAG) : 0,
+   413			  priv->addr + FWGC);
+   414	
+   415		err = rswitch_write_vlan_table(priv, p_vlan->vid, etha->index);
+   416		if (err < 0)
+   417			return err;
+   418	
+   419		/* If the default vlan for this port has been set, don't overwrite it. */
+   420		if (ioread32(etha->addr + EAVCC))
+   421			return NOTIFY_DONE;
+   422	
+ > 423		if (br_vlan_enabled(rdev->brdev))
+   424			rswitch_modify(priv->addr, FWPC0(etha->index), 0, FWPC0_VLANSA | FWPC0_VLANRU);
+   425	
+   426		rswitch_modify(priv->addr, FWPC2(AGENT_INDEX_GWCA),
+   427			       FIELD_PREP(FWPC2_LTWFW, BIT(etha->index)),
+   428			       0);
+   429	
+   430		return rswitch_port_set_vlan_tag(etha, p_vlan, false);
+   431	}
+   432	
+   433	static int rswitch_port_obj_do_add_gwca(struct net_device *ndev,
+   434						struct rswitch_private *priv,
+   435						struct switchdev_obj_port_vlan *p_vlan)
+   436	{
+   437		int err;
+   438	
+   439		if (!(p_vlan->flags & BRIDGE_VLAN_INFO_BRENTRY))
+   440			return NOTIFY_DONE;
+   441	
+   442		/* Set Rswitch VLAN mode */
+ > 443		iowrite32(br_vlan_enabled(ndev) ? FIELD_PREP(FWGC_SVM, C_TAG) : 0, priv->addr + FWGC);
+   444	
+   445		err = rswitch_write_vlan_table(priv, p_vlan->vid, AGENT_INDEX_GWCA);
+   446		if (err < 0)
+   447			return err;
+   448	
+   449		/* If the default vlan for this port has been set, don't overwrite it. */
+   450		if (ioread32(priv->addr + GWVCC))
+   451			return NOTIFY_DONE;
+   452	
+   453		return rswitch_gwca_set_vlan_tag(priv, p_vlan, false);
+   454	}
+   455	
 
 -- 
 0-DAY CI Kernel Test Service
