@@ -1,132 +1,278 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F22D1A8F97
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Mar 2026 13:47:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA86437C921
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Mar 2026 14:39:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774792048; cv=none; b=gMOIus/9EXjaCcmApxJ5PG2ZzlWdPswJltkcU+q11yKivB6WtLAhG03Mk5DxlkfDBcZjSwtYVkTfvDBJU8G40aO8D32V79iiXbUdwbPj45tUHT9ooi3jzHpyr6c3lXpVZ7ydO1cYhGghGwTq8oiJkbTRG9OXxMH7ZSlRem+n7/A=
+	t=1774795172; cv=none; b=Ke1bBk4mE6dliGNIgnBo5IoDY0plUTl8l3G2hdiMwGqvaTbBQdAHFsN1AKf/Em8fBl1qi9WZqXpX/nKjvKmRbuk92EqtmOz14dZ5O35SNIglXtyNSg5szPe/a0gH5Jr5TJlrBGO3OIvWE7JtPOondpqqZpSLrxFOV5ihe4eMiGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774792048; c=relaxed/simple;
-	bh=HxHwSqIXKIalnHUH4THevqlWy1d+jJeZ91RpHBQZutI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c80ar9IcmUU+IUoBfeFO4kxTovEZO5gyMuM1Y01ymE/cXM55VEcSDxGZBtXPe5kojV5RPY5czGLqqRkc9gn2Y7Ib7GvYVZ54dhuLt53R2Oi5IVtefw2S4XVJAD7V1W5WR3m0lrKiOcyL4B9U7WMGCCnWFvS1BteLibtW/Iakatg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f0CY84cE; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1774795172; c=relaxed/simple;
+	bh=dyc7Ot+5eUZGpn1ldKmNK6t2tbn1lPGrpCnj1341WAo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=OM654qfV9I2mzBETvQrLWtuOz5qoRLnl2zCiQGAZ1RBuDbG1gz5jmqWQ0PnsGnZh3vbLTogDrOMennWPlSqlU+ztVOD/VA07mfwJxfQbz1C/sD3O5rDcK0IFXE/838/rfyN3DBU11UXZV4/bm3kdxf524CHfdcj3Tw/VUuJMtt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LTlLl0fR; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f0CY84cE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LTlLl0fR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774792045; x=1806328045;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HxHwSqIXKIalnHUH4THevqlWy1d+jJeZ91RpHBQZutI=;
-  b=f0CY84cE1FuBiW1uULx5WaG5yIkWSC48Dv8AzC5hafbsHh0KcUm19djP
-   IwOFnjcFB2DC+7y3Cdnvy+OI9ejVnDo41ie629AxEf6svEHEpWYeu7Tl7
-   11kCUu7DoQ4Zq9zPp7Y74ydSjb8V1IYq9iTFooKOebHvu8A27VMe9M1Wk
-   t/kRlhJEAoVm7xX2K2vLdE6dL6GogH0n1i7e6bzmTPONhn6qT45r2gnPs
-   IWsvJ6tWMp5SdmgYpbb0S+ZJ2d4D8DeMhAMZiUA9wzVS5vRwLufZFLHVG
-   cIigr2XYkwaorrOWOlbfkhDOzhNEfDaQqiET6U+kVMj5udV2C/vC8mS6a
-   g==;
-X-CSE-ConnectionGUID: 7xh9RDPRTaa/p2kEVhlbEg==
-X-CSE-MsgGUID: yBz/y8JaTiiBTPPEbLoqDw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="75818123"
+  t=1774795169; x=1806331169;
+  h=date:from:to:cc:subject:message-id;
+  bh=dyc7Ot+5eUZGpn1ldKmNK6t2tbn1lPGrpCnj1341WAo=;
+  b=LTlLl0fRZtepNL4uEjrMbaibE+yuC0YkJ39ZK6sqX0K3QAxEXUzqP39z
+   TVLl+KUXOorlwsjHTJ1p7yzXv0Q9weFb7TGfzAVP8CBPRK3q24Yqr+xCT
+   ZYp27NqgPeWxWktQ8jiyCM8AsHkfrhjw2uAVqpAchAxujysn6cr9NFJFO
+   H/2zZDIOpuLOmh4PeD1csZpawTI7v/qa1rGABR8KXKc+Bmfcjq5wYgE8j
+   DaLTopN9Cprpoh9g1BIODfbOndjnvSCIk/JcqAU1/ORk6eb5otcyQQv/c
+   Kn6syFRzM7ycH4gaAB9AQ3FpUSVROl6UrA4JK73pyq+S/pTbBsFjQ5zH8
+   A==;
+X-CSE-ConnectionGUID: EHg6fnOaQLeFyrSiblxNXg==
+X-CSE-MsgGUID: R7fon2EpQYyhxIiNVQyeew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="78399069"
 X-IronPort-AV: E=Sophos;i="6.23,148,1770624000"; 
-   d="scan'208";a="75818123"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2026 06:47:25 -0700
-X-CSE-ConnectionGUID: JmQ1czEGRdGH7uHasW2MIg==
-X-CSE-MsgGUID: vgLPKTFjTu2hGP5+E8WFmA==
+   d="scan'208";a="78399069"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2026 07:39:28 -0700
+X-CSE-ConnectionGUID: lRylkm1sRBCYav2qfCdN7g==
+X-CSE-MsgGUID: cK4i0kkdR3iH9JWKJCNHOA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,148,1770624000"; 
-   d="scan'208";a="219170287"
+   d="scan'208";a="221408315"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 29 Mar 2026 06:47:21 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 29 Mar 2026 07:39:26 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w6qU1-00000000CPN-2Lmn;
-	Sun, 29 Mar 2026 13:47:17 +0000
-Date: Sun, 29 Mar 2026 21:46:55 +0800
+	id 1w6rIS-00000000CSh-1ZDG;
+	Sun, 29 Mar 2026 14:39:24 +0000
+Date: Sun, 29 Mar 2026 22:38:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Youngjun Park <youngjun.park@lge.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Chris Li <chrisl@kernel.org>, Youngjun Park <youngjun.park@lge.com>,
-	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kasong@tencent.com, hannes@cmpxchg.org, mhocko@kernel.org,
-	roman.gushchin@linux.dev, shakeel.butt@linux.dev,
-	muchun.song@linux.dev, shikemeng@huaweicloud.com, nphamcs@gmail.com,
-	bhe@redhat.com, baohua@kernel.org, gunho.lee@lge.com,
-	taejoon.song@lge.com, hyungjun.cho@lge.com, mkoutny@suse.com
-Subject: Re: [PATCH v5 1/4] mm: swap: introduce swap tier infrastructure
-Message-ID: <202603292156.2V2nVz19-lkp@intel.com>
-References: <20260325175453.2523280-2-youngjun.park@lge.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-cleanup-2026-03-27 101/106]
+ sound/soc/mediatek/mt2701/mt2701-afe-pcm.c:109:36: error: implicit
+ declaration of function 'snd_soc_dai_get_drvdata'; did you mean
+ 'snd_soc_card_get_drvdata'?
+Message-ID: <202603292221.l2UrMYuc-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260325175453.2523280-2-youngjun.park@lge.com>
 
-Hi Youngjun,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 6381a729fa7dda43574d93ab9c61cec516dd885b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Youngjun-Park/mm-swap-introduce-swap-tier-infrastructure/20260327-203639
-base:   6381a729fa7dda43574d93ab9c61cec516dd885b
-patch link:    https://lore.kernel.org/r/20260325175453.2523280-2-youngjun.park%40lge.com
-patch subject: [PATCH v5 1/4] mm: swap: introduce swap tier infrastructure
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20260329/202603292156.2V2nVz19-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260329/202603292156.2V2nVz19-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-cleanup-2026-03-27
+head:   b547ff73a13ed8ce92e8e208ccd27884077b160b
+commit: feccc3fa86242c4532cc238e50998046b7ba39f6 [101/106] ASoC: soc-dai: remove snd_soc_dai_{set/get}_drvdata()
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260329/202603292221.l2UrMYuc-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260329/202603292221.l2UrMYuc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603292156.2V2nVz19-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603292221.l2UrMYuc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   mm/swap_tier.c: In function 'swap_tiers_sysfs_show':
->> mm/swap_tier.c:116:59: warning: format '%ld' expects argument of type 'long int', but argument 5 has type 'int' [-Wformat=]
-     116 |                 len += sysfs_emit_at(buf, len, "%-16s %-5ld %-11d %-11d\n",
-         |                                                       ~~~~^
-         |                                                           |
-         |                                                           long int
-         |                                                       %-5d
+   sound/soc/mediatek/mt2701/mt2701-afe-pcm.c: In function 'mt2701_afe_i2s_startup':
+>> sound/soc/mediatek/mt2701/mt2701-afe-pcm.c:109:36: error: implicit declaration of function 'snd_soc_dai_get_drvdata'; did you mean 'snd_soc_card_get_drvdata'? [-Wimplicit-function-declaration]
+     109 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                    snd_soc_card_get_drvdata
+>> sound/soc/mediatek/mt2701/mt2701-afe-pcm.c:109:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   sound/soc/mediatek/mt2701/mt2701-afe-pcm.c: In function 'mt2701_afe_i2s_shutdown':
+   sound/soc/mediatek/mt2701/mt2701-afe-pcm.c:144:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     144 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/mediatek/mt2701/mt2701-afe-pcm.c: In function 'mt2701_afe_i2s_prepare':
+   sound/soc/mediatek/mt2701/mt2701-afe-pcm.c:232:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     232 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/mediatek/mt2701/mt2701-afe-pcm.c: In function 'mt2701_afe_i2s_set_sysclk':
+   sound/soc/mediatek/mt2701/mt2701-afe-pcm.c:266:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     266 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/mediatek/mt2701/mt2701-afe-pcm.c: In function 'mt2701_btmrg_startup':
+   sound/soc/mediatek/mt2701/mt2701-afe-pcm.c:288:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     288 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/mediatek/mt2701/mt2701-afe-pcm.c: In function 'mt2701_btmrg_hw_params':
+   sound/soc/mediatek/mt2701/mt2701-afe-pcm.c:305:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     305 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/mediatek/mt2701/mt2701-afe-pcm.c: In function 'mt2701_btmrg_shutdown':
+   sound/soc/mediatek/mt2701/mt2701-afe-pcm.c:346:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     346 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/mediatek/mt2701/mt2701-afe-pcm.c: In function 'mt2701_simple_fe_startup':
+   sound/soc/mediatek/mt2701/mt2701-afe-pcm.c:366:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     366 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/mediatek/mt2701/mt2701-afe-pcm.c: In function 'mt2701_simple_fe_hw_params':
+   sound/soc/mediatek/mt2701/mt2701-afe-pcm.c:386:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     386 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/mediatek/mt2701/mt2701-afe-pcm.c: In function 'mt2701_dlm_fe_startup':
+   sound/soc/mediatek/mt2701/mt2701-afe-pcm.c:402:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     402 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/mediatek/mt2701/mt2701-afe-pcm.c: In function 'mt2701_dlm_fe_shutdown':
+   sound/soc/mediatek/mt2701/mt2701-afe-pcm.c:428:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     428 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/mediatek/mt2701/mt2701-afe-pcm.c: In function 'mt2701_dlm_fe_hw_params':
+   sound/soc/mediatek/mt2701/mt2701-afe-pcm.c:447:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     447 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/mediatek/mt2701/mt2701-afe-pcm.c: In function 'mt2701_dlm_fe_trigger':
+   sound/soc/mediatek/mt2701/mt2701-afe-pcm.c:469:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     469 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+--
+   sound/soc/mediatek/mt6797/mt6797-dai-pcm.c: In function 'mtk_dai_pcm_hw_params':
+>> sound/soc/mediatek/mt6797/mt6797-dai-pcm.c:185:36: error: implicit declaration of function 'snd_soc_dai_get_drvdata'; did you mean 'snd_soc_card_get_drvdata'? [-Wimplicit-function-declaration]
+     185 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                    snd_soc_card_get_drvdata
+>> sound/soc/mediatek/mt6797/mt6797-dai-pcm.c:185:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+--
+   sound/soc/mediatek/mt6797/mt6797-dai-hostless.c: In function 'mtk_dai_hostless_startup':
+>> sound/soc/mediatek/mt6797/mt6797-dai-hostless.c:40:36: error: implicit declaration of function 'snd_soc_dai_get_drvdata'; did you mean 'snd_soc_card_get_drvdata'? [-Wimplicit-function-declaration]
+      40 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                    snd_soc_card_get_drvdata
+>> sound/soc/mediatek/mt6797/mt6797-dai-hostless.c:40:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+--
+   sound/soc/mediatek/mt6797/mt6797-dai-adda.c: In function 'mtk_dai_adda_hw_params':
+>> sound/soc/mediatek/mt6797/mt6797-dai-adda.c:155:36: error: implicit declaration of function 'snd_soc_dai_get_drvdata'; did you mean 'snd_soc_card_get_drvdata'? [-Wimplicit-function-declaration]
+     155 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                    snd_soc_card_get_drvdata
+>> sound/soc/mediatek/mt6797/mt6797-dai-adda.c:155:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+--
+   sound/soc/mediatek/mt7986/mt7986-dai-etdm.c: In function 'mtk_dai_etdm_startup':
+>> sound/soc/mediatek/mt7986/mt7986-dai-etdm.c:121:36: error: implicit declaration of function 'snd_soc_dai_get_drvdata'; did you mean 'snd_soc_card_get_drvdata'? [-Wimplicit-function-declaration]
+     121 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                    snd_soc_card_get_drvdata
+>> sound/soc/mediatek/mt7986/mt7986-dai-etdm.c:121:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   sound/soc/mediatek/mt7986/mt7986-dai-etdm.c: In function 'mtk_dai_etdm_shutdown':
+   sound/soc/mediatek/mt7986/mt7986-dai-etdm.c:138:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     138 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/mediatek/mt7986/mt7986-dai-etdm.c: In function 'mtk_dai_etdm_hw_params':
+   sound/soc/mediatek/mt7986/mt7986-dai-etdm.c:241:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     241 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/mediatek/mt7986/mt7986-dai-etdm.c: In function 'mtk_dai_etdm_trigger':
+   sound/soc/mediatek/mt7986/mt7986-dai-etdm.c:266:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     266 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/mediatek/mt7986/mt7986-dai-etdm.c: In function 'mtk_dai_etdm_set_fmt':
+   sound/soc/mediatek/mt7986/mt7986-dai-etdm.c:293:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     293 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+--
+   sound/soc/mediatek/mt8173/mt8173-afe-pcm.c: In function 'mt8173_afe_i2s_startup':
+>> sound/soc/mediatek/mt8173/mt8173-afe-pcm.c:297:36: error: implicit declaration of function 'snd_soc_dai_get_drvdata'; did you mean 'snd_soc_card_get_drvdata'? [-Wimplicit-function-declaration]
+     297 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                    snd_soc_card_get_drvdata
+>> sound/soc/mediatek/mt8173/mt8173-afe-pcm.c:297:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   sound/soc/mediatek/mt8173/mt8173-afe-pcm.c: In function 'mt8173_afe_i2s_shutdown':
+   sound/soc/mediatek/mt8173/mt8173-afe-pcm.c:310:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     310 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/mediatek/mt8173/mt8173-afe-pcm.c: In function 'mt8173_afe_i2s_prepare':
+   sound/soc/mediatek/mt8173/mt8173-afe-pcm.c:325:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     325 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/mediatek/mt8173/mt8173-afe-pcm.c: In function 'mt8173_afe_hdmi_startup':
+   sound/soc/mediatek/mt8173/mt8173-afe-pcm.c:346:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     346 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/mediatek/mt8173/mt8173-afe-pcm.c: In function 'mt8173_afe_hdmi_shutdown':
+   sound/soc/mediatek/mt8173/mt8173-afe-pcm.c:360:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     360 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/mediatek/mt8173/mt8173-afe-pcm.c: In function 'mt8173_afe_hdmi_prepare':
+   sound/soc/mediatek/mt8173/mt8173-afe-pcm.c:374:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     374 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/mediatek/mt8173/mt8173-afe-pcm.c: In function 'mt8173_afe_hdmi_trigger':
+   sound/soc/mediatek/mt8173/mt8173-afe-pcm.c:436:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     436 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+--
+   sound/soc/mediatek/mt8183/mt8183-dai-i2s.c: In function 'mtk_dai_i2s_hw_params':
+>> sound/soc/mediatek/mt8183/mt8183-dai-i2s.c:776:36: error: implicit declaration of function 'snd_soc_dai_get_drvdata'; did you mean 'snd_soc_card_get_drvdata'? [-Wimplicit-function-declaration]
+     776 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                    snd_soc_card_get_drvdata
+>> sound/soc/mediatek/mt8183/mt8183-dai-i2s.c:776:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   sound/soc/mediatek/mt8183/mt8183-dai-i2s.c: In function 'mtk_dai_i2s_set_fmt':
+   sound/soc/mediatek/mt8183/mt8183-dai-i2s.c:836:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     836 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+--
+   sound/soc/mediatek/mt8183/mt8183-dai-tdm.c: In function 'mtk_dai_tdm_hw_params':
+>> sound/soc/mediatek/mt8183/mt8183-dai-tdm.c:468:36: error: implicit declaration of function 'snd_soc_dai_get_drvdata'; did you mean 'snd_soc_card_get_drvdata'? [-Wimplicit-function-declaration]
+     468 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                    snd_soc_card_get_drvdata
+>> sound/soc/mediatek/mt8183/mt8183-dai-tdm.c:468:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   sound/soc/mediatek/mt8183/mt8183-dai-tdm.c: In function 'mtk_dai_tdm_trigger':
+   sound/soc/mediatek/mt8183/mt8183-dai-tdm.c:585:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     585 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+--
+   sound/soc/mediatek/mt8183/mt8183-dai-pcm.c: In function 'mtk_dai_pcm_hw_params':
+>> sound/soc/mediatek/mt8183/mt8183-dai-pcm.c:185:36: error: implicit declaration of function 'snd_soc_dai_get_drvdata'; did you mean 'snd_soc_card_get_drvdata'? [-Wimplicit-function-declaration]
+     185 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                    snd_soc_card_get_drvdata
+>> sound/soc/mediatek/mt8183/mt8183-dai-pcm.c:185:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+--
+   sound/soc/mediatek/mt8183/mt8183-dai-hostless.c: In function 'mtk_dai_hostless_startup':
+>> sound/soc/mediatek/mt8183/mt8183-dai-hostless.c:40:36: error: implicit declaration of function 'snd_soc_dai_get_drvdata'; did you mean 'snd_soc_card_get_drvdata'? [-Wimplicit-function-declaration]
+      40 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                    snd_soc_card_get_drvdata
+>> sound/soc/mediatek/mt8183/mt8183-dai-hostless.c:40:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+--
+   sound/soc/mediatek/mt8183/mt8183-dai-adda.c: In function 'mtk_dai_adda_hw_params':
+>> sound/soc/mediatek/mt8183/mt8183-dai-adda.c:273:36: error: implicit declaration of function 'snd_soc_dai_get_drvdata'; did you mean 'snd_soc_card_get_drvdata'? [-Wimplicit-function-declaration]
+     273 |         struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                    snd_soc_card_get_drvdata
+>> sound/soc/mediatek/mt8183/mt8183-dai-adda.c:273:36: error: initialization of 'struct mtk_base_afe *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+..
 
 
-vim +116 mm/swap_tier.c
+vim +109 sound/soc/mediatek/mt2701/mt2701-afe-pcm.c
 
-   105	
-   106	ssize_t swap_tiers_sysfs_show(char *buf)
-   107	{
-   108		struct swap_tier *tier;
-   109		ssize_t len = 0;
-   110	
-   111		len += sysfs_emit_at(buf, len, "%-16s %-5s %-11s %-11s\n",
-   112				 "Name", "Idx", "PrioStart", "PrioEnd");
-   113	
-   114		spin_lock(&swap_tier_lock);
-   115		for_each_active_tier(tier) {
- > 116			len += sysfs_emit_at(buf, len, "%-16s %-5ld %-11d %-11d\n",
-   117					     tier->name,
-   118					     TIER_IDX(tier),
-   119					     tier->prio,
-   120					     TIER_END_PRIO(tier));
-   121		}
-   122		spin_unlock(&swap_tier_lock);
-   123	
-   124		return len;
-   125	}
-   126	
+43a6a7e71063ef2 Garlic Tseng 2016-07-04  105  
+43a6a7e71063ef2 Garlic Tseng 2016-07-04  106  static int mt2701_afe_i2s_startup(struct snd_pcm_substream *substream,
+43a6a7e71063ef2 Garlic Tseng 2016-07-04  107  				  struct snd_soc_dai *dai)
+43a6a7e71063ef2 Garlic Tseng 2016-07-04  108  {
+e4b31b816c472ba Ryder Lee    2018-04-25 @109  	struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+bfdc56e54890fd6 Ryder Lee    2018-04-25  110  	struct mt2701_afe_private *afe_priv = afe->platform_priv;
+43a6a7e71063ef2 Garlic Tseng 2016-07-04  111  	int i2s_num = mt2701_dai_num_to_i2s(afe, dai->id);
+bfdc56e54890fd6 Ryder Lee    2018-04-25  112  	bool mode = afe_priv->soc->has_one_heart_mode;
+43a6a7e71063ef2 Garlic Tseng 2016-07-04  113  
+43a6a7e71063ef2 Garlic Tseng 2016-07-04  114  	if (i2s_num < 0)
+43a6a7e71063ef2 Garlic Tseng 2016-07-04  115  		return i2s_num;
+43a6a7e71063ef2 Garlic Tseng 2016-07-04  116  
+bfdc56e54890fd6 Ryder Lee    2018-04-25  117  	return mt2701_afe_enable_mclk(afe, mode ? 1 : i2s_num);
+43a6a7e71063ef2 Garlic Tseng 2016-07-04  118  }
+43a6a7e71063ef2 Garlic Tseng 2016-07-04  119  
+
+:::::: The code at line 109 was first introduced by commit
+:::::: e4b31b816c472ba5907b01a6f6a1626c1e8d51ef ASoC: mediatek: use snd_soc_dai_get_drvdata() to get the private data
+
+:::::: TO: Ryder Lee <ryder.lee@mediatek.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
