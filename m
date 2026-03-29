@@ -1,59 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 986FE19A2A3
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Mar 2026 07:12:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 386F1233721
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Mar 2026 08:31:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774768357; cv=none; b=qmozeGeOmHtYdKxeqTAldYdbHFzL0qewjJhePzA3Q4pjKVI3Wt9S9nJqZAUBtX8bOGpRC+Dp67cbeNaklJC02Jmh3ifczi5F4q3i7o6H/uT8gtQDFplOyAk1YLg2k4XMzMfdKV+b9oJM2e7gv9DNsPlbwD04rsxqjV2naUGonjA=
+	t=1774773081; cv=none; b=JbRslJX6y8Cd0ruu47yRyqLRgLZ+5HMhGO4zh5XuXJzCIytPYLIL9bqc/wMCDeG2meHk+BSHnRttxDfnBbjm9J3knbF/1eI4uNnOGElkLXqnXJP1U+7VUmzQK745IT+6iLrws6T9c76riz7Do57ZCklx+3ZoF7D3SXlBKGwjOK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774768357; c=relaxed/simple;
-	bh=222N3yZc7l57S6b86csg8NsKTSFzJHiNy/SEUFMldsc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Q2zQpiUA8UYRCEfZgtyWgBLDCUKpkWXdt5NldSJ+cy5DWVqJqLJmfp03s0Gu07DW3MDFZ5gqLuHlofGlo9P3BdbUVIDeQQeURiUoxp5iDosKKSqj53C6qKzZG7Pxlsi56D2p4I7bfoVBTa6yOLIKttAyxI2AysJqY30julrTvqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fL8dkuh6; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1774773081; c=relaxed/simple;
+	bh=Au+Q3of3G+nBR4O2vf6lL47OuLlK2dXAtQfUacqWsTU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K1ZaFXVTgDvSyHBealGGThWDMaFVt/9LOFwetCqso8W2J2JcjboQ82tqf0zCMR3smg6aCjd8uiHw/qCUkCMRBofWc0u2P2LnufLZ7DYRwukkfB1CaFH3WQH3NRTd2yvqTUv12gvIKvWbjTjqvE1xvevK3z9GFabJykO6IkT9Zjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EPlnQIm0; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fL8dkuh6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EPlnQIm0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774768355; x=1806304355;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=222N3yZc7l57S6b86csg8NsKTSFzJHiNy/SEUFMldsc=;
-  b=fL8dkuh6GjRDq/ok3LKVZ5B4VDmdEO6GP4iYNn6J7NePUFBFUW1BwPah
-   ahTHC2DJJBdZU7vHrVsTWDMyRyfh3eTEH6qWF/+vBP4IS4OYYS3EQzuXK
-   p4rKsljn/BpHOc6wkSHYXDvE5TibZHOBXoq/qUAu0S3krCnGZ/KUbk1/K
-   IB2QC4bMLRNFdUJdlfVtUs+HdX9GhH0ZtI0LemcxSGVbqjFbhYLu4znnN
-   MzgxZWG60vIeG4yaT+ZR2KQ0FTCAVwxaJg9MN9D5NtetG3xEZKv2YSMCY
-   ERrL1bo763CEAfub4JgCztJOMGai06ZjtvP67v/NfwwP3VJAUl1SD9RlC
+  t=1774773078; x=1806309078;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Au+Q3of3G+nBR4O2vf6lL47OuLlK2dXAtQfUacqWsTU=;
+  b=EPlnQIm0X5zAgMVvFnjhIACD24EyWOcEWprPjrV+xBIOPUKxDS/gxZBx
+   lOScIuX8vocWyBtjg5kgvjczz/NljerAO+frpmc1N9XyNsI7UOSYSRJlJ
+   TDzbO2XD4aKKxmDa6XwZtg5t4AVkbF88GYT49WlisQYKzhlMxBxC5BvrU
+   LNuRfRZymBKkDCXagLCpaw4VoXMNEBYEeQDWsWahy583nFnx90zOWHOIz
+   ts0tY3HwaLv22EIx170iqrcJoPyRKTnRqOlz1EYYfEM576eOl2HBKkrdH
+   Pn5DGBUipzPuBeviQT/nVdXk6LCAXcvddadYfVQ92+w/8fiYJL5W76NGf
    Q==;
-X-CSE-ConnectionGUID: 7K0sAdTaRbKUO2u3GD7mKA==
-X-CSE-MsgGUID: pjB7FHv1Q/CEA7zPX5Cgng==
-X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="79691746"
+X-CSE-ConnectionGUID: mNn05jXkQb+0rIWf2WKIEg==
+X-CSE-MsgGUID: eJCQen7lR767k+XgOuOpyg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="75853952"
 X-IronPort-AV: E=Sophos;i="6.23,147,1770624000"; 
-   d="scan'208";a="79691746"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2026 00:12:35 -0700
-X-CSE-ConnectionGUID: 3fhs/XkvRQijq+qMRVSuWQ==
-X-CSE-MsgGUID: HqDIBv53QkiskDWWzsJorQ==
+   d="scan'208";a="75853952"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2026 01:31:17 -0700
+X-CSE-ConnectionGUID: K/+ZsszvRKerW6VeGwKGoQ==
+X-CSE-MsgGUID: NBbbEPjeTK2XIdIyT0uUew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,147,1770624000"; 
-   d="scan'208";a="256243570"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 29 Mar 2026 00:12:34 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+   d="scan'208";a="230542677"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 29 Mar 2026 01:31:14 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w6kJz-00000000CBB-0hgv;
-	Sun, 29 Mar 2026 07:12:31 +0000
-Date: Sun, 29 Mar 2026 15:12:26 +0800
+	id 1w6lY8-000000007sL-30xG;
+	Sun, 29 Mar 2026 08:31:12 +0000
+Date: Sun, 29 Mar 2026 10:30:33 +0200
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>,
- =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:dd-shrink-go 74/82] lib/dynamic_debug.c:1493:13:
- warning: 'ddebug_clear_range' defined but not used
-Message-ID: <202603291542.tjCcRvDB-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: 18341265598@163.com, Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>
+Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	wei xiaoqiong <weixq1@chinatelecom.cn>,
+	Huaitong Han <hanht2@chinatelecom.cn>,
+	"zhaoge.zhang" <zhangzg12@chinatelecom.cn>
+Subject: Re: [PATCH] vmx/nested: Set the SGX feature flag only when hardware
+ supported.
+Message-ID: <202603291021.Yc83e9lC-lkp@intel.com>
+References: <1774322860-25106-1-git-send-email-18341265598@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,57 +71,55 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1774322860-25106-1-git-send-email-18341265598@163.com>
 
-tree:   https://github.com/jimc/linux.git dd-shrink-go
-head:   f409704b5c87caf13b0b57711d45606be12d5572
-commit: 36d5f5fb03554bcb2be5d68642ee6c165d8b83d4 [74/82] dyndbg: ddebug_clear_range - prune module's site info on rmmod
-config: nios2-randconfig-002-20260329 (https://download.01.org/0day-ci/archive/20260329/202603291542.tjCcRvDB-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260329/202603291542.tjCcRvDB-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on kvm/queue]
+[also build test WARNING on kvm/next linus/master v6.16-rc1 next-20260327]
+[cannot apply to kvm/linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/18341265598-163-com/vmx-nested-Set-the-SGX-feature-flag-only-when-hardware-supported/20260329-093645
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/1774322860-25106-1-git-send-email-18341265598%40163.com
+patch subject: [PATCH] vmx/nested: Set the SGX feature flag only when hardware supported.
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260329/202603291021.Yc83e9lC-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260329/202603291021.Yc83e9lC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603291542.tjCcRvDB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603291021.Yc83e9lC-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   lib/dynamic_debug.c:1571:12: warning: 'ddebug_remove_module' declared 'static' but never defined [-Wunused-function]
-    1571 | static int ddebug_remove_module(const char *mod_name);
-         |            ^~~~~~~~~~~~~~~~~~~~
->> lib/dynamic_debug.c:1493:13: warning: 'ddebug_clear_range' defined but not used [-Wunused-function]
-    1493 | static void ddebug_clear_range(const struct _ddebug_info *di)
-         |             ^~~~~~~~~~~~~~~~~~
+   In file included from arch/x86/kvm/kvm-asm-offsets.c:10:
+>> arch/x86/kvm/vmx/vmx.h:347:13: warning: 'cpu_has_sgx' defined but not used [-Wunused-function]
+     347 | static bool cpu_has_sgx(void)
+         |             ^~~~~~~~~~~
 
 
-vim +/ddebug_clear_range +1493 lib/dynamic_debug.c
+vim +/cpu_has_sgx +347 arch/x86/kvm/vmx/vmx.h
 
-  1492	
-> 1493	static void ddebug_clear_range(const struct _ddebug_info *di)
-  1494	{
-  1495		unsigned long start = (unsigned long) di->descs.start;
-  1496		unsigned long end = (unsigned long) &di->descs.start[di->descs.len - 1];
-  1497	
-  1498		MA_STATE(mod_mas, &dd_mod_map, start, end);
-  1499		MA_STATE(file_mas, &dd_file_map, start, end);
-  1500		MA_STATE(func_mas, &dd_func_map, start, end);
-  1501	
-  1502		v2pr_info("clearing %3d debugs of removed module %s\n",
-  1503			  di->descs.len, di->mod_name);
-  1504	
-  1505		mas_lock(&mod_mas);
-  1506		mas_erase(&mod_mas);
-  1507		mas_unlock(&mod_mas);
-  1508	
-  1509		mas_lock(&file_mas);
-  1510		mas_erase(&file_mas);
-  1511		mas_unlock(&file_mas);
-  1512	
-  1513		mas_lock(&func_mas);
-  1514		mas_erase(&func_mas);
-  1515		mas_unlock(&func_mas);
-  1516	}
-  1517	
+   340	
+   341	/*
+   342	 * There is no X86_FEATURE for SGX yet, but anyway we need to query CPUID
+   343	 * directly instead of going through cpu_has(), to ensure KVM is trapping
+   344	 * ENCLS whenever it's supported in hardware.  It does not matter whether
+   345	 * the host OS supports or has enabled SGX.
+   346	 */
+ > 347	static bool cpu_has_sgx(void)
+   348	{
+   349		return cpuid_eax(0) >= 0x12 && (cpuid_eax(0x12) & BIT(0));
+   350	}
+   351	
 
 -- 
 0-DAY CI Kernel Test Service
