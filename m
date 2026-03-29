@@ -1,68 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 607883101A9;
-	Sun, 29 Mar 2026 10:49:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3E330AD1A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Mar 2026 11:00:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774781390; cv=none; b=pqAIDU0Rd+4/NC7/oCeCVx4EDEGfpmVWmFsQmt5Q5Ry+afDSqiW5Yeuf4PiQaKCNEC8Y/gwjD5/Cakh6g1cqIg+/zoJmizzssCiFUU96G4tsgg2z1QWk9nw47klNlqdO/PF2FENtrknEfS54LagRkgg7EPHvVK+dauwEeurwdMo=
+	t=1774782046; cv=none; b=JJPdR+hPKCUtRMMUhM8uu9cOarlB+HkAhmbZ/W+ESpSCUSjIvypDOCJi+LBx1q6V2aUX1YhUSvx/551jGxI9Q2RbQlQy7/t6XUomdCQmUp0OcwAdbTQK3DSumc4F9RLu9xJanO9HlGsglvbFM8BQ/ALF5MJH09RdDNvRzB6hpp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774781390; c=relaxed/simple;
-	bh=Wo9L+4YxAfzYxpX8JuNszX9GlkiF3V/LfsPNcswQzMA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OsvnokLliE3SG9I1NwUqJRZdZuhnANgbW9XqDir3/d7enrKi8Jc31HcPQVjJt8HZwKgxllVS6E3GUowiYlYJvfXghd7mqOBBzhkqCX9LI8EtCQpQZK8l8AkHFSqXvpJ8N6biXkrTavAEMZEJS2aUYdw91rqUb7dbMp/Df+56a/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E6gNuJPS; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1774782046; c=relaxed/simple;
+	bh=gwRpwduG+6A3Tr/k35sd3BuoX94ADNWv0reYdxIJhV0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=OKo2UhTDDhoU36tIiaGU0vUaXkQiE4pQpHIyDTL9QcKpaD0WqB+riRcMF8T0SMYY1XRSEayL0P29GrQpib5g294pvQo9fNkm4lOnnN4XRe1TcnlmFyv+DKULiGY+HRQyd67R2rhhr1KTf4bFs5BmmdQL+kKmwBT//2L83YfMx0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NFnNTC/a; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E6gNuJPS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NFnNTC/a"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774781389; x=1806317389;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Wo9L+4YxAfzYxpX8JuNszX9GlkiF3V/LfsPNcswQzMA=;
-  b=E6gNuJPSkI3qB846e/UZDwHdABAxVGU1AFtxwQFv4MmW1aeEwmPD2kny
-   hBnm/1jiiWZwSYpG8K8q0DxSdP4AM8HM6EKDFOr8/Shm6XkJmb/Cp4eif
-   KzjXWCpWD+uQpo2epA++Y2xx4f4eIx/or8u71zdB9uk91Dfe4gsg05xdN
-   JH3ePCuF8L5kt+fQi2AQN7fPymra2xCQ6qlD+l/lC+tjn1loBqlDDgKq/
-   rK59Ok7r6j67ebd4lpKCqKVbDJOC1myvKYmxsmZfsQCLP0vG3YiuXZEJH
-   ZlhHAXGA+PO5BbCQCTvPI4Y5oVuKsmy2lH8gYTsduFSrDSOUwtLvb9mR1
-   g==;
-X-CSE-ConnectionGUID: d6S7EmXTTvWAV9hTdaJm6Q==
-X-CSE-MsgGUID: ufCFnQnKQIyoDJsFQJQMgw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="93374059"
+  t=1774782045; x=1806318045;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gwRpwduG+6A3Tr/k35sd3BuoX94ADNWv0reYdxIJhV0=;
+  b=NFnNTC/afvPDZhxBsAIgMIVF7F+nvdraSQ12n88bNEqiUhkkC5rBG+Hj
+   ByUxnvp1S0ciXMrVp6NBeqc+jmXvMB8APp8ivfDIkim7wDkoVuTzRslFf
+   ESKpSJRHLhWxB6WdsafiD851gsalY4+MiF9IWvNCfVlfyutcCs5r/XMf9
+   R4sbkI00mc+hdOkG7a2xqyKsiLUiqgc6idzOTDfJtZ01wn44wETv6DFhZ
+   ytfYbt4da3UDBb2rj88un+tKXo+Ad1rEuQcoy79WKauVU3sLscZok8JUH
+   fPU4IYKISTz4X+5Cr298wSoVWjEPjT0+4qNxHkRcxAEqUTI+T+YEuErWN
+   A==;
+X-CSE-ConnectionGUID: K2jBInRzTzOzTZI/jQUkOQ==
+X-CSE-MsgGUID: v1VGXApYRsyBOufltg+leA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="75677131"
 X-IronPort-AV: E=Sophos;i="6.23,148,1770624000"; 
-   d="scan'208";a="93374059"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2026 03:49:48 -0700
-X-CSE-ConnectionGUID: 4DZ0cFH/QmyjtdyajyTJuQ==
-X-CSE-MsgGUID: UnsA4Ta0QEe71fYcLSvvPg==
+   d="scan'208";a="75677131"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2026 04:00:45 -0700
+X-CSE-ConnectionGUID: cmm5UlAFR5GXd1+BNa9v4A==
+X-CSE-MsgGUID: S8inByrRTlqUFdonxFGgVg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,148,1770624000"; 
-   d="scan'208";a="225782046"
+   d="scan'208";a="224799546"
 Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 29 Mar 2026 03:49:43 -0700
+  by orviesa006.jf.intel.com with ESMTP; 29 Mar 2026 04:00:43 -0700
 Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w6ni8-00000000CIF-0opa;
-	Sun, 29 Mar 2026 10:49:40 +0000
-Date: Sun, 29 Mar 2026 18:49:03 +0800
+	id 1w6nsn-00000000CIf-0GXu;
+	Sun, 29 Mar 2026 11:00:41 +0000
+Date: Sun, 29 Mar 2026 18:59:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Youngjun Park <youngjun.park@lge.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Chris Li <chrisl@kernel.org>, Youngjun Park <youngjun.park@lge.com>,
-	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kasong@tencent.com, hannes@cmpxchg.org, mhocko@kernel.org,
-	roman.gushchin@linux.dev, shakeel.butt@linux.dev,
-	muchun.song@linux.dev, shikemeng@huaweicloud.com, nphamcs@gmail.com,
-	bhe@redhat.com, baohua@kernel.org, gunho.lee@lge.com,
-	taejoon.song@lge.com, hyungjun.cho@lge.com, mkoutny@suse.com
-Subject: Re: [PATCH v5 1/4] mm: swap: introduce swap tier infrastructure
-Message-ID: <202603291831.wZLe8bqg-lkp@intel.com>
-References: <20260325175453.2523280-2-youngjun.park@lge.com>
+To: Jim Cromie <jim.cromie@gmail.com>,
+ =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dd-cached-prefix 86/89] lib/dynamic_debug.c:1929:32:
+ warning: shift count >= width of type
+Message-ID: <202603291848.JyVbS8zl-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,67 +61,45 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260325175453.2523280-2-youngjun.park@lge.com>
 
-Hi Youngjun,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 6381a729fa7dda43574d93ab9c61cec516dd885b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Youngjun-Park/mm-swap-introduce-swap-tier-infrastructure/20260327-203639
-base:   6381a729fa7dda43574d93ab9c61cec516dd885b
-patch link:    https://lore.kernel.org/r/20260325175453.2523280-2-youngjun.park%40lge.com
-patch subject: [PATCH v5 1/4] mm: swap: introduce swap tier infrastructure
-config: hexagon-randconfig-002-20260329 (https://download.01.org/0day-ci/archive/20260329/202603291831.wZLe8bqg-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260329/202603291831.wZLe8bqg-lkp@intel.com/reproduce)
+tree:   https://github.com/jimc/linux.git dd-cached-prefix
+head:   a138e116d24e080d1c0778ca2bbb7b9cc4770e9b
+commit: b00af02b193459e4b8f56031f395c3cfa10fc506 [86/89] dyndbg: cache the dynamic prefixes per callsite.
+config: arm-lpc32xx_defconfig (https://download.01.org/0day-ci/archive/20260329/202603291848.JyVbS8zl-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260329/202603291848.JyVbS8zl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603291831.wZLe8bqg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603291848.JyVbS8zl-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/swap_tier.c:118:10: warning: format specifies type 'long' but the argument has type '__ptrdiff_t' (aka 'int') [-Wformat]
-     116 |                 len += sysfs_emit_at(buf, len, "%-16s %-5ld %-11d %-11d\n",
-         |                                                       ~~~~~
-         |                                                       %-5td
-     117 |                                      tier->name,
-     118 |                                      TIER_IDX(tier),
-         |                                      ^~~~~~~~~~~~~~
-   mm/swap_tier.c:33:24: note: expanded from macro 'TIER_IDX'
-      33 | #define TIER_IDX(tier)  ((tier) - swap_tiers)
-         |                         ^~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+>> lib/dynamic_debug.c:1929:32: warning: shift count >= width of type [-Wshift-count-overflow]
+    1929 |         return ((unsigned long)desc & DDEBUG_PREFIX_KEY_ADDR_MASK) |
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/dynamic_debug.c:1925:43: note: expanded from macro 'DDEBUG_PREFIX_KEY_ADDR_MASK'
+    1925 | #define DDEBUG_PREFIX_KEY_ADDR_MASK ((1UL << DDEBUG_PREFIX_KEY_FLAGS_SHIFT) - 1)
+         |                                           ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/dynamic_debug.c:1930:45: warning: shift count >= width of type [-Wshift-count-overflow]
+    1930 |                 ((unsigned long)prefix_flags(desc->flags) << DDEBUG_PREFIX_KEY_FLAGS_SHIFT);
+         |                                                           ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/dynamic_debug.c:1982:15: warning: variable 'mod_ct' set but not used [-Wunused-but-set-variable]
+    1982 |         int ret = 0, mod_ct = 0;
+         |                      ^
+   3 warnings generated.
 
 
-vim +118 mm/swap_tier.c
+vim +1929 lib/dynamic_debug.c
 
-   105	
-   106	ssize_t swap_tiers_sysfs_show(char *buf)
-   107	{
-   108		struct swap_tier *tier;
-   109		ssize_t len = 0;
-   110	
-   111		len += sysfs_emit_at(buf, len, "%-16s %-5s %-11s %-11s\n",
-   112				 "Name", "Idx", "PrioStart", "PrioEnd");
-   113	
-   114		spin_lock(&swap_tier_lock);
-   115		for_each_active_tier(tier) {
-   116			len += sysfs_emit_at(buf, len, "%-16s %-5ld %-11d %-11d\n",
-   117					     tier->name,
- > 118					     TIER_IDX(tier),
-   119					     tier->prio,
-   120					     TIER_END_PRIO(tier));
-   121		}
-   122		spin_unlock(&swap_tier_lock);
-   123	
-   124		return len;
-   125	}
-   126	
+  1926	
+  1927	static unsigned long ddebug_prefix_key(const struct _ddebug *desc)
+  1928	{
+> 1929		return ((unsigned long)desc & DDEBUG_PREFIX_KEY_ADDR_MASK) |
+  1930			((unsigned long)prefix_flags(desc->flags) << DDEBUG_PREFIX_KEY_FLAGS_SHIFT);
+  1931	}
+  1932	
 
 -- 
 0-DAY CI Kernel Test Service
