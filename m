@@ -1,192 +1,132 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4598B2AD35
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Mar 2026 21:34:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 011153A7585
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Mar 2026 21:48:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774906497; cv=none; b=VsvBpMVQwUR5VjLrgWhT+CwgbEmI7JfXac7bJ9t9SsoPF1vNs0H+bvDnbeIrH2xxNb7xZV8iJa44fOnfpK5eYMOPqmnIcWn1F4BlYUQaB+kkzxQkT47SvRWUOKRrAxVmckvYnclPBE+tGtFrtwtfm9KiyVDwpW+RwFlI/GgOYjQ=
+	t=1774907331; cv=none; b=TacXgDIG1CU2SmStdt0OuDHzcVfBCRRyfx0eMiKZ3ZOGxbec9syoAhdjTmI3QXNRg5GB9GgHA4eNpCXC5cGchl14kqvEEAe18bbJ59vaNQXL+NhvnXdNvyK2z/UBxutRX27qiZBlvNYRSrEAzWn1wSdeVaMn1ACvhMWmo7UNd48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774906497; c=relaxed/simple;
-	bh=v6ogNXQHJTDTX4v1/AvGYA8+sEBVNoiI9Ngz1bKXkNo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WUyR9PWsnBDiiTkJ8IOq9Q/wM7ufH8q/TkdDrtNopoZY5kPVS2Uw3JecSgA7q0eQ2jF7jq7xoyCWgAAgmK4Hu1wWC8SCwokYO7oRUb9F+8HBcQ7dealJ3FSckL7k6jhh96b/iHPh6MID1WPJ0VSrk6AFXGtiKZia90RUviLnr2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YOHJ/bms; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1774907331; c=relaxed/simple;
+	bh=ZXk0hO7Gu/ZJ0d7MVrxguDDDNYE/uLOgJloCmbWAwH8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cFcC/sm0GK49RjHNWXQACFbuRfbqo0zwhYGNWleK0brCtYPyn0MuITDviZ3570lMOt115sqKdggrwGg2oYYGBrx4V/OdXNuo7/d0UrMsGt9/aKxudth/kRMRFRNut5Fc1Ssd3hWRGL6Jnaxc+BuSS1f7jmK07NgeM9LZyD5SvEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QYHec7kX; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YOHJ/bms"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QYHec7kX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774906496; x=1806442496;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=v6ogNXQHJTDTX4v1/AvGYA8+sEBVNoiI9Ngz1bKXkNo=;
-  b=YOHJ/bmsIrY1vWN+Nw/lBKlZq/rCMH4B1BSz2hiGmR8IwUrVJIKgbsI8
-   WynM6paYoHDEh+bJQ3N7MrdaoFMgfjlrdyWW/gZdhXWvvAEBMRQvigxiR
-   1jezxyN41hBBNyF+Yo7NAXW1IMFdzpd0UoUp18cnfnnPYnqHM3oaiRq1q
-   XxZHNkm+F+QbnH/vskx619dyrewk3DYHMTlpVko2ZqMxxUqj5jwxajW/q
-   JmRH6+zDnerw0sXgMBp7tyktveqkrNdIWjr61ZJBrSMYGkPfp3GyCqHFh
-   kFaToQuTVvgA7P1w39dm8MDIlO8vwVIUari6O6MmLWiq48hiz3BtknkV6
+  t=1774907330; x=1806443330;
+  h=date:from:to:cc:subject:message-id;
+  bh=ZXk0hO7Gu/ZJ0d7MVrxguDDDNYE/uLOgJloCmbWAwH8=;
+  b=QYHec7kXVY933tYgovCvtXqs/4eEM2uNXwV0seeRthfkGpUnomOqFB7h
+   ohlTk7SsSycyMy4CIRNjNrk2NyPisIWdRyTER6WerTrsGSHVpY5M7nSR8
+   DO3IbilyW9Z1skU82Twc0e/OY7Ga3Sj3FNy6hBH0lmSeZW6lMDH5MW/AC
+   ZrQw6byD2WdijudGdDXDeh7y2TzSHtuSdI4qnHdi+iHHW4G3n/1hU2By+
+   F+EscxMigHkllRLYs68FfoiQrXRdbOoTaxcsDbolh4F/5GBr8073ANMHD
+   fdwVb2pFAcYgZVEw5VA8yO2pqtdgYpMaA2Y0meiKQ8Qk4LQALcZwNzuz8
    g==;
-X-CSE-ConnectionGUID: JAi1xMHZSwGo9XwsUP8mjA==
-X-CSE-MsgGUID: fFSLsSJCShatC6r44c1oXA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="75927260"
+X-CSE-ConnectionGUID: xSSAmfG6SQ6jO0rx8La1dg==
+X-CSE-MsgGUID: TzYOkPH9QmKs4m5WZ0izmQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="76102165"
 X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
-   d="scan'208";a="75927260"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 14:34:53 -0700
-X-CSE-ConnectionGUID: hSMDTCmdQAS6Fr+I7pGzuw==
-X-CSE-MsgGUID: EuWSIXlYQOyv8nI2jfNKsA==
+   d="scan'208";a="76102165"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 14:48:50 -0700
+X-CSE-ConnectionGUID: W0z7St6pTZu0fbIyMpHS8A==
+X-CSE-MsgGUID: ouOlrKYORTG3rQEUmtBvvA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
-   d="scan'208";a="230642865"
+   d="scan'208";a="231104416"
 Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 30 Mar 2026 14:34:48 -0700
+  by orviesa005.jf.intel.com with ESMTP; 30 Mar 2026 14:48:48 -0700
 Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w7KFw-000000001kD-2pDh;
-	Mon, 30 Mar 2026 21:34:44 +0000
-Date: Tue, 31 Mar 2026 05:34:34 +0800
+	id 1w7KTV-000000001lB-3CfK;
+	Mon, 30 Mar 2026 21:48:45 +0000
+Date: Tue, 31 Mar 2026 05:48:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qi Tang <tpluszz77@gmail.com>, Pablo Neira Ayuso <pablo@netfilter.org>,
-	Florian Westphal <fw@strlen.de>
-Cc: oe-kbuild-all@lists.linux.dev, Phil Sutter <phil@nwl.cc>,
-	netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-	netdev@vger.kernel.org, Qi Tang <tpluszz77@gmail.com>
-Subject: Re: [PATCH] netfilter: ctnetlink: zero expect NAT fields when
- CTA_EXPECT_NAT absent
-Message-ID: <202603310541.XVM8V7WG-lkp@intel.com>
-References: <20260329165217.241038-1-tpluszz77@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 0/2]
+ arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:62:6: warning: no previous prototype
+ for '__kvm_iommu_reclaim_pages'
+Message-ID: <202603310504.B2yVaC6h-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260329165217.241038-1-tpluszz77@gmail.com>
 
-Hi Qi,
+Hi Mostafa,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on netfilter-nf/main]
-[also build test ERROR on linus/master nf-next/master horms-ipvs/master v7.0-rc6 next-20260327]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Qi-Tang/netfilter-ctnetlink-zero-expect-NAT-fields-when-CTA_EXPECT_NAT-absent/20260330-195347
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
-patch link:    https://lore.kernel.org/r/20260329165217.241038-1-tpluszz77%40gmail.com
-patch subject: [PATCH] netfilter: ctnetlink: zero expect NAT fields when CTA_EXPECT_NAT absent
-config: sh-randconfig-001-20260331 (https://download.01.org/0day-ci/archive/20260331/202603310541.XVM8V7WG-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603310541.XVM8V7WG-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   5fdbbd61a3cbdca7ac1034dc16723bdbc7ece8cc
+commit: 4ad0b651d058e1858771f56a77a1118863f594aa [0/2] ANDROID: KVM: arm64: iommu: Add pgtable allocation functions
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20260331/202603310504.B2yVaC6h-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603310504.B2yVaC6h-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603310541.XVM8V7WG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603310504.B2yVaC6h-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   net/netfilter/nf_conntrack_netlink.c: In function 'ctnetlink_alloc_expect':
->> net/netfilter/nf_conntrack_netlink.c:3592:28: error: 'struct nf_conntrack_expect' has no member named 'saved_addr'
-    3592 |                 memset(&exp->saved_addr, 0, sizeof(exp->saved_addr));
-         |                            ^~
-   net/netfilter/nf_conntrack_netlink.c:3592:55: error: 'struct nf_conntrack_expect' has no member named 'saved_addr'
-    3592 |                 memset(&exp->saved_addr, 0, sizeof(exp->saved_addr));
-         |                                                       ^~
->> net/netfilter/nf_conntrack_netlink.c:3593:28: error: 'struct nf_conntrack_expect' has no member named 'saved_proto'
-    3593 |                 memset(&exp->saved_proto, 0, sizeof(exp->saved_proto));
-         |                            ^~
-   net/netfilter/nf_conntrack_netlink.c:3593:56: error: 'struct nf_conntrack_expect' has no member named 'saved_proto'
-    3593 |                 memset(&exp->saved_proto, 0, sizeof(exp->saved_proto));
-         |                                                        ^~
->> net/netfilter/nf_conntrack_netlink.c:3594:20: error: 'struct nf_conntrack_expect' has no member named 'dir'
-    3594 |                 exp->dir = 0;
-         |                    ^~
+   arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:44:7: warning: no previous prototype for '__kvm_iommu_donate_pages' [-Wmissing-prototypes]
+      44 | void *__kvm_iommu_donate_pages(struct hyp_pool *pool, u8 order, bool request)
+         |       ^~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:62:6: warning: no previous prototype for '__kvm_iommu_reclaim_pages' [-Wmissing-prototypes]
+      62 | void __kvm_iommu_reclaim_pages(struct hyp_pool *pool, void *p, u8 order)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:106:5: warning: no previous prototype for 'kvm_iommu_refill' [-Wmissing-prototypes]
+     106 | int kvm_iommu_refill(struct kvm_hyp_memcache *host_mc)
+         |     ^~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:116:6: warning: no previous prototype for 'kvm_iommu_reclaim' [-Wmissing-prototypes]
+     116 | void kvm_iommu_reclaim(struct kvm_hyp_memcache *host_mc, int target)
+         |      ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:125:5: warning: no previous prototype for 'kvm_iommu_reclaimable' [-Wmissing-prototypes]
+     125 | int kvm_iommu_reclaimable(void)
+         |     ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +3592 net/netfilter/nf_conntrack_netlink.c
+vim +/__kvm_iommu_reclaim_pages +62 arch/arm64/kvm/hyp/nvhe/iommu/iommu.c
 
-  3528	
-  3529	static struct nf_conntrack_expect *
-  3530	ctnetlink_alloc_expect(const struct nlattr * const cda[], struct nf_conn *ct,
-  3531			       struct nf_conntrack_helper *helper,
-  3532			       struct nf_conntrack_tuple *tuple,
-  3533			       struct nf_conntrack_tuple *mask)
-  3534	{
-  3535		struct net *net = read_pnet(&ct->ct_net);
-  3536		struct nf_conntrack_expect *exp;
-  3537		struct nf_conn_help *help;
-  3538		u32 class = 0;
-  3539		int err;
-  3540	
-  3541		help = nfct_help(ct);
-  3542		if (!help)
-  3543			return ERR_PTR(-EOPNOTSUPP);
-  3544	
-  3545		if (cda[CTA_EXPECT_CLASS] && helper) {
-  3546			class = ntohl(nla_get_be32(cda[CTA_EXPECT_CLASS]));
-  3547			if (class > helper->expect_class_max)
-  3548				return ERR_PTR(-EINVAL);
-  3549		}
-  3550		exp = nf_ct_expect_alloc(ct);
-  3551		if (!exp)
-  3552			return ERR_PTR(-ENOMEM);
-  3553	
-  3554		if (cda[CTA_EXPECT_FLAGS]) {
-  3555			exp->flags = ntohl(nla_get_be32(cda[CTA_EXPECT_FLAGS]));
-  3556			exp->flags &= ~NF_CT_EXPECT_USERSPACE;
-  3557		} else {
-  3558			exp->flags = 0;
-  3559		}
-  3560		if (cda[CTA_EXPECT_FN]) {
-  3561			const char *name = nla_data(cda[CTA_EXPECT_FN]);
-  3562			struct nf_ct_helper_expectfn *expfn;
-  3563	
-  3564			expfn = nf_ct_helper_expectfn_find_by_name(name);
-  3565			if (expfn == NULL) {
-  3566				err = -EINVAL;
-  3567				goto err_out;
-  3568			}
-  3569			exp->expectfn = expfn->expectfn;
-  3570		} else
-  3571			exp->expectfn = NULL;
-  3572	
-  3573		exp->class = class;
-  3574		exp->master = ct;
-  3575		write_pnet(&exp->net, net);
-  3576	#ifdef CONFIG_NF_CONNTRACK_ZONES
-  3577		exp->zone = ct->zone;
-  3578	#endif
-  3579		if (!helper)
-  3580			helper = rcu_dereference(help->helper);
-  3581		rcu_assign_pointer(exp->helper, helper);
-  3582		exp->tuple = *tuple;
-  3583		exp->mask.src.u3 = mask->src.u3;
-  3584		exp->mask.src.u.all = mask->src.u.all;
-  3585	
-  3586		if (cda[CTA_EXPECT_NAT]) {
-  3587			err = ctnetlink_parse_expect_nat(cda[CTA_EXPECT_NAT],
-  3588							 exp, nf_ct_l3num(ct));
-  3589			if (err < 0)
-  3590				goto err_out;
-  3591		} else {
-> 3592			memset(&exp->saved_addr, 0, sizeof(exp->saved_addr));
-> 3593			memset(&exp->saved_proto, 0, sizeof(exp->saved_proto));
-> 3594			exp->dir = 0;
-  3595		}
-  3596		return exp;
-  3597	err_out:
-  3598		nf_ct_expect_put(exp);
-  3599		return ERR_PTR(err);
-  3600	}
-  3601	
+    43	
+  > 44	void *__kvm_iommu_donate_pages(struct hyp_pool *pool, u8 order, bool request)
+    45	{
+    46		void *p;
+    47		struct kvm_hyp_req *req = this_cpu_ptr(&host_hyp_reqs);
+    48	
+    49		p = hyp_alloc_pages(pool, order);
+    50		if (p)
+    51			return p;
+    52	
+    53		if (request) {
+    54			req->type = KVM_HYP_REQ_TYPE_MEM;
+    55			req->mem.dest = REQ_MEM_DEST_HYP_IOMMU;
+    56			req->mem.sz_alloc = (1 << order) * PAGE_SIZE;
+    57			req->mem.nr_pages = 1;
+    58		}
+    59		return NULL;
+    60	}
+    61	
+  > 62	void __kvm_iommu_reclaim_pages(struct hyp_pool *pool, void *p, u8 order)
+    63	{
+    64		/*
+    65		 * Order MUST be same allocated page, however the buddy allocator
+    66		 * is allowed to give higher order pages.
+    67		 */
+    68		BUG_ON(order > hyp_virt_to_page(p)->order);
+    69	
+    70		hyp_put_page(pool, p);
+    71	}
+    72	
 
 -- 
 0-DAY CI Kernel Test Service
