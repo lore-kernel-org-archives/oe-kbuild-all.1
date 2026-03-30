@@ -1,94 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40ED6364E84;
-	Mon, 30 Mar 2026 20:38:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C15E73A7836
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Mar 2026 20:39:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774903121; cv=none; b=iOvIuNxqrAEnmSljAZrpe+xAOjT0q9VZpMB81tPinpq3nOyHSCtpkaXL/1ubyH/9xKwygfjVy264z9GdC8WNMKXu04bFKWtbbUSCQ3xTYIi8Flm6O0qjFHRjhx4Kzc8Ja53PP5Hiyx6N+BZ8t/ZDBmyMJ6EFddRi/W59fSPqi1c=
+	t=1774903188; cv=none; b=Uxfl8PE0lIcbaDPX88F9ezQUdDeBoDVsQPKzjnY8djPNauTQyrgkld69p3s0P5Twu1JdDd20ZLN8gKnS/XaFcIxp4NDWN7de3qs2QT6lyY3dbRh5qZnjhR2dvc2kez+tRWHH4BhAwSCGGamZqFc3OKlb9CWFOip5ESOWA7ByR7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774903121; c=relaxed/simple;
-	bh=EA/qsJArmY2vR4r+p45ag7M2irsxNLsjIMDQ9zdgW9c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hPcnunu8idz4Iki3+qgPrijcPzY25VjHZIzi9XUgjYGldMoNk4zi+f90c/5i93s4ZWapl7+x2Cx3q1btZ7cUE1D5t9wSIEsykwd+aoUVSgphgwl0UqNiW2RfOxJFcctAA3OFo1V6jIP6xdPEH0XGlnJvS+kS4NrxCyjYJwtKKFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UWflGqvE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774903188; c=relaxed/simple;
+	bh=+3xE28sy8+DvCRKnhtXiv96e0ooraKfxcivtSIDaxlA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=fEkaY+qdsS/s6xxZoM2x1ekb8HRWE69qfVHDw5Z1Bfh7i2QIpg737c02BSx5NqF6U0pzUj6y9E0pNR06jFqLqDFagsNku7TL8Z1TSs2HZNKXFNKNmxdYWSvCuOpBg/Y68kqT8hK4D+a8Px4hIsvHcCS9XNd85tjH+kJIh5kRevM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xfy8UEHd; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UWflGqvE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DEDDC4CEF7;
-	Mon, 30 Mar 2026 20:38:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774903120;
-	bh=EA/qsJArmY2vR4r+p45ag7M2irsxNLsjIMDQ9zdgW9c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UWflGqvEnyKB82ohcdbMYVAJUlX275KEVABa3P/xHatrzJTlTXrty5XPD1hT9+c6z
-	 Oo0phFp1oEaMRCqyZ50V09vJz7XQ5FVM+6SOjpVsMt929G7VrobIemffUqVlDDEdw4
-	 kQbLMKfRjn063w8Jk0l73ym78yE+LFQeScbZyFMxhv+Ni5KkcYIIHri1iXm4ZFXU3W
-	 oFl+LVIGUqZ/oLK/UMdi01YplqdO26iqpAW5huV5iX1epTOCkyfqgOdI/XkF4LaDEO
-	 JwOdKSRViB2/P03HVPPe3r3rH+ik+qUHyihN5AtasTtGsHFSaP3126btWF+5ydTTJS
-	 xWYEkydsUor8Q==
-Date: Mon, 30 Mar 2026 13:37:31 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Sohil Mehta <sohil.mehta@intel.com>, linux-crypto@vger.kernel.org,
-	linux-mips@vger.kernel.org, "Jason A. Donenfeld" <Jason@zx2c4.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Subject: Re: lib/crypto/mips/poly1305-core.S:95: Error: opcode not supported
- on this processor: mips64r6 (mips64r6) `lwl $8,0+3($5)'
-Message-ID: <20260330203731.GG4303@sol>
-References: <202603210105.sdD4rsTq-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xfy8UEHd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774903184; x=1806439184;
+  h=date:from:to:cc:subject:message-id;
+  bh=+3xE28sy8+DvCRKnhtXiv96e0ooraKfxcivtSIDaxlA=;
+  b=Xfy8UEHdcABG94fw53VlBJwuR9Pcmvq6GpQRxkYbwqMH0xG6gWOD2DVu
+   BGxwv1wxyLPMnCoO6B3dFHtbDt7r+zC0v0Me5pJE/v31sK/fb1//o2MLE
+   GIBDDlYr4eSEnW4LvNh22kPd8DKFUTi2sM84HF908oCwZ8hIvEz9KXBmj
+   D6XS4cEEUL9JxeK240dXG9WUgEb/uXFLCREDRrff4yCUK9SIThjl2aZrR
+   SFujoHkLnFHxKzPnpsz7eMlNw6uSKA3L5XzCeVS4TyiEuHSUAfVWQdX8b
+   w8YmxvDd4Y31JNPQD5LriJfDZ2YpQPUmfgt9+Um4hXh1gsImIOdArRfUN
+   Q==;
+X-CSE-ConnectionGUID: tw4peoc1TrSZ2sEVnnULcQ==
+X-CSE-MsgGUID: D3rhjAKdQPGfVwHD3wakIg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="75923614"
+X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
+   d="scan'208";a="75923614"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 13:39:44 -0700
+X-CSE-ConnectionGUID: vGroEUayRVOvp3tpbgHZfA==
+X-CSE-MsgGUID: clD4RMfjRk69p2FE+//6Xg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
+   d="scan'208";a="225329132"
+Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 30 Mar 2026 13:39:42 -0700
+Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w7JOd-000000001g9-2v3d;
+	Mon, 30 Mar 2026 20:39:39 +0000
+Date: Tue, 31 Mar 2026 04:38:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+ linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Subject: [rafael-pm:testing 161/166]
+ drivers/powercap/intel_rapl_common.c:1143:32: error:
+ 'IOSF_CPU_POWER_BUDGET_CTL_BYT' undeclared here (not in a function)
+Message-ID: <202603310439.J9wmW1hQ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202603210105.sdD4rsTq-lkp@intel.com>
 
-[+Cc linux-mips and linux-crypto]
+Hi Kuppuswamy,
 
-On Sat, Mar 21, 2026 at 01:47:15AM +0800, kernel test robot wrote:
-> Hi Eric,
-> 
-> First bad commit (maybe != root cause):
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   0e4f8f1a3d081e834be5fd0a62bdb2554fadd307
-> commit: 7e54e993ab8c98d912f54ad6f46bfcc9dcd65368 lib/crypto: mips: Move arch/mips/lib/crypto/ into lib/crypto/
-> date:   9 months ago
-> config: mips-randconfig-r131-20260320 (https://download.01.org/0day-ci/archive/20260321/202603210105.sdD4rsTq-lkp@intel.com/config)
-> compiler: mips-linux-gcc (GCC) 11.5.0
-> sparse: v0.6.5-rc1
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260321/202603210105.sdD4rsTq-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202603210105.sdD4rsTq-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    lib/crypto/mips/poly1305-core.S: Assembler messages:
-> >> lib/crypto/mips/poly1305-core.S:95: Error: opcode not supported on this processor: mips64r6 (mips64r6) `lwl $8,0+3($5)'
->    lib/crypto/mips/poly1305-core.S:96: Error: opcode not supported on this processor: mips64r6 (mips64r6) `lwl $9,4+3($5)'
->    lib/crypto/mips/poly1305-core.S:97: Error: opcode not supported on this processor: mips64r6 (mips64r6) `lwl $10,8+3($5)'
->    lib/crypto/mips/poly1305-core.S:98: Error: opcode not supported on this processor: mips64r6 (mips64r6) `lwl $11,12+3($5)'
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-This isn't new.  It was first reported in 2021:
-https://lore.kernel.org/all/202108040636.P6t1LvPP-lkp@intel.com/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git testing
+head:   42d55832a5e041da2575cf582669755d6d0f9a45
+commit: 6cec0a0079bc188fbb9f0363c11973a81f8fbf9c [161/166] powercap: intel_rapl: Remove unused macro definitions
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260331/202603310439.J9wmW1hQ-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603310439.J9wmW1hQ-lkp@intel.com/reproduce)
 
-It's caused by:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603310439.J9wmW1hQ-lkp@intel.com/
 
-CONFIG_64BIT=n causes the 32-bit Poly1305 assembly code to be generated.
-That code checks the _MIPS_ARCH_MIPS32R6 macro.  But, the code is
-actually built with -march=mips64r6, due to CONFIG_CPU_MIPS64_R6=y.
-Thus _MIPS_ARCH_MIPS32R6 is not defined; _MIPS_ARCH_MIPS64R6 is defined
-instead.  So the wrong code gets built.
+All errors (new ones prefixed by >>):
 
-Maybe someone from linux-mips@vger.kernel.org can confirm whether
-CONFIG_64BIT=n && CONFIG_CPU_MIPS64_R6=y actually makes sense?
+>> drivers/powercap/intel_rapl_common.c:1143:32: error: 'IOSF_CPU_POWER_BUDGET_CTL_BYT' undeclared here (not in a function)
+    1143 |         .floor_freq_reg_addr = IOSF_CPU_POWER_BUDGET_CTL_BYT,
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/powercap/intel_rapl_common.c:1150:32: error: 'IOSF_CPU_POWER_BUDGET_CTL_TNG' undeclared here (not in a function)
+    1150 |         .floor_freq_reg_addr = IOSF_CPU_POWER_BUDGET_CTL_TNG,
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- Eric
+
+vim +/IOSF_CPU_POWER_BUDGET_CTL_BYT +1143 drivers/powercap/intel_rapl_common.c
+
+2d798d9f5967a3 drivers/powercap/intel_rapl_common.c Zhang Rui   2020-06-29  1141  
+51b63409b75980 drivers/powercap/intel_rapl.c        Ajay Thomas 2015-04-30  1142  static const struct rapl_defaults rapl_defaults_byt = {
+51b63409b75980 drivers/powercap/intel_rapl.c        Ajay Thomas 2015-04-30 @1143  	.floor_freq_reg_addr = IOSF_CPU_POWER_BUDGET_CTL_BYT,
+51b63409b75980 drivers/powercap/intel_rapl.c        Ajay Thomas 2015-04-30  1144  	.check_unit = rapl_check_unit_atom,
+51b63409b75980 drivers/powercap/intel_rapl.c        Ajay Thomas 2015-04-30  1145  	.set_floor_freq = set_floor_freq_atom,
+51b63409b75980 drivers/powercap/intel_rapl.c        Ajay Thomas 2015-04-30  1146  	.compute_time_window = rapl_compute_time_window_atom,
+51b63409b75980 drivers/powercap/intel_rapl.c        Ajay Thomas 2015-04-30  1147  };
+51b63409b75980 drivers/powercap/intel_rapl.c        Ajay Thomas 2015-04-30  1148  
+51b63409b75980 drivers/powercap/intel_rapl.c        Ajay Thomas 2015-04-30  1149  static const struct rapl_defaults rapl_defaults_tng = {
+51b63409b75980 drivers/powercap/intel_rapl.c        Ajay Thomas 2015-04-30 @1150  	.floor_freq_reg_addr = IOSF_CPU_POWER_BUDGET_CTL_TNG,
+3c2c08454ce9ca drivers/powercap/intel_rapl.c        Jacob Pan   2014-11-07  1151  	.check_unit = rapl_check_unit_atom,
+3c2c08454ce9ca drivers/powercap/intel_rapl.c        Jacob Pan   2014-11-07  1152  	.set_floor_freq = set_floor_freq_atom,
+3c2c08454ce9ca drivers/powercap/intel_rapl.c        Jacob Pan   2014-11-07  1153  	.compute_time_window = rapl_compute_time_window_atom,
+087e9cbab5022f drivers/powercap/intel_rapl.c        Jacob Pan   2014-11-07  1154  };
+087e9cbab5022f drivers/powercap/intel_rapl.c        Jacob Pan   2014-11-07  1155  
+
+:::::: The code at line 1143 was first introduced by commit
+:::::: 51b63409b75980753f52edb45da7d1b3e2b9405d powercap / RAPL: Floor frequency setting in Atom SoC
+
+:::::: TO: Ajay Thomas <ajay.thomas.david.rajamanickam@intel.com>
+:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
