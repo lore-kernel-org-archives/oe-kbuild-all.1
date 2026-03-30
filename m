@@ -1,178 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3F8529DB86;
-	Mon, 30 Mar 2026 21:01:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E8B7393DC0;
+	Mon, 30 Mar 2026 21:24:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774904510; cv=none; b=kG+qjksCvsoou0mIX5gyuclCmui++xvBzba7QOVzPpd2gN+SXqVhAG7r0O5gP2REPfdyMcbACH+hmQe9n0iy0rcRJbC6/n8HNzcOFsyJPL1w0dTsnFIlcLkm9y3RA/zEuKSnBNKTUholtPJLOMfAmWfgHKZLk6UBLZF2peN848E=
+	t=1774905889; cv=none; b=mVlMQWgpcNKhF0wb7MzjLm3J2Qfg/bX+LLt87wlemRLlYKl5x+WET8W+KzcGDbwvumIyYOe8AS9/DfrLjFSPFKsiYKYAJxgoIHClLppFqqkux4KQpnxZnmP4/YRnqGofPtz+Eg9eOeSQnZtyqZ1kQN8rQ6BIs/WpQB6LoJXac2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774904510; c=relaxed/simple;
-	bh=7Bf6s5P7obYbKfi0McPxjoy/5AMRI2Ir4XDW4hxa6Vs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j80pPWt1S7ZpnnsQasx7h2I0JH4afkTfkUVIs8Ln2oIXiBb54SR8x9tY9NwhDBlhOdXynT82cJyFIkF5h1vuDhkCl+rbc1P5NJQc7VUMg4lHWTBsiKz6h8d3jS/936oMc6kp8k32MqDbN4I5KfJlzOSy0w6L2hJ4cvjr2WEpGjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bnYpUs5i; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1774905889; c=relaxed/simple;
+	bh=9dDXrDB+eX/zMrgci8Jy2eu2dL5dSEgo3U0NBB95YJk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=CO59QB/H55AsWyFleNqAQGBnC73sG7Ricwc35W7yd4U6jXb1bX91rHhMl9Z+86/VBaw6kr4LGoXbNfDl/t3QX/FiuaNWlBp1D0RlPOCS/PHoaIJUjIrhF7x6zJ+gGw0cefvVhy3d0Mb3/G8iHQjjxV9Y11MZIRZFKcNKSigfm0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MTsefXfG; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bnYpUs5i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MTsefXfG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774904508; x=1806440508;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7Bf6s5P7obYbKfi0McPxjoy/5AMRI2Ir4XDW4hxa6Vs=;
-  b=bnYpUs5ite5y6LOmC47rEspSzsfjd8RgK+f4JYwcOEJTJdRlPDH2UQyX
-   JqXRyswpt7DyYRn4cqMBlx6hxa+vTutPOFfsQY9+LZ05K1oc4F18mhbwW
-   8DlrepqpLgG6eSAW776zDfnmW+y9g+h35helS2U1kSUOaS44AgGwGXs5y
-   AsPgc+2fGC7AD1mya7KkexlNzcddIy+8ViA6Jt2RUOpvqoWs8w6Q/evzP
-   ZnLrpOkGVPO1/5trfbwPUxxACP4DhVhPnxbYc6mJG6D3/HzC0KGEPTUqt
-   8mdQnGRK5pyJ3WW6TmmovRaezd0JO4F4R23qjLVmL11HRD/EjwxbmBfPN
+  t=1774905889; x=1806441889;
+  h=date:from:to:cc:subject:message-id;
+  bh=9dDXrDB+eX/zMrgci8Jy2eu2dL5dSEgo3U0NBB95YJk=;
+  b=MTsefXfGmjdUBDI5x/Z2en9ndSdIadGz1URF7NCrKccbk3X8irCgglf+
+   7cx1U3VbYBN89d8k5Uzj/N5qzLKaHmH0h6j89GpIUhCP1MLA/flCx3dxL
+   //zKQ3wxPaYQPNBdlj3C++oEBWZDKQiLUouD594h20ow1jxqYUsyGdcR9
+   Mtx2LDRUEHN3bj5vsPsdWEI3HQei5SyDjoA6BXrKtmbCovYKSKgs/2Itg
+   LTqU4ZgGC0Y73TulVKwHQoOtzn2NQQrft8ini7UGnEZ24cGAtPyMr1BDY
+   wBLHqztj75vELgDRdt3TLRlMA0/KRFxc5M21/HVAjKpngnjgWLmzJgA3G
    g==;
-X-CSE-ConnectionGUID: LhwCxvP8QhO/EhckZMbAcQ==
-X-CSE-MsgGUID: eSPGoHvmTZeHwpk6zHLNXA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="79808839"
+X-CSE-ConnectionGUID: B0dvPrZEQOeqdcRZU35Y/g==
+X-CSE-MsgGUID: XD76JlTqRa67RS+jOGTamg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="75876642"
 X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
-   d="scan'208";a="79808839"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 14:01:47 -0700
-X-CSE-ConnectionGUID: 7nPBUnMATt+Vbc3qwsQHbg==
-X-CSE-MsgGUID: PhNu3LhYSn+JH6lFCOg0zw==
+   d="scan'208";a="75876642"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 14:24:49 -0700
+X-CSE-ConnectionGUID: nbyZNWE+SFmVgL4Ladt8xQ==
+X-CSE-MsgGUID: advd3DTzR/+fHDnaKKNF3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
-   d="scan'208";a="226038623"
+   d="scan'208";a="221302154"
 Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 30 Mar 2026 14:01:45 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 30 Mar 2026 14:24:46 -0700
 Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w7Jjy-000000001i1-0j2s;
-	Mon, 30 Mar 2026 21:01:42 +0000
-Date: Tue, 31 Mar 2026 05:01:23 +0800
+	id 1w7K6F-000000001jV-1VIl;
+	Mon, 30 Mar 2026 21:24:43 +0000
+Date: Tue, 31 Mar 2026 05:24:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chandrashekar Devegowda <chandrashekar.devegowda@intel.com>,
-	linux-bluetooth@vger.kernel.org
+To: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-pci@vger.kernel.org, bhelgaas@google.com,
-	ravishankar.srivatsa@intel.com, chethan.tumkur.narayan@intel.com,
-	Chandrashekar Devegowda <chandrashekar.devegowda@intel.com>
-Subject: Re: [PATCH v1] Bluetooth: btintel_pcie:Support Product level reset.
-Message-ID: <202603310419.PsZ2njdQ-lkp@intel.com>
-References: <20260330063842.1121545-1-chandrashekar.devegowda@intel.com>
+ linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Subject: [rafael-pm:bleeding-edge 175/181]
+ drivers/powercap/intel_rapl_common.c:1143:25: error: use of undeclared
+ identifier 'IOSF_CPU_POWER_BUDGET_CTL_BYT'
+Message-ID: <202603310544.0WC7CT1o-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260330063842.1121545-1-chandrashekar.devegowda@intel.com>
 
-Hi Chandrashekar,
+Hi Kuppuswamy,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test ERROR on bluetooth-next/master]
-[also build test ERROR on next-20260327]
-[cannot apply to bluetooth/master linus/master v7.0-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chandrashekar-Devegowda/Bluetooth-btintel_pcie-Support-Product-level-reset/20260330-190125
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
-patch link:    https://lore.kernel.org/r/20260330063842.1121545-1-chandrashekar.devegowda%40intel.com
-patch subject: [PATCH v1] Bluetooth: btintel_pcie:Support Product level reset.
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20260331/202603310419.PsZ2njdQ-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603310419.PsZ2njdQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   a4b9106c1c54a3f214009aa006cf31f9329b6b27
+commit: 6cec0a0079bc188fbb9f0363c11973a81f8fbf9c [175/181] powercap: intel_rapl: Remove unused macro definitions
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260331/202603310544.0WC7CT1o-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603310544.0WC7CT1o-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603310419.PsZ2njdQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603310544.0WC7CT1o-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/bluetooth/btintel_pcie.c:13:
-   In file included from include/linux/pci.h:38:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:24:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
->> drivers/bluetooth/btintel_pcie.c:2307:7: error: call to undeclared function 'acpi_has_method'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2307 |         if (!acpi_has_method(handle, "_PRR")) {
-         |              ^
-   drivers/bluetooth/btintel_pcie.c:2307:7: note: did you mean 'acpi_has_watchdog'?
-   include/linux/acpi.h:1494:20: note: 'acpi_has_watchdog' declared here
-    1494 | static inline bool acpi_has_watchdog(void) { return false; }
-         |                    ^
-   1 warning and 1 error generated.
+>> drivers/powercap/intel_rapl_common.c:1143:25: error: use of undeclared identifier 'IOSF_CPU_POWER_BUDGET_CTL_BYT'
+    1143 |         .floor_freq_reg_addr = IOSF_CPU_POWER_BUDGET_CTL_BYT,
+         |                                ^
+>> drivers/powercap/intel_rapl_common.c:1150:25: error: use of undeclared identifier 'IOSF_CPU_POWER_BUDGET_CTL_TNG'
+    1150 |         .floor_freq_reg_addr = IOSF_CPU_POWER_BUDGET_CTL_TNG,
+         |                                ^
+   2 errors generated.
 
 
-vim +/acpi_has_method +2307 drivers/bluetooth/btintel_pcie.c
+vim +/IOSF_CPU_POWER_BUDGET_CTL_BYT +1143 drivers/powercap/intel_rapl_common.c
 
-  2280	
-  2281	static int btintel_pcie_acpi_reset_method(struct btintel_pcie_data *data)
-  2282	{
-  2283		union acpi_object *obj, argv4;
-  2284		acpi_handle handle;
-  2285		int ret;
-  2286		struct pldr_mode {
-  2287			u16	cmd_type;
-  2288			u16	cmd_payload;
-  2289		} __packed;
-  2290	
-  2291		/* set 1 for _PRR mode
-  2292		 * Product Reset (PLDR Abort flow)
-  2293		 */
-  2294		static const struct pldr_mode mode = {
-  2295			.cmd_type = 1,
-  2296			.cmd_payload = BTINTEL_PCIE_DSM_PLDR_MODE_EN_PROD_RESET |
-  2297				       BTINTEL_PCIE_DSM_PLDR_MODE_EN_WIFI_FLR,
-  2298		};
-  2299		struct hci_dev *hdev = data->hdev;
-  2300	
-  2301		handle = ACPI_HANDLE(GET_HCIDEV_DEV(data->hdev));
-  2302		if (!handle) {
-  2303			bt_dev_dbg(data->hdev, "No support for bluetooth device in ACPI firmware");
-  2304			return -EACCES;
-  2305		}
-  2306	
-> 2307		if (!acpi_has_method(handle, "_PRR")) {
-  2308			bt_dev_dbg(data->hdev, "No support for _PRR ACPI method, falling back to FLR");
-  2309			btintel_pcie_reset(data->hdev);
-  2310			return -ENODEV;
-  2311		}
-  2312	
-  2313		argv4.buffer.type = ACPI_TYPE_BUFFER;
-  2314		argv4.buffer.length = sizeof(mode);
-  2315		argv4.buffer.pointer = (void *)&mode;
-  2316	
-  2317		obj = acpi_evaluate_dsm(handle, &btintel_guid_dsm, 0,
-  2318					BTINTEL_PCIE_DSM_DYNAMIC_PLDR, &argv4);
-  2319		if (!obj) {
-  2320			bt_dev_err(data->hdev, "Failed to call dsm to set reset method");
-  2321			return -EIO;
-  2322		}
-  2323		ACPI_FREE(obj);
-  2324	
-  2325		pci_dev_lock(data->pdev);
-  2326		pci_save_state(data->pdev);
-  2327		ret = btintel_acpi_reset_method(hdev);
-  2328		if (ret)
-  2329			bt_dev_err(data->hdev, "ACPI _PRR reset failed (%d),PLDR incomplete",
-  2330				   ret);
-  2331		pci_restore_state(data->pdev);
-  2332		pci_dev_unlock(data->pdev);
-  2333		return ret;
-  2334	}
-  2335	
+2d798d9f5967a3 drivers/powercap/intel_rapl_common.c Zhang Rui   2020-06-29  1141  
+51b63409b75980 drivers/powercap/intel_rapl.c        Ajay Thomas 2015-04-30  1142  static const struct rapl_defaults rapl_defaults_byt = {
+51b63409b75980 drivers/powercap/intel_rapl.c        Ajay Thomas 2015-04-30 @1143  	.floor_freq_reg_addr = IOSF_CPU_POWER_BUDGET_CTL_BYT,
+51b63409b75980 drivers/powercap/intel_rapl.c        Ajay Thomas 2015-04-30  1144  	.check_unit = rapl_check_unit_atom,
+51b63409b75980 drivers/powercap/intel_rapl.c        Ajay Thomas 2015-04-30  1145  	.set_floor_freq = set_floor_freq_atom,
+51b63409b75980 drivers/powercap/intel_rapl.c        Ajay Thomas 2015-04-30  1146  	.compute_time_window = rapl_compute_time_window_atom,
+51b63409b75980 drivers/powercap/intel_rapl.c        Ajay Thomas 2015-04-30  1147  };
+51b63409b75980 drivers/powercap/intel_rapl.c        Ajay Thomas 2015-04-30  1148  
+51b63409b75980 drivers/powercap/intel_rapl.c        Ajay Thomas 2015-04-30  1149  static const struct rapl_defaults rapl_defaults_tng = {
+51b63409b75980 drivers/powercap/intel_rapl.c        Ajay Thomas 2015-04-30 @1150  	.floor_freq_reg_addr = IOSF_CPU_POWER_BUDGET_CTL_TNG,
+3c2c08454ce9ca drivers/powercap/intel_rapl.c        Jacob Pan   2014-11-07  1151  	.check_unit = rapl_check_unit_atom,
+3c2c08454ce9ca drivers/powercap/intel_rapl.c        Jacob Pan   2014-11-07  1152  	.set_floor_freq = set_floor_freq_atom,
+3c2c08454ce9ca drivers/powercap/intel_rapl.c        Jacob Pan   2014-11-07  1153  	.compute_time_window = rapl_compute_time_window_atom,
+087e9cbab5022f drivers/powercap/intel_rapl.c        Jacob Pan   2014-11-07  1154  };
+087e9cbab5022f drivers/powercap/intel_rapl.c        Jacob Pan   2014-11-07  1155  
+
+:::::: The code at line 1143 was first introduced by commit
+:::::: 51b63409b75980753f52edb45da7d1b3e2b9405d powercap / RAPL: Floor frequency setting in Atom SoC
+
+:::::: TO: Ajay Thomas <ajay.thomas.david.rajamanickam@intel.com>
+:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
