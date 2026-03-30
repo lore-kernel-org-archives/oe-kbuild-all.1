@@ -1,138 +1,153 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68F3F3C062D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Mar 2026 11:15:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AFC53BD22C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Mar 2026 11:17:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774869362; cv=none; b=MDstgP1qRjIzPXihmVfsj0wcIAff6QlbMoqs5SH95FSHsOVUwU501i1WwY7I948+nkcQKkzSV0sIPwKLAE+i9E+1jz5IW56ELnlzXvDEPRJA/AM0HQT2LZ6IUSO5rg7Mmu2i0UF491DEIzCv9HdKbuDBPVQ7frzjyynxrXaGGG0=
+	t=1774869481; cv=none; b=qI6af20queDNwnCGahY8nteDSK1IZYzyeOSReCp2LD86zxC/nbtETOrWMTbGwlm8/dv6jgHFUxCaRKJqEBzsqCWRfvD6Knpwdm2NF7kfrp9acyEbR8ODD9KHfm4X2GhM5rqR8tF7IqsJwNcA4Z7UHvGwZnAYtARUVPAdvfhEVhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774869362; c=relaxed/simple;
-	bh=QZdCBbLrSupxH3yQW3rELbqJcCJ9U5qbiSbJhPIBhC4=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=HgENu9Qs5x0LpGJwiiaPZrbxYVpXv853PohCqs3VAzceaEd1MISk69yRLP+qoBs0ijO2pHQAFn/uU3MAnLkT8G4t4m5NWoXQs5eJIcxpd/pVTunemqMPny2T0/IMjpmX2YKGlgxsXnQhrruREc7kMDbicRFfHajpE4n4boPv+W4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gkO/fL0L; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774869481; c=relaxed/simple;
+	bh=KQCdqygHmuMUSpvpKLuirxN7JJECFZ26lSCPY308ox4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=u39FQD+3tJPLJcjqGhnNvEGG4TutX0L/gMNEmvhZYJY/cQerYZaQf/JI+XOdOHDto+hqbaTr39Ifpa/lSQXvwOVEZe3CzWtyYXt8KPCYPE9NiR5O2cuct1ZJYP++rfbnUk2Fj8S99EhobtGPtqD+Xb6BRv/JX894ORUFbbySSlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QxnFGVAu; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gkO/fL0L"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2aaf59c4f7cso17747525ad.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Mar 2026 04:15:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774869358; x=1775474158; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QwbMmOxnhNPJFKX0tFv66f1BEnM4IowI567cylvFxpY=;
-        b=gkO/fL0LsOIbbsILU8yKkTVYvAgucWSOPKQtOrw7aG9mKyWq5JagXUgKFdZmJLL9JD
-         xv01llFXIZ/htJ1EtVoYLv5xQoUuHedMuG0K0XjPe0eGbmSifeH/7QTWXaipPwlnoVdT
-         smmjNgaZBND5F3PM8jDaamcXLPfZesRXqV16XG8P/xqxCmyiLG5H2r5ss+Od4yuPjfgm
-         ksXYP9g3678b+Uy1a+L4ki2r8vVKOrNeQLYWF0GBrwqV5GCRh0AiKVz5YKGVzUJXCZv7
-         NNHITNqkCj86XH1YXbeQHTphMNDRtVnlWvUEcySt6NAJtUCUTfyrO4JoyH9TLvCcY2KH
-         KK9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774869358; x=1775474158;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QwbMmOxnhNPJFKX0tFv66f1BEnM4IowI567cylvFxpY=;
-        b=EkqDvCMFo48SdiMG/LRJMUaT891Yc37w7jSNMzm6Qr6fMnsHtx00Wm4m739SIeNBuy
-         mevZ70QoJwJvFX3GK4Z/uu73CAHGBORLzl/ZEMdhD/Yv4r9XfQqcXg+C1xpDT/W10gwZ
-         PbLLxTQt6610fbYfUlR+jEFS4LkI3REQ74tu8QSzZNLtTuExOGRpugbZFDxdViTNuQPd
-         bjVcLeshwFyIAzYXbkKON4zTdun9WUELzt4ljwqoGVn01EjdB5mDz3j02S9gs3OAd3sa
-         /eRW60T0nZyUDWS7Y2fe2kjVoQKfwvNZSAYGAtl6/Dpt2d2wQFYlR7xmEvH8EtdmBjpY
-         K7ZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVSPvFoHmXa+Deip1UIQP8bnqjrHdTupKSv6KRfF/ggJRVwCX9Zu7LJXq1IPqEKWk7IonWlUO1ZB0Ka8scw@lists.linux.dev
-X-Gm-Message-State: AOJu0YxdnTwoiBoPg/4m3Bq+P/quP2oC3r0Ksh83s0ZRe3BqUjSWUU3E
-	qxO6zVRKEYT9KqyLNkfuzB3FawIOxFPMgjXEJlySUjJu1itZeTRGKPJe
-X-Gm-Gg: ATEYQzweaV/FndNFMotcglJ+jhqcpJB3kqAXctNkmqowFMchsoJINoA+5fwflsgC6P8
-	2iIHAMYML5McUk26dph7MTrkc4HYby9AHU3e487NyLIJl+vGnzyf819Bxt3+4QWS1roRzXNZb12
-	PdPcjzjt3LEgAwcW0gF9LB7KcESnKGf9SoB86pYFWa6fhgqv9vnRWrMopY2jFnIiqODCd2FL2gc
-	xaq9xQxBqXhbQmRThfOWinqVdhk7hbWef9ogYL1P9qsmsDXgyV+eALrXrTGS4cFGRT9+l6sTysQ
-	yX/+fvD4y6Wp0Dn/9H/qDWGseKm45/E2X5rdF3cPCgywPXxsLq1o9nl7XEKlPN4vfgJzZwLbkOB
-	ge5CA5qzX8oENQtTgU544LYHBRMWadBS/dGiV4e0y2cd7V9H1SlFlB18EftQCMgFkxLfgT0sN7D
-	+IwK9LR6K0S1NK6JQ=
-X-Received: by 2002:a17:903:1392:b0:2b0:708f:4dc7 with SMTP id d9443c01a7336-2b0cdcdc34emr86397435ad.29.1774869358504;
-        Mon, 30 Mar 2026 04:15:58 -0700 (PDT)
-Received: from localhost ([240d:1a:f76:b500:4431:46e3:c76b:79bc])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b242642b59sm78870575ad.16.2026.03.30.04.15.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Mar 2026 04:15:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QxnFGVAu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774869479; x=1806405479;
+  h=date:from:to:cc:subject:message-id;
+  bh=KQCdqygHmuMUSpvpKLuirxN7JJECFZ26lSCPY308ox4=;
+  b=QxnFGVAu3KP5InCuYiOUtGPE2a0qZxTRQOyPdoYAATek/XCB4wl6GSN9
+   eYU4YukOjwofZNhyYa+rKcYhQ7nQWQAr0opPJpcL3EmJ+yl5u+SH8RO7d
+   Yfnxaa35MqUAMElzku2nPZn7EHKf9BcMc9v8cGr6iHxOQFpes8DxZZTW3
+   xqVIDXtulSi/qa6fl3e5LvB8EhGev8c3mm1hAJMyRE7X0cR39XXIxvXi7
+   26WQZ1ODsf4Qm4IcTjUhde4TPhbCMDlYLAcbezU7vhwiNVM6V2cGuykU5
+   zs69P3cMnM3dMofvmtDCJhGfUtW/k++/C4lG69TMN1s3q9ZzBtY+Jf6eQ
+   Q==;
+X-CSE-ConnectionGUID: GaJ/Vt5gTlKfWGaCjqfMoA==
+X-CSE-MsgGUID: kyj5oFV6RxeCtRMW1OcfhQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="79760954"
+X-IronPort-AV: E=Sophos;i="6.23,149,1770624000"; 
+   d="scan'208";a="79760954"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 04:17:59 -0700
+X-CSE-ConnectionGUID: 2DtGHbQ7RUyvk2Mz0+1d6g==
+X-CSE-MsgGUID: oNqsHutwR025YtivFVsa+g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,149,1770624000"; 
+   d="scan'208";a="249079417"
+Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 30 Mar 2026 04:17:57 -0700
+Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w7Ad1-0000000010n-0oca;
+	Mon, 30 Mar 2026 11:17:55 +0000
+Date: Mon, 30 Mar 2026 19:17:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 2/2] lib/sbitmap.c:104:
+ warning: Function parameter or member 'sb' not described in
+ 'sbitmap_spinlock'
+Message-ID: <202603301944.FgubUex3-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 30 Mar 2026 20:15:55 +0900
-Message-Id: <DHG2ODK6STM0.25M7U46EBUSZB@gmail.com>
-Cc: "Danilo Krummrich" <dakr@kernel.org>, "Alice Ryhl"
- <aliceryhl@google.com>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
- <simona@ffwll.ch>, "Alistair Popple" <apopple@nvidia.com>,
- <oe-kbuild-all@lists.linux.dev>, "John Hubbard" <jhubbard@nvidia.com>,
- "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
- "Zhi Wang" <zhiw@nvidia.com>, "Eliot Courtney" <ecourtney@nvidia.com>,
- <rust-for-linux@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3] gpu: nova-core: gsp: fix undefined behavior in
- command queue code
-From: "Alexandre Courbot" <gnurou@gmail.com>
-To: "kernel test robot" <lkp@intel.com>, "Gary Guo" <gary@garyguo.net>
-References: <20260326-cmdq-ub-fix-v3-1-96af2148ca5c@nvidia.com>
- <202603281331.1ESuqgfz-lkp@intel.com>
-In-Reply-To: <202603281331.1ESuqgfz-lkp@intel.com>
 
-On Sat Mar 28, 2026 at 2:53 PM JST, kernel test robot wrote:
-> Hi Alexandre,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on dff8302ca1d0e773c90dbeeb05e759f995c95482]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Alexandre-Courbot/=
-gpu-nova-core-gsp-fix-undefined-behavior-in-command-queue-code/20260327-003=
-216
-> base:   dff8302ca1d0e773c90dbeeb05e759f995c95482
-> patch link:    https://lore.kernel.org/r/20260326-cmdq-ub-fix-v3-1-96af21=
-48ca5c%40nvidia.com
-> patch subject: [PATCH v3] gpu: nova-core: gsp: fix undefined behavior in =
-command queue code
-> config: x86_64-randconfig-102-20260327 (https://download.01.org/0day-ci/a=
-rchive/20260328/202603281331.1ESuqgfz-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0=
-227cb60147a26a1eeb4fb06e3b505e9c7261)
-> rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20260328/202603281331.1ESuqgfz-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202603281331.1ESuqgfz-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->>> ld.lld: error: undefined symbol: rust_build_error
->    >>> referenced by build_assert.rs:28 (rust/kernel/build_assert.rs:28)
->    >>>               vmlinux.o:(<nova_core::gsp::cmdq::DmaGspMem>::alloca=
-te_command)
+Hi Bart,
 
-Been able to reproduce this, but only if I use the 0day compiler (i.e.
-just taking the `.config` is not enough).
+FYI, the error/warning still remains.
 
-Bisected all the pointer projections, and the one that triggers this
-failure is this line of `driver_write_area`:
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   5fdbbd61a3cbdca7ac1034dc16723bdbc7ece8cc
+commit: 05baf38affa65735b6698f089e82af7c0e17b349 [2/2] ANDROID: sbitmap: Fix sbitmap_spinlock()
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260330/202603301944.FgubUex3-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260330/202603301944.FgubUex3-lkp@intel.com/reproduce)
 
-    ptr::project!(mut data, [tx..rx - 1]),
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603301944.FgubUex3-lkp@intel.com/
 
-... more precisely, the `rx - 1` bit (no problem if I just use `rx`).
+All warnings (new ones prefixed by >>):
 
-This really shouldn't happen because the conditional block we are in has
-already determined that `rx !=3D 0 ` and `tx > rx`, so the expression
-should be perfectly safe.
+>> lib/sbitmap.c:104: warning: Function parameter or member 'sb' not described in 'sbitmap_spinlock'
+>> lib/sbitmap.c:104: warning: Excess function parameter 'map' description in 'sbitmap_spinlock'
+>> lib/sbitmap.c:104: warning: Excess function parameter 'map_nr' description in 'sbitmap_spinlock'
 
-I'll keep turning the knobs until I find something that works.
+
+vim +104 lib/sbitmap.c
+
+bf2c4282a10a92 Ming Lei        2021-01-22   59  
+783d6780cd6684 Yang Yang       2024-07-16   60  /**
+783d6780cd6684 Yang Yang       2024-07-16   61   * sbitmap_spinlock() - Get the spinlock corresponding to sbitmap_work.
+783d6780cd6684 Yang Yang       2024-07-16   62   * @map: The memory address of the index sbitmap_work area.
+783d6780cd6684 Yang Yang       2024-07-16   63   * @map_nr: Number of words (cachelines) being used for the bitmap.
+783d6780cd6684 Yang Yang       2024-07-16   64   * @index: The index of the spinlock.
+783d6780cd6684 Yang Yang       2024-07-16   65   *
+783d6780cd6684 Yang Yang       2024-07-16   66   * this lock: serializes simultaneous updates of ->word and ->cleared.
+783d6780cd6684 Yang Yang       2024-07-16   67   * sbitmap_spinlock is for checking on ->cleared and updating on both
+783d6780cd6684 Yang Yang       2024-07-16   68   * ->cleared and ->word need to be done atomically.
+783d6780cd6684 Yang Yang       2024-07-16   69   *  Prevent the following situations from causing block:
+783d6780cd6684 Yang Yang       2024-07-16   70   * Configuration for sbq:
+783d6780cd6684 Yang Yang       2024-07-16   71   * depth=64, wake_batch=6, shift=6, map_nr=1
+783d6780cd6684 Yang Yang       2024-07-16   72   *
+783d6780cd6684 Yang Yang       2024-07-16   73   * 1. There are 64 requests in progress:
+783d6780cd6684 Yang Yang       2024-07-16   74   * map->word = 0xFFFFFFFFFFFFFFFF
+783d6780cd6684 Yang Yang       2024-07-16   75   * 2. After all the 64 requests complete, and no more requests come:
+783d6780cd6684 Yang Yang       2024-07-16   76   * map->word = 0xFFFFFFFFFFFFFFFF, map->cleared = 0xFFFFFFFFFFFFFFFF
+783d6780cd6684 Yang Yang       2024-07-16   77   * 3. Now two tasks try to allocate requests:
+783d6780cd6684 Yang Yang       2024-07-16   78   * T1:                                       T2:
+783d6780cd6684 Yang Yang       2024-07-16   79   * __blk_mq_get_tag                          .
+783d6780cd6684 Yang Yang       2024-07-16   80   * __sbitmap_queue_get                       .
+783d6780cd6684 Yang Yang       2024-07-16   81   * sbitmap_get                               .
+783d6780cd6684 Yang Yang       2024-07-16   82   * sbitmap_find_bit                          .
+783d6780cd6684 Yang Yang       2024-07-16   83   * sbitmap_find_bit_in_word                  .
+783d6780cd6684 Yang Yang       2024-07-16   84   * sbitmap_get_word  -> nr=-1              __blk_mq_get_tag
+783d6780cd6684 Yang Yang       2024-07-16   85   * sbitmap_deferred_clear                    __sbitmap_queue_get
+783d6780cd6684 Yang Yang       2024-07-16   86   * //map->cleared=0xFFFFFFFFFFFFFFFF         sbitmap_find_bit
+783d6780cd6684 Yang Yang       2024-07-16   87   *   if (!READ_ONCE(map->cleared))           sbitmap_find_bit_in_word
+783d6780cd6684 Yang Yang       2024-07-16   88   *     return false;                         __sbitmap_get_word -> nr=-1
+783d6780cd6684 Yang Yang       2024-07-16   89   * mask = xchg(&map->cleared, 0)             sbitmap_deferred_clear
+783d6780cd6684 Yang Yang       2024-07-16   90   * atomic_long_andnot()                      // map->cleared=0
+783d6780cd6684 Yang Yang       2024-07-16   91   *                                             if (!(map->cleared))
+783d6780cd6684 Yang Yang       2024-07-16   92   *                                               return false;
+783d6780cd6684 Yang Yang       2024-07-16   93   *
+783d6780cd6684 Yang Yang       2024-07-16   94   *                                    // map->cleared is cleared by T1
+783d6780cd6684 Yang Yang       2024-07-16   95   *                                    // T2 fail to acquire the tag
+783d6780cd6684 Yang Yang       2024-07-16   96   *
+783d6780cd6684 Yang Yang       2024-07-16   97   * 4. T2 is the sole tag waiter. When T1 puts the tag, T2 cannot be woken
+783d6780cd6684 Yang Yang       2024-07-16   98   * up due to the wake_batch being set at 6. If no more requests come, T1
+783d6780cd6684 Yang Yang       2024-07-16   99   * will wait here indefinitely.
+783d6780cd6684 Yang Yang       2024-07-16  100   *
+783d6780cd6684 Yang Yang       2024-07-16  101   * Return: Returns the spinlock corresponding to index.
+783d6780cd6684 Yang Yang       2024-07-16  102   */
+05baf38affa657 Bart Van Assche 2025-04-03  103  static spinlock_t *sbitmap_spinlock(struct sbitmap *sb, unsigned int index)
+783d6780cd6684 Yang Yang       2024-07-16 @104  {
+05baf38affa657 Bart Van Assche 2025-04-03  105  	const unsigned int max_map_nr = *(unsigned int *)&sb->map[-1];
+05baf38affa657 Bart Van Assche 2025-04-03  106  	spinlock_t *const base_lock = (spinlock_t *)
+05baf38affa657 Bart Van Assche 2025-04-03  107  		round_up((uintptr_t)&sb->map[max_map_nr],
+05baf38affa657 Bart Van Assche 2025-04-03  108  			 __alignof__(spinlock_t));
+05baf38affa657 Bart Van Assche 2025-04-03  109  
+05baf38affa657 Bart Van Assche 2025-04-03  110  	WARN_ON_ONCE(index < 0 || index >= sb->map_nr);
+783d6780cd6684 Yang Yang       2024-07-16  111  
+783d6780cd6684 Yang Yang       2024-07-16  112  	return &base_lock[index];
+783d6780cd6684 Yang Yang       2024-07-16  113  }
+783d6780cd6684 Yang Yang       2024-07-16  114  
+
+:::::: The code at line 104 was first introduced by commit
+:::::: 783d6780cd66848c96945c8143a808a2b98c9836 ANDROID: Fixed the KMI corruption issue caused by the patch of 72d04bdcf3f7.
+
+:::::: TO: Yang Yang <yang.yang@vivo.com>
+:::::: CC: Todd Kjos <tkjos@google.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
