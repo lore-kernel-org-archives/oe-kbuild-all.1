@@ -1,98 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26AA7374729
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Mar 2026 15:55:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 815B137701A;
+	Mon, 30 Mar 2026 16:04:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774886125; cv=none; b=VTlfDSrDZKRgCQnBUV6Z1+y5bgbYe17u2rFMhpWW6WMvdcwmnYLD1T2EFyESnhYxUz+r531IuzsTXhhe4NPFVESVjTEGeh9nnRLRSlOS1YoRDasb4VKDi0rsfWGh01Xd+JhMt4AmpYjeXOSI6vHG9mNH5DEwdXYTinLXf/DiGWY=
+	t=1774886665; cv=none; b=gVpdeCmzDgr1cFG0kwSKtzlgbYeaO+UpJjd7R0WkqgnsUe3UzI0Vubr+g++3VInqjoKTzMUgBo+RRb/NAbSxMsU11Aimf1TP41ZYlvk1g/Tj+cFN/55InTT3IRAFIBiHabH5B/7KgcKnh95PmAEEKpZslZw1FUO2kzEKkwjUU/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774886125; c=relaxed/simple;
-	bh=x0Iyvf7odpKD0BXPZQNHEcpSGVvBTFGOGCCxbGGKLJk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Z3yqBkvJEMGLqmTdkQta67Q5bkzTZjQnHBqRjDSeb9W8qSGH9d3hVR4MyMHFVpuPZ8FFBlfIIx2O+3J/967aVv1pYnSAN2ohX53+eJrqpA6UZmclK5bNjD3egKa8vGtmKXhcSCzexx/Y1OlP/4qNhwK6GVBrPFEZfFJiZ6EFNdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Er7ecspl; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Er7ecspl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774886124; x=1806422124;
-  h=date:from:to:cc:subject:message-id;
-  bh=x0Iyvf7odpKD0BXPZQNHEcpSGVvBTFGOGCCxbGGKLJk=;
-  b=Er7ecspl3/eq+3xnNFevrSbPGVcDlJjePVGJXVE5gH7kJxCFmj0GMAyO
-   EOxLAkWODQjxOdkInWgMg2E6Lt0gataSc5CA7+onnwAMaKPy+jdzNBUWy
-   wEzNnqkGFN57v4rhvYNTheKCzy9ZH1WDjI1X6Y11vlX0RlvOuqKxtK+R6
-   Uq5FdlM9w68FmC05YH337yRZPQPqyLURTmuK9sUI0supRzmyFap5RX+49
-   uWIbRIPAe6WYRza9aV24083iOR9l/4Wgf7SBksEWnaA0MLHyBsBLUC5ru
-   DpFIiwHp9r/HA+AKZ5xSLtR+haAHhijF8i/8aoUQOthTxWztJTRmq7Xyd
-   g==;
-X-CSE-ConnectionGUID: Z5D9iXLkRFaB0hbNiSmKdw==
-X-CSE-MsgGUID: LG4SnQPOSQmIW7O/w3zs3Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="86575865"
-X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
-   d="scan'208";a="86575865"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 08:55:21 -0700
-X-CSE-ConnectionGUID: SGwJHMLhQQSMdqhMaGv+kg==
-X-CSE-MsgGUID: HxGBoVdgQoamdhDAl+0GjQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
-   d="scan'208";a="219445864"
-Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 30 Mar 2026 08:55:20 -0700
-Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w7ExR-000000001Hx-3t5D;
-	Mon, 30 Mar 2026 15:55:17 +0000
-Date: Mon, 30 Mar 2026 23:54:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:locking/futex 9/14] kernel/futex/core.c:2004:6:
- error: redefinition of 'futex_mm_init'
-Message-ID: <202603302327.6AuWGa58-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1774886665; c=relaxed/simple;
+	bh=ELf21Y5f7587GI8SKKaMOH/3cFn9GWaccoGl2rrnoac=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tpPWqwDoK0qMQCPwQbeIBdET0IAvQFgQvI8yPivSItuQLYyVHQdtU8AWdBfxJHbFTUgZsU/OR02Y33uxvVkqGOEl8yPWc4FVbny5QtBF19VAaUs67VLwu1bvFONM0l0hel5CkWWvu0ssJ4nxWb8nydXDp1ex9/3gHVNzZcrwtP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf15.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay05.hostedemail.com (Postfix) with ESMTP id C1D2E59133;
+	Mon, 30 Mar 2026 16:04:22 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf15.hostedemail.com (Postfix) with ESMTPA id A68C818;
+	Mon, 30 Mar 2026 16:04:20 +0000 (UTC)
+Date: Mon, 30 Mar 2026 12:05:16 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: "Arnd Bergmann" <arnd@arndb.de>
+Cc: "kernel test robot" <lkp@intel.com>, LKML
+ <linux-kernel@vger.kernel.org>, "Linux trace kernel"
+ <linux-trace-kernel@vger.kernel.org>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, "Masami Hiramatsu" <mhiramat@kernel.org>,
+ "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
+Subject: Re: [PATCH] tracing: Move snapshot code out of trace.c and into
+ trace_snapshot.c
+Message-ID: <20260330120516.73aede9b@gandalf.local.home>
+In-Reply-To: <8580f943-4c37-4c66-937d-adee13b72201@app.fastmail.com>
+References: <20260305211810.3f48aa07@robin>
+	<202603070230.Zz4BBLtb-lkp@intel.com>
+	<8580f943-4c37-4c66-937d-adee13b72201@app.fastmail.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: 39uojos57saj6potqt3mjjtm3xytrezz
+X-Rspamd-Server: rspamout04
+X-Rspamd-Queue-Id: A68C818
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX19o0Dr7UWd35wr6cMG8+TAaj7KnT9PlbX8=
+X-HE-Tag: 1774886660-238916
+X-HE-Meta: U2FsdGVkX18otMBCyLY8DhR+ef/nR9LxqbeVPNSRgt2kG8G8jiM6jMmGaxrtVFYm3T2RrHE27368MwnXOX6wYiiYvnKQzDJERF+znI8Clwraj36qvrn+8efoFP7m0ZRpv7ZBrjiDXk3yJNzwQ3wuoW6eNND0YSZZTr9wzZ3HA6JWdc2QKB1I2ZJ+GwpWS6bnmJzIt8v65/SNDCOjJbS7iPnS0NsLA1MVmrSgiyKa8wW7uWVkqJznIsS4Vml0WTrvbkdSThULBO/OcvufSbyIZiRCk39dAKmHNpH0fLYbB5EqNGyqp1JcXgdopoWxH7Ff
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git locking/futex
-head:   101e17624801c8d4b8d75e5b3fa3cd59e2e040d4
-commit: af3e8fc9a4f5ce48fcd84e474d9f82c6a8e39568 [9/14] futex: Add robust futex unlock IP range
-config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20260330/202603302327.6AuWGa58-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260330/202603302327.6AuWGa58-lkp@intel.com/reproduce)
+On Mon, 30 Mar 2026 16:06:44 +0200
+"Arnd Bergmann" <arnd@arndb.de> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603302327.6AuWGa58-lkp@intel.com/
+> I saw the same thing and worked around it by removing the function.
+> I then noticed that a bunch of code surrounding it is also unused
+> and I removed that as well (see below). This version passes
+> my randconfig build tests, but I suspect it is still wrong,
+> since the code never had any callers and I don't understand
+> why.
 
-All errors (new ones prefixed by >>):
+Note, this code is in include/linux/tracing_printk.h, and is for debugging
+purposes (just like trace_printk() is). Hence, it shouldn't be removed.
 
->> kernel/futex/core.c:2004:6: error: redefinition of 'futex_mm_init'
-    2004 | void futex_mm_init(struct mm_struct *mm)
-         |      ^~~~~~~~~~~~~
-   In file included from kernel/futex/futex.h:5,
-                    from kernel/futex/core.c:49:
-   include/linux/futex.h:123:20: note: previous definition of 'futex_mm_init' with type 'void(struct mm_struct *)'
-     123 | static inline void futex_mm_init(struct mm_struct *mm) { }
-         |                    ^~~~~~~~~~~~~
+The purpose is to call tracing_snapshot() when your code detects something
+isn't right (but it doesn't crash), and this will take a snapshot of the
+current trace that lead up to the anomaly.
 
+If anything, I should add more to Documentation/trace/debugging.rst about it.
 
-vim +/futex_mm_init +2004 kernel/futex/core.c
-
-  2003	
-> 2004	void futex_mm_init(struct mm_struct *mm)
-  2005	{
-  2006		futex_hash_init_mm(&mm->futex);
-  2007		futex_robust_unlock_init_mm(&mm->futex);
-  2008	}
-  2009	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-- Steve
