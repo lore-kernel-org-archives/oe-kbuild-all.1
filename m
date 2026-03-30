@@ -1,184 +1,175 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536B13242D5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Mar 2026 14:48:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D125333727
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Mar 2026 15:00:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774882102; cv=none; b=SZ0vJwPMD2QNbtZqTGlnkRWJFDQNicGJfX2dhr3BeAFJKF6S2PRF0ftwIELdNyggGs22aQnYH5kbd33g1MSG/F/PtCvouvIBhlHHxNViTdyyZqKFVSJGWdP4HjKnPQxOZtY+zepzd2LEzcP3Uvkg4S1JNrt2RQFXKSFYhKE2GJM=
+	t=1774882821; cv=none; b=seGglyxoMrsWsHPrIr22GNRxV2zVQdaX2CvM+akbKg9CBFk3D5mTki9clVrdwT7LXhhVwzdHI0nEOHhZ7L0I3kINzz7FSWsJrsKBIWfFv5PdjgIa/peCO7EnsOaK935dOytPGzT/5Ry6dSx5h1OtO8WxzVlil6sYSmaD+bW1row=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774882102; c=relaxed/simple;
-	bh=xpBPUcul1mxy76GdOsZONkg8Sx2okkRC6m5zBbw2K2U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bCxVOK5gjduDy4+muLIKiqt2uUZJWntcAkhXGYGiybs/xMJTETLZWHi0jP5Kso9hastE1dD25DYl5s5bzpKzdsUHoltrdBtKAzBSIwu4gjyyxAWYMC8faHFrHuJopVuAeKGKSACCneQmMaT2bC3pTJTFbEBMm4i7rQpslpqZd1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GXrY+qAw; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1774882821; c=relaxed/simple;
+	bh=AaSaXpYMZ0KFQ51vcRSIyIf4Stp81w1HNzB2nnen1xk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=kFOgN7kud+BHRhfRFohazEmvPEWjqIPxvoAmxp5/Vu5yRgWO1ehMgz/eNklNabviBOdx7QwCacjyHVYDsg8/Z17bp77EfkXZxWclH7zakAySDNYRTO7vPZR3EktwNC/uvzV5/WZO7P47mlleX1huC/kfydOctAaUrERRRqSNRyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fJuTFztf; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GXrY+qAw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fJuTFztf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774882100; x=1806418100;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xpBPUcul1mxy76GdOsZONkg8Sx2okkRC6m5zBbw2K2U=;
-  b=GXrY+qAwO0mwxaQ5w35Fn8xF/TniK9wCyZOQ/pDotur/XhKpJENLYL4n
-   GT2hhffeK0uD7qUxZvZ81g/YK0AtGR6/Op3sJKO0dXjJxmeindGk4HYt5
-   LTD+stO6Gjj2H14L9kHr40LnFxM4j0n6zssT5DPrOXgbSjxRbvgwxelY+
-   YwH8SknX+umXcwgPes5AfWuyarloQTUT6AxKGeol+EbyWQ18YC3f1cK/q
-   z8fQtsNAwxKE0cBU14KsN0l+lqRFSri03kLJwvsn7byjd7h9TAIOyPfPb
-   75cnsd4Ujb/FTky5i+Q8VGFtRqhwN8EjI7jsjxVP4m5SYr7+EqZkBrBOl
-   w==;
-X-CSE-ConnectionGUID: ICyjlh5NRDqGQVomkZJi3Q==
-X-CSE-MsgGUID: QrY9+K0wSoGYsPNoI2B7Qw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="79779132"
+  t=1774882820; x=1806418820;
+  h=date:from:to:cc:subject:message-id;
+  bh=AaSaXpYMZ0KFQ51vcRSIyIf4Stp81w1HNzB2nnen1xk=;
+  b=fJuTFztf7U4RnpXwq+M0Tp4zKiWWvCXt6WcjllaHp+Jcf0+aE/leHBQ4
+   lPXleH6qODgUi7pPAsiHpqfZQoiCzOJxv17BwZqU8VwE/jm/xmeLlmJUj
+   ZN2+ruXYWi472djx2HhdtNZMTftQZjV6G3U2CVCVa3dCD7CF7BQnbWMk1
+   A71FA9DWYNdc8KqYhoo/Rz/90wqwPrPRUTjSmfd1WoDb3VGj+rA9oItTf
+   yC0U2Ch2NJ+BRDYQ7gr6WiHDRY/5pwXqOCAuCQIVLwlZbEs9Ba7t3fNfm
+   mgbO8SYUanICCkHbARSt7rch6IJJkVjjhp4BhYJ48xPaHb/fp6xs4iwSn
+   A==;
+X-CSE-ConnectionGUID: 6JhpM7XGQJGV1rlvgUA8EQ==
+X-CSE-MsgGUID: eYcrH9NtSR6rT8ZjN95/DA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="86953185"
 X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
-   d="scan'208";a="79779132"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 07:48:20 -0700
-X-CSE-ConnectionGUID: GeCJocUATueDNdJ/3Bzb9Q==
-X-CSE-MsgGUID: Uwruj5+6QpuBx/L3s5F1+g==
+   d="scan'208";a="86953185"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 08:00:20 -0700
+X-CSE-ConnectionGUID: cQgycbqvTQyPx7OdAqn8pA==
+X-CSE-MsgGUID: ir+66uVySF6/TMUnZ6z3fA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
-   d="scan'208";a="222767787"
+   d="scan'208";a="230901440"
 Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 30 Mar 2026 07:48:17 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 30 Mar 2026 08:00:17 -0700
 Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w7DuY-000000001E5-1RHg;
-	Mon, 30 Mar 2026 14:48:14 +0000
-Date: Mon, 30 Mar 2026 22:47:32 +0800
+	id 1w7E6A-000000001EX-3vnT;
+	Mon, 30 Mar 2026 15:00:14 +0000
+Date: Mon, 30 Mar 2026 22:59:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mikko Perttunen <mperttunen@nvidia.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pwm@vger.kernel.org,
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, Yi-Wei Wang <yiweiw@nvidia.com>,
-	Mikko Perttunen <mperttunen@nvidia.com>
-Subject: Re: [PATCH v2 2/7] pwm: tegra: Avoid hard-coded max clock frequency
-Message-ID: <202603302251.AFXspVqF-lkp@intel.com>
-References: <20260325-t264-pwm-v2-2-998d885984b3@nvidia.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 2/2]
+ arch/arm64/kvm/hyp/nvhe/hyp-main.c:770:6: warning: unused variable 'zcr_el2'
+Message-ID: <202603302213.bdwNbiR5-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260325-t264-pwm-v2-2-998d885984b3@nvidia.com>
 
-Hi Mikko,
+Hi Fuad,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on 11439c4635edd669ae435eec308f4ab8a0804808]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mikko-Perttunen/dt-bindings-pwm-Document-Tegra194-and-Tegra264-controllers/20260329-233356
-base:   11439c4635edd669ae435eec308f4ab8a0804808
-patch link:    https://lore.kernel.org/r/20260325-t264-pwm-v2-2-998d885984b3%40nvidia.com
-patch subject: [PATCH v2 2/7] pwm: tegra: Avoid hard-coded max clock frequency
-config: hexagon-randconfig-r113-20260330 (https://download.01.org/0day-ci/archive/20260330/202603302251.AFXspVqF-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   5fdbbd61a3cbdca7ac1034dc16723bdbc7ece8cc
+commit: 2b5e5cbdf01152384c781bb7edd7a778c1419b3a [2/2] ANDROID: KVM: arm64: Use active guest SVE vector length on save/restore
+config: arm64-randconfig-001-20260330 (https://download.01.org/0day-ci/archive/20260330/202603302213.bdwNbiR5-lkp@intel.com/config)
 compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 2cd67b8b69f78e3f95918204320c3075a74ba16c)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260330/202603302251.AFXspVqF-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260330/202603302213.bdwNbiR5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603302251.AFXspVqF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603302213.bdwNbiR5-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/pwm/pwm-tegra.c:303:47: sparse: sparse: cast truncates bits from constant value (7fffffffffffffff becomes ffffffff)
+All warnings (new ones prefixed by >>):
 
-vim +303 drivers/pwm/pwm-tegra.c
+   In file included from arch/arm64/kvm/hyp/nvhe/hyp-main.c:7:
+   In file included from include/kvm/arm_hypercalls.h:7:
+   In file included from arch/arm64/include/asm/kvm_emulate.h:14:
+   In file included from include/linux/kvm_host.h:16:
+   In file included from include/linux/mm.h:2180:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:88:6: warning: no previous prototype for function '__pkvm_unmask_serror' [-Wmissing-prototypes]
+      88 | void __pkvm_unmask_serror(void)
+         |      ^
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:88:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      88 | void __pkvm_unmask_serror(void)
+         | ^
+         | static 
+>> arch/arm64/kvm/hyp/nvhe/hyp-main.c:770:6: warning: unused variable 'zcr_el2' [-Wunused-variable]
+     770 |         u64 zcr_el2 = min(zcr_el1, vcpu_sve_max_vq(vcpu) - 1ULL);
+         |             ^~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:799:8: warning: unused variable 'vq_len' [-Wunused-variable]
+     799 |                         u64 vq_len = sve_vq_from_vl(kvm_host_sve_max_vl) - 1;
+         |                             ^~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:1655:32: error: incompatible pointer types passing 'struct user_pt_regs *' to parameter of type 'struct kvm_cpu_context *' [-Wincompatible-pointer-types]
+    1655 |         if (handle_host_dynamic_hcall(&host_ctxt->regs, id) == HCALL_HANDLED)
+         |                                       ^~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:25:51: note: passing argument to parameter 'host_ctxt' here
+      25 | handle_host_dynamic_hcall(struct kvm_cpu_context *host_ctxt, int id)
+         |                                                   ^
+   4 warnings and 1 error generated.
+--
+   In file included from arch/arm64/kvm/hyp/nvhe/switch.c:7:
+   In file included from arch/arm64/kvm/hyp/include/hyp/switch.h:10:
+   In file included from arch/arm64/kvm/hyp/include/hyp/adjust_pc.h:13:
+   In file included from arch/arm64/include/asm/kvm_emulate.h:14:
+   In file included from include/linux/kvm_host.h:16:
+   In file included from include/linux/mm.h:2180:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from arch/arm64/kvm/hyp/nvhe/switch.c:7:
+>> arch/arm64/kvm/hyp/include/hyp/switch.h:265:6: warning: unused variable 'zcr_el2' [-Wunused-variable]
+     265 |         u64 zcr_el2 = min(zcr_el1, vcpu_sve_max_vq(vcpu) - 1ULL);
+         |             ^~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:216:7: warning: unused variable 'vq_len' [-Wunused-variable]
+     216 |                 u64 vq_len = sve_vq_from_vl(kvm_host_sve_max_vl) - 1;
+         |                     ^~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:414:5: warning: no previous prototype for function '__pkvm_register_hyp_panic_notifier' [-Wmissing-prototypes]
+     414 | int __pkvm_register_hyp_panic_notifier(void (*cb)(struct user_pt_regs *regs))
+         |     ^
+   arch/arm64/kvm/hyp/nvhe/switch.c:414:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     414 | int __pkvm_register_hyp_panic_notifier(void (*cb)(struct user_pt_regs *regs))
+         | ^
+         | static 
+   4 warnings generated.
+--
+   In file included from <built-in>:3:
+   In file included from include/linux/compiler_types.h:150:
+   include/linux/compiler-clang.h:33:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+      33 | #define __SANITIZE_ADDRESS__
+         |         ^
+   <built-in>:367:9: note: previous definition is here
+     367 | #define __SANITIZE_ADDRESS__ 1
+         |         ^
+   In file included from arch/arm64/kvm/hyp/vhe/switch.c:7:
+   In file included from arch/arm64/kvm/hyp/include/hyp/switch.h:10:
+   In file included from arch/arm64/kvm/hyp/include/hyp/adjust_pc.h:13:
+   In file included from arch/arm64/include/asm/kvm_emulate.h:14:
+   In file included from include/linux/kvm_host.h:16:
+   In file included from include/linux/mm.h:2180:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from arch/arm64/kvm/hyp/vhe/switch.c:7:
+>> arch/arm64/kvm/hyp/include/hyp/switch.h:265:6: warning: unused variable 'zcr_el2' [-Wunused-variable]
+     265 |         u64 zcr_el2 = min(zcr_el1, vcpu_sve_max_vq(vcpu) - 1ULL);
+         |             ^~~~~~~
+   3 warnings generated.
 
-   266	
-   267	static int tegra_pwm_probe(struct platform_device *pdev)
-   268	{
-   269		struct pwm_chip *chip;
-   270		struct tegra_pwm_chip *pc;
-   271		const struct tegra_pwm_soc *soc;
-   272		int ret;
-   273	
-   274		soc = of_device_get_match_data(&pdev->dev);
-   275	
-   276		chip = devm_pwmchip_alloc(&pdev->dev, soc->num_channels, sizeof(*pc));
-   277		if (IS_ERR(chip))
-   278			return PTR_ERR(chip);
-   279		pc = to_tegra_pwm_chip(chip);
-   280	
-   281		pc->soc = soc;
-   282	
-   283		pc->regs = devm_platform_ioremap_resource(pdev, 0);
-   284		if (IS_ERR(pc->regs))
-   285			return PTR_ERR(pc->regs);
-   286	
-   287		platform_set_drvdata(pdev, chip);
-   288	
-   289		pc->clk = devm_clk_get(&pdev->dev, NULL);
-   290		if (IS_ERR(pc->clk))
-   291			return PTR_ERR(pc->clk);
-   292	
-   293		ret = devm_tegra_core_dev_init_opp_table_common(&pdev->dev);
-   294		if (ret)
-   295			return ret;
-   296	
-   297		pm_runtime_enable(&pdev->dev);
-   298		ret = pm_runtime_resume_and_get(&pdev->dev);
-   299		if (ret)
-   300			return ret;
-   301	
-   302		/* Set maximum frequency of the IP */
- > 303		ret = dev_pm_opp_set_rate(&pdev->dev, S64_MAX);
-   304		if (ret < 0) {
-   305			dev_err(&pdev->dev, "Failed to set max frequency: %d\n", ret);
-   306			goto put_pm;
-   307		}
-   308	
-   309		/*
-   310		 * The requested and configured frequency may differ due to
-   311		 * clock register resolutions. Get the configured frequency
-   312		 * so that PWM period can be calculated more accurately.
-   313		 */
-   314		pc->clk_rate = clk_get_rate(pc->clk);
-   315	
-   316		/* Set minimum limit of PWM period for the IP */
-   317		pc->min_period_ns =
-   318		    (NSEC_PER_SEC / (pc->clk_rate >> PWM_DUTY_WIDTH)) + 1;
-   319	
-   320		pc->rst = devm_reset_control_get_exclusive(&pdev->dev, "pwm");
-   321		if (IS_ERR(pc->rst)) {
-   322			ret = PTR_ERR(pc->rst);
-   323			dev_err(&pdev->dev, "Reset control is not found: %d\n", ret);
-   324			goto put_pm;
-   325		}
-   326	
-   327		reset_control_deassert(pc->rst);
-   328	
-   329		chip->ops = &tegra_pwm_ops;
-   330	
-   331		ret = pwmchip_add(chip);
-   332		if (ret < 0) {
-   333			dev_err(&pdev->dev, "pwmchip_add() failed: %d\n", ret);
-   334			reset_control_assert(pc->rst);
-   335			goto put_pm;
-   336		}
-   337	
-   338		pm_runtime_put(&pdev->dev);
-   339	
-   340		return 0;
-   341	put_pm:
-   342		pm_runtime_put_sync_suspend(&pdev->dev);
-   343		pm_runtime_force_suspend(&pdev->dev);
-   344		return ret;
-   345	}
-   346	
+
+vim +/zcr_el2 +770 arch/arm64/kvm/hyp/nvhe/hyp-main.c
+
+   765	
+   766	static void __hyp_sve_save_guest(struct pkvm_hyp_vcpu *hyp_vcpu)
+   767	{
+   768		struct kvm_vcpu *vcpu = &hyp_vcpu->vcpu;
+   769		u64 zcr_el1 = read_sysreg_el1(SYS_ZCR);
+ > 770		u64 zcr_el2 = min(zcr_el1, vcpu_sve_max_vq(vcpu) - 1ULL);
+   771	
+   772		__vcpu_sys_reg(vcpu, ZCR_EL1) = zcr_el1;
+   773		sve_cond_update_zcr_vq(zcr_el2, SYS_ZCR_EL2);
+   774		__sve_save_state(vcpu_sve_pffr(vcpu), &vcpu->arch.ctxt.fp_regs.fpsr);
+   775		sve_cond_update_zcr_vq(ZCR_ELx_LEN_MASK, SYS_ZCR_EL2);
+   776	}
+   777	
 
 -- 
 0-DAY CI Kernel Test Service
