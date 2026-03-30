@@ -1,164 +1,227 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE63033E358
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Mar 2026 03:58:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01FDB362151
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Mar 2026 04:12:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774843113; cv=none; b=psCIGfBykj4JLs1kj47AjBeNvIxv22/PNoyigd+K030hwTVVUtret+mUT6mqTcTEbr3dnSvSUujPn7scCvqsl5RnIq03O4fqjqJU4nFvZCp3nUnVpsjKeIQZJ3nOytfZwV71Q9oxbEUjyCyyxqMGaQg2t+BtxYcd9AfP7pqX/gs=
+	t=1774843949; cv=none; b=YG/npdcdjAAanq2oYHFjNOPoYkH0FqxxdfFCceBILcXnsFNerxTgAfUoBHxbEAfZACfySP7+8GBYBUZRS2t4pPAJlVOibqWyv/iEMLODHR2SgH9RtPjK5k1dSNpu/VMfj+YbnkXjnPcmELGWE113DroFhZK+5gvU8c4Rksldchs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774843113; c=relaxed/simple;
-	bh=oHQm8xDFyqKMImXTtVa8WM8IHhmWI0UpKFYyYRqiEUw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=V4XEbywGgil367axQbqFtBqhcxx859IRmXy355MfRAEmYDD1oWWoloh0JO3WANn8MGR3fuA8EUuJ1q7AbPP1akm/ONeou5SvaFq1Xt4fpIgUAC/cNXd4Gf9PhxQw5azyGBwX86soVRAJswHh8cfsj9Jbvr27Fu+tR15jN2P2tBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LOWKVCK1; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1774843949; c=relaxed/simple;
+	bh=O0bSZX3JUKFDSpPMlS8JSmszt9CmVzs3vVTM6vBDhHg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jMdbztXYbWgjZYBz0TjWyma661c7PrE1Kls4D+wLcBR0BxT9MJGtX4PVxGhlIQ6RDlp4lOjTdB2tFZZdNEyDir+iMfbNU/yW08/P8RHERLanvsIyXjKAxBalWciEb5i+Qq+WmOpqHws1x9H61y1hm9nYhsQKMOPa5ZLjBuYifoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ci9dRH/i; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LOWKVCK1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ci9dRH/i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774843111; x=1806379111;
-  h=date:from:to:cc:subject:message-id;
-  bh=oHQm8xDFyqKMImXTtVa8WM8IHhmWI0UpKFYyYRqiEUw=;
-  b=LOWKVCK1N0gGdey8QZX7MLFOfG684G3Yl6iCU1n6f9d0uZXv+l5mnnhR
-   JTkn5fwv67/bampEy2gZlBJz2cGjXLwDk755/LMuZnL8j32FZjE1f8LZ6
-   qsROAA4E0paj/fQszFQ6OAvy0Lly9h+fXKa4s0bJ50cE2e7nhPwyLzj5R
-   yzj8RTgkVeBT6X0i8tm4WKQgs+K8DoedGBtchpXQVcwXAsPgxVFgbSOXu
-   +uwqqTX4CSMdd3X1iRJG5IJPIKaabczeXOBJpRipjvJzv8vNYtPI1aLsU
-   sMKaRE1B5Fk8taO0d6Z+XjZNW0O+VvkVo7anVPxbBKwJb8+HuMMklD5YA
-   w==;
-X-CSE-ConnectionGUID: hQJWBVcSRIiPpWWj9QEvRg==
-X-CSE-MsgGUID: 5pMZ1XZWQVew7Hc/2wV+1A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="75715712"
+  t=1774843948; x=1806379948;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=O0bSZX3JUKFDSpPMlS8JSmszt9CmVzs3vVTM6vBDhHg=;
+  b=Ci9dRH/i+VAYMC0YNX65FEpQOC4VNQ6Q5GzZXkBhFLCDaWFSO3798Sim
+   vtRe82OxllmxsUsSaCW8U6MEC3eDr3gupboRxfwO8TJSDNVW65tLuYCkt
+   TOiCnPLzurlj9vWkOb63XQPD6RE70MPXoh61BMjDzeDmCfNNQKfjMLMD8
+   RQQhUUGa7PVD4lZ6za0QHX0401KNWYWLX3jZrcR5qP4XU5u99rnfmuj7V
+   RlF5fXMuoBzLQ1VXlTgsbk+YJr06GBicXzUPLlb+ZKgfnIiotdw9sdjyS
+   X14mzIx9VQoVrO4Nymd63u6XeqzxZ1QqKa8GvvxGAnZAV0xw91JP0nNEA
+   A==;
+X-CSE-ConnectionGUID: KfEUXW5tQee6fy5jJm263g==
+X-CSE-MsgGUID: XV+24gE2R+W23F659rZ4mw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="75893568"
 X-IronPort-AV: E=Sophos;i="6.23,149,1770624000"; 
-   d="scan'208";a="75715712"
+   d="scan'208";a="75893568"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2026 20:58:26 -0700
-X-CSE-ConnectionGUID: 7bfWjngxRDqdcc44k1gXFA==
-X-CSE-MsgGUID: e/ZUFcGFRZqwf8djZOwOEQ==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2026 21:12:27 -0700
+X-CSE-ConnectionGUID: lRj9odjLSW69kS9s4uaACA==
+X-CSE-MsgGUID: HcvSfGWOQXaossdY2ugkQw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,149,1770624000"; 
-   d="scan'208";a="221530630"
+   d="scan'208";a="221533104"
 Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 29 Mar 2026 20:58:24 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 29 Mar 2026 21:12:25 -0700
 Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w73ld-000000000dL-2xbo;
-	Mon, 30 Mar 2026 03:58:21 +0000
-Date: Mon, 30 Mar 2026 11:58:15 +0800
+	id 1w73zC-000000000eX-2PRO;
+	Mon, 30 Mar 2026 04:12:22 +0000
+Date: Mon, 30 Mar 2026 12:12:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:mirror-poly-aosp-pixel-malibu-staging 0/4]
- net/netfilter/nft_set_pipapo_avx2.c:1152: warning: Excess function parameter
- 'ext' description in 'nft_pipapo_avx2_lookup'
-Message-ID: <202603301127.lxhuY96o-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jon Kohler <jon@nutanix.com>,
+	Nikunj A Dadhania <nikunj@amd.com>, Amit Shah <amit.shah@amd.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Marcelo Tosatti <mtosatti@redhat.com>
+Subject: Re: [PATCH 08/24] KVM: x86/mmu: introduce ACC_READ_MASK
+Message-ID: <202603301246.a5sPkQdh-lkp@intel.com>
+References: <20260326181723.218115-9-pbonzini@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260326181723.218115-9-pbonzini@redhat.com>
 
-Hi Florian,
+Hi Paolo,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common mirror-poly-aosp-pixel-malibu-staging
-head:   5de4567efb4a2a85c5768504b0f45f278e9b13a2
-commit: 39ce3db914c4f944529c3fc96161c2d12be398b1 [0/4] netfilter: nft_set: remove one argument from lookup and update functions
-config: x86_64-randconfig-002-20260330 (https://download.01.org/0day-ci/archive/20260330/202603301127.lxhuY96o-lkp@intel.com/config)
+[auto build test WARNING on kvm/queue]
+[also build test WARNING on kvm/next tip/x86/tdx linus/master v7.0-rc6 next-20260327]
+[cannot apply to kvm/linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Paolo-Bonzini/KVM-TDX-VMX-rework-EPT_VIOLATION_EXEC_FOR_RING3_LIN-into-PROT_MASK/20260329-124019
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/20260326181723.218115-9-pbonzini%40redhat.com
+patch subject: [PATCH 08/24] KVM: x86/mmu: introduce ACC_READ_MASK
+config: x86_64-randconfig-123-20260329 (https://download.01.org/0day-ci/archive/20260330/202603301246.a5sPkQdh-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260330/202603301127.lxhuY96o-lkp@intel.com/reproduce)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260330/202603301246.a5sPkQdh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603301127.lxhuY96o-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603301246.a5sPkQdh-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   arch/x86/kvm/mmu/mmu.c: note: in included file:
+   arch/x86/kvm/mmu/paging_tmpl.h:106:24: sparse: sparse: cast truncates bits from constant value (ffffffffff000 becomes fffff000)
+   arch/x86/kvm/mmu/paging_tmpl.h:440:24: sparse: sparse: cast truncates bits from constant value (ffffffffff000 becomes fffff000)
+>> arch/x86/kvm/mmu/mmu.c:5585:82: sparse: sparse: cast truncates bits from constant value (ffff5555 becomes 5555)
+>> arch/x86/kvm/mmu/mmu.c:5587:59: sparse: sparse: cast truncates bits from constant value (ffff3333 becomes 3333)
+>> arch/x86/kvm/mmu/mmu.c:5589:58: sparse: sparse: cast truncates bits from constant value (ffff0f0f becomes f0f)
+>> arch/x86/kvm/mmu/mmu.c:5591:59: sparse: sparse: cast truncates bits from constant value (ffff00ff becomes ff)
 
->> net/netfilter/nft_set_pipapo_avx2.c:1152: warning: Excess function parameter 'ext' description in 'nft_pipapo_avx2_lookup'
+vim +5585 arch/x86/kvm/mmu/mmu.c
 
-
-vim +1152 net/netfilter/nft_set_pipapo_avx2.c
-
-251496ce1728c9 Florian Westphal 2025-05-23  1134  
-7400b063969bdc Stefano Brivio   2020-03-07  1135  /**
-7400b063969bdc Stefano Brivio   2020-03-07  1136   * nft_pipapo_avx2_lookup() - Lookup function for AVX2 implementation
-7400b063969bdc Stefano Brivio   2020-03-07  1137   * @net:	Network namespace
-7400b063969bdc Stefano Brivio   2020-03-07  1138   * @set:	nftables API set representation
-89258f8e414863 Florian Westphal 2021-05-29  1139   * @key:	nftables API element representation containing key data
-7400b063969bdc Stefano Brivio   2020-03-07  1140   * @ext:	nftables API extension pointer, filled with matching reference
-7400b063969bdc Stefano Brivio   2020-03-07  1141   *
-7400b063969bdc Stefano Brivio   2020-03-07  1142   * For more details, see DOC: Theory of Operation in nft_set_pipapo.c.
-7400b063969bdc Stefano Brivio   2020-03-07  1143   *
-7400b063969bdc Stefano Brivio   2020-03-07  1144   * This implementation exploits the repetitive characteristic of the algorithm
-7400b063969bdc Stefano Brivio   2020-03-07  1145   * to provide a fast, vectorised version using the AVX2 SIMD instruction set.
-7400b063969bdc Stefano Brivio   2020-03-07  1146   *
-7400b063969bdc Stefano Brivio   2020-03-07  1147   * Return: true on match, false otherwise.
-7400b063969bdc Stefano Brivio   2020-03-07  1148   */
-39ce3db914c4f9 Florian Westphal 2025-07-09  1149  const struct nft_set_ext *
-39ce3db914c4f9 Florian Westphal 2025-07-09  1150  nft_pipapo_avx2_lookup(const struct net *net, const struct nft_set *set,
-39ce3db914c4f9 Florian Westphal 2025-07-09  1151  		       const u32 *key)
-7400b063969bdc Stefano Brivio   2020-03-07 @1152  {
-7400b063969bdc Stefano Brivio   2020-03-07  1153  	struct nft_pipapo *priv = nft_set_priv(set);
-76313d1a4aa9e3 Florian Westphal 2024-02-07  1154  	struct nft_pipapo_scratch *scratch;
-7400b063969bdc Stefano Brivio   2020-03-07  1155  	u8 genmask = nft_genmask_cur(net);
-f04df573faf90b Florian Westphal 2024-02-13  1156  	const struct nft_pipapo_match *m;
-f04df573faf90b Florian Westphal 2024-02-13  1157  	const struct nft_pipapo_field *f;
-7400b063969bdc Stefano Brivio   2020-03-07  1158  	const u8 *rp = (const u8 *)key;
-39ce3db914c4f9 Florian Westphal 2025-07-09  1159  	const struct nft_set_ext *ext;
-76313d1a4aa9e3 Florian Westphal 2024-02-07  1160  	unsigned long *res, *fill;
-7400b063969bdc Stefano Brivio   2020-03-07  1161  	bool map_index;
-39ce3db914c4f9 Florian Westphal 2025-07-09  1162  	int i;
-7400b063969bdc Stefano Brivio   2020-03-07  1163  
-a16909ae9982e9 Florian Westphal 2024-07-19  1164  	local_bh_disable();
-a16909ae9982e9 Florian Westphal 2024-07-19  1165  
-a16909ae9982e9 Florian Westphal 2024-07-19  1166  	if (unlikely(!irq_fpu_usable())) {
-39ce3db914c4f9 Florian Westphal 2025-07-09  1167  		ext = nft_pipapo_lookup(net, set, key);
-a16909ae9982e9 Florian Westphal 2024-07-19  1168  
-a16909ae9982e9 Florian Westphal 2024-07-19  1169  		local_bh_enable();
-39ce3db914c4f9 Florian Westphal 2025-07-09  1170  		return ext;
-a16909ae9982e9 Florian Westphal 2024-07-19  1171  	}
-f0b3d338064e1f Stefano Brivio   2021-05-10  1172  
-7400b063969bdc Stefano Brivio   2020-03-07  1173  	m = rcu_dereference(priv->match);
-7400b063969bdc Stefano Brivio   2020-03-07  1174  
-a58db7ad80e89d Stefano Brivio   2021-05-10  1175  	/* This also protects access to all data related to scratch maps.
-a58db7ad80e89d Stefano Brivio   2021-05-10  1176  	 *
-a58db7ad80e89d Stefano Brivio   2021-05-10  1177  	 * Note that we don't need a valid MXCSR state for any of the
-a58db7ad80e89d Stefano Brivio   2021-05-10  1178  	 * operations we use here, so pass 0 as mask and spare a LDMXCSR
-a58db7ad80e89d Stefano Brivio   2021-05-10  1179  	 * instruction.
-a58db7ad80e89d Stefano Brivio   2021-05-10  1180  	 */
-a58db7ad80e89d Stefano Brivio   2021-05-10  1181  	kernel_fpu_begin_mask(0);
-7400b063969bdc Stefano Brivio   2020-03-07  1182  
-5a8cdf6fd860ac Florian Westphal 2024-02-08  1183  	scratch = *raw_cpu_ptr(m->scratch);
-7400b063969bdc Stefano Brivio   2020-03-07  1184  	if (unlikely(!scratch)) {
-7400b063969bdc Stefano Brivio   2020-03-07  1185  		kernel_fpu_end();
-a16909ae9982e9 Florian Westphal 2024-07-19  1186  		local_bh_enable();
-39ce3db914c4f9 Florian Westphal 2025-07-09  1187  		return NULL;
-7400b063969bdc Stefano Brivio   2020-03-07  1188  	}
-7400b063969bdc Stefano Brivio   2020-03-07  1189  
-76313d1a4aa9e3 Florian Westphal 2024-02-07  1190  	map_index = scratch->map_index;
-76313d1a4aa9e3 Florian Westphal 2024-02-07  1191  
-76313d1a4aa9e3 Florian Westphal 2024-02-07  1192  	res  = scratch->map + (map_index ? m->bsize_max : 0);
-76313d1a4aa9e3 Florian Westphal 2024-02-07  1193  	fill = scratch->map + (map_index ? 0 : m->bsize_max);
-7400b063969bdc Stefano Brivio   2020-03-07  1194  
-251496ce1728c9 Florian Westphal 2025-05-23  1195  	pipapo_resmap_init_avx2(m, res);
-7400b063969bdc Stefano Brivio   2020-03-07  1196  
-7400b063969bdc Stefano Brivio   2020-03-07  1197  	nft_pipapo_avx2_prepare();
-7400b063969bdc Stefano Brivio   2020-03-07  1198  
-7400b063969bdc Stefano Brivio   2020-03-07  1199  next_match:
-7400b063969bdc Stefano Brivio   2020-03-07  1200  	nft_pipapo_for_each_field(f, i, m) {
-7400b063969bdc Stefano Brivio   2020-03-07  1201  		bool last = i == m->field_count - 1, first = !i;
-39ce3db914c4f9 Florian Westphal 2025-07-09  1202  		int ret = 0;
-7400b063969bdc Stefano Brivio   2020-03-07  1203  
-
-:::::: The code at line 1152 was first introduced by commit
-:::::: 7400b063969bdca4a06cd97f1294d765c8eecbe1 nft_set_pipapo: Introduce AVX2-based lookup implementation
-
-:::::: TO: Stefano Brivio <sbrivio@redhat.com>
-:::::: CC: Pablo Neira Ayuso <pablo@netfilter.org>
+  5519	
+  5520	/*
+  5521	 * Build a mask with all combinations of PTE access rights that
+  5522	 * include the given access bit.  The mask can be queried with
+  5523	 * "mask & (1 << access)", where access is a combination of
+  5524	 * ACC_* bits.
+  5525	 *
+  5526	 * By mixing and matching multiple masks returned by ACC_BITS_MASK,
+  5527	 * update_permission_bitmask() builds what is effectively a
+  5528	 * two-dimensional array of bools.  The second dimension is
+  5529	 * provided by individual bits of permissions[pfec >> 1], and
+  5530	 * logical &, | and ~ operations operate on all the 16 possible
+  5531	 * combinations of ACC_* bits.
+  5532	 */
+  5533	#define ACC_BITS_MASK(access) \
+  5534		((1 & (access) ? 1 << 1 : 0) | \
+  5535		 (2 & (access) ? 1 << 2 : 0) | \
+  5536		 (3 & (access) ? 1 << 3 : 0) | \
+  5537		 (4 & (access) ? 1 << 4 : 0) | \
+  5538		 (5 & (access) ? 1 << 5 : 0) | \
+  5539		 (6 & (access) ? 1 << 6 : 0) | \
+  5540		 (7 & (access) ? 1 << 7 : 0) | \
+  5541		 (8 & (access) ? 1 << 8 : 0) | \
+  5542		 (9 & (access) ? 1 << 9 : 0) | \
+  5543		 (10 & (access) ? 1 << 10 : 0) | \
+  5544		 (11 & (access) ? 1 << 11 : 0) | \
+  5545		 (12 & (access) ? 1 << 12 : 0) | \
+  5546		 (13 & (access) ? 1 << 13 : 0) | \
+  5547		 (14 & (access) ? 1 << 14 : 0) | \
+  5548		 (15 & (access) ? 1 << 15 : 0))
+  5549	
+  5550	static void update_permission_bitmask(struct kvm_mmu *mmu, bool ept)
+  5551	{
+  5552		unsigned byte;
+  5553	
+  5554		const u16 x = ACC_BITS_MASK(ACC_EXEC_MASK);
+  5555		const u16 w = ACC_BITS_MASK(ACC_WRITE_MASK);
+  5556		const u16 u = ACC_BITS_MASK(ACC_USER_MASK);
+  5557		const u16 r = ACC_BITS_MASK(ACC_READ_MASK);
+  5558	
+  5559		bool cr4_smep = is_cr4_smep(mmu);
+  5560		bool cr4_smap = is_cr4_smap(mmu);
+  5561		bool cr0_wp = is_cr0_wp(mmu);
+  5562		bool efer_nx = is_efer_nx(mmu);
+  5563	
+  5564		/*
+  5565		 * In hardware, page fault error codes are generated (as the name
+  5566		 * suggests) on any kind of page fault.  permission_fault() and
+  5567		 * paging_tmpl.h already use the same bits after a successful page
+  5568		 * table walk, to indicate the kind of access being performed.
+  5569		 *
+  5570		 * However, PFERR_PRESENT_MASK and PFERR_RSVD_MASK are never set here,
+  5571		 * exactly because the page walk is successful.  PFERR_PRESENT_MASK is
+  5572		 * removed by the shift, while PFERR_RSVD_MASK is repurposed in
+  5573		 * permission_fault() to indicate accesses that are *not* subject to
+  5574		 * SMAP restrictions.
+  5575		 */
+  5576		for (byte = 0; byte < ARRAY_SIZE(mmu->permissions); ++byte) {
+  5577			unsigned pfec = byte << 1;
+  5578	
+  5579			/*
+  5580			 * Each "*f" variable has a 1 bit for each ACC_* combo
+  5581			 * that causes a fault with the given PFEC.
+  5582			 */
+  5583	
+  5584			/* Faults from reads to non-readable pages */
+> 5585			u16 rf = (pfec & (PFERR_WRITE_MASK|PFERR_FETCH_MASK)) ? 0 : (u16)~r;
+  5586			/* Faults from writes to non-writable pages */
+> 5587			u16 wf = (pfec & PFERR_WRITE_MASK) ? (u16)~w : 0;
+  5588			/* Faults from user mode accesses to supervisor pages */
+> 5589			u16 uf = (pfec & PFERR_USER_MASK) ? (u16)~u : 0;
+  5590			/* Faults from fetches of non-executable pages*/
+> 5591			u16 ff = (pfec & PFERR_FETCH_MASK) ? (u16)~x : 0;
+  5592			/* Faults from kernel mode fetches of user pages */
+  5593			u16 smepf = 0;
+  5594			/* Faults from kernel mode accesses of user pages */
+  5595			u16 smapf = 0;
+  5596	
+  5597			if (!ept) {
+  5598				/* Faults from kernel mode accesses to user pages */
+  5599				u16 kf = (pfec & PFERR_USER_MASK) ? 0 : u;
+  5600	
+  5601				/* Not really needed: !nx will cause pte.nx to fault */
+  5602				if (!efer_nx)
+  5603					ff = 0;
+  5604	
+  5605				/* Allow supervisor writes if !cr0.wp */
+  5606				if (!cr0_wp)
+  5607					wf = (pfec & PFERR_USER_MASK) ? wf : 0;
+  5608	
+  5609				/* Disallow supervisor fetches of user code if cr4.smep */
+  5610				if (cr4_smep)
+  5611					smepf = (pfec & PFERR_FETCH_MASK) ? kf : 0;
+  5612	
+  5613				/*
+  5614				 * SMAP:kernel-mode data accesses from user-mode
+  5615				 * mappings should fault. A fault is considered
+  5616				 * as a SMAP violation if all of the following
+  5617				 * conditions are true:
+  5618				 *   - X86_CR4_SMAP is set in CR4
+  5619				 *   - A user page is accessed
+  5620				 *   - The access is not a fetch
+  5621				 *   - The access is supervisor mode
+  5622				 *   - If implicit supervisor access or X86_EFLAGS_AC is clear
+  5623				 *
+  5624				 * Here, we cover the first four conditions.  The fifth
+  5625				 * is computed dynamically in permission_fault() and
+  5626				 * communicated by setting PFERR_RSVD_MASK.
+  5627				 */
+  5628				if (cr4_smap)
+  5629					smapf = (pfec & (PFERR_RSVD_MASK|PFERR_FETCH_MASK)) ? 0 : kf;
+  5630			}
+  5631	
+  5632			mmu->permissions[byte] = ff | uf | wf | rf | smepf | smapf;
+  5633		}
+  5634	}
+  5635	
 
 -- 
 0-DAY CI Kernel Test Service
