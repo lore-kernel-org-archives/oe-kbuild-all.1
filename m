@@ -1,145 +1,147 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBDCF3A7F66
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Mar 2026 07:50:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E8A83A8737
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Mar 2026 07:50:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774857041; cv=none; b=ErJIeLx1wbZc4zrZnW4MoN4Cab7wvpNYFt2w+Yu6qRQDScTAgvvGFSBRIyrONBi9oTIFcv4dTCISYAbfEiQft1p+pWbCFK5Pvduu3Mi4oBCgVb8WrPuQmBcEleGQYXNY2iEp18c760Ze21vgMKGZrCi8Y++kZWIPMb7hPfOR+FA=
+	t=1774857043; cv=none; b=LC/cybUcrq9gXtg01xOqiZ2G+8bfIt4hp8O6eJ3TTwHXQe4bdR4VvFhYJHFdJC7qEE53ZBZ4jrZ5eImVaYcZqOWcTIPRMvcav6sXpS2fkpvnXulW6kpC3VpW05jKjrkrqh+AVqsGkyY0p3Ik4Eu4UlizZwiN2xS/ejU6tiPup1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774857041; c=relaxed/simple;
-	bh=5dQKsOd3RKFKbl9VCbFi3d9OVoE1lH5x26iIJzoM/hk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=OCuFUgfeeCRD8cVfPkY24zAPMf70b++caipB6+lOTflrwSxcky/AlGqbSXx9F6bKznrmuqgHROXHWKS726aIVo3fSkotVj67T/ruVpwXGK8n0ouLO0O8VcuE0Pf4OCFtqPylKKfO2R8Fg5W4FzwpopD4BnkZ3JbsbkXmnuAxEp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EzD/0Uz2; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1774857043; c=relaxed/simple;
+	bh=PiqY889LgWIFkgy64QEXf0fNl10xIm5k8j8z4gckHog=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k0xCjHg5pfT0V8jXwmF7pUQ9WT8uIA1xwBqxU7SCK0jP91ysqYXSP3ETPTiiXaj+4T1Fn9LrgF8Y+Tw0LXI+mkPqCjr0SS/htt0IccIsYx4/d2gQJs8mKvQgPZZ7a8JECpCM+nCO0lvcni1Nds5GZeUqxlN+hKOzvGQFjUBi+1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bCVMtx4/; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EzD/0Uz2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bCVMtx4/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774857040; x=1806393040;
-  h=date:from:to:cc:subject:message-id;
-  bh=5dQKsOd3RKFKbl9VCbFi3d9OVoE1lH5x26iIJzoM/hk=;
-  b=EzD/0Uz2XXQ8J21k2qkh416PZWIYCe2J9mYBx5/L0iOECajTWSlBjS1V
-   1AZTUY2TR7warA3N8c5BIsLMFUQ8DPl8Pk2KejSI3pTyZnQrzUMB3OhUz
-   ffZ08Yur8dvV+THzVZM3U6rqrGSxPQcsmxoHIoMoYn7E/Bc/7ntbCWhVU
-   roTI/YZ3vRzaHwlOMQSgqOvsQEHBfhvHFBlMjR/RqboAazAiweFihlO8E
-   bz3GRGTSnfZaokwQ3Lr4yyT2DhUcvXfa3Ks3cmp1uNoaCcHTGOSPXtyaA
-   R8eLOjogxHV6i85T1uihA/9Hfc8KOaiguYoy/zao4lFeSrg8Xbxp2Jscp
-   Q==;
-X-CSE-ConnectionGUID: PVqv8S/5TX6zEhiiaAW5ZQ==
-X-CSE-MsgGUID: 6SWH9O3LRcC4lREimX8Esg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="86535289"
+  t=1774857041; x=1806393041;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PiqY889LgWIFkgy64QEXf0fNl10xIm5k8j8z4gckHog=;
+  b=bCVMtx4/IUlV+mnglT5qWki53L4yggG9w1InjOaTONICMxlQLPjepr7R
+   MMHO1HWB9rbyj3SRLo7zMgd/QjLbUAT5p72KGnnrhIo5ffR1O9VraNS2K
+   jw21Mg33R73zZP8OnFjZibhuPR4GxmYrCrlBYib4B7bXKKsgeE0yfbmQf
+   KUc28AcIvqVCe/jcWLL34Wie9JO9hrCdBLGfT+I7W7v06ZjFW1YL+uTpb
+   y8r9SFPLyv2ZkACY/yh7LA1CKH0sfNU2t66ixBFVkp8nCqqLpd7FsUtIi
+   ckxq4qA5sKoOz1V3khToh6Xby/InbeKcV8wvXgYbB8MewxnAjoOzNlrTu
+   w==;
+X-CSE-ConnectionGUID: zFKyjvdtQhmRaXPCDlF5Og==
+X-CSE-MsgGUID: K32N6+/zTxOze/2v4dTLjg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="86535291"
 X-IronPort-AV: E=Sophos;i="6.23,149,1770624000"; 
-   d="scan'208";a="86535289"
+   d="scan'208";a="86535291"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 00:50:36 -0700
-X-CSE-ConnectionGUID: hiR5gr1rSSeSmtt9rL6xIQ==
-X-CSE-MsgGUID: nQu1+GzSTvKxRG55M6arwQ==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 00:50:40 -0700
+X-CSE-ConnectionGUID: bKF/FAIKQWWW1FZgYCMAFQ==
+X-CSE-MsgGUID: siJjBhNRTiWlFjG6FstUpw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,149,1770624000"; 
-   d="scan'208";a="263912735"
+   d="scan'208";a="263912729"
 Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 30 Mar 2026 00:50:35 -0700
+  by orviesa001.jf.intel.com with ESMTP; 30 Mar 2026 00:50:36 -0700
 Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w77OK-000000000pf-3e2g;
+	id 1w77OK-000000000pd-3V3D;
 	Mon, 30 Mar 2026 07:50:32 +0000
-Date: Mon, 30 Mar 2026 15:49:40 +0800
+Date: Mon, 30 Mar 2026 15:49:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:mirror-poly-aosp-pixel-malibu-staging 5/5]
- arch/arm64/kvm/hyp/nvhe/serial.c:42:6: warning: no previous prototype for
- function 'hyp_puts'
-Message-ID: <202603301512.dqOai7bJ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Jim Mattson <jmattson@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Sean Christopherson <seanjc@google.com>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, Yosry Ahmed <yosry@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Jim Mattson <jmattson@google.com>
+Subject: Re: [PATCH v7 1/9] KVM: x86: Define
+ KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT
+Message-ID: <202603301501.N2sdlIQ9-lkp@intel.com>
+References: <20260327234023.2659476-2-jmattson@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260327234023.2659476-2-jmattson@google.com>
 
-tree:   https://android.googlesource.com/kernel/common mirror-poly-aosp-pixel-malibu-staging
-head:   5de4567efb4a2a85c5768504b0f45f278e9b13a2
-commit: ea53aa5d800829a9adc17df0b6615eb845a9314b [5/5] ANDROID: KVM: arm64: Add serial framework for pKVM
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260330/202603301512.dqOai7bJ-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260330/202603301512.dqOai7bJ-lkp@intel.com/reproduce)
+Hi Jim,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 3d6cdcc8883b5726513d245eef0e91cabfc397f7]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jim-Mattson/KVM-x86-Define-KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT/20260328-110805
+base:   3d6cdcc8883b5726513d245eef0e91cabfc397f7
+patch link:    https://lore.kernel.org/r/20260327234023.2659476-2-jmattson%40google.com
+patch subject: [PATCH v7 1/9] KVM: x86: Define KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT
+config: x86_64-randconfig-016-20260330 (https://download.01.org/0day-ci/archive/20260330/202603301501.N2sdlIQ9-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260330/202603301501.N2sdlIQ9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603301512.dqOai7bJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603301501.N2sdlIQ9-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/arm64/kvm/hyp/nvhe/serial.c:42:6: warning: no previous prototype for function 'hyp_puts' [-Wmissing-prototypes]
-      42 | void hyp_puts(const char *s)
-         |      ^
-   arch/arm64/kvm/hyp/nvhe/serial.c:42:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      42 | void hyp_puts(const char *s)
-         | ^
-         | static 
->> arch/arm64/kvm/hyp/nvhe/serial.c:54:6: warning: no previous prototype for function 'hyp_putx64' [-Wmissing-prototypes]
-      54 | void hyp_putx64(u64 x)
-         |      ^
-   arch/arm64/kvm/hyp/nvhe/serial.c:54:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      54 | void hyp_putx64(u64 x)
-         | ^
-         | static 
->> arch/arm64/kvm/hyp/nvhe/serial.c:60:6: warning: no previous prototype for function 'hyp_putc' [-Wmissing-prototypes]
-      60 | void hyp_putc(char c)
-         |      ^
-   arch/arm64/kvm/hyp/nvhe/serial.c:60:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      60 | void hyp_putc(char c)
-         | ^
-         | static 
->> arch/arm64/kvm/hyp/nvhe/serial.c:66:5: warning: no previous prototype for function '__pkvm_register_serial_driver' [-Wmissing-prototypes]
-      66 | int __pkvm_register_serial_driver(void (*cb)(char))
-         |     ^
-   arch/arm64/kvm/hyp/nvhe/serial.c:66:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      66 | int __pkvm_register_serial_driver(void (*cb)(char))
-         | ^
-         | static 
-   4 warnings generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for INTEL_MEI_ME
-   Depends on [n]: X86 && PCI [=y]
-   Selected by [m]:
-   - INTEL_MEI_HDCP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
-   - INTEL_MEI_PXP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
+   In file included from arch/x86/kvm/svm/svm_onhyperv.c:11:
+   arch/x86/kvm/svm/svm.h: In function 'l2_has_separate_pat':
+>> arch/x86/kvm/svm/svm.h:626:18: error: implicit declaration of function 'kvm_check_has_quirk'; did you mean 'kvm_check_request'? [-Wimplicit-function-declaration]
+     626 |                 !kvm_check_has_quirk(svm->vcpu.kvm,
+         |                  ^~~~~~~~~~~~~~~~~~~
+         |                  kvm_check_request
+   In file included from arch/x86/kvm/svm/svm_ops.h:7,
+                    from arch/x86/kvm/svm/svm_onhyperv.c:12:
+   arch/x86/kvm/x86.h: At top level:
+>> arch/x86/kvm/x86.h:429:20: error: conflicting types for 'kvm_check_has_quirk'; have 'bool(struct kvm *, u64)' {aka '_Bool(struct kvm *, long long unsigned int)'}
+     429 | static inline bool kvm_check_has_quirk(struct kvm *kvm, u64 quirk)
+         |                    ^~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/svm/svm.h:626:18: note: previous implicit declaration of 'kvm_check_has_quirk' with type 'int()'
+     626 |                 !kvm_check_has_quirk(svm->vcpu.kvm,
+         |                  ^~~~~~~~~~~~~~~~~~~
+--
+   In file included from kvm/svm/svm_onhyperv.c:11:
+   kvm/svm/svm.h: In function 'l2_has_separate_pat':
+   kvm/svm/svm.h:626:18: error: implicit declaration of function 'kvm_check_has_quirk'; did you mean 'kvm_check_request'? [-Wimplicit-function-declaration]
+     626 |                 !kvm_check_has_quirk(svm->vcpu.kvm,
+         |                  ^~~~~~~~~~~~~~~~~~~
+         |                  kvm_check_request
+   In file included from kvm/svm/svm_ops.h:7,
+                    from kvm/svm/svm_onhyperv.c:12:
+   arch/x86/kvm/x86.h: At top level:
+>> arch/x86/kvm/x86.h:429:20: error: conflicting types for 'kvm_check_has_quirk'; have 'bool(struct kvm *, u64)' {aka '_Bool(struct kvm *, long long unsigned int)'}
+     429 | static inline bool kvm_check_has_quirk(struct kvm *kvm, u64 quirk)
+         |                    ^~~~~~~~~~~~~~~~~~~
+   kvm/svm/svm.h:626:18: note: previous implicit declaration of 'kvm_check_has_quirk' with type 'int()'
+     626 |                 !kvm_check_has_quirk(svm->vcpu.kvm,
+         |                  ^~~~~~~~~~~~~~~~~~~
 
 
-vim +/hyp_puts +42 arch/arm64/kvm/hyp/nvhe/serial.c
+vim +626 arch/x86/kvm/svm/svm.h
 
-    41	
-  > 42	void hyp_puts(const char *s)
-    43	{
-    44		if (!hyp_serial_enabled())
-    45			return;
-    46	
-    47		while (*s)
-    48			__hyp_putc(*s++);
-    49	
-    50		__hyp_putc('\n');
-    51		__hyp_putc('\r');
-    52	}
-    53	
-  > 54	void hyp_putx64(u64 x)
-    55	{
-    56		if (hyp_serial_enabled())
-    57			__hyp_putx4n(x, 64);
-    58	}
-    59	
-  > 60	void hyp_putc(char c)
-    61	{
-    62		if (hyp_serial_enabled())
-    63			__hyp_putc(c);
-    64	}
-    65	
-  > 66	int __pkvm_register_serial_driver(void (*cb)(char))
+   618	
+   619	static inline bool l2_has_separate_pat(struct vcpu_svm *svm)
+   620	{
+   621		/*
+   622		 * If KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT is disabled while a vCPU
+   623		 * is running, the L2 IA32_PAT semantics for that vCPU are undefined.
+   624		 */
+   625		return nested_npt_enabled(svm) &&
+ > 626			!kvm_check_has_quirk(svm->vcpu.kvm,
+   627					     KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT);
+   628	}
+   629	
 
 -- 
 0-DAY CI Kernel Test Service
