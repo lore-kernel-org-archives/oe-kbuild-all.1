@@ -1,271 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 997D03451A7
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Mar 2026 15:33:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774884805; cv=none; b=TWxwrMhscnoFx7dvQdkpoDOmpv+EqYaEB/Ia3oI8IuTDxjjvu+CrRIcFBv5UrVfTmBZUU6A9mGBtVJYbHCw0xN+1qi2TUjIrEcoMeT1WrsJ8xXm2ODAXhI755NdjBnyTRCd4OkQHyQCncg12WTHwcyOBtjWb4Y+7cHaTGA42DkY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774884805; c=relaxed/simple;
-	bh=3pCnQQyLnj2/0y2ukadpmuu1vMIl/Vsy9ZebANfKljI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NILtPD0EPD37eTIeuidtyduEYIkrek94oe/ZfrEnXrt+a7fBIoTYNDPJUQPDeylkg7bQWHlfvSC9hDO4rBhNYyMTziBX06u2jHUyHMh5+SdmJTQG8Eg/ltnuDH0UkSkJRi0tSD1+mkKSff4eKO/t/p15il99ydZUva6iHd3Q4OU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MTAEJDs+; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CE41366056
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Mar 2026 15:43:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774885410; cv=pass; b=ukv8Pom8D2a6XLYihUdZCt7dVyr132Oj06TaQWSa4WMfZcoTkECjfxgNUjoqXa+VJyFmeJvmabMC9OIgLD1p1aXz1JBoTwZ3NjF06HqFolEqe+Q4e7VoeFCY2/DY8DtaudXS5aF0rbQKqLv25sMqNDPPmGsEPxMDY5bHQAhV9y0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774885410; c=relaxed/simple;
+	bh=t0esJnrDuRx8CALG5EiUG9NulCzrC+rzyK9Xog7c1xc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KdAL6s7iPy5Vbk9Uxpmgd38nujOuD5rYajCwqov+i5sNbf3sHsE+FeycHbbdi4HuG98yAVa9E7fX3ESfnk5kjDj3PRWoenSHLgvniUj7w6CWPUBAQtv+i1O+zQrNttbOC3w2R2TSUQRxmffsACIHzZvuIjuvgemaN1pzGse00LU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TKdVsPzd; arc=pass smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MTAEJDs+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774884803; x=1806420803;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3pCnQQyLnj2/0y2ukadpmuu1vMIl/Vsy9ZebANfKljI=;
-  b=MTAEJDs+eDjASyNOF23+NHWisyB52cUjUXUeB4sj2iOtLzAxQYpSXBxU
-   16g1Fwqh/8dgjBDrbzGoASBPjtoJnzRWhXRDjqJMXHfAvb7VeabK/M20+
-   DPZdI31EMOu/acArnMez637yPzytTOJVNUBiM7grJBIbl1tyQq5YWB0Ov
-   EEfgTDXq8oFLzRvz96BT+ecNOcjHgoMVl3OOCovr38Dqi/REf+4/9jWtV
-   lawQwgKUytJzejBYTRvkwrlB4ozKzjhT6z40nstGZBNHKxl66qkee8ORD
-   GNKo7c691Rf2+W2PmyYJaERXCT6D2ias90lYRI2/C5PpHp8ZCNf7QJVgb
-   g==;
-X-CSE-ConnectionGUID: 8u7/Fvr5Q0uuCoVZiaV1Fg==
-X-CSE-MsgGUID: jS5ArKCQSiaZrfizKGGvoQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="75945160"
-X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
-   d="scan'208";a="75945160"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 08:33:23 -0700
-X-CSE-ConnectionGUID: d3Jjvgb9RoqsAu8jeD5xTA==
-X-CSE-MsgGUID: cKHacYrpTYSxRa4lxbTN7A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
-   d="scan'208";a="256591284"
-Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 30 Mar 2026 08:33:20 -0700
-Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w7Ec8-000000001GX-1blC;
-	Mon, 30 Mar 2026 15:33:16 +0000
-Date: Mon, 30 Mar 2026 23:32:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kangzheng Gu <xiaoguai0992@gmail.com>, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	horms@kernel.org, kees@kernel.org, thorsten.blum@linux.dev,
-	arnd@arndb.de, sjur.brandeland@stericsson.com
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v3] net: caif: fix stack out-of-bounds write in
- cfctrl_link_setup()
-Message-ID: <202603302327.ZnK21mik-lkp@intel.com>
-References: <20260329190350.19065-1-xiaoguai0992@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TKdVsPzd"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-43cfac48bc7so847773f8f.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Mar 2026 08:43:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774885408; cv=none;
+        d=google.com; s=arc-20240605;
+        b=VqBnZ/jKsHx5w0h9fI9cfNVcWEex0hfTh1iXX7Oe3ExwJJjncQ6Efx2ggE/qgWTive
+         51IIwUZWm1XIMtP77OywUCVEp8gFK8UoJOWg9SYCdPz2SttrgO+dJYZDMZc/jTJNDJja
+         8lXmdstDiHh72wjpW97Dg67wFTd1uJSP7I/DqWH1PNVValz3q/AHSItIJWIDYSP5dd0D
+         zGDXSbVcfynaaAaCI7d+q0qj+V4Tw0okctWdpvnqdRuoqkFzhYT45lxk9D2MoSag0fWM
+         sFC63DYRJhxv50rzPW183lfcTO5Wn/+64gE6RzXv7BPStdjANor9P9EJ+tEZJ5aChFM/
+         TuBw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=t0esJnrDuRx8CALG5EiUG9NulCzrC+rzyK9Xog7c1xc=;
+        fh=/30dS63523RzGn7VYcCVdkw+hY8ApTy41WA+pdUnPRY=;
+        b=c/wh3BMDwwcbR1DixPuDNHHNMp45r/kB7M5tkHtiuRI/zYjBjm/NhCWnXjFzLbrgWQ
+         pkSzGOFpnR6H5qGuRa2FqGAThQuskmjRnoLWGHgwDCYU//tzVAcPqlxbRPwFYZPnlDgm
+         aKc5pZpKGAZcd8Vv5so+Q2IYci1LMH5TJahCcDafw0Hoakl2oPo59MzVi5Rk0gsq+urY
+         84yY1oiYZJywyQ03nq9+SxXYJqCLSuzokPa/xnP2eDhOx2jcs7DJWsnX2eKFJBZWJ++e
+         7IioEw0vwNduH017u27yNMr6dTrr/BQxawHSCrTf6k2I6MfdSYjtuARNg04ih5ABy7DW
+         IXGQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774885408; x=1775490208; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t0esJnrDuRx8CALG5EiUG9NulCzrC+rzyK9Xog7c1xc=;
+        b=TKdVsPzdjHqSOyTGDl9NqACNWLxmaxcLzD0FMDtIpRNYlOk35MfwJR8KbeZwGYLJBo
+         +ODcP1sK/vgoFGZk+rgOk649KyjhZLI6xhxzSbwChvcPDnTp2W4l1IEFuztGx73b7G4a
+         X4VBIYifaAwqXQje3iRmsobs/OuH5motTEoAaxENhoRFbhGW8ESXp6Y/QLvAPP7HYdA/
+         Uw5Qnvm2YT/nQxqiE9i50ABo9yQHJytU046v1i1CLO2SW4DW+GwRsm/GnppuFDc0ZqSK
+         ZfY/jHP9iDK/tiw8qggn0FYpLZ9rWEU144DINwjurZNNc6izSXftZ3TIZnCbTi3zTu6a
+         zoQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774885408; x=1775490208;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=t0esJnrDuRx8CALG5EiUG9NulCzrC+rzyK9Xog7c1xc=;
+        b=jPi6/L8thUZTx5wK0/Q2dsygP8d7YhsPEmjb49QAmgZKcvFlBYBQGF8iXkF/5hN4qG
+         /aXyqRaB29rGF8evOweWdIPJsZhA8RkOAd4J+2pFI0Dsv9w7GWdQa+lrcYbQOq1zkUGT
+         0k1lrU1HULGsRzIfrp0xTUlMDWyMKftXNcV9QYrp9FgxF6XZmmPMeoaAZYGOBWQEVH+o
+         roUykKlgWl+uIwNagl/seboVe7lIgljAmrqM4kykgfQ+dr4n9eOQcfMzyYkB/4kKwftP
+         0mwVjlgT+Yv7a6+InIfls03q8pz7/CONJTRQ/b81Z6bJ/ARxIwp7aDGS90vjEefo0iRi
+         fa3g==
+X-Forwarded-Encrypted: i=1; AJvYcCUW0gWSwSo2B1eNcj1B/bQ+08n/x94dwoafgCy1Bcr3Kurje4YV+Z4B+bKhONO2IlStB2OwWXD1m4kicjnu@lists.linux.dev
+X-Gm-Message-State: AOJu0Yym7fmysnkuvpv9YfCGxxsQYTg6ux+la3VYYzqIoJaWi7sR3zXM
+	T5DaK3oA2X3GkLZes5VVdieoBrGnwVSuNrEl7JLaJ2vVSe/bmU72154o+iKDb6xoD9hDwVQFj0h
+	ZIjfnay0wM7fyD3ImF2ozDcLzFUTGwzijS+ypjOY=
+X-Gm-Gg: ATEYQzz1Zqdh+4Rg3pbPFOAgJgPs4kD9OqK4PRM6eY8W4tFA/Jn9dQ3WsaN4lFstanF
+	9eviOBDVyMy1VHoNcpwFIDqBCuE1CYRHGh08LtflPj5DdIPXl3c3x4FYDVVV+sKDNXshhSc3vCN
+	Q6LREtcCv00ycRCZ9sNyyqTxgtdnDcz8fCHp0qLQ1W47ECIPSiR17BqUM6Cn8uohEirTOGcMD3+
+	U5IsXDBOtQf052JYFgo5iJtGWEUtA0WP41WRyHL2FX1vcJoN9fLTkbff4U3kSmV6qoYyoH9uVl3
+	AhN6oTbtJEMLfSkI
+X-Received: by 2002:a5d:5f96:0:b0:439:ca9b:1f61 with SMTP id
+ ffacd0b85a97d-43b9e9e8366mr21373296f8f.17.1774885407741; Mon, 30 Mar 2026
+ 08:43:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260329190350.19065-1-xiaoguai0992@gmail.com>
+References: <20260324224532.3733468-9-joannelkoong@gmail.com> <202603281401.HP3uX5G1-lkp@intel.com>
+In-Reply-To: <202603281401.HP3uX5G1-lkp@intel.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Mon, 30 Mar 2026 08:43:16 -0700
+X-Gm-Features: AQROBzBlRnEc1XLiqyDMwQ1GSgp5676iHS2GTSkOtDm3v-siK_erACaW3pkAlq4
+Message-ID: <CAJnrk1Z=yMy3FSt7wvCDgGCr-NQD4M=na2sAGsRM=KoTH2Nazw@mail.gmail.com>
+Subject: Re: [PATCH v1 8/9] fuse: add zero-copy over io-uring
+To: kernel test robot <lkp@intel.com>
+Cc: axboe@kernel.dk, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	miklos@szeredi.hu, bschubert@ddn.com, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Kangzheng,
+On Sat, Mar 28, 2026 at 6:54=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Joanne,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on mszeredi-fuse/for-next]
+> [also build test ERROR on linus/master v7.0-rc5 next-20260327]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
 
-kernel test robot noticed the following build warnings:
+As noted in the cover letter, this series has a dependency on two
+prior patchsets submitted to the io-uring tree. This series is for the
+io-uring tree, not the fuse tree.
 
-[auto build test WARNING on net-next/main]
-[also build test WARNING on net/main soc/for-next linus/master v7.0-rc6 next-20260327]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kangzheng-Gu/net-caif-fix-stack-out-of-bounds-write-in-cfctrl_link_setup/20260330-163130
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260329190350.19065-1-xiaoguai0992%40gmail.com
-patch subject: [PATCH v3] net: caif: fix stack out-of-bounds write in cfctrl_link_setup()
-config: um-randconfig-r073-20260330 (https://download.01.org/0day-ci/archive/20260330/202603302327.ZnK21mik-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-smatch: v0.5.0-9004-gb810ac53
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260330/202603302327.ZnK21mik-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603302327.ZnK21mik-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> net/caif/cfctrl.c:423:6: warning: format specifies type 'unsigned long' but the argument has type 'unsigned int' [-Wformat]
-     422 |                                 pr_warn("Request reject, volume name length exceeds %lu\n",
-         |                                                                                     ~~~
-         |                                                                                     %u
-     423 |                                         sizeof(linkparam.u.rfm.volume));
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:564:37: note: expanded from macro 'pr_warn'
-     564 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |                                    ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:511:60: note: expanded from macro 'printk'
-     511 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:483:19: note: expanded from macro 'printk_index_wrap'
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   1 warning generated.
-
-
-vim +423 net/caif/cfctrl.c
-
-   351	
-   352	static int cfctrl_link_setup(struct cfctrl *cfctrl, struct cfpkt *pkt, u8 cmdrsp)
-   353	{
-   354		u8 len;
-   355		u8 linkid = 0;
-   356		enum cfctrl_srv serv;
-   357		enum cfctrl_srv servtype;
-   358		u8 endpoint;
-   359		u8 physlinkid;
-   360		u8 prio;
-   361		u8 tmp;
-   362		u8 *cp;
-   363		int i;
-   364		struct cfctrl_link_param linkparam;
-   365		struct cfctrl_request_info rsp, *req;
-   366	
-   367		memset(&linkparam, 0, sizeof(linkparam));
-   368	
-   369		tmp = cfpkt_extr_head_u8(pkt);
-   370	
-   371		serv = tmp & CFCTRL_SRV_MASK;
-   372		linkparam.linktype = serv;
-   373	
-   374		servtype = tmp >> 4;
-   375		linkparam.chtype = servtype;
-   376	
-   377		tmp = cfpkt_extr_head_u8(pkt);
-   378		physlinkid = tmp & 0x07;
-   379		prio = tmp >> 3;
-   380	
-   381		linkparam.priority = prio;
-   382		linkparam.phyid = physlinkid;
-   383		endpoint = cfpkt_extr_head_u8(pkt);
-   384		linkparam.endpoint = endpoint & 0x03;
-   385	
-   386		switch (serv) {
-   387		case CFCTRL_SRV_VEI:
-   388		case CFCTRL_SRV_DBG:
-   389			if (CFCTRL_ERR_BIT & cmdrsp)
-   390				break;
-   391			/* Link ID */
-   392			linkid = cfpkt_extr_head_u8(pkt);
-   393			break;
-   394		case CFCTRL_SRV_VIDEO:
-   395			tmp = cfpkt_extr_head_u8(pkt);
-   396			linkparam.u.video.connid = tmp;
-   397			if (CFCTRL_ERR_BIT & cmdrsp)
-   398				break;
-   399			/* Link ID */
-   400			linkid = cfpkt_extr_head_u8(pkt);
-   401			break;
-   402	
-   403		case CFCTRL_SRV_DATAGRAM:
-   404			linkparam.u.datagram.connid = cfpkt_extr_head_u32(pkt);
-   405			if (CFCTRL_ERR_BIT & cmdrsp)
-   406				break;
-   407			/* Link ID */
-   408			linkid = cfpkt_extr_head_u8(pkt);
-   409			break;
-   410		case CFCTRL_SRV_RFM:
-   411			/* Construct a frame, convert
-   412			 * DatagramConnectionID
-   413			 * to network format long and copy it out...
-   414			 */
-   415			linkparam.u.rfm.connid = cfpkt_extr_head_u32(pkt);
-   416			cp = (u8 *) linkparam.u.rfm.volume;
-   417			for (tmp = cfpkt_extr_head_u8(pkt);
-   418			     cfpkt_more(pkt) && tmp != '\0';
-   419			     tmp = cfpkt_extr_head_u8(pkt)) {
-   420				if (cp >= (u8 *)linkparam.u.rfm.volume +
-   421				    sizeof(linkparam.u.rfm.volume) - 1) {
-   422					pr_warn("Request reject, volume name length exceeds %lu\n",
- > 423						sizeof(linkparam.u.rfm.volume));
-   424					cmdrsp |= CFCTRL_ERR_BIT;
-   425					break;
-   426				}
-   427				*cp++ = tmp;
-   428			}
-   429			*cp = '\0';
-   430	
-   431			if (CFCTRL_ERR_BIT & cmdrsp)
-   432				break;
-   433			/* Link ID */
-   434			linkid = cfpkt_extr_head_u8(pkt);
-   435	
-   436			break;
-   437		case CFCTRL_SRV_UTIL:
-   438			/* Construct a frame, convert
-   439			 * DatagramConnectionID
-   440			 * to network format long and copy it out...
-   441			 */
-   442			/* Fifosize KB */
-   443			linkparam.u.utility.fifosize_kb = cfpkt_extr_head_u16(pkt);
-   444			/* Fifosize bufs */
-   445			linkparam.u.utility.fifosize_bufs = cfpkt_extr_head_u16(pkt);
-   446			/* name */
-   447			cp = (u8 *) linkparam.u.utility.name;
-   448			caif_assert(sizeof(linkparam.u.utility.name)
-   449				     >= UTILITY_NAME_LENGTH);
-   450			for (i = 0; i < UTILITY_NAME_LENGTH && cfpkt_more(pkt); i++) {
-   451				tmp = cfpkt_extr_head_u8(pkt);
-   452				*cp++ = tmp;
-   453			}
-   454			/* Length */
-   455			len = cfpkt_extr_head_u8(pkt);
-   456			linkparam.u.utility.paramlen = len;
-   457			/* Param Data */
-   458			cp = linkparam.u.utility.params;
-   459			while (cfpkt_more(pkt) && len--) {
-   460				tmp = cfpkt_extr_head_u8(pkt);
-   461				*cp++ = tmp;
-   462			}
-   463			if (CFCTRL_ERR_BIT & cmdrsp)
-   464				break;
-   465			/* Link ID */
-   466			linkid = cfpkt_extr_head_u8(pkt);
-   467			/* Length */
-   468			len = cfpkt_extr_head_u8(pkt);
-   469			/* Param Data */
-   470			cfpkt_extr_head(pkt, NULL, len);
-   471			break;
-   472		default:
-   473			pr_warn("Request setup, invalid type (%d)\n", serv);
-   474			return -1;
-   475		}
-   476	
-   477		rsp.cmd = CFCTRL_CMD_LINK_SETUP;
-   478		rsp.param = linkparam;
-   479		spin_lock_bh(&cfctrl->info_list_lock);
-   480		req = cfctrl_remove_req(cfctrl, &rsp);
-   481	
-   482		if (CFCTRL_ERR_BIT == (CFCTRL_ERR_BIT & cmdrsp) ||
-   483			cfpkt_erroneous(pkt)) {
-   484			pr_err("Invalid O/E bit or parse error "
-   485					"on CAIF control channel\n");
-   486			cfctrl->res.reject_rsp(cfctrl->serv.layer.up, 0,
-   487					       req ? req->client_layer : NULL);
-   488		} else {
-   489			cfctrl->res.linksetup_rsp(cfctrl->serv.layer.up, linkid,
-   490						  serv, physlinkid,
-   491						  req ?  req->client_layer : NULL);
-   492		}
-   493	
-   494		kfree(req);
-   495	
-   496		spin_unlock_bh(&cfctrl->info_list_lock);
-   497	
-   498		return 0;
-   499	}
-   500	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Joanne
