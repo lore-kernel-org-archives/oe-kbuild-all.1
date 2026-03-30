@@ -1,151 +1,270 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F00373D6CC3
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Mar 2026 14:25:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 322243D75CD;
+	Mon, 30 Mar 2026 14:25:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774880719; cv=none; b=Eh8MQko7DGLrO/Vfjn9dwBwRXyqgPfg4XR0I6S6CKCVU3IAKkzou04pquYlE9kIiT0bAPshQiIpTMEsjCI8CXAPGrJEJZ5ao0qUQb/93XKK2ifgYd0JqTWGuYm0mwOaz+7gmSRtjj5c2zc1bsYYWnQWVHTp6wGLvEi/TUgH5nhg=
+	t=1774880721; cv=none; b=A0JQtPpt/HbKbXEVTDCwHHlBD0lM1N0l4/iDc3moKgm1jtb3+4lxGA9ObzxBrzOv37G30K4how6VM8CAFo3sXNNMEyNXekwgqhFifxqYR2Ul/MK0GF/qaYoBY+IKqksMxjkDUVE6oGo4JjMBFzGtA52Ejy+UBniiniLb61Ku/N4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774880719; c=relaxed/simple;
-	bh=olKY+95pMAh99xIg89zN503QPy6Bor6faDv+kQav80g=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=LBqBUL0zF+qtR/d1YAiU2nxFaiXOPjJ4hOFxxp4afZQLIzo7zPX+jnj/+m0PO6dV1YeqnZcuy9cIXy42tsaPEDy1HspK4tbyF0ULPUVzzojQMjrO99eA6TBLV287zzPo1EKUmpzm+RK5hltKS5WrrJuD2yzOTcZzQCucAIjsAzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j6tyHtAD; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1774880721; c=relaxed/simple;
+	bh=QH10yRGAVzS+PQP/8ZikuQtV9dbujtylfk6oGi2fFUU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b4Fh9hiaTpXqHbBHGUK0EEVcguSb51Z1kb5f7weDsjnwiR0MuFcAHG6/cTdCogI+9c+ZnAgehcU8tJBUGIxh5ejwaMRj04LihvHrI7J9PTIn4/fznka+Ak+sP5YvTb4tPIsJ+BKseKb2gCZeVkdDdodPh28a5c/TLVc+aTyMPfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a5Hl7lxy; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j6tyHtAD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a5Hl7lxy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774880718; x=1806416718;
-  h=date:from:to:cc:subject:message-id;
-  bh=olKY+95pMAh99xIg89zN503QPy6Bor6faDv+kQav80g=;
-  b=j6tyHtADr6xLgvL3NlhL1/trrVSdsp25cU4gfTtdxsnHRiOm178oPatx
-   +LFM1tHioV29Dsix8OHqtuMYbyO+FkcZY1WmIodVL9lY2vEDSITOzabvJ
-   kXPfquVSor9WpsN6j/gl/crBZgRE04f3gd3XgMSNS5rBRdpwoImDurUte
-   kPfJVAgkCPkbB+Ia+IiIcV7SOnTdRez+h6yxOEAIELUuX/XQTRNHRKWLy
-   51BXSVnJhagKNLKPqc0TmM1uLzDoIJvXdre+861Z3ra9ZyZJucVF4zjvV
-   E9uID+ezzhtnnuOmFxKYdNx/SphMrPp3dUJrJ5sYB+xyBjvq39ReGvj7J
-   w==;
-X-CSE-ConnectionGUID: 38Xge4IEQMiCDGw/A5LGkA==
-X-CSE-MsgGUID: 2tHdwab3RVOKRsD0F2IU2g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="86492788"
+  t=1774880720; x=1806416720;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QH10yRGAVzS+PQP/8ZikuQtV9dbujtylfk6oGi2fFUU=;
+  b=a5Hl7lxyOX1BRGe6PzzXLxWWd5sZHS4z+WbjMg3Axv0A6VsK+ikE8MwP
+   70by1oYl6iJMSOQE6m8T3aRMHlwWsFAFyqZbfiDINUzNiyGxyHKolYv8i
+   sj+LlpV4pV97Bnb9P8Kv1BuEtuxEyL8rE2w7vGRbKuYHiTqoS7cV3sVDv
+   2t4FkQrXib2z1+oSi4Pf6gQSeSQMxUarEL7cSSPWW9nhLej+lSimZV5pv
+   c14OYzkdxsFazBsCoJMUpSCn6wVBPjkPeKTugHBu9gj6nDrcAJP7sh47n
+   qGhV34WmulOm+HIjXzy+6oFfeWg6PfvRMr97v72n88fZQX8kSiNQaKhJV
+   Q==;
+X-CSE-ConnectionGUID: M8POmK0fRmSC7hAziAiQUQ==
+X-CSE-MsgGUID: hS8r+gB4TXe9wGrYPsdQmw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="86492795"
 X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
-   d="scan'208";a="86492788"
+   d="scan'208";a="86492795"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 07:25:17 -0700
-X-CSE-ConnectionGUID: 2uzBGJgrQ9SBLaef0GVQpA==
-X-CSE-MsgGUID: Yj0x2yaURty85QNZHFFA7g==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 07:25:20 -0700
+X-CSE-ConnectionGUID: y0ndFcvOS1GJe3cFu5sXeA==
+X-CSE-MsgGUID: DtqttdzHRVqM+uhyof1oLw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
-   d="scan'208";a="226051125"
+   d="scan'208";a="226051123"
 Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 30 Mar 2026 07:25:15 -0700
+  by orviesa008.jf.intel.com with ESMTP; 30 Mar 2026 07:25:16 -0700
 Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w7DYH-000000001CR-1oa7;
+	id 1w7DYH-000000001CP-1dfd;
 	Mon, 30 Mar 2026 14:25:13 +0000
-Date: Mon, 30 Mar 2026 22:24:33 +0800
+Date: Mon, 30 Mar 2026 22:24:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:mirror-poly-aosp-pixel-malibu-staging 5/5]
- arch/arm64/kvm/hyp_events.c:235:19: warning: no previous prototype for
- function '__hyp_trace_find_event_name'
-Message-ID: <202603302257.iLN6vQva-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Kangzheng Gu <xiaoguai0992@gmail.com>, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	horms@kernel.org, kees@kernel.org, thorsten.blum@linux.dev,
+	arnd@arndb.de, sjur.brandeland@stericsson.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v3] net: caif: fix stack out-of-bounds write in
+ cfctrl_link_setup()
+Message-ID: <202603302217.BEd0DrgM-lkp@intel.com>
+References: <20260329190350.19065-1-xiaoguai0992@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260329190350.19065-1-xiaoguai0992@gmail.com>
 
-Hi Vincent,
+Hi Kangzheng,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common mirror-poly-aosp-pixel-malibu-staging
-head:   5de4567efb4a2a85c5768504b0f45f278e9b13a2
-commit: 12aaf60a831904372fbd91490acdeb2c4ab3cf78 [5/5] ANDROID: KVM: arm64: Allow registration of pKVM module hyp events
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260330/202603302257.iLN6vQva-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260330/202603302257.iLN6vQva-lkp@intel.com/reproduce)
+[auto build test WARNING on net-next/main]
+[also build test WARNING on net/main soc/for-next linus/master v7.0-rc6 next-20260327]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kangzheng-Gu/net-caif-fix-stack-out-of-bounds-write-in-cfctrl_link_setup/20260330-163130
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260329190350.19065-1-xiaoguai0992%40gmail.com
+patch subject: [PATCH v3] net: caif: fix stack out-of-bounds write in cfctrl_link_setup()
+config: hexagon-randconfig-001-20260330 (https://download.01.org/0day-ci/archive/20260330/202603302217.BEd0DrgM-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 2cd67b8b69f78e3f95918204320c3075a74ba16c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260330/202603302217.BEd0DrgM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603302257.iLN6vQva-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603302217.BEd0DrgM-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/arm64/kvm/hyp_events.c:235:19: warning: no previous prototype for function '__hyp_trace_find_event_name' [-Wmissing-prototypes]
-     235 | struct hyp_event *__hyp_trace_find_event_name(const char *name,
-         |                   ^
-   arch/arm64/kvm/hyp_events.c:235:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     235 | struct hyp_event *__hyp_trace_find_event_name(const char *name,
-         | ^
-         | static 
->> arch/arm64/kvm/hyp_events.c:247:19: warning: no previous prototype for function 'hyp_trace_find_event_name' [-Wmissing-prototypes]
-     247 | struct hyp_event *hyp_trace_find_event_name(const char *name)
-         |                   ^
-   arch/arm64/kvm/hyp_events.c:247:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     247 | struct hyp_event *hyp_trace_find_event_name(const char *name)
-         | ^
-         | static 
-   2 warnings generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for INTEL_MEI_ME
-   Depends on [n]: X86 && PCI [=y]
-   Selected by [m]:
-   - INTEL_MEI_HDCP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
-   - INTEL_MEI_PXP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
+>> net/caif/cfctrl.c:423:6: warning: format specifies type 'unsigned long' but the argument has type '__size_t' (aka 'unsigned int') [-Wformat]
+     422 |                                 pr_warn("Request reject, volume name length exceeds %lu\n",
+         |                                                                                     ~~~
+         |                                                                                     %zu
+     423 |                                         sizeof(linkparam.u.rfm.volume));
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:564:37: note: expanded from macro 'pr_warn'
+     564 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |                                    ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:511:60: note: expanded from macro 'printk'
+     511 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:483:19: note: expanded from macro 'printk_index_wrap'
+     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+   1 warning generated.
 
 
-vim +/__hyp_trace_find_event_name +235 arch/arm64/kvm/hyp_events.c
+vim +423 net/caif/cfctrl.c
 
-   231	
-   232	#define nr_events(__start, __stop) \
-   233		(((unsigned long)__stop - (unsigned long)__start) / sizeof(*__start))
-   234	
- > 235	struct hyp_event *__hyp_trace_find_event_name(const char *name,
-   236						      struct hyp_event *start,
-   237						      struct hyp_event *end)
-   238	{
-   239		for (; start < end; start++) {
-   240			if (!strncmp(name, start->name, HYP_EVENT_NAME_MAX))
-   241				return start;
-   242		}
-   243	
-   244		return NULL;
-   245	}
-   246	
- > 247	struct hyp_event *hyp_trace_find_event_name(const char *name)
-   248	{
-   249		struct hyp_event_table *table;
-   250		struct hyp_event *event =
-   251			__hyp_trace_find_event_name(name, __hyp_events_start,
-   252						    __hyp_events_end);
-   253	
-   254		if (event)
-   255			return event;
-   256	
-   257		rcu_read_lock();
-   258		table = rcu_dereference(mod_event_tables.tables);
-   259	
-   260		for (int i = 0; i < mod_event_tables.nr_tables; i++) {
-   261			struct hyp_event *end = table->start + table->nr_events;
-   262	
-   263			event = __hyp_trace_find_event_name(name, table->start, end);
-   264			if (event)
-   265				break;
-   266		}
-   267	
-   268		rcu_read_unlock();
-   269	
-   270		return event;
-   271	}
-   272	
+   351	
+   352	static int cfctrl_link_setup(struct cfctrl *cfctrl, struct cfpkt *pkt, u8 cmdrsp)
+   353	{
+   354		u8 len;
+   355		u8 linkid = 0;
+   356		enum cfctrl_srv serv;
+   357		enum cfctrl_srv servtype;
+   358		u8 endpoint;
+   359		u8 physlinkid;
+   360		u8 prio;
+   361		u8 tmp;
+   362		u8 *cp;
+   363		int i;
+   364		struct cfctrl_link_param linkparam;
+   365		struct cfctrl_request_info rsp, *req;
+   366	
+   367		memset(&linkparam, 0, sizeof(linkparam));
+   368	
+   369		tmp = cfpkt_extr_head_u8(pkt);
+   370	
+   371		serv = tmp & CFCTRL_SRV_MASK;
+   372		linkparam.linktype = serv;
+   373	
+   374		servtype = tmp >> 4;
+   375		linkparam.chtype = servtype;
+   376	
+   377		tmp = cfpkt_extr_head_u8(pkt);
+   378		physlinkid = tmp & 0x07;
+   379		prio = tmp >> 3;
+   380	
+   381		linkparam.priority = prio;
+   382		linkparam.phyid = physlinkid;
+   383		endpoint = cfpkt_extr_head_u8(pkt);
+   384		linkparam.endpoint = endpoint & 0x03;
+   385	
+   386		switch (serv) {
+   387		case CFCTRL_SRV_VEI:
+   388		case CFCTRL_SRV_DBG:
+   389			if (CFCTRL_ERR_BIT & cmdrsp)
+   390				break;
+   391			/* Link ID */
+   392			linkid = cfpkt_extr_head_u8(pkt);
+   393			break;
+   394		case CFCTRL_SRV_VIDEO:
+   395			tmp = cfpkt_extr_head_u8(pkt);
+   396			linkparam.u.video.connid = tmp;
+   397			if (CFCTRL_ERR_BIT & cmdrsp)
+   398				break;
+   399			/* Link ID */
+   400			linkid = cfpkt_extr_head_u8(pkt);
+   401			break;
+   402	
+   403		case CFCTRL_SRV_DATAGRAM:
+   404			linkparam.u.datagram.connid = cfpkt_extr_head_u32(pkt);
+   405			if (CFCTRL_ERR_BIT & cmdrsp)
+   406				break;
+   407			/* Link ID */
+   408			linkid = cfpkt_extr_head_u8(pkt);
+   409			break;
+   410		case CFCTRL_SRV_RFM:
+   411			/* Construct a frame, convert
+   412			 * DatagramConnectionID
+   413			 * to network format long and copy it out...
+   414			 */
+   415			linkparam.u.rfm.connid = cfpkt_extr_head_u32(pkt);
+   416			cp = (u8 *) linkparam.u.rfm.volume;
+   417			for (tmp = cfpkt_extr_head_u8(pkt);
+   418			     cfpkt_more(pkt) && tmp != '\0';
+   419			     tmp = cfpkt_extr_head_u8(pkt)) {
+   420				if (cp >= (u8 *)linkparam.u.rfm.volume +
+   421				    sizeof(linkparam.u.rfm.volume) - 1) {
+   422					pr_warn("Request reject, volume name length exceeds %lu\n",
+ > 423						sizeof(linkparam.u.rfm.volume));
+   424					cmdrsp |= CFCTRL_ERR_BIT;
+   425					break;
+   426				}
+   427				*cp++ = tmp;
+   428			}
+   429			*cp = '\0';
+   430	
+   431			if (CFCTRL_ERR_BIT & cmdrsp)
+   432				break;
+   433			/* Link ID */
+   434			linkid = cfpkt_extr_head_u8(pkt);
+   435	
+   436			break;
+   437		case CFCTRL_SRV_UTIL:
+   438			/* Construct a frame, convert
+   439			 * DatagramConnectionID
+   440			 * to network format long and copy it out...
+   441			 */
+   442			/* Fifosize KB */
+   443			linkparam.u.utility.fifosize_kb = cfpkt_extr_head_u16(pkt);
+   444			/* Fifosize bufs */
+   445			linkparam.u.utility.fifosize_bufs = cfpkt_extr_head_u16(pkt);
+   446			/* name */
+   447			cp = (u8 *) linkparam.u.utility.name;
+   448			caif_assert(sizeof(linkparam.u.utility.name)
+   449				     >= UTILITY_NAME_LENGTH);
+   450			for (i = 0; i < UTILITY_NAME_LENGTH && cfpkt_more(pkt); i++) {
+   451				tmp = cfpkt_extr_head_u8(pkt);
+   452				*cp++ = tmp;
+   453			}
+   454			/* Length */
+   455			len = cfpkt_extr_head_u8(pkt);
+   456			linkparam.u.utility.paramlen = len;
+   457			/* Param Data */
+   458			cp = linkparam.u.utility.params;
+   459			while (cfpkt_more(pkt) && len--) {
+   460				tmp = cfpkt_extr_head_u8(pkt);
+   461				*cp++ = tmp;
+   462			}
+   463			if (CFCTRL_ERR_BIT & cmdrsp)
+   464				break;
+   465			/* Link ID */
+   466			linkid = cfpkt_extr_head_u8(pkt);
+   467			/* Length */
+   468			len = cfpkt_extr_head_u8(pkt);
+   469			/* Param Data */
+   470			cfpkt_extr_head(pkt, NULL, len);
+   471			break;
+   472		default:
+   473			pr_warn("Request setup, invalid type (%d)\n", serv);
+   474			return -1;
+   475		}
+   476	
+   477		rsp.cmd = CFCTRL_CMD_LINK_SETUP;
+   478		rsp.param = linkparam;
+   479		spin_lock_bh(&cfctrl->info_list_lock);
+   480		req = cfctrl_remove_req(cfctrl, &rsp);
+   481	
+   482		if (CFCTRL_ERR_BIT == (CFCTRL_ERR_BIT & cmdrsp) ||
+   483			cfpkt_erroneous(pkt)) {
+   484			pr_err("Invalid O/E bit or parse error "
+   485					"on CAIF control channel\n");
+   486			cfctrl->res.reject_rsp(cfctrl->serv.layer.up, 0,
+   487					       req ? req->client_layer : NULL);
+   488		} else {
+   489			cfctrl->res.linksetup_rsp(cfctrl->serv.layer.up, linkid,
+   490						  serv, physlinkid,
+   491						  req ?  req->client_layer : NULL);
+   492		}
+   493	
+   494		kfree(req);
+   495	
+   496		spin_unlock_bh(&cfctrl->info_list_lock);
+   497	
+   498		return 0;
+   499	}
+   500	
 
 -- 
 0-DAY CI Kernel Test Service
