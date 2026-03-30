@@ -1,273 +1,112 @@
-Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 483E53D75D4;
-	Mon, 30 Mar 2026 14:07:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E56403D6CA5;
+	Mon, 30 Mar 2026 14:12:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774879631; cv=none; b=KXkEdajUbi/LkZhy8KEYOBSUjUarRNUKHGuy8KLJcGGbt8Fbz4DpNRhQay84f2f8l0f80booUjxQkT6eYAzHK605GUtLbeCv/ZaWY9QqeAbm+MFuTgklHFCmzMWmtoGTdblY0KAmJqR7gcxNb3wYCwN3QFoXC4+gsFc3gPBwXbY=
+	t=1774879941; cv=none; b=Q02zi9XDdo5MfBCbsT6PM8HvkNHou/4TPAHowPCfyVhqcffEtA2rVHNald5K0m38wbfqLiXHLq7o+an7diSDu+L9Bkfan1m/ZWIMydn3J16R/V34fT9UtggvQHOdRUGX2oRfemLDDisgkjnk2r4OtMRXPSvOODD8FV2TPdWchek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774879631; c=relaxed/simple;
-	bh=+bMs9ERIQVvkRwL+VZTTfiM9gzFfjTvT1aLgqMVLC9g=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=VGNyBcu7/HTXFjWbkUCjiGByqIevkNQjHW1T3DPptiuDRF6Xt6+tKecMRvbqJyPSQqKhvb2y/TIzpeZh7fBQy1yFb8L6op6Zxlx2DaDvGoPFrrC2xJLsSspns7M2/BJvLiIv8ihYtla/m3sbYFZGhXTcOxfUBSCT+/qTuz9SJLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=NIeeXjtL; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=c0XIy9Sg; arc=none smtp.client-ip=103.168.172.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1774879941; c=relaxed/simple;
+	bh=ehU06OoIuKwC2QS/IYuZyMcHXPB/i0LtXjDTVpnidEQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=N4XvZizFXpVa45fO/00n090k2BnhKzKfiGWWQSfi4dOsD2RvJnl/Yb9BkuQvhvSrqxQKn4SSDakJvGvKzMb9lTL/os86jFJw+FwVi5I8sPXZikfulbU2KHA2Q3D5RVH9t0I09Q7P10wY/Gv5VTBrYXz4DVX5kyFFHpjfQ0S8ucQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O1Z4uhV8; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="NIeeXjtL";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="c0XIy9Sg"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.phl.internal (Postfix) with ESMTP id 2F7E0EC0175;
-	Mon, 30 Mar 2026 10:07:05 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-04.internal (MEProxy); Mon, 30 Mar 2026 10:07:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1774879625;
-	 x=1774966025; bh=tsLsTO59F2hU31zYvDPNmjaJK05UWmO5S1juGVgsTJU=; b=
-	NIeeXjtLCGuQhwSHisxJkuDVeo6sAx3zUMNU/ADq9spNGlOKkx/o3htMIxzJSAIL
-	fkPqlhhtsnakwpIxYC5OsybjswJo4rsW+jggqt7bSNoy65L04VKfHkSafX0OzS1k
-	0ombQD8KN/GP4ea6n17u/JsH31a0uacjCSig5WShoXB4GtlEsl5zEKqgPqeXkfir
-	rJDevay4iZs7rPq8xDZokkzXHiMulKbxv6coYPIB0dJbPiR2WtFyBgSBv5X+caCD
-	TEjzpZDwZGxCwIpcxW53fFZNSh5sf8YR3bpG/DNn/P051CqBtgC+HrogEbbZ2j/B
-	c0+CBgEQ+oYyfcOsgWMDGg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1774879625; x=
-	1774966025; bh=tsLsTO59F2hU31zYvDPNmjaJK05UWmO5S1juGVgsTJU=; b=c
-	0XIy9Sgh/cj7ZY52cwbUVbDiTpcGbJf0ZdX8JYcdQoRb+SQSZt1f4RbV8eN6WVPK
-	nKVpCEpIfExrSJMbBfIFsi66x44ZS5qF7IGnJMGg7OXZHJTOLi/+bQlggvnd3iiZ
-	uNi2gfhA4mRSM+QLg2LnNr/56BkonZ+L4fBwj+AfspKDcFHtRUE5Xc1IWCTCCKgh
-	CjYhIVlmabr/zaGH8lRnbTJ4XVN28ljat+FvA2TiVNm3Wpm8B9Lmn23xCzRLtxcH
-	eRpH05JbBRkMH2Zx3l0ZZ19KZzfXUm3YArIvYdb0i5YQ03KlbQHRd2Kyc/l50rat
-	fOmw2kZ9/LVbdQ83kGySg==
-X-ME-Sender: <xms:iIPKaZFB-GrhmTvzoq3ienoTBxnJqZAb20GweeiGjg3e9nox3EJrqg>
-    <xme:iIPKaZIE16FwTv2EDHa1Qe_DiWSQp4GgPo4QnKJ8UubMCYvhdeDyC5k4DeXwsT0gO
-    C1yEvBWyV74_HJ9J0UI2zkiMfqohDteW9VB-hOCMXb1T194T_Qhoi0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeffeeludekucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
-    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
-    hrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefggfevudegudevledvkefhvdei
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
-    gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepkedpmhhouggvpehsmhhtphhouhht
-    pdhrtghpthhtohepmhgrthhhihgvuhdruggvshhnohihvghrshesvghffhhitghiohhsrd
-    gtohhmpdhrtghpthhtoheprhhoshhtvgguthesghhoohgumhhishdrohhrghdprhgtphht
-    thhopehlkhhpsehinhhtvghlrdgtohhmpdhrtghpthhtohepmhhhihhrrghmrghtsehkvg
-    hrnhgvlhdrohhrghdprhgtphhtthhopehllhhvmheslhhishhtshdrlhhinhhugidruggv
-    vhdprhgtphhtthhopehovgdqkhgsuhhilhguqdgrlhhlsehlihhsthhsrdhlihhnuhigrd
-    guvghvpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghl
-    rdhorhhgpdhrtghpthhtoheplhhinhhugidqthhrrggtvgdqkhgvrhhnvghlsehvghgvrh
-    drkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:iIPKaVgxx2YIb7Eo34DZYTkCb_DCUybuNOU3h0EUrXUPQL7XFUjr6A>
-    <xmx:iIPKae_H0ZP10XVWCYIgsqCdMgwKSXuvDWUtDCtN_Arugq_AX_K1CA>
-    <xmx:iIPKaZUKx31MOjEoEIv960EQd-aUylA9XZyT8cVpcePjPaiHT2nBsg>
-    <xmx:iIPKaaAVP2qZrggdO8qtkck_-H0WCwX6iJckLpwFM5ABjgyYteSuMw>
-    <xmx:iYPKaZk2n22YNcnWWCs43uD9GDJRwJgDOWq_lroZEC7YMbEkPWJOfbPa>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id A6021700065; Mon, 30 Mar 2026 10:07:04 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O1Z4uhV8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774879938; x=1806415938;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ehU06OoIuKwC2QS/IYuZyMcHXPB/i0LtXjDTVpnidEQ=;
+  b=O1Z4uhV8yM19t8aDt8KpiCqc1abVNUeVHuWqhh/0FV4DEG2Ua2kZ3zYe
+   lDOLaLmiEU/6OQ8Qxqnjclx7Xmw2+EEOalG97+DaZbpkje685VjQqR1kH
+   9hJAA6xYxhjOiOsKGrsxymrKEb1ypsUXLHK5XN0H40gcj6FRWJl5RPZij
+   Mpzagu+nzWXvz+diaHtvVM0nD6AWrvwhtgqZC8AOlSxCEZXyD5sRVCAAI
+   ns4+7bfrTJpM9rYBJt6M89Fl9GVgUJWqoM325P4QL8DhVPugflQELNqKf
+   xw7kvXlTrob3N0xF8/BiBplrCDeQGF6EzjQTexK/9yrIdNvBkUUhmVDex
+   g==;
+X-CSE-ConnectionGUID: szaE/EgMQESbiuVzG9ccEg==
+X-CSE-MsgGUID: BIakFP4aSZOs2+CmlVzNEQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="75761509"
+X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
+   d="scan'208";a="75761509"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 07:12:18 -0700
+X-CSE-ConnectionGUID: 7TScrLw/S5WafBz4XS6YVA==
+X-CSE-MsgGUID: nKtq4DDRSDOPdBlYJA8/bA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
+   d="scan'208";a="249122850"
+Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 30 Mar 2026 07:12:15 -0700
+Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w7DLg-000000001Bh-3fe4;
+	Mon, 30 Mar 2026 14:12:12 +0000
+Date: Mon, 30 Mar 2026 22:11:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Matthew Laux <matthew.laux@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	Matthew Laux <matthew.laux@gmail.com>
+Subject: Re: [PATCH v3 1/1] staging: media: add driver for StarTech USB3HDCAP
+Message-ID: <202603302245.CxjAt9gS-lkp@intel.com>
+References: <20260329045612.6899-2-matthew.laux@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: A1v9eCq-71EB
-Date: Mon, 30 Mar 2026 16:06:44 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "kernel test robot" <lkp@intel.com>,
- "Steven Rostedt" <rostedt@goodmis.org>, LKML <linux-kernel@vger.kernel.org>,
- "Linux trace kernel" <linux-trace-kernel@vger.kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- "Masami Hiramatsu" <mhiramat@kernel.org>,
- "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
-Message-Id: <8580f943-4c37-4c66-937d-adee13b72201@app.fastmail.com>
-In-Reply-To: <202603070230.Zz4BBLtb-lkp@intel.com>
-References: <20260305211810.3f48aa07@robin>
- <202603070230.Zz4BBLtb-lkp@intel.com>
-Subject: Re: [PATCH] tracing: Move snapshot code out of trace.c and into
- trace_snapshot.c
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260329045612.6899-2-matthew.laux@gmail.com>
 
-On Fri, Mar 6, 2026, at 20:07, kernel test robot wrote:
->>> kernel/trace/trace.c:820:5: warning: no previous prototype for function 'tracing_alloc_snapshot' [-Wmissing-prototypes]
->      820 | int tracing_alloc_snapshot(void)
->          |     ^
->    kernel/trace/trace.c:820:1: note: declare 'static' if the function 
-> is not intended to be used outside of this translation unit
->      820 | int tracing_alloc_snapshot(void)
->          | ^
->          | static 
->    1 warning generated.
+Hi Matthew,
 
-I saw the same thing and worked around it by removing the function.
-I then noticed that a bunch of code surrounding it is also unused
-and I removed that as well (see below). This version passes
-my randconfig build tests, but I suspect it is still wrong,
-since the code never had any callers and I don't understand
-why.
+kernel test robot noticed the following build errors:
 
-       Arnd
+[auto build test ERROR on 2c8fe1f14240d75f2002e16b2b69c5c2d27ed41c]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Laux/staging-media-add-driver-for-StarTech-USB3HDCAP/20260329-215100
+base:   2c8fe1f14240d75f2002e16b2b69c5c2d27ed41c
+patch link:    https://lore.kernel.org/r/20260329045612.6899-2-matthew.laux%40gmail.com
+patch subject: [PATCH v3 1/1] staging: media: add driver for StarTech USB3HDCAP
+config: powerpc-randconfig-r064-20260330 (https://download.01.org/0day-ci/archive/20260330/202603302245.CxjAt9gS-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260330/202603302245.CxjAt9gS-lkp@intel.com/reproduce)
 
-diff --git a/include/linux/trace_printk.h b/include/linux/trace_printk.h
-index 2670ec7f4262..87466d8df147 100644
---- a/include/linux/trace_printk.h
-+++ b/include/linux/trace_printk.h
-@@ -38,8 +38,6 @@ enum ftrace_dump_mode {
- void tracing_on(void);
- void tracing_off(void);
- int tracing_is_on(void);
--void tracing_snapshot(void);
--void tracing_snapshot_alloc(void);
- 
- extern void tracing_start(void);
- extern void tracing_stop(void);
-@@ -184,8 +182,6 @@ static inline void trace_dump_stack(int skip) { }
- static inline void tracing_on(void) { }
- static inline void tracing_off(void) { }
- static inline int tracing_is_on(void) { return 0; }
--static inline void tracing_snapshot(void) { }
--static inline void tracing_snapshot_alloc(void) { }
- 
- static inline __printf(1, 2)
- int trace_printk(const char *fmt, ...)
-diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
-index ec2b926436a7..76fe2c758734 100644
---- a/kernel/trace/trace.c
-+++ b/kernel/trace/trace.c
-@@ -767,70 +767,6 @@ void tracing_on(void)
- }
- EXPORT_SYMBOL_GPL(tracing_on);
- 
--#ifdef CONFIG_TRACER_SNAPSHOT
--/**
-- * tracing_snapshot - take a snapshot of the current buffer.
-- *
-- * This causes a swap between the snapshot buffer and the current live
-- * tracing buffer. You can use this to take snapshots of the live
-- * trace when some condition is triggered, but continue to trace.
-- *
-- * Note, make sure to allocate the snapshot with either
-- * a tracing_snapshot_alloc(), or by doing it manually
-- * with: echo 1 > /sys/kernel/tracing/snapshot
-- *
-- * If the snapshot buffer is not allocated, it will stop tracing.
-- * Basically making a permanent snapshot.
-- */
--void tracing_snapshot(void)
--{
--	struct trace_array *tr = &global_trace;
--
--	tracing_snapshot_instance(tr);
--}
--EXPORT_SYMBOL_GPL(tracing_snapshot);
--
--/**
-- * tracing_alloc_snapshot - allocate snapshot buffer.
-- *
-- * This only allocates the snapshot buffer if it isn't already
-- * allocated - it doesn't also take a snapshot.
-- *
-- * This is meant to be used in cases where the snapshot buffer needs
-- * to be set up for events that can't sleep but need to be able to
-- * trigger a snapshot.
-- */
--int tracing_alloc_snapshot(void)
--{
--	struct trace_array *tr = &global_trace;
--	int ret;
--
--	ret = tracing_alloc_snapshot_instance(tr);
--	WARN_ON(ret < 0);
--
--	return ret;
--}
--EXPORT_SYMBOL_GPL(tracing_alloc_snapshot);
--#else
--void tracing_snapshot(void)
--{
--	WARN_ONCE(1, "Snapshot feature not enabled, but internal snapshot used");
--}
--EXPORT_SYMBOL_GPL(tracing_snapshot);
--int tracing_alloc_snapshot(void)
--{
--	WARN_ONCE(1, "Snapshot feature not enabled, but snapshot allocation used");
--	return -ENODEV;
--}
--EXPORT_SYMBOL_GPL(tracing_alloc_snapshot);
--void tracing_snapshot_alloc(void)
--{
--	/* Give warning */
--	tracing_snapshot();
--}
--EXPORT_SYMBOL_GPL(tracing_snapshot_alloc);
--#endif /* CONFIG_TRACER_SNAPSHOT */
--
- void tracer_tracing_off(struct trace_array *tr)
- {
- 	if (tr->array_buffer.buffer)
-diff --git a/kernel/trace/trace.h b/kernel/trace/trace.h
-index e4cf6703b301..6abd9e16ef21 100644
---- a/kernel/trace/trace.h
-+++ b/kernel/trace/trace.h
-@@ -2306,7 +2306,6 @@ static inline int register_snapshot_cmd(void) { return 0; }
- # endif
- #else /* !CONFIG_TRACER_SNAPSHOT */
- static inline int trace_allocate_snapshot(struct trace_array *tr, int size) { return 0; }
--static inline int tracing_alloc_snapshot(void) { return 0; }
- static inline void tracing_snapshot_instance(struct trace_array *tr) { }
- static inline int tracing_alloc_snapshot_instance(struct trace_array *tr)
- {
-diff --git a/kernel/trace/trace_snapshot.c b/kernel/trace/trace_snapshot.c
-index 8865b2ef2264..926f395e5af4 100644
---- a/kernel/trace/trace_snapshot.c
-+++ b/kernel/trace/trace_snapshot.c
-@@ -237,29 +237,6 @@ void tracing_disarm_snapshot(struct trace_array *tr)
- 	spin_unlock(&tr->snapshot_trigger_lock);
- }
- 
--/**
-- * tracing_snapshot_alloc - allocate and take a snapshot of the current buffer.
-- *
-- * This is similar to tracing_snapshot(), but it will allocate the
-- * snapshot buffer if it isn't already allocated. Use this only
-- * where it is safe to sleep, as the allocation may sleep.
-- *
-- * This causes a swap between the snapshot buffer and the current live
-- * tracing buffer. You can use this to take snapshots of the live
-- * trace when some condition is triggered, but continue to trace.
-- */
--void tracing_snapshot_alloc(void)
--{
--	int ret;
--
--	ret = tracing_alloc_snapshot();
--	if (ret < 0)
--		return;
--
--	tracing_snapshot();
--}
--EXPORT_SYMBOL_GPL(tracing_snapshot_alloc);
--
- /**
-  * tracing_snapshot_cond_enable - enable conditional snapshot for an instance
-  * @tr:		The tracing instance
-@@ -391,8 +368,6 @@ void latency_fsnotify(struct trace_array *tr)
- 	 */
- 	irq_work_queue(&tr->fsnotify_irqwork);
- }
--#else
--static inline void latency_fsnotify(struct trace_array *tr) { }
- #endif /* LATENCY_FS_NOTIFY */
- static const struct file_operations tracing_max_lat_fops;
- 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603302245.CxjAt9gS-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: "usb_alloc_urb" [drivers/staging/media/usb3hdcap/usb3hdcap.ko] undefined!
+>> ERROR: modpost: "usb_free_urb" [drivers/staging/media/usb3hdcap/usb3hdcap.ko] undefined!
+>> ERROR: modpost: "usb_register_driver" [drivers/staging/media/usb3hdcap/usb3hdcap.ko] undefined!
+>> ERROR: modpost: "usb_put_dev" [drivers/staging/media/usb3hdcap/usb3hdcap.ko] undefined!
+>> ERROR: modpost: "usb_get_dev" [drivers/staging/media/usb3hdcap/usb3hdcap.ko] undefined!
+>> ERROR: modpost: "usb_submit_urb" [drivers/staging/media/usb3hdcap/usb3hdcap.ko] undefined!
+>> ERROR: modpost: "usb_control_msg" [drivers/staging/media/usb3hdcap/usb3hdcap.ko] undefined!
+>> ERROR: modpost: "usb_set_interface" [drivers/staging/media/usb3hdcap/usb3hdcap.ko] undefined!
+>> ERROR: modpost: "usb_deregister" [drivers/staging/media/usb3hdcap/usb3hdcap.ko] undefined!
+>> ERROR: modpost: "usb_kill_urb" [drivers/staging/media/usb3hdcap/usb3hdcap.ko] undefined!
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for HOTPLUG_CPU
+   Depends on [n]: SMP [=y] && (PPC_PSERIES [=n] || PPC_PMAC [=n] || PPC_POWERNV [=n] || FSL_SOC_BOOKE [=n])
+   Selected by [y]:
+   - PM_SLEEP_SMP [=y] && SMP [=y] && (ARCH_SUSPEND_POSSIBLE [=y] || ARCH_HIBERNATION_POSSIBLE [=y]) && PM_SLEEP [=y]
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
