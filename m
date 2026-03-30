@@ -1,60 +1,64 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C8561DF755
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Mar 2026 10:09:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843163BE14D;
+	Mon, 30 Mar 2026 10:38:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774865395; cv=none; b=bHi2dJ6Wbb8GDQ3xdu/3mx9WLQKJrJbL9DimTo3l1x7LsM4x9StOqax4bvjukupxg+2leUlXN5+zgHdjG45816VTHaRb4e5A7OTGYwMShKKfHQQy+F1Kh0GxiJyIF7sNzF8/aAfbTrW/IUaPNmFejJkYhXzRnTVGOjRuGWy5urg=
+	t=1774867100; cv=none; b=H2pk+C4cm5B67Lts561F7ho8ydVikfDe3f490GjyMtxDdrsJPiAQmmZpDaNqc2UgZ6Xy9k53+68uF5f8VVJfYzQ/LSjAxQP/dZT6vCKL+xiXjL+kj5GNhF9gQkeGmxiJ354l0btID+NlIY5GGkFWZO5Ms5d7sJxerxFmRT00kpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774865395; c=relaxed/simple;
-	bh=jIaIE3fjx2xvgjUMCmQk3kIac/m4hnitGTultLECxxw=;
+	s=arc-20240116; t=1774867100; c=relaxed/simple;
+	bh=3QmQRuICEKYBrt5Bb8Pn20XSlBKTKzSdRuZlTuuyw0U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m8XpLLYePXFRsS1c7Q5B31QIbr83A3+ecLM569GYYOtEDcx1PMnray5RyCTbOqNPtwjAdzCi20JKsBqSK3YF+IOUAWu+5qU8lWIz4zYvfnvS0n6y5uFWbjqtkd+e8JVRiumpOh4tueRg+DrIqjTJ1pvQ4gH8U3jFW6Owm9ey0LU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kmYGG2QS; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=jmeL8841qOIns/b2SELBj7ChUHJrvUU9wleW4zLGkedvRzEMgdJeqO039DW3dshfMau00j+YSJkAA0mrc6ZxZ0F6uvfH786aB13BMz8KvitkkaYdkdxvr+BgyhW+qXZpDtJAGPIoGpb2YCDpXP714DCcpBvFmxweMpjMsTJ4tes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dTSzvTzk; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kmYGG2QS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dTSzvTzk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774865394; x=1806401394;
+  t=1774867098; x=1806403098;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=jIaIE3fjx2xvgjUMCmQk3kIac/m4hnitGTultLECxxw=;
-  b=kmYGG2QSTAXGCQVBstVbQanvkb2UH/UKPjnRtRphsMECM8sDau7kFxwz
-   QfHhpjb9UgH1RoxQ6F2MJ3oiZHWofIHAONSTEnHzvkTlraciuJ2WhVklE
-   +fUvmk6Aif0UqNh6X6FS4zeg4TL39tiupyDxQvSMfx1hMijGKvkdk3sZ+
-   RCfYd5O9umGtET7ji+EvUejtO3DSAjA/T8JKV9Le9sBIpkMgK6h752pT/
-   8CAF14H3+54o2OWCB57eZVTu+5DoQo//suSaYsCVjo65vruI814uc8vnr
-   oapGF4qoIqNMZhWWz0nIla6hIiOZomogXJTJFyPYaofovnjQaBxQw20Jj
-   A==;
-X-CSE-ConnectionGUID: 70oD8v4xSq2FlZe2ITRw3w==
-X-CSE-MsgGUID: 0KlQbmjjTT6yTXcG9bOQgQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="79456845"
+  bh=3QmQRuICEKYBrt5Bb8Pn20XSlBKTKzSdRuZlTuuyw0U=;
+  b=dTSzvTzkMoJF+9cKsMCJdenj0lOcnDV0uLxwFD4x8X6ZEnLoyoZPDSH0
+   Keezy1IHoamddfr/v89uapHrOuCByEUwqLZ2ZUx1nEsO+q5nptTRpcl05
+   5+EbfKGdnBiaT2Y6LC8xkgVCGQqRKZpGoUo6BGHKvjXiNXzurnd9hX+yX
+   J9dMqMgYDboxNPBIFdXXy3Svh1UMx09LyG4ttTCW+74bdp2Z0kljTPQ1/
+   mm2XoxBJvTmh5TjKw37wIbhD3QL2Run/Nf+h6WhDLqb2tHRmBZW5Yb5jO
+   YiAMOrTMQ+zC4zRCn1HGPK9LmRmrnxsAdkwoN68tCul/fowO6jD23z0k+
+   w==;
+X-CSE-ConnectionGUID: vs/C78WwTaus6huDdDI+QA==
+X-CSE-MsgGUID: XwUNkCUGSD+LayD5bLoRrg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="79458706"
 X-IronPort-AV: E=Sophos;i="6.23,149,1770624000"; 
-   d="scan'208";a="79456845"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 03:09:53 -0700
-X-CSE-ConnectionGUID: EwehlPfSQ+aPl9KwWggIvw==
-X-CSE-MsgGUID: 6gh2lbI+SJWJRZHDgKRBuA==
+   d="scan'208";a="79458706"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 03:38:17 -0700
+X-CSE-ConnectionGUID: OLi0n7mOSeC9WGeYFxCHXg==
+X-CSE-MsgGUID: 6zWwlRTITxmMPWVyNz7TOQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,149,1770624000"; 
-   d="scan'208";a="230928543"
-Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 30 Mar 2026 03:09:52 -0700
-Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w79Z7-000000000wr-47lo;
-	Mon, 30 Mar 2026 10:09:49 +0000
-Date: Mon, 30 Mar 2026 18:09:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Johannes Berg <johannes@sipsolutions.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 14/19] wifi: cfg80211: move AP HT/VHT/... operation
- to beacon info
-Message-ID: <202603301812.NMn10kv4-lkp@intel.com>
-References: <20260327103659.1cdda25b617f.I0d21120b41eed661eefc61d5417dadaae7145845@changeid>
+   d="scan'208";a="221620760"
+Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.83])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 03:38:15 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id EC8AE11F83B;
+	Mon, 30 Mar 2026 13:38:20 +0300 (EEST)
+Date: Mon, 30 Mar 2026 13:38:20 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Dan Carpenter <error27@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, Kate Hsuan <hpa@redhat.com>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Hans de Goede <johannes.goede@oss.qualcomm.com>
+Subject: Re: [linuxtv-media-pending:next 165/183]
+ drivers/media/i2c/t4ka3.c:577 t4ka3_enable_stream() warn:
+ pm_runtime_get_sync() also returns 1 on success
+Message-ID: <acpSnDp7qaIk9gDI@kekkonen.localdomain>
+References: <acpCusUjXndiISEI@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,183 +67,122 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260327103659.1cdda25b617f.I0d21120b41eed661eefc61d5417dadaae7145845@changeid>
+In-Reply-To: <acpCusUjXndiISEI@stanley.mountain>
 
-Hi Johannes,
+Hi Dan,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+Thanks for looking into this.
 
-[auto build test ERROR on wireless-next/main]
-[also build test ERROR on next-20260327]
-[cannot apply to wireless/main linus/master v7.0-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On Mon, Mar 30, 2026 at 12:30:34PM +0300, Dan Carpenter wrote:
+> tree:   https://git.linuxtv.org/media-ci/media-pending.git next
+> head:   4fbeef21f5387234111b5d52924e77757626faa5
+> commit: fd55319692151de2b89c21356d1445bce364769b [165/183] media: Add t4ka3 camera sensor driver
+> config: um-randconfig-r072-20260327 (https://download.01.org/0day-ci/archive/20260328/202603280011.CCbaQy6n-lkp@intel.com/config)
+> compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
+> rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+> smatch: v0.5.0-9004-gb810ac53
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Closes: https://lore.kernel.org/r/202603280011.CCbaQy6n-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/media/i2c/t4ka3.c:577 t4ka3_enable_stream() warn: pm_runtime_get_sync() also returns 1 on success
+> 
+> vim +577 drivers/media/i2c/t4ka3.c
+> 
+> fd55319692151d Kate Hsuan 2026-03-25  558  static int t4ka3_enable_stream(struct v4l2_subdev *sd,
+> fd55319692151d Kate Hsuan 2026-03-25  559  			       struct v4l2_subdev_state *state,
+> fd55319692151d Kate Hsuan 2026-03-25  560  			       u32 pad, u64 streams_mask)
+> fd55319692151d Kate Hsuan 2026-03-25  561  {
+> fd55319692151d Kate Hsuan 2026-03-25  562  	struct t4ka3_data *sensor = to_t4ka3_sensor(sd);
+> fd55319692151d Kate Hsuan 2026-03-25  563  	int ret;
+> fd55319692151d Kate Hsuan 2026-03-25  564  
+> fd55319692151d Kate Hsuan 2026-03-25  565  	ret = pm_runtime_get_sync(sensor->sd.dev);
+> fd55319692151d Kate Hsuan 2026-03-25  566  	if (ret < 0) {
+> 
+> pm_runtime_get_sync can return either zero or one on success.
+> (See the comments next to that function).  Probably use
+> pm_runtime_resume_and_get() instead.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Berg/wifi-mac80211-set-cur_max_bandwidth-to-maximum/20260330-102406
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20260327103659.1cdda25b617f.I0d21120b41eed661eefc61d5417dadaae7145845%40changeid
-patch subject: [RFC PATCH 14/19] wifi: cfg80211: move AP HT/VHT/... operation to beacon info
-config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20260330/202603301812.NMn10kv4-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260330/202603301812.NMn10kv4-lkp@intel.com/reproduce)
+Sounds good.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603301812.NMn10kv4-lkp@intel.com/
+> 
+> fd55319692151d Kate Hsuan 2026-03-25  567  		dev_err(sensor->dev, "power-up err.\n");
+> fd55319692151d Kate Hsuan 2026-03-25  568  		goto error_powerdown;
+> fd55319692151d Kate Hsuan 2026-03-25  569  	}
+> fd55319692151d Kate Hsuan 2026-03-25  570  
+> fd55319692151d Kate Hsuan 2026-03-25  571  	cci_multi_reg_write(sensor->regmap, t4ka3_init_config,
+> fd55319692151d Kate Hsuan 2026-03-25  572  			    ARRAY_SIZE(t4ka3_init_config), &ret);
+> 
+> If we pass 1 to cci_multi_reg_write() it is treated
+> as an error and it returns immediately.
 
-All errors (new ones prefixed by >>):
+I'd make cci_multi_reg_write(), or rather all V4L2 CCI API to set positive
+error values to zero. The documentation already says the functions return
+"negative error codes or zero" but they don't quite work that way.
 
-   drivers/net/wireless/quantenna/qtnfmac/commands.c: In function 'qtnf_cmd_send_start_ap':
->> drivers/net/wireless/quantenna/qtnfmac/commands.c:264:29: error: 'const struct cfg80211_ap_settings' has no member named 'ht_required'
-     264 |         cmd->ht_required = s->ht_required;
-         |                             ^~
->> drivers/net/wireless/quantenna/qtnfmac/commands.c:265:30: error: 'const struct cfg80211_ap_settings' has no member named 'vht_required'
-     265 |         cmd->vht_required = s->vht_required;
-         |                              ^~
+Just doing
 
+	if (err)
+		*err = min(*err, 0);
 
-vim +264 drivers/net/wireless/quantenna/qtnfmac/commands.c
+or merging that to the existing if () there would do the trick.
 
-df0af4c7bac470 Mikhail Karpenko     2019-11-18  235  
-17011da0b8f079 Igor Mitsyanko       2017-10-30  236  int qtnf_cmd_send_start_ap(struct qtnf_vif *vif,
-9b692df1e66ff6 Igor Mitsyanko       2017-10-04  237  			   const struct cfg80211_ap_settings *s)
-98f44cb0655cbe Igor Mitsyanko       2017-05-11  238  {
-98f44cb0655cbe Igor Mitsyanko       2017-05-11  239  	struct sk_buff *cmd_skb;
-17011da0b8f079 Igor Mitsyanko       2017-10-30  240  	struct qlink_cmd_start_ap *cmd;
-8b5f4aa7340a4e Igor Mitsyanko       2017-10-04  241  	struct qlink_auth_encr *aen;
-98f44cb0655cbe Igor Mitsyanko       2017-05-11  242  	int ret;
-98f44cb0655cbe Igor Mitsyanko       2017-05-11  243  	int i;
-ecad3b0b99bff7 Veerendranath Jakkam 2022-05-23  244  	int n;
-98f44cb0655cbe Igor Mitsyanko       2017-05-11  245  
-17011da0b8f079 Igor Mitsyanko       2017-10-30  246  	if (!qtnf_cmd_start_ap_can_fit(vif, s))
-17011da0b8f079 Igor Mitsyanko       2017-10-30  247  		return -E2BIG;
-17011da0b8f079 Igor Mitsyanko       2017-10-30  248  
-98f44cb0655cbe Igor Mitsyanko       2017-05-11  249  	cmd_skb = qtnf_cmd_alloc_new_cmdskb(vif->mac->macid, vif->vifid,
-17011da0b8f079 Igor Mitsyanko       2017-10-30  250  					    QLINK_CMD_START_AP,
-8b5f4aa7340a4e Igor Mitsyanko       2017-10-04  251  					    sizeof(*cmd));
-c93fe71c91d0ae Sergey Matyukevich   2018-01-22  252  	if (!cmd_skb)
-98f44cb0655cbe Igor Mitsyanko       2017-05-11  253  		return -ENOMEM;
-98f44cb0655cbe Igor Mitsyanko       2017-05-11  254  
-17011da0b8f079 Igor Mitsyanko       2017-10-30  255  	cmd = (struct qlink_cmd_start_ap *)cmd_skb->data;
-8b5f4aa7340a4e Igor Mitsyanko       2017-10-04  256  	cmd->dtim_period = s->dtim_period;
-8b5f4aa7340a4e Igor Mitsyanko       2017-10-04  257  	cmd->beacon_interval = cpu_to_le16(s->beacon_interval);
-8b5f4aa7340a4e Igor Mitsyanko       2017-10-04  258  	cmd->hidden_ssid = qlink_hidden_ssid_nl2q(s->hidden_ssid);
-8b5f4aa7340a4e Igor Mitsyanko       2017-10-04  259  	cmd->inactivity_timeout = cpu_to_le16(s->inactivity_timeout);
-62262dd00c3191 Johannes Berg        2024-10-07  260  	cmd->smps_mode = NL80211_SMPS_OFF;
-8b5f4aa7340a4e Igor Mitsyanko       2017-10-04  261  	cmd->p2p_ctwindow = s->p2p_ctwindow;
-8b5f4aa7340a4e Igor Mitsyanko       2017-10-04  262  	cmd->p2p_opp_ps = s->p2p_opp_ps;
-8b5f4aa7340a4e Igor Mitsyanko       2017-10-04  263  	cmd->pbss = s->pbss;
-8b5f4aa7340a4e Igor Mitsyanko       2017-10-04 @264  	cmd->ht_required = s->ht_required;
-8b5f4aa7340a4e Igor Mitsyanko       2017-10-04 @265  	cmd->vht_required = s->vht_required;
-ed7791d9d0abc7 Mikhail Karpenko     2020-01-09  266  	cmd->twt_responder = s->twt_responder;
-ed7791d9d0abc7 Mikhail Karpenko     2020-01-09  267  	if (s->he_obss_pd.enable) {
-ed7791d9d0abc7 Mikhail Karpenko     2020-01-09  268  		cmd->sr_params.sr_control |= QLINK_SR_SRG_INFORMATION_PRESENT;
-ed7791d9d0abc7 Mikhail Karpenko     2020-01-09  269  		cmd->sr_params.srg_obss_pd_min_offset =
-ed7791d9d0abc7 Mikhail Karpenko     2020-01-09  270  			s->he_obss_pd.min_offset;
-ed7791d9d0abc7 Mikhail Karpenko     2020-01-09  271  		cmd->sr_params.srg_obss_pd_max_offset =
-ed7791d9d0abc7 Mikhail Karpenko     2020-01-09  272  			s->he_obss_pd.max_offset;
-ed7791d9d0abc7 Mikhail Karpenko     2020-01-09  273  	}
-98f44cb0655cbe Igor Mitsyanko       2017-05-11  274  
-8b5f4aa7340a4e Igor Mitsyanko       2017-10-04  275  	aen = &cmd->aen;
-8b5f4aa7340a4e Igor Mitsyanko       2017-10-04  276  	aen->auth_type = s->auth_type;
-8b5f4aa7340a4e Igor Mitsyanko       2017-10-04  277  	aen->privacy = !!s->privacy;
-8b5f4aa7340a4e Igor Mitsyanko       2017-10-04  278  	aen->wpa_versions = cpu_to_le32(s->crypto.wpa_versions);
-8b5f4aa7340a4e Igor Mitsyanko       2017-10-04  279  	aen->cipher_group = cpu_to_le32(s->crypto.cipher_group);
-8b5f4aa7340a4e Igor Mitsyanko       2017-10-04  280  	aen->n_ciphers_pairwise = cpu_to_le32(s->crypto.n_ciphers_pairwise);
-98f44cb0655cbe Igor Mitsyanko       2017-05-11  281  	for (i = 0; i < QLINK_MAX_NR_CIPHER_SUITES; i++)
-8b5f4aa7340a4e Igor Mitsyanko       2017-10-04  282  		aen->ciphers_pairwise[i] =
-9b692df1e66ff6 Igor Mitsyanko       2017-10-04  283  				cpu_to_le32(s->crypto.ciphers_pairwise[i]);
-ecad3b0b99bff7 Veerendranath Jakkam 2022-05-23  284  	n = min(QLINK_MAX_NR_AKM_SUITES, s->crypto.n_akm_suites);
-ecad3b0b99bff7 Veerendranath Jakkam 2022-05-23  285  	aen->n_akm_suites = cpu_to_le32(n);
-ecad3b0b99bff7 Veerendranath Jakkam 2022-05-23  286  	for (i = 0; i < n; i++)
-8b5f4aa7340a4e Igor Mitsyanko       2017-10-04  287  		aen->akm_suites[i] = cpu_to_le32(s->crypto.akm_suites[i]);
-8b5f4aa7340a4e Igor Mitsyanko       2017-10-04  288  	aen->control_port = s->crypto.control_port;
-8b5f4aa7340a4e Igor Mitsyanko       2017-10-04  289  	aen->control_port_no_encrypt = s->crypto.control_port_no_encrypt;
-8b5f4aa7340a4e Igor Mitsyanko       2017-10-04  290  	aen->control_port_ethertype =
-9b692df1e66ff6 Igor Mitsyanko       2017-10-04  291  		cpu_to_le16(be16_to_cpu(s->crypto.control_port_ethertype));
-98f44cb0655cbe Igor Mitsyanko       2017-05-11  292  
-f99201cb084df1 Igor Mitsyanko       2017-10-04  293  	if (s->ssid && s->ssid_len > 0 && s->ssid_len <= IEEE80211_MAX_SSID_LEN)
-f99201cb084df1 Igor Mitsyanko       2017-10-04  294  		qtnf_cmd_skb_put_tlv_arr(cmd_skb, WLAN_EID_SSID, s->ssid,
-f99201cb084df1 Igor Mitsyanko       2017-10-04  295  					 s->ssid_len);
-f99201cb084df1 Igor Mitsyanko       2017-10-04  296  
-f99201cb084df1 Igor Mitsyanko       2017-10-04  297  	if (cfg80211_chandef_valid(&s->chandef)) {
-f99201cb084df1 Igor Mitsyanko       2017-10-04  298  		struct qlink_tlv_chandef *chtlv =
-f99201cb084df1 Igor Mitsyanko       2017-10-04  299  			(struct qlink_tlv_chandef *)skb_put(cmd_skb,
-f99201cb084df1 Igor Mitsyanko       2017-10-04  300  							    sizeof(*chtlv));
-f99201cb084df1 Igor Mitsyanko       2017-10-04  301  
-f99201cb084df1 Igor Mitsyanko       2017-10-04  302  		chtlv->hdr.type = cpu_to_le16(QTN_TLV_ID_CHANDEF);
-f99201cb084df1 Igor Mitsyanko       2017-10-04  303  		chtlv->hdr.len = cpu_to_le16(sizeof(*chtlv) -
-f99201cb084df1 Igor Mitsyanko       2017-10-04  304  					     sizeof(chtlv->hdr));
-5bf374ab91ad36 Sergey Matyukevich   2017-12-19  305  		qlink_chandef_cfg2q(&s->chandef, &chtlv->chdef);
-f99201cb084df1 Igor Mitsyanko       2017-10-04  306  	}
-f99201cb084df1 Igor Mitsyanko       2017-10-04  307  
-17011da0b8f079 Igor Mitsyanko       2017-10-30  308  	qtnf_cmd_tlv_ie_set_add(cmd_skb, QLINK_IE_SET_BEACON_HEAD,
-17011da0b8f079 Igor Mitsyanko       2017-10-30  309  				s->beacon.head, s->beacon.head_len);
-17011da0b8f079 Igor Mitsyanko       2017-10-30  310  	qtnf_cmd_tlv_ie_set_add(cmd_skb, QLINK_IE_SET_BEACON_TAIL,
-17011da0b8f079 Igor Mitsyanko       2017-10-30  311  				s->beacon.tail, s->beacon.tail_len);
-17011da0b8f079 Igor Mitsyanko       2017-10-30  312  	qtnf_cmd_tlv_ie_set_add(cmd_skb, QLINK_IE_SET_BEACON_IES,
-17011da0b8f079 Igor Mitsyanko       2017-10-30  313  				s->beacon.beacon_ies, s->beacon.beacon_ies_len);
-17011da0b8f079 Igor Mitsyanko       2017-10-30  314  	qtnf_cmd_tlv_ie_set_add(cmd_skb, QLINK_IE_SET_PROBE_RESP,
-17011da0b8f079 Igor Mitsyanko       2017-10-30  315  				s->beacon.probe_resp, s->beacon.probe_resp_len);
-17011da0b8f079 Igor Mitsyanko       2017-10-30  316  	qtnf_cmd_tlv_ie_set_add(cmd_skb, QLINK_IE_SET_PROBE_RESP_IES,
-17011da0b8f079 Igor Mitsyanko       2017-10-30  317  				s->beacon.proberesp_ies,
-17011da0b8f079 Igor Mitsyanko       2017-10-30  318  				s->beacon.proberesp_ies_len);
-17011da0b8f079 Igor Mitsyanko       2017-10-30  319  	qtnf_cmd_tlv_ie_set_add(cmd_skb, QLINK_IE_SET_ASSOC_RESP,
-17011da0b8f079 Igor Mitsyanko       2017-10-30  320  				s->beacon.assocresp_ies,
-17011da0b8f079 Igor Mitsyanko       2017-10-30  321  				s->beacon.assocresp_ies_len);
-17011da0b8f079 Igor Mitsyanko       2017-10-30  322  
-a3945f43761c3e Igor Mitsyanko       2017-10-30  323  	if (s->ht_cap) {
-a3945f43761c3e Igor Mitsyanko       2017-10-30  324  		struct qlink_tlv_hdr *tlv = (struct qlink_tlv_hdr *)
-8b0b5f1ba9e021 Igor Mitsyanko       2020-01-27  325  			skb_put(cmd_skb, sizeof(*tlv) +
-8b0b5f1ba9e021 Igor Mitsyanko       2020-01-27  326  				round_up(sizeof(*s->ht_cap), QLINK_ALIGN));
-a3945f43761c3e Igor Mitsyanko       2017-10-30  327  
-a3945f43761c3e Igor Mitsyanko       2017-10-30  328  		tlv->type = cpu_to_le16(WLAN_EID_HT_CAPABILITY);
-a3945f43761c3e Igor Mitsyanko       2017-10-30  329  		tlv->len = cpu_to_le16(sizeof(*s->ht_cap));
-a3945f43761c3e Igor Mitsyanko       2017-10-30  330  		memcpy(tlv->val, s->ht_cap, sizeof(*s->ht_cap));
-a3945f43761c3e Igor Mitsyanko       2017-10-30  331  	}
-a3945f43761c3e Igor Mitsyanko       2017-10-30  332  
-a3945f43761c3e Igor Mitsyanko       2017-10-30  333  	if (s->vht_cap) {
-a3945f43761c3e Igor Mitsyanko       2017-10-30  334  		struct qlink_tlv_hdr *tlv = (struct qlink_tlv_hdr *)
-a3945f43761c3e Igor Mitsyanko       2017-10-30  335  			skb_put(cmd_skb, sizeof(*tlv) + sizeof(*s->vht_cap));
-a3945f43761c3e Igor Mitsyanko       2017-10-30  336  
-a3945f43761c3e Igor Mitsyanko       2017-10-30  337  		tlv->type = cpu_to_le16(WLAN_EID_VHT_CAPABILITY);
-a3945f43761c3e Igor Mitsyanko       2017-10-30  338  		tlv->len = cpu_to_le16(sizeof(*s->vht_cap));
-a3945f43761c3e Igor Mitsyanko       2017-10-30  339  		memcpy(tlv->val, s->vht_cap, sizeof(*s->vht_cap));
-a3945f43761c3e Igor Mitsyanko       2017-10-30  340  	}
-a3945f43761c3e Igor Mitsyanko       2017-10-30  341  
-df0af4c7bac470 Mikhail Karpenko     2019-11-18  342  	if (s->he_cap)
-df0af4c7bac470 Mikhail Karpenko     2019-11-18  343  		qtnf_cmd_tlv_ie_ext_add(cmd_skb, WLAN_EID_EXT_HE_CAPABILITY,
-df0af4c7bac470 Mikhail Karpenko     2019-11-18  344  					s->he_cap, sizeof(*s->he_cap));
-df0af4c7bac470 Mikhail Karpenko     2019-11-18  345  
-f1398fd2dd8c77 Vasily Ulyanov       2017-12-19  346  	if (s->acl) {
-95336d4cb58886 Gustavo A. R. Silva  2019-04-03  347  		size_t acl_size = struct_size(s->acl, mac_addrs,
-95336d4cb58886 Gustavo A. R. Silva  2019-04-03  348  					      s->acl->n_acl_entries);
-f1398fd2dd8c77 Vasily Ulyanov       2017-12-19  349  		struct qlink_tlv_hdr *tlv =
-8b0b5f1ba9e021 Igor Mitsyanko       2020-01-27  350  			skb_put(cmd_skb,
-8b0b5f1ba9e021 Igor Mitsyanko       2020-01-27  351  				sizeof(*tlv) + round_up(acl_size, QLINK_ALIGN));
-f1398fd2dd8c77 Vasily Ulyanov       2017-12-19  352  
-f1398fd2dd8c77 Vasily Ulyanov       2017-12-19  353  		tlv->type = cpu_to_le16(QTN_TLV_ID_ACL_DATA);
-f1398fd2dd8c77 Vasily Ulyanov       2017-12-19  354  		tlv->len = cpu_to_le16(acl_size);
-f1398fd2dd8c77 Vasily Ulyanov       2017-12-19  355  		qlink_acl_data_cfg2q(s->acl, (struct qlink_acl_data *)tlv->val);
-f1398fd2dd8c77 Vasily Ulyanov       2017-12-19  356  	}
-f1398fd2dd8c77 Vasily Ulyanov       2017-12-19  357  
-8b5f4aa7340a4e Igor Mitsyanko       2017-10-04  358  	qtnf_bus_lock(vif->mac->bus);
-c6ed298ffe09fb Sergey Matyukevich   2018-10-05  359  	ret = qtnf_cmd_send(vif->mac->bus, cmd_skb);
-c6ed298ffe09fb Sergey Matyukevich   2018-10-05  360  	if (ret)
-98f44cb0655cbe Igor Mitsyanko       2017-05-11  361  		goto out;
-98f44cb0655cbe Igor Mitsyanko       2017-05-11  362  
-17011da0b8f079 Igor Mitsyanko       2017-10-30  363  	netif_carrier_on(vif->netdev);
-17011da0b8f079 Igor Mitsyanko       2017-10-30  364  
-98f44cb0655cbe Igor Mitsyanko       2017-05-11  365  out:
-98f44cb0655cbe Igor Mitsyanko       2017-05-11  366  	qtnf_bus_unlock(vif->mac->bus);
-c6ed298ffe09fb Sergey Matyukevich   2018-10-05  367  
-98f44cb0655cbe Igor Mitsyanko       2017-05-11  368  	return ret;
-98f44cb0655cbe Igor Mitsyanko       2017-05-11  369  }
-98f44cb0655cbe Igor Mitsyanko       2017-05-11  370  
+The documentation could be improved, too: @err documentation just says the
+function errors out if @err is set (vs. it being a negative error code). I
+think just checking for a negative value is sufficient.
+
+I think the reason why it's like this is that there never was much thinking
+how return values obtained elsewhere would interact with V4L2 CCI, which
+by itself always returns zero or a negative error code, given originally 0
+is passed as *err.
+
+> 
+> fd55319692151d Kate Hsuan 2026-03-25  573  	/* enable group hold */
+> fd55319692151d Kate Hsuan 2026-03-25  574  	cci_write(sensor->regmap, T4KA3_REG_PARAM_HOLD, 1, &ret);
+> fd55319692151d Kate Hsuan 2026-03-25  575  	cci_multi_reg_write(sensor->regmap, t4ka3_pre_mode_set_regs,
+> fd55319692151d Kate Hsuan 2026-03-25  576  			    ARRAY_SIZE(t4ka3_pre_mode_set_regs), &ret);
+> fd55319692151d Kate Hsuan 2026-03-25 @577  	if (ret)
+> fd55319692151d Kate Hsuan 2026-03-25  578  		goto error_powerdown;
+> 
+> And we error out here with ret == 1.
+> 
+> fd55319692151d Kate Hsuan 2026-03-25  579  
+> fd55319692151d Kate Hsuan 2026-03-25  580  	ret = t4ka3_set_mode(sensor, state);
+> fd55319692151d Kate Hsuan 2026-03-25  581  	if (ret)
+> fd55319692151d Kate Hsuan 2026-03-25  582  		goto error_powerdown;
+> fd55319692151d Kate Hsuan 2026-03-25  583  
+> fd55319692151d Kate Hsuan 2026-03-25  584  	ret = cci_multi_reg_write(sensor->regmap, t4ka3_post_mode_set_regs,
+> fd55319692151d Kate Hsuan 2026-03-25  585  				  ARRAY_SIZE(t4ka3_post_mode_set_regs), NULL);
+> fd55319692151d Kate Hsuan 2026-03-25  586  	if (ret)
+> fd55319692151d Kate Hsuan 2026-03-25  587  		goto error_powerdown;
+> fd55319692151d Kate Hsuan 2026-03-25  588  
+> fd55319692151d Kate Hsuan 2026-03-25  589  	/* Restore value of all ctrls */
+> fd55319692151d Kate Hsuan 2026-03-25  590  	ret = __v4l2_ctrl_handler_setup(&sensor->ctrls.handler);
+> fd55319692151d Kate Hsuan 2026-03-25  591  	if (ret)
+> fd55319692151d Kate Hsuan 2026-03-25  592  		goto error_powerdown;
+> fd55319692151d Kate Hsuan 2026-03-25  593  
+> fd55319692151d Kate Hsuan 2026-03-25  594  	/* disable group hold */
+> fd55319692151d Kate Hsuan 2026-03-25  595  	cci_write(sensor->regmap, T4KA3_REG_PARAM_HOLD, 0, &ret);
+> fd55319692151d Kate Hsuan 2026-03-25  596  	cci_write(sensor->regmap, T4KA3_REG_STREAM, 1, &ret);
+> fd55319692151d Kate Hsuan 2026-03-25  597  	if (ret)
+> fd55319692151d Kate Hsuan 2026-03-25  598  		goto error_powerdown;
+> fd55319692151d Kate Hsuan 2026-03-25  599  
+> fd55319692151d Kate Hsuan 2026-03-25  600  	sensor->streaming = 1;
+> fd55319692151d Kate Hsuan 2026-03-25  601  
+> fd55319692151d Kate Hsuan 2026-03-25  602  	return ret;
+> fd55319692151d Kate Hsuan 2026-03-25  603  
+> fd55319692151d Kate Hsuan 2026-03-25  604  error_powerdown:
+> fd55319692151d Kate Hsuan 2026-03-25  605  	pm_runtime_put(sensor->sd.dev);
+> fd55319692151d Kate Hsuan 2026-03-25  606  
+> fd55319692151d Kate Hsuan 2026-03-25  607  	return ret;
+> fd55319692151d Kate Hsuan 2026-03-25  608  }
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Kind regards,
+
+Sakari Ailus
