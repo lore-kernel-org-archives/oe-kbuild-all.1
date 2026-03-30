@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F0BE3C1998
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Mar 2026 12:44:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE4A3CD8BB
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Mar 2026 13:17:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774874652; cv=none; b=s/vPYuE4Nosn+H8m9IJUF9j3epwSLlG4n3lJLdHcxE3Ge3OiZs+bvd0jitlKim+CSO4irTQAJEzzd9F8+hrQzBFWReoGiJtkChOWB6EBSUFkNbBSxB5r+8O3YiEyAIV8WoM3NEMeZydtenAFEbRWZ4tBSsNQ5Rz1MwhRFHO99WY=
+	t=1774876635; cv=none; b=GvC1oIMCkdBMV3MFXPJfzq5/yrOkYBkrOfnBziUi5mvUMZCWF3ed78kvakQ1RAaFTOB0kINGgoF4iPGK9vAEse0eUUHlwhpNUlt3PpV3B8FYDzkkYpwEzeRojQGWgvfer0wta80SIEv4+PB/834+33XasYn9LhSTuKsIUsj70+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774874652; c=relaxed/simple;
-	bh=YdiKPNNy6g7//E/AQQF2uDEnxAyu3ewLuaQw0kFXXLw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=uoOANXeQl1yDI9QvDAakqdqa4RSW97SwGH4yL+1doYIuhiQ0+aODaNb+ZFv+9guOsIuhO/sBeFEQyu71Htbtihm6dj89RFRuN3/PmtNupSHd8VXQqH54dDZxz11ZjcScveaXLiBwn8nwDxM7uIVf6WGd/bKPSCGGYnG/66nmMrU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PHyIJpES; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1774876635; c=relaxed/simple;
+	bh=/qpAgDpbrBRNeQyUYCyYSI9+cd4tmwoEAeHiPPoEODU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=X6gNwXw7H9ZQOYDjnEwtGtqZMjvg9TSaLBWbwlI1M5q15zMRiSLiP448xAU7sQ4bmXstHlVjAR1s3AF2f7+OGQdkO4Ir8ozIZnG5lETbBzsnziw2jK9qQykwExTra83S/jUBCY6XqdnYm7hmYimdslEf0PYq4hC3dZP1kqkCqLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jCg8kxjW; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PHyIJpES"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jCg8kxjW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774874650; x=1806410650;
+  t=1774876634; x=1806412634;
   h=date:from:to:cc:subject:message-id;
-  bh=YdiKPNNy6g7//E/AQQF2uDEnxAyu3ewLuaQw0kFXXLw=;
-  b=PHyIJpESIrmELMhlBKWfYEqeUr+2GkY8CClc1pTGgOyzZ0fKrYXG5glk
-   JGefDQPX5mV+CPtADHWUBSsay1noc3c7EehQLAWf8gyo7PFRLwAG2KTtO
-   TGyjc9taRbU3yOEf+sFXGnQBqz1YT7deoLK/wpwUHqOqbnkyzdkq+NW/1
-   5v7SQziLphZo9l0IdPwIA3/++uG9WrscKGoWVex2pMfdlYJ/Hw5658RUZ
-   2UEIJUDT1tVScnYnM2bNbA0gsbnxxn32WoVZUmxvhFsF534/iuzzEByy6
-   yDI2Y8tGmNFqalOmHarwx9B+ePZrIXILY5+0KqEqUL/dzGN25aggDeDsD
+  bh=/qpAgDpbrBRNeQyUYCyYSI9+cd4tmwoEAeHiPPoEODU=;
+  b=jCg8kxjWWCdxHSfLl83M+5pvvG2/6uMiABmGYb9n6cQcmk+Q8Hk5xML7
+   0IZmDxL9mJx+9jIG+HZ7GY/wdVOEeLdREoRFSOKiM1lOx5YPycfKLDEsf
+   HHZpX/FQk1+GcMcZhdHZc3UU6Ds4Ck8wgkblSeTKBm6C2MZfMaDx9ze9h
+   i5pSOIfR3+85hzzX9ccD9Aqtt5J1QnsRY+yrs9qYcJBxDqmOkOyYY38T0
+   kXk94kOpVqypzX8jE/hV6IpFQ8ZY2eObpllc8ynebnVHON7hpCdpE69iq
+   +y8hlHReOU+H1Qccd6fcj5M3qa1XbzXX/N9f4fZuyhqq9wkXFZ5psbiu9
    w==;
-X-CSE-ConnectionGUID: tYyztBpER+iveStLk7qPIw==
-X-CSE-MsgGUID: O7M26Jw3Ql+xTs+ujoxD9Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="76057063"
-X-IronPort-AV: E=Sophos;i="6.23,149,1770624000"; 
-   d="scan'208";a="76057063"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 05:44:10 -0700
-X-CSE-ConnectionGUID: FYb6okF4QfOSCb1x3yIb7A==
-X-CSE-MsgGUID: Bh+UJ6m+QXq4cfkuNHQbrw==
+X-CSE-ConnectionGUID: m9d2jy1UROCxwtcw5aWGFA==
+X-CSE-MsgGUID: dx8JLX2tR5absj7uiK2f3g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="87338191"
+X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
+   d="scan'208";a="87338191"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 06:17:13 -0700
+X-CSE-ConnectionGUID: CkQd7579Rim4SLqgvArCQA==
+X-CSE-MsgGUID: vnicdeGIRGC9tLRqIEDZjw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,149,1770624000"; 
-   d="scan'208";a="227662540"
+X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
+   d="scan'208";a="219412498"
 Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 30 Mar 2026 05:44:08 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 30 Mar 2026 06:17:12 -0700
 Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w7ByQ-0000000015x-1DO9;
-	Mon, 30 Mar 2026 12:44:06 +0000
-Date: Mon, 30 Mar 2026 20:43:33 +0800
+	id 1w7CUP-0000000018J-203e;
+	Mon, 30 Mar 2026 13:17:09 +0000
+Date: Mon, 30 Mar 2026 21:16:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:mirror-poly-aosp-pixel-malibu-staging 5/5]
- arch/arm64/kvm/hyp/nvhe/hyp-main.c:56:6: warning: no previous prototype for
- function '__pkvm_unmask_serror'
-Message-ID: <202603302005.5YsQUKas-lkp@intel.com>
+Subject: [android-common:mirror-poly-aosp-pixel-lajolla-staging 1/1]
+ arch/arm64/geniezone/../../../drivers/virt/geniezone/gzvm_main.c:58:25:
+ sparse: sparse: incorrect type in argument 1 (different address spaces)
+Message-ID: <202603302156.DBHVWsFK-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,145 +60,59 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common mirror-poly-aosp-pixel-malibu-staging
-head:   5de4567efb4a2a85c5768504b0f45f278e9b13a2
-commit: a08dde8a50c098a8002175044a68f63a9de16a53 [5/5] ANDROID: KVM: arm64: Add pKVM module register_unmask_serror
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260330/202603302005.5YsQUKas-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260330/202603302005.5YsQUKas-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common mirror-poly-aosp-pixel-lajolla-staging
+head:   b050398b89b00b305b45dd70b8ab91470c42f155
+commit: 95c99c73ca517a95f0b2eae2634bac66640a28eb [1/1] ANDROID: virt: geniezone: Add block-based demand paging support
+config: arm64-randconfig-r134-20260330 (https://download.01.org/0day-ci/archive/20260330/202603302156.DBHVWsFK-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260330/202603302156.DBHVWsFK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603302005.5YsQUKas-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603302156.DBHVWsFK-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/arm64/geniezone/../../../drivers/virt/geniezone/gzvm_main.c:58:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *s @@     got char const [noderef] __user *buf @@
+   arch/arm64/geniezone/../../../drivers/virt/geniezone/gzvm_main.c:58:25: sparse:     expected char const *s
+   arch/arm64/geniezone/../../../drivers/virt/geniezone/gzvm_main.c:58:25: sparse:     got char const [noderef] __user *buf
 
->> arch/arm64/kvm/hyp/nvhe/hyp-main.c:56:6: warning: no previous prototype for function '__pkvm_unmask_serror' [-Wmissing-prototypes]
-      56 | void __pkvm_unmask_serror(void)
-         |      ^
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:56:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      56 | void __pkvm_unmask_serror(void)
-         | ^
-         | static 
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:455:22: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     455 |         [ESR_ELx_EC_WFx]                = handle_pvm_entry_wfx,
-         |                                           ^~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:454:28: note: previous initialization is here
-     454 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:456:24: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     456 |         [ESR_ELx_EC_HVC64]              = handle_pvm_entry_hvc64,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:454:28: note: previous initialization is here
-     454 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:457:24: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     457 |         [ESR_ELx_EC_SYS64]              = handle_pvm_entry_sys64,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:454:28: note: previous initialization is here
-     454 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:458:27: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     458 |         [ESR_ELx_EC_IABT_LOW]           = handle_pvm_entry_iabt,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:454:28: note: previous initialization is here
-     454 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:459:27: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     459 |         [ESR_ELx_EC_DABT_LOW]           = handle_pvm_entry_dabt,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:454:28: note: previous initialization is here
-     454 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:464:22: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     464 |         [ESR_ELx_EC_WFx]                = handle_pvm_exit_wfx,
-         |                                           ^~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:463:28: note: previous initialization is here
-     463 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:465:24: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     465 |         [ESR_ELx_EC_HVC64]              = handle_pvm_exit_hvc64,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:463:28: note: previous initialization is here
-     463 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:466:24: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     466 |         [ESR_ELx_EC_SYS64]              = handle_pvm_exit_sys64,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:463:28: note: previous initialization is here
-     463 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:467:27: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     467 |         [ESR_ELx_EC_IABT_LOW]           = handle_pvm_exit_iabt,
-         |                                           ^~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:463:28: note: previous initialization is here
-     463 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:468:27: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     468 |         [ESR_ELx_EC_DABT_LOW]           = handle_pvm_exit_dabt,
-         |                                           ^~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:463:28: note: previous initialization is here
-     463 |         [0 ... ESR_ELx_EC_MAX]          = NULL,
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:477:27: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     477 |         [ESR_ELx_EC_IABT_LOW]           = handle_vm_exit_abt,
-         |                                           ^~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:476:28: note: previous initialization is here
+vim +58 arch/arm64/geniezone/../../../drivers/virt/geniezone/gzvm_main.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for INTEL_MEI_ME
-   Depends on [n]: X86 && PCI [=y]
-   Selected by [m]:
-   - INTEL_MEI_HDCP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
-   - INTEL_MEI_PXP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
-
-
-vim +/__pkvm_unmask_serror +56 arch/arm64/kvm/hyp/nvhe/hyp-main.c
-
+    37	
+    38	static ssize_t demand_paging_batch_pages_store(struct file *file,
+    39						       const char __user *buf,
+    40						       size_t count,
+    41						       loff_t *ppos)
+    42	{
+    43		int ret;
+    44		u32 temp;
+    45		char buffer[16];
+    46	
+    47		if (*ppos != 0)
+    48			return 0;
+    49	
+    50		if (count > sizeof(buffer))
+    51			return -EINVAL;
+    52	
+    53		if (copy_from_user(buffer, buf, count))
+    54			return -EFAULT;
     55	
-  > 56	void __pkvm_unmask_serror(void)
-    57	{
-    58		u64 hcr = read_sysreg(HCR_EL2);
-    59	
-    60		if (!unmask_serror || !unmask_serror())
-    61			return;
-    62	
-    63		write_sysreg(hcr | HCR_AMO, HCR_EL2);
-    64		asm volatile("msr daifclr, #4");
-    65		isb();
-    66	}
-    67	
+    56		buffer[count] = '\0';
+    57	
+  > 58		ret = kstrtoint(buf, 10, &temp);
+    59		if (ret < 0)
+    60			return ret;
+    61	
+    62		if (temp == 0 || (PMD_SIZE % (PAGE_SIZE * temp)) != 0)
+    63			return -EINVAL;
+    64	
+    65		gzvm_drv.demand_paging_batch_pages = temp;
+    66	
+    67		return count;
+    68	}
+    69	
 
 -- 
 0-DAY CI Kernel Test Service
