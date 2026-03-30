@@ -1,130 +1,193 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0617346766
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Mar 2026 19:53:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 128313D1705
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Mar 2026 19:59:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774900422; cv=none; b=JUqb9EsJi/ht+BZaA+a4BfUVkbiijsjchE8Nw+Ak+dZhr/scdrCk7HX05WBum/xUZ115Wscbb/hoF7T/sXBwe66lCzNHOoNdrHmI/Z+deeFN2ZJrftJ/9KjruBqP0QpCvrOE/ecf/Kl2eyJn+Cl2hfFTEa3Cdh07vPVLY2bfyyk=
+	t=1774900780; cv=none; b=bzaFw62pW46otdczsMdzzFXbwi/FXMjvWqwVRiTY29X3/gfPxFesEsS7e5x7gxGH/9rZEEqbjVV4d1LgZL5G1zYCT5VlPog/24hQHFa63CRem3gf7pfYNHtMsRMQEwDpIrJojRsAPZzQgqv+CJlLUrVxlO1KND5SH3wBfqsdoAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774900422; c=relaxed/simple;
-	bh=nKoXvKBQuOTM4cYfkdF4CuA+2oWWAQe9LIraoay0Sxg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Mbb5Cu/Zd5C16oVRjk8S6Pk+dJPFE6yDunQLJ3QpheqCo/kNFfNh6tGRSAz+kIYNMAyJhXS87V3H8ytxoN/XEBz0H3FI14a+bJ4bzQuPGoC9zfV32A4XOen0JnLpkF+ezPEGiA0mQ1ruAKJyQwlDe2cvKpgztFs5QMwXEvicqqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SyK1lwVn; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1774900780; c=relaxed/simple;
+	bh=XFGaHwS4s5v4Vx6mQh8Y7xMPGHJYOkC6q76KoTKBTRY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=peNRLrOUUHDEKuKE4Zh4tE79DbWau6uSQC8PISdzzsbW/XHSgW2xrWAEUbSXMOLSB6YPZFfX94/bFeWoQN6ODLkJmADleDS3xckj4FDqDLBz6Wv+SJfwds8yo1fA71bImUDbwTLN7hv33S8GwdDy3thEcSa6y4WHcBHliCR2hNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q08ADbXh; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SyK1lwVn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774900421; x=1806436421;
-  h=date:from:to:cc:subject:message-id;
-  bh=nKoXvKBQuOTM4cYfkdF4CuA+2oWWAQe9LIraoay0Sxg=;
-  b=SyK1lwVndc748a7m6GMxvj1v94u1anvojGbwjyVeE8JEMn2yAJTRIdYN
-   rVcKnm6Hw4RoWmQz/4mFix0YPQrpWYWaHtcs6A9ITbaFxsmnWr+kzbfHH
-   CC9KK84q0VHthovSa2iZZQ8LXpJzFMdpMqMChWlP89J1gXcHNFt6lm99K
-   16ncbuhMNfFUm7Sv5SNByh1tAJFdNf8TDFPEXPWKtiH8D2u9FCyLQ3Cwv
-   saOo7EwAsuzqpeAwaRPOMSaKzh7GEQykUUYPkmPBvUl+I+Tket1YPz4MR
-   JY/Jb5tKlMDeFD39pMXBlV9CXy0CLT/4pC6F3odFUASuMMHz8AqA27G9e
-   w==;
-X-CSE-ConnectionGUID: g2yZs9a/RO6b3v2KdHXgnA==
-X-CSE-MsgGUID: iZAN75sBQ6CmFx5QB9/Ohw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="76094698"
-X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
-   d="scan'208";a="76094698"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 12:53:40 -0700
-X-CSE-ConnectionGUID: XZu//cFaRkKDBIm4FmWhFA==
-X-CSE-MsgGUID: V51kk7GfTTq6soRmxdEGvA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
-   d="scan'208";a="249366647"
-Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 30 Mar 2026 12:53:39 -0700
-Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w7Ig3-000000001cP-3xPj;
-	Mon, 30 Mar 2026 19:53:35 +0000
-Date: Tue, 31 Mar 2026 03:52:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Ballasi <tballasi@linux.microsoft.com>
-Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>
-Subject: [akpm-mm:mm-stable 86/300] mm/vmscan.c:6585:66: sparse:
- sparse: Using plain integer as NULL pointer
-Message-ID: <202603310305.xSA9Y9fh-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q08ADbXh"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-486fb14227cso64534055e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Mar 2026 12:59:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774900777; x=1775505577; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RwONXlyUjCzfWRVAHRiZMu4AltNc74gkgeIr/kREkOo=;
+        b=q08ADbXhw+NV9GPLlhhiylKuNdhr9WxHUL383KarkAp8fIf0GY1lm4YIJ1SEgf57op
+         45HEcCs3hlvV16hARMu7scCwk5LsOtBRr2K1pLxtW9V7XbiwprvbZyahD3+hXRwjd3ya
+         hxlwaaVDTjJmBLNBCKOXhUDcBheGJ9F9UbBDu4W6/JtpZh6A0xi6hkHWg5iUoOfAm79m
+         zygzCZUR/NYwNDTteMClZgGDs66EVEDkqKSGkHNRmXGbEQfHsOpPzQcN2ZXR6G9R+lOK
+         Oz6S0fEVvyyjU1KskAL1XhT1woljbI9ELcPzdFzNyzROv3c34u6n6j4+Da2eu9nbl8W7
+         0iAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774900777; x=1775505577;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RwONXlyUjCzfWRVAHRiZMu4AltNc74gkgeIr/kREkOo=;
+        b=Jd4jWY79sDxvSmfZ/XyguWefeTK/azX7i15oAd7WpHGLyM0/Es7WqyGSxfR5wP7egK
+         A77YfBwx9Uo0heca9Sxlzkks4dTXGGFdSrFYFDJd38k2aDnOkxPCxITjCfqT2OoQ+Ud2
+         SgPd9EAb9DsK6UbUl6nPxliNX1GPwvG6Nhh3qTRahN62opptWaz9rjblX3DO8nl7FyO8
+         gIcyb/kOSNaBG7NA12G3O2D3oU3MBMuNA6ULjXm5XQsCFN3FQm3evmqX5ywcM1Tn3mZk
+         IunpN7NRq86rS/5uUYTEhIaT1QypnCJPYxMUn46x/l0utxNzSQOAQ2QcbK3WdQEgraQU
+         zlAg==
+X-Forwarded-Encrypted: i=1; AJvYcCWXy2YaoIizmGRpEuYHbGrlNjDr/lygm7NymABbJcYL71Pl2gQeNZkgXHg6huj+/GRjGnLJxUX+7ewmWnxr@lists.linux.dev
+X-Gm-Message-State: AOJu0YwKaXr0wNtmar0j5hJ4MIpwKPTbH9AGhgImBRIDqo/MSdyzQ4YV
+	UjokGWU+eC/eC9oeSQdQtKiWnRIqu+YcXxJfCdOtKCBrC+k3pchdJ9Sw
+X-Gm-Gg: ATEYQzxoVgbFiRfXTgUEBDA053N70VjucPhcbfd0b75FAjZ4gthJzZF89t8ta10wVwW
+	yva3qy4SaM+n/g7r3H9HtQl2pB6pKhymuog7H2Wr/rUN8sqZcLIDC7iIR7kdTx78QV2HfHAkBqs
+	rUc8msEpYPRsvtT27VuGuO1yI8xhmcJk7O0sWJwd+SSb1J+MvoJ+ahoYRub04qT8/NN+t2CO2Y0
+	NbxNz102kzlF8fUEii9TPKLpXd1SmDF7q8GlUJRnDp7THYv/qnmvZS+wGBAzAsmB1AfhqMaHimr
+	RhqtMcHWuUBwHHxr88Qlu0WrBtJoeUJPBmDfekjhRaFGqXFP5FOg2O7J3t6gjn9CZHlzmH+rgl9
+	q6kky9gAfaEzQ+uVo0Oiyx2XmB9rJ3xyqUZlbjAWqRgoOq9VQPyNg5u1DS3O8XbcZFq1jA/+HHc
+	fHlYy5kZ089zgIBCN8gYE=
+X-Received: by 2002:a05:600c:6287:b0:486:fc3b:3e61 with SMTP id 5b1f17b1804b1-48727ef67edmr242855235e9.18.1774900777071;
+        Mon, 30 Mar 2026 12:59:37 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887ad8d58fsm196745e9.24.2026.03.30.12.59.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Mar 2026 12:59:36 -0700 (PDT)
+Date: Mon, 30 Mar 2026 22:59:32 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Steve French <stfrench@microsoft.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [smfrench-smb3:pr/146 1/1] fs/smb/client/link.c:509 cifs_hardlink()
+ error: we previously assumed 'old_file' could be null (see line 464)
+Message-ID: <202603302356.u8QdlRIM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-stable
-head:   bc2e0d3bf965b1ee6c09b104447158725b831d84
-commit: f9504d82d9d52bf557e87dab204fac4d93d53360 [86/300] mm: vmscan: add cgroup IDs to vmscan tracepoints
-config: alpha-randconfig-r122-20260330 (https://download.01.org/0day-ci/archive/20260331/202603310305.xSA9Y9fh-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 10.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603310305.xSA9Y9fh-lkp@intel.com/reproduce)
+tree:   https://github.com/smfrench/smb3-kernel.git pr/146
+head:   d290e116f12405d8269c6041cbf68bc924b4cba6
+commit: d290e116f12405d8269c6041cbf68bc924b4cba6 [1/1] smb: client: add support for O_TMPFILE (WIP)
+config: x86_64-randconfig-161-20260330 (https://download.01.org/0day-ci/archive/20260330/202603302356.u8QdlRIM-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603310305.xSA9Y9fh-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202603302356.u8QdlRIM-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/vmscan.c:6585:66: sparse: sparse: Using plain integer as NULL pointer
-   mm/vmscan.c:6589:58: sparse: sparse: Using plain integer as NULL pointer
+smatch warnings:
+fs/smb/client/link.c:509 cifs_hardlink() error: we previously assumed 'old_file' could be null (see line 464)
 
-vim +6585 mm/vmscan.c
+vim +/old_file +509 fs/smb/client/link.c
 
-  6551	
-  6552	unsigned long try_to_free_pages(struct zonelist *zonelist, int order,
-  6553					gfp_t gfp_mask, nodemask_t *nodemask)
-  6554	{
-  6555		unsigned long nr_reclaimed;
-  6556		struct scan_control sc = {
-  6557			.nr_to_reclaim = SWAP_CLUSTER_MAX,
-  6558			.gfp_mask = current_gfp_context(gfp_mask),
-  6559			.reclaim_idx = gfp_zone(gfp_mask),
-  6560			.order = order,
-  6561			.nodemask = nodemask,
-  6562			.priority = DEF_PRIORITY,
-  6563			.may_writepage = 1,
-  6564			.may_unmap = 1,
-  6565			.may_swap = 1,
-  6566		};
-  6567	
-  6568		/*
-  6569		 * scan_control uses s8 fields for order, priority, and reclaim_idx.
-  6570		 * Confirm they are large enough for max values.
-  6571		 */
-  6572		BUILD_BUG_ON(MAX_PAGE_ORDER >= S8_MAX);
-  6573		BUILD_BUG_ON(DEF_PRIORITY > S8_MAX);
-  6574		BUILD_BUG_ON(MAX_NR_ZONES > S8_MAX);
-  6575	
-  6576		/*
-  6577		 * Do not enter reclaim if fatal signal was delivered while throttled.
-  6578		 * 1 is returned so that the page allocator does not OOM kill at this
-  6579		 * point.
-  6580		 */
-  6581		if (throttle_direct_reclaim(sc.gfp_mask, zonelist, nodemask))
-  6582			return 1;
-  6583	
-  6584		set_task_reclaim_state(current, &sc.reclaim_state);
-> 6585		trace_mm_vmscan_direct_reclaim_begin(sc.gfp_mask, order, 0);
-  6586	
-  6587		nr_reclaimed = do_try_to_free_pages(zonelist, &sc);
-  6588	
-  6589		trace_mm_vmscan_direct_reclaim_end(nr_reclaimed, 0);
-  6590		set_task_reclaim_state(current, NULL);
-  6591	
-  6592		return nr_reclaimed;
-  6593	}
-  6594	
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  440  int
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  441  cifs_hardlink(struct dentry *old_file, struct inode *inode,
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  442  	      struct dentry *direntry)
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  443  {
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  444  	int rc = -EACCES;
+6d5786a34d98bf fs/cifs/link.c       Pavel Shilovsky      2012-06-20  445  	unsigned int xid;
+f6a9bc336b600e fs/cifs/link.c       Al Viro              2021-03-05  446  	const char *from_name, *to_name;
+d290e116f12405 fs/smb/client/link.c Paulo Alcantara      2026-03-27  447  	void *page1 = NULL, *page2 = NULL;
+7ffec372458d16 fs/cifs/link.c       Jeff Layton          2010-09-29  448  	struct cifs_sb_info *cifs_sb = CIFS_SB(inode->i_sb);
+7ffec372458d16 fs/cifs/link.c       Jeff Layton          2010-09-29  449  	struct tcon_link *tlink;
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  450  	struct cifs_tcon *tcon;
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  451  	struct TCP_Server_Info *server;
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  452  	struct cifsInodeInfo *cifsInode;
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  453  
+087f757b012985 fs/cifs/link.c       Steve French         2021-04-29  454  	if (unlikely(cifs_forced_shutdown(cifs_sb)))
+f80ac7eda1cf52 fs/smb/client/link.c David Howells        2025-10-24  455  		return smb_EIO(smb_eio_trace_forced_shutdown);
+087f757b012985 fs/cifs/link.c       Steve French         2021-04-29  456  
+7ffec372458d16 fs/cifs/link.c       Jeff Layton          2010-09-29  457  	tlink = cifs_sb_tlink(cifs_sb);
+7ffec372458d16 fs/cifs/link.c       Jeff Layton          2010-09-29  458  	if (IS_ERR(tlink))
+7ffec372458d16 fs/cifs/link.c       Jeff Layton          2010-09-29  459  		return PTR_ERR(tlink);
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  460  	tcon = tlink_tcon(tlink);
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  461  
+6d5786a34d98bf fs/cifs/link.c       Pavel Shilovsky      2012-06-20  462  	xid = get_xid();
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  463  
+d290e116f12405 fs/smb/client/link.c Paulo Alcantara      2026-03-27 @464  	if (old_file && d_really_is_positive(old_file) &&
+                                                                                    ^^^^^^^^
+If old_file is NULL
+
+d290e116f12405 fs/smb/client/link.c Paulo Alcantara      2026-03-27  465  	    test_bit(CIFS_INO_TMPFILE, &CIFS_I(d_inode(old_file))->flags)) {
+d290e116f12405 fs/smb/client/link.c Paulo Alcantara      2026-03-27  466  		from_name = NULL;
+d290e116f12405 fs/smb/client/link.c Paulo Alcantara      2026-03-27  467  	} else {
+d290e116f12405 fs/smb/client/link.c Paulo Alcantara      2026-03-27  468  		page1 = alloc_dentry_path();
+f6a9bc336b600e fs/cifs/link.c       Al Viro              2021-03-05  469  		from_name = build_path_from_dentry(old_file, page1);
+f6a9bc336b600e fs/cifs/link.c       Al Viro              2021-03-05  470  		if (IS_ERR(from_name)) {
+f6a9bc336b600e fs/cifs/link.c       Al Viro              2021-03-05  471  			rc = PTR_ERR(from_name);
+f6a9bc336b600e fs/cifs/link.c       Al Viro              2021-03-05  472  			goto cifs_hl_exit;
+f6a9bc336b600e fs/cifs/link.c       Al Viro              2021-03-05  473  		}
+d290e116f12405 fs/smb/client/link.c Paulo Alcantara      2026-03-27  474  	}
+d290e116f12405 fs/smb/client/link.c Paulo Alcantara      2026-03-27  475  
+d290e116f12405 fs/smb/client/link.c Paulo Alcantara      2026-03-27  476  	page2 = alloc_dentry_path();
+f6a9bc336b600e fs/cifs/link.c       Al Viro              2021-03-05  477  	to_name = build_path_from_dentry(direntry, page2);
+f6a9bc336b600e fs/cifs/link.c       Al Viro              2021-03-05  478  	if (IS_ERR(to_name)) {
+f6a9bc336b600e fs/cifs/link.c       Al Viro              2021-03-05  479  		rc = PTR_ERR(to_name);
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  480  		goto cifs_hl_exit;
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  481  	}
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  482  
+fb157ed226d225 fs/cifs/link.c       Steve French         2022-08-01  483  #ifdef CONFIG_CIFS_ALLOW_INSECURE_LEGACY
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  484  	if (tcon->unix_ext)
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  485  		rc = CIFSUnixCreateHardLink(xid, tcon, from_name, to_name,
+7ffec372458d16 fs/cifs/link.c       Jeff Layton          2010-09-29  486  					    cifs_sb->local_nls,
+2baa2682531ff0 fs/cifs/link.c       Steve French         2014-09-27  487  					    cifs_remap(cifs_sb));
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  488  	else {
+fb157ed226d225 fs/cifs/link.c       Steve French         2022-08-01  489  #else
+fb157ed226d225 fs/cifs/link.c       Steve French         2022-08-01  490  	{
+fb157ed226d225 fs/cifs/link.c       Steve French         2022-08-01  491  #endif /* CONFIG_CIFS_ALLOW_INSECURE_LEGACY */
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  492  		server = tcon->ses->server;
+abf9767c823bf5 fs/cifs/link.c       Christian Engelmayer 2014-01-11  493  		if (!server->ops->create_hardlink) {
+abf9767c823bf5 fs/cifs/link.c       Christian Engelmayer 2014-01-11  494  			rc = -ENOSYS;
+abf9767c823bf5 fs/cifs/link.c       Christian Engelmayer 2014-01-11  495  			goto cifs_hl_exit;
+abf9767c823bf5 fs/cifs/link.c       Christian Engelmayer 2014-01-11  496  		}
+5408990aa662bc fs/smb/client/link.c Paulo Alcantara      2023-11-25  497  		rc = server->ops->create_hardlink(xid, tcon, old_file,
+5408990aa662bc fs/smb/client/link.c Paulo Alcantara      2023-11-25  498  						  from_name, to_name, cifs_sb);
+083d3a2cff514c fs/cifs/link.c       Steve French         2006-03-03  499  		if ((rc == -EIO) || (rc == -EINVAL))
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  500  			rc = -EOPNOTSUPP;
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  501  	}
+^1da177e4c3f41 fs/cifs/link.c       Linus Torvalds       2005-04-16  502  
+31ec35d6c81175 fs/cifs/link.c       Steve French         2006-11-16  503  	d_drop(direntry);	/* force new lookup from server of target */
+31ec35d6c81175 fs/cifs/link.c       Steve French         2006-11-16  504  
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  505  	/*
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  506  	 * if source file is cached (oplocked) revalidate will not go to server
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  507  	 * until the file is closed or oplock broken so update nlinks locally
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  508  	 */
+2b0143b5c986be fs/cifs/link.c       David Howells        2015-03-17 @509  	if (d_really_is_positive(old_file)) {
+                                                                                                         ^^^^^^^^
+Then we are toasted here.  Unchecked dereference.
+
+2b0143b5c986be fs/cifs/link.c       David Howells        2015-03-17  510  		cifsInode = CIFS_I(d_inode(old_file));
+31ec35d6c81175 fs/cifs/link.c       Steve French         2006-11-16  511  		if (rc == 0) {
+d290e116f12405 fs/smb/client/link.c Paulo Alcantara      2026-03-27  512  			clear_bit(CIFS_INO_TMPFILE, &cifsInode->flags);
+2b0143b5c986be fs/cifs/link.c       David Howells        2015-03-17  513  			spin_lock(&d_inode(old_file)->i_lock);
+2b0143b5c986be fs/cifs/link.c       David Howells        2015-03-17  514  			inc_nlink(d_inode(old_file));
+2b0143b5c986be fs/cifs/link.c       David Howells        2015-03-17  515  			spin_unlock(&d_inode(old_file)->i_lock);
+ff273cb879fbc6 fs/cifs/link.c       Steve French         2014-10-17  516  
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  517  			/*
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  518  			 * parent dir timestamps will update from srv within a
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  519  			 * second, would it really be worth it to set the parent
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  520  			 * dir cifs inode time to zero to force revalidate
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  521  			 * (faster) for it too?
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  522  			 */
+31ec35d6c81175 fs/cifs/link.c       Steve French         2006-11-16  523  		}
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  524  		/*
+d6e906f1b571d1 fs/cifs/link.c       Steve French         2012-09-18  525  		 * if not oplocked will force revalidate to get info on source
+ff273cb879fbc6 fs/cifs/link.c       Steve French         2014-10-17  526  		 * file from srv.  Note Samba server prior to 4.2 has bug -
+ff273cb879fbc6 fs/cifs/link.c       Steve French         2014-10-17  527  		 * not updating src file ctime on hardlinks but Windows servers
+ff273cb879fbc6 fs/cifs/link.c       Steve French         2014-10-17  528  		 * handle it properly
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
