@@ -1,60 +1,68 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40A0B2E03F1;
-	Mon, 30 Mar 2026 14:37:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BEB51A8F97
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Mar 2026 14:37:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774881440; cv=none; b=d8DIJ9H2mDlpvtXz044BjvS6Vi8/3frvSJopWH7TtdvyU6wgmmlbY2ddWxccgdF5hkqqbyLJed+4ehy07iiDlkxnODVuTDu1//IdDX5pK3+XKkjHoRixJkORvaTBIAdg5+iDgf1s9JAWlcR3SSby+qLxZUXPCvgNdQQSNMddZvc=
+	t=1774881441; cv=none; b=jMwp/XCoZSucb9xNjs3XvRIppPOEPmdyC2VXpTpEm8d9CEB7cX2YOAYDT6G2u2unJbzfp06wwLQDXljJMotmN/mOtCPqwoWu1x96RG8xUoNO5l/haa3KKhMWt9GoBPo4k+V7nAlCglnNzfcH0QcTR0jXMjgdWBT7b96PNkBYiKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774881440; c=relaxed/simple;
-	bh=CxtORT4vZ8DoLpX+xgZNg+9MtD032dRr+Y9klRWyb0Q=;
+	s=arc-20240116; t=1774881441; c=relaxed/simple;
+	bh=FfsIVUKLPFqUD2jO1eTH3CMDTjs2wmEjz9bthk26meA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RLadMnvreKzB4tXeLGCRLPG8WJScfK6jBH3+DqliRqTUOG3c0nqLi8jacupb5tf1OiQc8sOD4ES78iBe5URjrRk+UWJW7bglJgaxnh5xDP4sOyLjNp11vG2yZLaBezZSkTgSefmoRpXixyqH3CxTEKxsdVtTg+eUQoSd7MaMH5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c9t4r0hg; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=rMEAD3G43tffOhQo1xsGd6fzThT95/7ST7k7BpLpvb5e8WGCN4KTozqrQlq8UD/UQm3wPmb2OY4Vvo+vqcpS5MZWWRkxF0CaDOZ8pLTaJkoAVzms3O4uG4wvRqOJt6F8dlmxEuaak7DeTx8npNGsJypuiVHhK9VAHSCItsgc/nY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f1XNAf7L; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c9t4r0hg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f1XNAf7L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774881438; x=1806417438;
+  t=1774881440; x=1806417440;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=CxtORT4vZ8DoLpX+xgZNg+9MtD032dRr+Y9klRWyb0Q=;
-  b=c9t4r0hgk2MZWsIM3i0wbkgP2NZVi3TNrEgJc/J0PI0P+o1yzlaa+ARi
-   pY6ucVxsPtA/wSyF3oA1mj2aS9EHRwXHjAR3w9Sl1YveMyUrGjylLPuB8
-   5uBr6H8JL5N9REbFKCHjFGKmoLHR1PLz57PIes55LGmmguN4p1fUs+BVS
-   Ym61bjxFaLLkoG9mKmyedpaVZLQp7/kW7hGCmzi/lAgWtMErF5sJAbXcH
-   8WYW7WTQ5yUR1DeLiRWUb2ny9kgzlf84ZjiS0LE8gqWPZbFahDTmQDJ0J
-   wV/nfcHqmrtUB/IAhBEUj2bv4euB0QKyhIgXIRhSr9j2mNy0QSk/jAxxe
-   w==;
-X-CSE-ConnectionGUID: TMF83ToiSa+rQV2bcrvWsw==
-X-CSE-MsgGUID: O/rXrbQoSXmgL64/m5uGlw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="75770632"
+  bh=FfsIVUKLPFqUD2jO1eTH3CMDTjs2wmEjz9bthk26meA=;
+  b=f1XNAf7LVdSvhsGh7TuDRaG50/d5WRAAHRfC6SbiUCQd5cBaTIR5RHYT
+   X0WQ5lA2Av3Fj2/rRjKCZuj8p1HqmmYXti4NBCS8pJDooQtXgM0+dPwPR
+   Wb40NHVY3PNkQo3FQti9267CQQEj0VhJqHt2eunDZbxzBvfJkQUWfckdV
+   XR18HpnY12M3ewH/B6vPqt0gqF954h+38A1wH9kFrQYiD6TpdU+KP7JV7
+   ja4ypbwAQ7NK6UtutBw7foQCKquol9PzryHpb2jjoNIa0ezJqlQbD0r2Y
+   aISAv2pEG2gj/dBCCp/lMA49sMeQBa59XEqedTYqxcuoKT+A7fG0dfEjS
+   g==;
+X-CSE-ConnectionGUID: ToCzP4rZTyqHa9W2VjWppA==
+X-CSE-MsgGUID: XXDCB1wtQ1+zwJXt4NkRMg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="75770634"
 X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
-   d="scan'208";a="75770632"
+   d="scan'208";a="75770634"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 07:37:17 -0700
-X-CSE-ConnectionGUID: kft0ZU5hStmC1IpaWUTXPA==
-X-CSE-MsgGUID: qqqVb/9MTQKrhOIt1OhzoA==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 07:37:19 -0700
+X-CSE-ConnectionGUID: GQSdPSfWSXiYPERlw7dyaw==
+X-CSE-MsgGUID: T37eBBTtRSqbMyEgnSZ/aw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
-   d="scan'208";a="225245199"
+   d="scan'208";a="225245200"
 Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
   by orviesa010.jf.intel.com with ESMTP; 30 Mar 2026 07:37:16 -0700
 Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w7Dju-000000001DP-0CBC;
+	id 1w7Dju-000000001DN-01E6;
 	Mon, 30 Mar 2026 14:37:14 +0000
-Date: Mon, 30 Mar 2026 22:37:01 +0800
+Date: Mon, 30 Mar 2026 22:36:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qinxin Xia <xiaqinxin@huawei.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2 2/5] iommu/arm-smmu-v3: Add register display to
- debugfs
-Message-ID: <202603302250.vzn0FbYH-lkp@intel.com>
-References: <20260328100953.3441915-3-xiaqinxin@huawei.com>
+To: Mikko Perttunen <mperttunen@nvidia.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pwm@vger.kernel.org,
+	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, Yi-Wei Wang <yiweiw@nvidia.com>,
+	Mikko Perttunen <mperttunen@nvidia.com>
+Subject: Re: [PATCH v2 2/7] pwm: tegra: Avoid hard-coded max clock frequency
+Message-ID: <202603302259.NdAkuCVx-lkp@intel.com>
+References: <20260325-t264-pwm-v2-2-998d885984b3@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,38 +71,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260328100953.3441915-3-xiaqinxin@huawei.com>
+In-Reply-To: <20260325-t264-pwm-v2-2-998d885984b3@nvidia.com>
 
-Hi Qinxin,
+Hi Mikko,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on soc/for-next]
-[also build test WARNING on linus/master v7.0-rc6 next-20260327]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 11439c4635edd669ae435eec308f4ab8a0804808]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Qinxin-Xia/iommu-arm-smmu-v3-Add-basic-debugfs-framework/20260328-191149
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20260328100953.3441915-3-xiaqinxin%40huawei.com
-patch subject: [RFC PATCH v2 2/5] iommu/arm-smmu-v3: Add register display to debugfs
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260330/202603302250.vzn0FbYH-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260330/202603302250.vzn0FbYH-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Mikko-Perttunen/dt-bindings-pwm-Document-Tegra194-and-Tegra264-controllers/20260329-233356
+base:   11439c4635edd669ae435eec308f4ab8a0804808
+patch link:    https://lore.kernel.org/r/20260325-t264-pwm-v2-2-998d885984b3%40nvidia.com
+patch subject: [PATCH v2 2/7] pwm: tegra: Avoid hard-coded max clock frequency
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260330/202603302259.NdAkuCVx-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260330/202603302259.NdAkuCVx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603302250.vzn0FbYH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603302259.NdAkuCVx-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Warning: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-debugfs.c:38 function parameter 'unused' not described in 'smmu_debugfs_capabilities_show'
->> Warning: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-debugfs.c:103 function parameter 'unused' not described in 'smmu_debugfs_registers_show'
-   Warning: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-debugfs.c:38 function parameter 'unused' not described in 'smmu_debugfs_capabilities_show'
->> Warning: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-debugfs.c:103 function parameter 'unused' not described in 'smmu_debugfs_registers_show'
+   In file included from include/linux/kernel.h:17,
+                    from include/linux/clk.h:13,
+                    from drivers/pwm/pwm-tegra.c:39:
+   drivers/pwm/pwm-tegra.c: In function 'tegra_pwm_probe':
+>> include/linux/limits.h:26:25: warning: unsigned conversion from 'long long int' to 'long unsigned int' changes value from '9223372036854775807' to '4294967295' [-Woverflow]
+      26 | #define S64_MAX         ((s64)(U64_MAX >> 1))
+         |                         ^~~~~~~~~~~~~~~~~~~~~
+   drivers/pwm/pwm-tegra.c:303:47: note: in expansion of macro 'S64_MAX'
+     303 |         ret = dev_pm_opp_set_rate(&pdev->dev, S64_MAX);
+         |                                               ^~~~~~~
+
+
+vim +26 include/linux/limits.h
+
+3c9d017cc283df Andy Shevchenko 2023-08-04  14  
+54d50897d544c8 Masahiro Yamada 2019-03-07  15  #define U8_MAX		((u8)~0U)
+54d50897d544c8 Masahiro Yamada 2019-03-07  16  #define S8_MAX		((s8)(U8_MAX >> 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  17  #define S8_MIN		((s8)(-S8_MAX - 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  18  #define U16_MAX		((u16)~0U)
+54d50897d544c8 Masahiro Yamada 2019-03-07  19  #define S16_MAX		((s16)(U16_MAX >> 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  20  #define S16_MIN		((s16)(-S16_MAX - 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  21  #define U32_MAX		((u32)~0U)
+3f50f132d8400e John Fastabend  2020-03-30  22  #define U32_MIN		((u32)0)
+54d50897d544c8 Masahiro Yamada 2019-03-07  23  #define S32_MAX		((s32)(U32_MAX >> 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  24  #define S32_MIN		((s32)(-S32_MAX - 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  25  #define U64_MAX		((u64)~0ULL)
+54d50897d544c8 Masahiro Yamada 2019-03-07 @26  #define S64_MAX		((s64)(U64_MAX >> 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  27  #define S64_MIN		((s64)(-S64_MAX - 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  28  
 
 -- 
 0-DAY CI Kernel Test Service
