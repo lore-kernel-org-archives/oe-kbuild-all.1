@@ -1,95 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A9E3A5E98
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 12:03:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73CF61A6806;
+	Tue, 31 Mar 2026 12:41:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774958632; cv=none; b=MyRECvfpqDEzpeaCleJXW/jiQNeNudrspZvwo/Nuh6CuLd3vy9KCbepHOrOFiN3sLtARXmw07QO9BVMU2stxfqivNi/0ti7eOX5oKBd+D/VfkaVxSUC72SqsEC1AcEcohzHKFohnH/Vrwnpt03xZ2VLEtzf/tJGI7uM/U66RRzE=
+	t=1774960885; cv=none; b=hOxBw2LoIskQQRU+PO3TrCXMvfVYgZhN3gE2PTeYYHLBOJVRPKW5oNEP7lzAHgzKOEvkrQYhBV82kSrfDwTWhqm1is/sQX/SdrX3OsWzLrfl/O7tiYGGi4qsbP09G45fSRz9vbbaX0XGbKoBnjyldtlF4o196UG4J2qJ5v09k3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774958632; c=relaxed/simple;
-	bh=iTmldjzq+hJROY+fR4/MxiSDENsrP2b8KZtPosHbLUI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=VahAoRGaZwfX8w3+27jLU77KYaY/lEGjIMOkVNZHM83AnWELMYO34EQh6SlqXZ974akZtJuAWJtQQABeKxIMDyuerhB0kmXKyPIrD9B1sSsQeRcu+HVEGP9nwW52dasT9qrMttjqeXyYDgz1xYDS8OIAhxMyopTZevNkwLxjkUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V5yOBt9Q; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V5yOBt9Q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774958630; x=1806494630;
-  h=date:from:to:cc:subject:message-id;
-  bh=iTmldjzq+hJROY+fR4/MxiSDENsrP2b8KZtPosHbLUI=;
-  b=V5yOBt9Q336wenaQWQ5msGQXzL3itVVv5soL+eOdV+EW3QEXJRPmc5We
-   IbUzWK7oJSawj5l7AVBk67+v6puvGAmJI3TbE7CgQWEQ27IHyd0JBlyT+
-   fRuGfblEXMGpcWFq0eZkU59kmdvCJEP/X2iOQuwBwHkN7XjBnF99zwzoj
-   RVXHBhHeq9BkY0ub7TXxu8oCL5QXNT+uJnqYz0ze948uu/MmdSo/EldUt
-   YrmwIRTMHaHHMR38HjxADdaAO6g6u6M6MAQDBaHYKGhS/sSikKVMFPASk
-   4DhAjEuW3Wu/mUsGSOWNUSCPDoOLM514ZuhOUVcQFEG7NERbXmwIShw32
-   Q==;
-X-CSE-ConnectionGUID: CgXrVrFWTmCg8U9u9MoQlw==
-X-CSE-MsgGUID: tq+mGM1AQqSxB6FmIDAL7g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="87360423"
-X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
-   d="scan'208";a="87360423"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 05:03:48 -0700
-X-CSE-ConnectionGUID: kN5bhNymR/ere+Qlt83WRw==
-X-CSE-MsgGUID: fyN8KNtJRMOpBg9ahDofEQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
-   d="scan'208";a="264284270"
-Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 31 Mar 2026 05:03:47 -0700
-Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w7Xou-000000002az-0Bmg;
-	Tue, 31 Mar 2026 12:03:44 +0000
-Date: Tue, 31 Mar 2026 20:03:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 2/2]
- drivers/staging/android/ashmem.h:19:49: sparse: sparse: incorrect type in
- initializer (different base types)
-Message-ID: <202603312028.yncxmWGs-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1774960885; c=relaxed/simple;
+	bh=iD9u/TDFLZXaBIfb9d4CrtcHif8WcMyziXkE6pNnxmU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=M52PZvf+LqEz1JZ0H2dNORqWUEEI6kUaMxufCPyMhzOOpl0lLigC3dpqSqfQK7rRRd4AIsUnoSGNeN4WxW321IQ/vgkLBGqpWpfuPu4CmE3HxGYMPPgbqGZoHw0Ka9JsuZjTP6aiE76hms8rIXum0VegJbSltTWIMPzswN8WGnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf06.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay03.hostedemail.com (Postfix) with ESMTP id 0F6FBB593F;
+	Tue, 31 Mar 2026 12:33:52 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf06.hostedemail.com (Postfix) with ESMTPA id D631620010;
+	Tue, 31 Mar 2026 12:33:49 +0000 (UTC)
+Date: Tue, 31 Mar 2026 08:34:47 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: "Arnd Bergmann" <arnd@arndb.de>
+Cc: "kernel test robot" <lkp@intel.com>, LKML
+ <linux-kernel@vger.kernel.org>, "Linux trace kernel"
+ <linux-trace-kernel@vger.kernel.org>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, "Masami Hiramatsu" <mhiramat@kernel.org>,
+ "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>
+Subject: Re: [PATCH] tracing: Move snapshot code out of trace.c and into
+ trace_snapshot.c
+Message-ID: <20260331083447.2fbd1b18@gandalf.local.home>
+In-Reply-To: <6efebcb6-194e-4c21-8808-fdf09160eac0@app.fastmail.com>
+References: <20260305211810.3f48aa07@robin>
+	<202603070230.Zz4BBLtb-lkp@intel.com>
+	<8580f943-4c37-4c66-937d-adee13b72201@app.fastmail.com>
+	<20260330120516.73aede9b@gandalf.local.home>
+	<6efebcb6-194e-4c21-8808-fdf09160eac0@app.fastmail.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: D631620010
+X-Rspamd-Server: rspamout06
+X-Stat-Signature: jjxp7147jetaxyprmwswfuc4usb7tep5
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1+VgUzgIpfo7HME5G7oicg6oq0HTlHbOkc=
+X-HE-Tag: 1774960429-220878
+X-HE-Meta: U2FsdGVkX18CvByNU7WXef5oHwMDexXeg20+yKHo0Evg1zPHsTZjeg6BH/OOEqF8P1NFDCq8NTZehgUA32UzREYCa2KjPTs1PX+a2GuV5IoIBbAJqIKX3bb7UuUtBLqSGnwABd8MDhBwB13xWRx9ox2jERRjaNNXqzzaRDwiCdXfBKekN/77GARY8GEXwD+uTjNJnGcjMMeR4dN88mVIC/kbbsjUIPI5wZ5fIPQ7IuKm+GvBCsGZxnVp7codzcw6HR+gvrL2ZxbH7IyOotfOVFkmdX0ZCpzIugoNr/R4k/LhhZwkxyJs6gS/OoretcQqGa4GNSTewB8f41SdFrIQuiPk6JTNfstR
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   702185a02153105e701b2ba6f17ec5384cafb6d6
-commit: 453cb76c605cfc3405a95bee4888782c7218b92a [2/2] ANDROID: mm/memfd-ashmem-shim: Align ioctl handler name with Rust version
-config: arm-randconfig-r133-20260331 (https://download.01.org/0day-ci/archive/20260331/202603312028.yncxmWGs-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603312028.yncxmWGs-lkp@intel.com/reproduce)
+On Tue, 31 Mar 2026 12:53:38 +0200
+"Arnd Bergmann" <arnd@arndb.de> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603312028.yncxmWGs-lkp@intel.com/
+> Right, I assumed it had to be something like that, just didn't immediately
+> see what. I've sent a patch to just remove the duplicate inline
+> function now.
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/staging/android/ashmem-legacy.c: note: in included file:
->> drivers/staging/android/ashmem.h:19:49: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted gfp_t static const [toplevel] [usertype] RUST_CONST_HELPER___GFP_FS @@     got unsigned long @@
-   drivers/staging/android/ashmem.h:19:49: sparse:     expected restricted gfp_t static const [toplevel] [usertype] RUST_CONST_HELPER___GFP_FS
-   drivers/staging/android/ashmem.h:19:49: sparse:     got unsigned long
->> drivers/staging/android/ashmem.h:20:49: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted gfp_t static const [toplevel] [usertype] RUST_CONST_HELPER___GFP_IO @@     got unsigned long @@
-   drivers/staging/android/ashmem.h:20:49: sparse:     expected restricted gfp_t static const [toplevel] [usertype] RUST_CONST_HELPER___GFP_IO
-   drivers/staging/android/ashmem.h:20:49: sparse:     got unsigned long
+Ah, I had already sent a patch to fix the duplicate because I saw the
+kernel test robot's report.
 
-vim +19 drivers/staging/android/ashmem.h
+  https://lore.kernel.org/all/20260330205859.24c0aae3@gandalf.local.home/
 
-    17	
-    18	#include <linux/shrinker.h>
-  > 19	static const gfp_t RUST_CONST_HELPER___GFP_FS = ___GFP_FS;
-  > 20	static const gfp_t RUST_CONST_HELPER___GFP_IO = ___GFP_IO;
-    21	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-- Steve
