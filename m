@@ -1,189 +1,250 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mail.tipi-net.de (mail.tipi-net.de [194.13.80.246])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240F1371D19
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 07:31:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F2D93BA241
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 08:11:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.13.80.246
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774942285; cv=none; b=unD5FkV/lCnC/i5y1rTMAl8iAFWC0tNTWWkJ8gYOVpSBxShvu63iDCjVaJ9/+7HfY1WatXF04r6jRfOQ3jnS4K82YcfsBmd/uJiHKRQnQsa0qJ1b8IYZUma8iXYeWKqXPvFCrvIj+7oWVFfQ+AxolkF9OYTApGq41yWrXpjCTlw=
+	t=1774944689; cv=none; b=eJ8VkPVHmgw3a6dv8ObrAzIxDP8Kanmy+Ow1l+jpgLd5BlZjGW06apuU8Sa2Z4/++IWR/f9pQkXTsuVuIHNAQkC+mxT94mSHxCUuzgIsZZGGhqUscMn8D6MxcXs8+b6E+RkoMTCOjlcKNIoxhwzrZmqfLB2oVoaI+aPiQjiZ/ZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774942285; c=relaxed/simple;
-	bh=Jm96zD5OIcZTQzy3/+LVfgjz51ZRk+pm7+viCIwncMw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=LVVXR4+CGsnicxNg9BebrMkxz0XfBgmlqtjtwPeEAch069EnZV9GXrl1LSHO488x+7RRQY2qXtFgIvo8EHOZeYJnSdu5oBUGzZRzahQJK58jMqM1MP5+61RfKUEJziq0nXvFM4qGHjORVGjWSNVoZs3c7TVO0C8wX0iAHuTQ/mE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oFt7ioK+; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1774944689; c=relaxed/simple;
+	bh=IzlQBO+/3QQz3rVMzlmBSof9s5dhYvYhh5ZoECloaCA=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=Obcz54GdGOtk38ieHo3B3D23M1+vEoJiUVI//oD3XahQPUlethxkQbzEbHkOBtNwn6n/hUIjEoYCcYvb39rFx3H7nQQCD0Ei2PpbtgnbsBZp0lWbXvjvatos+RCNSMdMfRwO2Bw0t0Zz7VfAeCasJQqM1eEXiSJMRzatyUleXd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de; spf=pass smtp.mailfrom=tipi-net.de; dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b=rT/69nN0; arc=none smtp.client-ip=194.13.80.246
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tipi-net.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oFt7ioK+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774942284; x=1806478284;
-  h=date:from:to:cc:subject:message-id;
-  bh=Jm96zD5OIcZTQzy3/+LVfgjz51ZRk+pm7+viCIwncMw=;
-  b=oFt7ioK+niDulfREMeNnIHSge4nCRjR4EuHwMs3/Oh/34FNkuMQCcnhk
-   BbKC8O1uOKxX/v7ZmzDqd442dHAgv2BL9lzep9J4ZOOz0RzaZvKO/0Oe7
-   OZoIx7Tzf2ZSthTVCMuThQgMAG9TRQkHvXCqXyPdkW3NXt7ZjLRgnR/Fx
-   n0LBtddsdlNub8t1K44aMMdh8IL6jN6DH04N1S9lJTR2XpR8ec5xNfFwj
-   P6OPWSDmPQ8uwCBR9JqvAy7lpnYRiZppui3wyMaRxWPWZ7yGFDMjrfOGn
-   4ymsn2RcnKDPkFR0yiU6M/rtjb0tfA+Uhnrsm1SWS7iK/We+uuPlD3Ka3
-   g==;
-X-CSE-ConnectionGUID: XK2dSlhDTBaXpYZiijpzlA==
-X-CSE-MsgGUID: gjSB+RkGRw+hwEYe0eC1tg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="75662081"
-X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
-   d="scan'208";a="75662081"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 00:31:24 -0700
-X-CSE-ConnectionGUID: hewAXumASmWRuiYhq90CAg==
-X-CSE-MsgGUID: u6JuuQb+T/ODaIg+UFZiMw==
-X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 31 Mar 2026 00:31:22 -0700
-Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w7TZH-000000002Mr-3EOb;
-	Tue, 31 Mar 2026 07:31:19 +0000
-Date: Tue, 31 Mar 2026 15:30:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-2025-08 0/1]
- mm/pgsize_migration.c:204:25: error: implicit declaration of function
- 'vma_start_read_locked'; did you mean 'vma_assert_write_locked'?
-Message-ID: <202603311531.qiZSgoDy-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b="rT/69nN0"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id F13D6A56FC;
+	Tue, 31 Mar 2026 10:11:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tipi-net.de; s=dkim;
+	t=1774944679; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=7yru7aj8vqfA/2tCvRfrvT/SZN7TZtsZe7Vulo0NEjA=;
+	b=rT/69nN08jcOmwrnSKEpNHMVTfQAtZ0FRsfQIzTyeTbTvuEcGcQq4XLuBZAr/wqJXwAsFO
+	BodE5QZlfm6RT8R05PAphBSB+ap6Mzn5tiv2/axeT2lHqYYivAnpn0z91P254oG8S2dZ3v
+	2DOoGWwDjmn100p7q1omrCQrkQr/fzDwPsHolwsmUAre2MMbfUuLqAbcS+qmT9Fvq7B+xh
+	Np2VYbW091RytzuXjOAMClgfp/s/Mmt4TOl3Dy4Seg9WAGxzfOvkrvnKSZGLeIXZvAjZ8q
+	24CygUWzF7MqHXJ/XJaRAPRAjFmK00V9CNefmV/yQmBDt9Vgifz0S+eHqeQN7g==
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Date: Tue, 31 Mar 2026 10:11:16 +0200
+From: Nicolai Buchwitz <nb@tipi-net.de>
+To: Michael Dege <michael.dege@renesas.com>
+Cc: kernel test robot <lkp@intel.com>, Yoshihiro Shimoda
+ <yoshihiro.shimoda.uh@renesas.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v2 13/13] net: renesas: rswitch: add vlan aware
+ switching
+In-Reply-To: <TY4PR01MB142828994B921A75367AEC5368253A@TY4PR01MB14282.jpnprd01.prod.outlook.com>
+References: <20260327-rswitch_add_vlans-v2-13-d7f4358ca57a@renesas.com>
+ <202603300436.ryIgiB0z-lkp@intel.com>
+ <TY4PR01MB142828994B921A75367AEC5368253A@TY4PR01MB14282.jpnprd01.prod.outlook.com>
+Message-ID: <b52623fe930b5c398f21d97f7069274a@tipi-net.de>
+X-Sender: nb@tipi-net.de
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-08
-head:   feb767273b096a7c07872106ddb1cdcbfa682fcd
-commit: c691ab2c1e67fe61744eb8935689b7f9648dc97d [0/1] ANDROID: look up vma under RCU in linker_ctx()
-config: x86_64-randconfig-074-20260331 (https://download.01.org/0day-ci/archive/20260331/202603311531.qiZSgoDy-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603311531.qiZSgoDy-lkp@intel.com/reproduce)
+On 31.3.2026 08:10, Michael Dege wrote:
+> Hello,
+> 
+> Who can kindly help me with this?
+> 
+>> -----Original Message-----
+>> From: kernel test robot <lkp@intel.com>
+>> Sent: Sunday, March 29, 2026 10:37 PM
+>> To: Michael Dege <michael.dege@renesas.com>; Yoshihiro Shimoda 
+>> <yoshihiro.shimoda.uh@renesas.com>;
+>> Andrew Lunn <andrew+netdev@lunn.ch>; David S. Miller 
+>> <davem@davemloft.net>; Eric Dumazet
+>> <edumazet@google.com>; Jakub Kicinski <kuba@kernel.org>; Paolo Abeni 
+>> <pabeni@redhat.com>
+>> Cc: oe-kbuild-all@lists.linux.dev; netdev@vger.kernel.org; 
+>> linux-renesas-soc@vger.kernel.org; linux-
+>> kernel@vger.kernel.org; Michael Dege <michael.dege@renesas.com>
+>> Subject: Re: [PATCH net-next v2 13/13] net: renesas: rswitch: add vlan 
+>> aware switching
+>> 
+>> Hi Michael,
+>> 
+>> kernel test robot noticed the following build errors:
+>> 
+>> [auto build test ERROR on 1f318b96cc84d7c2ab792fcc0bfd42a7ca890681]
+>> 
+>> url:    https://github.com/intel-lab-
+>> lkp%2Flinux%2Fcommits%2FMichael-Dege%2Fnet-renesas-rswitch-improve-port-change-mode-
+>> functions%2F20260329-
+>> 154812&data=05%7C02%7Cmichael.dege%40renesas.com%7C27cab84d6f7640e15b4f08de8dd3108a%7C53d82571da1947e4
+>> 9cb4625a166a4a2a%7C0%7C0%7C639104134822998103%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIw
+>> LjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=uP5U8NPFi2wo7VJDRGZ%2B
+>> ubwH50bZDvNuapBP0t76lL0%3D&reserved=0
+>> base:   1f318b96cc84d7c2ab792fcc0bfd42a7ca890681
+>> patch link:
+>> https://lore.kernel.org/r/20260327-
+>> rswitch_add_vlans-v2-13-
+>> d7f4358ca57a%2540renesas.com&data=05%7C02%7Cmichael.dege%40renesas.com%7C27cab84d6f7640e15b4f08de8dd31
+>> 08a%7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C639104134823016624%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU
+>> 1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=
+>> 2QTz%2BFk8tDeHuE2Ac5ddl8tJ2mFSrm9l9mGnnLDsdW4%3D&reserved=0
+>> patch subject: [PATCH net-next v2 13/13] net: renesas: rswitch: add 
+>> vlan aware switching
+>> config: arm64-defconfig
+>> (https://download.01.org/0day-
+>> ci%2Farchive%2F20260330%2F202603300436.ryIgiB0z-
+>> lkp%40intel.com%2Fconfig&data=05%7C02%7Cmichael.dege%40renesas.com%7C27cab84d6f7640e15b4f08de8dd3108a%
+>> 7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C639104134823028947%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcG
+>> kiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=vhwu
+>> KaGAF4bhfSTb1VhDnII4SXsKbZ0zEPRt8ma49aM%3D&reserved=0)
+>> compiler: aarch64-linux-gcc (GCC) 15.2.0 reproduce (this is a W=1 
+>> build):
+>> (https://download.01.org/0day-
+>> ci%2Farchive%2F20260330%2F202603300436.ryIgiB0z-
+>> lkp%40intel.com%2Freproduce&data=05%7C02%7Cmichael.dege%40renesas.com%7C27cab84d6f7640e15b4f08de8dd310
+>> 8a%7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C639104134823040554%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1
+>> hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=Y
+>> TddyGPjtxfccjUPlLwizqOqUHOuiRxPxMqoNaHWW%2Bk%3D&reserved=0)
+>> 
+>> If you fix the issue in a separate patch/commit (i.e. not just a new 
+>> version of the same
+>> patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes:
+>> | https://lore/
+>> | 
+>> .kernel.org%2Foe-kbuild-all%2F202603300436.ryIgiB0z-lkp%40intel.com%2F
+>> | 
+>> &data=05%7C02%7Cmichael.dege%40renesas.com%7C27cab84d6f7640e15b4f08de8
+>> | 
+>> dd3108a%7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C63910413482305219
+>> | 
+>> 2%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIs
+>> | 
+>> IlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=4B
+>> | 1hVOdPuyjze1HZCUi2v3gamNPgyeYcmx5NNzrDFjw%3D&reserved=0
+>> 
+>> All errors (new ones prefixed by >>):
+>> 
+>>    aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+>>    aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+>>    aarch64-linux-ld: drivers/net/ethernet/renesas/rswitch_l2.o: in 
+>> function
+>> `rswitch_port_obj_do_add_gwca':
+>> >> drivers/net/ethernet/renesas/rswitch_l2.c:443:(.text+0x11e0): undefined reference to
+>> `br_vlan_enabled'
+>>    aarch64-linux-ld: drivers/net/ethernet/renesas/rswitch_l2.o: in 
+>> function `rswitch_port_obj_do_add':
+>>    drivers/net/ethernet/renesas/rswitch_l2.c:412:(.text+0x135c): 
+>> undefined reference to
+>> `br_vlan_enabled'
+>> >> aarch64-linux-ld: drivers/net/ethernet/renesas/rswitch_l2.c:423:(.text+0x13bc): undefined reference
+>> to `br_vlan_enabled'
+>> 
+>> 
+>> vim +443 drivers/net/ethernet/renesas/rswitch_l2.c
+>> 
+>>    402
+>>    403        static int rswitch_port_obj_do_add(struct net_device 
+>> *ndev,
+>>    404                                           struct 
+>> switchdev_obj_port_vlan *p_vlan)
+>>    405        {
+>>    406                struct rswitch_device *rdev = netdev_priv(ndev);
+>>    407                struct rswitch_private *priv = rdev->priv;
+>>    408                struct rswitch_etha *etha = rdev->etha;
+>>    409                int err;
+>>    410
+>>    411                /* Set Rswitch VLAN mode */
+>>    412                iowrite32(br_vlan_enabled(rdev->brdev) ? 
+>> FIELD_PREP(FWGC_SVM, C_TAG) : 0,
+>>    413                          priv->addr + FWGC);
+>>    414
+>>    415                err = rswitch_write_vlan_table(priv, 
+>> p_vlan->vid, etha->index);
+>>    416                if (err < 0)
+>>    417                        return err;
+>>    418
+>>    419                /* If the default vlan for this port has been 
+>> set, don't overwrite it. */
+>>    420                if (ioread32(etha->addr + EAVCC))
+>>    421                        return NOTIFY_DONE;
+>>    422
+>>  > 423                if (br_vlan_enabled(rdev->brdev))
+>>    424                        rswitch_modify(priv->addr, 
+>> FWPC0(etha->index), 0, FWPC0_VLANSA |
+>> FWPC0_VLANRU);
+>>    425
+>>    426                rswitch_modify(priv->addr, 
+>> FWPC2(AGENT_INDEX_GWCA),
+>>    427                               FIELD_PREP(FWPC2_LTWFW, 
+>> BIT(etha->index)),
+>>    428                               0);
+>>    429
+>>    430                return rswitch_port_set_vlan_tag(etha, p_vlan, 
+>> false);
+>>    431        }
+>>    432
+>>    433        static int rswitch_port_obj_do_add_gwca(struct 
+>> net_device *ndev,
+>>    434                                                struct 
+>> rswitch_private *priv,
+>>    435                                                struct 
+>> switchdev_obj_port_vlan *p_vlan)
+>>    436        {
+>>    437                int err;
+>>    438
+>>    439                if (!(p_vlan->flags & BRIDGE_VLAN_INFO_BRENTRY))
+>>    440                        return NOTIFY_DONE;
+>>    441
+>>    442                /* Set Rswitch VLAN mode */
+>>  > 443                iowrite32(br_vlan_enabled(ndev) ? 
+>> FIELD_PREP(FWGC_SVM, C_TAG) : 0, priv->addr +
+>> FWGC);
+>>    444
+>>    445                err = rswitch_write_vlan_table(priv, 
+>> p_vlan->vid, AGENT_INDEX_GWCA);
+>>    446                if (err < 0)
+>>    447                        return err;
+>>    448
+>>    449                /* If the default vlan for this port has been 
+>> set, don't overwrite it. */
+>>    450                if (ioread32(priv->addr + GWVCC))
+>>    451                        return NOTIFY_DONE;
+>>    452
+>>    453                return rswitch_gwca_set_vlan_tag(priv, p_vlan, 
+>> false);
+>>    454        }
+>>    455
+>> 
+> 
+> The function br_vlan_enabled() is exported from br_vlan.c and the 
+> header file is if_bridge.h. Can anyone
+> give me a hint what might be wrong?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603311531.qiZSgoDy-lkp@intel.com/
+Looking at the other switchdev drivers, I'd suspect that 
+`RENESAS_ETHER_SWITCH` is missing `depends on BRIDGE || BRIDGE=n`, which 
+guards br_vlan_enabled().
 
-All errors (new ones prefixed by >>):
+Nicolai
 
-   In file included from include/linux/build_bug.h:5,
-                    from include/linux/init.h:5,
-                    from arch/x86/include/asm/mem_encrypt.h:15,
-                    from include/linux/mem_encrypt.h:17,
-                    from arch/x86/include/asm/page_types.h:7,
-                    from arch/x86/include/asm/page.h:9,
-                    from include/linux/mm_types_task.h:13,
-                    from include/linux/mm_types.h:5,
-                    from include/linux/pgsize_migration_inline.h:16,
-                    from include/linux/pgsize_migration.h:16,
-                    from mm/pgsize_migration.c:13:
-   mm/pgsize_migration.c: In function 'linker_ctx':
->> mm/pgsize_migration.c:204:25: error: implicit declaration of function 'vma_start_read_locked'; did you mean 'vma_assert_write_locked'? [-Wimplicit-function-declaration]
-     204 |                 BUG_ON(!vma_start_read_locked(vma));
-         |                         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:32:55: note: in definition of macro '__branch_check__'
-      32 |                         ______r = __builtin_expect(!!(x), expect);      \
-         |                                                       ^
-   include/asm-generic/bug.h:71:36: note: in expansion of macro 'unlikely'
-      71 | #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-         |                                    ^~~~~~~~
-   mm/pgsize_migration.c:204:17: note: in expansion of macro 'BUG_ON'
-     204 |                 BUG_ON(!vma_start_read_locked(vma));
-         |                 ^~~~~~
-
-
-vim +204 mm/pgsize_migration.c
-
-   156	
-   157	/*
-   158	 * The dynamic linker, or interpreter, operates within the process context
-   159	 * of the binary that necessitated dynamic linking.
-   160	 *
-   161	 * Consequently, process context identifiers; like PID, comm, ...; cannot
-   162	 * be used to differentiate whether the execution context belongs to the
-   163	 * dynamic linker or not.
-   164	 *
-   165	 * linker_ctx() deduces whether execution is currently in the dynamic linker's
-   166	 * context by correlating the current userspace instruction pointer with the
-   167	 * VMAs of the current task.
-   168	 *
-   169	 * Returns true if in linker context, otherwise false.
-   170	 */
-   171	static inline bool linker_ctx(void)
-   172	{
-   173		struct pt_regs *regs = task_pt_regs(current);
-   174		struct mm_struct *mm = current->mm;
-   175		struct vm_area_struct *vma;
-   176		struct file *file;
-   177	
-   178		if (!regs)
-   179			return false;
-   180	
-   181		vma = lock_vma_under_rcu(mm, instruction_pointer(regs));
-   182	
-   183		/*
-   184		 * lock_vma_under_rcu() is a try-lock that can fail if the
-   185		 * VMA is already locked for modification.
-   186		 *
-   187		 * Fallback to finding the vma under mmap read lock.
-   188		 */
-   189		if (!vma) {
-   190			mmap_read_lock(mm);
-   191	
-   192			vma = find_vma(mm, instruction_pointer(regs));
-   193	
-   194			/* Current execution context, the VMA must be present */
-   195			BUG_ON(!vma);
-   196	
-   197			/*
-   198			 * We cannot use vma_start_read() as it may fail due to
-   199			 * false locked (see comment in vma_start_read()). We
-   200			 * can avoid that by using vma_start_read_locked under
-   201			 * mmap_lock, which guarantees that nobody can lock the
-   202			 * vma for write (vma_start_write()) under us.
-   203			 */
- > 204			BUG_ON(!vma_start_read_locked(vma));
-   205	
-   206			mmap_read_unlock(mm);
-   207		}
-   208	
-   209		file = vma->vm_file;
-   210		if (!file)
-   211			goto out;
-   212	
-   213		if ((vma->vm_flags & VM_EXEC)) {
-   214			char buf[64];
-   215			const int bufsize = sizeof(buf);
-   216			char *path;
-   217	
-   218			memset(buf, 0, bufsize);
-   219			path = d_path(&file->f_path, buf, bufsize);
-   220	
-   221			/*
-   222			 * Depending on interpreter requested, valid paths could be any of:
-   223			 *   1. /system/bin/bootstrap/linker64
-   224			 *   2. /system/bin/linker64
-   225			 *   3. /apex/com.android.runtime/bin/linker64
-   226			 *
-   227			 * Check the base name (linker64).
-   228			 */
-   229			if (!strcmp(kbasename(path), "linker64")) {
-   230				vma_end_read(vma);
-   231				return true;
-   232			}
-   233		}
-   234	out:
-   235		vma_end_read(vma);
-   236		return false;
-   237	}
-   238	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> Thank you and best regards,
+> 
+> Michael
+> 
+>> --
+>> 0-DAY CI Kernel Test Service
+>> https://github.com/intel/lkp-
+>> tests%2Fwiki&data=05%7C02%7Cmichael.dege%40renesas.com%7C27cab84d6f7640e15b4f08de8dd3108a%7C53d82571da
+>> 1947e49cb4625a166a4a2a%7C0%7C0%7C639104134823063970%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIl
+>> YiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=wG2VKo2Ln60Ld4KV
+>> 8wHTcxRyskg0hzu0dZSVMg4v73g%3D&reserved=0
