@@ -1,55 +1,56 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0465E3CBE6D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 14:11:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882A13E5EFD
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 14:11:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774966305; cv=none; b=IRrhasaFRcrrtNZGPgETUQbgxpZGK5mCzJcYWg/ZA4wVSUb9AahGZNJK1Yp/37nTMVs5utFEg9ghZG7MFua/mWU93+eqeF0f5Yp9U18h/GNHeTBzCTDzXvPX/TQmSZFhvVJG6ZWn2oyxosH/kwH+JPZqjks6iOBz3eNPEDZrPEU=
+	t=1774966307; cv=none; b=mWtcFC1RkawSACsl8rc50ufkZBL0u2ISdcIFy9/6SryYWlpHJOXb0PQblg2ml/t4jqr++sD0g9v/1c19d8DwEXZoipVfHziuVPeIM0EnGNbjlPZ21bdUgXMhAeNOubd0ohRqQl0OGN3W5aZyphwl7cQtWOUv7NyO/BzWSZj6NS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774966305; c=relaxed/simple;
-	bh=cw2NZRyv0KETdOCkRHCdPTj8XE5TG5K2DD7G2AiUinw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Sw2sQR4xgu1SuEbrGgu7uRBjh7l9fGOGk2Wd4uhWtiiLld/VM5GQ42LaaVvHob6TMqiZmUkIAd/eOf42m/v++CQEvr/z/t9fMefAzwyhHKUqrOr66GwUXSAJchltW7BM3+42ub1fbOjKt15mnPTtb+jof3+NLJH0FBCjhgguioE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PVoovIJr; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1774966307; c=relaxed/simple;
+	bh=KnnWXroze7zEfOhh5glujmJQLDrsgd2AaZK8LlrpruM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UJ9+KL1HVy0ubbWkvyvDyAFz3RvDFMWFxIKx9Xj97z9KJ0CmnMDTt4zPf4yitPcyPB1nF0LOQCVEZ92Hz0JNHV1EKnMto92U4Kkg9c9xzwlwAwG8DQ/AXdIyaoRKTzTn81HhKAPE7zvrNP/neKL2Wb5PWKIYKwjeav24eDwAE60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZkyiLevK; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PVoovIJr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZkyiLevK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774966303; x=1806502303;
+  t=1774966305; x=1806502305;
   h=date:from:to:cc:subject:message-id;
-  bh=cw2NZRyv0KETdOCkRHCdPTj8XE5TG5K2DD7G2AiUinw=;
-  b=PVoovIJrDNekQ7wgWu4KU3ncFZfL9pF2Ec/u/PNB1VMzny/MeicGoUWC
-   Qtpf/U1ddwK2vIhPZmNFkU+R3b9v4IhIPhC5FXxldPU2wze7U7KjHwkyC
-   PHNbPikL3ToLpDZEQ/ZMi/rpjxEHqF0NxV7IGsVuJNdbEWy9JzlYNpgl9
-   f8/GcI8imu80i4g2ru3qJ8o2sxg8jLA3F1asB6//6sike0BiFsEGKgt/0
-   z7z6Ni4swzKkTt1WURlEodMLep1cDquCXLv8xEnDt90xd/QO5crTGzm8n
-   CiaP88T4h8MYoW7fC8NAFTCSuOuMkajhJbSic++L0nITTIUmOMjEP4rld
+  bh=KnnWXroze7zEfOhh5glujmJQLDrsgd2AaZK8LlrpruM=;
+  b=ZkyiLevK3wIFhSMtpSJ787almdT4JTWfFNO4uVfLDLXHAkzWDFz0AyZR
+   QAYM+HVpe5nzPa/QLxnMZy7jMVE/jOI7j3iItUvMDhAQ0Wx90rsAa49Pb
+   ZkAXpxB58jE+t/IUiqLz0z3nuSZuFvqm2PEhVULL1n8Y1rmn8tuzL+4dj
+   MsZujc2nZirII8c4LM7qavwJGC5o2e8R8pK+SAcqQYLW3ihdWNTKEjaQ3
+   jQTWZXphuEB0qC2NTkpkoKaWlJXYPqrGSKsGKdOgRlJNymQJ6Ux3RtKWV
+   xnpFWpGThsL4ttIjeeGsS6zXLSMQl7Es+W8v0dBJP4W5zdBEGpnh/ltxw
    A==;
-X-CSE-ConnectionGUID: eOIHr4OtQlSiwlHTU+a8ZA==
-X-CSE-MsgGUID: qrWY7z5ZQ5u6WrGm2ucf4g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="87056791"
+X-CSE-ConnectionGUID: OQSy9GMwSIyn8jo2P7ULbg==
+X-CSE-MsgGUID: ip11gknSSdWnWqrdiw7IYA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="87056793"
 X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
-   d="scan'208";a="87056791"
+   d="scan'208";a="87056793"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
   by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 07:11:42 -0700
-X-CSE-ConnectionGUID: xB+wZnhITv2a/zFwjBz3Ng==
-X-CSE-MsgGUID: LfvP649ETYSFnhVTWL7MPw==
+X-CSE-ConnectionGUID: RdFR13slR4qEZeuTXfWXQw==
+X-CSE-MsgGUID: 8YjuVgjsRrGz5bUdZZAihg==
 X-ExtLoop1: 1
 Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
   by fmviesa003.fm.intel.com with ESMTP; 31 Mar 2026 07:11:41 -0700
 Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w7Zog-000000002kP-1Vgd;
+	id 1w7Zog-000000002kN-1RSN;
 	Tue, 31 Mar 2026 14:11:38 +0000
-Date: Tue, 31 Mar 2026 22:11:00 +0800
+Date: Tue, 31 Mar 2026 22:10:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-2024-11 0/1]
- include/sound/tas2781-tlv.h:18:35: warning: 'dvc_tlv' defined but not used
-Message-ID: <202603312241.JDu5DmbK-lkp@intel.com>
+Subject: [android-common:android14-6.1-2024-11 4/4]
+ lib/bootconfig.c:911: warning: Function parameter or member 'early' not
+ described in '_xbc_exit'
+Message-ID: <202603312227.vQBIxUkt-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -57,49 +58,57 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Gergo,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android15-6.6-2024-11
-head:   8afee3a5a02e86617a56f39a05fbdfe3e2d5a469
-commit: b999e77ecf3a30e03f023c0acc1d97dbd5d42087 [0/1] ALSA: hda/tas2781: remove digital gain kcontrol
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260331/202603312241.JDu5DmbK-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603312241.JDu5DmbK-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1-2024-11
+head:   d22b085f4ab7937b37f585576716883ed5367fca
+commit: 1e7feb31a18c197d63a5e606025ed63c762f8918 [4/4] bootconfig: use memblock_free_late to free xbc memory to buddy
+config: arm64-randconfig-003-20260331 (https://download.01.org/0day-ci/archive/20260331/202603312227.vQBIxUkt-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603312227.vQBIxUkt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603312241.JDu5DmbK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603312227.vQBIxUkt-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/sound/tlv.h:10,
-                    from sound/pci/hda/tas2781_hda_i2c.c:22:
->> include/sound/tas2781-tlv.h:18:35: warning: 'dvc_tlv' defined but not used [-Wunused-const-variable=]
-      18 | static const DECLARE_TLV_DB_SCALE(dvc_tlv, -10000, 100, 0);
-         |                                   ^~~~~~~
-   include/uapi/sound/tlv.h:53:22: note: in definition of macro 'SNDRV_CTL_TLVD_DECLARE_DB_SCALE'
-      53 |         unsigned int name[] = { \
-         |                      ^~~~
-   include/sound/tas2781-tlv.h:18:14: note: in expansion of macro 'DECLARE_TLV_DB_SCALE'
-      18 | static const DECLARE_TLV_DB_SCALE(dvc_tlv, -10000, 100, 0);
-         |              ^~~~~~~~~~~~~~~~~~~~
+>> lib/bootconfig.c:911: warning: Function parameter or member 'early' not described in '_xbc_exit'
+>> lib/bootconfig.c:911: warning: expecting prototype for xbc_exit(). Prototype was for _xbc_exit() instead
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DEBUG_MAPLE_TREE
+   Depends on [n]: DEBUG_KERNEL [=n]
+   Selected by [m]:
+   - TEST_MAPLE_TREE [=m] && RUNTIME_TESTING_MENU [=y]
 
 
-vim +/dvc_tlv +18 include/sound/tas2781-tlv.h
+vim +911 lib/bootconfig.c
 
-678f38eba1f2fe Shenghao Ding 2023-06-18  17  
-678f38eba1f2fe Shenghao Ding 2023-06-18 @18  static const DECLARE_TLV_DB_SCALE(dvc_tlv, -10000, 100, 0);
-678f38eba1f2fe Shenghao Ding 2023-06-18  19  static const DECLARE_TLV_DB_SCALE(amp_vol_tlv, 1100, 50, 0);
-678f38eba1f2fe Shenghao Ding 2023-06-18  20  
+f3668cde856299 Masami Hiramatsu 2021-09-17  902  
+76db5a27a827c2 Masami Hiramatsu 2020-01-11  903  /**
+115d4d08aeb942 Masami Hiramatsu 2021-09-17  904   * xbc_exit() - Clean up all parsed bootconfig
+76db5a27a827c2 Masami Hiramatsu 2020-01-11  905   *
+76db5a27a827c2 Masami Hiramatsu 2020-01-11  906   * This clears all data structures of parsed bootconfig on memory.
+76db5a27a827c2 Masami Hiramatsu 2020-01-11  907   * If you need to reuse xbc_init() with new boot config, you can
+76db5a27a827c2 Masami Hiramatsu 2020-01-11  908   * use this.
+76db5a27a827c2 Masami Hiramatsu 2020-01-11  909   */
+1e7feb31a18c19 Qiang Zhang      2024-04-14  910  void __init _xbc_exit(bool early)
+76db5a27a827c2 Masami Hiramatsu 2020-01-11 @911  {
+1e7feb31a18c19 Qiang Zhang      2024-04-14  912  	xbc_free_mem(xbc_data, xbc_data_size, early);
+76db5a27a827c2 Masami Hiramatsu 2020-01-11  913  	xbc_data = NULL;
+76db5a27a827c2 Masami Hiramatsu 2020-01-11  914  	xbc_data_size = 0;
+76db5a27a827c2 Masami Hiramatsu 2020-01-11  915  	xbc_node_num = 0;
+1e7feb31a18c19 Qiang Zhang      2024-04-14  916  	xbc_free_mem(xbc_nodes, sizeof(struct xbc_node) * XBC_NODE_MAX, early);
+a91e4f12ffc42f Masami Hiramatsu 2020-02-07  917  	xbc_nodes = NULL;
+ead1e19ad905b9 Masami Hiramatsu 2020-09-21  918  	brace_index = 0;
+76db5a27a827c2 Masami Hiramatsu 2020-01-11  919  }
+76db5a27a827c2 Masami Hiramatsu 2020-01-11  920  
 
-:::::: The code at line 18 was first introduced by commit
-:::::: 678f38eba1f2fe33ff700e85390ac98393e609ef ASoC: tas2781: Add Header file for tas2781 driver
+:::::: The code at line 911 was first introduced by commit
+:::::: 76db5a27a827c2c89e5120a3d486472da847863b bootconfig: Add Extra Boot Config support
 
-:::::: TO: Shenghao Ding <13916275206@139.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+:::::: TO: Masami Hiramatsu <mhiramat@kernel.org>
+:::::: CC: Steven Rostedt (VMware) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
