@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1AFD44E040
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B1E73590A9
 	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 20:39:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774989585; cv=none; b=JtThJwamRwaTmzPPMeoeASLrGPJiVWjA6tG8KnhXxrNcjaeDSm78Nx2aQCuh7ya2dqqsCCGcDjKj5Xng4v492Y/VJsSgifrrpOtlHehEhQqULN6OS2vKuRrplOXlrimWuCIvSX9YRXUUGSaNAMs0OHcRmbhBieksakdeuI+CV1k=
+	t=1774989586; cv=none; b=TD8UkMB+J+D/ueiyYTUUWDd5l/YDucwtP0MavW1/lj7ZIJ9D1OdnCVNGDvD/0bcmW9WKVgoIl1JXEXt9KHxUJqr0mZSYn7Dl0aWurpr7RbzILvKxw7xzxXxWsAUb1oFKfat9re/Ax+ZWqG/y/5eFC3KL7RIl5HcvxVrl6L86txY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774989585; c=relaxed/simple;
-	bh=XVYrBtNQErbS3+ls5570Ug3eVYHZehZ3HzSR0sgLwt4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mUBio86VCLgw+7CIHV1+g2jWDpMj6S2Ol3p9+E/J5yv4ELiMkMrYL0jxArTFRkBj49VzjMvcyCvrvv9DQpI6JbpmotkVij4GEvRaavgEpMTV/wdjC7rjv+LFDCcgrKTULi0Of793gug2tfRdj6AGrYiuSL9W2zmhRAZslTw6K9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e4vQf5bT; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1774989586; c=relaxed/simple;
+	bh=Hx+3cvUMUejAbOqb7/PMAlGDbKHVhYfGs7d/FkUFFw8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mUEZ25kEqtxRUya7g4uyigsoUqc95IDhvepHP6gWSFUy4QQMTpf46tFtZZD4o6S7XmRp1bSAu8cGhPNIxRNq6QToxj6NghXKY+HB6VKqjHNpWenSHLsYQxWy1RRug4VMJ7Of8u5h/wp9iMYY2Nomx74C3yKwO0zLjeQl16rcIUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D1IvC75A; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e4vQf5bT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D1IvC75A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1774989583; x=1806525583;
   h=date:from:to:cc:subject:message-id;
-  bh=XVYrBtNQErbS3+ls5570Ug3eVYHZehZ3HzSR0sgLwt4=;
-  b=e4vQf5bTxnUv2sqTlROby0a8730uS/fBt33HzdEJQeq6+Xl7BZ/FyHpc
-   X6f87oDGDH+7Wfry6ZbiKCPd61OpNcfUFLj3lUoOhbLgZzaYVDt8latEB
-   d+zYkj7Cu18Y2eHu0fyzQw7so6m06FtZQ7FeDBVBwF6B4vUbq1003qbQj
-   fV9nn/XV5kdKqAJmsc4B7Gkn+3iebsR2N1aRJb73y/Z5zR88tq9GJ4g7/
-   +mOLdW0Hhzn3C6Pv66fsu0q+5d3AizlU3RpjXFyacmjGkqlYfXLCSzJQ3
-   0rSnD+VKhAWKLuxTjDO8agt+ZkzMuItICb5m/cgE7zm3D2//F3oIiTV1i
-   A==;
-X-CSE-ConnectionGUID: U31zQbJbRd6AbO4FA2VEgQ==
-X-CSE-MsgGUID: zm4QW9ZTTzy6dIXdndgGpw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="75978330"
+  bh=Hx+3cvUMUejAbOqb7/PMAlGDbKHVhYfGs7d/FkUFFw8=;
+  b=D1IvC75AXLBl7TGVeb7mevXD7RuAjOzbUU4TdbxjoTMAgrvToEkLLTkU
+   aESXZ+LmPpmqfRVil8TkpsdEkCjTvx/hfJEjcxgwG+gA7jO9w96QbQnAV
+   PaR9Kf6NyLimzJ5UzekddTQHAX966tkgHZvpxUzKi8vreXLQdC6hTGRnO
+   ga9PIAjG9bmq6J97oX3IL2kBmhvKwhrBC+bETButuBKzl9z6sKpCgSliz
+   TE2UbGetfk6a1It3jMMl+ugntP0OSBtRBXPHInIz6QkQ+DpC0SXJLpeta
+   jKYmBVh6TDNpImAQb3LofyRh7R0OgzGkZTBNBAMDGjH+6n3D8ehl2Zywr
+   Q==;
+X-CSE-ConnectionGUID: QF6XC80yQyKfE+k24Izerg==
+X-CSE-MsgGUID: EJeku/CrT0SkiDkkWTWNGg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="87091639"
 X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
-   d="scan'208";a="75978330"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 13:39:43 -0700
-X-CSE-ConnectionGUID: NdtrmQonTYSLNY0GWa1cdA==
-X-CSE-MsgGUID: Dh1TGMSCQDO9IIMsEz+R8A==
+   d="scan'208";a="87091639"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 13:39:43 -0700
+X-CSE-ConnectionGUID: zgA/cmJ0QQWH3uTEWKH7Dw==
+X-CSE-MsgGUID: p4J9Q50aSDiLM3tbQYeeTA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
-   d="scan'208";a="249687555"
+   d="scan'208";a="228071198"
 Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 31 Mar 2026 13:39:42 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 31 Mar 2026 13:39:41 -0700
 Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w7fsB-000000004El-0OXk;
+	id 1w7fsA-000000004Ej-4Bi3;
 	Tue, 31 Mar 2026 20:39:39 +0000
-Date: Wed, 01 Apr 2026 04:39:38 +0800
+Date: Wed, 01 Apr 2026 04:39:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 2/2]
- arch/arm64/kvm/ptdump.c:263:9: warning: variable 'mc_pages' set but not used
-Message-ID: <202604010440.92qtfIvt-lkp@intel.com>
+Subject: [android-common:android12-5.10-2025-09 0/1]
+ sound/soc/hisilicon/hi3660-i2s.c:384:26: warning: assignment to 'struct
+ pinctrl_state *' from 'int' makes pointer from integer without a cast
+Message-ID: <202604010402.AiRkWes1-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,67 +60,168 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Sebastian,
+Hi Youlin,
 
 FYI, the error/warning still remains.
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   cebae8e8f6b662df743cb2de67532e375b92ec50
-commit: d83ecb7039ab24325e4c10c8dd01556cd8e20f5f [2/2] ANDROID: KVM: arm64: Add ptdump support for host stage-2
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260401/202604010440.92qtfIvt-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260401/202604010440.92qtfIvt-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android12-5.10-2025-09
+head:   9e4026c962c3d8db024264b8c2c370a7e7941fc4
+commit: b4b11198edb99eb17a4d032c3a80854d3a817b0d [0/1] ANDROID: sound: Add hikey960 i2s audio driver
+config: i386-buildonly-randconfig-001-20260401 (https://download.01.org/0day-ci/archive/20260401/202604010402.AiRkWes1-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260401/202604010402.AiRkWes1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604010440.92qtfIvt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604010402.AiRkWes1-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/arm64/kvm/ptdump.c:10:
-   In file included from include/linux/kvm_host.h:16:
-   In file included from include/linux/mm.h:2180:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kvm/ptdump.c:263:9: warning: variable 'mc_pages' set but not used [-Wunused-but-set-variable]
-     263 |         size_t mc_pages, pgd_pages;
-         |                ^
-   6 warnings generated.
+   sound/soc/hisilicon/hi3660-i2s.c: In function 'hi3660_i2s_probe':
+   sound/soc/hisilicon/hi3660-i2s.c:377:22: error: implicit declaration of function 'devm_pinctrl_get'; did you mean 'of_pinctrl_get'? [-Werror=implicit-function-declaration]
+     377 |         i2s->pctrl = devm_pinctrl_get(dev);
+         |                      ^~~~~~~~~~~~~~~~
+         |                      of_pinctrl_get
+   sound/soc/hisilicon/hi3660-i2s.c:377:20: warning: assignment to 'struct pinctrl *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     377 |         i2s->pctrl = devm_pinctrl_get(dev);
+         |                    ^
+   sound/soc/hisilicon/hi3660-i2s.c:384:28: error: implicit declaration of function 'pinctrl_lookup_state' [-Werror=implicit-function-declaration]
+     384 |         i2s->pin_default = pinctrl_lookup_state(i2s->pctrl,
+         |                            ^~~~~~~~~~~~~~~~~~~~
+>> sound/soc/hisilicon/hi3660-i2s.c:384:26: warning: assignment to 'struct pinctrl_state *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     384 |         i2s->pin_default = pinctrl_lookup_state(i2s->pctrl,
+         |                          ^
+   sound/soc/hisilicon/hi3660-i2s.c:394:13: error: implicit declaration of function 'pinctrl_select_state' [-Werror=implicit-function-declaration]
+     394 |         if (pinctrl_select_state(i2s->pctrl, i2s->pin_default)) {
+         |             ^~~~~~~~~~~~~~~~~~~~
+   sound/soc/hisilicon/hi3660-i2s.c: In function 'hi3660_i2s_remove':
+   sound/soc/hisilicon/hi3660-i2s.c:422:9: error: implicit declaration of function 'pinctrl_put'; did you mean 'of_pinctrl_get'? [-Werror=implicit-function-declaration]
+     422 |         pinctrl_put(i2s->pctrl);
+         |         ^~~~~~~~~~~
+         |         of_pinctrl_get
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for USB_PHY
+   Depends on [n]: USB_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_USB_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for PAGE_POOL
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
 
 
-vim +/mc_pages +263 arch/arm64/kvm/ptdump.c
+vim +384 sound/soc/hisilicon/hi3660-i2s.c
 
-   260	
-   261	static struct kvm_pgtable_snapshot *kvm_ptdump_get_host_snapshot(void *data)
-   262	{
- > 263		size_t mc_pages, pgd_pages;
-   264		mc_pages = (size_t)data;
-   265		pgd_pages = host_stage2_get_pgd_size() >> PAGE_SHIFT;
-   266		return kvm_ptdump_get_snapshot(0, (size_t)data, pgd_pages);
-   267	}
-   268	
+   332	
+   333	static int hi3660_i2s_probe(struct platform_device *pdev)
+   334	{
+   335		struct device *dev = &pdev->dev;
+   336		struct hi3660_i2s *i2s;
+   337		struct resource *res;
+   338		int ret;
+   339	
+   340		i2s = devm_kzalloc(dev, sizeof(*i2s), GFP_KERNEL);
+   341		if (!i2s)
+   342			return -ENOMEM;
+   343	
+   344		i2s->dev = dev;
+   345		spin_lock_init(&i2s->lock);
+   346	
+   347		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+   348		if (!res) {
+   349			ret = -ENODEV;
+   350			return ret;
+   351		}
+   352		i2s->base_phys = (phys_addr_t)res->start;
+   353	
+   354		i2s->dai = dai_init;
+   355		dev_set_drvdata(&pdev->dev, i2s);
+   356	
+   357		i2s->base = devm_ioremap_resource(dev, res);
+   358		if (IS_ERR(i2s->base)) {
+   359			dev_err(&pdev->dev, "ioremap failed\n");
+   360			ret = PTR_ERR(i2s->base);
+   361			return ret;
+   362		}
+   363	
+   364		res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
+   365		if (!res) {
+   366			ret = -ENODEV;
+   367			return ret;
+   368		}
+   369		i2s->base_syscon = devm_ioremap(dev, res->start, resource_size(res));
+   370		if (IS_ERR(i2s->base_syscon)) {
+   371			dev_err(&pdev->dev, "ioremap failed\n");
+   372			ret = PTR_ERR(i2s->base_syscon);
+   373			return ret;
+   374		}
+   375	
+   376		/* i2s iomux config */
+   377		i2s->pctrl = devm_pinctrl_get(dev);
+   378		if (IS_ERR(i2s->pctrl)) {
+   379			dev_err(dev, "could not get pinctrl\n");
+   380			ret = -EIO;
+   381			return ret;
+   382		}
+   383	
+ > 384		i2s->pin_default = pinctrl_lookup_state(i2s->pctrl,
+   385						PINCTRL_STATE_DEFAULT);
+   386		if (IS_ERR(i2s->pin_default)) {
+   387			dev_err(dev,
+   388				"could not get default state (%li)\n",
+   389				PTR_ERR(i2s->pin_default));
+   390			ret = -EIO;
+   391			return ret;
+   392		}
+   393	
+   394		if (pinctrl_select_state(i2s->pctrl, i2s->pin_default)) {
+   395			dev_err(dev, "could not set pins to default state\n");
+   396			ret = -EIO;
+   397			return ret;
+   398		}
+   399	
+   400		ret = devm_snd_dmaengine_pcm_register(&pdev->dev,
+   401					&dmaengine_pcm_config, 0);
+   402		if (ret)
+   403			return ret;
+   404	
+   405		ret = snd_soc_register_component(&pdev->dev, &component_driver,
+   406					&i2s->dai, 1);
+   407		if (ret) {
+   408			dev_err(&pdev->dev, "Failed to register dai\n");
+   409			return ret;
+   410		}
+   411	
+   412		return 0;
+   413	}
+   414	
 
 -- 
 0-DAY CI Kernel Test Service
