@@ -1,162 +1,207 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D888840710B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 15:43:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774971798; cv=pass; b=k5KQfKOGX13XiDMj6rzENktWserWn+JfUrdqTsGXEUl2omYgKIjGGjoU1J67TiUOmBiaa5OlJM9zq9xYz30KR0dtMwJufPh6mv+KJy58HzQ7cCy5EpSOyM0W6ZTNPKAPCs3n/8QtDKXG9VLsV2v2pOVuBqgNWPzakiVABeYFUJ8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774971798; c=relaxed/simple;
-	bh=7B9guYqc9Km4EfytW8PmhqDNaZArc5NLcTO6VZFjf+A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ij1Imp0jP040MkA42DMynM812dxdQbSfzgbCjqHpG8sKQclHi1QmbiE3rItnF5RXFro4TgTUulHDCIC/KhLliiCtzZq5NH93CiFxAWFJ9BxpOBNB3S04fnIYKONsEXGQ8F4VpNWto8RvtNHXzcFLSRJScH7Pg5a1qCY8qNjs/QE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dIvY159W; arc=pass smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83A4A401A2C;
+	Tue, 31 Mar 2026 16:01:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774972915; cv=none; b=UN/iYxvA2lqgUSsTecpHKki67XTa267F1kFbv00fWYY83bMZebQ3tfgGj3JEemWaTE8OpTSHspd5lGIdWid9JGuq48BODyNAVmTNoXrr3DhkduyfUam8QhZ4D7+0PkIQDbCVBiveFYnWQjoh/qnfwhUWndAEXeOLfdt1h12Wejk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774972915; c=relaxed/simple;
+	bh=eI8SQ8hlmfnTvWkv7QAhjjIQ17PWVbfzQx5ojZvnNo4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M4HWmAz6rvSSgb8wJUUtCBGO/dE3q7SvBvkxdjnhupJYTAm1w36H57ShCsDegnUhjfCwiKObntV6b5dsIgGkkzakwNW2BNVFLKV/rNm4obyPivEhXewyvs96nUMjpOkwWp/2g5umd/3svSmYiRJgn39Nc3NeYsDIRqUl56oKbnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CDl6VWIz; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dIvY159W"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-509062d829dso583671cf.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 08:43:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774971796; cv=none;
-        d=google.com; s=arc-20240605;
-        b=lI7L0EUhDpryMX7e9Cy8XjBx740rUZnHSP5mwx3z7/UmKg2cqLCmZhOmFA7QYOIEbJ
-         UwQOHV5TEcRGyfNr7X3dEdaMk+5PSKU74FjPpCrRk9hagYq3feTOGhmvuA+LvWjsuc66
-         3lkmJZE30haPR405v4H7MARbWVoQov0b3iyZGCAhKkAddTcoOHFXNH5G0c8VaznQEAkV
-         qxNUVfNIvy0NwmbZwcABPJw+O9rVV9nEbV2GujGGD/9MQ4BDKu7arykOoVjNcwkavkoF
-         GViD/pAJXe+oM6ELW2NKH0e/OcWuNsloLiczzTJcsgdrMrkBXeGptrJv8uurQeVAY07w
-         eT1A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=W0esMwEn2vLErtLDITPF3oyt/KUc1Rilnuoy1Ok6WkA=;
-        fh=a3pgaQN3idVWWppzMGhtQNmvjlRV4gkmg8Wobv9V4DI=;
-        b=aLTcOB4B4iO/YPbmIwI4PwvdbCE491x+fEr3qOC+RDIqPUp5UElfn18iOULP7POkbS
-         HmJLXi8vL4RURrX/Hue/VhlvMPtKzjI5QlIOAdKvxpsNSnjwkaUzleIoz4PnIyzk72T6
-         HE9jdjT7hE7bcrFr1MwiBDozhKoJv1ReBfbR3/MqnRmhXbpQRYoyaF1UJ+VsjCkjnsML
-         MNvUgTRQhK5u4xZknQgX9BIC+xaY+2SDB9A6omgANuOCA2YzwFZH8hyW8XKrPXFEH1wa
-         /uOD9JW0z8wXElUdvqw97cVKMWzpIfQedy0wqpTa7Ffnz77oHd8+bpdWJWK/TOrXU8Ft
-         Nomw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1774971796; x=1775576596; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W0esMwEn2vLErtLDITPF3oyt/KUc1Rilnuoy1Ok6WkA=;
-        b=dIvY159WwOirnVftcgA2x6U2jFQH03ZqT5ej6PRh3D2EG/VNWjL/Nf+wwmw4yWHY5U
-         6rWw5pVBEsFVHlHb1yBlFqc2V/u+wHutE8sB2nBj3GqTNZV2kPeMkjoi+RBeoRCD0ozz
-         IaTUQA6s0jzBtyLGlDGUg78KUuvPsbTTkTFKYftXV/BKLBKrd/Fo0eW7K559lOyNMb1v
-         YJBtewEkkUvRZ071Oqiif+P2oovXYUNq4B4cYB6uCYHgvrqE/jCplSlwUpt6EBuEX8UE
-         csUSOnZJ9aFjkyGWu0oh3s6xpzG7LN4jBBkYiYElNwwL2mwwgLPPGSBslLe/cpZj4f5f
-         64nA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774971796; x=1775576596;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=W0esMwEn2vLErtLDITPF3oyt/KUc1Rilnuoy1Ok6WkA=;
-        b=Ep/wc+bVBg6kMsGZBofO07JmMAfVoT24umdDyliQ1YnafffLP8GFb0GA1y+tns8yFz
-         ovNqJIi9wQD5SuWQ11o2LRt93RkM+4yX6yWfFeks6vs0HwEqgXXtTxWrWPgNRUj7mNxA
-         Ko1n2AqxLKLB5xuexl3BCP4rKPmFneLjK5opu1k9uEmMAu0tY+0Yo1NrNQrMA7RXeJP1
-         mMzHRCCcQA/IXpTkx/55xrvg46fdfFknorTftOs8FxstoStE+HN6GnwcyK+k4v7swIiy
-         SOS0CHlrre1dazFW/eEHhuKl0JqV2bdb1WGMPTIKUFMPeVTcd/Fg6iegvqvBV+qZiBTV
-         kNtA==
-X-Forwarded-Encrypted: i=1; AJvYcCU2tUN3PA7vJ9pZD60PQvS21l0yGDrvc7/5/gTRCOFYMGu63pEGK4h5KZ7w6DLjWlC1nPtulHuOh8GpuslR@lists.linux.dev
-X-Gm-Message-State: AOJu0YyxrsCtz/Qt6es0QY0QaFIT/32yZhqG+qIngmqQJ0FMvdRe0AUl
-	vwtTiuuBga2pR9VgChKnj7Vsdte9zYSIy3+SGE5WbltjdjXxKSvxG5MK9FYHrhScQOAjF3w3Or9
-	20yHwAfjfTqa4S3BIeC4/BxQE8jw2VOd//MwHv/g9
-X-Gm-Gg: ATEYQzxJASH2j4KInh5qYqvQeN/ah8SczCFxZtOWMvW/YKbdlen5Z+Ju6tJ6sOQx9xX
-	dy3csjhy9SDcxGg0W/DBl3XCfo+MC7eclRmAXGt5roL1L8et49XOPXFJbBPm//ly7Ob6ce2Vk37
-	ucFmeKtXnM4M/tgX27OhydIGC4+z2R0+ZKqXP25v+6CKQ0+FKvN2zNyJzU4GoMO3bUFj/MyXSS8
-	WEKKNqAV4+/vl884sqHPOsN85Av54gy/cUIrD5zgD10oyGJVbZUxxTmcYkTnVe2Upt7K4tAeC++
-	GllQaSmNs8wUsmYlhZT7J1pQFEFUXRIKaNCcVHrxaGTmeQ==
-X-Received: by 2002:a05:622a:684f:10b0:509:15b6:f69f with SMTP id
- d75a77b69052e-50d3b726614mr608181cf.2.1774971795337; Tue, 31 Mar 2026
- 08:43:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CDl6VWIz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774972914; x=1806508914;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eI8SQ8hlmfnTvWkv7QAhjjIQ17PWVbfzQx5ojZvnNo4=;
+  b=CDl6VWIzjIwknuEDX8aRVR75G7bHOlu84fc2/88FEPNZCmUPG8mOdxOE
+   9bVxQxuJ/Sh8FAfHLViltZXSaBrPrKMSL434pjgx6VEOvGDgLeTrVxvEu
+   Hlwc/j6KyOhVN0zP6Se7aUO4kEBcR1YRwKWzTjq01zp0XFGImD8kbYKDF
+   IJ3E+hH8lv8kE1d0JfpCqxLmV10uPHo6W9UpiVNImnnP1r6imBRdK8HYN
+   4NYOWvHLPIi/IiX31MZQA7tpPe1CpdSS9BwBQv+IkuxrLxiLTkwgKKt9i
+   3kBHNO2jj+6b03DnNZ/pArD6HBN2PK2ZCmaxL/joRZdm4xnxzQfuEnaQs
+   A==;
+X-CSE-ConnectionGUID: xCbJ4fYLSnmRPcFuLO5y+A==
+X-CSE-MsgGUID: gDrcRrKXSoK6/LL+N6j0tA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="75954408"
+X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
+   d="scan'208";a="75954408"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 09:01:53 -0700
+X-CSE-ConnectionGUID: W+2NdeozTVSmfTQd4l/CIQ==
+X-CSE-MsgGUID: IGnx9ev2S/KHj+cLPQVwFQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
+   d="scan'208";a="226270636"
+Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 31 Mar 2026 09:01:47 -0700
+Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w7bXD-000000002qT-3p6k;
+	Tue, 31 Mar 2026 16:01:43 +0000
+Date: Wed, 1 Apr 2026 00:01:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Luca Leonardo Scorcia <l.scorcia@gmail.com>,
+	linux-mediatek@lists.infradead.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Fabien Parent <parent.f@gmail.com>, Val Packett <val@packett.cool>,
+	Luca Leonardo Scorcia <l.scorcia@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Sen Chu <sen.chu@mediatek.com>,
+	Sean Wang <sean.wang@mediatek.com>,
+	Macpaul Lin <macpaul.lin@mediatek.com>, Lee Jones <lee@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Gary Bisson <bisson.gary@gmail.com>,
+	Julien Massot <julien.massot@collabora.com>,
+	Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>,
+	Chen Zhong <chen.zhong@mediatek.com>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v4 5/9] mfd: mt6397: Add support for MT6392 PMIC
+Message-ID: <202603312339.CMJpqhEq-lkp@intel.com>
+References: <20260330083429.359819-6-l.scorcia@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260330171920.2026779-4-xur@google.com> <202603311739.cjetLeNT-lkp@intel.com>
-In-Reply-To: <202603311739.cjetLeNT-lkp@intel.com>
-From: Rong Xu <xur@google.com>
-Date: Tue, 31 Mar 2026 15:43:03 +0000
-X-Gm-Features: AQROBzCj5K3gmeJvf_anMTGWwniMI1Tm2F9Rl48CsSn4OuK6msMlbCTz-rYMEjA
-Message-ID: <CAF1bQ=RUUcs7ftHx+f-0DyPeCXBDa8pVt9cYaVPbxpkm8XkMEA@mail.gmail.com>
-Subject: Re: [PATCH v8 3/3] kbuild: distributed build support for Clang ThinLTO
-To: kernel test robot <lkp@intel.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas.schier@linux.dev>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Yonghong Song <yonghong.song@linux.dev>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Alice Ryhl <aliceryhl@google.com>, 
-	Sami Tolvanen <samitolvanen@google.com>, "Mike Rapoport (Microsoft)" <rppt@kernel.org>, 
-	Rafael Aquini <aquini@redhat.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Stafford Horne <shorne@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
-	Piotr Gorski <piotrgorski@cachyos.org>, Venkat Rao Bagalkote <venkat88@linux.ibm.com>, 
-	Teresa Johnson <tejohnson@google.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260330083429.359819-6-l.scorcia@gmail.com>
 
-Sorry. The patch was wrong.
-Let me send  the correct one.
+Hi Luca,
 
--Rong
+kernel test robot noticed the following build warnings:
 
-On Tue, Mar 31, 2026 at 3:10=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on dcc99abebfa1e9ca70f8af8695b6682ad7597bf2]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/xur-google-com/kbu=
-ild-move-vmlinux-a-build-rule-to-scripts-Makefile-vmlinux_a/20260331-012908
-> base:   dcc99abebfa1e9ca70f8af8695b6682ad7597bf2
-> patch link:    https://lore.kernel.org/r/20260330171920.2026779-4-xur%40g=
-oogle.com
-> patch subject: [PATCH v8 3/3] kbuild: distributed build support for Clang=
- ThinLTO
-> config: x86_64-kexec (attached as .config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0=
-227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20260331/202603311739.cjetLeNT-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202603311739.cjetLeNT-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> Makefile:2254: *** extraneous 'endif'.  Stop.
-> --
-> >> Makefile:2254: *** extraneous 'endif'.  Stop.
-> --
-> >> Makefile:2254: *** extraneous 'endif'.  Stop.
-> --
-> >> Makefile:2254: *** extraneous 'endif'.  Stop.
->
->
-> vim +/endif +2254 Makefile
->
-> ^1da177e4c3f415 Linus Torvalds  2005-04-16  2251
-> 46b7c49254f89d5 SZ Lin (=E6=9E=97=E4=B8=8A=E6=99=BA  2020-03-01  2252) en=
-dif # config-build
-> 2042b5486bd311d Masahiro Yamada 2019-08-11  2253  endif # mixed-build
-> 688931a5ad4e55b Masahiro Yamada 2019-03-19 @2254  endif # need-sub-make
-> ^1da177e4c3f415 Linus Torvalds  2005-04-16  2255
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+[auto build test WARNING on lee-mfd/for-mfd-next]
+[also build test WARNING on broonie-regulator/for-next linusw-pinctrl/devel linusw-pinctrl/for-next lee-mfd/for-mfd-fixes linus/master v7.0-rc6 next-20260330]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Luca-Leonardo-Scorcia/dt-bindings-mfd-mt6397-Add-MT6392-PMIC/20260331-081127
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
+patch link:    https://lore.kernel.org/r/20260330083429.359819-6-l.scorcia%40gmail.com
+patch subject: [PATCH v4 5/9] mfd: mt6397: Add support for MT6392 PMIC
+config: s390-randconfig-002-20260331 (https://download.01.org/0day-ci/archive/20260331/202603312339.CMJpqhEq-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603312339.CMJpqhEq-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603312339.CMJpqhEq-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/mfd/mt6397-core.c:421:16: warning: cast to smaller integer type 'enum mfd_match_data' from 'const void *' [-Wvoid-pointer-to-enum-cast]
+     421 |         device_data = (enum mfd_match_data)of_device_get_match_data(&pdev->dev);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
+
+
+vim +421 drivers/mfd/mt6397-core.c
+
+   398	
+   399	static int mt6397_probe(struct platform_device *pdev)
+   400	{
+   401		int ret;
+   402		unsigned int id = 0;
+   403		struct mt6397_chip *pmic;
+   404		const struct chip_data *pmic_core;
+   405		enum mfd_match_data device_data;
+   406	
+   407		pmic = devm_kzalloc(&pdev->dev, sizeof(*pmic), GFP_KERNEL);
+   408		if (!pmic)
+   409			return -ENOMEM;
+   410	
+   411		pmic->dev = &pdev->dev;
+   412	
+   413		/*
+   414		 * mt6397 MFD is child device of soc pmic wrapper.
+   415		 * Regmap is set from its parent.
+   416		 */
+   417		pmic->regmap = dev_get_regmap(pdev->dev.parent, NULL);
+   418		if (!pmic->regmap)
+   419			return -ENODEV;
+   420	
+ > 421		device_data = (enum mfd_match_data)of_device_get_match_data(&pdev->dev);
+   422		switch (device_data) {
+   423		case MATCH_DATA_MT6323:
+   424			pmic_core = &mt6323_core;
+   425			break;
+   426		case MATCH_DATA_MT6328:
+   427			pmic_core = &mt6328_core;
+   428			break;
+   429		case MATCH_DATA_MT6331:
+   430			pmic_core = &mt6331_mt6332_core;
+   431			break;
+   432		case MATCH_DATA_MT6357:
+   433			pmic_core = &mt6357_core;
+   434			break;
+   435		case MATCH_DATA_MT6358:
+   436			pmic_core = &mt6358_core;
+   437			break;
+   438		case MATCH_DATA_MT6359:
+   439			pmic_core = &mt6359_core;
+   440			break;
+   441		case MATCH_DATA_MT6392:
+   442			pmic_core = &mt6392_core;
+   443			break;
+   444		case MATCH_DATA_MT6397:
+   445			pmic_core = &mt6397_core;
+   446			break;
+   447		default:
+   448			dev_err(&pdev->dev, "Unknown device match data %u\n", device_data);
+   449			return -ENODEV;
+   450		}
+   451	
+   452		ret = regmap_read(pmic->regmap, pmic_core->cid_addr, &id);
+   453		if (ret) {
+   454			dev_err(&pdev->dev, "Failed to read chip id: %d\n", ret);
+   455			return ret;
+   456		}
+   457	
+   458		pmic->chip_id = (id >> pmic_core->cid_shift) & 0xff;
+   459	
+   460		platform_set_drvdata(pdev, pmic);
+   461	
+   462		pmic->irq = platform_get_irq(pdev, 0);
+   463		if (pmic->irq <= 0)
+   464			return pmic->irq;
+   465	
+   466		ret = pmic_core->irq_init(pmic);
+   467		if (ret)
+   468			return ret;
+   469	
+   470		ret = devm_mfd_add_devices(&pdev->dev, PLATFORM_DEVID_NONE,
+   471					   pmic_core->cells, pmic_core->cell_size,
+   472					   NULL, 0, pmic->irq_domain);
+   473		if (ret) {
+   474			irq_domain_remove(pmic->irq_domain);
+   475			dev_err(&pdev->dev, "failed to add child devices: %d\n", ret);
+   476		}
+   477	
+   478		return ret;
+   479	}
+   480	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
