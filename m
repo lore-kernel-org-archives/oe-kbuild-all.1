@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA8226C38C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 04:33:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99F0D31AAAA
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 04:45:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774931592; cv=none; b=Xq0oublPwZayGp70S3rygXE7DWm6Bpf9BJPT5GeYL8YKxihoJKM2TiEYoWanrB9Q3YyPiGcwIc1mF24M2GNv+F+/bjiKFuWqmyF5YW/k9kfLL5mCbpeMEJ9oXK4Ulvz1WlvLK8kTHaaedYk+ngwksAN3s3NX3Wf8lCbFkfMSAlw=
+	t=1774932312; cv=none; b=tZFpOBkjbj+ENr8G/QEj0uKFMtCUPOmaD5RSF8Q2LTRcbYStJQPa2ngJ9Lcqnurz7NU53zbM0Np2HOXZRIu9J+aqB+3zCiE5TIwkPCjVzAChWJi6PV7rbikRj+OiAeRh+jaBtvCPlDmqclGkVpdQg9l0a9//5am07+c+nCvmjvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774931592; c=relaxed/simple;
-	bh=E+lV3a8V7p3T0H2OGEu46Yrjuv1laABVsGTsPeF3TJ0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TGM36l0seg5+TOFxIylU92kvpoCasJFaGvlx74V6J9DK8I0Kt95UWYZ54t+n8qQes9lt8Ec/lPQ+vcwh2nbn3+Pu3PZ2J7yhSBBotk9dz4os60juHc+D6vtIpB4QZp++dkbYZBzSZ6/PPqcnCK2lelH1sQfYQ/dwWjTKWiFJXhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WnkwEbiK; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1774932312; c=relaxed/simple;
+	bh=L/KbeD1AAavn1mBt/HPj8PeEOiTPSL64OCZcnbnolpc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=HxXdLmrYHjD524yXDZRx7KGpg/FMsFQduodJLi2vcK9yjQwx9nKx/3r7U9/M2YTgGeFjySyytThWDeaJ5R+E1m7cU7s6I+A2nWD7c31TQEgPdkt5/OGU8W6U7DgMGGfdbPzHiFQxMRNJNiNb2bIVvAhNwMdj0mbVTZ3ea/7/s8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YUTq0a5o; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WnkwEbiK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YUTq0a5o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774931591; x=1806467591;
+  t=1774932311; x=1806468311;
   h=date:from:to:cc:subject:message-id;
-  bh=E+lV3a8V7p3T0H2OGEu46Yrjuv1laABVsGTsPeF3TJ0=;
-  b=WnkwEbiK1+KkqlVoC15jYfJM4DzD+tEl/Bbd1NrDLP0gb9KE0xoAz2Ww
-   SfFKO7XMT3iBssR9uVpluM9Y3zV/vIZ2s4v9UJ6i6LC4yW3/IhIxqzxVW
-   YIAC3CbDeDokJt2782muMTqXl3HEAJHDYGtHq3rEzi2qsY9uCt1/REvLy
-   oGZdZXYQbecxtWx1XqQU2DpaFSfbB+Vf9u86jv5Yn0JnfZ1mh/8es9dB7
-   80GUVhSQy56nn6gm83v/KnLxWkos7Zw55nYZ+97TbY0NaXLD4KJOAcn3O
-   YtSJbYqSc0i9rCDO2IUDmPNzF1nPq8PR6oqTdi6hJjXYVxmZFSuW7qp09
-   Q==;
-X-CSE-ConnectionGUID: 5cnrx5qOTHG2OW9uq3qKRg==
-X-CSE-MsgGUID: an+NiRKHRTC5MW4OdLdNZg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="75107266"
+  bh=L/KbeD1AAavn1mBt/HPj8PeEOiTPSL64OCZcnbnolpc=;
+  b=YUTq0a5oRBMFcvU9w4YDM3mTLTzSRKB33yHOipfElroLSA+PFXpOSQCI
+   L9S1LYeJihOI4gch9DcSG9SR7ejQUsJvBBnyUML/LWoaiy4P+dhLiACaU
+   mwLcfIHf0bIKyHD80GYYHk6FDg/OQYv+dyPVMOsxnTpqAN/6uydomxYx+
+   7o94/6mQKEtLWrqfX8PMLrKtlaD92DdD1PZG0EJi16xETwKMR0DGVdN5b
+   3BmltEra/l1ZNBjDhzrtA5au5h4zsiRm5qlLiilhVc96bLeosZ6ljkkrP
+   CgYTz9TWuZi9z0tinK34alPqAXjKsPXC2EjfxvRzNFp3GC+UXVfWY9AsD
+   g==;
+X-CSE-ConnectionGUID: gyNM7sbWTuebfBwUlCZCew==
+X-CSE-MsgGUID: 4iXuuJNzTE2CggCCKsqN2A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="87010295"
 X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
-   d="scan'208";a="75107266"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 21:33:09 -0700
-X-CSE-ConnectionGUID: e0RGt+wLT2iCs/eiDGUVkw==
-X-CSE-MsgGUID: mO/j8bs2QtSF6elO23hkuA==
+   d="scan'208";a="87010295"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 21:45:10 -0700
+X-CSE-ConnectionGUID: SHIDIIIvSaiR2Gz1TVssKQ==
+X-CSE-MsgGUID: 5yl/EwmkSfCHD40ZIQfpNA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
-   d="scan'208";a="227867971"
+   d="scan'208";a="226121534"
 Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 30 Mar 2026 21:33:08 -0700
+  by orviesa009.jf.intel.com with ESMTP; 30 Mar 2026 21:45:10 -0700
 Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w7Qmn-000000002E1-3Q6p;
-	Tue, 31 Mar 2026 04:33:05 +0000
-Date: Tue, 31 Mar 2026 12:32:50 +0800
+	id 1w7QyQ-000000002Ev-1vXe;
+	Tue, 31 Mar 2026 04:45:06 +0000
+Date: Tue, 31 Mar 2026 12:45:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 0/2]
- arch/arm64/kvm/hyp/nvhe/pkvm.c:1725:5: warning: no previous prototype for
- '__pkvm_register_guest_smc_handler'
-Message-ID: <202603311207.TrsAxm4F-lkp@intel.com>
+Subject: [android-common:android16-6.12-2025-08 1/1]
+ mm/pgsize_migration.c:204:11: error: call to undeclared function
+ 'vma_start_read_locked'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202603311259.59mcMJMB-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,52 +61,111 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Sebastian,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   5fdbbd61a3cbdca7ac1034dc16723bdbc7ece8cc
-commit: 340ef6cb4081cb305235a059f1c142345ac1a71d [0/2] ANDROID: KVM: arm64: Add smc64 trap handling for protected guests
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20260331/202603311207.TrsAxm4F-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603311207.TrsAxm4F-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-08
+head:   feb767273b096a7c07872106ddb1cdcbfa682fcd
+commit: c691ab2c1e67fe61744eb8935689b7f9648dc97d [1/1] ANDROID: look up vma under RCU in linker_ctx()
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260331/202603311259.59mcMJMB-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603311259.59mcMJMB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603311207.TrsAxm4F-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603311259.59mcMJMB-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/arm64/kvm/hyp/nvhe/pkvm.c:1725:5: warning: no previous prototype for '__pkvm_register_guest_smc_handler' [-Wmissing-prototypes]
-    1725 | int __pkvm_register_guest_smc_handler(bool (*cb)(struct arm_smccc_1_2_regs *,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/pgsize_migration.c:204:11: error: call to undeclared function 'vma_start_read_locked'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     204 |                 BUG_ON(!vma_start_read_locked(vma));
+         |                         ^
+   1 error generated.
 
 
-vim +/__pkvm_register_guest_smc_handler +1725 arch/arm64/kvm/hyp/nvhe/pkvm.c
+vim +/vma_start_read_locked +204 mm/pgsize_migration.c
 
-  1724	
-> 1725	int __pkvm_register_guest_smc_handler(bool (*cb)(struct arm_smccc_1_2_regs *,
-  1726							 struct arm_smccc_res *res,
-  1727							 pkvm_handle_t handle),
-  1728					      pkvm_handle_t handle)
-  1729	{
-  1730		int ret = -EINVAL;
-  1731		struct pkvm_hyp_vm *vm;
-  1732	
-  1733		if (!cb)
-  1734			return ret;
-  1735	
-  1736		hyp_read_lock(&vm_table_lock);
-  1737		vm = get_vm_by_handle(handle);
-  1738		if (vm)
-  1739			ret = cmpxchg_release(&vm->smc_handler, NULL, cb) ? -EBUSY : 0;
-  1740		hyp_read_unlock(&vm_table_lock);
-  1741	
-  1742		return ret;
-  1743	}
-  1744	
+   156	
+   157	/*
+   158	 * The dynamic linker, or interpreter, operates within the process context
+   159	 * of the binary that necessitated dynamic linking.
+   160	 *
+   161	 * Consequently, process context identifiers; like PID, comm, ...; cannot
+   162	 * be used to differentiate whether the execution context belongs to the
+   163	 * dynamic linker or not.
+   164	 *
+   165	 * linker_ctx() deduces whether execution is currently in the dynamic linker's
+   166	 * context by correlating the current userspace instruction pointer with the
+   167	 * VMAs of the current task.
+   168	 *
+   169	 * Returns true if in linker context, otherwise false.
+   170	 */
+   171	static inline bool linker_ctx(void)
+   172	{
+   173		struct pt_regs *regs = task_pt_regs(current);
+   174		struct mm_struct *mm = current->mm;
+   175		struct vm_area_struct *vma;
+   176		struct file *file;
+   177	
+   178		if (!regs)
+   179			return false;
+   180	
+   181		vma = lock_vma_under_rcu(mm, instruction_pointer(regs));
+   182	
+   183		/*
+   184		 * lock_vma_under_rcu() is a try-lock that can fail if the
+   185		 * VMA is already locked for modification.
+   186		 *
+   187		 * Fallback to finding the vma under mmap read lock.
+   188		 */
+   189		if (!vma) {
+   190			mmap_read_lock(mm);
+   191	
+   192			vma = find_vma(mm, instruction_pointer(regs));
+   193	
+   194			/* Current execution context, the VMA must be present */
+   195			BUG_ON(!vma);
+   196	
+   197			/*
+   198			 * We cannot use vma_start_read() as it may fail due to
+   199			 * false locked (see comment in vma_start_read()). We
+   200			 * can avoid that by using vma_start_read_locked under
+   201			 * mmap_lock, which guarantees that nobody can lock the
+   202			 * vma for write (vma_start_write()) under us.
+   203			 */
+ > 204			BUG_ON(!vma_start_read_locked(vma));
+   205	
+   206			mmap_read_unlock(mm);
+   207		}
+   208	
+   209		file = vma->vm_file;
+   210		if (!file)
+   211			goto out;
+   212	
+   213		if ((vma->vm_flags & VM_EXEC)) {
+   214			char buf[64];
+   215			const int bufsize = sizeof(buf);
+   216			char *path;
+   217	
+   218			memset(buf, 0, bufsize);
+   219			path = d_path(&file->f_path, buf, bufsize);
+   220	
+   221			/*
+   222			 * Depending on interpreter requested, valid paths could be any of:
+   223			 *   1. /system/bin/bootstrap/linker64
+   224			 *   2. /system/bin/linker64
+   225			 *   3. /apex/com.android.runtime/bin/linker64
+   226			 *
+   227			 * Check the base name (linker64).
+   228			 */
+   229			if (!strcmp(kbasename(path), "linker64")) {
+   230				vma_end_read(vma);
+   231				return true;
+   232			}
+   233		}
+   234	out:
+   235		vma_end_read(vma);
+   236		return false;
+   237	}
+   238	
 
 -- 
 0-DAY CI Kernel Test Service
