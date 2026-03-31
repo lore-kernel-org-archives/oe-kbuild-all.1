@@ -1,158 +1,171 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9501F3D5659
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 11:32:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774956739; cv=pass; b=qeB2amHwKCpQ5JBZuieUUyTrFwXcnzGFAw9OD84Ef7zc4xVI1f/DlomWSwjUScVkh7x9/JPbGBeRp91/4IdYFTaoyJuOLjd2VBs5Wl7G+1w2I5PWSoS2JzLtkPUIVY3Er2aW5nHPTvZPxIelmKR/21I6yi98dYsv5mfnTTkXzRc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774956739; c=relaxed/simple;
-	bh=M67a/b1x6rgEx0jm9LICh8Vkeoo3mKrczTQasuX51XQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YqTdlPcTO0wvc68wg/tvJEt0epS5LR9jAzFHSEtun/jj7Gxdc+iMtpgaBgxmdN2vR05gBIstlfTGGO1UoOVw3Efw6D/yd3U5AbCcPS3kdrFdjE94rJF0lb9nhPtYQHUpA3OhVAZ+00gzdKY7vDZOn87sXiqfw/nGtjTrFzBocpo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ED0R3e1k; arc=pass smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C45C3D8907
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 11:52:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774957969; cv=none; b=nPpafNRGxlRvtTj/Q+t5BmkTdwtl16XMGnXtsFj0fXhPTq5HNewfFZgkY8AKinA/0MZP1hxKF/EwWnVf89kxbOkG4MZ7zrYVLcrj9mkDKaL7fZcUsG29oIzn2zRNZTJmiAmTXQlGm0FY2wa+aJ99sXyHPt4qoT1opp3E1KfuvHg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774957969; c=relaxed/simple;
+	bh=BewL16Hf31GJmYUrQgoWivSomAUh85GUJ6vpDGdKzoo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=LROEbQa6FtHaOBcizDsWD6VOgvONbvUW2keSAm0VYUgqiutE7EZ6dXR6iplDHdP1Vmvmb1VA7CSG2IF+shmrljtR4H2F5ah5DKpd89l3d1iIROCFppRQSJt7E/HRyLhLemqXMm2/mHx9dc+i0M1ZMReQTFrBwGq6e5juqvdcZ7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GXE25Ptn; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ED0R3e1k"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-486fb14227cso73722005e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 04:32:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774956737; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Rx1LI1AbchqXw7qbEsbpw/V99d1W8/mKIA7WDFUJwLf6I829aVi9673fr13bWzKI2t
-         CJhwNUn/UwQfBS4cOTwWU7A28zKGaKxTNd/p6RkoOvOSPSjwkW5gcILUKrd1LKFVFjsM
-         EmGBLvUJ3up4URuEYBXL5GLGxXVF9EK4xXz4vObfIAdHYB6sPbMSNwlowqp0U88kkuma
-         FLLQZ5SP5YY7hd3hFhpisQmA9dJu8yWqIsaeh5yBUhCPglE3JgXG7sNwMAsujkvcnpYO
-         EwZ2nFpJx13mrPBswfqvxk6+A5LFxLacqLA97vT2U1n2KyHL//RVSTpvIrhmuWgBUBlK
-         lADg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=M67a/b1x6rgEx0jm9LICh8Vkeoo3mKrczTQasuX51XQ=;
-        fh=yx4qwXOB1HbkqmEdu8WgxCjmoTMThb8gaFlzAFxjOGA=;
-        b=kZ9OjHs2X3jxs3rFbdpREA/AXR59JbH73Ya8HxXGcggyy45dmFJhaD9O1WPNRiEGt5
-         VX2FCo75yOb81kSSsGpnCbRFSbh3mAEIEPhtwL4NGQW07ydvPklxhXwxCYxTFHMEFE9K
-         yhuwOkMWgq5av8KmQejMLtjwwb+doQCJVEGiqfqPVSI6FwqHKX33xRIaKmt4o57LL6Fl
-         7RVwSTP9uC+R2fzZSSCvisQLnKIaDc3LL5qNErZZMhH7HdRPVIs1/HlEf3iUcIGkrZuW
-         vV3XmFb9MtbsTG6GVOxc8Y/Co1otzRaJisKkNLFdkS7rWJhrqRDU4D/K1OhR6pIqpsvS
-         uZyg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1774956737; x=1775561537; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=M67a/b1x6rgEx0jm9LICh8Vkeoo3mKrczTQasuX51XQ=;
-        b=ED0R3e1kC+ZdKUXD5A5XhI9i20ykQG27DgdFlT9Bjxymy0p98uD1agNo7QBX2nn2qD
-         rwgRFfRAnupubmg4l0L4bwzOA/EwPC7BVnOMkybNHp0duKEG+71EXb2FEm9WLZrrVRpJ
-         F2dtqNrgRAoxPb0MjuhopoUFY7chaH91RP+LriGxOAgkrBTC8uVeVPEJguzmSdabCF+e
-         JgAKd7NgfDUX1ohcrunrpIipEVa/IZAE7mXNPW4Fmxd4uS/DxB5NQCLt4LGwgl7aOF9D
-         76nfeEW+z+kWBvMy5z3l3+50xPjX3ZdkV7q/GqHiLd8+LKoMLQzQdpivY4/yTWKh+DR0
-         91SQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774956737; x=1775561537;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=M67a/b1x6rgEx0jm9LICh8Vkeoo3mKrczTQasuX51XQ=;
-        b=O22zxcy2gvx6l5xBo62P2DqLe1IiKSIGJ2a5uYzGklzmFIUc+j5MBEF3KdNk8ElWv8
-         jGJ1PJE2v0mI7NWLIUjgECwnYGHsCXSbJbqd6XXGeS2sZZfRVV+D5/OUYABBs8nXCwo0
-         39lt8i461fow1zuKKxNPfd2K3Edjs5x2SvO2E0CM73lbv2TdKiZkl/JG6uAvoHvC2qP0
-         asuKV+Hc3ZG+kSJKdl8LZ25RHJEVmPcrxZRsGMhj9M1q6MsH62cCeqLoXf6pg0wJ3Tt4
-         v2BVnM3n9oO11ay+UezS7XW6r/51vwMquVEBLKKcYAcIpnxo5QtqPVlOejCEmNvMUpfn
-         gCrw==
-X-Forwarded-Encrypted: i=1; AJvYcCX1FkWnJ1cUfuVtNXAKNmBR95mnjwtGXgY9pJJfhlWj+JckRu76pn1SXNfBGy6GNAeJ4nQSLjVUNc3ZkLfB@lists.linux.dev
-X-Gm-Message-State: AOJu0YwDo/YodthWhUIVpH9lOvTsKD/GeZuvqACr36skCZ2q+xw2dbD+
-	pgu32R/qxDDRdaL60ZiSFXe3h8sltSo2mutyw0k7ppgTwUQTIwjeq7NHQpCgjPRUfWbmRtFV5Q2
-	tir+snXfFFtPJMiNHkTe1GhyvBU0BjId7OlBkBpY6
-X-Gm-Gg: ATEYQzxofSh+CNWdzUGeyesuJJPSKRnGHEjyKaNhUyNWStYpMwqcf6lQgGX2j5FU26L
-	xMT4Lgoe/auSI8x8re6TEsJ0+GUjeusuolkLLssC/H+Ze/LZ0An5gfn9LfVmVKwfUsQQIS1fBpJ
-	4W0WlYOsHssgvzAyPjA2uThHcCLnIq8nx/xMWceFIdZRlYf5IdUE8WBojPVM8yPo+abXWnYDBoo
-	PzjpnpKRti+kpfQqq7JoXhkuGkg6S/bAuAxmRpO90f3CF2s9j7VpnAzOB6mDOAqDyXDAa1XJ0m+
-	Jhkwp9y8/x7Mx3zqEpFJKIIPxUsKt7Rw/DeT9w==
-X-Received: by 2002:a05:600c:638d:b0:477:76bf:e1fb with SMTP id
- 5b1f17b1804b1-48727efadcamr273504385e9.16.1774956736497; Tue, 31 Mar 2026
- 04:32:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GXE25Ptn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774957968; x=1806493968;
+  h=date:from:to:cc:subject:message-id;
+  bh=BewL16Hf31GJmYUrQgoWivSomAUh85GUJ6vpDGdKzoo=;
+  b=GXE25PtnqkCyw5+uCgk8ImsgondMarRQ1XwJJSMfPTwpE1j2ZQrImYgk
+   ZauD3XQzTzzGM7+v/b3IYK23RzkVERhDQQ7Zh+wFGKO6LEtqtYp8T12bO
+   v7kLhND84UfMsTZRs6GttSWmVIyzD4g24a89beVEACPeCq9ru4QVAxDP2
+   EyI1tyaN9QEe7xFw13hKmP1aXYPkkYUOXRCD6BU1Z/+C6xupW5fMXzEtR
+   +4uWWIxuoJ3t1oi9c023RuN6u6K86ZkswXOn1K44k9k4B7wKy3gLjVVzi
+   optQmQwe/yYV+k3hlh9O6k4bmKSLU5SaN13FcyMGhwpF2hUzS9kZJucbS
+   g==;
+X-CSE-ConnectionGUID: FuuoqghhRMWYpVizOV+PfQ==
+X-CSE-MsgGUID: oyHM7tYnTnmzsouuGKCong==
+X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="79568403"
+X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
+   d="scan'208";a="79568403"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 04:52:48 -0700
+X-CSE-ConnectionGUID: xsk/ptiWQ/WDVQLHhXE3iA==
+X-CSE-MsgGUID: VVZBgx2cRUm0x150ti9xqQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
+   d="scan'208";a="219700077"
+Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 31 Mar 2026 04:52:46 -0700
+Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w7XeF-000000002aR-2UB1;
+	Tue, 31 Mar 2026 11:52:43 +0000
+Date: Tue, 31 Mar 2026 19:52:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-2025-07 0/1]
+ kernel/sched/core.c:3976:21: warning: no previous prototype for
+ 'find_exec_ctx'
+Message-ID: <202603311948.E25hr2Gz-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <202603121235.tpnRxFKO-lkp@intel.com> <20260313213638.GA147391@ax162>
- <CANiq72mzEzjNg7O_2dWT_6QOJvJ3TwV+HyxNd_F4j6v9C+pc7A@mail.gmail.com>
- <2026031422-catsup-rectal-f886@gregkh> <CAH5fLgixE9MGXxNEnU5b0EXdgLQoTs5CMv_0OdnfCX3v=coUpw@mail.gmail.com>
- <abVG0JypVhDxx1Tt@google.com> <2026031444-wriggle-tradition-245f@gregkh>
-In-Reply-To: <2026031444-wriggle-tradition-245f@gregkh>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Tue, 31 Mar 2026 13:32:03 +0200
-X-Gm-Features: AQROBzCQEjffcE5il2ENOqxKPlkZVapSxJMQJFQeH4ua_CsBeZl83tkO6WEAH3c
-Message-ID: <CAH5fLggMZM3kYWO3xqb4o-mQG27aCYOmiiODW67CKLTstkB-PQ@mail.gmail.com>
-Subject: Re: [linux-next:master 5585/5731] error[E0277]: `*const
- kernel::bindings::vm_uffd_ops` cannot be shared between threads safely
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, kernel test robot <lkp@intel.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Mark Brown <broonie@kernel.org>, rust-for-linux@vger.kernel.org, 
-	Miguel Ojeda <ojeda@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Jann Horn <jannh@google.com>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Mar 14, 2026 at 12:53=E2=80=AFPM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Sat, Mar 14, 2026 at 11:30:24AM +0000, Alice Ryhl wrote:
-> > On Sat, Mar 14, 2026 at 12:15:30PM +0100, Alice Ryhl wrote:
-> > > On Sat, Mar 14, 2026 at 12:13=E2=80=AFPM Greg Kroah-Hartman
-> > > <gregkh@linuxfoundation.org> wrote:
-> > > >
-> > > > On Fri, Mar 13, 2026 at 11:39:14PM +0100, Miguel Ojeda wrote:
-> > > > > On Fri, Mar 13, 2026 at 10:36=E2=80=AFPM Nathan Chancellor <natha=
-n@kernel.org> wrote:
-> > > > > >
-> > > > > > It looks like this is a conflict between Alice's "rust_binder: =
-check ownership
-> > > > > > before using vma" [1] (currently in char-misc-linus [2]) and Mi=
-ke's
-> > > > > > "userfaultfd: introduce vm_uffd_ops" [3] (currently in mm-unsta=
-ble [4]),
-> > > > > > hence why it was bisected to the -next merge commit.
-> > > > >
-> > > > > Thanks Nathan, yeah, adding a raw pointer (not function pointer) =
-to
-> > > > > the struct makes the type `!Sync` in Rust.
-> > > > >
-> > > > > I assume this is best handled with a patch on top of char-misc-li=
-nus.
-> > > > > Perhaps creating a wrapper to assert it is `Sync`, since the
-> > > > > `BINDER_VM_OPS` contents are unused (so far).
-> > > > >
-> > > > > Cc'ing more folks related to the commit.
-> > > >
-> > > > char-misc-linus should get merged into Linus's tree "soon" and then=
- we
-> > > > can fix up the mm-unstable change for this.
-> > >
-> > > I'm working on the fix as we speak. It would be ideal if it went into
-> > > char-misc-linus, because the commit that is wrong is mine, not the on=
-e
-> > > in mm.
-> >
-> > To clarify, to avoid breaking bisection, the commit needs to land
-> > somewhere that is on top of commit 8ef2c15aeae0 ("rust_binder: check
-> > ownership before using vma"), and before the mm commit. But I guess
-> > there are several options for how to do that other than landing it
-> > through char-misc-linus right now.
->
-> I've sent off a pull request for the char-misc-linus branch now, and
-> after -rc4 is out I'll queue this up on top of that to get merged for
-> -rc5 to make this all work out ok.
+Hi Connor,
 
-Friendly ping on this. I don't see this applied yet.
+FYI, the error/warning still remains.
 
-Alice
+tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-07
+head:   4f3d5d464c04efbd6bec02d698dd527d03f65a36
+commit: a70dd213296b2f2524c2b4440cb60d46f85ab2e4 [0/1] ANDROID: sched: Add find_exec_ctx helper
+config: i386-randconfig-013-20260331 (https://download.01.org/0day-ci/archive/20260331/202603311948.E25hr2Gz-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603311948.E25hr2Gz-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603311948.E25hr2Gz-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> kernel/sched/core.c:3976:21: warning: no previous prototype for 'find_exec_ctx' [-Wmissing-prototypes]
+    3976 | struct task_struct *find_exec_ctx(struct rq *rq, struct task_struct *p)
+         |                     ^~~~~~~~~~~~~
+   kernel/sched/core.c: In function 'ttwu_runnable':
+   kernel/sched/core.c:4149:63: error: 'struct task_struct' has no member named 'wake_cpu'; did you mean 'wake_q'?
+    4149 |                         trace_sched_pe_return_migration(p, p->wake_cpu);
+         |                                                               ^~~~~~~~
+         |                                                               wake_q
+   In file included from arch/x86/include/asm/bug.h:99,
+                    from include/linux/bug.h:5,
+                    from include/linux/jump_label.h:280,
+                    from include/linux/static_key.h:1,
+                    from arch/x86/include/asm/nospec-branch.h:6,
+                    from arch/x86/include/asm/irqflags.h:9,
+                    from include/linux/irqflags.h:18,
+                    from include/linux/spinlock.h:59,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from include/linux/highmem.h:5,
+                    from kernel/sched/core.c:10:
+   kernel/sched/core.c: In function 'find_proxy_task':
+   kernel/sched/core.c:7376:18: error: implicit declaration of function 'is_cpu_allowed'; did you mean 'cpuset_cpus_allowed'? [-Wimplicit-function-declaration]
+    7376 |         WARN_ON(!is_cpu_allowed(p, p->wake_cpu));
+         |                  ^~~~~~~~~~~~~~
+   include/asm-generic/bug.h:123:32: note: in definition of macro 'WARN_ON'
+     123 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   kernel/sched/core.c:7376:39: error: 'struct task_struct' has no member named 'wake_cpu'; did you mean 'wake_q'?
+    7376 |         WARN_ON(!is_cpu_allowed(p, p->wake_cpu));
+         |                                       ^~~~~~~~
+   include/asm-generic/bug.h:123:32: note: in definition of macro 'WARN_ON'
+     123 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   kernel/sched/core.c:7377:16: error: 'struct task_struct' has no member named 'wake_cpu'; did you mean 'wake_q'?
+    7377 |         if (p->wake_cpu == this_cpu) {
+         |                ^~~~~~~~
+         |                wake_q
+   kernel/sched/core.c:7390:47: error: 'struct task_struct' has no member named 'wake_cpu'; did you mean 'wake_q'?
+    7390 |         trace_sched_pe_return_migration(p, p->wake_cpu);
+         |                                               ^~~~~~~~
+         |                                               wake_q
+   kernel/sched/core.c:7391:42: error: 'struct task_struct' has no member named 'wake_cpu'; did you mean 'wake_q'?
+    7391 |         proxy_migrate_task(rq, rf, p, p->wake_cpu);
+         |                                          ^~~~~~~~
+         |                                          wake_q
+   kernel/sched/core.c: In function '__schedule':
+   kernel/sched/core.c:7551:25: error: implicit declaration of function 'zap_balance_callbacks'; did you mean 'balance_callbacks'? [-Wimplicit-function-declaration]
+    7551 |                         zap_balance_callbacks(rq);
+         |                         ^~~~~~~~~~~~~~~~~~~~~
+         |                         balance_callbacks
+
+
+vim +/find_exec_ctx +3976 kernel/sched/core.c
+
+  3971	
+  3972	/*
+  3973	 * Returns the unblocked task at the end of the blocked chain starting with p
+  3974	 * if that chain is composed entirely of tasks enqueued on rq, or NULL otherwise.
+  3975	 */
+> 3976	struct task_struct *find_exec_ctx(struct rq *rq, struct task_struct *p)
+  3977	{
+  3978		struct task_struct *exec_ctx, *owner;
+  3979	
+  3980		if (!sched_proxy_exec())
+  3981			return p;
+  3982	
+  3983		lockdep_assert_rq_held(rq);
+  3984	
+  3985		for (exec_ctx = p; task_is_blocked(exec_ctx) && !task_on_cpu(rq, exec_ctx);
+  3986								exec_ctx = owner) {
+  3987			owner = __mutex_owner(exec_ctx->blocked_on);
+  3988			if (!owner || owner == exec_ctx)
+  3989				break;
+  3990	
+  3991			if (!task_queued_on_rq(rq, owner) || task_current_donor(rq, owner)) {
+  3992				exec_ctx = NULL;
+  3993				break;
+  3994			}
+  3995		}
+  3996		return exec_ctx;
+  3997	}
+  3998	#else /* !CONFIG_SCHED_PROXY_EXEC */
+  3999	static inline void proxy_remove_from_sleeping_owner(struct task_struct *p)
+  4000	{
+  4001	}
+  4002	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
