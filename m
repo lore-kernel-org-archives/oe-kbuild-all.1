@@ -1,99 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0AA4184524;
-	Tue, 31 Mar 2026 01:49:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5763020B810
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 02:03:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774921787; cv=none; b=Yd7PNRG5UJoZpARkAPb3D5UZEYUGFzenzIyDOJrqq/TdIM/GMQMGHYaS9HQdpEUtM+EfpT67VhjcpgH/XGypQwGkbxWWiNB4ZdTKW0SWFTjmr38JxVfijjplz/q3aAlbPSLBznYG37TpPuxlR1PNEIw670oBmgxnAGg8YB+rjas=
+	t=1774922634; cv=none; b=Zih3eVlap8wcV/YlSuCoAW6IWbtHlQ4kqmxEMb5XR5H13fEipib3aumHrd5hi4GGsRRpvmwy8b/HYfTObhupSbzAxIpZJ5T165JGKcZphO/iImcsw4hht40BEV3cS+/0v4L1SN7cmujdghEXxc1bRtDUwqBuGYVfiG1jyHTYLYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774921787; c=relaxed/simple;
-	bh=PkI133hxpyomjeVUtgKx63fvmx/xJt8VuhQdt5D0O9A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A3gBwDtDL1ZaZcQpTMcFR6Mw/nA25PWE5D2g7T5r/+0dGCD2runNruUD7VzuvYqo6fIhyX7hpIdbOLVClid6cNJgPjRbtLr+MnVJwgs74XpcBOHHV7OojYd3fPrheXYepOvMzSA9yB8YznmUOaMDI+MUalcypacpyEeSqzV2Hk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EZ4auciO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774922634; c=relaxed/simple;
+	bh=dXWmZCSxjHnf/IVMLyhf5gyUZQZR41Vaua8FQ/k9qsk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=o1zZux375z2mDL/qqiD7iy/n/TuvGyhi83+jzMKRGVx9v7rJCaRPRolfymj1Wtt0Dk3a+nqbFeVUtHDCzk9xwjyc4giOzUt2298k4OEV37onKjX7NPOhf2U7JDUMEDfgvSP7QP4lZ638pBLQmMxFkZbBUeRagclKYl2XqHP0i5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e46V6y5J; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EZ4auciO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FDBAC4CEF7;
-	Tue, 31 Mar 2026 01:49:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774921787;
-	bh=PkI133hxpyomjeVUtgKx63fvmx/xJt8VuhQdt5D0O9A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EZ4auciONLLYUeuDYJ8guHi0sJS8PVtZSbPJDn2gEHs7UNsPoTBtUe35mF0p/QEvl
-	 FHKJD2yQvght4sdFCez9oT3TBDjRaFLhkYOjo4MA/ELZIqdVKs5F/r76tSSMxHsZ/T
-	 fmCSquPTGwT4IFJBSLpFa58YXFXCQkAv91hFuXE379vAOL6ZyWBFFlPwRqZ/Et9tbC
-	 T7ejagBIuWYcEEciK/LYq7rgk2RRptj8Xj3l81kBqbJal7BeC+jKJ7L0S3xB4pn3GL
-	 Vu1mzibtyE2oIW7KVHe4OHKUdu6HfOV1dI30i6siYwe7X6kDr8EFZUSCs9L5Kg6Z1S
-	 4/e/wA0uFrrDA==
-Date: Mon, 30 Mar 2026 18:48:37 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: "Maciej W. Rozycki" <macro@orcam.me.uk>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Sohil Mehta <sohil.mehta@intel.com>, linux-crypto@vger.kernel.org,
-	linux-mips@vger.kernel.org, "Jason A. Donenfeld" <Jason@zx2c4.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Subject: Re: lib/crypto/mips/poly1305-core.S:95: Error: opcode not supported
- on this processor: mips64r6 (mips64r6) `lwl $8,0+3($5)'
-Message-ID: <20260331014837.GC5190@sol>
-References: <202603210105.sdD4rsTq-lkp@intel.com>
- <20260330203731.GG4303@sol>
- <alpine.DEB.2.21.2603310147220.60268@angie.orcam.me.uk>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e46V6y5J"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774922632; x=1806458632;
+  h=date:from:to:cc:subject:message-id;
+  bh=dXWmZCSxjHnf/IVMLyhf5gyUZQZR41Vaua8FQ/k9qsk=;
+  b=e46V6y5JWIVvJp7jndjfcfZM8LL3Lktfow5d0tVOAasgvfPvHwUZuvnE
+   +sfYvywumzcYxoeaFZ/o6MeHigJSD1e1thuqLk192k5OJ1e0YkaI+bQUJ
+   7zzNFceUaP4XHWOtR64eq94rO+QHtXktXfV4/h/fIV2pT5veNc8vzpQbJ
+   QcflWN2G9PWvR7UfanN55l/b3zmJNwNM+r+4OXTl5YDWoC8Ufm08BpVBT
+   iq21VILqVgH2QAEP4Jyxqb0Kcx87sHsGxS+beIuMSYDVsLTZCbeRi6J5G
+   MpwMAqri3HlJSZuPJH9+VMRwx0AgZEWw0qnnMrX7ifYyMUeQzVWU5LlWJ
+   A==;
+X-CSE-ConnectionGUID: u1mFiADkTcqQBYP8rbd/OQ==
+X-CSE-MsgGUID: HqaPy2EMRT2m5bFcXTvBBA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="75813087"
+X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
+   d="scan'208";a="75813087"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 19:03:52 -0700
+X-CSE-ConnectionGUID: MdHzqJiTRH+HXzwqar2vOQ==
+X-CSE-MsgGUID: TM7DBZKXSzySBCTArkFCqQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
+   d="scan'208";a="231147479"
+Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 30 Mar 2026 19:03:50 -0700
+Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w7OSK-00000000213-0NBX;
+	Tue, 31 Mar 2026 02:03:48 +0000
+Date: Tue, 31 Mar 2026 10:03:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 1/1]
+ kernel/sched/test_ksched_football.c:57:15: sparse: sparse: symbol
+ 'players_per_team' was not declared. Should it be static?
+Message-ID: <202603310934.9cdD82Ra-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.21.2603310147220.60268@angie.orcam.me.uk>
 
-On Tue, Mar 31, 2026 at 02:01:44AM +0100, Maciej W. Rozycki wrote:
-> On Mon, 30 Mar 2026, Eric Biggers wrote:
-> 
-> > > All errors (new ones prefixed by >>):
-> > > 
-> > >    lib/crypto/mips/poly1305-core.S: Assembler messages:
-> > > >> lib/crypto/mips/poly1305-core.S:95: Error: opcode not supported on this processor: mips64r6 (mips64r6) `lwl $8,0+3($5)'
-> > >    lib/crypto/mips/poly1305-core.S:96: Error: opcode not supported on this processor: mips64r6 (mips64r6) `lwl $9,4+3($5)'
-> > >    lib/crypto/mips/poly1305-core.S:97: Error: opcode not supported on this processor: mips64r6 (mips64r6) `lwl $10,8+3($5)'
-> > >    lib/crypto/mips/poly1305-core.S:98: Error: opcode not supported on this processor: mips64r6 (mips64r6) `lwl $11,12+3($5)'
-> > 
-> > This isn't new.  It was first reported in 2021:
-> > https://lore.kernel.org/all/202108040636.P6t1LvPP-lkp@intel.com/
-> > 
-> > It's caused by:
-> > 
-> > CONFIG_64BIT=n causes the 32-bit Poly1305 assembly code to be generated.
-> > That code checks the _MIPS_ARCH_MIPS32R6 macro.  But, the code is
-> > actually built with -march=mips64r6, due to CONFIG_CPU_MIPS64_R6=y.
-> > Thus _MIPS_ARCH_MIPS32R6 is not defined; _MIPS_ARCH_MIPS64R6 is defined
-> > instead.  So the wrong code gets built.
-> > 
-> > Maybe someone from linux-mips@vger.kernel.org can confirm whether
-> > CONFIG_64BIT=n && CONFIG_CPU_MIPS64_R6=y actually makes sense?
-> 
->  Absolutely, you can build a 32-bit kernel for and run on 64-bit hardware 
-> and we have supported it since forever across all the MIPS architecture 
-> revisions.
-> 
->  You probably want to check for CONFIG_CPU_MIPSR6 instead (and similarly 
-> for CONFIG_CPU_MIPSR2, etc.).
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   49e3211dc6f78316f18eda489420693b4f42cc58
+commit: 84f4417638e9588ebcb43c4ed0280d097c46abf9 [1/1] ANDROID: sched: Initial ksched_football test implementation
+config: x86_64-randconfig-r121-20260331 (https://download.01.org/0day-ci/archive/20260331/202603310934.9cdD82Ra-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603310934.9cdD82Ra-lkp@intel.com/reproduce)
 
-Okay, but does it make sense to use -march=mips64r6 in that case,
-instead of -march=mips32r6?  I guess you get something that uses the
-32-bit ABI but is free to use 64-bit instructions?  It looks like
-poly1305-mips.pl doesn't really support that combination: it just has
-32-bit ABI + 32-bit instructions, and 64-bit ABI + 64-bit instructions.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603310934.9cdD82Ra-lkp@intel.com/
 
-Maybe it would be easiest to always compile poly1305-mips.pl with the
-corresponding mips32 flag when CONFIG_64BIT is unset?  Note: since
-poly1305-mips.pl was taken from an external source
-(https://github.com/dot-asm/cryptogams/blob/master/mips/poly1305-mips.pl),
-modifying the build system to pass the appropriate flag might be
-preferable to extensive local patching of that file.
+sparse warnings: (new ones prefixed by >>)
+   kernel/sched/test_ksched_football.c:55:10: sparse: sparse: symbol 'players_ready' was not declared. Should it be static?
+   kernel/sched/test_ksched_football.c:56:10: sparse: sparse: symbol 'ball_pos' was not declared. Should it be static?
+>> kernel/sched/test_ksched_football.c:57:15: sparse: sparse: symbol 'players_per_team' was not declared. Should it be static?
+   kernel/sched/test_ksched_football.c:58:6: sparse: sparse: symbol 'game_over' was not declared. Should it be static?
+   kernel/sched/test_ksched_football.c:78:17: sparse: sparse: symbol 'mutex_low_list' was not declared. Should it be static?
+   kernel/sched/test_ksched_football.c:79:17: sparse: sparse: symbol 'mutex_mid_list' was not declared. Should it be static?
+   kernel/sched/test_ksched_football.c:216:19: sparse: sparse: symbol 'referee_done' was not declared. Should it be static?
 
-- Eric
+vim +/players_per_team +57 kernel/sched/test_ksched_football.c
+
+    54	
+    55	atomic_t players_ready;
+    56	atomic_t ball_pos;
+  > 57	unsigned long players_per_team;
+    58	bool game_over;
+    59	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
