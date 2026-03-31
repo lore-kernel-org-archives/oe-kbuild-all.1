@@ -1,406 +1,179 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 478943644BC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 17:24:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774977893; cv=pass; b=EYPpI0ps7L8w940kKLg1QokB6iqh66MkyY9spdrUUd3q33ztHd95T+aBnwRvRy72X1to6RHXxE5ZUEkxx1NJoXxr+zHmEYa45uOilKlz5nNBxJm8Qn+08lWI1wIU4pY9q7K+yLiAHngpENXo2xl/KrB2pGV9svHhOUXDWrp0WLg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774977893; c=relaxed/simple;
-	bh=6/ql8FNUYX9RLdMQCve36DQhol1c980WJqD9NgB4JNM=;
-	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=iteir1u6519HFR0+WfWJhJjZX2ySv4Zmsbhp8tWN8W4LsXgp4tTZch1VNKO1j3JgTnABdxIBaM7yrIS4xAxBewuNaJSq4eS49ppKaz06jgvPWlPW9qzwIOdxcO6NDkAZ9CT4qVJL339yH1KDM7ye5vcCdRPDXCwq2QBCiB6iBsc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=JZoWszX+; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB46E33F8D6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 17:33:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774978410; cv=none; b=HRYHJnbAVIyqy4Nkv75UTSJospt+3dyaZoCMzU6DAKyTxyduldlw806hX7Qrc9vdA26rrLY6N96gQDlJ8nHwGzXLNb5zIMeyX9+nlmzXkiRFbY5cdD0XiPk4FeG/NE6QjG32CxWG0KdSHXmcBbwot9bPM2yjCBfzF/grg23DQlM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774978410; c=relaxed/simple;
+	bh=Rkxo8myz9J7g2Z83c4VYdC6+ONh21dTEIxhfuPEF5YY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=K+N0oRIx3WGrhbmxMGx8qbyMQ+FG9c81oEFWiu1ZY4/kMzXZxiI2CvFAGeSGz3gBgxwHfz3oYd4PwfENzFWscUZGs1Bb84agja5zVhypP67ix1iH2R80Pfcl0+YILcW19GLimD3/iq6dPkTUNvvG+bx9r7uFa/+Vn+yehJtFYro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EvBvX9mf; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="JZoWszX+"
-ARC-Seal: i=1; a=rsa-sha256; t=1774977888; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=mfbt8ZYJ6fshY+e/lkfd53wlVQvbQ9Nq7ar0G6ZNYGddmuua6oHlpemYCCmBuh/eaSyqNfqseSNtAGv9mOJR2dUakgBAuk8bHp/4gDkqyPQW7Nuz53rzGAHOjYd5Mmubwi/dsxYdZpmDdRx5uqTN49rb7i+J/B+QtzFNLByCaVk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1774977888; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=FHilIAO4qYKYoZuc+6OM/D/bi/vbmK9PrJA5dc3G+Wo=; 
-	b=j40JT1/yzk7zz7Xl0RTPl9XPfGb7PVsBkXLz3EVScArOvQpuzBqsTzPGqFUR2CtJBvr0xQa5MOLV7bWtBfs3t4sucLvbVptra7VEmJ0ihJmloJJMqKRILuGA8CF3OZj3Gkh66LB2XDQGgyTpoyKY4JRKPboaSFvh/UH4gI8gLUo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774977888;
-	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date:Date:MIME-Version:Message-Id:Reply-To;
-	bh=FHilIAO4qYKYoZuc+6OM/D/bi/vbmK9PrJA5dc3G+Wo=;
-	b=JZoWszX+mWWY3RGvXfQBIxPA0Ikxsgk8p+i7OBdaj5bOLxtxhvcUO/Vbs75Fg7Db
-	ePJ1w8KFhexU4TkB7t4ryG+ORBoCNLJWXA0kDIjUcCIveahzazSu+zT4ffiQdjATPJ2
-	AyLQq1qbsq3uK4+kles1SSK/KMUsvyp8eIx4vP3iGCnhWolBDwXXZqnMHDXDmuQDL91
-	hjzEZVCfURs+ps2xPAUU/xXF+emzdwIxyI2zAfPzditfsy7dikpE+dN4OxuO6WABC8a
-	6dFsJTReIplyMwPWVw4Utg1n/TShTb4qmh2QUa3U9J4hhG4mUigedc9o+COk/gmtURA
-	FsgKLCyscg==
-Received: by mx.zohomail.com with SMTPS id 1774977886130130.76757325486403;
-	Tue, 31 Mar 2026 10:24:46 -0700 (PDT)
-Message-ID: <ed27a1c24bfc05717f2c0d5a1c052630484d313f.camel@rong.moe>
-Subject: Re: [PATCH] platform/x86: lenovo: Decouple lenovo-wmi-gamezone and
- lenovo-wmi-other
-From: Rong Zhang <i@rong.moe>
-To: Derek John Clark <derekjohn.clark@gmail.com>
-Cc: Ilpo =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Hans
- de Goede <hansg@kernel.org>, oe-kbuild-all@lists.linux.dev, Mark Pearson
- <mpearson-lenovo@squebb.ca>,  Armin Wolf <W_Armin@gmx.de>, Jonathan Corbet
- <corbet@lwn.net>, Kurt Borja <kuurtb@gmail.com>, 
-	platform-driver-x86@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
- kernel test robot	 <lkp@intel.com>, stable@vger.kernel.org
-In-Reply-To: <CAFqHKTkSQsEDeFif8+OrAm2tr2VQjx7N0UEdXxJRmy+N_4i==g@mail.gmail.com>
-References: <861d0276a759461be446df8e996d196037c9b581.camel@rong.moe>
-		 <20260326161724.72186-1-i@rong.moe>
-		 <d824bf55-8c1a-1374-04f9-aff9ffdaaa0d@linux.intel.com>
-		 <afa0c48c0adac075411dae92ff9079e52c77a3fe.camel@rong.moe>
-		 <CAFqHKTkSQsEDeFif8+OrAm2tr2VQjx7N0UEdXxJRmy+N_4i==g@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 01 Apr 2026 00:07:46 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EvBvX9mf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774978409; x=1806514409;
+  h=date:from:to:cc:subject:message-id;
+  bh=Rkxo8myz9J7g2Z83c4VYdC6+ONh21dTEIxhfuPEF5YY=;
+  b=EvBvX9mfjHRWJINj2HtXSSOSZDmbdVJGjgj3mfc2SdRNky5TW9ZaIl1u
+   44BXE41YBfUHr5PgOPq1pdF9usw8AYraBy8UGuy0l/rOMRLDozhpI0KcU
+   c7Bf+nF6YbzK37hVxbKkG2YD+yIrKYc8h8F23qt8LVssFMQJKyu32GX+X
+   W1m8S3ncivZd8NBgxY/My8lwddyw9EzTrlQnFh60wrh6LOLImBOVNOwOJ
+   BEZgzeBNZKg58Gs2ddr1tieOngsaGBzvb0TN7yqGiBPvFudPu3UPky6jD
+   L86eYiUHXHnyP3PKkGiDzMuEgUCW1XZfv7Sc32UgjA7RWKU2I0jpz/24d
+   w==;
+X-CSE-ConnectionGUID: YbKpiARESrawiCugLQcF6g==
+X-CSE-MsgGUID: zyLDkImrTyqP/+Z2cVIHlg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="98610679"
+X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
+   d="scan'208";a="98610679"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 10:33:28 -0700
+X-CSE-ConnectionGUID: edLDLB1qSFOjDCkOXE2cxw==
+X-CSE-MsgGUID: cQ/vkmWCTVunLJwUy45bsQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
+   d="scan'208";a="226677289"
+Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 31 Mar 2026 10:33:27 -0700
+Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w7cxv-000000003wV-3wJx;
+	Tue, 31 Mar 2026 17:33:23 +0000
+Date: Wed, 01 Apr 2026 01:33:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-2024-11 1/1]
+ drivers/net/ethernet/microchip/vcap/vcap_api_kunit.c:2001:1: warning: the
+ frame size of 1040 bytes is larger than 1024 bytes
+Message-ID: <202604010103.GfNz6qMI-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Evolution 3.56.2-9 
-X-ZohoMailClient: External
 
-Hi Derek,
+tree:   https://android.googlesource.com/kernel/common android15-6.6-2024-11
+head:   8afee3a5a02e86617a56f39a05fbdfe3e2d5a469
+commit: 088b154d2680429192da6ee83622037659e8b862 [1/1] ANDROID: GKI: Add OEM data to mutex/rwsem
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260401/202604010103.GfNz6qMI-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260401/202604010103.GfNz6qMI-lkp@intel.com/reproduce)
 
-On Mon, 2026-03-30 at 13:04 -0700, Derek John Clark wrote:
-> On Fri, Mar 27, 2026 at 8:21=E2=80=AFAM Rong Zhang <i@rong.moe> wrote:
-> >=20
-> > Hi Ilpo,
-> >=20
-> > On Fri, 2026-03-27 at 13:25 +0200, Ilpo J=C3=A4rvinen wrote:
-> > > On Fri, 27 Mar 2026, Rong Zhang wrote:
-> > >=20
-> > > > Currently, lenovo-wmi-gamezone depends on lenovo-wmi-other as the f=
-ormer
-> > > > imports symbols from the latter. The imported symbols are just used=
- to
-> > > > register a notifier block. However, there is no runtime dependency
-> > > > between both drivers, and either of them can run without the other,
-> > > > which is the major purpose of using the notifier framework.
-> > > >=20
-> > > > Such a link-time dependency is non-optimal. A previous attempt to "=
-fix"
-> > > > it made LENOVO_WMI_GAMEZONE select LENOVO_WMI_TUNING, which was
-> > > > fundamentally broken and resulted in undefined Kconfig behavior, as
-> > > > `select' cannot be used on a symbol with potentially unmet dependen=
-cies.
-> > > >=20
-> > > > Decouple both drivers by moving the thermal mode notifier chain to
-> > > > lenovo-wmi-helpers. Methods for notifier block (un)registration are
-> > > > exported for lenovo-wmi-gamezone, while a method for querying the
-> > > > current thermal mode are exported for lenovo-wmi-other.
-> > > >=20
-> > > > This turns the dependency graph from
-> > > >=20
-> > > >             +------------ lenovo-wmi-gamezone
-> > > >             |                     |
-> > > >             v                     |
-> > > >     lenovo-wmi-helpers            |
-> > > >             ^                     |
-> > > >             |                     V
-> > > >             +------------ lenovo-wmi-other
-> > > >=20
-> > > > into
-> > > >=20
-> > > >             +------------ lenovo-wmi-gamezone
-> > > >             |
-> > > >             v
-> > > >     lenovo-wmi-helpers
-> > > >             ^
-> > > >             |
-> > > >             +------------ lenovo-wmi-other
-> > > >=20
-> > > > To make it clear, the name of the notifier chain is also renamed fr=
-om
-> > > > `om_chain_head' to `tm_chain_head', indicating that it's used to qu=
-ery
-> > > > the current thermal mode.
-> > > >=20
-> > > > No functional change intended.
-> > > >=20
-> > > > Fixes: 6e38b9fcbfa3 ("platform/x86: lenovo: gamezone needs "other m=
-ode"")
-> > > > Cc: stable@vger.kernel.org
-> > > > Reported-by: kernel test robot <lkp@intel.com>
-> > > > Closes: https://lore.kernel.org/oe-kbuild-all/202603252259.gHvJDyh3=
--lkp@intel.com/
-> > > > Closes: https://lore.kernel.org/oe-kbuild-all/202603260302.X0NjQOda=
--lkp@intel.com/
-> > > > Signed-off-by: Rong Zhang <i@rong.moe>
-> > > > ---
-> > > >  drivers/platform/x86/lenovo/Kconfig        |   1 -
-> > > >  drivers/platform/x86/lenovo/wmi-gamezone.c |   4 +-
-> > > >  drivers/platform/x86/lenovo/wmi-helpers.c  | 102 +++++++++++++++++=
-+++
-> > > >  drivers/platform/x86/lenovo/wmi-helpers.h  |   8 ++
-> > > >  drivers/platform/x86/lenovo/wmi-other.c    | 104 +----------------=
-----
-> > > >  drivers/platform/x86/lenovo/wmi-other.h    |  16 ----
-> > > >  6 files changed, 113 insertions(+), 122 deletions(-)
-> > > >  delete mode 100644 drivers/platform/x86/lenovo/wmi-other.h
-> > > >=20
-> > > > diff --git a/drivers/platform/x86/lenovo/Kconfig b/drivers/platform=
-/x86/lenovo/Kconfig
-> > > > index f885127b007f..09b1b055d2e0 100644
-> > > > --- a/drivers/platform/x86/lenovo/Kconfig
-> > > > +++ b/drivers/platform/x86/lenovo/Kconfig
-> > > > @@ -252,7 +252,6 @@ config LENOVO_WMI_GAMEZONE
-> > > >     select ACPI_PLATFORM_PROFILE
-> > > >     select LENOVO_WMI_EVENTS
-> > > >     select LENOVO_WMI_HELPERS
-> > > > -   select LENOVO_WMI_TUNING
-> > > >     help
-> > > >       Say Y here if you have a WMI aware Lenovo Legion device and w=
-ould like to use the
-> > > >       platform-profile firmware interface to manage power usage.
-> > > > diff --git a/drivers/platform/x86/lenovo/wmi-gamezone.c b/drivers/p=
-latform/x86/lenovo/wmi-gamezone.c
-> > > > index c7fe7e3c9f17..92020225db27 100644
-> > > > --- a/drivers/platform/x86/lenovo/wmi-gamezone.c
-> > > > +++ b/drivers/platform/x86/lenovo/wmi-gamezone.c
-> > > > @@ -23,7 +23,6 @@
-> > > >  #include "wmi-events.h"
-> > > >  #include "wmi-gamezone.h"
-> > > >  #include "wmi-helpers.h"
-> > > > -#include "wmi-other.h"
-> > > >=20
-> > > >  #define LENOVO_GAMEZONE_GUID "887B54E3-DDDC-4B2C-8B88-68A26A8835D0=
-"
-> > > >=20
-> > > > @@ -383,7 +382,7 @@ static int lwmi_gz_probe(struct wmi_device *wde=
-v, const void *context)
-> > > >             return ret;
-> > > >=20
-> > > >     priv->mode_nb.notifier_call =3D lwmi_gz_mode_call;
-> > > > -   return devm_lwmi_om_register_notifier(&wdev->dev, &priv->mode_n=
-b);
-> > > > +   return devm_lwmi_tm_register_notifier(&wdev->dev, &priv->mode_n=
-b);
-> > > >  }
-> > > >=20
-> > > >  static const struct wmi_device_id lwmi_gz_id_table[] =3D {
-> > > > @@ -405,7 +404,6 @@ module_wmi_driver(lwmi_gz_driver);
-> > > >=20
-> > > >  MODULE_IMPORT_NS("LENOVO_WMI_EVENTS");
-> > > >  MODULE_IMPORT_NS("LENOVO_WMI_HELPERS");
-> > > > -MODULE_IMPORT_NS("LENOVO_WMI_OTHER");
-> > > >  MODULE_DEVICE_TABLE(wmi, lwmi_gz_id_table);
-> > > >  MODULE_AUTHOR("Derek J. Clark <derekjohn.clark@gmail.com>");
-> > > >  MODULE_DESCRIPTION("Lenovo GameZone WMI Driver");
-> > > > diff --git a/drivers/platform/x86/lenovo/wmi-helpers.c b/drivers/pl=
-atform/x86/lenovo/wmi-helpers.c
-> > > > index 7379defac500..5a88bccb5037 100644
-> > > > --- a/drivers/platform/x86/lenovo/wmi-helpers.c
-> > > > +++ b/drivers/platform/x86/lenovo/wmi-helpers.c
-> > > > @@ -21,11 +21,16 @@
-> > > >  #include <linux/errno.h>
-> > > >  #include <linux/export.h>
-> > > >  #include <linux/module.h>
-> > > > +#include <linux/notifier.h>
-> > > >  #include <linux/unaligned.h>
-> > > >  #include <linux/wmi.h>
-> > > >=20
-> > > > +#include "wmi-gamezone.h"
-> > > >  #include "wmi-helpers.h"
-> > > >=20
-> > > > +/* Thermal mode notifier chain. */
-> > > > +static BLOCKING_NOTIFIER_HEAD(tm_chain_head);
-> > > > +
-> > > >  /**
-> > > >   * lwmi_dev_evaluate_int() - Helper function for calling WMI metho=
-ds that
-> > > >   * return an integer.
-> > > > @@ -84,6 +89,103 @@ int lwmi_dev_evaluate_int(struct wmi_device *wd=
-ev, u8 instance, u32 method_id,
-> > > >  };
-> > > >  EXPORT_SYMBOL_NS_GPL(lwmi_dev_evaluate_int, "LENOVO_WMI_HELPERS");
-> > > >=20
-> > > > +/**
-> > > > + * lwmi_tm_register_notifier() - Add a notifier to the blocking no=
-tifier chain
-> > > > + * @nb: The notifier_block struct to register
-> > > > + *
-> > > > + * Call blocking_notifier_chain_register to register the notifier =
-block to the
-> > > > + * thermal mode notifier chain.
-> > > > + *
-> > > > + * Return: 0 on success, %-EEXIST on error.
-> > > > + */
-> > > > +int lwmi_tm_register_notifier(struct notifier_block *nb)
-> > > > +{
-> > > > +   return blocking_notifier_chain_register(&tm_chain_head, nb);
-> > > > +}
-> > > > +EXPORT_SYMBOL_NS_GPL(lwmi_tm_register_notifier, "LENOVO_WMI_HELPER=
-S");
-> > > > +
-> > > > +/**
-> > > > + * lwmi_tm_unregister_notifier() - Remove a notifier from the bloc=
-king notifier
-> > > > + * chain.
-> > > > + * @nb: The notifier_block struct to register
-> > > > + *
-> > > > + * Call blocking_notifier_chain_unregister to unregister the notif=
-ier block from the
-> > > > + * thermal mode notifier chain.
-> > > > + *
-> > > > + * Return: 0 on success, %-ENOENT on error.
-> > > > + */
-> > > > +int lwmi_tm_unregister_notifier(struct notifier_block *nb)
-> > > > +{
-> > > > +   return blocking_notifier_chain_unregister(&tm_chain_head, nb);
-> > > > +}
-> > > > +EXPORT_SYMBOL_NS_GPL(lwmi_tm_unregister_notifier, "LENOVO_WMI_HELP=
-ERS");
-> > > > +
-> > > > +/**
-> > > > + * devm_lwmi_tm_unregister_notifier() - Remove a notifier from the=
- blocking
-> > > > + * notifier chain.
-> > > > + * @data: Void pointer to the notifier_block struct to register.
-> > > > + *
-> > > > + * Call lwmi_tm_unregister_notifier to unregister the notifier blo=
-ck from the
-> > > > + * thermal mode notifier chain.
-> > > > + *
-> > > > + * Return: 0 on success, %-ENOENT on error.
-> > > > + */
-> > > > +static void devm_lwmi_tm_unregister_notifier(void *data)
-> > > > +{
-> > > > +   struct notifier_block *nb =3D data;
-> > > > +
-> > > > +   lwmi_tm_unregister_notifier(nb);
-> > > > +}
-> > > > +
-> > > > +/**
-> > > > + * devm_lwmi_tm_register_notifier() - Add a notifier to the blocki=
-ng notifier
-> > > > + * chain.
-> > > > + * @dev: The parent device of the notifier_block struct.
-> > > > + * @nb: The notifier_block struct to register
-> > > > + *
-> > > > + * Call lwmi_tm_register_notifier to register the notifier block t=
-o the
-> > > > + * thermal mode notifier chain. Then add devm_lwmi_tm_unregister_n=
-otifier
-> > > > + * as a device managed action to automatically unregister the noti=
-fier block
-> > > > + * upon parent device removal.
-> > > > + *
-> > > > + * Return: 0 on success, or an error code.
-> > > > + */
-> > > > +int devm_lwmi_tm_register_notifier(struct device *dev,
-> > > > +                              struct notifier_block *nb)
-> > > > +{
-> > > > +   int ret;
-> > > > +
-> > > > +   ret =3D lwmi_tm_register_notifier(nb);
-> > > > +   if (ret < 0)
-> > > > +           return ret;
-> > > > +
-> > > > +   return devm_add_action_or_reset(dev, devm_lwmi_tm_unregister_no=
-tifier,
-> > > > +                                   nb);
-> > > > +}
-> > > > +EXPORT_SYMBOL_NS_GPL(devm_lwmi_tm_register_notifier, "LENOVO_WMI_H=
-ELPERS");
-> > > > +
-> > > > +/**
-> > > > + * lwmi_tm_notifier_call() - Call functions for the notifier call =
-chain.
-> > > > + * @mode: Pointer to a thermal mode enum to retrieve the data from=
-.
-> > > > + *
-> > > > + * Call blocking_notifier_call_chain to retrieve the thermal mode =
-from the
-> > > > + * lenovo-wmi-gamezone driver.
-> > > > + *
-> > > > + * Return: 0 on success, or an error code.
-> > > > + */
-> > > > +int lwmi_tm_notifier_call(enum thermal_mode *mode)
-> > > > +{
-> > > > +   int ret;
-> > > > +
-> > > > +   ret =3D blocking_notifier_call_chain(&tm_chain_head,
-> > > > +                                      LWMI_GZ_GET_THERMAL_MODE, &m=
-ode);
-> > > > +   if ((ret & ~NOTIFY_STOP_MASK) !=3D NOTIFY_OK)
-> > > > +           return -EINVAL;
-> > > > +
-> > > > +   return 0;
-> > > > +}
-> > > > +EXPORT_SYMBOL_NS_GPL(lwmi_tm_notifier_call, "LENOVO_WMI_HELPERS");
-> > > > +
-> > > >  MODULE_AUTHOR("Derek J. Clark <derekjohn.clark@gmail.com>");
-> > > >  MODULE_DESCRIPTION("Lenovo WMI Helpers Driver");
-> > > >  MODULE_LICENSE("GPL");
-> > > > diff --git a/drivers/platform/x86/lenovo/wmi-helpers.h b/drivers/pl=
-atform/x86/lenovo/wmi-helpers.h
-> > > > index 20fd21749803..651a039228ed 100644
-> > > > --- a/drivers/platform/x86/lenovo/wmi-helpers.h
-> > > > +++ b/drivers/platform/x86/lenovo/wmi-helpers.h
-> > > > @@ -7,6 +7,8 @@
-> > > >=20
-> > > >  #include <linux/types.h>
-> > > >=20
-> > > > +struct device;
-> > > > +struct notifier_block;
-> > > >  struct wmi_device;
-> > > >=20
-> > > >  struct wmi_method_args_32 {
-> > > > @@ -17,4 +19,10 @@ struct wmi_method_args_32 {
-> > > >  int lwmi_dev_evaluate_int(struct wmi_device *wdev, u8 instance, u3=
-2 method_id,
-> > > >                       unsigned char *buf, size_t size, u32 *retval)=
-;
-> > > >=20
-> > > > +int lwmi_tm_register_notifier(struct notifier_block *nb);
-> > > > +int lwmi_tm_unregister_notifier(struct notifier_block *nb);
-> > > > +int devm_lwmi_tm_register_notifier(struct device *dev,
-> > > > +                              struct notifier_block *nb);
-> > > > +int lwmi_tm_notifier_call(enum thermal_mode *mode);
-> > >=20
-> > > This enum is not introduced earlier within this header?
-> >=20
-> > Hmm, no. Declaring a opaque enum earlier should be enough to fix it, as
-> > wmi-gamezone.h shouldn't be included here. Derek, what do you think?
->=20
-> I think it makes more sense at this point to move everything from
-> wmi_gamezone.h into wmi_helpers.h. This prevents wmi_capdata.c from
-> needing to import wmi_gamezone.h, since the thermal mode enum will be
-> moved (now used by capdata, gamezone, and other). Then the only thing
-> in the gamezone header would be the gamezone_events_type enum, which
-> is only used by gamezone and helpers anyway, so that can safely move
-> and we can delete the entire file. To make that enum name more generic
-> I'll rename it in the move from gamezone_events_type to
-> lwmi_event_type (the enum isn't directly referenced anywhere anyway).
->=20
-> If that works for everyone I'll add one more patch to do the move &
-> cleanup before  "platform/x86: lenovo-wmi-other: Add lwmi_attr_id()
-> function" where I'm adding the .._NONE thermal mode. That will keep
-> the purpose of each patch clean and avoid me needing to modify your
-> patches too much.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604010103.GfNz6qMI-lkp@intel.com/
 
-That sounds good to me.
+All warnings (new ones prefixed by >>):
 
-Moving everything from wmi_gamezone.h into wmi_helpers.h also seems more
-semantically correct from my perspective, since the former was just used
-to glue things together, which instead matches the purpose of the
-latter.
+   In file included from drivers/net/ethernet/microchip/vcap/vcap_api.c:3598:
+   drivers/net/ethernet/microchip/vcap/vcap_api_kunit.c: In function 'vcap_api_next_lookup_advanced_test':
+>> drivers/net/ethernet/microchip/vcap/vcap_api_kunit.c:2001:1: warning: the frame size of 1040 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+    2001 | }
+         | ^
 
-Thanks,
-Rong
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
+   Depends on [n]: IOMMU_SUPPORT [=y] && (ARM [=y] || ARM64 || COMPILE_TEST [=y]) && !GENERIC_ATOMIC64 [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_QCOM_CONFIGS [=y] && ARCH_QCOM [=y]
 
->=20
-> Thanks,
-> Derek.
->=20
-> > Thanks,
-> > Rong
+
+vim +2001 drivers/net/ethernet/microchip/vcap/vcap_api_kunit.c
+
+c956b9b318d9036 Steen Hegelund 2022-11-09  1925  
+c956b9b318d9036 Steen Hegelund 2022-11-09  1926  static void vcap_api_next_lookup_advanced_test(struct kunit *test)
+c956b9b318d9036 Steen Hegelund 2022-11-09  1927  {
+129ff4de58ff0ca Arnd Bergmann  2023-02-17  1928  	struct vcap_admin admin[] = {
+129ff4de58ff0ca Arnd Bergmann  2023-02-17  1929  	{
+c956b9b318d9036 Steen Hegelund 2022-11-09  1930  		.vtype = VCAP_TYPE_IS0,
+c956b9b318d9036 Steen Hegelund 2022-11-09  1931  		.vinst = 0,
+c956b9b318d9036 Steen Hegelund 2022-11-09  1932  		.first_cid = 1000000,
+c956b9b318d9036 Steen Hegelund 2022-11-09  1933  		.last_cid =  1199999,
+c956b9b318d9036 Steen Hegelund 2022-11-09  1934  		.lookups = 6,
+c956b9b318d9036 Steen Hegelund 2022-11-09  1935  		.lookups_per_instance = 2,
+129ff4de58ff0ca Arnd Bergmann  2023-02-17  1936  	}, {
+c956b9b318d9036 Steen Hegelund 2022-11-09  1937  		.vtype = VCAP_TYPE_IS0,
+c956b9b318d9036 Steen Hegelund 2022-11-09  1938  		.vinst = 1,
+c956b9b318d9036 Steen Hegelund 2022-11-09  1939  		.first_cid = 1200000,
+c956b9b318d9036 Steen Hegelund 2022-11-09  1940  		.last_cid =  1399999,
+c956b9b318d9036 Steen Hegelund 2022-11-09  1941  		.lookups = 6,
+c956b9b318d9036 Steen Hegelund 2022-11-09  1942  		.lookups_per_instance = 2,
+129ff4de58ff0ca Arnd Bergmann  2023-02-17  1943  	}, {
+c956b9b318d9036 Steen Hegelund 2022-11-09  1944  		.vtype = VCAP_TYPE_IS0,
+c956b9b318d9036 Steen Hegelund 2022-11-09  1945  		.vinst = 2,
+c956b9b318d9036 Steen Hegelund 2022-11-09  1946  		.first_cid = 1400000,
+c956b9b318d9036 Steen Hegelund 2022-11-09  1947  		.last_cid =  1599999,
+c956b9b318d9036 Steen Hegelund 2022-11-09  1948  		.lookups = 6,
+c956b9b318d9036 Steen Hegelund 2022-11-09  1949  		.lookups_per_instance = 2,
+129ff4de58ff0ca Arnd Bergmann  2023-02-17  1950  	}, {
+c956b9b318d9036 Steen Hegelund 2022-11-09  1951  		.vtype = VCAP_TYPE_IS2,
+c956b9b318d9036 Steen Hegelund 2022-11-09  1952  		.vinst = 0,
+c956b9b318d9036 Steen Hegelund 2022-11-09  1953  		.first_cid = 8000000,
+c956b9b318d9036 Steen Hegelund 2022-11-09  1954  		.last_cid = 8199999,
+c956b9b318d9036 Steen Hegelund 2022-11-09  1955  		.lookups = 4,
+c956b9b318d9036 Steen Hegelund 2022-11-09  1956  		.lookups_per_instance = 2,
+129ff4de58ff0ca Arnd Bergmann  2023-02-17  1957  	}, {
+c956b9b318d9036 Steen Hegelund 2022-11-09  1958  		.vtype = VCAP_TYPE_IS2,
+c956b9b318d9036 Steen Hegelund 2022-11-09  1959  		.vinst = 1,
+c956b9b318d9036 Steen Hegelund 2022-11-09  1960  		.first_cid = 8200000,
+c956b9b318d9036 Steen Hegelund 2022-11-09  1961  		.last_cid = 8399999,
+c956b9b318d9036 Steen Hegelund 2022-11-09  1962  		.lookups = 4,
+c956b9b318d9036 Steen Hegelund 2022-11-09  1963  		.lookups_per_instance = 2,
+129ff4de58ff0ca Arnd Bergmann  2023-02-17  1964  	}
+c956b9b318d9036 Steen Hegelund 2022-11-09  1965  	};
+c956b9b318d9036 Steen Hegelund 2022-11-09  1966  	bool ret;
+c956b9b318d9036 Steen Hegelund 2022-11-09  1967  
+129ff4de58ff0ca Arnd Bergmann  2023-02-17  1968  	vcap_test_api_init(&admin[0]);
+129ff4de58ff0ca Arnd Bergmann  2023-02-17  1969  	list_add_tail(&admin[1].list, &test_vctrl.list);
+129ff4de58ff0ca Arnd Bergmann  2023-02-17  1970  	list_add_tail(&admin[2].list, &test_vctrl.list);
+129ff4de58ff0ca Arnd Bergmann  2023-02-17  1971  	list_add_tail(&admin[3].list, &test_vctrl.list);
+129ff4de58ff0ca Arnd Bergmann  2023-02-17  1972  	list_add_tail(&admin[4].list, &test_vctrl.list);
+c956b9b318d9036 Steen Hegelund 2022-11-09  1973  
+c956b9b318d9036 Steen Hegelund 2022-11-09  1974  	ret = vcap_is_next_lookup(&test_vctrl, 1000000, 1001000);
+c956b9b318d9036 Steen Hegelund 2022-11-09  1975  	KUNIT_EXPECT_EQ(test, false, ret);
+c956b9b318d9036 Steen Hegelund 2022-11-09  1976  	ret = vcap_is_next_lookup(&test_vctrl, 1000000, 1101000);
+c956b9b318d9036 Steen Hegelund 2022-11-09  1977  	KUNIT_EXPECT_EQ(test, true, ret);
+c956b9b318d9036 Steen Hegelund 2022-11-09  1978  
+c956b9b318d9036 Steen Hegelund 2022-11-09  1979  	ret = vcap_is_next_lookup(&test_vctrl, 1100000, 1201000);
+c956b9b318d9036 Steen Hegelund 2022-11-09  1980  	KUNIT_EXPECT_EQ(test, true, ret);
+c956b9b318d9036 Steen Hegelund 2022-11-09  1981  	ret = vcap_is_next_lookup(&test_vctrl, 1100000, 1301000);
+784c3067d094dde Steen Hegelund 2023-01-14  1982  	KUNIT_EXPECT_EQ(test, true, ret);
+c956b9b318d9036 Steen Hegelund 2022-11-09  1983  	ret = vcap_is_next_lookup(&test_vctrl, 1100000, 8101000);
+784c3067d094dde Steen Hegelund 2023-01-14  1984  	KUNIT_EXPECT_EQ(test, true, ret);
+c956b9b318d9036 Steen Hegelund 2022-11-09  1985  	ret = vcap_is_next_lookup(&test_vctrl, 1300000, 1401000);
+c956b9b318d9036 Steen Hegelund 2022-11-09  1986  	KUNIT_EXPECT_EQ(test, true, ret);
+c956b9b318d9036 Steen Hegelund 2022-11-09  1987  	ret = vcap_is_next_lookup(&test_vctrl, 1400000, 1501000);
+c956b9b318d9036 Steen Hegelund 2022-11-09  1988  	KUNIT_EXPECT_EQ(test, true, ret);
+c956b9b318d9036 Steen Hegelund 2022-11-09  1989  	ret = vcap_is_next_lookup(&test_vctrl, 1500000, 8001000);
+c956b9b318d9036 Steen Hegelund 2022-11-09  1990  	KUNIT_EXPECT_EQ(test, true, ret);
+c956b9b318d9036 Steen Hegelund 2022-11-09  1991  
+c956b9b318d9036 Steen Hegelund 2022-11-09  1992  	ret = vcap_is_next_lookup(&test_vctrl, 8000000, 8001000);
+c956b9b318d9036 Steen Hegelund 2022-11-09  1993  	KUNIT_EXPECT_EQ(test, false, ret);
+c956b9b318d9036 Steen Hegelund 2022-11-09  1994  	ret = vcap_is_next_lookup(&test_vctrl, 8000000, 8101000);
+c956b9b318d9036 Steen Hegelund 2022-11-09  1995  	KUNIT_EXPECT_EQ(test, true, ret);
+c956b9b318d9036 Steen Hegelund 2022-11-09  1996  
+c956b9b318d9036 Steen Hegelund 2022-11-09  1997  	ret = vcap_is_next_lookup(&test_vctrl, 8300000, 8301000);
+c956b9b318d9036 Steen Hegelund 2022-11-09  1998  	KUNIT_EXPECT_EQ(test, false, ret);
+c956b9b318d9036 Steen Hegelund 2022-11-09  1999  	ret = vcap_is_next_lookup(&test_vctrl, 8300000, 8401000);
+784c3067d094dde Steen Hegelund 2023-01-14  2000  	KUNIT_EXPECT_EQ(test, false, ret);
+c956b9b318d9036 Steen Hegelund 2022-11-09 @2001  }
+c956b9b318d9036 Steen Hegelund 2022-11-09  2002  
+
+:::::: The code at line 2001 was first introduced by commit
+:::::: c956b9b318d9036701c471dd458f9ed31defc629 net: microchip: sparx5: Adding KUNIT tests of key/action values in VCAP API
+
+:::::: TO: Steen Hegelund <steen.hegelund@microchip.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
