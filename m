@@ -1,91 +1,210 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A6433F399
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 16:01:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 468AE329E4B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 16:23:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774972917; cv=none; b=LuDcEtqUY0hscalHSJbgOMU1KZU56TXyWYEfQmzDxKse1qpeCEMjN4jTlTB3ByiPCkT6OnVFI2eOBfhuLHvSO1tHWYByXthJh+UVkcP9uebNspktcCznlpB/55bqBoFuOXptY9vN9oYOIcBLxrN/HbTaUHqpGniiYkDhW4zBKIo=
+	t=1774974235; cv=none; b=ppFUYeHlI1IU2ha29Q7NVGnL++O5nucZvp7iatubtdFA25V3G+rTE5s3j/V0godvzDPPfTmwPuDPLZj7oNoKvwEo+sfz2N8O276mntsnkU4oYZJfYx6OnCoB04gBqK2Xsrdu8hghe+hLYNa49+TD5PECv+Vc/3TLAoBmcEarcxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774972917; c=relaxed/simple;
-	bh=1L9aMAIAZztejhNDSVWbtCMufIZlJGalW1E9B9WRS7k=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=WcvzyJicCCu1sjNrNIqRBoseNrhTE31Kbbqb70MBxPnnm29MJG4jwx8KBbHRCJA79NKRmRmXHv++9P79RRnPW6LBwFKWAXkbQXoiZQitfmvD9MXrrCDUoN1xdFz3F8C09FykVCNi9uLDeZgTnstWcY3vLyxKG3El4Tvx64XPfik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hb84HFXp; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1774974235; c=relaxed/simple;
+	bh=Owy27NZIONsUdNTzktg4/3o+Iq30FcPIRoBuYypQxIE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dOmXgEk0y9ewbe/3jh/8DsfDqLycxrgi0zRLhwxRMkN3/YX7x8D54X55vGYYWKqEe57CvgsRNh90s0lvMdP9f8IVzuD9ioig7jwK1Y4+01WaI7LiDpyajGh2czWkuV7u643sWeIh/sPL6pPmgSuTSMVvZArSs3xUpzvLHcn1UIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hv/rzxlp; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hb84HFXp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hv/rzxlp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774972915; x=1806508915;
-  h=date:from:to:cc:subject:message-id;
-  bh=1L9aMAIAZztejhNDSVWbtCMufIZlJGalW1E9B9WRS7k=;
-  b=Hb84HFXp3TKtatWXn51RwPxcKOF87pvxo7dQEqx1KRKETPY7dRHA7Atr
-   7OQp7DWmJxddlh1JVS7972VDHH/8a5F2ONxh0k2UK6k3c+WwahjSmSylG
-   2BiilV0/7RT4FXeoTc/ShbAvDRncvDg4uXNeEiCd3/MCOzdVqeR1P4FaL
-   C7M+y14PAiTf4huoWBfZ4zYzljnko4wAAZz6pN8yiwMtIdw4C090SrbSD
-   BggHa9/NDnuOQ43VvYUyYXlFouCT3WfzGnVFcVzFfBnkJSP0tDreMgjNF
-   OoQrdOM3dI270sP3fmslyXDBRPtv6qN7VogDHba3aiPsiGVCw4eqOIk42
-   Q==;
-X-CSE-ConnectionGUID: hXECBR+VTSmlL/AZ+wNGwQ==
-X-CSE-MsgGUID: VJ3gOkU3QGW21nlv4Uf+Cw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="98601414"
+  t=1774974234; x=1806510234;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Owy27NZIONsUdNTzktg4/3o+Iq30FcPIRoBuYypQxIE=;
+  b=hv/rzxlpta3zLX3NoDA10qIuuOQNPUuAVfkj91UXVkya11PIU7f71jyE
+   Nntu9meFawdKVRQao/z4FehEGAunmREKnv59aWfGuJspVSK+MlvJ6Wikc
+   fTmAdN8w24qzgB3mxg+ldkM5Z29BFCk183e94xC8eeIA/mARMlFH1eUt6
+   UKIiu1QM6V/rIL+tascZyMKBg2gWjOdkDwRgq3rF2BszPb/UE96uC/8Pb
+   OuiJchUrb9PzvTLcE8YWrICVOEDODw59zkiVuVLqcjlqpb+LyiF4ZNpW0
+   X/1lMkXSqPSAhtxaFOlow7KTmmNtg2DO5pT2Z1BhewgBBUM7ZSZ5LSTic
+   g==;
+X-CSE-ConnectionGUID: /CjBdX83QmKvtCAJLAQckg==
+X-CSE-MsgGUID: LtxGZqbaQ9uMEfeTBUV7oA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="87386932"
 X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
-   d="scan'208";a="98601414"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 09:01:48 -0700
-X-CSE-ConnectionGUID: jMGg25hLRGSgB2zcvrPXhg==
-X-CSE-MsgGUID: Q7GDfsg9Qam8z85k7agr6g==
+   d="scan'208";a="87386932"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 09:23:54 -0700
+X-CSE-ConnectionGUID: cF1F+tt8QQ2ChLIXH7/5Aw==
+X-CSE-MsgGUID: 1YpHvgX7QJugjkhEZ86q+Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
-   d="scan'208";a="249456907"
+   d="scan'208";a="230860100"
 Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 31 Mar 2026 09:01:46 -0700
+  by orviesa004.jf.intel.com with ESMTP; 31 Mar 2026 09:23:50 -0700
 Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w7bXD-000000002qX-3xLp;
-	Tue, 31 Mar 2026 16:01:43 +0000
-Date: Wed, 01 Apr 2026 00:01:02 +0800
+	id 1w7bsZ-000000002t3-2ihm;
+	Tue, 31 Mar 2026 16:23:47 +0000
+Date: Wed, 1 Apr 2026 00:23:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Subject: drivers/pinctrl/pinctrl-amd.c:40:25: warning: variable
- 'pinctrl_dev' set but not used
-Message-ID: <202603312338.tTeBLiWB-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: alejandro.lucero-palau@amd.com, linux-cxl@vger.kernel.org,
+	netdev@vger.kernel.org, dave.jiang@intel.com,
+	dan.j.williams@intel.com, edward.cree@amd.com, davem@davemloft.net,
+	kuba@kernel.org, pabeni@redhat.com, edumazet@google.com
+Cc: oe-kbuild-all@lists.linux.dev, Alejandro Lucero <alucerop@amd.com>,
+	Edward Cree <ecree.xilinx@gmail.com>
+Subject: Re: [PATCH v25 09/11] sfc: obtain decoder and region if committed by
+ firmware
+Message-ID: <202604010036.h2OVjfQU-lkp@intel.com>
+References: <20260330143827.1278677-10-alejandro.lucero-palau@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260330143827.1278677-10-alejandro.lucero-palau@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d0c3bcd5b8976159d835a897254048e078f447e6
-commit: 179db1909c5c4b5300cce626507b0f843f7d2cc2 pinctrl: amd: Add an LPS0 check() callback
-date:   12 months ago
-config: mips-randconfig-r061-20260331 (https://download.01.org/0day-ci/archive/20260331/202603312338.tTeBLiWB-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 2cd67b8b69f78e3f95918204320c3075a74ba16c)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603312338.tTeBLiWB-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 64584273dfb8a1e5fc7d78094ba22a93c204b44e]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/alejandro-lucero-palau-amd-com/sfc-add-cxl-support/20260331-055820
+base:   64584273dfb8a1e5fc7d78094ba22a93c204b44e
+patch link:    https://lore.kernel.org/r/20260330143827.1278677-10-alejandro.lucero-palau%40amd.com
+patch subject: [PATCH v25 09/11] sfc: obtain decoder and region if committed by firmware
+config: sparc-randconfig-002-20260331 (https://download.01.org/0day-ci/archive/20260401/202604010036.h2OVjfQU-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260401/202604010036.h2OVjfQU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603312338.tTeBLiWB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604010036.h2OVjfQU-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/pinctrl/pinctrl-amd.c:40:25: warning: variable 'pinctrl_dev' set but not used [-Wunused-but-set-global]
-      40 | static struct amd_gpio *pinctrl_dev;
-         |                         ^
-   1 warning generated.
+   sparc-linux-ld: drivers/net/ethernet/sfc/efx_cxl.o: in function `efx_cxl_init':
+>> drivers/net/ethernet/sfc/efx_cxl.c:89:(.text+0x198): undefined reference to `cxl_get_region_range'
+   sparc-linux-ld: drivers/net/ethernet/sfc/efx_cxl.o: in function `efx_cxl_exit':
+>> drivers/net/ethernet/sfc/efx_cxl.c:120:(.text+0x234): undefined reference to `cxl_unregister_region'
 
 
-vim +/pinctrl_dev +40 drivers/pinctrl/pinctrl-amd.c
+vim +89 drivers/net/ethernet/sfc/efx_cxl.c
 
-    39	
-  > 40	static struct amd_gpio *pinctrl_dev;
-    41	
+    16	
+    17	int efx_cxl_init(struct efx_probe_data *probe_data)
+    18	{
+    19		struct efx_nic *efx = &probe_data->efx;
+    20		struct pci_dev *pci_dev = efx->pci_dev;
+    21		struct efx_cxl *cxl;
+    22		struct range range;
+    23		u16 dvsec;
+    24		int rc;
+    25	
+    26		probe_data->cxl_pio_initialised = false;
+    27	
+    28		/* Is the device configured with and using CXL? */
+    29		if (!pcie_is_cxl(pci_dev))
+    30			return 0;
+    31	
+    32		dvsec = pci_find_dvsec_capability(pci_dev, PCI_VENDOR_ID_CXL,
+    33						  PCI_DVSEC_CXL_DEVICE);
+    34		if (!dvsec) {
+    35			pci_info(pci_dev, "CXL_DVSEC_PCIE_DEVICE capability not found\n");
+    36			return 0;
+    37		}
+    38	
+    39		pci_dbg(pci_dev, "CXL_DVSEC_PCIE_DEVICE capability found\n");
+    40	
+    41		/* Create a cxl_dev_state embedded in the cxl struct using cxl core api
+    42		 * specifying no mbox available.
+    43		 */
+    44		cxl = devm_cxl_dev_state_create(&pci_dev->dev, CXL_DEVTYPE_DEVMEM,
+    45						pci_dev->dev.id, dvsec, struct efx_cxl,
+    46						cxlds, false);
+    47	
+    48		if (!cxl)
+    49			return -ENOMEM;
+    50	
+    51		rc = cxl_pci_setup_regs(pci_dev, CXL_REGLOC_RBI_COMPONENT,
+    52					&cxl->cxlds.reg_map);
+    53		if (rc) {
+    54			pci_err(pci_dev, "No component registers\n");
+    55			return rc;
+    56		}
+    57	
+    58		if (!cxl->cxlds.reg_map.component_map.hdm_decoder.valid) {
+    59			pci_err(pci_dev, "Expected HDM component register not found\n");
+    60			return -ENODEV;
+    61		}
+    62	
+    63		if (!cxl->cxlds.reg_map.component_map.ras.valid) {
+    64			pci_err(pci_dev, "Expected RAS component register not found\n");
+    65			return -ENODEV;
+    66		}
+    67	
+    68		/* Set media ready explicitly as there are neither mailbox for checking
+    69		 * this state nor the CXL register involved, both not mandatory for
+    70		 * type2.
+    71		 */
+    72		cxl->cxlds.media_ready = true;
+    73	
+    74		if (cxl_set_capacity(&cxl->cxlds, EFX_CTPIO_BUFFER_SIZE)) {
+    75			pci_err(pci_dev, "dpa capacity setup failed\n");
+    76			return -ENODEV;
+    77		}
+    78	
+    79		cxl->cxlmd = devm_cxl_add_memdev(&cxl->cxlds, NULL);
+    80		if (IS_ERR(cxl->cxlmd)) {
+    81			pci_err(pci_dev, "CXL accel memdev creation failed");
+    82			return PTR_ERR(cxl->cxlmd);
+    83		}
+    84	
+    85		cxl->efx_region = cxl_get_region_from_committed_decoder(cxl->cxlmd);
+    86		if (!cxl->efx_region)
+    87			return -ENODEV;
+    88	
+  > 89		rc = cxl_get_region_range(cxl->efx_region, &range);
+    90		if (rc) {
+    91			pci_err(pci_dev,
+    92				"CXL getting regions params from a committed decoder failed");
+    93			return rc;
+    94		}
+    95	
+    96		cxl->ctpio_cxl = ioremap(range.start, range_len(&range));
+    97		if (!cxl->ctpio_cxl) {
+    98			pci_err(pci_dev, "CXL ioremap region (%pra) failed", &range);
+    99			return -ENOMEM;
+   100		}
+   101	
+   102	
+   103		probe_data->cxl = cxl;
+   104	
+   105		return 0;
+   106	}
+   107	
+   108	void efx_cxl_exit(struct efx_probe_data *probe_data)
+   109	{
+   110		if (!probe_data->cxl)
+   111			return;
+   112	
+   113		iounmap(probe_data->cxl->ctpio_cxl);
+   114	
+   115		/* If the sfc cxl initialization was successful, it implies the
+   116		 * endpoint decoder had an auto discover region which is the one
+   117		 * we used and we need to remove now. Otherwise the region will
+   118		 * be around until the root port is removed.
+   119		 */
+ > 120		cxl_unregister_region(probe_data->cxl->efx_region);
+   121	}
+   122	
 
 -- 
 0-DAY CI Kernel Test Service
