@@ -1,76 +1,65 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F5A5425CC4
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 16:41:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68FFF423A62
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 16:48:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774975292; cv=none; b=Giau37VSFuzePBRXYeBb3S6WLs4Z5Xh0+RCbjYGvFIYf5No5ZxgaGAeS8/OnzXvOr57kziQeOuR+27hYMo/9hODhBabA6OBllwwk2M6KDC50ammrRFKDh5Kn27YgGAba2osdwWfK+4q6m74anrN3mqfShTd02dWez6dpaxSdvQU=
+	t=1774975685; cv=none; b=chKD1R3+CzvHT+BgxDZwVTnVuo7X6BV/3IY+4lZdR5Rj59KxYcxOWvO/JkAF/ixbK66UIXhVwnKUrUNaPen3LioAKnrNjjGzZjvRJ+uV+o4U83B9Oo2VINQs0eJLHDbBsiZo2HD8Hp/NR5ZVV5DQ+ARVul5hyk98xleBaEGB2G8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774975292; c=relaxed/simple;
-	bh=Laq+rWpi8zhN6UtqKe5ZHjwT7cHHkbCW87nionZwLmY=;
+	s=arc-20240116; t=1774975685; c=relaxed/simple;
+	bh=aM5qG+4yxm72Z97PK63zuUnHgVpyXdwXPEQPrA1BXew=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CDRY+zWITYZ0gRJyHvEuQ8O1NCMSYgpYvHowKAGwvyrgyoSZ4Gi5LEDw1kmicp27kZzj4swrTB5LJd993wZ01tKZQyzK0L4DyoiNmJQSEljeoefzDLRUXB5chpEjQydsQxtG/cR0TCUv99n9gbg4JpLbU3m5BxLyx/55iQqhrIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=YUfJKOqe; arc=none smtp.client-ip=209.85.222.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	 Content-Type:Content-Disposition:In-Reply-To; b=VSLrS5b0aEPIu7rSswZZuqEx5YVIbNpX0g1Pl0Gg2L+CrgBEHHflGgKPaaITfVCw+MSEB7feYRn9W1aQBkASS42bXpZD5eXc6uk77InIdW++pA8mixve43XfVBsvTzFs7m0oA2Sv9U4oH9155oCOf1mqAEs4LHZalK53F/JLmGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N7XHuQoz; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="YUfJKOqe"
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-8c70b5594f4so11091185a.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 09:41:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1774975290; x=1775580090; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7UbP9VLoXHPhfTJUq7FreRO5c3zWt6d2ufCzErRlFM0=;
-        b=YUfJKOqeIfinBcw74r3/MPVoOHXkaDb3bM7R3D5KVoemPmmH88eEjV9p2sq5ZqMSmQ
-         iJuWXbs4tznR6PRDh1MAr6Dry/0Zm/bK5j/Ge0Mfpow9K2MAEjw0ilNaMhjsbB8VzXpY
-         LFDhAh7aDXfqO/NBY4WdHctGEHNRU4zHq+3TR2SDSTdRPMrwqlYWGRSPJO1Wx9ldrabe
-         GoClvEPQd1n1/05zg2tTL5CKfkDGEcEmdMwYyyjhJcBAvriaBiQ3Kjf7Wtl93Nx6VWBx
-         spY619WoBPBptB+uml/t5m/gVxYE6MI8zAE4hnst475u0zv10w7uXIiR1I6yrO0uZZyN
-         LyKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774975290; x=1775580090;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7UbP9VLoXHPhfTJUq7FreRO5c3zWt6d2ufCzErRlFM0=;
-        b=ageN1L6tbfePrEri6tR1K5nm9mpiWtE245nEQp0vTJrsr/6Js9Q0V+sfRlMcwsNOAu
-         p2arrM22y/oKK1+1jYUzSoFLpQYavGXCGPIZucn02NKK+TTiexEgR5SLv235Xd4DfFs4
-         /7n8eIGS7yzsDuX6eAyZcosSNLzpVtHb5G4DZ6haB98U/PjEDvZx4UXEPPC0hDAHZf7t
-         M1o3eXOgP+QU4ob4tsUoJw3bzJQ+SZrX0jIMp7lYJJZkXSoW08eY2a6df/euRo/b9z4x
-         7PakYMmW/UD/w2upM4ZH+jlPouNv+Qh6W+8YLrZ5xNgvjHk+ZkjCnFSwxUoE6rDN6vLk
-         9lwA==
-X-Forwarded-Encrypted: i=1; AJvYcCVVyxcCtRYN+qywVn69m272QRcb4WF9rHFSdcpo90oVS0pBE6b8qLFgPaHm3Eo74iQ/ygMoKTogqUnsRSv/@lists.linux.dev
-X-Gm-Message-State: AOJu0YyQKCzbK9DV2K5X9b8McvdyJQDsTrCOyAQPndnuhOZCr2YGr70S
-	nIZG6SYxoTPKYwPcLrTfSuzhxu3PQSFEcLDeSxmF+FjHVLaw613fzx5Ct4Ftcl1aMmM=
-X-Gm-Gg: ATEYQzxRYFm+c3nk8JbgedV92cXqqm5/7MLIw8n8vtBp2md4rozqVnqEhzUiZzkob0b
-	RzD5DxQ+WtWmbpwdXWJWXYXzKM2ionItnIJLlFCDKn/qg1nCv/TwtYVZZLjHEyfayDjXh9Wkt8H
-	2wxnk44obvcohglRp9KOKb2zrTiWXEXT8Gd+h4EJmeIMmtEHcRaPJ4ua02x8AKj85IiiOHBSn3t
-	EyeiRyxwhtFeisOslxsvi6E6cum6QEDU63to7Zl/mWKB/y6n59ovGhtLIwPD9FBTX7alaRcNVDb
-	cf4sQ0fiY+X/yHDuM1+G1di5oHWOIHM/AjzOo7xuqnHaq+vmINUqfIrjJLlr3fXkXr0LigcqWA8
-	PZ0ou0UmVuMJPHUKQva9Br6UF9KTpBA2IEwNVH3gb1cRb8rycv9wqpCDY1PZQlUx0o2AsGyLqvw
-	N/SwnlGPXKrzHuvFxnNor8s74DwX8vWJbavCMDJMunyGV5zl7BfvUVMTsOW8d91oKR69Zkug==
-X-Received: by 2002:a05:620a:f0c:b0:8cf:cee2:e405 with SMTP id af79cd13be357-8d1b640b140mr3541285a.24.1774975286390;
-        Tue, 31 Mar 2026 09:41:26 -0700 (PDT)
-Received: from ziepe.ca (mctnnbsa70w-159-2-73-22.dhcp-dynamic.fibreop.nb.bellaliant.net. [159.2.73.22])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8d027edc55fsm860960285a.10.2026.03.31.09.41.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Mar 2026 09:41:25 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1w7c9c-0000000A6ML-3f7s;
-	Tue, 31 Mar 2026 13:41:24 -0300
-Date: Tue, 31 Mar 2026 13:41:24 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: kernel test robot <lkp@intel.com>
-Cc: Pavan Chebbi <pavan.chebbi@broadcom.com>, oe-kbuild-all@lists.linux.dev,
-	Andy Gospodarek <gospo@broadcom.com>,
-	Dave Jiang <dave.jiang@intel.com>
-Subject: Re: [linux-next:master 9909/10350] drivers/fwctl/bnxt/main.c:216:42:
- sparse: sparse: incorrect type in assignment (different base types)
-Message-ID: <20260331164124.GL246076@ziepe.ca>
-References: <202603281536.oqX5hhg7-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N7XHuQoz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774975684; x=1806511684;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=aM5qG+4yxm72Z97PK63zuUnHgVpyXdwXPEQPrA1BXew=;
+  b=N7XHuQozKpFxOPSmG6BSyt5phjkGJ3+2hNznEfIcfNnSBDsyxK53ar+w
+   63FhxT633mv89SZghEaTdFtC1Wqf7IB/uBqkMa8D+udHiGtQw6ZlEoLkW
+   ywhWG2NYQ+A57suvbRpi+3OW0R1X48Pgau/zJoTdTDvh1wwg1pcKAy9xg
+   KNV4X95murwTpQ4xOTbIplA5LAtVSY0MJ33szhgZi3cRIo2GN4ryGaulg
+   FJoKxyujFo+11lDbEZl38BnZ94xC75HJzPn9ZnHqhWhxNvyx8Gk+EZasR
+   I2afgFq+ZtyS/BWUpUPfoLZGvRkBJabJiR6n5ql2ysU6NjcbfkQ0cYLsl
+   g==;
+X-CSE-ConnectionGUID: ee6hIHYSQpmvCIihAKK6hQ==
+X-CSE-MsgGUID: PcUsBVZJSmC0pXJIsk1tFg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="63550248"
+X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
+   d="scan'208";a="63550248"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 09:48:04 -0700
+X-CSE-ConnectionGUID: 5P2aml7iQBGT1HScRhkx8w==
+X-CSE-MsgGUID: 4l/5J7rUR/iNXcsH1WvH+w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
+   d="scan'208";a="221557860"
+Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 31 Mar 2026 09:48:00 -0700
+Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w7cFw-00000000389-40Ha;
+	Tue, 31 Mar 2026 16:47:56 +0000
+Date: Wed, 1 Apr 2026 00:47:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: alejandro.lucero-palau@amd.com, linux-cxl@vger.kernel.org,
+	netdev@vger.kernel.org, dave.jiang@intel.com,
+	dan.j.williams@intel.com, edward.cree@amd.com, davem@davemloft.net,
+	kuba@kernel.org, pabeni@redhat.com, edumazet@google.com
+Cc: oe-kbuild-all@lists.linux.dev, Alejandro Lucero <alucerop@amd.com>,
+	Martin Habets <habetsm.xilinx@gmail.com>,
+	Fan Ni <fan.ni@samsung.com>, Edward Cree <ecree.xilinx@gmail.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH v25 05/11] sfc: create type2 cxl memdev
+Message-ID: <202604010047.zovyb3Z0-lkp@intel.com>
+References: <20260330143827.1278677-6-alejandro.lucero-palau@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,15 +68,109 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202603281536.oqX5hhg7-lkp@intel.com>
+In-Reply-To: <20260330143827.1278677-6-alejandro.lucero-palau@amd.com>
 
-On Sat, Mar 28, 2026 at 03:28:52PM +0800, kernel test robot wrote:
->    212			if (!resp->error_code)
->    213				/* bnxt_send_msg() returned much before FW
->    214				 * received the command.
->    215				 */
->  > 216				resp->error_code = rc;
+Hi,
 
-I fixed to this with a cpu_to_le16()
+kernel test robot noticed the following build errors:
 
-Jason
+[auto build test ERROR on 64584273dfb8a1e5fc7d78094ba22a93c204b44e]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/alejandro-lucero-palau-amd-com/sfc-add-cxl-support/20260331-055820
+base:   64584273dfb8a1e5fc7d78094ba22a93c204b44e
+patch link:    https://lore.kernel.org/r/20260330143827.1278677-6-alejandro.lucero-palau%40amd.com
+patch subject: [PATCH v25 05/11] sfc: create type2 cxl memdev
+config: x86_64-randconfig-003-20260331 (https://download.01.org/0day-ci/archive/20260401/202604010047.zovyb3Z0-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260401/202604010047.zovyb3Z0-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604010047.zovyb3Z0-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   ld: vmlinux.o: in function `efx_cxl_init':
+>> drivers/net/ethernet/sfc/efx_cxl.c:78:(.text+0xd33fcd): undefined reference to `devm_cxl_add_memdev'
+
+
+vim +78 drivers/net/ethernet/sfc/efx_cxl.c
+
+    16	
+    17	int efx_cxl_init(struct efx_probe_data *probe_data)
+    18	{
+    19		struct efx_nic *efx = &probe_data->efx;
+    20		struct pci_dev *pci_dev = efx->pci_dev;
+    21		struct efx_cxl *cxl;
+    22		u16 dvsec;
+    23		int rc;
+    24	
+    25		probe_data->cxl_pio_initialised = false;
+    26	
+    27		/* Is the device configured with and using CXL? */
+    28		if (!pcie_is_cxl(pci_dev))
+    29			return 0;
+    30	
+    31		dvsec = pci_find_dvsec_capability(pci_dev, PCI_VENDOR_ID_CXL,
+    32						  PCI_DVSEC_CXL_DEVICE);
+    33		if (!dvsec) {
+    34			pci_info(pci_dev, "CXL_DVSEC_PCIE_DEVICE capability not found\n");
+    35			return 0;
+    36		}
+    37	
+    38		pci_dbg(pci_dev, "CXL_DVSEC_PCIE_DEVICE capability found\n");
+    39	
+    40		/* Create a cxl_dev_state embedded in the cxl struct using cxl core api
+    41		 * specifying no mbox available.
+    42		 */
+    43		cxl = devm_cxl_dev_state_create(&pci_dev->dev, CXL_DEVTYPE_DEVMEM,
+    44						pci_dev->dev.id, dvsec, struct efx_cxl,
+    45						cxlds, false);
+    46	
+    47		if (!cxl)
+    48			return -ENOMEM;
+    49	
+    50		rc = cxl_pci_setup_regs(pci_dev, CXL_REGLOC_RBI_COMPONENT,
+    51					&cxl->cxlds.reg_map);
+    52		if (rc) {
+    53			pci_err(pci_dev, "No component registers\n");
+    54			return rc;
+    55		}
+    56	
+    57		if (!cxl->cxlds.reg_map.component_map.hdm_decoder.valid) {
+    58			pci_err(pci_dev, "Expected HDM component register not found\n");
+    59			return -ENODEV;
+    60		}
+    61	
+    62		if (!cxl->cxlds.reg_map.component_map.ras.valid) {
+    63			pci_err(pci_dev, "Expected RAS component register not found\n");
+    64			return -ENODEV;
+    65		}
+    66	
+    67		/* Set media ready explicitly as there are neither mailbox for checking
+    68		 * this state nor the CXL register involved, both not mandatory for
+    69		 * type2.
+    70		 */
+    71		cxl->cxlds.media_ready = true;
+    72	
+    73		if (cxl_set_capacity(&cxl->cxlds, EFX_CTPIO_BUFFER_SIZE)) {
+    74			pci_err(pci_dev, "dpa capacity setup failed\n");
+    75			return -ENODEV;
+    76		}
+    77	
+  > 78		cxl->cxlmd = devm_cxl_add_memdev(&cxl->cxlds, NULL);
+    79		if (IS_ERR(cxl->cxlmd)) {
+    80			pci_err(pci_dev, "CXL accel memdev creation failed");
+    81			return PTR_ERR(cxl->cxlmd);
+    82		}
+    83	
+    84		probe_data->cxl = cxl;
+    85	
+    86		return 0;
+    87	}
+    88	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
