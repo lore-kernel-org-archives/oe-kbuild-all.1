@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF061925BC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 02:51:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF642749D6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 02:58:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774925501; cv=none; b=DqkOS3i69WODxnq+/6l2VjZVdezPRPcopiaw/26fOXzCqFsyBrmKJ3VlfJBHlMzcU9fqEubWb/yAtTZhKeY8l9bN9Ym7hJ75zTa1L2XuqZVJtGn0Uf3IOqZ+3RaaWsWoopjg7BodbLzqcyfBrAr1HkKy6hq0mMJCw3a+FcJoD7s=
+	t=1774925940; cv=none; b=WE4RwRWXTugysGPsPPUgDeingghNGFUMYTJmpMqujn33lkpr68HpK+skffHdiWYfXrz08jdxGzvtCxNAkmftfPnseyh52sDHlxV5SPR9P4gRrFvvEAyO7HXbMRh++dCW8wugs7kcl9f8UL3S+NuLvwB9y24bi52nDNcvBOuwNb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774925501; c=relaxed/simple;
-	bh=5xz5kLtvY3S6qJ/+a0gxI+uLTpyBoCLIO7O5V5hIPnc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=FI3KqLd2WMAcuEWa7VkxsahVKPJy4M6gcY0DeXri6EPMOsn71AGu13ilk0G1PnRBH1f10Y1FVUEsNh+1kQQcrQXITbvIepR6PRuTvAPNemQ8mtqMYpMLcZJTmPuxNgZ+S7UfDjBrcOurjuJboGW4qyvXCz+fK+6xiP7hXdG0t+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cejPZss+; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1774925940; c=relaxed/simple;
+	bh=Ok7frTD76nsh33ZNUfhJmjKFKU2d78j2G8R/o5M6lJo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=pkOB9Sb2vtjg3fLgq4cdnGn3R1D2KNknRZv515pIOLmpTqK59Vo0NYdYsRLH/ccZTBldZ+a5igMfUb2rxHGke3+ZqxNSnDIHXfY+ap5Pn4FPHT5pUaXXnu71QWZpMtxX/W9o5S+H3KRYvWw9yRRnxuX1ChDoK/rTlrqQJdCJm5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X43MzY3g; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cejPZss+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X43MzY3g"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774925500; x=1806461500;
+  t=1774925939; x=1806461939;
   h=date:from:to:cc:subject:message-id;
-  bh=5xz5kLtvY3S6qJ/+a0gxI+uLTpyBoCLIO7O5V5hIPnc=;
-  b=cejPZss+JbWESrCUAWWagJ6tU6sqqrOaD+udRYFUDTct+1WVxYm0Bdfr
-   l8fds+zl2PISi2zgNeDTbh6GcRe4R+uMRtDD3xtY2KV7MkcPkbttfZPE+
-   G395hLYCjlTbMQQP7i00dI6Vm2BgosNwSbcatEpQwqEN4fwYtHwnmlnRY
-   OdFBsJbXua+wZrUuxTz44S8SQNJMobm/2GV/WQckt6+3N/BZQpFHWiOrV
-   NsmM54JpDM5ralVqND3K/h+o/qafeFg0ItOnR75zLFex/VViUxa86QpW5
-   1EO6twprOSL2h6kh+is7cdB+0m30SVGNw0HmhJDx1IXqMF+NrjQs2KfTv
+  bh=Ok7frTD76nsh33ZNUfhJmjKFKU2d78j2G8R/o5M6lJo=;
+  b=X43MzY3gGR8MmBU1V+N5byITz1jjlkU+/mcyWHKTSUjtW6KJLBRmnXN6
+   djl7Y6na++RvCRfcWhULrKNJ4qzRMOpUOwP1SN4JyqZ/Un/8adwY8Lr8Q
+   t23ylwrXyK5T+XAjGOMYOuk1i+ZasaXI1taR2IOBTHvhNx54vraghno37
+   ViidLjqE9Vqq/6UYsW8GL6lLXVRuqZFMy2dOb+B2VbyeXB8x4R8mXqOkB
+   9r54nQ0pPWO2p2nV26iZb5GXDpohl7oiUCuX4mDm1DgOv631UA+CC9s4D
+   sD4Yl/PLeEBg7/3qyPOLoSsdTI3G/opg/Ia043t/jehdagChpe7utmJ1q
    w==;
-X-CSE-ConnectionGUID: 2eDIyuFBSJCouS6S1OzrZQ==
-X-CSE-MsgGUID: /cxh25AyShCfLxdMY7ILcQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="101386414"
+X-CSE-ConnectionGUID: qztcYxaqRCGjeHOmK8fPsw==
+X-CSE-MsgGUID: EluzCUoLSqee4txSTgdTVw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="76118525"
 X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
-   d="scan'208";a="101386414"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 19:51:39 -0700
-X-CSE-ConnectionGUID: UOSqJCTfQ72gV887haU5KA==
-X-CSE-MsgGUID: UnxoAksdQbCI63gZ3YuUNg==
+   d="scan'208";a="76118525"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 19:58:58 -0700
+X-CSE-ConnectionGUID: mE4K7uyZT4OVTEoesDrZFw==
+X-CSE-MsgGUID: gRxo1+n5SfeSudC84hx8gg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
-   d="scan'208";a="249278977"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 30 Mar 2026 19:51:37 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+   d="scan'208";a="221826237"
+Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 30 Mar 2026 19:58:54 -0700
+Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w7PCZ-000000008Gf-0ZwQ;
-	Tue, 31 Mar 2026 02:51:35 +0000
-Date: Tue, 31 Mar 2026 04:51:21 +0200
+	id 1w7PJc-0000000024b-069F;
+	Tue, 31 Mar 2026 02:58:52 +0000
+Date: Tue, 31 Mar 2026 10:58:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Dmitry Ilvokhin <d@ilvokhin.com>
-Subject: [tglx-devel:irq/core 10/15] kernel/irq/manage.c:2069:15:
- warning: unused variable 'ret'
-Message-ID: <202603310450.oEYtwqul-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 2/2]
+ drivers/dma-buf/heaps/deferred-free-helper.c:21:19: sparse: sparse: symbol
+ 'freelist_waitqueue' was not declared. Should it be static?
+Message-ID: <202603311012.yO47aeSO-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,47 +60,42 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git irq/core
-head:   441c9c1a006b0553ee042b3bd979e3f004b3292c
-commit: 2e6275cf004188e749d79ba9b357ab47a94c4bfd [10/15] genirq: Cache the condition for /proc/interrupts exposure
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260331/202603310450.oEYtwqul-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603310450.oEYtwqul-lkp@intel.com/reproduce)
+Hi Isaac,
+
+First bad commit (maybe != root cause):
+
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   5fdbbd61a3cbdca7ac1034dc16723bdbc7ece8cc
+commit: 2df543ce54490fb84ff4186ea24db1d9e13bb0c0 [2/2] ANDROID: Allow the deferred-free library heap to be compiled into the GKI
+config: i386-randconfig-r133-20260331 (https://download.01.org/0day-ci/archive/20260331/202603311012.yO47aeSO-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603311012.yO47aeSO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603310450.oEYtwqul-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603311012.yO47aeSO-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/dma-buf/heaps/deferred-free-helper.c:21:19: sparse: sparse: symbol 'freelist_waitqueue' was not declared. Should it be static?
+   drivers/dma-buf/heaps/deferred-free-helper.c:22:20: sparse: sparse: symbol 'freelist_task' was not declared. Should it be static?
 
-   kernel/irq/manage.c: In function 'free_nmi':
->> kernel/irq/manage.c:2069:15: warning: unused variable 'ret' [-Wunused-variable]
-    2069 |         void *ret;
-         |               ^~~
+vim +/freelist_waitqueue +21 drivers/dma-buf/heaps/deferred-free-helper.c
 
+1080a8505ff8bb John Stultz 2020-12-09  18  
+1080a8505ff8bb John Stultz 2020-12-09  19  static LIST_HEAD(free_list);
+1080a8505ff8bb John Stultz 2020-12-09  20  static size_t list_nr_pages;
+1080a8505ff8bb John Stultz 2020-12-09 @21  wait_queue_head_t freelist_waitqueue;
+1080a8505ff8bb John Stultz 2020-12-09  22  struct task_struct *freelist_task;
+1080a8505ff8bb John Stultz 2020-12-09  23  static DEFINE_SPINLOCK(free_list_lock);
+1080a8505ff8bb John Stultz 2020-12-09  24  
 
-vim +/ret +2069 kernel/irq/manage.c
+:::::: The code at line 21 was first introduced by commit
+:::::: 1080a8505ff8bb21b7a554fda7b29e12d6ce5933 ANDROID: dma-buf: heaps: Add deferred-free-helper library code
 
-  2065	
-  2066	const void *free_nmi(unsigned int irq, void *dev_id)
-  2067	{
-  2068		struct irq_desc *desc = irq_to_desc(irq);
-> 2069		void *ret;
-  2070	
-  2071		if (!desc || WARN_ON(!irq_is_nmi(desc)))
-  2072			return NULL;
-  2073	
-  2074		if (WARN_ON(irq_settings_is_per_cpu_devid(desc)))
-  2075			return NULL;
-  2076	
-  2077		/* NMI still enabled */
-  2078		if (WARN_ON(desc->depth == 0))
-  2079			disable_nmi_nosync(irq);
-  2080	
-  2081		return __cleanup_nmi(irq, desc);
-  2082	}
-  2083	
+:::::: TO: John Stultz <john.stultz@linaro.org>
+:::::: CC: Treehugger Robot <android-test-infra-autosubmit@system.gserviceaccount.com>
 
 -- 
 0-DAY CI Kernel Test Service
