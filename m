@@ -1,250 +1,143 @@
-Received: from mail.tipi-net.de (mail.tipi-net.de [194.13.80.246])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F2D93BA241
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 08:11:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.13.80.246
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C43363DDDDE
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 08:23:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774944689; cv=none; b=eJ8VkPVHmgw3a6dv8ObrAzIxDP8Kanmy+Ow1l+jpgLd5BlZjGW06apuU8Sa2Z4/++IWR/f9pQkXTsuVuIHNAQkC+mxT94mSHxCUuzgIsZZGGhqUscMn8D6MxcXs8+b6E+RkoMTCOjlcKNIoxhwzrZmqfLB2oVoaI+aPiQjiZ/ZU=
+	t=1774945414; cv=none; b=ZCrvhm8+qL/UuROSpamdgEMurl0HH6QS8wKLN+jl376XK/kRrD/o6Jz4Z06AT466BT9yMPfgBLwJoz8PpWw3ZrDUCPfj+biAUmajSZ+xNrOYmlaGXWPI7ECifTT9hsIzuNYzFaX6Any6pS2VwSxbg3XwnjClSzshXgI+SwKC898=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774944689; c=relaxed/simple;
-	bh=IzlQBO+/3QQz3rVMzlmBSof9s5dhYvYhh5ZoECloaCA=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=Obcz54GdGOtk38ieHo3B3D23M1+vEoJiUVI//oD3XahQPUlethxkQbzEbHkOBtNwn6n/hUIjEoYCcYvb39rFx3H7nQQCD0Ei2PpbtgnbsBZp0lWbXvjvatos+RCNSMdMfRwO2Bw0t0Zz7VfAeCasJQqM1eEXiSJMRzatyUleXd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de; spf=pass smtp.mailfrom=tipi-net.de; dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b=rT/69nN0; arc=none smtp.client-ip=194.13.80.246
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tipi-net.de
+	s=arc-20240116; t=1774945414; c=relaxed/simple;
+	bh=HqX7xpk0Nh1GkbdlSAPyvz7brLcjK2lk3Ak6Ayvku0U=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=FROax04O1eyw1H720olarNi6kfYfLEl9oUyM+YakxpXJKufQPdPM9bowi6yyT5ext9m34Ox8kO1St+1dGv8shZPObt24CLT0Rx3cnoPQ3JDLfmmMc9i+SCdH59c2vC6Pv80nFvuFRoWUUg92WLBITKjIfm/8FTRiYCsqKsRhrsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UOZVJ2wq; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b="rT/69nN0"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id F13D6A56FC;
-	Tue, 31 Mar 2026 10:11:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tipi-net.de; s=dkim;
-	t=1774944679; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=7yru7aj8vqfA/2tCvRfrvT/SZN7TZtsZe7Vulo0NEjA=;
-	b=rT/69nN08jcOmwrnSKEpNHMVTfQAtZ0FRsfQIzTyeTbTvuEcGcQq4XLuBZAr/wqJXwAsFO
-	BodE5QZlfm6RT8R05PAphBSB+ap6Mzn5tiv2/axeT2lHqYYivAnpn0z91P254oG8S2dZ3v
-	2DOoGWwDjmn100p7q1omrCQrkQr/fzDwPsHolwsmUAre2MMbfUuLqAbcS+qmT9Fvq7B+xh
-	Np2VYbW091RytzuXjOAMClgfp/s/Mmt4TOl3Dy4Seg9WAGxzfOvkrvnKSZGLeIXZvAjZ8q
-	24CygUWzF7MqHXJ/XJaRAPRAjFmK00V9CNefmV/yQmBDt9Vgifz0S+eHqeQN7g==
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UOZVJ2wq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774945413; x=1806481413;
+  h=date:from:to:cc:subject:message-id;
+  bh=HqX7xpk0Nh1GkbdlSAPyvz7brLcjK2lk3Ak6Ayvku0U=;
+  b=UOZVJ2wqqF25ik4EUyXHeooZY+ZmzDT7skdnse8MsoyvdqanDWgFce+b
+   OuVB7Tb+H+vJaYIVzpJFlJvJKyJ48+nsQ89ujxpypnK0PJ68p2F+f1b7N
+   AwZsFvb5ScNIg6QRIEAawxDyhqjSyKOr7eDoQhQ2pZJkzWOrJpt2PES+D
+   3cRoiopbrs4hp2xqcGTL2E2TMsgpj07Ts/ewdFOm2XCpbD6dastUa83c7
+   oEelE1lXxdM7Ou4A3q3A97rcVeHWUGrj6kax0PIofrwd0PB4r+PjDs0U9
+   V8niqR2bpHQC+iuvaBgGwK4SvT78ybUvqJgV79JkktGLE3PbcXL2AFJOH
+   g==;
+X-CSE-ConnectionGUID: tMEADg6eSF+zm8+uE78fRw==
+X-CSE-MsgGUID: 6MYqPnvTS0296IYn5BAljA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="93533768"
+X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
+   d="scan'208";a="93533768"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 01:23:32 -0700
+X-CSE-ConnectionGUID: gnJr02s9SdO2eHxIqgDtzg==
+X-CSE-MsgGUID: oV5ikPTES9qfByXjH1RAEQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
+   d="scan'208";a="230757657"
+Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 31 Mar 2026 01:23:30 -0700
+Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w7UNk-000000002Pj-0RSg;
+	Tue, 31 Mar 2026 08:23:28 +0000
+Date: Tue, 31 Mar 2026 16:23:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 2/2] arch/arm64/kvm/mmu.c:394:
+ warning: Function parameter or member 'kvm' not described in
+ '___unmap_stage2_range'
+Message-ID: <202603311618.n0d8DBCp-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Date: Tue, 31 Mar 2026 10:11:16 +0200
-From: Nicolai Buchwitz <nb@tipi-net.de>
-To: Michael Dege <michael.dege@renesas.com>
-Cc: kernel test robot <lkp@intel.com>, Yoshihiro Shimoda
- <yoshihiro.shimoda.uh@renesas.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v2 13/13] net: renesas: rswitch: add vlan aware
- switching
-In-Reply-To: <TY4PR01MB142828994B921A75367AEC5368253A@TY4PR01MB14282.jpnprd01.prod.outlook.com>
-References: <20260327-rswitch_add_vlans-v2-13-d7f4358ca57a@renesas.com>
- <202603300436.ryIgiB0z-lkp@intel.com>
- <TY4PR01MB142828994B921A75367AEC5368253A@TY4PR01MB14282.jpnprd01.prod.outlook.com>
-Message-ID: <b52623fe930b5c398f21d97f7069274a@tipi-net.de>
-X-Sender: nb@tipi-net.de
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
 
-On 31.3.2026 08:10, Michael Dege wrote:
-> Hello,
-> 
-> Who can kindly help me with this?
-> 
->> -----Original Message-----
->> From: kernel test robot <lkp@intel.com>
->> Sent: Sunday, March 29, 2026 10:37 PM
->> To: Michael Dege <michael.dege@renesas.com>; Yoshihiro Shimoda 
->> <yoshihiro.shimoda.uh@renesas.com>;
->> Andrew Lunn <andrew+netdev@lunn.ch>; David S. Miller 
->> <davem@davemloft.net>; Eric Dumazet
->> <edumazet@google.com>; Jakub Kicinski <kuba@kernel.org>; Paolo Abeni 
->> <pabeni@redhat.com>
->> Cc: oe-kbuild-all@lists.linux.dev; netdev@vger.kernel.org; 
->> linux-renesas-soc@vger.kernel.org; linux-
->> kernel@vger.kernel.org; Michael Dege <michael.dege@renesas.com>
->> Subject: Re: [PATCH net-next v2 13/13] net: renesas: rswitch: add vlan 
->> aware switching
->> 
->> Hi Michael,
->> 
->> kernel test robot noticed the following build errors:
->> 
->> [auto build test ERROR on 1f318b96cc84d7c2ab792fcc0bfd42a7ca890681]
->> 
->> url:    https://github.com/intel-lab-
->> lkp%2Flinux%2Fcommits%2FMichael-Dege%2Fnet-renesas-rswitch-improve-port-change-mode-
->> functions%2F20260329-
->> 154812&data=05%7C02%7Cmichael.dege%40renesas.com%7C27cab84d6f7640e15b4f08de8dd3108a%7C53d82571da1947e4
->> 9cb4625a166a4a2a%7C0%7C0%7C639104134822998103%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIw
->> LjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=uP5U8NPFi2wo7VJDRGZ%2B
->> ubwH50bZDvNuapBP0t76lL0%3D&reserved=0
->> base:   1f318b96cc84d7c2ab792fcc0bfd42a7ca890681
->> patch link:
->> https://lore.kernel.org/r/20260327-
->> rswitch_add_vlans-v2-13-
->> d7f4358ca57a%2540renesas.com&data=05%7C02%7Cmichael.dege%40renesas.com%7C27cab84d6f7640e15b4f08de8dd31
->> 08a%7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C639104134823016624%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU
->> 1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=
->> 2QTz%2BFk8tDeHuE2Ac5ddl8tJ2mFSrm9l9mGnnLDsdW4%3D&reserved=0
->> patch subject: [PATCH net-next v2 13/13] net: renesas: rswitch: add 
->> vlan aware switching
->> config: arm64-defconfig
->> (https://download.01.org/0day-
->> ci%2Farchive%2F20260330%2F202603300436.ryIgiB0z-
->> lkp%40intel.com%2Fconfig&data=05%7C02%7Cmichael.dege%40renesas.com%7C27cab84d6f7640e15b4f08de8dd3108a%
->> 7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C639104134823028947%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcG
->> kiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=vhwu
->> KaGAF4bhfSTb1VhDnII4SXsKbZ0zEPRt8ma49aM%3D&reserved=0)
->> compiler: aarch64-linux-gcc (GCC) 15.2.0 reproduce (this is a W=1 
->> build):
->> (https://download.01.org/0day-
->> ci%2Farchive%2F20260330%2F202603300436.ryIgiB0z-
->> lkp%40intel.com%2Freproduce&data=05%7C02%7Cmichael.dege%40renesas.com%7C27cab84d6f7640e15b4f08de8dd310
->> 8a%7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C639104134823040554%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1
->> hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=Y
->> TddyGPjtxfccjUPlLwizqOqUHOuiRxPxMqoNaHWW%2Bk%3D&reserved=0)
->> 
->> If you fix the issue in a separate patch/commit (i.e. not just a new 
->> version of the same
->> patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes:
->> | https://lore/
->> | 
->> .kernel.org%2Foe-kbuild-all%2F202603300436.ryIgiB0z-lkp%40intel.com%2F
->> | 
->> &data=05%7C02%7Cmichael.dege%40renesas.com%7C27cab84d6f7640e15b4f08de8
->> | 
->> dd3108a%7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C63910413482305219
->> | 
->> 2%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIs
->> | 
->> IlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=4B
->> | 1hVOdPuyjze1HZCUi2v3gamNPgyeYcmx5NNzrDFjw%3D&reserved=0
->> 
->> All errors (new ones prefixed by >>):
->> 
->>    aarch64-linux-ld: Unexpected GOT/PLT entries detected!
->>    aarch64-linux-ld: Unexpected run-time procedure linkages detected!
->>    aarch64-linux-ld: drivers/net/ethernet/renesas/rswitch_l2.o: in 
->> function
->> `rswitch_port_obj_do_add_gwca':
->> >> drivers/net/ethernet/renesas/rswitch_l2.c:443:(.text+0x11e0): undefined reference to
->> `br_vlan_enabled'
->>    aarch64-linux-ld: drivers/net/ethernet/renesas/rswitch_l2.o: in 
->> function `rswitch_port_obj_do_add':
->>    drivers/net/ethernet/renesas/rswitch_l2.c:412:(.text+0x135c): 
->> undefined reference to
->> `br_vlan_enabled'
->> >> aarch64-linux-ld: drivers/net/ethernet/renesas/rswitch_l2.c:423:(.text+0x13bc): undefined reference
->> to `br_vlan_enabled'
->> 
->> 
->> vim +443 drivers/net/ethernet/renesas/rswitch_l2.c
->> 
->>    402
->>    403        static int rswitch_port_obj_do_add(struct net_device 
->> *ndev,
->>    404                                           struct 
->> switchdev_obj_port_vlan *p_vlan)
->>    405        {
->>    406                struct rswitch_device *rdev = netdev_priv(ndev);
->>    407                struct rswitch_private *priv = rdev->priv;
->>    408                struct rswitch_etha *etha = rdev->etha;
->>    409                int err;
->>    410
->>    411                /* Set Rswitch VLAN mode */
->>    412                iowrite32(br_vlan_enabled(rdev->brdev) ? 
->> FIELD_PREP(FWGC_SVM, C_TAG) : 0,
->>    413                          priv->addr + FWGC);
->>    414
->>    415                err = rswitch_write_vlan_table(priv, 
->> p_vlan->vid, etha->index);
->>    416                if (err < 0)
->>    417                        return err;
->>    418
->>    419                /* If the default vlan for this port has been 
->> set, don't overwrite it. */
->>    420                if (ioread32(etha->addr + EAVCC))
->>    421                        return NOTIFY_DONE;
->>    422
->>  > 423                if (br_vlan_enabled(rdev->brdev))
->>    424                        rswitch_modify(priv->addr, 
->> FWPC0(etha->index), 0, FWPC0_VLANSA |
->> FWPC0_VLANRU);
->>    425
->>    426                rswitch_modify(priv->addr, 
->> FWPC2(AGENT_INDEX_GWCA),
->>    427                               FIELD_PREP(FWPC2_LTWFW, 
->> BIT(etha->index)),
->>    428                               0);
->>    429
->>    430                return rswitch_port_set_vlan_tag(etha, p_vlan, 
->> false);
->>    431        }
->>    432
->>    433        static int rswitch_port_obj_do_add_gwca(struct 
->> net_device *ndev,
->>    434                                                struct 
->> rswitch_private *priv,
->>    435                                                struct 
->> switchdev_obj_port_vlan *p_vlan)
->>    436        {
->>    437                int err;
->>    438
->>    439                if (!(p_vlan->flags & BRIDGE_VLAN_INFO_BRENTRY))
->>    440                        return NOTIFY_DONE;
->>    441
->>    442                /* Set Rswitch VLAN mode */
->>  > 443                iowrite32(br_vlan_enabled(ndev) ? 
->> FIELD_PREP(FWGC_SVM, C_TAG) : 0, priv->addr +
->> FWGC);
->>    444
->>    445                err = rswitch_write_vlan_table(priv, 
->> p_vlan->vid, AGENT_INDEX_GWCA);
->>    446                if (err < 0)
->>    447                        return err;
->>    448
->>    449                /* If the default vlan for this port has been 
->> set, don't overwrite it. */
->>    450                if (ioread32(priv->addr + GWVCC))
->>    451                        return NOTIFY_DONE;
->>    452
->>    453                return rswitch_gwca_set_vlan_tag(priv, p_vlan, 
->> false);
->>    454        }
->>    455
->> 
-> 
-> The function br_vlan_enabled() is exported from br_vlan.c and the 
-> header file is if_bridge.h. Can anyone
-> give me a hint what might be wrong?
+Hi Quentin,
 
-Looking at the other switchdev drivers, I'd suspect that 
-`RENESAS_ETHER_SWITCH` is missing `depends on BRIDGE || BRIDGE=n`, which 
-guards br_vlan_enabled().
+FYI, the error/warning still remains.
 
-Nicolai
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   5fdbbd61a3cbdca7ac1034dc16723bdbc7ece8cc
+commit: b66e27a61e1f4f713201f1cd1d475da9309218ae [2/2] ANDROID: KVM: arm64: Unshare pages from __unmap_stage2_range()
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260331/202603311618.n0d8DBCp-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603311618.n0d8DBCp-lkp@intel.com/reproduce)
 
-> 
-> Thank you and best regards,
-> 
-> Michael
-> 
->> --
->> 0-DAY CI Kernel Test Service
->> https://github.com/intel/lkp-
->> tests%2Fwiki&data=05%7C02%7Cmichael.dege%40renesas.com%7C27cab84d6f7640e15b4f08de8dd3108a%7C53d82571da
->> 1947e49cb4625a166a4a2a%7C0%7C0%7C639104134823063970%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIl
->> YiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=wG2VKo2Ln60Ld4KV
->> 8wHTcxRyskg0hzu0dZSVMg4v73g%3D&reserved=0
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603311618.n0d8DBCp-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> arch/arm64/kvm/mmu.c:394: warning: Function parameter or member 'kvm' not described in '___unmap_stage2_range'
+>> arch/arm64/kvm/mmu.c:394: warning: Function parameter or member 'addr' not described in '___unmap_stage2_range'
+>> arch/arm64/kvm/mmu.c:394: warning: expecting prototype for unmap_stage2_range(). Prototype was for ___unmap_stage2_range() instead
+
+
+vim +394 arch/arm64/kvm/mmu.c
+
+b66e27a61e1f4f arch/arm64/kvm/mmu.c Quentin Perret   2022-07-06  355  
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  356  /*
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  357   * Unmapping vs dcache management:
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  358   *
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  359   * If a guest maps certain memory pages as uncached, all writes will
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  360   * bypass the data cache and go directly to RAM.  However, the CPUs
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  361   * can still speculate reads (not writes) and fill cache lines with
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  362   * data.
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  363   *
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  364   * Those cache lines will be *clean* cache lines though, so a
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  365   * clean+invalidate operation is equivalent to an invalidate
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  366   * operation, because no cache lines are marked dirty.
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  367   *
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  368   * Those clean cache lines could be filled prior to an uncached write
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  369   * by the guest, and the cache coherent IO subsystem would therefore
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  370   * end up writing old data to disk.
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  371   *
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  372   * This is why right after unmapping a page/section and invalidating
+52bae936f0e7be arch/arm64/kvm/mmu.c Will Deacon      2020-09-11  373   * the corresponding TLBs, we flush to make sure the IO subsystem will
+52bae936f0e7be arch/arm64/kvm/mmu.c Will Deacon      2020-09-11  374   * never hit in the cache.
+e48d53a91f6e90 virt/kvm/arm/mmu.c   Marc Zyngier     2018-04-06  375   *
+e48d53a91f6e90 virt/kvm/arm/mmu.c   Marc Zyngier     2018-04-06  376   * This is all avoided on systems that have ARM64_HAS_STAGE2_FWB, as
+e48d53a91f6e90 virt/kvm/arm/mmu.c   Marc Zyngier     2018-04-06  377   * we then fully enforce cacheability of RAM, no matter what the guest
+e48d53a91f6e90 virt/kvm/arm/mmu.c   Marc Zyngier     2018-04-06  378   * does.
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  379   */
+7a1c831ee8553b arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  380  /**
+7a1c831ee8553b arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  381   * unmap_stage2_range -- Clear stage2 page table entries to unmap a range
+c9c0279cc02b4e arch/arm64/kvm/mmu.c Xiaofei Tan      2020-09-17  382   * @mmu:   The KVM stage-2 MMU pointer
+7a1c831ee8553b arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  383   * @start: The intermediate physical base address of the range to unmap
+7a1c831ee8553b arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  384   * @size:  The size of the area to unmap
+c9c0279cc02b4e arch/arm64/kvm/mmu.c Xiaofei Tan      2020-09-17  385   * @may_block: Whether or not we are permitted to block
+7a1c831ee8553b arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  386   *
+7a1c831ee8553b arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  387   * Clear a range of stage-2 mappings, lowering the various ref-counts.  Must
+7a1c831ee8553b arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  388   * be called while holding mmu_lock (unless for freeing the stage2 pgd before
+7a1c831ee8553b arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  389   * destroying the VM), otherwise another faulting VCPU may come in and mess
+7a1c831ee8553b arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  390   * with things behind our backs.
+7a1c831ee8553b arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  391   */
+776adf654a1f64 arch/arm64/kvm/mmu.c Quentin Perret   2022-05-11  392  
+776adf654a1f64 arch/arm64/kvm/mmu.c Quentin Perret   2022-05-11  393  static int ___unmap_stage2_range(struct kvm *kvm, u64 addr, u64 size)
+776adf654a1f64 arch/arm64/kvm/mmu.c Quentin Perret   2022-05-11 @394  {
+b66e27a61e1f4f arch/arm64/kvm/mmu.c Quentin Perret   2022-07-06  395  	if (!is_protected_kvm_enabled())
+776adf654a1f64 arch/arm64/kvm/mmu.c Quentin Perret   2022-05-11  396  		return kvm_pgtable_stage2_unmap(kvm->arch.mmu.pgt, addr, size);
+b66e27a61e1f4f arch/arm64/kvm/mmu.c Quentin Perret   2022-07-06  397  
+b66e27a61e1f4f arch/arm64/kvm/mmu.c Quentin Perret   2022-07-06  398  	return pkvm_unmap_range(kvm, addr, addr + size);
+776adf654a1f64 arch/arm64/kvm/mmu.c Quentin Perret   2022-05-11  399  }
+776adf654a1f64 arch/arm64/kvm/mmu.c Quentin Perret   2022-05-11  400  
+
+:::::: The code at line 394 was first introduced by commit
+:::::: 776adf654a1f64054a76876923c1606224e431cc ANDROID: KVM: arm64: Pass kvm struct to stage2_apply_range()
+
+:::::: TO: Quentin Perret <qperret@google.com>
+:::::: CC: Quentin Perret <qperret@google.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
