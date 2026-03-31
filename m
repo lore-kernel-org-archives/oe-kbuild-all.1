@@ -1,364 +1,406 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBB4732A3E1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 17:11:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774977081; cv=none; b=L1iihu26gO8rwkUJzeFtyRBcjoZvleTnDu8mTbo4NPdFsXh+7WG1/hQJ7r2xTP00oUcEsuz7tQ5Izsp6++WcHxd5ZFR8Bfc8XhtNhDGpmaTYFLItzNMqbPlVTxGzRVMfgOm09ijdIhd0rRG5ufe22yCy3BUumSZh+iG8C/P1204=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774977081; c=relaxed/simple;
-	bh=iVrJ+FdG+30VBYph5WHhR6g6tP5HOOBCa2OVWu/sc74=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Fh+tYSwa7LKvSfXCBzG2UlxdBNOd2f98Ih3ffvsEVr2T8CkFhuIJxYY4kQsmqtEknuyXpVMjUT+38yVpSJoB6AM3aAjcABAPQ2zH0Mgx1KvFQm5PERzXsUV0c3AdyCNgw8uGbvfdPurbP3hcCLqGhPrYvHBF/nIplZ5lZ9d6EJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MjJZC97a; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 478943644BC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 17:24:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774977893; cv=pass; b=EYPpI0ps7L8w940kKLg1QokB6iqh66MkyY9spdrUUd3q33ztHd95T+aBnwRvRy72X1to6RHXxE5ZUEkxx1NJoXxr+zHmEYa45uOilKlz5nNBxJm8Qn+08lWI1wIU4pY9q7K+yLiAHngpENXo2xl/KrB2pGV9svHhOUXDWrp0WLg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774977893; c=relaxed/simple;
+	bh=6/ql8FNUYX9RLdMQCve36DQhol1c980WJqD9NgB4JNM=;
+	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=iteir1u6519HFR0+WfWJhJjZX2ySv4Zmsbhp8tWN8W4LsXgp4tTZch1VNKO1j3JgTnABdxIBaM7yrIS4xAxBewuNaJSq4eS49ppKaz06jgvPWlPW9qzwIOdxcO6NDkAZ9CT4qVJL339yH1KDM7ye5vcCdRPDXCwq2QBCiB6iBsc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=JZoWszX+; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MjJZC97a"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774977079; x=1806513079;
-  h=date:from:to:cc:subject:message-id;
-  bh=iVrJ+FdG+30VBYph5WHhR6g6tP5HOOBCa2OVWu/sc74=;
-  b=MjJZC97alExoTZKLfEdQAd8KbIZdgEQJMUdLm1wPufp7IEdVaYGva/tc
-   bbX1t/fgZiK5yxiTAP8m0UIfXoAysP7JmFe+NYJpfr38X+hlNn4pY29L/
-   2ey8pRZA2FvIgLkKmm3lPAmkNEkaERii+lVSm+eXL0oqLZJ98joC6O60b
-   17nmbeh4EaRukGvDFDuy5XaBGb6UjijtxSxaYRUyjIUUxC3yOkvy4o4gS
-   iexLUDXSo6dI+qHhGEIcYIdOaAwgttnIy6ordxa5A8H/cq9Vw9/UxyN0B
-   Qu9B4r6dZ+0JrSl+6m7wQHddncExWNZoSXIo7NUcn6+Wi5DSaIPvOgh8t
-   Q==;
-X-CSE-ConnectionGUID: tQ40HijBQIirSimVS3LyVw==
-X-CSE-MsgGUID: R2crjxAkQLuAaP48Y6kirA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="76113292"
-X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
-   d="scan'208";a="76113292"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 10:11:18 -0700
-X-CSE-ConnectionGUID: VobtwN4mSGu/yyHbN3kAFg==
-X-CSE-MsgGUID: FILYtZy9SLO369oHMRVrgg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
-   d="scan'208";a="264359594"
-Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 31 Mar 2026 10:11:16 -0700
-Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w7ccT-000000003bX-3TT7;
-	Tue, 31 Mar 2026 17:11:13 +0000
-Date: Wed, 01 Apr 2026 01:10:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: John Stultz <jstultz@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, Peter Zijlstra <peterz@infradead.org>
-Subject: [peterz-queue:sched/core 17/25] kernel/sched/core.c:6831:52:
- sparse: sparse: incorrect type in initializer (different address spaces)
-Message-ID: <202604010115.rS9EUQw2-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="JZoWszX+"
+ARC-Seal: i=1; a=rsa-sha256; t=1774977888; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=mfbt8ZYJ6fshY+e/lkfd53wlVQvbQ9Nq7ar0G6ZNYGddmuua6oHlpemYCCmBuh/eaSyqNfqseSNtAGv9mOJR2dUakgBAuk8bHp/4gDkqyPQW7Nuz53rzGAHOjYd5Mmubwi/dsxYdZpmDdRx5uqTN49rb7i+J/B+QtzFNLByCaVk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1774977888; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=FHilIAO4qYKYoZuc+6OM/D/bi/vbmK9PrJA5dc3G+Wo=; 
+	b=j40JT1/yzk7zz7Xl0RTPl9XPfGb7PVsBkXLz3EVScArOvQpuzBqsTzPGqFUR2CtJBvr0xQa5MOLV7bWtBfs3t4sucLvbVptra7VEmJ0ihJmloJJMqKRILuGA8CF3OZj3Gkh66LB2XDQGgyTpoyKY4JRKPboaSFvh/UH4gI8gLUo=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=rong.moe;
+	spf=pass  smtp.mailfrom=i@rong.moe;
+	dmarc=pass header.from=<i@rong.moe>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774977888;
+	s=zmail2048; d=rong.moe; i=i@rong.moe;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date:Date:MIME-Version:Message-Id:Reply-To;
+	bh=FHilIAO4qYKYoZuc+6OM/D/bi/vbmK9PrJA5dc3G+Wo=;
+	b=JZoWszX+mWWY3RGvXfQBIxPA0Ikxsgk8p+i7OBdaj5bOLxtxhvcUO/Vbs75Fg7Db
+	ePJ1w8KFhexU4TkB7t4ryG+ORBoCNLJWXA0kDIjUcCIveahzazSu+zT4ffiQdjATPJ2
+	AyLQq1qbsq3uK4+kles1SSK/KMUsvyp8eIx4vP3iGCnhWolBDwXXZqnMHDXDmuQDL91
+	hjzEZVCfURs+ps2xPAUU/xXF+emzdwIxyI2zAfPzditfsy7dikpE+dN4OxuO6WABC8a
+	6dFsJTReIplyMwPWVw4Utg1n/TShTb4qmh2QUa3U9J4hhG4mUigedc9o+COk/gmtURA
+	FsgKLCyscg==
+Received: by mx.zohomail.com with SMTPS id 1774977886130130.76757325486403;
+	Tue, 31 Mar 2026 10:24:46 -0700 (PDT)
+Message-ID: <ed27a1c24bfc05717f2c0d5a1c052630484d313f.camel@rong.moe>
+Subject: Re: [PATCH] platform/x86: lenovo: Decouple lenovo-wmi-gamezone and
+ lenovo-wmi-other
+From: Rong Zhang <i@rong.moe>
+To: Derek John Clark <derekjohn.clark@gmail.com>
+Cc: Ilpo =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Hans
+ de Goede <hansg@kernel.org>, oe-kbuild-all@lists.linux.dev, Mark Pearson
+ <mpearson-lenovo@squebb.ca>,  Armin Wolf <W_Armin@gmx.de>, Jonathan Corbet
+ <corbet@lwn.net>, Kurt Borja <kuurtb@gmail.com>, 
+	platform-driver-x86@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
+ kernel test robot	 <lkp@intel.com>, stable@vger.kernel.org
+In-Reply-To: <CAFqHKTkSQsEDeFif8+OrAm2tr2VQjx7N0UEdXxJRmy+N_4i==g@mail.gmail.com>
+References: <861d0276a759461be446df8e996d196037c9b581.camel@rong.moe>
+		 <20260326161724.72186-1-i@rong.moe>
+		 <d824bf55-8c1a-1374-04f9-aff9ffdaaa0d@linux.intel.com>
+		 <afa0c48c0adac075411dae92ff9079e52c77a3fe.camel@rong.moe>
+		 <CAFqHKTkSQsEDeFif8+OrAm2tr2VQjx7N0UEdXxJRmy+N_4i==g@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 01 Apr 2026 00:07:46 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Evolution 3.56.2-9 
+X-ZohoMailClient: External
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/core
-head:   e3b81e7a51de864abd45114d819569970d871cdf
-commit: c226eccb781eec487cedee2bb9489a19235024f0 [17/25] sched: Fix potentially missing balancing with Proxy Exec
-config: m68k-randconfig-r132-20260331 (https://download.01.org/0day-ci/archive/20260401/202604010115.rS9EUQw2-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.4.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260401/202604010115.rS9EUQw2-lkp@intel.com/reproduce)
+Hi Derek,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604010115.rS9EUQw2-lkp@intel.com/
+On Mon, 2026-03-30 at 13:04 -0700, Derek John Clark wrote:
+> On Fri, Mar 27, 2026 at 8:21=E2=80=AFAM Rong Zhang <i@rong.moe> wrote:
+> >=20
+> > Hi Ilpo,
+> >=20
+> > On Fri, 2026-03-27 at 13:25 +0200, Ilpo J=C3=A4rvinen wrote:
+> > > On Fri, 27 Mar 2026, Rong Zhang wrote:
+> > >=20
+> > > > Currently, lenovo-wmi-gamezone depends on lenovo-wmi-other as the f=
+ormer
+> > > > imports symbols from the latter. The imported symbols are just used=
+ to
+> > > > register a notifier block. However, there is no runtime dependency
+> > > > between both drivers, and either of them can run without the other,
+> > > > which is the major purpose of using the notifier framework.
+> > > >=20
+> > > > Such a link-time dependency is non-optimal. A previous attempt to "=
+fix"
+> > > > it made LENOVO_WMI_GAMEZONE select LENOVO_WMI_TUNING, which was
+> > > > fundamentally broken and resulted in undefined Kconfig behavior, as
+> > > > `select' cannot be used on a symbol with potentially unmet dependen=
+cies.
+> > > >=20
+> > > > Decouple both drivers by moving the thermal mode notifier chain to
+> > > > lenovo-wmi-helpers. Methods for notifier block (un)registration are
+> > > > exported for lenovo-wmi-gamezone, while a method for querying the
+> > > > current thermal mode are exported for lenovo-wmi-other.
+> > > >=20
+> > > > This turns the dependency graph from
+> > > >=20
+> > > >             +------------ lenovo-wmi-gamezone
+> > > >             |                     |
+> > > >             v                     |
+> > > >     lenovo-wmi-helpers            |
+> > > >             ^                     |
+> > > >             |                     V
+> > > >             +------------ lenovo-wmi-other
+> > > >=20
+> > > > into
+> > > >=20
+> > > >             +------------ lenovo-wmi-gamezone
+> > > >             |
+> > > >             v
+> > > >     lenovo-wmi-helpers
+> > > >             ^
+> > > >             |
+> > > >             +------------ lenovo-wmi-other
+> > > >=20
+> > > > To make it clear, the name of the notifier chain is also renamed fr=
+om
+> > > > `om_chain_head' to `tm_chain_head', indicating that it's used to qu=
+ery
+> > > > the current thermal mode.
+> > > >=20
+> > > > No functional change intended.
+> > > >=20
+> > > > Fixes: 6e38b9fcbfa3 ("platform/x86: lenovo: gamezone needs "other m=
+ode"")
+> > > > Cc: stable@vger.kernel.org
+> > > > Reported-by: kernel test robot <lkp@intel.com>
+> > > > Closes: https://lore.kernel.org/oe-kbuild-all/202603252259.gHvJDyh3=
+-lkp@intel.com/
+> > > > Closes: https://lore.kernel.org/oe-kbuild-all/202603260302.X0NjQOda=
+-lkp@intel.com/
+> > > > Signed-off-by: Rong Zhang <i@rong.moe>
+> > > > ---
+> > > >  drivers/platform/x86/lenovo/Kconfig        |   1 -
+> > > >  drivers/platform/x86/lenovo/wmi-gamezone.c |   4 +-
+> > > >  drivers/platform/x86/lenovo/wmi-helpers.c  | 102 +++++++++++++++++=
++++
+> > > >  drivers/platform/x86/lenovo/wmi-helpers.h  |   8 ++
+> > > >  drivers/platform/x86/lenovo/wmi-other.c    | 104 +----------------=
+----
+> > > >  drivers/platform/x86/lenovo/wmi-other.h    |  16 ----
+> > > >  6 files changed, 113 insertions(+), 122 deletions(-)
+> > > >  delete mode 100644 drivers/platform/x86/lenovo/wmi-other.h
+> > > >=20
+> > > > diff --git a/drivers/platform/x86/lenovo/Kconfig b/drivers/platform=
+/x86/lenovo/Kconfig
+> > > > index f885127b007f..09b1b055d2e0 100644
+> > > > --- a/drivers/platform/x86/lenovo/Kconfig
+> > > > +++ b/drivers/platform/x86/lenovo/Kconfig
+> > > > @@ -252,7 +252,6 @@ config LENOVO_WMI_GAMEZONE
+> > > >     select ACPI_PLATFORM_PROFILE
+> > > >     select LENOVO_WMI_EVENTS
+> > > >     select LENOVO_WMI_HELPERS
+> > > > -   select LENOVO_WMI_TUNING
+> > > >     help
+> > > >       Say Y here if you have a WMI aware Lenovo Legion device and w=
+ould like to use the
+> > > >       platform-profile firmware interface to manage power usage.
+> > > > diff --git a/drivers/platform/x86/lenovo/wmi-gamezone.c b/drivers/p=
+latform/x86/lenovo/wmi-gamezone.c
+> > > > index c7fe7e3c9f17..92020225db27 100644
+> > > > --- a/drivers/platform/x86/lenovo/wmi-gamezone.c
+> > > > +++ b/drivers/platform/x86/lenovo/wmi-gamezone.c
+> > > > @@ -23,7 +23,6 @@
+> > > >  #include "wmi-events.h"
+> > > >  #include "wmi-gamezone.h"
+> > > >  #include "wmi-helpers.h"
+> > > > -#include "wmi-other.h"
+> > > >=20
+> > > >  #define LENOVO_GAMEZONE_GUID "887B54E3-DDDC-4B2C-8B88-68A26A8835D0=
+"
+> > > >=20
+> > > > @@ -383,7 +382,7 @@ static int lwmi_gz_probe(struct wmi_device *wde=
+v, const void *context)
+> > > >             return ret;
+> > > >=20
+> > > >     priv->mode_nb.notifier_call =3D lwmi_gz_mode_call;
+> > > > -   return devm_lwmi_om_register_notifier(&wdev->dev, &priv->mode_n=
+b);
+> > > > +   return devm_lwmi_tm_register_notifier(&wdev->dev, &priv->mode_n=
+b);
+> > > >  }
+> > > >=20
+> > > >  static const struct wmi_device_id lwmi_gz_id_table[] =3D {
+> > > > @@ -405,7 +404,6 @@ module_wmi_driver(lwmi_gz_driver);
+> > > >=20
+> > > >  MODULE_IMPORT_NS("LENOVO_WMI_EVENTS");
+> > > >  MODULE_IMPORT_NS("LENOVO_WMI_HELPERS");
+> > > > -MODULE_IMPORT_NS("LENOVO_WMI_OTHER");
+> > > >  MODULE_DEVICE_TABLE(wmi, lwmi_gz_id_table);
+> > > >  MODULE_AUTHOR("Derek J. Clark <derekjohn.clark@gmail.com>");
+> > > >  MODULE_DESCRIPTION("Lenovo GameZone WMI Driver");
+> > > > diff --git a/drivers/platform/x86/lenovo/wmi-helpers.c b/drivers/pl=
+atform/x86/lenovo/wmi-helpers.c
+> > > > index 7379defac500..5a88bccb5037 100644
+> > > > --- a/drivers/platform/x86/lenovo/wmi-helpers.c
+> > > > +++ b/drivers/platform/x86/lenovo/wmi-helpers.c
+> > > > @@ -21,11 +21,16 @@
+> > > >  #include <linux/errno.h>
+> > > >  #include <linux/export.h>
+> > > >  #include <linux/module.h>
+> > > > +#include <linux/notifier.h>
+> > > >  #include <linux/unaligned.h>
+> > > >  #include <linux/wmi.h>
+> > > >=20
+> > > > +#include "wmi-gamezone.h"
+> > > >  #include "wmi-helpers.h"
+> > > >=20
+> > > > +/* Thermal mode notifier chain. */
+> > > > +static BLOCKING_NOTIFIER_HEAD(tm_chain_head);
+> > > > +
+> > > >  /**
+> > > >   * lwmi_dev_evaluate_int() - Helper function for calling WMI metho=
+ds that
+> > > >   * return an integer.
+> > > > @@ -84,6 +89,103 @@ int lwmi_dev_evaluate_int(struct wmi_device *wd=
+ev, u8 instance, u32 method_id,
+> > > >  };
+> > > >  EXPORT_SYMBOL_NS_GPL(lwmi_dev_evaluate_int, "LENOVO_WMI_HELPERS");
+> > > >=20
+> > > > +/**
+> > > > + * lwmi_tm_register_notifier() - Add a notifier to the blocking no=
+tifier chain
+> > > > + * @nb: The notifier_block struct to register
+> > > > + *
+> > > > + * Call blocking_notifier_chain_register to register the notifier =
+block to the
+> > > > + * thermal mode notifier chain.
+> > > > + *
+> > > > + * Return: 0 on success, %-EEXIST on error.
+> > > > + */
+> > > > +int lwmi_tm_register_notifier(struct notifier_block *nb)
+> > > > +{
+> > > > +   return blocking_notifier_chain_register(&tm_chain_head, nb);
+> > > > +}
+> > > > +EXPORT_SYMBOL_NS_GPL(lwmi_tm_register_notifier, "LENOVO_WMI_HELPER=
+S");
+> > > > +
+> > > > +/**
+> > > > + * lwmi_tm_unregister_notifier() - Remove a notifier from the bloc=
+king notifier
+> > > > + * chain.
+> > > > + * @nb: The notifier_block struct to register
+> > > > + *
+> > > > + * Call blocking_notifier_chain_unregister to unregister the notif=
+ier block from the
+> > > > + * thermal mode notifier chain.
+> > > > + *
+> > > > + * Return: 0 on success, %-ENOENT on error.
+> > > > + */
+> > > > +int lwmi_tm_unregister_notifier(struct notifier_block *nb)
+> > > > +{
+> > > > +   return blocking_notifier_chain_unregister(&tm_chain_head, nb);
+> > > > +}
+> > > > +EXPORT_SYMBOL_NS_GPL(lwmi_tm_unregister_notifier, "LENOVO_WMI_HELP=
+ERS");
+> > > > +
+> > > > +/**
+> > > > + * devm_lwmi_tm_unregister_notifier() - Remove a notifier from the=
+ blocking
+> > > > + * notifier chain.
+> > > > + * @data: Void pointer to the notifier_block struct to register.
+> > > > + *
+> > > > + * Call lwmi_tm_unregister_notifier to unregister the notifier blo=
+ck from the
+> > > > + * thermal mode notifier chain.
+> > > > + *
+> > > > + * Return: 0 on success, %-ENOENT on error.
+> > > > + */
+> > > > +static void devm_lwmi_tm_unregister_notifier(void *data)
+> > > > +{
+> > > > +   struct notifier_block *nb =3D data;
+> > > > +
+> > > > +   lwmi_tm_unregister_notifier(nb);
+> > > > +}
+> > > > +
+> > > > +/**
+> > > > + * devm_lwmi_tm_register_notifier() - Add a notifier to the blocki=
+ng notifier
+> > > > + * chain.
+> > > > + * @dev: The parent device of the notifier_block struct.
+> > > > + * @nb: The notifier_block struct to register
+> > > > + *
+> > > > + * Call lwmi_tm_register_notifier to register the notifier block t=
+o the
+> > > > + * thermal mode notifier chain. Then add devm_lwmi_tm_unregister_n=
+otifier
+> > > > + * as a device managed action to automatically unregister the noti=
+fier block
+> > > > + * upon parent device removal.
+> > > > + *
+> > > > + * Return: 0 on success, or an error code.
+> > > > + */
+> > > > +int devm_lwmi_tm_register_notifier(struct device *dev,
+> > > > +                              struct notifier_block *nb)
+> > > > +{
+> > > > +   int ret;
+> > > > +
+> > > > +   ret =3D lwmi_tm_register_notifier(nb);
+> > > > +   if (ret < 0)
+> > > > +           return ret;
+> > > > +
+> > > > +   return devm_add_action_or_reset(dev, devm_lwmi_tm_unregister_no=
+tifier,
+> > > > +                                   nb);
+> > > > +}
+> > > > +EXPORT_SYMBOL_NS_GPL(devm_lwmi_tm_register_notifier, "LENOVO_WMI_H=
+ELPERS");
+> > > > +
+> > > > +/**
+> > > > + * lwmi_tm_notifier_call() - Call functions for the notifier call =
+chain.
+> > > > + * @mode: Pointer to a thermal mode enum to retrieve the data from=
+.
+> > > > + *
+> > > > + * Call blocking_notifier_call_chain to retrieve the thermal mode =
+from the
+> > > > + * lenovo-wmi-gamezone driver.
+> > > > + *
+> > > > + * Return: 0 on success, or an error code.
+> > > > + */
+> > > > +int lwmi_tm_notifier_call(enum thermal_mode *mode)
+> > > > +{
+> > > > +   int ret;
+> > > > +
+> > > > +   ret =3D blocking_notifier_call_chain(&tm_chain_head,
+> > > > +                                      LWMI_GZ_GET_THERMAL_MODE, &m=
+ode);
+> > > > +   if ((ret & ~NOTIFY_STOP_MASK) !=3D NOTIFY_OK)
+> > > > +           return -EINVAL;
+> > > > +
+> > > > +   return 0;
+> > > > +}
+> > > > +EXPORT_SYMBOL_NS_GPL(lwmi_tm_notifier_call, "LENOVO_WMI_HELPERS");
+> > > > +
+> > > >  MODULE_AUTHOR("Derek J. Clark <derekjohn.clark@gmail.com>");
+> > > >  MODULE_DESCRIPTION("Lenovo WMI Helpers Driver");
+> > > >  MODULE_LICENSE("GPL");
+> > > > diff --git a/drivers/platform/x86/lenovo/wmi-helpers.h b/drivers/pl=
+atform/x86/lenovo/wmi-helpers.h
+> > > > index 20fd21749803..651a039228ed 100644
+> > > > --- a/drivers/platform/x86/lenovo/wmi-helpers.h
+> > > > +++ b/drivers/platform/x86/lenovo/wmi-helpers.h
+> > > > @@ -7,6 +7,8 @@
+> > > >=20
+> > > >  #include <linux/types.h>
+> > > >=20
+> > > > +struct device;
+> > > > +struct notifier_block;
+> > > >  struct wmi_device;
+> > > >=20
+> > > >  struct wmi_method_args_32 {
+> > > > @@ -17,4 +19,10 @@ struct wmi_method_args_32 {
+> > > >  int lwmi_dev_evaluate_int(struct wmi_device *wdev, u8 instance, u3=
+2 method_id,
+> > > >                       unsigned char *buf, size_t size, u32 *retval)=
+;
+> > > >=20
+> > > > +int lwmi_tm_register_notifier(struct notifier_block *nb);
+> > > > +int lwmi_tm_unregister_notifier(struct notifier_block *nb);
+> > > > +int devm_lwmi_tm_register_notifier(struct device *dev,
+> > > > +                              struct notifier_block *nb);
+> > > > +int lwmi_tm_notifier_call(enum thermal_mode *mode);
+> > >=20
+> > > This enum is not introduced earlier within this header?
+> >=20
+> > Hmm, no. Declaring a opaque enum earlier should be enough to fix it, as
+> > wmi-gamezone.h shouldn't be included here. Derek, what do you think?
+>=20
+> I think it makes more sense at this point to move everything from
+> wmi_gamezone.h into wmi_helpers.h. This prevents wmi_capdata.c from
+> needing to import wmi_gamezone.h, since the thermal mode enum will be
+> moved (now used by capdata, gamezone, and other). Then the only thing
+> in the gamezone header would be the gamezone_events_type enum, which
+> is only used by gamezone and helpers anyway, so that can safely move
+> and we can delete the entire file. To make that enum name more generic
+> I'll rename it in the move from gamezone_events_type to
+> lwmi_event_type (the enum isn't directly referenced anywhere anyway).
+>=20
+> If that works for everyone I'll add one more patch to do the move &
+> cleanup before  "platform/x86: lenovo-wmi-other: Add lwmi_attr_id()
+> function" where I'm adding the .._NONE thermal mode. That will keep
+> the purpose of each patch clean and avoid me needing to modify your
+> patches too much.
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/sched/core.c:1109:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:1109:38: sparse:     expected struct task_struct *curr
-   kernel/sched/core.c:1109:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:2182:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/core.c:2182:39: sparse:     expected struct task_struct *donor
-   kernel/sched/core.c:2182:39: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/core.c:2197:65: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:2197:65: sparse:     expected struct task_struct *tsk
-   kernel/sched/core.c:2197:65: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:3602:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/core.c:3602:17: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/core.c:3602:17: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/core.c:3807:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:3807:36: sparse:     expected struct task_struct const *p
-   kernel/sched/core.c:3807:36: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:5559:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/core.c:5559:15: sparse:     expected struct task_struct *donor
-   kernel/sched/core.c:5559:15: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/core.c:6760:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:6760:14: sparse:     expected struct task_struct *prev
-   kernel/sched/core.c:6760:14: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:6828:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/core.c:6828:37: sparse:     expected struct task_struct *prev
-   kernel/sched/core.c:6828:37: sparse:     got struct task_struct [noderef] __rcu *donor
->> kernel/sched/core.c:6831:52: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *prev_donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/core.c:6831:52: sparse:     expected struct task_struct *prev_donor
-   kernel/sched/core.c:6831:52: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/core.c:6841:31: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:6841:31: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:6841:31: sparse:    struct task_struct *
-   kernel/sched/core.c:7352:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:7352:17: sparse:    struct task_struct *
-   kernel/sched/core.c:7352:17: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:10272:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:10272:25: sparse:     expected struct task_struct *p
-   kernel/sched/core.c:10272:25: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c: note: in included file:
-   kernel/sched/pelt.h:102:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/pelt.h:102:13: sparse:     expected struct task_struct const *p
-   kernel/sched/pelt.h:102:13: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c: note: in included file:
-   kernel/sched/sched.h:2378:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2378:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2378:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2367:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2367:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2367:25: sparse:    struct task_struct *
-   kernel/sched/core.c:2177:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:2177:38: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:2177:38: sparse:    struct task_struct const *
-   kernel/sched/sched.h:2378:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2378:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2378:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2689:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2689:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2689:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2689:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2689:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2689:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2378:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2378:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2378:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2666:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2666:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2666:9: sparse:    struct task_struct *
+That sounds good to me.
 
-vim +6831 kernel/sched/core.c
+Moving everything from wmi_gamezone.h into wmi_helpers.h also seems more
+semantically correct from my perspective, since the former was just used
+to glue things together, which instead matches the purpose of the
+latter.
 
-  6700	
-  6701	/*
-  6702	 * __schedule() is the main scheduler function.
-  6703	 *
-  6704	 * The main means of driving the scheduler and thus entering this function are:
-  6705	 *
-  6706	 *   1. Explicit blocking: mutex, semaphore, waitqueue, etc.
-  6707	 *
-  6708	 *   2. TIF_NEED_RESCHED flag is checked on interrupt and userspace return
-  6709	 *      paths. For example, see arch/x86/entry_64.S.
-  6710	 *
-  6711	 *      To drive preemption between tasks, the scheduler sets the flag in timer
-  6712	 *      interrupt handler sched_tick().
-  6713	 *
-  6714	 *   3. Wakeups don't really cause entry into schedule(). They add a
-  6715	 *      task to the run-queue and that's it.
-  6716	 *
-  6717	 *      Now, if the new task added to the run-queue preempts the current
-  6718	 *      task, then the wakeup sets TIF_NEED_RESCHED and schedule() gets
-  6719	 *      called on the nearest possible occasion:
-  6720	 *
-  6721	 *       - If the kernel is preemptible (CONFIG_PREEMPTION=y):
-  6722	 *
-  6723	 *         - in syscall or exception context, at the next outmost
-  6724	 *           preempt_enable(). (this might be as soon as the wake_up()'s
-  6725	 *           spin_unlock()!)
-  6726	 *
-  6727	 *         - in IRQ context, return from interrupt-handler to
-  6728	 *           preemptible context
-  6729	 *
-  6730	 *       - If the kernel is not preemptible (CONFIG_PREEMPTION is not set)
-  6731	 *         then at the next:
-  6732	 *
-  6733	 *          - cond_resched() call
-  6734	 *          - explicit schedule() call
-  6735	 *          - return from syscall or exception to user-space
-  6736	 *          - return from interrupt-handler to user-space
-  6737	 *
-  6738	 * WARNING: must be called with preemption disabled!
-  6739	 */
-  6740	static void __sched notrace __schedule(int sched_mode)
-  6741	{
-  6742		struct task_struct *prev, *next;
-  6743		/*
-  6744		 * On PREEMPT_RT kernel, SM_RTLOCK_WAIT is noted
-  6745		 * as a preemption by schedule_debug() and RCU.
-  6746		 */
-  6747		bool preempt = sched_mode > SM_NONE;
-  6748		bool is_switch = false;
-  6749		unsigned long *switch_count;
-  6750		unsigned long prev_state;
-  6751		struct rq_flags rf;
-  6752		struct rq *rq;
-  6753		int cpu;
-  6754	
-  6755		/* Trace preemptions consistently with task switches */
-  6756		trace_sched_entry_tp(sched_mode == SM_PREEMPT);
-  6757	
-  6758		cpu = smp_processor_id();
-  6759		rq = cpu_rq(cpu);
-  6760		prev = rq->curr;
-  6761	
-  6762		schedule_debug(prev, preempt);
-  6763	
-  6764		if (sched_feat(HRTICK) || sched_feat(HRTICK_DL))
-  6765			hrtick_clear(rq);
-  6766	
-  6767		klp_sched_try_switch(prev);
-  6768	
-  6769		local_irq_disable();
-  6770		rcu_note_context_switch(preempt);
-  6771		migrate_disable_switch(rq, prev);
-  6772	
-  6773		/*
-  6774		 * Make sure that signal_pending_state()->signal_pending() below
-  6775		 * can't be reordered with __set_current_state(TASK_INTERRUPTIBLE)
-  6776		 * done by the caller to avoid the race with signal_wake_up():
-  6777		 *
-  6778		 * __set_current_state(@state)		signal_wake_up()
-  6779		 * schedule()				  set_tsk_thread_flag(p, TIF_SIGPENDING)
-  6780		 *					  wake_up_state(p, state)
-  6781		 *   LOCK rq->lock			    LOCK p->pi_state
-  6782		 *   smp_mb__after_spinlock()		    smp_mb__after_spinlock()
-  6783		 *     if (signal_pending_state())	    if (p->state & @state)
-  6784		 *
-  6785		 * Also, the membarrier system call requires a full memory barrier
-  6786		 * after coming from user-space, before storing to rq->curr; this
-  6787		 * barrier matches a full barrier in the proximity of the membarrier
-  6788		 * system call exit.
-  6789		 */
-  6790		rq_lock(rq, &rf);
-  6791		smp_mb__after_spinlock();
-  6792	
-  6793		/* Promote REQ to ACT */
-  6794		rq->clock_update_flags <<= 1;
-  6795		update_rq_clock(rq);
-  6796		rq->clock_update_flags = RQCF_UPDATED;
-  6797	
-  6798		switch_count = &prev->nivcsw;
-  6799	
-  6800		/* Task state changes only considers SM_PREEMPT as preemption */
-  6801		preempt = sched_mode == SM_PREEMPT;
-  6802	
-  6803		/*
-  6804		 * We must load prev->state once (task_struct::state is volatile), such
-  6805		 * that we form a control dependency vs deactivate_task() below.
-  6806		 */
-  6807		prev_state = READ_ONCE(prev->__state);
-  6808		if (sched_mode == SM_IDLE) {
-  6809			/* SCX must consult the BPF scheduler to tell if rq is empty */
-  6810			if (!rq->nr_running && !scx_enabled()) {
-  6811				next = prev;
-  6812				rq->next_class = &idle_sched_class;
-  6813				goto picked;
-  6814			}
-  6815		} else if (!preempt && prev_state) {
-  6816			/*
-  6817			 * We pass task_is_blocked() as the should_block arg
-  6818			 * in order to keep mutex-blocked tasks on the runqueue
-  6819			 * for slection with proxy-exec (without proxy-exec
-  6820			 * task_is_blocked() will always be false).
-  6821			 */
-  6822			try_to_block_task(rq, prev, &prev_state,
-  6823					  !task_is_blocked(prev));
-  6824			switch_count = &prev->nvcsw;
-  6825		}
-  6826	
-  6827	pick_again:
-  6828		next = pick_next_task(rq, rq->donor, &rf);
-  6829		rq->next_class = next->sched_class;
-  6830		if (sched_proxy_exec()) {
-> 6831			struct task_struct *prev_donor = rq->donor;
-  6832	
-  6833			rq_set_donor(rq, next);
-  6834			if (unlikely(next->blocked_on)) {
-  6835				next = find_proxy_task(rq, next, &rf);
-  6836				if (!next)
-  6837					goto pick_again;
-  6838				if (next == rq->idle)
-  6839					goto keep_resched;
-  6840			}
-  6841			if (rq->donor == prev_donor && prev != next) {
-  6842				struct task_struct *donor = rq->donor;
-  6843				/*
-  6844				 * When transitioning like:
-  6845				 *
-  6846				 *         prev         next
-  6847				 * donor:    B            B
-  6848				 * curr:     A          B or C
-  6849				 *
-  6850				 * then put_prev_set_next_task() will not have done
-  6851				 * anything, since B == B. However, A might have
-  6852				 * missed a RT/DL balance opportunity due to being
-  6853				 * on_cpu.
-  6854				 */
-  6855				donor->sched_class->put_prev_task(rq, donor, donor);
-  6856				donor->sched_class->set_next_task(rq, donor, true);
-  6857			}
-  6858		} else {
-  6859			rq_set_donor(rq, next);
-  6860		}
-  6861	
-  6862	picked:
-  6863		clear_tsk_need_resched(prev);
-  6864		clear_preempt_need_resched();
-  6865	keep_resched:
-  6866		rq->last_seen_need_resched_ns = 0;
-  6867	
-  6868		is_switch = prev != next;
-  6869		if (likely(is_switch)) {
-  6870			rq->nr_switches++;
-  6871			/*
-  6872			 * RCU users of rcu_dereference(rq->curr) may not see
-  6873			 * changes to task_struct made by pick_next_task().
-  6874			 */
-  6875			RCU_INIT_POINTER(rq->curr, next);
-  6876	
-  6877			/*
-  6878			 * The membarrier system call requires each architecture
-  6879			 * to have a full memory barrier after updating
-  6880			 * rq->curr, before returning to user-space.
-  6881			 *
-  6882			 * Here are the schemes providing that barrier on the
-  6883			 * various architectures:
-  6884			 * - mm ? switch_mm() : mmdrop() for x86, s390, sparc, PowerPC,
-  6885			 *   RISC-V.  switch_mm() relies on membarrier_arch_switch_mm()
-  6886			 *   on PowerPC and on RISC-V.
-  6887			 * - finish_lock_switch() for weakly-ordered
-  6888			 *   architectures where spin_unlock is a full barrier,
-  6889			 * - switch_to() for arm64 (weakly-ordered, spin_unlock
-  6890			 *   is a RELEASE barrier),
-  6891			 *
-  6892			 * The barrier matches a full barrier in the proximity of
-  6893			 * the membarrier system call entry.
-  6894			 *
-  6895			 * On RISC-V, this barrier pairing is also needed for the
-  6896			 * SYNC_CORE command when switching between processes, cf.
-  6897			 * the inline comments in membarrier_arch_switch_mm().
-  6898			 */
-  6899			++*switch_count;
-  6900	
-  6901			psi_account_irqtime(rq, prev, next);
-  6902			psi_sched_switch(prev, next, !task_on_rq_queued(prev) ||
-  6903						     prev->se.sched_delayed);
-  6904	
-  6905			trace_sched_switch(preempt, prev, next, prev_state);
-  6906	
-  6907			/* Also unlocks the rq: */
-  6908			rq = context_switch(rq, prev, next, &rf);
-  6909		} else {
-  6910			rq_unpin_lock(rq, &rf);
-  6911			__balance_callbacks(rq, NULL);
-  6912			raw_spin_rq_unlock_irq(rq);
-  6913		}
-  6914		trace_sched_exit_tp(is_switch);
-  6915	}
-  6916	
+Thanks,
+Rong
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>=20
+> Thanks,
+> Derek.
+>=20
+> > Thanks,
+> > Rong
