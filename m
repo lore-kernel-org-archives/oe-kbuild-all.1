@@ -1,109 +1,155 @@
-Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 325AD3E9F8B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 08:49:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FAFD3D4114
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 09:11:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774946987; cv=none; b=F3+e+y5aFB25n7S9WPE6ZGTQ/2SzRTfz/Az96IXK/xdN+osqgS/ylzdH/27/ulAeaDSapFSt97qPArWzmZpQl/hCCPgBb1zjiZs1WQjbA8H9G1t1Glm9RGTjSTk20ME2MAkCzWGA7O7SoPNRqbgU/01WwpdEK8m3zkYuAx8EcQE=
+	t=1774948297; cv=none; b=hR4TXa0PXaYAGw9uaoyN5bSPAVzVes/HWoR1Yz/kGytPznnl2j8LtF+5fnzR6R2j3KnnSrbIbxPxeebB/lDjbAwoLwY4x7Sdi6jf1AZUKfzoaMAdPlvm0SSNbDM1i6c4VriEWuZzxMA8e3IN38TjZI7lv5JWct29Q2rF+pqLi5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774946987; c=relaxed/simple;
-	bh=RUfjO2HGvlW/ipK9lfju7SLDWBnyMJE2wNqvku9mcBw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ggv6/UvEBLdHgkK4w5gUw9RahM5SXacjXQzPvJynuLY/eiaF9Xh92H6EfJY92tdIdoU5JybAxUuNBXUhlgux4OyK9468xA3YWja9LL75W4d/pnUb0vA8hbGWCIq5Qwbu8A6KqXZP459X80zQmtWTVvO6JnjgST7OUDAF9Mjshkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ZZk/NHNk; arc=none smtp.client-ip=91.218.175.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1774948297; c=relaxed/simple;
+	bh=RSRQIFWssdNCW0I4GWID8lkN8FPUS9pQxNa9An6Xkeg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=SUEL5kjVgpdPwOvI4ATN4py30WwOKxSQ51aabu+f0+VnmRSTjo17WfW5pj8zkUVmdipLsudi2J5qgdLE3gXDBxhOVCV3EdwHCu3SPMdZiCiMT60u+FMLmlBTfkY6CFI/mSOJiL6/UnVYM9/Acuu4APawobQ0rNS7m1OngYP8K/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tqj4VfAD; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ZZk/NHNk"
-Message-ID: <f1973455-6af0-448f-b657-274bbf64146b@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1774946983;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ylwj5m6FghjB84mXTKNcHoRC2MN8ceAn6QL5hBDySUA=;
-	b=ZZk/NHNk047P/vzjYveNrefMrYGdRud2b9vPCbkuxQN3D9DrSIjFOUUbzBTRsDW+pVUQlS
-	prWk41QkBO89u5vWeoIKpNJfWcbuqivwxHTYn7KLlOk4VTNVpExSEx4hKTh45WaO8x27rf
-	3b/j4t9xeVn1G08coiCsGW7ief9H56A=
-Date: Tue, 31 Mar 2026 16:48:58 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tqj4VfAD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774948296; x=1806484296;
+  h=date:from:to:cc:subject:message-id;
+  bh=RSRQIFWssdNCW0I4GWID8lkN8FPUS9pQxNa9An6Xkeg=;
+  b=Tqj4VfAD0xiWyHBz8fTU4fGDrXzeA7/QEA5ACxy91Yna1a4mUUc9hhPY
+   UwvrWxCyBspvVrAGRhVSTSDVso58tNNhWzjxoINprubggYNxhtu2it06g
+   dgwDZB2yO7w1+tAKcZJgDO9FU9XJTLISXOOB+wiNeRZ6u20yG2e/+Oa/k
+   Y775xt01wR6YuOA4rjJo+0zLJBoTL8fVRqy7bBaj4j3tn8wF66f+Py/Rw
+   yRcJnBoW+Z6PxOQ+HHV/Ra/gpdWdvmlRnYylxg9RhKEqEzck9Eku0ghXc
+   LwwM3lyElbLWw4tRNGyE8K4VSpSo27KaKnqxVZx11TqKE8llkOUi2ZuVo
+   w==;
+X-CSE-ConnectionGUID: gm/De0PMTuKJXuvB6qpYIg==
+X-CSE-MsgGUID: 2mJsn4u3TnmPGxY2azRX/A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="76068453"
+X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
+   d="scan'208";a="76068453"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 02:11:35 -0700
+X-CSE-ConnectionGUID: 7/jRwETcQvGa4X1eDG7z9Q==
+X-CSE-MsgGUID: g3ddCow0T62mMN0DAaFz9g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
+   d="scan'208";a="219666181"
+Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 31 Mar 2026 02:11:34 -0700
+Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w7V8G-000000002ST-14d5;
+	Tue, 31 Mar 2026 09:11:32 +0000
+Date: Tue, 31 Mar 2026 17:11:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1-2025-04 2/2]
+ net/core/scm.c:95:24: error: no member named 'vertices' in 'struct
+ scm_fp_list'
+Message-ID: <202603311752.sZffzSwV-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Subject: Re: [akpm-mm:mm-new 193/194] lib/alloc_tag.c:815:25: sparse: sparse:
- cast removes address space '__rcu' of expression
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>
-References: <202603291211.YhY0R0se-lkp@intel.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Hao Ge <hao.ge@linux.dev>
-In-Reply-To: <202603291211.YhY0R0se-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
 
-Hi
+tree:   https://android.googlesource.com/kernel/common android14-6.1-2025-04
+head:   a01f4f3e3d4d93656a40a6739b171e98bd608766
+commit: 9b0889c42a173c7b6a1891893f3d619166d37efa [2/2] UPSTREAM: af_unix: Allocate struct unix_vertex for each inflight AF_UNIX fd.
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260331/202603311752.sZffzSwV-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603311752.sZffzSwV-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603311752.sZffzSwV-lkp@intel.com/
 
-On 2026/3/29 12:36, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-> head:   df2267b6380964f1305128001f05bc043ddf1f37
-> commit: 8bee7b4b574f880ff2c7491212e2ef01cd82f2fd [193/194] mm/alloc_tag: clear codetag for pages allocated before page_ext initialization
-> config: openrisc-randconfig-r121-20260329 (https://download.01.org/0day-ci/archive/20260329/202603291211.YhY0R0se-lkp@intel.com/config)
-> compiler: or1k-linux-gcc (GCC) 10.5.0
-> sparse: v0.6.5-rc1
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260329/202603291211.YhY0R0se-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202603291211.YhY0R0se-lkp@intel.com/
->
-> sparse warnings: (new ones prefixed by >>)
->>> lib/alloc_tag.c:815:25: sparse: sparse: cast removes address space '__rcu' of expression
->>> lib/alloc_tag.c:815:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
->     lib/alloc_tag.c:815:25: sparse:    void ( [noderef] __rcu * )( ... )
->     lib/alloc_tag.c:815:25: sparse:    void ( * )( ... )
->     lib/alloc_tag.c:828:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
->     lib/alloc_tag.c:828:9: sparse:    void ( [noderef] __rcu * )( ... )
->     lib/alloc_tag.c:828:9: sparse:    void ( * )( ... )
->
-> vim +/__rcu +815 lib/alloc_tag.c
->
->     802	
->     803	typedef void (*alloc_tag_add_func)(unsigned long pfn);
->     804	static alloc_tag_add_func __rcu alloc_tag_add_early_pfn_ptr __refdata =
->     805			__alloc_tag_add_early_pfn;
->     806	
->     807	void alloc_tag_add_early_pfn(unsigned long pfn)
->     808	{
->     809		alloc_tag_add_func alloc_tag_add;
->     810	
->     811		if (static_key_enabled(&mem_profiling_compressed))
->     812			return;
->     813	
->     814		rcu_read_lock();
->   > 815		alloc_tag_add = rcu_dereference(alloc_tag_add_early_pfn_ptr);
->     816		if (alloc_tag_add)
->     817			alloc_tag_add(pfn);
->     818		rcu_read_unlock();
->     819	}
->     820	
->
-Thanks.
+All errors (new ones prefixed by >>):
 
-The v4 patch I've just posted has fixed the issue. Thanks for your report.
+>> net/core/scm.c:95:24: error: no member named 'vertices' in 'struct scm_fp_list'
+      95 |                 INIT_LIST_HEAD(&fpl->vertices);
+         |                                 ~~~  ^
+   net/core/scm.c:384:28: error: no member named 'vertices' in 'struct scm_fp_list'
+     384 |                 INIT_LIST_HEAD(&new_fpl->vertices);
+         |                                 ~~~~~~~  ^
+   2 errors generated.
 
 
-Thanks
+vim +95 net/core/scm.c
 
-Hao
+    68	
+    69	static int scm_fp_copy(struct cmsghdr *cmsg, struct scm_fp_list **fplp)
+    70	{
+    71		int *fdp = (int*)CMSG_DATA(cmsg);
+    72		struct scm_fp_list *fpl = *fplp;
+    73		struct file **fpp;
+    74		int i, num;
+    75	
+    76		num = (cmsg->cmsg_len - sizeof(struct cmsghdr))/sizeof(int);
+    77	
+    78		if (num <= 0)
+    79			return 0;
+    80	
+    81		if (num > SCM_MAX_FD)
+    82			return -EINVAL;
+    83	
+    84		if (!fpl)
+    85		{
+    86			fpl = kmalloc(sizeof(struct scm_fp_list), GFP_KERNEL_ACCOUNT);
+    87			if (!fpl)
+    88				return -ENOMEM;
+    89			*fplp = fpl;
+    90			fpl->count = 0;
+    91			fpl->count_unix = 0;
+    92			fpl->max = SCM_MAX_FD;
+    93			fpl->user = NULL;
+    94	#if IS_ENABLED(CONFIG_UNIX)
+  > 95			INIT_LIST_HEAD(&fpl->vertices);
+    96	#endif
+    97		}
+    98		fpp = &fpl->fp[fpl->count];
+    99	
+   100		if (fpl->count + num > fpl->max)
+   101			return -EINVAL;
+   102	
+   103		/*
+   104		 *	Verify the descriptors and increment the usage count.
+   105		 */
+   106	
+   107		for (i=0; i< num; i++)
+   108		{
+   109			int fd = fdp[i];
+   110			struct file *file;
+   111	
+   112			if (fd < 0 || !(file = fget_raw(fd)))
+   113				return -EBADF;
+   114			/* don't allow io_uring files */
+   115			if (io_is_uring_fops(file)) {
+   116				fput(file);
+   117				return -EINVAL;
+   118			}
+   119			if (unix_get_socket(file))
+   120				fpl->count_unix++;
+   121	
+   122			*fpp++ = file;
+   123			fpl->count++;
+   124		}
+   125	
+   126		if (!fpl->user)
+   127			fpl->user = get_uid(current_user());
+   128	
+   129		return num;
+   130	}
+   131	
 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
