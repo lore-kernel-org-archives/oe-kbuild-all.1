@@ -1,146 +1,132 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B906319847
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 15:16:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D422A40243E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 15:16:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774970206; cv=none; b=f85Z9keg23EcBgbWt9MDDKJiBtUrOoNuz/3MY/MgknW579x02+rb3XIAj1Svb4NWlkB6GnBIgW4ezXHdtgvg8AmvG6MWC0nR/mkCVu9c2nnUepsyT9BzV4e4bbfEbzk0PBgNRi6g4w+vAC2rJ74PP+qe3sXQLNJmj2aX2b5MmrQ=
+	t=1774970208; cv=none; b=VZ/AX9+SWlgy8w3UaWmy2Hh9SYthSpvm1OfUu5tzGkSSV1GGfaGrwkHMV9LOUjKbteK3ax9rWvmH8zTRc7SiXGhV4QGy6R+vX80unwSHq7sXLg+7oJBF0L9NE1nu4PUxgdswYY7UhvfWXWNEaMSsT0NrcC0dYukb/JoXtcSRJDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774970206; c=relaxed/simple;
-	bh=FbAaGfGDI2OXX4CiYcWgzJKO3lCpGxHSpXm1sQLcaR4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=keff6F+yrPC4Daf5IrGddP3KkzfaKPjjNjrTABpcn7OZ/kjg01xdpBJDVo+lRgGM4JF4wc2ei1j05aWZwxMLA1RVEiVZdZPfo3O0nBcmsDoe4sjcfONOcNb5pa0MWJO+wfz2n8lD9ziApXIl0ilPPeZZjf+XzFuDTYf20XW3PBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W05ZUBA+; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1774970208; c=relaxed/simple;
+	bh=YsW1N9WT2ID9oJMzACJzBddesMiBDzlZf4pdPRbOW2U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fdkxTOFXXn0uzx3XNcv+YVecralmgjQWvzbH24ucVL8W/zCRCYDz3wuPe8pKBHSexQHAHVFFl0dGbofWC6ZI98XA6X+BObd8fwzPGDLBQYuSwGVeEvfWrHU1WbmC1wVQ3RXAB7pkzRcUgXnxc6yScm4JvGGdSGT/TESanDRWgr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J3QQNbvC; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W05ZUBA+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J3QQNbvC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774970205; x=1806506205;
-  h=date:from:to:cc:subject:message-id;
-  bh=FbAaGfGDI2OXX4CiYcWgzJKO3lCpGxHSpXm1sQLcaR4=;
-  b=W05ZUBA+874W4ImzT/RY/LzVRFH4iK1ZoGDo5q76supR02VP8yY8Z6uB
-   ysM0jjfT2VomZ0VZ+jZn+zy0rtKmKnm7ttdcoUJuN7XkeJcjgS0GxMmWO
-   fXFg70U6FFDaYT4QZTT2fIFzNbLDzYTmNHV4DOxGPsjJKHSyHKIAAWv8W
-   AUkHo2fTXsYx754Gx6S9K9nVDJWnc7hpfS9aeVg1xm3q88wDzqL4OYcNj
-   N09qwx+CtgVWDfwiaIvUv55KdFJ0xUISmSlzOAnJrFqfNhBVi39lVE75b
-   C15oxmpEAj9hWSzrGU83cM9emCnRUm2mlAz4HEROIkygpK8eKl1nQsyFl
-   w==;
-X-CSE-ConnectionGUID: /dBqi3Z3TrK/LuxmIU0yEQ==
-X-CSE-MsgGUID: C1bJXd8fRZCRh6eO+iwgeQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="63539386"
+  t=1774970207; x=1806506207;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YsW1N9WT2ID9oJMzACJzBddesMiBDzlZf4pdPRbOW2U=;
+  b=J3QQNbvCEGQr9gVc/iD81CqP4MxVGT1YzDMnWJDe9XjGYaPICFMsdkNx
+   ZwwSERowzAgapTHvGSOtaD9Yx2dzA39BdGUewldPkEeNPJhrycIxAlZ2z
+   7G16a+j4D7kOSlzqstHIHLOUPuMK/puWSpAHVAeNm5zeHLp0OTW+juDn0
+   fOO4ialInyDTTnAqESkP75qPMvSSp032mQn8WIoUqEv46TpzJZSgM+Ad1
+   Yq9A+KJQbRY2Kzmc25CLNNkzFoDt2ODLim5CGN9+6YGpR4nXh/DxmeLH5
+   MN+cqREKRDS7NBC3GSZPKgZJ+m+HbsfJabiBOQfrF2J19S4pFytlyADmO
+   A==;
+X-CSE-ConnectionGUID: OcYoz2xDShCAJ3JE2vk+fg==
+X-CSE-MsgGUID: 56EPYsyaRRq16YuQLt2pKw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="63539392"
 X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
-   d="scan'208";a="63539386"
+   d="scan'208";a="63539392"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 08:16:45 -0700
-X-CSE-ConnectionGUID: YzJX652HRXCS80TM5Pte/g==
-X-CSE-MsgGUID: 4JA2L0C6RKKuzljxGDvGUQ==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 08:16:46 -0700
+X-CSE-ConnectionGUID: Y+3x6NRoQReOsR9Ar1v3FQ==
+X-CSE-MsgGUID: 0O1dDmciTx+c3uIU00ykYg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
-   d="scan'208";a="223091931"
+   d="scan'208";a="223091922"
 Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 31 Mar 2026 08:16:43 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 31 Mar 2026 08:16:44 -0700
 Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w7apd-000000002np-2IgV;
+	id 1w7apd-000000002nn-2EqM;
 	Tue, 31 Mar 2026 15:16:41 +0000
-Date: Tue, 31 Mar 2026 23:16:16 +0800
+Date: Tue, 31 Mar 2026 23:16:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15-2026-03 1/1]
- drivers/scsi/ufs/ufs-mediatek.c:1142:5: warning: no previous prototype for
- 'ufs_mtk_system_suspend'
-Message-ID: <202603312344.wvpXiTBT-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Pengpeng Hou <pengpeng@iscas.ac.cn>, richard@nod.at,
+	anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net
+Cc: oe-kbuild-all@lists.linux.dev, linux-um@lists.infradead.org,
+	linux-kernel@vger.kernel.org, pengpeng@iscas.ac.cn
+Subject: Re: [PATCH] um: mconsole: validate notify socket path length
+Message-ID: <202603312336.UUqJ8pFo-lkp@intel.com>
+References: <20260329030945.32368-1-pengpeng@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260329030945.32368-1-pengpeng@iscas.ac.cn>
 
-Hi Po-Wen,
+Hi Pengpeng,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15-2026-03
-head:   a53695b322b936b61cd943e72c90534e6717fc15
-commit: 4d6bab8d366a10751b50a8cce88f9b91bf207795 [1/1] scsi: ufs: ufs-mediatek: Fix the timing of configuring device regulators
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260331/202603312344.wvpXiTBT-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603312344.wvpXiTBT-lkp@intel.com/reproduce)
+[auto build test ERROR on uml/next]
+[also build test ERROR on wireless-next/main wireless/main uml/fixes linus/master v7.0-rc6 next-20260330]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pengpeng-Hou/um-mconsole-validate-notify-socket-path-length/20260331-052930
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/uml/linux next
+patch link:    https://lore.kernel.org/r/20260329030945.32368-1-pengpeng%40iscas.ac.cn
+patch subject: [PATCH] um: mconsole: validate notify socket path length
+config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20260331/202603312336.UUqJ8pFo-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603312336.UUqJ8pFo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603312344.wvpXiTBT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603312336.UUqJ8pFo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/scsi/ufs/ufs-mediatek.c:1142:5: warning: no previous prototype for 'ufs_mtk_system_suspend' [-Wmissing-prototypes]
-    1142 | int ufs_mtk_system_suspend(struct device *dev)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/ufs/ufs-mediatek.c:1156:5: warning: no previous prototype for 'ufs_mtk_system_resume' [-Wmissing-prototypes]
-    1156 | int ufs_mtk_system_resume(struct device *dev)
-         |     ^~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/ufs/ufs-mediatek.c:1165:5: warning: no previous prototype for 'ufs_mtk_runtime_suspend' [-Wmissing-prototypes]
-    1165 | int ufs_mtk_runtime_suspend(struct device *dev)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/ufs/ufs-mediatek.c:1179:5: warning: no previous prototype for 'ufs_mtk_runtime_resume' [-Wmissing-prototypes]
-    1179 | int ufs_mtk_runtime_resume(struct device *dev)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
+   arch/um/drivers/mconsole_user.c: In function 'mconsole_notify':
+>> arch/um/drivers/mconsole_user.c:203:13: error: implicit declaration of function 'snprintf' [-Wimplicit-function-declaration]
+     203 |         if (snprintf(target.sun_path, sizeof(target.sun_path), "%s", sock_name) >=
+         |             ^~~~~~~~
+   arch/um/drivers/mconsole_user.c:14:1: note: 'snprintf' is defined in header '<stdio.h>'; this is probably fixable by adding '#include <stdio.h>'
+      13 | #include "mconsole.h"
+     +++ |+#include <stdio.h>
+      14 | 
 
 
-vim +/ufs_mtk_system_suspend +1142 drivers/scsi/ufs/ufs-mediatek.c
+vim +/snprintf +203 arch/um/drivers/mconsole_user.c
 
-  1141	
-> 1142	int ufs_mtk_system_suspend(struct device *dev)
-  1143	{
-  1144		struct ufs_hba *hba = dev_get_drvdata(dev);
-  1145		int ret;
-  1146	
-  1147		ret = ufshcd_system_suspend(dev);
-  1148		if (ret)
-  1149			return ret;
-  1150	
-  1151		ufs_mtk_vreg_set_lpm(hba, true);
-  1152	
-  1153		return 0;
-  1154	}
-  1155	
-> 1156	int ufs_mtk_system_resume(struct device *dev)
-  1157	{
-  1158		struct ufs_hba *hba = dev_get_drvdata(dev);
-  1159	
-  1160		ufs_mtk_vreg_set_lpm(hba, false);
-  1161	
-  1162		return ufshcd_system_resume(dev);
-  1163	}
-  1164	
-> 1165	int ufs_mtk_runtime_suspend(struct device *dev)
-  1166	{
-  1167		struct ufs_hba *hba = dev_get_drvdata(dev);
-  1168		int ret = 0;
-  1169	
-  1170		ret = ufshcd_runtime_suspend(dev);
-  1171		if (ret)
-  1172			return ret;
-  1173	
-  1174		ufs_mtk_vreg_set_lpm(hba, true);
-  1175	
-  1176		return 0;
-  1177	}
-  1178	
-> 1179	int ufs_mtk_runtime_resume(struct device *dev)
-  1180	{
-  1181		struct ufs_hba *hba = dev_get_drvdata(dev);
-  1182	
-  1183		ufs_mtk_vreg_set_lpm(hba, false);
-  1184	
-  1185		return ufshcd_runtime_resume(dev);
-  1186	}
-  1187	
+   180	
+   181	int mconsole_notify(char *sock_name, int type, const void *data, int len)
+   182	{
+   183		struct sockaddr_un target;
+   184		struct mconsole_notify packet;
+   185		int n, err = 0;
+   186	
+   187		lock_notify();
+   188		if (notify_sock < 0) {
+   189			notify_sock = socket(PF_UNIX, SOCK_DGRAM, 0);
+   190			if (notify_sock < 0) {
+   191				err = -errno;
+   192				printk(UM_KERN_ERR "mconsole_notify - socket failed, "
+   193				       "errno = %d\n", errno);
+   194			}
+   195		}
+   196		unlock_notify();
+   197	
+   198		if (err)
+   199			return err;
+   200	
+   201		memset(&target, 0, sizeof(target));
+   202		target.sun_family = AF_UNIX;
+ > 203		if (snprintf(target.sun_path, sizeof(target.sun_path), "%s", sock_name) >=
 
 -- 
 0-DAY CI Kernel Test Service
