@@ -1,65 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68FFF423A62
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 16:48:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B50D4266A5;
+	Tue, 31 Mar 2026 16:52:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774975685; cv=none; b=chKD1R3+CzvHT+BgxDZwVTnVuo7X6BV/3IY+4lZdR5Rj59KxYcxOWvO/JkAF/ixbK66UIXhVwnKUrUNaPen3LioAKnrNjjGzZjvRJ+uV+o4U83B9Oo2VINQs0eJLHDbBsiZo2HD8Hp/NR5ZVV5DQ+ARVul5hyk98xleBaEGB2G8=
+	t=1774975972; cv=none; b=bO48wH9/IwxI/IvDs9veF12o3hYtN+4Y6F9uLjOpo96YlVXW0T8Jn3yB2YZl4j8pJFONNLdN1qFwS5gUJqz7jz7buFRz0rM+57sSdadufeJ4EvmAQw3SKAomS8GPwkJKhw0yVzzXTB1Ksq+v+LX8heKOQ0z5pP34xLh4nvvsG+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774975685; c=relaxed/simple;
-	bh=aM5qG+4yxm72Z97PK63zuUnHgVpyXdwXPEQPrA1BXew=;
+	s=arc-20240116; t=1774975972; c=relaxed/simple;
+	bh=Lfkw22piQF1Hnab39FNJQNBXwCljMCpCQxPx6A77SCo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VSLrS5b0aEPIu7rSswZZuqEx5YVIbNpX0g1Pl0Gg2L+CrgBEHHflGgKPaaITfVCw+MSEB7feYRn9W1aQBkASS42bXpZD5eXc6uk77InIdW++pA8mixve43XfVBsvTzFs7m0oA2Sv9U4oH9155oCOf1mqAEs4LHZalK53F/JLmGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N7XHuQoz; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=UspMfp0SHQ7fT+k7tEhHgZYQ4YmzJ/Hwu603MCquCWqJgXe88I7aaFegQaYOpVY1VyHKKk6PO3AZTtA+lk64Tw3EBngPIsdvFZ0LOQik1aCeCIwrqEmYxWqTG5RD897FhBwWhKHKaYFDbCb8kbOLbra+KivjsUpFJBnepqAKDo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X4AZlpVN; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N7XHuQoz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X4AZlpVN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774975684; x=1806511684;
+  t=1774975971; x=1806511971;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=aM5qG+4yxm72Z97PK63zuUnHgVpyXdwXPEQPrA1BXew=;
-  b=N7XHuQozKpFxOPSmG6BSyt5phjkGJ3+2hNznEfIcfNnSBDsyxK53ar+w
-   63FhxT633mv89SZghEaTdFtC1Wqf7IB/uBqkMa8D+udHiGtQw6ZlEoLkW
-   ywhWG2NYQ+A57suvbRpi+3OW0R1X48Pgau/zJoTdTDvh1wwg1pcKAy9xg
-   KNV4X95murwTpQ4xOTbIplA5LAtVSY0MJ33szhgZi3cRIo2GN4ryGaulg
-   FJoKxyujFo+11lDbEZl38BnZ94xC75HJzPn9ZnHqhWhxNvyx8Gk+EZasR
-   I2afgFq+ZtyS/BWUpUPfoLZGvRkBJabJiR6n5ql2ysU6NjcbfkQ0cYLsl
-   g==;
-X-CSE-ConnectionGUID: ee6hIHYSQpmvCIihAKK6hQ==
-X-CSE-MsgGUID: PcUsBVZJSmC0pXJIsk1tFg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="63550248"
+  bh=Lfkw22piQF1Hnab39FNJQNBXwCljMCpCQxPx6A77SCo=;
+  b=X4AZlpVNWWEAMWpb8hPKHQ9n1/Xn4xhzARuhzxyqTBO2IH0Pdq26JOAy
+   23Iv56tok36Hzak2WC7PiD8WZnjK+8d1Lm1CP52OcDscpurMtqBtJlGMC
+   w1s2OqME/lu6E9tWSq9Md1Vmo2FhyjGwVh08hKnydlTyVSZlITHfP6cXE
+   YafgvteVsh4TOfwatUoU2LYZAEus8DC/NBDw8cl4G1m3MEKpL8k2p87fE
+   /oHdq0lL09/kK/rf3fKr4U++S6yNZH8RlTFdTkOhnKj/naDjev6IUXHVw
+   6qGOELv6g5OlJ1xu0rIe0JpnsGKNbJJAs4p2vFmFWd37ogDht0k0QC9U+
+   A==;
+X-CSE-ConnectionGUID: H26Vwe8+Rkal+HdxV9O3dA==
+X-CSE-MsgGUID: CAGrg7sHR7i5s/LtNgMFqw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="76011987"
 X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
-   d="scan'208";a="63550248"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 09:48:04 -0700
-X-CSE-ConnectionGUID: 5P2aml7iQBGT1HScRhkx8w==
-X-CSE-MsgGUID: 4l/5J7rUR/iNXcsH1WvH+w==
+   d="scan'208";a="76011987"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 09:52:50 -0700
+X-CSE-ConnectionGUID: wmrsDVQhSdaqqR9AcLAxQw==
+X-CSE-MsgGUID: Q6H8HRIDSP+9SoiiVpzixw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
-   d="scan'208";a="221557860"
-Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 31 Mar 2026 09:48:00 -0700
-Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
+   d="scan'208";a="230863703"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 31 Mar 2026 09:52:46 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w7cFw-00000000389-40Ha;
-	Tue, 31 Mar 2026 16:47:56 +0000
-Date: Wed, 1 Apr 2026 00:47:35 +0800
+	id 1w7cKb-000000008SD-12F6;
+	Tue, 31 Mar 2026 16:52:45 +0000
+Date: Tue, 31 Mar 2026 18:51:52 +0200
 From: kernel test robot <lkp@intel.com>
-To: alejandro.lucero-palau@amd.com, linux-cxl@vger.kernel.org,
-	netdev@vger.kernel.org, dave.jiang@intel.com,
-	dan.j.williams@intel.com, edward.cree@amd.com, davem@davemloft.net,
-	kuba@kernel.org, pabeni@redhat.com, edumazet@google.com
-Cc: oe-kbuild-all@lists.linux.dev, Alejandro Lucero <alucerop@amd.com>,
-	Martin Habets <habetsm.xilinx@gmail.com>,
-	Fan Ni <fan.ni@samsung.com>, Edward Cree <ecree.xilinx@gmail.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v25 05/11] sfc: create type2 cxl memdev
-Message-ID: <202604010047.zovyb3Z0-lkp@intel.com>
-References: <20260330143827.1278677-6-alejandro.lucero-palau@amd.com>
+To: Jordan Rife <jrife@google.com>, netdev@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jordan Rife <jrife@google.com>, bpf@vger.kernel.org,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Yusuke Suzuki <yusuke.suzuki@isovalent.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Kuniyuki Iwashima <kuniyu@google.com>
+Subject: Re: [PATCH net-next v3 2/4] udp: Remove disconnected sockets from
+ the 4-tuple hash
+Message-ID: <202603311827.nefybt0I-lkp@intel.com>
+References: <20260330215707.2374657-3-jrife@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,108 +73,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260330143827.1278677-6-alejandro.lucero-palau@amd.com>
+In-Reply-To: <20260330215707.2374657-3-jrife@google.com>
 
-Hi,
+Hi Jordan,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 64584273dfb8a1e5fc7d78094ba22a93c204b44e]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/alejandro-lucero-palau-amd-com/sfc-add-cxl-support/20260331-055820
-base:   64584273dfb8a1e5fc7d78094ba22a93c204b44e
-patch link:    https://lore.kernel.org/r/20260330143827.1278677-6-alejandro.lucero-palau%40amd.com
-patch subject: [PATCH v25 05/11] sfc: create type2 cxl memdev
-config: x86_64-randconfig-003-20260331 (https://download.01.org/0day-ci/archive/20260401/202604010047.zovyb3Z0-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260401/202604010047.zovyb3Z0-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jordan-Rife/udp-Only-compare-daddr-dport-when-sk_state-TCP_ESTABLISHED/20260331-082300
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260330215707.2374657-3-jrife%40google.com
+patch subject: [PATCH net-next v3 2/4] udp: Remove disconnected sockets from the 4-tuple hash
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260331/202603311827.nefybt0I-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603311827.nefybt0I-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604010047.zovyb3Z0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603311827.nefybt0I-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: vmlinux.o: in function `efx_cxl_init':
->> drivers/net/ethernet/sfc/efx_cxl.c:78:(.text+0xd33fcd): undefined reference to `devm_cxl_add_memdev'
+>> net/ipv4/udp.c:2182:31: error: call to undeclared function 'udp_get_table_prot'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2182 |         struct udp_table *udptable = udp_get_table_prot(sk);
+         |                                      ^
+   net/ipv4/udp.c:2182:31: note: did you mean 'vm_get_page_prot'?
+   include/linux/mm.h:4105:10: note: 'vm_get_page_prot' declared here
+    4105 | pgprot_t vm_get_page_prot(vm_flags_t vm_flags);
+         |          ^
+>> net/ipv4/udp.c:2182:20: error: incompatible integer to pointer conversion initializing 'struct udp_table *' with an expression of type 'int' [-Wint-conversion]
+    2182 |         struct udp_table *udptable = udp_get_table_prot(sk);
+         |                           ^          ~~~~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
 
 
-vim +78 drivers/net/ethernet/sfc/efx_cxl.c
+vim +/udp_get_table_prot +2182 net/ipv4/udp.c
 
-    16	
-    17	int efx_cxl_init(struct efx_probe_data *probe_data)
-    18	{
-    19		struct efx_nic *efx = &probe_data->efx;
-    20		struct pci_dev *pci_dev = efx->pci_dev;
-    21		struct efx_cxl *cxl;
-    22		u16 dvsec;
-    23		int rc;
-    24	
-    25		probe_data->cxl_pio_initialised = false;
-    26	
-    27		/* Is the device configured with and using CXL? */
-    28		if (!pcie_is_cxl(pci_dev))
-    29			return 0;
-    30	
-    31		dvsec = pci_find_dvsec_capability(pci_dev, PCI_VENDOR_ID_CXL,
-    32						  PCI_DVSEC_CXL_DEVICE);
-    33		if (!dvsec) {
-    34			pci_info(pci_dev, "CXL_DVSEC_PCIE_DEVICE capability not found\n");
-    35			return 0;
-    36		}
-    37	
-    38		pci_dbg(pci_dev, "CXL_DVSEC_PCIE_DEVICE capability found\n");
-    39	
-    40		/* Create a cxl_dev_state embedded in the cxl struct using cxl core api
-    41		 * specifying no mbox available.
-    42		 */
-    43		cxl = devm_cxl_dev_state_create(&pci_dev->dev, CXL_DEVTYPE_DEVMEM,
-    44						pci_dev->dev.id, dvsec, struct efx_cxl,
-    45						cxlds, false);
-    46	
-    47		if (!cxl)
-    48			return -ENOMEM;
-    49	
-    50		rc = cxl_pci_setup_regs(pci_dev, CXL_REGLOC_RBI_COMPONENT,
-    51					&cxl->cxlds.reg_map);
-    52		if (rc) {
-    53			pci_err(pci_dev, "No component registers\n");
-    54			return rc;
-    55		}
-    56	
-    57		if (!cxl->cxlds.reg_map.component_map.hdm_decoder.valid) {
-    58			pci_err(pci_dev, "Expected HDM component register not found\n");
-    59			return -ENODEV;
-    60		}
-    61	
-    62		if (!cxl->cxlds.reg_map.component_map.ras.valid) {
-    63			pci_err(pci_dev, "Expected RAS component register not found\n");
-    64			return -ENODEV;
-    65		}
-    66	
-    67		/* Set media ready explicitly as there are neither mailbox for checking
-    68		 * this state nor the CXL register involved, both not mandatory for
-    69		 * type2.
-    70		 */
-    71		cxl->cxlds.media_ready = true;
-    72	
-    73		if (cxl_set_capacity(&cxl->cxlds, EFX_CTPIO_BUFFER_SIZE)) {
-    74			pci_err(pci_dev, "dpa capacity setup failed\n");
-    75			return -ENODEV;
-    76		}
-    77	
-  > 78		cxl->cxlmd = devm_cxl_add_memdev(&cxl->cxlds, NULL);
-    79		if (IS_ERR(cxl->cxlmd)) {
-    80			pci_err(pci_dev, "CXL accel memdev creation failed");
-    81			return PTR_ERR(cxl->cxlmd);
-    82		}
-    83	
-    84		probe_data->cxl = cxl;
-    85	
-    86		return 0;
-    87	}
-    88	
+  2179	
+  2180	static int udp_disconnect_unhash4(struct sock *sk, int flags)
+  2181	{
+> 2182		struct udp_table *udptable = udp_get_table_prot(sk);
+  2183	
+  2184		udp_unhash4(udptable, sk);
+  2185		__udp_disconnect(sk, flags);
+  2186	
+  2187		return 0;
+  2188	}
+  2189	
 
 -- 
 0-DAY CI Kernel Test Service
