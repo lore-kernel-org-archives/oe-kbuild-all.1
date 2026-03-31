@@ -1,96 +1,109 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21A553E95BF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 08:49:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 325AD3E9F8B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 08:49:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774946977; cv=none; b=jV32Cfdog1eTrumWVEUuwHf7EfmT2n1oLx5lXtXcQQzwDdooW9sWam6cKwhb+sOcAws3SVOTCUmYJJiJX7sQWv54DEl4MDTuToUqWMzWfjNl6k+j7S17K4UY/6refbGyVtetnv978wt2HjfL7KTP7jyOhB7tDS01/LfEptg1iMk=
+	t=1774946987; cv=none; b=F3+e+y5aFB25n7S9WPE6ZGTQ/2SzRTfz/Az96IXK/xdN+osqgS/ylzdH/27/ulAeaDSapFSt97qPArWzmZpQl/hCCPgBb1zjiZs1WQjbA8H9G1t1Glm9RGTjSTk20ME2MAkCzWGA7O7SoPNRqbgU/01WwpdEK8m3zkYuAx8EcQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774946977; c=relaxed/simple;
-	bh=XRyoxdM1/kZV4dB6RYj1dsS9O/Zzf/R4+PZ3VA29BmA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lCiZWbeXD1jTj04s77NelQOW7wQFtmQ1EMocjrVUanjUIcxh1gIeppe5yeeY3T1usDXrYp4S7PRHIVdoQs2IWPcL9YwPl0QNtHfWnsck7imRoYQgDLTfTDfCmt+xHO42dd9RTdBrCEHdeDq+9mnICGmbCi/4OAy2zYxMQMZj9T8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eEgtqKPz; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1774946987; c=relaxed/simple;
+	bh=RUfjO2HGvlW/ipK9lfju7SLDWBnyMJE2wNqvku9mcBw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ggv6/UvEBLdHgkK4w5gUw9RahM5SXacjXQzPvJynuLY/eiaF9Xh92H6EfJY92tdIdoU5JybAxUuNBXUhlgux4OyK9468xA3YWja9LL75W4d/pnUb0vA8hbGWCIq5Qwbu8A6KqXZP459X80zQmtWTVvO6JnjgST7OUDAF9Mjshkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ZZk/NHNk; arc=none smtp.client-ip=91.218.175.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eEgtqKPz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774946977; x=1806482977;
-  h=date:from:to:cc:subject:message-id;
-  bh=XRyoxdM1/kZV4dB6RYj1dsS9O/Zzf/R4+PZ3VA29BmA=;
-  b=eEgtqKPzrA8wwiGKRr4bFnAFSXvDfuxH/8nzm3i0yZX52D5+Dtwr8p4L
-   H7sQEzqYK38u35RSxgKzkNcxgiGWL8zPIPBoMuN1bwFFigXaUbyXnojwq
-   HOWllredL2LtMBihjMNovdGL6yJyTxdv1WOEzTTrkprfdWtfL01XYybJK
-   Q3krC+vt8d1mhY57H9A8Zl7IG/rnnGyBY54OqHWSJMD5m+EaqTxDBfXhb
-   1YEPaH+nFF8Qy29fAdBWd+gkFLwMXicuiuMxDsX4taQmcBSHyC40UpxuN
-   AtjnJORMBMoPADi36WnglUJowi0x74SVzzAnvYaDmwb7N4NG44yD0kDD7
-   A==;
-X-CSE-ConnectionGUID: 5LI2GrSTQCKv/MK/Gbam/g==
-X-CSE-MsgGUID: p+PTAWYZTD68TUX3Mqj3fQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="98562395"
-X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
-   d="scan'208";a="98562395"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 01:49:35 -0700
-X-CSE-ConnectionGUID: rJ0oT66UQXOmGMaQzXwKYA==
-X-CSE-MsgGUID: eauXSfhWROuet30qwIMZzg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
-   d="scan'208";a="226551879"
-Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 31 Mar 2026 01:49:34 -0700
-Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w7Umx-000000002RD-0lvK;
-	Tue, 31 Mar 2026 08:49:31 +0000
-Date: Tue, 31 Mar 2026 16:48:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-2025-04 6/6]
- arch/arm64/kvm/hyp_trace.c:709:37: warning: unused variable
- 'hyp_trace_raw_fops'
-Message-ID: <202603311653.JxcIsUpn-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ZZk/NHNk"
+Message-ID: <f1973455-6af0-448f-b657-274bbf64146b@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1774946983;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ylwj5m6FghjB84mXTKNcHoRC2MN8ceAn6QL5hBDySUA=;
+	b=ZZk/NHNk047P/vzjYveNrefMrYGdRud2b9vPCbkuxQN3D9DrSIjFOUUbzBTRsDW+pVUQlS
+	prWk41QkBO89u5vWeoIKpNJfWcbuqivwxHTYn7KLlOk4VTNVpExSEx4hKTh45WaO8x27rf
+	3b/j4t9xeVn1G08coiCsGW7ief9H56A=
+Date: Tue, 31 Mar 2026 16:48:58 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Subject: Re: [akpm-mm:mm-new 193/194] lib/alloc_tag.c:815:25: sparse: sparse:
+ cast removes address space '__rcu' of expression
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>
+References: <202603291211.YhY0R0se-lkp@intel.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Hao Ge <hao.ge@linux.dev>
+In-Reply-To: <202603291211.YhY0R0se-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-2025-04
-head:   ce562c94afca04439e69f19959cb6198e0776d45
-commit: 8ae140fc839f2739df17942add206b1dc938c85c [6/6] ANDROID: KVM: arm64: Add raw interface to nVHE hyp tracing
-config: arm64-randconfig-002-20260331 (https://download.01.org/0day-ci/archive/20260331/202603311653.JxcIsUpn-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603311653.JxcIsUpn-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603311653.JxcIsUpn-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> arch/arm64/kvm/hyp_trace.c:709:37: warning: unused variable 'hyp_trace_raw_fops' [-Wunused-const-variable]
-     709 | static const struct file_operations hyp_trace_raw_fops = {
-         |                                     ^~~~~~~~~~~~~~~~~~
-   1 warning generated.
+Hi
 
 
-vim +/hyp_trace_raw_fops +709 arch/arm64/kvm/hyp_trace.c
+On 2026/3/29 12:36, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+> head:   df2267b6380964f1305128001f05bc043ddf1f37
+> commit: 8bee7b4b574f880ff2c7491212e2ef01cd82f2fd [193/194] mm/alloc_tag: clear codetag for pages allocated before page_ext initialization
+> config: openrisc-randconfig-r121-20260329 (https://download.01.org/0day-ci/archive/20260329/202603291211.YhY0R0se-lkp@intel.com/config)
+> compiler: or1k-linux-gcc (GCC) 10.5.0
+> sparse: v0.6.5-rc1
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260329/202603291211.YhY0R0se-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202603291211.YhY0R0se-lkp@intel.com/
+>
+> sparse warnings: (new ones prefixed by >>)
+>>> lib/alloc_tag.c:815:25: sparse: sparse: cast removes address space '__rcu' of expression
+>>> lib/alloc_tag.c:815:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+>     lib/alloc_tag.c:815:25: sparse:    void ( [noderef] __rcu * )( ... )
+>     lib/alloc_tag.c:815:25: sparse:    void ( * )( ... )
+>     lib/alloc_tag.c:828:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+>     lib/alloc_tag.c:828:9: sparse:    void ( [noderef] __rcu * )( ... )
+>     lib/alloc_tag.c:828:9: sparse:    void ( * )( ... )
+>
+> vim +/__rcu +815 lib/alloc_tag.c
+>
+>     802	
+>     803	typedef void (*alloc_tag_add_func)(unsigned long pfn);
+>     804	static alloc_tag_add_func __rcu alloc_tag_add_early_pfn_ptr __refdata =
+>     805			__alloc_tag_add_early_pfn;
+>     806	
+>     807	void alloc_tag_add_early_pfn(unsigned long pfn)
+>     808	{
+>     809		alloc_tag_add_func alloc_tag_add;
+>     810	
+>     811		if (static_key_enabled(&mem_profiling_compressed))
+>     812			return;
+>     813	
+>     814		rcu_read_lock();
+>   > 815		alloc_tag_add = rcu_dereference(alloc_tag_add_early_pfn_ptr);
+>     816		if (alloc_tag_add)
+>     817			alloc_tag_add(pfn);
+>     818		rcu_read_unlock();
+>     819	}
+>     820	
+>
+Thanks.
 
-   708	
- > 709	static const struct file_operations hyp_trace_raw_fops = {
-   710		.open           = hyp_trace_raw_open,
-   711		.read           = hyp_trace_raw_read,
-   712		.release        = hyp_trace_raw_release,
-   713		.llseek         = no_llseek,
-   714	};
-   715	
+The v4 patch I've just posted has fixed the issue. Thanks for your report.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+Thanks
+
+Hao
+
+
