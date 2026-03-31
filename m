@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FAFD3D4114
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 09:11:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C8F12C11C4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 09:22:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774948297; cv=none; b=hR4TXa0PXaYAGw9uaoyN5bSPAVzVes/HWoR1Yz/kGytPznnl2j8LtF+5fnzR6R2j3KnnSrbIbxPxeebB/lDjbAwoLwY4x7Sdi6jf1AZUKfzoaMAdPlvm0SSNbDM1i6c4VriEWuZzxMA8e3IN38TjZI7lv5JWct29Q2rF+pqLi5Q=
+	t=1774948959; cv=none; b=NANB0w6/89UnUhK6FslFz/w4R/JdEnIJzWl2XdpdzW6mOurB3/8th4mj0Upmp+3YJjo1zDdoHeHa1CZBo61MujU2EGEki/Q3A60REGvssgipMrYZ+06GqBXKJXyXRl1n28DMJlBtJzDmI7w8tdAbpUgj6iNu43yNX4t00T7p7BM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774948297; c=relaxed/simple;
-	bh=RSRQIFWssdNCW0I4GWID8lkN8FPUS9pQxNa9An6Xkeg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=SUEL5kjVgpdPwOvI4ATN4py30WwOKxSQ51aabu+f0+VnmRSTjo17WfW5pj8zkUVmdipLsudi2J5qgdLE3gXDBxhOVCV3EdwHCu3SPMdZiCiMT60u+FMLmlBTfkY6CFI/mSOJiL6/UnVYM9/Acuu4APawobQ0rNS7m1OngYP8K/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tqj4VfAD; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1774948959; c=relaxed/simple;
+	bh=fvLEgfG78YcWXegoGTbhLF0oULUAkdeKUR/p0qvQCjM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rfEyw24QWhjIQADw0/DVnMDZ8GROm9f6V3JSjRwfZ6qmHQ49CXIcN0SBoNlH+VsYgf1BsxNQjDlA4CF05Bo0PcQ5Qw1GZbr44+SfAPsQO4+7ZVJUX4ZivVZktymlVOzfNgQ6orw8D7+31PZXGVU9yThEyo9Kw2b+BvYNq6oemMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZHeKC4kW; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tqj4VfAD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZHeKC4kW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774948296; x=1806484296;
+  t=1774948957; x=1806484957;
   h=date:from:to:cc:subject:message-id;
-  bh=RSRQIFWssdNCW0I4GWID8lkN8FPUS9pQxNa9An6Xkeg=;
-  b=Tqj4VfAD0xiWyHBz8fTU4fGDrXzeA7/QEA5ACxy91Yna1a4mUUc9hhPY
-   UwvrWxCyBspvVrAGRhVSTSDVso58tNNhWzjxoINprubggYNxhtu2it06g
-   dgwDZB2yO7w1+tAKcZJgDO9FU9XJTLISXOOB+wiNeRZ6u20yG2e/+Oa/k
-   Y775xt01wR6YuOA4rjJo+0zLJBoTL8fVRqy7bBaj4j3tn8wF66f+Py/Rw
-   yRcJnBoW+Z6PxOQ+HHV/Ra/gpdWdvmlRnYylxg9RhKEqEzck9Eku0ghXc
-   LwwM3lyElbLWw4tRNGyE8K4VSpSo27KaKnqxVZx11TqKE8llkOUi2ZuVo
-   w==;
-X-CSE-ConnectionGUID: gm/De0PMTuKJXuvB6qpYIg==
-X-CSE-MsgGUID: 2mJsn4u3TnmPGxY2azRX/A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="76068453"
+  bh=fvLEgfG78YcWXegoGTbhLF0oULUAkdeKUR/p0qvQCjM=;
+  b=ZHeKC4kWWwysb3gqJvVXoayW+ok6zIR8oUHDCDz7uxDKVxFLIfCaCGHO
+   7hBDXiWHZ6K5xGF6DPz6gG1p5Kvo7TTftAe7YIPY5Y//FZeWTAErt59C+
+   eU8l5zeeIc9Ndf1Q3Y/Fn5oNgZCcENa/kgHKWvWrfW+uXjiGjco5veVzK
+   wuFs1rhyxckKCFB0e8luW80JU8g0WrEm95BgiNM5icWm5XzJzp+D/8zmY
+   knkmxMhXFcl+jKHdZQnaPJf/0j3zgcYo9BeQmv7VibXmjyaTi/A/db0SZ
+   8kh6de3I59pR1vcC3BEYmBsF0w3lcW4vl/BC2fz1XtdKClNRCZQVLuWr6
+   A==;
+X-CSE-ConnectionGUID: VOh8Wub5SfGcL8ZcdicLlw==
+X-CSE-MsgGUID: fT0wiOF9QSOgJJuyMia0qA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="75849881"
 X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
-   d="scan'208";a="76068453"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 02:11:35 -0700
-X-CSE-ConnectionGUID: 7/jRwETcQvGa4X1eDG7z9Q==
-X-CSE-MsgGUID: g3ddCow0T62mMN0DAaFz9g==
+   d="scan'208";a="75849881"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 02:22:36 -0700
+X-CSE-ConnectionGUID: na7aIE7PSj6zRL3RFZVuTw==
+X-CSE-MsgGUID: AaCz97SGT+SK0Uq4BQM2hQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
-   d="scan'208";a="219666181"
+   d="scan'208";a="231247739"
 Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 31 Mar 2026 02:11:34 -0700
+  by orviesa005.jf.intel.com with ESMTP; 31 Mar 2026 02:22:35 -0700
 Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w7V8G-000000002ST-14d5;
-	Tue, 31 Mar 2026 09:11:32 +0000
-Date: Tue, 31 Mar 2026 17:11:16 +0800
+	id 1w7VIu-000000002Sz-2jwL;
+	Tue, 31 Mar 2026 09:22:32 +0000
+Date: Tue, 31 Mar 2026 17:22:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1-2025-04 2/2]
- net/core/scm.c:95:24: error: no member named 'vertices' in 'struct
- scm_fp_list'
-Message-ID: <202603311752.sZffzSwV-lkp@intel.com>
+Subject: [android-common:android14-5.15 2/2]
+ arch/x86/kernel/fpu/xstate.c:1119: warning: Function parameter or member
+ 'xsave' not described in 'copy_uabi_to_xstate'
+Message-ID: <202603311728.JntuxWcy-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,95 +60,131 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1-2025-04
-head:   a01f4f3e3d4d93656a40a6739b171e98bd608766
-commit: 9b0889c42a173c7b6a1891893f3d619166d37efa [2/2] UPSTREAM: af_unix: Allocate struct unix_vertex for each inflight AF_UNIX fd.
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260331/202603311752.sZffzSwV-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603311752.sZffzSwV-lkp@intel.com/reproduce)
+Hi Kyle,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   f09c4c66d2c9498eef6f7b55b944ba515a99aa66
+commit: 3f1c81426a9f1cf038b00994dab1ececa72de56b [2/2] x86/fpu: Allow PKRU to be (once again) written by ptrace.
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20260331/202603311728.JntuxWcy-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603311728.JntuxWcy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603311752.sZffzSwV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603311728.JntuxWcy-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> net/core/scm.c:95:24: error: no member named 'vertices' in 'struct scm_fp_list'
-      95 |                 INIT_LIST_HEAD(&fpl->vertices);
-         |                                 ~~~  ^
-   net/core/scm.c:384:28: error: no member named 'vertices' in 'struct scm_fp_list'
-     384 |                 INIT_LIST_HEAD(&new_fpl->vertices);
-         |                                 ~~~~~~~  ^
-   2 errors generated.
+>> arch/x86/kernel/fpu/xstate.c:1119: warning: Function parameter or member 'xsave' not described in 'copy_uabi_to_xstate'
+>> arch/x86/kernel/fpu/xstate.c:1119: warning: Excess function parameter 'fpstate' description in 'copy_uabi_to_xstate'
 
 
-vim +95 net/core/scm.c
+vim +1119 arch/x86/kernel/fpu/xstate.c
 
-    68	
-    69	static int scm_fp_copy(struct cmsghdr *cmsg, struct scm_fp_list **fplp)
-    70	{
-    71		int *fdp = (int*)CMSG_DATA(cmsg);
-    72		struct scm_fp_list *fpl = *fplp;
-    73		struct file **fpp;
-    74		int i, num;
-    75	
-    76		num = (cmsg->cmsg_len - sizeof(struct cmsghdr))/sizeof(int);
-    77	
-    78		if (num <= 0)
-    79			return 0;
-    80	
-    81		if (num > SCM_MAX_FD)
-    82			return -EINVAL;
-    83	
-    84		if (!fpl)
-    85		{
-    86			fpl = kmalloc(sizeof(struct scm_fp_list), GFP_KERNEL_ACCOUNT);
-    87			if (!fpl)
-    88				return -ENOMEM;
-    89			*fplp = fpl;
-    90			fpl->count = 0;
-    91			fpl->count_unix = 0;
-    92			fpl->max = SCM_MAX_FD;
-    93			fpl->user = NULL;
-    94	#if IS_ENABLED(CONFIG_UNIX)
-  > 95			INIT_LIST_HEAD(&fpl->vertices);
-    96	#endif
-    97		}
-    98		fpp = &fpl->fp[fpl->count];
-    99	
-   100		if (fpl->count + num > fpl->max)
-   101			return -EINVAL;
-   102	
-   103		/*
-   104		 *	Verify the descriptors and increment the usage count.
-   105		 */
-   106	
-   107		for (i=0; i< num; i++)
-   108		{
-   109			int fd = fdp[i];
-   110			struct file *file;
-   111	
-   112			if (fd < 0 || !(file = fget_raw(fd)))
-   113				return -EBADF;
-   114			/* don't allow io_uring files */
-   115			if (io_is_uring_fops(file)) {
-   116				fput(file);
-   117				return -EINVAL;
-   118			}
-   119			if (unix_get_socket(file))
-   120				fpl->count_unix++;
-   121	
-   122			*fpp++ = file;
-   123			fpl->count++;
-   124		}
-   125	
-   126		if (!fpl->user)
-   127			fpl->user = get_uid(current_user());
-   128	
-   129		return num;
-   130	}
-   131	
+947f4947cf00ea Thomas Gleixner           2021-06-23  1092  
+522e92743b3535 Thomas Gleixner           2021-06-23  1093  
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1094  /**
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1095   * copy_uabi_to_xstate - Copy a UABI format buffer to the kernel xstate
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1096   * @fpstate:	The fpstate buffer to copy to
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1097   * @kbuf:	The UABI format buffer, if it comes from the kernel
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1098   * @ubuf:	The UABI format buffer, if it comes from userspace
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1099   * @pkru:	The location to write the PKRU value to
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1100   *
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1101   * Converts from the UABI format into the kernel internal hardware
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1102   * dependent format.
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1103   *
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1104   * This function ultimately has two different callers with distinct PKRU
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1105   * behavior.
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1106   * 1.	When called from sigreturn the PKRU register will be restored from
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1107   *	@fpstate via an XRSTOR. Correctly copying the UABI format buffer to
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1108   *	@fpstate is sufficient to cover this case, but the caller will also
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1109   *	pass a pointer to the thread_struct's pkru field in @pkru and updating
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1110   *	it is harmless.
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1111   * 2.	When called from ptrace the PKRU register will be restored from the
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1112   *	thread_struct's pkru field. A pointer to that is passed in @pkru.
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1113   *	The kernel will restore it manually, so the XRSTOR behavior that resets
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1114   *	the PKRU register to the hardware init value (0) if the corresponding
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1115   *	xfeatures bit is not set is emulated here.
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1116   */
+522e92743b3535 Thomas Gleixner           2021-06-23  1117  static int copy_uabi_to_xstate(struct xregs_state *xsave, const void *kbuf,
+b29773d6b0bb8e Kyle Huey                 2023-01-09  1118  			       const void __user *ubuf, u32 *pkru)
+79fecc2b7506f2 Ingo Molnar               2017-09-23 @1119  {
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1120  	unsigned int offset, size;
+80d8ae86b36791 Eric Biggers              2017-09-24  1121  	struct xstate_header hdr;
+522e92743b3535 Thomas Gleixner           2021-06-23  1122  	u64 mask;
+522e92743b3535 Thomas Gleixner           2021-06-23  1123  	int i;
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1124  
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1125  	offset = offsetof(struct xregs_state, header);
+522e92743b3535 Thomas Gleixner           2021-06-23  1126  	if (copy_from_buffer(&hdr, offset, sizeof(hdr), kbuf, ubuf))
+522e92743b3535 Thomas Gleixner           2021-06-23  1127  		return -EFAULT;
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1128  
+5274e6c172c472 Fenghua Yu                2020-05-12  1129  	if (validate_user_xstate_header(&hdr))
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1130  		return -EINVAL;
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1131  
+522e92743b3535 Thomas Gleixner           2021-06-23  1132  	/* Validate MXCSR when any of the related features is in use */
+522e92743b3535 Thomas Gleixner           2021-06-23  1133  	mask = XFEATURE_MASK_FP | XFEATURE_MASK_SSE | XFEATURE_MASK_YMM;
+522e92743b3535 Thomas Gleixner           2021-06-23  1134  	if (hdr.xfeatures & mask) {
+522e92743b3535 Thomas Gleixner           2021-06-23  1135  		u32 mxcsr[2];
+522e92743b3535 Thomas Gleixner           2021-06-23  1136  
+522e92743b3535 Thomas Gleixner           2021-06-23  1137  		offset = offsetof(struct fxregs_state, mxcsr);
+522e92743b3535 Thomas Gleixner           2021-06-23  1138  		if (copy_from_buffer(mxcsr, offset, sizeof(mxcsr), kbuf, ubuf))
+522e92743b3535 Thomas Gleixner           2021-06-23  1139  			return -EFAULT;
+522e92743b3535 Thomas Gleixner           2021-06-23  1140  
+522e92743b3535 Thomas Gleixner           2021-06-23  1141  		/* Reserved bits in MXCSR must be zero. */
+522e92743b3535 Thomas Gleixner           2021-06-23  1142  		if (mxcsr[0] & ~mxcsr_feature_mask)
+947f4947cf00ea Thomas Gleixner           2021-06-23  1143  			return -EINVAL;
+947f4947cf00ea Thomas Gleixner           2021-06-23  1144  
+522e92743b3535 Thomas Gleixner           2021-06-23  1145  		/* SSE and YMM require MXCSR even when FP is not in use. */
+522e92743b3535 Thomas Gleixner           2021-06-23  1146  		if (!(hdr.xfeatures & XFEATURE_MASK_FP)) {
+522e92743b3535 Thomas Gleixner           2021-06-23  1147  			xsave->i387.mxcsr = mxcsr[0];
+522e92743b3535 Thomas Gleixner           2021-06-23  1148  			xsave->i387.mxcsr_mask = mxcsr[1];
+522e92743b3535 Thomas Gleixner           2021-06-23  1149  		}
+522e92743b3535 Thomas Gleixner           2021-06-23  1150  	}
+522e92743b3535 Thomas Gleixner           2021-06-23  1151  
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1152  	for (i = 0; i < XFEATURE_MAX; i++) {
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1153  		u64 mask = ((u64)1 << i);
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1154  
+b89eda482d7849 Eric Biggers              2017-09-24  1155  		if (hdr.xfeatures & mask) {
+07baeb04f37c95 Sebastian Andrzej Siewior 2019-04-03  1156  			void *dst = __raw_xsave_addr(xsave, i);
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1157  
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1158  			offset = xstate_offsets[i];
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1159  			size = xstate_sizes[i];
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1160  
+522e92743b3535 Thomas Gleixner           2021-06-23  1161  			if (copy_from_buffer(dst, offset, size, kbuf, ubuf))
+522e92743b3535 Thomas Gleixner           2021-06-23  1162  				return -EFAULT;
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1163  		}
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1164  	}
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1165  
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1166  	if (hdr.xfeatures & XFEATURE_MASK_PKRU) {
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1167  		struct pkru_state *xpkru;
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1168  
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1169  		xpkru = __raw_xsave_addr(xsave, XFEATURE_PKRU);
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1170  		*pkru = xpkru->pkru;
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1171  	}
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1172  
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1173  	/*
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1174  	 * The state that came in from userspace was user-state only.
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1175  	 * Mask all the user states out of 'xfeatures':
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1176  	 */
+8ab22804efefea Fenghua Yu                2020-05-12  1177  	xsave->header.xfeatures &= XFEATURE_MASK_SUPERVISOR_ALL;
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1178  
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1179  	/*
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1180  	 * Add back in the features that came in from userspace:
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1181  	 */
+b89eda482d7849 Eric Biggers              2017-09-24  1182  	xsave->header.xfeatures |= hdr.xfeatures;
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1183  
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1184  	return 0;
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1185  }
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1186  
+
+:::::: The code at line 1119 was first introduced by commit
+:::::: 79fecc2b7506f29fb91becc65e8788e5ae7eba9f x86/fpu: Split copy_user_to_xstate() into copy_kernel_to_xstate() & copy_user_to_xstate()
+
+:::::: TO: Ingo Molnar <mingo@kernel.org>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
