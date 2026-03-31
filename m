@@ -1,67 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC5C81A3154;
-	Tue, 31 Mar 2026 03:54:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E300527FB0E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 04:23:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774929247; cv=none; b=qEd1pHxmwqs6YxC1/Y0EqOtLyvmRXXBY2HH7w+PucmGs31y+LxY/G5BU6d31m+zNTVYZ66qgPOcutO1PzUn0wG6CcBCw8XLZsCv3jbucid1hTxbHo43UFfuj3tiTq6rzzCOEhbZowLLXOh2Gxpv5bHqmcLCgSewv1LbJHN/nMzk=
+	t=1774931022; cv=none; b=HkJvZi9uaaR56XVb8tFSFQFPSEF+0FyDepfcFzD9tI8Cp62ayuCSvkKEE+SdqavbTiSBZQi6jMVeSw6VqgRXOmWa2KWpRsCTE3ePHliG73ZNgx5Tweo0j8soJEBXQFfqXsoofkQR1XaUO8na6g3Hu9CGbbuJ/lovyBrIJW7dhIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774929247; c=relaxed/simple;
-	bh=1zKueCjYPnMUW760AR6slevZskmLyUpa7pjvFUk5AWI=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=pcCu3+XHIgnk2jEZBf36bXP4EwDSpvvuaaaiks/wsbaa3Y8+68pKws1rnQtijiIOfBwuSQ/XmJ/yOJDvTilW3vMtHmZM9B9P+HcKygcl5tOM75o+4g4QX64uUj/WWEfdxXonmu4RfmNTJOWEObvP9FaRBjVdPp78Iz5iDXVaSQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=v969ObtV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774931022; c=relaxed/simple;
+	bh=9UweBOFMNE1z+og/HnqPGLq+U4VZmoCQY5y4o7WVcGE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=VvCSG5nuK2EopgQQkWEO099QrRZjcIaJVqPsPe5geLkiu4p872BBa7btl7IFynVz3sjkwWkVBXHA5vE23zlrHfr39PBcxL5Evefse472dsqNsCuhjyui/93D4bTDbbmmWP6xIKKMx6jee9RWil3q9yhCS+uKyLYBx7SdgD5HlD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ej8M5/Ml; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="v969ObtV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E1A8C19423;
-	Tue, 31 Mar 2026 03:54:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1774929246;
-	bh=1zKueCjYPnMUW760AR6slevZskmLyUpa7pjvFUk5AWI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=v969ObtVceDu/y5QHcMcwGQ58QnhHdCUH7gc4zKcwrmwyvkeQZ5sbjun9BpPa+lSB
-	 j0fGOKuB1ZPTL2wmhlSQmz3XXeHalmeni8/LvVzICod+FXrVLF2suSaMTldjwKSSHe
-	 pJVqFm8ONtL0XAoLDyYwM4CNJLSH0YJGh/QpNUko=
-Date: Mon, 30 Mar 2026 20:54:05 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Chengkaitao <pilgrimtao@gmail.com>
-Cc: linux-mm@kvack.org, "David Hildenbrand (Red Hat)" <david@kernel.org>,
- llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v6 2/2] mm: Convert vmemmap_p?d_populate() to static
- functions
-Message-Id: <20260330205405.44d128cac32b971ec9134c70@linux-foundation.org>
-In-Reply-To: <CAAWJmAaOL_NUtJZfHguSdPUsNVCSU0U=GWnTeVAKhnGgwSKeEg@mail.gmail.com>
-References: <20260201063532.44807-1-pilgrimtao@gmail.com>
-	<20260201063532.44807-3-pilgrimtao@gmail.com>
-	<CAAWJmAaOL_NUtJZfHguSdPUsNVCSU0U=GWnTeVAKhnGgwSKeEg@mail.gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ej8M5/Ml"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774931020; x=1806467020;
+  h=date:from:to:cc:subject:message-id;
+  bh=9UweBOFMNE1z+og/HnqPGLq+U4VZmoCQY5y4o7WVcGE=;
+  b=ej8M5/MlMwUM9hDm1VTh83ZqSkXOcBL6MsNQ9Szk4VLRQMFKsgO7Su3E
+   aRXxLexSJNB02qTmzpa3w3z6dKOPBrjF1LQoBdvfzjonBlL3jL6/Cj7Y5
+   nrLhwF53syxTmra+V4Rjg2/dZGm/xw1GtYcjm2E3do+GE3f99hpry52VX
+   qd84o7eQXcLpjMiCWuc+gRDcJivg3NB1lZQPuYZMOiDj+K9PNwL4YC4OW
+   SEexQiF/+YiPTxYqLhZIHevWs3uVxzTQd33ozn7mvMX/+eOOXVZ1I1azE
+   ++w84+7c0i3iW/SClro9rpYh4vtJaNCWUOlF/8BYn4tI9CUGYQfAwhXEC
+   A==;
+X-CSE-ConnectionGUID: z1OfW7fiSky5Cbpi/+24aA==
+X-CSE-MsgGUID: G8Z+r54ZQ9OvvHoFdC8VJw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="101390944"
+X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
+   d="scan'208";a="101390944"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 21:23:39 -0700
+X-CSE-ConnectionGUID: qZlB6w61SviV74BOfBoKMQ==
+X-CSE-MsgGUID: vpw5K6x+T2i/+4nliMYboA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
+   d="scan'208";a="249470057"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 30 Mar 2026 21:23:38 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w7Qdc-000000008Hl-0ftG;
+	Tue, 31 Mar 2026 04:23:36 +0000
+Date: Tue, 31 Mar 2026 06:23:09 +0200
+From: kernel test robot <lkp@intel.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jlayton:kdevops 15/26] Warning: fs/nfsd/nfs4xdr.c:4139
+ function parameter 'nf' not described in 'nfsd4_encode_notify_event'
+Message-ID: <202603310644.YVMUN5n3-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-On Tue, 31 Mar 2026 11:16:33 +0800 Chengkaitao <pilgrimtao@gmail.com> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git kdevops
+head:   41363e319407643cd357c31a12fd344cfc9eaf48
+commit: 17ead909b8fe2314cec2ea3ffe9ccc2492c9c3c9 [15/26] nfsd: add notification handlers for dir events
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260331/202603310644.YVMUN5n3-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603310644.YVMUN5n3-lkp@intel.com/reproduce)
 
-> Hi Andrew Morton，
-> 
-> I noticed this patch was dropped; the failure report is here:
-> https://lore.kernel.org/all/202603251338.grra8xt7-lkp@intel.com/#R
->
-> Could this be a false positive? The series has two patches: the first
-> one already removed references to vmemmap_p?d_populate() on sparc; see:
-> https://lore.kernel.org/all/20260201063532.44807-3-pilgrimtao@gmail.com/T/#mefaa36aeff173d08f0508cd44be46e830c067fe9
-> 
-> Might the build error be because only the second patch was applied,
-> without the first?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603310644.YVMUN5n3-lkp@intel.com/
 
-There was some confusion over a later patch which was there to fix an
-earlier patch, only the earlier patch was dropped!
+All warnings (new ones prefixed by >>):
 
-Sorry 'bout that.  Can you please resend the patch after -rc1 and we'll
-try again.
+>> Warning: fs/nfsd/nfs4xdr.c:4139 function parameter 'nf' not described in 'nfsd4_encode_notify_event'
+>> Warning: fs/nfsd/nfs4xdr.c:4139 function parameter 'nf' not described in 'nfsd4_encode_notify_event'
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
