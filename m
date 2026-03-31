@@ -1,210 +1,201 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 468AE329E4B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 16:23:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1CFC401A2C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 16:35:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774974235; cv=none; b=ppFUYeHlI1IU2ha29Q7NVGnL++O5nucZvp7iatubtdFA25V3G+rTE5s3j/V0godvzDPPfTmwPuDPLZj7oNoKvwEo+sfz2N8O276mntsnkU4oYZJfYx6OnCoB04gBqK2Xsrdu8hghe+hLYNa49+TD5PECv+Vc/3TLAoBmcEarcxU=
+	t=1774974956; cv=none; b=NYzvtqnApU+5nqEsF1TY2dt/1aqhLfoSoQNmahHvv6nu5J2bawBtH4tfmFO5z0CTNdm9yznpaKZPKX+KjjWTKyV/ZRVPzCGkdMlqeAPh1XpzLIdLMa3rAroft2Fnwk8FpXwL4IBk1DKDaB3OTAzdQhIqZtRk8sSfMhGushd4Tao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774974235; c=relaxed/simple;
-	bh=Owy27NZIONsUdNTzktg4/3o+Iq30FcPIRoBuYypQxIE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dOmXgEk0y9ewbe/3jh/8DsfDqLycxrgi0zRLhwxRMkN3/YX7x8D54X55vGYYWKqEe57CvgsRNh90s0lvMdP9f8IVzuD9ioig7jwK1Y4+01WaI7LiDpyajGh2czWkuV7u643sWeIh/sPL6pPmgSuTSMVvZArSs3xUpzvLHcn1UIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hv/rzxlp; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1774974956; c=relaxed/simple;
+	bh=l/8n+c49WFnPdYFFmELgbmhshH2W3wojSv6lTryAbe0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Pzqhq/g2V1UvFnvUHokQpozyts8P9cZ2a2m7325en3WZYa4ENKy3TgyAcMvUJ9WC/ZhpyXCoftdK1eagO0XO0evxRTUzDie6OFaXVrYhyY7GCmC9/nyEg/d4ii9yZvhhXkl/JwGV+rckCtmEk9fKZiiyY++0IDMeEgJe1tkV7LU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cv6IAiGg; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hv/rzxlp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cv6IAiGg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774974234; x=1806510234;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Owy27NZIONsUdNTzktg4/3o+Iq30FcPIRoBuYypQxIE=;
-  b=hv/rzxlpta3zLX3NoDA10qIuuOQNPUuAVfkj91UXVkya11PIU7f71jyE
-   Nntu9meFawdKVRQao/z4FehEGAunmREKnv59aWfGuJspVSK+MlvJ6Wikc
-   fTmAdN8w24qzgB3mxg+ldkM5Z29BFCk183e94xC8eeIA/mARMlFH1eUt6
-   UKIiu1QM6V/rIL+tascZyMKBg2gWjOdkDwRgq3rF2BszPb/UE96uC/8Pb
-   OuiJchUrb9PzvTLcE8YWrICVOEDODw59zkiVuVLqcjlqpb+LyiF4ZNpW0
-   X/1lMkXSqPSAhtxaFOlow7KTmmNtg2DO5pT2Z1BhewgBBUM7ZSZ5LSTic
+  t=1774974955; x=1806510955;
+  h=date:from:to:cc:subject:message-id;
+  bh=l/8n+c49WFnPdYFFmELgbmhshH2W3wojSv6lTryAbe0=;
+  b=Cv6IAiGgFmQP4wQmDXnUZ8yA24OcL2rZFT6A+jOIhaWPiGN6wQoGDPnY
+   T5s42uyClWJ1jlt2BsgAkAr3DEidz+DcAHzRclvJYJebehpP0bzG/Ygx7
+   b7uPJqxRX4918Dopv1Y+yH6zFnBzWbwIGVx/OYS3GcfLmcfCv6fw1nkKr
+   r7VhZIpER18CzkoMTIXdYhGFvbhVUd+8IwfSkhlOGZpYn1r44qeaPsiEV
+   A3L0lii5hpCqOTwvreE25Ds5BsknxC/+IWMpeuyAmEQalKPa/twxJB2WN
+   yiQrpjV6x0Gy00guVCpuImLEgMeEPMSSCrm/gupOVQkLVF0QzwOLxnyOm
    g==;
-X-CSE-ConnectionGUID: /CjBdX83QmKvtCAJLAQckg==
-X-CSE-MsgGUID: LtxGZqbaQ9uMEfeTBUV7oA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="87386932"
+X-CSE-ConnectionGUID: iRGEDQU0R5OsOxHL/jwstQ==
+X-CSE-MsgGUID: YkiEXqV6RTmz3osp2ov05Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="75880707"
 X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
-   d="scan'208";a="87386932"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 09:23:54 -0700
-X-CSE-ConnectionGUID: cF1F+tt8QQ2ChLIXH7/5Aw==
-X-CSE-MsgGUID: 1YpHvgX7QJugjkhEZ86q+Q==
+   d="scan'208";a="75880707"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 09:35:55 -0700
+X-CSE-ConnectionGUID: kKbU1eCEQ9aduMH+5vOvqQ==
+X-CSE-MsgGUID: JsNP9eRZSCKz+plnw4vTsA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
-   d="scan'208";a="230860100"
+   d="scan'208";a="219750840"
 Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 31 Mar 2026 09:23:50 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 31 Mar 2026 09:35:52 -0700
 Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w7bsZ-000000002t3-2ihm;
-	Tue, 31 Mar 2026 16:23:47 +0000
-Date: Wed, 1 Apr 2026 00:23:21 +0800
+	id 1w7c4E-000000002y5-0xsE;
+	Tue, 31 Mar 2026 16:35:50 +0000
+Date: Wed, 01 Apr 2026 00:35:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: alejandro.lucero-palau@amd.com, linux-cxl@vger.kernel.org,
-	netdev@vger.kernel.org, dave.jiang@intel.com,
-	dan.j.williams@intel.com, edward.cree@amd.com, davem@davemloft.net,
-	kuba@kernel.org, pabeni@redhat.com, edumazet@google.com
-Cc: oe-kbuild-all@lists.linux.dev, Alejandro Lucero <alucerop@amd.com>,
-	Edward Cree <ecree.xilinx@gmail.com>
-Subject: Re: [PATCH v25 09/11] sfc: obtain decoder and region if committed by
- firmware
-Message-ID: <202604010036.h2OVjfQU-lkp@intel.com>
-References: <20260330143827.1278677-10-alejandro.lucero-palau@amd.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.10-2025-06 1/1]
+ include/trace/trace_events.h:27:23: warning:
+ 'str__wakeupbypass__trace_system_name' defined but not used
+Message-ID: <202604010030.bsoC0FKv-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260330143827.1278677-10-alejandro.lucero-palau@amd.com>
 
-Hi,
+Hi Vatsal,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on 64584273dfb8a1e5fc7d78094ba22a93c204b44e]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/alejandro-lucero-palau-amd-com/sfc-add-cxl-support/20260331-055820
-base:   64584273dfb8a1e5fc7d78094ba22a93c204b44e
-patch link:    https://lore.kernel.org/r/20260330143827.1278677-10-alejandro.lucero-palau%40amd.com
-patch subject: [PATCH v25 09/11] sfc: obtain decoder and region if committed by firmware
-config: sparc-randconfig-002-20260331 (https://download.01.org/0day-ci/archive/20260401/202604010036.h2OVjfQU-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260401/202604010036.h2OVjfQU-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android12-5.10-2025-06
+head:   8b6f7467f0a43bf873bb4b164560b3c1a5ed72b9
+commit: b4b7d228301ff12eeef059f28d20b19ebd7c29b4 [1/1] ANDROID: wakeupbypass: Add vendor hook for batteryswap
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260401/202604010030.bsoC0FKv-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260401/202604010030.bsoC0FKv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604010036.h2OVjfQU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604010030.bsoC0FKv-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   sparc-linux-ld: drivers/net/ethernet/sfc/efx_cxl.o: in function `efx_cxl_init':
->> drivers/net/ethernet/sfc/efx_cxl.c:89:(.text+0x198): undefined reference to `cxl_get_region_range'
-   sparc-linux-ld: drivers/net/ethernet/sfc/efx_cxl.o: in function `efx_cxl_exit':
->> drivers/net/ethernet/sfc/efx_cxl.c:120:(.text+0x234): undefined reference to `cxl_unregister_region'
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/wakeupbypass.h:17,
+                    from drivers/android/vendor_hooks.c:79:
+>> include/trace/trace_events.h:27:23: warning: 'str__wakeupbypass__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/dmabuf.h:20,
+                    from drivers/android/vendor_hooks.c:78:
+   include/trace/trace_events.h:27:23: warning: 'str__dmabuf__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/pci.h:22,
+                    from drivers/android/vendor_hooks.c:77:
+   include/trace/trace_events.h:27:23: warning: 'str__pci__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/ipv4.h:34,
+                    from drivers/android/vendor_hooks.c:76:
+   include/trace/trace_events.h:27:23: warning: 'str__ipv4__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/snd_compr.h:24,
+                    from drivers/android/vendor_hooks.c:75:
+   include/trace/trace_events.h:27:23: warning: 'str__snd_compr__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/sound.h:24,
+                    from drivers/android/vendor_hooks.c:74:
+   include/trace/trace_events.h:27:23: warning: 'str__sound__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
 
 
-vim +89 drivers/net/ethernet/sfc/efx_cxl.c
+vim +/str__wakeupbypass__trace_system_name +27 include/trace/trace_events.h
 
-    16	
-    17	int efx_cxl_init(struct efx_probe_data *probe_data)
-    18	{
-    19		struct efx_nic *efx = &probe_data->efx;
-    20		struct pci_dev *pci_dev = efx->pci_dev;
-    21		struct efx_cxl *cxl;
-    22		struct range range;
-    23		u16 dvsec;
-    24		int rc;
-    25	
-    26		probe_data->cxl_pio_initialised = false;
-    27	
-    28		/* Is the device configured with and using CXL? */
-    29		if (!pcie_is_cxl(pci_dev))
-    30			return 0;
-    31	
-    32		dvsec = pci_find_dvsec_capability(pci_dev, PCI_VENDOR_ID_CXL,
-    33						  PCI_DVSEC_CXL_DEVICE);
-    34		if (!dvsec) {
-    35			pci_info(pci_dev, "CXL_DVSEC_PCIE_DEVICE capability not found\n");
-    36			return 0;
-    37		}
-    38	
-    39		pci_dbg(pci_dev, "CXL_DVSEC_PCIE_DEVICE capability found\n");
-    40	
-    41		/* Create a cxl_dev_state embedded in the cxl struct using cxl core api
-    42		 * specifying no mbox available.
-    43		 */
-    44		cxl = devm_cxl_dev_state_create(&pci_dev->dev, CXL_DEVTYPE_DEVMEM,
-    45						pci_dev->dev.id, dvsec, struct efx_cxl,
-    46						cxlds, false);
-    47	
-    48		if (!cxl)
-    49			return -ENOMEM;
-    50	
-    51		rc = cxl_pci_setup_regs(pci_dev, CXL_REGLOC_RBI_COMPONENT,
-    52					&cxl->cxlds.reg_map);
-    53		if (rc) {
-    54			pci_err(pci_dev, "No component registers\n");
-    55			return rc;
-    56		}
-    57	
-    58		if (!cxl->cxlds.reg_map.component_map.hdm_decoder.valid) {
-    59			pci_err(pci_dev, "Expected HDM component register not found\n");
-    60			return -ENODEV;
-    61		}
-    62	
-    63		if (!cxl->cxlds.reg_map.component_map.ras.valid) {
-    64			pci_err(pci_dev, "Expected RAS component register not found\n");
-    65			return -ENODEV;
-    66		}
-    67	
-    68		/* Set media ready explicitly as there are neither mailbox for checking
-    69		 * this state nor the CXL register involved, both not mandatory for
-    70		 * type2.
-    71		 */
-    72		cxl->cxlds.media_ready = true;
-    73	
-    74		if (cxl_set_capacity(&cxl->cxlds, EFX_CTPIO_BUFFER_SIZE)) {
-    75			pci_err(pci_dev, "dpa capacity setup failed\n");
-    76			return -ENODEV;
-    77		}
-    78	
-    79		cxl->cxlmd = devm_cxl_add_memdev(&cxl->cxlds, NULL);
-    80		if (IS_ERR(cxl->cxlmd)) {
-    81			pci_err(pci_dev, "CXL accel memdev creation failed");
-    82			return PTR_ERR(cxl->cxlmd);
-    83		}
-    84	
-    85		cxl->efx_region = cxl_get_region_from_committed_decoder(cxl->cxlmd);
-    86		if (!cxl->efx_region)
-    87			return -ENODEV;
-    88	
-  > 89		rc = cxl_get_region_range(cxl->efx_region, &range);
-    90		if (rc) {
-    91			pci_err(pci_dev,
-    92				"CXL getting regions params from a committed decoder failed");
-    93			return rc;
-    94		}
-    95	
-    96		cxl->ctpio_cxl = ioremap(range.start, range_len(&range));
-    97		if (!cxl->ctpio_cxl) {
-    98			pci_err(pci_dev, "CXL ioremap region (%pra) failed", &range);
-    99			return -ENOMEM;
-   100		}
-   101	
-   102	
-   103		probe_data->cxl = cxl;
-   104	
-   105		return 0;
-   106	}
-   107	
-   108	void efx_cxl_exit(struct efx_probe_data *probe_data)
-   109	{
-   110		if (!probe_data->cxl)
-   111			return;
-   112	
-   113		iounmap(probe_data->cxl->ctpio_cxl);
-   114	
-   115		/* If the sfc cxl initialization was successful, it implies the
-   116		 * endpoint decoder had an auto discover region which is the one
-   117		 * we used and we need to remove now. Otherwise the region will
-   118		 * be around until the root port is removed.
-   119		 */
- > 120		cxl_unregister_region(probe_data->cxl->efx_region);
-   121	}
-   122	
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
+
+:::::: The code at line 27 was first introduced by commit
+:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
+
+:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
