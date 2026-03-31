@@ -1,83 +1,329 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011016.outbound.protection.outlook.com [40.107.74.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 903A82C1593
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 05:55:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774936542; cv=none; b=sjngsCSz80mQBQx/1xpig8CUTeFUmMsWKMCpSh44DzOe2/Bquo0n69zXV3kdquY8V5+dv05eKGDPVg1Wx11rFyPtbdxcYZe2QnJo8Lm79nTMVZpyG4s2IrbGfDY5Tl5ipYYzjxQaUtGeGF4ppCs8j8148agUDlSYwRNnzJFoad4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774936542; c=relaxed/simple;
-	bh=yoblPelc4LxYW9h+wPePcx2/7N/5FFEez027JRaR7RY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=k/eqAuyD+aLGj9qoW8MHafIRkpuwtpqOeg1Mtqx3tu2Sf9vSpJdIEandzEpq3jAVk7XLwTbAy36GBgWh1r5N6rg6V4L3mfkuuBPnRhY/TAu6Z2Svp0VTIyJ6eSzU8lX5uYWtEyn1DiIXQOAzELYAz3AigoMBv4+FzV98HLN3VTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FIGeFPeJ; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6351256C6C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 31 Mar 2026 06:10:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774937461; cv=fail; b=W8aEM8+58d42BXy3HrDB2TFs2JZD+h5KFqI1AlJS0bQVthQPZTXAMiDxCQkfo3wjgHjR/73xz7bFZmVsTBYAoZ2Ifr7rZtUkbWE0uHcB6aTMIWCBjoYV8Zbj7wLOC1O8P4CsqBxI2cvbRAJyx1c7+lp8smwQHuO/rab+MWhq59o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774937461; c=relaxed/simple;
+	bh=MzN3Esqf3kwTkykJZ9XvpG7kAsC7i8RzxV50Y1F9Xzk=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=sz+mC2bQfqLnWsOiWJaJlMq5NaXP5RLMrniOiFkZVtmz4KjifgGUbCbEFdvUdzF8AJZe2AfFvcEKA//yo7WSYbS9wr0W+RJw1p7PB4fv4KkcIBISc+cgZCWayLldO2/zRZyfYT673/j3spcOD7mOLT+4R2NCDVio8FzouL1HM58=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=cNowh795; arc=fail smtp.client-ip=40.107.74.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FIGeFPeJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774936540; x=1806472540;
-  h=date:from:to:cc:subject:message-id;
-  bh=yoblPelc4LxYW9h+wPePcx2/7N/5FFEez027JRaR7RY=;
-  b=FIGeFPeJaLOW9v4zvfJUHdCViyrwg7T77OxeiqZa5S3544ey4YRHqDha
-   9vbpE+xWw2NzIEBl+lmAsp9vLjize0LDmyeZ+rQg5GYrKLO2D6TxN+SmU
-   1qrzXEXTqfqzpBBjFNOyeAtqRTozryRTaC2lZ6ZinC1ASmmvI5BhtDO2i
-   GpB1vuQeVNTdOdgMmA1kc7UClli0cRXkeKuMmwx1ZSn+DE1Irwnkfav+8
-   4JQIOBt4AAj+c5xq3R5wRw3jpI4TWRgFE2UqCwI1ECBKfK0bLijydv+kQ
-   on13OAvJiZSlVluhNXU3Dap+dAHswLkauB/TMAPuk/u/QfJi4yRvI+OYy
-   g==;
-X-CSE-ConnectionGUID: CpiC0IlsSUOiNDqqCGAW4g==
-X-CSE-MsgGUID: 8DTsGCAtQemagPZNfOF4Xg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="86555696"
-X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
-   d="scan'208";a="86555696"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 22:55:40 -0700
-X-CSE-ConnectionGUID: 56kia9g8SVeIXtjzjygReg==
-X-CSE-MsgGUID: mH28Bu/rQvqoZbYbS43J4w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
-   d="scan'208";a="249481426"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 30 Mar 2026 22:55:39 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w7S4f-000000008Ir-0Lxg;
-	Tue, 31 Mar 2026 05:55:37 +0000
-Date: Tue, 31 Mar 2026 07:54:44 +0200
-From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:kdevops 26/26] Warning: fs/nfsd/nfs4xdr.c:4302
- function parameter 'nf' not described in 'nfsd4_encode_dir_attr_change'
-Message-ID: <202603310741.ZGPHn7nd-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="cNowh795"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uLpnBn0C9WEJSWo7k53rQ2gkMpks22GqJVSa6rr9juOHAXiWdwkexYUBeImBK7g0VZILZuG3JMm143d/29SyxzKOEa55KPnlII0mn8+J2SuIxUNGYWYu5zOY0ydBm8qaFEDFd2ynaNgksJ/G3nMZFm2N3qjL31GSD4sbam05ZUNH6FiD3RJ7mAapLXfAKQswmyIbTFsULW6/KKMe7SGcrmjlS+92e+hfQbN8E+dG06aoOHzYlBkO0yWNA2Et5A6v8SMGJfEPC3Z6tVI1cpMBJ3psAiUf3aPTRLaJ/3K5pOGVbc0uxP5ETnVI40qgMpSwP1wMhzySGhPsnyL+NWYp5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nw8ochSASFCBH/e/r+4OLZ8elCCCtW7t6ffhD234AZA=;
+ b=i56MgejvYUF5dqLpBsTxfeVPcS7Q6r0z2mUuO3neLC3426gXgiu47ltgsyhYTDOmk8xxTDlbMDUmTk9xiwF+avQ/zKOPHjfBkFpDzcP8pPlKYZka/v5MiMsXYi+8UZFGMlQJh6M2QkaeI93POpwGkp98CY3pi/6B+drPk+U5NCjw0njccyEvDp9fe2M/Jev0NR/Am7e+iWmKGvM99C89j49dfpk37W54OVG8WEr0B+S83e8LfHg7Hrwpm7vvoc3vplbigDFEvvNoT49IxikPw1yPXCoVuJvj/zf8i0sz4Th7bGHYkwAS16avv//Efj7L9Vy2/GvfIqFg/5rnJpjrXQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nw8ochSASFCBH/e/r+4OLZ8elCCCtW7t6ffhD234AZA=;
+ b=cNowh795aZoUfVCLaDjgp44H+rG7fB+XTOXWQwCAktWAwlndJ8Sr0UL3FGQdeR+Tw674KpuApg099EmdouxUfkyDgQi7B0UShYEsZP7246Xj/HdDMN/javmEt7AYgMDCyDUR8Eaol0t3Agw+KMuHKyufCq7MDhkCKe1iFjFhLDw=
+Received: from TY4PR01MB14282.jpnprd01.prod.outlook.com (2603:1096:405:20d::9)
+ by TYRPR01MB14194.jpnprd01.prod.outlook.com (2603:1096:405:21b::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.28; Tue, 31 Mar
+ 2026 06:10:50 +0000
+Received: from TY4PR01MB14282.jpnprd01.prod.outlook.com
+ ([fe80::655d:9c47:4499:eb3a]) by TY4PR01MB14282.jpnprd01.prod.outlook.com
+ ([fe80::655d:9c47:4499:eb3a%5]) with mapi id 15.20.9745.027; Tue, 31 Mar 2026
+ 06:10:50 +0000
+From: Michael Dege <michael.dege@renesas.com>
+To: kernel test robot <lkp@intel.com>, Yoshihiro Shimoda
+	<yoshihiro.shimoda.uh@renesas.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH net-next v2 13/13] net: renesas: rswitch: add vlan aware
+ switching
+Thread-Topic: [PATCH net-next v2 13/13] net: renesas: rswitch: add vlan aware
+ switching
+Thread-Index: AQHcvcOxXIAGYdaK3Uq+oriZ6kMYRbXF/AIAgAIxHfA=
+Date: Tue, 31 Mar 2026 06:10:49 +0000
+Message-ID:
+ <TY4PR01MB142828994B921A75367AEC5368253A@TY4PR01MB14282.jpnprd01.prod.outlook.com>
+References: <20260327-rswitch_add_vlans-v2-13-d7f4358ca57a@renesas.com>
+ <202603300436.ryIgiB0z-lkp@intel.com>
+In-Reply-To: <202603300436.ryIgiB0z-lkp@intel.com>
+Accept-Language: en-US, en-GB
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY4PR01MB14282:EE_|TYRPR01MB14194:EE_
+x-ms-office365-filtering-correlation-id: 0bad9ac1-6cf4-481f-691e-08de8eec41c6
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|7416014|1800799024|376014|366016|13003099007|38070700021|18092099006|18002099003|56012099003|22082099003;
+x-microsoft-antispam-message-info:
+ 7VpU5nTEw8WP0Gg6x5RGKMmjvU289HHx4PROwv2CZvjlNQ83xiWALXJZZgfcOCEjms7pUP7eID/mSIXLFh1WyjttliY7fqc9NW+ZeeMYIpSNu51HuR7OV8Nwi+0l7QAhe8WBFMKJ06/apPycYRnA+OkG7m4te9DwWANAl2Hzc7qCZtX2RQKgzeh6kUXbva82J+kE74K+n2PbwezoAHbvOgYiu4xY/HxTLBFiPmVeI4goZuXX6mkXYBwDFE5z2Hi+FlKFTI26qwj5CoORNQe0uWPwRIGLSUQB4/Z8lCIvqzC9qtpoRuFftdJt8QCQo36wf+qQuJZOJ8wKBYYGAdOaCkOPa8G1IfGTVft/Q0cPDNYvLfuBamrQMwxTIift4Fu4ZK722tBfNLJGv23j6a7ctnTbIfRUhEiaqm4Y35OgM4rNpL9btxWriHPXJG20wueG1DoCfhEcoNTm8RrDFsVJIbPaL5z4NCSM3jPQ3KEk0r9Rr+NzPa/HRq15QoU0kTe3HLEKelDhplSjKrVIfWJ1rFo0o8OjbkNyn34E1aYbq8C5CzNNyJtRNJx2nxCbA7K0wmVm/soA6Aecy19qVy73WtDX/YazTi31ImDhs7+50tZAqZxxjR+zz+CDB9nxO7FJuPC7D7B5YMkCMhi3yj0thunTxGnBiYfiylpcSeFu/R6UonP0VVL6N4VMk/fmT9N1/fvPnYmU/UOsRzV8SyVTyHc1g7YGIlGnIjWnRsjRG4N/IHKBTGLFpfvBY6UuTzVs
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY4PR01MB14282.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016)(13003099007)(38070700021)(18092099006)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?9fLWvwS2Y+QTRX0zsGFMOEN9fJzysjH3IYwbQhxV3bBh5/f5qnm2BLJ8sK0k?=
+ =?us-ascii?Q?F1A5WATBTLheBCtWZf3gHzsK6ETT7k1OJJb2QtwW2LH7Phpmxe7AT9RfgDqq?=
+ =?us-ascii?Q?/+x3ER5kEEOgRnS43vO6O0kJC8PZscAvRy+l3nbACyyBa2bnKuyeADSo4kL2?=
+ =?us-ascii?Q?CzPX5fYbbRXZcsvLePoEzIcwW3/d7QcglEDzsjwVgEnOCA4tOR7v5Ju3fgh4?=
+ =?us-ascii?Q?5iJqSjWkGFkqpNMe5HRN1t6dlmUIEzWAb/wxr2u+rPv0u/LdO8ezBufXN4WS?=
+ =?us-ascii?Q?nZ581v9vo7VUGANyHeRTLe3IZWDNgE+ot/6hvIqz3zRjXGBYu6DeLy0MvTqF?=
+ =?us-ascii?Q?putgidwjjBVApn/6SqiUHLT322WWdRkYvQ8pclyc/as+LTGLU38Ku09AysPg?=
+ =?us-ascii?Q?7n1CTf58HsnxqPYCStnTYFNCiNFLaQBnuRgTO0YvruCOapmfbBKeZBw3qk4E?=
+ =?us-ascii?Q?s89zGBqzhacVfAuvNd7/hC3Bji7gkY42UKn5GxfpByYa1l7s19sMJ3FNdwCT?=
+ =?us-ascii?Q?ngTLngoIEJOguLVXeDBvuw7awmjPNz6JEz7vGr51FJj8q50IaF9TuDlJwusm?=
+ =?us-ascii?Q?nAnb8PUBxSfznqL7dcDDAPCZe9EzlzUoG5Sb9RrC6l/jnQ6KkMe/mxSIw9Sa?=
+ =?us-ascii?Q?ppacB56eHWNeJsIzGENapKXbubpN+pY0bap+Y6EwX7kl83d5yKhkszkBbKd+?=
+ =?us-ascii?Q?MFNi31Hile0SQ5fcSPipsS9HeHTk/zrB9mQGZuT5eO1oSEbJv25jbaTZiQXM?=
+ =?us-ascii?Q?2Yxv2ZVeR3BKsbJANO8U3jLzdu3l85akohYbCx/anJAdENuMcQ+oJsxLYp/u?=
+ =?us-ascii?Q?/adJDUwpbkOyvahgU9RAHivR/n5BleVyK6P6upzq/UcrUjJMKNAzTRnVmYmG?=
+ =?us-ascii?Q?pdamY/Sr0//9nzXlvaKjyefgXx9PBZjgNrfQQIS5alxZUAh29SC14nAUnnwN?=
+ =?us-ascii?Q?/DGCG94jo55787+NDzE8/q9C73BfBvjegR2LIEQxMAQrSXOwgjpulUUpQCN7?=
+ =?us-ascii?Q?RpzGCR4ncPWcopFs1fEJR1lnbDu8AeTrDVQYUMci2nYTJKta5utjkk1d1VOj?=
+ =?us-ascii?Q?e2pehx9u6OX57puu+mQzDe17wL0uFrrUOhgF0PPWugCP+RA2NoUuT0hQP1es?=
+ =?us-ascii?Q?lfmC484VJkLTIkiM6oOqHG8X+wsFdTk8tMOPu5P/OJ28ED1wjZpdfGNKuiil?=
+ =?us-ascii?Q?Pw/wSKhj4byolWKonSyMszC0uHitNkiE6x0uVNmWIUsGKr1cNcOQGf/ci699?=
+ =?us-ascii?Q?ATiPA9gsADzZiSJ89m0njsuLpVGfYJ2eujoSGe70+eKSkzwjr7qbS/FcCuYh?=
+ =?us-ascii?Q?Z5DI2kBoDxVLzblFFW7maPZQOmX6o5sR89XwEVYnmNcPxslI8qRgvwDl/FX6?=
+ =?us-ascii?Q?Arm9lQFDFnQZtIqb+98Yu9ioKUvXj6Eg0jrWsiIaQmbq1lxmaLI0xRHH4NMA?=
+ =?us-ascii?Q?HoHPBF26hDT4RmgpxHCvXLhz0vgEfqVpnzZM96q2Fbhl4EqHjxbKanyAm4s6?=
+ =?us-ascii?Q?mzQU3CjtyT7p68T2CrMG4N/RVMzRyJ7zcOru7oRg/9qembt38mbuLpKJ79hz?=
+ =?us-ascii?Q?bIR+nZYWuCjhdWFuHQ57g4+zNjkITMVvl1Q3oLQvnE8rIVGhDNhBgYn4Ihg3?=
+ =?us-ascii?Q?TBCfBCWjKS7buEg81ywEJKWyNPkIZESAGLmoeFHq2/2wbz9o2Ns3rtmTwzFD?=
+ =?us-ascii?Q?xQXb78HNXu2NQuOumyAo7JdXk8Nz4lcziDI/LcDCy6baH8ncaAD6PTUiFZe7?=
+ =?us-ascii?Q?dodSjCZswQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY4PR01MB14282.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0bad9ac1-6cf4-481f-691e-08de8eec41c6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Mar 2026 06:10:49.9493
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 2mjzS1vjSJ9y4JjNdX8VV+iAwQhUbok/TNXmcj1VBOh+Uk3va+MMcqNd4fzbGkz4qrchISfylIGeOWfcYQiD1+0oBX4L+f8jSeC/BsN2soo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRPR01MB14194
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git kdevops
-head:   41363e319407643cd357c31a12fd344cfc9eaf48
-commit: 41363e319407643cd357c31a12fd344cfc9eaf48 [26/26] nfsd: add support to CB_NOTIFY for dir attribute changes
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260331/202603310741.ZGPHn7nd-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603310741.ZGPHn7nd-lkp@intel.com/reproduce)
+Hello,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603310741.ZGPHn7nd-lkp@intel.com/
+Who can kindly help me with this?
 
-All warnings (new ones prefixed by >>):
+> -----Original Message-----
+> From: kernel test robot <lkp@intel.com>
+> Sent: Sunday, March 29, 2026 10:37 PM
+> To: Michael Dege <michael.dege@renesas.com>; Yoshihiro Shimoda <yoshihiro=
+.shimoda.uh@renesas.com>;
+> Andrew Lunn <andrew+netdev@lunn.ch>; David S. Miller <davem@davemloft.net=
+>; Eric Dumazet
+> <edumazet@google.com>; Jakub Kicinski <kuba@kernel.org>; Paolo Abeni <pab=
+eni@redhat.com>
+> Cc: oe-kbuild-all@lists.linux.dev; netdev@vger.kernel.org; linux-renesas-=
+soc@vger.kernel.org; linux-
+> kernel@vger.kernel.org; Michael Dege <michael.dege@renesas.com>
+> Subject: Re: [PATCH net-next v2 13/13] net: renesas: rswitch: add vlan aw=
+are switching
+>
+> Hi Michael,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on 1f318b96cc84d7c2ab792fcc0bfd42a7ca890681]
+>
+> url:    https://github.com/intel-lab-
+> lkp%2Flinux%2Fcommits%2FMichael-Dege%2Fnet-renesas-rswitch-improve-port-c=
+hange-mode-
+> functions%2F20260329-
+> 154812&data=3D05%7C02%7Cmichael.dege%40renesas.com%7C27cab84d6f7640e15b4f=
+08de8dd3108a%7C53d82571da1947e4
+> 9cb4625a166a4a2a%7C0%7C0%7C639104134822998103%7CUnknown%7CTWFpbGZsb3d8eyJ=
+FbXB0eU1hcGkiOnRydWUsIlYiOiIw
+> LjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C=
+&sdata=3DuP5U8NPFi2wo7VJDRGZ%2B
+> ubwH50bZDvNuapBP0t76lL0%3D&reserved=3D0
+> base:   1f318b96cc84d7c2ab792fcc0bfd42a7ca890681
+> patch link:
+> https://lore.kernel.org/r/20260327-
+> rswitch_add_vlans-v2-13-
+> d7f4358ca57a%2540renesas.com&data=3D05%7C02%7Cmichael.dege%40renesas.com%=
+7C27cab84d6f7640e15b4f08de8dd31
+> 08a%7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C639104134823016624%7CUnk=
+nown%7CTWFpbGZsb3d8eyJFbXB0eU
+> 1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjo=
+yfQ%3D%3D%7C0%7C%7C%7C&sdata=3D
+> 2QTz%2BFk8tDeHuE2Ac5ddl8tJ2mFSrm9l9mGnnLDsdW4%3D&reserved=3D0
+> patch subject: [PATCH net-next v2 13/13] net: renesas: rswitch: add vlan =
+aware switching
+> config: arm64-defconfig
+> (https://download.01.org/0day-
+> ci%2Farchive%2F20260330%2F202603300436.ryIgiB0z-
+> lkp%40intel.com%2Fconfig&data=3D05%7C02%7Cmichael.dege%40renesas.com%7C27=
+cab84d6f7640e15b4f08de8dd3108a%
+> 7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C639104134823028947%7CUnknown=
+%7CTWFpbGZsb3d8eyJFbXB0eU1hcG
+> kiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%=
+3D%3D%7C0%7C%7C%7C&sdata=3Dvhwu
+> KaGAF4bhfSTb1VhDnII4SXsKbZ0zEPRt8ma49aM%3D&reserved=3D0)
+> compiler: aarch64-linux-gcc (GCC) 15.2.0 reproduce (this is a W=3D1 build=
+):
+> (https://download.01.org/0day-
+> ci%2Farchive%2F20260330%2F202603300436.ryIgiB0z-
+> lkp%40intel.com%2Freproduce&data=3D05%7C02%7Cmichael.dege%40renesas.com%7=
+C27cab84d6f7640e15b4f08de8dd310
+> 8a%7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C639104134823040554%7CUnkn=
+own%7CTWFpbGZsb3d8eyJFbXB0eU1
+> hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoy=
+fQ%3D%3D%7C0%7C%7C%7C&sdata=3DY
+> TddyGPjtxfccjUPlLwizqOqUHOuiRxPxMqoNaHWW%2Bk%3D&reserved=3D0)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of the same
+> patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes:
+> | https://lore/
+> | .kernel.org%2Foe-kbuild-all%2F202603300436.ryIgiB0z-lkp%40intel.com%2F
+> | &data=3D05%7C02%7Cmichael.dege%40renesas.com%7C27cab84d6f7640e15b4f08de=
+8
+> | dd3108a%7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C63910413482305219
+> | 2%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIs
+> | IlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3D4=
+B
+> | 1hVOdPuyjze1HZCUi2v3gamNPgyeYcmx5NNzrDFjw%3D&reserved=3D0
+>
+> All errors (new ones prefixed by >>):
+>
+>    aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+>    aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+>    aarch64-linux-ld: drivers/net/ethernet/renesas/rswitch_l2.o: in functi=
+on
+> `rswitch_port_obj_do_add_gwca':
+> >> drivers/net/ethernet/renesas/rswitch_l2.c:443:(.text+0x11e0): undefine=
+d reference to
+> `br_vlan_enabled'
+>    aarch64-linux-ld: drivers/net/ethernet/renesas/rswitch_l2.o: in functi=
+on `rswitch_port_obj_do_add':
+>    drivers/net/ethernet/renesas/rswitch_l2.c:412:(.text+0x135c): undefine=
+d reference to
+> `br_vlan_enabled'
+> >> aarch64-linux-ld: drivers/net/ethernet/renesas/rswitch_l2.c:423:(.text=
++0x13bc): undefined reference
+> to `br_vlan_enabled'
+>
+>
+> vim +443 drivers/net/ethernet/renesas/rswitch_l2.c
+>
+>    402
+>    403        static int rswitch_port_obj_do_add(struct net_device *ndev,
+>    404                                           struct switchdev_obj_por=
+t_vlan *p_vlan)
+>    405        {
+>    406                struct rswitch_device *rdev =3D netdev_priv(ndev);
+>    407                struct rswitch_private *priv =3D rdev->priv;
+>    408                struct rswitch_etha *etha =3D rdev->etha;
+>    409                int err;
+>    410
+>    411                /* Set Rswitch VLAN mode */
+>    412                iowrite32(br_vlan_enabled(rdev->brdev) ? FIELD_PREP=
+(FWGC_SVM, C_TAG) : 0,
+>    413                          priv->addr + FWGC);
+>    414
+>    415                err =3D rswitch_write_vlan_table(priv, p_vlan->vid,=
+ etha->index);
+>    416                if (err < 0)
+>    417                        return err;
+>    418
+>    419                /* If the default vlan for this port has been set, =
+don't overwrite it. */
+>    420                if (ioread32(etha->addr + EAVCC))
+>    421                        return NOTIFY_DONE;
+>    422
+>  > 423                if (br_vlan_enabled(rdev->brdev))
+>    424                        rswitch_modify(priv->addr, FWPC0(etha->inde=
+x), 0, FWPC0_VLANSA |
+> FWPC0_VLANRU);
+>    425
+>    426                rswitch_modify(priv->addr, FWPC2(AGENT_INDEX_GWCA),
+>    427                               FIELD_PREP(FWPC2_LTWFW, BIT(etha->in=
+dex)),
+>    428                               0);
+>    429
+>    430                return rswitch_port_set_vlan_tag(etha, p_vlan, fals=
+e);
+>    431        }
+>    432
+>    433        static int rswitch_port_obj_do_add_gwca(struct net_device *=
+ndev,
+>    434                                                struct rswitch_priv=
+ate *priv,
+>    435                                                struct switchdev_ob=
+j_port_vlan *p_vlan)
+>    436        {
+>    437                int err;
+>    438
+>    439                if (!(p_vlan->flags & BRIDGE_VLAN_INFO_BRENTRY))
+>    440                        return NOTIFY_DONE;
+>    441
+>    442                /* Set Rswitch VLAN mode */
+>  > 443                iowrite32(br_vlan_enabled(ndev) ? FIELD_PREP(FWGC_S=
+VM, C_TAG) : 0, priv->addr +
+> FWGC);
+>    444
+>    445                err =3D rswitch_write_vlan_table(priv, p_vlan->vid,=
+ AGENT_INDEX_GWCA);
+>    446                if (err < 0)
+>    447                        return err;
+>    448
+>    449                /* If the default vlan for this port has been set, =
+don't overwrite it. */
+>    450                if (ioread32(priv->addr + GWVCC))
+>    451                        return NOTIFY_DONE;
+>    452
+>    453                return rswitch_gwca_set_vlan_tag(priv, p_vlan, fals=
+e);
+>    454        }
+>    455
+>
 
-   Warning: fs/nfsd/nfs4xdr.c:4236 function parameter 'nf' not described in 'nfsd4_encode_notify_event'
->> Warning: fs/nfsd/nfs4xdr.c:4302 function parameter 'nf' not described in 'nfsd4_encode_dir_attr_change'
-   Warning: fs/nfsd/nfs4xdr.c:4236 function parameter 'nf' not described in 'nfsd4_encode_notify_event'
->> Warning: fs/nfsd/nfs4xdr.c:4302 function parameter 'nf' not described in 'nfsd4_encode_dir_attr_change'
+The function br_vlan_enabled() is exported from br_vlan.c and the header fi=
+le is if_bridge.h. Can anyone
+give me a hint what might be wrong?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thank you and best regards,
+
+Michael
+
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-
+> tests%2Fwiki&data=3D05%7C02%7Cmichael.dege%40renesas.com%7C27cab84d6f7640=
+e15b4f08de8dd3108a%7C53d82571da
+> 1947e49cb4625a166a4a2a%7C0%7C0%7C639104134823063970%7CUnknown%7CTWFpbGZsb=
+3d8eyJFbXB0eU1hcGkiOnRydWUsIl
+> YiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C=
+%7C%7C&sdata=3DwG2VKo2Ln60Ld4KV
+> 8wHTcxRyskg0hzu0dZSVMg4v73g%3D&reserved=3D0
