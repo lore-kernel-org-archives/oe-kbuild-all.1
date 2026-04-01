@@ -1,100 +1,97 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61399158535;
-	Wed,  1 Apr 2026 00:15:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A64A25B1EB
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Apr 2026 00:26:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775002560; cv=none; b=TuLGlwoqjA94rGUa5EgFP1TNlG3gvuL4ewUYL0AXzSWHZQupW/+/nCAO++sDxPysvgFL/mc4r0zm1b3SDkTNcBRQVKzKnDEj3boN7xIRNK+mNKM8P9C3k9hUPs+dzfth3GH3t3CMx4luMTaSPh5b+rqHnDgtXJesKnI6i/dz3Mk=
+	t=1775003218; cv=none; b=sOtIf7SZrE7HyZdjhMJJNIvxOu2hguL+VXH/cilXyx9iwyc8+i6eaeUo3VM+3zAqT5G8Rc6C2FRBGKSNzvUxdcZ/L96p7k1FPpy3ApFlQcFOOKa8ckbus7JEQT/ukoYJZdiRc++QAaLX3N8yCdHsdtP2ySAAOIn2cULjsJX9YY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775002560; c=relaxed/simple;
-	bh=p8Z3lolQagYsE0bHiEOMDsAn1qm62Ea/Xke5C/hxLEc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cgvBfhDwXeMxJnd4iQgbrETyOGOkCrTMJk/Ipz6Xv2YpgPkrld1pCZdzNdRpz1Ps2teCC3zkQzhpBI0BPO3aCor/BxRw77ytzszQIDLgUG+urMIrDMCtWACuTL2uoI4OgNpfkmGMNxsrbwwjgpFPQURUDYY/yIbAJmplD1nnyOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VbrRjoH2; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1775003218; c=relaxed/simple;
+	bh=zEYJgFyJoX7bJJWfBCfy2tnwkAhrBUpGc6el5JSwmPc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=i466l0h4784gZYhqSRfHmPJTTcYIrFRBmzjmnBnqxpJ1rHtLVa1p2Ys1WYspUZcTfDeosCG/OJjhojNeHxLmkEHWL6ZrKUFAqY/zHZMMA3V8y/JqfTr5ZbMmzA0gqm7bH8NX5e57iVhn43ro83P5KtEKsglCyC21tBGxjy1xInA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ArLi82dV; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VbrRjoH2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ArLi82dV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775002560; x=1806538560;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=p8Z3lolQagYsE0bHiEOMDsAn1qm62Ea/Xke5C/hxLEc=;
-  b=VbrRjoH2XEaU9v40+VHTnmOfvjeFuudtWKaqFNrnV5cuEmj31J8Wdqk1
-   MjwxUbmB4s0r9jHlnbr+a2URciLQFDEu7uQ5ABNKhBYMMinKq2kK0+eEc
-   Fn25JLjnEccSo2qZFa7/2O1lOP1Mko1qb/Ev9N8nLTOMbiWsiGe7+BNfn
-   +OBaZBPtHUWKt7M2NilzeK/3v6x1/Nz2DWbW5x4l+xeskeESY33h2cvun
-   DxwBVzVbG7fo6atbk4CvsKaaBRXuPhp5vP5U8mOiHEgyv1jw8+1UE+1Xj
-   rOyMba/SoCcfy9G1wQr7cf2ZmmWIyh6MPue10BPYHWsvgwP4XGbxpvh3D
-   w==;
-X-CSE-ConnectionGUID: Wbriv4YQQC+YSV2iqwPKOw==
-X-CSE-MsgGUID: 0Lis/gXxRZKwSu6QpCexyw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="75069427"
+  t=1775003217; x=1806539217;
+  h=date:from:to:cc:subject:message-id;
+  bh=zEYJgFyJoX7bJJWfBCfy2tnwkAhrBUpGc6el5JSwmPc=;
+  b=ArLi82dV5BIOC8zYvao1ydDUN2BsAu9CJCtxNhhlT+s+Gy/bEeGEKXiz
+   JwGrbXrj2AQ815zQ2TMnjPZNLmZVafjggLBvtjn5ucibA2WVP3KCkU7cQ
+   aU3nptgRqJGZqrlJxY4bQtePsNjSf0mbflG8sJnE7VBXL+QF1yM/hD6RO
+   yaGDsaDv98uHdFamFp0sDzQBHtK0c8tA//nO9q1JXsUob4rj36v7b+Jkm
+   Nxzg9Pu9kzCpI4ci+0VK0FxMUxjY2G4N4J4QsykSMNN6u83ONAr4jgVuU
+   A+vggMhSHC0pyHWGAx+WRM2M1U54MKBYRFGXWxRiFsYHsmC/nUITqtb0t
+   Q==;
+X-CSE-ConnectionGUID: Hjsnu7FDTbOx4j9a7WyYNA==
+X-CSE-MsgGUID: SU+Gdik8T5i7Os6O7QFalw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="87108095"
 X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
-   d="scan'208";a="75069427"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 17:15:59 -0700
-X-CSE-ConnectionGUID: 1A2psLgWTLyT/b+bsyLG1w==
-X-CSE-MsgGUID: vUdoNcJwSeKHnAQ92R5I9w==
+   d="scan'208";a="87108095"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 17:26:56 -0700
+X-CSE-ConnectionGUID: cIg2SwGYRyO5V/09VxqinA==
+X-CSE-MsgGUID: iT0KU1EmTcmdJEm10V4VjA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
-   d="scan'208";a="226388635"
+   d="scan'208";a="221667799"
 Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 31 Mar 2026 17:15:56 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 31 Mar 2026 17:26:55 -0700
 Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w7jFQ-000000004Sj-1XBm;
-	Wed, 01 Apr 2026 00:15:52 +0000
-Date: Wed, 1 Apr 2026 08:15:22 +0800
+	id 1w7jQ4-000000004TJ-38OU;
+	Wed, 01 Apr 2026 00:26:52 +0000
+Date: Wed, 01 Apr 2026 08:26:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: david.laight.linux@gmail.com, Kees Cook <kees@kernel.org>,
-	linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	David Laight <david.laight.linux@gmail.com>
-Subject: Re: [PATCH next 2/3] fortify: Optimise strnlen()
-Message-ID: <202604010835.IWCsUV7z-lkp@intel.com>
-References: <20260330132003.3379-3-david.laight.linux@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.10-2025-05 0/1]
+ drivers/staging/android/debug_kinfo.c:164:34: warning: 'debug_kinfo_of_match'
+ defined but not used
+Message-ID: <202604010842.7leMbYuw-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260330132003.3379-3-david.laight.linux@gmail.com>
 
-Hi,
+Hi Jone,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on next-20260327]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/david-laight-linux-gmail-com/fortify-replace-__compiletime_lessthan-with-statically_true/20260331-041123
-base:   next-20260327
-patch link:    https://lore.kernel.org/r/20260330132003.3379-3-david.laight.linux%40gmail.com
-patch subject: [PATCH next 2/3] fortify: Optimise strnlen()
-config: x86_64-buildonly-randconfig-001-20260331 (https://download.01.org/0day-ci/archive/20260401/202604010835.IWCsUV7z-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260401/202604010835.IWCsUV7z-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android12-5.10-2025-05
+head:   caa86441f12251704c5f34931d7508bb26b79ba1
+commit: e7be908f88dbde1df94db83d6c7a23b117de0f36 [0/1] ANDROID: staging: add debug-kinfo driver
+config: i386-randconfig-006-20260401 (https://download.01.org/0day-ci/archive/20260401/202604010842.7leMbYuw-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260401/202604010842.7leMbYuw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604010835.IWCsUV7z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604010842.7leMbYuw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: __fortify_undefined
-   >>> referenced by fortify-string.h:290 (include/linux/fortify-string.h:290)
-   >>>               vmlinux.o:(parse_early_param)
-   >>> referenced by fortify-string.h:218 (include/linux/fortify-string.h:218)
-   >>>               vmlinux.o:(parse_early_param)
-   >>> referenced by fortify-string.h:290 (include/linux/fortify-string.h:290)
-   >>>               vmlinux.o:(setup_boot_config)
-   >>> referenced 2103 more times
+>> drivers/staging/android/debug_kinfo.c:164:34: warning: 'debug_kinfo_of_match' defined but not used [-Wunused-const-variable=]
+     164 | static const struct of_device_id debug_kinfo_of_match[] = {
+         |                                  ^~~~~~~~~~~~~~~~~~~~
+
+
+vim +/debug_kinfo_of_match +164 drivers/staging/android/debug_kinfo.c
+
+   163	
+ > 164	static const struct of_device_id debug_kinfo_of_match[] = {
+   165		{ .compatible	= "google,debug-kinfo" },
+   166		{},
+   167	};
+   168	MODULE_DEVICE_TABLE(of, debug_kinfo_of_match);
+   169	
 
 -- 
 0-DAY CI Kernel Test Service
