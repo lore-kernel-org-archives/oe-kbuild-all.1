@@ -1,154 +1,166 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8F31233721;
-	Wed,  1 Apr 2026 04:10:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83A5B301493
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Apr 2026 04:22:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775016643; cv=none; b=TZFSFewKOFuf0OsD7kShtSn/yfl8YyKXhIEUA2vhh2JjzYlF09+ZFkA2J/zNCCvLky6mHdzwdPcY//juy5RqP+kjL51OAbWo7YhOet/2GNd9K57j/UTfTz6uC+j7UICfQix3pzQCDZ5d/r00cJGFa72+eBMpu4BjjaqjNoHEgok=
+	t=1775017380; cv=none; b=UOX/OLqwvO0IF/b+JW0tQbiIF90PKOmtNfa9spwCWdQjsbfoUn8fni/F6Cx4bWikCsY43bdO8Jyl/jncyBiG5iTIBPvGSel3+/Rax7irPngw3L8DrHqNEPWuW26khfIsfNu37CP4foi6jIx5lJrm/K00peDdtUJTsV/14E9s0Ys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775016643; c=relaxed/simple;
-	bh=M3OXStmL1cePRFOkz0tJjaQlJFUPvHusToITRj48o48=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FPuRv95Sfq7MqAsKfGHKeF7bxdSGN8+SiXjDBeeg7t2/Ofji4qU/s6wklI2p2S/YwO8woPgRTTJtVNbcthmZz+IcK2vpUBQhnoCfUglsBMj+ahOfNo92MTOFjcmneZ9izKQ7WuD6n3a+cM2+MUvxb1vsZR5ct/LwafeHzxORSO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bB+QicMr; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1775017380; c=relaxed/simple;
+	bh=omIKvZbaLjAte5tSNkqePsgEAGpT5HrhyAyvQp3+BHg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=B5ttUwqZDXjZ1YDjagqOyifRnQPvcm5s3a4XFYp5LMLSXfNFUTqcLmJ+pYCwHXFYD9mXzKjepKsNleZFAYb6L5iJmuWxd9+bnxG6C7uyswDhf5fg78+3WKYU7vZDjXFm7Ov7SYpBj3LgYfRW2kszB/4ngCmZEBs8R8NPSzIj0+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iI0GVzGY; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bB+QicMr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iI0GVzGY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775016642; x=1806552642;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=M3OXStmL1cePRFOkz0tJjaQlJFUPvHusToITRj48o48=;
-  b=bB+QicMrBL8GZ00p25kuxWgyN4/LPAVW8S7bpUCFrwsOONhONTIYu0vN
-   VbMupIiqO+ESimwRDJlF0moM4LYZwYD2bRIlBZeT/nw+XAl/qvD0wqdqz
-   TULszGqvUwTyzkyQuKkooNmuYZUEjQauoC3nJBrm7uhjrN3AEEHh9BG3p
-   giQs6T3qnbbmFvOyenDx0qXXJaspoqNfTVjIVeNWuNBp37dnAnKlmLRTw
-   FPc0jgH8VvvnyWlDYzF6aktRoZlL6GmthWVu/gq9kOqJ6CsENECQ61uay
-   UeSe3lEp54D9+qnzcl79H1zbFnVqdGWgXE4ks9V8MCKL/4InYjmzUnNuz
-   g==;
-X-CSE-ConnectionGUID: ZMDDioxBQV+ZTN2P5D5bFw==
-X-CSE-MsgGUID: 5EH4D4HkStK+xEtbdpygOQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="78638799"
+  t=1775017378; x=1806553378;
+  h=date:from:to:cc:subject:message-id;
+  bh=omIKvZbaLjAte5tSNkqePsgEAGpT5HrhyAyvQp3+BHg=;
+  b=iI0GVzGYnG2Cte52ecouq0ZGenSSVgXqO2d69fGX6XGMKDv8xpRuBAxi
+   GAWF6CTWXm1AwtGSh8Ls8sYqIJ4QnoTVqYwzqiWcwbDR4U12XLkMH4rQu
+   TtS9V7kNcY19lyTFvZkxnPZv4AxWeQ01PoJTVB/bfhUpkP8iQQ/7iyHMT
+   6F6hYj0icmR2ysHpLsLlcUeT71lTzlkI11uEJXL4p7X966LD547CqHMGd
+   cqXp5X3fs8a5mPRSm1oQpCz/Zn9Ac1MNA+mEw/Y9AZLao26gpL9DSfd1q
+   Ro9teR/+KehBtq/oZgwTmp2g1agJHpMRoZKkfyua/7OT7eULo9PEkETAR
+   A==;
+X-CSE-ConnectionGUID: yIL1B+NMQlGqy7OrSComCw==
+X-CSE-MsgGUID: AUFrZMDgTH6FuWLwRT1L2w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="76160416"
 X-IronPort-AV: E=Sophos;i="6.23,153,1770624000"; 
-   d="scan'208";a="78638799"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 21:10:41 -0700
-X-CSE-ConnectionGUID: uqtPI94cS4OAafsD3P2hKw==
-X-CSE-MsgGUID: JUIOx9YFSrijQbjR1Ypalw==
+   d="scan'208";a="76160416"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 21:22:58 -0700
+X-CSE-ConnectionGUID: 2es2eaNAS/yAobffpZaM+w==
+X-CSE-MsgGUID: Xwnu8osSQ1CLOAvZ8Qg2hQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,153,1770624000"; 
-   d="scan'208";a="230976723"
-Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 31 Mar 2026 21:10:36 -0700
-Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
+   d="scan'208";a="221706987"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 31 Mar 2026 21:22:56 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w7muX-000000004m2-3ahq;
-	Wed, 01 Apr 2026 04:10:33 +0000
-Date: Wed, 1 Apr 2026 12:10:07 +0800
+	id 1w7n6U-000000008dl-41sD;
+	Wed, 01 Apr 2026 04:22:54 +0000
+Date: Wed, 01 Apr 2026 06:22:48 +0200
 From: kernel test robot <lkp@intel.com>
-To: Florian Eckert <fe@dev.tdt.de>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>,
-	Johan Hovold <johan+linaro@kernel.org>,
-	Sajid Dalvi <sdalvi@google.com>,
-	Ajay Agarwal <ajayagarwal@google.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Rahul Tanwar <rtanwar@maxlinear.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, Florian Eckert <fe@dev.tdt.de>,
-	Eckert.Florian@googlemail.com, ms@dev.tdt.de
-Subject: Re: [PATCH v2 4/7] PCI: intel-gw: Add start_link callback function
-Message-ID: <202604011157.4RiSNWVi-lkp@intel.com>
-References: <20260330-pcie-intel-gw-v2-4-8bd07367a298@dev.tdt.de>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:mirror-poly-aosp-pixel-malibu 1/1]
+ iommufd_utils.h:649:18: error: 'struct iommu_hw_info' has no member named
+ 'in_data_type'; did you mean 'out_data_type'?
+Message-ID: <202604010624.EwhbbCOh-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260330-pcie-intel-gw-v2-4-8bd07367a298@dev.tdt.de>
 
-Hi Florian,
+Hi Nicolin,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on f338e77383789c0cae23ca3d48adcc5e9e137e3c]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Eckert/PCI-intel-gw-Remove-unused-define/20260401-051352
-base:   f338e77383789c0cae23ca3d48adcc5e9e137e3c
-patch link:    https://lore.kernel.org/r/20260330-pcie-intel-gw-v2-4-8bd07367a298%40dev.tdt.de
-patch subject: [PATCH v2 4/7] PCI: intel-gw: Add start_link callback function
-config: arm64-randconfig-001-20260401 (https://download.01.org/0day-ci/archive/20260401/202604011157.4RiSNWVi-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260401/202604011157.4RiSNWVi-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common mirror-poly-aosp-pixel-malibu
+head:   9cbd7eeda1fe517f9ce3451fb3d7b4663df71429
+commit: 724f6df514f78613995fb5c02463e42429942495 [1/1] iommufd/selftest: Update hw_info coverage for an input data_type
+config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260401/202604010624.EwhbbCOh-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260401/202604010624.EwhbbCOh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604011157.4RiSNWVi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604010624.EwhbbCOh-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/pci/controller/dwc/pcie-intel-gw.c:329:1: warning: unused label 'err' [-Wunused-label]
-     329 | err:
-         | ^~~~
-   1 warning generated.
-
-
-vim +/err +329 drivers/pci/controller/dwc/pcie-intel-gw.c
-
-6cbd614d1f7c81 Florian Eckert 2026-03-30  296  
-733770d4a2bea0 Fan Fei        2021-12-22  297  static int intel_pcie_host_setup(struct intel_pcie *pcie)
-ed22aaaede44f6 Dilip Kota     2019-12-09  298  {
-ed22aaaede44f6 Dilip Kota     2019-12-09  299  	int ret;
-733770d4a2bea0 Fan Fei        2021-12-22  300  	struct dw_pcie *pci = &pcie->pci;
-ed22aaaede44f6 Dilip Kota     2019-12-09  301  
-733770d4a2bea0 Fan Fei        2021-12-22  302  	intel_pcie_core_rst_assert(pcie);
-733770d4a2bea0 Fan Fei        2021-12-22  303  	intel_pcie_device_rst_assert(pcie);
-733770d4a2bea0 Fan Fei        2021-12-22  304  	intel_pcie_core_rst_deassert(pcie);
-ed22aaaede44f6 Dilip Kota     2019-12-09  305  
-1927e1ec66a6ee Florian Eckert 2026-03-30  306  	/* Controller clock must be provided earlier than PHY */
-733770d4a2bea0 Fan Fei        2021-12-22  307  	ret = clk_prepare_enable(pcie->core_clk);
-ed22aaaede44f6 Dilip Kota     2019-12-09  308  	if (ret) {
-733770d4a2bea0 Fan Fei        2021-12-22  309  		dev_err(pcie->pci.dev, "Core clock enable failed: %d\n", ret);
-ed22aaaede44f6 Dilip Kota     2019-12-09  310  		goto clk_err;
-ed22aaaede44f6 Dilip Kota     2019-12-09  311  	}
-ed22aaaede44f6 Dilip Kota     2019-12-09  312  
-1cc9a559993a4a Rob Herring    2020-11-05  313  	pci->atu_base = pci->dbi_base + 0xC0000;
-1cc9a559993a4a Rob Herring    2020-11-05  314  
-1927e1ec66a6ee Florian Eckert 2026-03-30  315  	ret = phy_init(pcie->phy);
-1927e1ec66a6ee Florian Eckert 2026-03-30  316  	if (ret)
-1927e1ec66a6ee Florian Eckert 2026-03-30  317  		goto phy_err;
-1927e1ec66a6ee Florian Eckert 2026-03-30  318  
-733770d4a2bea0 Fan Fei        2021-12-22  319  	intel_pcie_ltssm_disable(pcie);
-733770d4a2bea0 Fan Fei        2021-12-22  320  	intel_pcie_link_setup(pcie);
-1cc9a559993a4a Rob Herring    2020-11-05  321  	intel_pcie_init_n_fts(pci);
-ce06bf570390fb Serge Semin    2022-06-24  322  
-1cc9a559993a4a Rob Herring    2020-11-05  323  	dw_pcie_upconfig_setup(pci);
-1cc9a559993a4a Rob Herring    2020-11-05  324  
-4db57fd92a7d2d Florian Eckert 2026-03-30  325  	intel_pcie_core_irq_enable(pcie);
-ed22aaaede44f6 Dilip Kota     2019-12-09  326  
-ed22aaaede44f6 Dilip Kota     2019-12-09  327  	return 0;
-ed22aaaede44f6 Dilip Kota     2019-12-09  328  
-1927e1ec66a6ee Florian Eckert 2026-03-30 @329  err:
-1927e1ec66a6ee Florian Eckert 2026-03-30  330  	phy_exit(pcie->phy);
-1927e1ec66a6ee Florian Eckert 2026-03-30  331  phy_err:
-733770d4a2bea0 Fan Fei        2021-12-22  332  	clk_disable_unprepare(pcie->core_clk);
-ed22aaaede44f6 Dilip Kota     2019-12-09  333  clk_err:
-733770d4a2bea0 Fan Fei        2021-12-22  334  	intel_pcie_core_rst_assert(pcie);
-ed22aaaede44f6 Dilip Kota     2019-12-09  335  
-ed22aaaede44f6 Dilip Kota     2019-12-09  336  	return ret;
-ed22aaaede44f6 Dilip Kota     2019-12-09  337  }
-ed22aaaede44f6 Dilip Kota     2019-12-09  338  
+   In file included from iommufd.c:10:
+   iommufd_utils.h: In function '_test_cmd_get_hw_info':
+>> iommufd_utils.h:649:18: error: 'struct iommu_hw_info' has no member named 'in_data_type'; did you mean 'out_data_type'?
+     649 |                 .in_data_type = data_type,
+         |                  ^~~~~~~~~~~~
+         |                  out_data_type
+>> iommufd_utils.h:655:26: error: 'IOMMU_HW_INFO_TYPE_DEFAULT' undeclared (first use in this function); did you mean 'IOMMU_HW_INFO_TYPE_SELFTEST'?
+     655 |         if (data_type != IOMMU_HW_INFO_TYPE_DEFAULT)
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                          IOMMU_HW_INFO_TYPE_SELFTEST
+   iommufd_utils.h:655:26: note: each undeclared identifier is reported only once for each function it appears in
+>> iommufd_utils.h:656:30: error: 'IOMMU_HW_INFO_FLAG_INPUT_TYPE' undeclared (first use in this function)
+     656 |                 cmd.flags |= IOMMU_HW_INFO_FLAG_INPUT_TYPE;
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from iommufd_utils.h:13:
+   iommufd.c: In function 'iommufd_ioas_setup':
+   iommufd.c:230:44: error: 'MOCK_FLAGS_DEVICE_PASID' undeclared (first use in this function); did you mean 'MOCK_FLAGS_DEVICE_NO_DIRTY'?
+     230 |                                            MOCK_FLAGS_DEVICE_PASID,
+         |                                            ^~~~~~~~~~~~~~~~~~~~~~~
+   ../kselftest_harness.h:758:20: note: in definition of macro '__EXPECT'
+     758 |         __typeof__(_seen) __seen = (_seen); \
+         |                    ^~~~~
+   iommufd_utils.h:123:9: note: in expansion of macro 'ASSERT_EQ'
+     123 |         ASSERT_EQ(0, _test_cmd_mock_domain_flags(self->fd, ioas_id, flags,     \
+         |         ^~~~~~~~~
+   iommufd.c:229:17: note: in expansion of macro 'test_cmd_mock_domain_flags'
+     229 |                 test_cmd_mock_domain_flags(self->ioas_id,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   iommufd.c: In function 'iommufd_ioas_get_hw_info':
+>> iommufd.c:618:38: error: 'IOMMU_HW_INFO_TYPE_DEFAULT' undeclared (first use in this function); did you mean 'IOMMU_HW_INFO_TYPE_SELFTEST'?
+     618 |                                      IOMMU_HW_INFO_TYPE_DEFAULT, NULL, 0);
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   ../kselftest_harness.h:758:20: note: in definition of macro '__EXPECT'
+     758 |         __typeof__(_seen) __seen = (_seen); \
+         |                    ^~~~~
+   iommufd_utils.h:701:9: note: in expansion of macro 'ASSERT_EQ'
+     701 |         ASSERT_EQ(0, _test_cmd_get_hw_info(self->fd, device_id, data_type, \
+         |         ^~~~~~~~~
+   iommufd.c:617:17: note: in expansion of macro 'test_cmd_get_hw_info'
+     617 |                 test_cmd_get_hw_info(self->device_id,
+         |                 ^~~~~~~~~~~~~~~~~~~~
+   iommufd.c:650:35: error: 'MOCK_PASID_WIDTH' undeclared (first use in this function)
+     650 |                         ASSERT_EQ(MOCK_PASID_WIDTH, max_pasid);
+         |                                   ^~~~~~~~~~~~~~~~
+   ../kselftest_harness.h:757:20: note: in definition of macro '__EXPECT'
+     757 |         __typeof__(_expected) __exp = (_expected); \
+         |                    ^~~~~~~~~
+   iommufd.c:650:25: note: in expansion of macro 'ASSERT_EQ'
+     650 |                         ASSERT_EQ(MOCK_PASID_WIDTH, max_pasid);
+         |                         ^~~~~~~~~
+   iommufd.c: In function 'iommufd_dirty_tracking_device_dirty_capability':
+   iommufd_utils.h:711:44: error: 'IOMMU_HW_INFO_TYPE_DEFAULT' undeclared (first use in this function); did you mean 'IOMMU_HW_INFO_TYPE_SELFTEST'?
+     711 |                                            IOMMU_HW_INFO_TYPE_DEFAULT, NULL, \
+         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   ../kselftest_harness.h:758:20: note: in definition of macro '__EXPECT'
+     758 |         __typeof__(_seen) __seen = (_seen); \
+         |                    ^~~~~
+   iommufd_utils.h:710:9: note: in expansion of macro 'ASSERT_EQ'
+     710 |         ASSERT_EQ(0, _test_cmd_get_hw_info(self->fd, device_id,              \
+         |         ^~~~~~~~~
+   iommufd.c:1965:9: note: in expansion of macro 'test_cmd_get_hw_capabilities'
+    1965 |         test_cmd_get_hw_capabilities(self->idev_id, caps);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from iommufd_fail_nth.c:23:
+   iommufd_utils.h: In function '_test_cmd_get_hw_info':
+>> iommufd_utils.h:649:18: error: 'struct iommu_hw_info' has no member named 'in_data_type'; did you mean 'out_data_type'?
+     649 |                 .in_data_type = data_type,
+         |                  ^~~~~~~~~~~~
+         |                  out_data_type
+>> iommufd_utils.h:655:26: error: 'IOMMU_HW_INFO_TYPE_DEFAULT' undeclared (first use in this function); did you mean 'IOMMU_HW_INFO_TYPE_SELFTEST'?
+     655 |         if (data_type != IOMMU_HW_INFO_TYPE_DEFAULT)
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                          IOMMU_HW_INFO_TYPE_SELFTEST
+   iommufd_utils.h:655:26: note: each undeclared identifier is reported only once for each function it appears in
+>> iommufd_utils.h:656:30: error: 'IOMMU_HW_INFO_FLAG_INPUT_TYPE' undeclared (first use in this function)
+     656 |                 cmd.flags |= IOMMU_HW_INFO_FLAG_INPUT_TYPE;
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   iommufd_fail_nth.c: In function 'test_nth_device':
+>> iommufd_fail_nth.c:615:54: error: 'IOMMU_HW_INFO_TYPE_DEFAULT' undeclared (first use in this function); did you mean 'IOMMU_HW_INFO_TYPE_SELFTEST'?
+     615 |         if (_test_cmd_get_hw_info(self->fd, idev_id, IOMMU_HW_INFO_TYPE_DEFAULT,
+         |                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                      IOMMU_HW_INFO_TYPE_SELFTEST
 
 -- 
 0-DAY CI Kernel Test Service
