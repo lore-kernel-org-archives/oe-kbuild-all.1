@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9A4835CBCB
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Apr 2026 05:24:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D682E92B7
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Apr 2026 05:55:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775021061; cv=none; b=Pav+rQpXKgnjm51jntVEnxfkUQAbKkfVZ1z0nyYGoFJKkTuWPFhoHNcm7gTHngwZLZDk+JWDKEbhfUkeJi0SLfKkoI7ZU2ldLC7aAbibA0EhfMQhZ+jERmXBS1Zf+GMhbSIiQD2PpQMGozyOPVZNHZlQQVyUtGsrWnYEMX7G4b0=
+	t=1775022903; cv=none; b=C86DfkBLrnoBxoeDjL2kOeLiM3bOGX5IR93q1VtYby3CZ34tBwV6mSf0c72O0jnEawEzYxtAJRvKyyxwqoRZb4nNCGKY6XUt0wK/ppGrblWtAAqoPkHN4YVV0k4PqDCIn76kRvA9EpS2hLnDMgOBIAI78mNF8jYMNVfkY831AG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775021061; c=relaxed/simple;
-	bh=XGn7wqIbPcktKO8XaYSxnBG9WLJwjDp0Ui5N0kh3yBc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gJlWNRUKDZ3LG1s+ImjnlQdWvH5OXrJwcSNe0NYDRFA207c2s/iKYNW7W9KFPJzHab/bgYx4yv8g/xJU2srOIGkXjL8IzRgnq3vY6oKB3iEs4r1PTZDw7bJTFBAIb042ynkmQKMN0TO5OdMle1W1yXyMR+vQtEnho7HCb+JsKII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jiLmPGh7; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1775022903; c=relaxed/simple;
+	bh=Al5FPDhqLF8+ncQnTKoCWaKxL4EhclZI9UfjSab4HXI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=L3888tMQvixjDLgkCxwgOiOrXVtx59v/Tqs1FpFJLxgAKAWVo3cgQUQdA+8Xmp/3iWWCwSooGwE20880cu89z6XdC5vj87K13SwMv1mXUwfRiunaWCwmXjFkLXKZs9e1IINiSLofnnCDjYOkR0zNFp3pGdOphRPI2iLkgCF7X8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dg8p9eKl; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jiLmPGh7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dg8p9eKl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775021060; x=1806557060;
+  t=1775022901; x=1806558901;
   h=date:from:to:cc:subject:message-id;
-  bh=XGn7wqIbPcktKO8XaYSxnBG9WLJwjDp0Ui5N0kh3yBc=;
-  b=jiLmPGh7ZsZUvrk9iuS3MBBtPP0JpiU/e+tSubPRFXjWzYDIkdnUsEA8
-   WAV6pkaUltgL/ugl7PNjpNvkpnfWuuOntumlMjplJg5zmMH2AnbcxvqPi
-   Dr7H2ZeFOuHx8DH82HDbY/sIRKbUtG6CmsfrRtDkTcGmxlvOv6d50z+Dv
-   tBJ6/8kXiTXuCSAWc7ICQToUy3haq2w7burajLO3w4wvuYTFhzH73Sym2
-   WMWIoaLv2cdm8aiRS8kGIAGb86PXs46EZ10wl/rmaTzIGE9vc/DV+JnLc
-   Goq/gtBDUjui1A5f7FsVr0DxAg1UBKpVMntcksTZGM/2NDcSuHPH/EyIO
-   g==;
-X-CSE-ConnectionGUID: JqdTwinCRPGi6m9R1D/uCg==
-X-CSE-MsgGUID: TzvGhKXAT5iWlUsZyPIVeg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="79653275"
+  bh=Al5FPDhqLF8+ncQnTKoCWaKxL4EhclZI9UfjSab4HXI=;
+  b=Dg8p9eKlZJ74TJ3d7NPZfEC3CrT5qpZvuRSQo3XwexsFfQfAek0kpC6y
+   +AYwLxteeigwC//ma9FHc90ktQCJKAuPMsNh0vNlIfC0nwYOh5Ohmz2Hl
+   pkEURJg9AqHbG3IThDRGTNKSctQ/9QPLc5uY+3sPtJvkLFOzXPyDUWXD1
+   FWj5MzWsGUXcqfvckmrsh3NNxycBluCEzWViXqTMNemdl8lYApRmU4a6a
+   6JktpYO1b3TcJuyTO1RIlXOxaBAGlpmr3+AbYxHKMB/lmcBu2Jixm6FqX
+   72A90jNcMmsuUJOYmXGaUFSOuxjv+ct9eM0ppIq1YlK19iGthm8KlwPOF
+   A==;
+X-CSE-ConnectionGUID: wEee8/2kTmG9qR1JeCrQOw==
+X-CSE-MsgGUID: fTvyIuneQCWj0Ns9kq1pow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="76165064"
 X-IronPort-AV: E=Sophos;i="6.23,153,1770624000"; 
-   d="scan'208";a="79653275"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 22:24:17 -0700
-X-CSE-ConnectionGUID: H1kDGT3VTuit8lY42uY4AA==
-X-CSE-MsgGUID: EtWVHV1rQuejmVLFn2g/Cg==
+   d="scan'208";a="76165064"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 22:55:00 -0700
+X-CSE-ConnectionGUID: TPLJ79lTTm+4sjs5mwr5lw==
+X-CSE-MsgGUID: Yy9PDX6nSIG5ujxk+oyeyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,153,1770624000"; 
-   d="scan'208";a="226446083"
-Received: from lkp-server01.sh.intel.com (HELO 9def6ffd2e71) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 31 Mar 2026 22:24:16 -0700
-Received: from kbuild by 9def6ffd2e71 with local (Exim 4.98.2)
+   d="scan'208";a="264513602"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 31 Mar 2026 22:54:58 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w7o3p-0000000004H-0ImT;
-	Wed, 01 Apr 2026 05:24:13 +0000
-Date: Wed, 01 Apr 2026 13:24:02 +0800
+	id 1w7oXX-000000008eP-2alr;
+	Wed, 01 Apr 2026 05:54:55 +0000
+Date: Wed, 01 Apr 2026 07:53:58 +0200
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1-2026-03 0/1]
- drivers/md/dm-bow.c:97:10: sparse: sparse: symbol 'range_top' was not
- declared. Should it be static?
-Message-ID: <202604011359.x2k6vyAG-lkp@intel.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abel Vesa <abel.vesa@oss.qualcomm.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: [linux-next:master 9844/10705]
+ arch/arm64/boot/dts/qcom/eliza-mtp.dtb: thermal-sensor@c228000
+ (qcom,eliza-tsens): compatible: 'oneOf' conditional failed, one must be
+ fixed:
+Message-ID: <202604010757.nutP4ipW-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,211 +64,82 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1-2026-03
-head:   b1ccc7ba749c4d69ac7e52c690bdcc202de4d298
-commit: 1f8f8e5cd943333327db8852f1395ca1c4439fe9 [0/1] ANDROID: dm-bow: Fix up revert remove dm-bow
-config: x86_64-randconfig-122-20260401 (https://download.01.org/0day-ci/archive/20260401/202604011359.x2k6vyAG-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260401/202604011359.x2k6vyAG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   36ece9697e89016181e5ae87510e40fb31d86f2b
+commit: 7f390d6ccbaa3313758b172fd8cbadc6c652c48a [9844/10705] arm64: dts: qcom: eliza: Add thermal sensors
+config: arm64-randconfig-2052-20260330 (https://download.01.org/0day-ci/archive/20260401/202604010757.nutP4ipW-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema: 2025.13.dev9+g4cd3cdfac
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260401/202604010757.nutP4ipW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604011359.x2k6vyAG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604010757.nutP4ipW-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/md/dm-bow.c:97:10: sparse: sparse: symbol 'range_top' was not declared. Should it be static?
->> drivers/md/dm-bow.c:148:6: sparse: sparse: symbol 'add_before' was not declared. Should it be static?
->> drivers/md/dm-bow.c:178:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:178:24: sparse:     expected int
-   drivers/md/dm-bow.c:178:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:186:32: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:186:32: sparse:     expected int
-   drivers/md/dm-bow.c:186:32: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:205:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:205:24: sparse:     expected int
-   drivers/md/dm-bow.c:205:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:282:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:282:24: sparse:     expected int
-   drivers/md/dm-bow.c:282:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:395:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:395:24: sparse:     expected int
-   drivers/md/dm-bow.c:395:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:339:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:339:24: sparse:     expected int
-   drivers/md/dm-bow.c:339:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:344:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:344:24: sparse:     expected int
-   drivers/md/dm-bow.c:344:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:350:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:350:24: sparse:     expected int
-   drivers/md/dm-bow.c:350:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:358:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:358:24: sparse:     expected int
-   drivers/md/dm-bow.c:358:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:422:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:422:24: sparse:     expected int
-   drivers/md/dm-bow.c:422:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:427:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:427:24: sparse:     expected int
-   drivers/md/dm-bow.c:427:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:437:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:437:24: sparse:     expected int
-   drivers/md/dm-bow.c:437:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:443:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:443:24: sparse:     expected int
-   drivers/md/dm-bow.c:443:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:462:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:462:24: sparse:     expected int
-   drivers/md/dm-bow.c:462:24: sparse:     got restricted blk_status_t [usertype]
->> drivers/md/dm-bow.c:553:53: sparse: sparse: Using plain integer as NULL pointer
-   drivers/md/dm-bow.c:820:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:820:24: sparse:     expected int
-   drivers/md/dm-bow.c:820:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:839:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:839:24: sparse:     expected int
-   drivers/md/dm-bow.c:839:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:932:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:932:24: sparse:     expected int
-   drivers/md/dm-bow.c:932:24: sparse:     got restricted blk_status_t [usertype]
->> drivers/md/dm-bow.c:968:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted blk_status_t [usertype] bi_status @@     got int [assigned] ret @@
-   drivers/md/dm-bow.c:968:32: sparse:     expected restricted blk_status_t [usertype] bi_status
-   drivers/md/dm-bow.c:968:32: sparse:     got int [assigned] ret
->> drivers/md/dm-bow.c:1096:5: sparse: sparse: symbol 'remap_unless_illegal_trim' was not declared. Should it be static?
->> drivers/md/dm-bow.c:1252:5: sparse: sparse: symbol 'dm_bow_prepare_ioctl' was not declared. Should it be static?
->> drivers/md/dm-bow.c:1284:12: sparse: sparse: symbol 'dm_bow_init' was not declared. Should it be static?
->> drivers/md/dm-bow.c:1293:6: sparse: sparse: symbol 'dm_bow_exit' was not declared. Should it be static?
-   drivers/md/dm-bow.c:524:21: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/md/dm-bow.c:523:26: sparse: signed value source
-
-vim +/range_top +97 drivers/md/dm-bow.c
-
-e8944a38b46967c Paul Lawrence 2023-01-25   96  
-e8944a38b46967c Paul Lawrence 2023-01-25  @97  sector_t range_top(struct bow_range *br)
-e8944a38b46967c Paul Lawrence 2023-01-25   98  {
-e8944a38b46967c Paul Lawrence 2023-01-25   99  	return container_of(rb_next(&br->node), struct bow_range, node)
-e8944a38b46967c Paul Lawrence 2023-01-25  100  		->sector;
-e8944a38b46967c Paul Lawrence 2023-01-25  101  }
-e8944a38b46967c Paul Lawrence 2023-01-25  102  
-e8944a38b46967c Paul Lawrence 2023-01-25  103  u64 range_size(struct bow_range *br)
-e8944a38b46967c Paul Lawrence 2023-01-25  104  {
-e8944a38b46967c Paul Lawrence 2023-01-25  105  	return (range_top(br) - br->sector) * SECTOR_SIZE;
-e8944a38b46967c Paul Lawrence 2023-01-25  106  }
-e8944a38b46967c Paul Lawrence 2023-01-25  107  
-e8944a38b46967c Paul Lawrence 2023-01-25  108  static sector_t bvec_top(struct bvec_iter *bi_iter)
-e8944a38b46967c Paul Lawrence 2023-01-25  109  {
-e8944a38b46967c Paul Lawrence 2023-01-25  110  	return bi_iter->bi_sector + bi_iter->bi_size / SECTOR_SIZE;
-e8944a38b46967c Paul Lawrence 2023-01-25  111  }
-e8944a38b46967c Paul Lawrence 2023-01-25  112  
-e8944a38b46967c Paul Lawrence 2023-01-25  113  /*
-e8944a38b46967c Paul Lawrence 2023-01-25  114   * Find the first range that overlaps with bi_iter
-e8944a38b46967c Paul Lawrence 2023-01-25  115   * bi_iter is set to the size of the overlapping sub-range
-e8944a38b46967c Paul Lawrence 2023-01-25  116   */
-e8944a38b46967c Paul Lawrence 2023-01-25  117  static struct bow_range *find_first_overlapping_range(struct rb_root *ranges,
-e8944a38b46967c Paul Lawrence 2023-01-25  118  						      struct bvec_iter *bi_iter)
-e8944a38b46967c Paul Lawrence 2023-01-25  119  {
-e8944a38b46967c Paul Lawrence 2023-01-25  120  	struct rb_node *node = ranges->rb_node;
-e8944a38b46967c Paul Lawrence 2023-01-25  121  	struct bow_range *br;
-e8944a38b46967c Paul Lawrence 2023-01-25  122  
-e8944a38b46967c Paul Lawrence 2023-01-25  123  	while (node) {
-e8944a38b46967c Paul Lawrence 2023-01-25  124  		br = container_of(node, struct bow_range, node);
-e8944a38b46967c Paul Lawrence 2023-01-25  125  
-e8944a38b46967c Paul Lawrence 2023-01-25  126  		if (br->sector <= bi_iter->bi_sector
-e8944a38b46967c Paul Lawrence 2023-01-25  127  		    && bi_iter->bi_sector < range_top(br))
-e8944a38b46967c Paul Lawrence 2023-01-25  128  			break;
-e8944a38b46967c Paul Lawrence 2023-01-25  129  
-e8944a38b46967c Paul Lawrence 2023-01-25  130  		if (bi_iter->bi_sector < br->sector)
-e8944a38b46967c Paul Lawrence 2023-01-25  131  			node = node->rb_left;
-e8944a38b46967c Paul Lawrence 2023-01-25  132  		else
-e8944a38b46967c Paul Lawrence 2023-01-25  133  			node = node->rb_right;
-e8944a38b46967c Paul Lawrence 2023-01-25  134  	}
-e8944a38b46967c Paul Lawrence 2023-01-25  135  
-e8944a38b46967c Paul Lawrence 2023-01-25  136  	WARN_ON(!node);
-e8944a38b46967c Paul Lawrence 2023-01-25  137  	if (!node)
-e8944a38b46967c Paul Lawrence 2023-01-25  138  		return NULL;
-e8944a38b46967c Paul Lawrence 2023-01-25  139  
-e8944a38b46967c Paul Lawrence 2023-01-25  140  	if (range_top(br) - bi_iter->bi_sector
-e8944a38b46967c Paul Lawrence 2023-01-25  141  	    < bi_iter->bi_size >> SECTOR_SHIFT)
-e8944a38b46967c Paul Lawrence 2023-01-25  142  		bi_iter->bi_size = (range_top(br) - bi_iter->bi_sector)
-e8944a38b46967c Paul Lawrence 2023-01-25  143  			<< SECTOR_SHIFT;
-e8944a38b46967c Paul Lawrence 2023-01-25  144  
-e8944a38b46967c Paul Lawrence 2023-01-25  145  	return br;
-e8944a38b46967c Paul Lawrence 2023-01-25  146  }
-e8944a38b46967c Paul Lawrence 2023-01-25  147  
-e8944a38b46967c Paul Lawrence 2023-01-25 @148  void add_before(struct rb_root *ranges, struct bow_range *new_br,
-e8944a38b46967c Paul Lawrence 2023-01-25  149  		struct bow_range *existing)
-e8944a38b46967c Paul Lawrence 2023-01-25  150  {
-e8944a38b46967c Paul Lawrence 2023-01-25  151  	struct rb_node *parent = &(existing->node);
-e8944a38b46967c Paul Lawrence 2023-01-25  152  	struct rb_node **link = &(parent->rb_left);
-e8944a38b46967c Paul Lawrence 2023-01-25  153  
-e8944a38b46967c Paul Lawrence 2023-01-25  154  	while (*link) {
-e8944a38b46967c Paul Lawrence 2023-01-25  155  		parent = *link;
-e8944a38b46967c Paul Lawrence 2023-01-25  156  		link = &((*link)->rb_right);
-e8944a38b46967c Paul Lawrence 2023-01-25  157  	}
-e8944a38b46967c Paul Lawrence 2023-01-25  158  
-e8944a38b46967c Paul Lawrence 2023-01-25  159  	rb_link_node(&new_br->node, parent, link);
-e8944a38b46967c Paul Lawrence 2023-01-25  160  	rb_insert_color(&new_br->node, ranges);
-e8944a38b46967c Paul Lawrence 2023-01-25  161  }
-e8944a38b46967c Paul Lawrence 2023-01-25  162  
-e8944a38b46967c Paul Lawrence 2023-01-25  163  /*
-e8944a38b46967c Paul Lawrence 2023-01-25  164   * Given a range br returned by find_first_overlapping_range, split br into a
-e8944a38b46967c Paul Lawrence 2023-01-25  165   * leading range, a range matching the bi_iter and a trailing range.
-e8944a38b46967c Paul Lawrence 2023-01-25  166   * Leading and trailing may end up size 0 and will then be deleted. The
-e8944a38b46967c Paul Lawrence 2023-01-25  167   * new range matching the bi_iter is then returned and should have its type
-e8944a38b46967c Paul Lawrence 2023-01-25  168   * and type specific fields populated.
-e8944a38b46967c Paul Lawrence 2023-01-25  169   * If bi_iter runs off the end of the range, bi_iter is truncated accordingly
-e8944a38b46967c Paul Lawrence 2023-01-25  170   */
-e8944a38b46967c Paul Lawrence 2023-01-25  171  static int split_range(struct bow_context *bc, struct bow_range **br,
-e8944a38b46967c Paul Lawrence 2023-01-25  172  		       struct bvec_iter *bi_iter)
-e8944a38b46967c Paul Lawrence 2023-01-25  173  {
-e8944a38b46967c Paul Lawrence 2023-01-25  174  	struct bow_range *new_br;
-e8944a38b46967c Paul Lawrence 2023-01-25  175  
-e8944a38b46967c Paul Lawrence 2023-01-25  176  	if (bi_iter->bi_sector < (*br)->sector) {
-e8944a38b46967c Paul Lawrence 2023-01-25  177  		WARN_ON(true);
-e8944a38b46967c Paul Lawrence 2023-01-25 @178  		return BLK_STS_IOERR;
-e8944a38b46967c Paul Lawrence 2023-01-25  179  	}
-e8944a38b46967c Paul Lawrence 2023-01-25  180  
-e8944a38b46967c Paul Lawrence 2023-01-25  181  	if (bi_iter->bi_sector > (*br)->sector) {
-e8944a38b46967c Paul Lawrence 2023-01-25  182  		struct bow_range *leading_br =
-e8944a38b46967c Paul Lawrence 2023-01-25  183  			kzalloc(sizeof(*leading_br), GFP_KERNEL);
-e8944a38b46967c Paul Lawrence 2023-01-25  184  
-e8944a38b46967c Paul Lawrence 2023-01-25  185  		if (!leading_br)
-e8944a38b46967c Paul Lawrence 2023-01-25  186  			return BLK_STS_RESOURCE;
-e8944a38b46967c Paul Lawrence 2023-01-25  187  
-e8944a38b46967c Paul Lawrence 2023-01-25  188  		*leading_br = **br;
-e8944a38b46967c Paul Lawrence 2023-01-25  189  		if (leading_br->type == TRIMMED)
-e8944a38b46967c Paul Lawrence 2023-01-25  190  			list_add(&leading_br->trimmed_list, &bc->trimmed_list);
-e8944a38b46967c Paul Lawrence 2023-01-25  191  
-e8944a38b46967c Paul Lawrence 2023-01-25  192  		add_before(&bc->ranges, leading_br, *br);
-e8944a38b46967c Paul Lawrence 2023-01-25  193  		(*br)->sector = bi_iter->bi_sector;
-e8944a38b46967c Paul Lawrence 2023-01-25  194  	}
-e8944a38b46967c Paul Lawrence 2023-01-25  195  
-e8944a38b46967c Paul Lawrence 2023-01-25  196  	if (bvec_top(bi_iter) >= range_top(*br)) {
-e8944a38b46967c Paul Lawrence 2023-01-25  197  		bi_iter->bi_size = (range_top(*br) - (*br)->sector)
-e8944a38b46967c Paul Lawrence 2023-01-25  198  					* SECTOR_SIZE;
-e8944a38b46967c Paul Lawrence 2023-01-25  199  		return BLK_STS_OK;
-e8944a38b46967c Paul Lawrence 2023-01-25  200  	}
-e8944a38b46967c Paul Lawrence 2023-01-25  201  
-e8944a38b46967c Paul Lawrence 2023-01-25  202  	/* new_br will be the beginning, existing br will be the tail */
-e8944a38b46967c Paul Lawrence 2023-01-25  203  	new_br = kzalloc(sizeof(*new_br), GFP_KERNEL);
-e8944a38b46967c Paul Lawrence 2023-01-25  204  	if (!new_br)
-e8944a38b46967c Paul Lawrence 2023-01-25  205  		return BLK_STS_RESOURCE;
-e8944a38b46967c Paul Lawrence 2023-01-25  206  
-e8944a38b46967c Paul Lawrence 2023-01-25  207  	new_br->sector = (*br)->sector;
-e8944a38b46967c Paul Lawrence 2023-01-25  208  	(*br)->sector = bvec_top(bi_iter);
-e8944a38b46967c Paul Lawrence 2023-01-25  209  	add_before(&bc->ranges, new_br, *br);
-e8944a38b46967c Paul Lawrence 2023-01-25  210  	*br = new_br;
-e8944a38b46967c Paul Lawrence 2023-01-25  211  
-e8944a38b46967c Paul Lawrence 2023-01-25  212  	return BLK_STS_OK;
-e8944a38b46967c Paul Lawrence 2023-01-25  213  }
-e8944a38b46967c Paul Lawrence 2023-01-25  214  
-
-:::::: The code at line 97 was first introduced by commit
-:::::: e8944a38b46967c5dc658d0826779105562334bd Revert "ANDROID: dm-bow: remove dm-bow"
-
-:::::: TO: Paul Lawrence <paullawrence@google.com>
-:::::: CC: Treehugger Robot <android-test-infra-autosubmit@system.gserviceaccount.com>
+dtcheck warnings: (new ones prefixed by >>)
+   	'qcom,sm8750-qmp-ufs-phy' was expected
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml
+   arch/arm64/boot/dts/qcom/eliza-mtp.dtb: /soc@0/phy@1d80000: failed to match any schema with compatible: ['qcom,eliza-qmp-ufs-phy', 'qcom,sm8650-qmp-ufs-phy']
+   arch/arm64/boot/dts/qcom/eliza-mtp.dtb: /soc@0/ufshc@1d84000: failed to match any schema with compatible: ['qcom,eliza-ufshc', 'qcom,ufshc', 'jedec,ufs-2.0']
+   arch/arm64/boot/dts/qcom/eliza-mtp.dtb: crypto@1d88000 (qcom,eliza-inline-crypto-engine): compatible:0: 'qcom,eliza-inline-crypto-engine' is not one of ['qcom,kaanapali-inline-crypto-engine', 'qcom,milos-inline-crypto-engine', 'qcom,qcs8300-inline-crypto-engine', 'qcom,sa8775p-inline-crypto-engine', 'qcom,sc7180-inline-crypto-engine', 'qcom,sc7280-inline-crypto-engine', 'qcom,sm8450-inline-crypto-engine', 'qcom,sm8550-inline-crypto-engine', 'qcom,sm8650-inline-crypto-engine', 'qcom,sm8750-inline-crypto-engine']
+   	from schema $id: http://devicetree.org/schemas/crypto/qcom,inline-crypto-engine.yaml
+   arch/arm64/boot/dts/qcom/eliza-mtp.dtb: /soc@0/crypto@1d88000: failed to match any schema with compatible: ['qcom,eliza-inline-crypto-engine', 'qcom,inline-crypto-engine']
+   arch/arm64/boot/dts/qcom/eliza-mtp.dtb: interrupt-controller@b220000 (qcom,eliza-pdc): compatible:0: 'qcom,eliza-pdc' is not one of ['qcom,glymur-pdc', 'qcom,kaanapali-pdc', 'qcom,milos-pdc', 'qcom,qcs615-pdc', 'qcom,qcs8300-pdc', 'qcom,qdu1000-pdc', 'qcom,sa8255p-pdc', 'qcom,sa8775p-pdc', 'qcom,sar2130p-pdc', 'qcom,sc7180-pdc', 'qcom,sc7280-pdc', 'qcom,sc8180x-pdc', 'qcom,sc8280xp-pdc', 'qcom,sdm670-pdc', 'qcom,sdm845-pdc', 'qcom,sdx55-pdc', 'qcom,sdx65-pdc', 'qcom,sdx75-pdc', 'qcom,sm4450-pdc', 'qcom,sm6350-pdc', 'qcom,sm8150-pdc', 'qcom,sm8250-pdc', 'qcom,sm8350-pdc', 'qcom,sm8450-pdc', 'qcom,sm8550-pdc', 'qcom,sm8650-pdc', 'qcom,sm8750-pdc', 'qcom,x1e80100-pdc']
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/qcom,pdc.yaml
+   arch/arm64/boot/dts/qcom/eliza-mtp.dtb: /soc@0/interrupt-controller@b220000: failed to match any schema with compatible: ['qcom,eliza-pdc', 'qcom,pdc']
+>> arch/arm64/boot/dts/qcom/eliza-mtp.dtb: thermal-sensor@c228000 (qcom,eliza-tsens): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,eliza-tsens', 'qcom,tsens-v2'] is too long
+   	'qcom,eliza-tsens' is not one of ['qcom,ipq8064-tsens', 'qcom,msm8960-tsens']
+   	'qcom,eliza-tsens' is not one of ['qcom,mdm9607-tsens', 'qcom,msm8226-tsens', 'qcom,msm8909-tsens', 'qcom,msm8916-tsens', 'qcom,msm8939-tsens', 'qcom,msm8974-tsens']
+   	'qcom,eliza-tsens' is not one of ['qcom,ipq5018-tsens']
+   	'qcom,eliza-tsens' is not one of ['qcom,msm8937-tsens', 'qcom,msm8956-tsens', 'qcom,msm8976-tsens', 'qcom,qcs404-tsens']
+   	'qcom,eliza-tsens' is not one of ['qcom,glymur-tsens', 'qcom,kaanapali-tsens', 'qcom,milos-tsens', 'qcom,msm8953-tsens', 'qcom,msm8996-tsens', 'qcom,msm8998-tsens', 'qcom,qcm2290-tsens', 'qcom,qcs8300-tsens', 'qcom,qcs615-tsens', 'qcom,sa8255p-tsens', 'qcom,sa8775p-tsens', 'qcom,sar2130p-tsens', 'qcom,sc7180-tsens', 'qcom,sc7280-tsens', 'qcom,sc8180x-tsens', 'qcom,sc8280xp-tsens', 'qcom,sdm630-tsens', 'qcom,sdm845-tsens', 'qcom,sm6115-tsens', 'qcom,sm6350-tsens', 'qcom,sm6375-tsens', 'qcom,sm8150-tsens', 'qcom,sm8250-tsens', 'qcom,sm8350-tsens', 'qcom,sm8450-tsens', 'qcom,sm8550-tsens', 'qcom,sm8650-tsens', 'qcom,x1e80100-tsens']
+   	'qcom,eliza-tsens' is not one of ['qcom,ipq5332-tsens', 'qcom,ipq5424-tsens', 'qcom,ipq8074-tsens']
+   	'qcom,eliza-tsens' is not one of ['qcom,ipq6018-tsens', 'qcom,ipq9574-tsens']
+   	'qcom,tsens-v0_1' was expected
+   	'qcom,tsens-v1' was expected
+   	'qcom,ipq8074-tsens' was expected
+   	from schema $id: http://devicetree.org/schemas/thermal/qcom-tsens.yaml
+>> arch/arm64/boot/dts/qcom/eliza-mtp.dtb: /soc@0/thermal-sensor@c228000: failed to match any schema with compatible: ['qcom,eliza-tsens', 'qcom,tsens-v2']
+>> arch/arm64/boot/dts/qcom/eliza-mtp.dtb: thermal-sensor@c229000 (qcom,eliza-tsens): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,eliza-tsens', 'qcom,tsens-v2'] is too long
+   	'qcom,eliza-tsens' is not one of ['qcom,ipq8064-tsens', 'qcom,msm8960-tsens']
+   	'qcom,eliza-tsens' is not one of ['qcom,mdm9607-tsens', 'qcom,msm8226-tsens', 'qcom,msm8909-tsens', 'qcom,msm8916-tsens', 'qcom,msm8939-tsens', 'qcom,msm8974-tsens']
+   	'qcom,eliza-tsens' is not one of ['qcom,ipq5018-tsens']
+   	'qcom,eliza-tsens' is not one of ['qcom,msm8937-tsens', 'qcom,msm8956-tsens', 'qcom,msm8976-tsens', 'qcom,qcs404-tsens']
+   	'qcom,eliza-tsens' is not one of ['qcom,glymur-tsens', 'qcom,kaanapali-tsens', 'qcom,milos-tsens', 'qcom,msm8953-tsens', 'qcom,msm8996-tsens', 'qcom,msm8998-tsens', 'qcom,qcm2290-tsens', 'qcom,qcs8300-tsens', 'qcom,qcs615-tsens', 'qcom,sa8255p-tsens', 'qcom,sa8775p-tsens', 'qcom,sar2130p-tsens', 'qcom,sc7180-tsens', 'qcom,sc7280-tsens', 'qcom,sc8180x-tsens', 'qcom,sc8280xp-tsens', 'qcom,sdm630-tsens', 'qcom,sdm845-tsens', 'qcom,sm6115-tsens', 'qcom,sm6350-tsens', 'qcom,sm6375-tsens', 'qcom,sm8150-tsens', 'qcom,sm8250-tsens', 'qcom,sm8350-tsens', 'qcom,sm8450-tsens', 'qcom,sm8550-tsens', 'qcom,sm8650-tsens', 'qcom,x1e80100-tsens']
+   	'qcom,eliza-tsens' is not one of ['qcom,ipq5332-tsens', 'qcom,ipq5424-tsens', 'qcom,ipq8074-tsens']
+   	'qcom,eliza-tsens' is not one of ['qcom,ipq6018-tsens', 'qcom,ipq9574-tsens']
+   	'qcom,tsens-v0_1' was expected
+   	'qcom,tsens-v1' was expected
+   	'qcom,ipq8074-tsens' was expected
+   	from schema $id: http://devicetree.org/schemas/thermal/qcom-tsens.yaml
+>> arch/arm64/boot/dts/qcom/eliza-mtp.dtb: /soc@0/thermal-sensor@c229000: failed to match any schema with compatible: ['qcom,eliza-tsens', 'qcom,tsens-v2']
+>> arch/arm64/boot/dts/qcom/eliza-mtp.dtb: thermal-sensor@c22a000 (qcom,eliza-tsens): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,eliza-tsens', 'qcom,tsens-v2'] is too long
+   	'qcom,eliza-tsens' is not one of ['qcom,ipq8064-tsens', 'qcom,msm8960-tsens']
+   	'qcom,eliza-tsens' is not one of ['qcom,mdm9607-tsens', 'qcom,msm8226-tsens', 'qcom,msm8909-tsens', 'qcom,msm8916-tsens', 'qcom,msm8939-tsens', 'qcom,msm8974-tsens']
+   	'qcom,eliza-tsens' is not one of ['qcom,ipq5018-tsens']
+   	'qcom,eliza-tsens' is not one of ['qcom,msm8937-tsens', 'qcom,msm8956-tsens', 'qcom,msm8976-tsens', 'qcom,qcs404-tsens']
+   	'qcom,eliza-tsens' is not one of ['qcom,glymur-tsens', 'qcom,kaanapali-tsens', 'qcom,milos-tsens', 'qcom,msm8953-tsens', 'qcom,msm8996-tsens', 'qcom,msm8998-tsens', 'qcom,qcm2290-tsens', 'qcom,qcs8300-tsens', 'qcom,qcs615-tsens', 'qcom,sa8255p-tsens', 'qcom,sa8775p-tsens', 'qcom,sar2130p-tsens', 'qcom,sc7180-tsens', 'qcom,sc7280-tsens', 'qcom,sc8180x-tsens', 'qcom,sc8280xp-tsens', 'qcom,sdm630-tsens', 'qcom,sdm845-tsens', 'qcom,sm6115-tsens', 'qcom,sm6350-tsens', 'qcom,sm6375-tsens', 'qcom,sm8150-tsens', 'qcom,sm8250-tsens', 'qcom,sm8350-tsens', 'qcom,sm8450-tsens', 'qcom,sm8550-tsens', 'qcom,sm8650-tsens', 'qcom,x1e80100-tsens']
+   	'qcom,eliza-tsens' is not one of ['qcom,ipq5332-tsens', 'qcom,ipq5424-tsens', 'qcom,ipq8074-tsens']
+   	'qcom,eliza-tsens' is not one of ['qcom,ipq6018-tsens', 'qcom,ipq9574-tsens']
+   	'qcom,tsens-v0_1' was expected
+   	'qcom,tsens-v1' was expected
+   	'qcom,ipq8074-tsens' was expected
+   	from schema $id: http://devicetree.org/schemas/thermal/qcom-tsens.yaml
+>> arch/arm64/boot/dts/qcom/eliza-mtp.dtb: /soc@0/thermal-sensor@c22a000: failed to match any schema with compatible: ['qcom,eliza-tsens', 'qcom,tsens-v2']
+   arch/arm64/boot/dts/qcom/eliza-mtp.dtb: arbiter@c400000 (qcom,eliza-spmi-pmic-arb): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,eliza-spmi-pmic-arb', 'qcom,x1e80100-spmi-pmic-arb'] is too long
+   	'qcom,sar2130p-spmi-pmic-arb' was expected
+   	'qcom,x1e80100-spmi-pmic-arb' was expected
+   	from schema $id: http://devicetree.org/schemas/spmi/qcom,x1e80100-spmi-pmic-arb.yaml
+   arch/arm64/boot/dts/qcom/eliza-mtp.dtb: /soc@0/arbiter@c400000: failed to match any schema with compatible: ['qcom,eliza-spmi-pmic-arb', 'qcom,x1e80100-spmi-pmic-arb']
+   arch/arm64/boot/dts/qcom/eliza-mtp.dtb: iommu@15000000 (qcom,eliza-smmu-500): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,eliza-smmu-500', 'qcom,smmu-500', 'arm,mmu-500'] is too long
+   	['qcom,eliza-smmu-500', 'qcom,smmu-500', 'arm,mmu-500'] is too short
+   	'qcom,eliza-smmu-500' is not one of ['qcom,msm8996-smmu-v2', 'qcom,msm8998-smmu-v2', 'qcom,sdm630-smmu-v2', 'qcom,sm6375-smmu-v2']
 
 -- 
 0-DAY CI Kernel Test Service
