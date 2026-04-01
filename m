@@ -1,64 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFAD631E848
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Apr 2026 02:37:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2682C336EC6
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Apr 2026 02:37:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775011065; cv=none; b=uaXuSKVfXR2rXE0o9Ce6Q5flqGHozw4nCP6AE1DKForOGfOiKtk51dF7WuvxLtXjTVam8qOpAaPrFDIMBVy0vVbAzo2H8lfTA6C6shm3DIg++Z0Cg39V0mHxWIKdgwOU+9UByWZSOZeZLRw02siclj+BcCfhO62EZ80mNIn2epM=
+	t=1775011081; cv=none; b=Zv6oTV5g/YwsFpJNfAtXBEmq2XyW5fu6agl10QA7t9qPg/v2PlnRAxhAH74neZTMj3ZokmHzgok91m956lPG2EIAhiR3ln+aKJte4rIL/DlaC/g09Tf0K4Z4PbPZ4Byray1VPB1i2ETTNI+rUZWGFxkx8/zbQDKooouDfMVqUUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775011065; c=relaxed/simple;
-	bh=Lr/nZVsMwCs7FJW1IL9UhRwXUSALhSHvdBiikIYbz2w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tbGJE6//lVT4uscfrYiiqhfLN1amjrwT6hM4LJaDTJ38mr4gK9WcSOqBEQpfMwZvYz2Xk02jOTjIdimFm8osilOpAjYqODCaF3ZqXJio5y9OCzbrTegx7/NEFqZhAd3YkfTZB3QoY5Bz1xOnxYcy3o9iBZBlW40XU7J2xFT4150=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J5BcO58+; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1775011081; c=relaxed/simple;
+	bh=6Jxddz0G37rzmuRXFEGg303De0KFrstxurP4R2xbH70=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=jjwC2duaRBQxcwfUaPqpMYxCu8GxgRZV8hp8wqH+6zj+pRU/5wdA96S1MR6Nzh5g7mRvgmFw7+A19zZRcWUBs0ZRdElAuXrWI7/iCSB5SxtLB17m/s9QkpIdN0e1YXOCGr6qJCLlbz6yyJJtEFpOBihl3+TTqwy12YDBS7hel4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UlTLCw3Y; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J5BcO58+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UlTLCw3Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775011052; x=1806547052;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Lr/nZVsMwCs7FJW1IL9UhRwXUSALhSHvdBiikIYbz2w=;
-  b=J5BcO58+APt41qkjKKWFv12yqRqAnFCkcEOJGVFgBswbnBDBMmD+P/va
-   a8y95kk8bOVRekv85XpcMxZrszaLBUu1zC+34c1089e58O8WRwmD3zGFU
-   6hQteAa7og9JPJSceE2lIoPOzDfXxeNHouqe/1Yi8XSe8Z9/FW/blGE/j
-   2DGYX9y+MDYou2M+kgo6aWcs2t4fyablY727AIeuIowtVisQ/6giZ7cxz
-   knV+FwgqmSVh7Hvihul6x+FZR4Ozb7/QAv7sPrt5qADNKedvxY9AS6+YX
-   +uIKhqnD8bMbP13OmGdOz9DsaOj2whaeWtyWHhsYCCV2VUmfqXA7xVNAZ
-   A==;
-X-CSE-ConnectionGUID: vlQK/AeNQZ2B5ETPrO7wFw==
-X-CSE-MsgGUID: Od9ClPstSvi5XJ6azFZ+Qw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="86736606"
+  t=1775011064; x=1806547064;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6Jxddz0G37rzmuRXFEGg303De0KFrstxurP4R2xbH70=;
+  b=UlTLCw3YoDGoLyhDNG7MTSvMbt+EREEDCHJP97Omphy7iM8Zu93TT+ir
+   Da6n8y25SVq/6F7T2bZuVREF3WcEbL7irY3s9epC5iMohsiLE5dtnbUex
+   z9tw96jyhjTcBdnZBWoSxA32WX+g9KZ7SV8gZXXlM+eNGMt62pqroisCv
+   HeJtNo/kAR3fSFYxM6fIS2Scot0iq1UdONE5LlRG8B3Gi//MjUT1IRARm
+   RnwDxT24oS2kr9GjP0TO5ii2aw3UKXm7P1E5TUXSjKEfjGiStWTOYT8KM
+   3msO/CtSIZP/eJYOHwQv5QQUDKI4TF4D5pUz57bpA4R6/zmqwusADzknH
+   w==;
+X-CSE-ConnectionGUID: +Wm3hm+0R0eLVyIEoZlNPw==
+X-CSE-MsgGUID: yGCyA6W0TnOrYXghZAXxog==
+X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="76100443"
 X-IronPort-AV: E=Sophos;i="6.23,153,1770624000"; 
-   d="scan'208";a="86736606"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 19:37:31 -0700
-X-CSE-ConnectionGUID: f5eHXxR4SyeRJAF2WCBADQ==
-X-CSE-MsgGUID: 97F51jYeR9ukKx/EcjiTlA==
+   d="scan'208";a="76100443"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 19:37:29 -0700
+X-CSE-ConnectionGUID: mKheN/q9Q56KsTmu5RWi4g==
+X-CSE-MsgGUID: nzrHpQ5VQfun/IZUx6pZMw==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,153,1770624000"; 
+   d="scan'208";a="223658796"
 Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 31 Mar 2026 19:37:27 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 31 Mar 2026 19:37:27 -0700
 Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w7lSP-000000004eM-046F;
+	id 1w7lSP-000000004eS-0Kyf;
 	Wed, 01 Apr 2026 02:37:25 +0000
-Date: Wed, 1 Apr 2026 10:37:07 +0800
+Date: Wed, 01 Apr 2026 10:37:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wenyuan Li <2063309626@qq.com>, Lee Jones <lee@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Aaro Koskinen <aaro.koskinen@iki.fi>,
-	Andreas Kemnade <andreas@kemnade.info>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>,
-	linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org,
-	gszhai@bjtu.edu.cn, 25125332@bjtu.edu.cn, 25125283@bjtu.edu.cn,
-	23120469@bjtu.edu.cn, Wenyuan Li <2063309626@qq.com>
-Subject: Re: [PATCH v2] mfd: tps65910: add error handling for dummy I2C
- transfer in probe
-Message-ID: <202604011034.5GOHWfcw-lkp@intel.com>
-References: <tencent_74C5C53384C579056ED161B70122D16ACF06@qq.com>
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ "Piotr =?utf-8?Q?Pi=C3=B3rkowski"?= <piotr.piorkowski@intel.com>
+Subject: [linux-next:master 204/10705] arc-linux-ld:
+ drivers/gpu/drm/xe/xe_sriov_pf.c:25:undefined reference to
+ `xe_configfs_admin_only_pf'
+Message-ID: <202604011004.jBimdwrx-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,132 +62,67 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tencent_74C5C53384C579056ED161B70122D16ACF06@qq.com>
 
-Hi Wenyuan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on lee-leds/for-leds-next]
-[also build test WARNING on lee-mfd/for-mfd-next lee-mfd/for-mfd-fixes linus/master v7.0-rc6 next-20260330]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Wenyuan-Li/mfd-tps65910-add-error-handling-for-dummy-I2C-transfer-in-probe/20260331-203820
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-patch link:    https://lore.kernel.org/r/tencent_74C5C53384C579056ED161B70122D16ACF06%40qq.com
-patch subject: [PATCH v2] mfd: tps65910: add error handling for dummy I2C transfer in probe
-config: arm64-randconfig-r072-20260401 (https://download.01.org/0day-ci/archive/20260401/202604011034.5GOHWfcw-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 2cd67b8b69f78e3f95918204320c3075a74ba16c)
-smatch: v0.5.0-9004-gb810ac53
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   36ece9697e89016181e5ae87510e40fb31d86f2b
+commit: 34ef561a0d497dd86dd4f511a86c7481ddf29aeb [204/10705] drm/xe/configfs: Add sriov.admin_only_pf attribute
+config: arc-randconfig-002-20260401 (https://download.01.org/0day-ci/archive/20260401/202604011004.jBimdwrx-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260401/202604011004.jBimdwrx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604011034.5GOHWfcw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604011004.jBimdwrx-lkp@intel.com/
 
-smatch warnings:
-drivers/mfd/tps65910.c:487 tps65910_i2c_probe() warn: inconsistent indenting
+All errors (new ones prefixed by >>):
 
-vim +487 drivers/mfd/tps65910.c
-
-   439	
-   440	static int tps65910_i2c_probe(struct i2c_client *i2c)
-   441	{
-   442		const struct i2c_device_id *id = i2c_client_get_device_id(i2c);
-   443		struct tps65910 *tps65910;
-   444		struct tps65910_board *pmic_plat_data;
-   445		struct tps65910_board *of_pmic_plat_data = NULL;
-   446		struct tps65910_platform_data *init_data;
-   447		unsigned long chip_id = id->driver_data;
-   448		int ret;
-   449	
-   450		pmic_plat_data = dev_get_platdata(&i2c->dev);
-   451	
-   452		if (!pmic_plat_data && i2c->dev.of_node) {
-   453			pmic_plat_data = tps65910_parse_dt(i2c, &chip_id);
-   454			of_pmic_plat_data = pmic_plat_data;
-   455		}
-   456	
-   457		if (!pmic_plat_data)
-   458			return -EINVAL;
-   459	
-   460		init_data = devm_kzalloc(&i2c->dev, sizeof(*init_data), GFP_KERNEL);
-   461		if (init_data == NULL)
-   462			return -ENOMEM;
-   463	
-   464		tps65910 = devm_kzalloc(&i2c->dev, sizeof(*tps65910), GFP_KERNEL);
-   465		if (tps65910 == NULL)
-   466			return -ENOMEM;
-   467	
-   468		tps65910->of_plat_data = of_pmic_plat_data;
-   469		i2c_set_clientdata(i2c, tps65910);
-   470		tps65910->dev = &i2c->dev;
-   471		tps65910->i2c_client = i2c;
-   472		tps65910->id = chip_id;
-   473	
-   474		/* Work around silicon erratum SWCZ010: the tps65910 may miss the
-   475		 * first I2C transfer. So issue a dummy transfer before the first
-   476		 * real transfer.
-   477		 */
-   478		ret = i2c_master_send(i2c, "", TPS65910_DUMMY_XFER_LEN);
-   479		if (ret != TPS65910_DUMMY_XFER_LEN) {
-   480			int err;
-   481	
-   482			if (ret < 0)
-   483				err = ret;
-   484			else
-   485				err = -EIO;
-   486	
- > 487		return dev_err_probe(&i2c->dev, err, "dummy transfer failed\n");
-   488		}
-   489	
-   490		tps65910->regmap = devm_regmap_init_i2c(i2c, &tps65910_regmap_config);
-   491		if (IS_ERR(tps65910->regmap)) {
-   492			ret = PTR_ERR(tps65910->regmap);
-   493			dev_err(&i2c->dev, "regmap initialization failed: %d\n", ret);
-   494			return ret;
-   495		}
-   496	
-   497		init_data->irq = pmic_plat_data->irq;
-   498		init_data->irq_base = pmic_plat_data->irq_base;
-   499	
-   500		tps65910_irq_init(tps65910, init_data->irq, init_data);
-   501		tps65910_ck32k_init(tps65910, pmic_plat_data);
-   502		tps65910_sleepinit(tps65910, pmic_plat_data);
-   503	
-   504		if (pmic_plat_data->pm_off && !pm_power_off) {
-   505			/*
-   506			 * The PWR_OFF bit needs to be set separately, before
-   507			 * transitioning to the OFF state. It enables the "sequential"
-   508			 * power-off mode on TPS65911, it's a NO-OP on TPS65910.
-   509			 */
-   510			ret = regmap_set_bits(tps65910->regmap, TPS65910_DEVCTRL,
-   511					      DEVCTRL_PWR_OFF_MASK);
-   512			if (ret) {
-   513				dev_err(&i2c->dev, "failed to set power-off mode: %d\n",
-   514					ret);
-   515				return ret;
-   516			}
-   517	
-   518			tps65910_i2c_client = i2c;
-   519			pm_power_off = tps65910_power_off;
-   520		}
-   521	
-   522		ret = devm_mfd_add_devices(tps65910->dev, -1,
-   523					   tps65910s, ARRAY_SIZE(tps65910s),
-   524					   NULL, 0,
-   525					   regmap_irq_get_domain(tps65910->irq_data));
-   526		if (ret < 0) {
-   527			dev_err(&i2c->dev, "mfd_add_devices failed: %d\n", ret);
-   528			return ret;
-   529		}
-   530	
-   531		return ret;
-   532	}
-   533	
+   arc-linux-ld: drivers/gpu/drm/xe/xe_module.o:(.rodata+0x8): undefined reference to `xe_configfs_init'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_module.o:(.rodata+0x8): undefined reference to `xe_configfs_init'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_module.o:(.rodata+0xc): undefined reference to `xe_configfs_exit'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_module.o:(.rodata+0xc): undefined reference to `xe_configfs_exit'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_guc.o: in function `xe_guc_init_post_hwconfig':
+   xe_guc.c:(.text+0x13ea): undefined reference to `xe_configfs_get_psmi_enabled'
+   arc-linux-ld: xe_guc.c:(.text+0x13ea): undefined reference to `xe_configfs_get_psmi_enabled'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_hw_engine.o: in function `xe_hw_engines_init_early':
+   drivers/gpu/drm/xe/xe_hw_engine.c:845:(.text+0x9de): undefined reference to `xe_configfs_get_engines_allowed'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_hw_engine.c:845:(.text+0x9de): undefined reference to `xe_configfs_get_engines_allowed'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_lrc.o: in function `setup_configfs_post_ctx_restore_bb':
+   drivers/gpu/drm/xe/xe_lrc.c:1143:(.text+0x5d2): undefined reference to `xe_configfs_get_ctx_restore_post_bb'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_lrc.c:1143:(.text+0x5d2): undefined reference to `xe_configfs_get_ctx_restore_post_bb'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_lrc.o: in function `setup_configfs_mid_ctx_restore_bb':
+   drivers/gpu/drm/xe/xe_lrc.c:1172:(.text+0x7a2): undefined reference to `xe_configfs_get_ctx_restore_mid_bb'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_lrc.c:1172:(.text+0x7a2): undefined reference to `xe_configfs_get_ctx_restore_mid_bb'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_lrc.o: in function `xe_lrc_init':
+   drivers/gpu/drm/xe/xe_lrc.c:92:(.text+0x2348): undefined reference to `xe_configfs_get_ctx_restore_mid_bb'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_lrc.c:92:(.text+0x2348): undefined reference to `xe_configfs_get_ctx_restore_mid_bb'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_pci.o: in function `xe_info_init':
+   drivers/gpu/drm/xe/xe_pci.c:771:(.text+0x48c): undefined reference to `xe_configfs_primary_gt_allowed'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_pci.c:771:(.text+0x48c): undefined reference to `xe_configfs_primary_gt_allowed'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_pci.c:802:(.text+0x542): undefined reference to `xe_configfs_media_gt_allowed'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_pci.c:802:(.text+0x542): undefined reference to `xe_configfs_media_gt_allowed'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_pci.o: in function `xe_pci_probe':
+   drivers/gpu/drm/xe/xe_pci.c:985:(.text+0x6b0): undefined reference to `xe_configfs_check_device'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_pci.c:985:(.text+0x6b0): undefined reference to `xe_configfs_check_device'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_pci.c:702:(.text+0x8d0): undefined reference to `xe_configfs_primary_gt_allowed'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_pci.c:702:(.text+0x8d0): undefined reference to `xe_configfs_primary_gt_allowed'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_psmi.o: in function `xe_psmi_debugfs_register':
+   drivers/gpu/drm/xe/xe_psmi.c:36:(.text+0x2f6): undefined reference to `xe_configfs_get_psmi_enabled'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_psmi.c:36:(.text+0x2f6): undefined reference to `xe_configfs_get_psmi_enabled'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_psmi.o: in function `xe_psmi_init':
+   drivers/gpu/drm/xe/xe_psmi.c:36:(.text+0x368): undefined reference to `xe_configfs_get_psmi_enabled'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_psmi.c:36:(.text+0x368): undefined reference to `xe_configfs_get_psmi_enabled'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_rtp.o: in function `xe_rtp_match_psmi_enabled':
+   drivers/gpu/drm/xe/xe_rtp.c:371:(.text+0x6ca): undefined reference to `xe_configfs_get_psmi_enabled'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_rtp.o:drivers/gpu/drm/xe/xe_rtp.c:371: more undefined references to `xe_configfs_get_psmi_enabled' follow
+   arc-linux-ld: drivers/gpu/drm/xe/xe_survivability_mode.o: in function `xe_survivability_mode_is_requested':
+   drivers/gpu/drm/xe/xe_survivability_mode.c:380:(.text+0x220): undefined reference to `xe_configfs_get_survivability_mode'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_survivability_mode.c:380:(.text+0x220): undefined reference to `xe_configfs_get_survivability_mode'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_sriov_pf.o: in function `xe_sriov_pf_readiness':
+   drivers/gpu/drm/xe/xe_sriov_pf.c:30:(.text+0x218): undefined reference to `xe_configfs_get_max_vfs'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_sriov_pf.c:30:(.text+0x218): undefined reference to `xe_configfs_get_max_vfs'
+>> arc-linux-ld: drivers/gpu/drm/xe/xe_sriov_pf.c:25:(.text+0x282): undefined reference to `xe_configfs_admin_only_pf'
+>> arc-linux-ld: drivers/gpu/drm/xe/xe_sriov_pf.c:25:(.text+0x282): undefined reference to `xe_configfs_admin_only_pf'
 
 -- 
 0-DAY CI Kernel Test Service
