@@ -1,60 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B156E363098
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Apr 2026 03:00:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 902A6332EAD
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Apr 2026 03:41:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775012438; cv=none; b=WC0lhgaQnXPdeUjPsiv/E6v/SczQ6FX5ARTDQCo7I5QdKuM0m8GBIUxRSdIsXHj0le0GnuWYmry6wPyIzC1242u5ugUsAJ5OSZmkeD7q9ve1q6C6BGSXWIYmtQIVyh3QhYrndc2C8DJ9fZDiLBjuUsmtRtacMo8vB9Wfg7rjWK0=
+	t=1775014921; cv=none; b=ikuDDG3X5YOyD9ej+so9tFkfg6r2fMiABklioR17SYzeD8TijB2IE3eXRIRzUloGAtR3X6P99PrGe2Fp+h5PqcVUtdjqAK2nnqFWNkLLnivn4/udoamuo5txokeqLPd9YWiIzWq4JT5qqDO2qHHwN60TUCiAjAf91rve4IsvQMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775012438; c=relaxed/simple;
-	bh=Z+VCgF2yq7HFWBaB5qSSA+ecGoHYzhR67IuGANVkM8w=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KBp8PRnUTy4s/trz++TQu8cyMT+4s0BkVzzWRzKTZo9/9M7p1n00bBjqL/PzAbrN8YBNVMkOAfxl7hfhMrTDa7+AyCgywJEG/FTNP1deHxxttMccpAfOR/lmkW1QDq/YCsHkdxD/7n/JKAMSZkO7KrKIHZ6xsY4SDRNX/gWhdJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IR9abOiG; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1775014921; c=relaxed/simple;
+	bh=Qb3884c3q9zTzm7aMk2fAlIRf0bCcJO3uSH93oHwuh8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=a/iScVNPXcj7gYKKRjaRGhBrXta4MR31aYgYuGI2qSU7+g/bsJpLK5p2E4KhDXuU3t8aTeDoW8dkehK1xhM3juSVw0mL+ZJ1VMfATcYbKD/y/bc3zjX4Mjv0dFki1ObOAh52zGBpSLhMTDBgA/47gGtbTPUgn60Y5RwJq+QI9B4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iMe+pxXc; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IR9abOiG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iMe+pxXc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775012434; x=1806548434;
+  t=1775014919; x=1806550919;
   h=date:from:to:cc:subject:message-id;
-  bh=Z+VCgF2yq7HFWBaB5qSSA+ecGoHYzhR67IuGANVkM8w=;
-  b=IR9abOiGFy9QgWEqbIuyj/ATRlYiH/2awHNuzaXdWBIEKgDVW0Czpf7g
-   sNbTr1v0XyD9x9DSvlsSq/d+TNoHwyWmjlMn9a4H6NQAZLHjy3dMZ7k3H
-   hWcBjYiXdyoDT60Ct2CsyHxiifUVOF8049Ve9tdiDrlGwp0paL9W1xa4x
-   RBQbHn6pclLBqk1WsXPZ0gA1XaMg5dU7PxaUdCkBE2mFcbF+W/Y/D9Okk
-   2vp5tc3ebH6jPH1QrDL15DIC/ItLH6sb7P415PzC8sgG2uAKEvjZlcr7G
-   pDjc20UmP57uA0V09X5stFeZKQLLodj2WjxYbYIFihZ+I1KhNYDlyN4Cw
-   A==;
-X-CSE-ConnectionGUID: dt9WMc6URDKDkB60Kj0CYw==
-X-CSE-MsgGUID: FIdY3e+DR0OBl5Ou6bKRdA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="76156202"
+  bh=Qb3884c3q9zTzm7aMk2fAlIRf0bCcJO3uSH93oHwuh8=;
+  b=iMe+pxXcONEpo/iMSRLHuo5VeSqu26yPWjjdeDoCv+JWxl2iJJ/ovOke
+   YE2k77tNhTbkYHL9e3b4QqQ5H0FngTkw2CR3qaWPhdyvTPoJoSEqt9qmr
+   3CJhB6IYFRDm3KHTsXRD9qNO3UBuBwfd2RLDjIt4gR15rrYM5DEUe97hF
+   QoyjG0MtLnXhce3hHOwFPYKQlZSahT5Zj2OMj9IOBU4rozOenDBKMVq4w
+   HVKyYXrdDsS0D+HXaEGlKAx34uB0kWcqMi4LNYxGf16+LIu8uR4jg7J/h
+   chJuYHJU7Q+2LrU/7Bo3w0HMjziiBqK2dqwMSi3pTQOEzbNr/IrKOZXFY
+   w==;
+X-CSE-ConnectionGUID: MeWB26TPSW6G7jbMJrwglQ==
+X-CSE-MsgGUID: kFPpfMJtTiK7pHx5m07bUQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="75757989"
 X-IronPort-AV: E=Sophos;i="6.23,153,1770624000"; 
-   d="scan'208";a="76156202"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 20:00:32 -0700
-X-CSE-ConnectionGUID: PrfzLpNjSWWRWOYCgJftCA==
-X-CSE-MsgGUID: a6jONP8UStKii/ima3RWKA==
+   d="scan'208";a="75757989"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 20:41:58 -0700
+X-CSE-ConnectionGUID: +Os2NOd+QAWq/w2TGD7vYw==
+X-CSE-MsgGUID: AXAl2sMMT/i2o0AxaTfnVA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,153,1770624000"; 
-   d="scan'208";a="231480941"
-Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 31 Mar 2026 20:00:30 -0700
-Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 31 Mar 2026 20:41:56 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w7loh-000000004gE-1XZ7;
-	Wed, 01 Apr 2026 03:00:27 +0000
-Date: Wed, 01 Apr 2026 11:00:14 +0800
+	id 1w7mSo-000000008dH-25d9;
+	Wed, 01 Apr 2026 03:41:54 +0000
+Date: Wed, 01 Apr 2026 05:41:40 +0200
 From: kernel test robot <lkp@intel.com>
-To: Ray Wu <ray.wu@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Alex Deucher <alexander.deucher@amd.com>, Leo Li <sunpeng.li@amd.com>,
- "Mario Limonciello (AMD)" <superm1@kernel.org>
-Subject: [linux-next:master 10091/10705] Warning:
- drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crtc.c:131 function
- parameter 'dm' not described in 'amdgpu_dm_crtc_set_panel_sr_feature'
-Message-ID: <202604011056.g3xwD1sM-lkp@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jgunthorpe:rdma_uapi 10/11]
+ drivers/infiniband/hw/qedr/verbs.c:1285:13: warning: unused variable 'rc'
+Message-ID: <202604010504.VSGQEwwF-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,39 +57,47 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   36ece9697e89016181e5ae87510e40fb31d86f2b
-commit: 754003486c3cc95f2fcb9d6b71a779047d6db95c [10091/10705] drm/amd/display: Add Idle state manager(ISM)
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260401/202604011056.g3xwD1sM-lkp@intel.com/config)
+tree:   https://github.com/jgunthorpe/linux rdma_uapi
+head:   634b50f8d2d215b6a2e13fc6648d52428bd0c9d3
+commit: 5ad53d60513269a60c8641ce42cceb8bbaacd908 [10/11] RDMA: Replace memset with = {} pattern for ib_respond_udata()
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260401/202604010504.VSGQEwwF-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260401/202604011056.g3xwD1sM-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260401/202604010504.VSGQEwwF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604011056.g3xwD1sM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604010504.VSGQEwwF-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crtc.c:131 function parameter 'dm' not described in 'amdgpu_dm_crtc_set_panel_sr_feature'
->> Warning: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crtc.c:131 function parameter 'acrtc' not described in 'amdgpu_dm_crtc_set_panel_sr_feature'
->> Warning: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crtc.c:131 function parameter 'stream' not described in 'amdgpu_dm_crtc_set_panel_sr_feature'
->> Warning: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crtc.c:131 function parameter 'dm' not described in 'amdgpu_dm_crtc_set_panel_sr_feature'
->> Warning: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crtc.c:131 function parameter 'acrtc' not described in 'amdgpu_dm_crtc_set_panel_sr_feature'
->> Warning: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crtc.c:131 function parameter 'stream' not described in 'amdgpu_dm_crtc_set_panel_sr_feature'
---
->> Warning: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_ism.c:44 function parameter 'current_state' not described in 'dm_ism_next_state'
->> Warning: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_ism.c:44 function parameter 'event' not described in 'dm_ism_next_state'
->> Warning: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_ism.c:44 function parameter 'next_state' not described in 'dm_ism_next_state'
->> Warning: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_ism.c:153 function parameter 'ism' not described in 'dm_ism_get_idle_allow_delay'
->> Warning: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_ism.c:153 function parameter 'stream' not described in 'dm_ism_get_idle_allow_delay'
->> Warning: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_ism.c:216 function parameter 'ism' not described in 'dm_ism_insert_record'
->> Warning: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_ism.c:44 function parameter 'current_state' not described in 'dm_ism_next_state'
->> Warning: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_ism.c:44 function parameter 'event' not described in 'dm_ism_next_state'
->> Warning: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_ism.c:44 function parameter 'next_state' not described in 'dm_ism_next_state'
->> Warning: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_ism.c:153 function parameter 'ism' not described in 'dm_ism_get_idle_allow_delay'
->> Warning: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_ism.c:153 function parameter 'stream' not described in 'dm_ism_get_idle_allow_delay'
->> Warning: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_ism.c:216 function parameter 'ism' not described in 'dm_ism_insert_record'
+   drivers/infiniband/hw/qedr/verbs.c: In function 'qedr_copy_qp_uresp':
+>> drivers/infiniband/hw/qedr/verbs.c:1285:13: warning: unused variable 'rc' [-Wunused-variable]
+    1285 |         int rc;
+         |             ^~
+
+
+vim +/rc +1285 drivers/infiniband/hw/qedr/verbs.c
+
+  1280	
+  1281	static int qedr_copy_qp_uresp(struct qedr_dev *dev,
+  1282				      struct qedr_qp *qp, struct ib_udata *udata,
+  1283				      struct qedr_create_qp_uresp *uresp)
+  1284	{
+> 1285		int rc;
+  1286	
+  1287		if (qedr_qp_has_sq(qp))
+  1288			qedr_copy_sq_uresp(dev, uresp, qp);
+  1289	
+  1290		if (qedr_qp_has_rq(qp))
+  1291			qedr_copy_rq_uresp(dev, uresp, qp);
+  1292	
+  1293		uresp->atomic_supported = dev->atomic_cap != IB_ATOMIC_NONE;
+  1294		uresp->qp_id = qp->qp_id;
+  1295	
+  1296		return ib_respond_udata(udata, *uresp);
+  1297	}
+  1298	
 
 -- 
 0-DAY CI Kernel Test Service
