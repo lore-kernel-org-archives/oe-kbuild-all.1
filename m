@@ -1,158 +1,180 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D99433A717
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Apr 2026 19:40:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775158812; cv=pass; b=YbYwOZ94lJIyL7816vS+VzBW5apC1FvJYjF3Y8ofQEL6cXbzq/q4WOhtdX5yGeAJ4S0KFCNqSAKhXe8p8sxotdbmrn0TqdrmM2sumplQI80lkj4fa1S0qoTh2oJYegXGY32EhbtSY2dbaHqbjh7FM7j0lhVAV7DmZMuILMiCakg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775158812; c=relaxed/simple;
-	bh=US2V7kzwHw+XpVhDyUggsFAHRpyi5Z5kvJJ43HbFkRM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RGaXWuGBy+UftvS+Jy0DFE4sb7R6Cn0Qyia40mCwy9+5/unqJezuqe9ST3HaCvk5/RLuTXkZoG7wxuLm8s7yPxdSxaPw8qaE4Rrdk9hPpimAuS/Qw+2akzhMXP0tytpzdGsrOdDwLQjV6PiRnNzrXY60gA3RfKWiJxmce3uV0fg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vO0V0PYP; arc=pass smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52D6D366075
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Apr 2026 20:04:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775160269; cv=none; b=Di/T05xyolrW3pJLBFdPjKyygi3MXpaQTCS7sVp2V6MkzxnPtxSjXZOeonLHt3vZSDr41u/2xinvjH9NNwV3DuGkhZL6uxbP5X2hSxp5b6JVqnmvZEO82CqDHATSqKOSU9OLx3VaujqClvpj5ciM/jh1vT2nvCly0bl2qn2cVe0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775160269; c=relaxed/simple;
+	bh=4qv2zdPZEgT5oC3SiH+LBfJp4zAyy2TSrWtsJir3Quk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KSp0eSSPSmM0DKTsqepCodLu5HECKYBv+IZOvtLLEiwusWw/rRAUrCWnGV+K3KVmgr5uyDWAAgZ75TCzBugLOUQgBY/9sR0U+wyiN6ASp9XqRJLOXVzSN98gATgMoGh+RuJmux6Ryi6rFTN272hnSfV3ARL0fO2cJbPIZh2GY5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i/CX681n; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vO0V0PYP"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-66bb7118c96so2987a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 02 Apr 2026 12:40:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775158809; cv=none;
-        d=google.com; s=arc-20240605;
-        b=JBwzeJFOgnFpP+WK5LWlygn4Db/3iM4DCo5SbTB1EbGP7Ac3iua1pFsMUtCHvanrUb
-         MFbbIhoSqd+1FLKEKB3UosswjO0AQkPMSKdOriJbVtDtrzEnWzU1RfufTm/pz3m8K4Hc
-         H7LFkhUfyVB4J9YwIIeq+cnujh41pSk11V1uHduN3qMyigmCBHW1364GjnUXMTTVgdvA
-         TfxdCSA8RZB2HkNX/k3NWuTWJiVgArjPXmw/nHzUTo55PGDb60d5cMRxt55IqpS80ch/
-         WzB3HFE38tovbBxnxg+URgi6rQs9xVDnusGIBOUHIH15sD8+fexsZRrOLPuGObTsm5T4
-         o5Pw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=J0DvflLdp3i7a17ynT3a78GmDFDn7qbQSpDZ8abq9cA=;
-        fh=v+maNifcVo+3pA4nEuetO0ASFyjQO9ZXF1UCiG3mq7o=;
-        b=BlPEZVIg0wdm8gq/PDuwEdUsgSOvUCLYFkM8+YUSo+Jl0s9cUv0XBurgDmAGksDVx9
-         PHjI/4jZkFUFYW9UI07No6ReC6Vdz3WR8ZSNXCDSroenefB8a19nJ+vx9DYEYCDn9kAG
-         DATJY7u2R3oPMMn6EkLYDMKlSY/Leg4WWS7UPTNqOLqiHoCB3wmua2BttBhfwZbvs0CS
-         7MaYrW8vxUXVDbNSdqY9ev6uCu7nGN8OdTHZ46c8urEGaHrqONWs1QhGAUJTeDrKk+t7
-         sXsqI/V6vcxh4wcSSKY06wz3jwFT3ueoDNmgTG+CSk8pOc7DzbdIVh8pW3D30+OZ5oKj
-         Z4iQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1775158809; x=1775763609; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=J0DvflLdp3i7a17ynT3a78GmDFDn7qbQSpDZ8abq9cA=;
-        b=vO0V0PYP6pu0+q1Y7o7QjOk+U/DK9H/fFbwhbOE4FG3pzxKIqSfYMhbwFSehrfugqQ
-         gm79ngsbjxqJqBpONVmPIh11FXu3qQBfBMYnJ0aTvYAUGrVF5TzHp4m9pjUSGvCZ7i5v
-         tTkME5frWYPdvApcQ2otq0i2X75Sa0tNn52i5gmaFWvNUgF811wSk+Lr5wv53PAj6TWF
-         oCHfWeDWoSstlCBEAoVCXILrKYVi4S6sOtAy2FTdJe8OJVmyZb+54iEi0sTKkYMR+/HR
-         fhadhjwzSViuqMtbWI05YUjitDHzakR53Bpir0IDXAMRpopUV3jp0bOKlE9DgcvcGsBs
-         TVuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775158809; x=1775763609;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=J0DvflLdp3i7a17ynT3a78GmDFDn7qbQSpDZ8abq9cA=;
-        b=ksGt2CVg9Hets7ORRKgWyMUuzm9GCU/SaIW5Ev2j/4ttimgE9xXFedu/uPVtgap/WO
-         aqEGqcAkTaQ02kSREORf3sCzC/8e0r9EhEty2tJO9CUjwuOPN3Na95R4JIZeF9xnMiVm
-         UggGjtmKCf/z0OZP6QKrRe04WnQ+MmcieRPBQHqf3WUU1oPBzv1R1rPrcQoM0jTwaCpW
-         oFA2gVohIrOIFIASeG8BOO+sSE7cWQCvBN5kw5xS0JjdqtjqBT6EWlY/RA6ILSr8NBPg
-         48IYrvd+diwwcFFm2uKSaYINF+bprWzjyIVuZySVtQUznJ8JXcOdREmTj7TFLN81PL6y
-         sLmg==
-X-Forwarded-Encrypted: i=1; AJvYcCWwZr55EW1ka9dVf/i3nli9jRRYlo/9gJnkHzgrflvFcfNli8RblXLPyR3PNDMvzBVELh2X3GjOxmT0T/cQ@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz0JH+jPeKLYTMEj/CPTFQpMKPmm8ocOjOm8MiZQ/mg3ayYf740
-	acXO03B3RibR5mcNoLC97YOaH8HUtbEuBbU0dYDH38x0EnfgroXb443GAmOQRk9vJ37/TRSdgTT
-	iIVjR4r040MWYZ8cctXhFvIAnjklhQFr8X7prH2fj
-X-Gm-Gg: AeBDieveGnavTH7SV39IC2uKgvgenLIvulEjSw0gPADvJ0B9D1X7U4uwV1RVGLM1gZq
-	M3QvabOLNSEeUUMbfh0rPKmqh8w/SK9nJCuCh1thjLb39T3t3/OxLrUJjzLQn2a3mGMW/dE/vAB
-	IOxYECleVUsFUPZPyIyTooKJHfs9FupTF1MrTmi1eScu2tgU95c5Nge4lXjuK2Wy2Q8Ss4/1P81
-	kr1kDkAGP+viBkmyHYGylfjlLlILu5ywkJ78FcDn/hFx7Y9//vXzq4jG5LD3gsuG209Oc7Gnf4i
-	Z/q2KzQ=
-X-Received: by 2002:a05:6402:4588:b0:66b:9469:a0f1 with SMTP id
- 4fb4d7f45d1cf-66e41481095mr1730a12.14.1775158808171; Thu, 02 Apr 2026
- 12:40:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i/CX681n"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775160268; x=1806696268;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4qv2zdPZEgT5oC3SiH+LBfJp4zAyy2TSrWtsJir3Quk=;
+  b=i/CX681n/aRE7twk8zhWuuhn+vx/XrpNioMiuyZeMf5m1odZwhyBaRCe
+   3vlloJxkXJgd0DJQ/QOY1JIv7zLII60iQUN2gllIE/YtDqFPho0hHXUS5
+   L0jG0V7xldG+nEnHDGxyUSoUnCjSI3t1d8uc4+CkXpSOg8x8f1ZuKAKJT
+   iHHC5wCaQM9fR+EKEUnipYaTU9WouZklxJ2WGxiimGqN/cYgsXteYBvSZ
+   Q1RRXyC3d+ddVeHtKpchEcuafraORLZViKzSa34BUUPSdR6YHq2rSvz3r
+   xD9HQryaBRAN07q0XQEiGofJoXq6L1aQLftRN2YfO1dULLf2ZsAV7AnBZ
+   Q==;
+X-CSE-ConnectionGUID: mV7Oz7egQGeaU40IQGUa6g==
+X-CSE-MsgGUID: 8HnrbvmITq+4x7ECIR2+HA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="75947954"
+X-IronPort-AV: E=Sophos;i="6.23,156,1770624000"; 
+   d="scan'208";a="75947954"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 13:04:27 -0700
+X-CSE-ConnectionGUID: 9eC3JQUSTwuyBMZyfVDRig==
+X-CSE-MsgGUID: 5SWOeqtHSpa8wjMW5l0r5A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,156,1770624000"; 
+   d="scan'208";a="231108937"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 02 Apr 2026 13:04:25 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w8OH8-0000000098H-2Lhf;
+	Thu, 02 Apr 2026 20:04:22 +0000
+Date: Thu, 2 Apr 2026 22:04:11 +0200
+From: kernel test robot <lkp@intel.com>
+To: Venkat Rao Bagalkote <venkat88@linux.ibm.com>,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, maddy@linux.ibm.com,
+	ritesh.list@gmail.com, arnd@arndb.de, chleroy@kernel.org,
+	Venkat Rao Bagalkote <venkat88@linux.ibm.com>
+Subject: Re: [PATCH v3] char: nvram: Remove unused nvram_mutex to fix
+ -Wunused-variable warning
+Message-ID: <202604022248.LErLuuXd-lkp@intel.com>
+References: <20260330062201.2581-1-venkat88@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260327234023.2659476-2-jmattson@google.com> <202603301501.N2sdlIQ9-lkp@intel.com>
-In-Reply-To: <202603301501.N2sdlIQ9-lkp@intel.com>
-From: Jim Mattson <jmattson@google.com>
-Date: Thu, 2 Apr 2026 12:39:54 -0700
-X-Gm-Features: AQROBzAy_EbHuWlN5wT5_Opuw5NUyxR9m0jIc3ZzushJ6pVsut7GdsF_uvQSOn8
-Message-ID: <CALMp9eSO6gz4R0f1S=E-sA3YE8KE0uJ30otcGsMV1NS3ujUcNA@mail.gmail.com>
-Subject: Re: [PATCH v7 1/9] KVM: x86: Define KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT
-To: kernel test robot <lkp@intel.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Sean Christopherson <seanjc@google.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Yosry Ahmed <yosry@kernel.org>, oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260330062201.2581-1-venkat88@linux.ibm.com>
 
-On Mon, Mar 30, 2026 at 12:50=E2=80=AFAM kernel test robot <lkp@intel.com> =
-wrote:
->
-> Hi Jim,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on 3d6cdcc8883b5726513d245eef0e91cabfc397f7]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Jim-Mattson/KVM-x8=
-6-Define-KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT/20260328-110805
-> base:   3d6cdcc8883b5726513d245eef0e91cabfc397f7
-> patch link:    https://lore.kernel.org/r/20260327234023.2659476-2-jmattso=
-n%40google.com
-> patch subject: [PATCH v7 1/9] KVM: x86: Define KVM_X86_QUIRK_NESTED_SVM_S=
-HARED_PAT
-> config: x86_64-randconfig-016-20260330 (https://download.01.org/0day-ci/a=
-rchive/20260330/202603301501.N2sdlIQ9-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20260330/202603301501.N2sdlIQ9-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202603301501.N2sdlIQ9-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    In file included from arch/x86/kvm/svm/svm_onhyperv.c:11:
->    arch/x86/kvm/svm/svm.h: In function 'l2_has_separate_pat':
-> >> arch/x86/kvm/svm/svm.h:626:18: error: implicit declaration of function=
- 'kvm_check_has_quirk'; did you mean 'kvm_check_request'? [-Wimplicit-funct=
-ion-declaration]
->      626 |                 !kvm_check_has_quirk(svm->vcpu.kvm,
->          |                  ^~~~~~~~~~~~~~~~~~~
->          |                  kvm_check_request
->    In file included from arch/x86/kvm/svm/svm_ops.h:7,
->                     from arch/x86/kvm/svm/svm_onhyperv.c:12:
->    arch/x86/kvm/x86.h: At top level:
-> >> arch/x86/kvm/x86.h:429:20: error: conflicting types for 'kvm_check_has=
-_quirk'; have 'bool(struct kvm *, u64)' {aka '_Bool(struct kvm *, long long=
- unsigned int)'}
->      429 | static inline bool kvm_check_has_quirk(struct kvm *kvm, u64 qu=
-irk)
->          |                    ^~~~~~~~~~~~~~~~~~~
->    arch/x86/kvm/svm/svm.h:626:18: note: previous implicit declaration of =
-'kvm_check_has_quirk' with type 'int()'
->      626 |                 !kvm_check_has_quirk(svm->vcpu.kvm,
->          |                  ^~~~~~~~~~~~~~~~~~~
-> --
+Hi Venkat,
 
-It looks like svm.h should include x86.h.
+kernel test robot noticed the following build errors:
 
-Sean: Do you want me to send a new series?
+[auto build test ERROR on char-misc/char-misc-testing]
+[also build test ERROR on char-misc/char-misc-next char-misc/char-misc-linus linus/master v7.0-rc6 next-20260402]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Venkat-Rao-Bagalkote/char-nvram-Remove-unused-nvram_mutex-to-fix-Wunused-variable-warning/20260330-234134
+base:   char-misc/char-misc-testing
+patch link:    https://lore.kernel.org/r/20260330062201.2581-1-venkat88%40linux.ibm.com
+patch subject: [PATCH v3] char: nvram: Remove unused nvram_mutex to fix -Wunused-variable warning
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260402/202604022248.LErLuuXd-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260402/202604022248.LErLuuXd-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604022248.LErLuuXd-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/char/nvram.c: In function 'nvram_misc_ioctl':
+>> drivers/char/nvram.c:327:37: error: 'nvram_mutex' undeclared (first use in this function)
+     327 |                         mutex_lock(&nvram_mutex);
+         |                                     ^~~~~~~~~~~
+   drivers/char/nvram.c:327:37: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +/nvram_mutex +327 drivers/char/nvram.c
+
+^1da177e4c3f41 Linus Torvalds      2005-04-16  278  
+cb8d8006d43f22 Finn Thain          2019-01-15  279  static long nvram_misc_ioctl(struct file *file, unsigned int cmd,
+55929332c92e5d Arnd Bergmann       2010-04-27  280  			     unsigned long arg)
+^1da177e4c3f41 Linus Torvalds      2005-04-16  281  {
+2d58636e0af724 Finn Thain          2019-01-15  282  	long ret = -ENOTTY;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  283  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  284  	switch (cmd) {
+95ac14b8a32817 Finn Thain          2019-01-15  285  #ifdef CONFIG_PPC
+95ac14b8a32817 Finn Thain          2019-01-15  286  	case OBSOLETE_PMAC_NVRAM_GET_OFFSET:
+95ac14b8a32817 Finn Thain          2019-01-15  287  		pr_warn("nvram: Using obsolete PMAC_NVRAM_GET_OFFSET ioctl\n");
+df561f6688fef7 Gustavo A. R. Silva 2020-08-23  288  		fallthrough;
+95ac14b8a32817 Finn Thain          2019-01-15  289  	case IOC_NVRAM_GET_OFFSET:
+95ac14b8a32817 Finn Thain          2019-01-15  290  		ret = -EINVAL;
+95ac14b8a32817 Finn Thain          2019-01-15  291  #ifdef CONFIG_PPC_PMAC
+95ac14b8a32817 Finn Thain          2019-01-15  292  		if (machine_is(powermac)) {
+95ac14b8a32817 Finn Thain          2019-01-15  293  			int part, offset;
+95ac14b8a32817 Finn Thain          2019-01-15  294  
+95ac14b8a32817 Finn Thain          2019-01-15  295  			if (copy_from_user(&part, (void __user *)arg,
+95ac14b8a32817 Finn Thain          2019-01-15  296  					   sizeof(part)) != 0)
+95ac14b8a32817 Finn Thain          2019-01-15  297  				return -EFAULT;
+95ac14b8a32817 Finn Thain          2019-01-15  298  			if (part < pmac_nvram_OF || part > pmac_nvram_NR)
+95ac14b8a32817 Finn Thain          2019-01-15  299  				return -EINVAL;
+95ac14b8a32817 Finn Thain          2019-01-15  300  			offset = pmac_get_partition(part);
+20e07af71f34d9 Finn Thain          2019-01-15  301  			if (offset < 0)
+20e07af71f34d9 Finn Thain          2019-01-15  302  				return -EINVAL;
+95ac14b8a32817 Finn Thain          2019-01-15  303  			if (copy_to_user((void __user *)arg,
+95ac14b8a32817 Finn Thain          2019-01-15  304  					 &offset, sizeof(offset)) != 0)
+95ac14b8a32817 Finn Thain          2019-01-15  305  				return -EFAULT;
+95ac14b8a32817 Finn Thain          2019-01-15  306  			ret = 0;
+95ac14b8a32817 Finn Thain          2019-01-15  307  		}
+95ac14b8a32817 Finn Thain          2019-01-15  308  #endif
+95ac14b8a32817 Finn Thain          2019-01-15  309  		break;
+20e07af71f34d9 Finn Thain          2019-01-15  310  #ifdef CONFIG_PPC32
+95ac14b8a32817 Finn Thain          2019-01-15  311  	case IOC_NVRAM_SYNC:
+95ac14b8a32817 Finn Thain          2019-01-15  312  		if (ppc_md.nvram_sync != NULL) {
+95ac14b8a32817 Finn Thain          2019-01-15  313  			mutex_lock(&nvram_mutex);
+95ac14b8a32817 Finn Thain          2019-01-15  314  			ppc_md.nvram_sync();
+95ac14b8a32817 Finn Thain          2019-01-15  315  			mutex_unlock(&nvram_mutex);
+95ac14b8a32817 Finn Thain          2019-01-15  316  		}
+95ac14b8a32817 Finn Thain          2019-01-15  317  		ret = 0;
+95ac14b8a32817 Finn Thain          2019-01-15  318  		break;
+20e07af71f34d9 Finn Thain          2019-01-15  319  #endif
+95ac14b8a32817 Finn Thain          2019-01-15  320  #elif defined(CONFIG_X86) || defined(CONFIG_M68K)
+^1da177e4c3f41 Linus Torvalds      2005-04-16  321  	case NVRAM_INIT:
+^1da177e4c3f41 Linus Torvalds      2005-04-16  322  		/* initialize NVRAM contents and checksum */
+^1da177e4c3f41 Linus Torvalds      2005-04-16  323  		if (!capable(CAP_SYS_ADMIN))
+^1da177e4c3f41 Linus Torvalds      2005-04-16  324  			return -EACCES;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  325  
+2d58636e0af724 Finn Thain          2019-01-15  326  		if (arch_nvram_ops.initialize != NULL) {
+613655fa39ff69 Arnd Bergmann       2010-06-02 @327  			mutex_lock(&nvram_mutex);
+2d58636e0af724 Finn Thain          2019-01-15  328  			ret = arch_nvram_ops.initialize();
+613655fa39ff69 Arnd Bergmann       2010-06-02  329  			mutex_unlock(&nvram_mutex);
+2d58636e0af724 Finn Thain          2019-01-15  330  		}
+2d58636e0af724 Finn Thain          2019-01-15  331  		break;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  332  	case NVRAM_SETCKS:
+^1da177e4c3f41 Linus Torvalds      2005-04-16  333  		/* just set checksum, contents unchanged (maybe useful after
+^1da177e4c3f41 Linus Torvalds      2005-04-16  334  		 * checksum garbaged somehow...) */
+^1da177e4c3f41 Linus Torvalds      2005-04-16  335  		if (!capable(CAP_SYS_ADMIN))
+^1da177e4c3f41 Linus Torvalds      2005-04-16  336  			return -EACCES;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  337  
+2d58636e0af724 Finn Thain          2019-01-15  338  		if (arch_nvram_ops.set_checksum != NULL) {
+613655fa39ff69 Arnd Bergmann       2010-06-02  339  			mutex_lock(&nvram_mutex);
+2d58636e0af724 Finn Thain          2019-01-15  340  			ret = arch_nvram_ops.set_checksum();
+613655fa39ff69 Arnd Bergmann       2010-06-02  341  			mutex_unlock(&nvram_mutex);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  342  		}
+2d58636e0af724 Finn Thain          2019-01-15  343  		break;
+95ac14b8a32817 Finn Thain          2019-01-15  344  #endif /* CONFIG_X86 || CONFIG_M68K */
+2d58636e0af724 Finn Thain          2019-01-15  345  	}
+2d58636e0af724 Finn Thain          2019-01-15  346  	return ret;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  347  }
+^1da177e4c3f41 Linus Torvalds      2005-04-16  348  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
