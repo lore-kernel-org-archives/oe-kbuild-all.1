@@ -1,200 +1,139 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0067836495A
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Apr 2026 09:12:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFC673947A1
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Apr 2026 09:27:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775121173; cv=none; b=Qe1b9wYOVPeCOQNlBaMF27KovYsilIAcaWdIUNJyeZ5Hw/MJzwYn8ClOGAFF0o5KEIiduJNDDulrLvtUDPFttl0S57GpwrR0rSdUum2GMU6mg6KZk+t9KF0P4aLUVoSw54pNWAqBbOEB7QIye0AN84Z6Mf2t63W937s8fnNqiXI=
+	t=1775122051; cv=none; b=eqQUM7nuFwQQBi2mK4yrB/W7Fyfl5Kx77oiAfwOt3pjyy9hc3hOGipM9NNZeYvOYahy3lIwNHMyglkDMxdchufet5vDK9wNo7j/HmDSLisNBtMISVuveF25yICq+EuBy/3sSU4rPQwSqKbj84QUd8KcOw+ggt9GQ62BN1jQsMzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775121173; c=relaxed/simple;
-	bh=sEherq6mpoZoc7L3YQ8XNUEWLw9suS70+AlIhcU0vQ8=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=RyMlL44kIFiNj9pfyuPkzOGvtZE1fAu7rQuhQ7qxiUgHw2NgEa0OD69L3Y3V+lwlgPRAot7tedICpVkEJVd36TjgOJX1Bq+dRcnP+whFdtxTQ5L35ehnlN4WADrc0IT+WbWAXrYTsSq67ikYYXr1IZpa6vnFIvvC8s3XSXEn+Vc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=tB2qsyyT; arc=none smtp.client-ip=195.121.94.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1775122051; c=relaxed/simple;
+	bh=lQRRf1eanUaQfz5bj1w7lPm0DIYtU9Lg2TjMBikg1uo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ES5zDILv5HfIBWlxGlcUSxqHjjnpr2jm+NIs4+5PDZS6B1O6coaN7uYIW35Ejqnr5CxtWAck+rhgjSQMLnNEnFqaL8eCbKY3WpYmH9rRMRabfV88hsgAo27WkXkkaMpEqdqTSjdBSz5wCVYYd0cxsrs/UFtT+SdHfYOUMBtvzvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OJe7Vece; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="tB2qsyyT"
-X-KPN-MessageId: 1de1f0af-2e74-11f1-bea8-005056992ed3
-Received: from mta.kpnmail.nl (unknown [10.31.161.189])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 1de1f0af-2e74-11f1-bea8-005056992ed3;
-	Thu, 02 Apr 2026 11:12:47 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 1e0be50b-2e74-11f1-b5d0-0050569981f5;
-	Thu, 02 Apr 2026 11:12:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=YhpNgmP0kyOBY7UtwKYc84SximQyn1kpmW6JvS5K8wc=;
-	b=tB2qsyyTYUrZqa/2kDAjA7sID1pamk57hYbeWv42ht799P58cOxDuj9APBgl/z9EtcIaSnZ1TfqAw
-	 Xx9Fx0U1hhw8wrROyHEeome3yEBQB3W0ASAVQIL83z8rhhfm2Kfr1NODIzbvqIqxdICbiF82IwV/Fi
-	 MM7oC5FysqNxfVvikm1UsLWVU8ClBWA/WEdUJVkTLEpj80PQYZ4e9I5SWohkQYk1f73jxuw8k59PtE
-	 rE2GxA1bfuZ6C9oJ8IDmKqDpkOEcKQa8JFl13WRG36r/MnzC5im/XvdqIij1l6w71k0oAobxsmduGt
-	 jwP6Tn8SSucjKidGu2U0n/TOLFhBF/Q==
-X-KPN-MID: 33|YaZqOUkfv5lEBLIoUEwY7FtowS5+SAP1Z7Oazmx8glMnm1V0O4J0jU/ob5meAxZ
- zTsCisAFrCSmPh0Arknr9Jc9Bqpm6B1NEzE14BFO0waQ=
-X-CMASSUN: 33|W6dXBSlPa9VgGlFR26h8LJAMFYxvKMyez48k8C+GPoCcmS/P/TvrtuTimCM+k+c
- GrqOzRUe+jvQ5FwjVCdry1g==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh07 (cpxoxapps-mh07.personalcloud.so.kpn.org [10.128.135.213])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 1e05d7ff-2e74-11f1-b8d7-005056995d6c;
-	Thu, 02 Apr 2026 11:12:48 +0200 (CEST)
-Date: Thu, 2 Apr 2026 11:12:47 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: kernel test robot <lkp@intel.com>, gregkh@linuxfoundation.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	NeilBrown <neil@brown.name>, Amir Goldstein <amir73il@gmail.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Mateusz Guzik <mjguzik@gmail.com>,
-	"open list:FILESYSTEMS (VFS and infrastructure)"
- <linux-fsdevel@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-Message-ID: <1499602884.918603.1775121167994@kpc.webmail.kpnmail.nl>
-In-Reply-To: <202604020519.RLV5cfGp-lkp@intel.com>
-References: <20260331173726.3517440-1-jkoolstra@xs4all.nl>
- <202604020519.RLV5cfGp-lkp@intel.com>
-Subject: Re: [PATCH] vfs: replace ints with enum component_type for LAST_XXX
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OJe7Vece"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775122042; x=1806658042;
+  h=date:from:to:cc:subject:message-id;
+  bh=lQRRf1eanUaQfz5bj1w7lPm0DIYtU9Lg2TjMBikg1uo=;
+  b=OJe7VecemLzsQ5A1RYtqIbX1cmzch4KK00p7uql+Ev4WmQfFZOQzURRE
+   1oHmNISXpt6j1F5OaeDW53MoqxVmr6qxkbJ//Vg+iERGLsUBzVirdHXPd
+   AQ+ab9rLaQoBEq/jpqG+Cu4pAJvmLHvsQzyAUp1U7P4lANwLIUq/9RxH+
+   RZwMs17apggTbSCrlmMrHPT94dfcGILiUVTlC2eZDiAHPbx4lmwC7t2jw
+   vfHB3af8Fa+yUZTvYCPHhz/OL5EEAxMcBSa421FDMfuAw0WzzRgSj5Vr6
+   Xmgvrgu/9Z1vzDYGE9aM9QtWhVGu9bAMWyryxYSbiIG5wtJCEXdaHCZ6E
+   g==;
+X-CSE-ConnectionGUID: UQ3b0WAkRRK78KpneUAPFw==
+X-CSE-MsgGUID: SnukwBWuRjy00wWC/9RNzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11746"; a="86797078"
+X-IronPort-AV: E=Sophos;i="6.23,155,1770624000"; 
+   d="scan'208";a="86797078"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 02:27:21 -0700
+X-CSE-ConnectionGUID: Q3SMsSKqQJCqcgW8wHFIUA==
+X-CSE-MsgGUID: AInqWctaTsW0rBx2lq81/A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,155,1770624000"; 
+   d="scan'208";a="250142038"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 02 Apr 2026 02:27:19 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w8EKa-0000000091t-4AG6;
+	Thu, 02 Apr 2026 09:27:16 +0000
+Date: Thu, 02 Apr 2026 11:26:32 +0200
+From: kernel test robot <lkp@intel.com>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [mark:arm64/entry/rework 2/11]
+ include/linux/entry-common.h:324:9: error: implicit declaration of function
+ 'local_irq_disable_exit_to_user'
+Message-ID: <202604021153.NOgYfLv4-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git arm64/entry/rework
+head:   1e10c666f8f7ec4524fd226186a6ae0ad495aad5
+commit: be5c2d5a23beab5211c64f1237c238a1df622c47 [2/11] entry: Remove local_irq_{enable,disable}_exit_to_user()
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260402/202604021153.NOgYfLv4-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260402/202604021153.NOgYfLv4-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604021153.NOgYfLv4-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from arch/x86/include/asm/idtentry.h:11,
+                    from arch/x86/include/asm/traps.h:9,
+                    from arch/x86/boot/startup/sev-startup.c:35:
+   include/linux/entry-common.h: In function 'syscall_exit_to_user_mode':
+>> include/linux/entry-common.h:324:9: error: implicit declaration of function 'local_irq_disable_exit_to_user' [-Wimplicit-function-declaration]
+     324 |         local_irq_disable_exit_to_user();
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-> Op 02-04-2026 08:25 CEST schreef kernel test robot <lkp@intel.com>:
-> 
->  
-> Hi Jori,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on brauner-vfs/vfs.all]
-> [also build test ERROR on linus/master viro-vfs/for-next v7.0-rc6 next-20260331]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Jori-Koolstra/vfs-replace-ints-with-enum-component_type-for-LAST_XXX/20260401-024525
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-> patch link:    https://lore.kernel.org/r/20260331173726.3517440-1-jkoolstra%40xs4all.nl
-> patch subject: [PATCH] vfs: replace ints with enum component_type for LAST_XXX
-> config: hexagon-allmodconfig
-> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-> reproduce (this is a W=1 build):
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202604020519.RLV5cfGp-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> fs/smb/server/vfs.c:71:23: error: incompatible pointer types passing 'int *' to parameter of type 'enum component_type *' [-Werror,-Wincompatible-pointer-types]
->       71 |                                      path, &last, &type,
->          |                                                   ^~~~~
->    include/linux/namei.h:70:68: note: passing argument to parameter 'type' here
->       70 |                            struct path *parent, struct qstr *last, enum component_type *type,
->          |                                                                                         ^
-> >> fs/smb/server/vfs.c:76:23: error: use of undeclared identifier 'LAST_NORM'
->       76 |         if (unlikely(type != LAST_NORM)) {
->          |                              ^
->    fs/smb/server/vfs.c:681:32: error: incompatible pointer types passing 'int *' to parameter of type 'enum component_type *' [-Werror,-Wincompatible-pointer-types]
->      681 |                                      &new_path, &new_last, &new_type,
->          |                                                            ^~~~~~~~~
->    include/linux/namei.h:70:68: note: passing argument to parameter 'type' here
->       70 |                            struct path *parent, struct qstr *last, enum component_type *type,
->          |                                                                                         ^
->    3 errors generated.
-> 
-> 
-> vim +71 fs/smb/server/vfs.c
-> 
-> f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon 2021-03-16   52  
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   53  static int ksmbd_vfs_path_lookup(struct ksmbd_share_config *share_conf,
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   54  				 char *pathname, unsigned int flags,
-> 1ead2213dd7d14 fs/smb/server/vfs.c NeilBrown   2025-11-13   55  				 struct path *path, bool for_remove)
-> f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon 2021-03-16   56  {
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   57  	struct qstr last;
-> 94cb22d109d517 fs/smb/server/vfs.c Al Viro     2025-07-06   58  	const struct path *root_share_path = &share_conf->vfs_path;
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   59  	int err, type;
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   60  	struct dentry *d;
-> f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon 2021-03-16   61  
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   62  	if (pathname[0] == '\0') {
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   63  		pathname = share_conf->path;
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   64  		root_share_path = NULL;
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   65  	} else {
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   66  		flags |= LOOKUP_BENEATH;
-> ff1d57272552e4 fs/cifsd/vfs.c      Namjae Jeon 2021-04-13   67  	}
-> f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon 2021-03-16   68  
-> 39537a335a6189 fs/smb/server/vfs.c Al Viro     2025-12-14   69  	CLASS(filename_kernel, filename)(pathname);
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   70  	err = vfs_path_parent_lookup(filename, flags,
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  @71  				     path, &last, &type,
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   72  				     root_share_path);
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   73  	if (err)
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   74  		return err;
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   75  
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21  @76  	if (unlikely(type != LAST_NORM)) {
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   77  		path_put(path);
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   78  		return -ENOENT;
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   79  	}
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   80  
-> 1ead2213dd7d14 fs/smb/server/vfs.c NeilBrown   2025-11-13   81  	if (for_remove) {
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   82  		err = mnt_want_write(path->mnt);
-> 864fb5d3716303 fs/smb/server/vfs.c Namjae Jeon 2023-11-20   83  		if (err) {
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   84  			path_put(path);
-> 864fb5d3716303 fs/smb/server/vfs.c Namjae Jeon 2023-11-20   85  			return -ENOENT;
-> 864fb5d3716303 fs/smb/server/vfs.c Namjae Jeon 2023-11-20   86  		}
-> 864fb5d3716303 fs/smb/server/vfs.c Namjae Jeon 2023-11-20   87  
-> 1ead2213dd7d14 fs/smb/server/vfs.c NeilBrown   2025-11-13   88  		d = start_removing_noperm(path->dentry, &last);
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   89  
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   90  		if (!IS_ERR(d)) {
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   91  			dput(path->dentry);
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   92  			path->dentry = d;
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   93  			return 0;
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   94  		}
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   95  		mnt_drop_write(path->mnt);
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   96  		path_put(path);
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   97  		return -ENOENT;
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   98  	}
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   99  
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  100  	d = lookup_noperm_unlocked(&last, path->dentry);
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  101  	if (!IS_ERR(d) && d_is_negative(d)) {
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  102  		dput(d);
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  103  		d = ERR_PTR(-ENOENT);
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  104  	}
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  105  	if (IS_ERR(d)) {
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  106  		path_put(path);
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  107  		return -ENOENT;
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  108  	}
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  109  	dput(path->dentry);
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21  110  	path->dentry = d;
-> 2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon 2023-07-17  111  
-> 2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon 2023-07-17  112  	if (test_share_config_flag(share_conf, KSMBD_SHARE_FLAG_CROSSMNT)) {
-> 2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon 2023-07-17  113  		err = follow_down(path, 0);
-> 2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon 2023-07-17  114  		if (err < 0) {
-> 2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon 2023-07-17  115  			path_put(path);
-> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  116  			return -ENOENT;
-> 2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon 2023-07-17  117  		}
-> 2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon 2023-07-17  118  	}
-> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21  119  	return 0;
-> f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon 2021-03-16  120  }
-> f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon 2021-03-16  121  
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+vim +/local_irq_disable_exit_to_user +324 include/linux/entry-common.h
 
-These should have been resolved in the v2 patch already. I missed the reference in
-fs/smb/sever/vfs.c initially. My LSP config was off, probably should've just rg'ed
-it in the first place...
+c6156e1da633f2 Sven Schnelle     2020-12-01  288  
+a9f3a74a29af09 Thomas Gleixner   2020-07-22  289  /**
+a9f3a74a29af09 Thomas Gleixner   2020-07-22  290   * syscall_exit_to_user_mode - Handle work before returning to user mode
+a9f3a74a29af09 Thomas Gleixner   2020-07-22  291   * @regs:	Pointer to currents pt_regs
+a9f3a74a29af09 Thomas Gleixner   2020-07-22  292   *
+e1647100c22eb7 Jinjie Ruan       2026-01-28  293   * Invoked with interrupts enabled and fully valid @regs. Returns with all
+a9f3a74a29af09 Thomas Gleixner   2020-07-22  294   * work handled, interrupts disabled such that the caller can immediately
+a9f3a74a29af09 Thomas Gleixner   2020-07-22  295   * switch to user mode. Called from architecture specific syscall and ret
+a9f3a74a29af09 Thomas Gleixner   2020-07-22  296   * from fork code.
+a9f3a74a29af09 Thomas Gleixner   2020-07-22  297   *
+a9f3a74a29af09 Thomas Gleixner   2020-07-22  298   * The call order is:
+a9f3a74a29af09 Thomas Gleixner   2020-07-22  299   *  1) One-time syscall exit work:
+a9f3a74a29af09 Thomas Gleixner   2020-07-22  300   *	- rseq syscall exit
+a9f3a74a29af09 Thomas Gleixner   2020-07-22  301   *      - audit
+a9f3a74a29af09 Thomas Gleixner   2020-07-22  302   *	- syscall tracing
+0cfcb2b9ef48bb Eric W. Biederman 2022-01-27  303   *	- ptrace (single stepping)
+a9f3a74a29af09 Thomas Gleixner   2020-07-22  304   *
+a9f3a74a29af09 Thomas Gleixner   2020-07-22  305   *  2) Preparatory work
+e1647100c22eb7 Jinjie Ruan       2026-01-28  306   *	- Disable interrupts
+a9f3a74a29af09 Thomas Gleixner   2020-07-22  307   *	- Exit to user mode loop (common TIF handling). Invokes
+a9f3a74a29af09 Thomas Gleixner   2020-07-22  308   *	  arch_exit_to_user_mode_work() for architecture specific TIF work
+a9f3a74a29af09 Thomas Gleixner   2020-07-22  309   *	- Architecture specific one time work arch_exit_to_user_mode_prepare()
+a9f3a74a29af09 Thomas Gleixner   2020-07-22  310   *	- Address limit and lockdep checks
+a9f3a74a29af09 Thomas Gleixner   2020-07-22  311   *
+310de1a678b218 Sven Schnelle     2020-12-01  312   *  3) Final transition (lockdep, tracing, context tracking, RCU), i.e. the
+310de1a678b218 Sven Schnelle     2020-12-01  313   *     functionality in exit_to_user_mode().
+c6156e1da633f2 Sven Schnelle     2020-12-01  314   *
+e1647100c22eb7 Jinjie Ruan       2026-01-28  315   * This is a combination of syscall_exit_to_user_mode_work() (1), disabling
+e1647100c22eb7 Jinjie Ruan       2026-01-28  316   * interrupts followed by syscall_exit_to_user_mode_prepare() (2) and
+e1647100c22eb7 Jinjie Ruan       2026-01-28  317   * exit_to_user_mode() (3). This function is preferred unless there is a
+e1647100c22eb7 Jinjie Ruan       2026-01-28  318   * compelling architectural reason to invoke the functions separately.
+a9f3a74a29af09 Thomas Gleixner   2020-07-22  319   */
+e43b8bb56e537b Charlie Jenkins   2025-03-20  320  static __always_inline void syscall_exit_to_user_mode(struct pt_regs *regs)
+e43b8bb56e537b Charlie Jenkins   2025-03-20  321  {
+e43b8bb56e537b Charlie Jenkins   2025-03-20  322  	instrumentation_begin();
+e43b8bb56e537b Charlie Jenkins   2025-03-20  323  	syscall_exit_to_user_mode_work(regs);
+e1647100c22eb7 Jinjie Ruan       2026-01-28 @324  	local_irq_disable_exit_to_user();
+e1647100c22eb7 Jinjie Ruan       2026-01-28  325  	syscall_exit_to_user_mode_prepare(regs);
+e43b8bb56e537b Charlie Jenkins   2025-03-20  326  	instrumentation_end();
+e43b8bb56e537b Charlie Jenkins   2025-03-20  327  	exit_to_user_mode();
+e43b8bb56e537b Charlie Jenkins   2025-03-20  328  }
+a9f3a74a29af09 Thomas Gleixner   2020-07-22  329  
+
+:::::: The code at line 324 was first introduced by commit
+:::::: e1647100c22eb718e9833211722cbb78e339047c entry: Rework syscall_exit_to_user_mode_work() for architecture reuse
+
+:::::: TO: Jinjie Ruan <ruanjinjie@huawei.com>
+:::::: CC: Thomas Gleixner <tglx@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
