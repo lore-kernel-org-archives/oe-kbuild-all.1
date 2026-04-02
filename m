@@ -1,144 +1,200 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4CE23793C1
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Apr 2026 07:34:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0067836495A
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Apr 2026 09:12:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775115248; cv=none; b=V39slWLKVcqXI2GyKY+mE93/Latt32bTE6UMgqfYEO4AUwULvsOZ3wWGMyYcmegKFuJdYbPL7CqBbCMW7o5YLRlafT1s14rxqRusehBrIt+HCp9tERKQTEemZJnOF3QEWUDXzDS4dZ8QZkCxADkmpZQXOOsXM1cNYLxWbyq5Z1k=
+	t=1775121173; cv=none; b=Qe1b9wYOVPeCOQNlBaMF27KovYsilIAcaWdIUNJyeZ5Hw/MJzwYn8ClOGAFF0o5KEIiduJNDDulrLvtUDPFttl0S57GpwrR0rSdUum2GMU6mg6KZk+t9KF0P4aLUVoSw54pNWAqBbOEB7QIye0AN84Z6Mf2t63W937s8fnNqiXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775115248; c=relaxed/simple;
-	bh=kdXNh45BSn6P4i4/3/wi+IVwhRHzQ/WRcJXec0BKvgw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HDjSnckErWjDtA6tGaPrIpTQ8uup6o5BqvykvNzpPBOdPPPKYRlnoq0ywq7Xbvn5avx0Wj9CqDcGYYVNLvXvHNvsfOJZ+Dg32rvwIKwWqMPv7A+RceNYGiqXJrc1N3AqdyMBVlPiq4SuT7mwQ1Lgljtxlz/3jCnMIt1plJUL6Kg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WRNcno6Q; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775121173; c=relaxed/simple;
+	bh=sEherq6mpoZoc7L3YQ8XNUEWLw9suS70+AlIhcU0vQ8=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=RyMlL44kIFiNj9pfyuPkzOGvtZE1fAu7rQuhQ7qxiUgHw2NgEa0OD69L3Y3V+lwlgPRAot7tedICpVkEJVd36TjgOJX1Bq+dRcnP+whFdtxTQ5L35ehnlN4WADrc0IT+WbWAXrYTsSq67ikYYXr1IZpa6vnFIvvC8s3XSXEn+Vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=tB2qsyyT; arc=none smtp.client-ip=195.121.94.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WRNcno6Q"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43d02a71526so323338f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 02 Apr 2026 00:34:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="tB2qsyyT"
+X-KPN-MessageId: 1de1f0af-2e74-11f1-bea8-005056992ed3
+Received: from mta.kpnmail.nl (unknown [10.31.161.189])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 1de1f0af-2e74-11f1-bea8-005056992ed3;
+	Thu, 02 Apr 2026 11:12:47 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id 1e0be50b-2e74-11f1-b5d0-0050569981f5;
+	Thu, 02 Apr 2026 11:12:48 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775115245; x=1775720045; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XZhiUflwFUy2WPcGP8HzTbxOEv4skJ+nnW3yRKJvYww=;
-        b=WRNcno6Qqsotpv2pC0K/L1xa6RkjnBOGp4QfkgQ+fRZFFmwAocP5u/rRvXv6lOfD3H
-         lWQVs268YGNlIQkeei3WdbFP5n3GEtpyQ3KPmPnNbZ/KvEexyPrUeCgkQCnxaOGEy5s9
-         u3I4qdW7KmmG/KCV4jCglZiFnGxomEh0YByHBtvKxRyDjvWkO6WTuRKov/pU2yrg7rKY
-         ye2ggsbMfRrkjCuHOnK2A1Xhz+VWM29L4sUvtUTHGezIYN5Pip6WrVSEn5Nzq85VmKXQ
-         MlfF671/AgmLak/TTU9S7uhTkFS9R1ID3X0E8MFPJnpSCz1TTF+enfKw7kNDP/5dCIxz
-         7dMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775115245; x=1775720045;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=XZhiUflwFUy2WPcGP8HzTbxOEv4skJ+nnW3yRKJvYww=;
-        b=TwfhHeHAUAeJ1AEXUhWrMPHg3nw4PQyzAh6uvMPSrH0XPPn2IPpzO4eDjkefajPQ2Z
-         MClFAq1Ak2NyAQCDhmcHsVSrj9JR5yCJL+exILAbc3jNfQ54G3LBYABok3qa17JUa8FR
-         oYoz29qMU3U2SaRaxxAowTqQAZe6esaOtSM41yztIUjqe8stMFtIXNm30G5WeszXNoUf
-         gcAXPtGqQrPBRwq1jWAWOIVx9AN7dnWhf4410T7EL1Oks+MtOhoTxkqJHzn9E5nM9JOW
-         NN1VGiUomHwfCEPUvWk10EOo2+e8DW8/26INLhHBBjH3tkrVzidemAAE4zUhL8AJTa/k
-         4ulQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWXkm6/M103oN3n0ATULu7HXuCCS1TcJCnZmjFnXkFF5MxZ/0rqICVar3sE9ZG8sSsdeA/Zqi4N7qhTJYDP@lists.linux.dev
-X-Gm-Message-State: AOJu0YyGxcwdFRIT2jDnrJ1gW7HhZa4MxTpQjgeh6yov9t1ThIn6wGWH
-	2I8VscNHSFkZUdre8RCv1VDvgO6eeT0pZnrpb2WuWxi0GGl4gHkxq7gf
-X-Gm-Gg: ATEYQzwkNCSyK4JWy87d5T8QvpAVkKkcuF0RYlwTkt3tREZ4lnL87CtbNyJy4BLKJUQ
-	tYcBjIKTBa4Om+z3YaGE0AhniZHUTyzZRPPy2ClQB6edq8qwRZF4gRCSBANYDVYwuIfwDBYv7G4
-	dHz1OrCl7t9AI3y/ESWQDymqfXoITzFEh9MAnsEA5iqDe6Ye1iODgOXTGEwctH7uaJxDc962iaS
-	FTvzb8rfNZ5qGVGHr7Id+TklF/exA0CP9bP9bBWTHmWHjOajgurKs6CDJZEoMOfvaOJQIw0hQQx
-	5irvXvrbNaBxdbBo14bL5d6wJeyYCwVl0YwL+2VQSoW/7Hox/VmzccilMfCB6C8SA0mADtNJH47
-	rtPhnSbJaEoJL9DeUvDzJOilHlVDjPalu7bkP3FHWE4M7Cf3dwvlHOJ73o9QkVwbIfB6eLXIPuo
-	eXepzbSkOJmKjpzPo9pf4=
-X-Received: by 2002:a05:6000:40cb:b0:43d:b99:bdcc with SMTP id ffacd0b85a97d-43d150dd744mr12121013f8f.26.1775115244942;
-        Thu, 02 Apr 2026 00:34:04 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e4e6224sm6005807f8f.25.2026.04.02.00.34.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Apr 2026 00:34:04 -0700 (PDT)
-Date: Thu, 2 Apr 2026 10:34:01 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Bart Van Assche <bvanassche@acm.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [bvanassche:thread-safety 38/96]
- drivers/video/fbdev/omap2/omapfb/omapfb-main.c:1126 omapfb_mmap() warn:
- inconsistent returns '&rg->lock'.
-Message-ID: <202604012338.d8PQexIR-lkp@intel.com>
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=YhpNgmP0kyOBY7UtwKYc84SximQyn1kpmW6JvS5K8wc=;
+	b=tB2qsyyTYUrZqa/2kDAjA7sID1pamk57hYbeWv42ht799P58cOxDuj9APBgl/z9EtcIaSnZ1TfqAw
+	 Xx9Fx0U1hhw8wrROyHEeome3yEBQB3W0ASAVQIL83z8rhhfm2Kfr1NODIzbvqIqxdICbiF82IwV/Fi
+	 MM7oC5FysqNxfVvikm1UsLWVU8ClBWA/WEdUJVkTLEpj80PQYZ4e9I5SWohkQYk1f73jxuw8k59PtE
+	 rE2GxA1bfuZ6C9oJ8IDmKqDpkOEcKQa8JFl13WRG36r/MnzC5im/XvdqIij1l6w71k0oAobxsmduGt
+	 jwP6Tn8SSucjKidGu2U0n/TOLFhBF/Q==
+X-KPN-MID: 33|YaZqOUkfv5lEBLIoUEwY7FtowS5+SAP1Z7Oazmx8glMnm1V0O4J0jU/ob5meAxZ
+ zTsCisAFrCSmPh0Arknr9Jc9Bqpm6B1NEzE14BFO0waQ=
+X-CMASSUN: 33|W6dXBSlPa9VgGlFR26h8LJAMFYxvKMyez48k8C+GPoCcmS/P/TvrtuTimCM+k+c
+ GrqOzRUe+jvQ5FwjVCdry1g==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh07 (cpxoxapps-mh07.personalcloud.so.kpn.org [10.128.135.213])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id 1e05d7ff-2e74-11f1-b8d7-005056995d6c;
+	Thu, 02 Apr 2026 11:12:48 +0200 (CEST)
+Date: Thu, 2 Apr 2026 11:12:47 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: kernel test robot <lkp@intel.com>, gregkh@linuxfoundation.org,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	NeilBrown <neil@brown.name>, Amir Goldstein <amir73il@gmail.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Mateusz Guzik <mjguzik@gmail.com>,
+	"open list:FILESYSTEMS (VFS and infrastructure)"
+ <linux-fsdevel@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Message-ID: <1499602884.918603.1775121167994@kpc.webmail.kpnmail.nl>
+In-Reply-To: <202604020519.RLV5cfGp-lkp@intel.com>
+References: <20260331173726.3517440-1-jkoolstra@xs4all.nl>
+ <202604020519.RLV5cfGp-lkp@intel.com>
+Subject: Re: [PATCH] vfs: replace ints with enum component_type for LAST_XXX
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
-tree:   https://github.com/bvanassche/linux thread-safety
-head:   c1607d2e734438927b2e2174f2af3912dbdb7e8b
-commit: bfb7ef5272e9ee11e27416642e2cfdf1961eb4f8 [38/96] fbdev/omap2: Make the source code easier to analyze
-config: arm64-randconfig-r072-20260401
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 585e2a015b29c1a53c4acddeda1b64b3fb3aac39)
-smatch: v0.5.0-9004-gb810ac53
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202604012338.d8PQexIR-lkp@intel.com/
+> Op 02-04-2026 08:25 CEST schreef kernel test robot <lkp@intel.com>:
+> 
+>  
+> Hi Jori,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on brauner-vfs/vfs.all]
+> [also build test ERROR on linus/master viro-vfs/for-next v7.0-rc6 next-20260331]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Jori-Koolstra/vfs-replace-ints-with-enum-component_type-for-LAST_XXX/20260401-024525
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+> patch link:    https://lore.kernel.org/r/20260331173726.3517440-1-jkoolstra%40xs4all.nl
+> patch subject: [PATCH] vfs: replace ints with enum component_type for LAST_XXX
+> config: hexagon-allmodconfig
+> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+> reproduce (this is a W=1 build):
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202604020519.RLV5cfGp-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> fs/smb/server/vfs.c:71:23: error: incompatible pointer types passing 'int *' to parameter of type 'enum component_type *' [-Werror,-Wincompatible-pointer-types]
+>       71 |                                      path, &last, &type,
+>          |                                                   ^~~~~
+>    include/linux/namei.h:70:68: note: passing argument to parameter 'type' here
+>       70 |                            struct path *parent, struct qstr *last, enum component_type *type,
+>          |                                                                                         ^
+> >> fs/smb/server/vfs.c:76:23: error: use of undeclared identifier 'LAST_NORM'
+>       76 |         if (unlikely(type != LAST_NORM)) {
+>          |                              ^
+>    fs/smb/server/vfs.c:681:32: error: incompatible pointer types passing 'int *' to parameter of type 'enum component_type *' [-Werror,-Wincompatible-pointer-types]
+>      681 |                                      &new_path, &new_last, &new_type,
+>          |                                                            ^~~~~~~~~
+>    include/linux/namei.h:70:68: note: passing argument to parameter 'type' here
+>       70 |                            struct path *parent, struct qstr *last, enum component_type *type,
+>          |                                                                                         ^
+>    3 errors generated.
+> 
+> 
+> vim +71 fs/smb/server/vfs.c
+> 
+> f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon 2021-03-16   52  
+> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   53  static int ksmbd_vfs_path_lookup(struct ksmbd_share_config *share_conf,
+> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   54  				 char *pathname, unsigned int flags,
+> 1ead2213dd7d14 fs/smb/server/vfs.c NeilBrown   2025-11-13   55  				 struct path *path, bool for_remove)
+> f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon 2021-03-16   56  {
+> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   57  	struct qstr last;
+> 94cb22d109d517 fs/smb/server/vfs.c Al Viro     2025-07-06   58  	const struct path *root_share_path = &share_conf->vfs_path;
+> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   59  	int err, type;
+> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   60  	struct dentry *d;
+> f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon 2021-03-16   61  
+> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   62  	if (pathname[0] == '\0') {
+> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   63  		pathname = share_conf->path;
+> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   64  		root_share_path = NULL;
+> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   65  	} else {
+> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   66  		flags |= LOOKUP_BENEATH;
+> ff1d57272552e4 fs/cifsd/vfs.c      Namjae Jeon 2021-04-13   67  	}
+> f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon 2021-03-16   68  
+> 39537a335a6189 fs/smb/server/vfs.c Al Viro     2025-12-14   69  	CLASS(filename_kernel, filename)(pathname);
+> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   70  	err = vfs_path_parent_lookup(filename, flags,
+> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  @71  				     path, &last, &type,
+> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   72  				     root_share_path);
+> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   73  	if (err)
+> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   74  		return err;
+> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   75  
+> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21  @76  	if (unlikely(type != LAST_NORM)) {
+> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   77  		path_put(path);
+> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   78  		return -ENOENT;
+> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   79  	}
+> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   80  
+> 1ead2213dd7d14 fs/smb/server/vfs.c NeilBrown   2025-11-13   81  	if (for_remove) {
+> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   82  		err = mnt_want_write(path->mnt);
+> 864fb5d3716303 fs/smb/server/vfs.c Namjae Jeon 2023-11-20   83  		if (err) {
+> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   84  			path_put(path);
+> 864fb5d3716303 fs/smb/server/vfs.c Namjae Jeon 2023-11-20   85  			return -ENOENT;
+> 864fb5d3716303 fs/smb/server/vfs.c Namjae Jeon 2023-11-20   86  		}
+> 864fb5d3716303 fs/smb/server/vfs.c Namjae Jeon 2023-11-20   87  
+> 1ead2213dd7d14 fs/smb/server/vfs.c NeilBrown   2025-11-13   88  		d = start_removing_noperm(path->dentry, &last);
+> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21   89  
+> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   90  		if (!IS_ERR(d)) {
+> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   91  			dput(path->dentry);
+> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   92  			path->dentry = d;
+> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   93  			return 0;
+> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   94  		}
+> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   95  		mnt_drop_write(path->mnt);
+> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   96  		path_put(path);
+> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   97  		return -ENOENT;
+> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   98  	}
+> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24   99  
+> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  100  	d = lookup_noperm_unlocked(&last, path->dentry);
+> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  101  	if (!IS_ERR(d) && d_is_negative(d)) {
+> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  102  		dput(d);
+> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  103  		d = ERR_PTR(-ENOENT);
+> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  104  	}
+> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  105  	if (IS_ERR(d)) {
+> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  106  		path_put(path);
+> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  107  		return -ENOENT;
+> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  108  	}
+> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  109  	dput(path->dentry);
+> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21  110  	path->dentry = d;
+> 2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon 2023-07-17  111  
+> 2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon 2023-07-17  112  	if (test_share_config_flag(share_conf, KSMBD_SHARE_FLAG_CROSSMNT)) {
+> 2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon 2023-07-17  113  		err = follow_down(path, 0);
+> 2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon 2023-07-17  114  		if (err < 0) {
+> 2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon 2023-07-17  115  			path_put(path);
+> 4e45cca31d4e70 fs/smb/server/vfs.c NeilBrown   2025-07-24  116  			return -ENOENT;
+> 2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon 2023-07-17  117  		}
+> 2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon 2023-07-17  118  	}
+> 74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon 2023-04-21  119  	return 0;
+> f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon 2021-03-16  120  }
+> f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon 2021-03-16  121  
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-smatch warnings:
-drivers/video/fbdev/omap2/omapfb/omapfb-main.c:1126 omapfb_mmap() warn: inconsistent returns '&rg->lock'.
-
-vim +1126 drivers/video/fbdev/omap2/omapfb/omapfb-main.c
-
-b39a982ddecf1d drivers/video/omap2/omapfb/omapfb-main.c       Tomi Valkeinen    2009-08-04  1089  static int omapfb_mmap(struct fb_info *fbi, struct vm_area_struct *vma)
-b39a982ddecf1d drivers/video/omap2/omapfb/omapfb-main.c       Tomi Valkeinen    2009-08-04  1090  {
-b39a982ddecf1d drivers/video/omap2/omapfb/omapfb-main.c       Tomi Valkeinen    2009-08-04  1091  	struct omapfb_info *ofbi = FB2OFB(fbi);
-b39a982ddecf1d drivers/video/omap2/omapfb/omapfb-main.c       Tomi Valkeinen    2009-08-04  1092  	struct fb_fix_screeninfo *fix = &fbi->fix;
-bfb7ef5272e9ee drivers/video/fbdev/omap2/omapfb/omapfb-main.c Bart Van Assche   2026-02-06  1093  	struct omapfb2_mem_region *rg = ofbi->region;
-b39a982ddecf1d drivers/video/omap2/omapfb/omapfb-main.c       Tomi Valkeinen    2009-08-04  1094  	unsigned long start;
-b39a982ddecf1d drivers/video/omap2/omapfb/omapfb-main.c       Tomi Valkeinen    2009-08-04  1095  	u32 len;
-6d28c21fe7b092 drivers/video/omap2/omapfb/omapfb-main.c       Tomi Valkeinen    2013-04-17  1096  	int r;
-b39a982ddecf1d drivers/video/omap2/omapfb/omapfb-main.c       Tomi Valkeinen    2009-08-04  1097  
-76f92201b821dd drivers/video/fbdev/omap2/omapfb/omapfb-main.c Thomas Zimmermann 2023-11-27  1098  	vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
-76f92201b821dd drivers/video/fbdev/omap2/omapfb/omapfb-main.c Thomas Zimmermann 2023-11-27  1099  
-bfb7ef5272e9ee drivers/video/fbdev/omap2/omapfb/omapfb-main.c Bart Van Assche   2026-02-06  1100  	omapfb_get_mem_region(rg);
-078ff546a806b2 drivers/video/omap2/omapfb/omapfb-main.c       Ville Syrjälä     2010-03-17  1101  
-b39a982ddecf1d drivers/video/omap2/omapfb/omapfb-main.c       Tomi Valkeinen    2009-08-04  1102  	start = omapfb_get_region_paddr(ofbi);
-b39a982ddecf1d drivers/video/omap2/omapfb/omapfb-main.c       Tomi Valkeinen    2009-08-04  1103  	len = fix->smem_len;
-b39a982ddecf1d drivers/video/omap2/omapfb/omapfb-main.c       Tomi Valkeinen    2009-08-04  1104  
-6d28c21fe7b092 drivers/video/omap2/omapfb/omapfb-main.c       Tomi Valkeinen    2013-04-17  1105  	DBG("user mmap region start %lx, len %d, off %lx\n", start, len,
-6d28c21fe7b092 drivers/video/omap2/omapfb/omapfb-main.c       Tomi Valkeinen    2013-04-17  1106  			vma->vm_pgoff << PAGE_SHIFT);
-b39a982ddecf1d drivers/video/omap2/omapfb/omapfb-main.c       Tomi Valkeinen    2009-08-04  1107  
-b39a982ddecf1d drivers/video/omap2/omapfb/omapfb-main.c       Tomi Valkeinen    2009-08-04  1108  	vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
-b39a982ddecf1d drivers/video/omap2/omapfb/omapfb-main.c       Tomi Valkeinen    2009-08-04  1109  	vma->vm_ops = &mmap_user_ops;
-078ff546a806b2 drivers/video/omap2/omapfb/omapfb-main.c       Ville Syrjälä     2010-03-17  1110  	vma->vm_private_data = rg;
-6d28c21fe7b092 drivers/video/omap2/omapfb/omapfb-main.c       Tomi Valkeinen    2013-04-17  1111  
-6d28c21fe7b092 drivers/video/omap2/omapfb/omapfb-main.c       Tomi Valkeinen    2013-04-17  1112  	r = vm_iomap_memory(vma, start, len);
-6d28c21fe7b092 drivers/video/omap2/omapfb/omapfb-main.c       Tomi Valkeinen    2013-04-17  1113  	if (r)
-430571d59a0b51 drivers/video/omap2/omapfb/omapfb-main.c       Ville Syrjälä     2010-03-17  1114  		goto error;
-430571d59a0b51 drivers/video/omap2/omapfb/omapfb-main.c       Ville Syrjälä     2010-03-17  1115  
-b39a982ddecf1d drivers/video/omap2/omapfb/omapfb-main.c       Tomi Valkeinen    2009-08-04  1116  	/* vm_ops.open won't be called for mmap itself. */
-078ff546a806b2 drivers/video/omap2/omapfb/omapfb-main.c       Ville Syrjälä     2010-03-17  1117  	atomic_inc(&rg->map_count);
-430571d59a0b51 drivers/video/omap2/omapfb/omapfb-main.c       Ville Syrjälä     2010-03-17  1118  
-3ed37d9aba486d drivers/video/omap2/omapfb/omapfb-main.c       Tomi Valkeinen    2012-12-13  1119  	omapfb_put_mem_region(rg);
-3ed37d9aba486d drivers/video/omap2/omapfb/omapfb-main.c       Tomi Valkeinen    2012-12-13  1120  
-b39a982ddecf1d drivers/video/omap2/omapfb/omapfb-main.c       Tomi Valkeinen    2009-08-04  1121  	return 0;
-430571d59a0b51 drivers/video/omap2/omapfb/omapfb-main.c       Ville Syrjälä     2010-03-17  1122  
-430571d59a0b51 drivers/video/omap2/omapfb/omapfb-main.c       Ville Syrjälä     2010-03-17  1123  error:
-3ed37d9aba486d drivers/video/omap2/omapfb/omapfb-main.c       Tomi Valkeinen    2012-12-13  1124  	omapfb_put_mem_region(ofbi->region);
-
-This is a false positive, but it would be cleaner to change this
-as well: s/omapfb_put_mem_region(ofbi->region)/omapfb_put_mem_region(rg)/
-
-3ed37d9aba486d drivers/video/omap2/omapfb/omapfb-main.c       Tomi Valkeinen    2012-12-13  1125  
-430571d59a0b51 drivers/video/omap2/omapfb/omapfb-main.c       Ville Syrjälä     2010-03-17 @1126  	return r;
-b39a982ddecf1d drivers/video/omap2/omapfb/omapfb-main.c       Tomi Valkeinen    2009-08-04  1127  }
-b39a982ddecf1d drivers/video/omap2/omapfb/omapfb-main.c       Tomi Valkeinen    2009-08-04  1128  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+These should have been resolved in the v2 patch already. I missed the reference in
+fs/smb/sever/vfs.c initially. My LSP config was off, probably should've just rg'ed
+it in the first place...
