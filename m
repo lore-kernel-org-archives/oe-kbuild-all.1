@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFC673947A1
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Apr 2026 09:27:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6971E3C6616;
+	Thu,  2 Apr 2026 11:49:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775122051; cv=none; b=eqQUM7nuFwQQBi2mK4yrB/W7Fyfl5Kx77oiAfwOt3pjyy9hc3hOGipM9NNZeYvOYahy3lIwNHMyglkDMxdchufet5vDK9wNo7j/HmDSLisNBtMISVuveF25yICq+EuBy/3sSU4rPQwSqKbj84QUd8KcOw+ggt9GQ62BN1jQsMzA=
+	t=1775130573; cv=none; b=H0Cdbq/XSeabQjZTFSFshER4XH/iLqfig4z+bdyhO0mCy7cGHWBOidY5dSPDAonEL55kn/CNQLv2xx1DQfpfwuir4U59NR+nTkg8KmSCqsFH9+p7tGtnY7ZzGVu4lTLAjc5+hn/Wv5SssxqXrlZDnPYgetakaUs712AMg8G6hCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775122051; c=relaxed/simple;
-	bh=lQRRf1eanUaQfz5bj1w7lPm0DIYtU9Lg2TjMBikg1uo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ES5zDILv5HfIBWlxGlcUSxqHjjnpr2jm+NIs4+5PDZS6B1O6coaN7uYIW35Ejqnr5CxtWAck+rhgjSQMLnNEnFqaL8eCbKY3WpYmH9rRMRabfV88hsgAo27WkXkkaMpEqdqTSjdBSz5wCVYYd0cxsrs/UFtT+SdHfYOUMBtvzvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OJe7Vece; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1775130573; c=relaxed/simple;
+	bh=CViUaGXqBzO9IDq+XmKAUho55AZwmoW26H8wGK9LrOI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=bqXLMb/A7mTeSe7qu0jbO107fQp9wrIWCID3u6rAa1RHPifmwvpof2byzyCE+Sv+Te/sNZCIPs2P9Uq1x6cuc3rYTjpwXa/0aCsJtrIzsFPVcaJfaXUlI36MZxb4PDKxmPjydu/x5pk8SlT7LQ/lJj82Ff9/z7tmlWbVnI1+AQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fdeNdFKB; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OJe7Vece"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fdeNdFKB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775122042; x=1806658042;
+  t=1775130563; x=1806666563;
   h=date:from:to:cc:subject:message-id;
-  bh=lQRRf1eanUaQfz5bj1w7lPm0DIYtU9Lg2TjMBikg1uo=;
-  b=OJe7VecemLzsQ5A1RYtqIbX1cmzch4KK00p7uql+Ev4WmQfFZOQzURRE
-   1oHmNISXpt6j1F5OaeDW53MoqxVmr6qxkbJ//Vg+iERGLsUBzVirdHXPd
-   AQ+ab9rLaQoBEq/jpqG+Cu4pAJvmLHvsQzyAUp1U7P4lANwLIUq/9RxH+
-   RZwMs17apggTbSCrlmMrHPT94dfcGILiUVTlC2eZDiAHPbx4lmwC7t2jw
-   vfHB3af8Fa+yUZTvYCPHhz/OL5EEAxMcBSa421FDMfuAw0WzzRgSj5Vr6
-   Xmgvrgu/9Z1vzDYGE9aM9QtWhVGu9bAMWyryxYSbiIG5wtJCEXdaHCZ6E
-   g==;
-X-CSE-ConnectionGUID: UQ3b0WAkRRK78KpneUAPFw==
-X-CSE-MsgGUID: SnukwBWuRjy00wWC/9RNzg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11746"; a="86797078"
+  bh=CViUaGXqBzO9IDq+XmKAUho55AZwmoW26H8wGK9LrOI=;
+  b=fdeNdFKB+x3D/+c0cDYUb8JqP2kgheMAQqB4ZgJrqoOZ3ow5WmTMcoep
+   ImvcyyzMp47mGX9Hsbz/+KHD5ld1+RHSEpoo5D7x5CmcO7Op4k4/9Avi7
+   JQiRcVAR2ZA+kpmZsK8oSecMGD4kjN0mLwrXt74T6/Y0i3a4hQxFW3Dgn
+   FPy/+aZn0JZRDnm+btUHsiA2a7GSFCh8pPMvmJoCxjSlzMAYX95r9meyK
+   dFva3crO6t6LszuCvZE2cl1pLYj3jS1r72HNrjpnZW7eiRXsbR0Fzz2Zt
+   2kM0lJ+vXTVSbsOI5Ke5h0Xqc5Sd9oHwPRxERVfyqgR8oFyyJZFpa0RUd
+   Q==;
+X-CSE-ConnectionGUID: Ih5Yau34TT6sEKkt3FepBA==
+X-CSE-MsgGUID: A4xpWEzNS7iM1ajQX4iFiA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11746"; a="76074749"
 X-IronPort-AV: E=Sophos;i="6.23,155,1770624000"; 
-   d="scan'208";a="86797078"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 02:27:21 -0700
-X-CSE-ConnectionGUID: Q3SMsSKqQJCqcgW8wHFIUA==
-X-CSE-MsgGUID: AInqWctaTsW0rBx2lq81/A==
+   d="scan'208";a="76074749"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 04:49:21 -0700
+X-CSE-ConnectionGUID: 56nZAPHcTK+fGOPM+dVadQ==
+X-CSE-MsgGUID: +uhD+oArTCGyIeT7hjEAxA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,155,1770624000"; 
-   d="scan'208";a="250142038"
+   d="scan'208";a="220303995"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 02 Apr 2026 02:27:19 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 02 Apr 2026 04:49:19 -0700
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w8EKa-0000000091t-4AG6;
-	Thu, 02 Apr 2026 09:27:16 +0000
-Date: Thu, 02 Apr 2026 11:26:32 +0200
+	id 1w8GY1-0000000092T-2FEz;
+	Thu, 02 Apr 2026 11:49:17 +0000
+Date: Thu, 02 Apr 2026 13:48:28 +0200
 From: kernel test robot <lkp@intel.com>
 To: Mark Rutland <mark.rutland@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: [mark:arm64/entry/rework 2/11]
- include/linux/entry-common.h:324:9: error: implicit declaration of function
- 'local_irq_disable_exit_to_user'
-Message-ID: <202604021153.NOgYfLv4-lkp@intel.com>
+ include/linux/entry-common.h:324:2: error: call to undeclared function
+ 'local_irq_disable_exit_to_user'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202604021323.WS9SEJPr-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,24 +64,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git arm64/entry/rework
 head:   1e10c666f8f7ec4524fd226186a6ae0ad495aad5
 commit: be5c2d5a23beab5211c64f1237c238a1df622c47 [2/11] entry: Remove local_irq_{enable,disable}_exit_to_user()
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260402/202604021153.NOgYfLv4-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260402/202604021153.NOgYfLv4-lkp@intel.com/reproduce)
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260402/202604021323.WS9SEJPr-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260402/202604021323.WS9SEJPr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604021153.NOgYfLv4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604021323.WS9SEJPr-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/x86/include/asm/idtentry.h:11,
-                    from arch/x86/include/asm/traps.h:9,
-                    from arch/x86/boot/startup/sev-startup.c:35:
-   include/linux/entry-common.h: In function 'syscall_exit_to_user_mode':
->> include/linux/entry-common.h:324:9: error: implicit declaration of function 'local_irq_disable_exit_to_user' [-Wimplicit-function-declaration]
+   In file included from arch/x86/entry/syscall_64.c:8:
+>> include/linux/entry-common.h:324:2: error: call to undeclared function 'local_irq_disable_exit_to_user'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      324 |         local_irq_disable_exit_to_user();
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         ^
+   1 error generated.
 
 
 vim +/local_irq_disable_exit_to_user +324 include/linux/entry-common.h
