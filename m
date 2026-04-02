@@ -1,155 +1,158 @@
-Received: from mail-dl1-f44.google.com (mail-dl1-f44.google.com [74.125.82.44])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3150B372EEA
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Apr 2026 19:09:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D99433A717
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Apr 2026 19:40:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.54
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775156964; cv=pass; b=LPZWMhCBo09hCKGTfkyEs/fEP44pKu4I7pGI6RFo0NeU4YlxPcnnilJFVCRzeXBWASNZ8955FDK13H0yGXTYoEq6k/5XWa1ISvJCA7zVxmn6Bgn5xeBaZlCW+geOj/zxDUiWB0rAk3ETPj/wOJkzcUSgstI4asCaO6FWUIFz5LM=
+	t=1775158812; cv=pass; b=YbYwOZ94lJIyL7816vS+VzBW5apC1FvJYjF3Y8ofQEL6cXbzq/q4WOhtdX5yGeAJ4S0KFCNqSAKhXe8p8sxotdbmrn0TqdrmM2sumplQI80lkj4fa1S0qoTh2oJYegXGY32EhbtSY2dbaHqbjh7FM7j0lhVAV7DmZMuILMiCakg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775156964; c=relaxed/simple;
-	bh=AkTXuskHgqFSHuPaesiQpEtKQBcqndFo0G825t42ZQ4=;
+	s=arc-20240116; t=1775158812; c=relaxed/simple;
+	bh=US2V7kzwHw+XpVhDyUggsFAHRpyi5Z5kvJJ43HbFkRM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I/0axHeI3UEwwUyR1hFD7aJhs7wQ5Kx+WzYqAFuuxeS/HRQRUo81c4Qa23zMUj0cUHFdYis3ipvUPna38VpzeBDwe4XvRkOVukUrEvGi/wb8cKLpzT5Bbq1uiLlujLKBBW8p/fwQLG0FCuyHSTmHK1uPVKMv3zr1kDfAvd06Rt8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WGk8jE1y; arc=pass smtp.client-ip=74.125.82.44
+	 To:Cc:Content-Type; b=RGaXWuGBy+UftvS+Jy0DFE4sb7R6Cn0Qyia40mCwy9+5/unqJezuqe9ST3HaCvk5/RLuTXkZoG7wxuLm8s7yPxdSxaPw8qaE4Rrdk9hPpimAuS/Qw+2akzhMXP0tytpzdGsrOdDwLQjV6PiRnNzrXY60gA3RfKWiJxmce3uV0fg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vO0V0PYP; arc=pass smtp.client-ip=209.85.208.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WGk8jE1y"
-Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-12732165d1eso1884872c88.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 02 Apr 2026 12:09:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775156961; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vO0V0PYP"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-66bb7118c96so2987a12.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 02 Apr 2026 12:40:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775158809; cv=none;
         d=google.com; s=arc-20240605;
-        b=L/i6taKfoDUSG60EiBBPjb32djbPVK6jTIiU5MFfWG8F4zsW1Hm5EBOa755CUtS9y5
-         b9IcODj6QEhDJ02xvAy3AbB+klM0oLjHrovmgr/r0lKHbjzRtUopc469hqAOWoRNZ+yd
-         SWibVqp2Xa6+QdbwrSa9Y7P/gNmQmjf0DeFx3UNVKdXdX7/r/FO1vZiBbH9Dh180in5O
-         2ju0tatR425YYzahKPY1PIBGCBoF28Uu48CeETVepVszlnACkalGU68U78FBq9v4+X+C
-         SL8WC1XtD3am1eixd72pgxmrVT+bq03LJcSRWCrlfRBUULecLO7FWwz2/dXh2Yog0zal
-         dPfA==
+        b=JBwzeJFOgnFpP+WK5LWlygn4Db/3iM4DCo5SbTB1EbGP7Ac3iua1pFsMUtCHvanrUb
+         MFbbIhoSqd+1FLKEKB3UosswjO0AQkPMSKdOriJbVtDtrzEnWzU1RfufTm/pz3m8K4Hc
+         H7LFkhUfyVB4J9YwIIeq+cnujh41pSk11V1uHduN3qMyigmCBHW1364GjnUXMTTVgdvA
+         TfxdCSA8RZB2HkNX/k3NWuTWJiVgArjPXmw/nHzUTo55PGDb60d5cMRxt55IqpS80ch/
+         WzB3HFE38tovbBxnxg+URgi6rQs9xVDnusGIBOUHIH15sD8+fexsZRrOLPuGObTsm5T4
+         o5Pw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=26jnDOH9sfu0NBZTRbOR7+Wdjzvvt/AkBoHu3e7kTgM=;
-        fh=xr0J4XBJRleevxNkjh9TyjOuqxuoXU6fpG6XbQ7go0s=;
-        b=Hfe//KbCcMTrhBjJ9dfDNTIClM/DXf6Lur7tXiHg9fbSAs9YrBIRyS0JHcJ1ZcArjM
-         WZte4Ih+mP0mKhejXLryhJbsNgiPzeySdavVkoGl2//wG6rF4ONVuWZACIq4fMhaOaEs
-         oVwBPtM5Lyn6z1Jcak7nD4PVOqklnEjKxan0Q57fO9X05K4dz1qXCCM613ixN0jcYGt+
-         rpRfUWugCCGCvhuXwuEWiGK8oB2A6+mtQpGxTZn6iS5hdaTlWUhnaTnCZ+aO+3Jsu4X7
-         5T+uZZzQMbM0QWv9VSbmrBuj+CYoYwPNjGjvaKUzccFm+ep06rXBw/WPTiRvgtn/Gt7j
-         XTcQ==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=J0DvflLdp3i7a17ynT3a78GmDFDn7qbQSpDZ8abq9cA=;
+        fh=v+maNifcVo+3pA4nEuetO0ASFyjQO9ZXF1UCiG3mq7o=;
+        b=BlPEZVIg0wdm8gq/PDuwEdUsgSOvUCLYFkM8+YUSo+Jl0s9cUv0XBurgDmAGksDVx9
+         PHjI/4jZkFUFYW9UI07No6ReC6Vdz3WR8ZSNXCDSroenefB8a19nJ+vx9DYEYCDn9kAG
+         DATJY7u2R3oPMMn6EkLYDMKlSY/Leg4WWS7UPTNqOLqiHoCB3wmua2BttBhfwZbvs0CS
+         7MaYrW8vxUXVDbNSdqY9ev6uCu7nGN8OdTHZ46c8urEGaHrqONWs1QhGAUJTeDrKk+t7
+         sXsqI/V6vcxh4wcSSKY06wz3jwFT3ueoDNmgTG+CSk8pOc7DzbdIVh8pW3D30+OZ5oKj
+         Z4iQ==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1775156961; x=1775761761; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=26jnDOH9sfu0NBZTRbOR7+Wdjzvvt/AkBoHu3e7kTgM=;
-        b=WGk8jE1yHtnQANKNB+MX75KoMoWc0IpoLsdHL3NfgYtvC+Sv/D+JO5eVG0gCGF0RBG
-         4iY+I6nvXFGxbojVv7DZrMqbRanTlAb9IzDXOmnJOjh2Ad1KfTQ8KtmEsiHcDREfnot6
-         CUMv00uVAZmeOmQ86yTWFOlo+G1fBbCNoU1MFmW69Ppvsg9Tt8pV/chZsn18NLSUNjfO
-         beQcQ64nV/rxKdlDNFScAgeyyTPE8YAyckIGZchradwETOn2xtvoKvwuzeNq6DbN3NaO
-         BreCY9M1iycFW36kDXK1IG0O+daAafBKxUjxYi+BSm6uTUtCCmVQp7NghxmSxhTe2sOv
-         /KBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775156961; x=1775761761;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20251104; t=1775158809; x=1775763609; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=26jnDOH9sfu0NBZTRbOR7+Wdjzvvt/AkBoHu3e7kTgM=;
-        b=CDIAz6ZCtey2L9D/KSTqTE2iJt82DDeJ02PGxDGtMV0oPVr7w9ixs5vsGs3zoELbzg
-         B0OFnfIcq0EtN/DCyjs8i9CD4X5nueQf59rbdNGO7mfnNC9DERZaqikW1qMg495P8hAP
-         FSk/YHPxQOXhKscBspcqWKKilPwHhMeb+JLFXYRmrqo5NcGfrYHDOB1S3H8BWTDX0DOQ
-         KyZZaM7N59gc501h67toRhm6g2WBz8xr/4jMHRLKP5dAKVwWVb/JutzauIh/UQvo0PmU
-         q7llpajlcqwy9yU9DWFBpq/K7VWUMojpqE0jK8lk8s+v2/f8TcRmP9tqNuBhZvYOsd5g
-         QoAg==
-X-Forwarded-Encrypted: i=1; AJvYcCXT4wRXWb7TtJlUf339H9Mv8oEEbUy64i6l2birm1t+Q2suQYxxPx63ZcGlPHjuABofW5HK9G7vWZbv1+ys@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy+i/WRzJiBf1nNv0avWoGOkxFawkt2vTWwO43O269qTAQOPFTy
-	nPs8Thf82N76uH3w6Y9L5+NJEAo658++ru0Oa4siI18TsIMc+Wc1Ob1a5eAN4nFju58SB1t7roV
-	j89CI/DfLdJNn2tK+X9Sb+x74tLQa9i9Osjh3U1PR
-X-Gm-Gg: ATEYQzwh/InhHbtmqjrmYsJE00vAZbxZ/N0fthetK0MQAAmgbMq4EeQf+l5qxDWjD3X
-	pbDvMigcqH2A5/k+7QRD34N9HqveQ6HOEUH8Zy9uLpjjy2pSAwCXJgadC937qtev3mpTbATreyR
-	wS6STTFK364lWCGgtF1stWMFypjIvcxy9kSReGBzrQTiMeLxIwz+Hvohhcg3z2FJN0G700miivE
-	EmFfiWBbI0l8llUKWpNCeCwy2B68d+jzR3NQ/x8WX56vnW+yRuF/tiFSyvM0kCdgCQ6TfFCY+2j
-	LYRhmV9cgYfX3dnDO/4dggj5OCxdAnKWfHnPT4hsvXgluG63xg==
-X-Received: by 2002:a05:7022:ec17:b0:12b:ebb8:e518 with SMTP id
- a92af1059eb24-12bfb779d53mr79037c88.35.1775156960783; Thu, 02 Apr 2026
- 12:09:20 -0700 (PDT)
+        bh=J0DvflLdp3i7a17ynT3a78GmDFDn7qbQSpDZ8abq9cA=;
+        b=vO0V0PYP6pu0+q1Y7o7QjOk+U/DK9H/fFbwhbOE4FG3pzxKIqSfYMhbwFSehrfugqQ
+         gm79ngsbjxqJqBpONVmPIh11FXu3qQBfBMYnJ0aTvYAUGrVF5TzHp4m9pjUSGvCZ7i5v
+         tTkME5frWYPdvApcQ2otq0i2X75Sa0tNn52i5gmaFWvNUgF811wSk+Lr5wv53PAj6TWF
+         oCHfWeDWoSstlCBEAoVCXILrKYVi4S6sOtAy2FTdJe8OJVmyZb+54iEi0sTKkYMR+/HR
+         fhadhjwzSViuqMtbWI05YUjitDHzakR53Bpir0IDXAMRpopUV3jp0bOKlE9DgcvcGsBs
+         TVuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775158809; x=1775763609;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=J0DvflLdp3i7a17ynT3a78GmDFDn7qbQSpDZ8abq9cA=;
+        b=ksGt2CVg9Hets7ORRKgWyMUuzm9GCU/SaIW5Ev2j/4ttimgE9xXFedu/uPVtgap/WO
+         aqEGqcAkTaQ02kSREORf3sCzC/8e0r9EhEty2tJO9CUjwuOPN3Na95R4JIZeF9xnMiVm
+         UggGjtmKCf/z0OZP6QKrRe04WnQ+MmcieRPBQHqf3WUU1oPBzv1R1rPrcQoM0jTwaCpW
+         oFA2gVohIrOIFIASeG8BOO+sSE7cWQCvBN5kw5xS0JjdqtjqBT6EWlY/RA6ILSr8NBPg
+         48IYrvd+diwwcFFm2uKSaYINF+bprWzjyIVuZySVtQUznJ8JXcOdREmTj7TFLN81PL6y
+         sLmg==
+X-Forwarded-Encrypted: i=1; AJvYcCWwZr55EW1ka9dVf/i3nli9jRRYlo/9gJnkHzgrflvFcfNli8RblXLPyR3PNDMvzBVELh2X3GjOxmT0T/cQ@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz0JH+jPeKLYTMEj/CPTFQpMKPmm8ocOjOm8MiZQ/mg3ayYf740
+	acXO03B3RibR5mcNoLC97YOaH8HUtbEuBbU0dYDH38x0EnfgroXb443GAmOQRk9vJ37/TRSdgTT
+	iIVjR4r040MWYZ8cctXhFvIAnjklhQFr8X7prH2fj
+X-Gm-Gg: AeBDieveGnavTH7SV39IC2uKgvgenLIvulEjSw0gPADvJ0B9D1X7U4uwV1RVGLM1gZq
+	M3QvabOLNSEeUUMbfh0rPKmqh8w/SK9nJCuCh1thjLb39T3t3/OxLrUJjzLQn2a3mGMW/dE/vAB
+	IOxYECleVUsFUPZPyIyTooKJHfs9FupTF1MrTmi1eScu2tgU95c5Nge4lXjuK2Wy2Q8Ss4/1P81
+	kr1kDkAGP+viBkmyHYGylfjlLlILu5ywkJ78FcDn/hFx7Y9//vXzq4jG5LD3gsuG209Oc7Gnf4i
+	Z/q2KzQ=
+X-Received: by 2002:a05:6402:4588:b0:66b:9469:a0f1 with SMTP id
+ 4fb4d7f45d1cf-66e41481095mr1730a12.14.1775158808171; Thu, 02 Apr 2026
+ 12:40:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260331111240.153913-1-elver@google.com> <202604020400.jEq32K95-lkp@intel.com>
- <CANpmjNOsM1e8jMvRKtEizMmZgPCCZ9YqpuZKad61Zg7PAGW7RA@mail.gmail.com> <ac6h2jF-KJ5pm1WM@stanley.mountain>
-In-Reply-To: <ac6h2jF-KJ5pm1WM@stanley.mountain>
-From: Marco Elver <elver@google.com>
-Date: Thu, 2 Apr 2026 21:08:44 +0200
-X-Gm-Features: AQROBzAm7ykm8zO9ipWjQHBso2-gdwz4n-a0cr85SYjLzctukNDeZ0kKGTltKIc
-Message-ID: <CANpmjNPME07RK+jKnw233BYHX7wVMqCzFYpB2cSN4+DMgTSpuQ@mail.gmail.com>
-Subject: Re: [PATCH v1] slab: support for compiler-assisted type-based slab
- cache partitioning
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, Vlastimil Babka <vbabka@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, 
-	Christoph Lameter <cl@linux-foundation.org>, Harry Yoo <harry.yoo@oracle.com>, 
-	Hao Li <hao.li@linux.dev>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
-	kasan-dev@googlegroups.com
+References: <20260327234023.2659476-2-jmattson@google.com> <202603301501.N2sdlIQ9-lkp@intel.com>
+In-Reply-To: <202603301501.N2sdlIQ9-lkp@intel.com>
+From: Jim Mattson <jmattson@google.com>
+Date: Thu, 2 Apr 2026 12:39:54 -0700
+X-Gm-Features: AQROBzAy_EbHuWlN5wT5_Opuw5NUyxR9m0jIc3ZzushJ6pVsut7GdsF_uvQSOn8
+Message-ID: <CALMp9eSO6gz4R0f1S=E-sA3YE8KE0uJ30otcGsMV1NS3ujUcNA@mail.gmail.com>
+Subject: Re: [PATCH v7 1/9] KVM: x86: Define KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT
+To: kernel test robot <lkp@intel.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Sean Christopherson <seanjc@google.com>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Yosry Ahmed <yosry@kernel.org>, oe-kbuild-all@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2 Apr 2026 at 19:05, Dan Carpenter <error27@gmail.com> wrote:
+On Mon, Mar 30, 2026 at 12:50=E2=80=AFAM kernel test robot <lkp@intel.com> =
+wrote:
 >
-> On Thu, Apr 02, 2026 at 03:48:20PM +0200, Marco Elver wrote:
-> > On Thu, 2 Apr 2026 at 15:33, Dan Carpenter <error27@gmail.com> wrote:
-> > >
-> > > Hi Marco,
-> > >
-> > > kernel test robot noticed the following build warnings:
-> > >
-> > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > >
-> > > url:    https://github.com/intel-lab-lkp/linux/commits/Marco-Elver/slab-support-for-compiler-assisted-type-based-slab-cache-partitioning/20260401-035608
-> > > base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> > > patch link:    https://lore.kernel.org/r/20260331111240.153913-1-elver%40google.com
-> > > patch subject: [PATCH v1] slab: support for compiler-assisted type-based slab cache partitioning
-> > > config: um-randconfig-r072-20260401
-> > > compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> > > smatch: v0.5.0-9004-gb810ac53
-> > >
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Reported-by: Dan Carpenter <error27@gmail.com>
-> > > | Closes: https://lore.kernel.org/r/202604020400.jEq32K95-lkp@intel.com/
-> > >
-> > > New smatch warnings:
-> > > drivers/misc/lkdtm/heap.c:118 lkdtm_READ_AFTER_FREE() warn: potential pointer math issue ('base' is a 32 bit pointer)
-> > > drivers/misc/lkdtm/heap.c:169 lkdtm_KFENCE_READ_AFTER_FREE() warn: potential pointer math issue ('base' is a 32 bit pointer)
-> >
-> > How is this related to the patch I sent? Did the <linux/slab.h> change
-> > force rechecking of all these files and it found latent issues?
-> >
+> Hi Jim,
 >
-> Oh, crud.  It turns out that for this check Smatch allows
-> integer_array[sizeof()]so long as we know that the index is within
-> bounds.  What happened is that your patch renamed the kmalloc()
-> function so Smatch stopped knowing the size of the buffer.
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on 3d6cdcc8883b5726513d245eef0e91cabfc397f7]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Jim-Mattson/KVM-x8=
+6-Define-KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT/20260328-110805
+> base:   3d6cdcc8883b5726513d245eef0e91cabfc397f7
+> patch link:    https://lore.kernel.org/r/20260327234023.2659476-2-jmattso=
+n%40google.com
+> patch subject: [PATCH v7 1/9] KVM: x86: Define KVM_X86_QUIRK_NESTED_SVM_S=
+HARED_PAT
+> config: x86_64-randconfig-016-20260330 (https://download.01.org/0day-ci/a=
+rchive/20260330/202603301501.N2sdlIQ9-lkp@intel.com/config)
+> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20260330/202603301501.N2sdlIQ9-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202603301501.N2sdlIQ9-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    In file included from arch/x86/kvm/svm/svm_onhyperv.c:11:
+>    arch/x86/kvm/svm/svm.h: In function 'l2_has_separate_pat':
+> >> arch/x86/kvm/svm/svm.h:626:18: error: implicit declaration of function=
+ 'kvm_check_has_quirk'; did you mean 'kvm_check_request'? [-Wimplicit-funct=
+ion-declaration]
+>      626 |                 !kvm_check_has_quirk(svm->vcpu.kvm,
+>          |                  ^~~~~~~~~~~~~~~~~~~
+>          |                  kvm_check_request
+>    In file included from arch/x86/kvm/svm/svm_ops.h:7,
+>                     from arch/x86/kvm/svm/svm_onhyperv.c:12:
+>    arch/x86/kvm/x86.h: At top level:
+> >> arch/x86/kvm/x86.h:429:20: error: conflicting types for 'kvm_check_has=
+_quirk'; have 'bool(struct kvm *, u64)' {aka '_Bool(struct kvm *, long long=
+ unsigned int)'}
+>      429 | static inline bool kvm_check_has_quirk(struct kvm *kvm, u64 qu=
+irk)
+>          |                    ^~~~~~~~~~~~~~~~~~~
+>    arch/x86/kvm/svm/svm.h:626:18: note: previous implicit declaration of =
+'kvm_check_has_quirk' with type 'int()'
+>      626 |                 !kvm_check_has_quirk(svm->vcpu.kvm,
+>          |                  ^~~~~~~~~~~~~~~~~~~
+> --
 
-Oh, I see. Smatch doesn't respect the __alloc_size attribute then?
+It looks like svm.h should include x86.h.
 
-> For these zero day bot warnings, the emails are automatically generated
-> so I don't have any context outside what's in the email.  I saw that
-> Kees wrote the code, but I figured maybe you forwarded it or something.
-> Sorry about that.
-
-No worries and thanks!
+Sean: Do you want me to send a new series?
