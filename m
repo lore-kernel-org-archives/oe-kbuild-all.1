@@ -1,84 +1,131 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6824A283FE5
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Apr 2026 22:46:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E76BB3D6CCE;
+	Thu,  2 Apr 2026 22:57:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775169989; cv=none; b=Cs4/QFP0M6gpQt0oySWVrIBPV1GxdjdzwNI2wuUUKGwyMU8ULxeqTSH10/s1wWiteKedyVr8G5rY2lobsMSI72GcvPfTd9lnzS43wr8EfiynJeYciJecc9iDLvJmypCsU68kc84oax+ZAGr9IRir7GZkCvwsQtHYIqQk7Siaw0Q=
+	t=1775170652; cv=none; b=mQdjQUEAUTgFH9DhQBkqFl1NYfi2IGle5lWpgKALeNRW5Jf0yWf+dpbdFhCdBs+Z9lFusoBx/aaJ/uXjwm14Dx4kCC29OcoBfs8TjbugAYnk2jqLYWJ80TkchF1p2wee15yvK6i0cC9ACmlCgm07DNZyA0FDQHKgUMOzqW5B2pI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775169989; c=relaxed/simple;
-	bh=Ru4tNLGTudaBdAYnHZJymCoZHMDiGZS0dlaWNEwTd+g=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=SjKddQc6B66zNBSbGjHYBgZeFM5LKHbFJbNNQzSEm9G+4iG/+o2ywTi5+wM1ZysCdqX4hz8xLsgoXy4nquCi9E/PNoK0PcOtu1es6buFGf3Jp+D1TtTQl9vraFrc3omjwtXkepaACOD7aRUcHb8r/GmhqG7ih4GuAxns25BvB2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TsvVz///; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1775170652; c=relaxed/simple;
+	bh=15K8mXYMWJzSX7LYoqjquZFaGkWetpo55iEai3+MFH8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GJTdHdRiQmOc31en90OsV+jWtSFS3FVjNNJpuNY9ol1AUQDmdKecmD+7IZRlldZjTJPDnH+pq64FFFGSJVm6qeln+9IwXmqp2PUizbxck0aV46qSU6ixmcNieRq0Q3MEEre/Q2UhPRodwXat4kHwFE4q/AZG9xvRQ8CY6ZXak6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K0l2V328; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TsvVz///"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K0l2V328"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775169989; x=1806705989;
-  h=date:from:to:cc:subject:message-id;
-  bh=Ru4tNLGTudaBdAYnHZJymCoZHMDiGZS0dlaWNEwTd+g=;
-  b=TsvVz///utCuJTEa8xk4KOb4tuMhgSSaWachcKDyz2E5+lfnmQhrvYZw
-   hSPgFYVP85lAbhsbcnT2gdSPv0OSoHPrBuNbS1rIUS+giqCUZeilHywsL
-   a7Z6KMt6a5uJiyclU2LIKy51VQLnwsVw6ZFryHkGJrvcdzzQ2jxC/na2f
-   IVRr7rMwswSdbcPa4CK2z+GhkofhCu24yxRVdSb6ChMgVBc4YD/5sFFYN
-   D+QZFGdUI9RiTMctuV2NCVZCOHaxDj4vqU40jtdLsq60b1R/wZg5SuzGE
-   ufmTC5rK2qicVSeppsiWJc4nsgiBTuDb6FspOEQK+kj3D9xGFVIt5FhAJ
-   Q==;
-X-CSE-ConnectionGUID: jmS43XitT7+0u6OlKYQrxA==
-X-CSE-MsgGUID: 03uBQS3jQPeG3/1CJ+pS1A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="75958638"
+  t=1775170650; x=1806706650;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=15K8mXYMWJzSX7LYoqjquZFaGkWetpo55iEai3+MFH8=;
+  b=K0l2V328izJFTWpVnKaqLLI2Fr94OWrUH+Z+thAlhKyhzGbPOnOZuxTo
+   VjbBXNTJm6ljWkQj7/FpHxX+ngJSbBFBGjSmeqMo2djIh9DXaJUNqZhaJ
+   coiNomsIu95dq5TGUhGk5es0DbTLStpz45rOJ1vC6gwWAGc21tX6y9oNn
+   B4q/HIx725roB5971KObTR8LSfsftpw79dVPs+4ekHYrDUv8Zt85QZbPC
+   Hw703mYtJXvSa9HCUQBlLzAJEqqHXsikPB9xmC64vtFZXwF1ZpS+muYln
+   lOZ9x4/Jy1lzXQSQGFwL67BZ3/A1GtVh+Ug4I8I+47G1dIDgG4r1whm/y
+   g==;
+X-CSE-ConnectionGUID: p2beZRa6Tbeho1Np0Ge1tw==
+X-CSE-MsgGUID: O/xvtzycRCetHrh5t9irKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="76304290"
 X-IronPort-AV: E=Sophos;i="6.23,156,1770624000"; 
-   d="scan'208";a="75958638"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 15:46:28 -0700
-X-CSE-ConnectionGUID: qJy7YeVtQ+iCesHOAYSr6w==
-X-CSE-MsgGUID: fisIRmOTRv66sLIo1CFlRw==
+   d="scan'208";a="76304290"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 15:57:29 -0700
+X-CSE-ConnectionGUID: WO6gRj2yTGG9Demu2aQJcA==
+X-CSE-MsgGUID: bNGBqwP6SKys7vrNq2UD7Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,156,1770624000"; 
-   d="scan'208";a="222749920"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 02 Apr 2026 15:46:27 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 02 Apr 2026 15:57:27 -0700
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w8Qnw-000000009B3-30bS;
-	Thu, 02 Apr 2026 22:46:24 +0000
-Date: Fri, 03 Apr 2026 00:46:22 +0200
+	id 1w8Qya-000000009B7-3Fm6;
+	Thu, 02 Apr 2026 22:57:24 +0000
+Date: Fri, 3 Apr 2026 00:56:47 +0200
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:iommu_pt_arm64 2/53] error[E0063]: missing field
- `tlb_add_range` in initializer of `bindings::iommu_flush_ops`
-Message-ID: <202604030016.kaqF7YGb-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>,
+	brgl@kernel.org, robh@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-pci@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+	mani@kernel.org,
+	Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>,
+	kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH 3/3] power: sequencing: pcie-m2: Guard the helper
+ functions making use of PCI bus notifier
+Message-ID: <202604030008.5exLAPFm-lkp@intel.com>
+References: <20260401070735.107162-4-manivannan.sadhasivam@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260401070735.107162-4-manivannan.sadhasivam@oss.qualcomm.com>
 
-tree:   https://github.com/jgunthorpe/linux iommu_pt_arm64
-head:   386de42c67a6d6b567ec9167593768eec79b8ce5
-commit: 8d60c0982024bbd9eb8a2e118fc8b55e67b0edff [2/53] iommu: Always fill in gather when unmapping
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260403/202604030016.kaqF7YGb-lkp@intel.com/config)
+Hi Manivannan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linux-next/master]
+[also build test WARNING on linus/master v6.16-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Manivannan-Sadhasivam/serdev-Add-missing-stubs-for-serdev-APIs-when-CONFIG_SERIAL_DEV_BUS-is-not-selected/20260402-225703
+base:   linux-next/master
+patch link:    https://lore.kernel.org/r/20260401070735.107162-4-manivannan.sadhasivam%40oss.qualcomm.com
+patch subject: [PATCH 3/3] power: sequencing: pcie-m2: Guard the helper functions making use of PCI bus notifier
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260403/202604030008.5exLAPFm-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260403/202604030016.kaqF7YGb-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260403/202604030008.5exLAPFm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604030016.kaqF7YGb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604030008.5exLAPFm-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> error[E0063]: missing field `tlb_add_range` in initializer of `bindings::iommu_flush_ops`
-   --> rust/kernel/iommu/pgtable.rs:225:52
-   |
-   225 | static NOOP_FLUSH_OPS: bindings::iommu_flush_ops = bindings::iommu_flush_ops {
-   |                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^ missing `tlb_add_range`
+   In file included from drivers/tty/tty_port.c:20:
+>> include/linux/serdev.h:268:83: warning: omitting the parameter name in a function definition is a C23 extension [-Wc23-extensions]
+     268 | static inline struct serdev_device *serdev_device_alloc(struct serdev_controller *)
+         |                                                                                   ^
+   include/linux/serdev.h:272:59: warning: omitting the parameter name in a function definition is a C23 extension [-Wc23-extensions]
+     272 | static inline int serdev_device_add(struct serdev_device *)
+         |                                                           ^
+   include/linux/serdev.h:276:63: warning: omitting the parameter name in a function definition is a C23 extension [-Wc23-extensions]
+     276 | static inline void serdev_device_remove(struct serdev_device *) {}
+         |                                                               ^
+   include/linux/serdev.h:284:67: warning: omitting the parameter name in a function definition is a C23 extension [-Wc23-extensions]
+     284 | static inline int serdev_controller_add(struct serdev_controller *)
+         |                                                                   ^
+   include/linux/serdev.h:288:71: warning: omitting the parameter name in a function definition is a C23 extension [-Wc23-extensions]
+     288 | static inline void serdev_controller_remove(struct serdev_controller *) {}
+         |                                                                       ^
+   5 warnings generated.
+
+
+vim +268 include/linux/serdev.h
+
+   267	
+ > 268	static inline struct serdev_device *serdev_device_alloc(struct serdev_controller *)
+   269	{
+   270		return NULL;
+   271	}
+   272	static inline int serdev_device_add(struct serdev_device *)
+   273	{
+   274		return -ENODEV;
+   275	}
+   276	static inline void serdev_device_remove(struct serdev_device *) {}
+   277	
 
 -- 
 0-DAY CI Kernel Test Service
