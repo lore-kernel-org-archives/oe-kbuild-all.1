@@ -1,138 +1,245 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6971E3C6616;
-	Thu,  2 Apr 2026 11:49:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E7102FFF88
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Apr 2026 13:33:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775130573; cv=none; b=H0Cdbq/XSeabQjZTFSFshER4XH/iLqfig4z+bdyhO0mCy7cGHWBOidY5dSPDAonEL55kn/CNQLv2xx1DQfpfwuir4U59NR+nTkg8KmSCqsFH9+p7tGtnY7ZzGVu4lTLAjc5+hn/Wv5SssxqXrlZDnPYgetakaUs712AMg8G6hCM=
+	t=1775136835; cv=none; b=Lp7O7vO7g+ufe7LS7Q/Y/UZZbGhGU14KmuA9B9aiwMN3HvHyqEBoLxy8d0Yah/hQk5u50/peU/mWiptMzRfKTTl8X1xw+ND0IrA9cuTFSraM0HDy4bRAtZ0D72uhrjM5zIyuR/8mRJEx+Jn8xm5IiQMOxx9QI+LH0/ljkrPkANE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775130573; c=relaxed/simple;
-	bh=CViUaGXqBzO9IDq+XmKAUho55AZwmoW26H8wGK9LrOI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bqXLMb/A7mTeSe7qu0jbO107fQp9wrIWCID3u6rAa1RHPifmwvpof2byzyCE+Sv+Te/sNZCIPs2P9Uq1x6cuc3rYTjpwXa/0aCsJtrIzsFPVcaJfaXUlI36MZxb4PDKxmPjydu/x5pk8SlT7LQ/lJj82Ff9/z7tmlWbVnI1+AQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fdeNdFKB; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1775136835; c=relaxed/simple;
+	bh=BEuCODLD7L2Gr9nSTgbr2vWZbdp1MrbMysFDem9efWM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=olosJ1pYzrvfiicRwzH4HdeKqD8lmcQiY6mHkkC4oJFztEQWsgxOfVO0efU/NmNO204Guc+8JTH6eCmLFH2HXxJkfcHWcpRK6sW4WUk1DkagHh8EPsow2nrJXKYLQL0NMy3f3KxP71xfWQIipgaKboKW/RqmDT0HpH7iLhqjAC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FvRXLlYd; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fdeNdFKB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775130563; x=1806666563;
-  h=date:from:to:cc:subject:message-id;
-  bh=CViUaGXqBzO9IDq+XmKAUho55AZwmoW26H8wGK9LrOI=;
-  b=fdeNdFKB+x3D/+c0cDYUb8JqP2kgheMAQqB4ZgJrqoOZ3ow5WmTMcoep
-   ImvcyyzMp47mGX9Hsbz/+KHD5ld1+RHSEpoo5D7x5CmcO7Op4k4/9Avi7
-   JQiRcVAR2ZA+kpmZsK8oSecMGD4kjN0mLwrXt74T6/Y0i3a4hQxFW3Dgn
-   FPy/+aZn0JZRDnm+btUHsiA2a7GSFCh8pPMvmJoCxjSlzMAYX95r9meyK
-   dFva3crO6t6LszuCvZE2cl1pLYj3jS1r72HNrjpnZW7eiRXsbR0Fzz2Zt
-   2kM0lJ+vXTVSbsOI5Ke5h0Xqc5Sd9oHwPRxERVfyqgR8oFyyJZFpa0RUd
-   Q==;
-X-CSE-ConnectionGUID: Ih5Yau34TT6sEKkt3FepBA==
-X-CSE-MsgGUID: A4xpWEzNS7iM1ajQX4iFiA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11746"; a="76074749"
-X-IronPort-AV: E=Sophos;i="6.23,155,1770624000"; 
-   d="scan'208";a="76074749"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 04:49:21 -0700
-X-CSE-ConnectionGUID: 56nZAPHcTK+fGOPM+dVadQ==
-X-CSE-MsgGUID: +uhD+oArTCGyIeT7hjEAxA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,155,1770624000"; 
-   d="scan'208";a="220303995"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 02 Apr 2026 04:49:19 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w8GY1-0000000092T-2FEz;
-	Thu, 02 Apr 2026 11:49:17 +0000
-Date: Thu, 02 Apr 2026 13:48:28 +0200
-From: kernel test robot <lkp@intel.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [mark:arm64/entry/rework 2/11]
- include/linux/entry-common.h:324:2: error: call to undeclared function
- 'local_irq_disable_exit_to_user'; ISO C99 and later do not support implicit
- function declarations
-Message-ID: <202604021323.WS9SEJPr-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FvRXLlYd"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-486b9675d36so7363755e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 02 Apr 2026 06:33:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775136832; x=1775741632; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=z/ghRRxP3FMGglHabI5ZvihnJdFMETatS4X2cm71uB4=;
+        b=FvRXLlYdYFl7LfDzEOkaQbzL+sAxgFBXxF+daImsdzJ7Vx0+/XomBrQH3nlHiRFYhB
+         AVd3FUS2zZ7oa3ArrWOYDISpW7zrDGUV0aFE3AeUU97qFDLHdHybVJI8/6qlnUb+8uG8
+         jrHw9KT7rnI6ZTl+dW724QMRoXGT3EkC+DeDK2AsDFilBE3YFVuckzZXCHcm2cppeCxV
+         vF5sVNIHn0bK5BAsrxaEYyLeVcqBrSo4Fgc/DEPhGaDB+d5EwlZF0RAtfU70Y25y7n3e
+         d7jfZuFHfP5YTMqOm6KmlPUGVtTdKViSzM1pGphV8QVSqdRuV77mAkQv7X7sYTdtQXM1
+         a/uQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775136832; x=1775741632;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=z/ghRRxP3FMGglHabI5ZvihnJdFMETatS4X2cm71uB4=;
+        b=pMIUBXil6QqQMBQDk4KUvDjuHW4HdAzSUIM8j8N7ekqpArAHFALl4LuHAJlPzrB8Ob
+         5QGb/Q1Xzb1+iaTgNvinSDy1yFI0vFfX3KelQ1s1ChrFQVgIe+nUf7i3md4+ZEtxtlQW
+         trQdbyFPuhz0NPrFDRE0wFh3VWkF/aZzMpbV62f5A/1TyZ60WweGFIZOFoGTK99otSBd
+         sjuMigqmnJM2rlO2ZbAi/2Hy5iiCBEU4a6kwFNPDIIvojQsJp7ZuS5x+aZy/5EOzzSjk
+         JdevTjlkJhkaTq1gbhKyd94Lt/6XawNQosfaeMib+lAVMKwqIJCsnxAzLUBF07RYa1Zp
+         5uWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV0FUj1s4CYdEs177MXykegWLDen1ySWokzVPg+i2fmViT5dDhENJlvhXFlMVW2VX9W8R6lVqiMArXxB/62@lists.linux.dev
+X-Gm-Message-State: AOJu0YzlEuB+bMnsh0GL4W7kCwZGHyVEy83WGAVTSQX+KvoHVknvn8LQ
+	w6wb609LFas+KAHjJDLYchhQcjA5yJhRKSN49/7Bd7zxn5JhrC61xEcw
+X-Gm-Gg: ATEYQzzfDG/NqLVF241rAb0ymQhIVsmrgFcxaUqa2m2Iq3cMNcPSJaXWGe4ej/+hJtI
+	EQ6iygSDcOINf9rThsMtEr+W6jFYV4Fyh3Bb4t1Pp7zI61xelumvTcZ5/44geX4rN7Q67L0Nk54
+	DpAthYZ1d7uRCR4BC0Tz41J3HdUmi4cgrTdyiyHiaBj7Zn6Lh8WWz+pizl4SZluxBYKoSKSK8/S
+	oRTvVw1q0tDY8l1Ya2YV5PuDj5rgD8vFjNYF1TS4HaLRyCQ1nhJ5AQjk5l9DB0E8o2jcScWAY3s
+	aKbgeXUVAxd5rocIodq2t4fERAbHvx+WBGvBB9JsTv73Ym0TS5l9J3ORsg3l6546EEnKwBvsnD3
+	eAgwyc563AD2b8BIDa2AR0wxeK8k48t0tnexwtyTGjkXWID8gMAE3QWlryKfW9Xmt0dCpkkcUwB
+	CHIAW1OS2S6mS4igZBHLI=
+X-Received: by 2002:a05:600c:8708:b0:485:3949:e5c6 with SMTP id 5b1f17b1804b1-4888b6d4fdemr60136085e9.3.1775136831571;
+        Thu, 02 Apr 2026 06:33:51 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4888a63c9b1sm67605425e9.5.2026.04.02.06.33.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Apr 2026 06:33:51 -0700 (PDT)
+Date: Thu, 2 Apr 2026 16:33:47 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Marco Elver <elver@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>, Dennis Zhou <dennis@kernel.org>,
+	Tejun Heo <tj@kernel.org>,
+	Christoph Lameter <cl@linux-foundation.org>,
+	Harry Yoo <harry.yoo@oracle.com>, Hao Li <hao.li@linux.dev>,
+	David Rientjes <rientjes@google.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+	kasan-dev@googlegroups.com
+Subject: Re: [PATCH v1] slab: support for compiler-assisted type-based slab
+ cache partitioning
+Message-ID: <202604020400.jEq32K95-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260331111240.153913-1-elver@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git arm64/entry/rework
-head:   1e10c666f8f7ec4524fd226186a6ae0ad495aad5
-commit: be5c2d5a23beab5211c64f1237c238a1df622c47 [2/11] entry: Remove local_irq_{enable,disable}_exit_to_user()
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260402/202604021323.WS9SEJPr-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260402/202604021323.WS9SEJPr-lkp@intel.com/reproduce)
+Hi Marco,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Marco-Elver/slab-support-for-compiler-assisted-type-based-slab-cache-partitioning/20260401-035608
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20260331111240.153913-1-elver%40google.com
+patch subject: [PATCH v1] slab: support for compiler-assisted type-based slab cache partitioning
+config: um-randconfig-r072-20260401
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604021323.WS9SEJPr-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202604020400.jEq32K95-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+drivers/misc/lkdtm/heap.c:118 lkdtm_READ_AFTER_FREE() warn: potential pointer math issue ('base' is a 32 bit pointer)
+drivers/misc/lkdtm/heap.c:169 lkdtm_KFENCE_READ_AFTER_FREE() warn: potential pointer math issue ('base' is a 32 bit pointer)
 
-   In file included from arch/x86/entry/syscall_64.c:8:
->> include/linux/entry-common.h:324:2: error: call to undeclared function 'local_irq_disable_exit_to_user'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     324 |         local_irq_disable_exit_to_user();
-         |         ^
-   1 error generated.
+vim +118 drivers/misc/lkdtm/heap.c
 
+73f62e60d80c2d drivers/misc/lkdtm/heap.c Kees Cook    2022-03-03   92  static void lkdtm_READ_AFTER_FREE(void)
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26   93  {
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26   94  	int *base, *val, saw;
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26   95  	size_t len = 1024;
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26   96  	/*
+e12145cf1c3a80 drivers/misc/lkdtm/heap.c Kees Cook    2020-06-25   97  	 * The slub allocator will use the either the first word or
+e12145cf1c3a80 drivers/misc/lkdtm/heap.c Kees Cook    2020-06-25   98  	 * the middle of the allocation to store the free pointer,
+e12145cf1c3a80 drivers/misc/lkdtm/heap.c Kees Cook    2020-06-25   99  	 * depending on configurations. Store in the second word to
+e12145cf1c3a80 drivers/misc/lkdtm/heap.c Kees Cook    2020-06-25  100  	 * avoid running into the freelist.
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26  101  	 */
+e12145cf1c3a80 drivers/misc/lkdtm/heap.c Kees Cook    2020-06-25  102  	size_t offset = sizeof(*base);
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26  103  
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26  104  	base = kmalloc(len, GFP_KERNEL);
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26  105  	if (!base) {
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26  106  		pr_info("Unable to allocate base memory.\n");
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26  107  		return;
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26  108  	}
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26  109  
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26  110  	val = kmalloc(len, GFP_KERNEL);
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26  111  	if (!val) {
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26  112  		pr_info("Unable to allocate val memory.\n");
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26  113  		kfree(base);
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26  114  		return;
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26  115  	}
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26  116  
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26  117  	*val = 0x12345678;
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26 @118  	base[offset] = *val;
 
-vim +/local_irq_disable_exit_to_user +324 include/linux/entry-common.h
+This doesn't really matter, but the comment says we are writing to the
+second word.  The base[] array holds 256 integers, so:
 
-c6156e1da633f2 Sven Schnelle     2020-12-01  288  
-a9f3a74a29af09 Thomas Gleixner   2020-07-22  289  /**
-a9f3a74a29af09 Thomas Gleixner   2020-07-22  290   * syscall_exit_to_user_mode - Handle work before returning to user mode
-a9f3a74a29af09 Thomas Gleixner   2020-07-22  291   * @regs:	Pointer to currents pt_regs
-a9f3a74a29af09 Thomas Gleixner   2020-07-22  292   *
-e1647100c22eb7 Jinjie Ruan       2026-01-28  293   * Invoked with interrupts enabled and fully valid @regs. Returns with all
-a9f3a74a29af09 Thomas Gleixner   2020-07-22  294   * work handled, interrupts disabled such that the caller can immediately
-a9f3a74a29af09 Thomas Gleixner   2020-07-22  295   * switch to user mode. Called from architecture specific syscall and ret
-a9f3a74a29af09 Thomas Gleixner   2020-07-22  296   * from fork code.
-a9f3a74a29af09 Thomas Gleixner   2020-07-22  297   *
-a9f3a74a29af09 Thomas Gleixner   2020-07-22  298   * The call order is:
-a9f3a74a29af09 Thomas Gleixner   2020-07-22  299   *  1) One-time syscall exit work:
-a9f3a74a29af09 Thomas Gleixner   2020-07-22  300   *	- rseq syscall exit
-a9f3a74a29af09 Thomas Gleixner   2020-07-22  301   *      - audit
-a9f3a74a29af09 Thomas Gleixner   2020-07-22  302   *	- syscall tracing
-0cfcb2b9ef48bb Eric W. Biederman 2022-01-27  303   *	- ptrace (single stepping)
-a9f3a74a29af09 Thomas Gleixner   2020-07-22  304   *
-a9f3a74a29af09 Thomas Gleixner   2020-07-22  305   *  2) Preparatory work
-e1647100c22eb7 Jinjie Ruan       2026-01-28  306   *	- Disable interrupts
-a9f3a74a29af09 Thomas Gleixner   2020-07-22  307   *	- Exit to user mode loop (common TIF handling). Invokes
-a9f3a74a29af09 Thomas Gleixner   2020-07-22  308   *	  arch_exit_to_user_mode_work() for architecture specific TIF work
-a9f3a74a29af09 Thomas Gleixner   2020-07-22  309   *	- Architecture specific one time work arch_exit_to_user_mode_prepare()
-a9f3a74a29af09 Thomas Gleixner   2020-07-22  310   *	- Address limit and lockdep checks
-a9f3a74a29af09 Thomas Gleixner   2020-07-22  311   *
-310de1a678b218 Sven Schnelle     2020-12-01  312   *  3) Final transition (lockdep, tracing, context tracking, RCU), i.e. the
-310de1a678b218 Sven Schnelle     2020-12-01  313   *     functionality in exit_to_user_mode().
-c6156e1da633f2 Sven Schnelle     2020-12-01  314   *
-e1647100c22eb7 Jinjie Ruan       2026-01-28  315   * This is a combination of syscall_exit_to_user_mode_work() (1), disabling
-e1647100c22eb7 Jinjie Ruan       2026-01-28  316   * interrupts followed by syscall_exit_to_user_mode_prepare() (2) and
-e1647100c22eb7 Jinjie Ruan       2026-01-28  317   * exit_to_user_mode() (3). This function is preferred unless there is a
-e1647100c22eb7 Jinjie Ruan       2026-01-28  318   * compelling architectural reason to invoke the functions separately.
-a9f3a74a29af09 Thomas Gleixner   2020-07-22  319   */
-e43b8bb56e537b Charlie Jenkins   2025-03-20  320  static __always_inline void syscall_exit_to_user_mode(struct pt_regs *regs)
-e43b8bb56e537b Charlie Jenkins   2025-03-20  321  {
-e43b8bb56e537b Charlie Jenkins   2025-03-20  322  	instrumentation_begin();
-e43b8bb56e537b Charlie Jenkins   2025-03-20  323  	syscall_exit_to_user_mode_work(regs);
-e1647100c22eb7 Jinjie Ruan       2026-01-28 @324  	local_irq_disable_exit_to_user();
-e1647100c22eb7 Jinjie Ruan       2026-01-28  325  	syscall_exit_to_user_mode_prepare(regs);
-e43b8bb56e537b Charlie Jenkins   2025-03-20  326  	instrumentation_end();
-e43b8bb56e537b Charlie Jenkins   2025-03-20  327  	exit_to_user_mode();
-e43b8bb56e537b Charlie Jenkins   2025-03-20  328  }
-a9f3a74a29af09 Thomas Gleixner   2020-07-22  329  
+	base[sizeof(int)] = *val;
 
-:::::: The code at line 324 was first introduced by commit
-:::::: e1647100c22eb718e9833211722cbb78e339047c entry: Rework syscall_exit_to_user_mode_work() for architecture reuse
+would be the third word, right?  A word is unsigned long, right?  All
+of a sudden I am unsure.  :P
 
-:::::: TO: Jinjie Ruan <ruanjinjie@huawei.com>
-:::::: CC: Thomas Gleixner <tglx@kernel.org>
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26  119  	pr_info("Value in memory before free: %x\n", base[offset]);
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26  120  
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26  121  	kfree(base);
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26  122  
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26  123  	pr_info("Attempting bad read from freed memory\n");
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26  124  	saw = base[offset];
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26  125  	if (saw != *val) {
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26  126  		/* Good! Poisoning happened, so declare a win. */
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26  127  		pr_info("Memory correctly poisoned (%x)\n", saw);
+5b777131bd8005 drivers/misc/lkdtm/heap.c Kees Cook    2021-06-23  128  	} else {
+5b777131bd8005 drivers/misc/lkdtm/heap.c Kees Cook    2021-06-23  129  		pr_err("FAIL: Memory was not poisoned!\n");
+5b777131bd8005 drivers/misc/lkdtm/heap.c Kees Cook    2021-06-23  130  		pr_expected_config_param(CONFIG_INIT_ON_FREE_DEFAULT_ON, "init_on_free");
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26  131  	}
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26  132  
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26  133  	kfree(val);
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26  134  }
+ffc514f3fcac4a drivers/misc/lkdtm_heap.c Kees Cook    2016-06-26  135  
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  136  static void lkdtm_KFENCE_READ_AFTER_FREE(void)
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  137  {
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  138  	int *base, val, saw;
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  139  	unsigned long timeout, resched_after;
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  140  	size_t len = 1024;
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  141  	/*
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  142  	 * The slub allocator will use the either the first word or
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  143  	 * the middle of the allocation to store the free pointer,
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  144  	 * depending on configurations. Store in the second word to
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  145  	 * avoid running into the freelist.
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  146  	 */
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  147  	size_t offset = sizeof(*base);
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  148  
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  149  	/*
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  150  	 * 100x the sample interval should be more than enough to ensure we get
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  151  	 * a KFENCE allocation eventually.
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  152  	 */
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  153  	timeout = jiffies + msecs_to_jiffies(100 * kfence_sample_interval);
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  154  	/*
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  155  	 * Especially for non-preemption kernels, ensure the allocation-gate
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  156  	 * timer can catch up: after @resched_after, every failed allocation
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  157  	 * attempt yields, to ensure the allocation-gate timer is scheduled.
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  158  	 */
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  159  	resched_after = jiffies + msecs_to_jiffies(kfence_sample_interval);
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  160  	do {
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  161  		base = kmalloc(len, GFP_KERNEL);
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  162  		if (!base) {
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  163  			pr_err("FAIL: Unable to allocate kfence memory!\n");
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  164  			return;
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  165  		}
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  166  
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  167  		if (is_kfence_address(base)) {
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  168  			val = 0x12345678;
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29 @169  			base[offset] = val;
+                                                                                        ^^^^^^^^^^^^^^^^^^
+Same here.
+
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  170  			pr_info("Value in memory before free: %x\n", base[offset]);
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  171  
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  172  			kfree(base);
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  173  
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  174  			pr_info("Attempting bad read from freed memory\n");
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  175  			saw = base[offset];
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  176  			if (saw != val) {
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  177  				/* Good! Poisoning happened, so declare a win. */
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  178  				pr_info("Memory correctly poisoned (%x)\n", saw);
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  179  			} else {
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  180  				pr_err("FAIL: Memory was not poisoned!\n");
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  181  				pr_expected_config_param(CONFIG_INIT_ON_FREE_DEFAULT_ON, "init_on_free");
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  182  			}
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  183  			return;
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  184  		}
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  185  
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  186  		kfree(base);
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  187  		if (time_after(jiffies, resched_after))
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  188  			cond_resched();
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  189  	} while (time_before(jiffies, timeout));
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  190  
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  191  	pr_err("FAIL: kfence memory never allocated!\n");
+aabf7c37dfbce3 drivers/misc/lkdtm/heap.c Stephen Boyd 2023-11-29  192  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
