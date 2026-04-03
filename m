@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 159053D7D71
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Apr 2026 20:24:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 046AA239E7E
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Apr 2026 21:04:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775247885; cv=none; b=VAnSsl3KvUOKqVZPA5No3kwrcXloTN4hm9pYIu8JNuwKbmH/MMBgoyIVRFrWf5HX1dE2AWPGgtx9f7H7WmOrpLI7O7f2e1e79Pexlm+wKaRCfYukOE/0C2LIiGdHvodMgGVSI9YTYNQxi+zdVYpdeWgNk9K1jj1rYlV/wJPAq/w=
+	t=1775250285; cv=none; b=pdIyiQrCEwXK8Z88FL1hWMH+kM1DQTXTrZfTgfGETj+iLjoRBEAgpgYrKrWbLuaYXtGNpnwqsTIL1m71xmRObqpEKTKWTvxv6IksrCFKRA+u9a1S0Pa3ILMQfsjgr7FRTj1sYo8f5l8fQrhIypWCATfTy1UK6DX/S0FoTZeL/nQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775247885; c=relaxed/simple;
-	bh=BfyxErOIe1jrVEPo0E3RzpQnE6I5RAtitaHcoSZTVnk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=RGmyb8IsvJnx4wA9bIWLwbn4rhKJBUhM9oWvuEs2XMRbXNPDyFs3EsOccKniKW7LfVeyKtdUmd0RnJmCaBso1hBKgXLehPfmxt/SQE99tObjbpuuleHV8426GhuO/3X30WIPelTwb6oCeFjMNd57kqDTt3hOWutsKDkf81iVltI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ayGVIMiK; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1775250285; c=relaxed/simple;
+	bh=L78tY9wnYouRru+0iR5HrANF2G+fU1lRE2UwRM+mKww=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ZDW69d5F0tGeTZGaODgT8MxGeAHn2x/FVg1ziE8lQBfxLF3oBGiBQaGQRofL2RwKjt3PXuaRsJGLfnyzmkzuH3Yf/ljcrJDwmo9FzD4abri8OD6u8DL87+J/BgCyZHkyoB4PizknyJ2BVLDK2yMghrJ38gu4VnXA+/HDy1bJCv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=le6+PUEF; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ayGVIMiK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="le6+PUEF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775247883; x=1806783883;
+  t=1775250284; x=1806786284;
   h=date:from:to:cc:subject:message-id;
-  bh=BfyxErOIe1jrVEPo0E3RzpQnE6I5RAtitaHcoSZTVnk=;
-  b=ayGVIMiK5SKJlK3XCnrtul1GG90neVlqSmYyjb+3rcarMxjkaj36pwAe
-   WEpIxgi16QE3cd/TyV72vHrDVy/RxcT0+DIV7DuqWuyu/kE8ltmIhtOQU
-   LkxZcM4fNwpyaBVIrYxDVytCVYUexORFSqvZ5h5NZAfhl06UOX1SkEmel
-   GLZEVbZHdzVbjCBKDV7U+NRrIEwgAjyA2oAfLh7kxpQmGy/oxv5iIOrTn
-   RQkoCd10OstHXb2ft5iGzPO5n/SMi/2zDGQn8TySOS6nt8q7WGJaHxwbO
-   1MX7F6uTLmPoDWTug4ehB1Tk64kOPuCfK2gIjCdXzqQo5RenjF5cgnR3w
+  bh=L78tY9wnYouRru+0iR5HrANF2G+fU1lRE2UwRM+mKww=;
+  b=le6+PUEFehrWVaTmWDOd8HIHe2G4aCB0NoNwZESCGC82kJdVYVMpa12w
+   wyP4b/zqafkd0JtzRqH4kW2VnxYMe9VIdzOmHijZOYNofwpDsZMj74lHQ
+   oxom1kRyZgiQbZkMwhtDDsqHySeKLQZhktnBugzvXg/2AGSR3hyhBnb5I
+   QvpuR8cxq8MNyRlBfcR6w8htOjxGkoXzJwEc+A5erR3d+/J3e7I9Gl76a
+   oCTC8FMdl2AHUHtrRH4/9zLrVgs1OuZqoX+lipUqinRUwMh5o5636ea0/
+   OJRP6Pk0Cdq+tNTXBMGNJMxgAkKwRmrE82gydISugzmkAjGWXkwMzwa9U
    g==;
-X-CSE-ConnectionGUID: Y5z1x5fHRoCmwhix18DoEA==
-X-CSE-MsgGUID: nyhoKvlXR2ulkTmDxDig3w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11748"; a="76195190"
+X-CSE-ConnectionGUID: AlHZc5vDQKuxqeMkvZvupA==
+X-CSE-MsgGUID: sEtgpBohRKWWqJjiA9kCUg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11748"; a="98930677"
 X-IronPort-AV: E=Sophos;i="6.23,158,1770624000"; 
-   d="scan'208";a="76195190"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 13:24:43 -0700
-X-CSE-ConnectionGUID: xKcusWKxRdWHOATRvi1k7A==
-X-CSE-MsgGUID: RiiYHkGEQ/OfIe/y6JD9zQ==
+   d="scan'208";a="98930677"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 14:04:43 -0700
+X-CSE-ConnectionGUID: xHESUZmIRg2mYtAMNljNBA==
+X-CSE-MsgGUID: DG2hHKLrRnek9k2CrKV5Ew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,158,1770624000"; 
-   d="scan'208";a="222503064"
+   d="scan'208";a="232145360"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 03 Apr 2026 13:24:40 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 03 Apr 2026 14:04:41 -0700
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w8l4I-000000009O1-2QeC;
-	Fri, 03 Apr 2026 20:24:38 +0000
-Date: Fri, 03 Apr 2026 22:23:44 +0200
+	id 1w8lh1-000000009Or-1JST;
+	Fri, 03 Apr 2026 21:04:39 +0000
+Date: Fri, 03 Apr 2026 23:04:30 +0200
 From: kernel test robot <lkp@intel.com>
 To: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [abelloni:rtc-next 17/17] drivers/rtc/rtc-cmos.c:776:2:
- error: call to undeclared function 'acpi_clear_event'; ISO C99 and later do
- not support implicit function declarations
-Message-ID: <202604032243.FejUxXYr-lkp@intel.com>
+Subject: [abelloni:rtc-next 17/17] drivers/rtc/rtc-cmos.c:776:9:
+ error: implicit declaration of function 'acpi_clear_event'
+Message-ID: <202604032226.TPEKkUt6-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,84 +62,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
 head:   a33bf4b6adf70aa8c8a18a231ea7aed3fd1b3875
 commit: a33bf4b6adf70aa8c8a18a231ea7aed3fd1b3875 [17/17] rtc: cmos: Remove redundant include of linux/acpi.h
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260403/202604032243.FejUxXYr-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260403/202604032243.FejUxXYr-lkp@intel.com/reproduce)
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260403/202604032226.TPEKkUt6-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260403/202604032226.TPEKkUt6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604032243.FejUxXYr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604032226.TPEKkUt6-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/rtc/rtc-cmos.c:776:2: error: call to undeclared function 'acpi_clear_event'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   drivers/rtc/rtc-cmos.c: In function 'rtc_handler':
+>> drivers/rtc/rtc-cmos.c:776:9: error: implicit declaration of function 'acpi_clear_event' [-Wimplicit-function-declaration]
      776 |         acpi_clear_event(ACPI_EVENT_RTC);
-         |         ^
->> drivers/rtc/rtc-cmos.c:776:19: error: use of undeclared identifier 'ACPI_EVENT_RTC'
+         |         ^~~~~~~~~~~~~~~~
+>> drivers/rtc/rtc-cmos.c:776:26: error: 'ACPI_EVENT_RTC' undeclared (first use in this function)
      776 |         acpi_clear_event(ACPI_EVENT_RTC);
-         |                          ^
->> drivers/rtc/rtc-cmos.c:777:2: error: call to undeclared function 'acpi_disable_event'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+         |                          ^~~~~~~~~~~~~~
+   drivers/rtc/rtc-cmos.c:776:26: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/rtc/rtc-cmos.c:777:9: error: implicit declaration of function 'acpi_disable_event' [-Wimplicit-function-declaration]
      777 |         acpi_disable_event(ACPI_EVENT_RTC, 0);
-         |         ^
-   drivers/rtc/rtc-cmos.c:777:21: error: use of undeclared identifier 'ACPI_EVENT_RTC'
-     777 |         acpi_disable_event(ACPI_EVENT_RTC, 0);
-         |                            ^
->> drivers/rtc/rtc-cmos.c:778:9: error: use of undeclared identifier 'ACPI_INTERRUPT_HANDLED'
+         |         ^~~~~~~~~~~~~~~~~~
+>> drivers/rtc/rtc-cmos.c:778:16: error: 'ACPI_INTERRUPT_HANDLED' undeclared (first use in this function)
      778 |         return ACPI_INTERRUPT_HANDLED;
-         |                ^
->> drivers/rtc/rtc-cmos.c:783:6: error: use of undeclared identifier 'acpi_disabled'; did you mean '__cpu_disable'?
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/rtc/rtc-cmos.c: In function 'acpi_rtc_event_setup':
+>> drivers/rtc/rtc-cmos.c:783:13: error: 'acpi_disabled' undeclared (first use in this function); did you mean 'irqs_disabled'?
      783 |         if (acpi_disabled)
          |             ^~~~~~~~~~~~~
-         |             __cpu_disable
-   arch/x86/include/asm/smp.h:71:19: note: '__cpu_disable' declared here
-      71 | static inline int __cpu_disable(void)
-         |                   ^
->> drivers/rtc/rtc-cmos.c:786:2: error: call to undeclared function 'acpi_install_fixed_event_handler'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+         |             irqs_disabled
+>> drivers/rtc/rtc-cmos.c:786:9: error: implicit declaration of function 'acpi_install_fixed_event_handler' [-Wimplicit-function-declaration]
      786 |         acpi_install_fixed_event_handler(ACPI_EVENT_RTC, rtc_handler, dev);
-         |         ^
-   drivers/rtc/rtc-cmos.c:786:35: error: use of undeclared identifier 'ACPI_EVENT_RTC'
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/rtc/rtc-cmos.c:786:42: error: 'ACPI_EVENT_RTC' undeclared (first use in this function)
      786 |         acpi_install_fixed_event_handler(ACPI_EVENT_RTC, rtc_handler, dev);
-         |                                          ^
-   drivers/rtc/rtc-cmos.c:791:2: error: call to undeclared function 'acpi_clear_event'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     791 |         acpi_clear_event(ACPI_EVENT_RTC);
-         |         ^
-   drivers/rtc/rtc-cmos.c:791:19: error: use of undeclared identifier 'ACPI_EVENT_RTC'
-     791 |         acpi_clear_event(ACPI_EVENT_RTC);
-         |                          ^
-   drivers/rtc/rtc-cmos.c:792:2: error: call to undeclared function 'acpi_disable_event'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     792 |         acpi_disable_event(ACPI_EVENT_RTC, 0);
-         |         ^
-   drivers/rtc/rtc-cmos.c:792:21: error: use of undeclared identifier 'ACPI_EVENT_RTC'
-     792 |         acpi_disable_event(ACPI_EVENT_RTC, 0);
-         |                            ^
-   drivers/rtc/rtc-cmos.c:797:6: error: use of undeclared identifier 'acpi_disabled'; did you mean '__cpu_disable'?
+         |                                          ^~~~~~~~~~~~~~
+   drivers/rtc/rtc-cmos.c: In function 'acpi_rtc_event_cleanup':
+   drivers/rtc/rtc-cmos.c:797:13: error: 'acpi_disabled' undeclared (first use in this function); did you mean 'irqs_disabled'?
      797 |         if (acpi_disabled)
          |             ^~~~~~~~~~~~~
-         |             __cpu_disable
-   arch/x86/include/asm/smp.h:71:19: note: '__cpu_disable' declared here
-      71 | static inline int __cpu_disable(void)
-         |                   ^
->> drivers/rtc/rtc-cmos.c:800:2: error: call to undeclared function 'acpi_remove_fixed_event_handler'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+         |             irqs_disabled
+>> drivers/rtc/rtc-cmos.c:800:9: error: implicit declaration of function 'acpi_remove_fixed_event_handler' [-Wimplicit-function-declaration]
      800 |         acpi_remove_fixed_event_handler(ACPI_EVENT_RTC, rtc_handler);
-         |         ^
-   drivers/rtc/rtc-cmos.c:800:34: error: use of undeclared identifier 'ACPI_EVENT_RTC'
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/rtc/rtc-cmos.c:800:41: error: 'ACPI_EVENT_RTC' undeclared (first use in this function)
      800 |         acpi_remove_fixed_event_handler(ACPI_EVENT_RTC, rtc_handler);
-         |                                         ^
-   drivers/rtc/rtc-cmos.c:805:2: error: call to undeclared function 'acpi_clear_event'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+         |                                         ^~~~~~~~~~~~~~
+   drivers/rtc/rtc-cmos.c: In function 'rtc_wake_on':
+   drivers/rtc/rtc-cmos.c:805:26: error: 'ACPI_EVENT_RTC' undeclared (first use in this function)
      805 |         acpi_clear_event(ACPI_EVENT_RTC);
-         |         ^
-   drivers/rtc/rtc-cmos.c:805:19: error: use of undeclared identifier 'ACPI_EVENT_RTC'
-     805 |         acpi_clear_event(ACPI_EVENT_RTC);
-         |                          ^
->> drivers/rtc/rtc-cmos.c:806:2: error: call to undeclared function 'acpi_enable_event'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+         |                          ^~~~~~~~~~~~~~
+>> drivers/rtc/rtc-cmos.c:806:9: error: implicit declaration of function 'acpi_enable_event' [-Wimplicit-function-declaration]
      806 |         acpi_enable_event(ACPI_EVENT_RTC, 0);
-         |         ^
-   drivers/rtc/rtc-cmos.c:806:20: error: use of undeclared identifier 'ACPI_EVENT_RTC'
-     806 |         acpi_enable_event(ACPI_EVENT_RTC, 0);
-         |                           ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/rtc/rtc-cmos.c: In function 'rtc_wake_off':
+   drivers/rtc/rtc-cmos.c:811:28: error: 'ACPI_EVENT_RTC' undeclared (first use in this function)
+     811 |         acpi_disable_event(ACPI_EVENT_RTC, 0);
+         |                            ^~~~~~~~~~~~~~
+   drivers/rtc/rtc-cmos.c: In function 'acpi_cmos_wake_setup':
+   drivers/rtc/rtc-cmos.c:841:13: error: 'acpi_disabled' undeclared (first use in this function); did you mean 'irqs_disabled'?
+     841 |         if (acpi_disabled)
+         |             ^~~~~~~~~~~~~
+         |             irqs_disabled
+>> drivers/rtc/rtc-cmos.c:850:13: error: 'acpi_gbl_FADT' undeclared (first use in this function)
+     850 |         if (acpi_gbl_FADT.month_alarm && !acpi_gbl_FADT.day_alarm) {
+         |             ^~~~~~~~~~~~~
+>> drivers/rtc/rtc-cmos.c:860:35: error: 'ACPI_FADT_S4_RTC_WAKE' undeclared (first use in this function)
+     860 |         if (acpi_gbl_FADT.flags & ACPI_FADT_S4_RTC_WAKE)
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+   drivers/rtc/rtc-cmos.c: In function 'cmos_check_acpi_rtc_status':
+>> drivers/rtc/rtc-cmos.c:871:9: error: unknown type name 'acpi_event_status'
+     871 |         acpi_event_status rtc_status;
+         |         ^~~~~~~~~~~~~~~~~
+>> drivers/rtc/rtc-cmos.c:872:9: error: unknown type name 'acpi_status'; did you mean 'si_status'?
+     872 |         acpi_status status;
+         |         ^~~~~~~~~~~
+         |         si_status
+   drivers/rtc/rtc-cmos.c:874:13: error: 'acpi_gbl_FADT' undeclared (first use in this function)
+     874 |         if (acpi_gbl_FADT.flags & ACPI_FADT_FIXED_RTC)
+         |             ^~~~~~~~~~~~~
+>> drivers/rtc/rtc-cmos.c:874:35: error: 'ACPI_FADT_FIXED_RTC' undeclared (first use in this function)
+     874 |         if (acpi_gbl_FADT.flags & ACPI_FADT_FIXED_RTC)
+         |                                   ^~~~~~~~~~~~~~~~~~~
+>> drivers/rtc/rtc-cmos.c:877:18: error: implicit declaration of function 'acpi_get_event_status'; did you mean 'acpi_rtc_event_setup'? [-Wimplicit-function-declaration]
+     877 |         status = acpi_get_event_status(ACPI_EVENT_RTC, &rtc_status);
+         |                  ^~~~~~~~~~~~~~~~~~~~~
+         |                  acpi_rtc_event_setup
+   drivers/rtc/rtc-cmos.c:877:40: error: 'ACPI_EVENT_RTC' undeclared (first use in this function)
+     877 |         status = acpi_get_event_status(ACPI_EVENT_RTC, &rtc_status);
+         |                                        ^~~~~~~~~~~~~~
+>> drivers/rtc/rtc-cmos.c:878:13: error: implicit declaration of function 'ACPI_FAILURE' [-Wimplicit-function-declaration]
+     878 |         if (ACPI_FAILURE(status)) {
+         |             ^~~~~~~~~~~~
+>> drivers/rtc/rtc-cmos.c:880:33: error: 'ACPI_EVENT_FLAG_SET' undeclared (first use in this function)
+     880 |         } else if (rtc_status & ACPI_EVENT_FLAG_SET) {
+         |                                 ^~~~~~~~~~~~~~~~~~~
 
 
 vim +/acpi_clear_event +776 drivers/rtc/rtc-cmos.c
@@ -198,7 +215,7 @@ dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  793  }
 dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  794  
 83ebb7b3036d15 Rafael J. Wysocki 2022-11-09  795  static void acpi_rtc_event_cleanup(void)
 83ebb7b3036d15 Rafael J. Wysocki 2022-11-09  796  {
-83ebb7b3036d15 Rafael J. Wysocki 2022-11-09 @797  	if (acpi_disabled)
+83ebb7b3036d15 Rafael J. Wysocki 2022-11-09  797  	if (acpi_disabled)
 83ebb7b3036d15 Rafael J. Wysocki 2022-11-09  798  		return;
 83ebb7b3036d15 Rafael J. Wysocki 2022-11-09  799  
 83ebb7b3036d15 Rafael J. Wysocki 2022-11-09 @800  	acpi_remove_fixed_event_handler(ACPI_EVENT_RTC, rtc_handler);
@@ -210,6 +227,86 @@ dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  805  	acpi_clear_event(ACPI_EVENT_R
 dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09 @806  	acpi_enable_event(ACPI_EVENT_RTC, 0);
 dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  807  }
 dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  808  
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  809  static void rtc_wake_off(struct device *dev)
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  810  {
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  811  	acpi_disable_event(ACPI_EVENT_RTC, 0);
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  812  }
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  813  
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  814  #ifdef CONFIG_X86
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  815  static void use_acpi_alarm_quirks(void)
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  816  {
+3d762e21d56370 Mario Limonciello 2023-11-06  817  	switch (boot_cpu_data.x86_vendor) {
+3d762e21d56370 Mario Limonciello 2023-11-06  818  	case X86_VENDOR_INTEL:
+3d762e21d56370 Mario Limonciello 2023-11-06  819  		if (dmi_get_bios_year() < 2015)
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  820  			return;
+3d762e21d56370 Mario Limonciello 2023-11-06  821  		break;
+3d762e21d56370 Mario Limonciello 2023-11-06  822  	case X86_VENDOR_AMD:
+3d762e21d56370 Mario Limonciello 2023-11-06  823  	case X86_VENDOR_HYGON:
+3d762e21d56370 Mario Limonciello 2023-11-06  824  		if (dmi_get_bios_year() < 2021)
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  825  			return;
+3d762e21d56370 Mario Limonciello 2023-11-06  826  		break;
+3d762e21d56370 Mario Limonciello 2023-11-06  827  	default:
+3d762e21d56370 Mario Limonciello 2023-11-06  828  		return;
+3d762e21d56370 Mario Limonciello 2023-11-06  829  	}
+3d762e21d56370 Mario Limonciello 2023-11-06  830  	if (!is_hpet_enabled())
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  831  		return;
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  832  
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  833  	use_acpi_alarm = true;
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  834  }
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  835  #else
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  836  static inline void use_acpi_alarm_quirks(void) { }
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  837  #endif
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  838  
+d13e9ad9f5146f Rafael J. Wysocki 2022-11-09  839  static void acpi_cmos_wake_setup(struct device *dev)
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  840  {
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  841  	if (acpi_disabled)
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  842  		return;
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  843  
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  844  	use_acpi_alarm_quirks();
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  845  
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  846  	cmos_rtc.wake_on = rtc_wake_on;
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  847  	cmos_rtc.wake_off = rtc_wake_off;
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  848  
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  849  	/* ACPI tables bug workaround. */
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09 @850  	if (acpi_gbl_FADT.month_alarm && !acpi_gbl_FADT.day_alarm) {
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  851  		dev_dbg(dev, "bogus FADT month_alarm (%d)\n",
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  852  			acpi_gbl_FADT.month_alarm);
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  853  		acpi_gbl_FADT.month_alarm = 0;
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  854  	}
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  855  
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  856  	cmos_rtc.day_alrm = acpi_gbl_FADT.day_alarm;
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  857  	cmos_rtc.mon_alrm = acpi_gbl_FADT.month_alarm;
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  858  	cmos_rtc.century = acpi_gbl_FADT.century;
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  859  
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09 @860  	if (acpi_gbl_FADT.flags & ACPI_FADT_S4_RTC_WAKE)
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  861  		dev_info(dev, "RTC can wake from S4\n");
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  862  
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  863  	/* RTC always wakes from S1/S2/S3, and often S4/STD */
+8c28c4993f117e Wolfram Sang      2024-12-17  864  	device_init_wakeup(dev, true);
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  865  }
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  866  
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  867  static void cmos_check_acpi_rtc_status(struct device *dev,
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  868  					      unsigned char *rtc_control)
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  869  {
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  870  	struct cmos_rtc *cmos = dev_get_drvdata(dev);
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09 @871  	acpi_event_status rtc_status;
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09 @872  	acpi_status status;
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  873  
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09 @874  	if (acpi_gbl_FADT.flags & ACPI_FADT_FIXED_RTC)
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  875  		return;
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  876  
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09 @877  	status = acpi_get_event_status(ACPI_EVENT_RTC, &rtc_status);
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09 @878  	if (ACPI_FAILURE(status)) {
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  879  		dev_err(dev, "Could not get RTC status\n");
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09 @880  	} else if (rtc_status & ACPI_EVENT_FLAG_SET) {
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  881  		unsigned char mask;
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  882  		*rtc_control &= ~RTC_AIE;
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  883  		CMOS_WRITE(*rtc_control, RTC_CONTROL);
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  884  		mask = CMOS_READ(RTC_INTR_FLAGS);
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  885  		rtc_update_irq(cmos->rtc, 1, mask);
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  886  	}
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  887  }
+dca4d3b71c8a09 Rafael J. Wysocki 2022-11-09  888  
 
 :::::: The code at line 776 was first introduced by commit
 :::::: dca4d3b71c8a09a16951add656711fbd6f5bfbb0 rtc: cmos: Eliminate forward declarations of some functions
