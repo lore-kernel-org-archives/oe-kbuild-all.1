@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC3B37F00A;
-	Fri,  3 Apr 2026 08:42:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB7337EFF4
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Apr 2026 08:42:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775205725; cv=none; b=D0Ec/7Dcqx2/rxrtQ1mloDzVsW4H3vd8+AxkXdRigERovAvUe4946/4HVsggwAg+pbZVn0T7CN+Qb8fqdlACxIB1ltD1f1PS+9rtcjN1GF20PD1HwYoKgqMvkJqjYJ7y1GyUFizgm1NrOhkWLmB4HR1vUTRN6Fk77wTCNpyIOV0=
+	t=1775205728; cv=none; b=CzipovO/7897pDfD0ZvxaoJ5P70kyZ0cvn3DGJ4Jn1NEuT0m8HxzQ0p1AFk7aW43VQhwPFhI2zQ1nLWZpfERZzj+ppxiHkX9oTJ8M79jXRU5Rmubd9dZIx4D0KssvDOYhm3aD6jyUWqYYExAmgQ8VTXxuRgOjfTFdk0bbnt5YhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775205725; c=relaxed/simple;
-	bh=OM7JAe9idMfjXGZ/45XJ/LV7IOy95UVMAYPkep6LA7c=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=rSSg+OkYcD+CetBIwv2/iYIEXHWqmICwW57BMSdYkFkjR4ESlNJ3tDjuNd5V8XJ3lcC7sZ7bFECF/nihoVFBva5E/3dM//RQmZius3TSACmIGLGhGol7jHbBrGzh2lQhu7fXBANNjWYej5ffdtFj49WAIzHPZNZE0lE2XY36PNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eqbEOCTG; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1775205728; c=relaxed/simple;
+	bh=e8mYC+wt9NDP3xUBeUrU3a5ScOubJ6K9Nuwj42yWz2w=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=L6UZzwBWRLm42QIIfhxUHan1tIqk61biKsK/jf7+vWrP/eRx9gYP3SdOoAfUL8lq/bt/lYu8NJ7njaUfTqrzoT4mKAIinnP9w1awKeEXt9f+cOt0cIBShjlXf/IZ2qKz7qw5ipv+m3oTfw6YAIEAWvbnDLAUHS9MB2SVHPF2XwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MxiX23Sg; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eqbEOCTG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MxiX23Sg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775205721; x=1806741721;
+  t=1775205725; x=1806741725;
   h=date:from:to:cc:subject:message-id;
-  bh=OM7JAe9idMfjXGZ/45XJ/LV7IOy95UVMAYPkep6LA7c=;
-  b=eqbEOCTG4eXMppAWj9WeJK41rZqI3ipbVhA9xnfS3xg1AJuenjjPrnl6
-   gesZX2/DHSFAoRVmLi7rVYw4sUyc5F8rSRSlz1zBU8+9s+hcJzA25KGLr
-   Z4jyAF1DHglgF/oLpnuwYV9PXBiE1hCK8ecdgXQlREtoBMbmYV5/1iJAQ
-   Sdx2rVjGAHNckbg/R8naWxHlLzGb3UIzTlu8OZDGOazyD3e79iUkbngYA
-   AAqmprGY2YyfrzuRkHQdwt9JJQ8S/Jd04D7yAzw045aOuXtwSg34f3k1m
-   So0dk0Avg8OFfA7bQbQSBcNiEdQeaxpiQIfMOFYqdED+afH2q9oASgCwk
-   g==;
-X-CSE-ConnectionGUID: d0/RqTQ1TsiNXHp2sGUi6A==
-X-CSE-MsgGUID: ZRnf8Ql4SBOl+V8QSd2XPQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="93852146"
+  bh=e8mYC+wt9NDP3xUBeUrU3a5ScOubJ6K9Nuwj42yWz2w=;
+  b=MxiX23SgkqM1B3gAgznJo8SdnPCztnu4z0gY1w+e0crrFCmLjw7GlO4z
+   4xAaoxJczqa5DK+9djPiAorYFG8KLL8WshTDLlw4FwQXyAoZ39jkBNuCG
+   v0TyJPAkEtooG1RjlwJK3QrMz40UgLaRpEHSpL+ob8wN1heAFIQTX13/m
+   SYq1+f3axqLBcDrpXSEgkgFkL0JKoYjkCMWwdrpWwx3D4vMi6GatTfIz2
+   +K0D7LhA8huFJ6bzOFlZJQsfghpa0r4boe2VRzvHF6SCM++eHVJBeCesn
+   sMzLXEZvOKy8JVapTJGa6IKWK3NbbqqrZI4q+riPtcs6x2dH5NQCr+GCn
+   Q==;
+X-CSE-ConnectionGUID: jGIYYqHRTOCWg+ziF/Prww==
+X-CSE-MsgGUID: vbN3Il33TKijn44swlvgYQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="86973954"
 X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
-   d="scan'208";a="93852146"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 01:41:59 -0700
-X-CSE-ConnectionGUID: uNNi8nbyQc2E0d1TtQdXQA==
-X-CSE-MsgGUID: EUJPpgEhQIO6xqhXA3rnvQ==
+   d="scan'208";a="86973954"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 01:41:58 -0700
+X-CSE-ConnectionGUID: SsRqKrW1TWqDNxs9VZlxiw==
+X-CSE-MsgGUID: yRaqCEFkQp+PKfAtX8Illw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
-   d="scan'208";a="223943094"
+   d="scan'208";a="228834236"
 Received: from lkp-server01.sh.intel.com (HELO 064ad336901d) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 03 Apr 2026 01:41:57 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 03 Apr 2026 01:41:57 -0700
 Received: from kbuild by 064ad336901d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w8a6E-00000000133-2uXN;
+	id 1w8a6E-0000000012x-2cBm;
 	Fri, 03 Apr 2026 08:41:54 +0000
-Date: Fri, 03 Apr 2026 16:41:06 +0800
+Date: Fri, 03 Apr 2026 16:41:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-media@vger.kernel.org,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Hans de Goede <hansg@kernel.org>
-Subject: [sailus-media-tree:pld 24/32]
- drivers/media/v4l2-core/v4l2-fwnode.c:831:3: error: call to undeclared
- function '__acpi_handle_debug'; ISO C99 and later do not support implicit
- function declarations
-Message-ID: <202604022233.XxAwrVdV-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-2026-04 1/1]
+ mm/oom_kill.c:756: warning: Function parameter or member 'tsk' not described
+ in '__mark_oom_victim'
+Message-ID: <202604022252.8PnlnFSW-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -64,88 +60,40 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   git://linuxtv.org/sailus/media_tree.git pld
-head:   b8c5b499767feb946c184029ff272276a036623e
-commit: 010794c2fea2ddf1d1556e40bcd97c3c3b952825 [24/32] media: v4l: fwnode: Support ACPI's _PLD for v4l2_fwnode_device_parse
-config: hexagon-randconfig-001-20260402 (https://download.01.org/0day-ci/archive/20260402/202604022233.XxAwrVdV-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260402/202604022233.XxAwrVdV-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-2026-04
+head:   1a029ed73e0c73261faa5c9cfc848e08ce285151
+commit: d21d65620152112514a6c0f868d04acc91deaa32 [1/1] ANDROID: signal: Add vendor hook for memory reap
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260402/202604022252.8PnlnFSW-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260402/202604022252.8PnlnFSW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604022233.XxAwrVdV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604022252.8PnlnFSW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/media/v4l2-core/v4l2-fwnode.c:831:3: error: call to undeclared function '__acpi_handle_debug'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     831 |                 acpi_handle_debug(ACPI_HANDLE(dev), "cannot obtain _PLD\n");
-         |                 ^
-   include/linux/acpi.h:1275:26: note: expanded from macro 'acpi_handle_debug'
-    1275 |         _dynamic_func_call(fmt, __acpi_handle_debug,                    \
-         |                                 ^
-   1 error generated.
+>> mm/oom_kill.c:756: warning: Function parameter or member 'tsk' not described in '__mark_oom_victim'
+>> mm/oom_kill.c:756: warning: expecting prototype for tsk(). Prototype was for __mark_oom_victim() instead
 
 
-vim +/__acpi_handle_debug +831 drivers/media/v4l2-core/v4l2-fwnode.c
+vim +756 mm/oom_kill.c
 
-   820	
-   821	static int v4l2_fwnode_device_parse_acpi(struct device *dev,
-   822						 struct v4l2_fwnode_device_properties *props)
-   823	{
-   824		struct acpi_pld_info *pld;
-   825		int ret = 0;
-   826	
-   827		if (!is_acpi_device_node(dev_fwnode(dev)))
-   828			return 0;
-   829	
-   830		if (!acpi_get_physical_device_location(ACPI_HANDLE(dev), &pld)) {
- > 831			acpi_handle_debug(ACPI_HANDLE(dev), "cannot obtain _PLD\n");
-   832			return 0;
-   833		}
-   834	
-   835		if (props->orientation == V4L2_FWNODE_PROPERTY_UNSET) {
-   836			switch (pld->panel) {
-   837			case ACPI_PLD_PANEL_FRONT:
-   838				props->orientation = V4L2_FWNODE_ORIENTATION_FRONT;
-   839				break;
-   840			case ACPI_PLD_PANEL_BACK:
-   841				props->orientation = V4L2_FWNODE_ORIENTATION_BACK;
-   842				break;
-   843			case ACPI_PLD_PANEL_TOP:
-   844			case ACPI_PLD_PANEL_LEFT:
-   845			case ACPI_PLD_PANEL_RIGHT:
-   846			case ACPI_PLD_PANEL_UNKNOWN:
-   847				props->orientation = V4L2_FWNODE_ORIENTATION_EXTERNAL;
-   848				break;
-   849			default:
-   850				acpi_handle_warn(ACPI_HANDLE(dev),
-   851						 "invalid panel %u in _PLD\n",
-   852						 pld->panel);
-   853				ret = -EINVAL;
-   854				goto done;
-   855			}
-   856		}
-   857	
-   858		if (props->rotation == V4L2_FWNODE_PROPERTY_UNSET) {
-   859			switch (pld->rotation) {
-   860			case 0 ... 7:
-   861				props->rotation = pld->rotation * 45;
-   862				break;
-   863			default:
-   864				acpi_handle_warn(ACPI_HANDLE(dev),
-   865						 "invalid rotation %u in _PLD\n",
-   866						 pld->rotation);
-   867				ret = -EINVAL;
-   868				goto done;
-   869			}
-   870		}
-   871	
-   872	done:
-   873		ACPI_FREE(pld);
-   874		return ret;
-   875	}
-   876	
+   750	
+   751	/**
+   752	 * tsk->mm has to be non NULL and caller has to guarantee it is stable (either
+   753	 * under task_lock or operate on the current).
+   754	 */
+   755	static void __mark_oom_victim(struct task_struct *tsk)
+ > 756	{
+   757		struct mm_struct *mm = tsk->mm;
+   758	
+   759		if (!cmpxchg(&tsk->signal->oom_mm, NULL, mm)) {
+   760			mmgrab(tsk->signal->oom_mm);
+   761		}
+   762	}
+   763	
 
 -- 
 0-DAY CI Kernel Test Service
