@@ -1,178 +1,175 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B8837E2E6;
-	Fri,  3 Apr 2026 08:42:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98BB637FF5A
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Apr 2026 08:42:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775205734; cv=none; b=KVWf9+2pK9KfP/qne5SiuPvHsdm4NU+69D7WTo+VQHLP3+QSTqYLREhq283WwF8x9QdfXVzhLQ/QvsSqF5qmUkwWT7bt+5Ip78MIkIJg6EPQxQERrX6WojJEz9x62f3IJo9D8Jpn0xBPmFWZcXQ7JH2Ody74GYckBktGr+OGoCE=
+	t=1775205734; cv=none; b=ol/ZGy/TBjs6ZtjA4+IzGS3BUolJJCFGUAJzNYwmw2jSc1wx+UkDxF5PCtLGeK59/MmuWNC6IPq5vSB8b1Ecm3wgokOdcS+bJqJPZ6zSKIiFicU2PV9HGS3wXFg59CaIopFUIxhaQVSdqHZbr77OcDmghYTrBkv+hJzrX4mG+YI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1775205734; c=relaxed/simple;
-	bh=VT47fF4UNFKw92doLEtJyGGgyl5ERxdRuU+ta7n+GaE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=rIEiCfeIIDDw5C6yAcD+sBkQ8RJW7Ni/dhHYavhwFkVzc6tPlAQTSlvF9PCsImt0drLb7p1Dn0rydZ5snfduaVTWgcOQC2/Cv/iQ3nj9CVPjXXcI7+rG+oRnsfVX5LZrU5W1cLAldnL2CG/MbBh5bDbcvAGH/muL4NTElOcTyQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GzqNjzgG; arc=none smtp.client-ip=192.198.163.9
+	bh=D/2wqcLAjgU9Gx5rUu4J98A+92bCLOGq7xL8q3oKhd4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=bpDTnC+gByBQJfjaG/QL2AeBbV4qWHvZu8Sia2Qdofqu3QQZKBZ+akdzKGrxWjv99Jkk3FQfKNTwvd/vllAjmM66F+ZJ2qUbYFst7m6m097qDgon3K4+v/d+W5wolyImuoomAn7kOa2kXcucuCXeiBAfa7d1h6O9rZq7BKi7qJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VTG+y0s1; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GzqNjzgG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VTG+y0s1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775205731; x=1806741731;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=VT47fF4UNFKw92doLEtJyGGgyl5ERxdRuU+ta7n+GaE=;
-  b=GzqNjzgGdv5ZCQnrsvr8EECj1AIQ0vHmU4I+mAuuCwBUvmfva8cnp2a2
-   t7LIBpF+Xky6waPuaIBRX13QN0YQY/LJKakr3v5snI6h/Ehm9qXQyaDfr
-   nYCcAhE6/PS7uanIz8g5QQ3+NFLfUYv79K5MW3/0oECiesEySmeSXpzKi
-   lhDAiA0MpfconP+R6Gt0F6+CR06MdbjZEvIqx3r9ORlxvSMR7ntgDQJod
-   JEMnsAQNVYxRNnfmh4MrqA5vvLxdyF9oarjrLNJWjy3WMJINofQBmIp3/
-   vGJg3CHJJrF4J6AGMnhUwopQ82qQA5lqBCA6Rv+w4YcldRboBETZSre0o
-   Q==;
-X-CSE-ConnectionGUID: vruABJZHRGyMOZDEwgsMiw==
-X-CSE-MsgGUID: 55Th2bpxT1KLj+f9VTJ+sA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="86973966"
+  t=1775205729; x=1806741729;
+  h=date:from:to:cc:subject:message-id;
+  bh=D/2wqcLAjgU9Gx5rUu4J98A+92bCLOGq7xL8q3oKhd4=;
+  b=VTG+y0s1smojVHy2i467TyTkndz3s/TZWsWxcslUKH7XftG4zKomrgoX
+   D68Y4eZduFewvDu7NlTdVTswQbBs2GUho6+onicBgmvbNh09dP3+NzaJs
+   sniiXjUiK1wb/0eCcxq7bJp2SV4re5nooPWoTQun5pDHRasEnMzPhzMOJ
+   O2MRtVZCWmKF5aBd3WL3RfRbHwVkAcZkXqWToqCzDdM297PAAmjyV/Jri
+   ic2KOsBDBjHCJVAl4+kGknJ90zoPnmuIm3TwRwgIn2uMqINq968iOA00N
+   K2rk870DpxswRsyzPRNu4lcQcZwJ62f/WpGOKTC9K/1uAGmfdPBNpZESg
+   w==;
+X-CSE-ConnectionGUID: HqYKvI+1Q2GfYIbijFLFzQ==
+X-CSE-MsgGUID: lceHGEKPTOeYqf8i3Wzo3Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="86973963"
 X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
-   d="scan'208";a="86973966"
+   d="scan'208";a="86973963"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
   by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 01:41:58 -0700
-X-CSE-ConnectionGUID: 5Yiq07mPSG2+C+iIFIZtPw==
-X-CSE-MsgGUID: QoJyM/a0TQGASHJJ6DwAuA==
+X-CSE-ConnectionGUID: BoFL3rsIRACS+TikqyJbIA==
+X-CSE-MsgGUID: wGDz25OQQZ239CydRzXtow==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
-   d="scan'208";a="228834244"
+   d="scan'208";a="228834242"
 Received: from lkp-server01.sh.intel.com (HELO 064ad336901d) ([10.239.97.150])
   by fmviesa004.fm.intel.com with ESMTP; 03 Apr 2026 01:41:57 -0700
 Received: from kbuild by 064ad336901d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w8a6E-00000000131-2odw;
+	id 1w8a6E-0000000012v-2WCC;
 	Fri, 03 Apr 2026 08:41:54 +0000
-Date: Fri, 03 Apr 2026 16:41:09 +0800
+Date: Fri, 03 Apr 2026 16:41:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Woodhouse <dwmw@amazon.co.uk>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dwmw2:deprecate-legacy-ip 5/6] net/mac80211/main.c:1650:2:
- warning: unused label 'fail_ifa'
-Message-ID: <202604022243.XisdcKsc-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-5.15 1/1] mm/page_isolation.c:186:
+ warning: Function parameter or member 'failed_pfn' not described in
+ 'start_isolate_page_range'
+Message-ID: <202604022145.xjsglPzE-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-tree:   git://git.infradead.org/users/dwmw2/linux deprecate-legacy-ip
-head:   2d2acff90d1c42a747b3fed5ce9189622f49daa3
-commit: 3f213df15191632a3cb32932955ee90bff8385a0 [5/6] net: Change CONFIG_I=
-NET to CONFIG_LEGACY_IP for IPv4-only code
-config: riscv-randconfig-001-20260402 (https://download.01.org/0day-ci/arch=
-ive/20260402/202604022243.XisdcKsc-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 600970=
-8b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260402/202604022243.XisdcKsc-lkp@intel.com/reproduce)
+Hi Minchan,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   3345d7186397130229186427c1c89125d9687c46
+commit: 60d2dad38e3dce7359b318c436dd06e5a55da15a [1/1] ANDROID: mm: cma: skip problematic pageblock
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260402/202604022145.xjsglPzE-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260402/202604022145.xjsglPzE-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604022243.XisdcKsc-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604022145.xjsglPzE-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> net/mac80211/main.c:1650:2: warning: unused label 'fail_ifa' [-Wunused-l=
-abel]
-    1650 |  fail_ifa:
-         |  ^~~~~~~~~
-   1 warning generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for IP_MROUTE_COMMON
-   Depends on [n]: NET [=3Dy] && INET [=3Dy] && LEGACY_IP [=3Dn] && (IP_MRO=
-UTE [=3Dn] || IPV6_MROUTE [=3Dy])
-   Selected by [y]:
-   - IPV6_MROUTE [=3Dy] && NET [=3Dy] && INET [=3Dy] && IPV6 [=3Dy]
-   WARNING: unmet direct dependencies detected for IP_ROUTE_CLASSID
-   Depends on [n]: NET [=3Dy] && INET [=3Dy] && LEGACY_IP [=3Dn]
-   Selected by [y]:
-   - NET_CLS_ROUTE4 [=3Dy] && NET [=3Dy] && NET_SCHED [=3Dy] && INET [=3Dy]
-   WARNING: unmet direct dependencies detected for INET_TUNNEL
-   Depends on [n]: NET [=3Dy] && INET [=3Dy] && LEGACY_IP [=3Dn]
-   Selected by [y]:
-   - IPV6_SIT [=3Dy] && NET [=3Dy] && INET [=3Dy] && IPV6 [=3Dy]
+>> mm/page_isolation.c:186: warning: Function parameter or member 'failed_pfn' not described in 'start_isolate_page_range'
 
 
-vim +/fail_ifa +1650 net/mac80211/main.c
+vim +186 mm/page_isolation.c
 
-a65240c1013222 net/mac80211/main.c      Johannes Berg          2013-01-14  =
-1640 =20
-f0706e828e96d0 net/mac80211/ieee80211.c Jiri Benc              2007-05-05  =
-1641  	return 0;
-f0706e828e96d0 net/mac80211/ieee80211.c Jiri Benc              2007-05-05  =
-1642 =20
-a65240c1013222 net/mac80211/main.c      Johannes Berg          2013-01-14  =
-1643  #if IS_ENABLED(CONFIG_IPV6)
-a65240c1013222 net/mac80211/main.c      Johannes Berg          2013-01-14  =
-1644   fail_ifa6:
-3f213df1519163 net/mac80211/main.c      David Woodhouse        2026-03-31  =
-1645  #ifdef CONFIG_LEGACY_IP
-a65240c1013222 net/mac80211/main.c      Johannes Berg          2013-01-14  =
-1646  	unregister_inetaddr_notifier(&local->ifa_notifier);
-a65240c1013222 net/mac80211/main.c      Johannes Berg          2013-01-14  =
-1647  #endif
-a65240c1013222 net/mac80211/main.c      Johannes Berg          2013-01-14  =
-1648  #endif
-3f213df1519163 net/mac80211/main.c      David Woodhouse        2026-03-31  =
-1649  #if defined(CONFIG_LEGACY_IP) || defined(CONFIG_IPV6)
-2b2c009ecf71f4 net/mac80211/main.c      Juuso Oikarinen        2010-05-27 @=
-1650   fail_ifa:
-93c08c32914264 net/mac80211/main.c      Juuso Oikarinen        2010-08-03  =
-1651  #endif
-52e04b4ce5d037 net/mac80211/main.c      Sumit Garg             2020-04-07  =
-1652  	wiphy_unregister(local->hw.wiphy);
-52e04b4ce5d037 net/mac80211/main.c      Sumit Garg             2020-04-07  =
-1653   fail_wiphy_register:
-54330bf63b4968 net/mac80211/main.c      Johannes Berg          2015-01-21  =
-1654  	rtnl_lock();
-54330bf63b4968 net/mac80211/main.c      Johannes Berg          2015-01-21  =
-1655  	rate_control_deinitialize(local);
-10f644a47b76d3 net/mac80211/main.c      Johannes Berg          2009-04-16  =
-1656  	ieee80211_remove_interfaces(local);
-f0706e828e96d0 net/mac80211/ieee80211.c Jiri Benc              2007-05-05  =
-1657  	rtnl_unlock();
-52e04b4ce5d037 net/mac80211/main.c      Sumit Garg             2020-04-07  =
-1658   fail_rate:
-b7600aae8a20ff net/mac80211/main.c      Johannes Berg          2023-08-29  =
-1659  	ieee80211_txq_teardown_flows(local);
-dc8b274f0952f6 net/mac80211/main.c      Toke H=C3=B8iland-J=C3=B8rgensen 20=
-18-05-25  1660   fail_flows:
-6dd47d9754ff05 net/mac80211/main.c      Johannes Berg          2019-11-05  =
-1661  	ieee80211_led_exit(local);
-42935ecaf4e784 net/mac80211/main.c      Luis R. Rodriguez      2009-07-29  =
-1662  	destroy_workqueue(local->workqueue);
-f0706e828e96d0 net/mac80211/ieee80211.c Jiri Benc              2007-05-05  =
-1663   fail_workqueue:
-11ba964d4f9366 net/mac80211/main.c      Johannes Berg          2009-08-19  =
-1664  	kfree(local->int_scan_req);
-f0706e828e96d0 net/mac80211/ieee80211.c Jiri Benc              2007-05-05  =
-1665  	return result;
-f0706e828e96d0 net/mac80211/ieee80211.c Jiri Benc              2007-05-05  =
-1666  }
-f0706e828e96d0 net/mac80211/ieee80211.c Jiri Benc              2007-05-05  =
-1667  EXPORT_SYMBOL(ieee80211_register_hw);
-f0706e828e96d0 net/mac80211/ieee80211.c Jiri Benc              2007-05-05  =
-1668 =20
+a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  141  
+9b7ea46a82b31c Qian Cai          2019-03-28  142  /**
+9b7ea46a82b31c Qian Cai          2019-03-28  143   * start_isolate_page_range() - make page-allocation-type of range of pages to
+9b7ea46a82b31c Qian Cai          2019-03-28  144   * be MIGRATE_ISOLATE.
+a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  145   * @start_pfn:		The lower PFN of the range to be isolated.
+a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  146   * @end_pfn:		The upper PFN of the range to be isolated.
+9b7ea46a82b31c Qian Cai          2019-03-28  147   *			start_pfn/end_pfn must be aligned to pageblock_order.
+9b7ea46a82b31c Qian Cai          2019-03-28  148   * @migratetype:	Migrate type to set in error recovery.
+9b7ea46a82b31c Qian Cai          2019-03-28  149   * @flags:		The following flags are allowed (they can be combined in
+9b7ea46a82b31c Qian Cai          2019-03-28  150   *			a bit mask)
+756d25be457fc5 David Hildenbrand 2019-11-30  151   *			MEMORY_OFFLINE - isolate to offline (!allocate) memory
+756d25be457fc5 David Hildenbrand 2019-11-30  152   *					 e.g., skip over PageHWPoison() pages
+aa218795cb5fd5 David Hildenbrand 2020-05-07  153   *					 and PageOffline() pages.
+9b7ea46a82b31c Qian Cai          2019-03-28  154   *			REPORT_FAILURE - report details about the failure to
+9b7ea46a82b31c Qian Cai          2019-03-28  155   *			isolate the range
+a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  156   *
+a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  157   * Making page-allocation-type to be MIGRATE_ISOLATE means free pages in
+a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  158   * the range will never be allocated. Any free pages and pages freed in the
+9b7ea46a82b31c Qian Cai          2019-03-28  159   * future will not be allocated again. If specified range includes migrate types
+9b7ea46a82b31c Qian Cai          2019-03-28  160   * other than MOVABLE or CMA, this will fail with -EBUSY. For isolating all
+9b7ea46a82b31c Qian Cai          2019-03-28  161   * pages in the range finally, the caller have to free all pages in the range.
+9b7ea46a82b31c Qian Cai          2019-03-28  162   * test_page_isolated() can be used for test it.
+2c7452a075d4db Mike Kravetz      2018-04-05  163   *
+2c7452a075d4db Mike Kravetz      2018-04-05  164   * There is no high level synchronization mechanism that prevents two threads
+2c7452a075d4db Mike Kravetz      2018-04-05  165   * from trying to isolate overlapping ranges. If this happens, one thread
+2c7452a075d4db Mike Kravetz      2018-04-05  166   * will notice pageblocks in the overlapping range already set to isolate.
+2c7452a075d4db Mike Kravetz      2018-04-05  167   * This happens in set_migratetype_isolate, and set_migratetype_isolate
+2c7452a075d4db Mike Kravetz      2018-04-05  168   * returns an error. We then clean up by restoring the migration type on
+2c7452a075d4db Mike Kravetz      2018-04-05  169   * pageblocks we may have modified and return -EBUSY to caller. This
+2c7452a075d4db Mike Kravetz      2018-04-05  170   * prevents two threads from simultaneously working on overlapping ranges.
+9b7ea46a82b31c Qian Cai          2019-03-28  171   *
+9683182612214a Pavel Tatashin    2020-09-18  172   * Please note that there is no strong synchronization with the page allocator
+9683182612214a Pavel Tatashin    2020-09-18  173   * either. Pages might be freed while their page blocks are marked ISOLATED.
+7612921f2376d5 Vlastimil Babka   2020-12-14  174   * A call to drain_all_pages() after isolation can flush most of them. However
+7612921f2376d5 Vlastimil Babka   2020-12-14  175   * in some cases pages might still end up on pcp lists and that would allow
+9683182612214a Pavel Tatashin    2020-09-18  176   * for their allocation even when they are in fact isolated already. Depending
+ec6e8c7e03147c Vlastimil Babka   2020-12-14  177   * on how strong of a guarantee the caller needs, zone_pcp_disable/enable()
+ec6e8c7e03147c Vlastimil Babka   2020-12-14  178   * might be used to flush and disable pcplist before isolation and enable after
+ec6e8c7e03147c Vlastimil Babka   2020-12-14  179   * unisolation.
+9683182612214a Pavel Tatashin    2020-09-18  180   *
+3fa0c7c79d2499 David Hildenbrand 2020-10-15  181   * Return: 0 on success and -EBUSY if any part of range cannot be isolated.
+a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  182   */
+0815f3d81d76df Michal Nazarewicz 2012-04-03  183  int start_isolate_page_range(unsigned long start_pfn, unsigned long end_pfn,
+60d2dad38e3dce Minchan Kim       2021-06-29  184  			     unsigned migratetype, int flags,
+60d2dad38e3dce Minchan Kim       2021-06-29  185  			     unsigned long *failed_pfn)
+a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16 @186  {
+a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  187  	unsigned long pfn;
+a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  188  	unsigned long undo_pfn;
+a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  189  	struct page *page;
+a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  190  
+fec174d6699e2e Naoya Horiguchi   2016-01-14  191  	BUG_ON(!IS_ALIGNED(start_pfn, pageblock_nr_pages));
+fec174d6699e2e Naoya Horiguchi   2016-01-14  192  	BUG_ON(!IS_ALIGNED(end_pfn, pageblock_nr_pages));
+a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  193  
+a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  194  	for (pfn = start_pfn;
+a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  195  	     pfn < end_pfn;
+a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  196  	     pfn += pageblock_nr_pages) {
+a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  197  		page = __first_valid_page(pfn, pageblock_nr_pages);
+9b7ea46a82b31c Qian Cai          2019-03-28  198  		if (page) {
+9b7ea46a82b31c Qian Cai          2019-03-28  199  			if (set_migratetype_isolate(page, migratetype, flags)) {
+a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  200  				undo_pfn = pfn;
+60d2dad38e3dce Minchan Kim       2021-06-29  201  				if (failed_pfn)
+60d2dad38e3dce Minchan Kim       2021-06-29  202  					*failed_pfn = page_to_pfn(page);
+a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  203  				goto undo;
+a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  204  			}
+a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  205  		}
+9b7ea46a82b31c Qian Cai          2019-03-28  206  	}
+3fa0c7c79d2499 David Hildenbrand 2020-10-15  207  	return 0;
+a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  208  undo:
+a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  209  	for (pfn = start_pfn;
+dbc0e4cefd0038 KAMEZAWA Hiroyuki 2007-11-14  210  	     pfn < undo_pfn;
+2ce13640b3f4c8 Michal Hocko      2017-07-06  211  	     pfn += pageblock_nr_pages) {
+2ce13640b3f4c8 Michal Hocko      2017-07-06  212  		struct page *page = pfn_to_online_page(pfn);
+2ce13640b3f4c8 Michal Hocko      2017-07-06  213  		if (!page)
+2ce13640b3f4c8 Michal Hocko      2017-07-06  214  			continue;
+2ce13640b3f4c8 Michal Hocko      2017-07-06  215  		unset_migratetype_isolate(page, migratetype);
+2ce13640b3f4c8 Michal Hocko      2017-07-06  216  	}
+a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  217  
+a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  218  	return -EBUSY;
+a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  219  }
+a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  220  
 
-:::::: The code at line 1650 was first introduced by commit
-:::::: 2b2c009ecf71f4c66ff8420b63dddbc9737e04e3 mac80211: Add support for h=
-ardware ARP query filtering
+:::::: The code at line 186 was first introduced by commit
+:::::: a5d76b54a3f3a40385d7f76069a2feac9f1bad63 memory unplug: page isolation
 
-:::::: TO: Juuso Oikarinen <juuso.oikarinen@nokia.com>
-:::::: CC: John W. Linville <linville@tuxdriver.com>
+:::::: TO: KAMEZAWA Hiroyuki <kamezawa.hiroyu@jp.fujitsu.com>
+:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
 
---=20
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
