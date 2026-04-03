@@ -1,132 +1,103 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE8523876A4;
-	Fri,  3 Apr 2026 08:45:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C5D311967
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Apr 2026 08:46:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775205908; cv=none; b=G3AjIbNk5sxHC5RkrXPX9KjQeKDiZDvvaUtl1jv1EEcge0nC+bHkqUA1pAiWD0tgk3yTx+7HuRijflZfBHdyJ32dODZPLizH0P9yxkZ4AKN7QHz/J1lecTFpa5MnKAT52E+T0pkMz0gbG+FNdFT0o4kOrNOiTZRPAvm3ffC7p7g=
+	t=1775205962; cv=none; b=GijfAXpYfwB5rG/CKnvuIQJbsa+rVlnb2IA8KGBWOVvRZ0cQS1b9DAPoVYkYFna/8tazXaVJ3MchwJ10r6mgMuk1MG6liPGhGrEhkV8QmOszqies2rVgU0WKw53VfI076ILjmhMVMlmuQh+SFsJ9/ZgbROd8gzcyXPu51Yi9aZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775205908; c=relaxed/simple;
-	bh=tLTLzFAMTM1rw1Oww+ppWMIFA2Da83NWm0LlHMKNhlA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pDjaNYkHBPAIqgSedNhctVqU+KVGoeHbiP8dGvj0ahX7GAtfTeKL9tqDYCj0JG2w6R1mslNhCI59g2d2egBYyLn9uJo3sxFPAYbdYPR6MpjMPYX87CtSAIH4PMmyYiW+u6PQwl5UR+NeN7RkyeRo8fG0BLQRMkUorqAFtbi5iBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=acFQhkgB; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1775205962; c=relaxed/simple;
+	bh=DqSqol2mbFaG4KAynRfzxQC4FPVmNHgoLmcjO7uoHtI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=irGf5IGTZAF0MeQyrnQc2ZVRgJuOkONYM0a3cqA1X0uqgMBv8lxT2QlHOcQdfh8sF9R9+0AnWdjag/IFwGhGvajEIxr7yjGrswo0kWf4TcZynYCF0nAqnZXuGDx6i4pTgPQaC/DVWZ2DB+dxBaAS3Yj4WmkfWRnxisO2ScndjJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BoksPwHV; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="acFQhkgB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BoksPwHV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775205907; x=1806741907;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tLTLzFAMTM1rw1Oww+ppWMIFA2Da83NWm0LlHMKNhlA=;
-  b=acFQhkgBXT9t5IjpA7RmtBFnE35ursSczfXjWOV70WIJb1FtmZXQ0y6/
-   pApRAavEQRZJH2Hc/k6rWIpfKFvX1682a6sXjl5U0IsC8RMzKKKS8sFyr
-   r6+OqTdYBnWhVrYYGnFBur2FOprfVdc3Edj9yns1XsSWDBTwE7HOTx3nM
-   5e2eCoGRey2E3dxwDvUikB2YiXlkf26v777z5l3/kZy7l/OWV2/7X8uDi
-   nj5lsEAdoV05QojavfWX/VNdA9IjHZNM1GUlEdNy5uQWI97v7+h+oKGRv
-   C45iD3jkjEGMk/0RtWTb9/mcVYltbm3nBfiQz5frGLuj7CT5ICrVohL9p
-   A==;
-X-CSE-ConnectionGUID: +Uh4lsb8ROq38swACE+KgQ==
-X-CSE-MsgGUID: AVTsc+IYT0GpUPwWFNetIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="86888922"
+  t=1775205962; x=1806741962;
+  h=date:from:to:cc:subject:message-id;
+  bh=DqSqol2mbFaG4KAynRfzxQC4FPVmNHgoLmcjO7uoHtI=;
+  b=BoksPwHVGxtwamP3dHEpCHrS7Pw/mp0BB+3fiyCpSM0Iut9OHXbn+JDQ
+   Y6096/aIK1PfCNgkWaOmtHFz6kOPOgX5E18s8dJX5qaHv0hz1H2Op4MBn
+   UkegxAMzFblO6W0KK8L7aV/IM7DquzRGk6VSNZhg4RKGoBRqonLjN5w69
+   eoJZzYOYHLfCP5PLh0i5FZHzSosQPIEezl6NYsQDPoptLUHpCefrXbXPn
+   QaMZk1Zcv/DOSROX2Gwt8E0xuKl5NlObEBbdA+tAY/iEFf8iK9klUMj5R
+   /QIheS/0v58vqYQ0wWZ/UmAV+LGWulGpfmjjqiNRFegf+xX5ysXEbx7CC
+   g==;
+X-CSE-ConnectionGUID: YLyEsNVfSdqULL8Zt7MGQw==
+X-CSE-MsgGUID: VkHvB2qBRIe8DWjax9Xskg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="75993486"
 X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
-   d="scan'208";a="86888922"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 01:45:01 -0700
-X-CSE-ConnectionGUID: 6gzePHlgQaGymIk0phTsEg==
-X-CSE-MsgGUID: ub7Axl/9TLKpjeacaRUOmA==
+   d="scan'208";a="75993486"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 01:46:01 -0700
+X-CSE-ConnectionGUID: OglLBkkzRlKWmarB5Ab0lw==
+X-CSE-MsgGUID: ZNmabm7STsy6IUGRx9OL/g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
-   d="scan'208";a="226368655"
+   d="scan'208";a="232134361"
 Received: from lkp-server01.sh.intel.com (HELO 064ad336901d) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 03 Apr 2026 01:44:58 -0700
+  by orviesa005.jf.intel.com with ESMTP; 03 Apr 2026 01:45:59 -0700
 Received: from kbuild by 064ad336901d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w8a9A-0000000015L-18jz;
-	Fri, 03 Apr 2026 08:44:56 +0000
-Date: Fri, 3 Apr 2026 16:44:20 +0800
+	id 1w8aA8-0000000016G-2dAm;
+	Fri, 03 Apr 2026 08:45:56 +0000
+Date: Fri, 03 Apr 2026 16:45:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mathura_Kumar <academic1mathura@gmail.com>, brauner@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	academic1mathura@gmail.com, linux-arch@vger.kernel.org,
-	linux-kernel@vger.kernel.org, viro@zeniv.linux.org.uk
-Subject: Re: [PATCH v1 1/4] IPC: Added New system call do_mq_timedreceive2()
- for non-destructive peek on posix mqueue
-Message-ID: <202604030850.kLrlQyOM-lkp@intel.com>
-References: <20260315040827.156558-2-academic1mathura@gmail.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jgunthorpe:iommu_pt_arm64 16/53]
+ drivers/iommu/generic_pt/fmt/../iommu_pt.h:62:22: warning: variable
+ 'item_lg2sz' set but not used
+Message-ID: <202604030919.Gdy3tRkH-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260315040827.156558-2-academic1mathura@gmail.com>
 
-Hi Mathura_Kumar,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on perf-tools-next/perf-tools-next]
-[also build test WARNING on tip/perf/core perf-tools/perf-tools linus/master v7.0-rc6 next-20260401]
-[cannot apply to acme/perf/core]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mathura_Kumar/IPC-Added-New-system-call-do_mq_timedreceive2-for-non-destructive-peek-on-posix-mqueue/20260315-143134
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
-patch link:    https://lore.kernel.org/r/20260315040827.156558-2-academic1mathura%40gmail.com
-patch subject: [PATCH v1 1/4] IPC: Added New system call do_mq_timedreceive2() for non-destructive peek on posix mqueue
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20260403/202604030850.kLrlQyOM-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e3cbd9984a78422c3799629eb6b5f7f7818c1a11)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260403/202604030850.kLrlQyOM-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux iommu_pt_arm64
+head:   386de42c67a6d6b567ec9167593768eec79b8ce5
+commit: 9f2e457e1598eab7d293e370fef201274accfc35 [16/53] iommupt: Add PT_FEAT_DETAILED_GATHER
+config: x86_64-randconfig-001-20260403 (https://download.01.org/0day-ci/archive/20260403/202604030919.Gdy3tRkH-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260403/202604030919.Gdy3tRkH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604030850.kLrlQyOM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604030919.Gdy3tRkH-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from init/do_mounts.c:23:
-   In file included from include/linux/nfs_fs.h:32:
-   In file included from include/linux/sunrpc/clnt.h:29:
-   In file included from include/net/ipv6.h:12:
-   In file included from include/linux/ipv6.h:103:
-   In file included from include/linux/tcp.h:19:
-   In file included from include/net/sock.h:46:
-   In file included from include/linux/netdevice.h:44:
-   In file included from include/uapi/linux/neighbour.h:6:
-   In file included from include/linux/netlink.h:9:
-   In file included from include/net/scm.h:13:
-   In file included from include/net/compat.h:8:
->> include/linux/compat.h:805:65: warning: declaration of 'struct compat_mq_timedreceive2_args' will not be visible outside of this function [-Wvisibility]
-     805 | asmlinkage long compat_sys_mq_timedreceive2(mqd_t mqdes, struct compat_mq_timedreceive2_args __user *uargs,
-         |                                                                 ^
-   1 warning generated.
+   In file included from drivers/iommu/generic_pt/fmt/iommu_template.h:40,
+                    from drivers/iommu/generic_pt/fmt/iommu_x86_64.c:11:
+   drivers/iommu/generic_pt/fmt/../iommu_pt.h: In function 'gather_add_leaf':
+>> drivers/iommu/generic_pt/fmt/../iommu_pt.h:62:22: warning: variable 'item_lg2sz' set but not used [-Wunused-but-set-variable]
+      62 |         unsigned int item_lg2sz;
+         |                      ^~~~~~~~~~
 
 
-vim +805 include/linux/compat.h
+vim +/item_lg2sz +62 drivers/iommu/generic_pt/fmt/../iommu_pt.h
 
-   799	
-   800	#ifdef __ARCH_WANT_COMPAT_SYS_PWRITEV64V2
-   801	asmlinkage long compat_sys_pwritev64v2(unsigned long fd,
-   802			const struct iovec __user *vec,
-   803			unsigned long vlen, loff_t pos, rwf_t flags);
-   804	#endif
- > 805	asmlinkage long compat_sys_mq_timedreceive2(mqd_t mqdes, struct compat_mq_timedreceive2_args __user *uargs,
-   806												unsigned int flags, unsigned long index,
-   807												struct old_timespec32 __user *abs_timeout);
-   808	/*
-   809	 * Deprecated system calls which are still defined in
-   810	 * include/uapi/asm-generic/unistd.h and wanted by >= 1 arch
-   811	 */
-   812	
+    58	
+    59	static void gather_add_leaf(struct iommupt_pending_gather *pending,
+    60				    const struct pt_state *pts)
+    61	{
+  > 62		unsigned int item_lg2sz;
+    63	
+    64		if (!pts_feature(pts, PT_FEAT_DETAILED_GATHER))
+    65			return;
+    66	
+    67		item_lg2sz = pt_table_item_lg2sz(pts);
+    68	
+    69		pending->leaf_levels_bitmap |= BIT(pts->level);
+    70	}
+    71	
 
 -- 
 0-DAY CI Kernel Test Service
