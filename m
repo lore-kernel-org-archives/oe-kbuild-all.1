@@ -1,154 +1,118 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F72B37D101;
-	Fri,  3 Apr 2026 08:40:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 519EF3624A1
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Apr 2026 08:40:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775205604; cv=none; b=j8ceqkfA3v5uxJuZwtLMANflX253iMvYruqxU/EZaZauvBXnT8MCNs1H9G88eHptjreAkGSKtep4fnfro5SykTMSd5AqeeJHQX7nM3e8lKuGr5gDUhZMDloDb6QMsWhT1XH3ZPh3Z/HhqV0cQGKIqE1ummIPpd6ZJ2HzDt1PBS0=
+	t=1775205659; cv=none; b=DKUSjyeiY0uXvCVmPtOD5lYAiEbCKcPkD6LmJPphPwiK2bPHSeB6DXKsJUnFypbDDnslCRHNWjXxfEosRKBINUKBTufKXni/vDlwOQPTHnVoS+xGjOU5egSvtb3aDfKDPCCSLWe+XZv47VBOH1uHNhQeEOi+VJVbldJbjTwAf34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775205604; c=relaxed/simple;
-	bh=qE1aYuqUlE93FXWNkFbP62ja+EW3XA/Ya4PvU2wlXOI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pmKO/nl0gxPr4AhbPnBZShRYviS2V4qjCEo01As6+UI6NOCCtmSiLxS+3NgXFZr1BVEYeUzlua2zw4n+OmRxN7b6hn4JNcBqodvARWiXERLAwXLoTjO+GYZlf2z501PkK3ZNfcoiy+Wflt7aDBUEFQ8t5wBUuoCrjFU2DSvmrog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZXlYrtRP; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1775205659; c=relaxed/simple;
+	bh=bJc8MVsCh8MdzQngPr9sFlpO74ctfDmHxNkkb9i0xSs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=J012nQYWNiVTw7en2+5RngDsLRCrodv9yTNStfO3LJwbJnor+eWqKTtjmfSvFAalKL3bpZ6zE2tfCwlJI0e0Ugiu82Xy7Gwa3/rEaUy7x1HxidAXW9Xgo8o4Z2/8KT4xmTnhmP+iTTo+uy9ziXKVoi6Ky1B5AK75pkYuscYToSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DDIe2Juh; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZXlYrtRP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DDIe2Juh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775205604; x=1806741604;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qE1aYuqUlE93FXWNkFbP62ja+EW3XA/Ya4PvU2wlXOI=;
-  b=ZXlYrtRP8kWedwb+NfwEi3JgJDEUo+8Sf+/VsICqyeO+t0ZVVfXyMDDB
-   tWMK0tpyFF6M66OMwWC1j7StIDmkSz6D9iWtwSf5SoMGoXs5gKSKQNa/u
-   7zgVapGIweIDtJAm4k6vCxl2yHLTVGGpQSH9Zp1YfdjR3YoW0n7dfk8Sn
-   4Pvdkse4d1gWURQb38OhPdYAeW5BbfhWjm2iW30sIScvZ5NcwDEzCckGA
-   KS7qDrBXXZUGLCmbvEsNe2Ef3R/37DRePMqoGRhrSypqfmsHYOOCcIgmK
-   1iv5vJnLhzhBPFIqcuA3PDr52+PwFqI26llCVkteGZrJ5ukRyFujqvJNn
+  t=1775205659; x=1806741659;
+  h=date:from:to:cc:subject:message-id;
+  bh=bJc8MVsCh8MdzQngPr9sFlpO74ctfDmHxNkkb9i0xSs=;
+  b=DDIe2Juh84uVjyo3skewWKWCVsXPr1e6WUgjvfB2kWNbfIjWyg8wzr0B
+   efdnYi+ZxynOIsnsLofSqj/TmNBa6q4hXSb/8kznVk09TEao0t0NASB7f
+   lOxueDM9cuElvL7q+/NAbyE3oRDZEpFU1FVOnBsYjPdtv3p4nSGGaopuG
+   i6dPZsrjs97PTlyRbZwj982jP3W28drsjEHW+AMmZFDrwu9wb1q3UQArx
+   acq6d6QCYaqNSmrPFlPNi+DIynDoVjKLTWfYFWJM0MeG+quHwos7F06x3
+   S8KqbmOUjtBhxxUARPSCf7QF4ftDRFHEoS/Y9oM7rsecUU1xozbCLKiID
    Q==;
-X-CSE-ConnectionGUID: W617i+1RQg+lqvG+FPv6nA==
-X-CSE-MsgGUID: uSYgSfpwQGuvGw2dKufX/A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="76156562"
+X-CSE-ConnectionGUID: El/1K69STcS/oeEQ7fLq1A==
+X-CSE-MsgGUID: WzwH//GXQQeqwdI8Y5T2QQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="76156622"
 X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
-   d="scan'208";a="76156562"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 01:40:02 -0700
-X-CSE-ConnectionGUID: NcQzPotSTqOM77lF7ZnhxQ==
-X-CSE-MsgGUID: bOdGHcWoQYmSAvVkpedJdQ==
+   d="scan'208";a="76156622"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 01:40:58 -0700
+X-CSE-ConnectionGUID: GI1eMAcQRKKQtylrg3vUOQ==
+X-CSE-MsgGUID: VBqxlWuXRSusWSOxEDLCnA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
-   d="scan'208";a="220570309"
+   d="scan'208";a="224370754"
 Received: from lkp-server01.sh.intel.com (HELO 064ad336901d) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 03 Apr 2026 01:39:57 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 03 Apr 2026 01:40:56 -0700
 Received: from kbuild by 064ad336901d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w8a4H-0000000011Z-3Noi;
-	Fri, 03 Apr 2026 08:39:53 +0000
-Date: Fri, 3 Apr 2026 16:39:11 +0800
+	id 1w8a5G-0000000012D-0Y4w;
+	Fri, 03 Apr 2026 08:40:54 +0000
+Date: Fri, 03 Apr 2026 16:40:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Marek Vasut <marex@denx.de>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v2 02/12] drm/bridge: tc358762: Improce SYSCTRL register
- defines
-Message-ID: <202604021223.FtCNpGqO-lkp@intel.com>
-References: <20260327-tc358762-fixes-v2-2-3589d3c45f4a@ideasonboard.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-kiwi-6.1 28/28]
+ mm/oom_kill.c:423:6: warning: no previous prototype for 'dump_tasks'
+Message-ID: <202604022059.1W1x8nIt-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260327-tc358762-fixes-v2-2-3589d3c45f4a@ideasonboard.com>
 
-Hi Tomi,
+Hi liangjlee,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on 11439c4635edd669ae435eec308f4ab8a0804808]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tomi-Valkeinen/drm-bridge-tc358762-Clean-up-register-defines/20260328-164947
-base:   11439c4635edd669ae435eec308f4ab8a0804808
-patch link:    https://lore.kernel.org/r/20260327-tc358762-fixes-v2-2-3589d3c45f4a%40ideasonboard.com
-patch subject: [PATCH v2 02/12] drm/bridge: tc358762: Improce SYSCTRL register defines
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20260402/202604021223.FtCNpGqO-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260402/202604021223.FtCNpGqO-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   a106900ad13546acde0a828d15c9e6513e6b5f62
+commit: 0801d8a89de16b3371ac091b123081565d58f53a [28/28] ANDROID: mm: export dump_tasks symbol.
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260402/202604022059.1W1x8nIt-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260402/202604022059.1W1x8nIt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604021223.FtCNpGqO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604022059.1W1x8nIt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/bridge/tc358762.c:154:10: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     154 |                        FIELD_PREP(SYSCTRL_DPIDATA_IO_MASK, SYSCTRL_DPIDATA_IO_4MA) |
-         |                        ^
-   1 error generated.
+>> mm/oom_kill.c:423:6: warning: no previous prototype for 'dump_tasks' [-Wmissing-prototypes]
+     423 | void dump_tasks(struct oom_control *oc)
+         |      ^~~~~~~~~~
 
 
-vim +/FIELD_PREP +154 drivers/gpu/drm/bridge/tc358762.c
+vim +/dump_tasks +423 mm/oom_kill.c
 
-   127	
-   128	static int tc358762_init(struct tc358762 *ctx)
-   129	{
-   130		u32 lcdctrl;
-   131	
-   132		tc358762_write(ctx, DSI_LANEENABLE,
-   133			       DSI_LANEENABLE_L0EN | DSI_LANEENABLE_CLEN);
-   134		tc358762_write(ctx, PPI_D0S_CLRSIPOCOUNT, 5);
-   135		tc358762_write(ctx, PPI_D1S_CLRSIPOCOUNT, 5);
-   136		tc358762_write(ctx, PPI_D0S_ATMR, 0);
-   137		tc358762_write(ctx, PPI_D1S_ATMR, 0);
-   138		tc358762_write(ctx, PPI_LPTXTIMECNT, LPX_PERIOD);
-   139	
-   140		tc358762_write(ctx, SPICMR, 0x00);
-   141	
-   142		lcdctrl = LCDCTRL_VSDELAY(1) | LCDCTRL_RGB888 |
-   143			  LCDCTRL_UNK6 | LCDCTRL_VTGEN;
-   144	
-   145		if (ctx->mode.flags & DRM_MODE_FLAG_NHSYNC)
-   146			lcdctrl |= LCDCTRL_HSPOL;
-   147	
-   148		if (ctx->mode.flags & DRM_MODE_FLAG_NVSYNC)
-   149			lcdctrl |= LCDCTRL_VSPOL;
-   150	
-   151		tc358762_write(ctx, LCDCTRL, lcdctrl);
-   152	
-   153		tc358762_write(ctx, SYSCTRL,
- > 154			       FIELD_PREP(SYSCTRL_DPIDATA_IO_MASK, SYSCTRL_DPIDATA_IO_4MA) |
-   155			       FIELD_PREP(SYSCTRL_DPISTB_IO_MASK, SYSCTRL_DPISTB_IO_4MA) |
-   156			       FIELD_PREP(SYSCTRL_PCLKDIV_MASK, SYSCTRL_PCLKDIV_DIV_3));
-   157	
-   158		msleep(100);
-   159	
-   160		tc358762_write(ctx, PPI_STARTPPI, PPI_STARTPPI_STARTPPI);
-   161		tc358762_write(ctx, DSI_STARTDSI, DSI_STARTDSI_STARTDSI);
-   162	
-   163		msleep(100);
-   164	
-   165		return tc358762_clear_error(ctx);
-   166	}
-   167	
+   412	
+   413	/**
+   414	 * dump_tasks - dump current memory state of all system tasks
+   415	 * @oc: pointer to struct oom_control
+   416	 *
+   417	 * Dumps the current memory state of all eligible tasks.  Tasks not in the same
+   418	 * memcg, not in the same cpuset, or bound to a disjoint set of mempolicy nodes
+   419	 * are not shown.
+   420	 * State information includes task's pid, uid, tgid, vm size, rss,
+   421	 * pgtables_bytes, swapents, oom_score_adj value, and name.
+   422	 */
+ > 423	void dump_tasks(struct oom_control *oc)
+   424	{
+   425		pr_info("Tasks state (memory values in pages):\n");
+   426		pr_info("[  pid  ]   uid  tgid total_vm      rss pgtables_bytes swapents oom_score_adj name\n");
+   427	
+   428		if (is_memcg_oom(oc))
+   429			mem_cgroup_scan_tasks(oc->memcg, dump_task, oc);
+   430		else {
+   431			struct task_struct *p;
+   432	
+   433			rcu_read_lock();
+   434			for_each_process(p)
+   435				dump_task(p, oc);
+   436			rcu_read_unlock();
+   437		}
+   438	}
+   439	EXPORT_SYMBOL_GPL(dump_tasks);
+   440	
 
 -- 
 0-DAY CI Kernel Test Service
