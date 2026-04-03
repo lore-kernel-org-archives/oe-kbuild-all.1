@@ -1,277 +1,191 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAD4937EFF3;
-	Fri,  3 Apr 2026 08:43:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E63C37DEAE
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Apr 2026 08:43:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775205786; cv=none; b=pOCJK25abE3796EBtJyTdYFerIpVeeKag/mn/GH1TqRDDrlvh59Y57HrNMblhHSTfjLu2SQX4XKBMuvEeA7fGswjCteAG9dqVPWhp72579RFeA3kZkZ3O2CWOpVphr8LljT2Zi5dDB3EmvJeQrJReGp8tVvsBCoQ7WELjNgGyz4=
+	t=1775205787; cv=none; b=GaWN0C4iEgZU1bf4WAu0y6CMYeYY70NSjTnFiRhefily/iuDY1RiAbw5wRBhSnJJzThnFjzdObcP1nv/uMkEzZjHRXpM1Konc7AVYSYPhDTyWJ1gqfDQQDrz9NNj0RmCKZAMAAo7oUzlK39Gt3PmQ3x1a7XLo6woKyJVRhGagR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775205786; c=relaxed/simple;
-	bh=Qtrota7FcU4wS9AgYs1+25wSQW7a/82QFfSTcR7zoGQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=J2w//QkuQAisdf/tHjJ+twHqQjgIJT6ZpR900rGGTPvOB9pYEfjdDaj3mNsLIL42noatDH4yKIeNRaWKorqPz0Hysdpbh+MZ92aUEuwXuZbYoMA4q3T177h46C++oreUIkxuZrlky2pc8Qjh+SMA4LS10SVYL9EA0ZQ9AIbKQl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D6Ql/0IQ; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1775205787; c=relaxed/simple;
+	bh=Xh0EgZQZBe+P+f3oFHONEFv5OnD6NShqkt2nwRuRRfI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=g8HNZGNUTUFJdtwjvvFm+WbuYmbbfkCRf7AVMJJNe4UfK0xSwHZtIKCZHPWPpUIv9rIbgLBFeCaGE0lcoOcdtSRRKHPMp8DoYlmFNCF30MJ5AqW6k1NAE2P3yhrA2aNz3f0CW65ExfThRDmmmC/H49YFwhYfXkbHpCmLAl1q7PQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kdIS9mx9; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D6Ql/0IQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kdIS9mx9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1775205785; x=1806741785;
-  h=date:from:to:cc:subject:message-id;
-  bh=Qtrota7FcU4wS9AgYs1+25wSQW7a/82QFfSTcR7zoGQ=;
-  b=D6Ql/0IQAt4izdZP4v4WBTdbgDf912WJPEcys5x5exxfZ0JWJacVFuSq
-   OuqQBm9kMdK5ZLq/8ToMSyUjZZmaBpRIV8aAgVlzES0d1lq0UgjInEr6N
-   fBYFZBmAWY5+g6pghVMu596he2/TgVmW0hq1CtN89vLEi8aFfEQMeCFNJ
-   Mhuc9ZlZ7lnfyJRqRQ0QHJxyk5vysVLW5JjvAVmIuK+a/cVW31YNf0sl9
-   1iQ64CBrBEe3gUvuMmFK0Lf+dwvGrdSYcai2Xw4nr3XRQ0jGaUvMWgNgC
-   MoW5fm8vH/H3Tbges4lA0hHhJ4Pn62PXNjyrEblzohR5dY3SAYqgcY2Y/
-   A==;
-X-CSE-ConnectionGUID: 4i7iLnY5QrC32ZQ7j4t9gw==
-X-CSE-MsgGUID: iTUYLmVjQTGwhdj0B7yLSQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="75311903"
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Xh0EgZQZBe+P+f3oFHONEFv5OnD6NShqkt2nwRuRRfI=;
+  b=kdIS9mx9TXDEFWu0FEZMfX9vVDY9/DbcB25LvU8FXsQiVIMe3cnSxvt1
+   n0rx2I5t8JulQF2Pwf4z6YJC2IwMzJIgeonpDVRuGd3O9NXAsPPOJZAP8
+   TZeQw2QpNYS3StwoG4zKlrKWQkvidHEKlmXLhiE7P4R3gagfArp0NIO4y
+   cxyUGUzO/4G8tMvQb7LEJwL5v4+RjPJAQu5uA5PJJJqBgrbChe1rf7t1K
+   ErjQmpOgY/R1hc+LVwze9f9bR7bBEy0L3C7wvQnFH1UJwQloUttr82qvN
+   Fk46o/zoPocrn4E+2rGHNl8tVh4WYk2ZmdqiCh6I9vLBBzih2zPRpxhG6
+   w==;
+X-CSE-ConnectionGUID: agghUCIlQKipUfW05DSL2w==
+X-CSE-MsgGUID: 2OXNBAa1Q4uO1xd+iBTZBQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="75311908"
 X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
-   d="scan'208";a="75311903"
+   d="scan'208";a="75311908"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
   by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 01:42:59 -0700
-X-CSE-ConnectionGUID: 3G6fGevZQ0e8KnYQUnEnYQ==
-X-CSE-MsgGUID: SFOqt7veQz+WKY3tOZFQgQ==
+X-CSE-ConnectionGUID: uiPxbso0Ti6yE/WZ0qZpYg==
+X-CSE-MsgGUID: kwlq+Jy3TqawIQ3LPet2OA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
-   d="scan'208";a="250286608"
+   d="scan'208";a="250286610"
 Received: from lkp-server01.sh.intel.com (HELO 064ad336901d) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 03 Apr 2026 01:42:57 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 03 Apr 2026 01:42:58 -0700
 Received: from kbuild by 064ad336901d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w8a7D-0000000013j-2BXB;
+	id 1w8a7D-0000000013r-2ZBC;
 	Fri, 03 Apr 2026 08:42:55 +0000
-Date: Fri, 03 Apr 2026 16:42:12 +0800
+Date: Fri, 03 Apr 2026 16:42:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-media@vger.kernel.org
-Subject: [sailus-media-tree:pld 32/32]
- drivers/media/pci/intel/ipu-bridge.c:300:33: error: use of undeclared
- identifier 'dev'; did you mean 'adev'?
-Message-ID: <202604022341.WvI89Nd5-lkp@intel.com>
+To: Andy Chiu <andybnac@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Paul Walmsley <pjw@kernel.org>
+Subject: arch/riscv/kernel/signal.c:133:15: sparse: sparse: incorrect
+ type in assignment (different address spaces)
+Message-ID: <202604030009.T0N2kopM-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-tree:   git://linuxtv.org/sailus/media_tree.git pld
-head:   b8c5b499767feb946c184029ff272276a036623e
-commit: b8c5b499767feb946c184029ff272276a036623e [32/32] media: ipu-bridge: Prioritise _PLD over SSDB in rotation
-config: loongarch-randconfig-002-20260402 (https://download.01.org/0day-ci/archive/20260402/202604022341.WvI89Nd5-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260402/202604022341.WvI89Nd5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   9147566d801602c9e7fc7f85e989735735bf38ba
+commit: 818d78ba1b3f88d2bfee249f25020211488a26c3 riscv: signal: abstract he=
+ader saving for setup_sigcontext
+date:   3 months ago
+config: riscv-randconfig-r131-20260402 (https://download.01.org/0day-ci/arc=
+hive/20260403/202604030009.T0N2kopM-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.3.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260403/202604030009.T0N2kopM-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
+| Fixes: 818d78ba1b3f ("riscv: signal: abstract header saving for setup_sig=
+context")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604022341.WvI89Nd5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604030009.T0N2kopM-lkp@i=
+ntel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/riscv/kernel/signal.c:133:15: sparse: sparse: incorrect type in ass=
+ignment (different address spaces) @@     expected void [noderef] __user *d=
+atap @@     got void * @@
+   arch/riscv/kernel/signal.c:133:15: sparse:     expected void [noderef] _=
+_user *datap
+   arch/riscv/kernel/signal.c:133:15: sparse:     got void *
+>> arch/riscv/kernel/signal.c:133:15: sparse: sparse: incorrect type in ass=
+ignment (different address spaces) @@     expected void [noderef] __user *d=
+atap @@     got void * @@
+   arch/riscv/kernel/signal.c:133:15: sparse:     expected void [noderef] _=
+_user *datap
+   arch/riscv/kernel/signal.c:133:15: sparse:     got void *
+>> arch/riscv/kernel/signal.c:133:15: sparse: sparse: incorrect type in ass=
+ignment (different address spaces) @@     expected void [noderef] __user *d=
+atap @@     got void * @@
+   arch/riscv/kernel/signal.c:133:15: sparse:     expected void [noderef] _=
+_user *datap
+   arch/riscv/kernel/signal.c:133:15: sparse:     got void *
+>> arch/riscv/kernel/signal.c:133:15: sparse: sparse: incorrect type in ass=
+ignment (different address spaces) @@     expected void [noderef] __user *d=
+atap @@     got void * @@
+   arch/riscv/kernel/signal.c:133:15: sparse:     expected void [noderef] _=
+_user *datap
+   arch/riscv/kernel/signal.c:133:15: sparse:     got void *
+   arch/riscv/kernel/signal.c:148:22: sparse: sparse: symbol 'arch_ext_list=
+' was not declared. Should it be static?
+   arch/riscv/kernel/signal.c:155:14: sparse: sparse: symbol 'nr_arch_exts'=
+ was not declared. Should it be static?
+   arch/riscv/kernel/signal.c:300:39: sparse: sparse: cast removes address =
+space '__user' of expression
+   arch/riscv/kernel/signal.c:300:36: sparse: sparse: incorrect type in ass=
+ignment (different address spaces) @@     expected struct __riscv_ctx_hdr [=
+noderef] __user *sc_ext_ptr @@     got void * @@
+   arch/riscv/kernel/signal.c:300:36: sparse:     expected struct __riscv_c=
+tx_hdr [noderef] __user *sc_ext_ptr
+   arch/riscv/kernel/signal.c:300:36: sparse:     got void *
 
->> drivers/media/pci/intel/ipu-bridge.c:300:33: error: use of undeclared identifier 'dev'; did you mean 'adev'?
-     300 |                 acpi_handle_debug(ACPI_HANDLE(dev),
-         |                                               ^~~
-         |                                               adev
-   include/linux/acpi.h:61:61: note: expanded from macro 'ACPI_HANDLE'
-      61 | #define ACPI_HANDLE(dev)                acpi_device_handle(ACPI_COMPANION(dev))
-         |                                                                           ^
-   include/linux/acpi.h:58:51: note: expanded from macro 'ACPI_COMPANION'
-      58 | #define ACPI_COMPANION(dev)             to_acpi_device_node((dev)->fwnode)
-         |                                                              ^
-   include/acpi/acpi_bus.h:524:10: note: expanded from macro 'to_acpi_device_node'
-     524 |                 typeof(__fwnode) __to_acpi_device_node_fwnode = __fwnode; \
-         |                        ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/dynamic_debug.h:261:59: note: expanded from macro '_dynamic_func_call'
-     261 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |                                                                  ^
-   include/linux/dynamic_debug.h:259:65: note: expanded from macro '_dynamic_func_call_cls'
-     259 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |                                                                        ^
-   include/linux/dynamic_debug.h:231:15: note: expanded from macro '__dynamic_func_call_cls'
-     231 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^
-   drivers/media/pci/intel/ipu-bridge.c:287:58: note: 'adev' declared here
-     287 | static u32 ipu_bridge_parse_rotation(struct acpi_device *adev,
-         |                                                          ^
->> drivers/media/pci/intel/ipu-bridge.c:300:33: error: use of undeclared identifier 'dev'; did you mean 'adev'?
-     300 |                 acpi_handle_debug(ACPI_HANDLE(dev),
-         |                                               ^~~
-         |                                               adev
-   include/linux/acpi.h:61:61: note: expanded from macro 'ACPI_HANDLE'
-      61 | #define ACPI_HANDLE(dev)                acpi_device_handle(ACPI_COMPANION(dev))
-         |                                                                           ^
-   include/linux/acpi.h:58:51: note: expanded from macro 'ACPI_COMPANION'
-      58 | #define ACPI_COMPANION(dev)             to_acpi_device_node((dev)->fwnode)
-         |                                                              ^
-   include/acpi/acpi_bus.h:524:51: note: expanded from macro 'to_acpi_device_node'
-     524 |                 typeof(__fwnode) __to_acpi_device_node_fwnode = __fwnode; \
-         |                                                                 ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/dynamic_debug.h:261:59: note: expanded from macro '_dynamic_func_call'
-     261 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |                                                                  ^
-   include/linux/dynamic_debug.h:259:65: note: expanded from macro '_dynamic_func_call_cls'
-     259 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |                                                                        ^
-   include/linux/dynamic_debug.h:231:15: note: expanded from macro '__dynamic_func_call_cls'
-     231 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^
-   drivers/media/pci/intel/ipu-bridge.c:287:58: note: 'adev' declared here
-     287 | static u32 ipu_bridge_parse_rotation(struct acpi_device *adev,
-         |                                                          ^
->> drivers/media/pci/intel/ipu-bridge.c:300:21: error: passing 'typeof ((adev)->fwnode)' (aka 'struct fwnode_handle') to parameter of incompatible type 'const struct fwnode_handle *'; take the address with &
-     300 |                 acpi_handle_debug(ACPI_HANDLE(dev),
-         |                                   ^~~~~~~~~~~~~~~~
-   include/linux/acpi.h:61:46: note: expanded from macro 'ACPI_HANDLE'
-      61 | #define ACPI_HANDLE(dev)                acpi_device_handle(ACPI_COMPANION(dev))
-         |                                                            ^~~~~~~~~~~~~~~~~~~
-   include/linux/acpi.h:58:30: note: expanded from macro 'ACPI_COMPANION'
-      58 | #define ACPI_COMPANION(dev)             to_acpi_device_node((dev)->fwnode)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/acpi/acpi_bus.h:526:23: note: expanded from macro 'to_acpi_device_node'
-     526 |                 is_acpi_device_node(__to_acpi_device_node_fwnode) ?     \
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/dynamic_debug.h:261:59: note: expanded from macro '_dynamic_func_call'
-     261 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |                                                                  ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:259:65: note: expanded from macro '_dynamic_func_call_cls'
-     259 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |                                                                        ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:231:15: note: expanded from macro '__dynamic_func_call_cls'
-     231 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/acpi/acpi_bus.h:514:54: note: passing argument to parameter 'fwnode' here
-     514 | bool is_acpi_device_node(const struct fwnode_handle *fwnode);
-         |                                                      ^
->> drivers/media/pci/intel/ipu-bridge.c:300:21: error: operand of type 'typeof ((adev)->fwnode)' (aka 'struct fwnode_handle') where arithmetic or pointer type is required
-     300 |                 acpi_handle_debug(ACPI_HANDLE(dev),
-         |                 ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
-     301 |                                   "_PLD exists; not use rotation %u from SSDB\n",
-         |                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     302 |                                   ssdb->degree);
-         |                                   ~~~~~~~~~~~~~
-   include/linux/acpi.h:61:46: note: expanded from macro 'ACPI_HANDLE'
-      61 | #define ACPI_HANDLE(dev)                acpi_device_handle(ACPI_COMPANION(dev))
-         |                                                            ^
-   include/linux/acpi.h:58:30: note: expanded from macro 'ACPI_COMPANION'
-      58 | #define ACPI_COMPANION(dev)             to_acpi_device_node((dev)->fwnode)
-         |                                         ^
-   include/acpi/acpi_bus.h:527:4: note: expanded from macro 'to_acpi_device_node'
-     527 |                         container_of(__to_acpi_device_node_fwnode,      \
-         |                         ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/dynamic_debug.h:261:59: note: expanded from macro '_dynamic_func_call'
-     261 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
-   include/linux/dynamic_debug.h:259:65: note: expanded from macro '_dynamic_func_call_cls'
-     259 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
-   include/linux/dynamic_debug.h:231:15: note: expanded from macro '__dynamic_func_call_cls'
-     231 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
->> drivers/media/pci/intel/ipu-bridge.c:300:21: error: indirection requires pointer operand ('typeof ((adev)->fwnode)' (aka 'struct fwnode_handle') invalid)
-     300 |                 acpi_handle_debug(ACPI_HANDLE(dev),
-         |                 ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
-     301 |                                   "_PLD exists; not use rotation %u from SSDB\n",
-         |                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     302 |                                   ssdb->degree);
-         |                                   ~~~~~~~~~~~~~
-   include/linux/acpi.h:61:46: note: expanded from macro 'ACPI_HANDLE'
-      61 | #define ACPI_HANDLE(dev)                acpi_device_handle(ACPI_COMPANION(dev))
-         |                                                            ^
-   include/linux/acpi.h:58:30: note: expanded from macro 'ACPI_COMPANION'
-      58 | #define ACPI_COMPANION(dev)             to_acpi_device_node((dev)->fwnode)
-         |                                         ^
-   include/acpi/acpi_bus.h:527:4: note: expanded from macro 'to_acpi_device_node'
-     527 |                         container_of(__to_acpi_device_node_fwnode,      \
-         |                         ^
-   note: (skipping 5 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/dynamic_debug.h:261:59: note: expanded from macro '_dynamic_func_call'
-     261 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
-   include/linux/dynamic_debug.h:259:65: note: expanded from macro '_dynamic_func_call_cls'
-     259 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
-   include/linux/dynamic_debug.h:231:15: note: expanded from macro '__dynamic_func_call_cls'
-     231 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
->> drivers/media/pci/intel/ipu-bridge.c:300:21: error: indirection requires pointer operand ('typeof ((adev)->fwnode)' (aka 'struct fwnode_handle') invalid)
-     300 |                 acpi_handle_debug(ACPI_HANDLE(dev),
-         |                 ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
-     301 |                                   "_PLD exists; not use rotation %u from SSDB\n",
-         |                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     302 |                                   ssdb->degree);
-         |                                   ~~~~~~~~~~~~~
-   include/linux/acpi.h:61:46: note: expanded from macro 'ACPI_HANDLE'
-      61 | #define ACPI_HANDLE(dev)                acpi_device_handle(ACPI_COMPANION(dev))
-         |                                                            ^
-   include/linux/acpi.h:58:30: note: expanded from macro 'ACPI_COMPANION'
-      58 | #define ACPI_COMPANION(dev)             to_acpi_device_node((dev)->fwnode)
-         |                                         ^
-   include/acpi/acpi_bus.h:527:4: note: expanded from macro 'to_acpi_device_node'
-     527 |                         container_of(__to_acpi_device_node_fwnode,      \
-         |                         ^
-   note: (skipping 5 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/dynamic_debug.h:261:59: note: expanded from macro '_dynamic_func_call'
-     261 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
-   include/linux/dynamic_debug.h:259:65: note: expanded from macro '_dynamic_func_call_cls'
-     259 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
-   include/linux/dynamic_debug.h:231:15: note: expanded from macro '__dynamic_func_call_cls'
-     231 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   6 errors generated.
+vim +133 arch/riscv/kernel/signal.c
 
+8ee0b41898fa26 Greentime Hu 2023-06-05  107 =20
+8ee0b41898fa26 Greentime Hu 2023-06-05  108  /*
+8ee0b41898fa26 Greentime Hu 2023-06-05  109   * Restore Vector extension co=
+ntext from the user's signal frame. This function
+8ee0b41898fa26 Greentime Hu 2023-06-05  110   * assumes a valid extension h=
+eader. So magic and size checking must be done by
+8ee0b41898fa26 Greentime Hu 2023-06-05  111   * the caller.
+8ee0b41898fa26 Greentime Hu 2023-06-05  112   */
+8ee0b41898fa26 Greentime Hu 2023-06-05  113  static long __restore_v_state(=
+struct pt_regs *regs, void __user *sc_vec)
+8ee0b41898fa26 Greentime Hu 2023-06-05  114  {
+8ee0b41898fa26 Greentime Hu 2023-06-05  115  	long err;
+8ee0b41898fa26 Greentime Hu 2023-06-05  116  	struct __sc_riscv_v_state __u=
+ser *state =3D sc_vec;
+8ee0b41898fa26 Greentime Hu 2023-06-05  117  	void __user *datap;
+8ee0b41898fa26 Greentime Hu 2023-06-05  118 =20
+c27fa53b858b4e Bj=C3=B6rn T=C3=B6pel  2024-04-03  119  	/*
+c27fa53b858b4e Bj=C3=B6rn T=C3=B6pel  2024-04-03  120  	 * Mark the vstate =
+as clean prior performing the actual copy,
+c27fa53b858b4e Bj=C3=B6rn T=C3=B6pel  2024-04-03  121  	 * to avoid getting=
+ the vstate incorrectly clobbered by the
+c27fa53b858b4e Bj=C3=B6rn T=C3=B6pel  2024-04-03  122  	 *  discarded vecto=
+r state.
+c27fa53b858b4e Bj=C3=B6rn T=C3=B6pel  2024-04-03  123  	 */
+c27fa53b858b4e Bj=C3=B6rn T=C3=B6pel  2024-04-03  124  	riscv_v_vstate_set_=
+restore(current, regs);
+c27fa53b858b4e Bj=C3=B6rn T=C3=B6pel  2024-04-03  125 =20
+8ee0b41898fa26 Greentime Hu 2023-06-05  126  	/* Copy everything of __sc_ri=
+scv_v_state except datap. */
+8ee0b41898fa26 Greentime Hu 2023-06-05  127  	err =3D __copy_from_user(&cur=
+rent->thread.vstate, &state->v_state,
+8ee0b41898fa26 Greentime Hu 2023-06-05  128  			       offsetof(struct __ri=
+scv_v_ext_state, datap));
+8ee0b41898fa26 Greentime Hu 2023-06-05  129  	if (unlikely(err))
+8ee0b41898fa26 Greentime Hu 2023-06-05  130  		return err;
+8ee0b41898fa26 Greentime Hu 2023-06-05  131 =20
+8ee0b41898fa26 Greentime Hu 2023-06-05  132  	/* Copy the pointer datap its=
+elf. */
+8ee0b41898fa26 Greentime Hu 2023-06-05 @133  	err =3D __get_user(datap, &st=
+ate->v_state.datap);
+8ee0b41898fa26 Greentime Hu 2023-06-05  134  	if (unlikely(err))
+8ee0b41898fa26 Greentime Hu 2023-06-05  135  		return err;
+8ee0b41898fa26 Greentime Hu 2023-06-05  136  	/*
+8ee0b41898fa26 Greentime Hu 2023-06-05  137  	 * Copy the whole vector cont=
+ent from user space datap. Use
+8ee0b41898fa26 Greentime Hu 2023-06-05  138  	 * copy_from_user to prevent =
+information leak.
+8ee0b41898fa26 Greentime Hu 2023-06-05  139  	 */
+c27fa53b858b4e Bj=C3=B6rn T=C3=B6pel  2024-04-03  140  	return copy_from_us=
+er(current->thread.vstate.datap, datap, riscv_v_vsize);
+8ee0b41898fa26 Greentime Hu 2023-06-05  141  }
+818d78ba1b3f88 Andy Chiu    2025-11-12  142 =20
 
-vim +300 drivers/media/pci/intel/ipu-bridge.c
+:::::: The code at line 133 was first introduced by commit
+:::::: 8ee0b41898fa26f66e32237f179b6989c65600d6 riscv: signal: Add sigconte=
+xt save/restore for vector
 
-   286	
-   287	static u32 ipu_bridge_parse_rotation(struct acpi_device *adev,
-   288					     struct ipu_sensor_ssdb *ssdb,
-   289					     struct v4l2_fwnode_device_properties *props)
-   290	{
-   291		const struct dmi_system_id *dmi_id;
-   292		struct acpi_pld_info *pld;
-   293	
-   294		dmi_id = dmi_first_match(upside_down_sensor_dmi_ids);
-   295		if (dmi_id && acpi_dev_hid_match(adev, dmi_id->driver_data))
-   296			return 180;
-   297	
-   298		if (acpi_get_physical_device_location(adev->handle, &pld) &&
-   299		    pld->rotation < 8) {
- > 300			acpi_handle_debug(ACPI_HANDLE(dev),
-   301					  "_PLD exists; not use rotation %u from SSDB\n",
-   302					  ssdb->degree);
-   303			return 0;
-   304		}
-   305	
-   306		if (props->rotation != V4L2_FWNODE_PROPERTY_UNSET)
-   307			return props->rotation;
-   308	
-   309		switch (ssdb->degree) {
-   310		case IPU_SENSOR_ROTATION_NORMAL:
-   311			return 0;
-   312		case IPU_SENSOR_ROTATION_INVERTED:
-   313			return 180;
-   314		}
-   315	
-   316		acpi_handle_warn(acpi_device_handle(adev),
-   317				 "Unknown rotation %d. Assume 0 degree rotation\n",
-   318				 ssdb->degree);
-   319		return 0;
-   320	}
-   321	
+:::::: TO: Greentime Hu <greentime.hu@sifive.com>
+:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
 
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
