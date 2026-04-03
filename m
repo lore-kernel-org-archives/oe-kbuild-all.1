@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98BB637FF5A
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Apr 2026 08:42:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 184F8236A73
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Apr 2026 08:42:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775205734; cv=none; b=ol/ZGy/TBjs6ZtjA4+IzGS3BUolJJCFGUAJzNYwmw2jSc1wx+UkDxF5PCtLGeK59/MmuWNC6IPq5vSB8b1Ecm3wgokOdcS+bJqJPZ6zSKIiFicU2PV9HGS3wXFg59CaIopFUIxhaQVSdqHZbr77OcDmghYTrBkv+hJzrX4mG+YI=
+	t=1775205780; cv=none; b=KdQlOufI5OeGzUbq0zDsLWE3xcXYqWOZJqvp9fuWRYnzmEDMJg2sDcM+1lf6WSM0axnJnIa/3uCfr4bB5N6myJaSI3Z1722c/mQZRcY3a79iVd6q2crIjfyTrIjAOk8mMXwpEP1U+mvmWjx+C/IO3KTHiliqynpiY5sFlL+lz10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775205734; c=relaxed/simple;
-	bh=D/2wqcLAjgU9Gx5rUu4J98A+92bCLOGq7xL8q3oKhd4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bpDTnC+gByBQJfjaG/QL2AeBbV4qWHvZu8Sia2Qdofqu3QQZKBZ+akdzKGrxWjv99Jkk3FQfKNTwvd/vllAjmM66F+ZJ2qUbYFst7m6m097qDgon3K4+v/d+W5wolyImuoomAn7kOa2kXcucuCXeiBAfa7d1h6O9rZq7BKi7qJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VTG+y0s1; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1775205780; c=relaxed/simple;
+	bh=CLoU3k9g2f56NvG8vLJpsRda9ezDmJ+55UL+YBlnkx8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=HcKLh64YKwxkFA6lHZmCeOKmxot1Bhvfcyf6ws8rmYqUknFkV/m67vPa9/q8nqmgAx/RcBGzjFTf7nIU7shBbAIRhJs3oe7cf+HSa0I+vZhYdDP1Pqo2SQKvcbeLGNSS481NzfJEYRzM4ObqROpixDodouCsmeHdqwkmj1N2wko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AZS1dJ7y; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VTG+y0s1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AZS1dJ7y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775205729; x=1806741729;
+  t=1775205779; x=1806741779;
   h=date:from:to:cc:subject:message-id;
-  bh=D/2wqcLAjgU9Gx5rUu4J98A+92bCLOGq7xL8q3oKhd4=;
-  b=VTG+y0s1smojVHy2i467TyTkndz3s/TZWsWxcslUKH7XftG4zKomrgoX
-   D68Y4eZduFewvDu7NlTdVTswQbBs2GUho6+onicBgmvbNh09dP3+NzaJs
-   sniiXjUiK1wb/0eCcxq7bJp2SV4re5nooPWoTQun5pDHRasEnMzPhzMOJ
-   O2MRtVZCWmKF5aBd3WL3RfRbHwVkAcZkXqWToqCzDdM297PAAmjyV/Jri
-   ic2KOsBDBjHCJVAl4+kGknJ90zoPnmuIm3TwRwgIn2uMqINq968iOA00N
-   K2rk870DpxswRsyzPRNu4lcQcZwJ62f/WpGOKTC9K/1uAGmfdPBNpZESg
-   w==;
-X-CSE-ConnectionGUID: HqYKvI+1Q2GfYIbijFLFzQ==
-X-CSE-MsgGUID: lceHGEKPTOeYqf8i3Wzo3Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="86973963"
+  bh=CLoU3k9g2f56NvG8vLJpsRda9ezDmJ+55UL+YBlnkx8=;
+  b=AZS1dJ7yJVasoEmScfONrrIXruutoXVS9yDPr/Vi2bGIEb9tBuEUxiaS
+   XIH2vv9TuHwXd/ddirp7OzQZ4udZpQ/7lKtk2pRmTOisQ2G9GakcEuZIB
+   f4szLI2lDs8YQxlWvwtbCyDgXYL2FwN0qYyCoI71OvuhrLsgVHt+FzR/N
+   NFAruGWmWIb2P4YYd77hAPVutEbFKAsgMRAAovNei1jC3onI7YFTdCIr8
+   BcF3r8qRSrm9aXKHf2ryZYh4VthuKNeNsL7SJblvEVg0/k/SXi3qI8C6J
+   imS3V903xtp8WwWaX5DwWKploKUQB5jH+haNIdgAZzPvDqpxQ5Eju+En5
+   g==;
+X-CSE-ConnectionGUID: Ua5aD1zRTm6g/OluzqW3+Q==
+X-CSE-MsgGUID: tiwxPlQ6STKBELA1PhCuTA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="75311886"
 X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
-   d="scan'208";a="86973963"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 01:41:58 -0700
-X-CSE-ConnectionGUID: BoFL3rsIRACS+TikqyJbIA==
-X-CSE-MsgGUID: wGDz25OQQZ239CydRzXtow==
+   d="scan'208";a="75311886"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 01:42:58 -0700
+X-CSE-ConnectionGUID: eGmkyxUxTsewOgD4gFi0vQ==
+X-CSE-MsgGUID: O5sVoPIoSvyCTU/eq0QHCQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
-   d="scan'208";a="228834242"
+   d="scan'208";a="250286592"
 Received: from lkp-server01.sh.intel.com (HELO 064ad336901d) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 03 Apr 2026 01:41:57 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 03 Apr 2026 01:42:57 -0700
 Received: from kbuild by 064ad336901d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w8a6E-0000000012v-2WCC;
-	Fri, 03 Apr 2026 08:41:54 +0000
-Date: Fri, 03 Apr 2026 16:41:02 +0800
+	id 1w8a7D-0000000013V-0B6O;
+	Fri, 03 Apr 2026 08:42:55 +0000
+Date: Fri, 03 Apr 2026 16:42:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15 1/1] mm/page_isolation.c:186:
- warning: Function parameter or member 'failed_pfn' not described in
- 'start_isolate_page_range'
-Message-ID: <202604022145.xjsglPzE-lkp@intel.com>
+Subject: [android-common:android14-kiwi-6.1 28/28]
+ mm/vmscan.c:997:15: warning: no previous prototype for 'shrink_slab'
+Message-ID: <202604022306.IagpbnLU-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,115 +59,105 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Minchan,
+Hi huangshaobo1,
 
 FYI, the error/warning still remains.
 
-tree:   https://android.googlesource.com/kernel/common android14-5.15
-head:   3345d7186397130229186427c1c89125d9687c46
-commit: 60d2dad38e3dce7359b318c436dd06e5a55da15a [1/1] ANDROID: mm: cma: skip problematic pageblock
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260402/202604022145.xjsglPzE-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   a106900ad13546acde0a828d15c9e6513e6b5f62
+commit: 09ab235661116880b7ea9b4deb705802f2c19ab4 [28/28] ANDROID: vendor_hooks: export shrink_slab
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260402/202604022306.IagpbnLU-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260402/202604022145.xjsglPzE-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260402/202604022306.IagpbnLU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604022145.xjsglPzE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604022306.IagpbnLU-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/page_isolation.c:186: warning: Function parameter or member 'failed_pfn' not described in 'start_isolate_page_range'
+>> mm/vmscan.c:997:15: warning: no previous prototype for 'shrink_slab' [-Wmissing-prototypes]
+     997 | unsigned long shrink_slab(gfp_t gfp_mask, int nid,
+         |               ^~~~~~~~~~~
 
 
-vim +186 mm/page_isolation.c
+vim +/shrink_slab +997 mm/vmscan.c
 
-a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  141  
-9b7ea46a82b31c Qian Cai          2019-03-28  142  /**
-9b7ea46a82b31c Qian Cai          2019-03-28  143   * start_isolate_page_range() - make page-allocation-type of range of pages to
-9b7ea46a82b31c Qian Cai          2019-03-28  144   * be MIGRATE_ISOLATE.
-a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  145   * @start_pfn:		The lower PFN of the range to be isolated.
-a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  146   * @end_pfn:		The upper PFN of the range to be isolated.
-9b7ea46a82b31c Qian Cai          2019-03-28  147   *			start_pfn/end_pfn must be aligned to pageblock_order.
-9b7ea46a82b31c Qian Cai          2019-03-28  148   * @migratetype:	Migrate type to set in error recovery.
-9b7ea46a82b31c Qian Cai          2019-03-28  149   * @flags:		The following flags are allowed (they can be combined in
-9b7ea46a82b31c Qian Cai          2019-03-28  150   *			a bit mask)
-756d25be457fc5 David Hildenbrand 2019-11-30  151   *			MEMORY_OFFLINE - isolate to offline (!allocate) memory
-756d25be457fc5 David Hildenbrand 2019-11-30  152   *					 e.g., skip over PageHWPoison() pages
-aa218795cb5fd5 David Hildenbrand 2020-05-07  153   *					 and PageOffline() pages.
-9b7ea46a82b31c Qian Cai          2019-03-28  154   *			REPORT_FAILURE - report details about the failure to
-9b7ea46a82b31c Qian Cai          2019-03-28  155   *			isolate the range
-a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  156   *
-a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  157   * Making page-allocation-type to be MIGRATE_ISOLATE means free pages in
-a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  158   * the range will never be allocated. Any free pages and pages freed in the
-9b7ea46a82b31c Qian Cai          2019-03-28  159   * future will not be allocated again. If specified range includes migrate types
-9b7ea46a82b31c Qian Cai          2019-03-28  160   * other than MOVABLE or CMA, this will fail with -EBUSY. For isolating all
-9b7ea46a82b31c Qian Cai          2019-03-28  161   * pages in the range finally, the caller have to free all pages in the range.
-9b7ea46a82b31c Qian Cai          2019-03-28  162   * test_page_isolated() can be used for test it.
-2c7452a075d4db Mike Kravetz      2018-04-05  163   *
-2c7452a075d4db Mike Kravetz      2018-04-05  164   * There is no high level synchronization mechanism that prevents two threads
-2c7452a075d4db Mike Kravetz      2018-04-05  165   * from trying to isolate overlapping ranges. If this happens, one thread
-2c7452a075d4db Mike Kravetz      2018-04-05  166   * will notice pageblocks in the overlapping range already set to isolate.
-2c7452a075d4db Mike Kravetz      2018-04-05  167   * This happens in set_migratetype_isolate, and set_migratetype_isolate
-2c7452a075d4db Mike Kravetz      2018-04-05  168   * returns an error. We then clean up by restoring the migration type on
-2c7452a075d4db Mike Kravetz      2018-04-05  169   * pageblocks we may have modified and return -EBUSY to caller. This
-2c7452a075d4db Mike Kravetz      2018-04-05  170   * prevents two threads from simultaneously working on overlapping ranges.
-9b7ea46a82b31c Qian Cai          2019-03-28  171   *
-9683182612214a Pavel Tatashin    2020-09-18  172   * Please note that there is no strong synchronization with the page allocator
-9683182612214a Pavel Tatashin    2020-09-18  173   * either. Pages might be freed while their page blocks are marked ISOLATED.
-7612921f2376d5 Vlastimil Babka   2020-12-14  174   * A call to drain_all_pages() after isolation can flush most of them. However
-7612921f2376d5 Vlastimil Babka   2020-12-14  175   * in some cases pages might still end up on pcp lists and that would allow
-9683182612214a Pavel Tatashin    2020-09-18  176   * for their allocation even when they are in fact isolated already. Depending
-ec6e8c7e03147c Vlastimil Babka   2020-12-14  177   * on how strong of a guarantee the caller needs, zone_pcp_disable/enable()
-ec6e8c7e03147c Vlastimil Babka   2020-12-14  178   * might be used to flush and disable pcplist before isolation and enable after
-ec6e8c7e03147c Vlastimil Babka   2020-12-14  179   * unisolation.
-9683182612214a Pavel Tatashin    2020-09-18  180   *
-3fa0c7c79d2499 David Hildenbrand 2020-10-15  181   * Return: 0 on success and -EBUSY if any part of range cannot be isolated.
-a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  182   */
-0815f3d81d76df Michal Nazarewicz 2012-04-03  183  int start_isolate_page_range(unsigned long start_pfn, unsigned long end_pfn,
-60d2dad38e3dce Minchan Kim       2021-06-29  184  			     unsigned migratetype, int flags,
-60d2dad38e3dce Minchan Kim       2021-06-29  185  			     unsigned long *failed_pfn)
-a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16 @186  {
-a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  187  	unsigned long pfn;
-a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  188  	unsigned long undo_pfn;
-a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  189  	struct page *page;
-a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  190  
-fec174d6699e2e Naoya Horiguchi   2016-01-14  191  	BUG_ON(!IS_ALIGNED(start_pfn, pageblock_nr_pages));
-fec174d6699e2e Naoya Horiguchi   2016-01-14  192  	BUG_ON(!IS_ALIGNED(end_pfn, pageblock_nr_pages));
-a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  193  
-a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  194  	for (pfn = start_pfn;
-a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  195  	     pfn < end_pfn;
-a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  196  	     pfn += pageblock_nr_pages) {
-a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  197  		page = __first_valid_page(pfn, pageblock_nr_pages);
-9b7ea46a82b31c Qian Cai          2019-03-28  198  		if (page) {
-9b7ea46a82b31c Qian Cai          2019-03-28  199  			if (set_migratetype_isolate(page, migratetype, flags)) {
-a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  200  				undo_pfn = pfn;
-60d2dad38e3dce Minchan Kim       2021-06-29  201  				if (failed_pfn)
-60d2dad38e3dce Minchan Kim       2021-06-29  202  					*failed_pfn = page_to_pfn(page);
-a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  203  				goto undo;
-a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  204  			}
-a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  205  		}
-9b7ea46a82b31c Qian Cai          2019-03-28  206  	}
-3fa0c7c79d2499 David Hildenbrand 2020-10-15  207  	return 0;
-a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  208  undo:
-a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  209  	for (pfn = start_pfn;
-dbc0e4cefd0038 KAMEZAWA Hiroyuki 2007-11-14  210  	     pfn < undo_pfn;
-2ce13640b3f4c8 Michal Hocko      2017-07-06  211  	     pfn += pageblock_nr_pages) {
-2ce13640b3f4c8 Michal Hocko      2017-07-06  212  		struct page *page = pfn_to_online_page(pfn);
-2ce13640b3f4c8 Michal Hocko      2017-07-06  213  		if (!page)
-2ce13640b3f4c8 Michal Hocko      2017-07-06  214  			continue;
-2ce13640b3f4c8 Michal Hocko      2017-07-06  215  		unset_migratetype_isolate(page, migratetype);
-2ce13640b3f4c8 Michal Hocko      2017-07-06  216  	}
-a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  217  
-a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  218  	return -EBUSY;
-a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  219  }
-a5d76b54a3f3a4 KAMEZAWA Hiroyuki 2007-10-16  220  
-
-:::::: The code at line 186 was first introduced by commit
-:::::: a5d76b54a3f3a40385d7f76069a2feac9f1bad63 memory unplug: page isolation
-
-:::::: TO: KAMEZAWA Hiroyuki <kamezawa.hiroyu@jp.fujitsu.com>
-:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
+   976	
+   977	/**
+   978	 * shrink_slab - shrink slab caches
+   979	 * @gfp_mask: allocation context
+   980	 * @nid: node whose slab caches to target
+   981	 * @memcg: memory cgroup whose slab caches to target
+   982	 * @priority: the reclaim priority
+   983	 *
+   984	 * Call the shrink functions to age shrinkable caches.
+   985	 *
+   986	 * @nid is passed along to shrinkers with SHRINKER_NUMA_AWARE set,
+   987	 * unaware shrinkers will receive a node id of 0 instead.
+   988	 *
+   989	 * @memcg specifies the memory cgroup to target. Unaware shrinkers
+   990	 * are called only if it is the root cgroup.
+   991	 *
+   992	 * @priority is sc->priority, we take the number of objects and >> by priority
+   993	 * in order to get the scan target.
+   994	 *
+   995	 * Returns the number of reclaimed slab objects.
+   996	 */
+ > 997	unsigned long shrink_slab(gfp_t gfp_mask, int nid,
+   998					 struct mem_cgroup *memcg,
+   999					 int priority)
+  1000	{
+  1001		unsigned long ret, freed = 0;
+  1002		struct shrinker *shrinker;
+  1003		bool bypass = false;
+  1004	
+  1005		trace_android_vh_shrink_slab_bypass(gfp_mask, nid, memcg, priority, &bypass);
+  1006		if (bypass)
+  1007			return 0;
+  1008	
+  1009		/*
+  1010		 * The root memcg might be allocated even though memcg is disabled
+  1011		 * via "cgroup_disable=memory" boot parameter.  This could make
+  1012		 * mem_cgroup_is_root() return false, then just run memcg slab
+  1013		 * shrink, but skip global shrink.  This may result in premature
+  1014		 * oom.
+  1015		 */
+  1016		if (!mem_cgroup_disabled() && !mem_cgroup_is_root(memcg))
+  1017			return shrink_slab_memcg(gfp_mask, nid, memcg, priority);
+  1018	
+  1019		if (!down_read_trylock(&shrinker_rwsem))
+  1020			goto out;
+  1021	
+  1022		list_for_each_entry(shrinker, &shrinker_list, list) {
+  1023			struct shrink_control sc = {
+  1024				.gfp_mask = gfp_mask,
+  1025				.nid = nid,
+  1026				.memcg = memcg,
+  1027			};
+  1028	
+  1029			ret = do_shrink_slab(&sc, shrinker, priority);
+  1030			if (ret == SHRINK_EMPTY)
+  1031				ret = 0;
+  1032			freed += ret;
+  1033			/*
+  1034			 * Bail out if someone want to register a new shrinker to
+  1035			 * prevent the registration from being stalled for long periods
+  1036			 * by parallel ongoing shrinking.
+  1037			 */
+  1038			if (rwsem_is_contended(&shrinker_rwsem)) {
+  1039				freed = freed ? : 1;
+  1040				break;
+  1041			}
+  1042		}
+  1043	
+  1044		up_read(&shrinker_rwsem);
+  1045	out:
+  1046		cond_resched();
+  1047		return freed;
+  1048	}
+  1049	
 
 -- 
 0-DAY CI Kernel Test Service
