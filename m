@@ -1,62 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F3A137B019
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Apr 2026 08:48:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 498AF37EFF4;
+	Fri,  3 Apr 2026 08:48:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775206084; cv=none; b=jx0sX5mL9hE8jlTj08tW5BzZJt4TxemqBhSmrBW/bSNalNNnhD8P0MgxRTFjBNYPnj/LOpgCS7/tq+j08oQFzAYqu4Bj0oNAwXa8H+HRR/sQ/b7tDtGbWlY8ZyD+aUTGM+k2ZzOhSfGN45hjwz0Kk5FFgXBB71OZiS7OclYDXCg=
+	t=1775206084; cv=none; b=RLwdSmqLpumB9kgEStV8KqRGqXc/YH/GYiAyQCYq4J+n67C0Mkb1aWjxiU+NQbU1U6xUYAXRSOEGxQwIJ3LQaKA3s8TdUK+SRtaeXoyRuxcinNpJaI94vzmrKOb3tuKlVYufBknHMEISguln9tk/tz2qT9k9WOt93PP5bDTxHek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1775206084; c=relaxed/simple;
-	bh=plRNuwU/KKf4UAbM/wt+uekBoRfThkWmizP/XyhYQqs=;
+	bh=ZJrOlxB9ODhunm/KFNry2MOW4qy/eC1bLxczndnaFMQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aO2roFH9cgdL2jacMxx28P2GenUnp87yvTE2/pJJxYbatfzfef1jispp+EthHU58PTeWLO1aCg0DMmIUVLJehoimcZGJ5IixFvChS8xKR3o52mUG6HyzAibF5PjxpxDmc273e+TvK/FJ15i6Ol9NQXpcGL5rXZCxN3DypdMVwv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TUKanOkH; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=kzvM4XWicmChf8w3kZx0h7Q95CJlF3frVsDnAqlF0UeXn1H1xyr/HZd0LErGUqOiMKecjAC2WB/UzdHhFlY52vIr3umBi9mmIl8b0Mk8393Y1feiLlexyCr8BMpnCV8JOvnDwzo8PJ4+B94ag1X+oFUGB/81eFYq7LmjAA8O/QE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AlaT5wC0; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TUKanOkH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AlaT5wC0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1775206083; x=1806742083;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=plRNuwU/KKf4UAbM/wt+uekBoRfThkWmizP/XyhYQqs=;
-  b=TUKanOkHgxUbMCax/7pyEcUbl6enln3Yj5OWttUziSQuc00HfXO0Nxat
-   E42v7BtSgi3xGl+ouYincSfWVv2fbVB+B93pdUGizRXSBHo53TpRWf/SQ
-   vurgQp5aB07SMe6G4T/FD1jlbCkFqmw7wCZXyeC4RB1GRzfgQSXaZDJaW
-   deGktjv9lyFgGKwvNz2E43I/J3NoGs3aYPh+xWYhwA6EKK3dIXNFh2gZf
-   vHCeVRULMt4p5GJhaGM9yCL05IQN7c8lQiUtZaqVFj71hT4C3sFWZICCV
-   zJV2MCxNeBVksntCK+hysrsD8aLbnG2QgdMAw8LleD2Olcb8jyrCo4iwI
-   A==;
-X-CSE-ConnectionGUID: lxAbtMYpSRiSmufzRSxTJQ==
-X-CSE-MsgGUID: AzgR5nyITyGxidLqsu/gnA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="76239383"
+  bh=ZJrOlxB9ODhunm/KFNry2MOW4qy/eC1bLxczndnaFMQ=;
+  b=AlaT5wC0MUcqD7t1jr2FAn96rwEJxpCmSGYojNm2rrgsfuo0oLZc6aTl
+   JUG7MrDR2j9uDUHy/hMhWPqknz+3qQiLP22CvhevKE29h6s/3b8DZ0v3z
+   hxO1J8ECQh1jw465yKETA9Mt30VAU3HJYs4iUzNifacdPV6mIdXLKMyAx
+   l08DH7er/VctGreLVTh/NJMXL7tP0+jmj9jIivVtIjstwCMi95wyvQY4Z
+   gAgQaY706IpXcED7P5looIeZAIyX/hTs358pDoRDIQWzakd3LJ9M8p3Tt
+   5W9ls/8CuB3xrRB+DJTRWDmtEZkn3MO0VNodi+61AMOxj5+vqTT/dmSZH
+   g==;
+X-CSE-ConnectionGUID: JIqTgiJqTd+iwFp4OA03SQ==
+X-CSE-MsgGUID: e05sJcxOSMGuKEb1tkUd0w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="76239393"
 X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
-   d="scan'208";a="76239383"
+   d="scan'208";a="76239393"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
   by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 01:48:02 -0700
-X-CSE-ConnectionGUID: aYnutFtgSwG9robKO913Ww==
-X-CSE-MsgGUID: PhYAdxOkRZqoBgdwxpFU3Q==
+X-CSE-ConnectionGUID: Powiq4beT56r4yUrcq0G+Q==
+X-CSE-MsgGUID: NtlhvnCVSOKHAd8aQncblA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
-   d="scan'208";a="222355505"
+   d="scan'208";a="222355504"
 Received: from lkp-server01.sh.intel.com (HELO 064ad336901d) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 03 Apr 2026 01:48:00 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 03 Apr 2026 01:47:59 -0700
 Received: from kbuild by 064ad336901d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w8aC5-0000000017N-0OAP;
+	id 1w8aC5-0000000017P-0UZK;
 	Fri, 03 Apr 2026 08:47:57 +0000
-Date: Fri, 3 Apr 2026 16:47:19 +0800
+Date: Fri, 3 Apr 2026 16:47:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jason Xing <kerneljasonxing@gmail.com>, davem@davemloft.net,
 	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
 	horms@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Jason Xing <kernelxing@tencent.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, Jason Xing <kernelxing@tencent.com>
 Subject: Re: [PATCH v3 net-next] net: advance skb_defer_disable_key check in
  napi_consume_skb
-Message-ID: <202604031603.YyNxdorw-lkp@intel.com>
+Message-ID: <202604031607.o753ScQ1-lkp@intel.com>
 References: <20260401033211.44463-1-kerneljasonxing@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -78,53 +78,24 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Xing/net-advance-sk
 base:   net-next/main
 patch link:    https://lore.kernel.org/r/20260401033211.44463-1-kerneljasonxing%40gmail.com
 patch subject: [PATCH v3 net-next] net: advance skb_defer_disable_key check in napi_consume_skb
-config: mips-cu1830-neo_defconfig (https://download.01.org/0day-ci/archive/20260403/202604031603.YyNxdorw-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260403/202604031603.YyNxdorw-lkp@intel.com/reproduce)
+config: x86_64-buildonly-randconfig-005-20260403 (https://download.01.org/0day-ci/archive/20260403/202604031607.o753ScQ1-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260403/202604031607.o753ScQ1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604031603.YyNxdorw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604031607.o753ScQ1-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/build_bug.h:5,
-                    from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/module.h:12,
-                    from net/core/skbuff.c:37:
-   net/core/skbuff.c: In function 'napi_consume_skb':
->> net/core/skbuff.c:1522:38: error: 'skb_defer_disable_key' undeclared (first use in this function)
+>> net/core/skbuff.c:1522:31: error: use of undeclared identifier 'skb_defer_disable_key'
     1522 |         if (!static_branch_unlikely(&skb_defer_disable_key) &&
-         |                                      ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   include/linux/jump_label.h:515:41: note: in expansion of macro 'unlikely_notrace'
-     515 | #define static_branch_unlikely(x)       unlikely_notrace(static_key_enabled(&(x)->key))
-         |                                         ^~~~~~~~~~~~~~~~
-   include/linux/jump_label.h:515:58: note: in expansion of macro 'static_key_enabled'
-     515 | #define static_branch_unlikely(x)       unlikely_notrace(static_key_enabled(&(x)->key))
-         |                                                          ^~~~~~~~~~~~~~~~~~
-   net/core/skbuff.c:1522:14: note: in expansion of macro 'static_branch_unlikely'
-    1522 |         if (!static_branch_unlikely(&skb_defer_disable_key) &&
-         |              ^~~~~~~~~~~~~~~~~~~~~~
-   net/core/skbuff.c:1522:38: note: each undeclared identifier is reported only once for each function it appears in
-    1522 |         if (!static_branch_unlikely(&skb_defer_disable_key) &&
-         |                                      ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   include/linux/jump_label.h:515:41: note: in expansion of macro 'unlikely_notrace'
-     515 | #define static_branch_unlikely(x)       unlikely_notrace(static_key_enabled(&(x)->key))
-         |                                         ^~~~~~~~~~~~~~~~
-   include/linux/jump_label.h:515:58: note: in expansion of macro 'static_key_enabled'
-     515 | #define static_branch_unlikely(x)       unlikely_notrace(static_key_enabled(&(x)->key))
-         |                                                          ^~~~~~~~~~~~~~~~~~
-   net/core/skbuff.c:1522:14: note: in expansion of macro 'static_branch_unlikely'
-    1522 |         if (!static_branch_unlikely(&skb_defer_disable_key) &&
-         |              ^~~~~~~~~~~~~~~~~~~~~~
+         |                                      ^
+>> net/core/skbuff.c:1522:31: error: use of undeclared identifier 'skb_defer_disable_key'
+>> net/core/skbuff.c:1522:31: error: use of undeclared identifier 'skb_defer_disable_key'
+>> net/core/skbuff.c:1522:31: error: use of undeclared identifier 'skb_defer_disable_key'
+   4 errors generated.
 
 
 vim +/skb_defer_disable_key +1522 net/core/skbuff.c
