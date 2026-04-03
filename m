@@ -1,130 +1,189 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7226A394787;
-	Fri,  3 Apr 2026 17:52:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01DB9350A0F
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Apr 2026 18:32:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775238763; cv=none; b=ZIzOEHONkNu1s9mhD525P1aQlyxQCJkNzdpZxtNXN0/icyTZoTSpyT1kvTQbgY1uT4KTmMNsEm+kg/pB2wxhMvil7wlWFlh7z9UAj4fi5Pw3UGLIWd/LozsaxZTf0cCv/th+vEZATPKDFSYdQlPwmqQR/IujjVN5U5DWQ9vby8k=
+	t=1775241162; cv=none; b=H2w0l38m0Sg6IQv9d9KASaKD7SsgkREeEe2zZL6EuIJ99IxNNvXa9m50mI6x7SUSIgR1/gAGdjOMVisYBIfNVlFcMUi92LAJ6LAn+1dormjH7/ohX2bwy2+fjNsg+vAcBcInIk2XyFtkxcDeskFKVK2lNs9JfC/OrhCtnHGpXzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775238763; c=relaxed/simple;
-	bh=kfr2zWYqcYI0zSpaJhjc9tAQEZyzj04Pgw4CGW7kKJ4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G2a0fwZzNiHmN6flO2ecSJAfXULc1GIvWXoHmXbeb1UnGqqTsZDQqMn79HaLS9rlPd4JNi8Cco6K+V6t3K7tPYjmEXigrIeOrsuvoL1BQaxmSIbLxIwHlLPRTYhqKSy4O5W1WyN9sXOM3m0ZUpmt6DIT5n8TP7xIwJ4P085g97A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HM1OcqeA; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1775241162; c=relaxed/simple;
+	bh=qvNhtPNu9u5F+7XczqPkIHT4Z55sDqmIBy+BNXFpd9g=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=YlVnp4NAfv5LdALI6VPbKOZpCU3busAnxKN9cRLKRQEFqNGZrTxM5JTlXSjQiinOAaJyPKp41mR33c/tJxPWTCTPdF9MImn41NLx0n/gELuY3AYR23mWPoauXrI29rnG1uF2510KhQ7FkmcTDLDgDdlCYvYX9EoqRx45XIvyV3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iMYrULnk; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HM1OcqeA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iMYrULnk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775238761; x=1806774761;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kfr2zWYqcYI0zSpaJhjc9tAQEZyzj04Pgw4CGW7kKJ4=;
-  b=HM1OcqeAvhGiA7M7KlMjO9QA/q6gxd7MHm2wM60LCa/sbVPoRmmanZK4
-   SL9IjOfY3r5t8keXxK0Waw8OcDIQ5geX2y7RMk2+h8p6e2mtIP+d8vZas
-   iVbK2wSiPZyX7NGRrkvhcvo3Wn3hDnRpYz/bqyNM9dJSyNyfzl0XIWunE
-   EofzrrEOqucxvPraW5Hdw0Shfg8JtyqqB96Xt0G81pjORBU10VRhs27y0
-   o0ygatljLkUc8RYppYo7evY1MXeOzKZZ7ydQfdHaontE8pxPY6CUt80DK
-   f7Irv8XZFrD7QTC3Vf3kQ3oW/9Z6IV52jTM88WK/x1/Iscjf2zyItnmJn
-   w==;
-X-CSE-ConnectionGUID: 5DIoSaa1QCqWzd612nbdLA==
-X-CSE-MsgGUID: 1dF3/7pxTBG2qMDZSv9MTA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11748"; a="76186475"
+  t=1775241161; x=1806777161;
+  h=date:from:to:cc:subject:message-id;
+  bh=qvNhtPNu9u5F+7XczqPkIHT4Z55sDqmIBy+BNXFpd9g=;
+  b=iMYrULnka9BJwOBMkm4FphacIomY+VhnwG+Sc2YkQ/SqCiml01AZo7Sh
+   hNQZ+rv/81e2ZXR0CEwsjGfKOYaHUYLKwUhbgirNdgaNlLBz4TFSd/JTG
+   U1HcfyAvRkTC/7Dh0Bby8iUd2Wv5zoPsm0VPfMQ/nLlelykRXad1cJNGS
+   73X77shdI9Go2QzWo4spPWahY7retqq4vB8nm29K//xSn+jKLZX7xJOcr
+   L0pnuFNY+hDn/vlRv4RZsEQodUTdJms1fX1VKbmkPsEp4zvHZhU7pl4TY
+   IhG4vyK1AVMNKhGUMrg0D2kt/cvU20d6eXKt6n0a7jO2rNQ/geZG6h917
+   A==;
+X-CSE-ConnectionGUID: Zx7vmSPVTLSjghIG4aKY+A==
+X-CSE-MsgGUID: 3DIWRpxlSAGWOhSk2P5LoA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11748"; a="76370443"
 X-IronPort-AV: E=Sophos;i="6.23,158,1770624000"; 
-   d="scan'208";a="76186475"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 10:52:41 -0700
-X-CSE-ConnectionGUID: ZqWwV0ofR3+WQ/NkbIG6rg==
-X-CSE-MsgGUID: oqRS3P2BRaqTu76GG2Wq8A==
+   d="scan'208";a="76370443"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 11:32:40 -0700
+X-CSE-ConnectionGUID: XPc/TNlLQr+zhRBxi2AL/g==
+X-CSE-MsgGUID: DhxAvzkVQLi3HUNyphL1sg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,158,1770624000"; 
-   d="scan'208";a="250384002"
+   d="scan'208";a="232250978"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 03 Apr 2026 10:52:38 -0700
+  by orviesa005.jf.intel.com with ESMTP; 03 Apr 2026 11:32:39 -0700
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w8ihA-000000009M5-23oF;
-	Fri, 03 Apr 2026 17:52:36 +0000
-Date: Fri, 3 Apr 2026 19:51:38 +0200
+	id 1w8jJs-000000009MH-2sNE;
+	Fri, 03 Apr 2026 18:32:36 +0000
+Date: Fri, 03 Apr 2026 20:32:23 +0200
 From: kernel test robot <lkp@intel.com>
-To: tejas bharambe <tejas.bharambe@outlook.com>,
-	"ocfs2-devel@lists.linux.dev" <ocfs2-devel@lists.linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev, "mark@fasheh.com" <mark@fasheh.com>,
-	"jlbec@evilplan.org" <jlbec@evilplan.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"syzbot+a49010a0e8fcdeea075f@syzkaller.appspotmail.com" <syzbot+a49010a0e8fcdeea075f@syzkaller.appspotmail.com>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>
-Subject: Re: [PATCH v2] ocfs2: fix use-after-free in ocfs2_fault() when
- VM_FAULT_RETRY
-Message-ID: <202604031948.fsuptUtV-lkp@intel.com>
-References: <JH0PR06MB66325344CF84BBC38B2973C38950A@JH0PR06MB6632.apcprd06.prod.outlook.com>
+To: Dan Williams <dan.j.williams@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: drivers/base/firmware_loader/sysfs_upload.c:323:34: error:
+ 'module' undeclared
+Message-ID: <202604032040.oOSP453w-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <JH0PR06MB66325344CF84BBC38B2973C38950A@JH0PR06MB6632.apcprd06.prod.outlook.com>
 
-Hi tejas,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on brauner-vfs/vfs.all]
-[also build test ERROR on linus/master v6.16-rc1]
-[cannot apply to next-20260403]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/tejas-bharambe/ocfs2-fix-use-after-free-in-ocfs2_fault-when-VM_FAULT_RETRY/20260403-161805
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/JH0PR06MB66325344CF84BBC38B2973C38950A%40JH0PR06MB6632.apcprd06.prod.outlook.com
-patch subject: [PATCH v2] ocfs2: fix use-after-free in ocfs2_fault() when VM_FAULT_RETRY
-config: x86_64-rhel-9.4-func (https://download.01.org/0day-ci/archive/20260403/202604031948.fsuptUtV-lkp@intel.com/config)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Dan-Williams/firmware_loader-Stop-pinning-modules-on-registration/20260403-143216
+head:   9b07805c9d3f6515aec772a189030855e0e03fcb
+commit: 9b07805c9d3f6515aec772a189030855e0e03fcb treewide: firmware_loader: Drop the unused @module argument
+date:   12 hours ago
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260403/202604032040.oOSP453w-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260403/202604031948.fsuptUtV-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260403/202604032040.oOSP453w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604031948.fsuptUtV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604032040.oOSP453w-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/ocfs2/mmap.c: In function 'ocfs2_fault':
->> fs/ocfs2/mmap.c:41:35: error: 'inode' undeclared (first use in this function)
-      41 |         trace_ocfs2_fault(OCFS2_I(inode)->ip_blkno,
-         |                                   ^~~~~
-   fs/ocfs2/mmap.c:41:35: note: each undeclared identifier is reported only once for each function it appears in
->> fs/ocfs2/mmap.c:33:32: warning: unused variable 'vma' [-Wunused-variable]
-      33 |         struct vm_area_struct *vma = vmf->vma;
-         |                                ^~~
+   drivers/base/firmware_loader/sysfs_upload.c: In function 'fw_upload_start':
+   drivers/base/firmware_loader/sysfs_upload.c:229:24: warning: unused variable 'fw_dev' [-Wunused-variable]
+     229 |         struct device *fw_dev = &fw_sysfs->dev;
+         |                        ^~~~~~
+   drivers/base/firmware_loader/sysfs_upload.c: In function 'firmware_upload_register':
+>> drivers/base/firmware_loader/sysfs_upload.c:323:34: error: 'module' undeclared (first use in this function)
+     323 |         fw_upload_priv->module = module;
+         |                                  ^~~~~~
+   drivers/base/firmware_loader/sysfs_upload.c:323:34: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/inode +41 fs/ocfs2/mmap.c
+vim +/module +323 drivers/base/firmware_loader/sysfs_upload.c
 
-    29	
-    30	
-    31	static vm_fault_t ocfs2_fault(struct vm_fault *vmf)
-    32	{
-  > 33		struct vm_area_struct *vma = vmf->vma;
-    34		sigset_t oldset;
-    35		vm_fault_t ret;
-    36	
-    37		ocfs2_block_signals(&oldset);
-    38		ret = filemap_fault(vmf);
-    39		ocfs2_unblock_signals(&oldset);
-    40	
-  > 41		trace_ocfs2_fault(OCFS2_I(inode)->ip_blkno,
-    42				  vmf->page, vmf->pgoff);
-    43		return ret;
-    44	}
-    45	
+789bba82f63c3e Russ Weight    2022-08-30  274  
+97730bbb242cde Russ Weight    2022-04-21  275  /**
+97730bbb242cde Russ Weight    2022-04-21  276   * firmware_upload_register() - register for the firmware upload sysfs API
+97730bbb242cde Russ Weight    2022-04-21  277   * @parent: parent device instantiating firmware upload
+97730bbb242cde Russ Weight    2022-04-21  278   * @name: firmware name to be associated with this device
+97730bbb242cde Russ Weight    2022-04-21  279   * @ops: pointer to structure of firmware upload ops
+97730bbb242cde Russ Weight    2022-04-21  280   * @dd_handle: pointer to parent driver private data
+97730bbb242cde Russ Weight    2022-04-21  281   *
+97730bbb242cde Russ Weight    2022-04-21  282   *	@name must be unique among all users of firmware upload. The firmware
+97730bbb242cde Russ Weight    2022-04-21  283   *	sysfs files for this device will be found at /sys/class/firmware/@name.
+97730bbb242cde Russ Weight    2022-04-21  284   *
+97730bbb242cde Russ Weight    2022-04-21  285   *	Return: struct fw_upload pointer or ERR_PTR()
+97730bbb242cde Russ Weight    2022-04-21  286   *
+97730bbb242cde Russ Weight    2022-04-21  287   **/
+9b07805c9d3f65 Dan Williams   2026-03-31  288  struct fw_upload *firmware_upload_register(struct device *parent,
+9b07805c9d3f65 Dan Williams   2026-03-31  289  					   const char *name,
+9b07805c9d3f65 Dan Williams   2026-03-31  290  					   const struct fw_upload_ops *ops,
+97730bbb242cde Russ Weight    2022-04-21  291  					   void *dd_handle)
+97730bbb242cde Russ Weight    2022-04-21  292  {
+97730bbb242cde Russ Weight    2022-04-21  293  	u32 opt_flags = FW_OPT_NOCACHE;
+97730bbb242cde Russ Weight    2022-04-21  294  	struct fw_upload *fw_upload;
+97730bbb242cde Russ Weight    2022-04-21  295  	struct fw_upload_priv *fw_upload_priv;
+97730bbb242cde Russ Weight    2022-04-21  296  	struct fw_sysfs *fw_sysfs;
+97730bbb242cde Russ Weight    2022-04-21  297  	struct fw_priv *fw_priv;
+97730bbb242cde Russ Weight    2022-04-21  298  	struct device *fw_dev;
+97730bbb242cde Russ Weight    2022-04-21  299  	int ret;
+97730bbb242cde Russ Weight    2022-04-21  300  
+97730bbb242cde Russ Weight    2022-04-21  301  	if (!name || name[0] == '\0')
+97730bbb242cde Russ Weight    2022-04-21  302  		return ERR_PTR(-EINVAL);
+97730bbb242cde Russ Weight    2022-04-21  303  
+97730bbb242cde Russ Weight    2022-04-21  304  	if (!ops || !ops->cancel || !ops->prepare ||
+97730bbb242cde Russ Weight    2022-04-21  305  	    !ops->write || !ops->poll_complete) {
+97730bbb242cde Russ Weight    2022-04-21  306  		dev_err(parent, "Attempt to register without all required ops\n");
+97730bbb242cde Russ Weight    2022-04-21  307  		return ERR_PTR(-EINVAL);
+97730bbb242cde Russ Weight    2022-04-21  308  	}
+97730bbb242cde Russ Weight    2022-04-21  309  
+bf4afc53b77aea Linus Torvalds 2026-02-21  310  	fw_upload = kzalloc_obj(*fw_upload);
+2d47c24353d3fb Dan Williams   2026-03-31  311  	if (!fw_upload)
+2d47c24353d3fb Dan Williams   2026-03-31  312  		return ERR_PTR(-ENOMEM);
+97730bbb242cde Russ Weight    2022-04-21  313  
+bf4afc53b77aea Linus Torvalds 2026-02-21  314  	fw_upload_priv = kzalloc_obj(*fw_upload_priv);
+97730bbb242cde Russ Weight    2022-04-21  315  	if (!fw_upload_priv) {
+97730bbb242cde Russ Weight    2022-04-21  316  		ret = -ENOMEM;
+97730bbb242cde Russ Weight    2022-04-21  317  		goto free_fw_upload;
+97730bbb242cde Russ Weight    2022-04-21  318  	}
+97730bbb242cde Russ Weight    2022-04-21  319  
+97730bbb242cde Russ Weight    2022-04-21  320  	fw_upload_priv->fw_upload = fw_upload;
+97730bbb242cde Russ Weight    2022-04-21  321  	fw_upload_priv->ops = ops;
+97730bbb242cde Russ Weight    2022-04-21  322  	mutex_init(&fw_upload_priv->lock);
+97730bbb242cde Russ Weight    2022-04-21 @323  	fw_upload_priv->module = module;
+97730bbb242cde Russ Weight    2022-04-21  324  	fw_upload_priv->name = name;
+97730bbb242cde Russ Weight    2022-04-21  325  	fw_upload_priv->err_code = 0;
+97730bbb242cde Russ Weight    2022-04-21  326  	fw_upload_priv->progress = FW_UPLOAD_PROG_IDLE;
+97730bbb242cde Russ Weight    2022-04-21  327  	INIT_WORK(&fw_upload_priv->work, fw_upload_main);
+97730bbb242cde Russ Weight    2022-04-21  328  	fw_upload->dd_handle = dd_handle;
+97730bbb242cde Russ Weight    2022-04-21  329  
+97730bbb242cde Russ Weight    2022-04-21  330  	fw_sysfs = fw_create_instance(NULL, name, parent, opt_flags);
+97730bbb242cde Russ Weight    2022-04-21  331  	if (IS_ERR(fw_sysfs)) {
+97730bbb242cde Russ Weight    2022-04-21  332  		ret = PTR_ERR(fw_sysfs);
+97730bbb242cde Russ Weight    2022-04-21  333  		goto free_fw_upload_priv;
+97730bbb242cde Russ Weight    2022-04-21  334  	}
+97730bbb242cde Russ Weight    2022-04-21  335  	fw_upload->priv = fw_sysfs;
+97730bbb242cde Russ Weight    2022-04-21  336  	fw_sysfs->fw_upload_priv = fw_upload_priv;
+97730bbb242cde Russ Weight    2022-04-21  337  	fw_dev = &fw_sysfs->dev;
+97730bbb242cde Russ Weight    2022-04-21  338  
+97730bbb242cde Russ Weight    2022-04-21  339  	ret = alloc_lookup_fw_priv(name, &fw_cache, &fw_priv,  NULL, 0, 0,
+97730bbb242cde Russ Weight    2022-04-21  340  				   FW_OPT_NOCACHE);
+97730bbb242cde Russ Weight    2022-04-21  341  	if (ret != 0) {
+97730bbb242cde Russ Weight    2022-04-21  342  		if (ret > 0)
+97730bbb242cde Russ Weight    2022-04-21  343  			ret = -EINVAL;
+97730bbb242cde Russ Weight    2022-04-21  344  		goto free_fw_sysfs;
+97730bbb242cde Russ Weight    2022-04-21  345  	}
+97730bbb242cde Russ Weight    2022-04-21  346  	fw_priv->is_paged_buf = true;
+97730bbb242cde Russ Weight    2022-04-21  347  	fw_sysfs->fw_priv = fw_priv;
+97730bbb242cde Russ Weight    2022-04-21  348  
+97730bbb242cde Russ Weight    2022-04-21  349  	ret = device_add(fw_dev);
+97730bbb242cde Russ Weight    2022-04-21  350  	if (ret) {
+97730bbb242cde Russ Weight    2022-04-21  351  		dev_err(fw_dev, "%s: device_register failed\n", __func__);
+97730bbb242cde Russ Weight    2022-04-21  352  		put_device(fw_dev);
+2d47c24353d3fb Dan Williams   2026-03-31  353  		return ERR_PTR(ret);
+97730bbb242cde Russ Weight    2022-04-21  354  	}
+97730bbb242cde Russ Weight    2022-04-21  355  
+97730bbb242cde Russ Weight    2022-04-21  356  	return fw_upload;
+97730bbb242cde Russ Weight    2022-04-21  357  
+97730bbb242cde Russ Weight    2022-04-21  358  free_fw_sysfs:
+97730bbb242cde Russ Weight    2022-04-21  359  	kfree(fw_sysfs);
+97730bbb242cde Russ Weight    2022-04-21  360  
+97730bbb242cde Russ Weight    2022-04-21  361  free_fw_upload_priv:
+97730bbb242cde Russ Weight    2022-04-21  362  	kfree(fw_upload_priv);
+97730bbb242cde Russ Weight    2022-04-21  363  
+97730bbb242cde Russ Weight    2022-04-21  364  free_fw_upload:
+97730bbb242cde Russ Weight    2022-04-21  365  	kfree(fw_upload);
+97730bbb242cde Russ Weight    2022-04-21  366  
+97730bbb242cde Russ Weight    2022-04-21  367  	return ERR_PTR(ret);
+97730bbb242cde Russ Weight    2022-04-21  368  }
+97730bbb242cde Russ Weight    2022-04-21  369  EXPORT_SYMBOL_GPL(firmware_upload_register);
+97730bbb242cde Russ Weight    2022-04-21  370  
 
 -- 
 0-DAY CI Kernel Test Service
