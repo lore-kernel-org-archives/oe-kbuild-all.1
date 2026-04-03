@@ -1,121 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 519A437CD4F
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Apr 2026 08:40:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 405662D0C9C;
+	Fri,  3 Apr 2026 08:40:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775205601; cv=none; b=s3RYfwOcmO2I1qnan291d46b9afbjFNoPJOS2kbeKSgQjDbsoXSCgyMDuEMwFpZ7XGuf7dJtyxylrdHkxoA4VigS85b23WeNVKYRasQrLc0zAxOEt9so+YQgfwIrNhOa3g6b7pzjG6FYpP34NdNuVeP4tQ8EsQFU8TBvfSi8+v0=
+	t=1775205602; cv=none; b=NO01YBXGk0vV3V1AeMRtS8QKMGUUGlvknZzNcteyANc7HdNgYd+6yooRHWW/sjK3ZN09PHHgMJkFFM3bwJ/o3/StZ4z3S9SUfsfrKxLHJ92vdcWWw2MH9GlTLz0VRTaUV8MW0URB1e9EvveEYn47/nI8ZPNd5ZwEHW+VgWpLibE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775205601; c=relaxed/simple;
-	bh=2lfx4e6+n9pW7Mz9M5oDU8by7im2gA8mAZ/ralHPmjM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=S4FXSY1xWzgMG4XnxIzNXWtdPF+/TfPyfFf/TZceWAr8XNVB+LH0ZvBnE+hSbPRtoZt8PIhb+4kwtZoUg4l+cDfIXXZGEGLusbp5MqqgXwCI8GHS1LqxfJckBVGe1PcJNH3ET4xsJSvbFIStOU/+3e+x9dDrCQvu6MvRnSBfXUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IQfBxJRw; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1775205602; c=relaxed/simple;
+	bh=W6AAC1cFGrVaftZaq2zuawySYDraS9aSNOJr+kIsTgY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ocwl9JOEmOjFO3yx/Z8QW18u1vTIyoBO0adOMPv0pD/nGlKJ27+nS1WIXgJ0WV1klaif0cgueof/FMtbn9aDJDxe2We6MRbu9xzq5TfnSfcF7fk5ovbT3Did4FUPQDWoEK4SA8k6WWx8gZbaasqWXJ1WYbfR8oy8qCW9biuD43o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zi3AlIWD; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IQfBxJRw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zi3AlIWD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775205601; x=1806741601;
-  h=date:from:to:cc:subject:message-id;
-  bh=2lfx4e6+n9pW7Mz9M5oDU8by7im2gA8mAZ/ralHPmjM=;
-  b=IQfBxJRwDNYZKXwRm+G9wTTzchmGZIr2PrL+UTAa6xyL3wSwLzPzwLN9
-   CT1EWnDu5aw2h0s9rXj5SqMmw/68V02vIcu6TCfLIRBGINESxtUCuGll9
-   H9dThaevZ7GKj6K3NTwoiCk445PS6nTz3OlHVnVvXQYZs2iSqeMzzQ0i8
-   c+Tr0w8FklUPUrPjJZdJKNOctOCKXgdwFH/hNcSv47K9ehVybCUkuT19o
-   YUY9zUX1xrXVho6uBJ0HWkWj1elPpObpxmAmJJliGgjTJZHNheoP3QOma
-   reSC+47/hF/zKMVoQ3j/cNinHFodZzCrok277PoFPqdOd2IW0L++XdWK1
-   w==;
-X-CSE-ConnectionGUID: Ljk1jzmdS8iwh0frWHkf/Q==
-X-CSE-MsgGUID: HKWBraB8SBS/K49te13l2w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="76156543"
+  t=1775205602; x=1806741602;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=W6AAC1cFGrVaftZaq2zuawySYDraS9aSNOJr+kIsTgY=;
+  b=Zi3AlIWD3wOa/pECFl5CD9u6WFEDc6GewF2BCTBw1MyxpX62n99zr1A7
+   lTNroSTdDFzQHLD4cF4xBd2lCgNbtNBsWswu41JUebNesxvxCIB0wm8/w
+   W7dV2qLY+gsBwSnFM8R6aDWVux8VbpX2kubLZid6B6UEWBTz+R/CK9o2M
+   pVRQQ0vHWw9SqffZP68xAmqetI+bg6XsOeQ1eSxVcLLV/w1ACUHiqkaA3
+   wXS20+wfBuOe6sIUIu1blpYXLHF5CGXiTUnPIAZ9K6A8Ka8sEdXDOHer+
+   ZDolNF4C1KaR4nkSODDEg29Wxzh21Av8d08ovit/bfMvcjDhZ8NlR19Du
+   g==;
+X-CSE-ConnectionGUID: FnVBTTA9QhCi3Lb8iFXBuA==
+X-CSE-MsgGUID: CRgyDY94TuqvZ/PCTS+WIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="76153056"
 X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
-   d="scan'208";a="76156543"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 01:39:59 -0700
-X-CSE-ConnectionGUID: 7xSVQ1xKTsOCzSHaJ2dbOg==
-X-CSE-MsgGUID: behxHEQZR9O+1fa6ey6Ogw==
+   d="scan'208";a="76153056"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 01:39:59 -0700
+X-CSE-ConnectionGUID: O1ijKYzWRyyhp/jUp/q4aw==
+X-CSE-MsgGUID: AmcFNb/UTg+SshydyO7axw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
-   d="scan'208";a="220570289"
+   d="scan'208";a="257678123"
 Received: from lkp-server01.sh.intel.com (HELO 064ad336901d) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 03 Apr 2026 01:39:56 -0700
+  by orviesa002.jf.intel.com with ESMTP; 03 Apr 2026 01:39:56 -0700
 Received: from kbuild by 064ad336901d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w8a4H-0000000011f-45mY;
+	id 1w8a4H-0000000011X-3GiD;
 	Fri, 03 Apr 2026 08:39:53 +0000
-Date: Fri, 03 Apr 2026 16:39:10 +0800
+Date: Fri, 3 Apr 2026 16:39:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bvanassche:thread-safety 66/96]
- drivers/gpu/drm/ttm/tests/ttm_bo_test.c:226:2: warning: ignoring return value
- of function declared with 'warn_unused_result' attribute
-Message-ID: <202604021008.pZUVrNWi-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: =?utf-8?Q?Micha=C5=82?= Grzelak <michal.grzelak@intel.com>,
+	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	=?utf-8?Q?Micha=C5=82?= Grzelak <michal.grzelak@intel.com>
+Subject: Re: [PATCH v1 08/16] drm/i915/bios: support VS/PE Override per each
+ ddi port
+Message-ID: <202604021026.aZi3LxDW-lkp@intel.com>
+References: <20260331183332.1773886-9-michal.grzelak@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260331183332.1773886-9-michal.grzelak@intel.com>
 
-tree:   https://github.com/bvanassche/linux thread-safety
-head:   c1607d2e734438927b2e2174f2af3912dbdb7e8b
-commit: 353c89dd0d5bd9032fa724ebb838e742a076223f [66/96] dma-resv: Make checking the dma_resv_lock() return value mandatory
-config: hexagon-randconfig-r133-20260402 (https://download.01.org/0day-ci/archive/20260402/202604021008.pZUVrNWi-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260402/202604021008.pZUVrNWi-lkp@intel.com/reproduce)
+Hi Michał,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-i915/for-linux-next]
+[also build test ERROR on drm-i915/for-linux-next-fixes drm-tip/drm-tip linus/master v7.0-rc6 next-20260331]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Micha-Grzelak/drm-i915-lt-align-xe3plpd-with-VS-PE-Override-layout/20260401-092928
+base:   https://gitlab.freedesktop.org/drm/i915/kernel.git for-linux-next
+patch link:    https://lore.kernel.org/r/20260331183332.1773886-9-michal.grzelak%40intel.com
+patch subject: [PATCH v1 08/16] drm/i915/bios: support VS/PE Override per each ddi port
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20260402/202604021026.aZi3LxDW-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260402/202604021026.aZi3LxDW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604021008.pZUVrNWi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604021026.aZi3LxDW-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/ttm/tests/ttm_bo_test.c:226:2: warning: ignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]
-           dma_resv_lock(bo->base.resv, NULL);
-           ^~~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+>> drivers/gpu/drm/i915/display/intel_bios.c:2767:34: error: cast to union type from type 'int' not present in union
+    2767 |         devdata->vswing_preemph.index = (union ddi_vswing_preemph_index) -1;
+         |                                         ^                                ~~
+   drivers/gpu/drm/i915/display/intel_bios.c:3178:4: error: cast to union type from type 'int' not present in union
+    3178 |                         (union ddi_vswing_preemph_index) -1;
+         |                         ^                                ~~
+   2 errors generated.
 
 
-vim +/warn_unused_result +226 drivers/gpu/drm/ttm/tests/ttm_bo_test.c
+vim +/int +2767 drivers/gpu/drm/i915/display/intel_bios.c
 
-995279d280d1ef Karolina Stolarek 2023-11-29  211  
-995279d280d1ef Karolina Stolarek 2023-11-29  212  static void ttm_bo_reserve_interrupted(struct kunit *test)
-995279d280d1ef Karolina Stolarek 2023-11-29  213  {
-995279d280d1ef Karolina Stolarek 2023-11-29  214  	struct ttm_buffer_object *bo;
-995279d280d1ef Karolina Stolarek 2023-11-29  215  	struct task_struct *task;
-995279d280d1ef Karolina Stolarek 2023-11-29  216  	int err;
-995279d280d1ef Karolina Stolarek 2023-11-29  217  
-588c4c8d58c413 Karolina Stolarek 2024-06-12  218  	bo = ttm_bo_kunit_init(test, test->priv, BO_SIZE, NULL);
-995279d280d1ef Karolina Stolarek 2023-11-29  219  
-995279d280d1ef Karolina Stolarek 2023-11-29  220  	task = kthread_create(threaded_ttm_bo_reserve, bo, "ttm-bo-reserve");
-995279d280d1ef Karolina Stolarek 2023-11-29  221  
-995279d280d1ef Karolina Stolarek 2023-11-29  222  	if (IS_ERR(task))
-995279d280d1ef Karolina Stolarek 2023-11-29  223  		KUNIT_FAIL(test, "Couldn't create ttm bo reserve task\n");
-995279d280d1ef Karolina Stolarek 2023-11-29  224  
-995279d280d1ef Karolina Stolarek 2023-11-29  225  	/* Take a lock so the threaded reserve has to wait */
-a58d487fb1a525 Maarten Lankhorst 2026-03-04 @226  	dma_resv_lock(bo->base.resv, NULL);
-995279d280d1ef Karolina Stolarek 2023-11-29  227  
-995279d280d1ef Karolina Stolarek 2023-11-29  228  	wake_up_process(task);
-995279d280d1ef Karolina Stolarek 2023-11-29  229  	msleep(20);
-995279d280d1ef Karolina Stolarek 2023-11-29  230  	err = kthread_stop(task);
-995279d280d1ef Karolina Stolarek 2023-11-29  231  
-a58d487fb1a525 Maarten Lankhorst 2026-03-04  232  	dma_resv_unlock(bo->base.resv);
-995279d280d1ef Karolina Stolarek 2023-11-29  233  
-995279d280d1ef Karolina Stolarek 2023-11-29  234  	KUNIT_ASSERT_EQ(test, err, -ERESTARTSYS);
-995279d280d1ef Karolina Stolarek 2023-11-29  235  }
-995279d280d1ef Karolina Stolarek 2023-11-29  236  #endif /* IS_BUILTIN(CONFIG_DRM_TTM_KUNIT_TEST) */
-995279d280d1ef Karolina Stolarek 2023-11-29  237  
-
-:::::: The code at line 226 was first introduced by commit
-:::::: a58d487fb1a52579d3c37544ea371da78ed70c45 drm/ttm/tests: Fix build failure on PREEMPT_RT
-
-:::::: TO: Maarten Lankhorst <dev@lankhorst.se>
-:::::: CC: Maarten Lankhorst <dev@lankhorst.se>
+  2761	
+  2762	static void override_vswing_preemph(struct intel_bios_encoder_data *devdata)
+  2763	{
+  2764		struct intel_ddi_buf_trans *buf_trans;
+  2765	
+  2766		devdata->vswing_preemph.buf_trans = NULL;
+> 2767		devdata->vswing_preemph.index = (union ddi_vswing_preemph_index) -1;
+  2768	
+  2769		if (!intel_bios_encoder_overrides_vswing(devdata))
+  2770			return;
+  2771	
+  2772		buf_trans = kzalloc(sizeof(*buf_trans), GFP_KERNEL);
+  2773		devdata->vswing_preemph.buf_trans = buf_trans;
+  2774	}
+  2775	
 
 -- 
 0-DAY CI Kernel Test Service
