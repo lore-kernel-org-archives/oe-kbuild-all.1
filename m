@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E66ED43147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D518235A939
 	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Apr 2026 08:47:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775206025; cv=none; b=VOAvNbeSQN7Do9RRm5c6UazAzIoO6TjDW512TcFOBkYHQvEMk826bf3eLeETQUfBCEngF0KdH5mwZJQed0mOkXvAZQ+n/VKiXpKZjgLyC9YXAYwTSw9IsKOVQ6aPJv+vUu2zczxjruP98TOb51Ai6IL6QV/tQPbrErGbyPm6YgY=
+	t=1775206025; cv=none; b=A6DLF2ya+xh8bDpMqMSREaYN9VFTsiBj9YzcjrX0Il4yTtMXxskvXJtrC4RCTPbkF9mwevOjbN+kEvKDl1bFVEiXdCwUv60mni9016m1vAwbNKujj6kWVnWqzgJdrowidJLnLQ1NQ9BWeBDq29Gu+mVkaOj+p8XgoHF845a1NJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1775206025; c=relaxed/simple;
-	bh=1mtvITF7cyNtwAPivc4ckd4gsv5+3/+BWjXEo1kNCFE=;
-	h=Date:From:Cc:Subject:Message-ID; b=cAz6tP2AtmB1GOIfFEFFO3KVAWkeMO+gPiHD0FFRNu2Q5qA60C+SndbQbKi02BSnANzle2I1dWhewYjdrJg/fdQcTEHWKaYoJPQPe6qPhlb+LzzsccWSakJ0nqG6ri2Hk289q4LAbThkobQuTp4ArOqyMD1ME0cDvofxB2HV4Ow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jKH3owWe; arc=none smtp.client-ip=192.198.163.19
+	bh=4V267bHb56I2Aiwrkmx+UvFmAbEFIq1m8/RG29G+bjk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=MZW/JnufmXFBedT0np+9ZROMw6uVzLA5bIfvY/slJ9WGbKGVSQWCOHfoASoNJIcqXPV3wx+R+Vx1tlE9znuJVYLXT18/BT7V4qimhHgiA7jH1QEYn5ji4Zfld35HCeOMshZkurRlsJbWLIK/LWB8ASA59Zlf2DXrDkxC/NYMaZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YWCCQRUx; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jKH3owWe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YWCCQRUx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1775206024; x=1806742024;
-  h=date:from:cc:subject:message-id;
-  bh=1mtvITF7cyNtwAPivc4ckd4gsv5+3/+BWjXEo1kNCFE=;
-  b=jKH3owWeyH7gBZ48wpBm32YUXbI5cvOc2xHAcuLmuanwNW4BAZHGSgJu
-   qxkjRk/dQA6s+e6VZAmSKlQ8h1I4r9z9bRjR8KEA73YTjcNelbVVuBkjp
-   uOf2GMAlCGJlDT3GcCHNRh7YLQHPUXjcFzqqvlMEQrWlapl12QDl6RCRm
-   7M7rx/wODX8pE1pPq/fnArZxHlZSt84U00NZcHtdEnfK+v45ez8mYmPtG
-   aWmv7gBXiW05jmwWT71ECMha+80Oh/YLKoWeU+2dK5HzRuMQ1E5gp+EK4
-   KS6yMX8K36x7KN4VcCIIhRHa9XGT8jZ1RUcNEdF7f8H2IJy8ehP9m2DQW
+  h=date:from:to:cc:subject:message-id;
+  bh=4V267bHb56I2Aiwrkmx+UvFmAbEFIq1m8/RG29G+bjk=;
+  b=YWCCQRUxHsCNsFzTFf5vak33Knl4PudqI0rl9XuK8yAugi90Gi1YqDLj
+   oXXwR7Xqoxt0oPcpjGsKoiUvlWgp7ZLE0aO/2kkYMsyRxU4DiAVECVRbY
+   HWpU9o9wT279AM1aPnTgG6e6DgbR62ucpOHmElFoMbe7iQql7ag6XkfSS
+   VhfqgCVsGSGayp5o1YutUCC8/cKN86Bap8UkOfwPb5aQZo1OJ0tTboSYG
+   LCSSa5d2iAmfQTXk7MdtTDrlguAmeftAopb+U58d/C4bxcDHuJdKxGIDh
+   gVwqFZf01t67KFoE4Izk507e09FiB+cF7lX0KKfcpZFmA91CI4C0EQly+
    g==;
-X-CSE-ConnectionGUID: CtRkC4jiRiGmzQiekgZeBg==
-X-CSE-MsgGUID: c2SY+uscTzChpIDw7R6Y+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="75312101"
+X-CSE-ConnectionGUID: OI6LgyWXRQqYbRIps62odA==
+X-CSE-MsgGUID: lG5eupazTBeUm6RgIHLTOA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="86889135"
 X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
-   d="scan'208";a="75312101"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 01:47:01 -0700
-X-CSE-ConnectionGUID: k7o/L5vKTCGWxIiEnDeeTw==
-X-CSE-MsgGUID: fqkD0xOuQ8CiQGsr8HNEJg==
+   d="scan'208";a="86889135"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 01:47:01 -0700
+X-CSE-ConnectionGUID: M/ErpCFCS4SuHWTMl3nyDw==
+X-CSE-MsgGUID: r56BHiM9QCKCbFpSfboNXA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
-   d="scan'208";a="250287310"
+   d="scan'208";a="231605138"
 Received: from lkp-server01.sh.intel.com (HELO 064ad336901d) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 03 Apr 2026 01:46:59 -0700
+  by orviesa004.jf.intel.com with ESMTP; 03 Apr 2026 01:47:00 -0700
 Received: from kbuild by 064ad336901d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w8aB7-00000000174-0HDv;
-	Fri, 03 Apr 2026 08:46:57 +0000
-Date: Fri, 03 Apr 2026 16:46:18 +0800
+	id 1w8aB6-0000000016l-3N1J;
+	Fri, 03 Apr 2026 08:46:56 +0000
+Date: Fri, 03 Apr 2026 16:46:20 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Riana Tauro <riana.tauro@intel.com>
-Subject: drivers/gpu/drm/xe/xe_psmi.c:36:undefined reference to
- `xe_configfs_get_psmi_enabled'
-Message-ID: <202604031148.C5iucYd3-lkp@intel.com>
+To: "Jian Zhang via Openipmi-developer" <openipmi-developer@lists.sourceforge.net>
+Cc: oe-kbuild-all@lists.linux.dev, Corey Minyard <corey@minyard.net>
+Subject: [cminyard-ipmi:for-next 6/6]
+ drivers/char/ipmi/ssif_bmc.c:1064:43: error: 'struct ssif_bmc_ctx' has no
+ member named 'response_in_send'; did you mean 'response_timer'?
+Message-ID: <202604031228.UoNOKsz1-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,86 +60,205 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5619b098e2fbf3a23bf13d91897056a1fe238c6d
-commit: afe902848b417da81f60b3d15cbae40a67286dbf drm/xe/configfs: Allow to enable PSMI
-date:   7 months ago
-config: arc-randconfig-002-20260401 (https://download.01.org/0day-ci/archive/20260403/202604031148.C5iucYd3-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260403/202604031148.C5iucYd3-lkp@intel.com/reproduce)
+tree:   https://github.com/cminyard/linux-ipmi for-next
+head:   90478a78b71fffa35ecaca82d229036fcd9a4a58
+commit: 90478a78b71fffa35ecaca82d229036fcd9a4a58 [6/6] ipmi: ssif_bmc: add unit test for state machine
+config: x86_64-randconfig-071-20260403 (https://download.01.org/0day-ci/archive/20260403/202604031228.UoNOKsz1-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260403/202604031228.UoNOKsz1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: afe902848b41 ("drm/xe/configfs: Allow to enable PSMI")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604031148.C5iucYd3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604031228.UoNOKsz1-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arc-linux-ld: drivers/gpu/drm/xe/xe_module.o:(.rodata+0x8): undefined reference to `xe_configfs_init'
-   arc-linux-ld: drivers/gpu/drm/xe/xe_module.o:(.rodata+0x8): undefined reference to `xe_configfs_init'
-   arc-linux-ld: drivers/gpu/drm/xe/xe_module.o:(.rodata+0xc): undefined reference to `xe_configfs_exit'
-   arc-linux-ld: drivers/gpu/drm/xe/xe_module.o:(.rodata+0xc): undefined reference to `xe_configfs_exit'
-   arc-linux-ld: drivers/gpu/drm/xe/xe_guc.o: in function `xe_guc_init_post_hwconfig':
-   drivers/gpu/drm/xe/xe_guc.c:91:(.text+0xb0a): undefined reference to `xe_configfs_get_psmi_enabled'
-   arc-linux-ld: drivers/gpu/drm/xe/xe_guc.c:91:(.text+0xb0a): undefined reference to `xe_configfs_get_psmi_enabled'
-   arc-linux-ld: drivers/gpu/drm/xe/xe_hw_engine.o: in function `xe_hw_engines_init_early':
-   drivers/gpu/drm/xe/xe_hw_engine.c:812:(.text+0x97a): undefined reference to `xe_configfs_get_engines_allowed'
-   arc-linux-ld: drivers/gpu/drm/xe/xe_hw_engine.c:812:(.text+0x97a): undefined reference to `xe_configfs_get_engines_allowed'
-   arc-linux-ld: drivers/gpu/drm/xe/xe_psmi.o: in function `xe_psmi_debugfs_register':
->> drivers/gpu/drm/xe/xe_psmi.c:36:(.text+0x30e): undefined reference to `xe_configfs_get_psmi_enabled'
->> arc-linux-ld: drivers/gpu/drm/xe/xe_psmi.c:36:(.text+0x30e): undefined reference to `xe_configfs_get_psmi_enabled'
-   arc-linux-ld: drivers/gpu/drm/xe/xe_psmi.o: in function `xe_psmi_init':
-   drivers/gpu/drm/xe/xe_psmi.c:36:(.text+0x380): undefined reference to `xe_configfs_get_psmi_enabled'
-   arc-linux-ld: drivers/gpu/drm/xe/xe_psmi.c:36:(.text+0x380): undefined reference to `xe_configfs_get_psmi_enabled'
-   arc-linux-ld: drivers/gpu/drm/xe/xe_rtp.o: in function `xe_rtp_match_psmi_enabled':
->> drivers/gpu/drm/xe/xe_rtp.c:371:(.text+0x6fe): undefined reference to `xe_configfs_get_psmi_enabled'
-   arc-linux-ld: drivers/gpu/drm/xe/xe_rtp.o:drivers/gpu/drm/xe/xe_rtp.c:371: more undefined references to `xe_configfs_get_psmi_enabled' follow
-   arc-linux-ld: drivers/gpu/drm/xe/xe_survivability_mode.o: in function `xe_survivability_mode_fini':
-   drivers/gpu/drm/xe/xe_survivability_mode.c:150:(.text+0x14e): undefined reference to `xe_configfs_clear_survivability_mode'
-   arc-linux-ld: drivers/gpu/drm/xe/xe_survivability_mode.c:150:(.text+0x14e): undefined reference to `xe_configfs_clear_survivability_mode'
-   arc-linux-ld: drivers/gpu/drm/xe/xe_survivability_mode.o: in function `xe_survivability_mode_is_requested':
-   drivers/gpu/drm/xe/xe_survivability_mode.c:227:(.text+0x1b0): undefined reference to `xe_configfs_get_survivability_mode'
-   arc-linux-ld: drivers/gpu/drm/xe/xe_survivability_mode.c:227:(.text+0x1b0): undefined reference to `xe_configfs_get_survivability_mode'
-   arc-linux-ld: drivers/gpu/drm/xe/xe_survivability_mode.c:232:(.text+0x1ca): undefined reference to `xe_configfs_clear_survivability_mode'
-   arc-linux-ld: drivers/gpu/drm/xe/xe_survivability_mode.c:232:(.text+0x1ca): undefined reference to `xe_configfs_clear_survivability_mode'
+   drivers/char/ipmi/ssif_bmc.c: In function 'ssif_bmc_remove':
+   drivers/char/ipmi/ssif_bmc.c:865:9: error: implicit declaration of function 'del_timer_sync' [-Wimplicit-function-declaration]
+     865 |         del_timer_sync(&ssif_bmc->response_timer);
+         |         ^~~~~~~~~~~~~~
+   In file included from include/linux/cleanup.h:5,
+                    from include/linux/acpi.h:11,
+                    from include/linux/i2c.h:13,
+                    from drivers/char/ipmi/ssif_bmc.c:9:
+   drivers/char/ipmi/ssif_bmc.c: In function 'ssif_bmc_test_singlepart_read_response_completion':
+>> drivers/char/ipmi/ssif_bmc.c:1064:43: error: 'struct ssif_bmc_ctx' has no member named 'response_in_send'; did you mean 'response_timer'?
+    1064 |         KUNIT_EXPECT_TRUE(test, ssif_bmc->response_in_send);
+         |                                           ^~~~~~~~~~~~~~~~
+   include/linux/compiler.h:32:55: note: in definition of macro '__branch_check__'
+      32 |                         ______r = __builtin_expect(!!(x), expect);      \
+         |                                                       ^
+   include/kunit/test.h:786:13: note: in expansion of macro 'likely'
+     786 |         if (likely(!!(condition_) == !!expected_true_))                        \
+         |             ^~~~~~
+   include/kunit/test.h:800:9: note: in expansion of macro 'KUNIT_UNARY_ASSERTION'
+     800 |         KUNIT_UNARY_ASSERTION(test,                                            \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:996:9: note: in expansion of macro 'KUNIT_TRUE_MSG_ASSERTION'
+     996 |         KUNIT_TRUE_MSG_ASSERTION(test,                                         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:993:9: note: in expansion of macro 'KUNIT_EXPECT_TRUE_MSG'
+     993 |         KUNIT_EXPECT_TRUE_MSG(test, condition, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ssif_bmc.c:1064:9: note: in expansion of macro 'KUNIT_EXPECT_TRUE'
+    1064 |         KUNIT_EXPECT_TRUE(test, ssif_bmc->response_in_send);
+         |         ^~~~~~~~~~~~~~~~~
+>> drivers/char/ipmi/ssif_bmc.c:1064:43: error: 'struct ssif_bmc_ctx' has no member named 'response_in_send'; did you mean 'response_timer'?
+    1064 |         KUNIT_EXPECT_TRUE(test, ssif_bmc->response_in_send);
+         |                                           ^~~~~~~~~~~~~~~~
+   include/linux/compiler.h:34:54: note: in definition of macro '__branch_check__'
+      34 |                                              expect, is_constant);      \
+         |                                                      ^~~~~~~~~~~
+   include/kunit/test.h:786:13: note: in expansion of macro 'likely'
+     786 |         if (likely(!!(condition_) == !!expected_true_))                        \
+         |             ^~~~~~
+   include/kunit/test.h:800:9: note: in expansion of macro 'KUNIT_UNARY_ASSERTION'
+     800 |         KUNIT_UNARY_ASSERTION(test,                                            \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:996:9: note: in expansion of macro 'KUNIT_TRUE_MSG_ASSERTION'
+     996 |         KUNIT_TRUE_MSG_ASSERTION(test,                                         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:993:9: note: in expansion of macro 'KUNIT_EXPECT_TRUE_MSG'
+     993 |         KUNIT_EXPECT_TRUE_MSG(test, condition, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ssif_bmc.c:1064:9: note: in expansion of macro 'KUNIT_EXPECT_TRUE'
+    1064 |         KUNIT_EXPECT_TRUE(test, ssif_bmc->response_in_send);
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ssif_bmc.c:1088:44: error: 'struct ssif_bmc_ctx' has no member named 'response_in_send'; did you mean 'response_timer'?
+    1088 |         KUNIT_EXPECT_FALSE(test, ssif_bmc->response_in_send);
+         |                                            ^~~~~~~~~~~~~~~~
+   include/linux/compiler.h:32:55: note: in definition of macro '__branch_check__'
+      32 |                         ______r = __builtin_expect(!!(x), expect);      \
+         |                                                       ^
+   include/kunit/test.h:786:13: note: in expansion of macro 'likely'
+     786 |         if (likely(!!(condition_) == !!expected_true_))                        \
+         |             ^~~~~~
+   include/kunit/test.h:808:9: note: in expansion of macro 'KUNIT_UNARY_ASSERTION'
+     808 |         KUNIT_UNARY_ASSERTION(test,                                            \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1015:9: note: in expansion of macro 'KUNIT_FALSE_MSG_ASSERTION'
+    1015 |         KUNIT_FALSE_MSG_ASSERTION(test,                                        \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1012:9: note: in expansion of macro 'KUNIT_EXPECT_FALSE_MSG'
+    1012 |         KUNIT_EXPECT_FALSE_MSG(test, condition, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ssif_bmc.c:1088:9: note: in expansion of macro 'KUNIT_EXPECT_FALSE'
+    1088 |         KUNIT_EXPECT_FALSE(test, ssif_bmc->response_in_send);
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ssif_bmc.c:1088:44: error: 'struct ssif_bmc_ctx' has no member named 'response_in_send'; did you mean 'response_timer'?
+    1088 |         KUNIT_EXPECT_FALSE(test, ssif_bmc->response_in_send);
+         |                                            ^~~~~~~~~~~~~~~~
+   include/linux/compiler.h:34:54: note: in definition of macro '__branch_check__'
+      34 |                                              expect, is_constant);      \
+         |                                                      ^~~~~~~~~~~
+   include/kunit/test.h:786:13: note: in expansion of macro 'likely'
+     786 |         if (likely(!!(condition_) == !!expected_true_))                        \
+         |             ^~~~~~
+   include/kunit/test.h:808:9: note: in expansion of macro 'KUNIT_UNARY_ASSERTION'
+     808 |         KUNIT_UNARY_ASSERTION(test,                                            \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1015:9: note: in expansion of macro 'KUNIT_FALSE_MSG_ASSERTION'
+    1015 |         KUNIT_FALSE_MSG_ASSERTION(test,                                        \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1012:9: note: in expansion of macro 'KUNIT_EXPECT_FALSE_MSG'
+    1012 |         KUNIT_EXPECT_FALSE_MSG(test, condition, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ssif_bmc.c:1088:9: note: in expansion of macro 'KUNIT_EXPECT_FALSE'
+    1088 |         KUNIT_EXPECT_FALSE(test, ssif_bmc->response_in_send);
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ssif_bmc.c: In function 'ssif_bmc_test_write_interrupts_response_send':
+   drivers/char/ipmi/ssif_bmc.c:1191:43: error: 'struct ssif_bmc_ctx' has no member named 'response_in_send'; did you mean 'response_timer'?
+    1191 |         KUNIT_EXPECT_TRUE(test, ssif_bmc->response_in_send);
+         |                                           ^~~~~~~~~~~~~~~~
+   include/linux/compiler.h:32:55: note: in definition of macro '__branch_check__'
+      32 |                         ______r = __builtin_expect(!!(x), expect);      \
+         |                                                       ^
+   include/kunit/test.h:786:13: note: in expansion of macro 'likely'
+     786 |         if (likely(!!(condition_) == !!expected_true_))                        \
+         |             ^~~~~~
+   include/kunit/test.h:800:9: note: in expansion of macro 'KUNIT_UNARY_ASSERTION'
+     800 |         KUNIT_UNARY_ASSERTION(test,                                            \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:996:9: note: in expansion of macro 'KUNIT_TRUE_MSG_ASSERTION'
+     996 |         KUNIT_TRUE_MSG_ASSERTION(test,                                         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:993:9: note: in expansion of macro 'KUNIT_EXPECT_TRUE_MSG'
+     993 |         KUNIT_EXPECT_TRUE_MSG(test, condition, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ssif_bmc.c:1191:9: note: in expansion of macro 'KUNIT_EXPECT_TRUE'
+    1191 |         KUNIT_EXPECT_TRUE(test, ssif_bmc->response_in_send);
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ssif_bmc.c:1191:43: error: 'struct ssif_bmc_ctx' has no member named 'response_in_send'; did you mean 'response_timer'?
+    1191 |         KUNIT_EXPECT_TRUE(test, ssif_bmc->response_in_send);
+         |                                           ^~~~~~~~~~~~~~~~
+   include/linux/compiler.h:34:54: note: in definition of macro '__branch_check__'
+      34 |                                              expect, is_constant);      \
+         |                                                      ^~~~~~~~~~~
+   include/kunit/test.h:786:13: note: in expansion of macro 'likely'
+     786 |         if (likely(!!(condition_) == !!expected_true_))                        \
+         |             ^~~~~~
+   include/kunit/test.h:800:9: note: in expansion of macro 'KUNIT_UNARY_ASSERTION'
+     800 |         KUNIT_UNARY_ASSERTION(test,                                            \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:996:9: note: in expansion of macro 'KUNIT_TRUE_MSG_ASSERTION'
+     996 |         KUNIT_TRUE_MSG_ASSERTION(test,                                         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:993:9: note: in expansion of macro 'KUNIT_EXPECT_TRUE_MSG'
 
 
-vim +36 drivers/gpu/drm/xe/xe_psmi.c
+vim +1064 drivers/char/ipmi/ssif_bmc.c
 
-aaa0c1f50a3d3f Lucas De Marchi 2025-08-21  12  
-aaa0c1f50a3d3f Lucas De Marchi 2025-08-21  13  /*
-aaa0c1f50a3d3f Lucas De Marchi 2025-08-21  14   * PSMI capture support
-aaa0c1f50a3d3f Lucas De Marchi 2025-08-21  15   *
-aaa0c1f50a3d3f Lucas De Marchi 2025-08-21  16   * Requirement for PSMI capture is to have a physically contiguous buffer.  The
-aaa0c1f50a3d3f Lucas De Marchi 2025-08-21  17   * PSMI tool owns doing all necessary configuration (MMIO register writes are
-aaa0c1f50a3d3f Lucas De Marchi 2025-08-21  18   * done from user-space). However, KMD needs to provide the PSMI tool with the
-aaa0c1f50a3d3f Lucas De Marchi 2025-08-21  19   * required physical address of the base of PSMI buffer in case of VRAM.
-aaa0c1f50a3d3f Lucas De Marchi 2025-08-21  20   *
-aaa0c1f50a3d3f Lucas De Marchi 2025-08-21  21   * VRAM backed PSMI buffer:
-aaa0c1f50a3d3f Lucas De Marchi 2025-08-21  22   * Buffer is allocated as GEM object and with XE_BO_CREATE_PINNED_BIT flag which
-aaa0c1f50a3d3f Lucas De Marchi 2025-08-21  23   * creates a contiguous allocation. The physical address is returned from
-aaa0c1f50a3d3f Lucas De Marchi 2025-08-21  24   * psmi_debugfs_capture_addr_show(). PSMI tool can mmap the buffer via the
-aaa0c1f50a3d3f Lucas De Marchi 2025-08-21  25   * PCIBAR through sysfs.
-aaa0c1f50a3d3f Lucas De Marchi 2025-08-21  26   *
-aaa0c1f50a3d3f Lucas De Marchi 2025-08-21  27   * SYSTEM memory backed PSMI buffer:
-aaa0c1f50a3d3f Lucas De Marchi 2025-08-21  28   * Interface here does not support allocating from SYSTEM memory region.  The
-aaa0c1f50a3d3f Lucas De Marchi 2025-08-21  29   * PSMI tool needs to allocate memory themselves using hugetlbfs. In order to
-aaa0c1f50a3d3f Lucas De Marchi 2025-08-21  30   * get the physical address, user-space can query /proc/[pid]/pagemap. As an
-aaa0c1f50a3d3f Lucas De Marchi 2025-08-21  31   * alternative, CMA debugfs could also be used to allocate reserved CMA memory.
-aaa0c1f50a3d3f Lucas De Marchi 2025-08-21  32   */
-aaa0c1f50a3d3f Lucas De Marchi 2025-08-21  33  
-aaa0c1f50a3d3f Lucas De Marchi 2025-08-21  34  static bool psmi_enabled(struct xe_device *xe)
-aaa0c1f50a3d3f Lucas De Marchi 2025-08-21  35  {
-aaa0c1f50a3d3f Lucas De Marchi 2025-08-21 @36  	return xe_configfs_get_psmi_enabled(to_pci_dev(xe->drm.dev));
-aaa0c1f50a3d3f Lucas De Marchi 2025-08-21  37  }
-aaa0c1f50a3d3f Lucas De Marchi 2025-08-21  38  
-
-:::::: The code at line 36 was first introduced by commit
-:::::: aaa0c1f50a3d3fc1624360eaeb7fe69af62f7107 drm/xe/psmi: Add debugfs interface for PSMI
-
-:::::: TO: Lucas De Marchi <lucas.demarchi@intel.com>
-:::::: CC: Lucas De Marchi <lucas.demarchi@intel.com>
+  1042	
+  1043	static void ssif_bmc_test_singlepart_read_response_completion(struct kunit *test)
+  1044	{
+  1045		struct ssif_bmc_test_ctx *test_ctx = test->priv;
+  1046		struct ssif_bmc_ctx *ssif_bmc = &test_ctx->ssif_bmc;
+  1047		u8 value;
+  1048	
+  1049		ssif_bmc->state = SSIF_SMBUS_CMD;
+  1050		ssif_bmc->part_buf.smbus_cmd = SSIF_IPMI_SINGLEPART_READ;
+  1051		ssif_bmc->response.len = 2;
+  1052		ssif_bmc->response.payload[0] = 0x11;
+  1053		ssif_bmc->response.payload[1] = 0x22;
+  1054		ssif_bmc->response_in_progress = true;
+  1055		ssif_bmc->is_singlepart_read = true;
+  1056		ssif_bmc->pec_support = true;
+  1057	
+  1058		value = 0;
+  1059		KUNIT_ASSERT_EQ(test,
+  1060				ssif_bmc_test_run_event_val(test_ctx, I2C_SLAVE_READ_REQUESTED,
+  1061							    &value), 0);
+  1062		KUNIT_EXPECT_EQ(test, value, 2);
+  1063		KUNIT_EXPECT_EQ(test, ssif_bmc->state, SSIF_RES_SENDING);
+> 1064		KUNIT_EXPECT_TRUE(test, ssif_bmc->response_in_send);
+  1065	
+  1066		value = 0;
+  1067		KUNIT_EXPECT_EQ(test,
+  1068				ssif_bmc_test_run_event_val(test_ctx, I2C_SLAVE_READ_PROCESSED,
+  1069							    &value), 0);
+  1070		KUNIT_EXPECT_EQ(test, value, 0x11);
+  1071	
+  1072		value = 0;
+  1073		KUNIT_EXPECT_EQ(test,
+  1074				ssif_bmc_test_run_event_val(test_ctx, I2C_SLAVE_READ_PROCESSED,
+  1075							    &value), 0);
+  1076		KUNIT_EXPECT_EQ(test, value, 0x22);
+  1077	
+  1078		value = 0;
+  1079		KUNIT_EXPECT_EQ(test,
+  1080				ssif_bmc_test_run_event_val(test_ctx, I2C_SLAVE_READ_PROCESSED,
+  1081							    &value), 0);
+  1082		KUNIT_EXPECT_EQ(test, value, ssif_bmc->part_buf.pec);
+  1083	
+  1084		KUNIT_EXPECT_EQ(test,
+  1085				ssif_bmc_test_run_event(test_ctx, I2C_SLAVE_STOP, 0), 0);
+  1086		KUNIT_EXPECT_EQ(test, ssif_bmc->state, SSIF_READY);
+  1087		KUNIT_EXPECT_FALSE(test, ssif_bmc->response_in_progress);
+  1088		KUNIT_EXPECT_FALSE(test, ssif_bmc->response_in_send);
+  1089		KUNIT_EXPECT_EQ(test, ssif_bmc->response.len, 0);
+  1090	}
+  1091	
 
 -- 
 0-DAY CI Kernel Test Service
