@@ -1,125 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 405662D0C9C;
-	Fri,  3 Apr 2026 08:40:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A153A358D0E
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Apr 2026 08:40:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775205602; cv=none; b=NO01YBXGk0vV3V1AeMRtS8QKMGUUGlvknZzNcteyANc7HdNgYd+6yooRHWW/sjK3ZN09PHHgMJkFFM3bwJ/o3/StZ4z3S9SUfsfrKxLHJ92vdcWWw2MH9GlTLz0VRTaUV8MW0URB1e9EvveEYn47/nI8ZPNd5ZwEHW+VgWpLibE=
+	t=1775205603; cv=none; b=aEtkAF5uTeBEB5sjqkhOvoiaM3VYu2aYrIrBJNoyUAzPRSBP5tKDVpYtFekTDOf4ZmzrbPCOhiY9jc90GWZ1rQudhQwGezVPiMfLULUEQ/Vu6e90Q/F9TCxjhNl+hNrMrGEJuFuhMErm2zWgXs5YKkE1x0UWf2B+8yH1851++38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775205602; c=relaxed/simple;
-	bh=W6AAC1cFGrVaftZaq2zuawySYDraS9aSNOJr+kIsTgY=;
+	s=arc-20240116; t=1775205603; c=relaxed/simple;
+	bh=ElNpd+lXu8JPA3g/kKwOmAy3bLeT31zcflfK7jGxD6c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ocwl9JOEmOjFO3yx/Z8QW18u1vTIyoBO0adOMPv0pD/nGlKJ27+nS1WIXgJ0WV1klaif0cgueof/FMtbn9aDJDxe2We6MRbu9xzq5TfnSfcF7fk5ovbT3Did4FUPQDWoEK4SA8k6WWx8gZbaasqWXJ1WYbfR8oy8qCW9biuD43o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zi3AlIWD; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=mPPFi/08KDxEK7Eq73Xy1ylLxHGFHk1lB5eYw7Dm56jjJmFzkp5ovlo9jcjX7iwLL2ph6vjQ9+ASFYapLKw1LlQerwn7z49JeoxwmBePYtkNIRbmIg94EoW7cE9ySOsoqihsdiTrfMAGayf53/693JGtiTcxdEANSYLZor7r5j0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VA+SSpOZ; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zi3AlIWD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VA+SSpOZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1775205602; x=1806741602;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=W6AAC1cFGrVaftZaq2zuawySYDraS9aSNOJr+kIsTgY=;
-  b=Zi3AlIWD3wOa/pECFl5CD9u6WFEDc6GewF2BCTBw1MyxpX62n99zr1A7
-   lTNroSTdDFzQHLD4cF4xBd2lCgNbtNBsWswu41JUebNesxvxCIB0wm8/w
-   W7dV2qLY+gsBwSnFM8R6aDWVux8VbpX2kubLZid6B6UEWBTz+R/CK9o2M
-   pVRQQ0vHWw9SqffZP68xAmqetI+bg6XsOeQ1eSxVcLLV/w1ACUHiqkaA3
-   wXS20+wfBuOe6sIUIu1blpYXLHF5CGXiTUnPIAZ9K6A8Ka8sEdXDOHer+
-   ZDolNF4C1KaR4nkSODDEg29Wxzh21Av8d08ovit/bfMvcjDhZ8NlR19Du
-   g==;
-X-CSE-ConnectionGUID: FnVBTTA9QhCi3Lb8iFXBuA==
-X-CSE-MsgGUID: CRgyDY94TuqvZ/PCTS+WIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="76153056"
+   mime-version:in-reply-to;
+  bh=ElNpd+lXu8JPA3g/kKwOmAy3bLeT31zcflfK7jGxD6c=;
+  b=VA+SSpOZ0DJVMItSRPjikpeh6FaoXcRBcUwkKkl9D5InJmyRR0RhRzir
+   nFs6CvaqHixRi+vDkYeYEalgVV7gKthmmI+MLbwDSU46GykhiDFuPEhy2
+   BHgVcSSKuwJGKHOmioVyj44ofA9pltFpMl7rMH+IpgPAs6RVIPgn8DVQC
+   fhmqH5RIl9HTfWqMm6WOkaRVSSPL82TClcb47NxIH2QQN+b5BajPMeX6+
+   YibRzZaANVC+DBnFMzPsxDZyakBmKc9uFdAtuLHtrW+qq4pV/wxe4Fntn
+   fMsGBwwCdBruLO4zf+gfreUyFRrABK2OoL2LaokoPs1MOAjgm2yiL4M1A
+   Q==;
+X-CSE-ConnectionGUID: sNAkphaWSZedGdb1/clB6w==
+X-CSE-MsgGUID: tmt7INfSTaic/wDgUtWelQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="76156547"
 X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
-   d="scan'208";a="76153056"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 01:39:59 -0700
-X-CSE-ConnectionGUID: O1ijKYzWRyyhp/jUp/q4aw==
-X-CSE-MsgGUID: AmcFNb/UTg+SshydyO7axw==
+   d="scan'208";a="76156547"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 01:40:01 -0700
+X-CSE-ConnectionGUID: NfV8f5AeTCyc347C+2QeyQ==
+X-CSE-MsgGUID: 7VtTE+WxT0a0R78vzmEFNA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
-   d="scan'208";a="257678123"
+   d="scan'208";a="220570281"
 Received: from lkp-server01.sh.intel.com (HELO 064ad336901d) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 03 Apr 2026 01:39:56 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 03 Apr 2026 01:39:56 -0700
 Received: from kbuild by 064ad336901d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w8a4H-0000000011X-3GiD;
+	id 1w8a4H-0000000011V-39FD;
 	Fri, 03 Apr 2026 08:39:53 +0000
-Date: Fri, 3 Apr 2026 16:39:07 +0800
+Date: Fri, 3 Apr 2026 16:39:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?utf-8?Q?Micha=C5=82?= Grzelak <michal.grzelak@intel.com>,
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	=?utf-8?Q?Micha=C5=82?= Grzelak <michal.grzelak@intel.com>
-Subject: Re: [PATCH v1 08/16] drm/i915/bios: support VS/PE Override per each
- ddi port
-Message-ID: <202604021026.aZi3LxDW-lkp@intel.com>
-References: <20260331183332.1773886-9-michal.grzelak@intel.com>
+To: Sen Wang <sen@ti.com>, linux-sound@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, broonie@kernel.org, lgirdwood@gmail.com,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	devicetree@vger.kernel.org, perex@perex.cz, tiwai@suse.com,
+	shenghao-ding@ti.com, kevin-lu@ti.com, baojun.xu@ti.com,
+	niranjan.hy@ti.com, l-badrinarayanan@ti.com, devarsht@ti.com,
+	v-singh1@ti.com, linux-kernel@vger.kernel.org,
+	Sen Wang <sen@ti.com>
+Subject: Re: [PATCH 2/4] ASoC: codecs: Add TAS675x quad-channel audio
+ amplifier driver
+Message-ID: <202604021838.DCOggoRo-lkp@intel.com>
+References: <20260401024210.28542-3-sen@ti.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260331183332.1773886-9-michal.grzelak@intel.com>
+In-Reply-To: <20260401024210.28542-3-sen@ti.com>
 
-Hi Michał,
+Hi Sen,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on drm-i915/for-linux-next]
-[also build test ERROR on drm-i915/for-linux-next-fixes drm-tip/drm-tip linus/master v7.0-rc6 next-20260331]
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on tiwai-sound/for-next tiwai-sound/for-linus robh/for-next linus/master v7.0-rc6 next-20260401]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Micha-Grzelak/drm-i915-lt-align-xe3plpd-with-VS-PE-Override-layout/20260401-092928
-base:   https://gitlab.freedesktop.org/drm/i915/kernel.git for-linux-next
-patch link:    https://lore.kernel.org/r/20260331183332.1773886-9-michal.grzelak%40intel.com
-patch subject: [PATCH v1 08/16] drm/i915/bios: support VS/PE Override per each ddi port
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20260402/202604021026.aZi3LxDW-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260402/202604021026.aZi3LxDW-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Sen-Wang/dt-bindings-sound-Add-ti-tas675x/20260401-114532
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20260401024210.28542-3-sen%40ti.com
+patch subject: [PATCH 2/4] ASoC: codecs: Add TAS675x quad-channel audio amplifier driver
+config: arc-randconfig-001-20260402 (https://download.01.org/0day-ci/archive/20260402/202604021838.DCOggoRo-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260402/202604021838.DCOggoRo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604021026.aZi3LxDW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604021838.DCOggoRo-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/i915/display/intel_bios.c:2767:34: error: cast to union type from type 'int' not present in union
-    2767 |         devdata->vswing_preemph.index = (union ddi_vswing_preemph_index) -1;
-         |                                         ^                                ~~
-   drivers/gpu/drm/i915/display/intel_bios.c:3178:4: error: cast to union type from type 'int' not present in union
-    3178 |                         (union ddi_vswing_preemph_index) -1;
-         |                         ^                                ~~
-   2 errors generated.
-
-
-vim +/int +2767 drivers/gpu/drm/i915/display/intel_bios.c
-
-  2761	
-  2762	static void override_vswing_preemph(struct intel_bios_encoder_data *devdata)
-  2763	{
-  2764		struct intel_ddi_buf_trans *buf_trans;
-  2765	
-  2766		devdata->vswing_preemph.buf_trans = NULL;
-> 2767		devdata->vswing_preemph.index = (union ddi_vswing_preemph_index) -1;
-  2768	
-  2769		if (!intel_bios_encoder_overrides_vswing(devdata))
-  2770			return;
-  2771	
-  2772		buf_trans = kzalloc(sizeof(*buf_trans), GFP_KERNEL);
-  2773		devdata->vswing_preemph.buf_trans = buf_trans;
-  2774	}
-  2775	
+>> Warning: sound/soc/codecs/tas675x.c:1473 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Hardware power sequencing
+   Warning: sound/soc/codecs/tas675x.c:1551 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Device start-up defaults
+   Warning: sound/soc/codecs/tas675x.c:1790 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Read and log all latched fault registers
 
 -- 
 0-DAY CI Kernel Test Service
