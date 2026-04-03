@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5414381AF9;
-	Fri,  3 Apr 2026 08:44:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0619237DEAE
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Apr 2026 08:45:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775205848; cv=none; b=Kn+J53GZeios58jxeYqF4X3UPaol/8kwj39WrV/frpijll2m7i+WZVWnx77GZM4tjh8iFL4Sgysxrxd97oAU+NXNq0JK+iefNafAKp5AdiyG5doBtWzrc0W4MM3FFOyoLRckG98iIWCttwFNgMfmMQVtB8xg9th+cxc/dm3eI30=
+	t=1775205902; cv=none; b=VSx7dZKoIDVfzWqX200eROf1mMxv74fI3kxUnrC6TVz+IV1P+E5PnVwi/gcg0wToDRqrdaz/LH/6e7JplABsg5JmWrs9bfAigWlBWNlXa6bso6p5RKY3IOOI8CCyvGY7zs2QfJ85TdyJWoecC2adNCN/cuhzZLLruIn+9m9H9lc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775205848; c=relaxed/simple;
-	bh=pTPqZhOaMgTEXrfFaxlIcHBzK4Roy3McN/4LyZ5dkJU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=koWIApqYFf87yq1Nxnn2eucKX6NnyR6bbUuqL5wWLd03L1b4UAGYaMvsSzho8thLUHf+niMCEZsd/SAJLvdLN37RlKAcLsGvLRqO7grUVjZKLS+F9HD5HiDEDug9yoaJffJMFWkkdI6JjckYw8g3c/YuvLOgN+PYW5g+2u/KSfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SbYJRKr9; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1775205902; c=relaxed/simple;
+	bh=M0vzDySw7j/2rNXbESdSJvfVaBMwQJra32l3mDqlK90=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=HYseoInvoSgRLLzT1gqcbr4piTvkGL7aE/3xS8QydHE/nBqYg9zowO+60r0Y0A1c2QzQJaR0yODZcTiZLJtbUCu3XETfJBNZRV1VlKnskF5dY1ZiyQPv6GrgoBKkvfwW1ZPmaSoibyZvS9v1G/GrdW9+tmJ6PeCSFnEOX7+6dGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y6NUrRXx; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SbYJRKr9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y6NUrRXx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775205845; x=1806741845;
+  t=1775205901; x=1806741901;
   h=date:from:to:cc:subject:message-id;
-  bh=pTPqZhOaMgTEXrfFaxlIcHBzK4Roy3McN/4LyZ5dkJU=;
-  b=SbYJRKr9OwUclILhoxZKJYbtjESfy3R7TWAKALBMRm4NF5fWX3MsgUQp
-   wlUfgbwXsP1LC+77Rqnj4BC54YMEplbXwdTYN/J3IpZoZ0GZmQXqCQoE6
-   OpGMUtqpvJcmMQlS962rf4cy9la1qWlIfTozk1Zvlid2Q7/HmTIuL0cxd
-   OIlxafz0H0A4vpkYwhRyAOjSp6iLMsNyQk7hjPqTWkPmSG7Pw9m11FMu6
-   /zaZi2TtyZyQG/qHMG6a/nIJ+BO0l85J6p0QsKildnMTt8hpvl2etgHXT
-   1b5g1UteexJgqMFi2sWSRfhMFfBQpNqE5i8FhLxW0PnMVfM7o8xM9sIOr
-   A==;
-X-CSE-ConnectionGUID: U6eV19TmSp+qEmM1Fe0T+A==
-X-CSE-MsgGUID: 7f7cG0XFREudQzcnfpJVPw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="93852256"
+  bh=M0vzDySw7j/2rNXbESdSJvfVaBMwQJra32l3mDqlK90=;
+  b=Y6NUrRXxYIDz/HGP0sC8FQFNhJGuGd0y8anReDfyFqrgfP3HKb2YguDd
+   piPJMUnrXLxdGwxmWNtECz11bIYBedyH4oskKE0FQ/FGw3Dj/cy+zI9B4
+   ACNdU0JlTi7KUM2vAOED5hKBDIKFr4BegpKMNuBMvsoFQSeXmHj625jUd
+   lKVN6G8jPId8WzXNsg/biNrpmiNA6KGNffNO42PSZr9VHb7qpHrp6jOL+
+   eO/KdaYjnbrWV+0xCfABr03jH0KDEo570ZBMaOd38wPLGk3cWvWYg7dx5
+   7U2VSwUjGWUZA5KAmgd5jZa4HRyJ1lil6MVuDdec3381Nmo9QAJht0GKs
+   g==;
+X-CSE-ConnectionGUID: EGJdHtyjQxSJsu5zwZB4OQ==
+X-CSE-MsgGUID: lGNbOgbFSSmw+A6u87y0WQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="86974167"
 X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
-   d="scan'208";a="93852256"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 01:44:01 -0700
-X-CSE-ConnectionGUID: lZkrJq+oTuKH01t2yCrMoA==
-X-CSE-MsgGUID: R5YMWp32S5ucjDJisfmj0A==
+   d="scan'208";a="86974167"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 01:45:00 -0700
+X-CSE-ConnectionGUID: +p0mYua1S4KpBlthGw4/rw==
+X-CSE-MsgGUID: viLwCDAkTY6DdzfYYY0hrA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
-   d="scan'208";a="223943439"
+   d="scan'208";a="228834579"
 Received: from lkp-server01.sh.intel.com (HELO 064ad336901d) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 03 Apr 2026 01:43:59 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 03 Apr 2026 01:44:59 -0700
 Received: from kbuild by 064ad336901d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w8a8C-0000000014k-0f8Q;
-	Fri, 03 Apr 2026 08:43:56 +0000
-Date: Fri, 03 Apr 2026 16:43:10 +0800
+	id 1w8a9A-0000000015Y-1YRc;
+	Fri, 03 Apr 2026 08:44:56 +0000
+Date: Fri, 03 Apr 2026 16:44:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ming Lei <ming.lei@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Hannes Reinecke <hare@suse.de>,
- Nilay Shroff <nilay@linux.ibm.com>
-Subject: arch/um/drivers/ubd_kern.c:780:13: warning: stack frame size
- (2152) exceeds limit (2048) in 'ubd_device_release'
-Message-ID: <202604030228.nSQwaWdx-lkp@intel.com>
+To: Tamir Duberstein <tamird@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Petr Mladek <pmladek@suse.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: include/linux/compiler_types.h:617:38: error: call to
+ '__compiletime_assert_304' declared with attribute error: BUILD_BUG_ON
+ failed: IS_ERR(PTR)
+Message-ID: <202604030636.NqjaJvYp-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,124 +62,72 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Ming,
+Hi Tamir,
 
 FYI, the error/warning still remains.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   5619b098e2fbf3a23bf13d91897056a1fe238c6d
-commit: 98e68f67020ce30e1a4d8e2d05d85a453738dfb8 block: prevent adding/deleting disk during updating nr_hw_queues
-date:   11 months ago
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20260403/202604030228.nSQwaWdx-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260403/202604030228.nSQwaWdx-lkp@intel.com/reproduce)
+commit: 9bfa52dac27a20b43bcb73e56dc45aba6b9aaff1 printf: convert test_hashed into macro
+date:   9 weeks ago
+config: xtensa-randconfig-002-20260403 (https://download.01.org/0day-ci/archive/20260403/202604030636.NqjaJvYp-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260403/202604030636.NqjaJvYp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 98e68f67020c ("block: prevent adding/deleting disk during updating nr_hw_queues")
+| Fixes: 9bfa52dac27a ("printf: convert test_hashed into macro")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604030228.nSQwaWdx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604030636.NqjaJvYp-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/um/drivers/ubd_kern.c:26:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:549:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     549 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:567:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     567 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from arch/um/drivers/ubd_kern.c:26:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:585:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from arch/um/drivers/ubd_kern.c:26:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:601:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     601 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:616:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     616 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:631:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     631 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:724:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     724 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:737:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     737 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:750:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     750 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:764:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     764 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:778:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     778 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:792:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     792 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> arch/um/drivers/ubd_kern.c:780:13: warning: stack frame size (2152) exceeds limit (2048) in 'ubd_device_release' [-Wframe-larger-than]
-     780 | static void ubd_device_release(struct device *dev)
-         |             ^
-   13 warnings generated.
+   In file included from <command-line>:
+   lib/tests/printf_kunit.c: In function 'errptr.part.2':
+>> include/linux/compiler_types.h:617:38: error: call to '__compiletime_assert_304' declared with attribute error: BUILD_BUG_ON failed: IS_ERR(PTR)
+     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+                                         ^
+   include/linux/compiler_types.h:598:4: note: in definition of macro '__compiletime_assert'
+       prefix ## suffix();    \
+       ^~~~~~
+   include/linux/compiler_types.h:617:2: note: in expansion of macro '_compiletime_assert'
+     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+     ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                        ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+     ^~~~~~~~~~~~~~~~
+   lib/tests/printf_kunit.c:758:2: note: in expansion of macro 'BUILD_BUG_ON'
+     BUILD_BUG_ON(IS_ERR(PTR));
+     ^~~~~~~~~~~~
 
 
-vim +/ubd_device_release +780 arch/um/drivers/ubd_kern.c
+vim +/__compiletime_assert_304 +617 include/linux/compiler_types.h
 
-^1da177e4c3f415 Linus Torvalds     2005-04-16  779  
-2e3f5251ac71687 Jeff Dike          2007-05-06 @780  static void ubd_device_release(struct device *dev)
-2e3f5251ac71687 Jeff Dike          2007-05-06  781  {
-5bee35e5389f450 Tiwei Bie          2024-11-05  782  	struct ubd *ubd_dev = container_of(dev, struct ubd, pdev.dev);
-2e3f5251ac71687 Jeff Dike          2007-05-06  783  
-4e6da0fe8058df9 Richard Weinberger 2017-11-26  784  	blk_mq_free_tag_set(&ubd_dev->tag_set);
-2e3f5251ac71687 Jeff Dike          2007-05-06  785  	*ubd_dev = ((struct ubd) DEFAULT_UBD);
-2e3f5251ac71687 Jeff Dike          2007-05-06  786  }
-2e3f5251ac71687 Jeff Dike          2007-05-06  787  
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  603  
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  604  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  605  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  606  
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  607  /**
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  608   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  609   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  610   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  611   *
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  612   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  613   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  614   * compiler has support to do so.
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  615   */
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  616  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2d Will Deacon 2020-07-21 @617  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  618  
 
-:::::: The code at line 780 was first introduced by commit
-:::::: 2e3f5251ac716879df6b6271f243f657c6e02e9a uml: drivers get release methods
+:::::: The code at line 617 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
 
-:::::: TO: Jeff Dike <jdike@addtoit.com>
-:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
