@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B59CE3B2BA
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Apr 2026 08:33:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BFD321B185
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Apr 2026 14:17:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775291636; cv=none; b=asSCAJmOZTjnaxkfMXLE2XY6fU8785Iff8+ec3H/EPetUfok55lS2wqNLCwlUlycmyE20x1H2bMDo3xca6NjCyaRaeXWhWAJlb/nachV2ef3SIzhbS1ie/DFvdduunTttzAxBvSyKo/CA35HW5p1mGG1ICG/mVffvGlL+8cgxoM=
+	t=1775312280; cv=none; b=cMyo/5xcIAW3XSOQSdo1DMixWbyBm9W8KpZ7I4YEBovN4RqZxclA2eKmi7SEFYiClVE6jN28jE6jpJP3Zpv9ZJfst7NTdhs+UMuJTXmGzcgR4Dnm50Cmh0dvHV7ItBoftz1HCWzg/6OoxiLBhrHytE0eYrVAp4xIzms14QLh/Tc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775291636; c=relaxed/simple;
-	bh=MHbpsdLt3bnzF/yhO1NlRH7QsEjakBMxL7+uqnVsFPs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=rkBJTJIXjkYgRZyG3WBa6S/Znf1MDdBK5TT/Nfb1a6Ic3ZRtzXM42LlvHYQwqQCSNPGd+vU+EkbdEv20c5p7x+fP3uCG9SGOpOqismr/MBXiHEvZiW4DlZRpnz+YFxPcB2jrVnN/e7ZR0cgRQqhGwYIP29po8sQhK43CmSrLxe0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RbsCVC+P; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1775312280; c=relaxed/simple;
+	bh=tlGJCqhrNPqSFNVok5JqsfPL/sD5+5NpsjsoDkooNiw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=NTizz848YBN+Y7mH0hmGQRBySviTrSYUKQa09sB6g7FhsX9qUXIEWBt0E0syaXCq1im3TeTsaW8KwFr76sHi2sGPq+GFXXk5mVq5JC0Hsa3Hx4zJUfNp2SgMZjNhMl6713JQsVNz2z4dAdpYUHq+ABcdjTrjfBjvGHybs/Sa61U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xy264R/Z; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RbsCVC+P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xy264R/Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775291635; x=1806827635;
+  t=1775312277; x=1806848277;
   h=date:from:to:cc:subject:message-id;
-  bh=MHbpsdLt3bnzF/yhO1NlRH7QsEjakBMxL7+uqnVsFPs=;
-  b=RbsCVC+PHAtpT6oz/ism44ptXFMRuiOgefbtoV3uRafNW+vhTOF87iNL
-   d+AUVOrEfldb2gR5oDmvpYr7a7UflacQ9om6qqWbs1IyrK4mVgQU6CNz/
-   iceDivUg7N1BNLMRFRv8I+UUEiojaMQZwQgNg/XPBkYywahlxLQ5jRdHO
-   1a81JjIlIdIKvCCU7J9Jnhh6+G9fOE6bYgojIQcE0DlxkDnA7QgkMNaD3
-   2rVGu3VrfROLgw+IjxL/FjUSkyfdepY0Xtfy+t3mMGfiUn1TGhMIrerid
-   E19BqFwyJ5tdyiv8NpXxhHdvk5FgHGMVFqyn/xmDgYcird64otww3Gcvm
-   g==;
-X-CSE-ConnectionGUID: sEzcNOzJQdSaJPMM9zVOhA==
-X-CSE-MsgGUID: /7EYTnoxT+ylPcXcqkDZQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11748"; a="87788610"
+  bh=tlGJCqhrNPqSFNVok5JqsfPL/sD5+5NpsjsoDkooNiw=;
+  b=Xy264R/Zcqj46vYr6JlSe/whBa1X0/3ez4flFmDWmD1YXt8aXSRqbCgV
+   txnkyEyxi4GwL0vPRppHlSePQP6nm3PPotkx1iN1koUDocvm2rj3nupfQ
+   ehwL7oIJ6SCW4Mps42z+PcvWXPzXwW/eEeuhlThhOnNPNFL8Qq+lGVGAB
+   YJqIjO4+8hcSxnopwD2KtzQDQ52LCb0yzOg6AhZ3pM6uVbvG4umWPd1Rl
+   qNZoJD5dT93MNikkcIkDd+F4XZ1P6mMxQsoBN+WENEQn8YYhCZhIDM7am
+   qJGnBVsxGYr5gPzWwxglqJYFZe+yJhggKchCK1vUcEeZGApWejca3Ihgr
+   w==;
+X-CSE-ConnectionGUID: U874wB0ETt25PqA/k7epQg==
+X-CSE-MsgGUID: Mda/1jtdQn+zvs2NJkwD/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11748"; a="80227178"
 X-IronPort-AV: E=Sophos;i="6.23,159,1770624000"; 
-   d="scan'208";a="87788610"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2026 01:33:54 -0700
-X-CSE-ConnectionGUID: SroF6y3NQtaok1XoI1yYuw==
-X-CSE-MsgGUID: 3sB+4/RVQVeb7HuXVrD4Kg==
+   d="scan'208";a="80227178"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2026 07:17:56 -0700
+X-CSE-ConnectionGUID: kTPekeloTc+U8OczlibN4g==
+X-CSE-MsgGUID: 35shUpVASjyke9BrpZhKZw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,159,1770624000"; 
-   d="scan'208";a="250522490"
+   d="scan'208";a="231520923"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 04 Apr 2026 01:33:53 -0700
+  by orviesa003.jf.intel.com with ESMTP; 04 Apr 2026 07:17:55 -0700
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w8wRy-000000009Z3-1iKB;
-	Sat, 04 Apr 2026 08:33:50 +0000
-Date: Sat, 04 Apr 2026 10:33:33 +0200
+	id 1w91ou-000000009av-2HH8;
+	Sat, 04 Apr 2026 14:17:52 +0000
+Date: Sat, 04 Apr 2026 16:17:10 +0200
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
+To: Frank Wunderlich <frank-w@public-files.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 0/12] htmldocs: Warning:
- drivers/net/ethernet/nebula-matrix/Kconfig references a file that doesn't
- exist:
- file:Documentation/networking/device_drivers/ethernet/nebula-matrix/m18110.rst
-Message-ID: <202604041004.wzRoPL7e-lkp@intel.com>
+Subject: [frank-w-bpi-r2-4.14:7.0-r3-issue 9/12]
+ arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dtb: switch@31
+ (mediatek,mt7531): ports:port@5: Unevaluated properties are not allowed
+ ('pcs' was unexpected)
+Message-ID: <202604041631.kksSRvH5-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,40 +61,48 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   bdab5db454db7109fdab2148baff2b25b7dad27e
-commit: 059837f47f887848d0068cb0431354e8e1197e44 [0/12] anolis: net/nbl_core: Add nbl_core-driver for nebula-matrix S1000 series smart NIC.
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260404/202604041004.wzRoPL7e-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 7.0-r3-issue
+head:   78482df7f7d0a4b2651140befdb1af1fd480a493
+commit: 4f7bce943dda614d24431d63adad65f1117a7f6d [9/12] arm64: dts: add pcs subnode for switch-cpu-ports to handle serdes polarity
+config: arm64-randconfig-2051-20260404 (https://download.01.org/0day-ci/archive/20260404/202604041631.kksSRvH5-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.5.0
+dtschema: 2025.13.dev13+g7ce498b67
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260404/202604041631.kksSRvH5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604041004.wzRoPL7e-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604041631.kksSRvH5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml references a file that doesn't exist: Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml
-   Warning: Documentation/trace/coresight/coresight.rst references a file that doesn't exist: Documentation/devicetree/bindings/arm/arm,coresight-
-   Warning: Documentation/usb/gadget_uvc.rst references a file that doesn't exist: Documentation/userspace-api/media/v4l/pixfmt-packed.yuv.rst
-   Warning: anolis/rpm/kernel.spec.template references a file that doesn't exist: linux-%{KVERREL}/tools/perf/Documentation/examples.txt
->> Warning: drivers/net/ethernet/nebula-matrix/Kconfig references a file that doesn't exist: file:Documentation/networking/device_drivers/ethernet/nebula-matrix/m18110.rst
-   Warning: drivers/net/ethernet/yunsilicon/xsc/common/xsc_ioctl.h references a file that doesn't exist: Documentation/ioctl/ioctl-number.txt
-   Warning: kernel/Kconfig.kexec references a file that doesn't exist: file:Documentation/s390/zfcpdump.rst
-   Warning: mm/hugetlb_vmemmap.h references a file that doesn't exist: Documentation/vm/vmemmap_dedup.rst
-   Using alabaster theme
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dtb: switch@31 (mediatek,mt7531): ports:port@5: Unevaluated properties are not allowed ('pcs' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml
+   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dtb: switch@31 (mediatek,mt7531): ports:port@6: Unevaluated properties are not allowed ('pcs' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml
 --
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml references a file that doesn't exist: Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml
-   Warning: Documentation/trace/coresight/coresight.rst references a file that doesn't exist: Documentation/devicetree/bindings/arm/arm,coresight-
-   Warning: Documentation/usb/gadget_uvc.rst references a file that doesn't exist: Documentation/userspace-api/media/v4l/pixfmt-packed.yuv.rst
-   Warning: anolis/rpm/kernel.spec.template references a file that doesn't exist: linux-%{KVERREL}/tools/perf/Documentation/examples.txt
->> Warning: drivers/net/ethernet/nebula-matrix/Kconfig references a file that doesn't exist: file:Documentation/networking/device_drivers/ethernet/nebula-matrix/m18110.rst
-   Warning: drivers/net/ethernet/yunsilicon/xsc/common/xsc_ioctl.h references a file that doesn't exist: Documentation/ioctl/ioctl-number.txt
-   Warning: kernel/Kconfig.kexec references a file that doesn't exist: file:Documentation/s390/zfcpdump.rst
-   Warning: mm/hugetlb_vmemmap.h references a file that doesn't exist: Documentation/vm/vmemmap_dedup.rst
+   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-emmc-nand.dtb: flash@0 (spi-nand): Unevaluated properties are not allowed ('spi-rx-buswidth', 'spi-tx-buswidth' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/spi-nand.yaml
+>> arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-emmc-nand.dtb: switch@31 (mediatek,mt7531): ports:port@5: Unevaluated properties are not allowed ('pcs' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml
+   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-emmc-nand.dtb: switch@31 (mediatek,mt7531): ports:port@6: Unevaluated properties are not allowed ('pcs' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml
+--
+>> arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-emmc-nor.dtb: switch@31 (mediatek,mt7531): ports:port@5: Unevaluated properties are not allowed ('pcs' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml
+   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-emmc-nor.dtb: switch@31 (mediatek,mt7531): ports:port@6: Unevaluated properties are not allowed ('pcs' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml
+--
+   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-sd-nand.dtb: flash@0 (spi-nand): Unevaluated properties are not allowed ('spi-rx-buswidth', 'spi-tx-buswidth' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/spi-nand.yaml
+>> arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-sd-nand.dtb: switch@31 (mediatek,mt7531): ports:port@5: Unevaluated properties are not allowed ('pcs' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml
+   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-sd-nand.dtb: switch@31 (mediatek,mt7531): ports:port@6: Unevaluated properties are not allowed ('pcs' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml
+--
+>> arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-sd-nor.dtb: switch@31 (mediatek,mt7531): ports:port@5: Unevaluated properties are not allowed ('pcs' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml
+   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-sd-nor.dtb: switch@31 (mediatek,mt7531): ports:port@6: Unevaluated properties are not allowed ('pcs' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml
 
 -- 
 0-DAY CI Kernel Test Service
