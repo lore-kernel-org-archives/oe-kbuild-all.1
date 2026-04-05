@@ -1,109 +1,139 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94EBE2749ED
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Apr 2026 12:44:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D6DF28AB0B
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Apr 2026 17:36:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775393056; cv=none; b=MawVws3AV9o8s8h66G7GVGQ3BcgV654qpUpzFsFnbL/y7xqgbAUtOgSVQ618d7Sczgt91/na8P4ilZgMGTkYUBaP3aeAMNnwpsvgEy1ZaVD080ue3gQRqo5sNzveCkqpZZdqd4Dg369Le+lY2GdirHwtJCuo2ctSaEdKWoBIkhM=
+	t=1775410576; cv=none; b=qooW/5u2Or0HUoWVyh46Y9YIrnDbt5jDdpLp91/1rFxoRLQTzGaapE2u3DNYWdh0hVXUPZ3kz8O1FjtNQLti3Z3e14g8y08Co9jZknlkyIwmKhzICIbaxbJ4yl9hW9YSOq0WheMx1q/0ucgR3Yp5NkLvYlPDaAwvkMr1tmgGZno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775393056; c=relaxed/simple;
-	bh=6LOxCu+th6U/3RZcU2+/XQRunMK4cTlCM/P4hiKo5cI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i6FCUHGW2GpcNzEuDZlKeBSMs2RP5NszUgn9DblvkuQvn2Ec3QhZ750xK/MGvaSS1DCAvcBvFPqp3HLqCI82kQe6iWgCuIMYaP7QOrKkY3wMa4i0wSNV+Fzo9UawTXpaixgxCHtcloJvGoSRgguPufrzN8ZNSOSCYc7lNni/szg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RNxmV2QE; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1775410576; c=relaxed/simple;
+	bh=I8A6l3XnoPXrv8CnrJ2xbgzCX7pHZvWiNoWYFbr9xEE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=U4M7TM8De1ibQnfExEQov9FpE2yb9kF3UwCVVY39oGiWH92LPtmSDIM/09GRmOWC+M25U+I2NGwtsYtjldnUUcnO4JSj5JEjtgkUuAL8Dk+vVBypBEUGOhcFU8u9llt1VKUL8ro5eXBoT03o7Iyw38RQ34jyfwtAyw5uPIpY/6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BR5rbsUo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RNxmV2QE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775393053; x=1806929053;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6LOxCu+th6U/3RZcU2+/XQRunMK4cTlCM/P4hiKo5cI=;
-  b=RNxmV2QEgiwoCAXz5ij/toWv5IuDkUKE41wtrIBq1YMgqCpiFSURMI/k
-   lBlDIHCCuNadICqMQo2HISXP+8nkhnY2E24byQKAO0Mk75HDpmzCsGMvA
-   KNd1eYDRE+08bc7znbrWZwi0fYzpjD53XYp3ocJyEGCX7iJr+I9F3OdCN
-   F1zQRLu5wBw+MrRT2UQTtcPH5pzlMF19kdMbapvE3MwglWBjTupdRVd32
-   xUwzfJ+eFR4mIPfJeObPDBLiSwW/Xe0wktBaog6YkjMC8nC2K+VP+i2Od
-   +9kIDNWCZAOxcqdovXVg3OeY/x5C+X/0+XUqvUmrMeyChBwtv7LUw/3ED
-   w==;
-X-CSE-ConnectionGUID: xa2SIs5gT/S5lmoiFW7fOg==
-X-CSE-MsgGUID: ATW7VsHDQpGqAi7YJeKU4w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11749"; a="86678088"
-X-IronPort-AV: E=Sophos;i="6.23,161,1770624000"; 
-   d="scan'208";a="86678088"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2026 05:44:13 -0700
-X-CSE-ConnectionGUID: x+7k2VhXTDGAT4ll6gv4Jg==
-X-CSE-MsgGUID: 7SH0CJqMQaqEW3qgOjQcpg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,161,1770624000"; 
-   d="scan'208";a="250770470"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 05 Apr 2026 05:44:11 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w9Mpk-000000009rV-3b5u;
-	Sun, 05 Apr 2026 12:44:08 +0000
-Date: Sun, 5 Apr 2026 14:43:50 +0200
-From: kernel test robot <lkp@intel.com>
-To: Rito Rhymes <rito@ritovision.com>, corbet@lwn.net,
-	skhan@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Rito Rhymes <rito@ritovision.com>
-Subject: Re: [PATCH v3 2/2] docs: add advanced search benchmark harness and
- instrumentation
-Message-ID: <202604051424.8oinrnwW-lkp@intel.com>
-References: <20260404073413.32309-3-rito@ritovision.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BR5rbsUo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C86F2C2BC9E
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Apr 2026 17:36:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775410575;
+	bh=I8A6l3XnoPXrv8CnrJ2xbgzCX7pHZvWiNoWYFbr9xEE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=BR5rbsUogK+PjtFnzjKhA5uVMKeLsih7xwOWf70gP3FPBk842oVNCbBkUj1px6uWt
+	 qRtWGYE+5p08T8XFBp/VOl78m3n88myxsQam7h40+fDKE3kGqx5DmLPWlAwthUyHRd
+	 +DokUqEyxxD4nnLYiZk32DK+JmIsbig8HjKZxkDe37pFrADwyfx33x4rq5iNbRYEke
+	 GjXE/rMitP5ElTayLkGjybj6H0z9a7akpZdWVv5BcvUFV7Q1ApOrfA0AIXLjaIlGJ9
+	 VhrS/S94hx12lK5Y3O/umzjV46jqX/td4gu3w5KlE2BEn/dqJUWB6sU9Lye0u70i2C
+	 jtbsUlc+imILQ==
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-38a43f1f978so33157621fa.3
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 05 Apr 2026 10:36:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXYnEHAhoBbh5UoOZDkfsuIsityLHT4P/lLnq107JlHlX8htegSvcOZ+jcS/IYy98ML0yGPJvP2VyR/O2f0@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxke3G8HrlFCKMMJn1MrK0gwQf+JihWv88cKKeivgdCaux6N5Uq
+	UMGv/kQWbGI2jUKK8txloPIce2Vyw3n0zG7kRv37giEASgjCXM/KIUnrS3EkAKHpMo61Yz/AJR8
+	tTFowCpfVQzzdP1EJho0STeowVkW9QPM=
+X-Received: by 2002:a2e:9a11:0:b0:38b:fd3e:c445 with SMTP id
+ 38308e7fff4ca-38d8d34c11bmr27247901fa.3.1775410574517; Sun, 05 Apr 2026
+ 10:36:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260404073413.32309-3-rito@ritovision.com>
+References: <202604030636.NqjaJvYp-lkp@intel.com> <CAJ-ks9m+ZtqbiM5qo0+htjkuyiVu9xfTmGNzBqaa--rGfPpT7A@mail.gmail.com>
+ <adFouCDpj72fdUcK@ashevche-desk.local>
+In-Reply-To: <adFouCDpj72fdUcK@ashevche-desk.local>
+From: Tamir Duberstein <tamird@kernel.org>
+Date: Sun, 5 Apr 2026 13:35:38 -0400
+X-Gmail-Original-Message-ID: <CAJ-ks9kzRovO9TtEoZzEEXDtzrb-1BOJPtoHmUuzY-9fbVaEbw@mail.gmail.com>
+X-Gm-Features: AQROBzBMIJbrWS62s1uHxhvAKG-LknS3KrCcMQ2o5IRnlzZoE1tUdd9VUhy_fOg
+Message-ID: <CAJ-ks9kzRovO9TtEoZzEEXDtzrb-1BOJPtoHmUuzY-9fbVaEbw@mail.gmail.com>
+Subject: Re: include/linux/compiler_types.h:617:38: error: call to
+ '__compiletime_assert_304' declared with attribute error: BUILD_BUG_ON
+ failed: IS_ERR(PTR)
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Petr Mladek <pmladek@suse.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Rito,
+On Sat, Apr 4, 2026 at 3:38=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Sat, Apr 04, 2026 at 12:04:02PM -0400, Tamir Duberstein wrote:
+> > On Fri, Apr 3, 2026 at 4:45=E2=80=AFAM kernel test robot <lkp@intel.com=
+> wrote:
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linu=
+x.git master
+> > > head:   5619b098e2fbf3a23bf13d91897056a1fe238c6d
+> > > commit: 9bfa52dac27a20b43bcb73e56dc45aba6b9aaff1 printf: convert test=
+_hashed into macro
+> > > date:   9 weeks ago
+>
+> ...
+>
+> > I used an LLM to investigate this, including bisecting GCC. Here's
+> > what we found:
+>
+> Have you talked to Max Filippov who is arch maintainer in kernel?
+>
+> ...
+>
+> > > So I see two possible mitigations:
+> > >
+> > > 1. Work around this in the test by avoiding IS_ERR() in that
+> > >    BUILD_BUG_ON(), e.g. use the raw MAX_ERRNO range check instead:
+> > >
+> > >    BUILD_BUG_ON((unsigned long)PTR >=3D (unsigned long)-MAX_ERRNO);
+> > >
+> > >    That keeps the same build-time check but avoids routing a constant
+> > >    expression through unlikely() under branch profiling, so GCC 8.5 n=
+o
+> > >    longer trips over it.
+>
+> I believe it's close to "not an option" as it's a non-scalable change.
+> If in the future IS_ERR() becomes something else (but still covers
+> the same check) this will be in unsync and might trigger in a wrong
+> circumstances (while I don't believe it will happen IRL).
+>
+> > > 2. Stop running xtensa randconfig with GCC versions older than the
+> > >    ipa-split fix above, i.e. use GCC >=3D 12.1 for xtensa in LKP.
+>
+> This is also close to that "not an option" as we have Linux kernel wide
+> minimum GCC requirement.
+>
+> Yes, theoretically any of the above is possible, but I dunno from where
+> the pushback may come.
+>
+> > > I had a quick look at lkp-tests, but I don't see an xtensa-specific
+> > > compiler selection policy there; make.cross appears to consume an
+> > > already-chosen COMPILER value. So if the preferred mitigation is
+> > > toolchain-side, that policy likely lives in the 0day/LKP scheduler or
+> > > job-generation layer outside lkp-tests.
+> > >
+> > > One caveat on the reporting side: if other architectures are already
+> > > using newer GCC, or if 0day suppresses duplicate reports after the fi=
+rst
+> > > failing instance, that would explain why this only showed up as an
+> > > xtensa GCC 8.5 report even though the underlying compiler bug is not
+> > > xtensa-specific in principle.
+> >
+> > Human again.
+> >
+> > Petr, Andy: Would you like me to send a patch with the workaround?
+> >
+> > LKP folks: Is GCC 8.5 only used for xtensa, or are old compiler
+> > versions also exercised by other architectures, and was this just the
+> > first one to hit this condition? If the former, is it possible to bump
+> > xtensa to GCC 12.1 or later?
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+>
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on lwn/docs-next]
-[also build test WARNING on linus/master v7.0-rc6 next-20260403]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rito-Rhymes/docs-add-advanced-search-for-kernel-documentation/20260405-132032
-base:   git://git.lwn.net/linux.git docs-next
-patch link:    https://lore.kernel.org/r/20260404073413.32309-3-rito%40ritovision.com
-patch subject: [PATCH v3 2/2] docs: add advanced search benchmark harness and instrumentation
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260405/202604051424.8oinrnwW-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604051424.8oinrnwW-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/rtc/cpcap-rtc.txt
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/devicetree/bindings/rtc/motorola,cpcap-rtc.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
-   Warning: Documentation/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
-   Warning: Documentation/leds/leds-lp5812.rst references a file that doesn't exist: Documentation/ABI/testing/sysfs-class-led-multicolor.rst
->> Warning: Documentation/sphinx-static/kernel-search.js references a file that doesn't exist: Documentation/search.html
-   Warning: Documentation/translations/it_IT/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
-   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
-   Warning: Documentation/translations/ja_JP/process/submit-checklist.rst references a file that doesn't exist: Documentation/translations/ja_JP/SubmitChecklist
-   Warning: Documentation/translations/zh_CN/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
-   Warning: Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst references a file that doesn't exist: Documentation/filesystems/gfs2-glocks.rst
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I sent https://lore.kernel.org/all/20260405-printf-test-old-gcc-v1-1-76d24d=
+9bb60e@kernel.org/
+with what I think is a reasonable workaround.
