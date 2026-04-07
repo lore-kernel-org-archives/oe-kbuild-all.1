@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 140AE375F9A;
-	Tue,  7 Apr 2026 03:57:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D06737649A
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Apr 2026 03:57:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775534260; cv=none; b=IGpoG42Pnvo5hJu95KYGv8J55sMJVoZTgZI5OtZKXzOaEzysE+DSuE9DPIS/zOLd/4gT6W8+JW0bzq/qqosU/yFj1+CTSSVdblhoNHT/I8IvOqyujniESsCUnO7ZW+lLusc0/YONCkPfhYCd9SID0fNywdArfgPfBuKLhwSvH4o=
+	t=1775534261; cv=none; b=bFKy7E4+r5KSryNnz/4OE48zpnkdmpwQoX/kPOf8jPov2ByZ06aVl/xVeKYONvxFqtjLPHZ8GV79oOndj0OrvijZRwHMJAN0o0p++b52DFS8Fd0SGguE9s6QWHV7zQr4Jd8kUBjXOAmeqdosDTuO5c+6Q5S8+Zrw6lio5gRJaqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775534260; c=relaxed/simple;
-	bh=PYV1qOzeuciWtp4YOM7sh66ArmSa8vJMvEOcJ/gNnCg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KbvNIVMewrn39kX5qE01DbrBXNdtlSjUXSpw42sIy4nZM9G9GuSWezdPYMuJjmL+8o3KRY1YGkcDto10m8JuZf5Xz8UYmsrr+iBy/+BgJ7jalHtDqOWehqn7HfNSX7HBrX2bSieQ6rrjzJ6mdw8AxW+QWywGZdbqhe+Sl0XByvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cSnj22/e; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1775534261; c=relaxed/simple;
+	bh=KGxEzoo929r+5G+I+vp+c3N4xa326kcPIET5BSfoe/I=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=G5APPETEiECWknGpHqrVpRX+xbi8iaiONke/Uq4nBV4FTNjNboy6xiE3kxVlTMifLRqyDF5Oepbe6MCIoxamn2FfUoIMBc4t2s+AcF//ePzwRjlFlCeCjf4M08BkBILV03fnXwhbkgpXSaZ8eSic+NyiLhVFSbcG/hhXdEPNOvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A/uBcvRw; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cSnj22/e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A/uBcvRw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1775534260; x=1807070260;
   h=date:from:to:cc:subject:message-id;
-  bh=PYV1qOzeuciWtp4YOM7sh66ArmSa8vJMvEOcJ/gNnCg=;
-  b=cSnj22/eGx1vqVMDzfm/RI4w1vvM25PzDdy7YekHJfCJKg4+OPtnYv5D
-   l8CK9RCYaHf7axoxGCw/gAaxwS2xDR5YbP8c9h6SLf/YnqrDMVxPWHAhR
-   TVzoy6jWtJfInemibIHeJAFXkY23N+DHZmM4UnsSCy3FwuSJvO2hjHSOR
-   NhFN3/i5Z+R3C6s9B2hJRS7FIJhG4zgTVh250M4IiYHGpEbhAogVLqgZ6
-   vonojxXbwLUKqPcwQoSvPOEevnyREf0TzU4lBKTsKE4laEDCub6tikNgi
-   4+OlEKT5XejfM0tonpJAseP1G9OlpMs7MQC9M+azfztgVqynUQNWBdVhg
+  bh=KGxEzoo929r+5G+I+vp+c3N4xa326kcPIET5BSfoe/I=;
+  b=A/uBcvRwWvpsTxuRgOQobKS+iBSX54yVVvETTJrXevjAy1E9vXiXGR7k
+   MU7TWe11vNbo6oKwTa4ciQrMwLcHjvL39K8SEWjos9PD55U1KX5Qn9vxu
+   uztDu1DOp0kVhAsSKm8M1Pm4sS9WJSjLe1/3TPkHmxC6dvHyL4zzzmROc
+   VvdBJMreUVN1P1m2D2jT6sotmLeIPD9TXr8uoFDa+/6mNny6Y5MBV0lsk
+   QOJJHA4dZFUxmVKEW6txs7Pfe3+NhuxRGFygOvSg/ZsPEw4zOtN2YI6xa
+   7WOryJ/oR53txX7DOZ1O0Pd/f281AtO29soCbUlRbpj1qJLAgE+T3hTWa
    Q==;
-X-CSE-ConnectionGUID: W0ElSZqCTQGXYp/CgILpMw==
-X-CSE-MsgGUID: MMrzlzuGRr2zx+/dZbkvpA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="80081096"
+X-CSE-ConnectionGUID: 4ybBlHyySTmYX6ZorPIGFg==
+X-CSE-MsgGUID: WvDpaF6gTZCNS4gA7nsEKw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="80081098"
 X-IronPort-AV: E=Sophos;i="6.23,164,1770624000"; 
-   d="scan'208";a="80081096"
+   d="scan'208";a="80081098"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
   by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2026 20:57:37 -0700
-X-CSE-ConnectionGUID: URlB8NymQqGKAZQpr9wzfw==
-X-CSE-MsgGUID: kK9bRIkDRjuK5Z2m8HvmiQ==
+X-CSE-ConnectionGUID: YFWXyrDzSEScIQrQIHBiOQ==
+X-CSE-MsgGUID: k8dVdmAZQoG/wWSXfrEL1g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,164,1770624000"; 
-   d="scan'208";a="227995299"
+   d="scan'208";a="227995301"
 Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
   by orviesa008.jf.intel.com with ESMTP; 06 Apr 2026 20:57:35 -0700
 Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w9xZE-0000000005V-3q5M;
-	Tue, 07 Apr 2026 03:57:32 +0000
-Date: Tue, 07 Apr 2026 11:56:53 +0800
+	id 1w9xZD-0000000005J-3pwA;
+	Tue, 07 Apr 2026 03:57:31 +0000
+Date: Tue, 07 Apr 2026 11:56:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [bvanassche:thread-safety 57/98]
- drivers/gpu/drm/ttm/tests/ttm_bo_test.c:227:24: error: too few arguments
- provided to function-like macro invocation
-Message-ID: <202604050322.BjFPCUaj-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 2/2]
+ arch/arm64/include/asm/kvm_hypevents.h:120:1: warning: no previous prototype
+ for function 'hyp_event_trace_psci_mem_protect'
+Message-ID: <202604042300.t1RH5u5A-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,69 +60,179 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/bvanassche/linux thread-safety
-head:   dbf3e2d8d5ab9b4a26ad41d244565a4970faec68
-commit: aac85b2b324f8d3c2713ee49c1258f6718fa34a5 [57/98] drm/ttm: Check the dma_resv_lock() return value
-config: x86_64-buildonly-randconfig-004-20260404 (https://download.01.org/0day-ci/archive/20260405/202604050322.BjFPCUaj-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260405/202604050322.BjFPCUaj-lkp@intel.com/reproduce)
+Hi Vincent,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   efe16a3021b9f95eb1cb83e98d0d1db9bff94ce4
+commit: 455f1b852d3a3914611155c0219ce8f4285cec6d [2/2] ANDROID: KVM: arm64: Add psci_mem_protect hyp event
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260404/202604042300.t1RH5u5A-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260404/202604042300.t1RH5u5A-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604050322.BjFPCUaj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604042300.t1RH5u5A-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/ttm/tests/ttm_bo_test.c:227:24: error: too few arguments provided to function-like macro invocation
-     227 |         KUNIT_ASSERT_EQ(err, 0);
-         |                               ^
-   include/kunit/test.h:1411:9: note: macro 'KUNIT_ASSERT_EQ' defined here
-    1411 | #define KUNIT_ASSERT_EQ(test, left, right) \
+         |              ^
+   <scratch space>:111:1: note: expanded from here
+     111 | hyp_event_trace_hyp_enter
+         | ^
+   arch/arm64/include/asm/kvm_hypevents.h:14:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:2: note: expanded from macro 'HYP_EVENT'
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
          |         ^
->> drivers/gpu/drm/ttm/tests/ttm_bo_test.c:227:2: error: use of undeclared identifier 'KUNIT_ASSERT_EQ'; did you mean 'KUNIT_ASSERTION'?
-     227 |         KUNIT_ASSERT_EQ(err, 0);
-         |         ^~~~~~~~~~~~~~~
-         |         KUNIT_ASSERTION
-   include/kunit/assert.h:27:2: note: 'KUNIT_ASSERTION' declared here
-      27 |         KUNIT_ASSERTION,
+   In file included from arch/arm64/kvm/hyp_events.c:14:
+   In file included from arch/arm64/include/asm/kvm_define_hypevents.h:27:
+   arch/arm64/include/asm/kvm_hypevents.h:23:1: warning: no previous prototype for function 'hyp_event_trace_hyp_exit' [-Wmissing-prototypes]
+      23 | HYP_EVENT(hyp_exit,
+         | ^
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:7: note: expanded from macro 'HYP_EVENT'
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |              ^
+   <scratch space>:116:1: note: expanded from here
+     116 | hyp_event_trace_hyp_exit
+         | ^
+   arch/arm64/include/asm/kvm_hypevents.h:23:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:2: note: expanded from macro 'HYP_EVENT'
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
          |         ^
->> drivers/gpu/drm/ttm/tests/ttm_bo_test.c:227:2: warning: expression result unused [-Wunused-value]
-     227 |         KUNIT_ASSERT_EQ(err, 0);
-         |         ^~~~~~~~~~~~~~~
-   1 warning and 2 errors generated.
+   In file included from arch/arm64/kvm/hyp_events.c:14:
+   In file included from arch/arm64/include/asm/kvm_define_hypevents.h:27:
+   arch/arm64/include/asm/kvm_hypevents.h:32:1: warning: no previous prototype for function 'hyp_event_trace_host_hcall' [-Wmissing-prototypes]
+      32 | HYP_EVENT(host_hcall,
+         | ^
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:7: note: expanded from macro 'HYP_EVENT'
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |              ^
+   <scratch space>:121:1: note: expanded from here
+     121 | hyp_event_trace_host_hcall
+         | ^
+   arch/arm64/include/asm/kvm_hypevents.h:32:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:2: note: expanded from macro 'HYP_EVENT'
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |         ^
+   In file included from arch/arm64/kvm/hyp_events.c:14:
+   In file included from arch/arm64/include/asm/kvm_define_hypevents.h:27:
+   arch/arm64/include/asm/kvm_hypevents.h:46:1: warning: no previous prototype for function 'hyp_event_trace_host_smc' [-Wmissing-prototypes]
+      46 | HYP_EVENT(host_smc,
+         | ^
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:7: note: expanded from macro 'HYP_EVENT'
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |              ^
+   <scratch space>:126:1: note: expanded from here
+     126 | hyp_event_trace_host_smc
+         | ^
+   arch/arm64/include/asm/kvm_hypevents.h:46:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:2: note: expanded from macro 'HYP_EVENT'
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |         ^
+   In file included from arch/arm64/kvm/hyp_events.c:14:
+   In file included from arch/arm64/include/asm/kvm_define_hypevents.h:27:
+   arch/arm64/include/asm/kvm_hypevents.h:61:1: warning: no previous prototype for function 'hyp_event_trace_host_mem_abort' [-Wmissing-prototypes]
+      61 | HYP_EVENT(host_mem_abort,
+         | ^
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:7: note: expanded from macro 'HYP_EVENT'
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |              ^
+   <scratch space>:131:1: note: expanded from here
+     131 | hyp_event_trace_host_mem_abort
+         | ^
+   arch/arm64/include/asm/kvm_hypevents.h:61:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:2: note: expanded from macro 'HYP_EVENT'
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |         ^
+   In file included from arch/arm64/kvm/hyp_events.c:14:
+   In file included from arch/arm64/include/asm/kvm_define_hypevents.h:27:
+   arch/arm64/include/asm/kvm_hypevents.h:75:1: warning: no previous prototype for function 'hyp_event_trace___hyp_printk' [-Wmissing-prototypes]
+      75 | HYP_EVENT(__hyp_printk,
+         | ^
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:7: note: expanded from macro 'HYP_EVENT'
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |              ^
+   <scratch space>:136:1: note: expanded from here
+     136 | hyp_event_trace___hyp_printk
+         | ^
+   arch/arm64/include/asm/kvm_hypevents.h:75:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:2: note: expanded from macro 'HYP_EVENT'
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |         ^
+   In file included from arch/arm64/kvm/hyp_events.c:14:
+   In file included from arch/arm64/include/asm/kvm_define_hypevents.h:27:
+   arch/arm64/include/asm/kvm_hypevents.h:95:1: warning: no previous prototype for function 'hyp_event_trace_host_ffa_call' [-Wmissing-prototypes]
+      95 | HYP_EVENT(host_ffa_call,
+         | ^
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:7: note: expanded from macro 'HYP_EVENT'
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |              ^
+   <scratch space>:141:1: note: expanded from here
+     141 | hyp_event_trace_host_ffa_call
+         | ^
+   arch/arm64/include/asm/kvm_hypevents.h:95:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:2: note: expanded from macro 'HYP_EVENT'
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |         ^
+   In file included from arch/arm64/kvm/hyp_events.c:14:
+   In file included from arch/arm64/include/asm/kvm_define_hypevents.h:27:
+>> arch/arm64/include/asm/kvm_hypevents.h:120:1: warning: no previous prototype for function 'hyp_event_trace_psci_mem_protect' [-Wmissing-prototypes]
+     120 | HYP_EVENT(psci_mem_protect,
+         | ^
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:7: note: expanded from macro 'HYP_EVENT'
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |              ^
+   <scratch space>:146:1: note: expanded from here
+     146 | hyp_event_trace_psci_mem_protect
+         | ^
+   arch/arm64/include/asm/kvm_hypevents.h:120:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:2: note: expanded from macro 'HYP_EVENT'
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |         ^
+   arch/arm64/kvm/hyp_events.c:215:6: warning: no previous prototype for function 'hyp_trace_init_event_early' [-Wmissing-prototypes]
+     215 | bool hyp_trace_init_event_early(void)
+         |      ^
+   arch/arm64/kvm/hyp_events.c:215:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     215 | bool hyp_trace_init_event_early(void)
+         | ^
+         | static 
+   arch/arm64/kvm/hyp_events.c:265:19: warning: no previous prototype for function 'hyp_trace_find_event' [-Wmissing-prototypes]
+     265 | struct hyp_event *hyp_trace_find_event(int id)
+         |                   ^
+   arch/arm64/kvm/hyp_events.c:265:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     265 | struct hyp_event *hyp_trace_find_event(int id)
+         | ^
+         | static 
+   arch/arm64/kvm/hyp_events.c:339:6: warning: no previous prototype for function 'hyp_trace_init_event_tracefs' [-Wmissing-prototypes]
+     339 | void hyp_trace_init_event_tracefs(struct dentry *parent)
+         |      ^
+   arch/arm64/kvm/hyp_events.c:339:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     339 | void hyp_trace_init_event_tracefs(struct dentry *parent)
+         | ^
+         | static 
+   arch/arm64/kvm/hyp_events.c:361:5: warning: no previous prototype for function 'hyp_trace_init_events' [-Wmissing-prototypes]
+     361 | int hyp_trace_init_events(void)
+         |     ^
+   arch/arm64/kvm/hyp_events.c:361:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     361 | int hyp_trace_init_events(void)
+         | ^
+         | static 
+   arch/arm64/kvm/hyp_events.c:378:5: warning: no previous prototype for function 'hyp_trace_init_mod_events' [-Wmissing-prototypes]
+     378 | int hyp_trace_init_mod_events(struct hyp_event *event,
+         |     ^
+   arch/arm64/kvm/hyp_events.c:378:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     378 | int hyp_trace_init_mod_events(struct hyp_event *event,
+         | ^
+         | static 
+   18 warnings generated.
 
 
-vim +227 drivers/gpu/drm/ttm/tests/ttm_bo_test.c
+vim +/hyp_event_trace_psci_mem_protect +120 arch/arm64/include/asm/kvm_hypevents.h
 
-   211	
-   212	static void ttm_bo_reserve_interrupted(struct kunit *test)
-   213	{
-   214		struct ttm_buffer_object *bo;
-   215		struct task_struct *task;
-   216		int err;
-   217	
-   218		bo = ttm_bo_kunit_init(test, test->priv, BO_SIZE, NULL);
-   219	
-   220		task = kthread_create(threaded_ttm_bo_reserve, bo, "ttm-bo-reserve");
-   221	
-   222		if (IS_ERR(task))
-   223			KUNIT_FAIL(test, "Couldn't create ttm bo reserve task\n");
-   224	
-   225		/* Take a lock so the threaded reserve has to wait */
-   226		err = dma_resv_lock(bo->base.resv, NULL);
- > 227		KUNIT_ASSERT_EQ(err, 0);
-   228	
-   229		wake_up_process(task);
-   230		msleep(20);
-   231		err = kthread_stop(task);
-   232	
-   233		dma_resv_unlock(bo->base.resv);
-   234	
-   235		KUNIT_ASSERT_EQ(test, err, -ERESTARTSYS);
-   236	}
-   237	#endif /* IS_BUILTIN(CONFIG_DRM_TTM_KUNIT_TEST) */
-   238	
+   119	
+ > 120	HYP_EVENT(psci_mem_protect,
 
 -- 
 0-DAY CI Kernel Test Service
