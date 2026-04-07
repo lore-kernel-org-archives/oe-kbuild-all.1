@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF13317170
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Apr 2026 09:05:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F352638E5D7
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Apr 2026 09:05:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775552721; cv=none; b=i9Mcb6ye8VnO94owre+6JY17y2Vj+khy6MCHAslOLG8/CvYkSFh6eJjVE8E1vwOxNEiSRAPSrAtoCpNu6FRtBPKerT0l756SrWRCTqMgbzTp8M/z0QiAIvYtoYZZjzLAcMGNBKbnqOqeTWDnJcqzGa/CenYJ2UQfXxn6Q8x9/IU=
+	t=1775552723; cv=none; b=T7W6ZL0wcWzVVVzGg0Yj3j7+OmXoqrhcT6jKINOq5HNRN4W2AuZq3mGOWhRovIOvz0G2hWzbGzcF+5Gvg7gAG2clC7LvyHbNY6l/O6KQz9f32mSf8LF6WxZ77yXkp8iKKV0IlBOnaIl6kvAIf+jWKVoupueqg5IQyUGO8egjrFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775552721; c=relaxed/simple;
-	bh=tZZBmfY0aBVHuM5Z0tII9UEkGVIgahNCT+QMV6QMWcc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Jmdu5/4IhWreQdDB92PJ/ZMS99cg4MCuduCJfONMfuuhQLokj6GeWtS/h0PKc/HeHUzTrltUKq7SMc2fqgtYbgLveVunsIR0mMDxngCOyfmXMx0p4TYQpV6NKidKlgj2/KLy5KNk7pi5RyPJMNFZ+IFUHQ/oIN4MBR7hk73ocRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fBPNRsPC; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1775552723; c=relaxed/simple;
+	bh=loJf0I+eYSyLeTbqdFIh+kZoMPo3Ms2gkKkLjlhwxcg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=FadHX/w74EXNqqy+bqumhBCpwd6uQLPoHgLsPK13ICVfW4vemECz4+R7sBfQ+edi8yOC0Ig894gKKJAGGo8nHcIa8aRA5G3lciK0AYVpVv2vpob+vT0Z14zAPxNBpDpOSpALiFgTIfSA45nwL8B5V0D8GmVz2D4+GhS39LfCPgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G9QEc1UJ; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fBPNRsPC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G9QEc1UJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775552720; x=1807088720;
+  t=1775552722; x=1807088722;
   h=date:from:to:cc:subject:message-id;
-  bh=tZZBmfY0aBVHuM5Z0tII9UEkGVIgahNCT+QMV6QMWcc=;
-  b=fBPNRsPC3sN0zEV/mUuq2Fm1cbj16xuwDeBYUou8DsJk36m1WDPBgD8v
-   iwvPziQXIDnlPZZvhWRo/n9YzME5zvk2uXSvub5DY6/dCqYlI5qo1yam9
-   h5FlnMiMYibjl3RgYo0hcz3LT6tPXaPXpWfCbx5PZbm8N6oezvBZnF6os
-   FZalKTn8B6s3TX1Ieq1Bw/2I3h706NT+yeKsxHV6AJxtdgh6kgQFF5drh
-   nl2cfU0p4IGdoRvsBO5Jk4AT0CSSkDxdU7064HNs0LgjkoJeS403FypBJ
-   ijM9POD0+RQgzL4cwiAqd7R+vvxTl6UjKSGZxQ79WhEeHCS8tTfx0BwDP
+  bh=loJf0I+eYSyLeTbqdFIh+kZoMPo3Ms2gkKkLjlhwxcg=;
+  b=G9QEc1UJGdNE7DUZSpv3sTiMJxPec6THkZO5rKoEFXOkSB0kno8dbgQp
+   dinCX8X+++Z3HMxYQDDNimBmUltTxzSNKaU6hNu2t17nIIj21EfZw5xy8
+   Zoxe3zkH9BCvMY+8xIbJwOi/CWZoTfWqYdt1ALhH4J1eApC28iKG0yakV
+   I/ovd/spverF0fGIMMB0cCZSruuWQl90QMxE0YkMMEWxaTAZuGckcwLA7
+   vFrl6ga6oK4KxWR3rReqT5xZ3DwTTez0Br5bvzrL6aMzM711bWzH1LV5/
+   NfQ93Q92KDJM9uS6DQmhsHKQ1UFMmP+T/lH+7F9m1Zjq7HTrYM2vhQhnS
    w==;
-X-CSE-ConnectionGUID: pUfVROPFR7WAvisoh9CYCg==
-X-CSE-MsgGUID: KV5v8f0fSwS+GS9AoxKX2A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="101965129"
+X-CSE-ConnectionGUID: uCdA9+PDTj+hBY8foELvRQ==
+X-CSE-MsgGUID: SImIm9AQSoGxT+vDDEiNjA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="101965131"
 X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
-   d="scan'208";a="101965129"
+   d="scan'208";a="101965131"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
   by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 02:05:19 -0700
-X-CSE-ConnectionGUID: dRiWGLDHQyi9/WStwS1m/A==
-X-CSE-MsgGUID: xbpEyfe7QmCMihOpCjRImA==
+X-CSE-ConnectionGUID: G+xz0pNBSy2IDVP0vGJmuQ==
+X-CSE-MsgGUID: 5ylVS5ZgTOiisBMxlfaRSg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
-   d="scan'208";a="232149807"
+   d="scan'208";a="232149809"
 Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
   by orviesa003.jf.intel.com with ESMTP; 07 Apr 2026 02:05:18 -0700
 Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wA2N1-000000000PR-1lX7;
+	id 1wA2N1-000000000PT-1uI8;
 	Tue, 07 Apr 2026 09:05:15 +0000
-Date: Tue, 07 Apr 2026 17:04:38 +0800
+Date: Tue, 07 Apr 2026 17:04:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mike Marshall <hubcap@omnibond.com>
+To: Viresh Kumar <viresh.kumar@linaro.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hubcap:for-next 1/6] fs/orangefs/orangefs-debugfs.c:244
- orangefs_kernel_debug_init() warn: always true condition '(len >= 0) =>
- (0-u64max >= 0)'
-Message-ID: <202604071606.asPgJ8Fk-lkp@intel.com>
+Subject: [vireshk:virtio/msg-amp 20/22]
+ drivers/virtio/virtio_msg_amp_pci.c:84:26: error: implicit declaration of
+ function 'pci_iomap_wc'; did you mean 'pcim_iomap'?
+Message-ID: <202604071721.0XEDYxnl-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,147 +60,153 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hubcap/linux.git for-next
-head:   fb0898b77656046fd25c5f08cf89cd6e3899e6db
-commit: 30b7c30781f0440e70a5e0c8943be423b57bbd9b [1/6] debugfs: take better advantage of strscpy.
-config: loongarch-randconfig-r073-20260407 (https://download.01.org/0day-ci/archive/20260407/202604071606.asPgJ8Fk-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c80443cd37b2e2788cba67ffa180a6331e5f0791)
-smatch: v0.5.0-9004-gb810ac53
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git virtio/msg-amp
+head:   781a260a2b5802f6ac428e12ffe8a54d0c6330eb
+commit: 47d31ad5e63c3d62a6b26136692b9b480bb11fb3 [20/22] virtio: msg: Add generic PCI transport driver for virtio-msg AMP
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260407/202604071721.0XEDYxnl-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260407/202604071721.0XEDYxnl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604071606.asPgJ8Fk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604071721.0XEDYxnl-lkp@intel.com/
 
-smatch warnings:
-fs/orangefs/orangefs-debugfs.c:244 orangefs_kernel_debug_init() warn: always true condition '(len >= 0) => (0-u64max >= 0)'
-fs/orangefs/orangefs-debugfs.c:343 orangefs_client_debug_init() warn: always true condition '(len >= 0) => (0-u64max >= 0)'
+All errors (new ones prefixed by >>):
 
-vim +244 fs/orangefs/orangefs-debugfs.c
+   drivers/virtio/virtio_msg_amp_pci.c: In function 'vmamp_pci_probe':
+>> drivers/virtio/virtio_msg_amp_pci.c:84:26: error: implicit declaration of function 'pci_iomap_wc'; did you mean 'pcim_iomap'? [-Wimplicit-function-declaration]
+      84 |         vmamp_pci->ram = pci_iomap_wc(pdev, 1, 0);
+         |                          ^~~~~~~~~~~~
+         |                          pcim_iomap
+>> drivers/virtio/virtio_msg_amp_pci.c:84:24: error: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      84 |         vmamp_pci->ram = pci_iomap_wc(pdev, 1, 0);
+         |                        ^
+   drivers/virtio/virtio_msg_amp_pci.c:94:30: error: implicit declaration of function 'pci_msix_vec_count' [-Wimplicit-function-declaration]
+      94 |         vmamp_pci->vectors = pci_msix_vec_count(pdev);
+         |                              ^~~~~~~~~~~~~~~~~~
+   drivers/virtio/virtio_msg_amp_pci.c:131:9: error: implicit declaration of function 'pci_free_irq_vectors'; did you mean 'pci_alloc_irq_vectors'? [-Wimplicit-function-declaration]
+     131 |         pci_free_irq_vectors(pdev);
+         |         ^~~~~~~~~~~~~~~~~~~~
+         |         pci_alloc_irq_vectors
+   In file included from include/linux/io.h:12,
+                    from include/linux/irq.h:20,
+                    from include/asm-generic/hardirq.h:17,
+                    from arch/sh/include/asm/hardirq.h:9,
+                    from include/linux/hardirq.h:11,
+                    from include/linux/interrupt.h:11,
+                    from include/linux/pci.h:38,
+                    from drivers/virtio/virtio_msg_amp_pci.c:10:
+>> arch/sh/include/asm/io.h:122:21: error: implicit declaration of function 'pci_iounmap'; did you mean 'pcim_iounmap'? [-Wimplicit-function-declaration]
+     122 | #define pci_iounmap pci_iounmap
+         |                     ^~~~~~~~~~~
+   drivers/virtio/virtio_msg_amp_pci.c:133:9: note: in expansion of macro 'pci_iounmap'
+     133 |         pci_iounmap(pdev, vmamp_pci->ram);
+         |         ^~~~~~~~~~~
+   drivers/virtio/virtio_msg_amp_pci.c: At top level:
+   drivers/virtio/virtio_msg_amp_pci.c:178:1: warning: data definition has no type or storage class
+     178 | module_pci_driver(vmamp_pci_driver);
+         | ^~~~~~~~~~~~~~~~~
+   drivers/virtio/virtio_msg_amp_pci.c:178:1: error: type defaults to 'int' in declaration of 'module_pci_driver' [-Wimplicit-int]
+   drivers/virtio/virtio_msg_amp_pci.c:178:1: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
+   drivers/virtio/virtio_msg_amp_pci.c:171:26: warning: 'vmamp_pci_driver' defined but not used [-Wunused-variable]
+     171 | static struct pci_driver vmamp_pci_driver = {
+         |                          ^~~~~~~~~~~~~~~~
 
-   234	
-   235	/*
-   236	 * initialize the kernel-debug file.
-   237	 */
-   238	static void orangefs_kernel_debug_init(void)
-   239	{
-   240		static char k_buffer[ORANGEFS_MAX_DEBUG_STRING_LEN] = { };
-   241		size_t len =
-   242			strscpy(k_buffer, kernel_debug_string, sizeof(k_buffer) - 1);
-   243	
- > 244		if (len >= 0) {
-   245			k_buffer[len] = '\n';
-   246			k_buffer[len + 1] = '\0';
-   247		} else {
-   248			strscpy(k_buffer, "none\n");
-   249			pr_info("%s: overflow 1!\n", __func__);
-   250		}
-   251	
-   252		debugfs_create_file_aux_num(ORANGEFS_KMOD_DEBUG_FILE, 0444, debug_dir, k_buffer,
-   253				    0, &kernel_debug_fops);
-   254	}
-   255	
-   256	
-   257	void orangefs_debugfs_cleanup(void)
-   258	{
-   259		debugfs_remove_recursive(debug_dir);
-   260		kfree(debug_help_string);
-   261		debug_help_string = NULL;
-   262	}
-   263	
-   264	/* open ORANGEFS_KMOD_DEBUG_HELP_FILE */
-   265	static int orangefs_debug_help_open(struct inode *inode, struct file *file)
-   266	{
-   267		int rc = -ENODEV;
-   268		int ret;
-   269	
-   270		gossip_debug(GOSSIP_DEBUGFS_DEBUG,
-   271			     "orangefs_debug_help_open: start\n");
-   272	
-   273		if (orangefs_debug_disabled)
-   274			goto out;
-   275	
-   276		ret = seq_open(file, &help_debug_ops);
-   277		if (ret)
-   278			goto out;
-   279	
-   280		((struct seq_file *)(file->private_data))->private = inode->i_private;
-   281	
-   282		rc = 0;
-   283	
-   284	out:
-   285		gossip_debug(GOSSIP_DEBUGFS_DEBUG,
-   286			     "orangefs_debug_help_open: rc:%d:\n",
-   287			     rc);
-   288		return rc;
-   289	}
-   290	
-   291	/*
-   292	 * I think start always gets called again after stop. Start
-   293	 * needs to return NULL when it is done. The whole "payload"
-   294	 * in this case is a single (long) string, so by the second
-   295	 * time we get to start (pos = 1), we're done.
-   296	 */
-   297	static void *help_start(struct seq_file *m, loff_t *pos)
-   298	{
-   299		void *payload = NULL;
-   300	
-   301		gossip_debug(GOSSIP_DEBUGFS_DEBUG, "help_start: start\n");
-   302	
-   303		mutex_lock(&orangefs_help_file_lock);
-   304	
-   305		if (*pos == 0)
-   306			payload = m->private;
-   307	
-   308		return payload;
-   309	}
-   310	
-   311	static void *help_next(struct seq_file *m, void *v, loff_t *pos)
-   312	{
-   313		(*pos)++;
-   314		gossip_debug(GOSSIP_DEBUGFS_DEBUG, "help_next: start\n");
-   315	
-   316		return NULL;
-   317	}
-   318	
-   319	static void help_stop(struct seq_file *m, void *p)
-   320	{
-   321		gossip_debug(GOSSIP_DEBUGFS_DEBUG, "help_stop: start\n");
-   322		mutex_unlock(&orangefs_help_file_lock);
-   323	}
-   324	
-   325	static int help_show(struct seq_file *m, void *v)
-   326	{
-   327		gossip_debug(GOSSIP_DEBUGFS_DEBUG, "help_show: start\n");
-   328	
-   329		seq_puts(m, v);
-   330	
-   331		return 0;
-   332	}
-   333	
-   334	/*
-   335	 * initialize the client-debug file.
-   336	 */
-   337	static void orangefs_client_debug_init(void)
-   338	{
-   339		static char c_buffer[ORANGEFS_MAX_DEBUG_STRING_LEN] = { };
-   340		size_t len =
-   341			strscpy(c_buffer, client_debug_string, sizeof(c_buffer) - 1);
-   342	
- > 343		if (len >= 0) {
-   344			c_buffer[len] = '\n';
-   345			c_buffer[len + 1] = '\0';
-   346		} else {
-   347			strscpy(c_buffer, "none\n");
-   348			pr_info("%s: overflow! 2\n", __func__);
-   349		}
-   350	
-   351		client_debug_dentry = debugfs_create_file_aux_num(
-   352						  ORANGEFS_CLIENT_DEBUG_FILE,
-   353						  0444, debug_dir, c_buffer, 1,
-   354						  &kernel_debug_fops);
-   355	}
-   356	
+
+vim +84 drivers/virtio/virtio_msg_amp_pci.c
+
+    48	
+    49	static int vmamp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+    50	{
+    51		struct vmamp_pci *vmamp_pci;
+    52		resource_size_t	size;
+    53		phys_addr_t addr;
+    54		int ret, i;
+    55	
+    56		vmamp_pci = devm_kzalloc(&pdev->dev, sizeof(*vmamp_pci), GFP_KERNEL);
+    57		if (!vmamp_pci) {
+    58			ret = -ENOMEM;
+    59			goto error;
+    60		}
+    61	
+    62		ret = pcim_enable_device(pdev);
+    63		if (ret)
+    64			goto error;
+    65	
+    66		/* Request 3 BARs */
+    67		for (i = 0; i < 3; i++) {
+    68			ret = pcim_request_region(pdev, i, dev_name(&pdev->dev));
+    69			if (ret)
+    70				goto error;
+    71	
+    72			addr = pci_resource_start(pdev, i);
+    73			size = pci_resource_len(pdev, i);
+    74			dev_dbg(&pdev->dev, "mmr (BAR%d) at %pa, size %pr\n", i, &addr,
+    75				&size);
+    76		}
+    77	
+    78		vmamp_pci->regs = pcim_iomap(pdev, 0, 0);
+    79		if (!vmamp_pci->regs) {
+    80			ret = -ENOMEM;
+    81			goto error;
+    82		}
+    83	
+  > 84		vmamp_pci->ram = pci_iomap_wc(pdev, 1, 0);
+    85		if (!vmamp_pci->ram) {
+    86			ret = -ENOMEM;
+    87			goto error;
+    88		}
+    89	
+    90		/*
+    91		 * Grab all vectors although we can only coalesce them into a single
+    92		 * notifier. This avoids missing any event.
+    93		 */
+    94		vmamp_pci->vectors = pci_msix_vec_count(pdev);
+    95		if (vmamp_pci->vectors < 0)
+    96			vmamp_pci->vectors = 1;
+    97	
+    98		ret = pci_alloc_irq_vectors(pdev, vmamp_pci->vectors,
+    99					    vmamp_pci->vectors, PCI_IRQ_MSIX);
+   100		if (ret < 0)
+   101			goto unmap_ram;
+   102	
+   103		for (i = 0; i < vmamp_pci->vectors; i++) {
+   104			ret = request_irq(pci_irq_vector(pdev, i), irq_handler,
+   105					  IRQF_SHARED, dev_name(&pdev->dev), vmamp_pci);
+   106			if (ret)
+   107				goto free_irq;
+   108		}
+   109	
+   110		vmamp_pci->vmamp.dev = &pdev->dev;
+   111		vmamp_pci->vmamp.ops = &vmamp_pci_ops;
+   112		pci_set_drvdata(pdev, vmamp_pci);
+   113		pci_set_master(pdev);
+   114	
+   115		/* First 4KB are reserved */
+   116		vmamp_pci->vmamp.shmem = vmamp_pci->ram + 4 * 1024;
+   117		vmamp_pci->vmamp.shmem_size = 8 * 1024;
+   118		memset(vmamp_pci->vmamp.shmem, 0, vmamp_pci->vmamp.shmem_size);
+   119	
+   120		ret = virtio_msg_amp_register(&vmamp_pci->vmamp);
+   121		if (ret)
+   122			goto clear_master;
+   123	
+   124		return 0;
+   125	
+   126	clear_master:
+   127		pci_clear_master(pdev);
+   128	free_irq:
+   129		while (--i >= 0)
+   130			free_irq(pci_irq_vector(pdev, i), vmamp_pci);
+   131		pci_free_irq_vectors(pdev);
+   132	unmap_ram:
+   133		pci_iounmap(pdev, vmamp_pci->ram);
+   134	error:
+   135		dev_err(&pdev->dev, "probe failed: %d\n", ret);
+   136		return ret;
+   137	}
+   138	
 
 -- 
 0-DAY CI Kernel Test Service
