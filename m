@@ -1,160 +1,143 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 231D7372B59
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B6D37473A
 	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Apr 2026 03:49:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775533764; cv=none; b=Q/elVmAToqF0e+Oc1KN1V6fm233wcyYkW3cdxTSwFIivlMwGwHlSIGyrwhdHr5rSAiK6xVxbsNW3RgFVpalxhneEptrOADyWTIhs1BZbJccENoFPUzyuC4Qb3XECMDvDS/B5pbmIgGiL2EY6xBwG55tf1KcBQfviSiAoR+o4IYc=
+	t=1775533765; cv=none; b=eEZFyphrLI6smGAUmo2X5TSAcLD42K8UyAeUebM4CP4lvt07b6tVRTZx4gBzate0+TJBjyGl+fepvTbHsM3Jk2baPZGO6UELAB+rgUe56OriuOfW02yPUWpOMt9B7QHn8eJ9OVyIrLFXQVzBhzPi7nwk1VoBAWSGemRQeAXTLw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775533764; c=relaxed/simple;
-	bh=aecFTchd3ddWUqfzeEhyR7XABI3jvnpWIxigX/TOUiw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=eJy0NRpTMk/8SJ/d9W97DxBEfXCPF83bS+uZQtaB9fgKyi8hXR78oG9/gcEsJjiLPRraXfXYE0/OarRpclhBQV075vO3d1UFwDkdlR7y6zoCyfTcHhCE+SDa8ECpNIBKyNrtXUDbJxxQ30nR8LAAGkKBnir+tv/Mm25j80tCL8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cPP+VCmi; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1775533765; c=relaxed/simple;
+	bh=zmBtE/tDyvIPnUqO82t4WbVnVkVeQ1qLfF4HJSnBQMY=;
+	h=Date:From:Cc:Subject:Message-ID; b=X1q34JIBRr9JhtFsOk6f4OCgTiQCwHQByrMuuyTzyuckFMOdgtvv1ZiGTcw7IXlZxmYUGgGdtkhIzc14IkOywRLxoNE6gKjx4KGu+Hnumn3snEx9Qx9b/FFIPna1w/leh1gDFtV7dPo+YIdHzbztqxY22JvND6/8B3pW2GSM+9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S6hjwUze; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cPP+VCmi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S6hjwUze"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775533763; x=1807069763;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=aecFTchd3ddWUqfzeEhyR7XABI3jvnpWIxigX/TOUiw=;
-  b=cPP+VCmiAKSaWja5QJTF7VUZ/l9CkeK07yQZaXuReUg1l2Rv5alCBKA2
-   oTfdEIRFWi8uQPBhbohV/fbpBM+HvkwRvXzN+aebnSSEmilVfzWj0fQx0
-   EChszGg5khohxGvK1xgFef7qwRZyy9FKCEiW9FiX0m5pc9rU8zfskkbPO
-   PPBE6NkJRikxCklP30OiCMd3jT7GrkQ2eTmWqOCab2QGHAn6iHP5a5jlW
-   wxkKXxtFPsdalPjMinR41urvDZLWMciuc2ASYZ6i2dQStoeyVIgvCBXs2
-   5zQwfv+CfirSEorTJBmQ6U7HE8Zsp2heuUvHTY22ONyl4LAe5ebH1Dpvg
-   w==;
-X-CSE-ConnectionGUID: bv7hxRoJQW+XbbllqGQffQ==
-X-CSE-MsgGUID: YfoBLRlwRce5cQGUlZfXFQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="76385861"
+  t=1775533764; x=1807069764;
+  h=date:from:cc:subject:message-id;
+  bh=zmBtE/tDyvIPnUqO82t4WbVnVkVeQ1qLfF4HJSnBQMY=;
+  b=S6hjwUzeEwiNgsQ2eSX2B8vHMJaq2Vir9k3u/r9YmBhKVj5dv05cLpq/
+   7Rj71pZXj+GR8zQVZU65IbqR/zos7LYgnAAluRk0SkYx6HztMJeWAy2rt
+   uNKA/TdZLu7ZURcjZpcFR798BsltcXEgTAcqOuXpdZMzga341hu9CW5gk
+   AqAff0P7t52K4o2i2JWETCGZFddiqYrCB5t4TZKPtltqBdmqRVWXWNHU6
+   edS/tMWP51d0CeDvp45GQ/BmyygI0ZqtyurlD6B8rcQ1HTr0ld+eiNsxP
+   /v0OmFguwn4Dt7NY+30i3EkEZ3Odz18JSB6VFRHi4ogxUCnCuHSFo3JHb
+   Q==;
+X-CSE-ConnectionGUID: hT2RpOHXSg+ShyviEB5xwA==
+X-CSE-MsgGUID: iRSQjOl7RkqVeoqbGZn6xg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="76385863"
 X-IronPort-AV: E=Sophos;i="6.23,164,1770624000"; 
-   d="scan'208";a="76385861"
+   d="scan'208";a="76385863"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2026 20:49:21 -0700
-X-CSE-ConnectionGUID: KQ0usTrURIWnXLpFe9Drwg==
-X-CSE-MsgGUID: Mmby/2tgQu6mAmc/bx6WMg==
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2026 20:49:22 -0700
+X-CSE-ConnectionGUID: 7T8KBycEQHu8gG3GL+AQyQ==
+X-CSE-MsgGUID: +fbvA30jQjGKngShf/jYrA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,164,1770624000"; 
-   d="scan'208";a="251191878"
+   d="scan'208";a="251191880"
 Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
   by fmviesa002.fm.intel.com with ESMTP; 06 Apr 2026 20:49:20 -0700
 Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w9xRG-0000000001L-0pok;
+	id 1w9xRG-0000000001S-1Brv;
 	Tue, 07 Apr 2026 03:49:18 +0000
-Date: Tue, 07 Apr 2026 11:48:57 +0800
+Date: Tue, 07 Apr 2026 11:49:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Julian Braha <julianbraha@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- "Christian =?utf-8?Q?K=C3=B6nig"?= <christian.koenig@amd.com>
-Subject: [linux-next:master 7115/11535]
- drivers/gpu/drm/ttm/ttm_bo_util.c:465:28: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202604032023.V72xPlQf-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: drivers/gpu/drm/xe/xe_lrc.c:1116:undefined reference to
+ `xe_configfs_get_ctx_restore_post_bb'
+Message-ID: <202604032219.qsUONow2-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   cc13002a9f984d37906e9476f3e532a8cdd126f5
-commit: df75430515c33ece3de46562f917acd9792505ad [7115/11535] drm: fix dead=
- default for DRM_TTM_KUNIT_TEST
-config: m68k-randconfig-r112-20260403 (https://download.01.org/0day-ci/arch=
-ive/20260403/202604032023.V72xPlQf-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 8.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260403/202604032023.V72xPlQf-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d8a9a4b11a137909e306e50346148fc5c3b63f9d
+commit: 6c6988c5e03df145e6c5cabc50d67b11f5aa2e56 drm/xe/lrc: Allow to add user commands on context switch
+date:   7 months ago
+config: arc-randconfig-002-20260401 (https://download.01.org/0day-ci/archive/20260403/202604032219.qsUONow2-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260403/202604032219.qsUONow2-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 6c6988c5e03d ("drm/xe/lrc: Allow to add user commands on context switch")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604032023.V72xPlQf-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604032219.qsUONow2-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/ttm/ttm_bo_util.c:329:38: sparse: sparse: incorrect type=
- in assignment (different address spaces) @@     expected void *virtual @@ =
-    got void [noderef] __iomem * @@
-   drivers/gpu/drm/ttm/ttm_bo_util.c:329:38: sparse:     expected void *vir=
-tual
-   drivers/gpu/drm/ttm/ttm_bo_util.c:329:38: sparse:     got void [noderef]=
- __iomem *
-   drivers/gpu/drm/ttm/ttm_bo_util.c:335:38: sparse: sparse: incorrect type=
- in assignment (different address spaces) @@     expected void *virtual @@ =
-    got void [noderef] __iomem * @@
-   drivers/gpu/drm/ttm/ttm_bo_util.c:335:38: sparse:     expected void *vir=
-tual
-   drivers/gpu/drm/ttm/ttm_bo_util.c:335:38: sparse:     got void [noderef]=
- __iomem *
->> drivers/gpu/drm/ttm/ttm_bo_util.c:465:28: sparse: sparse: incorrect type=
- in argument 1 (different address spaces) @@     expected void [noderef] __=
-iomem *addr @@     got void *virtual @@
-   drivers/gpu/drm/ttm/ttm_bo_util.c:465:28: sparse:     expected void [nod=
-eref] __iomem *addr
-   drivers/gpu/drm/ttm/ttm_bo_util.c:465:28: sparse:     got void *virtual
+All errors (new ones prefixed by >>):
 
-vim +465 drivers/gpu/drm/ttm/ttm_bo_util.c
+   arc-linux-ld: drivers/gpu/drm/xe/xe_module.o:(.rodata+0x8): undefined reference to `xe_configfs_init'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_module.o:(.rodata+0x8): undefined reference to `xe_configfs_init'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_module.o:(.rodata+0xc): undefined reference to `xe_configfs_exit'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_module.o:(.rodata+0xc): undefined reference to `xe_configfs_exit'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_guc.o: in function `xe_guc_init_post_hwconfig':
+   drivers/gpu/drm/xe/xe_guc.c:90:(.text+0xb7a): undefined reference to `xe_configfs_get_psmi_enabled'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_guc.c:90:(.text+0xb7a): undefined reference to `xe_configfs_get_psmi_enabled'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_hw_engine.o: in function `xe_hw_engines_init_early':
+   drivers/gpu/drm/xe/xe_hw_engine.c:812:(.text+0x994): undefined reference to `xe_configfs_get_engines_allowed'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_hw_engine.c:812:(.text+0x994): undefined reference to `xe_configfs_get_engines_allowed'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_lrc.o: in function `setup_configfs_post_ctx_restore_bb':
+>> drivers/gpu/drm/xe/xe_lrc.c:1116:(.text+0x5ce): undefined reference to `xe_configfs_get_ctx_restore_post_bb'
+>> arc-linux-ld: drivers/gpu/drm/xe/xe_lrc.c:1116:(.text+0x5ce): undefined reference to `xe_configfs_get_ctx_restore_post_bb'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_pci.o: in function `xe_pci_probe':
+   drivers/gpu/drm/xe/xe_pci.c:828:(.text+0x5f6): undefined reference to `xe_configfs_check_device'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_pci.c:828:(.text+0x5f6): undefined reference to `xe_configfs_check_device'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_psmi.o: in function `xe_psmi_debugfs_register':
+   drivers/gpu/drm/xe/xe_psmi.c:36:(.text+0x2f6): undefined reference to `xe_configfs_get_psmi_enabled'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_psmi.c:36:(.text+0x2f6): undefined reference to `xe_configfs_get_psmi_enabled'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_psmi.o: in function `xe_psmi_init':
+   drivers/gpu/drm/xe/xe_psmi.c:36:(.text+0x368): undefined reference to `xe_configfs_get_psmi_enabled'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_psmi.c:36:(.text+0x368): undefined reference to `xe_configfs_get_psmi_enabled'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_rtp.o: in function `xe_rtp_match_psmi_enabled':
+   drivers/gpu/drm/xe/xe_rtp.c:371:(.text+0x706): undefined reference to `xe_configfs_get_psmi_enabled'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_rtp.o:drivers/gpu/drm/xe/xe_rtp.c:371: more undefined references to `xe_configfs_get_psmi_enabled' follow
+   arc-linux-ld: drivers/gpu/drm/xe/xe_survivability_mode.o: in function `xe_survivability_mode_is_requested':
+   drivers/gpu/drm/xe/xe_survivability_mode.c:295:(.text+0x264): undefined reference to `xe_configfs_get_survivability_mode'
+   arc-linux-ld: drivers/gpu/drm/xe/xe_survivability_mode.c:295:(.text+0x264): undefined reference to `xe_configfs_get_survivability_mode'
 
-ba4e7d973dd09b Thomas Hellstrom 2009-06-10  451 =20
-a3185f91d0579b Christian K=C3=B6nig  2022-05-09  452  /**
-a3185f91d0579b Christian K=C3=B6nig  2022-05-09  453   * ttm_bo_kunmap
-a3185f91d0579b Christian K=C3=B6nig  2022-05-09  454   *
-a3185f91d0579b Christian K=C3=B6nig  2022-05-09  455   * @map: Object descr=
-ibing the map to unmap.
-a3185f91d0579b Christian K=C3=B6nig  2022-05-09  456   *
-a3185f91d0579b Christian K=C3=B6nig  2022-05-09  457   * Unmaps a kernel ma=
-p set up by ttm_bo_kmap.
-a3185f91d0579b Christian K=C3=B6nig  2022-05-09  458   */
-ba4e7d973dd09b Thomas Hellstrom 2009-06-10  459  void ttm_bo_kunmap(struct =
-ttm_bo_kmap_obj *map)
-ba4e7d973dd09b Thomas Hellstrom 2009-06-10  460  {
-ba4e7d973dd09b Thomas Hellstrom 2009-06-10  461  	if (!map->virtual)
-ba4e7d973dd09b Thomas Hellstrom 2009-06-10  462  		return;
-ba4e7d973dd09b Thomas Hellstrom 2009-06-10  463  	switch (map->bo_kmap_type=
-) {
-ba4e7d973dd09b Thomas Hellstrom 2009-06-10  464  	case ttm_bo_map_iomap:
-ba4e7d973dd09b Thomas Hellstrom 2009-06-10 @465  		iounmap(map->virtual);
-ba4e7d973dd09b Thomas Hellstrom 2009-06-10  466  		break;
-ba4e7d973dd09b Thomas Hellstrom 2009-06-10  467  	case ttm_bo_map_vmap:
-ba4e7d973dd09b Thomas Hellstrom 2009-06-10  468  		vunmap(map->virtual);
-ba4e7d973dd09b Thomas Hellstrom 2009-06-10  469  		break;
-ba4e7d973dd09b Thomas Hellstrom 2009-06-10  470  	case ttm_bo_map_kmap:
-ba4e7d973dd09b Thomas Hellstrom 2009-06-10  471  		kunmap(map->page);
-ba4e7d973dd09b Thomas Hellstrom 2009-06-10  472  		break;
-ba4e7d973dd09b Thomas Hellstrom 2009-06-10  473  	case ttm_bo_map_premapped:
-ba4e7d973dd09b Thomas Hellstrom 2009-06-10  474  		break;
-ba4e7d973dd09b Thomas Hellstrom 2009-06-10  475  	default:
-ba4e7d973dd09b Thomas Hellstrom 2009-06-10  476  		BUG();
-ba4e7d973dd09b Thomas Hellstrom 2009-06-10  477  	}
-d3116756a710e3 Christian K=C3=B6nig  2021-04-12  478  	ttm_mem_io_free(map-=
->bo->bdev, map->bo->resource);
-ba4e7d973dd09b Thomas Hellstrom 2009-06-10  479  	map->virtual =3D NULL;
-ba4e7d973dd09b Thomas Hellstrom 2009-06-10  480  	map->page =3D NULL;
-ba4e7d973dd09b Thomas Hellstrom 2009-06-10  481  }
-ba4e7d973dd09b Thomas Hellstrom 2009-06-10  482  EXPORT_SYMBOL(ttm_bo_kunma=
-p);
-ba4e7d973dd09b Thomas Hellstrom 2009-06-10  483 =20
 
-:::::: The code at line 465 was first introduced by commit
-:::::: ba4e7d973dd09b66912ac4c0856add8b0703a997 drm: Add the TTM GPU memory=
- manager subsystem.
+vim +1116 drivers/gpu/drm/xe/xe_lrc.c
 
-:::::: TO: Thomas Hellstrom <thellstrom@vmware.com>
-:::::: CC: Dave Airlie <airlied@redhat.com>
+  1106	
+  1107	static ssize_t setup_configfs_post_ctx_restore_bb(struct xe_lrc *lrc,
+  1108							  struct xe_hw_engine *hwe,
+  1109							  u32 *batch, size_t max_len)
+  1110	{
+  1111		struct xe_device *xe = gt_to_xe(lrc->gt);
+  1112		const u32 *user_batch;
+  1113		u32 *cmd = batch;
+  1114		u32 count;
+  1115	
+> 1116		count = xe_configfs_get_ctx_restore_post_bb(to_pci_dev(xe->drm.dev),
+  1117							    hwe->class, &user_batch);
+  1118		if (!count)
+  1119			return 0;
+  1120	
+  1121		if (count > max_len)
+  1122			return -ENOSPC;
+  1123	
+  1124		/*
+  1125		 * This should be used only for tests and validation. Taint the kernel
+  1126		 * as anything could be submitted directly in context switches
+  1127		 */
+  1128		add_taint(TAINT_TEST, LOCKDEP_STILL_OK);
+  1129	
+  1130		memcpy(cmd, user_batch, count * sizeof(u32));
+  1131		cmd += count;
+  1132	
+  1133		return cmd - batch;
+  1134	}
+  1135	
 
---=20
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
