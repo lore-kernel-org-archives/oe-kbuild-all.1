@@ -1,212 +1,205 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 767CF348898
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Apr 2026 05:12:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.179
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775538775; cv=pass; b=EjsPDyhZsswfe6k/zhGirUdhP0cA6Mbp97gkxIO/t5g8dD8l1F0SnT2T/VnSGL7dv17p6y5TohWu7A/Q/wkx1lGZiCBG7IGaTbBmW1Mtzuy2VbpYbfGG4H0cbRf7BFzvHdaYDoWB/Xr/lyIaxiC0tnjEwfCv1pCK3Hso6aU1uO4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775538775; c=relaxed/simple;
-	bh=/tAeAVFfLa3BAJdaw8XFGiTq1kAgqBc+qqoSggDEA+c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TsHdqkZe50yoQCF3dDPuG13QZaltXX95mRIIKPPHyKZRRdjNJdxw/5mpuev+ZwUJWr0TaftyB8MEIdM9Y4uDyacUo5kqxH64DfxGKgch/nlpinIf/nalO9jw3Wcm69l4LmtCRcERCbXc2drJtyZsWOPoVtk/7siNIuFuYFlpYr0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Dc/UoGKa; arc=pass smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99CA737E2FF
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Apr 2026 06:09:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775542196; cv=none; b=fLk9SGwtN+WbSY7wFYJBfNJQH9hpAt0xv6dQI6Rku5GO/YBWM9j5cfT6oTu1uDUX9n039n8kxl6s5Yne36VXJMrhlAyKK0b0lt20oQb8xqBwBJdpQ38YXZwmmoxTDNHawVkLrObSoQkLiYCRVxoBTvW2jA96wGooJctrj7vh2vk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775542196; c=relaxed/simple;
+	bh=3ckw8wTfCgtgPyWLjwOQ6lVxaDY65/DrTBJxoh7anqE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=HeHqnLqKnErWG41h1AHe65DyAzQ2ralDTolOftdtMNOMwqL1RZceockPHHdN4MMsFIRJCn/2slCfjVTL5zUoUwi0uPsAZufbOaX/KmtHUnJHP797qU01i4/7rf3b2GpKuR41YsbeyG2vuXaKSD9+zcCOmJBEAPTRv/nSOaxpcqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YenQwMTp; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Dc/UoGKa"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2b2591757fbso346725ad.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 06 Apr 2026 22:12:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775538774; cv=none;
-        d=google.com; s=arc-20240605;
-        b=iDuOS0O0CojXxyxP38iKoVdETlvUBf8In9vew80N4L3Lo5Dg+fZxielp8FWlGe8Mje
-         6oW7PEgNBbbx2WsJ/0sofAkRrAisDFuPOYiQzngVmuxT7UVqfBvqPWxqx1o8TBXwx5QJ
-         MU8lEzUkH6Jpz4XIXhMRjOUARpFVIHZ6yxUxjydXxz37v7vUJdQa/jme/TkRw6qoNY4B
-         cJb7nR77nSoJTQYQn4FoZ2Z91wLIMosGev2tWCzInc5IfssYNSdTUDWqoLlwv1gKjcCQ
-         JShLv2oiXYaLtpGaM0ZfLdWGMyleWGJGVMUez+3JHhvqQn3kWPDVdkXNjTWhY34Y1S+K
-         Q0SA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=xP9Cc2QEXzoralI8Q3/pv4kXEl+6Bhb4StE3Cccy/K8=;
-        fh=Vhp424LqTaE6Bp7QpTiiM8dCIvAKgo61Zf4PPdq1yYk=;
-        b=AIk9k1svMqfX3GXg88uH8Pxmznv1Aw3nTdEy0SfdNgSja8C2E+uQSS/dLNNOklGnVC
-         9P9aZYFDUQBpAYSd73jrC/IyIP8kIVTGjtKFxtwK9rb+9BTW+wxFvjM43/9jyWLo0lkU
-         AiZ8p2QNtqFT8CQKiIV2OzZwhiFjAWQkKzzofIlgSNdF91dja/Mb5InAFyci+1guNNT6
-         t0dLvQTHdGhjEtIv8GZhaY9jzDCvrDg1KjZVJcu3csszJeAG/bKyK9iOS+AmR40ekYtx
-         V92GCmWLVgyB3phTgaAyAgsDSJI2fwwcp3g31P4gBtqdQNWfyy+NYAFK1oxndq4jboeK
-         Mvgg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1775538774; x=1776143574; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xP9Cc2QEXzoralI8Q3/pv4kXEl+6Bhb4StE3Cccy/K8=;
-        b=Dc/UoGKav2B7r2vvS/4fDUDANTxa8mIKVmKttnXWtoThXs4oY5KZldlSxb9bg0bYv2
-         7ORMMKM+A0z/rgaX8qU/T/Hpr105Q4b91EylS1Xy7KUQSW8tD6kmrypgGlBRjfb/oKrL
-         bXLbMqWNAOaQUbcqVfV3Po42ilAOMlfFkzTDC1JVMuxAexrglPyTPeS9XUmC9c5RPEpq
-         prf+dUCYU5uL5ZbyxmGrsCJQG/qUPXrw6SIrJ2YlvaL+tjb8wTGPLQ6nkxxgK0hF+BHV
-         Cf8Mb/mFxc8Pizn+0zKfQoH1thf3dcbv8ACuzoWAJ1EudLyMKDyldzJzYJ+rTXQUcu/6
-         AAUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775538774; x=1776143574;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=xP9Cc2QEXzoralI8Q3/pv4kXEl+6Bhb4StE3Cccy/K8=;
-        b=Azhbkd2qRX6c052YnP7wFSZqSX7UZ8XEzUdNt52zf58m9XHrn/L1VKNslKp3DV4U6J
-         8tqqsTHozzsIhjjGPrNO90zKEIwobWcdJEpEMwgPdoyqZbBwAThNxNbpy0DZEGfZ3xU4
-         zq3pIusGdhsnVZSgunPmlNa8bAw1f5dGoUTo51sZ1h2eL48RXrYIV2cvvUm1M1rTk02f
-         alAwpUPVI+XHHXRYP5guSI+8i7A465n2g+SCCVK5TVReqsFxt99ZPuTE3W1PM2ZzbDPZ
-         8ofVbuWXVZIX7JmKQq4ODwPxkocpU3wq5TRWaYaitG3d9+EIXGzexCrfR8TOCLzBbUOR
-         6big==
-X-Gm-Message-State: AOJu0YzZj6LrDmZPCujBL/vFvsJXXcIeZRozwwpBHSZUkmqY/+e6am2J
-	RsWhKzw6ewPgbJnstxaJqLK5EOTQlZt+jN3KMuABBBJmGVTjLzP7Lg4x9YRozCoJd6b1NVTAC9y
-	dZqoKXSjWOpOVrzX9gvBuzVQOwbgH1ic0pYfmgH2v5vxWpblfmx1zLq21vpI=
-X-Gm-Gg: AeBDiesDYxHSnnF9EbRti6/6RjcvGk2dTED5IBUs/aJM0cxpBe3JnBaVC2oSLgifQ6N
-	0jhaGdCgCAHyPe2PIIifwmyS+AD15ReQLFSQJTgjeljh2dWS4rxK7a8phRheiiFKKPtNk95zTZB
-	wPmFQC+UVldN9jO6ii6MmPnVxJfHBUig4uAkDIt+BN+N5yNM4XvhdmICl793HQoM4cHt2F2cxSY
-	2tSdDZFXjaV0jrnHwO7PXFcwBxUZ3oFU5at4aEJGLLsludG50HysKGKSHSFYUa1AZFpGjRVuO+X
-	dpCKLEIp
-X-Received: by 2002:a17:902:e852:b0:271:9873:80d9 with SMTP id
- d9443c01a7336-2b283fbe6bdmr8531405ad.7.1775538773093; Mon, 06 Apr 2026
- 22:12:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YenQwMTp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775542193; x=1807078193;
+  h=date:from:to:cc:subject:message-id;
+  bh=3ckw8wTfCgtgPyWLjwOQ6lVxaDY65/DrTBJxoh7anqE=;
+  b=YenQwMTppCZSy/CLCCGSaRF8wc4+/Ws4WCnCyx1WnREphdB3ezIdrdHs
+   51hnN95qrOIeULPv9heN+W5lLexLZBjPhunvv+Qbp/g6bWZiygVfpLwt3
+   ph+80XwZnRaeRAmvM3KqCgbzPylmEJJLVoAalGVDD5WoF8zDzhdZGIejj
+   2JTcKI+2rtSJxIpbTwaglaZumXxpocIcP7Rq1+tkptFQN9ZYlLKkfjLAR
+   742HpdnD+f/HVUv3m1RvsvEqlSNJiE7ADi0xRIv8u955Z3mnTtvMAFqaH
+   JdsoPiDyicyRTewe4EHXYWrFsAwDW1NWKoL3XBHY7gyfo/jfOgASSPXM7
+   g==;
+X-CSE-ConnectionGUID: KmmYRjdtQx+Elp0NoJTVyg==
+X-CSE-MsgGUID: D1rWJZtGSjmZMqUhMO69vw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="64043229"
+X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
+   d="scan'208";a="64043229"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2026 23:09:53 -0700
+X-CSE-ConnectionGUID: skaRgYyQTHWipu15rydJAg==
+X-CSE-MsgGUID: S9pypz3pRgy2L1FVky+GHw==
+X-ExtLoop1: 1
+Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 06 Apr 2026 23:09:52 -0700
+Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w9zdF-000000000F7-1pcG;
+	Tue, 07 Apr 2026 06:09:49 +0000
+Date: Tue, 07 Apr 2026 14:09:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mike Marshall <hubcap@omnibond.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hubcap:for-next 1/6] fs/orangefs/orangefs-debugfs.c:244
+ orangefs_kernel_debug_init() warn: always true condition '(len >= 0) =>
+ (0-u32max >= 0)'
+Message-ID: <202604071457.uNO3HzCt-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <202604070917.ZVd6Ugz4-lkp@intel.com>
-In-Reply-To: <202604070917.ZVd6Ugz4-lkp@intel.com>
-From: Ian Rogers <irogers@google.com>
-Date: Mon, 6 Apr 2026 22:12:41 -0700
-X-Gm-Features: AQROBzBKvQqVQNICwhE1RilQY2nY6Rrqn-aYKRpKX9DBeQSfK51lDsGdw4UTVjo
-Message-ID: <CAP-5=fVBZPBz6J1omfvSS4JLkueRGqCdouLji6gsFLTeu9nJTw@mail.gmail.com>
-Subject: Re: include/vdso/unaligned.h:23:9: warning: '__builtin_memcpy'
- reading 4 bytes from a region of size 0
-To: kernel test robot <lkp@intel.com>, linux-mips@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Thomas Gleixner <tglx@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 6, 2026 at 9:03=E2=80=AFPM kernel test robot <lkp@intel.com> wr=
-ote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   bfe62a454542cfad3379f6ef5680b125f41e20f4
-> commit: a339671db64b12bb02492557d2b0658811286277 vdso: Switch get/put_una=
-ligned() from packed struct to memcpy()
-> date:   3 months ago
-> config: mips-randconfig-r111-20260406 (https://download.01.org/0day-ci/ar=
-chive/20260407/202604070917.ZVd6Ugz4-lkp@intel.com/config)
-> compiler: mips-linux-gcc (GCC) 13.4.0
-> sparse: v0.6.5-rc1
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20260407/202604070917.ZVd6Ugz4-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Fixes: a339671db64b ("vdso: Switch get/put_unaligned() from packed stru=
-ct to memcpy()")
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202604070917.ZVd6Ugz4-lkp=
-@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->    In file included from include/linux/byteorder/little_endian.h:5,
->                     from arch/mips/include/uapi/asm/byteorder.h:15,
->                     from arch/mips/include/asm/bitops.h:21,
->                     from include/linux/bitops.h:67,
->                     from include/linux/kernel.h:23,
->                     from arch/mips/boot/compressed/decompress.c:14:
->    In function 'get_unaligned_le32',
->        inlined from 'decompress_kernel' at arch/mips/boot/compressed/deco=
-mpress.c:113:16:
-> >> include/vdso/unaligned.h:23:9: warning: '__builtin_memcpy' reading 4 b=
-ytes from a region of size 0 [-Wstringop-overread]
->       23 |         __builtin_memcpy(&__get_unaligned_val, (void *)(ptr), =
-          \
->          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~
->       24 |                          sizeof(__get_unaligned_val));        =
-          \
->          |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    include/uapi/linux/byteorder/little_endian.h:35:51: note: in definitio=
-n of macro '__le32_to_cpu'
->       35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
->          |                                                   ^
->    include/linux/unaligned.h:23:28: note: in expansion of macro '__get_un=
-aligned_t'
->       23 |         return le32_to_cpu(__get_unaligned_t(__le32, p));
->          |                            ^~~~~~~~~~~~~~~~~
->    In file included from arch/mips/boot/compressed/decompress.c:22:
->    arch/mips/boot/compressed/decompress.h: In function 'decompress_kernel=
-':
->    arch/mips/boot/compressed/decompress.h:6:39: note: at offset -4 into s=
-ource object '__image_end' of size [0, 2147483647]
->        6 | extern unsigned char __image_begin[], __image_end[];
->          |                                       ^~~~~~~~~~~
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hubcap/linux.git for-next
+head:   fb0898b77656046fd25c5f08cf89cd6e3899e6db
+commit: 30b7c30781f0440e70a5e0c8943be423b57bbd9b [1/6] debugfs: take better advantage of strscpy.
+config: m68k-randconfig-r072-20260407 (https://download.01.org/0day-ci/archive/20260407/202604071457.uNO3HzCt-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.3.0
+smatch: v0.5.0-9004-gb810ac53
 
-I wonder if in:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arc=
-h/mips/boot/compressed/decompress.c#n113
-```
-image_size =3D get_unaligned_le32((void *)__image_end - 4);
-```
-would be better as:
-```
-image_size =3D get_unaligned_le32((void *)__image_begin + zimage_size - 4);
-```
-so that the code isn't negatively indexing an array.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604071457.uNO3HzCt-lkp@intel.com/
 
-Thanks,
-Ian
+smatch warnings:
+fs/orangefs/orangefs-debugfs.c:244 orangefs_kernel_debug_init() warn: always true condition '(len >= 0) => (0-u32max >= 0)'
+fs/orangefs/orangefs-debugfs.c:343 orangefs_client_debug_init() warn: always true condition '(len >= 0) => (0-u32max >= 0)'
 
->
-> vim +/__builtin_memcpy +23 include/vdso/unaligned.h
->
->      6
->      7  /**
->      8   * __get_unaligned_t - read an unaligned value from memory.
->      9   * @type:       the type to load from the pointer.
->     10   * @ptr:        the pointer to load from.
->     11   *
->     12   * Use memcpy to affect an unaligned type sized load avoiding und=
-efined behavior
->     13   * from approaches like type punning that require -fno-strict-ali=
-asing in order
->     14   * to be correct. As type may be const, use __unqual_scalar_typeo=
-f to map to a
->     15   * non-const type - you can't memcpy into a const type. The
->     16   * __get_unaligned_ctrl_type gives __unqual_scalar_typeof its req=
-uired
->     17   * expression rather than type, a pointer is used to avoid warnin=
-gs about mixing
->     18   * the use of 0 and NULL. The void* cast silences ubsan warnings.
->     19   */
->     20  #define __get_unaligned_t(type, ptr) ({                          =
-       \
->     21          type *__get_unaligned_ctrl_type __always_unused =3D NULL;=
-         \
->     22          __unqual_scalar_typeof(*__get_unaligned_ctrl_type) __get_=
-unaligned_val; \
->   > 23          __builtin_memcpy(&__get_unaligned_val, (void *)(ptr),    =
-       \
->     24                           sizeof(__get_unaligned_val));           =
-       \
->     25          __get_unaligned_val;                                     =
-       \
->     26  })
->     27
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+vim +244 fs/orangefs/orangefs-debugfs.c
+
+   234	
+   235	/*
+   236	 * initialize the kernel-debug file.
+   237	 */
+   238	static void orangefs_kernel_debug_init(void)
+   239	{
+   240		static char k_buffer[ORANGEFS_MAX_DEBUG_STRING_LEN] = { };
+   241		size_t len =
+   242			strscpy(k_buffer, kernel_debug_string, sizeof(k_buffer) - 1);
+   243	
+ > 244		if (len >= 0) {
+   245			k_buffer[len] = '\n';
+   246			k_buffer[len + 1] = '\0';
+   247		} else {
+   248			strscpy(k_buffer, "none\n");
+   249			pr_info("%s: overflow 1!\n", __func__);
+   250		}
+   251	
+   252		debugfs_create_file_aux_num(ORANGEFS_KMOD_DEBUG_FILE, 0444, debug_dir, k_buffer,
+   253				    0, &kernel_debug_fops);
+   254	}
+   255	
+   256	
+   257	void orangefs_debugfs_cleanup(void)
+   258	{
+   259		debugfs_remove_recursive(debug_dir);
+   260		kfree(debug_help_string);
+   261		debug_help_string = NULL;
+   262	}
+   263	
+   264	/* open ORANGEFS_KMOD_DEBUG_HELP_FILE */
+   265	static int orangefs_debug_help_open(struct inode *inode, struct file *file)
+   266	{
+   267		int rc = -ENODEV;
+   268		int ret;
+   269	
+   270		gossip_debug(GOSSIP_DEBUGFS_DEBUG,
+   271			     "orangefs_debug_help_open: start\n");
+   272	
+   273		if (orangefs_debug_disabled)
+   274			goto out;
+   275	
+   276		ret = seq_open(file, &help_debug_ops);
+   277		if (ret)
+   278			goto out;
+   279	
+   280		((struct seq_file *)(file->private_data))->private = inode->i_private;
+   281	
+   282		rc = 0;
+   283	
+   284	out:
+   285		gossip_debug(GOSSIP_DEBUGFS_DEBUG,
+   286			     "orangefs_debug_help_open: rc:%d:\n",
+   287			     rc);
+   288		return rc;
+   289	}
+   290	
+   291	/*
+   292	 * I think start always gets called again after stop. Start
+   293	 * needs to return NULL when it is done. The whole "payload"
+   294	 * in this case is a single (long) string, so by the second
+   295	 * time we get to start (pos = 1), we're done.
+   296	 */
+   297	static void *help_start(struct seq_file *m, loff_t *pos)
+   298	{
+   299		void *payload = NULL;
+   300	
+   301		gossip_debug(GOSSIP_DEBUGFS_DEBUG, "help_start: start\n");
+   302	
+   303		mutex_lock(&orangefs_help_file_lock);
+   304	
+   305		if (*pos == 0)
+   306			payload = m->private;
+   307	
+   308		return payload;
+   309	}
+   310	
+   311	static void *help_next(struct seq_file *m, void *v, loff_t *pos)
+   312	{
+   313		(*pos)++;
+   314		gossip_debug(GOSSIP_DEBUGFS_DEBUG, "help_next: start\n");
+   315	
+   316		return NULL;
+   317	}
+   318	
+   319	static void help_stop(struct seq_file *m, void *p)
+   320	{
+   321		gossip_debug(GOSSIP_DEBUGFS_DEBUG, "help_stop: start\n");
+   322		mutex_unlock(&orangefs_help_file_lock);
+   323	}
+   324	
+   325	static int help_show(struct seq_file *m, void *v)
+   326	{
+   327		gossip_debug(GOSSIP_DEBUGFS_DEBUG, "help_show: start\n");
+   328	
+   329		seq_puts(m, v);
+   330	
+   331		return 0;
+   332	}
+   333	
+   334	/*
+   335	 * initialize the client-debug file.
+   336	 */
+   337	static void orangefs_client_debug_init(void)
+   338	{
+   339		static char c_buffer[ORANGEFS_MAX_DEBUG_STRING_LEN] = { };
+   340		size_t len =
+   341			strscpy(c_buffer, client_debug_string, sizeof(c_buffer) - 1);
+   342	
+ > 343		if (len >= 0) {
+   344			c_buffer[len] = '\n';
+   345			c_buffer[len + 1] = '\0';
+   346		} else {
+   347			strscpy(c_buffer, "none\n");
+   348			pr_info("%s: overflow! 2\n", __func__);
+   349		}
+   350	
+   351		client_debug_dentry = debugfs_create_file_aux_num(
+   352						  ORANGEFS_CLIENT_DEBUG_FILE,
+   353						  0444, debug_dir, c_buffer, 1,
+   354						  &kernel_debug_fops);
+   355	}
+   356	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
