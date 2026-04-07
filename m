@@ -1,403 +1,206 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7928C33D505;
-	Tue,  7 Apr 2026 14:57:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ED1B39DBD2
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Apr 2026 15:22:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775573861; cv=none; b=GaPsLiMe/lkJwBtpecSyMV+OFZFcU1w6EB7cSCPjL24RV4vLKgIS6OoWkqoMmWDBBr3pnXpmgcb4n4vYXRvTT2mDibIoYILTVCaDSvfbT+C1vusPTSd3o797FrhGlSLGUu6dtRJl8sjRoBpYRFOOXT2GG4DCQKwZlzCNlTfOUjU=
+	t=1775575339; cv=none; b=kPUMT9523igaoFDYPXAKNqxBI8m/rkMqrVfwJ/5b8cu/YkPZ0qfxWLJjPHDoxPl4ygv4UDveXmgOpbZ537MUX0spfeCC7l1LD62Y7rumWhDRDJb+7mrHZBVGBZ+5z56/tY9KWO2RfPF+em6oOB82utzwRAsx/ClFB4/dhaDJByc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775573861; c=relaxed/simple;
-	bh=15L1ST6FhRrF8Jjim2IjULzpYsP2AHkFcs2Y64FsoSQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i0+rVQraKZw4iKhPgsPNRMRBVujtMSuiV2hSbzcwoM9HggTSdPzlS3gSmMMKJiZZkSjNtnQ1Rx+9Qyyjc4sqjwvTQZJnzYJLByzrpHLHS5lq7lNCFqAivMIJebTXTvjeHRLRpoBmJBPmj9yi9ltc/PSwpGKBvfDMs/BMkMGdGiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WcBVk686; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1775575339; c=relaxed/simple;
+	bh=9C1+LUQy9dpuvTp3b1jt2fS3v3wrgDoO9M8kXd5QNrk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=feJsc7wzJVkMLVK9PK/RqwnAd124kdzskTVCCJL/qVZJuNPpu/csYLibFgn5MsxOn5iOo5BWnwQKxmfKDgBFycCZxG8/jcOOGnkEt9qM6aEWLKyfWAYEpzibknR/a9FR3JoMKDOBZWJy5+qhAEW05LxoooUGLGdsmSxWJA7FRRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZAGAlE/a; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WcBVk686"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZAGAlE/a"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775573858; x=1807109858;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=15L1ST6FhRrF8Jjim2IjULzpYsP2AHkFcs2Y64FsoSQ=;
-  b=WcBVk686bq6QEx1Ra2UsHaAjR+RiAK+ifl06QsF0NPHBZIRYzVqQspIG
-   Z2XtOHmVCH0y7yMDQixq//CJsPEqXwd8h7mhJecUJvR/WbEGUaffi5Wyc
-   1PJU2v7AsYVZA2hwMtTCKB2N8otwT2+pH03xFDg28Tk+yCmgleDt98lYO
-   VG14uXy/a7AoWj84Di8sVJjzWQDofqUDuER21tDD5/ObJRAko3pGi6R+9
-   KRqy3HWQAlAH4imb/9Ggr7DC9nxgzeb6qDS1uJC/IT9y3iJcpVcu9+0db
-   nXX+M+qd2oicuggNpQEM9AASjKer8c3cXX/dGjgzcw8ZvCMd3XKlR4H0E
-   g==;
-X-CSE-ConnectionGUID: 29Upk/OwTpCU5RGIthwFGQ==
-X-CSE-MsgGUID: GC6Ue3+xSzKQJvquMxUBTQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="99165691"
+  t=1775575332; x=1807111332;
+  h=date:from:to:cc:subject:message-id;
+  bh=9C1+LUQy9dpuvTp3b1jt2fS3v3wrgDoO9M8kXd5QNrk=;
+  b=ZAGAlE/a+UC9O9TjsZ8Qdum4knhXIAqVOvkAnXSjjCjpaL1NX96Vtlzr
+   vBz3PLwJREOWDAnqqVIZmLODJaauVnz4DD0JDDyv+xVtCNEhTceo+Ii82
+   PmfITzHJBO3fe4c5DoIYyuLnUTxeTJ6GpRIzXuzF0v3frn7zuPE5AK0+X
+   WrY1WF6XRjFoKzjjaWmI/fsdkSMOBUESFbL+CagbrgeYJvgdV3fPZh/eA
+   3InqQf9Rq0JxUZnZcbXlcmDSj2NOfYBJn2zLOqakDv2z6s6yHb5Ry5bAz
+   jmTfIPHFMIli9QQ1Eki9UxnGlGnyXJsec4z5XN6yeQs2cul0/c7S5Kp7N
+   w==;
+X-CSE-ConnectionGUID: Lhg953tMRc6wr0xVfYbB0A==
+X-CSE-MsgGUID: dhLHuyxQSDKJH40S7QwTYw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="80399175"
 X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
-   d="scan'208";a="99165691"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 07:57:36 -0700
-X-CSE-ConnectionGUID: CKEHrC1fQjWp0a0pD58hOA==
-X-CSE-MsgGUID: DGaOj9jHRqahhdv5QRranA==
+   d="scan'208";a="80399175"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 08:22:09 -0700
+X-CSE-ConnectionGUID: gbNcxi9ERZ22YMBlizdq/A==
+X-CSE-MsgGUID: hjzt19cLSEyPfsccSukE+Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
-   d="scan'208";a="233157229"
+   d="scan'208";a="228124586"
 Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 07 Apr 2026 07:57:34 -0700
+  by orviesa008.jf.intel.com with ESMTP; 07 Apr 2026 08:22:08 -0700
 Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wA7rv-000000000i1-08tD;
-	Tue, 07 Apr 2026 14:57:31 +0000
-Date: Tue, 7 Apr 2026 22:56:37 +0800
+	id 1wA8Fh-000000000jX-3oLz;
+	Tue, 07 Apr 2026 15:22:05 +0000
+Date: Tue, 07 Apr 2026 23:21:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joshua Klinesmith <joshuaklinesmith@gmail.com>,
-	linux-wireless@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, nbd@nbd.name,
-	lorenzo@kernel.org, ryder.lee@mediatek.com,
-	shayne.chen@mediatek.com, sean.wang@mediatek.com,
-	Joshua Klinesmith <joshuaklinesmith@gmail.com>
-Subject: Re: [PATCH wireless v2] wifi: mt76: mt7996: replace direct WTBL
- access with MCU for station statistics
-Message-ID: <202604072218.tGCSoRNR-lkp@intel.com>
-References: <20260407053855.75828-1-joshuaklinesmith@gmail.com>
+To: Mike Marshall <hubcap@omnibond.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hubcap:for-next 6/6] fs/orangefs/orangefs-bufmap.c:665:58:
+ warning: format specifies type 'long' but the argument has type 'size_t' (aka
+ 'unsigned int')
+Message-ID: <202604072330.P6qMVFm4-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260407053855.75828-1-joshuaklinesmith@gmail.com>
 
-Hi Joshua,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on wireless/main]
-[also build test ERROR on linus/master v7.0-rc7 next-20260406]
-[cannot apply to wireless-next/main]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Joshua-Klinesmith/wifi-mt76-mt7996-replace-direct-WTBL-access-with-MCU-for-station-statistics/20260407-151612
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless.git main
-patch link:    https://lore.kernel.org/r/20260407053855.75828-1-joshuaklinesmith%40gmail.com
-patch subject: [PATCH wireless v2] wifi: mt76: mt7996: replace direct WTBL access with MCU for station statistics
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20260407/202604072218.tGCSoRNR-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260407/202604072218.tGCSoRNR-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hubcap/linux.git for-next
+head:   fb0898b77656046fd25c5f08cf89cd6e3899e6db
+commit: fb0898b77656046fd25c5f08cf89cd6e3899e6db [6/6]    bufmap: manage as folios.
+config: hexagon-randconfig-r071-20260407 (https://download.01.org/0day-ci/archive/20260407/202604072330.P6qMVFm4-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c80443cd37b2e2788cba67ffa180a6331e5f0791)
+smatch: v0.5.0-9004-gb810ac53
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260407/202604072330.P6qMVFm4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604072218.tGCSoRNR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604072330.P6qMVFm4-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:4870:10: error: incompatible pointer types assigning to 'struct mt76_vif_link *' from 'struct mt76_vif_data *' [-Werror,-Wincompatible-pointer-types]
-    4870 |                                 mvif = &msta_link->sta->vif->mt76;
-         |                                      ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:4871:35: error: no member named 'link' in 'struct mt76_vif_link'
-    4871 |                                 mlink = rcu_dereference(mvif->link[wcid->link_id]);
-         |                                                         ~~~~  ^
-   include/linux/rcupdate.h:752:50: note: expanded from macro 'rcu_dereference'
-     752 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
-         |                                                  ^
-   include/linux/rcupdate.h:662:27: note: expanded from macro 'rcu_dereference_check'
-     662 |         __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-         |                                  ^
-   include/linux/rcupdate.h:514:10: note: expanded from macro '__rcu_dereference_check'
-     514 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-         |                 ^
->> drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:4871:35: error: no member named 'link' in 'struct mt76_vif_link'
-    4871 |                                 mlink = rcu_dereference(mvif->link[wcid->link_id]);
-         |                                                         ~~~~  ^
-   include/linux/rcupdate.h:752:50: note: expanded from macro 'rcu_dereference'
-     752 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
-         |                                                  ^
-   include/linux/rcupdate.h:662:27: note: expanded from macro 'rcu_dereference_check'
-     662 |         __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-         |                                  ^
-   include/linux/rcupdate.h:514:31: note: expanded from macro '__rcu_dereference_check'
-     514 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-         |                                      ^
->> drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:4871:35: error: no member named 'link' in 'struct mt76_vif_link'
-    4871 |                                 mlink = rcu_dereference(mvif->link[wcid->link_id]);
-         |                                                         ~~~~  ^
-   include/linux/rcupdate.h:752:50: note: expanded from macro 'rcu_dereference'
-     752 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
-         |                                                  ^
-   include/linux/rcupdate.h:662:27: note: expanded from macro 'rcu_dereference_check'
-     662 |         __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-         |                                  ^
-   include/linux/rcupdate.h:514:53: note: expanded from macro '__rcu_dereference_check'
-     514 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-         |                                                            ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:706:22: note: expanded from macro 'compiletime_assert'
-     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:694:23: note: expanded from macro '_compiletime_assert'
-     694 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^~~~~~~~~
-   include/linux/compiler_types.h:686:9: note: expanded from macro '__compiletime_assert'
-     686 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
->> drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:4871:35: error: no member named 'link' in 'struct mt76_vif_link'
-    4871 |                                 mlink = rcu_dereference(mvif->link[wcid->link_id]);
-         |                                                         ~~~~  ^
-   include/linux/rcupdate.h:752:50: note: expanded from macro 'rcu_dereference'
-     752 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
-         |                                                  ^
-   include/linux/rcupdate.h:662:27: note: expanded from macro 'rcu_dereference_check'
-     662 |         __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-         |                                  ^
-   include/linux/rcupdate.h:514:53: note: expanded from macro '__rcu_dereference_check'
-     514 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-         |                                                            ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:706:22: note: expanded from macro 'compiletime_assert'
-     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:694:23: note: expanded from macro '_compiletime_assert'
-     694 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^~~~~~~~~
-   include/linux/compiler_types.h:686:9: note: expanded from macro '__compiletime_assert'
-     686 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
->> drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:4871:35: error: no member named 'link' in 'struct mt76_vif_link'
-    4871 |                                 mlink = rcu_dereference(mvif->link[wcid->link_id]);
-         |                                                         ~~~~  ^
-   include/linux/rcupdate.h:752:50: note: expanded from macro 'rcu_dereference'
-     752 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
-         |                                                  ^
-   include/linux/rcupdate.h:662:27: note: expanded from macro 'rcu_dereference_check'
-     662 |         __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-         |                                  ^
-   include/linux/rcupdate.h:514:53: note: expanded from macro '__rcu_dereference_check'
-     514 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-         |                                                            ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:706:22: note: expanded from macro 'compiletime_assert'
-     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:694:23: note: expanded from macro '_compiletime_assert'
-     694 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^~~~~~~~~
-   include/linux/compiler_types.h:686:9: note: expanded from macro '__compiletime_assert'
-     686 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
->> drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:4871:35: error: no member named 'link' in 'struct mt76_vif_link'
-    4871 |                                 mlink = rcu_dereference(mvif->link[wcid->link_id]);
-         |                                                         ~~~~  ^
-   include/linux/rcupdate.h:752:50: note: expanded from macro 'rcu_dereference'
-     752 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
-         |                                                  ^
-   include/linux/rcupdate.h:662:27: note: expanded from macro 'rcu_dereference_check'
-     662 |         __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-         |                                  ^
-   include/linux/rcupdate.h:514:53: note: expanded from macro '__rcu_dereference_check'
-     514 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-         |                                                            ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:706:22: note: expanded from macro 'compiletime_assert'
-     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:694:23: note: expanded from macro '_compiletime_assert'
-     694 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^~~~~~~~~
-   include/linux/compiler_types.h:686:9: note: expanded from macro '__compiletime_assert'
-     686 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
->> drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:4871:35: error: no member named 'link' in 'struct mt76_vif_link'
-    4871 |                                 mlink = rcu_dereference(mvif->link[wcid->link_id]);
-         |                                                         ~~~~  ^
-   include/linux/rcupdate.h:752:50: note: expanded from macro 'rcu_dereference'
-     752 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
-         |                                                  ^
-   include/linux/rcupdate.h:662:27: note: expanded from macro 'rcu_dereference_check'
-     662 |         __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-         |                                  ^
-   include/linux/rcupdate.h:514:53: note: expanded from macro '__rcu_dereference_check'
-     514 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-         |                                                            ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:706:22: note: expanded from macro 'compiletime_assert'
-     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:694:23: note: expanded from macro '_compiletime_assert'
-     694 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^~~~~~~~~
-   include/linux/compiler_types.h:686:9: note: expanded from macro '__compiletime_assert'
-     686 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
->> drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:4871:35: error: no member named 'link' in 'struct mt76_vif_link'
-    4871 |                                 mlink = rcu_dereference(mvif->link[wcid->link_id]);
-         |                                                         ~~~~  ^
-   include/linux/rcupdate.h:752:50: note: expanded from macro 'rcu_dereference'
-     752 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
-         |                                                  ^
-   include/linux/rcupdate.h:662:27: note: expanded from macro 'rcu_dereference_check'
-     662 |         __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-         |                                  ^
-   include/linux/rcupdate.h:514:53: note: expanded from macro '__rcu_dereference_check'
-     514 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-         |                                                            ^
-   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
-      50 |         __READ_ONCE(x);                                                 \
-         |                     ^
-   include/asm-generic/rwonce.h:44:65: note: expanded from macro '__READ_ONCE'
-      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-         |                                                                  ^
-   include/linux/compiler_types.h:642:53: note: expanded from macro '__unqual_scalar_typeof'
-     642 | #define __unqual_scalar_typeof(x) __typeof_unqual__(x)
-         |                                                     ^
->> drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:4871:35: error: no member named 'link' in 'struct mt76_vif_link'
-    4871 |                                 mlink = rcu_dereference(mvif->link[wcid->link_id]);
-         |                                                         ~~~~  ^
-   include/linux/rcupdate.h:752:50: note: expanded from macro 'rcu_dereference'
-     752 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
-         |                                                  ^
-   include/linux/rcupdate.h:662:27: note: expanded from macro 'rcu_dereference_check'
-     662 |         __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-         |                                  ^
-   include/linux/rcupdate.h:514:53: note: expanded from macro '__rcu_dereference_check'
-     514 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-         |                                                            ^
-   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
-      50 |         __READ_ONCE(x);                                                 \
-         |                     ^
-   include/asm-generic/rwonce.h:44:72: note: expanded from macro '__READ_ONCE'
-      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-         |                                                                         ^
->> drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:4871:35: error: no member named 'link' in 'struct mt76_vif_link'
-    4871 |                                 mlink = rcu_dereference(mvif->link[wcid->link_id]);
-         |                                                         ~~~~  ^
-   include/linux/rcupdate.h:752:50: note: expanded from macro 'rcu_dereference'
-     752 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
-         |                                                  ^
-   include/linux/rcupdate.h:662:27: note: expanded from macro 'rcu_dereference_check'
-     662 |         __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-         |                                  ^
-   include/linux/rcupdate.h:517:12: note: expanded from macro '__rcu_dereference_check'
-     517 |         ((typeof(*p) __force __kernel *)(local)); \
-         |                   ^
->> drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:4871:11: error: assigning to 'struct mt76_vif_link *' from incompatible type 'void'
-    4871 |                                 mlink = rcu_dereference(mvif->link[wcid->link_id]);
-         |                                       ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   12 errors generated.
+>> fs/orangefs/orangefs-bufmap.c:665:58: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+     665 |         if (size > 4194304) pr_info("%s: size:%ld\n", __func__, size);
+         |                                               ~~~               ^~~~
+         |                                               %zu
+   include/linux/printk.h:584:34: note: expanded from macro 'pr_info'
+     584 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |                                 ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:511:60: note: expanded from macro 'printk'
+     511 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:483:19: note: expanded from macro 'printk_index_wrap'
+     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+   fs/orangefs/orangefs-bufmap.c:759:58: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+     759 |         if (size > 4194304) pr_info("%s: size:%ld\n", __func__, size);
+         |                                               ~~~               ^~~~
+         |                                               %zu
+   include/linux/printk.h:584:34: note: expanded from macro 'pr_info'
+     584 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |                                 ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:511:60: note: expanded from macro 'printk'
+     511 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:483:19: note: expanded from macro 'printk_index_wrap'
+     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+   2 warnings generated.
 
 
-vim +4870 drivers/net/wireless/mediatek/mt76/mt7996/mcu.c
+vim +665 fs/orangefs/orangefs-bufmap.c
 
-  4786	
-  4787	int mt7996_mcu_get_per_sta_info(struct mt7996_phy *phy, u16 tag)
-  4788	{
-  4789		struct mt7996_dev *dev = phy->dev;
-  4790		struct mt7996_mcu_per_sta_info_event *res;
-  4791		struct mt76_wcid *wcid;
-  4792		struct sk_buff *skb;
-  4793		int i, ret, sta_num, resp_sta_num;
-  4794		int wcid_idx = 0;
-  4795		struct {
-  4796			u8 _rsv1;
-  4797			u8 unsolicit;
-  4798			u8 _rsv2[2];
-  4799	
-  4800			__le16 tag;
-  4801			__le16 len;
-  4802			__le16 sta_num;
-  4803			u8 _rsv3[2];
-  4804			__le16 wlan_idx[PER_STA_INFO_MAX_NUM];
-  4805		} __packed req = {
-  4806			.tag = cpu_to_le16(tag),
-  4807			.len = cpu_to_le16(sizeof(req) - 4),
-  4808		};
-  4809	
-  4810		while (wcid_idx < mt7996_wtbl_size(dev)) {
-  4811			sta_num = 0;
-  4812	
-  4813			rcu_read_lock();
-  4814			for (i = wcid_idx;
-  4815			     i < mt7996_wtbl_size(dev) && sta_num < PER_STA_INFO_MAX_NUM;
-  4816			     i++) {
-  4817				wcid = rcu_dereference(dev->mt76.wcid[i]);
-  4818				if (!wcid || !wcid->sta)
-  4819					continue;
-  4820				req.wlan_idx[sta_num++] = cpu_to_le16(i);
-  4821			}
-  4822			rcu_read_unlock();
-  4823			wcid_idx = i;
-  4824	
-  4825			if (!sta_num)
-  4826				continue;
-  4827	
-  4828			req.sta_num = cpu_to_le16(sta_num);
-  4829	
-  4830			ret = mt76_mcu_send_and_get_msg(&dev->mt76,
-  4831							MCU_WM_UNI_CMD(PER_STA_INFO),
-  4832							&req, sizeof(req), true, &skb);
-  4833			if (ret)
-  4834				return ret;
-  4835	
-  4836			res = (struct mt7996_mcu_per_sta_info_event *)skb->data;
-  4837	
-  4838			resp_sta_num = le16_to_cpu(res->sta_num);
-  4839			if (resp_sta_num > sta_num ||
-  4840			    skb->len < struct_size(res, rssi, resp_sta_num)) {
-  4841				dev_kfree_skb(skb);
-  4842				return -EINVAL;
-  4843			}
-  4844	
-  4845			rcu_read_lock();
-  4846			for (i = 0; i < resp_sta_num; i++) {
-  4847				struct mt7996_sta_link *msta_link;
-  4848				struct mt76_vif_link *mvif;
-  4849				struct mt76_vif_link *mlink;
-  4850				struct mt76_phy *mphy;
-  4851				u16 wlan_idx;
-  4852				s8 rssi[4];
-  4853	
-  4854				switch (tag) {
-  4855				case UNI_PER_STA_RSSI:
-  4856					wlan_idx = le16_to_cpu(res->rssi[i].wlan_idx);
-  4857					wcid = mt76_wcid_ptr(dev, wlan_idx);
-  4858					if (!wcid || !wcid->sta)
-  4859						break;
-  4860	
-  4861					msta_link = container_of(wcid,
-  4862								 struct mt7996_sta_link,
-  4863								 wcid);
-  4864	
-  4865					rssi[0] = (res->rssi[i].rcpi[0] - 220) / 2;
-  4866					rssi[1] = (res->rssi[i].rcpi[1] - 220) / 2;
-  4867					rssi[2] = (res->rssi[i].rcpi[2] - 220) / 2;
-  4868					rssi[3] = (res->rssi[i].rcpi[3] - 220) / 2;
-  4869	
-> 4870					mvif = &msta_link->sta->vif->mt76;
-> 4871					mlink = rcu_dereference(mvif->link[wcid->link_id]);
-  4872					if (mlink) {
-  4873						mphy = mt76_vif_link_phy(mlink);
-  4874						if (mphy)
-  4875							msta_link->ack_signal =
-  4876								mt76_rx_signal(mphy->antenna_mask,
-  4877									       rssi);
-  4878					}
-  4879	
-  4880					ewma_avg_signal_add(&msta_link->avg_ack_signal,
-  4881							    -msta_link->ack_signal);
-  4882					break;
-  4883				}
-  4884			}
-  4885			rcu_read_unlock();
-  4886	
-  4887			dev_kfree_skb(skb);
-  4888		}
-  4889	
-  4890		return 0;
-  4891	}
-  4892	
+   640	
+   641	/*
+   642	 * we've been handed an iovec, we need to copy it to
+   643	 * the shared memory descriptor at "buffer_index".
+   644	 */
+   645	int orangefs_bufmap_copy_from_iovec(struct iov_iter *iter,
+   646					int buffer_index,
+   647					size_t size)
+   648	{
+   649		struct orangefs_bufmap_desc *to;
+   650		size_t remaining = size;
+   651		int folio_index = 0;
+   652		struct folio *folio;
+   653		size_t folio_offset;
+   654		size_t folio_avail;
+   655		size_t copy_amount;
+   656		size_t copied;
+   657		void *kaddr;
+   658		size_t half;
+   659		size_t first;
+   660		size_t second;
+   661	
+   662		to = &__orangefs_bufmap->desc_array[buffer_index];
+   663	
+   664		/* shouldn't happen... */
+ > 665		if (size > 4194304) pr_info("%s: size:%ld\n", __func__, size);
+   666	
+   667		gossip_debug(GOSSIP_BUFMAP_DEBUG,
+   668			"%s: buffer_index:%d size:%zu folio_count:%d\n",
+   669			__func__,
+   670			buffer_index,
+   671			size,
+   672			to->folio_count);
+   673	
+   674		/* Fast path: exactly two 2 MiB folios */
+   675		if (to->is_two_2mib_chunks && size <= 4194304) {
+   676			gossip_debug(GOSSIP_BUFMAP_DEBUG,
+   677				"%s: fastpath hit.\n", __func__);
+   678			half = 2097152;		/* 2 MiB */
+   679			first = min(size, half);
+   680			second = (size > half) ? size - half : 0;
+   681	
+   682			/* First 2 MiB chunk */
+   683			kaddr = kmap_local_folio(to->folio_array[0], 0);
+   684			copied = copy_from_iter(kaddr, first, iter);
+   685			kunmap_local(kaddr);
+   686			if (copied != first)
+   687				return -EFAULT;
+   688	
+   689			if (second == 0)
+   690				return 0;
+   691	
+   692			/* Second 2 MiB chunk */
+   693			kaddr = kmap_local_folio(to->folio_array[1], 0);
+   694			copied = copy_from_iter(kaddr, second, iter);
+   695			kunmap_local(kaddr);
+   696			if (copied != second)
+   697				return -EFAULT;
+   698	
+   699			return 0;
+   700		}
+   701	
+   702		while (remaining > 0) {
+   703	
+   704			if (unlikely(folio_index >= to->folio_count ||
+   705				to->folio_array[folio_index] == NULL)) {
+   706					gossip_err("%s: "
+   707					   "folio_index:%d: >= folio_count:%d: "
+   708			                   "(size %zu, buffer %d)\n",
+   709						__func__,
+   710						folio_index,
+   711						to->folio_count,
+   712						size,
+   713						buffer_index);
+   714					return -EFAULT;
+   715			}
+   716	
+   717			folio = to->folio_array[folio_index];
+   718			folio_offset = to->folio_offsets[folio_index];
+   719			folio_avail = folio_nr_pages(folio) * PAGE_SIZE - folio_offset;
+   720			copy_amount = min(remaining, folio_avail);
+   721			kaddr = kmap_local_folio(folio, folio_offset);
+   722			copied = copy_from_iter(kaddr, copy_amount, iter);
+   723			kunmap_local(kaddr);
+   724	
+   725			if (copied != copy_amount)
+   726				return -EFAULT;
+   727	
+   728			remaining -= copied;
+   729			folio_index++;
+   730		}
+   731	
+   732		return 0;
+   733	}
+   734	
 
 -- 
 0-DAY CI Kernel Test Service
