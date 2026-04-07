@@ -1,134 +1,100 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D5D377017
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 809EA375F9A
 	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Apr 2026 03:59:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775534379; cv=none; b=GGt84pTaTMx94nyW2KYgzxjmlMNTBNRrKU98VdFISYY1XaX4XP49k3TEvNkGmFAmRTekJgdsd4TwnAAewsgOGGOzNbXOFDbt/XJsi/IariYTSazflr0uvwdVfG5CPrq/hFAPCInY2mCsrCxihagw+XYiLrvoHnULfLycKdCxDw8=
+	t=1775534379; cv=none; b=Ov/O2uaGwyCV++pN7aaXQMLqPcQ/LVRXRg9ZSsG8sUr9/3rIQun34UBoRXLvjwQDuExuUwiOc3XXkI6Q0Dl8u4BR9p3zcySOHekZEL9pYdJPY/XCWUdnyD5MG9nHVNYj7xCAiwZ5p4056VFgqFmhh2MBwvgIlAJ46bIrzhWWXbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1775534379; c=relaxed/simple;
-	bh=bs4ZahIMWJZW/wTLo1PQIM+tebHc/w5EM0a1rOQ7YRg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=WYiONTT3wDTPOLdxpxl+gMV/s0h+aFttlZG/DlqzPiGW3h/4Ebasi81f6Y1G1ECs30hyy97sbnTeyjUYSoujztHVRAn7Yybn5b8sOQmuYowjxQYF3dO9800SvT2EL8eV+4C145vG+HhBE6uxbQOHyVDZYJlPs+qzfctZi6Yrdng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DexTzurT; arc=none smtp.client-ip=198.175.65.21
+	bh=Ase9yzhgURxLh2inH9YOkEhoVRuNbYu6x85jbm/4++g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kcOi25jSdJfm0IhTvDv+Q8KiSPLqtnK0leUYcC3s71LvaNelZBdgCG2nRC5Fhs5PBQW3bCenSkWmMWsUCJfN8jjtAqE97X1nfbUxOWShznTbHnmgsI71lg/+At4pMYLAPQqarL4zOtrDX4b+DSiS4wq3f8RCt4p6a+mLJAVPjBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=msTvqSDl; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DexTzurT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="msTvqSDl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1775534378; x=1807070378;
-  h=date:from:to:cc:subject:message-id;
-  bh=bs4ZahIMWJZW/wTLo1PQIM+tebHc/w5EM0a1rOQ7YRg=;
-  b=DexTzurTrvbJSr0sAVXfBUXw1D1etNRkgFTKVJ17tS0X2CaqZw+8E8Bt
-   qSOVUA4RbdzeEMh/7wV5qiwOsjSqF3C1TP3S+sHiL1Tw+B8ZASiEnmhI3
-   ZOvPxsY4uD59pc5WW4r5cTsKB6XJUaL3ikSLr7vMh/TarhLKKC+n22tlj
-   pNv06fHoM/dWugYLPDZugfroVEzmc1zAJNiefv7vcY7Ku15gIiutzuhyb
-   Zkxob0MjPaEnAw1LpVMOPwxQNckaWtD3eC9YjvDDKwh3ZIiISYFAkcynk
-   ZpOVMjkTBgwInoyTWUYhnRKptBdGlMtmH2ee6yvEuWsbJLQnMgyGvSz74
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ase9yzhgURxLh2inH9YOkEhoVRuNbYu6x85jbm/4++g=;
+  b=msTvqSDlTMtdcdojQrI748NY/AHjllLeX5T9Bn2O26AcuVvbWKhhJOM6
+   3IT6TQPu4SjxqN1wqNE77aw9+RmUhRohvcq96UwP82SPA4Y+bB1RxB7pf
+   b9+FYyVtErqVWsm09mw8VhaDCPZ+u8JqTMBLxyvWBJNjWd8NNLDirn6/H
+   zldn2cHG/6XqPBqa3PyUqbJsU0/YpiRJhc4vqZy2q6NXZAlquNQ/GNsyo
+   76Bfpk7tdnFGGEQQOTsS/WdCVR7L+x28FKYY2rDXTKZil4WX8JZZcsrF8
+   4bu69tAjgxKkuM1iYgnP2Y5PzMzAurPPI/jOnhNPzH0C1YMujnAMvt5Fw
    A==;
-X-CSE-ConnectionGUID: 7OYcEdHTRZ+Gx1GawXelCA==
-X-CSE-MsgGUID: mJh9xHSITuGwY3m4sJLqvA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="76369612"
+X-CSE-ConnectionGUID: nS+P/oilQvasuk1+UYQZIA==
+X-CSE-MsgGUID: OWXcPhQBQ6yMtWREoHyuaw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="76369617"
 X-IronPort-AV: E=Sophos;i="6.23,164,1770624000"; 
-   d="scan'208";a="76369612"
+   d="scan'208";a="76369617"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2026 20:59:37 -0700
-X-CSE-ConnectionGUID: kO4g5r1RQaywQoAtgNXcjQ==
-X-CSE-MsgGUID: ortnPMxKREy5F0mFJHUwFg==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2026 20:59:38 -0700
+X-CSE-ConnectionGUID: knZuKt7BRxueIkL6XT/p5Q==
+X-CSE-MsgGUID: joojJ0QZQNejMY+mAtLN1g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,164,1770624000"; 
-   d="scan'208";a="232091430"
+   d="scan'208";a="232091432"
 Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
   by orviesa003.jf.intel.com with ESMTP; 06 Apr 2026 20:59:36 -0700
 Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w9xbB-0000000006n-1Ovg;
+	id 1w9xbB-0000000006h-1ANo;
 	Tue, 07 Apr 2026 03:59:33 +0000
-Date: Tue, 07 Apr 2026 11:58:58 +0800
+Date: Tue, 7 Apr 2026 11:58:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manikanta Maddireddy <mmaddireddy@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
- Manivannan Sadhasivam <mani@kernel.org>
-Subject: [pci:controller/dwc-tegra194 22/22]
- include/linux/compiler_types.h:706:45: error: call to
- '__compiletime_assert_485' declared with attribute error: min((
- __builtin_constant_p(us) ? ((us) < 2 ? 0 : 63 - __builtin_clzll(us)) :
- (sizeof(us) <= 4) ? __ilog2_u32(us) : __ilog2_u64(us) ) + 1, 7U) s...
-Message-ID: <202604051407.AODe3ddZ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+	linux-hardening@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kees@kernel.org, tony.luck@intel.com, kernel-dev@igalia.com,
+	kernel@gpiccoli.net, "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+	Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH] pstore/ftrace: Factor KASLR offset in the core kernel
+ instruction addresses
+Message-ID: <202604051301.skV8JLnH-lkp@intel.com>
+References: <20260313201010.1622406-3-gpiccoli@igalia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260313201010.1622406-3-gpiccoli@igalia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/dwc-tegra194
-head:   814f4e4b6cceda9e816fbeaf2a6a0f9b50b3f23a
-commit: 814f4e4b6cceda9e816fbeaf2a6a0f9b50b3f23a [22/22] PCI: tegra194: Use aspm-l1-entry-delay-ns DT property for L1 entrance latency
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20260405/202604051407.AODe3ddZ-lkp@intel.com/config)
+Hi Guilherme,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on kees/for-next/pstore]
+[also build test ERROR on kees/for-next/kspp linus/master v7.0-rc6 next-20260403]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Guilherme-G-Piccoli/pstore-ftrace-Factor-KASLR-offset-in-the-core-kernel-instruction-addresses/20260315-152241
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/pstore
+patch link:    https://lore.kernel.org/r/20260313201010.1622406-3-gpiccoli%40igalia.com
+patch subject: [PATCH] pstore/ftrace: Factor KASLR offset in the core kernel instruction addresses
+config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20260405/202604051301.skV8JLnH-lkp@intel.com/config)
 compiler: hppa-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260405/202604051407.AODe3ddZ-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260405/202604051301.skV8JLnH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604051407.AODe3ddZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604051301.skV8JLnH-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from <command-line>:
-   drivers/pci/controller/dwc/pcie-tegra194.c: In function 'tegra_pcie_dw_parse_dt':
->> include/linux/compiler_types.h:706:45: error: call to '__compiletime_assert_485' declared with attribute error: min(( __builtin_constant_p(us) ? ((us) < 2 ? 0 : 63 - __builtin_clzll(us)) : (sizeof(us) <= 4) ? __ilog2_u32(us) : __ilog2_u64(us) ) + 1, 7U) signedness error
-     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:687:25: note: in definition of macro '__compiletime_assert'
-     687 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
-     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_once'
-      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:105:25: note: in expansion of macro '__careful_cmp'
-     105 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                         ^~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pcie-tegra194.c:1150:43: note: in expansion of macro 'min'
-    1150 |                 pcie->aspm_l1_enter_lat = min(ilog2(us) + 1, 7U);
-         |                                           ^~~
-
-
-vim +/__compiletime_assert_485 +706 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  692  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  693  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  694  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  695  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  696  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  697   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  698   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  699   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  700   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  701   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  702   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  703   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  704   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  705  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @706  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  707  
-
-:::::: The code at line 706 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+>> ERROR: modpost: "core_kernel_text" [fs/pstore/pstore.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
