@@ -1,200 +1,130 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 475783AB292
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Apr 2026 10:59:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C07263A9628
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Apr 2026 11:44:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775559568; cv=none; b=pqJvCD2cVoywrDJNtmR9f5wv1eFprCcTT18mVr0NdBfRlghPHW15a+X8p9wgmiGaKRVt0IvzFXgvgMNtMFtRZCVkeYwFS98hnLweN4Cv9YdEtMnMPX8ALhdRVGcDm+k/np8WLTmhzlkkPQy2je7mGSky5OkFNBPY3pZFSUXyung=
+	t=1775562281; cv=none; b=HSebxc3lQ/iLqxAdUebBZEpCd68Pe81q2LmIErRsXAIj5VGDbv89gINiH0/X0k/Tumkd7FG72f5Tj7ABbbGhjDXn5H+IRn+cm0woMinD6sCOMpvnRW1R6aAkGrUX099vHpXxGsCYvHvAMnGf3PHqw/7FmwrJy0rRUq04mt+nw+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775559568; c=relaxed/simple;
-	bh=A5+HBBcTqKVlknTZzZiKwpBu2B7h1Df/ai/jWJL5K6Q=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tCGdv3gNJzq2vNu5u7TySC7MZKXQAkjYRftTOHC5rsPl+G/uOwXhanH/4iQjcX+iZNsAEXw4xp9RObmz6nKz8FklHod1TZ6EF1C6dJdHo3sGVm1CX6trHx3jTGvUU30oCpgk93cKbHwCCvkrEluFpzKgHVwsSs8Kcxe1GkSQp+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PkxqrQhq; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1775562281; c=relaxed/simple;
+	bh=RjtcSwRYgYtgUOHjB5w0Veky1jao+R/vSyC9jiZubNs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hh/SGEQq3ZIQswnraH0A/JErJMIuST/sydJunrh8koIvW7wpN9fXs2ovj7uFzj5zqZKJ8HaJwqPUFij6xDWiCTVkRf6vaLy4agIsO1ou908P3Fl94OkRobX2pQqiM62bOhRgq3QfQHGbPs1gtQbKMhMs/er9aPMDA6GSocqeSz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iYKLunS4; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PkxqrQhq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iYKLunS4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775559566; x=1807095566;
-  h=date:from:to:cc:subject:message-id;
-  bh=A5+HBBcTqKVlknTZzZiKwpBu2B7h1Df/ai/jWJL5K6Q=;
-  b=PkxqrQhqVe1lgvo6XqeOzJWaHsrRhEYuL2jdvizU1V7BB3vttRrm3fk3
-   SxeK/Zi8r0Om/vwsSwVLvV/FSH6OmPjdSOt4l1s4fhqlDwjvID37t+fEB
-   kAPUpdNiiYdn2KLWdeR7yPMS75i2EqzYICTxwH4A++qiAgtX760uVswbh
-   yTbuRfwxwLF/u8NFVAJtLf1tFB4GCOupBIbnIbvds7c9edPusF6NHLZ9X
-   ATRxVagNEXKIMqjz2TSHbP8TMGv1wX0gAeMNrNAYRTD4jlIxMRWqRqMTm
-   OLmXwwFBjzjkyvNa5DJDg5y5I5EwWopqa8UwRL6uWSTYUlpJJS0XWF3Eb
-   Q==;
-X-CSE-ConnectionGUID: NHDvsZX3QB+S4NfMfCj7Kg==
-X-CSE-MsgGUID: EE1DgRqxQjOvHX8zQIOi0g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="80377563"
+  t=1775562279; x=1807098279;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RjtcSwRYgYtgUOHjB5w0Veky1jao+R/vSyC9jiZubNs=;
+  b=iYKLunS4vLP/hnHX4MR89r9SXWBc4vA+sDmC3Iq3H25O1SkseIv5OPf8
+   ykoo/bhg8dZxQ72o/kc0SwTfMOsE2mnZisDYbdm57ROc+YNGocZWGQEdx
+   AsNw/x4YR+86w3CxhEikDLQ7vqdfv5AbnhTuc8P949yqMWGO2F/Nc6648
+   l/tJlTs/PaA5SWiO+W+R8z1zdo3a7tJpnLVKcKQMHYxpcokl7eH2nfwkH
+   jTO68R4zn+5LowNvttQmOSfjZYVNbuqhVdxMe6Kd3CIU6mH4CXGdc6pEs
+   C54a/7eNN3bWjx6dq+vLWKe6H8obKZaAymiNRY00sF4Wk+VPT2ETj4cFQ
+   g==;
+X-CSE-ConnectionGUID: /nVkK+KXSzOpnclzSgBtwA==
+X-CSE-MsgGUID: hKOZfWfIQzez2mkL4K2M7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="76405073"
 X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
-   d="scan'208";a="80377563"
+   d="scan'208";a="76405073"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 03:59:25 -0700
-X-CSE-ConnectionGUID: ZCPKOjEMRFS5IeRJFd94Jw==
-X-CSE-MsgGUID: HkahhJgqTXavTFYgNBtOEA==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 04:44:39 -0700
+X-CSE-ConnectionGUID: elfRy3mGQ6q95nFL2OIOoQ==
+X-CSE-MsgGUID: qsKB1a2dRXigTdXZ6WAidQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
-   d="scan'208";a="223350015"
-Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 07 Apr 2026 03:59:23 -0700
-Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
+   d="scan'208";a="223361885"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 07 Apr 2026 04:44:36 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wA49R-000000000VC-0fXR;
-	Tue, 07 Apr 2026 10:59:21 +0000
-Date: Tue, 07 Apr 2026 18:59:03 +0800
+	id 1wA4rB-00000000AHF-3uaf;
+	Tue, 07 Apr 2026 11:44:33 +0000
+Date: Tue, 7 Apr 2026 13:43:46 +0200
 From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:assert 6/6] drivers/acpi/acpi_pad.c:88:8: error:
- unknown type name 'cpumask'; did you mean 'cpumask_t'?
-Message-ID: <202604071800.JGAqypQy-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Yingnan Zhang <342144303@qq.com>, horms@verge.net.au, ja@ssi.bg
+Cc: oe-kbuild-all@lists.linux.dev, pablo@netfilter.org, fw@strlen.de,
+	phil@nwl.cc, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, netdev@vger.kernel.org,
+	lvs-devel@vger.kernel.org, netfilter-devel@vger.kernel.org,
+	coreteam@netfilter.org, linux-kernel@vger.kernel.org,
+	Yingnan Zhang <342144303@qq.com>
+Subject: Re: [PATCH net v2] ipvs: fix MTU check for GSO packets in tunnel mode
+Message-ID: <202604071309.RskiawHA-lkp@intel.com>
+References: <tencent_CA2C1C219C99D315086BE55E8654AF7E6009@qq.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <tencent_CA2C1C219C99D315086BE55E8654AF7E6009@qq.com>
 
-tree:   https://github.com/norov/linux assert
-head:   5e88fbeeb3c7355139ca86067d68ea8c77534b92
-commit: 5e88fbeeb3c7355139ca86067d68ea8c77534b92 [6/6] acpi_pad
-config: i386-randconfig-002-20260407 (https://download.01.org/0day-ci/archive/20260407/202604071800.JGAqypQy-lkp@intel.com/config)
+Hi Yingnan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yingnan-Zhang/ipvs-fix-MTU-check-for-GSO-packets-in-tunnel-mode/20260407-141549
+base:   net/main
+patch link:    https://lore.kernel.org/r/tencent_CA2C1C219C99D315086BE55E8654AF7E6009%40qq.com
+patch subject: [PATCH net v2] ipvs: fix MTU check for GSO packets in tunnel mode
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260407/202604071309.RskiawHA-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260407/202604071800.JGAqypQy-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260407/202604071309.RskiawHA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604071800.JGAqypQy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604071309.RskiawHA-lkp@intel.com/
 
 All error/warnings (new ones prefixed by >>):
 
->> drivers/acpi/acpi_pad.c:88:8: error: unknown type name 'cpumask'; did you mean 'cpumask_t'?
-      88 | static cpumask pad_busy_cpus;
-         |        ^~~~~~~
-         |        cpumask_t
-   In file included from include/linux/bitmap.h:11,
-                    from include/linux/cpumask.h:11,
-                    from drivers/acpi/acpi_pad.c:9:
-   drivers/acpi/acpi_pad.c: In function 'round_robin_cpu':
->> include/linux/cpumask_types.h:18:37: error: request for member 'bits' in something not a structure or union
-      18 | #define cpumask_bits(maskp) ((maskp)->bits)
-         |                                     ^~
-   include/linux/find.h:584:48: note: in definition of macro 'for_each_set_bit'
-     584 |         for ((bit) = 0; (bit) = find_next_bit((addr), (size), (bit)), (bit) < (size); (bit)++)
-         |                                                ^~~~
-   include/linux/cpumask.h:380:31: note: in expansion of macro 'cpumask_bits'
-     380 |         for_each_set_bit(cpu, cpumask_bits(mask), small_cpumask_bits)
-         |                               ^~~~~~~~~~~~
-   drivers/acpi/acpi_pad.c:102:9: note: in expansion of macro 'for_each_cpu'
-     102 |         for_each_cpu(cpu, &pad_busy_cpus)
-         |         ^~~~~~~~~~~~
-   include/linux/find.h:584:69: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-     584 |         for ((bit) = 0; (bit) = find_next_bit((addr), (size), (bit)), (bit) < (size); (bit)++)
-         |                                                                     ^
-   include/linux/cpumask.h:380:9: note: in expansion of macro 'for_each_set_bit'
-     380 |         for_each_set_bit(cpu, cpumask_bits(mask), small_cpumask_bits)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/acpi/acpi_pad.c:102:9: note: in expansion of macro 'for_each_cpu'
-     102 |         for_each_cpu(cpu, &pad_busy_cpus)
-         |         ^~~~~~~~~~~~
->> drivers/acpi/acpi_pad.c:107:54: error: passing argument 3 of 'cpumask_andnot' from incompatible pointer type [-Wincompatible-pointer-types]
-     107 |                 cpumask_andnot(tmp, cpu_online_mask, &pad_busy_cpus);
-         |                                                      ^~~~~~~~~~~~~~
-         |                                                      |
-         |                                                      int *
-   include/linux/cpumask.h:774:43: note: expected 'const struct cpumask *' but argument is of type 'int *'
-     774 |                     const struct cpumask *src2p)
-         |                     ~~~~~~~~~~~~~~~~~~~~~~^~~~~
->> drivers/acpi/acpi_pad.c:121:58: error: passing argument 2 of 'cpumask_clear_cpu' from incompatible pointer type [-Wincompatible-pointer-types]
-     121 |                 cpumask_clear_cpu(tsk_in_cpu[tsk_index], &pad_busy_cpus);
-         |                                                          ^~~~~~~~~~~~~~
-         |                                                          |
-         |                                                          int *
-   include/linux/cpumask.h:629:72: note: expected 'struct cpumask *' but argument is of type 'int *'
-     629 | static __always_inline void cpumask_clear_cpu(int cpu, struct cpumask *dstp)
-         |                                                        ~~~~~~~~~~~~~~~~^~~~
->> drivers/acpi/acpi_pad.c:123:40: error: passing argument 2 of 'cpumask_set_cpu' from incompatible pointer type [-Wincompatible-pointer-types]
-     123 |         cpumask_set_cpu(preferred_cpu, &pad_busy_cpus);
-         |                                        ^~~~~~~~~~~~~~
-         |                                        |
-         |                                        int *
-   include/linux/cpumask.h:600:56: note: expected 'struct cpumask *' but argument is of type 'int *'
-     600 | void cpumask_set_cpu(unsigned int cpu, struct cpumask *dstp)
-         |                                        ~~~~~~~~~~~~~~~~^~~~
-   drivers/acpi/acpi_pad.c: In function 'exit_round_robin':
-   drivers/acpi/acpi_pad.c:135:58: error: passing argument 2 of 'cpumask_clear_cpu' from incompatible pointer type [-Wincompatible-pointer-types]
-     135 |                 cpumask_clear_cpu(tsk_in_cpu[tsk_index], &pad_busy_cpus);
-         |                                                          ^~~~~~~~~~~~~~
-         |                                                          |
-         |                                                          int *
-   include/linux/cpumask.h:629:72: note: expected 'struct cpumask *' but argument is of type 'int *'
-     629 | static __always_inline void cpumask_clear_cpu(int cpu, struct cpumask *dstp)
-         |                                                        ~~~~~~~~~~~~~~~~^~~~
-   drivers/acpi/acpi_pad.c: In function 'idlecpus_show':
->> drivers/acpi/acpi_pad.c:335:52: error: 'pad_busy_cpus_bits' undeclared (first use in this function); did you mean 'pad_busy_cpus'?
-     335 |         return cpumap_print_to_pagebuf(false, buf, pad_busy_cpus_bits);
-         |                                                    ^~~~~~~~~~~~~~~~~~
-         |                                                    pad_busy_cpus
-   drivers/acpi/acpi_pad.c:335:52: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/acpi/acpi_pad.c:336:1: warning: control reaches end of non-void function [-Wreturn-type]
-     336 | }
+>> net/netfilter/ipvs/ip_vs_xmit.c:115:11: error: expected identifier or '(' before 'else'
+     115 |         } else if (skb->len > mtu &&
+         |           ^~~~
+>> net/netfilter/ipvs/ip_vs_xmit.c:119:9: error: expected identifier or '(' before 'return'
+     119 |         return false;
+         |         ^~~~~~
+>> net/netfilter/ipvs/ip_vs_xmit.c:120:1: error: expected identifier or '(' before '}' token
+     120 | }
          | ^
+   net/netfilter/ipvs/ip_vs_xmit.c: In function '__mtu_check_toobig_v6':
+>> net/netfilter/ipvs/ip_vs_xmit.c:115:9: warning: control reaches end of non-void function [-Wreturn-type]
+     115 |         } else if (skb->len > mtu &&
+         |         ^
 
 
-vim +88 drivers/acpi/acpi_pad.c
+vim +115 net/netfilter/ipvs/ip_vs_xmit.c
 
-    85	
-    86	static unsigned long cpu_weight[NR_CPUS];
-    87	static int tsk_in_cpu[NR_CPUS] = {[0 ... NR_CPUS-1] = -1};
-  > 88	static cpumask pad_busy_cpus;
-    89	
-    90	static void round_robin_cpu(unsigned int tsk_index)
-    91	{
-    92		cpumask_var_t tmp;
-    93		int cpu;
-    94		unsigned long min_weight = -1;
-    95		unsigned long preferred_cpu;
-    96	
-    97		if (!alloc_cpumask_var(&tmp, GFP_KERNEL))
-    98			return;
-    99	
-   100		mutex_lock(&round_robin_lock);
-   101		cpumask_clear(tmp);
-   102		for_each_cpu(cpu, &pad_busy_cpus)
-   103			cpumask_or(tmp, tmp, topology_sibling_cpumask(cpu));
-   104		cpumask_andnot(tmp, cpu_online_mask, tmp);
-   105		/* avoid HT siblings if possible */
-   106		if (cpumask_empty(tmp))
- > 107			cpumask_andnot(tmp, cpu_online_mask, &pad_busy_cpus);
-   108		if (cpumask_empty(tmp)) {
-   109			mutex_unlock(&round_robin_lock);
-   110			free_cpumask_var(tmp);
-   111			return;
-   112		}
-   113		for_each_cpu(cpu, tmp) {
-   114			if (cpu_weight[cpu] < min_weight) {
-   115				min_weight = cpu_weight[cpu];
-   116				preferred_cpu = cpu;
-   117			}
+   104	
+   105	static inline bool
+   106	__mtu_check_toobig_v6(const struct sk_buff *skb, u32 mtu)
+   107	{
+   108		if (IP6CB(skb)->frag_max_size) {
+   109			/* frag_max_size tell us that, this packet have been
+   110			 * defragmented by netfilter IPv6 conntrack module.
+   111			 */
+   112			if (IP6CB(skb)->frag_max_size > mtu)
+   113				return true; /* largest fragment violate MTU */
+   114		}
+ > 115		} else if (skb->len > mtu &&
+   116			   !(skb_is_gso(skb) && skb_gso_validate_network_len(skb, mtu))) {
+   117			return true; /* Packet size violate MTU size */
    118		}
-   119	
-   120		if (tsk_in_cpu[tsk_index] != -1)
- > 121			cpumask_clear_cpu(tsk_in_cpu[tsk_index], &pad_busy_cpus);
-   122		tsk_in_cpu[tsk_index] = preferred_cpu;
- > 123		cpumask_set_cpu(preferred_cpu, &pad_busy_cpus);
-   124		cpu_weight[preferred_cpu]++;
-   125		mutex_unlock(&round_robin_lock);
-   126	
-   127		set_cpus_allowed_ptr(current, cpumask_of(preferred_cpu));
-   128	
-   129		free_cpumask_var(tmp);
-   130	}
-   131	
+ > 119		return false;
+ > 120	}
+   121	
 
 -- 
 0-DAY CI Kernel Test Service
