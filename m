@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC25533EAE6
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Apr 2026 06:40:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61AFF26D4E5
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Apr 2026 07:12:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775544060; cv=none; b=cdHDGCr7uQ8AeYZmmlGpdMO2Gt0RC3M5RPT1ISnA3+lpDghPmBAyXoVQ7kX0BlITofn8eUaYKOL3HeAFPOFi0fZ4Rpw23I72insNETQyHz762i+4cqxNwKJ1TlvrYKCCqc32zxAjXxrD3GCk8rZjYFTT2WTdIuoxku0034o1wgI=
+	t=1775545927; cv=none; b=kb9qh7f9DEODdZuEgTnGseM3ZrWcIzunPXy3zJn7IccXe48/wG53yeCYKYRv3Ayvemvbq5tLrugRcvyrBxCXBULZSSQpEikt8Rq/6E+IH8WXS3mAWHB7wZqRAjZ0R5YTVV570hHOOKBjZZ6LovbgFWyCzzDHcI6seldgsmhjDDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775544060; c=relaxed/simple;
-	bh=bEclXngicJ6Hr178VPanS1DxpexMUB7yxhPcJBry3CQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=FH0Zbij5D4p6qgh9a3U430oJMaf1HSDIpBgDoCVC8jyW9dQwiUufl17tcKL4uaDfzoQbl+Icq4hafLM6xs65dPsZvdE0PWIVyg7KwTt5AP89FrdBpvclsi8C/gXfVflHo9Mo/BEpJZ+tJ0jVAIPoAnONQqhuuvo0ROHgTA908Nw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JEvDmfXi; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1775545927; c=relaxed/simple;
+	bh=7/uNCjYYX/Mw0TF8w88fRcvZKBYAw9raXkV2dVKLCd4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ijXoYRKT9nntUO31DsniCdNLjtyz7Vqp/Zdl5GA2JZIPJKSXMzS0Ib00DYpsh6mKaNzM7QMS37Yxy6U34l04ulnN5WMo6zJ7FGhK9E0aQ+8PnJ1p5yTbg6/1pMYR1W7/yIuZJncYWe3sodIoCvrQZxlyoBFsw1Vi/zWXZ4ofvBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AhyVDq8a; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JEvDmfXi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AhyVDq8a"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775544059; x=1807080059;
+  t=1775545926; x=1807081926;
   h=date:from:to:cc:subject:message-id;
-  bh=bEclXngicJ6Hr178VPanS1DxpexMUB7yxhPcJBry3CQ=;
-  b=JEvDmfXizihQhFy/1vsYCE7r5wwmdvIeL/Y8EW8jeNfrXIKzESnaNAaw
-   TGTwOZK2gZUQkmr+7UjPg0eR0Z3P7V70TRIKNo094UTB8mCrp2EYhTUgl
-   DaT9dcv3TyRa8UrUAD2FAyVUcSwyozKS8HgAuKJ6gEygXYcVRFSStKxiO
-   d9PaWIe2h8T7xCRiE12RXlZYXT4jRzEDEobLpmQnQ5XynpVZwlJTz/dX8
-   OBHI/fWjz6rGRNYTTDzkJUzWuJCOwI7y2XQh3rGEtKgoY2Wi6tDffRU0o
-   2Bek3g20BvgXbCrv7HKObzhvZZ/4dmIM1V8G+KgJ8FE71hZ7WEfv00/ah
-   Q==;
-X-CSE-ConnectionGUID: MFnCSZ12TGi2Ks89czUShA==
-X-CSE-MsgGUID: s5wiNQlKQzCplon4+jjOxw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="86792559"
+  bh=7/uNCjYYX/Mw0TF8w88fRcvZKBYAw9raXkV2dVKLCd4=;
+  b=AhyVDq8a+P92cU45rph2yD3dIScLTdbRSgBseTqBO9zmMAeuJzROHcMN
+   cYCKjCGMnBaVb2ghhhLfM7dKyY1YYQdbpuS1o/wxyrt5VJtv7/3kfoNSt
+   Gj96X71byVjZ9+VBCBFFWO1NAROmepzRQ+QqG6llkP9R7Icp7kHnRFtKc
+   MMkh29TQHsWpvvakWz4Fz1aZsXYYu1xteUPKySh7b9TtI4H+uOFJrUC7m
+   BftClxxszAmhp8f8vbKjn+fOwC1A+nmJPiyIIpzmTy8D3ScOroo5qtzTB
+   fy+99sV1V3+7VzEN1DUF1tKogGPI441+dDpwEvo1k5ZCiV2F6lzrxxz3h
+   g==;
+X-CSE-ConnectionGUID: lUPC46daR1CeQPESFS4l5w==
+X-CSE-MsgGUID: aj27uVNYQgefUJ31vLgp9A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="94081798"
 X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
-   d="scan'208";a="86792559"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2026 23:40:59 -0700
-X-CSE-ConnectionGUID: MhggU4RsSjCCnMjb5TSSIA==
-X-CSE-MsgGUID: jfLtJFwHTLan954E+BmWTw==
+   d="scan'208";a="94081798"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 00:12:06 -0700
+X-CSE-ConnectionGUID: 2jrDxCoeQRK6ccQLYhdSoQ==
+X-CSE-MsgGUID: cb/qQIdPTsaZlrVhZU/Wzw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
-   d="scan'208";a="227080023"
+   d="scan'208";a="251379392"
 Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 06 Apr 2026 23:40:56 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 07 Apr 2026 00:12:05 -0700
 Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wA07H-000000000Gf-1t1W;
-	Tue, 07 Apr 2026 06:40:51 +0000
-Date: Tue, 07 Apr 2026 14:40:35 +0800
+	id 1wA0bS-000000000Ih-44bX;
+	Tue, 07 Apr 2026 07:12:02 +0000
+Date: Tue, 07 Apr 2026 15:11:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zach Brown <zab@zabbo.net>
+To: steven@liquorix.net
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zab-rpdfs:rpdfs-initial 41/51] fs/rpdfs/place.h:41:1:
- warning: control reaches end of non-void function
-Message-ID: <202604071407.jaPX7Fpt-lkp@intel.com>
+Subject: [zen:6.19/zen-sauce 2/34] drivers/scsi/vhba/vhba.c:192:23:
+ error: variable 'vhost' set but not used
+Message-ID: <202604071501.enNDQjAI-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,134 +59,60 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/zab/linux-rpdfs.git rpdfs-initial
-head:   9a0627207ad856d2a5eb09f3458afb1e34ac10a3
-commit: 7db9f9d6d7cd9f1130ec06063f679a26a17d9fc0 [41/51] rpdfs: add place details metadata
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260407/202604071407.jaPX7Fpt-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260407/202604071407.jaPX7Fpt-lkp@intel.com/reproduce)
+tree:   https://github.com/zen-kernel/zen-kernel 6.19/zen-sauce
+head:   d17b2b02b5cf029f5248299f56e4a0a041548604
+commit: d0b6bde752e9f31adb57b06fb0e3f05c47e99d94 [2/34] ZEN: Add VHBA driver
+config: nios2-randconfig-r073-20260406 (https://download.01.org/0day-ci/archive/20260407/202604071501.enNDQjAI-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 9.5.0
+smatch: v0.5.0-9004-gb810ac53
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260407/202604071501.enNDQjAI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604071407.jaPX7Fpt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604071501.enNDQjAI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-         |               ^~~~
-   fs/rpdfs/place.h: In function 'rpdfs_place_full':
-   fs/rpdfs/place.h:19:18: error: 'u128' undeclared (first use in this function)
-      19 |         return ((u128)rpdfs_place_hi(type, ino, depth) << 64) | off;
-         |                  ^~~~
-   fs/rpdfs/place.h:19:18: note: each undeclared identifier is reported only once for each function it appears in
-   fs/rpdfs/place.h:19:23: error: expected ')' before 'rpdfs_place_hi'
-      19 |         return ((u128)rpdfs_place_hi(type, ino, depth) << 64) | off;
-         |                ~      ^~~~~~~~~~~~~~
-         |                       )
-   fs/rpdfs/place.h: At top level:
-   fs/rpdfs/place.h:32:65: error: unknown type name 'u128'
-      32 | static inline void rpdfs_place_split_le(__le64 *lo, __le64 *hi, u128 full)
-         |                                                                 ^~~~
-   fs/rpdfs/place.h:38:15: error: unknown type name 'u128'
-      38 | static inline u128 rpdfs_place_combine_le(__le64 lo, __le64 hi)
-         |               ^~~~
-   fs/rpdfs/place.h: In function 'rpdfs_place_combine_le':
-   fs/rpdfs/place.h:40:18: error: 'u128' undeclared (first use in this function)
-      40 |         return ((u128)le64_to_cpu(hi) << 64) | le64_to_cpu(lo);
-         |                  ^~~~
-   In file included from fs/rpdfs/txn.h:7,
-                    from fs/rpdfs/balloc.h:10,
-                    from fs/rpdfs/block.c:9:
-   fs/rpdfs/block.h: At top level:
-   fs/rpdfs/block.h:79:9: error: unknown type name 'u128'
-      79 |         u128 place;
-         |         ^~~~
-   fs/rpdfs/block.c: In function 'send_block_write':
-   fs/rpdfs/block.c:614:9: error: implicit declaration of function 'rpdfs_place_split_le'; did you mean 'rpdfs_place_combine_le'? [-Werror=implicit-function-declaration]
-     614 |         rpdfs_place_split_le(&wr.det.place_lo, &wr.det.place_hi, bk->hnd.place);
-         |         ^~~~~~~~~~~~~~~~~~~~
-         |         rpdfs_place_combine_le
-   In file included from fs/rpdfs/block.h:8,
-                    from fs/rpdfs/txn.h:7,
-                    from fs/rpdfs/balloc.h:10,
-                    from fs/rpdfs/block.c:9:
-   fs/rpdfs/block.c: In function 'rpdfs_block_acquire':
-   fs/rpdfs/place.h:8:39: warning: right shift count >= width of type [-Wshift-count-overflow]
-       8 | #define RPA(place)      (u64)((place) >> 64), (u64)(place)
-         |                                       ^~
-   fs/rpdfs/block.c:189:63: note: in expansion of macro 'RPA'
-     189 |         (bk)->hnd.bnr, (bk)->hnd.alloc_ctr, (bk)->hnd.wcount, RPA((bk)->hnd.place), \
-         |                                                               ^~~
-   include/linux/dynamic_debug.h:224:29: note: in expansion of macro 'RBA'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:248:9: note: in expansion of macro '__dynamic_func_call_cls'
-     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call'
-     269 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:631:9: note: in expansion of macro 'dynamic_pr_debug'
-     631 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~
-   fs/rpdfs/pr.h:19:9: note: in expansion of macro 'pr_debug'
-      19 |         pr_debug("rpdfs: %s:%u: "fmt"\n", __func__, __LINE__, ##args); \
-         |         ^~~~~~~~
-   fs/rpdfs/pr.h:26:9: note: in expansion of macro '_rpdfs_pr_debug'
-      26 |         _rpdfs_pr_debug(fmt, ##args)
-         |         ^~~~~~~~~~~~~~~
-   fs/rpdfs/block.c:1233:17: note: in expansion of macro 'rpdfs_prd_rfi'
-    1233 |                 rpdfs_prd_rfi(rfi, "acquire mode %u rbaf %x wait "RBF,
-         |                 ^~~~~~~~~~~~~
-   fs/rpdfs/block.c: In function 'recv_block_grant_mode':
-   fs/rpdfs/place.h:8:39: warning: right shift count >= width of type [-Wshift-count-overflow]
-       8 | #define RPA(place)      (u64)((place) >> 64), (u64)(place)
-         |                                       ^~
-   fs/rpdfs/block.c:189:63: note: in expansion of macro 'RPA'
-     189 |         (bk)->hnd.bnr, (bk)->hnd.alloc_ctr, (bk)->hnd.wcount, RPA((bk)->hnd.place), \
-         |                                                               ^~~
-   include/linux/dynamic_debug.h:224:29: note: in expansion of macro 'RBA'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:248:9: note: in expansion of macro '__dynamic_func_call_cls'
-     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call'
-     269 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:631:9: note: in expansion of macro 'dynamic_pr_debug'
-     631 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~
-   fs/rpdfs/pr.h:19:9: note: in expansion of macro 'pr_debug'
-      19 |         pr_debug("rpdfs: %s:%u: "fmt"\n", __func__, __LINE__, ##args); \
-         |         ^~~~~~~~
-   fs/rpdfs/pr.h:22:9: note: in expansion of macro '_rpdfs_pr_debug'
-      22 |         _rpdfs_pr_debug(fmt, ##args)
-         |         ^~~~~~~~~~~~~~~
-   fs/rpdfs/block.c:1610:9: note: in expansion of macro 'rpdfs_prd'
-    1610 |         rpdfs_prd("mode %u "RBF, cm->mode, RBA(bk));
-         |         ^~~~~~~~~
-   fs/rpdfs/place.h: In function 'rpdfs_place_combine_le':
->> fs/rpdfs/place.h:41:1: warning: control reaches end of non-void function [-Wreturn-type]
-      41 | }
-         | ^
-   cc1: some warnings being treated as errors
+   drivers/scsi/vhba/vhba.c: In function 'vhba_device_queue':
+>> drivers/scsi/vhba/vhba.c:192:23: error: variable 'vhost' set but not used [-Werror=unused-but-set-variable]
+     192 |     struct vhba_host *vhost;
+         |                       ^~~~~
+   cc1: all warnings being treated as errors
 
 
-vim +41 fs/rpdfs/place.h
+vim +/vhost +192 drivers/scsi/vhba/vhba.c
 
-    37	
-    38	static inline u128 rpdfs_place_combine_le(__le64 lo, __le64 hi)
-    39	{
-    40		return ((u128)le64_to_cpu(hi) << 64) | le64_to_cpu(lo);
-  > 41	}
-    42	
+   189	
+   190	static int vhba_device_queue (struct vhba_device *vdev, struct scsi_cmnd *cmd)
+   191	{
+ > 192	    struct vhba_host *vhost;
+   193	    struct vhba_command *vcmd;
+   194	    unsigned long flags;
+   195	
+   196	    vhost = platform_get_drvdata(&vhba_platform_device);
+   197	
+   198	    vcmd = vhba_alloc_command();
+   199	    if (!vcmd) {
+   200	        return SCSI_MLQUEUE_HOST_BUSY;
+   201	    }
+   202	
+   203	    vcmd->cmd = cmd;
+   204	
+   205	    spin_lock_irqsave(&vdev->cmd_lock, flags);
+   206	#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 15, 0)
+   207	    vcmd->metatag = scsi_cmd_to_rq(vcmd->cmd)->tag;
+   208	#else
+   209	    vcmd->metatag = vcmd->cmd->request->tag;
+   210	#endif
+   211	    list_add_tail(&vcmd->entry, &vdev->cmd_list);
+   212	    spin_unlock_irqrestore(&vdev->cmd_lock, flags);
+   213	
+   214	    wake_up_interruptible(&vdev->cmd_wq);
+   215	
+   216	    return 0;
+   217	}
+   218	
 
 -- 
 0-DAY CI Kernel Test Service
