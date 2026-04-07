@@ -1,240 +1,176 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D898738C403
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Apr 2026 08:52:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8214207DF7
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Apr 2026 09:00:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775551941; cv=none; b=pSi+5cJXeIYmg7XGqc6rYBry25qV7a9/KlJzNeUhNDt3wt3oXfwKux9u5Og7lmI+JytVbeRYfKyXhGwoSWFdrHHX7p8l5blBXY08zlzD/gUw3BrWBy47yYItWDiBKICUv8ut2ses9ARH0V0x/JJClDIMEs+kNTi4qFFHm+brFks=
+	t=1775552418; cv=none; b=PxQR6FApHOvDz6FhzNYkAGGquqN4+iz3tT4lFNLpKWvRHZUL0RLbMY0H3+9mzRXYCDoD9MnzFWMA3XiN9XGIt1felXGAcd42U648SRHdtLswfFCaynTz5lToM1tD0967AVDQCZzeJQRC50NsPjNekKTTm9V5z9vBfSDGNatuWmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775551941; c=relaxed/simple;
-	bh=0JoxjQPcItK2mBHDuckrdnk5ZRvuVy5SselGQOrJp34=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=FSUstTWGqiFaHRTLXjts0fK1Tc9J2QjnQxSr/enDDjlNPf2qDQ+rB38CQZEjrZB4FUKDE0/aIhF2vLv3JZ7ZI+yvUJ2M4vKSmxPqYrbYIK8RLx+Yr8pTph9Hpp0otUwYM1mPfyQFwSpnvWLfoeOxmR0WnDmIFB+KoFMeniUeCy0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IeEBFOKf; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1775552418; c=relaxed/simple;
+	bh=ko9l9mdhtQlxEv+xItV4uafeiASchLSWCKG+op6SHoM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=EgWBCvYK4Ex0Rs8qmjTy2/h/AxLfKM3KwUfpadbDFQk1ydtwDEYxFcaV42dJNtcBaLnyySpUp/uWKXyHnuSYz2r8cxGUBQ3O7xxchclt/xSWMSaT2+gzcOwicYEC3KYgprpsFe2sQLAZ1pn0O6b+5uQt9YZa6N0uxVBZ3YJApnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BjBbVXWU; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IeEBFOKf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775551939; x=1807087939;
-  h=date:from:to:cc:subject:message-id;
-  bh=0JoxjQPcItK2mBHDuckrdnk5ZRvuVy5SselGQOrJp34=;
-  b=IeEBFOKfQkLdjTBPHNoNyoHVTN/fWwUnz7cUvhmPfD+6qjdb+W496Y9Q
-   hcyV49+C9mCx4oqhEfMTlOqcfaFFtlE2P7K0IIHhs5pI0pbER6A+i/S3g
-   Rycf+cb8CB2b7o0bcFO7ctjXcy1EBxP+Auy7llicEp6t4sxJbav9H91hy
-   kQbHQoHHZpofkmaVgG8JnIZzj4BiWwXC04abQXQnTnhG/cqo8rfiRyVFk
-   0h/BYOvoB5iqY/UGgp7OJ8y9SzDGgLvWkCL3QJrVTdv5SZT9Yv8Gb1w3Z
-   oY6znPIXkk/Z1oQ9s9G6Ohy9CJY9He1g4+aOgYhx0gKHrSft4+o8WlQWW
-   g==;
-X-CSE-ConnectionGUID: ySNf5nFTRnmNPpuUQkLMFw==
-X-CSE-MsgGUID: Q+ZfjPC3Q3C+/+MaGZcoQQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="76522144"
-X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
-   d="scan'208";a="76522144"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 01:52:18 -0700
-X-CSE-ConnectionGUID: zu/4UbjPQP6uU40b2ytNCQ==
-X-CSE-MsgGUID: YXsfvlToQEO9zNEQYda5Ow==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
-   d="scan'208";a="228386850"
-Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 07 Apr 2026 01:52:17 -0700
-Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wA2AQ-000000000Ob-3k8b;
-	Tue, 07 Apr 2026 08:52:14 +0000
-Date: Tue, 07 Apr 2026 16:51:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [vireshk:virtio/msg-amp 20/22]
- drivers/virtio/virtio_msg_amp_pci.c:94:30: error: implicit declaration of
- function 'pci_msix_vec_count'
-Message-ID: <202604071622.HEdTlo3h-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BjBbVXWU"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-43cfa33a983so2824240f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 07 Apr 2026 02:00:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775552415; x=1776157215; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=LL0ec9tpaclw1G1MDrARCNTVU2VUg2IUpXqiX/KPKL4=;
+        b=BjBbVXWU/ieEff67DC2zxkZHxvFNr3CBs92ym5kAdAsQna3ATTb5okVGl//qso5S5V
+         kpyB5jtANKm6JWgVxJ2DbePAQe1A8qSncY4eCwHveJMTWp9wuL26QOGTTTtFEPmH38rQ
+         xj+b5xMf8UYaFIL1ozcX/1OEr5IhVCvndWlmH4IkF1E/J52U6m1xxlw0qCcsENCSaFyC
+         pPYa/pjxpP0KuVpQMO3Gvjwstxw6CfJMAMZAoTRb78ZlANexqm5tQLL20+AhwzPdM9oT
+         uAabV7ICCzTL+onUDREfm23gewzphZNtHR/UG0nt4SRk1HWMSH/qfT4RgRk1Z4BsTwWE
+         v4bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775552415; x=1776157215;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LL0ec9tpaclw1G1MDrARCNTVU2VUg2IUpXqiX/KPKL4=;
+        b=nDETVJ8qG/HsxK6cT6ApuUOAKQofBbeFyDGz3fBpXSOjxs19yshOblQtrciZSouHru
+         J/lObkkmV5f8jPvH3jk1W04SebELbaHchMe7GGe5K5ouPqxw4jlv6C9UHFpHzJ3yIOdx
+         UR7gshgrJkjF5j+hFqZ5cbA0fGgblW15O+3nI3bSAsmomzC3GK5l3c6L20Qjrxv7B1C0
+         MVOjHIzC+KYTFd3dLqY2Iu/tNA9gpX53bYVDyNY2IG37DVVmuzI5FHDQiNrM8PziUPeM
+         4VE4Bzdo8aNzKaNyKQzQo1y4tid+hM0GEevGYWs5ZtCGnne58U6MHdQ4aV9yKwti/ytZ
+         iZGg==
+X-Forwarded-Encrypted: i=1; AJvYcCVPrOCRhp1zlOC/ywPUAqFPix5d+Ghyu7L6BXuJbFEnQUfkaIetC817HVsA+wBIWhOrdH+bx2s0S/2n3W9m@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx6i6RKmnIY2lEg+UxB2gZsF5p5z2Jsnl73JJVWG3+B0K95POLj
+	ppc7f6PTzyU3uMkdhMTb/YuBNBjSMto9BVFIjF/DPnrTzge+zWYaac6x
+X-Gm-Gg: AeBDietIQa+CYMEuPc9Z4vO08rkx8MB65/6R85oGqEftYqibV5ntH7uw/928xpwCoar
+	atalFnA3xWyY9PeLVmR0T6EZxBUsVRT9sgbgVlKmYoQ4eHs4GPjWdHJguLvhi39fvgpiEEEchzH
+	j4dvlrl/kjnhaEGbnrC4ROaurAFIBT+HAQ6KAIV7H3Ws0J746aGARvw+E1L93cUY3HNWz5trbjc
+	OGePWR5dCGQjDi0jHvkIL+qzZvUYhtWJX8xJ3o8UVBXJnFwZ/X1u/1ryw2oKyO7Swyg4cdxBFyL
+	LRn847SHFmPNipw911XW1ubHq5vkFKMGXfMyTbq4MiaNIDLBU3aUr8jTLaQlOTCzEQUqRezvuNM
+	+en/ePDMj48+EHyNyJIfG03Ks0fhgRrYE4Iv1aT92N3R5L8Vsc+bnjzi3oioYTUU5zKgjkJKdAg
+	3QxQaP0p/mhbWmLadEy6frs8mh6A1dDw==
+X-Received: by 2002:a05:6000:2489:b0:439:caf7:a5e5 with SMTP id ffacd0b85a97d-43d292e14d7mr21617959f8f.31.1775552414415;
+        Tue, 07 Apr 2026 02:00:14 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e2a7223sm44354473f8f.5.2026.04.07.02.00.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Apr 2026 02:00:13 -0700 (PDT)
+Date: Tue, 7 Apr 2026 12:00:10 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Rosen Penev <rosenp@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Bjorn Andersson <andersson@kernel.org>
+Subject: [linux-next:master 9740/12133] drivers/soc/qcom/wcnss_ctrl.c:269
+ wcnss_download_nv() warn: 'fw' from request_firmware() not released on
+ lines: 225.
+Message-ID: <202604060902.awXdPsBh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git virtio/msg-amp
-head:   781a260a2b5802f6ac428e12ffe8a54d0c6330eb
-commit: 47d31ad5e63c3d62a6b26136692b9b480bb11fb3 [20/22] virtio: msg: Add generic PCI transport driver for virtio-msg AMP
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260407/202604071622.HEdTlo3h-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260407/202604071622.HEdTlo3h-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2febe6e6ee6e34c7754eff3c4d81aa7b0dcb7979
+commit: 908061f0ad30aa08ce211c6a8f95d29102e570bd [9740/12133] soc: qcom: wcnss: simplify allocation of req
+config: sparc64-randconfig-r072-20260406 (https://download.01.org/0day-ci/archive/20260406/202604060902.awXdPsBh-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 11.5.0
+smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604071622.HEdTlo3h-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202604060902.awXdPsBh-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/soc/qcom/wcnss_ctrl.c:269 wcnss_download_nv() warn: 'fw' from request_firmware() not released on lines: 225.
 
-   In file included from drivers/virtio/virtio_msg_amp.h:21,
-                    from drivers/virtio/virtio_msg_amp.c:22:
-   drivers/virtio/spsc_queue.h: In function 'spsc_atomic_load':
->> drivers/virtio/spsc_queue.h:72:23: error: implicit declaration of function 'array_index_nospec' [-Wimplicit-function-declaration]
-      72 |                 val = array_index_nospec(val, q->capacity);
-         |                       ^~~~~~~~~~~~~~~~~~
---
-   drivers/virtio/virtio_msg_amp_pci.c: In function 'vmamp_pci_probe':
->> drivers/virtio/virtio_msg_amp_pci.c:94:30: error: implicit declaration of function 'pci_msix_vec_count' [-Wimplicit-function-declaration]
-      94 |         vmamp_pci->vectors = pci_msix_vec_count(pdev);
-         |                              ^~~~~~~~~~~~~~~~~~
->> drivers/virtio/virtio_msg_amp_pci.c:131:9: error: implicit declaration of function 'pci_free_irq_vectors'; did you mean 'pci_alloc_irq_vectors'? [-Wimplicit-function-declaration]
-     131 |         pci_free_irq_vectors(pdev);
-         |         ^~~~~~~~~~~~~~~~~~~~
-         |         pci_alloc_irq_vectors
-   drivers/virtio/virtio_msg_amp_pci.c: At top level:
->> drivers/virtio/virtio_msg_amp_pci.c:178:1: warning: data definition has no type or storage class
-     178 | module_pci_driver(vmamp_pci_driver);
-         | ^~~~~~~~~~~~~~~~~
->> drivers/virtio/virtio_msg_amp_pci.c:178:1: error: type defaults to 'int' in declaration of 'module_pci_driver' [-Wimplicit-int]
->> drivers/virtio/virtio_msg_amp_pci.c:178:1: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
->> drivers/virtio/virtio_msg_amp_pci.c:171:26: warning: 'vmamp_pci_driver' defined but not used [-Wunused-variable]
-     171 | static struct pci_driver vmamp_pci_driver = {
-         |                          ^~~~~~~~~~~~~~~~
+vim +/fw +269 drivers/soc/qcom/wcnss_ctrl.c
 
+6be2b3d0848d1e Bjorn Andersson     2016-06-06  200  static int wcnss_download_nv(struct wcnss_ctrl *wcnss, bool *expect_cbc)
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  201  {
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  202  	const struct firmware *fw;
+ac3f2784200d49 Bjorn Andersson     2021-03-11  203  	struct device *dev = wcnss->dev;
+908061f0ad30aa Rosen Penev         2026-03-26  204  	struct wcnss_download_nv_req *req;
+82ec0c290d1a73 Bjorn Andersson     2021-03-11  205  	const char *nvbin = NVBIN_FILE;
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  206  	const void *data;
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  207  	ssize_t left;
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  208  	int ret;
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  209  
+82ec0c290d1a73 Bjorn Andersson     2021-03-11  210  	ret = of_property_read_string(dev->of_node, "firmware-name", &nvbin);
+82ec0c290d1a73 Bjorn Andersson     2021-03-11  211  	if (ret < 0 && ret != -EINVAL)
+b066a2c430f3f8 Krzysztof Kozlowski 2024-07-03  212  		return ret;
+82ec0c290d1a73 Bjorn Andersson     2021-03-11  213  
+82ec0c290d1a73 Bjorn Andersson     2021-03-11  214  	ret = request_firmware(&fw, nvbin, dev);
+                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-vim +/pci_msix_vec_count +94 drivers/virtio/virtio_msg_amp_pci.c
+6be2b3d0848d1e Bjorn Andersson     2016-06-06  215  	if (ret < 0) {
+82ec0c290d1a73 Bjorn Andersson     2021-03-11  216  		dev_err(dev, "Failed to load nv file %s: %d\n", nvbin, ret);
+b066a2c430f3f8 Krzysztof Kozlowski 2024-07-03  217  		return ret;
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  218  	}
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  219  
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  220  	data = fw->data;
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  221  	left = fw->size;
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  222  
+908061f0ad30aa Rosen Penev         2026-03-26  223  	req = kzalloc_flex(*req, fragment, NV_FRAGMENT_SIZE);
+908061f0ad30aa Rosen Penev         2026-03-26  224  	if (!req)
+908061f0ad30aa Rosen Penev         2026-03-26  225  		return -ENOMEM;
 
-    48	
-    49	static int vmamp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-    50	{
-    51		struct vmamp_pci *vmamp_pci;
-    52		resource_size_t	size;
-    53		phys_addr_t addr;
-    54		int ret, i;
-    55	
-    56		vmamp_pci = devm_kzalloc(&pdev->dev, sizeof(*vmamp_pci), GFP_KERNEL);
-    57		if (!vmamp_pci) {
-    58			ret = -ENOMEM;
-    59			goto error;
-    60		}
-    61	
-    62		ret = pcim_enable_device(pdev);
-    63		if (ret)
-    64			goto error;
-    65	
-    66		/* Request 3 BARs */
-    67		for (i = 0; i < 3; i++) {
-    68			ret = pcim_request_region(pdev, i, dev_name(&pdev->dev));
-    69			if (ret)
-    70				goto error;
-    71	
-    72			addr = pci_resource_start(pdev, i);
-    73			size = pci_resource_len(pdev, i);
-    74			dev_dbg(&pdev->dev, "mmr (BAR%d) at %pa, size %pr\n", i, &addr,
-    75				&size);
-    76		}
-    77	
-    78		vmamp_pci->regs = pcim_iomap(pdev, 0, 0);
-    79		if (!vmamp_pci->regs) {
-    80			ret = -ENOMEM;
-    81			goto error;
-    82		}
-    83	
-    84		vmamp_pci->ram = pci_iomap_wc(pdev, 1, 0);
-    85		if (!vmamp_pci->ram) {
-    86			ret = -ENOMEM;
-    87			goto error;
-    88		}
-    89	
-    90		/*
-    91		 * Grab all vectors although we can only coalesce them into a single
-    92		 * notifier. This avoids missing any event.
-    93		 */
-  > 94		vmamp_pci->vectors = pci_msix_vec_count(pdev);
-    95		if (vmamp_pci->vectors < 0)
-    96			vmamp_pci->vectors = 1;
-    97	
-    98		ret = pci_alloc_irq_vectors(pdev, vmamp_pci->vectors,
-    99					    vmamp_pci->vectors, PCI_IRQ_MSIX);
-   100		if (ret < 0)
-   101			goto unmap_ram;
-   102	
-   103		for (i = 0; i < vmamp_pci->vectors; i++) {
-   104			ret = request_irq(pci_irq_vector(pdev, i), irq_handler,
-   105					  IRQF_SHARED, dev_name(&pdev->dev), vmamp_pci);
-   106			if (ret)
-   107				goto free_irq;
-   108		}
-   109	
-   110		vmamp_pci->vmamp.dev = &pdev->dev;
-   111		vmamp_pci->vmamp.ops = &vmamp_pci_ops;
-   112		pci_set_drvdata(pdev, vmamp_pci);
-   113		pci_set_master(pdev);
-   114	
-   115		/* First 4KB are reserved */
-   116		vmamp_pci->vmamp.shmem = vmamp_pci->ram + 4 * 1024;
-   117		vmamp_pci->vmamp.shmem_size = 8 * 1024;
-   118		memset(vmamp_pci->vmamp.shmem, 0, vmamp_pci->vmamp.shmem_size);
-   119	
-   120		ret = virtio_msg_amp_register(&vmamp_pci->vmamp);
-   121		if (ret)
-   122			goto clear_master;
-   123	
-   124		return 0;
-   125	
-   126	clear_master:
-   127		pci_clear_master(pdev);
-   128	free_irq:
-   129		while (--i >= 0)
-   130			free_irq(pci_irq_vector(pdev, i), vmamp_pci);
- > 131		pci_free_irq_vectors(pdev);
-   132	unmap_ram:
-   133		pci_iounmap(pdev, vmamp_pci->ram);
-   134	error:
-   135		dev_err(&pdev->dev, "probe failed: %d\n", ret);
-   136		return ret;
-   137	}
-   138	
-   139	static void vmamp_pci_remove(struct pci_dev *pdev)
-   140	{
-   141		struct vmamp_pci *vmamp_pci = pci_get_drvdata(pdev);
-   142		int i;
-   143	
-   144		virtio_msg_amp_unregister(&vmamp_pci->vmamp);
-   145		pci_clear_master(pdev);
-   146	
-   147		for (i = vmamp_pci->vectors - 1; i >= 0; i--)
-   148			free_irq(pci_irq_vector(pdev, i), vmamp_pci);
-   149	
-   150		pci_free_irq_vectors(pdev);
-   151		pci_iounmap(pdev, vmamp_pci->ram);
-   152	}
-   153	
-   154	static void vmamp_pci_shutdown(struct pci_dev *pdev)
-   155	{
-   156		struct vmamp_pci *vmamp_pci = pci_get_drvdata(pdev);
-   157	
-   158		/*
-   159		 * Do the minimal to make device harmless. Need to tell our virtio-msg
-   160		 * peer we're going down.
-   161		 */
-   162		virtio_msg_amp_unregister(&vmamp_pci->vmamp);
-   163	}
-   164	
-   165	static const struct pci_device_id vmamp_pci_id_table[] = {
-   166		{ PCI_DEVICE(PCI_VENDOR_ID_XILINX, 0x9039) },
-   167		{ 0 }
-   168	};
-   169	MODULE_DEVICE_TABLE(pci, vmamp_pci_id_table);
-   170	
- > 171	static struct pci_driver vmamp_pci_driver = {
-   172		.name = "virtio_msg_amp_pci",
-   173		.id_table = vmamp_pci_id_table,
-   174		.probe = vmamp_pci_probe,
-   175		.remove = vmamp_pci_remove,
-   176		.shutdown = vmamp_pci_shutdown,
-   177	};
- > 178	module_pci_driver(vmamp_pci_driver);
-   179	
+Need to release_firmware() before returning.
+
+908061f0ad30aa Rosen Penev         2026-03-26  226  
+908061f0ad30aa Rosen Penev         2026-03-26  227  	req->frag_size = NV_FRAGMENT_SIZE;
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  228  	req->hdr.type = WCNSS_DOWNLOAD_NV_REQ;
+908061f0ad30aa Rosen Penev         2026-03-26  229  	req->hdr.len = struct_size(req, fragment, NV_FRAGMENT_SIZE);
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  230  
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  231  	req->last = 0;
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  232  
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  233  	req->seq = 0;
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  234  	do {
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  235  		if (left <= NV_FRAGMENT_SIZE) {
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  236  			req->last = 1;
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  237  			req->frag_size = left;
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  238  			req->hdr.len = sizeof(*req) + left;
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  239  		}
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  240  
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  241  		memcpy(req->fragment, data, req->frag_size);
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  242  
+5052de8deff561 Bjorn Andersson     2017-03-27  243  		ret = rpmsg_send(wcnss->channel, req, req->hdr.len);
+6be2b3d0848d1e Bjorn Andersson     2016-06-06  244  		if (ret < 0) {
+ac3f2784200d49 Bjorn Andersson     2021-03-11  245  			dev_err(dev, "failed to send smd packet\n");
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  246  			goto release_fw;
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  247  		}
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  248  
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  249  		/* Increment for next fragment */
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  250  		req->seq++;
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  251  
+90c29ed7627b6b Bjorn Andersson     2018-02-27  252  		data += NV_FRAGMENT_SIZE;
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  253  		left -= NV_FRAGMENT_SIZE;
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  254  	} while (left > 0);
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  255  
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  256  	ret = wait_for_completion_timeout(&wcnss->ack, WCNSS_REQUEST_TIMEOUT);
+6be2b3d0848d1e Bjorn Andersson     2016-06-06  257  	if (!ret) {
+ac3f2784200d49 Bjorn Andersson     2021-03-11  258  		dev_err(dev, "timeout waiting for nv upload ack\n");
+6be2b3d0848d1e Bjorn Andersson     2016-06-06  259  		ret = -ETIMEDOUT;
+6be2b3d0848d1e Bjorn Andersson     2016-06-06  260  	} else {
+6be2b3d0848d1e Bjorn Andersson     2016-06-06  261  		*expect_cbc = wcnss->ack_status == WCNSS_ACK_COLD_BOOTING;
+6be2b3d0848d1e Bjorn Andersson     2016-06-06  262  		ret = 0;
+6be2b3d0848d1e Bjorn Andersson     2016-06-06  263  	}
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  264  
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  265  release_fw:
+ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  266  	release_firmware(fw);
+908061f0ad30aa Rosen Penev         2026-03-26  267  	kfree(req);
+6be2b3d0848d1e Bjorn Andersson     2016-06-06  268  
+6be2b3d0848d1e Bjorn Andersson     2016-06-06 @269  	return ret;
+6be2b3d0848d1e Bjorn Andersson     2016-06-06  270  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
