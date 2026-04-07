@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8D9337649C
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Apr 2026 03:59:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D5D377017
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Apr 2026 03:59:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775534379; cv=none; b=P8UsmrczVNc1P6vJTs8ABQXpxd+cDWDVQkGU2LPS8OFuTl3yADhPm8j3b77szfyBXRcnP5nEJCAA/4vtfnq1vqi636VIJ7hiNQrKgKIYwyOHmpx0oNOJin19J2rWx7LkbmJkYpxqlVfUU9jTktz/s5eKBqBOKchDyvbBfH48MmI=
+	t=1775534379; cv=none; b=GGt84pTaTMx94nyW2KYgzxjmlMNTBNRrKU98VdFISYY1XaX4XP49k3TEvNkGmFAmRTekJgdsd4TwnAAewsgOGGOzNbXOFDbt/XJsi/IariYTSazflr0uvwdVfG5CPrq/hFAPCInY2mCsrCxihagw+XYiLrvoHnULfLycKdCxDw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1775534379; c=relaxed/simple;
-	bh=9bz9c5bK7ww3Ah3ziJ3BP1j5qpiPAx/pnOl+MgOqBrY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=CCRxKgrnBjb4DFW4+Arhr+UCU4PU/WWK8+0cQblGwFd5WjUeiV2/+pX6TXLbG8IFgP7PNhhvExrTW16J1PEAY7jkw5SZlfe2SLySX3XBcnDaSp8qk8EOZwe6uu38yGvQ/CIJ0+PgcbcaSt9WgPN8Qfp+qTVeKEqNB34Ujmkq6kk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gFMkJOI2; arc=none smtp.client-ip=198.175.65.20
+	bh=bs4ZahIMWJZW/wTLo1PQIM+tebHc/w5EM0a1rOQ7YRg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=WYiONTT3wDTPOLdxpxl+gMV/s0h+aFttlZG/DlqzPiGW3h/4Ebasi81f6Y1G1ECs30hyy97sbnTeyjUYSoujztHVRAn7Yybn5b8sOQmuYowjxQYF3dO9800SvT2EL8eV+4C145vG+HhBE6uxbQOHyVDZYJlPs+qzfctZi6Yrdng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DexTzurT; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gFMkJOI2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DexTzurT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775534377; x=1807070377;
+  t=1775534378; x=1807070378;
   h=date:from:to:cc:subject:message-id;
-  bh=9bz9c5bK7ww3Ah3ziJ3BP1j5qpiPAx/pnOl+MgOqBrY=;
-  b=gFMkJOI22rzhVr79gucINhikemCu9jlLvPW15+L53ocbpDl1IPfD0u3k
-   5E/8tPKDw0pjmBMjLLhPM41PiN2WyURZAvZnmzqDUpmz2gXFe2HT7ebgJ
-   yVVU+Js1z51dsMqMP3k3gpFLdnJl1fjuVunIm7RRDOc3jE1ofSDloZSn6
-   u9SKOJsXFpmhav1MyoFIsGc4ZQ4KkcNIfN6bhs95CcQ2BjXLEa9e6j+t1
-   VeAbd+0MdWiA/W5VRQsAicN9fTD9RosnwqGWjxC6DLV3GYZ1t5cxfRV7T
-   SzVM7nS0gTjGK+wVK/1dEeT2DCdKq89taOcfXTqrrcYW176PLuNhmMmkT
-   Q==;
-X-CSE-ConnectionGUID: FZFCC9h1RbWzvjJbgMQYAA==
-X-CSE-MsgGUID: 8XU7iv0PSCOFd2IqAiIUYQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="76204318"
+  bh=bs4ZahIMWJZW/wTLo1PQIM+tebHc/w5EM0a1rOQ7YRg=;
+  b=DexTzurTrvbJSr0sAVXfBUXw1D1etNRkgFTKVJ17tS0X2CaqZw+8E8Bt
+   qSOVUA4RbdzeEMh/7wV5qiwOsjSqF3C1TP3S+sHiL1Tw+B8ZASiEnmhI3
+   ZOvPxsY4uD59pc5WW4r5cTsKB6XJUaL3ikSLr7vMh/TarhLKKC+n22tlj
+   pNv06fHoM/dWugYLPDZugfroVEzmc1zAJNiefv7vcY7Ku15gIiutzuhyb
+   Zkxob0MjPaEnAw1LpVMOPwxQNckaWtD3eC9YjvDDKwh3ZIiISYFAkcynk
+   ZpOVMjkTBgwInoyTWUYhnRKptBdGlMtmH2ee6yvEuWsbJLQnMgyGvSz74
+   A==;
+X-CSE-ConnectionGUID: 7OYcEdHTRZ+Gx1GawXelCA==
+X-CSE-MsgGUID: mJh9xHSITuGwY3m4sJLqvA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="76369612"
 X-IronPort-AV: E=Sophos;i="6.23,164,1770624000"; 
-   d="scan'208";a="76204318"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2026 20:59:36 -0700
-X-CSE-ConnectionGUID: V33yfg80Rh2HlOzW2XJ07Q==
-X-CSE-MsgGUID: hYw8aehXSuepwVdDDQnv4g==
+   d="scan'208";a="76369612"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2026 20:59:37 -0700
+X-CSE-ConnectionGUID: kO4g5r1RQaywQoAtgNXcjQ==
+X-CSE-MsgGUID: ortnPMxKREy5F0mFJHUwFg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,164,1770624000"; 
-   d="scan'208";a="251193022"
+   d="scan'208";a="232091430"
 Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 06 Apr 2026 20:59:35 -0700
+  by orviesa003.jf.intel.com with ESMTP; 06 Apr 2026 20:59:36 -0700
 Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w9xbB-0000000006p-1TiF;
+	id 1w9xbB-0000000006n-1Ovg;
 	Tue, 07 Apr 2026 03:59:33 +0000
-Date: Tue, 07 Apr 2026 11:59:04 +0800
+Date: Tue, 07 Apr 2026 11:58:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.19/prjc 13/22] kernel/sched/alt_core.c:3092:13:
- error: static declaration of 'sched_mm_cid_fork' follows non-static
- declaration
-Message-ID: <202604051620.LDzREpAp-lkp@intel.com>
+To: Manikanta Maddireddy <mmaddireddy@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+ Manivannan Sadhasivam <mani@kernel.org>
+Subject: [pci:controller/dwc-tegra194 22/22]
+ include/linux/compiler_types.h:706:45: error: call to
+ '__compiletime_assert_485' declared with attribute error: min((
+ __builtin_constant_p(us) ? ((us) < 2 ? 0 : 63 - __builtin_clzll(us)) :
+ (sizeof(us) <= 4) ? __ilog2_u32(us) : __ilog2_u64(us) ) + 1, 7U) s...
+Message-ID: <202604051407.AODe3ddZ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,84 +63,72 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.19/prjc
-head:   14ff03aebefa493a7d7ecfcbff66ded1147dba3e
-commit: 6a25699be0085c1c1ba0db370149e7256773b2e1 [13/22] sched/alt: [Sync] f0189d49282e sched/mmcid: Prevent CID stalls due to concurrent forks
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20260405/202604051620.LDzREpAp-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260405/202604051620.LDzREpAp-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/dwc-tegra194
+head:   814f4e4b6cceda9e816fbeaf2a6a0f9b50b3f23a
+commit: 814f4e4b6cceda9e816fbeaf2a6a0f9b50b3f23a [22/22] PCI: tegra194: Use aspm-l1-entry-delay-ns DT property for L1 entrance latency
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20260405/202604051407.AODe3ddZ-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260405/202604051407.AODe3ddZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604051620.LDzREpAp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604051407.AODe3ddZ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/sched/alt_core.c:3092:13: error: static declaration of 'sched_mm_cid_fork' follows non-static declaration
-    3092 | static void sched_mm_cid_fork(struct task_struct *t);
-         |             ^~~~~~~~~~~~~~~~~
-   In file included from kernel/sched/alt_core.c:15:
-   include/linux/sched.h:2351:6: note: previous declaration of 'sched_mm_cid_fork' with type 'void(struct task_struct *)'
-    2351 | void sched_mm_cid_fork(struct task_struct *t);
-         |      ^~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c: In function 'sched_init_topology_cpumask':
-   kernel/sched/alt_core.c:6220:57: error: implicit declaration of function 'cpu_coregroup_mask' [-Wimplicit-function-declaration]
-    6220 |                 per_cpu(sd_llc_id, cpu) = cpumask_first(cpu_coregroup_mask(cpu));
-         |                                                         ^~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:6220:57: error: passing argument 1 of 'cpumask_first' makes pointer from integer without a cast [-Wint-conversion]
-    6220 |                 per_cpu(sd_llc_id, cpu) = cpumask_first(cpu_coregroup_mask(cpu));
-         |                                                         ^~~~~~~~~~~~~~~~~~~~~~~
-         |                                                         |
-         |                                                         int
-   In file included from arch/mips/include/asm/processor.h:15,
-                    from arch/mips/include/asm/thread_info.h:16,
-                    from include/linux/thread_info.h:60,
-                    from include/asm-generic/current.h:6,
-                    from ./arch/mips/include/generated/asm/current.h:1,
-                    from include/linux/sched.h:12:
-   include/linux/cpumask.h:155:73: note: expected 'const struct cpumask *' but argument is of type 'int'
-     155 | static __always_inline unsigned int cpumask_first(const struct cpumask *srcp)
-         |                                                   ~~~~~~~~~~~~~~~~~~~~~~^~~~
-   kernel/sched/alt_core.c:6222:45: error: passing argument 3 of 'cpumask_and' makes pointer from integer without a cast [-Wint-conversion]
-    6222 |                 TOPOLOGY_CPUMASK(coregroup, cpu_coregroup_mask(cpu), false);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~
-         |                                             |
-         |                                             int
-   kernel/sched/alt_core.c:6196:37: note: in definition of macro 'TOPOLOGY_CPUMASK'
-    6196 |         if (cpumask_and(topo, topo, mask)) {                                    \
-         |                                     ^~~~
-   include/linux/cpumask.h:714:40: note: expected 'const struct cpumask *' but argument is of type 'int'
-     714 |                  const struct cpumask *src2p)
-         |                  ~~~~~~~~~~~~~~~~~~~~~~^~~~~
-   kernel/sched/alt_core.c:6222:45: error: passing argument 2 of 'cpumask_copy' makes pointer from integer without a cast [-Wint-conversion]
-    6222 |                 TOPOLOGY_CPUMASK(coregroup, cpu_coregroup_mask(cpu), false);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~
-         |                                             |
-         |                                             int
-   kernel/sched/alt_core.c:6197:36: note: in definition of macro 'TOPOLOGY_CPUMASK'
-    6197 |                 cpumask_copy(topo, mask);                                       \
-         |                                    ^~~~
-   include/linux/cpumask.h:932:63: note: expected 'const struct cpumask *' but argument is of type 'int'
-     932 | void cpumask_copy(struct cpumask *dstp, const struct cpumask *srcp)
-         |                                         ~~~~~~~~~~~~~~~~~~~~~~^~~~
-   In file included from include/linux/cpumask.h:13:
-   include/linux/cpumask_types.h:18:37: error: invalid type argument of '->' (have 'int')
-      18 | #define cpumask_bits(maskp) ((maskp)->bits)
-         |                                     ^~
-   kernel/sched/alt_core.c:6202:55: note: in expansion of macro 'cpumask_bits'
-    6202 |                 bitmap_complement(cpumask_bits(topo), cpumask_bits(mask),       \
-         |                                                       ^~~~~~~~~~~~
-   kernel/sched/alt_core.c:6222:17: note: in expansion of macro 'TOPOLOGY_CPUMASK'
-    6222 |                 TOPOLOGY_CPUMASK(coregroup, cpu_coregroup_mask(cpu), false);
-         |                 ^~~~~~~~~~~~~~~~
+   In file included from <command-line>:
+   drivers/pci/controller/dwc/pcie-tegra194.c: In function 'tegra_pcie_dw_parse_dt':
+>> include/linux/compiler_types.h:706:45: error: call to '__compiletime_assert_485' declared with attribute error: min(( __builtin_constant_p(us) ? ((us) < 2 ? 0 : 63 - __builtin_clzll(us)) : (sizeof(us) <= 4) ? __ilog2_u32(us) : __ilog2_u64(us) ) + 1, 7U) signedness error
+     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:687:25: note: in definition of macro '__compiletime_assert'
+     687 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
+     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_once'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:105:25: note: in expansion of macro '__careful_cmp'
+     105 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   drivers/pci/controller/dwc/pcie-tegra194.c:1150:43: note: in expansion of macro 'min'
+    1150 |                 pcie->aspm_l1_enter_lat = min(ilog2(us) + 1, 7U);
+         |                                           ^~~
 
 
-vim +/sched_mm_cid_fork +3092 kernel/sched/alt_core.c
+vim +/__compiletime_assert_485 +706 include/linux/compiler_types.h
 
-  3091	
-> 3092	static void sched_mm_cid_fork(struct task_struct *t);
-  3093	
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  692  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  693  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  694  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  695  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  696  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  697   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  698   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  699   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  700   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  701   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  702   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  703   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  704   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  705  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @706  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  707  
+
+:::::: The code at line 706 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
