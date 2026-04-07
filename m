@@ -1,167 +1,212 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA311FF1B4
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Apr 2026 05:08:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 767CF348898
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Apr 2026 05:12:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.179
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775538489; cv=fail; b=rpCfM9WRxIsm1env1cxMtx0VJpvlBot8zP9+ZOoSQsmAM9V6L/h9nprGDyvnQP4htsAG83mJOiCiCKBnZQ4kRtOIxRJrNe02rM2/vmAGy38j3XRLkOMeoS/avb5NgHf7j2zR/KCzfCC1A4U8zZwvZKq767jGgnbb7o0hcSDHdbo=
+	t=1775538775; cv=pass; b=EjsPDyhZsswfe6k/zhGirUdhP0cA6Mbp97gkxIO/t5g8dD8l1F0SnT2T/VnSGL7dv17p6y5TohWu7A/Q/wkx1lGZiCBG7IGaTbBmW1Mtzuy2VbpYbfGG4H0cbRf7BFzvHdaYDoWB/Xr/lyIaxiC0tnjEwfCv1pCK3Hso6aU1uO4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775538489; c=relaxed/simple;
-	bh=hif3Vaix6ISJAJmjXW2xICMn31lADGkGM+XltcmLkTo=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=NDOgRcqn/GFNeAvEGwD5hr50mV/60awB2j5P6CGmB7h6JBNw8vSL37y5B8hPr+h4rNFQvvNjrpk9hl8S6bTod1CL0NqCcID8J5dxhrYSc/0RGjKv5fP6syhuEtAMdVsZFLpTwkT+riomaN1Q3C2V+MtQRmlWQY9z1HyYpTh91p8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YCc1dC/0; arc=fail smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1775538775; c=relaxed/simple;
+	bh=/tAeAVFfLa3BAJdaw8XFGiTq1kAgqBc+qqoSggDEA+c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TsHdqkZe50yoQCF3dDPuG13QZaltXX95mRIIKPPHyKZRRdjNJdxw/5mpuev+ZwUJWr0TaftyB8MEIdM9Y4uDyacUo5kqxH64DfxGKgch/nlpinIf/nalO9jw3Wcm69l4LmtCRcERCbXc2drJtyZsWOPoVtk/7siNIuFuYFlpYr0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Dc/UoGKa; arc=pass smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YCc1dC/0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775538487; x=1807074487;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hif3Vaix6ISJAJmjXW2xICMn31lADGkGM+XltcmLkTo=;
-  b=YCc1dC/0z6dGByz+fCwE/u45aG/mUi/JATYKUHmSjkwy+fKlGfwCfJaN
-   lWApbJ1o8y0NfWDQWf5dXABYddWxqmXs4GKmiw0xhvBLCaOnx3vW39qKb
-   x4935qkvVrGD7nQYLrefm+ac4oVEhvPdaI15BYy+XIbQh3FmZ4oatIoLl
-   8/TNjJ0fCpdwXv2BlvNQ1SjrbWBbd0wIybKBqINeGKjepRagllsAGwNxw
-   WjwSDFaOLpL+4O12BWsPYo54g8bfeQi8uPpORlGXIK7BN4grNmL8Tqq+S
-   DjpsAGTcBFuMTtQZjLj19fUIFvGTu20tF3fy94+hCZlS+W2jlGrSz6jh0
-   A==;
-X-CSE-ConnectionGUID: 7FvHYfsFTQOfNmNsDV2gRA==
-X-CSE-MsgGUID: ViUK0agsQOKhZ6d1CZQhKg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="79084929"
-X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
-   d="scan'208";a="79084929"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2026 22:08:07 -0700
-X-CSE-ConnectionGUID: esAOaOWKR/Sf0HL7ut9z8w==
-X-CSE-MsgGUID: IxA2OsCVRgiKWnkjo9oWYw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
-   d="scan'208";a="228331964"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2026 22:08:07 -0700
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 6 Apr 2026 22:08:05 -0700
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Mon, 6 Apr 2026 22:08:05 -0700
-Received: from CH5PR02CU005.outbound.protection.outlook.com (40.107.200.38) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 6 Apr 2026 22:08:05 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lJybLpNnZZod+kp88qqsrMKgCXLsWkPIbM3VzSSZLwIeIdASbYaZRckHygSeaS+A6hp3LlzdC7QHeLtGNNM+lamtfBs/JoOFpLl4qCnVN3bn9i+AgwdTWYNLd00Cl5H+i3c9w9NxZdong4HbpPR782wPzsX21p2xpchz1MJ1hsWggdkJI1HHPCbBRkL7FJ2mTrcMPJMhLY0bambFM1JaSLuzL5Jytw754o4/Zz44F0F5LgaG2nCX3tg9F0+RY4PhTIglyrmkLlGaUv0U+7GV5fwW0aUZxNOeP/1ubLwBYxZmjoPzYtIa7KAExd4g8vTTIpaHW4O9+cphx0Wj5URqkw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wA/hqW+nYOByovtnACaNuLDL6by9Irs/ALdQM+IGslA=;
- b=Pc8lfBoVjb3jVabYYldDTnOQG2B6caRzBhh0vMia8adDj94kjtntSKxgJmPfzlPLK+LzIN37mLDcyZkLCtWvQeavlqRWACz/DHtjEq/NDuqAQJWiMfIGcpkWSUuS6xlNCvFjG6wATmV8KoymondRISh+CLLTbXtm1f2ylGRwBKc+Q+pdMV+WD0xiEPsiV9moKJ/WP6oTquHjdqUTN/QFftg4smgBahxeq5K24L/rLeJKnnKUkD3OXp4IvhnZD9OrB+1NagVZFnLJrlw3CgPLcXeePVoaiZHeE3n4UEkpYA+M3pNzHGaPILSGhQeTi6OztgbTl5iXutWsttWPHW26jg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BYAPR11MB2808.namprd11.prod.outlook.com (2603:10b6:a02:c8::26)
- by CH3PR11MB8094.namprd11.prod.outlook.com (2603:10b6:610:156::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.20; Tue, 7 Apr
- 2026 05:07:56 +0000
-Received: from BYAPR11MB2808.namprd11.prod.outlook.com
- ([fe80::defa:788:da96:2f9a]) by BYAPR11MB2808.namprd11.prod.outlook.com
- ([fe80::defa:788:da96:2f9a%4]) with mapi id 15.20.9769.020; Tue, 7 Apr 2026
- 05:07:55 +0000
-Date: Tue, 7 Apr 2026 13:07:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-CC: <oe-kbuild-all@lists.linux.dev>
-Subject: [jpoimboe:klp-build-arm64 14/35] vmlinux.o: warning: objtool:
- sync_regs+0x0: stack state mismatch: reg1[16]=-2-8 reg2[16]=-1+0
-Message-ID: <adSRJLJ8+j+Xg4p1@rli9-mobl>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-ClientProxiedBy: SG2PR04CA0152.apcprd04.prod.outlook.com (2603:1096:4::14)
- To BYAPR11MB2808.namprd11.prod.outlook.com (2603:10b6:a02:c8::26)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Dc/UoGKa"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2b2591757fbso346725ad.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 06 Apr 2026 22:12:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775538774; cv=none;
+        d=google.com; s=arc-20240605;
+        b=iDuOS0O0CojXxyxP38iKoVdETlvUBf8In9vew80N4L3Lo5Dg+fZxielp8FWlGe8Mje
+         6oW7PEgNBbbx2WsJ/0sofAkRrAisDFuPOYiQzngVmuxT7UVqfBvqPWxqx1o8TBXwx5QJ
+         MU8lEzUkH6Jpz4XIXhMRjOUARpFVIHZ6yxUxjydXxz37v7vUJdQa/jme/TkRw6qoNY4B
+         cJb7nR77nSoJTQYQn4FoZ2Z91wLIMosGev2tWCzInc5IfssYNSdTUDWqoLlwv1gKjcCQ
+         JShLv2oiXYaLtpGaM0ZfLdWGMyleWGJGVMUez+3JHhvqQn3kWPDVdkXNjTWhY34Y1S+K
+         Q0SA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=xP9Cc2QEXzoralI8Q3/pv4kXEl+6Bhb4StE3Cccy/K8=;
+        fh=Vhp424LqTaE6Bp7QpTiiM8dCIvAKgo61Zf4PPdq1yYk=;
+        b=AIk9k1svMqfX3GXg88uH8Pxmznv1Aw3nTdEy0SfdNgSja8C2E+uQSS/dLNNOklGnVC
+         9P9aZYFDUQBpAYSd73jrC/IyIP8kIVTGjtKFxtwK9rb+9BTW+wxFvjM43/9jyWLo0lkU
+         AiZ8p2QNtqFT8CQKiIV2OzZwhiFjAWQkKzzofIlgSNdF91dja/Mb5InAFyci+1guNNT6
+         t0dLvQTHdGhjEtIv8GZhaY9jzDCvrDg1KjZVJcu3csszJeAG/bKyK9iOS+AmR40ekYtx
+         V92GCmWLVgyB3phTgaAyAgsDSJI2fwwcp3g31P4gBtqdQNWfyy+NYAFK1oxndq4jboeK
+         Mvgg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1775538774; x=1776143574; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xP9Cc2QEXzoralI8Q3/pv4kXEl+6Bhb4StE3Cccy/K8=;
+        b=Dc/UoGKav2B7r2vvS/4fDUDANTxa8mIKVmKttnXWtoThXs4oY5KZldlSxb9bg0bYv2
+         7ORMMKM+A0z/rgaX8qU/T/Hpr105Q4b91EylS1Xy7KUQSW8tD6kmrypgGlBRjfb/oKrL
+         bXLbMqWNAOaQUbcqVfV3Po42ilAOMlfFkzTDC1JVMuxAexrglPyTPeS9XUmC9c5RPEpq
+         prf+dUCYU5uL5ZbyxmGrsCJQG/qUPXrw6SIrJ2YlvaL+tjb8wTGPLQ6nkxxgK0hF+BHV
+         Cf8Mb/mFxc8Pizn+0zKfQoH1thf3dcbv8ACuzoWAJ1EudLyMKDyldzJzYJ+rTXQUcu/6
+         AAUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775538774; x=1776143574;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=xP9Cc2QEXzoralI8Q3/pv4kXEl+6Bhb4StE3Cccy/K8=;
+        b=Azhbkd2qRX6c052YnP7wFSZqSX7UZ8XEzUdNt52zf58m9XHrn/L1VKNslKp3DV4U6J
+         8tqqsTHozzsIhjjGPrNO90zKEIwobWcdJEpEMwgPdoyqZbBwAThNxNbpy0DZEGfZ3xU4
+         zq3pIusGdhsnVZSgunPmlNa8bAw1f5dGoUTo51sZ1h2eL48RXrYIV2cvvUm1M1rTk02f
+         alAwpUPVI+XHHXRYP5guSI+8i7A465n2g+SCCVK5TVReqsFxt99ZPuTE3W1PM2ZzbDPZ
+         8ofVbuWXVZIX7JmKQq4ODwPxkocpU3wq5TRWaYaitG3d9+EIXGzexCrfR8TOCLzBbUOR
+         6big==
+X-Gm-Message-State: AOJu0YzZj6LrDmZPCujBL/vFvsJXXcIeZRozwwpBHSZUkmqY/+e6am2J
+	RsWhKzw6ewPgbJnstxaJqLK5EOTQlZt+jN3KMuABBBJmGVTjLzP7Lg4x9YRozCoJd6b1NVTAC9y
+	dZqoKXSjWOpOVrzX9gvBuzVQOwbgH1ic0pYfmgH2v5vxWpblfmx1zLq21vpI=
+X-Gm-Gg: AeBDiesDYxHSnnF9EbRti6/6RjcvGk2dTED5IBUs/aJM0cxpBe3JnBaVC2oSLgifQ6N
+	0jhaGdCgCAHyPe2PIIifwmyS+AD15ReQLFSQJTgjeljh2dWS4rxK7a8phRheiiFKKPtNk95zTZB
+	wPmFQC+UVldN9jO6ii6MmPnVxJfHBUig4uAkDIt+BN+N5yNM4XvhdmICl793HQoM4cHt2F2cxSY
+	2tSdDZFXjaV0jrnHwO7PXFcwBxUZ3oFU5at4aEJGLLsludG50HysKGKSHSFYUa1AZFpGjRVuO+X
+	dpCKLEIp
+X-Received: by 2002:a17:902:e852:b0:271:9873:80d9 with SMTP id
+ d9443c01a7336-2b283fbe6bdmr8531405ad.7.1775538773093; Mon, 06 Apr 2026
+ 22:12:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR11MB2808:EE_|CH3PR11MB8094:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9bdc52fd-88c7-4db7-e58b-08de9463a0ee
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info: Byj/5dF2NDs098Bg8gWppa8uczmzXW2VGMkbTip7ZvLU/Z4RrV2zyKZBBfCuUSpdlZ+hyYjEE3tUHxPQ4d8xywkXdZvouwuSXtj+WuvHjZvP2I11jLeQEpPVyMhi0rjOxzZFhd1vvIFj+NeAytgySMFous/Gy7S1LjO9tDjEPAARGT8Yq/VFyh3BVOneQ12re4Y4FVTmz3F1pDkO7DQz2Vxqta54B/8d5l0tOTwShArRrCAMykUrfU8lRU0zXy41bUuk01/ywYqJHYq0YtASvQjulD4cciq6SSXbfCkrOH+6ApWLh+2QtHuqV79AwhFMwb9SZGqWgJ4igFmgb5SlshuuqFLXh70waKNjcAehW7eZz5YgsIsbDJAFrHMXdZ7vXVCC/qN05XYjX9X/Sy/YpElxRpt0eCXWdj3izVWVYu8J/TxkCQOSo6HsBSt1TGIr4gn3X9tfrLbqScz5xmdLMJMDEsd6HwWvWeYzvcdHS/xkgPcPwSmwOAA6bzaqy2m/Nhu2D01DjrwCaHSAegsnuQB+zRA0aB6h57hO+4Syns7PkN5TzgnMMWM7WYWgalatGdLw/tqXD0oA9LUZyKsRX66zQQgBhB5ngOwfE1Y+dtheB+g3Zji8diFPfHXYRM2g7aD1erOQQfhxQhpBVl8F4/AmaGuawNFcKoSRZMZS6kcikldgHzoeOZkQAsgmyLU1zvuXCXsrFmpH6MllL1tqeQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB2808.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?mg+eGf7Hk8dIiiIRHhoO5DupqndZMmf2tOUdl/hrrTr3spZrVjR2iMh3JO+4?=
- =?us-ascii?Q?gMzeZJ4Xu+JoPvQtwQU1M8TSS8o32XxkPRHrvgQ9JgRywMm2u7wdiXCLP0ns?=
- =?us-ascii?Q?eqB5beSg3QRpi1GmNWI91rWPaMK5at5ZSa3iNluheadENFs/G5lHbj8+psq9?=
- =?us-ascii?Q?2gzhUYybMdXJL2+pVvbaPUC60X/MkNDVwq0WHun4u1m2pOeWDh2V2HzNf2oM?=
- =?us-ascii?Q?2r76DM2Am/IwI6z5NWtwQnulM2BZTMDlwmX46GBb/QHfyVd/mJL1ZPPIPW6C?=
- =?us-ascii?Q?Cmqxbpu6FShzOyaI1u/hnI9+6JyMv27oWPk6/lQIp4dum5h/wGKju4zDmiEf?=
- =?us-ascii?Q?bIdlrMhvNlFJAOAkEVdAn9Nf/OZ59LqJmZReNRMm7j+sZ/M/HE9G2OI1zYtn?=
- =?us-ascii?Q?ucCrhn9kj8J6Qx0mFGy5W8Y1ar1mo0cDKJPf1RlqUpm+FaKxpYNLD7kiWNw4?=
- =?us-ascii?Q?bDqAJ3T7LxL9wSA0d/lVuqezIzPfwaV0oDN7UTrwpV4bcbjZ5I32vlup0ynm?=
- =?us-ascii?Q?biDzqRf869fY3i/i43Ih+7/5zBl6QMHCnyRhwJTKSFmBsmWommSQ0oZblEwR?=
- =?us-ascii?Q?FdgiipY61vSNabFGsXlBF7JksdGE5Bo45A7gJEv2f8l8AvkiSueVj68J/EpY?=
- =?us-ascii?Q?XAr8Lje5yThFCxAAf5XXrzhC1dh1Sv3miscNqZ35MCQJ5t8GHRCmpNSS2/qm?=
- =?us-ascii?Q?I/xe7ki7w8vWfDAX0pebbYFOk1HqHg9vZHpIZWCYCPQiuUmgCPDsUo10mEED?=
- =?us-ascii?Q?jsiX3wL46I48PbPSKrf3K4ah+y7QnHceU8qpnXcq9jBUdYVl93FwcKIm5i5x?=
- =?us-ascii?Q?WmgqEi3gHbmVCYZU0PhKaFuhvQCw8TLgcWvJPQrds+SJLfR+ZP8dhXD6KiMj?=
- =?us-ascii?Q?I/olA8Wr3e9OUTj7jl5/CeCbgr2MmakLIKXlW4X9Rsoxg+dU5tvcJxKAqJmf?=
- =?us-ascii?Q?pL98Ttnu6ni9woyQW2L81tJvaaFjPnwj9hhxapDuEzyNSrVlD2HYk6Q4Tvbg?=
- =?us-ascii?Q?7aU9z+NyIZ6Ekb6RtlZBn5ExnuhmQYGyEZ4a0ZeZJ2HMWISbvgqJGO0FQyLc?=
- =?us-ascii?Q?qMTzVONN85h2B1pH6Im+7dtLDsjXx1rmgzcSBAnMeKhSZ/dzYPgzCyXNWfk5?=
- =?us-ascii?Q?Ez6bqAS50t2TpwF2v85GCEm1FxFw4TMyF+1zxVRDBulNAY8oA9gtwWUyVKSz?=
- =?us-ascii?Q?DtPjUbEFrks5iUh6nok5FE7bknn/WAiOS0358P7NV/2QCdAGyYFStUAtPfvd?=
- =?us-ascii?Q?SsK3lLQkYqKUgrP6x8D4z7BHxZG+jg4PdMZRoXn+YksNr7xtXa1Wo7q/Yez/?=
- =?us-ascii?Q?MQ00LCDHRerlpgfFdM5HP6lGHdOV/ebRJ0iPJTgrAWTOEWdzH8BKohdMotzy?=
- =?us-ascii?Q?ybDBh8GzyGRJX1KDwhHUAehhBtAN5acbFalNmhYTReHt93SIxr7C+6sLUKYw?=
- =?us-ascii?Q?aYCxG0XET6zGjFlvTHWbaV2QQyrP+uui7jxm/YbK1afSkog0g3iavUXOlw3F?=
- =?us-ascii?Q?T6vMwZ0VWBAHe7X5uHsNWOLZ4op6tJhtQ+w2vjSsz1DvkSPNHQTHot7VrAvT?=
- =?us-ascii?Q?ZjmAaXs59dH2nOyaErTJoYH7JeQz6xgQTP111VN7VDycAb6N3pfQJnpja4DK?=
- =?us-ascii?Q?M6XFHbTZzbvEcfjnxCMFe+QEcuxT8wNnII2CV9GhBvL+FSPj8Qe8XkBtjWSt?=
- =?us-ascii?Q?g0imsPBAZDgRN43YY85sS7t7XUfiOR46YvTMFpdjivfYud/kSj0cKUz7UzBs?=
- =?us-ascii?Q?WuY172Rk5Q=3D=3D?=
-X-Exchange-RoutingPolicyChecked: j3EIgU7c3PhWHEHgwp0q66uQRF6bDdhxqFjRIivbQs2xSG7ViD9L47aoo3gO9bE0qYJkPna0/0aJ6eAB4IGUDoExlCnz9cTSGtQryJWrnM4niwPi2puEEkVO6MzB9bQXj1y1MlnTHSmECJhOarZA6nvhbHyaqJriJ6JvcQuME3ehJxJ/gxNPDkWQLItR8g0P5jvUzSn7PzNuOti4XZ5cAgvhoIo/9h2Qa4EFwd4/yXw3aAKt2Oo7unCMkemr6fCHcNd914vOdhv4FiLy1CgwIsOPjNuUnos1FEG3wKsrqajIX92vdtThYB7zR3yi5tXST8EM81jkEb/AraNMnLsDJg==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9bdc52fd-88c7-4db7-e58b-08de9463a0ee
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2808.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2026 05:07:55.7231
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: s0h7PeMqkGJP2Ahk0RmnGGcHYNXNfVfYN6R1054Ku2Wp1my6jeC4eBQl44rLDXY+L65HuCRi+x7sOzMNSZoQFg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8094
-X-OriginatorOrg: intel.com
+References: <202604070917.ZVd6Ugz4-lkp@intel.com>
+In-Reply-To: <202604070917.ZVd6Ugz4-lkp@intel.com>
+From: Ian Rogers <irogers@google.com>
+Date: Mon, 6 Apr 2026 22:12:41 -0700
+X-Gm-Features: AQROBzBKvQqVQNICwhE1RilQY2nY6Rrqn-aYKRpKX9DBeQSfK51lDsGdw4UTVjo
+Message-ID: <CAP-5=fVBZPBz6J1omfvSS4JLkueRGqCdouLji6gsFLTeu9nJTw@mail.gmail.com>
+Subject: Re: include/vdso/unaligned.h:23:9: warning: '__builtin_memcpy'
+ reading 4 bytes from a region of size 0
+To: kernel test robot <lkp@intel.com>, linux-mips@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Thomas Gleixner <tglx@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git klp-build-arm64
-head:   96a27804fbb34c0e19f217848a8cbb91841bcc35
-commit: 34289a9c265ced49097f0b40855c8b19a0cd62e9 [14/35] objtool: Don't copy insn->sym for alternative replacements
-config: x86_64-randconfig-072-20260405 (https://download.01.org/0day-ci/archive/20260405/202604051228.dMiD9PgD-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260405/202604051228.dMiD9PgD-lkp@intel.com/reproduce)
+On Mon, Apr 6, 2026 at 9:03=E2=80=AFPM kernel test robot <lkp@intel.com> wr=
+ote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   bfe62a454542cfad3379f6ef5680b125f41e20f4
+> commit: a339671db64b12bb02492557d2b0658811286277 vdso: Switch get/put_una=
+ligned() from packed struct to memcpy()
+> date:   3 months ago
+> config: mips-randconfig-r111-20260406 (https://download.01.org/0day-ci/ar=
+chive/20260407/202604070917.ZVd6Ugz4-lkp@intel.com/config)
+> compiler: mips-linux-gcc (GCC) 13.4.0
+> sparse: v0.6.5-rc1
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20260407/202604070917.ZVd6Ugz4-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Fixes: a339671db64b ("vdso: Switch get/put_unaligned() from packed stru=
+ct to memcpy()")
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202604070917.ZVd6Ugz4-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>    In file included from include/linux/byteorder/little_endian.h:5,
+>                     from arch/mips/include/uapi/asm/byteorder.h:15,
+>                     from arch/mips/include/asm/bitops.h:21,
+>                     from include/linux/bitops.h:67,
+>                     from include/linux/kernel.h:23,
+>                     from arch/mips/boot/compressed/decompress.c:14:
+>    In function 'get_unaligned_le32',
+>        inlined from 'decompress_kernel' at arch/mips/boot/compressed/deco=
+mpress.c:113:16:
+> >> include/vdso/unaligned.h:23:9: warning: '__builtin_memcpy' reading 4 b=
+ytes from a region of size 0 [-Wstringop-overread]
+>       23 |         __builtin_memcpy(&__get_unaligned_val, (void *)(ptr), =
+          \
+>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~
+>       24 |                          sizeof(__get_unaligned_val));        =
+          \
+>          |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    include/uapi/linux/byteorder/little_endian.h:35:51: note: in definitio=
+n of macro '__le32_to_cpu'
+>       35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+>          |                                                   ^
+>    include/linux/unaligned.h:23:28: note: in expansion of macro '__get_un=
+aligned_t'
+>       23 |         return le32_to_cpu(__get_unaligned_t(__le32, p));
+>          |                            ^~~~~~~~~~~~~~~~~
+>    In file included from arch/mips/boot/compressed/decompress.c:22:
+>    arch/mips/boot/compressed/decompress.h: In function 'decompress_kernel=
+':
+>    arch/mips/boot/compressed/decompress.h:6:39: note: at offset -4 into s=
+ource object '__image_end' of size [0, 2147483647]
+>        6 | extern unsigned char __image_begin[], __image_end[];
+>          |                                       ^~~~~~~~~~~
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202604051228.dMiD9PgD-lkp@intel.com/
+I wonder if in:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arc=
+h/mips/boot/compressed/decompress.c#n113
+```
+image_size =3D get_unaligned_le32((void *)__image_end - 4);
+```
+would be better as:
+```
+image_size =3D get_unaligned_le32((void *)__image_begin + zimage_size - 4);
+```
+so that the code isn't negatively indexing an array.
 
-All warnings (new ones prefixed by >>):
+Thanks,
+Ian
 
->> vmlinux.o: warning: objtool: sync_regs+0x0: stack state mismatch: reg1[16]=-2-8 reg2[16]=-1+0
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+>
+> vim +/__builtin_memcpy +23 include/vdso/unaligned.h
+>
+>      6
+>      7  /**
+>      8   * __get_unaligned_t - read an unaligned value from memory.
+>      9   * @type:       the type to load from the pointer.
+>     10   * @ptr:        the pointer to load from.
+>     11   *
+>     12   * Use memcpy to affect an unaligned type sized load avoiding und=
+efined behavior
+>     13   * from approaches like type punning that require -fno-strict-ali=
+asing in order
+>     14   * to be correct. As type may be const, use __unqual_scalar_typeo=
+f to map to a
+>     15   * non-const type - you can't memcpy into a const type. The
+>     16   * __get_unaligned_ctrl_type gives __unqual_scalar_typeof its req=
+uired
+>     17   * expression rather than type, a pointer is used to avoid warnin=
+gs about mixing
+>     18   * the use of 0 and NULL. The void* cast silences ubsan warnings.
+>     19   */
+>     20  #define __get_unaligned_t(type, ptr) ({                          =
+       \
+>     21          type *__get_unaligned_ctrl_type __always_unused =3D NULL;=
+         \
+>     22          __unqual_scalar_typeof(*__get_unaligned_ctrl_type) __get_=
+unaligned_val; \
+>   > 23          __builtin_memcpy(&__get_unaligned_val, (void *)(ptr),    =
+       \
+>     24                           sizeof(__get_unaligned_val));           =
+       \
+>     25          __get_unaligned_val;                                     =
+       \
+>     26  })
+>     27
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
