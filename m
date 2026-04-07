@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23E063B8BD9
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Apr 2026 15:32:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F043CAE6D
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Apr 2026 15:52:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775575953; cv=none; b=pr5Nhm1f3MIQyDuA/JnVbs2sms94tSdaaHcCzx1HkSUslRaKacm6raR4PS0mDNnwTqog8dzmXZFgUtdp0WXrx3RLgYw6nZ3d3BOzvyqfLgNgBflgm8yGel0zzDbgykbSV3SNJiUF41comSOCrRbHKvRV9hI7oxxIY19GIyAZpy0=
+	t=1775577189; cv=none; b=HXGh3S7Chy+y+eFCujsCWlk3I4DOT6XhN+LSjppqGl4EG2yLTylUFvY04FJEO6XB6YcmwoBoB/TTPNNUUF1Rbxc0TDa6nOh9bL+cs66XfWx5pCjCuSN1tzp91WQUs5gNIF/hsDhmOCUpycxAibc027W/Y1/Uf1mSW7LNb43iaxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775575953; c=relaxed/simple;
-	bh=l7hAy5JWW8iWXF8OI6IZixsOLIAgVdU/uea0QMTgbLs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=RyGu7eKtEzahnD7Xhohzp4YBtLkkq4p8S4A4XFyJlnxeIedhi4oK2j+OTlMlP9qBjk6PeGNMAP4ujGt64WufWRK+6rQUCpB4pcsn8e/ebcIG/vWlz1l8r25jLfq7sWI24ErMjpETf4pXWkzIgzGO1SjSVkLdO6gQTk4SpdXVjjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N7gAhb2G; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1775577189; c=relaxed/simple;
+	bh=LIzLhb4pKtwd5ZDuN0gaYlYAei0hdkMIZFfxp02mQYI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mot5jL1yqFDXoaNMnnIQenFZXxe5TZNmbZYaQif5geFgcnkBEOhDYUIi0lv65RD1H7RDjBJDvzuy1P70YkzPfJ/Kt9mZ5pATrUBZJieIu2V5hkCDqxKZFydcCoqMiIQTlI1G7npELx2Ur3721judyj75pEcCLPGtX9n5orjI/0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GIsyRPkH; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N7gAhb2G"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GIsyRPkH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775575942; x=1807111942;
+  t=1775577178; x=1807113178;
   h=date:from:to:cc:subject:message-id;
-  bh=l7hAy5JWW8iWXF8OI6IZixsOLIAgVdU/uea0QMTgbLs=;
-  b=N7gAhb2GENdhKPZDSUwp8ta/ZcP6VkbWVEmJtvj7ToeJlzgm0IscgB0x
-   YJhaW4xHzrnBXu5suEYCOHl/89GtTJjlTuCIqXXkFSBnikJ7Kaf6Jqifq
-   3LDv71cvnFaRI6wldb2u6qjwjk59nZ3hFNl0VgT00dSbk+jPvU9olqIvs
-   fcPf3V+l/NIqv4FFQSiLE+uyzeb7C77hVZE6GCgiREzxDH4RHLB/7uTFW
-   H/QSO98vEXbLI4H4qATcitGwTjDQR3rW4ifTvnRda3whN8CfTo5kYlaIC
-   1b+I0l6wm/HfyXv0q+4acEKrE+XdMHH0ojWODHkYbTBa8k+qhi/n5mJec
-   g==;
-X-CSE-ConnectionGUID: lBabEoG6R0CcyrO7h2cyRw==
-X-CSE-MsgGUID: TnXUum1QRfSSrAqj8e8dqg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="80400166"
+  bh=LIzLhb4pKtwd5ZDuN0gaYlYAei0hdkMIZFfxp02mQYI=;
+  b=GIsyRPkHi+IPqcFFmCzBmBr+J1dvXg4UfFbv+8+lcF474wT/yEmSuF/Z
+   ya/GEFTcCXm0G1OShPf+Bn1HWm3apD7yrHuYNZwD54bas+wc+dx7j1C01
+   ueVlTukfgXKpfmZcLYMPD9pUCCxFPT/rew4pIjWT5ySIFGmtxQjHlIqnU
+   EIzPsMOvTzgha0MfcYrvaggI0ErB2lbgo364IwDjG4ykuubssYM13gT4E
+   rXnlNPWQ8tXeaF2jCOc+896FY5paMs3c4Xm7AEWREMeqmYeyukITqdd4K
+   ttMReRcWQ7wnIqSYfhixqy0KpmRVQepSyk0al2l338CQX2A3J83MR4xqS
+   A==;
+X-CSE-ConnectionGUID: vK+FSPXCTVOh2FqL+izRvA==
+X-CSE-MsgGUID: 2N1av3PiSdGVAbxa4U0DOQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="101999349"
 X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
-   d="scan'208";a="80400166"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 08:32:19 -0700
-X-CSE-ConnectionGUID: Zcxp8kE2R3uOA/Gqxa30nA==
-X-CSE-MsgGUID: lOIqRUkkR8eT5fYmK9wO4A==
+   d="scan'208";a="101999349"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 08:52:55 -0700
+X-CSE-ConnectionGUID: IYKddsulQfe3/+myS4zcJg==
+X-CSE-MsgGUID: MRz5ntCtQQOctfpCoQ50SA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
-   d="scan'208";a="251490552"
+   d="scan'208";a="233167879"
 Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 07 Apr 2026 08:32:18 -0700
+  by orviesa005.jf.intel.com with ESMTP; 07 Apr 2026 08:52:54 -0700
 Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wA8PX-000000000kl-3D6u;
-	Tue, 07 Apr 2026 15:32:15 +0000
-Date: Tue, 07 Apr 2026 23:32:07 +0800
+	id 1wA8jT-000000000lZ-1VHD;
+	Tue, 07 Apr 2026 15:52:51 +0000
+Date: Tue, 07 Apr 2026 23:52:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
+To: Danilo Krummrich <dakr@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [vireshk:virtio/msg-amp 20/22]
- drivers/virtio/virtio_msg_amp_pci.c:116:32: sparse: sparse: incorrect type in
- assignment (different address spaces)
-Message-ID: <202604072336.XtFz7KKD-lkp@intel.com>
+Subject: [dakr:devres/stage 10/10] drivers/base/devres.c:936:3-8:
+ WARNING: NULL check before some freeing functions is not needed.
+Message-ID: <202604072313.epXtZqM4-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,117 +59,63 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git virtio/msg-amp
-head:   b382c54fa38099ef72901ecdd4e3edd3e3998d5a
-commit: d51c9e25aa3b090302ca726b9c01d1e9310a700e [20/22] virtio: msg: Add generic PCI transport driver for virtio-msg AMP
-config: csky-randconfig-r122-20260407 (https://download.01.org/0day-ci/archive/20260407/202604072336.XtFz7KKD-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 15.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260407/202604072336.XtFz7KKD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dakr/linux.git devres/stage
+head:   784ac2ed774f170efd1045b65df30bdd0cc4bb2b
+commit: 784ac2ed774f170efd1045b65df30bdd0cc4bb2b [10/10] wip: devres stage rework
+config: hexagon-randconfig-r052-20260407 (https://download.01.org/0day-ci/archive/20260407/202604072313.epXtZqM4-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c80443cd37b2e2788cba67ffa180a6331e5f0791)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604072336.XtFz7KKD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604072313.epXtZqM4-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/virtio/virtio_msg_amp_pci.c:116:32: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [usertype] *shmem @@     got void [noderef] __iomem * @@
-   drivers/virtio/virtio_msg_amp_pci.c:116:32: sparse:     expected unsigned char [usertype] *shmem
-   drivers/virtio/virtio_msg_amp_pci.c:116:32: sparse:     got void [noderef] __iomem *
+cocci warnings: (new ones prefixed by >>)
+>> drivers/base/devres.c:936:3-8: WARNING: NULL check before some freeing functions is not needed.
 
-vim +116 drivers/virtio/virtio_msg_amp_pci.c
+vim +936 drivers/base/devres.c
 
-    48	
-    49	static int vmamp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-    50	{
-    51		struct vmamp_pci *vmamp_pci;
-    52		resource_size_t	size;
-    53		phys_addr_t addr;
-    54		int ret, i;
-    55	
-    56		vmamp_pci = devm_kzalloc(&pdev->dev, sizeof(*vmamp_pci), GFP_KERNEL);
-    57		if (!vmamp_pci) {
-    58			ret = -ENOMEM;
-    59			goto error;
-    60		}
-    61	
-    62		ret = pcim_enable_device(pdev);
-    63		if (ret)
-    64			goto error;
-    65	
-    66		/* Request 3 BARs */
-    67		for (i = 0; i < 3; i++) {
-    68			ret = pcim_request_region(pdev, i, dev_name(&pdev->dev));
-    69			if (ret)
-    70				goto error;
-    71	
-    72			addr = pci_resource_start(pdev, i);
-    73			size = pci_resource_len(pdev, i);
-    74			dev_dbg(&pdev->dev, "mmr (BAR%d) at %pa, size %pr\n", i, &addr,
-    75				&size);
-    76		}
-    77	
-    78		vmamp_pci->regs = pcim_iomap(pdev, 0, 0);
-    79		if (!vmamp_pci->regs) {
-    80			ret = -ENOMEM;
-    81			goto error;
-    82		}
-    83	
-    84		vmamp_pci->ram = pci_iomap_wc(pdev, 1, 0);
-    85		if (!vmamp_pci->ram) {
-    86			ret = -ENOMEM;
-    87			goto error;
-    88		}
-    89	
-    90		/*
-    91		 * Grab all vectors although we can only coalesce them into a single
-    92		 * notifier. This avoids missing any event.
-    93		 */
-    94		vmamp_pci->vectors = pci_msix_vec_count(pdev);
-    95		if (vmamp_pci->vectors < 0)
-    96			vmamp_pci->vectors = 1;
-    97	
-    98		ret = pci_alloc_irq_vectors(pdev, vmamp_pci->vectors,
-    99					    vmamp_pci->vectors, PCI_IRQ_MSIX);
-   100		if (ret < 0)
-   101			goto unmap_ram;
-   102	
-   103		for (i = 0; i < vmamp_pci->vectors; i++) {
-   104			ret = request_irq(pci_irq_vector(pdev, i), irq_handler,
-   105					  IRQF_SHARED, dev_name(&pdev->dev), vmamp_pci);
-   106			if (ret)
-   107				goto free_irq;
-   108		}
-   109	
-   110		vmamp_pci->vmamp.dev = &pdev->dev;
-   111		vmamp_pci->vmamp.ops = &vmamp_pci_ops;
-   112		pci_set_drvdata(pdev, vmamp_pci);
-   113		pci_set_master(pdev);
-   114	
-   115		/* First 4KB are reserved */
- > 116		vmamp_pci->vmamp.shmem = vmamp_pci->ram + 4 * 1024;
-   117		vmamp_pci->vmamp.shmem_size = 8 * 1024;
-   118		memset(vmamp_pci->vmamp.shmem, 0, vmamp_pci->vmamp.shmem_size);
-   119	
-   120		ret = virtio_msg_amp_register(&vmamp_pci->vmamp);
-   121		if (ret)
-   122			goto clear_master;
-   123	
-   124		return 0;
-   125	
-   126	clear_master:
-   127		pci_clear_master(pdev);
-   128	free_irq:
-   129		while (--i >= 0)
-   130			free_irq(pci_irq_vector(pdev, i), vmamp_pci);
-   131		pci_free_irq_vectors(pdev);
-   132	unmap_ram:
-   133		pci_iounmap(pdev, vmamp_pci->ram);
-   134	error:
-   135		dev_err(&pdev->dev, "probe failed: %d\n", ret);
-   136		return ret;
-   137	}
-   138	
+   900	
+   901	/**
+   902	 * devres_remove_group - Remove a devres group
+   903	 * @dev: Device to remove group for
+   904	 * @id: ID of target group, can be NULL
+   905	 *
+   906	 * Remove the group identified by @id across all stages.  If @id is NULL,
+   907	 * the latest open group is selected.  Note that removing a group doesn't
+   908	 * affect any other resources - only the group markers are removed.
+   909	 */
+   910	void devres_remove_group(struct device *dev, void *id)
+   911	{
+   912		struct devres_group *grp_array[DEVRES_STAGE_MAX];
+   913		enum devres_stage stage;
+   914		unsigned long flags;
+   915	
+   916		spin_lock_irqsave(&dev->devres_lock, flags);
+   917	
+   918		/* Find and remove the group from each stage, saving pointers */
+   919		devres_for_each_stage(stage) {
+   920			grp_array[stage] = find_group(dev, id, stage);
+   921			if (grp_array[stage]) {
+   922				list_del_init(&grp_array[stage]->node[0].entry);
+   923				list_del_init(&grp_array[stage]->node[1].entry);
+   924				if (stage == DEVRES_STAGE_REGISTRATION)
+   925					devres_log(dev, &grp_array[stage]->node[0], "REM");
+   926			} else if (stage == DEVRES_STAGE_REGISTRATION) {
+   927				WARN_ON(1);
+   928			}
+   929		}
+   930	
+   931		spin_unlock_irqrestore(&dev->devres_lock, flags);
+   932	
+   933		/* Free all N group structures */
+   934		devres_for_each_stage(stage) {
+   935			if (grp_array[stage])
+ > 936				kfree(grp_array[stage]);
+   937		}
+   938	}
+   939	EXPORT_SYMBOL_GPL(devres_remove_group);
+   940	
 
 -- 
 0-DAY CI Kernel Test Service
