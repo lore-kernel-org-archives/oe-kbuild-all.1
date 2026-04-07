@@ -1,222 +1,218 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D04C3B8BDE
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Apr 2026 14:16:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 208E533C53D
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Apr 2026 14:57:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775571379; cv=none; b=MHvbG2PPzYy0SWhJweuFIYCFw69VMB5Jl9N2vXAY7doPl2lVenlmge1oXkMsXTUVgNGAaIkaJcZnB9M2F6nVYxCqHT8z235sPt0Ajn8JOFpac+uRQ/+PxtY//5QqPbvPry2B5MWrIfNR9vcF5OKQZctZda0hZ6iBYl5jN2V+u/o=
+	t=1775573858; cv=none; b=bLDy9TULip5vBLhdYdCu9wMtlRUTq5LLrzh0bNcZFM6jvM0ngH9pWK/o1V0FYEsNFiE4MFaJ3bEj3A7qaC6LL2YtMe7TE7g/IAptXVFM9K092XpkESigm8KTXFgCvValqDaCcADJIa1Sr3zZe4A+4bm+EmaYAgCD4vIFMb48ELs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775571379; c=relaxed/simple;
-	bh=Y2zc93GYMf/qfvIwIifyEMNfZh7UxszmZx8Dw/tBf40=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=cB+KLfBF990FbbyEXcSv2kLJoTsKubeGhQ+hat0wJ8j3VjZECtDnzdF2rga2OozxiGXuKnKKRKNYqQ0giHABfMO46WkgUyabt9eG9t2MIBazIsc2u8JfdoDjl+makfzfI4Xf8JMGKoBYVgZh7utVWXhjoglLtQA3xJv1rDlIHgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U8hk2N+3; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1775573858; c=relaxed/simple;
+	bh=T/5B5sF9EwfcxwgoI0s4XUQSAE1pHdiyRBY8H6VQjKM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=b9yDYWmTr8VVSyLIpIZtUK2FVltmVBrGMFw05hKPhbPtDOfspjCnayk/bBaSDIFU1kvjIeniNAo4mvYuBMh6dzbi+QAtXr95QyZF5xkKsVSILmg+IULgskFhBmLPZKc3rOSRrDaCWnNqcaI/nSf7bnaujCSEyaeiI//My1WTe3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZlIfPhJj; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U8hk2N+3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZlIfPhJj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775571377; x=1807107377;
-  h=date:from:to:cc:subject:message-id;
-  bh=Y2zc93GYMf/qfvIwIifyEMNfZh7UxszmZx8Dw/tBf40=;
-  b=U8hk2N+3DLuLXw2CMtMwq9HA+pi24J0iU2dF7U9PUiE5Qrg+kRCyw4bA
-   g1wizNPapTA1rwq5ch/wIp0hKmnKTrentaux0juwN9YrGv/nfOKvLxDb2
-   7Ae2bQA4/4HU9ol0tEJSFSWJFDfvXp0LEk7aiwW+oDneftqFCAE/BtLa0
-   Q7pdf7yRTEhdaMciMlG7/bAoocO5wmM9a0YuMc/vPERhcx+qHVjklZPrv
-   2lrQm9QzqIq5lP/b6k39deW2IUp1copssiSvrLhpBHsF9VrNJFSPvtudX
-   j6BC+HOS5PUTThVTA2xbrZLdaVFYdkVq1xSRvr7v5jYY7xrVGdEgCIq6f
+  t=1775573856; x=1807109856;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=T/5B5sF9EwfcxwgoI0s4XUQSAE1pHdiyRBY8H6VQjKM=;
+  b=ZlIfPhJjCLnkKWAF772BLMcZyUcx+KxuNwrMbdYpanSrZnGWhkeGLbxV
+   U8hucPn/5HqIHPvwlDBkgOFy/+c7OI3pl8jF04+VMrlIMCN3NNehd/jKJ
+   zXF7XL6DsuNq1kVa1ef99t4lBsf2xp+1pY5/Jq4jnixTv8fYQEXPWTfkh
+   j+Dkwfrk/4CHf4jbDiJUhLOeFiTRxG06OCpGdBnmLu6rsNsE1Yks8uQI4
+   XhPPjT0RKpxv8yFTMVQknvHBa8lrg8JQH3GqYWuFUiKB1XgsTQy59FQIq
+   ho3TixEJeAbKlRaVm07TOCQ/mIGuMWMoZbmcMW1e3zxNPzqig4oFjcDre
    A==;
-X-CSE-ConnectionGUID: x3SuIF0RSzChOvg/RX2p2A==
-X-CSE-MsgGUID: Nwe7YNhfRCar/taOnDoGcg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="76433227"
+X-CSE-ConnectionGUID: qONdfxV6S22P56PsUln0eg==
+X-CSE-MsgGUID: 1OsQTz8WRZucssL6lJltBg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="99165678"
 X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
-   d="scan'208";a="76433227"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 07:16:17 -0700
-X-CSE-ConnectionGUID: 8wshVjpqSYC/USm3WYMIRw==
-X-CSE-MsgGUID: aO3UM4cIS7GXIrUB9/jO0Q==
+   d="scan'208";a="99165678"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 07:57:35 -0700
+X-CSE-ConnectionGUID: coEEOWAKRNOxIDMM+EgkvQ==
+X-CSE-MsgGUID: nFfg4gePTqSgyZvU7tgvMw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
-   d="scan'208";a="228112387"
+   d="scan'208";a="233157239"
 Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 07 Apr 2026 07:16:15 -0700
+  by orviesa005.jf.intel.com with ESMTP; 07 Apr 2026 07:57:34 -0700
 Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wA7Dv-000000000fh-3TbX;
-	Tue, 07 Apr 2026 14:16:11 +0000
-Date: Tue, 07 Apr 2026 22:15:31 +0800
+	id 1wA7rv-000000000iB-0fYQ;
+	Tue, 07 Apr 2026 14:57:31 +0000
+Date: Tue, 07 Apr 2026 22:56:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
- Linus Walleij <linusw@kernel.org>
-Subject: [linusw-pinctrl:ib-mux-pinctrl 5/5]
- drivers/pinctrl/pinctrl-generic.c:20:5: error: conflicting types for
- 'pinctrl_generic_to_map'
-Message-ID: <202604072217.T0yi6ztI-lkp@intel.com>
+To: xinhui pan <xinhui.pan@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ "Christian =?utf-8?Q?K=C3=B6nig"?= <christian.koenig@amd.com>
+Subject: drivers/gpu/drm/ttm/ttm_range_manager.c:144: warning:
+ expecting prototype for ttm_range_man_init(). Prototype was for
+ ttm_range_man_init_nocheck() instead
+Message-ID: <202604072236.QoHpJGwO-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git ib-mux-pinctrl
-head:   6ce042f025bd4c46f5d2fd37a048a516433b0b3d
-commit: 6ce042f025bd4c46f5d2fd37a048a516433b0b3d [5/5] pinctrl: add generic board-level pinctrl driver using mux framework
-config: x86_64-randconfig-r071-20260407 (https://download.01.org/0day-ci/archive/20260407/202604072217.T0yi6ztI-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-smatch: v0.5.0-9004-gb810ac53
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260407/202604072217.T0yi6ztI-lkp@intel.com/reproduce)
+Hi xinhui,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+First bad commit (maybe !=3D root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   bfe62a454542cfad3379f6ef5680b125f41e20f4
+commit: 617d5b34f22c66fe9fc9f150be27f5de1b87ca15 drm/ttm: Try to check if n=
+ew ttm man out of bounds during compile
+date:   4 years, 7 months ago
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20260407=
+/202604072236.QoHpJGwO-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260407/202604072236.QoHpJGwO-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
+| Fixes: 617d5b34f22c ("drm/ttm: Try to check if new ttm man out of bounds =
+during compile")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604072217.T0yi6ztI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604072236.QoHpJGwO-lkp@i=
+ntel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/pinctrl/pinctrl-generic.c:20:5: error: conflicting types for 'pinctrl_generic_to_map'
-      20 | int pinctrl_generic_to_map(struct pinctrl_dev *pctldev, struct device_node *parent,
-         |     ^
-   drivers/pinctrl/pinconf.h:187:1: note: previous definition is here
-     187 | pinctrl_generic_to_map(struct pinctrl_dev *pctldev, struct device_node *parent,
-         | ^
->> drivers/pinctrl/pinctrl-generic.c:119:28: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'void *' [-Wint-conversion]
-     119 |                                       functions, pins, npins);
-         |                                                        ^~~~~
-   drivers/pinctrl/pinconf.h:192:16: note: passing argument to parameter 'function_data' here
-     192 |                        void *function_data)
-         |                              ^
->> drivers/pinctrl/pinctrl-generic.c:129:5: error: redefinition of 'pinctrl_generic_pins_function_dt_node_to_map'
-     129 | int pinctrl_generic_pins_function_dt_node_to_map(struct pinctrl_dev *pctldev,
-         |     ^
-   drivers/pinctrl/pinconf.h:178:1: note: previous definition is here
-     178 | pinctrl_generic_pins_function_dt_node_to_map(struct pinctrl_dev *pctldev,
-         | ^
-   3 errors generated.
+>> drivers/gpu/drm/ttm/ttm_range_manager.c:144: warning: expecting prototyp=
+e for ttm_range_man_init(). Prototype was for ttm_range_man_init_nocheck() =
+instead
+>> drivers/gpu/drm/ttm/ttm_range_manager.c:178: warning: expecting prototyp=
+e for ttm_range_man_fini(). Prototype was for ttm_range_man_fini_nocheck() =
+instead
 
 
-vim +/pinctrl_generic_to_map +20 drivers/pinctrl/pinctrl-generic.c
+vim +144 drivers/gpu/drm/ttm/ttm_range_manager.c
 
-43722575e5cdcc6 Conor Dooley 2026-01-20   19  
-a26361256c774cc Frank Li     2026-03-27  @20  int pinctrl_generic_to_map(struct pinctrl_dev *pctldev, struct device_node *parent,
-a26361256c774cc Frank Li     2026-03-27   21  			   struct device_node *np, struct pinctrl_map **maps,
-a26361256c774cc Frank Li     2026-03-27   22  			   unsigned int *num_maps, unsigned int *num_reserved_maps,
-a26361256c774cc Frank Li     2026-03-27   23  			   const char **group_names, unsigned int ngroups,
-a26361256c774cc Frank Li     2026-03-27   24  			   const char **functions, unsigned int *pins,
-a26361256c774cc Frank Li     2026-03-27   25  			   unsigned int npins)
-43722575e5cdcc6 Conor Dooley 2026-01-20   26  {
-43722575e5cdcc6 Conor Dooley 2026-01-20   27  	struct device *dev = pctldev->dev;
-a26361256c774cc Frank Li     2026-03-27   28  	unsigned int num_configs;
-43722575e5cdcc6 Conor Dooley 2026-01-20   29  	const char *group_name;
-43722575e5cdcc6 Conor Dooley 2026-01-20   30  	unsigned long *configs;
-a26361256c774cc Frank Li     2026-03-27   31  	int ret, reserve = 1;
-43722575e5cdcc6 Conor Dooley 2026-01-20   32  
-43722575e5cdcc6 Conor Dooley 2026-01-20   33  	group_name = devm_kasprintf(dev, GFP_KERNEL, "%pOFn.%pOFn", parent, np);
-43722575e5cdcc6 Conor Dooley 2026-01-20   34  	if (!group_name)
-43722575e5cdcc6 Conor Dooley 2026-01-20   35  		return -ENOMEM;
-43722575e5cdcc6 Conor Dooley 2026-01-20   36  
-43722575e5cdcc6 Conor Dooley 2026-01-20   37  	group_names[ngroups] = group_name;
-43722575e5cdcc6 Conor Dooley 2026-01-20   38  
-43722575e5cdcc6 Conor Dooley 2026-01-20   39  	ret = pinctrl_utils_reserve_map(pctldev, maps, num_reserved_maps, num_maps, reserve);
-43722575e5cdcc6 Conor Dooley 2026-01-20   40  	if (ret)
-43722575e5cdcc6 Conor Dooley 2026-01-20   41  		return ret;
-43722575e5cdcc6 Conor Dooley 2026-01-20   42  
-43722575e5cdcc6 Conor Dooley 2026-01-20   43  	ret = pinctrl_utils_add_map_mux(pctldev, maps, num_reserved_maps, num_maps, group_name,
-43722575e5cdcc6 Conor Dooley 2026-01-20   44  					parent->name);
-43722575e5cdcc6 Conor Dooley 2026-01-20   45  	if (ret < 0)
-43722575e5cdcc6 Conor Dooley 2026-01-20   46  		return ret;
-43722575e5cdcc6 Conor Dooley 2026-01-20   47  
-43722575e5cdcc6 Conor Dooley 2026-01-20   48  	ret = pinctrl_generic_add_group(pctldev, group_name, pins, npins, functions);
-43722575e5cdcc6 Conor Dooley 2026-01-20   49  	if (ret < 0)
-43722575e5cdcc6 Conor Dooley 2026-01-20   50  		return dev_err_probe(dev, ret, "failed to add group %s: %d\n",
-43722575e5cdcc6 Conor Dooley 2026-01-20   51  				     group_name, ret);
-43722575e5cdcc6 Conor Dooley 2026-01-20   52  
-43722575e5cdcc6 Conor Dooley 2026-01-20   53  	ret = pinconf_generic_parse_dt_config(np, pctldev, &configs, &num_configs);
-43722575e5cdcc6 Conor Dooley 2026-01-20   54  	if (ret)
-43722575e5cdcc6 Conor Dooley 2026-01-20   55  		return dev_err_probe(dev, ret, "failed to parse pin config of group %s\n",
-43722575e5cdcc6 Conor Dooley 2026-01-20   56  			group_name);
-43722575e5cdcc6 Conor Dooley 2026-01-20   57  
-43722575e5cdcc6 Conor Dooley 2026-01-20   58  	if (num_configs == 0)
-43722575e5cdcc6 Conor Dooley 2026-01-20   59  		return 0;
-43722575e5cdcc6 Conor Dooley 2026-01-20   60  
-43722575e5cdcc6 Conor Dooley 2026-01-20   61  	ret = pinctrl_utils_reserve_map(pctldev, maps, num_reserved_maps, num_maps, reserve);
-43722575e5cdcc6 Conor Dooley 2026-01-20   62  	if (ret)
-43722575e5cdcc6 Conor Dooley 2026-01-20   63  		return ret;
-43722575e5cdcc6 Conor Dooley 2026-01-20   64  
-43722575e5cdcc6 Conor Dooley 2026-01-20   65  	ret = pinctrl_utils_add_map_configs(pctldev, maps, num_reserved_maps, num_maps, group_name,
-43722575e5cdcc6 Conor Dooley 2026-01-20   66  					    configs,
-43722575e5cdcc6 Conor Dooley 2026-01-20   67  			num_configs, PIN_MAP_TYPE_CONFIGS_GROUP);
-43722575e5cdcc6 Conor Dooley 2026-01-20   68  	kfree(configs);
-43722575e5cdcc6 Conor Dooley 2026-01-20   69  	if (ret)
-43722575e5cdcc6 Conor Dooley 2026-01-20   70  		return ret;
-43722575e5cdcc6 Conor Dooley 2026-01-20   71  
-43722575e5cdcc6 Conor Dooley 2026-01-20   72  	return 0;
-43722575e5cdcc6 Conor Dooley 2026-01-20   73  };
-43722575e5cdcc6 Conor Dooley 2026-01-20   74  
-a26361256c774cc Frank Li     2026-03-27   75  static int pinctrl_generic_pins_function_dt_subnode_to_map(struct pinctrl_dev *pctldev,
-a26361256c774cc Frank Li     2026-03-27   76  							   struct device_node *parent,
-a26361256c774cc Frank Li     2026-03-27   77  							   struct device_node *np,
-a26361256c774cc Frank Li     2026-03-27   78  							   struct pinctrl_map **maps,
-a26361256c774cc Frank Li     2026-03-27   79  							   unsigned int *num_maps,
-a26361256c774cc Frank Li     2026-03-27   80  							   unsigned int *num_reserved_maps,
-a26361256c774cc Frank Li     2026-03-27   81  							   const char **group_names,
-a26361256c774cc Frank Li     2026-03-27   82  							   unsigned int ngroups)
-a26361256c774cc Frank Li     2026-03-27   83  {
-a26361256c774cc Frank Li     2026-03-27   84  	struct device *dev = pctldev->dev;
-a26361256c774cc Frank Li     2026-03-27   85  	unsigned int pin, *pins;
-a26361256c774cc Frank Li     2026-03-27   86  	const char **functions;
-a26361256c774cc Frank Li     2026-03-27   87  	int npins, ret;
-a26361256c774cc Frank Li     2026-03-27   88  
-a26361256c774cc Frank Li     2026-03-27   89  	npins = of_property_count_u32_elems(np, "pins");
-a26361256c774cc Frank Li     2026-03-27   90  
-a26361256c774cc Frank Li     2026-03-27   91  	if (npins < 1) {
-a26361256c774cc Frank Li     2026-03-27   92  		dev_err(dev, "invalid pinctrl group %pOFn.%pOFn %d\n",
-a26361256c774cc Frank Li     2026-03-27   93  			parent, np, npins);
-a26361256c774cc Frank Li     2026-03-27   94  		return npins;
-a26361256c774cc Frank Li     2026-03-27   95  	}
-a26361256c774cc Frank Li     2026-03-27   96  
-a26361256c774cc Frank Li     2026-03-27   97  	pins = devm_kcalloc(dev, npins, sizeof(*pins), GFP_KERNEL);
-a26361256c774cc Frank Li     2026-03-27   98  	if (!pins)
-a26361256c774cc Frank Li     2026-03-27   99  		return -ENOMEM;
-a26361256c774cc Frank Li     2026-03-27  100  
-a26361256c774cc Frank Li     2026-03-27  101  	functions = devm_kcalloc(dev, npins, sizeof(*functions), GFP_KERNEL);
-a26361256c774cc Frank Li     2026-03-27  102  	if (!functions)
-a26361256c774cc Frank Li     2026-03-27  103  		return -ENOMEM;
-a26361256c774cc Frank Li     2026-03-27  104  
-a26361256c774cc Frank Li     2026-03-27  105  	for (int i = 0; i < npins; i++) {
-a26361256c774cc Frank Li     2026-03-27  106  		ret = of_property_read_u32_index(np, "pins", i, &pin);
-a26361256c774cc Frank Li     2026-03-27  107  		if (ret)
-a26361256c774cc Frank Li     2026-03-27  108  			return ret;
-a26361256c774cc Frank Li     2026-03-27  109  
-a26361256c774cc Frank Li     2026-03-27  110  		pins[i] = pin;
-a26361256c774cc Frank Li     2026-03-27  111  
-a26361256c774cc Frank Li     2026-03-27  112  		ret = of_property_read_string(np, "function", &functions[i]);
-a26361256c774cc Frank Li     2026-03-27  113  		if (ret)
-a26361256c774cc Frank Li     2026-03-27  114  			return ret;
-a26361256c774cc Frank Li     2026-03-27  115  	}
-a26361256c774cc Frank Li     2026-03-27  116  
-a26361256c774cc Frank Li     2026-03-27  117  	return pinctrl_generic_to_map(pctldev, parent, np, maps, num_maps,
-a26361256c774cc Frank Li     2026-03-27  118  				      num_reserved_maps, group_names, ngroups,
-a26361256c774cc Frank Li     2026-03-27 @119  				      functions, pins, npins);
-a26361256c774cc Frank Li     2026-03-27  120  }
-a26361256c774cc Frank Li     2026-03-27  121  
-43722575e5cdcc6 Conor Dooley 2026-01-20  122  /*
-43722575e5cdcc6 Conor Dooley 2026-01-20  123   * For platforms that do not define groups or functions in the driver, but
-43722575e5cdcc6 Conor Dooley 2026-01-20  124   * instead use the devicetree to describe them. This function will, unlike
-43722575e5cdcc6 Conor Dooley 2026-01-20  125   * pinconf_generic_dt_node_to_map() etc which rely on driver defined groups
-43722575e5cdcc6 Conor Dooley 2026-01-20  126   * and functions, create them in addition to parsing pinconf properties and
-43722575e5cdcc6 Conor Dooley 2026-01-20  127   * adding mappings.
-43722575e5cdcc6 Conor Dooley 2026-01-20  128   */
-43722575e5cdcc6 Conor Dooley 2026-01-20 @129  int pinctrl_generic_pins_function_dt_node_to_map(struct pinctrl_dev *pctldev,
+98399abd52b234 drivers/gpu/drm/ttm/ttm_bo_manager.c    Dave Airlie      202=
+0-08-04  129 =20
+3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
+  2021-04-17  130  /**
+3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
+  2021-04-17  131   * ttm_range_man_init
+3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
+  2021-04-17  132   *
+3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
+  2021-04-17  133   * @bdev: ttm device
+3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
+  2021-04-17  134   * @type: memory manager type
+3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
+  2021-04-17  135   * @use_tt: if the memory manager uses tt
+3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
+  2021-04-17  136   * @p_size: size of area to be managed in pages.
+3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
+  2021-04-17  137   *
+3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
+  2021-04-17  138   * Initialise a generic range manager for the selected m=
+emory type.
+3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
+  2021-04-17  139   * The range manager is installed for this device in the=
+ type slot.
+3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
+  2021-04-17  140   */
+617d5b34f22c66 drivers/gpu/drm/ttm/ttm_range_manager.c xinhui pan       202=
+1-09-13  141  int ttm_range_man_init_nocheck(struct ttm_device *bdev,
+9c3006a4cc1b16 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
+  2020-09-11  142  		       unsigned type, bool use_tt,
+d961db75ce86a8 drivers/gpu/drm/ttm/ttm_bo_manager.c    Ben Skeggs       201=
+0-08-05  143  		       unsigned long p_size)
+d961db75ce86a8 drivers/gpu/drm/ttm/ttm_bo_manager.c    Ben Skeggs       201=
+0-08-05 @144  {
+9de59bc201496f drivers/gpu/drm/ttm/ttm_range_manager.c Dave Airlie      202=
+0-08-04  145  	struct ttm_resource_manager *man;
+d7a67cb16238ab drivers/gpu/drm/ttm/ttm_bo_manager.c    Thomas Hellstrom 201=
+0-10-29  146  	struct ttm_range_manager *rman;
+d961db75ce86a8 drivers/gpu/drm/ttm/ttm_bo_manager.c    Ben Skeggs       201=
+0-08-05  147 =20
+d7a67cb16238ab drivers/gpu/drm/ttm/ttm_bo_manager.c    Thomas Hellstrom 201=
+0-10-29  148  	rman =3D kzalloc(sizeof(*rman), GFP_KERNEL);
+d7a67cb16238ab drivers/gpu/drm/ttm/ttm_bo_manager.c    Thomas Hellstrom 201=
+0-10-29  149  	if (!rman)
+d961db75ce86a8 drivers/gpu/drm/ttm/ttm_bo_manager.c    Ben Skeggs       201=
+0-08-05  150  		return -ENOMEM;
+d961db75ce86a8 drivers/gpu/drm/ttm/ttm_bo_manager.c    Ben Skeggs       201=
+0-08-05  151 =20
+3a1fc38edac75d drivers/gpu/drm/ttm/ttm_bo_manager.c    Dave Airlie      202=
+0-08-04  152  	man =3D &rman->manager;
+3a1fc38edac75d drivers/gpu/drm/ttm/ttm_bo_manager.c    Dave Airlie      202=
+0-08-04  153  	man->use_tt =3D use_tt;
+3a1fc38edac75d drivers/gpu/drm/ttm/ttm_bo_manager.c    Dave Airlie      202=
+0-08-04  154 =20
+80938c28ee67ba drivers/gpu/drm/ttm/ttm_range_manager.c Dave Airlie      202=
+0-08-04  155  	man->func =3D &ttm_range_manager_func;
+37205891d84f92 drivers/gpu/drm/ttm/ttm_bo_manager.c    Dave Airlie      202=
+0-08-04  156 =20
+9de59bc201496f drivers/gpu/drm/ttm/ttm_range_manager.c Dave Airlie      202=
+0-08-04  157  	ttm_resource_manager_init(man, p_size);
+37205891d84f92 drivers/gpu/drm/ttm/ttm_bo_manager.c    Dave Airlie      202=
+0-08-04  158 =20
+77ef8bbc87be7a drivers/gpu/drm/ttm/ttm_bo_manager.c    David Herrmann   201=
+3-07-01  159  	drm_mm_init(&rman->mm, 0, p_size);
+d7a67cb16238ab drivers/gpu/drm/ttm/ttm_bo_manager.c    Thomas Hellstrom 201=
+0-10-29  160  	spin_lock_init(&rman->lock);
+d961db75ce86a8 drivers/gpu/drm/ttm/ttm_bo_manager.c    Ben Skeggs       201=
+0-08-05  161 =20
+3a1fc38edac75d drivers/gpu/drm/ttm/ttm_bo_manager.c    Dave Airlie      202=
+0-08-04  162  	ttm_set_driver_manager(bdev, type, &rman->manager);
+9de59bc201496f drivers/gpu/drm/ttm/ttm_range_manager.c Dave Airlie      202=
+0-08-04  163  	ttm_resource_manager_set_used(man, true);
+3c90424bd7df15 drivers/gpu/drm/ttm/ttm_bo_manager.c    Dave Airlie      202=
+0-08-04  164  	return 0;
+3c90424bd7df15 drivers/gpu/drm/ttm/ttm_bo_manager.c    Dave Airlie      202=
+0-08-04  165  }
+617d5b34f22c66 drivers/gpu/drm/ttm/ttm_range_manager.c xinhui pan       202=
+1-09-13  166  EXPORT_SYMBOL(ttm_range_man_init_nocheck);
+3c90424bd7df15 drivers/gpu/drm/ttm/ttm_bo_manager.c    Dave Airlie      202=
+0-08-04  167 =20
+3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
+  2021-04-17  168  /**
+3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
+  2021-04-17  169   * ttm_range_man_fini
+3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
+  2021-04-17  170   *
+3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
+  2021-04-17  171   * @bdev: ttm device
+3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
+  2021-04-17  172   * @type: memory manager type
+3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
+  2021-04-17  173   *
+3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
+  2021-04-17  174   * Remove the generic range manager from a slot and tear=
+ it down.
+3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
+  2021-04-17  175   */
+617d5b34f22c66 drivers/gpu/drm/ttm/ttm_range_manager.c xinhui pan       202=
+1-09-13  176  int ttm_range_man_fini_nocheck(struct ttm_device *bdev,
+37205891d84f92 drivers/gpu/drm/ttm/ttm_bo_manager.c    Dave Airlie      202=
+0-08-04  177  		       unsigned type)
+56ee8b1c71ffb5 drivers/gpu/drm/ttm/ttm_bo_manager.c    Dave Airlie      202=
+0-08-04 @178  {
 
-:::::: The code at line 20 was first introduced by commit
-:::::: a26361256c774cc1f36979ab440cb9d83a9f8e48 pinctrl: extract pinctrl_generic_to_map() from pinctrl_generic_pins_function_dt_node_to_map()
+:::::: The code at line 144 was first introduced by commit
+:::::: d961db75ce86a84f1f04e91ad1014653ed7d9f46 drm/ttm: restructure to all=
+ow driver to plug in alternate memory manager
 
-:::::: TO: Frank Li <Frank.Li@nxp.com>
-:::::: CC: Linus Walleij <linusw@kernel.org>
+:::::: TO: Ben Skeggs <bskeggs@redhat.com>
+:::::: CC: Ben Skeggs <bskeggs@redhat.com>
 
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
