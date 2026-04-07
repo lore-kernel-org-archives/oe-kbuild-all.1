@@ -1,218 +1,246 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 208E533C53D
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Apr 2026 14:57:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B30D33D51D;
+	Tue,  7 Apr 2026 14:57:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775573858; cv=none; b=bLDy9TULip5vBLhdYdCu9wMtlRUTq5LLrzh0bNcZFM6jvM0ngH9pWK/o1V0FYEsNFiE4MFaJ3bEj3A7qaC6LL2YtMe7TE7g/IAptXVFM9K092XpkESigm8KTXFgCvValqDaCcADJIa1Sr3zZe4A+4bm+EmaYAgCD4vIFMb48ELs=
+	t=1775573860; cv=none; b=JZ0abWov2IWdmp7MbhbteHoJ87NFt1VVQlZLT/GAs6bnjG5hZpqAnrqxCEbMWISvTPx238r/Rtf5CnjkMz4J+MSerM81ChrtmMpfQegTh3L8BgGs7GuFwdnZTgrejC3EWDbjVsnLH813DIBmFp06YlkbfTegWrFQdkbYtxt9ics=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775573858; c=relaxed/simple;
-	bh=T/5B5sF9EwfcxwgoI0s4XUQSAE1pHdiyRBY8H6VQjKM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=b9yDYWmTr8VVSyLIpIZtUK2FVltmVBrGMFw05hKPhbPtDOfspjCnayk/bBaSDIFU1kvjIeniNAo4mvYuBMh6dzbi+QAtXr95QyZF5xkKsVSILmg+IULgskFhBmLPZKc3rOSRrDaCWnNqcaI/nSf7bnaujCSEyaeiI//My1WTe3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZlIfPhJj; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1775573860; c=relaxed/simple;
+	bh=+8tieGi9uACYaBcgAxIIdIncGZwzacMKj/hhimuZCO0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o/E7trnklpDohRWBY6cM920XBfidpoya7AA7o2XEs+/Q8M4Uy0vv1FTudsbrDfBlN+Ft9GsYtJDTcBIDuzu/Btcss4FmdaRaTFW4H53yZ9vP97Viw3j1ToUXv8SMW1KyN5j+y1PN1/Gf2O33h/tcaMBFqaS0lYpAl+IA8d/r3B8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fK8eYAtf; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZlIfPhJj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fK8eYAtf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775573856; x=1807109856;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=T/5B5sF9EwfcxwgoI0s4XUQSAE1pHdiyRBY8H6VQjKM=;
-  b=ZlIfPhJjCLnkKWAF772BLMcZyUcx+KxuNwrMbdYpanSrZnGWhkeGLbxV
-   U8hucPn/5HqIHPvwlDBkgOFy/+c7OI3pl8jF04+VMrlIMCN3NNehd/jKJ
-   zXF7XL6DsuNq1kVa1ef99t4lBsf2xp+1pY5/Jq4jnixTv8fYQEXPWTfkh
-   j+Dkwfrk/4CHf4jbDiJUhLOeFiTRxG06OCpGdBnmLu6rsNsE1Yks8uQI4
-   XhPPjT0RKpxv8yFTMVQknvHBa8lrg8JQH3GqYWuFUiKB1XgsTQy59FQIq
-   ho3TixEJeAbKlRaVm07TOCQ/mIGuMWMoZbmcMW1e3zxNPzqig4oFjcDre
-   A==;
-X-CSE-ConnectionGUID: qONdfxV6S22P56PsUln0eg==
-X-CSE-MsgGUID: 1OsQTz8WRZucssL6lJltBg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="99165678"
+  t=1775573858; x=1807109858;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+8tieGi9uACYaBcgAxIIdIncGZwzacMKj/hhimuZCO0=;
+  b=fK8eYAtfr2avK6+BUU6ajaGWuiyKdiuOEMpOKYbTPNyTgy18SI9I9br8
+   Ty7Me++R/J/OMIsolRyW9tehoWp7qdgRYBw7UqEHUMQPaFn6zquzJ9s7T
+   ZwGk2uZMJIXz1J8Q6eCf3yCshieYBAQOLQlsjUuhmr8NGbAl4Tvpc2Au/
+   pA7kuiP1dIWEckeH2LKI5nH3iWmvqu1YUc6ErX4q8JQMXneC4CFUuyXXH
+   vb3m1i8x/pY9oOv2PZH0jXyBw1Vf3+ypasDstRNjBQEFQAfaKYfw0fFvm
+   Ms1fmk9cDtvR30bxDRYWKb7FYwypjTNnkKMfRfwEU9Ca8YNd4Mfj8g3vM
+   w==;
+X-CSE-ConnectionGUID: zZm9l764TNyIWjER++tZNw==
+X-CSE-MsgGUID: 4h/MO2KRSPqaDGtBlHQkYQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="99165685"
 X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
-   d="scan'208";a="99165678"
+   d="scan'208";a="99165685"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 07:57:35 -0700
-X-CSE-ConnectionGUID: coEEOWAKRNOxIDMM+EgkvQ==
-X-CSE-MsgGUID: nFfg4gePTqSgyZvU7tgvMw==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 07:57:36 -0700
+X-CSE-ConnectionGUID: oh7naw4eQ6yd6Ci3KocLZg==
+X-CSE-MsgGUID: qToTkt6sRQ+xih4FCwMMbg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
-   d="scan'208";a="233157239"
+   d="scan'208";a="233157230"
 Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
   by orviesa005.jf.intel.com with ESMTP; 07 Apr 2026 07:57:34 -0700
 Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wA7rv-000000000iB-0fYQ;
+	id 1wA7rv-000000000i3-0GJJ;
 	Tue, 07 Apr 2026 14:57:31 +0000
-Date: Tue, 07 Apr 2026 22:56:46 +0800
+Date: Tue, 7 Apr 2026 22:56:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: xinhui pan <xinhui.pan@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- "Christian =?utf-8?Q?K=C3=B6nig"?= <christian.koenig@amd.com>
-Subject: drivers/gpu/drm/ttm/ttm_range_manager.c:144: warning:
- expecting prototype for ttm_range_man_init(). Prototype was for
- ttm_range_man_init_nocheck() instead
-Message-ID: <202604072236.QoHpJGwO-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Joshua Klinesmith <joshuaklinesmith@gmail.com>,
+	linux-wireless@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, nbd@nbd.name,
+	lorenzo@kernel.org, ryder.lee@mediatek.com,
+	shayne.chen@mediatek.com, sean.wang@mediatek.com,
+	Joshua Klinesmith <joshuaklinesmith@gmail.com>
+Subject: Re: [PATCH wireless v2] wifi: mt76: mt7996: replace direct WTBL
+ access with MCU for station statistics
+Message-ID: <202604072310.QZ9n9tFj-lkp@intel.com>
+References: <20260407053855.75828-1-joshuaklinesmith@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260407053855.75828-1-joshuaklinesmith@gmail.com>
 
-Hi xinhui,
+Hi Joshua,
 
-First bad commit (maybe !=3D root cause):
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   bfe62a454542cfad3379f6ef5680b125f41e20f4
-commit: 617d5b34f22c66fe9fc9f150be27f5de1b87ca15 drm/ttm: Try to check if n=
-ew ttm man out of bounds during compile
-date:   4 years, 7 months ago
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20260407=
-/202604072236.QoHpJGwO-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260407/202604072236.QoHpJGwO-lkp@intel.com/reproduce)
+[auto build test ERROR on wireless/main]
+[also build test ERROR on linus/master v7.0-rc7 next-20260406]
+[cannot apply to wireless-next/main]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+url:    https://github.com/intel-lab-lkp/linux/commits/Joshua-Klinesmith/wifi-mt76-mt7996-replace-direct-WTBL-access-with-MCU-for-station-statistics/20260407-151612
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless.git main
+patch link:    https://lore.kernel.org/r/20260407053855.75828-1-joshuaklinesmith%40gmail.com
+patch subject: [PATCH wireless v2] wifi: mt76: mt7996: replace direct WTBL access with MCU for station statistics
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20260407/202604072310.QZ9n9tFj-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c80443cd37b2e2788cba67ffa180a6331e5f0791)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260407/202604072310.QZ9n9tFj-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 617d5b34f22c ("drm/ttm: Try to check if new ttm man out of bounds =
-during compile")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604072236.QoHpJGwO-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604072310.QZ9n9tFj-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/ttm/ttm_range_manager.c:144: warning: expecting prototyp=
-e for ttm_range_man_init(). Prototype was for ttm_range_man_init_nocheck() =
-instead
->> drivers/gpu/drm/ttm/ttm_range_manager.c:178: warning: expecting prototyp=
-e for ttm_range_man_fini(). Prototype was for ttm_range_man_fini_nocheck() =
-instead
+>> drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:4870:10: error: incompatible pointer types assigning to 'struct mt76_vif_link *' from 'struct mt76_vif_data *' [-Wincompatible-pointer-types]
+    4870 |                                 mvif = &msta_link->sta->vif->mt76;
+         |                                      ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:4871:35: error: no member named 'link' in 'struct mt76_vif_link'
+    4871 |                                 mlink = rcu_dereference(mvif->link[wcid->link_id]);
+         |                                                         ~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:4871:35: error: no member named 'link' in 'struct mt76_vif_link'
+    4871 |                                 mlink = rcu_dereference(mvif->link[wcid->link_id]);
+         |                                                         ~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:4871:35: error: no member named 'link' in 'struct mt76_vif_link'
+    4871 |                                 mlink = rcu_dereference(mvif->link[wcid->link_id]);
+         |                                                         ~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:4871:35: error: no member named 'link' in 'struct mt76_vif_link'
+    4871 |                                 mlink = rcu_dereference(mvif->link[wcid->link_id]);
+         |                                                         ~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:4871:35: error: no member named 'link' in 'struct mt76_vif_link'
+    4871 |                                 mlink = rcu_dereference(mvif->link[wcid->link_id]);
+         |                                                         ~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:4871:35: error: no member named 'link' in 'struct mt76_vif_link'
+    4871 |                                 mlink = rcu_dereference(mvif->link[wcid->link_id]);
+         |                                                         ~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:4871:35: error: no member named 'link' in 'struct mt76_vif_link'
+    4871 |                                 mlink = rcu_dereference(mvif->link[wcid->link_id]);
+         |                                                         ~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:4871:35: error: no member named 'link' in 'struct mt76_vif_link'
+    4871 |                                 mlink = rcu_dereference(mvif->link[wcid->link_id]);
+         |                                                         ~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:4871:35: error: no member named 'link' in 'struct mt76_vif_link'
+    4871 |                                 mlink = rcu_dereference(mvif->link[wcid->link_id]);
+         |                                                         ~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:4871:35: error: no member named 'link' in 'struct mt76_vif_link'
+    4871 |                                 mlink = rcu_dereference(mvif->link[wcid->link_id]);
+         |                                                         ~~~~  ^
+   11 errors generated.
 
 
-vim +144 drivers/gpu/drm/ttm/ttm_range_manager.c
+vim +4870 drivers/net/wireless/mediatek/mt76/mt7996/mcu.c
 
-98399abd52b234 drivers/gpu/drm/ttm/ttm_bo_manager.c    Dave Airlie      202=
-0-08-04  129 =20
-3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
-  2021-04-17  130  /**
-3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
-  2021-04-17  131   * ttm_range_man_init
-3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
-  2021-04-17  132   *
-3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
-  2021-04-17  133   * @bdev: ttm device
-3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
-  2021-04-17  134   * @type: memory manager type
-3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
-  2021-04-17  135   * @use_tt: if the memory manager uses tt
-3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
-  2021-04-17  136   * @p_size: size of area to be managed in pages.
-3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
-  2021-04-17  137   *
-3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
-  2021-04-17  138   * Initialise a generic range manager for the selected m=
-emory type.
-3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
-  2021-04-17  139   * The range manager is installed for this device in the=
- type slot.
-3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
-  2021-04-17  140   */
-617d5b34f22c66 drivers/gpu/drm/ttm/ttm_range_manager.c xinhui pan       202=
-1-09-13  141  int ttm_range_man_init_nocheck(struct ttm_device *bdev,
-9c3006a4cc1b16 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
-  2020-09-11  142  		       unsigned type, bool use_tt,
-d961db75ce86a8 drivers/gpu/drm/ttm/ttm_bo_manager.c    Ben Skeggs       201=
-0-08-05  143  		       unsigned long p_size)
-d961db75ce86a8 drivers/gpu/drm/ttm/ttm_bo_manager.c    Ben Skeggs       201=
-0-08-05 @144  {
-9de59bc201496f drivers/gpu/drm/ttm/ttm_range_manager.c Dave Airlie      202=
-0-08-04  145  	struct ttm_resource_manager *man;
-d7a67cb16238ab drivers/gpu/drm/ttm/ttm_bo_manager.c    Thomas Hellstrom 201=
-0-10-29  146  	struct ttm_range_manager *rman;
-d961db75ce86a8 drivers/gpu/drm/ttm/ttm_bo_manager.c    Ben Skeggs       201=
-0-08-05  147 =20
-d7a67cb16238ab drivers/gpu/drm/ttm/ttm_bo_manager.c    Thomas Hellstrom 201=
-0-10-29  148  	rman =3D kzalloc(sizeof(*rman), GFP_KERNEL);
-d7a67cb16238ab drivers/gpu/drm/ttm/ttm_bo_manager.c    Thomas Hellstrom 201=
-0-10-29  149  	if (!rman)
-d961db75ce86a8 drivers/gpu/drm/ttm/ttm_bo_manager.c    Ben Skeggs       201=
-0-08-05  150  		return -ENOMEM;
-d961db75ce86a8 drivers/gpu/drm/ttm/ttm_bo_manager.c    Ben Skeggs       201=
-0-08-05  151 =20
-3a1fc38edac75d drivers/gpu/drm/ttm/ttm_bo_manager.c    Dave Airlie      202=
-0-08-04  152  	man =3D &rman->manager;
-3a1fc38edac75d drivers/gpu/drm/ttm/ttm_bo_manager.c    Dave Airlie      202=
-0-08-04  153  	man->use_tt =3D use_tt;
-3a1fc38edac75d drivers/gpu/drm/ttm/ttm_bo_manager.c    Dave Airlie      202=
-0-08-04  154 =20
-80938c28ee67ba drivers/gpu/drm/ttm/ttm_range_manager.c Dave Airlie      202=
-0-08-04  155  	man->func =3D &ttm_range_manager_func;
-37205891d84f92 drivers/gpu/drm/ttm/ttm_bo_manager.c    Dave Airlie      202=
-0-08-04  156 =20
-9de59bc201496f drivers/gpu/drm/ttm/ttm_range_manager.c Dave Airlie      202=
-0-08-04  157  	ttm_resource_manager_init(man, p_size);
-37205891d84f92 drivers/gpu/drm/ttm/ttm_bo_manager.c    Dave Airlie      202=
-0-08-04  158 =20
-77ef8bbc87be7a drivers/gpu/drm/ttm/ttm_bo_manager.c    David Herrmann   201=
-3-07-01  159  	drm_mm_init(&rman->mm, 0, p_size);
-d7a67cb16238ab drivers/gpu/drm/ttm/ttm_bo_manager.c    Thomas Hellstrom 201=
-0-10-29  160  	spin_lock_init(&rman->lock);
-d961db75ce86a8 drivers/gpu/drm/ttm/ttm_bo_manager.c    Ben Skeggs       201=
-0-08-05  161 =20
-3a1fc38edac75d drivers/gpu/drm/ttm/ttm_bo_manager.c    Dave Airlie      202=
-0-08-04  162  	ttm_set_driver_manager(bdev, type, &rman->manager);
-9de59bc201496f drivers/gpu/drm/ttm/ttm_range_manager.c Dave Airlie      202=
-0-08-04  163  	ttm_resource_manager_set_used(man, true);
-3c90424bd7df15 drivers/gpu/drm/ttm/ttm_bo_manager.c    Dave Airlie      202=
-0-08-04  164  	return 0;
-3c90424bd7df15 drivers/gpu/drm/ttm/ttm_bo_manager.c    Dave Airlie      202=
-0-08-04  165  }
-617d5b34f22c66 drivers/gpu/drm/ttm/ttm_range_manager.c xinhui pan       202=
-1-09-13  166  EXPORT_SYMBOL(ttm_range_man_init_nocheck);
-3c90424bd7df15 drivers/gpu/drm/ttm/ttm_bo_manager.c    Dave Airlie      202=
-0-08-04  167 =20
-3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
-  2021-04-17  168  /**
-3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
-  2021-04-17  169   * ttm_range_man_fini
-3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
-  2021-04-17  170   *
-3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
-  2021-04-17  171   * @bdev: ttm device
-3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
-  2021-04-17  172   * @type: memory manager type
-3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
-  2021-04-17  173   *
-3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
-  2021-04-17  174   * Remove the generic range manager from a slot and tear=
- it down.
-3eb7d96e941503 drivers/gpu/drm/ttm/ttm_range_manager.c Christian K=C3=B6nig=
-  2021-04-17  175   */
-617d5b34f22c66 drivers/gpu/drm/ttm/ttm_range_manager.c xinhui pan       202=
-1-09-13  176  int ttm_range_man_fini_nocheck(struct ttm_device *bdev,
-37205891d84f92 drivers/gpu/drm/ttm/ttm_bo_manager.c    Dave Airlie      202=
-0-08-04  177  		       unsigned type)
-56ee8b1c71ffb5 drivers/gpu/drm/ttm/ttm_bo_manager.c    Dave Airlie      202=
-0-08-04 @178  {
+  4786	
+  4787	int mt7996_mcu_get_per_sta_info(struct mt7996_phy *phy, u16 tag)
+  4788	{
+  4789		struct mt7996_dev *dev = phy->dev;
+  4790		struct mt7996_mcu_per_sta_info_event *res;
+  4791		struct mt76_wcid *wcid;
+  4792		struct sk_buff *skb;
+  4793		int i, ret, sta_num, resp_sta_num;
+  4794		int wcid_idx = 0;
+  4795		struct {
+  4796			u8 _rsv1;
+  4797			u8 unsolicit;
+  4798			u8 _rsv2[2];
+  4799	
+  4800			__le16 tag;
+  4801			__le16 len;
+  4802			__le16 sta_num;
+  4803			u8 _rsv3[2];
+  4804			__le16 wlan_idx[PER_STA_INFO_MAX_NUM];
+  4805		} __packed req = {
+  4806			.tag = cpu_to_le16(tag),
+  4807			.len = cpu_to_le16(sizeof(req) - 4),
+  4808		};
+  4809	
+  4810		while (wcid_idx < mt7996_wtbl_size(dev)) {
+  4811			sta_num = 0;
+  4812	
+  4813			rcu_read_lock();
+  4814			for (i = wcid_idx;
+  4815			     i < mt7996_wtbl_size(dev) && sta_num < PER_STA_INFO_MAX_NUM;
+  4816			     i++) {
+  4817				wcid = rcu_dereference(dev->mt76.wcid[i]);
+  4818				if (!wcid || !wcid->sta)
+  4819					continue;
+  4820				req.wlan_idx[sta_num++] = cpu_to_le16(i);
+  4821			}
+  4822			rcu_read_unlock();
+  4823			wcid_idx = i;
+  4824	
+  4825			if (!sta_num)
+  4826				continue;
+  4827	
+  4828			req.sta_num = cpu_to_le16(sta_num);
+  4829	
+  4830			ret = mt76_mcu_send_and_get_msg(&dev->mt76,
+  4831							MCU_WM_UNI_CMD(PER_STA_INFO),
+  4832							&req, sizeof(req), true, &skb);
+  4833			if (ret)
+  4834				return ret;
+  4835	
+  4836			res = (struct mt7996_mcu_per_sta_info_event *)skb->data;
+  4837	
+  4838			resp_sta_num = le16_to_cpu(res->sta_num);
+  4839			if (resp_sta_num > sta_num ||
+  4840			    skb->len < struct_size(res, rssi, resp_sta_num)) {
+  4841				dev_kfree_skb(skb);
+  4842				return -EINVAL;
+  4843			}
+  4844	
+  4845			rcu_read_lock();
+  4846			for (i = 0; i < resp_sta_num; i++) {
+  4847				struct mt7996_sta_link *msta_link;
+  4848				struct mt76_vif_link *mvif;
+  4849				struct mt76_vif_link *mlink;
+  4850				struct mt76_phy *mphy;
+  4851				u16 wlan_idx;
+  4852				s8 rssi[4];
+  4853	
+  4854				switch (tag) {
+  4855				case UNI_PER_STA_RSSI:
+  4856					wlan_idx = le16_to_cpu(res->rssi[i].wlan_idx);
+  4857					wcid = mt76_wcid_ptr(dev, wlan_idx);
+  4858					if (!wcid || !wcid->sta)
+  4859						break;
+  4860	
+  4861					msta_link = container_of(wcid,
+  4862								 struct mt7996_sta_link,
+  4863								 wcid);
+  4864	
+  4865					rssi[0] = (res->rssi[i].rcpi[0] - 220) / 2;
+  4866					rssi[1] = (res->rssi[i].rcpi[1] - 220) / 2;
+  4867					rssi[2] = (res->rssi[i].rcpi[2] - 220) / 2;
+  4868					rssi[3] = (res->rssi[i].rcpi[3] - 220) / 2;
+  4869	
+> 4870					mvif = &msta_link->sta->vif->mt76;
+  4871					mlink = rcu_dereference(mvif->link[wcid->link_id]);
+  4872					if (mlink) {
+  4873						mphy = mt76_vif_link_phy(mlink);
+  4874						if (mphy)
+  4875							msta_link->ack_signal =
+  4876								mt76_rx_signal(mphy->antenna_mask,
+  4877									       rssi);
+  4878					}
+  4879	
+  4880					ewma_avg_signal_add(&msta_link->avg_ack_signal,
+  4881							    -msta_link->ack_signal);
+  4882					break;
+  4883				}
+  4884			}
+  4885			rcu_read_unlock();
+  4886	
+  4887			dev_kfree_skb(skb);
+  4888		}
+  4889	
+  4890		return 0;
+  4891	}
+  4892	
 
-:::::: The code at line 144 was first introduced by commit
-:::::: d961db75ce86a84f1f04e91ad1014653ed7d9f46 drm/ttm: restructure to all=
-ow driver to plug in alternate memory manager
-
-:::::: TO: Ben Skeggs <bskeggs@redhat.com>
-:::::: CC: Ben Skeggs <bskeggs@redhat.com>
-
---=20
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
