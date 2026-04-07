@@ -1,176 +1,207 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8214207DF7
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Apr 2026 09:00:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF13317170
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Apr 2026 09:05:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775552418; cv=none; b=PxQR6FApHOvDz6FhzNYkAGGquqN4+iz3tT4lFNLpKWvRHZUL0RLbMY0H3+9mzRXYCDoD9MnzFWMA3XiN9XGIt1felXGAcd42U648SRHdtLswfFCaynTz5lToM1tD0967AVDQCZzeJQRC50NsPjNekKTTm9V5z9vBfSDGNatuWmQ=
+	t=1775552721; cv=none; b=i9Mcb6ye8VnO94owre+6JY17y2Vj+khy6MCHAslOLG8/CvYkSFh6eJjVE8E1vwOxNEiSRAPSrAtoCpNu6FRtBPKerT0l756SrWRCTqMgbzTp8M/z0QiAIvYtoYZZjzLAcMGNBKbnqOqeTWDnJcqzGa/CenYJ2UQfXxn6Q8x9/IU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775552418; c=relaxed/simple;
-	bh=ko9l9mdhtQlxEv+xItV4uafeiASchLSWCKG+op6SHoM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EgWBCvYK4Ex0Rs8qmjTy2/h/AxLfKM3KwUfpadbDFQk1ydtwDEYxFcaV42dJNtcBaLnyySpUp/uWKXyHnuSYz2r8cxGUBQ3O7xxchclt/xSWMSaT2+gzcOwicYEC3KYgprpsFe2sQLAZ1pn0O6b+5uQt9YZa6N0uxVBZ3YJApnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BjBbVXWU; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775552721; c=relaxed/simple;
+	bh=tZZBmfY0aBVHuM5Z0tII9UEkGVIgahNCT+QMV6QMWcc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Jmdu5/4IhWreQdDB92PJ/ZMS99cg4MCuduCJfONMfuuhQLokj6GeWtS/h0PKc/HeHUzTrltUKq7SMc2fqgtYbgLveVunsIR0mMDxngCOyfmXMx0p4TYQpV6NKidKlgj2/KLy5KNk7pi5RyPJMNFZ+IFUHQ/oIN4MBR7hk73ocRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fBPNRsPC; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BjBbVXWU"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-43cfa33a983so2824240f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 07 Apr 2026 02:00:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775552415; x=1776157215; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LL0ec9tpaclw1G1MDrARCNTVU2VUg2IUpXqiX/KPKL4=;
-        b=BjBbVXWU/ieEff67DC2zxkZHxvFNr3CBs92ym5kAdAsQna3ATTb5okVGl//qso5S5V
-         kpyB5jtANKm6JWgVxJ2DbePAQe1A8qSncY4eCwHveJMTWp9wuL26QOGTTTtFEPmH38rQ
-         xj+b5xMf8UYaFIL1ozcX/1OEr5IhVCvndWlmH4IkF1E/J52U6m1xxlw0qCcsENCSaFyC
-         pPYa/pjxpP0KuVpQMO3Gvjwstxw6CfJMAMZAoTRb78ZlANexqm5tQLL20+AhwzPdM9oT
-         uAabV7ICCzTL+onUDREfm23gewzphZNtHR/UG0nt4SRk1HWMSH/qfT4RgRk1Z4BsTwWE
-         v4bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775552415; x=1776157215;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LL0ec9tpaclw1G1MDrARCNTVU2VUg2IUpXqiX/KPKL4=;
-        b=nDETVJ8qG/HsxK6cT6ApuUOAKQofBbeFyDGz3fBpXSOjxs19yshOblQtrciZSouHru
-         J/lObkkmV5f8jPvH3jk1W04SebELbaHchMe7GGe5K5ouPqxw4jlv6C9UHFpHzJ3yIOdx
-         UR7gshgrJkjF5j+hFqZ5cbA0fGgblW15O+3nI3bSAsmomzC3GK5l3c6L20Qjrxv7B1C0
-         MVOjHIzC+KYTFd3dLqY2Iu/tNA9gpX53bYVDyNY2IG37DVVmuzI5FHDQiNrM8PziUPeM
-         4VE4Bzdo8aNzKaNyKQzQo1y4tid+hM0GEevGYWs5ZtCGnne58U6MHdQ4aV9yKwti/ytZ
-         iZGg==
-X-Forwarded-Encrypted: i=1; AJvYcCVPrOCRhp1zlOC/ywPUAqFPix5d+Ghyu7L6BXuJbFEnQUfkaIetC817HVsA+wBIWhOrdH+bx2s0S/2n3W9m@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx6i6RKmnIY2lEg+UxB2gZsF5p5z2Jsnl73JJVWG3+B0K95POLj
-	ppc7f6PTzyU3uMkdhMTb/YuBNBjSMto9BVFIjF/DPnrTzge+zWYaac6x
-X-Gm-Gg: AeBDietIQa+CYMEuPc9Z4vO08rkx8MB65/6R85oGqEftYqibV5ntH7uw/928xpwCoar
-	atalFnA3xWyY9PeLVmR0T6EZxBUsVRT9sgbgVlKmYoQ4eHs4GPjWdHJguLvhi39fvgpiEEEchzH
-	j4dvlrl/kjnhaEGbnrC4ROaurAFIBT+HAQ6KAIV7H3Ws0J746aGARvw+E1L93cUY3HNWz5trbjc
-	OGePWR5dCGQjDi0jHvkIL+qzZvUYhtWJX8xJ3o8UVBXJnFwZ/X1u/1ryw2oKyO7Swyg4cdxBFyL
-	LRn847SHFmPNipw911XW1ubHq5vkFKMGXfMyTbq4MiaNIDLBU3aUr8jTLaQlOTCzEQUqRezvuNM
-	+en/ePDMj48+EHyNyJIfG03Ks0fhgRrYE4Iv1aT92N3R5L8Vsc+bnjzi3oioYTUU5zKgjkJKdAg
-	3QxQaP0p/mhbWmLadEy6frs8mh6A1dDw==
-X-Received: by 2002:a05:6000:2489:b0:439:caf7:a5e5 with SMTP id ffacd0b85a97d-43d292e14d7mr21617959f8f.31.1775552414415;
-        Tue, 07 Apr 2026 02:00:14 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e2a7223sm44354473f8f.5.2026.04.07.02.00.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Apr 2026 02:00:13 -0700 (PDT)
-Date: Tue, 7 Apr 2026 12:00:10 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Rosen Penev <rosenp@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Bjorn Andersson <andersson@kernel.org>
-Subject: [linux-next:master 9740/12133] drivers/soc/qcom/wcnss_ctrl.c:269
- wcnss_download_nv() warn: 'fw' from request_firmware() not released on
- lines: 225.
-Message-ID: <202604060902.awXdPsBh-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fBPNRsPC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775552720; x=1807088720;
+  h=date:from:to:cc:subject:message-id;
+  bh=tZZBmfY0aBVHuM5Z0tII9UEkGVIgahNCT+QMV6QMWcc=;
+  b=fBPNRsPC3sN0zEV/mUuq2Fm1cbj16xuwDeBYUou8DsJk36m1WDPBgD8v
+   iwvPziQXIDnlPZZvhWRo/n9YzME5zvk2uXSvub5DY6/dCqYlI5qo1yam9
+   h5FlnMiMYibjl3RgYo0hcz3LT6tPXaPXpWfCbx5PZbm8N6oezvBZnF6os
+   FZalKTn8B6s3TX1Ieq1Bw/2I3h706NT+yeKsxHV6AJxtdgh6kgQFF5drh
+   nl2cfU0p4IGdoRvsBO5Jk4AT0CSSkDxdU7064HNs0LgjkoJeS403FypBJ
+   ijM9POD0+RQgzL4cwiAqd7R+vvxTl6UjKSGZxQ79WhEeHCS8tTfx0BwDP
+   w==;
+X-CSE-ConnectionGUID: pUfVROPFR7WAvisoh9CYCg==
+X-CSE-MsgGUID: KV5v8f0fSwS+GS9AoxKX2A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="101965129"
+X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
+   d="scan'208";a="101965129"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 02:05:19 -0700
+X-CSE-ConnectionGUID: dRiWGLDHQyi9/WStwS1m/A==
+X-CSE-MsgGUID: xbpEyfe7QmCMihOpCjRImA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
+   d="scan'208";a="232149807"
+Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 07 Apr 2026 02:05:18 -0700
+Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wA2N1-000000000PR-1lX7;
+	Tue, 07 Apr 2026 09:05:15 +0000
+Date: Tue, 07 Apr 2026 17:04:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mike Marshall <hubcap@omnibond.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hubcap:for-next 1/6] fs/orangefs/orangefs-debugfs.c:244
+ orangefs_kernel_debug_init() warn: always true condition '(len >= 0) =>
+ (0-u64max >= 0)'
+Message-ID: <202604071606.asPgJ8Fk-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   2febe6e6ee6e34c7754eff3c4d81aa7b0dcb7979
-commit: 908061f0ad30aa08ce211c6a8f95d29102e570bd [9740/12133] soc: qcom: wcnss: simplify allocation of req
-config: sparc64-randconfig-r072-20260406 (https://download.01.org/0day-ci/archive/20260406/202604060902.awXdPsBh-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 11.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hubcap/linux.git for-next
+head:   fb0898b77656046fd25c5f08cf89cd6e3899e6db
+commit: 30b7c30781f0440e70a5e0c8943be423b57bbd9b [1/6] debugfs: take better advantage of strscpy.
+config: loongarch-randconfig-r073-20260407 (https://download.01.org/0day-ci/archive/20260407/202604071606.asPgJ8Fk-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c80443cd37b2e2788cba67ffa180a6331e5f0791)
 smatch: v0.5.0-9004-gb810ac53
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202604060902.awXdPsBh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604071606.asPgJ8Fk-lkp@intel.com/
 
 smatch warnings:
-drivers/soc/qcom/wcnss_ctrl.c:269 wcnss_download_nv() warn: 'fw' from request_firmware() not released on lines: 225.
+fs/orangefs/orangefs-debugfs.c:244 orangefs_kernel_debug_init() warn: always true condition '(len >= 0) => (0-u64max >= 0)'
+fs/orangefs/orangefs-debugfs.c:343 orangefs_client_debug_init() warn: always true condition '(len >= 0) => (0-u64max >= 0)'
 
-vim +/fw +269 drivers/soc/qcom/wcnss_ctrl.c
+vim +244 fs/orangefs/orangefs-debugfs.c
 
-6be2b3d0848d1e Bjorn Andersson     2016-06-06  200  static int wcnss_download_nv(struct wcnss_ctrl *wcnss, bool *expect_cbc)
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  201  {
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  202  	const struct firmware *fw;
-ac3f2784200d49 Bjorn Andersson     2021-03-11  203  	struct device *dev = wcnss->dev;
-908061f0ad30aa Rosen Penev         2026-03-26  204  	struct wcnss_download_nv_req *req;
-82ec0c290d1a73 Bjorn Andersson     2021-03-11  205  	const char *nvbin = NVBIN_FILE;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  206  	const void *data;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  207  	ssize_t left;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  208  	int ret;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  209  
-82ec0c290d1a73 Bjorn Andersson     2021-03-11  210  	ret = of_property_read_string(dev->of_node, "firmware-name", &nvbin);
-82ec0c290d1a73 Bjorn Andersson     2021-03-11  211  	if (ret < 0 && ret != -EINVAL)
-b066a2c430f3f8 Krzysztof Kozlowski 2024-07-03  212  		return ret;
-82ec0c290d1a73 Bjorn Andersson     2021-03-11  213  
-82ec0c290d1a73 Bjorn Andersson     2021-03-11  214  	ret = request_firmware(&fw, nvbin, dev);
-                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-6be2b3d0848d1e Bjorn Andersson     2016-06-06  215  	if (ret < 0) {
-82ec0c290d1a73 Bjorn Andersson     2021-03-11  216  		dev_err(dev, "Failed to load nv file %s: %d\n", nvbin, ret);
-b066a2c430f3f8 Krzysztof Kozlowski 2024-07-03  217  		return ret;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  218  	}
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  219  
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  220  	data = fw->data;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  221  	left = fw->size;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  222  
-908061f0ad30aa Rosen Penev         2026-03-26  223  	req = kzalloc_flex(*req, fragment, NV_FRAGMENT_SIZE);
-908061f0ad30aa Rosen Penev         2026-03-26  224  	if (!req)
-908061f0ad30aa Rosen Penev         2026-03-26  225  		return -ENOMEM;
-
-Need to release_firmware() before returning.
-
-908061f0ad30aa Rosen Penev         2026-03-26  226  
-908061f0ad30aa Rosen Penev         2026-03-26  227  	req->frag_size = NV_FRAGMENT_SIZE;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  228  	req->hdr.type = WCNSS_DOWNLOAD_NV_REQ;
-908061f0ad30aa Rosen Penev         2026-03-26  229  	req->hdr.len = struct_size(req, fragment, NV_FRAGMENT_SIZE);
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  230  
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  231  	req->last = 0;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  232  
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  233  	req->seq = 0;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  234  	do {
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  235  		if (left <= NV_FRAGMENT_SIZE) {
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  236  			req->last = 1;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  237  			req->frag_size = left;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  238  			req->hdr.len = sizeof(*req) + left;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  239  		}
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  240  
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  241  		memcpy(req->fragment, data, req->frag_size);
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  242  
-5052de8deff561 Bjorn Andersson     2017-03-27  243  		ret = rpmsg_send(wcnss->channel, req, req->hdr.len);
-6be2b3d0848d1e Bjorn Andersson     2016-06-06  244  		if (ret < 0) {
-ac3f2784200d49 Bjorn Andersson     2021-03-11  245  			dev_err(dev, "failed to send smd packet\n");
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  246  			goto release_fw;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  247  		}
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  248  
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  249  		/* Increment for next fragment */
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  250  		req->seq++;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  251  
-90c29ed7627b6b Bjorn Andersson     2018-02-27  252  		data += NV_FRAGMENT_SIZE;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  253  		left -= NV_FRAGMENT_SIZE;
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  254  	} while (left > 0);
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  255  
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  256  	ret = wait_for_completion_timeout(&wcnss->ack, WCNSS_REQUEST_TIMEOUT);
-6be2b3d0848d1e Bjorn Andersson     2016-06-06  257  	if (!ret) {
-ac3f2784200d49 Bjorn Andersson     2021-03-11  258  		dev_err(dev, "timeout waiting for nv upload ack\n");
-6be2b3d0848d1e Bjorn Andersson     2016-06-06  259  		ret = -ETIMEDOUT;
-6be2b3d0848d1e Bjorn Andersson     2016-06-06  260  	} else {
-6be2b3d0848d1e Bjorn Andersson     2016-06-06  261  		*expect_cbc = wcnss->ack_status == WCNSS_ACK_COLD_BOOTING;
-6be2b3d0848d1e Bjorn Andersson     2016-06-06  262  		ret = 0;
-6be2b3d0848d1e Bjorn Andersson     2016-06-06  263  	}
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  264  
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  265  release_fw:
-ea7a1f275cf0b5 Bjorn Andersson     2015-09-21  266  	release_firmware(fw);
-908061f0ad30aa Rosen Penev         2026-03-26  267  	kfree(req);
-6be2b3d0848d1e Bjorn Andersson     2016-06-06  268  
-6be2b3d0848d1e Bjorn Andersson     2016-06-06 @269  	return ret;
-6be2b3d0848d1e Bjorn Andersson     2016-06-06  270  }
+   234	
+   235	/*
+   236	 * initialize the kernel-debug file.
+   237	 */
+   238	static void orangefs_kernel_debug_init(void)
+   239	{
+   240		static char k_buffer[ORANGEFS_MAX_DEBUG_STRING_LEN] = { };
+   241		size_t len =
+   242			strscpy(k_buffer, kernel_debug_string, sizeof(k_buffer) - 1);
+   243	
+ > 244		if (len >= 0) {
+   245			k_buffer[len] = '\n';
+   246			k_buffer[len + 1] = '\0';
+   247		} else {
+   248			strscpy(k_buffer, "none\n");
+   249			pr_info("%s: overflow 1!\n", __func__);
+   250		}
+   251	
+   252		debugfs_create_file_aux_num(ORANGEFS_KMOD_DEBUG_FILE, 0444, debug_dir, k_buffer,
+   253				    0, &kernel_debug_fops);
+   254	}
+   255	
+   256	
+   257	void orangefs_debugfs_cleanup(void)
+   258	{
+   259		debugfs_remove_recursive(debug_dir);
+   260		kfree(debug_help_string);
+   261		debug_help_string = NULL;
+   262	}
+   263	
+   264	/* open ORANGEFS_KMOD_DEBUG_HELP_FILE */
+   265	static int orangefs_debug_help_open(struct inode *inode, struct file *file)
+   266	{
+   267		int rc = -ENODEV;
+   268		int ret;
+   269	
+   270		gossip_debug(GOSSIP_DEBUGFS_DEBUG,
+   271			     "orangefs_debug_help_open: start\n");
+   272	
+   273		if (orangefs_debug_disabled)
+   274			goto out;
+   275	
+   276		ret = seq_open(file, &help_debug_ops);
+   277		if (ret)
+   278			goto out;
+   279	
+   280		((struct seq_file *)(file->private_data))->private = inode->i_private;
+   281	
+   282		rc = 0;
+   283	
+   284	out:
+   285		gossip_debug(GOSSIP_DEBUGFS_DEBUG,
+   286			     "orangefs_debug_help_open: rc:%d:\n",
+   287			     rc);
+   288		return rc;
+   289	}
+   290	
+   291	/*
+   292	 * I think start always gets called again after stop. Start
+   293	 * needs to return NULL when it is done. The whole "payload"
+   294	 * in this case is a single (long) string, so by the second
+   295	 * time we get to start (pos = 1), we're done.
+   296	 */
+   297	static void *help_start(struct seq_file *m, loff_t *pos)
+   298	{
+   299		void *payload = NULL;
+   300	
+   301		gossip_debug(GOSSIP_DEBUGFS_DEBUG, "help_start: start\n");
+   302	
+   303		mutex_lock(&orangefs_help_file_lock);
+   304	
+   305		if (*pos == 0)
+   306			payload = m->private;
+   307	
+   308		return payload;
+   309	}
+   310	
+   311	static void *help_next(struct seq_file *m, void *v, loff_t *pos)
+   312	{
+   313		(*pos)++;
+   314		gossip_debug(GOSSIP_DEBUGFS_DEBUG, "help_next: start\n");
+   315	
+   316		return NULL;
+   317	}
+   318	
+   319	static void help_stop(struct seq_file *m, void *p)
+   320	{
+   321		gossip_debug(GOSSIP_DEBUGFS_DEBUG, "help_stop: start\n");
+   322		mutex_unlock(&orangefs_help_file_lock);
+   323	}
+   324	
+   325	static int help_show(struct seq_file *m, void *v)
+   326	{
+   327		gossip_debug(GOSSIP_DEBUGFS_DEBUG, "help_show: start\n");
+   328	
+   329		seq_puts(m, v);
+   330	
+   331		return 0;
+   332	}
+   333	
+   334	/*
+   335	 * initialize the client-debug file.
+   336	 */
+   337	static void orangefs_client_debug_init(void)
+   338	{
+   339		static char c_buffer[ORANGEFS_MAX_DEBUG_STRING_LEN] = { };
+   340		size_t len =
+   341			strscpy(c_buffer, client_debug_string, sizeof(c_buffer) - 1);
+   342	
+ > 343		if (len >= 0) {
+   344			c_buffer[len] = '\n';
+   345			c_buffer[len + 1] = '\0';
+   346		} else {
+   347			strscpy(c_buffer, "none\n");
+   348			pr_info("%s: overflow! 2\n", __func__);
+   349		}
+   350	
+   351		client_debug_dentry = debugfs_create_file_aux_num(
+   352						  ORANGEFS_CLIENT_DEBUG_FILE,
+   353						  0444, debug_dir, c_buffer, 1,
+   354						  &kernel_debug_fops);
+   355	}
+   356	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
