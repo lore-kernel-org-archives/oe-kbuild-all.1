@@ -1,80 +1,159 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFF4D377EA1;
-	Tue,  7 Apr 2026 04:02:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F05CE377EC7
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Apr 2026 04:02:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775534562; cv=none; b=nyGu3H7FoU5Hx8N/ZZXn0DmqAVBpDbCyNLOy5OD6ezy/zCc7n32xTFNgzNsFCWTrkXyIniQeetBcKgIX4jEBOUZGvFMy47aFtGSgsnov2CiewivvDRdW2cgDVXGzSYxc709Kn2pXlM4zk8joLoik5URFgsDElzEEwva1NJywGlw=
+	t=1775534562; cv=none; b=g2BJvpHK98tp+W+kM7/h5XEiGCWua1lNWk/pHuBettQYb+eF+40SvPvmxBKxFLYawx0mXxA2aUyuP32ob6XhZMbd6HNiK0nKUb4nbbqoRxweGro81KoQtdQUtiOPblxNfMsUBanmWFSC590mbksz72jpH/wldlrUPBEJYrp5KW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1775534562; c=relaxed/simple;
-	bh=LED1M7HVJEnh7AGs7pvZ+lbf7Dpp3Ogm2ZI7HRds+s8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DiUnXk4RGUoowGjqY6YPVT8EG+Gm+nkCYDjQ5vWDjYb2gMyKTWZjJs4S6CozztlsNEl3R7PF2lZXWlSTxyL6lRk8fWt4Hz/owVJzx+oslBbL48SIs/Hnx31KqxwLCGWPt7reA8GgntBzWACD4OCg7koH1Xp2jGCOynFogExVl6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A/a3ZtQk; arc=none smtp.client-ip=192.198.163.17
+	bh=sjEDlafE0sBeHD808MR+J8/r7QiedMWoHv6t3qjjuZk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q24pO9dfdpnQqX69M3tt2FiSkds001VE2l2vn9TlgPAq4kwCvi7QUaFVnlrK8jtsoOnJ94E3FEMFon3uSEFbNQbgu/XaWkvzoJNo9+oXiTdDDyH7HykR4WYvRkIgvkiRYnqST2BKou146HP2/AM7Hws6rrvxyfHW2j598cbU1Tc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kYMHtPVS; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A/a3ZtQk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kYMHtPVS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1775534561; x=1807070561;
-  h=date:from:to:cc:subject:message-id;
-  bh=LED1M7HVJEnh7AGs7pvZ+lbf7Dpp3Ogm2ZI7HRds+s8=;
-  b=A/a3ZtQkNNHwrwQRmMO7G9gbkjPseWrPWh8r7TYhv8aXIRLgws8l0VnO
-   ecFMF4e+sYkxeOGdSKp5fGE1jOWsV7XyDlS/nLnfATPvWFwgG0+wOPpx1
-   H/MnGJJdFgX1+DLKfn+bDE79JRKheKdxCqjWMBGurZB4u10MsYjb5c6C4
-   bhMTP++Kottz/G0e3wzAhJ4f3/A1asyylrhxh8NNala8hR8uWfNBagQVL
-   n2XeGOWjhcEaH9OKaDbXDXuQFzxMaNuHqbgbvp6piFprIbNSHnvnfXVrc
-   bc2rFftLMDlmim7wdX86K5tir9Ctuf6Go5PPG8m10UBEOBSIbS35+luOR
-   g==;
-X-CSE-ConnectionGUID: j+QVECE7Se+q3b66gFqBzg==
-X-CSE-MsgGUID: OLTB77hgTJ2OtS74hWcY4A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="76386028"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sjEDlafE0sBeHD808MR+J8/r7QiedMWoHv6t3qjjuZk=;
+  b=kYMHtPVSkRVbcaQOGaV2oMa5TZtLk0VvqTu6votplF5VJDl9qFnFp2FS
+   9c9dY94Hg4o+3agECMHIddV8gYuzQGSdNa0tLDlSf0vFkbJW5KsAL6U/Z
+   HQFnYePq0UtBiKjnBFB8jEGJ+FqeQzPi3JcD+ssXQUHp0xxEHEzt3zhN4
+   p0drE4VIxkDp74pQxp8VjhrfcTGS+1zWUFk844tNbE70FgPen/VfmH5mg
+   BellJqdZVXywYWGb+clqFRiC35Xd6bIdvNpo5mXA6teYyjnNdKxxEaMEN
+   MwpVGOigQ4kAasJNO8OycUW2cRFcpp7yxvwMZtRV42yo8TUFiGbyVLhsB
+   w==;
+X-CSE-ConnectionGUID: 7l7WViLQRn2kPJhKj5mxmQ==
+X-CSE-MsgGUID: 2IoJCAkQRdaC4xTL7GId6Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="76386033"
 X-IronPort-AV: E=Sophos;i="6.23,164,1770624000"; 
-   d="scan'208";a="76386028"
+   d="scan'208";a="76386033"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
   by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2026 21:02:38 -0700
-X-CSE-ConnectionGUID: AIWNgey7TtqEt2rwUcKizQ==
-X-CSE-MsgGUID: f5xHzYLORlmmlb6cfGxF7A==
+X-CSE-ConnectionGUID: Zmgn9tLYQme9gXulLfZgjg==
+X-CSE-MsgGUID: LtvGp+bGTTW2F1+ZQLk33g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,164,1770624000"; 
-   d="scan'208";a="227957164"
+   d="scan'208";a="227957146"
 Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
   by orviesa009.jf.intel.com with ESMTP; 06 Apr 2026 21:02:36 -0700
 Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w9xe5-00000000089-3g7L;
+	id 1w9xe5-00000000081-3OYh;
 	Tue, 07 Apr 2026 04:02:33 +0000
-Date: Tue, 07 Apr 2026 12:02:05 +0800
+Date: Tue, 7 Apr 2026 12:01:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andreas Gruenbacher <agruenba@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, gfs2@lists.linux.dev
-Subject: [gfs2:for-next 14/17] Warning: fs/gfs2/log.c:1013 function
- parameter 'sdp' not described in 'gfs2_trans_drain'
-Message-ID: <202604061030.jP5nGGmm-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Bjorn Helgaas <helgaas@kernel.org>, linux-pci@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Simon Richter <Simon.Richter@hogyros.de>,
+	linux-kernel@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>
+Subject: Re: [PATCH v2] PCI/VGA: Move pci_set_vga_state() to vgaarb.c
+Message-ID: <202604060118.pIPjke7I-lkp@intel.com>
+References: <20260312224713.1305228-1-bhelgaas@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260312224713.1305228-1-bhelgaas@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2.git for-next
-head:   80d71795c17ec98352d1059af856ac084a06109a
-commit: 6f73942add5d404f56f70bdccd3d3c6b11488469 [14/17] gfs2: gfs2_log_flush withdraw fixes
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260406/202604061030.jP5nGGmm-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260406/202604061030.jP5nGGmm-lkp@intel.com/reproduce)
+Hi Bjorn,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus linus/master v7.0-rc6]
+[cannot apply to next-20260403]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bjorn-Helgaas/PCI-VGA-Move-pci_set_vga_state-to-vgaarb-c/20260314-150705
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20260312224713.1305228-1-bhelgaas%40google.com
+patch subject: [PATCH v2] PCI/VGA: Move pci_set_vga_state() to vgaarb.c
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260406/202604060118.pIPjke7I-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260406/202604060118.pIPjke7I-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604061030.jP5nGGmm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604060118.pIPjke7I-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: fs/gfs2/log.c:1013 function parameter 'sdp' not described in 'gfs2_trans_drain'
->> Warning: fs/gfs2/log.c:1013 function parameter 'sdp' not described in 'gfs2_trans_drain'
+   drivers/pci/vgaarb.c: In function 'pci_set_vga_state':
+>> drivers/pci/vgaarb.c:229:14: error: implicit declaration of function 'pci_set_vga_state_arch'; did you mean 'pci_set_vga_state'? [-Wimplicit-function-declaration]
+     229 |         rc = pci_set_vga_state_arch(dev, decode, command_bits, flags);
+         |              ^~~~~~~~~~~~~~~~~~~~~~
+         |              pci_set_vga_state
+
+
+vim +229 drivers/pci/vgaarb.c
+
+   209	
+   210	/**
+   211	 * pci_set_vga_state - set VGA decode state on device and parents if requested
+   212	 * @dev: the PCI device
+   213	 * @decode: true = enable decoding, false = disable decoding
+   214	 * @command_bits: PCI_COMMAND_IO and/or PCI_COMMAND_MEMORY
+   215	 * @flags: traverse ancestors and change bridges
+   216	 * CHANGE_BRIDGE_ONLY / CHANGE_BRIDGE
+   217	 */
+   218	static int pci_set_vga_state(struct pci_dev *dev, bool decode,
+   219				     unsigned int command_bits, u32 flags)
+   220	{
+   221		struct pci_bus *bus;
+   222		struct pci_dev *bridge;
+   223		u16 cmd;
+   224		int rc;
+   225	
+   226		WARN_ON((flags & PCI_VGA_STATE_CHANGE_DECODES) && (command_bits & ~(PCI_COMMAND_IO|PCI_COMMAND_MEMORY)));
+   227	
+   228		/* ARCH specific VGA enables */
+ > 229		rc = pci_set_vga_state_arch(dev, decode, command_bits, flags);
+   230		if (rc)
+   231			return rc;
+   232	
+   233		if (flags & PCI_VGA_STATE_CHANGE_DECODES) {
+   234			pci_read_config_word(dev, PCI_COMMAND, &cmd);
+   235			if (decode)
+   236				cmd |= command_bits;
+   237			else
+   238				cmd &= ~command_bits;
+   239			pci_write_config_word(dev, PCI_COMMAND, cmd);
+   240		}
+   241	
+   242		if (!(flags & PCI_VGA_STATE_CHANGE_BRIDGE))
+   243			return 0;
+   244	
+   245		bus = dev->bus;
+   246		while (bus) {
+   247			bridge = bus->self;
+   248			if (bridge) {
+   249				pci_read_config_word(bridge, PCI_BRIDGE_CONTROL,
+   250						     &cmd);
+   251				if (decode)
+   252					cmd |= PCI_BRIDGE_CTL_VGA;
+   253				else
+   254					cmd &= ~PCI_BRIDGE_CTL_VGA;
+   255				pci_write_config_word(bridge, PCI_BRIDGE_CONTROL,
+   256						      cmd);
+   257			}
+   258			bus = bus->parent;
+   259		}
+   260		return 0;
+   261	}
+   262	
 
 -- 
 0-DAY CI Kernel Test Service
