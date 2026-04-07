@@ -1,108 +1,88 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40C9737C901
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Apr 2026 21:22:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D3791FF1B4;
+	Tue,  7 Apr 2026 21:59:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775596940; cv=none; b=RROWYAQqjUHNaeAiSW0LH2DxfqyGG3gRLg8rYvW+lqSp1fw/IBeu36QOTwDxHfMP63Wl/JGvvvTqJTUxWtiCLk45kLR2w8hRhSB3OOLqO6OtcDyoVrFOZQokFBeXGNwiDW5amR7t8ru1iQCTofXXeXg9dx4nVLLdLBDkaHkHz5Y=
+	t=1775599144; cv=none; b=QYtuzOWEPkD6NTK6F9vJ8KqWU1lgCwudRkeyfP6hKyFmO6ypEIQeXgJ8wob1dYE/Oo9K7UcTxAfbcFJLW5k8BwZhKmwQFQCtz0z44kCvK/E4oPpebGa/pazkXRFabpuPTr/KTA8pv6mJxJINGg7j9nTcPkMpoU88iOajL8LtD7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775596940; c=relaxed/simple;
-	bh=oFXUOMCsWM0FVG3uwyZVORg9tvvv6jaX/JdVX69Md7Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=OWl+0tUolGFSDsnvSmDtAnIyowmvTpLTNuLgiEwTqmouLi6Prl/WFsssNZTmP2WYddun5eK4/EZH3GCX5G/xnzyQqgWr8IJJYUwXXVnj46l9bW2R5AvXry6MmNRg0giB8dvAzBTzP3Yx5+9+9VQM4ihb0HhKxCD9Uj0GWm+QMNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TrkNQz+M; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1775599144; c=relaxed/simple;
+	bh=WGjbgIP/MkAMP64vHdLKSjPCmOqDJIGHFmMl4BHOc7I=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=GWBwCnz8FAz6o5k+RyMVFaH9Zgv4fZigqb4aomofns/MXKrI0na0ylww2oBlF8lrkxKMjcw4PP9n8PauJmPjjxYeVaPM6573gsmcCDxCjJ4EYnOrqdOjh4ttVivLfXa1s2xcee3qbwlgGXyOCM+g/4r8f3djZAagkyEMWDdNR+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=g2P9XDLl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TrkNQz+M"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1775596938;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=08oaNpMk0ZvV0Wt0jg05aCMOjVRxzil+ZF5ABphc55M=;
-	b=TrkNQz+M8n5vNixQLPO6uXgt0+Jfa7NqoFl6BcBBabLecKDYIngO/jrP5rIT/xJ5YVOB6z
-	/c2o+d0ZfnTHzEKBVAZcvEb3WNtC0txtkWqL1/weB0gYfyO2ZghiGX29rAc1nV3emj7Jhe
-	HT51LlfkEIwn6hM9ThIcAdqpvbZ5ULs=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-635-mQHGT6mpN9GXzYVFdNKmBw-1; Tue,
- 07 Apr 2026 17:22:13 -0400
-X-MC-Unique: mQHGT6mpN9GXzYVFdNKmBw-1
-X-Mimecast-MFC-AGG-ID: mQHGT6mpN9GXzYVFdNKmBw_1775596931
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 534FF19560A2;
-	Tue,  7 Apr 2026 21:22:10 +0000 (UTC)
-Received: from fedora (unknown [10.44.32.11])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 5EEA4300019F;
-	Tue,  7 Apr 2026 21:22:05 +0000 (UTC)
-Received: by fedora (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Tue,  7 Apr 2026 23:22:09 +0200 (CEST)
-Date: Tue, 7 Apr 2026 23:22:04 +0200
-From: Oleg Nesterov <oleg@redhat.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="g2P9XDLl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FC60C116C6;
+	Tue,  7 Apr 2026 21:59:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1775599143;
+	bh=WGjbgIP/MkAMP64vHdLKSjPCmOqDJIGHFmMl4BHOc7I=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=g2P9XDLlR6fNt+r+veog97du8CFM2oid3SHVXSPSzTpzh2iUsN7eF68ktocaew9Wt
+	 rJZdnIftvDAmeh+2+t2EQqQgPel4rl0YmcRfyNNOxKA+UcJLxmsijp9K39EN8obNLI
+	 r9vOeBE/FCpiOGtFtxJBZJUOXy1f/6bPiKi4qTn0=
+Date: Tue, 7 Apr 2026 14:59:02 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
 To: kernel test robot <lkp@intel.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Kusaram Devineni <kusaram@devineni.in>,
-	oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Jens Axboe <axboe@kernel.dk>, Kees Cook <kees@kernel.org>,
-	linux-kernel@vger.kernel.org, io-uring@vger.kernel.org
-Subject: Re: [PATCH] signalfd: don't dequeue the forced fatal signals
-Message-ID: <adV1fCyvANv4h2dH@redhat.com>
-References: <adKJMRkQJXEwHs-j@redhat.com>
- <202604080450.mkKRp9Mk-lkp@intel.com>
+Cc: "Mike Rapoport (Microsoft)" <rppt@kernel.org>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>, Linux
+ Memory Management List <linux-mm@kvack.org>, Alice Ryhl
+ <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>
+Subject: Re: [akpm-mm:mm-unstable 113/133] error[E0277]: `*const
+ kernel::bindings::vm_uffd_ops` cannot be shared between threads safely
+Message-Id: <20260407145902.057044dc19e7313b21418ff4@linux-foundation.org>
+In-Reply-To: <202604071509.y5vLetYd-lkp@intel.com>
+References: <202604071509.y5vLetYd-lkp@intel.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-In-Reply-To: <202604080450.mkKRp9Mk-lkp@intel.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
-X-Mimecast-MFC-PROC-ID: QmHBCTODOKba5ChNjD-2qQmak0LmztvVDVxOdMjkkAY_1775596931
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 04/08, kernel test robot wrote:
->
-> kernel test robot noticed the following build warnings:
+On Tue, 07 Apr 2026 15:58:09 +0800 kernel test robot <lkp@intel.com> wrote:
 
-...
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+> head:   3fa44141e0bbd5062f2ef0c5cdddd98275d3223e
+> commit: 694fc0bd3ca5420f4e1105d2dec02327cfc5d64b [113/133] userfaultfd: introduce vm_uffd_ops
+> config: x86_64-randconfig-074-20260407 (https://download.01.org/0day-ci/archive/20260407/202604071509.y5vLetYd-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260407/202604071509.y5vLetYd-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202604071509.y5vLetYd-lkp@intel.com/
 
-> sparse warnings: (new ones prefixed by >>)
-> >> fs/signalfd.c:53:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct k_sigaction *k @@     got struct k_sigaction [noderef] __rcu * @@
+Various forms of "userfaultfd: introduce vm_uffd_ops" have been in
+mm.git since March 6.  Thanks (much), but is it possible to get more
+timely notifications?
 
-...
+> All errors (new ones prefixed by >>):
+> 
+> >> error[E0277]: `*const kernel::bindings::vm_uffd_ops` cannot be shared between threads safely
+>    --> drivers/android/binder/page_range.rs:146:23
+>    |
+>    146   | static BINDER_VM_OPS: bindings::vm_operations_struct = pin_init::zeroed();
+>    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `*const kernel::bindings::vm_uffd_ops` cannot be shared between threads safely
+>    |
+>    = help: within `kernel::bindings::vm_operations_struct`, the trait `Sync` is not implemented for `*const kernel::bindings::vm_uffd_ops`
+>    note: required because it appears within the type `kernel::bindings::vm_operations_struct`
+>    --> rust/bindings/bindings_generated.rs:74703:12
+>    |
+>    74703 | pub struct vm_operations_struct {
+>    |            ^^^^^^^^^^^^^^^^^^^^
+>    = note: shared static variables must have a type that implements `Sync`
 
-> vim +53 fs/signalfd.c
->
->     50	
->     51	static void mk_sigmask(struct signalfd_ctx *ctx, sigset_t *sigmask)
->     52	{
->   > 53		struct k_sigaction *k = current->sighand->action;
+We've seen this one before.  Sorry, I'm (still) not set up for
+build-testing rusty things and I suspect I'm not the only one.
 
-I am going to ignore this new warning...
+Alice, Miguel: please can you help us here?
 
-Yes, task_struct->sighand is __rcu. Not sure this annotation makes a lot of sense.
-
-In any case. current->sighand is always stable. Plus task->sighand is stable under siglock.
-
-We have a lot of (correct) non-rcu deferences of ->sighand.
-
-I think that only lock_task_sighand() needs rcu_dereference(tsk->sighand).
-
-Say, __exit_signal() does
-
-	sighand = rcu_dereference_check(tsk->sighand,
-					lockdep_tasklist_lock_is_held());
-
-To me this just adds the unnecessary noise. I do not want to add another precedent.
-
-Oleg.
-
+Thanks.
