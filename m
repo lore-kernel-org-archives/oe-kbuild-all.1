@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11DD337475B
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Apr 2026 03:50:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDFFE35B642
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Apr 2026 03:51:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775533828; cv=none; b=JIIN3taqbhAPfVnZajpWuM2kWgmOrOi3l0RdMRS6FcdDWMy3CGA90rT83PJC+TGZIjPSFUsDYJApYdbsJMsUJTgN959IDPxqfBHf68W/GdX3PdDctuNse7E+am6LL842zOU4HkXhdLms8g8usPB5kD8hvvbW/nfh3RglkYdlaeA=
+	t=1775533884; cv=none; b=pCgDeOFqCZ/Me21yHPBquhrWXs/BzdRxs0mrLb4qUjll3VweHqW10AX1irR5CEHrSNCM1HhLIIGZOnUkvqfyTgrDJKy/WDpVc58UdbVYuoUU3YgybcR6Z2PuiqocVRfEctcyeChEe3R9VO6M1L9xBr/8DqVlf7aI3TzeQOBLK1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775533828; c=relaxed/simple;
-	bh=Kjhvw031cqfqEo4bhZxadpZHgy+SYXNj6lkrirdibxM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=iAreZYsRkTQKKqzqlKNqsJ6hHIPnWd9dnT0aLDRxgqbQcfnHm5ZktNbkSMNMwInF86Fgz2WwoyAAP7o54IqNBggL4Q9U63DzgysOuzENcyMRGxF78vA/ycgVcy0Q2m1GEBNui6mJUIHsUVgZinyMmE6x2wiM+a3tOj6V2EVZu34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kDOkn4gz; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1775533884; c=relaxed/simple;
+	bh=eHZnpVWiZnQzjz6puDh3GNzs2yWyJJiIJOkupovNBmY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=fs+Abr5xDRQbca9kwGNcx5oMuEEDlgDbiN/43JuBJ/VE2T3z2/LmdDFBky3uJ6iUi+AShMOo2E0Qby2tRInOgEo0CT6mknynG1jk6KtZWcPzFpjXVzWgP/gmSMYlsxMrWq7Lmo1m7fDEWUS+RbI0zTZ1cDMAxClxPNLCIkd44/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jqb+TTIh; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kDOkn4gz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jqb+TTIh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775533826; x=1807069826;
+  t=1775533883; x=1807069883;
   h=date:from:to:cc:subject:message-id;
-  bh=Kjhvw031cqfqEo4bhZxadpZHgy+SYXNj6lkrirdibxM=;
-  b=kDOkn4gzmHeE+PmejP8QojLgdboReZmPi7EBkxGSpM+8jMhuL1fPtS4L
-   RlLazDiD7m7rtsUepiYp2q1DQfpdJjyA3ZUt7aqO4EnSo3L6tAqCU+58r
-   92FTKQEHrQ5M/YEvePC1J2c4EF5R7cTvvq+CvIKDD6dc3cnqWQaObMbka
-   K9xbeojxIL8R9X+d1DMZLWlH6ktF7S4KlJk9By9ktgkVGzPEY7Xgpcvmb
-   YsAYczJKVuEZeFoYGwSYqpBn3gAcMaQ7uVucjvQw5vl+vHd/mT67pUjJm
-   4mqLzqDWVdh8K687A/zwmio+yY6xCzzqUEEsotAIbFsewcoUCWG7B2X9O
-   A==;
-X-CSE-ConnectionGUID: xKuO4LCfTC6YwX/3dLo/Eg==
-X-CSE-MsgGUID: q5qUpL98R2qAl/06jzxk5Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="87113624"
+  bh=eHZnpVWiZnQzjz6puDh3GNzs2yWyJJiIJOkupovNBmY=;
+  b=jqb+TTIh9XWTCk/OWyfu9p/8ULCeKBft2j54pG/oRJAqvAtZKOKsxkDr
+   1ELBydfOjykeeeMShQpYhvdz/tLZyzxR3K/DcCSYOHlOl7AlZ1XIE9n00
+   HCAWHSA3fzrPfVA96fc42/nzyRAzcFxsTINJ0LlyMFk+c/Zm7VjKsTsal
+   mbv41AOteOJvZrBz4hvr7MxEyDWGHYLaV3S1zcKnp8z9UJGN1fyEDut+O
+   aTJrglFo8+LJIpvmjB1MHkXqj10cjEsqbO5ng3J/fDNL544mowiDXJkqG
+   U0YqMnxrVvZl1EzN6/g5Kq88zzc0g6CNxyEjkGnvtlcESDdgpgM50irM0
+   Q==;
+X-CSE-ConnectionGUID: lflY6eR4QXC+u+GOLgDktA==
+X-CSE-MsgGUID: C3Dhx2CKTSeig38F9lX0mA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="87942000"
 X-IronPort-AV: E=Sophos;i="6.23,164,1770624000"; 
-   d="scan'208";a="87113624"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2026 20:50:22 -0700
-X-CSE-ConnectionGUID: hlEhawqAQTqAEfh0aD2Hdg==
-X-CSE-MsgGUID: Usnn086vQsSHwvMui30hOQ==
+   d="scan'208";a="87942000"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2026 20:51:22 -0700
+X-CSE-ConnectionGUID: C1YFsMTWTsuJmxv2ZHo7wA==
+X-CSE-MsgGUID: ifBcmfA+TTeOWZMWnQ9pKA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,164,1770624000"; 
-   d="scan'208";a="223258483"
+   d="scan'208";a="221477971"
 Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 06 Apr 2026 20:50:21 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 06 Apr 2026 20:51:20 -0700
 Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w9xSE-00000000021-1z3g;
-	Tue, 07 Apr 2026 03:50:18 +0000
-Date: Tue, 07 Apr 2026 11:50:14 +0800
+	id 1w9xTC-0000000002F-2CRp;
+	Tue, 07 Apr 2026 03:51:18 +0000
+Date: Tue, 07 Apr 2026 11:50:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Benjamin Berg <benjamin@sipsolutions.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Johannes Berg <johannes.berg@intel.com>
-Subject: arch/um/kernel/skas/stub_exe.c:180:23-24: WARNING: Use
- ARRAY_SIZE
-Message-ID: <202604040032.Q7pxwfeM-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-kiwi-6.1 30/30]
+ drivers/virt/gunyah/rsc_mgr.c:194: warning: Function parameter or member
+ 'pm_nb' not described in 'gh_rm'
+Message-ID: <202604040454.LjfYSw0G-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,214 +60,79 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d8a9a4b11a137909e306e50346148fc5c3b63f9d
-commit: 406d17c6c370a33cfb54067d9e205305293d4604 um: Implement kernel side of SECCOMP based process handling
-date:   10 months ago
-config: um-randconfig-r061-20260403 (https://download.01.org/0day-ci/archive/20260404/202604040032.Q7pxwfeM-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e3cbd9984a78422c3799629eb6b5f7f7818c1a11)
+Hi Hrishabh,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   2ae5f5ed1b2f5c49e06cf1e40ed7d7249cf74aa0
+commit: 8cde8d25c90b1eba83a82ef30f7fab4a2b2bf68c [30/30] ANDROID: virt: gunyah: Fetch fresh Gunyah information after restore
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260404/202604040454.LjfYSw0G-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260404/202604040454.LjfYSw0G-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 406d17c6c370 ("um: Implement kernel side of SECCOMP based process handling")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604040032.Q7pxwfeM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604040454.LjfYSw0G-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> arch/um/kernel/skas/stub_exe.c:180:23-24: WARNING: Use ARRAY_SIZE
+All warnings (new ones prefixed by >>):
 
-vim +180 arch/um/kernel/skas/stub_exe.c
+   drivers/virt/gunyah/rsc_mgr.c:194: warning: Function parameter or member 'adev' not described in 'gh_rm'
+>> drivers/virt/gunyah/rsc_mgr.c:194: warning: Function parameter or member 'pm_nb' not described in 'gh_rm'
+   drivers/virt/gunyah/rsc_mgr.c:669: warning: Function parameter or member '_rm' not described in 'gh_rm_call'
+   drivers/virt/gunyah/rsc_mgr.c:669: warning: Excess function parameter 'rm' description in 'gh_rm_call'
 
-    11	
-    12	noinline static void real_init(void)
-    13	{
-    14		struct stub_init_data init_data;
-    15		unsigned long res;
-    16		struct {
-    17			void  *ss_sp;
-    18			int    ss_flags;
-    19			size_t ss_size;
-    20		} stack = {
-    21			.ss_size = STUB_DATA_PAGES * UM_KERN_PAGE_SIZE,
-    22		};
-    23		struct {
-    24			void *sa_handler_;
-    25			unsigned long sa_flags;
-    26			void *sa_restorer;
-    27			unsigned long long sa_mask;
-    28		} sa = {
-    29			/* Need to set SA_RESTORER (but the handler never returns) */
-    30			.sa_flags = SA_ONSTACK | SA_NODEFER | SA_SIGINFO | 0x04000000,
-    31		};
-    32	
-    33		/* set a nice name */
-    34		stub_syscall2(__NR_prctl, PR_SET_NAME, (unsigned long)"uml-userspace");
-    35	
-    36		/* Make sure this process dies if the kernel dies */
-    37		stub_syscall2(__NR_prctl, PR_SET_PDEATHSIG, SIGKILL);
-    38	
-    39		/* Needed in SECCOMP mode (and safe to do anyway) */
-    40		stub_syscall5(__NR_prctl, PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);
-    41	
-    42		/* read information from STDIN and close it */
-    43		res = stub_syscall3(__NR_read, 0,
-    44				    (unsigned long)&init_data, sizeof(init_data));
-    45		if (res != sizeof(init_data))
-    46			stub_syscall1(__NR_exit, 10);
-    47	
-    48		stub_syscall1(__NR_close, 0);
-    49	
-    50		/* map stub code + data */
-    51		res = stub_syscall6(STUB_MMAP_NR,
-    52				    init_data.stub_start, UM_KERN_PAGE_SIZE,
-    53				    PROT_READ | PROT_EXEC, MAP_FIXED | MAP_SHARED,
-    54				    init_data.stub_code_fd, init_data.stub_code_offset);
-    55		if (res != init_data.stub_start)
-    56			stub_syscall1(__NR_exit, 11);
-    57	
-    58		res = stub_syscall6(STUB_MMAP_NR,
-    59				    init_data.stub_start + UM_KERN_PAGE_SIZE,
-    60				    STUB_DATA_PAGES * UM_KERN_PAGE_SIZE,
-    61				    PROT_READ | PROT_WRITE, MAP_FIXED | MAP_SHARED,
-    62				    init_data.stub_data_fd, init_data.stub_data_offset);
-    63		if (res != init_data.stub_start + UM_KERN_PAGE_SIZE)
-    64			stub_syscall1(__NR_exit, 12);
-    65	
-    66		/* setup signal stack inside stub data */
-    67		stack.ss_sp = (void *)init_data.stub_start + UM_KERN_PAGE_SIZE;
-    68		stub_syscall2(__NR_sigaltstack, (unsigned long)&stack, 0);
-    69	
-    70		/* register signal handlers */
-    71		sa.sa_handler_ = (void *) init_data.signal_handler;
-    72		sa.sa_restorer = (void *) init_data.signal_restorer;
-    73		if (!init_data.seccomp) {
-    74			/* In ptrace mode, the SIGSEGV handler never returns */
-    75			sa.sa_mask = 0;
-    76	
-    77			res = stub_syscall4(__NR_rt_sigaction, SIGSEGV,
-    78					    (unsigned long)&sa, 0, sizeof(sa.sa_mask));
-    79			if (res != 0)
-    80				stub_syscall1(__NR_exit, 13);
-    81		} else {
-    82			/* SECCOMP mode uses rt_sigreturn, need to mask all signals */
-    83			sa.sa_mask = ~0ULL;
-    84	
-    85			res = stub_syscall4(__NR_rt_sigaction, SIGSEGV,
-    86					    (unsigned long)&sa, 0, sizeof(sa.sa_mask));
-    87			if (res != 0)
-    88				stub_syscall1(__NR_exit, 14);
-    89	
-    90			res = stub_syscall4(__NR_rt_sigaction, SIGSYS,
-    91					    (unsigned long)&sa, 0, sizeof(sa.sa_mask));
-    92			if (res != 0)
-    93				stub_syscall1(__NR_exit, 15);
-    94	
-    95			res = stub_syscall4(__NR_rt_sigaction, SIGALRM,
-    96					    (unsigned long)&sa, 0, sizeof(sa.sa_mask));
-    97			if (res != 0)
-    98				stub_syscall1(__NR_exit, 16);
-    99	
-   100			res = stub_syscall4(__NR_rt_sigaction, SIGTRAP,
-   101					    (unsigned long)&sa, 0, sizeof(sa.sa_mask));
-   102			if (res != 0)
-   103				stub_syscall1(__NR_exit, 17);
-   104	
-   105			res = stub_syscall4(__NR_rt_sigaction, SIGILL,
-   106					    (unsigned long)&sa, 0, sizeof(sa.sa_mask));
-   107			if (res != 0)
-   108				stub_syscall1(__NR_exit, 18);
-   109	
-   110			res = stub_syscall4(__NR_rt_sigaction, SIGFPE,
-   111					    (unsigned long)&sa, 0, sizeof(sa.sa_mask));
-   112			if (res != 0)
-   113				stub_syscall1(__NR_exit, 19);
-   114		}
-   115	
-   116		/*
-   117		 * If in seccomp mode, install the SECCOMP filter and trigger a syscall.
-   118		 * Otherwise set PTRACE_TRACEME and do a SIGSTOP.
-   119		 */
-   120		if (init_data.seccomp) {
-   121			struct sock_filter filter[] = {
-   122	#if __BITS_PER_LONG > 32
-   123				/* [0] Load upper 32bit of instruction pointer from seccomp_data */
-   124				BPF_STMT(BPF_LD | BPF_W | BPF_ABS,
-   125					 (offsetof(struct seccomp_data, instruction_pointer) + 4)),
-   126	
-   127				/* [1] Jump forward 3 instructions if the upper address is not identical */
-   128				BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, (init_data.stub_start) >> 32, 0, 3),
-   129	#endif
-   130				/* [2] Load lower 32bit of instruction pointer from seccomp_data */
-   131				BPF_STMT(BPF_LD | BPF_W | BPF_ABS,
-   132					 (offsetof(struct seccomp_data, instruction_pointer))),
-   133	
-   134				/* [3] Mask out lower bits */
-   135				BPF_STMT(BPF_ALU | BPF_AND | BPF_K, 0xfffff000),
-   136	
-   137				/* [4] Jump to [6] if the lower bits are not on the expected page */
-   138				BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, (init_data.stub_start) & 0xfffff000, 1, 0),
-   139	
-   140				/* [5] Trap call, allow */
-   141				BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_TRAP),
-   142	
-   143				/* [6,7] Check architecture */
-   144				BPF_STMT(BPF_LD | BPF_W | BPF_ABS,
-   145					 offsetof(struct seccomp_data, arch)),
-   146				BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K,
-   147					 UM_SECCOMP_ARCH_NATIVE, 1, 0),
-   148	
-   149				/* [8] Kill (for architecture check) */
-   150				BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_KILL_PROCESS),
-   151	
-   152				/* [9] Load syscall number */
-   153				BPF_STMT(BPF_LD | BPF_W | BPF_ABS,
-   154					 offsetof(struct seccomp_data, nr)),
-   155	
-   156				/* [10-14] Check against permitted syscalls */
-   157				BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, __NR_futex,
-   158					 5, 0),
-   159				BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, STUB_MMAP_NR,
-   160					 4, 0),
-   161				BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, __NR_munmap,
-   162					 3, 0),
-   163	#ifdef __i386__
-   164				BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, __NR_set_thread_area,
-   165					 2, 0),
-   166	#else
-   167				BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, __NR_arch_prctl,
-   168					 2, 0),
-   169	#endif
-   170				BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, __NR_rt_sigreturn,
-   171					 1, 0),
-   172	
-   173				/* [15] Not one of the permitted syscalls */
-   174				BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_KILL_PROCESS),
-   175	
-   176				/* [16] Permitted call for the stub */
-   177				BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_ALLOW),
-   178			};
-   179			struct sock_fprog prog = {
- > 180				.len = sizeof(filter) / sizeof(filter[0]),
-   181				.filter = filter,
-   182			};
-   183	
-   184			if (stub_syscall3(__NR_seccomp, SECCOMP_SET_MODE_FILTER,
-   185					  SECCOMP_FILTER_FLAG_TSYNC,
-   186					  (unsigned long)&prog) != 0)
-   187				stub_syscall1(__NR_exit, 20);
-   188	
-   189			/* Fall through, the exit syscall will cause SIGSYS */
-   190		} else {
-   191			stub_syscall4(__NR_ptrace, PTRACE_TRACEME, 0, 0, 0);
-   192	
-   193			stub_syscall2(__NR_kill, stub_syscall0(__NR_getpid), SIGSTOP);
-   194		}
-   195	
-   196		stub_syscall1(__NR_exit, 30);
-   197	
-   198		__builtin_unreachable();
-   199	}
-   200	
+
+vim +194 drivers/virt/gunyah/rsc_mgr.c
+
+d5e8df2cc4a170 Elliot Berman           2022-08-10  155  
+d5e8df2cc4a170 Elliot Berman           2022-08-10  156  /**
+d5e8df2cc4a170 Elliot Berman           2022-08-10  157   * struct gh_rm - private data for communicating w/Gunyah resource manager
+705a9b5feb1ba9 Elliot Berman           2023-06-12  158   * @dev: pointer to RM platform device
+d5e8df2cc4a170 Elliot Berman           2022-08-10  159   * @tx_ghrsc: message queue resource to TX to RM
+d5e8df2cc4a170 Elliot Berman           2022-08-10  160   * @rx_ghrsc: message queue resource to RX from RM
+9a9fc8d1b2882c Elliot Berman           2023-04-17  161   * @msgq: mailbox instance of TX/RX resources above
+9a9fc8d1b2882c Elliot Berman           2023-04-17  162   * @msgq_client: mailbox client of above msgq
+d5e8df2cc4a170 Elliot Berman           2022-08-10  163   * @active_rx_connection: ongoing gh_rm_connection for which we're receiving fragments
+d5e8df2cc4a170 Elliot Berman           2022-08-10  164   * @last_tx_ret: return value of last mailbox tx
+d5e8df2cc4a170 Elliot Berman           2022-08-10  165   * @call_xarray: xarray to allocate & lookup sequence IDs for Request/Response flows
+d5e8df2cc4a170 Elliot Berman           2022-08-10  166   * @next_seq: next ID to allocate (for xa_alloc_cyclic)
+d5e8df2cc4a170 Elliot Berman           2022-08-10  167   * @cache: cache for allocating Tx messages
+d5e8df2cc4a170 Elliot Berman           2022-08-10  168   * @send_lock: synchronization to allow only one request to be sent at a time
+d5e8df2cc4a170 Elliot Berman           2022-08-10  169   * @nh: notifier chain for clients interested in RM notification messages
+f251362242ba3e Elliot Berman           2022-10-14  170   * @miscdev: /dev/gunyah
+4cf9feacb7e4ba Elliot Berman           2022-12-13  171   * @irq_domain: Domain to translate Gunyah hwirqs to Linux irqs
+d5e8df2cc4a170 Elliot Berman           2022-08-10  172   */
+d5e8df2cc4a170 Elliot Berman           2022-08-10  173  struct gh_rm {
+d5e8df2cc4a170 Elliot Berman           2022-08-10  174  	struct device *dev;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  175  	struct gh_resource tx_ghrsc;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  176  	struct gh_resource rx_ghrsc;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  177  	struct gh_msgq msgq;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  178  	struct mbox_client msgq_client;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  179  	struct gh_rm_connection *active_rx_connection;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  180  	int last_tx_ret;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  181  
+d5e8df2cc4a170 Elliot Berman           2022-08-10  182  	struct xarray call_xarray;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  183  	u32 next_seq;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  184  
+d5e8df2cc4a170 Elliot Berman           2022-08-10  185  	struct kmem_cache *cache;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  186  	struct mutex send_lock;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  187  	struct blocking_notifier_head nh;
+f251362242ba3e Elliot Berman           2022-10-14  188  
+1dce9d7d4deea1 Prakruthi Deepak Heragu 2023-02-27  189  	struct auxiliary_device adev;
+f251362242ba3e Elliot Berman           2022-10-14  190  	struct miscdevice miscdev;
+4cf9feacb7e4ba Elliot Berman           2022-12-13  191  	struct irq_domain *irq_domain;
+8cde8d25c90b1e Hrishabh Rajput         2025-08-13  192  
+8cde8d25c90b1e Hrishabh Rajput         2025-08-13  193  	struct notifier_block pm_nb;
+d5e8df2cc4a170 Elliot Berman           2022-08-10 @194  };
+d5e8df2cc4a170 Elliot Berman           2022-08-10  195  
+
+:::::: The code at line 194 was first introduced by commit
+:::::: d5e8df2cc4a17063dcebc67a939356ad49a665bd FROMLIST: gunyah: rsc_mgr: Add resource manager RPC core
+
+:::::: TO: Elliot Berman <quic_eberman@quicinc.com>
+:::::: CC: Aleksei Vetrov <vvvvvv@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
