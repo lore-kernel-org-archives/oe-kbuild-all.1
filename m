@@ -1,175 +1,133 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7FDD376BD9;
-	Tue,  7 Apr 2026 03:58:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9BC37646B
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Apr 2026 03:59:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775534336; cv=none; b=M+zry/Gcyvp++gcGfI4jrJmJuDvETkj1is3BLLwCKclpLr/r9BO4RwO9WQZzzSjkqt+s5ewLaRfh4iMc48M6uQLagYf5ktoipQj8eg8Ve+S6YcSjoDUtavcRtw3UMX95428Z4TfaWO670OcuYSuDWN0o3jFWh2KDr5eT3eQvXv4=
+	t=1775534378; cv=none; b=kCqhwa03B9V4vpYtuawdhLmm65gvKdTRgHbXgAg+SBia0mge5ic2MnKdvQaoCY/L0Rk1YYpK6TLjWxlo+WqLszfhcnDLXq6u6c4vxuELKu/wMa6+8e6IMlKxy8L5+u/ycnu+XI1shWT4gX2AdZAwgmhHmaJswFc5fUbfYtXr05s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775534336; c=relaxed/simple;
-	bh=y2iFZ0SurY4MbFcFrBOqLW6QkldmAsQ1WYr8ez5K3kk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aE6kUt/JTaHE3qpwQaNIwAlgPHRBxHOWwrOS3j4bZaO5rpBopHsiBr9n9SbK0AW5h7/QsoV4RMrZQZVdcO1gJPDi48siPWghqIBavrq8JG4KZ2MB8xdewMgU4EpszWEbJ67X96vXRlK2upCgq8mxrfwcS56OGYeP2OJOtCTtaas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CXt1nbkF; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1775534378; c=relaxed/simple;
+	bh=SC6DDLLgRjaUNtQN51SGKp6mhALL5is5J5x1AYgfJhQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=r1IFWUo4GVivTj2SGogZAuLceUmh2FhDEBTnY9jXDIWXpxpnsySHOenofxtj2ftC+PxULRfIwV8xF6lReARIwEBAv/qtZaa4d/+sSSVaOSiiQ2p625RWPuCrMA+Iugk96DlN6w9VOj5IJvSZYXmof2GR+Waudh92ScFb1K3g1uE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mzwemvuz; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CXt1nbkF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mzwemvuz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775534335; x=1807070335;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=y2iFZ0SurY4MbFcFrBOqLW6QkldmAsQ1WYr8ez5K3kk=;
-  b=CXt1nbkFcAW763Mn3HO1Wxw+/thHkqkQcicRBM/HqlAMDAMg1Y+HZQ8e
-   8wuvevhIMlElw6jUCaQIa5vOpW7x1WDzyTMQb+/VR3dq5/anUiDcdRfM1
-   Q9SURACpf62b5Vzb4H+M98wmm2SWmTZxFRjOcI76h1brHH6DkqooUk0La
-   qllpP3WFOaRozZOd8y/MJfJ6bTLjgIcIjSmNEqshdvPG4yqdQTFGN/bgj
-   rWoP85nUZ98sEIjnMrACpx3T4mnoWYnwUlv2L2qEiuyF+xvFQ7vCb74hd
-   dESWMj93nQlkyOYKeTxSkSYH6ceA4HrhBMIkzXr8rIGR2dmaVKNHP4u3l
-   g==;
-X-CSE-ConnectionGUID: wmlVcSp5RWmH6Iys0unLFg==
-X-CSE-MsgGUID: mQMQlrcmQKW35hSWpOptHg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="76369573"
+  t=1775534377; x=1807070377;
+  h=date:from:to:cc:subject:message-id;
+  bh=SC6DDLLgRjaUNtQN51SGKp6mhALL5is5J5x1AYgfJhQ=;
+  b=Mzwemvuzbumo5/K3ZnbMrl+HOFfBqPnFHy+TbiYFCgVurE1V8mzkj/vh
+   YGddlUOS3VIB5XiJ9+kncGZpVNl1TBZWj6F23fuZhg9d0D0Ne6DMZpE/N
+   pA66aJXuYfrMds5qwnKTkHXyzPMLyH3RaQlUJN63piX7gMf321hPOsqsh
+   qccDzSwvKNlQ0CDa7ojw62G/4Xfxg03yz5uPoXe9Xd60IIZcZTd1zWxmw
+   7g6MxywaPXMPfG/Olm5ajOGLbwRT49czVmsldxAA33/ekjZOE2sq0wK6n
+   w/H6pz8tau6gHUp8yuNSrbdGQzx0ePEzynnF7rua/G4R1bszU9RLKftbO
+   Q==;
+X-CSE-ConnectionGUID: iH+SZ/8BTMufeMoNxqb6lg==
+X-CSE-MsgGUID: gpi2hIViRL+wHA2q56A0Gw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="76369610"
 X-IronPort-AV: E=Sophos;i="6.23,164,1770624000"; 
-   d="scan'208";a="76369573"
+   d="scan'208";a="76369610"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2026 20:58:38 -0700
-X-CSE-ConnectionGUID: nXJVoX5VQbGOjHUypIU9AQ==
-X-CSE-MsgGUID: PUojt7YMSTC4zBjeIQuxrw==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2026 20:59:37 -0700
+X-CSE-ConnectionGUID: wRGoRpC0RLmMJpMXkCLO3Q==
+X-CSE-MsgGUID: Wc+4PaPOS1GZafYafS7PKw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,164,1770624000"; 
-   d="scan'208";a="232091286"
+   d="scan'208";a="232091428"
 Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 06 Apr 2026 20:58:36 -0700
+  by orviesa003.jf.intel.com with ESMTP; 06 Apr 2026 20:59:35 -0700
 Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1w9xaD-00000000063-0MRf;
-	Tue, 07 Apr 2026 03:58:33 +0000
-Date: Tue, 7 Apr 2026 11:58:03 +0800
+	id 1w9xbB-0000000006j-1FBn;
+	Tue, 07 Apr 2026 03:59:33 +0000
+Date: Tue, 07 Apr 2026 11:59:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Li Wang <liwang@kylinos.cn>, Miklos Szeredi <miklos@szeredi.hu>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Bernd Schubert <bernd@bsbernd.com>, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Li Wang <liwang@kylinos.cn>
-Subject: Re: [PATCH] fuse: Send FORGET over io_uring when ring is ready
-Message-ID: <202604051156.TIsmWOyA-lkp@intel.com>
-References: <20260401104008.8827-1-liwang@kylinos.cn>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 2/2]
+ arch/arm64/include/asm/../../../../drivers/misc/pkvm-smc/pkvm/events.h:9:1:
+ warning: no previous prototype for function 'hyp_event_trace_filtered_smc'
+Message-ID: <202604051758.14CUPhfa-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260401104008.8827-1-liwang@kylinos.cn>
 
-Hi Li,
+Hi Mostafa,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on v7.0-rc6]
-[also build test ERROR on linus/master]
-[cannot apply to mszeredi-fuse/for-next next-20260403]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Li-Wang/fuse-Send-FORGET-over-io_uring-when-ring-is-ready/20260405-064557
-base:   v7.0-rc6
-patch link:    https://lore.kernel.org/r/20260401104008.8827-1-liwang%40kylinos.cn
-patch subject: [PATCH] fuse: Send FORGET over io_uring when ring is ready
-config: sparc64-randconfig-001-20260405 (https://download.01.org/0day-ci/archive/20260405/202604051156.TIsmWOyA-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c80443cd37b2e2788cba67ffa180a6331e5f0791)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260405/202604051156.TIsmWOyA-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   efe16a3021b9f95eb1cb83e98d0d1db9bff94ce4
+commit: eea6841a3b9606ed64907c77030b1d50ebdd56fe [2/2] ANDROID: misc: pkvm_smc: Trace denied SMCs.
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260405/202604051758.14CUPhfa-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260405/202604051758.14CUPhfa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604051156.TIsmWOyA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604051758.14CUPhfa-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> fs/fuse/dev.c:731:15: error: no member named 'abort_on_kill' in 'struct fuse_args'
-     731 |         if (!d->args.abort_on_kill)
-         |              ~~~~~~~ ^
-   1 error generated.
+   In file included from drivers/misc/pkvm-smc/pkvm-smc.c:10:
+   In file included from arch/arm64/include/asm/kvm_pkvm_module.h:6:
+   In file included from arch/arm64/include/asm/kvm_pgtable.h:11:
+   In file included from include/linux/kvm_host.h:16:
+   In file included from include/linux/mm.h:2191:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/misc/pkvm-smc/pkvm-smc.c:13:
+   In file included from arch/arm64/include/asm/kvm_define_hypevents.h:27:
+>> arch/arm64/include/asm/../../../../drivers/misc/pkvm-smc/pkvm/events.h:9:1: warning: no previous prototype for function 'hyp_event_trace_filtered_smc' [-Wmissing-prototypes]
+       9 | HYP_EVENT(filtered_smc,
+         | ^
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:7: note: expanded from macro 'HYP_EVENT'
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |              ^
+   <scratch space>:126:1: note: expanded from here
+     126 | hyp_event_trace_filtered_smc
+         | ^
+   arch/arm64/include/asm/../../../../drivers/misc/pkvm-smc/pkvm/events.h:9:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:2: note: expanded from macro 'HYP_EVENT'
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |         ^
+   6 warnings generated.
 
 
-vim +731 fs/fuse/dev.c
+vim +/hyp_event_trace_filtered_smc +9 arch/arm64/include/asm/../../../../drivers/misc/pkvm-smc/pkvm/events.h
 
-   677	
-   678	/*
-   679	 * Send FUSE_FORGET through the io-uring ring when active; same payload as
-   680	 * fuse_read_single_forget(), with userspace committing like any other request.
-   681	 */
-   682	void fuse_io_uring_send_forget(struct fuse_iqueue *fiq,
-   683					struct fuse_forget_link *forget)
-   684	{
-   685		struct fuse_conn *fc = container_of(fiq, struct fuse_conn, iq);
-   686		struct fuse_mount *fm;
-   687		struct fuse_req *req;
-   688		struct fuse_forget_uring_data *d;
-   689	
-   690		if (!fuse_uring_ready(fc)) {
-   691			fuse_dev_queue_forget(fiq, forget);
-   692			return;
-   693		}
-   694	
-   695		down_read(&fc->killsb);
-   696		if (list_empty(&fc->mounts)) {
-   697			up_read(&fc->killsb);
-   698			fuse_dev_queue_forget(fiq, forget);
-   699			return;
-   700		}
-   701		fm = list_first_entry(&fc->mounts, struct fuse_mount, fc_entry);
-   702		up_read(&fc->killsb);
-   703	
-   704		d = kmalloc(sizeof(*d), GFP_KERNEL);
-   705		if (!d)
-   706			goto fallback;
-   707	
-   708		atomic_inc(&fc->num_waiting);
-   709		req = fuse_request_alloc(fm, GFP_KERNEL);
-   710		if (!req) {
-   711			kfree(d);
-   712			fuse_drop_waiting(fc);
-   713			goto fallback;
-   714		}
-   715	
-   716		memset(&d->args, 0, sizeof(d->args));
-   717		d->inarg.nlookup = forget->forget_one.nlookup;
-   718		d->args.opcode = FUSE_FORGET;
-   719		d->args.nodeid = forget->forget_one.nodeid;
-   720		d->args.in_numargs = 1;
-   721		d->args.in_args[0].size = sizeof(d->inarg);
-   722		d->args.in_args[0].value = &d->inarg;
-   723		d->args.force = true;
-   724		d->args.noreply = true;
-   725		d->args.end = fuse_forget_uring_free;
-   726	
-   727		kfree(forget);
-   728	
-   729		fuse_force_creds(req);
-   730		__set_bit(FR_WAITING, &req->flags);
- > 731		if (!d->args.abort_on_kill)
-   732			__set_bit(FR_FORCE, &req->flags);
-   733		fuse_adjust_compat(fc, &d->args);
-   734		fuse_args_to_req(req, &d->args);
-   735		req->in.h.len = sizeof(struct fuse_in_header) +
-   736			fuse_len_args(req->args->in_numargs,
-   737				      (struct fuse_arg *)req->args->in_args);
-   738	
-   739		fuse_uring_queue_fuse_req(fiq, req);
-   740		return;
-   741	
-   742	fallback:
-   743		fuse_dev_queue_forget(fiq, forget);
-   744	}
-   745	#endif
-   746	
+     8	
+   > 9	HYP_EVENT(filtered_smc,
 
 -- 
 0-DAY CI Kernel Test Service
