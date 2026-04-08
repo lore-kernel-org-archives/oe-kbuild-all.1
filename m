@@ -1,56 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00703396D39
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Apr 2026 07:51:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 152A63612FE
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Apr 2026 09:43:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775634663; cv=none; b=lqGTAwrsCZSGiGFoz3RYsVOIPyOXu23bg+U2scvPtvzSrBLnDIBFvcbhIbMhA1z2BLWYa/9WyzGNZC83yHalb0Pk7WuRKiyUl9fvKYL9HKMW39MhLCueyhlrL6fV4eXxWwuWo0NivllRfpCjKuN00lcamYtw9KjQ9/bUAo1NSAQ=
+	t=1775641431; cv=none; b=i5ZsAlgKyWiji9uA4pApl7tJsXT2J9IriPSTXQDdab0pw5eKvhkWjckNnfPQMx1IohnQ/1AelI6+0GhBLyJ7KSaiqF42coZdX0fCang0b7IIH3K3bGPwXA2sx91O/Dv22h8+aspRqNkeaVi1aNBLuZXW9mFDgmWbbep7d78w7Ig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775634663; c=relaxed/simple;
-	bh=NAXhOUQe4RCftNvGyxSnkFGFvbamB7e1U2GEX1xAGrA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=cBRNiREGynnHxSMSGj94aoLqevaXtTw0JC9JPlBiMHfovG2agsfOvOet8Awr5qlMj6GqD0oGEGtj6bY8nTnathXvS8ohAairBPnr7RvtLg24cyCb9q+8WtdtvaE7TkANsQ0aMn++Lj9QEsv3LI5DZEHET3FelZxnwMyXw0JhLXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a6OG4mNX; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1775641431; c=relaxed/simple;
+	bh=ygyHYmJhRKAjYV6QfMQiNmjx6SwHLjGVTuiJiGrSc9s=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=MQM9qJ7tQuRDjYM2N6gEcdlF4MaWspMciBDlCu7syOHqpIOA/2Ze8i8fVOkqSpC/zRb8iWPfXnlog77f1g/Or7AepFYqd7OBPiHp4ruD7Ld+Ma3pawqqZ/7bejJaDqm4bIaJI4BCTaqnlhJnY6hK3M03Ae2FDp8Q6aGdqxIDoRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XnlQcJ3l; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a6OG4mNX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XnlQcJ3l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775634661; x=1807170661;
+  t=1775641429; x=1807177429;
   h=date:from:to:cc:subject:message-id;
-  bh=NAXhOUQe4RCftNvGyxSnkFGFvbamB7e1U2GEX1xAGrA=;
-  b=a6OG4mNXWy9XfhwjYMl6HPVFmdke4s+l5Kch5oPBUpYGIsbbj8Jl7r6H
-   bCt7b4agFdTeRi30bJbKSixEK42sj7RwuekQdttTCrbyIWtiEm5Ap+X1k
-   7g301Pxx8GP4B89I9cA9Ts2J56ZES3w4Q9jOTIAhIo/veEo/hoVBLW9+D
-   2JI7eeAuf8VDSxoyzMFswp7IUZgWa4YFyLZVbbzrQDrBwIzkXx03lAKIT
-   Wgc4NQAJOvjs6cWZaUmrSGFNv14AmhFkT85HPZrJLoUq/qQEXDSoTx8b3
-   iMKTpGU50WzoTtbGukYIAWliGAH9fIFiWX4xiNA7FJ2q25dmO6dAVvZzv
-   g==;
-X-CSE-ConnectionGUID: esanqq9DTXyMZOdWZQqfuw==
-X-CSE-MsgGUID: fXBEEPZdSiK6+KS14846AA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="87238041"
+  bh=ygyHYmJhRKAjYV6QfMQiNmjx6SwHLjGVTuiJiGrSc9s=;
+  b=XnlQcJ3l383tYPrBomrXQZJov+ja0bfM+jKAMBTxeDy4BgZvUViNAei7
+   HarGGcXtr7XVyvrYBYP7dmPq0CrtNegVQiyrRUqZUk960z0rJCaBz3Skb
+   1FOFwQlIlybU9F5kgJ5Mi4cLp/j3UFygqy3h4Z0vpgQc7P3Isp3+wVsBc
+   r4X30p0tuQMRB8L8JXTQjMy8Z0twVt4peBCYHtQ5NHJ4Vo/9sUKpx8MPb
+   x1kP6ek9oN7gIXhm88uH47mYsPiXjmStXGZqAYxwZsXAHTVJNp4/Dhu/J
+   2Jf8b1JoMcmBImj1BOpDuebQf74q8wM1Lgd6YTzWvZk52NVfIJMTa7dhM
+   w==;
+X-CSE-ConnectionGUID: 9/OBEubDSZKEyKTjL2OEmw==
+X-CSE-MsgGUID: NwxvKeHfTxiSR6XWDBHiZg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="99243871"
 X-IronPort-AV: E=Sophos;i="6.23,167,1770624000"; 
-   d="scan'208";a="87238041"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 00:51:01 -0700
-X-CSE-ConnectionGUID: Gnr1xLMDRJm+OppVPKtOEw==
-X-CSE-MsgGUID: 98HtKanwS1Ch51CpsrT57A==
+   d="scan'208";a="99243871"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 02:43:49 -0700
+X-CSE-ConnectionGUID: /UtGf5BdRVC/1g05cvsYzw==
+X-CSE-MsgGUID: wnb/32F6SB6iOfI23jua4w==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,167,1770624000"; 
+   d="scan'208";a="233297492"
 Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 08 Apr 2026 00:50:59 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 08 Apr 2026 02:43:47 -0700
 Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wANge-000000001aT-3rMJ;
-	Wed, 08 Apr 2026 07:50:56 +0000
-Date: Wed, 08 Apr 2026 15:50:11 +0800
+	id 1wAPRo-000000001gV-204O;
+	Wed, 08 Apr 2026 09:43:44 +0000
+Date: Wed, 08 Apr 2026 17:43:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata 28/115]
- drivers/media/platform/renesas/vsp1/vsp1_entity.c:164:5: error: conflicting
- types for 'vsp1_subdev_get_pad_format'
-Message-ID: <202604081508.HhYdRWpG-lkp@intel.com>
+To: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+ linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Subject: [rafael-pm:bleeding-edge 170/268]
+ drivers/hwmon/emc2305.c:312:undefined reference to
+ `devm_thermal_of_cooling_device_register'
+Message-ID: <202604081734.3OJSeExW-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -58,66 +61,86 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   0788d31c6570b12fdf54d8ecc25877ece44318d9
-commit: b0b1469354e8ad8b1555fa966ac3c8c14a6a70c7 [28/115] media: v4l2-subdev: Add struct v4l2_subdev_client_info argument to pad ops
-config: arm-randconfig-001-20260408 (https://download.01.org/0day-ci/archive/20260408/202604081508.HhYdRWpG-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260408/202604081508.HhYdRWpG-lkp@intel.com/reproduce)
+Hi Daniel,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   d18364264af84e2a89da14c6b5f0eae2ba7f98de
+commit: e1b96fba58c6fe18a31a06f752ebc8ad6921b1cb [170/268] thermal/of: Move OF code where it belongs to
+config: x86_64-randconfig-074-20260408 (https://download.01.org/0day-ci/archive/20260408/202604081734.3OJSeExW-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260408/202604081734.3OJSeExW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604081508.HhYdRWpG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604081734.3OJSeExW-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/media/platform/renesas/vsp1/vsp1_entity.c:164:5: error: conflicting types for 'vsp1_subdev_get_pad_format'
-    int vsp1_subdev_get_pad_format(struct v4l2_subdev *subdev,
-        ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/media/platform/renesas/vsp1/vsp1_entity.c:22:
-   drivers/media/platform/renesas/vsp1/vsp1_entity.h:187:5: note: previous declaration of 'vsp1_subdev_get_pad_format' was here
-    int vsp1_subdev_get_pad_format(struct v4l2_subdev *subdev,
-        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   ld: vmlinux.o: in function `emc2305_set_single_tz':
+>> drivers/hwmon/emc2305.c:312:(.text+0x311f7a1): undefined reference to `devm_thermal_of_cooling_device_register'
+   ld: vmlinux.o: in function `max6650_probe':
+>> drivers/hwmon/max6650.c:796:(.text+0x318d88a): undefined reference to `devm_thermal_of_cooling_device_register'
+   ld: vmlinux.o: in function `tc654_probe':
+>> drivers/hwmon/tc654.c:544:(.text+0x3193384): undefined reference to `devm_thermal_of_cooling_device_register'
 
 
-vim +/vsp1_subdev_get_pad_format +164 drivers/media/platform/renesas/vsp1/vsp1_entity.c
+vim +312 drivers/hwmon/emc2305.c
 
-e790c3cb8d904c4 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2015-11-15  154  
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  155  /*
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  156   * vsp1_subdev_get_pad_format - Subdev pad get_fmt handler
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  157   * @subdev: V4L2 subdevice
-30d187cd74874aa drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2023-11-26  158   * @sd_state: V4L2 subdev state
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  159   * @fmt: V4L2 subdev format
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  160   *
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  161   * This function implements the subdev get_fmt pad operation. It can be used as
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  162   * a direct drop-in for the operation handler.
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  163   */
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24 @164  int vsp1_subdev_get_pad_format(struct v4l2_subdev *subdev,
-b0b1469354e8ad8 drivers/media/platform/renesas/vsp1/vsp1_entity.c Sakari Ailus     2026-01-30  165  			       const struct v4l2_subdev_client_info *ci,
-0d346d2a6f54f06 drivers/media/platform/vsp1/vsp1_entity.c         Tomi Valkeinen   2021-06-10  166  			       struct v4l2_subdev_state *sd_state,
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  167  			       struct v4l2_subdev_format *fmt)
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  168  {
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  169  	struct vsp1_entity *entity = to_vsp1_entity(subdev);
-30d187cd74874aa drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2023-11-26  170  	struct v4l2_subdev_state *state;
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  171  
-30d187cd74874aa drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2023-11-26  172  	state = vsp1_entity_get_state(entity, sd_state, fmt->which);
-30d187cd74874aa drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2023-11-26  173  	if (!state)
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  174  		return -EINVAL;
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  175  
-34e77ed84b274d2 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-06-26  176  	mutex_lock(&entity->lock);
-0aaf7db08726773 drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2023-11-12  177  	fmt->format = *v4l2_subdev_state_get_format(state, fmt->pad);
-34e77ed84b274d2 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-06-26  178  	mutex_unlock(&entity->lock);
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  179  
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  180  	return 0;
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  181  }
-3f557220cc29d19 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  182  
+0d8400c5a2ce159 Michael Shych   2022-08-10  301  
+2ed4db7a1d07b34 Florin Leotescu 2025-06-03  302  static int emc2305_set_single_tz(struct device *dev, struct device_node *fan_node, int idx)
+0d8400c5a2ce159 Michael Shych   2022-08-10  303  {
+0d8400c5a2ce159 Michael Shych   2022-08-10  304  	struct emc2305_data *data = dev_get_drvdata(dev);
+0d8400c5a2ce159 Michael Shych   2022-08-10  305  	long pwm;
+0d8400c5a2ce159 Michael Shych   2022-08-10  306  	int i, cdev_idx, ret;
+0d8400c5a2ce159 Michael Shych   2022-08-10  307  
+0d8400c5a2ce159 Michael Shych   2022-08-10  308  	cdev_idx = (idx) ? idx - 1 : 0;
+0d8400c5a2ce159 Michael Shych   2022-08-10  309  	pwm = data->pwm_min[cdev_idx];
+0d8400c5a2ce159 Michael Shych   2022-08-10  310  
+0d8400c5a2ce159 Michael Shych   2022-08-10  311  	data->cdev_data[cdev_idx].cdev =
+2ed4db7a1d07b34 Florin Leotescu 2025-06-03 @312  		devm_thermal_of_cooling_device_register(dev, fan_node,
+2115cbeec8a3ccc Florin Leotescu 2025-03-21  313  							emc2305_fan_name[idx], data,
+0d8400c5a2ce159 Michael Shych   2022-08-10  314  							&emc2305_cooling_ops);
+0d8400c5a2ce159 Michael Shych   2022-08-10  315  
+0d8400c5a2ce159 Michael Shych   2022-08-10  316  	if (IS_ERR(data->cdev_data[cdev_idx].cdev)) {
+0d8400c5a2ce159 Michael Shych   2022-08-10  317  		dev_err(dev, "Failed to register cooling device %s\n", emc2305_fan_name[idx]);
+0d8400c5a2ce159 Michael Shych   2022-08-10  318  		return PTR_ERR(data->cdev_data[cdev_idx].cdev);
+0d8400c5a2ce159 Michael Shych   2022-08-10  319  	}
+0429415a084a154 Florin Leotescu 2025-06-03  320  
+0429415a084a154 Florin Leotescu 2025-06-03  321  	if (data->cdev_data[cdev_idx].cur_state > 0)
+0429415a084a154 Florin Leotescu 2025-06-03  322  		/* Update pwm when temperature is above trips */
+0429415a084a154 Florin Leotescu 2025-06-03  323  		pwm = EMC2305_PWM_STATE2DUTY(data->cdev_data[cdev_idx].cur_state,
+0429415a084a154 Florin Leotescu 2025-06-03  324  					     data->max_state, EMC2305_FAN_MAX);
+0429415a084a154 Florin Leotescu 2025-06-03  325  
+0d8400c5a2ce159 Michael Shych   2022-08-10  326  	/* Set minimal PWM speed. */
+0d8400c5a2ce159 Michael Shych   2022-08-10  327  	if (data->pwm_separate) {
+0d8400c5a2ce159 Michael Shych   2022-08-10  328  		ret = emc2305_set_pwm(dev, pwm, cdev_idx);
+0d8400c5a2ce159 Michael Shych   2022-08-10  329  		if (ret < 0)
+0d8400c5a2ce159 Michael Shych   2022-08-10  330  			return ret;
+0d8400c5a2ce159 Michael Shych   2022-08-10  331  	} else {
+0d8400c5a2ce159 Michael Shych   2022-08-10  332  		for (i = 0; i < data->pwm_num; i++) {
+0d8400c5a2ce159 Michael Shych   2022-08-10  333  			ret = emc2305_set_pwm(dev, pwm, i);
+0d8400c5a2ce159 Michael Shych   2022-08-10  334  			if (ret < 0)
+0d8400c5a2ce159 Michael Shych   2022-08-10  335  				return ret;
+0d8400c5a2ce159 Michael Shych   2022-08-10  336  		}
+0d8400c5a2ce159 Michael Shych   2022-08-10  337  	}
+0d8400c5a2ce159 Michael Shych   2022-08-10  338  	data->cdev_data[cdev_idx].cur_state =
+0429415a084a154 Florin Leotescu 2025-06-03  339  		EMC2305_PWM_DUTY2STATE(pwm, data->max_state,
+0d8400c5a2ce159 Michael Shych   2022-08-10  340  				       EMC2305_FAN_MAX);
+0d8400c5a2ce159 Michael Shych   2022-08-10  341  	data->cdev_data[cdev_idx].last_hwmon_state =
+0429415a084a154 Florin Leotescu 2025-06-03  342  		EMC2305_PWM_DUTY2STATE(pwm, data->max_state,
+0d8400c5a2ce159 Michael Shych   2022-08-10  343  				       EMC2305_FAN_MAX);
+0d8400c5a2ce159 Michael Shych   2022-08-10  344  	return 0;
+0d8400c5a2ce159 Michael Shych   2022-08-10  345  }
+0d8400c5a2ce159 Michael Shych   2022-08-10  346  
 
-:::::: The code at line 164 was first introduced by commit
-:::::: 3f557220cc29d1961ef9efa2a8db04c7c5f6e6d4 [media] v4l: vsp1: Factorize get pad format code
+:::::: The code at line 312 was first introduced by commit
+:::::: 2ed4db7a1d07b349b50e890dee3d0f245230d254 hwmon: (emc2305) Configure PWM channels based on DT properties
 
-:::::: TO: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
+:::::: TO: Florin Leotescu <florin.leotescu@nxp.com>
+:::::: CC: Guenter Roeck <linux@roeck-us.net>
 
 -- 
 0-DAY CI Kernel Test Service
