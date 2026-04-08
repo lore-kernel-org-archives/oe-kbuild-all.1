@@ -1,61 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87D1838F22E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Apr 2026 12:02:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD369263C8C;
+	Wed,  8 Apr 2026 12:29:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775649781; cv=none; b=NCXJQxIG9CZCpg6oaBIyG+UCwAn5qkbcXIzvSZaLkp/Ww0VKMtiSLzA8fdy9394l1vsuRZSk7Z+1mkKAtwuS6BcQC5gPNcxmszrXInHXi7dsGqVWUGoSDXRZjTO8voUlxfUKAyhssspQktDrf6jCX/DQXyt7nq/EZncaAiFBv4I=
+	t=1775651355; cv=none; b=HNdgjkFIspba7h4AbyxWyCU9RmsjLxAZRGw0J+FAbZXRh5vypKlDYt6O1RiW9JR8QAMNpNyCWs9QmeRaMLOmiri2+XEyWlOF1VxBHY+ZdRD+ALh7MSnqQAtdS5sA/GvvRSpAV8x3nWgcPrAjEGcjBFZFTD5nxOVTdIysVi62Cz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775649781; c=relaxed/simple;
-	bh=BOvkqb224pD/CDnURc9440WNzd9jMf5vDI5yu+9ZPqk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=jhR3sk9LdlsJ1Dg+2S18SZczC8EkEGuC+CSNqlBlzB8YW4ugOvs8sA8aoaS3xaXLJoUjOMadZwfrZjbsVuDII4fRRUnfk97x7UVEJbDvTw9pkMy+gL/Tk3t41/5bv8f2PZu90g+nwyYTb2co6Niy0vWLPQir6w8ptdmq3n/RS98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IKBVzvkT; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1775651355; c=relaxed/simple;
+	bh=RyPjlBk2oXw22XJ3XZElJPOkp9RBF5BLOF29crTwsoQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r2HPcAiyLGZezOzl5UiGYxMMn3h94lIbXuYaZLuyT7lEnpKM4f+u0yR+qfuEO6HclbDdpnuRzEAYy1QGWbThRWP2AufJVf3/WbD621eofEDsNWn1VF0IrhG7s+M2ODW61BM4QaBY/318GtPg78K0UKQ3MxSPSaVASiQ/WY7IOzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cIdM0v1R; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IKBVzvkT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cIdM0v1R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775649780; x=1807185780;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BOvkqb224pD/CDnURc9440WNzd9jMf5vDI5yu+9ZPqk=;
-  b=IKBVzvkTAkrHkBkPVYKVcduNS+ZJKPxhSgo60oLi4dCsSuMXDoPmxUjE
-   vY6N53leyPW2UVCmRpha5PiBw1oM5pb2ZW8e/GSa3xypwHDLCZFp8LvfU
-   ieT+2EoB0py6B+IasdmFa2wRtj7fkD1HPv5tdOX0K/udWfE/YK3t4SJhe
-   a+74AyRnlWlarOKplcSN83hRK6N76fPRgEU/QfIXMGz2XqZmrvzw0Kcgo
-   Akxg87qE4q/W02FM3t32Ge/hodGDhjaW1Kg8YM5hKA7HgPDCYKhp9Wu0z
-   A6hN/p334Esj0/K11+z57bCoqJqjJ1AMySlkR4Mf19p52OtsK/9EqmTXW
-   A==;
-X-CSE-ConnectionGUID: c2qgDIs2TH64H2FZqEwcKg==
-X-CSE-MsgGUID: 3t/uDefsS2mpQcNdk8DM1g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="80490550"
+  t=1775651354; x=1807187354;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RyPjlBk2oXw22XJ3XZElJPOkp9RBF5BLOF29crTwsoQ=;
+  b=cIdM0v1ROO//RlDUJbhh9Y2RjYsqT2cZHiuvHj5lc/FXVVm8SuhiSKbw
+   6Mq+MIGBy57W9jBwsgPa7TfUDiMUiWVsJiY8aeaAGc7wBATmPWiyrOjgN
+   gojgLxt/R9WsuzmAtd+gP4jRzvy8MLbgG/pdvW0qqTQ3XPyIHHK0fi+SP
+   y6GQ/hfHdGPPZSoVEcTeRYR9pW3OjvZa1yFBopIkE2p3O6EqPJ+dLGkMI
+   t6yaED+cEG0DDZmYZMLK6D5bQTBw4y4MCsUi8cMxpmzY9/RIjIta2U0Sx
+   y/rLMXKq+7HtDuSUoS3beesti/yZMEGd1EQe6UkSNnZuHQswAmHZHOXh6
+   w==;
+X-CSE-ConnectionGUID: gXfjtrG5QaSyBL3MeCwIxg==
+X-CSE-MsgGUID: 7sqQr4Z1SFGXAFu2y3n7sQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="102084312"
 X-IronPort-AV: E=Sophos;i="6.23,167,1770624000"; 
-   d="scan'208";a="80490550"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 05:03:00 -0700
-X-CSE-ConnectionGUID: fpyCCwevRK2pDINNLwfugQ==
-X-CSE-MsgGUID: EYHSO3G1R2+PPOEOTlU2VQ==
+   d="scan'208";a="102084312"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 05:29:13 -0700
+X-CSE-ConnectionGUID: wpPR+5qCTKCfpiZxazO9Gw==
+X-CSE-MsgGUID: egdSHuSsRXKyCaVnDn4z8g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,167,1770624000"; 
-   d="scan'208";a="228355898"
-Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 08 Apr 2026 05:02:58 -0700
-Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wARcV-000000001ol-1DSb;
-	Wed, 08 Apr 2026 12:02:55 +0000
-Date: Wed, 08 Apr 2026 20:02:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Ville =?utf-8?Q?Syrj=C3=A4l=C3=A4"?= <ville.syrjala@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [vsyrjala:remap_tile_ys_64 18/30]
- drivers/gpu/drm/i915/i915_vma.c:968:1: error: conflicting types for
- 'add_pages'; have 'struct scatterlist *(dma_addr_t,  unsigned int,  struct
- sg_table *, struct scatterlist *)' {aka 'struct scatterlist *(long long
- unsigned int,  unsigned int,  struct sg_...
-Message-ID: <202604082018.XK73A8ei-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+   d="scan'208";a="232821144"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
+  by orviesa004.jf.intel.com with ESMTP; 08 Apr 2026 05:29:09 -0700
+Date: Wed, 8 Apr 2026 20:07:36 +0800
+From: Xu Yilun <yilun.xu@linux.intel.com>
+To: Baolu Lu <baolu.lu@linux.intel.com>
+Cc: kernel test robot <lkp@intel.com>, linux-coco@lists.linux.dev,
+	linux-pci@vger.kernel.org, dan.j.williams@intel.com, x86@kernel.org,
+	oe-kbuild-all@lists.linux.dev, chao.gao@intel.com,
+	dave.jiang@intel.com, yilun.xu@intel.com, zhenzhong.duan@intel.com,
+	kvm@vger.kernel.org, rick.p.edgecombe@intel.com,
+	dave.hansen@linux.intel.com, kas@kernel.org, xiaoyao.li@intel.com,
+	vishal.l.verma@intel.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 19/31] iommu/vt-d: Reserve the MSB domain ID bit for
+ the TDX module
+Message-ID: <adZFCF01fxt4gBh8@yilunxu-OptiPlex-7050>
+References: <20260327160132.2946114-20-yilun.xu@linux.intel.com>
+ <202603290006.za7iiDgF-lkp@intel.com>
+ <4be868dc-d6e1-4488-8f28-34ef1d3659ac@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,50 +66,67 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4be868dc-d6e1-4488-8f28-34ef1d3659ac@linux.intel.com>
 
-tree:   https://github.com/vsyrjala/linux.git remap_tile_ys_64
-head:   9a8f5dc5c6e5da24a2df0e93fda770ab217b0886
-commit: 539e2225c8d7e19d4095bace6c48ec8d3d434e93 [18/30] drm/i915/vma: Extract add_pages()
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260408/202604082018.XK73A8ei-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260408/202604082018.XK73A8ei-lkp@intel.com/reproduce)
+On Tue, Mar 31, 2026 at 03:20:44PM +0800, Baolu Lu wrote:
+> On 3/29/26 00:57, kernel test robot wrote:
+> > kernel test robot noticed the following build warnings:
+> > 
+> > [auto build test WARNING on 11439c4635edd669ae435eec308f4ab8a0804808]
+> > 
+> > url:https://github.com/intel-lab-lkp/linux/commits/Xu-Yilun/x86-tdx-Move-
+> > all-TDX-error-defines-into-asm-shared-tdx_errno-h/20260328-151524
+> > base:   11439c4635edd669ae435eec308f4ab8a0804808
+> > patch link:https://lore.kernel.org/r/20260327160132.2946114-20-
+> > yilun.xu%40linux.intel.com
+> > patch subject: [PATCH v2 19/31] iommu/vt-d: Reserve the MSB domain ID bit for the TDX module
+> > config: i386-randconfig-141-20260328
+> > (https://download.01.org/0day-ci/archive/20260329/202603290006.za7iiDgF-
+> > lkp@intel.com/config)
+> > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> > smatch: v0.5.0-9004-gb810ac53
+> > reproduce (this is a W=1 build):
+> > (https://download.01.org/0day-ci/archive/20260329/202603290006.za7iiDgF-
+> > lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot<lkp@intel.com>
+> > | Closes:https://lore.kernel.org/oe-kbuild-all/202603290006.za7iiDgF-lkp@intel.com/
+> > 
+> > All warnings (new ones prefixed by >>, old ones prefixed by <<):
+> > 
+> > > > WARNING: modpost: vmlinux: section mismatch in reference: iommu_max_domain_id+0x55 (section: .text.iommu_max_domain_id) -> acpi_table_parse_keyp (section: .init.text)
+> 
+> 
+> acpi_table_parse_keyp() is marked as __init. But this patch causes the
+> intel iommu driver to call it from a runtime function.
+> 
+> int __init_or_acpilib
+> acpi_table_parse_keyp(enum acpi_keyp_type id,
+>                       acpi_tbl_entry_handler_arg handler_arg, void *arg)
+> {
+>         return __acpi_table_parse_entries(ACPI_SIG_KEYP,
+>                                           sizeof(struct acpi_table_keyp),
+> id,
+>                                           NULL, handler_arg, arg, 0);
+> }
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604082018.XK73A8ei-lkp@intel.com/
+Is it better we configure ACPI table as library, so that drivers could
+use it freely at runtime? tdx-host also uses this function.
 
-All errors (new ones prefixed by >>):
+--------8<--------
 
->> drivers/gpu/drm/i915/i915_vma.c:968:1: error: conflicting types for 'add_pages'; have 'struct scatterlist *(dma_addr_t,  unsigned int,  struct sg_table *, struct scatterlist *)' {aka 'struct scatterlist *(long long unsigned int,  unsigned int,  struct sg_table *, struct scatterlist *)'}
-     968 | add_pages(dma_addr_t addr, unsigned int count,
-         | ^~~~~~~~~
-   In file included from include/linux/mmzone.h:1534,
-                    from include/linux/gfp.h:7,
-                    from include/linux/sched/mm.h:9,
-                    from drivers/gpu/drm/i915/i915_vma.c:25:
-   include/linux/memory_hotplug.h:153:5: note: previous declaration of 'add_pages' with type 'int(int,  long unsigned int,  long unsigned int,  struct mhp_params *)'
-     153 | int add_pages(int nid, unsigned long start_pfn, unsigned long nr_pages,
-         |     ^~~~~~~~~
+diff --git a/drivers/iommu/intel/Kconfig b/drivers/iommu/intel/Kconfig
+index 5471f814e073..55188d6d38bb 100644
+--- a/drivers/iommu/intel/Kconfig
++++ b/drivers/iommu/intel/Kconfig
+@@ -1,6 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ # Intel IOMMU support
+ config DMAR_TABLE
++       select ACPI_TABLE_LIB
+        bool
 
-
-vim +968 drivers/gpu/drm/i915/i915_vma.c
-
-   966	
-   967	static struct scatterlist *
- > 968	add_pages(dma_addr_t addr, unsigned int count,
-   969		  struct sg_table *st, struct scatterlist *sg)
-   970	{
-   971		st->nents++;
-   972	
-   973		sg_set_page(sg, NULL, count * I915_GTT_PAGE_SIZE, 0);
-   974		sg_dma_address(sg) = addr;
-   975		sg_dma_len(sg) = count * I915_GTT_PAGE_SIZE;
-   976	
-   977		return sg_next(sg);
-   978	}
-   979	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+ config DMAR_PERF
