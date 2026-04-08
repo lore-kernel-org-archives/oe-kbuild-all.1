@@ -1,66 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40111363084
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Apr 2026 06:29:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2295A35CB8B
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Apr 2026 06:30:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.20
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775629778; cv=fail; b=Jo62zRjnmIhZs8w7tbrJBD0hhwIMdDdY6rImY89VnuysLPMcLuib3+yxxBYIq0YK2Cvp1guY6nkI3/oGHBHcMtztG/kP7/yZ4N/52MAiJSDv6MIb9pj1IgKzL9/hidKkedCc0NJPlIVW2t9aQBefCiKKYiRCXF94h0n6IfTf6gI=
+	t=1775629821; cv=fail; b=LErEK87xlJoDhbc5bWEX7lM4/9ZBouJxFGNCRYzN7aiLbSpEQDTM85fFIGEcf/PcCAoUJ9BE5vSmh/EGv1KR3bCWfPDeqw6UzBvQqRWjsmWKnoiuY9nA+ioOF+I4bS7TxTfFr7MdQqKh2B3yBxQ9YCn1bQzHmU7c4cZjg0ESp1U=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775629778; c=relaxed/simple;
-	bh=I8bWtEwvVRnUsrVr6in+/Whf8PVqN3pltvRxDxA5Z8c=;
+	s=arc-20240116; t=1775629821; c=relaxed/simple;
+	bh=2ZopTU87/8w6HJY3zyKnAj2j6jZws8LFCfzAwoYQfbk=;
 	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=FfS0SZru5pPLwEZ1iB62kuV9DLMuzTwBml7Y8bGVCviCAZDQU3AxkllrfOlgubkswZTvI4OyAvoPB4VPDjoTW55jFX6FVn6Ajj905YVZ4WUmylLP3WE7EhFqnUmmJCmEcyNBIkH8njA6ZHKZnY6k4NKEwjVIZ/9BOuRi8NWT9Kg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UBxkxY1c; arc=fail smtp.client-ip=198.175.65.20
+	 Content-Disposition:MIME-Version; b=jEirQ+yP62ZFIii/0QrQ1q+SKpc4qDPYrXYqsRWXuhePUlfbvyPusyXYMk2QY4QBK/8rEyBUDWUTOSoofsjgRmIbz8rXfQit0SyC/9cyi+yUDmv54/dqVJE/lsJaOLruOhJbRJQAh5rVXbL0nn0IimpQy6Fg2lftBqCq8v6xbtA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WpXCrvlj; arc=fail smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UBxkxY1c"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WpXCrvlj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775629776; x=1807165776;
+  t=1775629819; x=1807165819;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=I8bWtEwvVRnUsrVr6in+/Whf8PVqN3pltvRxDxA5Z8c=;
-  b=UBxkxY1c3Jk5G2lKHPTkRF8cJ3wHrfJ98XnfIZdW+nf+65ovEdD58kyN
-   t/ZXOk/S6E+XpiKdtP2l93rZyXRvtVXE5ECJuAtzdNGqEKecUlHLidGbQ
-   8JjN4XaX6SD0eLAcM41wJWxIs7hrgZ/80R8Yt+TYo0UKh3zG6hBg+6X+c
-   VuVnGGFMHFqfmmaHcAbxj60ZbBm0oceKdB/qFaxjR5PO577aiOsPFhZ98
-   yM9MHogFaOfCEPzzeWwopqOKluOC7EQUidRS/sMANSd2nbmQK4mmJTEGv
-   m7CUFn+ia0RtiJjXg8tHxauNyWfDei8fRsE11Sb/NY0+G06o4Yy3xabxF
-   A==;
-X-CSE-ConnectionGUID: AOkOVGdyTkirrMEAqLmlAA==
-X-CSE-MsgGUID: ccFoc/hgRKyrZHLVdMr7zA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="76324921"
+  bh=2ZopTU87/8w6HJY3zyKnAj2j6jZws8LFCfzAwoYQfbk=;
+  b=WpXCrvljSjGYvMahDsJqOIsoUGg8aS/U8DNCgLVhECGAyX5CUziki5T4
+   5vsqsiuy3dbEI6Y0czxnoOK0vtdgVodrfPoQ27P1hqWrLhFbTtAm8+4bq
+   QvzXQ+0aN6gmbWXqLWulnZy0vrBBaimEPF+x/fY9FZscVTToG658HY0MT
+   6VEm7WdowIqOQGjs/A3M0I/UQcdRt9nY4iG7URh8DcadaCoMtUyy8gihw
+   dhTgPcLZ6ssGD9xAuWXcJwhkIlQBLFm+96KsJKqRvdeqSztVT1YQks+6l
+   o0qqRjHBSlv1BDZbxDavxvX1Vs7J4vEhV7vlEfu4yBXNf8GmND94unRwW
+   w==;
+X-CSE-ConnectionGUID: ME4EydYpS5mTjsS+RM7uVQ==
+X-CSE-MsgGUID: 3CmYmp38RA2wsPDqXQZ5gQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="76325056"
 X-IronPort-AV: E=Sophos;i="6.23,167,1770624000"; 
-   d="scan'208";a="76324921"
+   d="scan'208";a="76325056"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 23:29:36 -0700
-X-CSE-ConnectionGUID: 5r46X1sYQ8CIAANd1vk4jw==
-X-CSE-MsgGUID: ncyiVScJSR+1AZr+KHLRxA==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 23:30:19 -0700
+X-CSE-ConnectionGUID: jDcNJYj3TgCJxC+aPYG3cA==
+X-CSE-MsgGUID: ajrjAJcBSTiZiZWuV+gdag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,167,1770624000"; 
-   d="scan'208";a="232427155"
-Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
-  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 23:29:36 -0700
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+   d="scan'208";a="232427320"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 23:30:19 -0700
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 7 Apr 2026 23:29:35 -0700
+ 15.2.2562.37; Tue, 7 Apr 2026 23:30:18 -0700
 Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Tue, 7 Apr 2026 23:29:35 -0700
-Received: from CH1PR05CU001.outbound.protection.outlook.com (52.101.193.65) by
+ 15.2.2562.37 via Frontend Transport; Tue, 7 Apr 2026 23:30:18 -0700
+Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.46) by
  edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 7 Apr 2026 23:29:34 -0700
+ 15.2.2562.37; Tue, 7 Apr 2026 23:30:17 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JZ7iPJxpdnS0UX+nUbHJvGMFcY8ShdfxxxHnK74wigxZXuCPjjg3hf/3AO1oRBuqZXKGR4ZUtSU8P29K42SRzY5POxqZZsFKT++4kRyXp0jnbh8Tm+f0WKXbbKlhJyds5FvzAqXWoLfwa0sAW+JRSPKzKjYkbpGu4LSf9B2psUWk6Xj+gFFo8X8GhOQ6zgXZw3iZZAcBsHuRnXh6sfNfOXJdu8pgLwEzcwhAV2kuqX4H6gcoeRL4/gP3MTWrpWG6A+u5I0/+XBw5OdwetwXzbeWNFMN5Q4swXSUc4fr1NcrCpB9zJloNZUZYBR0fIiqnOPi9IzoivCI2x2b3pyStCg==
+ b=gC6o0zGN1us7RrxgzOjFe2E2y8kkbQiWAzwxneOcQu+Hm8aTtJEmoS4Y3h+AfFeRBrL5EfN0EoM/EJvWM8vBKKyuDU5vn7KahTdb7muyTUvCu7QBb0BgyEOCYuIp7zXdvEKWT+E5LCW+Mqy4XYn9Sgkd7/wKjjI6AVl7gQXL1XlGWgdwv2wFtw5iB2e0njLMuqqqwxEBq1+J2TSp4dVVM8DuUOv+6hAzXEzR0qaeK1VkD5aqO6q+3TRxAiOvvGxqS+pk5jRbAds3zZ3/3stJsoCQjPLN9g9r261RXKxIiuT8l9fwpZD1RTAms9ye86UulUceKvOBoy09Y+TBmvrugw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mX4cEXX7jR30cBnIr/X0DkV70dAfrV/zX6oJq8aHiAM=;
- b=nabIYNaMT9KatFk53f9ahGO+rO/h3dSLV1JVz20+g+HfTDgKsLqHhRyZ81f7iuIig5z//mMUkTuzSJIiq9bxP0FLlRfjIQ4ITTrbIbxJTbFiMDf+gcjXC4WWJjCvysvlqunXlFMvL2HejNAYo/vYhw6aG9RqkzUdd4VwVgoIs+xujO3WEJO7NSDKpJm5ciSNtR4se9s3OY5Qroc9D7EaHsEWFtru/aFxpgFmSDg7GgBS1lKgAy7HDWzdHB1HqH6CL2Z+BgCOzgBvnwIhvi1BlKcIEgg0H4ZJZnGn9uX/S/e1+b8UVvOpoT+l8gMx4eSayN+VTA7TO07p94CkeW9uCQ==
+ bh=SnM4ihsQAX4yIJOoXVn8rQWhib33308qbQw91Z1O+D0=;
+ b=JWG3sYo+WvAwodwhMvzV0KU/faBgNtLfc8Vj34BBrHdb5Yik869mn/I76vCeRmMrJORfWM5QE476vYPY5W3E3aS4y20InIMSzjhhE4iYWSEA4ZHlkmYx8e1rF6vfeJ2LQhucVT+abvyLx0kb4YlDFNbse2ehp4JFVYxpPVaZA7kID9nMZE+rtHIn/AYRJ9D6Be+z60rWCmcIlI12cvA87OpcoZ2aExDrIRSUkNA9RC/sRnC+YnqHkctXGJQkjX3bnZnEtNeqnv5D1ipHShkKl5vL0g2BNbXiZMnMYnXUhQRIG+1tGefUc5M+veBAVkd1EO1s807Paq9TMlo0L02asQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -70,22 +70,21 @@ Received: from BYAPR11MB2808.namprd11.prod.outlook.com (2603:10b6:a02:c8::26)
  by MN6PR11MB8193.namprd11.prod.outlook.com (2603:10b6:208:47a::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Wed, 8 Apr
- 2026 06:29:32 +0000
+ 2026 06:30:09 +0000
 Received: from BYAPR11MB2808.namprd11.prod.outlook.com
  ([fe80::defa:788:da96:2f9a]) by BYAPR11MB2808.namprd11.prod.outlook.com
  ([fe80::defa:788:da96:2f9a%4]) with mapi id 15.20.9769.020; Wed, 8 Apr 2026
- 06:29:31 +0000
-Date: Wed, 8 Apr 2026 14:29:24 +0800
+ 06:30:08 +0000
+Date: Wed, 8 Apr 2026 14:30:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Woodhouse <dwmw@amazon.co.uk>
-CC: <oe-kbuild-all@lists.linux.dev>
-Subject: [dwmw2:vgic-iidr-group-fixes 3/3] include/kvm_util.h:1139:16:
- warning: passing argument 1 of 'memcpy' discards 'volatile' qualifier from
- pointer target type
-Message-ID: <adX1xLJMK+rkq6vk@rli9-mobl>
+To: Johannes Weiner <hannes@cmpxchg.org>
+CC: <oe-kbuild-all@lists.linux.dev>, 0day robot <lkp@intel.com>
+Subject: mm/page_alloc.c:414:44: error: invalid use of undefined type 'const
+ struct pageblock_data'
+Message-ID: <adX16aXroc9pSHTj@rli9-mobl>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-X-ClientProxiedBy: SG2PR04CA0160.apcprd04.prod.outlook.com (2603:1096:4::22)
+X-ClientProxiedBy: SG2PR04CA0172.apcprd04.prod.outlook.com (2603:1096:4::34)
  To BYAPR11MB2808.namprd11.prod.outlook.com (2603:10b6:a02:c8::26)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -96,112 +95,625 @@ MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: BYAPR11MB2808:EE_|MN6PR11MB8193:EE_
-X-MS-Office365-Filtering-Correlation-Id: 046ddf43-7bf6-4103-9074-08de95383195
+X-MS-Office365-Filtering-Correlation-Id: c240ae50-a847-4f90-5966-08de953847ad
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info: JjkRr8NlC8wyZ6pdi7E0yGGfoshsM+wOP03gf2y7FEDZZF6fdVwZA/1dzO6bIC+2sRry/n4NmMdL6qe6x8ojknZcGjm0Krxr3lKwsRrElMJ/xfqSXP17yIxW1+5wKrULJZugOSOT4VSzDbyW4pzBrJhofpwHxWHgPNUd+0EFCzCMTu8TZSDpw47F4S2VpysC1z/8cnV8TUFpElpFjS1wE9y0Hv36SeTuC4VyY+1p2h5fK/kEAr8e655fHnw+QnxnDpfn5qopmJYorJjKy/fhClCjKlldj9rAjyURuYCW+44S3dHK73HfvUiu6/FpvCXTLrmHNYucnli02rvZlHekM/c97ruYrXcUZY/szIkwl305LIHi6Tl9kWVKrH7tTWlpjUfuipaIYDDqavibckPqCjwZyST8QGfuwSaZPGnG257C/GB0uMC5ipLDojeF3WStmiPUiiw+8xiVMi8NEOcGTaFEbUt4wmTJvdI9gLi/55Da0JQv3Rjnubmw+TmPtgHPdz0OETvo4xBD2dQqFUhHgmqI7X7gizSOR3a+WOIWlk6pNUUI9QADWHZUkDdib7Z0XB1XFNHFaL9BzxutBNfvs5p3zoiYu0OLJ7z6qAFK1vgiGCkEHPj7eBNt5eBaC9N926/YGs6r2gAdJPOy6sJCfQjl/YfWi6GppUhYQhMs5stF7LJcqoAIpXDs/p3RfqIUYEpVOtYpuIp0vim3d89sWQ==
+X-Microsoft-Antispam-Message-Info: uIA9Qplpi+3O0Efhe8IDqU88RwlMpwBZs+/Piq9NBGLTie0z0teDTIyNmVlqS5qqcTIZzS4usU1TFX5Sz2wS/BF4s6zmRq7tx9iTujeMID3/5aWD828rzl5O6W7kOnwT8/Jg08HkvIkgYc7nx7mzuezke6ukELa0LNPBEvMFJ9KC6HDw7Ir0jhkFaXoQHQ4D5g/8U4MJOViKBMeUdUZnknvNqXoxCPJKQAEqBDyKoWkZ9gvQ4FYJpm0yumFI5rWy1tPLAhSwqYLE9I0c8K2JpVXbqJZ1PxsjsBr7uGC6gkUqy9+wcmZE5P4MfJXOD5oBcFy/09cOMnwV7bqvtYYP8Y+JGn+fEVg858fv55GaCx85GmrYltCCWuQ6cekPsYlhuDwXtWdQk+z4y0WBL3D4e+sqyyL0fBDNJWNkUWFw8igWkH5NTKNdEwfQvyMWESKHmC5t+BeF/KTLMuc6TsRethJkMRbkkJnQoK2h2MGdzdnWTYO5+AG3RRuvXlOQOD1mbG/4msgKrOePhfL7NS/A1SfFl042wtodjF1//g4pktHEs+XLoFv6RMVxH6ZvkLx5Lyo2IHKOLjA1tI0ZrcW4cMHL17F61NqmkQDpveXiTu+qLFErHQK3vtHlNXtQ7+mSGEUsqwSv3CupjUcgnY9+YzzGHHOZQLVFJRmIlBrb4kMYkbkfjH7isTt4jNsUyKao
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB2808.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(56012099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?4IK1Q01ConchUrCkqh9nBQBszvdig7Tvk9o4NyFsAudZxMpt9/my4MOCmNPe?=
- =?us-ascii?Q?vCeD90hovhC3usxFHBCqpZmkzKDLkb0qok3DPBm9ryTuRGAaVNlOcm8bMO9O?=
- =?us-ascii?Q?e4IQJ06KhruLdt/qaVy9MvaDnL9GQ2YuGE9l0bKl6l9jgEf6148YBe0pYUDt?=
- =?us-ascii?Q?e4LjhCXENqnz9607Fo+XfkdBtuemaQNG0k/UPdWUqATuphmAnZ5tFFAUrf5i?=
- =?us-ascii?Q?04xoLzIEaBKKzPLyf5J/D/f4J+ZPnRFerXIRcwR1UMsCjEi10af9ozX58mUn?=
- =?us-ascii?Q?2E364195mUxtcxkJZAF3GK+AaPwiNHjfNFAaf7sbKB5HXypRTNeKRZnEDBEa?=
- =?us-ascii?Q?IgfKjfjD27r3y9ttQrybfuZr6ntBr1qXnhs8t82YJrVzsPhX0cO6EDoUxLdp?=
- =?us-ascii?Q?2y7veQucphz/2gE7UJ0RQofShwpuRUuyjQWEufHRQW8u+VuxsSCyNxiUuSqJ?=
- =?us-ascii?Q?2e9my1LRq6M20Vut+DqM0IvDEuYy04ay3fO5iM2sERMxabz5hz8bBtFuN4Wk?=
- =?us-ascii?Q?MPFf6zDBO8mbvGKylNBHa112LkMqgqyWLGZsDggJJiZzMy5moHX1Tvm3g3YK?=
- =?us-ascii?Q?dugAawuXqSON4bwGmYiMesX7WDASDxTCkAqlMuZe8rIiYX4q1iJ9BWjaKG2K?=
- =?us-ascii?Q?fBYy2vgbZEfy353fgz7TQ7U6S3wF+BMK7+pMnNbIJRN9iHFeT5J4Wb/8ttmj?=
- =?us-ascii?Q?eliKxIllt6qNI0KVU3Wxtd+uc2jlNocwmwcoQCRwCXhFGyfJPcfqEz071wl1?=
- =?us-ascii?Q?2Un2kA2AJ8QJXEAgkQvPlVVpTqjkOl5xBxiHQI6M3IaA2xUzGiL53n0G07Hn?=
- =?us-ascii?Q?j1wti2LPjpRbeVFrTWHMPB7mJo0TNbv9Hwptq+vDJT3Ey+gBgqxdTaQcJrpt?=
- =?us-ascii?Q?O76kTNwGuUVTzcvHsUj62VCxeqnc+hhtOc2yjrSiMu1z7NTQlz3p0nZMA4v9?=
- =?us-ascii?Q?aE8fZwKutT5rhvqd9poLwcOglO3g3rohy2L4IL22tW3R47lKX3Pn/c/TvQc5?=
- =?us-ascii?Q?/kHMWwdJOZICyNB00NXDSYYkqBp4e4TcpI8stCoQVLuZB+JjQQ7meYJwgqXg?=
- =?us-ascii?Q?kZCKmEWSFvu2/ChG8i6wpjp75ozyqjej7vSr0l25IYoDJ2cLPY7DILRNGm34?=
- =?us-ascii?Q?Il/hRDRYHTG663YazGA2CWReoMxjAmnEcyBMC6JuXd+e7mspVkXz4eEsjn2f?=
- =?us-ascii?Q?5IixXUKjI/8x/wa0c2TorUprx+xFuqXgH/Wo5vCnTEGZBr7d4+kVnFQc+fK+?=
- =?us-ascii?Q?f98AUCH5l+vmwZ8EqOeDa28jSCvxgPwvF3myKmCdhYHGss6orWZVS70IglTr?=
- =?us-ascii?Q?rUMREnFeYMvoYuqTxc+sj/WGRNIffw8vOFiR2CJHSw37KBaaOqkLkYiKxOFN?=
- =?us-ascii?Q?ZnlBmKFAtL9YRTmlmQsIgJHuKW4DRErlCtaAqeMInosZZ7/hLFLlT4s0xUOV?=
- =?us-ascii?Q?ZVSBA434IxQCzISScqRRmKqWkE49LPDymAQ/w+5keVt6dC6hnO5jWfvS/cfT?=
- =?us-ascii?Q?PXFwbndR/keQpbbUehjURdPOGuUVBaE04W0KD8oKYdrVxvu6d243TT2KGkBj?=
- =?us-ascii?Q?FCVd3Ty3PImLrGnqSjVeKRoVL8fR4v6OsXY620A9mGHD507fqxwXXACnBiCs?=
- =?us-ascii?Q?FBSLTWYWGc0RIC1F6fxMLi7OsO8U1Oz1Jjw9t0wlh7h1XSldjOr0me/NLeUg?=
- =?us-ascii?Q?MTlYuAD9cWMwioqkEk/l0ONi2GChwFnng29ZSuXHHZyl4IigHUgdnEojdm7p?=
- =?us-ascii?Q?k4JR4Nm+Vg=3D=3D?=
-X-Exchange-RoutingPolicyChecked: MW39AVctdXEylWpVLPpFrGsrqvpevQJcFYork9ZmZy/p6bdiJYjzIl9kktSO+Q/qkiE4bwuRU/PvJ8Y8k49ErqTdfNo6V2BAEFcRw+JZFrgt58sOySYq/SrPRlwJyoqwz8Bmgdh7x34kOMy06YqpeV178qDEg5Vz2QWLb7whM5VVbRNrYshkqKLDVvYz9VDyPPAv0nDIWeJMhwBzkd9k4Npy/uloFTEjmh3XVhq2ZbLMqjlS0yISZmC2jdFyHwsciExxi7c56Jt+Z/EuNvZ29cm0VIOcBO6Yo5mKa4iADHvyFUfvOalFbzs1SwMyLeMRC7T+lx2/LaZKO6fuFS6/Lg==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 046ddf43-7bf6-4103-9074-08de95383195
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?g7JYmFWK89ZIAcCOwpwPtcFni6uT2iJmI6IYpTsq8EulpBjIP6UtmgcTg75I?=
+ =?us-ascii?Q?pBnM/IBHzqfVKlFhxwgSWpASHgrB5g8ljmGOJaS2yfBO5+QkRdz7trplrsc5?=
+ =?us-ascii?Q?zV1ZxyxVl3rbcF70/OtR5b8Ya1CjqLW0xh4rG6CjFMPH7LSuRSDwneNABRQM?=
+ =?us-ascii?Q?kgDNscRdTBFALHkGdsnKZTHlR19AlYIlt96NthSkU/O5+sO/Upxn84ix38ys?=
+ =?us-ascii?Q?63aj+nJvbIgPaiEHAaD0DDbH0WKEx5Ee5/F7auK5lOGceZYT0NOhvzZNgDdf?=
+ =?us-ascii?Q?LIK8VIyOSs8B8m5UJe9485C3o6nulY0mlsaPkWbUFMmBMhi/wNKyPQdgbwUs?=
+ =?us-ascii?Q?Gpf+tgZhItCrrvarijBWHhiAOIfmtl2Gaw7Pi65MzGJ4rx8Vz0lcooln6yHs?=
+ =?us-ascii?Q?aKLXyXFjAcjjt6NHk/naXeqs4GGanXA0A4lhHjBKATrPEW2SugajR4Rr6T2U?=
+ =?us-ascii?Q?GbiUu2vSktO264tDO/hArvdmP+ucLxMiusDei5h9NenQoS73Pzv1w//PQPK7?=
+ =?us-ascii?Q?QNhIDyHNspKzA7phnaOyfPCUQBVPDT0A1u7jC5pN6Z0KMqFfau0D1bZScerf?=
+ =?us-ascii?Q?3Qf5u4oh5sy/qN3A7LTD1bD12G9rqFwmpAs10oy5KdoINGth/hjUs6d+MilU?=
+ =?us-ascii?Q?jsfWnPy1C7M7zmPH5KjToRD0Pdzy2Dpf5/7BkHLv+7Xb8cpd4GwzTgC5D9Nw?=
+ =?us-ascii?Q?akaW0NC0NOlTWNyrf+Hxt0RKfhii37dXhkf5DOjR/JU5og4/D/mXirxDVfQg?=
+ =?us-ascii?Q?XHRdz1VboB6HVKDrkky8AK4b9+QXWOQOE2HX4xkkcqZvb5yicagCqHZLgy6H?=
+ =?us-ascii?Q?g+Y3uBwB8tdKbgNeV/QF96Rn1m01Qk+cT4s3q3oTpkb8Atuw5BfJ4AMYZNRO?=
+ =?us-ascii?Q?OiwqyqqSAs94G9d4Swqn6sRCv0Ldx2UzvybK1ANoIqzwy1BIaBQsCjozPEE6?=
+ =?us-ascii?Q?6i5n2cmaitKCWR0NRWzRvUbUYPJp+j6z8JyNVZUB8OMRU9yV3l+6S06+D666?=
+ =?us-ascii?Q?eYamCqKMSvT1czMByTiOR60omMO/Hc5iiOWf5n0n+p5sgIV7y1ISN6TElIr7?=
+ =?us-ascii?Q?KCG3LzD/70zmvi69YbM/7sLyqoxysr1j/VunRKFbKVOcwROoO6TUlld0nFYy?=
+ =?us-ascii?Q?RRI3cy243MJ/ADW0DEOJqal8pxpm2NSmqEuAVrTD/bj1Fnhy5aUp0Qd/sOCE?=
+ =?us-ascii?Q?qIhg7u1D0sBj0l4WQ9jz7bglCWooAzZ2a+3ip/nobAWwf8GameKOKk/qsMpf?=
+ =?us-ascii?Q?vL3yOLLIEfUf+IUcJkaMlLRu3R7neotybqq+8gWvfAEackDY3Y9cEHGEThzQ?=
+ =?us-ascii?Q?XIRQlaqUN2zumP2my/nk8muJxm+oEvAgyQTO1C7l2azJprxy/qjumX7ifopn?=
+ =?us-ascii?Q?Vw10jWKEcZlaalWs/ryFFcmBbSqcoXbGlspd0FkSVklf0Tba2YgDrUG3LXAQ?=
+ =?us-ascii?Q?DJeuPJqyFgiwr1LUOe3Ya0K5ZujVbaGQeYLWRt478xPQG/zmbtTVxYiASRVx?=
+ =?us-ascii?Q?6i6m4zwJK+h+xkRgehPqb6BYucOLwIUwfVV+iCcDnQaA6FNrBLkCtzQfK01L?=
+ =?us-ascii?Q?IVsB7KehFY+DQYrxV3cLzvFJ+mRsiEM5994QaUphYYJ91cprzUlAucCvphWp?=
+ =?us-ascii?Q?H7xPYBfGAHP8QTsoZ/A+8vSsNF3vMR0gECHJuXrP2G1sz4TCHPXGUP/PYNtE?=
+ =?us-ascii?Q?TmsAd04LHb/eVff0MxpYtBZVmWNvncX+G1pBu9ZTjPOkvoDg9CnBS+hZqvyn?=
+ =?us-ascii?Q?RP3sLFdpkw=3D=3D?=
+X-Exchange-RoutingPolicyChecked: b222R0f8OMP7apu+GKfTwnbHHL6dhXS8ElR9fPzZzuQV2dPcGGuh9vp9nHll0AVyF6VOBXR89rtkKywg/EBOqeq5TMLOBwN9xsMs+LqeIakL3TBcZELd8f1UNm45TuYE9kqtdQuANFm7wYZzx1Y/YRvTnY2I606HVDMyWBjpxQkjVJadwiZN/b1H8TF+LPrpRMUJXZ8nr6RwTWd+zl5IHhFApEaeYEes2gkVAWXL+7GilbyRUDPdrK+WO/ic7CK/cPH1cA+kRkG2m5X3I4TsQG7qAvHiYsTVBoQo0TfRGFaFUFRoOPZYNmePjVEBG44kuf6pKw8zNT5T0UsV8Rn7jw==
+X-MS-Exchange-CrossTenant-Network-Message-Id: c240ae50-a847-4f90-5966-08de953847ad
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2808.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2026 06:29:31.8686
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2026 06:30:08.9345
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Nsrud4QNcTiHPafolgzX7qn1Sx4ZT2uhs701j/+TGNm7QhKmmNPFWK3kz6mo2GQ0CS4gtl0275ifumrw7fGd1w==
+X-MS-Exchange-CrossTenant-UserPrincipalName: E4ttt+uYP29U2zKNrJ8biyWOlpJsdSTBTcu7lV8r12M6tKUA6lmW4J5boo73dvL6Rldt2EcYfcrtqQ1+Mi0dRw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR11MB8193
 X-OriginatorOrg: intel.com
 
-tree:   git://git.infradead.org/users/dwmw2/linux vgic-iidr-group-fixes
-head:   89879757040970ab272f17b4ec2fb7d6a7986372
-commit: c1ec22a93f919c6d3bee511832ca8422f9e61471 [3/3] KVM: arm64: selftests: Add vgic IIDR revision test
-config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260408/202604080614.wKKMYdgW-lkp@intel.com/config)
-compiler: aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260408/202604080614.wKKMYdgW-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Johannes-Weiner/mm-page_alloc-replace-pageblock_flags-bitmap-with-struct-pageblock_data/20260407-193348
+head:   fed3344e092819bacd3a25de239265aa067bd4e7
+commit: fed3344e092819bacd3a25de239265aa067bd4e7 mm: page_alloc: per-cpu pageblock buddy allocator
+date:   17 hours ago
+config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260408/202604080625.I1FdysJj-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260408/202604080625.I1FdysJj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202604080614.wKKMYdgW-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202604080625.I1FdysJj-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arm64/vgic_group_iidr.c:13:
-   arm64/vgic_group_iidr.c: In function 'run_test':
->> include/kvm_util.h:1139:16: warning: passing argument 1 of 'memcpy' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    1139 |         memcpy(_p, &(g), sizeof(g));                            \
-         |                ^~
-   arm64/vgic_group_iidr.c:87:9: note: in expansion of macro 'sync_global_to_guest'
-      87 |         sync_global_to_guest(vm, shared_rev);
-         |         ^~~~~~~~~~~~~~~~~~~~
-   In file included from include/test_util.h:17,
-                    from arm64/vgic_group_iidr.c:12:
-   /usr/aarch64-linux-gnu/include/string.h:43:39: note: expected 'void * restrict' but argument is of type 'volatile uint64_t *' {aka 'volatile long unsigned int *'}
-      43 | extern void *memcpy (void *__restrict __dest, const void *__restrict __src,
-         |                      ~~~~~~~~~~~~~~~~~^~~~~~
-   include/kvm_util.h:1139:20: warning: passing argument 2 of 'memcpy' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    1139 |         memcpy(_p, &(g), sizeof(g));                            \
-         |                    ^~~~
-   arm64/vgic_group_iidr.c:87:9: note: in expansion of macro 'sync_global_to_guest'
-      87 |         sync_global_to_guest(vm, shared_rev);
-         |         ^~~~~~~~~~~~~~~~~~~~
-   /usr/aarch64-linux-gnu/include/string.h:43:70: note: expected 'const void * restrict' but argument is of type 'volatile uint64_t *' {aka 'volatile long unsigned int *'}
-      43 | extern void *memcpy (void *__restrict __dest, const void *__restrict __src,
-         |                                               ~~~~~~~~~~~~~~~~~~~~~~~^~~~~
->> include/kvm_util.h:1139:16: warning: passing argument 1 of 'memcpy' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    1139 |         memcpy(_p, &(g), sizeof(g));                            \
-         |                ^~
-   arm64/vgic_group_iidr.c:89:9: note: in expansion of macro 'sync_global_to_guest'
-      89 |         sync_global_to_guest(vm, shared_rev);
-         |         ^~~~~~~~~~~~~~~~~~~~
-   /usr/aarch64-linux-gnu/include/string.h:43:39: note: expected 'void * restrict' but argument is of type 'volatile uint64_t *' {aka 'volatile long unsigned int *'}
-      43 | extern void *memcpy (void *__restrict __dest, const void *__restrict __src,
-         |                      ~~~~~~~~~~~~~~~~~^~~~~~
-   include/kvm_util.h:1139:20: warning: passing argument 2 of 'memcpy' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    1139 |         memcpy(_p, &(g), sizeof(g));                            \
-         |                    ^~~~
-   arm64/vgic_group_iidr.c:89:9: note: in expansion of macro 'sync_global_to_guest'
-      89 |         sync_global_to_guest(vm, shared_rev);
-         |         ^~~~~~~~~~~~~~~~~~~~
-   /usr/aarch64-linux-gnu/include/string.h:43:70: note: expected 'const void * restrict' but argument is of type 'volatile uint64_t *' {aka 'volatile long unsigned int *'}
-      43 | extern void *memcpy (void *__restrict __dest, const void *__restrict __src,
-         |                                               ~~~~~~~~~~~~~~~~~~~~~~~^~~~~
-   At top level:
-   cc1: note: unrecognized command-line option '-Wno-gnu-variable-sized-type-not-at-end' may have been intended to silence earlier diagnostics
+   In file included from mm/page_alloc.c:58:
+   mm/internal.h: In function 'pfn_to_pageblock':
+   mm/internal.h:803:37: error: invalid use of undefined type 'struct pageblock_data'
+     803 |         return &zone->pageblock_data[idx];
+         |                                     ^
+   mm/page_alloc.c: In function 'get_pfnblock_flags_word':
+   mm/page_alloc.c:363:44: error: invalid use of undefined type 'struct pageblock_data'
+     363 |         return &pfn_to_pageblock(page, pfn)->flags;
+         |                                            ^~
+   In file included from <command-line>:
+   mm/page_alloc.c: In function 'pbd_migratetype':
+>> mm/page_alloc.c:414:44: error: invalid use of undefined type 'const struct pageblock_data'
+     414 |         unsigned long flags = READ_ONCE(pbd->flags) & MIGRATETYPE_AND_ISO_MASK;
+         |                                            ^~
+   ././include/linux/compiler_types.h:686:23: note: in definition of macro '__compiletime_assert'
+     686 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   ././include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
+     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   ./include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   ./include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   ./include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/page_alloc.c:414:31: note: in expansion of macro 'READ_ONCE'
+     414 |         unsigned long flags = READ_ONCE(pbd->flags) & MIGRATETYPE_AND_ISO_MASK;
+         |                               ^~~~~~~~~
+>> mm/page_alloc.c:414:44: error: invalid use of undefined type 'const struct pageblock_data'
+     414 |         unsigned long flags = READ_ONCE(pbd->flags) & MIGRATETYPE_AND_ISO_MASK;
+         |                                            ^~
+   ././include/linux/compiler_types.h:686:23: note: in definition of macro '__compiletime_assert'
+     686 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   ././include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
+     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   ./include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   ./include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   ./include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/page_alloc.c:414:31: note: in expansion of macro 'READ_ONCE'
+     414 |         unsigned long flags = READ_ONCE(pbd->flags) & MIGRATETYPE_AND_ISO_MASK;
+         |                               ^~~~~~~~~
+>> mm/page_alloc.c:414:44: error: invalid use of undefined type 'const struct pageblock_data'
+     414 |         unsigned long flags = READ_ONCE(pbd->flags) & MIGRATETYPE_AND_ISO_MASK;
+         |                                            ^~
+   ././include/linux/compiler_types.h:686:23: note: in definition of macro '__compiletime_assert'
+     686 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   ././include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
+     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   ./include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   ./include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   ./include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/page_alloc.c:414:31: note: in expansion of macro 'READ_ONCE'
+     414 |         unsigned long flags = READ_ONCE(pbd->flags) & MIGRATETYPE_AND_ISO_MASK;
+         |                               ^~~~~~~~~
+>> mm/page_alloc.c:414:44: error: invalid use of undefined type 'const struct pageblock_data'
+     414 |         unsigned long flags = READ_ONCE(pbd->flags) & MIGRATETYPE_AND_ISO_MASK;
+         |                                            ^~
+   ././include/linux/compiler_types.h:686:23: note: in definition of macro '__compiletime_assert'
+     686 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   ././include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
+     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   ./include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   ./include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   ./include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/page_alloc.c:414:31: note: in expansion of macro 'READ_ONCE'
+     414 |         unsigned long flags = READ_ONCE(pbd->flags) & MIGRATETYPE_AND_ISO_MASK;
+         |                               ^~~~~~~~~
+>> mm/page_alloc.c:414:44: error: invalid use of undefined type 'const struct pageblock_data'
+     414 |         unsigned long flags = READ_ONCE(pbd->flags) & MIGRATETYPE_AND_ISO_MASK;
+         |                                            ^~
+   ././include/linux/compiler_types.h:686:23: note: in definition of macro '__compiletime_assert'
+     686 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   ././include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
+     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   ./include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   ./include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/page_alloc.c:414:31: note: in expansion of macro 'READ_ONCE'
+     414 |         unsigned long flags = READ_ONCE(pbd->flags) & MIGRATETYPE_AND_ISO_MASK;
+         |                               ^~~~~~~~~
+>> mm/page_alloc.c:414:44: error: invalid use of undefined type 'const struct pageblock_data'
+     414 |         unsigned long flags = READ_ONCE(pbd->flags) & MIGRATETYPE_AND_ISO_MASK;
+         |                                            ^~
+   ././include/linux/compiler_types.h:642:53: note: in definition of macro '__unqual_scalar_typeof'
+     642 | #define __unqual_scalar_typeof(x) __typeof_unqual__(x)
+         |                                                     ^
+   ./include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
+      50 |         __READ_ONCE(x);                                                 \
+         |         ^~~~~~~~~~~
+   mm/page_alloc.c:414:31: note: in expansion of macro 'READ_ONCE'
+     414 |         unsigned long flags = READ_ONCE(pbd->flags) & MIGRATETYPE_AND_ISO_MASK;
+         |                               ^~~~~~~~~
+   In file included from ./arch/x86/include/generated/asm/rwonce.h:1,
+                    from ./include/linux/compiler.h:372,
+                    from ./include/asm-generic/bug.h:5,
+                    from ./arch/x86/include/asm/bug.h:193,
+                    from ./include/linux/bug.h:5,
+                    from ./include/linux/mmdebug.h:5,
+                    from ./include/linux/mm.h:7,
+                    from mm/page_alloc.c:18:
+>> mm/page_alloc.c:414:44: error: invalid use of undefined type 'const struct pageblock_data'
+     414 |         unsigned long flags = READ_ONCE(pbd->flags) & MIGRATETYPE_AND_ISO_MASK;
+         |                                            ^~
+   ./include/asm-generic/rwonce.h:44:73: note: in definition of macro '__READ_ONCE'
+      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+         |                                                                         ^
+   mm/page_alloc.c:414:31: note: in expansion of macro 'READ_ONCE'
+     414 |         unsigned long flags = READ_ONCE(pbd->flags) & MIGRATETYPE_AND_ISO_MASK;
+         |                               ^~~~~~~~~
+   mm/page_alloc.c: In function 'init_pageblock_migratetype':
+   mm/page_alloc.c:542:12: error: invalid use of undefined type 'struct pageblock_data'
+     542 |         pbd->block_pfn = pfn;
+         |            ^~
+   mm/page_alloc.c:543:28: error: invalid use of undefined type 'struct pageblock_data'
+     543 |         INIT_LIST_HEAD(&pbd->cpu_node);
+         |                            ^~
+   mm/page_alloc.c: In function 'clear_pcpblock_owner':
+   mm/page_alloc.c:712:12: error: invalid use of undefined type 'struct pageblock_data'
+     712 |         pbd->cpu = 0;
+         |            ^~
+   mm/page_alloc.c:713:27: error: invalid use of undefined type 'struct pageblock_data'
+     713 |         list_del_init(&pbd->cpu_node);
+         |                           ^~
+   mm/page_alloc.c: In function 'set_pcpblock_owner':
+   mm/page_alloc.c:718:50: error: invalid use of undefined type 'struct pageblock_data'
+     718 |         pfn_to_pageblock(page, page_to_pfn(page))->cpu = cpu + 1;
+         |                                                  ^~
+   mm/page_alloc.c: In function 'get_pcpblock_owner':
+   mm/page_alloc.c:723:57: error: invalid use of undefined type 'struct pageblock_data'
+     723 |         return pfn_to_pageblock(page, page_to_pfn(page))->cpu - 1;
+         |                                                         ^~
+   mm/page_alloc.c: In function 'free_pcppages_bulk':
+   mm/page_alloc.c:1603:52: error: invalid use of undefined type 'struct pageblock_data'
+    1603 |                                 if (list_empty(&pbd->cpu_node))
+         |                                                    ^~
+   mm/page_alloc.c:1604:54: error: invalid use of undefined type 'struct pageblock_data'
+    1604 |                                         list_add(&pbd->cpu_node, &pcp->owned_blocks);
+         |                                                      ^~
+   In file included from ./include/linux/init.h:5,
+                    from ./include/linux/printk.h:6,
+                    from ./include/asm-generic/bug.h:31:
+   mm/page_alloc.c: In function 'rmqueue_bulk':
+>> ./include/linux/container_of.h:21:54: error: invalid use of undefined type 'struct pageblock_data'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                                                      ^~
+   ./include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   ./include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   ./include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   ./include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   ./include/linux/list.h:620:9: note: in expansion of macro 'list_entry'
+     620 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   ./include/linux/list.h:869:20: note: in expansion of macro 'list_first_entry'
+     869 |         for (pos = list_first_entry(head, typeof(*pos), member),        \
+         |                    ^~~~~~~~~~~~~~~~
+   mm/page_alloc.c:2718:9: note: in expansion of macro 'list_for_each_entry_safe'
+    2718 |         list_for_each_entry_safe(pbd, tmp, &pcp->owned_blocks, cpu_node) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   ././include/linux/compiler_types.h:617:27: error: expression in static assertion is not an integer
+     617 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   ./include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   ./include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   ./include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   ./include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   ./include/linux/list.h:620:9: note: in expansion of macro 'list_entry'
+     620 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   ./include/linux/list.h:869:20: note: in expansion of macro 'list_first_entry'
+     869 |         for (pos = list_first_entry(head, typeof(*pos), member),        \
+         |                    ^~~~~~~~~~~~~~~~
+   mm/page_alloc.c:2718:9: note: in expansion of macro 'list_for_each_entry_safe'
+    2718 |         list_for_each_entry_safe(pbd, tmp, &pcp->owned_blocks, cpu_node) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from mm/page_alloc.c:17:
+>> ./include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct pageblock_data'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   ./include/linux/container_of.h:24:28: note: in expansion of macro 'offsetof'
+      24 |         ((type *)(__mptr - offsetof(type, member))); })
+         |                            ^~~~~~~~
+   ./include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   ./include/linux/list.h:620:9: note: in expansion of macro 'list_entry'
+     620 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   ./include/linux/list.h:869:20: note: in expansion of macro 'list_first_entry'
+     869 |         for (pos = list_first_entry(head, typeof(*pos), member),        \
+         |                    ^~~~~~~~~~~~~~~~
+   mm/page_alloc.c:2718:9: note: in expansion of macro 'list_for_each_entry_safe'
+    2718 |         list_for_each_entry_safe(pbd, tmp, &pcp->owned_blocks, cpu_node) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from ./include/linux/list.h:5,
+                    from ./include/linux/smp.h:12,
+                    from ./include/linux/lockdep.h:14,
+                    from ./include/linux/spinlock.h:63,
+                    from ./include/linux/mmzone.h:8,
+                    from ./include/linux/gfp.h:7,
+                    from ./include/linux/mm.h:8:
+>> ./include/linux/list.h:667:25: error: invalid use of undefined type 'struct pageblock_data'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                         ^~
+   ./include/linux/container_of.h:20:33: note: in definition of macro 'container_of'
+      20 |         void *__mptr = (void *)(ptr);                                   \
+         |                                 ^~~
+   ./include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   ./include/linux/list.h:870:21: note: in expansion of macro 'list_next_entry'
+     870 |                 n = list_next_entry(pos, member);                       \
+         |                     ^~~~~~~~~~~~~~~
+   mm/page_alloc.c:2718:9: note: in expansion of macro 'list_for_each_entry_safe'
+    2718 |         list_for_each_entry_safe(pbd, tmp, &pcp->owned_blocks, cpu_node) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+>> ./include/linux/list.h:667:25: error: invalid use of undefined type 'struct pageblock_data'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                         ^~
+   ./include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   ./include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   ./include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   ./include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   ./include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   ./include/linux/list.h:870:21: note: in expansion of macro 'list_next_entry'
+     870 |                 n = list_next_entry(pos, member);                       \
+         |                     ^~~~~~~~~~~~~~~
+   mm/page_alloc.c:2718:9: note: in expansion of macro 'list_for_each_entry_safe'
+    2718 |         list_for_each_entry_safe(pbd, tmp, &pcp->owned_blocks, cpu_node) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+>> ./include/linux/container_of.h:21:54: error: invalid use of undefined type 'struct pageblock_data'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                                                      ^~
+   ./include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   ./include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   ./include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   ./include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   ./include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   ./include/linux/list.h:870:21: note: in expansion of macro 'list_next_entry'
+     870 |                 n = list_next_entry(pos, member);                       \
+         |                     ^~~~~~~~~~~~~~~
+   mm/page_alloc.c:2718:9: note: in expansion of macro 'list_for_each_entry_safe'
+    2718 |         list_for_each_entry_safe(pbd, tmp, &pcp->owned_blocks, cpu_node) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+>> ./include/linux/list.h:667:25: error: invalid use of undefined type 'struct pageblock_data'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                         ^~
+   ./include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   ./include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   ./include/linux/container_of.h:22:23: note: in expansion of macro '__same_type'
+      22 |                       __same_type(*(ptr), void),                        \
+         |                       ^~~~~~~~~~~
+   ./include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   ./include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   ./include/linux/list.h:870:21: note: in expansion of macro 'list_next_entry'
+     870 |                 n = list_next_entry(pos, member);                       \
+         |                     ^~~~~~~~~~~~~~~
+   mm/page_alloc.c:2718:9: note: in expansion of macro 'list_for_each_entry_safe'
+    2718 |         list_for_each_entry_safe(pbd, tmp, &pcp->owned_blocks, cpu_node) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   ././include/linux/compiler_types.h:617:27: error: expression in static assertion is not an integer
+     617 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   ./include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   ./include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   ./include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   ./include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   ./include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   ./include/linux/list.h:870:21: note: in expansion of macro 'list_next_entry'
+     870 |                 n = list_next_entry(pos, member);                       \
+         |                     ^~~~~~~~~~~~~~~
+   mm/page_alloc.c:2718:9: note: in expansion of macro 'list_for_each_entry_safe'
+    2718 |         list_for_each_entry_safe(pbd, tmp, &pcp->owned_blocks, cpu_node) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+>> ./include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct pageblock_data'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   ./include/linux/container_of.h:24:28: note: in expansion of macro 'offsetof'
+      24 |         ((type *)(__mptr - offsetof(type, member))); })
+         |                            ^~~~~~~~
+   ./include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   ./include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   ./include/linux/list.h:870:21: note: in expansion of macro 'list_next_entry'
+     870 |                 n = list_next_entry(pos, member);                       \
+         |                     ^~~~~~~~~~~~~~~
+   mm/page_alloc.c:2718:9: note: in expansion of macro 'list_for_each_entry_safe'
+    2718 |         list_for_each_entry_safe(pbd, tmp, &pcp->owned_blocks, cpu_node) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   ./include/linux/list.h:869:64: warning: left-hand operand of comma expression has no effect [-Wunused-value]
+     869 |         for (pos = list_first_entry(head, typeof(*pos), member),        \
+         |                                                                ^
+   mm/page_alloc.c:2718:9: note: in expansion of macro 'list_for_each_entry_safe'
+    2718 |         list_for_each_entry_safe(pbd, tmp, &pcp->owned_blocks, cpu_node) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   ./include/linux/list.h:773:26: error: invalid use of undefined type 'struct pageblock_data'
+     773 |         list_is_head(&pos->member, (head))
+         |                          ^~
+   ./include/linux/list.h:871:15: note: in expansion of macro 'list_entry_is_head'
+     871 |              !list_entry_is_head(pos, head, member);                    \
+         |               ^~~~~~~~~~~~~~~~~~
+   mm/page_alloc.c:2718:9: note: in expansion of macro 'list_for_each_entry_safe'
+    2718 |         list_for_each_entry_safe(pbd, tmp, &pcp->owned_blocks, cpu_node) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+>> ./include/linux/list.h:667:25: error: invalid use of undefined type 'struct pageblock_data'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                         ^~
+   ./include/linux/container_of.h:20:33: note: in definition of macro 'container_of'
+      20 |         void *__mptr = (void *)(ptr);                                   \
+         |                                 ^~~
+   ./include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   ./include/linux/list.h:872:27: note: in expansion of macro 'list_next_entry'
+     872 |              pos = n, n = list_next_entry(n, member))
+         |                           ^~~~~~~~~~~~~~~
+   mm/page_alloc.c:2718:9: note: in expansion of macro 'list_for_each_entry_safe'
+    2718 |         list_for_each_entry_safe(pbd, tmp, &pcp->owned_blocks, cpu_node) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+>> ./include/linux/list.h:667:25: error: invalid use of undefined type 'struct pageblock_data'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                         ^~
+   ./include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   ./include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   ./include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   ./include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   ./include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   ./include/linux/list.h:872:27: note: in expansion of macro 'list_next_entry'
+     872 |              pos = n, n = list_next_entry(n, member))
+         |                           ^~~~~~~~~~~~~~~
+   mm/page_alloc.c:2718:9: note: in expansion of macro 'list_for_each_entry_safe'
+    2718 |         list_for_each_entry_safe(pbd, tmp, &pcp->owned_blocks, cpu_node) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+>> ./include/linux/container_of.h:21:54: error: invalid use of undefined type 'struct pageblock_data'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                                                      ^~
+   ./include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   ./include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   ./include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   ./include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   ./include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   ./include/linux/list.h:872:27: note: in expansion of macro 'list_next_entry'
+     872 |              pos = n, n = list_next_entry(n, member))
+         |                           ^~~~~~~~~~~~~~~
+   mm/page_alloc.c:2718:9: note: in expansion of macro 'list_for_each_entry_safe'
+    2718 |         list_for_each_entry_safe(pbd, tmp, &pcp->owned_blocks, cpu_node) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+>> ./include/linux/list.h:667:25: error: invalid use of undefined type 'struct pageblock_data'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                         ^~
+   ./include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   ./include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   ./include/linux/container_of.h:22:23: note: in expansion of macro '__same_type'
+      22 |                       __same_type(*(ptr), void),                        \
+         |                       ^~~~~~~~~~~
+   ./include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   ./include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   ./include/linux/list.h:872:27: note: in expansion of macro 'list_next_entry'
+     872 |              pos = n, n = list_next_entry(n, member))
+         |                           ^~~~~~~~~~~~~~~
+   mm/page_alloc.c:2718:9: note: in expansion of macro 'list_for_each_entry_safe'
+    2718 |         list_for_each_entry_safe(pbd, tmp, &pcp->owned_blocks, cpu_node) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   ././include/linux/compiler_types.h:617:27: error: expression in static assertion is not an integer
+     617 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   ./include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   ./include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   ./include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   ./include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   ./include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   ./include/linux/list.h:872:27: note: in expansion of macro 'list_next_entry'
+     872 |              pos = n, n = list_next_entry(n, member))
+         |                           ^~~~~~~~~~~~~~~
+   mm/page_alloc.c:2718:9: note: in expansion of macro 'list_for_each_entry_safe'
+    2718 |         list_for_each_entry_safe(pbd, tmp, &pcp->owned_blocks, cpu_node) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+>> ./include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct pageblock_data'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   ./include/linux/container_of.h:24:28: note: in expansion of macro 'offsetof'
+      24 |         ((type *)(__mptr - offsetof(type, member))); })
+         |                            ^~~~~~~~
+   ./include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   ./include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
+     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   ./include/linux/list.h:872:27: note: in expansion of macro 'list_next_entry'
+     872 |              pos = n, n = list_next_entry(n, member))
+         |                           ^~~~~~~~~~~~~~~
+   mm/page_alloc.c:2718:9: note: in expansion of macro 'list_for_each_entry_safe'
+    2718 |         list_for_each_entry_safe(pbd, tmp, &pcp->owned_blocks, cpu_node) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   mm/page_alloc.c:2722:31: error: invalid use of undefined type 'struct pageblock_data'
+    2722 |                 base_pfn = pbd->block_pfn;
+         |                               ^~
+   mm/page_alloc.c:2743:35: error: invalid use of undefined type 'struct pageblock_data'
+    2743 |                 list_del_init(&pbd->cpu_node);
+         |                                   ^~
+   mm/page_alloc.c: In function '__free_frozen_pages':
+   mm/page_alloc.c:3248:24: error: invalid use of undefined type 'struct pageblock_data'
+    3248 |         owner_cpu = pbd->cpu - 1;
+         |                        ^~
+   mm/page_alloc.c: In function 'free_unref_folios':
+   mm/page_alloc.c:3333:32: error: invalid use of undefined type 'struct pageblock_data'
+    3333 |                 owner_cpu = pbd->cpu - 1;
+         |                                ^~
+   mm/page_alloc.c: In function 'get_pfnblock_flags_word':
+   mm/page_alloc.c:364:1: warning: control reaches end of non-void function [-Wreturn-type]
+     364 | }
+         | ^
+
+
+vim +414 mm/page_alloc.c
+
+0b423ca22f95a8 Mel Gorman      2016-05-19  406  
+fed3344e092819 Johannes Weiner 2026-04-03  407  /*
+fed3344e092819 Johannes Weiner 2026-04-03  408   * Extract migratetype from a pageblock_data pointer. Callers that
+fed3344e092819 Johannes Weiner 2026-04-03  409   * already have the pbd can avoid a redundant pfn_to_pageblock().
+fed3344e092819 Johannes Weiner 2026-04-03  410   */
+fed3344e092819 Johannes Weiner 2026-04-03  411  static __always_inline enum migratetype
+fed3344e092819 Johannes Weiner 2026-04-03  412  pbd_migratetype(const struct pageblock_data *pbd)
+fed3344e092819 Johannes Weiner 2026-04-03  413  {
+fed3344e092819 Johannes Weiner 2026-04-03 @414  	unsigned long flags = READ_ONCE(pbd->flags) & MIGRATETYPE_AND_ISO_MASK;
+fed3344e092819 Johannes Weiner 2026-04-03  415  
 
 -- 
 0-DAY CI Kernel Test Service
