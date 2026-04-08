@@ -1,111 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A70D42E8B8A
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Apr 2026 01:42:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FC0331CA4E
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Apr 2026 02:22:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775612566; cv=none; b=e4yliOJYaicsX6kLr3lkMH34DQPgOSep/ectS6FY9L2h+2GmS7nJ0DnPEnXkuDfbA6QVGPnnq5ejvu+udc5MVjHbnZ2uAwLvV/kFW+9nnh2P5uHQCVVal/2tyDpMeUUID63UipvynGjSDbnmimgAhbV0PEP/ByYgKPpbUaPWLeY=
+	t=1775614966; cv=none; b=MHhTAy2B6kHrtzHl1/DswB4GgGdpb42synaB0MXO1ODvfl2CDvmjDBsoRNaddywZwinmW+l9Onh6D9q34whuGAIcTpBs8qnysNXDmVai9gAXQng/zrhWvRiJ5LGiG22UlytAhFAbBYfFThf5k5EFlDgJVlsordiLPAPoR9HxPpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775612566; c=relaxed/simple;
-	bh=SPO4LCvHQWo2qs8RjVcTzLGyV+vMogLU+40vCsS1XAo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=jL7d8DR6LAojXio/LNYaq671L2BZu5U8tqT8FndTKftzDL20TbYmP+HqTMahSk/4Os9viHRp5iZdUBynwLsLXb5HSeEHuYM6s9W3G8Pgf9vSsDoCu7VrvYysBMho+GbdA/ijd4YTcyAqhRo7PzYrcNWNyDGVUlC2N2mtI/n+4g4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FKpCObMM; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1775614966; c=relaxed/simple;
+	bh=G/ybkeXCro7yc2EZ/oX3x+XL6ExUMSiAnW4RJdguI+w=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=LsS2Ek+mOsi/JDGGNBAys8LjifReQ2E6gKx7qhFTHePBKrcE0ES0q9RucDaD0KZEEMmW1b5M6typb8TVsxlh9tjCd2dYLwnvp+QWytJvou7C12fZf/gcdtAfuV5Cgl4fI7cf2X3spKYmZwMqUHJWTrpdVHlnzJX/UyQHPxnHfxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L0d1AsZh; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FKpCObMM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L0d1AsZh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775612563; x=1807148563;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SPO4LCvHQWo2qs8RjVcTzLGyV+vMogLU+40vCsS1XAo=;
-  b=FKpCObMMNLvnrONHT76j9Payamm/2agDyVN+UWQrybniPk5iH+euYeCf
-   sxY9bcx3oOeW+g6LqA7q32+ve56uGi6J/cfTQDKDjtMWTNcdijEpDc/le
-   upsy+7/WheF96r6SYIEXBS8IWat/znRijeSzzlJM7UwP84GNRWsZANljv
-   LhdyB6TfkvjegXVggDEEKzSbGK7OtcygwwBncCGwL12jbK8NbHTYbfA7V
-   TEGkNF/vjx04Kr+sAh+w1b84tGXHrtUK/N4AV2cogA1QBnhAr/TpHvoXk
-   ZyDQ3Al0B2PKL0C4MCmeAdL4B+x4mAOxei7hoGkdhuVnDLl1a6ABk9ZDN
-   w==;
-X-CSE-ConnectionGUID: gv0VbsAuTBGOKEPiX5XeBA==
-X-CSE-MsgGUID: IzCkWrkEQriTkmJh555M1w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="76467629"
+  t=1775614965; x=1807150965;
+  h=date:from:to:cc:subject:message-id;
+  bh=G/ybkeXCro7yc2EZ/oX3x+XL6ExUMSiAnW4RJdguI+w=;
+  b=L0d1AsZhtCjj2PetQ5CXorEHGPQoLLTLCBoJPmLoZ9y9EKyNAMVU2NQr
+   5iAWBA5M53l8sL7+oXVvsqbUQJpxaRgb/eaqi/pt/T2GrDr2duY1oAxJk
+   aLVQ/m3OrhzBbKRXUrit2nc0f0kJha+YYbnvvUnT33LnVnTrEnItBg8lM
+   pBaRAC1v5tz5qCkXGpnk8vx+Jb0wjHvJI5/GtBx5Dse6tjaxK74XIsITl
+   Eq1YyRO/S/yra2jJ+XklEsbEtoLsp9QrR989pcxVxbbrmci42i3BU52QS
+   2gNG7BBGGOuCEwQKoT1e6G1ePlsu7IoQr50QnGlTlTvxHyX7+SuD5cJS4
+   g==;
+X-CSE-ConnectionGUID: zu8+FtqRSIqF1rCyohtmZQ==
+X-CSE-MsgGUID: OwM23g3+Rk+UuzfM5F6XwQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="76601212"
 X-IronPort-AV: E=Sophos;i="6.23,166,1770624000"; 
-   d="scan'208";a="76467629"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 18:42:43 -0700
-X-CSE-ConnectionGUID: Jn+bk0T5Rgi4t/F9O/97vg==
-X-CSE-MsgGUID: XDDVggLtSkW3ss+wj2xjOw==
+   d="scan'208";a="76601212"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 19:22:44 -0700
+X-CSE-ConnectionGUID: 9iXHsZEvRouQXZwFgkuK6g==
+X-CSE-MsgGUID: /fAbnTJYSHaa5UcNMarwBA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,166,1770624000"; 
-   d="scan'208";a="233208797"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 07 Apr 2026 18:42:42 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 07 Apr 2026 19:22:42 -0700
+Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wAHwF-00000000ANj-3AqG;
-	Wed, 08 Apr 2026 01:42:39 +0000
-Date: Wed, 08 Apr 2026 03:42:03 +0200
+	id 1wAIYy-000000001KH-0UjD;
+	Wed, 08 Apr 2026 02:22:40 +0000
+Date: Wed, 08 Apr 2026 10:22:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Ville =?utf-8?Q?Syrj=C3=A4l=C3=A4"?= <ville.syrjala@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [vsyrjala:remap_tile_ys_64 18/30]
- drivers/gpu/drm/i915/i915_vma.c:968:1: error: conflicting types for
- 'add_pages'; have 'struct scatterlist *(dma_addr_t,  unsigned int,  struct
- sg_table *, struct scatterlist *)' {aka 'struct scatterlist *(long long
- unsigned int,  unsigned int,  struct sg_...
-Message-ID: <202604080343.eLWuZISe-lkp@intel.com>
+To: Douglas Anderson <dianders@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/gpu/drm/panel/panel-edp.c:204: warning: Function
+ parameter or member 'delay' not described in 'edp_panel_entry'
+Message-ID: <202604081054.qXKdJnya-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://github.com/vsyrjala/linux.git remap_tile_ys_64
-head:   9a8f5dc5c6e5da24a2df0e93fda770ab217b0886
-commit: 539e2225c8d7e19d4095bace6c48ec8d3d434e93 [18/30] drm/i915/vma: Extract add_pages()
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260408/202604080343.eLWuZISe-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260408/202604080343.eLWuZISe-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3036cd0d3328220a1858b1ab390be8b562774e8a
+commit: 5540cf8f3e8dac7ef2de28edcf2623c1516fbe45 drm/panel-edp: Implement generic "edp-panel"s probed by EDID
+date:   4 years, 7 months ago
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20260408/202604081054.qXKdJnya-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260408/202604081054.qXKdJnya-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 5540cf8f3e8d ("drm/panel-edp: Implement generic "edp-panel"s probed by EDID")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604080343.eLWuZISe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604081054.qXKdJnya-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/i915/i915_vma.c:968:1: error: conflicting types for 'add_pages'; have 'struct scatterlist *(dma_addr_t,  unsigned int,  struct sg_table *, struct scatterlist *)' {aka 'struct scatterlist *(long long unsigned int,  unsigned int,  struct sg_table *, struct scatterlist *)'}
-     968 | add_pages(dma_addr_t addr, unsigned int count,
-         | ^~~~~~~~~
-   In file included from include/linux/mmzone.h:1534,
-                    from include/linux/gfp.h:7,
-                    from include/linux/sched/mm.h:9,
-                    from drivers/gpu/drm/i915/i915_vma.c:25:
-   include/linux/memory_hotplug.h:153:5: note: previous declaration of 'add_pages' with type 'int(int,  long unsigned int,  long unsigned int,  struct mhp_params *)'
-     153 | int add_pages(int nid, unsigned long start_pfn, unsigned long nr_pages,
-         |     ^~~~~~~~~
+>> drivers/gpu/drm/panel/panel-edp.c:204: warning: Function parameter or member 'delay' not described in 'edp_panel_entry'
+>> drivers/gpu/drm/panel/panel-edp.c:204: warning: Function parameter or member 'name' not described in 'edp_panel_entry'
 
 
-vim +968 drivers/gpu/drm/i915/i915_vma.c
+vim +204 drivers/gpu/drm/panel/panel-edp.c
 
-   966	
-   967	static struct scatterlist *
- > 968	add_pages(dma_addr_t addr, unsigned int count,
-   969		  struct sg_table *st, struct scatterlist *sg)
-   970	{
-   971		st->nents++;
-   972	
-   973		sg_set_page(sg, NULL, count * I915_GTT_PAGE_SIZE, 0);
-   974		sg_dma_address(sg) = addr;
-   975		sg_dma_len(sg) = count * I915_GTT_PAGE_SIZE;
-   976	
-   977		return sg_next(sg);
-   978	}
-   979	
+   191	
+   192	/**
+   193	 * struct edp_panel_entry - Maps panel ID to delay / panel name.
+   194	 */
+   195	struct edp_panel_entry {
+   196		/** @panel_id: 32-bit ID for panel, encoded with drm_edid_encode_panel_id(). */
+   197		u32 panel_id;
+   198	
+   199		/* @delay: The power sequencing delays needed for this panel. */
+   200		const struct panel_delay *delay;
+   201	
+   202		/* @name: Name of this panel (for printing to logs). */
+   203		const char *name;
+ > 204	};
+   205	
 
 -- 
 0-DAY CI Kernel Test Service
