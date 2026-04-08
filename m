@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79CFC23EABC
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Apr 2026 09:43:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AE543793BE
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Apr 2026 09:54:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775641431; cv=none; b=aWn/m9ZG6EfwAW+1AcgcJl1Uci4O7ARskb2TUOrwIKuRHjLL7OVAXapm46FbJcvQEQ9zAFqpsSnRpcm+8EOlyDxYEjZ4r+//3Cq2bt3vwM5yjPtZ0Nqwhba0JwzTHQ8p7vEF3EqCcrPpemWSdEpMX2U646YSiGQ+GPYkK3MU9mg=
+	t=1775642101; cv=none; b=ReDXkNinheT/dP7SZGR4QZN/EVzPd3qX4xNQ42TwmCzZxuFKQtHP6R6PnyVRv/Qs/X8jw1LwCj7KSDlrplw4E6jwbKFvIOixTrMgVdi6X6TQhww5m9nNPSMaWI7LpU8Uch9z9LZkKHFauQnJe0vWeKKSMvA1xhaPMYMlS/HEOlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775641431; c=relaxed/simple;
-	bh=0KtZmp2iMfCrZZokl1IuddAyPE0nB0sJhVDtWrZatnA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TTLKKJBAKSSg4M5cymT9waPLNU9fH3r3s/8afyBOOv2A0AQ07NyF7NzuKY00Gtmo8rk3f0LoM3vk4HnmptDXgKV/OUF3q/F04X+gd5/ZLXSmwLwBham8gg4DgW2YqKM3B/9QLN0cQqxIvZC6VfYEXl1c+qGg6Nu4IErbD1QB8S8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bCDRthx5; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1775642101; c=relaxed/simple;
+	bh=JiHqG/HCXbHuxuAMeL5xOFEGwxlYZQADnsAQuBWxRrs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QNIvv601Jd/SPkBo+DZ9sA1OvB0cxFCO99qGIIVLF5cB3bPAfVlRQ1FfbhoxVuSXCHY3ezvG0rTK/Gr6C3Z47tmob/Qf0pl1LS8yud79v+qT2boIQXHn7bXm+smMhxL1j9SpIuy/lkGzgjDuDeTHwmZbYvUYz8lEfgzpeMwvGjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TjOiM2SY; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bCDRthx5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TjOiM2SY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775641428; x=1807177428;
+  t=1775642090; x=1807178090;
   h=date:from:to:cc:subject:message-id;
-  bh=0KtZmp2iMfCrZZokl1IuddAyPE0nB0sJhVDtWrZatnA=;
-  b=bCDRthx5j2U+dBtiMxJGyonYDJgoo111upulb9qCJHFUhesmS4iDbQi1
-   bQeeN2babbOsGQfUPdHp7x7ADxjucIvA+U7XtHpNbADmEFmKJ1h9/V5fA
-   tXBGSdTmx43FCND08dfOLvKDlRtsIG9CRf+/4HWd7WgcLUDdR0PfrOXI9
-   D8MkSv7NbuXdOWMeqg+jw59VXgRkEF3qWTkyZcz1EfOX/WOmg8iF6+GSQ
-   mK4CzRpPPlBbcxw72vI0i+V6rhKnYaifFVPfsC4yMn08z+VzpdP+/kzSN
-   rskMK04Fob6stI2pyJWHhUXNSfjjyRNh/J/iTJEoB7zL4Sz9MzRsx9G2t
+  bh=JiHqG/HCXbHuxuAMeL5xOFEGwxlYZQADnsAQuBWxRrs=;
+  b=TjOiM2SYqD7Lcucs3H94MOhzM+now7F+IGDRnEZ250+8aqjIMFMiRwCq
+   x70DcS9XUMAsb02ut3uJff2NGCQ7206ON4VOj+c0GAFaD5jN4V/9+M/iE
+   MKUDfvNhFFOtUza3u7R709Qx0yqL1LRvlzeyDWxP2YjymC01HMunI0yAF
+   TG6jqAykk9FqQSCznAY1mR1KiSNUTvLuDAANfidSuA6rNXYsmzlxaSDf6
+   YMaEEUu8pTK1UFPdndwUAbMyCiDff0anfMPggzibyONwbGAWL2jAL7r0q
+   893tRrkEd9E27lsP2gsAMKN8HCOxOoJomR5IWy9nBI8GQf1aEq8dV1uMR
    g==;
-X-CSE-ConnectionGUID: ZOFWwWRWTrGndKB3ZCJVww==
-X-CSE-MsgGUID: 4jY0iuRoQBSzBgk+PbkBzA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="76520523"
+X-CSE-ConnectionGUID: J2MHtwHzSgyRzbh9zX7L6A==
+X-CSE-MsgGUID: 9d7nJON7ScKCvIFAfUx28Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="94008765"
 X-IronPort-AV: E=Sophos;i="6.23,167,1770624000"; 
-   d="scan'208";a="76520523"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 02:43:48 -0700
-X-CSE-ConnectionGUID: BPPxWeK4R2iTB0TYEXP16Q==
-X-CSE-MsgGUID: 9H9fgRrARvy7iCS90P9jEg==
+   d="scan'208";a="94008765"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 02:54:49 -0700
+X-CSE-ConnectionGUID: 9khumiFdRPeqExO23dilsQ==
+X-CSE-MsgGUID: gQHL75WDR8S49imDAGoMsw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,167,1770624000"; 
-   d="scan'208";a="230091991"
+   d="scan'208";a="224136007"
 Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 08 Apr 2026 02:43:47 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 08 Apr 2026 02:54:47 -0700
 Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wAPRo-000000001gT-1po2;
-	Wed, 08 Apr 2026 09:43:44 +0000
-Date: Wed, 08 Apr 2026 17:43:34 +0800
+	id 1wAPcS-000000001h7-3zxE;
+	Wed, 08 Apr 2026 09:54:44 +0000
+Date: Wed, 08 Apr 2026 17:54:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:mirror-poly-aosp-pixel-malibu 5/5]
- include/linux/compiler.h:166:45: error: '__UNIQUE_ID_y_622' undeclared; did
- you mean '__UNIQUE_ID_x_621'?
-Message-ID: <202604081715.WGuUD3c0-lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata 28/115]
+ drivers/staging/media/ipu7/ipu7-isys-subdev.c:101:5: error: conflicting types
+ for 'ipu7_isys_subdev_set_fmt'; have 'int(struct v4l2_subdev *, const struct
+ v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct
+ v4l2_subdev_format *)'
+Message-ID: <202604081724.BEqPpWm0-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,142 +62,109 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common mirror-poly-aosp-pixel-malibu
-head:   1d014da25325b50bf0fa1c3c5d770145f15d8a24
-commit: caeb52b32bd70bc82167f136ab287e2b7a916375 [5/5] ANDROID: cgroup: Use backport reservation for freeze time
-config: arm64-randconfig-002-20260408 (https://download.01.org/0day-ci/archive/20260408/202604081715.WGuUD3c0-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260408/202604081715.WGuUD3c0-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   0788d31c6570b12fdf54d8ecc25877ece44318d9
+commit: b0b1469354e8ad8b1555fa966ac3c8c14a6a70c7 [28/115] media: v4l2-subdev: Add struct v4l2_subdev_client_info argument to pad ops
+config: i386-randconfig-015-20260408 (https://download.01.org/0day-ci/archive/20260408/202604081724.BEqPpWm0-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260408/202604081724.BEqPpWm0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604081715.WGuUD3c0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604081724.BEqPpWm0-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/blk-crypto.h:127,
-                    from include/linux/blk-crypto-profile.h:10,
-                    from include/linux/mmc/host.h:19,
-                    from drivers/mmc/host/mmci.c:23:
-   include/linux/blkdev.h:1803:24: error: field 'req_list' has incomplete type
-    1803 |         struct rq_list req_list;
-         |                        ^~~~~~~~
-   In file included from <command-line>:
-   drivers/mmc/host/mmci.c: In function 'mmci_probe':
->> include/linux/compiler.h:166:45: error: '__UNIQUE_ID_y_622' undeclared (first use in this function); did you mean '__UNIQUE_ID_x_621'?
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                                             ^~~~~~~~~~~~
-   include/linux/compiler_types.h:516:23: note: in definition of macro '__compiletime_assert'
-     516 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:536:9: note: in expansion of macro '_compiletime_assert'
-     536 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:56:27: note: in expansion of macro 'is_signed_type'
-      56 | #define __sign_use(x,ux) (is_signed_type(typeof(ux))? \
-         |                           ^~~~~~~~~~~~~~
-   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
-      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
-         |                             ^~~~~~~~~~
-   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
-     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
-         |                           ^~~~~~~~~~
-   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
-     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~
-   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^~~~~~~
-   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~
-   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                                     ^~~~~~~
-   include/linux/minmax.h:105:55: note: in expansion of macro '__UNIQUE_ID'
-     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |                                                       ^~~~~~~~~~~
-   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
-     129 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                         ^~~~~~~~~~~~~
-   drivers/mmc/host/mmci.c:2333:40: note: in expansion of macro 'min'
-    2333 |                                 fmax : min(host->mclk, fmax);
-         |                                        ^~~
-   include/linux/compiler.h:166:45: note: each undeclared identifier is reported only once for each function it appears in
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                                             ^~~~~~~~~~~~
-   include/linux/compiler_types.h:516:23: note: in definition of macro '__compiletime_assert'
-     516 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:536:9: note: in expansion of macro '_compiletime_assert'
-     536 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:56:27: note: in expansion of macro 'is_signed_type'
-      56 | #define __sign_use(x,ux) (is_signed_type(typeof(ux))? \
-         |                           ^~~~~~~~~~~~~~
-   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
-      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
-         |                             ^~~~~~~~~~
-   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
-     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
-         |                           ^~~~~~~~~~
-   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
-     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~
-   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^~~~~~~
-   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~
-   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                                     ^~~~~~~
-   include/linux/minmax.h:105:55: note: in expansion of macro '__UNIQUE_ID'
-     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |                                                       ^~~~~~~~~~~
-   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
-     129 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                         ^~~~~~~~~~~~~
-   drivers/mmc/host/mmci.c:2333:40: note: in expansion of macro 'min'
-    2333 |                                 fmax : min(host->mclk, fmax);
-         |                                        ^~~
-   drivers/mmc/host/mmci.c: At top level:
-   drivers/mmc/host/mmci.c:53:21: warning: 'fmax' defined but not used [-Wunused-variable]
-      53 | static unsigned int fmax = 515633;
-         |                     ^~~~
+>> drivers/staging/media/ipu7/ipu7-isys-subdev.c:101:5: error: conflicting types for 'ipu7_isys_subdev_set_fmt'; have 'int(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)'
+     101 | int ipu7_isys_subdev_set_fmt(struct v4l2_subdev *sd,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/staging/media/ipu7/ipu7-isys-csi2.h:12,
+                    from drivers/staging/media/ipu7/ipu7-isys.h:25,
+                    from drivers/staging/media/ipu7/ipu7-isys-subdev.c:19:
+   drivers/staging/media/ipu7/ipu7-isys-subdev.h:33:5: note: previous declaration of 'ipu7_isys_subdev_set_fmt' with type 'int(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)'
+      33 | int ipu7_isys_subdev_set_fmt(struct v4l2_subdev *sd,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +166 include/linux/compiler.h
+vim +101 drivers/staging/media/ipu7/ipu7-isys-subdev.c
 
-fe8c8a126806fe Cesar Eduardo Barros 2013-11-25  165  
-a8306f2d4dcea0 Nick Desaulniers     2023-08-31 @166  #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-6f33d58794ef4c Rusty Russell        2012-11-22  167  
+a516d36bdc3d83 Bingbu Cao   2025-05-29  100  
+a516d36bdc3d83 Bingbu Cao   2025-05-29 @101  int ipu7_isys_subdev_set_fmt(struct v4l2_subdev *sd,
+b0b1469354e8ad Sakari Ailus 2026-01-30  102  			     const struct v4l2_subdev_client_info *ci,
+a516d36bdc3d83 Bingbu Cao   2025-05-29  103  			     struct v4l2_subdev_state *state,
+a516d36bdc3d83 Bingbu Cao   2025-05-29  104  			     struct v4l2_subdev_format *format)
+a516d36bdc3d83 Bingbu Cao   2025-05-29  105  {
+a516d36bdc3d83 Bingbu Cao   2025-05-29  106  	struct ipu7_isys_subdev *asd = to_ipu7_isys_subdev(sd);
+a516d36bdc3d83 Bingbu Cao   2025-05-29  107  	u32 code = asd->supported_codes[0];
+a516d36bdc3d83 Bingbu Cao   2025-05-29  108  	struct v4l2_mbus_framefmt *fmt;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  109  	u32 other_pad, other_stream;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  110  	struct v4l2_rect *crop;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  111  	unsigned int i;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  112  	int ret;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  113  
+a516d36bdc3d83 Bingbu Cao   2025-05-29  114  	/* No transcoding, source and sink formats must match. */
+a516d36bdc3d83 Bingbu Cao   2025-05-29  115  	if ((sd->entity.pads[format->pad].flags & MEDIA_PAD_FL_SOURCE) &&
+a516d36bdc3d83 Bingbu Cao   2025-05-29  116  	    sd->entity.num_pads > 1)
+b0b1469354e8ad Sakari Ailus 2026-01-30  117  		return v4l2_subdev_get_fmt(sd, NULL, state, format);
+a516d36bdc3d83 Bingbu Cao   2025-05-29  118  
+a516d36bdc3d83 Bingbu Cao   2025-05-29  119  	format->format.width = clamp(format->format.width, IPU_ISYS_MIN_WIDTH,
+a516d36bdc3d83 Bingbu Cao   2025-05-29  120  				     IPU_ISYS_MAX_WIDTH);
+a516d36bdc3d83 Bingbu Cao   2025-05-29  121  	format->format.height = clamp(format->format.height,
+a516d36bdc3d83 Bingbu Cao   2025-05-29  122  				      IPU_ISYS_MIN_HEIGHT,
+a516d36bdc3d83 Bingbu Cao   2025-05-29  123  				      IPU_ISYS_MAX_HEIGHT);
+a516d36bdc3d83 Bingbu Cao   2025-05-29  124  
+a516d36bdc3d83 Bingbu Cao   2025-05-29  125  	for (i = 0; asd->supported_codes[i]; i++) {
+a516d36bdc3d83 Bingbu Cao   2025-05-29  126  		if (asd->supported_codes[i] == format->format.code) {
+a516d36bdc3d83 Bingbu Cao   2025-05-29  127  			code = asd->supported_codes[i];
+a516d36bdc3d83 Bingbu Cao   2025-05-29  128  			break;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  129  		}
+a516d36bdc3d83 Bingbu Cao   2025-05-29  130  	}
+a516d36bdc3d83 Bingbu Cao   2025-05-29  131  	format->format.code = code;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  132  	format->format.field = V4L2_FIELD_NONE;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  133  
+a516d36bdc3d83 Bingbu Cao   2025-05-29  134  	/* Store the format and propagate it to the source pad. */
+a516d36bdc3d83 Bingbu Cao   2025-05-29  135  	fmt = v4l2_subdev_state_get_format(state, format->pad, format->stream);
+a516d36bdc3d83 Bingbu Cao   2025-05-29  136  	if (!fmt)
+a516d36bdc3d83 Bingbu Cao   2025-05-29  137  		return -EINVAL;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  138  
+a516d36bdc3d83 Bingbu Cao   2025-05-29  139  	*fmt = format->format;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  140  
+a516d36bdc3d83 Bingbu Cao   2025-05-29  141  	if (!(sd->entity.pads[format->pad].flags & MEDIA_PAD_FL_SINK))
+a516d36bdc3d83 Bingbu Cao   2025-05-29  142  		return 0;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  143  
+a516d36bdc3d83 Bingbu Cao   2025-05-29  144  	/* propagate format to following source pad */
+a516d36bdc3d83 Bingbu Cao   2025-05-29  145  	fmt = v4l2_subdev_state_get_opposite_stream_format(state, format->pad,
+a516d36bdc3d83 Bingbu Cao   2025-05-29  146  							   format->stream);
+a516d36bdc3d83 Bingbu Cao   2025-05-29  147  	if (!fmt)
+a516d36bdc3d83 Bingbu Cao   2025-05-29  148  		return -EINVAL;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  149  
+a516d36bdc3d83 Bingbu Cao   2025-05-29  150  	*fmt = format->format;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  151  
+a516d36bdc3d83 Bingbu Cao   2025-05-29  152  	ret = v4l2_subdev_routing_find_opposite_end(&state->routing,
+a516d36bdc3d83 Bingbu Cao   2025-05-29  153  						    format->pad,
+a516d36bdc3d83 Bingbu Cao   2025-05-29  154  						    format->stream,
+a516d36bdc3d83 Bingbu Cao   2025-05-29  155  						    &other_pad,
+a516d36bdc3d83 Bingbu Cao   2025-05-29  156  						    &other_stream);
+a516d36bdc3d83 Bingbu Cao   2025-05-29  157  	if (ret)
+a516d36bdc3d83 Bingbu Cao   2025-05-29  158  		return -EINVAL;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  159  
+a516d36bdc3d83 Bingbu Cao   2025-05-29  160  	crop = v4l2_subdev_state_get_crop(state, other_pad, other_stream);
+a516d36bdc3d83 Bingbu Cao   2025-05-29  161  	/* reset crop */
+a516d36bdc3d83 Bingbu Cao   2025-05-29  162  	crop->left = 0;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  163  	crop->top = 0;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  164  	crop->width = fmt->width;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  165  	crop->height = fmt->height;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  166  
+a516d36bdc3d83 Bingbu Cao   2025-05-29  167  	return 0;
+a516d36bdc3d83 Bingbu Cao   2025-05-29  168  }
+a516d36bdc3d83 Bingbu Cao   2025-05-29  169  
 
-:::::: The code at line 166 was first introduced by commit
-:::::: a8306f2d4dcea03538c70c26d2948483f70254ff compiler.h: unify __UNIQUE_ID
+:::::: The code at line 101 was first introduced by commit
+:::::: a516d36bdc3d8373f904af57c95e76d6f921cf1c media: staging/ipu7: add IPU7 input system device driver
 
-:::::: TO: Nick Desaulniers <ndesaulniers@google.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+:::::: TO: Bingbu Cao <bingbu.cao@intel.com>
+:::::: CC: Hans Verkuil <hverkuil@xs4all.nl>
 
 -- 
 0-DAY CI Kernel Test Service
