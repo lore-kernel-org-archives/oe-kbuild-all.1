@@ -1,55 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FC0331CA4E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Apr 2026 02:22:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B82F9C0;
+	Wed,  8 Apr 2026 02:33:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775614966; cv=none; b=MHhTAy2B6kHrtzHl1/DswB4GgGdpb42synaB0MXO1ODvfl2CDvmjDBsoRNaddywZwinmW+l9Onh6D9q34whuGAIcTpBs8qnysNXDmVai9gAXQng/zrhWvRiJ5LGiG22UlytAhFAbBYfFThf5k5EFlDgJVlsordiLPAPoR9HxPpg=
+	t=1775615626; cv=none; b=CHJ7z6TerDlLQUiQlmeWc6Bpk84/f3Kbrmk6TyHmCMxDwdXxKJ6Yb1OgBvznUuzEM1hONoKF+GZloGarNTtyd/vGJ+9CvRAGRj1FpnFL6AqGsZRA586mnk6Ngw/PvpCOPCCXq37gPKOOT8OBGGjgkAfP/9JL6w4cJ/RGRJPMp7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775614966; c=relaxed/simple;
-	bh=G/ybkeXCro7yc2EZ/oX3x+XL6ExUMSiAnW4RJdguI+w=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=LsS2Ek+mOsi/JDGGNBAys8LjifReQ2E6gKx7qhFTHePBKrcE0ES0q9RucDaD0KZEEMmW1b5M6typb8TVsxlh9tjCd2dYLwnvp+QWytJvou7C12fZf/gcdtAfuV5Cgl4fI7cf2X3spKYmZwMqUHJWTrpdVHlnzJX/UyQHPxnHfxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L0d1AsZh; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1775615626; c=relaxed/simple;
+	bh=Tng5YI3IY4nele2hIFbI0VyQXKyPo6/7592LHNo7t3M=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mjmp3oVqDe057mOoR4j7tPbZusQ6RGcwrIq7j/YYhY4LZwoYCUUCyENgnh37qDBg4A3QdTz948BgJ4+k1mmbRNMOlcnmfQHa+SRCGFYaDUZv1Cg1SPQjbvwaM2KxIppp4tJ2Q0vRLg6NlBo7LUfjtPrfeRLyONortFtyFodk3oY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MZrZJxFO; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L0d1AsZh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MZrZJxFO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775614965; x=1807150965;
+  t=1775615625; x=1807151625;
   h=date:from:to:cc:subject:message-id;
-  bh=G/ybkeXCro7yc2EZ/oX3x+XL6ExUMSiAnW4RJdguI+w=;
-  b=L0d1AsZhtCjj2PetQ5CXorEHGPQoLLTLCBoJPmLoZ9y9EKyNAMVU2NQr
-   5iAWBA5M53l8sL7+oXVvsqbUQJpxaRgb/eaqi/pt/T2GrDr2duY1oAxJk
-   aLVQ/m3OrhzBbKRXUrit2nc0f0kJha+YYbnvvUnT33LnVnTrEnItBg8lM
-   pBaRAC1v5tz5qCkXGpnk8vx+Jb0wjHvJI5/GtBx5Dse6tjaxK74XIsITl
-   Eq1YyRO/S/yra2jJ+XklEsbEtoLsp9QrR989pcxVxbbrmci42i3BU52QS
-   2gNG7BBGGOuCEwQKoT1e6G1ePlsu7IoQr50QnGlTlTvxHyX7+SuD5cJS4
+  bh=Tng5YI3IY4nele2hIFbI0VyQXKyPo6/7592LHNo7t3M=;
+  b=MZrZJxFOVKImvnFMKpfWEYwHguwcjPXtqQyz4x9W3vhfa+lg/V/NIq14
+   Kn3MvpXAi6SmhKjwuYhyxEOBeRMXMKsY++CQU6VEFV8pwZvyHQwXcQnb6
+   TaY1+6zVfQuwXouAX+/ll/68eqKD4IVsGcqqq8hVXhRjtyRKlNaWEqCi9
+   vsbnC0Fa23PlMfNLD0+uLXq6LZdeQHeANpkcAmIM3/utNy1VNJJOp46iX
+   ayeAVoQ6FearndPGUPr6BQo+DJPlo+nCPI82UHJTQZrS12kCNPJgX65BF
+   /uVMCeDitJU+iiEa5tx0ZwwARcOKuLUYOW6iKrvjDGhj8qUGFgBZdC2cH
    g==;
-X-CSE-ConnectionGUID: zu8+FtqRSIqF1rCyohtmZQ==
-X-CSE-MsgGUID: OwM23g3+Rk+UuzfM5F6XwQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="76601212"
+X-CSE-ConnectionGUID: ZqQYo3vcT46QVfpoL8S6jw==
+X-CSE-MsgGUID: haF53CRhQTmTVzcLccBQhQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="80475253"
 X-IronPort-AV: E=Sophos;i="6.23,166,1770624000"; 
-   d="scan'208";a="76601212"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 19:22:44 -0700
-X-CSE-ConnectionGUID: 9iXHsZEvRouQXZwFgkuK6g==
-X-CSE-MsgGUID: /fAbnTJYSHaa5UcNMarwBA==
+   d="scan'208";a="80475253"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 19:33:45 -0700
+X-CSE-ConnectionGUID: kDvw0yVhRYeKCo/BwdcPNw==
+X-CSE-MsgGUID: F3v5Q9q0R8GM+jYAjIFHog==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,166,1770624000"; 
+   d="scan'208";a="227497853"
 Received: from lkp-server01.sh.intel.com (HELO d00eb8a6782a) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 07 Apr 2026 19:22:42 -0700
+  by orviesa010.jf.intel.com with ESMTP; 07 Apr 2026 19:33:44 -0700
 Received: from kbuild by d00eb8a6782a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wAIYy-000000001KH-0UjD;
-	Wed, 08 Apr 2026 02:22:40 +0000
-Date: Wed, 08 Apr 2026 10:22:32 +0800
+	id 1wAIjc-000000001KX-2LaD;
+	Wed, 08 Apr 2026 02:33:40 +0000
+Date: Wed, 08 Apr 2026 10:32:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Douglas Anderson <dianders@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/gpu/drm/panel/panel-edp.c:204: warning: Function
- parameter or member 'delay' not described in 'edp_panel_entry'
-Message-ID: <202604081054.qXKdJnya-lkp@intel.com>
+To: Helge Deller <deller@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [deller-parisc:for-next 2/9] net/ipv4/af_inet.c:1503:6:
+ warning: variable 'flush' is used uninitialized whenever 'if' condition is
+ true
+Message-ID: <202604081003.KPd0fpBI-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -57,43 +60,180 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3036cd0d3328220a1858b1ab390be8b562774e8a
-commit: 5540cf8f3e8dac7ef2de28edcf2623c1516fbe45 drm/panel-edp: Implement generic "edp-panel"s probed by EDID
-date:   4 years, 7 months ago
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20260408/202604081054.qXKdJnya-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260408/202604081054.qXKdJnya-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/deller/parisc-linux.git for-next
+head:   bc8a19a194d5a72df5982c04f8a9e7bcff1306ca
+commit: 595407f94f5e5b778a349bd5a323c5051920b864 [2/9] net: Avoid unaligned access in inet_gro_receive()
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260408/202604081003.KPd0fpBI-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260408/202604081003.KPd0fpBI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 5540cf8f3e8d ("drm/panel-edp: Implement generic "edp-panel"s probed by EDID")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604081054.qXKdJnya-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604081003.KPd0fpBI-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/panel/panel-edp.c:204: warning: Function parameter or member 'delay' not described in 'edp_panel_entry'
->> drivers/gpu/drm/panel/panel-edp.c:204: warning: Function parameter or member 'name' not described in 'edp_panel_entry'
+>> net/ipv4/af_inet.c:1503:6: warning: variable 'flush' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+    1503 |         if (unlikely(ip_fast_csum((u8 *)iph, 5)))
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:77:22: note: expanded from macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/af_inet.c:1543:31: note: uninitialized use occurs here
+    1543 |         skb_gro_flush_final(skb, pp, flush);
+         |                                      ^~~~~
+   net/ipv4/af_inet.c:1503:2: note: remove the 'if' if its condition is always false
+    1503 |         if (unlikely(ip_fast_csum((u8 *)iph, 5)))
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1504 |                 goto out;
+         |                 ~~~~~~~~
+   net/ipv4/af_inet.c:1500:6: warning: variable 'flush' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+    1500 |         if (ip_is_fragment(iph))
+         |             ^~~~~~~~~~~~~~~~~~~
+   net/ipv4/af_inet.c:1543:31: note: uninitialized use occurs here
+    1543 |         skb_gro_flush_final(skb, pp, flush);
+         |                                      ^~~~~
+   net/ipv4/af_inet.c:1500:2: note: remove the 'if' if its condition is always false
+    1500 |         if (ip_is_fragment(iph))
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+    1501 |                 goto out;
+         |                 ~~~~~~~~
+   net/ipv4/af_inet.c:1497:6: warning: variable 'flush' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+    1497 |         if (*(u8 *)iph != 0x45)
+         |             ^~~~~~~~~~~~~~~~~~
+   net/ipv4/af_inet.c:1543:31: note: uninitialized use occurs here
+    1543 |         skb_gro_flush_final(skb, pp, flush);
+         |                                      ^~~~~
+   net/ipv4/af_inet.c:1497:2: note: remove the 'if' if its condition is always false
+    1497 |         if (*(u8 *)iph != 0x45)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+    1498 |                 goto out;
+         |                 ~~~~~~~~
+   net/ipv4/af_inet.c:1494:6: warning: variable 'flush' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+    1494 |         if (!ops || !ops->callbacks.gro_receive)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/af_inet.c:1543:31: note: uninitialized use occurs here
+    1543 |         skb_gro_flush_final(skb, pp, flush);
+         |                                      ^~~~~
+   net/ipv4/af_inet.c:1494:2: note: remove the 'if' if its condition is always false
+    1494 |         if (!ops || !ops->callbacks.gro_receive)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1495 |                 goto out;
+         |                 ~~~~~~~~
+>> net/ipv4/af_inet.c:1494:6: warning: variable 'flush' is used uninitialized whenever '||' condition is true [-Wsometimes-uninitialized]
+    1494 |         if (!ops || !ops->callbacks.gro_receive)
+         |             ^~~~
+   net/ipv4/af_inet.c:1543:31: note: uninitialized use occurs here
+    1543 |         skb_gro_flush_final(skb, pp, flush);
+         |                                      ^~~~~
+   net/ipv4/af_inet.c:1494:6: note: remove the '||' if its condition is always false
+    1494 |         if (!ops || !ops->callbacks.gro_receive)
+         |             ^~~~~~~
+   net/ipv4/af_inet.c:1488:6: warning: variable 'flush' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+    1488 |         if (unlikely(!iph))
+         |             ^~~~~~~~~~~~~~
+   include/linux/compiler.h:77:22: note: expanded from macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/af_inet.c:1543:31: note: uninitialized use occurs here
+    1543 |         skb_gro_flush_final(skb, pp, flush);
+         |                                      ^~~~~
+   net/ipv4/af_inet.c:1488:2: note: remove the 'if' if its condition is always false
+    1488 |         if (unlikely(!iph))
+         |         ^~~~~~~~~~~~~~~~~~~
+    1489 |                 goto out;
+         |                 ~~~~~~~~
+   net/ipv4/af_inet.c:1482:13: note: initialize the variable 'flush' to silence this warning
+    1482 |         __u16 flush;
+         |                    ^
+         |                     = 0
+   6 warnings generated.
 
 
-vim +204 drivers/gpu/drm/panel/panel-edp.c
+vim +1503 net/ipv4/af_inet.c
 
-   191	
-   192	/**
-   193	 * struct edp_panel_entry - Maps panel ID to delay / panel name.
-   194	 */
-   195	struct edp_panel_entry {
-   196		/** @panel_id: 32-bit ID for panel, encoded with drm_edid_encode_panel_id(). */
-   197		u32 panel_id;
-   198	
-   199		/* @delay: The power sequencing delays needed for this panel. */
-   200		const struct panel_delay *delay;
-   201	
-   202		/* @name: Name of this panel (for printing to logs). */
-   203		const char *name;
- > 204	};
-   205	
+418e897e0716b2 Willem de Bruijn 2019-02-20  1473  
+d4546c2509b1e9 David Miller     2018-06-24  1474  struct sk_buff *inet_gro_receive(struct list_head *head, struct sk_buff *skb)
+73cc19f1556b95 Herbert Xu       2008-12-15  1475  {
+bca49f843eac59 Vlad Yasevich    2012-11-15  1476  	const struct net_offload *ops;
+d4546c2509b1e9 David Miller     2018-06-24  1477  	struct sk_buff *pp = NULL;
+b71d1d426d263b Eric Dumazet     2011-04-22  1478  	const struct iphdr *iph;
+d4546c2509b1e9 David Miller     2018-06-24  1479  	struct sk_buff *p;
+a5b1cf288d4200 Herbert Xu       2009-05-26  1480  	unsigned int hlen;
+a5b1cf288d4200 Herbert Xu       2009-05-26  1481  	unsigned int off;
+595407f94f5e5b Helge Deller     2026-04-07  1482  	__u16 flush;
+73cc19f1556b95 Herbert Xu       2008-12-15  1483  	int proto;
+73cc19f1556b95 Herbert Xu       2008-12-15  1484  
+a5b1cf288d4200 Herbert Xu       2009-05-26  1485  	off = skb_gro_offset(skb);
+a5b1cf288d4200 Herbert Xu       2009-05-26  1486  	hlen = off + sizeof(*iph);
+35ffb66547295c Richard Gobert   2022-08-23  1487  	iph = skb_gro_header(skb, hlen, off);
+86911732d3996a Herbert Xu       2009-01-29  1488  	if (unlikely(!iph))
+73cc19f1556b95 Herbert Xu       2008-12-15  1489  		goto out;
+73cc19f1556b95 Herbert Xu       2008-12-15  1490  
+f9242b6b28d612 David S. Miller  2012-06-19  1491  	proto = iph->protocol;
+73cc19f1556b95 Herbert Xu       2008-12-15  1492  
+bca49f843eac59 Vlad Yasevich    2012-11-15  1493  	ops = rcu_dereference(inet_offloads[proto]);
+f191a1d17f2270 Vlad Yasevich    2012-11-15 @1494  	if (!ops || !ops->callbacks.gro_receive)
+fc1ca3348a74a1 Eric Dumazet     2021-11-23  1495  		goto out;
+73cc19f1556b95 Herbert Xu       2008-12-15  1496  
+a5ad24be728d43 Herbert Xu       2009-02-08  1497  	if (*(u8 *)iph != 0x45)
+fc1ca3348a74a1 Eric Dumazet     2021-11-23  1498  		goto out;
+73cc19f1556b95 Herbert Xu       2008-12-15  1499  
+9b83e0319840ec Steffen Klassert 2017-04-28  1500  	if (ip_is_fragment(iph))
+fc1ca3348a74a1 Eric Dumazet     2021-11-23  1501  		goto out;
+9b83e0319840ec Steffen Klassert 2017-04-28  1502  
+a9e050f4e7f9d3 Eric Dumazet     2012-08-05 @1503  	if (unlikely(ip_fast_csum((u8 *)iph, 5)))
+fc1ca3348a74a1 Eric Dumazet     2021-11-23  1504  		goto out;
+73cc19f1556b95 Herbert Xu       2008-12-15  1505  
+b1a78b9b98862c Xin Long         2023-01-28  1506  	NAPI_GRO_CB(skb)->proto = proto;
+595407f94f5e5b Helge Deller     2026-04-07  1507  	flush = (get_unaligned_be16(&iph->tot_len) ^ skb_gro_len(skb)) |
+595407f94f5e5b Helge Deller     2026-04-07  1508  	        (get_unaligned_be16(&iph->frag_off) & ~IP_DF);
+73cc19f1556b95 Herbert Xu       2008-12-15  1509  
+d4546c2509b1e9 David Miller     2018-06-24  1510  	list_for_each_entry(p, head, list) {
+73cc19f1556b95 Herbert Xu       2008-12-15  1511  		struct iphdr *iph2;
+73cc19f1556b95 Herbert Xu       2008-12-15  1512  
+73cc19f1556b95 Herbert Xu       2008-12-15  1513  		if (!NAPI_GRO_CB(p)->same_flow)
+73cc19f1556b95 Herbert Xu       2008-12-15  1514  			continue;
+73cc19f1556b95 Herbert Xu       2008-12-15  1515  
+299603e8370a93 Jerry Chu        2013-12-11  1516  		iph2 = (struct iphdr *)(p->data + off);
+299603e8370a93 Jerry Chu        2013-12-11  1517  		/* The above works because, with the exception of the top
+299603e8370a93 Jerry Chu        2013-12-11  1518  		 * (inner most) layer, we only aggregate pkts with the same
+299603e8370a93 Jerry Chu        2013-12-11  1519  		 * hdr length so all the hdrs we'll need to verify will start
+299603e8370a93 Jerry Chu        2013-12-11  1520  		 * at the same offset.
+299603e8370a93 Jerry Chu        2013-12-11  1521  		 */
+a5ad24be728d43 Herbert Xu       2009-02-08  1522  		if ((iph->protocol ^ iph2->protocol) |
+595407f94f5e5b Helge Deller     2026-04-07  1523  		    (get_unaligned(&iph->saddr) ^ get_unaligned(&iph2->saddr)) |
+595407f94f5e5b Helge Deller     2026-04-07  1524  		    (get_unaligned(&iph->daddr) ^ get_unaligned(&iph2->daddr))) {
+73cc19f1556b95 Herbert Xu       2008-12-15  1525  			NAPI_GRO_CB(p)->same_flow = 0;
+73cc19f1556b95 Herbert Xu       2008-12-15  1526  			continue;
+73cc19f1556b95 Herbert Xu       2008-12-15  1527  		}
+73cc19f1556b95 Herbert Xu       2008-12-15  1528  	}
+73cc19f1556b95 Herbert Xu       2008-12-15  1529  
+73cc19f1556b95 Herbert Xu       2008-12-15  1530  	NAPI_GRO_CB(skb)->flush |= flush;
+be008726d0ac33 Willem de Bruijn 2024-05-23  1531  	NAPI_GRO_CB(skb)->network_offsets[NAPI_GRO_CB(skb)->encap_mark] = off;
+299603e8370a93 Jerry Chu        2013-12-11  1532  
+2c804d0f8fc779 Eric Dumazet     2014-09-30  1533  	/* Note : No need to call skb_gro_postpull_rcsum() here,
+2c804d0f8fc779 Eric Dumazet     2014-09-30  1534  	 * as we already checked checksum over ipv4 header was 0
+2c804d0f8fc779 Eric Dumazet     2014-09-30  1535  	 */
+86911732d3996a Herbert Xu       2009-01-29  1536  	skb_gro_pull(skb, sizeof(*iph));
+86911732d3996a Herbert Xu       2009-01-29  1537  	skb_set_transport_header(skb, skb_gro_offset(skb));
+73cc19f1556b95 Herbert Xu       2008-12-15  1538  
+028e0a4766844e Paolo Abeni      2018-12-14  1539  	pp = indirect_call_gro_receive(tcp4_gro_receive, udp4_gro_receive,
+028e0a4766844e Paolo Abeni      2018-12-14  1540  				       ops->callbacks.gro_receive, head, skb);
+73cc19f1556b95 Herbert Xu       2008-12-15  1541  
+73cc19f1556b95 Herbert Xu       2008-12-15  1542  out:
+5f114163f2f5eb Steffen Klassert 2017-02-15  1543  	skb_gro_flush_final(skb, pp, flush);
+73cc19f1556b95 Herbert Xu       2008-12-15  1544  
+73cc19f1556b95 Herbert Xu       2008-12-15  1545  	return pp;
+73cc19f1556b95 Herbert Xu       2008-12-15  1546  }
+73cc19f1556b95 Herbert Xu       2008-12-15  1547  
+
+:::::: The code at line 1503 was first introduced by commit
+:::::: a9e050f4e7f9d36afe0dcc0bddba864ee442715e net: tcp: GRO should be ECN friendly
+
+:::::: TO: Eric Dumazet <edumazet@google.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
