@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 050561A6806;
-	Thu,  9 Apr 2026 02:31:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE9C30F531
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Apr 2026 03:42:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775701920; cv=none; b=lwpDvOrJnjR+qvUDL17HjeyH0FzoSdDZQvMweqlA4nSK38nRslkNrZkURnWVF/5Upd21ame+FwzXaOE53wx6rVjvzfwEqAqZaQR3cwx9lz5a3xA3djGlXZDApXXZtHU94fuiDZXhohEe4tGAtMy47420R5FKk4j6oKF41WTVPDo=
+	t=1775706177; cv=none; b=PL19PuWqxmkr5tCI578lSbCDRbaPJ6ajtS0CecJKcXpTAkfaSikPmlUaK8BpetwzrXN5fpXq0NZho8hxjHuA547xPHj1LeUpp6aoFXzve4B+/ZxXZGjpZwrooasyHN3ZCupDVlwiFYxCUwVa/Ko2KI3Z5po87KbUyXEBMYmf8wM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775701920; c=relaxed/simple;
-	bh=XY/81pqSAGmlTF+EOzaFEZJMqWS0bwE03AwNVPN59vE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=rEMZ45GK27dDnzNQ6jtTh/6erGNSeqgPDyK6+RdkVHZ9nFT2FKzNP+pet1WBr91v7WxGelSlY/Ptq7Q7T343Y8fsm8ZPRVFRrfvUdSwjPwloILqsCx7bG9jubhEylySlahDwNeBZGoV+YLf7Em84rVgh7BXEKpk8ZUu6d7K5ra8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cm+CcoxJ; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1775706177; c=relaxed/simple;
+	bh=DeCaNpx9LWTXLJ8GYOL9otbBb1VTCu8xHFz+X1EhymM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=J3c6SNVdIGpsebhvS50TYbZUw00aNvx53N2tlHki6XrX3m59cc6hluCx87tQyVOEA7nfJt1Edz3h+eHoqka7atQlnQxuqYa50xecKAY4Jg5iKCs03S8e2j1sYaogrw4Qji2ZUn0Gs/UEyt4dsC67Oj5U7tzJrpNF52cGWIJcgso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OcQ3Rkny; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cm+CcoxJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OcQ3Rkny"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775701919; x=1807237919;
+  t=1775706177; x=1807242177;
   h=date:from:to:cc:subject:message-id;
-  bh=XY/81pqSAGmlTF+EOzaFEZJMqWS0bwE03AwNVPN59vE=;
-  b=Cm+CcoxJTNkisT3MpFvjuLziO+RQKIjJKIOfM+naIGqEHZkblOHB2n6J
-   JI484DqEFR+1yTzieXfMxCCyBFg8fV0ERYkB43w8Rz7ftSrDnCtN6w7sr
-   FvPnZKfzfiV5HBviNCXyVKSRKZtr8ecnaQAKTam1g+rEAGKsrOzeGpivW
-   H3DOA3fwUO+pAVUL7OxuEcQmlc1aySdrXWHO5qXfdLZNKX0jLPoZSFIGP
-   hPwwZKKlUYUbgfTQtkGnDikedYcdjNFwj6zo3ldNc0br/1USBCRQGaL5D
-   ZsH1KZ3uXtz1AJwxnlKe+0kTfhY9c0sdk0p2W5gETtSVSwnNeNOvIqr1g
-   A==;
-X-CSE-ConnectionGUID: 6OlZfQc5S4aBZelrP2Blew==
-X-CSE-MsgGUID: fBmoHS9USn+rkvElqG3JCQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11753"; a="88084619"
+  bh=DeCaNpx9LWTXLJ8GYOL9otbBb1VTCu8xHFz+X1EhymM=;
+  b=OcQ3Rknyi5AQSvcjo3ujkiZ8W84Ny9eWuQ/1u3JKgy23WBBMlcIC0Y4o
+   ULsqo/ETWh5eRJynoh7SUGNlXRVdAEupFfEnhXT+HYFMO/9vTKa3g80lb
+   85+3r6gSAdphyY6xGDyLfuhcCWLW1jQxi6gY8XLYXNkJnOLMFDrzJO3xB
+   lCIFXdMBII/TZ93y1mE7PVW/w6BI1PNHN2pw1piPK3JT1j60lKTyIUcRS
+   XlWjBpx1ObvMizWL9iIzobfoC3eJiRL4N8gYiyvcS4QIbMv3LmB5DmFzS
+   g1qXYufTggamt3l1mIldyHp1XErgPX5Q53ZhUg2yq1eYqBS2yKFDZQOdC
+   Q==;
+X-CSE-ConnectionGUID: 6BCLEFsHSFOc9IDRJxLm0g==
+X-CSE-MsgGUID: e6bx6deRQ9SLpaD0FhJIuw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11753"; a="94091913"
 X-IronPort-AV: E=Sophos;i="6.23,168,1770624000"; 
-   d="scan'208";a="88084619"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 19:31:58 -0700
-X-CSE-ConnectionGUID: 2LVmrEQPSaSG6HvT0KjXKQ==
-X-CSE-MsgGUID: C6tOZPzpTwSUV1pkYObN4g==
+   d="scan'208";a="94091913"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 20:42:56 -0700
+X-CSE-ConnectionGUID: gQRJZwZER4qS7LLvqfOhQg==
+X-CSE-MsgGUID: /bof9UUMTPa53SrU4R+aBg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,168,1770624000"; 
-   d="scan'208";a="232682916"
+   d="scan'208";a="251803622"
 Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 08 Apr 2026 19:31:57 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 08 Apr 2026 20:42:53 -0700
 Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wAfBO-00000000Aa9-3HbI;
-	Thu, 09 Apr 2026 02:31:50 +0000
-Date: Thu, 09 Apr 2026 04:30:59 +0200
+	id 1wAgI7-00000000Ab3-2626;
+	Thu, 09 Apr 2026 03:42:51 +0000
+Date: Thu, 09 Apr 2026 05:41:59 +0200
 From: kernel test robot <lkp@intel.com>
 To: Jeff Layton <jlayton@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:dir-deleg 13/25] fs/nfsd/nfs4state.c:3472:3: error:
- call to undeclared function 'nfsd4_run_cb_notify'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202604090457.tVCDqomd-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jlayton:dir-deleg 13/25] fs/nfsd/nfs4state.c:3472:17:
+ error: implicit declaration of function 'nfsd4_run_cb_notify'; did you mean
+ 'nfsd4_run_cb'?
+Message-ID: <202604090536.n2SxrAsO-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,24 +63,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git dir-deleg
 head:   f46f4f860e384a5bc2c7a8f2fa64872ba4e303a5
 commit: c82fe07f3cc730c342db68b5cb4cab81c8f6763c [13/25] nfsd: add data structures for handling CB_NOTIFY
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260409/202604090457.tVCDqomd-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260409/202604090457.tVCDqomd-lkp@intel.com/reproduce)
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260409/202604090536.n2SxrAsO-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260409/202604090536.n2SxrAsO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604090457.tVCDqomd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604090536.n2SxrAsO-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/nfsd/nfs4state.c:3472:3: error: call to undeclared function 'nfsd4_run_cb_notify'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   fs/nfsd/nfs4state.c: In function 'nfsd4_cb_notify_release':
+>> fs/nfsd/nfs4state.c:3472:17: error: implicit declaration of function 'nfsd4_run_cb_notify'; did you mean 'nfsd4_run_cb'? [-Wimplicit-function-declaration]
     3472 |                 nfsd4_run_cb_notify(ncn);
-         |                 ^
-   1 error generated.
+         |                 ^~~~~~~~~~~~~~~~~~~
+         |                 nfsd4_run_cb
 
 
-vim +/nfsd4_run_cb_notify +3472 fs/nfsd/nfs4state.c
+vim +3472 fs/nfsd/nfs4state.c
 
   3461	
   3462	static void
