@@ -1,83 +1,93 @@
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0E633DDDB5
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Apr 2026 14:47:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD953DEFFE
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Apr 2026 15:27:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775746060; cv=none; b=dXv29W1U6Bl7Jh8Y0FEN0IpFpvPBXHfVO9eIbw+QQqbq0zLP/WzyloIDJLx7Fho+sPSSwCZi6NApK9KVS5+vMTQgD1AgINx4OsssIlsmpDypxlaWzjqdkcvRPJ18pqE/4SIyUfW5VTPJ+NFxbI0wJmh4/d7EpoUxpytNeujTb5Q=
+	t=1775748441; cv=none; b=KnpDtFC8yxouBPI61oKulH2WWFGTYqetllO3HQFjt1EgJTmNX6DiQDURd5x8QOcHgYtjkNb7u/P/JMy65NTloOFT6mj/daQAiS7hO8vCkM9NYRZ3DtMMLC4oeMKhvh+BoEnj6vm+IvtQ8V6Cyb2JOaB9DAT+J8UzX/GboxwxxTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775746060; c=relaxed/simple;
-	bh=7/F3kqTszCmE4ucnm9oMkBNNJRuTH/JUr9yX9oCAU5s=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=H0ZjYkRPP0ZQLxJTlHb/My6Qil3yBND3WTY7M70uJJtcF3a8SDk33kqmekM66KisNVKAf+63CtLVdZklwCQmyfm3lrv30evEbDyneXFBo5Lj//xZyxf10SlS0imlaAzqkM5PjIkUFRCSquEMTD3s0ETv2pEkQN8fJ/7DqrSJzo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Received: from omf03.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay05.hostedemail.com (Postfix) with ESMTP id 9774F592E0;
-	Thu,  9 Apr 2026 14:47:28 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf03.hostedemail.com (Postfix) with ESMTPA id 6EA746000A;
-	Thu,  9 Apr 2026 14:47:26 +0000 (UTC)
-Message-ID: <1c7e8c605d2373c26b08d0eb64cc56efd69dbc26.camel@perches.com>
-Subject: Re: [linux-next:master 8662/12838] htmldocs: MAINTAINERS:40:
- WARNING: Inline strong start-string without end-string. [docutils]
-From: Joe Perches <joe@perches.com>
-To: Matteo Croce <technoboy85@gmail.com>, kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Andrew Morton
- <akpm@linux-foundation.org>,  Linux Memory Management List	
- <linux-mm@kvack.org>
-Date: Thu, 09 Apr 2026 07:47:25 -0700
-In-Reply-To: <CAFnufp29D4VdTgoJ4uDk-dQ4-RuO_C6=TQ7O9TA5M=JSe1j+cw@mail.gmail.com>
-References: <202604090741.1kUVXMoc-lkp@intel.com>
-	 <CAFnufp29D4VdTgoJ4uDk-dQ4-RuO_C6=TQ7O9TA5M=JSe1j+cw@mail.gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	s=arc-20240116; t=1775748441; c=relaxed/simple;
+	bh=S3pSBDCTX4rUUODT2cBO3fCW2o7gMdbPErCM2aNpb+c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qmw8ixwlCj/6xmoe27r+SQkDUOH2w0jXrqE3KU457ABu8qPqhSEGH5VJTFL9J/BJhfdnCNK2CGTDM3Gj0phWrp8FdwG+VCVKDkYsXZi8PNrzrlAJviClwoQq2jSul1HsM8djOdyNtW7Nq6pymlL4uAfBXq65VxRzsTyzyhqU/u8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=WMoHHTja; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="WMoHHTja"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Reply-To:Content-ID:Content-Description;
+	bh=FcMq4cxdyosUjkZJ3qNxqjcKqAI4FRnSrONbzZqUFCk=; b=WMoHHTjaCATKMbkDIkVi6pJM3c
+	oCmDapi2NaKpKNqMdlbZ61aBPR80BoK7ztGkz6Om3EIFktq29qUW/qwxBExkusyEXmd+SytbFIH5t
+	YjgNgtu3O48lq4rY86PCLrE5ATf52uim6MQ7hZwPat0iPlQvqhnF7drzfZ1ZYvgMG63YnKA6xrsnn
+	cP2i4OkI1L91hKjMMJUFXSzV/uuLa4j0KEuzocN/ZrGfx19SE3xnwZJ8PeE7r/vD5oBk12QBI30Hw
+	9TdAdBrgsWQWgaqF4THuF15JQLD4bDoq/JDgc2qC7giaiUTuuAy4ZBHEF4VOO/2g+sms1369ZBwVJ
+	xnU2j2AA==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wArHn-009IId-1c;
+	Thu, 09 Apr 2026 15:27:16 +0000
+Date: Thu, 9 Apr 2026 08:27:11 -0700
+From: Breno Leitao <leitao@debian.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Tejun Heo <tj@kernel.org>
+Subject: Re: [tj-wq:for-7.1 14/18] kernel/workqueue.c:8289:34: warning: array
+ subscript 1 is above array bounds of 'int[1]'
+Message-ID: <adfFCF_JsqNhh5nB@gmail.com>
+References: <202604022343.GQtkF2vO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: 6EA746000A
-X-Rspamd-Server: rspamout06
-X-Stat-Signature: 5dbebmi6d33bdepkadcfsbnrtcqkeh4z
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX18uJVuv+UXJvy6vOUymKWsgA5Mo2qrk7Bo=
-X-HE-Tag: 1775746046-745085
-X-HE-Meta: U2FsdGVkX18/i7UnpokYUBXsVUJRz7TSfKAldsJT9+3BICcpfdufH+GXzgkqHIDoQFes94tQKR/rxN95CWP+39VdRWdnG8Z5PqHGmUOm/PoPvMAGqA6yPVra6/qw2y5onWJgFx1d2I0XalNIqKWs76EyntueIFJYL44o4omv2NSAr72wA5F2iMaszmSYzejqIhixC6BYvCarLTOXgSr1zE+mRuh3aCaQMQkxcWt1m/Q68is1QH+DBl0Di6aRSvTvLJjnQViZv4uzSBeGyAv+Asor8gbl1mPQQwtXt3HTLfpOgX1ss2qha5w9NxnRVc5w
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <202604022343.GQtkF2vO-lkp@intel.com>
+X-Debian-User: leitao
 
-On Thu, 2026-04-09 at 12:12 +0200, Matteo Croce wrote:
-> > > > MAINTAINERS:40: WARNING: Inline strong start-string without end-str=
-ing. [docutils]
->=20
-> >=20
-> >    Documentation/userspace-api/landlock:480: ./security/landlock/errata=
-/abi-4.h:5: ERROR: Unexpected section title.
-> >=20
-> >=20
->=20
->=20
-> The problem is that "**" is seen as start of a bold text in RST.
-> Escaping the first * fixes error and keeps the glob unaffected:
->=20
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -35,7 +35,7 @@ Descriptions of section entries and preferred order
->      F: drivers/net/ all files in and below drivers/net
->      F: drivers/net/* all files in drivers/net, but not below
->      F: */net/* all files in "any top level directory"/net
-> -    F: fs/**/*foo*.c all *foo*.c files in any subdirectory of fs
-> +    F: fs/\**/*foo*.c all *foo*.c files in any subdirectory of fs
->      One pattern per line.  Multiple F: lines acceptable.
->   X: *Excluded* files and directories that are NOT maintained, same
->      rules as F:. Files exclusions are tested before file matches.
->=20
-> should I create a fix patch or we can still amend the previous in net-nex=
-t?
+On Fri, Apr 03, 2026 at 04:42:14PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git for-7.1
+> head:   41e3ccca00b374b7f39cf68e818b59a921cd7069
+> commit: 5920d046f7ae3bf9cf51b9d915c1fff13d299d84 [14/18] workqueue: add WQ_AFFN_CACHE_SHARD affinity scope
+> config: nios2-randconfig-001-20260402 (https://download.01.org/0day-ci/archive/20260402/202604022343.GQtkF2vO-lkp@intel.com/config)
+> compiler: nios2-linux-gcc (GCC) 8.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260402/202604022343.GQtkF2vO-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202604022343.GQtkF2vO-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    kernel/workqueue.c: In function 'workqueue_init_topology':
+> >> kernel/workqueue.c:8289:34: warning: array subscript 1 is above array bounds of 'int[1]' [-Warray-bounds]
+>        cpu_shard_id[c] = cpu_shard_id[cpumask_first(sibling_cpus)];
+>                          ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-nack.
+I can finally reproduce it. This is related to nios2 having NR_CPU=1.
 
-this shouldn't be fixed this way.
-betterwould be to not try to format things that shouldn't be formatted.
+	In function ‘llc_populate_cpu_shard_id’,
+	inlined from ‘precompute_cache_shard_ids’ at /home/leit/Devel/linux-next/kernel/workqueue.c:8321:3,
+	inlined from ‘workqueue_init_topology’ at /home/leit/Devel/linux-next/kernel/workqueue.c:8354:2:
+	/home/leit/Devel/linux-next/kernel/workqueue.c:8289:55: warning: array subscript 1 is above array bounds of ‘int[1]’ [-Warray-bounds]
+	8289 |                         cpu_shard_id[c] = cpu_shard_id[cpumask_first(sibling_cpus)];
+	|                                           ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	/home/leit/Devel/linux-next/kernel/workqueue.c: In function ‘workqueue_init_topology’:
+	/home/leit/Devel/linux-next/kernel/workqueue.c:8171:12: note: while referencing ‘cpu_shard_id’
+	8171 | static int cpu_shard_id[NR_CPUS] __initdata;
+	|            ^~~~~~~~~~~~
+	make[1]: Leaving directory '/tmp/wq-nios2'
+
+
+Working on a fix,
+
+Thanks for the report, dear robot :-)
+--breno
