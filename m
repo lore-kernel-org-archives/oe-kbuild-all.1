@@ -1,153 +1,170 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C2040DFDB
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Apr 2026 05:24:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775712299; cv=none; b=oqCgcJJ6DdI9DmjB8IsASWlEVwyg3UmunxnAEXcg5Fxte+LSFZ/ygA4ciNgQwsyEzwnDzllgl3nPNnDdzH5bYKZ/+wvauvLtE7vptjmvpbeyhFpiT9iKt3O3rNmzK+cVtNZZLo2dN7o/LgUctMm0K9fjiPVLDGL5OD12vnAMTwI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775712299; c=relaxed/simple;
-	bh=rJRYkelNi+0zkRO7MPtEnrqKSPYbIYIS8+pI14nizFA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Jh+fWjHuUZm5XdmbWafvHSiID83GwammYFRCew/iZDaYB9ByzWR+0rd02A9czBExlA9DC2700r98lVeAwElQty7zavtcjD1s7XmQaqRlOP1cGPWdvifMyDOqwDG0+QUGG/bZU+voBCnl/irz4bYihJh6RUoUlVAfLgCM8w1ulag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XSQZ9rWr; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E91522F5A36
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Apr 2026 05:37:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.18
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775713056; cv=fail; b=D7EFG1iYLUATP7riKBthDc5sbeUunndWdAzzofsEhEqGN14Ii33m6YG9nDuhM66VFX/SKJSKHPJTgjwq44RX7xvaxu/tshA93z0Xn5NZN+N8uwuy7dxdAy7bL9u99unKn2zdW0WPCBVAR6GhYvSlsAMsom35OBi8stAYvrkzQP8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775713056; c=relaxed/simple;
+	bh=iexDWjo6BYyjdhKSQXeEP7SRpy1aPYVv7FkARZedxsI=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=u9BtmN6ybUXEyjPRFXPlIN9Sbtky+zG+OzdrFyZ4Vo11VRff9xLbXncKhYlzZaNQ0vS2tt2yPo3RsSECoYN3K0LeFwrLvxG9x/0SG87dvlwDqXa/puv1iF69e88pbl2MRfkNlCp0xyJGiQe68Ji147gb8n5WbOTy4snsEYttutU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a9gsx7/x; arc=fail smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XSQZ9rWr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a9gsx7/x"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775712298; x=1807248298;
-  h=date:from:to:cc:subject:message-id;
-  bh=rJRYkelNi+0zkRO7MPtEnrqKSPYbIYIS8+pI14nizFA=;
-  b=XSQZ9rWrkL6zo8Ao6XXdCM89lzbHkxL2y7Xyf0ql5BPnRnPusCq3Hlr4
-   M9knMff2U4UXf/SCujgfVW2RZTfNdX32A5Ly5VMtAygL6nbocvKS2ZFpm
-   xU+sZTOoPsjaSzsMNouGouUQUK2bqjNgSZ5a5D8ftmDs28lgPL8qhXOAw
-   +/ohmygIP0rHwLnImxmOzgNHvBvhMJgZK8DHeftIe2Jenig/yXxyx7Wop
-   ejPE3pu1NsovOPg5kR3xofndlZUkPAxapFDKyej3OBaIHqqh02IsUFHii
-   9AlvM8Sh6Zgo/6pFQOJayViY3tTvT4u/VN9jMOnsDBpVBAKxgS5qDgD5k
-   Q==;
-X-CSE-ConnectionGUID: sYH4dcOOQWmq6yuNholsGg==
-X-CSE-MsgGUID: SrKIzUgBQTClnHzfIPhT1A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11753"; a="87331935"
+  t=1775713055; x=1807249055;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iexDWjo6BYyjdhKSQXeEP7SRpy1aPYVv7FkARZedxsI=;
+  b=a9gsx7/xfwp8aDdKb+YKZP9lVrywd829jUrleEzJCTmCJN/YfLyyZaFX
+   itREJHPFy8CfOc4Cb86litGXpK3krNTKAVZOUajbxVQyTNE469Uz+sloG
+   8YRfsveuk3mfV7nubm45MDl97tGJogfYQWbk7xDVUeXvN6G/t+PRso/1q
+   r0+l5p770C3EPYMzcMX0lNmSoXltatkhdDhb3IseG03S/FoQfHWQC8l70
+   29TISSWMKWwbV9zZ+vintpRDEhaMgg7Ix0Scf5tJ4nB18/E8zZJTbn/iX
+   TXmyFm9/7DZNAJ/SUirw6GpuZxLy3ObwowUGmYv0HD2iCUYFpndr1FoVY
+   g==;
+X-CSE-ConnectionGUID: 4kQeLngZTd+Lpk0GHJsu4Q==
+X-CSE-MsgGUID: HvzRZFNER0Kz62kHPG/WHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11753"; a="76727382"
 X-IronPort-AV: E=Sophos;i="6.23,169,1770624000"; 
-   d="scan'208";a="87331935"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 22:24:57 -0700
-X-CSE-ConnectionGUID: 3Bi5R9VmRZmD7kPzOdGA2w==
-X-CSE-MsgGUID: s1Dw/DZHQLOxhQH07RQ3Ug==
+   d="scan'208";a="76727382"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 22:37:34 -0700
+X-CSE-ConnectionGUID: tAbKJFfgRqauchKrFiDdpQ==
+X-CSE-MsgGUID: r260VlAuQrOXIwYCJewCkg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,169,1770624000"; 
-   d="scan'208";a="233045896"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 08 Apr 2026 22:24:55 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wAhsq-00000000AcT-2hL9;
-	Thu, 09 Apr 2026 05:24:52 +0000
-Date: Thu, 09 Apr 2026 07:24:47 +0200
+   d="scan'208";a="225498400"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 22:37:34 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Wed, 8 Apr 2026 22:37:33 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Wed, 8 Apr 2026 22:37:33 -0700
+Received: from CY7PR03CU001.outbound.protection.outlook.com (40.93.198.32) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Wed, 8 Apr 2026 22:37:32 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=m/eaX1aWqMoSaBdP38PhL4Z+A2tFogMLaG/w/sXeVNRluaMUcnpj/VAu9DEN5/TR2+LcAZbYP3atz9oFil2Uf6ogrYmbPa/EiGsm8S5Jfnu1DsaUVSuS3P2pDnBZCIfnXWuO3Q+HjnqXrQRzO963IZ5qn2qJ4PAhQyNnD0rgWj01KO2UJUif8CTYZay1eWIrjbf5s1Z3h/CGAhfMw5jHyxV1gvDY/RsNUkqgpcip5Ri5MFyAx6Osb5NsQA2AGPwgww+sNTagGX+euVnoo5EmMNMHP+QnNHO4RNf67KDW0NIMWS6ETvHbMrhNJJAqqR9gPjFEZJf/wldPB/55nQiVww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eKtnLZfX9meNkmIvVkXwHgJ3HqXL54pUys64A0XGZuA=;
+ b=bxM6/+Uk0UF6TQz0mLD2lOmEEdrW2D/nFPORlw6blDNO2ogK6AAm91G7G5RcTJAy3JlCt+2VTsED5krcY+q1YSwX2+Yl7B/hrj0gtp/bJ136rd2By/YrxUMT+qxf1FLPhCeu+eJcadmsg57K57XXlHTJP27nDsDlnu5CTaccnfWmorYYxmyyWQApMobXyc+kjpPaKUE2UnrDwarPI/kQ+NK/41ilrwssUFIGz+Qr9BzzmK989OaH1rcqjRDgi0zX+GJ6v+KrrFiOEUuYTnKMZw9v5x3Fbtgy0y1IcqmosZVoBGFyRKc48tkVKVJUAFM8qwo46u/cNqyqZnGq/YXHdA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BYAPR11MB2808.namprd11.prod.outlook.com (2603:10b6:a02:c8::26)
+ by SA1PR11MB5827.namprd11.prod.outlook.com (2603:10b6:806:236::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.18; Thu, 9 Apr
+ 2026 05:37:25 +0000
+Received: from BYAPR11MB2808.namprd11.prod.outlook.com
+ ([fe80::defa:788:da96:2f9a]) by BYAPR11MB2808.namprd11.prod.outlook.com
+ ([fe80::defa:788:da96:2f9a%4]) with mapi id 15.20.9769.020; Thu, 9 Apr 2026
+ 05:37:25 +0000
+Date: Thu, 9 Apr 2026 13:37:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matteo Croce <technoboy85@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 8662/12838] htmldocs: MAINTAINERS:40:
- WARNING: Inline strong start-string without end-string. [docutils]
-Message-ID: <202604090741.1kUVXMoc-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: David Woodhouse <dwmw@amazon.co.uk>
+CC: <oe-kbuild-all@lists.linux.dev>
+Subject: [dwmw2:arm-disable-exits 5/7] arm64/vgic_group_v2.c:28:17: warning:
+ 'shared_rev' defined but not used
+Message-ID: <adc7DLX8LUjrdHse@rli9-mobl>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: SG2PR04CA0156.apcprd04.prod.outlook.com (2603:1096:4::18)
+ To BYAPR11MB2808.namprd11.prod.outlook.com (2603:10b6:a02:c8::26)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR11MB2808:EE_|SA1PR11MB5827:EE_
+X-MS-Office365-Filtering-Correlation-Id: d07c0bc7-3465-4c8d-ba2e-08de95fa1476
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info: /Ra0hDmv/xl7lITSR89UYem/iRVyfvrlWfMrI67W8Ag0UGqHgf1/SRiHApOlxtmwfGEUE3dE0Meg+RnfCcafS4OvTIqsRZqQLmXUVkKo7L09XGg76FaYh5e+v5gG/SJMOZNz1wo8LpcNTp96aKwUsBYdTuyQDD1i1CNj/5K1AgTw4r4LCsmQQYJ7WKbOna6d3mzUJI0pT85njCVJWB5QKfR3RuvunfsI2qs/AgLPgM0NJmAO7oHCOks3+XNTxngHmdtcFIRTSz21OpzKO+RQeTeOSo6+A/LKjb7PBw8wvYLf4lcZ3C/OWXGK1I82mBKF6v/3hiYSkvwx85NOAM25LnTZt7CnNitzI0a89deewlilhzQ4LYVAflpjW46KDPHqqA+2vV71kdHpgFM2zBw7ZvEmSNFHemU5bZWxmAW88nwD3BwnLsOtUuQLdvGkTvW9bW3QQhom1T3PvJgmMvfI7VTjUemLprKS+7SlMsPaKjpqqnQvDRJMw7+cTuTWa4kQuDCYhAiss5srzn08hx5ozDY2T9jI6RjLN2LNcutMP29lEryPeOzss6pZRSGo46sqB8tlFRio/nczg0IfQEhQ+0NqNmtRQNZPYhUXWKmX/ZgahA5rIgM36tNkbqF6ldfLonB31QXzHb6hvB+u78F0o/4ONiGHG9gILShBYUXlHt1YxW9adKKkhC6gDoEvKia1pOPC0iLF18S8SopjO+eBVw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB2808.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?nX3ToJhIJwYQLkSuu00buJQ1DZEvrMA9DGXqdAPJRAR+WWBC+2OjzuL4zgt5?=
+ =?us-ascii?Q?FKdB+5+ugGSwAoEGoO6vD0h1Iqcipc7QGZITCvo4QWoiI27gldZ73RKTe6Ze?=
+ =?us-ascii?Q?d5wEvGa/t3u/LjERSJsWYdxFj2H7YPKdbEEZ7xwpArUGadche4QQs1efpeNz?=
+ =?us-ascii?Q?rw5HAyc9QLYqCeZztaaDpzk9JkHOBCmPrvp1SF5hxBnmjGSDD0holKJcPUwf?=
+ =?us-ascii?Q?2BtbJXgcWcgUmYLe99xW8ajMX/FqS8ZHyzuFMUKhJAPFBnQ0abSYACyYXOHa?=
+ =?us-ascii?Q?rVeNOlSZtEMLNLDl+zyUGsoarBygINM6BvSW6QiZ5pj+1iFyGY4pgTvHa/wP?=
+ =?us-ascii?Q?iFdiljsZKA+6t4z9PIl6VW40gblZincB3VOY+IHioFhkzBFy3I12UPMj+DiP?=
+ =?us-ascii?Q?B2vvXIiIVR7J1RWU3q2LYprL8gzKvFvgSrRae9MjmmBbmH4EvIsGiEjr+Osu?=
+ =?us-ascii?Q?kawW6cUNxfNaNt0uOBqmXTKDGxBhZSMkp44pLjFsw57Ie8FhSReE+fxKuRZR?=
+ =?us-ascii?Q?4C9jgcxdEOIMSU+ORKkkyMq1Nq62ctCxKWR3lez/Eat1J9QG+M354HC6Xltx?=
+ =?us-ascii?Q?vKF4LTxY9SU7bVXLJ4YuI57Ha6DaXuqFZVQkUcCmYHzv35fNghdiVODtKCPC?=
+ =?us-ascii?Q?xdohWQh8ONUb273afkkVlhQnir4WG/VqP53w0d61qqEZnHqZUQSRmY75QBi5?=
+ =?us-ascii?Q?tn29VMPFh3QVTr01KJFlkhon4gXt62E6kgElm6iRHEChjy0sgxNOel7kMHH5?=
+ =?us-ascii?Q?9Izyz95bydcBOjg698MMy5iGWqi1hr0otorMJ5u/CuxzQ+mjysR062hEXtA5?=
+ =?us-ascii?Q?J1mw3+wECFtdCdU1AOX+3UpUekFFiVD8hCEtkJOIG+qCWos8UKWTk/3B5F/t?=
+ =?us-ascii?Q?Z1ipuEvsk810mkV3Ky0hVG16MdG+h3PgQbA471ybAntP/g9tGEtFA03QJ0qu?=
+ =?us-ascii?Q?AggUu+auYMTfV9l+VtUB9XX2wArhRrmoIJRpzZjyIJ7DQFvCIsQLtirxm0Np?=
+ =?us-ascii?Q?YLH14VQ/6rT2LtnvAsxo/Bl2I/82NNP+UBdo3UU/P0MJ3UvHtq/nXVU5wu7R?=
+ =?us-ascii?Q?Kj0Zua5ZrBiY5kfQQcR1DS9aV7o8kAf1efVb3Y/Ulawrlg4wnQH1jFwENlgW?=
+ =?us-ascii?Q?QenJyumpeCOxt0ZkSVAUbkPYe3zuQe+izMilmXSTqzGASRpXE1YKI1tcQQZp?=
+ =?us-ascii?Q?XoRd1HdiuUYKtoZ/Qv7qr7YU0bqgC3r/8MkPiu0vZzA0/A1QR+3HVlfwoPRK?=
+ =?us-ascii?Q?3INuoIKoatQ/YSj7aGWIjQl6vKK6MyF2EgdbqQQ4NnHaElYfvv6PznfqS4SM?=
+ =?us-ascii?Q?QN+UuDSnFFKNEg2saKFWaLm2vsuUGRnPsNQzurIUhz91B8V/JNsW0r10Us6V?=
+ =?us-ascii?Q?RJOK+g3mixyucDsbX+LMSRQYpKX63hHybMUokPYibJN0rolHQmVp2ZVheL0w?=
+ =?us-ascii?Q?mVV5lnbLFozxBZw4oW6qBIgicj1xCpmgiNEnU6al+qMw/zR3IjY6NnlshfUu?=
+ =?us-ascii?Q?pRWSbjgmnwwBqCiBDaH1cCSRSKbrZhSap2lZDbDEaLVouDgfGmPkTE04paJ9?=
+ =?us-ascii?Q?Kj0293gY701IoSkZrgy1glyC3BMeaOPXOH5eM6ktbBEpSquEc4p2LdvT/4LE?=
+ =?us-ascii?Q?dwcX/mEPyugy7/egM8Onfy/p5WVN1/mKf0MVarft9TY79XeAZ+DARDUEUryk?=
+ =?us-ascii?Q?/3B1JEitjuA7z1TxwDAy9uy8ZZC6QHitTaaT8OeOOcJjud6TTYruIm/vT3jT?=
+ =?us-ascii?Q?JUeOytArGQ=3D=3D?=
+X-Exchange-RoutingPolicyChecked: f4N0q5EeIvwiOwX1D7G3HgmeRh4aki/e2dXd7wXFNfuW1gdyU0ysU/AKMFJIhk6FA57EhFimkw4iWdthe9Ska6CoPFO1YBEJh0PUztu+xITvRvRQ5HajrQY5sdThja617XhVqU8pfZgpJFPlBahX3BsEKCCAcw5tsgouxFw/MCEdKydd53NLfnp+H09tyEyMn6ZDmkh0WIaOYAZTIKNJ66Jv7sW0ha83F8yQr5VfMIds2+s43YXLDP4Zc4pvIUFug/swIeKpGdjGhOfNwjq6F8rGhGhfLymxFuWL9rwGp8LpwEa4NN0R74xGie6FWeAbdI5aL48IEwrzvx85UIqNeA==
+X-MS-Exchange-CrossTenant-Network-Message-Id: d07c0bc7-3465-4c8d-ba2e-08de95fa1476
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2808.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2026 05:37:25.3016
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: u/zYWEpCoeVz4+S5zjx563SwpgnTTqZwypQjGD3TWJ287g8kaBzzGCRx+1WG1Uc0W0whwG4j8s8NlsMSWe5GFA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB5827
+X-OriginatorOrg: intel.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   db7efce4ae23ad5e42f5f55428f529ff62b86fab
-commit: 420849332f9f9f1ce6ff142868ae2e6ae9f98f65 [8662/12838] get_maintainer: add ** glob pattern support
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260409/202604090741.1kUVXMoc-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/dwmw2/linux arm-disable-exits
+head:   9a4463f0b113629ce8431de476af332b2ff3ea98
+commit: aef9e327c1a62db78d5b4018724bac2bc9fc975c [5/7] KVM: arm64: selftests: Add GICv2 IGROUPR writability test
+config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260409/202604090604.MJojGxpN-lkp@intel.com/config)
+compiler: aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260409/202604090604.MJojGxpN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604090741.1kUVXMoc-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202604090604.MJojGxpN-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Checksumming on output with GSO
-   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [docutils]
->> MAINTAINERS:40: WARNING: Inline strong start-string without end-string. [docutils]
-   Documentation/userspace-api/landlock:480: ./security/landlock/errata/abi-4.h:5: ERROR: Unexpected section title.
-
-
-vim +40 MAINTAINERS
-
-^1da177e4c3f41 Linus Torvalds   2005-04-16   6  
-aa204855281389 Kees Cook        2019-10-01   7  	M: *Mail* patches to: FullName <address@domain>
-aa204855281389 Kees Cook        2019-10-01   8  	R: Designated *Reviewer*: FullName <address@domain>
-eafbaac3093760 Paul E. McKenney 2014-06-02   9  	   These reviewers should be CCed on patches.
-aa204855281389 Kees Cook        2019-10-01  10  	L: *Mailing list* that is relevant to this area
-aa204855281389 Kees Cook        2019-10-01  11  	S: *Status*, one of the following:
-^1da177e4c3f41 Linus Torvalds   2005-04-16  12  	   Supported:	Someone is actually paid to look after this.
-^1da177e4c3f41 Linus Torvalds   2005-04-16  13  	   Maintained:	Someone actually looks after it.
-^1da177e4c3f41 Linus Torvalds   2005-04-16  14  	   Odd Fixes:	It has a maintainer but they don't have time to do
-^1da177e4c3f41 Linus Torvalds   2005-04-16  15  			much other than throw the odd patch in. See below..
-^1da177e4c3f41 Linus Torvalds   2005-04-16  16  	   Orphan:	No current maintainer [but maybe you could take the
-^1da177e4c3f41 Linus Torvalds   2005-04-16  17  			role as you write your new code].
-^1da177e4c3f41 Linus Torvalds   2005-04-16  18  	   Obsolete:	Old code. Something tagged obsolete generally means
-^1da177e4c3f41 Linus Torvalds   2005-04-16  19  			it has been replaced by a better system and you
-^1da177e4c3f41 Linus Torvalds   2005-04-16  20  			should be using that.
-6680125ea5a2a5 Joe Perches      2020-04-06  21  	W: *Web-page* with status/info
-6680125ea5a2a5 Joe Perches      2020-04-06  22  	Q: *Patchwork* web based patch tracking system site
-6680125ea5a2a5 Joe Perches      2020-04-06  23  	B: URI for where to file *bugs*. A web-page with detailed bug
-6680125ea5a2a5 Joe Perches      2020-04-06  24  	   filing info, a direct bug tracker link, or a mailto: URI.
-6680125ea5a2a5 Joe Perches      2020-04-06  25  	C: URI for *chat* protocol, server and channel where developers
-6680125ea5a2a5 Joe Perches      2020-04-06  26  	   usually hang out, for example irc://server/channel.
-bf667efc5672df SeongJae Park    2024-02-16  27  	P: *Subsystem Profile* document for more details submitting
-4699c504e603e2 Dan Williams     2019-11-24  28  	   patches to the given subsystem. This is either an in-tree file,
-4699c504e603e2 Dan Williams     2019-11-24  29  	   or a URI. See Documentation/maintainer/maintainer-entry-profile.rst
-4699c504e603e2 Dan Williams     2019-11-24  30  	   for details.
-6680125ea5a2a5 Joe Perches      2020-04-06  31  	T: *SCM* tree type and location.
-6680125ea5a2a5 Joe Perches      2020-04-06  32  	   Type is one of: git, hg, quilt, stgit, topgit
-aa204855281389 Kees Cook        2019-10-01  33  	F: *Files* and directories wildcard patterns.
-679655daffdd27 Joe Perches      2009-04-07  34  	   A trailing slash includes all files and subdirectory files.
-679655daffdd27 Joe Perches      2009-04-07  35  	   F:	drivers/net/	all files in and below drivers/net
-679655daffdd27 Joe Perches      2009-04-07  36  	   F:	drivers/net/*	all files in drivers/net, but not below
-679655daffdd27 Joe Perches      2009-04-07  37  	   F:	*/net/*		all files in "any top level directory"/net
-420849332f9f9f Matteo Croce     2026-03-02  38  	   F:	fs/**/*foo*.c	all *foo*.c files in any subdirectory of fs
-679655daffdd27 Joe Perches      2009-04-07  39  	   One pattern per line.  Multiple F: lines acceptable.
-6680125ea5a2a5 Joe Perches      2020-04-06 @40  	X: *Excluded* files and directories that are NOT maintained, same
-6680125ea5a2a5 Joe Perches      2020-04-06  41  	   rules as F:. Files exclusions are tested before file matches.
-6680125ea5a2a5 Joe Perches      2020-04-06  42  	   Can be useful for excluding a specific subdirectory, for instance:
-6680125ea5a2a5 Joe Perches      2020-04-06  43  	   F:	net/
-6680125ea5a2a5 Joe Perches      2020-04-06  44  	   X:	net/ipv6/
-6680125ea5a2a5 Joe Perches      2020-04-06  45  	   matches all files in and below net excluding net/ipv6/
-aa204855281389 Kees Cook        2019-10-01  46  	N: Files and directories *Regex* patterns.
-6680125ea5a2a5 Joe Perches      2020-04-06  47  	   N:	[^a-z]tegra	all files whose path contains tegra
-6680125ea5a2a5 Joe Perches      2020-04-06  48  	                        (not including files like integrator)
-bbbe96ed899e8e Stephen Warren   2013-04-29  49  	   One pattern per line.  Multiple N: lines acceptable.
-6ab88e00704bde Joe Perches      2014-01-23  50  	   scripts/get_maintainer.pl has different behavior for files that
-6ab88e00704bde Joe Perches      2014-01-23  51  	   match F: pattern and matches of N: patterns.  By default,
-6ab88e00704bde Joe Perches      2014-01-23  52  	   get_maintainer will not look at git log history when an F: pattern
-6ab88e00704bde Joe Perches      2014-01-23  53  	   match occurs.  When an N: match occurs, git log history is used
-6ab88e00704bde Joe Perches      2014-01-23  54  	   to also notify the people that have git commit signatures.
-aa204855281389 Kees Cook        2019-10-01  55  	K: *Content regex* (perl extended) pattern match in a patch or file.
-aa204855281389 Kees Cook        2019-10-01  56  	   For instance:
-c7c4fb18d0026b Joe Perches      2009-10-26  57  	   K: of_get_profile
-bbbe96ed899e8e Stephen Warren   2013-04-29  58  	      matches patches or files that contain "of_get_profile"
-c7c4fb18d0026b Joe Perches      2009-10-26  59  	   K: \b(printk|pr_(info|err))\b
-bbbe96ed899e8e Stephen Warren   2013-04-29  60  	      matches patches or files that contain one or more of the words
-bbbe96ed899e8e Stephen Warren   2013-04-29  61  	      printk, pr_info or pr_err
-c7c4fb18d0026b Joe Perches      2009-10-26  62  	   One regex pattern per line.  Multiple K: lines acceptable.
-c7c4fb18d0026b Joe Perches      2009-10-26  63  
-
-:::::: The code at line 40 was first introduced by commit
-:::::: 6680125ea5a2a5a69eeb8f7dcd89d0a1d23998ce MAINTAINERS: list the section entries in the preferred order
-
-:::::: TO: Joe Perches <joe@perches.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+>> arm64/vgic_group_v2.c:28:17: warning: 'shared_rev' defined but not used [-Wunused-variable]
+      28 | static uint64_t shared_rev;
+         |                 ^~~~~~~~~~
+   cc1: note: unrecognized command-line option '-Wno-gnu-variable-sized-type-not-at-end' may have been intended to silence earlier diagnostics
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
