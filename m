@@ -1,141 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F3128640C;
-	Thu,  9 Apr 2026 05:49:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1297C223339
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Apr 2026 06:05:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775713802; cv=none; b=J6Tpgcr4+uRay9FUI5TKxX2LNWW9ibluz9Rs1votff5hVHEjL+8dzP6R4lFYpmEVXug0kf7q1fOlrC7estRbAffkkw0KQDLHodxyr5WlSIvYrFyJGyBtr2pE9f4g+Mo6fHfEc2eX2I1PY2b9vO2RpgczRbK0wWEDGOh3XVn0nfo=
+	t=1775714758; cv=none; b=B8TpZjH1ZFX+JKpe6qslYA8Ys4iOJ8Qa2hyzgP94IGcZL6JuUK7rtthQ0mzTvQdwJ26joseRQ8ExTC3fp6l3P2htw7oC5IjwAwFDY6BwNPavgXHSsOX+CDQjz/id/Ip3e0ljcwLBrQYyiQAqCyx29PBaSErDt6+DsReZIfKMV1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775713802; c=relaxed/simple;
-	bh=gmK9fO57H8CzjbT04SrW/vYQmhsYcl3MVSHTnzmSIfA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=I1dqU9uQDFUEFuJOfue+s/ZOvtea00clMzrPbgpBt3bOThNqCXRRvCsADm+i5kkgaNms4Uj/mql5bAnOWyYWFsw84yUg0wwSbaZ0nuBEEqgXq8mjpD6R7wEuGoWMFSsdouCoznpPaHaKQzzgH4Dx3ZpChjmxSSDy+JQfpq7GgRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fPuFZBRX; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1775714758; c=relaxed/simple;
+	bh=aVho+y2IngdH05PFPZ/K2prIMKJJxqXSJG6a58iNzUQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=EU+HyKujFkLntAmYxq2j9UMJXYKBo0D7aTyS5m/YoTHcR3Up9P1ZtmmD7yyP6v20om+TV+77PmpTU7cqGf5NoxRm1kCMVlpOMSTR78uvYKAAQKYD8gfqI7tmR6lhk5qbqjwkgHs7EKZK0RQAt8wIWDWdm6Eb+93r5x6Qhv80Mkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PIablMNc; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fPuFZBRX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PIablMNc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775713800; x=1807249800;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=gmK9fO57H8CzjbT04SrW/vYQmhsYcl3MVSHTnzmSIfA=;
-  b=fPuFZBRXyzovUgLdBDX4cua+lrKq18ZWWu048zEI9TZerLZmIN35YQVl
-   DGmeq5+RCcODk6xClfAliT/aY6ECliuFClNA17FYB7ixqMw07hjCM3myf
-   rP4Qvz9i4KsH7hqC6lKtUNF9n9X0QAsLxv957j1uj+GO7NtFxKvRAz5Di
-   M9sPWMAzjCSOwucxOE5IaBzRRP8aRX1SHfsMMfChNqrUmOsXLzar+D57h
-   eNna1H7KJU0lcFXGLy8ACWM6RdNFb6fy7KBttqehOENkMNSkkf+JPqI6D
-   FMCcRvIk6qZIEyMsLS6ETGTN81fsS5cGwBvhMgJTpJZmRpxRomz9DxOup
-   w==;
-X-CSE-ConnectionGUID: qWRerMH8TQW8OFs4B8wvmQ==
-X-CSE-MsgGUID: pp69J5JaQZmi/L0rS7m8KQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11753"; a="102162026"
+  t=1775714757; x=1807250757;
+  h=date:from:to:cc:subject:message-id;
+  bh=aVho+y2IngdH05PFPZ/K2prIMKJJxqXSJG6a58iNzUQ=;
+  b=PIablMNcIAQgDzWQfBE2+OPROFAQFB6X4CR6+tFh/riZijudmOKGdMO7
+   zmCXaPX6h+RbRW6/qXph/f6TvEpxX/FtbHj1pj5FYaKrPR/0EyIQa/Bmh
+   x2EdxChfXVLkdiz5Z8bejePyVdAhH0bJpp8KmOA95J5cIBNd6mwPTAuYu
+   SI9j63yuoIcvvvzPBAVABynugJzgehwm/c82ANuiTRASTgEvPl7ic4yK5
+   6+fFvhJ11V1sEie/1TlqZUb6Mm9Mfu76f54M/3TvF8iuFbNQ64AQ5J9iw
+   iYlxvkN9tN7/se1I9wibeZFUKQx/JSBwbEX23kAxkHlPBjh5sNZNUM0gJ
+   g==;
+X-CSE-ConnectionGUID: iOAI6FsFRaum2A3SMXORZg==
+X-CSE-MsgGUID: wln8RX7ESfyxNknOJbXqKQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11753"; a="87411387"
 X-IronPort-AV: E=Sophos;i="6.23,169,1770624000"; 
-   d="scan'208";a="102162026"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 22:49:59 -0700
-X-CSE-ConnectionGUID: LoOk7JWzSsKmetrhoBD2Lg==
-X-CSE-MsgGUID: U++zH3i5QNytl0T6XmJt7g==
+   d="scan'208";a="87411387"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 23:05:56 -0700
+X-CSE-ConnectionGUID: KJQ8zzKPTqW1ELLNuYugBQ==
+X-CSE-MsgGUID: uy+JkBLnRJ6Lqmrja3n9ww==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,169,1770624000"; 
-   d="scan'208";a="227815788"
-Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 22:49:55 -0700
-Message-ID: <14230b61-d589-4f82-8dc5-aeecddadca65@linux.intel.com>
-Date: Thu, 9 Apr 2026 13:48:16 +0800
+   d="scan'208";a="224374302"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa010.fm.intel.com with ESMTP; 08 Apr 2026 23:05:55 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wAiWX-00000000Acz-0Hiu;
+	Thu, 09 Apr 2026 06:05:53 +0000
+Date: Thu, 09 Apr 2026 08:05:28 +0200
+From: kernel test robot <lkp@intel.com>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>
+Subject: [broonie-sound:for-next 11/13] Warning:
+ sound/soc/sdca/sdca_interrupts.c:566 function parameter 'dev' not described
+ in 'sdca_irq_cleanup'
+Message-ID: <202604090800.koxM6j6O-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 19/31] iommu/vt-d: Reserve the MSB domain ID bit for
- the TDX module
-To: Xu Yilun <yilun.xu@linux.intel.com>
-Cc: kernel test robot <lkp@intel.com>, linux-coco@lists.linux.dev,
- linux-pci@vger.kernel.org, dan.j.williams@intel.com, x86@kernel.org,
- oe-kbuild-all@lists.linux.dev, chao.gao@intel.com, dave.jiang@intel.com,
- yilun.xu@intel.com, zhenzhong.duan@intel.com, kvm@vger.kernel.org,
- rick.p.edgecombe@intel.com, dave.hansen@linux.intel.com, kas@kernel.org,
- xiaoyao.li@intel.com, vishal.l.verma@intel.com, linux-kernel@vger.kernel.org
-References: <20260327160132.2946114-20-yilun.xu@linux.intel.com>
- <202603290006.za7iiDgF-lkp@intel.com>
- <4be868dc-d6e1-4488-8f28-34ef1d3659ac@linux.intel.com>
- <adZFCF01fxt4gBh8@yilunxu-OptiPlex-7050>
-Content-Language: en-US
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <adZFCF01fxt4gBh8@yilunxu-OptiPlex-7050>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 4/8/26 20:07, Xu Yilun wrote:
-> On Tue, Mar 31, 2026 at 03:20:44PM +0800, Baolu Lu wrote:
->> On 3/29/26 00:57, kernel test robot wrote:
->>> kernel test robot noticed the following build warnings:
->>>
->>> [auto build test WARNING on 11439c4635edd669ae435eec308f4ab8a0804808]
->>>
->>> url:https://github.com/intel-lab-lkp/linux/commits/Xu-Yilun/x86-tdx-Move-
->>> all-TDX-error-defines-into-asm-shared-tdx_errno-h/20260328-151524
->>> base:   11439c4635edd669ae435eec308f4ab8a0804808
->>> patch link:https://lore.kernel.org/r/20260327160132.2946114-20-
->>> yilun.xu%40linux.intel.com
->>> patch subject: [PATCH v2 19/31] iommu/vt-d: Reserve the MSB domain ID bit for the TDX module
->>> config: i386-randconfig-141-20260328
->>> (https://download.01.org/0day-ci/archive/20260329/202603290006.za7iiDgF-
->>> lkp@intel.com/config)
->>> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
->>> smatch: v0.5.0-9004-gb810ac53
->>> reproduce (this is a W=1 build):
->>> (https://download.01.org/0day-ci/archive/20260329/202603290006.za7iiDgF-
->>> lkp@intel.com/reproduce)
->>>
->>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>> the same patch/commit), kindly add following tags
->>> | Reported-by: kernel test robot<lkp@intel.com>
->>> | Closes:https://lore.kernel.org/oe-kbuild-all/202603290006.za7iiDgF-lkp@intel.com/
->>>
->>> All warnings (new ones prefixed by >>, old ones prefixed by <<):
->>>
->>>>> WARNING: modpost: vmlinux: section mismatch in reference: iommu_max_domain_id+0x55 (section: .text.iommu_max_domain_id) -> acpi_table_parse_keyp (section: .init.text)
->>
->>
->> acpi_table_parse_keyp() is marked as __init. But this patch causes the
->> intel iommu driver to call it from a runtime function.
->>
->> int __init_or_acpilib
->> acpi_table_parse_keyp(enum acpi_keyp_type id,
->>                        acpi_tbl_entry_handler_arg handler_arg, void *arg)
->> {
->>          return __acpi_table_parse_entries(ACPI_SIG_KEYP,
->>                                            sizeof(struct acpi_table_keyp),
->> id,
->>                                            NULL, handler_arg, arg, 0);
->> }
-> 
-> Is it better we configure ACPI table as library, so that drivers could
-> use it freely at runtime? tdx-host also uses this function.
-> 
-> --------8<--------
-> 
-> diff --git a/drivers/iommu/intel/Kconfig b/drivers/iommu/intel/Kconfig
-> index 5471f814e073..55188d6d38bb 100644
-> --- a/drivers/iommu/intel/Kconfig
-> +++ b/drivers/iommu/intel/Kconfig
-> @@ -1,6 +1,7 @@
->   # SPDX-License-Identifier: GPL-2.0-only
->   # Intel IOMMU support
->   config DMAR_TABLE
-> +       select ACPI_TABLE_LIB
->          bool
-> 
->   config DMAR_PERF
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+head:   1d68e4b0c19b3a98e8073685d05dccd757fa0a2c
+commit: 0b8757b220f94421bd4ff50cce03886387c4e71c [11/13] ASoC: SDCA: Unregister IRQ handlers on module remove
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260409/202604090800.koxM6j6O-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260409/202604090800.koxM6j6O-lkp@intel.com/reproduce)
 
-This looks better.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604090800.koxM6j6O-lkp@intel.com/
 
-Thanks,
-baolu
+All warnings (new ones prefixed by >>):
+
+>> Warning: sound/soc/sdca/sdca_interrupts.c:566 function parameter 'dev' not described in 'sdca_irq_cleanup'
+>> Warning: sound/soc/sdca/sdca_interrupts.c:566 function parameter 'dev' not described in 'sdca_irq_cleanup'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
