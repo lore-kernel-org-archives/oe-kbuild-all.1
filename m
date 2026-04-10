@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60734332608
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Apr 2026 09:58:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FDE433F384
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Apr 2026 10:20:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775815109; cv=none; b=PLY8Q484ArnMiaAeXdKbFrkqhOlKXszh9ORmNlaL2uZZUw0yuEzKXz8DbckHb0FULSJr34seDsTTNRG6DKqpRmmrI6k24DPYuksm4Gg1ufa4kQAFuN3Z4BgWsCZuM/q/nCcjPGrgfdWehnL7xgGYu/l67d4t6UhcnLAG9WkguSs=
+	t=1775816429; cv=none; b=hObrY5bzDEU52FwLKaswl+ljHOVZtwkh3RJGdTBrHZ0NUGIqu8jfMhr5W0vfzw2M7HbrZ+hNjGUemrixl/4Z1ebNtUIDKy1gHEfRif2NQa+zD3xQCoaivgH+kBg94mGgblLYFtaYTLegM18Lm4nS+FgMAXxRCY/t431mjmA8thQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775815109; c=relaxed/simple;
-	bh=0XID9MjzbAMMVm0z+ekXB3Y+5LN0NooVElExEKdHCIA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=QxptvBw5SviO6OQcFN2fE9da7PQC7S7wb+IyqIKqNrXvzk+y4mk8ip0H70YKkzmAJCOD00hlPO5R+hhojxszvWmktHIxK43OQ6xQj3tDGSy026z0gC0eiSIcNOp0YxyHr17KegyfZCPremTMe5k44FljhRQgY8YFpNWRAslRgw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AKXE8Fkc; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1775816429; c=relaxed/simple;
+	bh=TBqDXTDK8YdxGeKYTpEDha0B/+5XxyHzHaMD+3lGXWY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Dd84wi5MJ9Kv/tAvRPtLvjdWbZBvPIVSInzKfc3d2ftwKRpJR/3m2E27RP2r6fRu5OCIPqBW64T00z09/YRPQuLmQrKIGS/jy7UAsvcXIY5aQ356DYF68SQUX5cV1Muy75hd3bVKGDjmDxqqJGdofZxRkloEvwLMMTe8rVKmYzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iWb2Kq9S; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AKXE8Fkc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iWb2Kq9S"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775815107; x=1807351107;
+  t=1775816428; x=1807352428;
   h=date:from:to:cc:subject:message-id;
-  bh=0XID9MjzbAMMVm0z+ekXB3Y+5LN0NooVElExEKdHCIA=;
-  b=AKXE8FkcGEtcFByTK2WsaM2yjBhm/x50y0BbegrI5e/I2HI+XriJpZvM
-   zXy2HC4u4iL7dXHahxaEi7k449esZDiLWfFjhBjr4fZ/sF9gsL0Bh3vNK
-   H8YIb9x/Er7W24+DGGyKEmaRq0CryHaqNqT+1iJFS9KsoWI1j243QNZBj
-   0xNs+4RiE5ZUIsOS/Y6jgfgLKD3JDsX15qoxSoWs2P8BwtBJBosq4wFFW
-   aGbiKFs9VmqSQcugJDeOt3OKBVE0LS32T0xVMoVt7ZRzFpZsm+XL46fRa
-   JtLo9QYF4bP6FMDEo1Gxnb+Q0q1cmzXiT0l9Ib/kCL+bmSbuwTZUV566/
-   A==;
-X-CSE-ConnectionGUID: pp3p1IsvQNGLBl4FmGwUPA==
-X-CSE-MsgGUID: CAcD0ZUZRFSA8TKCEtZL5g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="87461200"
+  bh=TBqDXTDK8YdxGeKYTpEDha0B/+5XxyHzHaMD+3lGXWY=;
+  b=iWb2Kq9SP7fPIYTs00g3Bg2CjN4HCI/g1T8oy46c4W6adeJd/5tCtZDJ
+   enOYSUSzRb62E+laVVJlwGQpYpGW90b6H+OKMkIzp09m413ZXJHG1EC+Z
+   3JEyUX1WSjG5upyNUo/g+EaPybj3/Y5OMYD0mjsVf6z+zKCFZASq6jDD7
+   5cXnfI/TfWlrQzQ7t1eDeJB9EC42u++rZSM38hOammgGgfKnr7U6kUQat
+   AOYHyZSnMmtfxrrvuYn+QdS/XuKtKX6Q4Bw9Y3rcE1uVGtgFXSHtsxmBi
+   y4NUDLvU5s7fPcaNs1zsYWJ8xKRgrNXFypVZpR5G7rJkX0V6CkDpoKzWz
+   Q==;
+X-CSE-ConnectionGUID: qTloL20xR2qhtYiiL7ZoQQ==
+X-CSE-MsgGUID: Dk1w5f01Ro6a7rzEqmy5Tw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="88277029"
 X-IronPort-AV: E=Sophos;i="6.23,171,1770624000"; 
-   d="scan'208";a="87461200"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 02:58:26 -0700
-X-CSE-ConnectionGUID: HBLq59smTfC/PVvCC8WdBw==
-X-CSE-MsgGUID: IfQFr6oUTQSUhQ1GgrA76g==
+   d="scan'208";a="88277029"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 03:20:28 -0700
+X-CSE-ConnectionGUID: 2U4zbNa6S4mavFNznJsgtg==
+X-CSE-MsgGUID: e9AQW1//TsKpHIJ1q5VUAA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,171,1770624000"; 
-   d="scan'208";a="228204458"
+   d="scan'208";a="252417873"
 Received: from lkp-server01.sh.intel.com (HELO 6449335cace3) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 10 Apr 2026 02:58:25 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 10 Apr 2026 03:20:26 -0700
 Received: from kbuild by 6449335cace3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wB8d5-000000003a9-05uI;
-	Fri, 10 Apr 2026 09:58:23 +0000
-Date: Fri, 10 Apr 2026 17:57:59 +0800
+	id 1wB8yO-000000003bV-1PUn;
+	Fri, 10 Apr 2026 10:20:24 +0000
+Date: Fri, 10 Apr 2026 18:20:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata 92/115]
- drivers/media/i2c/imx219.c:511: undefined reference to `__aeabi_ldivmod'
-Message-ID: <202604101719.IZnukkGx-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 1/1]
+ arch/arm64/kvm/hyp/nvhe/modules.c:33:10: sparse: sparse: symbol
+ 'num_dynamic_hcalls' was not declared. Should it be static?
+Message-ID: <202604101819.0MWNNC6Z-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,68 +60,29 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   ace2f872475ed78b708d667f1b2d004b192eeeb1
-commit: fbaf57c5f207a3fbab657d5bc757041ba26d5d69 [92/115] media: imx219: Allow configuring cropping and binning through CRSM
-config: arm-randconfig-r072-20260408 (https://download.01.org/0day-ci/archive/20260410/202604101719.IZnukkGx-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
-smatch: v0.5.0-9004-gb810ac53
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260410/202604101719.IZnukkGx-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   08e21ebff803243bccd5e6cd4a8253ffebf74c64
+commit: 15d5bab7e86b00ad06770719a7cf68cdea68d2fe [1/1] ANDROID: KVM: arm64: Add support for custom hypercall registration
+config: arm64-randconfig-r133-20260408 (https://download.01.org/0day-ci/archive/20260410/202604101819.0MWNNC6Z-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c80443cd37b2e2788cba67ffa180a6331e5f0791)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260410/202604101819.0MWNNC6Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604101719.IZnukkGx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604101819.0MWNNC6Z-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/arm64/kvm/hyp/nvhe/modules.c:33:10: sparse: sparse: symbol 'num_dynamic_hcalls' was not declared. Should it be static?
+>> arch/arm64/kvm/hyp/nvhe/modules.c:34:1: sparse: sparse: symbol 'dyn_hcall_lock' was not declared. Should it be static?
 
-   arm-linux-gnueabi-ld: drivers/media/i2c/imx219.o: in function `imx219_apply_binning':
->> drivers/media/i2c/imx219.c:511: undefined reference to `__aeabi_ldivmod'
->> arm-linux-gnueabi-ld: drivers/media/i2c/imx219.c:512: undefined reference to `__aeabi_ldivmod'
+vim +/num_dynamic_hcalls +33 arch/arm64/kvm/hyp/nvhe/modules.c
 
-
-vim +511 drivers/media/i2c/imx219.c
-
-   484	
-   485	static void imx219_apply_binning(struct v4l2_subdev_state *state,
-   486					 struct v4l2_rect *crop, unsigned int index)
-   487	{
-   488		struct v4l2_rect *compose =
-   489			v4l2_subdev_state_get_compose(state, IMX219_PAD_IMAGE);
-   490		struct v4l2_mbus_framefmt *source_format =
-   491			v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
-   492						     IMX219_STREAM_IMAGE);
-   493		struct v4l2_mbus_framefmt *embedded_source_format =
-   494			v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
-   495						     IMX219_STREAM_EDATA);
-   496		s64 binning = imx219_binning_factors[index];
-   497	
-   498		crop->width = clamp(crop->width, IMX219_OUTPUT_X_SIZE_MIN *
-   499				    V4L2_BINNING_FACTORS_HNUM(binning),
-   500				    IMX219_VISIBLE_WIDTH) & ~1;
-   501		crop->height = clamp(crop->height, IMX219_OUTPUT_Y_SIZE_MIN *
-   502				     V4L2_BINNING_FACTORS_VNUM(binning),
-   503				     IMX219_VISIBLE_HEIGHT) & ~1;
-   504		crop->left = clamp((unsigned int)crop->left, IMX219_VISIBLE_LEFT,
-   505				   IMX219_VISIBLE_LEFT + IMX219_VISIBLE_WIDTH -
-   506				   crop->width);
-   507		crop->top = clamp((unsigned int)crop->top, IMX219_VISIBLE_TOP,
-   508				  IMX219_VISIBLE_TOP + IMX219_VISIBLE_HEIGHT -
-   509				  crop->height);
-   510	
- > 511		compose->width = crop->width / V4L2_BINNING_FACTORS_HNUM(binning);
- > 512		compose->height = crop->height / V4L2_BINNING_FACTORS_VNUM(binning);
-   513	
-   514		source_format->width = compose->width;
-   515		source_format->height = compose->height;
-   516	
-   517		struct v4l2_mbus_framefmt *embedded_format =
-   518			v4l2_subdev_state_get_format(state, IMX219_PAD_EDATA);
-   519	
-   520		embedded_format->width =
-   521			embedded_source_format->width = source_format->width;
-   522	}
-   523	
+    32	
+  > 33	atomic_t num_dynamic_hcalls = ATOMIC_INIT(0);
+  > 34	DEFINE_HYP_SPINLOCK(dyn_hcall_lock);
+    35	
 
 -- 
 0-DAY CI Kernel Test Service
