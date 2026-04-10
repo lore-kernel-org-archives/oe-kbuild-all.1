@@ -1,134 +1,124 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDB5E33FE26;
-	Fri, 10 Apr 2026 12:14:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51EE63B4E8A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Apr 2026 12:22:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775823291; cv=none; b=ClI9CTcO6IBawNO1lcVuZ4fGm75iEv4PsyFQ4nZ5QM68DTtjrABVkdBqJY3lsKdd/bgVAwN9kB42HIIPKV+ciCnfM+PkEfC+PHh9FUoWIWvOl2u3S9OionLOYcaU6NHz9GglYfWO3bU/5pT44Tf5su5bVreJhsVSBK/wXKwbeAw=
+	t=1775823759; cv=none; b=RqXvfjQ/g5DCuUMYX4T0a3UE35eAFfQTQh0Kop9FYIKsE5X7dOQOWbFOXsNKmPY8YZnVaM2U8AfPhHTLl8Hqrkz1yQpTKabXPAqZdMsROcQeOQ/N4zWA2GqM5YAI7584eAx2eA7cuKd6aydfhoFXdgj1fU+TH9/yYGF8p+ASTuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775823291; c=relaxed/simple;
-	bh=2Mk6bChQxnG7WOCfTfMqsRWvkq3UrOV7UbRvBlaMed0=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=aMMxju7o/h3yAbARewBYmcotb2RQY9Ghe3VlhiDd8wuCKgEcM2y57jPC0Z2IY3er1LP5Hm1yedlwrfS2wJOzariPV3bVwb01Dy1rAhqYo4G3HosJG11H2QpY6bFk0nlT6tzNq8zxRalVnwgJT7T1A+IiE86Mvd+vYedZVsfLzCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=D0xYuxGB; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1775823759; c=relaxed/simple;
+	bh=xNfeEe1QZJyjd+M9lWdhljum1Yqsz2sTpyK4TKbmoPk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ka3D+7oRuRBqcfT8pB97ox1oE0izBIPYSeToUguius9zaH84odgWgRp6q16uTK+AU6N0Kt1kzYgDAliXWJu+wRLSczZTxiry8QVzEf6V+oM9icHFS152urqH2rdOuwtWgkNgouPja1BmuE6mnMFrStJRaizbDp+hmD0mnValoUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PD9FMUO4; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="D0xYuxGB"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 63ACEgcH62986449, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1775823282; bh=/7y938S5rJn97OMYLP6QQqX7WO3SiOuhfTnrLDpaVic=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=D0xYuxGBvfOCQiQ5CQkAjrNOv4hjhgd5U7Vx8KPAP2sNIjWz1qy2A/b4h72iI43Oy
-	 mu102WrnIZEb6h4u+20YZQK8DKevuI20wf6EepgHf5aT3OXGcQoaRlQYytqocFqBjW
-	 ORN0HbeaZoBp9RuAeWPdkwnyLuv6Rd8i8xhFL4LHHZYLVJsLhTQI3CdohGfleAh2s1
-	 +WYJldx5urW017DvpX4HKAqvUulPEzEPp3dY7UxaG2deaYKSUynVQmmz+WODxXgFi6
-	 MCuWqXEReskbFq2CDoKyjRfGpovNNbonii8UKzmSk3Us+FJz2zkmLm00RbLi5riexf
-	 DWYeVet6ylOvQ==
-Received: from mail.realtek.com (rtkexhmbs03.realtek.com.tw[10.21.1.53])
-	by rtits2.realtek.com.tw (8.15.2/3.26/5.94) with ESMTPS id 63ACEgcH62986449
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 10 Apr 2026 20:14:42 +0800
-Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
- RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Fri, 10 Apr 2026 20:14:42 +0800
-Received: from RTKEXHMBS06.realtek.com.tw ([fe80::ed72:3015:2840:4458]) by
- RTKEXHMBS06.realtek.com.tw ([fe80::ed72:3015:2840:4458%10]) with mapi id
- 15.02.1748.010; Fri, 10 Apr 2026 20:14:42 +0800
-From: Ping-Ke Shih <pkshih@realtek.com>
-To: Bitterblue Smith <rtl8821cerfe2@gmail.com>,
-        kernel test robot
-	<lkp@intel.com>
-CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: include/linux/build_bug.h:78:41: error: static assertion failed:
- "sizeof(struct rtw8814a_efuse) == 512"
-Thread-Topic: include/linux/build_bug.h:78:41: error: static assertion failed:
- "sizeof(struct rtw8814a_efuse) == 512"
-Thread-Index: AQHcyMv6u/YWKjXW3EGUlXMtosQaj7XXrWIAgACG/OI=
-Date: Fri, 10 Apr 2026 12:14:42 +0000
-Message-ID: <1e02bd10a68747f4a342caedde76ef04@realtek.com>
-References: <202604101721.fsv5XmCX-lkp@intel.com>,<2fb2a553-3e67-497e-b964-7fa5f940e8a1@gmail.com>
-In-Reply-To: <2fb2a553-3e67-497e-b964-7fa5f940e8a1@gmail.com>
-Accept-Language: en-US, zh-TW
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PD9FMUO4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775823758; x=1807359758;
+  h=date:from:to:cc:subject:message-id;
+  bh=xNfeEe1QZJyjd+M9lWdhljum1Yqsz2sTpyK4TKbmoPk=;
+  b=PD9FMUO4VtEQtrYhXBsed4R7epSDmor4DkhkGHCtJuEhfuKsOtvsSmuV
+   KK6Asd0rkkhye1f722Km/hwUWWqOB3JPUceX4kGVA4nD58nbTwYGI9KIA
+   FnC+RpniSlgGhYh5pIdku05qs6uBsqZOWtDIXY8vTAbS5VRo5u1xmwhsn
+   3tfTah3rRrqk024OEA45l8RhtDGFLbajukz3zVIWOOkoMIpwHF22an4Tx
+   WT1MCXafw5nslg5/Rwck/ztHxJbo+pB9vLTB5aP4nw5112CN5HZT6mIab
+   uIvwlXVCV9+VywUqWg92t+1dDn7uZ8SQGDVlLBfh0bninCwxYLtp39Yt/
+   w==;
+X-CSE-ConnectionGUID: NtQCWnOsTh+oUFI1Mx6RKw==
+X-CSE-MsgGUID: ORi5spi0T26zozmjRLbFqA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="76557702"
+X-IronPort-AV: E=Sophos;i="6.23,171,1770624000"; 
+   d="scan'208";a="76557702"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 05:22:38 -0700
+X-CSE-ConnectionGUID: wUgQ5EwjRh2E3TVzS5FZLg==
+X-CSE-MsgGUID: +67Ygv6CTMmIFT/XfxSiCQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,171,1770624000"; 
+   d="scan'208";a="267034601"
+Received: from lkp-server01.sh.intel.com (HELO 6449335cace3) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 10 Apr 2026 05:22:37 -0700
+Received: from kbuild by 6449335cace3 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wBAsc-000000003in-0MEV;
+	Fri, 10 Apr 2026 12:22:34 +0000
+Date: Fri, 10 Apr 2026 20:22:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 1/1]
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:4647:34: sparse: sparse: symbol
+ 'arm_smmu_aux_table' was not declared. Should it be static?
+Message-ID: <202604102007.Eba7XZwO-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
 
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   08e21ebff803243bccd5e6cd4a8253ffebf74c64
+commit: 5e05ef6d02e170f7200fb3a5b56acd2993b20633 [1/1] ANDROID: drivers/arm-smmu-v3-kvm: Modularize driver
+config: arm64-randconfig-r133-20260408 (https://download.01.org/0day-ci/archive/20260410/202604102007.Eba7XZwO-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c80443cd37b2e2788cba67ffa180a6331e5f0791)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260410/202604102007.Eba7XZwO-lkp@intel.com/reproduce)
 
-Bitterblue Smith <rtl8821cerfe2@gmail.com> wrote:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604102007.Eba7XZwO-lkp@intel.com/
 
-> On 10/04/2026 12:25, kernel test robot wrote:
-> > tree:=A0=A0  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/l=
-inux.git master
-> > head:=A0=A0 9a9c8ce300cd3859cc87b408ef552cd697cc2ab7
-> > commit: deb3ddeb18652118956fb581a39ac299e1ee5623 wifi: rtw88: Enable th=
-e new RTL8814AE/RTL8814AU drivers
-> > date:=A0=A0 1 year, 1 month ago
-> > config: arm-randconfig-001-20260410 (https://download.01.org/0day-ci/ar=
-chive/20260410/202604101721.fsv5XmCX-lkp@intel.com/config)
-> > compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20260410/202604101721.fsv5XmCX-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Fixes: deb3ddeb1865 ("wifi: rtw88: Enable the new RTL8814AE/RTL8814AU=
- drivers")
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes:  https://lore.kernel.org/oe-kbuild-all/202604101721.fsv5XmCX-=
-lkp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >=A0=A0=A0 In file included from include/linux/bitfield.h:10,
-> >=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 from includ=
-e/linux/fortify-string.h:5,
-> >=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 from includ=
-e/linux/string.h:389,
-> >=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 from includ=
-e/linux/uuid.h:11,
-> >=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 from includ=
-e/linux/mod_devicetable.h:14,
-> >=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 from includ=
-e/linux/usb.h:5,
-> >=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 from driver=
-s/net/wireless/realtek/rtw88/rtw8814a.c:5:
-> >>> include/linux/build_bug.h:78:41: error: static assertion failed: "siz=
-eof(struct rtw8814a_efuse) =3D=3D 512"
->=20
-> struct rtw_2g_txpwr_idx is missing __packed. Could that be the reason
-> for the error? I don't see what else could be causing it.
->=20
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:4647:34: sparse: sparse: symbol 'arm_smmu_aux_table' was not declared. Should it be static?
+>> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:4652:25: sparse: sparse: symbol 'arm_smmu_driver_emu' was not declared. Should it be static?
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c: note: in included file (through arch/arm64/include/asm/atomic.h, include/linux/atomic.h, include/asm-generic/bitops/atomic.h, ...):
+   arch/arm64/include/asm/cmpxchg.h:168:1: sparse: sparse: cast truncates bits from constant value (ffffffff80000000 becomes 0)
+   arch/arm64/include/asm/cmpxchg.h:168:1: sparse: sparse: cast truncates bits from constant value (ffffffff80000000 becomes 0)
+--
+>> drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:35:16: sparse: sparse: not a function list_add_valid_or_report
+>> drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:40:16: sparse: sparse: not a function list_del_entry_valid_or_report
+>> drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:410:15: sparse: sparse: cast to restricted __le64
+>> drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:410:15: sparse: sparse: restricted __le64 degrades to integer
+>> drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:410:15: sparse: sparse: restricted __le64 degrades to integer
+   drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:411:14: sparse: sparse: cast to restricted __le64
+   drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:411:14: sparse: sparse: restricted __le64 degrades to integer
+   drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:411:14: sparse: sparse: restricted __le64 degrades to integer
+>> drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:426:22: sparse: sparse: invalid assignment: |=
+>> drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:428:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le64 @@     got unsigned long long @@
+   drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:438:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le64 @@     got unsigned long long @@
+   drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:440:22: sparse: sparse: invalid assignment: |=
+   drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:456:40: sparse: sparse: restricted __le64 degrades to integer
+   drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:459:25: sparse: sparse: restricted __le64 degrades to integer
+>> drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:612:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *base @@     got void * @@
 
-I also found that flaw, but it isn't cause. I download cross compiler
-to build arm on my x86, and address the cause is:
+vim +/arm_smmu_aux_table +4647 drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
 
-diff --git a/drivers/net/wireless/realtek/rtw88/rtw8814a.h b/drivers/net/wi=
-reless/realtek/rtw88/rtw8814a.h
-index c57c7c8f915e..7f2260117487 100644
---- a/drivers/net/wireless/realtek/rtw88/rtw8814a.h
-+++ b/drivers/net/wireless/realtek/rtw88/rtw8814a.h
-@@ -51,10 +51,15 @@ struct rtw8814a_efuse {
-        union {
-                struct rtw8814au_efuse u;
-                struct rtw8814ae_efuse e;
--       };
-+       } __packed;
-        u8 res5[0x122];                 /* 0xde */
- } __packed;
+0bab644878595f Mostafa Saleh 2025-11-17  4646  
+0bab644878595f Mostafa Saleh 2025-11-17 @4647  const struct auxiliary_device_id arm_smmu_aux_table[] = {
+0bab644878595f Mostafa Saleh 2025-11-17  4648  	{ .name = "protected_kvm.smmu_v3_emu" },
+0bab644878595f Mostafa Saleh 2025-11-17  4649  	{ },
+0bab644878595f Mostafa Saleh 2025-11-17  4650  };
+0bab644878595f Mostafa Saleh 2025-11-17  4651  
+0bab644878595f Mostafa Saleh 2025-11-17 @4652  struct auxiliary_driver arm_smmu_driver_emu = {
+0bab644878595f Mostafa Saleh 2025-11-17  4653  	.name = "arm-smmu-v3-emu",
+0bab644878595f Mostafa Saleh 2025-11-17  4654  	.id_table = arm_smmu_aux_table,
+0bab644878595f Mostafa Saleh 2025-11-17  4655  	.probe = arm_smmu_device_probe_emu,
+0bab644878595f Mostafa Saleh 2025-11-17  4656  	.shutdown = arm_smmu_device_shutdown_emu,
+0bab644878595f Mostafa Saleh 2025-11-17  4657  };
+70c9e958ffbf36 Mostafa Saleh 2023-08-17  4658  #endif
+0bab644878595f Mostafa Saleh 2025-11-17  4659  
 
-I will send a patch soon.
+:::::: The code at line 4647 was first introduced by commit
+:::::: 0bab644878595feedb839a62812e5116bb7acaa1 FROMLIST: iommu/arm-smmu-v3: Support probing KVM emulated devices
 
-Ping-Ke
+:::::: TO: Mostafa Saleh <smostafa@google.com>
+:::::: CC: Mostafa Saleh <smostafa@google.com>
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
