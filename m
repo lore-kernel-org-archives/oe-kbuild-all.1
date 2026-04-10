@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49B183DCDB8;
-	Fri, 10 Apr 2026 16:36:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 587543E0C66
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Apr 2026 16:59:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775838965; cv=none; b=boOLzNI2gglxJ69ElaaTYlCT/8Nmxq0h7VOofX/TKKPz76rJDpmhWk8Xf/RuT5ImsBZ2y/rk+vW/7TNFV9I4zsjgrXt8r/DdOeCU1cNuGog25KbKiTmRTiSbX2/XTqcK4SjW6fvcRQ9j4FG32ruzOEuGLMWPWveUxTOI4ycjypc=
+	t=1775840350; cv=none; b=P+plIKk3shFsv2pVHeBZLU70/DRSx1IL/0GEh+T5qDH+pX5KBN12ac5GFujEosXn7D00P7QSRSU/v2m2uB2yT495bRVY0Ck6IG2cih+y/E7nJ0etjKys/fuNboM4fVvw3DbloxU/8czP6eBYr1h/wpv04KGIOYuvLPc90K/p43Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775838965; c=relaxed/simple;
-	bh=zs9awAlSF8oKrkkipUS0xMjig6aHD/S5hOf1UWDp0p8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=p4o9Al4JZgN+AS6qeM4UZQNVByco6LVY/6GIbsu+HRuzOLdI5ejKuq7RT39yzMTgz58Qx+DWeIBl0OB0Kzt353RJcCETF21Z5xFjkwQ00Isbvv5PjUdTEmXGs30QcQHv1tgJLkNkUWuxXrv3LzNp6sWIEnXOTWKt0uEvV3fBNxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=abruuQ6h; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1775840350; c=relaxed/simple;
+	bh=CtI56SLbi6nkXYwJ2viTQJij8StyVkBhvHFbnu9kksY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=SAkJVOQyb3k+akLQutUE0hzNyuwkK2ZDbi5Jyps/DgCUgprY6rmreZsksaFwUXHyUnL+Xh252G1VxoMUzq3BbJ93haS6rcp3VIMVvZZHSEOelFzUwBENcSWOSTVTlXnwQU/gK+vO3DGyEnRhCfMQsJin/txlyPCc8Zsz/hAvDeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IrvXwvRA; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="abruuQ6h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IrvXwvRA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775838963; x=1807374963;
+  t=1775840346; x=1807376346;
   h=date:from:to:cc:subject:message-id;
-  bh=zs9awAlSF8oKrkkipUS0xMjig6aHD/S5hOf1UWDp0p8=;
-  b=abruuQ6hlUBiIsQ5vaM/D/JeuunAgq0iD8E8KR5XTI17YU97lL2VZdM8
-   U7qR4xzZ9rduNmLJpmJhxCY9cq2SWM543gfk8mhuC9mL5aowExi2oQYxP
-   8cuxuJtqQE7UvxcpyVx5BAxqPZjC6hqrUYOR5SkWqu97+aCoGk8H1RZyJ
-   Z9EgWt2k4uruFX5Y4nWJms7tFdNzgkkH8bMhm2oHI3a/jWeqYvvxd4oha
-   z7GgO8/5x3T80QzeazoYlj6EAKONHMod5VqRGAyAkq9quF1isuEcnEv2v
-   7HxLbzBHljvthK4ELHyDHex6BlYFa4SE0L1pA3n1lVzMGJRJO9oX0uIVA
-   g==;
-X-CSE-ConnectionGUID: Vvt0xWJOQPSLBfF83efVPw==
-X-CSE-MsgGUID: BsViEGZ0QcuyO4ocz2K8/A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="87489567"
+  bh=CtI56SLbi6nkXYwJ2viTQJij8StyVkBhvHFbnu9kksY=;
+  b=IrvXwvRAmnEifH35LCq+nVZglolRwHGGCzsEA+M72/2XPkIGa3U1tyC1
+   x3/kD7iqa/Bac8cc7K5sfpsbkkywgFnlSeNkJ+2NyxCwHa008NwlCf04g
+   qtBwvycYtpw0QIOWNhKIj2SVxufZHRK006NygxlI/LREVutrK14zp28l4
+   uB7VZTgzKsIrBdIM/Jxhfy2TXHTJI9ELlr3rY2f7qE5TxjoqMEiJzmXBm
+   4Unb2yjmCPv4+1Ej+1BVWoTQvhmndxcn+ImcXZK3l2U08cC50AyVytO6i
+   ZYlota3totPsXcZfTp08MuCycKoB67sELekFXMi2ungq1BCvtnY2f33Ax
+   Q==;
+X-CSE-ConnectionGUID: 5/hLU0jXRIW/jLwxwH84Rw==
+X-CSE-MsgGUID: o9fxeP/hS8iUMmlp3u73hg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="99500087"
 X-IronPort-AV: E=Sophos;i="6.23,171,1770624000"; 
-   d="scan'208";a="87489567"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 09:36:01 -0700
-X-CSE-ConnectionGUID: w6zdrSgoQD2bgZLpIwSggA==
-X-CSE-MsgGUID: zM2e05BXSvuquGMfnTXjnQ==
+   d="scan'208";a="99500087"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 09:59:03 -0700
+X-CSE-ConnectionGUID: rAwmTkjqTkiRjMMEJsvwBA==
+X-CSE-MsgGUID: pc6sreXdTzGJWVsYrWhYlw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,171,1770624000"; 
-   d="scan'208";a="228278660"
+   d="scan'208";a="228118085"
 Received: from lkp-server01.sh.intel.com (HELO 6449335cace3) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 10 Apr 2026 09:35:59 -0700
+  by orviesa006.jf.intel.com with ESMTP; 10 Apr 2026 09:59:03 -0700
 Received: from kbuild by 6449335cace3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wBEpp-000000003zD-22OF;
-	Fri, 10 Apr 2026 16:35:57 +0000
-Date: Sat, 11 Apr 2026 00:35:40 +0800
+	id 1wBFC7-0000000041R-1t1E;
+	Fri, 10 Apr 2026 16:58:59 +0000
+Date: Sat, 11 Apr 2026 00:58:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:dir-deleg 14/25] fs/nfsd/nfs4state.c:9911:1: error:
- conflicting types for 'nfsd4_run_cb_notify'
-Message-ID: <202604110032.FXxIPdFp-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:mirror-poly-aosp-pixel-malibu 0/5] ERROR:
+ modpost: module ecryptfs uses symbol unlock_rename from namespace
+ VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not
+ import it.
+Message-ID: <202604110049.KlVnDOsM-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,49 +61,93 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git dir-deleg
-head:   f46f4f860e384a5bc2c7a8f2fa64872ba4e303a5
-commit: 748b5689ecabe0a80846c79cc0b468005b4d7e19 [14/25] nfsd: add notification handlers for dir events
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260411/202604110032.FXxIPdFp-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260411/202604110032.FXxIPdFp-lkp@intel.com/reproduce)
+Hi Todd,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common mirror-poly-aosp-pixel-malibu
+head:   1d014da25325b50bf0fa1c3c5d770145f15d8a24
+commit: e2c81a7fa3cb3fe3ff19af6fcf11cf014a578f24 [0/5] ANDROID: Fix incorrect namespacing for ANDROID_GKI_VFS_EXPORT_ONLY
+config: x86_64-randconfig-104-20260408 (https://download.01.org/0day-ci/archive/20260411/202604110049.KlVnDOsM-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260411/202604110049.KlVnDOsM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604110032.FXxIPdFp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604110049.KlVnDOsM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   fs/nfsd/nfs4state.c:3583:3: error: call to undeclared function 'nfsd4_run_cb_notify'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    3583 |                 nfsd4_run_cb_notify(ncn);
-         |                 ^
->> fs/nfsd/nfs4state.c:9911:1: error: conflicting types for 'nfsd4_run_cb_notify'
-    9911 | nfsd4_run_cb_notify(struct nfsd4_cb_notify *ncn)
-         | ^
-   fs/nfsd/nfs4state.c:3583:3: note: previous implicit declaration is here
-    3583 |                 nfsd4_run_cb_notify(ncn);
-         |                 ^
-   2 errors generated.
+WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/slub_kunit.o
+ERROR: modpost: module ecryptfs uses symbol lock_rename from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+>> ERROR: modpost: module ecryptfs uses symbol unlock_rename from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module ecryptfs uses symbol dentry_open from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module ecryptfs uses symbol mntget from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+>> ERROR: modpost: module ecryptfs uses symbol fsstack_copy_inode_size from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module ecryptfs uses symbol vfs_getattr from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module ecryptfs uses symbol d_drop from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module overlay uses symbol lock_rename from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module overlay uses symbol unlock_rename from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module overlay uses symbol override_creds from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module overlay uses symbol vfs_path_lookup from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module overlay uses symbol dentry_open from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module overlay uses symbol dget_parent from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module overlay uses symbol revert_creds from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module overlay uses symbol vfs_getattr from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module overlay uses symbol vfs_statfs from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module overlay uses symbol d_drop from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module overlay uses symbol prepare_creds from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module incrementalfs uses symbol lock_rename from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module incrementalfs uses symbol unlock_rename from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module incrementalfs uses symbol override_creds from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module incrementalfs uses symbol path_get from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module incrementalfs uses symbol dentry_open from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module incrementalfs uses symbol dget_parent from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module incrementalfs uses symbol revert_creds from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module incrementalfs uses symbol vfs_getattr from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module incrementalfs uses symbol __break_lease from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module incrementalfs uses symbol d_drop from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module xfs uses symbol dentry_open from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module xfs uses symbol __break_lease from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module xfs uses symbol dget_parent from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module gfs2 uses symbol dget_parent from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module ubi uses symbol vfs_getattr from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
 
-
-vim +/nfsd4_run_cb_notify +9911 fs/nfsd/nfs4state.c
-
-  9909	
-  9910	static void
-> 9911	nfsd4_run_cb_notify(struct nfsd4_cb_notify *ncn)
-  9912	{
-  9913		struct nfs4_delegation *dp = container_of(ncn, struct nfs4_delegation, dl_cb_notify);
-  9914	
-  9915		if (test_and_set_bit(NFSD4_CALLBACK_RUNNING, &ncn->ncn_cb.cb_flags))
-  9916			return;
-  9917	
-  9918		if (!refcount_inc_not_zero(&dp->dl_stid.sc_count))
-  9919			clear_bit(NFSD4_CALLBACK_RUNNING, &ncn->ncn_cb.cb_flags);
-  9920		else
-  9921			nfsd4_run_cb(&ncn->ncn_cb);
-  9922	}
-  9923	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
+   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_MM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=n] && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
 
 -- 
 0-DAY CI Kernel Test Service
