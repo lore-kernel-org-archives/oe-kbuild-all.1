@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACCB934751E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Apr 2026 11:25:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E3F33D6E3
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Apr 2026 11:35:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775820337; cv=none; b=cbiQGUuhsjIexyW1EluiY7k/2TOcN0JlnS3yoOteXvViNXRPCc+Z0G3PyCukyuYPL7uyTiOdwTBn9JRbytu6fG6ui45Ji10M884ipV0Ftwey7ItRoQESL+xAgOtBnURjHLvNDFhkMwHIJ6Utd0/X8OYmq1m/pXCKxlePC8wkUJ4=
+	t=1775820936; cv=none; b=lIzLGuwE9wcJb2v4vDFQFmi1Zc0td2DAv2yKYinLlDQ9MKq/64Ggir8d9Om8wfILvwOVHUOmffrSrNc1x9GwDYfGKqw70QMN23DS7zG4pO0s8uxuzJ7dmuSfKPLy1/NM+YzqzRDahdpFo+SZ7E+CjIED8e3XhRz41oYFJZzqYZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775820337; c=relaxed/simple;
-	bh=4tOh0mcm33SxTxmxDcH+b16YXvPAHXAjON5uJuG5xic=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=arDyr4eGAlb3AMY7JLZunEAfifUL/St206faw2bLv+HssTlgd5Kw4ojYE/KCwe3/4ZLYXnv6Ohdw6z4Cyf0EIihD5hOm16N1InnUS9jvdG+JhNX6EmJ+7FoVJWrBTxGvCIdxI0WlRCVT80mgCVXwvqy116OU9mB3wGupTm4nDiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gxSQNCE8; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1775820936; c=relaxed/simple;
+	bh=6WqKHYUFxAAFg8bcgtLUeK59ZS5JpdCYSO5l/bJ1h9k=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=dJu31r8CRGjlOk7znzko5XA7sHajrANgxTTEnhyCGAxH8k2IYrTh6macFSlEsrLMo/yzdtC3z411DnlE/Ugug9jwd+sXUe2fYB2IzUKhEju5+HaczUPBSlB09gkvUv4ffYA9Kzl+EHm5RTifbvJnYyzN6SKflUXZYt0VRRvV1JI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O1EQRVhL; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gxSQNCE8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O1EQRVhL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775820336; x=1807356336;
+  t=1775820934; x=1807356934;
   h=date:from:to:cc:subject:message-id;
-  bh=4tOh0mcm33SxTxmxDcH+b16YXvPAHXAjON5uJuG5xic=;
-  b=gxSQNCE8OnkwyUWznmU+XqGCi7lEQNQI9zJaHS1HAWPoBeftUFPtF0eu
-   O2Tq9LK+oktcpBshKFI7mJMiSS3QIWoAWsKTn27WOmsPCU6Y6s12OFTRI
-   eI+8hrLcI1hOWfjp6D7j9I5bVBr4rVBLU4F2AbHtHjJloiRfBrQlH/FyH
-   st5ehRGYSP41J4/Z/WeAN+zX3yTJgKbMy3JdKbLkHMjRqcyQTiRqefB1C
-   uophuLz32uxsCJLsnIcoKgMV2z3+TrrWPtg4nmsAnIGFnd8yFLT2fITmG
-   9dRv/ZkRIQ5p3BqFmFw3LV+9/NGUcqLj8NZK9GokpdxfeDE1bcc4D5i/M
-   g==;
-X-CSE-ConnectionGUID: OyBLNKpJS5ijJtlq1FFYFg==
-X-CSE-MsgGUID: rPuDTLHiQ0mFvFKMimM0aw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="76855776"
+  bh=6WqKHYUFxAAFg8bcgtLUeK59ZS5JpdCYSO5l/bJ1h9k=;
+  b=O1EQRVhLyJIl5aadKZFsBLSdOzWxoa6nEvCZSb3mHdvQUKOlfONo2pDE
+   oy3m9lVIiwJDoNpbEGYA0e6uZ9pM1I84b4IW8SrQQ+CMcp89WtcpyQAyZ
+   diQcOoWydJV4cXVwnv2BBsTUcp60JtQO6cwtxG8Oo4ce52O1eZTRkRVTW
+   1GKo72ohnPrJKLVbIAbGg2+FqooR3fsuHdQvRIHTUeduuJl/oWd0OU6mJ
+   Fddc+NJCwgn+DMnUyZJIMrMYcUasUNp0Ag12pAKhqFB8wwTqsgSG5hJy1
+   Ed3dQO2a7r3cOfosDhisszTAOUM1Lp/z2Vz+tc3EqfJ8ZsFClghNF/eFg
+   A==;
+X-CSE-ConnectionGUID: pMm5C+5GQ2K9l3jgu0BYHw==
+X-CSE-MsgGUID: qjsr01GORbGO8Sy3RL5Pvg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="76008344"
 X-IronPort-AV: E=Sophos;i="6.23,171,1770624000"; 
-   d="scan'208";a="76855776"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 04:25:34 -0700
-X-CSE-ConnectionGUID: zx/c4BIvTUSD6iJuGoi2Lw==
-X-CSE-MsgGUID: wgFOJOIzSMWtFBDXm/dbIg==
+   d="scan'208";a="76008344"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 04:35:33 -0700
+X-CSE-ConnectionGUID: CnUeVbQHQZOIGFVJwYuI7A==
+X-CSE-MsgGUID: V5YN50fBSaGfZisz8usKUQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,171,1770624000"; 
-   d="scan'208";a="252221592"
+   d="scan'208";a="233990218"
 Received: from lkp-server01.sh.intel.com (HELO 6449335cace3) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 10 Apr 2026 04:25:31 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 10 Apr 2026 04:35:32 -0700
 Received: from kbuild by 6449335cace3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wB9zN-000000003ec-3758;
-	Fri, 10 Apr 2026 11:25:29 +0000
-Date: Fri, 10 Apr 2026 19:24:55 +0800
+	id 1wBA93-000000003f7-3t8f;
+	Fri, 10 Apr 2026 11:35:29 +0000
+Date: Fri, 10 Apr 2026 19:35:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Lobakin <aleksander.lobakin@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Tony Nguyen <anthony.l.nguyen@intel.com>
-Subject: include/linux/build_bug.h:78:41: error: static assertion
- failed: "sizeof(struct idpf_xdp_rx_desc) == sizeof(struct
- virtchnl2_rx_flex_desc_adv_nic_3)"
-Message-ID: <202604101931.fN8gVxZI-lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [koverstreet-bcachefs:bcachefs-testing 1571/1700] Warning:
+ fs/bcachefs/journal/journal.c:736 function parameter 'flags' not described in
+ 'bch2_journal_flush_seq_async'
+Message-ID: <202604101903.SKgL8wtj-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,82 +60,25 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9a9c8ce300cd3859cc87b408ef552cd697cc2ab7
-commit: 88ca0c738c4159ce87893782b6dd964b5aa01f6e idpf: add XDP RSS hash hint
-date:   7 months ago
-config: arm-randconfig-001-20260410 (https://download.01.org/0day-ci/archive/20260410/202604101931.fN8gVxZI-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260410/202604101931.fN8gVxZI-lkp@intel.com/reproduce)
+Hi Kent,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
+head:   fb7dce73e6871585b0721da899e854c348902770
+commit: a0168a474528cc64bf290cf20399e714161f4538 [1571/1700] bcachefs: Pass BCH_WATERMARK_reclaim when discards require journal flush
+config: sparc-randconfig-002-20260410 (https://download.01.org/0day-ci/archive/20260410/202604101903.SKgL8wtj-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260410/202604101903.SKgL8wtj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 88ca0c738c41 ("idpf: add XDP RSS hash hint")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604101931.fN8gVxZI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604101903.SKgL8wtj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/minmax.h:5,
-                    from include/linux/jiffies.h:8,
-                    from include/net/pkt_sched.h:5,
-                    from drivers/net/ethernet/intel/idpf/idpf.h:12,
-                    from drivers/net/ethernet/intel/idpf/idpf_txrx.c:4:
->> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct idpf_xdp_rx_desc) == sizeof(struct virtchnl2_rx_flex_desc_adv_nic_3)"
-    #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-                                            ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-    #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-                                     ^~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/idpf/xdp.h:118:1: note: in expansion of macro 'static_assert'
-    static_assert(sizeof(struct idpf_xdp_rx_desc) ==
-    ^~~~~~~~~~~~~
---
-   In file included from include/linux/minmax.h:5,
-                    from include/linux/jiffies.h:8,
-                    from include/net/pkt_sched.h:5,
-                    from idpf.h:12,
-                    from idpf_txrx.c:4:
->> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct idpf_xdp_rx_desc) == sizeof(struct virtchnl2_rx_flex_desc_adv_nic_3)"
-    #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-                                            ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-    #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-                                     ^~~~~~~~~~~~~~~
-   xdp.h:118:1: note: in expansion of macro 'static_assert'
-    static_assert(sizeof(struct idpf_xdp_rx_desc) ==
-    ^~~~~~~~~~~~~
-
-
-vim +78 include/linux/build_bug.h
-
-bc6245e5efd70c Ian Abbott       2017-07-10  60  
-6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
-6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
-6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
-6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
-6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
-6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
-6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
-6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
-6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
-6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
-6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
-6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
-6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
-6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-6bab69c65013be Rasmus Villemoes 2019-03-07  79  
-07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
-
-:::::: The code at line 78 was first introduced by commit
-:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
-
-:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+>> Warning: fs/bcachefs/journal/journal.c:736 function parameter 'flags' not described in 'bch2_journal_flush_seq_async'
 
 -- 
 0-DAY CI Kernel Test Service
