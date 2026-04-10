@@ -1,158 +1,93 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF3793C0635
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Apr 2026 18:05:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 080353BAD8F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Apr 2026 18:12:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775844347; cv=none; b=MM2RezZo9XlLM40zZk3krMqOb/ISGrwNbpwSVt3CIBblovNZlTfnuhOHhpyaTZIwhdKyHF3Mha1OOPMRkbxLuTPcFzhXyLL4QKBJqkiSeq86TovIFNiNo99oRZRbec/3oG1Er1v1gL/akXp6xAdZ5Bk8q6eIwny4JAS3leCQp4M=
+	t=1775844735; cv=none; b=qxS73wGSswkifSkvCKT7mEvtxlYwXgVqJfRVmo5up3B6//D7R+vgC8Jq72wnAFcTlodSJRE543nKJx2wmLmWWnFezJYWxlbtrSD2s7kThpAntTEfjgfYoNWhP6tBCgginYiTmejKkTqDdtX1VWdn3GSPyCANXu6ylEjDaXlzLBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775844347; c=relaxed/simple;
-	bh=upL7uHHOJh5ywIAgLkRxox+sJgtNxUQ606R8TPmuxBM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Nx59sA2JoDbCWYbVOJOrRygWiUqDhOAzJAPfXFBaP5fVsvJq/u/Sla2ItsEmxN3GVnf9t906KOlK4hsGMXkZvvmQWVJsXhcxIl0239etesSKckrZWAIumI2jLdMczN2I/620Ze88f7HV5+R2R5AbKRrfGGLVVZ5KASK6KtlKPVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XlN0fnR4; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775844735; c=relaxed/simple;
+	bh=N+5FmlkMmKRD+ePmlcl/V5ulpeZAGfm8wdgUIeZGr0k=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=AgJ9rgt0hcKI/TzNcygCDQWPzenircG6xcekiZQwFvXw83BUWbSWIew/jlcor9nBAfEwT0ROo6Py3BvqJuSA9726zcKOvuj89a5onzKYKszo3AsEtFKbH1TgceYYMlfv9eqNXwN+1/3/Veo5GXA72vPhGhgdwrRfseSldy/UYwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mvtCzzmg; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XlN0fnR4"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4887fd35e60so16243845e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Apr 2026 11:05:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775844344; x=1776449144; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6NQzOxAI8vhLFi6LQBGuGCO3XXob0e0ZDFDrbba0yug=;
-        b=XlN0fnR4vZ40yVlTOrVuC8T2IuQD9zZO0BWCphAlehlDvalW276UKAjsj3m+f/U0Nv
-         awWyh149uUOBuLPsIRclaqXz83zbBOdBY5a9ADBiMBJXt8bSA3SuZNjMDH+za4KejmnG
-         u6LYmoXEW74CM1IP4JoSFUQb16kktLJcf2o+28fM+TfXE7z88QnqmOZLWvOK+HUSvvJC
-         eBTC2zb6bhEgUo7iGLWbbGIfnfDs3n+oZHC5zqdNa22zqICJbiRkld4mn8XuDkwwQ+9X
-         K13l1P4XARjtWxAeDZuOwP/ZDW2nSPsP6zLhXJGCDDi/6BtK03tqr7BN2jSy4mAZOfsU
-         hB9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775844344; x=1776449144;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=6NQzOxAI8vhLFi6LQBGuGCO3XXob0e0ZDFDrbba0yug=;
-        b=cV+keY2W79fCexjUjVbWbIswc9YntWnU+Jzgpl0YoqWIV+c4hWeJ+js6g8exagTYVQ
-         w+hgwasL1tnzp2A7Hy9V/0glRmeZmsbboVkjYNr4UPylwC5bW1+WFhKBu1cZTw2lOFoq
-         5EaM1AR4hUus+lJvQ7kT6c6K8y/tSfqX+NDGdo8RrCpddf3XY5GuP9+ok1isGbZER6Hu
-         P6+oYPYjSDEQkvsRiAHV7OjoCuwWUX0l8KMuDk0VRgQOu50cmcKqOz6Re08FUYx7uS+Y
-         TS+PnJ+S51g78syUp/3EyQGeFU0r5Dk+1BHIepD3WuKExfz9Nd9EhH7cmZON4uwg+iYW
-         l7pA==
-X-Forwarded-Encrypted: i=1; AJvYcCWj4Hho3n1bihYo+NXYkk/TXwKNG38RTdJMAcXJSNiekKxQDSCyu3UWk0gH3hUCinpYTuMOP2oZFTfQ662r@lists.linux.dev
-X-Gm-Message-State: AOJu0YyA6yKLXvqyIV6p+LdvGiVDeJuz0xU1DxI8xa/Z98hjPKpdlvV5
-	UU6EmrqmQ7qR1c8A3O9ltZqy2dIQ8Msp8tUQpn+lbRS4nlm/+BM78EeF
-X-Gm-Gg: AeBDiev2toCGC/boRi8L3TlSxudOvMaNTqcdPnPzD6kUSqWxqLuqH8Ed/k9l6xnn4qq
-	xoSQX0UQbYUdI+AX1/LGMqq2UkjiEhPu52KZyddT8Ul1vaX8P4UKXsnSryzMk/NYx4PdGNkRR9U
-	YYTUitIIyAPfSLn0uwD7f7uEs1JXn2cU5gJbbLx7GtOY61IFk2TQQLx96iudLOT40AnaXb4NpBw
-	yWSesPaNdx+5XNp/LzsTgS2OgWNoPgo9j0h+wy6jw95n/kmb/CWwkXpV0L4Z3CiLQRpd3zz+pmi
-	0I5IuApRap/iTo0I7J2SCZW6spq7dJpGYi/HgzWuepd6ko0xZaK4MerWAdGtQS29zmYTflzrYQY
-	pH8OJ3rmVx6XzU+QXc88QuoyDHznKbT7K+ZgNMM3sTejDy4u0gX3xZVl/7Jp4MQoRyhlJ8ji2E3
-	uGHS+zLkSyqgDCTCrWS/w=
-X-Received: by 2002:a05:600c:a11b:b0:488:bfc3:efc with SMTP id 5b1f17b1804b1-488d66559d0mr47321895e9.0.1775844343977;
-        Fri, 10 Apr 2026 11:05:43 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d538c03esm89763415e9.13.2026.04.10.11.05.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Apr 2026 11:05:43 -0700 (PDT)
-Date: Fri, 10 Apr 2026 21:05:39 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 38/38]
- drivers/gpu/drm/etnaviv/etnaviv_sched.c:66 etnaviv_sched_timedout_job()
- warn: variable dereferenced before check 'sched_job' (see line 37)
-Message-ID: <202604110106.aMi7vRva-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mvtCzzmg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775844734; x=1807380734;
+  h=date:from:to:cc:subject:message-id;
+  bh=N+5FmlkMmKRD+ePmlcl/V5ulpeZAGfm8wdgUIeZGr0k=;
+  b=mvtCzzmgQf7o3sSEamAPbGS7TRZCiLusL5uAuyM+zfXW1K33W+ZNddmW
+   W8Zwuzf/HBgAxzc45Wcqg8HLhkE+GIkPc8TDvqHd7r+TRLzEFMw73+q9E
+   xYvaIBiBbub7RPBVQPy5mpRMOXnuXbn3LquXKCgRkwr4OPpnQGHmwgqsT
+   71rdiX4N5Fb7ncsDHmj3KfySuy1H8F9hHeYgpwMbfF1Gn5dLBv7Fp/yM6
+   G3giAbEqQa/MfkEsHzmdNeYZCxON0mtyPNSk2HjNi4hwyl+7yputQ/L6U
+   ilwtImIT7mlzzSm3VBmA6RKC8ny2EJjS3bdB5/jSTDa5ngv+1im7DIdG6
+   A==;
+X-CSE-ConnectionGUID: e2TD9uHIRPOhdcab8LfVtQ==
+X-CSE-MsgGUID: GGc9H5V2QnmGl7l0w9guCg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="87159093"
+X-IronPort-AV: E=Sophos;i="6.23,172,1770624000"; 
+   d="scan'208";a="87159093"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 11:12:14 -0700
+X-CSE-ConnectionGUID: Qdefcf+FQ6O51FfzNe18vQ==
+X-CSE-MsgGUID: Tt1eOStGTg6Fky6kMe9DTw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,172,1770624000"; 
+   d="scan'208";a="228296182"
+Received: from lkp-server01.sh.intel.com (HELO 6449335cace3) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 10 Apr 2026 11:12:13 -0700
+Received: from kbuild by 6449335cace3 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wBGKw-000000004C9-0nOR;
+	Fri, 10 Apr 2026 18:12:10 +0000
+Date: Sat, 11 Apr 2026 02:12:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:mirror-poly-aosp-pixel-lajolla-staging 1/1]
+ ld.lld: error: undefined symbol: iommu_free_pages
+Message-ID: <202604110201.jpOlJHdd-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   831eddf6244dd5478d58b2f2f83a856781ba030b
-commit: f503efe2c5da084dc5ee2db38409f7a7e4f1bc1e [38/38] drm/etnaviv: Protect the scheduler's pending list with its lock
-config: i386-randconfig-141-20260410 (https://download.01.org/0day-ci/archive/20260411/202604110106.aMi7vRva-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-smatch: v0.5.0-9004-gb810ac53
+Hi Isaac,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common mirror-poly-aosp-pixel-lajolla-staging
+head:   98d7c614567503c5f77342040d101685ef4335ab
+commit: 6ace5be5937cc205a98e4738d000581686a7c3d9 [1/1] ANDROID: KVM: arm64: iommu: Implement IOMMU subsystem accounting
+config: arm64-randconfig-003-20260410 (https://download.01.org/0day-ci/archive/20260411/202604110201.jpOlJHdd-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project ae825cb8cea7f3ac8e5e4096f22713845cf5e501)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260411/202604110201.jpOlJHdd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202604110106.aMi7vRva-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604110201.jpOlJHdd-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/etnaviv/etnaviv_sched.c:66 etnaviv_sched_timedout_job() warn: variable dereferenced before check 'sched_job' (see line 37)
+All errors (new ones prefixed by >>):
 
-vim +/sched_job +66 drivers/gpu/drm/etnaviv/etnaviv_sched.c
-e93b6deeb45a78 Lucas Stach       2017-12-04  32  
-a6a1f036c74e3d Luben Tuikov      2021-01-20  33  static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
-a6a1f036c74e3d Luben Tuikov      2021-01-20  34  							  *sched_job)
-e93b6deeb45a78 Lucas Stach       2017-12-04  35  {
-6d7a20c0776036 Lucas Stach       2017-12-06  36  	struct etnaviv_gem_submit *submit = to_etnaviv_submit(sched_job);
-f503efe2c5da08 Maíra Canal       2025-06-02 @37  	struct drm_gpu_scheduler *sched = sched_job->sched;
-                                                                                          ^^^^^^^^^^^^^^^^
-Dereferenced.
-
-6d7a20c0776036 Lucas Stach       2017-12-06  38  	struct etnaviv_gpu *gpu = submit->gpu;
-2c83a726d6fbb5 Lucas Stach       2018-06-27  39  	u32 dma_addr;
-2c83a726d6fbb5 Lucas Stach       2018-06-27  40  	int change;
-2c83a726d6fbb5 Lucas Stach       2018-06-27  41  
-2c83a726d6fbb5 Lucas Stach       2018-06-27  42  	/*
-2c83a726d6fbb5 Lucas Stach       2018-06-27  43  	 * If the GPU managed to complete this jobs fence, the timout is
-2c83a726d6fbb5 Lucas Stach       2018-06-27  44  	 * spurious. Bail out.
-2c83a726d6fbb5 Lucas Stach       2018-06-27  45  	 */
-6fce3a406108ee Lucas Stach       2018-10-04  46  	if (dma_fence_is_signaled(submit->out_fence))
-50248a3ec0f5e5 Lucas Stach       2020-08-24  47  		goto out_no_timeout;
-2c83a726d6fbb5 Lucas Stach       2018-06-27  48  
-2c83a726d6fbb5 Lucas Stach       2018-06-27  49  	/*
-2c83a726d6fbb5 Lucas Stach       2018-06-27  50  	 * If the GPU is still making forward progress on the front-end (which
-2c83a726d6fbb5 Lucas Stach       2018-06-27  51  	 * should never loop) we shift out the timeout to give it a chance to
-2c83a726d6fbb5 Lucas Stach       2018-06-27  52  	 * finish the job.
-2c83a726d6fbb5 Lucas Stach       2018-06-27  53  	 */
-2c83a726d6fbb5 Lucas Stach       2018-06-27  54  	dma_addr = gpu_read(gpu, VIVS_FE_DMA_ADDRESS);
-2c83a726d6fbb5 Lucas Stach       2018-06-27  55  	change = dma_addr - gpu->hangcheck_dma_addr;
-cdd156955f946b Lucas Stach       2021-12-22  56  	if (gpu->completed_fence != gpu->hangcheck_fence ||
-cdd156955f946b Lucas Stach       2021-12-22  57  	    change < 0 || change > 16) {
-2c83a726d6fbb5 Lucas Stach       2018-06-27  58  		gpu->hangcheck_dma_addr = dma_addr;
-cdd156955f946b Lucas Stach       2021-12-22  59  		gpu->hangcheck_fence = gpu->completed_fence;
-50248a3ec0f5e5 Lucas Stach       2020-08-24  60  		goto out_no_timeout;
-2c83a726d6fbb5 Lucas Stach       2018-06-27  61  	}
-6d7a20c0776036 Lucas Stach       2017-12-06  62  
-2dd415c2e34c5a Lucas Stach       2024-06-21  63  	/* block scheduler */
-2dd415c2e34c5a Lucas Stach       2024-06-21  64  	drm_sched_stop(&gpu->sched, sched_job);
-2dd415c2e34c5a Lucas Stach       2024-06-21  65  
-222b5f04415987 Andrey Grodzovsky 2018-12-04 @66  	if(sched_job)
-                                                           ^^^^^^^^^
-Checked too late.  Probably just delete this check.
-
-222b5f04415987 Andrey Grodzovsky 2018-12-04  67  		drm_sched_increase_karma(sched_job);
-6d7a20c0776036 Lucas Stach       2017-12-06  68  
-6d7a20c0776036 Lucas Stach       2017-12-06  69  	/* get the GPU back into the init state */
-9a1fdae5876016 Lucas Stach       2019-08-09  70  	etnaviv_core_dump(submit);
-6d7a20c0776036 Lucas Stach       2017-12-06  71  	etnaviv_gpu_recover_hang(gpu);
-6d7a20c0776036 Lucas Stach       2017-12-06  72  
-222b5f04415987 Andrey Grodzovsky 2018-12-04  73  	drm_sched_resubmit_jobs(&gpu->sched);
-222b5f04415987 Andrey Grodzovsky 2018-12-04  74  
-a6a1f036c74e3d Luben Tuikov      2021-01-20  75  	drm_sched_start(&gpu->sched, true);
-a6a1f036c74e3d Luben Tuikov      2021-01-20  76  	return DRM_GPU_SCHED_STAT_NOMINAL;
-a6a1f036c74e3d Luben Tuikov      2021-01-20  77  
-50248a3ec0f5e5 Lucas Stach       2020-08-24  78  out_no_timeout:
-f503efe2c5da08 Maíra Canal       2025-06-02  79  	spin_lock(&sched->job_list_lock);
-f503efe2c5da08 Maíra Canal       2025-06-02  80  	list_add(&sched_job->list, &sched->pending_list);
-f503efe2c5da08 Maíra Canal       2025-06-02  81  	spin_unlock(&sched->job_list_lock);
-a6a1f036c74e3d Luben Tuikov      2021-01-20  82  	return DRM_GPU_SCHED_STAT_NOMINAL;
-e93b6deeb45a78 Lucas Stach       2017-12-04  83  }
+>> ld.lld: error: undefined symbol: iommu_free_pages
+   >>> referenced by xarray.c
+   >>>               vmlinux.o:(__pkvm_free_iommu_hyp_memcache)
+   >>> referenced by xarray.c
+   >>>               vmlinux.o:(__free_hyp_memcache)
+--
+>> ld.lld: error: undefined symbol: iommu_alloc_pages_node_sz
+   >>> referenced by xarray.c
+   >>>               vmlinux.o:(__pkvm_topup_hyp_iommu)
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
