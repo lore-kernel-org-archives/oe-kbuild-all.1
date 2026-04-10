@@ -1,58 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD2B346A10
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Apr 2026 19:21:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B914B2F4A05
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Apr 2026 19:33:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775848869; cv=none; b=FQM5b5uck3jSQhK+h1N40WtDkFIoOa9AxbVVjC9wEQ7s3moO4kUKT3EtrUOx1iFfN+m/uCdKhdMpAaDAMC5+zdY6sRn7r7MtfPzs3kMECN7cQ+WX185GIWRlRYBUdRqNDR6X20C+/S0e2HAF+o5L+Kj7p3VAYh9JE9mCyp6rxXs=
+	t=1775849595; cv=none; b=sJnIGvIuOXFyc1aT9KeBDtX8Dxgox1I0VcymNXuCIr1W9wvODqJXDzHT3jgA/bur3ZUEATTozDZbW48Or68yMPHAuT+wOLYKDBa+iIL0Az6rRxG4Tx79iax0a9iHrJ2v1supAJXzAJ87i0TGW5AFNR6gBdNHS/pxlLxIjz3mrfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775848869; c=relaxed/simple;
-	bh=SgwzIfnPymHzLHTgDqpgV3KHhQy8o+KCtTNjtMrY8/c=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=nxtwefjVz/ljwwcfHJFQLLs7GghAo6Ff2fNL4Rn2bRzvC7Hhf4iPoQ16nToihqEKA+64ySWvL/VazfeeQmWtx11f2/y+4Xw7mBOrxcA0BE2lVtnwdZG/ctfEpxfeu9a+vLr7CIAFQnUk+Eoa1Rrk2mY4QRJAoZUgGnC+K5MIzOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g10HE+7m; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1775849595; c=relaxed/simple;
+	bh=DtdOqGulFX3olHMrclrFBA5ri7XdKCLBKK8LDGEP4kM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rqWWT/K4W3F5qAa5AhzUt/uRaGwZLo6nbfXuvqdsV4gIKYKkUJ4h5NAk/TOiiYDakx9ZBb9XOo4m114msbkP0cxt3TBzwNEcVNkeq6BdMx1Hb2+xoN0AhkyguFj9njK+28IOg7yoiypzGOXIRKMwEf1mm4Bit0bmj7Fg2oUEss0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sl4CcWUZ; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g10HE+7m"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sl4CcWUZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775848866; x=1807384866;
+  t=1775849594; x=1807385594;
   h=date:from:to:cc:subject:message-id;
-  bh=SgwzIfnPymHzLHTgDqpgV3KHhQy8o+KCtTNjtMrY8/c=;
-  b=g10HE+7mmILpftnISonqWaV1y51ikVywXC8F3IBkWXlMPwlOV5k8pR5j
-   XgGcdRy9BwoWju0452r7vnHkboqHkl+I+W0R5f1XLwAgBFLbGCvmrXZWy
-   t8QW3li2AH6daIW631IQCMzEQkPiF388MxxHXsHex2Oc64j+CWo9Nsgda
-   d3+f+xkb2hLQ0x8jj5CRktj/LMN4Dvbm80Piyuog60+kbbTuLWHIvTyO5
-   Ip0wx9EW/PDV70ItkElyDzEOhbQuDv7DlD3joEzg/Lc/Kin9MjM/sHQB5
-   NwOdZVa4zoWp2WPeLk9+Ewbb9+1kEwMMYM9gX4xn3XlqonKwDiWHGwse/
-   A==;
-X-CSE-ConnectionGUID: O/GHMGCNRYCVO9vvOyLC2g==
-X-CSE-MsgGUID: LdUA8BKSTMmOrALN9iBF/w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="88262727"
+  bh=DtdOqGulFX3olHMrclrFBA5ri7XdKCLBKK8LDGEP4kM=;
+  b=Sl4CcWUZjbQRV4k0Sh5YhjMZ9wWoD6U6VBDbASnMofDaO1qW+R9odvlL
+   RnXO5gADkduDMULKNvwad11mfijR/qI1agnZwhTGOOHHRmZVz0zmP+CBZ
+   tudqaokxVsJ1h8HImwNNI55wTY4BFllzgKykk7F6wvzFr/879D011YzDC
+   vOn7kpqqvEUAym58Mrb9q8c/MwOoMy4w8MzQity3Cq1dkNd9dkAdaXeJS
+   Pc2e9rpTidarOQgzQA1iIt9s/nxC9FWiTuHCqrWsr8+0dhOBdUMRDbrtd
+   R/YaJkCWyGl6PUfVhMq6eiqgYtRv8oyJ2QGwxmTWB1PvIEXylnyEZ0uVe
+   w==;
+X-CSE-ConnectionGUID: f63WjZ2bQraEfOxVg7Z4PA==
+X-CSE-MsgGUID: hbWBMo+QRYq5oE8ZFbAWSw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="80740394"
 X-IronPort-AV: E=Sophos;i="6.23,172,1770624000"; 
-   d="scan'208";a="88262727"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 12:21:06 -0700
-X-CSE-ConnectionGUID: cpIjSyROQ/2UEwMfHVtrzQ==
-X-CSE-MsgGUID: nX4oQzArSS+39DvxoEpmmQ==
+   d="scan'208";a="80740394"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 12:33:13 -0700
+X-CSE-ConnectionGUID: cG/YYi2AR9qvQX1diu2XEw==
+X-CSE-MsgGUID: j7WCJaI7TgiqmpsYf5YLtg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,172,1770624000"; 
-   d="scan'208";a="234157893"
-Received: from lkp-server01.sh.intel.com (HELO 3eaaf1a74b89) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 10 Apr 2026 12:21:04 -0700
-Received: from kbuild by 3eaaf1a74b89 with local (Exim 4.98.2)
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 10 Apr 2026 12:33:12 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wBHPZ-0000000006v-43jK;
-	Fri, 10 Apr 2026 19:21:01 +0000
-Date: Sat, 11 Apr 2026 03:20:34 +0800
+	id 1wBHbJ-00000000AwJ-3rf1;
+	Fri, 10 Apr 2026 19:33:09 +0000
+Date: Fri, 10 Apr 2026 21:32:39 +0200
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
+To: Sean Christopherson <seanjc@google.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:7.0-rc 67/104]
- drivers/net/pcs/pcs-mtk-lynxi.c:474:6: warning: variable 'flags' set but not
- used
-Message-ID: <202604110347.mJnqRTTT-lkp@intel.com>
+Subject: [sean-jc:x86/vfio_kvm_file_refcount 1/1]
+ arch/x86/kvm/../../../virt/kvm/vfio.c:178:45: error: passing argument 2 of
+ 'kvm_vfio_file_set_kvm' from incompatible pointer type
+Message-ID: <202604102109.ImKHVXqa-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,99 +58,85 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.0-rc
-head:   26aa722b76b3bc075b01f86981e17206cfbe9af5
-commit: 49133defc13fed8e65a6a47cf671dc88407d0ff6 [67/104] net: pcs: mtk-lynxi: add phya tx rx clock path
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20260411/202604110347.mJnqRTTT-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260411/202604110347.mJnqRTTT-lkp@intel.com/reproduce)
+tree:   https://github.com/sean-jc/linux x86/vfio_kvm_file_refcount
+head:   3088b9660354afa55c95eeec0bba6d939123ce06
+commit: 3088b9660354afa55c95eeec0bba6d939123ce06 [1/1] tmp
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260410/202604102109.ImKHVXqa-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260410/202604102109.ImKHVXqa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604110347.mJnqRTTT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604102109.ImKHVXqa-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/pcs/pcs-mtk-lynxi.c:474:6: warning: variable 'flags' set but not used [-Wunused-but-set-variable]
-     474 |         u32 flags = 0;
-         |             ^
-   1 warning generated.
---
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:5110:18: warning: unused variable 'mac' [-Wunused-variable]
-    5110 |         struct mtk_mac *mac = netdev_priv(dev);
-         |                         ^~~
->> drivers/net/ethernet/mediatek/mtk_eth_soc.c:5599:6: warning: variable 'flags' set but not used [-Wunused-but-set-variable]
-    5599 |         u32 flags = 0;
-         |             ^
-   2 warnings generated.
+   arch/x86/kvm/../../../virt/kvm/vfio.c: In function 'kvm_vfio_file_add':
+>> arch/x86/kvm/../../../virt/kvm/vfio.c:178:45: error: passing argument 2 of 'kvm_vfio_file_set_kvm' from incompatible pointer type [-Wincompatible-pointer-types]
+     178 |         kvm_vfio_file_set_kvm(kvf->file, dev->kvm);
+         |                                          ~~~^~~~~
+         |                                             |
+         |                                             struct kvm *
+   arch/x86/kvm/../../../virt/kvm/vfio.c:38:67: note: expected 'struct file *' but argument is of type 'struct kvm *'
+      38 | static void kvm_vfio_file_set_kvm(struct file *file, struct file *kvm)
+         |                                                      ~~~~~~~~~~~~~^~~
 
 
-vim +/flags +474 drivers/net/pcs/pcs-mtk-lynxi.c
+vim +/kvm_vfio_file_set_kvm +178 arch/x86/kvm/../../../virt/kvm/vfio.c
 
-   465	
-   466	#ifdef CONFIG_FWNODE_PCS
-   467	static int mtk_pcs_lynxi_probe(struct platform_device *pdev)
-   468	{
-   469		struct device *dev = &pdev->dev;
-   470		struct device_node *np = dev->of_node;
-   471		struct mtk_pcs_lynxi *mpcs;
-   472		struct phylink_pcs *pcs;
-   473		struct regmap *regmap;
- > 474		u32 flags = 0;
-   475	
-   476		mpcs = devm_kzalloc(dev, sizeof(*mpcs), GFP_KERNEL);
-   477		if (!mpcs)
-   478			return -ENOMEM;
-   479	
-   480		mpcs->dev = dev;
-   481		regmap = syscon_node_to_regmap(np->parent);
-   482		if (IS_ERR(regmap))
-   483			return PTR_ERR(regmap);
-   484	
-   485		if (of_property_read_bool(np->parent, "mediatek,phya_trx_ck"))
-   486			flags |= MTK_SGMII_FLAG_PHYA_TRX_CK;
-   487	
-   488		if (of_parse_phandle(np->parent, "resets", 0)) {
-   489			mpcs->rstc = of_reset_control_get_shared(np->parent, NULL);
-   490			if (IS_ERR(mpcs->rstc))
-   491				return PTR_ERR(mpcs->rstc);
-   492		} else
-   493			mpcs->rstc = NULL;
-   494	
-   495		reset_control_deassert(mpcs->rstc);
-   496		mpcs->sgmii_sel = devm_clk_get_enabled(dev, "sgmii_sel");
-   497		if (IS_ERR(mpcs->sgmii_sel))
-   498			return PTR_ERR(mpcs->sgmii_sel);
-   499	
-   500		mpcs->sgmii_rx = devm_clk_get(dev, "sgmii_rx");
-   501		if (IS_ERR(mpcs->sgmii_rx))
-   502			return PTR_ERR(mpcs->sgmii_rx);
-   503	
-   504		mpcs->sgmii_tx = devm_clk_get(dev, "sgmii_tx");
-   505		if (IS_ERR(mpcs->sgmii_tx))
-   506			return PTR_ERR(mpcs->sgmii_tx);
-   507	
-   508		if (of_parse_phandle(dev->of_node, "phys", 0)) {
-   509			mpcs->xfi_tphy = devm_of_phy_get(mpcs->dev, dev->of_node, NULL);
-   510			if (IS_ERR(mpcs->xfi_tphy))
-   511				return PTR_ERR(mpcs->xfi_tphy);
-   512		} else
-   513			mpcs->xfi_tphy = NULL;
-   514	
-   515		pcs = mtk_pcs_lynxi_init(dev, of_fwnode_handle(np), regmap,
-   516					 (uintptr_t)of_device_get_match_data(dev),
-   517					 mpcs);
-   518		if (IS_ERR(pcs))
-   519			return PTR_ERR(pcs);
-   520	
-   521		regmap_set_bits(mpcs->regmap, SGMSYS_QPHY_PWR_STATE_CTRL, SGMII_PHYA_PWD);
-   522	
-   523		platform_set_drvdata(pdev, mpcs);
-   524	
-   525		return fwnode_pcs_add_provider(of_fwnode_handle(np), fwnode_pcs_simple_get, &mpcs->pcs);
-   526	}
-   527	
+e0f0bbc527f6e9 Alex Williamson 2013-10-30  142  
+2f99073a722bee Yi Liu          2023-07-18  143  static int kvm_vfio_file_add(struct kvm_device *dev, unsigned int fd)
+ec53500fae421e Alex Williamson 2013-10-30  144  {
+ec53500fae421e Alex Williamson 2013-10-30  145  	struct kvm_vfio *kv = dev->private;
+2f99073a722bee Yi Liu          2023-07-18  146  	struct kvm_vfio_file *kvf;
+d55d9e7a457218 Jason Gunthorpe 2022-05-04  147  	struct file *filp;
+73e2f19da50857 Dmitry Torokhov 2023-07-14  148  	int ret = 0;
+ec53500fae421e Alex Williamson 2013-10-30  149  
+d55d9e7a457218 Jason Gunthorpe 2022-05-04  150  	filp = fget(fd);
+d55d9e7a457218 Jason Gunthorpe 2022-05-04  151  	if (!filp)
+ec53500fae421e Alex Williamson 2013-10-30  152  		return -EBADF;
+ec53500fae421e Alex Williamson 2013-10-30  153  
+b1a59be8a2b64d Yi Liu          2023-07-18  154  	/* Ensure the FD is a vfio FD. */
+b1a59be8a2b64d Yi Liu          2023-07-18  155  	if (!kvm_vfio_file_is_valid(filp)) {
+3e5449d5f954f5 Jason Gunthorpe 2022-05-04  156  		ret = -EINVAL;
+73e2f19da50857 Dmitry Torokhov 2023-07-14  157  		goto out_fput;
+3e5449d5f954f5 Jason Gunthorpe 2022-05-04  158  	}
+3e5449d5f954f5 Jason Gunthorpe 2022-05-04  159  
+ec53500fae421e Alex Williamson 2013-10-30  160  	mutex_lock(&kv->lock);
+ec53500fae421e Alex Williamson 2013-10-30  161  
+2f99073a722bee Yi Liu          2023-07-18  162  	list_for_each_entry(kvf, &kv->file_list, node) {
+2f99073a722bee Yi Liu          2023-07-18  163  		if (kvf->file == filp) {
+73b0565f19a8fb Jason Gunthorpe 2022-05-04  164  			ret = -EEXIST;
+73e2f19da50857 Dmitry Torokhov 2023-07-14  165  			goto out_unlock;
+ec53500fae421e Alex Williamson 2013-10-30  166  		}
+ec53500fae421e Alex Williamson 2013-10-30  167  	}
+ec53500fae421e Alex Williamson 2013-10-30  168  
+69050f8d6d075d Kees Cook       2026-02-20  169  	kvf = kzalloc_obj(*kvf, GFP_KERNEL_ACCOUNT);
+2f99073a722bee Yi Liu          2023-07-18  170  	if (!kvf) {
+73b0565f19a8fb Jason Gunthorpe 2022-05-04  171  		ret = -ENOMEM;
+73e2f19da50857 Dmitry Torokhov 2023-07-14  172  		goto out_unlock;
+ec53500fae421e Alex Williamson 2013-10-30  173  	}
+ec53500fae421e Alex Williamson 2013-10-30  174  
+73e2f19da50857 Dmitry Torokhov 2023-07-14  175  	kvf->file = get_file(filp);
+2f99073a722bee Yi Liu          2023-07-18  176  	list_add_tail(&kvf->node, &kv->file_list);
+ec53500fae421e Alex Williamson 2013-10-30  177  
+9e0f4f2918c2ff Dmitry Torokhov 2023-07-14 @178  	kvm_vfio_file_set_kvm(kvf->file, dev->kvm);
+e0f0bbc527f6e9 Alex Williamson 2013-10-30  179  	kvm_vfio_update_coherency(dev);
+e0f0bbc527f6e9 Alex Williamson 2013-10-30  180  
+73e2f19da50857 Dmitry Torokhov 2023-07-14  181  out_unlock:
+73b0565f19a8fb Jason Gunthorpe 2022-05-04  182  	mutex_unlock(&kv->lock);
+73e2f19da50857 Dmitry Torokhov 2023-07-14  183  out_fput:
+d55d9e7a457218 Jason Gunthorpe 2022-05-04  184  	fput(filp);
+73b0565f19a8fb Jason Gunthorpe 2022-05-04  185  	return ret;
+73b0565f19a8fb Jason Gunthorpe 2022-05-04  186  }
+ec53500fae421e Alex Williamson 2013-10-30  187  
+
+:::::: The code at line 178 was first introduced by commit
+:::::: 9e0f4f2918c2ff145d3dedee862d9919a6ed5812 kvm/vfio: ensure kvg instance stays around in kvm_vfio_group_add()
+
+:::::: TO: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+:::::: CC: Alex Williamson <alex.williamson@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
