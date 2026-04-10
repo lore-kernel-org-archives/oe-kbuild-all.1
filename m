@@ -1,203 +1,214 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A7639DBEB;
-	Fri, 10 Apr 2026 11:58:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B798A37FF70
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Apr 2026 12:07:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775822320; cv=none; b=tUueNd0Uc8d8L9JMgLxcam7OwW7bvF1G+JLKfFBHRB5yo9Z75e1Nd2dXg40UIROKQerFldREaX+CJrkDDEXJPnfUKsttwiqzFGimnmWjqvAmOmuo1ZGSLatvSST5895hYYz+3EBHCbzUZlnHP72dD53ucQV9wMglOF5RoB6GMAg=
+	t=1775822829; cv=none; b=bisO3LIYHW7eN6XrubbgpKNyTdk5vVrXFONnhy6pVE40FRATcGPDb7Bn6+WAydshllMYpDGEfFTukGZtjyuetxUZJW3MuwLCj3c20+zHEcMKdUQK7kQFVXRDmd8uOJqZFPi1umhWKcJvbmLDjyRqTWYj1CJ/yFk77r0Um5K2YbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775822320; c=relaxed/simple;
-	bh=mE/mJ7ssgrHJWy0XO+nJwqerIb+kkzRjBF3/oJXiM9o=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Cnm7y5FtUk/uj1KWQ6rdCjT5J/1DukJ2zQg2L0sbxuj5uMDndIrBHcb7weVgrQ1l5TUkPsI2LelY1Qc5m+O3HV5fDGVfmkIlSTnWllbxsUpImCzlb1p6v/vnwyxyzFy9L7HxnL8qM0IeLD/vkdCGdv4TBJsxkNqgfGcfEpB53DU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YaYw2Znn; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1775822829; c=relaxed/simple;
+	bh=y8wq9K6wPZjK6RX2SLepbI7mZ9arq8Fh+pq616PCsak=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=B+/uRu/vjUo6Mqn/as3AJ+Ukb8oRhtvWzRNRThWkJL7W5Ab5E34eICx4eKWYXxvuRKAcT4lgmwJ1IWuWp+IZ2q6aJf/EXt49d9MYxkjxYR2pL3JX5vDSu2SNTuozlU3+/0sQ4F4lvB/jpCYtmcNxLbKJ+rq4uucwmJ/lh8GDLWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fMiiQjPG; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YaYw2Znn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775822318; x=1807358318;
-  h=date:from:to:cc:subject:message-id;
-  bh=mE/mJ7ssgrHJWy0XO+nJwqerIb+kkzRjBF3/oJXiM9o=;
-  b=YaYw2Znnm185nCnbadDr5p/u5eKLUjhkSqiLVu5DOYqeb+2z8LOa92Pb
-   r2Cy3N/ZOHVPbr4gyOHSKy1dY7vkdbr0h8Bw1FkdNR/S40KOBo+wZ4x1K
-   jT0sR+ELDQYgBHsFfs+cbrSgf0TpE+O9S65siCOJNxjhsmHInD5uOqmyt
-   lNZox9MnX5WaMhi7ODyewRzrnB+BwI0gvMJbCD9ruckfuPoSjOyswPeos
-   rqjpXyVpIm52tt3TQSGaq6+chaimPCGgtztGNh5tWDDyJkfja0k9tt3V0
-   v47CkkYwME+OFR44bSV64GJ3wf3eD72vFA47xHxifN4KYh5dWyZcYvY9p
-   w==;
-X-CSE-ConnectionGUID: Hd8NYkyxRlKP3Qt+IC9R7Q==
-X-CSE-MsgGUID: yKXj+0pnT1iScZs+63UgjA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="76857254"
-X-IronPort-AV: E=Sophos;i="6.23,171,1770624000"; 
-   d="scan'208";a="76857254"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 04:58:35 -0700
-X-CSE-ConnectionGUID: sj0bT00LS2uYqcpc+ZIozw==
-X-CSE-MsgGUID: VaqhSpHiSrSFFWgCct8Tag==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,171,1770624000"; 
-   d="scan'208";a="252433284"
-Received: from lkp-server01.sh.intel.com (HELO 6449335cace3) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 10 Apr 2026 04:58:33 -0700
-Received: from kbuild by 6449335cace3 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wBAVK-000000003g5-2dAQ;
-	Fri, 10 Apr 2026 11:58:30 +0000
-Date: Fri, 10 Apr 2026 19:58:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ming Lei <tom.leiming@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Jens Axboe <axboe@kernel.dk>
-Subject: [axboe:for-7.1/block 80/87]
- drivers/block/ublk_drv.c:5364:20: warning: result of comparison of constant
- 4294967296 with expression of type 'unsigned long' is always false
-Message-ID: <202604101952.3NOzqnu9-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fMiiQjPG"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-43b983bb07eso1220732f8f.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Apr 2026 05:07:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775822826; x=1776427626; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dM/PhrUnxJlxW4P6Q1HFuno0p5AY2ZlnVz0VHI4xQUg=;
+        b=fMiiQjPGmkrVRdapTLdj/RyZexZDp7yfUjBJXqB3DVefG+Ei1W3Fmccw2BQhtwe5wF
+         Xd99LAvhwq5swjQL2Ofbs2hkBPGTF/fMIdB1RvLMDMjNowDxy1isl+ig3DTwGHUpEAA3
+         lq9SA7fzJ99MCwM343R3KzWflAmCEC0f0vbdfAyZ5FE//nv4zWZCPuoXo0XTPq1+WL09
+         v/lwpfkyEC5wd9qhWiKWaxUHm/8zJ8EVq5jNasoVffKPwS3nSA2/+akTzlsFINaMhIlS
+         myGi3o1UxJ967WOgNBYWrvR68gG6OZfrQWoFV8mU/+8bFoOU7+M3Z1w23S1zYL/9AHhT
+         CnMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775822826; x=1776427626;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dM/PhrUnxJlxW4P6Q1HFuno0p5AY2ZlnVz0VHI4xQUg=;
+        b=Oo7aOSwhEZ0uG39XoN94xdkobC9St/WewuXbEW4gZI9EPYr6jQTeeIKDvrcQKkW1Sn
+         T836KuOGp6yAXb/F4W72d15UBpSSp5DvgBuzXg6ZiSW/A2AsQlTL25HRbrqH6EnowYh+
+         Bmp9x7WWtUcYMz0OysWNi2efvQIztV16FN3IBscZnyTvAbDYczpICxlOCcaKQPKU3T7y
+         JPZd4mzV3Y9+Ud2SH1zrBoetJ+eBQy9k0dJbRGF53RC8pG9Fkcql1ty10OOxCPNs3eRG
+         d2gHRTenYjAsG6TXi1JNwkrr12JNriWEneRiKgczN0gQMvh4jsERLhgni+PNbNQGGc3T
+         WRbw==
+X-Gm-Message-State: AOJu0Yx133q1UEYSt8SiLiocTtizyWy1k4luCWgQXsxRoz7yTxa805iP
+	g5jNjSURER4iTLUeTOhxiIG8DrHnB2jHzvp6OTy2yxv06+knNWDfSu1FWyYcQg==
+X-Gm-Gg: AeBDietf8dT/AIugL4gOkSIDVop5Fm/6NvdONbhF6iZEq+59DmjaeT1bbCRCICe4n4g
+	5wInn1J+dN5bAUr4YYQ/vhswm/WLt7S3WOXySJz1MhpX2YfrLUc6bcf5tEnCWd+34u8eIlCLnNf
+	kKPkvdH4hsShtGoSpXRSqgWVfABZByWZ+Iqq5DQQCE+RXc9+AeUS0zfGkDyP/BAwpQbUyAqVQaf
+	li/5QSK375QmidY3NObpdDILlP82pfkZmbbG8r9Gk/dUUF4LTFG4uqV1Hly3pUqCqRT1waCJqSN
+	atVbpXhV+rQJOWpMjKoHLyrKID2IAZMo3lIKZVrYH664WEdzU17J+PfS00r2OKfulw/Rtlj+DOU
+	BYopv7GJVUWVJEkAxf+XvBO/X7sOwU3F/WRRzB4XrVIFWAzZOmrTVkp17wAbndlgmzgjuM4ogbF
+	EN33j9LtyWFr9N7K1CNxSe0yBr584aPg==
+X-Received: by 2002:a5d:5849:0:b0:43b:45a0:9df8 with SMTP id ffacd0b85a97d-43d642be552mr4605309f8f.35.1775822825860;
+        Fri, 10 Apr 2026 05:07:05 -0700 (PDT)
+Received: from [192.168.1.50] ([81.196.40.93])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63e468d0sm6945926f8f.18.2026.04.10.05.07.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Apr 2026 05:07:05 -0700 (PDT)
+Message-ID: <2fb2a553-3e67-497e-b964-7fa5f940e8a1@gmail.com>
+Date: Fri, 10 Apr 2026 15:07:04 +0300
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: include/linux/build_bug.h:78:41: error: static assertion failed:
+ "sizeof(struct rtw8814a_efuse) == 512"
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Ping-Ke Shih <pkshih@realtek.com>
+References: <202604101721.fsv5XmCX-lkp@intel.com>
+Content-Language: en-US
+From: Bitterblue Smith <rtl8821cerfe2@gmail.com>
+In-Reply-To: <202604101721.fsv5XmCX-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git for-7.1/block
-head:   539fb773a3f7c07cf7fd00617f33ed4e33058d72
-commit: 23b3b6f0b584b70a427d5bb826d320151890d7da [80/87] ublk: widen ublk_shmem_buf_reg.len to __u64 for 4GB buffer support
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260410/202604101952.3NOzqnu9-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260410/202604101952.3NOzqnu9-lkp@intel.com/reproduce)
+On 10/04/2026 12:25, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   9a9c8ce300cd3859cc87b408ef552cd697cc2ab7
+> commit: deb3ddeb18652118956fb581a39ac299e1ee5623 wifi: rtw88: Enable the new RTL8814AE/RTL8814AU drivers
+> date:   1 year, 1 month ago
+> config: arm-randconfig-001-20260410 (https://download.01.org/0day-ci/archive/20260410/202604101721.fsv5XmCX-lkp@intel.com/config)
+> compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260410/202604101721.fsv5XmCX-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Fixes: deb3ddeb1865 ("wifi: rtw88: Enable the new RTL8814AE/RTL8814AU drivers")
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202604101721.fsv5XmCX-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from include/linux/bitfield.h:10,
+>                     from include/linux/fortify-string.h:5,
+>                     from include/linux/string.h:389,
+>                     from include/linux/uuid.h:11,
+>                     from include/linux/mod_devicetable.h:14,
+>                     from include/linux/usb.h:5,
+>                     from drivers/net/wireless/realtek/rtw88/rtw8814a.c:5:
+>>> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct rtw8814a_efuse) == 512"
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604101952.3NOzqnu9-lkp@intel.com/
+struct rtw_2g_txpwr_idx is missing __packed. Could that be the reason
+for the error? I don't see what else could be causing it.
 
-All warnings (new ones prefixed by >>):
+>     #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+>                                             ^~~~~~~~~~~~~~
+>    include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+>     #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+>                                      ^~~~~~~~~~~~~~~
+>    drivers/net/wireless/realtek/rtw88/rtw8814a.h:58:1: note: in expansion of macro 'static_assert'
+>     static_assert(sizeof(struct rtw8814a_efuse) == 512);
+>     ^~~~~~~~~~~~~
+>>> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct rtw88xxa_efuse) == 512"
+>     #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+>                                             ^~~~~~~~~~~~~~
+>    include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+>     #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+>                                      ^~~~~~~~~~~~~~~
+>    drivers/net/wireless/realtek/rtw88/rtw88xxa.h:64:1: note: in expansion of macro 'static_assert'
+>     static_assert(sizeof(struct rtw88xxa_efuse) == 512);
+>     ^~~~~~~~~~~~~
+> --
+>    In file included from include/linux/container_of.h:5,
+>                     from include/linux/list.h:5,
+>                     from include/linux/module.h:12,
+>                     from drivers/net/wireless/realtek/rtw88/rtw8814ae.c:5:
+>>> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct rtw8814a_efuse) == 512"
+>     #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+>                                             ^~~~~~~~~~~~~~
+>    include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+>     #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+>                                      ^~~~~~~~~~~~~~~
+>    drivers/net/wireless/realtek/rtw88/rtw8814a.h:58:1: note: in expansion of macro 'static_assert'
+>     static_assert(sizeof(struct rtw8814a_efuse) == 512);
+>     ^~~~~~~~~~~~~
+> --
+>    In file included from include/linux/bitfield.h:10,
+>                     from include/linux/fortify-string.h:5,
+>                     from include/linux/string.h:389,
+>                     from include/linux/uuid.h:11,
+>                     from include/linux/mod_devicetable.h:14,
+>                     from include/linux/usb.h:5,
+>                     from rtw8814a.c:5:
+>>> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct rtw8814a_efuse) == 512"
+>     #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+>                                             ^~~~~~~~~~~~~~
+>    include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+>     #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+>                                      ^~~~~~~~~~~~~~~
+>    rtw8814a.h:58:1: note: in expansion of macro 'static_assert'
+>     static_assert(sizeof(struct rtw8814a_efuse) == 512);
+>     ^~~~~~~~~~~~~
+>>> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct rtw88xxa_efuse) == 512"
+>     #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+>                                             ^~~~~~~~~~~~~~
+>    include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+>     #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+>                                      ^~~~~~~~~~~~~~~
+>    rtw88xxa.h:64:1: note: in expansion of macro 'static_assert'
+>     static_assert(sizeof(struct rtw88xxa_efuse) == 512);
+>     ^~~~~~~~~~~~~
+> --
+>    In file included from include/linux/container_of.h:5,
+>                     from include/linux/list.h:5,
+>                     from include/linux/module.h:12,
+>                     from rtw8814ae.c:5:
+>>> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct rtw8814a_efuse) == 512"
+>     #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+>                                             ^~~~~~~~~~~~~~
+>    include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+>     #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+>                                      ^~~~~~~~~~~~~~~
+>    rtw8814a.h:58:1: note: in expansion of macro 'static_assert'
+>     static_assert(sizeof(struct rtw8814a_efuse) == 512);
+>     ^~~~~~~~~~~~~
+> 
+> 
+> vim +78 include/linux/build_bug.h
+> 
+> bc6245e5efd70c Ian Abbott       2017-07-10  60  
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+> 6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+> 6bab69c65013be Rasmus Villemoes 2019-03-07  79  
+> 07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
+> 
+> :::::: The code at line 78 was first introduced by commit
+> :::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
+> 
+> :::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+> :::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+> 
 
->> drivers/block/ublk_drv.c:5364:20: warning: result of comparison of constant 4294967296 with expression of type 'unsigned long' is always false [-Wtautological-constant-out-of-range-compare]
-    5364 |         if (!size || size > UBLK_SHMEM_BUF_SIZE_MAX ||
-         |                      ~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
-
-
-vim +5364 drivers/block/ublk_drv.c
-
-  5326	
-  5327	/*
-  5328	 * Register a shared memory buffer for zero-copy I/O.
-  5329	 * Pins pages, builds PFN maple tree, freezes/unfreezes the queue
-  5330	 * internally. Returns buffer index (>= 0) on success.
-  5331	 */
-  5332	static int ublk_ctrl_reg_buf(struct ublk_device *ub,
-  5333				     struct ublksrv_ctrl_cmd *header)
-  5334	{
-  5335		void __user *argp = (void __user *)(unsigned long)header->addr;
-  5336		struct ublk_shmem_buf_reg buf_reg;
-  5337		unsigned long addr, size, nr_pages;
-  5338		struct page **pages = NULL;
-  5339		unsigned int gup_flags;
-  5340		struct gendisk *disk;
-  5341		struct ublk_buf *ubuf;
-  5342		long pinned;
-  5343		u32 index;
-  5344		int ret;
-  5345	
-  5346		if (!ublk_dev_support_shmem_zc(ub))
-  5347			return -EOPNOTSUPP;
-  5348	
-  5349		memset(&buf_reg, 0, sizeof(buf_reg));
-  5350		if (copy_from_user(&buf_reg, argp,
-  5351				   min_t(size_t, header->len, sizeof(buf_reg))))
-  5352			return -EFAULT;
-  5353	
-  5354		if (buf_reg.flags & ~UBLK_SHMEM_BUF_READ_ONLY)
-  5355			return -EINVAL;
-  5356	
-  5357		if (buf_reg.reserved)
-  5358			return -EINVAL;
-  5359	
-  5360		addr = buf_reg.addr;
-  5361		size = buf_reg.len;
-  5362		nr_pages = size >> PAGE_SHIFT;
-  5363	
-> 5364		if (!size || size > UBLK_SHMEM_BUF_SIZE_MAX ||
-  5365		    !PAGE_ALIGNED(size) || !PAGE_ALIGNED(addr))
-  5366			return -EINVAL;
-  5367	
-  5368		disk = ublk_get_disk(ub);
-  5369		if (!disk)
-  5370			return -ENODEV;
-  5371	
-  5372		/* Pin pages before quiescing (may sleep) */
-  5373		ubuf = kzalloc(sizeof(*ubuf), GFP_KERNEL);
-  5374		if (!ubuf) {
-  5375			ret = -ENOMEM;
-  5376			goto put_disk;
-  5377		}
-  5378	
-  5379		pages = kvmalloc_array(nr_pages, sizeof(*pages), GFP_KERNEL);
-  5380		if (!pages) {
-  5381			ret = -ENOMEM;
-  5382			goto err_free;
-  5383		}
-  5384	
-  5385		gup_flags = FOLL_LONGTERM;
-  5386		if (!(buf_reg.flags & UBLK_SHMEM_BUF_READ_ONLY))
-  5387			gup_flags |= FOLL_WRITE;
-  5388	
-  5389		pinned = pin_user_pages_fast(addr, nr_pages, gup_flags, pages);
-  5390		if (pinned < 0) {
-  5391			ret = pinned;
-  5392			goto err_free_pages;
-  5393		}
-  5394		if (pinned != nr_pages) {
-  5395			ret = -EFAULT;
-  5396			goto err_unpin;
-  5397		}
-  5398		ubuf->nr_pages = nr_pages;
-  5399	
-  5400		/*
-  5401		 * Drain inflight I/O and quiesce the queue so no new requests
-  5402		 * are dispatched while we modify the maple tree. Keep freeze
-  5403		 * and mutex non-nested to avoid lock dependency.
-  5404		 */
-  5405		ublk_quiesce_and_release(disk);
-  5406	
-  5407		mutex_lock(&ub->mutex);
-  5408	
-  5409		ret = xa_alloc(&ub->bufs_xa, &index, ubuf, xa_limit_16b, GFP_KERNEL);
-  5410		if (ret)
-  5411			goto err_unlock;
-  5412	
-  5413		ret = __ublk_ctrl_reg_buf(ub, ubuf, pages, index, buf_reg.flags);
-  5414		if (ret) {
-  5415			xa_erase(&ub->bufs_xa, index);
-  5416			goto err_unlock;
-  5417		}
-  5418	
-  5419		mutex_unlock(&ub->mutex);
-  5420	
-  5421		kvfree(pages);
-  5422		ublk_unquiesce_and_resume(disk);
-  5423		ublk_put_disk(disk);
-  5424		return index;
-  5425	
-  5426	err_unlock:
-  5427		mutex_unlock(&ub->mutex);
-  5428		ublk_unquiesce_and_resume(disk);
-  5429	err_unpin:
-  5430		unpin_user_pages(pages, pinned);
-  5431	err_free_pages:
-  5432		kvfree(pages);
-  5433	err_free:
-  5434		kfree(ubuf);
-  5435	put_disk:
-  5436		ublk_put_disk(disk);
-  5437		return ret;
-  5438	}
-  5439	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
