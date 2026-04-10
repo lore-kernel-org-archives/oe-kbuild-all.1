@@ -1,57 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C6CC3D75DE
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D4283D7D69
 	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Apr 2026 14:46:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775832411; cv=none; b=gDhe6mefeYN+uvB3hODO1p85PINqedukkks4dlC8vW4L+R+beDVxPsaTtrUtCnEeZRyFGxaFUkrT5Xc8ZzCqWv2X3JiHoLiE7Lp953+T6XEkGaxJfhjt9f6MOH7976pVNRaCF11Y+jsk4gphYErVikBu8JVsZQ0/zivx3kDC7T0=
+	t=1775832413; cv=none; b=n28Vky9fsEyw5/XqfBl288LdYUlKbGiV4Dxh59KqcqyrRSkM+vQb4Mk879b+98Af0ockAS1ExVwzcKTBOm+2pCs9RfkhySeh7mtE63vxkr9Gflmt5/6cDID/gTukLKtpRsC6bhOEWsBkQnKjHiQyhJEeHbhHfU7oiKtkvbGBh0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775832411; c=relaxed/simple;
-	bh=O6uCA8QGqMiTem70Imth5ohV+iqLZXMrsctW+0qqJVc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=kBVkP0hSTPEtQq47+y9LwTzIs5um1hHgK97+24tCprIPyqe44WXZBk9sS9/Qh2zkExA/xtCTMgXwmUlHyKQCtAXVxymBdyIKCK55lgSupUQxr82Xfj1a8S+Yb6YvQNncRM/unnB1lC1k581e/xEqnS4W8lyqxVcmPQTOPPDVDe0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fo7jrZy7; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1775832413; c=relaxed/simple;
+	bh=or5x2uM/HODLFU10uHsOACKZKkb57S1d8Byk5Vcd3j0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=fryJpwwBMb03tnJi9aOvlVvoL7FSYOEE56vapLXg+pI3ipyzmXM3XR49jNqzt6VexG8Z7yLeHohDQZOYkvxWlXluiG8nyuXQRTIzZm7sqWiej1INqeNfad0TKlE5MmTvoTfM8UyXdVStQ2S5PlLU64RJLTgGx9Ap05SDxU+zCZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UjbfhMU6; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fo7jrZy7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UjbfhMU6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1775832410; x=1807368410;
   h=date:from:to:cc:subject:message-id;
-  bh=O6uCA8QGqMiTem70Imth5ohV+iqLZXMrsctW+0qqJVc=;
-  b=fo7jrZy7d7x2nFOllBQQxqEDHf0Q/bc8Mfh5CPObXA96xVKatjt8MDkN
-   m5MtxTDeCR32svSrGT3eP0MLXt7f1D0nJ9mqFkwe3fuu7jH38WRlK7aHl
-   xoVu2xAp+JqSSRJhOvTZkC99U8fz9utvRI2xyt5f6cOjJwvFPsbQub6sm
-   lg4GLM3N8Ttv0gNUbL3QJvCDhg4ZcemiLdUvxWmgatWUr2z5sui4O9QzP
-   ey+Z4PUMRk5jGgNU8TsTjYR6ntRuaJKewZayEuCChh71RnKO9WKx/6vg+
-   jy7KcWPfOnAsQ02A6F+jHBuiq4Np/1nOpkLvkFRgO9N/PJOK09iQIYtfu
-   w==;
-X-CSE-ConnectionGUID: h/DM0vsxQyCfQDher2SLDA==
-X-CSE-MsgGUID: oMW30tr6QNifxWnZr2qHyQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="87549640"
+  bh=or5x2uM/HODLFU10uHsOACKZKkb57S1d8Byk5Vcd3j0=;
+  b=UjbfhMU60ieJxSmrqyrsoiMCfg/WvPkwKe+Lfk68SfMDTnddQWxfQRu5
+   rOKqBIXtzgDajTgW3ofRbUDzGWMbG0D7FRIv7xM6DwIUbfVP+2HQt/ECw
+   d6ZpAEgY/4OVQ3pccSFZYJIqQPWYoZv9dCOQpwDeEm/DeA65zD7JS11pH
+   YLiIN92nr+0dop+cW54clAQr6wblhhWVapIpSVBBnkpXMHwliLI7AXmlj
+   BiIoy3hfjCZt0WYTF/2cv/2QS4jhVkstkVOkua8+WHyZ7NwwkNVWQ/+71
+   M3Fxl6bhdhEPT8hHmVTIV25ZUV6XX1VQpTwMqwU012EepGFhVXFIYYqPT
+   A==;
+X-CSE-ConnectionGUID: XiuX2SYqSFapjXp3BeartA==
+X-CSE-MsgGUID: U5gRK4/uQUeL8i+C46O+6g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="87549643"
 X-IronPort-AV: E=Sophos;i="6.23,171,1770624000"; 
-   d="scan'208";a="87549640"
+   d="scan'208";a="87549643"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
   by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 07:46:48 -0700
-X-CSE-ConnectionGUID: usT08zbnRLeV8g8dvktQDA==
-X-CSE-MsgGUID: gDZ5uW8yTJSlQTKjqLE91A==
+X-CSE-ConnectionGUID: OhCvSjXdRper7G3o6V6d/A==
+X-CSE-MsgGUID: TZYnp3kaRPKPPLv6DD6YDg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,171,1770624000"; 
-   d="scan'208";a="226381142"
+   d="scan'208";a="226381146"
 Received: from lkp-server01.sh.intel.com (HELO 6449335cace3) ([10.239.97.150])
   by fmviesa008.fm.intel.com with ESMTP; 10 Apr 2026 07:46:47 -0700
 Received: from kbuild by 6449335cace3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wBD88-000000003pr-3S7k;
+	id 1wBD88-000000003pp-3MX8;
 	Fri, 10 Apr 2026 14:46:44 +0000
-Date: Fri, 10 Apr 2026 22:46:32 +0800
+Date: Fri, 10 Apr 2026 22:46:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 1/1]
- arch/arm64/kvm/pkvm.c:123:22: sparse: sparse: cast to restricted gfp_t
-Message-ID: <202604102216.ejXBTPgA-lkp@intel.com>
+Subject: [android-common:android-mainline-desktop 0/1]
+ include/linux/tracepoint.h:374:27: error:
+ '__tracepoint_device_pm_callback_start' undeclared here (not in a function)
+Message-ID: <202604102257.hrPcpNqU-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,70 +60,400 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   08e21ebff803243bccd5e6cd4a8253ffebf74c64
-commit: 1ded80a53cb8dc6c83e47578f7eacca8772245ce [1/1] ANDROID: KVM: arm64: Allow GFP_ATOMIC for host stage-2 pool topup
-config: arm64-randconfig-r133-20260408 (https://download.01.org/0day-ci/archive/20260410/202604102216.ejXBTPgA-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project c80443cd37b2e2788cba67ffa180a6331e5f0791)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260410/202604102216.ejXBTPgA-lkp@intel.com/reproduce)
+Hi Carlos,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android-mainline-desktop
+head:   c405508715e0d85d546c564c04a4321f35891483
+commit: 380603d5f29a2265cb058a9ce5f2171f096ccca1 [0/1] Merge 2be6a7503d32 ("Merge tag 'trace-unused-v6.17' of git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace") into android-mainline
+config: i386-randconfig-052-20260409 (https://download.01.org/0day-ci/archive/20260410/202604102257.hrPcpNqU-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260410/202604102257.hrPcpNqU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604102216.ejXBTPgA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604102257.hrPcpNqU-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm64/kvm/pkvm.c:123:22: sparse: sparse: cast to restricted gfp_t
->> arch/arm64/kvm/pkvm.c:148:45: sparse: sparse: cast from restricted gfp_t
+All errors (new ones prefixed by >>):
 
-vim +123 arch/arm64/kvm/pkvm.c
+   In file included from include/linux/linkage.h:7,
+                    from include/linux/printk.h:8,
+                    from include/asm-generic/bug.h:22,
+                    from arch/x86/include/asm/bug.h:103,
+                    from include/linux/bug.h:5,
+                    from include/linux/fortify-string.h:6,
+                    from include/linux/string.h:382,
+                    from kernel/trace/power-traces.c:8:
+>> include/linux/tracepoint.h:374:27: error: '__tracepoint_device_pm_callback_start' undeclared here (not in a function)
+     374 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
+         |                           ^~~~~~~~~~~~~
+   include/linux/export.h:76:23: note: in definition of macro '__EXPORT_SYMBOL'
+      76 |         extern typeof(sym) sym;                                 \
+         |                       ^~~
+   include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/tracepoint.h:374:9: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     374 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
+         |         ^~~~~~~~~~~~~~~~~
+   kernel/trace/power-traces.c:20:1: note: in expansion of macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+      20 | EXPORT_TRACEPOINT_SYMBOL_GPL(device_pm_callback_start);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/tracepoint.h:375:27: error: '__traceiter_device_pm_callback_start' undeclared here (not in a function); did you mean '__tracepoint_device_pm_callback_start'?
+     375 |         EXPORT_SYMBOL_GPL(__traceiter_##name);                          \
+         |                           ^~~~~~~~~~~~
+   include/linux/export.h:76:23: note: in definition of macro '__EXPORT_SYMBOL'
+      76 |         extern typeof(sym) sym;                                 \
+         |                       ^~~
+   include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/tracepoint.h:375:9: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     375 |         EXPORT_SYMBOL_GPL(__traceiter_##name);                          \
+         |         ^~~~~~~~~~~~~~~~~
+   kernel/trace/power-traces.c:20:1: note: in expansion of macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+      20 | EXPORT_TRACEPOINT_SYMBOL_GPL(device_pm_callback_start);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/static_call_types.h:9:41: error: '__SCK__tp_func_device_pm_callback_start' undeclared here (not in a function); did you mean '__tracepoint_device_pm_callback_start'?
+       9 | #define STATIC_CALL_KEY_PREFIX          __SCK__
+         |                                         ^~~~~~~
+   include/linux/export.h:76:23: note: in definition of macro '__EXPORT_SYMBOL'
+      76 |         extern typeof(sym) sym;                                 \
+         |                       ^~~
+   include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/static_call.h:277:9: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     277 |         EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));                       \
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/static_call_types.h:12:41: note: in expansion of macro '__PASTE'
+      12 | #define STATIC_CALL_KEY(name)           __PASTE(STATIC_CALL_KEY_PREFIX, name)
+         |                                         ^~~~~~~
+   include/linux/static_call_types.h:12:49: note: in expansion of macro 'STATIC_CALL_KEY_PREFIX'
+      12 | #define STATIC_CALL_KEY(name)           __PASTE(STATIC_CALL_KEY_PREFIX, name)
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:277:27: note: in expansion of macro 'STATIC_CALL_KEY'
+     277 |         EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));                       \
+         |                           ^~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:376:9: note: in expansion of macro 'EXPORT_STATIC_CALL_GPL'
+     376 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/power-traces.c:20:1: note: in expansion of macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+      20 | EXPORT_TRACEPOINT_SYMBOL_GPL(device_pm_callback_start);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/static_call_types.h:15:41: error: '__SCT__tp_func_device_pm_callback_start' undeclared here (not in a function); did you mean '__SCK__tp_func_device_pm_callback_start'?
+      15 | #define STATIC_CALL_TRAMP_PREFIX        __SCT__
+         |                                         ^~~~~~~
+   include/linux/export.h:76:23: note: in definition of macro '__EXPORT_SYMBOL'
+      76 |         extern typeof(sym) sym;                                 \
+         |                       ^~~
+   include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/static_call.h:278:9: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     278 |         EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name))
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/static_call_types.h:18:41: note: in expansion of macro '__PASTE'
+      18 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+         |                                         ^~~~~~~
+   include/linux/static_call_types.h:18:49: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
+      18 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:278:27: note: in expansion of macro 'STATIC_CALL_TRAMP'
+     278 |         EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name))
+         |                           ^~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:376:9: note: in expansion of macro 'EXPORT_STATIC_CALL_GPL'
+     376 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/power-traces.c:20:1: note: in expansion of macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+      20 | EXPORT_TRACEPOINT_SYMBOL_GPL(device_pm_callback_start);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/tracepoint.h:374:27: error: '__tracepoint_device_pm_callback_end' undeclared here (not in a function); did you mean '__tracepoint_device_pm_callback_start'?
+     374 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
+         |                           ^~~~~~~~~~~~~
+   include/linux/export.h:76:23: note: in definition of macro '__EXPORT_SYMBOL'
+      76 |         extern typeof(sym) sym;                                 \
+         |                       ^~~
+   include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/tracepoint.h:374:9: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     374 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
+         |         ^~~~~~~~~~~~~~~~~
+   kernel/trace/power-traces.c:21:1: note: in expansion of macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+      21 | EXPORT_TRACEPOINT_SYMBOL_GPL(device_pm_callback_end);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/tracepoint.h:375:27: error: '__traceiter_device_pm_callback_end' undeclared here (not in a function); did you mean '__tracepoint_device_pm_callback_end'?
+     375 |         EXPORT_SYMBOL_GPL(__traceiter_##name);                          \
+         |                           ^~~~~~~~~~~~
+   include/linux/export.h:76:23: note: in definition of macro '__EXPORT_SYMBOL'
+      76 |         extern typeof(sym) sym;                                 \
+         |                       ^~~
+   include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/tracepoint.h:375:9: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     375 |         EXPORT_SYMBOL_GPL(__traceiter_##name);                          \
+         |         ^~~~~~~~~~~~~~~~~
+   kernel/trace/power-traces.c:21:1: note: in expansion of macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+      21 | EXPORT_TRACEPOINT_SYMBOL_GPL(device_pm_callback_end);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/static_call_types.h:9:41: error: '__SCK__tp_func_device_pm_callback_end' undeclared here (not in a function); did you mean '__SCK__tp_func_device_pm_callback_start'?
+       9 | #define STATIC_CALL_KEY_PREFIX          __SCK__
+         |                                         ^~~~~~~
+   include/linux/export.h:76:23: note: in definition of macro '__EXPORT_SYMBOL'
+      76 |         extern typeof(sym) sym;                                 \
+         |                       ^~~
+   include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/static_call.h:277:9: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     277 |         EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));                       \
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/static_call_types.h:12:41: note: in expansion of macro '__PASTE'
+      12 | #define STATIC_CALL_KEY(name)           __PASTE(STATIC_CALL_KEY_PREFIX, name)
+         |                                         ^~~~~~~
+   include/linux/static_call_types.h:12:49: note: in expansion of macro 'STATIC_CALL_KEY_PREFIX'
+      12 | #define STATIC_CALL_KEY(name)           __PASTE(STATIC_CALL_KEY_PREFIX, name)
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:277:27: note: in expansion of macro 'STATIC_CALL_KEY'
+     277 |         EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));                       \
+         |                           ^~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:376:9: note: in expansion of macro 'EXPORT_STATIC_CALL_GPL'
+     376 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/power-traces.c:21:1: note: in expansion of macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+      21 | EXPORT_TRACEPOINT_SYMBOL_GPL(device_pm_callback_end);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/static_call_types.h:15:41: error: '__SCT__tp_func_device_pm_callback_end' undeclared here (not in a function); did you mean '__SCK__tp_func_device_pm_callback_end'?
+      15 | #define STATIC_CALL_TRAMP_PREFIX        __SCT__
+         |                                         ^~~~~~~
+   include/linux/export.h:76:23: note: in definition of macro '__EXPORT_SYMBOL'
+      76 |         extern typeof(sym) sym;                                 \
+         |                       ^~~
+   include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/static_call.h:278:9: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     278 |         EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name))
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/static_call_types.h:18:41: note: in expansion of macro '__PASTE'
+      18 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+         |                                         ^~~~~~~
+   include/linux/static_call_types.h:18:49: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
+      18 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:278:27: note: in expansion of macro 'STATIC_CALL_TRAMP'
+     278 |         EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name))
+         |                           ^~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:376:9: note: in expansion of macro 'EXPORT_STATIC_CALL_GPL'
+     376 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/power-traces.c:21:1: note: in expansion of macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+      21 | EXPORT_TRACEPOINT_SYMBOL_GPL(device_pm_callback_end);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   120	
-   121	static void *__host_stage2_alloc(void *arg, unsigned long order)
-   122	{
- > 123		gfp_t gfp = (gfp_t)(uintptr_t)arg;
-   124		struct page *p;
-   125	
-   126		p = __cma_alloc(host_s2_cma, 1, 0, gfp);
-   127		if (!p)
-   128			return NULL;
-   129	
-   130		return page_to_virt(p);
-   131	}
-   132	
-   133	static void __host_stage2_free(void *virt, void *arg, unsigned long order)
-   134	{
-   135		WARN_ON(!cma_release(host_s2_cma, virt_to_page(virt), 1));
-   136	}
-   137	
-   138	int pkvm_host_stage2_topup(gfp_t gfp)
-   139	{
-   140		struct kvm_hyp_memcache mc;
-   141		int ret = -EINVAL;
-   142	
-   143		if (!gfpflags_allow_blocking(gfp) && host_s2_mode != PKVM_HOST_S2_GCMA)
-   144			goto err;
-   145	
-   146		init_hyp_memcache(&mc);
-   147		ret = __topup_hyp_memcache(&mc, 3, __host_stage2_alloc, kvm_host_pa,
- > 148					   (void *)(uintptr_t)(gfp | __GFP_NOWARN), 0);
-   149		if (ret && !mc.nr_pages)
-   150			return ret;
-   151	
-   152		ret = __pkvm_topup_hyp_alloc_mgt_mc(HYP_ALLOC_MGT_HOSTS2_ID, &mc);
-   153		if (ret)
-   154			__free_hyp_memcache(&mc, __host_stage2_free, kvm_host_va, NULL);
-   155	
-   156	err:
-   157		return WARN_ON_ONCE(ret);
-   158	}
-   159	EXPORT_SYMBOL(pkvm_host_stage2_topup);
-   160	#else
-   161	static void __host_stage2_free(void *virt, void *arg, unsigned long order) { WARN_ON(1); }
-   162	static void __init pkvm_host_stage2_drain(void) { }
-   163	#endif
-   164	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
+   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_MM_CONFIGS [=y]
+
+
+vim +/__tracepoint_device_pm_callback_start +374 include/linux/tracepoint.h
+
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  211) 
+ad37bcd965fda4 Alice Ryhl                2024-10-30  212  /*
+ad37bcd965fda4 Alice Ryhl                2024-10-30  213   * Declare an exported function that Rust code can call to trigger this
+ad37bcd965fda4 Alice Ryhl                2024-10-30  214   * tracepoint. This function does not include the static branch; that is done
+ad37bcd965fda4 Alice Ryhl                2024-10-30  215   * in Rust to avoid a function call when the tracepoint is disabled.
+ad37bcd965fda4 Alice Ryhl                2024-10-30  216   */
+ad37bcd965fda4 Alice Ryhl                2024-10-30  217  #define DEFINE_RUST_DO_TRACE(name, proto, args)
+ad37bcd965fda4 Alice Ryhl                2024-10-30  218  #define __DEFINE_RUST_DO_TRACE(name, proto, args)			\
+ad37bcd965fda4 Alice Ryhl                2024-10-30  219  	notrace void rust_do_trace_##name(proto)			\
+ad37bcd965fda4 Alice Ryhl                2024-10-30  220  	{								\
+cff6d93eab00ba Alice Ryhl                2024-12-12  221  		__do_trace_##name(args);				\
+ad37bcd965fda4 Alice Ryhl                2024-10-30  222  	}
+ad37bcd965fda4 Alice Ryhl                2024-10-30  223  
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  224  /*
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  225   * Make sure the alignment of the structure in the __tracepoints section will
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  226   * not add unwanted padding between the beginning of the section and the
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  227   * structure. Force alignment to the same alignment as the section start.
+3a630178fd5f30 Dave Hansen               2014-08-07  228   *
+c2679254b9c998 Steven Rostedt (Google    2023-03-10  229)  * When lockdep is enabled, we make sure to always test if RCU is
+c2679254b9c998 Steven Rostedt (Google    2023-03-10  230)  * "watching" regardless if the tracepoint is enabled or not. Tracepoints
+c2679254b9c998 Steven Rostedt (Google    2023-03-10  231)  * require RCU to be active, and it should always warn at the tracepoint
+c2679254b9c998 Steven Rostedt (Google    2023-03-10  232)  * site if it is not watching, as it will need to be active when the
+c2679254b9c998 Steven Rostedt (Google    2023-03-10  233)  * tracepoint is enabled.
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  234   */
+ef0d4186083127 Mathieu Desnoyers         2024-11-23  235  #define __DECLARE_TRACE_COMMON(name, proto, args, data_proto)		\
+de394e7568ce2c peterz@infradead.org      2020-09-08  236  	extern int __traceiter_##name(data_proto);			\
+de394e7568ce2c peterz@infradead.org      2020-09-08  237  	DECLARE_STATIC_CALL(tp_func_##name, __traceiter_##name);	\
+7e066fb870fcd1 Mathieu Desnoyers         2008-11-14  238  	extern struct tracepoint __tracepoint_##name;			\
+ad37bcd965fda4 Alice Ryhl                2024-10-30  239  	extern void rust_do_trace_##name(proto);			\
+38516ab59fbc5b Steven Rostedt            2010-04-20  240  	static inline int						\
+38516ab59fbc5b Steven Rostedt            2010-04-20  241  	register_trace_##name(void (*probe)(data_proto), void *data)	\
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  242  	{								\
+de7b2973903c6c Mathieu Desnoyers         2014-04-08  243  		return tracepoint_probe_register(&__tracepoint_##name,	\
+de7b2973903c6c Mathieu Desnoyers         2014-04-08  244  						(void *)probe, data);	\
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  245  	}								\
+38516ab59fbc5b Steven Rostedt            2010-04-20  246  	static inline int						\
+7904b5c4988e18 Steven Rostedt (Red Hat   2015-09-22  247) 	register_trace_prio_##name(void (*probe)(data_proto), void *data,\
+7904b5c4988e18 Steven Rostedt (Red Hat   2015-09-22  248) 				   int prio)				\
+7904b5c4988e18 Steven Rostedt (Red Hat   2015-09-22  249) 	{								\
+7904b5c4988e18 Steven Rostedt (Red Hat   2015-09-22  250) 		return tracepoint_probe_register_prio(&__tracepoint_##name, \
+7904b5c4988e18 Steven Rostedt (Red Hat   2015-09-22  251) 					      (void *)probe, data, prio); \
+7904b5c4988e18 Steven Rostedt (Red Hat   2015-09-22  252) 	}								\
+7904b5c4988e18 Steven Rostedt (Red Hat   2015-09-22  253) 	static inline int						\
+38516ab59fbc5b Steven Rostedt            2010-04-20  254  	unregister_trace_##name(void (*probe)(data_proto), void *data)	\
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  255  	{								\
+de7b2973903c6c Mathieu Desnoyers         2014-04-08  256  		return tracepoint_probe_unregister(&__tracepoint_##name,\
+de7b2973903c6c Mathieu Desnoyers         2014-04-08  257  						(void *)probe, data);	\
+53da59aa6dd881 Mathieu Desnoyers         2010-04-30  258  	}								\
+38516ab59fbc5b Steven Rostedt            2010-04-20  259  	static inline void						\
+38516ab59fbc5b Steven Rostedt            2010-04-20  260  	check_trace_callback_type_##name(void (*cb)(data_proto))	\
+53da59aa6dd881 Mathieu Desnoyers         2010-04-30  261  	{								\
+7c65bbc7dcface Steven Rostedt (Red Hat   2014-05-06  262) 	}								\
+7c65bbc7dcface Steven Rostedt (Red Hat   2014-05-06  263) 	static inline bool						\
+7c65bbc7dcface Steven Rostedt (Red Hat   2014-05-06  264) 	trace_##name##_enabled(void)					\
+7c65bbc7dcface Steven Rostedt (Red Hat   2014-05-06  265) 	{								\
+4a8840af5f53f2 Josh Poimboeuf            2024-10-08  266  		return static_branch_unlikely(&__tracepoint_##name.key);\
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  267  	}
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  268  
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  269  #define __DECLARE_TRACE(name, proto, args, cond, data_proto)		\
+ef0d4186083127 Mathieu Desnoyers         2024-11-23  270  	__DECLARE_TRACE_COMMON(name, PARAMS(proto), PARAMS(args), PARAMS(data_proto)) \
+cff6d93eab00ba Alice Ryhl                2024-12-12  271  	static inline void __do_trace_##name(proto)			\
+ad37bcd965fda4 Alice Ryhl                2024-10-30  272  	{								\
+7af08b57bcb9eb Linus Torvalds            2024-11-28  273  		if (cond) {						\
+7af08b57bcb9eb Linus Torvalds            2024-11-28  274  			guard(preempt_notrace)();			\
+7af08b57bcb9eb Linus Torvalds            2024-11-28  275  			__DO_TRACE_CALL(name, TP_ARGS(args));		\
+7af08b57bcb9eb Linus Torvalds            2024-11-28  276  		}							\
+ad37bcd965fda4 Alice Ryhl                2024-10-30  277  	}								\
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  278  	static inline void trace_##name(proto)				\
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  279  	{								\
+cff6d93eab00ba Alice Ryhl                2024-12-12  280  		if (static_branch_unlikely(&__tracepoint_##name.key))	\
+cff6d93eab00ba Alice Ryhl                2024-12-12  281  			__do_trace_##name(args);			\
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  282  		if (IS_ENABLED(CONFIG_LOCKDEP) && (cond)) {		\
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  283  			WARN_ONCE(!rcu_is_watching(),			\
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  284  				  "RCU not watching for tracepoint");	\
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  285  		}							\
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  286  	}
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  287  
+ef0d4186083127 Mathieu Desnoyers         2024-11-23  288  #define __DECLARE_TRACE_SYSCALL(name, proto, args, data_proto)		\
+ef0d4186083127 Mathieu Desnoyers         2024-11-23  289  	__DECLARE_TRACE_COMMON(name, PARAMS(proto), PARAMS(args), PARAMS(data_proto)) \
+cff6d93eab00ba Alice Ryhl                2024-12-12  290  	static inline void __do_trace_##name(proto)			\
+ad37bcd965fda4 Alice Ryhl                2024-10-30  291  	{								\
+7af08b57bcb9eb Linus Torvalds            2024-11-28  292  		guard(rcu_tasks_trace)();				\
+7af08b57bcb9eb Linus Torvalds            2024-11-28  293  		__DO_TRACE_CALL(name, TP_ARGS(args));			\
+ad37bcd965fda4 Alice Ryhl                2024-10-30  294  	}								\
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  295  	static inline void trace_##name(proto)				\
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  296  	{								\
+ee3685a98ea920 Mathieu Desnoyers         2024-10-31  297  		might_fault();						\
+cff6d93eab00ba Alice Ryhl                2024-12-12  298  		if (static_branch_unlikely(&__tracepoint_##name.key))	\
+cff6d93eab00ba Alice Ryhl                2024-12-12  299  			__do_trace_##name(args);			\
+ef0d4186083127 Mathieu Desnoyers         2024-11-23  300  		if (IS_ENABLED(CONFIG_LOCKDEP)) {			\
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  301  			WARN_ONCE(!rcu_is_watching(),			\
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  302  				  "RCU not watching for tracepoint");	\
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  303  		}							\
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  304  	}
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  305  
+654986462939cd Mathieu Desnoyers         2011-01-26  306  /*
+654986462939cd Mathieu Desnoyers         2011-01-26  307   * We have no guarantee that gcc and the linker won't up-align the tracepoint
+654986462939cd Mathieu Desnoyers         2011-01-26  308   * structures, so we create an array of pointers that will be used for iteration
+654986462939cd Mathieu Desnoyers         2011-01-26  309   * on the tracepoints.
+306d40aa53b671 Mathieu Desnoyers         2024-11-23  310   *
+306d40aa53b671 Mathieu Desnoyers         2024-11-23  311   * it_func[0] is never NULL because there is at least one element in the array
+306d40aa53b671 Mathieu Desnoyers         2024-11-23  312   * when the array itself is non NULL.
+654986462939cd Mathieu Desnoyers         2011-01-26  313   */
+a9cfb8778c43fc Mathieu Desnoyers         2024-10-31  314  #define __DEFINE_TRACE_EXT(_name, _ext, proto, args)			\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  315) 	static const char __tpstrtab_##_name[]				\
+33def8498fdde1 Joe Perches               2020-10-21  316  	__section("__tracepoints_strings") = #_name;			\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  317) 	extern struct static_call_key STATIC_CALL_KEY(tp_func_##_name);	\
+de394e7568ce2c peterz@infradead.org      2020-09-08  318  	int __traceiter_##_name(void *__data, proto);			\
+e2d0d7b2f42dca Masami Hiramatsu (Google  2023-06-06  319) 	void __probestub_##_name(void *__data, proto);			\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  320) 	struct tracepoint __tracepoint_##_name	__used			\
+33def8498fdde1 Joe Perches               2020-10-21  321  	__section("__tracepoints") = {					\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  322) 		.name = __tpstrtab_##_name,				\
+4a8840af5f53f2 Josh Poimboeuf            2024-10-08  323  		.key = STATIC_KEY_FALSE_INIT,				\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  324) 		.static_call_key = &STATIC_CALL_KEY(tp_func_##_name),	\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  325) 		.static_call_tramp = STATIC_CALL_TRAMP_ADDR(tp_func_##_name), \
+de394e7568ce2c peterz@infradead.org      2020-09-08  326  		.iterator = &__traceiter_##_name,			\
+e2d0d7b2f42dca Masami Hiramatsu (Google  2023-06-06  327) 		.probestub = &__probestub_##_name,			\
+a9cfb8778c43fc Mathieu Desnoyers         2024-10-31  328  		.funcs = NULL,						\
+a9cfb8778c43fc Mathieu Desnoyers         2024-10-31  329  		.ext = _ext,						\
+a9cfb8778c43fc Mathieu Desnoyers         2024-10-31  330  	};								\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  331) 	__TRACEPOINT_ENTRY(_name);					\
+de394e7568ce2c peterz@infradead.org      2020-09-08  332  	int __traceiter_##_name(void *__data, proto)			\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  333) 	{								\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  334) 		struct tracepoint_func *it_func_ptr;			\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  335) 		void *it_func;						\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  336) 									\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  337) 		it_func_ptr =						\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  338) 			rcu_dereference_raw((&__tracepoint_##_name)->funcs); \
+c8b186a8d54d7e Alexey Kardashevskiy      2021-02-02  339  		if (it_func_ptr) {					\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  340) 			do {						\
+7211f0a25781ac Steven Rostedt (VMware    2021-02-04  341) 				it_func = READ_ONCE((it_func_ptr)->func); \
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  342) 				__data = (it_func_ptr)->data;		\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  343) 				((void(*)(void *, proto))(it_func))(__data, args); \
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  344) 			} while ((++it_func_ptr)->func);		\
+c8b186a8d54d7e Alexey Kardashevskiy      2021-02-02  345  		}							\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  346) 		return 0;						\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  347) 	}								\
+e2d0d7b2f42dca Masami Hiramatsu (Google  2023-06-06  348) 	void __probestub_##_name(void *__data, proto)			\
+e2d0d7b2f42dca Masami Hiramatsu (Google  2023-06-06  349) 	{								\
+e2d0d7b2f42dca Masami Hiramatsu (Google  2023-06-06  350) 	}								\
+ad37bcd965fda4 Alice Ryhl                2024-10-30  351  	DEFINE_STATIC_CALL(tp_func_##_name, __traceiter_##_name);	\
+ad37bcd965fda4 Alice Ryhl                2024-10-30  352  	DEFINE_RUST_DO_TRACE(_name, TP_PROTO(proto), TP_ARGS(args))
+97419875865859 Josh Stone                2009-08-24  353  
+a9cfb8778c43fc Mathieu Desnoyers         2024-10-31  354  #define DEFINE_TRACE_FN(_name, _reg, _unreg, _proto, _args)		\
+a9cfb8778c43fc Mathieu Desnoyers         2024-10-31  355  	static struct tracepoint_ext __tracepoint_ext_##_name = {	\
+a9cfb8778c43fc Mathieu Desnoyers         2024-10-31  356  		.regfunc = _reg,					\
+a9cfb8778c43fc Mathieu Desnoyers         2024-10-31  357  		.unregfunc = _unreg,					\
+654ced4a13774e Mathieu Desnoyers         2024-10-31  358  		.faultable = false,					\
+654ced4a13774e Mathieu Desnoyers         2024-10-31  359  	};								\
+654ced4a13774e Mathieu Desnoyers         2024-10-31  360  	__DEFINE_TRACE_EXT(_name, &__tracepoint_ext_##_name, PARAMS(_proto), PARAMS(_args));
+654ced4a13774e Mathieu Desnoyers         2024-10-31  361  
+654ced4a13774e Mathieu Desnoyers         2024-10-31  362  #define DEFINE_TRACE_SYSCALL(_name, _reg, _unreg, _proto, _args)	\
+654ced4a13774e Mathieu Desnoyers         2024-10-31  363  	static struct tracepoint_ext __tracepoint_ext_##_name = {	\
+654ced4a13774e Mathieu Desnoyers         2024-10-31  364  		.regfunc = _reg,					\
+654ced4a13774e Mathieu Desnoyers         2024-10-31  365  		.unregfunc = _unreg,					\
+654ced4a13774e Mathieu Desnoyers         2024-10-31  366  		.faultable = true,					\
+a9cfb8778c43fc Mathieu Desnoyers         2024-10-31  367  	};								\
+a9cfb8778c43fc Mathieu Desnoyers         2024-10-31  368  	__DEFINE_TRACE_EXT(_name, &__tracepoint_ext_##_name, PARAMS(_proto), PARAMS(_args));
+a9cfb8778c43fc Mathieu Desnoyers         2024-10-31  369  
+a9cfb8778c43fc Mathieu Desnoyers         2024-10-31  370  #define DEFINE_TRACE(_name, _proto, _args)				\
+a9cfb8778c43fc Mathieu Desnoyers         2024-10-31  371  	__DEFINE_TRACE_EXT(_name, NULL, PARAMS(_proto), PARAMS(_args));
+7e066fb870fcd1 Mathieu Desnoyers         2008-11-14  372  
+7e066fb870fcd1 Mathieu Desnoyers         2008-11-14  373  #define EXPORT_TRACEPOINT_SYMBOL_GPL(name)				\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18 @374) 	EXPORT_SYMBOL_GPL(__tracepoint_##name);				\
+de394e7568ce2c peterz@infradead.org      2020-09-08 @375  	EXPORT_SYMBOL_GPL(__traceiter_##name);				\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18 @376) 	EXPORT_STATIC_CALL_GPL(tp_func_##name)
+7e066fb870fcd1 Mathieu Desnoyers         2008-11-14  377  #define EXPORT_TRACEPOINT_SYMBOL(name)					\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  378) 	EXPORT_SYMBOL(__tracepoint_##name);				\
+de394e7568ce2c peterz@infradead.org      2020-09-08  379  	EXPORT_SYMBOL(__traceiter_##name);				\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  380) 	EXPORT_STATIC_CALL(tp_func_##name)
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  381) 
+7e066fb870fcd1 Mathieu Desnoyers         2008-11-14  382  
+
+:::::: The code at line 374 was first introduced by commit
+:::::: d25e37d89dd2f41d7acae0429039d2f0ae8b4a07 tracepoint: Optimize using static_call()
+
+:::::: TO: Steven Rostedt (VMware) <rostedt@goodmis.org>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
