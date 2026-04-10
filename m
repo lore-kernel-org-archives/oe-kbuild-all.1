@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20C603469E7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BBB43A5E7E
 	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Apr 2026 09:03:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775811805; cv=none; b=px2fqPPOUK+rOs5J/WkM6Hsk54oj6aOlESxSFoSOKtebMsWIES9xyxdig1OGsKydugE1SxUmZaNsAU8JTMOc7rp6A5Opk24oagc8DBzXRI20Uuq7uWGG4yqzqk0Zjpoik6zUhDNV1vFNXxhpsez1hX/BawQzXYxBL6yuid0i6Xo=
+	t=1775811806; cv=none; b=U1yVx1taEmLuJiI2xotoMbsRI/h40SZjGpQV28r0b3BnqScx6aNoW1Cd3Nh3iOQAljXksM4dWH46I8f0hYXik8w2DXul203djKWfP9Ta4gEwvlPwMostFoTO1fsYpTzZcCzhk2SIVvg83RV+fm/JTAH5at0SSc4UgQHm+sGDFvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775811805; c=relaxed/simple;
-	bh=+yUGymdWAops3sTWUdRW3Llw6uAt92lLQfH89gzBEwU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=UlHx08yrerViwgw79lPwLZ9iaJjut4Nxw1/8ui8a8Yo/7X7oxS+BIKTPFN9GE8yoUDQbC2YAEoC6gRw24I2SXRzlNdo96eDT/zbhE3y3eklMBQza1wS5sPu+MmMeRcKEWqrzvOXBngf4P+FIm744lx9EsvPxTP6s1FJ9Z5z6P/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j73ZTmOv; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1775811806; c=relaxed/simple;
+	bh=6fbCFIelMWqeJ4Qsvlwrs9N66eiF45VTBbflxXKu/KM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=BCexChjfuWkeKFJrjDdy4sRmNAJ1oAxSupdDKZ6m/xZWXmvwNDZYDt4x7ETbPOzmnzgLnxzc2HQIC/UMpY9q9q2Pgfos5aAl8onXDOVeZG2ZgK3c2sZ6fcK0aI2NBOl1PrvukUVcnQn2P0Ors+no6tKQ0wQMzVcYR8ZUBwJJHgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UDykXG3+; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j73ZTmOv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UDykXG3+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1775811804; x=1807347804;
   h=date:from:to:cc:subject:message-id;
-  bh=+yUGymdWAops3sTWUdRW3Llw6uAt92lLQfH89gzBEwU=;
-  b=j73ZTmOv7DUp/yk6WGcF9lROwwTC6TpLANYydvm/13r/uLkKW42iZPbx
-   tqS45g8Les15DSKnsTqydgLCjr+t8wP8rrL/emdDoAUTwY1FXwV2gNmPs
-   4TvQ3kvnP4uuuLMg84oAZoffVgUCq0X+6uP9N7bti2Bd05Ls4YP3yuE0H
-   adPuEd/tY5TjrMeKiavYnTR1ArFPu47DoPB5Myy9+juGIhcYhmSCTYN+Q
-   wFSXbEgRsZggv87Drp4YCrXXAt3E5R/JhiB9y7SziCw7IyC/va1Rvwehl
-   LPlxySniSSuvsBQGFih0JYQOK4fLYp4lQSSYai537EMw1WZCp9mCVN6H9
+  bh=6fbCFIelMWqeJ4Qsvlwrs9N66eiF45VTBbflxXKu/KM=;
+  b=UDykXG3+fquPyqG91gwYwpy7hdq67HPL5jugKcCNTGJxOuDkyagmYSd6
+   xJcPLOPSdVS0jYhoGDvCslHtXzCXkOg3EhkSCTL21Luzd0wdk1VR1uMmY
+   vVcm82QJAZXwistaADn+t5WuxKb2iGFNFR0ZlwWx/7cQ+hMQal5FzJ1b/
+   QI+ek3pcqf3yj1KTurq9kBOpuO0R55u2DGd4JUT9tDwUg22c4oPnsQIt1
+   BmR0LbyFWYrjfFDVnhJ/CP9kYXApsVPU8IfvrZXAeUwTtJ8GI+HTscJBC
+   SO3bHcybG+IS02o5tFz7OCoY9xtmg49k/A+ANr3HFgBTh8yjgS4mcPIQD
    g==;
-X-CSE-ConnectionGUID: ezI7EwuVR8C6VHvHWbttpQ==
-X-CSE-MsgGUID: txirmbs7QeW4zLKMj/+BRg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="87116492"
+X-CSE-ConnectionGUID: 08y4FeMoTYaZ+E25QYl/Ug==
+X-CSE-MsgGUID: WJNxZTZoQGec/+t1rg3o/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="76546508"
 X-IronPort-AV: E=Sophos;i="6.23,171,1770624000"; 
-   d="scan'208";a="87116492"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 02:03:24 -0700
-X-CSE-ConnectionGUID: /xjJHk5dTVOdGtFTVqGKNw==
-X-CSE-MsgGUID: 2KL5hW8GTZOt7qshT0fJPA==
+   d="scan'208";a="76546508"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 02:03:24 -0700
+X-CSE-ConnectionGUID: v8AKnMICTZqT3w71S7RjQA==
+X-CSE-MsgGUID: 6oUbTd8RSxykzr5NxvEKNQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,171,1770624000"; 
-   d="scan'208";a="233960260"
+   d="scan'208";a="226318326"
 Received: from lkp-server01.sh.intel.com (HELO 6449335cace3) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 10 Apr 2026 02:03:22 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 10 Apr 2026 02:03:22 -0700
 Received: from kbuild by 6449335cace3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wB7ln-000000003Vx-4Byy;
+	id 1wB7lo-000000003Vz-085u;
 	Fri, 10 Apr 2026 09:03:20 +0000
-Date: Fri, 10 Apr 2026 17:02:59 +0800
+Date: Fri, 10 Apr 2026 17:03:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 2/2]
- mm/page_size_compat.c:101:21: error: use of undeclared identifier
- 'bpf_map_fops'; did you mean 'bpf_map_put'?
-Message-ID: <202604101625.iJPMFeIM-lkp@intel.com>
+To: Dmitry Baryshkov <lumag@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Subject: drivers/gpu/drm/bridge/lontium-lt9611uxc.c:438:undefined
+ reference to `drm_connector_hdmi_audio_plugged_notify'
+Message-ID: <202604101732.SBQWKwtT-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,47 +60,54 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   08e21ebff803243bccd5e6cd4a8253ffebf74c64
-commit: 156b58543560782fded68ccebbf252314d2d9ba7 [2/2] ANDROID: 16K: Adjust bpf ringbuffer pgoffset on 16K x86 emulation
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20260410/202604101625.iJPMFeIM-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project ae825cb8cea7f3ac8e5e4096f22713845cf5e501)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260410/202604101625.iJPMFeIM-lkp@intel.com/reproduce)
+Hi Dmitry,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9a9c8ce300cd3859cc87b408ef552cd697cc2ab7
+commit: c08c123d4cd6ec3ee482d607e29388d0db2d3f1d drm/bridge: lontium-lt9611uxc: switch to HDMI audio helpers
+date:   4 months ago
+config: x86_64-randconfig-004-20260410 (https://download.01.org/0day-ci/archive/20260410/202604101732.SBQWKwtT-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260410/202604101732.SBQWKwtT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: c08c123d4cd6 ("drm/bridge: lontium-lt9611uxc: switch to HDMI audio helpers")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604101625.iJPMFeIM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604101732.SBQWKwtT-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/page_size_compat.c:101:21: error: use of undeclared identifier 'bpf_map_fops'; did you mean 'bpf_map_put'?
-     101 |         if (file->f_op != &bpf_map_fops)
-         |                            ^~~~~~~~~~~~
-         |                            bpf_map_put
-   include/linux/bpf.h:3135:20: note: 'bpf_map_put' declared here
-    3135 | static inline void bpf_map_put(struct bpf_map *map)
-         |                    ^
->> mm/page_size_compat.c:101:17: warning: comparison of distinct pointer types ('const struct file_operations *' and 'void (*)(struct bpf_map *)') [-Wcompare-distinct-pointer-types]
-     101 |         if (file->f_op != &bpf_map_fops)
-         |             ~~~~~~~~~~ ^  ~~~~~~~~~~~~~
-   1 warning and 1 error generated.
+   ld: vmlinux.o: in function `lt9611uxc_bridge_hpd_notify':
+>> drivers/gpu/drm/bridge/lontium-lt9611uxc.c:438:(.text+0xd9d6cb): undefined reference to `drm_connector_hdmi_audio_plugged_notify'
+>> ld: drivers/gpu/drm/bridge/lontium-lt9611uxc.c:448:(.text+0xd9d70a): undefined reference to `drm_connector_hdmi_audio_plugged_notify'
 
 
-vim +101 mm/page_size_compat.c
+vim +438 drivers/gpu/drm/bridge/lontium-lt9611uxc.c
 
-    98	
-    99	bool bpf_is_ringbuf_file(struct file *file)
-   100	{
- > 101		if (file->f_op != &bpf_map_fops)
-   102			return false;
-   103	
-   104		struct bpf_map *map = file->private_data;
-   105	
-   106		return map->map_type == BPF_MAP_TYPE_RINGBUF ||
-   107			map->map_type == BPF_MAP_TYPE_USER_RINGBUF;
-   108	}
-   109	
+   430	
+   431	static void lt9611uxc_bridge_hpd_notify(struct drm_bridge *bridge,
+   432						struct drm_connector *connector,
+   433						enum drm_connector_status status)
+   434	{
+   435		const struct drm_edid *drm_edid;
+   436	
+   437		if (status == connector_status_disconnected) {
+ > 438			drm_connector_hdmi_audio_plugged_notify(connector, false);
+   439			drm_edid_connector_update(connector, NULL);
+   440			return;
+   441		}
+   442	
+   443		drm_edid = lt9611uxc_bridge_edid_read(bridge, connector);
+   444		drm_edid_connector_update(connector, drm_edid);
+   445		drm_edid_free(drm_edid);
+   446	
+   447		if (status == connector_status_connected)
+ > 448			drm_connector_hdmi_audio_plugged_notify(connector, true);
+   449	}
+   450	
 
 -- 
 0-DAY CI Kernel Test Service
