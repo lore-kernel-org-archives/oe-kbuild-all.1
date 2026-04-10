@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA44371CF5
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Apr 2026 09:48:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60734332608
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Apr 2026 09:58:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775814508; cv=none; b=FXUIk71TCP++3uk0m9/8G6slw8RLI2UuUOcmdWEBw1NmIQWk7JTOoLfa1RYxlFLnNOa9QbH/3BIXpLlDEu63s1db+DakOhoELTG5xE4u7SzIcy9hBLFVWzQGhlcuFLTzddmSxsf1Kj4ViJCM4R4lgQoYsgGRy8oTZJr1Kk4zlU8=
+	t=1775815109; cv=none; b=PLY8Q484ArnMiaAeXdKbFrkqhOlKXszh9ORmNlaL2uZZUw0yuEzKXz8DbckHb0FULSJr34seDsTTNRG6DKqpRmmrI6k24DPYuksm4Gg1ufa4kQAFuN3Z4BgWsCZuM/q/nCcjPGrgfdWehnL7xgGYu/l67d4t6UhcnLAG9WkguSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775814508; c=relaxed/simple;
-	bh=iq0BCyDxX0IG6j/37JMP6OdDWUJ2rbz2anCt8uOYT54=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ncNn7NUvqgpkVpmUTYs6kuiLj1jtbBILYyL8+BwVjXyUi/OiH/gxSogzOFNYVjInJp0fdNxaZq6egE0b3Rj1gc3TsrOzDIuiOXnzTWle7FrY5r7oSO3cze5eFb40oroOonsXg50Lo3WDtcKoR2PCVJRjXWHbD3iS3Mac8IDE79g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dtogVego; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1775815109; c=relaxed/simple;
+	bh=0XID9MjzbAMMVm0z+ekXB3Y+5LN0NooVElExEKdHCIA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QxptvBw5SviO6OQcFN2fE9da7PQC7S7wb+IyqIKqNrXvzk+y4mk8ip0H70YKkzmAJCOD00hlPO5R+hhojxszvWmktHIxK43OQ6xQj3tDGSy026z0gC0eiSIcNOp0YxyHr17KegyfZCPremTMe5k44FljhRQgY8YFpNWRAslRgw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AKXE8Fkc; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dtogVego"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AKXE8Fkc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775814507; x=1807350507;
+  t=1775815107; x=1807351107;
   h=date:from:to:cc:subject:message-id;
-  bh=iq0BCyDxX0IG6j/37JMP6OdDWUJ2rbz2anCt8uOYT54=;
-  b=dtogVegofD53MLyuTC4vmXJu2lE/8lACw3nZniRhioFj6eIVOjRLWn53
-   W5agDyWHGbwX82nxUrowDqYF1GTP8u9XvavhiHxRy2TlyITL/S+EXFjbp
-   vCSFgyQ31skZ9Yau1C66URKpZDz05bfOqjqDx23pl5R/hNkhZDtvxwAE1
-   2+VxzadyV6j0VNw/+OVl1R/L+gaAZ7lMag0j5LUmB8FGeDXKr2XsLlDyI
-   9OHpvohNOKZcAng4MdXeBW1n54CnAci38N7Ult/Sp5nuvKYN4knCOlCP+
-   NgVcKoJ2mGHxXlevv4xR251GkxhoI31eq/XGEaV+qpRW+h0hyvr7ONFuW
-   g==;
-X-CSE-ConnectionGUID: E9V4lSY4SIyCeXftHvrbfA==
-X-CSE-MsgGUID: hXAn78FXSyyE4lC/GFD27g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="94410849"
+  bh=0XID9MjzbAMMVm0z+ekXB3Y+5LN0NooVElExEKdHCIA=;
+  b=AKXE8FkcGEtcFByTK2WsaM2yjBhm/x50y0BbegrI5e/I2HI+XriJpZvM
+   zXy2HC4u4iL7dXHahxaEi7k449esZDiLWfFjhBjr4fZ/sF9gsL0Bh3vNK
+   H8YIb9x/Er7W24+DGGyKEmaRq0CryHaqNqT+1iJFS9KsoWI1j243QNZBj
+   0xNs+4RiE5ZUIsOS/Y6jgfgLKD3JDsX15qoxSoWs2P8BwtBJBosq4wFFW
+   aGbiKFs9VmqSQcugJDeOt3OKBVE0LS32T0xVMoVt7ZRzFpZsm+XL46fRa
+   JtLo9QYF4bP6FMDEo1Gxnb+Q0q1cmzXiT0l9Ib/kCL+bmSbuwTZUV566/
+   A==;
+X-CSE-ConnectionGUID: pp3p1IsvQNGLBl4FmGwUPA==
+X-CSE-MsgGUID: CAcD0ZUZRFSA8TKCEtZL5g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="87461200"
 X-IronPort-AV: E=Sophos;i="6.23,171,1770624000"; 
-   d="scan'208";a="94410849"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 02:48:26 -0700
-X-CSE-ConnectionGUID: uAkkzNWBS2u4JPN+wtJg0A==
-X-CSE-MsgGUID: Bhv0vZRERPus5XoIHnFARA==
+   d="scan'208";a="87461200"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 02:58:26 -0700
+X-CSE-ConnectionGUID: HBLq59smTfC/PVvCC8WdBw==
+X-CSE-MsgGUID: IfQFr6oUTQSUhQ1GgrA76g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,171,1770624000"; 
-   d="scan'208";a="267008610"
+   d="scan'208";a="228204458"
 Received: from lkp-server01.sh.intel.com (HELO 6449335cace3) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 10 Apr 2026 02:48:25 -0700
+  by orviesa010.jf.intel.com with ESMTP; 10 Apr 2026 02:58:25 -0700
 Received: from kbuild by 6449335cace3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wB8TO-000000003Zj-2yxS;
-	Fri, 10 Apr 2026 09:48:22 +0000
-Date: Fri, 10 Apr 2026 17:47:26 +0800
+	id 1wB8d5-000000003a9-05uI;
+	Fri, 10 Apr 2026 09:58:23 +0000
+Date: Fri, 10 Apr 2026 17:57:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Borkmann <daniel@iogearbox.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [cilium:pr/netkit-iouring28 16/16] net/xdp/xsk.c:132:7:
- error: implicit declaration of function 'netif_rxq_is_leased'; did you mean
- 'netif_is_queue_leasee'?
-Message-ID: <202604101745.xx2rLlx4-lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata 92/115]
+ drivers/media/i2c/imx219.c:511: undefined reference to `__aeabi_ldivmod'
+Message-ID: <202604101719.IZnukkGx-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,54 +59,68 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/cilium/linux.git pr/netkit-iouring28
-head:   28fb61aaf5d0f6b9ca1d5b686cdbd5a8f0cfc750
-commit: 28fb61aaf5d0f6b9ca1d5b686cdbd5a8f0cfc750 [16/16] errata
-config: m68k-randconfig-r073-20260410 (https://download.01.org/0day-ci/archive/20260410/202604101745.xx2rLlx4-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 8.5.0
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   ace2f872475ed78b708d667f1b2d004b192eeeb1
+commit: fbaf57c5f207a3fbab657d5bc757041ba26d5d69 [92/115] media: imx219: Allow configuring cropping and binning through CRSM
+config: arm-randconfig-r072-20260408 (https://download.01.org/0day-ci/archive/20260410/202604101719.IZnukkGx-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
 smatch: v0.5.0-9004-gb810ac53
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260410/202604101745.xx2rLlx4-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260410/202604101719.IZnukkGx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604101745.xx2rLlx4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604101719.IZnukkGx-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   net/xdp/xsk.c: In function 'xsk_clear_pool_at_qid':
->> net/xdp/xsk.c:132:7: error: implicit declaration of function 'netif_rxq_is_leased'; did you mean 'netif_is_queue_leasee'? [-Werror=implicit-function-declaration]
-     if (!netif_rxq_is_leased(dev, queue_id))
-          ^~~~~~~~~~~~~~~~~~~
-          netif_is_queue_leasee
-   cc1: some warnings being treated as errors
+   arm-linux-gnueabi-ld: drivers/media/i2c/imx219.o: in function `imx219_apply_binning':
+>> drivers/media/i2c/imx219.c:511: undefined reference to `__aeabi_ldivmod'
+>> arm-linux-gnueabi-ld: drivers/media/i2c/imx219.c:512: undefined reference to `__aeabi_ldivmod'
 
 
-vim +132 net/xdp/xsk.c
+vim +511 drivers/media/i2c/imx219.c
 
-f785e9937db541 Jakub Kicinski  2026-04-08  127  
-1c1efc2af15886 Magnus Karlsson 2020-08-28  128  void xsk_clear_pool_at_qid(struct net_device *dev, u16 queue_id)
-1c1efc2af15886 Magnus Karlsson 2020-08-28  129  {
-f785e9937db541 Jakub Kicinski  2026-04-08  130  	struct netdev_rx_queue *hw_rxq;
-3224a26004da42 Daniel Borkmann 2026-04-03  131  
-f785e9937db541 Jakub Kicinski  2026-04-08 @132  	if (!netif_rxq_is_leased(dev, queue_id))
-f785e9937db541 Jakub Kicinski  2026-04-08  133  		return __xsk_clear_pool_at_qid(dev, queue_id);
-f785e9937db541 Jakub Kicinski  2026-04-08  134  	WARN_ON_ONCE(!netif_is_queue_leasee(dev));
-3224a26004da42 Daniel Borkmann 2026-04-03  135  
-f785e9937db541 Jakub Kicinski  2026-04-08  136  	hw_rxq = __netif_get_rx_queue(dev, queue_id)->lease;
-3224a26004da42 Daniel Borkmann 2026-04-03  137  
-f785e9937db541 Jakub Kicinski  2026-04-08  138  	netdev_lock(hw_rxq->dev);
-f785e9937db541 Jakub Kicinski  2026-04-08  139  	queue_id = get_netdev_rx_queue_index(hw_rxq);
-f785e9937db541 Jakub Kicinski  2026-04-08  140  	__xsk_clear_pool_at_qid(hw_rxq->dev, queue_id);
-f785e9937db541 Jakub Kicinski  2026-04-08  141  	netdev_unlock(hw_rxq->dev);
-f785e9937db541 Jakub Kicinski  2026-04-08  142  }
-f785e9937db541 Jakub Kicinski  2026-04-08  143  
-
-:::::: The code at line 132 was first introduced by commit
-:::::: f785e9937db541632ce741099e1573a297a1c161 net: Remove the netif_get_rx_queue_lease_locked() helpers
-
-:::::: TO: Jakub Kicinski <kuba@kernel.org>
-:::::: CC: Daniel Borkmann <daniel@iogearbox.net>
+   484	
+   485	static void imx219_apply_binning(struct v4l2_subdev_state *state,
+   486					 struct v4l2_rect *crop, unsigned int index)
+   487	{
+   488		struct v4l2_rect *compose =
+   489			v4l2_subdev_state_get_compose(state, IMX219_PAD_IMAGE);
+   490		struct v4l2_mbus_framefmt *source_format =
+   491			v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
+   492						     IMX219_STREAM_IMAGE);
+   493		struct v4l2_mbus_framefmt *embedded_source_format =
+   494			v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
+   495						     IMX219_STREAM_EDATA);
+   496		s64 binning = imx219_binning_factors[index];
+   497	
+   498		crop->width = clamp(crop->width, IMX219_OUTPUT_X_SIZE_MIN *
+   499				    V4L2_BINNING_FACTORS_HNUM(binning),
+   500				    IMX219_VISIBLE_WIDTH) & ~1;
+   501		crop->height = clamp(crop->height, IMX219_OUTPUT_Y_SIZE_MIN *
+   502				     V4L2_BINNING_FACTORS_VNUM(binning),
+   503				     IMX219_VISIBLE_HEIGHT) & ~1;
+   504		crop->left = clamp((unsigned int)crop->left, IMX219_VISIBLE_LEFT,
+   505				   IMX219_VISIBLE_LEFT + IMX219_VISIBLE_WIDTH -
+   506				   crop->width);
+   507		crop->top = clamp((unsigned int)crop->top, IMX219_VISIBLE_TOP,
+   508				  IMX219_VISIBLE_TOP + IMX219_VISIBLE_HEIGHT -
+   509				  crop->height);
+   510	
+ > 511		compose->width = crop->width / V4L2_BINNING_FACTORS_HNUM(binning);
+ > 512		compose->height = crop->height / V4L2_BINNING_FACTORS_VNUM(binning);
+   513	
+   514		source_format->width = compose->width;
+   515		source_format->height = compose->height;
+   516	
+   517		struct v4l2_mbus_framefmt *embedded_format =
+   518			v4l2_subdev_state_get_format(state, IMX219_PAD_EDATA);
+   519	
+   520		embedded_format->width =
+   521			embedded_source_format->width = source_format->width;
+   522	}
+   523	
 
 -- 
 0-DAY CI Kernel Test Service
