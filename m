@@ -1,107 +1,115 @@
-Received: from out28-122.mail.aliyun.com (out28-122.mail.aliyun.com [115.124.28.122])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3380733B6DB;
-	Sat, 11 Apr 2026 10:24:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.122
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEFAC1D432D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Apr 2026 10:34:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775903095; cv=none; b=jJWE9UkAaVhLxMZ4v3Hfu5y3jU3fQcfa0r6umQJ5jsGl1z20e8JD2jotEggsGMDaj0zCAmFFTyMSvHgLMe5wBo8FbzqVBvN1UASvnRarGGsIPKc44J8P9Mx9zLJ7JgP0Hc0K2j4WTIBpx4duKbRFm1pTcZKURtwLDd2GFXU5t0U=
+	t=1775903665; cv=none; b=DKUfEdZh0QzeRh0TOzcIMJxxslxzWfnVOi+afOSYC6C7h9H/t/BevyhQJPZbJbRMZF3KbBSWDjtHmQXSeN06cv5NS33cRcbFbt0WazndPFgxXuRHsxinUuXbyaq5hXZS4jI+XjB7rTIWM47SiJSHEZNebrpc0Nk0XSeXd0eU29g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775903095; c=relaxed/simple;
-	bh=RihVEvHhmEWCEVvyH65piDdPQ0QeN2WYELuQtHUyjjg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=fjR8LPKSkS4SWcWGQ7i4j4b2W3d6XzPOqyj0Qjm+D0o8dYHicxJkOU/3oA198yFktRmI0S++6uPmL/dLAz+itZqeHwc8j+fPjaF9c29Nv5/CpCvDoik8Ci04sNToy/Ty8OX34VBcS1cgpB7ctfuehaau06xmkfJoG6SNCFFyXHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=antgroup.com; spf=pass smtp.mailfrom=antgroup.com; dkim=pass (1024-bit key) header.d=antgroup.com header.i=@antgroup.com header.b=KWRfXSn+; arc=none smtp.client-ip=115.124.28.122
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=antgroup.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antgroup.com
+	s=arc-20240116; t=1775903665; c=relaxed/simple;
+	bh=tnD7IvlLZjHgIjTgG0+xnI1uz6f0KodGztuedDzfcC8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=XGk+aeJOoeG7dF0oUXf/43vqvlCQ2y9lZnmt+oxq7iIZR2vI6u0V31oqmjMp0EJmvZlq3PhGtRf2NLLLL8xdRap2sQSO6kImHLAYiWxgSali7VPg8xEaj7Kutz3cnBm4vFgM68v6URjQS5CNlP1925il9pz7OGCt5a7puyOIz8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cjo/h9Bh; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=antgroup.com header.i=@antgroup.com header.b="KWRfXSn+"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=antgroup.com; s=default;
-	t=1775903084; h=From:To:Subject:Date:Message-Id:MIME-Version;
-	bh=Rt8NQQ1AYEK7pQDefE+TqXfbxTW3Ai7pygSQVOP5Lyw=;
-	b=KWRfXSn+4T53/JNRFxI2HXpS5oglnmMon+5Tvdq9/NoxkegbMGP0OxfEYegUbAJ3drGk+TjAvZkKnWyc/Up6gfAEY+2peWpJnz/Wp/FpRMo1I1fB91fz4ozrOVG5RP0uImMW+1vL3D9z4tKDxEcni16w6HY7PZkbWwWSpDi1wR8=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032053168;MF=tiwei.btw@antgroup.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---.h9lxysu_1775903062;
-Received: from ubuntu..(mailfrom:tiwei.btw@antgroup.com fp:SMTPD_---.h9lxysu_1775903062 cluster:ay29)
-          by smtp.aliyun-inc.com;
-          Sat, 11 Apr 2026 18:24:43 +0800
-From: Tiwei Bie <tiwei.btw@antgroup.com>
-To: anton.ivanov@cambridgegreys.com,
-	error27@gmail.com
-Cc: johannes.berg@intel.com,
-	linux-kernel@vger.kernel.org,
-	lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev,
-	oe-kbuild@lists.linux.dev,
-	tiwei.btw@antgroup.com
-Subject: Re: arch/um/drivers/vector_kern.c:471 destroy_queue() warn: variable dereferenced before check 'qi' (see line 468)
-Date: Sat, 11 Apr 2026 18:24:13 +0800
-Message-Id: <20260411102413.4168998-1-tiwei.btw@antgroup.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <c062f70b-3215-4a6f-90a8-11cadef43510@cambridgegreys.com>
-References: <c062f70b-3215-4a6f-90a8-11cadef43510@cambridgegreys.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cjo/h9Bh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775903663; x=1807439663;
+  h=date:from:to:cc:subject:message-id;
+  bh=tnD7IvlLZjHgIjTgG0+xnI1uz6f0KodGztuedDzfcC8=;
+  b=Cjo/h9BhMFvoZilWlQkK/s1JyhdMGB40wdLCKLY5Y9Zfx33/tqObskq0
+   nEpWK5c03bVAc/v8CdFa82rCGRWPg+tK2Rnon8qlfT3MdU4T32akGK2FH
+   r+Rkuu+x/WPtlObYL9+0FCAOi9GZvhUWIBsrxZmFxVUSROrLVod0mdznD
+   ForYRGRw/85jyDnN199bPYF+QdhVCYTOtKnHSdR663vg6wRgY0EpPmIYV
+   uBa4hOmq+kXDmaN14C37CCvtpilogQ0GNdpXt8XS8Uw6PjOk5zF2Hq9g6
+   v/HPXl4kbzpxF5fPcs2s/ju4qpGPsMHkxiUcT/ixmXYNxitE9Q3UVwLK5
+   A==;
+X-CSE-ConnectionGUID: v3JZfof0QUKqBbL1hDiGeg==
+X-CSE-MsgGUID: 2ZFxJMxARpSWcIs1kyahNQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="77024485"
+X-IronPort-AV: E=Sophos;i="6.23,173,1770624000"; 
+   d="scan'208";a="77024485"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2026 03:34:22 -0700
+X-CSE-ConnectionGUID: uL9lEfCoSQSqFUsY8dQQ6A==
+X-CSE-MsgGUID: r/It2mF3RZyY5jAQrNt5Zw==
+X-ExtLoop1: 1
+Received: from lkp-server01.sh.intel.com (HELO 3eaaf1a74b89) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 11 Apr 2026 03:34:20 -0700
+Received: from kbuild by 3eaaf1a74b89 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wBVfO-0000000014f-1Tsp;
+	Sat, 11 Apr 2026 10:34:18 +0000
+Date: Sat, 11 Apr 2026 18:34:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [tglx-devel:cleanups 28/38]
+ arch/mips/generic/board-ingenic.c:191:13: error: implicit declaration of
+ function 'boot_cpu_type'; did you mean 'boot_cpu_data'?
+Message-ID: <202604111837.WeuK9y0l-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-On Sat, 11 Apr 2026 09:13:54 +0100, Anton Ivanov wrote:
-> On 11/04/2026 08:57, Dan Carpenter wrote:
-> > [ Obviously, the commit just did COMPILE_TEST or something.  Anyway... -dan ]
-> >
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   7c6c4ed80b874f721bc7c2c937e098c56e37d2f0
-> > commit: b555cb66583e99158cfef8e91c025252cefae55b um: vector: Eliminate the dependency on uml_net
-> > config: um-randconfig-r072-20260411 (https://download.01.org/0day-ci/archive/20260411/202604110937.MLUL70Lx-lkp@intel.com/config)
-> > compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project ae825cb8cea7f3ac8e5e4096f22713845cf5e501)
-> > smatch: v0.5.0-9004-gb810ac53
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Fixes: b555cb66583e ("um: vector: Eliminate the dependency on uml_net")
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <error27@gmail.com>
-> > | Closes: https://lore.kernel.org/r/202604110937.MLUL70Lx-lkp@intel.com/
-> >
-> > smatch warnings:
-> > arch/um/drivers/vector_kern.c:471 destroy_queue() warn: variable dereferenced before check 'qi' (see line 468)
-> >
-> > vim +/qi +471 arch/um/drivers/vector_kern.c
-> >
-> > 49da7e64f33e80 Anton Ivanov 2017-11-20  464  static void destroy_queue(struct vector_queue *qi)
-> > 49da7e64f33e80 Anton Ivanov 2017-11-20  465  {
-> > 49da7e64f33e80 Anton Ivanov 2017-11-20  466  	int i;
-> > 49da7e64f33e80 Anton Ivanov 2017-11-20  467  	struct iovec *iov;
-> > 49da7e64f33e80 Anton Ivanov 2017-11-20 @468  	struct vector_private *vp = netdev_priv(qi->dev);
-> >                                                                                          ^^^^^^^
-> > Dereference
-> >
-> > 49da7e64f33e80 Anton Ivanov 2017-11-20  469  	struct mmsghdr *mmsg_vector;
-> > 49da7e64f33e80 Anton Ivanov 2017-11-20  470
-> > 49da7e64f33e80 Anton Ivanov 2017-11-20 @471  	if (qi == NULL)
-> >                                                      ^^^^^^^^^^
-> > Checked too late.
-> >
-> > 49da7e64f33e80 Anton Ivanov 2017-11-20  472  		return;
-> > 49da7e64f33e80 Anton Ivanov 2017-11-20  473  	/* deallocate any skbuffs - we rely on any unused to be
-> > 49da7e64f33e80 Anton Ivanov 2017-11-20  474  	 * set to NULL.
-> > 49da7e64f33e80 Anton Ivanov 2017-11-20  475  	 */
-> >
-> It has been used for quite a while, so surprising that it was not caught 
-> earlier.
-> 
-> And no, it was not just a "compile test".
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git cleanups
+head:   4f7b68811bb6be347b794010429e839e7a23b9d8
+commit: 91aaf890c89bd170e4f18306dd59c993c7eb0821 [28/38] mips: Select ARCH_HAS_RANDOM_ENTROPY
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20260411/202604111837.WeuK9y0l-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260411/202604111837.WeuK9y0l-lkp@intel.com/reproduce)
 
-+1, I use it often. It was not just a compile test.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604111837.WeuK9y0l-lkp@intel.com/
 
-All callers of destroy_queue() already perform a NULL check, so qi will
-never actually be NULL (I guess that's why it wasn't caught earlier):
+All errors (new ones prefixed by >>):
 
-https://github.com/torvalds/linux/blob/e774d5f1bc27a85f858bce7688509e866f8e8a4e/arch/um/drivers/vector_kern.c#L583
-https://github.com/torvalds/linux/blob/e774d5f1bc27a85f858bce7688509e866f8e8a4e/arch/um/drivers/vector_kern.c#L1147-L1150
+   arch/mips/generic/board-ingenic.c: In function 'ingenic_pm_init':
+>> arch/mips/generic/board-ingenic.c:191:13: error: implicit declaration of function 'boot_cpu_type'; did you mean 'boot_cpu_data'? [-Wimplicit-function-declaration]
+     191 |         if (boot_cpu_type() == CPU_XBURST) {
+         |             ^~~~~~~~~~~~~
+         |             boot_cpu_data
+--
+   arch/mips/kernel/perf_event_mipsxx.c: In function 'get_loongson3_pmu_type':
+>> arch/mips/kernel/perf_event_mipsxx.c:172:13: error: implicit declaration of function 'boot_cpu_type'; did you mean 'boot_cpu_init'? [-Wimplicit-function-declaration]
+     172 |         if (boot_cpu_type() != CPU_LOONGSON64)
+         |             ^~~~~~~~~~~~~
+         |             boot_cpu_init
+   arch/mips/kernel/perf_event_mipsxx.c: In function 'n_counters':
+>> arch/mips/kernel/perf_event_mipsxx.c:816:17: error: implicit declaration of function 'current_cpu_type'; did you mean 'current_cpu_data'? [-Wimplicit-function-declaration]
+     816 |         switch (current_cpu_type()) {
+         |                 ^~~~~~~~~~~~~~~~
+         |                 current_cpu_data
 
-Regards,
-Tiwei
+
+vim +191 arch/mips/generic/board-ingenic.c
+
+f0f4a753079c63 Paul Cercueil 2020-09-06  188  
+f0f4a753079c63 Paul Cercueil 2020-09-06  189  static int __init ingenic_pm_init(void)
+f0f4a753079c63 Paul Cercueil 2020-09-06  190  {
+f0f4a753079c63 Paul Cercueil 2020-09-06 @191  	if (boot_cpu_type() == CPU_XBURST) {
+f0f4a753079c63 Paul Cercueil 2020-09-06  192  		if (IS_ENABLED(CONFIG_PM_SLEEP))
+f0f4a753079c63 Paul Cercueil 2020-09-06  193  			suspend_set_ops(&ingenic_pm_ops);
+f0f4a753079c63 Paul Cercueil 2020-09-06  194  		_machine_halt = ingenic_halt;
+f0f4a753079c63 Paul Cercueil 2020-09-06  195  	}
+f0f4a753079c63 Paul Cercueil 2020-09-06  196  
+f0f4a753079c63 Paul Cercueil 2020-09-06  197  	return 0;
+f0f4a753079c63 Paul Cercueil 2020-09-06  198  
+
+:::::: The code at line 191 was first introduced by commit
+:::::: f0f4a753079c636d5d43a102edbde0dad1e7de51 MIPS: generic: Add support for Ingenic SoCs
+
+:::::: TO: Paul Cercueil <paul@crapouillou.net>
+:::::: CC: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
