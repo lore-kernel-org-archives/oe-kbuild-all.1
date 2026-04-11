@@ -1,114 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEFAC1D432D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Apr 2026 10:34:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF16333987F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Apr 2026 10:34:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775903665; cv=none; b=DKUfEdZh0QzeRh0TOzcIMJxxslxzWfnVOi+afOSYC6C7h9H/t/BevyhQJPZbJbRMZF3KbBSWDjtHmQXSeN06cv5NS33cRcbFbt0WazndPFgxXuRHsxinUuXbyaq5hXZS4jI+XjB7rTIWM47SiJSHEZNebrpc0Nk0XSeXd0eU29g=
+	t=1775903665; cv=none; b=BMq9w7cdy0/8a4oJQ91Zgmf+iIE6Y+LG13wG3vFk8HehYYRx3sVySn5Rxt6VjtFtWid60IkC34ZAmRHi90wMcHq6ejWKYqHExZF4wBFRhjdODJAExD6IAUOxi3YjpVCdMycQqzrXDVXWVr8HjjcHEqvgZ3fxhGsk1u2JNdaDwlI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1775903665; c=relaxed/simple;
-	bh=tnD7IvlLZjHgIjTgG0+xnI1uz6f0KodGztuedDzfcC8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=XGk+aeJOoeG7dF0oUXf/43vqvlCQ2y9lZnmt+oxq7iIZR2vI6u0V31oqmjMp0EJmvZlq3PhGtRf2NLLLL8xdRap2sQSO6kImHLAYiWxgSali7VPg8xEaj7Kutz3cnBm4vFgM68v6URjQS5CNlP1925il9pz7OGCt5a7puyOIz8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cjo/h9Bh; arc=none smtp.client-ip=192.198.163.15
+	bh=6gRFbouoYWoY5APyzgMyhgHofBb853d6SD+Ng9j3I5I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lnlpL53sqQPKuePjE2mVB51y0g/Dg4PfiUhRVBaYzdsCb14ORnbaaaHeoLq6t+3EugCpUNOo2YWxRGWRxcRfuITV3btNQHva0KQtL7msLC3lpYSO02ncIYioNU2Z+xkXSuNlqUHCdN+iY5NvtGPZsFDAMKow0gLois/ClXSxIRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TJd9W8R5; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cjo/h9Bh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TJd9W8R5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775903663; x=1807439663;
-  h=date:from:to:cc:subject:message-id;
-  bh=tnD7IvlLZjHgIjTgG0+xnI1uz6f0KodGztuedDzfcC8=;
-  b=Cjo/h9BhMFvoZilWlQkK/s1JyhdMGB40wdLCKLY5Y9Zfx33/tqObskq0
-   nEpWK5c03bVAc/v8CdFa82rCGRWPg+tK2Rnon8qlfT3MdU4T32akGK2FH
-   r+Rkuu+x/WPtlObYL9+0FCAOi9GZvhUWIBsrxZmFxVUSROrLVod0mdznD
-   ForYRGRw/85jyDnN199bPYF+QdhVCYTOtKnHSdR663vg6wRgY0EpPmIYV
-   uBa4hOmq+kXDmaN14C37CCvtpilogQ0GNdpXt8XS8Uw6PjOk5zF2Hq9g6
-   v/HPXl4kbzpxF5fPcs2s/ju4qpGPsMHkxiUcT/ixmXYNxitE9Q3UVwLK5
-   A==;
-X-CSE-ConnectionGUID: v3JZfof0QUKqBbL1hDiGeg==
-X-CSE-MsgGUID: 2ZFxJMxARpSWcIs1kyahNQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="77024485"
+  t=1775903664; x=1807439664;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6gRFbouoYWoY5APyzgMyhgHofBb853d6SD+Ng9j3I5I=;
+  b=TJd9W8R5b2uQd7oSRi6EMNFIC7Z0+5suDdQt2H/GVldp3YroaTY4Gza4
+   L5JssQ3K+kOIjE97lRtuIY6ATrcSszk68LQBNtryDBVTO1CE8UwMiiiyC
+   wdrHv7KfO/m7Q/l22XD7wf8mBSPJOYDo8PrtD2tRuJFfEmbm71sXkkYSH
+   dfefvZ1jXpOghGtkCLhb671pJtVzDXXZLonkqt0gZFe9RSB62mvEoikFR
+   o94qs6rNmUGmLzhnzEPolY7+8FK19valFLHVfUoiD4pkJHJV45VcY8Bjk
+   OPuLR7xe2Tmv1jO3tn96L85uOKhSNWt9EfenEVgApG+YCY/5RgvSu5kdJ
+   w==;
+X-CSE-ConnectionGUID: xzR4g0lTQte/F+6gr2hBTg==
+X-CSE-MsgGUID: y3Jv9m4ZTwS/rhmPd4C+yA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="76869292"
 X-IronPort-AV: E=Sophos;i="6.23,173,1770624000"; 
-   d="scan'208";a="77024485"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2026 03:34:22 -0700
-X-CSE-ConnectionGUID: uL9lEfCoSQSqFUsY8dQQ6A==
-X-CSE-MsgGUID: r/It2mF3RZyY5jAQrNt5Zw==
+   d="scan'208";a="76869292"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2026 03:34:23 -0700
+X-CSE-ConnectionGUID: eTS0ezy1Tu20BIZ68pMAGg==
+X-CSE-MsgGUID: PZaI9jPURFuYsHr8TQK88Q==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,173,1770624000"; 
+   d="scan'208";a="229589669"
 Received: from lkp-server01.sh.intel.com (HELO 3eaaf1a74b89) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 11 Apr 2026 03:34:20 -0700
+  by orviesa007.jf.intel.com with ESMTP; 11 Apr 2026 03:34:20 -0700
 Received: from kbuild by 3eaaf1a74b89 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wBVfO-0000000014f-1Tsp;
+	id 1wBVfO-0000000014d-1Q7K;
 	Sat, 11 Apr 2026 10:34:18 +0000
-Date: Sat, 11 Apr 2026 18:34:05 +0800
+Date: Sat, 11 Apr 2026 18:34:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:cleanups 28/38]
- arch/mips/generic/board-ingenic.c:191:13: error: implicit declaration of
- function 'boot_cpu_type'; did you mean 'boot_cpu_data'?
-Message-ID: <202604111837.WeuK9y0l-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Ihor Solodrai <ihor.solodrai@linux.dev>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>, Song Liu <song@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Puranjay Mohan <puranjay@kernel.org>,
+	Shakeel Butt <shakeel.butt@linux.dev>, bpf@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH bpf v1] bpf: Avoid faultable build ID reads under mm locks
+Message-ID: <202604111854.PygL2SVE-lkp@intel.com>
+References: <20260407223003.720428-1-ihor.solodrai@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260407223003.720428-1-ihor.solodrai@linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git cleanups
-head:   4f7b68811bb6be347b794010429e839e7a23b9d8
-commit: 91aaf890c89bd170e4f18306dd59c993c7eb0821 [28/38] mips: Select ARCH_HAS_RANDOM_ENTROPY
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20260411/202604111837.WeuK9y0l-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260411/202604111837.WeuK9y0l-lkp@intel.com/reproduce)
+Hi Ihor,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ihor-Solodrai/bpf-Avoid-faultable-build-ID-reads-under-mm-locks/20260411-130435
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
+patch link:    https://lore.kernel.org/r/20260407223003.720428-1-ihor.solodrai%40linux.dev
+patch subject: [PATCH bpf v1] bpf: Avoid faultable build ID reads under mm locks
+config: x86_64-buildonly-randconfig-003-20260411 (https://download.01.org/0day-ci/archive/20260411/202604111854.PygL2SVE-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260411/202604111854.PygL2SVE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604111837.WeuK9y0l-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604111854.PygL2SVE-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/mips/generic/board-ingenic.c: In function 'ingenic_pm_init':
->> arch/mips/generic/board-ingenic.c:191:13: error: implicit declaration of function 'boot_cpu_type'; did you mean 'boot_cpu_data'? [-Wimplicit-function-declaration]
-     191 |         if (boot_cpu_type() == CPU_XBURST) {
-         |             ^~~~~~~~~~~~~
-         |             boot_cpu_data
---
-   arch/mips/kernel/perf_event_mipsxx.c: In function 'get_loongson3_pmu_type':
->> arch/mips/kernel/perf_event_mipsxx.c:172:13: error: implicit declaration of function 'boot_cpu_type'; did you mean 'boot_cpu_init'? [-Wimplicit-function-declaration]
-     172 |         if (boot_cpu_type() != CPU_LOONGSON64)
-         |             ^~~~~~~~~~~~~
-         |             boot_cpu_init
-   arch/mips/kernel/perf_event_mipsxx.c: In function 'n_counters':
->> arch/mips/kernel/perf_event_mipsxx.c:816:17: error: implicit declaration of function 'current_cpu_type'; did you mean 'current_cpu_data'? [-Wimplicit-function-declaration]
-     816 |         switch (current_cpu_type()) {
-         |                 ^~~~~~~~~~~~~~~~
-         |                 current_cpu_data
+   kernel/bpf/stackmap.c: In function 'stack_map_lock_vma':
+>> kernel/bpf/stackmap.c:172:42: error: implicit declaration of function 'vma_start_read_locked'; did you mean 'vma_assert_write_locked'? [-Werror=implicit-function-declaration]
+     172 |         if (range_in_vma(vma, ip, ip) && vma_start_read_locked(vma))
+         |                                          ^~~~~~~~~~~~~~~~~~~~~
+         |                                          vma_assert_write_locked
+   cc1: some warnings being treated as errors
 
 
-vim +191 arch/mips/generic/board-ingenic.c
+vim +172 kernel/bpf/stackmap.c
 
-f0f4a753079c63 Paul Cercueil 2020-09-06  188  
-f0f4a753079c63 Paul Cercueil 2020-09-06  189  static int __init ingenic_pm_init(void)
-f0f4a753079c63 Paul Cercueil 2020-09-06  190  {
-f0f4a753079c63 Paul Cercueil 2020-09-06 @191  	if (boot_cpu_type() == CPU_XBURST) {
-f0f4a753079c63 Paul Cercueil 2020-09-06  192  		if (IS_ENABLED(CONFIG_PM_SLEEP))
-f0f4a753079c63 Paul Cercueil 2020-09-06  193  			suspend_set_ops(&ingenic_pm_ops);
-f0f4a753079c63 Paul Cercueil 2020-09-06  194  		_machine_halt = ingenic_halt;
-f0f4a753079c63 Paul Cercueil 2020-09-06  195  	}
-f0f4a753079c63 Paul Cercueil 2020-09-06  196  
-f0f4a753079c63 Paul Cercueil 2020-09-06  197  	return 0;
-f0f4a753079c63 Paul Cercueil 2020-09-06  198  
-
-:::::: The code at line 191 was first introduced by commit
-:::::: f0f4a753079c636d5d43a102edbde0dad1e7de51 MIPS: generic: Add support for Ingenic SoCs
-
-:::::: TO: Paul Cercueil <paul@crapouillou.net>
-:::::: CC: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+   161	
+   162	static struct vm_area_struct *stack_map_lock_vma(struct mm_struct *mm, unsigned long ip)
+   163	{
+   164		struct vm_area_struct *vma;
+   165	
+   166		vma = lock_vma_under_rcu(mm, ip);
+   167		if (vma)
+   168			return vma;
+   169	
+   170		mmap_read_lock(mm);
+   171		vma = find_vma(mm, ip);
+ > 172		if (range_in_vma(vma, ip, ip) && vma_start_read_locked(vma))
+   173			goto out;
+   174	
+   175		vma = NULL;
+   176	out:
+   177		mmap_read_unlock(mm);
+   178	
+   179		return vma;
+   180	}
+   181	
 
 -- 
 0-DAY CI Kernel Test Service
