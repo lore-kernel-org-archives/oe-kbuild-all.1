@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1BB021D585
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CB511A6829
 	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Apr 2026 03:43:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775878982; cv=none; b=mZxExhIrSbbqvJ3OUtgeZuyKwsS1pHpSCsyy+XplhERigCk9UOIEahamx65e4QDIGJO1HUVvAjOUwo8yV9I69fAQb4ozotEJSHQa/7z3H2Fx+wB/uOazrrRQ+rhnh4L9Fnri6ueshEgQlNZS8zC0soPzrhMhhxGLIQ6ANcxbUtg=
+	t=1775878982; cv=none; b=so+KGK6M9oFHoMPDSX1Z25Hm449t/Z9GvV4yOFAE3TEmyLJsE9cxHVXaOL8IV6MueZlLwFGq0AkKOAVQj0myGUtRLVdGrU/eE2fumd4ccVUNZ+bvkmcmKg8925/9vxDHVR9z817RAForXNOrR4MenFSj5y6ZZkYJ5gDh9y+gMUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1775878982; c=relaxed/simple;
-	bh=D8JLvZudWYPw8KEuqIcwICczZgGDzXdU89Gvz+A8dQ0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=PCoNg2mbszki022cg/i97mdC1NF6nTv3SQg0VA5sPAH2+sibfNdrabqQFDLnwi9g7L9QkjMyx/zO6ekgAVESEmYpL3O/SdWptdvm+Z0tway2IHIdITQ7zgsr8Xg8MVqdBS+4DfJ5vLuRVex32knNzRKglfCNHcAGE2k7guSaRuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V+O4fV/C; arc=none smtp.client-ip=192.198.163.13
+	bh=we0klAmo81To21/eQQywhUJ1JkqPaiZw0Yf5bXqac4A=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=XNRgU1Hf9eTVjgkpChqW6wa3exzhToYm3n189RVGqpuDQOvc0FVZff8HRrp0E78qjEhRxmUHhT2oqfJs8jrhSyBrLU4Ae1+3+QPB0PjdXxoD7zOgCkURCbdoBL4fGQtwuUa85UJRc8M3lW5eIqdccc3tcyGL9zi1gOKmYRu+HRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lquAtGbf; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V+O4fV/C"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lquAtGbf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1775878981; x=1807414981;
   h=date:from:to:cc:subject:message-id;
-  bh=D8JLvZudWYPw8KEuqIcwICczZgGDzXdU89Gvz+A8dQ0=;
-  b=V+O4fV/CmWMpAWqvE0hoXD6U0bxwnjfzx6EIblWyKX8xKy7WUMaypnun
-   LPIf1kV8lz7w5Y7WjmQrUfpICWXvOLYL1OwvxK5cm7A15Oek+tvgQwvxC
-   0Z8aymbqT5bbvHkgazTt9TykJ7stJw+t4BCqeS61uAv/gW+Zd1UXIGG8C
-   A9l+B1I+uUsOeMUoqljoxBVo8DSesoIV7XKKgAB8IpF51zUYR0U+fUWMX
-   D6ZxZN+QpmuBEXT8HypPEdLzsrqG/mj2CTs1RJAi7jQtw/fvlGABGPvo+
-   D5xN6Y1Q9hY9pKY8w/QURylgU7CYr+/UVUXXwGrONuHh/O8sNVYxJb+Hj
-   w==;
-X-CSE-ConnectionGUID: TX+wyc4BRqqW16I756LO+g==
-X-CSE-MsgGUID: xS4lULgPSGGJBardpMSTRQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="79485179"
+  bh=we0klAmo81To21/eQQywhUJ1JkqPaiZw0Yf5bXqac4A=;
+  b=lquAtGbfvqnIsQ3JnU6CKfyds5d6aJUS7jukPSfnarQ5XkLbi6L19ETs
+   bxE3tzAvoPVDfkFhQ0BVbBvYG2uptbN6auaOohagI+dDxw4lDrk5jkfYo
+   p6eC/PexGM+RpFrKgJyC+kdz0GNBjYffWkYuZO0PP09t42UJJPMFYb7Z7
+   NBkbYM6ZWsIc4NAkG5u+oi+pwUj1LGvNdtN70+/XKTrmvA4YzTtfK46D6
+   AGxKRjHN46gQCqpx/wyHBnuOf6iNzUK5GnnKQKVM5HP4j6VWihaIjKqnp
+   8xuB7TSJmRFSytCjYVCVL5/K4WTM0tzPwMFi8mdKRSNRobeSHxDfYxox7
+   Q==;
+X-CSE-ConnectionGUID: e3u4pvUnQuSHZtTbvuNJDQ==
+X-CSE-MsgGUID: U+m6WkTQQxie6wjWVdr18g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="76615093"
 X-IronPort-AV: E=Sophos;i="6.23,172,1770624000"; 
-   d="scan'208";a="79485179"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 20:43:00 -0700
-X-CSE-ConnectionGUID: gV7tfCPeSkWqVfOL8tfWnw==
-X-CSE-MsgGUID: 7axVnIEGSaG0PmDwT3hr8w==
+   d="scan'208";a="76615093"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 20:43:00 -0700
+X-CSE-ConnectionGUID: UIb4pwCxRs2+PsnF5A4EgA==
+X-CSE-MsgGUID: nFfSkaT6QlOukABdTvDbxA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,172,1770624000"; 
-   d="scan'208";a="233336561"
+   d="scan'208";a="226548612"
 Received: from lkp-server01.sh.intel.com (HELO 3eaaf1a74b89) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 10 Apr 2026 20:42:59 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 10 Apr 2026 20:42:58 -0700
 Received: from kbuild by 3eaaf1a74b89 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wBPFH-000000000iX-3yO8;
+	id 1wBPFH-000000000iT-3nDZ;
 	Sat, 11 Apr 2026 03:42:55 +0000
-Date: Sat, 11 Apr 2026 11:42:07 +0800
+Date: Sat, 11 Apr 2026 11:42:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [sailus-media-tree:pld 5/11] ERROR: modpost:
- "v4l2_fwnode_device_parse" [drivers/media/pci/intel/ipu-bridge.ko] undefined!
-Message-ID: <202604111142.iUEyM6oM-lkp@intel.com>
+To: Olga Kornievskaia <okorniev@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>
+Subject: [cel:nfsd-testing 117/120] Warning: fs/nfsd/nfs4state.c:9657
+ bad line:         and optionally other attributes (ie ATTR_ATIME).
+Message-ID: <202604111105.OoTETzA5-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,21 +59,24 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   git://linuxtv.org/sailus/media_tree.git pld
-head:   eb7a465247c98700986d85aa41baadbd0734dead
-commit: 00b2c5aa794c2da0ab85ba2ea8cece4e14bd3ecf [5/11] media: ipu-bridge: Use v4l2_fwnode_device_parse helper
-config: x86_64-randconfig-016-20260410 (https://download.01.org/0day-ci/archive/20260411/202604111142.iUEyM6oM-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260411/202604111142.iUEyM6oM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux nfsd-testing
+head:   1388f70447e3f27ea0e425ef172bf113d1071993
+commit: a7f570141bae209189f05fdff295f67fe84dd183 [117/120] nfsd: update mtime/ctime on CLONE in presense of delegated attributes
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260411/202604111105.OoTETzA5-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260411/202604111105.OoTETzA5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604111142.iUEyM6oM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604111105.OoTETzA5-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: "v4l2_fwnode_device_parse" [drivers/media/pci/intel/ipu-bridge.ko] undefined!
+>> Warning: fs/nfsd/nfs4state.c:9657 bad line:         and optionally other attributes (ie ATTR_ATIME).
+>> Warning: fs/nfsd/nfs4state.c:9665 function parameter 'f' not described in 'nfsd_update_cmtime_attr'
+>> Warning: fs/nfsd/nfs4state.c:9657 bad line:         and optionally other attributes (ie ATTR_ATIME).
+>> Warning: fs/nfsd/nfs4state.c:9665 function parameter 'f' not described in 'nfsd_update_cmtime_attr'
 
 -- 
 0-DAY CI Kernel Test Service
