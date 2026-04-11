@@ -1,57 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C0CC155757
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Apr 2026 03:20:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9AC41E8332
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Apr 2026 03:21:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775877661; cv=none; b=avAPDpCoFUPAkBL4KqfahxbdfVOydKFcgN2M/Evgv3pRV6Iqsi/LBRuMFqiMNGHMnYgTdekw4Ehg7Xyurs1LuZ/Tcl+AY+FNARQaUa9Iy+QulBxUi8MESjr5NSQwqxlS1yVKDVpp5IbR9UydgGMjxpxeQ43r1Om63KqPEMYWpoc=
+	t=1775877663; cv=none; b=XMBs//OOpLJ21K6oXOp/ST/qzzebzqbSVepo6O1+cPoBlzu7Zl3rmSWfgHRYLjh24zF4m7KbBcF5q1WjAUX9nFonBaVH3xFtAO2p/AMNqMscPEDspjp5g/Dmlyxnt2wsnLwT2o5ukyqb7/p6IX2kGP20Sjn3z12p1gD8r+EUiIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775877661; c=relaxed/simple;
-	bh=ymhoBZrhlkv1d/VLwn5flS/kSU0kkT0ldQMU0GVDdSI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Ux06CGw9HKVZ7hqn6a1fnY3a7Va7abKBSRvky/WxCATOCOrmgCN6d0UdSYED9TnFnkqKDue9W/tvoDIsLc22dfvg5oykQ/zHjl1D9WnrcKAOhN2rHURjTiBqZtV0P3lNheDCpQgc2WPOJPE/9MST95+N7f46Xq4FquoPrAKVD0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ncBis+/a; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1775877663; c=relaxed/simple;
+	bh=MoGY3jN3exDtCumehS41GMsipL6UH5BcDYjNsPVoM2I=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=RIm4jTnLiHnAYjSR/0eq+W85tkF7Zq8SUsaQfRiynu8JYcdMC9/DUUcrRbB3sG3ZyaDGqNH52PdSfd4sbuhS+Y/Hv1TQxKfZoGrTGAz0q7x15IkQxhP4l81qmvxbKTc5wfkUWz6Tb1FJzAapNsgQkt8kRHYJ51UcGn+/Y30LKmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FlJ5nJlo; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ncBis+/a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FlJ5nJlo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775877659; x=1807413659;
+  t=1775877662; x=1807413662;
   h=date:from:to:cc:subject:message-id;
-  bh=ymhoBZrhlkv1d/VLwn5flS/kSU0kkT0ldQMU0GVDdSI=;
-  b=ncBis+/aesG4P9rEapxioqPq/KU4AcfWqHj59UAELbyfUmcU72NR8j+/
-   GJtLPiTpNob+KqfHWlY2xip1im5z8dEJjpGWr6yfiBKEyv7DcWYd5bsEm
-   25RVRta9TO+tOmWYU4reMabZgwO7bnK8kpCD5+DavXslOPTug+6lGg1Wb
-   rm3IVXvmfaq6VzhChrLqoOaj0bZnRhiOzmua5nkusj95cjHAvdwJ4kAsS
-   teMtNzdPcF9jUFBnOg1upiEfkUCYVLomyE0ZL0mt5Rj85dRSgz8+Guxa3
-   +1s1iziyEdIIGvpX8IQndtYgD57DIEslZTRrGJ2ZiB2l3AJmkgSZhD4t+
-   g==;
-X-CSE-ConnectionGUID: WWfHidcuQqylhM3FcHNKHQ==
-X-CSE-MsgGUID: PTU9Tow2RLqSJtCmfHb7ug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="76775770"
+  bh=MoGY3jN3exDtCumehS41GMsipL6UH5BcDYjNsPVoM2I=;
+  b=FlJ5nJloo3Gb6MtmsFcqGp6czE6Yya89cI4917/3kz5zCcgLOP/J88y4
+   MNRVanSxgOBKy4Kz8zGf89ctAwlCp4QPACU+UCnGCP+G+YwYYiCmItKpt
+   3cbyofJDCbn/3xPnFoY2LwswZTwS4UQvOGXfe1W1lclhFe83ZlZyfdNCF
+   QVCrpFIvJzndaWceHMvXdExUhJwr2noPuvdwbLA5Z4G+bHoEEwCigsEnE
+   YlDpGL0dmAUC6HnvVJ20OX46x0MA9RO7zreElkCJDd/C6DC7T1tzQI+WP
+   xuya3sFLcFqMIvb7W0DO8bz+E5iiOn3bJQxC/zvrF8Y+p44H4XQ32AdFY
+   A==;
+X-CSE-ConnectionGUID: QXDhVvlHTDuEN3ejTw13Kg==
+X-CSE-MsgGUID: 1erEmFm/RraQtNJr36z8Tw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="76775773"
 X-IronPort-AV: E=Sophos;i="6.23,172,1770624000"; 
-   d="scan'208";a="76775770"
+   d="scan'208";a="76775773"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 20:20:58 -0700
-X-CSE-ConnectionGUID: 3qQ56wFhQkCYP0qIN9cBOw==
-X-CSE-MsgGUID: 2sMIAsJ6Q3W7S7rsHIuoVQ==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 20:20:59 -0700
+X-CSE-ConnectionGUID: yhTNHsIpS6GNc5aeyXFPaQ==
+X-CSE-MsgGUID: CHu4m9UYQueFhNgnY4OGLQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,172,1770624000"; 
-   d="scan'208";a="259733487"
+   d="scan'208";a="259733489"
 Received: from lkp-server01.sh.intel.com (HELO 3eaaf1a74b89) ([10.239.97.150])
   by orviesa002.jf.intel.com with ESMTP; 10 Apr 2026 20:20:57 -0700
 Received: from kbuild by 3eaaf1a74b89 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wBOty-000000000gX-2Ix5;
+	id 1wBOty-000000000gZ-2Pdc;
 	Sat, 11 Apr 2026 03:20:54 +0000
-Date: Sat, 11 Apr 2026 11:20:11 +0800
+Date: Sat, 11 Apr 2026 11:20:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Thomas Gleixner <tglx@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline-desktop 3/3] Warning:
- net/netfilter/xt_quota2.c:47 Cannot find identifier on line:
-Message-ID: <202604111121.MWoMTd7z-lkp@intel.com>
+Subject: [tglx-devel:cleanups 15/38] drivers/ptp/ptp_vmclock.c:78:18:
+ error: '__int128' is not supported on this target
+Message-ID: <202604111120.tefC2mVN-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,48 +59,68 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Carlos,
+Hi Thomas,
 
-FYI, the error/warning still remains.
+First bad commit (maybe != root cause):
 
-tree:   https://android.googlesource.com/kernel/common android-mainline-desktop
-head:   10c66f822f75b2351fa6d60c873ee39b7219218f
-commit: e9b494f04d4f01eca4146d044b6143afde11c3ff [3/3] Merge 2b60145734a0 ("Merge tag 'wq-for-6.19' of git://git.kernel.org/pub/scm/linux/kernel/git/tj/wq") into android-mainline
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260411/202604111121.MWoMTd7z-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260411/202604111121.MWoMTd7z-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git cleanups
+head:   4f7b68811bb6be347b794010429e839e7a23b9d8
+commit: 7fb0a26394a1f8378dcf335ea5ad47d32621e080 [15/38] ptp: ptp_vmclock: Replace get_cycles() usage
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260411/202604111120.tefC2mVN-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260411/202604111120.tefC2mVN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604111121.MWoMTd7z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604111120.tefC2mVN-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> Warning: net/netfilter/xt_quota2.c:47 Cannot find identifier on line:
-    * @lock:       lock to protect quota writers from each other
-   Warning: net/netfilter/xt_quota2.c:48 Cannot find identifier on line:
-    */
-   Warning: net/netfilter/xt_quota2.c:49 Cannot find identifier on line:
-   struct xt_quota_counter {
-   Warning: net/netfilter/xt_quota2.c:50 Cannot find identifier on line:
-           u_int64_t quota;
-   Warning: net/netfilter/xt_quota2.c:51 Cannot find identifier on line:
-           spinlock_t lock;
-   Warning: net/netfilter/xt_quota2.c:52 Cannot find identifier on line:
-           struct list_head list;
-   Warning: net/netfilter/xt_quota2.c:53 Cannot find identifier on line:
-           atomic_t ref;
-   Warning: net/netfilter/xt_quota2.c:54 Cannot find identifier on line:
-           char name[sizeof(((struct xt_quota_mtinfo2 *)NULL)->name)];
->> Warning: net/netfilter/xt_quota2.c:56 bad line: };
-   Warning: net/netfilter/xt_quota2.c:57 bad line: 
->> Warning: net/netfilter/xt_quota2.c:58 bad line: #ifdef CONFIG_NETFILTER_XT_MATCH_QUOTA2_LOG
->> Warning: net/netfilter/xt_quota2.c:60 static int qlog_nl_event = 112; error: Cannot parse struct or union!
-   Warning: net/netfilter/xt_quota2.c:200 function parameter 'q' not described in 'q2_get_counter'
-   Warning: net/netfilter/xt_quota2.c:200 function parameter 'q' not described in 'q2_get_counter'
---
->> Warning: drivers/md/dm-default-key.c:50 expecting prototype for struct dm_default_c. Prototype was for struct default_key_c instead
+   drivers/ptp/ptp_vmclock.c: In function 'mul_u64_u64_shr_add_u64':
+>> drivers/ptp/ptp_vmclock.c:78:18: error: '__int128' is not supported on this target
+      78 |         unsigned __int128 res = (unsigned __int128)delta * period;
+         |                  ^~~~~~~~
+   drivers/ptp/ptp_vmclock.c:78:43: error: '__int128' is not supported on this target
+      78 |         unsigned __int128 res = (unsigned __int128)delta * period;
+         |                                           ^~~~~~~~
+>> drivers/ptp/ptp_vmclock.c:82:23: warning: right shift count >= width of type [-Wshift-count-overflow]
+      82 |         *res_hi = res >> 64;
+         |                       ^~
+
+
+vim +/__int128 +78 drivers/ptp/ptp_vmclock.c
+
+20503272422693 David Woodhouse 2024-10-06  62  
+20503272422693 David Woodhouse 2024-10-06  63  #define VMCLOCK_FIELD_PRESENT(_c, _f)			  \
+20503272422693 David Woodhouse 2024-10-06  64  	(le32_to_cpu((_c)->size) >= (offsetof(struct vmclock_abi, _f) +	\
+20503272422693 David Woodhouse 2024-10-06  65  				     sizeof((_c)->_f)))
+20503272422693 David Woodhouse 2024-10-06  66  
+20503272422693 David Woodhouse 2024-10-06  67  /*
+20503272422693 David Woodhouse 2024-10-06  68   * Multiply a 64-bit count by a 64-bit tick 'period' in units of seconds >> 64
+20503272422693 David Woodhouse 2024-10-06  69   * and add the fractional second part of the reference time.
+20503272422693 David Woodhouse 2024-10-06  70   *
+20503272422693 David Woodhouse 2024-10-06  71   * The result is a 128-bit value, the top 64 bits of which are seconds, and
+20503272422693 David Woodhouse 2024-10-06  72   * the low 64 bits are (seconds >> 64).
+20503272422693 David Woodhouse 2024-10-06  73   */
+20503272422693 David Woodhouse 2024-10-06  74  static uint64_t mul_u64_u64_shr_add_u64(uint64_t *res_hi, uint64_t delta,
+20503272422693 David Woodhouse 2024-10-06  75  					uint64_t period, uint8_t shift,
+20503272422693 David Woodhouse 2024-10-06  76  					uint64_t frac_sec)
+20503272422693 David Woodhouse 2024-10-06  77  {
+20503272422693 David Woodhouse 2024-10-06 @78  	unsigned __int128 res = (unsigned __int128)delta * period;
+20503272422693 David Woodhouse 2024-10-06  79  
+20503272422693 David Woodhouse 2024-10-06  80  	res >>= shift;
+20503272422693 David Woodhouse 2024-10-06  81  	res += frac_sec;
+20503272422693 David Woodhouse 2024-10-06 @82  	*res_hi = res >> 64;
+20503272422693 David Woodhouse 2024-10-06  83  	return (uint64_t)res;
+20503272422693 David Woodhouse 2024-10-06  84  }
+20503272422693 David Woodhouse 2024-10-06  85  
+
+:::::: The code at line 78 was first introduced by commit
+:::::: 20503272422693d793b84f88bf23fe4e955d3a33 ptp: Add support for the AMZNC10C 'vmclock' device
+
+:::::: TO: David Woodhouse <dwmw@amazon.co.uk>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
