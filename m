@@ -1,160 +1,220 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B8591D5160;
-	Sun, 12 Apr 2026 02:57:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D3E29B78B
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Apr 2026 03:29:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775962645; cv=none; b=fTFlcaWJpVYd8ZpyDcysOCkYYVAvb2hqL/N0qg47lhm6R64nEkSbsq3nvlOz7DOrTbMyUI8HtS3+Ry2LiPT1+kkhL5VkMOJGqlt6dHmoR+o6c86MPRJAsfI0tyz0wCVxWXblq8HI6TsU+RpeBp8WQVBiuI/M7Rg9U5Bd9VVkopQ=
+	t=1775964568; cv=none; b=oTHpbnUYx6cqoEEStI8knp1utHbvvNuhOB5Fxtu2TaswxyeFPk9wbOy3ljlmQWasis9+JogERMFWoRzUFld/JQBBpKq3bEPnLbrEMPBIh8FsVOBW3psru8VoBkahbJ0zH63MyPhQkfZtLuMtVOtIZi8wwN9BaCg1gF0MGfD0Ta0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775962645; c=relaxed/simple;
-	bh=VX0AfygEssvaZoILGuht53uXG8197qocwlpatyhBehw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=qX3RleHsR+oH6HFcSX0pV3j81HF6vxvf5b20aZCkTSA0f+gcAqL42z6/9vGM1oGZxB1t+y3a77hg1ZvVyZadjc4LVIU8uFIKZ7syNfSSbXsT/dtV3rzCR5gBe2U9xzyTtAqdfKVaVbPY3vQxMwLDujyeQfKWf6ThhZ45OWFQ2I0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D1Ko8C+T; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1775964568; c=relaxed/simple;
+	bh=lIQELmMxuaftXa8bMfWGue/ZyovOopcKOU58vKX4QlY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DGxNbrKVEh52AlHs3An03AzbPhNi39M0d9MSBgos7BbUFOfyKKS1lhksy8CVJXIndF6Cv/IxnNxuj07c7y2fqYnL0U2+oOz7GXnHm/ZA+KhhnFzT5TWXqb0I2e3t/hZ8ol7OX8mCx2BTiS2ORAMekW3XggW0OvzPPhcm6JL2rpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C5W8CpR2; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D1Ko8C+T"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C5W8CpR2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775962644; x=1807498644;
-  h=date:from:to:cc:subject:message-id;
-  bh=VX0AfygEssvaZoILGuht53uXG8197qocwlpatyhBehw=;
-  b=D1Ko8C+TJKskn985yNm97lpWf7GRDREkBPphtblCCp4DhVC41wYwJ9qD
-   huCitW5zhbALqPL+4w1GoD4SAXSumH4i0Zu3AL1pqbin4s09U1/+t/a1G
-   aLaSTLp/c4Xcuv3KpV/qLLe9nV7JwMysrUxjqWidWCPg1ORt/cnFIMiNJ
-   TOjuWZxjOffGZSvsE3hBUdfTwXbVUlWBzPO2ipF/zFvS5yt5RTHJdVbHc
-   x+u6+rDl5HGJwwUUCqZGj3bcEbrwWeAMdp2xV2MmZVZcsKt2476dpNUo/
-   xM+kD1bQsgWdpmb2AvTPrd6PjkNKgegixD7wRIoV8L6oqBoF13kRKiWZz
+  t=1775964566; x=1807500566;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lIQELmMxuaftXa8bMfWGue/ZyovOopcKOU58vKX4QlY=;
+  b=C5W8CpR2m5mk5uZAaHjTy11WosHaoMIiR/jwxtwFkNwgbKM2wXYoflII
+   WTxIAF0lssB+sFkgt1gWo6B/gYKfPlkn/MUAzfBXDl7ekgx8Z2/ItzWnR
+   xTpM2K5MHAmrRW2smYq9+2RWIHvm+slu2d8anafii5O41TdytQU1Du+t0
+   teEgXbIe61Wp6Kos/YHLbAe2L4yeZvbGJVkbN77nIZYZEM3n1VrqIx550
+   7HCxvw36E7FFuXQMhn85SPmoXdPcAPUMG5qp5PS9aZtE+/SHtHIfHLMW5
+   Nqs1aLuKzrDJR5UbdNrbu963JJbEZsNh0rNxs/jMhd3x+oKxT12cFUO1l
    g==;
-X-CSE-ConnectionGUID: N3mWaGB3QFi7rCpz2SgQvw==
-X-CSE-MsgGUID: pr0j3nAeQpOAXsDoVebj1A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="88013648"
+X-CSE-ConnectionGUID: ikRy7yWMTI+KpmESzherEg==
+X-CSE-MsgGUID: tbVL5z4/TFaH71r1LoYHLQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="88322633"
 X-IronPort-AV: E=Sophos;i="6.23,174,1770624000"; 
-   d="scan'208";a="88013648"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2026 19:57:24 -0700
-X-CSE-ConnectionGUID: yL7xPu3UTricZA51KzQDwQ==
-X-CSE-MsgGUID: fC5qW0dDRKOkL+vFl6qpRw==
+   d="scan'208";a="88322633"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2026 20:29:25 -0700
+X-CSE-ConnectionGUID: Hf9nYDQITW2JkPq2lZNLuQ==
+X-CSE-MsgGUID: KrYZZ5rWQme55V1riUzLSw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,174,1770624000"; 
-   d="scan'208";a="225167377"
+   d="scan'208";a="228604344"
 Received: from lkp-server01.sh.intel.com (HELO 3eaaf1a74b89) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 11 Apr 2026 19:57:21 -0700
+  by orviesa010.jf.intel.com with ESMTP; 11 Apr 2026 20:29:23 -0700
 Received: from kbuild by 3eaaf1a74b89 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wBl0h-000000001mf-0zdF;
-	Sun, 12 Apr 2026 02:57:19 +0000
-Date: Sun, 12 Apr 2026 10:57:17 +0800
+	id 1wBlVg-000000001o9-0biU;
+	Sun, 12 Apr 2026 03:29:20 +0000
+Date: Sun, 12 Apr 2026 11:29:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Drew Fustini <fustini@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Adrien Ricciardi <aricciardi@baylibre.com>
-Subject: [fustini:b4/ssqosid-cbqri-rqsc 8/12]
- arch/riscv/kernel/qos/qos_resctrl.c:805:6: warning: unused variable 'percent'
-Message-ID: <202604121014.3pinJHl8-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: ZhengYuan Huang <gality369@gmail.com>, dsterba@suse.com, clm@fb.com,
+	zheng.yan@oracle.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-btrfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org, baijiaju1990@gmail.com,
+	r33s3n6@gmail.com, zzzccc427@gmail.com,
+	ZhengYuan Huang <gality369@gmail.com>
+Subject: Re: [PATCH v2] btrfs: reject empty non-root tree blocks at read time
+Message-ID: <202604121109.U7Y29jQ1-lkp@intel.com>
+References: <20260409081140.3400650-1-gality369@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260409081140.3400650-1-gality369@gmail.com>
 
-Hi Drew,
+Hi ZhengYuan,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/fustini/linux.git b4/ssqosid-cbqri-rqsc
-head:   5a65bb9f52039e24c966b497e5aa07e3835d15c2
-commit: d1f9b2522cd5adc72b02b602f1f57d9b4afccfcb [8/12] RISC-V: QoS: enable resctrl support for Ssqosid
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20260412/202604121014.3pinJHl8-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project ae825cb8cea7f3ac8e5e4096f22713845cf5e501)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260412/202604121014.3pinJHl8-lkp@intel.com/reproduce)
+[auto build test ERROR on kdave/for-next]
+[also build test ERROR on linus/master v7.0-rc7 next-20260410]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/ZhengYuan-Huang/btrfs-reject-empty-non-root-tree-blocks-at-read-time/20260412-051345
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/20260409081140.3400650-1-gality369%40gmail.com
+patch subject: [PATCH v2] btrfs: reject empty non-root tree blocks at read time
+config: arm-randconfig-002-20260412 (https://download.01.org/0day-ci/archive/20260412/202604121109.U7Y29jQ1-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260412/202604121109.U7Y29jQ1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604121014.3pinJHl8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604121109.U7Y29jQ1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/riscv/kernel/qos/qos_resctrl.c:805:6: warning: unused variable 'percent' [-Wunused-variable]
-     805 |         u32 percent;
-         |             ^~~~~~~
-   1 warning generated.
+   fs/btrfs/disk-io.c: In function 'btrfs_validate_extent_buffer':
+>> fs/btrfs/disk-io.c:431:25: error: label 'out' used but not defined
+     431 |                         goto out;
+         |                         ^~~~
 
 
-vim +/percent +805 arch/riscv/kernel/qos/qos_resctrl.c
+vim +/out +431 fs/btrfs/disk-io.c
 
-6be827778200b3 Drew Fustini 2026-04-09  797  
-6be827778200b3 Drew Fustini 2026-04-09  798  u32 resctrl_arch_get_config(struct rdt_resource *r, struct rdt_ctrl_domain *d,
-6be827778200b3 Drew Fustini 2026-04-09  799  			    u32 closid, enum resctrl_conf_type type)
-6be827778200b3 Drew Fustini 2026-04-09  800  {
-6be827778200b3 Drew Fustini 2026-04-09  801  	struct cbqri_resctrl_dom *hw_dom;
-6be827778200b3 Drew Fustini 2026-04-09  802  	struct cbqri_controller *ctrl;
-6be827778200b3 Drew Fustini 2026-04-09  803  	u32 val;
-6be827778200b3 Drew Fustini 2026-04-09  804  	int reg_offset;
-6be827778200b3 Drew Fustini 2026-04-09 @805  	u32 percent;
-6be827778200b3 Drew Fustini 2026-04-09  806  	u32 rbwb;
-6be827778200b3 Drew Fustini 2026-04-09  807  	u64 reg;
-6be827778200b3 Drew Fustini 2026-04-09  808  	int err;
-6be827778200b3 Drew Fustini 2026-04-09  809  
-6be827778200b3 Drew Fustini 2026-04-09  810  	hw_dom = container_of(d, struct cbqri_resctrl_dom, resctrl_ctrl_dom);
-6be827778200b3 Drew Fustini 2026-04-09  811  
-6be827778200b3 Drew Fustini 2026-04-09  812  	ctrl = hw_dom->hw_ctrl;
-6be827778200b3 Drew Fustini 2026-04-09  813  
-6be827778200b3 Drew Fustini 2026-04-09  814  	if (!r->alloc_capable)
-6be827778200b3 Drew Fustini 2026-04-09  815  		return resctrl_get_default_ctrl(r);
-6be827778200b3 Drew Fustini 2026-04-09  816  
-6be827778200b3 Drew Fustini 2026-04-09  817  	val = resctrl_get_default_ctrl(r);
-6be827778200b3 Drew Fustini 2026-04-09  818  
-6be827778200b3 Drew Fustini 2026-04-09  819  	spin_lock(&ctrl->lock);
-6be827778200b3 Drew Fustini 2026-04-09  820  
-6be827778200b3 Drew Fustini 2026-04-09  821  	switch (r->rid) {
-6be827778200b3 Drew Fustini 2026-04-09  822  	case RDT_RESOURCE_L2:
-6be827778200b3 Drew Fustini 2026-04-09  823  	case RDT_RESOURCE_L3:
-6be827778200b3 Drew Fustini 2026-04-09  824  		/* Clear cc_block_mask before read limit operation */
-6be827778200b3 Drew Fustini 2026-04-09  825  		cbqri_set_cbm(ctrl, 0);
-6be827778200b3 Drew Fustini 2026-04-09  826  
-6be827778200b3 Drew Fustini 2026-04-09  827  		/* Capacity read limit operation for RCID (closid) */
-6be827778200b3 Drew Fustini 2026-04-09  828  		err = cbqri_cc_alloc_op(ctrl, CBQRI_CC_ALLOC_CTL_OP_READ_LIMIT, closid, type);
-6be827778200b3 Drew Fustini 2026-04-09  829  		if (err < 0) {
-6be827778200b3 Drew Fustini 2026-04-09  830  			pr_err("%s(): operation failed: err = %d", __func__, err);
-6be827778200b3 Drew Fustini 2026-04-09  831  			break;
-6be827778200b3 Drew Fustini 2026-04-09  832  		}
-6be827778200b3 Drew Fustini 2026-04-09  833  
-6be827778200b3 Drew Fustini 2026-04-09  834  		/* Read capacity block mask for RCID (closid) */
-6be827778200b3 Drew Fustini 2026-04-09  835  		reg_offset = CBQRI_CC_BLOCK_MASK_OFF;
-6be827778200b3 Drew Fustini 2026-04-09  836  		reg = ioread64(ctrl->base + reg_offset);
-6be827778200b3 Drew Fustini 2026-04-09  837  		val = reg;
-6be827778200b3 Drew Fustini 2026-04-09  838  		break;
-6be827778200b3 Drew Fustini 2026-04-09  839  
-6be827778200b3 Drew Fustini 2026-04-09  840  	case RDT_RESOURCE_MBA:
-6be827778200b3 Drew Fustini 2026-04-09  841  		/* Bandwidth read limit operation for RCID (closid) */
-6be827778200b3 Drew Fustini 2026-04-09  842  		err = cbqri_bc_alloc_op(ctrl, CBQRI_BC_ALLOC_CTL_OP_READ_LIMIT, closid);
-6be827778200b3 Drew Fustini 2026-04-09  843  		if (err < 0) {
-6be827778200b3 Drew Fustini 2026-04-09  844  			pr_err("%s(): operation failed: err = %d", __func__, err);
-6be827778200b3 Drew Fustini 2026-04-09  845  			break;
-6be827778200b3 Drew Fustini 2026-04-09  846  		}
-6be827778200b3 Drew Fustini 2026-04-09  847  
-6be827778200b3 Drew Fustini 2026-04-09  848  		rbwb = cbqri_get_rbwb(ctrl);
-6be827778200b3 Drew Fustini 2026-04-09  849  		val = DIV_ROUND_UP(rbwb * 100, ctrl->bc.nbwblks);
-6be827778200b3 Drew Fustini 2026-04-09  850  		break;
-6be827778200b3 Drew Fustini 2026-04-09  851  
-6be827778200b3 Drew Fustini 2026-04-09  852  	default:
-6be827778200b3 Drew Fustini 2026-04-09  853  		break;
-6be827778200b3 Drew Fustini 2026-04-09  854  	}
-6be827778200b3 Drew Fustini 2026-04-09  855  
-6be827778200b3 Drew Fustini 2026-04-09  856  	spin_unlock(&ctrl->lock);
-6be827778200b3 Drew Fustini 2026-04-09  857  	return val;
-6be827778200b3 Drew Fustini 2026-04-09  858  }
-1732744cb2b2e1 Drew Fustini 2026-04-09  859  
-
-:::::: The code at line 805 was first introduced by commit
-:::::: 6be827778200b3c0225b9143cbe96cadcb90a4f2 RISC-V: QoS: add resctrl arch callbacks for CBQRI controllers
-
-:::::: TO: Drew Fustini <fustini@kernel.org>
-:::::: CC: Drew Fustini <fustini@kernel.org>
+   355	
+   356	/* Do basic extent buffer checks at read time */
+   357	int btrfs_validate_extent_buffer(struct extent_buffer *eb,
+   358					 const struct btrfs_tree_parent_check *check)
+   359	{
+   360		struct btrfs_fs_info *fs_info = eb->fs_info;
+   361		u64 found_start;
+   362		const u32 csum_size = fs_info->csum_size;
+   363		u8 found_level;
+   364		u8 result[BTRFS_CSUM_SIZE];
+   365		const u8 *header_csum;
+   366		int ret = 0;
+   367		const bool ignore_csum = btrfs_test_opt(fs_info, IGNOREMETACSUMS);
+   368	
+   369		ASSERT(check);
+   370	
+   371		found_start = btrfs_header_bytenr(eb);
+   372		if (unlikely(found_start != eb->start)) {
+   373			btrfs_err_rl(fs_info,
+   374				"bad tree block start, mirror %u want %llu have %llu",
+   375				     eb->read_mirror, eb->start, found_start);
+   376			return -EIO;
+   377		}
+   378		if (unlikely(check_tree_block_fsid(eb))) {
+   379			btrfs_err_rl(fs_info, "bad fsid on logical %llu mirror %u",
+   380				     eb->start, eb->read_mirror);
+   381			return -EIO;
+   382		}
+   383		found_level = btrfs_header_level(eb);
+   384		if (unlikely(found_level >= BTRFS_MAX_LEVEL)) {
+   385			btrfs_err(fs_info,
+   386				"bad tree block level, mirror %u level %d on logical %llu",
+   387				eb->read_mirror, btrfs_header_level(eb), eb->start);
+   388			return -EIO;
+   389		}
+   390	
+   391		csum_tree_block(eb, result);
+   392		header_csum = folio_address(eb->folios[0]) +
+   393			get_eb_offset_in_folio(eb, offsetof(struct btrfs_header, csum));
+   394	
+   395		if (memcmp(result, header_csum, csum_size) != 0) {
+   396			btrfs_warn_rl(fs_info,
+   397	"checksum verify failed on logical %llu mirror %u wanted " BTRFS_CSUM_FMT " found " BTRFS_CSUM_FMT " level %d%s",
+   398				      eb->start, eb->read_mirror,
+   399				      BTRFS_CSUM_FMT_VALUE(csum_size, header_csum),
+   400				      BTRFS_CSUM_FMT_VALUE(csum_size, result),
+   401				      btrfs_header_level(eb),
+   402				      ignore_csum ? ", ignored" : "");
+   403			if (unlikely(!ignore_csum))
+   404				return -EUCLEAN;
+   405		}
+   406	
+   407		if (unlikely(found_level != check->level)) {
+   408			btrfs_err(fs_info,
+   409			"level verify failed on logical %llu mirror %u wanted %u found %u",
+   410				  eb->start, eb->read_mirror, check->level, found_level);
+   411			return -EIO;
+   412		}
+   413		if (unlikely(check->transid &&
+   414			     btrfs_header_generation(eb) != check->transid)) {
+   415			btrfs_err_rl(eb->fs_info,
+   416	"parent transid verify failed on logical %llu mirror %u wanted %llu found %llu",
+   417					eb->start, eb->read_mirror, check->transid,
+   418					btrfs_header_generation(eb));
+   419			return -EIO;
+   420		}
+   421		if (check->has_first_key) {
+   422			const struct btrfs_key *expect_key = &check->first_key;
+   423			struct btrfs_key found_key;
+   424	
+   425			/* We have @first_key, so this @eb must have at least one item. */
+   426			if (unlikely(btrfs_header_nritems(eb) == 0)) {
+   427				btrfs_err(fs_info,
+   428					  "invalid tree nritems, bytenr=%llu nritems=0 expect >0",
+   429					  eb->start);
+   430				ret = -EUCLEAN;
+ > 431				goto out;
+   432			}
+   433	
+   434			if (found_level)
+   435				btrfs_node_key_to_cpu(eb, &found_key, 0);
+   436			else
+   437				btrfs_item_key_to_cpu(eb, &found_key, 0);
+   438			if (unlikely(btrfs_comp_cpu_keys(expect_key, &found_key))) {
+   439				btrfs_err(fs_info,
+   440	"tree first key mismatch detected, bytenr=%llu parent_transid=%llu key expected=(%llu,%u,%llu) has=(%llu,%u,%llu)",
+   441					  eb->start, check->transid,
+   442					  expect_key->objectid,
+   443					  expect_key->type, expect_key->offset,
+   444					  found_key.objectid, found_key.type,
+   445					  found_key.offset);
+   446				return -EUCLEAN;
+   447			}
+   448		}
+   449		if (check->owner_root) {
+   450			ret = btrfs_check_eb_owner(eb, check->owner_root);
+   451			if (ret < 0)
+   452				return ret;
+   453		}
+   454	
+   455		/* If this is a leaf block and it is corrupt, just return -EIO. */
+   456		if (found_level == 0 && btrfs_check_leaf(eb))
+   457			ret = -EIO;
+   458	
+   459		if (found_level > 0 && btrfs_check_node(eb))
+   460			ret = -EIO;
+   461	
+   462		if (ret)
+   463			btrfs_err(fs_info,
+   464			"read time tree block corruption detected on logical %llu mirror %u",
+   465				  eb->start, eb->read_mirror);
+   466		return ret;
+   467	}
+   468	
 
 -- 
 0-DAY CI Kernel Test Service
