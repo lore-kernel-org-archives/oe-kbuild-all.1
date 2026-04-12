@@ -1,87 +1,114 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AD0A286D7D;
-	Sat, 11 Apr 2026 23:37:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7088423A984
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Apr 2026 00:46:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775950631; cv=none; b=i8Dee+iNCZiGkD5wtTpmlxxELZMvPjrIGexhlZwTDBxdFpX1jTX+Waraax0dKP4l+DAloPBbA3SBnpseNa/rWx9cn0azWwbf5yBKjFNr4p0EGdC2E7IAQkV8C/5WEF+nA6P3NlXaoncsfAF74Ove2sc9ux0iZfMiCPaPL24cuPM=
+	t=1775954792; cv=none; b=SRLDfllyf1e0dFSa11XdXRQRY0phES/BVk66rcC+Zq4dtEv7bPUocN5M556PDcta/WeGmsDa0KSF3pNigRAjcWnGTjpk1sjbScwlLXkjqXG3tnVT8YGR5VBOV+XcHhW4pctCc6y5gymBgLfJ0aQUYaXfLRDjNo84eQyqT9KjEOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775950631; c=relaxed/simple;
-	bh=nVczTSsN/22a28ZgYVxVpViA5PatvMEOe+CWY5jZnYs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BMwUvFA62IhrlkQNKtKpuw7JWWDe2ygiu+Lb+l4A7jj6uDX/zprGVQL8RxVIUJ60TB5pK2nu2eeTjMgjEvcle7eHlQLeIjZWLxKbB9kLRgJBpYOu9S3acE+2Ul3KopmtFWPG8OkuQe79sDlBFHzM6H8vbZMMSaUZE2glvbBWATA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Sg4VpRv1; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1775954792; c=relaxed/simple;
+	bh=DXMiRubHlvCTIwey5BQzAyERUfm0SaM6XImUdTgpUO4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iK+qKhPs5wbjE/6Z3ZtW56fdDZvFI7QDVHOWli6nBUTzytvmsRtkpidcCFet/SewSSdM7Kc2RwnxruHQnrj7btHk129G1T3Xo2dCs5LYilbfEfNH2TF6fGzWccG9eNUmaUiff/RmIeeTWFr5cndffO+zaYdHTMbZi0GW3SbuG84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E9OPjwkm; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Sg4VpRv1"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=jiJiQQBziS3d2HhMyYgZrgdeGQO+fTDyGzxTqqDYNGU=; b=Sg4VpRv1n72iEneLXUBZ//+ukB
-	ratDaxEZoXyXjWCg2Mm0Pd7ZwSFaUthJrem1ZavrDbH3vOAgLOJ3P3seoYTO4pBVZHf4fSAHMMf69
-	DgZ+nv6MQxHXDHD/oKQyfhn0FMuUsFw6g1HD+OBLtoKZMAvcs1nS/7VJsvdd4ubkq4y1+7swjbsXr
-	DRUU7MTLbKhzu9rczSVJVcrl/fGdO9ekafxOmUX+dHop1oUyXmxjxFYwWYv/r8b5oyNaUTE6oXMcy
-	bKytxXALF1yk9Y5kFSvE1YW40ztifnfd5SP7HMeZQ9AV10PeFDx53AsHEGcbW7dEfri02NoYTnQku
-	+sqX+Apg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wBhsy-0000000Dt2Y-47HU;
-	Sat, 11 Apr 2026 23:37:09 +0000
-Message-ID: <ade1ca53-3137-4441-8389-145ba77ab765@infradead.org>
-Date: Sat, 11 Apr 2026 16:37:08 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E9OPjwkm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775954791; x=1807490791;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DXMiRubHlvCTIwey5BQzAyERUfm0SaM6XImUdTgpUO4=;
+  b=E9OPjwkmvlG0PJelbvZN2Fro74JTqDHiSYhfRvteK8I+62I1eWqvG9RN
+   EV+yGM29Ch8k3BoXhUgv7DAKmfqoTNyAyLccP98li1BrqglBI+VbJQMIL
+   1QzpiG5Th/62agNamNKdOopfJ99+DCPqpjezZHCzuZ2rjk2R50BeXTMW1
+   tAtvvOVRXDoCe8JreuIQ/MakZz60i4fGgxYCY8+pfj5pNCI6Gok8RQthl
+   YhSgSWwgSHfn5L2DNjqiv6ijMmrDmCERpf5v9KFQd2v20VT9bE9nyerc8
+   GQRgHo6KQoaMCj7Vy2lX3VPHYrsyvEC/8AxGZhDbuyGo2EFcJSOVC0zzx
+   w==;
+X-CSE-ConnectionGUID: NaNAD6McQAK98lYncWZQvg==
+X-CSE-MsgGUID: sKzkcBKCRQGccsV306GuRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="79517403"
+X-IronPort-AV: E=Sophos;i="6.23,174,1770624000"; 
+   d="scan'208";a="79517403"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2026 17:46:30 -0700
+X-CSE-ConnectionGUID: SifAcYjiQaqI8LCBuipWiw==
+X-CSE-MsgGUID: UWYEpjYjSqiLIV9R5SGfrA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,174,1770624000"; 
+   d="scan'208";a="222951793"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa009.fm.intel.com with ESMTP; 11 Apr 2026 17:46:26 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wBiy0-00000000BDZ-1HEP;
+	Sun, 12 Apr 2026 00:46:24 +0000
+Date: Sun, 12 Apr 2026 02:45:51 +0200
+From: kernel test robot <lkp@intel.com>
+To: Christian Benton <t1bur0n.kernel.org@protonmail.ch>,
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, aliceryhl@google.com, ojeda@kernel.org,
+	boqun@kernel.org, gary@garyguo.net, bjorn3_gh@protonmail.com,
+	lossin@kernel.org, a.hindborg@kernel.org, tmgross@umich.edu,
+	dakr@kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org,
+	jack@suse.cz, Christian Benton <t1bur0n.kernel.org@protonmail.ch>
+Subject: Re: [PATCH v2 1/1] rust: seq_file: add puts, putc, write, and
+ hex_dump methods
+Message-ID: <202604120236.nzYgh7vO-lkp@intel.com>
+References: <20260408215530.446994-2-t1bur0n.kernel.org@protonmail.ch>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [bvanassche:thread-safety 95/95] htmldocs:
- Documentation/mm/highmem:211: ./include/linux/highmem.h:222: WARNING: Error
- in declarator or parameters
-To: kernel test robot <lkp@intel.com>, Bart Van Assche <bvanassche@acm.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-References: <202604120025.jtlnpWff-lkp@intel.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <202604120025.jtlnpWff-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260408215530.446994-2-t1bur0n.kernel.org@protonmail.ch>
 
+Hi Christian,
 
+kernel test robot noticed the following build warnings:
 
-On 4/11/26 3:24 PM, kernel test robot wrote:
-> tree:   https://github.com/bvanassche/linux thread-safety
-> head:   834588da5a3bc2696586cdc98024dcebec97aeed
-> commit: 834588da5a3bc2696586cdc98024dcebec97aeed [95/95] treewide: Build fixes
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-> reproduce: (https://download.01.org/0day-ci/archive/20260412/202604120025.jtlnpWff-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202604120025.jtlnpWff-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    Runtime Survivability
->    ===================== [docutils]
->    WARNING: ./include/linux/highmem.h:235 function parameter '__maybe_unused' not described in 'clear_user_pages'
->    WARNING: ./include/linux/highmem.h:235 function parameter '__maybe_unused' not described in 'clear_user_pages'
->>> Documentation/mm/highmem:211: ./include/linux/highmem.h:222: WARNING: Error in declarator or parameters
->    Invalid C declaration: Expecting "," or ")" in parameters, got "_". [error at 55]
->    void clear_user_pages (void *addr, unsigned long vaddr __maybe_unused, struct page *page, unsigned int npages)
->    -------------------------------------------------------^
->    Documentation/mm/memfd_preservation:7: ./mm/memfd_luo.c:13: ERROR: Unexpected section title.
-> 
+[auto build test WARNING on brauner-vfs/vfs.all]
+[also build test WARNING on next-20260410]
+[cannot apply to linus/master v6.16-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Patch for allowing __maybe_unused is here:
-https://lore.kernel.org/linux-doc/20260411233526.3909303-1-rdunlap@infradead.org/T/#u
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Benton/rust-seq_file-add-puts-putc-write-and-hex_dump-methods/20260412-035855
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20260408215530.446994-2-t1bur0n.kernel.org%40protonmail.ch
+patch subject: [PATCH v2 1/1] rust: seq_file: add puts, putc, write, and hex_dump methods
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260412/202604120236.nzYgh7vO-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260412/202604120236.nzYgh7vO-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604120236.nzYgh7vO-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> warning: methods with the following characteristics: (`to_*` and `self` type is not `Copy`) usually take `self` by reference
+   --> rust/kernel/seq_file.rs:29:17
+   |
+   29 |     fn to_c_int(self) -> ffi::c_int {
+   |                 ^^^^
+   |
+   = help: consider choosing a less ambiguous name
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#wrong_self_convention
+   = note: `-W clippy::wrong-self-convention` implied by `-W clippy::all`
+   = help: to override `-W clippy::all` add `#[allow(clippy::wrong_self_convention)]`
 
 -- 
-~Randy
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
