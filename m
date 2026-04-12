@@ -1,63 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 801F0361DA0
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Apr 2026 04:53:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D78634DCD9
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Apr 2026 04:54:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775969611; cv=none; b=G9Cdb2ImBWAEnfiXupUhUx+4PM0Z7ekuqw8QHApMoL4CPKpqVnkptX08mXM687CrI7IbNA+B8Q06Zw55eGLVKqMKvRe54HYqYQckniQcmWOj/MARWdUBpk/sOsxrF801zpeFv2VGFASIp1ZP/841mVBeoJHZ1Z38Udzr1a8XYTE=
+	t=1775969670; cv=none; b=ovofAeBW6zh99RqXe8/5iRePLkEJWD7yXkzb5wi8bdT1QINBXZJwtjss2fWOxgrI7/+aKTZ5hRjnrPvmOGAhU9BTAKaMlPXPaRhvgBIO1xHNgUp5ITGe94/A5NPK5S0m+PSio4IaPsyQf5kzVkM80mlOfYHk4YlG2BmGVgZpQAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775969611; c=relaxed/simple;
-	bh=k6i6n7ANp7UUruZNPHaNrTVWuktyoAPTYZQ0XKKtND8=;
+	s=arc-20240116; t=1775969670; c=relaxed/simple;
+	bh=ko+Np9Wl+y+M5hFm/qlqkUs6vzBVP2ZkZ/5kZlmYmnE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TcjuRga670EYn6+ugYPZLhHGBMDeNSEDfRc6gralh+foJdRhWKKYv+W1xV7owl+LRYpwczGzObnjOpXzfgOm+09vOmlhR/xorsUDMidAslM1dlC/T6FODt5U7rzNdUwGThWS/hCLSpB1FTkaut63LReKAzIjdj211LADi0G7+Ao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b6LdGF/G; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=lL00tY0SuU/D9WKBORMkB+q03fbsrZLuGNynsexkej/T2G9jJFrjfyDkyt4kB68ve2GjiTjfyjxnZtwr09k1z7XSXwyOjq0zre4p82XzadzZ5ZIc4Hpqz7bqs3bqcGbV6P7+MMPZvvYNy0szttP4gI1TU9aMcp6O/Ad2H7UrtxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E8G6zVjy; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b6LdGF/G"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E8G6zVjy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775969610; x=1807505610;
+  t=1775969669; x=1807505669;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=k6i6n7ANp7UUruZNPHaNrTVWuktyoAPTYZQ0XKKtND8=;
-  b=b6LdGF/GgDGUdUvvazxSt0d6u93NuUMy3hOOG6NdDPio/JzgkP1KUkE1
-   KL+Wcjec49xsYFniqdLukkrGzvTekZhBOKT3eqbrqVzSwcH6A3BZd7wZ3
-   ybt2vzmL2JnhJ5mMkDLdVE9CXYA2ISDQIvVWL/7VSg39YcgOgE88d3Uif
-   1MV7FUpB/FXkE+SvtBtXxNCeIAqKZaKYam5QqBaV4+xsWmUD+0HD2DfOz
-   7dEyKPO7BOMWEsekZFMGBo2jthE6l1vXHWmBoZMNOnI3lAkm70GJZ/35f
-   vF4Diq5kGYXGCy8oojUQ2ImB5dT+Q/t6Jk7X0dMaOYWGttJUxy3buNQRd
+  bh=ko+Np9Wl+y+M5hFm/qlqkUs6vzBVP2ZkZ/5kZlmYmnE=;
+  b=E8G6zVjyfs7kJq8wWSdajsPQzJdbvOVq4BlyJHUoF/yy+zgjcKjSI7Hy
+   TXujQkWcUI4GnF2yH2wWCjXbmOlEB3Rr4OY6S56hrreXVFi/3lrzotj00
+   pv3jqpsHitJRWi+ueokiVnMQceh/2sgw0MEcK6W70ZgsA5cELw4DWrT++
+   o7kqnY7W4fVMgY45Ydq8Kk8SLL5YIIbTXe+L9a7yZeAthViJ2vHoR/lBu
+   9jJNf+SEtE12UkDKHtha31z+C8xsUwR02BrcYGd7N2CVP/W3XLB/C0rub
+   4XvtudmrwNmmfslqVcBj2R+LN6nIbHm3RAruz5T3kxCgo//Oen0O26cew
    A==;
-X-CSE-ConnectionGUID: AG6P2MjwSR6BXLMK2JEODA==
-X-CSE-MsgGUID: rYwHAWCcQp6GwPtFikFE+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="77051687"
+X-CSE-ConnectionGUID: KiyT8WMXQR6vo8kM1O1jTA==
+X-CSE-MsgGUID: X15f0OtuTX6RKsY4O+ZItw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="88385733"
 X-IronPort-AV: E=Sophos;i="6.23,174,1770624000"; 
-   d="scan'208";a="77051687"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2026 21:53:29 -0700
-X-CSE-ConnectionGUID: 8BJ0Oqp+Rn6Bxb0/pHaWnw==
-X-CSE-MsgGUID: e70vVnQcRy2L3hkGAo6IEQ==
+   d="scan'208";a="88385733"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2026 21:54:28 -0700
+X-CSE-ConnectionGUID: 0aEk/+J2R5OqeAqlivoI9g==
+X-CSE-MsgGUID: 8KC92sWCRPClc+D/WbJH8Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,174,1770624000"; 
-   d="scan'208";a="267438707"
+   d="scan'208";a="225184915"
 Received: from lkp-server01.sh.intel.com (HELO 3eaaf1a74b89) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 11 Apr 2026 21:53:26 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 11 Apr 2026 21:54:25 -0700
 Received: from kbuild by 3eaaf1a74b89 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wBmp1-000000001sf-1joS;
-	Sun, 12 Apr 2026 04:53:23 +0000
-Date: Sun, 12 Apr 2026 12:53:15 +0800
+	id 1wBmpz-000000001sj-1q69;
+	Sun, 12 Apr 2026 04:54:23 +0000
+Date: Sun, 12 Apr 2026 12:53:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: ZhengYuan Huang <gality369@gmail.com>, dsterba@suse.com, clm@fb.com,
-	zheng.yan@oracle.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-btrfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org, baijiaju1990@gmail.com,
-	r33s3n6@gmail.com, zzzccc427@gmail.com,
-	ZhengYuan Huang <gality369@gmail.com>
-Subject: Re: [PATCH v2] btrfs: reject empty non-root tree blocks at read time
-Message-ID: <202604121228.ciXtbZT6-lkp@intel.com>
-References: <20260409081140.3400650-1-gality369@gmail.com>
+To: Nikolas Koesling <nikolas@koesling.info>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Leo <leo@managarm.org>
+Subject: Re: [PATCH v2] HID: pulsar: add driver for Pulsar gaming mice
+Message-ID: <202604121253.ZYbxnPmo-lkp@intel.com>
+References: <20260401185708.286359-1-nikolas@koesling.info>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,156 +65,123 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260409081140.3400650-1-gality369@gmail.com>
+In-Reply-To: <20260401185708.286359-1-nikolas@koesling.info>
 
-Hi ZhengYuan,
+Hi Nikolas,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on kdave/for-next]
-[also build test ERROR on linus/master v7.0-rc7 next-20260410]
+[auto build test WARNING on v7.0-rc7]
+[cannot apply to hid/for-next linus/master next-20260410]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/ZhengYuan-Huang/btrfs-reject-empty-non-root-tree-blocks-at-read-time/20260412-051345
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/20260409081140.3400650-1-gality369%40gmail.com
-patch subject: [PATCH v2] btrfs: reject empty non-root tree blocks at read time
-config: i386-randconfig-141-20260412 (https://download.01.org/0day-ci/archive/20260412/202604121228.ciXtbZT6-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-smatch: v0.5.0-9004-gb810ac53
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260412/202604121228.ciXtbZT6-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Nikolas-Koesling/HID-pulsar-add-driver-for-Pulsar-gaming-mice/20260411-084544
+base:   v7.0-rc7
+patch link:    https://lore.kernel.org/r/20260401185708.286359-1-nikolas%40koesling.info
+patch subject: [PATCH v2] HID: pulsar: add driver for Pulsar gaming mice
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260412/202604121253.ZYbxnPmo-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260412/202604121253.ZYbxnPmo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604121228.ciXtbZT6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604121253.ZYbxnPmo-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> fs/btrfs/disk-io.c:431:9: error: use of undeclared label 'out'
-     431 |                         goto out;
-         |                              ^
-   1 error generated.
+   drivers/hid/hid-pulsar.c: In function 'pulsar_init_work':
+>> drivers/hid/hid-pulsar.c:601:27: warning: '%s' directive output may be truncated writing up to 127 bytes into a region of size 32 [-Wformat-truncation=]
+     601 |                          "%s", hdev->name);
+         |                           ^~
+   drivers/hid/hid-pulsar.c:600:17: note: 'snprintf' output between 1 and 128 bytes into a destination of size 32
+     600 |                 snprintf(drvdata->battery.model, sizeof(drvdata->battery.model),
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     601 |                          "%s", hdev->name);
+         |                          ~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-pulsar.c:586:59: warning: '%s' directive output may be truncated writing up to 127 bytes into a region of size 32 [-Wformat-truncation=]
+     586 |                          sizeof(drvdata->battery.model), "%s", hdev->name);
+         |                                                           ^~
+   drivers/hid/hid-pulsar.c:585:17: note: 'snprintf' output between 1 and 128 bytes into a destination of size 32
+     585 |                 snprintf(drvdata->battery.model,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     586 |                          sizeof(drvdata->battery.model), "%s", hdev->name);
+         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/out +431 fs/btrfs/disk-io.c
+vim +601 drivers/hid/hid-pulsar.c
 
-   355	
-   356	/* Do basic extent buffer checks at read time */
-   357	int btrfs_validate_extent_buffer(struct extent_buffer *eb,
-   358					 const struct btrfs_tree_parent_check *check)
-   359	{
-   360		struct btrfs_fs_info *fs_info = eb->fs_info;
-   361		u64 found_start;
-   362		const u32 csum_size = fs_info->csum_size;
-   363		u8 found_level;
-   364		u8 result[BTRFS_CSUM_SIZE];
-   365		const u8 *header_csum;
-   366		int ret = 0;
-   367		const bool ignore_csum = btrfs_test_opt(fs_info, IGNOREMETACSUMS);
-   368	
-   369		ASSERT(check);
-   370	
-   371		found_start = btrfs_header_bytenr(eb);
-   372		if (unlikely(found_start != eb->start)) {
-   373			btrfs_err_rl(fs_info,
-   374				"bad tree block start, mirror %u want %llu have %llu",
-   375				     eb->read_mirror, eb->start, found_start);
-   376			return -EIO;
-   377		}
-   378		if (unlikely(check_tree_block_fsid(eb))) {
-   379			btrfs_err_rl(fs_info, "bad fsid on logical %llu mirror %u",
-   380				     eb->start, eb->read_mirror);
-   381			return -EIO;
-   382		}
-   383		found_level = btrfs_header_level(eb);
-   384		if (unlikely(found_level >= BTRFS_MAX_LEVEL)) {
-   385			btrfs_err(fs_info,
-   386				"bad tree block level, mirror %u level %d on logical %llu",
-   387				eb->read_mirror, btrfs_header_level(eb), eb->start);
-   388			return -EIO;
-   389		}
-   390	
-   391		csum_tree_block(eb, result);
-   392		header_csum = folio_address(eb->folios[0]) +
-   393			get_eb_offset_in_folio(eb, offsetof(struct btrfs_header, csum));
-   394	
-   395		if (memcmp(result, header_csum, csum_size) != 0) {
-   396			btrfs_warn_rl(fs_info,
-   397	"checksum verify failed on logical %llu mirror %u wanted " BTRFS_CSUM_FMT " found " BTRFS_CSUM_FMT " level %d%s",
-   398				      eb->start, eb->read_mirror,
-   399				      BTRFS_CSUM_FMT_VALUE(csum_size, header_csum),
-   400				      BTRFS_CSUM_FMT_VALUE(csum_size, result),
-   401				      btrfs_header_level(eb),
-   402				      ignore_csum ? ", ignored" : "");
-   403			if (unlikely(!ignore_csum))
-   404				return -EUCLEAN;
-   405		}
-   406	
-   407		if (unlikely(found_level != check->level)) {
-   408			btrfs_err(fs_info,
-   409			"level verify failed on logical %llu mirror %u wanted %u found %u",
-   410				  eb->start, eb->read_mirror, check->level, found_level);
-   411			return -EIO;
-   412		}
-   413		if (unlikely(check->transid &&
-   414			     btrfs_header_generation(eb) != check->transid)) {
-   415			btrfs_err_rl(eb->fs_info,
-   416	"parent transid verify failed on logical %llu mirror %u wanted %llu found %llu",
-   417					eb->start, eb->read_mirror, check->transid,
-   418					btrfs_header_generation(eb));
-   419			return -EIO;
-   420		}
-   421		if (check->has_first_key) {
-   422			const struct btrfs_key *expect_key = &check->first_key;
-   423			struct btrfs_key found_key;
-   424	
-   425			/* We have @first_key, so this @eb must have at least one item. */
-   426			if (unlikely(btrfs_header_nritems(eb) == 0)) {
-   427				btrfs_err(fs_info,
-   428					  "invalid tree nritems, bytenr=%llu nritems=0 expect >0",
-   429					  eb->start);
-   430				ret = -EUCLEAN;
- > 431				goto out;
-   432			}
-   433	
-   434			if (found_level)
-   435				btrfs_node_key_to_cpu(eb, &found_key, 0);
-   436			else
-   437				btrfs_item_key_to_cpu(eb, &found_key, 0);
-   438			if (unlikely(btrfs_comp_cpu_keys(expect_key, &found_key))) {
-   439				btrfs_err(fs_info,
-   440	"tree first key mismatch detected, bytenr=%llu parent_transid=%llu key expected=(%llu,%u,%llu) has=(%llu,%u,%llu)",
-   441					  eb->start, check->transid,
-   442					  expect_key->objectid,
-   443					  expect_key->type, expect_key->offset,
-   444					  found_key.objectid, found_key.type,
-   445					  found_key.offset);
-   446				return -EUCLEAN;
-   447			}
-   448		}
-   449		if (check->owner_root) {
-   450			ret = btrfs_check_eb_owner(eb, check->owner_root);
-   451			if (ret < 0)
-   452				return ret;
-   453		}
-   454	
-   455		/* If this is a leaf block and it is corrupt, just return -EIO. */
-   456		if (found_level == 0 && btrfs_check_leaf(eb))
-   457			ret = -EIO;
-   458	
-   459		if (found_level > 0 && btrfs_check_node(eb))
-   460			ret = -EIO;
-   461	
-   462		if (ret)
-   463			btrfs_err(fs_info,
-   464			"read time tree block corruption detected on logical %llu mirror %u",
-   465				  eb->start, eb->read_mirror);
-   466		return ret;
-   467	}
-   468	
+   553	
+   554	static void pulsar_init_work(struct work_struct *work)
+   555	{
+   556		struct pulsar_data *drvdata;
+   557		struct hid_device *hdev;
+   558		struct power_supply_config psy_cfg;
+   559		int ret;
+   560		u8 data[DEV_INFO_LEN];
+   561	
+   562		drvdata = container_of(work, struct pulsar_data, init_work.work);
+   563		hdev = drvdata->hdev;
+   564	
+   565		ret = read_device_info(drvdata, data);
+   566		if (ret == -ETIMEDOUT) {
+   567			if (drvdata->init_retries--) {
+   568				hid_dbg(hdev,
+   569					"device info read timed out, retrying (%u left)\n",
+   570					drvdata->init_retries);
+   571				schedule_delayed_work(&drvdata->init_work,
+   572						      msecs_to_jiffies
+   573						      (INIT_DELAY_MSEC));
+   574				return;
+   575			}
+   576			hid_err(hdev, "device info read timed out, giving up\n");
+   577			return;
+   578		}
+   579		if (ret < 0) {
+   580			if (drvdata->type == TYPE_PULSAR) {
+   581				hid_err(hdev, "failed to read device info: %d\n", ret);
+   582				return;
+   583			}
+   584			hid_dbg(hdev, "failed to read device info: %d\n", ret);
+   585			snprintf(drvdata->battery.model,
+   586				 sizeof(drvdata->battery.model), "%s", hdev->name);
+   587			goto register_battery;
+   588		}
+   589	
+   590		hid_dbg(hdev, "device info: %*ph (%d)\n", DEV_INFO_LEN, data, ret);
+   591	
+   592		switch (drvdata->type) {
+   593		case TYPE_PULSAR:
+   594			model_pulsar(data, drvdata);
+   595			break;
+   596		case TYPE_ATK:
+   597			model_atk(data, drvdata);
+   598			break;
+   599		default:
+   600			snprintf(drvdata->battery.model, sizeof(drvdata->battery.model),
+ > 601				 "%s", hdev->name);
+   602		}
+   603	
+   604	register_battery:
+   605		init_power_supply_desc(drvdata);
+   606	
+   607		psy_cfg = (struct power_supply_config) {.drv_data = drvdata };
+   608		drvdata->battery.ps =
+   609		    devm_power_supply_register(&hdev->dev, &drvdata->battery.desc,
+   610					       &psy_cfg);
+   611		if (IS_ERR(drvdata->battery.ps)) {
+   612			hid_err(hdev, "failed to register battery: %ld\n",
+   613				PTR_ERR(drvdata->battery.ps));
+   614			drvdata->battery.ps = NULL;
+   615			return;
+   616		}
+   617	
+   618		atomic_set(&drvdata->device_verified, 1);
+   619		hid_info(hdev, "device verified, battery registered\n");
+   620	}
+   621	
 
 -- 
 0-DAY CI Kernel Test Service
