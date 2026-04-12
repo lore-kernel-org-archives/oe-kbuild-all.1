@@ -1,65 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96328263F4A;
-	Sun, 12 Apr 2026 04:43:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 801F0361DA0
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Apr 2026 04:53:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775969010; cv=none; b=IYHic1V3lmG2GjeKXq1tZLxlnjWbNsujZpv9CJO1eq3I4+TwDKqerwaR0m0S3Nnd4lFA+EVJ0lu9aGVUANO2HXGkQOXCLf1RzfklRw7z0QqW7+XvERi72IbauVu1UQd4JqPYYJg8YeA3vArfynbw0CKJTaTIL+T1gDwUFafUVcs=
+	t=1775969611; cv=none; b=G9Cdb2ImBWAEnfiXupUhUx+4PM0Z7ekuqw8QHApMoL4CPKpqVnkptX08mXM687CrI7IbNA+B8Q06Zw55eGLVKqMKvRe54HYqYQckniQcmWOj/MARWdUBpk/sOsxrF801zpeFv2VGFASIp1ZP/841mVBeoJHZ1Z38Udzr1a8XYTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775969010; c=relaxed/simple;
-	bh=t2e6GoeBZxAdwRTYjOc+qKQ5MV3GG9O7pTKbTqQPnlc=;
+	s=arc-20240116; t=1775969611; c=relaxed/simple;
+	bh=k6i6n7ANp7UUruZNPHaNrTVWuktyoAPTYZQ0XKKtND8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XkiWhC8cClXwWgS3Urs/yJvcNJlvYFj9PJMY6ZipyHvWQuOiMh8pUgUb+QWAf/FrmiOH2q/7toYTy1tQr+YujaqkK0y87RwHLBZNaKLJkntbR7o64GkS8fFhocBlC4zhPT/A8jR8zJmyVzyhBnJM2eiebtMR29TpOFAvT09esEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BpA2EEh7; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=TcjuRga670EYn6+ugYPZLhHGBMDeNSEDfRc6gralh+foJdRhWKKYv+W1xV7owl+LRYpwczGzObnjOpXzfgOm+09vOmlhR/xorsUDMidAslM1dlC/T6FODt5U7rzNdUwGThWS/hCLSpB1FTkaut63LReKAzIjdj211LADi0G7+Ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b6LdGF/G; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BpA2EEh7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b6LdGF/G"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775969009; x=1807505009;
+  t=1775969610; x=1807505610;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=t2e6GoeBZxAdwRTYjOc+qKQ5MV3GG9O7pTKbTqQPnlc=;
-  b=BpA2EEh7uFmYCv277us6v50IqjdHKx39Smf0uRYAj8t9do8jZCG0hP/v
-   iGS6nLYag7Hf/B7GEM8Vj+/F9HdVsMfyD0Air9iRQW9xqhx5+0HgYZCXX
-   lg88I5/vciWXSh+8998AG59KxI5TdhA9joc5yHNY1/A6c0XNoJCugf4H4
-   JP5ZdsyylLHiSZ2r0hovhRtVhjcbuEx65Vw0bfh9WxR9wzfcVkJ230J1U
-   Y22DEZVfdVb+zsFjj5thiZBpKBEMs+Nx1QRN44mnk0yRQjlQ8AYQSxHb3
-   x7RFxY7DFaKsHxJw4KXurpxbnHjxx3QBYTfbdmwRQjzPgsr3W3hOGyZX5
-   g==;
-X-CSE-ConnectionGUID: tke1Xmh/SZOLCVo5qoJ6SQ==
-X-CSE-MsgGUID: Z8lso2NSTz21gWK+GV+mPw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="77010637"
+  bh=k6i6n7ANp7UUruZNPHaNrTVWuktyoAPTYZQ0XKKtND8=;
+  b=b6LdGF/GgDGUdUvvazxSt0d6u93NuUMy3hOOG6NdDPio/JzgkP1KUkE1
+   KL+Wcjec49xsYFniqdLukkrGzvTekZhBOKT3eqbrqVzSwcH6A3BZd7wZ3
+   ybt2vzmL2JnhJ5mMkDLdVE9CXYA2ISDQIvVWL/7VSg39YcgOgE88d3Uif
+   1MV7FUpB/FXkE+SvtBtXxNCeIAqKZaKYam5QqBaV4+xsWmUD+0HD2DfOz
+   7dEyKPO7BOMWEsekZFMGBo2jthE6l1vXHWmBoZMNOnI3lAkm70GJZ/35f
+   vF4Diq5kGYXGCy8oojUQ2ImB5dT+Q/t6Jk7X0dMaOYWGttJUxy3buNQRd
+   A==;
+X-CSE-ConnectionGUID: AG6P2MjwSR6BXLMK2JEODA==
+X-CSE-MsgGUID: rYwHAWCcQp6GwPtFikFE+A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="77051687"
 X-IronPort-AV: E=Sophos;i="6.23,174,1770624000"; 
-   d="scan'208";a="77010637"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2026 21:43:28 -0700
-X-CSE-ConnectionGUID: AhHCkktOQKuM4yW0Y3P6lw==
-X-CSE-MsgGUID: s5cpn+QbQUmRo0Fi0vGZ6w==
+   d="scan'208";a="77051687"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2026 21:53:29 -0700
+X-CSE-ConnectionGUID: 8BJ0Oqp+Rn6Bxb0/pHaWnw==
+X-CSE-MsgGUID: e70vVnQcRy2L3hkGAo6IEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,174,1770624000"; 
-   d="scan'208";a="229726387"
+   d="scan'208";a="267438707"
 Received: from lkp-server01.sh.intel.com (HELO 3eaaf1a74b89) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 11 Apr 2026 21:43:25 -0700
+  by orviesa001.jf.intel.com with ESMTP; 11 Apr 2026 21:53:26 -0700
 Received: from kbuild by 3eaaf1a74b89 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wBmfL-000000001s5-0G8g;
-	Sun, 12 Apr 2026 04:43:23 +0000
-Date: Sun, 12 Apr 2026 12:42:39 +0800
+	id 1wBmp1-000000001sf-1joS;
+	Sun, 12 Apr 2026 04:53:23 +0000
+Date: Sun, 12 Apr 2026 12:53:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yuqian Yang <yangyuqian@uniontech.com>,
-	Huacai Chen <chenhuacai@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, WANG Xuerui <kernel@xen0n.name>,
-	Cheng Nie <niecheng1@uniontech.com>,
-	Wentao Guan <guanwentao@uniontech.com>,
-	Dandan Zhang <zhangdandan@uniontech.com>, loongarch@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Yuqian Yang <yangyuqian@uniontech.com>
-Subject: Re: [PATCH] loongarch: improve logging of disabling KASLR.
-Message-ID: <202604121225.WqIkc3ZK-lkp@intel.com>
-References: <E4B91143DC525DC6+20260403063008.94237-1-yangyuqian@uniontech.com>
+To: ZhengYuan Huang <gality369@gmail.com>, dsterba@suse.com, clm@fb.com,
+	zheng.yan@oracle.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-btrfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org, baijiaju1990@gmail.com,
+	r33s3n6@gmail.com, zzzccc427@gmail.com,
+	ZhengYuan Huang <gality369@gmail.com>
+Subject: Re: [PATCH v2] btrfs: reject empty non-root tree blocks at read time
+Message-ID: <202604121228.ciXtbZT6-lkp@intel.com>
+References: <20260409081140.3400650-1-gality369@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,159 +66,156 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <E4B91143DC525DC6+20260403063008.94237-1-yangyuqian@uniontech.com>
+In-Reply-To: <20260409081140.3400650-1-gality369@gmail.com>
 
-Hi Yuqian,
+Hi ZhengYuan,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v7.0-rc7 next-20260410]
+[auto build test ERROR on kdave/for-next]
+[also build test ERROR on linus/master v7.0-rc7 next-20260410]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yuqian-Yang/loongarch-improve-logging-of-disabling-KASLR/20260412-053808
-base:   linus/master
-patch link:    https://lore.kernel.org/r/E4B91143DC525DC6%2B20260403063008.94237-1-yangyuqian%40uniontech.com
-patch subject: [PATCH] loongarch: improve logging of disabling KASLR.
-config: loongarch-randconfig-002-20260412 (https://download.01.org/0day-ci/archive/20260412/202604121225.WqIkc3ZK-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260412/202604121225.WqIkc3ZK-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/ZhengYuan-Huang/btrfs-reject-empty-non-root-tree-blocks-at-read-time/20260412-051345
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/20260409081140.3400650-1-gality369%40gmail.com
+patch subject: [PATCH v2] btrfs: reject empty non-root tree blocks at read time
+config: i386-randconfig-141-20260412 (https://download.01.org/0day-ci/archive/20260412/202604121228.ciXtbZT6-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+smatch: v0.5.0-9004-gb810ac53
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260412/202604121228.ciXtbZT6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604121225.WqIkc3ZK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604121228.ciXtbZT6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:31,
-                    from arch/loongarch/include/asm/bug.h:60,
-                    from include/linux/bug.h:5,
-                    from include/linux/instrumented.h:10,
-                    from include/linux/atomic/atomic-instrumented.h:17,
-                    from include/linux/atomic.h:82,
-                    from include/asm-generic/bitops/atomic.h:5,
-                    from arch/loongarch/include/asm/bitops.h:38,
-                    from include/linux/bitops.h:67,
-                    from include/linux/bitmap.h:8,
-                    from include/linux/nodemask.h:91,
-                    from include/linux/list_lru.h:12,
-                    from include/linux/fs/super_types.h:7,
-                    from include/linux/fs/super.h:5,
-                    from include/linux/fs.h:5,
-                    from arch/loongarch/include/asm/elf.h:9,
-                    from include/linux/elf.h:6,
-                    from arch/loongarch/kernel/relocate.c:8:
-   arch/loongarch/kernel/relocate.c: In function 'kaslr_disabled':
-   arch/loongarch/kernel/relocate.c:144:25: error: expected ')' before 'message'
-     144 |                 pr_info(message, "nokaslr", "built-in");
-         |                         ^~~~~~~
-   include/linux/printk.h:483:25: note: in definition of macro 'printk_index_wrap'
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:584:9: note: in expansion of macro 'printk'
-     584 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/printk.h:584:26: note: in expansion of macro 'pr_fmt'
-     584 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |                          ^~~~~~
-   arch/loongarch/kernel/relocate.c:144:17: note: in expansion of macro 'pr_info'
-     144 |                 pr_info(message, "nokaslr", "built-in");
-         |                 ^~~~~~~
-   include/linux/printk.h:483:24: note: to match this '('
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                        ^
-   include/linux/printk.h:511:26: note: in expansion of macro 'printk_index_wrap'
-     511 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                          ^~~~~~~~~~~~~~~~~
-   include/linux/printk.h:584:9: note: in expansion of macro 'printk'
-     584 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   arch/loongarch/kernel/relocate.c:144:17: note: in expansion of macro 'pr_info'
-     144 |                 pr_info(message, "nokaslr", "built-in");
-         |                 ^~~~~~~
-   arch/loongarch/kernel/relocate.c:150:25: error: expected ')' before 'message'
-     150 |                 pr_info(message, "nokaslr", "boot");
-         |                         ^~~~~~~
-   include/linux/printk.h:483:25: note: in definition of macro 'printk_index_wrap'
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:584:9: note: in expansion of macro 'printk'
-     584 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/printk.h:584:26: note: in expansion of macro 'pr_fmt'
-     584 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |                          ^~~~~~
-   arch/loongarch/kernel/relocate.c:150:17: note: in expansion of macro 'pr_info'
-     150 |                 pr_info(message, "nokaslr", "boot");
-         |                 ^~~~~~~
-   include/linux/printk.h:483:24: note: to match this '('
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                        ^
-   include/linux/printk.h:511:26: note: in expansion of macro 'printk_index_wrap'
-     511 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                          ^~~~~~~~~~~~~~~~~
-   include/linux/printk.h:584:9: note: in expansion of macro 'printk'
-     584 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   arch/loongarch/kernel/relocate.c:150:17: note: in expansion of macro 'pr_info'
-     150 |                 pr_info(message, "nokaslr", "boot");
-         |                 ^~~~~~~
-   arch/loongarch/kernel/relocate.c:186:25: error: expected ')' before 'message'
-     186 |                 pr_info(message, "kexec_file", "boot");
-         |                         ^~~~~~~
-   include/linux/printk.h:483:25: note: in definition of macro 'printk_index_wrap'
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:584:9: note: in expansion of macro 'printk'
-     584 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/printk.h:584:26: note: in expansion of macro 'pr_fmt'
-     584 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |                          ^~~~~~
-   arch/loongarch/kernel/relocate.c:186:17: note: in expansion of macro 'pr_info'
-     186 |                 pr_info(message, "kexec_file", "boot");
-         |                 ^~~~~~~
-   include/linux/printk.h:483:24: note: to match this '('
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                        ^
-   include/linux/printk.h:511:26: note: in expansion of macro 'printk_index_wrap'
-     511 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                          ^~~~~~~~~~~~~~~~~
-   include/linux/printk.h:584:9: note: in expansion of macro 'printk'
-     584 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   arch/loongarch/kernel/relocate.c:186:17: note: in expansion of macro 'pr_info'
-     186 |                 pr_info(message, "kexec_file", "boot");
-         |                 ^~~~~~~
->> arch/loongarch/kernel/relocate.c:140:27: warning: unused variable 'message' [-Wunused-variable]
-     140 |         const char *const message = "KASLR is disabled by %s in %s cmdline.\n";
-         |                           ^~~~~~~
+>> fs/btrfs/disk-io.c:431:9: error: use of undeclared label 'out'
+     431 |                         goto out;
+         |                              ^
+   1 error generated.
 
 
-vim +/message +140 arch/loongarch/kernel/relocate.c
+vim +/out +431 fs/btrfs/disk-io.c
 
-   135	
-   136	static inline __init bool kaslr_disabled(void)
-   137	{
-   138		char *str;
-   139		const char *builtin_cmdline = CONFIG_CMDLINE;
- > 140		const char *const message = "KASLR is disabled by %s in %s cmdline.\n";
-   141	
-   142		str = strstr(builtin_cmdline, "nokaslr");
-   143		if (str == builtin_cmdline || (str > builtin_cmdline && *(str - 1) == ' ')) {
-   144			pr_info(message, "nokaslr", "built-in");
-   145			return true;
-   146		}
-   147	
-   148		str = strstr(boot_command_line, "nokaslr");
-   149		if (str == boot_command_line || (str > boot_command_line && *(str - 1) == ' ')) {
-   150			pr_info(message, "nokaslr", "boot");
-   151			return true;
-   152		}
-   153	
+   355	
+   356	/* Do basic extent buffer checks at read time */
+   357	int btrfs_validate_extent_buffer(struct extent_buffer *eb,
+   358					 const struct btrfs_tree_parent_check *check)
+   359	{
+   360		struct btrfs_fs_info *fs_info = eb->fs_info;
+   361		u64 found_start;
+   362		const u32 csum_size = fs_info->csum_size;
+   363		u8 found_level;
+   364		u8 result[BTRFS_CSUM_SIZE];
+   365		const u8 *header_csum;
+   366		int ret = 0;
+   367		const bool ignore_csum = btrfs_test_opt(fs_info, IGNOREMETACSUMS);
+   368	
+   369		ASSERT(check);
+   370	
+   371		found_start = btrfs_header_bytenr(eb);
+   372		if (unlikely(found_start != eb->start)) {
+   373			btrfs_err_rl(fs_info,
+   374				"bad tree block start, mirror %u want %llu have %llu",
+   375				     eb->read_mirror, eb->start, found_start);
+   376			return -EIO;
+   377		}
+   378		if (unlikely(check_tree_block_fsid(eb))) {
+   379			btrfs_err_rl(fs_info, "bad fsid on logical %llu mirror %u",
+   380				     eb->start, eb->read_mirror);
+   381			return -EIO;
+   382		}
+   383		found_level = btrfs_header_level(eb);
+   384		if (unlikely(found_level >= BTRFS_MAX_LEVEL)) {
+   385			btrfs_err(fs_info,
+   386				"bad tree block level, mirror %u level %d on logical %llu",
+   387				eb->read_mirror, btrfs_header_level(eb), eb->start);
+   388			return -EIO;
+   389		}
+   390	
+   391		csum_tree_block(eb, result);
+   392		header_csum = folio_address(eb->folios[0]) +
+   393			get_eb_offset_in_folio(eb, offsetof(struct btrfs_header, csum));
+   394	
+   395		if (memcmp(result, header_csum, csum_size) != 0) {
+   396			btrfs_warn_rl(fs_info,
+   397	"checksum verify failed on logical %llu mirror %u wanted " BTRFS_CSUM_FMT " found " BTRFS_CSUM_FMT " level %d%s",
+   398				      eb->start, eb->read_mirror,
+   399				      BTRFS_CSUM_FMT_VALUE(csum_size, header_csum),
+   400				      BTRFS_CSUM_FMT_VALUE(csum_size, result),
+   401				      btrfs_header_level(eb),
+   402				      ignore_csum ? ", ignored" : "");
+   403			if (unlikely(!ignore_csum))
+   404				return -EUCLEAN;
+   405		}
+   406	
+   407		if (unlikely(found_level != check->level)) {
+   408			btrfs_err(fs_info,
+   409			"level verify failed on logical %llu mirror %u wanted %u found %u",
+   410				  eb->start, eb->read_mirror, check->level, found_level);
+   411			return -EIO;
+   412		}
+   413		if (unlikely(check->transid &&
+   414			     btrfs_header_generation(eb) != check->transid)) {
+   415			btrfs_err_rl(eb->fs_info,
+   416	"parent transid verify failed on logical %llu mirror %u wanted %llu found %llu",
+   417					eb->start, eb->read_mirror, check->transid,
+   418					btrfs_header_generation(eb));
+   419			return -EIO;
+   420		}
+   421		if (check->has_first_key) {
+   422			const struct btrfs_key *expect_key = &check->first_key;
+   423			struct btrfs_key found_key;
+   424	
+   425			/* We have @first_key, so this @eb must have at least one item. */
+   426			if (unlikely(btrfs_header_nritems(eb) == 0)) {
+   427				btrfs_err(fs_info,
+   428					  "invalid tree nritems, bytenr=%llu nritems=0 expect >0",
+   429					  eb->start);
+   430				ret = -EUCLEAN;
+ > 431				goto out;
+   432			}
+   433	
+   434			if (found_level)
+   435				btrfs_node_key_to_cpu(eb, &found_key, 0);
+   436			else
+   437				btrfs_item_key_to_cpu(eb, &found_key, 0);
+   438			if (unlikely(btrfs_comp_cpu_keys(expect_key, &found_key))) {
+   439				btrfs_err(fs_info,
+   440	"tree first key mismatch detected, bytenr=%llu parent_transid=%llu key expected=(%llu,%u,%llu) has=(%llu,%u,%llu)",
+   441					  eb->start, check->transid,
+   442					  expect_key->objectid,
+   443					  expect_key->type, expect_key->offset,
+   444					  found_key.objectid, found_key.type,
+   445					  found_key.offset);
+   446				return -EUCLEAN;
+   447			}
+   448		}
+   449		if (check->owner_root) {
+   450			ret = btrfs_check_eb_owner(eb, check->owner_root);
+   451			if (ret < 0)
+   452				return ret;
+   453		}
+   454	
+   455		/* If this is a leaf block and it is corrupt, just return -EIO. */
+   456		if (found_level == 0 && btrfs_check_leaf(eb))
+   457			ret = -EIO;
+   458	
+   459		if (found_level > 0 && btrfs_check_node(eb))
+   460			ret = -EIO;
+   461	
+   462		if (ret)
+   463			btrfs_err(fs_info,
+   464			"read time tree block corruption detected on logical %llu mirror %u",
+   465				  eb->start, eb->read_mirror);
+   466		return ret;
+   467	}
+   468	
 
 -- 
 0-DAY CI Kernel Test Service
