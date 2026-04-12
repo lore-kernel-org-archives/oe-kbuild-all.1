@@ -1,61 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA682373C1D
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Apr 2026 09:49:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80DE32A1AA
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Apr 2026 10:11:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775987379; cv=none; b=a5ktNowgk4iyCZFOksPIW7mI57uJV0RGNPMcIiwYHheekGFDFxx5RSRxj2yasy9Wl6nl+DtEwSvEoHGuXjzdsKN6sXAHhlSvih6QK4B2L0XmId7qZr28H8N+6c18CTxJuE7QIDOp4SMauMjzr1YAYfT1QZ3jD0+r3KVbyai8wPo=
+	t=1775988700; cv=none; b=ULh708tPymPPDU+7ZeEF1+3GccUt9Fub0WzBPirrzMi3yQQDMq1nurWo5Rq4fqTJir2gNN87rEbQvdtQRJzu7oRHRfuH2eX0rWXWq+YoAKSRxATZ/mx1CG2sNFnXot8jMAlQu6ALZndsOtPXsYdHpKbXp8S27/KaxE8RE/b46CQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775987379; c=relaxed/simple;
-	bh=8A2laZ9CPmMYYzJz27dy0OAKPZeCKyNAlDSmALSOoBI=;
+	s=arc-20240116; t=1775988700; c=relaxed/simple;
+	bh=DIvaEeyTjZfZLI73CYPn2B0AK2KOY6Bx4vTfj0Dg8Wg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LXyPhEx+Dy2dC+3u2TGRv6P3ecmYsCkZOHFP41p0g5qSn3zbbbwwc42JUoDAeriP2PZO62vup5B/qlR7+kLeYWRNGk2IXLBVB4kdu28oP/bcPGjZH36f0ZLjB57LzMZ7/+4idSk9o33T+yHFEo8lTL8rYM8BUPCz/vm2ygneXoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eSK3kVvb; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=MsIZiSuemXx8NcZ0wBeKayldmFffwZ1ABHV2+RbU6TG4oKjtMepre8IhPqZzeivowvh7q7OcyC1aAWN/JfE7K6x0AKuszUAHqQC3RyXqFwXG6aEcwmSN0eDbZXl4oofS8fmY8fTgwxR+tmrljahM53tOYTDLl2tIs9Ok3dLi5aw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fIERItXu; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eSK3kVvb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fIERItXu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775987377; x=1807523377;
+  t=1775988700; x=1807524700;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=8A2laZ9CPmMYYzJz27dy0OAKPZeCKyNAlDSmALSOoBI=;
-  b=eSK3kVvbCwCcMR12qNsjt0bxihDUv4EnzQ7lC/iapndePRN83Z6/vgtz
-   ao5uJeMzuWmVge1JRJVfYNNkW0KR2k4rpfWVT0vHZwfnxDDQel5kRzFQ7
-   6sNVE7Z+VxrUrHBXm4GDPEHdoJIHy8ZurBEkE0jzYT4FP6ojgThcwFPcx
-   H0CENgy/hfsNgpvkFyoy7GovQWYZDx2Ua0i/6lcYyz5N5EeW9ZXaY7qua
-   weZytOlL0VyF0nXjYWauj/2O+ze5jbLhSAaR2ELcaF/7fE9EptReiFgpS
-   NB7VHAP7hBexTEaOiJNjfPB50apDRxNreV6jUh6WoS70FYozj1f3/ek9K
-   Q==;
-X-CSE-ConnectionGUID: NU7/Nf/9TN6nctft9BJ2Dw==
-X-CSE-MsgGUID: 1Q39EUj5QkWa4/6Lro0BSA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="87647933"
+  bh=DIvaEeyTjZfZLI73CYPn2B0AK2KOY6Bx4vTfj0Dg8Wg=;
+  b=fIERItXuUnVNTBPDoZ9fjszGxJyCJZd9eMJqVnW25JsgzAeikVnCVHoA
+   uzH+6ux7feABTsYwQv3LL6biUHIhefHn1LOtjg29h4rs8zdTu7sAoZE76
+   uCHcDuQP1MWbK/P5p1jt4KvS8gcaGyiobtcMEY3zXQyf+bfXE59x7YpH7
+   d6sPXXjhaxPn3axGVcHXzAm26sB6ymdUrVCm0QqkCbAIkdOHOl0ePlofs
+   9mkL0uFnr99F3p6Jb5ErSeaRLl2GFUlfuUWPzWuMoGbnG5gefQs3Rfr2p
+   c/0RqSaVAKoJdU/KDvHK5AwA9f9u+vWB+U9C3VEc7suLk31ZQtfHiWy1j
+   w==;
+X-CSE-ConnectionGUID: qmz+QxlVS06lDPHoIayX4A==
+X-CSE-MsgGUID: 2cgpFsV9RjGA32hXCH20xg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="76907754"
 X-IronPort-AV: E=Sophos;i="6.23,175,1770624000"; 
-   d="scan'208";a="87647933"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2026 02:49:36 -0700
-X-CSE-ConnectionGUID: pvJaQSmdT5uM4FxEy6OcQA==
-X-CSE-MsgGUID: ykQodKseTK68jFE+R52YnQ==
+   d="scan'208";a="76907754"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2026 03:11:39 -0700
+X-CSE-ConnectionGUID: Yp/Xgy+STs29wxNAab042A==
+X-CSE-MsgGUID: cILXlW5yS06G+o4JNklbxA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,175,1770624000"; 
-   d="scan'208";a="231246193"
+   d="scan'208";a="234446674"
 Received: from lkp-server01.sh.intel.com (HELO 3eaaf1a74b89) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 12 Apr 2026 02:49:35 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 12 Apr 2026 03:11:36 -0700
 Received: from kbuild by 3eaaf1a74b89 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wBrRc-0000000025F-1psX;
-	Sun, 12 Apr 2026 09:49:32 +0000
-Date: Sun, 12 Apr 2026 17:49:24 +0800
+	id 1wBrmv-0000000026L-0ddU;
+	Sun, 12 Apr 2026 10:11:33 +0000
+Date: Sun, 12 Apr 2026 18:10:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Taegu Ha <hataegu0826@gmail.com>, linux-usb@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, gregkh@linuxfoundation.org,
-	kees@kernel.org, linux-kernel@vger.kernel.org,
-	Taegu Ha <hataegu0826@gmail.com>
-Subject: Re: [PATCH] usb: gadget: f_uac1_legacy: validate control request size
-Message-ID: <202604121754.9JyQH6bx-lkp@intel.com>
-References: <20260401104611.3375330-1-hataegu0826@gmail.com>
+To: Tim Bird <tim.bird@sony.com>, pmladek@suse.com, rostedt@goodmis.org,
+	john.ogness@linutronix.de, senozhatsky@chromium.org
+Cc: oe-kbuild-all@lists.linux.dev, francesco@valla.it, geert@linux-m68k.org,
+	tglx@kernel.org, shashankbalaji02@gmail.com,
+	linux-embedded@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Tim Bird <tim.bird@sony.com>
+Subject: Re: [PATCH v4 1/1] printk: fix zero-valued printk timestamps in
+ early boot
+Message-ID: <202604121822.OvOLcTnO-lkp@intel.com>
+References: <20260410203741.997410-2-tim.bird@sony.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,43 +67,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260401104611.3375330-1-hataegu0826@gmail.com>
+In-Reply-To: <20260410203741.997410-2-tim.bird@sony.com>
 
-Hi Taegu,
+Hi Tim,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on westeri-thunderbolt/next]
-[cannot apply to usb/usb-testing usb/usb-next usb/usb-linus linus/master v7.0-rc7 next-20260410]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v7.0-rc7 next-20260410]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Taegu-Ha/usb-gadget-f_uac1_legacy-validate-control-request-size/20260412-113035
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git next
-patch link:    https://lore.kernel.org/r/20260401104611.3375330-1-hataegu0826%40gmail.com
-patch subject: [PATCH] usb: gadget: f_uac1_legacy: validate control request size
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260412/202604121754.9JyQH6bx-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260412/202604121754.9JyQH6bx-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tim-Bird/printk-fix-zero-valued-printk-timestamps-in-early-boot/20260412-134726
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260410203741.997410-2-tim.bird%40sony.com
+patch subject: [PATCH v4 1/1] printk: fix zero-valued printk timestamps in early boot
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20260412/202604121822.OvOLcTnO-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260412/202604121822.OvOLcTnO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604121754.9JyQH6bx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604121822.OvOLcTnO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/usb/gadget/function/f_uac1_legacy.c:14:10: fatal error: asm/unaligned.h: No such file or directory
-      14 | #include <asm/unaligned.h>
-         |          ^~~~~~~~~~~~~~~~~
-   compilation terminated.
+   In file included from kernel/printk/printk.c:49:
+   include/linux/early_times.h: In function 'early_times_ns':
+>> include/linux/early_times.h:45:61: warning: division by zero [-Wdiv-by-zero]
+      45 |                 return (early_unsafe_cycles() * NS_PER_KHZ) / CONFIG_EARLY_CYCLES_KHZ;
+         |                                                             ^
 
 
-vim +14 drivers/usb/gadget/function/f_uac1_legacy.c
+vim +45 include/linux/early_times.h
 
-  > 14	#include <asm/unaligned.h>
-    15	
+    34	
+    35	/* returns a nanosecond value based on early cycles */
+    36	static inline u64 early_times_ns(void)
+    37	{
+    38		if (CONFIG_EARLY_CYCLES_KHZ)
+    39			/*
+    40			 * Note: the multiply must precede the division to avoid
+    41			 * truncation and loss of resolution
+    42			 * Don't use fancier MULT/SHIFT math here.  Since this is
+    43			 * static, the compiler can optimize the math operations.
+    44			 */
+  > 45			return (early_unsafe_cycles() * NS_PER_KHZ) / CONFIG_EARLY_CYCLES_KHZ;
+    46		return 0;
+    47	}
+    48	#else
+    49	static inline u64 early_times_ns(void)
+    50	{
+    51		return 0;
+    52	}
+    53	#endif
+    54	
 
 -- 
 0-DAY CI Kernel Test Service
