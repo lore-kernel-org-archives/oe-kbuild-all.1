@@ -1,145 +1,291 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C44D31F9BC
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Apr 2026 17:02:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F39E2D0C84
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Apr 2026 17:22:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776099770; cv=none; b=RydLOrU0H+BS9Aq6u/wn4k79ZSFBfK1DFMkUqCa8w5+kcCeD2m+0gBhD9FVUZoa5wtCzoF9R7yE+qU4QsS1ujk9b+01VFRzG3geu4x1T4S2OZe2ThwOklI7bl2cJboELxDkHeU1boNxW0ELSVQbcDoQWt+pBgz6WrXPbVEOt1sk=
+	t=1776100946; cv=none; b=AgSRF1ewqlLaUISGqQu6lUbmkMIqVPf55w+cCbAaK+onpSNSfellZY4qr5qKtu/NryODh2sDbBr75XaK7JvQ4V7WUWT9XrowuVNXXW+41yuoSzkYw3oQGZkfqTL/QHQOIAcZa11PHxIJz6KQI3wDsSRdICPAmMBMLDxWyWv5JB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776099770; c=relaxed/simple;
-	bh=SHLi1RWLFOjbPn4cZZRncC3SjUtxbS0FbG6kvSyyGew=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=M20s/7g3cNSs3s0xnJS8i2YAv/3YmLg/gEYGsDLlzjUEQUJTobl8/HucNqazpiDra4lnYE8fsexcu//m8SiWdFarGlheoPu0ntmbpiHK92828pjGXSQFEfh0nuQfjuVYBKGJGBrFUAbpKjI1AsPt3Av2p9zPDv3aYj05ZDNOdMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gmj9Nt9t; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776100946; c=relaxed/simple;
+	bh=ywRw5jIR6sREW3+Ik+Rta/4KrIY6jwnPv742O7rQQFM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=oAKgZ368e6jTipUcNhtjzO5JDLAssSXAorrz12gjSW8OcPXlrF3JVvz8KmAdSCEfwz4nQGYdN+GIocXJXn7v97LO+7FYazOFFW4U2ds/OmdG0pqV890SnBI6foJbqnSDJpEU3o3636f31eUDJ39X83goCRLvSRB+otrAK2ViY9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZTz4c2BV; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gmj9Nt9t"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43d7213b6ebso1096085f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Apr 2026 10:02:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776099768; x=1776704568; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5f+XrXQw4NkjWyaZYIEBYFM3RJ/D9h6405xJbdE04Vw=;
-        b=Gmj9Nt9tQwANP2m1/V8q+xhZlxLviDeXbL6DsABQhb5IGH8wf2hC47Fd1fJ69VfEOB
-         rKUcXs82ZeCXcbayvl0d3ZY05Et5OLPooJM0lsUkasCbQPK0KPPLCTPWxvRi307cb2zk
-         7smqW/7U9zlQAkYZD0Rbc2MHK6m8JTPPmdqP3ix+F2tmiKBDbU/pskYwuTLPdxlRi8ZB
-         KwzqflR2FqmR99jOb4/kmxJRsjLiaIpKmTeWpdNC9iVG+jKCIQ1bOGMtgBqHV+dECizr
-         e5p/K3GKot4xk/Y0AsV6nTrP2jITYFP2/TmIuUns67C/GreOwtO75b37zDDR8r2be1Kz
-         bthQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776099768; x=1776704568;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=5f+XrXQw4NkjWyaZYIEBYFM3RJ/D9h6405xJbdE04Vw=;
-        b=nZL9en60PI9BgV/8vcey3+lsZA7U8HFiGp9Qz0trkdlY2wDvgT1hPruObJffq920zR
-         7Dohz2VxUfIF/hFFZ99ZS+oCTMV0NvfQdk6GCXb7/otK2Pq/pg0/FneT/AaQMF23zzYx
-         b7IWAWfHj7ZD6C42YS3M7sch2nKZpPV8mMLvdTOUJcnuZb31DCosimnJorSBzTugKhSi
-         s+fsDkBRG3F8z5J/6gWghnvsQZBc36LnoCOJKH5lrFmYKxCLCEMkmG82t4D/QSzd3v0P
-         6qWaU5frTBSh87gNDYHp3+lOwGypu79+vr9Hqfpb6+v47fXp+xZUe1EoGwrFtRQLqt7r
-         c+RQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/VABk/cfQfEykyeZo5K3K4OIk/lMl6u5sLfnZXjW9sti7ijaITNLUttk1gDYCpcIrOufdBPqcOri9qxWVE@lists.linux.dev
-X-Gm-Message-State: AOJu0YwIri49stMiorxYcnze0mS/NKDajqjp6Td7QMyOvHNZHK9dsup4
-	gLMz6cpKmCq2cETASBJkKJNmY1Y9eH3UMPZzdzpJZDcPce3E4D5Z3zyN
-X-Gm-Gg: AeBDievkz2Z+tjr8R13iFBJJOOnvEgdnoMTrVulDe/xno2Shm3es2oPSLh11aFlPOb+
-	3ywxVnuDzAN+t1fef05LRuYaZ3Bg1qSzKayUJelo2dL70BtgNn02EJg8VZCbBGS1A4FEaakY0lA
-	5wTu6ekVT9Nu/uw7E5AHR+BgT++deDbsoQjqs5I4R95SHfcBhEaZu91h1w8ibChkWqqbeJRV0kX
-	AwD8GedC+nPiH6xpADa5TpVcpQsDuVNM4ti71nb579dtJWPNStqD7D5l0uainWECLIpO+irSZ+h
-	847QKnIkbqyJKOcBKjuCcTYcDSw20qnzauHmAgly1cCP1/jD2yWxRdk1+JqxYnWF/1CuMhn+sSC
-	tECJUebOpD8XrwV4WhICWyHqxGAlHLytuk/b2CK7gszInP/mCxVcQcugZh4LHwwkqwJejvcu5vr
-	/LOinpRtFxpluyJ6Pw/GKlUU5pOFDWvOZO3TKIu49aJPOsKtYcJlOGIyZsTmlgSIwRlW8lIJfm8
-	Q8=
-X-Received: by 2002:a05:6000:1acb:b0:43d:7a97:78c6 with SMTP id ffacd0b85a97d-43d7a977a20mr5860225f8f.35.1776099767733;
-        Mon, 13 Apr 2026 10:02:47 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d7d5812dcsm4267528f8f.32.2026.04.13.10.02.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Apr 2026 10:02:47 -0700 (PDT)
-Date: Mon, 13 Apr 2026 18:02:45 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: "Arnd Bergmann" <arnd@arndb.de>
-Cc: "Geert Uytterhoeven" <geert@linux-m68k.org>, "Ping-Ke Shih"
- <pkshih@realtek.com>, "rtl8821cerfe2@gmail.com" <rtl8821cerfe2@gmail.com>,
- "kernel test robot" <lkp@intel.com>, "oe-kbuild-all@lists.linux.dev"
- <oe-kbuild-all@lists.linux.dev>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>
-Subject: Re: include/linux/build_bug.h:78:41: error: static assertion
- failed: "sizeof(struct rtw8814a_efuse) == 512"
-Message-ID: <20260413180245.7a5ff542@pumpkin>
-In-Reply-To: <6284c801-e378-4861-9c1e-f167bc14ef89@app.fastmail.com>
-References: <202604101721.fsv5XmCX-lkp@intel.com>
-	<2fb2a553-3e67-497e-b964-7fa5f940e8a1@gmail.com>
-	<1e02bd10a68747f4a342caedde76ef04@realtek.com>
-	<CAMuHMdWW=CFtTKG7ZqsULvo4hpOWh8miBZPemR6L2n1qCNvTWg@mail.gmail.com>
-	<c09417ea7d534e2c812d470bd166fa3a@realtek.com>
-	<CAMuHMdVWW1SOq_=FUZfqLyYKEgwVW_k+FywdYCu5j6Rnrv_GXg@mail.gmail.com>
-	<6b6310b8-2b0d-4390-992e-5ccd81cef2e0@app.fastmail.com>
-	<20260413140109.2b20de7c@pumpkin>
-	<6284c801-e378-4861-9c1e-f167bc14ef89@app.fastmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZTz4c2BV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776100945; x=1807636945;
+  h=date:from:to:cc:subject:message-id;
+  bh=ywRw5jIR6sREW3+Ik+Rta/4KrIY6jwnPv742O7rQQFM=;
+  b=ZTz4c2BVOMkavMjRkVbe5DnqNqSuqMMEovIyCUhAUldQe8rm4Frs8UyJ
+   5fmDznGQJLQ8BYG9NqrOLB2pFGF6QixvKXnXxcJvbKIGFrLm7abUs5q3q
+   ZGuFfkbOzwKcu2UiBszeLUXpwVnU+vw9VWiqWp4b4cfGInh60dLV6Pp5P
+   REH0GD9vjJ8Q4xfzcGveE1Znk3JSmHG9pHIDrCVSxzw77odyjK3YmKiHP
+   Svyl6pWtNkjm/IhEdJEeVfHk2eEfke05mXLLI6YXL0ikPGeo/lK1zUuuh
+   rDVm9y73XLRWGTOh7GM8bd3I7/yBPV4AYMiYIskBSSiwcfbA4IBkQJ8/G
+   g==;
+X-CSE-ConnectionGUID: p9S49XXFQeyBH54GWDzEng==
+X-CSE-MsgGUID: LmimNVKrQES9332Nx5QDqQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11758"; a="77009668"
+X-IronPort-AV: E=Sophos;i="6.23,177,1770624000"; 
+   d="scan'208";a="77009668"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 10:22:24 -0700
+X-CSE-ConnectionGUID: HyAbeHchSqG0fy6wMwXsBg==
+X-CSE-MsgGUID: Ok3HDpvZTouSURkDeetQCQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,177,1770624000"; 
+   d="scan'208";a="253053330"
+Received: from lkp-server01.sh.intel.com (HELO 7b0b59b3a0d4) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 13 Apr 2026 10:22:22 -0700
+Received: from kbuild by 7b0b59b3a0d4 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wCKzL-000000000hN-2gLA;
+	Mon, 13 Apr 2026 17:22:19 +0000
+Date: Tue, 14 Apr 2026 01:21:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:7.0-rc_new 95/95]
+ drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:191:71: error:
+ 'DSA_TAG_PROTO_MXL862_8021Q' undeclared; did you mean
+ 'DSA_TAG_PROTO_MXL862_VALUE'?
+Message-ID: <202604140107.1ntaPetp-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Mon, 13 Apr 2026 15:46:50 +0200
-"Arnd Bergmann" <arnd@arndb.de> wrote:
+tree:   https://github.com/frank-w/BPI-R2-4.14 7.0-rc_new
+head:   7a28da8c7a34ce8293b2d72bb6a1f5b37eaa8298
+commit: 353079c97dc72c317e5491a7992196464a4b0a55 [95/95] net: dsa: add mxl downstream driver from 6.19-main
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260414/202604140107.1ntaPetp-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260414/202604140107.1ntaPetp-lkp@intel.com/reproduce)
 
-> On Mon, Apr 13, 2026, at 15:01, David Laight wrote:
-> > On Mon, 13 Apr 2026 11:30:25 +0200 "Arnd Bergmann" <arnd@arndb.de> wrote:  
-> >> On Mon, Apr 13, 2026, at 11:15, Geert Uytterhoeven wrote:
-> >>
-> >> Annotating the union as '__packed' is the correct fix for
-> >> the theoretical users of OABI, and does nothing on other
-> >> supported targets in Linux.  
-> >
-> > The other option is to ensure the specific drivers aren't ever compiled
-> > for !CONFIG_AEABI.
-> > Then it'll all get tidied up when you remove it.  
-> 
-> That sounds like even more work, for my own testing I have
-> just stopped building OABI configuration altogether, though
-> I'm still testing ARMv4 kernels.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604140107.1ntaPetp-lkp@intel.com/
 
-Is it possible to stop the build robot doing that as well?
-Might stop us having to worry about obscure build failures
-on something that is heading to its death bed.
+All errors (new ones prefixed by >>):
 
-> 
-> > I read that the patches to remove 486 support have been merged.
-> > I'm sure it would have made sense to drop everything before P-Pro
-> > so that cmov can be used.  
-> 
-> That is an entirely unrelated discussion of course. I don't
-> think there is any need to discontinue support for 586-class
-> processors (Pentium, Pentium MMX, MediaGX/GeodeGX1, AMD K6,
-> Vortex86/DX/MX, Via C3) any earlier than the rest of the
-> x86-32 kernel support: There is no practical difference
-> other than compiler flags, and the Vortex86MX+ is still
-> in production (originally released in 2010 with a projected
-> 10 year support life). This is very different from earlier
-> 486-class CPUs that lack CMPXCHG8B and TSC.
-
-That is a lot more recent that the 1995 date of the P6/pro itself.
-
-I was contemplating writing the 'masked user access' code for x86.
-Mostly just involves generating the address space gap.
-But the asm is easiest if it uses cmov.
-I may need to work out how to use qemu, a userpace consisting of
-a busybox shell running as pid 1 is probably enough.
-
-	David
- 
+   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c: In function 'mxl862xx_update_bridge_conf_port':
+>> drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:191:71: error: 'DSA_TAG_PROTO_MXL862_8021Q' undeclared (first use in this function); did you mean 'DSA_TAG_PROTO_MXL862_VALUE'?
+     191 |         bool vlan_sp_tag = (priv->port_info[cpu_port].tag_protocol == DSA_TAG_PROTO_MXL862_8021Q);
+         |                                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                                       DSA_TAG_PROTO_MXL862_VALUE
+   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:191:71: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c: In function 'mxl862_parse_tag_proto':
+   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:371:29: error: 'DSA_TAG_PROTO_MXL862_8021Q' undeclared (first use in this function); did you mean 'DSA_TAG_PROTO_MXL862_VALUE'?
+     371 |                 tag_proto = DSA_TAG_PROTO_MXL862_8021Q;
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                             DSA_TAG_PROTO_MXL862_VALUE
+   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c: In function 'mxl862xx_port_vlan_add':
+   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2175:71: error: 'DSA_TAG_PROTO_MXL862_8021Q' undeclared (first use in this function); did you mean 'DSA_TAG_PROTO_MXL862_VALUE'?
+    2175 |         bool vlan_sp_tag = (priv->port_info[cpu_port].tag_protocol == DSA_TAG_PROTO_MXL862_8021Q);
+         |                                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                                       DSA_TAG_PROTO_MXL862_VALUE
+   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c: In function 'mxl862xx_isolate_port':
+   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2543:71: error: 'DSA_TAG_PROTO_MXL862_8021Q' undeclared (first use in this function); did you mean 'DSA_TAG_PROTO_MXL862_VALUE'?
+    2543 |         bool vlan_sp_tag = (priv->port_info[cpu_port].tag_protocol == DSA_TAG_PROTO_MXL862_8021Q);
+         |                                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                                       DSA_TAG_PROTO_MXL862_VALUE
+   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c: In function 'mxl862xx_deisolate_port':
+   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2593:71: error: 'DSA_TAG_PROTO_MXL862_8021Q' undeclared (first use in this function); did you mean 'DSA_TAG_PROTO_MXL862_VALUE'?
+    2593 |         bool vlan_sp_tag = (priv->port_info[cpu_port].tag_protocol == DSA_TAG_PROTO_MXL862_8021Q);
+         |                                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                                       DSA_TAG_PROTO_MXL862_VALUE
+   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c: In function 'mxl862xx_set_vlan_filter_limits':
+   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2708:55: error: 'DSA_TAG_PROTO_MXL862_8021Q' undeclared (first use in this function); did you mean 'DSA_TAG_PROTO_MXL862_VALUE'?
+    2708 |         if (priv->port_info[cpu_port].tag_protocol == DSA_TAG_PROTO_MXL862_8021Q) {
+         |                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                       DSA_TAG_PROTO_MXL862_VALUE
+   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c: In function 'mxl862xx_port_bridge_join':
+   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2798:71: error: 'DSA_TAG_PROTO_MXL862_8021Q' undeclared (first use in this function); did you mean 'DSA_TAG_PROTO_MXL862_VALUE'?
+    2798 |         bool vlan_sp_tag = (priv->port_info[cpu_port].tag_protocol == DSA_TAG_PROTO_MXL862_8021Q);
+         |                                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                                       DSA_TAG_PROTO_MXL862_VALUE
 
 
-> 
->       Arnd
+vim +191 drivers/net/dsa/mxl862xx_downstream/mxl862xx.c
 
+   183	
+   184	static int mxl862xx_update_bridge_conf_port(struct dsa_switch *ds, u8 port,
+   185						    struct net_device *bridge, int action)
+   186	{
+   187		struct mxl862xx_priv *priv = ds->priv;
+   188		u8 max_ports = priv->hw_info->max_ports;
+   189		u8 cpu_port = priv->cpu_port;
+   190		u8 i;
+ > 191		bool vlan_sp_tag = (priv->port_info[cpu_port].tag_protocol == DSA_TAG_PROTO_MXL862_8021Q);
+   192	
+   193		/*struct dsa_port *dp = dsa_to_port(priv->ds, port), *other_dp;
+   194		 * struct mxl862xx_port_info *other_p;
+   195		 *int other_port;
+   196		 */
+   197		int ret;
+   198	
+   199		/* Update local bridge port map */
+   200		for (i = 0; i < max_ports; i++) {
+   201			int bridge_id = priv->port_info[i].bridge_id;
+   202	
+   203			if (dsa_is_unused_port(ds, i))
+   204				continue;
+   205	
+   206			/* CPU port is assigned to all bridges and cannot be modified  */
+   207			if ((dsa_is_cpu_port(ds, i)))
+   208				continue;
+   209	
+   210			/* Skip if bridge does not match, except the self port assignment  */
+   211			if ((dsa_port_bridge_dev_get(dsa_to_port(ds, i)) != bridge) && (i != port))
+   212				continue;
+   213	
+   214			/* Case for standalone bridges assigned only to single user and CPU ports.
+   215			 * Used only for initial ports isolation */
+   216			if ((bridge == NULL) && (i != port))
+   217				continue;
+   218	
+   219			if (action)
+   220				priv->bridge_portmap[bridge_id] |= BIT(DSA_MXL_PORT(port));
+   221			else
+   222				priv->bridge_portmap[bridge_id] &= ~BIT(DSA_MXL_PORT(port));
+   223		}
+   224	
+   225		/* Update switch according to local bridge port map */
+   226		/* Add this port to the port maps of other ports skiping it's own map */
+   227		for (i = 0; i < max_ports; i++) {
+   228			struct mxl862xx_bridge_port_config br_port_cfg = { };
+   229			int bridge_id = priv->port_info[i].bridge_id;
+   230	
+   231			if (!(dsa_is_user_port(ds, i)))
+   232				continue;
+   233	
+   234			/* Case for standalone bridges assigned only to single user and CPU ports.
+   235			 * Used only for initial ports isolation
+   236			 */
+   237			if (!bridge && i != port)
+   238				continue;
+   239	
+   240			/* Do not reconfigure any standalone bridge if this is bridge join scenario */
+   241			if (bridge && !priv->port_info[i].bridge)
+   242				continue;
+   243	
+   244			br_port_cfg.bridge_port_id = DSA_MXL_PORT(i);
+   245			br_port_cfg.mask |=
+   246				MXL862XX_BRIDGE_PORT_CONFIG_MASK_BRIDGE_PORT_MAP |
+   247				MXL862XX_BRIDGE_PORT_CONFIG_MASK_BRIDGE_ID;
+   248	
+   249			ret = MXL862XX_API_READ(priv, MXL862XX_BRIDGEPORT_CONFIGGET, br_port_cfg);
+   250			if (ret) {
+   251				dev_err(ds->dev, "failed to set bridge port configuration on port %d\n",
+   252					port);
+   253				return ret;
+   254			}
+   255	
+   256			/* Skip port map update if for the existing bridge the port
+   257			 * is not assigned there.
+   258			 */
+   259			if (i != port && (br_port_cfg.bridge_id != bridge_id ||
+   260					  br_port_cfg.bridge_id == 0))
+   261				continue;
+   262	
+   263			br_port_cfg.mask |=
+   264				MXL862XX_BRIDGE_PORT_CONFIG_MASK_BRIDGE_PORT_MAP |
+   265				MXL862XX_BRIDGE_PORT_CONFIG_MASK_BRIDGE_ID |
+   266				MXL862XX_BRIDGE_PORT_CONFIG_MASK_MC_SRC_MAC_LEARNING;
+   267	
+   268			/* Skip the port itself in it's own portmap */
+   269			br_port_cfg.bridge_port_map[0] =
+   270				priv->bridge_portmap[bridge_id] & ~(BIT(DSA_MXL_PORT(i)));
+   271	
+   272			if (action) {
+   273				br_port_cfg.src_mac_learning_disable = !bridge;
+   274				br_port_cfg.bridge_id = bridge_id;
+   275			} else {
+   276				/* When port is removed from the bridge, assign it back to the default
+   277				 * bridge 0
+   278				 */
+   279				br_port_cfg.src_mac_learning_disable = true;
+   280				/* Cleanup the port own map leaving only the CPU port mapping. */
+   281				if (i == port) {
+   282					br_port_cfg.bridge_port_map[0] = BIT(DSA_MXL_PORT(cpu_port));
+   283					br_port_cfg.bridge_id = 0;
+   284				}
+   285			}
+   286	
+   287			ret = MXL862XX_API_WRITE(priv, MXL862XX_BRIDGEPORT_CONFIGSET, br_port_cfg);
+   288			if (ret) {
+   289				dev_err(ds->dev, "failed to set bridge port configuration on port %d\n", port);
+   290				return ret;
+   291			}
+   292		}
+   293	
+   294		/* Configure additional bridge port for VLAN based tagging */
+   295		if (vlan_sp_tag) {
+   296			int bridge_id = priv->port_info[port].bridge_id;
+   297			uint16_t bridge_port_cpu = DSA_MXL_PORT(port) + 16;
+   298			struct mxl862xx_bridge_port_alloc bpa_param = { };
+   299			struct mxl862xx_bridge_port_config br_port_cfg = { };
+   300	
+   301			bpa_param.bridge_port_id = bridge_port_cpu;
+   302	
+   303			if (action) {
+   304				/* add */
+   305				ret = MXL862XX_API_READ(priv, MXL862XX_BRIDGEPORT_ALLOC, bpa_param);
+   306				if (ret) {
+   307					dev_err(ds->dev,
+   308						"%s: Port:%d failed to prepare associated bridge port\n",
+   309						__func__, port);
+   310					return ret;
+   311				}
+   312	
+   313				br_port_cfg.mask |=
+   314					MXL862XX_BRIDGE_PORT_CONFIG_MASK_BRIDGE_PORT_MAP |
+   315					MXL862XX_BRIDGE_PORT_CONFIG_MASK_BRIDGE_ID |
+   316					MXL862XX_BRIDGE_PORT_CONFIG_MASK_EGRESS_CTP_MAPPING |
+   317					MXL862XX_BRIDGE_PORT_CONFIG_MASK_MC_SRC_MAC_LEARNING;
+   318				br_port_cfg.bridge_id = bridge_id;
+   319				br_port_cfg.bridge_port_id = bridge_port_cpu;
+   320				br_port_cfg.bridge_port_map[0] = BIT(DSA_MXL_PORT(port));
+   321				br_port_cfg.dest_logical_port_id = DSA_MXL_PORT(cpu_port);
+   322				br_port_cfg.src_mac_learning_disable = true;
+   323	
+   324				ret = MXL862XX_API_WRITE(priv, MXL862XX_BRIDGEPORT_CONFIGSET, br_port_cfg);
+   325				if (ret) {
+   326					dev_err(ds->dev,
+   327					"%s: Configuration of cpu bridge port:%d  for port:%d on bridge:%d failed with ret=%d\n",
+   328					__func__, bridge_port_cpu, port, bridge_id, ret);
+   329					return ret;
+   330				}
+   331	
+   332				/* Add bridge cpu port to portmap */
+   333				priv->bridge_portmap[bridge_id] |= BIT(bridge_port_cpu);
+   334				priv->port_info[port].bridge_port_cpu = bridge_port_cpu;
+   335			} else {
+   336				/* remove */
+   337				ret = MXL862XX_API_WRITE(priv, MXL862XX_BRIDGEPORT_FREE, bpa_param);
+   338				if (ret) {
+   339					dev_err(ds->dev,
+   340						"%s: Port:%d failed to free associated bridge port\n",
+   341						__func__, port);
+   342					return ret;
+   343				}
+   344				/* Remove bridge cpu port from portmap */
+   345				priv->bridge_portmap[bridge_id] &= ~BIT(bridge_port_cpu);
+   346				priv->port_info[port].bridge_port_cpu = 0;
+   347			}
+   348		}
+   349	
+   350		return 0;
+   351	}
+   352	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
