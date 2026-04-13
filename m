@@ -1,64 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB5233537C3;
-	Mon, 13 Apr 2026 08:30:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDE9E3A9D85
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Apr 2026 08:30:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776069039; cv=none; b=VbQYe6r8I4PZ4SeZun2rgIwLCp1iLvnWGdnil8oMr41jtQjHOQwly60VW90pChy5ks2KaqJtqcxkhXh5RZHyALSoPH2QAidltHsLJZFG/A8wHd080N+mpql0s2Pi0VrWPT6ejwUotnlzc4UEhbIpF9XVhyE0KuwhbLMSpYQRacM=
+	t=1776069043; cv=none; b=hRRihqUUgklGezci6WGwR6OuBuDYM/X+mLUaWODRqPtIy6xF8/okDcSNF7BW9wVgzOA8hiuSE+ltQ7PzzbAojmydmMgW6HYsp8Wk4Vxp9OsJh+eUrSZVK/55HfHfoj59lWRMNI4ixfzdb4uI0WJkBkK9UNYkOY32TJkXkW7d6Fk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776069039; c=relaxed/simple;
-	bh=mC4b9blVrSSxsEsfe6mODT7VH4v0IjvfgofK16PIlzI=;
+	s=arc-20240116; t=1776069043; c=relaxed/simple;
+	bh=O7CSA22N2e6bRpNEXn1tHHML1mT+N7FE0sjso65PSJc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dZB+8pj9SSYGqGGKVkaOD0jUeXiR39QTbnaPNg5orR1x0geNYTPWE3Y++ZUGlNxT7085vBvB+tBLrcDEuNGTn0m7mLj2NpEChAcwJXbw+XTi/ONbofDvS2psGs8k/4nJKN0L5f7va/TNpQM9aS06oloSgoKo8loXteedWNzfzaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RZ49NwD4; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=JpgT59sdxt+lqQw7yVZjHsnJxrTDMh/3UjS8NkHs0+i74W8k6csAHFu4kUDROfnbxDhn32Tdf9Egiicz+8LjhOO5MKQhqmqF8gaFtDuObQXwV4ErXBiAlp5Rq56IPty6+Ktvmior7msH0J/xVz/qk8bpde37yxPv8QIMsgYHIEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gew69+eX; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RZ49NwD4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gew69+eX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776069038; x=1807605038;
+  t=1776069042; x=1807605042;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=mC4b9blVrSSxsEsfe6mODT7VH4v0IjvfgofK16PIlzI=;
-  b=RZ49NwD4+yRxDQzdugsdRNc3tNjt/+V9RfGfXfz6CVGfH/ovhukl+16D
-   9AvgiOxbFzxYIJsUyQs/FTuwhQLHJnkW5VcPO06HwcQYq0G5D21xvmJuc
-   i+aUYzvB6z1XwiOKvyoww/qBY8e53eNKd3XyAc2Z2V1CA4Z4Pe+CdiXBH
-   66CIVvbQ8+ci+CFKBoqIr0Lua7imOYSxcAN3z3htd5vmZOLB6x1tolW3u
-   dCP0X05jJtpi0sEHMzbylvFo7TNJSgkI92cf6nROx88ScaVVVDanNnlqG
-   rmwfaVlfMTMnu7ZDSgB2zaw3ds4HnjUtK5kNv0uL19P8zieFb69D5a78j
+  bh=O7CSA22N2e6bRpNEXn1tHHML1mT+N7FE0sjso65PSJc=;
+  b=gew69+eXwwFYNLmW2g2pdYEutpyZ7L0EDCoMaV+1mINTAsYLQAd6e9La
+   FgVTYBamKZntu+lidfPzzKIdAT23arbknhH5I1hk82TrLKXcl/LVVsPHg
+   cHYLU3J55jHsg12MqqDIFVt+fCdRBz4tqh0rtISOHfmhxYHnGsVhaB+DD
+   lsX5F8GZzDKncGAt93ntM5YAfBoS+qLdgficMvX2KYxjI21ySATs9oC2F
+   gaMtX0vUZP6wXcDO6wWDR25EBG/oOL+dQjVKK4LolP5BfPLzj5PVWmUh2
+   sG2R6N8rCt+tZkmajbVWH4Ch37MA43qgihmPeRMeh5wSuNyOYtnNBEY1q
    A==;
-X-CSE-ConnectionGUID: 8ZFQ11G9SWC8j0OMiloSPA==
-X-CSE-MsgGUID: 9dcl9g8wS0OBpSJVlrfAmg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11757"; a="76959710"
+X-CSE-ConnectionGUID: FO9gKeORTuCzcvYtTmGI0w==
+X-CSE-MsgGUID: KJv1ZNsQR7S3a8fcD7wCWQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11757"; a="76907247"
 X-IronPort-AV: E=Sophos;i="6.23,176,1770624000"; 
-   d="scan'208";a="76959710"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 01:30:37 -0700
-X-CSE-ConnectionGUID: pux+DT/qR2euIJUypiOKCA==
-X-CSE-MsgGUID: 24k/rZLcTMqwJWvnL57EPw==
+   d="scan'208";a="76907247"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 01:30:42 -0700
+X-CSE-ConnectionGUID: 2ms+3zBIQRqhHfnFptEF8g==
+X-CSE-MsgGUID: Kvv9ahkMT/+CpKkgMRboYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,176,1770624000"; 
-   d="scan'208";a="226559264"
+   d="scan'208";a="233756143"
 Received: from lkp-server01.sh.intel.com (HELO 7b0b59b3a0d4) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 13 Apr 2026 01:30:35 -0700
+  by orviesa003.jf.intel.com with ESMTP; 13 Apr 2026 01:30:39 -0700
 Received: from kbuild by 7b0b59b3a0d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wCCgf-000000000DG-1nvK;
-	Mon, 13 Apr 2026 08:30:30 +0000
-Date: Mon, 13 Apr 2026 16:29:24 +0800
+	id 1wCCgi-000000000DK-1bT3;
+	Mon, 13 Apr 2026 08:30:33 +0000
+Date: Mon, 13 Apr 2026 16:29:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: Chen-Yu Tsai <wenst@chromium.org>,
 	Florian Fainelli <florian.fainelli@broadcom.com>,
 	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Chen-Yu Tsai <wenst@chromium.org>,
+Cc: oe-kbuild-all@lists.linux.dev, Chen-Yu Tsai <wenst@chromium.org>,
 	linux-rpi-kernel@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] firmware: raspberrypi: Change dependency to ARCH_BCM2835
  and COMPILE_TEST
-Message-ID: <202604130409.fOhpgXN6-lkp@intel.com>
+Message-ID: <202604130727.sB8gZrr6-lkp@intel.com>
 References: <20260408081150.1710717-1-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -84,298 +83,110 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Yu-Tsai/firmware-ras
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
 patch link:    https://lore.kernel.org/r/20260408081150.1710717-1-wenst%40chromium.org
 patch subject: [PATCH] firmware: raspberrypi: Change dependency to ARCH_BCM2835 and COMPILE_TEST
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260413/202604130409.fOhpgXN6-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260413/202604130409.fOhpgXN6-lkp@intel.com/reproduce)
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260413/202604130727.sB8gZrr6-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260413/202604130727.sB8gZrr6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604130409.fOhpgXN6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604130727.sB8gZrr6-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:531:3: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c: In function 'remote_event_wait':
+>> drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:531:17: error: implicit declaration of function 'dsb' [-Wimplicit-function-declaration]
      531 |                 dsb(sy);
-         |                 ^
->> drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:531:7: error: use of undeclared identifier 'sy'
+         |                 ^~~
+>> drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:531:21: error: 'sy' undeclared (first use in this function); did you mean 's8'?
      531 |                 dsb(sy);
-         |                     ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:559:2: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+         |                     ^~
+         |                     s8
+   drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:531:21: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c: In function 'remote_event_signal':
+   drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:559:13: error: 'sy' undeclared (first use in this function); did you mean 's8'?
      559 |         dsb(sy);         /* data barrier operation */
-         |         ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:559:6: error: use of undeclared identifier 'sy'
-     559 |         dsb(sy);         /* data barrier operation */
-         |             ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:1944:2: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+         |             ^~
+         |             s8
+   In file included from include/linux/raspberrypi/vchiq_arm.h:14,
+                    from drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:18:
+   drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c: In function 'parse_message':
+>> include/linux/raspberrypi/vchiq_core.h:71:48: error: 'sy' undeclared (first use in this function); did you mean 's8'?
+      71 |         do { debug_ptr[DEBUG_ ## d] = (v); dsb(sy); } while (0)
+         |                                                ^~
+   drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:1944:9: note: in expansion of macro 'DEBUG_VALUE'
     1944 |         DEBUG_VALUE(PARSE_HEADER, (int)(long)header);
-         |         ^
-   include/linux/raspberrypi/vchiq_core.h:71:37: note: expanded from macro 'DEBUG_VALUE'
-      71 |         do { debug_ptr[DEBUG_ ## d] = (v); dsb(sy); } while (0)
-         |                                            ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:1944:2: error: use of undeclared identifier 'sy'
-   include/linux/raspberrypi/vchiq_core.h:71:41: note: expanded from macro 'DEBUG_VALUE'
-      71 |         do { debug_ptr[DEBUG_ ## d] = (v); dsb(sy); } while (0)
-         |                                                ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:1946:2: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1946 |         DEBUG_VALUE(PARSE_MSGID, msgid);
-         |         ^
-   include/linux/raspberrypi/vchiq_core.h:71:37: note: expanded from macro 'DEBUG_VALUE'
-      71 |         do { debug_ptr[DEBUG_ ## d] = (v); dsb(sy); } while (0)
-         |                                            ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:1946:2: error: use of undeclared identifier 'sy'
-   include/linux/raspberrypi/vchiq_core.h:71:41: note: expanded from macro 'DEBUG_VALUE'
-      71 |         do { debug_ptr[DEBUG_ ## d] = (v); dsb(sy); } while (0)
-         |                                                ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:2059:4: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2059 |                         DEBUG_TRACE(PARSE_LINE);
-         |                         ^
-   include/linux/raspberrypi/vchiq_core.h:69:42: note: expanded from macro 'DEBUG_TRACE'
+         |         ^~~~~~~~~~~
+   drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c: In function 'parse_rx_slots':
+   include/linux/raspberrypi/vchiq_core.h:69:53: error: 'sy' undeclared (first use in this function); did you mean 's8'?
       69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                 ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:2059:4: error: use of undeclared identifier 'sy'
-   include/linux/raspberrypi/vchiq_core.h:69:46: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                     ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:2062:5: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2062 |                                 DEBUG_TRACE(PARSE_LINE);
-         |                                 ^
-   include/linux/raspberrypi/vchiq_core.h:69:42: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                 ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:2062:5: error: use of undeclared identifier 'sy'
-   include/linux/raspberrypi/vchiq_core.h:69:46: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                     ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:2097:4: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2097 |                         DEBUG_TRACE(PARSE_LINE);
-         |                         ^
-   include/linux/raspberrypi/vchiq_core.h:69:42: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                 ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:2097:4: error: use of undeclared identifier 'sy'
-   include/linux/raspberrypi/vchiq_core.h:69:46: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                     ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:2099:5: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2099 |                                 DEBUG_TRACE(PARSE_LINE);
-         |                                 ^
-   include/linux/raspberrypi/vchiq_core.h:69:42: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                 ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:2099:5: error: use of undeclared identifier 'sy'
-   include/linux/raspberrypi/vchiq_core.h:69:46: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                     ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:2132:4: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2132 |                         DEBUG_TRACE(PARSE_LINE);
-         |                         ^
-   include/linux/raspberrypi/vchiq_core.h:69:42: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                 ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:2132:4: error: use of undeclared identifier 'sy'
-   include/linux/raspberrypi/vchiq_core.h:69:46: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                     ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:2137:4: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2137 |                         DEBUG_TRACE(PARSE_LINE);
-         |                         ^
-   include/linux/raspberrypi/vchiq_core.h:69:42: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                 ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
+         |                                                     ^~
+   drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:2213:17: note: in expansion of macro 'DEBUG_TRACE'
+    2213 |                 DEBUG_TRACE(PARSE_LINE);
+         |                 ^~~~~~~~~~~
+   drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c: In function 'slot_handler_func':
+   include/linux/raspberrypi/vchiq_core.h:73:44: error: 'sy' undeclared (first use in this function); did you mean 's8'?
+      73 |         do { debug_ptr[DEBUG_ ## d]++; dsb(sy); } while (0)
+         |                                            ^~
+   drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:2314:17: note: in expansion of macro 'DEBUG_COUNT'
+    2314 |                 DEBUG_COUNT(SLOT_HANDLER_COUNT);
+         |                 ^~~~~~~~~~~
 --
->> drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:665:3: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   In file included from drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:33:
+   drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c: In function 'add_completion':
+>> include/linux/raspberrypi/vchiq_core.h:69:49: error: implicit declaration of function 'dsb' [-Wimplicit-function-declaration]
+      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
+         |                                                 ^~~
+   drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:665:17: note: in expansion of macro 'DEBUG_TRACE'
      665 |                 DEBUG_TRACE(SERVICE_CALLBACK_LINE);
-         |                 ^
-   include/linux/raspberrypi/vchiq_core.h:69:42: note: expanded from macro 'DEBUG_TRACE'
+         |                 ^~~~~~~~~~~
+   include/linux/raspberrypi/vchiq_core.h:69:53: error: 'sy' undeclared (first use in this function); did you mean 's8'?
       69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                 ^
->> drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:665:3: error: use of undeclared identifier 'sy'
-   include/linux/raspberrypi/vchiq_core.h:69:46: note: expanded from macro 'DEBUG_TRACE'
+         |                                                     ^~
+   drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:665:17: note: in expansion of macro 'DEBUG_TRACE'
+     665 |                 DEBUG_TRACE(SERVICE_CALLBACK_LINE);
+         |                 ^~~~~~~~~~~
+   include/linux/raspberrypi/vchiq_core.h:69:53: note: each undeclared identifier is reported only once for each function it appears in
       69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                     ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:667:3: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     667 |                 DEBUG_COUNT(COMPLETION_QUEUE_FULL_COUNT);
-         |                 ^
-   include/linux/raspberrypi/vchiq_core.h:73:33: note: expanded from macro 'DEBUG_COUNT'
-      73 |         do { debug_ptr[DEBUG_ ## d]++; dsb(sy); } while (0)
-         |                                        ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:667:3: error: use of undeclared identifier 'sy'
-   include/linux/raspberrypi/vchiq_core.h:73:37: note: expanded from macro 'DEBUG_COUNT'
-      73 |         do { debug_ptr[DEBUG_ ## d]++; dsb(sy); } while (0)
-         |                                            ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:675:3: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     675 |                 DEBUG_TRACE(SERVICE_CALLBACK_LINE);
-         |                 ^
-   include/linux/raspberrypi/vchiq_core.h:69:42: note: expanded from macro 'DEBUG_TRACE'
+         |                                                     ^~
+   drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:665:17: note: in expansion of macro 'DEBUG_TRACE'
+     665 |                 DEBUG_TRACE(SERVICE_CALLBACK_LINE);
+         |                 ^~~~~~~~~~~
+   drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c: In function 'service_callback':
+   include/linux/raspberrypi/vchiq_core.h:69:53: error: 'sy' undeclared (first use in this function); did you mean 's8'?
       69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                 ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:675:3: error: use of undeclared identifier 'sy'
-   include/linux/raspberrypi/vchiq_core.h:69:46: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                     ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:769:2: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+         |                                                     ^~
+   drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:769:9: note: in expansion of macro 'DEBUG_TRACE'
      769 |         DEBUG_TRACE(SERVICE_CALLBACK_LINE);
-         |         ^
-   include/linux/raspberrypi/vchiq_core.h:69:42: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                 ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:769:2: error: use of undeclared identifier 'sy'
-   include/linux/raspberrypi/vchiq_core.h:69:46: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                     ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:804:4: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     804 |                         DEBUG_TRACE(SERVICE_CALLBACK_LINE);
-         |                         ^
-   include/linux/raspberrypi/vchiq_core.h:69:42: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                 ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:804:4: error: use of undeclared identifier 'sy'
-   include/linux/raspberrypi/vchiq_core.h:69:46: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                     ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:805:4: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     805 |                         DEBUG_COUNT(MSG_QUEUE_FULL_COUNT);
-         |                         ^
-   include/linux/raspberrypi/vchiq_core.h:73:33: note: expanded from macro 'DEBUG_COUNT'
-      73 |         do { debug_ptr[DEBUG_ ## d]++; dsb(sy); } while (0)
-         |                                        ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:805:4: error: use of undeclared identifier 'sy'
-   include/linux/raspberrypi/vchiq_core.h:73:37: note: expanded from macro 'DEBUG_COUNT'
-      73 |         do { debug_ptr[DEBUG_ ## d]++; dsb(sy); } while (0)
-         |                                            ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:810:5: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     810 |                                 DEBUG_TRACE(SERVICE_CALLBACK_LINE);
-         |                                 ^
-   include/linux/raspberrypi/vchiq_core.h:69:42: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                 ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:810:5: error: use of undeclared identifier 'sy'
-   include/linux/raspberrypi/vchiq_core.h:69:46: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                     ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:814:4: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     814 |                         DEBUG_TRACE(SERVICE_CALLBACK_LINE);
-         |                         ^
-   include/linux/raspberrypi/vchiq_core.h:69:42: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                 ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:814:4: error: use of undeclared identifier 'sy'
-   include/linux/raspberrypi/vchiq_core.h:69:46: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                     ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:839:2: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     839 |         DEBUG_TRACE(SERVICE_CALLBACK_LINE);
-         |         ^
-   include/linux/raspberrypi/vchiq_core.h:69:42: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                 ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:839:2: error: use of undeclared identifier 'sy'
-   include/linux/raspberrypi/vchiq_core.h:69:46: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                     ^
-   18 errors generated.
+         |         ^~~~~~~~~~~
 --
->> drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c:213:2: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   In file included from drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c:14:
+   drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c: In function 'vchiq_ioc_dequeue_message':
+>> include/linux/raspberrypi/vchiq_core.h:69:49: error: implicit declaration of function 'dsb' [-Wimplicit-function-declaration]
+      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
+         |                                                 ^~~
+   drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c:213:9: note: in expansion of macro 'DEBUG_TRACE'
      213 |         DEBUG_TRACE(DEQUEUE_MESSAGE_LINE);
-         |         ^
-   include/linux/raspberrypi/vchiq_core.h:69:42: note: expanded from macro 'DEBUG_TRACE'
+         |         ^~~~~~~~~~~
+   include/linux/raspberrypi/vchiq_core.h:69:53: error: 'sy' undeclared (first use in this function); did you mean 's8'?
       69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                 ^
->> drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c:213:2: error: use of undeclared identifier 'sy'
-   include/linux/raspberrypi/vchiq_core.h:69:46: note: expanded from macro 'DEBUG_TRACE'
+         |                                                     ^~
+   drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c:213:9: note: in expansion of macro 'DEBUG_TRACE'
+     213 |         DEBUG_TRACE(DEQUEUE_MESSAGE_LINE);
+         |         ^~~~~~~~~~~
+   include/linux/raspberrypi/vchiq_core.h:69:53: note: each undeclared identifier is reported only once for each function it appears in
       69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                     ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c:228:4: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     228 |                         DEBUG_TRACE(DEQUEUE_MESSAGE_LINE);
-         |                         ^
-   include/linux/raspberrypi/vchiq_core.h:69:42: note: expanded from macro 'DEBUG_TRACE'
+         |                                                     ^~
+   drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c:213:9: note: in expansion of macro 'DEBUG_TRACE'
+     213 |         DEBUG_TRACE(DEQUEUE_MESSAGE_LINE);
+         |         ^~~~~~~~~~~
+   drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c: In function 'vchiq_ioc_await_completion':
+   include/linux/raspberrypi/vchiq_core.h:69:53: error: 'sy' undeclared (first use in this function); did you mean 's8'?
       69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                 ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c:228:4: error: use of undeclared identifier 'sy'
-   include/linux/raspberrypi/vchiq_core.h:69:46: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                     ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c:236:4: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     236 |                         DEBUG_TRACE(DEQUEUE_MESSAGE_LINE);
-         |                         ^
-   include/linux/raspberrypi/vchiq_core.h:69:42: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                 ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c:236:4: error: use of undeclared identifier 'sy'
-   include/linux/raspberrypi/vchiq_core.h:69:46: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                     ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c:279:2: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     279 |         DEBUG_TRACE(DEQUEUE_MESSAGE_LINE);
-         |         ^
-   include/linux/raspberrypi/vchiq_core.h:69:42: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                 ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c:279:2: error: use of undeclared identifier 'sy'
-   include/linux/raspberrypi/vchiq_core.h:69:46: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                     ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c:454:2: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+         |                                                     ^~
+   drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c:454:9: note: in expansion of macro 'DEBUG_TRACE'
      454 |         DEBUG_TRACE(AWAIT_COMPLETION_LINE);
-         |         ^
-   include/linux/raspberrypi/vchiq_core.h:69:42: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                 ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c:454:2: error: use of undeclared identifier 'sy'
-   include/linux/raspberrypi/vchiq_core.h:69:46: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                     ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c:460:2: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     460 |         DEBUG_TRACE(AWAIT_COMPLETION_LINE);
-         |         ^
-   include/linux/raspberrypi/vchiq_core.h:69:42: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                 ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c:460:2: error: use of undeclared identifier 'sy'
-   include/linux/raspberrypi/vchiq_core.h:69:46: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                     ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c:464:3: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     464 |                 DEBUG_TRACE(AWAIT_COMPLETION_LINE);
-         |                 ^
-   include/linux/raspberrypi/vchiq_core.h:69:42: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                 ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c:464:3: error: use of undeclared identifier 'sy'
-   include/linux/raspberrypi/vchiq_core.h:69:46: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                     ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c:469:4: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     469 |                         DEBUG_TRACE(AWAIT_COMPLETION_LINE);
-         |                         ^
-   include/linux/raspberrypi/vchiq_core.h:69:42: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                 ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c:469:4: error: use of undeclared identifier 'sy'
-   include/linux/raspberrypi/vchiq_core.h:69:46: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                     ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c:475:2: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     475 |         DEBUG_TRACE(AWAIT_COMPLETION_LINE);
-         |         ^
-   include/linux/raspberrypi/vchiq_core.h:69:42: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                 ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c:475:2: error: use of undeclared identifier 'sy'
-   include/linux/raspberrypi/vchiq_core.h:69:46: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                     ^
-   drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c:578:2: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     578 |         DEBUG_TRACE(AWAIT_COMPLETION_LINE);
-         |         ^
-   include/linux/raspberrypi/vchiq_core.h:69:42: note: expanded from macro 'DEBUG_TRACE'
-      69 |         do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
-         |                                                 ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
+         |         ^~~~~~~~~~~
 
 
 vim +/dsb +531 drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c
