@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B383736167F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Apr 2026 12:16:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE7B33BD624
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Apr 2026 12:57:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776082567; cv=none; b=kh+3wqmaBcU5T9ja/tIKC2TJwjBvm6VsizuRJIFWgU1OYQ7LKGMpHcDMYbAjAwBaDxNSeoy2G23z91x/y7fK/ezRZEmkt/u8ephtpkFZuxNeQW/K1vTatUWTsu2+Ta5MI8bLXwjHZYeVfFyMyUUDUHT7H8ZW6/qTAkziF2w7IpY=
+	t=1776085026; cv=none; b=ZFjQItQnEs44Wa/EEYHEeGIdzevCstelPBYRypOLxe3KxjURQkhLRvuxj87uMDosJUJ5iDX5LHHKdJN0FpSKblcKx8qOG162zBPIX4FJ4lyX29wmpAgHBUeBg7WgzaXyLyLx/+jN/zbMWScflQ0U8cDcbVRg0Yx3Nt9X5T+KTzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776082567; c=relaxed/simple;
-	bh=w0ZyEjxJd7OMr22SSZDu9IrK9rQED4qDX/i51YMI2YM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=nPxNQQS3xBIJ4+euCRehdhIoR/vi0mc3mKH5HrXk2W+BC+KLQm2M6kpCT3WA9NU1G+vyYhr/ZBiaV5bGQoo6J+xFdizG4PMcOfXvIAwmBEaowBy8AU6ZIt7/jcwMC5aqqMGNuaKNAckQhXMeFIQijPkrRaghm5AvEYGzPgAU4ck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oqq7+TUM; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1776085026; c=relaxed/simple;
+	bh=tpdycPkLieidUuhtfGSH1wsCTz3Ypm5980b58yPf+1k=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Jr+aul8TBV0Jjhg2ByNJxhS7tf9J17ii74AXKDMZfrSSoOPdl94sYz8FYH2n5VczBtCaXLCbcaHOxAlv9zXHYQZ/kxqAP8xtP7pJwd9HWibNhWv62ATgVYCOtv+pro3+964JWT7ChvxngMTXKMUzbVXRwmaBnsd7x2jlmhUmJpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZVNZ8WY8; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oqq7+TUM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZVNZ8WY8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776082565; x=1807618565;
+  t=1776085026; x=1807621026;
   h=date:from:to:cc:subject:message-id;
-  bh=w0ZyEjxJd7OMr22SSZDu9IrK9rQED4qDX/i51YMI2YM=;
-  b=Oqq7+TUMgV0I7RB5+tAzOuFq5EeiLoruEIR4Nv0GilA2YurVQ/rgnfUo
-   6J/qQFXdVfuI2BXaW6tzO1hb8ournDT5rI+nGygUecTBKoCMpY/VNWc1T
-   LfuOaZSv0W3flagBXf1bzKY8lU+Z+A3b0ChSzTNAynuQhZqwlR7WuveK/
-   SQ/fc56SyzpoWsea0A+f3yNwMrGLwdKQ1n2UqnxPHCFD6EMOj8S3HNWkr
-   K670TL/b84IHluzWoGIGKeklkXGO/hqDtuWN84dbj8uzTP+4beKT5ERxf
-   rxWmJqe8Jc4N4BvbadKOTdUCcSevh020Rn+jFgUTwNRk8pGicoUXrg15X
-   g==;
-X-CSE-ConnectionGUID: WIn+6odgSeaGfcZdMMw1yw==
-X-CSE-MsgGUID: LVf3JiykSDqZcqg0Rc5n1w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11757"; a="94406708"
+  bh=tpdycPkLieidUuhtfGSH1wsCTz3Ypm5980b58yPf+1k=;
+  b=ZVNZ8WY8RtWAm6tSvAgh59vvyC7YWetaJbpu3L/SWFuN3rGQU5fIrjhQ
+   P9g3kcDY74tOYv59Aan/ywOtkaw/hBSkyDlHPb59fcBIoHQ2ArP95FZs8
+   woZ8g8ad+7/ZTR4RgjyxyP1pllutvB3Bqc08uR9ch7kt/r54Jxwr/rrVk
+   DkG6FwbEyMrOYlSq6CKttJ93x87yRd0geEVM37ChvUVVWjePeOdyeEbi4
+   fc1hWlrruNTMhgF0Bt3ni8qZut5vzImxTWo8ObNoT821dpsz7E9jmPOpg
+   2N/RFuitazkDa90dV8xbuW1dtbN6DIqHFxqdppMo1N4NjUQjVlbpCaZKJ
+   A==;
+X-CSE-ConnectionGUID: 2Owv6mr4QcWzdRpz9K0nEQ==
+X-CSE-MsgGUID: UqcQ20chT1ivsoZvpSlNPQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11757"; a="99662460"
 X-IronPort-AV: E=Sophos;i="6.23,177,1770624000"; 
-   d="scan'208";a="94406708"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 05:16:04 -0700
-X-CSE-ConnectionGUID: Tk4RLGRiTK6i5YIpzSJbeA==
-X-CSE-MsgGUID: h3eBpoUORzKF46YgpjxhNA==
+   d="scan'208";a="99662460"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 05:57:05 -0700
+X-CSE-ConnectionGUID: xxNKoMF+QrO2qqLGtw+83g==
+X-CSE-MsgGUID: udMtFZ66RR2CrXr+kk39sg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,177,1770624000"; 
-   d="scan'208";a="253172095"
+   d="scan'208";a="226613413"
 Received: from lkp-server01.sh.intel.com (HELO 7b0b59b3a0d4) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 13 Apr 2026 05:16:02 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 13 Apr 2026 05:57:03 -0700
 Received: from kbuild by 7b0b59b3a0d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wCGCt-000000000Uv-2b36;
-	Mon, 13 Apr 2026 12:15:59 +0000
-Date: Mon, 13 Apr 2026 20:15:24 +0800
+	id 1wCGqa-000000000Wl-2XSG;
+	Mon, 13 Apr 2026 12:57:00 +0000
+Date: Mon, 13 Apr 2026 20:56:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- "Chun-Kuang Hu" <chunkuang.hu@kernel.org>, CK Hu <ck.hu@mediatek.com>,
- "Louis-Alexis Eyraud" <louisalexis.eyraud@collabora.com>
-Subject: drivers/gpu/drm/mediatek/mtk_hdmi_v2.c:53:12: sparse:
- sparse: symbol 'mtk_hdmi_v2_clk_names' was not declared. Should it be static?
-Message-ID: <202604132044.fcYjEcU8-lkp@intel.com>
+To: Chao Yu <chao@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Jaegeuk Kim <jaegeuk@kernel.org>
+Subject: [linux-next:master 10302/13443] Warning:
+ fs/f2fs/segment.c:1883 function parameter 'need_check' not described in
+ 'f2fs_issue_discard_timeout'
+Message-ID: <202604132002.7PnxOfTf-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,36 +60,22 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   028ef9c96e96197026887c0f092424679298aae8
-commit: 8d0f798862731c62b09e7138a9032964d70566c2 drm/mediatek: Introduce HDMI/DDC v2 for MT8195/MT8188
-date:   5 months ago
-config: powerpc64-randconfig-r131-20260413 (https://download.01.org/0day-ci/archive/20260413/202604132044.fcYjEcU8-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project ae825cb8cea7f3ac8e5e4096f22713845cf5e501)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260413/202604132044.fcYjEcU8-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   66672af7a095d89f082c5327f3b15bc2f93d558e
+commit: 6af249c996f7d73a3435f9e577956fa259347d18 [10302/13443] f2fs: fix to do sanity check on dcc->discard_cmd_cnt conditionally
+config: i386-randconfig-014-20260413 (https://download.01.org/0day-ci/archive/20260413/202604132002.7PnxOfTf-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260413/202604132002.7PnxOfTf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 8d0f79886273 ("drm/mediatek: Introduce HDMI/DDC v2 for MT8195/MT8188")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604132044.fcYjEcU8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604132002.7PnxOfTf-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/mediatek/mtk_hdmi_v2.c:53:12: sparse: sparse: symbol 'mtk_hdmi_v2_clk_names' was not declared. Should it be static?
---
->> drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:384:24: sparse: sparse: symbol 'mtk_hdmi_ddc_v2_driver' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/mtk_hdmi_v2_clk_names +53 drivers/gpu/drm/mediatek/mtk_hdmi_v2.c
-
-    52	
-  > 53	const char *const mtk_hdmi_v2_clk_names[MTK_HDMI_V2_CLK_COUNT] = {
-    54		[MTK_HDMI_V2_CLK_HDMI_APB_SEL] = "bus",
-    55		[MTK_HDMI_V2_CLK_HDCP_SEL] = "hdcp",
-    56		[MTK_HDMI_V2_CLK_HDCP_24M_SEL] = "hdcp24m",
-    57		[MTK_HDMI_V2_CLK_VPP_SPLIT_HDMI] = "hdmi-split",
-    58	};
-    59	
+>> Warning: fs/f2fs/segment.c:1883 function parameter 'need_check' not described in 'f2fs_issue_discard_timeout'
+>> Warning: fs/f2fs/segment.c:1883 function parameter 'need_check' not described in 'f2fs_issue_discard_timeout'
 
 -- 
 0-DAY CI Kernel Test Service
