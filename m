@@ -1,276 +1,150 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F30C53C871B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Apr 2026 12:57:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D742D42AA6
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Apr 2026 13:01:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776085029; cv=none; b=YOREXUxbet7XO3mYZz5Rq7OUw6r37Z7iAjcbICRIBRheLtGng+V28ioa0J7EcO+3P3hN6tMtqDUTZmAskbULR38oRKW8llyd95UwEKFsXEjZOJDKSAwqtreK6uvS/z+49PEf9DoAQK6D0RE1AB+BLeU1KSwWhxiNIBfm2irHl7g=
+	t=1776085277; cv=none; b=Zq2fLM8CTE9ymApEIUs5zCvxDSRq9zTzGiEzKD+IfpL+vWS3+pZ+mSkGVsV02Al/GnXg4ZQtB+O6kULtbLx/FVrJQ6ufirzGgS20RjbKhdcCLMOquPkvIhZlxe9WSuFVO2K6TuOoNbDicG6bEtt/xvVM3y8Y8nNLwSEsFdkLLUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776085029; c=relaxed/simple;
-	bh=9RwrnGvw1vajfJosSQiLFIXmyYhi51/1/JjTI965CHU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=jYG+aownMl7q8dC5FFQePfcSS3X7olzrhbXVhgB6YXqggZgtBkDnplqzTkPPOmIvPgsjNDrXiBubwxWeubCF4oLjPs7ToX3Lln/H2xOGHyPLywQd1iZqO+hJ/CEYrfpgmFJzBTYUhU0pOxhBNgDu8cgt5nWGainTeVler7nMLnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lY6RUNwp; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1776085277; c=relaxed/simple;
+	bh=cDZOvcqUwcRizrQYpiX8mJ2AVjBJweZuFlXyAgxKqLo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CR1yej07F3XYU0QXKZ/HHX0+FYW6f4sUkYqn/E486vN6wYD5jhzrFFCs07kFJhe4ykX6YBzWs00ZgXgbCDxalEr/hl+IjiHWhlH/DcERNooqi6iKLmmwkhxbNDhqjzeuYjo6tW/zOdaBnjoaCyGe06z5lvqsv1ByQIzx3/sbPrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ppHAexnY; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lY6RUNwp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776085028; x=1807621028;
-  h=date:from:to:cc:subject:message-id;
-  bh=9RwrnGvw1vajfJosSQiLFIXmyYhi51/1/JjTI965CHU=;
-  b=lY6RUNwp8Jo5MM5gEWhHx6TGgRHfLzx32hHGWGW4abrgUAuMa97SzsLn
-   px4FpKuHPvjuG1Vu0L/QVJ/1DPV0sGVvoCft4VxkyG8zBV7VTA5l5TCJY
-   KHNshh6yDQQ0MYvdkkPQVgo3MkLjdo0xIvf/WellfAi3i+jNmgNo19GfI
-   w0IUg7lYdFvGkXbHtjmyolOmDm2e3NTlOq1hIbreLdW0iQ+kxuUOfEjJP
-   IlKTBUO0hfls2lgrpcapgLvltFIM9JINier3hnyb9+StQtLINIw5bpQ7q
-   o8iXX21uT7MGYYgTanDIv0rObyy4sfwBHGHe/5dUQkUOT6dsGiWUnwWM7
-   w==;
-X-CSE-ConnectionGUID: scC7CSkLQGOJPbnjCbgycA==
-X-CSE-MsgGUID: l0F2pjToTCKtb2LdxENSLg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11757"; a="99662464"
-X-IronPort-AV: E=Sophos;i="6.23,177,1770624000"; 
-   d="scan'208";a="99662464"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 05:57:05 -0700
-X-CSE-ConnectionGUID: n5lASf73T/WQaqQ+rr534g==
-X-CSE-MsgGUID: zSj5jseKTSS1BSzjs78fow==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,177,1770624000"; 
-   d="scan'208";a="226613415"
-Received: from lkp-server01.sh.intel.com (HELO 7b0b59b3a0d4) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 13 Apr 2026 05:57:03 -0700
-Received: from kbuild by 7b0b59b3a0d4 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wCGqa-000000000Wj-2Q5S;
-	Mon, 13 Apr 2026 12:57:00 +0000
-Date: Mon, 13 Apr 2026 20:56:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:7.0-rc_new 95/95]
- drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:191:64: error: use of
- undeclared identifier 'DSA_TAG_PROTO_MXL862_8021Q'
-Message-ID: <202604132030.sbEv2usq-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ppHAexnY"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43d03db7f87so2722773f8f.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Apr 2026 06:01:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776085274; x=1776690074; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=c0h56iWNjOtlXX0x2H+2CBPpJUzlrkNXbnZg4wKPy9Q=;
+        b=ppHAexnYk+u1P3rdd6IT/oqAaQfH+/1ry2kwInfULhaIrf/ouOsvW/DJSLW2f93v7Y
+         24Pd6bSTvZ2cXo3oVvR2v6tq6JTAqoUJCYHzi3Sndo+wdEhUNnFUwpZgE6+PjeOfVdrv
+         BMQ+OSAaiQFROw71jVWasFmXKeRKIxoSOYsSqG9uxO9p8O+yWsLupBp/JusmRsiN3U4U
+         e9K4ne5U78Mr8l4wqo4Jmy0qGj2xwxquDDRoegqMRNs8XDk/MtE6QWJdw7lUFuQdHqCf
+         kBh99oFE/QLozCyj8nbGF9/Ytq83ssgVhQfkgONnx48BhhgqCm2GcjUvkg+yfziw+YZ2
+         deEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776085274; x=1776690074;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=c0h56iWNjOtlXX0x2H+2CBPpJUzlrkNXbnZg4wKPy9Q=;
+        b=sgOw298QVPGspeKWZhbGXPlDVAx+PO1gzNrGcGsYOJhCKx772Dhw7Pv8Bol+0fBUUc
+         t25byX2cM44qv2HJ3ThkzHWOlbEA+XFrXttY4uexPUGjP/YsXZmnTNnlilNsZC3V9vmP
+         Fm+HcXiTMgP35VTWipWCdvN18KDtESkDC1lQcySuYPv+WGMx7t64Tv7PY1C24IbWrANc
+         yL5CwPXz/2Dbk05VyT3JhGa8qie6C+Qm1QtjHKpjQRmte7hBZafMp2rdS8t6Ty9a5UuU
+         kQpspTMCDPoZQjv1MTdmJm8NBhtVvipMWhbJroubKXouilJ+Abxw0q+eWsSQa0aTXcGD
+         WofQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/g5qYT9SG3Vzd8N/zDM2Rn+nTddbGEth+s+RcuQA9wZwyQgaAGdGKAabcDIA0jk9XKbXIWIDe+Dundz3kq@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy/fEE5UaUxbhGX3RpgwnDz6UvNO3ZN/S+jn17lzFeK/3fpt7ka
+	tZqwDTpZOh+X0t6K0LVHAdvQUcDfDbMUW6BGTlgspl2YhXqi1cFZI5+K
+X-Gm-Gg: AeBDies+mfGgjoMi38raGJ8vYALtDxfljezEQ2gETXcF86BXvER33qJvTRWa4+4vAXz
+	yaodhVmf6xqXW2NBVOCzvMWvcdla7Iv8kfbGFHxnQCZCE5LJN8xDL4lMFjAK2Ir+h5e1gqo6out
+	Xom3r3M9AGZ4MGXUUZyR3DXoVK/wWCOiLwtBOO3ze+u/VIczzSroy2TvP+VHegpbQ78raYF3TmF
+	xIIE4wRH6kjc9DsZKG/XGBP7Wy+lddBp1fV2GAqXi+pOoBp7fW4SrUkCBw4lyHsFaF18wovqhyd
+	99ntV7ndaN/Fw9e/3ksyRloS5og1snYKJqLns+t3WRtJOChITKnH2LUeQYSsrMBOLrb/t59vNcU
+	RXv8aMKs4clrn7O4qdstkUozMR2HnECMi2vhLI7kd2AjMqYL1cPr9z02lQ9C25HyAZl9eGYUkCv
+	epjUCNOi77qYsKDQFP556kix1msPg35AvlBjx2lMMMaNAp+wRWbrCV+uad1jRQX+qt
+X-Received: by 2002:a05:6000:200f:b0:43d:2f94:3b40 with SMTP id ffacd0b85a97d-43d64255019mr19079892f8f.6.1776085273230;
+        Mon, 13 Apr 2026 06:01:13 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d76eeb2d1sm13081378f8f.22.2026.04.13.06.01.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Apr 2026 06:01:11 -0700 (PDT)
+Date: Mon, 13 Apr 2026 14:01:09 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: "Arnd Bergmann" <arnd@arndb.de>
+Cc: "Geert Uytterhoeven" <geert@linux-m68k.org>, "Ping-Ke Shih"
+ <pkshih@realtek.com>, "rtl8821cerfe2@gmail.com" <rtl8821cerfe2@gmail.com>,
+ "kernel test robot" <lkp@intel.com>, "oe-kbuild-all@lists.linux.dev"
+ <oe-kbuild-all@lists.linux.dev>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>
+Subject: Re: include/linux/build_bug.h:78:41: error: static assertion
+ failed: "sizeof(struct rtw8814a_efuse) == 512"
+Message-ID: <20260413140109.2b20de7c@pumpkin>
+In-Reply-To: <6b6310b8-2b0d-4390-992e-5ccd81cef2e0@app.fastmail.com>
+References: <202604101721.fsv5XmCX-lkp@intel.com>
+	<2fb2a553-3e67-497e-b964-7fa5f940e8a1@gmail.com>
+	<1e02bd10a68747f4a342caedde76ef04@realtek.com>
+	<CAMuHMdWW=CFtTKG7ZqsULvo4hpOWh8miBZPemR6L2n1qCNvTWg@mail.gmail.com>
+	<c09417ea7d534e2c812d470bd166fa3a@realtek.com>
+	<CAMuHMdVWW1SOq_=FUZfqLyYKEgwVW_k+FywdYCu5j6Rnrv_GXg@mail.gmail.com>
+	<6b6310b8-2b0d-4390-992e-5ccd81cef2e0@app.fastmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.0-rc_new
-head:   7a28da8c7a34ce8293b2d72bb6a1f5b37eaa8298
-commit: 353079c97dc72c317e5491a7992196464a4b0a55 [95/95] net: dsa: add mxl downstream driver from 6.19-main
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260413/202604132030.sbEv2usq-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260413/202604132030.sbEv2usq-lkp@intel.com/reproduce)
+On Mon, 13 Apr 2026 11:30:25 +0200
+"Arnd Bergmann" <arnd@arndb.de> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604132030.sbEv2usq-lkp@intel.com/
+> On Mon, Apr 13, 2026, at 11:15, Geert Uytterhoeven wrote:
+> > On Mon, 13 Apr 2026 at 02:48, Ping-Ke Shih <pkshih@realtek.com> wrote:  
+> >> > On Fri, 10 Apr 2026 at 14:15, Ping-Ke Shih <pkshih@realtek.com> wrote:
+> >> > How can that make a difference?
+> >> > Both rtw8814au_efuse and rtw8814ae_efuse contain just (the same number
+> >> > of) bytes, so __packed on the union should not make any difference?
+> >> > Moreover, rtw8814au_efuse and rtw8814ae_efuse are already tagged with
+> >> > __packed, which should also not make any difference.  Someone's been
+> >> > sprinkling too many __packed all over the place?  
+> >>
+> >> I have similar thought as yours, but arm-linux-gnueabi-gcc compiler seems
+> >> have special treatment with union. For this case, without __packed
+> >> the offset of followed field res5 will become 0xe0.  
+> >
+> > Hmm, I can confirm the original issue, and that adding __packed does
+> > have an impact (it reduces the size of rtw8814a_efuse from 522 to 520),
+> > but the actual size is still wrong (should be 512).
+> >
+> > drivers/net/wireless/realtek/rtw88/rtw88xxa.h has a similar issue, but
+> > adding __packed does not make a difference there.
+> >
+> > Removing the __packed from struct rtw8814au_efuse increases its size
+> > from 14 to 16 bytes.  Looks like that ABI pads every structure to a
+> > multiple of 4 bytes?  
+> 
+> Correct, that is a unique property of the ARM "OABI" legacy ABI,
+> triggered by this defconfig line:
+> 
+> # CONFIG_AEABI is not set
+> 
+> Nobody should be using ARM OABI any more, and I think we should
+> remove it from the kernel once support for the StrongARM
+> CPU gets removed (I have patches for that), as those CPUs were
+> the last ones that regularly used OABI.
 
-All errors (new ones prefixed by >>):
+That would definitely save all the annoyance of the otherwise
+pointless __packed.
+(I've seen it crop up before, but wasn't sure which architecture it was.)
+Doesn't OABI also have 32bit bool?
 
->> drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:191:64: error: use of undeclared identifier 'DSA_TAG_PROTO_MXL862_8021Q'
-     191 |         bool vlan_sp_tag = (priv->port_info[cpu_port].tag_protocol == DSA_TAG_PROTO_MXL862_8021Q);
-         |                                                                       ^
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:371:15: error: use of undeclared identifier 'DSA_TAG_PROTO_MXL862_8021Q'
-     371 |                 tag_proto = DSA_TAG_PROTO_MXL862_8021Q;
-         |                             ^
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2175:64: error: use of undeclared identifier 'DSA_TAG_PROTO_MXL862_8021Q'
-    2175 |         bool vlan_sp_tag = (priv->port_info[cpu_port].tag_protocol == DSA_TAG_PROTO_MXL862_8021Q);
-         |                                                                       ^
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2543:64: error: use of undeclared identifier 'DSA_TAG_PROTO_MXL862_8021Q'
-    2543 |         bool vlan_sp_tag = (priv->port_info[cpu_port].tag_protocol == DSA_TAG_PROTO_MXL862_8021Q);
-         |                                                                       ^
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2593:64: error: use of undeclared identifier 'DSA_TAG_PROTO_MXL862_8021Q'
-    2593 |         bool vlan_sp_tag = (priv->port_info[cpu_port].tag_protocol == DSA_TAG_PROTO_MXL862_8021Q);
-         |                                                                       ^
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2708:48: error: use of undeclared identifier 'DSA_TAG_PROTO_MXL862_8021Q'
-    2708 |         if (priv->port_info[cpu_port].tag_protocol == DSA_TAG_PROTO_MXL862_8021Q) {
-         |                                                       ^
-   drivers/net/dsa/mxl862xx_downstream/mxl862xx.c:2798:64: error: use of undeclared identifier 'DSA_TAG_PROTO_MXL862_8021Q'
-    2798 |         bool vlan_sp_tag = (priv->port_info[cpu_port].tag_protocol == DSA_TAG_PROTO_MXL862_8021Q);
-         |                                                                       ^
-   7 errors generated.
+> Annotating the union as '__packed' is the correct fix for
+> the theoretical users of OABI, and does nothing on other
+> supported targets in Linux.
 
+The other option is to ensure the specific drivers aren't ever compiled
+for !CONFIG_AEABI.
+Then it'll all get tidied up when you remove it.
 
-vim +/DSA_TAG_PROTO_MXL862_8021Q +191 drivers/net/dsa/mxl862xx_downstream/mxl862xx.c
+I read that the patches to remove 486 support have been merged.
+I'm sure it would have made sense to drop everything before P-Pro
+so that cmov can be used.
 
-   183	
-   184	static int mxl862xx_update_bridge_conf_port(struct dsa_switch *ds, u8 port,
-   185						    struct net_device *bridge, int action)
-   186	{
-   187		struct mxl862xx_priv *priv = ds->priv;
-   188		u8 max_ports = priv->hw_info->max_ports;
-   189		u8 cpu_port = priv->cpu_port;
-   190		u8 i;
- > 191		bool vlan_sp_tag = (priv->port_info[cpu_port].tag_protocol == DSA_TAG_PROTO_MXL862_8021Q);
-   192	
-   193		/*struct dsa_port *dp = dsa_to_port(priv->ds, port), *other_dp;
-   194		 * struct mxl862xx_port_info *other_p;
-   195		 *int other_port;
-   196		 */
-   197		int ret;
-   198	
-   199		/* Update local bridge port map */
-   200		for (i = 0; i < max_ports; i++) {
-   201			int bridge_id = priv->port_info[i].bridge_id;
-   202	
-   203			if (dsa_is_unused_port(ds, i))
-   204				continue;
-   205	
-   206			/* CPU port is assigned to all bridges and cannot be modified  */
-   207			if ((dsa_is_cpu_port(ds, i)))
-   208				continue;
-   209	
-   210			/* Skip if bridge does not match, except the self port assignment  */
-   211			if ((dsa_port_bridge_dev_get(dsa_to_port(ds, i)) != bridge) && (i != port))
-   212				continue;
-   213	
-   214			/* Case for standalone bridges assigned only to single user and CPU ports.
-   215			 * Used only for initial ports isolation */
-   216			if ((bridge == NULL) && (i != port))
-   217				continue;
-   218	
-   219			if (action)
-   220				priv->bridge_portmap[bridge_id] |= BIT(DSA_MXL_PORT(port));
-   221			else
-   222				priv->bridge_portmap[bridge_id] &= ~BIT(DSA_MXL_PORT(port));
-   223		}
-   224	
-   225		/* Update switch according to local bridge port map */
-   226		/* Add this port to the port maps of other ports skiping it's own map */
-   227		for (i = 0; i < max_ports; i++) {
-   228			struct mxl862xx_bridge_port_config br_port_cfg = { };
-   229			int bridge_id = priv->port_info[i].bridge_id;
-   230	
-   231			if (!(dsa_is_user_port(ds, i)))
-   232				continue;
-   233	
-   234			/* Case for standalone bridges assigned only to single user and CPU ports.
-   235			 * Used only for initial ports isolation
-   236			 */
-   237			if (!bridge && i != port)
-   238				continue;
-   239	
-   240			/* Do not reconfigure any standalone bridge if this is bridge join scenario */
-   241			if (bridge && !priv->port_info[i].bridge)
-   242				continue;
-   243	
-   244			br_port_cfg.bridge_port_id = DSA_MXL_PORT(i);
-   245			br_port_cfg.mask |=
-   246				MXL862XX_BRIDGE_PORT_CONFIG_MASK_BRIDGE_PORT_MAP |
-   247				MXL862XX_BRIDGE_PORT_CONFIG_MASK_BRIDGE_ID;
-   248	
-   249			ret = MXL862XX_API_READ(priv, MXL862XX_BRIDGEPORT_CONFIGGET, br_port_cfg);
-   250			if (ret) {
-   251				dev_err(ds->dev, "failed to set bridge port configuration on port %d\n",
-   252					port);
-   253				return ret;
-   254			}
-   255	
-   256			/* Skip port map update if for the existing bridge the port
-   257			 * is not assigned there.
-   258			 */
-   259			if (i != port && (br_port_cfg.bridge_id != bridge_id ||
-   260					  br_port_cfg.bridge_id == 0))
-   261				continue;
-   262	
-   263			br_port_cfg.mask |=
-   264				MXL862XX_BRIDGE_PORT_CONFIG_MASK_BRIDGE_PORT_MAP |
-   265				MXL862XX_BRIDGE_PORT_CONFIG_MASK_BRIDGE_ID |
-   266				MXL862XX_BRIDGE_PORT_CONFIG_MASK_MC_SRC_MAC_LEARNING;
-   267	
-   268			/* Skip the port itself in it's own portmap */
-   269			br_port_cfg.bridge_port_map[0] =
-   270				priv->bridge_portmap[bridge_id] & ~(BIT(DSA_MXL_PORT(i)));
-   271	
-   272			if (action) {
-   273				br_port_cfg.src_mac_learning_disable = !bridge;
-   274				br_port_cfg.bridge_id = bridge_id;
-   275			} else {
-   276				/* When port is removed from the bridge, assign it back to the default
-   277				 * bridge 0
-   278				 */
-   279				br_port_cfg.src_mac_learning_disable = true;
-   280				/* Cleanup the port own map leaving only the CPU port mapping. */
-   281				if (i == port) {
-   282					br_port_cfg.bridge_port_map[0] = BIT(DSA_MXL_PORT(cpu_port));
-   283					br_port_cfg.bridge_id = 0;
-   284				}
-   285			}
-   286	
-   287			ret = MXL862XX_API_WRITE(priv, MXL862XX_BRIDGEPORT_CONFIGSET, br_port_cfg);
-   288			if (ret) {
-   289				dev_err(ds->dev, "failed to set bridge port configuration on port %d\n", port);
-   290				return ret;
-   291			}
-   292		}
-   293	
-   294		/* Configure additional bridge port for VLAN based tagging */
-   295		if (vlan_sp_tag) {
-   296			int bridge_id = priv->port_info[port].bridge_id;
-   297			uint16_t bridge_port_cpu = DSA_MXL_PORT(port) + 16;
-   298			struct mxl862xx_bridge_port_alloc bpa_param = { };
-   299			struct mxl862xx_bridge_port_config br_port_cfg = { };
-   300	
-   301			bpa_param.bridge_port_id = bridge_port_cpu;
-   302	
-   303			if (action) {
-   304				/* add */
-   305				ret = MXL862XX_API_READ(priv, MXL862XX_BRIDGEPORT_ALLOC, bpa_param);
-   306				if (ret) {
-   307					dev_err(ds->dev,
-   308						"%s: Port:%d failed to prepare associated bridge port\n",
-   309						__func__, port);
-   310					return ret;
-   311				}
-   312	
-   313				br_port_cfg.mask |=
-   314					MXL862XX_BRIDGE_PORT_CONFIG_MASK_BRIDGE_PORT_MAP |
-   315					MXL862XX_BRIDGE_PORT_CONFIG_MASK_BRIDGE_ID |
-   316					MXL862XX_BRIDGE_PORT_CONFIG_MASK_EGRESS_CTP_MAPPING |
-   317					MXL862XX_BRIDGE_PORT_CONFIG_MASK_MC_SRC_MAC_LEARNING;
-   318				br_port_cfg.bridge_id = bridge_id;
-   319				br_port_cfg.bridge_port_id = bridge_port_cpu;
-   320				br_port_cfg.bridge_port_map[0] = BIT(DSA_MXL_PORT(port));
-   321				br_port_cfg.dest_logical_port_id = DSA_MXL_PORT(cpu_port);
-   322				br_port_cfg.src_mac_learning_disable = true;
-   323	
-   324				ret = MXL862XX_API_WRITE(priv, MXL862XX_BRIDGEPORT_CONFIGSET, br_port_cfg);
-   325				if (ret) {
-   326					dev_err(ds->dev,
-   327					"%s: Configuration of cpu bridge port:%d  for port:%d on bridge:%d failed with ret=%d\n",
-   328					__func__, bridge_port_cpu, port, bridge_id, ret);
-   329					return ret;
-   330				}
-   331	
-   332				/* Add bridge cpu port to portmap */
-   333				priv->bridge_portmap[bridge_id] |= BIT(bridge_port_cpu);
-   334				priv->port_info[port].bridge_port_cpu = bridge_port_cpu;
-   335			} else {
-   336				/* remove */
-   337				ret = MXL862XX_API_WRITE(priv, MXL862XX_BRIDGEPORT_FREE, bpa_param);
-   338				if (ret) {
-   339					dev_err(ds->dev,
-   340						"%s: Port:%d failed to free associated bridge port\n",
-   341						__func__, port);
-   342					return ret;
-   343				}
-   344				/* Remove bridge cpu port from portmap */
-   345				priv->bridge_portmap[bridge_id] &= ~BIT(bridge_port_cpu);
-   346				priv->port_info[port].bridge_port_cpu = 0;
-   347			}
-   348		}
-   349	
-   350		return 0;
-   351	}
-   352	
+	David
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+>        Arnd
+> 
+
