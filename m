@@ -1,231 +1,196 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC3311D435F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Apr 2026 05:06:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B013E362149
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Apr 2026 07:15:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776056803; cv=none; b=kt66WZV8BwiIfitHHBXAVnrUcP/7UmhgP7kSdgpisKKgTP/fgZ/2cf4YiznCcrJwFKaqXwlw/Ba7O5SYMq8xCB0bi2okXI60bwlHfJP4KN67q5RUEwAKqi0nuDM/IGqmpfVEeklxx4Ucrr9NyDyvfxXnVROYz2QnsJILC4giIHk=
+	t=1776064519; cv=none; b=l+LtqKUYpMZ6UN1bPtm+2OsKxwIhr8oQug6bkaJ23KD6OwJYCZebOrzAIfT6UG8n9JFHvNatxwc4ckFv7ngyjhnEmZQPXbK6ZMQh42gHCFd1lXFrc/mDt4Vd0yqMZjmk/mBppGwHQdxunBL55v5kWGRzxUqjqb6E3K8a6c+D4LU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776056803; c=relaxed/simple;
-	bh=P+b7uaFGTUV3bTP6yciBUHO15N2Azg/BFtHQI7h1is8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=nZc0/crp8rZFQQIb7LmyymsIKe1FnZzVkbn7K6n7y74pgaUToBeYBdRq5AGeQv5EPFwfJ/0UQG+jPmNjcEaBNeFMEyt6nNXETxHV3O8/F6pA+l47multKOIJIk3CakODTdeszfKOGXp2iuihJBA6PH4mznhrK1vf2h1EjdHk33Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nMgDp1wp; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1776064519; c=relaxed/simple;
+	bh=tod54RQerlnJofGfV81hsaKAzeig/oqQ1xrLxgJt+o4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CMKWPmMXSL0hMcz7ZZJIHIEXTkY5CMk7RGMaOS3dJfwNNo8012J8yiBlkzxj1Ei7UMbQMkApiK9uMTPbmhJQM5kzlw9OQ7JBEMrDog3xTJTAKFIXZVWot/IpWrz/FsgkRTqcZhiYCqpbsbwADqupSdp+HZNXOgJOqFuRZYybPV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lWLMuDsV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YPZjEfIf; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ry8YTLQU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Ld2XamGr; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nMgDp1wp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776056802; x=1807592802;
-  h=date:from:to:cc:subject:message-id;
-  bh=P+b7uaFGTUV3bTP6yciBUHO15N2Azg/BFtHQI7h1is8=;
-  b=nMgDp1wpPG80PUsspZ7MwjdnlEi5adDZd8VFyPFcX6ZcmiPcq/0qUSmp
-   /EzWnFaoOGGB49U7NkGmWFG3fBUNI61yLCXxsDgBplrsXaYIbNeNYLB6Z
-   a8hJtq+7OO7Jud/t7xraT/Ad4hxRJT86DvkXIrnyLB5AfOI6lEj2DU7Tl
-   WFCda0B7TV7VF88f6Bl7ep085nxeS2UZUvOB3iv6sc+h/jb6iSzI3IY9u
-   izs2zT4/InjjN+S7ec2cnVh8256PDBKLwDq+/yDniarv36ySYM5ULlUK8
-   RJJoew5jPmTK3mi3GHkgIS558M3atu8OPEKEVv7pL0aW/tNzUw+MV8z/s
-   g==;
-X-CSE-ConnectionGUID: Oj48YtYZScawT6TOE8JXcg==
-X-CSE-MsgGUID: c97JfvwuQKemsQ9Xw6kGRA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11757"; a="76019859"
-X-IronPort-AV: E=Sophos;i="6.23,176,1770624000"; 
-   d="scan'208";a="76019859"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2026 22:06:41 -0700
-X-CSE-ConnectionGUID: z0ees/fkRs6+wnZ/spFGtA==
-X-CSE-MsgGUID: 3ani71wNQO6Da1QbjyqTgQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,176,1770624000"; 
-   d="scan'208";a="229592895"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 12 Apr 2026 22:06:40 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wC9VN-00000000BRx-2ohW;
-	Mon, 13 Apr 2026 05:06:37 +0000
-Date: Mon, 13 Apr 2026 07:05:38 +0200
-From: kernel test robot <lkp@intel.com>
-To: Eric Chanudet <echanude@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: kernel/cgroup/dmem.c:638:32: error: 'memory_cgrp_subsys'
- undeclared; did you mean 'dmem_cgrp_subsys'?
-Message-ID: <202604130746.rTvdZdvd-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lWLMuDsV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YPZjEfIf";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ry8YTLQU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ld2XamGr"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id F32F76A88F;
+	Mon, 13 Apr 2026 07:15:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1776064516; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=dCHKoeJ3y61DWP9gxF2f3vF8sO5yy7UzLY7efyoo9Ng=;
+	b=lWLMuDsV3sGVdosaDreo7/e/N8mkfF09Yj4bg9o9APQTzCtJiGrSaV8AFkH159p2FHTvUY
+	cKmv+AUSDz1bE5e4i1qXFwChF9YapIaoe4n+M+7y9xm+eVgFrzRhipO4kxNFt+9opLIVv0
+	nfQlTu+GIvA2xqCUylIe6FhJ59EZ7lE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1776064516;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=dCHKoeJ3y61DWP9gxF2f3vF8sO5yy7UzLY7efyoo9Ng=;
+	b=YPZjEfIfQlKhllmxj5cZMcS5bGqCpmDWH3arO8o4V8JRFZqe5HAzLa+HjX6D/zAPaEl3eW
+	d6I+icK16kfr8UBA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1776064515; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=dCHKoeJ3y61DWP9gxF2f3vF8sO5yy7UzLY7efyoo9Ng=;
+	b=Ry8YTLQUZtO4P+gQXE+Z32yX2phDAR4RDYp+8lVju+rHRpeRUixL/XX3wyKDj4NQHio939
+	0Pk1LV+QqzQNvMgGroVergf6e7AEwq2f1eGWIbsRViwIsWB4gwc8cLWz0Q+rcA74G4td0x
+	VayinW7GijbqKm0KGVMb9U0URj8WxiY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1776064515;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=dCHKoeJ3y61DWP9gxF2f3vF8sO5yy7UzLY7efyoo9Ng=;
+	b=Ld2XamGrV9fgGZMgwXm+H2M0ptWYJ1H+PPxuIr5dBOKUcTlsuO+vmozXmZ7+8dAj2teC95
+	sUg645ZRt4aQc6BA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CF56E4AD6E;
+	Mon, 13 Apr 2026 07:15:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id VT67MAOY3GkAQwAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Mon, 13 Apr 2026 07:15:15 +0000
+Message-ID: <497baf5d-4955-4c42-a728-104419ad658c@suse.de>
+Date: Mon, 13 Apr 2026 09:15:15 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [deller-fbdev:for-next-v7.1 17/22] ERROR: modpost: "__end_rodata"
+ [lib/fonts/font.ko] undefined!
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Helge Deller <deller@gmx.de>
+References: <202604112326.kWhH8Y7A-lkp@intel.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <202604112326.kWhH8Y7A-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.10 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	SUBJECT_ENDS_EXCLAIM(0.20)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmx.de];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[lists.linux.dev,gmx.de];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.de:mid,suse.com:url,imap1.dmz-prg2.suse.org:helo,01.org:url]
+X-Spam-Flag: NO
+X-Spam-Score: -4.10
+X-Spam-Level: 
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Eric-Chanudet/mm-memcontrol-add-page-level-charge-uncharge-functions/20260412-024958
-head:   d432aa1b86c612f87412ed0e6bd36d1818b7522d
-commit: d432aa1b86c612f87412ed0e6bd36d1818b7522d cgroup/dmem: add a node to double charge in memcg
-date:   34 hours ago
-config: i386-randconfig-2006-20250804 (https://download.01.org/0day-ci/archive/20260413/202604130746.rTvdZdvd-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260413/202604130746.rTvdZdvd-lkp@intel.com/reproduce)
+Hi Helge
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604130746.rTvdZdvd-lkp@intel.com/
+Am 11.04.26 um 17:54 schrieb kernel test robot:
+> Hi Thomas,
+>
+> FYI, the error/warning still remains.
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git for-next-v7.1
+> head:   26484b2fa418a002d099608e681aef86fc90990c
+> commit: a76e4bfc4b3586b47ede8e83bdb6050cd6b16025 [17/22] lib/fonts: Compare font data for equality with font_data_is_equal()
 
-All errors (new ones prefixed by >>):
+This is still the old v1 or v2 of the patch.
 
-   kernel/cgroup/dmem.c: In function 'mem_cgroup_from_cgroup':
->> kernel/cgroup/dmem.c:638:32: error: 'memory_cgrp_subsys' undeclared (first use in this function); did you mean 'dmem_cgrp_subsys'?
-     638 |         css = cgroup_e_css(c, &memory_cgrp_subsys);
-         |                                ^~~~~~~~~~~~~~~~~~
-         |                                dmem_cgrp_subsys
-   kernel/cgroup/dmem.c:638:32: note: each undeclared identifier is reported only once for each function it appears in
-   kernel/cgroup/dmem.c: In function 'dmem_cgroup_uncharge':
->> kernel/cgroup/dmem.c:663:17: error: implicit declaration of function 'mem_cgroup_uncharge_pages'; did you mean 'mem_cgroup_uncharge_folios'? [-Wimplicit-function-declaration]
-     663 |                 mem_cgroup_uncharge_pages(memcg,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 mem_cgroup_uncharge_folios
-   kernel/cgroup/dmem.c: In function 'dmem_cgroup_try_charge':
->> kernel/cgroup/dmem.c:720:23: error: implicit declaration of function 'mem_cgroup_try_charge_pages'; did you mean 'dmem_cgroup_try_charge'? [-Wimplicit-function-declaration]
-     720 |                 ret = mem_cgroup_try_charge_pages(memcg, GFP_KERNEL, nr_pages);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                       dmem_cgroup_try_charge
+> config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260411/202604112326.kWhH8Y7A-lkp@intel.com/config)
 
+Is it a recent warning? I'm asking because that config is for v7.0-rc2 
+and hence outdated.
 
-vim +638 kernel/cgroup/dmem.c
+> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260411/202604112326.kWhH8Y7A-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202604112326.kWhH8Y7A-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+>
+>>> ERROR: modpost: "__end_rodata" [lib/fonts/font.ko] undefined!
 
-   629	
-   630	static struct mem_cgroup *mem_cgroup_from_cgroup(struct cgroup *c)
-   631	{
-   632		struct cgroup_subsys_state *css;
-   633	
-   634		if (mem_cgroup_disabled())
-   635			return NULL;
-   636	
-   637		rcu_read_lock();
- > 638		css = cgroup_e_css(c, &memory_cgrp_subsys);
-   639		rcu_read_unlock();
-   640	
-   641		return mem_cgroup_from_css(css);
-   642	}
-   643	
-   644	/**
-   645	 * dmem_cgroup_uncharge() - Uncharge a pool.
-   646	 * @pool: Pool to uncharge.
-   647	 * @size: Size to uncharge.
-   648	 *
-   649	 * Undoes the effects of dmem_cgroup_try_charge.
-   650	 * Must be called with the returned pool as argument,
-   651	 * and same @index and @size.
-   652	 */
-   653	void dmem_cgroup_uncharge(struct dmem_cgroup_pool_state *pool, u64 size)
-   654	{
-   655		if (!pool)
-   656			return;
-   657	
-   658		page_counter_uncharge(&pool->cnt, size);
-   659	
-   660		struct mem_cgroup *memcg = mem_cgroup_from_cgroup(pool->cs->css.cgroup);
-   661	
-   662		if (pool->memcg && memcg)
- > 663			mem_cgroup_uncharge_pages(memcg,
-   664						  PAGE_ALIGN(size) >> PAGE_SHIFT);
-   665	
-   666		css_put(&pool->cs->css);
-   667		dmemcg_pool_put(pool);
-   668	}
-   669	EXPORT_SYMBOL_GPL(dmem_cgroup_uncharge);
-   670	
-   671	/**
-   672	 * dmem_cgroup_try_charge() - Try charging a new allocation to a region.
-   673	 * @region: dmem region to charge
-   674	 * @size: Size (in bytes) to charge.
-   675	 * @ret_pool: On succesfull allocation, the pool that is charged.
-   676	 * @ret_limit_pool: On a failed allocation, the limiting pool.
-   677	 *
-   678	 * This function charges the @region region for a size of @size bytes.
-   679	 *
-   680	 * If the function succeeds, @ret_pool is set, which must be passed to
-   681	 * dmem_cgroup_uncharge() when undoing the allocation.
-   682	 *
-   683	 * When this function fails with -EAGAIN and @ret_limit_pool is non-null, it
-   684	 * will be set to the pool for which the limit is hit. This can be used for
-   685	 * eviction as argument to dmem_cgroup_evict_valuable(). This reference must be freed
-   686	 * with @dmem_cgroup_pool_state_put().
-   687	 *
-   688	 * Return: 0 on success, -EAGAIN on hitting a limit, or a negative errno on failure.
-   689	 */
-   690	int dmem_cgroup_try_charge(struct dmem_cgroup_region *region, u64 size,
-   691				  struct dmem_cgroup_pool_state **ret_pool,
-   692				  struct dmem_cgroup_pool_state **ret_limit_pool)
-   693	{
-   694		struct dmemcg_state *cg;
-   695		struct dmem_cgroup_pool_state *pool;
-   696		struct page_counter *fail;
-   697		struct mem_cgroup *memcg;
-   698		unsigned long nr_pages = PAGE_ALIGN(size) >> PAGE_SHIFT;
-   699		int ret;
-   700	
-   701		*ret_pool = NULL;
-   702		if (ret_limit_pool)
-   703			*ret_limit_pool = NULL;
-   704	
-   705		/*
-   706		 * hold on to css, as cgroup can be removed but resource
-   707		 * accounting happens on css.
-   708		 */
-   709		cg = get_current_dmemcs();
-   710	
-   711		pool = get_cg_pool_unlocked(cg, region);
-   712		if (IS_ERR(pool)) {
-   713			ret = PTR_ERR(pool);
-   714			goto err_css_put;
-   715		}
-   716	
-   717		pool->memcg_locked = true;
-   718		memcg = get_mem_cgroup_from_current();
-   719		if (pool->memcg && memcg) {
- > 720			ret = mem_cgroup_try_charge_pages(memcg, GFP_KERNEL, nr_pages);
-   721			if (ret) {
-   722				/*
-   723				 * No dmem_cgroup_state_evict_valuable() could help,
-   724				 * there's no ret_limit_pool to return.
-   725				 */
-   726				ret = -ENOMEM;
-   727				dmemcg_pool_put(pool);
-   728				goto err_memcg_put;
-   729			}
-   730		}
-   731	
-   732		if (!page_counter_try_charge(&pool->cnt, size, &fail)) {
-   733			if (ret_limit_pool) {
-   734				*ret_limit_pool = container_of(fail, struct dmem_cgroup_pool_state, cnt);
-   735				css_get(&(*ret_limit_pool)->cs->css);
-   736				dmemcg_pool_get(*ret_limit_pool);
-   737			}
-   738			dmemcg_pool_put(pool);
-   739			ret = -EAGAIN;
-   740			goto err_uncharge_memcg;
-   741		}
-   742	
-   743		mem_cgroup_put(memcg);
-   744	
-   745		/* On success, reference from get_current_dmemcs is transferred to *ret_pool */
-   746		*ret_pool = pool;
-   747		return 0;
-   748	
-   749	err_uncharge_memcg:
-   750		if (pool->memcg && memcg)
-   751			mem_cgroup_uncharge_pages(memcg, nr_pages);
-   752	err_memcg_put:
-   753		mem_cgroup_put(memcg);
-   754	err_css_put:
-   755		css_put(&cg->css);
-   756		return ret;
-   757	}
-   758	EXPORT_SYMBOL_GPL(dmem_cgroup_try_charge);
-   759	
+This linker error came from the original implementation of 
+font_data_is_internal(). I've fixed it in v3 of the patch at
+
+https://lore.kernel.org/linux-fbdev/20260309141723.137364-10-tzimmermann@suse.de/
+
+That's also the version in fbdev's for-next branch. I think we're good 
+here, unless there's a way this still happens with v3.
+
+Best regards
+Thomas
+
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
+
