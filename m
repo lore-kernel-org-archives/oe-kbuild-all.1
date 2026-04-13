@@ -1,196 +1,176 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B013E362149
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Apr 2026 07:15:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4229C39768A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Apr 2026 07:45:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776064519; cv=none; b=l+LtqKUYpMZ6UN1bPtm+2OsKxwIhr8oQug6bkaJ23KD6OwJYCZebOrzAIfT6UG8n9JFHvNatxwc4ckFv7ngyjhnEmZQPXbK6ZMQh42gHCFd1lXFrc/mDt4Vd0yqMZjmk/mBppGwHQdxunBL55v5kWGRzxUqjqb6E3K8a6c+D4LU=
+	t=1776066305; cv=none; b=CQgy+tsmNiTaG5q6Chzxh2ADCACrEru+QonS8lZbBMVGlzA5XFWlV0N8lcdgcq4zzoj3o3xj9lr5n/ExADvT6SoQ/Z5N7nuePwXg/JLo4GzDePFKT0ZUVVud7Rhjyl491wCTOgD1Zmc/nai2bA9akaXDz+ZjTs5DlamSFWxkX+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776064519; c=relaxed/simple;
-	bh=tod54RQerlnJofGfV81hsaKAzeig/oqQ1xrLxgJt+o4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CMKWPmMXSL0hMcz7ZZJIHIEXTkY5CMk7RGMaOS3dJfwNNo8012J8yiBlkzxj1Ei7UMbQMkApiK9uMTPbmhJQM5kzlw9OQ7JBEMrDog3xTJTAKFIXZVWot/IpWrz/FsgkRTqcZhiYCqpbsbwADqupSdp+HZNXOgJOqFuRZYybPV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lWLMuDsV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YPZjEfIf; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ry8YTLQU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Ld2XamGr; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1776066305; c=relaxed/simple;
+	bh=EhoLnscEdSif09V3BiZD5njhQLHP3bClGuHIqwupXKo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Mqd+IsgisVpTQuMhxkix+dJYvWO+WdizMY0L9mK/C7RsZAI5i0aB2/A48F/tuQf6mKiXgP12I6qUvlCaTCeKakTU7/8l5rXZ3e6y6LZx6DoDJVxcJvtGwR6Pf1PF1UqN/RYgLp5pXgmAVZpYt0EccpCHeI6x4ZztQq5VvAT6xhk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pnYCDMFO; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lWLMuDsV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YPZjEfIf";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ry8YTLQU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ld2XamGr"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id F32F76A88F;
-	Mon, 13 Apr 2026 07:15:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776064516; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=dCHKoeJ3y61DWP9gxF2f3vF8sO5yy7UzLY7efyoo9Ng=;
-	b=lWLMuDsV3sGVdosaDreo7/e/N8mkfF09Yj4bg9o9APQTzCtJiGrSaV8AFkH159p2FHTvUY
-	cKmv+AUSDz1bE5e4i1qXFwChF9YapIaoe4n+M+7y9xm+eVgFrzRhipO4kxNFt+9opLIVv0
-	nfQlTu+GIvA2xqCUylIe6FhJ59EZ7lE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776064516;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=dCHKoeJ3y61DWP9gxF2f3vF8sO5yy7UzLY7efyoo9Ng=;
-	b=YPZjEfIfQlKhllmxj5cZMcS5bGqCpmDWH3arO8o4V8JRFZqe5HAzLa+HjX6D/zAPaEl3eW
-	d6I+icK16kfr8UBA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776064515; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=dCHKoeJ3y61DWP9gxF2f3vF8sO5yy7UzLY7efyoo9Ng=;
-	b=Ry8YTLQUZtO4P+gQXE+Z32yX2phDAR4RDYp+8lVju+rHRpeRUixL/XX3wyKDj4NQHio939
-	0Pk1LV+QqzQNvMgGroVergf6e7AEwq2f1eGWIbsRViwIsWB4gwc8cLWz0Q+rcA74G4td0x
-	VayinW7GijbqKm0KGVMb9U0URj8WxiY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776064515;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=dCHKoeJ3y61DWP9gxF2f3vF8sO5yy7UzLY7efyoo9Ng=;
-	b=Ld2XamGrV9fgGZMgwXm+H2M0ptWYJ1H+PPxuIr5dBOKUcTlsuO+vmozXmZ7+8dAj2teC95
-	sUg645ZRt4aQc6BA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CF56E4AD6E;
-	Mon, 13 Apr 2026 07:15:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id VT67MAOY3GkAQwAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Mon, 13 Apr 2026 07:15:15 +0000
-Message-ID: <497baf5d-4955-4c42-a728-104419ad658c@suse.de>
-Date: Mon, 13 Apr 2026 09:15:15 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pnYCDMFO"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-488b00ed86fso42979365e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Apr 2026 00:45:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776066303; x=1776671103; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IFBTnsUYXqhDI5NnHFE73UwnXCIbelAw1exwYRkRb5Q=;
+        b=pnYCDMFORNwhSHv1keUEfipkMRt7SDdLE5z1fW5Vx0hsbzzHkV5vE3YVs9X1N4Rtq7
+         3KmmF9g8BNnMEsb0c9exi7T0P9DjOqzrjwaDDJEpFUeCckywdZ6x8izzNVS2/+ZTSRLb
+         NKzRJZjwajQQ2eW0+cmVYKptVCGIg9dRZ0WPbNL335uiFQekhkNegpw543uOI/QVkfqk
+         DNG0N1kjgJZKRgduh0RrYiPNOwTeF3sXpATogWy3TiQNikAM58XgMALRrKRR9YFzedcb
+         3odI0hKQ1q8JhW/U361dYkcH47TR9Do8/ihbjYvJ+SE4dRK1+I4NzCCWTVfzcrEAFQMk
+         s6cQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776066303; x=1776671103;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IFBTnsUYXqhDI5NnHFE73UwnXCIbelAw1exwYRkRb5Q=;
+        b=lz7zJIXHD7l7OxMyEGpMgRe7SZdq+qaXMBOvpBRYcHb5hHKgX6WLV0HGuDvEhx0kzd
+         Fp5DiGuJSplB+sWJLPxLAwrPjIfnz9T9kHT9TFoaMUsuglJnFeZDUJGXvzjWKSWksnh3
+         ia2ZXAFbfoGncW3GoxEKyrqcUeCNAYXM+zyjL4+kvR/xS6w1OfZFpp1mckxfNFP6zXLq
+         JqTbLVPLt3ZRIURh9MEwGbDNOKYwnwXao/DSC83vtmTUxpDVIoDCzEuMbO4A76cYxs1L
+         j1mDwOA4vz1R/ND5JphUvTzKJCH+u7TbaUbL18cM+j7Z+roz/cEmfqfiaWbYwqOYtA0h
+         MIhw==
+X-Forwarded-Encrypted: i=1; AFNElJ92P/PmPJryzRWtetP1T0BOTg1OXdylRt5Mff3mgihfqAEsOjaCEfl+DNUCGR2tpbT297HTrTORpac+YWy5@lists.linux.dev
+X-Gm-Message-State: AOJu0YzDTCJtYrpC30sXxSCuYd1+s42/n22SpfBlV93f4afRu/FsCXp4
+	BGtz7fGkkZSMn3eKjxlwF3bmVqfRbMXbqO10A2OZIkDTGFfSBRP+KFeg
+X-Gm-Gg: AeBDieutjAZgAyCFlbw7Qsbkj0gInKw7pchx+Q+gh9kw3qwJKfyGLPbJ1MlLfeZQjsu
+	0BR9/pFBhpQ18J9Qts5n5Bji7cmtduvOn/69BiFz0V9DLCawmbrqE+YA4b60LpMyp4n71LNXF5E
+	/THe0EY7ReOetWCTBDp7IqyUZO4zzuP2Sh0VZnFRbdZFFmetQmtNYqRkTSVlLY6s7cXRZT2pdJI
+	I/+qcl0O+AM/ieJSRNvYLCPhZaYu54B16/a70DsiszX5KuMk7txEZTvkD8SI50gZen6H4q6yBUD
+	PGRiun4vQnOEa8M6mcAYYoa4ZMzWh0HWN+VDsDs7vqseX0/3qiehMHdZyErHko+mATbe2OnsDSA
+	IKVJBF2PmA5EVEfT0B0nhj8ronC9sy2xoNkQap9P4Sg5plAdLjXJQeogQgtAle4RJnqINetlAY+
+	p7Ch+1P3DKHpRnGNg4xfA=
+X-Received: by 2002:a05:600d:d:b0:488:ba5f:984f with SMTP id 5b1f17b1804b1-488d67b8dadmr129963085e9.6.1776066302392;
+        Mon, 13 Apr 2026 00:45:02 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d67b4903sm114545315e9.5.2026.04.13.00.45.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Apr 2026 00:45:01 -0700 (PDT)
+Date: Mon, 13 Apr 2026 10:44:58 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Haren Myneni <haren@linux.ibm.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Mahesh Salgaonkar <mahesh@linux.ibm.com>,
+	Tyrel Datwyler <tyreld@linux.ibm.com>
+Subject: arch/powerpc/platforms/pseries/papr-hvpipe.c:214
+ hvpipe_rtas_recv_msg() warn: maybe return -EFAULT instead of the bytes
+ remaining?
+Message-ID: <202604121903.MkgWjl8q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [deller-fbdev:for-next-v7.1 17/22] ERROR: modpost: "__end_rodata"
- [lib/fonts/font.ko] undefined!
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Helge Deller <deller@gmx.de>
-References: <202604112326.kWhH8Y7A-lkp@intel.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <202604112326.kWhH8Y7A-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.10 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	SUBJECT_ENDS_EXCLAIM(0.20)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmx.de];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[lists.linux.dev,gmx.de];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.de:mid,suse.com:url,imap1.dmz-prg2.suse.org:helo,01.org:url]
-X-Spam-Flag: NO
-X-Spam-Score: -4.10
-X-Spam-Level: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Helge
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f5459048c38a00fc583658d6dcd0f894aff6df8f
+commit: cebdb522fd3edd1fe05f7b4a74a27da7dd0f8d86 powerpc/pseries: Receive payload with ibm,receive-hvpipe-msg RTAS
+config: powerpc64-randconfig-r071-20260412 (https://download.01.org/0day-ci/archive/20260412/202604121903.MkgWjl8q-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.4.0
+smatch: v0.5.0-9004-gb810ac53
 
-Am 11.04.26 um 17:54 schrieb kernel test robot:
-> Hi Thomas,
->
-> FYI, the error/warning still remains.
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git for-next-v7.1
-> head:   26484b2fa418a002d099608e681aef86fc90990c
-> commit: a76e4bfc4b3586b47ede8e83bdb6050cd6b16025 [17/22] lib/fonts: Compare font data for equality with font_data_is_equal()
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Fixes: cebdb522fd3e ("powerpc/pseries: Receive payload with ibm,receive-hvpipe-msg RTAS")
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202604121903.MkgWjl8q-lkp@intel.com/
 
-This is still the old v1 or v2 of the patch.
+New smatch warnings:
+arch/powerpc/platforms/pseries/papr-hvpipe.c:214 hvpipe_rtas_recv_msg() warn: maybe return -EFAULT instead of the bytes remaining?
 
-> config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260411/202604112326.kWhH8Y7A-lkp@intel.com/config)
+Old smatch warnings:
+arch/powerpc/platforms/pseries/papr-hvpipe.c:360 papr_hvpipe_handle_read() warn: maybe return -EFAULT instead of the bytes remaining?
 
-Is it a recent warning? I'm asking because that config is for v7.0-rc2 
-and hence outdated.
+vim +214 arch/powerpc/platforms/pseries/papr-hvpipe.c
 
-> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260411/202604112326.kWhH8Y7A-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202604112326.kWhH8Y7A-lkp@intel.com/
->
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
->
->>> ERROR: modpost: "__end_rodata" [lib/fonts/font.ko] undefined!
+cebdb522fd3edd Haren Myneni 2025-09-09  174  static int hvpipe_rtas_recv_msg(char __user *buf, int size)
+cebdb522fd3edd Haren Myneni 2025-09-09  175  {
+cebdb522fd3edd Haren Myneni 2025-09-09  176  	struct rtas_work_area *work_area;
+cebdb522fd3edd Haren Myneni 2025-09-09  177  	u32 srcID, bytes_written;
+cebdb522fd3edd Haren Myneni 2025-09-09  178  	int ret;
+cebdb522fd3edd Haren Myneni 2025-09-09  179  
+cebdb522fd3edd Haren Myneni 2025-09-09  180  	work_area = rtas_work_area_alloc(SZ_4K);
+cebdb522fd3edd Haren Myneni 2025-09-09  181  	if (!work_area) {
+cebdb522fd3edd Haren Myneni 2025-09-09  182  		pr_err("Could not allocate RTAS buffer for recv pipe\n");
+cebdb522fd3edd Haren Myneni 2025-09-09  183  		return -ENOMEM;
+cebdb522fd3edd Haren Myneni 2025-09-09  184  	}
+cebdb522fd3edd Haren Myneni 2025-09-09  185  
+cebdb522fd3edd Haren Myneni 2025-09-09  186  	ret = rtas_ibm_receive_hvpipe_msg(work_area, &srcID,
+cebdb522fd3edd Haren Myneni 2025-09-09  187  					&bytes_written);
+cebdb522fd3edd Haren Myneni 2025-09-09  188  	if (!ret) {
 
-This linker error came from the original implementation of 
-font_data_is_internal(). I've fixed it in v3 of the patch at
+Flip this around.  Always do error handling, not success handling.
+Otherwise imagine if we have 9 successful calls in a row, that would be
+10 tabs so we would be beyond the end of the 80 character limit.
 
-https://lore.kernel.org/linux-fbdev/20260309141723.137364-10-tzimmermann@suse.de/
+	if (ret) {
+		pr_err("ibm,receive-hvpipe-msg failed with %d\n", ret);
+		goto free_work_area;
+	}
 
-That's also the version in fbdev's for-next branch. I think we're good 
-here, unless there's a way this still happens with v3.
+cebdb522fd3edd Haren Myneni 2025-09-09  189  		/*
+cebdb522fd3edd Haren Myneni 2025-09-09  190  		 * Recv HVPIPE RTAS is successful.
+cebdb522fd3edd Haren Myneni 2025-09-09  191  		 * When releasing FD or no one is waiting on the
+cebdb522fd3edd Haren Myneni 2025-09-09  192  		 * specific source, issue recv HVPIPE RTAS call
+cebdb522fd3edd Haren Myneni 2025-09-09  193  		 * so that pipe is not blocked - this func is called
+cebdb522fd3edd Haren Myneni 2025-09-09  194  		 * with NULL buf.
+cebdb522fd3edd Haren Myneni 2025-09-09  195  		 */
+cebdb522fd3edd Haren Myneni 2025-09-09  196  		if (buf) {
 
-Best regards
-Thomas
+	if (!buf) {
+		/* blah blah blah explanation */
+		ret = 0;
+		goto free_work_area;
+	}
 
+cebdb522fd3edd Haren Myneni 2025-09-09  197  			if (size < bytes_written) {
+cebdb522fd3edd Haren Myneni 2025-09-09  198  				pr_err("Received the payload size = %d, but the buffer size = %d\n",
+cebdb522fd3edd Haren Myneni 2025-09-09  199  					bytes_written, size);
+cebdb522fd3edd Haren Myneni 2025-09-09  200  				bytes_written = size;
+cebdb522fd3edd Haren Myneni 2025-09-09  201  			}
+cebdb522fd3edd Haren Myneni 2025-09-09  202  			ret = copy_to_user(buf,
+cebdb522fd3edd Haren Myneni 2025-09-09  203  					rtas_work_area_raw_buf(work_area),
+cebdb522fd3edd Haren Myneni 2025-09-09  204  					bytes_written);
+cebdb522fd3edd Haren Myneni 2025-09-09  205  			if (!ret)
+cebdb522fd3edd Haren Myneni 2025-09-09  206  				ret = bytes_written;
+
+Heh.  Now ret either holds the number of bytes_written or the number of
+bytes not written and we have no idea which it is.
+
+	if (copy_to_user(buf, rtas_work_area_raw_buf(work_area),
+			 bytes_written))
+		ret = -EFAULT;
+	else
+		ret = bytes_written;
+
+cebdb522fd3edd Haren Myneni 2025-09-09  207  		}
+cebdb522fd3edd Haren Myneni 2025-09-09  208  	} else {
+cebdb522fd3edd Haren Myneni 2025-09-09  209  		pr_err("ibm,receive-hvpipe-msg failed with %d\n",
+cebdb522fd3edd Haren Myneni 2025-09-09  210  				ret);
+cebdb522fd3edd Haren Myneni 2025-09-09  211  	}
+cebdb522fd3edd Haren Myneni 2025-09-09  212  
+cebdb522fd3edd Haren Myneni 2025-09-09  213  	rtas_work_area_free(work_area);
+cebdb522fd3edd Haren Myneni 2025-09-09 @214  	return ret;
+cebdb522fd3edd Haren Myneni 2025-09-09  215  }
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
