@@ -1,152 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 928C1313E15
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Apr 2026 22:52:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DB6835B658
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Apr 2026 23:02:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776120762; cv=none; b=a6e2OdHjSegOSeNHhNSYrBkQcC85ExTweQPPdq4lC0QM/GTCtkSguy8FgloNHX6NNjFPYGFG23rZnxCPlEyL04c67SKRx70k9Y4aG380gEKSVvG9RwQHlZtFQFLFbAwdxo7SIS2IeoLc5lDPoxNee0q2xaWIjrVF8HmHMyCFUmc=
+	t=1776121364; cv=none; b=MCG0EPvrStKpO4OxwbCzhzgwSS3Iit4pAsjWbXtSHfESkitfdQS80KkOZUN3U5h/MZdL3MooxBYya6bBgm7OZAnOGgoBpR38rDqGrhK5mtdEQ7UMNblz0G7bgNsKUG07/9MKdhdRTlfRkMa8m6Zwrfu0ZS8PKOIBCq0tPzKCSKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776120762; c=relaxed/simple;
-	bh=cKbltWg1jga4Yl5GgW7kNioIeDm9WVOb6BCNxixij4A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ncBqkEJqZlS+jKFjhIXm0VlTLf49VbwBAyQ/NnGhrngKhmU15sP/23JYl546zdpE22TD8t5GyE7XS5DX4fAHIDQJN9l/dnFrzqcpoXKTGsAxeUyuy2zeOZ5VqAD4nfpWnDEe3f6ZKSW3/g6kP8JHcXfVuJ8h7rVXzaUl/Nqhq/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZSeL6TZR; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1776121364; c=relaxed/simple;
+	bh=JrZIVGcUamh7pitdqZCQDzpglxph8PYNCm2VSAG5rCg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=pLxnLhgyFDG0KSKazkV2kBRGoVo5PcB68E+g0rW6BZWSeIPuc7N8K8UK6xF1BoH+7xWc/v0DIRCAcq2yMrwaO5STK9igOZjELUW772KS1U6FfxnM5GvmcXOYZMn24386rLGWEpRmEgHT4lAytkZA3eFJy/0jmQ3ncCmamm9EDNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LLaEr3LS; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZSeL6TZR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LLaEr3LS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776120760; x=1807656760;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cKbltWg1jga4Yl5GgW7kNioIeDm9WVOb6BCNxixij4A=;
-  b=ZSeL6TZRrC6lYKyiJgYhf2mfww3FhuF5xZeafWCAf58IgJn6z+DLP72B
-   SRqQLAqX5UVSGP8pmOS95DSxbQWDh4vUvIhKj+A/oDvCKWjf6+lz1ZE54
-   mohiAgJq/x/ucSvTiHrWfuFWl60857TbU610wiDUAXW8zpIoTw5gT1FKP
-   nGsdzaTX8UqkzHU4JXiv2WU4bo6VzAwHNx27bodh7kg8SPuHd8hBWf4GS
-   hOuISWn6qLBa9t6/y5M1TJmVUxwtg+dE0M8HY8AOATVa47pjdSKI1CwYF
-   dBWmx0yMHZEISD/8PidqgWGv8rHXadO0HRD786sUXodV+cjqBe4URfVBa
+  t=1776121362; x=1807657362;
+  h=date:from:to:cc:subject:message-id;
+  bh=JrZIVGcUamh7pitdqZCQDzpglxph8PYNCm2VSAG5rCg=;
+  b=LLaEr3LSZZ97lbDC6IKxarFkrIbIY6mm+aMQz1bnjQyDAZ1smH5XcuaS
+   HWLKK4MBpSKaN3k4rCkif42eAJOI2Y6tvhNc0ZpGPQNgwxYQDPKzTsjfK
+   SQyAGaRWhYWHyA8FIMI9WVYjOl9BWUy82dORuSAO84QUEz09ylYcVLD+n
+   XNPyjdn7jMjDwc8SyF02dZr1IYkZXN1SUVwK/Pc8HR7vVJXCofoeI0S6u
+   4UQPuDbtpPAm7SS8uqbx9cYfSGpXbG4fkRkdb9Uvr22weSJK6mzQ93cyN
+   gXPRyEhOPNkVx7qCBH2S4qmerw017V3T8ao8kPlDoNqwqvZuZyfos0aE2
    A==;
-X-CSE-ConnectionGUID: gYLxAdf1RcK0Oe23O4ZbKQ==
-X-CSE-MsgGUID: Wu33ShC5TAitvglt+N/6GQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11758"; a="76946864"
+X-CSE-ConnectionGUID: lnJJuCPeR3iBAsb3rdD9IQ==
+X-CSE-MsgGUID: +RIT2gtfS2KyrW/x9MvocA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11758"; a="77033686"
 X-IronPort-AV: E=Sophos;i="6.23,178,1770624000"; 
-   d="scan'208";a="76946864"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 15:52:40 -0700
-X-CSE-ConnectionGUID: 7d84IPBMQOOtgjSNxMJHnA==
-X-CSE-MsgGUID: ERt7o8jSTOKiv249XO6BjQ==
+   d="scan'208";a="77033686"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 16:02:42 -0700
+X-CSE-ConnectionGUID: HFi5c52SRbuPKzEAm7FBkA==
+X-CSE-MsgGUID: zk7ygEJBQ42HI8c67EXtbQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,178,1770624000"; 
-   d="scan'208";a="229856290"
+   d="scan'208";a="230159413"
 Received: from lkp-server01.sh.intel.com (HELO 7b0b59b3a0d4) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 13 Apr 2026 15:52:39 -0700
+  by orviesa007.jf.intel.com with ESMTP; 13 Apr 2026 16:02:40 -0700
 Received: from kbuild by 7b0b59b3a0d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wCQ8y-000000000vh-3p9L;
-	Mon, 13 Apr 2026 22:52:36 +0000
-Date: Tue, 14 Apr 2026 06:51:55 +0800
+	id 1wCQIf-000000000wH-2CvA;
+	Mon, 13 Apr 2026 23:02:37 +0000
+Date: Tue, 14 Apr 2026 07:02:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Prakash Sangappa <prakash.sangappa@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 1/1] netlink: Add Netlink process event for cgroup
- migration
-Message-ID: <202604140633.6zMiph03-lkp@intel.com>
-References: <20260407172339.2017158-2-prakash.sangappa@oracle.com>
+To: Tiwei Bie <tiwei.btw@antgroup.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Johannes Berg <johannes.berg@intel.com>
+Subject: drivers/net/wireless/broadcom/b43legacy/dma.c:178
+ priority_to_txring() warn: inconsistent indenting
+Message-ID: <202604140729.2mAAGWwP-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260407172339.2017158-2-prakash.sangappa@oracle.com>
 
-Hi Prakash,
+Hi Tiwei,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on tj-cgroup/for-next]
-[also build test ERROR on net/main net-next/main linus/master v7.0 next-20260413]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Prakash-Sangappa/netlink-Add-Netlink-process-event-for-cgroup-migration/20260413-212045
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git for-next
-patch link:    https://lore.kernel.org/r/20260407172339.2017158-2-prakash.sangappa%40oracle.com
-patch subject: [RFC PATCH 1/1] netlink: Add Netlink process event for cgroup migration
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260414/202604140633.6zMiph03-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260414/202604140633.6zMiph03-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0f00132132937ca01a99feaf8985109a9087c9ff
+commit: a0e2cb6a90634f3dc80f16e882a683ee5761b0b0 um: Add VFIO-based virtual PCI driver
+date:   11 months ago
+config: um-randconfig-r071-20260414 (https://download.01.org/0day-ci/archive/20260414/202604140729.2mAAGWwP-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9007-gcf3ea02b
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: a0e2cb6a9063 ("um: Add VFIO-based virtual PCI driver")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604140633.6zMiph03-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604140729.2mAAGWwP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+drivers/net/wireless/broadcom/b43legacy/dma.c:178 priority_to_txring() warn: inconsistent indenting
+drivers/net/wireless/broadcom/b43legacy/dma.c:678 b43legacy_setup_dmaring() warn: check likely/unlikely parentheses
 
-   kernel/cgroup/cgroup.c: In function 'cgroup_attach_task':
->> kernel/cgroup/cgroup.c:2985:17: error: implicit declaration of function 'proc_cgroup_migrate_connector'; did you mean 'proc_cgrp_migrate_connector'? [-Wimplicit-function-declaration]
-    2985 |                 proc_cgroup_migrate_connector(leader, dst_cgrp);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 proc_cgrp_migrate_connector
---
-   kernel/cgroup/cgroup-v1.c: In function 'cgroup_transfer_tasks':
->> kernel/cgroup/cgroup-v1.c:153:33: error: implicit declaration of function 'proc_cgroup_migrate_connector'; did you mean 'proc_cgrp_migrate_connector'? [-Wimplicit-function-declaration]
-     153 |                                 proc_cgroup_migrate_connector(task, to);
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                 proc_cgrp_migrate_connector
+Old smatch warnings:
+drivers/net/wireless/broadcom/b43legacy/dma.c:183 priority_to_txring() warn: check likely/unlikely parentheses
+drivers/net/wireless/broadcom/b43legacy/dma.c:917 parse_cookie() warn: check likely/unlikely parentheses
 
+vim +178 drivers/net/wireless/broadcom/b43legacy/dma.c
 
-vim +2985 kernel/cgroup/cgroup.c
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  169  
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  170  /* Mac80211-queue to b43legacy-ring mapping */
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  171  static struct b43legacy_dmaring *priority_to_txring(
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  172  						struct b43legacy_wldev *dev,
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  173  						int queue_priority)
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  174  {
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  175  	struct b43legacy_dmaring *ring;
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  176  
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  177  /*FIXME: For now we always run on TX-ring-1 */
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25 @178  return dev->dma.tx_ring1;
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  179  
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  180  	/* 0 = highest priority */
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  181  	switch (queue_priority) {
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  182  	default:
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  183  		B43legacy_WARN_ON(1);
+ce3b6845fc4d96 drivers/net/wireless/broadcom/b43legacy/dma.c Gustavo A. R. Silva 2020-08-21  184  		fallthrough;
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  185  	case 0:
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  186  		ring = dev->dma.tx_ring3;
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  187  		break;
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  188  	case 1:
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  189  		ring = dev->dma.tx_ring2;
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  190  		break;
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  191  	case 2:
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  192  		ring = dev->dma.tx_ring1;
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  193  		break;
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  194  	case 3:
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  195  		ring = dev->dma.tx_ring0;
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  196  		break;
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  197  	case 4:
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  198  		ring = dev->dma.tx_ring4;
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  199  		break;
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  200  	case 5:
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  201  		ring = dev->dma.tx_ring5;
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  202  		break;
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  203  	}
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  204  
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  205  	return ring;
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  206  }
+75388acd0cd827 drivers/net/wireless/b43legacy/dma.c          Larry Finger        2007-09-25  207  
 
-  2951	
-  2952	/**
-  2953	 * cgroup_attach_task - attach a task or a whole threadgroup to a cgroup
-  2954	 * @dst_cgrp: the cgroup to attach to
-  2955	 * @leader: the task or the leader of the threadgroup to be attached
-  2956	 * @threadgroup: attach the whole threadgroup?
-  2957	 *
-  2958	 * Call holding cgroup_mutex and cgroup_threadgroup_rwsem.
-  2959	 */
-  2960	int cgroup_attach_task(struct cgroup *dst_cgrp, struct task_struct *leader,
-  2961			       bool threadgroup)
-  2962	{
-  2963		DEFINE_CGROUP_MGCTX(mgctx);
-  2964		struct task_struct *task;
-  2965		int ret = 0;
-  2966	
-  2967		/* look up all src csets */
-  2968		spin_lock_irq(&css_set_lock);
-  2969		task = leader;
-  2970		do {
-  2971			cgroup_migrate_add_src(task_css_set(task), dst_cgrp, &mgctx);
-  2972			if (!threadgroup)
-  2973				break;
-  2974		} while_each_thread(leader, task);
-  2975		spin_unlock_irq(&css_set_lock);
-  2976	
-  2977		/* prepare dst csets and commit */
-  2978		ret = cgroup_migrate_prepare_dst(&mgctx);
-  2979		if (!ret)
-  2980			ret = cgroup_migrate(leader, threadgroup, &mgctx);
-  2981	
-  2982		cgroup_migrate_finish(&mgctx);
-  2983	
-  2984		if (!ret) {
-> 2985			proc_cgroup_migrate_connector(leader, dst_cgrp);
-  2986			TRACE_CGROUP_PATH(attach_task, dst_cgrp, leader, threadgroup);
-  2987		}
-  2988	
-  2989		return ret;
-  2990	}
-  2991	
+:::::: The code at line 178 was first introduced by commit
+:::::: 75388acd0cd827dc1498043daa7d1c760902cd67 [B43LEGACY]: add mac80211-based driver for legacy BCM43xx devices
+
+:::::: TO: Larry Finger <Larry.Finger@lwfinger.net>
+:::::: CC: David S. Miller <davem@sunset.davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
