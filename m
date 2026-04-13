@@ -1,181 +1,163 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78D06383C78
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Apr 2026 20:17:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74E2F849C;
+	Mon, 13 Apr 2026 20:58:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776111479; cv=none; b=lBw/Dw8esx420CUAj+tWbJQ3V9RKN4+98duaKfQXmlE2T5QHWJ6PKp+zNPJmNgX2J7hyN56bK31ooY1qN+4qnXbrOEl9/CnCUo4OLyKORICzFNqKhWQ0xwEVCjnPtVOQfPCdXRc7p3x5NST8wSeIxHP1WvCX9IVMkQ8TNjzMyME=
+	t=1776113933; cv=none; b=n1T4DPwTPePdwbciqGRjMWOAxU7K4MfxdGHcWtkaj3qAaAEQ61iaRimuABtbPwNklHxcWY18U4zqQuTYbJ8JYI61/BvquHCqgMcFIP+H2sFo+CdXf3UVfe6IHZ4P6kRqn4hxhhAYRgJs8N1cYpi6ZdZs7IaF8T8HYYxWlnQYYKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776111479; c=relaxed/simple;
-	bh=wP4z9P4uZmwRAO8DvMsuP8Hd8F9gBkWn4g+KT+IeUYw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tGVnKmilACpNCQJGzcF45cO7jULAEfDQoOVur0UlbSmLVkOQ0B5P10ebXSeaxK6TNX5Mw2l/6A23CjN0u6PSfR7kz/X/RRuQc9iJzFrFu4lftD3Dw7UvGB5h/V2KQ2ZxVXsUK5evAAgOr0MHWvpgJ+/kdNa8dzXK0Yijb9tfDf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LLsTqNM3; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776113933; c=relaxed/simple;
+	bh=0nFUNq9uEIASWRFhwO2TFEMh8F2N5o1b8k4Wqbwb7Co=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=l6az9Z7ymff3ynxMPN1rCYU0/2b/sADmtyuHTxwQfS22e5M7lwK1oPSfDZiy8F/mzuYWXEwGeMY4Y2cBNToU9yO+16nLyiE9zLavrkF/Aj2higSzKMnCRB6PtyXSTCAarRKuc0fAiKeZb79Ccw78n8WhKQNCGeM6h54+5KJVAxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KYMn/lf9; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LLsTqNM3"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-43cfd96354aso2767426f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Apr 2026 13:17:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776111477; x=1776716277; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QonialaOeRsx+GeBfarh1r5oZZLkjbGCk56wYsSk4i0=;
-        b=LLsTqNM3LJq1gHqoDa37MP55+6LBEf88pvcycca/Vi4e4XoSqml2bdeznh369rVXV8
-         DD3Z0Ai375DIZGToXUs3wsP7OxvyQk3eEUIURoOB/qn6QP08wny//SJRfQ/MHYCJmSpw
-         uhueU6zPAFjEkLk1wVpnRBdCmKV59XmFHTWe7JYlfHV6KWB3EY2LIO6SSINUO6WJvZsb
-         1dIgPDDHmjoMNOumbp5HMQ+4/U26rmvuemxGcTwreO4YBKlQ+4AHKAjSTNxZpP6FkQCb
-         6yP96035qqFuNqcGAyDx4olfkzGlhKu3LyS23wf6nn5ejee0JY/ylEK/82rwPD+p/EKf
-         4aeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776111477; x=1776716277;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=QonialaOeRsx+GeBfarh1r5oZZLkjbGCk56wYsSk4i0=;
-        b=fyUqa+Il3JvIC0UJsAGRJPHZoAg4QJ3yT9sySJqzU91BWVH2R1iwRPDxDJCnm0ZJgQ
-         snQarmw83IM2DpYg+EvhueG8x7GipOdx6tOGYG8LTP55yeY3OZKI+EI0l2piP1Kns+DT
-         lB1JD1b46VPncjgVdBf3H6U7bS/h5bAy4FdBpxZaslPGTFICFdoNXQ5BpC3yDE2ulvLo
-         qOgrHK74dOXA4SWTcRF4juNbO2acRklQi/V6IExMDu3/GK1FYrI32DqMjkR6V+h/gG+/
-         C7kH0U4Ex5bMj+jt07ilWWIY0XBSeKo94d9ZgGMYTf9373KQNysq+pVlCkICB2NV97dm
-         S57Q==
-X-Forwarded-Encrypted: i=1; AFNElJ/4LARQHOPSVnk/huQfmFPRwM/EzS+tiC8YeyUDEzrYU56EalE1gITkUUMN+0k9DZbo1IcK7enmAOe3Yb2v@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy2BDYJ4SLIT8c4Jq3XG9uZWf1wXaR1HobU0iUONP8yXubj3A7s
-	qSFfYudDWESiz0dmEg81bJIcTPkJlVxazcUssWjijZAGBgF9jEnqZBxU
-X-Gm-Gg: AeBDies9sU0GXLH1TZYR/hSkNAbETueON8W/6GNCe0FN/0ivdFHw0gr53XXDEv9W4iL
-	BAPnKLquj1zB62jTOjnlNGCQ5+w1CMY/A84aLLXYqFmMORqta63/PVmYH+mkjdYDv64AhbwSvXv
-	s4UANzCdC3zsN7tTEyXwyQQbOcNg63wfGp+ZTAR7p0U1khuyyI1fdLW5tnOmR7nE6dPLXAYXDxM
-	f+UEVqoW4LonbmjV90wwpesPYy/rU/ukC8Di8aXx24emewByk+UVefjc4v36lhkecBhaXf+ZFKo
-	iO8V85rJDRf5zGb7clC0kmbAOaa/LTxEtbftfxoSwVvFZgT4d7mXETVDc8As/IMIttDHrAHB/rQ
-	AFe1UCSwrIZV/7N9XbwwJus2kyzq0kteayusEu2bqksxdirTjHjISuqdvUo09EMexsmML0riewt
-	oq71P9e6QkKn2maX15VmkoMVjVJgLcGURqyGHmq5ZU4tOUzOyTcF9p5etJawus9ng7BXNBsFkJe
-	CQ=
-X-Received: by 2002:a05:6000:c4f:b0:43d:68b2:a0ec with SMTP id ffacd0b85a97d-43d68b2a2b5mr12724663f8f.1.1776111476618;
-        Mon, 13 Apr 2026 13:17:56 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63dec295sm34973689f8f.14.2026.04.13.13.17.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Apr 2026 13:17:56 -0700 (PDT)
-Date: Mon, 13 Apr 2026 21:17:54 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: "Bird, Tim" <Tim.Bird@sony.com>
-Cc: kernel test robot <lkp@intel.com>, "pmladek@suse.com"
- <pmladek@suse.com>, "rostedt@goodmis.org" <rostedt@goodmis.org>,
- "john.ogness@linutronix.de" <john.ogness@linutronix.de>,
- "senozhatsky@chromium.org" <senozhatsky@chromium.org>,
- "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
- "francesco@valla.it" <francesco@valla.it>, "geert@linux-m68k.org"
- <geert@linux-m68k.org>, "tglx@kernel.org" <tglx@kernel.org>,
- "shashankbalaji02@gmail.com" <shashankbalaji02@gmail.com>,
- "linux-embedded@vger.kernel.org" <linux-embedded@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 1/1] printk: fix zero-valued printk timestamps in
- early boot
-Message-ID: <20260413211754.643f6113@pumpkin>
-In-Reply-To: <MW5PR13MB563241C9F7C8BCAF0D5F3D21FD242@MW5PR13MB5632.namprd13.prod.outlook.com>
-References: <20260410203741.997410-2-tim.bird@sony.com>
-	<202604121822.OvOLcTnO-lkp@intel.com>
-	<MW5PR13MB563241C9F7C8BCAF0D5F3D21FD242@MW5PR13MB5632.namprd13.prod.outlook.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KYMn/lf9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776113931; x=1807649931;
+  h=date:from:to:cc:subject:message-id;
+  bh=0nFUNq9uEIASWRFhwO2TFEMh8F2N5o1b8k4Wqbwb7Co=;
+  b=KYMn/lf991i8PIUZMJQn/kY2jUmrUSYP2NMzZjvIArdvRXQGJi8rQVFh
+   alrdLcfg17FeLiuN96K2OagX9z6ZmB+0XvwxAX6eKPaxHobmA7gDGTubk
+   KjAd9hna/g0hRrkVs3UiwJkZfwrC7ti/6eu2GFkGKGoFhpfTqSjUGQHS6
+   kP5BvV/vUdvB7r5Pm7du5gTE42cxdi9itk+A3tmehqKzgPD2BoKWuemvB
+   wlskOnfkj5qGuOnm4anfWneLTqpmhaltm8QG2gXX9RaTY5hkqwiKTGlyZ
+   pKGjoSDll5CQG6N6kVKWn8xQbARvz0ShOmA0ub3SU+FC92WkOrWvXUEAN
+   w==;
+X-CSE-ConnectionGUID: +Nbq5lllStufK/XOpJInRw==
+X-CSE-MsgGUID: tpBu695eTwycXFLPVZ1WEg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11758"; a="94629295"
+X-IronPort-AV: E=Sophos;i="6.23,177,1770624000"; 
+   d="scan'208";a="94629295"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 13:58:51 -0700
+X-CSE-ConnectionGUID: rGjjANCbQZK1bTj4h1NAXw==
+X-CSE-MsgGUID: ZKAGbMLdS1G8TPte33hUXw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,177,1770624000"; 
+   d="scan'208";a="253102546"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa002.fm.intel.com with ESMTP; 13 Apr 2026 13:58:49 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wCOMp-000000000Aa-2faP;
+	Mon, 13 Apr 2026 20:58:47 +0000
+Date: Mon, 13 Apr 2026 22:57:51 +0200
+From: kernel test robot <lkp@intel.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ 0day robot <lkp@intel.com>
+Subject: mm/page_alloc.c:1758:34: error: use of undeclared identifier
+ 'page_reporting_host_zeroes'; did you mean 'page_reporting_notify_free'?
+Message-ID: <202604132244.y6063sr4-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Mon, 13 Apr 2026 17:58:34 +0000
-"Bird, Tim" <Tim.Bird@sony.com> wrote:
+tree:   https://github.com/intel-lab-lkp/linux/commits/Michael-S-Tsirkin/mm-page_alloc-propagate-PageReported-flag-across-buddy-splits/20260413-231432
+head:   b595bf053bb60e812c690b177ae9b15d9df745d5
+commit: 8abc113d8e46f1cc8c8d4264f87923849d312e56 mm: page_reporting: skip redundant zeroing of host-zeroed reported pages
+date:   6 hours ago
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260413/202604132244.y6063sr4-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260413/202604132244.y6063sr4-lkp@intel.com/reproduce)
 
-> Hmmm,
-> 
-> This is a false positive warning from the compiler (see below).
-> 
-> I apologize for not catching it.   I did test with CONFIG_EARLY_CYCLES=0
-> and I'm not sure why I didn't see the warning.
-> 
-> I'll see if I can silence this warning.
-> 
-> > -----Original Message-----
-> > From: kernel test robot <lkp@intel.com>
-> > Sent: Sunday, April 12, 2026 4:11 AM
-> > Hi Tim,
-> > 
-> > kernel test robot noticed the following build warnings:
-> > 
-> > [auto build test WARNING on linus/master]
-> > [also build test WARNING on v7.0-rc7 next-20260410]
-> > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > And when submitting patch, we suggest to use '--base' as documented in
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Tim-Bird/printk-fix-zero-valued-printk-timestamps-in-early-boot/20260412-134726
-> > base:   linus/master
-> > patch link:    https://lore.kernel.org/r/20260410203741.997410-2-tim.bird%40sony.com
-> > patch subject: [PATCH v4 1/1] printk: fix zero-valued printk timestamps in early boot
-> > config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20260412/202604121822.OvOLcTnO-lkp@intel.com/config)
-> > compiler: aarch64-linux-gcc (GCC) 15.2.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260412/202604121822.OvOLcTnO-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202604121822.OvOLcTnO-lkp@intel.com/
-> > 
-> > All warnings (new ones prefixed by >>):
-> > 
-> >    In file included from kernel/printk/printk.c:49:
-> >    include/linux/early_times.h: In function 'early_times_ns':  
-> > >> include/linux/early_times.h:45:61: warning: division by zero [-Wdiv-by-zero]  
-> >       45 |                 return (early_unsafe_cycles() * NS_PER_KHZ) / CONFIG_EARLY_CYCLES_KHZ;
-> >          |                                                             ^
-> > 
-> > 
-> > vim +45 include/linux/early_times.h
-> > 
-> >     34
-> >     35	/* returns a nanosecond value based on early cycles */
-> >     36	static inline u64 early_times_ns(void)
-> >     37	{
-> >     38		if (CONFIG_EARLY_CYCLES_KHZ)
-> >     39			/*
-> >     40			 * Note: the multiply must precede the division to avoid
-> >     41			 * truncation and loss of resolution
-> >     42			 * Don't use fancier MULT/SHIFT math here.  Since this is
-> >     43			 * static, the compiler can optimize the math operations.
-> >     44			 */  
-> >   > 45			return (early_unsafe_cycles() * NS_PER_KHZ) / CONFIG_EARLY_CYCLES_KHZ;  
-> Based on this conditional, it's not possible for CONFIG_EARLY_CYCLES_KHZ to be zero
-> on this line of code.  Does GCC not catch this?
-> if (0)
->    x = <some expression>/0;
-> 
-> So this is a false positive.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604132244.y6063sr4-lkp@intel.com/
 
-I suspect the warning is being generated before the optimiser throws
-the code away as unreachable.
-You might have to do:
-	return (early_unsafe_cycles() * NS_PER_KHZ) / (CONFIG_EARLY_CYCLES_KHZ ?: 1);
+All errors (new ones prefixed by >>):
 
-David
+>> mm/page_alloc.c:1758:34: error: use of undeclared identifier 'page_reporting_host_zeroes'; did you mean 'page_reporting_notify_free'?
+    1758 |                        static_branch_unlikely(&page_reporting_host_zeroes);
+         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                page_reporting_notify_free
+   include/linux/jump_label.h:503:43: note: expanded from macro 'static_branch_unlikely'
+     503 |         if (__builtin_types_compatible_p(typeof(*x), struct static_key_true))   \
+         |                                                  ^
+   mm/page_reporting.h:51:20: note: 'page_reporting_notify_free' declared here
+      51 | static inline void page_reporting_notify_free(unsigned int order)
+         |                    ^
+>> mm/page_alloc.c:1758:34: error: use of undeclared identifier 'page_reporting_host_zeroes'; did you mean 'page_reporting_notify_free'?
+    1758 |                        static_branch_unlikely(&page_reporting_host_zeroes);
+         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                page_reporting_notify_free
+   include/linux/jump_label.h:504:38: note: expanded from macro 'static_branch_unlikely'
+     504 |                 branch = arch_static_branch_jump(&(x)->key, false);             \
+         |                                                    ^
+   mm/page_reporting.h:51:20: note: 'page_reporting_notify_free' declared here
+      51 | static inline void page_reporting_notify_free(unsigned int order)
+         |                    ^
+>> mm/page_alloc.c:1758:10: error: member reference base type 'void (unsigned int)' is not a structure or union
+    1758 |                        static_branch_unlikely(&page_reporting_host_zeroes);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/jump_label.h:504:40: note: expanded from macro 'static_branch_unlikely'
+     504 |                 branch = arch_static_branch_jump(&(x)->key, false);             \
+         |                                                   ~~~^ ~~~
+>> mm/page_alloc.c:1758:34: error: use of undeclared identifier 'page_reporting_host_zeroes'; did you mean 'page_reporting_notify_free'?
+    1758 |                        static_branch_unlikely(&page_reporting_host_zeroes);
+         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                page_reporting_notify_free
+   include/linux/jump_label.h:505:48: note: expanded from macro 'static_branch_unlikely'
+     505 |         else if (__builtin_types_compatible_p(typeof(*x), struct static_key_false)) \
+         |                                                       ^
+   mm/page_reporting.h:51:20: note: 'page_reporting_notify_free' declared here
+      51 | static inline void page_reporting_notify_free(unsigned int order)
+         |                    ^
+>> mm/page_alloc.c:1758:34: error: use of undeclared identifier 'page_reporting_host_zeroes'; did you mean 'page_reporting_notify_free'?
+    1758 |                        static_branch_unlikely(&page_reporting_host_zeroes);
+         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                page_reporting_notify_free
+   include/linux/jump_label.h:506:33: note: expanded from macro 'static_branch_unlikely'
+     506 |                 branch = arch_static_branch(&(x)->key, false);                  \
+         |                                               ^
+   mm/page_reporting.h:51:20: note: 'page_reporting_notify_free' declared here
+      51 | static inline void page_reporting_notify_free(unsigned int order)
+         |                    ^
+>> mm/page_alloc.c:1758:10: error: member reference base type 'void (unsigned int)' is not a structure or union
+    1758 |                        static_branch_unlikely(&page_reporting_host_zeroes);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/jump_label.h:506:35: note: expanded from macro 'static_branch_unlikely'
+     506 |                 branch = arch_static_branch(&(x)->key, false);                  \
+         |                                              ~~~^ ~~~
+   6 errors generated.
 
-> 
-> >     46		return 0;
-> >     47	}
-> >     48	#else
-> >     49	static inline u64 early_times_ns(void)
-> >     50	{
-> >     51		return 0;
-> >     52	}
-> >     53	#endif
-> >     54
-> > 
-> > --
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests/wiki  
 
+vim +1758 mm/page_alloc.c
+
+  1747	
+  1748	static __always_inline void page_del_and_expand(struct zone *zone,
+  1749							struct page *page, int low,
+  1750							int high, int migratetype)
+  1751	{
+  1752		int nr_pages = 1 << high;
+  1753		bool was_reported = page_reported(page);
+  1754	
+  1755		__del_page_from_free_list(page, zone, high, migratetype);
+  1756	
+  1757		was_reported = was_reported &&
+> 1758			       static_branch_unlikely(&page_reporting_host_zeroes);
+  1759	
+  1760		nr_pages -= expand(zone, page, low, high, migratetype, was_reported);
+  1761		account_freepages(zone, -nr_pages, migratetype);
+  1762	
+  1763		/*
+  1764		 * If the page was reported and the host is known to zero reported
+  1765		 * pages, mark it zeroed via page->private so that
+  1766		 * post_alloc_hook() can skip redundant zeroing.
+  1767		 */
+  1768		if (was_reported)
+  1769			set_page_private(page, MAGIC_PAGE_ZEROED);
+  1770	}
+  1771	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
