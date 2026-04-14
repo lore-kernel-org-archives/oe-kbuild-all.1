@@ -1,96 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02C803ACA61;
-	Tue, 14 Apr 2026 22:48:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E2EF389443
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Apr 2026 23:41:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776206917; cv=none; b=otIp95YnWopqP+4y0XMqqD1tk+9pClYbU43L49zbKKidvpNuvQkaaOfUq7fay89K5XG/ZkejWI1BpkZWkY38ncvHx9tBGs6y9hZPgFxnPfAzp66EH70wfifwK8mBsOJja2meR34O6BPsPJawm1o5DQdyfl6F2rvNjcQYuIyBx7o=
+	t=1776210081; cv=none; b=JP5SOlSSEDsUluke8vzSFm80l9hinQxxBt1PrP1P2vqYT2wSGhJFGKrhmc0GofKM9C3RVi1c5fHJnaguG1mSxe83gyuJvo4RAppqymzlsUY3phf0o4sbz4HSug1wI4/GeWzfRVPjTeqVWUYAFKfUDgvIzsxBgqHXEkglWPAL+50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776206917; c=relaxed/simple;
-	bh=r6RDvxhyX6YiPRskh2rejwalb3HkFTcbmhbV9a88g/Q=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=fptCMLyehJWmCp53hdngi39D1ylQpQGS3kNllPjUMNn9tvDzPDVLEHRSLqGgA7UdoO696O5+HltCmKwUsnnv0HcNoxY2Mg2lGoJ8tiMxq2RzrQQYwpJ5TkaPfLhnJ7h2ccc+VYp/s5VYr7LH/onLb/yhpqlsDlJ2iHEzbuyed1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YIeF0wN1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776210081; c=relaxed/simple;
+	bh=vZo9dbW4pd0F5AHbJWgmGW8QYcZboCRAl+ucLogtGY0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q8CzDkwyB2QDrHi18JGsSVp/H69OLq+IumeM9e+vf+gAsCvMlJyjhF80ZlX1eiCfY1iJVnLd4e4OR0eDH5MOaeYNyMpFARFdJovYgv87Tn7I22EiwWMN1CfByChSpHeBKgFG+RRU5IqD50z6Wh5oSOkemfO3TPF2WwGrv8aoihs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kNamr9HD; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YIeF0wN1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20269C19425;
-	Tue, 14 Apr 2026 22:48:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776206916;
-	bh=r6RDvxhyX6YiPRskh2rejwalb3HkFTcbmhbV9a88g/Q=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=YIeF0wN1H/0V9YhzLeaT3jub8Fr0QXgcMdQda17TIkkcVEvteTI44SgkhAIasXh8k
-	 Ad0mQCvJzTCejkHpPVrCordMYcYHTnd/jwjLgMVo7UmqFjbqYboA6Sw42cHR3gCaWj
-	 8bUuztBtkubiGmtZDM1hqS2GrdOziCI7CtlDlUAv81Hd0gKAATxLvnGft3jfjnlwMm
-	 yXctf6Qf2aDF8b8q+/BIuhCRb7B2JJcmqrINeYDQW4S+23i6r1QuoCtBAQhNQA4AAi
-	 pK7Y+JH0hNa559F9h6Py1XqGZ5X2IAUpaCSqhh3zQNgJCE+9G4NSCptIxSWbmksFLN
-	 GxZ+BtfZZ80yQ==
-From: Thomas Gleixner <tglx@kernel.org>
-To: "Bird, Tim" <Tim.Bird@sony.com>, kernel test robot <lkp@intel.com>,
- "pmladek@suse.com" <pmladek@suse.com>, "rostedt@goodmis.org"
- <rostedt@goodmis.org>, "john.ogness@linutronix.de"
- <john.ogness@linutronix.de>, "senozhatsky@chromium.org"
- <senozhatsky@chromium.org>
-Cc: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
- "francesco@valla.it" <francesco@valla.it>, "geert@linux-m68k.org"
- <geert@linux-m68k.org>, "shashankbalaji02@gmail.com"
- <shashankbalaji02@gmail.com>, "linux-embedded@vger.kernel.org"
- <linux-embedded@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v4 1/1] printk: fix zero-valued printk timestamps in
- early boot
-In-Reply-To: <MW5PR13MB563241C9F7C8BCAF0D5F3D21FD242@MW5PR13MB5632.namprd13.prod.outlook.com>
-References: <20260410203741.997410-2-tim.bird@sony.com>
- <202604121822.OvOLcTnO-lkp@intel.com>
- <MW5PR13MB563241C9F7C8BCAF0D5F3D21FD242@MW5PR13MB5632.namprd13.prod.outlook.com>
-Date: Wed, 15 Apr 2026 00:48:33 +0200
-Message-ID: <87o6jldupq.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kNamr9HD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776210080; x=1807746080;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vZo9dbW4pd0F5AHbJWgmGW8QYcZboCRAl+ucLogtGY0=;
+  b=kNamr9HDNnVevaC7aLbEveQhDkw7soXCRFThcl0YbdSXzR7LdDU0XScy
+   FMJJkQTOxffINyyPKd6qkduzMFYl+tzwEZedruzguW/oDanLkH0s0QcuB
+   E7uCVLrTWGBR7eyEf5c7AMtmbmb/+uIiL9KONSV/fHqyqjwIlAtyt6an+
+   teE8nvJ9axGAb6b42vntV83DZhaZ5OupuNoqB9WHmeTWB3s8XezKeP+4y
+   WWecx8wciGv60GdenU4rhBiSPYu+sOCwaoKXJcAJXx+/mRNKJyy+QHqNk
+   Yp7DDF2h3BOsrFRJtleDAxTCRYOmno9lQIX/+/PFeG3W2YVNJBJwRhz+v
+   w==;
+X-CSE-ConnectionGUID: 3rDax9cQSrW/BW5duCC29w==
+X-CSE-MsgGUID: NgSxuot5Tz+aDpWlT4vzYA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="94747598"
+X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
+   d="scan'208";a="94747598"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 16:41:19 -0700
+X-CSE-ConnectionGUID: psX7x4ebS3mO40OdMfdXeg==
+X-CSE-MsgGUID: y2mulXTsRuKwr4EwSdEP/w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
+   d="scan'208";a="235188687"
+Received: from lkp-server01.sh.intel.com (HELO 7b0b59b3a0d4) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 14 Apr 2026 16:41:17 -0700
+Received: from kbuild by 7b0b59b3a0d4 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wCnNa-000000001xV-1kfX;
+	Tue, 14 Apr 2026 23:41:14 +0000
+Date: Wed, 15 Apr 2026 07:40:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dudu Lu <phx0fer@gmail.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, stefanha@redhat.com, sgarzare@redhat.com,
+	mst@redhat.com, jasowang@redhat.com, Dudu Lu <phx0fer@gmail.com>
+Subject: Re: [PATCH] vsock/virtio: fix accept queue count leak on transport
+ mismatch in recv_listen
+Message-ID: <202604150747.6LyaJckM-lkp@intel.com>
+References: <20260413085243.73200-1-phx0fer@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260413085243.73200-1-phx0fer@gmail.com>
 
-On Mon, Apr 13 2026 at 17:58, Tim Bird wrote:
-> This is a false positive warning from the compiler (see below).
+Hi Dudu,
 
-This is _NOT_ a false positive warning. The compiler is absolutely
-correct.
+kernel test robot noticed the following build errors:
 
->>     34
->>     35	/* returns a nanosecond value based on early cycles */
->>     36	static inline u64 early_times_ns(void)
->>     37	{
->>     38		if (CONFIG_EARLY_CYCLES_KHZ)
->>     39			/*
->>     40			 * Note: the multiply must precede the division to avoid
->>     41			 * truncation and loss of resolution
->>     42			 * Don't use fancier MULT/SHIFT math here.  Since this is
->>     43			 * static, the compiler can optimize the math operations.
->>     44			 */
->>   > 45			return (early_unsafe_cycles() * NS_PER_KHZ) / CONFIG_EARLY_CYCLES_KHZ;
-> Based on this conditional, it's not possible for CONFIG_EARLY_CYCLES_KHZ to be zero
-> on this line of code.  Does GCC not catch this?
-> if (0)
->    x = <some expression>/0;
->
-> So this is a false positive.
+[auto build test ERROR on mst-vhost/linux-next]
+[also build test ERROR on net/main net-next/main linus/master horms-ipvs/master v7.0 next-20260414]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-You clearly fail to understand how compilers work. The dead code
-elimination happens _after_ the evaluation of the code and the compiler
-does not care whether your initial condition evaluated to false or
-not. That's documented compiler behaviour,
+url:    https://github.com/intel-lab-lkp/linux/commits/Dudu-Lu/vsock-virtio-fix-accept-queue-count-leak-on-transport-mismatch-in-recv_listen/20260414-233232
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux-next
+patch link:    https://lore.kernel.org/r/20260413085243.73200-1-phx0fer%40gmail.com
+patch subject: [PATCH] vsock/virtio: fix accept queue count leak on transport mismatch in recv_listen
+config: sparc-randconfig-001-20260415 (https://download.01.org/0day-ci/archive/20260415/202604150747.6LyaJckM-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260415/202604150747.6LyaJckM-lkp@intel.com/reproduce)
 
-Whether GCC complains about it or not is completely irrelevant.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604150747.6LyaJckM-lkp@intel.com/
 
-> I'll see if I can silence this warning.
+All errors (new ones prefixed by >>):
 
-Don't put much effort into it. This whole hack is going nowhere.
+   net/vmw_vsock/virtio_transport_common.c:1:2: warning: data definition has no type or storage class
+     sk_acceptq_added(sk);
+     ^~~~~~~~~~~~~~~~
+   net/vmw_vsock/virtio_transport_common.c:1:2: error: type defaults to 'int' in declaration of 'sk_acceptq_added' [-Werror=implicit-int]
+   net/vmw_vsock/virtio_transport_common.c:1:2: warning: parameter names (without types) in function declaration
+   In file included from include/linux/virtio_vsock.h:7,
+                    from net/vmw_vsock/virtio_transport_common.c:15:
+>> include/net/sock.h:1080:20: error: conflicting types for 'sk_acceptq_added'
+    static inline void sk_acceptq_added(struct sock *sk)
+                       ^~~~~~~~~~~~~~~~
+   net/vmw_vsock/virtio_transport_common.c:1:2: note: previous declaration of 'sk_acceptq_added' was here
+     sk_acceptq_added(sk);
+     ^~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
-Thanks,
 
-        tglx
+vim +/sk_acceptq_added +1080 include/net/sock.h
 
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1079  
+^1da177e4c3f415 Linus Torvalds 2005-04-16 @1080  static inline void sk_acceptq_added(struct sock *sk)
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1081  {
+288efe8606b62d0 Eric Dumazet   2019-11-05  1082  	WRITE_ONCE(sk->sk_ack_backlog, sk->sk_ack_backlog + 1);
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1083  }
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1084  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
