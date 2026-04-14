@@ -1,225 +1,224 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0154534EF08
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Apr 2026 12:45:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8E8A3E6DC4;
+	Tue, 14 Apr 2026 12:56:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776170744; cv=none; b=QiVuCvF2/Edvy55Jly37OIVJxvwAAJvDZQC8e6ju1IRTdgPHFOaa7yfsGClxe70U3/e5SfY46AO//ZqkBtE5OpKzkhdE1yLe5kYLrMiHjuQ2tFmpjQw5J02dZxpjiSFyOf8bY+IJI9rJBmSTmGzyoj02oT0sJG0Q2R9+GvE9pks=
+	t=1776171408; cv=none; b=AJc3+7hfKePrH6f01aA7DakHqLw9VLIwawlPH4T+qPkP9bjL/rCEOMGIhlyrrEnD5yCikSANBQH4+BhNGa8UkXtYH7/bxjfuO5nhTaXm/KzceG6lWzQIl30XMhvlYYofhQFcDfoRqPhTzfm8IzAcohOP7qM5w5VJsp6ms0+HWsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776170744; c=relaxed/simple;
-	bh=jYE11sUOvkAJT3+qkWzrARVxcmpvi5Fcl9LBkh2dMYY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=t1qUY9m9+ovLPQbevCY3ia4QXHL9Vn600qnWJgOw7tmptWhB9INsfqYPOFUw8CCFediZjDMGDYxljxZvFnSKHnIC1GIOQMa1lWHCc/rjNwUDn3NnSEfZvceS8Dmgjw05O1zgjVpLg1PkbCNvVQLy91kXSVcbVS1DdECFzNhIMLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k2LyASvh; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1776171408; c=relaxed/simple;
+	bh=ZrXbyEyBK+P/hkY0BifiDpyfiYT2v++6HGybHpXFRBA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D4OUUPAsgQDmGOnZ569tFfiJxwvTeM+DKu2qUkktMnYBwYImdBif9TBEBRX29LZ4yGIN2iWVOOOuCFX44aY3anVJ3VcnVpEgEOdk26ClYIfFhw2pBMk69Mo4KGrP/FDBwGpAtokxrhXVD3yuTVEGIIeTzjH/IoAnNZER+jtNsGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RkCX86tv; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k2LyASvh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RkCX86tv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776170742; x=1807706742;
-  h=date:from:to:cc:subject:message-id;
-  bh=jYE11sUOvkAJT3+qkWzrARVxcmpvi5Fcl9LBkh2dMYY=;
-  b=k2LyASvh+0nlU/ekdAmgE65vaDSE2P/LA603zjKt1SP5860P83Uecx9K
-   B3CZaeSlL9sVYZCHnqNN7MxHKinokyACv90AmMhXjsab+1NaBix2vyWkj
-   d/585jdEcmxY6tmGr/ZzlllT1fpVGl/4+4iLx1QTCkxpYzx+EiA9r5jOq
-   ig3JiaSEZmIQLblt6EUMpookRuzxVXn2iU52z7/aY8ggQ5FIob39Q/Eqk
-   hhxXQfs0kIQYfTHH213CMh7HGRw5uKFtY507xEKVFtSJpTb16qruOAp51
-   8479Yf9a71/nwOt1Gct+mMYRG6Dki87D44SHebMlRdnYoLu+NYHpSzwUL
-   Q==;
-X-CSE-ConnectionGUID: c5tbnhvgSFO6UPwUIOzriw==
-X-CSE-MsgGUID: 67Avjy/JQWyz48BqUIVhrQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="80719372"
+  t=1776171404; x=1807707404;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZrXbyEyBK+P/hkY0BifiDpyfiYT2v++6HGybHpXFRBA=;
+  b=RkCX86tvO2gw1czTx1YX7paz66PB7AVycnjupiIy6vfm1R1KmF4dx6E0
+   GPEVDWEhCgx2af6O9598aZ+sN8G9UBPZpqspdsuMbhRH1P9F3SZ6MIPCK
+   O+QMyG4wzN+3+25h/bQgvTdpxI/Ca9+wJADRdPhZIKQxEckjig9Hzi24F
+   JSKxYtzUh6JrZ+qZqJYI0VdpkGik8N0GJhPlX/EMqvIBFtJohnHqTFgcG
+   WB2ecSXhFzjD7oZXjjETAKyOwE972AzbDKeFZ3Y4cM3uNd7C64nOFLA99
+   m0uPpl74uf6YY8H5FowaWCmir9a0smBMNbdd/97mCk+zNV6SRNwHi7OIM
+   w==;
+X-CSE-ConnectionGUID: OqPy8lynRHCZoTsn49yrOA==
+X-CSE-MsgGUID: Ig6zYAKUTdO6O5z7zVIPyw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="87431730"
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="80719372"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 05:45:42 -0700
-X-CSE-ConnectionGUID: J2tR675+TzaZxKdFhN4JeA==
-X-CSE-MsgGUID: GJXjQOj2RMm2PvP4dzH4Ng==
+   d="scan'208";a="87431730"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 05:56:43 -0700
+X-CSE-ConnectionGUID: h2XqyPqIQkO2eSid3phC1w==
+X-CSE-MsgGUID: 9PPFWa7hSueoq7R3FaTvfA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="230015522"
+   d="scan'208";a="229214424"
 Received: from lkp-server01.sh.intel.com (HELO 7b0b59b3a0d4) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 14 Apr 2026 05:45:40 -0700
+  by orviesa010.jf.intel.com with ESMTP; 14 Apr 2026 05:56:40 -0700
 Received: from kbuild by 7b0b59b3a0d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wCd97-000000001S1-399l;
-	Tue, 14 Apr 2026 12:45:37 +0000
-Date: Tue, 14 Apr 2026 20:45:19 +0800
+	id 1wCdJl-000000001ST-3s18;
+	Tue, 14 Apr 2026 12:56:37 +0000
+Date: Tue, 14 Apr 2026 20:55:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thermal:thermal/cooling-device-with-id 23/25]
- drivers/thermal/devfreq_cooling.c:457:57: error: passing argument 4 of
- 'thermal_of_cooling_device_register' from incompatible pointer type
-Message-ID: <202604142003.1zr830Gz-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Advaith Neelacantan <advaith.neelacantan@gmail.com>,
+	Lars-Peter Clausen <lars@metafoo.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Advaith Neelacantan <advaith.neelacantan@gmail.com>
+Subject: Re: [PATCH] staging: iio: frequency: ad9832:  use guard(mutex) for
+ locking
+Message-ID: <202604142016.fnd3WPI1-lkp@intel.com>
+References: <20260411072503.106621-2-advaith.neelacantan@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260411072503.106621-2-advaith.neelacantan@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git thermal/cooling-device-with-id
-head:   4fea531ae8a1095b1fc1122441fc173a33b93005
-commit: c045fc07fa888c25f248b661a8fdda955528baf2 [23/25] thermal/of: Introduce cooling device of_index
-config: riscv-randconfig-002-20260414 (https://download.01.org/0day-ci/archive/20260414/202604142003.1zr830Gz-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260414/202604142003.1zr830Gz-lkp@intel.com/reproduce)
+Hi Advaith,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Advaith-Neelacantan/staging-iio-frequency-ad9832-use-guard-mutex-for-locking/20260414-074602
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20260411072503.106621-2-advaith.neelacantan%40gmail.com
+patch subject: [PATCH] staging: iio: frequency: ad9832:  use guard(mutex) for locking
+config: i386-buildonly-randconfig-002-20260414 (https://download.01.org/0day-ci/archive/20260414/202604142016.fnd3WPI1-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260414/202604142016.fnd3WPI1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604142003.1zr830Gz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604142016.fnd3WPI1-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/thermal/devfreq_cooling.c: In function 'of_devfreq_cooling_register_power':
->> drivers/thermal/devfreq_cooling.c:457:57: error: passing argument 4 of 'thermal_of_cooling_device_register' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     cdev = thermal_of_cooling_device_register(np, 0, name, dfc, ops);
-                                                            ^~~
-   In file included from include/linux/devfreq_cooling.h:14,
-                    from drivers/thermal/devfreq_cooling.c:14:
-   include/linux/thermal.h:231:49: note: expected 'const struct thermal_cooling_device_ops *' but argument is of type 'struct devfreq_cooling_device *'
-           const struct thermal_cooling_device_ops *ops)
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
->> drivers/thermal/devfreq_cooling.c:457:9: error: too many arguments to function 'thermal_of_cooling_device_register'
-     cdev = thermal_of_cooling_device_register(np, 0, name, dfc, ops);
-            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/devfreq_cooling.h:14,
-                    from drivers/thermal/devfreq_cooling.c:14:
-   include/linux/thermal.h:229:1: note: declared here
-    thermal_of_cooling_device_register(struct device_node *np,
-    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   drivers/gpu/drm/etnaviv/etnaviv_gpu.c: In function 'etnaviv_gpu_bind':
->> drivers/gpu/drm/etnaviv/etnaviv_gpu.c:1795:28: error: passing argument 4 of 'thermal_of_cooling_device_register' from incompatible pointer type [-Werror=incompatible-pointer-types]
-        (char *)dev_name(dev), gpu, &cooling_ops);
-                               ^~~
-   In file included from drivers/gpu/drm/etnaviv/etnaviv_gpu.c:17:
-   include/linux/thermal.h:231:49: note: expected 'const struct thermal_cooling_device_ops *' but argument is of type 'struct etnaviv_gpu *'
-           const struct thermal_cooling_device_ops *ops)
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
->> drivers/gpu/drm/etnaviv/etnaviv_gpu.c:1794:18: error: too many arguments to function 'thermal_of_cooling_device_register'
-      gpu->cooling = thermal_of_cooling_device_register(dev->of_node, 0,
-                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/etnaviv/etnaviv_gpu.c:17:
-   include/linux/thermal.h:229:1: note: declared here
-    thermal_of_cooling_device_register(struct device_node *np,
-    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> drivers/staging/iio/frequency/ad9832.c:182:3: error: cannot jump from this goto statement to its label
+     182 |                 goto error_ret;
+         |                 ^
+   drivers/staging/iio/frequency/ad9832.c:184:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     184 |         guard(mutex)(&st->lock);
+         |         ^
+   include/linux/cleanup.h:419:2: note: expanded from macro 'guard'
+     419 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^
+   include/linux/cleanup.h:300:3: note: expanded from macro 'CLASS'
+     300 |                 class_##_name##_constructor
+         |                 ^
+   <scratch space>:16:1: note: expanded from here
+      16 | class_mutex_constructor
+         | ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
+      16 | #define __PASTE(a, b) ___PASTE(a, b)
+         |                       ^
+   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
+      15 | #define ___PASTE(a, b) a##b
+         |                        ^
+   <scratch space>:22:1: note: expanded from here
+      22 | __UNIQUE_ID_unlock_451
+         | ^
+   drivers/staging/iio/frequency/ad9832.c:184:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+   include/linux/cleanup.h:419:15: note: expanded from macro 'guard'
+     419 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:168:2: note: expanded from macro '__UNIQUE_ID'
+     168 |         __PASTE(__UNIQUE_ID_,                                   \
+         |         ^
+   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
+      16 | #define __PASTE(a, b) ___PASTE(a, b)
+         |                       ^
+   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
+      15 | #define ___PASTE(a, b) a##b
+         |                        ^
+   <scratch space>:10:1: note: expanded from here
+      10 | __UNIQUE_ID_guard_450
+         | ^
+   1 error generated.
 
 
-vim +/thermal_of_cooling_device_register +457 drivers/thermal/devfreq_cooling.c
+vim +182 drivers/staging/iio/frequency/ad9832.c
 
-   376	
-   377	/**
-   378	 * of_devfreq_cooling_register_power() - Register devfreq cooling device,
-   379	 *                                      with OF and power information.
-   380	 * @np:	Pointer to OF device_node.
-   381	 * @df:	Pointer to devfreq device.
-   382	 * @dfc_power:	Pointer to devfreq_cooling_power.
-   383	 *
-   384	 * Register a devfreq cooling device.  The available OPPs must be
-   385	 * registered on the device.
-   386	 *
-   387	 * If @dfc_power is provided, the cooling device is registered with the
-   388	 * power extensions.  For the power extensions to work correctly,
-   389	 * devfreq should use the simple_ondemand governor, other governors
-   390	 * are not currently supported.
-   391	 */
-   392	struct thermal_cooling_device *
-   393	of_devfreq_cooling_register_power(struct device_node *np, struct devfreq *df,
-   394					  struct devfreq_cooling_power *dfc_power)
-   395	{
-   396		struct thermal_cooling_device *cdev;
-   397		struct device *dev = df->dev.parent;
-   398		struct devfreq_cooling_device *dfc;
-   399		struct em_perf_domain *em;
-   400		struct thermal_cooling_device_ops *ops;
-   401		char *name;
-   402		int err, num_opps;
-   403	
-   404	
-   405		dfc = kzalloc_obj(*dfc);
-   406		if (!dfc)
-   407			return ERR_PTR(-ENOMEM);
-   408	
-   409		dfc->devfreq = df;
-   410	
-   411		ops = &dfc->cooling_ops;
-   412		ops->get_max_state = devfreq_cooling_get_max_state;
-   413		ops->get_cur_state = devfreq_cooling_get_cur_state;
-   414		ops->set_cur_state = devfreq_cooling_set_cur_state;
-   415	
-   416		em = em_pd_get(dev);
-   417		if (em && !em_is_artificial(em)) {
-   418			dfc->em_pd = em;
-   419			ops->get_requested_power =
-   420				devfreq_cooling_get_requested_power;
-   421			ops->state2power = devfreq_cooling_state2power;
-   422			ops->power2state = devfreq_cooling_power2state;
-   423	
-   424			dfc->power_ops = dfc_power;
-   425	
-   426			num_opps = em_pd_nr_perf_states(dfc->em_pd);
-   427		} else {
-   428			/* Backward compatibility for drivers which do not use IPA */
-   429			dev_dbg(dev, "missing proper EM for cooling device\n");
-   430	
-   431			num_opps = dev_pm_opp_get_opp_count(dev);
-   432	
-   433			err = devfreq_cooling_gen_tables(dfc, num_opps);
-   434			if (err)
-   435				goto free_dfc;
-   436		}
-   437	
-   438		if (num_opps <= 0) {
-   439			err = -EINVAL;
-   440			goto free_dfc;
-   441		}
-   442	
-   443		/* max_state is an index, not a counter */
-   444		dfc->max_state = num_opps - 1;
-   445	
-   446		err = dev_pm_qos_add_request(dev, &dfc->req_max_freq,
-   447					     DEV_PM_QOS_MAX_FREQUENCY,
-   448					     PM_QOS_MAX_FREQUENCY_DEFAULT_VALUE);
-   449		if (err < 0)
-   450			goto free_table;
-   451	
-   452		err = -ENOMEM;
-   453		name = kasprintf(GFP_KERNEL, "devfreq-%s", dev_name(dev));
-   454		if (!name)
-   455			goto remove_qos_req;
-   456	
- > 457		cdev = thermal_of_cooling_device_register(np, 0, name, dfc, ops);
-   458		kfree(name);
-   459	
-   460		if (IS_ERR(cdev)) {
-   461			err = PTR_ERR(cdev);
-   462			dev_err(dev,
-   463				"Failed to register devfreq cooling device (%d)\n",
-   464				err);
-   465			goto remove_qos_req;
-   466		}
-   467	
-   468		dfc->cdev = cdev;
-   469	
-   470		return cdev;
-   471	
-   472	remove_qos_req:
-   473		dev_pm_qos_remove_request(&dfc->req_max_freq);
-   474	free_table:
-   475		kfree(dfc->freq_table);
-   476	free_dfc:
-   477		kfree(dfc);
-   478	
-   479		return ERR_PTR(err);
-   480	}
-   481	EXPORT_SYMBOL_GPL(of_devfreq_cooling_register_power);
-   482	
+4a8e6c33e88b09a drivers/staging/iio/dds/ad9832.c       Cliff Cai           2010-10-27  170  
+f1b07cdf6ba396d drivers/staging/iio/frequency/ad9832.c Federico Di Pierro  2014-06-29  171  static ssize_t ad9832_write(struct device *dev, struct device_attribute *attr,
+f1b07cdf6ba396d drivers/staging/iio/frequency/ad9832.c Federico Di Pierro  2014-06-29  172  			    const char *buf, size_t len)
+4a8e6c33e88b09a drivers/staging/iio/dds/ad9832.c       Cliff Cai           2010-10-27  173  {
+b671bb3bf0d0165 drivers/staging/iio/frequency/ad9832.c Lars-Peter Clausen  2012-05-12  174  	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
+638e59fc8c867b4 drivers/staging/iio/dds/ad9832.c       Jonathan Cameron    2011-10-06  175  	struct ad9832_state *st = iio_priv(indio_dev);
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  176  	struct iio_dev_attr *this_attr = to_iio_dev_attr(attr);
+4a8e6c33e88b09a drivers/staging/iio/dds/ad9832.c       Cliff Cai           2010-10-27  177  	int ret;
+e5e26dd5bb740c3 drivers/staging/iio/frequency/ad9832.c Jingoo Han          2013-08-20  178  	unsigned long val;
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  179  
+e5e26dd5bb740c3 drivers/staging/iio/frequency/ad9832.c Jingoo Han          2013-08-20  180  	ret = kstrtoul(buf, 10, &val);
+4a8e6c33e88b09a drivers/staging/iio/dds/ad9832.c       Cliff Cai           2010-10-27  181  	if (ret)
+4a8e6c33e88b09a drivers/staging/iio/dds/ad9832.c       Cliff Cai           2010-10-27 @182  		goto error_ret;
+4a8e6c33e88b09a drivers/staging/iio/dds/ad9832.c       Cliff Cai           2010-10-27  183  
+baf560e48a75741 drivers/staging/iio/frequency/ad9832.c Advaith Neelacantan 2026-04-11  184  	guard(mutex)(&st->lock);
+e15fbc91a4304a9 drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-10-25  185  	switch ((u32)this_attr->address) {
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  186  	case AD9832_FREQ0HM:
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  187  	case AD9832_FREQ1HM:
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  188  		ret = ad9832_write_frequency(st, this_attr->address, val);
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  189  		break;
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  190  	case AD9832_PHASE0H:
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  191  	case AD9832_PHASE1H:
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  192  	case AD9832_PHASE2H:
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  193  	case AD9832_PHASE3H:
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  194  		ret = ad9832_write_phase(st, this_attr->address, val);
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  195  		break;
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  196  	case AD9832_PINCTRL_EN:
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  197  		st->ctrl_ss &= ~AD9832_SELSRC;
+85c9e6d592e1c17 drivers/staging/iio/frequency/ad9832.c Siddharth Menon     2025-04-16  198  		st->ctrl_ss |= FIELD_PREP(AD9832_SELSRC, val ? 0 : 1);
+85c9e6d592e1c17 drivers/staging/iio/frequency/ad9832.c Siddharth Menon     2025-04-16  199  
+85c9e6d592e1c17 drivers/staging/iio/frequency/ad9832.c Siddharth Menon     2025-04-16  200  		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_SYNCSELSRC) |
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  201  						  st->ctrl_ss);
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  202  		ret = spi_sync(st->spi, &st->msg);
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  203  		break;
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  204  	case AD9832_FREQ_SYM:
+85c9e6d592e1c17 drivers/staging/iio/frequency/ad9832.c Siddharth Menon     2025-04-16  205  		if (val == 1 || val == 0) {
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  206  			st->ctrl_fp &= ~AD9832_FREQ;
+85c9e6d592e1c17 drivers/staging/iio/frequency/ad9832.c Siddharth Menon     2025-04-16  207  			st->ctrl_fp |= FIELD_PREP(AD9832_FREQ, val ? 1 : 0);
+f1b07cdf6ba396d drivers/staging/iio/frequency/ad9832.c Federico Di Pierro  2014-06-29  208  		} else {
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  209  			ret = -EINVAL;
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  210  			break;
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  211  		}
+85c9e6d592e1c17 drivers/staging/iio/frequency/ad9832.c Siddharth Menon     2025-04-16  212  		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_FPSELECT) |
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  213  						  st->ctrl_fp);
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  214  		ret = spi_sync(st->spi, &st->msg);
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  215  		break;
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  216  	case AD9832_PHASE_SYM:
+260974704ea4c01 drivers/staging/iio/frequency/ad9832.c Sachin Kamat        2014-03-07  217  		if (val > 3) {
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  218  			ret = -EINVAL;
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  219  			break;
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  220  		}
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  221  
+85c9e6d592e1c17 drivers/staging/iio/frequency/ad9832.c Siddharth Menon     2025-04-16  222  		st->ctrl_fp &= ~AD9832_PHASE_MASK;
+85c9e6d592e1c17 drivers/staging/iio/frequency/ad9832.c Siddharth Menon     2025-04-16  223  		st->ctrl_fp |= FIELD_PREP(AD9832_PHASE_MASK, val);
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  224  
+85c9e6d592e1c17 drivers/staging/iio/frequency/ad9832.c Siddharth Menon     2025-04-16  225  		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_FPSELECT) |
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  226  						  st->ctrl_fp);
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  227  		ret = spi_sync(st->spi, &st->msg);
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  228  		break;
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  229  	case AD9832_OUTPUT_EN:
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  230  		if (val)
+85c9e6d592e1c17 drivers/staging/iio/frequency/ad9832.c Siddharth Menon     2025-04-16  231  			st->ctrl_src &= ~(AD9832_RESET | AD9832_SLEEP | AD9832_CLR);
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  232  		else
+85c9e6d592e1c17 drivers/staging/iio/frequency/ad9832.c Siddharth Menon     2025-04-16  233  			st->ctrl_src |= FIELD_PREP(AD9832_RESET, 1);
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  234  
+85c9e6d592e1c17 drivers/staging/iio/frequency/ad9832.c Siddharth Menon     2025-04-16  235  		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_SLEEPRESCLR) |
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  236  						  st->ctrl_src);
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  237  		ret = spi_sync(st->spi, &st->msg);
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  238  		break;
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  239  	default:
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  240  		ret = -ENODEV;
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  241  	}
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  242  
+ea707584bac187c drivers/staging/iio/dds/ad9832.c       Michael Hennerich   2011-02-09  243  error_ret:
+4a8e6c33e88b09a drivers/staging/iio/dds/ad9832.c       Cliff Cai           2010-10-27  244  	return ret ? ret : len;
+4a8e6c33e88b09a drivers/staging/iio/dds/ad9832.c       Cliff Cai           2010-10-27  245  }
+4a8e6c33e88b09a drivers/staging/iio/dds/ad9832.c       Cliff Cai           2010-10-27  246  
 
 -- 
 0-DAY CI Kernel Test Service
