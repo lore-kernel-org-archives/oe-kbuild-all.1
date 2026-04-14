@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 068E62222CC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Apr 2026 21:47:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF181313E07
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Apr 2026 22:28:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776203234; cv=none; b=g5kLnZyy3U+tN3NuiAUBgSVpnAVnKeOhVZRreSN0upy/czTCh8jug7bSDEC7SFWY4il/6JgnNSUUD+uWvDBsX02NfvbPhq/VwL/kPhHhFoqOZvF/sY5fw42bdeHKZdY4EO3Wefh0BWw/SVID2X/57p4Ygw8KLj3c6k5wf7K/2u8=
+	t=1776205696; cv=none; b=SOkL8ArNOCtRMluUsslX6BRxXXPQgocgEJzGdVdRHPgNZGDlcqNb/SdqLkB+eAO7r/bYhbBkI1HQfNNgFefaXARm2l2ZjiSuzA4tTzUCI8tCL5J71k2Iv1l3AtT/2FVta5g340NLuhMS2vm6TAFYtdCcDqDhitsJYGqIwSBrStQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776203234; c=relaxed/simple;
-	bh=IlCLOpoWAj7uR147O1XbnSIE8Zq/LvyKv/KAvXoJG+Q=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=O//e0VW+kHK4yVcC5+r1Iya8x9hL//kUm6WvrEJOM56fFFI0ct4lV3f0fq3QNIFOe4B3mMCuFLf33eEcfZqCJD2aCDxVL+p2gIf9ydDolk+AfN2upnevcsylHsHCYVGDSqFTwRWt5NYyqa4/7BiXv+x/x8mpdJUChIxYQLxjxFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b/s6IqvL; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1776205696; c=relaxed/simple;
+	bh=0X5cAWwH5s58fR4xcMoejOjPMqJLuMohgedZ6ne3MAs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=udKtwKf4S0Y/xOIFVSs5A2/jUmYACChGkQ3jdmOhPgH4yEgeiLQCE8Invs2Y7W6GPTR3HI3EvcljnJ4QA4zXzWql/PE8Cn0n3qSKioamIzhoapF6nxaubi4424blpk0Aq4sNvL6Nxcsw+KNr5+0/P3c7B4cJB96Hpaap78wwH9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hsGONuiJ; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b/s6IqvL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hsGONuiJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776203232; x=1807739232;
+  t=1776205694; x=1807741694;
   h=date:from:to:cc:subject:message-id;
-  bh=IlCLOpoWAj7uR147O1XbnSIE8Zq/LvyKv/KAvXoJG+Q=;
-  b=b/s6IqvL2K8h3hTSNxi0hPfIxfv9RVPXgqLMZXweTB+4jRBL5c5rMd1J
-   jmtu1R4fpOutCnW81EwV3uHGwnS4ZoqZau1Ln2E6ic0oQp2Pqc/V41ucY
-   JDuCODD1a1JcSYGhDSoPNlEjtk0CYViemoV+zOVsDsfTz42wSFrOXSWlg
-   NgS/q7SMmQuFjRZ60L3jvUcTyd8YcA7iZjpPh04YXMaRYtHCzeIOnKjY/
-   vfdQaUmCFL2Bhfh/rFrjye5POsrXUiXqWDRgilltWnt6irejfAdpdOPti
-   oCqHQR+5GS6Nbtn0Jy2ah5oQmx3gWoDuDsEmCsmD2+x5/tC1e6zMzmzR1
+  bh=0X5cAWwH5s58fR4xcMoejOjPMqJLuMohgedZ6ne3MAs=;
+  b=hsGONuiJ0lo05+2c0RhQYzvpMJhP8u3i4/nhePFhRbw7rGU0pFRL2Jin
+   LTOHMWRl+2yCTlmP7NmJnnl57jWYEDlXmCimkvekdtTDlJrAZyIr5yvQD
+   JRmiY8Duz6j9i4o7hIVoZL1YVS27MvOc5m0I4RZ9JFpoqubWAOBBZnJb8
+   xMB5w75OTt/LDH+cwEuNUTFqHZ2RM0SYZacnqWprwlbotFHff1ThmdEXx
+   2EYM/nfmyIH7k0lt6hDg5Sb6kOG+TD62jXwBW6MEz0jvxM9510cXlu/pq
+   YJbpEKP6Bdqa7N83lRqur6jFO9xpg+sngymWWDHe0scRzXXt+of4yiB/0
    Q==;
-X-CSE-ConnectionGUID: bBn7Vb/JReGsIgRkKlAoSg==
-X-CSE-MsgGUID: cL6yp9X7THeWCN8mAfXxpw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="102632810"
+X-CSE-ConnectionGUID: Ud/blaawS+Sa/hlu2EICYw==
+X-CSE-MsgGUID: jjPcKRohTxm4Itsk0yajBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="76341876"
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="102632810"
+   d="scan'208";a="76341876"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 14:47:11 -0700
-X-CSE-ConnectionGUID: BZTkWDMXT8alY5pYYU4VuQ==
-X-CSE-MsgGUID: iInizNXrSWKX1xkNVeEV3A==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 15:28:14 -0700
+X-CSE-ConnectionGUID: +p4OxaBuQH69lhINrxTiOA==
+X-CSE-MsgGUID: bg+AXWc+QMKA4wekJj/g8Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="225517523"
+   d="scan'208";a="225526020"
 Received: from lkp-server01.sh.intel.com (HELO 7b0b59b3a0d4) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 14 Apr 2026 14:47:10 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 14 Apr 2026 15:28:12 -0700
 Received: from kbuild by 7b0b59b3a0d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wClb9-000000001tF-301J;
-	Tue, 14 Apr 2026 21:47:07 +0000
-Date: Wed, 15 Apr 2026 05:46:49 +0800
+	id 1wCmEs-000000001v9-1srr;
+	Tue, 14 Apr 2026 22:28:10 +0000
+Date: Wed, 15 Apr 2026 06:28:05 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 2/2]
- arch/arm64/include/asm/barrier.h:133:27: warning: passing argument 1 of
- '__kasan_check_write' makes pointer from integer without a cast
-Message-ID: <202604150549.DOu4QWgj-lkp@intel.com>
+Subject: [android-common:android14-6.1-2026-03 1/1]
+ kernel/sys_ni.c:50:1: sparse: sparse: symbol
+ '__arm64_compat_sys_io_pgetevents_time64' was not declared. Should it be
+ static?
+Message-ID: <202604150621.Q8bOfObE-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,333 +61,158 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Isaac,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   2b7679c246f499a8dd5c935684e450d8ffdf829c
-commit: 06f8e52b34f38555bb820ac1cb1d9547a3c9c50a [2/2] ANDROID: GKI: Introduce GKI_HIDDEN_IOMMU_CONFIGS
-config: arm64-randconfig-003-20260415 (https://download.01.org/0day-ci/archive/20260415/202604150549.DOu4QWgj-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260415/202604150549.DOu4QWgj-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1-2026-03
+head:   5e8b0cffebd18f2c1879da63ec93f52301d9b571
+commit: e1b88ac1fe65a5e9f7ecbf7ca72bd48f317fa2fb [1/1] syscalls: fix compat_sys_io_pgetevents_time64 usage
+config: arm64-randconfig-r133-20260414 (https://download.01.org/0day-ci/archive/20260415/202604150621.Q8bOfObE-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260415/202604150621.Q8bOfObE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604150549.DOu4QWgj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604150621.Q8bOfObE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/sys_ni.c:39:1: sparse: sparse: symbol '__arm64_sys_io_setup' was not declared. Should it be static?
+   kernel/sys_ni.c:40:1: sparse: sparse: symbol '__arm64_compat_sys_io_setup' was not declared. Should it be static?
+   kernel/sys_ni.c:41:1: sparse: sparse: symbol '__arm64_sys_io_destroy' was not declared. Should it be static?
+   kernel/sys_ni.c:42:1: sparse: sparse: symbol '__arm64_sys_io_submit' was not declared. Should it be static?
+   kernel/sys_ni.c:43:1: sparse: sparse: symbol '__arm64_compat_sys_io_submit' was not declared. Should it be static?
+   kernel/sys_ni.c:44:1: sparse: sparse: symbol '__arm64_sys_io_cancel' was not declared. Should it be static?
+   kernel/sys_ni.c:45:1: sparse: sparse: symbol '__arm64_sys_io_getevents_time32' was not declared. Should it be static?
+   kernel/sys_ni.c:46:1: sparse: sparse: symbol '__arm64_sys_io_getevents' was not declared. Should it be static?
+   kernel/sys_ni.c:47:1: sparse: sparse: symbol '__arm64_sys_io_pgetevents_time32' was not declared. Should it be static?
+   kernel/sys_ni.c:48:1: sparse: sparse: symbol '__arm64_sys_io_pgetevents' was not declared. Should it be static?
+   kernel/sys_ni.c:49:1: sparse: sparse: symbol '__arm64_compat_sys_io_pgetevents' was not declared. Should it be static?
+>> kernel/sys_ni.c:50:1: sparse: sparse: symbol '__arm64_compat_sys_io_pgetevents_time64' was not declared. Should it be static?
+   kernel/sys_ni.c:51:1: sparse: sparse: symbol '__arm64_sys_io_uring_setup' was not declared. Should it be static?
+   kernel/sys_ni.c:52:1: sparse: sparse: symbol '__arm64_sys_io_uring_enter' was not declared. Should it be static?
+   kernel/sys_ni.c:53:1: sparse: sparse: symbol '__arm64_sys_io_uring_register' was not declared. Should it be static?
+   kernel/sys_ni.c:60:1: sparse: sparse: symbol '__arm64_sys_lookup_dcookie' was not declared. Should it be static?
+   kernel/sys_ni.c:61:1: sparse: sparse: symbol '__arm64_compat_sys_lookup_dcookie' was not declared. Should it be static?
+   kernel/sys_ni.c:64:1: sparse: sparse: symbol '__arm64_sys_eventfd2' was not declared. Should it be static?
+   kernel/sys_ni.c:67:1: sparse: sparse: symbol '__arm64_sys_epoll_create1' was not declared. Should it be static?
+   kernel/sys_ni.c:68:1: sparse: sparse: symbol '__arm64_sys_epoll_ctl' was not declared. Should it be static?
+   kernel/sys_ni.c:69:1: sparse: sparse: symbol '__arm64_sys_epoll_pwait' was not declared. Should it be static?
+   kernel/sys_ni.c:70:1: sparse: sparse: symbol '__arm64_compat_sys_epoll_pwait' was not declared. Should it be static?
+   kernel/sys_ni.c:71:1: sparse: sparse: symbol '__arm64_sys_epoll_pwait2' was not declared. Should it be static?
+   kernel/sys_ni.c:72:1: sparse: sparse: symbol '__arm64_compat_sys_epoll_pwait2' was not declared. Should it be static?
+   kernel/sys_ni.c:77:1: sparse: sparse: symbol '__arm64_sys_inotify_init1' was not declared. Should it be static?
+   kernel/sys_ni.c:78:1: sparse: sparse: symbol '__arm64_sys_inotify_add_watch' was not declared. Should it be static?
+   kernel/sys_ni.c:79:1: sparse: sparse: symbol '__arm64_sys_inotify_rm_watch' was not declared. Should it be static?
+   kernel/sys_ni.c:84:1: sparse: sparse: symbol '__arm64_sys_ioprio_set' was not declared. Should it be static?
+   kernel/sys_ni.c:85:1: sparse: sparse: symbol '__arm64_sys_ioprio_get' was not declared. Should it be static?
+   kernel/sys_ni.c:88:1: sparse: sparse: symbol '__arm64_sys_flock' was not declared. Should it be static?
+   kernel/sys_ni.c:101:1: sparse: sparse: symbol '__arm64_sys_quotactl' was not declared. Should it be static?
+   kernel/sys_ni.c:102:1: sparse: sparse: symbol '__arm64_sys_quotactl_fd' was not declared. Should it be static?
+   kernel/sys_ni.c:113:1: sparse: sparse: symbol '__arm64_sys_signalfd4' was not declared. Should it be static?
+   kernel/sys_ni.c:114:1: sparse: sparse: symbol '__arm64_compat_sys_signalfd4' was not declared. Should it be static?
+   kernel/sys_ni.c:123:1: sparse: sparse: symbol '__arm64_sys_timerfd_create' was not declared. Should it be static?
+   kernel/sys_ni.c:124:1: sparse: sparse: symbol '__arm64_sys_timerfd_settime' was not declared. Should it be static?
+   kernel/sys_ni.c:125:1: sparse: sparse: symbol '__arm64_sys_timerfd_settime32' was not declared. Should it be static?
+   kernel/sys_ni.c:126:1: sparse: sparse: symbol '__arm64_sys_timerfd_gettime' was not declared. Should it be static?
+   kernel/sys_ni.c:127:1: sparse: sparse: symbol '__arm64_sys_timerfd_gettime32' was not declared. Should it be static?
+   kernel/sys_ni.c:132:1: sparse: sparse: symbol '__arm64_sys_acct' was not declared. Should it be static?
+   kernel/sys_ni.c:135:1: sparse: sparse: symbol '__arm64_sys_capget' was not declared. Should it be static?
+   kernel/sys_ni.c:136:1: sparse: sparse: symbol '__arm64_sys_capset' was not declared. Should it be static?
+   kernel/sys_ni.c:144:1: sparse: sparse: symbol '__arm64_sys_clone3' was not declared. Should it be static?
+   kernel/sys_ni.c:147:1: sparse: sparse: symbol '__arm64_sys_futex' was not declared. Should it be static?
+   kernel/sys_ni.c:148:1: sparse: sparse: symbol '__arm64_sys_futex_time32' was not declared. Should it be static?
+   kernel/sys_ni.c:149:1: sparse: sparse: symbol '__arm64_sys_set_robust_list' was not declared. Should it be static?
+   kernel/sys_ni.c:150:1: sparse: sparse: symbol '__arm64_compat_sys_set_robust_list' was not declared. Should it be static?
+   kernel/sys_ni.c:151:1: sparse: sparse: symbol '__arm64_sys_get_robust_list' was not declared. Should it be static?
+   kernel/sys_ni.c:152:1: sparse: sparse: symbol '__arm64_compat_sys_get_robust_list' was not declared. Should it be static?
+   kernel/sys_ni.c:153:1: sparse: sparse: symbol '__arm64_sys_futex_waitv' was not declared. Should it be static?
+   kernel/sys_ni.c:160:1: sparse: sparse: symbol '__arm64_sys_kexec_load' was not declared. Should it be static?
+   kernel/sys_ni.c:161:1: sparse: sparse: symbol '__arm64_compat_sys_kexec_load' was not declared. Should it be static?
+   kernel/sys_ni.c:164:1: sparse: sparse: symbol '__arm64_sys_init_module' was not declared. Should it be static?
+   kernel/sys_ni.c:165:1: sparse: sparse: symbol '__arm64_sys_delete_module' was not declared. Should it be static?
+   kernel/sys_ni.c:170:1: sparse: sparse: symbol '__arm64_sys_syslog' was not declared. Should it be static?
+   kernel/sys_ni.c:177:1: sparse: sparse: symbol '__arm64_sys_setregid' was not declared. Should it be static?
+   kernel/sys_ni.c:178:1: sparse: sparse: symbol '__arm64_sys_setgid' was not declared. Should it be static?
+   kernel/sys_ni.c:179:1: sparse: sparse: symbol '__arm64_sys_setreuid' was not declared. Should it be static?
+   kernel/sys_ni.c:180:1: sparse: sparse: symbol '__arm64_sys_setuid' was not declared. Should it be static?
+   kernel/sys_ni.c:181:1: sparse: sparse: symbol '__arm64_sys_setresuid' was not declared. Should it be static?
+   kernel/sys_ni.c:182:1: sparse: sparse: symbol '__arm64_sys_getresuid' was not declared. Should it be static?
+   kernel/sys_ni.c:183:1: sparse: sparse: symbol '__arm64_sys_setresgid' was not declared. Should it be static?
+   kernel/sys_ni.c:184:1: sparse: sparse: symbol '__arm64_sys_getresgid' was not declared. Should it be static?
+   kernel/sys_ni.c:185:1: sparse: sparse: symbol '__arm64_sys_setfsuid' was not declared. Should it be static?
+   kernel/sys_ni.c:186:1: sparse: sparse: symbol '__arm64_sys_setfsgid' was not declared. Should it be static?
+   kernel/sys_ni.c:187:1: sparse: sparse: symbol '__arm64_sys_setgroups' was not declared. Should it be static?
+   kernel/sys_ni.c:188:1: sparse: sparse: symbol '__arm64_sys_getgroups' was not declared. Should it be static?
+   kernel/sys_ni.c:195:1: sparse: sparse: symbol '__arm64_sys_mq_open' was not declared. Should it be static?
+   kernel/sys_ni.c:196:1: sparse: sparse: symbol '__arm64_compat_sys_mq_open' was not declared. Should it be static?
+   kernel/sys_ni.c:197:1: sparse: sparse: symbol '__arm64_sys_mq_unlink' was not declared. Should it be static?
+   kernel/sys_ni.c:198:1: sparse: sparse: symbol '__arm64_sys_mq_timedsend' was not declared. Should it be static?
+   kernel/sys_ni.c:199:1: sparse: sparse: symbol '__arm64_sys_mq_timedsend_time32' was not declared. Should it be static?
+   kernel/sys_ni.c:200:1: sparse: sparse: symbol '__arm64_sys_mq_timedreceive' was not declared. Should it be static?
+   kernel/sys_ni.c:201:1: sparse: sparse: symbol '__arm64_sys_mq_timedreceive_time32' was not declared. Should it be static?
+   kernel/sys_ni.c:202:1: sparse: sparse: symbol '__arm64_sys_mq_notify' was not declared. Should it be static?
+   kernel/sys_ni.c:203:1: sparse: sparse: symbol '__arm64_compat_sys_mq_notify' was not declared. Should it be static?
+   kernel/sys_ni.c:204:1: sparse: sparse: symbol '__arm64_sys_mq_getsetattr' was not declared. Should it be static?
+   kernel/sys_ni.c:205:1: sparse: sparse: symbol '__arm64_compat_sys_mq_getsetattr' was not declared. Should it be static?
+   kernel/sys_ni.c:208:1: sparse: sparse: symbol '__arm64_sys_msgget' was not declared. Should it be static?
+   kernel/sys_ni.c:209:1: sparse: sparse: symbol '__arm64_sys_old_msgctl' was not declared. Should it be static?
+   kernel/sys_ni.c:210:1: sparse: sparse: symbol '__arm64_sys_msgctl' was not declared. Should it be static?
+   kernel/sys_ni.c:211:1: sparse: sparse: symbol '__arm64_compat_sys_msgctl' was not declared. Should it be static?
+   kernel/sys_ni.c:212:1: sparse: sparse: symbol '__arm64_compat_sys_old_msgctl' was not declared. Should it be static?
+   kernel/sys_ni.c:213:1: sparse: sparse: symbol '__arm64_sys_msgrcv' was not declared. Should it be static?
+   kernel/sys_ni.c:214:1: sparse: sparse: symbol '__arm64_compat_sys_msgrcv' was not declared. Should it be static?
+   kernel/sys_ni.c:215:1: sparse: sparse: symbol '__arm64_sys_msgsnd' was not declared. Should it be static?
+   kernel/sys_ni.c:216:1: sparse: sparse: symbol '__arm64_compat_sys_msgsnd' was not declared. Should it be static?
+   kernel/sys_ni.c:219:1: sparse: sparse: symbol '__arm64_sys_semget' was not declared. Should it be static?
+   kernel/sys_ni.c:220:1: sparse: sparse: symbol '__arm64_sys_old_semctl' was not declared. Should it be static?
+   kernel/sys_ni.c:221:1: sparse: sparse: symbol '__arm64_sys_semctl' was not declared. Should it be static?
+   kernel/sys_ni.c:222:1: sparse: sparse: symbol '__arm64_compat_sys_semctl' was not declared. Should it be static?
+   kernel/sys_ni.c:223:1: sparse: sparse: symbol '__arm64_compat_sys_old_semctl' was not declared. Should it be static?
+   kernel/sys_ni.c:224:1: sparse: sparse: symbol '__arm64_sys_semtimedop' was not declared. Should it be static?
+   kernel/sys_ni.c:225:1: sparse: sparse: symbol '__arm64_sys_semtimedop_time32' was not declared. Should it be static?
+   kernel/sys_ni.c:226:1: sparse: sparse: symbol '__arm64_sys_semop' was not declared. Should it be static?
+   kernel/sys_ni.c:229:1: sparse: sparse: symbol '__arm64_sys_shmget' was not declared. Should it be static?
+   kernel/sys_ni.c:230:1: sparse: sparse: symbol '__arm64_sys_old_shmctl' was not declared. Should it be static?
+   kernel/sys_ni.c:231:1: sparse: sparse: symbol '__arm64_sys_shmctl' was not declared. Should it be static?
+   kernel/sys_ni.c:232:1: sparse: sparse: symbol '__arm64_compat_sys_shmctl' was not declared. Should it be static?
+   kernel/sys_ni.c:233:1: sparse: sparse: symbol '__arm64_compat_sys_old_shmctl' was not declared. Should it be static?
+   kernel/sys_ni.c:234:1: sparse: sparse: symbol '__arm64_sys_shmat' was not declared. Should it be static?
+   kernel/sys_ni.c:235:1: sparse: sparse: symbol '__arm64_compat_sys_shmat' was not declared. Should it be static?
+   kernel/sys_ni.c:236:1: sparse: sparse: symbol '__arm64_sys_shmdt' was not declared. Should it be static?
+   kernel/sys_ni.c:239:1: sparse: sparse: symbol '__arm64_sys_socket' was not declared. Should it be static?
+   kernel/sys_ni.c:240:1: sparse: sparse: symbol '__arm64_sys_socketpair' was not declared. Should it be static?
+   kernel/sys_ni.c:241:1: sparse: sparse: symbol '__arm64_sys_bind' was not declared. Should it be static?
+   kernel/sys_ni.c:242:1: sparse: sparse: symbol '__arm64_sys_listen' was not declared. Should it be static?
+   kernel/sys_ni.c:243:1: sparse: sparse: symbol '__arm64_sys_accept' was not declared. Should it be static?
+   kernel/sys_ni.c:244:1: sparse: sparse: symbol '__arm64_sys_connect' was not declared. Should it be static?
+   kernel/sys_ni.c:245:1: sparse: sparse: symbol '__arm64_sys_getsockname' was not declared. Should it be static?
+   kernel/sys_ni.c:246:1: sparse: sparse: symbol '__arm64_sys_getpeername' was not declared. Should it be static?
+   kernel/sys_ni.c:247:1: sparse: sparse: symbol '__arm64_sys_setsockopt' was not declared. Should it be static?
 
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:568:9: note: in expansion of macro '_compiletime_assert'
-     568 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:571:9: note: in expansion of macro 'compiletime_assert'
-     571 |         compiletime_assert(__native_word(t),                            \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:571:28: note: in expansion of macro '__native_word'
-     571 |         compiletime_assert(__native_word(t),                            \
-         |                            ^~~~~~~~~~~~~
-   arch/arm64/include/asm/barrier.h:132:9: note: in expansion of macro 'compiletime_assert_atomic_type'
-     132 |         compiletime_assert_atomic_type(*p);                             \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
-     172 | #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
-         |                                                       ^~~~~~~~~~~~~~~~~~~
-   drivers/iommu/iommu-sva.c:51:9: note: in expansion of macro 'smp_store_release'
-      51 |         smp_store_release(&mm->iommu_mm, iommu_mm);
-         |         ^~~~~~~~~~~~~~~~~
-   drivers/iommu/iommu-sva.c:51:30: error: 'struct mm_struct' has no member named 'iommu_mm'
-      51 |         smp_store_release(&mm->iommu_mm, iommu_mm);
-         |                              ^~
-   include/linux/compiler_types.h:548:23: note: in definition of macro '__compiletime_assert'
-     548 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:568:9: note: in expansion of macro '_compiletime_assert'
-     568 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:571:9: note: in expansion of macro 'compiletime_assert'
-     571 |         compiletime_assert(__native_word(t),                            \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:571:28: note: in expansion of macro '__native_word'
-     571 |         compiletime_assert(__native_word(t),                            \
-         |                            ^~~~~~~~~~~~~
-   arch/arm64/include/asm/barrier.h:132:9: note: in expansion of macro 'compiletime_assert_atomic_type'
-     132 |         compiletime_assert_atomic_type(*p);                             \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
-     172 | #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
-         |                                                       ^~~~~~~~~~~~~~~~~~~
-   drivers/iommu/iommu-sva.c:51:9: note: in expansion of macro 'smp_store_release'
-      51 |         smp_store_release(&mm->iommu_mm, iommu_mm);
-         |         ^~~~~~~~~~~~~~~~~
-   drivers/iommu/iommu-sva.c:51:30: error: 'struct mm_struct' has no member named 'iommu_mm'
-      51 |         smp_store_release(&mm->iommu_mm, iommu_mm);
-         |                              ^~
-   include/linux/compiler_types.h:548:23: note: in definition of macro '__compiletime_assert'
-     548 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:568:9: note: in expansion of macro '_compiletime_assert'
-     568 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:571:9: note: in expansion of macro 'compiletime_assert'
-     571 |         compiletime_assert(__native_word(t),                            \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:571:28: note: in expansion of macro '__native_word'
-     571 |         compiletime_assert(__native_word(t),                            \
-         |                            ^~~~~~~~~~~~~
-   arch/arm64/include/asm/barrier.h:132:9: note: in expansion of macro 'compiletime_assert_atomic_type'
-     132 |         compiletime_assert_atomic_type(*p);                             \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
-     172 | #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
-         |                                                       ^~~~~~~~~~~~~~~~~~~
-   drivers/iommu/iommu-sva.c:51:9: note: in expansion of macro 'smp_store_release'
-      51 |         smp_store_release(&mm->iommu_mm, iommu_mm);
-         |         ^~~~~~~~~~~~~~~~~
-   drivers/iommu/iommu-sva.c:51:30: error: 'struct mm_struct' has no member named 'iommu_mm'
-      51 |         smp_store_release(&mm->iommu_mm, iommu_mm);
-         |                              ^~
-   include/linux/compiler_types.h:548:23: note: in definition of macro '__compiletime_assert'
-     548 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:568:9: note: in expansion of macro '_compiletime_assert'
-     568 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:571:9: note: in expansion of macro 'compiletime_assert'
-     571 |         compiletime_assert(__native_word(t),                            \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:571:28: note: in expansion of macro '__native_word'
-     571 |         compiletime_assert(__native_word(t),                            \
-         |                            ^~~~~~~~~~~~~
-   arch/arm64/include/asm/barrier.h:132:9: note: in expansion of macro 'compiletime_assert_atomic_type'
-     132 |         compiletime_assert_atomic_type(*p);                             \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
-     172 | #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
-         |                                                       ^~~~~~~~~~~~~~~~~~~
-   drivers/iommu/iommu-sva.c:51:9: note: in expansion of macro 'smp_store_release'
-      51 |         smp_store_release(&mm->iommu_mm, iommu_mm);
-         |         ^~~~~~~~~~~~~~~~~
-   drivers/iommu/iommu-sva.c:51:30: error: 'struct mm_struct' has no member named 'iommu_mm'
-      51 |         smp_store_release(&mm->iommu_mm, iommu_mm);
-         |                              ^~
-   arch/arm64/include/asm/barrier.h:133:40: note: in definition of macro '__smp_store_release'
-     133 |         kasan_check_write(__p, sizeof(*p));                             \
-         |                                        ^
-   drivers/iommu/iommu-sva.c:51:9: note: in expansion of macro 'smp_store_release'
-      51 |         smp_store_release(&mm->iommu_mm, iommu_mm);
-         |         ^~~~~~~~~~~~~~~~~
->> arch/arm64/include/asm/barrier.h:133:27: warning: passing argument 1 of '__kasan_check_write' makes pointer from integer without a cast [-Wint-conversion]
-     133 |         kasan_check_write(__p, sizeof(*p));                             \
-         |                           ^~~
-         |                           |
-         |                           int
-   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
-     172 | #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
-         |                                                       ^~~~~~~~~~~~~~~~~~~
-   drivers/iommu/iommu-sva.c:51:9: note: in expansion of macro 'smp_store_release'
-      51 |         smp_store_release(&mm->iommu_mm, iommu_mm);
-         |         ^~~~~~~~~~~~~~~~~
-   In file included from include/asm-generic/rwonce.h:26,
-                    from arch/arm64/include/asm/rwonce.h:67,
-                    from include/linux/compiler.h:390,
-                    from arch/arm64/include/asm/mmu_context.h:13:
-   include/linux/kasan-checks.h:20:47: note: expected 'const volatile void *' but argument is of type 'int'
-      20 | bool __kasan_check_write(const volatile void *p, unsigned int size);
-         |                          ~~~~~~~~~~~~~~~~~~~~~^
-   drivers/iommu/iommu-sva.c:51:30: error: 'struct mm_struct' has no member named 'iommu_mm'
-      51 |         smp_store_release(&mm->iommu_mm, iommu_mm);
-         |                              ^~
-   arch/arm64/include/asm/barrier.h:134:25: note: in definition of macro '__smp_store_release'
-     134 |         switch (sizeof(*p)) {                                           \
-         |                         ^
-   drivers/iommu/iommu-sva.c:51:9: note: in expansion of macro 'smp_store_release'
-      51 |         smp_store_release(&mm->iommu_mm, iommu_mm);
-         |         ^~~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/barrier.h:137:41: error: invalid type argument of unary '*' (have 'int')
-     137 |                                 : "=Q" (*__p)                           \
-         |                                         ^~~~
-   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
-     172 | #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
-         |                                                       ^~~~~~~~~~~~~~~~~~~
-   drivers/iommu/iommu-sva.c:51:9: note: in expansion of macro 'smp_store_release'
-      51 |         smp_store_release(&mm->iommu_mm, iommu_mm);
-         |         ^~~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/barrier.h:143:41: error: invalid type argument of unary '*' (have 'int')
-     143 |                                 : "=Q" (*__p)                           \
-         |                                         ^~~~
-   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
-     172 | #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
-         |                                                       ^~~~~~~~~~~~~~~~~~~
-   drivers/iommu/iommu-sva.c:51:9: note: in expansion of macro 'smp_store_release'
-      51 |         smp_store_release(&mm->iommu_mm, iommu_mm);
-         |         ^~~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/barrier.h:149:41: error: invalid type argument of unary '*' (have 'int')
-     149 |                                 : "=Q" (*__p)                           \
-         |                                         ^~~~
-   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
-     172 | #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
-         |                                                       ^~~~~~~~~~~~~~~~~~~
-   drivers/iommu/iommu-sva.c:51:9: note: in expansion of macro 'smp_store_release'
-      51 |         smp_store_release(&mm->iommu_mm, iommu_mm);
-         |         ^~~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/barrier.h:155:41: error: invalid type argument of unary '*' (have 'int')
-     155 |                                 : "=Q" (*__p)                           \
-         |                                         ^~~~
-   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
-     172 | #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
-         |                                                       ^~~~~~~~~~~~~~~~~~~
-   drivers/iommu/iommu-sva.c:51:9: note: in expansion of macro 'smp_store_release'
-      51 |         smp_store_release(&mm->iommu_mm, iommu_mm);
-         |         ^~~~~~~~~~~~~~~~~
-   drivers/iommu/iommu-sva.c: At top level:
-   drivers/iommu/iommu-sva.c:68:19: error: redefinition of 'iommu_sva_bind_device'
-      68 | struct iommu_sva *iommu_sva_bind_device(struct device *dev, struct mm_struct *mm)
-         |                   ^~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/iommu/iommu-sva.c:8:
-   include/linux/iommu.h:1576:1: note: previous definition of 'iommu_sva_bind_device' with type 'struct iommu_sva *(struct device *, struct mm_struct *)'
-    1576 | iommu_sva_bind_device(struct device *dev, struct mm_struct *mm)
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/kernel.h:22,
-                    from arch/arm64/include/asm/cpufeature.h:26,
-                    from arch/arm64/include/asm/processor.h:39:
-   drivers/iommu/iommu-sva.c: In function 'iommu_sva_bind_device':
-   drivers/iommu/iommu-sva.c:114:40: error: 'struct mm_struct' has no member named 'iommu_mm'
-     114 |         list_for_each_entry(domain, &mm->iommu_mm->sva_domains, next) {
-         |                                        ^~
-   include/linux/container_of.h:19:33: note: in definition of macro 'container_of'
-      19 |         void *__mptr = (void *)(ptr);                                   \
-         |                                 ^~~
-   include/linux/list.h:612:9: note: in expansion of macro 'list_entry'
-     612 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:770:20: note: in expansion of macro 'list_first_entry'
-     770 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
-         |                    ^~~~~~~~~~~~~~~~
-   drivers/iommu/iommu-sva.c:114:9: note: in expansion of macro 'list_for_each_entry'
-     114 |         list_for_each_entry(domain, &mm->iommu_mm->sva_domains, next) {
-         |         ^~~~~~~~~~~~~~~~~~~
-   In file included from arch/arm64/include/asm/processor.h:28:
-   drivers/iommu/iommu-sva.c:114:40: error: 'struct mm_struct' has no member named 'iommu_mm'
-     114 |         list_for_each_entry(domain, &mm->iommu_mm->sva_domains, next) {
-         |                                        ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+vim +/__arm64_compat_sys_io_pgetevents_time64 +50 kernel/sys_ni.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for USB_PHY
-   Depends on [n]: USB_SUPPORT [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_USB_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for NET_DEVLINK
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for DIMLIB
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for HVC_DRIVER
-   Depends on [n]: TTY [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
-   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_MM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
-   Depends on [n]: IOMMU_SUPPORT [=n] && (ARM || ARM64 [=y] || COMPILE_TEST [=y]) && !GENERIC_ATOMIC64 [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_QCOM_CONFIGS [=y] && ARCH_QCOM [=y] && 64BIT [=y]
-   WARNING: unmet direct dependencies detected for IOMMU_SVA
-   Depends on [n]: IOMMU_SUPPORT [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_IOMMU_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for PAGE_POOL
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
-
-
-vim +/__kasan_check_write +133 arch/arm64/include/asm/barrier.h
-
-47933ad41a86a4 Peter Zijlstra     2013-11-06  126  
-fd072df850e536 Michael S. Tsirkin 2015-12-27  127  #define __smp_store_release(p, v)					\
-47933ad41a86a4 Peter Zijlstra     2013-11-06  128  do {									\
-131e135f7fd14b Mark Rutland       2019-04-09  129  	typeof(p) __p = (p);						\
-10223c5286f738 Will Deacon        2019-12-19  130  	union { __unqual_scalar_typeof(*p) __val; char __c[1]; } __u =	\
-10223c5286f738 Will Deacon        2019-12-19  131  		{ .__val = (__force __unqual_scalar_typeof(*p)) (v) };	\
-47933ad41a86a4 Peter Zijlstra     2013-11-06  132  	compiletime_assert_atomic_type(*p);				\
-131e135f7fd14b Mark Rutland       2019-04-09 @133  	kasan_check_write(__p, sizeof(*p));				\
-47933ad41a86a4 Peter Zijlstra     2013-11-06  134  	switch (sizeof(*p)) {						\
-878a84d5a8a18a Andre Przywara     2015-04-20  135  	case 1:								\
-878a84d5a8a18a Andre Przywara     2015-04-20  136  		asm volatile ("stlrb %w1, %0"				\
-131e135f7fd14b Mark Rutland       2019-04-09  137  				: "=Q" (*__p)				\
-39c8275de81cf7 Mark Rutland       2023-03-14  138  				: "rZ" (*(__u8 *)__u.__c)		\
-994870bead4ab1 Mark Rutland       2017-05-03  139  				: "memory");				\
-878a84d5a8a18a Andre Przywara     2015-04-20  140  		break;							\
-878a84d5a8a18a Andre Przywara     2015-04-20  141  	case 2:								\
-878a84d5a8a18a Andre Przywara     2015-04-20  142  		asm volatile ("stlrh %w1, %0"				\
-131e135f7fd14b Mark Rutland       2019-04-09  143  				: "=Q" (*__p)				\
-39c8275de81cf7 Mark Rutland       2023-03-14  144  				: "rZ" (*(__u16 *)__u.__c)		\
-994870bead4ab1 Mark Rutland       2017-05-03  145  				: "memory");				\
-878a84d5a8a18a Andre Przywara     2015-04-20  146  		break;							\
-47933ad41a86a4 Peter Zijlstra     2013-11-06  147  	case 4:								\
-47933ad41a86a4 Peter Zijlstra     2013-11-06  148  		asm volatile ("stlr %w1, %0"				\
-131e135f7fd14b Mark Rutland       2019-04-09  149  				: "=Q" (*__p)				\
-39c8275de81cf7 Mark Rutland       2023-03-14  150  				: "rZ" (*(__u32 *)__u.__c)		\
-994870bead4ab1 Mark Rutland       2017-05-03  151  				: "memory");				\
-47933ad41a86a4 Peter Zijlstra     2013-11-06  152  		break;							\
-47933ad41a86a4 Peter Zijlstra     2013-11-06  153  	case 8:								\
-39c8275de81cf7 Mark Rutland       2023-03-14  154  		asm volatile ("stlr %x1, %0"				\
-131e135f7fd14b Mark Rutland       2019-04-09  155  				: "=Q" (*__p)				\
-39c8275de81cf7 Mark Rutland       2023-03-14  156  				: "rZ" (*(__u64 *)__u.__c)		\
-994870bead4ab1 Mark Rutland       2017-05-03  157  				: "memory");				\
-47933ad41a86a4 Peter Zijlstra     2013-11-06  158  		break;							\
-47933ad41a86a4 Peter Zijlstra     2013-11-06  159  	}								\
-47933ad41a86a4 Peter Zijlstra     2013-11-06  160  } while (0)
-47933ad41a86a4 Peter Zijlstra     2013-11-06  161  
-
-:::::: The code at line 133 was first introduced by commit
-:::::: 131e135f7fd14b1de7a5eb26631076705c18073f arm64: instrument smp_{load_acquire,store_release}
-
-:::::: TO: Mark Rutland <mark.rutland@arm.com>
-:::::: CC: Will Deacon <will.deacon@arm.com>
+    32	
+    33	/*
+    34	 * This list is kept in the same order as include/uapi/asm-generic/unistd.h.
+    35	 * Architecture specific entries go below, followed by deprecated or obsolete
+    36	 * system calls.
+    37	 */
+    38	
+    39	COND_SYSCALL(io_setup);
+    40	COND_SYSCALL_COMPAT(io_setup);
+    41	COND_SYSCALL(io_destroy);
+    42	COND_SYSCALL(io_submit);
+    43	COND_SYSCALL_COMPAT(io_submit);
+    44	COND_SYSCALL(io_cancel);
+    45	COND_SYSCALL(io_getevents_time32);
+    46	COND_SYSCALL(io_getevents);
+    47	COND_SYSCALL(io_pgetevents_time32);
+    48	COND_SYSCALL(io_pgetevents);
+    49	COND_SYSCALL_COMPAT(io_pgetevents);
+  > 50	COND_SYSCALL_COMPAT(io_pgetevents_time64);
+    51	COND_SYSCALL(io_uring_setup);
+    52	COND_SYSCALL(io_uring_enter);
+    53	COND_SYSCALL(io_uring_register);
+    54	
 
 -- 
 0-DAY CI Kernel Test Service
