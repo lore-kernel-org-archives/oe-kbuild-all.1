@@ -1,125 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEE153D6CC4;
-	Tue, 14 Apr 2026 11:44:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A49DC1FC8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Apr 2026 12:09:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776167085; cv=none; b=ZWV1+MSCYkrjkUgymoN8GeolhKK3SbGYwB5CRXIc/jrPE3OrxCZnVRvZivLSl2JrPfmTq1t96cSBwoslLU2N6aJPsFB4Tzte5NQMpT7JdC/syd+P9aFRflsArNd4Du+n7TeSWzrvtgsnKfKmixMbVnRLUsA5NxQacxPl1TDyKNM=
+	t=1776168545; cv=none; b=sYmgHwrEgwiuAVVeqnf+tduipqjwJQ+th0BQSBV/L9KHvQvJrRrICIKmimAwelsObnVHM1v7/7m+CdH8PDaAaV/rM9B1oaYcdat+Zm5AtWYwOFAnkaCt6v4Qdq6J+JrQllx1S7nMAMDHOEgbXTjwsnZh5G7X2/9+RY8plfH4iVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776167085; c=relaxed/simple;
-	bh=/uifXYhjkpn2JIQXVjganr+ngHnaC65t/JIBOoBeA2s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KyXUvixD4/NdxBv3wyN89DldG3XBzBXnCR/lL52jRRLhX7Ud5el2Vybz4kxphXEkOq/8NDDwAOgDM2mKthFRqA7ZNaLApsMTfPs1xWGHacI4//+CY87Q7EO+MnIXNDTa1B5NdpkHnCIHkKPjPLIWdvBcW/XOSUVdtZ6nO/Mdq2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eSTPwk4Y; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1776168545; c=relaxed/simple;
+	bh=L5ybFqb/DaxnKziiT44oW2TNd39idghePGdfbCpq+3g=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=BGqQEvVYMv0lKt2NvKwYRIcpJSqPVNCNeQmCCiIJvDrH7wQRGfGFce5+E/uuKDPyWzIw7YF0qwJAldMcbtsbYwNcbhK54TvcG26HCo8Yl/Us3do0XgUmo1cNoUELr05s/Wxr16xBLJyHA/bhXJGBrCM7qgeki/sxyo1WgPuG+/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K88tvOTh; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eSTPwk4Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K88tvOTh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776167084; x=1807703084;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/uifXYhjkpn2JIQXVjganr+ngHnaC65t/JIBOoBeA2s=;
-  b=eSTPwk4Ys48p22f0FooDaxOgVEzNZZ4Uae2lVUxsvBVxDgO4+CAtv5ud
-   ZbgdFyV5lukVuSO2dR4YwJhGfWdpcomKF5T6DxUC810dr6e5V6474Xppu
-   78LEHmDhbxvdQd5L83JwXxLk/I9bPd4YU5l8c9ZkX/samKskPmCMMzugO
-   aCO0Y2jS38RdSelMUJYss2K8OsHEtHo8d3boO5/LyBPrs4ZJM7jtbMOC2
-   pK1+RjKrFRV45RzBEp3NgjnTYS6auBvdtv8A1NXcdTq/EzeeXa+prVBM5
-   Hq62Y4YhwpOfqpk7N/JEBj6aq0OuOXlQXMJRnmlNxHc5Zw3NAR+u4wiPu
-   w==;
-X-CSE-ConnectionGUID: RloapkdTRUmSZ0YIX0IMAw==
-X-CSE-MsgGUID: LhFFJ6mTQvWnkGXSfZp61w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11758"; a="64656949"
+  t=1776168543; x=1807704543;
+  h=date:from:to:cc:subject:message-id;
+  bh=L5ybFqb/DaxnKziiT44oW2TNd39idghePGdfbCpq+3g=;
+  b=K88tvOThe2WBUwpmTFC51RVyxvvmi2oVpYVs6wD2YBSR2+xM3GiIGH0L
+   76hH7BU3Y+/5Pk2kG/YiwjlM5J4/pLypz8xqboqekABvqYgyMgLmPRqBA
+   AFlTRWy6vUxVF8+J7uWrGS4LMSUWQT3w27Oi4XmQ0VQck95xasrfFnqVT
+   MrphKN5Ztev76/1aYUOhdcS0NwKcnXNXBH+I3XivYxQl/xz3lJmV5Xuk+
+   K//QE4ytr+muJyICxnTdQQr+dZtGkamDebmfi1+eMDOpXf0MFMZ3Z+JWy
+   SgIxMn0vVeugbcJHYJADV1sOsE7FLiu7NX3T3k5eUhdPSq831qMxIBiEJ
+   g==;
+X-CSE-ConnectionGUID: QyEsyNtMTxGPIwxgf83ilw==
+X-CSE-MsgGUID: pt6ccQshSkqVSME8M0vvWw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="77194610"
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="64656949"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 04:44:41 -0700
-X-CSE-ConnectionGUID: T3APFrp+ROWWVa0psOuu0g==
-X-CSE-MsgGUID: ViKU/xG9TGy2574E8oN0MQ==
+   d="scan'208";a="77194610"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 05:09:02 -0700
+X-CSE-ConnectionGUID: ioULdPOgRjK6GdY+5y+XEw==
+X-CSE-MsgGUID: ic4t6/uMRM+vDhW/Gmm1+g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="227419138"
-Received: from lkp-server01.sh.intel.com (HELO 7b0b59b3a0d4) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 14 Apr 2026 04:44:38 -0700
-Received: from kbuild by 7b0b59b3a0d4 with local (Exim 4.98.2)
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 14 Apr 2026 05:09:01 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wCcC4-000000001PR-0SFf;
-	Tue, 14 Apr 2026 11:44:36 +0000
-Date: Tue, 14 Apr 2026 19:43:43 +0800
+	id 1wCcZf-000000000P5-0isO;
+	Tue, 14 Apr 2026 12:08:59 +0000
+Date: Tue, 14 Apr 2026 14:08:18 +0200
 From: kernel test robot <lkp@intel.com>
-To: Baker <mzndmzn@gmail.com>, andy@kernel.org, gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Baker <mzndmzn@gmail.com>
-Subject: Re: [PATCH] staging: fbtft: fix coding style issue in fbtft-bus.c
-Message-ID: <202604141939.LhzKrfey-lkp@intel.com>
-References: <20260412173317.3329-1-mzndmzn@gmail.com>
+To: "Pablo Martin-Gomez" <pmartin-gomez@freebox.fr>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: net/mac80211/debugfs_sta.c:1006:13: error: 'band' undeclared
+Message-ID: <202604141450.GJY3YpL8-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260412173317.3329-1-mzndmzn@gmail.com>
 
-Hi Baker,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on staging/staging-testing]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Baker/staging-fbtft-fix-coding-style-issue-in-fbtft-bus-c/20260414-101811
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260412173317.3329-1-mzndmzn%40gmail.com
-patch subject: [PATCH] staging: fbtft: fix coding style issue in fbtft-bus.c
-config: arm-randconfig-r072-20260414 (https://download.01.org/0day-ci/archive/20260414/202604141939.LhzKrfey-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.4.0
-smatch: v0.5.0-9007-gcf3ea02b
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260414/202604141939.LhzKrfey-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Pablo-Martin-Gomez/wifi-nl80211-remove-EHT-IE-size-validation/20260414-014056
+head:   27802dfbd9cea5146c1de2ae0dae896fb8e15a40
+commit: 87dc4b6cfb8f621071c6da12f21e455b9cae9d18 wifi: do not read band-dependent reserved bits
+date:   18 hours ago
+config: x86_64-rhel-9.4-func (https://download.01.org/0day-ci/archive/20260414/202604141450.GJY3YpL8-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260414/202604141450.GJY3YpL8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604141939.LhzKrfey-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604141450.GJY3YpL8-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/staging/fbtft/fbtft-bus.c:65:53: error: macro "define_fbtft_write_reg" requires 4 arguments, but only 3 given
-      65 | define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
-         |                                                     ^
-   drivers/staging/fbtft/fbtft-bus.c:14: note: macro "define_fbtft_write_reg" defined here
-      14 | #define define_fbtft_write_reg(func, buffer_type, data_type, modifier)        \
-         | 
->> drivers/staging/fbtft/fbtft-bus.c:65:23: error: expected ';' before 'void'
-      65 | define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
-         |                       ^
-         |                       ;
-   drivers/staging/fbtft/fbtft-bus.c:67:57: error: macro "define_fbtft_write_reg" requires 4 arguments, but only 3 given
-      67 | define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16)
-         |                                                         ^
-   drivers/staging/fbtft/fbtft-bus.c:14: note: macro "define_fbtft_write_reg" defined here
-      14 | #define define_fbtft_write_reg(func, buffer_type, data_type, modifier)        \
-         | 
-   drivers/staging/fbtft/fbtft-bus.c:67:23: error: expected ';' before 'void'
-      67 | define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16)
-         |                       ^
-         |                       ;
-      68 | 
-      69 | void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
-         | ~~~~                   
+   net/mac80211/debugfs_sta.c: In function 'link_sta_he_capa_read':
+>> net/mac80211/debugfs_sta.c:1006:13: error: 'band' undeclared (first use in this function)
+    1006 |         if (band != NL80211_BAND_2GHZ &&
+         |             ^~~~
+   net/mac80211/debugfs_sta.c:1006:13: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/define_fbtft_write_reg +65 drivers/staging/fbtft/fbtft-bus.c
+vim +/band +1006 net/mac80211/debugfs_sta.c
 
-    64	
-  > 65	define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
-    66	define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16)
-    67	define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16)
-    68	
+   979	
+   980	#define PRINT_NSS_SUPP(f, n)						\
+   981		do {								\
+   982			int _i;							\
+   983			u16 v = le16_to_cpu(nss->f);				\
+   984			p += scnprintf(p, buf_sz + buf - p, n ": %#.4x\n", v);	\
+   985			for (_i = 0; _i < 8; _i += 2) {				\
+   986				switch ((v >> _i) & 0x3) {			\
+   987				case 0:						\
+   988					PRINT(n "-%d-SUPPORT-0-7", _i / 2);	\
+   989					break;					\
+   990				case 1:						\
+   991					PRINT(n "-%d-SUPPORT-0-9", _i / 2);	\
+   992					break;					\
+   993				case 2:						\
+   994					PRINT(n "-%d-SUPPORT-0-11", _i / 2);	\
+   995					break;					\
+   996				case 3:						\
+   997					PRINT(n "-%d-NOT-SUPPORTED", _i / 2);	\
+   998					break;					\
+   999				}						\
+  1000			}							\
+  1001		} while (0)
+  1002	
+  1003		PRINT_NSS_SUPP(rx_mcs_80, "RX-MCS-80");
+  1004		PRINT_NSS_SUPP(tx_mcs_80, "TX-MCS-80");
+  1005	
+> 1006		if (band != NL80211_BAND_2GHZ &&
+  1007		    cap[0] & IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_160MHZ_IN_5G) {
+  1008			PRINT_NSS_SUPP(rx_mcs_160, "RX-MCS-160");
+  1009			PRINT_NSS_SUPP(tx_mcs_160, "TX-MCS-160");
+  1010		}
+  1011	
+  1012		if (band != NL80211_BAND_2GHZ &&
+  1013		    cap[0] & IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_80PLUS80_MHZ_IN_5G) {
+  1014			PRINT_NSS_SUPP(rx_mcs_80p80, "RX-MCS-80P80");
+  1015			PRINT_NSS_SUPP(tx_mcs_80p80, "TX-MCS-80P80");
+  1016		}
+  1017	
 
 -- 
 0-DAY CI Kernel Test Service
