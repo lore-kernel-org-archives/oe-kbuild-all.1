@@ -1,61 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 197B01367
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Apr 2026 00:05:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6584710785;
+	Wed, 15 Apr 2026 00:05:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776211522; cv=none; b=fIta9EF3YPweVY+jkrYRUvG71dISDTmYEM6YO1grStpJMd031xc+Gyvo1YoTJmor/53sRjrvReUSc/rbGoS3drXtW3aBNr/qWrrZ2NIUQeskjceRRm2ZLbCSFWUw4o6wGJ6hX5NBGnijMu1epwIqaOCN3SflaF/BIauVFB57GlQ=
+	t=1776211522; cv=none; b=QoGb6j0bR/YiuVmfvcVV3ENVlSvHdCxIw58Byl4/3d6j/ErmDUI6v/ojWyJJWRIKWjCNpSjhtF2/cUDl9mZhKSgTHN1GQhGBgh1kCuQKJhf4ByoE1em+bhNg1q9aH9KloThocVt1EJSTo5tXElNkO+wUfsv7hyFlD6m3uFlnSiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1776211522; c=relaxed/simple;
-	bh=fQje050jDuyd96KgCNCMqmUH2G68XSqEHGGCVHawldU=;
+	bh=QJYIaV4E/IuyvGOiNpoWNfCl5bg8HnBgQPPphrXTlN0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JXcsOWQHGHS3GJGj9WpYHwLjKwRJ7h2THREPxWd6t+v0NFe0v/SkMOUA6IA3ouznMt+o4imbO5iqye0APVZhZOCCK3FSK7FlDsPFiLfcvye2bVcDTL8DYsAODGMGPw6yZ4mKo/Bqe4QCBITHzINIcts1l66vxfz54CBdXUSoyPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eq+seCv3; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=mg95RvNAEjj/ryQwB+lzb/ibjhst0L6gIY1p2DvNh5L2EIxMHmsdWcKx666hZRDsUGCkYbs9bZD/uuEbVtx75vPTzD51U3qwMxXPbVufA9k5sayeTr8UwxvAziidSJm7SMaon7/pOt7zRTdZTEuIItnfbMuJVZYirsC3cRAxuTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ami3MaUS; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eq+seCv3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ami3MaUS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776211522; x=1807747522;
+  t=1776211521; x=1807747521;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=fQje050jDuyd96KgCNCMqmUH2G68XSqEHGGCVHawldU=;
-  b=eq+seCv3q0yjwv7u3OgzopMGuRRj+wL+DR9ZQ828BqtGi0x2rlJ8q2md
-   UzZY0Un1MdgLsIvD2iOBsblNqNgKh4DGCS8EI5DpCR/2Lpx+NYspAdaxw
-   sbW4IDAhMfdTZHWAqqG4jzEl2/o0zgvM0E1UNqYva3wJFpFpszWkF2TuQ
-   zSHGMvGN0lqQWXB7nKjSf3sH+MjtXFERpu/s3Nd/co31Q6uNwMHVgG6Jm
-   bUFA0RXhJAqfEZ/prA/p75LcmF9g5af3WLomeeJbvOVmYpE7MFLZJDw0F
-   yQ6lVucJYlQPfeJayzO4vLwc+XdfHgFmUFmLM6Vv95UjLhCuXWY9STvvL
-   Q==;
-X-CSE-ConnectionGUID: 0fIcTdAGQWqyl4nE/UoDrg==
-X-CSE-MsgGUID: p0gjTpDeSp6cdP6QVnt9/A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="88260240"
+  bh=QJYIaV4E/IuyvGOiNpoWNfCl5bg8HnBgQPPphrXTlN0=;
+  b=ami3MaUSFWqxo8jF4Hv85hdciQnRJhtTN7rDaq4tTAuXcJLwpVGUXUoR
+   kx+GiAkj/+qo0icqYzrChY75VOaDDglYXVGJCc2NUf7Dk+bMiF4MoF7ts
+   RZ/+ilMVvoajBHHsIEobqoIrUFNUYaEhxoG1Gt/udpqHCJcerEK4y0vrV
+   9ZVBmF9oWIayjUL0LeSJxpmY5+pa6EBasx/4Z4RKAIcI7SwcBSKcHRU1B
+   plavl+c5EdT9BQHSqakqj3/VXRFv5t922QizBxB57dZblG6aPMHOGOrzE
+   k7fQBEiayCB0B+aU45V7oOjRBbfmeCIwLsG4nB4uJbuh0XHbB7L2MTNfN
+   g==;
+X-CSE-ConnectionGUID: J5qCZ99wT2GqQKucS5S8mg==
+X-CSE-MsgGUID: gGkFpllyT7yYRIGs3JYrKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="76213640"
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="88260240"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 17:05:21 -0700
-X-CSE-ConnectionGUID: xB+3kYvpQQyOKv2LxeNgYg==
-X-CSE-MsgGUID: rZ+GFvWIT3atgyfE0y8q0g==
+   d="scan'208";a="76213640"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 17:05:21 -0700
+X-CSE-ConnectionGUID: mZ0DOTvRQYeYCuydP7vqmQ==
+X-CSE-MsgGUID: hZmcqFH2TPy0KShEpm8T3Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="268224377"
+   d="scan'208";a="253643556"
 Received: from lkp-server01.sh.intel.com (HELO 7b0b59b3a0d4) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 14 Apr 2026 17:05:19 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 14 Apr 2026 17:05:18 -0700
 Received: from kbuild by 7b0b59b3a0d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wCnkq-000000001zX-140H;
+	id 1wCnkq-000000001zV-0vKp;
 	Wed, 15 Apr 2026 00:05:16 +0000
-Date: Wed, 15 Apr 2026 08:04:20 +0800
+Date: Wed, 15 Apr 2026 08:04:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dudu Lu <phx0fer@gmail.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, stefanha@redhat.com, sgarzare@redhat.com,
-	mst@redhat.com, jasowang@redhat.com, Dudu Lu <phx0fer@gmail.com>
-Subject: Re: [PATCH] vsock/virtio: fix accept queue count leak on transport
- mismatch in recv_listen
-Message-ID: <202604150741.iQBI3cGE-lkp@intel.com>
-References: <20260413085243.73200-1-phx0fer@gmail.com>
+To: Maxwell Doose <m32285159@gmail.com>, gregkh@linuxfoundation.org,
+	tsbogend@alpha.franken.de
+Cc: oe-kbuild-all@lists.linux.dev, yoelvisoliveros@gmail.com,
+	len.bao@gmx.us, linux-mips@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: octeon: remove SPI, POW, PKO, and Helper
+ typedef enums
+Message-ID: <202604150717.26IAjbLy-lkp@intel.com>
+References: <20260412000226.2711800-1-m32285159@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,68 +66,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260413085243.73200-1-phx0fer@gmail.com>
+In-Reply-To: <20260412000226.2711800-1-m32285159@gmail.com>
 
-Hi Dudu,
+Hi Maxwell,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on mst-vhost/linux-next]
-[also build test ERROR on net/main net-next/main linus/master horms-ipvs/master v7.0 next-20260414]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on staging/staging-testing]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dudu-Lu/vsock-virtio-fix-accept-queue-count-leak-on-transport-mismatch-in-recv_listen/20260414-233232
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux-next
-patch link:    https://lore.kernel.org/r/20260413085243.73200-1-phx0fer%40gmail.com
-patch subject: [PATCH] vsock/virtio: fix accept queue count leak on transport mismatch in recv_listen
-config: arc-randconfig-001-20260415 (https://download.01.org/0day-ci/archive/20260415/202604150741.iQBI3cGE-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260415/202604150741.iQBI3cGE-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Maxwell-Doose/staging-octeon-remove-SPI-POW-PKO-and-Helper-typedef-enums/20260415-004127
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20260412000226.2711800-1-m32285159%40gmail.com
+patch subject: [PATCH] staging: octeon: remove SPI, POW, PKO, and Helper typedef enums
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260415/202604150717.26IAjbLy-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260415/202604150717.26IAjbLy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604150741.iQBI3cGE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604150717.26IAjbLy-lkp@intel.com/
 
 All error/warnings (new ones prefixed by >>):
 
->> net/vmw_vsock/virtio_transport_common.c:1:9: warning: data definition has no type or storage class
-       1 |         sk_acceptq_added(sk);
-         |         ^~~~~~~~~~~~~~~~
->> net/vmw_vsock/virtio_transport_common.c:1:9: error: type defaults to 'int' in declaration of 'sk_acceptq_added' [-Werror=implicit-int]
->> net/vmw_vsock/virtio_transport_common.c:1:9: warning: parameter names (without types) in function declaration
-   In file included from include/linux/virtio_vsock.h:7,
-                    from net/vmw_vsock/virtio_transport_common.c:15:
->> include/net/sock.h:1080:20: error: conflicting types for 'sk_acceptq_added'; have 'void(struct sock *)'
-    1080 | static inline void sk_acceptq_added(struct sock *sk)
-         |                    ^~~~~~~~~~~~~~~~
-   net/vmw_vsock/virtio_transport_common.c:1:9: note: previous declaration of 'sk_acceptq_added' with type 'int()'
-       1 |         sk_acceptq_added(sk);
-         |         ^~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from drivers/staging/octeon/octeon-ethernet.h:41,
+                    from drivers/staging/octeon/ethernet.c:23:
+>> drivers/staging/octeon/octeon-stubs.h:1270:22: error: 'cvmx_helper_interface_mode' defined as wrong kind of tag
+    1270 | static inline struct cvmx_helper_interface_mode cvmx_helper_interface_get_mode(int
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/octeon/octeon-stubs.h:1270:49: error: return type is an incomplete type
+    1270 | static inline struct cvmx_helper_interface_mode cvmx_helper_interface_get_mode(int
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/octeon/octeon-stubs.h: In function 'cvmx_helper_interface_get_mode':
+>> drivers/staging/octeon/octeon-stubs.h:1273:16: error: 'return' with a value, in function returning void [-Wreturn-mismatch]
+    1273 |         return 0;
+         |                ^
+   drivers/staging/octeon/octeon-stubs.h:1270:49: note: declared here
+    1270 | static inline struct cvmx_helper_interface_mode cvmx_helper_interface_get_mode(int
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/octeon/ethernet.c: In function 'cvm_oct_common_change_mtu':
+>> drivers/staging/octeon/ethernet.c:252:14: error: void value not ignored as it ought to be
+     252 |             (cvmx_helper_interface_get_mode(interface) !=
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/octeon/ethernet.c: In function 'cvm_oct_common_set_multicast_list':
+   drivers/staging/octeon/ethernet.c:298:14: error: void value not ignored as it ought to be
+     298 |             (cvmx_helper_interface_get_mode(interface) !=
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/octeon/ethernet.c: In function 'cvm_oct_set_mac_filter':
+   drivers/staging/octeon/ethernet.c:350:14: error: void value not ignored as it ought to be
+     350 |             (cvmx_helper_interface_get_mode(interface) !=
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/octeon/ethernet.c: In function 'cvm_oct_probe':
+>> drivers/staging/octeon/ethernet.c:801:22: error: 'cvmx_helper_interface_mode' defined as wrong kind of tag
+     801 |                 enum cvmx_helper_interface_mode imode =
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/octeon/ethernet.c:802:21: error: variable 'imode' has initializer but incomplete type
+     802 |                     cvmx_helper_interface_get_mode(interface);
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/octeon/ethernet.c:801:49: error: storage size of 'imode' isn't known
+     801 |                 enum cvmx_helper_interface_mode imode =
+         |                                                 ^~~~~
+>> drivers/staging/octeon/ethernet.c:801:49: warning: unused variable 'imode' [-Wunused-variable]
+--
+   In file included from drivers/staging/octeon/octeon-ethernet.h:41,
+                    from drivers/staging/octeon/ethernet-mdio.c:15:
+>> drivers/staging/octeon/octeon-stubs.h:1270:22: error: 'cvmx_helper_interface_mode' defined as wrong kind of tag
+    1270 | static inline struct cvmx_helper_interface_mode cvmx_helper_interface_get_mode(int
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/octeon/octeon-stubs.h:1270:49: error: return type is an incomplete type
+    1270 | static inline struct cvmx_helper_interface_mode cvmx_helper_interface_get_mode(int
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/octeon/octeon-stubs.h: In function 'cvmx_helper_interface_get_mode':
+>> drivers/staging/octeon/octeon-stubs.h:1273:16: error: 'return' with a value, in function returning void [-Wreturn-mismatch]
+    1273 |         return 0;
+         |                ^
+   drivers/staging/octeon/octeon-stubs.h:1270:49: note: declared here
+    1270 | static inline struct cvmx_helper_interface_mode cvmx_helper_interface_get_mode(int
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +1 net/vmw_vsock/virtio_transport_common.c
+vim +/cvmx_helper_interface_mode +1270 drivers/staging/octeon/octeon-stubs.h
 
-   > 1		sk_acceptq_added(sk);
-     2	// SPDX-License-Identifier: GPL-2.0-only
-     3	/*
-     4	 * common code for virtio vsock
-     5	 *
-     6	 * Copyright (C) 2013-2015 Red Hat, Inc.
-     7	 * Author: Asias He <asias@redhat.com>
-     8	 *         Stefan Hajnoczi <stefanha@redhat.com>
-     9	 */
-    10	#include <linux/spinlock.h>
-    11	#include <linux/module.h>
-    12	#include <linux/sched/signal.h>
-    13	#include <linux/ctype.h>
-    14	#include <linux/list.h>
-    15	#include <linux/virtio_vsock.h>
-    16	#include <uapi/linux/vsockmon.h>
-    17	
+  1269	
+> 1270	static inline struct cvmx_helper_interface_mode cvmx_helper_interface_get_mode(int
+  1271									   interface)
+  1272	{
+> 1273		return 0;
+  1274	}
+  1275	
 
 -- 
 0-DAY CI Kernel Test Service
