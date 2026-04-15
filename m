@@ -1,63 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A8A11A8F84;
-	Wed, 15 Apr 2026 11:10:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4782C34B192
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Apr 2026 11:21:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776251401; cv=none; b=f8jbUN8kkfIrHM87u0VCuZWI1eBWNn/I6YeA8Ymc7M7/hPrhaQWNms81CRulEZRvnRVukrM4Ejpdt3/uzubo1S6bJ1OOjZ5rRb5flNrkrWfO5sjbgd3O9ILjbac2FFM4qaorgbKi77nJES/J7nYnIC7s1tir4KUdZePsQoPcsfs=
+	t=1776252063; cv=none; b=lvZZ5+aMXRrtxKO8EEPMooN9VrpIXuWyVoW2FlpNJ0vi1mAYvk1NSkhsMbUGGEksyKqFltVcnqvznRnqUL5qXpFSZcriGEwlRUfJEaqgPCnUf/syiWfJwPoUkT+nsJ/rxnhSZPfDtRWotkbLDllrJ5BwSHvXc1bbJ0g1nuCiVeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776251401; c=relaxed/simple;
-	bh=zYISl4YymA6/eZuqTpBh/rfh+fOUzsz13rpCC8OY6V8=;
+	s=arc-20240116; t=1776252063; c=relaxed/simple;
+	bh=GnUQiYR6RcFc756lrmlYngLn7X0Bum9ba/PdkJRoxdc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I7ouHDiPi//z10RBN6Ba2atNI+5Qi0hFSwbbTip9gH1o6cvJ9XQ4cN/24AR8Ua2k8/3YzqviA8TCchxV1w5qnleh2a4vtvDgZZWOoAEUNXmdi8b3YzOlJaQ9XE5Hm0rbCf1fYIe1E6A3/8H6CIrZyRDRS7TP9N1md4KwuSbo288=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hqcd++Kc; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=eDq17uLQRXyikGzncPQ8frlr4bUDzjOG3I37sGI1/eHPq5tIxyop34daqQO0dkhUgG5PcdMRjA9GpYZl0pJIuoJjFcTRBvQVXLVnKZFd9Q+vHrqSSXKPs/ClzkIC+/ez4j+Z9p7+uwokfyiXJ8EdTSdhz/+CUCnvAWPqgOVcEFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fjOso0ez; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hqcd++Kc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fjOso0ez"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776251401; x=1807787401;
+  t=1776252063; x=1807788063;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=zYISl4YymA6/eZuqTpBh/rfh+fOUzsz13rpCC8OY6V8=;
-  b=hqcd++KcA7zhwP5ztzfeHt6lzZmdwWZwx/ebRVMKkvkk1u/7tRI81Jcn
-   FaV7SODX4CWFyp4XqNh8t25MqYu773HWQ7+8vu4RemWd/ehdQNszWx7JR
-   lW8IlxqCVZC7tyI2DHgrMq/TK7drK944TqOxQfFCI5uMqs+wClW5FFvxa
-   AMTNPX6T2Dw5gCfPjNcbs/YOfkaHzXD8s8E9zFgBrLO5zMExOEkmXx8Ll
-   18ZS1Na69H5EwlrexO1pYLwRmwsgeOX9Biip9KAl7Lp9GxEOssjer67qq
-   KBhojTKPEW9HLG/Uhjr2dvuH6Bx1BWMCXM9m+RfUER2IrunNpsfwglT3t
-   g==;
-X-CSE-ConnectionGUID: c2ubzSl4SPK6nXJ2OwoyxA==
-X-CSE-MsgGUID: zoHpnPePTnWJefYKWzwbqg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="76256667"
+  bh=GnUQiYR6RcFc756lrmlYngLn7X0Bum9ba/PdkJRoxdc=;
+  b=fjOso0ezXGg9nq4TTesgjoKhirXQBfC/6sMFWXyOcYR1NKig36Hnhn8s
+   XzONR+TOn+VfuoAi7tQe2Uld+m82KTuPgsbIcUjaptmxNBBVaeFDzsdKR
+   P3qDUdlWWwUNI3BI+61CBhFIS+TNnhMztImnJHtj0HdoWG6y4wuj4p2FQ
+   jYaKPU+MEDX38yxPwRXVV9CNMw/MXfMDbTj1hTLgiUenLHYLVrUYRGPBz
+   /cAy9CBKZAgPhd+5U6pvsifm0wEDOzb21TdITzWpt973n28TVjQTgu4mP
+   gizRzUfOE6Fv688CetJCPgR3e0etQTU9VMh1r1/9j/h7jyQBPMGkP0Rok
+   A==;
+X-CSE-ConnectionGUID: JzgL5byGSN+eUOauVYUD9g==
+X-CSE-MsgGUID: JKNpcdHtTbCi24Hbwc8BMw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="94626265"
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="76256667"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2026 04:10:00 -0700
-X-CSE-ConnectionGUID: QrNsoN+gSWKbOlpE4G79ZA==
-X-CSE-MsgGUID: lD75H1XmRnuQeEwDr7YlWA==
+   d="scan'208";a="94626265"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2026 04:21:02 -0700
+X-CSE-ConnectionGUID: Zb3V2/GOTT+zfPANQRSClQ==
+X-CSE-MsgGUID: oHspvkrHTTuKSCuGrvejug==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="234425047"
 Received: from lkp-server01.sh.intel.com (HELO 7f3b36e5d6a5) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 15 Apr 2026 04:09:57 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 15 Apr 2026 04:20:58 -0700
 Received: from kbuild by 7f3b36e5d6a5 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wCy82-000000000QT-3cBT;
-	Wed, 15 Apr 2026 11:09:54 +0000
-Date: Wed, 15 Apr 2026 19:09:45 +0800
+	id 1wCyIi-000000000Qv-06QC;
+	Wed, 15 Apr 2026 11:20:56 +0000
+Date: Wed, 15 Apr 2026 19:20:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pavitra Jha <jhapavitra98@gmail.com>, pabeni@redhat.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, w@1wt.eu,
-	chandrashekar.devegowda@intel.com, linux-wwan@lists.linux.dev,
-	netdev@vger.kernel.org, stable@vger.kernel.org,
-	Pavitra Jha <jhapavitra98@gmail.com>
-Subject: Re: [PATCH v2] net: wwan: t7xx: validate port_count against message
- length in t7xx_port_enum_msg_handler
-Message-ID: <202604151900.1tnLdQi7-lkp@intel.com>
-References: <20260414153201.1633720-1-jhapavitra98@gmail.com>
+To: Yang Yingliang <yangyingliang@huawei.com>, akpm@linux-foundation.org,
+	david@kernel.org, ljs@kernel.org, Liam.Howlett@oracle.com,
+	vbabka@kernel.org, rppt@kernel.org, surenb@google.com,
+	mhocko@suse.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, yangyingliang@huawei.com,
+	hucool.lihua@huawei.com
+Subject: Re: [PATCH -next] mm: make sure freeram is smaller than totalram
+Message-ID: <202604151917.t6ckjppJ-lkp@intel.com>
+References: <20260413115736.1237680-1-yangyingliang@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,37 +65,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260414153201.1633720-1-jhapavitra98@gmail.com>
+In-Reply-To: <20260413115736.1237680-1-yangyingliang@huawei.com>
 
-Hi Pavitra,
+Hi Yang,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net/main]
-[also build test WARNING on net-next/main linus/master v7.0 next-20260414]
-[cannot apply to horms-ipvs/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on akpm-mm/mm-everything]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Pavitra-Jha/net-wwan-t7xx-validate-port_count-against-message-length-in-t7xx_port_enum_msg_handler/20260415-014321
-base:   net/main
-patch link:    https://lore.kernel.org/r/20260414153201.1633720-1-jhapavitra98%40gmail.com
-patch subject: [PATCH v2] net: wwan: t7xx: validate port_count against message length in t7xx_port_enum_msg_handler
-config: loongarch-randconfig-002-20260415 (https://download.01.org/0day-ci/archive/20260415/202604151900.1tnLdQi7-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260415/202604151900.1tnLdQi7-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Yang-Yingliang/mm-make-sure-freeram-is-smaller-than-totalram/20260415-122059
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20260413115736.1237680-1-yangyingliang%40huawei.com
+patch subject: [PATCH -next] mm: make sure freeram is smaller than totalram
+config: arm64-randconfig-001-20260415 (https://download.01.org/0day-ci/archive/20260415/202604151917.t6ckjppJ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260415/202604151917.t6ckjppJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604151900.1tnLdQi7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604151917.t6ckjppJ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: drivers/net/wwan/t7xx/t7xx_port_ctrl_msg.c:127 function parameter 'msg_len' not described in 't7xx_port_enum_msg_handler'
->> Warning: drivers/net/wwan/t7xx/t7xx_port_ctrl_msg.c:127 function parameter 'msg_len' not described in 't7xx_port_enum_msg_handler'
+>> mm/vmstat.c:884:13: warning: 'refresh_vm_stats' defined but not used [-Wunused-function]
+     884 | static void refresh_vm_stats(struct work_struct *work)
+         |             ^~~~~~~~~~~~~~~~
+
+
+vim +/refresh_vm_stats +884 mm/vmstat.c
+
+   883	
+ > 884	static void refresh_vm_stats(struct work_struct *work)
+   885	{
+   886		refresh_cpu_vm_stats(true);
+   887	}
+   888	
 
 -- 
 0-DAY CI Kernel Test Service
