@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1AFA33C19E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Apr 2026 12:12:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A68A1279355
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Apr 2026 12:26:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776255143; cv=none; b=tBEegr8YOzR8Nwqx+3HyGl1bHQiCy7eG8s1Z+dFMHD4dEY7eE4V2F/8y6/bgvhn/M7qdglLDFiUn21aJcPnhxRM+BhMEv25O+PGJ8y7H/TlVh1SYlZbdGZUpp7YLa9EG3pyjfJgvB5vzehIvHDOiiMOlQHyjsF4Sl3ZqUekG/yE=
+	t=1776255968; cv=none; b=XT7+j7DqvuIn3kLnHtaWn9bByMizmvjZooAV/di9w7Mwd78IGWWkY9SFhV2+E2L6XmQ14LuyBku7F6RTZHGwE2w8GmFSSwMfKec7fyLmRV/n/HlApMkhKOaJGViY4F3UASscmCaqU+VnZJs9zIriXhe686+kO8xdyvlNe7k6sQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776255143; c=relaxed/simple;
-	bh=UUqn4AV1F5lWpL001txNph4oychi0oYZVtyes8FI8R0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=GB7miLTLGieJR5ZP7UX9VBpdLr9BIaTj926mN38x4hluDMCAjfEqzn0HJvTreMgoXE0PKtMDiwjZmUBIh3GVNE2PBf+JOGRCcBN1nkQAel49IeaPlX/5R0S6idQ+1tEIx+jVj4tEn6uXH7vAwx93ZAso1w3+lfu/N6UiYP6gfM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FoH5ZUe7; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1776255968; c=relaxed/simple;
+	bh=PSFwu+5dPPuCkWChl02qj1GnWR+gd8ZGRxJ/mh/Nscg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=VJdgtiM7hoqLnrozMZrmP/O2PMml/5rMzwphT8UXEJjB1I/PaMsqhooXXAVBFOugW2NFzh5j8m6lU/X2V4BtCOc5QIgyIGzcX7jpfkzi9YPWbpzwFgbDZm0T/rtrGs+OS1DRvCaCq4+hiV/zDdG6X7mixxRVBKkbxMPACFcb2fI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UoDoglNX; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FoH5ZUe7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UoDoglNX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776255141; x=1807791141;
+  t=1776255967; x=1807791967;
   h=date:from:to:cc:subject:message-id;
-  bh=UUqn4AV1F5lWpL001txNph4oychi0oYZVtyes8FI8R0=;
-  b=FoH5ZUe7m60orZlRdC6SUvUVqgVse+c0tkuxykO56YuHlQ856ZK1Rz+W
-   m6pOQftGn94ikp3in7QOUCwN+vRcCQ3/Ledd6bzaW47/5fIGj5cgZec+7
-   nYpFGpte2W3abcqlRzdC2xSjc2Pn1ieQZ8HWFynkHlxgJrpAKyeLGMKoU
-   OleWRTYzW4yDRKZPXQmzteX7r2MvMFEdc0PffI30P5WX6N+rebTS6geNR
-   W/xIvRLNW+57dVUt/7rUSCTFuiiq6gxn9BBNx3U4jA0E9Wq1GC7QWmC/Q
-   Ktp5eROne4saZzkFqUykyNOHLirj+lfq8SdRijS36BTPv0NW58A0+0AMY
-   w==;
-X-CSE-ConnectionGUID: mmu9MhOYQmG/qfO8mnxc6A==
-X-CSE-MsgGUID: SfK4rRbSTGqVLg/TSmcOMw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="76934122"
+  bh=PSFwu+5dPPuCkWChl02qj1GnWR+gd8ZGRxJ/mh/Nscg=;
+  b=UoDoglNXcz+ijW46Mk4YKkEz3q3kpqD8BEazQ+GNiJTdJOYYr5/ZE2Pk
+   0XlmE7Mz5Z15YFKne9BiEFYHu3EQo6wYXcVrTS6NxCiTAMfD1PvJESoBw
+   dZeJaiDdwfGq1Ou1JrOrU8Tct8Wvg+byiprBRmO3mZJ0/k+3Z12wpLihD
+   cbnsOPnoadWny6C6Ix3Q/RpxQu7KsYJqmeUQJpLYBi8OqlPdbmcBd926J
+   2NMHLmrHSmahug8i3BVTWF/wIopxw54tDEkSEWVJQjmTTlDwiPwhqyVeM
+   8GONxmTLCB/fNNBhatcuyufI47wW4NCyzuLKsRdwURSOL3lBK9q3aApBG
+   g==;
+X-CSE-ConnectionGUID: +ByVjyC6QQ6fnjNeRNV3dA==
+X-CSE-MsgGUID: tipp/z4XS9ej9iu3Lyi4lg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="77255628"
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="76934122"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2026 05:12:20 -0700
-X-CSE-ConnectionGUID: ISUFjh+VSS+zaxTk+JAk5g==
-X-CSE-MsgGUID: PF1IXGyERZaG0rhcwLKbfQ==
+   d="scan'208";a="77255628"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2026 05:26:06 -0700
+X-CSE-ConnectionGUID: 2h9Lz22IQRiux5/zFIoXww==
+X-CSE-MsgGUID: vI1fDqi0RlqtGMwN+nF0TQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="234800157"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 15 Apr 2026 05:12:19 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="226093399"
+Received: from lkp-server01.sh.intel.com (HELO 7f3b36e5d6a5) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 15 Apr 2026 05:26:04 -0700
+Received: from kbuild by 7f3b36e5d6a5 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wCz6O-000000000k1-33YD;
-	Wed, 15 Apr 2026 12:12:16 +0000
-Date: Wed, 15 Apr 2026 14:12:04 +0200
+	id 1wCzJi-000000000Ut-0NWU;
+	Wed, 15 Apr 2026 12:26:02 +0000
+Date: Wed, 15 Apr 2026 20:25:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shyam Prasad N <sprasad@microsoft.com>
-Cc: oe-kbuild-all@lists.linux.dev, Steve French <stfrench@microsoft.com>
-Subject: [samba-ksmbd:shyam-patch-5 1/1]
- fs/smb/client/smb2ops.c:2646:70: error: 'CIFS_DYNAMIC_BUFFER' undeclared; did
- you mean 'CIFS_NO_BUFFER'?
-Message-ID: <202604151433.c3V9mYHC-lkp@intel.com>
+To: Steve French <stfrench@microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [smfrench-smb3:pr/168 1/1] fs/smb/client/smb2ops.c:2646:56:
+ error: use of undeclared identifier 'CIFS_DYNAMIC_BUFFER'
+Message-ID: <202604152059.Gmw2HakG-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,29 +59,27 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   git://git.samba.org/ksmbd.git shyam-patch-5
+tree:   https://github.com/smfrench/smb3-kernel.git pr/168
 head:   39308a2b5dfc90639437cc895c9bacecd2d8694b
 commit: 39308a2b5dfc90639437cc895c9bacecd2d8694b [1/1] cifs: optimize readdir for small directories
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260415/202604151433.c3V9mYHC-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260415/202604151433.c3V9mYHC-lkp@intel.com/reproduce)
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260415/202604152059.Gmw2HakG-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260415/202604152059.Gmw2HakG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604151433.c3V9mYHC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604152059.Gmw2HakG-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/smb/client/smb2ops.c: In function 'smb2_query_dir_first':
->> fs/smb/client/smb2ops.c:2646:70: error: 'CIFS_DYNAMIC_BUFFER' undeclared (first use in this function); did you mean 'CIFS_NO_BUFFER'?
+>> fs/smb/client/smb2ops.c:2646:56: error: use of undeclared identifier 'CIFS_DYNAMIC_BUFFER'
     2646 |                 rc = smb2_parse_query_directory(tcon, &combined_iov, CIFS_DYNAMIC_BUFFER,
-         |                                                                      ^~~~~~~~~~~~~~~~~~~
-         |                                                                      CIFS_NO_BUFFER
-   fs/smb/client/smb2ops.c:2646:70: note: each undeclared identifier is reported only once for each function it appears in
+         |                                                                      ^
+   1 error generated.
 
 
-vim +2646 fs/smb/client/smb2ops.c
+vim +/CIFS_DYNAMIC_BUFFER +2646 fs/smb/client/smb2ops.c
 
   2434	
   2435	static int
