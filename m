@@ -1,117 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E16F93AEF5F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Apr 2026 13:32:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16CD3221275
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Apr 2026 13:38:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776259932; cv=none; b=qGHfH3VKy88SW1ivtNnmIW9qFt2ryJ23jCmOAgEDw3VBqi9Qdr3tCQH95+O9o9wxVirJ3xWjFaMpw3eSkgt8RCmJISNbfw1gmyYZr+ig7uMflake2uMwDIVc5DCvqQsdg5V7cpOAySi+S8X6R4JnSpG5iKWndgwi1KOmJc44VgM=
+	t=1776260304; cv=none; b=KyC0Y5iCOW3XLK3yNjYQ1+VzZF2kRlMx+2zyoRyfnQOS69G+1FxDjhRmwO/cWJjyOKa8QerItZv0CF6wYoHVl+9BllVU2flYo5uE3gu9EqKlqNYlWANlTaEmfzlyK/EUiJ8KL6EmJz9ayrOTq09J8VH9yPxawEn/yvmab7qGHq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776259932; c=relaxed/simple;
-	bh=aXkGhsVy594aYIb+ZwNsUstG2giINOKSNBMf9ItvRJc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=sAHpxOPJLNrqcrWPfVCyZh9bW5cdIprWmW2URnm+mmYl1hDrg4CN8bXASy5TmzbG+NV67GtbRHQATlu4NjV7oRmBPBUoZRDLhCn9keb5WQr+92gVekJ+aXsYqQB5bWWVQCl7GSPamrywVFfKq055E+c3W0P1j+2ANqJ7KQBlUS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aAjdRksY; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1776260304; c=relaxed/simple;
+	bh=bZqt6vLbbY7wV9vBAY98g6ZXIP63PameKJz0SxWrAgE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WB1R9t79M3Cczcf3G9lGrHxsPQpcPxtCb0VITRYNgydKFgw7/NoLjgC2Pvxj/tahxlS69F+R5X2BsQwtmXPoHVmc7XogSyET4QXplMJ+z4hcJHo4Lvhszk6MDYlVnHF+yPvXb4NTvK/IHVctt2SQLQ38afKFKrM/C37gWq8MlUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CH2Yq5fs; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aAjdRksY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CH2Yq5fs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776259930; x=1807795930;
-  h=date:from:to:cc:subject:message-id;
-  bh=aXkGhsVy594aYIb+ZwNsUstG2giINOKSNBMf9ItvRJc=;
-  b=aAjdRksY/g6D4YzkZG11Anz4GroIMNWo9BI3wi+P8/+H+T89kYAoXvzO
-   bCqC6UEPqq+C6pprFUDAIvoDFz0tb2kpQKKpWtBpCtCUHGLgL7QPk3IOi
-   SEKi8NsF2pcDdNM+nJM/Lvfe2tKxrUKOtEPc35M02MGvRyOYb+Dx5GfMs
-   3TzF/zZRGQNUnPlemFo7fKQLB6MGpr1AXl7qTdpTAYMtis49l5Z3Lx225
-   9gUqEjn2BKAJc4/kz2t7ALqHRPkSFSqqo9WZHM59q0vyBuuMUyz7zmL5A
-   krU55UOqMsJH8T/6cq29d+SyeodEwyBztd0CnTJBwCASMTc+fA8ROC8mS
-   g==;
-X-CSE-ConnectionGUID: HTfR4yiHR1SfIutE+jW8Pg==
-X-CSE-MsgGUID: J6ujE4rJQRiuHLG42cV5vg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="77260502"
+  t=1776260302; x=1807796302;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bZqt6vLbbY7wV9vBAY98g6ZXIP63PameKJz0SxWrAgE=;
+  b=CH2Yq5fsUJgqAQPn8f85HRgtahDvOd267S7cyImXNI9EDQNciOdmcfBw
+   EkagcSnZDImaB77joJw66BlGb9srssHvDx9ckASd7CjCjI8NNwNjRSBtk
+   kVvC8wfIaGg4w3P8jvtgZVa/779JEltQYcAJ4cTTil4z00CGHM7TrEjPD
+   hMuXoONiYZny4XnROK6Z7XyzND7FpK7ksL1+7cwMl6u0Tk7hJkbJXnMpr
+   EessYY7i14GyB9WxF1AJ/S56qojdABpONU+gmAJKyTQnpSCqKfqfRDBEQ
+   LH0c3ifTRteRVugb4XTfuArTkRw9i3rDgiSk6VURFy212y7mHakaFRvvb
+   Q==;
+X-CSE-ConnectionGUID: dineKzUMTx6Bfe0IbUvSUQ==
+X-CSE-MsgGUID: RPhd0GY8Q3GZEoUjZNg5LA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="88615727"
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="77260502"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2026 06:32:10 -0700
-X-CSE-ConnectionGUID: lExZ/GPKTMaB/tf6TKYkEA==
-X-CSE-MsgGUID: yDOAGoRoTEOysZQUyRSm7g==
+   d="scan'208";a="88615727"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2026 06:38:22 -0700
+X-CSE-ConnectionGUID: rK1wKLmkSD+RjgV8lrGs2A==
+X-CSE-MsgGUID: /u+gW7pHSaqh7UMzNKJWwQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="227253158"
-Received: from lkp-server01.sh.intel.com (HELO 7f3b36e5d6a5) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 15 Apr 2026 06:32:08 -0700
-Received: from kbuild by 7f3b36e5d6a5 with local (Exim 4.98.2)
+   d="scan'208";a="235367890"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 15 Apr 2026 06:38:20 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wD0Ld-000000000Xf-33x5;
-	Wed, 15 Apr 2026 13:32:05 +0000
-Date: Wed, 15 Apr 2026 21:31:13 +0800
+	id 1wD0Rd-000000000kz-2PTm;
+	Wed, 15 Apr 2026 13:38:17 +0000
+Date: Wed, 15 Apr 2026 15:37:31 +0200
 From: kernel test robot <lkp@intel.com>
-To: Muchun Song <songmuchun@bytedance.com>
-Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>
-Subject: [akpm-mm:mm-new 159/160] include/linux/mmzone.h:2052:18:
- sparse: sparse: incorrect type in return expression (different address
- spaces)
-Message-ID: <202604152138.zbTaYxbG-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Pavitra Jha <jhapavitra98@gmail.com>, pabeni@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, w@1wt.eu,
+	chandrashekar.devegowda@intel.com, linux-wwan@lists.linux.dev,
+	netdev@vger.kernel.org, stable@vger.kernel.org,
+	Pavitra Jha <jhapavitra98@gmail.com>
+Subject: Re: [PATCH v2] net: wwan: t7xx: validate port_count against message
+ length in t7xx_port_enum_msg_handler
+Message-ID: <202604151531.ClMVCCxv-lkp@intel.com>
+References: <20260414153201.1633720-1-jhapavitra98@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260414153201.1633720-1-jhapavitra98@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-head:   f358e95febcb2f3d7ac6aafab0a2b9ace9cc8b7c
-commit: 085038a33b6f00e4c43cceab8116315d1d42380c [159/160] mm/sparse: fix race on mem_section->usage in pfn walkers
-config: i386-randconfig-r132-20260415 (https://download.01.org/0day-ci/archive/20260415/202604152138.zbTaYxbG-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260415/202604152138.zbTaYxbG-lkp@intel.com/reproduce)
+Hi Pavitra,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net/main]
+[also build test WARNING on net-next/main linus/master v7.0 next-20260415]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pavitra-Jha/net-wwan-t7xx-validate-port_count-against-message-length-in-t7xx_port_enum_msg_handler/20260415-014321
+base:   net/main
+patch link:    https://lore.kernel.org/r/20260414153201.1633720-1-jhapavitra98%40gmail.com
+patch subject: [PATCH v2] net: wwan: t7xx: validate port_count against message length in t7xx_port_enum_msg_handler
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260415/202604151531.ClMVCCxv-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260415/202604151531.ClMVCCxv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604152138.zbTaYxbG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604151531.ClMVCCxv-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   mm/sparse.c: note: in included file:
->> mm/internal.h:987:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct mem_section_usage [noderef] __rcu *usage @@     got struct mem_section_usage *usage @@
-   mm/internal.h:987:19: sparse:     expected struct mem_section_usage [noderef] __rcu *usage
-   mm/internal.h:987:19: sparse:     got struct mem_section_usage *usage
---
-   mm/page_alloc.c: note: in included file (through include/linux/gfp.h, include/linux/mm.h):
->> include/linux/mmzone.h:2052:18: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected unsigned long * @@     got unsigned long [noderef] __rcu * @@
-   include/linux/mmzone.h:2052:18: sparse:     expected unsigned long *
-   include/linux/mmzone.h:2052:18: sparse:     got unsigned long [noderef] __rcu *
->> include/linux/mmzone.h:2052:18: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected unsigned long * @@     got unsigned long [noderef] __rcu * @@
-   include/linux/mmzone.h:2052:18: sparse:     expected unsigned long *
-   include/linux/mmzone.h:2052:18: sparse:     got unsigned long [noderef] __rcu *
->> include/linux/mmzone.h:2052:18: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected unsigned long * @@     got unsigned long [noderef] __rcu * @@
-   include/linux/mmzone.h:2052:18: sparse:     expected unsigned long *
-   include/linux/mmzone.h:2052:18: sparse:     got unsigned long [noderef] __rcu *
->> include/linux/mmzone.h:2052:18: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected unsigned long * @@     got unsigned long [noderef] __rcu * @@
-   include/linux/mmzone.h:2052:18: sparse:     expected unsigned long *
-   include/linux/mmzone.h:2052:18: sparse:     got unsigned long [noderef] __rcu *
->> include/linux/mmzone.h:2052:18: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected unsigned long * @@     got unsigned long [noderef] __rcu * @@
-   include/linux/mmzone.h:2052:18: sparse:     expected unsigned long *
-   include/linux/mmzone.h:2052:18: sparse:     got unsigned long [noderef] __rcu *
+All warnings (new ones prefixed by >>):
 
-vim +2052 include/linux/mmzone.h
-
-d41dee369bff3b Andy Whitcroft 2005-06-23  2049  
-f1eca35a0dc7cb Dan Williams   2019-07-18  2050  static inline unsigned long *section_to_usemap(struct mem_section *ms)
-f1eca35a0dc7cb Dan Williams   2019-07-18  2051  {
-f1eca35a0dc7cb Dan Williams   2019-07-18 @2052  	return ms->usage->pageblock_flags;
-f1eca35a0dc7cb Dan Williams   2019-07-18  2053  }
-f1eca35a0dc7cb Dan Williams   2019-07-18  2054  
-
-:::::: The code at line 2052 was first introduced by commit
-:::::: f1eca35a0dc7cb3cdb00c88c8c5e5138a65face0 mm/sparsemem: introduce struct mem_section_usage
-
-:::::: TO: Dan Williams <dan.j.williams@intel.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+>> Warning: drivers/net/wwan/t7xx/t7xx_port_ctrl_msg.c:127 function parameter 'msg_len' not described in 't7xx_port_enum_msg_handler'
+>> Warning: drivers/net/wwan/t7xx/t7xx_port_ctrl_msg.c:127 function parameter 'msg_len' not described in 't7xx_port_enum_msg_handler'
 
 -- 
 0-DAY CI Kernel Test Service
