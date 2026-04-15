@@ -1,222 +1,161 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F282946B5
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Apr 2026 03:18:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96A06217704
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Apr 2026 03:18:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776223110; cv=none; b=ouYHLquDuMEhzCbUoEbfghf3XoyhiJ+2q2TBRG62ReGta1fXGoK1ASYDDg+CMdLaYboP7VeY8QE4kvZpwZVo/7wHJ+jEx2a/G9B0PLmkLdqFR3pL9EdqL2ZsnMwB/jk2QGZLN39WY9Bj/045SW4ic78GKl70+6VH/8SDnYA9DgI=
+	t=1776223112; cv=none; b=epW94SmCkrMnnd+2S1aBWHbb7ezipSzh0xoHv8loBR4Dy+ayLQ71krQaQwtuCPARj4DWt2BKiibiA3sifZNubvHDAxiTIH1UqJ+K1b/ZfBJnM54Zsvgel2hOe8QnGQGtzpsLyIyUWeF4pQAuV5ZVRDN6V49nI4/RZMz1QPLxOp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776223110; c=relaxed/simple;
-	bh=317l5Qla00rK3Eg0zRq3Wlr+6Lz3F14zDmwt8uImKY0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=jb5ArJH4/DJCh2JgVc4yaZR0wDI7os/3nRiirFj+km+n3wPacOr9qGAQRxedCEXUuepf+yrTc/NgLtAePtUnU4xmx/pohpP3S+TFoEbf2cHfWTxg9WcQOZFF9OKLKVwtK0RfD5T9FCjBz9oLKDGYeg9h178M+QQEaGC18PucNuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b9xUV3Ny; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1776223112; c=relaxed/simple;
+	bh=pN4vBEp6nfcqXNrQLkmLldYUzKj2XXj7ZHPiuukhJLg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nlgiCEh+IC/GsY+1teEHYmOy3ZDPncCd4j2go0CmYJLHaGIWZA2OShSrsXJjBY0goBeTTqYMf0xJELyVVsHrI6NMo2knJJ/yqT/ItRDNdu4oGaa3NSbZfktTaAHJYwbqlnHP7mHifkMqEBjH2wWKZ0hD6iZbooYAFcKDV7LQjd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XniyNQmk; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b9xUV3Ny"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XniyNQmk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776223108; x=1807759108;
-  h=date:from:to:cc:subject:message-id;
-  bh=317l5Qla00rK3Eg0zRq3Wlr+6Lz3F14zDmwt8uImKY0=;
-  b=b9xUV3NyEfoRntpKKnqXzbftxOZuTjqJA/usFW6DULuF19jJKThTuR8/
-   LUHrV6y8WUeGIMMlXM0QpZjx8omGKI0SFQ6Wii0GP0f5HLzXuzIN+ci3h
-   JmiNMZLvB+OKnLXYUUP+3vfWX9hQojCc4VOb36yGLiw+9LhHFP5eEWSK9
-   zzB2eg5tue9d4+Yd16cykmTNKSVDOXbsVeeiRi8dpGE6u0oDmTZ8U+W6M
-   kobwi2TDPQRj4RJ+eqDnZGiUdC6lWg6ApgVORKBYDjpFzK8WmdwvptBG1
-   UzQd/Jc2c3u3dfkOteElpjOBtxySfIlvsOxU6jVcabTmSQnvZqgJtn5G1
-   g==;
-X-CSE-ConnectionGUID: pdcmRCFYRs6ic8e/HqZJeg==
-X-CSE-MsgGUID: hLyWWffFSVW/GiqLL2aZ7Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="87500581"
+  t=1776223110; x=1807759110;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pN4vBEp6nfcqXNrQLkmLldYUzKj2XXj7ZHPiuukhJLg=;
+  b=XniyNQmkRxLelxn4iRwXUgRicu8LK9W4k4XLtKMgbzeZ4zsqdtQYZWoS
+   vT6af2WZwXB1tL3MHcwownmYV34bp9S1a4m7wofkz1+KXxu0pJYp3QulO
+   +Ss0Frzhat/SIfKS4FRbKEzqfZR3kdKqqQwQrVXJc7bA5ESFcXs8PQUmD
+   uuZLD+79DwU2pu+SVJRtFwBRGE4RK5bciPYP8mqOggjfTx55nxSZvuOb0
+   7IdKQq5l003rjPCZ5R63UtbzwuZWSPzo701FPVWtUjBQZ5S5Jq+BYQdeh
+   qd2yoMIXVK0ajcVACCth4mbzJM2GDbAAXeoJ66rMJdfx7noj28W5Kcyex
+   A==;
+X-CSE-ConnectionGUID: S8LQdVlySbCpSvnNnXbeUg==
+X-CSE-MsgGUID: Tzs6wOEsSx6XLKd9T8ymOg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="76224294"
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="87500581"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 20:18:27 -0700
-X-CSE-ConnectionGUID: 9zHy2s23QdWtY9Gn9VMxvg==
-X-CSE-MsgGUID: U7quDWHAT2eonv4rpeWqlw==
+   d="scan'208";a="76224294"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 20:18:29 -0700
+X-CSE-ConnectionGUID: hRHIx42nTce3zJplxlFpbg==
+X-CSE-MsgGUID: 36SwFOnOTKqLOuqoFusQfQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="229246647"
+   d="scan'208";a="223780958"
 Received: from lkp-server01.sh.intel.com (HELO 7f3b36e5d6a5) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 14 Apr 2026 20:18:25 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 14 Apr 2026 20:18:26 -0700
 Received: from kbuild by 7f3b36e5d6a5 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wCqlj-0000000005j-0zAd;
+	id 1wCqlj-0000000005h-0rLu;
 	Wed, 15 Apr 2026 03:18:23 +0000
-Date: Wed, 15 Apr 2026 11:18:01 +0800
+Date: Wed, 15 Apr 2026 11:17:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 2/2]
- include/linux/fortify-string.h:597:25: error: call to
- '__write_overflow_field' declared with attribute warning: detected write
- beyond size of field (1st parameter); maybe use struct_group()?
-Message-ID: <202604151144.EdOpB0uy-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Youling Tang <youling.tang@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Vivek Goyal <vgoyal@redhat.com>, Dave Young <dyoung@redhat.com>,
+	kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, youling.tang@linux.dev,
+	Youling Tang <tangyouling@kylinos.cn>
+Subject: Re: [PATCH] crash: Support high memory reservation for range syntax
+Message-ID: <202604151100.7wbci6vo-lkp@intel.com>
+References: <20260404074103.506793-1-youling.tang@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260404074103.506793-1-youling.tang@linux.dev>
 
-Hi liujie_answer,
+Hi Youling,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   8b90747cc43d9227f49ac4ea71f87a31b06c77b4
-commit: 236157fc6d49320c9b1a91b501ccf01fe70f2853 [2/2] anolis: net: update linkdata ethernet driver features.
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20260415/202604151144.EdOpB0uy-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260415/202604151144.EdOpB0uy-lkp@intel.com/reproduce)
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on linus/master v7.0 next-20260414]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Youling-Tang/crash-Support-high-memory-reservation-for-range-syntax/20260414-205035
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20260404074103.506793-1-youling.tang%40linux.dev
+patch subject: [PATCH] crash: Support high memory reservation for range syntax
+config: mips-randconfig-r061-20260415 (https://download.01.org/0day-ci/archive/20260415/202604151100.7wbci6vo-lkp@intel.com/config)
+compiler: mips64-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260415/202604151100.7wbci6vo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604151144.EdOpB0uy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604151100.7wbci6vo-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/string.h:296,
-                    from include/linux/bitmap.h:12,
-                    from include/linux/cpumask.h:12,
-                    from arch/x86/include/asm/paravirt.h:17,
-                    from arch/x86/include/asm/cpuid.h:63,
-                    from arch/x86/include/asm/processor.h:19,
-                    from arch/x86/include/asm/cpufeature.h:5,
-                    from arch/x86/include/asm/thread_info.h:53,
-                    from include/linux/thread_info.h:60,
-                    from arch/x86/include/asm/preempt.h:9,
-                    from include/linux/preempt.h:79,
-                    from include/linux/percpu.h:6,
-                    from include/linux/prandom.h:13,
-                    from include/linux/random.h:153,
-                    from drivers/net/ethernet/linkdata/sxe/sxepf/sxe_upgrade.c:12:
-   In function 'fortify_memcpy_chk',
-       inlined from 'sxe_upgrade_flash' at drivers/net/ethernet/linkdata/sxe/sxepf/sxe_upgrade.c:457:2:
->> include/linux/fortify-string.h:597:25: error: call to '__write_overflow_field' declared with attribute warning: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Werror=attribute-warning]
-     597 |                         __write_overflow_field(p_size_field, size);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+   kernel/crash_reserve.c: In function '__parse_crashkernel':
+>> kernel/crash_reserve.c:324:37: error: 'DEFAULT_CRASH_KERNEL_LOW_SIZE' undeclared (first use in this function)
+     324 |                         *low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/crash_reserve.c:324:37: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/__write_overflow_field +597 include/linux/fortify-string.h
+vim +/DEFAULT_CRASH_KERNEL_LOW_SIZE +324 kernel/crash_reserve.c
 
-a28a6e860c6cf23 Francis Laniel 2021-02-25  541  
-f68f2ff91512c19 Kees Cook      2021-04-20  542  /*
-f68f2ff91512c19 Kees Cook      2021-04-20  543   * To make sure the compiler can enforce protection against buffer overflows,
-f68f2ff91512c19 Kees Cook      2021-04-20  544   * memcpy(), memmove(), and memset() must not be used beyond individual
-f68f2ff91512c19 Kees Cook      2021-04-20  545   * struct members. If you need to copy across multiple members, please use
-f68f2ff91512c19 Kees Cook      2021-04-20  546   * struct_group() to create a named mirror of an anonymous struct union.
-f68f2ff91512c19 Kees Cook      2021-04-20  547   * (e.g. see struct sk_buff.) Read overflow checking is currently only
-f68f2ff91512c19 Kees Cook      2021-04-20  548   * done when a write overflow is also present, or when building with W=1.
-f68f2ff91512c19 Kees Cook      2021-04-20  549   *
-f68f2ff91512c19 Kees Cook      2021-04-20  550   * Mitigation coverage matrix
-f68f2ff91512c19 Kees Cook      2021-04-20  551   *					Bounds checking at:
-f68f2ff91512c19 Kees Cook      2021-04-20  552   *					+-------+-------+-------+-------+
-f68f2ff91512c19 Kees Cook      2021-04-20  553   *					| Compile time  |   Run time    |
-f68f2ff91512c19 Kees Cook      2021-04-20  554   * memcpy() argument sizes:		| write | read  | write | read  |
-f68f2ff91512c19 Kees Cook      2021-04-20  555   *        dest     source   length      +-------+-------+-------+-------+
-f68f2ff91512c19 Kees Cook      2021-04-20  556   * memcpy(known,   known,   constant)	|   y   |   y   |  n/a  |  n/a  |
-f68f2ff91512c19 Kees Cook      2021-04-20  557   * memcpy(known,   unknown, constant)	|   y   |   n   |  n/a  |   V   |
-f68f2ff91512c19 Kees Cook      2021-04-20  558   * memcpy(known,   known,   dynamic)	|   n   |   n   |   B   |   B   |
-f68f2ff91512c19 Kees Cook      2021-04-20  559   * memcpy(known,   unknown, dynamic)	|   n   |   n   |   B   |   V   |
-f68f2ff91512c19 Kees Cook      2021-04-20  560   * memcpy(unknown, known,   constant)	|   n   |   y   |   V   |  n/a  |
-f68f2ff91512c19 Kees Cook      2021-04-20  561   * memcpy(unknown, unknown, constant)	|   n   |   n   |   V   |   V   |
-f68f2ff91512c19 Kees Cook      2021-04-20  562   * memcpy(unknown, known,   dynamic)	|   n   |   n   |   V   |   B   |
-f68f2ff91512c19 Kees Cook      2021-04-20  563   * memcpy(unknown, unknown, dynamic)	|   n   |   n   |   V   |   V   |
-f68f2ff91512c19 Kees Cook      2021-04-20  564   *					+-------+-------+-------+-------+
-f68f2ff91512c19 Kees Cook      2021-04-20  565   *
-f68f2ff91512c19 Kees Cook      2021-04-20  566   * y = perform deterministic compile-time bounds checking
-f68f2ff91512c19 Kees Cook      2021-04-20  567   * n = cannot perform deterministic compile-time bounds checking
-f68f2ff91512c19 Kees Cook      2021-04-20  568   * n/a = no run-time bounds checking needed since compile-time deterministic
-f68f2ff91512c19 Kees Cook      2021-04-20  569   * B = can perform run-time bounds checking (currently unimplemented)
-f68f2ff91512c19 Kees Cook      2021-04-20  570   * V = vulnerable to run-time overflow (will need refactoring to solve)
-f68f2ff91512c19 Kees Cook      2021-04-20  571   *
-f68f2ff91512c19 Kees Cook      2021-04-20  572   */
-54d9469bc515dc5 Kees Cook      2021-06-24  573  __FORTIFY_INLINE bool fortify_memcpy_chk(__kernel_size_t size,
-f68f2ff91512c19 Kees Cook      2021-04-20  574  					 const size_t p_size,
-f68f2ff91512c19 Kees Cook      2021-04-20  575  					 const size_t q_size,
-f68f2ff91512c19 Kees Cook      2021-04-20  576  					 const size_t p_size_field,
-f68f2ff91512c19 Kees Cook      2021-04-20  577  					 const size_t q_size_field,
-f68f2ff91512c19 Kees Cook      2021-04-20  578  					 const char *func)
-a28a6e860c6cf23 Francis Laniel 2021-02-25  579  {
-a28a6e860c6cf23 Francis Laniel 2021-02-25  580  	if (__builtin_constant_p(size)) {
-f68f2ff91512c19 Kees Cook      2021-04-20  581  		/*
-f68f2ff91512c19 Kees Cook      2021-04-20  582  		 * Length argument is a constant expression, so we
-f68f2ff91512c19 Kees Cook      2021-04-20  583  		 * can perform compile-time bounds checking where
-fa35198f39571bb Kees Cook      2022-09-19  584  		 * buffer sizes are also known at compile time.
-f68f2ff91512c19 Kees Cook      2021-04-20  585  		 */
-f68f2ff91512c19 Kees Cook      2021-04-20  586  
-f68f2ff91512c19 Kees Cook      2021-04-20  587  		/* Error when size is larger than enclosing struct. */
-fa35198f39571bb Kees Cook      2022-09-19  588  		if (__compiletime_lessthan(p_size_field, p_size) &&
-fa35198f39571bb Kees Cook      2022-09-19  589  		    __compiletime_lessthan(p_size, size))
-a28a6e860c6cf23 Francis Laniel 2021-02-25  590  			__write_overflow();
-fa35198f39571bb Kees Cook      2022-09-19  591  		if (__compiletime_lessthan(q_size_field, q_size) &&
-fa35198f39571bb Kees Cook      2022-09-19  592  		    __compiletime_lessthan(q_size, size))
-a28a6e860c6cf23 Francis Laniel 2021-02-25  593  			__read_overflow2();
-f68f2ff91512c19 Kees Cook      2021-04-20  594  
-f68f2ff91512c19 Kees Cook      2021-04-20  595  		/* Warn when write size argument larger than dest field. */
-fa35198f39571bb Kees Cook      2022-09-19  596  		if (__compiletime_lessthan(p_size_field, size))
-f68f2ff91512c19 Kees Cook      2021-04-20 @597  			__write_overflow_field(p_size_field, size);
-f68f2ff91512c19 Kees Cook      2021-04-20  598  		/*
-f68f2ff91512c19 Kees Cook      2021-04-20  599  		 * Warn for source field over-read when building with W=1
-f68f2ff91512c19 Kees Cook      2021-04-20  600  		 * or when an over-write happened, so both can be fixed at
-f68f2ff91512c19 Kees Cook      2021-04-20  601  		 * the same time.
-f68f2ff91512c19 Kees Cook      2021-04-20  602  		 */
-fa35198f39571bb Kees Cook      2022-09-19  603  		if ((IS_ENABLED(KBUILD_EXTRA_WARN1) ||
-fa35198f39571bb Kees Cook      2022-09-19  604  		     __compiletime_lessthan(p_size_field, size)) &&
-fa35198f39571bb Kees Cook      2022-09-19  605  		    __compiletime_lessthan(q_size_field, size))
-f68f2ff91512c19 Kees Cook      2021-04-20  606  			__read_overflow2_field(q_size_field, size);
-a28a6e860c6cf23 Francis Laniel 2021-02-25  607  	}
-f68f2ff91512c19 Kees Cook      2021-04-20  608  	/*
-f68f2ff91512c19 Kees Cook      2021-04-20  609  	 * At this point, length argument may not be a constant expression,
-f68f2ff91512c19 Kees Cook      2021-04-20  610  	 * so run-time bounds checking can be done where buffer sizes are
-f68f2ff91512c19 Kees Cook      2021-04-20  611  	 * known. (This is not an "else" because the above checks may only
-f68f2ff91512c19 Kees Cook      2021-04-20  612  	 * be compile-time warnings, and we want to still warn for run-time
-f68f2ff91512c19 Kees Cook      2021-04-20  613  	 * overflows.)
-f68f2ff91512c19 Kees Cook      2021-04-20  614  	 */
-f68f2ff91512c19 Kees Cook      2021-04-20  615  
-f68f2ff91512c19 Kees Cook      2021-04-20  616  	/*
-f68f2ff91512c19 Kees Cook      2021-04-20  617  	 * Always stop accesses beyond the struct that contains the
-f68f2ff91512c19 Kees Cook      2021-04-20  618  	 * field, when the buffer's remaining size is known.
-311fb40aa0569ab Kees Cook      2022-09-02  619  	 * (The SIZE_MAX test is to optimize away checks where the buffer
-f68f2ff91512c19 Kees Cook      2021-04-20  620  	 * lengths are unknown.)
-f68f2ff91512c19 Kees Cook      2021-04-20  621  	 */
-311fb40aa0569ab Kees Cook      2022-09-02  622  	if ((p_size != SIZE_MAX && p_size < size) ||
-311fb40aa0569ab Kees Cook      2022-09-02  623  	    (q_size != SIZE_MAX && q_size < size))
-f68f2ff91512c19 Kees Cook      2021-04-20  624  		fortify_panic(func);
-54d9469bc515dc5 Kees Cook      2021-06-24  625  
-54d9469bc515dc5 Kees Cook      2021-06-24  626  	/*
-54d9469bc515dc5 Kees Cook      2021-06-24  627  	 * Warn when writing beyond destination field size.
-54d9469bc515dc5 Kees Cook      2021-06-24  628  	 *
-54d9469bc515dc5 Kees Cook      2021-06-24  629  	 * We must ignore p_size_field == 0 for existing 0-element
-54d9469bc515dc5 Kees Cook      2021-06-24  630  	 * fake flexible arrays, until they are all converted to
-54d9469bc515dc5 Kees Cook      2021-06-24  631  	 * proper flexible arrays.
-54d9469bc515dc5 Kees Cook      2021-06-24  632  	 *
-9f7d69c5cd23904 Kees Cook      2022-09-19  633  	 * The implementation of __builtin_*object_size() behaves
-54d9469bc515dc5 Kees Cook      2021-06-24  634  	 * like sizeof() when not directly referencing a flexible
-54d9469bc515dc5 Kees Cook      2021-06-24  635  	 * array member, which means there will be many bounds checks
-54d9469bc515dc5 Kees Cook      2021-06-24  636  	 * that will appear at run-time, without a way for them to be
-54d9469bc515dc5 Kees Cook      2021-06-24  637  	 * detected at compile-time (as can be done when the destination
-54d9469bc515dc5 Kees Cook      2021-06-24  638  	 * is specifically the flexible array member).
-54d9469bc515dc5 Kees Cook      2021-06-24  639  	 * https://gcc.gnu.org/bugzilla/show_bug.cgi?id=101832
-54d9469bc515dc5 Kees Cook      2021-06-24  640  	 */
-54d9469bc515dc5 Kees Cook      2021-06-24  641  	if (p_size_field != 0 && p_size_field != SIZE_MAX &&
-54d9469bc515dc5 Kees Cook      2021-06-24  642  	    p_size != p_size_field && p_size_field < size)
-54d9469bc515dc5 Kees Cook      2021-06-24  643  		return true;
-54d9469bc515dc5 Kees Cook      2021-06-24  644  
-54d9469bc515dc5 Kees Cook      2021-06-24  645  	return false;
-a28a6e860c6cf23 Francis Laniel 2021-02-25  646  }
-a28a6e860c6cf23 Francis Laniel 2021-02-25  647  
-
-:::::: The code at line 597 was first introduced by commit
-:::::: f68f2ff91512c199ec24883001245912afc17873 fortify: Detect struct member overflows in memcpy() at compile-time
-
-:::::: TO: Kees Cook <keescook@chromium.org>
-:::::: CC: Kees Cook <keescook@chromium.org>
+   282	
+   283	static int __init __parse_crashkernel(char *cmdline,
+   284				     unsigned long long system_ram,
+   285				     unsigned long long *crash_size,
+   286				     unsigned long long *crash_base,
+   287				     const char *suffix,
+   288				     bool *high,
+   289				     unsigned long long *low_size)
+   290	{
+   291		char *first_colon, *first_space;
+   292		char *ck_cmdline;
+   293		char *name = "crashkernel=";
+   294		unsigned long long boundary = 0;
+   295		int ret;
+   296	
+   297		BUG_ON(!crash_size || !crash_base);
+   298		*crash_size = 0;
+   299		*crash_base = 0;
+   300	
+   301		ck_cmdline = get_last_crashkernel(cmdline, name, suffix);
+   302		if (!ck_cmdline)
+   303			return -ENOENT;
+   304	
+   305		ck_cmdline += strlen(name);
+   306	
+   307		if (suffix)
+   308			return parse_crashkernel_suffix(ck_cmdline, crash_size,
+   309					suffix);
+   310		/*
+   311		 * if the commandline contains a ':', then that's the extended
+   312		 * syntax -- if not, it must be the classic syntax
+   313		 */
+   314		first_colon = strchr(ck_cmdline, ':');
+   315		first_space = strchr(ck_cmdline, ' ');
+   316		if (first_colon && (!first_space || first_colon < first_space)) {
+   317			ret = parse_crashkernel_mem(ck_cmdline, system_ram,
+   318					crash_size, crash_base);
+   319	
+   320			/* Handle optional ',>boundary' condition for range ':' syntax only. */
+   321			parse_crashkernel_boundary(ck_cmdline, &boundary);
+   322			if (!ret && *crash_size > boundary) {
+   323				*high = true;
+ > 324				*low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+   325			}
+   326	
+   327			return ret;
+   328		}
+   329	
+   330		return parse_crashkernel_simple(ck_cmdline, crash_size, crash_base);
+   331	}
+   332	
 
 -- 
 0-DAY CI Kernel Test Service
