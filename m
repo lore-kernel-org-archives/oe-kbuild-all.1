@@ -1,201 +1,237 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2967431960A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Apr 2026 16:18:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D1B13DD522;
+	Wed, 15 Apr 2026 16:24:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776269909; cv=none; b=gaqMGdgFZKbcldP+u86mr87OvmfSGTuqnvK9TOKGWEHU1nMTXmg2c40d7/0ZHzdPQsoXE41GVPHYiLf/dvrJKmb0b62crk1isyCMQmSiQ8bdvGEDSwiFpPACllKKfXFYoPdssaVdF3niyjA9In6F3PU4O2mW0JeCmkCmSptRAZk=
+	t=1776270266; cv=none; b=JeO3ngMOtb5halbrVeQKI5JXrLSe3lytTOBGqeX09i+YbwSuZWL7gu3hi46lYFLMb1vodF395bL/8JeLmkcdY5Ch0Ju6OoKDvFpSPDsxWQZX5XOlaqC9LmGh1KpVKEZu5meK0Zop09eAHmSAgJ9vPS7nPhd5GYvANLvmbc7MCh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776269909; c=relaxed/simple;
-	bh=EVPkfwiBpookY0PPuW5dSFee3nY+Inh9ouzmq34Er9E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LOmkR398kGW+0Ow/svqqdNJO0c3Ht+qpCg8X4gs0HVzsJXD1761EpgJGZL3q5D0bmFonaZJCRKr5fmxsooVGUqO4tOk/ehX/HeJ+agnjuyVw4U6mtu0htDM54W6vrwkehICEIqaJKZdcyA3ngAMHtQCNzAMonC88y4g09NeKHq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PPFcxXHd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776270266; c=relaxed/simple;
+	bh=9aVswNNA5NO7ZkXnuZuP82WLWBlGI6fqGaMQ6zk0dc0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=TpxeTJZ/uzkmElphzXmlkx0APMCguAMaRYUquwEUfrjPNbJQkJy10QPJ+aAmcmwRTu/UxhJG4EeILar510ejGl69Ww4et3D+1QxRfm4eQ/cyoa9DpYRTvliIZRNQxxn0uCC3+P10JF34oSpOJRV0AYDTaw2P2FUCJ2Wf9jE2Alc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nz+h78dW; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PPFcxXHd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD544C19424
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Apr 2026 16:18:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776269908;
-	bh=EVPkfwiBpookY0PPuW5dSFee3nY+Inh9ouzmq34Er9E=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=PPFcxXHdTiR2Pz3MFJcIbtVKD6+MYOmlymXcj+ghZCjzUxzrZT4WhmkP20YpCQxsw
-	 JHIG+rBKv3GzjTQtglZrk8fqLrudWwiZr2R51P5/weJnm8EKI1vKMFUUVVAz/z6wX8
-	 ZvnD9qBgS+MA6WQEeM43Wf4BrvC3kgM0ODgMU+8zmhb0LIxN44/lYjoQiaJJtSSdOI
-	 TxKlCK6hq7EVi+4115YhQk6vUvW85WHElEhhiNiM6Mcy6vzedKEMZgvzGMvEbVwQxR
-	 YSq7MnNql9EiYtuuMlMrT+MQKL8wZ892ev05L16G1KJnpKDnh9/fSnGlFYKrvVX9fd
-	 r49xHZOlzq2cA==
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-59e4a04f059so6701507e87.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Apr 2026 09:18:28 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+ZRjeslSEtsXX9AF5W/VayI/yEjwc1ONURrwZO0gVVYwlT9UcFT+kZMmCAsFwJrrQ7bMnjzCWcXfkENXq2@lists.linux.dev
-X-Gm-Message-State: AOJu0YzRU+M8/W5fadraNM+NOOkNczrBc/HO2cCCsBuaS8H4dWQg7NDP
-	/1bwAV/Mtql36eda1fQXiF/lpTlamubElMibwPQ0p4TcFyHm8bg7i+YBIuyfsMcluBBIxkuTvf4
-	9cHErchfUM22rrKZD9sPA8tyGII51Y64=
-X-Received: by 2002:a05:6512:3049:b0:5a1:3da4:e92f with SMTP id
- 2adb3069b0e04-5a3efe8e5a0mr6046875e87.43.1776269907441; Wed, 15 Apr 2026
- 09:18:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nz+h78dW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776270265; x=1807806265;
+  h=date:from:to:cc:subject:message-id;
+  bh=9aVswNNA5NO7ZkXnuZuP82WLWBlGI6fqGaMQ6zk0dc0=;
+  b=Nz+h78dWEe4u9Apc9KobOPYs86TR5MtJHYXcKc1d5r+F2+c8R6NtAUzd
+   1TBWloyFE7O6UzsBHTYJ1f1xdluwgK53DDaHIxbvHrXV4cP8BKEyciYwX
+   q4QarsZmqgb9Osh9T20ZIqCd4QYXP2I1Vs8hqjkMkJ4Gfc0KGIV/sl5Jw
+   jt43KUgY56UpkwxISPBbFkQxI7Lc5o52APR5Qf76TyLvecblaNz56ZqSq
+   frG258atm6UPBjJeZsRKDQnlhG6MldO3udqNDZnNpQOj2pw+NQvtH3PCA
+   F5hjmJrpYRBc77tzdpLeZ+ob42WgUXfFYltw21wTsPoKBtwBtidLfm4d5
+   Q==;
+X-CSE-ConnectionGUID: +/aQyTaoTPSH7iLZoLJvnA==
+X-CSE-MsgGUID: D71SGFlORRicYVFrdnJx7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11760"; a="77129975"
+X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
+   d="scan'208";a="77129975"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2026 09:24:24 -0700
+X-CSE-ConnectionGUID: uVBkPW4ORBSrLIxcWkXaoQ==
+X-CSE-MsgGUID: RtNdHFLtTb2GrK1VQlUxrg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
+   d="scan'208";a="234490279"
+Received: from lkp-server01.sh.intel.com (HELO 7f3b36e5d6a5) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 15 Apr 2026 09:24:22 -0700
+Received: from kbuild by 7f3b36e5d6a5 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wD32J-000000000gy-3pfM;
+	Wed, 15 Apr 2026 16:24:19 +0000
+Date: Thu, 16 Apr 2026 00:23:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Subhransu S. Prusty" <subhransu.sekhar.prusty@altera.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Dinh Nguyen <dinguyen@kernel.org>
+Subject: [dinguyen:hssi_patch_v2 5/5]
+ drivers/net/ethernet/altera/hssiss/altera_hssiss_debug.c:673:11: error: use
+ of undeclared identifier 'cmdsts_write'; did you mean 'pmd_write'?
+Message-ID: <202604160014.82z6CIpJ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <202602110708.x7AYvCN7-lkp@intel.com> <aYxi3KG0gHBBbqox@smile.fi.intel.com>
- <aYxomlXamlNiNa8G@smile.fi.intel.com> <aYyKYa36G-X-ScN2@smile.fi.intel.com>
- <933de445-c15d-49f6-a5f9-026eff6e4e06@gmx.de> <aY2i0vuq1TG-yEhn@pathway.suse.cz>
-In-Reply-To: <aY2i0vuq1TG-yEhn@pathway.suse.cz>
-From: Tamir Duberstein <tamird@kernel.org>
-Date: Wed, 15 Apr 2026 12:17:50 -0400
-X-Gmail-Original-Message-ID: <CAJ-ks9kv0Xm02_3ZYNmL98=OpriF8G_Qa+X1szshPps4mECeoA@mail.gmail.com>
-X-Gm-Features: AQROBzCrOWdymBQQVmRcjKggDrrNGBqkTESKzL3C0qt42_6XK0qPnC64ysgI0C0
-Message-ID: <CAJ-ks9kv0Xm02_3ZYNmL98=OpriF8G_Qa+X1szshPps4mECeoA@mail.gmail.com>
-Subject: Re: [linux-next:master 9199/12313] include/linux/compiler_types.h:617:38:
- error: call to '__compiletime_assert_304' declared with attribute error:
- BUILD_BUG_ON failed: IS_ERR(PTR)
-To: Petr Mladek <pmladek@suse.com>
-Cc: Helge Deller <deller@gmx.de>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 12, 2026 at 4:52=E2=80=AFAM Petr Mladek <pmladek@suse.com> wrot=
-e:
->
-> On Wed 2026-02-11 17:27:47, Helge Deller wrote:
-> > On 2/11/26 14:55, Andy Shevchenko wrote:
-> > > +Helge, do you have any insights on this?
-> > >
-> > > The original mail is here:
-> > > https://lore.kernel.org/r/202602110708.x7AYvCN7-lkp@intel.com
-> > >
-> > > On Wed, Feb 11, 2026 at 01:31:41PM +0200, Andy Shevchenko wrote:
-> > > > On Wed, Feb 11, 2026 at 01:07:12PM +0200, Andy Shevchenko wrote:
-> > > > > On Wed, Feb 11, 2026 at 07:15:01AM +0800, kernel test robot wrote=
-:
-> > > > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/li=
-nux-next.git master
-> > > > > > head:   fd9678829d6dd0c10fde080b536abf4b1121c346
-> > > > > > commit: 9bfa52dac27a20b43bcb73e56dc45aba6b9aaff1 [9199/12313] p=
-rintf: convert test_hashed into macro
-> > > > > > config: parisc-randconfig-r122-20260211 (https://download.01.or=
-g/0day-ci/archive/20260211/202602110708.x7AYvCN7-lkp@intel.com/config)
-> > > > > > compiler: hppa-linux-gcc (GCC) 8.5.0
->
-> I guess that the test bot is using GCC 8.5 because 8.1 should be the mini=
-mal
-> supported version, see Documentation/process/changes.rst.
->
-> > > > > > reproduce (this is a W=3D1 build): (https://download.01.org/0da=
-y-ci/archive/20260211/202602110708.x7AYvCN7-lkp@intel.com/reproduce)
-> > > > > >
-> > > > > > If you fix the issue in a separate patch/commit (i.e. not just =
-a new version of
-> > > > > > the same patch/commit), kindly add following tags
-> > > > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202602110708.x7=
-AYvCN7-lkp@intel.com/
-> > > > > >
-> > > > > > All errors (new ones prefixed by >>):
-> > > > >
-> > > > > Very interesting case. My theory is that this is a compiler bug o=
-r
-> > > > > a rare corner case. When test_hashed was converted to a macro it
-> > > > > affects the scope of PTR in errptr(). And compiler most likely
-> > > > > mistakenly drops it's value to 0.
-> > > > >
-> > > > > OTOH, I do not believe that it's a problem of IS_ERR_VALUE() impl=
-ementation
-> > > > > since that it is so low level C standard integer promotion rules =
-and should
-> > > > > be covered very well by compiler tests, etc.
-> > > > >
-> > > > > However, it might be possible (but very unlikely) that the 32-bit
-> > > > > value is considered smaller than (unsigned long)-MAX_ERRNO. If
-> > > > > this a case, why only now? The change was introduces in 2019 to
-> > > > > have this BUILD_BUG_ON()?
-> > > > >
-> > > > > TL;DR: Changing a compiler version might help, I think?
-> >
-> > I think so too.
-> >
-> > > > So, PTR was used in two places in errptr():
-> > > >
-> > > >          BUILD_BUG_ON(IS_ERR(PTR));
-> > > >          test_hashed(kunittest, "%pe", PTR);
-> > > >
-> > > > The compiler has seen that PTR is always used (it was static inline=
-).
-> > > > When it was converted to a macro, the stage that does some pass now
-> > > > probably thinks that PTR may be eliminated even if it has non-0 val=
-ue!
->
-> Honestly, I have no idea what is going on here and why inlining would
-> mater. But google pointed me to a discussion where the inlining was
-> mentioned:
->
-> <paste>
-> Oh! This function is defined inline and not __always_inline, so that's
-> the problem. BUILD_BUG_ON will always fail if the values used in
-> the condition are not compile-time constants. So you can comment out
-> the BUILD_BUG_ON or change inline to __always_inline if you want
-> to get going asap. I can probably reproduce it by setting the max
-> inline insns to a low value and I'm guessing that's why it's occurring
-> for you -- your compiler may have a different default max inline insns
-> value than mine, so it just exposed this bug. In fact, it would make
-> sense for Debian to patch their gcc like that, it likely results in
-> slightly smaller executables.
-> </paste>
->
-> , see
-> https://github.com/daniel-santos/mcp2210-linux/issues/7#js-repo-pjax-cont=
-ainer
->
-> I have no idea if this was similar scenario or a completely different
-> one. But it seems that inlining affect how complilers handle
-> BUILD_BUG_ON()...
->
-> > > > But again, my knowledge in all this is close to 0, especially for P=
-A-RISC.
-> > > > I'm purely speculating here based on my experience, intuition, and =
-current
-> > > > code base of the Linux kernel.
-> >
-> > I tried to reproduce, but my cross-compiler does not trigger:
-> > hppa-linux-gnu-gcc (GCC) 15.2.1 20250808 (Red Hat Cross 15.2.1-1)
-> >
-> > Preprocessed source is:
-> >
-> > # 76 "/home/cvs/parisc/git-kernel/linus-linux-2.6/include/linux/err.h"
-> > static inline __attribute__((__gnu_inline__)) __attribute__((__unused__=
-)) __attribute__((__no_instrument_function__)) bool __attribute__((__warn_u=
-nused_result__)) IS_ERR( const void *ptr)
-> > {
-> >  return __builtin_expect(!!((unsigned long)(void *)((unsigned long)ptr)=
- >=3D (unsigned long)-4095), 0);
-> > }
-> > ...
-> > static void errptr(struct kunit *kunittest) {
-> > ...
-> >  do { __attribute__((__noreturn__)) extern void __compiletime_assert_30=
-5(void) __attribute__((__error__("BUILD_BUG_ON failed: " "IS_ERR(PTR)"))); =
-if (!(!(IS_ERR(((void *)0x456789ab))))) __compiletime_assert_305(); } while=
- (0);
-> >
-> > I will try to check again, but I believe upgrading the compiler should =
-fix it.
->
-> Hmm, I am not sure if upgrading the compiler is an option here.
-> I guess that they use the old version on purpose.
->
-> I think about reverting the commit 9bfa52dac27a20b43 ("printf: convert
-> test_hashed into macro") if we can't find a better solution.
->
-> I am sorry. I do not have time to play with this.
->
-> Best Regards,
-> Petr
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dinguyen/linux.git hssi_patch_v2
+head:   c2839fb083f7b0c330a385cc42be70bb2961b9cf
+commit: c2839fb083f7b0c330a385cc42be70bb2961b9cf [5/5] net: altr: hssiss: Add debugfs support
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260416/202604160014.82z6CIpJ-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260416/202604160014.82z6CIpJ-lkp@intel.com/reproduce)
 
-This was fixed by
-https://lore.kernel.org/all/ad5gJAX9f6dSQluz@pathway.suse.cz/ after an
-identical report on the same compiler version.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604160014.82z6CIpJ-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/net/ethernet/altera/hssiss/altera_hssiss_debug.c:43:45: error: too many arguments provided to function-like macro invocation
+   static ssize_t csr_read(struct file *filep, char __user *ubuf,
+                                               ^
+   arch/riscv/include/asm/csr.h:558:9: note: macro 'csr_read' defined here
+   #define csr_read(csr)                                           \
+           ^
+   drivers/net/ethernet/altera/hssiss/altera_hssiss_debug.c:43:24: error: expected ';' after top level declarator
+   static ssize_t csr_read(struct file *filep, char __user *ubuf,
+                          ^
+                          ;
+   drivers/net/ethernet/altera/hssiss/altera_hssiss_debug.c:65:5: error: too many arguments provided to function-like macro invocation
+                            size_t count, loff_t *offp)
+                            ^
+   arch/riscv/include/asm/csr.h:567:9: note: macro 'csr_write' defined here
+   #define csr_write(csr, val)                                     \
+           ^
+>> drivers/net/ethernet/altera/hssiss/altera_hssiss_debug.c:673:11: error: use of undeclared identifier 'cmdsts_write'; did you mean 'pmd_write'?
+           .write = cmdsts_write,
+                    ^~~~~~~~~~~~
+                    pmd_write
+   arch/riscv/include/asm/pgtable.h:816:19: note: 'pmd_write' declared here
+   static inline int pmd_write(pmd_t pmd)
+                     ^
+   arch/riscv/include/asm/pgtable.h:815:19: note: expanded from macro 'pmd_write'
+   #define pmd_write pmd_write
+                     ^
+>> drivers/net/ethernet/altera/hssiss/altera_hssiss_debug.c:674:10: error: use of undeclared identifier 'cmdsts_read'
+           .read = cmdsts_read
+                   ^
+>> drivers/net/ethernet/altera/hssiss/altera_hssiss_debug.c:680:11: error: use of undeclared identifier 'csr_write'
+           .write = csr_write,
+                    ^
+>> drivers/net/ethernet/altera/hssiss/altera_hssiss_debug.c:687:11: error: use of undeclared identifier 'wr_reg_write'; did you mean 'irq_reg_writel'?
+           .write = wr_reg_write,
+                    ^~~~~~~~~~~~
+                    irq_reg_writel
+   include/linux/irq.h:1224:20: note: 'irq_reg_writel' declared here
+   static inline void irq_reg_writel(struct irq_chip_generic *gc,
+                      ^
+>> drivers/net/ethernet/altera/hssiss/altera_hssiss_debug.c:688:10: error: use of undeclared identifier 'wr_reg_read'; did you mean 'irq_reg_readl'?
+           .read = wr_reg_read
+                   ^~~~~~~~~~~
+                   irq_reg_readl
+   include/linux/irq.h:1233:19: note: 'irq_reg_readl' declared here
+   static inline u32 irq_reg_readl(struct irq_chip_generic *gc,
+                     ^
+>> drivers/net/ethernet/altera/hssiss/altera_hssiss_debug.c:687:11: error: incompatible function pointer types initializing 'ssize_t (*)(struct file *, const char *, size_t, loff_t *)' (aka 'long (*)(struct file *, const char *, unsigned long, long long *)') with an expression of type 'void (struct irq_chip_generic *, u32, int)' (aka 'void (struct irq_chip_generic *, unsigned int, int)') [-Wincompatible-function-pointer-types]
+           .write = wr_reg_write,
+                    ^~~~~~~~~~~~
+>> drivers/net/ethernet/altera/hssiss/altera_hssiss_debug.c:688:10: error: incompatible function pointer types initializing 'ssize_t (*)(struct file *, char *, size_t, loff_t *)' (aka 'long (*)(struct file *, char *, unsigned long, long long *)') with an expression of type 'u32 (struct irq_chip_generic *, int)' (aka 'unsigned int (struct irq_chip_generic *, int)') [-Wincompatible-function-pointer-types]
+           .read = wr_reg_read
+                   ^~~~~~~~~~~
+>> drivers/net/ethernet/altera/hssiss/altera_hssiss_debug.c:694:11: error: use of undeclared identifier 'rd_reg_write'; did you mean 'irq_reg_writel'?
+           .write = rd_reg_write,
+                    ^~~~~~~~~~~~
+                    irq_reg_writel
+   include/linux/irq.h:1224:20: note: 'irq_reg_writel' declared here
+   static inline void irq_reg_writel(struct irq_chip_generic *gc,
+                      ^
+>> drivers/net/ethernet/altera/hssiss/altera_hssiss_debug.c:695:10: error: use of undeclared identifier 'rd_reg_read'
+           .read = rd_reg_read
+                   ^
+>> drivers/net/ethernet/altera/hssiss/altera_hssiss_debug.c:701:11: error: use of undeclared identifier 'sal_write'; did you mean 'seq_write'?
+           .write = sal_write,
+                    ^~~~~~~~~
+                    seq_write
+   include/linux/seq_file.h:113:5: note: 'seq_write' declared here
+   int seq_write(struct seq_file *seq, const void *data, size_t len);
+       ^
+>> drivers/net/ethernet/altera/hssiss/altera_hssiss_debug.c:702:10: error: use of undeclared identifier 'sal_read'; did you mean 'seq_read'?
+           .read = sal_read
+                   ^~~~~~~~
+                   seq_read
+   include/linux/seq_file.h:109:9: note: 'seq_read' declared here
+   ssize_t seq_read(struct file *, char __user *, size_t, loff_t *);
+           ^
+   drivers/net/ethernet/altera/hssiss/altera_hssiss_debug.c:701:11: error: incompatible function pointer types initializing 'ssize_t (*)(struct file *, const char *, size_t, loff_t *)' (aka 'long (*)(struct file *, const char *, unsigned long, long long *)') with an expression of type 'int (struct seq_file *, const void *, size_t)' (aka 'int (struct seq_file *, const void *, unsigned long)') [-Wincompatible-function-pointer-types]
+           .write = sal_write,
+                    ^~~~~~~~~
+>> drivers/net/ethernet/altera/hssiss/altera_hssiss_debug.c:708:10: error: use of undeclared identifier 'readme_read'; did you mean 'readme_ops'?
+           .read = readme_read
+                   ^~~~~~~~~~~
+                   readme_ops
+   drivers/net/ethernet/altera/hssiss/altera_hssiss_debug.c:705:37: note: 'readme_ops' declared here
+   static const struct file_operations readme_ops = {
+                                       ^
+>> drivers/net/ethernet/altera/hssiss/altera_hssiss_debug.c:708:10: error: initializing 'ssize_t (*)(struct file *, char *, size_t, loff_t *)' (aka 'long (*)(struct file *, char *, unsigned long, long long *)') with an expression of incompatible type 'const struct file_operations'
+           .read = readme_read
+                   ^~~~~~~~~~~
+>> drivers/net/ethernet/altera/hssiss/altera_hssiss_debug.c:714:10: error: use of undeclared identifier 'dumpcsr_read'
+           .read = dumpcsr_read
+                   ^
+>> drivers/net/ethernet/altera/hssiss/altera_hssiss_debug.c:720:11: error: use of undeclared identifier 'direct_reg_write'
+           .write = direct_reg_write,
+                    ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
+
+
+vim +673 drivers/net/ethernet/altera/hssiss/altera_hssiss_debug.c
+
+   669	
+   670	static const struct file_operations cmdsts_ops = {
+   671		.owner = THIS_MODULE,
+   672		.open = simple_open,
+ > 673		.write = cmdsts_write,
+ > 674		.read = cmdsts_read
+   675	};
+   676	
+   677	static const struct file_operations csr_ops = {
+   678		.owner = THIS_MODULE,
+   679		.open = simple_open,
+ > 680		.write = csr_write,
+   681		.read = csr_read
+   682	};
+   683	
+   684	static const struct file_operations wr_reg_ops = {
+   685		.owner = THIS_MODULE,
+   686		.open = simple_open,
+ > 687		.write = wr_reg_write,
+ > 688		.read = wr_reg_read
+   689	};
+   690	
+   691	static const struct file_operations rd_reg_ops = {
+   692		.owner = THIS_MODULE,
+   693		.open = simple_open,
+ > 694		.write = rd_reg_write,
+ > 695		.read = rd_reg_read
+   696	};
+   697	
+   698	static const struct file_operations sal_ops = {
+   699		.owner = THIS_MODULE,
+   700		.open = simple_open,
+ > 701		.write = sal_write,
+ > 702		.read = sal_read
+   703	};
+   704	
+   705	static const struct file_operations readme_ops = {
+   706		.owner = THIS_MODULE,
+   707		.open = simple_open,
+ > 708		.read = readme_read
+   709	};
+   710	
+   711	static const struct file_operations dumpcsr_ops = {
+   712		.owner = THIS_MODULE,
+   713		.open = simple_open,
+ > 714		.read = dumpcsr_read
+   715	};
+   716	
+   717	static const struct file_operations direct_reg_ops = {
+   718		.owner = THIS_MODULE,
+   719		.open = simple_open,
+ > 720		.write = direct_reg_write,
+   721		.read = direct_reg_read
+   722	};
+   723	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
