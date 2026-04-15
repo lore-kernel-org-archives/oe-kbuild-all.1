@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDAB73822A1
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Apr 2026 13:00:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CED83815F1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Apr 2026 13:00:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776258012; cv=none; b=nPVEVARuwEig3TVR9v/R0WJPwEIjXtCuf5xeOivRgVaqlT8p/dibuYNDui4QdsWf3zV3pAAY7QMlEPBFCBcQTdm+NvvnSk/dU5kTevj15cmb3kS+zi1cDZ2ecUUYRJFDbXtL09HJqZaalOIdvDJIST6VIV9CFu0t6t4mz80O2N4=
+	t=1776258012; cv=none; b=fChh+f1okhXpnwJNhxPUBt2RTroNIhK/wTXFCce1fryWlDFoXEe0JKrHKULip5i1Cj5cLFosnVEr/qFQGD8bL/3zw/IORsnc2m0CS85yD2uuk/0Iy74pmREJMP/YLWEHvoM7RqQ82j49DM68hlmLJrKRgnUCYXwmGF0GhDx7/4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1776258012; c=relaxed/simple;
-	bh=AOqhH8ubEEyGJAYMj2klBolJcdhetw9xKnVvzkL5s3s=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=eh4TallZXU1evWxb5V/EVznzKgBbSnQbdwALOAcFiX+27spg/LpXeKAFFEkumtXTnyAY9GyNvOXlibMXixJuOqLayqtIAxb3v47enhb3dKImNCht7imRukpCltlljDX43ADIPdIf2iMq1sqCVXjR9PSVTSD1rhqSNsM3csDD+1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HFwQszKP; arc=none smtp.client-ip=192.198.163.7
+	bh=hl/AX6pB4lUdlQmsvgf25YRDlmnblMuIPVOXJnQ/Z8M=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QSP8aGpXhupNSGRDaHr9urhgWaX6/YX565O1o5PiExmjRnq1+AzGiXdW6JygxLkLsQQYshnIdtdxKpFLDyibZpI6SkZadH3YXafzb0vu6NysNnjYcOSz8DlW5r2em0wrNfE9eVPTAYjTS3v8FgBa2tiHxD996Ebo5ttJuLyVl84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GtkSu3IZ; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HFwQszKP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GtkSu3IZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1776258012; x=1807794012;
   h=date:from:to:cc:subject:message-id;
-  bh=AOqhH8ubEEyGJAYMj2klBolJcdhetw9xKnVvzkL5s3s=;
-  b=HFwQszKPPjNLcw+6EvjMXfKJVkZ5mMGzacmoLO2ky4MdZVIgvUnZD9Vi
-   pseyH/o6J4h7pljH2pNUEDKOGZO3s+CUsrQaQqLfVj18dUEXpFCcaxo1g
-   jvl3CYvEVWxuZ+O9oo21UEokgUzIuuAo9bGmj8if9tYTaOwYtcSWa0PWp
-   M8C8LyswT8IsXNBxrE5ZK3gWNatkvYX+zAUtkEMFqv35iOSgsnBngvkG9
-   Hyu7HYl3Zdi9U9Cgfz23ICg+K9wq5B4/Dr0tIFD+/U31/1GsP//q916be
-   m3UDLjT/MlxkuyNXD56ANbT+TkmbYL5VY38ZE7V24oRO/SXA0FXbf0Rsf
-   w==;
-X-CSE-ConnectionGUID: ivcAmCTxTReUg1fYNNVM4w==
-X-CSE-MsgGUID: fkKKKqhUSCa0irgHHNU+Ag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="102691869"
+  bh=hl/AX6pB4lUdlQmsvgf25YRDlmnblMuIPVOXJnQ/Z8M=;
+  b=GtkSu3IZf/ZR34s7g6byVHV+QQ4NedAOoYRXzEYqpOPmGh96vJFkhjRB
+   T7X0MOzgd2c7yI5oT/DNzovpLsOiLaPHZzXiPHIagC/6XJNQaOKpvBthU
+   XnDnhU0bGkj6y7PIFXpfIUYrZQLKHJjW3PskxgcuaEbicoM2+vZogEvHf
+   jAHr8/ZXcmgCpfU78Vlmwh2nxQEqFQAKCZfGRfUDpRAVAJnDQY9oeQAgp
+   2sFFpw+ub4UNorgJ756+jpWJPSK6xgfkPWy/XkKY5XEBogpnv4iw+xpvL
+   bon9NspsK4rp48tVw6XvArqEZPwOTmv+BodhViOlVqiWpBEHQuuq8HbeO
+   A==;
+X-CSE-ConnectionGUID: dyoaG25PSqaDTeXZCUGO7g==
+X-CSE-MsgGUID: SuYrUtzLTcmqJ/vseklG1Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="102691871"
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="102691869"
+   d="scan'208";a="102691871"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
   by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2026 06:00:09 -0700
-X-CSE-ConnectionGUID: sxFz5CAjR0K/0RCvqzy99w==
-X-CSE-MsgGUID: Vq6vMyN7T4G504UkwlVVzw==
+X-CSE-ConnectionGUID: ERu7GOhkT5yoZ3gIGDrg/Q==
+X-CSE-MsgGUID: 5IpmoPNzQ/Gxi8IKBJ1RsQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="230658669"
+   d="scan'208";a="230658670"
 Received: from lkp-server01.sh.intel.com (HELO 7f3b36e5d6a5) ([10.239.97.150])
   by orviesa007.jf.intel.com with ESMTP; 15 Apr 2026 06:00:07 -0700
 Received: from kbuild by 7f3b36e5d6a5 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wCzqd-000000000Wn-2xUc;
+	id 1wCzqd-000000000Wl-2qKH;
 	Wed, 15 Apr 2026 13:00:03 +0000
-Date: Wed, 15 Apr 2026 20:59:05 +0800
+Date: Wed, 15 Apr 2026 20:59:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Ulf Hansson <ulf.hansson@linaro.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:418:26: sparse:
- sparse: incorrect type in initializer (different base types)
-Message-ID: <202604152003.Ca4OTE4b-lkp@intel.com>
+To: Siddharth Vadapalli <s-vadapalli@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+ Manivannan Sadhasivam <mani@kernel.org>, Arnd Bergmann <arnd@arndb.de>
+Subject: [pci:controller/cadence-j721e 1/1]
+ arch/powerpc/boot/treeboot-akebono.c:57:9: error: invalid instruction, did
+ you mean: mfcr, mfdccr, mfdcr, mfdscr?
+Message-ID: <202604152040.H4DRQF1s-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,249 +61,181 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1f5ffc672165ff851063a5fd044b727ab2517ae3
-commit: f08e7a4e8d6ac4de677727af352ea33c6ce9f444 pmdomain: mediatek: Add support for MFlexGraphics
-date:   5 months ago
-config: arm64-randconfig-r113-20260415 (https://download.01.org/0day-ci/archive/20260415/202604152003.Ca4OTE4b-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260415/202604152003.Ca4OTE4b-lkp@intel.com/reproduce)
+Hi Siddharth,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/cadence-j721e
+head:   4b361b1e92be255ff923453fe8db74086cc7cf66
+commit: 4b361b1e92be255ff923453fe8db74086cc7cf66 [1/1] PCI: j721e: Add config guards for Cadence Host and Endpoint library APIs
+config: powerpc-randconfig-r071-20260412 (https://download.01.org/0day-ci/archive/20260415/202604152040.H4DRQF1s-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project ae825cb8cea7f3ac8e5e4096f22713845cf5e501)
+smatch: v0.5.0-9007-gcf3ea02b
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260415/202604152040.H4DRQF1s-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: f08e7a4e8d6a ("pmdomain: mediatek: Add support for MFlexGraphics")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604152003.Ca4OTE4b-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604152040.H4DRQF1s-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:418:26: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le32 [usertype] magic @@     got unsigned long @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:418:26: sparse:     expected restricted __le32 [usertype] magic
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:418:26: sparse:     got unsigned long
->> drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:458:20: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] magic @@     got unsigned int [usertype] ipi_magic @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:458:20: sparse:     expected restricted __le32 [usertype] magic
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:458:20: sparse:     got unsigned int [usertype] ipi_magic
->> drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:472:19: sparse: sparse: restricted signed int degrades to integer
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:490:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le64 [assigned] [usertype] base @@     got unsigned long long [usertype] shared_mem_phys @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:490:31: sparse:     expected restricted __le64 [assigned] [usertype] base
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:490:31: sparse:     got unsigned long long [usertype] shared_mem_phys
->> drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:491:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [assigned] [usertype] size @@     got unsigned int shared_mem_size @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:491:31: sparse:     expected restricted __le32 [assigned] [usertype] size
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:491:31: sparse:     got unsigned int shared_mem_size
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:509:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] cmd @@     got int @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:509:17: sparse:     expected restricted __le32 [usertype] cmd
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:509:17: sparse:     got int
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:510:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] power_state @@     got int @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:510:27: sparse:     expected restricted __le32 [usertype] power_state
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:510:27: sparse:     got int
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:523:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] cmd @@     got int @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:523:17: sparse:     expected restricted __le32 [usertype] cmd
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:523:17: sparse:     got int
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:524:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted signed int [usertype] gpu_oppidx @@     got unsigned int opp_idx @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:524:38: sparse:     expected restricted signed int [usertype] gpu_oppidx
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:524:38: sparse:     got unsigned int opp_idx
->> drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:525:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted signed int [usertype] stack_oppidx @@     got unsigned int opp_idx @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:525:40: sparse:     expected restricted signed int [usertype] stack_oppidx
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:525:40: sparse:     got unsigned int opp_idx
->> drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:578:42: sparse: sparse: restricted __le32 degrades to integer
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:579:44: sparse: sparse: restricted __le32 degrades to integer
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:593:44: sparse: sparse: restricted __le32 degrades to integer
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:594:46: sparse: sparse: restricted __le32 degrades to integer
+All errors (new ones prefixed by >>):
 
-vim +418 drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c
+>> arch/powerpc/boot/treeboot-akebono.c:57:9: error: invalid instruction, did you mean: mfcr, mfdccr, mfdcr, mfdscr?
+      57 |                 reg = mfdcrx(DDR3_MR0CF + i);
+         |                       ^
+   arch/powerpc/boot/dcr.h:16:16: note: expanded from macro 'mfdcrx'
+      16 |                 asm volatile("mfdcrx %0,%1" : "=r"(rval) : "r"(rn)); \
+         |                              ^
+   <inline asm>:1:2: note: instantiated into assembly here
+       1 |         mfdcrx 4,6
+         |         ^~~~~~
+>> arch/powerpc/boot/treeboot-akebono.c:57:9: error: invalid instruction, did you mean: mfcr, mfdccr, mfdcr, mfdscr?
+      57 |                 reg = mfdcrx(DDR3_MR0CF + i);
+         |                       ^
+   arch/powerpc/boot/dcr.h:16:16: note: expanded from macro 'mfdcrx'
+      16 |                 asm volatile("mfdcrx %0,%1" : "=r"(rval) : "r"(rn)); \
+         |                              ^
+   <inline asm>:1:2: note: instantiated into assembly here
+       1 |         mfdcrx 8,8
+         |         ^~~~~~
+>> arch/powerpc/boot/treeboot-akebono.c:57:9: error: invalid instruction, did you mean: mfcr, mfdccr, mfdcr, mfdscr?
+      57 |                 reg = mfdcrx(DDR3_MR0CF + i);
+         |                       ^
+   arch/powerpc/boot/dcr.h:16:16: note: expanded from macro 'mfdcrx'
+      16 |                 asm volatile("mfdcrx %0,%1" : "=r"(rval) : "r"(rn)); \
+         |                              ^
+   <inline asm>:1:2: note: instantiated into assembly here
+       1 |         mfdcrx 3,3
+         |         ^~~~~~
+>> arch/powerpc/boot/treeboot-akebono.c:57:9: error: invalid instruction, did you mean: mfcr, mfdccr, mfdcr, mfdscr?
+      57 |                 reg = mfdcrx(DDR3_MR0CF + i);
+         |                       ^
+   arch/powerpc/boot/dcr.h:16:16: note: expanded from macro 'mfdcrx'
+      16 |                 asm volatile("mfdcrx %0,%1" : "=r"(rval) : "r"(rn)); \
+         |                              ^
+   <inline asm>:1:2: note: instantiated into assembly here
+       1 |         mfdcrx 3,3
+         |         ^~~~~~
+>> arch/powerpc/boot/treeboot-akebono.c:78:2: error: invalid instruction, did you mean: mtcr, mtdccr, mtdcr, mtdscr?
+      78 |         mtdcrx(CCTL0_MCO4, 0x1);
+         |         ^
+   arch/powerpc/boot/dcr.h:21:16: note: expanded from macro 'mtdcrx'
+      21 |                 asm volatile("mtdcrx %0,%1" : : "r"(rn), "r" (val)); \
+         |                              ^
+   <inline asm>:1:2: note: instantiated into assembly here
+       1 |         mtdcrx 4,5
+         |         ^~~~~~
+   arch/powerpc/boot/treeboot-akebono.c:81:8: error: invalid instruction, did you mean: mfcr, mfdccr, mfdcr, mfdscr?
+      81 |         reg = mfdcrx(CCTL0_MCO2) & ~0x2;
+         |               ^
+   arch/powerpc/boot/dcr.h:16:16: note: expanded from macro 'mfdcrx'
+      16 |                 asm volatile("mfdcrx %0,%1" : "=r"(rval) : "r"(rn)); \
+         |                              ^
+   <inline asm>:1:2: note: instantiated into assembly here
+       1 |         mfdcrx 4,3
+         |         ^~~~~~
+   arch/powerpc/boot/treeboot-akebono.c:82:2: error: invalid instruction, did you mean: mtcr, mtdccr, mtdcr, mtdscr?
+      82 |         mtdcrx(CCTL0_MCO2, reg);
+         |         ^
+   arch/powerpc/boot/dcr.h:21:16: note: expanded from macro 'mtdcrx'
+      21 |                 asm volatile("mtdcrx %0,%1" : : "r"(rn), "r" (val)); \
+         |                              ^
+   <inline asm>:1:2: note: instantiated into assembly here
+       1 |         mtdcrx 3,4
+         |         ^~~~~~
+   7 errors generated.
+--
+>> arch/powerpc/boot/treeboot-currituck.c:46:9: error: invalid instruction, did you mean: mfcr, mfdccr, mfdcr, mfdscr?
+      46 |                 reg = mfdcrx(DDR3_MR0CF + i);
+         |                       ^
+   arch/powerpc/boot/dcr.h:16:16: note: expanded from macro 'mfdcrx'
+      16 |                 asm volatile("mfdcrx %0,%1" : "=r"(rval) : "r"(rn)); \
+         |                              ^
+   <inline asm>:1:2: note: instantiated into assembly here
+       1 |         mfdcrx 4,4
+         |         ^~~~~~
+>> arch/powerpc/boot/treeboot-currituck.c:46:9: error: invalid instruction, did you mean: mfcr, mfdccr, mfdcr, mfdscr?
+      46 |                 reg = mfdcrx(DDR3_MR0CF + i);
+         |                       ^
+   arch/powerpc/boot/dcr.h:16:16: note: expanded from macro 'mfdcrx'
+      16 |                 asm volatile("mfdcrx %0,%1" : "=r"(rval) : "r"(rn)); \
+         |                              ^
+   <inline asm>:1:2: note: instantiated into assembly here
+       1 |         mfdcrx 8,8
+         |         ^~~~~~
+>> arch/powerpc/boot/treeboot-currituck.c:46:9: error: invalid instruction, did you mean: mfcr, mfdccr, mfdcr, mfdscr?
+      46 |                 reg = mfdcrx(DDR3_MR0CF + i);
+         |                       ^
+   arch/powerpc/boot/dcr.h:16:16: note: expanded from macro 'mfdcrx'
+      16 |                 asm volatile("mfdcrx %0,%1" : "=r"(rval) : "r"(rn)); \
+         |                              ^
+   <inline asm>:1:2: note: instantiated into assembly here
+       1 |         mfdcrx 3,3
+         |         ^~~~~~
+>> arch/powerpc/boot/treeboot-currituck.c:46:9: error: invalid instruction, did you mean: mfcr, mfdccr, mfdcr, mfdscr?
+      46 |                 reg = mfdcrx(DDR3_MR0CF + i);
+         |                       ^
+   arch/powerpc/boot/dcr.h:16:16: note: expanded from macro 'mfdcrx'
+      16 |                 asm volatile("mfdcrx %0,%1" : "=r"(rval) : "r"(rn)); \
+         |                              ^
+   <inline asm>:1:2: note: instantiated into assembly here
+       1 |         mfdcrx 3,3
+         |         ^~~~~~
+   4 errors generated.
 
-   411	
-   412	static int mtk_mfg_eb_off(struct mtk_mfg *mfg)
-   413	{
-   414		struct device *dev = &mfg->pdev->dev;
-   415		struct mtk_mfg_ipi_sleep_msg msg = {
-   416			.event = 0,
-   417			.state = 0,
- > 418			.magic = GPUEB_SLEEP_MAGIC
-   419		};
-   420		u32 val;
-   421		int ret;
-   422	
-   423		ret = mbox_send_message(mfg->slp_mbox->ch, &msg);
-   424		if (ret < 0) {
-   425			dev_err(dev, "Cannot send sleep command: %pe\n", ERR_PTR(ret));
-   426			return ret;
-   427		}
-   428	
-   429		ret = readl_poll_timeout(mfg->rpc + RPC_PWR_CON, val,
-   430					 !(val & PWR_ACK_M), GPUEB_POLL_US,
-   431					 GPUEB_TIMEOUT_US);
-   432	
-   433		if (ret) {
-   434			dev_err(dev, "Timed out waiting for EB to power off, val=0x%08X\n", val);
-   435			return ret;
-   436		}
-   437	
-   438		return 0;
-   439	}
-   440	
-   441	/**
-   442	 * mtk_mfg_send_ipi - synchronously send an IPI message on the gpufreq channel
-   443	 * @mfg: pointer to this driver instance's private &struct mtk_mfg
-   444	 * @msg: pointer to a message to send; will have magic filled and response assigned
-   445	 *
-   446	 * Send an IPI message on the gpufreq channel, and wait for a response. Once a
-   447	 * response is received, assign a pointer to the response buffer (valid until
-   448	 * next response is received) to @msg.
-   449	 *
-   450	 * Returns 0 on success, negative errno on failure.
-   451	 */
-   452	static int mtk_mfg_send_ipi(struct mtk_mfg *mfg, struct mtk_mfg_ipi_msg *msg)
-   453	{
-   454		struct device *dev = &mfg->pdev->dev;
-   455		unsigned long wait;
-   456		int ret;
-   457	
- > 458		msg->magic = mfg->ipi_magic;
-   459	
-   460		ret = mbox_send_message(mfg->gf_mbox->ch, msg);
-   461		if (ret < 0) {
-   462			dev_err(dev, "Cannot send GPUFreq IPI command: %pe\n", ERR_PTR(ret));
-   463			return ret;
-   464		}
-   465	
-   466		wait = wait_for_completion_timeout(&mfg->gf_mbox->rx_done, msecs_to_jiffies(500));
-   467		if (!wait)
-   468			return -ETIMEDOUT;
-   469	
-   470		msg = mfg->gf_mbox->rx_data;
-   471	
- > 472		if (msg->u.return_value < 0) {
-   473			dev_err(dev, "IPI return: %d\n", msg->u.return_value);
-   474			return -EPROTO;
-   475		}
-   476	
-   477		return 0;
-   478	}
-   479	
-   480	static int mtk_mfg_init_shared_mem(struct mtk_mfg *mfg)
-   481	{
-   482		struct device *dev = &mfg->pdev->dev;
-   483		struct mtk_mfg_ipi_msg msg = {};
-   484		int ret;
-   485	
-   486		dev_dbg(dev, "clearing GPUEB shared memory, 0x%X bytes\n", mfg->shared_mem_size);
-   487		memset_io(mfg->shared_mem, 0, mfg->shared_mem_size);
-   488	
-   489		msg.cmd = CMD_INIT_SHARED_MEM;
-   490		msg.u.shared_mem.base = mfg->shared_mem_phys;
- > 491		msg.u.shared_mem.size = mfg->shared_mem_size;
-   492	
-   493		ret = mtk_mfg_send_ipi(mfg, &msg);
-   494		if (ret)
-   495			return ret;
-   496	
-   497		if (readl(mfg->shared_mem + GF_REG_MAGIC) != GPUEB_MEM_MAGIC) {
-   498			dev_err(dev, "EB did not initialise shared memory correctly\n");
-   499			return -EIO;
-   500		}
-   501	
-   502		return 0;
-   503	}
-   504	
-   505	static int mtk_mfg_power_control(struct mtk_mfg *mfg, bool enabled)
-   506	{
-   507		struct mtk_mfg_ipi_msg msg = {};
-   508	
-   509		msg.cmd = CMD_POWER_CONTROL;
-   510		msg.u.power_state = enabled ? 1 : 0;
-   511	
-   512		return mtk_mfg_send_ipi(mfg, &msg);
-   513	}
-   514	
-   515	static int mtk_mfg_set_oppidx(struct mtk_mfg *mfg, unsigned int opp_idx)
-   516	{
-   517		struct mtk_mfg_ipi_msg msg = {};
-   518		int ret;
-   519	
-   520		if (opp_idx >= mfg->num_gpu_opps)
-   521			return -EINVAL;
-   522	
-   523		msg.cmd = CMD_FIX_DUAL_TARGET_OPPIDX;
-   524		msg.u.dual_commit.gpu_oppidx = opp_idx;
- > 525		msg.u.dual_commit.stack_oppidx = opp_idx;
-   526	
-   527		ret = mtk_mfg_send_ipi(mfg, &msg);
-   528		if (ret) {
-   529			dev_err(&mfg->pdev->dev, "Failed to set OPP %u: %pe\n",
-   530				opp_idx, ERR_PTR(ret));
-   531			return ret;
-   532		}
-   533	
-   534		return 0;
-   535	}
-   536	
-   537	static int mtk_mfg_read_opp_tables(struct mtk_mfg *mfg)
-   538	{
-   539		struct device *dev = &mfg->pdev->dev;
-   540		struct mtk_mfg_opp_entry e = {};
-   541		unsigned int i;
-   542	
-   543		mfg->num_gpu_opps = readl(mfg->shared_mem + GF_REG_GPU_OPP_NUM);
-   544		mfg->num_stack_opps = readl(mfg->shared_mem + GF_REG_STK_OPP_NUM);
-   545	
-   546		if (mfg->num_gpu_opps > MAX_OPP_NUM || mfg->num_gpu_opps == 0) {
-   547			dev_err(dev, "GPU OPP count (%u) out of range %u >= count > 0\n",
-   548				mfg->num_gpu_opps, MAX_OPP_NUM);
-   549			return -EINVAL;
-   550		}
-   551	
-   552		if (mfg->num_stack_opps && mfg->num_stack_opps > MAX_OPP_NUM) {
-   553			dev_err(dev, "Stack OPP count (%u) out of range %u >= count >= 0\n",
-   554				mfg->num_stack_opps, MAX_OPP_NUM);
-   555			return -EINVAL;
-   556		}
-   557	
-   558		mfg->gpu_opps = devm_kcalloc(dev, mfg->num_gpu_opps,
-   559					     sizeof(struct dev_pm_opp_data), GFP_KERNEL);
-   560		if (!mfg->gpu_opps)
-   561			return -ENOMEM;
-   562	
-   563		if (mfg->num_stack_opps) {
-   564			mfg->stack_opps = devm_kcalloc(dev, mfg->num_stack_opps,
-   565						       sizeof(struct dev_pm_opp_data), GFP_KERNEL);
-   566			if (!mfg->stack_opps)
-   567				return -ENOMEM;
-   568		}
-   569	
-   570		for (i = 0; i < mfg->num_gpu_opps; i++) {
-   571			memcpy_fromio(&e, mfg->shared_mem + GF_REG_OPP_TABLE_GPU + i * sizeof(e),
-   572				      sizeof(e));
-   573			if (mem_is_zero(&e, sizeof(e))) {
-   574				dev_err(dev, "ran into an empty GPU OPP at index %u\n",
-   575					i);
-   576				return -EINVAL;
-   577			}
- > 578			mfg->gpu_opps[i].freq = e.freq_khz * HZ_PER_KHZ;
-   579			mfg->gpu_opps[i].u_volt = e.voltage_core * 10;
-   580			mfg->gpu_opps[i].level = i;
-   581			if (i < mfg->variant->turbo_below)
-   582				mfg->gpu_opps[i].turbo = true;
-   583		}
-   584	
-   585		for (i = 0; i < mfg->num_stack_opps; i++) {
-   586			memcpy_fromio(&e, mfg->shared_mem + GF_REG_OPP_TABLE_STK + i * sizeof(e),
-   587				      sizeof(e));
-   588			if (mem_is_zero(&e, sizeof(e))) {
-   589				dev_err(dev, "ran into an empty Stack OPP at index %u\n",
-   590					i);
-   591				return -EINVAL;
-   592			}
-   593			mfg->stack_opps[i].freq = e.freq_khz * HZ_PER_KHZ;
-   594			mfg->stack_opps[i].u_volt = e.voltage_core * 10;
-   595			mfg->stack_opps[i].level = i;
-   596			if (i < mfg->variant->turbo_below)
-   597				mfg->stack_opps[i].turbo = true;
-   598		}
-   599	
-   600		return 0;
-   601	}
-   602	
+
+vim +57 arch/powerpc/boot/treeboot-akebono.c
+
+2a2c74b2efcb1a Alistair Popple 2014-03-06  49  
+2a2c74b2efcb1a Alistair Popple 2014-03-06  50  static unsigned long long ibm_akebono_detect_memsize(void)
+2a2c74b2efcb1a Alistair Popple 2014-03-06  51  {
+2a2c74b2efcb1a Alistair Popple 2014-03-06  52  	u32 reg;
+2a2c74b2efcb1a Alistair Popple 2014-03-06  53  	unsigned i;
+2a2c74b2efcb1a Alistair Popple 2014-03-06  54  	unsigned long long memsize = 0;
+2a2c74b2efcb1a Alistair Popple 2014-03-06  55  
+2a2c74b2efcb1a Alistair Popple 2014-03-06  56  	for (i = 0; i < MAX_RANKS; i++) {
+2a2c74b2efcb1a Alistair Popple 2014-03-06 @57  		reg = mfdcrx(DDR3_MR0CF + i);
+2a2c74b2efcb1a Alistair Popple 2014-03-06  58  
+2a2c74b2efcb1a Alistair Popple 2014-03-06  59  		if (!(reg & 1))
+2a2c74b2efcb1a Alistair Popple 2014-03-06  60  			continue;
+2a2c74b2efcb1a Alistair Popple 2014-03-06  61  
+2a2c74b2efcb1a Alistair Popple 2014-03-06  62  		reg &= 0x0000f000;
+2a2c74b2efcb1a Alistair Popple 2014-03-06  63  		reg >>= 12;
+2a2c74b2efcb1a Alistair Popple 2014-03-06  64  		memsize += (0x800000ULL << reg);
+2a2c74b2efcb1a Alistair Popple 2014-03-06  65  	}
+2a2c74b2efcb1a Alistair Popple 2014-03-06  66  
+2a2c74b2efcb1a Alistair Popple 2014-03-06  67  	return memsize;
+2a2c74b2efcb1a Alistair Popple 2014-03-06  68  }
+2a2c74b2efcb1a Alistair Popple 2014-03-06  69  
+2a2c74b2efcb1a Alistair Popple 2014-03-06  70  static void ibm_akebono_fixups(void)
+2a2c74b2efcb1a Alistair Popple 2014-03-06  71  {
+2a2c74b2efcb1a Alistair Popple 2014-03-06  72  	void *emac;
+2a2c74b2efcb1a Alistair Popple 2014-03-06  73  	u32 reg;
+2a2c74b2efcb1a Alistair Popple 2014-03-06  74  
+2a2c74b2efcb1a Alistair Popple 2014-03-06  75  	dt_fixup_memory(0x0ULL,  ibm_akebono_memsize);
+2a2c74b2efcb1a Alistair Popple 2014-03-06  76  
+2a2c74b2efcb1a Alistair Popple 2014-03-06  77  	/* Fixup the SD timeout frequency */
+2a2c74b2efcb1a Alistair Popple 2014-03-06 @78  	mtdcrx(CCTL0_MCO4, 0x1);
+2a2c74b2efcb1a Alistair Popple 2014-03-06  79  
+2a2c74b2efcb1a Alistair Popple 2014-03-06  80  	/* Disable SD high-speed mode (which seems to be broken) */
+2a2c74b2efcb1a Alistair Popple 2014-03-06  81  	reg = mfdcrx(CCTL0_MCO2) & ~0x2;
+2a2c74b2efcb1a Alistair Popple 2014-03-06  82  	mtdcrx(CCTL0_MCO2, reg);
+2a2c74b2efcb1a Alistair Popple 2014-03-06  83  
+2a2c74b2efcb1a Alistair Popple 2014-03-06  84  	/* Set the MAC address */
+2a2c74b2efcb1a Alistair Popple 2014-03-06  85  	emac = finddevice("/plb/opb/ethernet");
+2a2c74b2efcb1a Alistair Popple 2014-03-06  86  	if (emac > 0) {
+2a2c74b2efcb1a Alistair Popple 2014-03-06  87  		if (mac_addr)
+2a2c74b2efcb1a Alistair Popple 2014-03-06  88  			setprop(emac, "local-mac-address",
+2a2c74b2efcb1a Alistair Popple 2014-03-06  89  				((u8 *) &mac_addr) + 2 , 6);
+2a2c74b2efcb1a Alistair Popple 2014-03-06  90  	}
+2a2c74b2efcb1a Alistair Popple 2014-03-06  91  }
+2a2c74b2efcb1a Alistair Popple 2014-03-06  92  
+
+:::::: The code at line 57 was first introduced by commit
+:::::: 2a2c74b2efcb1a0ca3fdcb5fbb96ad8de6a29177 IBM Akebono: Add the Akebono platform
+
+:::::: TO: Alistair Popple <alistair@popple.id.au>
+:::::: CC: Benjamin Herrenschmidt <benh@kernel.crashing.org>
 
 -- 
 0-DAY CI Kernel Test Service
