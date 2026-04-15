@@ -1,347 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A68A1279355
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Apr 2026 12:26:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BA2C2D2385;
+	Wed, 15 Apr 2026 12:38:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776255968; cv=none; b=XT7+j7DqvuIn3kLnHtaWn9bByMizmvjZooAV/di9w7Mwd78IGWWkY9SFhV2+E2L6XmQ14LuyBku7F6RTZHGwE2w8GmFSSwMfKec7fyLmRV/n/HlApMkhKOaJGViY4F3UASscmCaqU+VnZJs9zIriXhe686+kO8xdyvlNe7k6sQ4=
+	t=1776256688; cv=none; b=hiyg+lF+oz1byJo/31CwRn3ggHEDaumJVf+xScYyb334qe3h/4hVZiMTxxKvAuvQdE9XeGjWHCIRF9FAKjBLjV+0LhuQeYdhR21HMv3LkgaKVLIoRbUEW/cekF5MZHJeW+T1f8jIqml1HPin4H8fcI99HSkIZDc7FowDd0I7470=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776255968; c=relaxed/simple;
-	bh=PSFwu+5dPPuCkWChl02qj1GnWR+gd8ZGRxJ/mh/Nscg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=VJdgtiM7hoqLnrozMZrmP/O2PMml/5rMzwphT8UXEJjB1I/PaMsqhooXXAVBFOugW2NFzh5j8m6lU/X2V4BtCOc5QIgyIGzcX7jpfkzi9YPWbpzwFgbDZm0T/rtrGs+OS1DRvCaCq4+hiV/zDdG6X7mixxRVBKkbxMPACFcb2fI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UoDoglNX; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1776256688; c=relaxed/simple;
+	bh=vbfDbK70zsatpuCrYngbdq77H1uDo+Or6GxMvEi/fzY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q4lw3kx/epKUla/yhjkEQnoaXiIGVAZqRbhB7LC4yYtX25C2t2bRd3kKDXVcc9LC9jGg79QOOpXJz39c7fyzTg8q8EVM+AoJNsNcr0+GPiBmRp+TXm3LpVMoZmUTTDHW6q/DWA4cH51mWysQTdUraUwsLMH1h0MBn/czHD7cIRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GQv1H5Gc; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UoDoglNX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GQv1H5Gc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776255967; x=1807791967;
-  h=date:from:to:cc:subject:message-id;
-  bh=PSFwu+5dPPuCkWChl02qj1GnWR+gd8ZGRxJ/mh/Nscg=;
-  b=UoDoglNXcz+ijW46Mk4YKkEz3q3kpqD8BEazQ+GNiJTdJOYYr5/ZE2Pk
-   0XlmE7Mz5Z15YFKne9BiEFYHu3EQo6wYXcVrTS6NxCiTAMfD1PvJESoBw
-   dZeJaiDdwfGq1Ou1JrOrU8Tct8Wvg+byiprBRmO3mZJ0/k+3Z12wpLihD
-   cbnsOPnoadWny6C6Ix3Q/RpxQu7KsYJqmeUQJpLYBi8OqlPdbmcBd926J
-   2NMHLmrHSmahug8i3BVTWF/wIopxw54tDEkSEWVJQjmTTlDwiPwhqyVeM
-   8GONxmTLCB/fNNBhatcuyufI47wW4NCyzuLKsRdwURSOL3lBK9q3aApBG
-   g==;
-X-CSE-ConnectionGUID: +ByVjyC6QQ6fnjNeRNV3dA==
-X-CSE-MsgGUID: tipp/z4XS9ej9iu3Lyi4lg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="77255628"
+  t=1776256687; x=1807792687;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=vbfDbK70zsatpuCrYngbdq77H1uDo+Or6GxMvEi/fzY=;
+  b=GQv1H5GcScrgubiyHZkg2D1aB0dxeQ0hEnW1WOb2rF+r/4oOngKlStB6
+   NBnHPQnwaWb6mL7zx+GrpMCbOIifK0xIdAdukxppgbyBoZ+F4q6JD2H4g
+   G/Eqn2x03ut96jWwQX+yDl8lYtUG06mkJrr9WkaQvHkdzV43VoI7lUHms
+   cCQT6KdP2R4vlvfq0v2E1wrcCB4xgDEpGs9IBZYrOAOFzThhcHy5PEUzq
+   6XoyHdt6dBY19kbxamkHWKAP/1CmB6on4xYioW66qjBP37oO0Huvhu9uR
+   vMM5NVKt1+SNnSXdYFXeiEXeDqwgYyTtNW0TfOAK6NVv4U1JrgOoHt5BX
+   w==;
+X-CSE-ConnectionGUID: UfjDj2jSRLi4tzh/LOh8rg==
+X-CSE-MsgGUID: owe7WVbhSWW5HrfKOklfZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="76935788"
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="77255628"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2026 05:26:06 -0700
-X-CSE-ConnectionGUID: 2h9Lz22IQRiux5/zFIoXww==
-X-CSE-MsgGUID: vI1fDqi0RlqtGMwN+nF0TQ==
+   d="scan'208";a="76935788"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2026 05:38:07 -0700
+X-CSE-ConnectionGUID: whPPT0bHRAyDGG6oKhg1GQ==
+X-CSE-MsgGUID: hQcsOYnCTyW0D/A0/ztw9w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="226093399"
+   d="scan'208";a="253629749"
 Received: from lkp-server01.sh.intel.com (HELO 7f3b36e5d6a5) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 15 Apr 2026 05:26:04 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 15 Apr 2026 05:38:04 -0700
 Received: from kbuild by 7f3b36e5d6a5 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wCzJi-000000000Ut-0NWU;
-	Wed, 15 Apr 2026 12:26:02 +0000
-Date: Wed, 15 Apr 2026 20:25:44 +0800
+	id 1wCzVK-000000000Vd-3OzV;
+	Wed, 15 Apr 2026 12:38:02 +0000
+Date: Wed, 15 Apr 2026 20:37:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steve French <stfrench@microsoft.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [smfrench-smb3:pr/168 1/1] fs/smb/client/smb2ops.c:2646:56:
- error: use of undeclared identifier 'CIFS_DYNAMIC_BUFFER'
-Message-ID: <202604152059.Gmw2HakG-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC] virtio-mem: support Confidential Computing (CoCo)
+ environments
+Message-ID: <202604152042.Ddpp3f0z-lkp@intel.com>
+References: <20260401-coco-v1-1-b9c3072e2d9c@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260401-coco-v1-1-b9c3072e2d9c@redhat.com>
 
-tree:   https://github.com/smfrench/smb3-kernel.git pr/168
-head:   39308a2b5dfc90639437cc895c9bacecd2d8694b
-commit: 39308a2b5dfc90639437cc895c9bacecd2d8694b [1/1] cifs: optimize readdir for small directories
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260415/202604152059.Gmw2HakG-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260415/202604152059.Gmw2HakG-lkp@intel.com/reproduce)
+Hi Marc-André,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on c369299895a591d96745d6492d4888259b004a9e]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Marc-Andr-Lureau/virtio-mem-support-Confidential-Computing-CoCo-environments/20260414-201359
+base:   c369299895a591d96745d6492d4888259b004a9e
+patch link:    https://lore.kernel.org/r/20260401-coco-v1-1-b9c3072e2d9c%40redhat.com
+patch subject: [PATCH RFC] virtio-mem: support Confidential Computing (CoCo) environments
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260415/202604152042.Ddpp3f0z-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260415/202604152042.Ddpp3f0z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604152059.Gmw2HakG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604152042.Ddpp3f0z-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/smb/client/smb2ops.c:2646:56: error: use of undeclared identifier 'CIFS_DYNAMIC_BUFFER'
-    2646 |                 rc = smb2_parse_query_directory(tcon, &combined_iov, CIFS_DYNAMIC_BUFFER,
-         |                                                                      ^
-   1 error generated.
+>> drivers/virtio/virtio_mem.c:876:9: error: call to undeclared function 'set_memory_encrypted'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     876 |         return set_memory_encrypted((unsigned long)__va(addr), PFN_DOWN(size));
+         |                ^
+>> drivers/virtio/virtio_mem.c:881:9: error: call to undeclared function 'set_memory_decrypted'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     881 |         return set_memory_decrypted((unsigned long)__va(addr), PFN_DOWN(size));
+         |                ^
+   2 errors generated.
 
 
-vim +/CIFS_DYNAMIC_BUFFER +2646 fs/smb/client/smb2ops.c
+vim +/set_memory_encrypted +876 drivers/virtio/virtio_mem.c
 
-  2434	
-  2435	static int
-  2436	smb2_query_dir_first(const unsigned int xid, struct cifs_tcon *tcon,
-  2437			     const char *path, struct cifs_sb_info *cifs_sb,
-  2438			     struct cifs_fid *fid, __u16 search_flags,
-  2439			     struct cifs_search_info *srch_inf)
-  2440	{
-  2441		__le16 *utf16_path;
-  2442		struct smb_rqst rqst[3];
-  2443		struct kvec rsp_iov[3];
-  2444		int resp_buftype[3];
-  2445		struct kvec open_iov[SMB2_CREATE_IOV_SIZE];
-  2446		struct kvec qd_iov[SMB2_QUERY_DIRECTORY_IOV_SIZE + 1]; /* +1 for padding */
-  2447		struct kvec qd2_iov[SMB2_QUERY_DIRECTORY_IOV_SIZE + 1]; /* +1 for padding */
-  2448		int rc, flags = 0;
-  2449		u8 oplock = SMB2_OPLOCK_LEVEL_NONE;
-  2450		struct cifs_open_parms oparms;
-  2451		struct smb2_query_directory_rsp *qd_rsp = NULL;
-  2452		struct smb2_query_directory_rsp *qd2_rsp = NULL;
-  2453		struct smb2_create_rsp *op_rsp = NULL;
-  2454		struct TCP_Server_Info *server;
-  2455		int retries = 0, cur_sleep = 0;
-  2456	
-  2457	replay_again:
-  2458		/* reinitialize for possible replay */
-  2459		flags = 0;
-  2460		oplock = SMB2_OPLOCK_LEVEL_NONE;
-  2461		server = cifs_pick_channel(tcon->ses);
-  2462	
-  2463		utf16_path = cifs_convert_path_to_utf16(path, cifs_sb);
-  2464		if (!utf16_path)
-  2465			return -ENOMEM;
-  2466	
-  2467		if (smb3_encryption_required(tcon))
-  2468			flags |= CIFS_TRANSFORM_REQ;
-  2469	
-  2470		memset(rqst, 0, sizeof(rqst));
-  2471		resp_buftype[0] = resp_buftype[1] = resp_buftype[2] = CIFS_NO_BUFFER;
-  2472		memset(rsp_iov, 0, sizeof(rsp_iov));
-  2473	
-  2474		/* Open */
-  2475		memset(&open_iov, 0, sizeof(open_iov));
-  2476		rqst[0].rq_iov = open_iov;
-  2477		rqst[0].rq_nvec = SMB2_CREATE_IOV_SIZE;
-  2478	
-  2479		oparms = (struct cifs_open_parms) {
-  2480			.tcon = tcon,
-  2481			.path = path,
-  2482			.desired_access = FILE_READ_ATTRIBUTES | FILE_READ_DATA,
-  2483			.disposition = FILE_OPEN,
-  2484			.create_options = cifs_create_options(cifs_sb, 0),
-  2485			.fid = fid,
-  2486			.replay = !!(retries),
-  2487		};
-  2488	
-  2489		rc = SMB2_open_init(tcon, server,
-  2490				    &rqst[0], &oplock, &oparms, utf16_path);
-  2491		if (rc)
-  2492			goto qdf_free;
-  2493		smb2_set_next_command(tcon, &rqst[0]);
-  2494	
-  2495		/* First Query directory */
-  2496		srch_inf->entries_in_buffer = 0;
-  2497		srch_inf->index_of_last_entry = 2;
-  2498	
-  2499		memset(&qd_iov, 0, sizeof(qd_iov));
-  2500		rqst[1].rq_iov = qd_iov;
-  2501		rqst[1].rq_nvec = SMB2_QUERY_DIRECTORY_IOV_SIZE;
-  2502	
-  2503		rc = SMB2_query_directory_init(xid, tcon, server,
-  2504					       &rqst[1],
-  2505					       COMPOUND_FID, COMPOUND_FID,
-  2506					       0, srch_inf->info_level,
-  2507					       SMB2_QD1_OUTPUT_SIZE(CIFSMaxBufSize));
-  2508		if (rc)
-  2509			goto qdf_free;
-  2510	
-  2511		smb2_set_related(&rqst[1]);
-  2512		smb2_set_next_command(tcon, &rqst[1]);
-  2513	
-  2514		/* Second Query directory - minimal size to check if more data exists */
-  2515		memset(&qd2_iov, 0, sizeof(qd2_iov));
-  2516		rqst[2].rq_iov = qd2_iov;
-  2517		rqst[2].rq_nvec = SMB2_QUERY_DIRECTORY_IOV_SIZE;
-  2518	
-  2519		rc = SMB2_query_directory_init(xid, tcon, server,
-  2520					       &rqst[2],
-  2521					       COMPOUND_FID, COMPOUND_FID,
-  2522					       0, srch_inf->info_level, SMB2_QD2_RESPONSE_SIZE);
-  2523		if (rc)
-  2524			goto qdf_free;
-  2525	
-  2526		smb2_set_related(&rqst[2]);
-  2527	
-  2528		if (retries) {
-  2529			/* Back-off before retry */
-  2530			if (cur_sleep)
-  2531				msleep(cur_sleep);
-  2532			smb2_set_replay(server, &rqst[0]);
-  2533			smb2_set_replay(server, &rqst[1]);
-  2534			smb2_set_replay(server, &rqst[2]);
-  2535		}
-  2536	
-  2537		rc = compound_send_recv(xid, tcon->ses, server,
-  2538					flags, 3, rqst,
-  2539					resp_buftype, rsp_iov);
-  2540	
-  2541		/* If the open failed there is nothing to do */
-  2542		op_rsp = (struct smb2_create_rsp *)rsp_iov[0].iov_base;
-  2543		if (op_rsp == NULL || op_rsp->hdr.Status != STATUS_SUCCESS) {
-  2544			cifs_dbg(FYI, "query_dir_first: open failed rc=%d\n", rc);
-  2545			goto qdf_free;
-  2546		}
-  2547		fid->persistent_fid = op_rsp->PersistentFileId;
-  2548		fid->volatile_fid = op_rsp->VolatileFileId;
-  2549	
-  2550		/* Anything else than ENODATA means a genuine error */
-  2551		if (rc && rc != -ENODATA) {
-  2552			SMB2_close(xid, tcon, fid->persistent_fid, fid->volatile_fid);
-  2553			cifs_dbg(FYI, "query_dir_first: query directory failed rc=%d\n", rc);
-  2554			trace_smb3_query_dir_err(xid, fid->persistent_fid,
-  2555						 tcon->tid, tcon->ses->Suid, 0, 0, rc);
-  2556			goto qdf_free;
-  2557		}
-  2558	
-  2559		atomic_inc(&tcon->num_remote_opens);
-  2560	
-  2561		qd_rsp = (struct smb2_query_directory_rsp *)rsp_iov[1].iov_base;
-  2562		if (qd_rsp->hdr.Status == STATUS_NO_MORE_FILES) {
-  2563			trace_smb3_query_dir_done(xid, fid->persistent_fid,
-  2564						  tcon->tid, tcon->ses->Suid, 0, 0);
-  2565			srch_inf->endOfSearch = true;
-  2566			rc = 0;
-  2567			goto qdf_free;
-  2568		}
-  2569	
-  2570		qd2_rsp = (struct smb2_query_directory_rsp *)rsp_iov[2].iov_base;
-  2571	
-  2572		/*
-  2573		 * If QD2 has data, combine QD1 and QD2 responses before parsing.
-  2574		 * The server cursor advances past both responses, so we can't discard QD2.
-  2575		 */
-  2576		if (qd2_rsp && qd2_rsp->hdr.Status == STATUS_SUCCESS &&
-  2577		    le32_to_cpu(qd2_rsp->OutputBufferLength) > 0) {
-  2578			char *combined_buf;
-  2579			size_t qd1_data_len, qd2_data_len, combined_len;
-  2580			u16 qd1_offset, qd2_offset;
-  2581			struct smb2_query_directory_rsp *combined_rsp;
-  2582			struct kvec combined_iov;
-  2583			FILE_DIRECTORY_INFO *last_entry_in_qd1;
-  2584			char *qd1_entries_start, *qd2_entries_start;
-  2585			unsigned int next_offset;
-  2586	
-  2587			qd1_offset = le16_to_cpu(qd_rsp->OutputBufferOffset);
-  2588			qd2_offset = le16_to_cpu(qd2_rsp->OutputBufferOffset);
-  2589			qd1_data_len = le32_to_cpu(qd_rsp->OutputBufferLength);
-  2590			qd2_data_len = le32_to_cpu(qd2_rsp->OutputBufferLength);
-  2591	
-  2592			/* Allocate buffer for: QD1 header + QD1 data + QD2 data */
-  2593			combined_len = qd1_offset + qd1_data_len + qd2_data_len;
-  2594			combined_buf = kmalloc(combined_len, GFP_KERNEL);
-  2595			if (!combined_buf) {
-  2596				rc = -ENOMEM;
-  2597				goto qdf_free;
-  2598			}
-  2599	
-  2600			/* Copy QD1 header and data */
-  2601			memcpy(combined_buf, qd_rsp, qd1_offset + qd1_data_len);
-  2602	
-  2603			/* Append QD2 data (directory entries only, not the header) */
-  2604			memcpy(combined_buf + qd1_offset + qd1_data_len,
-  2605			       (char *)qd2_rsp + qd2_offset, qd2_data_len);
-  2606	
-  2607			/* Update OutputBufferLength to reflect combined data */
-  2608			combined_rsp = (struct smb2_query_directory_rsp *)combined_buf;
-  2609			combined_rsp->OutputBufferLength = cpu_to_le32(qd1_data_len + qd2_data_len);
-  2610	
-  2611			/*
-  2612			 * Chain QD1 and QD2 entries: find the last entry in QD1 and update
-  2613			 * its NextEntryOffset to point to the first entry in QD2.
-  2614			 */
-  2615			if (qd1_data_len > 0) {
-  2616				qd1_entries_start = combined_buf + qd1_offset;
-  2617				qd2_entries_start = combined_buf + qd1_offset + qd1_data_len;
-  2618				last_entry_in_qd1 = (FILE_DIRECTORY_INFO *)qd1_entries_start;
-  2619	
-  2620				/* Walk QD1 entries to find the last one with bounds checking */
-  2621				while (1) {
-  2622					char *end_of_qd1 = qd1_entries_start + qd1_data_len;
-  2623	
-  2624					next_offset = le32_to_cpu(last_entry_in_qd1->NextEntryOffset);
-  2625					if (next_offset == 0)
-  2626						break;  /* Found last entry */
-  2627	
-  2628					/* Bounds check before advancing */
-  2629					if ((char *)last_entry_in_qd1 + next_offset >= end_of_qd1) {
-  2630						cifs_dbg(VFS, "query_dir_first: invalid NextEntryOffset in QD1\n");
-  2631						kfree(combined_buf);
-  2632						rc = -EIO;
-  2633						goto qdf_free;
-  2634					}
-  2635	
-  2636					last_entry_in_qd1 = (FILE_DIRECTORY_INFO *)((char *)last_entry_in_qd1 + next_offset);
-  2637				}
-  2638	
-  2639				/* Chain last QD1 entry to first QD2 entry */
-  2640				last_entry_in_qd1->NextEntryOffset = cpu_to_le32(qd2_entries_start - (char *)last_entry_in_qd1);
-  2641			}
-  2642	
-  2643			/* Parse the combined buffer */
-  2644			combined_iov.iov_base = combined_buf;
-  2645			combined_iov.iov_len = combined_len;
-> 2646			rc = smb2_parse_query_directory(tcon, &combined_iov, CIFS_DYNAMIC_BUFFER,
-  2647							srch_inf);
-  2648			if (rc) {
-  2649				kfree(combined_buf);
-  2650				trace_smb3_query_dir_err(xid, fid->persistent_fid, tcon->tid,
-  2651							 tcon->ses->Suid, 0, 0, rc);
-  2652				goto qdf_free;
-  2653			}
-  2654			/* Ownership of combined_buf transferred to srch_inf->ntwrk_buf_start */
-  2655			srch_inf->endOfSearch = false;
-  2656			cifs_dbg(FYI, "query_dir_first: combined QD1 and QD2, %d entries\n",
-  2657				 srch_inf->entries_in_buffer);
-  2658		} else {
-  2659			/* No data in QD2, just parse QD1 */
-  2660			rc = smb2_parse_query_directory(tcon, &rsp_iov[1], resp_buftype[1],
-  2661							srch_inf);
-  2662			if (rc) {
-  2663				trace_smb3_query_dir_err(xid, fid->persistent_fid, tcon->tid,
-  2664							 tcon->ses->Suid, 0, 0, rc);
-  2665				goto qdf_free;
-  2666			}
-  2667			resp_buftype[1] = CIFS_NO_BUFFER;
-  2668	
-  2669			/* Check if QD2 indicates end of directory */
-  2670			if (qd2_rsp && qd2_rsp->hdr.Status == STATUS_NO_MORE_FILES) {
-  2671				srch_inf->endOfSearch = true;
-  2672				cifs_dbg(FYI, "query_dir_first: small directory, all entries read\n");
-  2673			}
-  2674		}
-  2675	
-  2676		trace_smb3_query_dir_done(xid, fid->persistent_fid, tcon->tid,
-  2677				tcon->ses->Suid, 0, srch_inf->entries_in_buffer);
-  2678	
-  2679	 qdf_free:
-  2680		kfree(utf16_path);
-  2681		SMB2_open_free(&rqst[0]);
-  2682		SMB2_query_directory_free(&rqst[1]);
-  2683		SMB2_query_directory_free(&rqst[2]);
-  2684		free_rsp_buf(resp_buftype[0], rsp_iov[0].iov_base);
-  2685		free_rsp_buf(resp_buftype[1], rsp_iov[1].iov_base);
-  2686		free_rsp_buf(resp_buftype[2], rsp_iov[2].iov_base);
-  2687	
-  2688		if (is_replayable_error(rc) &&
-  2689		    smb2_should_replay(tcon, &retries, &cur_sleep))
-  2690			goto replay_again;
-  2691	
-  2692		return rc;
-  2693	}
-  2694	
+   868	
+   869	/*
+   870	 * In CoCo (TDX, SEV-SNP) environments, hotplugged memory must be explicitly
+   871	 * accepted before use (private/encrypted), and converted to shared/decrypted
+   872	 * before returning to the hypervisor on unplug.
+   873	 */
+   874	static int virtio_mem_coco_set_encrypted(uint64_t addr, uint64_t size)
+   875	{
+ > 876		return set_memory_encrypted((unsigned long)__va(addr), PFN_DOWN(size));
+   877	}
+   878	
+   879	static int virtio_mem_coco_set_decrypted(uint64_t addr, uint64_t size)
+   880	{
+ > 881		return set_memory_decrypted((unsigned long)__va(addr), PFN_DOWN(size));
+   882	}
+   883	
 
 -- 
 0-DAY CI Kernel Test Service
