@@ -1,154 +1,132 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 468DA3A7591;
-	Wed, 15 Apr 2026 13:42:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA9D42620DE
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Apr 2026 13:54:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776260531; cv=none; b=phBoxKrSq2PRnsmqt/WBQMH49UcKL9DQ90N557616du9xcpDd0Wp31TBNoXJNBCDh0mVI3On991Hig4rSefEh73rqCal/JIJYp3KElWOKa4ersiVKtNzD8zhbVuDSxV+JRNvwA/bNQI5b6GEH4DILuu3s79odBHnKr/UN+eaSzk=
+	t=1776261253; cv=none; b=cb3ORqKrOBZ8fattf5utHH1TGEOmz7UmzGlcOXeP91kyoYOyfNf8sFlk9qDYA3aqxFJozrG0i9VBNTrQCh/2idqBgA5BnzsnGs6ub7xOvJA66JFTo8If8wrp47O1xxG1pzW66+qYGX9z0AzlxB/pKUdG/Ft1z2DgncEOXDDDIYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776260531; c=relaxed/simple;
-	bh=0HTYWMYt65OMqLOGoQAxXTWi/323rhZ+/DjmFzpyHzs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XPqiPmcYhT35/GenyAARlgUYtk747BezliotPhDUjifK85EUB9/iA4XVjudsUh1MfugiKAbdoHDC8bORXsIyDFgCZCupWO6yltubpkSPn3w0cz/GR5V7bsgWwLqDL2K40bUuf84n4A+SNQUb3yZUc24GLZnNIW29FIR+5Ub9Loc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dsAB+r5Q; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1776261253; c=relaxed/simple;
+	bh=8CndE2bYEmi6GYRtRNkvlFzeLtW98eilH3WzVgxUQKQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=RROm93yBvqL6X2oEaMptk3uq2KOzjk86Z8cPngrW+5fgCUKC9a6ANbPgar9jaeCFuk/L9/5NE3osxFzj6LDAlNwzXoFmYZGXrrqxWMpNaDn0KGrp8gcEPalGQLFht8YHxDiZbDnT8U41z0DD5PLXTr+T7tIRLc+3HLgWTr3AQEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TGQE15eo; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dsAB+r5Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TGQE15eo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776260530; x=1807796530;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0HTYWMYt65OMqLOGoQAxXTWi/323rhZ+/DjmFzpyHzs=;
-  b=dsAB+r5Qjj8ST7lr67SUevI/lBlAUXJ0goDmy3yHpJLWG6Mkoj0JWvTV
-   3syLfyB/95q2Hs2xyQCMahgzsmwrajcpvuANT4yzCIYclaArdk5vDK7nv
-   AWXfUnghSL6SKA3N6aTdGSiT1FLzo6oBqlfkj2Ukriu2nSWfPUPXWVrUw
-   n3oH54jPgBbKnJ67Xzz4yy/ozgqa5YqxjvXTv8SMVcVBeorc42N6api2+
-   cReCK0IFeJoE/XjmUUnkuYTqkUVBT4wnsJ++V7e3t6bUhlMbr5RIXheqM
-   a6YgSKRz7N2YhApJ7ewvsLKKxyGEHaenAZks+xz2iLhwgTajvs3wGVwAT
-   w==;
-X-CSE-ConnectionGUID: OAwKGFyyTgKdaANZwsWQ+Q==
-X-CSE-MsgGUID: aur2iO0sS9an4hxtjHZkig==
-X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="99878910"
+  t=1776261252; x=1807797252;
+  h=date:from:to:cc:subject:message-id;
+  bh=8CndE2bYEmi6GYRtRNkvlFzeLtW98eilH3WzVgxUQKQ=;
+  b=TGQE15eot0nmQTwXur1Wk33vkZqSaPumG3yiY1bkcErciQUtK54UUnt8
+   JxaBAekgMFTFVqwZllnsnV2bNGSLMjyjvlunhSYHWnuDdZijDwhEAoreb
+   B04ytXYmauzL17JVp+m8w3TG6VMd58ygw0jwNTjjh/sUv6DsXkmjZG9vX
+   aTFe7L9UDkANOugJQzhsDgXSasknT9NCierp9/HvX6GJjlPQ8SsU4dTr8
+   6kiv3SIfVYZh5cLRYe1kCTHhg213yvz2NGqzQ3CvVBEvy/eVs7n53JVEB
+   gqmNUff0ZeJ3fYXwXx6MNKAxCMoMD/CmhivCqv0N3BNpyzNoYHtKiRiht
+   Q==;
+X-CSE-ConnectionGUID: OSXJ9SuvQbCuEomNGCBPyw==
+X-CSE-MsgGUID: /nnMHvKSRVyd2DFAJrYupg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="77348931"
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="99878910"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2026 06:42:10 -0700
-X-CSE-ConnectionGUID: Bdg7FMd8RK+j/wxqc1O7Gg==
-X-CSE-MsgGUID: cmO6siA9S7m3kvxlbla7wA==
+   d="scan'208";a="77348931"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2026 06:54:11 -0700
+X-CSE-ConnectionGUID: tgCCZq30QDSoXWxlYcx+9Q==
+X-CSE-MsgGUID: BV3SenV/SR60cJfBcrk5tg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="230670547"
+   d="scan'208";a="230278589"
 Received: from lkp-server01.sh.intel.com (HELO 7f3b36e5d6a5) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 15 Apr 2026 06:42:08 -0700
+  by orviesa009.jf.intel.com with ESMTP; 15 Apr 2026 06:54:09 -0700
 Received: from kbuild by 7f3b36e5d6a5 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wD0VK-000000000Y1-1N8x;
-	Wed, 15 Apr 2026 13:42:06 +0000
-Date: Wed, 15 Apr 2026 21:41:38 +0800
+	id 1wD0gx-000000000YX-0tke;
+	Wed, 15 Apr 2026 13:54:07 +0000
+Date: Wed, 15 Apr 2026 21:53:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brian Ruley <brian.ruley@gehealthcare.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH] test: mm/arm: pgtable: remove young bit check for
- pte_valid_user
-Message-ID: <202604152110.yr5hvLpq-lkp@intel.com>
-References: <20260410114336.983057-1-brian.ruley@gehealthcare.com>
+To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [kas:uffd 4/12] mm/userfaultfd.c:427:17: error: implicit
+ declaration of function 'pmd_modify'; did you mean 'pte_modify'?
+Message-ID: <202604152151.rLdqv1sG-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260410114336.983057-1-brian.ruley@gehealthcare.com>
 
-Hi Brian,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on arm/for-next]
-[also build test WARNING on akpm-mm/mm-everything arm-perf/for-next/perf arm64/for-next/core linus/master arm/fixes v7.0 next-20260414]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Brian-Ruley/test-mm-arm-pgtable-remove-young-bit-check-for-pte_valid_user/20260414-235000
-base:   git://git.armlinux.org.uk/~rmk/linux-arm.git for-next
-patch link:    https://lore.kernel.org/r/20260410114336.983057-1-brian.ruley%40gehealthcare.com
-patch subject: [RFC PATCH] test: mm/arm: pgtable: remove young bit check for pte_valid_user
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20260415/202604152110.yr5hvLpq-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260415/202604152110.yr5hvLpq-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kas/linux.git uffd
+head:   bfa1e12c7a014c9ce5d1ae4b8b43dcb8e3d62965
+commit: 83ce0c5a2d4e93266638ef2f1d2b58166bae1e8d [4/12] userfaultfd: UFFDIO_CONTINUE for anonymous memory
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260415/202604152151.rLdqv1sG-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260415/202604152151.rLdqv1sG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604152110.yr5hvLpq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604152151.rLdqv1sG-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/migrate.c:64:6: warning: no previous prototype for function 'migrate_exec_log_add' [-Wmissing-prototypes]
-      64 | void migrate_exec_log_add(unsigned long addr, unsigned long old_pfn,
-         |      ^
-   mm/migrate.c:64:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      64 | void migrate_exec_log_add(unsigned long addr, unsigned long old_pfn,
-         | ^
-         | static 
->> mm/migrate.c:79:6: warning: no previous prototype for function 'migrate_exec_log_dump' [-Wmissing-prototypes]
-      79 | void migrate_exec_log_dump(unsigned long fault_addr)
-         |      ^
-   mm/migrate.c:79:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      79 | void migrate_exec_log_dump(unsigned long fault_addr)
-         | ^
-         | static 
-   2 warnings generated.
+   mm/userfaultfd.c: In function 'mfill_atomic_pmd_continue_anon':
+>> mm/userfaultfd.c:427:17: error: implicit declaration of function 'pmd_modify'; did you mean 'pte_modify'? [-Wimplicit-function-declaration]
+     427 |         entry = pmd_modify(orig_pmd, vma->vm_page_prot);
+         |                 ^~~~~~~~~~
+         |                 pte_modify
+>> mm/userfaultfd.c:427:17: error: incompatible types when assigning to type 'pmd_t' from type 'int'
+>> mm/userfaultfd.c:428:17: error: implicit declaration of function 'pmd_mkyoung'; did you mean 'pmd_young'? [-Wimplicit-function-declaration]
+     428 |         entry = pmd_mkyoung(entry);
+         |                 ^~~~~~~~~~~
+         |                 pmd_young
+   mm/userfaultfd.c:428:17: error: incompatible types when assigning to type 'pmd_t' from type 'int'
+>> mm/userfaultfd.c:430:25: error: implicit declaration of function 'pmd_wrprotect'; did you mean 'pte_wrprotect'? [-Wimplicit-function-declaration]
+     430 |                 entry = pmd_wrprotect(entry);
+         |                         ^~~~~~~~~~~~~
+         |                         pte_wrprotect
+   mm/userfaultfd.c:430:25: error: incompatible types when assigning to type 'pmd_t' from type 'int'
+>> mm/userfaultfd.c:431:9: error: implicit declaration of function 'set_pmd_at'; did you mean 'set_pte_at'? [-Wimplicit-function-declaration]
+     431 |         set_pmd_at(mm, addr & HPAGE_PMD_MASK, pmd, entry);
+         |         ^~~~~~~~~~
+         |         set_pte_at
+>> mm/userfaultfd.c:432:9: error: implicit declaration of function 'update_mmu_cache_pmd'; did you mean 'update_mmu_cache'? [-Wimplicit-function-declaration]
+     432 |         update_mmu_cache_pmd(vma, addr, pmd);
+         |         ^~~~~~~~~~~~~~~~~~~~
+         |         update_mmu_cache
 
 
-vim +/migrate_exec_log_add +64 mm/migrate.c
+vim +427 mm/userfaultfd.c
 
-    63	
-  > 64	void migrate_exec_log_add(unsigned long addr, unsigned long old_pfn,
-    65				  unsigned long new_pfn, bool flushed)
-    66	{
-    67		unsigned int idx = __this_cpu_read(migrate_exec_idx);
-    68		struct migrate_exec_entry *log = this_cpu_ptr(migrate_exec_log);
-    69		struct migrate_exec_entry *e = &log[idx];
-    70	
-    71		e->addr = addr;
-    72		e->old_pfn = old_pfn;
-    73		e->new_pfn = new_pfn;
-    74		e->pid = current->pid;
-    75		e->flushed = flushed;
-    76		__this_cpu_write(migrate_exec_idx, (idx + 1) % MIGRATE_EXEC_LOG_SIZE);
-    77	}
-    78	
-  > 79	void migrate_exec_log_dump(unsigned long fault_addr)
-    80	{
-    81		int cpu;
-    82	
-    83		pr_err("SIGILL at %lx pid %d, recent exec migrations:\n",
-    84		       fault_addr, current->pid);
-    85		for_each_online_cpu(cpu) {
-    86			struct migrate_exec_entry *log = per_cpu(migrate_exec_log, cpu);
-    87			int i;
-    88			for (i = 0; i < MIGRATE_EXEC_LOG_SIZE; i++) {
-    89				if (log[i].addr == 0)
-    90					continue;
-    91				pr_err("  cpu%d: addr=%lx old_pfn=%lx new_pfn=%lx pid=%d flushed=%d%s\n",
-    92				       cpu, log[i].addr, log[i].old_pfn, log[i].new_pfn,
-    93				       log[i].pid, log[i].flushed,
-    94				       (PAGE_ALIGN(fault_addr) == PAGE_ALIGN(log[i].addr)) ?
-    95				       " *** MATCH ***" : "");
-    96			}
-    97		}
-    98	}
-    99	#include "internal.h"
-   100	#include "swap.h"
-   101	
+   411	
+   412	static int mfill_atomic_pmd_continue_anon(struct mm_struct *mm,
+   413						  struct vm_area_struct *vma,
+   414						  unsigned long addr,
+   415						  pmd_t *pmd, pmd_t orig_pmd,
+   416						  uffd_flags_t flags)
+   417	{
+   418		spinlock_t *ptl;
+   419		pmd_t entry;
+   420	
+   421		ptl = pmd_lock(mm, pmd);
+   422		if (unlikely(!pmd_same(pmdp_get(pmd), orig_pmd))) {
+   423			spin_unlock(ptl);
+   424			return -EAGAIN;
+   425		}
+   426	
+ > 427		entry = pmd_modify(orig_pmd, vma->vm_page_prot);
+ > 428		entry = pmd_mkyoung(entry);
+   429		if (flags & MFILL_ATOMIC_WP)
+ > 430			entry = pmd_wrprotect(entry);
+ > 431		set_pmd_at(mm, addr & HPAGE_PMD_MASK, pmd, entry);
+ > 432		update_mmu_cache_pmd(vma, addr, pmd);
+   433		spin_unlock(ptl);
+   434		return 0;
+   435	}
+   436	
 
 -- 
 0-DAY CI Kernel Test Service
