@@ -1,173 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A8A38F951
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Apr 2026 15:33:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF3272F5498
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Apr 2026 15:55:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776353642; cv=none; b=IeaGBUM2WuPqxxTj+Q+euINkK6iupGpKKoaR/Xk3r09bjcf4ATl92Lcmyu2qub15WiQfwvhnKHI544SVOKH0+Gruv69lHozVjnxVXw0eDuo/Y1G8jY4a1BTNW8+CkG7npz42eKVhghB2ZLzUjgaLy9cPASkqUEiDdMkSmJh3Yag=
+	t=1776354963; cv=none; b=KzgW4Z/COnOm5zV6N4MI4HsPT+xHjnANnVjfkaE8LFvyUEz5yM3adbkbXtzkH03gGdxQMOB0VGJ/KllwoSyHgMEsqYdJ2g1ag6R+rnncf5ZoM+kCqiei3hQ7Exms2TG0/Dt/Va3kFDX9WeEpC7ULHZLzMXkCODqEo7UQ6Pw9uzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776353642; c=relaxed/simple;
-	bh=bKhpoctZ+cnz2//l4tn7baT/QuY1alwN7dsWjpTbWeM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZhDkZJNP2dNieFRZRUJDWEpdBBGOEGV7IWMXtY21IAsbB553m1mGx2puxEv6M+gnnnwd0VVPBOK/OrZQnZlvIAjKXtMicu5grpdnIDqvIsq64jewHSuXn1Tynues02KSbgPVHDmcddwOs+cKZYx33+Pjojl2Ea2RNSro02xIs1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BngMx7wn; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1776354963; c=relaxed/simple;
+	bh=5l8+LvkaQnop2KIWgKwCOv4s21R92qe6eEI6aq1elyc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=RXA0fjRi5m4js036qzFxUo2lxMJATpShwvF2TFoHFy8h5XYwNq5DIYKpbVahTWsNeU/WsFVMZVmxLbbHb50/SHBDtF1XfN6LPS03OEM79ECIGbNVkP9jetHTO3Ul+s7pKlt/07jHogFjsrCCZvRUA51UBQtWKckgSnECG57RiWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X8no6Jj3; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BngMx7wn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X8no6Jj3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776353640; x=1807889640;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bKhpoctZ+cnz2//l4tn7baT/QuY1alwN7dsWjpTbWeM=;
-  b=BngMx7wn8LsVSBYmOgn+5egCkl9uqdoqdR/Co3YqeInSQpy0PvTe95wo
-   cnGVrEdo/PWN4e1TWUJgwlVJRKqVGtx8b+IbmgVaMcqPxE5UjoHUCBRX1
-   GrgwIM/HplL27ch9UY3TdtHr2sAZuVofkApLt5W64vRqojiYYqk9mj9Gr
-   W6ZoTee9uC1aBVA0ap4X0C3EXgS22YZ01z/7GbpQcr5JNPZ0Z65jnD79k
-   juH4z8FwN3/2C1KQqfVg0jXQilnGnuDgyXYK0iEc8PhJkv86ogctxilYP
-   Hm8DUAGlORofALhcaW1gLLEdt99cB5hRCnGE87nVGCtKq7mvzoHMGlr08
-   g==;
-X-CSE-ConnectionGUID: B50vUHGYQcGqCQi5OvSCtQ==
-X-CSE-MsgGUID: p3GVpECqRTy0HfD6SIS3Rg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11760"; a="88741642"
+  t=1776354960; x=1807890960;
+  h=date:from:to:cc:subject:message-id;
+  bh=5l8+LvkaQnop2KIWgKwCOv4s21R92qe6eEI6aq1elyc=;
+  b=X8no6Jj3/pQAfBLAolzlxlVb/bje7OzWZ1aWlnBY1XppHe0i2VfdggY6
+   ly/uezAGGGFTQFwmdOOVnvnFs7UhDbHOjhr/oJxiDa/pvgBh/HXs/iBze
+   ZYuQ9n/MwwFxncv3a5h2Pyv7Sj2D/NbmwFIDvKcmo9c9hSWuzq9/LEW6x
+   u8WdC0RbnP1zPYZmCC9h3+sukP9CzsmQx1uHsdVueRWVowrDbttpB5D0M
+   3M/BRInPD/ZtHffZcqi8CmU8mpbnxP7pp1BpV9+IbRvXOpdqAd0xsaZc9
+   cseTPNiVlbPWVCZRBDE7d6nmMHDuD7sb0Sa/fZXWqy+uYN8UbMyFkH+uZ
+   w==;
+X-CSE-ConnectionGUID: AXrEdGolSb6F8ZLKv5JQ5g==
+X-CSE-MsgGUID: JO8BrfNJRb6IheTG1QvEfg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11760"; a="77431394"
 X-IronPort-AV: E=Sophos;i="6.23,181,1770624000"; 
-   d="scan'208";a="88741642"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2026 08:33:59 -0700
-X-CSE-ConnectionGUID: KfJxxmkZQKqQPhX/9mCByw==
-X-CSE-MsgGUID: G4D8kRuKSP+TDijrmDZrdQ==
+   d="scan'208";a="77431394"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2026 08:55:59 -0700
+X-CSE-ConnectionGUID: QgwLZpUkQdiViVpCgEz5xQ==
+X-CSE-MsgGUID: wVenW9pPS5Sgpp0fHLXLeA==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,181,1770624000"; 
+   d="scan'208";a="226059524"
 Received: from lkp-server01.sh.intel.com (HELO 7f3b36e5d6a5) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 16 Apr 2026 08:33:57 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 16 Apr 2026 08:55:58 -0700
 Received: from kbuild by 7f3b36e5d6a5 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wDOj4-000000001hK-3glL;
-	Thu, 16 Apr 2026 15:33:54 +0000
-Date: Thu, 16 Apr 2026 23:33:35 +0800
+	id 1wDP4N-000000001i6-29bn;
+	Thu, 16 Apr 2026 15:55:55 +0000
+Date: Thu, 16 Apr 2026 23:55:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sanjay Chitroda <sanjayembeddedse@gmail.com>, jic23@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, dlechner@baylibre.com,
-	nuno.sa@analog.com, andy@kernel.org, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] iio: accel: mma8452: use pm_ptr() for dev_pm_ops
-Message-ID: <202604162323.4pYsEj7A-lkp@intel.com>
-References: <20260414192045.3598010-1-sanjayembedded@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Namjae Jeon <linkinjeon@kernel.org>
+Subject: [linkinjeon-ntfs:ntfs-next 47/48] fs/ntfs/file.c:657:13:
+ error: implicit declaration of function 'vma_desc_test'; did you mean
+ 'vma_desc_pages'?
+Message-ID: <202604162346.ovX9CHOt-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260414192045.3598010-1-sanjayembedded@gmail.com>
 
-Hi Sanjay,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on linus/master v7.0 next-20260415]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sanjay-Chitroda/iio-accel-mma8452-use-pm_ptr-for-dev_pm_ops/20260416-061819
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20260414192045.3598010-1-sanjayembedded%40gmail.com
-patch subject: [PATCH] iio: accel: mma8452: use pm_ptr() for dev_pm_ops
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260416/202604162323.4pYsEj7A-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linkinjeon/ntfs.git ntfs-next
+head:   75579d45c31244811d57ae99692b6c3d197560b4
+commit: 50ba0870ccdba0b8fa15f1eb0e11bfa08185c383 [47/48] ntfs: fix build error due to vma_desc_test() rename
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260416/202604162346.ovX9CHOt-lkp@intel.com/config)
 compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260416/202604162323.4pYsEj7A-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260416/202604162346.ovX9CHOt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604162323.4pYsEj7A-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604162346.ovX9CHOt-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/iio/accel/mma8452.c:1776:12: warning: 'mma8452_runtime_resume' defined but not used [-Wunused-function]
-    1776 | static int mma8452_runtime_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/iio/accel/mma8452.c:1747:12: warning: 'mma8452_runtime_suspend' defined but not used [-Wunused-function]
-    1747 | static int mma8452_runtime_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~
+   fs/ntfs/file.c: In function 'ntfs_file_mmap_prepare':
+>> fs/ntfs/file.c:657:13: error: implicit declaration of function 'vma_desc_test'; did you mean 'vma_desc_pages'? [-Wimplicit-function-declaration]
+     657 |         if (vma_desc_test(desc, VMA_WRITE_BIT)) {
+         |             ^~~~~~~~~~~~~
+         |             vma_desc_pages
 
 
-vim +/mma8452_runtime_resume +1776 drivers/iio/accel/mma8452.c
+vim +657 fs/ntfs/file.c
 
-c7eeea93ac60ab Peter Meerwald    2014-02-05  1746  
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03 @1747  static int mma8452_runtime_suspend(struct device *dev)
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1748  {
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1749  	struct iio_dev *indio_dev = i2c_get_clientdata(to_i2c_client(dev));
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1750  	struct mma8452_data *data = iio_priv(indio_dev);
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1751  	int ret;
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1752  
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1753  	mutex_lock(&data->lock);
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1754  	ret = mma8452_standby(data);
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1755  	mutex_unlock(&data->lock);
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1756  	if (ret < 0) {
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1757  		dev_err(&data->client->dev, "powering off device failed\n");
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1758  		return -EAGAIN;
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1759  	}
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1760  
-f6ff49b8a3b6f7 Anson Huang       2019-01-08  1761  	ret = regulator_disable(data->vddio_reg);
-f6ff49b8a3b6f7 Anson Huang       2019-01-08  1762  	if (ret) {
-f6ff49b8a3b6f7 Anson Huang       2019-01-08  1763  		dev_err(dev, "failed to disable VDDIO regulator\n");
-f6ff49b8a3b6f7 Anson Huang       2019-01-08  1764  		return ret;
-f6ff49b8a3b6f7 Anson Huang       2019-01-08  1765  	}
-f6ff49b8a3b6f7 Anson Huang       2019-01-08  1766  
-f6ff49b8a3b6f7 Anson Huang       2019-01-08  1767  	ret = regulator_disable(data->vdd_reg);
-f6ff49b8a3b6f7 Anson Huang       2019-01-08  1768  	if (ret) {
-f6ff49b8a3b6f7 Anson Huang       2019-01-08  1769  		dev_err(dev, "failed to disable VDD regulator\n");
-f6ff49b8a3b6f7 Anson Huang       2019-01-08  1770  		return ret;
-f6ff49b8a3b6f7 Anson Huang       2019-01-08  1771  	}
-f6ff49b8a3b6f7 Anson Huang       2019-01-08  1772  
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1773  	return 0;
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1774  }
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1775  
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03 @1776  static int mma8452_runtime_resume(struct device *dev)
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1777  {
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1778  	struct iio_dev *indio_dev = i2c_get_clientdata(to_i2c_client(dev));
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1779  	struct mma8452_data *data = iio_priv(indio_dev);
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1780  	int ret, sleep_val;
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1781  
-f6ff49b8a3b6f7 Anson Huang       2019-01-08  1782  	ret = regulator_enable(data->vdd_reg);
-f6ff49b8a3b6f7 Anson Huang       2019-01-08  1783  	if (ret) {
-f6ff49b8a3b6f7 Anson Huang       2019-01-08  1784  		dev_err(dev, "failed to enable VDD regulator\n");
-f6ff49b8a3b6f7 Anson Huang       2019-01-08  1785  		return ret;
-f6ff49b8a3b6f7 Anson Huang       2019-01-08  1786  	}
-f6ff49b8a3b6f7 Anson Huang       2019-01-08  1787  
-f6ff49b8a3b6f7 Anson Huang       2019-01-08  1788  	ret = regulator_enable(data->vddio_reg);
-f6ff49b8a3b6f7 Anson Huang       2019-01-08  1789  	if (ret) {
-f6ff49b8a3b6f7 Anson Huang       2019-01-08  1790  		dev_err(dev, "failed to enable VDDIO regulator\n");
-f6ff49b8a3b6f7 Anson Huang       2019-01-08  1791  		regulator_disable(data->vdd_reg);
-f6ff49b8a3b6f7 Anson Huang       2019-01-08  1792  		return ret;
-f6ff49b8a3b6f7 Anson Huang       2019-01-08  1793  	}
-f6ff49b8a3b6f7 Anson Huang       2019-01-08  1794  
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1795  	ret = mma8452_active(data);
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1796  	if (ret < 0)
-f6ff49b8a3b6f7 Anson Huang       2019-01-08  1797  		goto runtime_resume_failed;
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1798  
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1799  	ret = mma8452_get_odr_index(data);
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1800  	sleep_val = 1000 / mma8452_samp_freq[ret][0];
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1801  	if (sleep_val < 20)
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1802  		usleep_range(sleep_val * 1000, 20000);
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1803  	else
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1804  		msleep_interruptible(sleep_val);
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1805  
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1806  	return 0;
-96c0cb2bbfe0a5 Martin Kepplinger 2016-03-03  1807  
-f6ff49b8a3b6f7 Anson Huang       2019-01-08  1808  runtime_resume_failed:
-f6ff49b8a3b6f7 Anson Huang       2019-01-08  1809  	regulator_disable(data->vddio_reg);
-f6ff49b8a3b6f7 Anson Huang       2019-01-08  1810  	regulator_disable(data->vdd_reg);
-c7eeea93ac60ab Peter Meerwald    2014-02-05  1811  
-f6ff49b8a3b6f7 Anson Huang       2019-01-08  1812  	return ret;
-c7eeea93ac60ab Peter Meerwald    2014-02-05  1813  }
-c7eeea93ac60ab Peter Meerwald    2014-02-05  1814  
+   645	
+   646	static int ntfs_file_mmap_prepare(struct vm_area_desc *desc)
+   647	{
+   648		struct file *file = desc->file;
+   649		struct inode *inode = file_inode(file);
+   650	
+   651		if (NVolShutdown(NTFS_SB(file->f_mapping->host->i_sb)))
+   652			return -EIO;
+   653	
+   654		if (NInoCompressed(NTFS_I(inode)))
+   655			return -EOPNOTSUPP;
+   656	
+ > 657		if (vma_desc_test(desc, VMA_WRITE_BIT)) {
+   658			struct inode *inode = file_inode(file);
+   659			loff_t from, to;
+   660			int err;
+   661	
+   662			from = ((loff_t)desc->pgoff << PAGE_SHIFT);
+   663			to = min_t(loff_t, i_size_read(inode),
+   664				   from + desc->end - desc->start);
+   665	
+   666			if (NTFS_I(inode)->initialized_size < to) {
+   667				err = ntfs_extend_initialized_size(inode, to, to, false);
+   668				if (err)
+   669					return err;
+   670			}
+   671		}
+   672	
+   673	
+   674		file_accessed(file);
+   675		desc->vm_ops = &ntfs_file_vm_ops;
+   676		return 0;
+   677	}
+   678	
 
 -- 
 0-DAY CI Kernel Test Service
