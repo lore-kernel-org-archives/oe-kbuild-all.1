@@ -1,197 +1,291 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2742E1A9B58
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Apr 2026 00:45:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99FEF54723
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Apr 2026 01:06:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776300334; cv=none; b=UYIECzab5JxSdyZJM0+ePJRge9EztWo5P+HEg6upbUxTX6y5luZ3NqEVyFHq0phPGuVJ02hc+E0S+PBBxVMy7qrDIMUxrttehG2W2HpOQzdCkKzxgvTIhMcJS0JzpgbP0kO/IQJpHz/gIM8M6mWEuUe13JYSYoYWI9DTmUOJAeA=
+	t=1776301593; cv=none; b=keo1gnKmHGUZE+9wx6oUeCdu/7K2qlt83yr3qQEGlUcORnb5JaWJL9uFMJTmzLksc9Ns8zNF0L9CftwfXoKfVZBnThp1IjJVjWK6PPUEeZlyvyelQAvvE0aNCcIbR1pjdNQx/AJziEpz57bG2/cxmPMwBVlZRS3+VOEt8pLScQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776300334; c=relaxed/simple;
-	bh=EKiXs22KLTOQ+PHXm4m7qUKNooR/B4O9OhYHO9EirQk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=FCYbafufgqZRl04oeXzFvwSbBZ1ACITV0gwazq6idEUwo3Vdw3dK4nL9acNsg+rWM7Rvt4NyMg+1SaDuzF+PbtdnxzUWilm1K0fBPH/xRYCiFEgRB0IhFlRHMfqTcKTYCYqMBF87wgmZhU0qcOFi6QFfoSAwlbncLVELENV8UR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L3Ktl0DI; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1776301593; c=relaxed/simple;
+	bh=uq9sQlciTQwuiPuPiku8erRS7Ngl212BIwknGbAC5Zk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=sq3InHzRxoef3jWE5gEGKCLU9svrdFCtPOKuCxVzE4DFMwsR5OHqmG6trpM1MB+uZXZeiwcZcylLCUdevPVApJJrx5q8o2PAiqRt/xZC6A/Kwwq2j1Lmsd50C/tFpk8l+qUrvgtxeGM1DPKE4TSxUk4Qoj26r6uqvIa6xoz8rKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D6y6R+WX; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L3Ktl0DI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D6y6R+WX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776300331; x=1807836331;
-  h=date:from:to:cc:subject:message-id;
-  bh=EKiXs22KLTOQ+PHXm4m7qUKNooR/B4O9OhYHO9EirQk=;
-  b=L3Ktl0DIbAaYt+5iowPQm9VGLl6eyDAB9H4VlaLn5Pfc8nkTFeCY3his
-   +3LfxTdxh8pZhHp56BzDc62g3kxry1M5F08z0QZxrN1ybKuHuAHMw8NTD
-   XUhzUFYyFs4UfqwkwD4dARpj9T5fAdj5xOVsac+eL4yrJ7kLNbSSpD8d+
-   vi5rK22XkAipwd+LWMl4UGbcWQ9yjTtZp9hXBLKKFiMuOyoOvwvhYyyRc
-   8kbGsqLhRrc/y2XPjqV/o9PIxbIKEkmrth8k4W4wXjp0FGj5WyLAKDpWh
-   mVYcsE6sA4eUGo6NyMQ12lOk/AIhLTSB6+XsXx014GW88blyhxp0DKm95
+  t=1776301591; x=1807837591;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=uq9sQlciTQwuiPuPiku8erRS7Ngl212BIwknGbAC5Zk=;
+  b=D6y6R+WXIYW+Vx3jBepuDKAgoLcECiFzdk4CItI7JhrMOt8icCygD+W2
+   X+GcCQTbJNDDw/ddXvdwx3t/4NlWyRD4kwHOmWihp2iIKy+axGh5ccou1
+   bFWMWVDM8p3ryDC8OMYryu4ZqFK5ViN+3SNfHjBIgjTv7QDSdjB8yKrms
+   fqbjtJht2L58shHB6HiTvgo3Op21d6QLsRKf+NpxuUt5Jp8qKohFWWVcj
+   uIkwPySy9atDyj8KaZv3aXQFX1WZoQkV8dQKMAOF5zp28u1nkC6L/ScNI
+   MvIQ0VCRDo2QVN6l6+O5OlvTQFTiADScWTD1TXSyB76s/P63Z1AK+hmN2
    w==;
-X-CSE-ConnectionGUID: ng66S5tKRiKveApG03DjsQ==
-X-CSE-MsgGUID: 0X7MKcyMR2228KWy+rcveg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11760"; a="81163762"
+X-CSE-ConnectionGUID: nnhGOfT/TVG2t8tLG+hbGA==
+X-CSE-MsgGUID: mWE7K6ahToeSD50/V40C3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11760"; a="87914183"
 X-IronPort-AV: E=Sophos;i="6.23,181,1770624000"; 
-   d="scan'208";a="81163762"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2026 17:45:30 -0700
-X-CSE-ConnectionGUID: grulalwKRbei0Z8gat64tw==
-X-CSE-MsgGUID: k2SUgW56RS6FyfYUuJD8NQ==
+   d="scan'208";a="87914183"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2026 18:06:30 -0700
+X-CSE-ConnectionGUID: cpnojEsJT62JIPsicovXqg==
+X-CSE-MsgGUID: S8iiwzGcR1yf22YQl7/Hzg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,181,1770624000"; 
-   d="scan'208";a="268565980"
+   d="scan'208";a="226259277"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 15 Apr 2026 17:45:29 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 15 Apr 2026 18:06:28 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wDArG-000000000sv-4AHg;
-	Thu, 16 Apr 2026 00:45:26 +0000
-Date: Thu, 16 Apr 2026 02:45:03 +0200
+	id 1wDBBb-000000000tJ-1Uv1;
+	Thu, 16 Apr 2026 01:06:27 +0000
+Date: Thu, 16 Apr 2026 03:05:38 +0200
 From: kernel test robot <lkp@intel.com>
-To: Amery Hung <ameryhung@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: net/core/bpf_sk_storage.c:140:22: error: too many arguments
- to function 'bpf_selem_alloc'
-Message-ID: <202604160227.Jat81B7J-lkp@intel.com>
+To: Alexander Lobakin <aleksander.lobakin@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [alobakin:libeth 8/8] include/linux/build_bug.h:80:41:
+ error: static assertion failed: "offsetof(struct idpf_tx_queue,
+ __cacheline_group_end__read_write) - offsetofend(struct idpf_tx_queue,
+ __cacheline_group_begin__read_write) == (104 + __builtin_offsetof(struct
+ idpf_tx_queue,...
+Message-ID: <202604160220.Ekxe6WHC-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Amery-Hung/selftests-bpf-Remove-kmalloc-tracing-from-local-storage-create-bench/20260415-163526
-head:   22bd953a5faeea8dd0780f885b234d987745e31b
-commit: 22bd953a5faeea8dd0780f885b234d987745e31b bpf: Remove gfp_flags plumbing from bpf_local_storage_update()
-date:   16 hours ago
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260416/202604160227.Jat81B7J-lkp@intel.com/config)
+tree:   https://github.com/alobakin/linux libeth
+head:   2f4cad2257c116e3f47b7547bdd3412637a16b32
+commit: 2f4cad2257c116e3f47b7547bdd3412637a16b32 [8/8] idpf: add flow-based=
+ XDP fallback for FWs without Tx FIFO support
+config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/202604=
+16/202604160220.Ekxe6WHC-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260416/202604160227.Jat81B7J-lkp@intel.com/reproduce)
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260416/202604160220.Ekxe6WHC-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604160227.Jat81B7J-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604160220.Ekxe6WHC-lkp@i=
+ntel.com/
 
 All errors (new ones prefixed by >>):
 
-   net/core/bpf_sk_storage.c: In function 'bpf_sk_storage_clone_elem':
->> net/core/bpf_sk_storage.c:140:22: error: too many arguments to function 'bpf_selem_alloc'
-     140 |         copy_selem = bpf_selem_alloc(smap, newsk, NULL, false, GFP_ATOMIC);
-         |                      ^~~~~~~~~~~~~~~
-   In file included from net/core/bpf_sk_storage.c:11:
-   include/linux/bpf_local_storage.h:190:1: note: declared here
-     190 | bpf_selem_alloc(struct bpf_local_storage_map *smap, void *owner, void *value,
-         | ^~~~~~~~~~~~~~~
-   net/core/bpf_sk_storage.c: In function 'bpf_sk_storage_clone':
->> net/core/bpf_sk_storage.c:205:31: error: too many arguments to function 'bpf_local_storage_alloc'
-     205 |                         ret = bpf_local_storage_alloc(newsk, smap, copy_selem, GFP_ATOMIC);
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bpf_local_storage.h:197:1: note: declared here
-     197 | bpf_local_storage_alloc(void *owner,
-         | ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/minmax.h:5,
+                    from include/linux/jiffies.h:8,
+                    from include/net/pkt_sched.h:5,
+                    from drivers/net/ethernet/intel/idpf/idpf.h:14,
+                    from drivers/net/ethernet/intel/idpf/idpf_dev.c:4:
+>> include/linux/build_bug.h:80:41: error: static assertion failed: "offset=
+of(struct idpf_tx_queue, __cacheline_group_end__read_write) - offsetofend(s=
+truct idpf_tx_queue, __cacheline_group_begin__read_write) =3D=3D (104 + __b=
+uiltin_offsetof(struct idpf_tx_queue, cached_tstamp_caps) - (__builtin_offs=
+etof(struct idpf_tx_queue, timer) + sizeof((((struct idpf_tx_queue *)0)->ti=
+mer))) + __builtin_offsetof(struct idpf_tx_queue, q_stats) - (__builtin_off=
+setof(struct idpf_tx_queue, tstamp_task) + sizeof((((struct idpf_tx_queue *=
+)0)->tstamp_task))))"
+      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:79:34: note: in expansion of macro '__static_a=
+ssert'
+      79 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_AR=
+GS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   include/net/libeth/cache.h:17:9: note: in expansion of macro 'static_ass=
+ert'
+      17 |         static_assert(offsetof(type, __cacheline_group_end__##gr=
+p) -          \
+         |         ^~~~~~~~~~~~~
+   include/net/libeth/cache.h:62:9: note: in expansion of macro 'libeth_cac=
+heline_group_assert'
+      62 |         libeth_cacheline_group_assert(type, read_write, rw);    =
+              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/idpf/idpf_txrx.h:724:1: note: in expansion of=
+ macro 'libeth_cacheline_set_assert'
+     724 | libeth_cacheline_set_assert(struct idpf_tx_queue, 64,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/build_bug.h:80:41: error: static assertion failed: "sizeof=
+(struct idpf_tx_queue) =3D=3D ((((((64)) + ((__typeof__((64)))(((1 << (6)))=
+) - 1)) & ~((__typeof__((64)))(((1 << (6)))) - 1)) + ((((104 + __builtin_of=
+fsetof(struct idpf_tx_queue, cached_tstamp_caps) - (__builtin_offsetof(stru=
+ct idpf_tx_queue, timer) + sizeof((((struct idpf_tx_queue *)0)->timer))) + =
+__builtin_offsetof(struct idpf_tx_queue, q_stats) - (__builtin_offsetof(str=
+uct idpf_tx_queue, tstamp_task) + sizeof((((struct idpf_tx_queue *)0)->tsta=
+mp_task))))) + ((__typeof__((104 + __builtin_offsetof(struct idpf_tx_queue,=
+ cached_tstamp_caps) - (__builtin_offsetof(struct idpf_tx_queue, timer) + s=
+izeof((((struct idpf_tx_queue *)0)->timer))) + __builtin_offsetof(struct id=
+pf_tx_queue, q_stats) - (__builtin_offsetof(struct idpf_tx_queue, tstamp_ta=
+sk) + sizeof((((struct idpf_tx_queue *)0)->tstamp_task))))))(((1 << (6)))) =
+- 1)) & ~((__typeof__((104 + __builtin_offsetof(struct idpf_tx_queue, cache=
+d_tstamp_caps) - (__builtin_offsetof(struct idpf_tx_queue, timer) + sizeof(=
+(((struct idpf_tx_queue *)0)->timer))) + __builtin_offsetof(struct idpf_tx_=
+queue, q_stats) - (__builtin_offsetof(struct idpf_tx_queue, tstamp_task) + =
+sizeof((((struct idpf_tx_queue *)0)->tstamp_task))))))(((1 << (6)))) - 1)) =
++ ((((32)) + ((__typeof__((32)))(((1 << (6)))) - 1)) & ~((__typeof__((32)))=
+(((1 << (6)))) - 1))))"
+      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:79:34: note: in expansion of macro '__static_a=
+ssert'
+      79 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_AR=
+GS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   include/net/libeth/cache.h:21:9: note: in expansion of macro 'static_ass=
+ert'
+      21 |         static_assert(sizeof(type) =3D=3D (sz))
+         |         ^~~~~~~~~~~~~
+   include/net/libeth/cache.h:48:9: note: in expansion of macro '__libeth_c=
+acheline_struct_assert'
+      48 |         __libeth_cacheline_struct_assert(type, __libeth_cls(__VA=
+_ARGS__));    \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/libeth/cache.h:64:9: note: in expansion of macro 'libeth_cac=
+heline_struct_assert'
+      64 |         libeth_cacheline_struct_assert(type, ro, rw, c)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/idpf/idpf_txrx.h:724:1: note: in expansion of=
+ macro 'libeth_cacheline_set_assert'
+     724 | libeth_cacheline_set_assert(struct idpf_tx_queue, 64,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/minmax.h:5,
+                    from include/linux/jiffies.h:8,
+                    from include/net/pkt_sched.h:5,
+                    from idpf.h:14,
+                    from idpf_dev.c:4:
+>> include/linux/build_bug.h:80:41: error: static assertion failed: "offset=
+of(struct idpf_tx_queue, __cacheline_group_end__read_write) - offsetofend(s=
+truct idpf_tx_queue, __cacheline_group_begin__read_write) =3D=3D (104 + __b=
+uiltin_offsetof(struct idpf_tx_queue, cached_tstamp_caps) - (__builtin_offs=
+etof(struct idpf_tx_queue, timer) + sizeof((((struct idpf_tx_queue *)0)->ti=
+mer))) + __builtin_offsetof(struct idpf_tx_queue, q_stats) - (__builtin_off=
+setof(struct idpf_tx_queue, tstamp_task) + sizeof((((struct idpf_tx_queue *=
+)0)->tstamp_task))))"
+      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:79:34: note: in expansion of macro '__static_a=
+ssert'
+      79 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_AR=
+GS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   include/net/libeth/cache.h:17:9: note: in expansion of macro 'static_ass=
+ert'
+      17 |         static_assert(offsetof(type, __cacheline_group_end__##gr=
+p) -          \
+         |         ^~~~~~~~~~~~~
+   include/net/libeth/cache.h:62:9: note: in expansion of macro 'libeth_cac=
+heline_group_assert'
+      62 |         libeth_cacheline_group_assert(type, read_write, rw);    =
+              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   idpf_txrx.h:724:1: note: in expansion of macro 'libeth_cacheline_set_ass=
+ert'
+     724 | libeth_cacheline_set_assert(struct idpf_tx_queue, 64,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/build_bug.h:80:41: error: static assertion failed: "sizeof=
+(struct idpf_tx_queue) =3D=3D ((((((64)) + ((__typeof__((64)))(((1 << (6)))=
+) - 1)) & ~((__typeof__((64)))(((1 << (6)))) - 1)) + ((((104 + __builtin_of=
+fsetof(struct idpf_tx_queue, cached_tstamp_caps) - (__builtin_offsetof(stru=
+ct idpf_tx_queue, timer) + sizeof((((struct idpf_tx_queue *)0)->timer))) + =
+__builtin_offsetof(struct idpf_tx_queue, q_stats) - (__builtin_offsetof(str=
+uct idpf_tx_queue, tstamp_task) + sizeof((((struct idpf_tx_queue *)0)->tsta=
+mp_task))))) + ((__typeof__((104 + __builtin_offsetof(struct idpf_tx_queue,=
+ cached_tstamp_caps) - (__builtin_offsetof(struct idpf_tx_queue, timer) + s=
+izeof((((struct idpf_tx_queue *)0)->timer))) + __builtin_offsetof(struct id=
+pf_tx_queue, q_stats) - (__builtin_offsetof(struct idpf_tx_queue, tstamp_ta=
+sk) + sizeof((((struct idpf_tx_queue *)0)->tstamp_task))))))(((1 << (6)))) =
+- 1)) & ~((__typeof__((104 + __builtin_offsetof(struct idpf_tx_queue, cache=
+d_tstamp_caps) - (__builtin_offsetof(struct idpf_tx_queue, timer) + sizeof(=
+(((struct idpf_tx_queue *)0)->timer))) + __builtin_offsetof(struct idpf_tx_=
+queue, q_stats) - (__builtin_offsetof(struct idpf_tx_queue, tstamp_task) + =
+sizeof((((struct idpf_tx_queue *)0)->tstamp_task))))))(((1 << (6)))) - 1)) =
++ ((((32)) + ((__typeof__((32)))(((1 << (6)))) - 1)) & ~((__typeof__((32)))=
+(((1 << (6)))) - 1))))"
+      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:79:34: note: in expansion of macro '__static_a=
+ssert'
+      79 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_AR=
+GS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   include/net/libeth/cache.h:21:9: note: in expansion of macro 'static_ass=
+ert'
+      21 |         static_assert(sizeof(type) =3D=3D (sz))
+         |         ^~~~~~~~~~~~~
+   include/net/libeth/cache.h:48:9: note: in expansion of macro '__libeth_c=
+acheline_struct_assert'
+      48 |         __libeth_cacheline_struct_assert(type, __libeth_cls(__VA=
+_ARGS__));    \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/libeth/cache.h:64:9: note: in expansion of macro 'libeth_cac=
+heline_struct_assert'
+      64 |         libeth_cacheline_struct_assert(type, ro, rw, c)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   idpf_txrx.h:724:1: note: in expansion of macro 'libeth_cacheline_set_ass=
+ert'
+     724 | libeth_cacheline_set_assert(struct idpf_tx_queue, 64,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/bpf_selem_alloc +140 net/core/bpf_sk_storage.c
+vim +80 include/linux/build_bug.h
 
-6ac99e8f23d4b1 Martin KaFai Lau        2019-04-26  132  
-1f00d375af84fb KP Singh                2020-08-25  133  static struct bpf_local_storage_elem *
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  134  bpf_sk_storage_clone_elem(struct sock *newsk,
-1f00d375af84fb KP Singh                2020-08-25  135  			  struct bpf_local_storage_map *smap,
-1f00d375af84fb KP Singh                2020-08-25  136  			  struct bpf_local_storage_elem *selem)
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  137  {
-1f00d375af84fb KP Singh                2020-08-25  138  	struct bpf_local_storage_elem *copy_selem;
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  139  
-0e854e55356908 Amery Hung              2025-11-14 @140  	copy_selem = bpf_selem_alloc(smap, newsk, NULL, false, GFP_ATOMIC);
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  141  	if (!copy_selem)
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  142  		return NULL;
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  143  
-db559117828d24 Kumar Kartikeya Dwivedi 2022-11-04  144  	if (btf_record_has_field(smap->map.record, BPF_SPIN_LOCK))
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  145  		copy_map_value_locked(&smap->map, SDATA(copy_selem)->data,
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  146  				      SDATA(selem)->data, true);
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  147  	else
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  148  		copy_map_value(&smap->map, SDATA(copy_selem)->data,
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  149  			       SDATA(selem)->data);
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  150  
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  151  	return copy_selem;
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  152  }
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  153  
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  154  int bpf_sk_storage_clone(const struct sock *sk, struct sock *newsk)
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  155  {
-1f00d375af84fb KP Singh                2020-08-25  156  	struct bpf_local_storage *new_sk_storage = NULL;
-1f00d375af84fb KP Singh                2020-08-25  157  	struct bpf_local_storage *sk_storage;
-1f00d375af84fb KP Singh                2020-08-25  158  	struct bpf_local_storage_elem *selem;
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  159  	int ret = 0;
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  160  
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  161  	RCU_INIT_POINTER(newsk->sk_bpf_storage, NULL);
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  162  
-0db4941d9dae15 Fushuai Wang            2025-10-07  163  	rcu_read_lock_dont_migrate();
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  164  	sk_storage = rcu_dereference(sk->sk_bpf_storage);
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  165  
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  166  	if (!sk_storage || hlist_empty(&sk_storage->list))
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  167  		goto out;
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  168  
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  169  	hlist_for_each_entry_rcu(selem, &sk_storage->list, snode) {
-1f00d375af84fb KP Singh                2020-08-25  170  		struct bpf_local_storage_elem *copy_selem;
-1f00d375af84fb KP Singh                2020-08-25  171  		struct bpf_local_storage_map *smap;
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  172  		struct bpf_map *map;
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  173  
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  174  		smap = rcu_dereference(SDATA(selem)->smap);
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  175  		if (!(smap->map.map_flags & BPF_F_CLONE))
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  176  			continue;
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  177  
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  178  		/* Note that for lockless listeners adding new element
-1f00d375af84fb KP Singh                2020-08-25  179  		 * here can race with cleanup in bpf_local_storage_map_free.
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  180  		 * Try to grab map refcnt to make sure that it's still
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  181  		 * alive and prevent concurrent removal.
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  182  		 */
-1e0bd5a091e5d9 Andrii Nakryiko         2019-11-17  183  		map = bpf_map_inc_not_zero(&smap->map);
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  184  		if (IS_ERR(map))
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  185  			continue;
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  186  
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  187  		copy_selem = bpf_sk_storage_clone_elem(newsk, smap, selem);
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  188  		if (!copy_selem) {
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  189  			ret = -ENOMEM;
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  190  			bpf_map_put(map);
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  191  			goto out;
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  192  		}
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  193  
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  194  		if (new_sk_storage) {
-fd103ffc57c9a3 Amery Hung              2026-02-05  195  			ret = bpf_selem_link_map(smap, new_sk_storage, copy_selem);
-fd103ffc57c9a3 Amery Hung              2026-02-05  196  			if (ret) {
-fd103ffc57c9a3 Amery Hung              2026-02-05  197  				bpf_selem_free(copy_selem, true);
-fd103ffc57c9a3 Amery Hung              2026-02-05  198  				atomic_sub(smap->elem_size,
-fd103ffc57c9a3 Amery Hung              2026-02-05  199  					   &newsk->sk_omem_alloc);
-fd103ffc57c9a3 Amery Hung              2026-02-05  200  				bpf_map_put(map);
-fd103ffc57c9a3 Amery Hung              2026-02-05  201  				goto out;
-fd103ffc57c9a3 Amery Hung              2026-02-05  202  			}
-1f00d375af84fb KP Singh                2020-08-25  203  			bpf_selem_link_storage_nolock(new_sk_storage, copy_selem);
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  204  		} else {
-b00fa38a9c1cba Joanne Koong            2022-03-17 @205  			ret = bpf_local_storage_alloc(newsk, smap, copy_selem, GFP_ATOMIC);
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  206  			if (ret) {
-e76a33e1c71865 Amery Hung              2025-11-14  207  				bpf_selem_free(copy_selem, true);
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  208  				atomic_sub(smap->elem_size,
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  209  					   &newsk->sk_omem_alloc);
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  210  				bpf_map_put(map);
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  211  				goto out;
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  212  			}
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  213  
-1f00d375af84fb KP Singh                2020-08-25  214  			new_sk_storage =
-1f00d375af84fb KP Singh                2020-08-25  215  				rcu_dereference(copy_selem->local_storage);
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  216  		}
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  217  		bpf_map_put(map);
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  218  	}
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  219  
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  220  out:
-0db4941d9dae15 Fushuai Wang            2025-10-07  221  	rcu_read_unlock_migrate();
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  222  
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  223  	/* In case of an error, don't free anything explicitly here, the
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  224  	 * caller is responsible to call bpf_sk_storage_free.
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  225  	 */
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  226  
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  227  	return ret;
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  228  }
-8f51dfc73bf181 Stanislav Fomichev      2019-08-14  229  
+bc6245e5efd70c Ian Abbott       2017-07-10  61 =20
+6bab69c65013be Rasmus Villemoes 2019-03-07  62  /**
+6bab69c65013be Rasmus Villemoes 2019-03-07  63   * static_assert - check in=
+teger constant expression at build time
+6ffd853b0b10e1 Randy Dunlap     2026-03-01  64   * @expr: expression to be =
+checked
+6bab69c65013be Rasmus Villemoes 2019-03-07  65   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  66   * static_assert() is a wra=
+pper for the C11 _Static_assert, with a
+6bab69c65013be Rasmus Villemoes 2019-03-07  67   * little macro magic to ma=
+ke the message optional (defaulting to the
+6bab69c65013be Rasmus Villemoes 2019-03-07  68   * stringification of the t=
+ested expression).
+6bab69c65013be Rasmus Villemoes 2019-03-07  69   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  70   * Contrary to BUILD_BUG_ON=
+(), static_assert() can be used at global
+6bab69c65013be Rasmus Villemoes 2019-03-07  71   * scope, but requires the =
+expression to be an integer constant
+6bab69c65013be Rasmus Villemoes 2019-03-07  72   * expression (i.e., it is =
+not enough that __builtin_constant_p() is
+6bab69c65013be Rasmus Villemoes 2019-03-07  73   * true for expr).
+6bab69c65013be Rasmus Villemoes 2019-03-07  74   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  75   * Also note that BUILD_BUG=
+_ON() fails the build if the condition is
+6bab69c65013be Rasmus Villemoes 2019-03-07  76   * true, while static_asser=
+t() fails the build if the expression is
+6bab69c65013be Rasmus Villemoes 2019-03-07  77   * false.
+6bab69c65013be Rasmus Villemoes 2019-03-07  78   */
+6bab69c65013be Rasmus Villemoes 2019-03-07  79  #define static_assert(expr,=
+ ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+6bab69c65013be Rasmus Villemoes 2019-03-07 @80  #define __static_assert(exp=
+r, msg, ...) _Static_assert(expr, msg)
+6bab69c65013be Rasmus Villemoes 2019-03-07  81 =20
+07a368b3f55a79 Maxim Levitsky   2022-10-25  82 =20
 
--- 
+:::::: The code at line 80 was first introduced by commit
+:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper fo=
+r _Static_assert
+
+:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
