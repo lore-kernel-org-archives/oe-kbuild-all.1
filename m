@@ -1,190 +1,131 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C1A82ED846
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Apr 2026 21:37:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FBD61F5834
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Apr 2026 21:38:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776375430; cv=none; b=cXoOo5a4z69mUdDom0j5CiS3n0SBsOI7O2OHxSUphlAaxqfnLnSgzd6Yku/VXIESTlTf9bDTfAcUI0jc5avfxvv8JH8ZkIMV0EC3oLp/n8i+L5CsUGKNEKNrd1G/j36JBJdAPL0Q4xdyo/eJEnWTzcb4Ig8X9hI+00BeCSU1O3Q=
+	t=1776375506; cv=none; b=YI7sm3k0x76h5wVCpMHUrnMcAjY9xoEqoYpCMpcQ6nxy6Av7yxeOj7UHuSWX6V1EtSGK2rNcY9ZGpVejLYAGf3VvPfDADKIrhaHaYKyQTfKHi45MCpyPDQS9INCWNRO4+T7LkWFWRozvIJUZnh8yqIu65ghSUoWzplCfnpCRbIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776375430; c=relaxed/simple;
-	bh=LdyxjFLtCy2JeIn7eF016mTzRc4xdH1BhX+SjnX5NAQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oZKVY0Eqiwa3rBxL9+8m1+1fI4Z9BW+L3vcAtScbuZql3xXX+90CKuDU5i7GzgrlO1MOZjBCkk0EhgMC3JkFqq1N5fZ0T0W9RvAplqVavUP32oEQ94R76AU9c7n2OPibXI+9gN2VwOJdn5awl66ug8kfzfXO/VxthkHeo0BRxdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=h8TjBKx+; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=mW0IM+rB; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=h8TjBKx+; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=mW0IM+rB; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1776375506; c=relaxed/simple;
+	bh=xMsPUsNVkgV/Ej8JipbLnkxws2FnJJTbZIipqFsN4lk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UfbwUY5lZvYFe165i8Wk5g1fGh/sQ8kOdHd6X3SOJ58+/EgGwivjw8ypGEJbBGcZ3Vq+tg0AkFCjJEccou3edKs2ADkczMiHdRi2yvJ54+8C6bk2MNifmYAZuIjF82RUKTjZIG7OX+zyw7qq9dVi6eJKcT7wExL6mGRpzC2ElyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fSJkw4mb; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="h8TjBKx+";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="mW0IM+rB";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="h8TjBKx+";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="mW0IM+rB"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D334B5BD2C;
-	Thu, 16 Apr 2026 21:37:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1776375427;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ye3JDHAihhCepJGadU03oHvkLwg7vGlrs3XwgnU2Xy8=;
-	b=h8TjBKx+cN89ISF/jUvkRNqmj4TqX1Iq1MVnMfFdD6qe8BTseLN6V/aEQOgwMV7DkzHojY
-	Str5S6kuJfcKRsqE8WU10SsxgfMQxL5nHmWqS5HerNYfQwIoHMM+msYOW5H2Ofy043GlFu
-	8FSPEeAeVpoIfuTKkUNBxfW4lxr3JLo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1776375427;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ye3JDHAihhCepJGadU03oHvkLwg7vGlrs3XwgnU2Xy8=;
-	b=mW0IM+rBYludQ3gUdKIuMBTPpdBVkS63qQunjWhjmrN3DiqEY3dmYuxuiQaVmjiz4fmE2C
-	qSIJAgcNC0pJQvAA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1776375427;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ye3JDHAihhCepJGadU03oHvkLwg7vGlrs3XwgnU2Xy8=;
-	b=h8TjBKx+cN89ISF/jUvkRNqmj4TqX1Iq1MVnMfFdD6qe8BTseLN6V/aEQOgwMV7DkzHojY
-	Str5S6kuJfcKRsqE8WU10SsxgfMQxL5nHmWqS5HerNYfQwIoHMM+msYOW5H2Ofy043GlFu
-	8FSPEeAeVpoIfuTKkUNBxfW4lxr3JLo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1776375427;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ye3JDHAihhCepJGadU03oHvkLwg7vGlrs3XwgnU2Xy8=;
-	b=mW0IM+rBYludQ3gUdKIuMBTPpdBVkS63qQunjWhjmrN3DiqEY3dmYuxuiQaVmjiz4fmE2C
-	qSIJAgcNC0pJQvAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AE2A3593A3;
-	Thu, 16 Apr 2026 21:37:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id rmFLKoNW4WkPNAAAD6G6ig
-	(envelope-from <dsterba@suse.cz>); Thu, 16 Apr 2026 21:37:07 +0000
-Date: Thu, 16 Apr 2026 23:37:06 +0200
-From: David Sterba <dsterba@suse.cz>
-To: kernel test robot <lkp@intel.com>
-Cc: David Sterba <dsterba@suse.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, Qu Wenruo <wqu@suse.com>
-Subject: Re: [btrfs:ci-kvm-misc-next 143/160] fs/btrfs/ioctl.c:4179:6:
- warning: unused variable 'ret'
-Message-ID: <20260416213706.GT12792@suse.cz>
-Reply-To: dsterba@suse.cz
-References: <202604162130.a7ymx66r-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fSJkw4mb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776375504; x=1807911504;
+  h=date:from:to:cc:subject:message-id;
+  bh=xMsPUsNVkgV/Ej8JipbLnkxws2FnJJTbZIipqFsN4lk=;
+  b=fSJkw4mbLqWrl70TGDveDqAVQotHx7nm2u/archgpH4FedANqUnFR3TX
+   Elzub3/p8t1TTv92nOno3dBrtJ8yTV29u3h8yCsK0VKqSbrmti3LqfvFo
+   K03GSOJFN7ROiGN49bjMLSSJN+C4f/oP6UnNtaiKjsaR9DMQoPTfXwgWg
+   DhJeXIjnCiIZ3mHhasnFF60TkBR8hxW79rjly6tF6WU/ymPxMq8dazfpW
+   7fsYMBVEhmWEAdEU1FNHt1Xixx5OWeVjUXDnVuhUjB/YD2Ub4xVhMaSVq
+   mt/ycbLhiCcuXV/eQuxbYS7m5J5z+oUcUrrshvZRkNRrhfYgmqFrDm8rY
+   g==;
+X-CSE-ConnectionGUID: hef0FZaHQPGK7DE7WnuX2w==
+X-CSE-MsgGUID: LR5AzQsDT16Ajw+EiW3OYg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11761"; a="80988145"
+X-IronPort-AV: E=Sophos;i="6.23,183,1770624000"; 
+   d="scan'208";a="80988145"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2026 14:38:24 -0700
+X-CSE-ConnectionGUID: oBQFwDLZSdytuZhkkOSIBQ==
+X-CSE-MsgGUID: ZMIGHVY8S7eY//ccfwuYVg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,183,1770624000"; 
+   d="scan'208";a="226505227"
+Received: from lkp-server01.sh.intel.com (HELO 7f3b36e5d6a5) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 16 Apr 2026 14:38:22 -0700
+Received: from kbuild by 7f3b36e5d6a5 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wDUPj-000000001za-3tmT;
+	Thu, 16 Apr 2026 21:38:19 +0000
+Date: Fri, 17 Apr 2026 05:37:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Anna Schumaker <anna.schumaker@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anna-nfs:dir-delegations/client2 153/155]
+ fs/nfs/callback_proc.c:432 nfs4_callback_notify() warn: unsigned 'res' is
+ never less than zero.
+Message-ID: <202604170512.w8ko8b5H-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202604162130.a7ymx66r-lkp@intel.com>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
-X-Spam-Score: -4.00
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	HAS_REPLYTO(0.30)[dsterba@suse.cz];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	REPLYTO_ADDR_EQ_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email];
-	RCVD_COUNT_TWO(0.00)[2];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[]
-X-Spam-Flag: NO
 
-On Thu, Apr 16, 2026 at 09:27:45PM +0200, kernel test robot wrote:
-> tree:   https://github.com/btrfs/linux.git ci-kvm-misc-next
-> head:   8e37b8ffd9d4e4c1e43f45dd91f5c53e19520811
-> commit: ef0c33ef0f4020b31bca106645340968f1a497bb [143/160] btrfs: convert ioctl handlers to AUTO_KFREE
-> config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260416/202604162130.a7ymx66r-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260416/202604162130.a7ymx66r-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202604162130.a7ymx66r-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> fs/btrfs/ioctl.c:4179:6: warning: unused variable 'ret' [-Wunused-variable]
->     4179 |         int ret;
->          |             ^~~
->    1 warning generated.
-> 
-> 
-> vim +/ret +4179 fs/btrfs/ioctl.c
-> 
-> 2eaa055fab4e31 Jeff Mahoney   2013-11-15  4175  
-> 4e043cd196c85b David Sterba   2025-03-03  4176  static int _btrfs_ioctl_send(struct btrfs_root *root, void __user *argp, bool compat)
-> 2351f431f72722 Josef Bacik    2017-09-27  4177  {
-> ef0c33ef0f4020 David Sterba   2026-04-14  4178  	struct btrfs_ioctl_send_args AUTO_KFREE(arg);
-> 2351f431f72722 Josef Bacik    2017-09-27 @4179  	int ret;
-> 2351f431f72722 Josef Bacik    2017-09-27  4180  
-> 2351f431f72722 Josef Bacik    2017-09-27  4181  	if (compat) {
-> 2351f431f72722 Josef Bacik    2017-09-27  4182  #if defined(CONFIG_64BIT) && defined(CONFIG_COMPAT)
+tree:   git://git.linux-nfs.org/projects/anna/linux-nfs.git dir-delegations/client2
+head:   3c8c0b59c6a78d787961c27e97a799a2cf869a5c
+commit: 21fe64ccdc08024cafc2e90dc506cbfbee5866e5 [153/155] NFS: Add support for CB_NOTIFY4_REMOVE_ENTRY
+config: i386-randconfig-141-20260416 (https://download.01.org/0day-ci/archive/20260417/202604170512.w8ko8b5H-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9007-gcf3ea02b
 
-CONFIG_COMPAT is not defined so 'ret' is indeed not used.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604170512.w8ko8b5H-lkp@intel.com/
 
-> 9147b9ded499d9 Josef Bacik    2023-09-26  4183  		struct btrfs_ioctl_send_args_32 args32 = { 0 };
-> 2351f431f72722 Josef Bacik    2017-09-27  4184  
-> 2351f431f72722 Josef Bacik    2017-09-27  4185  		ret = copy_from_user(&args32, argp, sizeof(args32));
-> 2351f431f72722 Josef Bacik    2017-09-27  4186  		if (ret)
-> 2351f431f72722 Josef Bacik    2017-09-27  4187  			return -EFAULT;
-> bf4afc53b77aea Linus Torvalds 2026-02-21  4188  		arg = kzalloc_obj(*arg);
-> 2351f431f72722 Josef Bacik    2017-09-27  4189  		if (!arg)
-> 2351f431f72722 Josef Bacik    2017-09-27  4190  			return -ENOMEM;
-> 2351f431f72722 Josef Bacik    2017-09-27  4191  		arg->send_fd = args32.send_fd;
-> 2351f431f72722 Josef Bacik    2017-09-27  4192  		arg->clone_sources_count = args32.clone_sources_count;
-> 2351f431f72722 Josef Bacik    2017-09-27  4193  		arg->clone_sources = compat_ptr(args32.clone_sources);
-> 2351f431f72722 Josef Bacik    2017-09-27  4194  		arg->parent_root = args32.parent_root;
-> 2351f431f72722 Josef Bacik    2017-09-27  4195  		arg->flags = args32.flags;
-> 5de0434bc06460 David Sterba   2023-11-14  4196  		arg->version = args32.version;
-> 2351f431f72722 Josef Bacik    2017-09-27  4197  		memcpy(arg->reserved, args32.reserved,
-> 2351f431f72722 Josef Bacik    2017-09-27  4198  		       sizeof(args32.reserved));
-> 2351f431f72722 Josef Bacik    2017-09-27  4199  #else
-> 2351f431f72722 Josef Bacik    2017-09-27  4200  		return -ENOTTY;
-> 2351f431f72722 Josef Bacik    2017-09-27  4201  #endif
-> 2351f431f72722 Josef Bacik    2017-09-27  4202  	} else {
-> 2351f431f72722 Josef Bacik    2017-09-27  4203  		arg = memdup_user(argp, sizeof(*arg));
-> 2351f431f72722 Josef Bacik    2017-09-27  4204  		if (IS_ERR(arg))
-> 2351f431f72722 Josef Bacik    2017-09-27  4205  			return PTR_ERR(arg);
-> 2351f431f72722 Josef Bacik    2017-09-27  4206  	}
-> ef0c33ef0f4020 David Sterba   2026-04-14  4207  	return btrfs_ioctl_send(root, arg);
-> 2351f431f72722 Josef Bacik    2017-09-27  4208  }
-> 2351f431f72722 Josef Bacik    2017-09-27  4209  
-> 
-> :::::: The code at line 4179 was first introduced by commit
-> :::::: 2351f431f727223b4d82851ee8fc045bf51edd34 btrfs: fix send ioctl on 32bit with 64bit kernel
-> 
-> :::::: TO: Josef Bacik <josef@toxicpanda.com>
-> :::::: CC: David Sterba <dsterba@suse.com>
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+smatch warnings:
+fs/nfs/callback_proc.c:432 nfs4_callback_notify() warn: unsigned 'res' is never less than zero.
+
+vim +/res +432 fs/nfs/callback_proc.c
+
+   394	
+   395	__be32 nfs4_callback_notify(void *argp, void *resp,
+   396				    struct cb_process_state *cps)
+   397	{
+   398		struct cb_notifyargs *args = argp;
+   399		struct dentry *parent;
+   400		struct inode *inode;
+   401		unsigned int i;
+   402		__be32 res;
+   403	
+   404		if (!cps->clp) {
+   405			res = htonl(NFS4ERR_OP_NOT_IN_SESSION);
+   406			goto out;
+   407		}
+   408	
+   409		inode = nfs_delegation_find_inode(cps->clp, &args->cna_fh);
+   410		if (IS_ERR(inode)) {
+   411			res = htonl(NFS4ERR_BADHANDLE);
+   412			goto out;
+   413		}
+   414		parent = d_find_alias(inode);
+   415		if (!parent) {
+   416			res = 0;
+   417			goto out;
+   418		}
+   419	
+   420		for (i = 0; i < args->cna_n_changes; i++) {
+   421			struct cb_notify_changes *change = &args->cna_changes[i];
+   422	
+   423			switch (change->notify_mask) {
+   424			case CB_NOTIFY4_REMOVE_ENTRY:
+   425				res = nfs4_cb_notify_remove(cps, parent,
+   426							    &change->notify_remove);
+   427				break;
+   428			default:
+   429				return htonl(NFS4ERR_NOTSUPP);
+   430			}
+   431	
+ > 432			if (res < 0)
+   433				break;
+   434		}
+   435	
+   436		dput(parent);
+   437	out:
+   438		kfree(args->cna_changes);
+   439		return res;
+   440	}
+   441	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
