@@ -1,55 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 505C3342539
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Apr 2026 19:38:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A182352F95;
+	Thu, 16 Apr 2026 20:33:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776368326; cv=none; b=gwcNSK5tlY9JwkZcDZxqoWmOYWUQrkb1628lBMMoT04laKqsotDyVq3hmKcTBAmrAtqAgw4ZMLbo/mAUpttTprVmvUkYgiF5K1jGsRX05doK3MlYU93bqd4a0xOfWCpYQW3NBCHbkaf0kCkQ+tdAZL5EDnxTPadYw3JqvwKyKDk=
+	t=1776371602; cv=none; b=QIuu50hw7IBueFrdwHCQm9lfJKw/MlGrz5Z4nC9XvRoHrA2G329RU7/r5jEWm4t+fq8CCuadIE+MTGUDFOl13KYTCphqahluAgx0BSn8ao0NjHCnv3M70UooKN5OlkVsI7nI6oufBz3/G1kniN0n4LEeceI/8BQfcb/xI4mQ4BQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776368326; c=relaxed/simple;
-	bh=TUI16hRsZBgUg0hG46OIFVxLwPBsC1RE377kspb6oio=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KRdNBPfA3YNdtzWGqPx2vM/X5YcCd1qDBm/At0uQslhDBmuDRNDvK0vdiAMqcVsGAnJk+jFbEuGOuC8FRjxoGBmKN9uyPBRoRkloddt8MWR4HFK4gsifUYaNwbUq/ZNJUvGK6mFss+blvL2QwsySMrd2qokgCACkFNTVaKlgkag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HQdim8S4; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1776371602; c=relaxed/simple;
+	bh=Ei5va1fjDg0bcmTbnHyQtpvSn+raLTs8Tox89Wo4KIo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=bAW5LK+nH6IsABMAPwKE4Nu3WLqmBxhAX72t2YsDPsNIT/ykJyjRj4YPgOTHuZEGd9AsyXZMN3tXI/Z9KDXN4NHdiw/qjAI+ZIuOzzKRAHF2tN9nD1Kk0NQ0kQfxRoW0X8lzmfz9CoygZXbWRi9S4sH/7P0JlHex2AKg49BjLsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QP4YsaIf; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HQdim8S4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QP4YsaIf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776368323; x=1807904323;
+  t=1776371601; x=1807907601;
   h=date:from:to:cc:subject:message-id;
-  bh=TUI16hRsZBgUg0hG46OIFVxLwPBsC1RE377kspb6oio=;
-  b=HQdim8S42FgNsBTWq4N6IC7p8mIv/OVvUmCCeuIx/+7gHyJ4WRCCkp3s
-   E+3wEAqAjc9HnFajlr+V6KuiZ63CJwicFjHT+mvJqcL+kfY2O59vrtMYb
-   g/DBiayN5xB58SKL73R4mniFRPHrbfAsCpT9kFZxJgrSY0Htvj8S0yx8V
-   fastp1u8X9IxsUHM+cu0s1ZK1LoMyVaeZFhGlelkQ/VoRlRCQMQvFtHd0
-   sZ9yWVmfPqnL80hrytcQ1DocN0C0/LX51BqaignW5Wx1LDjkb2s7M/l0w
-   ynaF/4sk6YD4fOtQbmxsIPp1qW5zzT2Sb4ohsX5pS6a0trmCEU0I/hbKS
-   g==;
-X-CSE-ConnectionGUID: Hz7wRQtVStKUaZB1lNqLpQ==
-X-CSE-MsgGUID: OkU6UockSgWcnbkN2U0MwA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11761"; a="77455129"
+  bh=Ei5va1fjDg0bcmTbnHyQtpvSn+raLTs8Tox89Wo4KIo=;
+  b=QP4YsaIfrt6mYbxXDVbuWIdaQphntZB2U3vulsUEvZUKYQN8afNYnWS6
+   V6MRJqSUgbtxCg3pK5/MUwJzyP3Lqdy8e3HxBacUv4SbOt4NMT/p9l4M5
+   YrnPfkNbfQGkKR71W9/PTOikEt66MZ7P3MniAcaOpGZ3ortP/d+H1KlQ1
+   PQSbUqc2+N4MsCY/BM/+rmxlp59PirmTetIgDLUWlJ3RG3ajjsT5ntd/4
+   LTYvcOCj5sp4MuxYz+fGVw1qrfS2K2o+wbWgq9HcYMyh4eQN+xd1ycjAJ
+   lWy3R8Wz9JfitXtk8IwENC83vea7VVOYkfNnblKZl/6k5O1qBXlME8kEu
+   Q==;
+X-CSE-ConnectionGUID: Ytf84KysQRStjlgQE6NJZA==
+X-CSE-MsgGUID: v8wQPJ0SQqOE9b2rHptDHQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11761"; a="81265556"
 X-IronPort-AV: E=Sophos;i="6.23,181,1770624000"; 
-   d="scan'208";a="77455129"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2026 12:38:41 -0700
-X-CSE-ConnectionGUID: c5xjxFJ2Siq+f8WGZdtfVw==
-X-CSE-MsgGUID: JmDkFBIYSoWIaYL68r7UsQ==
+   d="scan'208";a="81265556"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2026 13:33:20 -0700
+X-CSE-ConnectionGUID: Ozu4AvwoRc6WF0NQP0aq0w==
+X-CSE-MsgGUID: 4LPlzfuUQ8aHvVK+45uPNQ==
 X-ExtLoop1: 1
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 16 Apr 2026 12:38:40 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.23,181,1770624000"; 
+   d="scan'208";a="226493407"
+Received: from lkp-server01.sh.intel.com (HELO 7f3b36e5d6a5) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 16 Apr 2026 13:33:18 -0700
+Received: from kbuild by 7f3b36e5d6a5 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wDSXu-0000000015R-2I7y;
-	Thu, 16 Apr 2026 19:38:38 +0000
-Date: Thu, 16 Apr 2026 21:38:14 +0200
+	id 1wDTOm-000000001vG-1NIy;
+	Thu, 16 Apr 2026 20:33:16 +0000
+Date: Fri, 17 Apr 2026 04:33:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oscar Salvador <osalvador@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: fs/proc/task_mmu.c:3028:21: warning: 'can_gather_numa_stats'
- defined but not used
-Message-ID: <202604162150.N2hGORtE-lkp@intel.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Namjae Jeon <linkinjeon@kernel.org>
+Subject: [linkinjeon-ntfs:ntfs-next 47/48] fs/ntfs/file.c:657:6:
+ error: call to undeclared function 'vma_desc_test'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202604170407.bqLb88Ri-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -57,52 +61,62 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Oscar-Salvador/mm-Add-softleaf_from_pud/20260416-123625
-head:   258d05b2de477745977b64b126df65257709931d
-commit: b2dac6ec7efb93198d5915eb518e3d9e82c6bf82 mm: Make /proc/pid/numa_maps use the new generic pagewalk API
-date:   15 hours ago
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260416/202604162150.N2hGORtE-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260416/202604162150.N2hGORtE-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linkinjeon/ntfs.git ntfs-next
+head:   75579d45c31244811d57ae99692b6c3d197560b4
+commit: 50ba0870ccdba0b8fa15f1eb0e11bfa08185c383 [47/48] ntfs: fix build error due to vma_desc_test() rename
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260417/202604170407.bqLb88Ri-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260417/202604170407.bqLb88Ri-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604162150.N2hGORtE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604170407.bqLb88Ri-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/proc/task_mmu.c:3028:21: warning: 'can_gather_numa_stats' defined but not used [-Wunused-function]
-    3028 | static struct page *can_gather_numa_stats(pte_t pte, struct vm_area_struct *vma,
-         |                     ^~~~~~~~~~~~~~~~~~~~~
+>> fs/ntfs/file.c:657:6: error: call to undeclared function 'vma_desc_test'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           if (vma_desc_test(desc, VMA_WRITE_BIT)) {
+               ^
+   1 error generated.
 
 
-vim +/can_gather_numa_stats +3028 fs/proc/task_mmu.c
+vim +/vma_desc_test +657 fs/ntfs/file.c
 
-f69ff943df6972 Stephen Wilson 2011-05-24  3027  
-3200a8aaab0c9c Dave Hansen    2011-09-20 @3028  static struct page *can_gather_numa_stats(pte_t pte, struct vm_area_struct *vma,
-3200a8aaab0c9c Dave Hansen    2011-09-20  3029  		unsigned long addr)
-3200a8aaab0c9c Dave Hansen    2011-09-20  3030  {
-3200a8aaab0c9c Dave Hansen    2011-09-20  3031  	struct page *page;
-3200a8aaab0c9c Dave Hansen    2011-09-20  3032  	int nid;
-3200a8aaab0c9c Dave Hansen    2011-09-20  3033  
-3200a8aaab0c9c Dave Hansen    2011-09-20  3034  	if (!pte_present(pte))
-3200a8aaab0c9c Dave Hansen    2011-09-20  3035  		return NULL;
-3200a8aaab0c9c Dave Hansen    2011-09-20  3036  
-3200a8aaab0c9c Dave Hansen    2011-09-20  3037  	page = vm_normal_page(vma, addr, pte);
-3218f8712d6bba Alex Sierra    2022-07-15  3038  	if (!page || is_zone_device_page(page))
-3200a8aaab0c9c Dave Hansen    2011-09-20  3039  		return NULL;
-3200a8aaab0c9c Dave Hansen    2011-09-20  3040  
-3200a8aaab0c9c Dave Hansen    2011-09-20  3041  	if (PageReserved(page))
-3200a8aaab0c9c Dave Hansen    2011-09-20  3042  		return NULL;
-3200a8aaab0c9c Dave Hansen    2011-09-20  3043  
-3200a8aaab0c9c Dave Hansen    2011-09-20  3044  	nid = page_to_nid(page);
-4ff1b2c29326a2 Lai Jiangshan  2012-12-12  3045  	if (!node_isset(nid, node_states[N_MEMORY]))
-3200a8aaab0c9c Dave Hansen    2011-09-20  3046  		return NULL;
-3200a8aaab0c9c Dave Hansen    2011-09-20  3047  
-3200a8aaab0c9c Dave Hansen    2011-09-20  3048  	return page;
-3200a8aaab0c9c Dave Hansen    2011-09-20  3049  }
-3200a8aaab0c9c Dave Hansen    2011-09-20  3050  
+   645	
+   646	static int ntfs_file_mmap_prepare(struct vm_area_desc *desc)
+   647	{
+   648		struct file *file = desc->file;
+   649		struct inode *inode = file_inode(file);
+   650	
+   651		if (NVolShutdown(NTFS_SB(file->f_mapping->host->i_sb)))
+   652			return -EIO;
+   653	
+   654		if (NInoCompressed(NTFS_I(inode)))
+   655			return -EOPNOTSUPP;
+   656	
+ > 657		if (vma_desc_test(desc, VMA_WRITE_BIT)) {
+   658			struct inode *inode = file_inode(file);
+   659			loff_t from, to;
+   660			int err;
+   661	
+   662			from = ((loff_t)desc->pgoff << PAGE_SHIFT);
+   663			to = min_t(loff_t, i_size_read(inode),
+   664				   from + desc->end - desc->start);
+   665	
+   666			if (NTFS_I(inode)->initialized_size < to) {
+   667				err = ntfs_extend_initialized_size(inode, to, to, false);
+   668				if (err)
+   669					return err;
+   670			}
+   671		}
+   672	
+   673	
+   674		file_accessed(file);
+   675		desc->vm_ops = &ntfs_file_vm_ops;
+   676		return 0;
+   677	}
+   678	
 
 -- 
 0-DAY CI Kernel Test Service
