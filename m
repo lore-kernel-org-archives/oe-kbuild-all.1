@@ -1,58 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FBD61F5834
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Apr 2026 21:38:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0093736A000
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Apr 2026 22:11:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776375506; cv=none; b=YI7sm3k0x76h5wVCpMHUrnMcAjY9xoEqoYpCMpcQ6nxy6Av7yxeOj7UHuSWX6V1EtSGK2rNcY9ZGpVejLYAGf3VvPfDADKIrhaHaYKyQTfKHi45MCpyPDQS9INCWNRO4+T7LkWFWRozvIJUZnh8yqIu65ghSUoWzplCfnpCRbIM=
+	t=1776377507; cv=none; b=MoiodnnapbPLwxkviJ22AFM55d26hqf1KWyy47sDoUlud7J1GAWdvu0vZK5naMiXRYL1Z8PwgEoKrIdG7x0FzBhDKMZktA1uLJwE02TJVCMawniesKPp1AfzdUqU4so/J/g22VrOXYWEWAMVdN9JCRwSPxAQYOGbIipNxClNiGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776375506; c=relaxed/simple;
-	bh=xMsPUsNVkgV/Ej8JipbLnkxws2FnJJTbZIipqFsN4lk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=UfbwUY5lZvYFe165i8Wk5g1fGh/sQ8kOdHd6X3SOJ58+/EgGwivjw8ypGEJbBGcZ3Vq+tg0AkFCjJEccou3edKs2ADkczMiHdRi2yvJ54+8C6bk2MNifmYAZuIjF82RUKTjZIG7OX+zyw7qq9dVi6eJKcT7wExL6mGRpzC2ElyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fSJkw4mb; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1776377507; c=relaxed/simple;
+	bh=yqiiXdfN5Q8TLf5WyiQytoFft1uAfFmLWX2S2bWUNtI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Icq0zNaNIt+iagagZG0lY2253upeBTdPadkizvXerGXIO4m1VFpXbbXTsSEcMuAWCMn6jEvlBhcspZXVmc9bV7LllOrIOAkZnjq8obpSKZEl6AwqX8Kijhs9rKHYb/pELb2vKoSyHxq/YbNQacLh992uipiPT2+jq72KS0DwtVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UqwhRihc; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fSJkw4mb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UqwhRihc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776375504; x=1807911504;
+  t=1776377505; x=1807913505;
   h=date:from:to:cc:subject:message-id;
-  bh=xMsPUsNVkgV/Ej8JipbLnkxws2FnJJTbZIipqFsN4lk=;
-  b=fSJkw4mbLqWrl70TGDveDqAVQotHx7nm2u/archgpH4FedANqUnFR3TX
-   Elzub3/p8t1TTv92nOno3dBrtJ8yTV29u3h8yCsK0VKqSbrmti3LqfvFo
-   K03GSOJFN7ROiGN49bjMLSSJN+C4f/oP6UnNtaiKjsaR9DMQoPTfXwgWg
-   DhJeXIjnCiIZ3mHhasnFF60TkBR8hxW79rjly6tF6WU/ymPxMq8dazfpW
-   7fsYMBVEhmWEAdEU1FNHt1Xixx5OWeVjUXDnVuhUjB/YD2Ub4xVhMaSVq
-   mt/ycbLhiCcuXV/eQuxbYS7m5J5z+oUcUrrshvZRkNRrhfYgmqFrDm8rY
-   g==;
-X-CSE-ConnectionGUID: hef0FZaHQPGK7DE7WnuX2w==
-X-CSE-MsgGUID: LR5AzQsDT16Ajw+EiW3OYg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11761"; a="80988145"
+  bh=yqiiXdfN5Q8TLf5WyiQytoFft1uAfFmLWX2S2bWUNtI=;
+  b=UqwhRihcqqmPPhHFvdgurQCUvQfRAhsNEEhiXV8n9v/+aed+kcH5/6Qm
+   wt+Bbtj+GcsIbDI+UAdDOVKXNN6Ouzt0GYWPiCHYgbXAGEYgpguGRKkav
+   OzFEdc6czVtbpF+KReZThipenk8Pkn9fy1Pju3t/8i0QdULQS7vJUAyDG
+   Sy9TADo6HMeuTo3m8D1Y+m4dx7O9jNV/YD6Czom2S5hi28vjg9pxvUoh0
+   Ziy1fAHakFjwnXXrKp/xREVBMP3Cwi7UjdnMz6zSeuD5jKhaD8UXyRZZQ
+   EtFNCbN97hqlxjlEZzqXe5HQzR45lL6Zkx0kVfVJ4v+AX57QvVjoW8Xk9
+   Q==;
+X-CSE-ConnectionGUID: 1BcOLIrWRpiSjKv991QUQg==
+X-CSE-MsgGUID: vmFw2+1iS5mfXlKCqX7g9Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11761"; a="88093348"
 X-IronPort-AV: E=Sophos;i="6.23,183,1770624000"; 
-   d="scan'208";a="80988145"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2026 14:38:24 -0700
-X-CSE-ConnectionGUID: oBQFwDLZSdytuZhkkOSIBQ==
-X-CSE-MsgGUID: ZMIGHVY8S7eY//ccfwuYVg==
+   d="scan'208";a="88093348"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2026 15:11:44 -0700
+X-CSE-ConnectionGUID: 5i/Rv1I2TdO/PpJWwaCfSg==
+X-CSE-MsgGUID: vWZ2O2I+QBW6567LsDvkIw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,183,1770624000"; 
-   d="scan'208";a="226505227"
-Received: from lkp-server01.sh.intel.com (HELO 7f3b36e5d6a5) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 16 Apr 2026 14:38:22 -0700
-Received: from kbuild by 7f3b36e5d6a5 with local (Exim 4.98.2)
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 16 Apr 2026 15:11:42 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wDUPj-000000001za-3tmT;
-	Thu, 16 Apr 2026 21:38:19 +0000
-Date: Fri, 17 Apr 2026 05:37:45 +0800
+	id 1wDUw0-0000000018D-3mWg;
+	Thu, 16 Apr 2026 22:11:40 +0000
+Date: Fri, 17 Apr 2026 00:10:44 +0200
 From: kernel test robot <lkp@intel.com>
-To: Anna Schumaker <anna.schumaker@oracle.com>
+To: Leon Romanovsky <leonro@nvidia.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anna-nfs:dir-delegations/client2 153/155]
- fs/nfs/callback_proc.c:432 nfs4_callback_notify() warn: unsigned 'res' is
- never less than zero.
-Message-ID: <202604170512.w8ko8b5H-lkp@intel.com>
+Subject: [leon-rdma:create-cq-entries-v1 12/16]
+ drivers/infiniband/hw/bnxt_re/ib_verbs.c:3460:37: warning: unused variable
+ 'dev_attr'
+Message-ID: <202604170049.UynfiyDl-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,71 +58,83 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   git://git.linux-nfs.org/projects/anna/linux-nfs.git dir-delegations/client2
-head:   3c8c0b59c6a78d787961c27e97a799a2cf869a5c
-commit: 21fe64ccdc08024cafc2e90dc506cbfbee5866e5 [153/155] NFS: Add support for CB_NOTIFY4_REMOVE_ENTRY
-config: i386-randconfig-141-20260416 (https://download.01.org/0day-ci/archive/20260417/202604170512.w8ko8b5H-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git create-cq-entries-v1
+head:   7f01f0ec98626108c0c8664dbbadac6789903051
+commit: c01b77c634fd7d0bce3baf6c8d6663ef3a13c224 [12/16] RDMA/bnxt_re: Rely on core to validate CQE count
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260417/202604170049.UynfiyDl-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9007-gcf3ea02b
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260417/202604170049.UynfiyDl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604170512.w8ko8b5H-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604170049.UynfiyDl-lkp@intel.com/
 
-smatch warnings:
-fs/nfs/callback_proc.c:432 nfs4_callback_notify() warn: unsigned 'res' is never less than zero.
+All warnings (new ones prefixed by >>):
 
-vim +/res +432 fs/nfs/callback_proc.c
+   drivers/infiniband/hw/bnxt_re/ib_verbs.c: In function 'bnxt_re_create_cq':
+>> drivers/infiniband/hw/bnxt_re/ib_verbs.c:3460:37: warning: unused variable 'dev_attr' [-Wunused-variable]
+    3460 |         struct bnxt_qplib_dev_attr *dev_attr = rdev->dev_attr;
+         |                                     ^~~~~~~~
 
-   394	
-   395	__be32 nfs4_callback_notify(void *argp, void *resp,
-   396				    struct cb_process_state *cps)
-   397	{
-   398		struct cb_notifyargs *args = argp;
-   399		struct dentry *parent;
-   400		struct inode *inode;
-   401		unsigned int i;
-   402		__be32 res;
-   403	
-   404		if (!cps->clp) {
-   405			res = htonl(NFS4ERR_OP_NOT_IN_SESSION);
-   406			goto out;
-   407		}
-   408	
-   409		inode = nfs_delegation_find_inode(cps->clp, &args->cna_fh);
-   410		if (IS_ERR(inode)) {
-   411			res = htonl(NFS4ERR_BADHANDLE);
-   412			goto out;
-   413		}
-   414		parent = d_find_alias(inode);
-   415		if (!parent) {
-   416			res = 0;
-   417			goto out;
-   418		}
-   419	
-   420		for (i = 0; i < args->cna_n_changes; i++) {
-   421			struct cb_notify_changes *change = &args->cna_changes[i];
-   422	
-   423			switch (change->notify_mask) {
-   424			case CB_NOTIFY4_REMOVE_ENTRY:
-   425				res = nfs4_cb_notify_remove(cps, parent,
-   426							    &change->notify_remove);
-   427				break;
-   428			default:
-   429				return htonl(NFS4ERR_NOTSUPP);
-   430			}
-   431	
- > 432			if (res < 0)
-   433				break;
-   434		}
-   435	
-   436		dput(parent);
-   437	out:
-   438		kfree(args->cna_changes);
-   439		return res;
-   440	}
-   441	
+
+vim +/dev_attr +3460 drivers/infiniband/hw/bnxt_re/ib_verbs.c
+
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3454  
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3455  int bnxt_re_create_cq(struct ib_cq *ibcq, const struct ib_cq_init_attr *attr,
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3456  		      struct uverbs_attr_bundle *attrs)
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3457  {
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3458  	struct bnxt_re_cq *cq = container_of(ibcq, struct bnxt_re_cq, ib_cq);
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3459  	struct bnxt_re_dev *rdev = to_bnxt_re_dev(ibcq->device, ibdev);
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02 @3460  	struct bnxt_qplib_dev_attr *dev_attr = rdev->dev_attr;
+2b2f078236a445 Leon Romanovsky       2026-03-18  3461  	int rc;
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3462  	u32 active_cqs;
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3463  
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3464  	if (attr->flags)
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3465  		return -EOPNOTSUPP;
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3466  
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3467  	cq->rdev = rdev;
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3468  	cq->qplib_cq.cq_handle = (u64)(unsigned long)(&cq->qplib_cq);
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3469  
+345f842771ff36 Leon Romanovsky       2026-03-18  3470  	cq->max_cql = attr->cqe + 1;
+e69609c5d46917 Leon Romanovsky       2026-03-18  3471  	cq->cql = kzalloc_objs(struct bnxt_qplib_cqe, cq->max_cql);
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3472  	if (!cq->cql)
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3473  		return -ENOMEM;
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3474  
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3475  	cq->qplib_cq.sg_info.pgsize = SZ_4K;
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3476  	cq->qplib_cq.sg_info.pgshft = __builtin_ctz(SZ_4K);
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3477  	cq->qplib_cq.dpi = &rdev->dpi_privileged;
+2b2f078236a445 Leon Romanovsky       2026-03-18  3478  	cq->qplib_cq.max_wqe = cq->max_cql;
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3479  	cq->qplib_cq.coalescing = &rdev->cq_coalescing;
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3480  	cq->qplib_cq.nq = bnxt_re_get_nq(rdev);
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3481  	cq->qplib_cq.cnq_hw_ring_id = cq->qplib_cq.nq->ring_id;
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3482  
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3483  	rc = bnxt_qplib_create_cq(&rdev->qplib_res, &cq->qplib_cq);
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3484  	if (rc) {
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3485  		ibdev_err(&rdev->ibdev, "Failed to create HW CQ");
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3486  		goto fail;
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3487  	}
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3488  
+2b2f078236a445 Leon Romanovsky       2026-03-18  3489  	cq->ib_cq.cqe = cq->max_cql;
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3490  	cq->cq_period = cq->qplib_cq.period;
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3491  	active_cqs = atomic_inc_return(&rdev->stats.res.cq_count);
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3492  	if (active_cqs > rdev->stats.res.cq_watermark)
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3493  		rdev->stats.res.cq_watermark = active_cqs;
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3494  	spin_lock_init(&cq->cq_lock);
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3495  
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3496  	return 0;
+cec5157b6c73e3 Sriharsha Basavapatna 2026-03-02  3497  
+1ac5a404797523 Selvin Xavier         2017-02-10  3498  fail:
+1ac5a404797523 Selvin Xavier         2017-02-10  3499  	kfree(cq->cql);
+e39afe3d6dbd90 Leon Romanovsky       2019-05-28  3500  	return rc;
+1ac5a404797523 Selvin Xavier         2017-02-10  3501  }
+1ac5a404797523 Selvin Xavier         2017-02-10  3502  
+
+:::::: The code at line 3460 was first introduced by commit
+:::::: cec5157b6c73e3e43ce868b7726dfece8891c1f8 RDMA/bnxt_re: Separate kernel and user CQ creation paths
+
+:::::: TO: Sriharsha Basavapatna <sriharsha.basavapatna@broadcom.com>
+:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
 
 -- 
 0-DAY CI Kernel Test Service
