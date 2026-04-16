@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD783939D9;
-	Thu, 16 Apr 2026 11:58:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0044426560B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Apr 2026 13:40:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776340730; cv=none; b=M3C5NXwnvVa7mjMD8VKCVRIUVOr9dXZijDQGV1/QApV8UoC9EOAc0uvsqcaVHm55dH7alMF36jCA7RDm1tlFJLKHOWhvUuLLtv/VqcRtyxphESfer7gxXurbdrrIc1oykjVbO2a0IlZPh/N+7poYi0CzYiQQCFQAe7nnfMjzwvw=
+	t=1776346856; cv=none; b=NYdQvtGARODh4xzWMUW5GVB1BfGl8VQIhwcDtnp/nch3eyUqX7F3ARVCdqdMcr/iteJ23kmtahH0UoqHdfzdTMw/WC6zLX9IaTFMZbPd7ZApeoQctLl5cBVxP7g84GyZgWkc1qJT3HLdBVFRVcCHk4RI76qr3BvM6XK99dUy5ek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776340730; c=relaxed/simple;
-	bh=OmtF2gMiSBhisvxYRuoo/ZSFSR0ExmHQNX9hbD1Yb7I=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=BDzpeynTKoGhiwzQeFBCxvI3Ts3GClTwniA09lEi/9CUZYAOTRFNSyeBr/tNsv0wT5brRlr2D271yTgSIeS/HM2uC8GmUfrqixTAOVv3uD0f9GKqn+ps0FVwAEQXGMth6icCCBhQyLt0BUXG1pjSVrsspNr4h39s0impF/thIgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cPm+Oj3P; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1776346856; c=relaxed/simple;
+	bh=hHbMYpRi+qK4RiC09PsJUoi31EZgghN1Lhe475woLOc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=KI9O2YawylR/w4tG78iK7NsNAJD7fTDDPkMo24daqN8Es1EV6trn6PwEmGNbjWOpYEGlSZMsO4uXxQvO0lQf6viReVOApO0Wb3Av0eFdBDjxJo0gQ/EMyEroO+SNJkORGVapLSuBIOOfKll9hKI4BWwHvl2VCVJekkoakeb20RE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hg66dNLR; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cPm+Oj3P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hg66dNLR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776340727; x=1807876727;
+  t=1776346855; x=1807882855;
   h=date:from:to:cc:subject:message-id;
-  bh=OmtF2gMiSBhisvxYRuoo/ZSFSR0ExmHQNX9hbD1Yb7I=;
-  b=cPm+Oj3PjKB3xcRhIR/0x3I0ghnjbwtgKhnIyIFBGcdJYEwH2sQBT8+C
-   M8RhyHPLCp+vdBHUoRdnkzFb9LBR3h5dmFC5DhBHADx4MfP0pWAPSn5RY
-   D9mBH0oAeo2Ok3VmJbewvJOSfdAeBoYtordMI3DapCAOfh2BA4sLStWIm
-   dYuRpCyQvEd2JO8v5pYAdcdr4hgA7GJZdrHJnTAeQ6SweVL7W64EtXZiI
-   V8Aai+wruU9MiD7F0OAudsRMct8SpxSQRCfhHnTflwqZ6RYa1xaJ0yvgo
-   ihXplJoqRiucJDhfE/6WJ1dEfCIUstCkKDyACGOhad+yEOdtYZE9o95i7
+  bh=hHbMYpRi+qK4RiC09PsJUoi31EZgghN1Lhe475woLOc=;
+  b=Hg66dNLRjRrIMMXuMxxLaGu3aFG4lsZRuKEIHvn/3JKDKdrf0LQQY1kP
+   rc06siX9H0HrMk4jetlUxRC3NpRpvoxOaUa/yeNaOIIZoTJX3m8NeBA8a
+   /7m2xuSqA+LFYJjt1WvWHKsIQM6mIJmswE8mMiUyLVgysHYz4L5cA/bMO
+   JRqhIvdjyM9QVZ461U1m267khOOCPhErQjJ15qSYElIEwxm1Poxv+Zlgh
+   nDZQi9wPs6mDGTtXVt1hPaGFyQbmFhIODIxbTw/sMTFiiPDZQQ3A9OOm2
+   qAoUvSrJGZW/cZZsKSydWQQ5t8iWDVYmvBd3iBiL/SWKbVzzEST0JA95Z
    Q==;
-X-CSE-ConnectionGUID: 1i+sRhrXS0+NFGb/UJxosw==
-X-CSE-MsgGUID: ztcv98RKSrGPcSek+cSYtg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11760"; a="94904186"
+X-CSE-ConnectionGUID: TrXt1pOBTiyYZOpcit2LnA==
+X-CSE-MsgGUID: ozdTELT6QCyw08PiK21agg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11760"; a="94751495"
 X-IronPort-AV: E=Sophos;i="6.23,181,1770624000"; 
-   d="scan'208";a="94904186"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2026 04:58:46 -0700
-X-CSE-ConnectionGUID: V2fHd0uTSEqjEJc0kkIKyA==
-X-CSE-MsgGUID: 9S1tpvSETgmR5NRlIFVPEg==
-X-Ironport-Invalid-End-Of-Message: True
+   d="scan'208";a="94751495"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2026 06:40:54 -0700
+X-CSE-ConnectionGUID: wBx0LrgHSieMiBZDTJUK6Q==
+X-CSE-MsgGUID: P/CJUxQcSoOyRb8fz2c9GA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,181,1770624000"; 
-   d="scan'208";a="234728189"
+   d="scan'208";a="253981064"
 Received: from lkp-server01.sh.intel.com (HELO 7f3b36e5d6a5) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 16 Apr 2026 04:58:45 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 16 Apr 2026 06:40:52 -0700
 Received: from kbuild by 7f3b36e5d6a5 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wDLMp-000000001Y2-0VOE;
-	Thu, 16 Apr 2026 11:58:43 +0000
-Date: Thu, 16 Apr 2026 19:57:43 +0800
+	id 1wDMxd-000000001dW-2u4q;
+	Thu, 16 Apr 2026 13:40:49 +0000
+Date: Thu, 16 Apr 2026 21:40:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: Daniel Borkmann <daniel@iogearbox.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: [cilium:pr/bpf-tproxy 8/8]
- include/net/request_sock.h:117:26: warning: comparison of distinct pointer
- types ('void (*)(struct sk_buff *)' and 'void (*)(struct sock *, void *,
- int)')
-Message-ID: <202604161920.Uz2i97b3-lkp@intel.com>
+ include/net/request_sock.h:117:50: error: 'sock_pfree_ref' undeclared; did
+ you mean 'sock_kfree_s'?
+Message-ID: <202604162149.Mbv9J6de-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -64,45 +62,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://github.com/cilium/linux.git pr/bpf-tproxy
 head:   27d1eafb8d37f1b272a991077d3bd1bb312118a9
-commit: df7aabea1249e933d8d0f5caff085026de1cd217 [8/8] bpf: Support SOCK_RCU_FREE sockets in bpf_sk_assign on egress
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20260416/202604161920.Uz2i97b3-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260416/202604161920.Uz2i97b3-lkp@intel.com/reproduce)
+commit: 27d1eafb8d37f1b272a991077d3bd1bb312118a9 [8/8] bpf: Support SOCK_RCU_FREE sockets in bpf_sk_assign on egress
+config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20260416/202604162149.Mbv9J6de-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260416/202604162149.Mbv9J6de-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604161920.Uz2i97b3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604162149.Mbv9J6de-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from init/do_mounts.c:23:
-   In file included from include/linux/nfs_fs.h:32:
-   In file included from include/linux/sunrpc/clnt.h:29:
-   In file included from include/net/ipv6.h:12:
-   In file included from include/linux/ipv6.h:103:
-   In file included from include/linux/tcp.h:20:
-   In file included from include/net/inet_connection_sock.h:21:
-   In file included from include/net/inet_sock.h:24:
-   include/net/request_sock.h:117:29: error: use of undeclared identifier 'sock_pfree_cnt'; did you mean 'sock_kfree_s'?
-     117 |                               skb->destructor == sock_pfree_cnt;
+   In file included from include/net/inet_sock.h:24,
+                    from include/net/inet_connection_sock.h:21,
+                    from include/linux/tcp.h:20,
+                    from include/linux/ipv6.h:103,
+                    from include/net/ipv6.h:12,
+                    from include/linux/sunrpc/clnt.h:29,
+                    from include/linux/nfs_fs.h:32,
+                    from init/do_mounts.c:23:
+   include/net/request_sock.h: In function 'skb_steal_sock':
+>> include/net/request_sock.h:117:50: error: 'sock_pfree_ref' undeclared (first use in this function); did you mean 'sock_kfree_s'?
+     117 |                               skb->destructor == sock_pfree_ref;
          |                                                  ^~~~~~~~~~~~~~
          |                                                  sock_kfree_s
-   include/net/sock.h:1901:6: note: 'sock_kfree_s' declared here
-    1901 | void sock_kfree_s(struct sock *sk, void *mem, int size);
-         |      ^
-   In file included from init/do_mounts.c:23:
-   In file included from include/linux/nfs_fs.h:32:
-   In file included from include/linux/sunrpc/clnt.h:29:
-   In file included from include/net/ipv6.h:12:
-   In file included from include/linux/ipv6.h:103:
-   In file included from include/linux/tcp.h:20:
-   In file included from include/net/inet_connection_sock.h:21:
-   In file included from include/net/inet_sock.h:24:
->> include/net/request_sock.h:117:26: warning: comparison of distinct pointer types ('void (*)(struct sk_buff *)' and 'void (*)(struct sock *, void *, int)') [-Wcompare-distinct-pointer-types]
-     117 |                               skb->destructor == sock_pfree_cnt;
-         |                               ~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
-   1 warning and 1 error generated.
+   include/net/request_sock.h:117:50: note: each undeclared identifier is reported only once for each function it appears in
 
 
 vim +117 include/net/request_sock.h
@@ -138,7 +123,7 @@ vim +117 include/net/request_sock.h
    114			}
    115	#endif
    116			*refcounted = sk_is_refcounted(sk) ||
- > 117				      skb->destructor == sock_pfree_cnt;
+ > 117				      skb->destructor == sock_pfree_ref;
    118		} else {
    119			*refcounted = true;
    120		}
