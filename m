@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B1E18871F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Apr 2026 13:49:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA9DC3B19CA
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Apr 2026 14:12:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776433798; cv=none; b=Fzi2Gb2wX3CLC5xut72d3y5ddHOmACZn//bTCLUdPPwu5hCeCV26PgnzP7PDt2tU1zlnbo0frWZwNSsScfIf14nQgGez+LYhozNMQkIm94UuQIDgBnmMV9VOImdPrqNaHz68wxmLQb5y7rYdR+o/qIao1YgU+l6bE/Lhr/j4hn0=
+	t=1776435180; cv=none; b=TWY2774etwYUpco+hrkBpD2poBwgeb4d20u+6eaURuARlSvx/K8INyDNAjhDY9DGzNTsYZqXnKj6+gFXn+VASmuhiZorXegyOwuSIjX2Adm3ATZBcAPon23I2of8uJYsDn/0TjGSEQbtWG8rU8p4rOZwvWNshzBBIJmvBOIgM4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776433798; c=relaxed/simple;
-	bh=1DIOBtTYxWhfOcJnLP8692R/X2vhJ5q0SfBxhPnF49k=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Vk/APrN9FBJGrQFp66AkEs8/tRHXbycnKvLSZIOBJU0Dtjrg34Q/+UQucgDnmfZ7MdU7l2/APmgHrVrKUX7AXAGjUc+NPawiW8ECVUnJNyyD7Ww93cTPYC8La7IfESyrTe76BaGljp37qvQCWutTENjDoYZeaOWOa8bSV+Av20U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hf3OB2zi; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1776435180; c=relaxed/simple;
+	bh=++WXPHX8nwC18HVzWqpZs1GWJBiydGpwMs1toGtFYvs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=PNJvOzA6bhkOeylxAClRq/re3g2sD+dUtoX5clp+x3TOoMh/ub2rm4MEsrQaJfvbXo49P24y4Ig1nZZ8EDS/jdTlMi1QUsoe6jupyADTLIjIHCnJfl2gaWC+DoMfDHGZTIHMRMlCadBPTfpf+StdmqMzwHt41i4M0DXtiEQMpBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TLBR7WMP; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hf3OB2zi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TLBR7WMP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776433794; x=1807969794;
+  t=1776435176; x=1807971176;
   h=date:from:to:cc:subject:message-id;
-  bh=1DIOBtTYxWhfOcJnLP8692R/X2vhJ5q0SfBxhPnF49k=;
-  b=Hf3OB2ziln4qI7PvKD3neT1yWFJwHUpsKG2ZK6YJ3AMUqLXmd0ik+oqv
-   GDujk/nXa96OOcY4fuMDQO63n6AcFvMosLvldU4XPKnoVjW20zowmeVRN
-   x7LuoRrkbo1Bfchl4ptwHBH/RkerO1yXIUaMadzJV6Bsnw3bugjK90GkY
-   5mujH3Xse3AKqP/EjJe2lhrE3XMf2/B9GrG0LayscD7CoUKrxN9skJYKy
-   YhkjXhswhvHanmBJtNvlsRbQkJyykMvb9nwP8cQ6z1grVXJbTVczgyp3P
-   TJzd5qhuU1yddfLP6ba2QAm/vfvAiy1kX8wBOyQYWf7MReGFOj5S+GrhZ
-   Q==;
-X-CSE-ConnectionGUID: JYhBwTN5RJiwcbq6Lbs6nw==
-X-CSE-MsgGUID: fVqU8HdZSHaDKFouMrduHQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11761"; a="95014020"
+  bh=++WXPHX8nwC18HVzWqpZs1GWJBiydGpwMs1toGtFYvs=;
+  b=TLBR7WMPPNMrNAzYuWW7tLw4kmKQpqR4d9AhbJDtdre0qZhkYRuog4F5
+   3RkcO2ImTAjHMSEUOcFFZXh+vJmPG0n6JuZNaLZXHCm8C9+gPf32Qk6v8
+   DbNAcnJ/Ay48Rd+bcY5nN1TsxNvb8PiPKHinBy0qd9iLDkA1s4doMOTl/
+   567yp7LO4C85s50IfdFV8L1y8u8D9DgQte27o3w44XBlST2byBkb30010
+   UYQ8Y3H8HeHG2mt8HKzzI04ykuAyZ0rWbEE+AkdwOBAe/XIENWBk5QQem
+   NFrPz5L2dzVreDZoX1bt7ve78OBtCrkhar3am8SU1GDn3eGSsCUwyWnK1
+   A==;
+X-CSE-ConnectionGUID: jpBhC0GOQYi/M601lZ/4lw==
+X-CSE-MsgGUID: A0yQHbgRRx600ej4BkS1Hg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11761"; a="77569720"
 X-IronPort-AV: E=Sophos;i="6.23,184,1770624000"; 
-   d="scan'208";a="95014020"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2026 06:49:54 -0700
-X-CSE-ConnectionGUID: XcugrBwPQ9ip4iAlJQRAhQ==
-X-CSE-MsgGUID: TMZLFLHkSieOK7HKRqvclw==
+   d="scan'208";a="77569720"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2026 07:12:55 -0700
+X-CSE-ConnectionGUID: RoqJzoZ1QE6fwiM7NxCfng==
+X-CSE-MsgGUID: AWzuSDMrRAS04M0t5Muurg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,184,1770624000"; 
-   d="scan'208";a="226696690"
+   d="scan'208";a="254261250"
 Received: from lkp-server01.sh.intel.com (HELO 7e48d0ff8e22) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 17 Apr 2026 06:49:54 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 17 Apr 2026 07:12:54 -0700
 Received: from kbuild by 7e48d0ff8e22 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wDjZu-000000000QG-3uDs;
-	Fri, 17 Apr 2026 13:49:50 +0000
-Date: Fri, 17 Apr 2026 21:49:39 +0800
+	id 1wDjwB-000000000Rc-4B5Z;
+	Fri, 17 Apr 2026 14:12:52 +0000
+Date: Fri, 17 Apr 2026 22:12:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Jon Hunter <jonathanh@nvidia.com>
-Subject: arch/xtensa/boot/boot-elf/bootstrap.S:58: Error: invalid
- register 'atomctl' for 'wsr' instruction
-Message-ID: <202604172102.1KIXUw9l-lkp@intel.com>
+To: David Sterba <dsterba@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev, Qu Wenruo <wqu@suse.com>
+Subject: [btrfs:ci-kvm-misc-next 143/161] fs/btrfs/ioctl.c:4179:13:
+ warning: unused variable 'ret'
+Message-ID: <202604172247.pnrVp1Wo-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,56 +59,69 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Guenter,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   43cfbdda5af60ffc6272a7b8c5c37d1d0a181ca9
-commit: 916aa36042db8ee230543ffe0d192f900e8b8c9f clocksource/drivers/timer-tegra186: Avoid 64-bit divide operation
-date:   7 months ago
-config: xtensa-randconfig-r063-20260417 (https://download.01.org/0day-ci/archive/20260417/202604172102.1KIXUw9l-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260417/202604172102.1KIXUw9l-lkp@intel.com/reproduce)
+tree:   https://github.com/btrfs/linux.git ci-kvm-misc-next
+head:   c456fe863b632c5564eb9cff08c40bb76a106200
+commit: ef0c33ef0f4020b31bca106645340968f1a497bb [143/161] btrfs: convert ioctl handlers to AUTO_KFREE
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20260417/202604172247.pnrVp1Wo-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260417/202604172247.pnrVp1Wo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 916aa36042db ("clocksource/drivers/timer-tegra186: Avoid 64-bit divide operation")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604172102.1KIXUw9l-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604172247.pnrVp1Wo-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/xtensa/boot/boot-elf/bootstrap.S: Assembler messages:
->> arch/xtensa/boot/boot-elf/bootstrap.S:58: Error: invalid register 'atomctl' for 'wsr' instruction
-   arch/xtensa/boot/boot-elf/bootstrap.S:68: Warning: value 0x1a0003000 truncated to 0xa0003000
+   fs/btrfs/ioctl.c: In function '_btrfs_ioctl_send':
+>> fs/btrfs/ioctl.c:4179:13: warning: unused variable 'ret' [-Wunused-variable]
+    4179 |         int ret;
+         |             ^~~
 
 
-vim +58 arch/xtensa/boot/boot-elf/bootstrap.S
+vim +/ret +4179 fs/btrfs/ioctl.c
 
-e85e335f8ff615f Max Filippov 2012-12-03  42  
-e85e335f8ff615f Max Filippov 2012-12-03  43  	.align  4
-e85e335f8ff615f Max Filippov 2012-12-03  44  _SetupMMU:
-09af39f649dac66 Max Filippov 2021-07-26  45  #if XCHAL_HAVE_WINDOWED
-e85e335f8ff615f Max Filippov 2012-12-03  46  	movi	a0, 0
-e85e335f8ff615f Max Filippov 2012-12-03  47  	wsr	a0, windowbase
-e85e335f8ff615f Max Filippov 2012-12-03  48  	rsync
-e85e335f8ff615f Max Filippov 2012-12-03  49  	movi	a0, 1
-e85e335f8ff615f Max Filippov 2012-12-03  50  	wsr	a0, windowstart
-e85e335f8ff615f Max Filippov 2012-12-03  51  	rsync
-09af39f649dac66 Max Filippov 2021-07-26  52  #endif
-e85e335f8ff615f Max Filippov 2012-12-03  53  	movi	a0, 0x1F
-e85e335f8ff615f Max Filippov 2012-12-03  54  	wsr	a0, ps
-e85e335f8ff615f Max Filippov 2012-12-03  55  	rsync
-e85e335f8ff615f Max Filippov 2012-12-03  56  
-e85e335f8ff615f Max Filippov 2012-12-03  57  #ifndef CONFIG_INITIALIZE_XTENSA_MMU_INSIDE_VMLINUX
-e85e335f8ff615f Max Filippov 2012-12-03 @58  	initialize_mmu
+2eaa055fab4e312 Jeff Mahoney   2013-11-15  4175  
+4e043cd196c85bf David Sterba   2025-03-03  4176  static int _btrfs_ioctl_send(struct btrfs_root *root, void __user *argp, bool compat)
+2351f431f727223 Josef Bacik    2017-09-27  4177  {
+ef0c33ef0f4020b David Sterba   2026-04-14  4178  	struct btrfs_ioctl_send_args AUTO_KFREE(arg);
+2351f431f727223 Josef Bacik    2017-09-27 @4179  	int ret;
+2351f431f727223 Josef Bacik    2017-09-27  4180  
+2351f431f727223 Josef Bacik    2017-09-27  4181  	if (compat) {
+2351f431f727223 Josef Bacik    2017-09-27  4182  #if defined(CONFIG_64BIT) && defined(CONFIG_COMPAT)
+9147b9ded499d98 Josef Bacik    2023-09-26  4183  		struct btrfs_ioctl_send_args_32 args32 = { 0 };
+2351f431f727223 Josef Bacik    2017-09-27  4184  
+2351f431f727223 Josef Bacik    2017-09-27  4185  		ret = copy_from_user(&args32, argp, sizeof(args32));
+2351f431f727223 Josef Bacik    2017-09-27  4186  		if (ret)
+2351f431f727223 Josef Bacik    2017-09-27  4187  			return -EFAULT;
+bf4afc53b77aeaa Linus Torvalds 2026-02-21  4188  		arg = kzalloc_obj(*arg);
+2351f431f727223 Josef Bacik    2017-09-27  4189  		if (!arg)
+2351f431f727223 Josef Bacik    2017-09-27  4190  			return -ENOMEM;
+2351f431f727223 Josef Bacik    2017-09-27  4191  		arg->send_fd = args32.send_fd;
+2351f431f727223 Josef Bacik    2017-09-27  4192  		arg->clone_sources_count = args32.clone_sources_count;
+2351f431f727223 Josef Bacik    2017-09-27  4193  		arg->clone_sources = compat_ptr(args32.clone_sources);
+2351f431f727223 Josef Bacik    2017-09-27  4194  		arg->parent_root = args32.parent_root;
+2351f431f727223 Josef Bacik    2017-09-27  4195  		arg->flags = args32.flags;
+5de0434bc064606 David Sterba   2023-11-14  4196  		arg->version = args32.version;
+2351f431f727223 Josef Bacik    2017-09-27  4197  		memcpy(arg->reserved, args32.reserved,
+2351f431f727223 Josef Bacik    2017-09-27  4198  		       sizeof(args32.reserved));
+2351f431f727223 Josef Bacik    2017-09-27  4199  #else
+2351f431f727223 Josef Bacik    2017-09-27  4200  		return -ENOTTY;
+2351f431f727223 Josef Bacik    2017-09-27  4201  #endif
+2351f431f727223 Josef Bacik    2017-09-27  4202  	} else {
+2351f431f727223 Josef Bacik    2017-09-27  4203  		arg = memdup_user(argp, sizeof(*arg));
+2351f431f727223 Josef Bacik    2017-09-27  4204  		if (IS_ERR(arg))
+2351f431f727223 Josef Bacik    2017-09-27  4205  			return PTR_ERR(arg);
+2351f431f727223 Josef Bacik    2017-09-27  4206  	}
+ef0c33ef0f4020b David Sterba   2026-04-14  4207  	return btrfs_ioctl_send(root, arg);
+2351f431f727223 Josef Bacik    2017-09-27  4208  }
+2351f431f727223 Josef Bacik    2017-09-27  4209  
 
-:::::: The code at line 58 was first introduced by commit
-:::::: e85e335f8ff615f74e29e09cc2599f095600114b xtensa: add MMU v3 support
+:::::: The code at line 4179 was first introduced by commit
+:::::: 2351f431f727223b4d82851ee8fc045bf51edd34 btrfs: fix send ioctl on 32bit with 64bit kernel
 
-:::::: TO: Max Filippov <jcmvbkbc@gmail.com>
-:::::: CC: Chris Zankel <chris@zankel.net>
+:::::: TO: Josef Bacik <josef@toxicpanda.com>
+:::::: CC: David Sterba <dsterba@suse.com>
 
 -- 
 0-DAY CI Kernel Test Service
