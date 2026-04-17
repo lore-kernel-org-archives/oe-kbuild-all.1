@@ -1,179 +1,152 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3B9035A395
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Apr 2026 10:02:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7AD83624A9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Apr 2026 10:05:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776420151; cv=none; b=TKH5HuAsxT55lCo2lWYR5KERMzKfi/IbQAVALRW9hyilns9qnKyFPpyuZLLS5qeD+lQ6kKmo+7br7SqlezC6f/TuJCpjHlOaUpPNqoQx5v8e8o3yMvf0ydKbG3k52zbtFbciwytO9227FGSMvgCD2SkvRLlHHYO2SOCmnedTXvY=
+	t=1776420311; cv=none; b=C9HM87/ThxnB5SBq9zKGgXcPg8YBUxSuDjsdYThBDxD5Or5ZaNARt1dSZoyKhOkrY0U/ywLnFvcUfA5+PwoEoP/RfJbxpXNtwaZWdr86Yn61xvWCY6/UfSNLv/lMbtz65hd+ornO7xd/epYvBUAxO7yzsJo/L7FdJSsU3Ppqbmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776420151; c=relaxed/simple;
-	bh=dSV6xuUYZ7DtAUwZBTQNUQfsHXf3jKjiBNh2dosyCIE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NCt0GDBZM/Qa7eGmfh3w4KD3mc2ckZHChWikdm55cTgbyuzV7leu82psDjRUtWDznPT5jHC2WAMV6Sxd8o/Ul17sJebZouttCMlD9JbC2QzxoHzLu1C/FssWTIHrBT8I63PfwdMYY3OUgKUTOrK3d0JKknzJFX0rqefWiwhMWqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jWj3NxZS; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1776420311; c=relaxed/simple;
+	bh=HFUf647vhRg08shNRvrLdCirC3ivpFdX+Uw+/h/X180=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YkCKc1F34Ssgc8B9JyJNMzA0M013aGTW3ReSNUrKLu3RBKp50DqkQJ+pxsHBhIdqADiUBAGaWH3D3QTzFs/53l1SzDpu681p6dZf9QlZe7tRuZIMWBGtsBVMvaaw3wEJOV0PX9ZJYMQqsu8socfqb66Ds5I5fSzRICGjSG0CG4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XzcyCnV/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GQkIh40F; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Zcdsa+Ci; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PzaWq8PY; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jWj3NxZS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776420149; x=1807956149;
-  h=date:from:to:cc:subject:message-id;
-  bh=dSV6xuUYZ7DtAUwZBTQNUQfsHXf3jKjiBNh2dosyCIE=;
-  b=jWj3NxZSBok70FuexKU9rdzlcqMtmVEB2T3RoBVofnvxW1ozF1zdeIRc
-   s5mqvrLl0vqYUcfY4Id8UdSVBrr3AtpxVNVRhXvDhtbtKdu/ZW42Lj6ku
-   WxMzqhersLDRuTNZYHOc6ufXc5w1OemiDI1lL6bDqtNSZYiXIp2czFD+D
-   fN4xDsR2VtB9IqfsoxbJ9nWuHPE/VVypL+fcflGUKFxN4oz9/E1b+AquO
-   LNTvU/6GcNSSctwrOop2wnEfpdW8JYNHMfdhVzFXU8OgzMuxw4yLh7JUc
-   t+T4VNbUkqEJwSA249B8S3glV2nYoQJZ7KtTohLvosxa7H+XzNl2bXHN1
-   g==;
-X-CSE-ConnectionGUID: APBRZzdAQfW19RLFScy8GA==
-X-CSE-MsgGUID: sq3XK/BaTvibdfpADkYrtw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11761"; a="77134588"
-X-IronPort-AV: E=Sophos;i="6.23,184,1770624000"; 
-   d="scan'208";a="77134588"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2026 03:02:29 -0700
-X-CSE-ConnectionGUID: RlwO/DlgQ9a04nH2Gcpwyg==
-X-CSE-MsgGUID: 0qth6167RqKe184jNxLfTw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,184,1770624000"; 
-   d="scan'208";a="226651740"
-Received: from lkp-server01.sh.intel.com (HELO 7e48d0ff8e22) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 17 Apr 2026 03:02:27 -0700
-Received: from kbuild by 7e48d0ff8e22 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wDg1o-000000000D7-2Iwp;
-	Fri, 17 Apr 2026 10:02:24 +0000
-Date: Fri, 17 Apr 2026 18:02:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Muchun Song <songmuchun@bytedance.com>
-Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>
-Subject: [akpm-mm:mm-new 163/164] mm/sparse-vmemmap.c:766:35: sparse:
- sparse: cast removes address space '__rcu' of expression
-Message-ID: <202604171755.GRWIpPjV-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XzcyCnV/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GQkIh40F";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Zcdsa+Ci";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PzaWq8PY"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B66626A9AD;
+	Fri, 17 Apr 2026 10:05:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1776420307; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QbiHQuxbonHtZcHsPM48e0n+anyN/Gt9HQiY7pfRgxk=;
+	b=XzcyCnV/6wl2GJvBhbYBJ2lNpoB/xoUhJriUKlCnalCGwX0fY7AMmTRv/oO+2wtvyzVyAh
+	Zfq3Y0h4Ha53Scv2sPYlzGLwU4j9M+hQu9e2uYwFqTsvUoWpewbI4fhscS7xiLoipoa/R8
+	kg1t0rPBcj70vEYgY+X8R4G6QnGuUjs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1776420307;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QbiHQuxbonHtZcHsPM48e0n+anyN/Gt9HQiY7pfRgxk=;
+	b=GQkIh40FLHWl1e8SIMO/67FZT30VYrN0CXq6ZLC6u1qantg4coO9j33VyoiNEsZlaMq32U
+	2qIoWJ7spOk+dZDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1776420306; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QbiHQuxbonHtZcHsPM48e0n+anyN/Gt9HQiY7pfRgxk=;
+	b=Zcdsa+CiZmUjG4Yd+dP11iGdJW0G2wIqrNgEXNBnMkcsev3wLL6rL6umYoVcOQKcnOu4nB
+	pnjIXw9ib1A4N0ugUwUVsqFLheo8oynAJCdwuQFOHbuALnwUgoCUK1Ol57SLAomm4TLXx/
+	ssLT0q0F7jc4tCnRozT4KRFkeH9P/Eo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1776420306;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QbiHQuxbonHtZcHsPM48e0n+anyN/Gt9HQiY7pfRgxk=;
+	b=PzaWq8PY2L7SJg6/9WQoPvZSYw6spvcHs9W0rhSGstsjVUZGLvELIqpEszjs+kBk0id+9N
+	qD0aRDn+SEE4aYBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4CCB5593AF;
+	Fri, 17 Apr 2026 10:05:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id UcBTENIF4mnkHwAAD6G6ig
+	(envelope-from <clopez@suse.de>); Fri, 17 Apr 2026 10:05:06 +0000
+Message-ID: <ce3e8a51-63fe-4723-b1d8-6555b8b77817@suse.de>
+Date: Fri, 17 Apr 2026 12:05:05 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/4] KVM: VFIO: use mutex guard in
+ kvm_vfio_file_set_spapr_tce()
+To: kernel test robot <lkp@intel.com>, seanjc@google.com
+Cc: oe-kbuild-all@lists.linux.dev, alex.williamson@redhat.com,
+ pbonzini@redhat.com, open list <linux-kernel@vger.kernel.org>,
+ kvm@vger.kernel.org
+References: <20260313122040.1413091-5-clopez@suse.de>
+ <202604031640.vckbuS2S-lkp@intel.com>
+From: =?UTF-8?Q?Carlos_L=C3=B3pez?= <clopez@suse.de>
+Content-Language: en-US
+In-Reply-To: <202604031640.vckbuS2S-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
+X-Spam-Level: 
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-head:   ee03ca7d1cb1223d0e14dfd3b48478545af75253
-commit: 8568f268a5183e0fd5fbd33569b6513038b62f27 [163/164] mm/sparse: fix race on mem_section->usage in pfn walkers
-config: arm64-randconfig-r122-20260417 (https://download.01.org/0day-ci/archive/20260417/202604171755.GRWIpPjV-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260417/202604171755.GRWIpPjV-lkp@intel.com/reproduce)
+On 4/7/26 5:48 AM, kernel test robot wrote:
+> Hi Carlos,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on d2ea4ff1ce50787a98a3900b3fb1636f3620b7cf]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Carlos-L-pez/KVM-VFIO-clean-up-control-flow-in-kvm_vfio_file_add/20260314-053050
+> base:   d2ea4ff1ce50787a98a3900b3fb1636f3620b7cf
+> patch link:    https://lore.kernel.org/r/20260313122040.1413091-5-clopez%40suse.de
+> patch subject: [PATCH 2/4] KVM: VFIO: use mutex guard in kvm_vfio_file_set_spapr_tce()
+> config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260403/202604031640.vckbuS2S-lkp@intel.com/config)
+> compiler: powerpc64-linux-gcc (GCC) 15.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260403/202604031640.vckbuS2S-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202604031640.vckbuS2S-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    arch/powerpc/kvm/../../../virt/kvm/vfio.c: In function 'kvm_vfio_file_set_spapr_tce':
+>>> arch/powerpc/kvm/../../../virt/kvm/vfio.c:219:13: warning: unused variable 'ret' [-Wunused-variable]
+>      219 |         int ret;
+>          |             ^~~
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604171755.GRWIpPjV-lkp@intel.com/
+Sean, should I send a v2 for this or will you fix it up when applying?
 
-sparse warnings: (new ones prefixed by >>)
-   mm/sparse-vmemmap.c:616:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long *map @@     got unsigned long [noderef] __rcu * @@
-   mm/sparse-vmemmap.c:616:39: sparse:     expected unsigned long *map
-   mm/sparse-vmemmap.c:616:39: sparse:     got unsigned long [noderef] __rcu *
-   mm/sparse-vmemmap.c:684:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long *subsection_map @@     got unsigned long [noderef] __rcu * @@
-   mm/sparse-vmemmap.c:684:17: sparse:     expected unsigned long *subsection_map
-   mm/sparse-vmemmap.c:684:17: sparse:     got unsigned long [noderef] __rcu *
-   mm/sparse-vmemmap.c:701:55: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long const *src @@     got unsigned long [noderef] __rcu * @@
-   mm/sparse-vmemmap.c:701:55: sparse:     expected unsigned long const *src
-   mm/sparse-vmemmap.c:701:55: sparse:     got unsigned long [noderef] __rcu *
-   mm/sparse-vmemmap.c:714:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned long *subsection_map @@     got unsigned long [noderef] __rcu * @@
-   mm/sparse-vmemmap.c:714:24: sparse:     expected unsigned long *subsection_map
-   mm/sparse-vmemmap.c:714:24: sparse:     got unsigned long [noderef] __rcu *
->> mm/sparse-vmemmap.c:766:35: sparse: sparse: cast removes address space '__rcu' of expression
-   mm/sparse-vmemmap.c:805:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct mem_section_usage [noderef] __rcu *usage @@     got struct mem_section_usage *[assigned] usage @@
-   mm/sparse-vmemmap.c:805:27: sparse:     expected struct mem_section_usage [noderef] __rcu *usage
-   mm/sparse-vmemmap.c:805:27: sparse:     got struct mem_section_usage *[assigned] usage
-   mm/sparse-vmemmap.c:884:59: sparse: sparse: incorrect type in argument 4 (different address spaces) @@     expected struct mem_section_usage *usage @@     got struct mem_section_usage [noderef] __rcu *usage @@
-   mm/sparse-vmemmap.c:884:59: sparse:     expected struct mem_section_usage *usage
-   mm/sparse-vmemmap.c:884:59: sparse:     got struct mem_section_usage [noderef] __rcu *usage
-   mm/sparse-vmemmap.c: note: in included file:
-   mm/internal.h:987:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct mem_section_usage [noderef] __rcu *usage @@     got struct mem_section_usage *usage @@
-   mm/internal.h:987:19: sparse:     expected struct mem_section_usage [noderef] __rcu *usage
-   mm/internal.h:987:19: sparse:     got struct mem_section_usage *usage
-
-vim +/__rcu +766 mm/sparse-vmemmap.c
-
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  726) 
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  727) /*
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  728)  * To deactivate a memory region, there are 3 cases to handle:
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  729)  *
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  730)  * 1. deactivation of a partial hot-added section:
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  731)  *      a) section was present at memory init.
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  732)  *      b) section was hot-added post memory init.
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  733)  * 2. deactivation of a complete hot-added section.
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  734)  * 3. deactivation of a complete section from memory init.
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  735)  *
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  736)  * For 1, when subsection_map does not empty we will not be freeing the
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  737)  * usage map, but still need to free the vmemmap range.
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  738)  */
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  739) static void section_deactivate(unsigned long pfn, unsigned long nr_pages,
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  740) 		struct vmem_altmap *altmap)
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  741) {
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  742) 	struct mem_section *ms = __pfn_to_section(pfn);
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  743) 	bool section_is_early = early_section(ms);
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  744) 	struct page *memmap = NULL;
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  745) 	bool empty;
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  746) 
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  747) 	if (clear_subsection_map(pfn, nr_pages))
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  748) 		return;
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  749) 
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  750) 	empty = is_subsection_map_empty(ms);
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  751) 	if (empty) {
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  752) 		/*
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  753) 		 * Mark the section invalid so that valid_section()
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  754) 		 * return false. This prevents code from dereferencing
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  755) 		 * ms->usage array.
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  756) 		 */
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  757) 		ms->section_mem_map &= ~SECTION_HAS_MEM_MAP;
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  758) 
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  759) 		/*
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  760) 		 * When removing an early section, the usage map is kept (as the
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  761) 		 * usage maps of other sections fall into the same page). It
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  762) 		 * will be re-used when re-adding the section - which is then no
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  763) 		 * longer an early section. If the usage map is PageReserved, it
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  764) 		 * was allocated during boot.
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  765) 		 */
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20 @766) 		if (!PageReserved(virt_to_page(ms->usage))) {
-8568f268a5183e Muchun Song             2026-04-15  767  			struct mem_section_usage *usage;
-8568f268a5183e Muchun Song             2026-04-15  768  
-8568f268a5183e Muchun Song             2026-04-15  769  			usage = rcu_replace_pointer(ms->usage, NULL, true);
-8568f268a5183e Muchun Song             2026-04-15  770  			kfree_rcu(usage, rcu);
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  771) 		}
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  772) 		memmap = pfn_to_page(SECTION_ALIGN_DOWN(pfn));
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  773) 	}
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  774) 
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  775) 	/*
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  776) 	 * The memmap of early sections is always fully populated. See
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  777) 	 * section_activate() and pfn_valid() .
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  778) 	 */
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  779) 	if (!section_is_early) {
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  780) 		memmap_pages_add(-1L * (DIV_ROUND_UP(nr_pages * sizeof(struct page), PAGE_SIZE)));
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  781) 		depopulate_section_memmap(pfn, nr_pages, altmap);
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  782) 	} else if (memmap) {
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  783) 		memmap_boot_pages_add(-1L * (DIV_ROUND_UP(nr_pages * sizeof(struct page),
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  784) 							  PAGE_SIZE)));
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  785) 		free_map_bootmem(memmap);
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  786) 	}
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  787) 
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  788) 	if (empty)
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  789) 		ms->section_mem_map = (unsigned long)NULL;
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  790) }
-738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  791) 
-
-:::::: The code at line 766 was first introduced by commit
-:::::: 738de20c4fafe64290c5086d683254f60e837db6 mm/sparse: move memory hotplug bits to sparse-vmemmap.c
-
-:::::: TO: David Hildenbrand (Arm) <david@kernel.org>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Carlos
