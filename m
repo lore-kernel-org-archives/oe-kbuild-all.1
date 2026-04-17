@@ -1,183 +1,179 @@
-Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE7EF373C10
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Apr 2026 09:11:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776417109; cv=pass; b=rR4dRG7pAxVld/zNqSId2t4p14Wb4R6Gt7mzhZuDejOjIjAwyH9ZVMi2O2kweRvv7m+/vQwcJdEI3pXyVaJMl688OAj33imHaWEWJzRXiuXtaXJgpzcwNIg9K5bu2kvSyiI4m5BXkDhT5fa8/RbMccVBD3fKihrALZTEzQL9N78=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776417109; c=relaxed/simple;
-	bh=hZqD33S6TaBeP1U8RwrHN4MgbX19/ibIMOcdz9Suo8U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sTWIezovP94FQgVv7IfCk4XyDWue3cROIb4M0IfGgLhC8gLLPIbNxrUQX1k9kPUmW0dXuAh3uFDWnKQmL4qprYg88zIGv44uZZYCetb8t4vpppPpwZT4tzN/B7tPEgy7kIAztBFGMHCxUe24INnM9/JDwKiCiLtBcoQ4DDsKbGc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q0p7Tq9m; arc=pass smtp.client-ip=74.125.224.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3B9035A395
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Apr 2026 10:02:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776420151; cv=none; b=TKH5HuAsxT55lCo2lWYR5KERMzKfi/IbQAVALRW9hyilns9qnKyFPpyuZLLS5qeD+lQ6kKmo+7br7SqlezC6f/TuJCpjHlOaUpPNqoQx5v8e8o3yMvf0ydKbG3k52zbtFbciwytO9227FGSMvgCD2SkvRLlHHYO2SOCmnedTXvY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776420151; c=relaxed/simple;
+	bh=dSV6xuUYZ7DtAUwZBTQNUQfsHXf3jKjiBNh2dosyCIE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=NCt0GDBZM/Qa7eGmfh3w4KD3mc2ckZHChWikdm55cTgbyuzV7leu82psDjRUtWDznPT5jHC2WAMV6Sxd8o/Ul17sJebZouttCMlD9JbC2QzxoHzLu1C/FssWTIHrBT8I63PfwdMYY3OUgKUTOrK3d0JKknzJFX0rqefWiwhMWqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jWj3NxZS; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q0p7Tq9m"
-Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-64e87a81639so456110d50.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Apr 2026 02:11:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776417107; cv=none;
-        d=google.com; s=arc-20240605;
-        b=WZhcY1p2ryfSAp+nswOz5a7mtGNhKUq7Z3WUN7gpZUcLUnRTfpwjlNCRNsfalyqEPa
-         C7HvzUsHLh9/AdQUYQt0ROxD9aNCtLBY2DemmtiY6X/Xj7FkDaSsnfjWcO81t7iR16yN
-         /aaBRbDfn/EZWSQYupvwOug8/OYonlTl8O/Xx6p+/lk/5LJhD//ADwXYg3uC+uNgHm2U
-         q3Xw6eO3vcNkZLPU9QLUfehsfqc0Q9d3VFL8zKdoY/txfTIB6LIgqUN+QSlWxl6/o5xA
-         puBP2K+jRE8vBl6MHaWn33Wi5D40qOWBATUAmXeKKZiLILPOJe8ThXmVtyTTFUSSBgEg
-         FTzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=ZZNEHLjnCSi0dTY0sR3/yoFnjW7rryZybDVgQX7Z80k=;
-        fh=0HA3JsHftreyRfNvH3TX3gbqSTrkvrbvaSJhjXuwogI=;
-        b=jDtAEwx/tUZ2iezY3FHGdoZr7gzJiqTf6XrdDVvyz6LEpd/ZJ4xo2F3RF4h8E1PjYb
-         oYku0zoEnmR7kNbvxRdEIaV7ywERZrZDBB4iwbUp5h+QhGt3XdVOAymQorMrG/yDAsUl
-         EmbGil0Im9Y9G1YhwuvN9ScaZJkrWE5ROBpJ44dEN9NhUE0mDpeXHBtiugk1zMt691+p
-         Liba6hPCqbw7SToKkiFrf1EEiInebXyp1ZrbeqwVf0ATErxQh6DrxSv4h2CDa5lUk11Z
-         NiLWOkgLSY05ccFZm+DdDJYmSgd/wIg9CerkgeTf2k2Q4zyKCDoU7BhIJIFocVW9066o
-         Entg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776417107; x=1777021907; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZZNEHLjnCSi0dTY0sR3/yoFnjW7rryZybDVgQX7Z80k=;
-        b=Q0p7Tq9mcKbWehC7s+FDYhZMZMNDgpkJUxm5V5Piq8V8c5Ft4gX+9yVEUbSOLkd4rD
-         LzVQ5sQn75MXCDV202YItEgRWMsxMwiY+7FJpctz3E6LXlk1l8ZAz9NGe0+KYW0/VMAe
-         eqTkq15DNNGTwGTtEoBn4YhoLNh2l8ySwQjOJtnzqEgHzWT5TZpAyCr18qMcLGwrUK4w
-         Ui/rUTdbHyJV64go0bvjXXVaoHneH/AN64bHH9xInE+okIlZpkTI8gEXOtIVA4/tctIW
-         qR4gWexs9DZ6h5fbh8nJKyr1p2FYDkLP0aVGJOHT5hpAJC596i0UQB6i1H2AN3cztpAV
-         Sofg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776417107; x=1777021907;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZZNEHLjnCSi0dTY0sR3/yoFnjW7rryZybDVgQX7Z80k=;
-        b=K8aZ9UQE2UXz5zmFNAXcIzWM107pmPmYTQdn2C7IJHZ7+0bEwPBJunGN8r9V0k3efl
-         icOKbk8AAAFCA+7OCE9vUNbpyxvM5JxBzUlxJYCCb+S0wFXf+rUdxM/tz/bo7IDZJxg9
-         OS4jSETiMygePbsftWSqmzI3ypGnk9/hgryuDpWXKG9GscP+4nn2IRL4TO1CusY9q6xB
-         g1wHdo/ez/qsXq5nJjQXZtBfYK41mQ/Md5e4gCUT2xm7k3Tc5aebvC57GL8R8awv+TIH
-         VgFfCNwHrW7AYT+wFsM0aFmkQHqoydUFrSgsno/h5xO11v84GxZeyWA5afZuM7PNYS/l
-         Ss4g==
-X-Forwarded-Encrypted: i=1; AFNElJ9+ht/qnNr17zlGO48l4QnLNQa/iCFTAr3f6OTtlHqXD9ROXRo7wFuymzdxQh41ybgRgBnF9KTGt1HHvon9@lists.linux.dev
-X-Gm-Message-State: AOJu0YzWLaPhOdoQo9FB/rxgMFIjKsQ4Ccs2qRXJcNYXO/Dc9TnCv7lm
-	YZbYiyQR+vHXmSaRAMNlGz6fcQQpNc59q+x/T6ebYRhM48U8NKS9/+ERWGQ51e41Gwac6+r7Afm
-	Ta113q4rGvyP8Xw5N377kJud+hbLkWtI=
-X-Gm-Gg: AeBDievXwm8pj3yst/Kq5cCh9xxwseZ3AgbahMWu0/dfMSb+DrC0OoFTO0tWYma57Wf
-	Sf7Jq7ZymVzDjPweEn+/5bAdMIQNr5XnIIRGb9LC5TViSV9lNaTzCudUCr26ZH6d+hJD1wAxYEy
-	fEgZ26zpWIJj6FX6eQCk6yNGFhHn9evRx9JdRB8kwTqNrs7rb1RC3xHO7T8IloE27OgQWxBEwcN
-	NzjMDomrHuLWEmgrBn9zR/bhAM1YI/HBMNENu2CoSstwmFZl/dcurqLz9vYcP7nLg1XYEd3Wea4
-	S0O1vyaCX8mGgtBlrMRM
-X-Received: by 2002:a05:690e:130e:b0:651:d634:6d32 with SMTP id
- 956f58d0204a3-6531085f25cmr1805344d50.20.1776417106750; Fri, 17 Apr 2026
- 02:11:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jWj3NxZS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776420149; x=1807956149;
+  h=date:from:to:cc:subject:message-id;
+  bh=dSV6xuUYZ7DtAUwZBTQNUQfsHXf3jKjiBNh2dosyCIE=;
+  b=jWj3NxZSBok70FuexKU9rdzlcqMtmVEB2T3RoBVofnvxW1ozF1zdeIRc
+   s5mqvrLl0vqYUcfY4Id8UdSVBrr3AtpxVNVRhXvDhtbtKdu/ZW42Lj6ku
+   WxMzqhersLDRuTNZYHOc6ufXc5w1OemiDI1lL6bDqtNSZYiXIp2czFD+D
+   fN4xDsR2VtB9IqfsoxbJ9nWuHPE/VVypL+fcflGUKFxN4oz9/E1b+AquO
+   LNTvU/6GcNSSctwrOop2wnEfpdW8JYNHMfdhVzFXU8OgzMuxw4yLh7JUc
+   t+T4VNbUkqEJwSA249B8S3glV2nYoQJZ7KtTohLvosxa7H+XzNl2bXHN1
+   g==;
+X-CSE-ConnectionGUID: APBRZzdAQfW19RLFScy8GA==
+X-CSE-MsgGUID: sq3XK/BaTvibdfpADkYrtw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11761"; a="77134588"
+X-IronPort-AV: E=Sophos;i="6.23,184,1770624000"; 
+   d="scan'208";a="77134588"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2026 03:02:29 -0700
+X-CSE-ConnectionGUID: RlwO/DlgQ9a04nH2Gcpwyg==
+X-CSE-MsgGUID: 0qth6167RqKe184jNxLfTw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,184,1770624000"; 
+   d="scan'208";a="226651740"
+Received: from lkp-server01.sh.intel.com (HELO 7e48d0ff8e22) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 17 Apr 2026 03:02:27 -0700
+Received: from kbuild by 7e48d0ff8e22 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wDg1o-000000000D7-2Iwp;
+	Fri, 17 Apr 2026 10:02:24 +0000
+Date: Fri, 17 Apr 2026 18:02:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Muchun Song <songmuchun@bytedance.com>
+Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>
+Subject: [akpm-mm:mm-new 163/164] mm/sparse-vmemmap.c:766:35: sparse:
+ sparse: cast removes address space '__rcu' of expression
+Message-ID: <202604171755.GRWIpPjV-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260415175038.3633384-1-lgs201920130244@gmail.com> <202604171609.wl8JLCit-lkp@intel.com>
-In-Reply-To: <202604171609.wl8JLCit-lkp@intel.com>
-From: Guangshuo Li <lgs201920130244@gmail.com>
-Date: Fri, 17 Apr 2026 17:11:36 +0800
-X-Gm-Features: AQROBzCVBYydseR7J8ekLAtPw3aL9_q0Qe5MzF8i8S3g1XrJyVxsBCHjMaTpGHI
-Message-ID: <CANUHTR8SyfZouETXFpDv4ivzin+DC8OTDYhbSQ1cRaoNqYPduA@mail.gmail.com>
-Subject: Re: [PATCH] platform/chrome: fix reference leak on failed device registration
-To: kernel test robot <lkp@intel.com>
-Cc: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Olof Johansson <olof@lixom.net>, chrome-platform@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+head:   ee03ca7d1cb1223d0e14dfd3b48478545af75253
+commit: 8568f268a5183e0fd5fbd33569b6513038b62f27 [163/164] mm/sparse: fix race on mem_section->usage in pfn walkers
+config: arm64-randconfig-r122-20260417 (https://download.01.org/0day-ci/archive/20260417/202604171755.GRWIpPjV-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260417/202604171755.GRWIpPjV-lkp@intel.com/reproduce)
 
-On Fri, 17 Apr 2026 at 16:47, kernel test robot <lkp@intel.com> wrote:
->
-> Hi Guangshuo,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on chrome-platform/for-next]
-> [also build test ERROR on chrome-platform/for-firmware-next linus/master v7.0 next-20260416]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Guangshuo-Li/platform-chrome-fix-reference-leak-on-failed-device-registration/20260416-135638
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
-> patch link:    https://lore.kernel.org/r/20260415175038.3633384-1-lgs201920130244%40gmail.com
-> patch subject: [PATCH] platform/chrome: fix reference leak on failed device registration
-> config: x86_64-randconfig-013-20260417 (https://download.01.org/0day-ci/archive/20260417/202604171609.wl8JLCit-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260417/202604171609.wl8JLCit-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202604171609.wl8JLCit-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> drivers/platform/chrome/chromeos_pstore.c:131:3: error: use of undeclared identifier 'ret'
->      131 |                 ret = platform_device_register(&chromeos_ramoops);
->          |                 ^
->    drivers/platform/chrome/chromeos_pstore.c:132:7: error: use of undeclared identifier 'ret'
->      132 |                 if (ret)
->          |                     ^
->    drivers/platform/chrome/chromeos_pstore.c:135:10: error: use of undeclared identifier 'ret'
->      135 |                 return ret;
->          |                        ^
->    3 errors generated.
->
->
-> vim +/ret +131 drivers/platform/chrome/chromeos_pstore.c
->
->    119
->    120  static int __init chromeos_pstore_init(void)
->    121  {
->    122          bool acpi_dev_found;
->    123
->    124          if (ecc_size > 0)
->    125                  chromeos_ramoops_data.ecc_info.ecc_size = ecc_size;
->    126
->    127          /* First check ACPI for non-hardcoded values from firmware. */
->    128          acpi_dev_found = chromeos_check_acpi();
->    129
->    130          if (acpi_dev_found || dmi_check_system(chromeos_pstore_dmi_table)) {
->  > 131                  ret = platform_device_register(&chromeos_ramoops);
->    132                  if (ret)
->    133                          platform_device_put(&chromeos_ramoops);
->    134
->    135                  return ret;
->    136          }
->    137
->    138          return -ENODEV;
->    139  }
->    140
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604171755.GRWIpPjV-lkp@intel.com/
 
-Yes, the build error is because in the first version I accidentally
-forgot to declare the local variable ret in chromeos_pstore_init().
+sparse warnings: (new ones prefixed by >>)
+   mm/sparse-vmemmap.c:616:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long *map @@     got unsigned long [noderef] __rcu * @@
+   mm/sparse-vmemmap.c:616:39: sparse:     expected unsigned long *map
+   mm/sparse-vmemmap.c:616:39: sparse:     got unsigned long [noderef] __rcu *
+   mm/sparse-vmemmap.c:684:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long *subsection_map @@     got unsigned long [noderef] __rcu * @@
+   mm/sparse-vmemmap.c:684:17: sparse:     expected unsigned long *subsection_map
+   mm/sparse-vmemmap.c:684:17: sparse:     got unsigned long [noderef] __rcu *
+   mm/sparse-vmemmap.c:701:55: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long const *src @@     got unsigned long [noderef] __rcu * @@
+   mm/sparse-vmemmap.c:701:55: sparse:     expected unsigned long const *src
+   mm/sparse-vmemmap.c:701:55: sparse:     got unsigned long [noderef] __rcu *
+   mm/sparse-vmemmap.c:714:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned long *subsection_map @@     got unsigned long [noderef] __rcu * @@
+   mm/sparse-vmemmap.c:714:24: sparse:     expected unsigned long *subsection_map
+   mm/sparse-vmemmap.c:714:24: sparse:     got unsigned long [noderef] __rcu *
+>> mm/sparse-vmemmap.c:766:35: sparse: sparse: cast removes address space '__rcu' of expression
+   mm/sparse-vmemmap.c:805:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct mem_section_usage [noderef] __rcu *usage @@     got struct mem_section_usage *[assigned] usage @@
+   mm/sparse-vmemmap.c:805:27: sparse:     expected struct mem_section_usage [noderef] __rcu *usage
+   mm/sparse-vmemmap.c:805:27: sparse:     got struct mem_section_usage *[assigned] usage
+   mm/sparse-vmemmap.c:884:59: sparse: sparse: incorrect type in argument 4 (different address spaces) @@     expected struct mem_section_usage *usage @@     got struct mem_section_usage [noderef] __rcu *usage @@
+   mm/sparse-vmemmap.c:884:59: sparse:     expected struct mem_section_usage *usage
+   mm/sparse-vmemmap.c:884:59: sparse:     got struct mem_section_usage [noderef] __rcu *usage
+   mm/sparse-vmemmap.c: note: in included file:
+   mm/internal.h:987:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct mem_section_usage [noderef] __rcu *usage @@     got struct mem_section_usage *usage @@
+   mm/internal.h:987:19: sparse:     expected struct mem_section_usage [noderef] __rcu *usage
+   mm/internal.h:987:19: sparse:     got struct mem_section_usage *usage
 
-Sorry for the oversight, and thanks for the report.
+vim +/__rcu +766 mm/sparse-vmemmap.c
 
-Also, the underlying issue here appears to be related to the
-platform_device_register() core/API behavior. We are currently
-discussing in another similar case whether the better fix, if any,
-should be made in the core/API code rather than in individual callers:
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  726) 
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  727) /*
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  728)  * To deactivate a memory region, there are 3 cases to handle:
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  729)  *
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  730)  * 1. deactivation of a partial hot-added section:
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  731)  *      a) section was present at memory init.
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  732)  *      b) section was hot-added post memory init.
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  733)  * 2. deactivation of a complete hot-added section.
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  734)  * 3. deactivation of a complete section from memory init.
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  735)  *
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  736)  * For 1, when subsection_map does not empty we will not be freeing the
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  737)  * usage map, but still need to free the vmemmap range.
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  738)  */
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  739) static void section_deactivate(unsigned long pfn, unsigned long nr_pages,
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  740) 		struct vmem_altmap *altmap)
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  741) {
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  742) 	struct mem_section *ms = __pfn_to_section(pfn);
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  743) 	bool section_is_early = early_section(ms);
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  744) 	struct page *memmap = NULL;
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  745) 	bool empty;
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  746) 
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  747) 	if (clear_subsection_map(pfn, nr_pages))
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  748) 		return;
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  749) 
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  750) 	empty = is_subsection_map_empty(ms);
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  751) 	if (empty) {
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  752) 		/*
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  753) 		 * Mark the section invalid so that valid_section()
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  754) 		 * return false. This prevents code from dereferencing
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  755) 		 * ms->usage array.
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  756) 		 */
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  757) 		ms->section_mem_map &= ~SECTION_HAS_MEM_MAP;
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  758) 
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  759) 		/*
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  760) 		 * When removing an early section, the usage map is kept (as the
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  761) 		 * usage maps of other sections fall into the same page). It
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  762) 		 * will be re-used when re-adding the section - which is then no
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  763) 		 * longer an early section. If the usage map is PageReserved, it
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  764) 		 * was allocated during boot.
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  765) 		 */
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20 @766) 		if (!PageReserved(virt_to_page(ms->usage))) {
+8568f268a5183e Muchun Song             2026-04-15  767  			struct mem_section_usage *usage;
+8568f268a5183e Muchun Song             2026-04-15  768  
+8568f268a5183e Muchun Song             2026-04-15  769  			usage = rcu_replace_pointer(ms->usage, NULL, true);
+8568f268a5183e Muchun Song             2026-04-15  770  			kfree_rcu(usage, rcu);
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  771) 		}
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  772) 		memmap = pfn_to_page(SECTION_ALIGN_DOWN(pfn));
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  773) 	}
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  774) 
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  775) 	/*
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  776) 	 * The memmap of early sections is always fully populated. See
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  777) 	 * section_activate() and pfn_valid() .
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  778) 	 */
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  779) 	if (!section_is_early) {
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  780) 		memmap_pages_add(-1L * (DIV_ROUND_UP(nr_pages * sizeof(struct page), PAGE_SIZE)));
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  781) 		depopulate_section_memmap(pfn, nr_pages, altmap);
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  782) 	} else if (memmap) {
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  783) 		memmap_boot_pages_add(-1L * (DIV_ROUND_UP(nr_pages * sizeof(struct page),
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  784) 							  PAGE_SIZE)));
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  785) 		free_map_bootmem(memmap);
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  786) 	}
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  787) 
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  788) 	if (empty)
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  789) 		ms->section_mem_map = (unsigned long)NULL;
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  790) }
+738de20c4fafe6 David Hildenbrand (Arm  2026-03-20  791) 
 
-https://patchew.org/linux/20260415174159.3625777-1-lgs201920130244@gmail.com/
+:::::: The code at line 766 was first introduced by commit
+:::::: 738de20c4fafe64290c5086d683254f60e837db6 mm/sparse: move memory hotplug bits to sparse-vmemmap.c
 
-Once that discussion reaches a conclusion, we will revisit this and
-make the appropriate fix if needed.
+:::::: TO: David Hildenbrand (Arm) <david@kernel.org>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
-Thanks,
-Guangshuo
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
