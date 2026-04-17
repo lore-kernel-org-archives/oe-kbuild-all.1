@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D8A296BD2
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Apr 2026 07:20:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 008C031ED68;
+	Fri, 17 Apr 2026 07:42:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776410452; cv=none; b=DE7ALPYYxxAv29HusyKIra4QxaIF++xCozwyV9jcsvvDKFqbDeJj5QKDDG33jVbGo0GjIRbHlp3MxorUnHw2fwLJjIegB+7YJ/YyRglkg6GR5QYoYaJIS4ofsumanQ0X45h7Ea/k9cKcMAht6rSgZRcVFHkjUxUJaVslFVabeAc=
+	t=1776411741; cv=none; b=hPH2NZRg2srFB2Bz8OQFIj0v2714v2AeM+OStatEbxT/LQJn6oY6yrneIMTYIJ6WIftX0iT02113N7W1AN/6EfF912LN9qcUcE8NiC5gC5olSrBOkQagi+Sdd0BsuTzYp4bTQ8EahPrRxu50eAZmW9NeGyyvJw0zJyg3b4x4DDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776410452; c=relaxed/simple;
-	bh=HnSh9SGcV66o6XAlMMruzX2MPwT63bvlGM7M7H8wAIg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=P52YxLXuPq9S1eDkbNPv7+NZkXHzBqT0IjLz1zcn+gqsnS0iy3eOqWoFI8tuWK+wD8ByIxmcI5p2OVm5mIR9eIvZeD3cqWZeoqGpzIjxivmZ5G/TZni3f95ZgD8vJFGn2sbj74PzevdFWcffA7UBzMMrBdBbH8FwnlrVkDj7k2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QjLMUQnl; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1776411741; c=relaxed/simple;
+	bh=ejDOge0l5QaCfEcVJ7Z2q2z2Ssz0ehB7V+UpyCB6eBY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=p8ltp30iFOFRf1M+n1JGxrcgbOewVfY/S1+IGtZ5q7HC+57bX8gkgdRY3VWAETSqn6+TFQKKl+RCFeX67XHEn62dkG/IhELyJYNHo6Gr9/qYn7vyGnNrAIUTFADdRmEDMPAcshjrzLn05MwlIIjt6LbVmoKMw3XihvYiymSAspk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TzwHp+lO; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QjLMUQnl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TzwHp+lO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776410451; x=1807946451;
+  t=1776411738; x=1807947738;
   h=date:from:to:cc:subject:message-id;
-  bh=HnSh9SGcV66o6XAlMMruzX2MPwT63bvlGM7M7H8wAIg=;
-  b=QjLMUQnlr9ZVfKkIXUk+60PR40juzA9ClngXTr2nseBQC85E22pzC8N7
-   I8NJ+LuI5UKrA5bWS4ALAuJU06M6eqtfVtNf6PWUKRVnB6c784NA0fU/6
-   83RzWD82Qrw9xJ6QHS9szwnmBibZcXg+eYR1dzco11H695YheLw80s1TM
-   q7x4RQn1vlXwo5Qqky1Ii3/9hs1gZ1i04t6Ip8gx314JcPp2siRIlIVJU
-   4ckY/zeMMm+rCrFzg97LHU2waHgU2KueH5Jlis8NyTDkGU7HsK6hUGSI1
-   p51oYRNh7TK/Au6gtmQmx1VLEHkRa27KtwumSQ8boN1+eoDrCneSUEj4R
-   w==;
-X-CSE-ConnectionGUID: IIPVLLYZQmGyJe8R0STAnA==
-X-CSE-MsgGUID: l84M4YHzT5WKgYdM2zv4eQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11761"; a="81020699"
+  bh=ejDOge0l5QaCfEcVJ7Z2q2z2Ssz0ehB7V+UpyCB6eBY=;
+  b=TzwHp+lOw1mHClEpIwILOEI4iTooX7SYlzCH9kBMqKT1HMI3EoeKNBXN
+   St5XaCCQ9EVOEI6G9ef9cD9VxLWQ1TBgCGM99IxOo1+pOoKliDS33pmY9
+   8PjeQNc5sCHrBmfYcBHhyLBybx0rU+C2FjkF4UazjNs9m43lJtJFFzuxy
+   Ihh759N39WPJgLYWBk9pvJgstw84lCX7tnjIM+8BvGhVq6FBzepsu4VLl
+   P7fpRNfkzl9pODNV5KlZHyms9XF1hqAcD5Ees0Ail9f22xyvyZDJWOLzG
+   xlyqWH6OP8YFn+rnaErF4VeJbmRJwm2835yrwLzNpK3boabKoUMiKrx0m
+   Q==;
+X-CSE-ConnectionGUID: Xwo1li3mSYqL0mq1LSKX3A==
+X-CSE-MsgGUID: qvzgTWSGRS+ak7bSzEEcBg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11761"; a="94992336"
 X-IronPort-AV: E=Sophos;i="6.23,183,1770624000"; 
-   d="scan'208";a="81020699"
+   d="scan'208";a="94992336"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2026 00:20:50 -0700
-X-CSE-ConnectionGUID: w+aDemP0Rkmzh8vmog+HSg==
-X-CSE-MsgGUID: vj1TvINMRLCLVmXCQy125Q==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2026 00:42:17 -0700
+X-CSE-ConnectionGUID: b0QfZt8zRPaOG6sU3/Aclw==
+X-CSE-MsgGUID: pERZDLasTzuXFgBCTqe3Zg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,183,1770624000"; 
-   d="scan'208";a="268983338"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 17 Apr 2026 00:20:49 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="268988678"
+Received: from lkp-server01.sh.intel.com (HELO 7e48d0ff8e22) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 17 Apr 2026 00:42:17 -0700
+Received: from kbuild by 7e48d0ff8e22 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wDdVO-000000001GH-3yfN;
-	Fri, 17 Apr 2026 07:20:46 +0000
-Date: Fri, 17 Apr 2026 09:19:56 +0200
+	id 1wDdqA-0000000005d-49k9;
+	Fri, 17 Apr 2026 07:42:15 +0000
+Date: Fri, 17 Apr 2026 15:41:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Asahi Lina <lina@asahilina.net>
-Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
-Subject: [asahilinux:bits/250-aop 34/69] warning: length comparison
- to zero
-Message-ID: <202604170958.8AwfIZnj-lkp@intel.com>
+To: Daniel Borkmann <daniel@iogearbox.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [cilium:pr/bpf-tproxy 8/8]
+ drivers/net/ethernet/intel/fm10k/fm10k_main.c:885:16: warning: division by
+ zero is undefined
+Message-ID: <202604171545.woUYCIGr-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,34 +60,79 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Asahi,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/AsahiLinux/linux bits/250-aop
-head:   234b16b06a9869c5885af57b2853412e854c1216
-commit: 92fe4dbd22e7faafad04ddf06d732e336ea7be98 [34/69] Rust: io: Add memcpy_fromio wrapper
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260417/202604170958.8AwfIZnj-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260417/202604170958.8AwfIZnj-lkp@intel.com/reproduce)
+tree:   https://github.com/cilium/linux.git pr/bpf-tproxy
+head:   27d1eafb8d37f1b272a991077d3bd1bb312118a9
+commit: 27d1eafb8d37f1b272a991077d3bd1bb312118a9 [8/8] bpf: Support SOCK_RCU_FREE sockets in bpf_sk_assign on egress
+config: powerpc64-randconfig-001-20260417 (https://download.01.org/0day-ci/archive/20260417/202604171545.woUYCIGr-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260417/202604171545.woUYCIGr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604170958.8AwfIZnj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604171545.woUYCIGr-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> warning: length comparison to zero
-   --> rust/kernel/io.rs:283:12
-   |
-   283 |         if buffer.len() == 0 || !Self::length_valid(offset, buffer.len(), self.maxsize()) {
-   |            ^^^^^^^^^^^^^^^^^ help: using `is_empty` is clearer and more explicit: `buffer.is_empty()`
-   |
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#len_zero
-   = note: `-W clippy::len-zero` implied by `-W clippy::all`
-   = help: to override `-W clippy::all` add `#[allow(clippy::len_zero)]`
+   In file included from drivers/net/ethernet/intel/fm10k/fm10k_main.c:6:
+   In file included from include/net/ipv6.h:12:
+   In file included from include/linux/ipv6.h:103:
+   In file included from include/linux/tcp.h:20:
+   In file included from include/net/inet_connection_sock.h:21:
+   In file included from include/net/inet_sock.h:24:
+   include/net/request_sock.h:117:29: error: use of undeclared identifier 'sock_pfree_ref'; did you mean 'sock_kfree_s'?
+     117 |                               skb->destructor == sock_pfree_ref;
+         |                                                  ^~~~~~~~~~~~~~
+         |                                                  sock_kfree_s
+   include/net/sock.h:1901:6: note: 'sock_kfree_s' declared here
+    1901 | void sock_kfree_s(struct sock *sk, void *mem, int size);
+         |      ^
+   In file included from drivers/net/ethernet/intel/fm10k/fm10k_main.c:6:
+   In file included from include/net/ipv6.h:12:
+   In file included from include/linux/ipv6.h:103:
+   In file included from include/linux/tcp.h:20:
+   In file included from include/net/inet_connection_sock.h:21:
+   In file included from include/net/inet_sock.h:24:
+   include/net/request_sock.h:117:26: warning: comparison of distinct pointer types ('void (*)(struct sk_buff *)' and 'void (*)(struct sock *, void *, int)') [-Wcompare-distinct-pointer-types]
+     117 |                               skb->destructor == sock_pfree_ref;
+         |                               ~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/fm10k/fm10k_main.c:885:16: warning: division by zero is undefined [-Wdivision-by-zero]
+     885 |         desc_flags |= FM10K_SET_FLAG(tx_flags, FM10K_TX_FLAGS_CSUM,
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     886 |                                      FM10K_TXD_FLAG_CSUM);
+         |                                      ~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/fm10k/fm10k_main.c:877:26: note: expanded from macro 'FM10K_SET_FLAG'
+     877 |          ((u32)(_input & _flag) / (_flag / _result)))
+         |                                 ^ ~~~~~~~~~~~~~~~~~
+   2 warnings and 1 error generated.
+
+
+vim +885 drivers/net/ethernet/intel/fm10k/fm10k_main.c
+
+76a540d4728a379 Alexander Duyck 2014-09-20  873  
+76a540d4728a379 Alexander Duyck 2014-09-20  874  #define FM10K_SET_FLAG(_input, _flag, _result) \
+76a540d4728a379 Alexander Duyck 2014-09-20  875  	((_flag <= _result) ? \
+76a540d4728a379 Alexander Duyck 2014-09-20  876  	 ((u32)(_input & _flag) * (_result / _flag)) : \
+76a540d4728a379 Alexander Duyck 2014-09-20  877  	 ((u32)(_input & _flag) / (_flag / _result)))
+76a540d4728a379 Alexander Duyck 2014-09-20  878  
+76a540d4728a379 Alexander Duyck 2014-09-20  879  static u8 fm10k_tx_desc_flags(struct sk_buff *skb, u32 tx_flags)
+76a540d4728a379 Alexander Duyck 2014-09-20  880  {
+76a540d4728a379 Alexander Duyck 2014-09-20  881  	/* set type for advanced descriptor with frame checksum insertion */
+76a540d4728a379 Alexander Duyck 2014-09-20  882  	u32 desc_flags = 0;
+76a540d4728a379 Alexander Duyck 2014-09-20  883  
+76a540d4728a379 Alexander Duyck 2014-09-20  884  	/* set checksum offload bits */
+76a540d4728a379 Alexander Duyck 2014-09-20 @885  	desc_flags |= FM10K_SET_FLAG(tx_flags, FM10K_TX_FLAGS_CSUM,
+76a540d4728a379 Alexander Duyck 2014-09-20  886  				     FM10K_TXD_FLAG_CSUM);
+76a540d4728a379 Alexander Duyck 2014-09-20  887  
+76a540d4728a379 Alexander Duyck 2014-09-20  888  	return desc_flags;
+76a540d4728a379 Alexander Duyck 2014-09-20  889  }
+76a540d4728a379 Alexander Duyck 2014-09-20  890  
+
+:::::: The code at line 885 was first introduced by commit
+:::::: 76a540d4728a379e022fb2e2e8766d502b6d345c fm10k: Add support for netdev offloads
+
+:::::: TO: Alexander Duyck <alexander.h.duyck@intel.com>
+:::::: CC: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
