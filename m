@@ -1,94 +1,183 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55657233D9E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Apr 2026 09:10:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776417026; cv=none; b=l+ZkutwwLJxDwE8vwJks2web6I24vQzVcjrkoEi/stZcGeeHZuIhi8W2yKo3eCPu55vZ9GsYFmBz+ONxVNwcoStm3KOFrHgGr5mA7iAwMnIgyLIlsnnOhbLkdAGP8MxbkWYVkk4jCzwflBbUv+b3PyTm/o5UmWBKNFTXTTSmGvU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776417026; c=relaxed/simple;
-	bh=HyeIxcRz1JU1nfyZdYv3H5TiITP/H7Kv6Bky+3r9CSA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=JLcXIKE4zh3Vxpzbpjqiojps7+8SXXFVaIaDp/dykleOpQ3CXID3PQAgeJWswdT2UlCuPSmbNZdxyEZeHnDkYuunT85onySbYf/evwClo4fubzjE717RggRGDBX/6odkczUhA9kAytzpP2wClou+1BeBVY7x4LFJQyVGxzw8tsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kkQMSsaz; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE7EF373C10
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Apr 2026 09:11:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776417109; cv=pass; b=rR4dRG7pAxVld/zNqSId2t4p14Wb4R6Gt7mzhZuDejOjIjAwyH9ZVMi2O2kweRvv7m+/vQwcJdEI3pXyVaJMl688OAj33imHaWEWJzRXiuXtaXJgpzcwNIg9K5bu2kvSyiI4m5BXkDhT5fa8/RbMccVBD3fKihrALZTEzQL9N78=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776417109; c=relaxed/simple;
+	bh=hZqD33S6TaBeP1U8RwrHN4MgbX19/ibIMOcdz9Suo8U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sTWIezovP94FQgVv7IfCk4XyDWue3cROIb4M0IfGgLhC8gLLPIbNxrUQX1k9kPUmW0dXuAh3uFDWnKQmL4qprYg88zIGv44uZZYCetb8t4vpppPpwZT4tzN/B7tPEgy7kIAztBFGMHCxUe24INnM9/JDwKiCiLtBcoQ4DDsKbGc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q0p7Tq9m; arc=pass smtp.client-ip=74.125.224.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kkQMSsaz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776417026; x=1807953026;
-  h=date:from:to:cc:subject:message-id;
-  bh=HyeIxcRz1JU1nfyZdYv3H5TiITP/H7Kv6Bky+3r9CSA=;
-  b=kkQMSsaz9ZxZYHAehRB7jLmnTxHWcytm+lzYOR2udhYM6Y1PyJxVdQ/X
-   YaE+/7iea9bJ6LBDrHQ8XPMOgZbfs1u6Scs7YWDfOngPBHpEWSMJm631V
-   7SLSmTDO0QwQiwtgdvlJbAwO2WiogkMwvgJ21cVs2DYm55TPsny5RWGCy
-   xGR3mGR4zo7qHDKh8s4RB/h0rPqL20KPFTBUXhknak8A/Ms/nXD3u/bza
-   QgknPDyaFAflLoV4RS3u/sL2D7s+FCWKYKNeCWBQCgxQ7uz9P0kYrwAxx
-   UT9AQR+8xH6wzFL1UzzoskuN+k/sG+IQVX0xmVUeRlQqXuUhjV1MQqo3B
-   A==;
-X-CSE-ConnectionGUID: iVj+F+GsTHiZen3BZ8KOYQ==
-X-CSE-MsgGUID: h+foaAARQu+OIcP2woqcYw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11761"; a="77441024"
-X-IronPort-AV: E=Sophos;i="6.23,184,1770624000"; 
-   d="scan'208";a="77441024"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2026 02:10:25 -0700
-X-CSE-ConnectionGUID: im81rd1rTteHfR+u4gNYFA==
-X-CSE-MsgGUID: n5s+iyTmQRKj7gn0NluY1Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,184,1770624000"; 
-   d="scan'208";a="226637281"
-Received: from lkp-server01.sh.intel.com (HELO 7e48d0ff8e22) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 17 Apr 2026 02:10:23 -0700
-Received: from kbuild by 7e48d0ff8e22 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wDfDQ-0000000009t-31NH;
-	Fri, 17 Apr 2026 09:10:20 +0000
-Date: Fri, 17 Apr 2026 17:09:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Perry Yuan <perry.yuan@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Linux Infrastructure <z1.linuxinfra@amd.com>,
- Yifan Zhang <yifan1.zhang@amd.com>
-Subject: [agd5f:amd-staging-drm-next 2390/2412]
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c:1394:32-44: opportunity for
- str_enabled_disabled(ptl -> enabled)
-Message-ID: <202604171728.cFEktgVV-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q0p7Tq9m"
+Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-64e87a81639so456110d50.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Apr 2026 02:11:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776417107; cv=none;
+        d=google.com; s=arc-20240605;
+        b=WZhcY1p2ryfSAp+nswOz5a7mtGNhKUq7Z3WUN7gpZUcLUnRTfpwjlNCRNsfalyqEPa
+         C7HvzUsHLh9/AdQUYQt0ROxD9aNCtLBY2DemmtiY6X/Xj7FkDaSsnfjWcO81t7iR16yN
+         /aaBRbDfn/EZWSQYupvwOug8/OYonlTl8O/Xx6p+/lk/5LJhD//ADwXYg3uC+uNgHm2U
+         q3Xw6eO3vcNkZLPU9QLUfehsfqc0Q9d3VFL8zKdoY/txfTIB6LIgqUN+QSlWxl6/o5xA
+         puBP2K+jRE8vBl6MHaWn33Wi5D40qOWBATUAmXeKKZiLILPOJe8ThXmVtyTTFUSSBgEg
+         FTzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=ZZNEHLjnCSi0dTY0sR3/yoFnjW7rryZybDVgQX7Z80k=;
+        fh=0HA3JsHftreyRfNvH3TX3gbqSTrkvrbvaSJhjXuwogI=;
+        b=jDtAEwx/tUZ2iezY3FHGdoZr7gzJiqTf6XrdDVvyz6LEpd/ZJ4xo2F3RF4h8E1PjYb
+         oYku0zoEnmR7kNbvxRdEIaV7ywERZrZDBB4iwbUp5h+QhGt3XdVOAymQorMrG/yDAsUl
+         EmbGil0Im9Y9G1YhwuvN9ScaZJkrWE5ROBpJ44dEN9NhUE0mDpeXHBtiugk1zMt691+p
+         Liba6hPCqbw7SToKkiFrf1EEiInebXyp1ZrbeqwVf0ATErxQh6DrxSv4h2CDa5lUk11Z
+         NiLWOkgLSY05ccFZm+DdDJYmSgd/wIg9CerkgeTf2k2Q4zyKCDoU7BhIJIFocVW9066o
+         Entg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776417107; x=1777021907; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZZNEHLjnCSi0dTY0sR3/yoFnjW7rryZybDVgQX7Z80k=;
+        b=Q0p7Tq9mcKbWehC7s+FDYhZMZMNDgpkJUxm5V5Piq8V8c5Ft4gX+9yVEUbSOLkd4rD
+         LzVQ5sQn75MXCDV202YItEgRWMsxMwiY+7FJpctz3E6LXlk1l8ZAz9NGe0+KYW0/VMAe
+         eqTkq15DNNGTwGTtEoBn4YhoLNh2l8ySwQjOJtnzqEgHzWT5TZpAyCr18qMcLGwrUK4w
+         Ui/rUTdbHyJV64go0bvjXXVaoHneH/AN64bHH9xInE+okIlZpkTI8gEXOtIVA4/tctIW
+         qR4gWexs9DZ6h5fbh8nJKyr1p2FYDkLP0aVGJOHT5hpAJC596i0UQB6i1H2AN3cztpAV
+         Sofg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776417107; x=1777021907;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZZNEHLjnCSi0dTY0sR3/yoFnjW7rryZybDVgQX7Z80k=;
+        b=K8aZ9UQE2UXz5zmFNAXcIzWM107pmPmYTQdn2C7IJHZ7+0bEwPBJunGN8r9V0k3efl
+         icOKbk8AAAFCA+7OCE9vUNbpyxvM5JxBzUlxJYCCb+S0wFXf+rUdxM/tz/bo7IDZJxg9
+         OS4jSETiMygePbsftWSqmzI3ypGnk9/hgryuDpWXKG9GscP+4nn2IRL4TO1CusY9q6xB
+         g1wHdo/ez/qsXq5nJjQXZtBfYK41mQ/Md5e4gCUT2xm7k3Tc5aebvC57GL8R8awv+TIH
+         VgFfCNwHrW7AYT+wFsM0aFmkQHqoydUFrSgsno/h5xO11v84GxZeyWA5afZuM7PNYS/l
+         Ss4g==
+X-Forwarded-Encrypted: i=1; AFNElJ9+ht/qnNr17zlGO48l4QnLNQa/iCFTAr3f6OTtlHqXD9ROXRo7wFuymzdxQh41ybgRgBnF9KTGt1HHvon9@lists.linux.dev
+X-Gm-Message-State: AOJu0YzWLaPhOdoQo9FB/rxgMFIjKsQ4Ccs2qRXJcNYXO/Dc9TnCv7lm
+	YZbYiyQR+vHXmSaRAMNlGz6fcQQpNc59q+x/T6ebYRhM48U8NKS9/+ERWGQ51e41Gwac6+r7Afm
+	Ta113q4rGvyP8Xw5N377kJud+hbLkWtI=
+X-Gm-Gg: AeBDievXwm8pj3yst/Kq5cCh9xxwseZ3AgbahMWu0/dfMSb+DrC0OoFTO0tWYma57Wf
+	Sf7Jq7ZymVzDjPweEn+/5bAdMIQNr5XnIIRGb9LC5TViSV9lNaTzCudUCr26ZH6d+hJD1wAxYEy
+	fEgZ26zpWIJj6FX6eQCk6yNGFhHn9evRx9JdRB8kwTqNrs7rb1RC3xHO7T8IloE27OgQWxBEwcN
+	NzjMDomrHuLWEmgrBn9zR/bhAM1YI/HBMNENu2CoSstwmFZl/dcurqLz9vYcP7nLg1XYEd3Wea4
+	S0O1vyaCX8mGgtBlrMRM
+X-Received: by 2002:a05:690e:130e:b0:651:d634:6d32 with SMTP id
+ 956f58d0204a3-6531085f25cmr1805344d50.20.1776417106750; Fri, 17 Apr 2026
+ 02:11:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <20260415175038.3633384-1-lgs201920130244@gmail.com> <202604171609.wl8JLCit-lkp@intel.com>
+In-Reply-To: <202604171609.wl8JLCit-lkp@intel.com>
+From: Guangshuo Li <lgs201920130244@gmail.com>
+Date: Fri, 17 Apr 2026 17:11:36 +0800
+X-Gm-Features: AQROBzCVBYydseR7J8ekLAtPw3aL9_q0Qe5MzF8i8S3g1XrJyVxsBCHjMaTpGHI
+Message-ID: <CANUHTR8SyfZouETXFpDv4ivzin+DC8OTDYhbSQ1cRaoNqYPduA@mail.gmail.com>
+Subject: Re: [PATCH] platform/chrome: fix reference leak on failed device registration
+To: kernel test robot <lkp@intel.com>
+Cc: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Olof Johansson <olof@lixom.net>, chrome-platform@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git amd-staging-drm-next
-head:   f0181ced20586d4d03c1e3a4bcbd5c8faa27399b
-commit: 69bac120a7bb8bcfb8c949f884b9fa7ed920a5d0 [2390/2412] drm/amdgpu: add sysfs for Peak Tops Limiter (PTL)
-config: arc-randconfig-r051-20260417 (https://download.01.org/0day-ci/archive/20260417/202604171728.cFEktgVV-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 14.3.0
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604171728.cFEktgVV-lkp@intel.com/
+On Fri, 17 Apr 2026 at 16:47, kernel test robot <lkp@intel.com> wrote:
+>
+> Hi Guangshuo,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on chrome-platform/for-next]
+> [also build test ERROR on chrome-platform/for-firmware-next linus/master v7.0 next-20260416]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Guangshuo-Li/platform-chrome-fix-reference-leak-on-failed-device-registration/20260416-135638
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
+> patch link:    https://lore.kernel.org/r/20260415175038.3633384-1-lgs201920130244%40gmail.com
+> patch subject: [PATCH] platform/chrome: fix reference leak on failed device registration
+> config: x86_64-randconfig-013-20260417 (https://download.01.org/0day-ci/archive/20260417/202604171609.wl8JLCit-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260417/202604171609.wl8JLCit-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202604171609.wl8JLCit-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+> >> drivers/platform/chrome/chromeos_pstore.c:131:3: error: use of undeclared identifier 'ret'
+>      131 |                 ret = platform_device_register(&chromeos_ramoops);
+>          |                 ^
+>    drivers/platform/chrome/chromeos_pstore.c:132:7: error: use of undeclared identifier 'ret'
+>      132 |                 if (ret)
+>          |                     ^
+>    drivers/platform/chrome/chromeos_pstore.c:135:10: error: use of undeclared identifier 'ret'
+>      135 |                 return ret;
+>          |                        ^
+>    3 errors generated.
+>
+>
+> vim +/ret +131 drivers/platform/chrome/chromeos_pstore.c
+>
+>    119
+>    120  static int __init chromeos_pstore_init(void)
+>    121  {
+>    122          bool acpi_dev_found;
+>    123
+>    124          if (ecc_size > 0)
+>    125                  chromeos_ramoops_data.ecc_info.ecc_size = ecc_size;
+>    126
+>    127          /* First check ACPI for non-hardcoded values from firmware. */
+>    128          acpi_dev_found = chromeos_check_acpi();
+>    129
+>    130          if (acpi_dev_found || dmi_check_system(chromeos_pstore_dmi_table)) {
+>  > 131                  ret = platform_device_register(&chromeos_ramoops);
+>    132                  if (ret)
+>    133                          platform_device_put(&chromeos_ramoops);
+>    134
+>    135                  return ret;
+>    136          }
+>    137
+>    138          return -ENODEV;
+>    139  }
+>    140
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c:1394:32-44: opportunity for str_enabled_disabled(ptl -> enabled)
+Yes, the build error is because in the first version I accidentally
+forgot to declare the local variable ret in chromeos_pstore_init().
 
-vim +1394 drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+Sorry for the oversight, and thanks for the report.
 
-  1387	
-  1388	static ssize_t ptl_enable_show(struct device *dev, struct device_attribute *attr, char *buf)
-  1389	{
-  1390		struct drm_device *ddev = dev_get_drvdata(dev);
-  1391		struct amdgpu_device *adev = drm_to_adev(ddev);
-  1392		struct amdgpu_ptl *ptl = &adev->psp.ptl;
-  1393	
-> 1394		return sysfs_emit(buf, "%s\n", ptl->enabled ? "enabled" : "disabled");
-  1395	}
-  1396	
+Also, the underlying issue here appears to be related to the
+platform_device_register() core/API behavior. We are currently
+discussing in another similar case whether the better fix, if any,
+should be made in the core/API code rather than in individual callers:
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+https://patchew.org/linux/20260415174159.3625777-1-lgs201920130244@gmail.com/
+
+Once that discussion reaches a conclusion, we will revisit this and
+make the appropriate fix if needed.
+
+Thanks,
+Guangshuo
