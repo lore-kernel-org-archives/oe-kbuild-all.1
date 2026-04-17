@@ -1,135 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93FF9361666;
-	Fri, 17 Apr 2026 08:47:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE37E270EDF
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Apr 2026 08:59:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776415646; cv=none; b=DHN5PWJyg8JQFNVnWvE8mqzXbEBcX9RSs6aq6A1aPvknAQmGdZ+nTBixZ5kZGfwjrXuYLOFGWiZciW4tH6Dc9/MxYG5o4HHOH2y9lAYPNzRfdhN7iqVT13OZQb+tbgNdyjKud1SVjEsj4OnfiTMtU1iKHOsBLQEQYiAle4rBvJA=
+	t=1776416365; cv=none; b=ozKVqImnkHmWKD2PPFGKLgmsjxHNDM6KG4osaKP3rOpglX/p3XVtsjDCO5nvWQX+iVLF5pe4tzVcMeuTQT2i/eCkpHtaSmJLbsB4g9mOH+tvzndy+b+stC8TGerjRwgFmSYhgkNnuOhKZ47GAxs4ChZX/Yasx52YTFpIWV6JdeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776415646; c=relaxed/simple;
-	bh=wxUNApV633COIbhu4Xx2lJEqtFqLK8JVUO2pg0Q4brE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IxOLrFbvGeQ8IkvDmo/6BHlGoCgGweSfqb9S6xjTYH31EgiaM9t65C3XB67V6a9JQh43wEzlcoQttDmY1y1Ae724WeC6H6jiVjYiELN4be8abkJks7h20IXK3X4/u6U7mTFRb0XOJNDn27ZRCslt5f4Z2188zXXRrmjJWP185KE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J6gjYnys; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1776416365; c=relaxed/simple;
+	bh=qAgYbtwekCqYEKLnoIom06W9lHafLGUXXNibP+Ro5gc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QlFWWUOWSnH0Hy0do+KororuMxwFkPSbmvMIKwR/uXEbUzuYw085+GAdPm49B16uFGRxcSV3P4Y2fOB9egjRgX25cprhje0v82GycQTkOGNma9uDDZOQ/9Rg4LEaD11Y+TfiHbHZO/W+uJWBkWmvLgfYQFBdbz6k/Y2LDIgTqZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QrhG+SC8; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J6gjYnys"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QrhG+SC8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776415644; x=1807951644;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wxUNApV633COIbhu4Xx2lJEqtFqLK8JVUO2pg0Q4brE=;
-  b=J6gjYnys+3qGpxiZXisBzOUD2AbmjyHSFSdBruZry/doP4YZxtx1vUVP
-   JIClbRAC9gXADAbURiPaiOrpo6Taj34L2EMks8ViwGm6WtdSaUJ2St9bv
-   fJlCTu33b6B9q8BuXkVaKYX7797JqNuJCnrHDFBcgXbvK6Er5lD1zmgey
-   ToXT+qNCc/7PQLGzJjuvmjoRDPYrNY9AE1fm4phyEFFa3aKeKQ9DchtT6
-   9nCmt99Iax1d7oHcbPV164/9jav+KG/+uXWBg/hV1gzUOgFZKa/v5VzOX
-   YRq4A2XFI02tyw8HTySiDqlxhw2Q/dXDvU15NC7OVijk0R9+b2+VPS0ws
-   g==;
-X-CSE-ConnectionGUID: wmBTVjQBR8yPZ7l61YNM7g==
-X-CSE-MsgGUID: DvQIR91wTjmDDfsA+xt/Gg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11761"; a="77337554"
-X-IronPort-AV: E=Sophos;i="6.23,183,1770624000"; 
-   d="scan'208";a="77337554"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2026 01:47:24 -0700
-X-CSE-ConnectionGUID: DogULTTsS2OPAZEbXrka1A==
-X-CSE-MsgGUID: X4eVROXqTSi/ns/gTSMauQ==
+  t=1776416364; x=1807952364;
+  h=date:from:to:cc:subject:message-id;
+  bh=qAgYbtwekCqYEKLnoIom06W9lHafLGUXXNibP+Ro5gc=;
+  b=QrhG+SC8wAD0aIp+H5NPF9H+2UfrUH77PMvHeviWGIu2M0ShyDdVaTtg
+   fBwfBqSmbKMpzKH+huNFtkz3DBCKnZWXGjgU2MChXK7kTiel6TegTDvss
+   w8FXPlFKO4X+KmDQGtGffZdZ6l14RkyRkfQlfgIVbcLU3GfbPdBDie6ZF
+   hFfRF2h1P2i93bDGvJSucax3wwkQs2NGg6TTLyLBIIjiAsiwk0V3AbVCI
+   pWyrlQvt3HV+Pr3wJ+5pjWZ+VMH3kLeux3DNORxFbznk7nTfvxGTKJmZo
+   /OemKSkM1pcrINujOpXRY6A2/MkpONuymykgj3gcaXBQMPpoJBCj9H7RM
+   Q==;
+X-CSE-ConnectionGUID: W0FN+VF0RIixHqMp01bgXg==
+X-CSE-MsgGUID: tjwISLT0R5meIlsicaqHxA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11761"; a="88048391"
+X-IronPort-AV: E=Sophos;i="6.23,184,1770624000"; 
+   d="scan'208";a="88048391"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2026 01:59:24 -0700
+X-CSE-ConnectionGUID: nT6SJysMSWyMOfoWWJtn7Q==
+X-CSE-MsgGUID: vmVQ15slSFW0jjg7Ow4SNA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,183,1770624000"; 
-   d="scan'208";a="230911379"
+X-IronPort-AV: E=Sophos;i="6.23,184,1770624000"; 
+   d="scan'208";a="234975067"
 Received: from lkp-server01.sh.intel.com (HELO 7e48d0ff8e22) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 17 Apr 2026 01:47:22 -0700
+  by orviesa003.jf.intel.com with ESMTP; 17 Apr 2026 01:59:22 -0700
 Received: from kbuild by 7e48d0ff8e22 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wDer9-0000000008b-1BLm;
-	Fri, 17 Apr 2026 08:47:19 +0000
-Date: Fri, 17 Apr 2026 16:46:57 +0800
+	id 1wDf2m-0000000009Z-14sA;
+	Fri, 17 Apr 2026 08:59:20 +0000
+Date: Fri, 17 Apr 2026 16:58:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Guangshuo Li <lgs201920130244@gmail.com>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, Olof Johansson <olof@lixom.net>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Guangshuo Li <lgs201920130244@gmail.com>, stable@vger.kernel.org
-Subject: Re: [PATCH] platform/chrome: fix reference leak on failed device
- registration
-Message-ID: <202604171609.wl8JLCit-lkp@intel.com>
-References: <20260415175038.3633384-1-lgs201920130244@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 3/3] Warning:
+ drivers/tty/n_gsm.c:4175 function parameter 'dlci' not described in
+ 'gsm_modem_send_initial_msc'
+Message-ID: <202604171658.S0L0bb0H-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260415175038.3633384-1-lgs201920130244@gmail.com>
 
-Hi Guangshuo,
+Hi Seppo,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on chrome-platform/for-next]
-[also build test ERROR on chrome-platform/for-firmware-next linus/master v7.0 next-20260416]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Guangshuo-Li/platform-chrome-fix-reference-leak-on-failed-device-registration/20260416-135638
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
-patch link:    https://lore.kernel.org/r/20260415175038.3633384-1-lgs201920130244%40gmail.com
-patch subject: [PATCH] platform/chrome: fix reference leak on failed device registration
-config: x86_64-randconfig-013-20260417 (https://download.01.org/0day-ci/archive/20260417/202604171609.wl8JLCit-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260417/202604171609.wl8JLCit-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   27ab235e014269ff44817beda997780356467583
+commit: 3cf0b3c243e56bc43be560617416c1d9f301f44c [3/3] tty: n_gsm: Don't block input queue by waiting MSC
+config: x86_64-randconfig-071-20260417 (https://download.01.org/0day-ci/archive/20260417/202604171658.S0L0bb0H-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260417/202604171658.S0L0bb0H-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 3cf0b3c243e5 ("tty: n_gsm: Don't block input queue by waiting MSC")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604171609.wl8JLCit-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604171658.S0L0bb0H-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/platform/chrome/chromeos_pstore.c:131:3: error: use of undeclared identifier 'ret'
-     131 |                 ret = platform_device_register(&chromeos_ramoops);
-         |                 ^
-   drivers/platform/chrome/chromeos_pstore.c:132:7: error: use of undeclared identifier 'ret'
-     132 |                 if (ret)
-         |                     ^
-   drivers/platform/chrome/chromeos_pstore.c:135:10: error: use of undeclared identifier 'ret'
-     135 |                 return ret;
-         |                        ^
-   3 errors generated.
-
-
-vim +/ret +131 drivers/platform/chrome/chromeos_pstore.c
-
-   119	
-   120	static int __init chromeos_pstore_init(void)
-   121	{
-   122		bool acpi_dev_found;
-   123	
-   124		if (ecc_size > 0)
-   125			chromeos_ramoops_data.ecc_info.ecc_size = ecc_size;
-   126	
-   127		/* First check ACPI for non-hardcoded values from firmware. */
-   128		acpi_dev_found = chromeos_check_acpi();
-   129	
-   130		if (acpi_dev_found || dmi_check_system(chromeos_pstore_dmi_table)) {
- > 131			ret = platform_device_register(&chromeos_ramoops);
-   132			if (ret)
-   133				platform_device_put(&chromeos_ramoops);
-   134	
-   135			return ret;
-   136		}
-   137	
-   138		return -ENODEV;
-   139	}
-   140	
+>> Warning: drivers/tty/n_gsm.c:4175 function parameter 'dlci' not described in 'gsm_modem_send_initial_msc'
 
 -- 
 0-DAY CI Kernel Test Service
