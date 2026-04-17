@@ -1,164 +1,163 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37F37397E76;
-	Thu, 16 Apr 2026 23:51:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776383498; cv=none; b=FxS9QEUiBz3D9C+w8Uk1xoVaeR275428y7s/pqM6i2VEhMqkjoSJmNZd8B6/Czc70IlaMs5hke7Wtg/SbGMKscKLY82nKNLpR5N4uuNR9tgc9Ax2rH6J1aYBJOUwhHjZ/RTSfQSTWLa5Ut+eCKLztCBBeXdwC9p+xKcUcu2qDR0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776383498; c=relaxed/simple;
-	bh=CDzhtQ5NGechP9M/AT0T6ReMPrmDg9Tzee39gUXJDjo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=RTuZEPZl7p4trfSaGmPk20DvWuXJC4mbQCiRIcECPebL6KCVz/N1Nsy6lXY0DDZf4rgwtoEExHdrFFbGUPsAHIzngokBjh3AA+x+lt15zXhkfxuQ9RtuIr08ctHDo7oigJYB6rDIshyxxDj8EHfwHhe8vqv7aY44fMREca8ZB7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OwDiBXPH; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A301B13DBA0
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Apr 2026 00:32:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776385937; cv=fail; b=TIJ8zvBAzuMAyRzw++6GZKz25k/SY8z8ueKxN1knI6P5PWxeWJ+NhcWS1hct4F1yO26CHCkmep897IQ+QBXh+GGYvZnFvcQWGty+vFmqiCJv4vkO8SDzHlFpq6i3lGbhqu083NsFudDgXaNgZlNGgx/NYYuV4CBstjQejkphwko=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776385937; c=relaxed/simple;
+	bh=8CDhGp9ij5485HYwn8u8KgZbDzsdpHBpuO+3AWnczF8=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=UoHjPENtR65yG8+PiMG2jokkxwRuva3BqtWxcKEKXzZRSMCOe8QGIYlB4D1uVQADNozRUBquqtaERZr0poRitX5BFeoeXkHl+sg7wkkIZakc8Y7NryVahaQ7n0ZnmMDZ0k7Pk8UCf1eHCZzzrp6lgoILpTpWCFPE88RXVABpgCg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BQAOcwr1; arc=fail smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OwDiBXPH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BQAOcwr1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776383496; x=1807919496;
-  h=date:from:to:cc:subject:message-id;
-  bh=CDzhtQ5NGechP9M/AT0T6ReMPrmDg9Tzee39gUXJDjo=;
-  b=OwDiBXPHt9jCLIwGs1VXn3kUK2DIfD/6PLG+6rJ6gIeiLMG7d9rC3AGo
-   AxhjBgXbAIL7Lkzo7pOPpdHsiNT/R7E6KyK8rJXMrdKVlcl7+xTHoV8J2
-   +Hoh28Frgydx5cOyLaAxLxh5f/Bdv/ZKQOsVn8SSkykLUCY4Q6XCG9JeO
-   O2Y887HAAmaBnkCW9xjL4KI5lr5vy2pWYwWmFu0L5fK8Z15vw/bA7G3zm
-   vAMCxXl16dJI+rlGlIhuCTcv00vtbNjTB09gNfRvZMv5nzmeDQ5Kx5mI2
-   AAWmeXN0H9delu6oL25F+pAmRIrEwf6CaTR+0JIk+NLUxCkF6hnlvuZE5
+  t=1776385936; x=1807921936;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8CDhGp9ij5485HYwn8u8KgZbDzsdpHBpuO+3AWnczF8=;
+  b=BQAOcwr1FMgyHbIu24yECfUckSvJz+UsrbLx9Ue9s4Y+AsTglYMrw5PN
+   WjmNm+vKfuN8hJmJKY5y1ptPgWc7agF4g4XXcpo/HYiEh1qBaTPsz308K
+   BJ/1O30qmDqDo7RtiDipriAILKYtkfTTVTCkuMbWD2v1/rg2Ry3QhZpLA
+   aKGKqeSbWgCrQa3Hx/0ebAOaZiF/5k4lCxddCzeJlHF/yel9ZW2rbizze
+   bDtDY6qx/cyP6ox6K22y2bwZVrZrFnVbqT+rl+BjrFYbbW4hzsErmU/nH
+   O+iCtg5DeRLzgQ+xskMR8LzdMkgyrPwxgWpQAtobNl6wlc45eb1uxfQdX
    A==;
-X-CSE-ConnectionGUID: ownjy5DeQtm7GFEAeCdfkQ==
-X-CSE-MsgGUID: IQy8hT4eSVOjeyHQ5FKBjQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11761"; a="88781202"
+X-CSE-ConnectionGUID: rJz38mdzQ+KNZc88C9p6vw==
+X-CSE-MsgGUID: 9a3doV3gQMu8grVOhWqlvA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11761"; a="80998877"
 X-IronPort-AV: E=Sophos;i="6.23,183,1770624000"; 
-   d="scan'208";a="88781202"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2026 16:51:35 -0700
-X-CSE-ConnectionGUID: dMFHRvmKQDCr2CJjsxtD2g==
-X-CSE-MsgGUID: +1VopU1nQRmtWE2pl3od9Q==
+   d="scan'208";a="80998877"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2026 17:32:15 -0700
+X-CSE-ConnectionGUID: U7byaSGfRCu44zh3Q3db6Q==
+X-CSE-MsgGUID: nQ5MRoLmRh21Nozy3BBGJA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,183,1770624000"; 
-   d="scan'208";a="235245567"
-Received: from lkp-server01.sh.intel.com (HELO 7f3b36e5d6a5) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 16 Apr 2026 16:51:33 -0700
-Received: from kbuild by 7f3b36e5d6a5 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wDWUd-0000000026w-0Iq5;
-	Thu, 16 Apr 2026 23:51:31 +0000
-Date: Fri, 17 Apr 2026 07:50:39 +0800
+   d="scan'208";a="226536140"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2026 17:32:14 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 16 Apr 2026 17:32:13 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Thu, 16 Apr 2026 17:32:13 -0700
+Received: from CO1PR03CU002.outbound.protection.outlook.com (52.101.46.25) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 16 Apr 2026 17:32:13 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ODHeddYSTpbIsE3E1rblejC/3E7iBLeiUO0oFPBDQnFYOhdpzyTJUYnauffCzAI7WRhNkb8gIHpOj9K95pqP3Axg5K0llstfA4/Z/p5ryO/gFf8179nYJXZjoTsCl6Obxux7Z8eqOaJ+ZqeiltpdCCxlr/LTS8ID/9btkJHkiiz2K4UUpqe4OyGEQFhIB/LCXvPYAYM93TeFENcLopJSIq/2Bp1Hj9hqR/v1B9w6mKxq7hxoW24nrUB4rmpnQt1V9oBSWQcdjoDlR00XpzgaK+uLWmDCx9IDaW+61qln/s8k7RDSY5D1Rzs89jjRo/wwwPkvLQwBYTGsanV93ytlyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8KFTrASNTd1wj6ZDkMVlRdFskaXtk9qiZzpKb+kIAbU=;
+ b=CW2g3xsQ3KP8VPYMMHYti3AM83pWSfAVvwMsK+sj7i9WriaOSSaOlPwBt55RcupZLjt3XgiFITPzDWQTe/zd8aDNYwvG+hzaLhDrYgjU5mYWYi4/g1XKT5KMqLh5FFiqKBseob216g6zCgw3fs/lvHWfA7EVj8oJDLqYqeVCnSOPUhYkr4ZK9YaMAolqTn5ozUVPcFV2SyCKOREjIeZYBR0HxvdA++KL+nPLfPHJvISij48K3XEQjvRDWdQVR5xpFI6oRohFntaiSoMHpugTt7dA3xUb2MZtYmkiuK22hWvkaSjfiI6RTOT++RNueiMET5aSf9pnSByRiYmxpJAYHA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BYAPR11MB2808.namprd11.prod.outlook.com (2603:10b6:a02:c8::26)
+ by SA1PR11MB8427.namprd11.prod.outlook.com (2603:10b6:806:373::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.25; Fri, 17 Apr
+ 2026 00:32:06 +0000
+Received: from BYAPR11MB2808.namprd11.prod.outlook.com
+ ([fe80::defa:788:da96:2f9a]) by BYAPR11MB2808.namprd11.prod.outlook.com
+ ([fe80::defa:788:da96:2f9a%4]) with mapi id 15.20.9818.017; Fri, 17 Apr 2026
+ 00:32:05 +0000
+Date: Fri, 17 Apr 2026 08:31:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chandrashekar Devegowda <chandrashekar.devegowda@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-bluetooth@vger.kernel.org,
- Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
-Subject: [bluetooth-next:master /72]
- drivers/bluetooth/btintel_pcie.c:2309:7: error: call to undeclared function
- 'acpi_has_method'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202604170717.KYieBeVa-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Steffen Eiden <seiden@linux.ibm.com>
+CC: <oe-kbuild-all@lists.linux.dev>
+Subject: [kvms390:sae-part1 4/27] checkpatch: WARNING:BLOCK_COMMENT_STYLE:
+ Block comments should align the * on each line
+Message-ID: <aeF/fsWazhy6b4jw@rli9-mobl>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: SG2PR04CA0157.apcprd04.prod.outlook.com (2603:1096:4::19)
+ To BYAPR11MB2808.namprd11.prod.outlook.com (2603:10b6:a02:c8::26)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR11MB2808:EE_|SA1PR11MB8427:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8cffab5c-5401-4892-c948-08de9c18c098
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info: V2MzY8JLIER9IjdKEtl71wEFOV05HYoZwfJT+yCv4gTyA2AVfvlpm6G4OUDHHm77ZtTNwlG9kGiwWmS4Obc4OwZ6JEiXSJomYegsLDp9UVGMVFwO9JPcjhdUJMsBNH9XSoqE/LFnqAcdY2OzQnV7dkdV7koxurhfhrOo3rBMVgVhHjKv4GJSiwGDkLkwTpYF+0A7dFIF6fNuyCN++1CADzsf9OXTE3ZNVYn2YWnsTFdTkVgtYumgv5ByIrqJ0L2Af/dv8hLA+yxx0OjgpcPo17fX+4GV71nzR4D+ADHYRkD07Cf5PRIeK9CaQqs25/LD+WHgLbrDucFJ6iSmSLVEBtnJ01MMqQbnsQvMvs2dp5cbRNjQFCMkothDH9fDR21QrmvroU2nUTwr/1ZSrkw8tw8s8de/YH444oucCn98Gz0AEzuayxyDOqLiXSqMGMQeYOmHolCzld+yVh2n66zO4gTPYbq5pVMDQyVCD1PsMiGsT5yRxO6/3a/tZyamxzl/GQXpk6SP/4tvixeCe4yJEyA4BrKlLjQFinWQwWWYBkMI+7vcQPJYBGVtuIMPyB5GIIcsIo/0AFIzDttNYVOVJuT1rF12mCJ7aeXPawzOS0WlQu7DVGccU7kBwlsyisemwfUeAM8TjL0jKIsY7YdgShCNRPPOSLiMMDZGFYazXPdFCV7/OnOIWv4vRWDO/BY8
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB2808.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?RAQysIqTBaPlTo93GvMuzv7PJcieLhEa6aVCz+tV7fvboQCx8rTr2rTa0vAl?=
+ =?us-ascii?Q?GJIwBdQii3zhDgNjCHCsOpexdcPUISiMv8miuuKP3EcehzCBFckd+dVeGpMw?=
+ =?us-ascii?Q?eoH52ehSiBEOT6eE7JI3gK1X/CEA7vf4qGLpXRkFS4oGTYu7wMVMhZz/C2H9?=
+ =?us-ascii?Q?l39pdE74j0cM0zNaB+isVYHxX3jZQmy3r/Y8dyin5eiufBoJ+1cJgs3EoSGq?=
+ =?us-ascii?Q?rzviG8R0vS5lkDdaE9P4igBs3UMzvJRF8tXP2REuygY6qQaSiKAjaQoOQoQx?=
+ =?us-ascii?Q?xikdQeUBBUhNJLQYn3bbLiFHDMmgw94q296xLvwPq7BrmZGIYTZ/gAzEII2C?=
+ =?us-ascii?Q?6FTPgnPrRrwYfL5p85cJ1PLY2wC6Bwc4Q4dE+E6wY4Rf/k0XljudKCG+SXbp?=
+ =?us-ascii?Q?bMJHt9eZAdMr3N9tt24nvCsailo+cP9rwAWlkxcUFiNjDRf+ORAAKWq+qm+A?=
+ =?us-ascii?Q?eHqlMDdJGGFWTeHjzLh2bIyZcXoEqmkGVZADqD2jM7pmCwLSJRmItfL/a9rw?=
+ =?us-ascii?Q?SBvO+F+tNViNFYCKV9mXch2bEoo5y3s5Fc6KJmSvZUP63ALSDSFyHiiQ2XWZ?=
+ =?us-ascii?Q?kRZ91Lr6HhzpO0x81DeeHlyjrOcHhZFmBkFc2ZcTGhTg/ylIgD/vgMOvzTRE?=
+ =?us-ascii?Q?VvcV0fLo1B+aonUAwx5mvthyTZgAcYQvsIYwQrr4XZvD0U8Q0JdxfK9NlcFE?=
+ =?us-ascii?Q?1wIUf1jX8HNm3Y99zXK7ctIQXDdYb7CGm4HM3hYK/P7o3qyLKkqtkd08sp5+?=
+ =?us-ascii?Q?lQRg0hN2Q7igZmH/Ge1sqivJ7QymTgTV/RIl5JY6hx/Dazlx9KLqrHrJ/kdp?=
+ =?us-ascii?Q?Op2JZUQRLpYk51zWsRYApOljzuH+zyK8lojxNeMa22wHiw5cXNGhsJOyoD6I?=
+ =?us-ascii?Q?VEOXzBYAyMnQu7ZdLZuHerwEecTTrgYEbp68cO21Kt0n6dT78GZxxECbEBCi?=
+ =?us-ascii?Q?zRGG4WvkJCr7bz9tgYXwpVmokw1Yi6k3YkxJgGy9BvEmJejUeDRUYz39Rnq8?=
+ =?us-ascii?Q?lLpZjQYKO+DnqBInv0NyKNaTneoL9UCJWH4FBIB5Lgw6LSMjugPYmZivYg0t?=
+ =?us-ascii?Q?OC13I77RpctjogeOJskD1A9x/waud0NR+8wbD9iVUEhDi61D/nI3smegz8t6?=
+ =?us-ascii?Q?1j15dBh6fwcDAj//l8B/3Gld9yRQQALezHoFxAMDETkuDGwtWhkRKeormc+G?=
+ =?us-ascii?Q?hGZE/2Y0bhTtflmwMDYJ1DCD2SuvtZSKrHFibwSiy6tS4SPVxlwzO0thkrtd?=
+ =?us-ascii?Q?pPwI1hcVSVH+rUcnlFncG9ByeQt6q67AqYuxgjcmWKL0D8YL3srYMdIqso/3?=
+ =?us-ascii?Q?nRu4/bFFm7AfIQ6THtVAWIA2NQHgMuDe6n7G3861CxdhcKnv2SbL75H3DSmL?=
+ =?us-ascii?Q?hOYtTPkRSukLkuoz9Qbnlclnz4q5OOqp+aB0gezu1rXG7scR3UJVZ6I8XSX4?=
+ =?us-ascii?Q?SEllLaLP28CS4UWiTz4hqA3oiv5QTIJWqDEhURY3phmGIozshPVtcq+D/Doc?=
+ =?us-ascii?Q?HAa2bJEBMTxYT3MKZvccUwxSSLITu3YS+A65VJInp9aPGBZLIXI+exLTDBFK?=
+ =?us-ascii?Q?A1mYx732OtMncVOUQ9ZFTeECWOtzFCOe4DqfB7b3jMG4W0++pYS36VL+KNoC?=
+ =?us-ascii?Q?OoXjpGJWbPg2JN6C6XDwDJwGPEltXgTr2FGF7DQVhUkP/ntAyf11VkS1TTZr?=
+ =?us-ascii?Q?Tq+R6pDw8ShY7QF+ZE0gcq++oK8k102D6MM1PVbCvRqODe8nZCfdS0u1UdJR?=
+ =?us-ascii?Q?yH1PUQ7caQ=3D=3D?=
+X-Exchange-RoutingPolicyChecked: BrIzDEgfY1lgI3mKcjhrAlWiPjJVNE0JB4s9Jlqw+Ov8geOmooYQsmRyl/Av7zpdU/Ff9Dhcsyc1hMAJNDxnIt+3nkVB35XZX2znq/iYaazPLCycj2Bhse0GZV8IybGJ+4ld12n7u36LTN7G5wH2m55hV04349z4wP+HbvvPnQIg7bOwD2ECXxh5kTjJx+klmCRKvVZhY0JgH3aw3yjJTVGHj9cNVydjM7QNNJdq/s7Vter/LY+gwxSouCtCV6eTOJgsTqZPn2usIG0KtfnhMmuyo54jbL9Ez8X3MvPZEV7QUSnXYEqVzrDnaz5hKlJ5sHP06XRETewR+9NQy/0F2Q==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8cffab5c-5401-4892-c948-08de9c18c098
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2808.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2026 00:32:05.9601
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: o6hqGmVjAnKpvBwBs/kZEFYLBptSXGa/FBwAbu2IjQj2/a+YcaZWSRwibTGby/0J+9L7VGXykm5hOdMcqBtMVw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8427
+X-OriginatorOrg: intel.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
-head:   b57b0f27cb05c5a9dac9eeb2cb2798a4c189a685
-commit: 912a499a7955a2773a20f33e495a5ce24d7279f0 [/72] Bluetooth: btintel_pcie: Support Product level reset
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20260417/202604170717.KYieBeVa-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260417/202604170717.KYieBeVa-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kvms390/linux.git sae-part1
+head:   c8ef958593be02ec09131a1f5e2744a98b6c01a1
+commit: 20bb0172aa62c38d868d0e61f3bb57d225697efa [4/27] arm64: Provide arm64 UAPI for other host architectures
+reproduce: (https://download.01.org/0day-ci/archive/20260417/202604170128.01CfV10E-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604170717.KYieBeVa-lkp@intel.com/
+# many are suggestions rather than must-fix
 
-Note: the bluetooth-next/master HEAD b57b0f27cb05c5a9dac9eeb2cb2798a4c189a685 builds fine.
-      It only hurts bisectability.
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/bluetooth/btintel_pcie.c:13:
-   In file included from include/linux/pci.h:38:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:24:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
->> drivers/bluetooth/btintel_pcie.c:2309:7: error: call to undeclared function 'acpi_has_method'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2309 |         if (!acpi_has_method(handle, "_PRR")) {
-         |              ^
-   drivers/bluetooth/btintel_pcie.c:2309:7: note: did you mean 'acpi_has_watchdog'?
-   include/linux/acpi.h:1494:20: note: 'acpi_has_watchdog' declared here
-    1494 | static inline bool acpi_has_watchdog(void) { return false; }
-         |                    ^
-   1 warning and 1 error generated.
-
-
-vim +/acpi_has_method +2309 drivers/bluetooth/btintel_pcie.c
-
-  2282	
-  2283	static int btintel_pcie_acpi_reset_method(struct btintel_pcie_data *data)
-  2284	{
-  2285		union acpi_object *obj, argv4;
-  2286		acpi_handle handle;
-  2287		int ret;
-  2288		struct pldr_mode {
-  2289			__le16	cmd_type;
-  2290			__le16	cmd_payload;
-  2291		} __packed;
-  2292	
-  2293		/* set 1 for _PRR mode
-  2294		 * Product Reset (PLDR Abort flow)
-  2295		 */
-  2296		static const struct pldr_mode mode = {
-  2297			.cmd_type = cpu_to_le16(1),
-  2298			.cmd_payload = cpu_to_le16(BTINTEL_PCIE_DSM_PLDR_MODE_EN_PROD_RESET |
-  2299				       BTINTEL_PCIE_DSM_PLDR_MODE_EN_WIFI_FLR),
-  2300		};
-  2301		struct hci_dev *hdev = data->hdev;
-  2302	
-  2303		handle = ACPI_HANDLE(GET_HCIDEV_DEV(data->hdev));
-  2304		if (!handle) {
-  2305			bt_dev_err(data->hdev, "No support for bluetooth device in ACPI firmware");
-  2306			return -EACCES;
-  2307		}
-  2308	
-> 2309		if (!acpi_has_method(handle, "_PRR")) {
-  2310			bt_dev_err(data->hdev, "No support for _PRR ACPI method, cold boot");
-  2311			return -ENODEV;
-  2312		}
-  2313	
-  2314		argv4.buffer.type = ACPI_TYPE_BUFFER;
-  2315		argv4.buffer.length = sizeof(mode);
-  2316		argv4.buffer.pointer = (void *)&mode;
-  2317	
-  2318		obj = acpi_evaluate_dsm(handle, &btintel_guid_dsm, 0,
-  2319					BTINTEL_PCIE_DSM_DYNAMIC_PLDR, &argv4);
-  2320		if (!obj) {
-  2321			bt_dev_err(data->hdev, "Failed to call dsm to set reset method");
-  2322			return -EIO;
-  2323		}
-  2324		ACPI_FREE(obj);
-  2325	
-  2326		pci_dev_lock(data->pdev);
-  2327		pci_save_state(data->pdev);
-  2328		ret = btintel_acpi_reset_method(hdev);
-  2329		if (ret)
-  2330			bt_dev_err(data->hdev, "ACPI _PRR reset failed (%d), PLDR incomplete",
-  2331				   ret);
-  2332		pci_restore_state(data->pdev);
-  2333		pci_dev_unlock(data->pdev);
-  2334		return ret;
-  2335	}
-  2336	
+WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
+#1476: FILE: include/uapi/linux/kvm-generic.h:1299:
++/* Available with KVM_CAP_TSC_CONTROL for a vCPU, or with
++*  KVM_CAP_VM_TSC_CONTROL to set defaults for a VM */
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
