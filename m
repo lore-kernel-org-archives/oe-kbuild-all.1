@@ -1,113 +1,117 @@
-Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD4A7358388
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Apr 2026 13:31:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B1E18871F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Apr 2026 13:49:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776432681; cv=none; b=Ldy4VH5koX3sgYij5d0jETtNMM90WDMTS4DUCbdj6W4rM2G7Dlb0H/Dz45PSi1/9oWxoCC1hFKApUQFoRkv+D9Q6n8Pfbe1aKPz5ON9aVAmN3hUSkF5/DG7vVpdnkVKaqcLnnaSVPI86PZbkf6J7h4A4pwvBzpz/poBHF8aFQvA=
+	t=1776433798; cv=none; b=Fzi2Gb2wX3CLC5xut72d3y5ddHOmACZn//bTCLUdPPwu5hCeCV26PgnzP7PDt2tU1zlnbo0frWZwNSsScfIf14nQgGez+LYhozNMQkIm94UuQIDgBnmMV9VOImdPrqNaHz68wxmLQb5y7rYdR+o/qIao1YgU+l6bE/Lhr/j4hn0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776432681; c=relaxed/simple;
-	bh=cn6CtRecj2EaLwpR7S4y/I/iCrHBJcghb35WFG7xfM0=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=SxdqVsHIS6GjYQDHMTE/A5k/ZmPhCPqOMeYeBxs5WyjQy9B21kZLNKm5EpZudSJH5xlZlFRfyG48DVmes2KpKCkJHp9NFFzNQ8vejuAn/T1gOwTT+XuAk38CuuY5BV0JtDdvPupbQL2/04CPlP1JtIDdsk5/P7b52xNgcpE7uTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pVXk5n88; arc=none smtp.client-ip=209.85.215.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1776433798; c=relaxed/simple;
+	bh=1DIOBtTYxWhfOcJnLP8692R/X2vhJ5q0SfBxhPnF49k=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Vk/APrN9FBJGrQFp66AkEs8/tRHXbycnKvLSZIOBJU0Dtjrg34Q/+UQucgDnmfZ7MdU7l2/APmgHrVrKUX7AXAGjUc+NPawiW8ECVUnJNyyD7Ww93cTPYC8La7IfESyrTe76BaGljp37qvQCWutTENjDoYZeaOWOa8bSV+Av20U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hf3OB2zi; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pVXk5n88"
-Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-c70f19f0f37so306902a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Apr 2026 06:31:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1776432678; x=1777037478; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vRvsl2+xaLX15c8bn64K4rh3d7LVuLbPSeYH3sCYDFo=;
-        b=pVXk5n88uymgcCdm+EqEatU9lO+EmUSOmCB41ci5HIn4I/4H7JyoyBz2bk5Q8TsgsE
-         xm1c8LQ6kjuRsgMAc2GA9/6h0/6QKXx0wPAnZUXSTmW/Ubd70ToN+4fTN6WsQygAkjMA
-         zgyGiXsfNOZMWiOVRLcqqoViEVTwcHd6paZAZohvnMo3gXCN05kaYgk4DYAKoDGFhG3H
-         Mpls74iDF+B2Jw56/rsqU1Ty1wR4ZJRF+/ybPPTEpuamuYNfPBenxm01zRswKfCJi1Gb
-         x2rJ0xH8qsNF7IDt1NS9jqupJvQ1T+RetFGLLI/puIanpAu3X8MuTV/3UBLAl+rlaQbS
-         oE0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776432678; x=1777037478;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=vRvsl2+xaLX15c8bn64K4rh3d7LVuLbPSeYH3sCYDFo=;
-        b=p7/cCSeF0auG36T6SgtD31BC3k+w4YpvTQjCpZYCtkyNbViOaj0luqrnPUazYw9ySE
-         KFBIA9uHWZCilzu2WMj9YT90Y8xPxa5deukyKe1m/tpp7r3KIrZjS/Y8QaqID0dWYHO7
-         AWyRBQfmzPqJYOOpiEPFSCU3z21BFys4zNkKzSSjSzT+fs60vhEWgp0ERpt4b/vnToVH
-         jAQ+dpnudnEGa7RvFmjE/06iay8viVAFgGq4rAg+xd0Rjp8hCRsTuvNynlUVmpvBt1oE
-         KoTSr8F+cthGpDikvipfJTKoqlUoXsv5oXtSddrAOLzxrpJ0b6WWI5qxQQWd1p+fwEHh
-         GtxQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8ReTkRkeUj2BdSKYxTMe5KpdAPzBN1uznXLWarbQPs9ahEbM+f6vfQVvmq4UPzO4dx1wsIxvV7qwqqfdRV@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx/fJDrYvxD47tyY47+/Zxa5GsoYmmm4iY6BdD2Raah5z6VPQI5
-	5NRL2FK8be1nG96lR3YYs3J8OkxrYEr7QzEAbo6ylrchvhtXCUfTOVsEVTZrYVLSBnhdwq0YHrJ
-	zEhVMiQ==
-X-Received: from pgj66.prod.google.com ([2002:a63:945:0:b0:c79:15ba:9c4c])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:3285:b0:39b:e3aa:df2d
- with SMTP id adf61e73a8af0-3a08c860091mr2686502637.7.1776432677923; Fri, 17
- Apr 2026 06:31:17 -0700 (PDT)
-Date: Fri, 17 Apr 2026 06:31:16 -0700
-In-Reply-To: <ce3e8a51-63fe-4723-b1d8-6555b8b77817@suse.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hf3OB2zi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776433794; x=1807969794;
+  h=date:from:to:cc:subject:message-id;
+  bh=1DIOBtTYxWhfOcJnLP8692R/X2vhJ5q0SfBxhPnF49k=;
+  b=Hf3OB2ziln4qI7PvKD3neT1yWFJwHUpsKG2ZK6YJ3AMUqLXmd0ik+oqv
+   GDujk/nXa96OOcY4fuMDQO63n6AcFvMosLvldU4XPKnoVjW20zowmeVRN
+   x7LuoRrkbo1Bfchl4ptwHBH/RkerO1yXIUaMadzJV6Bsnw3bugjK90GkY
+   5mujH3Xse3AKqP/EjJe2lhrE3XMf2/B9GrG0LayscD7CoUKrxN9skJYKy
+   YhkjXhswhvHanmBJtNvlsRbQkJyykMvb9nwP8cQ6z1grVXJbTVczgyp3P
+   TJzd5qhuU1yddfLP6ba2QAm/vfvAiy1kX8wBOyQYWf7MReGFOj5S+GrhZ
+   Q==;
+X-CSE-ConnectionGUID: JYhBwTN5RJiwcbq6Lbs6nw==
+X-CSE-MsgGUID: fVqU8HdZSHaDKFouMrduHQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11761"; a="95014020"
+X-IronPort-AV: E=Sophos;i="6.23,184,1770624000"; 
+   d="scan'208";a="95014020"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2026 06:49:54 -0700
+X-CSE-ConnectionGUID: XcugrBwPQ9ip4iAlJQRAhQ==
+X-CSE-MsgGUID: TMZLFLHkSieOK7HKRqvclw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,184,1770624000"; 
+   d="scan'208";a="226696690"
+Received: from lkp-server01.sh.intel.com (HELO 7e48d0ff8e22) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 17 Apr 2026 06:49:54 -0700
+Received: from kbuild by 7e48d0ff8e22 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wDjZu-000000000QG-3uDs;
+	Fri, 17 Apr 2026 13:49:50 +0000
+Date: Fri, 17 Apr 2026 21:49:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Jon Hunter <jonathanh@nvidia.com>
+Subject: arch/xtensa/boot/boot-elf/bootstrap.S:58: Error: invalid
+ register 'atomctl' for 'wsr' instruction
+Message-ID: <202604172102.1KIXUw9l-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20260313122040.1413091-5-clopez@suse.de> <202604031640.vckbuS2S-lkp@intel.com>
- <ce3e8a51-63fe-4723-b1d8-6555b8b77817@suse.de>
-Message-ID: <aeI2JCLldUFff0Q0@google.com>
-Subject: Re: [PATCH 2/4] KVM: VFIO: use mutex guard in kvm_vfio_file_set_spapr_tce()
-From: Sean Christopherson <seanjc@google.com>
-To: "Carlos =?utf-8?B?TMOzcGV6?=" <clopez@suse.de>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
-	alex.williamson@redhat.com, pbonzini@redhat.com, 
-	open list <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 17, 2026, Carlos L=C3=B3pez wrote:
-> On 4/7/26 5:48 AM, kernel test robot wrote:
-> > Hi Carlos,
-> >=20
-> > kernel test robot noticed the following build warnings:
-> >=20
-> > [auto build test WARNING on d2ea4ff1ce50787a98a3900b3fb1636f3620b7cf]
-> >=20
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Carlos-L-pez/KVM=
--VFIO-clean-up-control-flow-in-kvm_vfio_file_add/20260314-053050
-> > base:   d2ea4ff1ce50787a98a3900b3fb1636f3620b7cf
-> > patch link:    https://lore.kernel.org/r/20260313122040.1413091-5-clope=
-z%40suse.de
-> > patch subject: [PATCH 2/4] KVM: VFIO: use mutex guard in kvm_vfio_file_=
-set_spapr_tce()
-> > config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/2=
-0260403/202604031640.vckbuS2S-lkp@intel.com/config)
-> > compiler: powerpc64-linux-gcc (GCC) 15.2.0
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20260403/202604031640.vckbuS2S-lkp@intel.com/reproduce)
-> >=20
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202604031640.vckbuS2S-l=
-kp@intel.com/
-> >=20
-> > All warnings (new ones prefixed by >>):
-> >=20
-> >    arch/powerpc/kvm/../../../virt/kvm/vfio.c: In function 'kvm_vfio_fil=
-e_set_spapr_tce':
-> >>> arch/powerpc/kvm/../../../virt/kvm/vfio.c:219:13: warning: unused var=
-iable 'ret' [-Wunused-variable]
-> >      219 |         int ret;
-> >          |             ^~~
-> >=20
->=20
-> Sean, should I send a v2 for this or will you fix it up when applying?
+Hi Guenter,
 
-I'll fixup when applying.
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   43cfbdda5af60ffc6272a7b8c5c37d1d0a181ca9
+commit: 916aa36042db8ee230543ffe0d192f900e8b8c9f clocksource/drivers/timer-tegra186: Avoid 64-bit divide operation
+date:   7 months ago
+config: xtensa-randconfig-r063-20260417 (https://download.01.org/0day-ci/archive/20260417/202604172102.1KIXUw9l-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260417/202604172102.1KIXUw9l-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Fixes: 916aa36042db ("clocksource/drivers/timer-tegra186: Avoid 64-bit divide operation")
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604172102.1KIXUw9l-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   arch/xtensa/boot/boot-elf/bootstrap.S: Assembler messages:
+>> arch/xtensa/boot/boot-elf/bootstrap.S:58: Error: invalid register 'atomctl' for 'wsr' instruction
+   arch/xtensa/boot/boot-elf/bootstrap.S:68: Warning: value 0x1a0003000 truncated to 0xa0003000
+
+
+vim +58 arch/xtensa/boot/boot-elf/bootstrap.S
+
+e85e335f8ff615f Max Filippov 2012-12-03  42  
+e85e335f8ff615f Max Filippov 2012-12-03  43  	.align  4
+e85e335f8ff615f Max Filippov 2012-12-03  44  _SetupMMU:
+09af39f649dac66 Max Filippov 2021-07-26  45  #if XCHAL_HAVE_WINDOWED
+e85e335f8ff615f Max Filippov 2012-12-03  46  	movi	a0, 0
+e85e335f8ff615f Max Filippov 2012-12-03  47  	wsr	a0, windowbase
+e85e335f8ff615f Max Filippov 2012-12-03  48  	rsync
+e85e335f8ff615f Max Filippov 2012-12-03  49  	movi	a0, 1
+e85e335f8ff615f Max Filippov 2012-12-03  50  	wsr	a0, windowstart
+e85e335f8ff615f Max Filippov 2012-12-03  51  	rsync
+09af39f649dac66 Max Filippov 2021-07-26  52  #endif
+e85e335f8ff615f Max Filippov 2012-12-03  53  	movi	a0, 0x1F
+e85e335f8ff615f Max Filippov 2012-12-03  54  	wsr	a0, ps
+e85e335f8ff615f Max Filippov 2012-12-03  55  	rsync
+e85e335f8ff615f Max Filippov 2012-12-03  56  
+e85e335f8ff615f Max Filippov 2012-12-03  57  #ifndef CONFIG_INITIALIZE_XTENSA_MMU_INSIDE_VMLINUX
+e85e335f8ff615f Max Filippov 2012-12-03 @58  	initialize_mmu
+
+:::::: The code at line 58 was first introduced by commit
+:::::: e85e335f8ff615f74e29e09cc2599f095600114b xtensa: add MMU v3 support
+
+:::::: TO: Max Filippov <jcmvbkbc@gmail.com>
+:::::: CC: Chris Zankel <chris@zankel.net>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
