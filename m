@@ -1,203 +1,130 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0FD32D8382
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Apr 2026 15:49:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56AD02E2DFB
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Apr 2026 16:13:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776527377; cv=none; b=Z9b4e9B55zNmjCqV288egcQOsIxjPKbd5SQv3Dj8+of6eTFxb+ligMV54VYhep22G6Ia3m2iObqSdskMdD/nOeiE5AIaB6+2mI9bEq5b98A3A5Vpbh0FLtrvIJ2lrSoE9ovvvv0biDnO9QBm6QLkHQVwwJoAgetrfd193GB7CQ4=
+	t=1776528810; cv=none; b=k0IjfIxGHj0blhimJiOwLJzrdIOE3HdW/rdypw6yyDOdaUfXbEEhNkTmssyuSBv/SsQQ21XEwRxqvFsAZwiaxiF9ty88274a5kfW1AzJFg4vf60Wy3t+kyn7B4/Lvos6BsKg6stA9Mjl/y2FSW5ZxEgfAH3iQi+6aAdXZlMsqhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776527377; c=relaxed/simple;
-	bh=Gc8LUIqFDOPIShSqQaDRlUqcJQ5FSr3KzP8QMFZFNnk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZnEKnAfJmule02i1+gBoKnRTAAGPRk+24f8t5mLMnCKpUlazD82QAn2Ir4vz+710DppTdOqmG0vIhatzExNpgtqH1soG0TwO+iuTpXOx0AMf2r4UBa+ZTGtULgYpV2QZRtLYwMRx9cZ7y82v1UHK5o8aBnh8rZ7OfNZCbgOATHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DypKIJmg; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776528810; c=relaxed/simple;
+	bh=OfJ6hcjMSopm7dYCgXtRGXIQFhrTj3OfmSn0nbgFHls=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QsbwZ3mwxAmtyPumX+FTrmcR8KhIsqxRzCHalWmT3/pPy3CQesnFU4YT2DA3TI3WZe8ZKzK7e67dnmDNH44LSDeILtoLy1nwHIcT/Z68O9n69+3QY9iQYCQ/21SestFWeFqIbkqQl4jVXVRB94aWUs7HEaFHEz2E1Ri8tQNshL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NOdc0XHt; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DypKIJmg"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2ab077e3f32so7116925ad.3
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Apr 2026 08:49:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776527375; x=1777132175; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=rrPn6UxPZBxRpYnhQkSmTP0wa8nccH72Tby/VYHj/MU=;
-        b=DypKIJmgP0xzjRp87UWPyk/Yl2iuMZ70kdphxPBoVR5XPnRw9szNDniAAT+f3/KxcR
-         lsRjIBRn+c1m81nBlIXFM0RwbiSjkfXsHWW5SsCb8J18/aPUTAYRi3btH5C0da3Lid7M
-         BCcGHdk4cC7Gdw9L00Dep00OKRs86Kkje1CeyCx6AAXBTNjYt1/5VSGM4wDKbeRrKMb7
-         qj0ZLuiT4z0Vrsnl3Z/l+7+uNkQuGEpfUSA9kxJfaqAJqVJ7QlxuiCl1wFmx+jFoql8i
-         Qldh0RGKy1sRrlgZ28er3yS1VpB0MZ1Pcqhp7OazGXa86Pz62OLl1cZaEsDLPAdwGyeM
-         rTKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776527375; x=1777132175;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rrPn6UxPZBxRpYnhQkSmTP0wa8nccH72Tby/VYHj/MU=;
-        b=AAwvYoueyXj6R0+1LyFctOlbzLo8ldSWklFjv/d2TLIQrot8dV7sR0kjM9dEhSKsD7
-         184C0my8CistAq82WWb/CTqHi74hUaGt6TnnzCudfx7o8bLPNuSMci3HJV7BHO3x/7Q9
-         ag2lzdvpl6Fk9BARt3yzvQAeyU4ax9kfl+4u7U/An2n2hUcMrsBb+cOKT5r+lUblZgco
-         EeIq4Xs1GAMCUJdkq3LQjw3FkGubVZPfXLFWZe7YLlCx8ZpKQTr8g6Y1YQwXnqLbxW+P
-         8sMASfuLbhNDzOx5SYN7Te6o/Kgl2TH8C2Eari9WQgkpUdg39xbY2kowIYNwJk7nYBPS
-         7lOA==
-X-Forwarded-Encrypted: i=1; AFNElJ8gvLuQ0HIJXbPRfNV6EbA3Cw2tJ0Zm5OIwrQRYFxAOOHn86tjv9BcQTQnjAkmTVuo2o/rm2kvdw4BmI6MO@lists.linux.dev
-X-Gm-Message-State: AOJu0YyYiZTED1DDWamHNC+43DuxsCYkzsCUoD07oQHaqZB0XVF4KG45
-	J1qoZe+37a+ASQBMgSE2uSEwZ0lrNC409Jm8CLiykryDw+tYVe9RWAIi
-X-Gm-Gg: AeBDievcxKZ1a1X+fBeDxe0xFckWSl4wG/Pgob98+BL9tXiI+h3zjnJwq+0VyP8uROI
-	DWxJHhZMeL4Xe3FlXuB7fEMEtbN81tTktlTeWRz6TdwuojxhAyOCNCfZCE+xVPjpN2LNS21QGxk
-	RB4gj3DBRjJ1JqY7GBu7JO1wAr7JxtnBe0BNylETrgwz6I3+/p3lc8npzWKgTJsLs/buigVILo9
-	Gc+iGnldZgjPlPwPhqRn8OWtx+4nXb5MYCf4Ty8oF9ynXJkz6Tjg6psS/agpx79zJJug49DLm4Z
-	kvXjiQ34lGdlGWsP+Q0TieO4/05l54GZMeMZMPqACOkLiG/T5Z4QVNISPWmyflP/fRTUOFZp6/M
-	IFae3NARj8895FwQ4EmvrhYt9sjCgmz4FxKan4Ilc7iJJ1fCTECz7/xVyhvZo8+ZZon2qKCmnx8
-	IR+/Q1xa/hqEyVYdYd8lYlna9XF4GbDh/wduEnGG9l9Dx9wNLBbSzvYl9S7NXIs4+BTU9oKOlXI
-	r7Sr0VgukA=
-X-Received: by 2002:a17:903:2f08:b0:2b0:7d3d:756a with SMTP id d9443c01a7336-2b5f9f64c9cmr81119105ad.35.1776527375158;
-        Sat, 18 Apr 2026 08:49:35 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fab2112csm49261195ad.62.2026.04.18.08.49.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 18 Apr 2026 08:49:34 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <7fa7d4dd-7b05-4af2-a8da-6e605fa91f90@roeck-us.net>
-Date: Sat, 18 Apr 2026 08:49:33 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NOdc0XHt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776528808; x=1808064808;
+  h=date:from:to:cc:subject:message-id;
+  bh=OfJ6hcjMSopm7dYCgXtRGXIQFhrTj3OfmSn0nbgFHls=;
+  b=NOdc0XHtj1PTwnLCM2XmshS5sZEQsDMxkR8NEeqLV0w9N4ajlFFGIR0T
+   KGLZ/uNbGba0+vjM+QhNQ5PAJBgnXDJ/Kzb0HnfiYpBkUoAGaUU77IWVB
+   m5CaXRj4sDY6PRmhxIX+9DWKZnHuVCG4LU8JelNmkgGxBZblYHKMfUqIq
+   CCk/zRqEManSSjcZdyY5tG2YBNmbmbZdXnKoD9C/uBsyMCLzFK/x5oe3X
+   EQj8yHZaqy24VkTes98+Swf5v4GiahD3rMEiYODXTLpqtO76HXTNLRfy2
+   l9MOpHtcdICzewqhSYrLaTsTvPOkVpvBkQ/WUfxyOJ1QbL7lDLRDUxtps
+   w==;
+X-CSE-ConnectionGUID: 0xrUUuhsQzmUcM2pXmmbvQ==
+X-CSE-MsgGUID: wXC+2Un2RAOtO7esJ8WxLQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="77586193"
+X-IronPort-AV: E=Sophos;i="6.23,186,1770624000"; 
+   d="scan'208";a="77586193"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2026 09:13:27 -0700
+X-CSE-ConnectionGUID: Np+9Ss+eRniy32UFCdImng==
+X-CSE-MsgGUID: zbNPn++LQO+FiDS67+srSw==
+X-ExtLoop1: 1
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 18 Apr 2026 09:13:25 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wE8IM-000000001fV-3Zqb;
+	Sat, 18 Apr 2026 16:13:22 +0000
+Date: Sat, 18 Apr 2026 18:12:41 +0200
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Mirela Rabulea <mirela.rabulea@nxp.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, linux-doc@vger.kernel.org
+Subject: [sailus-media-tree:metadata 50/114] htmldocs:
+ Documentation/userspace-api/media/v4l/subdev-config-model.rst:6: WARNING:
+ duplicate label media_subdev_config_model, other instance in
+ Documentation/userspace-api/media/v4l/dev-subdev.rst
+Message-ID: <202604181837.JkmT17KM-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] hwmon: (yogafan) Massive hardware expansion and
- structural refactoring
-To: Rong Zhang <i@rong.moe>, kernel test robot <lkp@intel.com>,
- Sergio Melas <sergiomelas@gmail.com>, Jean Delvare <jdelvare@suse.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-hwmon@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-kernel@vger.kernel.org, Armin Wolf <W_Armin@gmx.de>,
- "Derek J . Clark" <derekjohn.clark@gmail.com>
-References: <20260413060931.31091-2-sergiomelas@gmail.com>
- <202604180539.EuswNnjG-lkp@intel.com>
- <b876cbcce7763041d93f9cad28b8aa4cac0a001a.camel@rong.moe>
- <fed0feb4770f7fab8d4336eb349d8703839e8ce4.camel@rong.moe>
- <27b467c7-7ca0-4198-b4ea-efb38f2ac787@roeck-us.net>
- <b70674d5a2152ed6123966f96acbd2872518a6f1.camel@rong.moe>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <b70674d5a2152ed6123966f96acbd2872518a6f1.camel@rong.moe>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 4/18/26 08:14, Rong Zhang wrote:
-> Hi Guenter,
-> 
-> On Sat, 2026-04-18 at 06:49 -0700, Guenter Roeck wrote:
->> On 4/18/26 04:23, Rong Zhang wrote:
->>> Hi Sergio,
->>>
->>> On Sat, 2026-04-18 at 18:31 +0800, Rong Zhang wrote:
->>>> Hi Sergio,
->>>>
->>>> On Sat, 2026-04-18 at 05:37 +0800, kernel test robot wrote:
->>>>> Hi Sergio,
->>>>>
->>>>> kernel test robot noticed the following build errors:
->>>>>
->>>>> [auto build test ERROR on groeck-staging/hwmon-next]
->>>>> [also build test ERROR on linus/master next-20260416]
->>>>> [cannot apply to v7.0]
->>>>> [If your patch is applied to the wrong git tree, kindly drop us a note.
->>>>> And when submitting patch, we suggest to use '--base' as documented in
->>>>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>>>>
->>>>> url:    https://github.com/intel-lab-lkp/linux/commits/Sergio-Melas/hwmon-yogafan-Massive-hardware-expansion-and-structural-refactoring/20260417-063319
->>>>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
->>>>> patch link:    https://lore.kernel.org/r/20260413060931.31091-2-sergiomelas%40gmail.com
->>>>> patch subject: [PATCH v1] hwmon: (yogafan) Massive hardware expansion and structural refactoring
->>>>> config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20260418/202604180539.EuswNnjG-lkp@intel.com/config)
->>>>> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
->>>>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260418/202604180539.EuswNnjG-lkp@intel.com/reproduce)
->>>>>
->>>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>>>> the same patch/commit), kindly add following tags
->>>>>> Reported-by: kernel test robot <lkp@intel.com>
->>>>>> Closes: https://lore.kernel.org/oe-kbuild-all/202604180539.EuswNnjG-lkp@intel.com/
->>>>>
->>>>> All errors (new ones prefixed by >>):
->>>>>
->>>>>>> drivers/hwmon/yogafan.c:712:6: error: call to undeclared function 'wmi_has_guid'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->>>>>        712 |         if (wmi_has_guid(LENOVO_WMI_OTHER_MODE_GUID) ||
->>>>>            |             ^
->>>>>      1 error generated.
->>>>
->>>> Hmm, that's a bit troublesome. Usually we should have been able to
->>>> declare `depends on ACPI_WMI if ACPI_WMI' (new syntax since v7.0) or
->>>> `depends on ACPI_WMI || !ACPI_WMI' as an optional dependency to prevent
->>>> such an issue, but there is no static inline stubs for !ACPI_WMI...
->>>>
->>>> I'd suggest declaring `select ACPI_WMI if ACPI && X86' in Kconfig as
->>>> some drm drivers do, at least for the time being.
->>>
->>> Of course you'll still need to guard the wmi_has_guid() checks behind
->>> `#ifdef CONFIG_ACPI_WMI'. Just forgot to mention that.
->>>
->>> Hmm, in this way `depends on ACPI_WMI if ACPI_WMI' should also be OK...
->>
->> I don't know is this is a misspelling, but `depends on ACPI_WMI if ACPI_WMI'
->> doesn't make any sense.
-> 
-> This is the new syntax for optional dependencies since commit
-> 76df6815dab7 ("kconfig: Support conditional deps using "depends on X if
-> Y""), which is equivalent to the old-fashioned `depends on ACPI_WMI ||
-> !ACPI_WMI'.
-> 
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   7bb838184fdc0d716c2a06795fc6ef1f1fb8350b
+commit: 8e5bf1f62e3753a0172060ede618b246677f041e [50/114] media: Documentation: Add subdev configuration models, raw sensor model
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260418/202604181837.JkmT17KM-lkp@intel.com/reproduce)
 
-Hmm, interesting. We live and learn. Thanks for the clarification.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604181837.JkmT17KM-lkp@intel.com/
 
-Guenter
+All warnings (new ones prefixed by >>):
 
+   Documentation/userspace-api/landlock:526: ./include/uapi/linux/landlock.h:45: ERROR: Unknown target name: "network flags". [docutils]
+   Documentation/userspace-api/landlock:526: ./include/uapi/linux/landlock.h:50: ERROR: Unknown target name: "scope flags". [docutils]
+   Documentation/userspace-api/landlock:526: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:535: ./include/uapi/linux/landlock.h:166: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:535: ./include/uapi/linux/landlock.h:189: ERROR: Unknown target name: "network flags". [docutils]
+>> Documentation/userspace-api/media/v4l/subdev-config-model.rst:6: WARNING: duplicate label media_subdev_config_model, other instance in Documentation/userspace-api/media/v4l/dev-subdev.rst
+>> Documentation/userspace-api/media/v4l/subdev-config-model.rst:35: WARNING: duplicate label media_subdev_config_model_common_raw_sensor, other instance in Documentation/userspace-api/media/v4l/dev-subdev.rst
+>> Documentation/userspace-api/media/v4l/subdev-config-model.rst:: WARNING: duplicate label media_subdev_config_model_common_raw_sensor_subdev, other instance in Documentation/userspace-api/media/v4l/dev-subdev.rst
+   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
+   Documentation/userspace-api/media/drivers/camera-sensor.rst:147: WARNING: undefined label: 'media-metadata-layout-ccs' [ref.ref]
+
+
+vim +6 Documentation/userspace-api/media/v4l/subdev-config-model.rst
+
+     4	
+     5	Sub-device configuration models
+   > 6	===============================
+     7	
+     8	The V4L2 specification defines a subdev API that exposes three type of
+     9	configuration elements: formats, selection rectangles and controls. The
+    10	specification contains generic information about how those configuration
+    11	elements behave, but not precisely how they apply to particular hardware
+    12	features. We leave some leeway to drivers to decide how to map selection
+    13	rectangles to device features, as long as they comply with the V4L2
+    14	specification. This is needed as hardware features differ between devices, so
+    15	it's the driver's responsibility to handle this mapping.
+    16	
+    17	Unfortunately, this lack of clearly defined mapping in the specification has led
+    18	to different drivers mapping the same hardware features to different API
+    19	elements, or implementing the API elements with slightly different
+    20	behaviours. Furthermore, many drivers have implemented selection rectangles in
+    21	ways that do not comply with the V4L2 specification. All of this makes userspace
+    22	development difficult.
+    23	
+    24	Sub-device configuration models specify in detail what the user space can expect
+    25	from a sub-device in terms of V4L2 sub-device interface support, semantics
+    26	included.
+    27	
+    28	A sub-device may implement more than one configuration model at the same
+    29	time. The implemented configuration models can be obtained from the sub-device's
+    30	``V4L2_CID_CONFIG_MODEL`` control.
+    31	
+    32	.. _media_subdev_config_model_common_raw_sensor:
+    33	
+    34	Common raw camera sensor model
+  > 35	------------------------------
+    36	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
