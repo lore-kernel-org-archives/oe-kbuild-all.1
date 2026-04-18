@@ -1,157 +1,140 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5A103C465;
-	Sat, 18 Apr 2026 01:56:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1565728B40E
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Apr 2026 04:09:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776477393; cv=none; b=S9S4/2s95C7anvvRIacz1MC4uD8p8oFKt749A3zNGfOjbuDeGcXHVMRrYfPLHZrBGLEa8OM3/1Y7yAWC4DtnAlVDHZ6dwFtM+ZIEdYQCGBG5nqTIdTvqDs2hk4J4ceRIYsbXhRx2lvTDfDp6ruMg827J5X/3h+q5VxvhI5Ie2HQ=
+	t=1776485378; cv=none; b=GtKMlVcFU1Ymn+UjKahOnJgxOCwG+8YPEf8RJomlJSLzD+XQWtqkS/guHovamGNAu2I0leRKJiKVX2URAjUoONyeTVjsNCnzi9k4XQ4MjKvn7+MfL2t4VG7aNc6xrD2YvIGfazzhpyB/yLXUFa6swE4NBt8SyLaUCr61IA9iPwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776477393; c=relaxed/simple;
-	bh=AoAg9PJYpVuzyrPDo6//EMEsGna4T2m06uUhOUdrMTs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=slAf5uhhseB+txPpG6EiZUFrqtIxtu1B58uREK6NNhT30f3txE34SA9z7pz2dKSYOCXPg4bGI/XIwDrjQ1XygEC4COEJwIhY3UGoqEbHKUu4on0K50XJAbT0f8kZ0Sosd3CW0ctU03qRL7JIIL805oWpaENMCxDMYDHuFgcJbOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IRdda/hF; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1776485378; c=relaxed/simple;
+	bh=1qWmYlM4D2pYp21a7wxsLwARHCv4pMh0sLU18BHlqtE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WKq8r2z3sGK1+KKMwKOaGM6y+ZjbZKDmY4WSiw+hTnZtFHEROIqrPtmqK15Cg9lBHwRc7Y5CCgPoIp3XONdNsIzZEb67jeGDaBoRZFpBGjKwnNfZRfbRqJxZZgcAxjL3dQnQHwK0UaCZ4u+vTUn/zfwdLGLNA5IU7+K9EmRy6nU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mMi9t/Lj; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IRdda/hF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mMi9t/Lj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776477392; x=1808013392;
-  h=date:from:to:cc:subject:message-id;
-  bh=AoAg9PJYpVuzyrPDo6//EMEsGna4T2m06uUhOUdrMTs=;
-  b=IRdda/hFAhZ46DLFQ4reutNWS+TKh7liZnkwP756CRxqawa5RBPIrsb0
-   vDE3AQuFH3eO4Daag1+kGDqQfX/Ya2iWKOZxiZaUWKdwR77Ujb0e17ayM
-   GxRMgVBPlQ/pDgZ8E36YcRD3Izh4BEFnCbD1qwWpdFgab82AoNPAXtMoE
-   yFjJy2oVuo+/m104k0FBBMxnXhhRFkTiPqE1DabBjJvaJVZtmFqkjXMf9
-   J9JAEZnzfty64fu+dNS4YuGbFCbER/gEuHQ27Tae4oKHsHamMKFvpUIog
-   DunSgAb3TQx6rxjQRQlNVuwYxGR5G3aspitUiyx3KE5LQ5HlR18Bj2Qg2
-   A==;
-X-CSE-ConnectionGUID: jQbGJ+uQSPmzM6iaL8vlGA==
-X-CSE-MsgGUID: s2Lp1SUDQh2Fn4gEkAr1nA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="77611086"
+  t=1776485377; x=1808021377;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1qWmYlM4D2pYp21a7wxsLwARHCv4pMh0sLU18BHlqtE=;
+  b=mMi9t/Lj6FA+6iDmumiv6lGX/JgossYSdGRCWozAneoPPtp4eIAxuXpi
+   7xKvpZnmyuCFis/RjsH5vPXg/dKoMTrKxjFGM/tRKy4EXSF4tvZBItexO
+   JneVgD+eL1noS1r1Z7qVzzNiJH3tl+JAin0LPTUhA2KcX70YU4Y4TB0H0
+   +EHSYA5UWOyDHtZVjvYnn57VlkxEGYh3V748bHcXoItHDGxiHWcxlPMcB
+   kXLKBr0gNzyaIm14M9mgQhYcqj1b9WC+2kimmv/paJtRPoi0Js9QbQjnm
+   u4uxup0AvL1brf/voTRgskK8Z6JrZSyvMaBKQwMTtAJFZCiiX7TXKqz0M
+   g==;
+X-CSE-ConnectionGUID: SlXhTwGGRg2a8wTa5+1m+Q==
+X-CSE-MsgGUID: +bLiKcjmR7GWFUfUgNtfdg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="100147045"
 X-IronPort-AV: E=Sophos;i="6.23,185,1770624000"; 
-   d="scan'208";a="77611086"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2026 18:56:31 -0700
-X-CSE-ConnectionGUID: ZlcjIp9fRbKnWd3P6PBpXA==
-X-CSE-MsgGUID: jp9OyVnqSoqQbctAuouKdQ==
+   d="scan'208";a="100147045"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2026 21:09:36 -0700
+X-CSE-ConnectionGUID: hfcMKpQDQ6KOUBx44yFVdw==
+X-CSE-MsgGUID: g6n9cLO7SkeQAbTDFI9VbQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,185,1770624000"; 
-   d="scan'208";a="224672459"
+   d="scan'208";a="232954929"
 Received: from lkp-server01.sh.intel.com (HELO 7e48d0ff8e22) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 17 Apr 2026 18:56:30 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 17 Apr 2026 21:09:34 -0700
 Received: from kbuild by 7e48d0ff8e22 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wDuv4-000000000vy-3vCV;
-	Sat, 18 Apr 2026 01:56:26 +0000
-Date: Sat, 18 Apr 2026 09:56:13 +0800
+	id 1wDwzr-000000000zo-04xo;
+	Sat, 18 Apr 2026 04:09:31 +0000
+Date: Sat, 18 Apr 2026 12:09:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steffen Eiden <seiden@linux.ibm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-s390@vger.kernel.org, Andreas Grapentin <gra@linux.ibm.com>,
- "Nina Schoetterl-Glausch" <nsg@linux.ibm.com>,
- Gautam Gala <ggala@linux.ibm.com>
-Subject: [kvms390:sae-part1 27/27]
- arch/s390/kvm/arm64/../../../../virt/kvm/arm64/mmio.c:119:22: error: no
- member named 'mmio_needed' in 'struct kvm_vcpu'
-Message-ID: <202604180914.L6FMypYF-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Anisa Su <anisa.su887@gmail.com>, dave.jiang@intel.com,
+	gourry@gourry.net
+Cc: oe-kbuild-all@lists.linux.dev, dave@stgolabs.net,
+	jonathan.cameron@huawei.com, alison.schofield@intel.com,
+	ira.weiny@intel.com, linux-cxl@vger.kernel.org,
+	Anisa Su <anisa.su@samsung.com>
+Subject: Re: [PATCH] cxl/core/region_dax.c: fix missing assignment in
+ cxl_dax_region_alloc()
+Message-ID: <202604181220.pU6ypqms-lkp@intel.com>
+References: <20260411011137.43545-1-anisa.su@samsung.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260411011137.43545-1-anisa.su@samsung.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kvms390/linux.git sae-part1
-head:   c8ef958593be02ec09131a1f5e2744a98b6c01a1
-commit: c8ef958593be02ec09131a1f5e2744a98b6c01a1 [27/27] KVM: s390: arm64: Enable KVM_ARM64 config and Kbuild
-config: s390-randconfig-001-20260418 (https://download.01.org/0day-ci/archive/20260418/202604180914.L6FMypYF-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260418/202604180914.L6FMypYF-lkp@intel.com/reproduce)
+Hi Anisa,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on cxl/next]
+[also build test ERROR on linus/master next-20260417]
+[cannot apply to cxl/pending v7.0]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Anisa-Su/cxl-core-region_dax-c-fix-missing-assignment-in-cxl_dax_region_alloc/20260417-104320
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git next
+patch link:    https://lore.kernel.org/r/20260411011137.43545-1-anisa.su%40samsung.com
+patch subject: [PATCH] cxl/core/region_dax.c: fix missing assignment in cxl_dax_region_alloc()
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20260418/202604181220.pU6ypqms-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260418/202604181220.pU6ypqms-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604180914.L6FMypYF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604181220.pU6ypqms-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/s390/kvm/arm64/../../../../virt/kvm/arm64/mmio.c:119:22: error: no member named 'mmio_needed' in 'struct kvm_vcpu'
-     119 |         if (unlikely(!vcpu->mmio_needed || kvm_pending_external_abort(vcpu)))
-         |                       ~~~~  ^
-   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   arch/s390/kvm/arm64/../../../../virt/kvm/arm64/mmio.c:122:8: error: no member named 'mmio_needed' in 'struct kvm_vcpu'
-     122 |         vcpu->mmio_needed = 0;
-         |         ~~~~  ^
-   arch/s390/kvm/arm64/../../../../virt/kvm/arm64/mmio.c:244:8: error: no member named 'mmio_needed' in 'struct kvm_vcpu'
-     244 |         vcpu->mmio_needed       = 1;
-         |         ~~~~  ^
-   3 errors generated.
+   drivers/cxl/core/region_dax.c: In function 'cxl_dax_region_alloc':
+>> drivers/cxl/core/region_dax.c:65:15: error: 'struct cxl_region' has no member named 'cxlr_dax'; did you mean 'cxlrd'?
+      65 |         cxlr->cxlr_dax = cxlr_dax;
+         |               ^~~~~~~~
+         |               cxlrd
 
 
-vim +119 arch/s390/kvm/arm64/../../../../virt/kvm/arm64/mmio.c
+vim +65 drivers/cxl/core/region_dax.c
 
-e735a5da64420a arch/arm64/kvm/mmio.c Oliver Upton     2024-10-25  102  
-45e96ea6b36953 arch/arm/kvm/mmio.c   Christoffer Dall 2013-01-20  103  /**
-45e96ea6b36953 arch/arm/kvm/mmio.c   Christoffer Dall 2013-01-20  104   * kvm_handle_mmio_return -- Handle MMIO loads after user space emulation
-83091db981e105 arch/arm/kvm/mmio.c   Christoffer Dall 2016-03-29  105   *			     or in-kernel IO emulation
-83091db981e105 arch/arm/kvm/mmio.c   Christoffer Dall 2016-03-29  106   *
-45e96ea6b36953 arch/arm/kvm/mmio.c   Christoffer Dall 2013-01-20  107   * @vcpu: The VCPU pointer
-45e96ea6b36953 arch/arm/kvm/mmio.c   Christoffer Dall 2013-01-20  108   */
-74cc7e0c35c1e4 arch/arm64/kvm/mmio.c Tianjia Zhang    2020-06-23  109  int kvm_handle_mmio_return(struct kvm_vcpu *vcpu)
-45e96ea6b36953 arch/arm/kvm/mmio.c   Christoffer Dall 2013-01-20  110  {
-6d89d2d9b5bac9 arch/arm/kvm/mmio.c   Marc Zyngier     2013-02-12  111  	unsigned long data;
-45e96ea6b36953 arch/arm/kvm/mmio.c   Christoffer Dall 2013-01-20  112  	unsigned int len;
-45e96ea6b36953 arch/arm/kvm/mmio.c   Christoffer Dall 2013-01-20  113  	int mask;
-45e96ea6b36953 arch/arm/kvm/mmio.c   Christoffer Dall 2013-01-20  114  
-e735a5da64420a arch/arm64/kvm/mmio.c Oliver Upton     2024-10-25  115  	/*
-e735a5da64420a arch/arm64/kvm/mmio.c Oliver Upton     2024-10-25  116  	 * Detect if the MMIO return was already handled or if userspace aborted
-e735a5da64420a arch/arm64/kvm/mmio.c Oliver Upton     2024-10-25  117  	 * the MMIO access.
-e735a5da64420a arch/arm64/kvm/mmio.c Oliver Upton     2024-10-25  118  	 */
-bfb7a30b19861e arch/arm64/kvm/mmio.c Oliver Upton     2025-07-08 @119  	if (unlikely(!vcpu->mmio_needed || kvm_pending_external_abort(vcpu)))
-cc81b6dfc3bc82 arch/arm64/kvm/mmio.c Fuad Tabba       2024-04-23  120  		return 1;
-2113c5f62b7423 virt/kvm/arm/mmio.c   Andrew Jones     2019-08-22  121  
-2113c5f62b7423 virt/kvm/arm/mmio.c   Andrew Jones     2019-08-22  122  	vcpu->mmio_needed = 0;
-2113c5f62b7423 virt/kvm/arm/mmio.c   Andrew Jones     2019-08-22  123  
-0e20f5e25556c0 virt/kvm/arm/mmio.c   Marc Zyngier     2019-12-13  124  	if (!kvm_vcpu_dabt_iswrite(vcpu)) {
-74cc7e0c35c1e4 arch/arm64/kvm/mmio.c Tianjia Zhang    2020-06-23  125  		struct kvm_run *run = vcpu->run;
-74cc7e0c35c1e4 arch/arm64/kvm/mmio.c Tianjia Zhang    2020-06-23  126  
-0e20f5e25556c0 virt/kvm/arm/mmio.c   Marc Zyngier     2019-12-13  127  		len = kvm_vcpu_dabt_get_as(vcpu);
-d5a5a0eff368f0 arch/arm/kvm/mmio.c   Christoffer Dall 2016-04-24  128  		data = kvm_mmio_read_buf(run->mmio.data, len);
-45e96ea6b36953 arch/arm/kvm/mmio.c   Christoffer Dall 2013-01-20  129  
-0e20f5e25556c0 virt/kvm/arm/mmio.c   Marc Zyngier     2019-12-13  130  		if (kvm_vcpu_dabt_issext(vcpu) &&
-f42798c6898bf1 arch/arm/kvm/mmio.c   Marc Zyngier     2013-03-05  131  		    len < sizeof(unsigned long)) {
-45e96ea6b36953 arch/arm/kvm/mmio.c   Christoffer Dall 2013-01-20  132  			mask = 1U << ((len * 8) - 1);
-6d89d2d9b5bac9 arch/arm/kvm/mmio.c   Marc Zyngier     2013-02-12  133  			data = (data ^ mask) - mask;
-45e96ea6b36953 arch/arm/kvm/mmio.c   Christoffer Dall 2013-01-20  134  		}
-6d89d2d9b5bac9 arch/arm/kvm/mmio.c   Marc Zyngier     2013-02-12  135  
-0e20f5e25556c0 virt/kvm/arm/mmio.c   Marc Zyngier     2019-12-13  136  		if (!kvm_vcpu_dabt_issf(vcpu))
-b6ae256afd32f9 virt/kvm/arm/mmio.c   Christoffer Dall 2019-12-12  137  			data = data & 0xffffffff;
-b6ae256afd32f9 virt/kvm/arm/mmio.c   Christoffer Dall 2019-12-12  138  
-6d89d2d9b5bac9 arch/arm/kvm/mmio.c   Marc Zyngier     2013-02-12  139  		trace_kvm_mmio(KVM_TRACE_MMIO_READ, len, run->mmio.phys_addr,
-e39d200fa5bf5b virt/kvm/arm/mmio.c   Wanpeng Li       2017-12-14  140  			       &data);
-6d89d2d9b5bac9 arch/arm/kvm/mmio.c   Marc Zyngier     2013-02-12  141  		data = vcpu_data_host_to_guest(vcpu, data, len);
-0e20f5e25556c0 virt/kvm/arm/mmio.c   Marc Zyngier     2019-12-13  142  		vcpu_set_reg(vcpu, kvm_vcpu_dabt_get_rd(vcpu), data);
-45e96ea6b36953 arch/arm/kvm/mmio.c   Christoffer Dall 2013-01-20  143  	}
-45e96ea6b36953 arch/arm/kvm/mmio.c   Christoffer Dall 2013-01-20  144  
-0d640732dbebed virt/kvm/arm/mmio.c   Mark Rutland     2018-11-09  145  	/*
-0d640732dbebed virt/kvm/arm/mmio.c   Mark Rutland     2018-11-09  146  	 * The MMIO instruction is emulated and should not be re-executed
-0d640732dbebed virt/kvm/arm/mmio.c   Mark Rutland     2018-11-09  147  	 * in the guest.
-0d640732dbebed virt/kvm/arm/mmio.c   Mark Rutland     2018-11-09  148  	 */
-cdb5e02ed13373 arch/arm64/kvm/mmio.c Marc Zyngier     2020-10-14  149  	kvm_incr_pc(vcpu);
-0d640732dbebed virt/kvm/arm/mmio.c   Mark Rutland     2018-11-09  150  
-cc81b6dfc3bc82 arch/arm64/kvm/mmio.c Fuad Tabba       2024-04-23  151  	return 1;
-45e96ea6b36953 arch/arm/kvm/mmio.c   Christoffer Dall 2013-01-20  152  }
-45e96ea6b36953 arch/arm/kvm/mmio.c   Christoffer Dall 2013-01-20  153  
-
-:::::: The code at line 119 was first introduced by commit
-:::::: bfb7a30b19861e559d64b7f2c3202d948fbf93ea KVM: arm64: Don't retire MMIO instruction w/ pending (emulated) SError
-
-:::::: TO: Oliver Upton <oliver.upton@linux.dev>
-:::::: CC: Oliver Upton <oliver.upton@linux.dev>
+    45	
+    46	static struct cxl_dax_region *cxl_dax_region_alloc(struct cxl_region *cxlr)
+    47	{
+    48		struct cxl_region_params *p = &cxlr->params;
+    49		struct cxl_dax_region *cxlr_dax;
+    50		struct device *dev;
+    51	
+    52		guard(rwsem_read)(&cxl_rwsem.region);
+    53		if (p->state != CXL_CONFIG_COMMIT)
+    54			return ERR_PTR(-ENXIO);
+    55	
+    56		cxlr_dax = kzalloc_obj(*cxlr_dax);
+    57		if (!cxlr_dax)
+    58			return ERR_PTR(-ENOMEM);
+    59	
+    60		cxlr_dax->hpa_range.start = p->res->start;
+    61		cxlr_dax->hpa_range.end = p->res->end;
+    62	
+    63		dev = &cxlr_dax->dev;
+    64		cxlr_dax->cxlr = cxlr;
+  > 65		cxlr->cxlr_dax = cxlr_dax;
+    66		device_initialize(dev);
+    67		lockdep_set_class(&dev->mutex, &cxl_dax_region_key);
+    68		device_set_pm_not_required(dev);
+    69		dev->parent = &cxlr->dev;
+    70		dev->bus = &cxl_bus_type;
+    71		dev->type = &cxl_dax_region_type;
+    72	
+    73		return cxlr_dax;
+    74	}
+    75	
 
 -- 
 0-DAY CI Kernel Test Service
