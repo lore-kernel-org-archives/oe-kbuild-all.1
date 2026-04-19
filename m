@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C3A8A932;
-	Sun, 19 Apr 2026 11:54:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B582DFF04
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Apr 2026 12:14:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776599689; cv=none; b=N15BirOWxQcfLg58DDC+y7sx7VXSAIjs4IHhbIqAVnl/CsU0nhOJsezoX3MyzyAbpBy8+UN3YD1VNbqTG/DS82ztQOCqN7V96Xgzi1vq2QIHY2xflG/cV+YGTGcr6Sw6/R5dS5TE0qh5rb7w+7ciHYZGsu1WWd6cXjhTK7bDgbM=
+	t=1776600889; cv=none; b=HKzojqVpPhRNyLxACiIGpasoCuInRenJ1PkA7F7I/ZFnjn0PEBWAuxh/3NLG+HUzHDaXMpbt9M3TGqAA/kPSIaeJdNRPizkz37wo8njnDoM2j++j+tJJ2IxBT8h72vi1g/YkBm/mZmTUIWycmfEviTbxJdSyrIQkcjYQ6RQmSfg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776599689; c=relaxed/simple;
-	bh=k4WTC8L4wGyGKicY3LRUC31X6bA1oLOHSRNre46vA+s=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=s2BId0Q6JySf1g4Zcd8HmCt99aU7IwpOinRYPcLRWUBCrGUxpgW9fuINoPiNLNaK6h2+JRv4aoYMjLRMdYaCPg7UFmxCO5m9e/351Jean/9qVHWs7yrb/+ClOViUpX+TxmOFre+6EYQB+uwhVOI4D8QOQXFYeMirvQMCnnb9Ljs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TaLWNhS0; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1776600889; c=relaxed/simple;
+	bh=GhL82Y+JkuowRKFwPXAV29iUJd9SlnNce8OkxzT0wrk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=iaa5o4a3mcqI55bj28dE7FHSFo5y7joX88u1hL96D33Pxuf8RitqQWITXMcTpEIU1vCZXlQLVcW4dHh9GBK9A7MCkN56/jI4NayHhY2iKDHk5whURw4GFRN9qIRFqRylHtwNmRZ5mJiGMaQ5jsSjicNjcupY7GCNZyWKY+IT16Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ov8759Mb; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TaLWNhS0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ov8759Mb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776599688; x=1808135688;
+  t=1776600888; x=1808136888;
   h=date:from:to:cc:subject:message-id;
-  bh=k4WTC8L4wGyGKicY3LRUC31X6bA1oLOHSRNre46vA+s=;
-  b=TaLWNhS0FH/0Z6n7niPttOEAoFxQ1rWsM2BSIc5P8I7BluzC1yKO6Fgc
-   fapfGQajwJglFu3Loafw3WN9DgowT07k+6wz7HlQKt6+pcNWswqpcT90L
-   x9i8RK8Cui81Rs21uWKqJzp7ENd4CGqRcjrPFIHv9oo1JQjZ2iqNOI/66
-   5Qjh+jLNRMth7n7smyYUITfoUzUyCyMzSa3UVWGw4s/ciErDIzzcV1Y9t
-   IaEXL1UkHz06BNr//D9ndlhksI+QTVFfdYMXATApXQ89BQqb5ixVcIufD
-   sCRr7hyx9GzRrWE8X7lGVXksEYwlyucrZCmfVmDammGTLZgTDkCGg3Csj
-   w==;
-X-CSE-ConnectionGUID: EbrL+8XUR0CpQ9YttTrUkw==
-X-CSE-MsgGUID: BwbavbgWQPOjsFxGPCzlnw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="100196628"
+  bh=GhL82Y+JkuowRKFwPXAV29iUJd9SlnNce8OkxzT0wrk=;
+  b=Ov8759MbuAS429k9vXcp2rm6gAeCn4ps0v8E4n815+2myO+lAgDsvICv
+   egSWrcxVEyWiV3qibLQnFP11zYYxr846Wex75PQBLzYPzr50ekN5Bfu0c
+   E6R1S5bKUHG1G56AV3Y08WFHY3xRYy7TWfkQEVv7T1Tn+usT7hzjqUhip
+   V3jEYKQQznb/yZJdq9sdI7wzo5ucMZkFSwqGeuRC71LnyP/X2q1YlAB2b
+   1jONQbYXc1z4PGHyi4+64VSng68jphjhotjrzEW4cijCURr7ddrxJgPOL
+   4fDr1S+QmB21xsZvezHAtqHSmpuaXX7J04w4BXjCVeUOZ4Xc/ztfleCt1
+   g==;
+X-CSE-ConnectionGUID: QkxAjR0TS3O223M9gLRtyw==
+X-CSE-MsgGUID: L3YZwxR1TuGDI4MNWSlVZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="77415443"
 X-IronPort-AV: E=Sophos;i="6.23,188,1770624000"; 
-   d="scan'208";a="100196628"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2026 04:54:47 -0700
-X-CSE-ConnectionGUID: 2IdU+DEsS2W7Xjed/hKAxA==
-X-CSE-MsgGUID: fYvQ5/ojQH6/e24Gq9vWmQ==
+   d="scan'208";a="77415443"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2026 05:14:47 -0700
+X-CSE-ConnectionGUID: dRJ/94+yRX+x2TZXmDxR+A==
+X-CSE-MsgGUID: tm90ztHXRfyhSvt8IwHE9A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,188,1770624000"; 
-   d="scan'208";a="235856237"
+   d="scan'208";a="269504091"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 19 Apr 2026 04:54:44 -0700
+  by orviesa001.jf.intel.com with ESMTP; 19 Apr 2026 05:14:46 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wEQja-000000001xT-1VHK;
-	Sun, 19 Apr 2026 11:54:42 +0000
-Date: Sun, 19 Apr 2026 13:53:57 +0200
+	id 1wER2x-000000001y5-0KY1;
+	Sun, 19 Apr 2026 12:14:43 +0000
+Date: Sun, 19 Apr 2026 14:14:28 +0200
 From: kernel test robot <lkp@intel.com>
-To: Jason Xing <kernelxing@tencent.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- 0day robot <lkp@intel.com>
-Subject: net/core/dev.c:4896:5: warning: no previous prototype for
- function 'xsk_direct_xmit_batch'
-Message-ID: <202604191309.zcfqiXcM-lkp@intel.com>
+To: "Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: kernel/dma/direct.c:204:44: error: 'DMA_ATTR_CC_DECRYPTED'
+ undeclared
+Message-ID: <202604191433.Dx5VoO7T-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,74 +59,162 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Jason-Xing/xsk-introduce-XDP_GENERIC_XMIT_BATCH-setsockopt/20260419-142943
-head:   4b82e4780ff9a121b25fbf30a8f9e6fcb9b0eb04
-commit: f15c37d19d6d8ef60bfc87a982a5374e83994ac2 xsk: add direct xmit in batch function
-date:   5 hours ago
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260419/202604191309.zcfqiXcM-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260419/202604191309.zcfqiXcM-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Aneesh-Kumar-K-V-Arm/dma-direct-swiotlb-handle-swiotlb-alloc-free-outside-__dma_direct_alloc_pages/20260419-084811
+head:   1ec4723e78165ffe91782f086757128a19077206
+commit: 4545bb9fb24e19b4ae676415e931b6e9fb0df4f8 dma-direct: use DMA_ATTR_CC_DECRYPTED in alloc/free paths
+date:   11 hours ago
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260419/202604191433.Dx5VoO7T-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260419/202604191433.Dx5VoO7T-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604191309.zcfqiXcM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604191433.Dx5VoO7T-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> net/core/dev.c:4896:5: warning: no previous prototype for function 'xsk_direct_xmit_batch' [-Wmissing-prototypes]
-    4896 | int xsk_direct_xmit_batch(struct xdp_sock *xs, struct net_device *dev)
-         |     ^
-   net/core/dev.c:4896:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4896 | int xsk_direct_xmit_batch(struct xdp_sock *xs, struct net_device *dev)
-         | ^
-         | static 
-   1 warning generated.
+   kernel/dma/direct.c: In function 'dma_direct_alloc':
+>> kernel/dma/direct.c:204:44: error: 'DMA_ATTR_CC_DECRYPTED' undeclared (first use in this function)
+     204 |         bool mark_mem_decrypt = !!(attrs & DMA_ATTR_CC_DECRYPTED);
+         |                                            ^~~~~~~~~~~~~~~~~~~~~
+   kernel/dma/direct.c:204:44: note: each undeclared identifier is reported only once for each function it appears in
+   kernel/dma/direct.c: In function 'dma_direct_free':
+   kernel/dma/direct.c:326:46: error: 'DMA_ATTR_CC_DECRYPTED' undeclared (first use in this function)
+     326 |         bool mark_mem_encrypted = !!(attrs & DMA_ATTR_CC_DECRYPTED);
+         |                                              ^~~~~~~~~~~~~~~~~~~~~
+   kernel/dma/direct.c: In function 'dma_direct_alloc_pages':
+   kernel/dma/direct.c:387:26: error: 'DMA_ATTR_CC_DECRYPTED' undeclared (first use in this function)
+     387 |                 attrs |= DMA_ATTR_CC_DECRYPTED;
+         |                          ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/xsk_direct_xmit_batch +4896 net/core/dev.c
+vim +/DMA_ATTR_CC_DECRYPTED +204 kernel/dma/direct.c
 
-  4895	
-> 4896	int xsk_direct_xmit_batch(struct xdp_sock *xs, struct net_device *dev)
-  4897	{
-  4898		u16 queue_id = xs->queue_id;
-  4899		struct netdev_queue *txq = netdev_get_tx_queue(dev, queue_id);
-  4900		struct sk_buff_head *send_queue = &xs->batch.send_queue;
-  4901		int ret = NETDEV_TX_BUSY;
-  4902		struct sk_buff *skb;
-  4903	
-  4904		local_bh_disable();
-  4905		HARD_TX_LOCK(dev, txq, smp_processor_id());
-  4906		while ((skb = __skb_dequeue(send_queue)) != NULL) {
-  4907			struct sk_buff *orig_skb = skb;
-  4908			bool again = false;
-  4909	
-  4910			skb = validate_xmit_skb_list(skb, dev, &again);
-  4911			if (skb != orig_skb) {
-  4912				dev_core_stats_tx_dropped_inc(dev);
-  4913				kfree_skb_list(skb);
-  4914				ret = NET_XMIT_DROP;
-  4915				break;
-  4916			}
-  4917	
-  4918			if (netif_xmit_frozen_or_drv_stopped(txq)) {
-  4919				__skb_queue_head(send_queue, skb);
-  4920				break;
-  4921			}
-  4922			skb_set_queue_mapping(skb, queue_id);
-  4923			ret = netdev_start_xmit(skb, dev, txq, false);
-  4924			if (ret != NETDEV_TX_OK) {
-  4925				if (ret == NETDEV_TX_BUSY)
-  4926					__skb_queue_head(send_queue, skb);
-  4927				break;
-  4928			}
-  4929		}
-  4930		HARD_TX_UNLOCK(dev, txq);
-  4931		local_bh_enable();
-  4932	
-  4933		return ret;
-  4934	}
-  4935	
+   199	
+   200	void *dma_direct_alloc(struct device *dev, size_t size,
+   201			dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs)
+   202	{
+   203		bool remap = false, set_uncached = false;
+ > 204		bool mark_mem_decrypt = !!(attrs & DMA_ATTR_CC_DECRYPTED);
+   205		struct page *page;
+   206		void *ret;
+   207	
+   208		if (force_dma_unencrypted(dev)) {
+   209			attrs |= DMA_ATTR_CC_DECRYPTED;
+   210			mark_mem_decrypt = true;
+   211		}
+   212	
+   213		size = PAGE_ALIGN(size);
+   214		if (attrs & DMA_ATTR_NO_WARN)
+   215			gfp |= __GFP_NOWARN;
+   216	
+   217		if (((attrs & (DMA_ATTR_NO_KERNEL_MAPPING | DMA_ATTR_CC_DECRYPTED)) ==
+   218		     DMA_ATTR_NO_KERNEL_MAPPING) && !is_swiotlb_for_alloc(dev))
+   219			return dma_direct_alloc_no_mapping(dev, size, dma_handle, gfp);
+   220	
+   221		if (!dev_is_dma_coherent(dev)) {
+   222			if (IS_ENABLED(CONFIG_ARCH_HAS_DMA_ALLOC) &&
+   223			    !is_swiotlb_for_alloc(dev))
+   224				return arch_dma_alloc(dev, size, dma_handle, gfp,
+   225						      attrs);
+   226	
+   227			/*
+   228			 * If there is a global pool, always allocate from it for
+   229			 * non-coherent devices.
+   230			 */
+   231			if (IS_ENABLED(CONFIG_DMA_GLOBAL_POOL))
+   232				return dma_alloc_from_global_coherent(dev, size,
+   233						dma_handle);
+   234	
+   235			/*
+   236			 * Otherwise we require the architecture to either be able to
+   237			 * mark arbitrary parts of the kernel direct mapping uncached,
+   238			 * or remapped it uncached.
+   239			 */
+   240			set_uncached = IS_ENABLED(CONFIG_ARCH_HAS_DMA_SET_UNCACHED);
+   241			remap = IS_ENABLED(CONFIG_DMA_DIRECT_REMAP);
+   242			if (!set_uncached && !remap) {
+   243				pr_warn_once("coherent DMA allocations not supported on this platform.\n");
+   244				return NULL;
+   245			}
+   246		}
+   247	
+   248		/*
+   249		 * Remapping or decrypting memory may block, allocate the memory from
+   250		 * the atomic pools instead if we aren't allowed block.
+   251		 */
+   252		if ((remap || (attrs & DMA_ATTR_CC_DECRYPTED)) &&
+   253		    dma_direct_use_pool(dev, gfp))
+   254			return dma_direct_alloc_from_pool(dev, size, dma_handle, gfp);
+   255	
+   256		if (is_swiotlb_for_alloc(dev)) {
+   257			page = dma_direct_alloc_swiotlb(dev, size);
+   258			if (page) {
+   259				mark_mem_decrypt = false;
+   260				goto setup_page;
+   261			}
+   262			return NULL;
+   263		}
+   264	
+   265		/* we always manually zero the memory once we are done */
+   266		page = __dma_direct_alloc_pages(dev, size, gfp & ~__GFP_ZERO, true);
+   267		if (!page)
+   268			return NULL;
+   269	
+   270	setup_page:
+   271		/*
+   272		 * dma_alloc_contiguous can return highmem pages depending on a
+   273		 * combination the cma= arguments and per-arch setup.  These need to be
+   274		 * remapped to return a kernel virtual address.
+   275		 */
+   276		if (PageHighMem(page)) {
+   277			remap = true;
+   278			set_uncached = false;
+   279		}
+   280	
+   281		if (remap) {
+   282			pgprot_t prot = dma_pgprot(dev, PAGE_KERNEL, attrs);
+   283	
+   284			if (force_dma_unencrypted(dev))
+   285				prot = pgprot_decrypted(prot);
+   286	
+   287			/* remove any dirty cache lines on the kernel alias */
+   288			arch_dma_prep_coherent(page, size);
+   289	
+   290			/* create a coherent mapping */
+   291			ret = dma_common_contiguous_remap(page, size, prot,
+   292					__builtin_return_address(0));
+   293			if (!ret)
+   294				goto out_free_pages;
+   295		} else {
+   296			ret = page_address(page);
+   297			if (mark_mem_decrypt && dma_set_decrypted(dev, ret, size))
+   298				goto out_leak_pages;
+   299		}
+   300	
+   301		memset(ret, 0, size);
+   302	
+   303		if (set_uncached) {
+   304			arch_dma_prep_coherent(page, size);
+   305			ret = arch_dma_set_uncached(ret, size);
+   306			if (IS_ERR(ret))
+   307				goto out_encrypt_pages;
+   308		}
+   309	
+   310		*dma_handle = phys_to_dma_direct(dev, page_to_phys(page));
+   311		return ret;
+   312	
+   313	out_encrypt_pages:
+   314		if (mark_mem_decrypt && dma_set_encrypted(dev, page_address(page), size))
+   315			return NULL;
+   316	out_free_pages:
+   317		__dma_direct_free_pages(dev, page, size);
+   318		return NULL;
+   319	out_leak_pages:
+   320		return NULL;
+   321	}
+   322	
 
 -- 
 0-DAY CI Kernel Test Service
