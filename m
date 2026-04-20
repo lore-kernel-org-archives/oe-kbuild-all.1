@@ -1,232 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0974F275B1A;
-	Mon, 20 Apr 2026 20:32:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2805631327D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Apr 2026 23:37:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776717166; cv=none; b=hI9ShdsERN7ZXKk+wuLmUsxhXscOQmlr30WvI2SOhga7wcqAVKfKEAxx3C0WwDampF/DEaWolRjhWjvIpWfGYnQBlK6MI0InGPALLteE+xiOp2mTXj67iQlKGnfl6CeQJXHIrb15x1mb3mUMy6I8+k4i3ELJM6HvdzRUAzknHMM=
+	t=1776728222; cv=none; b=mpwFeOIiPX5zRq9LYVIDZ2bULEng1rZZzv9Uy1ak7EorZVSwya4adcDbzkD2N3XfEa0/5z6WX+DbcdCyapBLxo+oFcIU4jb4bJ5CUwqZbJqv2Knavfa2p7krUgujjwGnnZBtQ1VIsFQ44YNmPrjn/wHjzyAmQ3ibSZM2/o0UD+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776717166; c=relaxed/simple;
-	bh=iHUtyRosG27FD3l7X18RDD9v2aBB4bGu0EqH5q0Oiqk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=EwAlkkmG0ARXsRlOMEQOCEudyNZka/awh+IyEoyf3Bp7bC0UVoQwLtK9fr/tF2/7qbjNZFQpXKf9pFiMp+zfNIOOFL6G+Sc8yiKfphPgX+AmmWuKNMDDPm4sln3wHoV9VTWbKsUi2MF/d2c/6hTWHcodzHgC0Jm7rMgd0Kn8VME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jl/cFmwa; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1776728222; c=relaxed/simple;
+	bh=vVNx/3bZ+POgxXbKiZMOku69dNPhcVjozRaCzyK2FTo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=u7xzQTBddphtGjLsOGkNyW65JMD1Wq4719s6XFo3t7vno9buQpPtYWDfA9m/gBEnW0tIzwNa4+iXDeBRCyL7/I9nC5cBaCGFCX/LDJMByRnok5IAGE3Ej36fs9t3U40zSC+BDy9rsi7bf5IY72iXt3Ojd92m6VB6PDw9lJ/obCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HLESC34u; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jl/cFmwa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HLESC34u"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776717165; x=1808253165;
-  h=date:from:to:cc:subject:message-id;
-  bh=iHUtyRosG27FD3l7X18RDD9v2aBB4bGu0EqH5q0Oiqk=;
-  b=Jl/cFmwaVkHKxZW+GaIaO2UWJD38I7ne+/43lW/6csiRt/GG+HWICX+A
-   si4x0AzucecDSbI/rv+B3pqACxhqLuzRtpY/RC/JH8BDBPZGjygwBtUaa
-   YyRyp8D4qZIE+NtgNOCX33z/euVLBfJ2Lx4i9D5CZlnvJk/IZ40PfbzzX
-   rbcTojjYHVIPk6G/A5aYtQlxXr2oZpqGypx/Kj7uAS3NFDE9f6BW2QD9u
-   YRoMHKaWSOYbxaaUB/xHQMNTUuktZa6YxEIaV7bcYbMxOT5n1dFeps7/P
-   NX/QY9faHA1lbyloMqH4TQnn0H/CnEuckRgnulE86yPI4ZOw3e2MBRFt9
+  t=1776728221; x=1808264221;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=vVNx/3bZ+POgxXbKiZMOku69dNPhcVjozRaCzyK2FTo=;
+  b=HLESC34ue2wPd7OdcsW/oC5uzqEh6Q1IFYfvj4JXJyW3EXWJfVM4UPoi
+   irHKK72YXN2Th07pDmSMmHysSmFCvMV8gM3Odg9ZcIHGEOb3qiMMBPd39
+   MBAfoqOM66nFIF5wKke9Ez5ycbV/jDMd8V/u4fpDFomIk0Glw9ZXf5Ke/
+   DJ5QTr+uTGZv7GmUYVfUKlEearFBFcfhNYBdOBDrq7fNWCxH6KFJ26i9o
+   H+HITPbbQYFInGxYmu94OGyaRUxje7Aj7JM3+uyXCxANfki2eWFq+AKON
+   fhAELo1/WPArhW6dM4rlZCjG4oZ3K92zvQsK0f2lOMIm5FHj9ewuSR9UX
    w==;
-X-CSE-ConnectionGUID: K/ETSHDOSOu16dmnCyAsBQ==
-X-CSE-MsgGUID: gvE2FfeBSqmbK+r3QrO09w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="77513219"
+X-CSE-ConnectionGUID: Jo0bLCpYTiKdYzs63sOHTA==
+X-CSE-MsgGUID: VfW7NXIdRee6qiA8VHjEzQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="89031492"
 X-IronPort-AV: E=Sophos;i="6.23,190,1770624000"; 
-   d="scan'208";a="77513219"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2026 13:32:44 -0700
-X-CSE-ConnectionGUID: NTtG0GhXQV2GS7bsx4xO5w==
-X-CSE-MsgGUID: cDEFUQDeS/qqHF0hSOTVMQ==
+   d="scan'208";a="89031492"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2026 16:37:01 -0700
+X-CSE-ConnectionGUID: g5FG/9W9SO6Kq/Djt44S3Q==
+X-CSE-MsgGUID: SMW2cE3pQZitCuhEK2Yr0w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,190,1770624000"; 
-   d="scan'208";a="231701215"
+   d="scan'208";a="228706939"
 Received: from lkp-server01.sh.intel.com (HELO 7e48d0ff8e22) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 20 Apr 2026 13:32:43 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 20 Apr 2026 16:36:59 -0700
 Received: from kbuild by 7e48d0ff8e22 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wEvIN-000000002qy-3pIA;
-	Mon, 20 Apr 2026 20:32:39 +0000
-Date: Tue, 21 Apr 2026 04:32:22 +0800
+	id 1wEyAi-0000000030C-450c;
+	Mon, 20 Apr 2026 23:36:56 +0000
+Date: Tue, 21 Apr 2026 07:36:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tanmay Kathpalia <tanmay.kathpalia@altera.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Dinh Nguyen <dinguyen@kernel.org>
-Subject: [dinguyen:socfpga_sdhc_v2 6/7]
- drivers/mmc/host/sdhci-cadence6.c:762:9: error: call to undeclared function
- 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations
-Message-ID: <202604210420.0JmcoWta-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 2/2]
+ arch/x86/entry/vdso/vma.c:30:15: error: static assertion failed due to
+ requirement 'VDSO_NR_PAGES + (2 * (((1UL) << 14) / ((1UL) << 12))) == (6 *
+ (((1UL) << 14) / ((1UL) << 12)))': VDSO_NR_PAGES + VDSO_NR_VCLOCK_PAGES ==
+ __VDSO_PAGES
+Message-ID: <202604210759.McAaCwuE-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dinguyen/linux.git socfpga_sdhc_v2
-head:   974099b9e02f16aac84a51eb58fa25523e9d2319
-commit: 497f87d1c1cc1e533e7067ee845b7a58539930a3 [6/7] mmc: sdhci-cadence: add Cadence SD6HC support
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20260421/202604210420.0JmcoWta-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260421/202604210420.0JmcoWta-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   2b232de60acc345669d0e8773b9445db098042c8
+commit: 4840288585a981ed8a4ecf74ab3b52df96ab860e [2/2] ANDROID: 16K: Align =
+vDSO mappings to 16K on x86
+config: i386-buildonly-randconfig-005-20260421 (https://download.01.org/0da=
+y-ci/archive/20260421/202604210759.McAaCwuE-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f022=
+7cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260421/202604210759.McAaCwuE-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604210420.0JmcoWta-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604210759.McAaCwuE-lkp@i=
+ntel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/mmc/host/sdhci-cadence6.c:762:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     762 |         reg |= FIELD_PREP(SDHCI_CDNS6_PHY_DQS_TIMING_USE_EXT_LPBK_DQS,
-         |                ^
+>> arch/x86/entry/vdso/vma.c:30:15: error: static assertion failed due to r=
+equirement 'VDSO_NR_PAGES + (2 * (((1UL) << 14) / ((1UL) << 12))) =3D=3D (6=
+ * (((1UL) << 14) / ((1UL) << 12)))': VDSO_NR_PAGES + VDSO_NR_VCLOCK_PAGES =
+=3D=3D __VDSO_PAGES
+      30 | static_assert(VDSO_NR_PAGES + VDSO_NR_VCLOCK_PAGES =3D=3D __VDSO=
+_PAGES);
+         | ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_asser=
+t'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_AR=
+GS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~=
+~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_ass=
+ert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   arch/x86/entry/vdso/vma.c:30:52: note: expression evaluates to '12 =3D=
+=3D 24'
+      30 | static_assert(VDSO_NR_PAGES + VDSO_NR_VCLOCK_PAGES =3D=3D __VDSO=
+_PAGES);
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~=
+~~~
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_asser=
+t'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_AR=
+GS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~=
+~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_ass=
+ert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
    1 error generated.
+--
+>> ld.lld: error: arch/x86/entry/vdso/vdso32/vdso32.lds:634: symbol not fou=
+nd: __MAX_PAGE_SIZE
+   ld.lld: error: arch/x86/entry/vdso/vdso32/vdso32.lds:635: symbol not fou=
+nd: __MAX_PAGE_SIZE
+   ld.lld: error: arch/x86/entry/vdso/vdso32/vdso32.lds:635: symbol not fou=
+nd: __MAX_PAGE_SIZE
+   ld.lld: error: arch/x86/entry/vdso/vdso32/vdso32.lds:637: symbol not fou=
+nd: __MAX_PAGE_SIZE
+>> ld.lld: error: arch/x86/entry/vdso/vdso32/vdso32.lds:634: symbol not fou=
+nd: __MAX_PAGE_SIZE
+   ld.lld: error: arch/x86/entry/vdso/vdso32/vdso32.lds:635: symbol not fou=
+nd: __MAX_PAGE_SIZE
+   ld.lld: error: arch/x86/entry/vdso/vdso32/vdso32.lds:635: symbol not fou=
+nd: __MAX_PAGE_SIZE
+   ld.lld: error: arch/x86/entry/vdso/vdso32/vdso32.lds:637: symbol not fou=
+nd: __MAX_PAGE_SIZE
+>> ld.lld: error: arch/x86/entry/vdso/vdso32/vdso32.lds:634: symbol not fou=
+nd: __MAX_PAGE_SIZE
+   ld.lld: error: arch/x86/entry/vdso/vdso32/vdso32.lds:635: symbol not fou=
+nd: __MAX_PAGE_SIZE
+   ld.lld: error: arch/x86/entry/vdso/vdso32/vdso32.lds:635: symbol not fou=
+nd: __MAX_PAGE_SIZE
+   ld.lld: error: arch/x86/entry/vdso/vdso32/vdso32.lds:637: symbol not fou=
+nd: __MAX_PAGE_SIZE
 
 
-vim +/FIELD_PREP +762 drivers/mmc/host/sdhci-cadence6.c
+vim +30 arch/x86/entry/vdso/vma.c
 
-   748	
-   749	int sdhci_cdns6_phy_init(struct sdhci_cdns_priv *priv)
-   750	{
-   751		int ret;
-   752		u32 reg;
-   753		struct sdhci_cdns6_phy *phy = priv->phy;
-   754	
-   755		sdhci_cdns6_dll_reset(priv, true);
-   756	
-   757		reg = sdhci_cdns6_read_phy_reg(priv, SDHCI_CDNS6_PHY_DQS_TIMING_REG);
-   758		reg &= ~SDHCI_CDNS6_PHY_DQS_TIMING_USE_EXT_LPBK_DQS;
-   759		reg &= ~SDHCI_CDNS6_PHY_DQS_TIMING_USE_LPBK_DQS;
-   760		reg &= ~SDHCI_CDNS6_PHY_DQS_TIMING_USE_PHONY_DQS;
-   761		reg &= ~SDHCI_CDNS6_PHY_DQS_TIMING_USE_PHONY_DQS_CMD;
- > 762		reg |= FIELD_PREP(SDHCI_CDNS6_PHY_DQS_TIMING_USE_EXT_LPBK_DQS,
-   763				phy->cp_use_ext_lpbk_dqs);
-   764		reg |= FIELD_PREP(SDHCI_CDNS6_PHY_DQS_TIMING_USE_LPBK_DQS,
-   765				phy->cp_use_lpbk_dqs);
-   766		reg |= FIELD_PREP(SDHCI_CDNS6_PHY_DQS_TIMING_USE_PHONY_DQS,
-   767				  phy->cp_use_phony_dqs);
-   768		reg |= FIELD_PREP(SDHCI_CDNS6_PHY_DQS_TIMING_USE_PHONY_DQS_CMD,
-   769				  phy->cp_use_phony_dqs_cmd);
-   770		sdhci_cdns6_write_phy_reg(priv, SDHCI_CDNS6_PHY_DQS_TIMING_REG, reg);
-   771	
-   772		reg = sdhci_cdns6_read_phy_reg(priv, SDHCI_CDNS6_PHY_GATE_LPBK_CTRL_REG);
-   773		reg &= ~SDHCI_CDNS6_PHY_GATE_LPBK_CTRL_SYNC_METHOD;
-   774		reg &= ~SDHCI_CDNS6_PHY_GATE_LPBK_CTRL_SW_HALF_CYCLE_SHIFT;
-   775		reg &= ~SDHCI_CDNS6_PHY_GATE_LPBK_CTRL_RD_DEL_SEL;
-   776		reg &= ~SDHCI_CDNS6_PHY_GATE_LPBK_CTRL_UNDERRUN_SUPPRESS;
-   777		reg &= ~SDHCI_CDNS6_PHY_GATE_LPBK_CTRL_GATE_CFG_ALWAYS_ON;
-   778		reg |= FIELD_PREP(SDHCI_CDNS6_PHY_GATE_LPBK_CTRL_SYNC_METHOD,
-   779				phy->cp_sync_method);
-   780		reg |= FIELD_PREP(SDHCI_CDNS6_PHY_GATE_LPBK_CTRL_SW_HALF_CYCLE_SHIFT,
-   781				phy->cp_sw_half_cycle_shift);
-   782		reg |= FIELD_PREP(SDHCI_CDNS6_PHY_GATE_LPBK_CTRL_RD_DEL_SEL,
-   783				phy->cp_rd_del_sel);
-   784		reg |= FIELD_PREP(SDHCI_CDNS6_PHY_GATE_LPBK_CTRL_UNDERRUN_SUPPRESS,
-   785				phy->cp_underrun_suppress);
-   786		reg |= FIELD_PREP(SDHCI_CDNS6_PHY_GATE_LPBK_CTRL_GATE_CFG_ALWAYS_ON,
-   787				phy->cp_gate_cfg_always_on);
-   788		sdhci_cdns6_write_phy_reg(priv, SDHCI_CDNS6_PHY_GATE_LPBK_CTRL_REG, reg);
-   789	
-   790		reg = FIELD_PREP(SDHCI_CDNS6_PHY_DLL_MASTER_CTRL_BYPASS_MODE,
-   791				 phy->cp_dll_bypass_mode);
-   792		reg |= FIELD_PREP(SDHCI_CDNS6_PHY_DLL_MASTER_CTRL_PHASE_DETECT_SEL, 2);
-   793		reg |= FIELD_PREP(SDHCI_CDNS6_PHY_DLL_MASTER_CTRL_DLL_LOCK_NUM, 0);
-   794		reg |= FIELD_PREP(SDHCI_CDNS6_PHY_DLL_MASTER_CTRL_DLL_START_POINT,
-   795				phy->cp_dll_start_point);
-   796		sdhci_cdns6_write_phy_reg(priv, SDHCI_CDNS6_PHY_DLL_MASTER_CTRL_REG, reg);
-   797	
-   798		reg = FIELD_PREP(SDHCI_CDNS6_PHY_DLL_SLAVE_CTRL_READ_DQS_CMD_DELAY,
-   799				 phy->cp_read_dqs_cmd_delay);
-   800		reg |= FIELD_PREP(SDHCI_CDNS6_PHY_DLL_SLAVE_CTRL_CLK_WRDQS_DELAY,
-   801				  phy->cp_clk_wrdqs_delay);
-   802		reg |= FIELD_PREP(SDHCI_CDNS6_PHY_DLL_SLAVE_CTRL_CLK_WR_DELAY,
-   803				  phy->cp_clk_wr_delay);
-   804		reg |= FIELD_PREP(SDHCI_CDNS6_PHY_DLL_SLAVE_CTRL_READ_DQS_DELAY,
-   805				  phy->cp_read_dqs_delay);
-   806		sdhci_cdns6_write_phy_reg(priv, SDHCI_CDNS6_PHY_DLL_SLAVE_CTRL_REG, reg);
-   807	
-   808		reg = sdhci_cdns6_read_phy_reg(priv, SDHCI_CDNS6_PHY_CTRL_REG);
-   809		reg &= ~SDHCI_CDNS6_PHY_CTRL_PHONY_DQS_TIMING;
-   810		sdhci_cdns6_write_phy_reg(priv, SDHCI_CDNS6_PHY_CTRL_REG, reg);
-   811	
-   812		smp_wmb(); /* drain writebuffer */
-   813	
-   814		ret = sdhci_cdns6_dll_reset(priv, false);
-   815		if (ret)
-   816			return ret;
-   817	
-   818		reg = sdhci_cdns6_read_phy_reg(priv, SDHCI_CDNS6_PHY_DQ_TIMING_REG);
-   819		reg &= ~SDHCI_CDNS6_PHY_DQ_TIMING_IO_MASK_ALWAYS_ON;
-   820		reg &= ~SDHCI_CDNS6_PHY_DQ_TIMING_IO_MASK_END;
-   821		reg &= ~SDHCI_CDNS6_PHY_DQ_TIMING_IO_MASK_START;
-   822		reg &= ~SDHCI_CDNS6_PHY_DQ_TIMING_DATA_SELECT_OE_END;
-   823		reg |= FIELD_PREP(SDHCI_CDNS6_PHY_DQ_TIMING_IO_MASK_ALWAYS_ON,
-   824				phy->cp_io_mask_always_on);
-   825		reg |= FIELD_PREP(SDHCI_CDNS6_PHY_DQ_TIMING_IO_MASK_END,
-   826				  phy->cp_io_mask_end);
-   827		reg |= FIELD_PREP(SDHCI_CDNS6_PHY_DQ_TIMING_IO_MASK_START,
-   828				  phy->cp_io_mask_start);
-   829		reg |= FIELD_PREP(SDHCI_CDNS6_PHY_DQ_TIMING_DATA_SELECT_OE_END,
-   830				phy->cp_data_select_oe_end);
-   831		sdhci_cdns6_write_phy_reg(priv, SDHCI_CDNS6_PHY_DQ_TIMING_REG, reg);
-   832	
-   833		smp_wmb(); /* drain writebuffer */
-   834	
-   835		reg = readl(priv->hrs_addr + SDHCI_CDNS_HRS09);
-   836		if (phy->sdhc_extended_wr_mode)
-   837			reg |= SDHCI_CDNS_HRS09_EXTENDED_WR_MODE;
-   838		else
-   839			reg &= ~SDHCI_CDNS_HRS09_EXTENDED_WR_MODE;
-   840	
-   841		if (phy->sdhc_extended_rd_mode)
-   842			reg |= SDHCI_CDNS_HRS09_EXTENDED_RD_MODE;
-   843		else
-   844			reg &= ~SDHCI_CDNS_HRS09_EXTENDED_RD_MODE;
-   845	
-   846		if (phy->sdhc_rddata_en)
-   847			reg |= SDHCI_CDNS_HRS09_RDDATA_EN;
-   848		else
-   849			reg &= ~SDHCI_CDNS_HRS09_RDDATA_EN;
-   850	
-   851		if (phy->sdhc_rdcmd_en)
-   852			reg |= SDHCI_CDNS_HRS09_RDCMD_EN;
-   853		else
-   854			reg &= ~SDHCI_CDNS_HRS09_RDCMD_EN;
-   855	
-   856		writel(reg, priv->hrs_addr + SDHCI_CDNS_HRS09);
-   857	
-   858		reg = FIELD_PREP(SDHCI_CDNS_HRS10_HCSDCLKADJ, phy->sdhc_hcsdclkadj);
-   859		writel(reg, priv->hrs_addr + SDHCI_CDNS_HRS10);
-   860	
-   861		reg = FIELD_PREP(SDHCI_CDNS_HRS16_WRDATA1_SDCLK_DLY,
-   862				 phy->sdhc_wrdata1_sdclk_dly);
-   863		reg |= FIELD_PREP(SDHCI_CDNS_HRS16_WRDATA0_SDCLK_DLY,
-   864				  phy->sdhc_wrdata0_sdclk_dly);
-   865		reg |= FIELD_PREP(SDHCI_CDNS_HRS16_WRCMD1_SDCLK_DLY,
-   866				  phy->sdhc_wrcmd1_sdclk_dly);
-   867		reg |= FIELD_PREP(SDHCI_CDNS_HRS16_WRCMD0_SDCLK_DLY,
-   868				  phy->sdhc_wrcmd0_sdclk_dly);
-   869		reg |= FIELD_PREP(SDHCI_CDNS_HRS16_WRDATA1_DLY,
-   870				  phy->sdhc_wrdata1_dly);
-   871		reg |= FIELD_PREP(SDHCI_CDNS_HRS16_WRDATA0_DLY,
-   872				  phy->sdhc_wrdata0_dly);
-   873		reg |= FIELD_PREP(SDHCI_CDNS_HRS16_WRCMD1_DLY,
-   874				  phy->sdhc_wrcmd1_dly);
-   875		reg |= FIELD_PREP(SDHCI_CDNS_HRS16_WRCMD0_DLY,
-   876				  phy->sdhc_wrcmd0_dly);
-   877		writel(reg, priv->hrs_addr + SDHCI_CDNS_HRS16);
-   878	
-   879		reg = FIELD_PREP(SDHCI_CDNS_HRS07_RW_COMPENSATE,
-   880				 phy->sdhc_rw_compensate);
-   881		reg |= FIELD_PREP(SDHCI_CDNS_HRS07_IDELAY_VAL,
-   882				  phy->sdhc_idelay_val);
-   883		writel(reg, priv->hrs_addr + SDHCI_CDNS_HRS07);
-   884	
-   885		/* Allow 5ms for clock and PHY signals to stabilize after configuration */
-   886		usleep_range(5000, 5500);
-   887	
-   888		return 0;
-   889	}
-   890	
+2aae950b21e4bc arch/x86_64/vdso/vma.c    Andi Kleen       2007-07-21  29 =
+=20
+dafde29605ebf2 arch/x86/entry/vdso/vma.c Thomas Wei=C3=9Fschuh 2025-02-04 @=
+30  static_assert(VDSO_NR_PAGES + VDSO_NR_VCLOCK_PAGES =3D=3D __VDSO_PAGES);
+b757959f192daf arch/x86/entry/vdso/vma.c Christophe Leroy 2024-08-22  31 =
+=20
 
--- 
+:::::: The code at line 30 was first introduced by commit
+:::::: dafde29605ebf214747e7602f4f22d3f617373a5 x86/vdso: Switch to generic=
+ storage implementation
+
+:::::: TO: Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
