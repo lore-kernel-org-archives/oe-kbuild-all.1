@@ -1,64 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37BE33D9DA6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Apr 2026 15:08:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B78611E2614;
+	Tue, 21 Apr 2026 15:51:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776784095; cv=none; b=hL3Ln9GKyOVwLy+V67np1/bWJYbF/37XhBS+SbxKl2IiK5QJjpeOv7L4iytl93P65TowQiXLqGwWnTs2PW0rMrKRIzveTSJBAqxC5B+KIpWn4BWSWZf2Hig+RsHlmaH4T0odHJS8OK94zC9f1GZlMRa4fwdsnPCsFhVM+q0Y1WQ=
+	t=1776786684; cv=none; b=nnLV2lSyuIp4SoU1AeN9WkcZoONvFrMFzjenyncxMJE0o4dHtnPsRHBDxI6WI2Oco+sM0HMc6k6C8JV4OuSBfwECtehHSJJ9diyGlyMw3z80BEZF/49ReMvElw0z51HwWYMJiBddIvpw2XagJcfT+Jg/qrXA77UuPAACnS89mnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776784095; c=relaxed/simple;
-	bh=7Xv+Ryw48HlvkMEBN8BfLWHM13x8yMr3W6A+HuaVO4I=;
+	s=arc-20240116; t=1776786684; c=relaxed/simple;
+	bh=PgNeSfUwXuNTIAWz0lFy9e6I68v66mw46lASzOGwHT0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S2JFl1EOQkPJtOa6TXfDOc2HIz/mVqS7AU7aPkI0hB7KsVm5ghzZtTKBFZWCcBYNUXKwwUeVy1bL+75OH6R8vqMBZcJONvN3lIhMfSLx9QrMXII007gvLEDkiq9d6JF36+JFmJtLPRLrSjknvLmuv94PpQTqtb9d+USaAzmk5vo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eFjUvg1P; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=CM2846+uyt9+fs+V4FiGrxfUhr3d/APuXMI5FTRygOjOnUCIizqGDTEqpB0bGdRI7PY0xOCTqbVBE8j5DlpRjWebMG2xeL0r64p5bL0IVNgWrv3l/CdeeSIiQLyeKYDJUzGPGkAivNlsq7U5lnfA87uCcQIKE2zT13dKUXHNTEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=faajLDNh; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eFjUvg1P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="faajLDNh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776784093; x=1808320093;
+  t=1776786683; x=1808322683;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=7Xv+Ryw48HlvkMEBN8BfLWHM13x8yMr3W6A+HuaVO4I=;
-  b=eFjUvg1PGO0PSiT4qdv79WRaCpDf+kJvEeD4aCBs7cG81go7YaZeZBoH
-   dJmuThGdFqUqYRbIMMhdOlbp/gt7OKzwu8d8YtwtOmK9wFbWcF7XI/wWB
-   Y1+tlkZnHeayBRwAU/IRWxE/zdrzgsO2ROHyPJrt8tbo/vHP6fXZCnTjG
-   +79iORlfDEmWc+UdrFglxjrrgSH/5asb6AiWMR48N0PdkcGknNq2or4lf
-   vQO27NLZvoFhX2vAmZGahIkr7Frrv7606bb1YH9FgXYQ9lZvFxVZ9QdWh
-   z2J/lDMsR7ZOpXoRAlhPYVJFDFOb47eQK04DuRzR+rhrIde2O2IRwUe5E
-   w==;
-X-CSE-ConnectionGUID: dFONhkNBQGSYDpYQoPemtg==
-X-CSE-MsgGUID: Zq6rlzw1SB29XQEt8xHxLA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="81585745"
-X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
-   d="scan'208";a="81585745"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 08:08:12 -0700
-X-CSE-ConnectionGUID: 6VFtbl0xTTaJBdjiLQjvMw==
-X-CSE-MsgGUID: kP6fId9QQLy8fBc5H3o81w==
+  bh=PgNeSfUwXuNTIAWz0lFy9e6I68v66mw46lASzOGwHT0=;
+  b=faajLDNhU6nxcoYHOvJtJNhAMoUZBpDGv02h9AQG+3eJ8yRchoJD8X4S
+   dGsJS1eeYHEp5e2fgxtx8sIs+w8hqLK0wjrQMbaIVYxPxt1kPYSJ2vCwV
+   l/S7Jz3bYfxo6htVUmnRaey23MAqSWkMeEs0HuePBrQo65Xbwdqs6FO9p
+   eP/kebmObf0nHrTbjqKn4Sznzzcg3GPG3vkgWoPCJDkHmISXH62O1B65c
+   FD7ISxMKKxkXqyWfKnrVXCc7KNEGBD11di2z2zqSi+Oqo5/9531rBkODh
+   I7zekHesSUPG4aDfmlB8CV6w8R1u7tWvACEQdsuD+7aJ+a1OsC35Tqdfi
+   g==;
+X-CSE-ConnectionGUID: 6GEo7dymQCabAEPscM9IDw==
+X-CSE-MsgGUID: GKtxsLP6Te2Z4JktBfv3mQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="76759466"
+X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
+   d="scan'208";a="76759466"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 08:51:20 -0700
+X-CSE-ConnectionGUID: pjaNHav+QTySKwbAVILdKw==
+X-CSE-MsgGUID: VJw3IVDiTYa0yM6QJWX92Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
-   d="scan'208";a="255319256"
+X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
+   d="scan'208";a="231186758"
 Received: from lkp-server01.sh.intel.com (HELO 7e48d0ff8e22) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 21 Apr 2026 08:08:10 -0700
+  by orviesa010.jf.intel.com with ESMTP; 21 Apr 2026 08:51:18 -0700
 Received: from kbuild by 7e48d0ff8e22 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wFChs-000000003fE-09di;
-	Tue, 21 Apr 2026 15:08:08 +0000
-Date: Tue, 21 Apr 2026 23:07:21 +0800
+	id 1wFDNb-000000003iK-1yRP;
+	Tue, 21 Apr 2026 15:51:15 +0000
+Date: Tue, 21 Apr 2026 23:50:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wolfram Sang <wsa-dev@sang-engineering.com>,
-	linux-renesas-soc@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Mark Brown <broonie@linaro.org>
-Subject: Re: [PATCH v2] mailbox: don't free the channel if the startup
- callback failed
-Message-ID: <202604212338.ff2P1FQg-lkp@intel.com>
-References: <20260420114346.10586-2-wsa+renesas@sang-engineering.com>
+To: Tristan Madani <tristmd@gmail.com>, linux-bluetooth@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, luiz.dentz@gmail.com,
+	marcel@holtmann.org, sven@svenpeter.dev, marcan@marcan.st,
+	asahi@lists.linux.dev, stable@vger.kernel.org
+Subject: Re: [PATCH v3] Bluetooth: hci_bcm4377: validate firmware event
+ length in completion ring
+Message-ID: <202604220005.gyhLDa7b-lkp@intel.com>
+References: <20260417104639.2608008-1-tristmd@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,218 +65,140 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260420114346.10586-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20260417104639.2608008-1-tristmd@gmail.com>
 
-Hi Wolfram,
+Hi Tristan,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on jassibrar-mailbox/for-next]
-[also build test ERROR on next-20260420]
-[cannot apply to linus/master v7.0]
+[auto build test WARNING on bluetooth/master]
+[also build test WARNING on bluetooth-next/master linus/master v7.0 next-20260420]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Wolfram-Sang/mailbox-don-t-free-the-channel-if-the-startup-callback-failed/20260420-234226
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jassibrar/mailbox.git for-next
-patch link:    https://lore.kernel.org/r/20260420114346.10586-2-wsa%2Brenesas%40sang-engineering.com
-patch subject: [PATCH v2] mailbox: don't free the channel if the startup callback failed
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260421/202604212338.ff2P1FQg-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260421/202604212338.ff2P1FQg-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tristan-Madani/Bluetooth-hci_bcm4377-validate-firmware-event-length-in-completion-ring/20260420-161359
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
+patch link:    https://lore.kernel.org/r/20260417104639.2608008-1-tristmd%40gmail.com
+patch subject: [PATCH v3] Bluetooth: hci_bcm4377: validate firmware event length in completion ring
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20260422/202604220005.gyhLDa7b-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260422/202604220005.gyhLDa7b-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604212338.ff2P1FQg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604220005.gyhLDa7b-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/mailbox/mailbox.c: In function '__mbox_bind_client':
->> drivers/mailbox/mailbox.c:355:25: error: implicit declaration of function 'mbox_clean_and_put_channel' [-Wimplicit-function-declaration]
-     355 |                         mbox_clean_and_put_channel(chan);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mailbox/mailbox.c: At top level:
->> drivers/mailbox/mailbox.c:484:6: warning: no previous prototype for 'mbox_clean_and_put_channel' [-Wmissing-prototypes]
-     484 | void mbox_clean_and_put_channel(struct mbox_chan *chan)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/mailbox/mailbox.c:484:6: warning: conflicting types for 'mbox_clean_and_put_channel'; have 'void(struct mbox_chan *)'
-   drivers/mailbox/mailbox.c:355:25: note: previous implicit declaration of 'mbox_clean_and_put_channel' with type 'void(struct mbox_chan *)'
-     355 |                         mbox_clean_and_put_channel(chan);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/device.h:15,
+                    from include/linux/async.h:14,
+                    from drivers/bluetooth/hci_bcm4377.c:8:
+   drivers/bluetooth/hci_bcm4377.c: In function 'bcm4377_handle_completion':
+>> drivers/bluetooth/hci_bcm4377.c:760:26: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'int' [-Wformat=]
+     760 |                          "event data len %zu exceeds payload size %zu for ring %d\n",
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:156:61: note: in expansion of macro 'dev_fmt'
+     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                             ^~~~~~~
+   drivers/bluetooth/hci_bcm4377.c:759:17: note: in expansion of macro 'dev_warn'
+     759 |                 dev_warn(&bcm4377->pdev->dev,
+         |                 ^~~~~~~~
+   drivers/bluetooth/hci_bcm4377.c:760:69: note: format string is defined here
+     760 |                          "event data len %zu exceeds payload size %zu for ring %d\n",
+         |                                                                   ~~^
+         |                                                                     |
+         |                                                                     long unsigned int
+         |                                                                   %u
 
 
-vim +/mbox_clean_and_put_channel +355 drivers/mailbox/mailbox.c
+vim +760 drivers/bluetooth/hci_bcm4377.c
 
-   329	
-   330	static int __mbox_bind_client(struct mbox_chan *chan, struct mbox_client *cl)
-   331	{
-   332		struct device *dev = cl->dev;
-   333		int ret;
-   334	
-   335		if (chan->cl || !try_module_get(chan->mbox->dev->driver->owner)) {
-   336			dev_err(dev, "%s: mailbox not free\n", __func__);
-   337			return -EBUSY;
-   338		}
-   339	
-   340		scoped_guard(spinlock_irqsave, &chan->lock) {
-   341			chan->msg_free = 0;
-   342			chan->msg_count = 0;
-   343			chan->active_req = MBOX_NO_MSG;
-   344			chan->cl = cl;
-   345			init_completion(&chan->tx_complete);
-   346	
-   347			if (chan->txdone_method	== MBOX_TXDONE_BY_POLL && cl->knows_txdone)
-   348				chan->txdone_method = MBOX_TXDONE_BY_ACK;
-   349		}
-   350	
-   351		if (chan->mbox->ops->startup) {
-   352			ret = chan->mbox->ops->startup(chan);
-   353			if (ret) {
-   354				dev_err(dev, "Unable to startup the chan (%d)\n", ret);
- > 355				mbox_clean_and_put_channel(chan);
-   356				return ret;
-   357			}
-   358		}
-   359	
-   360		return 0;
-   361	}
-   362	
-   363	/**
-   364	 * mbox_bind_client - Bind client to a mailbox channel.
-   365	 * @chan: The mailbox channel to bind the client to.
-   366	 * @cl: Identity of the client requesting the channel.
-   367	 *
-   368	 * The Client specifies its requirements and capabilities while asking for
-   369	 * a mailbox channel. It can't be called from atomic context.
-   370	 * The channel is exclusively allocated and can't be used by another
-   371	 * client before the owner calls mbox_free_channel.
-   372	 * After assignment, any packet received on this channel will be
-   373	 * handed over to the client via the 'rx_callback'.
-   374	 * The framework holds reference to the client, so the mbox_client
-   375	 * structure shouldn't be modified until the mbox_free_channel returns.
-   376	 *
-   377	 * Return: 0 if the channel was assigned to the client successfully.
-   378	 *         <0 for request failure.
-   379	 */
-   380	int mbox_bind_client(struct mbox_chan *chan, struct mbox_client *cl)
-   381	{
-   382		guard(mutex)(&con_mutex);
-   383	
-   384		return __mbox_bind_client(chan, cl);
-   385	}
-   386	EXPORT_SYMBOL_GPL(mbox_bind_client);
-   387	
-   388	/**
-   389	 * mbox_request_channel - Request a mailbox channel.
-   390	 * @cl: Identity of the client requesting the channel.
-   391	 * @index: Index of mailbox specifier in 'mboxes' property.
-   392	 *
-   393	 * The Client specifies its requirements and capabilities while asking for
-   394	 * a mailbox channel. It can't be called from atomic context.
-   395	 * The channel is exclusively allocated and can't be used by another
-   396	 * client before the owner calls mbox_free_channel.
-   397	 * After assignment, any packet received on this channel will be
-   398	 * handed over to the client via the 'rx_callback'.
-   399	 * The framework holds reference to the client, so the mbox_client
-   400	 * structure shouldn't be modified until the mbox_free_channel returns.
-   401	 *
-   402	 * Return: Pointer to the channel assigned to the client if successful.
-   403	 *		ERR_PTR for request failure.
-   404	 */
-   405	struct mbox_chan *mbox_request_channel(struct mbox_client *cl, int index)
-   406	{
-   407		struct fwnode_reference_args fwspec;
-   408		struct fwnode_handle *fwnode;
-   409		struct mbox_controller *mbox;
-   410		struct of_phandle_args spec;
-   411		struct mbox_chan *chan;
-   412		struct device *dev;
-   413		unsigned int i;
-   414		int ret;
-   415	
-   416		dev = cl->dev;
-   417		if (!dev) {
-   418			pr_debug("No owner device\n");
-   419			return ERR_PTR(-ENODEV);
-   420		}
-   421	
-   422		fwnode = dev_fwnode(dev);
-   423		if (!fwnode) {
-   424			dev_dbg(dev, "No owner fwnode\n");
-   425			return ERR_PTR(-ENODEV);
-   426		}
-   427	
-   428		ret = fwnode_property_get_reference_args(fwnode, "mboxes", "#mbox-cells",
-   429							 0, index, &fwspec);
-   430		if (ret) {
-   431			dev_err(dev, "%s: can't parse \"%s\" property\n", __func__, "mboxes");
-   432			return ERR_PTR(ret);
-   433		}
-   434	
-   435		spec.np = to_of_node(fwspec.fwnode);
-   436		spec.args_count = fwspec.nargs;
-   437		for (i = 0; i < spec.args_count; i++)
-   438			spec.args[i] = fwspec.args[i];
-   439	
-   440		scoped_guard(mutex, &con_mutex) {
-   441			chan = ERR_PTR(-EPROBE_DEFER);
-   442			list_for_each_entry(mbox, &mbox_cons, node) {
-   443				if (device_match_fwnode(mbox->dev, fwspec.fwnode)) {
-   444					if (mbox->fw_xlate) {
-   445						chan = mbox->fw_xlate(mbox, &fwspec);
-   446						if (!IS_ERR(chan))
-   447							break;
-   448					} else if (mbox->of_xlate) {
-   449						chan = mbox->of_xlate(mbox, &spec);
-   450						if (!IS_ERR(chan))
-   451							break;
-   452					}
-   453				}
-   454			}
-   455	
-   456			fwnode_handle_put(fwspec.fwnode);
-   457	
-   458			if (IS_ERR(chan))
-   459				return chan;
-   460	
-   461			ret = __mbox_bind_client(chan, cl);
-   462			if (ret)
-   463				chan = ERR_PTR(ret);
-   464		}
-   465	
-   466		return chan;
-   467	}
-   468	EXPORT_SYMBOL_GPL(mbox_request_channel);
-   469	
-   470	struct mbox_chan *mbox_request_channel_byname(struct mbox_client *cl,
-   471						      const char *name)
-   472	{
-   473		int index = device_property_match_string(cl->dev, "mbox-names", name);
-   474	
-   475		if (index < 0) {
-   476			dev_err(cl->dev, "%s() could not locate channel named \"%s\"\n",
-   477				__func__, name);
-   478			return ERR_PTR(index);
-   479		}
-   480		return mbox_request_channel(cl, index);
-   481	}
-   482	EXPORT_SYMBOL_GPL(mbox_request_channel_byname);
-   483	
- > 484	void mbox_clean_and_put_channel(struct mbox_chan *chan)
-   485	{
-   486		/* The queued TX requests are simply aborted, no callbacks are made */
-   487		scoped_guard(spinlock_irqsave, &chan->lock) {
-   488			chan->cl = NULL;
-   489			chan->active_req = MBOX_NO_MSG;
-   490			if (chan->txdone_method == MBOX_TXDONE_BY_ACK)
-   491				chan->txdone_method = MBOX_TXDONE_BY_POLL;
-   492		}
-   493	
-   494		module_put(chan->mbox->dev->driver->owner);
-   495	}
-   496	
+   734	
+   735	static void bcm4377_handle_completion(struct bcm4377_data *bcm4377,
+   736					      struct bcm4377_completion_ring *ring,
+   737					      u16 pos)
+   738	{
+   739		struct bcm4377_completion_ring_entry *entry;
+   740		u16 msg_id, transfer_ring;
+   741		size_t entry_size, data_len;
+   742		void *data;
+   743	
+   744		if (pos >= ring->n_entries) {
+   745			dev_warn(&bcm4377->pdev->dev,
+   746				 "invalid offset %d for completion ring %d\n", pos,
+   747				 ring->ring_id);
+   748			return;
+   749		}
+   750	
+   751		entry_size = sizeof(*entry) + ring->payload_size;
+   752		entry = ring->ring + pos * entry_size;
+   753		data = ring->ring + pos * entry_size + sizeof(*entry);
+   754		data_len = le32_to_cpu(entry->len);
+   755		msg_id = le16_to_cpu(entry->msg_id);
+   756		transfer_ring = le16_to_cpu(entry->ring_id);
+   757	
+   758		if (data_len > ring->payload_size) {
+   759			dev_warn(&bcm4377->pdev->dev,
+ > 760				 "event data len %zu exceeds payload size %zu for ring %d\n",
+   761				 data_len, ring->payload_size, ring->ring_id);
+   762			return;
+   763		}
+   764	
+   765		if ((ring->transfer_rings & BIT(transfer_ring)) == 0) {
+   766			dev_warn(
+   767				&bcm4377->pdev->dev,
+   768				"invalid entry at offset %d for transfer ring %d in completion ring %d\n",
+   769				pos, transfer_ring, ring->ring_id);
+   770			return;
+   771		}
+   772	
+   773		dev_dbg(&bcm4377->pdev->dev,
+   774			"entry in completion ring %d for transfer ring %d with msg_id %d\n",
+   775			ring->ring_id, transfer_ring, msg_id);
+   776	
+   777		switch (transfer_ring) {
+   778		case BCM4377_XFER_RING_CONTROL:
+   779			bcm4377_handle_ack(bcm4377, &bcm4377->control_h2d_ring, msg_id);
+   780			break;
+   781		case BCM4377_XFER_RING_HCI_H2D:
+   782			bcm4377_handle_ack(bcm4377, &bcm4377->hci_h2d_ring, msg_id);
+   783			break;
+   784		case BCM4377_XFER_RING_SCO_H2D:
+   785			bcm4377_handle_ack(bcm4377, &bcm4377->sco_h2d_ring, msg_id);
+   786			break;
+   787		case BCM4377_XFER_RING_ACL_H2D:
+   788			bcm4377_handle_ack(bcm4377, &bcm4377->acl_h2d_ring, msg_id);
+   789			break;
+   790	
+   791		case BCM4377_XFER_RING_HCI_D2H:
+   792			bcm4377_handle_event(bcm4377, &bcm4377->hci_d2h_ring, msg_id,
+   793					     entry->flags, HCI_EVENT_PKT, data,
+   794					     data_len);
+   795			break;
+   796		case BCM4377_XFER_RING_SCO_D2H:
+   797			bcm4377_handle_event(bcm4377, &bcm4377->sco_d2h_ring, msg_id,
+   798					     entry->flags, HCI_SCODATA_PKT, data,
+   799					     data_len);
+   800			break;
+   801		case BCM4377_XFER_RING_ACL_D2H:
+   802			bcm4377_handle_event(bcm4377, &bcm4377->acl_d2h_ring, msg_id,
+   803					     entry->flags, HCI_ACLDATA_PKT, data,
+   804					     data_len);
+   805			break;
+   806	
+   807		default:
+   808			dev_warn(
+   809				&bcm4377->pdev->dev,
+   810				"entry in completion ring %d for unknown transfer ring %d with msg_id %d\n",
+   811				ring->ring_id, transfer_ring, msg_id);
+   812		}
+   813	}
+   814	
 
 -- 
 0-DAY CI Kernel Test Service
