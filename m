@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B5536F41C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Apr 2026 20:48:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFEA4238D52
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Apr 2026 21:00:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776804509; cv=none; b=RfGc+rzzJ+B+d4RVGAGglg8Y8d7BvtG86+zvsAF977Io377hxuuQAeMZql1ciWNnbblSpwdbWA6HM+XGY12znuA2Ym7pMKrr8VPWATpfW2LofHZGeIlVyh7IejhH4K/prJ9olCAbzkmTWu97EK2BF1HtsokUyrAOO/lY6Nhyz1s=
+	t=1776805246; cv=none; b=npEDug5QmO85/kAFvX20w69iCqjzuo8RNQE27bmYrtx6pnRnf/tTW/qC6RUaxmgA+U0xydxtPGoDC79F7M51GmvqhJ7FgM7sW4vwJfwh2535F1H9VTZFlGtIFbah8n4NIjfs/zuM7n2GhluIBclMKrefE2XomEuyOVcIYWjmYBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776804509; c=relaxed/simple;
-	bh=ljlMEVgWX34lQzj0A7PTAd1FYMgRPgsY9JCHw65WOIw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ZkDnnSqEpdnDhVmj5DlKRM/lIiNXMa10dpp+juGVpsIgnxj8LbbWF8YzR07V3aCUBgC2bbmcH7sR5sv3YL1oNqIGRZbwJd8I5O4taOC+9qw4aTuGATRCPNcrxECRSgX5PDtYNI8hpzCIMIJGMYZCmYvXhMqkEcYVtaxbtGt90is=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XdPBd2OM; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1776805246; c=relaxed/simple;
+	bh=uaisVzpC+c07veB176hqKg15qQaRVa1+lP53Fo3GDac=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=D3vc5NARm736EFYNkpbaEGFveqO64sEVeI9nuq8BHja8Ttn1spVHe8Sj1BZWTOz4o1kfjpN5MIedgDWeDYSHR5p4Lt5X1Jk3Ff7vAb0mzbXkyjBRcNMuZ8ZlF5tXQvZQ50bKzmFORScGyqyJsmH7lOXgDjQ0W8nGKZD2a0d8qpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UrHi/LN+; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XdPBd2OM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UrHi/LN+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776804508; x=1808340508;
+  t=1776805244; x=1808341244;
   h=date:from:to:cc:subject:message-id;
-  bh=ljlMEVgWX34lQzj0A7PTAd1FYMgRPgsY9JCHw65WOIw=;
-  b=XdPBd2OMn+/Nt3Q1QnrvBQFsFTtwy39voFDj2RxzsJS8r1v+o/JNWlCv
-   FUyXCfOsfOJk6DcG8KyLEDKFpFmkPtb2gjmfJs0uXP/e1AMnFx3J31y1Q
-   fuEt83/wjZ4HWuvVkxyUt9fctwfd+LfFFrs/bIOQe4eboOCaMBRPWtLA5
-   IOSqkYwIvJBf61kGzTGnlh732bq82mQS0vt60KEraaE7P2dMT0mc3LeMO
-   o0BhHrjqlTnKUcjMGiRd+QsfzyFoIzY/UierCh7Ji19mdD1ZXDHm76KCi
-   j8+crGGbVbiGlrMsdzbAx+/iHSxZN9JQF1taTMjaXJpDk1P7vhYP3oHy2
-   Q==;
-X-CSE-ConnectionGUID: J5IHP0EXQqa1thHEDsXrWg==
-X-CSE-MsgGUID: oZnSBRfEQam7oOP1oGGTaQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="77819863"
+  bh=uaisVzpC+c07veB176hqKg15qQaRVa1+lP53Fo3GDac=;
+  b=UrHi/LN+qcsVzGI/Z3cqggrybR0qccSiMt5hcxzv8XXGsPLEu3MqyAkB
+   hrg1w2fjSh6qqS4Eip63vOEVvOOOn7WOigVJNp8jE/C2dampMWyYjeRG7
+   CQm5dMWwRfmRHOwnkU5ZuUwSdNdHkRdGHSD8Vi04tEnHxuTj8Ex6ZbKQI
+   dACH3dRm3QC0JHuLZRQ+3F9wYQyq/D58nRpnRMNlMacdUhz1/5a3BPcKW
+   MovQfxZ3QGJNzZ11+Kjb0doVmiJPlhTq8ksV/sXisAJWo7pNZ5Q0wiW2B
+   XnSF/rbl9k4fM4kUY2iFHR6cyEn8QZxK+X5wk0TVgZrNPZBld/Q/TlKR2
+   A==;
+X-CSE-ConnectionGUID: TPadhsrYQnyhIEfma0XOAA==
+X-CSE-MsgGUID: M44BY6E0TPWpfgYywtaVVw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="81617286"
 X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="77819863"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 13:48:27 -0700
-X-CSE-ConnectionGUID: NFqicU6MRkaF5oFm7OFl2w==
-X-CSE-MsgGUID: cc9oF9JUQpmFHgzelWpOCQ==
+   d="scan'208";a="81617286"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 14:00:44 -0700
+X-CSE-ConnectionGUID: /n0/R9LvSWCZsyb6zzkUpA==
+X-CSE-MsgGUID: UvoUaiYySbKnD0Ud2IsquA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="236520160"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 21 Apr 2026 13:48:26 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="225633682"
+Received: from lkp-server01.sh.intel.com (HELO 7e48d0ff8e22) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 21 Apr 2026 14:00:43 -0700
+Received: from kbuild by 7e48d0ff8e22 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wFI19-000000002e5-2gVy;
-	Tue, 21 Apr 2026 20:48:23 +0000
-Date: Tue, 21 Apr 2026 22:48:07 +0200
+	id 1wFID2-000000003ya-2mTG;
+	Tue, 21 Apr 2026 21:00:40 +0000
+Date: Wed, 22 Apr 2026 04:59:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joel Fernandes <joelagnelf@nvidia.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jfern:nova/mm 28/28] Diff in
- drivers/gpu/nova-core/mm/pagetable/map.rs:338:
-Message-ID: <202604212255.zysx7hia-lkp@intel.com>
+Subject: [morimoto:sound-cleanup-2026-04-20-2 147/147]
+ sound/soc/codecs/88pm860x-codec.c:1229:66: error: invalid use of undefined
+ type 'struct snd_soc_component'
+Message-ID: <202604220425.YwQuoPzA-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,173 +60,81 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova/mm
-head:   51a2b484ab4e185e0a8bc0a679f60e93986046ec
-commit: 51a2b484ab4e185e0a8bc0a679f60e93986046ec [28/28] delta squash: gpu: nova-core: mm: use Device<Bound>::access() for BAR0 instead of try_access()
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260421/202604212255.zysx7hia-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260421/202604212255.zysx7hia-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-cleanup-2026-04-20-2
+head:   1604ab9b37c0f7145cc187f24e3aca5b4e318eb1
+commit: 1604ab9b37c0f7145cc187f24e3aca5b4e318eb1 [147/147] move soc-component
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20260422/202604220425.YwQuoPzA-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260422/202604220425.YwQuoPzA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604212255.zysx7hia-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604220425.YwQuoPzA-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS=\ -fno-crash-diagnostics\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck 
-   make: Entering directory '/kbuild/src/consumer'
-   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
->> Diff in drivers/gpu/nova-core/mm/pagetable/map.rs:338:
-        ) -> Result {
-            pt_map_dispatch!(
-                self,
-   -            install_mappings(dev, mm, pt_pages, page_table_allocs, vfn_start, pfns, writable)
-   +            install_mappings(
-   +                dev,
-   +                mm,
-   +                pt_pages,
-   +                page_table_allocs,
-   +                vfn_start,
-   +                pfns,
-   +                writable
-   +            )
-            )
-        }
-    
-   Diff in drivers/gpu/nova-core/mm/pagetable/ver2.rs:261:
-        pub(super) small: Pde,
-    }
-    
-   -
-    impl DualPde {
-        /// Check if the big page table pointer is valid.
-        fn has_big(&self) -> bool {
-   Diff in drivers/gpu/nova-core/mm/vmm.rs:170:
-        }
-    
-        /// Allocate a contiguous virtual frame number range.
-   -    fn alloc_vfn_range(
-   -        &self,
-   -        num_pages: usize,
-   -        va_range: Option<Range<u64>>,
-   -    ) -> Result<Vfn> {
-   +    fn alloc_vfn_range(&self, num_pages: usize, va_range: Option<Range<u64>>) -> Result<Vfn> {
-            let page_size: u64 = PAGE_SIZE.into_safe_cast();
-    
-            let start_vfn = match va_range {
-   Diff in drivers/gpu/nova-core/mm/vmm.rs:170:
-        }
-    
-        /// Allocate a contiguous virtual frame number range.
-   -    fn alloc_vfn_range(
-   -        &self,
-   -        num_pages: usize,
-   -        va_range: Option<Range<u64>>,
-   -    ) -> Result<Vfn> {
-   +    fn alloc_vfn_range(&self, num_pages: usize, va_range: Option<Range<u64>>) -> Result<Vfn> {
-            let page_size: u64 = PAGE_SIZE.into_safe_cast();
-    
-            let start_vfn = match va_range {
->> Diff in drivers/gpu/nova-core/mm/pagetable/map.rs:338:
-        ) -> Result {
-            pt_map_dispatch!(
-                self,
-   -            install_mappings(dev, mm, pt_pages, page_table_allocs, vfn_start, pfns, writable)
-   +            install_mappings(
-   +                dev,
-   +                mm,
-   +                pt_pages,
-   +                page_table_allocs,
-   +                vfn_start,
-   +                pfns,
-   +                writable
-   +            )
-            )
-        }
-    
-   Diff in drivers/gpu/nova-core/mm/pagetable/ver2.rs:261:
-        pub(super) small: Pde,
-    }
-    
-   -
-    impl DualPde {
-        /// Check if the big page table pointer is valid.
-        fn has_big(&self) -> bool {
->> Diff in drivers/gpu/nova-core/mm/pagetable/map.rs:338:
-        ) -> Result {
-            pt_map_dispatch!(
-                self,
-   -            install_mappings(dev, mm, pt_pages, page_table_allocs, vfn_start, pfns, writable)
-   +            install_mappings(
-   +                dev,
-   +                mm,
-   +                pt_pages,
-   +                page_table_allocs,
-   +                vfn_start,
-   +                pfns,
-   +                writable
-   +            )
-            )
-        }
-    
-   Diff in drivers/gpu/nova-core/mm/pagetable/ver2.rs:261:
-        pub(super) small: Pde,
-    }
-    
-   -
-    impl DualPde {
-        /// Check if the big page table pointer is valid.
-        fn has_big(&self) -> bool {
->> Diff in drivers/gpu/nova-core/mm/pagetable/map.rs:338:
-        ) -> Result {
-            pt_map_dispatch!(
-                self,
-   -            install_mappings(dev, mm, pt_pages, page_table_allocs, vfn_start, pfns, writable)
-   +            install_mappings(
-   +                dev,
-   +                mm,
-   +                pt_pages,
-   +                page_table_allocs,
-   +                vfn_start,
-   +                pfns,
-   +                writable
-   +            )
-            )
-        }
-    
-   Diff in drivers/gpu/nova-core/mm/pagetable/ver2.rs:261:
-        pub(super) small: Pde,
-    }
-    
-   -
-    impl DualPde {
-        /// Check if the big page table pointer is valid.
-        fn has_big(&self) -> bool {
-   Diff in drivers/gpu/nova-core/mm/vmm.rs:170:
-        }
-    
-        /// Allocate a contiguous virtual frame number range.
-   -    fn alloc_vfn_range(
-   -        &self,
-   -        num_pages: usize,
-   -        va_range: Option<Range<u64>>,
-   -    ) -> Result<Vfn> {
-   +    fn alloc_vfn_range(&self, num_pages: usize, va_range: Option<Range<u64>>) -> Result<Vfn> {
-            let page_size: u64 = PAGE_SIZE.into_safe_cast();
-    
-            let start_vfn = match va_range {
-   make[2]: *** [Makefile:1916: rustfmt] Error 123
-   make[2]: Target 'rustfmtcheck' not remade because of errors.
-   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'rustfmtcheck' not remade because of errors.
-   make[1]: Target 'rustfmtcheck' not remade because of errors.
-   make: Leaving directory '/kbuild/src/consumer'
+   sound/soc/codecs/88pm860x-codec.c: In function 'pm860x_component_handler':
+>> sound/soc/codecs/88pm860x-codec.c:1229:66: error: invalid use of undefined type 'struct snd_soc_component'
+    1229 |                 trace_snd_soc_jack_irq(dev_name(pm860x->component->dev));
+         |                                                                  ^~
+
+
+vim +1229 sound/soc/codecs/88pm860x-codec.c
+
+f213f4b51777408 Haojian Zhuang    2010-08-19  1213  
+5783994b9afa8d3 Kuninori Morimoto 2018-01-29  1214  static irqreturn_t pm860x_component_handler(int irq, void *data)
+f213f4b51777408 Haojian Zhuang    2010-08-19  1215  {
+f213f4b51777408 Haojian Zhuang    2010-08-19  1216  	struct pm860x_priv *pm860x = data;
+abc495582a3f01d Kuninori Morimoto 2026-04-09  1217  	struct device *dev = snd_soc_component_to_dev(pm860x->component);
+f213f4b51777408 Haojian Zhuang    2010-08-19  1218  	int status, shrt, report = 0, mic_report = 0;
+f213f4b51777408 Haojian Zhuang    2010-08-19  1219  	int mask;
+f213f4b51777408 Haojian Zhuang    2010-08-19  1220  
+f213f4b51777408 Haojian Zhuang    2010-08-19  1221  	status = pm860x_reg_read(pm860x->i2c, REG_STATUS_1);
+f213f4b51777408 Haojian Zhuang    2010-08-19  1222  	shrt = pm860x_reg_read(pm860x->i2c, REG_SHORTS);
+f213f4b51777408 Haojian Zhuang    2010-08-19  1223  	mask = pm860x->det.hs_shrt | pm860x->det.hook_det | pm860x->det.lo_shrt
+f213f4b51777408 Haojian Zhuang    2010-08-19  1224  		| pm860x->det.hp_det;
+f213f4b51777408 Haojian Zhuang    2010-08-19  1225  
+7116f452c8e3e38 Mark Brown        2010-12-29  1226  #ifndef CONFIG_SND_SOC_88PM860X_MODULE
+1c9e9795b5e2348 Mark Brown        2010-12-05  1227  	if (status & (HEADSET_STATUS | MIC_STATUS | SHORT_HS1 | SHORT_HS2 |
+1c9e9795b5e2348 Mark Brown        2010-12-05  1228  		      SHORT_LO1 | SHORT_LO2))
+5783994b9afa8d3 Kuninori Morimoto 2018-01-29 @1229  		trace_snd_soc_jack_irq(dev_name(pm860x->component->dev));
+1435b9402fe0fb2 Mark Brown        2010-12-23  1230  #endif
+1c9e9795b5e2348 Mark Brown        2010-12-05  1231  
+f213f4b51777408 Haojian Zhuang    2010-08-19  1232  	if ((pm860x->det.hp_det & SND_JACK_HEADPHONE)
+f213f4b51777408 Haojian Zhuang    2010-08-19  1233  		&& (status & HEADSET_STATUS))
+f213f4b51777408 Haojian Zhuang    2010-08-19  1234  		report |= SND_JACK_HEADPHONE;
+f213f4b51777408 Haojian Zhuang    2010-08-19  1235  
+f213f4b51777408 Haojian Zhuang    2010-08-19  1236  	if ((pm860x->det.mic_det & SND_JACK_MICROPHONE)
+f213f4b51777408 Haojian Zhuang    2010-08-19  1237  		&& (status & MIC_STATUS))
+f213f4b51777408 Haojian Zhuang    2010-08-19  1238  		mic_report |= SND_JACK_MICROPHONE;
+f213f4b51777408 Haojian Zhuang    2010-08-19  1239  
+f213f4b51777408 Haojian Zhuang    2010-08-19  1240  	if (pm860x->det.hs_shrt && (shrt & (SHORT_HS1 | SHORT_HS2)))
+f213f4b51777408 Haojian Zhuang    2010-08-19  1241  		report |= pm860x->det.hs_shrt;
+f213f4b51777408 Haojian Zhuang    2010-08-19  1242  
+f213f4b51777408 Haojian Zhuang    2010-08-19  1243  	if (pm860x->det.hook_det && (status & HOOK_STATUS))
+f213f4b51777408 Haojian Zhuang    2010-08-19  1244  		report |= pm860x->det.hook_det;
+f213f4b51777408 Haojian Zhuang    2010-08-19  1245  
+f213f4b51777408 Haojian Zhuang    2010-08-19  1246  	if (pm860x->det.lo_shrt && (shrt & (SHORT_LO1 | SHORT_LO2)))
+f213f4b51777408 Haojian Zhuang    2010-08-19  1247  		report |= pm860x->det.lo_shrt;
+f213f4b51777408 Haojian Zhuang    2010-08-19  1248  
+f213f4b51777408 Haojian Zhuang    2010-08-19  1249  	if (report)
+f213f4b51777408 Haojian Zhuang    2010-08-19  1250  		snd_soc_jack_report(pm860x->det.hp_jack, report, mask);
+f213f4b51777408 Haojian Zhuang    2010-08-19  1251  	if (mic_report)
+f213f4b51777408 Haojian Zhuang    2010-08-19  1252  		snd_soc_jack_report(pm860x->det.mic_jack, SND_JACK_MICROPHONE,
+f213f4b51777408 Haojian Zhuang    2010-08-19  1253  				    SND_JACK_MICROPHONE);
+f213f4b51777408 Haojian Zhuang    2010-08-19  1254  
+abc495582a3f01d Kuninori Morimoto 2026-04-09  1255  	dev_dbg(dev, "headphone report:0x%x, mask:%x\n", report, mask);
+abc495582a3f01d Kuninori Morimoto 2026-04-09  1256  	dev_dbg(dev, "microphone report:0x%x\n", mic_report);
+f213f4b51777408 Haojian Zhuang    2010-08-19  1257  	return IRQ_HANDLED;
+f213f4b51777408 Haojian Zhuang    2010-08-19  1258  }
+f213f4b51777408 Haojian Zhuang    2010-08-19  1259  
+
+:::::: The code at line 1229 was first introduced by commit
+:::::: 5783994b9afa8d37e9766b3cfbb594c1ae26087c ASoC: 88pm860x: replace codec to component
+
+:::::: TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
