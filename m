@@ -1,201 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9ED36E473
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Apr 2026 18:41:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B8F5351C03;
+	Tue, 21 Apr 2026 19:33:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776796896; cv=none; b=GCbxHzquPQGCDABuWmaskTJ7VY/xhkq8U5bFABPQ1EQqbK0j7pJ1IO7LMvl+VOZ8+MmE4ng8KjSYiaP+IEBJmPPw04tChdAfuUFeZid2+pfD/SkHpZFFVPaiFWVBwLFzYynIjJegMMNX/GX2VOwZfLRZsB7vXfG34TfSCevATAM=
+	t=1776800019; cv=none; b=jqJuDK9Zy0L6H4eCBD1gtB0bHV8td2isaef+OyFBZo3v6OD4PBQaxkCu2qYzNttnk+yo5+T3495u/Lf0hLKV9Z6qJoyKQZwJ20jB2No7FMTLIVAFUYkSNToQ30g02IjT06oUxDvASX84HoiQNaFaWWnP9mHNKCWr+/KQFo+c8NE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776796896; c=relaxed/simple;
-	bh=bFRrDauTraoYthtl96NPGv6aXjKvETzWGx9PtHNWz8I=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=UFEsmxyLpLORqQWRLrOJnIpGspFI3wCrHvFjBE3bvLEbeWOdWUfEAVd07HqBVT3VqRq6QVDrYOH/GhXed7gesAZ1amsarHfi/pwDR9vtFxgNb4Bfobi54etOMNOzISbnMc/lGtrCGn2Uemi+ZhQn2C/Ke2pSYQqxJp2KnFiP9BE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fdb5vths; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1776800019; c=relaxed/simple;
+	bh=EodzOw099fBLPHA+FoPk6IybrQpy3PL/jN5TTS/wIZM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CTt8HazJidbLI7GkbreqehITtqDA6A+uI5ZQ4v9QNprKJGZA+jCgron3E0RV2cO4GoxUQFl2Rjqn0pbY++ZJqW4FELT/w1l4xxzxiwCZW/6j963ZPA2L8mXgJA4NXCeEO5C+9QrwH5AY0Z692istIyCX24EnKBrPo1gjj6kbTrk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gsr413GM; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fdb5vths"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gsr413GM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776796894; x=1808332894;
-  h=date:from:to:cc:subject:message-id;
-  bh=bFRrDauTraoYthtl96NPGv6aXjKvETzWGx9PtHNWz8I=;
-  b=Fdb5vthsm6u4fkFxvUXFZ+2f1XbLdZp6LYf+aHFfgYz6XxBh2eUGAuFd
-   qGZ6EVumuOjYlcF2L4TVdpWZDU1ppGFeSpFp+LwxDZ1NStMN6wUTPb/6m
-   jj8yVovK0+VFXQqWo/cIM5ITWgr/nYL9l+tgkJU8XE/wJ9JZRbAA6aJVJ
-   lRv31C3oBKQYtJxAvhGLnx1Xaqxieaoea4b/aPqLQBTVLNbw2PM7P4qIr
-   nvqjfw5A+J43RxZ9RiK7QIxUZNUW3xcMNIXUXiTtlY2kF/3V5hNvffeQm
-   HA+RfsRpB3cY4d2wDqk6OTph0zKmkTvhyE8i1AIRyPxlVXmrsq5p4y6Wf
-   Q==;
-X-CSE-ConnectionGUID: OQQoOndIR4KbVPNbcv+F5A==
-X-CSE-MsgGUID: 5vBKCzoGQluDYQCQCQ+4Sg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="100401374"
+  t=1776800018; x=1808336018;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EodzOw099fBLPHA+FoPk6IybrQpy3PL/jN5TTS/wIZM=;
+  b=gsr413GMcPuqhEEQRdDSnqCVD/fGg4KzYs0sgdrtqBUBoQls8JGrv2If
+   rZ/IC6dHdVPKp46QkXeGYnxEhLiKG6am5HRjxkQvvnK7hJ6nQSteMSY6p
+   WU/9Hmr9Gvn5tC47P8MDyvJi+yX6b6w80dMZS4Gp35ntzMV3Jhv1G/bCW
+   SC2IeBGx3Kv157k1WgvIekX7WKkW2yqAkBqfMl8JB/MM/hEnxgg7PB3Az
+   CuBRjVDzx000N5y95cFyEWmexXQSLy58diA4D0jqb+RS2UCcQxilVOMym
+   el/VKnLbYAVTLuQ2bXTducFgKTz1+8Naq8MM5JXPXr/U27X+TJbyqpdrX
+   g==;
+X-CSE-ConnectionGUID: zxJykClSTeOqmwIQVOWGAw==
+X-CSE-MsgGUID: fGehl0qWQPOzKI58xIDwpg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="76780799"
 X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="100401374"
+   d="scan'208";a="76780799"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 11:41:33 -0700
-X-CSE-ConnectionGUID: p3eCrN3PRyCIVe6oSLzVcA==
-X-CSE-MsgGUID: Aq+YaZU1TtetOmY0F7ENsg==
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 12:33:37 -0700
+X-CSE-ConnectionGUID: ljT4FAQ4RNGrLowVQzmhyw==
+X-CSE-MsgGUID: 0Yl7qQdVRAutyyQJGhYAig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="233894601"
+   d="scan'208";a="233904186"
 Received: from lkp-server01.sh.intel.com (HELO 7e48d0ff8e22) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 21 Apr 2026 11:41:31 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 21 Apr 2026 12:33:35 -0700
 Received: from kbuild by 7e48d0ff8e22 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wFG2K-000000003rc-3gW4;
-	Tue, 21 Apr 2026 18:41:28 +0000
-Date: Wed, 22 Apr 2026 02:40:28 +0800
+	id 1wFGqi-000000003u8-3I28;
+	Tue, 21 Apr 2026 19:33:32 +0000
+Date: Wed, 22 Apr 2026 03:33:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 3/3] error[E0063]: missing
- field `__kabi_reserved1` in initializer of `kunit_loc`
-Message-ID: <202604220230.Gf1mPyNn-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: zhaoguohan@kylinos.cn, jgross@suse.com, sstabellini@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	oleksandr_tyshchenko@epam.com, xen-devel@lists.xenproject.org,
+	linux-kernel@vger.kernel.org, GuoHan Zhao <zhaoguohan@kylinos.cn>
+Subject: Re: [PATCH] xen/manage: unwind partial shutdown watcher setup on
+ error
+Message-ID: <202604220332.2gWBxnrF-lkp@intel.com>
+References: <20260407022443.12971-1-zhaoguohan@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260407022443.12971-1-zhaoguohan@kylinos.cn>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   0c92b4b15aea72b4ccb8cdd20702b9ca21ca05aa
-commit: e3e946868864503f88b95a0d8ffe6d61b7df82d6 [3/3] ANDROID: update KABI macros for gendwarfksyms
-config: x86_64-randconfig-002-20260421 (https://download.01.org/0day-ci/archive/20260422/202604220230.Gf1mPyNn-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260422/202604220230.Gf1mPyNn-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on v7.0]
+[cannot apply to xen-tip/linux-next linus/master next-20260421]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/zhaoguohan-kylinos-cn/xen-manage-unwind-partial-shutdown-watcher-setup-on-error/20260416-185003
+base:   v7.0
+patch link:    https://lore.kernel.org/r/20260407022443.12971-1-zhaoguohan%40kylinos.cn
+patch subject: [PATCH] xen/manage: unwind partial shutdown watcher setup on error
+config: arm64-randconfig-001-20260421 (https://download.01.org/0day-ci/archive/20260422/202604220332.2gWBxnrF-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260422/202604220332.2gWBxnrF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604220230.Gf1mPyNn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604220332.2gWBxnrF-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> error[E0063]: missing field `__kabi_reserved1` in initializer of `kunit_loc`
-   --> rust/doctests_kernel_generated.rs:50:1
-   |
-   50 | assert_eq!(*x, 24);
-   | ^^^^^^^^^^^^^^^^^^ missing `__kabi_reserved1`
-   |
-   = note: this error originates in the macro `$crate::kunit_assert` which comes from the expansion of the macro `assert_eq` (in Nightly builds, run with -Z macro-backtrace for more info)
---
->> error[E0063]: missing field `__kabi_reserved1` in initializer of `kunit_assert`
-   --> rust/doctests_kernel_generated.rs:50:1
-   |
-   50 | assert_eq!(*x, 24);
-   | ^^^^^^^^^^^^^^^^^^ missing `__kabi_reserved1`
-   |
-   = note: this error originates in the macro `$crate::kunit_assert` which comes from the expansion of the macro `assert_eq` (in Nightly builds, run with -Z macro-backtrace for more info)
---
->> error[E0063]: missing field `__kabi_reserved1` in initializer of `kunit_loc`
-   --> rust/doctests_kernel_generated.rs:152:1
-   |
-   152 | assert_eq!(*value, [1; 32]);
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^ missing `__kabi_reserved1`
-   |
-   = note: this error originates in the macro `$crate::kunit_assert` which comes from the expansion of the macro `assert_eq` (in Nightly builds, run with -Z macro-backtrace for more info)
---
->> error[E0063]: missing field `__kabi_reserved1` in initializer of `kunit_loc`
-   --> rust/doctests_kernel_generated.rs:1153:97
-   |
-   1153 | } let test_return_value = _doctest_main__kbuild_src_consumer_rust_kernel_alloc_kvec_rs_798_0(); assert!(test_return_value.is_ok()); }
-   |                                                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ missing `__kabi_reserved1`
-   |
-   = note: this error originates in the macro `kernel::kunit_assert` which comes from the expansion of the macro `assert` (in Nightly builds, run with -Z macro-backtrace for more info)
---
->> error[E0063]: missing field `__kabi_reserved1` in initializer of `kunit_assert`
-   --> rust/doctests_kernel_generated.rs:1153:97
-   |
-   1153 | } let test_return_value = _doctest_main__kbuild_src_consumer_rust_kernel_alloc_kvec_rs_798_0(); assert!(test_return_value.is_ok()); }
-   |                                                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ missing `__kabi_reserved1`
-   |
-   = note: this error originates in the macro `kernel::kunit_assert` which comes from the expansion of the macro `assert` (in Nightly builds, run with -Z macro-backtrace for more info)
---
->> error[E0063]: missing field `__kabi_reserved1` in initializer of `kunit_loc`
-   --> rust/doctests_kernel_generated.rs:1205:1
-   |
-   1205 | assert_eq!(iter.size_hint().0, size - 1);
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ missing `__kabi_reserved1`
-   |
-   = note: this error originates in the macro `$crate::kunit_assert` which comes from the expansion of the macro `assert_eq` (in Nightly builds, run with -Z macro-backtrace for more info)
---
->> error[E0063]: missing field `__kabi_reserved1` in initializer of `kunit_assert`
-   --> rust/doctests_kernel_generated.rs:1205:1
-   |
-   1205 | assert_eq!(iter.size_hint().0, size - 1);
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ missing `__kabi_reserved1`
-   |
-   = note: this error originates in the macro `$crate::kunit_assert` which comes from the expansion of the macro `assert_eq` (in Nightly builds, run with -Z macro-backtrace for more info)
---
->> error[E0063]: missing field `__kabi_reserved1` in initializer of `kunit_loc`
-   --> rust/doctests_kernel_generated.rs:1208:1
-   |
-   1208 | assert_eq!(iter.size_hint().0, size - 2);
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ missing `__kabi_reserved1`
-   |
-   = note: this error originates in the macro `$crate::kunit_assert` which comes from the expansion of the macro `assert_eq` (in Nightly builds, run with -Z macro-backtrace for more info)
---
->> error[E0063]: missing field `__kabi_reserved1` in initializer of `kunit_assert`
-   --> rust/doctests_kernel_generated.rs:1208:1
-   |
-   1208 | assert_eq!(iter.size_hint().0, size - 2);
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ missing `__kabi_reserved1`
-   |
-   = note: this error originates in the macro `$crate::kunit_assert` which comes from the expansion of the macro `assert_eq` (in Nightly builds, run with -Z macro-backtrace for more info)
---
->> error[E0063]: missing field `__kabi_reserved1` in initializer of `kunit_loc`
-   --> rust/doctests_kernel_generated.rs:1211:1
-   |
-   1211 | assert_eq!(iter.size_hint().0, size - 3);
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ missing `__kabi_reserved1`
-   |
-   = note: this error originates in the macro `$crate::kunit_assert` which comes from the expansion of the macro `assert_eq` (in Nightly builds, run with -Z macro-backtrace for more info)
---
->> error[E0063]: missing field `__kabi_reserved1` in initializer of `kunit_assert`
-   --> rust/doctests_kernel_generated.rs:1211:1
-   |
-   1211 | assert_eq!(iter.size_hint().0, size - 3);
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ missing `__kabi_reserved1`
-   |
-   = note: this error originates in the macro `$crate::kunit_assert` which comes from the expansion of the macro `assert_eq` (in Nightly builds, run with -Z macro-backtrace for more info)
-..
+>> drivers/xen/manage.c:380:1: warning: unused label 'err_unregister_shutdown' [-Wunused-label]
+     380 | err_unregister_shutdown:
+         | ^~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=y] && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
+
+vim +/err_unregister_shutdown +380 drivers/xen/manage.c
+
+   353	
+   354		for (idx = 0; idx < ARRAY_SIZE(shutdown_handlers); idx++) {
+   355			if (!shutdown_handlers[idx].flag)
+   356				continue;
+   357			snprintf(node, FEATURE_PATH_SIZE, "feature-%s",
+   358				 shutdown_handlers[idx].command);
+   359			err = xenbus_printf(XBT_NIL, "control", node, "%u", 1);
+   360			if (err) {
+   361				pr_err("%s: Error %d writing %s\n", __func__,
+   362					err, node);
+   363				goto err_remove_features;
+   364			}
+   365		}
+   366	
+   367		return 0;
+   368	
+   369	err_remove_features:
+   370		while (--idx >= 0) {
+   371			if (!shutdown_handlers[idx].flag)
+   372				continue;
+   373			snprintf(node, FEATURE_PATH_SIZE, "feature-%s",
+   374				 shutdown_handlers[idx].command);
+   375			xenbus_rm(XBT_NIL, "control", node);
+   376		}
+   377	#ifdef CONFIG_MAGIC_SYSRQ
+   378		unregister_xenbus_watch(&sysrq_watch);
+   379	#endif
+ > 380	err_unregister_shutdown:
+   381		unregister_xenbus_watch(&shutdown_watch);
+   382		return err;
+   383	}
+   384	
 
 -- 
 0-DAY CI Kernel Test Service
