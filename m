@@ -1,119 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DC7C26CE05;
-	Tue, 21 Apr 2026 03:56:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4241326ACC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Apr 2026 04:45:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776743791; cv=none; b=BKvuUV5NADnHNFQEvpl+aEG10NKtovF14D3OFc+rPGEpPhnxWlictWHnyc7WNuOx5B5w7gSx2Q7H0Xmt9AupL6AJU7zGq4ZgK29dEhi7f3jfE2rnRUS+pUVBOfqrhd9hC0ubxlu3tYIzvw9vnzebQQpuUC5h0TGfqinvmpgzVnE=
+	t=1776746729; cv=none; b=ZZVko8J6LyPevjr3usQgoraK/zoMrnmYA4ktrLHKUiFAJykdsrK/Ge4oXouiBfctnpRsC/RnmqFpDEr4HgPaAMM82YWba3Gzu2SCyUSDqmVQEievPkZwtLxCf7YBppXB0vrOWlZopJUeG9/agj7fIOiVL9Qipiq2eZujMm7B4y0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776743791; c=relaxed/simple;
-	bh=AhqzqmCA4tx3rY6a7rv8WzDeP5oJmLfeTUm+EWQccPw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=h9XhRb148gKO7oDbNbsnoR3FAnywUJFc6RtXhw/eauJzIJ6bnadEjALSpMfS5TEgtPxjpvaYFdF78Q4VxFfSm1jWrLSlqCEEyKkOCMkeLIKd4wGnP/Ml6leMcRL/Ei5djW2tncGC+vB5g596GilVPD0G3KoMVPQOQaIgRUtEkEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XLdRLh/P; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776746729; c=relaxed/simple;
+	bh=s8aKnAygGC6FG1jVlfOD9oir4CJvI/w4As7zos3et10=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=DfFmwQnFQPuzOOD2sbKQ9YjSXNK49mg6hS58aQTv+0KoWQTklj/jXaihjceJSubrYBIPA8Ld3iV+h5vIuOSjv5PeQNrvfJhKpdqAApZsCKauGiC+9eGNXxOHqWQmiiqKu+KjZRkYvbQB/zQcPZkdwch7AqPtmzcZpZD2YVRFzJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SXT0cYnl; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XLdRLh/P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89A85C2BCB3;
-	Tue, 21 Apr 2026 03:56:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776743790;
-	bh=AhqzqmCA4tx3rY6a7rv8WzDeP5oJmLfeTUm+EWQccPw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XLdRLh/PbmOu+fnOxQqqxD9BYXr3mFvmG7MNCfPArKkT3qY761v3Jke4S0PuLu1J+
-	 DLiLj/fcfmoTlIyzl5P0MAZwxM42GBcEcxYrynLGHJx8Z4K/c/RJC0HOdzXKE2fgIU
-	 og5MF2KhyxQg+9aAX+SVk6y7Ww2LEgN61o876DZm1vA0gbdhrFXO4hS+IB3UiA5g2B
-	 s2rdRBSF89sWYMEL75qTkvkAbON6Vt4aFQEU46wLiXIBi9WN9yLv1aGaFwuNpqwiG6
-	 9DVDme0kaWiU0n/HGPWUFffIKxzz6GHR39zmAB75+qeYYgRG3PMEkuF/sXlC8OenHY
-	 v7JSm4a9+jT2g==
-From: SeongJae Park <sj@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	damon@lists.linux.dev
-Subject: Re: [sj:damon/next 156/181] mm/damon/paddr.c:195:7: warning: variable 'matched' is used uninitialized whenever 'if' condition is false
-Date: Mon, 20 Apr 2026 20:56:20 -0700
-Message-ID: <20260421035620.138367-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <202604210331.wdB3yt0y-lkp@intel.com>
-References: 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SXT0cYnl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776746727; x=1808282727;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=s8aKnAygGC6FG1jVlfOD9oir4CJvI/w4As7zos3et10=;
+  b=SXT0cYnlcY0ATXVMV7P5/qFovUV5rMXoNOhEPQY4WysQBpIyoIf3C6/1
+   Edd/dMm53WaW6W1jBrBxbvt9mxuafLTsYXd96pdNQTqj3qMEjHQbKpB5K
+   4G41cRjwX0IWJOIjNHF2DhVHQ1JmTBBvt0QRMlmSbNGBCk8OcJ3yq2P/Y
+   /MUb/VQNsuJIuyDBmd7uFuwA0Er+99LT9fK9VxaDyq6RpoVritffENIuq
+   oEDAwGlcTfwf2ThHOU4L/BymUHPjgu81iO7TW2G1KL49Fu/EprmmeB2Rp
+   avnV5NqdOCn1HM6rZoXC97mlkpf/C4qiUSN5Z5zK510+Z5wW9TtNVDUwQ
+   w==;
+X-CSE-ConnectionGUID: eqUlWzGDRImr4cVWlHc1BQ==
+X-CSE-MsgGUID: FcltNbhqQQKrQ4CtSR/WPQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="77545212"
+X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
+   d="scan'208";a="77545212"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2026 21:45:26 -0700
+X-CSE-ConnectionGUID: 7PynAJ8DTIyBPPJZbcsIGw==
+X-CSE-MsgGUID: KF1PXVw3Q3qAOmOUP05pTQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
+   d="scan'208";a="236905258"
+Received: from lkp-server01.sh.intel.com (HELO 7e48d0ff8e22) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 20 Apr 2026 21:45:25 -0700
+Received: from kbuild by 7e48d0ff8e22 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wF2zC-000000003EW-3LZB;
+	Tue, 21 Apr 2026 04:45:22 +0000
+Date: Tue, 21 Apr 2026 12:45:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>,
+ =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:submit/dyndbg-classmap-foundation /69]
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c:25:10: fatal error:
+ 'drm/drm_print.h.h' file not found
+Message-ID: <202604211211.D7PrX84h-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
 
-On Tue, 21 Apr 2026 03:16:29 +0800 kernel test robot <lkp@intel.com> wrote:
+tree:   https://github.com/jimc/linux.git submit/dyndbg-classmap-foundation
+head:   0ba4d1a0dd9a629e3e284b001a85c5fa4b027326
+commit: b3d9e13107ddea8f0f29bddfcd66df8b3566547d [/69] drm/mediatek: Register DRM classmap
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260421/202604211211.D7PrX84h-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260421/202604211211.D7PrX84h-lkp@intel.com/reproduce)
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-> head:   ecd4906478687820c088904becbcf3c80ded7d81
-> commit: 8c863600a03e3066ce88bf8db48953176befa4c4 [156/181] mm/damon/paddr: do data_attr filtering
-> config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20260421/202604210331.wdB3yt0y-lkp@intel.com/config)
-> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260421/202604210331.wdB3yt0y-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202604210331.wdB3yt0y-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> mm/damon/paddr.c:195:7: warning: variable 'matched' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
->      195 |                 if (f->type == DAMON_FILTER_TYPE_ANON) {
->          |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    mm/damon/paddr.c:203:7: note: uninitialized use occurs here
->      203 |                 if (matched)
->          |                     ^~~~~~~
->    mm/damon/paddr.c:195:3: note: remove the 'if' if its condition is always true
->      195 |                 if (f->type == DAMON_FILTER_TYPE_ANON) {
->          |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    mm/damon/paddr.c:193:15: note: initialize the variable 'matched' to silence this warning
->      193 |                 bool matched;
->          |                             ^
->          |                              = 0
->    1 warning generated.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604211211.D7PrX84h-lkp@intel.com/
 
-Thank you for this report!  I just pushed below as a fix to damon/next.
+Note: the jimc/submit/dyndbg-classmap-foundation HEAD 0ba4d1a0dd9a629e3e284b001a85c5fa4b027326 builds fine.
+      It only hurts bisectability.
 
-'''
-Author: SeongJae Park <sj@kernel.org>
-Date:   Mon Apr 20 20:52:35 2026 -0700
+All errors (new ones prefixed by >>):
 
-    mm/damon/paddr: initialize 'matched' in damon_pa_tests_pass()
-
-    Reported-by: kernel test robot <lkp@intel.com>
-    Closes: https://lore.kernel.org/oe-kbuild-all/202604210331.wdB3yt0y-lkp@intel.com/
-    Signed-off-by: SeongJae Park <sj@kernel.org>
-
-diff --git a/mm/damon/paddr.c b/mm/damon/paddr.c
-index 4788abce08a50..8d49c3e944cfe 100644
---- a/mm/damon/paddr.c
-+++ b/mm/damon/paddr.c
-@@ -190,14 +190,12 @@ static bool damon_pa_tests_pass(phys_addr_t pa, struct damon_counter *c)
-        bool default_pass = true;
-
-        damon_for_each_test(t, c) {
--               bool matched;
-+               bool matched = false;
-
-                if (t->type == DAMON_TEST_TYPE_ANON) {
-                        struct folio *folio = damon_get_folio(PHYS_PFN(pa));
-
--                       if (!folio)
--                               matched = false;
--                       else
-+                       if (folio)
-                                matched = folio_test_anon(folio);
-                }
-                if (matched)
-'''
+>> drivers/gpu/drm/mediatek/mtk_drm_drv.c:25:10: fatal error: 'drm/drm_print.h.h' file not found
+      25 | #include <drm/drm_print.h.h>
+         |          ^~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
 
-Thanks,
-SJ
+vim +25 drivers/gpu/drm/mediatek/mtk_drm_drv.c
 
-[...]
+    14	
+    15	#include <drm/clients/drm_client_setup.h>
+    16	#include <drm/drm_atomic.h>
+    17	#include <drm/drm_atomic_helper.h>
+    18	#include <drm/drm_drv.h>
+    19	#include <drm/drm_fbdev_dma.h>
+    20	#include <drm/drm_fourcc.h>
+    21	#include <drm/drm_gem.h>
+    22	#include <drm/drm_gem_framebuffer_helper.h>
+    23	#include <drm/drm_ioctl.h>
+    24	#include <drm/drm_of.h>
+  > 25	#include <drm/drm_print.h.h>
+    26	#include <drm/drm_probe_helper.h>
+    27	#include <drm/drm_vblank.h>
+    28	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
