@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06D9B33F8BC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Apr 2026 19:56:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B5536F41C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Apr 2026 20:48:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776801401; cv=none; b=EhBT4KVjR2wTukiUcIrB8HF2iTaAaOr0ZTNx+8biAsPghNRaYttjoJFVS/ChUKDeqzqMUg1w1EktBNT44lXo3/Uf/5bicRP686I07SjQLhQRbVy7wxEqbhbiFOLBrJ8xHqLUbASgK+e9b4wJxSFkqiCddP8ItN0ERvMvyV8f4Jc=
+	t=1776804509; cv=none; b=RfGc+rzzJ+B+d4RVGAGglg8Y8d7BvtG86+zvsAF977Io377hxuuQAeMZql1ciWNnbblSpwdbWA6HM+XGY12znuA2Ym7pMKrr8VPWATpfW2LofHZGeIlVyh7IejhH4K/prJ9olCAbzkmTWu97EK2BF1HtsokUyrAOO/lY6Nhyz1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776801401; c=relaxed/simple;
-	bh=3zcaZEhP7RlMInMNY9D/VOGl2wIKmzuvAKYumjpp3Mo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=GsaGwfJtq1w32DmSLF5wi1kbmyInllE9bzjDzl7LmkVgPgG1ClBwokVFXuvIN/PUsKtKv3eGr5dB7AAowTAZqlIDaSN5cVnK44UkJtvx3JSosBmztJ5SWwzhUuNyhEhhnsL7RKon88/UVH/a4FOH0pv+cT+Qtb5sb8FJzCRKjGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M5tn90em; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1776804509; c=relaxed/simple;
+	bh=ljlMEVgWX34lQzj0A7PTAd1FYMgRPgsY9JCHw65WOIw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ZkDnnSqEpdnDhVmj5DlKRM/lIiNXMa10dpp+juGVpsIgnxj8LbbWF8YzR07V3aCUBgC2bbmcH7sR5sv3YL1oNqIGRZbwJd8I5O4taOC+9qw4aTuGATRCPNcrxECRSgX5PDtYNI8hpzCIMIJGMYZCmYvXhMqkEcYVtaxbtGt90is=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XdPBd2OM; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M5tn90em"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XdPBd2OM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776801400; x=1808337400;
+  t=1776804508; x=1808340508;
   h=date:from:to:cc:subject:message-id;
-  bh=3zcaZEhP7RlMInMNY9D/VOGl2wIKmzuvAKYumjpp3Mo=;
-  b=M5tn90emuLUqXiDbRWeUyeY3ekIhH5frSfkTgvQd7tqb5n3ZAv9Kb5IS
-   co6juiVjkTMyJoqggvGjHkLgfRCmTFUPJz5sr+BqvTTEoIrBuygNME7iT
-   9dhkd2B6sZtctbqLW7QIjRanKCSQrWwgsgQTK5XOjx7q8dtvppS/0Hqlp
-   GyHF6pjQGKaf1wKIOjgN2VApRg+y7e//3Btx3jzFj2vXtN7Q/TCq4HtRL
-   POU489jF136p5kJLBbD0j/JBrqf2arWrVfLp31d5Qe1MAFcSMYQgNmv6B
-   sDAobosRYyllciArVURSST/1lZK5Vt/sQm0QGp4ZG5PhLgNmjDxCyvtsx
+  bh=ljlMEVgWX34lQzj0A7PTAd1FYMgRPgsY9JCHw65WOIw=;
+  b=XdPBd2OMn+/Nt3Q1QnrvBQFsFTtwy39voFDj2RxzsJS8r1v+o/JNWlCv
+   FUyXCfOsfOJk6DcG8KyLEDKFpFmkPtb2gjmfJs0uXP/e1AMnFx3J31y1Q
+   fuEt83/wjZ4HWuvVkxyUt9fctwfd+LfFFrs/bIOQe4eboOCaMBRPWtLA5
+   IOSqkYwIvJBf61kGzTGnlh732bq82mQS0vt60KEraaE7P2dMT0mc3LeMO
+   o0BhHrjqlTnKUcjMGiRd+QsfzyFoIzY/UierCh7Ji19mdD1ZXDHm76KCi
+   j8+crGGbVbiGlrMsdzbAx+/iHSxZN9JQF1taTMjaXJpDk1P7vhYP3oHy2
    Q==;
-X-CSE-ConnectionGUID: 71VB2DEeT6+a6QBDrOGqiA==
-X-CSE-MsgGUID: s1RbiicNRdCqTCL8oGPtvA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="95161843"
+X-CSE-ConnectionGUID: J5IHP0EXQqa1thHEDsXrWg==
+X-CSE-MsgGUID: oZnSBRfEQam7oOP1oGGTaQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="77819863"
 X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="95161843"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 12:56:39 -0700
-X-CSE-ConnectionGUID: w0v6pqLERCy2bH0U7529ug==
-X-CSE-MsgGUID: 6udXWOWcT/Gp/Cr1hWJmcw==
+   d="scan'208";a="77819863"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 13:48:27 -0700
+X-CSE-ConnectionGUID: NFqicU6MRkaF5oFm7OFl2w==
+X-CSE-MsgGUID: cc9oF9JUQpmFHgzelWpOCQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="227794204"
-Received: from lkp-server01.sh.intel.com (HELO 7e48d0ff8e22) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 21 Apr 2026 12:56:36 -0700
-Received: from kbuild by 7e48d0ff8e22 with local (Exim 4.98.2)
+   d="scan'208";a="236520160"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 21 Apr 2026 13:48:26 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wFHD0-000000003v6-1WAj;
-	Tue, 21 Apr 2026 19:56:34 +0000
-Date: Wed, 22 Apr 2026 03:56:14 +0800
+	id 1wFI19-000000002e5-2gVy;
+	Tue, 21 Apr 2026 20:48:23 +0000
+Date: Tue, 21 Apr 2026 22:48:07 +0200
 From: kernel test robot <lkp@intel.com>
-To: Eric Dumazet <edumazet@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- x86@kernel.org, Thomas Gleixner <tglx@kernel.org>
-Subject: [tip:timers/urgent 1/1] include/linux/jiffies.h:470:36:
- sparse: sparse: cast truncates bits from constant value (7fffffffffff0bdc
- becomes ffff0bdc)
-Message-ID: <202604220307.zk9Kn0Gi-lkp@intel.com>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jfern:nova/mm 28/28] Diff in
+ drivers/gpu/nova-core/mm/pagetable/map.rs:338:
+Message-ID: <202604212255.zysx7hia-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,50 +59,173 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/urgent
-head:   4096fd0e8eaea13ebe5206700b33f49635ae18e5
-commit: b777b5e09eabeefc6ba80f4296366a4742701103 [1/1] time/jiffies: Inline jiffies_to_msecs() and jiffies_to_usecs()
-config: alpha-randconfig-r121-20260421 (https://download.01.org/0day-ci/archive/20260422/202604220307.zk9Kn0Gi-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260422/202604220307.zk9Kn0Gi-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova/mm
+head:   51a2b484ab4e185e0a8bc0a679f60e93986046ec
+commit: 51a2b484ab4e185e0a8bc0a679f60e93986046ec [28/28] delta squash: gpu: nova-core: mm: use Device<Bound>::access() for BAR0 instead of try_access()
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260421/202604212255.zysx7hia-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260421/202604212255.zysx7hia-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604220307.zk9Kn0Gi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604212255.zysx7hia-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/firewire/core-card.c: note: in included file (through include/linux/ktime.h, include/linux/timer.h, include/linux/uprobes.h, ...):
->> include/linux/jiffies.h:470:36: sparse: sparse: cast truncates bits from constant value (7fffffffffff0bdc becomes ffff0bdc)
---
-   drivers/firewire/core-transaction.c: note: in included file (through include/linux/ktime.h, include/linux/timer.h, include/linux/uprobes.h, ...):
->> include/linux/jiffies.h:470:36: sparse: sparse: cast truncates bits from constant value (7fffffffffff0bdc becomes ffff0bdc)
+All errors (new ones prefixed by >>):
 
-vim +470 include/linux/jiffies.h
-
-   454	
-   455	#if !(USEC_PER_SEC % HZ)
-   456	/**
-   457	 * jiffies_to_usecs - Convert jiffies to microseconds
-   458	 * @j: jiffies value
-   459	 *
-   460	 * Return: microseconds value
-   461	 */
-   462	static inline unsigned int jiffies_to_usecs(const unsigned long j)
-   463	{
-   464		/*
-   465		 * Hz usually doesn't go much further MSEC_PER_SEC.
-   466		 * jiffies_to_usecs() and usecs_to_jiffies() depend on that.
-   467		 */
-   468		BUILD_BUG_ON(HZ > USEC_PER_SEC);
-   469	
- > 470		return (USEC_PER_SEC / HZ) * j;
-   471	}
-   472	#else
-   473	unsigned int jiffies_to_usecs(const unsigned long j);
-   474	#endif
-   475	
+   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS=\ -fno-crash-diagnostics\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck 
+   make: Entering directory '/kbuild/src/consumer'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in drivers/gpu/nova-core/mm/pagetable/map.rs:338:
+        ) -> Result {
+            pt_map_dispatch!(
+                self,
+   -            install_mappings(dev, mm, pt_pages, page_table_allocs, vfn_start, pfns, writable)
+   +            install_mappings(
+   +                dev,
+   +                mm,
+   +                pt_pages,
+   +                page_table_allocs,
+   +                vfn_start,
+   +                pfns,
+   +                writable
+   +            )
+            )
+        }
+    
+   Diff in drivers/gpu/nova-core/mm/pagetable/ver2.rs:261:
+        pub(super) small: Pde,
+    }
+    
+   -
+    impl DualPde {
+        /// Check if the big page table pointer is valid.
+        fn has_big(&self) -> bool {
+   Diff in drivers/gpu/nova-core/mm/vmm.rs:170:
+        }
+    
+        /// Allocate a contiguous virtual frame number range.
+   -    fn alloc_vfn_range(
+   -        &self,
+   -        num_pages: usize,
+   -        va_range: Option<Range<u64>>,
+   -    ) -> Result<Vfn> {
+   +    fn alloc_vfn_range(&self, num_pages: usize, va_range: Option<Range<u64>>) -> Result<Vfn> {
+            let page_size: u64 = PAGE_SIZE.into_safe_cast();
+    
+            let start_vfn = match va_range {
+   Diff in drivers/gpu/nova-core/mm/vmm.rs:170:
+        }
+    
+        /// Allocate a contiguous virtual frame number range.
+   -    fn alloc_vfn_range(
+   -        &self,
+   -        num_pages: usize,
+   -        va_range: Option<Range<u64>>,
+   -    ) -> Result<Vfn> {
+   +    fn alloc_vfn_range(&self, num_pages: usize, va_range: Option<Range<u64>>) -> Result<Vfn> {
+            let page_size: u64 = PAGE_SIZE.into_safe_cast();
+    
+            let start_vfn = match va_range {
+>> Diff in drivers/gpu/nova-core/mm/pagetable/map.rs:338:
+        ) -> Result {
+            pt_map_dispatch!(
+                self,
+   -            install_mappings(dev, mm, pt_pages, page_table_allocs, vfn_start, pfns, writable)
+   +            install_mappings(
+   +                dev,
+   +                mm,
+   +                pt_pages,
+   +                page_table_allocs,
+   +                vfn_start,
+   +                pfns,
+   +                writable
+   +            )
+            )
+        }
+    
+   Diff in drivers/gpu/nova-core/mm/pagetable/ver2.rs:261:
+        pub(super) small: Pde,
+    }
+    
+   -
+    impl DualPde {
+        /// Check if the big page table pointer is valid.
+        fn has_big(&self) -> bool {
+>> Diff in drivers/gpu/nova-core/mm/pagetable/map.rs:338:
+        ) -> Result {
+            pt_map_dispatch!(
+                self,
+   -            install_mappings(dev, mm, pt_pages, page_table_allocs, vfn_start, pfns, writable)
+   +            install_mappings(
+   +                dev,
+   +                mm,
+   +                pt_pages,
+   +                page_table_allocs,
+   +                vfn_start,
+   +                pfns,
+   +                writable
+   +            )
+            )
+        }
+    
+   Diff in drivers/gpu/nova-core/mm/pagetable/ver2.rs:261:
+        pub(super) small: Pde,
+    }
+    
+   -
+    impl DualPde {
+        /// Check if the big page table pointer is valid.
+        fn has_big(&self) -> bool {
+>> Diff in drivers/gpu/nova-core/mm/pagetable/map.rs:338:
+        ) -> Result {
+            pt_map_dispatch!(
+                self,
+   -            install_mappings(dev, mm, pt_pages, page_table_allocs, vfn_start, pfns, writable)
+   +            install_mappings(
+   +                dev,
+   +                mm,
+   +                pt_pages,
+   +                page_table_allocs,
+   +                vfn_start,
+   +                pfns,
+   +                writable
+   +            )
+            )
+        }
+    
+   Diff in drivers/gpu/nova-core/mm/pagetable/ver2.rs:261:
+        pub(super) small: Pde,
+    }
+    
+   -
+    impl DualPde {
+        /// Check if the big page table pointer is valid.
+        fn has_big(&self) -> bool {
+   Diff in drivers/gpu/nova-core/mm/vmm.rs:170:
+        }
+    
+        /// Allocate a contiguous virtual frame number range.
+   -    fn alloc_vfn_range(
+   -        &self,
+   -        num_pages: usize,
+   -        va_range: Option<Range<u64>>,
+   -    ) -> Result<Vfn> {
+   +    fn alloc_vfn_range(&self, num_pages: usize, va_range: Option<Range<u64>>) -> Result<Vfn> {
+            let page_size: u64 = PAGE_SIZE.into_safe_cast();
+    
+            let start_vfn = match va_range {
+   make[2]: *** [Makefile:1916: rustfmt] Error 123
+   make[2]: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: Target 'rustfmtcheck' not remade because of errors.
+   make: Leaving directory '/kbuild/src/consumer'
 
 -- 
 0-DAY CI Kernel Test Service
