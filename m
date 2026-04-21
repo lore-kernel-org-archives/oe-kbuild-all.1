@@ -1,135 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D5EA1ABED9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Apr 2026 03:52:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DC7C26CE05;
+	Tue, 21 Apr 2026 03:56:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776743544; cv=none; b=hnpuIRO4u2sUURa63Sx2IA9ICamg6DvRw5Bi1PUSMRKR93lsLvK4FQ7rKdaJuuAg2fAVFeEapeXbys5MpdIZHsdY2OwnoS59DLg41VuN9zc8CpY10M2S1URLgndz1eZylWFhdOjXJkenoyzaBVdFEqVcOmK5WpmFysOSBsuOdXs=
+	t=1776743791; cv=none; b=BKvuUV5NADnHNFQEvpl+aEG10NKtovF14D3OFc+rPGEpPhnxWlictWHnyc7WNuOx5B5w7gSx2Q7H0Xmt9AupL6AJU7zGq4ZgK29dEhi7f3jfE2rnRUS+pUVBOfqrhd9hC0ubxlu3tYIzvw9vnzebQQpuUC5h0TGfqinvmpgzVnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776743544; c=relaxed/simple;
-	bh=jEnEipf9nxcI66lKCUWvvZHyOxEz9na+mAAucAru0Vo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tn0Gl2xEkZPYQyT+Dx764rX66MwfWfZp8HhxIoF/eWw6A5lnlk2Y3aAe/9Dcmce0Kox9WazFItYEq/kGV5wCLO9LKdw6vYXreymLMzDUeoiJKproi13/UV68uXWX6iSbqJdnmvCGtJce8hCWsU5hGUsBiGbfLbP2r9iX2tlsOeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=beRxyWbH; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1776743791; c=relaxed/simple;
+	bh=AhqzqmCA4tx3rY6a7rv8WzDeP5oJmLfeTUm+EWQccPw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=h9XhRb148gKO7oDbNbsnoR3FAnywUJFc6RtXhw/eauJzIJ6bnadEjALSpMfS5TEgtPxjpvaYFdF78Q4VxFfSm1jWrLSlqCEEyKkOCMkeLIKd4wGnP/Ml6leMcRL/Ei5djW2tncGC+vB5g596GilVPD0G3KoMVPQOQaIgRUtEkEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XLdRLh/P; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="beRxyWbH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776743542; x=1808279542;
-  h=date:from:to:cc:subject:message-id;
-  bh=jEnEipf9nxcI66lKCUWvvZHyOxEz9na+mAAucAru0Vo=;
-  b=beRxyWbHRwCD5ZpwVz0mm9z1uEOqnpyTSuUh3x7N2ugdtY7YN2qIJO7r
-   pY9WDu4Xl4hefBlN833fcsG7rOTLOW8BCLM2EenuwzoJNUEncvm4w5cJe
-   o2T2RIRIIF9MdMMjuBYX0Ck/m9uCZotgrKFX1YhXmKdagGxVxcdHKCp21
-   SDhnaZYyNiReXITrDoZ5zY0ueAVmA6bbj3QxdDkA5Uc7DC/KKac7Y1vHj
-   8YipNISJQnyahqepS1xKcvbV54Vq4LR7iPBq24Lgvj0oiZjewx6fLch+x
-   v2yA8T7VV1Lgcpx7nOIG3XWxdeS9uuPerAhWShLkH0M6y1B2gwiMK7lvm
-   A==;
-X-CSE-ConnectionGUID: HiiONwmwQIy9Mokg7kOmjg==
-X-CSE-MsgGUID: ZYhyraSUSLONv3pwar3ssA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="95081722"
-X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
-   d="scan'208";a="95081722"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2026 20:52:22 -0700
-X-CSE-ConnectionGUID: oZ5OLN1dQSio60kiOd/iXw==
-X-CSE-MsgGUID: cnhJIe6dRqSYYb8GyTDA2w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
-   d="scan'208";a="231036495"
-Received: from lkp-server01.sh.intel.com (HELO 7e48d0ff8e22) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 20 Apr 2026 20:52:21 -0700
-Received: from kbuild by 7e48d0ff8e22 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wF29q-000000003CG-1Coi;
-	Tue, 21 Apr 2026 03:52:18 +0000
-Date: Tue, 21 Apr 2026 11:51:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 1/1] fs/f2fs/f2fs.h:2392:42:
- error: no member named 'read_waiters' in 'struct f2fs_rwsem'
-Message-ID: <202604211137.Kmo7HV6a-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XLdRLh/P"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89A85C2BCB3;
+	Tue, 21 Apr 2026 03:56:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776743790;
+	bh=AhqzqmCA4tx3rY6a7rv8WzDeP5oJmLfeTUm+EWQccPw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=XLdRLh/PbmOu+fnOxQqqxD9BYXr3mFvmG7MNCfPArKkT3qY761v3Jke4S0PuLu1J+
+	 DLiLj/fcfmoTlIyzl5P0MAZwxM42GBcEcxYrynLGHJx8Z4K/c/RJC0HOdzXKE2fgIU
+	 og5MF2KhyxQg+9aAX+SVk6y7Ww2LEgN61o876DZm1vA0gbdhrFXO4hS+IB3UiA5g2B
+	 s2rdRBSF89sWYMEL75qTkvkAbON6Vt4aFQEU46wLiXIBi9WN9yLv1aGaFwuNpqwiG6
+	 9DVDme0kaWiU0n/HGPWUFffIKxzz6GHR39zmAB75+qeYYgRG3PMEkuF/sXlC8OenHY
+	 v7JSm4a9+jT2g==
+From: SeongJae Park <sj@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	damon@lists.linux.dev
+Subject: Re: [sj:damon/next 156/181] mm/damon/paddr.c:195:7: warning: variable 'matched' is used uninitialized whenever 'if' condition is false
+Date: Mon, 20 Apr 2026 20:56:20 -0700
+Message-ID: <20260421035620.138367-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <202604210331.wdB3yt0y-lkp@intel.com>
+References: 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hi yipeng,
+On Tue, 21 Apr 2026 03:16:29 +0800 kernel test robot <lkp@intel.com> wrote:
 
-FYI, the error/warning still remains.
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+> head:   ecd4906478687820c088904becbcf3c80ded7d81
+> commit: 8c863600a03e3066ce88bf8db48953176befa4c4 [156/181] mm/damon/paddr: do data_attr filtering
+> config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20260421/202604210331.wdB3yt0y-lkp@intel.com/config)
+> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260421/202604210331.wdB3yt0y-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202604210331.wdB3yt0y-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> mm/damon/paddr.c:195:7: warning: variable 'matched' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+>      195 |                 if (f->type == DAMON_FILTER_TYPE_ANON) {
+>          |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    mm/damon/paddr.c:203:7: note: uninitialized use occurs here
+>      203 |                 if (matched)
+>          |                     ^~~~~~~
+>    mm/damon/paddr.c:195:3: note: remove the 'if' if its condition is always true
+>      195 |                 if (f->type == DAMON_FILTER_TYPE_ANON) {
+>          |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    mm/damon/paddr.c:193:15: note: initialize the variable 'matched' to silence this warning
+>      193 |                 bool matched;
+>          |                             ^
+>          |                              = 0
+>    1 warning generated.
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   2b232de60acc345669d0e8773b9445db098042c8
-commit: 4e1c4268094aed2888ea52c2626905886854a5c2 [1/1] ANDROID: vendor_hooks: add hooks for f2fs down read
-config: i386-buildonly-randconfig-004-20260421 (https://download.01.org/0day-ci/archive/20260421/202604211137.Kmo7HV6a-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260421/202604211137.Kmo7HV6a-lkp@intel.com/reproduce)
+Thank you for this report!  I just pushed below as a fix to damon/next.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604211137.Kmo7HV6a-lkp@intel.com/
+'''
+Author: SeongJae Park <sj@kernel.org>
+Date:   Mon Apr 20 20:52:35 2026 -0700
 
-All errors (new ones prefixed by >>):
+    mm/damon/paddr: initialize 'matched' in damon_pa_tests_pass()
 
-   In file included from fs/f2fs/hash.c:18:
->> fs/f2fs/f2fs.h:2392:42: error: no member named 'read_waiters' in 'struct f2fs_rwsem'
-    2392 |         _trace_android_rvh_f2fs_down_read(&sem->read_waiters, &sem->internal_rwsem, &skip);
-         |                                            ~~~  ^
-   1 error generated.
+    Reported-by: kernel test robot <lkp@intel.com>
+    Closes: https://lore.kernel.org/oe-kbuild-all/202604210331.wdB3yt0y-lkp@intel.com/
+    Signed-off-by: SeongJae Park <sj@kernel.org>
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for PAGE_POOL
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for NET_DEVLINK
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DIMLIB
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for PHY_PACKAGE
-   Depends on [n]: NETDEVICES [=n] && PHYLIB [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_PHY_CONFIGS [=y]
+diff --git a/mm/damon/paddr.c b/mm/damon/paddr.c
+index 4788abce08a50..8d49c3e944cfe 100644
+--- a/mm/damon/paddr.c
++++ b/mm/damon/paddr.c
+@@ -190,14 +190,12 @@ static bool damon_pa_tests_pass(phys_addr_t pa, struct damon_counter *c)
+        bool default_pass = true;
+
+        damon_for_each_test(t, c) {
+-               bool matched;
++               bool matched = false;
+
+                if (t->type == DAMON_TEST_TYPE_ANON) {
+                        struct folio *folio = damon_get_folio(PHYS_PFN(pa));
+
+-                       if (!folio)
+-                               matched = false;
+-                       else
++                       if (folio)
+                                matched = folio_test_anon(folio);
+                }
+                if (matched)
+'''
 
 
-vim +2392 fs/f2fs/f2fs.h
+Thanks,
+SJ
 
-  2385	
-  2386	void _trace_android_rvh_f2fs_down_read(wait_queue_head_t *read_waiters,
-  2387					   struct rw_semaphore *rwsem, bool *skip);
-  2388	
-  2389	static inline void f2fs_down_read(struct f2fs_rwsem *sem)
-  2390	{
-  2391		bool skip = false;
-> 2392		_trace_android_rvh_f2fs_down_read(&sem->read_waiters, &sem->internal_rwsem, &skip);
-  2393		if (skip)
-  2394			return;
-  2395	#ifdef CONFIG_F2FS_UNFAIR_RWSEM
-  2396		wait_event(sem->read_waiters, down_read_trylock(&sem->internal_rwsem));
-  2397	#else
-  2398		down_read(&sem->internal_rwsem);
-  2399	#endif
-  2400	}
-  2401	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+[...]
