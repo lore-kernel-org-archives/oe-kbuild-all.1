@@ -1,82 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC050370D61
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Apr 2026 23:14:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EDA036E473
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Apr 2026 23:40:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776813296; cv=none; b=VbMatKErqv8AioxtglXjipnvU/SZhnJLY3mIeqM2EGocgUUA1CYowJr25QhV3I1Sy5WXgn9V8RiHh0Egvtkf9BvbhOCXiaIDoS0jtlDNE0py8Wf6Dsi4zrlc1q9Qwt+drcgmVUJe8KeplgirLd7/mQHjinIuZqI54dS+SB60JNc=
+	t=1776814833; cv=none; b=piyCAPgwm1lDd8K4czF9vAyvyobmmFZrR0x0KAWtHt+qTswd0VUyauGZK1uC76MpSz5be3rFFHfJNmZ/F4Ofwgp6OLaES8+30/IRGowWwVI2PdZPN7S9oKdwT7LitTqdIDE2PZpKhf/lgHi2vz2KuMrS0BFO8AyYSH0tuuzscPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776813296; c=relaxed/simple;
-	bh=A+h4Ai4tsAiZiWiY5iGIOrzePIuVAlEEqlz7iB+hraA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ojWPiVh3dwBcbjfxX7RJm2I/YtxY6nih3oKws+ebxTXn+W393qsRlc1PCWrKTkumrXgqDqIuen4KQq688VKONECNlaWjq+gqv9bPlTv8xe2RGNHzlI0U6HbY8F2m1f+/+V4EfHVvWSvlvzJKy82B03rKEL/bSdK4px5qoltn008=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XUJUfTs0; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1776814833; c=relaxed/simple;
+	bh=FAjd0SGYlTGbrBuZkkUHlFzHmjvnupkiWc5/sWK4Frc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=SifaiU5rHPbURed//HuafqN5bYkEx5sd6oBsenNABiTgql3vT9kxF7oq4eeytK0PMoRmYEj+EQhwRL6ZIsuARi9npwajN/n7x6mJBy5Lt5WSQGGKlhXiwu/VjCzMtBa/J0PDCkONBlq2AVnV9j94208QJoXdv99E0GWZ+QfoNI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=riTAqoRZ; arc=none smtp.client-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XUJUfTs0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776813294; x=1808349294;
-  h=date:from:to:cc:subject:message-id;
-  bh=A+h4Ai4tsAiZiWiY5iGIOrzePIuVAlEEqlz7iB+hraA=;
-  b=XUJUfTs0s2ZtCL3j6STAuLa0ZVpU7ssQBqNhh3JaiFJ+Xg/W/am5MbsC
-   VFxjqQu3ghN4jRm0bPvgCda0DbazIUE5aoRlo6NhzlD8VSVoexgsRZEZI
-   JHhB071sS/o7HEZOc4ySwvD4I8nAca8Zde34eyz6eyL1wDMf7CXJBygHA
-   KmT9O/uLtE+Oec+y3OVXDsFrf23Ijp3CettTcKsKvKJ40pwqXy1AYUW3B
-   OyCs3N3nhibJP2lLNoz8swmbMY8E50LHjEUzSRc+5Wyh3UreUjxf7gBDQ
-   7wJoLZtOyhL4WvC9bzkDjB6wEYI0REYTGYbnoq1Nv7DN448yxE4CIOiqC
-   Q==;
-X-CSE-ConnectionGUID: 8W55xt/UQNiJV14btxGleA==
-X-CSE-MsgGUID: floOsT4MSmW3za3E1Kp1rg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="88831596"
-X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="88831596"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 16:14:54 -0700
-X-CSE-ConnectionGUID: mrH3WatRTXiuN4sWLkqZfQ==
-X-CSE-MsgGUID: UWQERvCZTiCnYg8aYYUZnw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="232039045"
-Received: from lkp-server01.sh.intel.com (HELO 7e48d0ff8e22) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 21 Apr 2026 16:14:53 -0700
-Received: from kbuild by 7e48d0ff8e22 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wFKIs-0000000042e-2T2r;
-	Tue, 21 Apr 2026 23:14:50 +0000
-Date: Wed, 22 Apr 2026 07:14:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org
-Subject: 
- [geert-renesas-drivers:topic/rcar-x5h-ironhide-scmi-cpg-mdlc-remapping-v1
- 62/71] Warning: drivers/firmware/arm_scmi/driver.c:3514 bad line:
-Message-ID: <202604220739.gMKG4Fmt-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="riTAqoRZ"
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8b038a00370so34899826d6.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Apr 2026 16:40:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776814831; x=1777419631; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WHYPowIO/Ty/lLtBU9hns/rmbNm5oK+oGzhuJOxaFBs=;
+        b=riTAqoRZk902zocEXYw7Xps18kS+mDRQk9GwEhFwdf/sfeOPO4wgPz58JYsnqL5oyk
+         fU2W+10q6U9OZuZaBhw9/TZz92u9vuDnRkX2bLADeQLIY2eJ6Jvw6INFnOBHsi7/OhDY
+         vjAQXyuPPJgL2X1+r0Kw/9nQNM6nvCtFJVFfRbeuvU2gNAgpsmYhdPN6XSR2KwvcHA0P
+         zw4Z9I/KqV0MW/cFe1cXRae9xqdrZNM6IEDyXKAz/HtpeXXROlu0jyWuLY1Rk5JYPXUb
+         yed6yH345Ge0shwvSa+c3YmQn8LLWTJvgatPj7LyFwz/yzr1EWnXGo5NCIn73Crem9Vg
+         2bMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776814831; x=1777419631;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=WHYPowIO/Ty/lLtBU9hns/rmbNm5oK+oGzhuJOxaFBs=;
+        b=SvNal96P5yxo4pyDvTRnvpE1DH7n7hiFRJmlLEdGEYAfvfIGViI7bmHtC99fKwXrKO
+         wVcgIPujdtZmwHXQPpAdg+Dlp+QC7GYj+RJqKC+DQjBryfZAQC+dU1UETRaG0iRGqPeW
+         3sqsGdkypuaXOum+AZNeVxcGM7q7PoBUHAyz8X5yQttYBawA7R1AJWelI9KqjmVRmzNx
+         uzQVAWGN35ZBY5T7AbhI+Wt++yvXbm7//ghE9H1eMTYmIKtXbQOUlxIuz44qmmOXG5T1
+         TVKpLTmuaSC2VTajJf4uKDIl8SVK2gQBPfF0KrGbKWthY1hAQiNMkrAGWWsSRSHIHjoL
+         IcPw==
+X-Forwarded-Encrypted: i=1; AFNElJ8jJPsZyNQCUN17GZpg1m7HsEkAuc6qlZ39Dq3MmKKZLcVX1xdeKF7nAuWYokFxRcJ4dUMAlUSSp8XJ8jSK@lists.linux.dev
+X-Gm-Message-State: AOJu0YzHkRRgr3n418mFKrIBQjmsl48PmU+GWjObHVukjVcv+z8dtE+9
+	MG19LGcxUyg1ecPXd9QdkZ0GKpb+SZB2GsSe3sB+o1gjvL0xDCTD3MyQ
+X-Gm-Gg: AeBDiesKkd0L29V+bY4G+CzhDPOJydbwrdIGXeALP30OThhsY4AEbtq4/oinJSMhs2j
+	R39Zfauc1VMkVOla+zNJi5OuroiMiPjtghyvOFBDPCk4wQJUdiEQjUk/n0X+GgRHZekeBpSMzMD
+	VXBGpBPx3fyF9wPBcMmGKPIW3FKfuX7U7+UnWbuRWDijRPrNVjb2VFDi4XvYFfUorUsRU8LOdh0
+	pMWFWIROXbWqeLs70Omd+QPvJhDBAAL6IoZjxNnx9LR47sJjZ6AfOQ9uaCkqyMDL2AxbO3cTlg5
+	fnovANZFIp/+0/8eEdArj1UBk8CTk49yfslq/bl0zc66HBpx+dxYkgHiJZa0wO2/P0H2qNxvOI9
+	sZPoTyBs/k+sX+2ImykQHa1Ks9sG8B9Vy3168dYMr8M1+5XYnRGZ3Q38EgWqsVlDOscS7/tCbdt
+	TQHxcvuQxOgc8rCUC6M5/3EFPXvO/Qmx04Kmi4zLYqvJqYB/B9aVLI4qPmx6w0+VIH5nEFM3BpU
+	wMW73j1s9Huc36b39Ex5/XDQwTei1o=
+X-Received: by 2002:a05:6214:2f03:b0:8ac:af0d:c101 with SMTP id 6a1803df08f44-8b027fd9d3fmr313865016d6.10.1776814831016;
+        Tue, 21 Apr 2026 16:40:31 -0700 (PDT)
+Received: from server0 (c-68-48-65-54.hsd1.mi.comcast.net. [68.48.65.54])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8b02ae86947sm152590596d6.37.2026.04.21.16.40.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Apr 2026 16:40:30 -0700 (PDT)
+From: Michael Bommarito <michael.bommarito@gmail.com>
+To: Steve French <sfrench@samba.org>
+Cc: Steve French <stfrench@microsoft.com>,
+	Paulo Alcantara <pc@manguebit.org>,
+	Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+	Shyam Prasad N <sprasad@microsoft.com>,
+	Tom Talpey <tom@talpey.com>,
+	Bharath SM <bharathsm@microsoft.com>,
+	linux-cifs@vger.kernel.org,
+	samba-technical@lists.samba.org,
+	linux-kernel@vger.kernel.org,
+	kernel test robot <lkp@intel.com>,
+	oe-kbuild-all@lists.linux.dev
+Subject: [PATCH] smb: client: scope end_of_dacl to CIFS_DEBUG2 use in parse_dacl
+Date: Tue, 21 Apr 2026 19:40:22 -0400
+Message-ID: <20260421234022.4144209-1-michael.bommarito@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <202604220046.tGkRxVtS-lkp@intel.com>
+References: <202604220046.tGkRxVtS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/rcar-x5h-ironhide-scmi-cpg-mdlc-remapping-v1
-head:   258e1985bfa75ca0b3c98bd083628f9b6c7887fc
-commit: 72e2a0e7a5abda02fe36b3f5851842f7a77b2593 [62/71] firmware: arm_scmi: Add scmi_get_base_info()
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260422/202604220739.gMKG4Fmt-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260422/202604220739.gMKG4Fmt-lkp@intel.com/reproduce)
+After validate_dacl() was factored out in commit 149822e5541c, the
+local end_of_dacl in parse_dacl() is only read by the dump_ace()
+call under #ifdef CONFIG_CIFS_DEBUG2.  With CIFS_DEBUG2 off the
+variable is assigned but never used, which gcc -W=1 flags as
+-Wunused-but-set-variable.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604220739.gMKG4Fmt-lkp@intel.com/
+Remove the local and compute the end-of-dacl pointer inline at the
+single call site inside the existing CIFS_DEBUG2 guard.  No
+functional change: when CIFS_DEBUG2 is enabled the argument value
+is identical to what the removed local carried; when CIFS_DEBUG2
+is disabled the code was already dead.
 
-All warnings (new ones prefixed by >>):
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202604220046.tGkRxVtS-lkp@intel.com/
+Fixes: 149822e5541c ("smb: client: validate the whole DACL before rewriting it in cifsacl")
+Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
+Assisted-by: Claude:claude-opus-4-7
+---
+ fs/smb/client/cifsacl.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
->> Warning: drivers/firmware/arm_scmi/driver.c:3514 bad line: 
->> Warning: drivers/firmware/arm_scmi/driver.c:3514 bad line: 
-
+diff --git a/fs/smb/client/cifsacl.c b/fs/smb/client/cifsacl.c
+index 4ec204d2c774..ec5d47779304 100644
+--- a/fs/smb/client/cifsacl.c
++++ b/fs/smb/client/cifsacl.c
+@@ -836,7 +836,7 @@ static void parse_dacl(struct smb_acl *pdacl, char *end_of_acl,
+ 	int i;
+ 	u16 num_aces = 0;
+ 	int acl_size;
+-	char *acl_base, *end_of_dacl;
++	char *acl_base;
+ 	struct smb_ace **ppace;
+ 
+ 	/* BB need to add parm so we can store the SID BB */
+@@ -860,7 +860,6 @@ static void parse_dacl(struct smb_acl *pdacl, char *end_of_acl,
+ 	   user/group/other have no permissions */
+ 	fattr->cf_mode &= ~(0777);
+ 
+-	end_of_dacl = (char *)pdacl + le16_to_cpu(pdacl->size);
+ 	acl_base = (char *)pdacl;
+ 	acl_size = sizeof(struct smb_acl);
+ 
+@@ -876,7 +875,8 @@ static void parse_dacl(struct smb_acl *pdacl, char *end_of_acl,
+ 			ppace[i] = (struct smb_ace *) (acl_base + acl_size);
+ 
+ #ifdef CONFIG_CIFS_DEBUG2
+-			dump_ace(ppace[i], end_of_dacl);
++			dump_ace(ppace[i],
++				 (char *)pdacl + le16_to_cpu(pdacl->size));
+ #endif
+ 			if (mode_from_special_sid &&
+ 			    ppace[i]->sid.num_subauth >= 3 &&
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.53.0
+
