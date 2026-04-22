@@ -1,62 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E2E81F1932;
-	Wed, 22 Apr 2026 02:04:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C773394461
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Apr 2026 02:47:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776823452; cv=none; b=V1kB9INKURgg7MdHc+d+zYbIynB6Oz9F5hhr/ja1YGV6SpGOGvd9B0y2aohPaP0R0IKgqKTuyjgJxwm6Vxoid+w/0S32sBgTES9sfxzZkZ9CBocVdX4mk8PGfVUHlWN7U1FClvUxw2mwh7C61OJB2YXbvRLHX7o5iS5g+X7NV/w=
+	t=1776826050; cv=none; b=GjEgNEhPOyP2WhXtSYfUy0unfrqV50bDmsILK9rxEceGICARjqPy9SThVTmZ6rRR+tgKOS2Us0xcIxNtqaVt72RUwZ6KGE5YWREC/hcvPugPpODqFDQHoOcPCWm+LoTX/gM9WtCPbtBAtaandv1bvyhckXy+LrntOr7FL1Tapyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776823452; c=relaxed/simple;
-	bh=owbnoBgN9t3MgD+RSb6tSpj4KLDuzRv1rAll+x/jScY=;
+	s=arc-20240116; t=1776826050; c=relaxed/simple;
+	bh=5aedry7362275XmQZCBCL3OEeSud3GzSo5nw39yJn2Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WWoXym1qzeJRTrrbkEJD+p30H8ychyKeA5y4DrtRoXVQnvSWLcPO/FJGf7orJk1Y0D5k7D3lkgVMC+xki71uepl6KOND0S2QScMVIfAkHgIzYPWGkql8QS3ty1D61rfwU99nnT+rhp+b0jCRrocz0QX/qCjAMf2E6iD8J3M47pg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EVPCIVSo; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=V6lPMBa2D8nqVCYpOwxQb7zqRlLIyXIHsm+8uWmSlwK/g6eY26jRBqaynv4DG++k7nq+VDHRa6uHSbSv1S+68CQ8ZgJItCjcCZ+cMM60NrWSe3AeEg1aD6vUHkVga87wqCgMqDkLz6T/s5iWQvvWSRaNkhNO+ICD+w3ja+66PKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=am8MNROH; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EVPCIVSo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="am8MNROH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776823451; x=1808359451;
+  t=1776826041; x=1808362041;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=owbnoBgN9t3MgD+RSb6tSpj4KLDuzRv1rAll+x/jScY=;
-  b=EVPCIVSo8WSSmymP5XOHRh2oWs5MugEEtcSdl0ggXpmwrhoxqS1cr+No
-   f+HT1Hj+WAoAyWYazb//Xrv6IK4M2EJ9b/7ErQgs6TMtAbuy81WOLi4Nb
-   UpPMUDOPmPLVgRSUSWThyw41W3Es3He2ybnKCWjsBP4WsLPgjXmYVFPKr
-   d8/ISVxKXfjsp4ntu5IH3ljf9pi3SxUV/fG9WGrxhGMTWHctGK3CkRk/1
-   LIxmdv8R2B7j0ZcIXZaKPKvBQ73pv3fdq5PwUg7FmB6A91VQkKsTjKdgc
-   xXs0as5A50ObV9quTdnaU+e36LKNe6z2c/gE0AY9Rn0bf+tQxlQittXHN
+  bh=5aedry7362275XmQZCBCL3OEeSud3GzSo5nw39yJn2Q=;
+  b=am8MNROH9EcgKa5LS/Vf3CRAlABBrYKPIgtvDr+6ou/Z4/9HlCmk/dNK
+   1+yPcJJmkcYie14+s0g4/NrbhnL0ygQQBFQGYWr0f6eq7Cj3cZUuwVflf
+   5qUSTcdqMev1s9EXyhCVksEtH1xrpUkqQ8orgf21C5uRE662cHwtY775l
+   nPzcIS0o7rLbpfVnghPsymzZ3RnYAqLbC88D8vpysxMOSuTa83n6fy3Sr
+   PvqJ2pZLXNlNDdCbsLlz4Cx5FWdIgeCqI/NS4HfJT+gUGBnAJpSh9X9ML
+   SY0hm2km6kHbzPczg2QJgzKwxDOKyBdKJygP2piIZnjX579v8OdVnuYnZ
    w==;
-X-CSE-ConnectionGUID: jjZQh3fSQy+n3iLozf+KfQ==
-X-CSE-MsgGUID: N/tMBM/NR+q+Y9XTYe7XjA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="88468952"
+X-CSE-ConnectionGUID: ft+2z+jjQS+yCWaxipAmJg==
+X-CSE-MsgGUID: KEHvIWmYTBGL1Lx1Wg51zw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="81638408"
 X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="88468952"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 19:04:11 -0700
-X-CSE-ConnectionGUID: JUEBHMB4SKOBR0KZMpVikA==
-X-CSE-MsgGUID: 35PpWF/yRXWPrs1BFDOQkg==
+   d="scan'208";a="81638408"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 19:47:15 -0700
+X-CSE-ConnectionGUID: RXJVo8tZRGOZnh6ypnOGQw==
+X-CSE-MsgGUID: RUem36dJT42g7V2PMI5ZKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="270304429"
+   d="scan'208";a="255481441"
 Received: from lkp-server01.sh.intel.com (HELO 7e48d0ff8e22) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 21 Apr 2026 19:04:09 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 21 Apr 2026 19:47:13 -0700
 Received: from kbuild by 7e48d0ff8e22 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wFMwg-000000004BY-1F5n;
-	Wed, 22 Apr 2026 02:04:06 +0000
-Date: Wed, 22 Apr 2026 10:03:31 +0800
+	id 1wFNcM-000000004DY-1nXy;
+	Wed, 22 Apr 2026 02:47:10 +0000
+Date: Wed, 22 Apr 2026 10:46:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: Suraj Kandpal <suraj.kandpal@intel.com>, intel-xe@lists.freedesktop.org,
 	intel-gfx@lists.freedesktop.org,
 	intel-gfx-trybot@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	ankit.k.nautiyal@intel.com, swati2.sharma@intel.com,
-	Suraj Kandpal <suraj.kandpal@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, ankit.k.nautiyal@intel.com,
+	swati2.sharma@intel.com, Suraj Kandpal <suraj.kandpal@intel.com>
 Subject: Re: [PATCH] drm/i915/dp: Ignore HPD when in DPLL enable/disable cycle
-Message-ID: <202604220938.18Kkm7Pt-lkp@intel.com>
+Message-ID: <202604221040.Im5y9Mk0-lkp@intel.com>
 References: <20260417080118.2352283-1-suraj.kandpal@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -82,31 +81,32 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Suraj-Kandpal/drm-i915-dp
 base:   https://gitlab.freedesktop.org/drm/i915/kernel.git for-linux-next
 patch link:    https://lore.kernel.org/r/20260417080118.2352283-1-suraj.kandpal%40intel.com
 patch subject: [PATCH] drm/i915/dp: Ignore HPD when in DPLL enable/disable cycle
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260422/202604220938.18Kkm7Pt-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260422/202604220938.18Kkm7Pt-lkp@intel.com/reproduce)
+config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20260422/202604221040.Im5y9Mk0-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260422/202604221040.Im5y9Mk0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604220938.18Kkm7Pt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604221040.Im5y9Mk0-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/i915/display/intel_dp.c:6834:62: error: too few arguments provided to function-like macro invocation
+   drivers/gpu/drm/i915/display/intel_dp.c: In function 'intel_dp_hpd_pulse':
+>> drivers/gpu/drm/i915/display/intel_dp.c:6834:76: error: macro 'drm_dbg_kms' requires 3 arguments, but only 1 given
     6834 |                 drm_dbg_kms("Ignoring HPD since DPLL is getting disabled\n");
          |                                                                            ^
+   In file included from drivers/gpu/drm/i915/display/intel_dp.c:50:
    include/drm/drm_print.h:652:9: note: macro 'drm_dbg_kms' defined here
      652 | #define drm_dbg_kms(drm, fmt, ...)                                      \
-         |         ^
->> drivers/gpu/drm/i915/display/intel_dp.c:6834:3: error: use of undeclared identifier 'drm_dbg_kms'
+         |         ^~~~~~~~~~~
+>> drivers/gpu/drm/i915/display/intel_dp.c:6834:17: error: 'drm_dbg_kms' undeclared (first use in this function)
     6834 |                 drm_dbg_kms("Ignoring HPD since DPLL is getting disabled\n");
-         |                 ^
-   2 errors generated.
+         |                 ^~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_dp.c:6834:17: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +6834 drivers/gpu/drm/i915/display/intel_dp.c
+vim +/drm_dbg_kms +6834 drivers/gpu/drm/i915/display/intel_dp.c
 
   6825	
   6826	enum irqreturn
