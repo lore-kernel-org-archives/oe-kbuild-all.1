@@ -1,256 +1,184 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1D2F3EC2EB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Apr 2026 13:23:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BFC53EDAB2;
+	Wed, 22 Apr 2026 14:37:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776864232; cv=none; b=KN1j9uzxFoEs60sqR0uyJC4Q2ETGpJZFCR/OFO7ZatPCcRdhkxWtgaJGTQIjmOQlCoz334EibKphs8CJzBRE+GB3XHOqVPmhp7Y5PRWcAdpAKaT68EgSyusXAH3Dq2F89Z50hX/SO0+i9+VQwsG7QnCM1HFzRSLYkQPc3kBUp/g=
+	t=1776868674; cv=none; b=h4r5JIK2cuL6ICuAjItu0q1RbWfHnf7O9N2SJ11fdRp+LsNBbw7xLWCJna0ErMZNFZebkPuUKIXxGONycYDci+GWYUKg1rUSYSv5VdixVgkx14CmbhuYZNcLVCD91FXJc1ep7Yp9ypGB+LOzN6F04nrG3+ZMFQqsjC5SLmiSyN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776864232; c=relaxed/simple;
-	bh=PYKrdv1CGLe/36Dn8XMoZ9iRsgmKqLY+cximikQ4mH4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=k5PBSb6eRkt0oPQ7MRsgasvxFeTYqLlNOIcJjq1E6o9OV/zag69OG9qDH0PDGkmSSl+4F8LxIgaFLStooUir5/nGBhHXkdbBX/Pxv2srvQ/YbaTYcZ2F/xLKO1f5QD6VE7ysfsMdpxmaECuWjskAc2VDdahhBnS4Jfhk0euntr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Un/OBBDp; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1776868674; c=relaxed/simple;
+	bh=Q+/Y3uof2gboc2NflIGcvS3qG5DN4A4q7ebVhP1HFAM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aA1UH1HPoePGa4ezW0nM01cLNk78ilKD9+7zvUOwMRrnwm8ghxeG0XokZRtxUYBDqoBFNn3tLL327aDbgq08L2GXToZvwAMY0zQVj8rrTZTX4wd+i+liczLJyAw9YGY/VvBU/RfNf1n00v+tGc3cf91INyQSURoBpm91fjm0vmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gMRqXCdu; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Un/OBBDp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gMRqXCdu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776864229; x=1808400229;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=PYKrdv1CGLe/36Dn8XMoZ9iRsgmKqLY+cximikQ4mH4=;
-  b=Un/OBBDp214sDxwsUdsW0Hv8UQryq6GMkWkWic8EYie+oU5tCcg+zwG1
-   c6dUSrVmMnrfap+orGRA4Z9ZRsmaq8mr37MTdbiwOVhec/XZN0P6hojl/
-   gLjZMvuERmlG4kp4iQCMOImhH1xFBeJbV/fR73To8c15Wd/IExL9YAFmw
-   Ive2n9b4vyUx5R+CiOFqgeayjoPOxtRL3mQ8FCtudxVDCyCQElx4VYDFs
-   eRtZnkumnhaBL5ws2i+h/hivPKDDMTWOz9+8mPuBsvr2teF3YOumTo2ky
-   mMZPTEvYprcCMcTZQrlIKk1VdKU+T8zjXLOVK3E9s//q6wS1t6aEQFvHw
-   A==;
-X-CSE-ConnectionGUID: KJ+SAIQvQsGeibad9WLIrQ==
-X-CSE-MsgGUID: k7s6LZzzRIGsvJURe1Jn8w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="103275303"
-X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="103275303"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 06:23:47 -0700
-X-CSE-ConnectionGUID: J+9Ah0JBSUurgC4ADWBzYg==
-X-CSE-MsgGUID: OamxgXv9RcS6DW0j8HTIdg==
+  t=1776868673; x=1808404673;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Q+/Y3uof2gboc2NflIGcvS3qG5DN4A4q7ebVhP1HFAM=;
+  b=gMRqXCduoTjdrW2DuMMQFG1f46AQ8kwIP2kEr4FOWh6HM8otXkKe1n3I
+   X0JBLPqyI2LJIT5+wcDTlYFloMaHleRXsmaylA+yjx0/XoQsiEISmNGR8
+   23TKZsM7surL3c9TOJ2WEuPfJ19aUhntPk9ADZGqztHSR8Wv3JYzmzxgp
+   DICsZiKyCwwN/uCQUzSyg5S5k8A7tZWqklR96Sb2gxP/v2XKOtwx5voVc
+   vBL3Osl5wj1yslhI0eTBO5Q8ndQKMHqvKqt8Boh6JprVzkodibtk7XgLK
+   QBp8khH/WZ3UZcdFMbZ7xLQN5M1n44/V55/qHM3aRLxxO/j+kfj7hM56b
+   Q==;
+X-CSE-ConnectionGUID: 0FkwiIHSSA6UzIMn3vjW3g==
+X-CSE-MsgGUID: J4f0ww1VRk6SEszsb9JAsw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="78008463"
+X-IronPort-AV: E=Sophos;i="6.23,193,1770624000"; 
+   d="scan'208";a="78008463"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 07:37:52 -0700
+X-CSE-ConnectionGUID: arWDZk3mShGfbF0V6MIy8g==
+X-CSE-MsgGUID: SxTQrCKxRMKEolEt1bqF5w==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,193,1770624000"; 
+   d="scan'208";a="236366637"
 Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 22 Apr 2026 06:23:46 -0700
+  by orviesa003.jf.intel.com with ESMTP; 22 Apr 2026 07:37:49 -0700
 Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wFXYN-000000000gz-23DZ;
-	Wed, 22 Apr 2026 13:23:43 +0000
-Date: Wed, 22 Apr 2026 21:22:53 +0800
+	id 1wFYi1-000000000jN-3gpb;
+	Wed, 22 Apr 2026 14:37:45 +0000
+Date: Wed, 22 Apr 2026 22:37:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:master 56/69]
- fs/bcachefs/data/move.c:899:1: warning: the frame size of 1872 bytes is
- larger than 1536 bytes
-Message-ID: <202604222114.lcLtaSGm-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Robert Mast <rn.mast@zonnet.nl>, hdegoede@redhat.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, mchehab@kernel.org,
+	sakari.ailus@linux.intel.com, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, andy@kernel.org,
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	laurent.pinchart@ideasonboard.com, Robert Mast <rmast@live.nl>
+Subject: Re: [PATCH 1/1] media: atomisp: mt9m114: Graceful teardown atomisp
+ and mt9m114
+Message-ID: <202604222246.sNhBwsBf-lkp@intel.com>
+References: <20260418092651.7873-2-rn.mast@zonnet.nl>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260418092651.7873-2-rn.mast@zonnet.nl>
 
-tree:   https://github.com/koverstreet/bcachefs master
-head:   8bef7bbc83268947311e1860ab1bd01364b288e5
-commit: c1af6851c9e220767da3b72658ca5dc9a1980475 [56/69] bcachefs: opts.scr=
-ub_recent_journal_entries
-config: xtensa-allyesconfig (https://download.01.org/0day-ci/archive/202604=
-22/202604222114.lcLtaSGm-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260422/202604222114.lcLtaSGm-lkp@intel.com/reproduce)
+Hi Robert,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on v7.0]
+[cannot apply to staging/staging-testing staging/staging-next staging/staging-linus linuxtv-media-pending/master sailus-media-tree/master linus/master sailus-media-tree/streams next-20260422]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Robert-Mast/media-atomisp-mt9m114-Graceful-teardown-atomisp-and-mt9m114/20260421-171953
+base:   v7.0
+patch link:    https://lore.kernel.org/r/20260418092651.7873-2-rn.mast%40zonnet.nl
+patch subject: [PATCH 1/1] media: atomisp: mt9m114: Graceful teardown atomisp and mt9m114
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260422/202604222246.sNhBwsBf-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260422/202604222246.sNhBwsBf-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604222114.lcLtaSGm-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604222246.sNhBwsBf-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/bcachefs/data/move.c: In function 'bch2_scrub_journal':
->> fs/bcachefs/data/move.c:899:1: warning: the frame size of 1872 bytes is =
-larger than 1536 bytes [-Wframe-larger-than=3D]
-     899 | }
-         | ^
+>> drivers/media/i2c/mt9m114.c:2554:1: warning: unused label 'read_slew_rate' [-Wunused-label]
+    2554 | read_slew_rate:
+         | ^~~~~~~~~~~~~~~
+   1 warning generated.
 
 
-vim +899 fs/bcachefs/data/move.c
+vim +/read_slew_rate +2554 drivers/media/i2c/mt9m114.c
 
-   757=09
-   758	int bch2_scrub_journal(struct bch_fs *c, u64 *rewind_seq)
-   759	{
-   760		CLASS(darray_u64, flushes)();
-   761		int ret =3D 0;
-   762=09
-   763		u64 last_entry_time =3D 0;
-   764		*rewind_seq =3D 0;
-   765=09
-   766		struct journal_replay **_i;
-   767		struct genradix_iter radix_iter;
-   768		genradix_for_each(&c->journal_entries, radix_iter, _i) {
-   769			struct journal_replay *i =3D *_i;
-   770=09
-   771			if (!journal_replay_ignore(i) &&
-   772			    !JSET_NO_FLUSH(&i->j)) {
-   773				u64 t =3D jset_datetime(&i->j);
-   774				if (!last_entry_time)
-   775					last_entry_time =3D t;
-   776				else if (time_before64(t + c->opts.scrub_journal_max_rewind_secs,=
- last_entry_time))
-   777					break;
-   778=09
-   779				try(darray_push(&flushes, le64_to_cpu(i->j.seq)));
-   780			}
-   781		}
-   782=09
-   783		if (!flushes.nr) {
-   784			bch_info(c, "%s(): No journal flushes found", __func__);
-   785			return 0;
-   786		}
-   787=09
-   788		bch_info(c, "journal scrub: checking %zu flush ranges",
-   789			 flushes.nr);
-   790=09
-   791		struct bch_move_stats stats;
-   792		bch2_move_stats_init(&stats, "journal_scrub");
-   793=09
-   794		struct moving_context ctxt __cleanup(bch2_moving_ctxt_exit);
-   795		bch2_moving_ctxt_init(&ctxt, c, NULL, &stats, (struct write_point_s=
-pecifier) {}, false);
-   796=09
-   797		struct btree_trans *trans =3D ctxt.trans;
-   798		struct journal_keys *keys =3D &c->journal_keys;
-   799=09
-   800		/*
-   801		 * Scrub one flush range at a time, newest first. Within each range,
-   802		 * fire off all reads asynchronously, then flush once to check for
-   803		 * errors. Walk backwards until we find a good range =E2=80=94 ever=
-ything
-   804		 * newer is tainted.
-   805		 *
-   806		 * Stop if we've gone further back than scrub_journal_max_rewind_se=
-cs seconds.
-   807		 */
-   808		unsigned nr_good =3D 0;
-   809=09
-   810		for (int f =3D flushes.nr - 1; f > 0; f--) {
-   811			u64 range_start =3D flushes.data[f - 1];
-   812			u64 range_end   =3D flushes.data[f];
-   813			u64 errors_before =3D atomic64_read(&stats.sectors_error_uncorrect=
-ed);
-   814			memset(&stats.devs_error_uncorrected, 0, sizeof(stats.devs_error_u=
-ncorrected));
-   815			int move_ret =3D 0;
-   816=09
-   817			darray_for_each(*keys, jk) {
-   818				u64 seq =3D c->journal_entries_base_seq + jk->journal_seq_offset;
-   819				struct bkey_s_c k =3D bkey_i_to_s_c(journal_key_k(c, jk));
-   820=09
-   821=09
-   822				if (seq <=3D range_start || seq > range_end)
-   823					continue;
-   824=09
-   825				struct bkey_ptrs_c ptrs =3D bch2_bkey_ptrs_c(k);
-   826				if (!ptrs.start)
-   827					continue;
-   828=09
-   829				struct bch_inode_opts io_opts;
-   830				bch2_inode_opts_get(c, &io_opts, bkey_is_btree_ptr(k.k));
-   831=09
-   832				bkey_for_each_ptr(ptrs, ptr) {
-   833					struct data_update_opts data_opts =3D {
-   834						.type		=3D BCH_DATA_UPDATE_scrub_no_repair,
-   835						.read_flags	=3D BCH_READ_hard_require_read_device,
-   836						.read_dev	=3D ptr->dev,
-   837					};
-   838					ret =3D lockrestart_do(trans, ({
-   839						struct bkey_s_c k2;
-   840=09
-   841						CLASS(btree_node_iter, iter)(trans, jk->btree_id, k.k->p, 0, jk=
-->level,
-   842									     BTREE_ITER_all_snapshots);
-   843						int ret2 =3D bkey_err(k2 =3D bch2_btree_iter_peek_slot(&iter));
-   844=09
-   845						BUG_ON(!ret2 && !bkey_and_val_eq(k, k2));
-   846=09
-   847						ret2 ?:
-   848						bch2_move_extent(&ctxt, NULL, &io_opts, &data_opts, &iter, jk->=
-level, k);
-   849					}));
-   850=09
-   851					if (ret)
-   852						move_ret =3D ret;
-   853				}
-   854			}
-   855=09
-   856			bch2_moving_ctxt_flush_all(&ctxt);
-   857=09
-   858			if (move_ret)
-   859				bch_err(c, "journal scrub: move error %s in flush range seq %llu-=
-%llu",
-   860					bch2_err_str(move_ret),
-   861					range_start + 1, range_end =3D=3D U64_MAX ? range_start : range_=
-end);
-   862=09
-   863			bool checksum_err =3D atomic64_read(&stats.sectors_error_uncorrect=
-ed) !=3D errors_before;
-   864=09
-   865			if (checksum_err) {
-   866				bch2_sb_error_count(c, BCH_FSCK_ERR_device_bad_flush);
-   867				CLASS(bch_log_msg, msg)(c);
-   868				prt_printf(&msg.m, "journal scrub: checksum errors in flush range=
- seq %llu-%llu, "
-   869					"device(s) not honoring flush/FUA:",
-   870					range_start + 1, range_end =3D=3D U64_MAX ? range_start : range_=
-end);
-   871=09
-   872				unsigned i;
-   873				for_each_set_bit(i, stats.devs_error_uncorrected.d, BCH_SB_MEMBER=
-S_MAX) {
-   874					CLASS(bch2_dev_tryget_noerror, ca)(c, i);
-   875					if (ca)
-   876						prt_printf(&msg.m, " %s", ca->name);
-   877					else
-   878						prt_printf(&msg.m, " dev%u", i);
-   879				}
-   880=09
-   881				guard(memalloc_flags)(PF_MEMALLOC_NOFS);
-   882				guard(mutex)(&c->sb_lock);
-   883				for_each_set_bit(i, stats.devs_error_uncorrected.d, BCH_SB_MEMBER=
-S_MAX) {
-   884					struct bch_member *m =3D bch2_members_v2_get_mut(c->disk_sb.sb, =
-i);
-   885					if (m)
-   886						le64_add_cpu(&m->flush_errors, 1);
-   887				}
-   888				bch2_write_super(c);
-   889=09
-   890				*rewind_seq =3D range_start;
-   891				nr_good =3D 0;
-   892			} else if (++nr_good >=3D 2) {
-   893				/* Two consecutive good ranges =E2=80=94 safe to stop */
-   894				break;
-   895			}
-   896		}
-   897=09
-   898		return 0;
- > 899	}
-   900=09
+  2497	
+  2498	static int mt9m114_parse_dt(struct mt9m114 *sensor)
+  2499	{
+  2500		struct fwnode_handle *fwnode;
+  2501		struct fwnode_handle *ep;
+  2502		int ret;
+  2503	
+  2504	#if IS_ENABLED(CONFIG_ACPI)
+  2505		if (has_acpi_companion(&sensor->client->dev)) {
+  2506			/*
+  2507			 * On some reload sequences a stale software-node graph can be
+  2508			 * observed for this ACPI-enumerated sensor. Use the known safe
+  2509			 * default bus configuration and skip endpoint graph parsing.
+  2510			 */
+  2511			memset(&sensor->bus_cfg, 0, sizeof(sensor->bus_cfg));
+  2512			sensor->bus_cfg.bus_type = V4L2_MBUS_CSI2_DPHY;
+  2513			sensor->bus_cfg.bus.mipi_csi2.num_data_lanes = 1;
+  2514			goto read_slew_rate;
+  2515		}
+  2516	#endif
+  2517		fwnode = dev_fwnode(&sensor->client->dev);
+  2518	
+  2519		/*
+  2520		 * On ACPI systems the fwnode graph can be initialized by a bridge
+  2521		 * driver, which may not have probed yet. Wait for this.
+  2522		 *
+  2523		 * TODO: Return an error once bridge driver code will have moved
+  2524		 * to the ACPI core.
+  2525		 */
+  2526		ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
+  2527		if (IS_ERR(ep))
+  2528			return dev_err_probe(&sensor->client->dev, PTR_ERR(ep),
+  2529					     "failed to get fwnode graph endpoint\n");
+  2530		if (!ep)
+  2531			return dev_err_probe(&sensor->client->dev, -EPROBE_DEFER,
+  2532					     "waiting for fwnode graph endpoint\n");
+  2533	
+  2534		sensor->bus_cfg.bus_type = V4L2_MBUS_UNKNOWN;
+  2535		ret = v4l2_fwnode_endpoint_alloc_parse(ep, &sensor->bus_cfg);
+  2536		fwnode_handle_put(ep);
+  2537		if (ret < 0) {
+  2538			dev_err(&sensor->client->dev, "Failed to parse endpoint\n");
+  2539			goto error;
+  2540		}
+  2541	
+  2542		switch (sensor->bus_cfg.bus_type) {
+  2543		case V4L2_MBUS_CSI2_DPHY:
+  2544		case V4L2_MBUS_PARALLEL:
+  2545			break;
+  2546	
+  2547		default:
+  2548			dev_err(&sensor->client->dev, "unsupported bus type %u\n",
+  2549				sensor->bus_cfg.bus_type);
+  2550			ret = -EINVAL;
+  2551			goto error;
+  2552		}
+  2553	
+> 2554	read_slew_rate:
+  2555		sensor->pad_slew_rate = MT9M114_PAD_SLEW_DEFAULT;
+  2556		device_property_read_u32(&sensor->client->dev, "slew-rate",
+  2557					 &sensor->pad_slew_rate);
+  2558	
+  2559		if (sensor->pad_slew_rate < MT9M114_PAD_SLEW_MIN ||
+  2560		    sensor->pad_slew_rate > MT9M114_PAD_SLEW_MAX) {
+  2561			dev_err(&sensor->client->dev, "Invalid slew-rate %u\n",
+  2562				sensor->pad_slew_rate);
+  2563			return -EINVAL;
+  2564		}
+  2565	
+  2566		return 0;
+  2567	
+  2568	error:
+  2569		v4l2_fwnode_endpoint_free(&sensor->bus_cfg);
+  2570		return ret;
+  2571	}
+  2572	
 
---=20
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
