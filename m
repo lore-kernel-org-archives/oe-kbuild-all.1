@@ -1,115 +1,283 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C5623CCFB7
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Apr 2026 10:21:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A613CD8D5;
+	Wed, 22 Apr 2026 10:43:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776853300; cv=none; b=TEzBSShnguNf50vMULLKoxzcDWBkbivuuFnYG1ZuTO8PpzxYCBLr6FyKRDscJ1SIhkB5y5AxCokgV75KdYAHgDcN+uqXFFZw0+JmzWS67MiW6FAbkhXgnYeQi8HqP57WjcxrT5Xz21oZiJa35uAplokl0sd4PLn0pNK3ME1su70=
+	t=1776854622; cv=none; b=be+JeP5w+a+R12bIVnLU7ipBSnhJPgiP4TWekVJ53apv6JqHB4ZATtHX4VwEoroif3U6YqAiT+1LkZqIQ6vttIu8/fS8mYjX0RPPsS0h9J4OovxBpW8JQ/KQzxDKyrWTB/6zeKesLyeUviJlUM73qiId4WN5mOTHvRyGMFFqqpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776853300; c=relaxed/simple;
-	bh=xTZsjZoT0JRH6QB6wJkKaAnj33A/vA58a3Ri90dgbFA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=AFCHxUEcf5vneiu6L1o0QBHQGH+jyk19Mr1W9DopBrQjuONKfCDqqhNVb4+Lbtq1GQdJxCBuClNJ48g3V4kUWG/mljmLL+NS0f+TAiMJbt4cctB3xhcx3wWPExNifmAsuXoJzx5aARQWZyytXThObU63hIuNllcJ/dYtHt40hiE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jyUVsZdk; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1776854622; c=relaxed/simple;
+	bh=kjrMmCT8D/hLD+2OQdL12dB9asOMZqpCDxmMzIm0+Mk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E/nXVagboygwt5vWE0e+in1wbbkFviHoE58BX84e+G5z0ewpg7WFqqZ/Ts97hA+Mn4XUdT5KVdrCwOMOxXgDBSOroOA1Y2DziJ2Wku2V5XkSvBIOD43gejUK0dHU1oxxFvK6S0xSOHwjXERFON33Z2oBPYy5Kx31v0x2Kw6p/wA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TKigwTby; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jyUVsZdk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TKigwTby"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776853298; x=1808389298;
-  h=date:from:to:cc:subject:message-id;
-  bh=xTZsjZoT0JRH6QB6wJkKaAnj33A/vA58a3Ri90dgbFA=;
-  b=jyUVsZdkpiG51dRZ4TfDbsGR2xKKwl1atsDByQv2gItj1/kb8j8t6GlC
-   xJL24HPUQcLxOl72Z+WcT+5tmbwDQfPVfQYFgLZak2rL2pNG6hD625vhG
-   3BlUnHbfmghnt0iGzw/HEFnSR5GXSYzdbMN8bFyYIPdtEBew2/r7zYd3w
-   5xHe/OgsPZwjxuAa7QP2wj3zXVrwykdNC5hwYiGu90dXxBYxgPDJcqnZ+
-   L8ERudUVebweYAnmSMgkq0pZp3hxNejaSfeIlFv6rYtTx4I0MVjAg54y7
-   ii8weXhWC1RUoXQvkOE10sJkrvDJw8wm29W/aC8cITkbhdMFDGq8rGyBp
-   g==;
-X-CSE-ConnectionGUID: EisnSUp2TnSv4inddiH9lQ==
-X-CSE-MsgGUID: Ji5krzyuSYCQ1GCJHyrfhw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="89189625"
+  t=1776854620; x=1808390620;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kjrMmCT8D/hLD+2OQdL12dB9asOMZqpCDxmMzIm0+Mk=;
+  b=TKigwTbyv+P6Nl2WHCx01SFIFj6ld8FJilxPHxFZRRpvmCpLJP7HP7oW
+   X7ayy1FxUIiLDebO+RoM3w65uNgxFA1TZ59kCokXVh15EV5X36ZB+or/G
+   qZTV2fovRDi0AM+fFoOiKtpOmP/S/9zM/6X4Houdjnvac0GXgpvFLs8Eo
+   xrDwza+Rgbh1bzh0PxctvaQ4S9Y7c4kD9GOntg5/CLJA8S50fQ1oCN2a5
+   Tvr4OgTaMGiVwjbub3BFDmhcDKUy8hqo3bsSESrqrFsnJ0WnC1RgNU4Q5
+   BiMiFYuNgM1Kfa9VQQ9N03YpmTNZC/+wSpbkjSEW5aPAL532zDAqfaR62
+   A==;
+X-CSE-ConnectionGUID: vRayPepRTLGQVUYHfgHLXQ==
+X-CSE-MsgGUID: SdaAvzaKQBiLG+IXyWqUnQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="77922780"
 X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="89189625"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 03:21:37 -0700
-X-CSE-ConnectionGUID: IXWT+Vy2RXOWbvhqfN4qtg==
-X-CSE-MsgGUID: gTot8p0kQZGzWv6GqVUGEg==
+   d="scan'208";a="77922780"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 03:43:40 -0700
+X-CSE-ConnectionGUID: uUE/1mwZQeu0JAkbNI2YgQ==
+X-CSE-MsgGUID: VaREkrSkSk6ew6lXlcK6kQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="234105556"
+   d="scan'208";a="262706360"
 Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 22 Apr 2026 03:21:36 -0700
+  by orviesa002.jf.intel.com with ESMTP; 22 Apr 2026 03:43:37 -0700
 Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wFUi6-000000000aT-0SyG;
-	Wed, 22 Apr 2026 10:21:34 +0000
-Date: Wed, 22 Apr 2026 18:21:09 +0800
+	id 1wFV3O-000000000b7-2sM3;
+	Wed, 22 Apr 2026 10:43:34 +0000
+Date: Wed, 22 Apr 2026 18:43:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-cleanup-2026-04-20-2 147/147]
- sound/soc/ti/n810.c:272:35: warning: 'snd_soc_driver' defined but not used
-Message-ID: <202604221837.1FC4N3nK-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Wolfram Sang <wsa-dev@sang-engineering.com>,
+	linux-renesas-soc@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Wolfram Sang <wsa-dev@sang-engineering.com>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Mark Brown <broonie@linaro.org>
+Subject: Re: [PATCH v2] mailbox: don't free the channel if the startup
+ callback failed
+Message-ID: <202604221846.9nkpd0oi-lkp@intel.com>
+References: <20260420114346.10586-2-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260420114346.10586-2-wsa+renesas@sang-engineering.com>
 
-tree:   https://github.com/morimoto/linux sound-cleanup-2026-04-20-2
-head:   1604ab9b37c0f7145cc187f24e3aca5b4e318eb1
-commit: 2307ef10ca1bc4e93bd613bc369b2322d421dede [147/147] ASoC: soc-core: use snd_soc_card_register()
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260422/202604221837.1FC4N3nK-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260422/202604221837.1FC4N3nK-lkp@intel.com/reproduce)
+Hi Wolfram,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on jassibrar-mailbox/for-next]
+[also build test ERROR on next-20260421]
+[cannot apply to linus/master v7.0]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Wolfram-Sang/mailbox-don-t-free-the-channel-if-the-startup-callback-failed/20260420-234226
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jassibrar/mailbox.git for-next
+patch link:    https://lore.kernel.org/r/20260420114346.10586-2-wsa%2Brenesas%40sang-engineering.com
+patch subject: [PATCH v2] mailbox: don't free the channel if the startup callback failed
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260422/202604221846.9nkpd0oi-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260422/202604221846.9nkpd0oi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604221837.1FC4N3nK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604221846.9nkpd0oi-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   sound/soc/ti/n810.c:287:20: error: 'snd_soc_card_driver' undeclared here (not in a function)
-     287 |         .driver = &snd_soc_card_driver,
-         |                    ^~~~~~~~~~~~~~~~~~~
->> sound/soc/ti/n810.c:272:35: warning: 'snd_soc_driver' defined but not used [-Wunused-variable]
-     272 | static struct snd_soc_card_driver snd_soc_driver = {
-         |                                   ^~~~~~~~~~~~~~
---
-   sound/soc/ti/omap3pandora.c:223:19: error: initialization of 'const char *' from incompatible pointer type 'struct snd_soc_card_driver *' [-Wincompatible-pointer-types]
-     223 |         .driver = &snd_soc_card_driver,
-         |                   ^
-   sound/soc/ti/omap3pandora.c:223:19: note: (near initialization for 'snd_soc_card_omap3pandora.driver.name')
->> sound/soc/ti/omap3pandora.c:220:65: warning: missing braces around initializer [-Wmissing-braces]
-     220 | static struct snd_soc_card_platform snd_soc_card_omap3pandora = {
-         |                                                                 ^
-   ......
-     223 |         .driver = &snd_soc_card_driver,
-         |                   {
-     224 | };
-         | }
+>> drivers/mailbox/mailbox.c:355:4: error: call to undeclared function 'mbox_clean_and_put_channel'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     355 |                         mbox_clean_and_put_channel(chan);
+         |                         ^
+>> drivers/mailbox/mailbox.c:484:6: error: conflicting types for 'mbox_clean_and_put_channel'
+     484 | void mbox_clean_and_put_channel(struct mbox_chan *chan)
+         |      ^
+   drivers/mailbox/mailbox.c:355:4: note: previous implicit declaration is here
+     355 |                         mbox_clean_and_put_channel(chan);
+         |                         ^
+   2 errors generated.
 
 
-vim +/snd_soc_driver +272 sound/soc/ti/n810.c
+vim +/mbox_clean_and_put_channel +355 drivers/mailbox/mailbox.c
 
-   270	
-   271	/* Audio machine driver */
- > 272	static struct snd_soc_card_driver snd_soc_driver = {
-   273		.dai_link = &n810_dai,
-   274		.num_links = 1,
-   275		.controls = aic33_n810_controls,
-   276		.num_controls = ARRAY_SIZE(aic33_n810_controls),
-   277		.dapm_widgets = aic33_dapm_widgets,
-   278		.num_dapm_widgets = ARRAY_SIZE(aic33_dapm_widgets),
-   279		.dapm_routes = audio_map,
-   280		.num_dapm_routes = ARRAY_SIZE(audio_map),
-   281		.fully_routed = true,
-   282	};
-   283	
+   329	
+   330	static int __mbox_bind_client(struct mbox_chan *chan, struct mbox_client *cl)
+   331	{
+   332		struct device *dev = cl->dev;
+   333		int ret;
+   334	
+   335		if (chan->cl || !try_module_get(chan->mbox->dev->driver->owner)) {
+   336			dev_err(dev, "%s: mailbox not free\n", __func__);
+   337			return -EBUSY;
+   338		}
+   339	
+   340		scoped_guard(spinlock_irqsave, &chan->lock) {
+   341			chan->msg_free = 0;
+   342			chan->msg_count = 0;
+   343			chan->active_req = MBOX_NO_MSG;
+   344			chan->cl = cl;
+   345			init_completion(&chan->tx_complete);
+   346	
+   347			if (chan->txdone_method	== MBOX_TXDONE_BY_POLL && cl->knows_txdone)
+   348				chan->txdone_method = MBOX_TXDONE_BY_ACK;
+   349		}
+   350	
+   351		if (chan->mbox->ops->startup) {
+   352			ret = chan->mbox->ops->startup(chan);
+   353			if (ret) {
+   354				dev_err(dev, "Unable to startup the chan (%d)\n", ret);
+ > 355				mbox_clean_and_put_channel(chan);
+   356				return ret;
+   357			}
+   358		}
+   359	
+   360		return 0;
+   361	}
+   362	
+   363	/**
+   364	 * mbox_bind_client - Bind client to a mailbox channel.
+   365	 * @chan: The mailbox channel to bind the client to.
+   366	 * @cl: Identity of the client requesting the channel.
+   367	 *
+   368	 * The Client specifies its requirements and capabilities while asking for
+   369	 * a mailbox channel. It can't be called from atomic context.
+   370	 * The channel is exclusively allocated and can't be used by another
+   371	 * client before the owner calls mbox_free_channel.
+   372	 * After assignment, any packet received on this channel will be
+   373	 * handed over to the client via the 'rx_callback'.
+   374	 * The framework holds reference to the client, so the mbox_client
+   375	 * structure shouldn't be modified until the mbox_free_channel returns.
+   376	 *
+   377	 * Return: 0 if the channel was assigned to the client successfully.
+   378	 *         <0 for request failure.
+   379	 */
+   380	int mbox_bind_client(struct mbox_chan *chan, struct mbox_client *cl)
+   381	{
+   382		guard(mutex)(&con_mutex);
+   383	
+   384		return __mbox_bind_client(chan, cl);
+   385	}
+   386	EXPORT_SYMBOL_GPL(mbox_bind_client);
+   387	
+   388	/**
+   389	 * mbox_request_channel - Request a mailbox channel.
+   390	 * @cl: Identity of the client requesting the channel.
+   391	 * @index: Index of mailbox specifier in 'mboxes' property.
+   392	 *
+   393	 * The Client specifies its requirements and capabilities while asking for
+   394	 * a mailbox channel. It can't be called from atomic context.
+   395	 * The channel is exclusively allocated and can't be used by another
+   396	 * client before the owner calls mbox_free_channel.
+   397	 * After assignment, any packet received on this channel will be
+   398	 * handed over to the client via the 'rx_callback'.
+   399	 * The framework holds reference to the client, so the mbox_client
+   400	 * structure shouldn't be modified until the mbox_free_channel returns.
+   401	 *
+   402	 * Return: Pointer to the channel assigned to the client if successful.
+   403	 *		ERR_PTR for request failure.
+   404	 */
+   405	struct mbox_chan *mbox_request_channel(struct mbox_client *cl, int index)
+   406	{
+   407		struct fwnode_reference_args fwspec;
+   408		struct fwnode_handle *fwnode;
+   409		struct mbox_controller *mbox;
+   410		struct of_phandle_args spec;
+   411		struct mbox_chan *chan;
+   412		struct device *dev;
+   413		unsigned int i;
+   414		int ret;
+   415	
+   416		dev = cl->dev;
+   417		if (!dev) {
+   418			pr_debug("No owner device\n");
+   419			return ERR_PTR(-ENODEV);
+   420		}
+   421	
+   422		fwnode = dev_fwnode(dev);
+   423		if (!fwnode) {
+   424			dev_dbg(dev, "No owner fwnode\n");
+   425			return ERR_PTR(-ENODEV);
+   426		}
+   427	
+   428		ret = fwnode_property_get_reference_args(fwnode, "mboxes", "#mbox-cells",
+   429							 0, index, &fwspec);
+   430		if (ret) {
+   431			dev_err(dev, "%s: can't parse \"%s\" property\n", __func__, "mboxes");
+   432			return ERR_PTR(ret);
+   433		}
+   434	
+   435		spec.np = to_of_node(fwspec.fwnode);
+   436		spec.args_count = fwspec.nargs;
+   437		for (i = 0; i < spec.args_count; i++)
+   438			spec.args[i] = fwspec.args[i];
+   439	
+   440		scoped_guard(mutex, &con_mutex) {
+   441			chan = ERR_PTR(-EPROBE_DEFER);
+   442			list_for_each_entry(mbox, &mbox_cons, node) {
+   443				if (device_match_fwnode(mbox->dev, fwspec.fwnode)) {
+   444					if (mbox->fw_xlate) {
+   445						chan = mbox->fw_xlate(mbox, &fwspec);
+   446						if (!IS_ERR(chan))
+   447							break;
+   448					} else if (mbox->of_xlate) {
+   449						chan = mbox->of_xlate(mbox, &spec);
+   450						if (!IS_ERR(chan))
+   451							break;
+   452					}
+   453				}
+   454			}
+   455	
+   456			fwnode_handle_put(fwspec.fwnode);
+   457	
+   458			if (IS_ERR(chan))
+   459				return chan;
+   460	
+   461			ret = __mbox_bind_client(chan, cl);
+   462			if (ret)
+   463				chan = ERR_PTR(ret);
+   464		}
+   465	
+   466		return chan;
+   467	}
+   468	EXPORT_SYMBOL_GPL(mbox_request_channel);
+   469	
+   470	struct mbox_chan *mbox_request_channel_byname(struct mbox_client *cl,
+   471						      const char *name)
+   472	{
+   473		int index = device_property_match_string(cl->dev, "mbox-names", name);
+   474	
+   475		if (index < 0) {
+   476			dev_err(cl->dev, "%s() could not locate channel named \"%s\"\n",
+   477				__func__, name);
+   478			return ERR_PTR(index);
+   479		}
+   480		return mbox_request_channel(cl, index);
+   481	}
+   482	EXPORT_SYMBOL_GPL(mbox_request_channel_byname);
+   483	
+ > 484	void mbox_clean_and_put_channel(struct mbox_chan *chan)
+   485	{
+   486		/* The queued TX requests are simply aborted, no callbacks are made */
+   487		scoped_guard(spinlock_irqsave, &chan->lock) {
+   488			chan->cl = NULL;
+   489			chan->active_req = MBOX_NO_MSG;
+   490			if (chan->txdone_method == MBOX_TXDONE_BY_ACK)
+   491				chan->txdone_method = MBOX_TXDONE_BY_POLL;
+   492		}
+   493	
+   494		module_put(chan->mbox->dev->driver->owner);
+   495	}
+   496	
 
 -- 
 0-DAY CI Kernel Test Service
