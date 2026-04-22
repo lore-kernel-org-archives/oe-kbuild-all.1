@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2357D367F25
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Apr 2026 21:33:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A701C1E98EF;
+	Wed, 22 Apr 2026 22:25:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776893611; cv=none; b=LOJnLBQZy3uF84+AM63e+ukqm3ck+VUP08U2s3KE9ulb/m80zvuzCwJTPxGL3L8Uf3StP6mOWQ9KSL6vOw5Rptmbxsfj2k7epvPEyu+JjuYWp8+OH9xxwnJN9dRMNDhJ2TL+3B+VgaIiybD8jH+OqmcoRyJNssdC+icHN9L7rek=
+	t=1776896757; cv=none; b=Ff7KZTJSljoOEo+Zzpk3M8oq6lRFzOM7cv1/qZqb7J9K3s3jEYFk9lc3qqs0Jv3Xkpz4IUYp742ji+OaLc4QOpInuVXD/xiLi1Qq0ypV7xTv3BgXbwnMZK0R4fB9TTQSWJYpNW1p5aH+Rg1vkdFsJcHqV7obHrNiI7lL1bzsyBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776893611; c=relaxed/simple;
-	bh=Su+4RzP8eGdBX37SNSjk7xjuCswF2J4NIIKMLTRlXQA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mpLeDPRkSeXjF9xrL/QGK4LBW6Q4d3YIEsUwaiCYmrntHCagNBLXwSJfN95K/JKhtsuFpTsc3VXTDFecglLdXrOfaKTna4bGypUyCNsQzbA+pL7hhbK+11QZLHdzSIjzA52wjY/PUqGGfcPSE7ofjl7x1tUuRI11iZe/nlNPGFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q4XhuQO8; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1776896757; c=relaxed/simple;
+	bh=SB50V4rqdZGOIQUt1fpJjjNfqPRyTzYKSniJX53pklQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=FF2wP2JA/w2+ta1ARnrMs1zgP96+j/vkOQFwxQ5zxsi5Nmm0k5FqFNLD0bGG1HhOKNXNPeAM69UCAvSDcVOIjPL/J/QWSzD0r5B2zcdSlBZ1Bz9YZjho3qCYnRhmB38GV42jmmvOEhMzfwSXm0yUHT4/CwgtnyS1ksLh4lgTKmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QRetuxio; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q4XhuQO8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QRetuxio"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776893609; x=1808429609;
+  t=1776896755; x=1808432755;
   h=date:from:to:cc:subject:message-id;
-  bh=Su+4RzP8eGdBX37SNSjk7xjuCswF2J4NIIKMLTRlXQA=;
-  b=Q4XhuQO8u+A5g5ukqDaB/EEIgqszkWkhuwQnEmwqVTQ1z7MKhtYxky0g
-   zno32ATrEXLYOuMydZOIfqOfXBRtYw3jv84iZ37EWFYVn+MSdYEw/JnB9
-   eLL8O543bps8omCxZ7WvS7uTr4w7PvWISR5ogPyWHQbWWZTpChAYTUnvi
-   EoNYB2w1t95r+lqKzdpa1Q4sgDaDUU65nsY593gqARNCNGflRK3CEKF8o
-   2tXiMziRYvW1/e48xuVLgpMgn42O1aKvQDSzcjuycjHXRmwbKVLakmU8Q
-   qLcZNBO5ND/PBNgKabSiucGFVzjJ/odRb+n7ruLJhX5tY7PpXg3z3fKDz
-   g==;
-X-CSE-ConnectionGUID: krwv0GV8SdCO7KjYnPqjng==
-X-CSE-MsgGUID: CM+gxUM/QyaWH4c1JE3LkQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="77022722"
+  bh=SB50V4rqdZGOIQUt1fpJjjNfqPRyTzYKSniJX53pklQ=;
+  b=QRetuxio2aplgDfvsLEJeCJysO9xPLFzqaW8BIzbPUxibYmimLIMGbV5
+   E+g6N3VB18uigSA8xRmn8/dNiZAm9FWUy7DjoVDP5L5RBTaQ1Wiw/yvd7
+   i/rT6qqyFgE8N8N0urJn99tAbTTe9VBHuXCrtdQet39Prc2PPc4K+pN98
+   owvNunpZSHhZUqOAHv5lAm4Y12tH0bCdqm+dFjw7PchdJ7wegSfG9uGnd
+   PhQTAD5qIptpVMpu2AWiqwNCOE8J0uLNsOsd5r3QCfUFfjoSz7xjmvNUq
+   RBXmkmSHtv4eL5ypw0dju48za31iWvBaKQ8l3p5xX+w3JPlTpUBpjojDO
+   Q==;
+X-CSE-ConnectionGUID: LGG3uvfdT9KFni1AW+9oqw==
+X-CSE-MsgGUID: gVei/UhvRm6SIxwKv+lAcQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="81723913"
 X-IronPort-AV: E=Sophos;i="6.23,193,1770624000"; 
-   d="scan'208";a="77022722"
+   d="scan'208";a="81723913"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 14:33:28 -0700
-X-CSE-ConnectionGUID: PdKz5zjIQkO43qYFDPAUzg==
-X-CSE-MsgGUID: TbP06pM6SqqKCeHERTuIqw==
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 15:25:54 -0700
+X-CSE-ConnectionGUID: TGT1a8HYTv2QAZ4eKlXk2w==
+X-CSE-MsgGUID: c47q1jYRSsaOtQmutmM86g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,193,1770624000"; 
-   d="scan'208";a="236832260"
+   d="scan'208";a="236839406"
 Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 22 Apr 2026 14:33:27 -0700
+  by orviesa004.jf.intel.com with ESMTP; 22 Apr 2026 15:25:52 -0700
 Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wFfCG-0000000013W-1Kee;
-	Wed, 22 Apr 2026 21:33:24 +0000
-Date: Thu, 23 Apr 2026 05:32:30 +0800
+	id 1wFg0y-0000000017l-3SCV;
+	Wed, 22 Apr 2026 22:25:48 +0000
+Date: Thu, 23 Apr 2026 06:25:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [mark:stacktrace/tests 3/4] csky-linux-ld:
- stacktrace_kunit.c:undefined reference to `__kunit_abort'
-Message-ID: <202604230535.L3FHusZl-lkp@intel.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Dmitry Baryshkov <lumag@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Subject: drivers/gpu/drm/bridge/ssd2825.c:484:13: warning: stack
+ frame size (20088) exceeds limit (8192) in 'ssd2825_bridge_atomic_pre_enable'
+Message-ID: <202604230640.LNSpKc5J-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,144 +61,139 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git stacktrace/tests
-head:   224cbf0cef8a49306bab3f8723e83a207d43ad11
-commit: fe331f10804b0205503506bac2cd91599ff6163a [3/4] WIP: lib: add more stacktracing tests
-config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20260423/202604230535.L3FHusZl-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260423/202604230535.L3FHusZl-lkp@intel.com/reproduce)
+Hi Svyatoslav,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2a4c0c11c0193889446cdb6f1540cc2b9aff97dd
+commit: 55023abe6a2921a8916b623c24208e1971b88729 drm: bridge: Add support for Solomon SSD2825 RGB/DSI bridge
+date:   9 months ago
+config: x86_64-randconfig-075-20260423 (https://download.01.org/0day-ci/archive/20260423/202604230640.LNSpKc5J-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260423/202604230640.LNSpKc5J-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 55023abe6a29 ("drm: bridge: Add support for Solomon SSD2825 RGB/DSI bridge")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604230535.L3FHusZl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604230640.LNSpKc5J-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `std_expect_empty':
-   stacktrace_kunit.c:(.text+0x4de): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x52e): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x57c): undefined reference to `kunit_binary_assert_format'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x580): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `std_expect_trace':
-   stacktrace_kunit.c:(.text+0x6da): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x746): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x7a4): undefined reference to `kunit_fail_assert_format'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x7ac): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `std_expect_callers_present_reliable':
-   stacktrace_kunit.c:(.text+0x8b2): undefined reference to `kunit_log_append'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x8e0): undefined reference to `kunit_log_append'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `__do_kprobe_unwind':
-   stacktrace_kunit.c:(.text+0x94e): undefined reference to `kunit_log_append'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x97e): undefined reference to `kunit_log_append'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x9c8): undefined reference to `kunit_log_append'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_nounwind_with_kprobe':
-   stacktrace_kunit.c:(.text+0xa4a): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0xa8c): undefined reference to `kunit_fail_assert_format'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0xa94): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_nounwind_with_fgraph_tail':
-   stacktrace_kunit.c:(.text+0xd28): undefined reference to `__kunit_do_failed_assertion'
->> csky-linux-ld: stacktrace_kunit.c:(.text+0xd2e): undefined reference to `__kunit_abort'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0xd9c): undefined reference to `kunit_binary_assert_format'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0xda0): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0xda4): undefined reference to `__kunit_abort'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `std_test_exit':
-   stacktrace_kunit.c:(.text+0xe98): undefined reference to `kunit_kfree'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0xf0c): undefined reference to `kunit_log_append'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0xf5e): undefined reference to `kunit_log_append'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `std_test_init':
-   stacktrace_kunit.c:(.text+0xfd4): undefined reference to `kunit_kmalloc_array'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0xff0): undefined reference to `kunit_kfree'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x1008): undefined reference to `kunit_log_append'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x1014): undefined reference to `kunit_kmalloc_array'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `__do_test_fgraph_async':
-   stacktrace_kunit.c:(.text+0x118e): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x11ae): undefined reference to `kunit_log_append'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x11c2): undefined reference to `kunit_log_append'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_fgraph_async_unwind_reliable':
-   stacktrace_kunit.c:(.text+0x1270): undefined reference to `kunit_fail_assert_format'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x1278): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x1288): undefined reference to `kunit_log_append'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `__do_test_one_async_kp.constprop.0':
-   stacktrace_kunit.c:(.text+0x133a): undefined reference to `kunit_log_append'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x134e): undefined reference to `kunit_log_append'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_async_unwind_reliable':
-   stacktrace_kunit.c:(.text+0x1400): undefined reference to `kunit_log_append'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_kprobe_unwind_regs':
-   stacktrace_kunit.c:(.text+0x16ca): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x1710): undefined reference to `kunit_fail_assert_format'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x1718): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_kprobe_unwind_reliable':
-   stacktrace_kunit.c:(.text+0x178a): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_kprobe_unwind':
-   stacktrace_kunit.c:(.text+0x180a): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x185c): undefined reference to `kunit_fail_assert_format'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x1864): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_unwind_reliable_with_kprobe':
-   stacktrace_kunit.c:(.text+0x18ca): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_unwind_with_kprobe':
-   stacktrace_kunit.c:(.text+0x194a): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_ftrace_unwind_regs':
-   stacktrace_kunit.c:(.text+0x19dc): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x19e2): undefined reference to `__kunit_abort'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x1a2c): undefined reference to `kunit_fail_assert_format'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x1a34): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x1a5c): undefined reference to `kunit_binary_assert_format'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x1a60): undefined reference to `__kunit_abort'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_ftrace_unwind_reliable':
-   stacktrace_kunit.c:(.text+0x1adc): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x1ae2): undefined reference to `__kunit_abort'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_ftrace_unwind':
-   stacktrace_kunit.c:(.text+0x1b9c): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x1ba2): undefined reference to `__kunit_abort'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x1bec): undefined reference to `kunit_binary_assert_format'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x1bf0): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x1bf4): undefined reference to `__kunit_abort'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_unwind_reliable_with_ftrace':
-   stacktrace_kunit.c:(.text+0x1c9c): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x1ca2): undefined reference to `__kunit_abort'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_unwind_with_ftrace':
-   stacktrace_kunit.c:(.text+0x1d5c): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x1d62): undefined reference to `__kunit_abort'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x1dac): undefined reference to `kunit_binary_assert_format'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x1db0): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x1db4): undefined reference to `__kunit_abort'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_nounwind_with_ftrace':
-   stacktrace_kunit.c:(.text+0x1e5c): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x1e62): undefined reference to `__kunit_abort'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x1e9e): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x1ede): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_unwind_reliable_notail':
-   stacktrace_kunit.c:(.text+0x1f8a): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x1fcc): undefined reference to `kunit_binary_assert_format'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x1fd0): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x1fd4): undefined reference to `__kunit_abort'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x1ff0): undefined reference to `kunit_binary_ptr_assert_format'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_unwind_reliable_tail':
-   stacktrace_kunit.c:(.text+0x204a): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_unwind_reliable':
-   stacktrace_kunit.c:(.text+0x20ca): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_unwind_notail':
-   stacktrace_kunit.c:(.text+0x214a): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x218c): undefined reference to `kunit_binary_ptr_assert_format'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x2190): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_unwind_tail':
-   stacktrace_kunit.c:(.text+0x220a): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_unwind':
-   stacktrace_kunit.c:(.text+0x228a): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_nounwind_notail':
-   stacktrace_kunit.c:(.text+0x230a): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x234c): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o:stacktrace_kunit.c:(.text+0x238c): more undefined references to `__kunit_do_failed_assertion' follow
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_nounwind_notail':
-   stacktrace_kunit.c:(.text+0x23c8): undefined reference to `kunit_binary_ptr_assert_format'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x23cc): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x23e8): undefined reference to `kunit_binary_assert_format'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_nounwind_tail':
-   stacktrace_kunit.c:(.text+0x244a): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x248c): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: stacktrace_kunit.c:(.text+0x24cc): undefined reference to `__kunit_do_failed_assertion'
-   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_nounwind':
+>> drivers/gpu/drm/bridge/ssd2825.c:484:13: warning: stack frame size (20088) exceeds limit (8192) in 'ssd2825_bridge_atomic_pre_enable' [-Wframe-larger-than]
+     484 | static void ssd2825_bridge_atomic_pre_enable(struct drm_bridge *bridge,
+         |             ^
+   1 warning generated.
+
+
+vim +/ssd2825_bridge_atomic_pre_enable +484 drivers/gpu/drm/bridge/ssd2825.c
+
+   483	
+ > 484	static void ssd2825_bridge_atomic_pre_enable(struct drm_bridge *bridge,
+   485						     struct drm_atomic_state *state)
+   486	{
+   487		struct ssd2825_priv *priv = bridge_to_ssd2825(bridge);
+   488		struct mipi_dsi_device *dsi_dev = priv->output.dev;
+   489		const struct drm_crtc_state *crtc_state;
+   490		const struct drm_display_mode *mode;
+   491		struct drm_connector *connector;
+   492		struct drm_crtc *crtc;
+   493		u32 input_bus_flags = bridge->timings->input_bus_flags;
+   494		u16 flags = 0, config;
+   495		u8 pixel_format;
+   496		int ret;
+   497	
+   498		/* Power Sequence */
+   499		ret = clk_prepare_enable(priv->tx_clk);
+   500		if (ret)
+   501			dev_err(priv->dev, "error enabling tx_clk (%d)\n", ret);
+   502	
+   503		ret = regulator_bulk_enable(ARRAY_SIZE(ssd2825_supplies), priv->supplies);
+   504		if (ret)
+   505			dev_err(priv->dev, "error enabling regulators (%d)\n", ret);
+   506	
+   507		usleep_range(1000, 2000);
+   508	
+   509		ssd2825_hw_reset(priv);
+   510	
+   511		/* Perform SW reset */
+   512		ssd2825_write_reg(priv, SSD2825_OPERATION_CTRL_REG, 0x0100);
+   513	
+   514		/* Set pixel format */
+   515		switch (dsi_dev->format) {
+   516		case MIPI_DSI_FMT_RGB565:
+   517			pixel_format = 0x00;
+   518			break;
+   519		case MIPI_DSI_FMT_RGB666_PACKED:
+   520			pixel_format = 0x01;
+   521			break;
+   522		case MIPI_DSI_FMT_RGB666:
+   523			pixel_format = 0x02;
+   524			break;
+   525		case MIPI_DSI_FMT_RGB888:
+   526		default:
+   527			pixel_format = 0x03;
+   528			break;
+   529		}
+   530	
+   531		connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
+   532		crtc = drm_atomic_get_new_connector_state(state, connector)->crtc;
+   533		crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
+   534		mode = &crtc_state->adjusted_mode;
+   535	
+   536		/* Set panel timings */
+   537		ssd2825_write_reg(priv, SSD2825_RGB_INTERFACE_CTRL_REG_1,
+   538				  ((mode->vtotal - mode->vsync_end) << 8) |
+   539				  (mode->htotal - mode->hsync_end));
+   540		ssd2825_write_reg(priv, SSD2825_RGB_INTERFACE_CTRL_REG_2,
+   541				  ((mode->vtotal - mode->vsync_start) << 8) |
+   542				  (mode->htotal - mode->hsync_start));
+   543		ssd2825_write_reg(priv, SSD2825_RGB_INTERFACE_CTRL_REG_3,
+   544				  ((mode->vsync_start - mode->vdisplay) << 8) |
+   545				  (mode->hsync_start - mode->hdisplay));
+   546		ssd2825_write_reg(priv, SSD2825_RGB_INTERFACE_CTRL_REG_4, mode->hdisplay);
+   547		ssd2825_write_reg(priv, SSD2825_RGB_INTERFACE_CTRL_REG_5, mode->vdisplay);
+   548	
+   549		if (mode->flags & DRM_MODE_FLAG_PHSYNC)
+   550			flags |= SSD2825_HSYNC_HIGH;
+   551	
+   552		if (mode->flags & DRM_MODE_FLAG_PVSYNC)
+   553			flags |= SSD2825_VSYNC_HIGH;
+   554	
+   555		if (dsi_dev->mode_flags & MIPI_DSI_MODE_VIDEO)
+   556			flags |= SSD2825_NON_BURST_EV;
+   557	
+   558		if (input_bus_flags & DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE)
+   559			flags |= SSD2825_PCKL_HIGH;
+   560	
+   561		ssd2825_write_reg(priv, SSD2825_RGB_INTERFACE_CTRL_REG_6, flags | pixel_format);
+   562		ssd2825_write_reg(priv, SSD2825_LANE_CONFIGURATION_REG, dsi_dev->lanes - 1);
+   563		ssd2825_write_reg(priv, SSD2825_TEST_REG, 0x0004);
+   564	
+   565		/* Call PLL configuration */
+   566		ssd2825_setup_pll(priv, mode);
+   567	
+   568		usleep_range(10000, 11000);
+   569	
+   570		config = SSD2825_CONF_REG_HS | SSD2825_CONF_REG_CKE | SSD2825_CONF_REG_DCS |
+   571			 SSD2825_CONF_REG_ECD | SSD2825_CONF_REG_EOT;
+   572	
+   573		if (dsi_dev->mode_flags & MIPI_DSI_MODE_LPM)
+   574			config &= ~SSD2825_CONF_REG_HS;
+   575	
+   576		if (dsi_dev->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET)
+   577			config &= ~SSD2825_CONF_REG_EOT;
+   578	
+   579		/* Initial DSI configuration register set */
+   580		ssd2825_write_reg(priv, SSD2825_CONFIGURATION_REG, config);
+   581		ssd2825_write_reg(priv, SSD2825_VC_CTRL_REG, 0);
+   582	
+   583		if (priv->output.panel)
+   584			drm_panel_enable(priv->output.panel);
+   585	}
+   586	
 
 -- 
 0-DAY CI Kernel Test Service
