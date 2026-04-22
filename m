@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3820C1A840A;
-	Wed, 22 Apr 2026 04:21:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 640B336C5AC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Apr 2026 07:11:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776831686; cv=none; b=hB4reufLhZT9i88FN6dESP7c3aZah7G6Min9tZUmkxTNBGcujleAdnuzDMMnf87njC7+XR8hBjVo/FlmGitT9f4vLxnnYtjOJK4xmCQPkuljw5QH5JG9G034VVyaB4QH6N4vWE0Z+VoafVpBYG0t4FyhkM4dS8ZxYKG+I0hllRA=
+	t=1776841870; cv=none; b=XFoHU1lUgNOj4lwLaI5bovfQjWZdCDqYSyTcHYRpPwtPZOASzObpfNhtkSxDpZZjY3Y7k2TjWfN9fxNGxiz3S2xVBh+rlNjv3Iq5lThlHQ8IjWCZ3JkFegRDel7BE3YKAhvoCnsytXItrcCdGHs20xzs7AcHYMj7jbQVpjymjl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776831686; c=relaxed/simple;
-	bh=cRfLF2/6ASPxIS0tZfBKYwlD00ZtUQzwe/IqPjwGuj8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=QJw6Z/hE0EIXGGhPCqt+CraJsLLoFbG8ZEJ3U9ci7lQnXjYsHR08bErTgxPYSl1ZQRL0NJYawYUvFF2XhbbRje/+azwG1M/Fl82cHovUD2vahT96i+5e/CiOLhz+ulp+srWwpDqpQ/X6UQfA0ggZaJD/rL4WHx6zhhmG/Nm8MvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cYIx/P8K; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1776841870; c=relaxed/simple;
+	bh=u76iHu70pRRqPyJQIGXcrbxJgusNs2JcCZSI9P2Lyug=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ZyRkbC0u0DE5igffkt8Co3LSEJEHglBrmMND//OQA2Vi9uEh8npl6OXc7HSq58X8eiju2jSDnOoB5VRJmdwyY+ROolABoM2Oz0jwwyC/+zY0+XpphkbEN79Z2S3ykQ7ryvZkTARwH9ZsqG8BDdbzM40Y32BReDEUxsunw4/scqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FTE2mh/l; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cYIx/P8K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FTE2mh/l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776831684; x=1808367684;
+  t=1776841868; x=1808377868;
   h=date:from:to:cc:subject:message-id;
-  bh=cRfLF2/6ASPxIS0tZfBKYwlD00ZtUQzwe/IqPjwGuj8=;
-  b=cYIx/P8KhHHD5SHT7jBCgxRBbTXiXbtfppDgI8VLsbCfjEm+OqsguS2W
-   +Tg1UrcFjbNtR4gWmVfGGeMc4r99J9bzG9op6rmJDfCnCl+XMAf+pXbEf
-   NgVNGyE5wEk8EazODb4aAEg/dXwiDn0B9U27znzhglRO5ZLYmfzzYOFmn
-   vJbh2upjkyPCB8nJzSKpjEOqwOKMMrSlGzD0b/sKLyryZ+VlcaKbZUf8B
-   uTR4j43sMMwykFFM1CBfiQH/v7wQQPYNX7S3D24xlLX+lqA1pXeXTyR8R
-   l3bNkk44p8pGBgm74ABbw6xeu/QUn3WART9ylWduKPmJ9MGMFomrIizG1
-   w==;
-X-CSE-ConnectionGUID: j33pB/0MRdqL4Ks+QjAang==
-X-CSE-MsgGUID: tX+kWol9TRi+pjpAzA+PlQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="77963606"
+  bh=u76iHu70pRRqPyJQIGXcrbxJgusNs2JcCZSI9P2Lyug=;
+  b=FTE2mh/lZKwk7GfhBDn1s76Q+n3hBMO26yPSZ4B6yKu+jTFS7f16Dp+A
+   lEDFIL3lRRMyj7sS3YMYwKEhU8N+20tR6aLP/g+NCMNiqX0JLZHOiqCBO
+   ditrM0wTBaEwhns6J5ERYsAaQelZoeVXzUbU0je2Dml1Yolw59T3WKTHa
+   3A+OiLSglt9PVKzrh5ms1BMYci7kyxJR73JlxA3INqIePXzdyMXPt5Nr5
+   5qdtuDhlZnh69BimOvgAexWQ61/MQhOGZzQ/Wvocxq3dTd3ZKS95n2dM0
+   ViUx6U+hu0G63ZBkj2vtMniaLO6duC9EY0jdiTo0rFSlJO+cHMlI7/eG+
+   g==;
+X-CSE-ConnectionGUID: Hcv/IwtiRX6we2jgeIWEYw==
+X-CSE-MsgGUID: gxBagdmaTWq3/iEghn9ErQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="77491780"
 X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="77963606"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 21:21:22 -0700
-X-CSE-ConnectionGUID: dlI5SVu2Toy353LdjSg+8g==
-X-CSE-MsgGUID: IvJsf7UmTtefkRu57VOmnQ==
+   d="scan'208";a="77491780"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 00:11:08 -0700
+X-CSE-ConnectionGUID: m87ety+USri2F2RioVvflw==
+X-CSE-MsgGUID: m2Rx4BqyT3+T8X5S/CpN2w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="232155266"
-Received: from lkp-server01.sh.intel.com (HELO 7e48d0ff8e22) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 21 Apr 2026 21:21:21 -0700
-Received: from kbuild by 7e48d0ff8e22 with local (Exim 4.98.2)
+   d="scan'208";a="227681153"
+Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 22 Apr 2026 00:11:06 -0700
+Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wFP5R-000000004Ia-4A0s;
-	Wed, 22 Apr 2026 04:21:17 +0000
-Date: Wed, 22 Apr 2026 12:20:30 +0800
+	id 1wFRjj-000000000Gb-3026;
+	Wed, 22 Apr 2026 07:11:03 +0000
+Date: Wed, 22 Apr 2026 15:10:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-testing 3/16]
- fs/bcachefs/vfs/direct.c:141:3: error: expected expression
-Message-ID: <202604221249.dVuAlJLj-lkp@intel.com>
+To: Frederic Weisbecker <frederic@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frederic-dynticks:timers/core 1/5]
+ kernel/time/timer_migration.c:1847:35: warning: variable 'state' set but not
+ used
+Message-ID: <202604221526.5bh1O87y-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,259 +60,182 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
-head:   5752c6bd338f34f0f86ee9c87b7400974578935a
-commit: 92b3d152fe07e1f2a7060adb3f06afcae6135437 [3/16] bcachefs: fix __bch2_direct_IO_read() error path
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260422/202604221249.dVuAlJLj-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260422/202604221249.dVuAlJLj-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git timers/core
+head:   31929c6c4b7bdb172e369237738337340a4bcfb9
+commit: 215893969671582f7c0d7e0fd5bd419b96ee01c6 [1/5] timers/migration: Fix hotplug activation race
+config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20260422/202604221526.5bh1O87y-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260422/202604221526.5bh1O87y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604221249.dVuAlJLj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604221526.5bh1O87y-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> fs/bcachefs/vfs/direct.c:141:3: error: expected expression
-                   struct bch_read_bio *rbio =
-                   ^
->> fs/bcachefs/vfs/direct.c:149:10: error: use of undeclared identifier 'rbio'
-                   BUG_ON(rbio->_state);
-                          ^
-   fs/bcachefs/vfs/direct.c:150:3: error: use of undeclared identifier 'rbio'; did you mean 'bio'?
-                   rbio->err_report                = err_report;
-                   ^~~~
-                   bio
-   fs/bcachefs/vfs/direct.c:73:14: note: 'bio' declared here
-           struct bio *bio;
-                       ^
->> fs/bcachefs/vfs/direct.c:150:9: error: no member named 'err_report' in 'struct bio'
-                   rbio->err_report                = err_report;
-                   ~~~~  ^
-   fs/bcachefs/vfs/direct.c:151:3: error: use of undeclared identifier 'rbio'; did you mean 'bio'?
-                   rbio->subvol                    = inode_inum(inode).subvol;
-                   ^~~~
-                   bio
-   fs/bcachefs/vfs/direct.c:73:14: note: 'bio' declared here
-           struct bio *bio;
-                       ^
->> fs/bcachefs/vfs/direct.c:151:9: error: no member named 'subvol' in 'struct bio'
-                   rbio->subvol                    = inode_inum(inode).subvol;
-                   ~~~~  ^
-   fs/bcachefs/vfs/direct.c:152:3: error: use of undeclared identifier 'rbio'; did you mean 'bio'?
-                   rbio->bio.bi_opf                = REQ_OP_READ|REQ_SYNC;
-                   ^~~~
-                   bio
-   fs/bcachefs/vfs/direct.c:73:14: note: 'bio' declared here
-           struct bio *bio;
-                       ^
->> fs/bcachefs/vfs/direct.c:152:9: error: no member named 'bio' in 'struct bio'
-                   rbio->bio.bi_opf                = REQ_OP_READ|REQ_SYNC;
-                   ~~~~  ^
-   fs/bcachefs/vfs/direct.c:153:3: error: use of undeclared identifier 'rbio'; did you mean 'bio'?
-                   rbio->bio.bi_iter.bi_sector     = offset >> 9;
-                   ^~~~
-                   bio
-   fs/bcachefs/vfs/direct.c:73:14: note: 'bio' declared here
-           struct bio *bio;
-                       ^
-   fs/bcachefs/vfs/direct.c:153:9: error: no member named 'bio' in 'struct bio'
-                   rbio->bio.bi_iter.bi_sector     = offset >> 9;
-                   ~~~~  ^
-   fs/bcachefs/vfs/direct.c:154:3: error: use of undeclared identifier 'rbio'; did you mean 'bio'?
-                   rbio->bio.bi_private            = dio;
-                   ^~~~
-                   bio
-   fs/bcachefs/vfs/direct.c:73:14: note: 'bio' declared here
-           struct bio *bio;
-                       ^
-   fs/bcachefs/vfs/direct.c:154:9: error: no member named 'bio' in 'struct bio'
-                   rbio->bio.bi_private            = dio;
-                   ~~~~  ^
-   fs/bcachefs/vfs/direct.c:156:38: error: use of undeclared identifier 'rbio'; did you mean 'dio'?
-                   ret = bch2_bio_iov_iter_get_pages(&rbio->bio, iter, 0);
-                                                      ^~~~
-                                                      dio
-   fs/bcachefs/vfs/direct.c:72:19: note: 'dio' declared here
-           struct dio_read *dio;
-                            ^
->> fs/bcachefs/vfs/direct.c:156:44: error: no member named 'bio' in 'struct dio_read'; did you mean 'rbio'?
-                   ret = bch2_bio_iov_iter_get_pages(&rbio->bio, iter, 0);
-                                                            ^~~
-                                                            rbio
-   fs/bcachefs/vfs/direct.h:14:23: note: 'rbio' declared here
-           struct bch_read_bio             rbio;
-                                           ^
-   fs/bcachefs/vfs/direct.c:159:4: error: use of undeclared identifier 'rbio'; did you mean 'bio'?
-                           rbio->ret = ret;
-                           ^~~~
-                           bio
-   fs/bcachefs/vfs/direct.c:73:14: note: 'bio' declared here
-           struct bio *bio;
-                       ^
->> fs/bcachefs/vfs/direct.c:159:10: error: no member named 'ret' in 'struct bio'
-                           rbio->ret = ret;
-                           ~~~~  ^
-   fs/bcachefs/vfs/direct.c:160:15: error: use of undeclared identifier 'rbio'; did you mean 'dio'?
-                           bio_endio(&rbio->bio);
-                                      ^~~~
-                                      dio
-   fs/bcachefs/vfs/direct.c:72:19: note: 'dio' declared here
-           struct dio_read *dio;
-                            ^
-   fs/bcachefs/vfs/direct.c:160:21: error: no member named 'bio' in 'struct dio_read'; did you mean 'rbio'?
-                           bio_endio(&rbio->bio);
-                                            ^~~
-                                            rbio
-   fs/bcachefs/vfs/direct.h:14:23: note: 'rbio' declared here
-           struct bch_read_bio             rbio;
-                                           ^
-   fs/bcachefs/vfs/direct.c:164:13: error: use of undeclared identifier 'rbio'
-                   offset += rbio->bio.bi_iter.bi_size;
-                             ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
+   kernel/time/timer_migration.c: In function 'tmigr_setup_groups':
+>> kernel/time/timer_migration.c:1847:35: warning: variable 'state' set but not used [-Wunused-but-set-variable]
+    1847 |                 union tmigr_state state;
+         |                                   ^~~~~
 
 
-vim +141 fs/bcachefs/vfs/direct.c
+vim +/state +1847 kernel/time/timer_migration.c
 
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03   64  
-1fd72aa451b8bb fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-03-24   65  static int __bch2_direct_IO_read(struct kiocb *req, struct iov_iter *iter,
-39fe245ff806f1 fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-03-24   66  				enum bch_read_flags flags,
-39fe245ff806f1 fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-03-24   67  				struct bch_read_err_report *err_report)
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03   68  {
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03   69  	struct file *file = req->ki_filp;
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03   70  	struct bch_inode_info *inode = file_bch_inode(file);
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03   71  	struct bch_fs *c = inode->v.i_sb->s_fs_info;
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03   72  	struct dio_read *dio;
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03   73  	struct bio *bio;
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03   74  	loff_t offset = req->ki_pos;
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03   75  	bool sync = is_sync_kiocb(req);
-dfa204b169ed29 fs/bcachefs/fs-io-direct.c Kent Overstreet 2025-01-15   76  	bool split = false;
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03   77  	size_t shorten;
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03   78  	ssize_t ret;
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03   79  
-e6479021dea40b fs/bcachefs/fs-io-direct.c Kent Overstreet 2025-08-23   80  	struct bch_inode_opts opts;
-e6479021dea40b fs/bcachefs/fs-io-direct.c Kent Overstreet 2025-08-23   81  	bch2_inode_opts_get_inode(c, &inode->ei_inode, &opts);
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03   82  
-00fff4dd586619 fs/bcachefs/fs-io-direct.c Kent Overstreet 2024-01-16   83  	/* bios must be 512 byte aligned: */
-00fff4dd586619 fs/bcachefs/fs-io-direct.c Kent Overstreet 2024-01-16   84  	if ((offset|iter->count) & (SECTOR_SIZE - 1))
-15be180f2638ee fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-03-03   85  		return bch_err_throw(c, EINVAL_unaligned_io);
-00fff4dd586619 fs/bcachefs/fs-io-direct.c Kent Overstreet 2024-01-16   86  
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03   87  	ret = min_t(loff_t, iter->count,
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03   88  		    max_t(loff_t, 0, i_size_read(&inode->v) - offset));
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03   89  
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03   90  	if (!ret)
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03   91  		return ret;
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03   92  
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03   93  	shorten = iov_iter_count(iter) - round_up(ret, block_bytes(c));
-b58b1b883b9b70 fs/bcachefs/fs-io-direct.c Brian Foster    2024-02-15   94  	if (shorten >= iter->count)
-b58b1b883b9b70 fs/bcachefs/fs-io-direct.c Brian Foster    2024-02-15   95  		shorten = 0;
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03   96  	iter->count -= shorten;
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03   97  
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03   98  	bio = bio_alloc_bioset(NULL,
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03   99  			       bio_iov_vecs_to_alloc(iter, BIO_MAX_VECS),
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  100  			       REQ_OP_READ,
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  101  			       GFP_KERNEL,
-52d279ad5f3e4c fs/bcachefs/vfs/direct.c   Kent Overstreet 2025-11-30  102  			       &c->vfs.dio_read_bioset);
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  103  
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  104  	dio = container_of(bio, struct dio_read, rbio.bio);
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  105  	closure_init(&dio->cl, NULL);
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  106  
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  107  	/*
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  108  	 * this is a _really_ horrible hack just to avoid an atomic sub at the
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  109  	 * end:
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  110  	 */
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  111  	if (!sync) {
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  112  		set_closure_fn(&dio->cl, bch2_dio_read_complete, NULL);
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  113  		atomic_set(&dio->cl.remaining,
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  114  			   CLOSURE_REMAINING_INITIALIZER -
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  115  			   CLOSURE_RUNNING +
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  116  			   CLOSURE_DESTRUCTOR);
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  117  	} else {
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  118  		atomic_set(&dio->cl.remaining,
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  119  			   CLOSURE_REMAINING_INITIALIZER + 1);
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  120  	}
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  121  
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  122  	dio->req	= req;
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  123  	dio->ret	= ret;
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  124  	/*
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  125  	 * This is one of the sketchier things I've encountered: we have to skip
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  126  	 * the dirtying of requests that are internal from the kernel (i.e. from
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  127  	 * loopback), because we'll deadlock on page_lock.
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  128  	 */
-8838999ccf4f6f fs/bcachefs/fs-io-direct.c Alan Huang      2025-07-19  129  	dio->should_dirty = user_backed_iter(iter);
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  130  
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  131  	goto start;
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  132  	while (iter->count) {
-dfa204b169ed29 fs/bcachefs/fs-io-direct.c Kent Overstreet 2025-01-15  133  		split = true;
-dfa204b169ed29 fs/bcachefs/fs-io-direct.c Kent Overstreet 2025-01-15  134  
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  135  		bio = bio_alloc_bioset(NULL,
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  136  				       bio_iov_vecs_to_alloc(iter, BIO_MAX_VECS),
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  137  				       REQ_OP_READ,
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  138  				       GFP_KERNEL,
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  139  				       &c->bio_read);
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  140  start:
-dfa204b169ed29 fs/bcachefs/fs-io-direct.c Kent Overstreet 2025-01-15 @141  		struct bch_read_bio *rbio =
-dfa204b169ed29 fs/bcachefs/fs-io-direct.c Kent Overstreet 2025-01-15  142  			rbio_init(bio,
-dfa204b169ed29 fs/bcachefs/fs-io-direct.c Kent Overstreet 2025-01-15  143  				  c,
-dfa204b169ed29 fs/bcachefs/fs-io-direct.c Kent Overstreet 2025-01-15  144  				  opts,
-dfa204b169ed29 fs/bcachefs/fs-io-direct.c Kent Overstreet 2025-01-15  145  				  split
-dfa204b169ed29 fs/bcachefs/fs-io-direct.c Kent Overstreet 2025-01-15  146  				  ? bch2_direct_IO_read_split_endio
-dfa204b169ed29 fs/bcachefs/fs-io-direct.c Kent Overstreet 2025-01-15  147  				  : bch2_direct_IO_read_endio);
-dfa204b169ed29 fs/bcachefs/fs-io-direct.c Kent Overstreet 2025-01-15  148  
-1fd72aa451b8bb fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-03-24 @149  		BUG_ON(rbio->_state);
-39fe245ff806f1 fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-03-24 @150  		rbio->err_report		= err_report;
-1fd72aa451b8bb fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-03-24 @151  		rbio->subvol			= inode_inum(inode).subvol;
-92b3d152fe07e1 fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-04-21 @152  		rbio->bio.bi_opf		= REQ_OP_READ|REQ_SYNC;
-92b3d152fe07e1 fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-04-21  153  		rbio->bio.bi_iter.bi_sector	= offset >> 9;
-92b3d152fe07e1 fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-04-21  154  		rbio->bio.bi_private		= dio;
-92b3d152fe07e1 fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-04-21  155  
-92b3d152fe07e1 fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-04-21 @156  		ret = bch2_bio_iov_iter_get_pages(&rbio->bio, iter, 0);
-92b3d152fe07e1 fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-04-21  157  		if (ret < 0) {
-92b3d152fe07e1 fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-04-21  158  			/* XXX: fault inject this path */
-92b3d152fe07e1 fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-04-21 @159  			rbio->ret = ret;
-92b3d152fe07e1 fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-04-21  160  			bio_endio(&rbio->bio);
-92b3d152fe07e1 fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-04-21  161  			break;
-92b3d152fe07e1 fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-04-21  162  		}
-92b3d152fe07e1 fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-04-21  163  
-92b3d152fe07e1 fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-04-21  164  		offset += rbio->bio.bi_iter.bi_size;
-92b3d152fe07e1 fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-04-21  165  
-92b3d152fe07e1 fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-04-21  166  		if (dio->should_dirty)
-92b3d152fe07e1 fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-04-21  167  			bio_set_pages_dirty(&rbio->bio);
-92b3d152fe07e1 fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-04-21  168  
-92b3d152fe07e1 fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-04-21  169  		if (iter->count)
-92b3d152fe07e1 fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-04-21  170  			closure_get(&dio->cl);
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  171  
-1fd72aa451b8bb fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-03-24  172  		CLASS(btree_trans, trans)(c);
-1fd72aa451b8bb fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-03-24  173  		bch2_read(trans, rbio, rbio->bio.bi_iter, inode_inum(inode),
-1fd72aa451b8bb fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-03-24  174  			  NULL, NULL,
-1fd72aa451b8bb fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-03-24  175  			  BCH_READ_retry_if_stale|
-1fd72aa451b8bb fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-03-24  176  			  BCH_READ_may_promote|
-1fd72aa451b8bb fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-03-24  177  			  BCH_READ_user_mapped|
-1fd72aa451b8bb fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-03-24  178  			  flags);
-1fd72aa451b8bb fs/bcachefs/vfs/direct.c   Kent Overstreet 2026-03-24  179  	}
-27de0ee39f810d fs/bcachefs/fs-io-direct.c Kent Overstreet 2024-10-14  180  
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  181  	iter->count += shorten;
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  182  
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  183  	if (sync) {
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  184  		closure_sync(&dio->cl);
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  185  		closure_debug_destroy(&dio->cl);
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  186  		ret = dio->ret;
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  187  		bio_check_or_release(&dio->rbio.bio, dio->should_dirty);
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  188  		return ret;
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  189  	} else {
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  190  		return -EIOCBQUEUED;
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  191  	}
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  192  }
-dbbfca9f41e869 fs/bcachefs/fs-io-direct.c Kent Overstreet 2023-08-03  193  
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1759  
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1760  static int tmigr_setup_groups(unsigned int cpu, unsigned int node,
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1761  			      struct tmigr_group *start, bool activate)
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1762  {
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1763  	struct tmigr_group *group, *child, **stack;
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1764  	int i, top = 0, err = 0, start_lvl = 0;
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1765  	bool root_mismatch = false;
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1766  
+bf4afc53b77aea Linus Torvalds      2026-02-21  1767  	stack = kzalloc_objs(*stack, tmigr_hierarchy_levels);
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1768  	if (!stack)
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1769  		return -ENOMEM;
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1770  
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1771  	if (start) {
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1772  		stack[start->level] = start;
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1773  		start_lvl = start->level + 1;
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1774  	}
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1775  
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1776  	if (tmigr_root)
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1777  		root_mismatch = tmigr_root->numa_node != node;
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1778  
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1779  	for (i = start_lvl; i < tmigr_hierarchy_levels; i++) {
+93643b90d6c141 Frederic Weisbecker 2025-10-24  1780  		group = tmigr_get_group(node, i);
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1781  		if (IS_ERR(group)) {
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1782  			err = PTR_ERR(group);
+6c181b5667eea3 Frederic Weisbecker 2025-10-24  1783  			i--;
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1784  			break;
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1785  		}
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1786  
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1787  		top = i;
+6c181b5667eea3 Frederic Weisbecker 2025-10-24  1788  		stack[i] = group;
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1789  
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1790  		/*
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1791  		 * When booting only less CPUs of a system than CPUs are
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1792  		 * available, not all calculated hierarchy levels are required,
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1793  		 * unless a node mismatch is detected.
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1794  		 *
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1795  		 * The loop is aborted as soon as the highest level, which might
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1796  		 * be different from tmigr_hierarchy_levels, contains only a
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1797  		 * single group, unless the nodes mismatch below tmigr_crossnode_level
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1798  		 */
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1799  		if (group->parent)
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1800  			break;
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1801  		if ((!root_mismatch || i >= tmigr_crossnode_level) &&
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1802  		    list_is_singular(&tmigr_level_list[i]))
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1803  			break;
+6c181b5667eea3 Frederic Weisbecker 2025-10-24  1804  	}
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1805  
+6c181b5667eea3 Frederic Weisbecker 2025-10-24  1806  	/* Assert single root without parent */
+6c181b5667eea3 Frederic Weisbecker 2025-10-24  1807  	if (WARN_ON_ONCE(i >= tmigr_hierarchy_levels))
+6c181b5667eea3 Frederic Weisbecker 2025-10-24  1808  		return -EINVAL;
+868c9037df626b Frederic Weisbecker 2025-02-05  1809  
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1810  	for (; i >= start_lvl; i--) {
+6c181b5667eea3 Frederic Weisbecker 2025-10-24  1811  		group = stack[i];
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1812  
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1813  		if (err < 0) {
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1814  			list_del(&group->list);
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1815  			kfree(group);
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1816  			continue;
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1817  		}
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1818  
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1819  		WARN_ON_ONCE(i != group->level);
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1820  
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1821  		/*
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1822  		 * Update tmc -> group / child -> group connection
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1823  		 */
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1824  		if (i == 0) {
+10a0e6f3d3db7d Anna-Maria Behnsen  2024-07-17  1825  			struct tmigr_cpu *tmc = per_cpu_ptr(&tmigr_cpu, cpu);
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1826  
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1827  			tmc->tmgroup = group;
+835a9a67f54f01 Anna-Maria Behnsen  2024-07-16  1828  			tmc->groupmask = BIT(group->num_children++);
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1829  
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1830  			tmigr_init_root(group, activate);
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1831  
+36e40df35d2c18 Anna-Maria Behnsen  2024-02-22  1832  			trace_tmigr_connect_cpu_parent(tmc);
+36e40df35d2c18 Anna-Maria Behnsen  2024-02-22  1833  
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1834  			/* There are no children that need to be connected */
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1835  			continue;
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1836  		} else {
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1837  			child = stack[i - 1];
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1838  			tmigr_connect_child_parent(child, group, activate);
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1839  		}
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1840  	}
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1841  
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1842  	if (err < 0)
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1843  		goto out;
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1844  
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1845  	if (activate) {
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1846  		struct tmigr_walk data;
+3c8eb36e2a4678 Frederic Weisbecker 2025-10-24 @1847  		union tmigr_state state;
+868c9037df626b Frederic Weisbecker 2025-02-05  1848  
+868c9037df626b Frederic Weisbecker 2025-02-05  1849  		/*
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1850  		 * To prevent inconsistent states, active children need to be active in
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1851  		 * the new parent as well. Inactive children are already marked inactive
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1852  		 * in the parent group:
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1853  		 *
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1854  		 * * When new groups were created by tmigr_setup_groups() starting from
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1855  		 *   the lowest level, then they are not active. They will be set active
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1856  		 *   when the new online CPU comes active.
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1857  		 *
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1858  		 * * But if new groups above the current top level are required, it is
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1859  		 *   mandatory to propagate the active state of the already existing
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1860  		 *   child to the new parents. So tmigr_active_up() activates the
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1861  		 *   new parents while walking up from the old root to the new.
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1862  		 *
+21589396967158 Frederic Weisbecker 2026-04-21  1863  		 * * It is ensured that @start is active, (or on the way to be activated
+21589396967158 Frederic Weisbecker 2026-04-21  1864  		 *   by another CPU that woke up before the current one) as this setup path
+21589396967158 Frederic Weisbecker 2026-04-21  1865  		 *   is executed in hotplug prepare callback. This is executed by an already
+21589396967158 Frederic Weisbecker 2026-04-21  1866  		 *   connected and !idle CPU in the hierarchy.
+21589396967158 Frederic Weisbecker 2026-04-21  1867  		 *
+21589396967158 Frederic Weisbecker 2026-04-21  1868  		 * * The below RmW atomic operation ensures that:
+21589396967158 Frederic Weisbecker 2026-04-21  1869  		 *
+21589396967158 Frederic Weisbecker 2026-04-21  1870  		 *   1) If the old root has been completely activated, the latest state is
+21589396967158 Frederic Weisbecker 2026-04-21  1871  		 *      acquired (the below implicit acquire pairs with the implicit release
+21589396967158 Frederic Weisbecker 2026-04-21  1872  		 *      from cmpxchg() in tmigr_active_up()).
+21589396967158 Frederic Weisbecker 2026-04-21  1873  		 *
+21589396967158 Frederic Weisbecker 2026-04-21  1874  		 *   2) If the old root is still on the way to be activated, the lagging behind
+21589396967158 Frederic Weisbecker 2026-04-21  1875  		 *      CPU performing the activation will acquire the links up to the new root.
+21589396967158 Frederic Weisbecker 2026-04-21  1876  		 *      (The below implicit release pairs with the implicit acquire from cmpxchg()
+21589396967158 Frederic Weisbecker 2026-04-21  1877  		 *      in tmigr_active_up()).
+21589396967158 Frederic Weisbecker 2026-04-21  1878  		 *
+21589396967158 Frederic Weisbecker 2026-04-21  1879  		 *   3) Every subsequent CPU below the old root will acquire the new links while
+21589396967158 Frederic Weisbecker 2026-04-21  1880  		 *      walking through the old root (The below implicit release pairs with the
+21589396967158 Frederic Weisbecker 2026-04-21  1881  		 *      implicit acquire from cmpxchg() in either tmigr_active_up()) or
+21589396967158 Frederic Weisbecker 2026-04-21  1882  		 *      tmigr_inactive_up().
+10a0e6f3d3db7d Anna-Maria Behnsen  2024-07-17  1883  		 */
+21589396967158 Frederic Weisbecker 2026-04-21  1884  		state.state = atomic_fetch_or(0, &start->migr_state);
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1885  		WARN_ON_ONCE(!start->parent);
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1886  		data.childmask = start->groupmask;
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1887  		__walk_groups_from(tmigr_active_up, &data, start, start->parent);
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1888  	}
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1889  
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1890  	/* Root update */
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1891  	if (list_is_singular(&tmigr_level_list[top])) {
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1892  		group = list_first_entry(&tmigr_level_list[top],
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1893  					 typeof(*group), list);
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1894  		WARN_ON_ONCE(group->parent);
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1895  		if (tmigr_root) {
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1896  			/* Old root should be the same or below */
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1897  			WARN_ON_ONCE(tmigr_root->level > top);
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1898  		}
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1899  		tmigr_root = group;
+d7ad05c86e2191 Levi Yun            2024-05-06  1900  	}
+5eb579dfd46b49 Frederic Weisbecker 2025-10-24  1901  out:
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1902  	kfree(stack);
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1903  
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1904  	return err;
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1905  }
+7ee988770326fc Anna-Maria Behnsen  2024-02-22  1906  
 
-:::::: The code at line 141 was first introduced by commit
-:::::: dfa204b169ed29e4cdcb5a20d4cba2f579235543 bcachefs: rbio_init() cleanup
+:::::: The code at line 1847 was first introduced by commit
+:::::: 3c8eb36e2a46786d50dbef417ef782ff37b372ca timers/migration: Assert that hotplug preparing CPU is part of stable active hierarchy
 
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: TO: Frederic Weisbecker <frederic@kernel.org>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 -- 
 0-DAY CI Kernel Test Service
