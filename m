@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 740E3255F2D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Apr 2026 21:01:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6185A363C72
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Apr 2026 21:12:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776891684; cv=none; b=ZHIT1MH5JxlOZ16/Si/hDj1jIZca7THWI/ZSYop3ey4ATirh5ubrrnKzmpYJlN4kWoQqJpe2sG2UaW0SYTh7UyDChsGVrr/j3lECBcxn4OYifY2iRMn3w92mgpaqDBvi3YlYILwLSx4qGE8KYWmk7+BPqmJeUdcL5G8+GiIaNxc=
+	t=1776892347; cv=none; b=L05Xm4tpvZXtIfoucrxvcbL1Egq3sAMf3v4SKjnWPlzH3nGBKkOKTQgGr2W/D6fC114KG3bBKwkTXEPpqJSt24IX4+EHWw9fhO8Y7UjwTchN8qUo/uTPtOOObP7wkDGhY/fIvBO8aZwx0GEmHWqpWfZWiETGkr1vTi1svP99uBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776891684; c=relaxed/simple;
-	bh=DscNQAPLJ/bwJSX9qkoBCvccedRV+kmCyJQTasxQYNQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=rx6ggf59QlluwLiGENe8aOAA1VC6yYYgjLyDu7p4cciP+8xFImsAc33IIxJa1OrRGo8v4WYe2wjaHrfpLoo+ro51vlvmVaIPwvxSAQcc9A2lndABuSU7c7vn8PaN0mWmZSsySS20yveq0WvsYhCIFB3VARfxnPgZ2ZTsD7xogk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=csHuTI1z; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1776892347; c=relaxed/simple;
+	bh=0Jc/RDRWbQJ9amJ6FUsGg3WMuGqM5wRDJTFVTyAj2xU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=V0E/T7idlVYPwt4OI0s9XwKpr++BL9zyreQEskHDfZ4tP9xv7nb/snuYf6dyIpRznMczuQB5YaS23vSQ452WT+bjhojTU0P2juKfIqFsq3OSY+uoYzscd8yPM/SJRQN2aNbBDZ9CLNMOKNjWsZPtXP22Vl4MWp13CYRuRI3M6Q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bcu+ChS1; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="csHuTI1z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bcu+ChS1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776891683; x=1808427683;
+  t=1776892345; x=1808428345;
   h=date:from:to:cc:subject:message-id;
-  bh=DscNQAPLJ/bwJSX9qkoBCvccedRV+kmCyJQTasxQYNQ=;
-  b=csHuTI1zZMZ9jfrMPML0nRLUVkeGURoubav0RFYZbBrG2jBaD/0YNMZg
-   nxvJ4Wgr7fNjQT49Hz6MQbyqzPFWFhPby98hYWpcCw9R1WT8C8vZMAet4
-   P8+fNXC9V6nvs8OatgZRPGVZL5AM24nxHRAoLonVeBvH8L40o4+qV+jIE
-   3c/8en08I9nfKhMUWeuA4b+5dZJhYL6pG/JtYTGvlClKc0FdjZTFqrVgp
-   alVaiRlt8tfjaiBWB5xd+QzxZmhBh2xTd2pa12bzJfHixd5VYErXxhWhR
-   zl2AzPVCu8ZEZwKMbQkSx1NwbKY+xdA1LPIHCWBq9f5+rXR4WzJkcH4fH
-   Q==;
-X-CSE-ConnectionGUID: DVzzCxzDTc6weXda6aEwqw==
-X-CSE-MsgGUID: c6C/BtKxQ5avytHveaL04w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="77870900"
+  bh=0Jc/RDRWbQJ9amJ6FUsGg3WMuGqM5wRDJTFVTyAj2xU=;
+  b=Bcu+ChS1W6jjozdUrZEGUKkYxbUyaYH8bgwoaXSDyxf9CRUYJ3Oduu7e
+   N6FWsws/9vQ0GbaB3q0GvqhdMg0pq/JX4OOsbH2paJRSkSsRNG9htULDx
+   ygUxvCJEkbPt8nXNPWUwbDcSCVtCjuubuDR9qfl7BsFJQIdqhuEHwxn3G
+   4DZawRd3WNkI1x1V/i/sV9CoPjL6BudLfXVsmHY5GFyK5h0QvyIJwJ84A
+   jZRZvTB2PLUWnSTCy0bAgXqWRJ8tT+96jWGpel4+ENSUlVha+9SzhcJwr
+   SHzaDYXLYnxmUW/iw7yIHHFMuRJEWOW4WEGCFZdbrpcQAX2W419Ncqog6
+   g==;
+X-CSE-ConnectionGUID: V+G/Y5CESkW2iFz6oaxZZg==
+X-CSE-MsgGUID: bDEVL8IHQQuEA69Pab0LkA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="77871698"
 X-IronPort-AV: E=Sophos;i="6.23,193,1770624000"; 
-   d="scan'208";a="77870900"
+   d="scan'208";a="77871698"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 14:01:22 -0700
-X-CSE-ConnectionGUID: 7stEtBP5S4SaIzdb0UNQvw==
-X-CSE-MsgGUID: jlKIMH7TQ0iFzgvzBN0qYg==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 14:12:25 -0700
+X-CSE-ConnectionGUID: zrysI0L4SMCybivIX99QqA==
+X-CSE-MsgGUID: 1u5xV41UTiyQDpnSfxu9Ig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,193,1770624000"; 
-   d="scan'208";a="236459943"
+   d="scan'208";a="236461875"
 Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 22 Apr 2026 14:01:20 -0700
+  by orviesa003.jf.intel.com with ESMTP; 22 Apr 2026 14:12:23 -0700
 Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wFehB-0000000011d-3vmS;
-	Wed, 22 Apr 2026 21:01:17 +0000
-Date: Thu, 23 Apr 2026 05:01:13 +0800
+	id 1wFers-0000000012b-4890;
+	Wed, 22 Apr 2026 21:12:21 +0000
+Date: Thu, 23 Apr 2026 05:11:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:trace_sched_wakeup_backtrace 118/332]
- fs/bcachefs/fs/namei.c:294:1: warning: the frame size of 1376 bytes is larger
- than 1280 bytes
-Message-ID: <202604230432.n3tdI2ny-lkp@intel.com>
+Subject: [android-common:android16-6.12-2025-07 0/4]
+ drivers/gpu/drm/xe/xe_migrate.c:304:52: error: result of comparison of
+ constant 274877906944 with expression of type 'resource_size_t' (aka
+ 'unsigned int') is always true
+Message-ID: <202604230510.je1OwZVi-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,114 +61,249 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/koverstreet/bcachefs trace_sched_wakeup_backtrace
-head:   9e7cbd4ad9c7a7ba461dbba9185628c006e200cd
-commit: 5029b788620006fc5e36ba135f7ac1b2054270a8 [118/332] bcachefs: BCH_SB_ERR_vfs_unlink_got_wrong_inum
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260423/202604230432.n3tdI2ny-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260423/202604230432.n3tdI2ny-lkp@intel.com/reproduce)
+Hi Akshata,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-07
+head:   b25633aa2fb784af88c301cb4c87a63d86ab175c
+commit: 8d79acd567db183e675cccc6cc737d2959e2a2d9 [0/4] drm/xe/migrate: Add helper function to program identity map
+config: i386-randconfig-004-20260423 (https://download.01.org/0day-ci/archive/20260423/202604230510.je1OwZVi-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260423/202604230510.je1OwZVi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 8d79acd567db ("drm/xe/migrate: Add helper function to program identity map")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604230432.n3tdI2ny-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604230510.je1OwZVi-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/bcachefs/fs/namei.c: In function 'bch2_unlink_trans':
->> fs/bcachefs/fs/namei.c:294:1: warning: the frame size of 1376 bytes is larger than 1280 bytes [-Wframe-larger-than=]
-     294 | }
-         | ^
+   In file included from drivers/gpu/drm/xe/xe_migrate.c:12:
+   In file included from include/drm/ttm/ttm_tt.h:30:
+   In file included from include/linux/pagemap.h:8:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:514:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/gpu/drm/xe/xe_migrate.c:304:52: error: result of comparison of constant 274877906944 with expression of type 'resource_size_t' (aka 'unsigned int') is always true [-Werror,-Wtautological-constant-out-of-range-compare]
+     304 |                 xe_assert(xe, (xe->mem.vram.actual_physical_size <= SZ_256G));
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_assert.h:108:54: note: expanded from macro 'xe_assert'
+     108 | #define xe_assert(xe, condition) xe_assert_msg((xe), condition, "")
+         |                                  ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_assert.h:111:24: note: expanded from macro 'xe_assert_msg'
+     111 |         __xe_assert_msg(__xe, condition,                                                        \
+         |         ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     112 |                         "platform: %s subplatform: %d\n"                                        \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     113 |                         "graphics: %s %u.%02u step %s\n"                                        \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     114 |                         "media: %s %u.%02u step %s\n"                                           \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     115 |                         msg,                                                                    \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     116 |                         __xe->info.platform_name, __xe->info.subplatform,                       \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     117 |                         __xe->info.graphics_name,                                               \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     118 |                         __xe->info.graphics_verx100 / 100,                                      \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     119 |                         __xe->info.graphics_verx100 % 100,                                      \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     120 |                         xe_step_name(__xe->info.step.graphics),                                 \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     121 |                         __xe->info.media_name,                                                  \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     122 |                         __xe->info.media_verx100 / 100,                                         \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     123 |                         __xe->info.media_verx100 % 100,                                         \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     124 |                         xe_step_name(__xe->info.step.media),                                    \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     125 |                         ## arg);                                                                \
+         |                         ~~~~~~~
+   drivers/gpu/drm/xe/xe_assert.h:84:31: note: expanded from macro '__xe_assert_msg'
+      84 |         (void)drm_WARN(&(xe)->drm, !(condition), "[" DRM_NAME "] Assertion `%s` failed!\n" msg, \
+         |               ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      85 |                        __stringify(condition), ## arg);                                         \
+         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:635:7: note: expanded from macro 'drm_WARN'
+     635 |         WARN(condition, "%s %s: [drm] " format,                         \
+         |         ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     636 |                         dev_driver_string((drm)->dev),                  \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     637 |                         dev_name((drm)->dev), ## arg)
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:132:25: note: expanded from macro 'WARN'
+     132 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   2 errors generated.
 
 
-vim +294 fs/bcachefs/fs/namei.c
+vim +304 drivers/gpu/drm/xe/xe_migrate.c
 
-9638574229e3ae fs/bcachefs/fs-common.c Kent Overstreet 2019-10-02  216  
-9638574229e3ae fs/bcachefs/fs-common.c Kent Overstreet 2019-10-02  217  int bch2_unlink_trans(struct btree_trans *trans,
-5029b788620006 fs/bcachefs/fs/namei.c  Kent Overstreet 2026-01-04  218  		      subvol_inum dir, struct bch_inode_unpacked *dir_u,
-5029b788620006 fs/bcachefs/fs/namei.c  Kent Overstreet 2026-01-04  219  		      subvol_inum inode, struct bch_inode_unpacked *inode_u,
-42d237320e9817 fs/bcachefs/fs-common.c Kent Overstreet 2021-03-16  220  		      const struct qstr *name,
-835cd3e147a9a8 fs/bcachefs/fs-common.c Kent Overstreet 2024-02-09  221  		      bool deleting_subvol)
-9638574229e3ae fs/bcachefs/fs-common.c Kent Overstreet 2019-10-02  222  {
-ab2a29ccffd0e9 fs/bcachefs/fs-common.c Kent Overstreet 2021-03-02  223  	struct bch_fs *c = trans->c;
-b0d675b2a2498b fs/bcachefs/fs/namei.c  Kent Overstreet 2025-08-08  224  	CLASS(btree_iter_uninit, dir_iter)(trans);
-b0d675b2a2498b fs/bcachefs/fs/namei.c  Kent Overstreet 2025-08-08  225  	CLASS(btree_iter_uninit, dirent_iter)(trans);
-b0d675b2a2498b fs/bcachefs/fs/namei.c  Kent Overstreet 2025-08-08  226  	CLASS(btree_iter_uninit, inode_iter)(trans);
-6fed42bb7750e2 fs/bcachefs/fs-common.c Kent Overstreet 2021-03-16  227  	u64 now = bch2_current_time(c);
-9638574229e3ae fs/bcachefs/fs-common.c Kent Overstreet 2019-10-02  228  
-b0d675b2a2498b fs/bcachefs/fs/namei.c  Kent Overstreet 2025-08-08  229  	try(bch2_inode_peek(trans, &dir_iter, dir_u, dir, BTREE_ITER_intent));
-9638574229e3ae fs/bcachefs/fs-common.c Kent Overstreet 2019-10-02  230  
-2603021d8850a4 fs/bcachefs/fs/namei.c  Kent Overstreet 2025-11-11  231  	struct bch_hash_info dir_hash;
-2603021d8850a4 fs/bcachefs/fs/namei.c  Kent Overstreet 2025-11-11  232  	try(bch2_hash_info_init(c, dir_u, &dir_hash));
-9638574229e3ae fs/bcachefs/fs-common.c Kent Overstreet 2019-10-02  233  
-b0d675b2a2498b fs/bcachefs/fs/namei.c  Kent Overstreet 2025-08-08  234  	subvol_inum inum;
-b0d675b2a2498b fs/bcachefs/fs/namei.c  Kent Overstreet 2025-08-08  235  	try(bch2_dirent_lookup_trans(trans, &dirent_iter, dir, &dir_hash,
-b0d675b2a2498b fs/bcachefs/fs/namei.c  Kent Overstreet 2025-08-08  236  				     name, &inum, BTREE_ITER_intent));
-9638574229e3ae fs/bcachefs/fs-common.c Kent Overstreet 2019-10-02  237  
-5029b788620006 fs/bcachefs/fs/namei.c  Kent Overstreet 2026-01-04  238  	if (!subvol_inum_eq(inode, inum)) {
-5029b788620006 fs/bcachefs/fs/namei.c  Kent Overstreet 2026-01-04  239  		CLASS(bch_log_msg, msg)(c);
-5029b788620006 fs/bcachefs/fs/namei.c  Kent Overstreet 2026-01-04  240  		prt_printf(&msg.m, "vfs did bad unlink: wanted inum %llu:%llu, got %llu:%llu\n",
-5029b788620006 fs/bcachefs/fs/namei.c  Kent Overstreet 2026-01-04  241  			   inode.subvol, inode.inum,
-5029b788620006 fs/bcachefs/fs/namei.c  Kent Overstreet 2026-01-04  242  			   inum.subvol, inum.inum);
-5029b788620006 fs/bcachefs/fs/namei.c  Kent Overstreet 2026-01-04  243  		prt_printf(&msg.m, "vfs d_name %s\n", name->name);
-5029b788620006 fs/bcachefs/fs/namei.c  Kent Overstreet 2026-01-04  244  		prt_printf(&msg.m, "path ");
-5029b788620006 fs/bcachefs/fs/namei.c  Kent Overstreet 2026-01-04  245  		try(bch2_inum_to_path(trans, inode, &msg.m));
-5029b788620006 fs/bcachefs/fs/namei.c  Kent Overstreet 2026-01-04  246  		bch2_fs_emergency_read_only(c, &msg.m);
-5029b788620006 fs/bcachefs/fs/namei.c  Kent Overstreet 2026-01-04  247  
-5029b788620006 fs/bcachefs/fs/namei.c  Kent Overstreet 2026-01-04  248  		msg.m.suppress = !bch2_count_fsck_err(c, vfs_unlink_got_wrong_inum, &msg.m);
-5029b788620006 fs/bcachefs/fs/namei.c  Kent Overstreet 2026-01-04  249  	}
-5029b788620006 fs/bcachefs/fs/namei.c  Kent Overstreet 2026-01-04  250  
-b0d675b2a2498b fs/bcachefs/fs/namei.c  Kent Overstreet 2025-08-08  251  	try(bch2_inode_peek(trans, &inode_iter, inode_u, inum, BTREE_ITER_intent));
-9638574229e3ae fs/bcachefs/fs-common.c Kent Overstreet 2019-10-02  252  
-b0d675b2a2498b fs/bcachefs/fs/namei.c  Kent Overstreet 2025-08-08  253  	if (!deleting_subvol && S_ISDIR(inode_u->bi_mode))
-b0d675b2a2498b fs/bcachefs/fs/namei.c  Kent Overstreet 2025-08-08  254  		try(bch2_empty_dir_trans(trans, inum));
-d3ff7fec9c604e fs/bcachefs/fs-common.c Kent Overstreet 2021-04-07  255  
-b0d675b2a2498b fs/bcachefs/fs/namei.c  Kent Overstreet 2025-08-08  256  	if (deleting_subvol && !inode_u->bi_subvol)
-b0d675b2a2498b fs/bcachefs/fs/namei.c  Kent Overstreet 2025-08-08  257  		return bch_err_throw(c, ENOENT_not_subvol);
-6fed42bb7750e2 fs/bcachefs/fs-common.c Kent Overstreet 2021-03-16  258  
-835cd3e147a9a8 fs/bcachefs/fs-common.c Kent Overstreet 2024-02-09  259  	/* Recursive subvolume destroy not allowed (yet?) */
-b0d675b2a2498b fs/bcachefs/fs/namei.c  Kent Overstreet 2025-08-08  260  	if (inode_u->bi_subvol)
-b0d675b2a2498b fs/bcachefs/fs/namei.c  Kent Overstreet 2025-08-08  261  		try(bch2_subvol_has_children(trans, inode_u->bi_subvol));
-835cd3e147a9a8 fs/bcachefs/fs-common.c Kent Overstreet 2024-02-09  262  
-835cd3e147a9a8 fs/bcachefs/fs-common.c Kent Overstreet 2024-02-09  263  	if (deleting_subvol || inode_u->bi_subvol) {
-b0d675b2a2498b fs/bcachefs/fs/namei.c  Kent Overstreet 2025-08-08  264  		try(bch2_subvolume_unlink(trans, inode_u->bi_subvol));
-42d237320e9817 fs/bcachefs/fs-common.c Kent Overstreet 2021-03-16  265  
-b0d675b2a2498b fs/bcachefs/fs/namei.c  Kent Overstreet 2025-08-08  266  		struct bkey_s_c k = bkey_try(bch2_btree_iter_peek_slot(&dirent_iter));
-42d237320e9817 fs/bcachefs/fs-common.c Kent Overstreet 2021-03-16  267  
-42d237320e9817 fs/bcachefs/fs-common.c Kent Overstreet 2021-03-16  268  		/*
-42d237320e9817 fs/bcachefs/fs-common.c Kent Overstreet 2021-03-16  269  		 * If we're deleting a subvolume, we need to really delete the
-42d237320e9817 fs/bcachefs/fs-common.c Kent Overstreet 2021-03-16  270  		 * dirent, not just emit a whiteout in the current snapshot:
-42d237320e9817 fs/bcachefs/fs-common.c Kent Overstreet 2021-03-16  271  		 */
-7c84dc243819ab fs/bcachefs/namei.c     Kent Overstreet 2025-07-30  272  		bch2_btree_iter_set_snapshot(&dirent_iter, k.k->p.snapshot);
-b0d675b2a2498b fs/bcachefs/fs/namei.c  Kent Overstreet 2025-08-08  273  		try(bch2_btree_iter_traverse(&dirent_iter));
-7bd68c73044f1b fs/bcachefs/fs-common.c Kent Overstreet 2021-09-30  274  	} else {
-962ad1a7666944 fs/bcachefs/fs-common.c Kent Overstreet 2022-06-23  275  		bch2_inode_nlink_dec(trans, inode_u);
-6fed42bb7750e2 fs/bcachefs/fs-common.c Kent Overstreet 2021-03-16  276  	}
-6fed42bb7750e2 fs/bcachefs/fs-common.c Kent Overstreet 2021-03-16  277  
-42d237320e9817 fs/bcachefs/fs-common.c Kent Overstreet 2021-03-16  278  	if (inode_u->bi_dir		== dirent_iter.pos.inode &&
-42d237320e9817 fs/bcachefs/fs-common.c Kent Overstreet 2021-03-16  279  	    inode_u->bi_dir_offset	== dirent_iter.pos.offset) {
-42d237320e9817 fs/bcachefs/fs-common.c Kent Overstreet 2021-03-16  280  		inode_u->bi_dir		= 0;
-42d237320e9817 fs/bcachefs/fs-common.c Kent Overstreet 2021-03-16  281  		inode_u->bi_dir_offset	= 0;
-42d237320e9817 fs/bcachefs/fs-common.c Kent Overstreet 2021-03-16  282  	}
-42d237320e9817 fs/bcachefs/fs-common.c Kent Overstreet 2021-03-16  283  
-9638574229e3ae fs/bcachefs/fs-common.c Kent Overstreet 2019-10-02  284  	dir_u->bi_mtime = dir_u->bi_ctime = inode_u->bi_ctime = now;
-42d237320e9817 fs/bcachefs/fs-common.c Kent Overstreet 2021-03-16  285  	dir_u->bi_nlink -= is_subdir_for_nlink(inode_u);
-9638574229e3ae fs/bcachefs/fs-common.c Kent Overstreet 2019-10-02  286  
-b0d675b2a2498b fs/bcachefs/fs/namei.c  Kent Overstreet 2025-08-08  287  	try(bch2_hash_delete_at(trans, bch2_dirent_hash_desc,
-42d237320e9817 fs/bcachefs/fs-common.c Kent Overstreet 2021-03-16  288  				&dir_hash, &dirent_iter,
-b0d675b2a2498b fs/bcachefs/fs/namei.c  Kent Overstreet 2025-08-08  289  				BTREE_UPDATE_internal_snapshot_node));
-b0d675b2a2498b fs/bcachefs/fs/namei.c  Kent Overstreet 2025-08-08  290  	try(bch2_inode_write(trans, &dir_iter, dir_u));
-b0d675b2a2498b fs/bcachefs/fs/namei.c  Kent Overstreet 2025-08-08  291  	try(bch2_inode_write(trans, &inode_iter, inode_u));
-b0d675b2a2498b fs/bcachefs/fs/namei.c  Kent Overstreet 2025-08-08  292  
-b0d675b2a2498b fs/bcachefs/fs/namei.c  Kent Overstreet 2025-08-08  293  	return 0;
-9638574229e3ae fs/bcachefs/fs-common.c Kent Overstreet 2019-10-02 @294  }
-9638574229e3ae fs/bcachefs/fs-common.c Kent Overstreet 2019-10-02  295  
-
-:::::: The code at line 294 was first introduced by commit
-:::::: 9638574229e3ae0175a46a63431149746c777b3a bcachefs: Factor out fs-common.c
-
-:::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+   177	
+   178	static int xe_migrate_prepare_vm(struct xe_tile *tile, struct xe_migrate *m,
+   179					 struct xe_vm *vm)
+   180	{
+   181		struct xe_device *xe = tile_to_xe(tile);
+   182		u16 pat_index = xe->pat.idx[XE_CACHE_WB];
+   183		u8 id = tile->id;
+   184		u32 num_entries = NUM_PT_SLOTS, num_level = vm->pt_root[id]->level,
+   185		    num_setup = num_level + 1;
+   186		u32 map_ofs, level, i;
+   187		struct xe_bo *bo, *batch = tile->mem.kernel_bb_pool->bo;
+   188		u64 entry, pt30_ofs;
+   189	
+   190		/* Can't bump NUM_PT_SLOTS too high */
+   191		BUILD_BUG_ON(NUM_PT_SLOTS > SZ_2M/XE_PAGE_SIZE);
+   192		/* Must be a multiple of 64K to support all platforms */
+   193		BUILD_BUG_ON(NUM_PT_SLOTS * XE_PAGE_SIZE % SZ_64K);
+   194		/* And one slot reserved for the 4KiB page table updates */
+   195		BUILD_BUG_ON(!(NUM_KERNEL_PDE & 1));
+   196	
+   197		/* Need to be sure everything fits in the first PT, or create more */
+   198		xe_tile_assert(tile, m->batch_base_ofs + batch->size < SZ_2M);
+   199	
+   200		bo = xe_bo_create_pin_map(vm->xe, tile, vm,
+   201					  num_entries * XE_PAGE_SIZE,
+   202					  ttm_bo_type_kernel,
+   203					  XE_BO_FLAG_VRAM_IF_DGFX(tile) |
+   204					  XE_BO_FLAG_PINNED);
+   205		if (IS_ERR(bo))
+   206			return PTR_ERR(bo);
+   207	
+   208		/* PT31 reserved for 2M identity map */
+   209		pt30_ofs = bo->size - 2 * XE_PAGE_SIZE;
+   210		entry = vm->pt_ops->pde_encode_bo(bo, pt30_ofs, pat_index);
+   211		xe_pt_write(xe, &vm->pt_root[id]->bo->vmap, 0, entry);
+   212	
+   213		map_ofs = (num_entries - num_setup) * XE_PAGE_SIZE;
+   214	
+   215		/* Map the entire BO in our level 0 pt */
+   216		for (i = 0, level = 0; i < num_entries; level++) {
+   217			entry = vm->pt_ops->pte_encode_bo(bo, i * XE_PAGE_SIZE,
+   218							  pat_index, 0);
+   219	
+   220			xe_map_wr(xe, &bo->vmap, map_ofs + level * 8, u64, entry);
+   221	
+   222			if (vm->flags & XE_VM_FLAG_64K)
+   223				i += 16;
+   224			else
+   225				i += 1;
+   226		}
+   227	
+   228		if (!IS_DGFX(xe)) {
+   229			/* Write out batch too */
+   230			m->batch_base_ofs = NUM_PT_SLOTS * XE_PAGE_SIZE;
+   231			for (i = 0; i < batch->size;
+   232			     i += vm->flags & XE_VM_FLAG_64K ? XE_64K_PAGE_SIZE :
+   233			     XE_PAGE_SIZE) {
+   234				entry = vm->pt_ops->pte_encode_bo(batch, i,
+   235								  pat_index, 0);
+   236	
+   237				xe_map_wr(xe, &bo->vmap, map_ofs + level * 8, u64,
+   238					  entry);
+   239				level++;
+   240			}
+   241			if (xe->info.has_usm) {
+   242				xe_tile_assert(tile, batch->size == SZ_1M);
+   243	
+   244				batch = tile->primary_gt->usm.bb_pool->bo;
+   245				m->usm_batch_base_ofs = m->batch_base_ofs + SZ_1M;
+   246				xe_tile_assert(tile, batch->size == SZ_512K);
+   247	
+   248				for (i = 0; i < batch->size;
+   249				     i += vm->flags & XE_VM_FLAG_64K ? XE_64K_PAGE_SIZE :
+   250				     XE_PAGE_SIZE) {
+   251					entry = vm->pt_ops->pte_encode_bo(batch, i,
+   252									  pat_index, 0);
+   253	
+   254					xe_map_wr(xe, &bo->vmap, map_ofs + level * 8, u64,
+   255						  entry);
+   256					level++;
+   257				}
+   258			}
+   259		} else {
+   260			u64 batch_addr = xe_bo_addr(batch, 0, XE_PAGE_SIZE);
+   261	
+   262			m->batch_base_ofs = xe_migrate_vram_ofs(xe, batch_addr);
+   263	
+   264			if (xe->info.has_usm) {
+   265				batch = tile->primary_gt->usm.bb_pool->bo;
+   266				batch_addr = xe_bo_addr(batch, 0, XE_PAGE_SIZE);
+   267				m->usm_batch_base_ofs = xe_migrate_vram_ofs(xe, batch_addr);
+   268			}
+   269		}
+   270	
+   271		for (level = 1; level < num_level; level++) {
+   272			u32 flags = 0;
+   273	
+   274			if (vm->flags & XE_VM_FLAG_64K && level == 1)
+   275				flags = XE_PDE_64K;
+   276	
+   277			entry = vm->pt_ops->pde_encode_bo(bo, map_ofs + (u64)(level - 1) *
+   278							  XE_PAGE_SIZE, pat_index);
+   279			xe_map_wr(xe, &bo->vmap, map_ofs + XE_PAGE_SIZE * level, u64,
+   280				  entry | flags);
+   281		}
+   282	
+   283		/* Write PDE's that point to our BO. */
+   284		for (i = 0; i < map_ofs / PAGE_SIZE; i++) {
+   285			entry = vm->pt_ops->pde_encode_bo(bo, (u64)i * XE_PAGE_SIZE,
+   286							  pat_index);
+   287	
+   288			xe_map_wr(xe, &bo->vmap, map_ofs + XE_PAGE_SIZE +
+   289				  (i + 1) * 8, u64, entry);
+   290		}
+   291	
+   292		/* Set up a 1GiB NULL mapping at 255GiB offset. */
+   293		level = 2;
+   294		xe_map_wr(xe, &bo->vmap, map_ofs + XE_PAGE_SIZE * level + 255 * 8, u64,
+   295			  vm->pt_ops->pte_encode_addr(xe, 0, pat_index, level, IS_DGFX(xe), 0)
+   296			  | XE_PTE_NULL);
+   297		m->cleared_mem_ofs = (255ULL << xe_pt_shift(level));
+   298	
+   299		/* Identity map the entire vram at 256GiB offset */
+   300		if (IS_DGFX(xe)) {
+   301			u64 pt31_ofs = bo->size - XE_PAGE_SIZE;
+   302	
+   303			xe_migrate_program_identity(xe, vm, bo, map_ofs, 256, pat_index, pt31_ofs);
+ > 304			xe_assert(xe, (xe->mem.vram.actual_physical_size <= SZ_256G));
+   305		}
+   306	
+   307		/*
+   308		 * Example layout created above, with root level = 3:
+   309		 * [PT0...PT7]: kernel PT's for copy/clear; 64 or 4KiB PTE's
+   310		 * [PT8]: Kernel PT for VM_BIND, 4 KiB PTE's
+   311		 * [PT9...PT27]: Userspace PT's for VM_BIND, 4 KiB PTE's
+   312		 * [PT28 = PDE 0] [PT29 = PDE 1] [PT30 = PDE 2] [PT31 = 2M vram identity map]
+   313		 *
+   314		 * This makes the lowest part of the VM point to the pagetables.
+   315		 * Hence the lowest 2M in the vm should point to itself, with a few writes
+   316		 * and flushes, other parts of the VM can be used either for copying and
+   317		 * clearing.
+   318		 *
+   319		 * For performance, the kernel reserves PDE's, so about 20 are left
+   320		 * for async VM updates.
+   321		 *
+   322		 * To make it easier to work, each scratch PT is put in slot (1 + PT #)
+   323		 * everywhere, this allows lockless updates to scratch pages by using
+   324		 * the different addresses in VM.
+   325		 */
+   326	#define NUM_VMUSA_UNIT_PER_PAGE	32
+   327	#define VM_SA_UPDATE_UNIT_SIZE		(XE_PAGE_SIZE / NUM_VMUSA_UNIT_PER_PAGE)
+   328	#define NUM_VMUSA_WRITES_PER_UNIT	(VM_SA_UPDATE_UNIT_SIZE / sizeof(u64))
+   329		drm_suballoc_manager_init(&m->vm_update_sa,
+   330					  (size_t)(map_ofs / XE_PAGE_SIZE - NUM_KERNEL_PDE) *
+   331					  NUM_VMUSA_UNIT_PER_PAGE, 0);
+   332	
+   333		m->pt_bo = bo;
+   334		return 0;
+   335	}
+   336	
 
 -- 
 0-DAY CI Kernel Test Service
