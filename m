@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6185A363C72
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Apr 2026 21:12:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2357D367F25
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Apr 2026 21:33:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776892347; cv=none; b=L05Xm4tpvZXtIfoucrxvcbL1Egq3sAMf3v4SKjnWPlzH3nGBKkOKTQgGr2W/D6fC114KG3bBKwkTXEPpqJSt24IX4+EHWw9fhO8Y7UjwTchN8qUo/uTPtOOObP7wkDGhY/fIvBO8aZwx0GEmHWqpWfZWiETGkr1vTi1svP99uBw=
+	t=1776893611; cv=none; b=LOJnLBQZy3uF84+AM63e+ukqm3ck+VUP08U2s3KE9ulb/m80zvuzCwJTPxGL3L8Uf3StP6mOWQ9KSL6vOw5Rptmbxsfj2k7epvPEyu+JjuYWp8+OH9xxwnJN9dRMNDhJ2TL+3B+VgaIiybD8jH+OqmcoRyJNssdC+icHN9L7rek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776892347; c=relaxed/simple;
-	bh=0Jc/RDRWbQJ9amJ6FUsGg3WMuGqM5wRDJTFVTyAj2xU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=V0E/T7idlVYPwt4OI0s9XwKpr++BL9zyreQEskHDfZ4tP9xv7nb/snuYf6dyIpRznMczuQB5YaS23vSQ452WT+bjhojTU0P2juKfIqFsq3OSY+uoYzscd8yPM/SJRQN2aNbBDZ9CLNMOKNjWsZPtXP22Vl4MWp13CYRuRI3M6Q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bcu+ChS1; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1776893611; c=relaxed/simple;
+	bh=Su+4RzP8eGdBX37SNSjk7xjuCswF2J4NIIKMLTRlXQA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mpLeDPRkSeXjF9xrL/QGK4LBW6Q4d3YIEsUwaiCYmrntHCagNBLXwSJfN95K/JKhtsuFpTsc3VXTDFecglLdXrOfaKTna4bGypUyCNsQzbA+pL7hhbK+11QZLHdzSIjzA52wjY/PUqGGfcPSE7ofjl7x1tUuRI11iZe/nlNPGFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q4XhuQO8; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bcu+ChS1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q4XhuQO8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776892345; x=1808428345;
+  t=1776893609; x=1808429609;
   h=date:from:to:cc:subject:message-id;
-  bh=0Jc/RDRWbQJ9amJ6FUsGg3WMuGqM5wRDJTFVTyAj2xU=;
-  b=Bcu+ChS1W6jjozdUrZEGUKkYxbUyaYH8bgwoaXSDyxf9CRUYJ3Oduu7e
-   N6FWsws/9vQ0GbaB3q0GvqhdMg0pq/JX4OOsbH2paJRSkSsRNG9htULDx
-   ygUxvCJEkbPt8nXNPWUwbDcSCVtCjuubuDR9qfl7BsFJQIdqhuEHwxn3G
-   4DZawRd3WNkI1x1V/i/sV9CoPjL6BudLfXVsmHY5GFyK5h0QvyIJwJ84A
-   jZRZvTB2PLUWnSTCy0bAgXqWRJ8tT+96jWGpel4+ENSUlVha+9SzhcJwr
-   SHzaDYXLYnxmUW/iw7yIHHFMuRJEWOW4WEGCFZdbrpcQAX2W419Ncqog6
+  bh=Su+4RzP8eGdBX37SNSjk7xjuCswF2J4NIIKMLTRlXQA=;
+  b=Q4XhuQO8u+A5g5ukqDaB/EEIgqszkWkhuwQnEmwqVTQ1z7MKhtYxky0g
+   zno32ATrEXLYOuMydZOIfqOfXBRtYw3jv84iZ37EWFYVn+MSdYEw/JnB9
+   eLL8O543bps8omCxZ7WvS7uTr4w7PvWISR5ogPyWHQbWWZTpChAYTUnvi
+   EoNYB2w1t95r+lqKzdpa1Q4sgDaDUU65nsY593gqARNCNGflRK3CEKF8o
+   2tXiMziRYvW1/e48xuVLgpMgn42O1aKvQDSzcjuycjHXRmwbKVLakmU8Q
+   qLcZNBO5ND/PBNgKabSiucGFVzjJ/odRb+n7ruLJhX5tY7PpXg3z3fKDz
    g==;
-X-CSE-ConnectionGUID: V+G/Y5CESkW2iFz6oaxZZg==
-X-CSE-MsgGUID: bDEVL8IHQQuEA69Pab0LkA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="77871698"
+X-CSE-ConnectionGUID: krwv0GV8SdCO7KjYnPqjng==
+X-CSE-MsgGUID: CM+gxUM/QyaWH4c1JE3LkQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="77022722"
 X-IronPort-AV: E=Sophos;i="6.23,193,1770624000"; 
-   d="scan'208";a="77871698"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 14:12:25 -0700
-X-CSE-ConnectionGUID: zrysI0L4SMCybivIX99QqA==
-X-CSE-MsgGUID: 1u5xV41UTiyQDpnSfxu9Ig==
+   d="scan'208";a="77022722"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 14:33:28 -0700
+X-CSE-ConnectionGUID: PdKz5zjIQkO43qYFDPAUzg==
+X-CSE-MsgGUID: TbP06pM6SqqKCeHERTuIqw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,193,1770624000"; 
-   d="scan'208";a="236461875"
+   d="scan'208";a="236832260"
 Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 22 Apr 2026 14:12:23 -0700
+  by orviesa004.jf.intel.com with ESMTP; 22 Apr 2026 14:33:27 -0700
 Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wFers-0000000012b-4890;
-	Wed, 22 Apr 2026 21:12:21 +0000
-Date: Thu, 23 Apr 2026 05:11:45 +0800
+	id 1wFfCG-0000000013W-1Kee;
+	Wed, 22 Apr 2026 21:33:24 +0000
+Date: Thu, 23 Apr 2026 05:32:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Mark Rutland <mark.rutland@arm.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-2025-07 0/4]
- drivers/gpu/drm/xe/xe_migrate.c:304:52: error: result of comparison of
- constant 274877906944 with expression of type 'resource_size_t' (aka
- 'unsigned int') is always true
-Message-ID: <202604230510.je1OwZVi-lkp@intel.com>
+Subject: [mark:stacktrace/tests 3/4] csky-linux-ld:
+ stacktrace_kunit.c:undefined reference to `__kunit_abort'
+Message-ID: <202604230535.L3FHusZl-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,249 +59,144 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Akshata,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-07
-head:   b25633aa2fb784af88c301cb4c87a63d86ab175c
-commit: 8d79acd567db183e675cccc6cc737d2959e2a2d9 [0/4] drm/xe/migrate: Add helper function to program identity map
-config: i386-randconfig-004-20260423 (https://download.01.org/0day-ci/archive/20260423/202604230510.je1OwZVi-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260423/202604230510.je1OwZVi-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git stacktrace/tests
+head:   224cbf0cef8a49306bab3f8723e83a207d43ad11
+commit: fe331f10804b0205503506bac2cd91599ff6163a [3/4] WIP: lib: add more stacktracing tests
+config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20260423/202604230535.L3FHusZl-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260423/202604230535.L3FHusZl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 8d79acd567db ("drm/xe/migrate: Add helper function to program identity map")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604230510.je1OwZVi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604230535.L3FHusZl-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/xe/xe_migrate.c:12:
-   In file included from include/drm/ttm/ttm_tt.h:30:
-   In file included from include/linux/pagemap.h:8:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:514:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/gpu/drm/xe/xe_migrate.c:304:52: error: result of comparison of constant 274877906944 with expression of type 'resource_size_t' (aka 'unsigned int') is always true [-Werror,-Wtautological-constant-out-of-range-compare]
-     304 |                 xe_assert(xe, (xe->mem.vram.actual_physical_size <= SZ_256G));
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
-   drivers/gpu/drm/xe/xe_assert.h:108:54: note: expanded from macro 'xe_assert'
-     108 | #define xe_assert(xe, condition) xe_assert_msg((xe), condition, "")
-         |                                  ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
-   drivers/gpu/drm/xe/xe_assert.h:111:24: note: expanded from macro 'xe_assert_msg'
-     111 |         __xe_assert_msg(__xe, condition,                                                        \
-         |         ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     112 |                         "platform: %s subplatform: %d\n"                                        \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     113 |                         "graphics: %s %u.%02u step %s\n"                                        \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     114 |                         "media: %s %u.%02u step %s\n"                                           \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     115 |                         msg,                                                                    \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     116 |                         __xe->info.platform_name, __xe->info.subplatform,                       \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     117 |                         __xe->info.graphics_name,                                               \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     118 |                         __xe->info.graphics_verx100 / 100,                                      \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     119 |                         __xe->info.graphics_verx100 % 100,                                      \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     120 |                         xe_step_name(__xe->info.step.graphics),                                 \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     121 |                         __xe->info.media_name,                                                  \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     122 |                         __xe->info.media_verx100 / 100,                                         \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     123 |                         __xe->info.media_verx100 % 100,                                         \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     124 |                         xe_step_name(__xe->info.step.media),                                    \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     125 |                         ## arg);                                                                \
-         |                         ~~~~~~~
-   drivers/gpu/drm/xe/xe_assert.h:84:31: note: expanded from macro '__xe_assert_msg'
-      84 |         (void)drm_WARN(&(xe)->drm, !(condition), "[" DRM_NAME "] Assertion `%s` failed!\n" msg, \
-         |               ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      85 |                        __stringify(condition), ## arg);                                         \
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:635:7: note: expanded from macro 'drm_WARN'
-     635 |         WARN(condition, "%s %s: [drm] " format,                         \
-         |         ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     636 |                         dev_driver_string((drm)->dev),                  \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     637 |                         dev_name((drm)->dev), ## arg)
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/bug.h:132:25: note: expanded from macro 'WARN'
-     132 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   2 errors generated.
-
-
-vim +304 drivers/gpu/drm/xe/xe_migrate.c
-
-   177	
-   178	static int xe_migrate_prepare_vm(struct xe_tile *tile, struct xe_migrate *m,
-   179					 struct xe_vm *vm)
-   180	{
-   181		struct xe_device *xe = tile_to_xe(tile);
-   182		u16 pat_index = xe->pat.idx[XE_CACHE_WB];
-   183		u8 id = tile->id;
-   184		u32 num_entries = NUM_PT_SLOTS, num_level = vm->pt_root[id]->level,
-   185		    num_setup = num_level + 1;
-   186		u32 map_ofs, level, i;
-   187		struct xe_bo *bo, *batch = tile->mem.kernel_bb_pool->bo;
-   188		u64 entry, pt30_ofs;
-   189	
-   190		/* Can't bump NUM_PT_SLOTS too high */
-   191		BUILD_BUG_ON(NUM_PT_SLOTS > SZ_2M/XE_PAGE_SIZE);
-   192		/* Must be a multiple of 64K to support all platforms */
-   193		BUILD_BUG_ON(NUM_PT_SLOTS * XE_PAGE_SIZE % SZ_64K);
-   194		/* And one slot reserved for the 4KiB page table updates */
-   195		BUILD_BUG_ON(!(NUM_KERNEL_PDE & 1));
-   196	
-   197		/* Need to be sure everything fits in the first PT, or create more */
-   198		xe_tile_assert(tile, m->batch_base_ofs + batch->size < SZ_2M);
-   199	
-   200		bo = xe_bo_create_pin_map(vm->xe, tile, vm,
-   201					  num_entries * XE_PAGE_SIZE,
-   202					  ttm_bo_type_kernel,
-   203					  XE_BO_FLAG_VRAM_IF_DGFX(tile) |
-   204					  XE_BO_FLAG_PINNED);
-   205		if (IS_ERR(bo))
-   206			return PTR_ERR(bo);
-   207	
-   208		/* PT31 reserved for 2M identity map */
-   209		pt30_ofs = bo->size - 2 * XE_PAGE_SIZE;
-   210		entry = vm->pt_ops->pde_encode_bo(bo, pt30_ofs, pat_index);
-   211		xe_pt_write(xe, &vm->pt_root[id]->bo->vmap, 0, entry);
-   212	
-   213		map_ofs = (num_entries - num_setup) * XE_PAGE_SIZE;
-   214	
-   215		/* Map the entire BO in our level 0 pt */
-   216		for (i = 0, level = 0; i < num_entries; level++) {
-   217			entry = vm->pt_ops->pte_encode_bo(bo, i * XE_PAGE_SIZE,
-   218							  pat_index, 0);
-   219	
-   220			xe_map_wr(xe, &bo->vmap, map_ofs + level * 8, u64, entry);
-   221	
-   222			if (vm->flags & XE_VM_FLAG_64K)
-   223				i += 16;
-   224			else
-   225				i += 1;
-   226		}
-   227	
-   228		if (!IS_DGFX(xe)) {
-   229			/* Write out batch too */
-   230			m->batch_base_ofs = NUM_PT_SLOTS * XE_PAGE_SIZE;
-   231			for (i = 0; i < batch->size;
-   232			     i += vm->flags & XE_VM_FLAG_64K ? XE_64K_PAGE_SIZE :
-   233			     XE_PAGE_SIZE) {
-   234				entry = vm->pt_ops->pte_encode_bo(batch, i,
-   235								  pat_index, 0);
-   236	
-   237				xe_map_wr(xe, &bo->vmap, map_ofs + level * 8, u64,
-   238					  entry);
-   239				level++;
-   240			}
-   241			if (xe->info.has_usm) {
-   242				xe_tile_assert(tile, batch->size == SZ_1M);
-   243	
-   244				batch = tile->primary_gt->usm.bb_pool->bo;
-   245				m->usm_batch_base_ofs = m->batch_base_ofs + SZ_1M;
-   246				xe_tile_assert(tile, batch->size == SZ_512K);
-   247	
-   248				for (i = 0; i < batch->size;
-   249				     i += vm->flags & XE_VM_FLAG_64K ? XE_64K_PAGE_SIZE :
-   250				     XE_PAGE_SIZE) {
-   251					entry = vm->pt_ops->pte_encode_bo(batch, i,
-   252									  pat_index, 0);
-   253	
-   254					xe_map_wr(xe, &bo->vmap, map_ofs + level * 8, u64,
-   255						  entry);
-   256					level++;
-   257				}
-   258			}
-   259		} else {
-   260			u64 batch_addr = xe_bo_addr(batch, 0, XE_PAGE_SIZE);
-   261	
-   262			m->batch_base_ofs = xe_migrate_vram_ofs(xe, batch_addr);
-   263	
-   264			if (xe->info.has_usm) {
-   265				batch = tile->primary_gt->usm.bb_pool->bo;
-   266				batch_addr = xe_bo_addr(batch, 0, XE_PAGE_SIZE);
-   267				m->usm_batch_base_ofs = xe_migrate_vram_ofs(xe, batch_addr);
-   268			}
-   269		}
-   270	
-   271		for (level = 1; level < num_level; level++) {
-   272			u32 flags = 0;
-   273	
-   274			if (vm->flags & XE_VM_FLAG_64K && level == 1)
-   275				flags = XE_PDE_64K;
-   276	
-   277			entry = vm->pt_ops->pde_encode_bo(bo, map_ofs + (u64)(level - 1) *
-   278							  XE_PAGE_SIZE, pat_index);
-   279			xe_map_wr(xe, &bo->vmap, map_ofs + XE_PAGE_SIZE * level, u64,
-   280				  entry | flags);
-   281		}
-   282	
-   283		/* Write PDE's that point to our BO. */
-   284		for (i = 0; i < map_ofs / PAGE_SIZE; i++) {
-   285			entry = vm->pt_ops->pde_encode_bo(bo, (u64)i * XE_PAGE_SIZE,
-   286							  pat_index);
-   287	
-   288			xe_map_wr(xe, &bo->vmap, map_ofs + XE_PAGE_SIZE +
-   289				  (i + 1) * 8, u64, entry);
-   290		}
-   291	
-   292		/* Set up a 1GiB NULL mapping at 255GiB offset. */
-   293		level = 2;
-   294		xe_map_wr(xe, &bo->vmap, map_ofs + XE_PAGE_SIZE * level + 255 * 8, u64,
-   295			  vm->pt_ops->pte_encode_addr(xe, 0, pat_index, level, IS_DGFX(xe), 0)
-   296			  | XE_PTE_NULL);
-   297		m->cleared_mem_ofs = (255ULL << xe_pt_shift(level));
-   298	
-   299		/* Identity map the entire vram at 256GiB offset */
-   300		if (IS_DGFX(xe)) {
-   301			u64 pt31_ofs = bo->size - XE_PAGE_SIZE;
-   302	
-   303			xe_migrate_program_identity(xe, vm, bo, map_ofs, 256, pat_index, pt31_ofs);
- > 304			xe_assert(xe, (xe->mem.vram.actual_physical_size <= SZ_256G));
-   305		}
-   306	
-   307		/*
-   308		 * Example layout created above, with root level = 3:
-   309		 * [PT0...PT7]: kernel PT's for copy/clear; 64 or 4KiB PTE's
-   310		 * [PT8]: Kernel PT for VM_BIND, 4 KiB PTE's
-   311		 * [PT9...PT27]: Userspace PT's for VM_BIND, 4 KiB PTE's
-   312		 * [PT28 = PDE 0] [PT29 = PDE 1] [PT30 = PDE 2] [PT31 = 2M vram identity map]
-   313		 *
-   314		 * This makes the lowest part of the VM point to the pagetables.
-   315		 * Hence the lowest 2M in the vm should point to itself, with a few writes
-   316		 * and flushes, other parts of the VM can be used either for copying and
-   317		 * clearing.
-   318		 *
-   319		 * For performance, the kernel reserves PDE's, so about 20 are left
-   320		 * for async VM updates.
-   321		 *
-   322		 * To make it easier to work, each scratch PT is put in slot (1 + PT #)
-   323		 * everywhere, this allows lockless updates to scratch pages by using
-   324		 * the different addresses in VM.
-   325		 */
-   326	#define NUM_VMUSA_UNIT_PER_PAGE	32
-   327	#define VM_SA_UPDATE_UNIT_SIZE		(XE_PAGE_SIZE / NUM_VMUSA_UNIT_PER_PAGE)
-   328	#define NUM_VMUSA_WRITES_PER_UNIT	(VM_SA_UPDATE_UNIT_SIZE / sizeof(u64))
-   329		drm_suballoc_manager_init(&m->vm_update_sa,
-   330					  (size_t)(map_ofs / XE_PAGE_SIZE - NUM_KERNEL_PDE) *
-   331					  NUM_VMUSA_UNIT_PER_PAGE, 0);
-   332	
-   333		m->pt_bo = bo;
-   334		return 0;
-   335	}
-   336	
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `std_expect_empty':
+   stacktrace_kunit.c:(.text+0x4de): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x52e): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x57c): undefined reference to `kunit_binary_assert_format'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x580): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `std_expect_trace':
+   stacktrace_kunit.c:(.text+0x6da): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x746): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x7a4): undefined reference to `kunit_fail_assert_format'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x7ac): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `std_expect_callers_present_reliable':
+   stacktrace_kunit.c:(.text+0x8b2): undefined reference to `kunit_log_append'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x8e0): undefined reference to `kunit_log_append'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `__do_kprobe_unwind':
+   stacktrace_kunit.c:(.text+0x94e): undefined reference to `kunit_log_append'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x97e): undefined reference to `kunit_log_append'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x9c8): undefined reference to `kunit_log_append'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_nounwind_with_kprobe':
+   stacktrace_kunit.c:(.text+0xa4a): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0xa8c): undefined reference to `kunit_fail_assert_format'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0xa94): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_nounwind_with_fgraph_tail':
+   stacktrace_kunit.c:(.text+0xd28): undefined reference to `__kunit_do_failed_assertion'
+>> csky-linux-ld: stacktrace_kunit.c:(.text+0xd2e): undefined reference to `__kunit_abort'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0xd9c): undefined reference to `kunit_binary_assert_format'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0xda0): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0xda4): undefined reference to `__kunit_abort'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `std_test_exit':
+   stacktrace_kunit.c:(.text+0xe98): undefined reference to `kunit_kfree'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0xf0c): undefined reference to `kunit_log_append'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0xf5e): undefined reference to `kunit_log_append'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `std_test_init':
+   stacktrace_kunit.c:(.text+0xfd4): undefined reference to `kunit_kmalloc_array'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0xff0): undefined reference to `kunit_kfree'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x1008): undefined reference to `kunit_log_append'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x1014): undefined reference to `kunit_kmalloc_array'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `__do_test_fgraph_async':
+   stacktrace_kunit.c:(.text+0x118e): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x11ae): undefined reference to `kunit_log_append'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x11c2): undefined reference to `kunit_log_append'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_fgraph_async_unwind_reliable':
+   stacktrace_kunit.c:(.text+0x1270): undefined reference to `kunit_fail_assert_format'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x1278): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x1288): undefined reference to `kunit_log_append'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `__do_test_one_async_kp.constprop.0':
+   stacktrace_kunit.c:(.text+0x133a): undefined reference to `kunit_log_append'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x134e): undefined reference to `kunit_log_append'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_async_unwind_reliable':
+   stacktrace_kunit.c:(.text+0x1400): undefined reference to `kunit_log_append'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_kprobe_unwind_regs':
+   stacktrace_kunit.c:(.text+0x16ca): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x1710): undefined reference to `kunit_fail_assert_format'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x1718): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_kprobe_unwind_reliable':
+   stacktrace_kunit.c:(.text+0x178a): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_kprobe_unwind':
+   stacktrace_kunit.c:(.text+0x180a): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x185c): undefined reference to `kunit_fail_assert_format'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x1864): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_unwind_reliable_with_kprobe':
+   stacktrace_kunit.c:(.text+0x18ca): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_unwind_with_kprobe':
+   stacktrace_kunit.c:(.text+0x194a): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_ftrace_unwind_regs':
+   stacktrace_kunit.c:(.text+0x19dc): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x19e2): undefined reference to `__kunit_abort'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x1a2c): undefined reference to `kunit_fail_assert_format'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x1a34): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x1a5c): undefined reference to `kunit_binary_assert_format'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x1a60): undefined reference to `__kunit_abort'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_ftrace_unwind_reliable':
+   stacktrace_kunit.c:(.text+0x1adc): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x1ae2): undefined reference to `__kunit_abort'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_ftrace_unwind':
+   stacktrace_kunit.c:(.text+0x1b9c): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x1ba2): undefined reference to `__kunit_abort'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x1bec): undefined reference to `kunit_binary_assert_format'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x1bf0): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x1bf4): undefined reference to `__kunit_abort'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_unwind_reliable_with_ftrace':
+   stacktrace_kunit.c:(.text+0x1c9c): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x1ca2): undefined reference to `__kunit_abort'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_unwind_with_ftrace':
+   stacktrace_kunit.c:(.text+0x1d5c): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x1d62): undefined reference to `__kunit_abort'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x1dac): undefined reference to `kunit_binary_assert_format'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x1db0): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x1db4): undefined reference to `__kunit_abort'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_nounwind_with_ftrace':
+   stacktrace_kunit.c:(.text+0x1e5c): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x1e62): undefined reference to `__kunit_abort'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x1e9e): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x1ede): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_unwind_reliable_notail':
+   stacktrace_kunit.c:(.text+0x1f8a): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x1fcc): undefined reference to `kunit_binary_assert_format'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x1fd0): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x1fd4): undefined reference to `__kunit_abort'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x1ff0): undefined reference to `kunit_binary_ptr_assert_format'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_unwind_reliable_tail':
+   stacktrace_kunit.c:(.text+0x204a): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_unwind_reliable':
+   stacktrace_kunit.c:(.text+0x20ca): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_unwind_notail':
+   stacktrace_kunit.c:(.text+0x214a): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x218c): undefined reference to `kunit_binary_ptr_assert_format'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x2190): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_unwind_tail':
+   stacktrace_kunit.c:(.text+0x220a): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_unwind':
+   stacktrace_kunit.c:(.text+0x228a): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_nounwind_notail':
+   stacktrace_kunit.c:(.text+0x230a): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x234c): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o:stacktrace_kunit.c:(.text+0x238c): more undefined references to `__kunit_do_failed_assertion' follow
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_nounwind_notail':
+   stacktrace_kunit.c:(.text+0x23c8): undefined reference to `kunit_binary_ptr_assert_format'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x23cc): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x23e8): undefined reference to `kunit_binary_assert_format'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_nounwind_tail':
+   stacktrace_kunit.c:(.text+0x244a): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x248c): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: stacktrace_kunit.c:(.text+0x24cc): undefined reference to `__kunit_do_failed_assertion'
+   csky-linux-ld: lib/tests/stacktrace_kunit.o: in function `test_nounwind':
 
 -- 
 0-DAY CI Kernel Test Service
