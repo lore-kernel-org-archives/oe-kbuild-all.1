@@ -1,145 +1,134 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF4FB332EBB;
-	Wed, 22 Apr 2026 15:20:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4448D21767D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Apr 2026 16:05:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776871254; cv=none; b=mmEu4anlEkKRO3OBMG43RdKdQ99UGCSyvAJas5Q+64wP0Qo5H2czi8Th8Vd/UK3rPmchjjgQdAdsReYYpBWLhdjVba+tNPHXuih2c85mXpHtqRoyhi7OYOBaVCGYPV/AABSLk7JfE7/CKAkZd55fOznwX0AP8+RoneWQgFhOOA4=
+	t=1776873960; cv=none; b=WJCh3lZ6okledIJmgPIltDQO3O4YWvWDaO8rL7DoLUeNM6n1+OkyvAwn2dgUwVowijZ7eS/nEjkI9S+Nz+ZljdwjoWfcXvYdUwUXCcAq7uwfZ1FGTRPoWIcig1AjnQkm2jiGR7g/jqxQJeN7PfkFgUwcmNL9UAteszQ9DFq+pjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776871254; c=relaxed/simple;
-	bh=nPT6f5FYGhcVdKdpuUk9EjT3sZU3HjqJhMw47zMMZGo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NRqCAFvd4ifHXuNN61JZAUMTKCIqX1GvuyFdfJNZi8hwNgy7/TOe778JW349FNrXDGAWFYJOxkws54whm1bq+GtoCBQx2gXLUPiCMhzYPhcLTsmCvIwwhWMA/GM9Lb14DivBGdXLfs+AKyWw8S85MlstPrN8FAP3Bm115N0tmpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nU2vu/BA; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1776873960; c=relaxed/simple;
+	bh=FIFMpgh5KHh6qY4H0igmU8Wcr/cAC/pG0NcCWuR42l0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C0M1TTGf8nqqkb7jZe1cCOXyYQew6OkrFChe4H9gIcqT9D1lRyfCV1UVsRJy0DJ3WWlKuTghj0ht4QTeXRUOB0OJTJQ30gNhGJ6oIG7UhKpVsAxDWTCpuMSoF6+EDvh/36OvrSfGQ5lRcXigzuXGRzk26s8OcCqlfmYh9OfRrJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OKQtmCbl; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nU2vu/BA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OKQtmCbl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776871252; x=1808407252;
-  h=date:from:to:cc:subject:message-id;
-  bh=nPT6f5FYGhcVdKdpuUk9EjT3sZU3HjqJhMw47zMMZGo=;
-  b=nU2vu/BAxZY5WEO1Vw7ttixyE9HVExoDd7CftoZDzVRMn1jCYvIJv/Q8
-   j9fp8F0ai2yODuDjHgyoOkBtV2u0qXWxlQy01C4AjA6lHn0ldCpRzSavC
-   A0y8F87O245cm60tvS9agnAMWywpuIUnBP8Tqx4kGiewKssFuHShz2fwZ
-   Efn31RqPP3pyJ0BIfhQPCDAam1GrtJ7+Xvvp5HPBH/n/+TtXKue941z+d
-   DWhQuPVyUN+D7oDHAnBz6BHkq+7+yq+E3x9OSrjihn/2A4UKp+MFPyji2
-   DU3qyj40/T2cxKdSXc1jewv5CvHnNPPDr1b/nmWIxIRF/XA7tXID3J2gq
-   g==;
-X-CSE-ConnectionGUID: EI/ew6YQTCy9WXUf/W7vaQ==
-X-CSE-MsgGUID: AkCFZZEOQbGsJ416V2dL5Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="81690480"
+  t=1776873958; x=1808409958;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FIFMpgh5KHh6qY4H0igmU8Wcr/cAC/pG0NcCWuR42l0=;
+  b=OKQtmCblQ51prZBaoj/MPb6rH0hSBi+EzupgkZ/c5CAIK/ZrVcj7Qnv3
+   vpw564uSfQUl6oZJxsD9AcywFv3nT0Qjc+705JstDqOPIBlWHnT7OrsUQ
+   co2f4j3uT9P6S9OTktp8e/L+u86IcelySYunNoHFyJze/JEThxSNxXUAU
+   dyPWAvglzKIiSGFzwIJ3SD9cX/V/5kivxdM1q5ttCr3UwqjIxzncrunnG
+   BSp0QhbOh/cVbFH0kooc9Ldy3l40LabcQcJwPnfE8fnTQz3IVnoeuu02u
+   7QTPj1ijQZxzYbi4Q80FFjesU5rbW5CQNIT+oiapawoC0T2MSLEIqg3rD
+   Q==;
+X-CSE-ConnectionGUID: OvgOXUJFQqesCxR21XH5Ig==
+X-CSE-MsgGUID: 9tieYRENR4yNtjZ/qn7HJQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="77712373"
 X-IronPort-AV: E=Sophos;i="6.23,193,1770624000"; 
-   d="scan'208";a="81690480"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 08:20:51 -0700
-X-CSE-ConnectionGUID: TwF5lK6aR1aXS3Cd+WURAg==
-X-CSE-MsgGUID: jNrAEZTfTQ+ULgLHg9Nj9w==
+   d="scan'208";a="77712373"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 09:05:58 -0700
+X-CSE-ConnectionGUID: oy+mPHVVQwWF04sXEcIGbw==
+X-CSE-MsgGUID: ql4EL3KWQhaJS0RBNMGV7A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,193,1770624000"; 
-   d="scan'208";a="237365831"
+   d="scan'208";a="232253338"
 Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 22 Apr 2026 08:20:50 -0700
+  by orviesa009.jf.intel.com with ESMTP; 22 Apr 2026 09:05:56 -0700
 Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wFZNf-000000000kj-2ivW;
-	Wed, 22 Apr 2026 15:20:47 +0000
-Date: Wed, 22 Apr 2026 23:20:15 +0800
+	id 1wFa5J-000000000nF-2HeD;
+	Wed, 22 Apr 2026 16:05:53 +0000
+Date: Thu, 23 Apr 2026 00:05:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Codex <jullanggit@proton.me>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:pr/1073 60/62]
- fs/bcachefs/init/dev.c:2241:12: warning: stack frame size (1088) exceeds
- limit (1024) in 'bch2_dev_resize_thread'
-Message-ID: <202604222317.Gn6OQEv2-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Yuho Choi <dbgh9129@gmail.com>, Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-remoteproc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Yuho Choi <dbgh9129@gmail.com>
+Subject: Re: [PATCH v1] rpmsg: char: fix use-after-free on probe error path
+Message-ID: <202604222350.v3J2LzRi-lkp@intel.com>
+References: <20260416042338.10146-1-dbgh9129@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260416042338.10146-1-dbgh9129@gmail.com>
 
-tree:   https://github.com/koverstreet/bcachefs pr/1073
-head:   d2a62b04dbdf826f75c734329003dbb927941266
-commit: a2c5355977eeeff6c78b444746f448b673689cea [60/62] bcachefs: shrink: bound stalled tail detection on reconcile work
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260422/202604222317.Gn6OQEv2-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260422/202604222317.Gn6OQEv2-lkp@intel.com/reproduce)
+Hi Yuho,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on remoteproc/rpmsg-next]
+[also build test WARNING on linus/master v7.0 next-20260422]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yuho-Choi/rpmsg-char-fix-use-after-free-on-probe-error-path/20260421-073128
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git rpmsg-next
+patch link:    https://lore.kernel.org/r/20260416042338.10146-1-dbgh9129%40gmail.com
+patch subject: [PATCH v1] rpmsg: char: fix use-after-free on probe error path
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260422/202604222350.v3J2LzRi-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260422/202604222350.v3J2LzRi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604222317.Gn6OQEv2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604222350.v3J2LzRi-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/bcachefs/init/dev.c:1004:5: warning: stack frame size (1056) exceeds limit (1024) in 'bch2_dev_add' [-Wframe-larger-than]
-    1004 | int bch2_dev_add(struct bch_fs *c, const char *path, struct printbuf *err)
-         |     ^
->> fs/bcachefs/init/dev.c:2241:12: warning: stack frame size (1088) exceeds limit (1024) in 'bch2_dev_resize_thread' [-Wframe-larger-than]
-    2241 | static int bch2_dev_resize_thread(void *arg)
-         |            ^
-   2 warnings generated.
+   In file included from include/linux/compiler.h:372,
+                    from include/linux/build_bug.h:5,
+                    from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/kobject.h:19,
+                    from include/linux/cdev.h:5,
+                    from drivers/rpmsg/rpmsg_char.c:17:
+>> arch/alpha/include/asm/rwonce.h:23:9: warning: '__READ_ONCE' redefined
+      23 | #define __READ_ONCE(x)                                                  \
+         |         ^~~~~~~~~~~
+   In file included from drivers/rpmsg/rpmsg_char.c:14:
+   include/asm-generic/rwonce.h:44:9: note: this is the location of the previous definition
+      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+         |         ^~~~~~~~~~~
 
 
-vim +/bch2_dev_resize_thread +2241 fs/bcachefs/init/dev.c
+vim +/__READ_ONCE +23 arch/alpha/include/asm/rwonce.h
 
-24a0d1607fa915 Jul Lang 2026-02-17  2240  
-557af95f7f9ec3 Codex    2026-04-14 @2241  static int bch2_dev_resize_thread(void *arg)
-557af95f7f9ec3 Codex    2026-04-14  2242  {
-557af95f7f9ec3 Codex    2026-04-14  2243  	struct bch_dev *ca = arg;
-557af95f7f9ec3 Codex    2026-04-14  2244  	struct bch_fs *c = ca->fs;
-557af95f7f9ec3 Codex    2026-04-14  2245  	u64 seen_seq = 0;
-557af95f7f9ec3 Codex    2026-04-14  2246  
-557af95f7f9ec3 Codex    2026-04-14  2247  	set_freezable();
-557af95f7f9ec3 Codex    2026-04-14  2248  
-557af95f7f9ec3 Codex    2026-04-14  2249  	while (!kthread_should_stop()) {
-557af95f7f9ec3 Codex    2026-04-14  2250  		kthread_wait_freezable(kthread_should_stop() ||
-557af95f7f9ec3 Codex    2026-04-14  2251  				       bch2_dev_resize_seq(ca) != seen_seq);
-557af95f7f9ec3 Codex    2026-04-14  2252  		if (kthread_should_stop())
-557af95f7f9ec3 Codex    2026-04-14  2253  			break;
-557af95f7f9ec3 Codex    2026-04-14  2254  
-557af95f7f9ec3 Codex    2026-04-14  2255  		while (!kthread_should_stop()) {
-557af95f7f9ec3 Codex    2026-04-14  2256  			u64 seq = bch2_dev_resize_seq(ca);
-557af95f7f9ec3 Codex    2026-04-14  2257  			u64 target = bch2_dev_resize_target(ca);
-557af95f7f9ec3 Codex    2026-04-14  2258  			int ret;
-557af95f7f9ec3 Codex    2026-04-14  2259  			CLASS(printbuf, err)();
-557af95f7f9ec3 Codex    2026-04-14  2260  
-557af95f7f9ec3 Codex    2026-04-14  2261  			if (target == ca->mi.nbuckets) {
-557af95f7f9ec3 Codex    2026-04-14  2262  				ret = 0;
-557af95f7f9ec3 Codex    2026-04-14  2263  			} else if (target > ca->mi.nbuckets) {
-557af95f7f9ec3 Codex    2026-04-14  2264  				ret = __bch2_dev_grow(c, ca, target, &err);
-557af95f7f9ec3 Codex    2026-04-14  2265  			} else {
-557af95f7f9ec3 Codex    2026-04-14  2266  				ret = __bch2_dev_shrink(c, ca, target, seq, &err);
-557af95f7f9ec3 Codex    2026-04-14  2267  			}
-557af95f7f9ec3 Codex    2026-04-14  2268  
-557af95f7f9ec3 Codex    2026-04-14  2269  			if (ret == -EAGAIN)
-557af95f7f9ec3 Codex    2026-04-14  2270  				continue;
-557af95f7f9ec3 Codex    2026-04-14  2271  
-557af95f7f9ec3 Codex    2026-04-14  2272  			if (ret && err.pos)
-557af95f7f9ec3 Codex    2026-04-14  2273  				bch_err_dev(ca, "%s", err.buf);
-557af95f7f9ec3 Codex    2026-04-14  2274  			else if (ret && ret != -EINTR)
-557af95f7f9ec3 Codex    2026-04-14  2275  				bch_err_fn_dev(ca, ret);
-557af95f7f9ec3 Codex    2026-04-14  2276  
-557af95f7f9ec3 Codex    2026-04-14  2277  			seen_seq = bch2_dev_resize_seq(ca);
-557af95f7f9ec3 Codex    2026-04-14  2278  			if (ret == -EINTR)
-557af95f7f9ec3 Codex    2026-04-14  2279  				break;
-557af95f7f9ec3 Codex    2026-04-14  2280  			if (!bch2_dev_resize_finish(ca, seq, ret))
-557af95f7f9ec3 Codex    2026-04-14  2281  				continue;
-557af95f7f9ec3 Codex    2026-04-14  2282  			break;
-557af95f7f9ec3 Codex    2026-04-14  2283  		}
-557af95f7f9ec3 Codex    2026-04-14  2284  	}
-557af95f7f9ec3 Codex    2026-04-14  2285  
-557af95f7f9ec3 Codex    2026-04-14  2286  	return 0;
-557af95f7f9ec3 Codex    2026-04-14  2287  }
-557af95f7f9ec3 Codex    2026-04-14  2288  
-
-:::::: The code at line 2241 was first introduced by commit
-:::::: 557af95f7f9ec319e6085541199cc4e936a5778b bcachefs: make device resize converge to the latest target
-
-:::::: TO: Codex <jullanggit@proton.me>
-:::::: CC: Jul Lang <jullanggit@proton.me>
+d6462858851549c Will Deacon 2019-10-30  11  
+d6462858851549c Will Deacon 2019-10-30  12  /*
+d6462858851549c Will Deacon 2019-10-30  13   * Alpha is apparently daft enough to reorder address-dependent loads
+d6462858851549c Will Deacon 2019-10-30  14   * on some CPU implementations. Knock some common sense into it with
+d6462858851549c Will Deacon 2019-10-30  15   * a memory barrier in READ_ONCE().
+d6462858851549c Will Deacon 2019-10-30  16   *
+d6462858851549c Will Deacon 2019-10-30  17   * For the curious, more information about this unusual reordering is
+d6462858851549c Will Deacon 2019-10-30  18   * available in chapter 15 of the "perfbook":
+d6462858851549c Will Deacon 2019-10-30  19   *
+d6462858851549c Will Deacon 2019-10-30  20   *  https://kernel.org/pub/linux/kernel/people/paulmck/perfbook/perfbook.html
+d6462858851549c Will Deacon 2019-10-30  21   *
+d6462858851549c Will Deacon 2019-10-30  22   */
+d6462858851549c Will Deacon 2019-10-30 @23  #define __READ_ONCE(x)							\
+d6462858851549c Will Deacon 2019-10-30  24  ({									\
+d6462858851549c Will Deacon 2019-10-30  25  	__unqual_scalar_typeof(x) __x =					\
+d6462858851549c Will Deacon 2019-10-30  26  		(*(volatile typeof(__x) *)(&(x)));			\
+d6462858851549c Will Deacon 2019-10-30  27  	mb();								\
+d6462858851549c Will Deacon 2019-10-30  28  	(typeof(x))__x;							\
+d6462858851549c Will Deacon 2019-10-30  29  })
+d6462858851549c Will Deacon 2019-10-30  30  
 
 -- 
 0-DAY CI Kernel Test Service
