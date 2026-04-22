@@ -1,283 +1,197 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A613CD8D5;
-	Wed, 22 Apr 2026 10:43:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E571763CB
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Apr 2026 12:09:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776854622; cv=none; b=be+JeP5w+a+R12bIVnLU7ipBSnhJPgiP4TWekVJ53apv6JqHB4ZATtHX4VwEoroif3U6YqAiT+1LkZqIQ6vttIu8/fS8mYjX0RPPsS0h9J4OovxBpW8JQ/KQzxDKyrWTB/6zeKesLyeUviJlUM73qiId4WN5mOTHvRyGMFFqqpM=
+	t=1776859787; cv=none; b=IK1GaKoxb28PMUvfQtVv/ArqM+K+eJEpCBfXaQB2tInT6nWlx6YY1w4hGWkfjdobh40AaPfwUp8SAp2Cgt2Sko0CARfE+ptqU37cRaFQFp3Z4+ux5x8o3ce0Eifvs37ke0tln7gXmVwrRFVCX60t6kIHRQcuJzrWA9CxffyzbxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776854622; c=relaxed/simple;
-	bh=kjrMmCT8D/hLD+2OQdL12dB9asOMZqpCDxmMzIm0+Mk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E/nXVagboygwt5vWE0e+in1wbbkFviHoE58BX84e+G5z0ewpg7WFqqZ/Ts97hA+Mn4XUdT5KVdrCwOMOxXgDBSOroOA1Y2DziJ2Wku2V5XkSvBIOD43gejUK0dHU1oxxFvK6S0xSOHwjXERFON33Z2oBPYy5Kx31v0x2Kw6p/wA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TKigwTby; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1776859787; c=relaxed/simple;
+	bh=ahgqFB9FyOu31huPv0XsM6TiVmlS+w3vhxP9hoG5BUY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=qOTkS0ebZLurzDhWlgc3ox2TfxcRk58QLz0Lim4/wBun8fc2F8QwevjV/7zVaVG54IVZGo2WnXzpnVswU9iXoiyMNESJQdIcY5HO+ooewOHcNU4zik3Ad1Gb3UM6uTCfK/ZZvVG1IJ81Xfx3VOHy2Ew458XVqgttZurQy5+MWds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TEFUMq0u; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TKigwTby"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TEFUMq0u"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776854620; x=1808390620;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kjrMmCT8D/hLD+2OQdL12dB9asOMZqpCDxmMzIm0+Mk=;
-  b=TKigwTbyv+P6Nl2WHCx01SFIFj6ld8FJilxPHxFZRRpvmCpLJP7HP7oW
-   X7ayy1FxUIiLDebO+RoM3w65uNgxFA1TZ59kCokXVh15EV5X36ZB+or/G
-   qZTV2fovRDi0AM+fFoOiKtpOmP/S/9zM/6X4Houdjnvac0GXgpvFLs8Eo
-   xrDwza+Rgbh1bzh0PxctvaQ4S9Y7c4kD9GOntg5/CLJA8S50fQ1oCN2a5
-   Tvr4OgTaMGiVwjbub3BFDmhcDKUy8hqo3bsSESrqrFsnJ0WnC1RgNU4Q5
-   BiMiFYuNgM1Kfa9VQQ9N03YpmTNZC/+wSpbkjSEW5aPAL532zDAqfaR62
-   A==;
-X-CSE-ConnectionGUID: vRayPepRTLGQVUYHfgHLXQ==
-X-CSE-MsgGUID: SdaAvzaKQBiLG+IXyWqUnQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="77922780"
+  t=1776859785; x=1808395785;
+  h=date:from:to:cc:subject:message-id;
+  bh=ahgqFB9FyOu31huPv0XsM6TiVmlS+w3vhxP9hoG5BUY=;
+  b=TEFUMq0u0ikyV6qemXKPaaqZkGNE5LDUonzyfwQZgJJWgDhZNYLbVBg3
+   2CbLG0C5rhX8nlaVS7nrRr8k51NmoqUc6LD2eFVHiXmXAyIwiSgo7bYwF
+   ek9vYYqcvXCfbd62y/pWjIUYp2SB+whOMEd/8cabU5KsidXr5eVd7gePQ
+   40TXhRHeGr5Gsv+rfefKJ4jAlqsuHSH2RftwpdSqdD2So+wvX8wHdq+5L
+   AhcMhPGhAS44N9zLqoIRp9Ijll0FN2dAvz2odDODCEkuBt9hgHxUE5osr
+   NHmFPzh3Qo9Rf+TRt8Gw7ckP+BTquOAjl0J4pTElBcGEby1Jx1IHudRTF
+   g==;
+X-CSE-ConnectionGUID: 1hTWuFeXR6akU7IduSdIzw==
+X-CSE-MsgGUID: sofWlElLRVKLyQNWDHDUgA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="80396287"
 X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="77922780"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 03:43:40 -0700
-X-CSE-ConnectionGUID: uUE/1mwZQeu0JAkbNI2YgQ==
-X-CSE-MsgGUID: VaREkrSkSk6ew6lXlcK6kQ==
+   d="scan'208";a="80396287"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 05:09:44 -0700
+X-CSE-ConnectionGUID: FgzGdW4GTEappsiu4eAAlg==
+X-CSE-MsgGUID: eERJRlr1Tbe+BYGLcFTvHA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="262706360"
+   d="scan'208";a="237330099"
 Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 22 Apr 2026 03:43:37 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 22 Apr 2026 05:09:43 -0700
 Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wFV3O-000000000b7-2sM3;
-	Wed, 22 Apr 2026 10:43:34 +0000
-Date: Wed, 22 Apr 2026 18:43:27 +0800
+	id 1wFWOi-000000000eJ-3Q5C;
+	Wed, 22 Apr 2026 12:09:40 +0000
+Date: Wed, 22 Apr 2026 20:09:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wolfram Sang <wsa-dev@sang-engineering.com>,
-	linux-renesas-soc@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Mark Brown <broonie@linaro.org>
-Subject: Re: [PATCH v2] mailbox: don't free the channel if the startup
- callback failed
-Message-ID: <202604221846.9nkpd0oi-lkp@intel.com>
-References: <20260420114346.10586-2-wsa+renesas@sang-engineering.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-kiwi-6.1 77/77]
+ include/trace/stages/init.h:2:23: warning: 'str__rcu__trace_system_name'
+ defined but not used
+Message-ID: <202604222053.tZTwtjAd-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260420114346.10586-2-wsa+renesas@sang-engineering.com>
 
-Hi Wolfram,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on jassibrar-mailbox/for-next]
-[also build test ERROR on next-20260421]
-[cannot apply to linus/master v7.0]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Wolfram-Sang/mailbox-don-t-free-the-channel-if-the-startup-callback-failed/20260420-234226
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jassibrar/mailbox.git for-next
-patch link:    https://lore.kernel.org/r/20260420114346.10586-2-wsa%2Brenesas%40sang-engineering.com
-patch subject: [PATCH v2] mailbox: don't free the channel if the startup callback failed
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260422/202604221846.9nkpd0oi-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260422/202604221846.9nkpd0oi-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   e139836dbdcd7fda9d67c896dea11d89d0c5c491
+commit: 6ce0f93f038ab61813f7799e8a674384e8cab4a4 [77/77] ANDROID: vendor_hooks: Add vendor hooks for rcu
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260422/202604222053.tZTwtjAd-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260422/202604222053.tZTwtjAd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604221846.9nkpd0oi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604222053.tZTwtjAd-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/mailbox/mailbox.c:355:4: error: call to undeclared function 'mbox_clean_and_put_channel'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     355 |                         mbox_clean_and_put_channel(chan);
-         |                         ^
->> drivers/mailbox/mailbox.c:484:6: error: conflicting types for 'mbox_clean_and_put_channel'
-     484 | void mbox_clean_and_put_channel(struct mbox_chan *chan)
-         |      ^
-   drivers/mailbox/mailbox.c:355:4: note: previous implicit declaration is here
-     355 |                         mbox_clean_and_put_channel(chan);
-         |                         ^
-   2 errors generated.
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/rcu.h:33,
+                    from drivers/android/vendor_hooks.c:79:
+>> include/trace/stages/init.h:2:23: warning: 'str__rcu__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/fuse.h:34,
+                    from drivers/android/vendor_hooks.c:77:
+   include/trace/stages/init.h:2:23: warning: 'str__fuse__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/sound.h:18,
+                    from drivers/android/vendor_hooks.c:76:
+   include/trace/stages/init.h:2:23: warning: 'str__sound__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/usb.h:25,
+                    from drivers/android/vendor_hooks.c:75:
+   include/trace/stages/init.h:2:23: warning: 'str__usb__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/delayacct.h:74,
+                    from drivers/android/vendor_hooks.c:74:
+   include/trace/stages/init.h:2:23: warning: 'str__delayacct__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/suspend.h:26,
+                    from drivers/android/vendor_hooks.c:73:
+   include/trace/stages/init.h:2:23: warning: 'str__suspend__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
 
 
-vim +/mbox_clean_and_put_channel +355 drivers/mailbox/mailbox.c
+vim +/str__rcu__trace_system_name +2 include/trace/stages/init.h
 
-   329	
-   330	static int __mbox_bind_client(struct mbox_chan *chan, struct mbox_client *cl)
-   331	{
-   332		struct device *dev = cl->dev;
-   333		int ret;
-   334	
-   335		if (chan->cl || !try_module_get(chan->mbox->dev->driver->owner)) {
-   336			dev_err(dev, "%s: mailbox not free\n", __func__);
-   337			return -EBUSY;
-   338		}
-   339	
-   340		scoped_guard(spinlock_irqsave, &chan->lock) {
-   341			chan->msg_free = 0;
-   342			chan->msg_count = 0;
-   343			chan->active_req = MBOX_NO_MSG;
-   344			chan->cl = cl;
-   345			init_completion(&chan->tx_complete);
-   346	
-   347			if (chan->txdone_method	== MBOX_TXDONE_BY_POLL && cl->knows_txdone)
-   348				chan->txdone_method = MBOX_TXDONE_BY_ACK;
-   349		}
-   350	
-   351		if (chan->mbox->ops->startup) {
-   352			ret = chan->mbox->ops->startup(chan);
-   353			if (ret) {
-   354				dev_err(dev, "Unable to startup the chan (%d)\n", ret);
- > 355				mbox_clean_and_put_channel(chan);
-   356				return ret;
-   357			}
-   358		}
-   359	
-   360		return 0;
-   361	}
-   362	
-   363	/**
-   364	 * mbox_bind_client - Bind client to a mailbox channel.
-   365	 * @chan: The mailbox channel to bind the client to.
-   366	 * @cl: Identity of the client requesting the channel.
-   367	 *
-   368	 * The Client specifies its requirements and capabilities while asking for
-   369	 * a mailbox channel. It can't be called from atomic context.
-   370	 * The channel is exclusively allocated and can't be used by another
-   371	 * client before the owner calls mbox_free_channel.
-   372	 * After assignment, any packet received on this channel will be
-   373	 * handed over to the client via the 'rx_callback'.
-   374	 * The framework holds reference to the client, so the mbox_client
-   375	 * structure shouldn't be modified until the mbox_free_channel returns.
-   376	 *
-   377	 * Return: 0 if the channel was assigned to the client successfully.
-   378	 *         <0 for request failure.
-   379	 */
-   380	int mbox_bind_client(struct mbox_chan *chan, struct mbox_client *cl)
-   381	{
-   382		guard(mutex)(&con_mutex);
-   383	
-   384		return __mbox_bind_client(chan, cl);
-   385	}
-   386	EXPORT_SYMBOL_GPL(mbox_bind_client);
-   387	
-   388	/**
-   389	 * mbox_request_channel - Request a mailbox channel.
-   390	 * @cl: Identity of the client requesting the channel.
-   391	 * @index: Index of mailbox specifier in 'mboxes' property.
-   392	 *
-   393	 * The Client specifies its requirements and capabilities while asking for
-   394	 * a mailbox channel. It can't be called from atomic context.
-   395	 * The channel is exclusively allocated and can't be used by another
-   396	 * client before the owner calls mbox_free_channel.
-   397	 * After assignment, any packet received on this channel will be
-   398	 * handed over to the client via the 'rx_callback'.
-   399	 * The framework holds reference to the client, so the mbox_client
-   400	 * structure shouldn't be modified until the mbox_free_channel returns.
-   401	 *
-   402	 * Return: Pointer to the channel assigned to the client if successful.
-   403	 *		ERR_PTR for request failure.
-   404	 */
-   405	struct mbox_chan *mbox_request_channel(struct mbox_client *cl, int index)
-   406	{
-   407		struct fwnode_reference_args fwspec;
-   408		struct fwnode_handle *fwnode;
-   409		struct mbox_controller *mbox;
-   410		struct of_phandle_args spec;
-   411		struct mbox_chan *chan;
-   412		struct device *dev;
-   413		unsigned int i;
-   414		int ret;
-   415	
-   416		dev = cl->dev;
-   417		if (!dev) {
-   418			pr_debug("No owner device\n");
-   419			return ERR_PTR(-ENODEV);
-   420		}
-   421	
-   422		fwnode = dev_fwnode(dev);
-   423		if (!fwnode) {
-   424			dev_dbg(dev, "No owner fwnode\n");
-   425			return ERR_PTR(-ENODEV);
-   426		}
-   427	
-   428		ret = fwnode_property_get_reference_args(fwnode, "mboxes", "#mbox-cells",
-   429							 0, index, &fwspec);
-   430		if (ret) {
-   431			dev_err(dev, "%s: can't parse \"%s\" property\n", __func__, "mboxes");
-   432			return ERR_PTR(ret);
-   433		}
-   434	
-   435		spec.np = to_of_node(fwspec.fwnode);
-   436		spec.args_count = fwspec.nargs;
-   437		for (i = 0; i < spec.args_count; i++)
-   438			spec.args[i] = fwspec.args[i];
-   439	
-   440		scoped_guard(mutex, &con_mutex) {
-   441			chan = ERR_PTR(-EPROBE_DEFER);
-   442			list_for_each_entry(mbox, &mbox_cons, node) {
-   443				if (device_match_fwnode(mbox->dev, fwspec.fwnode)) {
-   444					if (mbox->fw_xlate) {
-   445						chan = mbox->fw_xlate(mbox, &fwspec);
-   446						if (!IS_ERR(chan))
-   447							break;
-   448					} else if (mbox->of_xlate) {
-   449						chan = mbox->of_xlate(mbox, &spec);
-   450						if (!IS_ERR(chan))
-   451							break;
-   452					}
-   453				}
-   454			}
-   455	
-   456			fwnode_handle_put(fwspec.fwnode);
-   457	
-   458			if (IS_ERR(chan))
-   459				return chan;
-   460	
-   461			ret = __mbox_bind_client(chan, cl);
-   462			if (ret)
-   463				chan = ERR_PTR(ret);
-   464		}
-   465	
-   466		return chan;
-   467	}
-   468	EXPORT_SYMBOL_GPL(mbox_request_channel);
-   469	
-   470	struct mbox_chan *mbox_request_channel_byname(struct mbox_client *cl,
-   471						      const char *name)
-   472	{
-   473		int index = device_property_match_string(cl->dev, "mbox-names", name);
-   474	
-   475		if (index < 0) {
-   476			dev_err(cl->dev, "%s() could not locate channel named \"%s\"\n",
-   477				__func__, name);
-   478			return ERR_PTR(index);
-   479		}
-   480		return mbox_request_channel(cl, index);
-   481	}
-   482	EXPORT_SYMBOL_GPL(mbox_request_channel_byname);
-   483	
- > 484	void mbox_clean_and_put_channel(struct mbox_chan *chan)
-   485	{
-   486		/* The queued TX requests are simply aborted, no callbacks are made */
-   487		scoped_guard(spinlock_irqsave, &chan->lock) {
-   488			chan->cl = NULL;
-   489			chan->active_req = MBOX_NO_MSG;
-   490			if (chan->txdone_method == MBOX_TXDONE_BY_ACK)
-   491				chan->txdone_method = MBOX_TXDONE_BY_POLL;
-   492		}
-   493	
-   494		module_put(chan->mbox->dev->driver->owner);
-   495	}
-   496	
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
+
+:::::: The code at line 2 was first introduced by commit
+:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
+
+:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
