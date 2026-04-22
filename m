@@ -1,69 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC28E3B27EC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Apr 2026 08:55:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE4192E62A4
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Apr 2026 09:38:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776848121; cv=none; b=V9I5iGkvcsd0utm0Jy86/K8kQHNr24yVHs2mBkluFy0095gfEAzWIxmmBdBAllfabuMCoXSAneNKox6AT6JoWXAJqrAB95A0frOWm8UeWrwhJre2ILHFZkxp0gT2mqF2MXgSCGhjU52GUAolvNqHJG7KNj2qMFG7WW17P7vv9ts=
+	t=1776850709; cv=none; b=SLKtIT+DT/naluJAVEi5q/WjTyFcF0jOVRSrI/R78UWMJZ1uHAZppoOXOYoWqORFg0C3XS+uRD9J3PexfWAdSGAeG5y3z1v1Dj4GVQvxGgHQxIGyHpfHeRGuEzySglKyTuJiv5ikc1b97NTnmYeu4QM43q7GWf0ziJ8r9jzz7j8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776848121; c=relaxed/simple;
-	bh=eOkmPRPYTp5oCLIg6v7jpCiPYUCRmqpat94cyp5tfUg=;
+	s=arc-20240116; t=1776850709; c=relaxed/simple;
+	bh=zaC+o3hHTDa7/hz7nLBobboom0XVJ935Z1rRDvGJyDE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OQ+D6rON+FG/q577FV3bNMDi9o6x35SMfwn11Ko+X1XOLsfK+yjTxPXGQbz03MnhQTRgekVdJ2Ej9lV2xyHF0SckJ14iXRmOiLfgFKWFbsGbqoqTJPx5WBnTq83Zmf0b+glzSzmEDPT6kAFctj8QbJca+aRkUTROCjIyuHpQlrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Df/kHEcK; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=nK3UgaTk2lk/PggfWvbNNteZaCdoTCvghIngponXw3TqDgPcpBGfgSHVBBT+Yyz/m9I2bW+GyOB9ktglauNdgD0NDXoBNxXZYKqDMinWk6ivG+69vstpgj0ktG1moQNH4K/wYJg25CHKtbgkIqN+IJ2LgvsKr3ZySmbIS33W/wI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ndXRCiFF; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Df/kHEcK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ndXRCiFF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776848120; x=1808384120;
+  t=1776850708; x=1808386708;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=eOkmPRPYTp5oCLIg6v7jpCiPYUCRmqpat94cyp5tfUg=;
-  b=Df/kHEcKnF4238D536U4MLTkZ+ubRIB9DJkaiQpFcUj6GJzG7qzb3UHS
-   ZvQ138wpbkzJspo14b+GvUVVrR+kB7y8WA/+IsrWCx9JM0mxdpwriT+Qv
-   Pdkfi2Ki+gk870icqc9XVcabvz2QQg0SqiY8PhEca/zVTC2nQCTv9ENcW
-   mc4EQuJI8OqoZU9BMycBJjHZez7lWh88JI1EECXw0ugYTfrAzVg0tKD3X
-   ABOYCKDgXobUWJKQNG2kXDWZyLbLhy8uAu0ydI1W8c/JS3Kj452nTGZp6
-   yIGJlA7teXI3L51r/9rsFYFmDaBxOzCbIdk7S3tPYT20B9MP6CF8M0qZ3
-   w==;
-X-CSE-ConnectionGUID: a3voiVPASY6elFr9UU6e/w==
-X-CSE-MsgGUID: JUQdLyN2T4atYM6zJFY1fA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="76958549"
+  bh=zaC+o3hHTDa7/hz7nLBobboom0XVJ935Z1rRDvGJyDE=;
+  b=ndXRCiFFqS9fhH4J6d9zNvmmizSg7qL2OivmIlW9AEFvDL2ZTwWH7453
+   ckEacYrQEqp8+QZZzj9ndT72eQXS+ysMS7PwJPveSl51Ib/XK+/w+QXBm
+   SuozdVQZNfpjYU1iMpag1WTojraV9KzH84VjRt2ua6KRrgMcEpK/C8bsg
+   yP5D2lVjODiVl0cBSJ0SvrAWxCFd3feZc1RTfdRo5CGpX09xJNw90I/ux
+   icdNvbcGYTU8E4FSKK4uWI0NPSbL/dwqM8lI3s/2/bTwbs99dMatgfcQr
+   rF18l5NFVuq3PQ1crwjfNGbP8dSKu5AfG9tEWtVnli1AOF+5Fwso87Anv
+   g==;
+X-CSE-ConnectionGUID: 3iFIKnMoQMKrjXustH32Ag==
+X-CSE-MsgGUID: JW8//6C+TPGhq+3S/sxcNA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="65335586"
 X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="76958549"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 01:55:19 -0700
-X-CSE-ConnectionGUID: BufUmKSQSnqvnke0qTAdQA==
-X-CSE-MsgGUID: YFpuhfBWSr+3MjDBZSbH1A==
+   d="scan'208";a="65335586"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 02:38:27 -0700
+X-CSE-ConnectionGUID: CRvZqfYTSRK4FnY9Y9JEpg==
+X-CSE-MsgGUID: 4JzoVTKER2SAcm2xuYB1jg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="232204588"
+   d="scan'208";a="231417451"
 Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 22 Apr 2026 01:55:16 -0700
+  by orviesa010.jf.intel.com with ESMTP; 22 Apr 2026 02:38:22 -0700
 Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wFTMX-000000000Ll-0gKp;
-	Wed, 22 Apr 2026 08:55:13 +0000
-Date: Wed, 22 Apr 2026 16:54:41 +0800
+	id 1wFU2B-000000000Nx-1ubz;
+	Wed, 22 Apr 2026 09:38:15 +0000
+Date: Wed, 22 Apr 2026 17:37:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Guangshuo Li <lgs201920130244@gmail.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Mahesh Salgaonkar <mahesh@linux.ibm.com>,
-	Haren Myneni <haren@linux.ibm.com>,
-	Tyrel Datwyler <tyreld@linux.ibm.com>,
-	Christian Brauner <brauner@kernel.org>, Kees Cook <kees@kernel.org>,
-	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, stable@vger.kernel.org
-Subject: Re: [PATCH v2] powerpc/pseries/papr-hvpipe: fix NULL dereference in
- handle creation
-Message-ID: <202604221653.KzDQsCY8-lkp@intel.com>
-References: <20260420132429.128075-1-lgs201920130244@gmail.com>
+To: Biju <biju.das.au@gmail.com>, Liu Ying <victor.liu@nxp.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: oe-kbuild-all@lists.linux.dev, Biju Das <biju.das.jz@bp.renesas.com>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] drm/bridge: ite-it6263: Add basic resume support
+Message-ID: <202604221736.zHLIEw3V-lkp@intel.com>
+References: <20260415113954.179006-1-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,91 +76,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260420132429.128075-1-lgs201920130244@gmail.com>
+In-Reply-To: <20260415113954.179006-1-biju.das.jz@bp.renesas.com>
 
-Hi Guangshuo,
+Hi Biju,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on powerpc/next]
-[also build test ERROR on powerpc/fixes linus/master v7.0 next-20260421]
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v7.0 next-20260421]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Guangshuo-Li/powerpc-pseries-papr-hvpipe-fix-NULL-dereference-in-handle-creation/20260420-224327
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
-patch link:    https://lore.kernel.org/r/20260420132429.128075-1-lgs201920130244%40gmail.com
-patch subject: [PATCH v2] powerpc/pseries/papr-hvpipe: fix NULL dereference in handle creation
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260422/202604221653.KzDQsCY8-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260422/202604221653.KzDQsCY8-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Biju/drm-bridge-ite-it6263-Add-basic-resume-support/20260421-073706
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20260415113954.179006-1-biju.das.jz%40bp.renesas.com
+patch subject: [PATCH] drm/bridge: ite-it6263: Add basic resume support
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260422/202604221736.zHLIEw3V-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260422/202604221736.zHLIEw3V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604221653.KzDQsCY8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604221736.zHLIEw3V-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/powerpc/platforms/pseries/papr-hvpipe.c: In function 'papr_hvpipe_dev_create_handle':
->> arch/powerpc/platforms/pseries/papr-hvpipe.c:513:24: error: invalid use of void expression
-     513 |         owned_src_info = retain_and_null_ptr(src_info);
-         |                        ^
+>> drivers/gpu/drm/bridge/ite-it6263.c:909:12: warning: 'it6263_resume' defined but not used [-Wunused-function]
+     909 | static int it6263_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~
 
 
-vim +513 arch/powerpc/platforms/pseries/papr-hvpipe.c
+vim +/it6263_resume +909 drivers/gpu/drm/bridge/ite-it6263.c
 
-   479	
-   480	static int papr_hvpipe_dev_create_handle(u32 srcID)
-   481	{
-   482		struct hvpipe_source_info *src_info __free(kfree) = NULL;
-   483		struct hvpipe_source_info *owned_src_info;
-   484	
-   485		spin_lock(&hvpipe_src_list_lock);
-   486		/*
-   487		 * Do not allow more than one process communicates with
-   488		 * each source.
-   489		 */
-   490		src_info = hvpipe_find_source(srcID);
-   491		if (src_info) {
-   492			spin_unlock(&hvpipe_src_list_lock);
-   493			pr_err("pid(%d) is already using the source(%d)\n",
-   494					src_info->tsk->pid, srcID);
-   495			return -EALREADY;
-   496		}
-   497		spin_unlock(&hvpipe_src_list_lock);
-   498	
-   499		src_info = kzalloc_obj(*src_info, GFP_KERNEL_ACCOUNT);
-   500		if (!src_info)
-   501			return -ENOMEM;
-   502	
-   503		src_info->srcID = srcID;
-   504		src_info->tsk = current;
-   505		init_waitqueue_head(&src_info->recv_wqh);
-   506	
-   507		FD_PREPARE(fdf, O_RDONLY | O_CLOEXEC,
-   508			   anon_inode_getfile("[papr-hvpipe]", &papr_hvpipe_handle_ops,
-   509					      (void *)src_info, O_RDWR));
-   510		if (fdf.err)
-   511			return fdf.err;
-   512	
- > 513		owned_src_info = retain_and_null_ptr(src_info);
-   514		spin_lock(&hvpipe_src_list_lock);
-   515		/*
-   516		 * If two processes are executing ioctl() for the same
-   517		 * source ID concurrently, prevent the second process to
-   518		 * acquire FD.
-   519		 */
-   520		if (hvpipe_find_source(srcID)) {
-   521			spin_unlock(&hvpipe_src_list_lock);
-   522			return -EALREADY;
-   523		}
-   524		list_add(&owned_src_info->list, &hvpipe_src_list);
-   525		spin_unlock(&hvpipe_src_list_lock);
-   526		return fd_publish(fdf);
-   527	}
-   528	
+   908	
+ > 909	static int it6263_resume(struct device *dev)
+   910	{
+   911		struct it6263 *it = dev_get_drvdata(dev);
+   912		int ret;
+   913	
+   914		ret = it6263_lvds_set_i2c_addr(it);
+   915		if (ret)
+   916			return ret;
+   917	
+   918		it6263_lvds_config(it);
+   919	
+   920		return 0;
+   921	}
+   922	
 
 -- 
 0-DAY CI Kernel Test Service
