@@ -1,107 +1,92 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6B63BBA1D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Apr 2026 21:22:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3420F78F26;
+	Thu, 23 Apr 2026 22:09:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776979362; cv=none; b=AnhLPs3/hHXDQCnggI7NvSFpGbKtawqYY+SKCDsqkdimaizNvkUeE/Uapn5CR6eyCxw8FRbOOSYzx/slh5Gh1jAaP+xHH6Yi+wIPYUV3nUJP3IWyvuiHVgThg3JL0R2CkqzHutTTI91H31IbOSewwmfS/KeSFO01AIm4PNjcyMA=
+	t=1776982143; cv=none; b=kT/5oZLfApgK3D7bNEB8mzaWQxdGv6k7iFj9Q6PT4adewnKuPEyuGZkJLQRyNnDsY91IoYTa2iaiCjsDmNxqBaFj05FQbxQOHFk+jN/THgnOaVAR1HyzVKR1FBy7s67REKryfbnBBJrenOums0gQ81AJ4YkOyS6vr/A7b3BvERc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776979362; c=relaxed/simple;
-	bh=D+dVB4P+QbntolW8KUEhJbrlOj9IlhcuIK8dhKvhRcI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=aj74mTlqDbCymLLD7CUv76Wot14gGVgCiEjF9RsIfpL4RX9yI2H/n1Tg3LmY7FNs7M3SSv4ZGaVRXUauT15n6k0ee/8EC4UCWbmymSl3/IUmsOep65xahoGNIbCh1GHw0uNboovtuUeFT3g2WtBHonQHxQdwLiBWCC5wAUN8rEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SUxe2ymj; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1776982143; c=relaxed/simple;
+	bh=bW1b1x3OmSNtG0f4h8IMrWELM2etfBGnJqZpHmwMMKg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ht+QeN7wzmhvNYuSyAf3x99eRqZ3msohOpvdLAAh+ANVaFJVUIy7jUhvbCzXLXCHufck7pkLB+eQtJcdIXh1e25OZnOjdIBALfDR3KbAmTTDNSlnnrcIFH9r+NI8T8P/FxXMFoayAiLRbfBavCkI8sMWrwVCRdFP1nlbn4DSufI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uDSsfHjv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SUxe2ymj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776979360; x=1808515360;
-  h=date:from:to:cc:subject:message-id;
-  bh=D+dVB4P+QbntolW8KUEhJbrlOj9IlhcuIK8dhKvhRcI=;
-  b=SUxe2ymjf3q2/YAmUR4BpCRU9rUxwrpx+FZ/vTEl7Bj0Kz27h03aCgrL
-   xkaGFa0iQp7OMIa1PM8YX3iI6s+a+7qgQbyJYNvMePrcPvR9OjisG6vJX
-   f40F5S05zEjUiJZIMdSoy/goiF44srbWeXtihitHz54Bnc7nm75RM5wGl
-   hYSJltcjWwEMKfm1/NjuotGzS6g8VNsxA9VVBsAihuAYgcmiibqvq1ArL
-   V5oTAYqpk2W8R5KDQ0V12r+rbWYxEGcjO2GZsZW3CqlUjHYZ0QDX1+Dp1
-   7091PWjvoFMuxX0xDbrQMmZtHiD+grOCJA9DnuyhpYDbKGD9AalbbNhRW
-   w==;
-X-CSE-ConnectionGUID: UWWr0QlRRK6hOEofx0Ig8A==
-X-CSE-MsgGUID: N+BboAJSQPSHHPLGdwQ03A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11765"; a="76989711"
-X-IronPort-AV: E=Sophos;i="6.23,195,1770624000"; 
-   d="scan'208";a="76989711"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2026 14:22:39 -0700
-X-CSE-ConnectionGUID: DnqbVSq0Toeum+3hGUnCig==
-X-CSE-MsgGUID: Adbc19hFTJKOVP2iZymDWA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,195,1770624000"; 
-   d="scan'208";a="234550456"
-Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 23 Apr 2026 14:22:38 -0700
-Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wG1VL-000000004c9-2co8;
-	Thu, 23 Apr 2026 21:22:35 +0000
-Date: Fri, 24 Apr 2026 05:22:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 0/2]
- fs/fuse/fuse_bpf_backing.c:156:16: sparse: sparse: Using plain integer as
- NULL pointer
-Message-ID: <202604240551.3VkFZ8kZ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uDSsfHjv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC515C2BCAF;
+	Thu, 23 Apr 2026 22:09:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776982142;
+	bh=bW1b1x3OmSNtG0f4h8IMrWELM2etfBGnJqZpHmwMMKg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uDSsfHjvNgkAcn/HfZiRFWPq3iXjOgxaLdV1syAJSbkIXiPEUmYGoKUw8udTjkXu9
+	 WFaYVnAJOyZ0Zdk+rxSL8K+PJmHCC6UN6vuXJWrCqSrbbfJbFyDashNScdxiyLdvKr
+	 +iSis4cVSjqrMdIu3PVtGm1/72hN5WswNE5mwKKhK9XzAQGWJVblfBOU1Wle6/Sh7j
+	 gpO49E976nk0M+XHBzV/LwNeNWxGHceS5EbZtEqSFaRP1YZU0KegCWvSarxLWbofCZ
+	 J5o+f2m9DrayCfAQTpx0Ux4QUBUuown/Ah2G2QiZuPFcke052dtJhm6KKvtmXVX2ZX
+	 9IDiK0jNbE18A==
+Date: Thu, 23 Apr 2026 15:08:59 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev,
+	Huacai Chen <chenhuacai@kernel.org>
+Subject: Re: [linux-next:master 14465/14612] clang: error: ignoring
+ '-mabi=ilp32s' as it conflicts with that implied by '-msoft-float' (lp64s)
+Message-ID: <20260423220859.GB3447678@ax162>
+References: <202604232041.ESJDwVG4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202604232041.ESJDwVG4-lkp@intel.com>
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   dc4edd19a04926e66ac2e06938920ce8ed523344
-commit: be926e6761d28d105ba672242e81e911e0d7e5e0 [0/2] ANDROID: fuse-bpf: fuse-bpf v1.3
-config: i386-randconfig-062-20260423 (https://download.01.org/0day-ci/archive/20260424/202604240551.3VkFZ8kZ-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260424/202604240551.3VkFZ8kZ-lkp@intel.com/reproduce)
+On Thu, Apr 23, 2026 at 08:21:10PM +0800, kernel test robot wrote:
+> TO: Huacai Chen <chenhuacai@loongson.cn>
+> CC: Arnd Bergmann <arnd@arndb.de>
+> CC: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   70c8a7ec6715b5fb14e501731b5b9210a16684f7
+> commit: 3d9aba6618d115750729bba2d1f8af180bd7d3bd [14465/14612] LoongArch: Adjust build infrastructure for 32BIT/64BIT
+> config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20260423/202604232041.ESJDwVG4-lkp@intel.com/config)
+> compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260423/202604232041.ESJDwVG4-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202604232041.ESJDwVG4-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> clang: error: ignoring '-mabi=ilp32s' as it conflicts with that implied by '-msoft-float' (lp64s) [-Werror,-Woption-ignored]
+>    scripts/dtc/dtc-lexer.lex.c:641:12: warning: variable 'dts_version' set but not used [-Wunused-but-set-global]
+>      641 | static int dts_version = 1;
+>          |            ^
+>    1 warning generated.
+> >> clang: error: ignoring '-mabi=ilp32s' as it conflicts with that implied by '-msoft-float' (lp64s) [-Werror,-Woption-ignored]
+> >> clang: error: ignoring '-mabi=ilp32s' as it conflicts with that implied by '-msoft-float' (lp64s) [-Werror,-Woption-ignored]
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604240551.3VkFZ8kZ-lkp@intel.com/
+Reported this on the original thread for further discussion:
 
-sparse warnings: (new ones prefixed by >>)
->> fs/fuse/fuse_bpf_backing.c:156:16: sparse: sparse: Using plain integer as NULL pointer
-   fs/fuse/fuse_bpf_backing.c:315:16: sparse: sparse: Using plain integer as NULL pointer
->> fs/fuse/fuse_bpf_backing.c:862:48: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __kernel_rwf_t [usertype] flags @@     got int @@
-   fs/fuse/fuse_bpf_backing.c:862:48: sparse:     expected restricted __kernel_rwf_t [usertype] flags
-   fs/fuse/fuse_bpf_backing.c:862:48: sparse:     got int
-   fs/fuse/fuse_bpf_backing.c:949:59: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __kernel_rwf_t [usertype] flags @@     got int @@
-   fs/fuse/fuse_bpf_backing.c:949:59: sparse:     expected restricted __kernel_rwf_t [usertype] flags
-   fs/fuse/fuse_bpf_backing.c:949:59: sparse:     got int
->> fs/fuse/fuse_bpf_backing.c:2142:18: sparse: sparse: Initializer entry defined twice
-   fs/fuse/fuse_bpf_backing.c:2143:18: sparse:   also defined here
+  https://lore.kernel.org/20260423220647.GA3447678@ax162/
 
-vim +156 fs/fuse/fuse_bpf_backing.c
-
-   145	
-   146	void *fuse_open_finalize(struct fuse_bpf_args *fa,
-   147			       struct inode *inode, struct file *file, bool isdir)
-   148	{
-   149		struct fuse_file *ff = file->private_data;
-   150		struct fuse_open_out *foo = fa->out_args[0].value;
-   151	
-   152		if (ff) {
-   153			ff->fh = foo->fh;
-   154			ff->nodeid = get_fuse_inode(inode)->nodeid;
-   155		}
- > 156		return 0;
-   157	}
-   158	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>    make[3]: *** [scripts/Makefile.build:289: scripts/mod/empty.o] Error 1
+>    make[3]: *** [scripts/Makefile.build:184: scripts/mod/devicetable-offsets.s] Error 1
+>    make[3]: Target 'scripts/mod/' not remade because of errors.
+>    make[2]: *** [Makefile:1336: prepare0] Error 2
+>    make[2]: Target 'prepare' not remade because of errors.
+>    make[1]: *** [Makefile:248: __sub-make] Error 2
+>    make[1]: Target 'prepare' not remade because of errors.
+>    make: *** [Makefile:248: __sub-make] Error 2
+>    make: Target 'prepare' not remade because of errors.
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
