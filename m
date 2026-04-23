@@ -1,56 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95F0F368977;
-	Thu, 23 Apr 2026 12:21:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6B63BBA1D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Apr 2026 21:22:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776946879; cv=none; b=K3VsXmvB/04ifl4ak5Prfhay5a0kaGg3RInG4/1cFb+hOxY0Iz78XCSRE8MBtQL+V0XfombC4L4pYDTHB8r4wcezEbI+VXGuGIM0PKYwIiO/xtOpvw+kQ//BNuc3X7xdA19NxuGqmNBywZGbF7R2weKqWwIYjUQPczxYQuDYIQU=
+	t=1776979362; cv=none; b=AnhLPs3/hHXDQCnggI7NvSFpGbKtawqYY+SKCDsqkdimaizNvkUeE/Uapn5CR6eyCxw8FRbOOSYzx/slh5Gh1jAaP+xHH6Yi+wIPYUV3nUJP3IWyvuiHVgThg3JL0R2CkqzHutTTI91H31IbOSewwmfS/KeSFO01AIm4PNjcyMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776946879; c=relaxed/simple;
-	bh=7yml3KCwQFMRM8CLV/Tk69TcRqzhsWCqpHGHJ5hYBM4=;
-	h=Date:From:Cc:Subject:Message-ID; b=SHVpfuAxMrLAhXOWoGh2Q6JVtRIxv1cOcYASUdWyLsWUFTaf0MCbA2yMDZCh5MG7KGVlVZC8vWIjcD5tcbomv9nf4GE4g3IXzE6sHkWZo/jEqxVOof1IxYI/LtrLq9mS2hv/fW1VorKLuaCdrQwI+UHut9paAy+qYWUU1V6edjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H8ziVMwB; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1776979362; c=relaxed/simple;
+	bh=D+dVB4P+QbntolW8KUEhJbrlOj9IlhcuIK8dhKvhRcI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=aj74mTlqDbCymLLD7CUv76Wot14gGVgCiEjF9RsIfpL4RX9yI2H/n1Tg3LmY7FNs7M3SSv4ZGaVRXUauT15n6k0ee/8EC4UCWbmymSl3/IUmsOep65xahoGNIbCh1GHw0uNboovtuUeFT3g2WtBHonQHxQdwLiBWCC5wAUN8rEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SUxe2ymj; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H8ziVMwB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SUxe2ymj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776946878; x=1808482878;
-  h=date:from:cc:subject:message-id;
-  bh=7yml3KCwQFMRM8CLV/Tk69TcRqzhsWCqpHGHJ5hYBM4=;
-  b=H8ziVMwBugqwZbdz5K+QY5wqjx0t0oy1g3HXIzmpVybOmrBQSmQG1ie2
-   9IiDcffSF7vt2PFqDCzAWW1THBhxg+MaS02Xp+EYJ+M4ZdCm2khgEf+Oo
-   CALSwVWtaC0HgtJUkyI9/s2W88znfXGi2JJ5A1yeqALVUxmQU2k5tLX65
-   qmil9PmXoejC+dUPWRnCF1Ru50LMzlKepU2fobCYb1D1dPnJn7wfrzg72
-   Mb5/VEGgBf6X/9WdLmMldyjhIqaYU5xpwetDjDss6gW6t/8UAeX0D2Lmt
-   wqym0ceWPl7rdQ+XBDd+6OgM4RvqmcG199a/h1pxtLAg/EZwflWchNlJ8
-   g==;
-X-CSE-ConnectionGUID: Hf0tAgGGQ/+YfGpGZv46Pg==
-X-CSE-MsgGUID: hiB9g3yxRrG7drUlZcpjOw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="77975645"
-X-IronPort-AV: E=Sophos;i="6.23,194,1770624000"; 
-   d="scan'208";a="77975645"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2026 05:21:18 -0700
-X-CSE-ConnectionGUID: Rl+7cm2ZRO+aBgh3Fx3/wg==
-X-CSE-MsgGUID: GZt++8peQjuDDy3sDEJuWQ==
+  t=1776979360; x=1808515360;
+  h=date:from:to:cc:subject:message-id;
+  bh=D+dVB4P+QbntolW8KUEhJbrlOj9IlhcuIK8dhKvhRcI=;
+  b=SUxe2ymjf3q2/YAmUR4BpCRU9rUxwrpx+FZ/vTEl7Bj0Kz27h03aCgrL
+   xkaGFa0iQp7OMIa1PM8YX3iI6s+a+7qgQbyJYNvMePrcPvR9OjisG6vJX
+   f40F5S05zEjUiJZIMdSoy/goiF44srbWeXtihitHz54Bnc7nm75RM5wGl
+   hYSJltcjWwEMKfm1/NjuotGzS6g8VNsxA9VVBsAihuAYgcmiibqvq1ArL
+   V5oTAYqpk2W8R5KDQ0V12r+rbWYxEGcjO2GZsZW3CqlUjHYZ0QDX1+Dp1
+   7091PWjvoFMuxX0xDbrQMmZtHiD+grOCJA9DnuyhpYDbKGD9AalbbNhRW
+   w==;
+X-CSE-ConnectionGUID: UWWr0QlRRK6hOEofx0Ig8A==
+X-CSE-MsgGUID: N+BboAJSQPSHHPLGdwQ03A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11765"; a="76989711"
+X-IronPort-AV: E=Sophos;i="6.23,195,1770624000"; 
+   d="scan'208";a="76989711"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2026 14:22:39 -0700
+X-CSE-ConnectionGUID: DnqbVSq0Toeum+3hGUnCig==
+X-CSE-MsgGUID: Adbc19hFTJKOVP2iZymDWA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,194,1770624000"; 
-   d="scan'208";a="231613985"
+X-IronPort-AV: E=Sophos;i="6.23,195,1770624000"; 
+   d="scan'208";a="234550456"
 Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 23 Apr 2026 05:21:17 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 23 Apr 2026 14:22:38 -0700
 Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wFt3S-000000002yP-24IH;
-	Thu, 23 Apr 2026 12:21:14 +0000
-Date: Thu, 23 Apr 2026 20:21:10 +0800
+	id 1wG1VL-000000004c9-2co8;
+	Thu, 23 Apr 2026 21:22:35 +0000
+Date: Fri, 24 Apr 2026 05:22:00 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: [linux-next:master 14465/14612] clang: error: ignoring
- '-mabi=ilp32s' as it conflicts with that implied by '-msoft-float' (lp64s)
-Message-ID: <202604232041.ESJDwVG4-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 0/2]
+ fs/fuse/fuse_bpf_backing.c:156:16: sparse: sparse: Using plain integer as
+ NULL pointer
+Message-ID: <202604240551.3VkFZ8kZ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -58,40 +60,47 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-TO: Huacai Chen <chenhuacai@loongson.cn>
-CC: Arnd Bergmann <arnd@arndb.de>
-CC: Jiaxun Yang <jiaxun.yang@flygoat.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   70c8a7ec6715b5fb14e501731b5b9210a16684f7
-commit: 3d9aba6618d115750729bba2d1f8af180bd7d3bd [14465/14612] LoongArch: Adjust build infrastructure for 32BIT/64BIT
-config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20260423/202604232041.ESJDwVG4-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260423/202604232041.ESJDwVG4-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   dc4edd19a04926e66ac2e06938920ce8ed523344
+commit: be926e6761d28d105ba672242e81e911e0d7e5e0 [0/2] ANDROID: fuse-bpf: fuse-bpf v1.3
+config: i386-randconfig-062-20260423 (https://download.01.org/0day-ci/archive/20260424/202604240551.3VkFZ8kZ-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260424/202604240551.3VkFZ8kZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604232041.ESJDwVG4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604240551.3VkFZ8kZ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/fuse/fuse_bpf_backing.c:156:16: sparse: sparse: Using plain integer as NULL pointer
+   fs/fuse/fuse_bpf_backing.c:315:16: sparse: sparse: Using plain integer as NULL pointer
+>> fs/fuse/fuse_bpf_backing.c:862:48: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __kernel_rwf_t [usertype] flags @@     got int @@
+   fs/fuse/fuse_bpf_backing.c:862:48: sparse:     expected restricted __kernel_rwf_t [usertype] flags
+   fs/fuse/fuse_bpf_backing.c:862:48: sparse:     got int
+   fs/fuse/fuse_bpf_backing.c:949:59: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __kernel_rwf_t [usertype] flags @@     got int @@
+   fs/fuse/fuse_bpf_backing.c:949:59: sparse:     expected restricted __kernel_rwf_t [usertype] flags
+   fs/fuse/fuse_bpf_backing.c:949:59: sparse:     got int
+>> fs/fuse/fuse_bpf_backing.c:2142:18: sparse: sparse: Initializer entry defined twice
+   fs/fuse/fuse_bpf_backing.c:2143:18: sparse:   also defined here
 
->> clang: error: ignoring '-mabi=ilp32s' as it conflicts with that implied by '-msoft-float' (lp64s) [-Werror,-Woption-ignored]
-   scripts/dtc/dtc-lexer.lex.c:641:12: warning: variable 'dts_version' set but not used [-Wunused-but-set-global]
-     641 | static int dts_version = 1;
-         |            ^
-   1 warning generated.
->> clang: error: ignoring '-mabi=ilp32s' as it conflicts with that implied by '-msoft-float' (lp64s) [-Werror,-Woption-ignored]
->> clang: error: ignoring '-mabi=ilp32s' as it conflicts with that implied by '-msoft-float' (lp64s) [-Werror,-Woption-ignored]
-   make[3]: *** [scripts/Makefile.build:289: scripts/mod/empty.o] Error 1
-   make[3]: *** [scripts/Makefile.build:184: scripts/mod/devicetable-offsets.s] Error 1
-   make[3]: Target 'scripts/mod/' not remade because of errors.
-   make[2]: *** [Makefile:1336: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+vim +156 fs/fuse/fuse_bpf_backing.c
+
+   145	
+   146	void *fuse_open_finalize(struct fuse_bpf_args *fa,
+   147			       struct inode *inode, struct file *file, bool isdir)
+   148	{
+   149		struct fuse_file *ff = file->private_data;
+   150		struct fuse_open_out *foo = fa->out_args[0].value;
+   151	
+   152		if (ff) {
+   153			ff->fh = foo->fh;
+   154			ff->nodeid = get_fuse_inode(inode)->nodeid;
+   155		}
+ > 156		return 0;
+   157	}
+   158	
 
 -- 
 0-DAY CI Kernel Test Service
