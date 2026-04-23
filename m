@@ -1,59 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 453701ACEDF
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Apr 2026 00:20:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356EA1D9A54;
+	Thu, 23 Apr 2026 00:20:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776903626; cv=none; b=HHogoxrhXhlY2iLkgv72aEAakQARfIt6UfJN4YKn9sMeXqoGk1dUoVxhrHoj9n7LOO7vABqCchm0UW82w2jR8U29BmRO3EDKuKRH6sjzyJhXGzu3C8SlLqKczFAs7CKJBhjVlGosSS7ulZ90HtyOYIbsvc0wrw0OP6wkYtx0/rw=
+	t=1776903627; cv=none; b=dH9SEAeaN77MXTw1zvfkOm+Vt7hEtwIBu8gAwIX0pkMV0knTTiz7InwpNfkNTVYkz5KYvISvaBQCtEl4N1hqPpTWjQ9d2KPMwJNdDL2mvGv2hOcLvWbDQx9b442taYfY0jRDU+pvsGZMqCUFd5F0jQLBN131p8+xC2NfLxNFJx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776903626; c=relaxed/simple;
-	bh=xHqMhij4yyFpZqrwNhtABEfliI5SPKy8sR2D3or7Nvw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=h0LvzS+2xH/+c0FbGl2HTVaGk4/+F6ohL9RjulP3VxPiG7pFCvcPrABQkqhNCaEbXGtdCsHIC0ta0UlcAwSJ+13SGQw3G+UpIgKRa38OehF8dIBoM5nVuy+RfmtQiPpPmlaqFb7CfJyy7Nhhcrslv6PIo1dgyewJS87ge/ZCkO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bVAygRUz; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1776903627; c=relaxed/simple;
+	bh=XTfiEiAYdJ8AVYeaY2oGSul2dp2WY1MsOVPTRQCnik4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=WyNxZBz+qqmlGX6FmyNr4S9B3i9ib7niQQjW3IBe0Xjy3HJgkl2Y0KaRbFPwKKf/30qMFcTkZsewGG5CprCPqhZTMx/Y3+2NsTfS4cH0zz9ZF4dIG3mpUnwRr4S94hesi9AjwzioQeqbAkwh48TMEajgAbHsEzLQmAW6Exm0xE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aeIJqtvE; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bVAygRUz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aeIJqtvE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1776903625; x=1808439625;
   h=date:from:to:cc:subject:message-id;
-  bh=xHqMhij4yyFpZqrwNhtABEfliI5SPKy8sR2D3or7Nvw=;
-  b=bVAygRUza4575WUZLVefTweY6st6Lgplikq9OGUAo97WBsq4UqBTXceJ
-   /IdBClkX4CXzi0tr74CAioR69wHcYrjSl9E+GITbOzVvW9bLli/zSCyhH
-   IZNn+DsGIr2c515Y0602R+oOXmMtuhjJ4ZNBz7G1J24kkKpWe0YEKNeMH
-   Ef3gjY53PXPeYCBrP5zJO1zOrDKW9jSKAAQvVoWnzmC4CT6hoeJLDA5ji
-   um10/OjSZnA7Y07E6LVtkZIgS8tX2J3EcnBjIU88mdD4xiil++8R6NE0F
-   JUi5IPzspulwZMixshC7WlM1eVedng4sH9DT4SxwytTLpuPHGF+e+tufk
-   A==;
-X-CSE-ConnectionGUID: XQiN0IXkQsCNmcGBtazutw==
-X-CSE-MsgGUID: Aa9yOne8QayYYAllimj14g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="77781176"
+  bh=XTfiEiAYdJ8AVYeaY2oGSul2dp2WY1MsOVPTRQCnik4=;
+  b=aeIJqtvEalZz0PhZbPWObYrMfjNO0Q7Drv/9+0UpLi8wysk82ZTI+lql
+   GVOBO4pzSevAa5zhSMU6eBblni1t27cRIL+unqdAAocCqcDH2cc6DMR75
+   3oATHhG7F5LD1qFom4OpxOpMbGEmX+lE27f1B60rK/dwsLAue1bCtj+ga
+   TTPbSW5s0PNu3NVd+QnzgIAbBcB3TZQRSTlAkJf24u/8d4OdUbnUwRef/
+   CSizo72feBs1OtdR0b8VvhfJ//FadpNQwL08ygjgAfeI9/1FkFaFGNW8K
+   KY28lD5652lLoBVWZq3AxBMwtg154rtRK4sR+hhJqUOwsyx6bNIR0Sr2I
+   Q==;
+X-CSE-ConnectionGUID: TJC68F26Tmicqt64dMHMtg==
+X-CSE-MsgGUID: r5NQeJKXStukzVuVZ+b0QA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="77781178"
 X-IronPort-AV: E=Sophos;i="6.23,193,1770624000"; 
-   d="scan'208";a="77781176"
+   d="scan'208";a="77781178"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 17:20:24 -0700
-X-CSE-ConnectionGUID: +ehnQeHcRZmNvPqE6AUiKQ==
-X-CSE-MsgGUID: dHle4nSuQ1y3AwZAz9WvjQ==
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 17:20:25 -0700
+X-CSE-ConnectionGUID: +nE49jKZRW6Q7HwPgpjlQQ==
+X-CSE-MsgGUID: Xi1/9j+KT+qkcS5IY1015w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,193,1770624000"; 
-   d="scan'208";a="236861796"
+   d="scan'208";a="236861804"
 Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 22 Apr 2026 17:20:22 -0700
+  by orviesa004.jf.intel.com with ESMTP; 22 Apr 2026 17:20:23 -0700
 Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wFhnn-000000001ED-3Tf7;
-	Thu, 23 Apr 2026 00:20:19 +0000
-Date: Thu, 23 Apr 2026 08:20:05 +0800
+	id 1wFhno-000000001EH-0Pfv;
+	Thu, 23 Apr 2026 00:20:20 +0000
+Date: Thu, 23 Apr 2026 08:20:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 1/1]
- kernel/bpf/stream.c:384:70: warning: diagnostic behavior may be improved by
- adding the 'format(printf, 2, 0)' attribute to the declaration of
- 'bpf_stream_vprintk_impl'
-Message-ID: <202604230831.vIPGQrir-lkp@intel.com>
+To: LiangCheng Wang <zaq14760@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: drivers/gpu/drm/tiny/pixpaper.c:579:12: warning: stack frame
+ size (19288) exceeds limit (8192) in 'pixpaper_panel_hw_init'
+Message-ID: <202604230813.tiodR4pT-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,82 +60,178 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Mykyta,
+Hi LiangCheng,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+FYI, the error/warning still remains.
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   d847e03df243cdbc643c9f57cb5b0712286d5a39
-commit: 137cc92ffe2e71705fce112656a460d924934ebe [1/1] bpf: add _impl suffix for bpf_stream_vprintk() kfunc
-config: arm64-randconfig-001-20260422 (https://download.01.org/0day-ci/archive/20260423/202604230831.vIPGQrir-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2e68039281932e6dc37718a1ea7cbb8e2cda42e6
+commit: c9e70639f5915f2d084a0126e62fe53a52c29cea drm: tiny: Add support for Mayqueen Pixpaper e-ink panel
+date:   8 months ago
+config: x86_64-randconfig-075-20260423 (https://download.01.org/0day-ci/archive/20260423/202604230813.tiodR4pT-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260423/202604230831.vIPGQrir-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260423/202604230813.tiodR4pT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 137cc92ffe2e ("bpf: add _impl suffix for bpf_stream_vprintk() kfunc")
+| Fixes: c9e70639f591 ("drm: tiny: Add support for Mayqueen Pixpaper e-ink panel")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604230831.vIPGQrir-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604230813.tiodR4pT-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/bpf/stream.c:384:70: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 0)' attribute to the declaration of 'bpf_stream_vprintk_impl' [-Wmissing-format-attribute]
-     358 |         ret = bstr_printf(data.buf, MAX_BPRINTF_BUF, fmt__str, data.bin_args);
-         |                                                                             ^
-   kernel/bpf/stream.c:358:17: note: 'bpf_stream_vprintk_impl' declared here
-     358 | __bpf_kfunc int bpf_stream_vprintk_impl(int stream_id, const char *fmt__str, const void *args,
-         |                 ^
+>> drivers/gpu/drm/tiny/pixpaper.c:579:12: warning: stack frame size (19288) exceeds limit (8192) in 'pixpaper_panel_hw_init' [-Wframe-larger-than]
+     579 | static int pixpaper_panel_hw_init(struct pixpaper_panel *panel)
+         |            ^
    1 warning generated.
 
 
-vim +384 kernel/bpf/stream.c
+vim +/pixpaper_panel_hw_init +579 drivers/gpu/drm/tiny/pixpaper.c
 
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  353  
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  354  /*
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  355   * Avoid using enum bpf_stream_id so that kfunc users don't have to pull in the
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  356   * enum in headers.
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  357   */
-137cc92ffe2e717 Mykyta Yatsenko         2025-11-04  358  __bpf_kfunc int bpf_stream_vprintk_impl(int stream_id, const char *fmt__str, const void *args,
-137cc92ffe2e717 Mykyta Yatsenko         2025-11-04  359  					u32 len__sz, void *aux__prog)
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  360  {
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  361  	struct bpf_bprintf_data data = {
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  362  		.get_bin_args	= true,
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  363  		.get_buf	= true,
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  364  	};
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  365  	struct bpf_prog_aux *aux = aux__prog;
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  366  	u32 fmt_size = strlen(fmt__str) + 1;
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  367  	struct bpf_stream *stream;
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  368  	u32 data_len = len__sz;
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  369  	int ret, num_args;
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  370  
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  371  	stream = bpf_stream_get(stream_id, aux);
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  372  	if (!stream)
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  373  		return -ENOENT;
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  374  
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  375  	if (data_len & 7 || data_len > MAX_BPRINTF_VARARGS * 8 ||
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  376  	    (data_len && !args))
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  377  		return -EINVAL;
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  378  	num_args = data_len / 8;
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  379  
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  380  	ret = bpf_bprintf_prepare(fmt__str, fmt_size, args, num_args, &data);
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  381  	if (ret < 0)
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  382  		return ret;
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  383  
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03 @384  	ret = bstr_printf(data.buf, MAX_BPRINTF_BUF, fmt__str, data.bin_args);
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  385  	/* Exclude NULL byte during push. */
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  386  	ret = bpf_stream_push_str(stream, data.buf, ret);
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  387  	bpf_bprintf_cleanup(&data);
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  388  
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  389  	return ret;
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  390  }
-5ab154f1463a111 Kumar Kartikeya Dwivedi 2025-07-03  391  
-
-:::::: The code at line 384 was first introduced by commit
-:::::: 5ab154f1463a111e1dc8fd5d31eaa7a2a71fe2e6 bpf: Introduce BPF standard streams
-
-:::::: TO: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-:::::: CC: Alexei Starovoitov <ast@kernel.org>
+   578	
+ > 579	static int pixpaper_panel_hw_init(struct pixpaper_panel *panel)
+   580	{
+   581		struct pixpaper_error_ctx err = { .errno_code = 0 };
+   582	
+   583		gpiod_set_value_cansleep(panel->reset, 0);
+   584		msleep(50);
+   585		gpiod_set_value_cansleep(panel->reset, 1);
+   586		msleep(50);
+   587	
+   588		pixpaper_wait_for_panel(panel);
+   589	
+   590		pixpaper_send_cmd(panel, PIXPAPER_CMD_UNKNOWN_4D, &err);
+   591		pixpaper_send_data(panel, PIXPAPER_UNKNOWN_4D_CONFIG, &err);
+   592		if (err.errno_code)
+   593			goto init_fail;
+   594		pixpaper_wait_for_panel(panel);
+   595	
+   596		pixpaper_send_cmd(panel, PIXPAPER_CMD_PANEL_SETTING, &err);
+   597		pixpaper_send_data(panel, PIXPAPER_PSR_CONFIG, &err);
+   598		pixpaper_send_data(panel, PIXPAPER_PSR_CONFIG2, &err);
+   599		if (err.errno_code)
+   600			goto init_fail;
+   601		pixpaper_wait_for_panel(panel);
+   602	
+   603		pixpaper_send_cmd(panel, PIXPAPER_CMD_POWER_SETTING, &err);
+   604		pixpaper_send_data(panel, PIXPAPER_PWR_CONFIG1, &err);
+   605		pixpaper_send_data(panel, PIXPAPER_PWR_CONFIG2, &err);
+   606		pixpaper_send_data(panel, PIXPAPER_PWR_VSP_8_2V, &err);
+   607		pixpaper_send_data(panel, PIXPAPER_PWR_VSPL_15V, &err);
+   608		pixpaper_send_data(panel, PIXPAPER_PWR_VSN_4V, &err);
+   609		pixpaper_send_data(panel, PIXPAPER_PWR_VSP_8_2V, &err);
+   610		if (err.errno_code)
+   611			goto init_fail;
+   612		pixpaper_wait_for_panel(panel);
+   613	
+   614		pixpaper_send_cmd(panel, PIXPAPER_CMD_POWER_OFF_SEQUENCE, &err);
+   615		pixpaper_send_data(panel, PIXPAPER_PFS_CONFIG1, &err);
+   616		pixpaper_send_data(panel, PIXPAPER_PFS_CONFIG2, &err);
+   617		pixpaper_send_data(panel, PIXPAPER_PFS_CONFIG3, &err);
+   618		if (err.errno_code)
+   619			goto init_fail;
+   620		pixpaper_wait_for_panel(panel);
+   621	
+   622		pixpaper_send_cmd(panel, PIXPAPER_CMD_BOOSTER_SOFT_START, &err);
+   623		pixpaper_send_data(panel, PIXPAPER_BTST_CONFIG1, &err);
+   624		pixpaper_send_data(panel, PIXPAPER_BTST_CONFIG2, &err);
+   625		pixpaper_send_data(panel, PIXPAPER_BTST_CONFIG3, &err);
+   626		pixpaper_send_data(panel, PIXPAPER_BTST_CONFIG4, &err);
+   627		pixpaper_send_data(panel, PIXPAPER_BTST_CONFIG5, &err);
+   628		pixpaper_send_data(panel, PIXPAPER_BTST_CONFIG6, &err);
+   629		pixpaper_send_data(panel, PIXPAPER_BTST_CONFIG7, &err);
+   630		if (err.errno_code)
+   631			goto init_fail;
+   632		pixpaper_wait_for_panel(panel);
+   633	
+   634		pixpaper_send_cmd(panel, PIXPAPER_CMD_PLL_CONTROL, &err);
+   635		pixpaper_send_data(panel, PIXPAPER_PLL_CONFIG, &err);
+   636		if (err.errno_code)
+   637			goto init_fail;
+   638		pixpaper_wait_for_panel(panel);
+   639	
+   640		pixpaper_send_cmd(panel, PIXPAPER_CMD_TEMP_SENSOR_CALIB, &err);
+   641		pixpaper_send_data(panel, PIXPAPER_TSE_CONFIG, &err);
+   642		if (err.errno_code)
+   643			goto init_fail;
+   644		pixpaper_wait_for_panel(panel);
+   645	
+   646		pixpaper_send_cmd(panel, PIXPAPER_CMD_VCOM_INTERVAL, &err);
+   647		pixpaper_send_data(panel, PIXPAPER_CDI_CONFIG, &err);
+   648		if (err.errno_code)
+   649			goto init_fail;
+   650		pixpaper_wait_for_panel(panel);
+   651	
+   652		pixpaper_send_cmd(panel, PIXPAPER_CMD_UNKNOWN_60, &err);
+   653		pixpaper_send_data(panel, PIXPAPER_UNKNOWN_60_CONFIG1, &err);
+   654		pixpaper_send_data(panel, PIXPAPER_UNKNOWN_60_CONFIG2, &err);
+   655		if (err.errno_code)
+   656			goto init_fail;
+   657		pixpaper_wait_for_panel(panel);
+   658	
+   659		pixpaper_send_cmd(panel, PIXPAPER_CMD_RESOLUTION_SETTING, &err);
+   660		pixpaper_send_data(panel, PIXPAPER_TRES_HRES_H, &err);
+   661		pixpaper_send_data(panel, PIXPAPER_TRES_HRES_L, &err);
+   662		pixpaper_send_data(panel, PIXPAPER_TRES_VRES_H, &err);
+   663		pixpaper_send_data(panel, PIXPAPER_TRES_VRES_L, &err);
+   664		if (err.errno_code)
+   665			goto init_fail;
+   666		pixpaper_wait_for_panel(panel);
+   667	
+   668		pixpaper_send_cmd(panel, PIXPAPER_CMD_GATE_SOURCE_START, &err);
+   669		pixpaper_send_data(panel, PIXPAPER_GSST_S_START, &err);
+   670		pixpaper_send_data(panel, PIXPAPER_GSST_RESERVED, &err);
+   671		pixpaper_send_data(panel, PIXPAPER_GSST_G_START_H, &err);
+   672		pixpaper_send_data(panel, PIXPAPER_GSST_G_START_L, &err);
+   673		if (err.errno_code)
+   674			goto init_fail;
+   675		pixpaper_wait_for_panel(panel);
+   676	
+   677		pixpaper_send_cmd(panel, PIXPAPER_CMD_UNKNOWN_E7, &err);
+   678		pixpaper_send_data(panel, PIXPAPER_UNKNOWN_E7_CONFIG, &err);
+   679		if (err.errno_code)
+   680			goto init_fail;
+   681		pixpaper_wait_for_panel(panel);
+   682	
+   683		pixpaper_send_cmd(panel, PIXPAPER_CMD_POWER_SAVING, &err);
+   684		pixpaper_send_data(panel, PIXPAPER_PWS_CONFIG, &err);
+   685		if (err.errno_code)
+   686			goto init_fail;
+   687		pixpaper_wait_for_panel(panel);
+   688	
+   689		pixpaper_send_cmd(panel, PIXPAPER_CMD_UNKNOWN_E0, &err);
+   690		pixpaper_send_data(panel, PIXPAPER_UNKNOWN_E0_CONFIG, &err);
+   691		if (err.errno_code)
+   692			goto init_fail;
+   693		pixpaper_wait_for_panel(panel);
+   694	
+   695		pixpaper_send_cmd(panel, PIXPAPER_CMD_UNKNOWN_B4, &err);
+   696		pixpaper_send_data(panel, PIXPAPER_UNKNOWN_B4_CONFIG, &err);
+   697		if (err.errno_code)
+   698			goto init_fail;
+   699		pixpaper_wait_for_panel(panel);
+   700	
+   701		pixpaper_send_cmd(panel, PIXPAPER_CMD_UNKNOWN_B5, &err);
+   702		pixpaper_send_data(panel, PIXPAPER_UNKNOWN_B5_CONFIG, &err);
+   703		if (err.errno_code)
+   704			goto init_fail;
+   705		pixpaper_wait_for_panel(panel);
+   706	
+   707		pixpaper_send_cmd(panel, PIXPAPER_CMD_UNKNOWN_E9, &err);
+   708		pixpaper_send_data(panel, PIXPAPER_UNKNOWN_E9_CONFIG, &err);
+   709		if (err.errno_code)
+   710			goto init_fail;
+   711		pixpaper_wait_for_panel(panel);
+   712	
+   713		return 0;
+   714	
+   715	init_fail:
+   716		drm_err(&panel->drm, "Hardware initialization failed (err=%d)\n",
+   717			err.errno_code);
+   718		return err.errno_code;
+   719	}
+   720	
 
 -- 
 0-DAY CI Kernel Test Service
