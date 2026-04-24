@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97F7A3BE628
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Apr 2026 11:39:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A64DC3BE629;
+	Fri, 24 Apr 2026 11:52:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777030750; cv=none; b=MT5z1msunhOI325G4YUsKzOXfrYs76L49o6KKTMWaZanTk94nmC5dcTzQ3V/P7UeNA40PVAYX6Vky7QXqcx+Nb6w64PiqLQ6DeFdni9qLWgday6B5sUGdEJkCMcmkTMQR2UbGkOd7qhU5lharo0QoH2Q9dyi1PMesFOfQDg2PQo=
+	t=1777031531; cv=none; b=mq9vUOqhQj4cETb51syI8DagyeGtYai9ckLagGFAE+ZGyEiWMuYx49W3xUqRPa5zAAKTiBPTwhjA76IqXjXH3PhdxDAWiaP5Y8vaKKyszJE0cB1Je8ixZ4Q3fGCANRdAEJztt86Mi2HEN/uZtiXJz9iCmuhFlu1cffMd7ivbZUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777030750; c=relaxed/simple;
-	bh=4K6p+HTGOR4EzoyaHAS43QOLoPZw/J/jLvTDQXMyZEQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=hrhW+2a4dCjEwdVjy5BxmUr8FCc2ziWhRtRJY7+ipb0gfhJV1IfCniJT/VW9KN4ldUiOzLiu6tX4WIrVt/OlUpoONbY4K89gvvw6fswizupaozv1L13VqswYMqOi19B+c95KAh6n1PgV6zWqp6QqGaJwRO2RtHko4b3v9Cm6FK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e6XXAuY8; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1777031531; c=relaxed/simple;
+	bh=IzJXx+zx6j4NX28LafTopFwufgCBd4WHTlSHKqEQ2gA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Uqpm+UM3S9Wtvli6ZyHzIOT1da/GJtFDe2h8q7X6ST35BYTmNZy4OkPQEbDBZ9aObDZyIj4omz1nvDPoVCqmn8oEtcYjCDBqF6f7UhqHLMGZyRPmTbaXEKslI65ZM7isyv4NiIWsmT2ATr5mPWK2QVpeWlhCvDnubbRyfR76h7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l17Y1Ygb; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e6XXAuY8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l17Y1Ygb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777030750; x=1808566750;
+  t=1777031529; x=1808567529;
   h=date:from:to:cc:subject:message-id;
-  bh=4K6p+HTGOR4EzoyaHAS43QOLoPZw/J/jLvTDQXMyZEQ=;
-  b=e6XXAuY8/GrB/aUf+Ct/JJ0tWKKvGYt1kd3MVFGq20lrMk5ymlj6+fzw
-   tQSrzS6Ql5DBnqBLDQn5XSiv7kX+A+Z7f57Z5xmqQhcpqipf5E2tUQ09D
-   ADmQ8KLyr163X81B3h2nhyQCRNjJvdAmeID8F05bh9xQfuGsnuAugyWyg
-   1wdspMF05AqOV/8VZ4//DZsSX38eynYZ2yyE7I1DALY2aqOAnxQncP5ZD
-   msIZAP43Dl1Zeo4Qr5lvPzrp9QQhbNJT9kcmcm87qo7FEXwkxv/Fa0/RS
-   XZyx/oNkVM9isSHtjbaotgaNZ0vOYdJyvzWzYH9PRMl4XjwZ6Rz+dlLm1
+  bh=IzJXx+zx6j4NX28LafTopFwufgCBd4WHTlSHKqEQ2gA=;
+  b=l17Y1Ygb92vU+YkLkYNnJC58CYTX5rlHCJg8FPWpd945NPozJhALubc5
+   cu6OXahsMsaBsBBMgcwt2BiudutkGsa4X9HwmzuMAv2Pv96FMrPOdlWTN
+   HOFT20uJxTYH2g9n3Le2Wlp2obEiD2tRiK5plFqM/CWuGy4nEodS3EI8n
+   qFU1zH9CwiBYXwJmvKdVPRhBFwhUrQ2sz0eab83dRxyTxY0BogkHTtizq
+   Mu4oAIE95jBVGz15sadchOEcJYx+HhmcQsdp6fE0RF64k0RnviMkf0dRK
+   RejujyhsDZk7nySx35cXMJA/D8N6mtn3x2H06AscHzJK96wLFz8if7oy1
    g==;
-X-CSE-ConnectionGUID: bNVsS+WuRoel1oq+vcvtxA==
-X-CSE-MsgGUID: 9MxEqCEiS8e3Gi0ZfK4UFw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11765"; a="89392449"
+X-CSE-ConnectionGUID: WUNd3QcOR/SEJG/F+UWwlg==
+X-CSE-MsgGUID: DWzl5kafQKisctNQ5JN7nA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11765"; a="103471711"
 X-IronPort-AV: E=Sophos;i="6.23,196,1770624000"; 
-   d="scan'208";a="89392449"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2026 04:39:08 -0700
-X-CSE-ConnectionGUID: Wzdx+M7xTwyoa078x49VNg==
-X-CSE-MsgGUID: 6nubKRssQAWHjvVdvGYU1A==
+   d="scan'208";a="103471711"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2026 04:52:09 -0700
+X-CSE-ConnectionGUID: gqpA8DrEQcCn9jrk0KscCA==
+X-CSE-MsgGUID: Whx59wDnR/G5yuWXGwBxKw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,196,1770624000"; 
-   d="scan'208";a="234724418"
+   d="scan'208";a="256229690"
 Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 24 Apr 2026 04:39:07 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 24 Apr 2026 04:52:07 -0700
 Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wGEsC-000000005cV-1RV6;
-	Fri, 24 Apr 2026 11:39:04 +0000
-Date: Fri, 24 Apr 2026 19:38:45 +0800
+	id 1wGF4n-000000005dh-1sLQ;
+	Fri, 24 Apr 2026 11:52:05 +0000
+Date: Fri, 24 Apr 2026 19:51:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 1/1] fs/binfmt_elf.c:2162:19:
- error: 'struct linux_binfmt' has no member named 'min_coredump'
-Message-ID: <202604241950.Nv1GRfE5-lkp@intel.com>
+To: Zach Brown <zab@zabbo.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [zab-rpdfs:rpdfs-initial 39/71] fs/rpdfs/dir.c:188:6:
+ warning: variable 'inode' is used uninitialized whenever 'if' condition is
+ true
+Message-ID: <202604241900.EP5N8dLy-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,46 +60,78 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Kalesh,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   5076a018b13cfc75cb2a033a8f548c1b1691fb7b
-commit: f4f03e72ea6da725b2c00ac08216872566dbff49 [1/1] ANDROID: 16K: Remove build time dependencies on ELF_EXEC_PAGESIZE
-config: x86_64-randconfig-002-20260424 (https://download.01.org/0day-ci/archive/20260424/202604241950.Nv1GRfE5-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260424/202604241950.Nv1GRfE5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/zab/linux-rpdfs.git rpdfs-initial
+head:   4c70e08d984665a04c3879b17ee74470846a3b47
+commit: babd2186d11672777dfa3e80a446f081227ddf7f [39/71] rpdfs: access dirents with block handles
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260424/202604241900.EP5N8dLy-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260424/202604241900.EP5N8dLy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604241950.Nv1GRfE5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604241900.EP5N8dLy-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from fs/compat_binfmt_elf.c:144:
-   fs/binfmt_elf.c: In function 'init_compat_elf_binfmt':
->> fs/binfmt_elf.c:2162:19: error: 'struct linux_binfmt' has no member named 'min_coredump'
-    2162 |         elf_format.min_coredump = ELF_EXEC_PAGESIZE;
-         |                   ^
---
-   fs/binfmt_elf.c: In function 'init_elf_binfmt':
->> fs/binfmt_elf.c:2162:19: error: 'struct linux_binfmt' has no member named 'min_coredump'
-    2162 |         elf_format.min_coredump = ELF_EXEC_PAGESIZE;
-         |                   ^
+>> fs/rpdfs/dir.c:188:6: warning: variable 'inode' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     188 |         if (ret < 0)
+         |             ^~~~~~~
+   fs/rpdfs/dir.c:205:24: note: uninitialized use occurs here
+     205 |         return d_splice_alias(inode, dentry);
+         |                               ^~~~~
+   fs/rpdfs/dir.c:188:2: note: remove the 'if' if its condition is always false
+     188 |         if (ret < 0)
+         |         ^~~~~~~~~~~~
+     189 |                 goto out;
+         |                 ~~~~~~~~
+   fs/rpdfs/dir.c:177:21: note: initialize the variable 'inode' to silence this warning
+     177 |         struct inode *inode;
+         |                            ^
+         |                             = NULL
+   1 warning generated.
 
 
-vim +2162 fs/binfmt_elf.c
+vim +188 fs/rpdfs/dir.c
 
-  2159	
-  2160	static int __init init_elf_binfmt(void)
-  2161	{
-> 2162		elf_format.min_coredump = ELF_EXEC_PAGESIZE;
-  2163		register_binfmt(&elf_format);
-  2164		return 0;
-  2165	}
-  2166	
+   170	
+   171	static struct dentry *rpdfs_lookup(struct inode *dir, struct dentry *dentry, unsigned int flags)
+   172	{
+   173		struct super_block *sb = dir->i_sb;
+   174		struct rpdfs_fs_info *rfi = RPDFS_INODE_FS(dir);
+   175		struct rpdfs_block_handle *hnd = NULL;
+   176		struct dent_cb_args da;
+   177		struct inode *inode;
+   178		int ret;
+   179	
+   180		if (dentry->d_name.len > RPDFS_NAME_MAX) {
+   181			inode = ERR_PTR(-ENAMETOOLONG);
+   182			goto out;
+   183		}
+   184	
+   185		init_dent_cb_args(&da, dentry, NULL);
+   186	
+   187		ret = rpdfs_inode_acquire(rfi, dir, &hnd, 0);
+ > 188		if (ret < 0)
+   189			goto out;
+   190	
+   191		ret = lookup_entry(rfi, dir, &da);
+   192		rpdfs_block_release(rfi, &hnd);
+   193		if (ret < 0 && ret != -ENOENT) {
+   194			inode = ERR_PTR(ret);
+   195			goto out;
+   196		}
+   197	
+   198		if (ret == -ENOENT)
+   199			inode = NULL;
+   200		else
+   201			inode = rpdfs_iget(sb, &da.dent.ig);
+   202	
+   203	out:
+   204		/* d_splice_alias passes through ERR_PTR inodes */
+   205		return d_splice_alias(inode, dentry);
+   206	}
+   207	
 
 -- 
 0-DAY CI Kernel Test Service
