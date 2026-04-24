@@ -1,67 +1,105 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C69348866;
-	Fri, 24 Apr 2026 09:53:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6E535CB7C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Apr 2026 10:05:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777024428; cv=none; b=m3jjdM/YpimdxPfFrP1E/h0mDxb6WgTbhYF1WGrA+WIcq6DRjrrabJhOYnN31k0KW7Q5jh0M64iFC5DG2BE8YcCfaLMm4dgbEAHgMR6pAPq2lf+sXRqu6CmOaiNugUQSAzMfa6cbXMg2ey9WIYYivH29yAPtf4Tmkxce6dZlULA=
+	t=1777025105; cv=none; b=czCMeRn4Tj9m/Hv1XrPPc0SG5lg6MLdw8zzVgdtRpRqehf0MVJGbCazCfhIlJdrnyWvdUYKbqh+JVHjAy9Rzyy3DLnWsKp2E6K5FpqidEl67ydYxFQziU7/MtE4dSEuN+LUsPGtn+jnhdtKp6sjlGJnoQJz4idOL/FZfdRwyLsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777024428; c=relaxed/simple;
-	bh=9sefGydMzBxMf4zomL2ZzvzNo1W76tOr4KQJFDVtdrI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iA5EnXcy/RlV0fW+NUBYDBDppsOCB7VDy1jXk5JjUldGF/S55ouFOt3X1wKg6KyEZ6ka9DsyrrosXljX1YQmKWHOpSZ3zZU/7EVZVIVGMAVUTpIdrU4zTQhaDDIZGLXc+EQkRdOvgTwhPnM7grk0DCCx1Q4js1QNV0go6oOiseQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=A4oIV8Nc; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1777025105; c=relaxed/simple;
+	bh=gKErl1PMcURmDnt+Ptn/XlskVzHDoAWCGfg6nqBLQRE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=C6TofZWHWm0AWihohU/Wn0K3ne9UOR3nwrNMC09ihbHfQKzuruO8mqIb1fixKnSgCj6hO6Iiy0T58uY4MJCfB0xPdxEA/9M0sllqhfU1fR+WssSVwWrBc7y3QhPxxxkkSTWB1gS3c7n3nnRcTpiBzlEwrwHjBKE8LZ+d9+CdIow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YnjuhbXE; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="A4oIV8Nc"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=rBNCUXggC4hfZ7EaYXAb67pPj1s6v9pEjVxpK8kB7ms=; b=A4oIV8NcA4m5+HaMXsKV1x6kGC
-	N43lVh/o4nRYx/1olW62YhfSdXdZ6KWkZxgRr0+OGTa/DdFdPwZyCCBXfT5mZ0wxqVeUgruFL/7Kw
-	ekYaLLW6pU1eI3uLqZlPbQ/FMJaPRgsXhfFz3qkXLwQBVVDLvyaDTJrc3rRkAPdL/19b5C37zQ7MT
-	POJMYRwL2VXD8Zok6oBq98eEkbzifxIBqlcPJtDrzYeUGN5a1SvHOgw2L8+xLyOD+b42U6KDMR4wc
-	4bqHY1/eWZWifITXwSP4nTbdRvbgWsgAJK8tyBNC6sSYJUs9LtOAjrB/mwydvegU1CqQct8Nib+fw
-	02Ad9ifA==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wGDE9-0000000EvnH-1XOj;
-	Fri, 24 Apr 2026 09:53:37 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id B977530301B; Fri, 24 Apr 2026 11:53:35 +0200 (CEST)
-Date: Fri, 24 Apr 2026 11:53:35 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ingo Molnar <mingo@kernel.org>
-Subject: Re: kernel/futex/core.c:604:23: error: cannot jump from this asm
- goto statement to one of its possible targets
-Message-ID: <20260424095335.GU3102624@noisy.programming.kicks-ass.net>
-References: <202604160412.f6SIMtr9-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YnjuhbXE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777025103; x=1808561103;
+  h=date:from:to:cc:subject:message-id;
+  bh=gKErl1PMcURmDnt+Ptn/XlskVzHDoAWCGfg6nqBLQRE=;
+  b=YnjuhbXEkgLd+rOsyN7cc+fbNUPUq7qu+9u9GtwwAp+fmJ7pmmzTgYlV
+   oOQ4JzpjO6A4DlM9dwU5QFt3ZFjS5YGqd6jmyW+hg/vmJpdAtlofUGFGq
+   Fzs6yT2nKD/KEGVj3cm6xQpU4/Ke9s4AotANQiXGkY4hhVLSL9j7F7G4n
+   L+OnR9O5lq/M0SB+mblH+4omCFbm0O8DxxWTHqQkfCBufUfNUymyD9vPt
+   WGmDIleS9iURDYtv21+bBmDnHtJ/yxrL98G1oe4Y67290yFxbTX61sMuM
+   kEgZH2Sk1ykpH4V4qQwg2Mto8D58b6xYPiTQsC2d53+oj4RQQAfgOPpqh
+   w==;
+X-CSE-ConnectionGUID: L2g0wnZZTlWG2HtgPrSBGg==
+X-CSE-MsgGUID: jBy2tH7yQQCefeV7MezBTg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11765"; a="95564944"
+X-IronPort-AV: E=Sophos;i="6.23,196,1770624000"; 
+   d="scan'208";a="95564944"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2026 03:05:02 -0700
+X-CSE-ConnectionGUID: x0O8R7UuTJenetARbWHslQ==
+X-CSE-MsgGUID: 2FfdScz4S0GJ/kNutOt8+Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,196,1770624000"; 
+   d="scan'208";a="232056309"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa010.jf.intel.com with ESMTP; 24 Apr 2026 03:05:01 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wGDP8-000000003Er-3ld8;
+	Fri, 24 Apr 2026 10:04:58 +0000
+Date: Fri, 24 Apr 2026 12:04:44 +0200
+From: kernel test robot <lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 0/2] htmldocs: Warning:
+ Documentation/userspace-api/ioasid.rst references a file that doesn't exist:
+ Documentation/driver-api/ioasid.rst
+Message-ID: <202604241105.0YvqqBNo-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202604160412.f6SIMtr9-lkp@intel.com>
 
-On Thu, Apr 16, 2026 at 04:15:04AM +0800, kernel test robot wrote:
-> Hi Thomas,
-> 
-> FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   1f5ffc672165ff851063a5fd044b727ab2517ae3
-> commit: e4e28fd6986e8cf963ec4137e6c0b95403f636ab futex: Convert to get/put_user_inline()
-> date:   5 months ago
-> config: powerpc64-randconfig-001-20260416 (https://download.01.org/0day-ci/archive/20260416/202604160412.f6SIMtr9-lkp@intel.com/config)
-> compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+Hi Liu,
 
-IIRC we put the minimal clang on 17 due to this issue.
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   e5b00516ece60ce220f481acdcb970b904fc28a7
+commit: 0ebb438216c3881f28b16c9e29df4f27e1a4c50f [0/2] ioasid: Add /dev/ioasid for userspace
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260424/202604241105.0YvqqBNo-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604241105.0YvqqBNo-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   Warning: Documentation/admin-guide/cgroup-v1/ioasids.rst references a file that doesn't exist: Documentation/driver-api/ioasid.rst
+   Warning: Documentation/arm/booting.rst references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
+   Warning: Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/rohm,bd9576-pmic.yaml
+   Warning: Documentation/translations/zh_CN/arm/Booting references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
+>> Warning: Documentation/userspace-api/ioasid.rst references a file that doesn't exist: Documentation/driver-api/ioasid.rst
+   Warning: Documentation/virt/kvm/api.rst references a file that doesn't exist: Documentation/x86/sgx/2.Kernel-internals.rst
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/pinctrl/toshiba,tmpv7700-pinctrl.yaml
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/hisilicon-hikey-usb.yaml
+   Warning: arch/Kconfig references a file that doesn't exist: Documentation/unaligned-memory-access.txt
+   Warning: arch/x86/Kconfig references a file that doesn't exist: Documentation/x86/user-interrupts.rst
+--
+   Warning: Documentation/admin-guide/cgroup-v1/ioasids.rst references a file that doesn't exist: Documentation/driver-api/ioasid.rst
+   Warning: Documentation/arm/booting.rst references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
+   Warning: Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/rohm,bd9576-pmic.yaml
+   Warning: Documentation/translations/zh_CN/arm/Booting references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
+>> Warning: Documentation/userspace-api/ioasid.rst references a file that doesn't exist: Documentation/driver-api/ioasid.rst
+   Warning: Documentation/virt/kvm/api.rst references a file that doesn't exist: Documentation/x86/sgx/2.Kernel-internals.rst
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/pinctrl/toshiba,tmpv7700-pinctrl.yaml
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/hisilicon-hikey-usb.yaml
+   Warning: arch/Kconfig references a file that doesn't exist: Documentation/unaligned-memory-access.txt
+   Warning: arch/x86/Kconfig references a file that doesn't exist: Documentation/x86/user-interrupts.rst
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
