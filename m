@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB927282F16;
-	Fri, 24 Apr 2026 04:14:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6FBB18CBE1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Apr 2026 05:07:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777004072; cv=none; b=KzOk+KOo4q7t/neyIaJ/v4ueAOUJGrmdhpwWeRXej4PtpuWbdVPx7E3j6BG3z4NmkCdnCgwxKSAa3GZBBVamXASQv0lVv8gMGG226Coztjp4gxCHHYjIkGCDU+0TB9JATZL93PaThOVr+3QPjNzaVKGhQkibweI0o0z1TuyOafo=
+	t=1777007257; cv=none; b=Xj5KsxpenIyxsULNDsvH9susS5c2UlPWJTCceyhHBFGKHtNUukgEdR1qVK3mNKmLDLKtQ9XfJqTDcJOfEble0RhTZSSycOoBJ784QPT0teiU704hEtm028du0Qoyxfy1yRW5yrPBo9dDvAeLd6+NqKhNwDvk6vD+/yR2PC2dKIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777004072; c=relaxed/simple;
-	bh=aw419j7Omp56/BH+DB9eaVbzQNqNHJydFkp+Dqa+kQc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=jvFbFB1FOMBSfFbEnb5ESpkilU6W3of3RAi1zPHJ/VsYIGJvXhC5dzbIg3K2+xTZS0lzJsHpFJ52ungXbGe3KQFZFOZj439lsnVfD58SUQBsNkTMtGLgF7v8iXVoMaFdj3O+zgjXMGavOPgDtRUEBF2zPf71Tqy9NJx+aqTr8AE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GYzVHs5P; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1777007257; c=relaxed/simple;
+	bh=sZ2WcIZ11o3Tq2XlPphzusxiALHfiEs5dtO0S+iax5c=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mBo/2E9+feGzl2c+W8Q20BLKFFVuu0ELFubGuWs/coKB4Fq/ivQlkzqhvYijzNez/BN2upXqaovMEIiQjnUVxi/Yja335VWtZ1nDFjkWEoj+N87JTdGSrShcFwKi/G2Dd/DoexKaCbg/jqGndxwcGvVaWo+4l7hcFzM1Id9npS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A6HryYT5; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GYzVHs5P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A6HryYT5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777004070; x=1808540070;
+  t=1777007255; x=1808543255;
   h=date:from:to:cc:subject:message-id;
-  bh=aw419j7Omp56/BH+DB9eaVbzQNqNHJydFkp+Dqa+kQc=;
-  b=GYzVHs5PGJtCuN7ryI/hICEnOvtYSswHXkdTukLNX5paIzuCwZhdcftP
-   KIi4b6uXvPHIWMPDpsg5yhQJiN3npCfUrDtVwAzA0lj4a8u5yvl1bX5Zn
-   G0dRxEHCxpMvV4ZRMbe54w/KuW7AEPTB5tcOrqRRIubozxIBFl9V2J/Tf
-   ncYYkaqSv3jN+0u+bqaTRWU4ZmWimC12gUIWxcSPPOvWPgV30xZU35855
-   2GxUv3mZONMvjzQWVxxPLtCjHRSLE4GfKxSHJiof9ljp/KtFpDd9wleIa
-   Z0VfBc5YSGmQpCk2l0KSX7MMZcFHrNDH3j05uPyVEK3zhGOdBuPuI/bdz
+  bh=sZ2WcIZ11o3Tq2XlPphzusxiALHfiEs5dtO0S+iax5c=;
+  b=A6HryYT5nCX7UtUJg/oEG/P7hQPi6OWCfXblRak75iHDPIgPXvuk9D6Q
+   Mk72AetpD4HitkgULOFp7YEOANRFdN67EkTrO3oTYYDkbkb/ovW4O0PdP
+   OcSF7ChlH2olF/lvBaiGvshq2OG4GiYAPKcZRtjNmmq4/0HAoDqzLTizw
+   oN7G0aC0FnJibd9CEJFzcWp6bx2YqmHkUvpsfFiXted5MWVBVPNB6EOcz
+   5MUCY6NjgFDc/tvO10q873nqs+d+oa9DzoTCnvOM5JgixMb81A7XqtSfY
+   nO4KFAOoZ+JnzJByw8pMZ9WwlDOma9Nidb7z2++Om055vs8/bJBfsUs0f
    Q==;
-X-CSE-ConnectionGUID: t4pUUNQaSsynXcjZrH68fA==
-X-CSE-MsgGUID: xF8r4oitSuWGswaZGA+ZDg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11765"; a="95397583"
+X-CSE-ConnectionGUID: EnpbXtaIQ4erzinIXcVqwQ==
+X-CSE-MsgGUID: RrbAV5J7RHG7RFVfDZbW4A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11765"; a="77865204"
 X-IronPort-AV: E=Sophos;i="6.23,196,1770624000"; 
-   d="scan'208";a="95397583"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2026 21:14:29 -0700
-X-CSE-ConnectionGUID: WpRfM02iS7Kr3zl7Xrejtw==
-X-CSE-MsgGUID: sHJAV3oITHidgQkAnBdSig==
+   d="scan'208";a="77865204"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2026 22:07:34 -0700
+X-CSE-ConnectionGUID: tCGlk0THRj+orh7O+Exgcw==
+X-CSE-MsgGUID: 3qiA50kPQl+0cyJqd7wlfA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,196,1770624000"; 
-   d="scan'208";a="270967475"
+   d="scan'208";a="226319377"
 Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 23 Apr 2026 21:14:28 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 23 Apr 2026 22:07:32 -0700
 Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wG7vt-0000000059R-0nnd;
-	Fri, 24 Apr 2026 04:14:25 +0000
-Date: Fri, 24 Apr 2026 12:14:02 +0800
+	id 1wG8lG-000000005DI-0zuu;
+	Fri, 24 Apr 2026 05:07:30 +0000
+Date: Fri, 24 Apr 2026 13:07:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [bcachefs:bcachefs-testing 35/35]
- fs/bcachefs/alloc/foreground.c:560:2: warning: label followed by a
- declaration is a C23 extension
-Message-ID: <202604241231.XHlNZ0fg-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-kiwi-5.10 226/226]
+ arch/x86/kernel/traps.c:176:46: warning: format specifies type 'unsigned
+ long' but the argument has type 'void *'
+Message-ID: <202604241234.8v2Al3xw-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,140 +60,66 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   db7e4548979f797675fe7214f4745be25d16c455
-commit: 3dd173bb8d58e827ecf6cdd31e81dc52f8d75110 [35/35] bcachefs: alloc: filter spurious freelist_wait wakes on the waiter side
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260424/202604241231.XHlNZ0fg-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260424/202604241231.XHlNZ0fg-lkp@intel.com/reproduce)
+Hi Idan,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
+head:   54c19d6b7e51605d6caa9bd066d4445feb4cffcb
+commit: e4f1f4c9a6f6bdc4ed2f2d6d05fe5cd78af07bdf [226/226] ANDROID: Add kiwi_fault_logging kernel parameter
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260424/202604241234.8v2Al3xw-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260424/202604241234.8v2Al3xw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604241231.XHlNZ0fg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604241234.8v2Al3xw-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/bcachefs/alloc/foreground.c:560:2: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
-     560 |         u32 wake_counter_snapshot = atomic_read(&ca->alloc_wake_counter);
-         |         ^
-   1 warning generated.
+>> arch/x86/kernel/traps.c:176:46: warning: format specifies type 'unsigned long' but the argument has type 'void *' [-Wformat]
+     175 |             printk(KERN_ALERT "%s[%d]: do_error_trap for %s at %lx trapnr %lx signr %lx sicode %lx ip %px sp %px error %lx",
+         |                                                                ~~~
+     176 |                         current->comm, task_pid_nr(current), str, addr, trapnr, signr,
+         |                                                                   ^~~~
+>> arch/x86/kernel/traps.c:176:60: warning: format specifies type 'unsigned long' but the argument has type 'int' [-Wformat]
+     175 |             printk(KERN_ALERT "%s[%d]: do_error_trap for %s at %lx trapnr %lx signr %lx sicode %lx ip %px sp %px error %lx",
+         |                                                                                     ~~~
+         |                                                                                     %x
+     176 |                         current->comm, task_pid_nr(current), str, addr, trapnr, signr,
+         |                                                                                 ^~~~~
+   arch/x86/kernel/traps.c:177:4: warning: format specifies type 'unsigned long' but the argument has type 'int' [-Wformat]
+     175 |             printk(KERN_ALERT "%s[%d]: do_error_trap for %s at %lx trapnr %lx signr %lx sicode %lx ip %px sp %px error %lx",
+         |                                                                                                ~~~
+         |                                                                                                %x
+     176 |                         current->comm, task_pid_nr(current), str, addr, trapnr, signr,
+     177 |                         sicode, (void *)regs->ip, (void *)regs->sp, error_code);
+         |                         ^~~~~~
+   3 warnings generated.
 
 
-vim +560 fs/bcachefs/alloc/foreground.c
+vim +176 arch/x86/kernel/traps.c
 
-   540	
-   541	/**
-   542	 * bch2_bucket_alloc_trans - allocate a single bucket from a specific device
-   543	 * @trans:	transaction object
-   544	 * @req:	state for the entire allocation
-   545	 *
-   546	 * Returns:	an open_bucket on success, or an ERR_PTR() on failure.
-   547	 */
-   548	static struct open_bucket *bch2_bucket_alloc_trans(struct btree_trans *trans,
-   549							   struct alloc_request *req)
-   550	{
-   551		struct bch_fs *c = trans->c;
-   552		struct bch_dev *ca = req->ca;
-   553		struct open_bucket *ob = NULL;
-   554		bool freespace = READ_ONCE(ca->mi.freespace_initialized);
-   555		bool waiting = false;
-   556	
-   557		req->btree_bitmap = req->data_type == BCH_DATA_btree;
-   558		memset(&req->counters, 0, sizeof(req->counters));
-   559	again:
- > 560		u32 wake_counter_snapshot = atomic_read(&ca->alloc_wake_counter);
-   561		bch2_dev_usage_read_fast(ca, &req->usage);
-   562		u64 avail = __dev_buckets_free(ca, req->usage, req->watermark);
-   563	
-   564		if (req->usage.buckets[BCH_DATA_need_discard] >
-   565		    min(avail, ca->mi.nbuckets >> 7))
-   566			bch2_do_discards_async(c);
-   567	
-   568		if (req->usage.buckets[BCH_DATA_need_gc_gens] > avail)
-   569			bch2_gc_gens_async(c);
-   570	
-   571		if (should_invalidate_buckets(ca, req->usage))
-   572			bch2_dev_do_invalidates(ca);
-   573	
-   574		if (!avail) {
-   575			if (req->watermark > BCH_WATERMARK_normal &&
-   576			    c->recovery.pass_done < BCH_RECOVERY_PASS_check_allocations)
-   577				goto alloc;
-   578	
-   579			if (bch2_copygc_can_make_progress(ca)) {
-   580				req->copygc_can_make_progress = true;
-   581				bch2_copygc_wakeup(c);
-   582			}
-   583	
-   584			track_event_change(&c->times[BCH_TIME_blocked_allocate], true);
-   585	
-   586			if (req->cl &&
-   587			    !(req->flags & BCH_WRITE_alloc_nowait) &&
-   588			    !req->will_retry_target_devices &&
-   589			    !req->will_retry_all_devices &&
-   590			    !req->will_retry_set_devices) {
-   591				if ((!req->copygc_can_make_progress ||
-   592				     req->watermark == BCH_WATERMARK_copygc) &&
-   593				    (req->nr_effective || (req->devs_have && req->devs_have->nr))) {
-   594					ob = ERR_PTR(bch_err_throw(c, bucket_alloc_no_progress));
-   595				} else if (!waiting) {
-   596					closure_wait(&c->allocator.freelist_wait, req->cl);
-   597					waiting = true;
-   598					goto again;
-   599				} else {
-   600					ob = ERR_PTR(bch_err_throw(c, bucket_alloc_blocked));
-   601				}
-   602			} else {
-   603				ob = ERR_PTR(bch_err_throw(c, freelist_empty));
-   604			}
-   605	
-   606			goto err;
-   607		}
-   608	
-   609		if (waiting)
-   610			bch2_alloc_wake_dev(ca);
-   611	alloc:
-   612		ob = likely(freespace)
-   613			? bch2_bucket_alloc_freelist(trans, req)
-   614			: bch2_bucket_alloc_early(trans, req);
-   615	
-   616		if (!ob && req->btree_bitmap != BTREE_BITMAP_ANY) {
-   617			req->btree_bitmap = BTREE_BITMAP_ANY;
-   618			goto alloc;
-   619		}
-   620	
-   621		if (!ob && freespace && c->recovery.pass_done < BCH_RECOVERY_PASS_check_alloc_info) {
-   622			freespace = false;
-   623			goto alloc;
-   624		}
-   625	err:
-   626		if (!ob)
-   627			ob = ERR_PTR(bch_err_throw(c, no_buckets_found));
-   628	
-   629		int ret = PTR_ERR_OR_ZERO(ob);
-   630	
-   631		if (!ret) {
-   632			ob->data_type = req->data_type;
-   633	
-   634			event_inc_trace(c, bucket_alloc, buf,
-   635				bucket_alloc_to_text(&buf, c, req, ob));
-   636		} else if (bch2_err_matches(ret, BCH_ERR_open_buckets_empty) ||
-   637			   bch2_err_matches(ret, BCH_ERR_open_bucket_alloc_blocked)) {
-   638			event_inc_trace(c, open_bucket_alloc_fail, buf,
-   639				bch2_fs_open_buckets_to_text(&buf, c));
-   640		} else if (!bch2_err_matches(ret, BCH_ERR_transaction_restart) &&
-   641			   !req->will_retry_target_devices &&
-   642			   !req->will_retry_all_devices &&
-   643			   !req->will_retry_set_devices)
-   644			event_inc_trace(c, bucket_alloc_fail, buf,
-   645				bucket_alloc_to_text(&buf, c, req, ob));
-   646	
-   647		alloc_trace_add(req, ca->dev_idx, ret, wake_counter_snapshot);
-   648	
-   649		return ob;
-   650	}
-   651	
+   170	
+   171	static void do_error_trap(struct pt_regs *regs, long error_code, char *str,
+   172		unsigned long trapnr, int signr, int sicode, void __user *addr)
+   173	{
+   174		if (unlikely(kiwi_fault_logging)) {
+   175		    printk(KERN_ALERT "%s[%d]: do_error_trap for %s at %lx trapnr %lx signr %lx sicode %lx ip %px sp %px error %lx",
+ > 176				current->comm, task_pid_nr(current), str, addr, trapnr, signr,
+   177				sicode, (void *)regs->ip, (void *)regs->sp, error_code);
+   178		}
+   179		RCU_LOCKDEP_WARN(!rcu_is_watching(), "entry code didn't wake RCU");
+   180	
+   181		if (notify_die(DIE_TRAP, str, regs, error_code, trapnr, signr) !=
+   182				NOTIFY_STOP) {
+   183			cond_local_irq_enable(regs);
+   184			do_trap(trapnr, signr, str, regs, error_code, sicode, addr);
+   185			cond_local_irq_disable(regs);
+   186		}
+   187	}
+   188	
 
 -- 
 0-DAY CI Kernel Test Service
