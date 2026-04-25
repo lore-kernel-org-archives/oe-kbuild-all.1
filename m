@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC74622579E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Apr 2026 06:41:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 511B71EF09B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Apr 2026 10:21:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777099273; cv=none; b=sCBfkOcBV1S36PNyOt+3lxD1/RZY+VUZkX1Avuy2/yzKme4wOyXWP5gARKrbYGeX76zkexhrDplnnFBrnVpzkBpIOtbD/QDQyXeCleyrSjohrBjMFNuF95/QCJu78USYt/5wBj23qE75rHTXGwGOwuu+PDzJjhqJI5pPryaniqo=
+	t=1777112490; cv=none; b=i50CkfSY5DhKRmAqtWhLbLrP2yHSjVV7fdnvS9xA17RjoZzTssi5zAZnS1M7RQdHEe/Xe8swioEqfkTlO8X/AfJkpSgtj2rsqGsI6oyOy8T0bdToYABh0O+ELYU5mG7ysNNRSt/+3IvpSxwq09nTDXgi7Yz7xII7kEDwTE3AL4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777099273; c=relaxed/simple;
-	bh=mAeloenRWyEAMEFu87uI5yHfEvt7WOXBdSUYSRj9M74=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=nvm8kYTCxdv9EOivepaTnySLyabZGxVzpqihyU3GMIuxUJ/ka0yupFnC9vEcT5Y4TCFBPJlPMvwzUQL9zJ5IbD46LZvaiVyyAkiNmuXEpsm/zVB8fuak3ouV/R2caNSGRRuE95YE3Nhu3epujhe7MEUkE6AoV79sxuqtN5fDU88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T1LLzSJU; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1777112490; c=relaxed/simple;
+	bh=g3m0e5//UYk6YePbm0Vm4jDCJKfrdGjZfuqYvP8B6+A=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Em4VUGWVx4MrWTgs7tHcCEO0QeUyXa4l8LufD7DjwoLfxmLb5VCW6RQnGnZkH7cldXKLIW/9RDsDYIXvy29h8PQn7Wztvb7Aotl1uIgyGQjBZcDeEXemADXgV/VVU8ORd4mQjC3OxoEb8SjElTvfO/scLrOYNfIMTyg7xqH736g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hIqeJow2; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T1LLzSJU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hIqeJow2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777099271; x=1808635271;
+  t=1777112487; x=1808648487;
   h=date:from:to:cc:subject:message-id;
-  bh=mAeloenRWyEAMEFu87uI5yHfEvt7WOXBdSUYSRj9M74=;
-  b=T1LLzSJUmWDWrQsnw7RsYGr8N+m/J6UTbHKOEoCvxF+iH9S6CtIl+6Rx
-   hQfy4DP/AEzS6kDrnHx30thC3suEtKs0O1nvOtWZt9uMwbO8c05L2cEGz
-   5pTFZu7FYnmT0gnu/CJ4JqFAXzxSIfl4sMAhYW04VgjIGXYuhi0lP9b0L
-   VEY4MO+URwbj8K8YV5V9Pmbk9fR91p3nLnDM0JZd7Qaw3+8dyV1d9eXcf
-   UCuwNgajISYNmbW1vly1xcQ4hCG2K6Q4cUD66DLroUwHOgkPvQ66NpEEh
-   4jk6rp1IOo6H1pWFSJMirUuiYoEFwPhB1O3snzY5eiLmHSCOmBJBQ+8wE
-   A==;
-X-CSE-ConnectionGUID: JUmanB1DT0yCF36rAm0E8Q==
-X-CSE-MsgGUID: YNFuiiLrSkmXP3Fx/nKrbg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11766"; a="103539127"
+  bh=g3m0e5//UYk6YePbm0Vm4jDCJKfrdGjZfuqYvP8B6+A=;
+  b=hIqeJow2GpzKdKDhFyK6X2ezc380l8/rlf5igrHfuDCupSPPlJskXRCs
+   b+9FAxfNe5BqIx89pPyQDKOSnQfJHRupoe6bJT7deQt3onSSaleQw5EjM
+   kUhof8gESUois9dstAsK+YbaXEKRpw6R9vNQ4JY4+AVKDJCLplgXNXibo
+   h3f2vzCy5FzuNpay5NhXu9eYLmjBb/kuC1FSO4zy8h7mBlW21I+EGz75O
+   SNRqryKPlNtKCh7JxejL/v1gqiRlEhC7LfaJoC0W2kptndu0Y/ukB57c7
+   pgor93xBEiIcnN5BhSi7tfUywY9JWWBBjZJicqpRS2r4OrJ5/Z3stmHtG
+   Q==;
+X-CSE-ConnectionGUID: K1uh85wOQouhyanVf6D+qw==
+X-CSE-MsgGUID: Q2ATKJa+SoqhGPjNqAMGug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11766"; a="88776389"
 X-IronPort-AV: E=Sophos;i="6.23,198,1770624000"; 
-   d="scan'208";a="103539127"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2026 23:41:11 -0700
-X-CSE-ConnectionGUID: bp0M2Hs9SqWjFJmIf/a8iw==
-X-CSE-MsgGUID: gKsaUQtMSgOTagDreilhOw==
+   d="scan'208";a="88776389"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2026 03:21:27 -0700
+X-CSE-ConnectionGUID: nlQ1ENioS0mALC6+i2Ig5w==
+X-CSE-MsgGUID: kck7GVqrRICJNk3yr/EA1w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,198,1770624000"; 
-   d="scan'208";a="232284938"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 24 Apr 2026 23:41:09 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="256484132"
+Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 25 Apr 2026 03:21:25 -0700
+Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wGWhP-000000003Mb-2wrO;
-	Sat, 25 Apr 2026 06:41:07 +0000
-Date: Sat, 25 Apr 2026 08:40:37 +0200
+	id 1wGa8Z-000000006dV-04Dj;
+	Sat, 25 Apr 2026 10:21:23 +0000
+Date: Sat, 25 Apr 2026 18:20:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [arnd-playground:config-gpio-legacy-7.1 13/22] htmldocs:
- Warning: MAINTAINERS references a file that doesn't exist:
- Documentation/devicetree/bindings/net/wireless/st,stlc45xx.yaml
-Message-ID: <202604250859.NfTnk3Wo-lkp@intel.com>
+To: Riana Tauro <riana.tauro@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: aarch64-linux-ld: drivers/gpu/drm/xe/xe_module.o:undefined
+ reference to `xe_configfs_init'
+Message-ID: <202604251839.mm6FSyrB-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,31 +59,25 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git config-gpio-legacy-7.1
-head:   bbb302c86fdfa7705d8511a74c4b6db205cd2683
-commit: 6b2a645daeb0f325ab9601d75e52d17334c3535d [13/22] p54spi: convert to devicetree
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260425/202604250859.NfTnk3Wo-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   27d128c1cff64c3b8012cc56dd5a1391bb4f1821
+commit: 16280ded45fba1216d1d4c6acfc20c2d5b45ef50 drm/xe: Add configfs to enable survivability mode
+date:   1 year, 1 month ago
+config: arm64-randconfig-r071-20260425 (https://download.01.org/0day-ci/archive/20260425/202604251839.mm6FSyrB-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+smatch: v0.5.0-9007-gcf3ea02b
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260425/202604251839.mm6FSyrB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 16280ded45fb ("drm/xe: Add configfs to enable survivability mode")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604250859.NfTnk3Wo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604251839.mm6FSyrB-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/xxx/xxx.rst
-   Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst references a file that doesn't exist: Documentation/networking/xfrm_proc.rst
-   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/net/wireless/st,stlc45xx.yaml
-   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
-   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/virtual/lguest/lguest.c
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,\b(\S*)(Documentation/[A-Za-z0-9
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/devicetree/dt-object-internal.txt
+>> aarch64-linux-ld: drivers/gpu/drm/xe/xe_module.o:(.rodata+0x10): undefined reference to `xe_configfs_init'
+>> aarch64-linux-ld: drivers/gpu/drm/xe/xe_module.o:(.rodata+0x18): undefined reference to `xe_configfs_exit'
 
 -- 
 0-DAY CI Kernel Test Service
