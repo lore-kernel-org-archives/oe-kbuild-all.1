@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9D821096F
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Apr 2026 01:28:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E4C71FCF41
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Apr 2026 01:58:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777080492; cv=none; b=npcSJxgst/B30pK7pK6svX+p+jh8y9ZS5jSpggE+m9xvV0zEckzvHJh4xQj6fnoh1rPb0AU8TiFWLh8aGygYrkiTonAVOGQuu4y8hIuuR3SyLJywazFrbl+khaL/QFsAXOsiXlKxIFYeRfzsCZV9wI5fQjrQw6DsK3CEjtkPGso=
+	t=1777082291; cv=none; b=fRkVtYCw/fmU4xvD4L1WNzTT8bInn5vbZvI6aK0QTsFEPYr4KUjSpy+FzOpX26+QyzLSHqJNnlBE8L1J69vRTp0r3aT2nAQkECJ0LftXrgxQJUvhnIQ/2L3oHb7rwPvwPHCZ1663On9kVxHgS/0kCAWvcJG88ngpT6mLHm7oqho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777080492; c=relaxed/simple;
-	bh=AJ4OzuNeLHA5VcZOpebYutwWtYxpGJ/H3z8+mgYpvMU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Tuc9nyYMbByFxP5iTWVMPzAkWgomtlqe5eDofyCAYVsVhTBFmv7LOkvhR32c7BeyhhfiJtk03nC+W2B2acYuFa3dIbXaGUDxeLR6cs4NV5t7O06/lvBnt+PNEi3mxeHm/KnzTtk/IrsXpEPL0N1DLY/K5koiJOCing0ycDKJM8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DWTE9NDi; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1777082291; c=relaxed/simple;
+	bh=ibzvjYDxRz5GqXnycgULQoJGobfFxE7gMWtMf6LPKms=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=j7kTVRKSTYsyRaviQKSVoVBliMYYkUI1/YgWrtEzwpzUNMzRFUAW6J/ms3IVsfHj9Llvx6f8sFqg+E6B7ReSV0iAxfRSzdtZQGlnjRrQG8e+JYtDYxPqRrz7qAdP0RsBr+s+x/LszNBFVXN1Qs6q26C7oKayln5iyo6IZ6LUDIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XmyK4eUx; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DWTE9NDi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XmyK4eUx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777080490; x=1808616490;
+  t=1777082290; x=1808618290;
   h=date:from:to:cc:subject:message-id;
-  bh=AJ4OzuNeLHA5VcZOpebYutwWtYxpGJ/H3z8+mgYpvMU=;
-  b=DWTE9NDil8CW+Z+BI33q5Dx+sf1JHY4xzFk1Xf2aDgfx/l+y6MrZPHbt
-   TVt+zYa9gWoMAtc8lEPvFnl44gnhhKu5a20BYdsSbcX86gZdTh+oB8Vla
-   9k1xM0mIUTSqgFulTpmbaZdayDqLBZdY0SAw8ZkmbGeXEEIV4j+7p24EZ
-   M0KU+hcnSLf56Qoi99RH3A5PO3Tjo79tyZvqHFc+T/MghBKoco9gOiG13
-   4NODN28owCbZ19QD/y4fZhevmfsP1YmAARD3Zn0daiQh9td99uNREeADk
-   x1eE89seTbYCMPZMBrG5ShGwvC2mq9vcGRZnfrFN/WKBhEY8GqJV7OcML
-   A==;
-X-CSE-ConnectionGUID: s2CEfG2aSGu1z+wpJSv7kA==
-X-CSE-MsgGUID: rMBU3v1HTE+K+NEq/n6u5w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11766"; a="100717658"
+  bh=ibzvjYDxRz5GqXnycgULQoJGobfFxE7gMWtMf6LPKms=;
+  b=XmyK4eUx/LXOj2se1ywjs3ySUW0kE3Dgggkr+ek11tSgLTzMLaMW3N3b
+   x4lU58TKs8QnTau6QA7j/vw7SyCiparzYFz8gyZUQJrOQB/LT8Cl/ugGs
+   JYWfzl7N+CWIzTcjEvJwB3g3FDfNUdaTMENodgEUD4BU5jAdeLBLLtWmW
+   73U2rD0RICtIswtQ+3QAUM08vPckh0SLg6q8gTceZSYN9ngzcE0yHHtmV
+   5YZcIHXDkZxteHXBq44UVf2R/2Qv/LMWgam+w0R+3D1qMr+s2+pQ0T54c
+   DcWiEVhiNPRobbBlSr6Q6uOtmQ5JsMEweAoDy8oPoTzgCjSGcAfSFjMKH
+   w==;
+X-CSE-ConnectionGUID: VGtARzQ7RfCzGKZp87O51g==
+X-CSE-MsgGUID: zoFozEklQEeU5mV6t1HiGQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11766"; a="78050683"
 X-IronPort-AV: E=Sophos;i="6.23,197,1770624000"; 
-   d="scan'208";a="100717658"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2026 18:28:09 -0700
-X-CSE-ConnectionGUID: AGwP8lhjTXqTS9J+25aAPw==
-X-CSE-MsgGUID: cpXo/i7/QZGRYZPFVOn7bg==
+   d="scan'208";a="78050683"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2026 18:58:10 -0700
+X-CSE-ConnectionGUID: vBd/yAc8QW2zHQHeRghttg==
+X-CSE-MsgGUID: 0BduQGo4TKqziqEE8dBIzw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,197,1770624000"; 
-   d="scan'208";a="238168537"
+   d="scan'208";a="256615613"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 24 Apr 2026 18:28:08 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 24 Apr 2026 18:58:08 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wGRoT-000000003Kv-3SOL;
-	Sat, 25 Apr 2026 01:28:05 +0000
-Date: Sat, 25 Apr 2026 03:27:07 +0200
+	id 1wGSHW-000000003L7-0aZf;
+	Sat, 25 Apr 2026 01:58:06 +0000
+Date: Sat, 25 Apr 2026 03:57:47 +0200
 From: kernel test robot <lkp@intel.com>
 To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
- linux-doc@vger.kernel.org
-Subject: htmldocs: Documentation/ABI/testing/configfs-vkms:156:
- WARNING: Inline emphasis start-string without end-string. [docutils]
-Message-ID: <202604250335.R5IBnKsN-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: drivers/gpu/drm/vkms/vkms_configfs.c:685:5: warning:
+ 'vkms_configfs_parse_next_format' defined but not used
+Message-ID: <202604250326.1jlK2uXR-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -64,41 +63,66 @@ tree:   https://github.com/intel-lab-lkp/linux/commits/Louis-Chauvet/drm-drm_mod
 head:   177e00894c9e43673e9a7be1793cc3eadad851be
 commit: f42d76109a7f0b9d570292ca3771bc42a4224351 drm/vkms: Introduce configfs for plane format
 date:   18 hours ago
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260425/202604250335.R5IBnKsN-lkp@intel.com/reproduce)
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260425/202604250326.1jlK2uXR-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260425/202604250326.1jlK2uXR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604250335.R5IBnKsN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604250326.1jlK2uXR-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,\b(\S*)(Documentation/[A-Za-z0-9
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/devicetree/dt-object-internal.txt
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,^Documentation/scheduler/sched-pelt
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,(Documentation/translations/[
-   Using alabaster theme
->> Documentation/ABI/testing/configfs-vkms:156: WARNING: Inline emphasis start-string without end-string. [docutils]
-   Documentation/core-api/kref:328: ./include/linux/kref.h:72: WARNING: Invalid C declaration: Expected end of definition. [error at 96]
-   int kref_put_mutex (struct kref *kref, void (*release)(struct kref *kref), struct mutex *mutex) __cond_acquires(true# mutex)
-   ------------------------------------------------------------------------------------------------^
-   Documentation/core-api/kref:328: ./include/linux/kref.h:94: WARNING: Invalid C declaration: Expected end of definition. [error at 92]
-   int kref_put_lock (struct kref *kref, void (*release)(struct kref *kref), spinlock_t *lock) __cond_acquires(true# lock)
+>> drivers/gpu/drm/vkms/vkms_configfs.c:685:5: warning: 'vkms_configfs_parse_next_format' defined but not used [-Wunused-function]
+     685 | int vkms_configfs_parse_next_format(const char *page, const char *page_end, char **out)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/vkms/vkms_configfs.c: In function 'plane_name_store':
+   drivers/gpu/drm/vkms/vkms_configfs.c:402:1: warning: the frame size of 4104 bytes is larger than 2048 bytes [-Wframe-larger-than=]
+     402 | }
+         | ^
 
 
-vim +156 Documentation/ABI/testing/configfs-vkms
+vim +/vkms_configfs_parse_next_format +685 drivers/gpu/drm/vkms/vkms_configfs.c
 
- > 156	What:		/sys/kernel/config/vkms/<device>/planes/<plane>/supported_formats
-   157	Date:		Nov 2025
-   158	Contact:	dri-devel@lists.freedesktop.org
-   159	Description:
-   160		List of supported formats for this plane. To add a new
-   161		item, write its fourcc code prefixed with '+'. To remove,
-   162		use '-' prefix. Use '+*' to add all formats, '-*' to
-   163		remove all.
-   164	
+   674	
+   675	/**
+   676	 * vkms_configfs_parse_next_format() - Parse the next format in page,
+   677	 *				       skipping all non fourcc-related characters
+   678	 * @page: page to search into
+   679	 * @page_end: last character of the page
+   680	 * @out: Output pointer, will point inside page
+   681	 *
+   682	 * Returns: size of the matched format, @out will point to the + or -
+   683	 */
+   684	VISIBLE_IF_KUNIT
+ > 685	int vkms_configfs_parse_next_format(const char *page, const char *page_end, char **out)
+   686	{
+   687		int count = page - page_end;
+   688		char *tmp_plus = strnchr(page, count, '+');
+   689		char *tmp_minus = strnchr(page, count, '-');
+   690	
+   691		if (!tmp_plus && !tmp_minus)
+   692			return 0;
+   693		if (!tmp_plus)
+   694			*out = tmp_minus;
+   695		else if (!tmp_minus)
+   696			*out = tmp_plus;
+   697		else
+   698			*out = min(tmp_plus, tmp_minus);
+   699	
+   700		char *end = *out + 1;
+   701	
+   702		while (end < page_end) {
+   703			if (!isalnum(*end) && *end != '*')
+   704				break;
+   705			end++;
+   706		}
+   707	
+   708		return end - *out;
+   709	}
+   710	EXPORT_SYMBOL_IF_KUNIT(vkms_configfs_parse_next_format);
+   711	
 
 -- 
 0-DAY CI Kernel Test Service
