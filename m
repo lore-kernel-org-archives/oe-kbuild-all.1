@@ -1,174 +1,96 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E85B3112AD
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Apr 2026 15:58:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 858792D63E5
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Apr 2026 17:21:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777132724; cv=none; b=hpVudBJA1iRndogQX63se1KZ/YLLob4K35ADjQjKfyS/dNdfJisVqtxv6tg2brfgwJDVEcnxxx8sUcXfP9Y/uSBku+XpMgkWoFqIEQ7j9NckS4WJhm8WssvjzSntYTludQTkfcm661blcXEOww8jDl/YOK3/Qr1xECo6zLK6Kw4=
+	t=1777137664; cv=none; b=LPZWFL7IWCRCLfayLLFpi3FgC3fFxEC+p8foXTOA2qdfJVNdNeX2LFW5KJQxVaghChNRcgaM+B28XD6cOFYxTyXVEt32mseE2QZeH0RFzR/MMUngBnf9AfzkYUiG4c/iwUBT7CO7RiZHb2xATbf86ieduUGzZoIY/dXD4FYk6wk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777132724; c=relaxed/simple;
-	bh=d7YGNiqgSx7E17Fhg5GpF35421BdBBAoOnfImJvpxJ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KMifMjGglV3gqqqrCvfYzDOaEgdGiQ7lII68qI0C5Dy7qa5hmcEqWWtOgyYwe0+4jzbPYaHhJ6s3RmTw1mYiKF2Jy+i+34HTDFkb/eUWq5BPRBGTR1EHz/w+aiXut+vwWFT1yQJofY/SK+ioCaFcsSaX4op/G/6O/uASUhUFPdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=atAf5mYC; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1777137664; c=relaxed/simple;
+	bh=wyJjEbqIIwEsPlHJFgfh+P2+gIYUqsaH7yDnJLs8J8E=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mUWB8YVMBdrkML0MZp6v1jOGOoM2MQWeIw7h+uOWuMAOtBiKG1hIvAQEdpNlyIbay1b6amZKEte2fK9h4XZOEi0ZyDS9kZBCpXUC/dFQ86A27NB5neza3oWC44QRHs9DFrdvIKgJcFzKFeMm0zSKyI8UlWgiyLJFAj3fN2AQVRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YDSd3IyA; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="atAf5mYC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YDSd3IyA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777132722; x=1808668722;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=d7YGNiqgSx7E17Fhg5GpF35421BdBBAoOnfImJvpxJ8=;
-  b=atAf5mYCKuiwXg3Emnz9frHMgCR8yMeaDsspHtBbv5w8x8JB1byEOBor
-   Mlcq7sxsRLIc05QCRJnmGQ0JqXN8YsKUwpZzl+g90dB1AHiXxXku4FaIY
-   1/PY2316yvhF6EAARQ0WF+ZLyXypbpr7MJTzDkJpijz4tygq7U5duUiTy
-   IeXtRn9Tl4uaIOfGpzLsSJvvh9HudEFY3Sk5YJ3tBQGwFQzZ2ZlOKwB9u
-   Da+KxJFahUppfXijNGUZq0AwFZ1724Pif/+gR5WpOJb2O3z5Mla1PLZE2
-   pACCNTGKmbrJMooOvou/tPC4mT88arp1oXmQoJF3hq8P129myL9z1qg5e
-   w==;
-X-CSE-ConnectionGUID: Xo1t1O1QQciy6EfbWblhyA==
-X-CSE-MsgGUID: rs1I7LNgRrK3j+rgTU5f0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11766"; a="88398003"
+  t=1777137662; x=1808673662;
+  h=date:from:to:cc:subject:message-id;
+  bh=wyJjEbqIIwEsPlHJFgfh+P2+gIYUqsaH7yDnJLs8J8E=;
+  b=YDSd3IyAiKAt81xW0ioE173DWpjCNZ+AnktU72IMK0waqajCBD/+5nCO
+   rVa9rMtR8uaJomkpVXWe+N0Wr8nJUgRZgXUzOCKZPmW0AWUKYxbg21mbY
+   BGCo9qI0s6Vl4n7GaHeV0udQO5qfRi4ZjsIBGuV7jHQ4wcunONjCCkwKm
+   iB28lPSpkVMhQObuvbAPiAsK2jSRwsrmVuihZPGWmpqdrJ2X8JzunJ3Fq
+   H8kNzMFhh7t1b7NFZlzn4+tMyBj4qg8S+NcdFT2UZQL2UsRW0EY2h3uem
+   qMJ2WVDS8Ka+J280RfQDVtbd6WFQWqReJScRqkGeROvsW0H3UrgToXhr8
+   g==;
+X-CSE-ConnectionGUID: esRrwbOfRlix4jqydZZMvQ==
+X-CSE-MsgGUID: 30nz7wBST526osbIKtv0RQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11767"; a="77964698"
 X-IronPort-AV: E=Sophos;i="6.23,198,1770624000"; 
-   d="scan'208";a="88398003"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2026 08:58:41 -0700
-X-CSE-ConnectionGUID: hBfsDdj1Qs+7DLbBwxK4nA==
-X-CSE-MsgGUID: SJwIh4K8Q9GKlr0t3y3i2g==
+   d="scan'208";a="77964698"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2026 10:21:02 -0700
+X-CSE-ConnectionGUID: pld92s54QISojSi1EppUpA==
+X-CSE-MsgGUID: SGhDo1gcRgqGkYxwR0Q6yw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,198,1770624000"; 
-   d="scan'208";a="226694395"
+   d="scan'208";a="237208196"
 Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 25 Apr 2026 08:58:38 -0700
+  by orviesa003.jf.intel.com with ESMTP; 25 Apr 2026 10:21:01 -0700
 Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wGfOt-000000006q1-2AOT;
-	Sat, 25 Apr 2026 15:58:35 +0000
-Date: Sat, 25 Apr 2026 23:57:44 +0800
+	id 1wGggc-000000006v7-0W1A;
+	Sat, 25 Apr 2026 17:20:58 +0000
+Date: Sun, 26 Apr 2026 01:20:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yury Norov <ynorov@nvidia.com>, Felix Kuehling <Felix.Kuehling@amd.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Yury Norov <ynorov@nvidia.com>
-Subject: Re: [PATCH] drm/amdgpu: use bitmap_clear() in
- amdgpu_amdkfd_device_init()
-Message-ID: <202604252305.5nmLNigU-lkp@intel.com>
-References: <20260424005218.147961-1-ynorov@nvidia.com>
+To: Riana Tauro <riana.tauro@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: xe_survivability_mode.c:undefined reference to
+ `xe_configfs_get_survivability_mode'
+Message-ID: <202604260130.CFnpoq5j-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260424005218.147961-1-ynorov@nvidia.com>
 
-Hi Yury,
+Hi Riana,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v7.0 next-20260424]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yury-Norov/drm-amdgpu-use-bitmap_clear-in-amdgpu_amdkfd_device_init/20260424-111821
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20260424005218.147961-1-ynorov%40nvidia.com
-patch subject: [PATCH] drm/amdgpu: use bitmap_clear() in amdgpu_amdkfd_device_init()
-config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20260425/202604252305.5nmLNigU-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260425/202604252305.5nmLNigU-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   27d128c1cff64c3b8012cc56dd5a1391bb4f1821
+commit: bc417e54e24bc9c96d3c6eba2c8c60f7919e5afe drm/xe: Enable configfs support for survivability mode
+date:   1 year, 1 month ago
+config: arm64-randconfig-r071-20260425 (https://download.01.org/0day-ci/archive/20260426/202604260130.CFnpoq5j-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+smatch: v0.5.0-9007-gcf3ea02b
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260426/202604260130.CFnpoq5j-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: bc417e54e24b ("drm/xe: Enable configfs support for survivability mode")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604252305.5nmLNigU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604260130.CFnpoq5j-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c: In function 'amdgpu_amdkfd_device_init':
->> drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c:170:13: warning: unused variable 'i' [-Wunused-variable]
-     170 |         int i;
-         |             ^
-
-
-vim +/i +170 drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
-
-c0125b848abecf Le Ma             2024-01-25  167  
-dc102c436f1238 Andres Rodriguez  2017-02-01  168  void amdgpu_amdkfd_device_init(struct amdgpu_device *adev)
-130e0371b7d454 Oded Gabbay       2015-06-12  169  {
-234441dd49bcd9 Yong Zhao         2019-01-09 @170  	int i;
-d0b63bb3385c56 Andres Rodriguez  2017-02-03  171  	int last_valid_bit;
-611736d8447c0c Felix Kuehling    2018-11-19  172  
-27fb73a0e3aa74 Mukul Joshi       2023-04-25  173  	amdgpu_amdkfd_gpuvm_init_mem_limits();
-27fb73a0e3aa74 Mukul Joshi       2023-04-25  174  
-611736d8447c0c Felix Kuehling    2018-11-19  175  	if (adev->kfd.dev) {
-130e0371b7d454 Oded Gabbay       2015-06-12  176  		struct kgd2kfd_shared_resources gpu_resources = {
-40111ec2298f44 Felix Kuehling    2020-06-24  177  			.compute_vmid_bitmap =
-40111ec2298f44 Felix Kuehling    2020-06-24  178  				((1 << AMDGPU_NUM_VMID) - 1) -
-40111ec2298f44 Felix Kuehling    2020-06-24  179  				((1 << adev->vm_manager.first_kfd_vmid) - 1),
-d0b63bb3385c56 Andres Rodriguez  2017-02-03  180  			.num_pipe_per_mec = adev->gfx.mec.num_pipe_per_mec,
-155494dbbbf4d6 Felix Kuehling    2018-02-06  181  			.num_queue_per_pipe = adev->gfx.mec.num_queue_per_pipe,
-155494dbbbf4d6 Felix Kuehling    2018-02-06  182  			.gpuvm_size = min(adev->vm_manager.max_pfn
-155494dbbbf4d6 Felix Kuehling    2018-02-06  183  					  << AMDGPU_GPU_PAGE_SHIFT,
-ad9a5b78f585e9 Christian König   2018-08-27  184  					  AMDGPU_GMC_HOLE_START),
-4a580877bdcb83 Luben Tuikov      2020-08-24  185  			.drm_render_minor = adev_to_drm(adev)->render->index,
-234441dd49bcd9 Yong Zhao         2019-01-09  186  			.sdma_doorbell_idx = adev->doorbell_index.sdma_engine,
-cc009e613de656 Mukul Joshi       2022-04-26  187  			.enable_mes = adev->enable_mes,
-130e0371b7d454 Oded Gabbay       2015-06-12  188  		};
-130e0371b7d454 Oded Gabbay       2015-06-12  189  
-d0b63bb3385c56 Andres Rodriguez  2017-02-03  190  		/* this is going to have a few of the MSBs set that we need to
-0d87c9cfc08e15 Kent Russell      2019-05-01  191  		 * clear
-0d87c9cfc08e15 Kent Russell      2019-05-01  192  		 */
-e6945304187dea Yong Zhao         2020-01-30  193  		bitmap_complement(gpu_resources.cp_queue_bitmap,
-be697aa3a78ef8 Le Ma             2022-07-27  194  				  adev->gfx.mec_bitmap[0].queue_bitmap,
-68fa72a437ea3b Mukul Joshi       2023-09-06  195  				  AMDGPU_MAX_QUEUES);
-d0b63bb3385c56 Andres Rodriguez  2017-02-03  196  
-3447d220155bd9 Jay Cornwall      2017-07-13  197  		last_valid_bit = 1 /* only first MEC can have compute queues */
-d0b63bb3385c56 Andres Rodriguez  2017-02-03  198  				* adev->gfx.mec.num_pipe_per_mec
-d0b63bb3385c56 Andres Rodriguez  2017-02-03  199  				* adev->gfx.mec.num_queue_per_pipe;
-25259687589365 Yury Norov        2026-04-23  200  		bitmap_clear(gpu_resources.cp_queue_bitmap, last_valid_bit,
-25259687589365 Yury Norov        2026-04-23  201  					AMDGPU_MAX_QUEUES - last_valid_bit);
-d0b63bb3385c56 Andres Rodriguez  2017-02-03  202  
-dc102c436f1238 Andres Rodriguez  2017-02-01  203  		amdgpu_doorbell_get_kfd_info(adev,
-130e0371b7d454 Oded Gabbay       2015-06-12  204  				&gpu_resources.doorbell_physical_address,
-130e0371b7d454 Oded Gabbay       2015-06-12  205  				&gpu_resources.doorbell_aperture_size,
-130e0371b7d454 Oded Gabbay       2015-06-12  206  				&gpu_resources.doorbell_start_offset);
-c5892230d98b04 Shaoyun Liu       2018-03-23  207  
-1f86805adc3432 Yong Zhao         2019-02-13  208  		/* Since SOC15, BIF starts to statically use the
-1f86805adc3432 Yong Zhao         2019-02-13  209  		 * lower 12 bits of doorbell addresses for routing
-1f86805adc3432 Yong Zhao         2019-02-13  210  		 * based on settings in registers like
-1f86805adc3432 Yong Zhao         2019-02-13  211  		 * SDMA0_DOORBELL_RANGE etc..
-1f86805adc3432 Yong Zhao         2019-02-13  212  		 * In order to route a doorbell to CP engine, the lower
-1f86805adc3432 Yong Zhao         2019-02-13  213  		 * 12 bits of its address has to be outside the range
-1f86805adc3432 Yong Zhao         2019-02-13  214  		 * set for SDMA, VCN, and IH blocks.
-642a0e80262af8 Felix Kuehling    2018-04-10  215  		 */
-234441dd49bcd9 Yong Zhao         2019-01-09  216  		if (adev->asic_type >= CHIP_VEGA10) {
-1f86805adc3432 Yong Zhao         2019-02-13  217  			gpu_resources.non_cp_doorbells_start =
-1f86805adc3432 Yong Zhao         2019-02-13  218  					adev->doorbell_index.first_non_cp;
-1f86805adc3432 Yong Zhao         2019-02-13  219  			gpu_resources.non_cp_doorbells_end =
-1f86805adc3432 Yong Zhao         2019-02-13  220  					adev->doorbell_index.last_non_cp;
-234441dd49bcd9 Yong Zhao         2019-01-09  221  		}
-130e0371b7d454 Oded Gabbay       2015-06-12  222  
-8e2712e71bfc97 shaoyunl          2021-02-16  223  		adev->kfd.init_complete = kgd2kfd_device_init(adev->kfd.dev,
-d69a3b762dc4c9 Mukul Joshi       2022-05-09  224  							&gpu_resources);
-b5fd0cf3ea377a Andrey Grodzovsky 2022-05-17  225  
-2302d507149f0a Philip Yang       2022-10-03  226  		amdgpu_amdkfd_total_mem_size += adev->gmc.real_vram_size;
-2302d507149f0a Philip Yang       2022-10-03  227  
-b5fd0cf3ea377a Andrey Grodzovsky 2022-05-17  228  		INIT_WORK(&adev->kfd.reset_work, amdgpu_amdkfd_reset_work);
-130e0371b7d454 Oded Gabbay       2015-06-12  229  	}
-130e0371b7d454 Oded Gabbay       2015-06-12  230  }
-130e0371b7d454 Oded Gabbay       2015-06-12  231  
+   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+   aarch64-linux-ld: drivers/gpu/drm/xe/xe_module.o:(.rodata+0x10): undefined reference to `xe_configfs_init'
+   aarch64-linux-ld: drivers/gpu/drm/xe/xe_module.o:(.rodata+0x18): undefined reference to `xe_configfs_exit'
+   aarch64-linux-ld: drivers/gpu/drm/xe/xe_survivability_mode.o: in function `xe_survivability_mode_fini':
+   xe_survivability_mode.c:(.text+0x24): undefined reference to `xe_configfs_clear_survivability_mode'
+   aarch64-linux-ld: drivers/gpu/drm/xe/xe_survivability_mode.o: in function `enable_survivability_mode':
+   xe_survivability_mode.c:(.text+0x1c8): undefined reference to `xe_configfs_clear_survivability_mode'
+   aarch64-linux-ld: drivers/gpu/drm/xe/xe_survivability_mode.o: in function `xe_survivability_mode_is_requested':
+>> xe_survivability_mode.c:(.text+0x494): undefined reference to `xe_configfs_get_survivability_mode'
+   aarch64-linux-ld: xe_survivability_mode.c:(.text+0x4c0): undefined reference to `xe_configfs_clear_survivability_mode'
 
 -- 
 0-DAY CI Kernel Test Service
