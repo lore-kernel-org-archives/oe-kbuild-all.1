@@ -1,138 +1,184 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A56852556E
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Apr 2026 00:14:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EB1C175A83
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Apr 2026 03:58:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777162490; cv=none; b=cP4nM2oHBs9CMZdF6cs5E+0MOqX0qvtj69OMtbp+gp52BuvWl5DgYGjyFoNQAkvoLxSRqkCJheysMKc5JQdWE29sk1lQUl4bv4iZxvFqM9JmVeJngYd48JbuZVDzKrKFjiBeXfA2Zjj12mG/IHhqR+yvvSltuBhpw3932aw3Q4E=
+	t=1777175887; cv=none; b=l97t1PYARFopHgCMjFYhlegKX5qwyFC1+9XC9Xz9kUB1gNDQskE6xDgAH18rRNK3Ls7vaCusxZfmrdPCjZvlGgi5d11KwrHRnKjYD+6ev8PzR9cGOn85mLNMW+CSzWFm2XIaVt5OpwPe/PCwVG8U7rdcc1HuyqNJR27keIyY7Ws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777162490; c=relaxed/simple;
-	bh=j0QOFpm4PUSLMAFVx7Cuw2PqIvnVD2fXseS3mEw+iCo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=jYSGYHwmVfg4StEqjjAl/IoeSOS/OY3yHX3eH2+RjUi/K2gkCWSj5xpaEacoVMGhr21GmiIVaH72lTy7+oJfQVEGXu2vQVwsoLBG+sLbanYQOQPppQ026p9r9+zaCSyPqPD09T7PYmvN6mrFq1VD7j13ZaDkQ1uh/SsxFBtuUZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aEKtSg9x; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1777175887; c=relaxed/simple;
+	bh=VGxtZ9ar+uvsR+vlryGBq0+VyCDxifzNLJAXv+pO7Gg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VdRKEsTV7efAjF6tV31+rdNxECmy6AVipTpEvEx/Sz0twfB/s1d5JD/kaQPMaqws7DdGxR0kzruHEubl4RxRlaqMOHHLCFeOSFaL27LkpwHHs+sktDrB+MxSaz/AHkrIg/14xPSiGtK3m+GiCYYmYI/Uvrh1Y86MDggzpOGh9zQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=au4siWtN; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aEKtSg9x"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="au4siWtN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777162487; x=1808698487;
-  h=date:from:to:cc:subject:message-id;
-  bh=j0QOFpm4PUSLMAFVx7Cuw2PqIvnVD2fXseS3mEw+iCo=;
-  b=aEKtSg9xf6Th0UCp2uJ6meb57RvHfrqH/ujl+yj7STfTGCKHctGDUYcq
-   66o/p0FR+N1VD9SIRIh2a/C6VEHCWEyyKxsg3uJRRYMnbBVhvl+vKmVRW
-   ZwvkYFAmMY9itXvsx8o4j+/AXQuTIyh8LM6GXrCJNLQqJ5oqBBGZeA5Nh
-   MiUAaQVd2gbm4qrNFVneVobz9Q+8GvzG97uMOd6y6tTqhKySF4LDHHK0d
-   KWb+SNUT3uE2PwsvXCu7BWKW5i4jBffojorX4RmnJa0pKMvNUQuBq8ATn
-   h+1TyL97s9/8N9IBNAsqYmgP9R3qEhZ4pIB6joxGh2uEXUPWL+12fheyW
-   g==;
-X-CSE-ConnectionGUID: cMOJkd4jSxqhzUg2NuQJMA==
-X-CSE-MsgGUID: gfTAw1j2TxefeQDBPdZcEA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11767"; a="78085676"
+  t=1777175885; x=1808711885;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VGxtZ9ar+uvsR+vlryGBq0+VyCDxifzNLJAXv+pO7Gg=;
+  b=au4siWtNejxkgtQNFxhPRW7AixjUghkZQJN47NLMmOjRRrSFNu6AtAD+
+   URDB8z7QBYWLh2Qn2dTCVXXk3w0lvHVPcmU8pyhPYeqdT5UAN86ZWLsZ/
+   6Q6QLXfPd8FhWlhvkod42hZ85/uYu0PDU8x/SkHZ0drek6bbdCP1+yUVp
+   9D2Z0jUwftH8Hd4ga6Eiwe9gmuCreFBQiZzkL9zbZinqufAImL7/3tX/J
+   C/ZEcnfQtYf953WT6dx4/v7I8WFOHjmYtj6aJWBD45ficNOn8+k3B5gwf
+   wZQwFakH+fGGJJDwb0cJ9pIia706TLSvEMmu7UAT9C7CelJDSY2aa5g7F
+   w==;
+X-CSE-ConnectionGUID: gQLWAucvShCy/0rZoh/i3A==
+X-CSE-MsgGUID: 2GISqgJ4RX+2jRRTAjn5Cw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11767"; a="89483423"
 X-IronPort-AV: E=Sophos;i="6.23,199,1770624000"; 
-   d="scan'208";a="78085676"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2026 17:14:47 -0700
-X-CSE-ConnectionGUID: B78zj7pNTj6RV3s3XOT/mw==
-X-CSE-MsgGUID: YxWFqilWTC23aBHGclekng==
+   d="scan'208";a="89483423"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2026 20:58:04 -0700
+X-CSE-ConnectionGUID: BSj3F6ajQwGXoRvK2LPqqA==
+X-CSE-MsgGUID: nMht+eWrR/WafHeEGhbyxQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,199,1770624000"; 
-   d="scan'208";a="233174814"
+   d="scan'208";a="230680103"
 Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 25 Apr 2026 17:14:46 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 25 Apr 2026 20:58:02 -0700
 Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wGn91-000000007Ej-1o5y;
-	Sun, 26 Apr 2026 00:14:43 +0000
-Date: Sun, 26 Apr 2026 08:14:10 +0800
+	id 1wGqd6-000000007SD-0Pdr;
+	Sun, 26 Apr 2026 03:58:00 +0000
+Date: Sun, 26 Apr 2026 11:57:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 1/1]
- drivers/gpu/drm/msm/dsi/dsi_host.c:555: warning: Function parameter or member
- 'is_bonded_dsi' not described in 'dsi_adjust_pclk_for_compression'
-Message-ID: <202604260817.i1wn25ch-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Fernando Fernandez Mancera <fmancera@suse.de>,
+	netfilter-devel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, coreteam@netfilter.org, phil@nwl.cc,
+	fw@strlen.de, pablo@netfilter.org,
+	Fernando Fernandez Mancera <fmancera@suse.de>
+Subject: Re: [PATCH nf-next v5] netfilter: nf_tables: add math expression
+ support
+Message-ID: <202604261140.gX71SoJp-lkp@intel.com>
+References: <20260421155859.7049-2-fmancera@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260421155859.7049-2-fmancera@suse.de>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   27ed6947ea3491af6f95acb920bac1d1d7dcf8e6
-commit: 43723dff1a59d6aa25dd6b81129ff747be2e52c5 [1/1] drm/msm/dsi: fix pclk rate calculation for bonded dsi
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260426/202604260817.i1wn25ch-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260426/202604260817.i1wn25ch-lkp@intel.com/reproduce)
+Hi Fernando,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on nf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Fernando-Fernandez-Mancera/netfilter-nf_tables-add-math-expression-support/20260424-055358
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf-next.git master
+patch link:    https://lore.kernel.org/r/20260421155859.7049-2-fmancera%40suse.de
+patch subject: [PATCH nf-next v5] netfilter: nf_tables: add math expression support
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260426/202604261140.gX71SoJp-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260426/202604261140.gX71SoJp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604260817.i1wn25ch-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604261140.gX71SoJp-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/msm/dsi/dsi_host.c:555: warning: Function parameter or member 'is_bonded_dsi' not described in 'dsi_adjust_pclk_for_compression'
+   net/netfilter/nft_math.c: In function 'nft_math_eval_bitmask':
+   net/netfilter/nft_math.c:49:17: error: implicit declaration of function 'DEBUG_NET_WARN_ONCE'; did you mean 'DEBUG_NET_WARN_ON_ONCE'? [-Werror=implicit-function-declaration]
+      49 |                 DEBUG_NET_WARN_ONCE(true, "unknown operation path in nft_math");
+         |                 ^~~~~~~~~~~~~~~~~~~
+         |                 DEBUG_NET_WARN_ON_ONCE
+   net/netfilter/nft_math.c: In function 'nft_math_init':
+   net/netfilter/nft_math.c:95:39: error: passing argument 1 of 'nft_parse_register_load' from incompatible pointer type [-Werror=incompatible-pointer-types]
+      95 |         err = nft_parse_register_load(ctx, tb[NFTA_MATH_SREG], &priv->sreg,
+         |                                       ^~~
+         |                                       |
+         |                                       const struct nft_ctx *
+   In file included from net/netfilter/nft_math.c:4:
+   include/net/netfilter/nf_tables.h:235:50: note: expected 'const struct nlattr *' but argument is of type 'const struct nft_ctx *'
+     235 | int nft_parse_register_load(const struct nlattr *attr, u8 *sreg, u32 len);
+         |                             ~~~~~~~~~~~~~~~~~~~~~^~~~
+   net/netfilter/nft_math.c:95:46: error: passing argument 2 of 'nft_parse_register_load' from incompatible pointer type [-Werror=incompatible-pointer-types]
+      95 |         err = nft_parse_register_load(ctx, tb[NFTA_MATH_SREG], &priv->sreg,
+         |                                            ~~^~~~~~~~~~~~~~~~
+         |                                              |
+         |                                              const struct nlattr *
+   In file included from net/netfilter/nft_math.c:4:
+   include/net/netfilter/nf_tables.h:235:60: note: expected 'u8 *' {aka 'unsigned char *'} but argument is of type 'const struct nlattr *'
+     235 | int nft_parse_register_load(const struct nlattr *attr, u8 *sreg, u32 len);
+         |                                                        ~~~~^~~~
+>> net/netfilter/nft_math.c:95:64: warning: passing argument 3 of 'nft_parse_register_load' makes integer from pointer without a cast [-Wint-conversion]
+      95 |         err = nft_parse_register_load(ctx, tb[NFTA_MATH_SREG], &priv->sreg,
+         |                                                                ^~~~~~~~~~~
+         |                                                                |
+         |                                                                u8 * {aka unsigned char *}
+   In file included from net/netfilter/nft_math.c:4:
+   include/net/netfilter/nf_tables.h:235:70: note: expected 'u32' {aka 'unsigned int'} but argument is of type 'u8 *' {aka 'unsigned char *'}
+     235 | int nft_parse_register_load(const struct nlattr *attr, u8 *sreg, u32 len);
+         |                                                                  ~~~~^~~
+>> net/netfilter/nft_math.c:95:15: error: too many arguments to function 'nft_parse_register_load'
+      95 |         err = nft_parse_register_load(ctx, tb[NFTA_MATH_SREG], &priv->sreg,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from net/netfilter/nft_math.c:4:
+   include/net/netfilter/nf_tables.h:235:5: note: declared here
+     235 | int nft_parse_register_load(const struct nlattr *attr, u8 *sreg, u32 len);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   net/netfilter/nft_math.c: At top level:
+   net/netfilter/nft_math.c:129:27: error: initialization of 'int (*)(struct sk_buff *, const struct nft_expr *)' from incompatible pointer type 'int (*)(struct sk_buff *, const struct nft_expr *, bool)' {aka 'int (*)(struct sk_buff *, const struct nft_expr *, _Bool)'} [-Werror=incompatible-pointer-types]
+     129 |         .dump           = nft_math_dump,
+         |                           ^~~~~~~~~~~~~
+   net/netfilter/nft_math.c:129:27: note: (near initialization for 'nft_math_op.dump')
+   cc1: some warnings being treated as errors
 
 
-vim +555 drivers/gpu/drm/msm/dsi/dsi_host.c
+vim +/nft_parse_register_load +95 net/netfilter/nft_math.c
 
-c4d8cfe516dc54 Sibi Sankar      2018-05-29  531  
-7c370f2cb7fc8b Dmitry Baryshkov 2024-02-08  532  /**
-7c370f2cb7fc8b Dmitry Baryshkov 2024-02-08  533   * dsi_adjust_pclk_for_compression() - Adjust the pclk rate for compression case
-7c370f2cb7fc8b Dmitry Baryshkov 2024-02-08  534   * @mode: The selected mode for the DSI output
-7c370f2cb7fc8b Dmitry Baryshkov 2024-02-08  535   * @dsc: DRM DSC configuration for this DSI output
-7c370f2cb7fc8b Dmitry Baryshkov 2024-02-08  536   *
-7c370f2cb7fc8b Dmitry Baryshkov 2024-02-08  537   * Adjust the pclk rate by calculating a new hdisplay proportional to
-7c370f2cb7fc8b Dmitry Baryshkov 2024-02-08  538   * the compression ratio such that:
-7c370f2cb7fc8b Dmitry Baryshkov 2024-02-08  539   *     new_hdisplay = old_hdisplay * compressed_bpp / uncompressed_bpp
-7c370f2cb7fc8b Dmitry Baryshkov 2024-02-08  540   *
-7c370f2cb7fc8b Dmitry Baryshkov 2024-02-08  541   * Porches do not need to be adjusted:
-7c370f2cb7fc8b Dmitry Baryshkov 2024-02-08  542   * - For VIDEO mode they are not compressed by DSC and are passed as is.
-7c370f2cb7fc8b Dmitry Baryshkov 2024-02-08  543   * - For CMD mode there are no actual porches. Instead these fields
-7c370f2cb7fc8b Dmitry Baryshkov 2024-02-08  544   *   currently represent the overhead to the image data transfer. As such, they
-7c370f2cb7fc8b Dmitry Baryshkov 2024-02-08  545   *   are calculated for the final mode parameters (after the compression) and
-7c370f2cb7fc8b Dmitry Baryshkov 2024-02-08  546   *   are not to be adjusted too.
-7c370f2cb7fc8b Dmitry Baryshkov 2024-02-08  547   *
-7c370f2cb7fc8b Dmitry Baryshkov 2024-02-08  548   *  FIXME: Reconsider this if/when CMD mode handling is rewritten to use
-7c370f2cb7fc8b Dmitry Baryshkov 2024-02-08  549   *  transfer time and data overhead as a starting point of the calculations.
-7c370f2cb7fc8b Dmitry Baryshkov 2024-02-08  550   */
-43723dff1a59d6 Pengyu Luo       2026-03-07  551  static unsigned long
-43723dff1a59d6 Pengyu Luo       2026-03-07  552  dsi_adjust_pclk_for_compression(const struct drm_display_mode *mode,
-43723dff1a59d6 Pengyu Luo       2026-03-07  553  				const struct drm_dsc_config *dsc,
-43723dff1a59d6 Pengyu Luo       2026-03-07  554  				bool is_bonded_dsi)
-7c9e4a554d4a71 Jessica Zhang    2023-06-09 @555  {
-43723dff1a59d6 Pengyu Luo       2026-03-07  556  	int hdisplay, new_hdisplay, new_htotal;
-43723dff1a59d6 Pengyu Luo       2026-03-07  557  
-43723dff1a59d6 Pengyu Luo       2026-03-07  558  	/*
-43723dff1a59d6 Pengyu Luo       2026-03-07  559  	 * For bonded DSI, split hdisplay across two links and round up each
-43723dff1a59d6 Pengyu Luo       2026-03-07  560  	 * half separately, passing the full hdisplay would only round up once.
-43723dff1a59d6 Pengyu Luo       2026-03-07  561  	 * This also aligns with the hdisplay we program later in
-43723dff1a59d6 Pengyu Luo       2026-03-07  562  	 * dsi_timing_setup()
-43723dff1a59d6 Pengyu Luo       2026-03-07  563  	 */
-43723dff1a59d6 Pengyu Luo       2026-03-07  564  	hdisplay = mode->hdisplay;
-43723dff1a59d6 Pengyu Luo       2026-03-07  565  	if (is_bonded_dsi)
-43723dff1a59d6 Pengyu Luo       2026-03-07  566  		hdisplay /= 2;
-43723dff1a59d6 Pengyu Luo       2026-03-07  567  
-43723dff1a59d6 Pengyu Luo       2026-03-07  568  	new_hdisplay = DIV_ROUND_UP(hdisplay * drm_dsc_get_bpp_int(dsc),
-7c9e4a554d4a71 Jessica Zhang    2023-06-09  569  				    dsc->bits_per_component * 3);
-7c9e4a554d4a71 Jessica Zhang    2023-06-09  570  
-43723dff1a59d6 Pengyu Luo       2026-03-07  571  	if (is_bonded_dsi)
-43723dff1a59d6 Pengyu Luo       2026-03-07  572  		new_hdisplay *= 2;
-43723dff1a59d6 Pengyu Luo       2026-03-07  573  
-43723dff1a59d6 Pengyu Luo       2026-03-07  574  	new_htotal = mode->htotal - mode->hdisplay + new_hdisplay;
-7c9e4a554d4a71 Jessica Zhang    2023-06-09  575  
-9f236108915246 Jonathan Marek   2024-10-07  576  	return mult_frac(mode->clock * 1000u, new_htotal, mode->htotal);
-7c9e4a554d4a71 Jessica Zhang    2023-06-09  577  }
-7c9e4a554d4a71 Jessica Zhang    2023-06-09  578  
-
-:::::: The code at line 555 was first introduced by commit
-:::::: 7c9e4a554d4a712bc6891a49d52b1ec030ed5b4a drm/msm/dsi: Reduce pclk rate for compression
-
-:::::: TO: Jessica Zhang <quic_jesszhan@quicinc.com>
-:::::: CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+    65	
+    66	static int nft_math_init(const struct nft_ctx *ctx,
+    67				 const struct nft_expr *expr,
+    68				 const struct nlattr * const tb[])
+    69	{
+    70		struct nft_math *priv = nft_expr_priv(expr);
+    71		u32 bitmask_check;
+    72		int err;
+    73		u32 op;
+    74	
+    75		if (!tb[NFTA_MATH_SREG] ||
+    76		    !tb[NFTA_MATH_DREG] ||
+    77		    !tb[NFTA_MATH_BITMASK] ||
+    78		    !tb[NFTA_MATH_OP])
+    79			return -EINVAL;
+    80	
+    81		op = nla_get_u32(tb[NFTA_MATH_OP]);
+    82		if (op > NFT_MATH_OP_MAX)
+    83			return -EOPNOTSUPP;
+    84		priv->op = op;
+    85	
+    86		priv->bitmask = nla_get_u32(tb[NFTA_MATH_BITMASK]);
+    87		if (!priv->bitmask)
+    88			return -EINVAL;
+    89	
+    90		/* check if the bitmask is contiguous, otherwise reject it */
+    91		bitmask_check = priv->bitmask + (priv->bitmask & -priv->bitmask);
+    92		if (bitmask_check & (bitmask_check - 1))
+    93			return -EINVAL;
+    94	
+  > 95		err = nft_parse_register_load(ctx, tb[NFTA_MATH_SREG], &priv->sreg,
+    96					      sizeof(u32));
+    97		if (err < 0)
+    98			return err;
+    99	
+   100		return nft_parse_register_store(ctx, tb[NFTA_MATH_DREG],
+   101						&priv->dreg, NULL, NFT_DATA_VALUE,
+   102						sizeof(u32));
+   103	}
+   104	
 
 -- 
 0-DAY CI Kernel Test Service
