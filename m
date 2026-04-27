@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06D32750FB
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Apr 2026 23:02:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53D993B38A4;
+	Mon, 27 Apr 2026 23:12:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777330947; cv=none; b=T8YQziP/aAdbatxtvOmwSlBM/23PYqlqvZdUHQ6z4AbqylANW+o4Pl2VRGFi7r3c0eWAs0UuoS77SZNEODKFr1SzLvEasBr50I2pV6R/PPwSuMdTjg4aA3D5m+hXG/z3nTtMo8uQ9VYrv75MotgwCRalpVkFcQjhrPkaL2odN0Q=
+	t=1777331547; cv=none; b=Q+iUGxPTnA8UdeykplQ3jNIG51vKjGec0I8LZWo5yYhiYxG52u/qe4sOOad7T7qPOxJkZ8zhunJT9BRx3T2HCbe7Ct/n2vG7sulSTJ1cFe6n/BkgzT1vhkC08BHnH7XXfcI+v8XRBoHhxD6eOFK0vcD6bc2u5gl90f7xX+kxCQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777330947; c=relaxed/simple;
-	bh=SigOEgVySnDYD1EY47u+rfV1d/Es6g9p4/VsLpUhrCs=;
+	s=arc-20240116; t=1777331547; c=relaxed/simple;
+	bh=a4u4bsTMz7Y1mi+A9kY+/Kr+61AU/arZRiruc3ne8Hk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WoC7l724CkYIqRwzQ3Ahf0XZKDX6ghv/rfOCtC9Ka43j4W1mwZqU/pSRJhTnlD+y4kXLDABVxmkrPRPHJaFxdB4hTD8Bk/CDmvvbp7hu1CWYXVV7WEkGDzS7J93/wSZLnFLfeTj5nTUQm3PeTvcdtoIynYoQaxVLDtYIqW8oA4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JANk0yun; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZkwwB6NPfF+/6GQZyMcX64a0QWXYOBI8/l1ckvMIsGdiHq0q6cIytV3QEgE0yZYs3v1h+AmlcqQju/AXzpkZbUwVFZ3pkhxfFUG6zgbQgr2ZBhHspNAemqtbvV8SpVHkKAvHtxLdoBns9YEiskckG1XI4Bx380R6wzwwdgLvykI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=haahVws5; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JANk0yun"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="haahVws5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777330947; x=1808866947;
+  t=1777331546; x=1808867546;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=SigOEgVySnDYD1EY47u+rfV1d/Es6g9p4/VsLpUhrCs=;
-  b=JANk0yungPSjrdI6NP63IJf3ZWwPE7J3xire70aTbspGvLuu9Q5md4Q4
-   +y8pjJqPj43uJuoH9l3GkH/zSxSskoUJzaHbtInMP9Wms9J0M4OCcnv6f
-   1Qpm8JkBncd9wlIn3SB3n6UzPjzn9DdzqwVG/7yMIRaW+Yr6fuU7/EhY8
-   am7O1yMoUjpTb28CwGq0UUr1glwQc/x/AK0Tl3zSseLO5n579LMxXvL98
-   C3g1T6Af2GEU1tVFOjk3olL9upSxM7O0R/CiVUwJhPd5YZGLjKMGNFqMI
-   G7l05UKNn/ZqCD0LI9AVy4uZ0FuSKDcr7Iu6znAekdOHVENAS7eoddVoE
-   Q==;
-X-CSE-ConnectionGUID: VRTWXLgfRgGpRmyIePvWpw==
-X-CSE-MsgGUID: 0ov2y+rwRQqum7PyR2viUA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11769"; a="82096868"
+  bh=a4u4bsTMz7Y1mi+A9kY+/Kr+61AU/arZRiruc3ne8Hk=;
+  b=haahVws5JVMAK9v7LzUSdHlu1yA3dPekZZbkB1YRcVKtoZkLejwBmN1U
+   hDCokUrLDli2oI5kBt2TOLJDcoNVBEbawdpn9STgUZUGYxiMNjOV0SoVd
+   ALYkC0+zm59hpRalZVoY3+RolSdOiSuhIbJQ/Dw1Lq4PiWCBZj34iPJ3E
+   qrGlm3mSxH5BNssyxqo5mDh9KYZrnTBVZBKI3EjxnAX8LfhlnZDMUB63f
+   vxErfJNgLhr2WEEQ00dFec4YqjC5mKWjg78xWDzKGU19Dq/olHmUAFJJP
+   yKj4FN/RdgbISVLI0W1HbEmwQd0ibcLqPVnw45S+w8PS6b++AFfuBOGsL
+   g==;
+X-CSE-ConnectionGUID: GbhqSxjpTkOKUD3rr652Cg==
+X-CSE-MsgGUID: oh1mI3D7Qy+ywKKeyKNCXg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11769"; a="77262179"
 X-IronPort-AV: E=Sophos;i="6.23,203,1770624000"; 
-   d="scan'208";a="82096868"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 16:02:26 -0700
-X-CSE-ConnectionGUID: jFZot8AiTSm1eqt3wLwM2g==
-X-CSE-MsgGUID: hpNOFlZsR3+94RnQadMe1g==
+   d="scan'208";a="77262179"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 16:12:25 -0700
+X-CSE-ConnectionGUID: NpexpGSERg+KHNu/6jWHFA==
+X-CSE-MsgGUID: mAWcOxQDTkCNmFJnrO9W+Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,203,1770624000"; 
-   d="scan'208";a="238104864"
 Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 27 Apr 2026 16:02:23 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 27 Apr 2026 16:12:23 -0700
 Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wHUy4-000000009Gv-34mz;
-	Mon, 27 Apr 2026 23:02:20 +0000
-Date: Tue, 28 Apr 2026 07:01:23 +0800
+	id 1wHV7l-000000009HN-0Zci;
+	Mon, 27 Apr 2026 23:12:21 +0000
+Date: Tue, 28 Apr 2026 07:12:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maxwell Doose <m32285159@gmail.com>, badhri@google.com,
-	heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: typec: tcpm: replace strcpy with strscpy
-Message-ID: <202604280624.g6vOa3Cf-lkp@intel.com>
-References: <20260419213638.38291-2-m32285159@gmail.com>
+To: Tejun Heo <tj@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH] rhashtable: Bounce deferred worker kick through
+ irq_work when insecure_elasticity is set
+Message-ID: <202604280709.2xKuz7sZ-lkp@intel.com>
+References: <67fedbf2-914b-44f7-9422-1fe97d833705@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,90 +61,285 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260419213638.38291-2-m32285159@gmail.com>
+In-Reply-To: <67fedbf2-914b-44f7-9422-1fe97d833705@kernel.org>
 
-Hi Maxwell,
+Hi Tejun,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
 [auto build test ERROR on v7.0]
-[cannot apply to usb/usb-testing usb/usb-next usb/usb-linus linus/master next-20260427]
+[also build test ERROR on linus/master]
+[cannot apply to tj-sched-ext/for-7.1-fixes next-20260427]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maxwell-Doose/usb-typec-tcpm-replace-strcpy-with-strscpy/20260427-011111
+url:    https://github.com/intel-lab-lkp/linux/commits/Tejun-Heo/rhashtable-Bounce-deferred-worker-kick-through-irq_work-when-insecure_elasticity-is-set/20260426-103416
 base:   v7.0
-patch link:    https://lore.kernel.org/r/20260419213638.38291-2-m32285159%40gmail.com
-patch subject: [PATCH] usb: typec: tcpm: replace strcpy with strscpy
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260428/202604280624.g6vOa3Cf-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260428/202604280624.g6vOa3Cf-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/67fedbf2-914b-44f7-9422-1fe97d833705%40kernel.org
+patch subject: [RFC PATCH] rhashtable: Bounce deferred worker kick through irq_work when insecure_elasticity is set
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260428/202604280709.2xKuz7sZ-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260428/202604280709.2xKuz7sZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604280624.g6vOa3Cf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604280709.2xKuz7sZ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/usb/typec/tcpm/tcpm.c: In function '_tcpm_log':
->> drivers/usb/typec/tcpm/tcpm.c:729:9: error: expected ';' before '}' token
-     729 |         }
-         |         ^
+   In file included from lib/rhashtable.c:25:
+>> include/linux/rhashtable.h:768:12: error: no member named 'insecure_elasticity' in 'struct rhashtable_params'
+     768 |         if (ht->p.insecure_elasticity)
+         |             ~~~~~ ^
+>> lib/rhashtable.c:1095:12: error: no member named 'insecure_elasticity' in 'struct rhashtable_params'
+    1095 |         if (ht->p.insecure_elasticity)
+         |             ~~~~~ ^
+   lib/rhashtable.c:1162:12: error: no member named 'insecure_elasticity' in 'struct rhashtable_params'
+    1162 |         if (ht->p.insecure_elasticity)
+         |             ~~~~~ ^
+   3 errors generated.
+--
+   In file included from lib/test_rhashtable.c:20:
+>> include/linux/rhashtable.h:768:12: error: no member named 'insecure_elasticity' in 'struct rhashtable_params'
+     768 |         if (ht->p.insecure_elasticity)
+         |             ~~~~~ ^
+   1 error generated.
+--
+   In file included from drivers/net/ethernet/intel/igc/igc_main.c:12:
+   In file included from include/linux/bpf_trace.h:5:
+   In file included from include/trace/events/xdp.h:288:
+   In file included from include/net/xdp_priv.h:5:
+>> include/linux/rhashtable.h:768:12: error: no member named 'insecure_elasticity' in 'struct rhashtable_params'
+     768 |         if (ht->p.insecure_elasticity)
+         |             ~~~~~ ^
+   drivers/net/ethernet/intel/igc/igc_main.c:1264:14: warning: division by zero is undefined [-Wdivision-by-zero]
+    1264 |         cmd_type |= IGC_SET_FLAG(tx_flags, IGC_TX_FLAGS_VLAN,
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1265 |                                  IGC_ADVTXD_DCMD_VLE);
+         |                                  ~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/igc/igc_main.c:1254:30: note: expanded from macro 'IGC_SET_FLAG'
+    1254 |          ((u32)((_input) & (_flag)) / ((_flag) / (_result))))
+         |                                     ^ ~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/igc/igc_main.c:1268:14: warning: division by zero is undefined [-Wdivision-by-zero]
+    1268 |         cmd_type |= IGC_SET_FLAG(tx_flags, IGC_TX_FLAGS_TSO,
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1269 |                                  (IGC_ADVTXD_DCMD_TSE));
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/igc/igc_main.c:1254:30: note: expanded from macro 'IGC_SET_FLAG'
+    1254 |          ((u32)((_input) & (_flag)) / ((_flag) / (_result))))
+         |                                     ^ ~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/igc/igc_main.c:1274:14: warning: division by zero is undefined [-Wdivision-by-zero]
+    1274 |         cmd_type |= IGC_SET_FLAG(tx_flags, IGC_TX_FLAGS_TSTAMP,
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1275 |                                  (IGC_ADVTXD_MAC_TSTAMP));
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/igc/igc_main.c:1254:30: note: expanded from macro 'IGC_SET_FLAG'
+    1254 |          ((u32)((_input) & (_flag)) / ((_flag) / (_result))))
+         |                                     ^ ~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/igc/igc_main.c:1277:14: warning: division by zero is undefined [-Wdivision-by-zero]
+    1277 |         cmd_type |= IGC_SET_FLAG(tx_flags, IGC_TX_FLAGS_TSTAMP_1,
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1278 |                                  (IGC_ADVTXD_TSTAMP_REG_1));
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/igc/igc_main.c:1254:30: note: expanded from macro 'IGC_SET_FLAG'
+    1254 |          ((u32)((_input) & (_flag)) / ((_flag) / (_result))))
+         |                                     ^ ~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/igc/igc_main.c:1280:14: warning: division by zero is undefined [-Wdivision-by-zero]
+    1280 |         cmd_type |= IGC_SET_FLAG(tx_flags, IGC_TX_FLAGS_TSTAMP_2,
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1281 |                                  (IGC_ADVTXD_TSTAMP_REG_2));
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/igc/igc_main.c:1254:30: note: expanded from macro 'IGC_SET_FLAG'
+    1254 |          ((u32)((_input) & (_flag)) / ((_flag) / (_result))))
+         |                                     ^ ~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/igc/igc_main.c:1283:14: warning: division by zero is undefined [-Wdivision-by-zero]
+    1283 |         cmd_type |= IGC_SET_FLAG(tx_flags, IGC_TX_FLAGS_TSTAMP_3,
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1284 |                                  (IGC_ADVTXD_TSTAMP_REG_3));
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/igc/igc_main.c:1254:30: note: expanded from macro 'IGC_SET_FLAG'
+    1254 |          ((u32)((_input) & (_flag)) / ((_flag) / (_result))))
+         |                                     ^ ~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/igc/igc_main.c:1287:14: warning: division by zero is undefined [-Wdivision-by-zero]
+    1287 |         cmd_type ^= IGC_SET_FLAG(skb->no_fcs, 1, IGC_ADVTXD_DCMD_IFCS);
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/igc/igc_main.c:1254:30: note: expanded from macro 'IGC_SET_FLAG'
+    1254 |          ((u32)((_input) & (_flag)) / ((_flag) / (_result))))
+         |                                     ^ ~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/igc/igc_main.c:1299:19: warning: division by zero is undefined [-Wdivision-by-zero]
+    1299 |         olinfo_status |= IGC_SET_FLAG(tx_flags, IGC_TX_FLAGS_CSUM,
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1300 |                                       (IGC_TXD_POPTS_TXSM << 8));
+         |                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/igc/igc_main.c:1254:30: note: expanded from macro 'IGC_SET_FLAG'
+    1254 |          ((u32)((_input) & (_flag)) / ((_flag) / (_result))))
+         |                                     ^ ~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/igc/igc_main.c:1303:19: warning: division by zero is undefined [-Wdivision-by-zero]
+    1303 |         olinfo_status |= IGC_SET_FLAG(tx_flags, IGC_TX_FLAGS_IPV4,
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1304 |                                       (IGC_TXD_POPTS_IXSM << 8));
+         |                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/igc/igc_main.c:1254:30: note: expanded from macro 'IGC_SET_FLAG'
+    1254 |          ((u32)((_input) & (_flag)) / ((_flag) / (_result))))
+         |                                     ^ ~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/igc/igc_main.c:2971:25: warning: division by zero is undefined [-Wdivision-by-zero]
+    2971 |                 meta_req->cmd_type |= IGC_SET_FLAG(tx_flags,
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~
+    2972 |                                                    IGC_TX_FLAGS_TSTAMP,
+         |                                                    ~~~~~~~~~~~~~~~~~~~~
+    2973 |                                                    (IGC_ADVTXD_MAC_TSTAMP));
+         |                                                    ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/igc/igc_main.c:1254:30: note: expanded from macro 'IGC_SET_FLAG'
+    1254 |          ((u32)((_input) & (_flag)) / ((_flag) / (_result))))
+         |                                     ^ ~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/igc/igc_main.c:2974:25: warning: division by zero is undefined [-Wdivision-by-zero]
+    2974 |                 meta_req->cmd_type |= IGC_SET_FLAG(tx_flags,
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~
+    2975 |                                                    IGC_TX_FLAGS_TSTAMP_1,
+         |                                                    ~~~~~~~~~~~~~~~~~~~~~~
+    2976 |                                                    (IGC_ADVTXD_TSTAMP_REG_1));
+         |                                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/igc/igc_main.c:1254:30: note: expanded from macro 'IGC_SET_FLAG'
+    1254 |          ((u32)((_input) & (_flag)) / ((_flag) / (_result))))
+         |                                     ^ ~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/igc/igc_main.c:2977:25: warning: division by zero is undefined [-Wdivision-by-zero]
+    2977 |                 meta_req->cmd_type |= IGC_SET_FLAG(tx_flags,
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~
+    2978 |                                                    IGC_TX_FLAGS_TSTAMP_2,
+         |                                                    ~~~~~~~~~~~~~~~~~~~~~~
+    2979 |                                                    (IGC_ADVTXD_TSTAMP_REG_2));
+         |                                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/igc/igc_main.c:1254:30: note: expanded from macro 'IGC_SET_FLAG'
+--
+   In file included from igc_main.c:12:
+   In file included from include/linux/bpf_trace.h:5:
+   In file included from include/trace/events/xdp.h:288:
+   In file included from include/net/xdp_priv.h:5:
+>> include/linux/rhashtable.h:768:12: error: no member named 'insecure_elasticity' in 'struct rhashtable_params'
+     768 |         if (ht->p.insecure_elasticity)
+         |             ~~~~~ ^
+   igc_main.c:1264:14: warning: division by zero is undefined [-Wdivision-by-zero]
+    1264 |         cmd_type |= IGC_SET_FLAG(tx_flags, IGC_TX_FLAGS_VLAN,
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1265 |                                  IGC_ADVTXD_DCMD_VLE);
+         |                                  ~~~~~~~~~~~~~~~~~~~~
+   igc_main.c:1254:30: note: expanded from macro 'IGC_SET_FLAG'
+    1254 |          ((u32)((_input) & (_flag)) / ((_flag) / (_result))))
+         |                                     ^ ~~~~~~~~~~~~~~~~~~~~~
+   igc_main.c:1268:14: warning: division by zero is undefined [-Wdivision-by-zero]
+    1268 |         cmd_type |= IGC_SET_FLAG(tx_flags, IGC_TX_FLAGS_TSO,
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1269 |                                  (IGC_ADVTXD_DCMD_TSE));
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~
+   igc_main.c:1254:30: note: expanded from macro 'IGC_SET_FLAG'
+    1254 |          ((u32)((_input) & (_flag)) / ((_flag) / (_result))))
+         |                                     ^ ~~~~~~~~~~~~~~~~~~~~~
+   igc_main.c:1274:14: warning: division by zero is undefined [-Wdivision-by-zero]
+    1274 |         cmd_type |= IGC_SET_FLAG(tx_flags, IGC_TX_FLAGS_TSTAMP,
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1275 |                                  (IGC_ADVTXD_MAC_TSTAMP));
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~
+   igc_main.c:1254:30: note: expanded from macro 'IGC_SET_FLAG'
+    1254 |          ((u32)((_input) & (_flag)) / ((_flag) / (_result))))
+         |                                     ^ ~~~~~~~~~~~~~~~~~~~~~
+   igc_main.c:1277:14: warning: division by zero is undefined [-Wdivision-by-zero]
+    1277 |         cmd_type |= IGC_SET_FLAG(tx_flags, IGC_TX_FLAGS_TSTAMP_1,
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1278 |                                  (IGC_ADVTXD_TSTAMP_REG_1));
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   igc_main.c:1254:30: note: expanded from macro 'IGC_SET_FLAG'
+    1254 |          ((u32)((_input) & (_flag)) / ((_flag) / (_result))))
+         |                                     ^ ~~~~~~~~~~~~~~~~~~~~~
+   igc_main.c:1280:14: warning: division by zero is undefined [-Wdivision-by-zero]
+    1280 |         cmd_type |= IGC_SET_FLAG(tx_flags, IGC_TX_FLAGS_TSTAMP_2,
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1281 |                                  (IGC_ADVTXD_TSTAMP_REG_2));
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   igc_main.c:1254:30: note: expanded from macro 'IGC_SET_FLAG'
+    1254 |          ((u32)((_input) & (_flag)) / ((_flag) / (_result))))
+         |                                     ^ ~~~~~~~~~~~~~~~~~~~~~
+   igc_main.c:1283:14: warning: division by zero is undefined [-Wdivision-by-zero]
+    1283 |         cmd_type |= IGC_SET_FLAG(tx_flags, IGC_TX_FLAGS_TSTAMP_3,
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1284 |                                  (IGC_ADVTXD_TSTAMP_REG_3));
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   igc_main.c:1254:30: note: expanded from macro 'IGC_SET_FLAG'
+    1254 |          ((u32)((_input) & (_flag)) / ((_flag) / (_result))))
+         |                                     ^ ~~~~~~~~~~~~~~~~~~~~~
+   igc_main.c:1287:14: warning: division by zero is undefined [-Wdivision-by-zero]
+    1287 |         cmd_type ^= IGC_SET_FLAG(skb->no_fcs, 1, IGC_ADVTXD_DCMD_IFCS);
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   igc_main.c:1254:30: note: expanded from macro 'IGC_SET_FLAG'
+    1254 |          ((u32)((_input) & (_flag)) / ((_flag) / (_result))))
+         |                                     ^ ~~~~~~~~~~~~~~~~~~~~~
+   igc_main.c:1299:19: warning: division by zero is undefined [-Wdivision-by-zero]
+    1299 |         olinfo_status |= IGC_SET_FLAG(tx_flags, IGC_TX_FLAGS_CSUM,
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1300 |                                       (IGC_TXD_POPTS_TXSM << 8));
+         |                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   igc_main.c:1254:30: note: expanded from macro 'IGC_SET_FLAG'
+    1254 |          ((u32)((_input) & (_flag)) / ((_flag) / (_result))))
+         |                                     ^ ~~~~~~~~~~~~~~~~~~~~~
+   igc_main.c:1303:19: warning: division by zero is undefined [-Wdivision-by-zero]
+    1303 |         olinfo_status |= IGC_SET_FLAG(tx_flags, IGC_TX_FLAGS_IPV4,
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1304 |                                       (IGC_TXD_POPTS_IXSM << 8));
+         |                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   igc_main.c:1254:30: note: expanded from macro 'IGC_SET_FLAG'
+    1254 |          ((u32)((_input) & (_flag)) / ((_flag) / (_result))))
+         |                                     ^ ~~~~~~~~~~~~~~~~~~~~~
+   igc_main.c:2971:25: warning: division by zero is undefined [-Wdivision-by-zero]
+    2971 |                 meta_req->cmd_type |= IGC_SET_FLAG(tx_flags,
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~
+    2972 |                                                    IGC_TX_FLAGS_TSTAMP,
+         |                                                    ~~~~~~~~~~~~~~~~~~~~
+    2973 |                                                    (IGC_ADVTXD_MAC_TSTAMP));
+         |                                                    ~~~~~~~~~~~~~~~~~~~~~~~~
+   igc_main.c:1254:30: note: expanded from macro 'IGC_SET_FLAG'
+    1254 |          ((u32)((_input) & (_flag)) / ((_flag) / (_result))))
+         |                                     ^ ~~~~~~~~~~~~~~~~~~~~~
+   igc_main.c:2974:25: warning: division by zero is undefined [-Wdivision-by-zero]
+    2974 |                 meta_req->cmd_type |= IGC_SET_FLAG(tx_flags,
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~
+    2975 |                                                    IGC_TX_FLAGS_TSTAMP_1,
+         |                                                    ~~~~~~~~~~~~~~~~~~~~~~
+    2976 |                                                    (IGC_ADVTXD_TSTAMP_REG_1));
+         |                                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   igc_main.c:1254:30: note: expanded from macro 'IGC_SET_FLAG'
+    1254 |          ((u32)((_input) & (_flag)) / ((_flag) / (_result))))
+         |                                     ^ ~~~~~~~~~~~~~~~~~~~~~
+   igc_main.c:2977:25: warning: division by zero is undefined [-Wdivision-by-zero]
+    2977 |                 meta_req->cmd_type |= IGC_SET_FLAG(tx_flags,
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~
+    2978 |                                                    IGC_TX_FLAGS_TSTAMP_2,
+         |                                                    ~~~~~~~~~~~~~~~~~~~~~~
+    2979 |                                                    (IGC_ADVTXD_TSTAMP_REG_2));
+         |                                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   igc_main.c:1254:30: note: expanded from macro 'IGC_SET_FLAG'
 
 
-vim +729 drivers/usb/typec/tcpm/tcpm.c
+vim +768 include/linux/rhashtable.h
 
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  706  
-e79e01254d02ff drivers/staging/typec/tcpm.c  Joe Perches   2017-08-25  707  __printf(2, 0)
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  708  static void _tcpm_log(struct tcpm_port *port, const char *fmt, va_list args)
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  709  {
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  710  	char tmpbuffer[LOG_BUFFER_ENTRY_SIZE];
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  711  	u64 ts_nsec = local_clock();
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  712  	unsigned long rem_nsec;
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  713  
-d5a4f93511b700 drivers/usb/typec/tcpm.c      Peter Chen    2018-06-12  714  	mutex_lock(&port->logbuffer_lock);
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  715  	if (!port->logbuffer[port->logbuffer_head]) {
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  716  		port->logbuffer[port->logbuffer_head] =
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  717  				kzalloc(LOG_BUFFER_ENTRY_SIZE, GFP_KERNEL);
-d5a4f93511b700 drivers/usb/typec/tcpm.c      Peter Chen    2018-06-12  718  		if (!port->logbuffer[port->logbuffer_head]) {
-d5a4f93511b700 drivers/usb/typec/tcpm.c      Peter Chen    2018-06-12  719  			mutex_unlock(&port->logbuffer_lock);
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  720  			return;
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  721  		}
-d5a4f93511b700 drivers/usb/typec/tcpm.c      Peter Chen    2018-06-12  722  	}
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  723  
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  724  	vsnprintf(tmpbuffer, sizeof(tmpbuffer), fmt, args);
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  725  
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  726  	if (tcpm_log_full(port)) {
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  727  		port->logbuffer_head = max(port->logbuffer_head - 1, 0);
-2919950c498311 drivers/usb/typec/tcpm/tcpm.c Maxwell Doose 2026-04-19  728  		strscpy(tmpbuffer, "overflow", sizeof(tmpbuffer))
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27 @729  	}
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  730  
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  731  	if (port->logbuffer_head < 0 ||
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  732  	    port->logbuffer_head >= LOG_BUFFER_ENTRIES) {
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  733  		dev_warn(port->dev,
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  734  			 "Bad log buffer index %d\n", port->logbuffer_head);
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  735  		goto abort;
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  736  	}
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  737  
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  738  	if (!port->logbuffer[port->logbuffer_head]) {
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  739  		dev_warn(port->dev,
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  740  			 "Log buffer index %d is NULL\n", port->logbuffer_head);
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  741  		goto abort;
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  742  	}
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  743  
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  744  	rem_nsec = do_div(ts_nsec, 1000000000);
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  745  	scnprintf(port->logbuffer[port->logbuffer_head],
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  746  		  LOG_BUFFER_ENTRY_SIZE, "[%5lu.%06lu] %s",
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  747  		  (unsigned long)ts_nsec, rem_nsec / 1000,
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  748  		  tmpbuffer);
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  749  	port->logbuffer_head = (port->logbuffer_head + 1) % LOG_BUFFER_ENTRIES;
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  750  
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  751  abort:
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  752  	mutex_unlock(&port->logbuffer_lock);
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  753  }
-f0690a25a140b8 drivers/staging/typec/tcpm.c  Guenter Roeck 2017-04-27  754  
+   757	
+   758	/*
+   759	 * Kick the deferred rehash worker. With insecure_elasticity the caller may
+   760	 * hold a raw spinlock. schedule_work() under a raw spinlock records
+   761	 * caller_lock -> pool->lock -> pi_lock -> rq->__lock. If any of these
+   762	 * locks is acquired in the reverse direction elsewhere, the cycle closes.
+   763	 * Bounce through irq_work so schedule_work() runs from hard IRQ context
+   764	 * with the caller's lock no longer held.
+   765	 */
+   766	static void rhashtable_kick_deferred_worker(struct rhashtable *ht)
+   767	{
+ > 768		if (ht->p.insecure_elasticity)
+   769			irq_work_queue(&ht->run_irq_work);
+   770		else
+   771			schedule_work(&ht->run_work);
+   772	}
+   773	
 
 -- 
 0-DAY CI Kernel Test Service
