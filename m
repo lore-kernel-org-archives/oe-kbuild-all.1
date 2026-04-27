@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA5DE21CA02
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Apr 2026 10:50:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD30D3AC0CC;
+	Mon, 27 Apr 2026 11:04:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777287046; cv=none; b=K/rcu86OuqEy+XARtNmrk7bWv7k9uj/n3vWBY2VnWHS/KjDNiWem8H/64aMmoTUbKZ131AEfLj96FJhhroYkpyx+dNIlfNRRXbnDygqGjl5whoy2sJI+mINbnSEGZ7dv5kLomN9Z0WnVWTVw+2RFDpXVLSenTrUI+JOIFIG8hWc=
+	t=1777287891; cv=none; b=QVpG82pXaoKcEpJOMwV9t5bRemTnv8LrNNZ3DmL39vNIQxvVlpbfBNoYcLcu8JlvgX2lzyb3ujRE4cjU9EwLUYIs4Q2XfoSzSNZ/zPMNqL5aGr810MUcJ8dm1gMYDxGVYB5gLXg8dr9N8fvGt71Jz07W6P8stSZ0YRXZJUr6cAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777287046; c=relaxed/simple;
-	bh=zl87Po6zv+ejdEpB80YZMFUZL+X0od7QrwVhwGH2On8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ntCYwXTq6Cf8AiF7MLbU6Daa/GtDm9ktlNREBR+Ic4uS9+5au2zO50bedwO1b/n9ri1PqznAB0cmmB+aSEvOaLdr8Iq6WMTLhu0BtwvyktfviWLJbnQDTNyUo8baLaRPx38qHwTJ9PJLZbBMrzUAtSQ2Ty8rjewoj8XdnN2iQ5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y7ha5gb9; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1777287891; c=relaxed/simple;
+	bh=f40pND1xsnfSVnpjGjx032CYMDceAay0/ouLWhlM718=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ZSib54YpyX56HVeMpZ2z6t4DJ6sIYtY+7JgX+syqMuPzbMISRCQZx25Ql23kjYiWI7GTLaxbXwoK4mMNi/zdDFAaLdTT59MJbJozTG6Yi8+iYs8ErgnwM/oEGkH52jEAIVVSEfsua/gjnleeFhctWGt02OuzJGXtmPufiWKBuMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QefVRpWQ; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y7ha5gb9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QefVRpWQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777287045; x=1808823045;
+  t=1777287890; x=1808823890;
   h=date:from:to:cc:subject:message-id;
-  bh=zl87Po6zv+ejdEpB80YZMFUZL+X0od7QrwVhwGH2On8=;
-  b=Y7ha5gb9zzqJyGmTdw9gF53skhOehnubavl71mWeKUuXdT4lPqwFsTrm
-   FwVYgvLI0pAsUPVNzb8jxAG6cdm1hL7Q/iLl4m0SZbCFeWyy3/kIv3rZW
-   IBnc1dATQoAUm/DjjLLH7fabsflbFETjce6MM1iouAvOeHKG9UKDwgLPL
-   oKTHTNwlExfrPqs0esLYevVmt1dPhLVYRev4hyFuiZL/8bUbNwlLtWl2c
-   z62iFOP4CurT5OtUmvCHFXUPTiWgUOYz6AGA4NVMI/Q8LyB0C86Lf1cAX
-   D68fQpvpmWfqqA2B7P93gKecjyBT001yKKt0xoLWPV13cOuleFSohblFr
+  bh=f40pND1xsnfSVnpjGjx032CYMDceAay0/ouLWhlM718=;
+  b=QefVRpWQFqU/5doJo8qupiJNQhznipMriGlme5jQwc27evX7uABSYtyD
+   x4hMlJQolKCdQOUj/WovJBdlFnehBM5p0ReMPSF9svQpgyBLdLy732aRw
+   ykktDcl7VlGNE4F0hrYI9pYf3x7d3jjv0FbmQztihZMuP5h7swehxIyih
+   oaUqcsLpwPQFmJRpYwm6sDhBrY2iyAp1TP3pZMeQrpyzivu/wrXiNp0/f
+   wmRyrNErBJtf1ca617XBqI56NTKcvvMMV5Eauup2Z+ryIOap5pdskxBFw
+   PjGMJGRxFt+5wGJrwbpJfn+49jSJBb4ionRWkEtEiOzN2Cs6F8i+jjJ8/
    A==;
-X-CSE-ConnectionGUID: VwpKXifqQ56PoLrGmNdP4w==
-X-CSE-MsgGUID: tNucGKJpR/yWTeVGE+Kz3Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11768"; a="77329213"
-X-IronPort-AV: E=Sophos;i="6.23,201,1770624000"; 
-   d="scan'208";a="77329213"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 03:50:44 -0700
-X-CSE-ConnectionGUID: Zqvemqv8RASQjj92OHuzxw==
-X-CSE-MsgGUID: iAjEWndWSDGfnNCBAjmjkQ==
+X-CSE-ConnectionGUID: Cg0kXpBZRVO3Pijakcskdg==
+X-CSE-MsgGUID: talsqEJaQwKVMiaZKQVtwg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11768"; a="78285056"
+X-IronPort-AV: E=Sophos;i="6.23,202,1770624000"; 
+   d="scan'208";a="78285056"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 04:04:43 -0700
+X-CSE-ConnectionGUID: ZgIgz3nvQuyqey7Xbrivog==
+X-CSE-MsgGUID: xg/cSGgNRpuHZ7+2G/I24Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,201,1770624000"; 
-   d="scan'208";a="257128478"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 27 Apr 2026 03:50:43 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.23,202,1770624000"; 
+   d="scan'208";a="229044484"
+Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 27 Apr 2026 04:04:41 -0700
+Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wHJY0-0000000040z-3m8F;
-	Mon, 27 Apr 2026 10:50:40 +0000
-Date: Mon, 27 Apr 2026 12:49:45 +0200
+	id 1wHJlW-000000008jB-3vrX;
+	Mon, 27 Apr 2026 11:04:38 +0000
+Date: Mon, 27 Apr 2026 19:04:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sen Wang <sen@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
- linux-doc@vger.kernel.org
-Subject: [broonie-ci:asoc-7.2 29998/30000] htmldocs:
- Documentation/sound/codecs/tas675x.rst:659: WARNING: Title underline too
- short.
-Message-ID: <202604271204.SpaDre2F-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [arnd-playground:config-gpio-legacy-7.1 22/22]
+ sound/soc/pxa/pxa2xx-pcm.c:21:19: error: use of undeclared identifier
+ 'pxa2xx_soc_pcm_new'
+Message-ID: <202604271842.4gvTibgw-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,47 +60,126 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git asoc-7.2
-head:   a960faa424ae459a7843da2734fa51580814b89a
-commit: ba46edca354e66d71d176bb88fe1c01594c45871 [29998/30000] Documentation: sound: Add TAS675x codec mixer controls documentation
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260427/202604271204.SpaDre2F-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git config-gpio-legacy-7.1
+head:   bbb302c86fdfa7705d8511a74c4b6db205cd2683
+commit: bbb302c86fdfa7705d8511a74c4b6db205cd2683 [22/22] ASoC: pxa: integrate sound/arm/pxa2xx into sound/soc/pxa2xx
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260427/202604271842.4gvTibgw-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260427/202604271842.4gvTibgw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604271204.SpaDre2F-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604271842.4gvTibgw-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   Checksumming on output with GSO
-   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [docutils]
-   MAINTAINERS:40: WARNING: Inline strong start-string without end-string. [docutils]
->> Documentation/sound/codecs/tas675x.rst:659: WARNING: Title underline too short.
+>> sound/soc/pxa/pxa2xx-pcm.c:21:19: error: use of undeclared identifier 'pxa2xx_soc_pcm_new'
+      21 |         .pcm_construct  = pxa2xx_soc_pcm_new,
+         |                           ^
+>> sound/soc/pxa/pxa2xx-pcm.c:22:11: error: use of undeclared identifier 'pxa2xx_soc_pcm_open'; did you mean 'pxa2xx_soc_platform'?
+      22 |         .open           = pxa2xx_soc_pcm_open,
+         |                           ^~~~~~~~~~~~~~~~~~~
+         |                           pxa2xx_soc_platform
+   sound/soc/pxa/pxa2xx-pcm.c:20:46: note: 'pxa2xx_soc_platform' declared here
+      20 | static const struct snd_soc_component_driver pxa2xx_soc_platform = {
+         |                                              ^
+>> sound/soc/pxa/pxa2xx-pcm.c:23:12: error: use of undeclared identifier 'pxa2xx_soc_pcm_close'; did you mean 'pxa2xx_soc_platform'?
+      23 |         .close          = pxa2xx_soc_pcm_close,
+         |                           ^~~~~~~~~~~~~~~~~~~~
+         |                           pxa2xx_soc_platform
+   sound/soc/pxa/pxa2xx-pcm.c:20:46: note: 'pxa2xx_soc_platform' declared here
+      20 | static const struct snd_soc_component_driver pxa2xx_soc_platform = {
+         |                                              ^
+>> sound/soc/pxa/pxa2xx-pcm.c:24:15: error: use of undeclared identifier 'pxa2xx_soc_pcm_hw_params'
+      24 |         .hw_params      = pxa2xx_soc_pcm_hw_params,
+         |                           ^
+>> sound/soc/pxa/pxa2xx-pcm.c:25:13: error: use of undeclared identifier 'pxa2xx_soc_pcm_prepare'
+      25 |         .prepare        = pxa2xx_soc_pcm_prepare,
+         |                           ^
+>> sound/soc/pxa/pxa2xx-pcm.c:26:13: error: use of undeclared identifier 'pxa2xx_soc_pcm_trigger'
+      26 |         .trigger        = pxa2xx_soc_pcm_trigger,
+         |                           ^
+>> sound/soc/pxa/pxa2xx-pcm.c:27:13: error: use of undeclared identifier 'pxa2xx_soc_pcm_pointer'
+      27 |         .pointer        = pxa2xx_soc_pcm_pointer,
+         |                           ^
+   7 errors generated.
 --
-   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:45: ERROR: Unknown target name: "network flags". [docutils]
-   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:50: ERROR: Unknown target name: "scope flags". [docutils]
-   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:168: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:191: ERROR: Unknown target name: "network flags". [docutils]
->> Documentation/sound/codecs/tas675x.rst: WARNING: document isn't included in any toctree [toc.not_included]
-   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
+>> sound/soc/pxa/pxa2xx-pcm-lib.c:60:8: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+      60 | static pxa2xx_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
+         | ~~~~~~ ^
+         | int
+>> sound/soc/pxa/pxa2xx-pcm-lib.c:127:5: warning: no previous prototype for function 'pxa2xx_soc_pcm_new' [-Wmissing-prototypes]
+     127 | int pxa2xx_soc_pcm_new(struct snd_soc_component *component,
+         |     ^
+   sound/soc/pxa/pxa2xx-pcm-lib.c:127:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     127 | int pxa2xx_soc_pcm_new(struct snd_soc_component *component,
+         | ^
+         | static 
+>> sound/soc/pxa/pxa2xx-pcm-lib.c:142:5: warning: no previous prototype for function 'pxa2xx_soc_pcm_open' [-Wmissing-prototypes]
+     142 | int pxa2xx_soc_pcm_open(struct snd_soc_component *component,
+         |     ^
+   sound/soc/pxa/pxa2xx-pcm-lib.c:142:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     142 | int pxa2xx_soc_pcm_open(struct snd_soc_component *component,
+         | ^
+         | static 
+>> sound/soc/pxa/pxa2xx-pcm-lib.c:149:5: warning: no previous prototype for function 'pxa2xx_soc_pcm_close' [-Wmissing-prototypes]
+     149 | int pxa2xx_soc_pcm_close(struct snd_soc_component *component,
+         |     ^
+   sound/soc/pxa/pxa2xx-pcm-lib.c:149:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     149 | int pxa2xx_soc_pcm_close(struct snd_soc_component *component,
+         | ^
+         | static 
+>> sound/soc/pxa/pxa2xx-pcm-lib.c:156:5: warning: no previous prototype for function 'pxa2xx_soc_pcm_hw_params' [-Wmissing-prototypes]
+     156 | int pxa2xx_soc_pcm_hw_params(struct snd_soc_component *component,
+         |     ^
+   sound/soc/pxa/pxa2xx-pcm-lib.c:156:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     156 | int pxa2xx_soc_pcm_hw_params(struct snd_soc_component *component,
+         | ^
+         | static 
+>> sound/soc/pxa/pxa2xx-pcm-lib.c:164:5: warning: no previous prototype for function 'pxa2xx_soc_pcm_prepare' [-Wmissing-prototypes]
+     164 | int pxa2xx_soc_pcm_prepare(struct snd_soc_component *component,
+         |     ^
+   sound/soc/pxa/pxa2xx-pcm-lib.c:164:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     164 | int pxa2xx_soc_pcm_prepare(struct snd_soc_component *component,
+         | ^
+         | static 
+>> sound/soc/pxa/pxa2xx-pcm-lib.c:171:5: warning: no previous prototype for function 'pxa2xx_soc_pcm_trigger' [-Wmissing-prototypes]
+     171 | int pxa2xx_soc_pcm_trigger(struct snd_soc_component *component,
+         |     ^
+   sound/soc/pxa/pxa2xx-pcm-lib.c:171:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     171 | int pxa2xx_soc_pcm_trigger(struct snd_soc_component *component,
+         | ^
+         | static 
+>> sound/soc/pxa/pxa2xx-pcm-lib.c:179:1: warning: no previous prototype for function 'pxa2xx_soc_pcm_pointer' [-Wmissing-prototypes]
+     179 | pxa2xx_soc_pcm_pointer(struct snd_soc_component *component,
+         | ^
+   sound/soc/pxa/pxa2xx-pcm-lib.c:178:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     178 | snd_pcm_uframes_t
+         | ^
+         | static 
+   7 warnings and 1 error generated.
 
 
-vim +659 Documentation/sound/codecs/tas675x.rst
+vim +/pxa2xx_soc_pcm_new +21 sound/soc/pxa/pxa2xx-pcm.c
 
-   657	
-   658	Overtemperature Shutdown (0x87)
- > 659	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   660	
-   661	  ========  ==========================================
-   662	  Bits      Description
-   663	  ========  ==========================================
-   664	  [4]       Global OTSD
-   665	  [3:0]     CH1-CH4 OTSD respectively
-   666	  ========  ==========================================
-   667	
+f11a96d5cd9420 Liam Girdwood     2006-10-12  19  
+0717e66f404123 Kuninori Morimoto 2018-01-29  20  static const struct snd_soc_component_driver pxa2xx_soc_platform = {
+f8772e17def204 Kuninori Morimoto 2019-10-02 @21  	.pcm_construct	= pxa2xx_soc_pcm_new,
+f8772e17def204 Kuninori Morimoto 2019-10-02 @22  	.open		= pxa2xx_soc_pcm_open,
+f8772e17def204 Kuninori Morimoto 2019-10-02 @23  	.close		= pxa2xx_soc_pcm_close,
+f8772e17def204 Kuninori Morimoto 2019-10-02 @24  	.hw_params	= pxa2xx_soc_pcm_hw_params,
+f8772e17def204 Kuninori Morimoto 2019-10-02 @25  	.prepare	= pxa2xx_soc_pcm_prepare,
+f8772e17def204 Kuninori Morimoto 2019-10-02 @26  	.trigger	= pxa2xx_soc_pcm_trigger,
+f8772e17def204 Kuninori Morimoto 2019-10-02 @27  	.pointer	= pxa2xx_soc_pcm_pointer,
+f11a96d5cd9420 Liam Girdwood     2006-10-12  28  };
+f11a96d5cd9420 Liam Girdwood     2006-10-12  29  
+
+:::::: The code at line 21 was first introduced by commit
+:::::: f8772e17def20470f94bd1d6e1cf24badb2611de ASoC: pxa: remove snd_pcm_ops
+
+:::::: TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
