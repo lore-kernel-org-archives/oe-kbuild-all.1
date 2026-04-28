@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93FD32F360A;
-	Tue, 28 Apr 2026 14:58:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AE25326D51
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Apr 2026 15:41:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777388289; cv=none; b=X+QLxQDLcp1hGdJnigyk5BsiBjkgNGFT9/qiK2khGO2j4fL3C/dxckptc7Re2idPtptkP36E5PaC1E2SrGEt+6bEXhjImtRBcpF9vt0rvvf4lyR8C5YJimmNjw08ntzX0tczYrmEa7zMYbLfyHjHngnTA9hFfGCMt9pAX0yvwCs=
+	t=1777390868; cv=none; b=mk2yK+Dc1JYFmvDTafp+1myaAjE51zZwJRKSwePSZZOslSG0NqBDuKCBwsNn43N5OTuN8xqvrBRl+eQAhxWm+GovUmHUM8vNRobfzUt3JspR9I2xPiVHbJGpeByoyTjPjeFuqqPcM9RA9L3w/eGZJipqJOMd4f9MFJLCthY/xLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777388289; c=relaxed/simple;
-	bh=4OHR80aTjp1InEXdOb3F7kyD5SV7n5YzXN+ek0NV2Ko=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=GDU31w3IYpOdSTznAHJrqTNO2uv9RHZc7s4ZqayjrCAcN5RyfHtiQ7yDwaBItXpPfyEFJyYyUACs5HJPGIg8ax3kpX0yzfVHUyRKYgJvNF0bzNfya1Qewl0RP9qNTpQ4yJGN1b+ehWLrG3G4vx3XZh21VVPkb0hjv5oMAlc1rM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HlSLQ90t; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1777390868; c=relaxed/simple;
+	bh=SwFktZyQnHaWOcGqiO3VSqadri33vwcKjGtfvdeWQSY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sxCPXgfdwHsIYpjyqiz8IGaTR7GvKvMevdzM40OIGt5WBMs+4zLHdqDkAUyOFXPWRm2RSSMJpVJMzBaCMe11+e/xFIydMT5X/XYLD9Cjog78jLOfo+RT8MnOIuQegE/AcatDEw8erzn8T5GBlerR+jZwwLWhrEumI35jpLNPXWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N0g8Ecu+; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HlSLQ90t"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N0g8Ecu+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777388288; x=1808924288;
+  t=1777390867; x=1808926867;
   h=date:from:to:cc:subject:message-id;
-  bh=4OHR80aTjp1InEXdOb3F7kyD5SV7n5YzXN+ek0NV2Ko=;
-  b=HlSLQ90tHO31t9/f15CvqA7JW8Z1OlZemZFwSPJFj7YSnBHicatW74Ly
-   PR9Pm3d9I7bvBMKUmXtP2Sj4Bv9nrQCsuaEmod1jvpSoy6xQIUfaRECHF
-   4auW1MjZGaG5NNXdxMVdtHrvTlgLtxf1GrYYgJfdZo7ukfUQSLJcBCf2f
-   nKbjwNztHjwr7C3qRFkEqGc5Wl0RK6Oma7K30kP4H3UrD0uo9USYZjCzC
-   db+a2DNwwNIQPN/YcwtsWJ+RDFhI/kaEsbzGDbDYI8VgXBH39lYr6ZHSO
-   0pvT04Lgxpwl8VMWKyc+aQu/kue20gi42o1jDh42pEXP7dIMBXJ42iNRD
-   A==;
-X-CSE-ConnectionGUID: dzV7nWbGQGCQjNIFmZEXAQ==
-X-CSE-MsgGUID: JIF8PBlTQam5l6Xar8BwCw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11770"; a="78282600"
+  bh=SwFktZyQnHaWOcGqiO3VSqadri33vwcKjGtfvdeWQSY=;
+  b=N0g8Ecu+aSPSredbb6roZCJpgxtDuWEa/Irfj+hmPp6YS+pzTppCtYA1
+   Nj/Bl1Vv4OatMIYpWsrRQ978rYYCKCP7Ebz4g9mI5+20ValaJMDx2Slbd
+   j1oz8oRzaWvfr/ZTd7Z4WIyMzt9HnfdpIuuL4uP4i/G0j/7IMHOgqL508
+   +xy1RVTOny178MI/EVjggnub/HlQEZeWtekgUmXTsYQHga9eiYe2WdCtq
+   6DMP+FAlQM8WClifp2DWohNcns5Duc5It1ZPP5kDHNTTjZQULt8xFkLDM
+   QnBlzbAt6HunhgABVeOqgpuW7Bpat1Fi4QtLDnvFQ3J1AYT1eUzIJw1u6
+   w==;
+X-CSE-ConnectionGUID: KEo/owSaT26Z2URPdRo09A==
+X-CSE-MsgGUID: /8Urodh7QRWycOTNsBwZxQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11770"; a="88612995"
 X-IronPort-AV: E=Sophos;i="6.23,204,1770624000"; 
-   d="scan'208";a="78282600"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 07:58:08 -0700
-X-CSE-ConnectionGUID: CbTVtVgOSSmdcyl1qzmWkw==
-X-CSE-MsgGUID: 4Rio9jjlRJilPt8thgL1NQ==
+   d="scan'208";a="88612995"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 08:41:07 -0700
+X-CSE-ConnectionGUID: Sq1ANrTfRJS5rJYA/fTpmA==
+X-CSE-MsgGUID: UddEichmRIi9oYAy/OqSjw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,204,1770624000"; 
-   d="scan'208";a="229618855"
+   d="scan'208";a="272128778"
 Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 28 Apr 2026 07:58:03 -0700
+  by orviesa001.jf.intel.com with ESMTP; 28 Apr 2026 08:41:04 -0700
 Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wHjsu-000000009to-2mme;
-	Tue, 28 Apr 2026 14:58:00 +0000
-Date: Tue, 28 Apr 2026 22:57:37 +0800
+	id 1wHkYY-000000009vA-1s8y;
+	Tue, 28 Apr 2026 15:41:02 +0000
+Date: Tue, 28 Apr 2026 23:40:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Richard Kuo <rkuo@quicinc.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Brian Cain <bcain@kernel.org>
-Subject: [bcain:bcain/hmx 20/66] make[4]: *** No rule to make target
- 'arch/hexagon/boot/dts/comet.dtb', needed by
- 'arch/hexagon/boot/dts/comet.dtb.S'.
-Message-ID: <202604282240.C72EeMpO-lkp@intel.com>
+To: Marc Zyngier <maz@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: [arm-platforms:kvm-arm64/no-lazy-vgic-init 22/26]
+ include/kvm/arm_pmu.h:134:46: warning: no return statement in function
+ returning non-void
+Message-ID: <202604282305.uZdSNvk7-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,49 +60,96 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git bcain/hmx
-head:   1d0fb0b4cf1764f00775cff1c17c2b3494b6b94e
-commit: c6e6540ae87898e9116e2748f9afd56a5f0cf7e2 [20/66] hexagon: update build system and Kconfig
-config: hexagon-allnoconfig (https://download.01.org/0day-ci/archive/20260428/202604282240.C72EeMpO-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260428/202604282240.C72EeMpO-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git kvm-arm64/no-lazy-vgic-init
+head:   3bba2d1179c5198c5788cd387feeeba2070e7cd9
+commit: 4c12b5742e18dbd00b0b59f3882478219d73b463 [22/26] KVM: arm64: Simplify userspace notification of interrupt state
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20260428/202604282305.uZdSNvk7-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260428/202604282305.uZdSNvk7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604282240.C72EeMpO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604282305.uZdSNvk7-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> Makefile:1557: warning: overriding recipe for target 'dtbs'
->> arch/hexagon/Makefile:81: warning: ignoring old recipe for target 'dtbs'
-   make[2]: *** [Makefile:2101: .] Error 2
-   make[2]: Target './' not remade because of errors.
+   In file included from arch/arm64/include/asm/kvm_host.h:38,
+                    from include/linux/kvm_host.h:45,
+                    from arch/arm64/kernel/asm-offsets.c:16:
+   include/kvm/arm_pmu.h: In function 'kvm_pmu_update_run':
+>> include/kvm/arm_pmu.h:134:46: warning: no return statement in function returning non-void [-Wreturn-type]
+     134 | static inline bool kvm_pmu_update_run(struct kvm_vcpu *vcpu) {}
+         |                                              ^~~~~~~~
 --
->> make[4]: *** No rule to make target 'arch/hexagon/boot/dts/comet.dtb', needed by 'arch/hexagon/boot/dts/comet.dtb.S'.
-   make[4]: Target 'arch/hexagon/boot/dts/' not remade because of errors.
---
->> Makefile:1557: warning: overriding recipe for target 'dtbs'
->> arch/hexagon/Makefile:81: warning: ignoring old recipe for target 'dtbs'
---
->> /kbuild/src/Makefile:1557: warning: overriding recipe for target 'dtbs'
->> /kbuild/src/arch/hexagon/Makefile:81: warning: ignoring old recipe for target 'dtbs'
-   /kbuild/src/scripts/Makefile.clean:12: /kbuild/src/arch/hexagon/platform/sm8150/Makefile: No such file or directory
-   make[3]: *** No rule to make target '/kbuild/src/arch/hexagon/platform/sm8150/Makefile'.
-   /kbuild/src/scripts/Makefile.clean:12: Failed to remake makefile '/kbuild/src/arch/hexagon/platform/sm8150/Makefile'.
-   make[2]: *** [/kbuild/src/Makefile:2106: _clean_arch/hexagon/platform/sm8150] Error 2
-   make[2]: Target 'mrproper' not remade because of errors.
-   make[1]: *** [/kbuild/src/Makefile:248: __sub-make] Error 2
-   make[1]: Target 'mrproper' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'mrproper' not remade because of errors.
---
->> Makefile:1557: warning: overriding recipe for target 'dtbs'
->> arch/hexagon/Makefile:81: warning: ignoring old recipe for target 'dtbs'
-   scripts/mod/modpost.c:59:13: warning: variable 'extra_warn' set but not used [-Wunused-but-set-global]
-      59 | static bool extra_warn;
-         |             ^
-   1 warning generated.
+   In file included from arch/arm64/include/asm/kvm_host.h:38,
+                    from include/linux/kvm_host.h:45,
+                    from arch/arm64/kernel/asm-offsets.c:16:
+   include/kvm/arm_pmu.h: In function 'kvm_pmu_update_run':
+>> include/kvm/arm_pmu.h:134:46: warning: no return statement in function returning non-void [-Wreturn-type]
+     134 | static inline bool kvm_pmu_update_run(struct kvm_vcpu *vcpu) {}
+         |                                              ^~~~~~~~
+
+
+vim +134 include/kvm/arm_pmu.h
+
+   106	
+   107	#define kvm_arm_pmu_irq_initialized(v)	(false)
+   108	static inline u64 kvm_pmu_get_counter_value(struct kvm_vcpu *vcpu,
+   109						    u64 select_idx)
+   110	{
+   111		return 0;
+   112	}
+   113	static inline void kvm_pmu_set_counter_value(struct kvm_vcpu *vcpu,
+   114						     u64 select_idx, u64 val) {}
+   115	static inline void kvm_pmu_set_counter_value_user(struct kvm_vcpu *vcpu,
+   116							  u64 select_idx, u64 val) {}
+   117	static inline u64 kvm_pmu_implemented_counter_mask(struct kvm_vcpu *vcpu)
+   118	{
+   119		return 0;
+   120	}
+   121	static inline u64 kvm_pmu_accessible_counter_mask(struct kvm_vcpu *vcpu)
+   122	{
+   123		return 0;
+   124	}
+   125	static inline void kvm_pmu_vcpu_init(struct kvm_vcpu *vcpu) {}
+   126	static inline void kvm_pmu_vcpu_destroy(struct kvm_vcpu *vcpu) {}
+   127	static inline void kvm_pmu_reprogram_counter_mask(struct kvm_vcpu *vcpu, u64 val) {}
+   128	static inline void kvm_pmu_flush_hwstate(struct kvm_vcpu *vcpu) {}
+   129	static inline void kvm_pmu_sync_hwstate(struct kvm_vcpu *vcpu) {}
+   130	static inline bool kvm_pmu_should_notify_user(struct kvm_vcpu *vcpu)
+   131	{
+   132		return false;
+   133	}
+ > 134	static inline bool kvm_pmu_update_run(struct kvm_vcpu *vcpu) {}
+   135	static inline void kvm_pmu_software_increment(struct kvm_vcpu *vcpu, u64 val) {}
+   136	static inline void kvm_pmu_handle_pmcr(struct kvm_vcpu *vcpu, u64 val) {}
+   137	static inline void kvm_pmu_set_counter_event_type(struct kvm_vcpu *vcpu,
+   138							  u64 data, u64 select_idx) {}
+   139	static inline int kvm_arm_pmu_v3_set_attr(struct kvm_vcpu *vcpu,
+   140						  struct kvm_device_attr *attr)
+   141	{
+   142		return -ENXIO;
+   143	}
+   144	static inline int kvm_arm_pmu_v3_get_attr(struct kvm_vcpu *vcpu,
+   145						  struct kvm_device_attr *attr)
+   146	{
+   147		return -ENXIO;
+   148	}
+   149	static inline int kvm_arm_pmu_v3_has_attr(struct kvm_vcpu *vcpu,
+   150						  struct kvm_device_attr *attr)
+   151	{
+   152		return -ENXIO;
+   153	}
+   154	static inline int kvm_arm_pmu_v3_enable(struct kvm_vcpu *vcpu)
+   155	{
+   156		return 0;
+   157	}
+   158	static inline u64 kvm_pmu_get_pmceid(struct kvm_vcpu *vcpu, bool pmceid1)
+   159	{
+   160		return 0;
+   161	}
+   162	
 
 -- 
 0-DAY CI Kernel Test Service
