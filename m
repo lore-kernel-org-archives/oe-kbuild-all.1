@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3981E3A5E84
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Apr 2026 07:22:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07E8D37BE7A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Apr 2026 07:35:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777447340; cv=none; b=iymhhQoTO6VmbbWqsy82oEUHbmXH9pLG3c2vlmOo4lWEmE0WOhRSCVPRCcMIaOGrvLWubJv1gD4o7abwP2UP4j8TEBbl+vZyaSw53vwhCDdEVNArhDfpQ4qJYf8JBzPB7EXP7zIQbJeJ1Bb/1LiOI24GvY/yWxAr4l5SOL+UxgQ=
+	t=1777448122; cv=none; b=Z6qIzHxI+KIgJJULpb+x2WJmG4NxtFRraV3MDCdvnWGLZjJNE/0usor/zdqtywgVBS9C1K8/V8xqwBGhQ2TZI8AO1WeDdkH7ouccQea4ETBVdG8CBi4u++q6awL5TyNRe9xPsldTri2Th3KH0zWroCjGC+iYSAx1ESwhwLfD28M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777447340; c=relaxed/simple;
-	bh=/ZIj71H6tSeT3GiyOW6v6FaeUnS1pyHF0P2L9U9RmUc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=rgnL6DQWm+DUBhRlRJ6cpl2HfLlpYmUGaS6rVf8wreq6ate6XmG/hE4HKhDxmKzup8501+0+l1R0Si+gzmIqxHzLVptVQh3ZrN1qiuFnWF0dHhZva79XUFihJgbZH24EOpaL7elyoE31mgb87lfICIZB0sImIsSD0TBMv//OvYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=myWGB0/x; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1777448122; c=relaxed/simple;
+	bh=I3TJhs9tOrf5vAYSpXpoa+xlvXb2xN5nzYyPHlYoWjI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=OlfeDv/bG3bewYMZUY2y01AkbO6jivSWcurKoI4oPhgJio+Q775UvgZADHiLE8gVEni+6pLIdvAdk8ceADMhx8CiIhIsaNRSNadcyiR5YHTIXV1PlCScBq+X6gWUJhRt5rf3OIk0rRHzx7kuOi84+e3C623hvmr43JdfwPYgDs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bx4pRaJa; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="myWGB0/x"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bx4pRaJa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777447337; x=1808983337;
+  t=1777448120; x=1808984120;
   h=date:from:to:cc:subject:message-id;
-  bh=/ZIj71H6tSeT3GiyOW6v6FaeUnS1pyHF0P2L9U9RmUc=;
-  b=myWGB0/xmYp6VZ7F5ZsaIAyph9TluH6XkgrkQ6JxoMNmMvY5nvuKSCcf
-   XilxOztwvtTZqF00r2HAqMH/kauYqClLh+/6d2yK406YASnKnv6MvskQK
-   /pOJLRfi05jjpIWhumHTFMfxIsUt2ioNoZOVTQKpG5FmGI39Iy0ieENSa
-   Twf/+fvHRUrNpwdzqjRT5sSvOgkvP2Xnsrh+fuMoBFx2KCb5R01bb3mCe
-   0Xpa9DRoLi0rc5sM+7KXYrkOMCpVmp7uZtkcoDSalv6LwSAQm35IDrcCf
-   LEYFXDHJsrFa1p5g+bwkdP2CQkyLvlHQQ2dYDng1KpcqLFQaTRY7J97cx
-   g==;
-X-CSE-ConnectionGUID: Y2EC9qXnT4quxS7/p1zM0w==
-X-CSE-MsgGUID: cCYm34CJTbK+BMjf8DYulA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11770"; a="88678592"
+  bh=I3TJhs9tOrf5vAYSpXpoa+xlvXb2xN5nzYyPHlYoWjI=;
+  b=Bx4pRaJa8Og7Vm+kPhZTUfpUkWayCfn/Lg/hd1rs4EstdMK0G7VHgxFe
+   /oeMKgDJoD8uqasEq4jw9yVc99n45aL/CNRu4iM5/B50k5e932p3TNjAW
+   CzigAe5DZoBoZ9MwrUd6vlH8wOemiovkHXVGn9RPfs4M8lcI+uCfiFgin
+   zqhT73Q33AqK956n5d3pwfNoXwcX69FAbHUTC3tl3AhsQuNyY2OMRLqDv
+   3kffBC+dhu3KJ4ZYzYrdUKRRpkvitO7R+CiVqOx6IxUQAVSIs3v0s5+ZP
+   pB5uUqLEdWHTbSGddEzQE6QZS/4UUWibzApIJHR1EZiy432aVCYsXshal
+   w==;
+X-CSE-ConnectionGUID: 4bYHFjBcR96eAHN1kXjjww==
+X-CSE-MsgGUID: 1RvtruEmQRGdachkh7kGqw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11770"; a="95937274"
 X-IronPort-AV: E=Sophos;i="6.23,205,1770624000"; 
-   d="scan'208";a="88678592"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 00:22:17 -0700
-X-CSE-ConnectionGUID: QHWBM+h3RQi76GYlkQDhBw==
-X-CSE-MsgGUID: H68LAGmgRf+T6MfsFo/7Dg==
+   d="scan'208";a="95937274"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 00:35:19 -0700
+X-CSE-ConnectionGUID: MytCV6LoQO6f9apH7MHiiA==
+X-CSE-MsgGUID: 5uR59AVSQcSIfNYW4nqqHg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,205,1770624000"; 
-   d="scan'208";a="233327962"
+   d="scan'208";a="238524080"
 Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 29 Apr 2026 00:22:15 -0700
+  by orviesa004.jf.intel.com with ESMTP; 29 Apr 2026 00:35:17 -0700
 Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wHzFM-00000000Aje-2dCh;
-	Wed, 29 Apr 2026 07:22:12 +0000
-Date: Wed, 29 Apr 2026 15:21:59 +0800
+	id 1wHzRy-00000000Akm-1x8v;
+	Wed, 29 Apr 2026 07:35:14 +0000
+Date: Wed, 29 Apr 2026 15:34:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
 Subject: [sailus-media-tree:metadata 80/122]
- drivers/media/i2c/ccs/ccs-core.c:2486:47: error: passing argument 2 of
- 'ccs_get_format' from incompatible pointer type
-Message-ID: <202604291512.J1OPGgas-lkp@intel.com>
+ drivers/media/i2c/ccs/ccs-core.c:2486:24: error: too many arguments to
+ function 'ccs_get_format'; expected 3, have 4
+Message-ID: <202604291554.jge9fFXX-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,19 +63,19 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   git://linuxtv.org/sailus/media_tree.git metadata
 head:   489ab6e79288be8d219b68525a13699fde0248ae
 commit: f3d14633599ac2e30aeb1e1af17db73b46682931 [80/122] media: ccs: Add support for embedded data stream
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260429/202604291512.J1OPGgas-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260429/202604291512.J1OPGgas-lkp@intel.com/reproduce)
+config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/20260429/202604291554.jge9fFXX-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260429/202604291554.jge9fFXX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604291512.J1OPGgas-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604291554.jge9fFXX-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
    drivers/media/i2c/ccs/ccs-core.c: In function 'ccs_set_format':
->> drivers/media/i2c/ccs/ccs-core.c:2486:47: error: passing argument 2 of 'ccs_get_format' from incompatible pointer type [-Werror=incompatible-pointer-types]
+   drivers/media/i2c/ccs/ccs-core.c:2486:47: error: passing argument 2 of 'ccs_get_format' from incompatible pointer type [-Wincompatible-pointer-types]
     2486 |                 return ccs_get_format(subdev, ci, sd_state, fmt);
          |                                               ^~
          |                                               |
@@ -83,7 +83,7 @@ All errors (new ones prefixed by >>):
    drivers/media/i2c/ccs/ccs-core.c:2299:53: note: expected 'struct v4l2_subdev_state *' but argument is of type 'const struct v4l2_subdev_client_info *'
     2299 |                           struct v4l2_subdev_state *sd_state,
          |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
-   drivers/media/i2c/ccs/ccs-core.c:2486:51: error: passing argument 3 of 'ccs_get_format' from incompatible pointer type [-Werror=incompatible-pointer-types]
+   drivers/media/i2c/ccs/ccs-core.c:2486:51: error: passing argument 3 of 'ccs_get_format' from incompatible pointer type [-Wincompatible-pointer-types]
     2486 |                 return ccs_get_format(subdev, ci, sd_state, fmt);
          |                                                   ^~~~~~~~
          |                                                   |
@@ -91,13 +91,12 @@ All errors (new ones prefixed by >>):
    drivers/media/i2c/ccs/ccs-core.c:2300:54: note: expected 'struct v4l2_subdev_format *' but argument is of type 'struct v4l2_subdev_state *'
     2300 |                           struct v4l2_subdev_format *fmt)
          |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
->> drivers/media/i2c/ccs/ccs-core.c:2486:24: error: too many arguments to function 'ccs_get_format'
+>> drivers/media/i2c/ccs/ccs-core.c:2486:24: error: too many arguments to function 'ccs_get_format'; expected 3, have 4
     2486 |                 return ccs_get_format(subdev, ci, sd_state, fmt);
-         |                        ^~~~~~~~~~~~~~
+         |                        ^~~~~~~~~~~~~~                       ~~~
    drivers/media/i2c/ccs/ccs-core.c:2298:12: note: declared here
     2298 | static int ccs_get_format(struct v4l2_subdev *subdev,
          |            ^~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
 
 
 vim +/ccs_get_format +2486 drivers/media/i2c/ccs/ccs-core.c
