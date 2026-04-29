@@ -1,148 +1,97 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C13E737AA70
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Apr 2026 23:07:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19AB039F166
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Apr 2026 23:40:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777504032; cv=none; b=ikHhvmxFyhDVPOG99iD9zS83ehOCY/JZcBrZwXVaG27jbU0aOR+dNk0OLn19TK+zyVfiIagAkBVFX5bxmJS6JkzKrXNbZkniTiZjrMVlqp/HlzeoKUfFlxLulplDRUYVDy6dXktGhy4BoUSHLuazE0gBb83V1OpvrM6QjF7Xonw=
+	t=1777506009; cv=none; b=uO/cAi/LD2Ip5qTYHsrdzffEs2UvSgDmLwWS56h+mMdXeBkey7gprlID7+75qD2TwK5N2AxtD07jjn0jE61lYUef0ONx6zwUdbHked+IA1CI7jXN9iTXbiO/ojiW20yPBvmFcurGWvdQak4UCD9WR9DYDvXftM7yRoZdRipNmfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777504032; c=relaxed/simple;
-	bh=JTlhJ9osmBzwut4VSM8c5XR2dSqQSlr9sygStqPGqhw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ACS3V+Dylesbo0OgMRF4OEkagCA0d9CehEX38NMmS2/X/KF3oWaSQTOWzwRT7qoXbTgCbiuV8OY7tMkUBwcAUtv6DSP9xZccxyaze2z5749s68mp+BB48md+Kcey3aBDy3kn7jJwgIO9HpgMcOS+5PeN9C3XBw8BfrPvInzypLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Grq8QSf8; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1777506009; c=relaxed/simple;
+	bh=8DutFobvQaBDZuapNTTnnnVmpaXtxyzed+1FMM6VAaA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=l3PAUUr+Iv5lgnhp/y3NST5DnPyU0RftJWlfyL5HNyh0iOcxMs130L5s7Bf5hgU62J2SPmCurq1QFTt/AzU1xSRHJH995BfyS3Mm6+GCrUNQlFwUcUWryhXQ19FD6VYR8PDARW0+o+R32in0fuq8XsqcBB3Cm/r4CSsKWyLNsTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DPdDAMmU; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Grq8QSf8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DPdDAMmU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777504031; x=1809040031;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JTlhJ9osmBzwut4VSM8c5XR2dSqQSlr9sygStqPGqhw=;
-  b=Grq8QSf8zfGT1TcuyrMew9ww7+rvPDeDoAf86f8j6AHXIG/jh4eILMPv
-   H7/wt8NIvfb+sMzoJfflfeHFBHSXUKn1K9XohN1zl1qxjULithvHsk/el
-   NHuSD5HGaJRsK+JTEngNcHAQ+VVdRszdy7n7wujYVwLl3VZeaVu/peT+h
-   ZiWMCAMJWrxx7whwX38usCAgy8koUGrOp4XFshPUqZEPcG50dMYnp3f6E
-   LQgIEcbGYt7fWX5hzXjtSc5HIxVumsC5toL4fBhHs8h5bCFPuWPZR1SFT
-   LFVv+1BOmKoCq6nj936qJvtYi/E2CIaVQF/Fky/CGtZAXewWWHY3/TZZ8
+  t=1777506009; x=1809042009;
+  h=date:from:to:cc:subject:message-id;
+  bh=8DutFobvQaBDZuapNTTnnnVmpaXtxyzed+1FMM6VAaA=;
+  b=DPdDAMmUEcqEtufQwdE0ODiDpOfrCm0bWI0gPmpEI/vItyzOhaM2PKzA
+   51fOErC9sC0OuBVsdajTs8AAo5Q+2tl++TRGSETeWhsjOt6I9TzkRr8eD
+   9KzwZ2tPLc74a2kI2S8KmKKcELvcOy8w9QHGHJsOJvdgbw6S55odNpJFU
+   OG3pljXeWr5g2ZUEW8w4j0KrpYo0Fg10w0zqzMjcR+KzFP9JykkU361ln
+   i6JiANThZ+hi2Dax2EcTKtop6qzVINTK5pjzCwHl1p8Bn1Aow9dYo81ZJ
+   HyalIyfVlP0GqKn1iZb9dsO1jv894FpQCfLwkcBqOOXx3I2O2uhNE2Ghl
    A==;
-X-CSE-ConnectionGUID: cuVba9KRRM+YRhinN4YMNg==
-X-CSE-MsgGUID: BBeZ6JpeS7+Ag/weN41SpQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="77611435"
+X-CSE-ConnectionGUID: KbOIDf5PQw69AKm8flBo0A==
+X-CSE-MsgGUID: 7v8QfpfsTVmJLCxk6qetug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="78366636"
 X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
-   d="scan'208";a="77611435"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 16:07:09 -0700
-X-CSE-ConnectionGUID: VC1tCHacRSWbNay9m+nl0g==
-X-CSE-MsgGUID: toe1Wfn8RzKFGVtaYgts5g==
+   d="scan'208";a="78366636"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 16:40:08 -0700
+X-CSE-ConnectionGUID: WEwoOfGHQ3ePm5tRKvw1Mw==
+X-CSE-MsgGUID: oDJLsV/BTCKpH0ZYx929KA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
-   d="scan'208";a="234676554"
+   d="scan'208";a="272533552"
 Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 29 Apr 2026 16:07:06 -0700
+  by orviesa001.jf.intel.com with ESMTP; 29 Apr 2026 16:40:06 -0700
 Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wIDzi-00000000Bd8-1zWM;
-	Wed, 29 Apr 2026 23:07:02 +0000
-Date: Thu, 30 Apr 2026 07:06:18 +0800
+	id 1wIEVf-00000000Bei-3WG0;
+	Wed, 29 Apr 2026 23:40:03 +0000
+Date: Thu, 30 Apr 2026 07:39:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@kernel.org>, Steve French <sfrench@samba.org>,
-	Enzo Matsumiya <ematsumiya@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>,
-	Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>,
-	Bharath SM <bharathsm@microsoft.com>,
-	Stefan Metzmacher <metze@samba.org>,
-	Namjae Jeon <linkinjeon@kernel.org>, linux-cifs@vger.kernel.org,
-	samba-technical@lists.samba.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] smb: client: hide unused cifs_debug_dirs_proc_ops
-Message-ID: <202604300622.95X1Ab1U-lkp@intel.com>
-References: <20260423065042.1898971-1-arnd@kernel.org>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [amir73il:fan_mark_userns 9/11] kernel/nscommon.c:149:2:
+ error: call to undeclared function 'fsnotify_ns'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202604300731.ubiUcSJH-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260423065042.1898971-1-arnd@kernel.org>
 
-Hi Arnd,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20260424]
-[also build test ERROR on linus/master v7.1-rc1]
-[cannot apply to v7.0 v7.0-rc7 v7.0-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Arnd-Bergmann/smb-client-hide-unused-cifs_debug_dirs_proc_ops/20260426-163431
-base:   next-20260424
-patch link:    https://lore.kernel.org/r/20260423065042.1898971-1-arnd%40kernel.org
-patch subject: [PATCH] smb: client: hide unused cifs_debug_dirs_proc_ops
-config: microblaze-defconfig (https://download.01.org/0day-ci/archive/20260430/202604300622.95X1Ab1U-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604300622.95X1Ab1U-lkp@intel.com/reproduce)
+tree:   https://github.com/amir73il/linux fan_mark_userns
+head:   f2a3e4bb97217a9bed53d32a78ddd22353868118
+commit: 4dcba799f789519dcdfd1892e990ec313c3f4539 [9/11] fanotify: add support for watching the namespaces tree
+config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20260430/202604300731.ubiUcSJH-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604300731.ubiUcSJH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604300622.95X1Ab1U-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604300731.ubiUcSJH-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/smb/client/cifs_debug.c: In function 'cifs_proc_init':
->> fs/smb/client/cifs_debug.c:937:55: error: 'cifs_debug_dirs_proc_ops' undeclared (first use in this function); did you mean 'cifs_debug_dirs_proc_show'?
-     937 |         proc_create("open_dirs", 0600, proc_fs_cifs, &cifs_debug_dirs_proc_ops);
-         |                                                       ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                                                       cifs_debug_dirs_proc_show
-   fs/smb/client/cifs_debug.c:937:55: note: each undeclared identifier is reported only once for each function it appears in
-   fs/smb/client/cifs_debug.c: At top level:
-   fs/smb/client/cifs_debug.c:298:12: warning: 'cifs_debug_dirs_proc_show' defined but not used [-Wunused-function]
-     298 | static int cifs_debug_dirs_proc_show(struct seq_file *m, void *v)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/nscommon.c:149:2: error: call to undeclared function 'fsnotify_ns'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     149 |         fsnotify_ns(mask, owner_userns, ns->ns_id,
+         |         ^
+   kernel/nscommon.c:149:2: note: did you mean 'fsnotify_mnt'?
+   include/linux/fsnotify_backend.h:1042:20: note: 'fsnotify_mnt' declared here
+    1042 | static inline void fsnotify_mnt(__u32 mask, struct mnt_namespace *ns, struct vfsmount *mnt)
+         |                    ^
+   1 error generated.
 
 
-vim +937 fs/smb/client/cifs_debug.c
+vim +/fsnotify_ns +149 kernel/nscommon.c
 
-^1da177e4c3f41 fs/cifs/cifs_debug.c       Linus Torvalds    2005-04-16  922  
-^1da177e4c3f41 fs/cifs/cifs_debug.c       Linus Torvalds    2005-04-16  923  void
-^1da177e4c3f41 fs/cifs/cifs_debug.c       Linus Torvalds    2005-04-16  924  cifs_proc_init(void)
-^1da177e4c3f41 fs/cifs/cifs_debug.c       Linus Torvalds    2005-04-16  925  {
-36a5aeb8787fbf fs/cifs/cifs_debug.c       Alexey Dobriyan   2008-04-29  926  	proc_fs_cifs = proc_mkdir("fs/cifs", NULL);
-^1da177e4c3f41 fs/cifs/cifs_debug.c       Linus Torvalds    2005-04-16  927  	if (proc_fs_cifs == NULL)
-^1da177e4c3f41 fs/cifs/cifs_debug.c       Linus Torvalds    2005-04-16  928  		return;
-^1da177e4c3f41 fs/cifs/cifs_debug.c       Linus Torvalds    2005-04-16  929  
-3f3942aca6da35 fs/cifs/cifs_debug.c       Christoph Hellwig 2018-05-15  930  	proc_create_single("DebugData", 0, proc_fs_cifs,
-3f3942aca6da35 fs/cifs/cifs_debug.c       Christoph Hellwig 2018-05-15  931  			cifs_debug_data_proc_show);
-^1da177e4c3f41 fs/cifs/cifs_debug.c       Linus Torvalds    2005-04-16  932  
-dfe33f9abc0899 fs/cifs/cifs_debug.c       Steve French      2018-10-30  933  	proc_create_single("open_files", 0400, proc_fs_cifs,
-dfe33f9abc0899 fs/cifs/cifs_debug.c       Steve French      2018-10-30  934  			cifs_debug_files_proc_show);
-dfe33f9abc0899 fs/cifs/cifs_debug.c       Steve French      2018-10-30  935  
-17d912d54f2305 fs/smb/client/cifs_debug.c Enzo Matsumiya    2026-04-22  936  #ifdef CONFIG_CIFS_DEBUG
-17d912d54f2305 fs/smb/client/cifs_debug.c Enzo Matsumiya    2026-04-22 @937  	proc_create("open_dirs", 0600, proc_fs_cifs, &cifs_debug_dirs_proc_ops);
-17d912d54f2305 fs/smb/client/cifs_debug.c Enzo Matsumiya    2026-04-22  938  #else /* CONFIG_CIFS_DEBUG */
-17d912d54f2305 fs/smb/client/cifs_debug.c Enzo Matsumiya    2026-04-22  939  	proc_create_single("open_dirs", 0400, proc_fs_cifs, cifs_debug_dirs_proc_show);
-17d912d54f2305 fs/smb/client/cifs_debug.c Enzo Matsumiya    2026-04-22  940  #endif /* !CONFIG_CIFS_DEBUG */
-97a32539b9568b fs/cifs/cifs_debug.c       Alexey Dobriyan   2020-02-03  941  	proc_create("Stats", 0644, proc_fs_cifs, &cifs_stats_proc_ops);
-97a32539b9568b fs/cifs/cifs_debug.c       Alexey Dobriyan   2020-02-03  942  	proc_create("cifsFYI", 0644, proc_fs_cifs, &cifsFYI_proc_ops);
-97a32539b9568b fs/cifs/cifs_debug.c       Alexey Dobriyan   2020-02-03  943  	proc_create("traceSMB", 0644, proc_fs_cifs, &traceSMB_proc_ops);
-6539e7f3727ab9 fs/cifs/cifs_debug.c       Ronnie Sahlberg   2018-05-24  944  	proc_create("LinuxExtensionsEnabled", 0644, proc_fs_cifs,
-97a32539b9568b fs/cifs/cifs_debug.c       Alexey Dobriyan   2020-02-03  945  		    &cifs_linux_ext_proc_ops);
-6539e7f3727ab9 fs/cifs/cifs_debug.c       Ronnie Sahlberg   2018-05-24  946  	proc_create("SecurityFlags", 0644, proc_fs_cifs,
-97a32539b9568b fs/cifs/cifs_debug.c       Alexey Dobriyan   2020-02-03  947  		    &cifs_security_flags_proc_ops);
-6539e7f3727ab9 fs/cifs/cifs_debug.c       Ronnie Sahlberg   2018-05-24  948  	proc_create("LookupCacheEnabled", 0644, proc_fs_cifs,
-97a32539b9568b fs/cifs/cifs_debug.c       Alexey Dobriyan   2020-02-03  949  		    &cifs_lookup_cache_proc_ops);
-54be1f6c1c3749 fs/cifs/cifs_debug.c       Paulo Alcantara   2018-11-14  950  
-94b0595a8e018c fs/cifs/cifs_debug.c       Aurelien Aptel    2021-03-18  951  	proc_create("mount_params", 0444, proc_fs_cifs, &cifs_mount_params_proc_ops);
-94b0595a8e018c fs/cifs/cifs_debug.c       Aurelien Aptel    2021-03-18  952  
+   147	
+   148		/* Report child namespace events to owner userns watchers */
+ > 149		fsnotify_ns(mask, owner_userns, ns->ns_id,
+   150			    to_ns_common(owner_userns)->ns_id);
+   151	}
+   152	
 
 -- 
 0-DAY CI Kernel Test Service
