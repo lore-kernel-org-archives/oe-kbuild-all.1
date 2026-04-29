@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6BC028850C;
-	Wed, 29 Apr 2026 20:04:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D4B277C9D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Apr 2026 20:25:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777493066; cv=none; b=bYudOBeI8iu3iW4Sz/e1Tm7/rLT1H5be5X6pTDnpkkg5sSmwwYCVtVVaqkkeMJrRrlHuDTmzEof4MOpJHug5hcf5Qz9Q1JD29PERbTpPKA5BecwBYfqq9DFYMe+b4fR71Bd+Xq+ksYCvG+K9bShgcZgICSPeYGM6ywHSecnL1UM=
+	t=1777494336; cv=none; b=dsZ+8nY+E711FhjBbOTJ/EOcM00w7Sq8ddhIr/qQ6Xqfqhd9vhHe+/WuNRQ11uiOzbxqF3ekRj0zaGHHwxJ79hn7qrp/rqRbklz94JLEF9qrsYzEtDOWhFRuFKKUvBsrziuEbG9FXNRdjSJRQn4bYJRSTxY9VFT7mb1yXuryrNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777493066; c=relaxed/simple;
-	bh=FfRO7GYgDCNy8O7Cqhu5GNAaI0+Uw2gvgWemDXtgbzE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=l7wOPQCvfbMeH8yK11N3jApM9gP03xqA0pcc9WJ/SrxsOlVCkDH8WoeL7h+UVDGSuI67Nhbop+Yl6EIEbjfPPU9xZxaN+zYn5FEzs4vwJwHHlIvULmMbGErAiWu8VmOV/55SMgi6WWYjEz6zx3pQ+yYDsLJ/4+AgOz9BqXwCmzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m76EO7Aq; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1777494336; c=relaxed/simple;
+	bh=lA7uQWXWIpuaHWxBfHmbKsZ/Z4x+MYclcN6uG5fpWO8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=pQc9MsLsuylOsdG0YbgYYO/hHwiQEo9Mxz2/lvmsbgLrvzTkm0SZtazAeLV9GwUXJT726HUPb/YsYEjL19wdkrihTs6suFxHlJO9erL3huM8NT0ZEujmXHPsUu2mbtaI+wvKrtDDg8+V8YkZYoIVLyG6oQTnMYx7boeIybn91kk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nEl+eIo4; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m76EO7Aq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nEl+eIo4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777493065; x=1809029065;
+  t=1777494335; x=1809030335;
   h=date:from:to:cc:subject:message-id;
-  bh=FfRO7GYgDCNy8O7Cqhu5GNAaI0+Uw2gvgWemDXtgbzE=;
-  b=m76EO7Aq+dHxIs4NkGGl9Uq2khLQ1gBYLBhQiu1QDJYMHMNGZ+AoMa4m
-   +J2ntrSAgO0BZiUDpjlzoxQLOKzvOj1RuCofCeJQOufj6gLvu9K7hyaqc
-   KxOh+ZVpNfr8REXxN5aP1yr8EjJ7Vm86RLIqaqD4iPaJtS9FnBzsp1/9C
-   kPYWPSI30jcZVNVWlhOyGV/VfycNu8r+6u8NZ1lFyBzAH43vKJKgpLN3h
-   TLNQNgi4WFdwJ1B6X8Z0yYj2vDdjhcMBqmehFK8fyPfxAQeM2VcSOCKB6
-   HX6YGUErsv5RTIxBr7wsCHSoaJvaMVKDZP+lula92kMqatQFg2yq4JLKb
-   w==;
-X-CSE-ConnectionGUID: HKbesyUpQYm3KNgn+BryTg==
-X-CSE-MsgGUID: LeKR01HcRdiD/6GZsNyzdA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="78421206"
+  bh=lA7uQWXWIpuaHWxBfHmbKsZ/Z4x+MYclcN6uG5fpWO8=;
+  b=nEl+eIo4nhOoxdmF/EkiMAEtOlu1moO7uLBz/sj5LrfUPRNSXg0Y1s0/
+   i4M5w6gf555hXrVYsGM6iBpJ13bDgF8GLHg+E9qkouhEQW5iEJFK7AR+D
+   CKfxBdPaexcA8iXad4UuxYQDnYe/e8WoIvc9dGk4KR5NTK8MlTxiRZTTN
+   MxOkvu4ye3vkxlNCkMP0kUpRT5j1Ewc3GaYP76l691RhacPo8lJJ7gAEV
+   szTdi7/p0O08WHqExL3kamA7viCFH8KxXGen8B9wRAvs78Cv9sXmLkiIA
+   mCrt/Wsj7gn9TAzp1yxjCvl5wL6eLFBcZsknfb8xORgUp21EXZ72OGgVK
+   A==;
+X-CSE-ConnectionGUID: 6g48icmtSIqFjKXwBAe/Sg==
+X-CSE-MsgGUID: MSOe7hcOSwGKZQNFb9mbuQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="78145517"
 X-IronPort-AV: E=Sophos;i="6.23,206,1770624000"; 
-   d="scan'208";a="78421206"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 13:04:25 -0700
-X-CSE-ConnectionGUID: ehzqrv20SZCKpFb3hXruCQ==
-X-CSE-MsgGUID: g6kIAg1MS3yEz3t+qjON5g==
+   d="scan'208";a="78145517"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 13:25:24 -0700
+X-CSE-ConnectionGUID: L9bIghUDSdmGVx4px1LFwQ==
+X-CSE-MsgGUID: pAxhu9rrRrip06VG5AZ/Tg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,206,1770624000"; 
-   d="scan'208";a="230011887"
+   d="scan'208";a="272495640"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 29 Apr 2026 13:04:22 -0700
+  by orviesa001.jf.intel.com with ESMTP; 29 Apr 2026 13:25:23 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wIB8u-000000004Z7-12yj;
-	Wed, 29 Apr 2026 20:04:20 +0000
-Date: Wed, 29 Apr 2026 22:03:53 +0200
+	id 1wIBTE-000000004ZN-23Nn;
+	Wed, 29 Apr 2026 20:25:20 +0000
+Date: Wed, 29 Apr 2026 22:24:27 +0200
 From: kernel test robot <lkp@intel.com>
 To: Miklos Szeredi <mszeredi@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- fuse-devel@lists.sourceforge.net
-Subject: [mszeredi-fuse:fusex 40/40] fs/fuse/fusex.c:1601:16: error:
- use of undeclared identifier 'FUSE_SUPER_MAGIC'
-Message-ID: <202604292109.XXl4iUUX-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, fuse-devel@lists.sourceforge.net
+Subject: [mszeredi-fuse:fusex 40/40] fs/fuse/fusex.c:1601:23: error:
+ 'FUSE_SUPER_MAGIC' undeclared
+Message-ID: <202604292205.tVkfkWZh-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,21 +62,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git fusex
 head:   1934d254361977df9fad43102ec1d72e20434a99
 commit: 1934d254361977df9fad43102ec1d72e20434a99 [40/40] fuse: add fusex filesystem
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260429/202604292109.XXl4iUUX-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260429/202604292109.XXl4iUUX-lkp@intel.com/reproduce)
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260429/202604292205.tVkfkWZh-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260429/202604292205.tVkfkWZh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604292109.XXl4iUUX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604292205.tVkfkWZh-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/fuse/fusex.c:1601:16: error: use of undeclared identifier 'FUSE_SUPER_MAGIC'
+   fs/fuse/fusex.c: In function 'fusex_fill_super':
+>> fs/fuse/fusex.c:1601:23: error: 'FUSE_SUPER_MAGIC' undeclared (first use in this function)
     1601 |         sb->s_magic = FUSE_SUPER_MAGIC;
-         |                       ^
-   1 error generated.
+         |                       ^~~~~~~~~~~~~~~~
+   fs/fuse/fusex.c:1601:23: note: each undeclared identifier is reported only once for each function it appears in
 
 
 vim +/FUSE_SUPER_MAGIC +1601 fs/fuse/fusex.c
