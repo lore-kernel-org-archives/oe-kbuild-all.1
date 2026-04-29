@@ -1,212 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C94034D91F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Apr 2026 19:43:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF07346A08
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Apr 2026 19:44:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777491806; cv=none; b=vGGHvN7/LHhMcDMpiQ6ukRHNBxx7tFTFEuYRn8ZxMPgkR19rd97h5pJsc9e3IRYDXorPdYaoacCaUGInpzm0cQCl4uqQipv5cO1amMNWVYMmKS7G5hc+6tQ3k76yXjWgSZenslFxMWwKV1a350TctgtAhIzjSN769Wb77gnwmII=
+	t=1777491889; cv=none; b=Qoo46iAJ6NgiTRqWPxzRGcgWMosdb21kWdOV52o1UYG9gKbyQfEwuegKR9DkWD56HKmDXWdqlv9qTkD2SdPEgfmt3nhe81brtNDRIfnlleGmXN9ws6dvP2GtWLWIJcZfL/Zw/H9/GCd+gi+evD8k9nHaTU/VV+FGEnccaG29IIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777491806; c=relaxed/simple;
-	bh=T/awfMBFeHgq05OeZMv9M9E/FC10F6QIUuc/NOY2X0A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=siHzrLCbSD9aKR8dKmx7/Pv0sy+UDYfvEYXDd0+anVQvccc+c7j9hKOEQx4+MZ6Mdn71hfnRHMbWoRoA49k/LaMWCR92OKDyUGQ6wWbE4GDnEKUkr9XOSqBIAv3DFZZF++lJxmA6HoGeSeGrp3msC2aiC5vjV0m++h2SjC9ZGvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ix0iH77A; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1777491889; c=relaxed/simple;
+	bh=qGoptySPy3VOVbBf72u8dDvWmjrPVi8JOKqTJHkviaA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=e6ke4oAgTcJ9sV/NsrlmpVnrvzyAxXc2zFMavM0EVTeyMAUtyXbNgSkEqopXv1lHShsiX2GieUT0F8d0/laYTMsqjvm2I+0tfEyPq4kt9NWwY3WKjgngVVzeAKyDbO2MQnBpjsZsiTCq6wxtyIASWXgoCAqA7ipR1pDC+H4qYa0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mwBwKjCO; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ix0iH77A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mwBwKjCO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777491804; x=1809027804;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=T/awfMBFeHgq05OeZMv9M9E/FC10F6QIUuc/NOY2X0A=;
-  b=ix0iH77AONn4nfTOW0wGcXtGz8ee3AFZn3IrRfyJrUzzhDtDHMMrVe23
-   IdrZifEHynvIk7CvKY/lPOG4I3ICH4wIaO3TWeKRsSoVxNh4k/EP3TLUG
-   ypzmDSV2aH8uAfAF+TsUIOfmewKEOR6JDgiyCchmCodiVIhSHWUzs3Ksu
-   NYnfDq1ji8USzvIZWVOwCJ1s6QK9zFaHEcPQ4D+FLtasRs0PZhCn5fHcz
-   7fILl88pXdR85p6HQyafOiHwJw0d7WnEiC4ur4jEYjneDWj+uwTz02Okh
-   Jis1td31KoE48R0I2q1rq+BMMzNOUh7j1LU0Gm7quW3psKsd1+B7Em1Fc
+  t=1777491888; x=1809027888;
+  h=date:from:to:cc:subject:message-id;
+  bh=qGoptySPy3VOVbBf72u8dDvWmjrPVi8JOKqTJHkviaA=;
+  b=mwBwKjCOobBGNMBNxCfrEyzYwOq1Mqk9ixUbmhlBesnDxCM2dbS//MWx
+   RJSMXqSqDvMkKeZDbcynBrMSDHLMbdBmfp7NUt9EtbPJjiI5ab/9Vg16/
+   hFG/ClebryHdS85J9H18ptJ8hKNOGkdqFlkcyDukmo88yggmsJiqJhFHG
+   D4ma+kCElCQtw8Exo2ZvYw6R0IrRNeykX9jkuD1A3zzjXZv8ShyGe+OvX
+   K61G0CwmBuZ6OcgDM/T58cuxr4rs1CHm21fblwN9aNcRF3YafoAt4W3Vl
+   wzyFZoFmaKoOiQtkZlCvklOtkzhCvT5tgL2tDR7b8hzsdKSmPf4bokRs8
    g==;
-X-CSE-ConnectionGUID: nx3PgKkpSaK3NX6Od3iRoQ==
-X-CSE-MsgGUID: HR46Zdi3TPCGlqyg1um2Ew==
-X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="65963348"
+X-CSE-ConnectionGUID: hS6UoxV+QQae4U6KZo2oww==
+X-CSE-MsgGUID: rapr+80LRzyNy6p5AHi7Ww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="78304168"
 X-IronPort-AV: E=Sophos;i="6.23,206,1770624000"; 
-   d="scan'208";a="65963348"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 12:43:24 -0700
-X-CSE-ConnectionGUID: vAK01lATTm6eix3mJcKxxw==
-X-CSE-MsgGUID: safexyp+QnKX7gURECiJ7w==
+   d="scan'208";a="78304168"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 12:44:47 -0700
+X-CSE-ConnectionGUID: Kn5bxYOPTWuAEhSyzel/Yw==
+X-CSE-MsgGUID: hBqOBzXOTzWS6/JagK0ISQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,206,1770624000"; 
-   d="scan'208";a="238337883"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 29 Apr 2026 12:43:23 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="264748878"
+Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 29 Apr 2026 12:44:46 -0700
+Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wIAoZ-000000004Yn-44r6;
-	Wed, 29 Apr 2026 19:43:19 +0000
-Date: Wed, 29 Apr 2026 21:42:53 +0200
+	id 1wIApv-00000000BTH-49Tf;
+	Wed, 29 Apr 2026 19:44:43 +0000
+Date: Thu, 30 Apr 2026 03:44:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oliver Neukum <oneukum@suse.com>,
-	syzbot+2afd7e71155c7e241560@syzkaller.appspotmail.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
-	tiwai@suse.com, Oliver Neukum <oneukum@suse.com>
-Subject: Re: [PATCH] sound: usb: caiaq: fix reference leak in probe error
-Message-ID: <202604292126.d4xbRC4p-lkp@intel.com>
-References: <20260429104527.19927-1-oneukum@suse.com>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [tglx-devel:core/rseq 5/11]
+ kernel/sched/membarrier.c:208:13: error: implicit declaration of function
+ 'rseq_v2'
+Message-ID: <202604300352.QpmP1xf9-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260429104527.19927-1-oneukum@suse.com>
 
-Hi Oliver,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tiwai-sound/for-next]
-[also build test ERROR on tiwai-sound/for-linus usb/usb-testing usb/usb-next usb/usb-linus westeri-thunderbolt/next peter-chen-usb/for-usb-next linus/master v7.1-rc1 next-20260429]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Oliver-Neukum/sound-usb-caiaq-fix-reference-leak-in-probe-error/20260429-205539
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-patch link:    https://lore.kernel.org/r/20260429104527.19927-1-oneukum%40suse.com
-patch subject: [PATCH] sound: usb: caiaq: fix reference leak in probe error
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260429/202604292126.d4xbRC4p-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260429/202604292126.d4xbRC4p-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git core/rseq
+head:   9a2253d7640f6b319562dda1a87cee3416c5d332
+commit: a86e32c235afd7ea34ee7ecca5ce532b918930c2 [5/11] rseq: Revert to historical performance killing behaviour
+config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20260430/202604300352.QpmP1xf9-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604300352.QpmP1xf9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604292126.d4xbRC4p-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604300352.QpmP1xf9-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   sound/usb/caiaq/device.c: In function 'init_card':
->> sound/usb/caiaq/device.c:534:2: warning: label 'err_dev_put' defined but not used [-Wunused-label]
-     534 |  err_dev_put:
-         |  ^~~~~~~~~~~
->> sound/usb/caiaq/device.c:475:17: error: label 'dev_err_put' used but not defined
-     475 |                 goto dev_err_put;
-         |                 ^~~~
+   In file included from kernel/sched/build_utility.c:97:
+   kernel/sched/membarrier.c: In function 'ipi_rseq':
+>> kernel/sched/membarrier.c:208:13: error: implicit declaration of function 'rseq_v2' [-Wimplicit-function-declaration]
+     208 |         if (rseq_v2(current))
+         |             ^~~~~~~
 
 
-vim +/dev_err_put +475 sound/usb/caiaq/device.c
+vim +/rseq_v2 +208 kernel/sched/membarrier.c
 
-   434	
-   435	static int init_card(struct snd_usb_caiaqdev *cdev)
-   436	{
-   437		char *c, usbpath[32];
-   438		struct usb_device *usb_dev = cdev->chip.dev;
-   439		struct snd_card *card = cdev->chip.card;
-   440		struct device *dev = caiaqdev_to_dev(cdev);
-   441		int err, len;
-   442	
-   443		if (usb_set_interface(usb_dev, 0, 1) != 0) {
-   444			dev_err(dev, "can't set alt interface.\n");
-   445			err = -EIO;
-   446			goto dev_err_put;
-   447		}
-   448	
-   449		usb_init_urb(&cdev->ep1_in_urb);
-   450		usb_init_urb(&cdev->midi_out_urb);
-   451	
-   452		usb_fill_bulk_urb(&cdev->ep1_in_urb, usb_dev,
-   453				  usb_rcvbulkpipe(usb_dev, 0x1),
-   454				  cdev->ep1_in_buf, EP1_BUFSIZE,
-   455				  usb_ep1_command_reply_dispatch, cdev);
-   456	
-   457		usb_fill_bulk_urb(&cdev->midi_out_urb, usb_dev,
-   458				  usb_sndbulkpipe(usb_dev, 0x1),
-   459				  cdev->midi_out_buf, EP1_BUFSIZE,
-   460				  snd_usb_caiaq_midi_output_done, cdev);
-   461	
-   462		/* sanity checks of EPs before actually submitting */
-   463		if (usb_urb_ep_type_check(&cdev->ep1_in_urb) ||
-   464		    usb_urb_ep_type_check(&cdev->midi_out_urb)) {
-   465			dev_err(dev, "invalid EPs\n");
-   466			err = -EINVAL;
-   467			goto dev_err_put;
-   468		}
-   469	
-   470		init_waitqueue_head(&cdev->ep1_wait_queue);
-   471		init_waitqueue_head(&cdev->prepare_wait_queue);
-   472	
-   473		if (usb_submit_urb(&cdev->ep1_in_urb, GFP_KERNEL) != 0) {
-   474			err = -EIO;
- > 475			goto dev_err_put;
-   476		}
-   477	
-   478	
-   479		err = snd_usb_caiaq_send_command(cdev, EP1_CMD_GET_DEVICE_INFO, NULL, 0);
-   480		if (err)
-   481			goto err_kill_urb;
-   482	
-   483		if (!wait_event_timeout(cdev->ep1_wait_queue, cdev->spec_received, HZ)) {
-   484			err = -ENODEV;
-   485			goto err_kill_urb;
-   486		}
-   487	
-   488		usb_string(usb_dev, usb_dev->descriptor.iManufacturer,
-   489			   cdev->vendor_name, CAIAQ_USB_STR_LEN);
-   490	
-   491		usb_string(usb_dev, usb_dev->descriptor.iProduct,
-   492			   cdev->product_name, CAIAQ_USB_STR_LEN);
-   493	
-   494		strscpy(card->driver, MODNAME, sizeof(card->driver));
-   495		strscpy(card->shortname, cdev->product_name, sizeof(card->shortname));
-   496		strscpy(card->mixername, cdev->product_name, sizeof(card->mixername));
-   497	
-   498		/* if the id was not passed as module option, fill it with a shortened
-   499		 * version of the product string which does not contain any
-   500		 * whitespaces */
-   501	
-   502		if (*card->id == '\0') {
-   503			char id[sizeof(card->id)];
-   504	
-   505			memset(id, 0, sizeof(id));
-   506	
-   507			for (c = card->shortname, len = 0;
-   508				*c && len < sizeof(card->id) - 1; c++)
-   509				if (*c != ' ')
-   510					id[len++] = *c;
-   511	
-   512			snd_card_set_id(card, id);
-   513		}
-   514	
-   515		usb_make_path(usb_dev, usbpath, sizeof(usbpath));
-   516		scnprintf(card->longname, sizeof(card->longname), "%s %s (%s)",
-   517			       cdev->vendor_name, cdev->product_name, usbpath);
-   518	
-   519		card->private_free = card_free;
-   520		err = setup_card(cdev);
-   521		if (err < 0)
-   522			return err;
-   523	
-   524		return 0;
-   525	
-   526	 err_kill_urb:
-   527		usb_kill_urb(&cdev->ep1_in_urb);
-   528	
-   529		/*
-   530	 	 * private_free has not been set.
-   531		 * Undoing the usb_get_dev() from
-   532		 * create_card()
-   533		 */
- > 534	 err_dev_put:
-   535		usb_put_dev(usb_dev);
-   536		return err;
-   537	}
-   538	
+   191	
+   192	static void ipi_rseq(void *info)
+   193	{
+   194		/*
+   195		 * Ensure that all stores done by the calling thread are visible
+   196		 * to the current task before the current task resumes.  We could
+   197		 * probably optimize this away on most architectures, but by the
+   198		 * time we've already sent an IPI, the cost of the extra smp_mb()
+   199		 * is negligible.
+   200		 */
+   201		smp_mb();
+   202		/*
+   203		 * Legacy mode requires that IDs are written and the critical section is
+   204		 * evaluated. V2 optimized mode handles the critical section and IDs are
+   205		 * only updated if they change as a consequence of preemption after
+   206		 * return from this IPI.
+   207		 */
+ > 208		if (rseq_v2(current))
+   209			rseq_sched_switch_event(current);
+   210		else
+   211			rseq_force_update();
+   212	}
+   213	
 
 -- 
 0-DAY CI Kernel Test Service
