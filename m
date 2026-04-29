@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C978E3A874D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Apr 2026 21:36:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 128993C07A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Apr 2026 21:46:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777498588; cv=none; b=ttzLUjXM1gnzAlX+WSD1SzYAvJg9QibGRfVN9KToBpdrov0QiJaL+cQnYAQzlHSooVFiodL6raikQ4wBNDthdLXxa8yOYS0a74aUOyjaAdC55ZeqMr32nffmrkk/qwHs6lyWrcs8y0H+BUwhpOJC59f9cqsVn1NfJYj1zuALIDI=
+	t=1777499219; cv=none; b=LzlgdjEI6aAfeK55n9f5r2CzWjTJbUC7zI9Rz9qmQlKk6R7iGZ5/5dRham/1AMOgn2eHBkRNDUCqLo0sgg0u6pLoctge2rSC+XVJVJu7EhvNrKBfMYhCm0h1xpQPUItllqP5pSXT7TJJ3D9XdH+CwhbwFE5VzjTyOAlvTof8XP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777498588; c=relaxed/simple;
-	bh=Q4uRTYQYfTglhHkxtMBpYx9+IGIyNoGcUir3mqY96Wk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ZdmOWrZzQeyNTROE/fIa+Je+K1F1O3h9VybPF8f68KRdsyp5zRgK4bLjRwJeeWXJJvXOoPLYTysTOQBs+BDmcBxFW7rIYs0bLScxyoc6a7eaAIPD8h6p7fgqrwuclYOtYyBkNmcWXPZ9QTmL0X/sLboWxkj2YmmSRZsrrOEX2OM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QveajR+h; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1777499219; c=relaxed/simple;
+	bh=ftU7t4RCEFK2Wquze5mQesg5XfOpj+I+z5MeEPTWbOY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sa4L6sIooRFyGjjEFIA7DJhy+KxZtjjeahp/AvJ3M9ciPPDWHmWPja91RR3MBm6pMLjoggOJjht806zg96YQ9KyElko9bmJMwphpD6OqTtCyBdUDi19MVpNm/O38t9C49q8+fXCxIW6fuHLOcsCy11QzOK4O+rOVWs6rg1+YCMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X9SiGs+4; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QveajR+h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X9SiGs+4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777498587; x=1809034587;
+  t=1777499218; x=1809035218;
   h=date:from:to:cc:subject:message-id;
-  bh=Q4uRTYQYfTglhHkxtMBpYx9+IGIyNoGcUir3mqY96Wk=;
-  b=QveajR+hrHKsctn9ZJszHnulKC/woE8RZdFVKgGfFsLmPWIHYC+AQAzP
-   NjCHYNW7rWiD+t5DayD1tcjxd2ZvAoVW8O8m7jFMFod2xhU53DaP7os5O
-   iGyAnjveGo3fRn+B9LgCQGSSIMcGZ9DVsv1uStrBZcFzFCCFhXgHAE85Z
-   rR7HTFRfiFSjc86fxQoCDO6IAi3ywkJje0m0Laes8z72BIcZmAlsHmRmW
-   N0b5eC3gR4MxCalnu2A1tUKkiBs1ot0esK9kGmP8EqpZ++Xh9IJUlgQ59
-   /xs2WmTHMb4qA98vBc6hUnqmnTBuyoZxQds4nNrGYlQAvKl/e4uiBZSeg
-   A==;
-X-CSE-ConnectionGUID: 1jMozMsARZ2GZz/u2KlzGg==
-X-CSE-MsgGUID: s0iDhqlWT7yJA1nOoae54A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="78546546"
+  bh=ftU7t4RCEFK2Wquze5mQesg5XfOpj+I+z5MeEPTWbOY=;
+  b=X9SiGs+4Gkpaeyc7REN9aBjR2cBKBWE0tUvXr1O33AOiSgen931uvq1n
+   IaGLxqeHAnkMoxrxRrvxP0lzINctndpAp9pBFj+rT5tT+O46rzrMPKJtE
+   TL/7PKLTiiepuuYLz6Lm/oriYag0CzNdJlkOyAtc/jfWBigpI+e9VX5O+
+   F7bZxFHE8drNKgQ+qdtHGwO4lyyruKRUYVqrJL6KRcEQh0MC3BOURah7W
+   pZNJaAMHJaqt057VQ8AB9qcyQ6y/U9/djz1zsIOxavWiXtl7JMAns9D5s
+   KBS8ywYfTviDgngAxqFmQtPGHGvjeRH6E0YOGvbWniMhzjcF8t05gD4N5
+   Q==;
+X-CSE-ConnectionGUID: dob7mRsTQ/+n3YK+PpN8TA==
+X-CSE-MsgGUID: C9A4I/1LTe+CLDLSyRORPg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="88751143"
 X-IronPort-AV: E=Sophos;i="6.23,206,1770624000"; 
-   d="scan'208";a="78546546"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 14:36:24 -0700
-X-CSE-ConnectionGUID: KLXBQx/uSmaBPAExVR35KA==
-X-CSE-MsgGUID: BnSpw9u4SbeF/6xwOQiLeg==
+   d="scan'208";a="88751143"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 14:46:58 -0700
+X-CSE-ConnectionGUID: ZojIj1ebTjebBa7vGl+zow==
+X-CSE-MsgGUID: gaq3bq7pSMORRvldsKOdyw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,206,1770624000"; 
-   d="scan'208";a="234657422"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 29 Apr 2026 14:36:23 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="234266697"
+Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 29 Apr 2026 14:46:56 -0700
+Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wICZx-000000004a7-0hGX;
-	Wed, 29 Apr 2026 21:36:21 +0000
-Date: Wed, 29 Apr 2026 23:36:14 +0200
+	id 1wICk9-00000000BZd-01ZT;
+	Wed, 29 Apr 2026 21:46:53 +0000
+Date: Thu, 30 Apr 2026 05:46:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wenzhao Liao <wenzhaoliao@ruc.edu.cn>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: error:
- /kbuild/src/include/uapi/linux/goldfish_address_space.h: missing "WITH
- Linux-syscall-note" for SPDX-License-Identifier
-Message-ID: <202604292351.XUyGYKrA-lkp@intel.com>
+To: Huacai Chen <chenhuacai@loongson.cn>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: loongarch64-linux-gcc: error: unrecognized argument in
+ option '-march=la32v1.0'
+Message-ID: <202604300518.niGSNE7F-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,28 +60,43 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Wenzhao-Liao/uapi-add-goldfish_address_space-userspace-ABI-header/20260417-163828
-head:   baf6fc99a94d4efae78273b11f66fcc307adffcf
-commit: 0884317b0ceacbd0e2d07409ef19019074cdb3fc uapi: add goldfish_address_space userspace ABI header
-date:   13 days ago
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce: (https://download.01.org/0day-ci/archive/20260429/202604292351.XUyGYKrA-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   57b8e2d666a31fa201432d58f5fe3469a0dd83ba
+commit: 3d9aba6618d115750729bba2d1f8af180bd7d3bd LoongArch: Adjust build infrastructure for 32BIT/64BIT
+date:   8 days ago
+config: loongarch-randconfig-001-20260430 (https://download.01.org/0day-ci/archive/20260430/202604300518.niGSNE7F-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604300518.niGSNE7F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 3d9aba6618d1 ("LoongArch: Adjust build infrastructure for 32BIT/64BIT")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604292351.XUyGYKrA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604300518.niGSNE7F-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> error: /kbuild/src/include/uapi/linux/goldfish_address_space.h: missing "WITH Linux-syscall-note" for SPDX-License-Identifier
-   make[3]: *** [/kbuild/src/scripts/Makefile.headersinst:63: usr/include/linux/goldfish_address_space.h] Error 1
-   make[3]: Target '__headers' not remade because of errors.
-   make[2]: *** [/kbuild/src/Makefile:1452: headers] Error 2
-   make[1]: *** [/kbuild/src/Makefile:248: __sub-make] Error 2
-   make[1]: Target 'headers' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'headers' not remade because of errors.
+>> loongarch64-linux-gcc: error: unrecognized argument in option '-march=la32v1.0'
+   loongarch64-linux-gcc: note: valid arguments to '-march=' are: abi-default la464 la64v1.0 la64v1.1 la664 loongarch64 native; did you mean 'la64v1.0'?
+>> loongarch64-linux-gcc: error: unrecognized argument in option '-mabi=ilp32s'
+   loongarch64-linux-gcc: note: valid arguments to '-mabi=' are: lp64d lp64f lp64s
+>> loongarch64-linux-gcc: error: unrecognized argument in option '-march=la32v1.0'
+   loongarch64-linux-gcc: note: valid arguments to '-march=' are: abi-default la464 la64v1.0 la64v1.1 la664 loongarch64 native; did you mean 'la64v1.0'?
+>> loongarch64-linux-gcc: error: unrecognized argument in option '-mabi=ilp32s'
+   loongarch64-linux-gcc: note: valid arguments to '-mabi=' are: lp64d lp64f lp64s
+   make[3]: *** [scripts/Makefile.build:289: scripts/mod/empty.o] Error 1 shuffle=3714732041
+>> loongarch64-linux-gcc: error: unrecognized argument in option '-march=la32v1.0'
+   loongarch64-linux-gcc: note: valid arguments to '-march=' are: abi-default la464 la64v1.0 la64v1.1 la664 loongarch64 native; did you mean 'la64v1.0'?
+>> loongarch64-linux-gcc: error: unrecognized argument in option '-mabi=ilp32s'
+   loongarch64-linux-gcc: note: valid arguments to '-mabi=' are: lp64d lp64f lp64s
+   make[3]: *** [scripts/Makefile.build:184: scripts/mod/devicetable-offsets.s] Error 1 shuffle=3714732041
+   make[3]: Target 'scripts/mod/' not remade because of errors.
+   make[2]: *** [Makefile:1336: prepare0] Error 2 shuffle=3714732041
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=3714732041
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=3714732041
+   make: Target 'prepare' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
