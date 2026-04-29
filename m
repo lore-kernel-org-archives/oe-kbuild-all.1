@@ -1,210 +1,156 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4A57218AB9
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Apr 2026 11:03:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FF1423A561
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Apr 2026 11:16:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777460622; cv=none; b=gf9romXEX6kD1IV5MK+gAEr6db5uNNStjzrxMPTEbnWrBDN8vS+goo6DtEj2FwCCCDylvJnPYtKJyXtveZdIJn8j2DJQ4z8UDc0dzkbwxN+NXFUwOWrxmuUwrznajUU4gKEeHSC6HCTJPrRXimU1Xab+ZSBzlQe++wtJKxSjQDc=
+	t=1777461401; cv=none; b=qO67HoHYmimWAMdOEneWUgHAEwX+qAcTppBWIPvDIRnaXzQh85++b50Yd59eMUiAccUuSp0NNI8a9xDGL615Rv/xUBv1VTjgw57bHGGiihf68RgnrD7lcflXYFrJjsCC9KiWKrue5C2W/acZRyMoT9Prajt98ccH7/Zr1otVwWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777460622; c=relaxed/simple;
-	bh=DQD+tJ7YH+iRORm1wmi1KSH6NoheRqqAXLrKN6uM+Ck=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KU/l79lsWKWVQouCP6OLNWOp4AfzizoFERdzFJYGIYKwwBzBj5WGEILvcDSkP1HG5bwordAuEWxXcrAp+KUqt0xGGg4t6YSvI1JLRZTW7u6HacvqVX2zx9p9OxuJSRQ516HkhJIXtgnyGWt7DDe5Io05jTE5ESKfdCMz+598u7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j2ucpgBP; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1777461401; c=relaxed/simple;
+	bh=SjXHhRXNipYfFcaD20wY6h+WLvLzGR+dK6u1V6mBM8Q=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=HNw6HOMdrqSt+OOuBUeNSeRkqfCLTwEXdoaQQKTWZYW1p/CuEn1gyXvUyIO+9ByY/jkNbCCxRBQWhCvTaIp39d75TnxOEgKRqpxrmo4KDDNRNVfp0rnJfY40wwNxHJJtNWu4kuFQgN1PK1kCF+u7y/s5MT46jmDdtzoSvXFIC9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dl+KrVV2; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j2ucpgBP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dl+KrVV2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777460620; x=1808996620;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DQD+tJ7YH+iRORm1wmi1KSH6NoheRqqAXLrKN6uM+Ck=;
-  b=j2ucpgBPy+V9Vkalik0123FxcyMpAjEAPFdu3zztLE8DU09/cL78i1ly
-   gLBTO5EeS4fYF8XXH2mgtUwgf/E05+bzyp4LWv4mDcGHps+aG+QWboqiB
-   XheaKt/cU3hXC9+L392csrs0Ca2P54zM9ioDVguA5Gi3snMrg5+CG4uM+
-   waO0aEXI9gZ4Rp4g3Es/dSHb6sjUd6hcpgxOI65LKdarjWXqhC72du5by
-   Qzkfi5OES9mF/w6+D1QosQLLT/gwMrmcHu/LLsc+Ex2o6WFFN76+7uTMX
-   tjJMIljt1T4Ts61I84yehCuCCDIMNDa6YI+dnzsYw+OkFeY42Pb2tvVPR
-   A==;
-X-CSE-ConnectionGUID: 3T81nVjTQGmY1piaTrTuHA==
-X-CSE-MsgGUID: meYdZ93UQgKjhYdvlqDjkA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11770"; a="78372705"
+  t=1777461399; x=1808997399;
+  h=date:from:to:cc:subject:message-id;
+  bh=SjXHhRXNipYfFcaD20wY6h+WLvLzGR+dK6u1V6mBM8Q=;
+  b=Dl+KrVV2BelJXSIyk5zYiKSnZZ1BxOJZUn2hrqozCTOAF5w5gzZziKyY
+   ljcUVhlI8G+84yPoJL0GyMp/GdD8394D40Mge0qGY6qi8i7IvhrxzJ0mp
+   FuCOKsme2pxhu+3ip2dxOse//PDlvXvlH5y86VvENzkK60QI3YRbtHRM4
+   7lh016PPkOYAr8v8pQAY/bVtsZJgsHwMAb/EQM1/uwFgnzjIvqClRfpv2
+   7tLKo/UPLEKa/VV2bYNZ4l4P5spixUbtc/8I/lFDnQTYQm5qaOpCEOLM4
+   oE+Bcq3JOTQShl5+Fppxm5fE9Sogm/lMZob5+5XrJ87+w/WmnweGM2Exa
+   Q==;
+X-CSE-ConnectionGUID: LTr6kDA5SN64dXe82+jUdA==
+X-CSE-MsgGUID: neixvkOVTeyVl/21/lOtSQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11770"; a="78402983"
 X-IronPort-AV: E=Sophos;i="6.23,206,1770624000"; 
-   d="scan'208";a="78372705"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 04:03:40 -0700
-X-CSE-ConnectionGUID: KKmI5CDXR4yEvENsV2zdxA==
-X-CSE-MsgGUID: 0e1h5yeaRRquOd2d4a00uw==
+   d="scan'208";a="78402983"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 04:16:39 -0700
+X-CSE-ConnectionGUID: iCvF1m/0QuGoPYJups1yyQ==
+X-CSE-MsgGUID: qvlw9LW7TPiMks+EHjPEfw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,206,1770624000"; 
-   d="scan'208";a="236014644"
+   d="scan'208";a="229891921"
 Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 29 Apr 2026 04:03:37 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 29 Apr 2026 04:16:37 -0700
 Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wI2ha-00000000AxU-0OeT;
-	Wed, 29 Apr 2026 11:03:34 +0000
-Date: Wed, 29 Apr 2026 19:03:03 +0800
+	id 1wI2uB-00000000Ayq-1fDp;
+	Wed, 29 Apr 2026 11:16:35 +0000
+Date: Wed, 29 Apr 2026 19:15:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: wangdich9700@163.com, perex@perex.cz, tiwai@suse.com
-Cc: oe-kbuild-all@lists.linux.dev, kees@kernel.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	wangdicheng <wangdicheng@kylinos.cn>
-Subject: Re: [PATCH] ALSA: hda/conexant: Fix missing error check for jack
- detection
-Message-ID: <202604291855.b3tkw7T5-lkp@intel.com>
-References: <20260427070739.133369-1-wangdich9700@163.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-2025-04 11/11]
+ arch/arm64/kvm/hyp/nvhe/switch.c:216:7: warning: unused variable 'zcr_el2'
+Message-ID: <202604291959.QFboC7tz-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260427070739.133369-1-wangdich9700@163.com>
 
-Hi,
+Hi Fuad,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test WARNING on tiwai-sound/for-next]
-[also build test WARNING on linus/master v7.1-rc1 next-20260428]
-[cannot apply to tiwai-sound/for-linus]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/wangdich9700-163-com/ALSA-hda-conexant-Fix-missing-error-check-for-jack-detection/20260427-223457
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-patch link:    https://lore.kernel.org/r/20260427070739.133369-1-wangdich9700%40163.com
-patch subject: [PATCH] ALSA: hda/conexant: Fix missing error check for jack detection
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260429/202604291855.b3tkw7T5-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260429/202604291855.b3tkw7T5-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-2025-04
+head:   105716676e6f47b5f08783f64cf6bd69b85cc57c
+commit: 082497437e04b4cd56b8c742c9df06e608a76a40 [11/11] ANDROID: KVM: arm64: Refactor saving/restoring guest/host SVE state code
+config: arm64-randconfig-001-20260429 (https://download.01.org/0day-ci/archive/20260429/202604291959.QFboC7tz-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260429/202604291959.QFboC7tz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604291855.b3tkw7T5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604291959.QFboC7tz-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   sound/hda/codecs/conexant.c: In function 'cx_probe':
->> sound/hda/codecs/conexant.c:1193:21: warning: assignment to 'int' from 'struct hda_jack_callback *' makes integer from pointer without a cast [-Wint-conversion]
-    1193 |                 err = snd_hda_jack_detect_enable_callback(codec, 0x19, cx_update_headset_mic_vref);
-         |                     ^
+   In file included from arch/arm64/kvm/hyp/nvhe/switch.c:7:
+   In file included from arch/arm64/kvm/hyp/include/hyp/switch.h:10:
+   In file included from arch/arm64/kvm/hyp/include/hyp/adjust_pc.h:13:
+   In file included from arch/arm64/include/asm/kvm_emulate.h:14:
+   In file included from include/linux/kvm_host.h:16:
+   In file included from include/linux/mm.h:2180:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/arm64/kvm/hyp/nvhe/switch.c:7:
+   arch/arm64/kvm/hyp/include/hyp/switch.h:265:6: warning: unused variable 'zcr_el2' [-Wunused-variable]
+     265 |         u64 zcr_el2 = min(zcr_el1, vcpu_sve_max_vq(vcpu) - 1ULL);
+         |             ^~~~~~~
+>> arch/arm64/kvm/hyp/nvhe/switch.c:216:7: warning: unused variable 'zcr_el2' [-Wunused-variable]
+     216 |                 u64 zcr_el2 = sve_vq_from_vl(kvm_host_sve_max_vl) - 1;
+         |                     ^~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:414:5: warning: no previous prototype for function '__pkvm_register_hyp_panic_notifier' [-Wmissing-prototypes]
+     414 | int __pkvm_register_hyp_panic_notifier(void (*cb)(struct user_pt_regs *regs))
+         |     ^
+   arch/arm64/kvm/hyp/nvhe/switch.c:414:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     414 | int __pkvm_register_hyp_panic_notifier(void (*cb)(struct user_pt_regs *regs))
+         | ^
+         | static 
+   8 warnings generated.
 
 
-vim +1193 sound/hda/codecs/conexant.c
+vim +/zcr_el2 +216 arch/arm64/kvm/hyp/nvhe/switch.c
 
-  1174	
-  1175	static int cx_probe(struct hda_codec *codec, const struct hda_device_id *id)
-  1176	{
-  1177		struct conexant_spec *spec;
-  1178		int err;
-  1179	
-  1180		codec_info(codec, "%s: BIOS auto-probing.\n", codec->core.chip_name);
-  1181	
-  1182		spec = kzalloc_obj(*spec);
-  1183		if (!spec)
-  1184			return -ENOMEM;
-  1185		snd_hda_gen_spec_init(&spec->gen);
-  1186		codec->spec = spec;
-  1187	
-  1188		/* init cx11880/sn6140 flag and reset headset_present_flag */
-  1189		switch (codec->core.vendor_id) {
-  1190		case 0x14f11f86:
-  1191		case 0x14f11f87:
-  1192			spec->is_cx11880_sn6140 = true;
-> 1193			err = snd_hda_jack_detect_enable_callback(codec, 0x19, cx_update_headset_mic_vref);
-  1194			if (err < 0)
-  1195				goto error;
-  1196			break;
-  1197		}
-  1198	
-  1199		cx_auto_parse_eapd(codec);
-  1200		spec->gen.own_eapd_ctl = 1;
-  1201	
-  1202		switch (codec->core.vendor_id) {
-  1203		case 0x14f15045:
-  1204			codec->single_adc_amp = 1;
-  1205			spec->gen.mixer_nid = 0x17;
-  1206			spec->gen.add_stereo_mix_input = HDA_HINT_STEREO_MIX_AUTO;
-  1207			snd_hda_pick_fixup(codec, cxt5045_fixup_models,
-  1208					   cxt5045_fixups, cxt_fixups);
-  1209			break;
-  1210		case 0x14f15047:
-  1211			codec->pin_amp_workaround = 1;
-  1212			spec->gen.mixer_nid = 0x19;
-  1213			spec->gen.add_stereo_mix_input = HDA_HINT_STEREO_MIX_AUTO;
-  1214			snd_hda_pick_fixup(codec, cxt5047_fixup_models,
-  1215					   cxt5047_fixups, cxt_fixups);
-  1216			break;
-  1217		case 0x14f15051:
-  1218			add_cx5051_fake_mutes(codec);
-  1219			codec->pin_amp_workaround = 1;
-  1220			snd_hda_pick_fixup(codec, cxt5051_fixup_models,
-  1221					   cxt5051_fixups, cxt_fixups);
-  1222			break;
-  1223		case 0x14f15098:
-  1224			codec->pin_amp_workaround = 1;
-  1225			spec->gen.mixer_nid = 0x22;
-  1226			spec->gen.add_stereo_mix_input = HDA_HINT_STEREO_MIX_AUTO;
-  1227			snd_hda_pick_fixup(codec, cxt5066_fixup_models,
-  1228					   cxt5066_fixups, cxt_fixups);
-  1229			break;
-  1230		case 0x14f150f2:
-  1231			codec->power_save_node = 1;
-  1232			fallthrough;
-  1233		default:
-  1234			codec->pin_amp_workaround = 1;
-  1235			snd_hda_pick_fixup(codec, cxt5066_fixup_models,
-  1236					   cxt5066_fixups, cxt_fixups);
-  1237			break;
-  1238		}
-  1239	
-  1240		if (!spec->gen.vmaster_mute.hook && spec->dynamic_eapd)
-  1241			spec->gen.vmaster_mute.hook = cx_auto_vmaster_hook;
-  1242	
-  1243		snd_hda_apply_fixup(codec, HDA_FIXUP_ACT_PRE_PROBE);
-  1244	
-  1245		err = snd_hda_parse_pin_defcfg(codec, &spec->gen.autocfg, NULL,
-  1246					       spec->parse_flags);
-  1247		if (err < 0)
-  1248			goto error;
-  1249	
-  1250		err = cx_auto_parse_beep(codec);
-  1251		if (err < 0)
-  1252			goto error;
-  1253	
-  1254		err = snd_hda_gen_parse_auto_config(codec, &spec->gen.autocfg);
-  1255		if (err < 0)
-  1256			goto error;
-  1257	
-  1258		/* Some laptops with Conexant chips show stalls in S3 resume,
-  1259		 * which falls into the single-cmd mode.
-  1260		 * Better to make reset, then.
-  1261		 */
-  1262		if (!codec->bus->core.sync_write) {
-  1263			codec_info(codec,
-  1264				   "Enable sync_write for stable communication\n");
-  1265			codec->bus->core.sync_write = 1;
-  1266			codec->bus->allow_bus_reset = 1;
-  1267		}
-  1268	
-  1269		snd_hda_apply_fixup(codec, HDA_FIXUP_ACT_PROBE);
-  1270	
-  1271		return 0;
-  1272	
-  1273	 error:
-  1274		cx_remove(codec);
-  1275		return err;
-  1276	}
-  1277	
+   206	
+   207	static void kvm_hyp_handle_fpsimd_host(struct kvm_vcpu *vcpu)
+   208	{
+   209		/*
+   210		 * Non-protected kvm relies on the host restoring its sve state.
+   211		 * Protected kvm restores the host's sve state as not to reveal that
+   212		 * fpsimd was used by a guest nor leak upper sve bits.
+   213		 */
+   214		if (unlikely(is_protected_kvm_enabled() && system_supports_sve())) {
+   215			struct kvm_host_sve_state *sve_state = get_host_sve_state(vcpu);
+ > 216			u64 zcr_el2 = sve_vq_from_vl(kvm_host_sve_max_vl) - 1;
+   217	
+   218			sve_state->zcr_el1 = read_sysreg_el1(SYS_ZCR);
+   219			sve_cond_update_zcr_vq(zcr_el2, SYS_ZCR_EL2);
+   220			__sve_save_state(sve_state->sve_regs +
+   221					 sve_ffr_offset(kvm_host_sve_max_vl),
+   222					 &sve_state->fpsr);
+   223	
+   224			/* Still trap SVE since it's handled by hyp in pKVM. */
+   225			if (!vcpu_has_sve(vcpu))
+   226				sysreg_clear_set(cptr_el2, 0, CPTR_EL2_TZ);
+   227		} else {
+   228			__fpsimd_save_state(get_host_fpsimd_state(vcpu));
+   229		}
+   230	}
+   231	
 
 -- 
 0-DAY CI Kernel Test Service
