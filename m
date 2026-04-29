@@ -1,136 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09B0C24A07C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Apr 2026 07:49:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 302403AEF2D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Apr 2026 08:28:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777448958; cv=none; b=OYQaFstOvZtSpwXqI7CRXGSRnupFLaPfRr0DQMy0yY5wOXfhPpRsu9CgVv1wWG0yGxbvf0LgV7cb4QjgOnXfMkOXQqkFMzs8Pxym8j7zyf4TBTMLj7IpgiO3pcj1WRUmfOAwYamO3NCCuzh8xWe+DKQhWDSEbtB8nAU71uUsFko=
+	t=1777451309; cv=none; b=d5haPyhwJNVYR9oiUcWNlJuOyGyZZRME0wP38O+r+SJec5VHRMh3o4Mk7fufDhZuFsGZTEUHN/bmaDkSvPPAQl6Ta8tL9qu0Ur4fw2Mo2hg6/VblI7ZTuq9czsyIxjxSBKDWfOJa78/PLibuC9/d6byjmle1IcJrx+KXqzqXUJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777448958; c=relaxed/simple;
-	bh=Ls70bc1BDRiK3+aI3NL6HyWMKp8I8CB7Ky9HFk37fY0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=uN8TigUobC5JqMWS+7wXb0ERyzD2HFadf8hkIOVCBHu8sYc0KEaD6UH/QMC0OU5fUJ27aZ68wLqAVsbpzbzVqudYIlKc50xDDekwhF/jYjvYYH3vsRK4Xq95NlVOt0SVa5ldIzJYvFdW6xqf8kvuCbrW0K6M+lNTpcQHZxByw+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LFUi4gHp; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1777451309; c=relaxed/simple;
+	bh=cOxa4CgWhjet1z2EeEEdLVqhmu6YFrkVnG4ZICWRr0M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HSeQBSBWMsfse3BwCIvMmnQrTDeS37/TLj72syGM8jFlWykB4+X1OrzuWKGPyT/alLk+YbLj2zIEItzM+mfQZDjawSey+noZPPpqYOCEnw0K+RzFXgqq++EGeywoaswBwU5KzOOi0ezPvaCq6OhUi8A5ILKcj0KgE6f7HglHqoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NYvQ95pO; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LFUi4gHp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NYvQ95pO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777448957; x=1808984957;
-  h=date:from:to:cc:subject:message-id;
-  bh=Ls70bc1BDRiK3+aI3NL6HyWMKp8I8CB7Ky9HFk37fY0=;
-  b=LFUi4gHpSY40AJjXRjSsT+7u2nUQVZANbc0EX718aFP/BrtBzUyosbGM
-   k5PEdJUytcO3v53mzlr4xWYoC58b8ao7aXWSIiOkNgtrF7VrEwQZd3LyP
-   1AJ8g3z0z5kWv/qZxYkxymSXlilBDoU9LekpSUP8UMoeW794ZBoscFqA0
-   zrXI5A98Q3wc8bgc3NIEehq313j22m6E26f/7eYdv9+HxyJQfNEo81Hkh
-   MCeiJ1RkBAkzWbn7hNtyKdF69rpiKlYo4Yh898s14g2Dj3I7a4Vw3oxFt
-   6wi+y7MU48Oq2ANkhcU6BHQKJEXcSNMnYho14vYu/X01Nk8r778sxB+eJ
-   g==;
-X-CSE-ConnectionGUID: ytuFez9mTHiOmsYMhhWTQQ==
-X-CSE-MsgGUID: tIj1b0t8SlegDNvgxVQarw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11770"; a="78430261"
+  t=1777451307; x=1808987307;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cOxa4CgWhjet1z2EeEEdLVqhmu6YFrkVnG4ZICWRr0M=;
+  b=NYvQ95pObiBus+noSgHKDeUYfD2bb416h8F8hq/48yJR3JCgKTZDmAL0
+   rsyyZPFF115+dym+5Q8+x+y7szQlkESJ1YI3yZnk3pl1QeA0Acoy2Y4z9
+   IgLpWxygPqoviB4wpwa/BntlxGNkFVy5UELZhKUytiDus3TOdHtyecyF0
+   DCkQ841jm0dGLf/dPGP8HocqYwc+/XsJEnN9p3pSzMmTdo54cb3Jdfk9g
+   bXD0v4U4t4EnSMbzl/motZhQHh/mgP/GlSBikSgZXeSTK05yL8rAPwvZq
+   PQtrh5PjzGEwXf6LhXxbW8T01p8p5gfWdiLHzeA/t7Zsz5mKMns5ogq2t
+   Q==;
+X-CSE-ConnectionGUID: 7xeBcXfyQTayK+w7gRUqYw==
+X-CSE-MsgGUID: GQbPuOvHRPWeiyC8EaNlLw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11770"; a="65905224"
 X-IronPort-AV: E=Sophos;i="6.23,205,1770624000"; 
-   d="scan'208";a="78430261"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 00:49:16 -0700
-X-CSE-ConnectionGUID: bT7BxdbES2usyStk8SSWEA==
-X-CSE-MsgGUID: cdJ3yFv1Q4KjkWNJjvBfMg==
+   d="scan'208";a="65905224"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 01:28:26 -0700
+X-CSE-ConnectionGUID: 8mkmh+WgT9iotp82+uPsdQ==
+X-CSE-MsgGUID: XnmKZAYmTgyF33Wn7Sdevg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,205,1770624000"; 
-   d="scan'208";a="234060349"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 29 Apr 2026 00:49:14 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="227692057"
+Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 29 Apr 2026 01:28:24 -0700
+Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wHzfQ-000000004SN-2iNV;
-	Wed, 29 Apr 2026 07:49:08 +0000
-Date: Wed, 29 Apr 2026 09:48:45 +0200
+	id 1wI0HM-00000000Ap2-3WbZ;
+	Wed, 29 Apr 2026 08:28:20 +0000
+Date: Wed, 29 Apr 2026 16:27:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+To: Christian Brauner <brauner@kernel.org>, Thomas Graf <tgraf@suug.ch>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>
 Cc: oe-kbuild-all@lists.linux.dev,
- Daniel Lezcano <daniel.lezcano@kernel.org>
-Subject: [linux-next:master 1033/1887]
- arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dtb: timer@10001200
- (renesas,r9a07g044-mtu3): interrupt-names: ['tgia0', 'tgib0', 'tgic0',
- 'tgid0', 'tciv0', 'tgie0', 'tgif0', 'tgia1', 'tgib1', 'tciv1', 'tciu1',
- 'tgia2', 'tgib2', 'tciv2', 'tciu2', 'tgia3', '...
-Message-ID: <202604290921.6v5S7ygG-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	syzbot+5af806780f38a5fe691f@syzkaller.appspotmail.com,
+	Christian Brauner <brauner@kernel.org>
+Subject: Re: [PATCH] rhashtable: give each instance its own lockdep class
+Message-ID: <202604291646.noNYgx5i-lkp@intel.com>
+References: <20260427-work-rhashtable-lockdep-v1-1-f69e8bd91cb2@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260427-work-rhashtable-lockdep-v1-1-f69e8bd91cb2@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   9974969c14031a097d6b45bcb7a06bb4aa525c40
-commit: 6afd8c292d678091d3ba873295cddc1d0502f476 [1033/1887] dt-bindings: timer: renesas,rz-mtu3: Remove TCIU8 interrupt
-config: arm64-randconfig-2055-20260427 (https://download.01.org/0day-ci/archive/20260429/202604290921.6v5S7ygG-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.5.0
-dtschema: 2026.5.dev4+g4ccc1997d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260429/202604290921.6v5S7ygG-lkp@intel.com/reproduce)
+Hi Christian,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 6596a02b207886e9e00bb0161c7fd59fea53c081]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Brauner/rhashtable-give-each-instance-its-own-lockdep-class/20260428-182539
+base:   6596a02b207886e9e00bb0161c7fd59fea53c081
+patch link:    https://lore.kernel.org/r/20260427-work-rhashtable-lockdep-v1-1-f69e8bd91cb2%40kernel.org
+patch subject: [PATCH] rhashtable: give each instance its own lockdep class
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260429/202604291646.noNYgx5i-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260429/202604291646.noNYgx5i-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604290921.6v5S7ygG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604291646.noNYgx5i-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dtb: timer@10001200 (renesas,r9a07g044-mtu3): interrupt-names: ['tgia0', 'tgib0', 'tgic0', 'tgid0', 'tciv0', 'tgie0', 'tgif0', 'tgia1', 'tgib1', 'tciv1', 'tciu1', 'tgia2', 'tgib2', 'tciv2', 'tciu2', 'tgia3', 'tgib3', 'tgic3', 'tgid3', 'tciv3', 'tgia4', 'tgib4', 'tgic4', 'tgid4', 'tciv4', 'tgiu5', 'tgiv5', 'tgiw5', 'tgia6', 'tgib6', 'tgic6', 'tgid6', 'tciv6', 'tgia7', 'tgib7', 'tgic7', 'tgid7', 'tciv7', 'tgia8', 'tgib8', 'tgic8', 'tgid8', 'tciv8', 'tciu8'] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/renesas,rz-mtu3.yaml
->> arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dtb: timer@10001200 (renesas,r9a07g044-mtu3): interrupts: [[0, 170, 1], [0, 171, 1], [0, 172, 1], [0, 173, 1], [0, 174, 1], [0, 175, 1], [0, 176, 1], [0, 177, 1], [0, 178, 1], [0, 179, 1], [0, 180, 1], [0, 181, 1], [0, 182, 1], [0, 183, 1], [0, 184, 1], [0, 185, 1], [0, 186, 1], [0, 187, 1], [0, 188, 1], [0, 189, 1], [0, 190, 1], [0, 191, 1], [0, 192, 1], [0, 193, 1], [0, 194, 1], [0, 195, 1], [0, 196, 1], [0, 197, 1], [0, 198, 1], [0, 199, 1], [0, 200, 1], [0, 201, 1], [0, 202, 1], [0, 203, 1], [0, 204, 1], [0, 205, 1], [0, 206, 1], [0, 207, 1], [0, 208, 1], [0, 209, 1], [0, 210, 1], [0, 211, 1], [0, 212, 1], [0, 213, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/renesas,rz-mtu3.yaml
---
->> arch/arm64/boot/dts/renesas/r9a07g044l2-remi-pi.dtb: timer@10001200 (renesas,r9a07g044-mtu3): interrupt-names: ['tgia0', 'tgib0', 'tgic0', 'tgid0', 'tciv0', 'tgie0', 'tgif0', 'tgia1', 'tgib1', 'tciv1', 'tciu1', 'tgia2', 'tgib2', 'tciv2', 'tciu2', 'tgia3', 'tgib3', 'tgic3', 'tgid3', 'tciv3', 'tgia4', 'tgib4', 'tgic4', 'tgid4', 'tciv4', 'tgiu5', 'tgiv5', 'tgiw5', 'tgia6', 'tgib6', 'tgic6', 'tgid6', 'tciv6', 'tgia7', 'tgib7', 'tgic7', 'tgid7', 'tciv7', 'tgia8', 'tgib8', 'tgic8', 'tgid8', 'tciv8', 'tciu8'] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/renesas,rz-mtu3.yaml
->> arch/arm64/boot/dts/renesas/r9a07g044l2-remi-pi.dtb: timer@10001200 (renesas,r9a07g044-mtu3): interrupts: [[0, 170, 1], [0, 171, 1], [0, 172, 1], [0, 173, 1], [0, 174, 1], [0, 175, 1], [0, 176, 1], [0, 177, 1], [0, 178, 1], [0, 179, 1], [0, 180, 1], [0, 181, 1], [0, 182, 1], [0, 183, 1], [0, 184, 1], [0, 185, 1], [0, 186, 1], [0, 187, 1], [0, 188, 1], [0, 189, 1], [0, 190, 1], [0, 191, 1], [0, 192, 1], [0, 193, 1], [0, 194, 1], [0, 195, 1], [0, 196, 1], [0, 197, 1], [0, 198, 1], [0, 199, 1], [0, 200, 1], [0, 201, 1], [0, 202, 1], [0, 203, 1], [0, 204, 1], [0, 205, 1], [0, 206, 1], [0, 207, 1], [0, 208, 1], [0, 209, 1], [0, 210, 1], [0, 211, 1], [0, 212, 1], [0, 213, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/renesas,rz-mtu3.yaml
---
->> arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dtb: timer@10001200 (renesas,r9a07g044-mtu3): interrupt-names: ['tgia0', 'tgib0', 'tgic0', 'tgid0', 'tciv0', 'tgie0', 'tgif0', 'tgia1', 'tgib1', 'tciv1', 'tciu1', 'tgia2', 'tgib2', 'tciv2', 'tciu2', 'tgia3', 'tgib3', 'tgic3', 'tgid3', 'tciv3', 'tgia4', 'tgib4', 'tgic4', 'tgid4', 'tciv4', 'tgiu5', 'tgiv5', 'tgiw5', 'tgia6', 'tgib6', 'tgic6', 'tgid6', 'tciv6', 'tgia7', 'tgib7', 'tgic7', 'tgid7', 'tciv7', 'tgia8', 'tgib8', 'tgic8', 'tgid8', 'tciv8', 'tciu8'] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/renesas,rz-mtu3.yaml
->> arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dtb: timer@10001200 (renesas,r9a07g044-mtu3): interrupts: [[0, 170, 1], [0, 171, 1], [0, 172, 1], [0, 173, 1], [0, 174, 1], [0, 175, 1], [0, 176, 1], [0, 177, 1], [0, 178, 1], [0, 179, 1], [0, 180, 1], [0, 181, 1], [0, 182, 1], [0, 183, 1], [0, 184, 1], [0, 185, 1], [0, 186, 1], [0, 187, 1], [0, 188, 1], [0, 189, 1], [0, 190, 1], [0, 191, 1], [0, 192, 1], [0, 193, 1], [0, 194, 1], [0, 195, 1], [0, 196, 1], [0, 197, 1], [0, 198, 1], [0, 199, 1], [0, 200, 1], [0, 201, 1], [0, 202, 1], [0, 203, 1], [0, 204, 1], [0, 205, 1], [0, 206, 1], [0, 207, 1], [0, 208, 1], [0, 209, 1], [0, 210, 1], [0, 211, 1], [0, 212, 1], [0, 213, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/renesas,rz-mtu3.yaml
---
->> arch/arm64/boot/dts/renesas/r9a07g054l2-smarc.dtb: timer@10001200 (renesas,r9a07g054-mtu3): interrupt-names: ['tgia0', 'tgib0', 'tgic0', 'tgid0', 'tciv0', 'tgie0', 'tgif0', 'tgia1', 'tgib1', 'tciv1', 'tciu1', 'tgia2', 'tgib2', 'tciv2', 'tciu2', 'tgia3', 'tgib3', 'tgic3', 'tgid3', 'tciv3', 'tgia4', 'tgib4', 'tgic4', 'tgid4', 'tciv4', 'tgiu5', 'tgiv5', 'tgiw5', 'tgia6', 'tgib6', 'tgic6', 'tgid6', 'tciv6', 'tgia7', 'tgib7', 'tgic7', 'tgid7', 'tciv7', 'tgia8', 'tgib8', 'tgic8', 'tgid8', 'tciv8', 'tciu8'] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/renesas,rz-mtu3.yaml
->> arch/arm64/boot/dts/renesas/r9a07g054l2-smarc.dtb: timer@10001200 (renesas,r9a07g054-mtu3): interrupts: [[0, 170, 1], [0, 171, 1], [0, 172, 1], [0, 173, 1], [0, 174, 1], [0, 175, 1], [0, 176, 1], [0, 177, 1], [0, 178, 1], [0, 179, 1], [0, 180, 1], [0, 181, 1], [0, 182, 1], [0, 183, 1], [0, 184, 1], [0, 185, 1], [0, 186, 1], [0, 187, 1], [0, 188, 1], [0, 189, 1], [0, 190, 1], [0, 191, 1], [0, 192, 1], [0, 193, 1], [0, 194, 1], [0, 195, 1], [0, 196, 1], [0, 197, 1], [0, 198, 1], [0, 199, 1], [0, 200, 1], [0, 201, 1], [0, 202, 1], [0, 203, 1], [0, 204, 1], [0, 205, 1], [0, 206, 1], [0, 207, 1], [0, 208, 1], [0, 209, 1], [0, 210, 1], [0, 211, 1], [0, 212, 1], [0, 213, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/renesas,rz-mtu3.yaml
---
->> arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dtb: timer@10001200 (renesas,r9a07g043-mtu3): interrupt-names: ['tgia0', 'tgib0', 'tgic0', 'tgid0', 'tciv0', 'tgie0', 'tgif0', 'tgia1', 'tgib1', 'tciv1', 'tciu1', 'tgia2', 'tgib2', 'tciv2', 'tciu2', 'tgia3', 'tgib3', 'tgic3', 'tgid3', 'tciv3', 'tgia4', 'tgib4', 'tgic4', 'tgid4', 'tciv4', 'tgiu5', 'tgiv5', 'tgiw5', 'tgia6', 'tgib6', 'tgic6', 'tgid6', 'tciv6', 'tgia7', 'tgib7', 'tgic7', 'tgid7', 'tciv7', 'tgia8', 'tgib8', 'tgic8', 'tgid8', 'tciv8', 'tciu8'] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/renesas,rz-mtu3.yaml
->> arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dtb: timer@10001200 (renesas,r9a07g043-mtu3): interrupts: [[0, 170, 1], [0, 171, 1], [0, 172, 1], [0, 173, 1], [0, 174, 1], [0, 175, 1], [0, 176, 1], [0, 177, 1], [0, 178, 1], [0, 179, 1], [0, 180, 1], [0, 181, 1], [0, 182, 1], [0, 183, 1], [0, 184, 1], [0, 185, 1], [0, 186, 1], [0, 187, 1], [0, 188, 1], [0, 189, 1], [0, 190, 1], [0, 191, 1], [0, 192, 1], [0, 193, 1], [0, 194, 1], [0, 195, 1], [0, 196, 1], [0, 197, 1], [0, 198, 1], [0, 199, 1], [0, 200, 1], [0, 201, 1], [0, 202, 1], [0, 203, 1], [0, 204, 1], [0, 205, 1], [0, 206, 1], [0, 207, 1], [0, 208, 1], [0, 209, 1], [0, 210, 1], [0, 211, 1], [0, 212, 1], [0, 213, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/renesas,rz-mtu3.yaml
---
->> arch/arm64/boot/dts/renesas/r9a07g054l2-smarc-cru-csi-ov5645.dtb: timer@10001200 (renesas,r9a07g054-mtu3): interrupt-names: ['tgia0', 'tgib0', 'tgic0', 'tgid0', 'tciv0', 'tgie0', 'tgif0', 'tgia1', 'tgib1', 'tciv1', 'tciu1', 'tgia2', 'tgib2', 'tciv2', 'tciu2', 'tgia3', 'tgib3', 'tgic3', 'tgid3', 'tciv3', 'tgia4', 'tgib4', 'tgic4', 'tgid4', 'tciv4', 'tgiu5', 'tgiv5', 'tgiw5', 'tgia6', 'tgib6', 'tgic6', 'tgid6', 'tciv6', 'tgia7', 'tgib7', 'tgic7', 'tgid7', 'tciv7', 'tgia8', 'tgib8', 'tgic8', 'tgid8', 'tciv8', 'tciu8'] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/renesas,rz-mtu3.yaml
->> arch/arm64/boot/dts/renesas/r9a07g054l2-smarc-cru-csi-ov5645.dtb: timer@10001200 (renesas,r9a07g054-mtu3): interrupts: [[0, 170, 1], [0, 171, 1], [0, 172, 1], [0, 173, 1], [0, 174, 1], [0, 175, 1], [0, 176, 1], [0, 177, 1], [0, 178, 1], [0, 179, 1], [0, 180, 1], [0, 181, 1], [0, 182, 1], [0, 183, 1], [0, 184, 1], [0, 185, 1], [0, 186, 1], [0, 187, 1], [0, 188, 1], [0, 189, 1], [0, 190, 1], [0, 191, 1], [0, 192, 1], [0, 193, 1], [0, 194, 1], [0, 195, 1], [0, 196, 1], [0, 197, 1], [0, 198, 1], [0, 199, 1], [0, 200, 1], [0, 201, 1], [0, 202, 1], [0, 203, 1], [0, 204, 1], [0, 205, 1], [0, 206, 1], [0, 207, 1], [0, 208, 1], [0, 209, 1], [0, 210, 1], [0, 211, 1], [0, 212, 1], [0, 213, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/renesas,rz-mtu3.yaml
---
->> arch/arm64/boot/dts/renesas/r9a07g044l2-smarc-cru-csi-ov5645.dtb: timer@10001200 (renesas,r9a07g044-mtu3): interrupt-names: ['tgia0', 'tgib0', 'tgic0', 'tgid0', 'tciv0', 'tgie0', 'tgif0', 'tgia1', 'tgib1', 'tciv1', 'tciu1', 'tgia2', 'tgib2', 'tciv2', 'tciu2', 'tgia3', 'tgib3', 'tgic3', 'tgid3', 'tciv3', 'tgia4', 'tgib4', 'tgic4', 'tgid4', 'tciv4', 'tgiu5', 'tgiv5', 'tgiw5', 'tgia6', 'tgib6', 'tgic6', 'tgid6', 'tciv6', 'tgia7', 'tgib7', 'tgic7', 'tgid7', 'tciv7', 'tgia8', 'tgib8', 'tgic8', 'tgid8', 'tciv8', 'tciu8'] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/renesas,rz-mtu3.yaml
->> arch/arm64/boot/dts/renesas/r9a07g044l2-smarc-cru-csi-ov5645.dtb: timer@10001200 (renesas,r9a07g044-mtu3): interrupts: [[0, 170, 1], [0, 171, 1], [0, 172, 1], [0, 173, 1], [0, 174, 1], [0, 175, 1], [0, 176, 1], [0, 177, 1], [0, 178, 1], [0, 179, 1], [0, 180, 1], [0, 181, 1], [0, 182, 1], [0, 183, 1], [0, 184, 1], [0, 185, 1], [0, 186, 1], [0, 187, 1], [0, 188, 1], [0, 189, 1], [0, 190, 1], [0, 191, 1], [0, 192, 1], [0, 193, 1], [0, 194, 1], [0, 195, 1], [0, 196, 1], [0, 197, 1], [0, 198, 1], [0, 199, 1], [0, 200, 1], [0, 201, 1], [0, 202, 1], [0, 203, 1], [0, 204, 1], [0, 205, 1], [0, 206, 1], [0, 207, 1], [0, 208, 1], [0, 209, 1], [0, 210, 1], [0, 211, 1], [0, 212, 1], [0, 213, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/renesas,rz-mtu3.yaml
---
->> arch/arm64/boot/dts/renesas/r9a07g044c2-smarc-cru-csi-ov5645.dtb: timer@10001200 (renesas,r9a07g044-mtu3): interrupt-names: ['tgia0', 'tgib0', 'tgic0', 'tgid0', 'tciv0', 'tgie0', 'tgif0', 'tgia1', 'tgib1', 'tciv1', 'tciu1', 'tgia2', 'tgib2', 'tciv2', 'tciu2', 'tgia3', 'tgib3', 'tgic3', 'tgid3', 'tciv3', 'tgia4', 'tgib4', 'tgic4', 'tgid4', 'tciv4', 'tgiu5', 'tgiv5', 'tgiw5', 'tgia6', 'tgib6', 'tgic6', 'tgid6', 'tciv6', 'tgia7', 'tgib7', 'tgic7', 'tgid7', 'tciv7', 'tgia8', 'tgib8', 'tgic8', 'tgid8', 'tciv8', 'tciu8'] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/renesas,rz-mtu3.yaml
->> arch/arm64/boot/dts/renesas/r9a07g044c2-smarc-cru-csi-ov5645.dtb: timer@10001200 (renesas,r9a07g044-mtu3): interrupts: [[0, 170, 1], [0, 171, 1], [0, 172, 1], [0, 173, 1], [0, 174, 1], [0, 175, 1], [0, 176, 1], [0, 177, 1], [0, 178, 1], [0, 179, 1], [0, 180, 1], [0, 181, 1], [0, 182, 1], [0, 183, 1], [0, 184, 1], [0, 185, 1], [0, 186, 1], [0, 187, 1], [0, 188, 1], [0, 189, 1], [0, 190, 1], [0, 191, 1], [0, 192, 1], [0, 193, 1], [0, 194, 1], [0, 195, 1], [0, 196, 1], [0, 197, 1], [0, 198, 1], [0, 199, 1], [0, 200, 1], [0, 201, 1], [0, 202, 1], [0, 203, 1], [0, 204, 1], [0, 205, 1], [0, 206, 1], [0, 207, 1], [0, 208, 1], [0, 209, 1], [0, 210, 1], [0, 211, 1], [0, 212, 1], [0, 213, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/renesas,rz-mtu3.yaml
---
->> arch/arm64/boot/dts/renesas/r9a07g043u11-smarc-cru-csi-ov5645.dtb: timer@10001200 (renesas,r9a07g043-mtu3): interrupt-names: ['tgia0', 'tgib0', 'tgic0', 'tgid0', 'tciv0', 'tgie0', 'tgif0', 'tgia1', 'tgib1', 'tciv1', 'tciu1', 'tgia2', 'tgib2', 'tciv2', 'tciu2', 'tgia3', 'tgib3', 'tgic3', 'tgid3', 'tciv3', 'tgia4', 'tgib4', 'tgic4', 'tgid4', 'tciv4', 'tgiu5', 'tgiv5', 'tgiw5', 'tgia6', 'tgib6', 'tgic6', 'tgid6', 'tciv6', 'tgia7', 'tgib7', 'tgic7', 'tgid7', 'tciv7', 'tgia8', 'tgib8', 'tgic8', 'tgid8', 'tciv8', 'tciu8'] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/renesas,rz-mtu3.yaml
->> arch/arm64/boot/dts/renesas/r9a07g043u11-smarc-cru-csi-ov5645.dtb: timer@10001200 (renesas,r9a07g043-mtu3): interrupts: [[0, 170, 1], [0, 171, 1], [0, 172, 1], [0, 173, 1], [0, 174, 1], [0, 175, 1], [0, 176, 1], [0, 177, 1], [0, 178, 1], [0, 179, 1], [0, 180, 1], [0, 181, 1], [0, 182, 1], [0, 183, 1], [0, 184, 1], [0, 185, 1], [0, 186, 1], [0, 187, 1], [0, 188, 1], [0, 189, 1], [0, 190, 1], [0, 191, 1], [0, 192, 1], [0, 193, 1], [0, 194, 1], [0, 195, 1], [0, 196, 1], [0, 197, 1], [0, 198, 1], [0, 199, 1], [0, 200, 1], [0, 201, 1], [0, 202, 1], [0, 203, 1], [0, 204, 1], [0, 205, 1], [0, 206, 1], [0, 207, 1], [0, 208, 1], [0, 209, 1], [0, 210, 1], [0, 211, 1], [0, 212, 1], [0, 213, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/renesas,rz-mtu3.yaml
---
->> arch/arm64/boot/dts/renesas/r9a07g043u11-smarc-du-adv7513.dtb: timer@10001200 (renesas,r9a07g043-mtu3): interrupt-names: ['tgia0', 'tgib0', 'tgic0', 'tgid0', 'tciv0', 'tgie0', 'tgif0', 'tgia1', 'tgib1', 'tciv1', 'tciu1', 'tgia2', 'tgib2', 'tciv2', 'tciu2', 'tgia3', 'tgib3', 'tgic3', 'tgid3', 'tciv3', 'tgia4', 'tgib4', 'tgic4', 'tgid4', 'tciv4', 'tgiu5', 'tgiv5', 'tgiw5', 'tgia6', 'tgib6', 'tgic6', 'tgid6', 'tciv6', 'tgia7', 'tgib7', 'tgic7', 'tgid7', 'tciv7', 'tgia8', 'tgib8', 'tgic8', 'tgid8', 'tciv8', 'tciu8'] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/renesas,rz-mtu3.yaml
->> arch/arm64/boot/dts/renesas/r9a07g043u11-smarc-du-adv7513.dtb: timer@10001200 (renesas,r9a07g043-mtu3): interrupts: [[0, 170, 1], [0, 171, 1], [0, 172, 1], [0, 173, 1], [0, 174, 1], [0, 175, 1], [0, 176, 1], [0, 177, 1], [0, 178, 1], [0, 179, 1], [0, 180, 1], [0, 181, 1], [0, 182, 1], [0, 183, 1], [0, 184, 1], [0, 185, 1], [0, 186, 1], [0, 187, 1], [0, 188, 1], [0, 189, 1], [0, 190, 1], [0, 191, 1], [0, 192, 1], [0, 193, 1], [0, 194, 1], [0, 195, 1], [0, 196, 1], [0, 197, 1], [0, 198, 1], [0, 199, 1], [0, 200, 1], [0, 201, 1], [0, 202, 1], [0, 203, 1], [0, 204, 1], [0, 205, 1], [0, 206, 1], [0, 207, 1], [0, 208, 1], [0, 209, 1], [0, 210, 1], [0, 211, 1], [0, 212, 1], [0, 213, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/renesas,rz-mtu3.yaml
---
->> arch/arm64/boot/dts/renesas/r9a07g043u11-smarc-pmod.dtb: timer@10001200 (renesas,r9a07g043-mtu3): interrupt-names: ['tgia0', 'tgib0', 'tgic0', 'tgid0', 'tciv0', 'tgie0', 'tgif0', 'tgia1', 'tgib1', 'tciv1', 'tciu1', 'tgia2', 'tgib2', 'tciv2', 'tciu2', 'tgia3', 'tgib3', 'tgic3', 'tgid3', 'tciv3', 'tgia4', 'tgib4', 'tgic4', 'tgid4', 'tciv4', 'tgiu5', 'tgiv5', 'tgiw5', 'tgia6', 'tgib6', 'tgic6', 'tgid6', 'tciv6', 'tgia7', 'tgib7', 'tgic7', 'tgid7', 'tciv7', 'tgia8', 'tgib8', 'tgic8', 'tgid8', 'tciv8', 'tciu8'] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/renesas,rz-mtu3.yaml
->> arch/arm64/boot/dts/renesas/r9a07g043u11-smarc-pmod.dtb: timer@10001200 (renesas,r9a07g043-mtu3): interrupts: [[0, 170, 1], [0, 171, 1], [0, 172, 1], [0, 173, 1], [0, 174, 1], [0, 175, 1], [0, 176, 1], [0, 177, 1], [0, 178, 1], [0, 179, 1], [0, 180, 1], [0, 181, 1], [0, 182, 1], [0, 183, 1], [0, 184, 1], [0, 185, 1], [0, 186, 1], [0, 187, 1], [0, 188, 1], [0, 189, 1], [0, 190, 1], [0, 191, 1], [0, 192, 1], [0, 193, 1], [0, 194, 1], [0, 195, 1], [0, 196, 1], [0, 197, 1], [0, 198, 1], [0, 199, 1], [0, 200, 1], [0, 201, 1], [0, 202, 1], [0, 203, 1], [0, 204, 1], [0, 205, 1], [0, 206, 1], [0, 207, 1], [0, 208, 1], [0, 209, 1], [0, 210, 1], [0, 211, 1], [0, 212, 1], [0, 213, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/renesas,rz-mtu3.yaml
+All warnings (new ones prefixed by >>):
+
+>> Warning: lib/rhashtable.c:1030 function parameter 'key' not described in '__rhashtable_init'
+>> Warning: lib/rhashtable.c:1030 expecting prototype for rhashtable_init(). Prototype was for __rhashtable_init() instead
+>> Warning: lib/rhashtable.c:1104 function parameter 'key' not described in '__rhltable_init'
+>> Warning: lib/rhashtable.c:1104 expecting prototype for rhltable_init(). Prototype was for __rhltable_init() instead
 
 -- 
 0-DAY CI Kernel Test Service
