@@ -1,60 +1,67 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AED43B4E9C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Apr 2026 22:41:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B203B4E9C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Apr 2026 22:41:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777502469; cv=none; b=Ir39arTHdO6I/vHXYr0AzbrbbPtKjQcmqQq20DseiYN9A4r0woyAM4jcrtMHNBuZUZuR01EAwob5Qor8n1E+eKG61UHEXY6HbiRkx3HHr4xElrQ9CrVEuT3ysENbpwUgIwZvuNBJuZGYiCZ4S58sdBUU4s8Ry1yYBy5f/HQr4E8=
+	t=1777502470; cv=none; b=PQAmHDdEM1nXP50qY/fESdJha4gHLOl9p7rt8tIMfK2hf/fiOxQcoMjOccVQ05a0uTBzgTnp7VpIzIsYQCQP5Bu+GK4D86oOFHP5Ies67iyOr3GvXqHqRrhAH/nP/dAw9r5oBTNqPIH7YWuckyNvZohwJChJc5K4kSFxFiTndDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777502469; c=relaxed/simple;
-	bh=pjEW5roKEuWh8zvw1b6sL0B2eJlxoLEgesbCJZq4DFM=;
+	s=arc-20240116; t=1777502470; c=relaxed/simple;
+	bh=Prs6WtnNQmxMJPLEGqnYoBUwbZxxTKXGSO/uuDGHo4k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pOHjTqoEBAiVj9XLajp8i7n96Xy1zy25+rTB7xxhnidMcyg6KMmJeGtcyx5foFYosuioWy4CNKfX9icrTqEpGJCCZ3yZziWzs7rwEDdmg5nTMon4Mj4wO2zinlq7TaEKfp3kaZy+sR8+hoKSZG5lCZPcc/eDMWi99QiGgZ7RRp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pa6KBiuP; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=ozVKX7yqFt40j5lU0vjPDUVurB6Ey+iQzTuItEz3biio2DSkdkEb2UM+5y8W4JvWC6MXxmZ0wHtxC6EiH65eKuKy8wc67Ih/PbHUjW5jDiqaQC73IwLL8wKWl4FYTCFG+7b/2LCzC+7UT+q849WC3ZCCF/Ho0HRGmINie97Sk3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oq6XE09w; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pa6KBiuP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oq6XE09w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777502467; x=1809038467;
+  t=1777502469; x=1809038469;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=pjEW5roKEuWh8zvw1b6sL0B2eJlxoLEgesbCJZq4DFM=;
-  b=Pa6KBiuPzeYoDmqMXeMjD67p29vfTjtg327H5JUzmqBHb8Lp/VYvuXhn
-   HjxdCpxVEXkq6++MxY1+Y/HzUakXKqVP9iPaYcsR1IrXszdr8BJ6lUGTM
-   WgxD/g2hh5ffuIv7kc2AbGI90bC/ke8xtDhI+d+GQznFR3fnx8zCDRYlM
-   d8bVh6ERrT3+jkHAdptZrRkXLvCrHFG3bj/VBbuyaBoGmJUzgmwzDgDjV
-   Ab+Iywzg6gK7KwZODJb30ulYUAHrdUG6QmU5fpNLpFXfoy4dRY9hQAv1K
-   s83BiZxbYyevUI0fErBHwbZ2+G7xDvZUR6kgRQVMy/i2jAajnynoP6zYg
-   w==;
-X-CSE-ConnectionGUID: Ohh3g4l8R9OrdLAvhcbnvA==
-X-CSE-MsgGUID: RpTJ+bCiTMeCrZ9ampkofw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="89818778"
+  bh=Prs6WtnNQmxMJPLEGqnYoBUwbZxxTKXGSO/uuDGHo4k=;
+  b=Oq6XE09wvPeXzMWvNhij0Lf3txQp86DWyobupfJ6+yl1kCWyR3dgUdTr
+   LIQQGi0IbP8IFi+KhbDa8fsN13VLne0wY7ejq8LMVin+K1LPkBwKRWPEF
+   XwYX+41GkBcQj7CBnLE8r0c+gmobP5eiAz2B0CWGh0YZwWPw6IseMwNmJ
+   qhplUnxGaYxb4RpnqZK9qytnS16NT3oxJtRfPpFx9Lw56pehQMtRj4PYU
+   S1GtAob5xA7/RDXuc/bNkaG+isc6ho4FSu6mkotNQp+w0sP6T3Fp2xX/u
+   32rgRZjAEGCaJfUpOIxmu40J5uRaiy6sAAQMvQ0KBJCpXy9vX/eF+DfE7
+   g==;
+X-CSE-ConnectionGUID: 4Jva2SGGShG2Q5c7+DGD8w==
+X-CSE-MsgGUID: bPNnbA+HQ4GLyPF+CLGRtg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="89818791"
 X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
-   d="scan'208";a="89818778"
+   d="scan'208";a="89818791"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 15:41:07 -0700
-X-CSE-ConnectionGUID: dvnTyNcHTW+Kf0742HLOkw==
-X-CSE-MsgGUID: MOIEB+9pT6akLYlqZYsibA==
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 15:41:09 -0700
+X-CSE-ConnectionGUID: 0GI/G0AOTSGrk3HfWQUQBQ==
+X-CSE-MsgGUID: N6JkXaW7RJ+Ys3viU5xhYA==
 X-ExtLoop1: 1
 Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 29 Apr 2026 15:41:04 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 29 Apr 2026 15:41:06 -0700
 Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wIDaW-00000000Bbg-4A63;
-	Wed, 29 Apr 2026 22:41:00 +0000
-Date: Thu, 30 Apr 2026 06:40:51 +0800
+	id 1wIDaX-00000000Bbi-05kg;
+	Wed, 29 Apr 2026 22:41:01 +0000
+Date: Thu, 30 Apr 2026 06:40:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: wit_yuan <yuanzhaoming901030@126.com>, jk@codeconstruct.com.au
-Cc: oe-kbuild-all@lists.linux.dev, yuanzhaoming901030@126.com,
-	yuanzm2@lenovo.com, matt@codeconstruct.com.au, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] net:mctp: split mctp hdr version to ver and rsvd
-Message-ID: <202604300641.2Ml6rWOe-lkp@intel.com>
-References: <20260409125129.9210-1-yuanzhaoming901030@126.com>
+To: Guangshuo Li <lgs201920130244@gmail.com>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Stas Sergeev <stsp@aknet.ru>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] x86/rtc: fix failed fallback RTC device registration
+ handling
+Message-ID: <202604300638.5ysk7jy1-lkp@intel.com>
+References: <20260415193455.3869807-1-lgs201920130244@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,154 +70,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260409125129.9210-1-yuanzhaoming901030@126.com>
+In-Reply-To: <20260415193455.3869807-1-lgs201920130244@gmail.com>
 
-Hi wit_yuan,
+Hi Guangshuo,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v7.1-rc1 next-20260429]
+[auto build test ERROR on tip/master]
+[also build test ERROR on linus/master v7.1-rc1 next-20260429]
+[cannot apply to tip/auto-latest tip/x86/core bp/for-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/wit_yuan/net-mctp-split-mctp-hdr-version-to-ver-and-rsvd/20260414-044431
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260409125129.9210-1-yuanzhaoming901030%40126.com
-patch subject: [PATCH] net:mctp: split mctp hdr version to ver and rsvd
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260430/202604300641.2Ml6rWOe-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604300641.2Ml6rWOe-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Guangshuo-Li/x86-rtc-fix-failed-fallback-RTC-device-registration-handling/20260416-130623
+base:   tip/master
+patch link:    https://lore.kernel.org/r/20260415193455.3869807-1-lgs201920130244%40gmail.com
+patch subject: [PATCH] x86/rtc: fix failed fallback RTC device registration handling
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20260430/202604300638.5ysk7jy1-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604300638.5ysk7jy1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604300641.2Ml6rWOe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604300638.5ysk7jy1-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/kunit/static_stub.h:18,
-                    from net/mctp/route.c:20:
-   net/mctp/test/route-test.c: In function 'mctp_test_fragment':
->> net/mctp/test/route-test.c:70:39: error: 'typeof' applied to a bit-field
-      70 |                 KUNIT_EXPECT_EQ(test, hdr2->ver, hdr.ver);
-         |                                       ^~~~
-   include/kunit/test.h:839:22: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     839 |         const typeof(left) __left = (left);                                    \
-         |                      ^~~~
-   include/kunit/test.h:1036:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-    1036 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:1033:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-    1033 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   net/mctp/test/route-test.c:70:17: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      70 |                 KUNIT_EXPECT_EQ(test, hdr2->ver, hdr.ver);
-         |                 ^~~~~~~~~~~~~~~
-   net/mctp/test/route-test.c:70:50: error: 'typeof' applied to a bit-field
-      70 |                 KUNIT_EXPECT_EQ(test, hdr2->ver, hdr.ver);
-         |                                                  ^~~
-   include/kunit/test.h:840:22: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     840 |         const typeof(right) __right = (right);                                 \
-         |                      ^~~~~
-   include/kunit/test.h:1036:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-    1036 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:1033:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-    1033 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   net/mctp/test/route-test.c:70:17: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      70 |                 KUNIT_EXPECT_EQ(test, hdr2->ver, hdr.ver);
-         |                 ^~~~~~~~~~~~~~~
+   arch/x86/kernel/rtc.c: In function 'add_rtc_cmos':
+>> arch/x86/kernel/rtc.c:142:9: error: 'ret' undeclared (first use in this function); did you mean 'net'?
+     142 |         ret = platform_device_register(&rtc_device);
+         |         ^~~
+         |         net
+   arch/x86/kernel/rtc.c:142:9: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/typeof +70 net/mctp/test/route-test.c
+vim +142 arch/x86/kernel/rtc.c
 
-161eba50e183ed Jeremy Kerr 2021-10-03   19  
-161eba50e183ed Jeremy Kerr 2021-10-03   20  static void mctp_test_fragment(struct kunit *test)
-161eba50e183ed Jeremy Kerr 2021-10-03   21  {
-161eba50e183ed Jeremy Kerr 2021-10-03   22  	const struct mctp_frag_test *params;
-161eba50e183ed Jeremy Kerr 2021-10-03   23  	int rc, i, n, mtu, msgsize;
-269936db5eb396 Jeremy Kerr 2025-07-02   24  	struct mctp_test_dev *dev;
-269936db5eb396 Jeremy Kerr 2025-07-02   25  	struct mctp_dst dst;
-161eba50e183ed Jeremy Kerr 2021-10-03   26  	struct sk_buff *skb;
-161eba50e183ed Jeremy Kerr 2021-10-03   27  	struct mctp_hdr hdr;
-161eba50e183ed Jeremy Kerr 2021-10-03   28  	u8 seq;
-161eba50e183ed Jeremy Kerr 2021-10-03   29  
-161eba50e183ed Jeremy Kerr 2021-10-03   30  	params = test->param_value;
-161eba50e183ed Jeremy Kerr 2021-10-03   31  	mtu = params->mtu;
-161eba50e183ed Jeremy Kerr 2021-10-03   32  	msgsize = params->msgsize;
-161eba50e183ed Jeremy Kerr 2021-10-03   33  
-161eba50e183ed Jeremy Kerr 2021-10-03   34  	hdr.ver = 1;
-161eba50e183ed Jeremy Kerr 2021-10-03   35  	hdr.src = 8;
-161eba50e183ed Jeremy Kerr 2021-10-03   36  	hdr.dest = 10;
-161eba50e183ed Jeremy Kerr 2021-10-03   37  	hdr.flags_seq_tag = MCTP_HDR_FLAG_TO;
-161eba50e183ed Jeremy Kerr 2021-10-03   38  
-161eba50e183ed Jeremy Kerr 2021-10-03   39  	skb = mctp_test_create_skb(&hdr, msgsize);
-161eba50e183ed Jeremy Kerr 2021-10-03   40  	KUNIT_ASSERT_TRUE(test, skb);
-161eba50e183ed Jeremy Kerr 2021-10-03   41  
-269936db5eb396 Jeremy Kerr 2025-07-02   42  	dev = mctp_test_create_dev();
-269936db5eb396 Jeremy Kerr 2025-07-02   43  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
-269936db5eb396 Jeremy Kerr 2025-07-02   44  
-6ab578739a4c1f Jeremy Kerr 2025-11-26   45  	mctp_test_dst_setup(test, &dst, dev, mtu);
-161eba50e183ed Jeremy Kerr 2021-10-03   46  
-269936db5eb396 Jeremy Kerr 2025-07-02   47  	rc = mctp_do_fragment_route(&dst, skb, mtu, MCTP_TAG_OWNER);
-161eba50e183ed Jeremy Kerr 2021-10-03   48  	KUNIT_EXPECT_FALSE(test, rc);
-161eba50e183ed Jeremy Kerr 2021-10-03   49  
-6ab578739a4c1f Jeremy Kerr 2025-11-26   50  	n = dev->pkts.qlen;
-161eba50e183ed Jeremy Kerr 2021-10-03   51  	KUNIT_EXPECT_EQ(test, n, params->n_frags);
-161eba50e183ed Jeremy Kerr 2021-10-03   52  
-161eba50e183ed Jeremy Kerr 2021-10-03   53  	for (i = 0;; i++) {
-161eba50e183ed Jeremy Kerr 2021-10-03   54  		struct mctp_hdr *hdr2;
-161eba50e183ed Jeremy Kerr 2021-10-03   55  		struct sk_buff *skb2;
-161eba50e183ed Jeremy Kerr 2021-10-03   56  		u8 tag_mask, seq2;
-161eba50e183ed Jeremy Kerr 2021-10-03   57  		bool first, last;
-161eba50e183ed Jeremy Kerr 2021-10-03   58  
-161eba50e183ed Jeremy Kerr 2021-10-03   59  		first = i == 0;
-161eba50e183ed Jeremy Kerr 2021-10-03   60  		last = i == (n - 1);
-161eba50e183ed Jeremy Kerr 2021-10-03   61  
-6ab578739a4c1f Jeremy Kerr 2025-11-26   62  		skb2 = skb_dequeue(&dev->pkts);
-161eba50e183ed Jeremy Kerr 2021-10-03   63  		if (!skb2)
-161eba50e183ed Jeremy Kerr 2021-10-03   64  			break;
-161eba50e183ed Jeremy Kerr 2021-10-03   65  
-161eba50e183ed Jeremy Kerr 2021-10-03   66  		hdr2 = mctp_hdr(skb2);
-161eba50e183ed Jeremy Kerr 2021-10-03   67  
-161eba50e183ed Jeremy Kerr 2021-10-03   68  		tag_mask = MCTP_HDR_TAG_MASK | MCTP_HDR_FLAG_TO;
-161eba50e183ed Jeremy Kerr 2021-10-03   69  
-161eba50e183ed Jeremy Kerr 2021-10-03  @70  		KUNIT_EXPECT_EQ(test, hdr2->ver, hdr.ver);
-161eba50e183ed Jeremy Kerr 2021-10-03   71  		KUNIT_EXPECT_EQ(test, hdr2->src, hdr.src);
-161eba50e183ed Jeremy Kerr 2021-10-03   72  		KUNIT_EXPECT_EQ(test, hdr2->dest, hdr.dest);
-161eba50e183ed Jeremy Kerr 2021-10-03   73  		KUNIT_EXPECT_EQ(test, hdr2->flags_seq_tag & tag_mask,
-161eba50e183ed Jeremy Kerr 2021-10-03   74  				hdr.flags_seq_tag & tag_mask);
-161eba50e183ed Jeremy Kerr 2021-10-03   75  
-161eba50e183ed Jeremy Kerr 2021-10-03   76  		KUNIT_EXPECT_EQ(test,
-161eba50e183ed Jeremy Kerr 2021-10-03   77  				!!(hdr2->flags_seq_tag & MCTP_HDR_FLAG_SOM), first);
-161eba50e183ed Jeremy Kerr 2021-10-03   78  		KUNIT_EXPECT_EQ(test,
-161eba50e183ed Jeremy Kerr 2021-10-03   79  				!!(hdr2->flags_seq_tag & MCTP_HDR_FLAG_EOM), last);
-161eba50e183ed Jeremy Kerr 2021-10-03   80  
-161eba50e183ed Jeremy Kerr 2021-10-03   81  		seq2 = (hdr2->flags_seq_tag >> MCTP_HDR_SEQ_SHIFT) &
-161eba50e183ed Jeremy Kerr 2021-10-03   82  			MCTP_HDR_SEQ_MASK;
-161eba50e183ed Jeremy Kerr 2021-10-03   83  
-161eba50e183ed Jeremy Kerr 2021-10-03   84  		if (first) {
-161eba50e183ed Jeremy Kerr 2021-10-03   85  			seq = seq2;
-161eba50e183ed Jeremy Kerr 2021-10-03   86  		} else {
-161eba50e183ed Jeremy Kerr 2021-10-03   87  			seq++;
-161eba50e183ed Jeremy Kerr 2021-10-03   88  			KUNIT_EXPECT_EQ(test, seq2, seq & MCTP_HDR_SEQ_MASK);
-161eba50e183ed Jeremy Kerr 2021-10-03   89  		}
-161eba50e183ed Jeremy Kerr 2021-10-03   90  
-161eba50e183ed Jeremy Kerr 2021-10-03   91  		if (!last)
-161eba50e183ed Jeremy Kerr 2021-10-03   92  			KUNIT_EXPECT_EQ(test, skb2->len, mtu);
-161eba50e183ed Jeremy Kerr 2021-10-03   93  		else
-161eba50e183ed Jeremy Kerr 2021-10-03   94  			KUNIT_EXPECT_LE(test, skb2->len, mtu);
-161eba50e183ed Jeremy Kerr 2021-10-03   95  
-161eba50e183ed Jeremy Kerr 2021-10-03   96  		kfree_skb(skb2);
-161eba50e183ed Jeremy Kerr 2021-10-03   97  	}
-161eba50e183ed Jeremy Kerr 2021-10-03   98  
-6ab578739a4c1f Jeremy Kerr 2025-11-26   99  	mctp_dst_release(&dst);
-269936db5eb396 Jeremy Kerr 2025-07-02  100  	mctp_test_destroy_dev(dev);
-161eba50e183ed Jeremy Kerr 2021-10-03  101  }
-161eba50e183ed Jeremy Kerr 2021-10-03  102  
+   133	
+   134	static __init int add_rtc_cmos(void)
+   135	{
+   136		if (cmos_rtc_platform_device_present)
+   137			return 0;
+   138	
+   139		if (!x86_platform.legacy.rtc)
+   140			return -ENODEV;
+   141	
+ > 142		ret = platform_device_register(&rtc_device);
 
 -- 
 0-DAY CI Kernel Test Service
