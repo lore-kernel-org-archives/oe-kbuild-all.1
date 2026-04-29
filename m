@@ -1,58 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF07346A08
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Apr 2026 19:44:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43D43388380
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Apr 2026 19:54:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777491889; cv=none; b=Qoo46iAJ6NgiTRqWPxzRGcgWMosdb21kWdOV52o1UYG9gKbyQfEwuegKR9DkWD56HKmDXWdqlv9qTkD2SdPEgfmt3nhe81brtNDRIfnlleGmXN9ws6dvP2GtWLWIJcZfL/Zw/H9/GCd+gi+evD8k9nHaTU/VV+FGEnccaG29IIk=
+	t=1777492465; cv=none; b=Qz+dEmJRBcjf8wCltdHQGrNBxHPX/w+64oZtIWbLUgryqtoe+AqWbsVUv0kY24QB26ag3ulkT9IY4NZ5XXUj1NYMotOjjBfV42SMkDFEiHrTwDKXCUUHAqdjZ7vD19cmMkWIrSVqQqYzoPq3AQ5xpL1SkWQvYx3QW4gB/Si9xH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777491889; c=relaxed/simple;
-	bh=qGoptySPy3VOVbBf72u8dDvWmjrPVi8JOKqTJHkviaA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=e6ke4oAgTcJ9sV/NsrlmpVnrvzyAxXc2zFMavM0EVTeyMAUtyXbNgSkEqopXv1lHShsiX2GieUT0F8d0/laYTMsqjvm2I+0tfEyPq4kt9NWwY3WKjgngVVzeAKyDbO2MQnBpjsZsiTCq6wxtyIASWXgoCAqA7ipR1pDC+H4qYa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mwBwKjCO; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1777492465; c=relaxed/simple;
+	bh=ipCqlMZ8sDbxwcp9VkMtdgE7HREeDPG7W4kG1bE95fg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ZphvAOteLOV5oN3nLSDJZmPCYWww8xYbeyZtHa4RJ2+Ly7DHAGKrwzHoXOwlANBeYx7ck+3PY2MPWccRsGryrWh2Q79m4wvOl98xZbQvkNrza5uwkQSinXNsu+T54luQr+uqzGwqT0tBUkocZVMF+9Zggu/GOCOSGm3OrFfRwBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F/BdrF4P; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mwBwKjCO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F/BdrF4P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777491888; x=1809027888;
+  t=1777492464; x=1809028464;
   h=date:from:to:cc:subject:message-id;
-  bh=qGoptySPy3VOVbBf72u8dDvWmjrPVi8JOKqTJHkviaA=;
-  b=mwBwKjCOobBGNMBNxCfrEyzYwOq1Mqk9ixUbmhlBesnDxCM2dbS//MWx
-   RJSMXqSqDvMkKeZDbcynBrMSDHLMbdBmfp7NUt9EtbPJjiI5ab/9Vg16/
-   hFG/ClebryHdS85J9H18ptJ8hKNOGkdqFlkcyDukmo88yggmsJiqJhFHG
-   D4ma+kCElCQtw8Exo2ZvYw6R0IrRNeykX9jkuD1A3zzjXZv8ShyGe+OvX
-   K61G0CwmBuZ6OcgDM/T58cuxr4rs1CHm21fblwN9aNcRF3YafoAt4W3Vl
-   wzyFZoFmaKoOiQtkZlCvklOtkzhCvT5tgL2tDR7b8hzsdKSmPf4bokRs8
-   g==;
-X-CSE-ConnectionGUID: hS6UoxV+QQae4U6KZo2oww==
-X-CSE-MsgGUID: rapr+80LRzyNy6p5AHi7Ww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="78304168"
+  bh=ipCqlMZ8sDbxwcp9VkMtdgE7HREeDPG7W4kG1bE95fg=;
+  b=F/BdrF4PhiwxHDNIX7oW5aPBJjyOl0kZsjxFU/elYge6xmmatIwf8RW0
+   UOH9eGfT2LtFALBRt4NNApEW09RNHoxzbtOas/AfNgCNlIqo9FG+im98T
+   Zsohg497tApCuIUtVL3CGSKres1GH3qhk21c0fsCxj9q8+R5AlUW9znnS
+   XXvivgDjTa7InuwE3vJXVMPSFVJDdexp3wUkCMoQjVrEYp5EX6HYpcT+s
+   oGQzj2zW9oXo+A8KQKHs/+ptrU5ZFbz/lI7ol3HctROU+EmsXknH25LY3
+   U746+ZaOgDDDTnFN9RZ83i1MkRsuZdNpa160sEcjze+xBVI7/ObuqK0kt
+   w==;
+X-CSE-ConnectionGUID: sEybK6qcQPKJzKXQNNiC3g==
+X-CSE-MsgGUID: jd5GSzD/R2aekRCXDvfhlQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="77599404"
 X-IronPort-AV: E=Sophos;i="6.23,206,1770624000"; 
-   d="scan'208";a="78304168"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 12:44:47 -0700
-X-CSE-ConnectionGUID: Kn5bxYOPTWuAEhSyzel/Yw==
-X-CSE-MsgGUID: hBqOBzXOTzWS6/JagK0ISQ==
+   d="scan'208";a="77599404"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 12:54:23 -0700
+X-CSE-ConnectionGUID: oIrpeuVlRMqwzCPawW4jHQ==
+X-CSE-MsgGUID: 7B/cbQnMTS2k5o2Dc4iK/A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,206,1770624000"; 
-   d="scan'208";a="264748878"
-Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 29 Apr 2026 12:44:46 -0700
-Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
+   d="scan'208";a="234636082"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 29 Apr 2026 12:54:22 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wIApv-00000000BTH-49Tf;
-	Wed, 29 Apr 2026 19:44:43 +0000
-Date: Thu, 30 Apr 2026 03:44:01 +0800
+	id 1wIAzE-000000004Yr-07T2;
+	Wed, 29 Apr 2026 19:54:20 +0000
+Date: Wed, 29 Apr 2026 21:53:22 +0200
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:core/rseq 5/11]
- kernel/sched/membarrier.c:208:13: error: implicit declaration of function
- 'rseq_v2'
-Message-ID: <202604300352.QpmP1xf9-lkp@intel.com>
+To: Wenzhao Liao <wenzhaoliao@ruc.edu.cn>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: Diff in rust/kernel/pci/io.rs:4:
+Message-ID: <202604292120.WooxA9hc-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,52 +58,65 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git core/rseq
-head:   9a2253d7640f6b319562dda1a87cee3416c5d332
-commit: a86e32c235afd7ea34ee7ecca5ce532b918930c2 [5/11] rseq: Revert to historical performance killing behaviour
-config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20260430/202604300352.QpmP1xf9-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604300352.QpmP1xf9-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Wenzhao-Liao/uapi-add-goldfish_address_space-userspace-ABI-header/20260417-163828
+head:   baf6fc99a94d4efae78273b11f66fcc307adffcf
+commit: d26d49bf580cb48f77eb1bd5d7d1f673cf0bba73 rust: pci: add shared BAR memremap support
+date:   12 days ago
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260429/202604292120.WooxA9hc-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260429/202604292120.WooxA9hc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604300352.QpmP1xf9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604292120.WooxA9hc-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from kernel/sched/build_utility.c:97:
-   kernel/sched/membarrier.c: In function 'ipi_rseq':
->> kernel/sched/membarrier.c:208:13: error: implicit declaration of function 'rseq_v2' [-Wimplicit-function-declaration]
-     208 |         if (rseq_v2(current))
-         |             ^~~~~~~
-
-
-vim +/rseq_v2 +208 kernel/sched/membarrier.c
-
-   191	
-   192	static void ipi_rseq(void *info)
-   193	{
-   194		/*
-   195		 * Ensure that all stores done by the calling thread are visible
-   196		 * to the current task before the current task resumes.  We could
-   197		 * probably optimize this away on most architectures, but by the
-   198		 * time we've already sent an IPI, the cost of the extra smp_mb()
-   199		 * is negligible.
-   200		 */
-   201		smp_mb();
-   202		/*
-   203		 * Legacy mode requires that IDs are written and the critical section is
-   204		 * evaluated. V2 optimized mode handles the critical section and IDs are
-   205		 * only updated if they change as a consequence of preemption after
-   206		 * return from this IPI.
-   207		 */
- > 208		if (rseq_v2(current))
-   209			rseq_sched_switch_event(current);
-   210		else
-   211			rseq_force_update();
-   212	}
-   213	
+   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS=\ -fno-crash-diagnostics\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 W=1 --keep-going LLVM=1 -j768 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck 
+   make: Entering directory '/kbuild/src'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in rust/kernel/pci/io.rs:4:
+    
+    use super::Device;
+    use crate::{
+   -    bindings,
+   -    device,
+   +    bindings, device,
+        devres::Devres,
+        ffi::{c_ulong, c_void},
+        io::{
+>> Diff in rust/kernel/pci/io.rs:4:
+    
+    use super::Device;
+    use crate::{
+   -    bindings,
+   -    device,
+   +    bindings, device,
+        devres::Devres,
+        ffi::{c_ulong, c_void},
+        io::{
+>> Diff in rust/kernel/pci/io.rs:4:
+    
+    use super::Device;
+    use crate::{
+   -    bindings,
+   -    device,
+   +    bindings, device,
+        devres::Devres,
+        ffi::{c_ulong, c_void},
+        io::{
+   make[2]: *** [Makefile:1933: rustfmt] Error 123
+   make[2]: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'rustfmtcheck' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'rustfmtcheck' not remade because of errors.
+   make: Leaving directory '/kbuild/src'
 
 -- 
 0-DAY CI Kernel Test Service
