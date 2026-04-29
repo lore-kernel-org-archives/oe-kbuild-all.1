@@ -1,101 +1,87 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D4F379EFF
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Apr 2026 21:36:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C978E3A874D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Apr 2026 21:36:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777498587; cv=none; b=nGdBsGOp1yl7R1hAoe68Y7HhZDBdcawj7UZPbArLFThfIJnYPq9zg9TxOZk7TJOtIORbQH2kMlaEV4Y5fzO1f+sN7n/iN7ULG09GR1law+5b53TyANSjOAV+UgxsWbC79nEt3gaD0LPrvvDl0Kafox4+MeimR8Ey9yxa4O+Xw3c=
+	t=1777498588; cv=none; b=ttzLUjXM1gnzAlX+WSD1SzYAvJg9QibGRfVN9KToBpdrov0QiJaL+cQnYAQzlHSooVFiodL6raikQ4wBNDthdLXxa8yOYS0a74aUOyjaAdC55ZeqMr32nffmrkk/qwHs6lyWrcs8y0H+BUwhpOJC59f9cqsVn1NfJYj1zuALIDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777498587; c=relaxed/simple;
-	bh=fu+MWkifpdP6zlGX+l2O4od7JpS1AC0S1kogR5b5Vl0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IPASglVz2Cf2tZTEq5u/slTSytiiq7yB9j0pp9z61I38WkTFpzkNGuf1pxNsAHVY/vcH6tbqvN7DQIl1rH/CBQQYdmuNwpAJ66OomFOyNRotzHz08KOH0b1T8bla5ClIpzE4lN2gn4DRBrG+xptfG3c8xEAxiWn/uFtzka85BQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TMimWFl1; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1777498588; c=relaxed/simple;
+	bh=Q4uRTYQYfTglhHkxtMBpYx9+IGIyNoGcUir3mqY96Wk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ZdmOWrZzQeyNTROE/fIa+Je+K1F1O3h9VybPF8f68KRdsyp5zRgK4bLjRwJeeWXJJvXOoPLYTysTOQBs+BDmcBxFW7rIYs0bLScxyoc6a7eaAIPD8h6p7fgqrwuclYOtYyBkNmcWXPZ9QTmL0X/sLboWxkj2YmmSRZsrrOEX2OM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QveajR+h; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TMimWFl1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QveajR+h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777498586; x=1809034586;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fu+MWkifpdP6zlGX+l2O4od7JpS1AC0S1kogR5b5Vl0=;
-  b=TMimWFl1XyOS1yEk7v3ZKUu+9QHrkMOXQtNluCMNSMO2jozRC+/YZA+b
-   h6OoUm5BXDZIUct6hKKBRJ1TV2+nHf/FL+dwqzbEMh0AyKcuVuCFdr39/
-   ricO2ymvzflK8kxgimIt5j0z1xqxL2bgdsz6TwvAkQ74NFGkrqhi5IsSS
-   EqauuWK/qUIWRMIky5eQ43EnfOKAGYxZpamUU+p96yhqEMSi8hoNyNtqs
-   +3QRaqHt8K7P+NT97FVnq8xVZSpI9R7oeY4NpxWzxXtoHX9cvu/itctnB
-   jSWVNuxG8N8WBr9f2hWoJspwImVPkTcRvjxq74IcOv+1GLgOOrikYaWUT
-   Q==;
-X-CSE-ConnectionGUID: aQWlNHXfSNq2YhgSugc3Tg==
-X-CSE-MsgGUID: EsYEG9W2SzaSDsmQYpu4zA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="88750103"
+  t=1777498587; x=1809034587;
+  h=date:from:to:cc:subject:message-id;
+  bh=Q4uRTYQYfTglhHkxtMBpYx9+IGIyNoGcUir3mqY96Wk=;
+  b=QveajR+hrHKsctn9ZJszHnulKC/woE8RZdFVKgGfFsLmPWIHYC+AQAzP
+   NjCHYNW7rWiD+t5DayD1tcjxd2ZvAoVW8O8m7jFMFod2xhU53DaP7os5O
+   iGyAnjveGo3fRn+B9LgCQGSSIMcGZ9DVsv1uStrBZcFzFCCFhXgHAE85Z
+   rR7HTFRfiFSjc86fxQoCDO6IAi3ywkJje0m0Laes8z72BIcZmAlsHmRmW
+   N0b5eC3gR4MxCalnu2A1tUKkiBs1ot0esK9kGmP8EqpZ++Xh9IJUlgQ59
+   /xs2WmTHMb4qA98vBc6hUnqmnTBuyoZxQds4nNrGYlQAvKl/e4uiBZSeg
+   A==;
+X-CSE-ConnectionGUID: 1jMozMsARZ2GZz/u2KlzGg==
+X-CSE-MsgGUID: s0iDhqlWT7yJA1nOoae54A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="78546546"
 X-IronPort-AV: E=Sophos;i="6.23,206,1770624000"; 
-   d="scan'208";a="88750103"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 14:36:25 -0700
-X-CSE-ConnectionGUID: 8zIvfJf4QWCoTXKbDnAG3A==
-X-CSE-MsgGUID: sK1ryX4rSWmnWJAakzrVNQ==
+   d="scan'208";a="78546546"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 14:36:24 -0700
+X-CSE-ConnectionGUID: KLXBQx/uSmaBPAExVR35KA==
+X-CSE-MsgGUID: BnSpw9u4SbeF/6xwOQiLeg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,206,1770624000"; 
-   d="scan'208";a="233544782"
+   d="scan'208";a="234657422"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 29 Apr 2026 14:36:23 -0700
+  by orviesa007.jf.intel.com with ESMTP; 29 Apr 2026 14:36:23 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wICZx-000000004a1-07x2;
+	id 1wICZx-000000004a7-0hGX;
 	Wed, 29 Apr 2026 21:36:21 +0000
-Date: Wed, 29 Apr 2026 23:36:15 +0200
+Date: Wed, 29 Apr 2026 23:36:14 +0200
 From: kernel test robot <lkp@intel.com>
-To: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
-	kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
-	decui@microsoft.com, longli@microsoft.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mshv: Add dedicated ioctl for GVA to GPA translation
-Message-ID: <202604292359.AoPLVCEb-lkp@intel.com>
-References: <177741648871.626779.11067281081219290277.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
+To: Wenzhao Liao <wenzhaoliao@ruc.edu.cn>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: error:
+ /kbuild/src/include/uapi/linux/goldfish_address_space.h: missing "WITH
+ Linux-syscall-note" for SPDX-License-Identifier
+Message-ID: <202604292351.XUyGYKrA-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <177741648871.626779.11067281081219290277.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 
-Hi Stanislav,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v7.1-rc1 next-20260429]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Kinsburskii/mshv-Add-dedicated-ioctl-for-GVA-to-GPA-translation/20260429-094326
-base:   linus/master
-patch link:    https://lore.kernel.org/r/177741648871.626779.11067281081219290277.stgit%40skinsburskii-cloud-desktop.internal.cloudapp.net
-patch subject: [PATCH] mshv: Add dedicated ioctl for GVA to GPA translation
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260429/202604292359.AoPLVCEb-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260429/202604292359.AoPLVCEb-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Wenzhao-Liao/uapi-add-goldfish_address_space-userspace-ABI-header/20260417-163828
+head:   baf6fc99a94d4efae78273b11f66fcc307adffcf
+commit: 0884317b0ceacbd0e2d07409ef19019074cdb3fc uapi: add goldfish_address_space userspace ABI header
+date:   13 days ago
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce: (https://download.01.org/0day-ci/archive/20260429/202604292351.XUyGYKrA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604292359.AoPLVCEb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604292351.XUyGYKrA-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from <command-line>:
->> ./usr/include/linux/mshv.h:325:14: error: use of enum 'hv_translate_gva_result_code' without previous declaration
-     325 |         enum hv_translate_gva_result_code *result;
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> error: /kbuild/src/include/uapi/linux/goldfish_address_space.h: missing "WITH Linux-syscall-note" for SPDX-License-Identifier
+   make[3]: *** [/kbuild/src/scripts/Makefile.headersinst:63: usr/include/linux/goldfish_address_space.h] Error 1
+   make[3]: Target '__headers' not remade because of errors.
+   make[2]: *** [/kbuild/src/Makefile:1452: headers] Error 2
+   make[1]: *** [/kbuild/src/Makefile:248: __sub-make] Error 2
+   make[1]: Target 'headers' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'headers' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
