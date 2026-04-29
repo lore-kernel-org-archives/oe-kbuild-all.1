@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A59A383C95
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Apr 2026 06:48:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3981E3A5E84
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Apr 2026 07:22:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777445299; cv=none; b=WdbabUninY4ycLL9yFqJtH4T913hJfo0JpLxovoiO3xAKOMYe5hUDKl2sWRto/E0+dvvCa7E2Q/u4pl7QwAO82onUKZ0oCTC17HywqJJsrnB9BgWkYCTUex9Soqyak8afUddFm6Q2aAE5Zyxvr8vdSW2M3Z3Pq1VZeiLsOZoggg=
+	t=1777447340; cv=none; b=iymhhQoTO6VmbbWqsy82oEUHbmXH9pLG3c2vlmOo4lWEmE0WOhRSCVPRCcMIaOGrvLWubJv1gD4o7abwP2UP4j8TEBbl+vZyaSw53vwhCDdEVNArhDfpQ4qJYf8JBzPB7EXP7zIQbJeJ1Bb/1LiOI24GvY/yWxAr4l5SOL+UxgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777445299; c=relaxed/simple;
-	bh=JdCXjq/ToHwZG2Gft/YWrzlY5MGvkkJtl7NasR0hTZA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=S/xyiASQF0yWrmdpjy3bs1/Y1idwDNknLze6dAlC9OOaK6XZpzw5Ae6WxNG7X+nJg0W3Cox90S8ksn0PSsmtIwXb1i0KYduX16TSO5Pw2s2tXGJ6HhdStR0roSUetO9/9ZBdq7D6dgeLtw23GD0mUVPOL5NFElZO4p64VZf90GM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fj7Azryt; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1777447340; c=relaxed/simple;
+	bh=/ZIj71H6tSeT3GiyOW6v6FaeUnS1pyHF0P2L9U9RmUc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rgnL6DQWm+DUBhRlRJ6cpl2HfLlpYmUGaS6rVf8wreq6ate6XmG/hE4HKhDxmKzup8501+0+l1R0Si+gzmIqxHzLVptVQh3ZrN1qiuFnWF0dHhZva79XUFihJgbZH24EOpaL7elyoE31mgb87lfICIZB0sImIsSD0TBMv//OvYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=myWGB0/x; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fj7Azryt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="myWGB0/x"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777445294; x=1808981294;
+  t=1777447337; x=1808983337;
   h=date:from:to:cc:subject:message-id;
-  bh=JdCXjq/ToHwZG2Gft/YWrzlY5MGvkkJtl7NasR0hTZA=;
-  b=fj7Azryt4pCaPrwUjOvs4WasihQYMCa9mKnCwHsRjRQa6MnU6qxn3k9I
-   E+VjNSaL5thhS67ylXful+yIUDp/HgxznUkennx1Q43tU/7QfMwATtSxw
-   XgIs3Ok47HZL5yPoh1W+bJ09ect115D++HoeNts/yTkv/UsGn+x9jXUZw
-   toWncr+HT1wOAGM//K6804CtUapee15o0D1bNYgXXBkKTH7jRPmB7UPA3
-   3uHRNC+mJMVb47JFlGC7kc2AFBV0SipnhouUzOmUzx6WtqzBN0Tg8PMu1
-   YjPXM+6F0DyaqFtZsM0UX2fq5hHJuWiWtnOKvDsC+PwyUCABA3t50OGGn
-   Q==;
-X-CSE-ConnectionGUID: PamzQmqsQ1Ca1D/kB1GfiA==
-X-CSE-MsgGUID: 9debYOQNQ/SJHLiWAD7GPQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11770"; a="95785649"
+  bh=/ZIj71H6tSeT3GiyOW6v6FaeUnS1pyHF0P2L9U9RmUc=;
+  b=myWGB0/xmYp6VZ7F5ZsaIAyph9TluH6XkgrkQ6JxoMNmMvY5nvuKSCcf
+   XilxOztwvtTZqF00r2HAqMH/kauYqClLh+/6d2yK406YASnKnv6MvskQK
+   /pOJLRfi05jjpIWhumHTFMfxIsUt2ioNoZOVTQKpG5FmGI39Iy0ieENSa
+   Twf/+fvHRUrNpwdzqjRT5sSvOgkvP2Xnsrh+fuMoBFx2KCb5R01bb3mCe
+   0Xpa9DRoLi0rc5sM+7KXYrkOMCpVmp7uZtkcoDSalv6LwSAQm35IDrcCf
+   LEYFXDHJsrFa1p5g+bwkdP2CQkyLvlHQQ2dYDng1KpcqLFQaTRY7J97cx
+   g==;
+X-CSE-ConnectionGUID: Y2EC9qXnT4quxS7/p1zM0w==
+X-CSE-MsgGUID: cCYm34CJTbK+BMjf8DYulA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11770"; a="88678592"
 X-IronPort-AV: E=Sophos;i="6.23,205,1770624000"; 
-   d="scan'208";a="95785649"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 23:48:12 -0700
-X-CSE-ConnectionGUID: 4EbvUyxyRM6CXXBajyF0lA==
-X-CSE-MsgGUID: TsXw8mGBRZmO4xtlOdC79Q==
+   d="scan'208";a="88678592"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 00:22:17 -0700
+X-CSE-ConnectionGUID: QHWBM+h3RQi76GYlkQDhBw==
+X-CSE-MsgGUID: H68LAGmgRf+T6MfsFo/7Dg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,205,1770624000"; 
-   d="scan'208";a="239172089"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 28 Apr 2026 23:48:10 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="233327962"
+Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 29 Apr 2026 00:22:15 -0700
+Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wHyiO-000000004Rt-0qKI;
-	Wed, 29 Apr 2026 06:48:08 +0000
-Date: Wed, 29 Apr 2026 08:47:49 +0200
+	id 1wHzFM-00000000Aje-2dCh;
+	Wed, 29 Apr 2026 07:22:12 +0000
+Date: Wed, 29 Apr 2026 15:21:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-2026-03 4/4]
- Documentation/devicetree/bindings/firmware/gunyah-cma-mem.yaml: ignoring,
- error parsing file
-Message-ID: <202604290811.VEkPLxnu-lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata 80/122]
+ drivers/media/i2c/ccs/ccs-core.c:2486:47: error: passing argument 2 of
+ 'ccs_get_format' from incompatible pointer type
+Message-ID: <202604291512.J1OPGgas-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,25 +60,105 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-2026-03
-head:   6b7dfe729846aaf2cbfadca50d3cc4c7fc70733e
-commit: f51d1788938f74dab42d10114f59a836b44d1823 [4/4] ANDROID: dt-bindings: CMA support for Virtual Machines on Gunyah
-config: arm64-randconfig-2052-20260428 (https://download.01.org/0day-ci/archive/20260429/202604290811.VEkPLxnu-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.3.0
-dtschema: 2026.5.dev4+g4ccc1997d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260429/202604290811.VEkPLxnu-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   489ab6e79288be8d219b68525a13699fde0248ae
+commit: f3d14633599ac2e30aeb1e1af17db73b46682931 [80/122] media: ccs: Add support for embedded data stream
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260429/202604291512.J1OPGgas-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260429/202604291512.J1OPGgas-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604290811.VEkPLxnu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604291512.J1OPGgas-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/firmware/gunyah-cma-mem.yaml: ignoring, error parsing file
-   Documentation/devicetree/bindings/crypto/fsl,sec-v4.0.yaml: fsl,liodn: multiple incompatible types: uint32
-   Documentation/devicetree/bindings/soc/fsl/fsl,bman.yaml: fsl,liodn: multiple incompatible types: uint32-array
-   Documentation/devicetree/bindings/soc/fsl/fsl,qman.yaml: fsl,liodn: multiple incompatible types: uint32-array
-   Documentation/devicetree/bindings/soc/fsl/fsl,qman-portal.yaml: fsl,liodn: multiple incompatible types: uint32-array
+All errors (new ones prefixed by >>):
+
+   drivers/media/i2c/ccs/ccs-core.c: In function 'ccs_set_format':
+>> drivers/media/i2c/ccs/ccs-core.c:2486:47: error: passing argument 2 of 'ccs_get_format' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    2486 |                 return ccs_get_format(subdev, ci, sd_state, fmt);
+         |                                               ^~
+         |                                               |
+         |                                               const struct v4l2_subdev_client_info *
+   drivers/media/i2c/ccs/ccs-core.c:2299:53: note: expected 'struct v4l2_subdev_state *' but argument is of type 'const struct v4l2_subdev_client_info *'
+    2299 |                           struct v4l2_subdev_state *sd_state,
+         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+   drivers/media/i2c/ccs/ccs-core.c:2486:51: error: passing argument 3 of 'ccs_get_format' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    2486 |                 return ccs_get_format(subdev, ci, sd_state, fmt);
+         |                                                   ^~~~~~~~
+         |                                                   |
+         |                                                   struct v4l2_subdev_state *
+   drivers/media/i2c/ccs/ccs-core.c:2300:54: note: expected 'struct v4l2_subdev_format *' but argument is of type 'struct v4l2_subdev_state *'
+    2300 |                           struct v4l2_subdev_format *fmt)
+         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+>> drivers/media/i2c/ccs/ccs-core.c:2486:24: error: too many arguments to function 'ccs_get_format'
+    2486 |                 return ccs_get_format(subdev, ci, sd_state, fmt);
+         |                        ^~~~~~~~~~~~~~
+   drivers/media/i2c/ccs/ccs-core.c:2298:12: note: declared here
+    2298 | static int ccs_get_format(struct v4l2_subdev *subdev,
+         |            ^~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/ccs_get_format +2486 drivers/media/i2c/ccs/ccs-core.c
+
+  2475	
+  2476	static int ccs_set_format(struct v4l2_subdev *subdev,
+  2477				  const struct v4l2_subdev_client_info *ci,
+  2478				  struct v4l2_subdev_state *sd_state,
+  2479				  struct v4l2_subdev_format *fmt)
+  2480	{
+  2481		struct ccs_sensor *sensor = to_ccs_sensor(subdev);
+  2482		struct ccs_subdev *ssd = to_ccs_subdev(subdev);
+  2483		struct v4l2_rect *crop;
+  2484	
+  2485		if (ssd == sensor->src && fmt->pad == CCS_PAD_META)
+> 2486			return ccs_get_format(subdev, ci, sd_state, fmt);
+  2487	
+  2488		if (ssd == sensor->src && fmt->stream == CCS_STREAM_META) {
+  2489			ccs_set_format_meta(subdev, sd_state, &fmt->format);
+  2490	
+  2491			return 0;
+  2492		}
+  2493	
+  2494		if (fmt->pad == ssd->source_pad) {
+  2495			int rval;
+  2496	
+  2497			rval = ccs_set_format_source(subdev, NULL, sd_state, fmt);
+  2498			if (ccs_embedded_data_lines(sensor) && ssd == sensor->src)
+  2499				ccs_set_format_meta(subdev, sd_state, NULL);
+  2500	
+  2501			return rval;
+  2502		}
+  2503	
+  2504		/* Sink pad. Width and height are changeable here. */
+  2505		fmt->format.code = ccs_get_mbus_code(subdev, fmt->pad);
+  2506	
+  2507		fmt->format.width &= ~1;
+  2508		fmt->format.height &= ~1;
+  2509		fmt->format.field = V4L2_FIELD_NONE;
+  2510	
+  2511		fmt->format.width =
+  2512			clamp(fmt->format.width,
+  2513			      CCS_LIM(sensor, MIN_X_OUTPUT_SIZE),
+  2514			      CCS_LIM(sensor, MAX_X_OUTPUT_SIZE));
+  2515		fmt->format.height =
+  2516			clamp(fmt->format.height,
+  2517			      CCS_LIM(sensor, MIN_Y_OUTPUT_SIZE),
+  2518			      CCS_LIM(sensor, MAX_Y_OUTPUT_SIZE));
+  2519	
+  2520		crop = v4l2_subdev_state_get_crop(sd_state, ssd->sink_pad,
+  2521						  CCS_STREAM_PIXEL);
+  2522	
+  2523		crop->left = 0;
+  2524		crop->top = 0;
+  2525		crop->width = fmt->format.width;
+  2526		crop->height = fmt->format.height;
+  2527		ccs_propagate(subdev, sd_state, V4L2_SEL_TGT_CROP);
+  2528	
+  2529		return 0;
+  2530	}
+  2531	
 
 -- 
 0-DAY CI Kernel Test Service
