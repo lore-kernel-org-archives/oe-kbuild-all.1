@@ -1,66 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCB2A2580CF
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Apr 2026 22:28:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C8639B974
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Apr 2026 22:40:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777501720; cv=none; b=m8G62y1yGlnFN0uJBwqdMsMv3UcRuS/H3cr57Z93qt2yYP35hoFt/o3j2hu7jlT1kzg1AbWzBS0t/2UKjgYiPoGQwMHSSvfRoxOT08I+A80QBVPE839YHZiBQNlBKuEvGARatX3VdcbUNO7q6TuaN7sstncqyd4ugq6ztBvPAAg=
+	t=1777502408; cv=none; b=d6FAAwVNMQ+ZBxhgAt7ZZtbVqxgEhEIvs8P/PM3Ce5XK2ZMXSA4cYv9JE0U/9m0BereAVeeatxSrczJE6/91AfnTaAcRcbHk5T9C79WGsdNYKT1SzELIjw5HmqhICGytd4/LsqA1c0vSXRZsg+qJUBd1nXGM3nuY9pgAV0Ht48g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777501720; c=relaxed/simple;
-	bh=A7LWwVYry1XAdvkzIRJn1skRmTZF9LeaynpHiyg53AY=;
+	s=arc-20240116; t=1777502408; c=relaxed/simple;
+	bh=hXB1y2ylPEmcAloNbq7aS8ySLvDCml0iWZuLDnI2OkY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pNDYlG0GH5vQoCBJdblaAbBks3Fe/LnBKPdCtTAvS2zvi3vYnPtCelCdLOt/3BIUqq8YEgn55wLzFsUvYChFkuxzK8pQK065utqGic2NZEDUpP8NEFWu4cpy2ywDtmGE5yFDxMBK+lpv7DqsbyZAiEoeTkiqzU5B7qTAjTYxRYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eokGLQJc; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=hShRWrZ/YDBAj0q0VnEYDg30xD8R0QfDP3xxnIYJSvfozT3FSXXfu2M60EOpa5VFDJn3eS+09Dlq6MyX0xcqws6ETn5m6XtsP4ohbxoMeSaqjZRDhCqqz/JjKQK0bS8PTMIhgRW4nntXbr7GTzkLyx+iAmbym5eETlIkAMzPnJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VxhObwnb; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eokGLQJc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VxhObwnb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777501719; x=1809037719;
+  t=1777502406; x=1809038406;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=A7LWwVYry1XAdvkzIRJn1skRmTZF9LeaynpHiyg53AY=;
-  b=eokGLQJccjBZR0a6fZxCaC6rx6GPGfsrvq4ziGbZkyO2FVMNEiB0EL19
-   q5COojwQL5Gq2hqFqTwRL3Y2aHCS2XJJb0tuGO0hEMUFtKQlhHDG+bt9X
-   G4PrwAXvfYwqZVxMQOfUe8tgROuqyeo+RO4IRMGkMnZ1A/j7cHVgQ7CtA
-   /BxOadfR8pgQR9ZpVrUcPN+XLf2Bdo3D5iFFSRZQqwUe7pqnw7uyx5vRh
-   owf4HEvApwm1/KK5ZVtwUmSfZflDHze/bS4yM7i5taOX/6pgeHO9CBXLH
-   f9COWEqiLoZg+ZN4Vtxi4QnA/6Lj75IWAx5ZoEs7qxzDm0Wu9ZXr6EMuu
-   g==;
-X-CSE-ConnectionGUID: Pm1ASIrNTHCw4tjd0b/TWQ==
-X-CSE-MsgGUID: sIgZanwdR6eye2FUYplbWA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="78155007"
-X-IronPort-AV: E=Sophos;i="6.23,206,1770624000"; 
-   d="scan'208";a="78155007"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 15:27:28 -0700
-X-CSE-ConnectionGUID: QKi56/iIQUuiFzy/6I+A+A==
-X-CSE-MsgGUID: +tKxOEIQSeOYz6aqrQEi1g==
+  bh=hXB1y2ylPEmcAloNbq7aS8ySLvDCml0iWZuLDnI2OkY=;
+  b=VxhObwnbmh0tiO8hpP9FHCXClSCrvPSR5fzZ3QHhDrRtsJa2CqAkHwFS
+   ihWq0t0imLozudfxc0Lyy6PdsoEcAfHp4AqvXCFNj720NwwqEiD5SiMVb
+   Pa11w+kvhufTq+h0Kc6/+5P0aH85Q/b3H6hNGtd+q0oBgCiHb4ofXt1sG
+   FqSY+EPXoerWwoY5yKhp7T6Vo0LX4Du/foPp7OSYknuaHRbtAjUTecH55
+   f1H3HDungT7mTh1kN3ZCW5vXwdXvHzb8mvO8suncHBHX8Y7qzcJ/NUah2
+   AvbZ7FH5i12mHxCTHGtfPprZLPNxdcaprcOLKheoRpY8xU/BX8NWoengL
+   A==;
+X-CSE-ConnectionGUID: 2/fm46IXSnm1/XVFMzwupw==
+X-CSE-MsgGUID: UdA7Eo4rTrmaQUqkBhpS2A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="89135877"
+X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
+   d="scan'208";a="89135877"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 15:40:06 -0700
+X-CSE-ConnectionGUID: /yxEjHmTTEaA4sl64NiLYg==
+X-CSE-MsgGUID: fkWGh+z2SkGYFeLOdktjsw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,206,1770624000"; 
-   d="scan'208";a="233555744"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 29 Apr 2026 15:27:26 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
+   d="scan'208";a="234670644"
+Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 29 Apr 2026 15:40:03 -0700
+Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wIDNL-000000004dF-2Rwq;
-	Wed, 29 Apr 2026 22:27:23 +0000
-Date: Thu, 30 Apr 2026 00:27:07 +0200
+	id 1wIDZY-00000000BbM-3Gdx;
+	Wed, 29 Apr 2026 22:40:00 +0000
+Date: Thu, 30 Apr 2026 06:39:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sergio Melas <sergiomelas@gmail.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jean Delvare <jdelvare@suse.com>, Rong Zhang <i@rong.moe>
-Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Armin Wolf <W_Armin@gmx.de>,
-	"Derek J . Clark" <derekjohn.clark@gmail.com>,
-	Sergio Melas <sergiomelas@gmail.com>
-Subject: Re: [PATCH v1] hwmon: (yogafan) Massive hardware expansion and
- structural refactoring
-Message-ID: <202604300021.hu1KkNxy-lkp@intel.com>
-References: <20260413060931.31091-2-sergiomelas@gmail.com>
+To: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
+	kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+	decui@microsoft.com, longli@microsoft.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mshv: Add dedicated ioctl for GVA to GPA translation
+Message-ID: <202604300619.sZX0K2OC-lkp@intel.com>
+References: <177741648871.626779.11067281081219290277.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,58 +65,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260413060931.31091-2-sergiomelas@gmail.com>
+In-Reply-To: <177741648871.626779.11067281081219290277.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 
-Hi Sergio,
+Hi Stanislav,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on groeck-staging/hwmon-next]
-[also build test WARNING on linus/master v7.1-rc1 next-20260429]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v7.1-rc1 next-20260429]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sergio-Melas/hwmon-yogafan-Massive-hardware-expansion-and-structural-refactoring/20260417-063319
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20260413060931.31091-2-sergiomelas%40gmail.com
-patch subject: [PATCH v1] hwmon: (yogafan) Massive hardware expansion and structural refactoring
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260430/202604300021.hu1KkNxy-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Kinsburskii/mshv-Add-dedicated-ioctl-for-GVA-to-GPA-translation/20260429-094326
+base:   linus/master
+patch link:    https://lore.kernel.org/r/177741648871.626779.11067281081219290277.stgit%40skinsburskii-cloud-desktop.internal.cloudapp.net
+patch subject: [PATCH] mshv: Add dedicated ioctl for GVA to GPA translation
+config: x86_64-buildonly-randconfig-005-20260430 (https://download.01.org/0day-ci/archive/20260430/202604300619.sZX0K2OC-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604300619.sZX0K2OC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604300021.hu1KkNxy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604300619.sZX0K2OC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Runtime Survivability
-   ===================== [docutils]
-   Documentation/hwmon/yogafan.rst:165: ERROR: Unexpected indentation. [docutils]
->> Documentation/hwmon/yogafan.rst:166: WARNING: Bullet list ends without a blank line; unexpected unindent. [docutils]
-   Documentation/hwmon/yogafan.rst:169: ERROR: Unexpected indentation. [docutils]
->> Documentation/hwmon/yogafan.rst:170: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/hwmon/yogafan.rst:171: WARNING: Bullet list ends without a blank line; unexpected unindent. [docutils]
-   Documentation/hwmon/yogafan.rst:318: ERROR: Malformed table.
-   Bottom border or header rule does not match top border.
-
-
-vim +166 Documentation/hwmon/yogafan.rst
-
-   162	
-   163	This approach ensures that the RLLag filter is a passive discrete-time
-   164	first-order lag model:
-   165	  - **Smoothing:** Low-resolution step increments are smoothed into 1-RPM
- > 166	  increments.
-   167	  - **Slew-Rate Limiting:** Prevents unrealistic readings by capping the
-   168	  change
-   169	    to 1500 RPM/s, matching physical fan inertia.
- > 170	  - **Polling Independence:** The filter math scales based on the time
-   171	  delta between userspace reads, ensuring a consistent physical curve
-   172	  regardless of polling frequency.
-   173	
+   In file included from <command-line>:
+>> ./usr/include/linux/mshv.h:325:14: error: use of enum 'hv_translate_gva_result_code' without previous declaration
+     325 |         enum hv_translate_gva_result_code *result;
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -- 
 0-DAY CI Kernel Test Service
