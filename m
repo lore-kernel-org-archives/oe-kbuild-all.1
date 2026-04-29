@@ -1,66 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97BA372EFF;
-	Wed, 29 Apr 2026 21:23:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D4F379EFF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Apr 2026 21:36:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777497838; cv=none; b=gjItpbmi69pI/IojwohiQlRFG00U+M9TViUgzf5OtALYtIAr+PjIzTtedgQLvZt005wD0I4uO6P0JOwZfueSHSxzWW2+VX454fQUraB/uJYUz6VJDVxSgwRIyT0s3XYVH9wjRgBK9dN146qUPo0nelV8B2EJnq39HsHViHfeZq8=
+	t=1777498587; cv=none; b=nGdBsGOp1yl7R1hAoe68Y7HhZDBdcawj7UZPbArLFThfIJnYPq9zg9TxOZk7TJOtIORbQH2kMlaEV4Y5fzO1f+sN7n/iN7ULG09GR1law+5b53TyANSjOAV+UgxsWbC79nEt3gaD0LPrvvDl0Kafox4+MeimR8Ey9yxa4O+Xw3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777497838; c=relaxed/simple;
-	bh=XGfI1KD8DtydVr0FNfE/k4FUZDiwOjIIhcZY5jB1c7c=;
+	s=arc-20240116; t=1777498587; c=relaxed/simple;
+	bh=fu+MWkifpdP6zlGX+l2O4od7JpS1AC0S1kogR5b5Vl0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZG7eI8IWmlMPdyL1oxqd56lulD224yH3aWSmik8yNsjPtHt6v66cKcBh0/KMMgX3nQ+JJsouoz+ab2s+Jwd2Ym5tLk4Bjbd4rxjzuCAbhw3rRJn9MHWepjZWGGsFIM3CYjmTCJhzTFFClj8z/hV0cA60H+tLl/mU1vagwWmdgvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gkg/HS3p; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=IPASglVz2Cf2tZTEq5u/slTSytiiq7yB9j0pp9z61I38WkTFpzkNGuf1pxNsAHVY/vcH6tbqvN7DQIl1rH/CBQQYdmuNwpAJ66OomFOyNRotzHz08KOH0b1T8bla5ClIpzE4lN2gn4DRBrG+xptfG3c8xEAxiWn/uFtzka85BQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TMimWFl1; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gkg/HS3p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TMimWFl1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777497837; x=1809033837;
+  t=1777498586; x=1809034586;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=XGfI1KD8DtydVr0FNfE/k4FUZDiwOjIIhcZY5jB1c7c=;
-  b=gkg/HS3p9UhIFdQtkkp8p2z4REUuxeqsBgOx2n57SHQJhTXpSYa1/Q7h
-   SsYkoWxpi8kHtIa0kv9JOqmopmAXPNfWidjaIlhHVBYB4mXXL6h3VHzg6
-   PjXWdyyCHs8yzuk0kul+Ejl7AWfQ8r6fu35X2NSUecK5czPQyjD4QsX1A
-   ILROe0FTkBL2ndlwlB+Ac6LhhLxH+17/B65dxDa6VabSLPrjiBj1GRXGJ
-   C5+geKyeeqa0gMoxapBbrZ/ujAOjnxAc8dN3TptihK2ZBareYo4HWHvnJ
-   poSoCd4ESne4QE1ianO2A4eU3vIEterPl4/Blzpha+LSjP/BaiGydbrFz
-   g==;
-X-CSE-ConnectionGUID: 00ZiODK3S4edpMQNVaRVJg==
-X-CSE-MsgGUID: FZrL9ysLT/GQqs6XIZQ1zQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="78358419"
+  bh=fu+MWkifpdP6zlGX+l2O4od7JpS1AC0S1kogR5b5Vl0=;
+  b=TMimWFl1XyOS1yEk7v3ZKUu+9QHrkMOXQtNluCMNSMO2jozRC+/YZA+b
+   h6OoUm5BXDZIUct6hKKBRJ1TV2+nHf/FL+dwqzbEMh0AyKcuVuCFdr39/
+   ricO2ymvzflK8kxgimIt5j0z1xqxL2bgdsz6TwvAkQ74NFGkrqhi5IsSS
+   EqauuWK/qUIWRMIky5eQ43EnfOKAGYxZpamUU+p96yhqEMSi8hoNyNtqs
+   +3QRaqHt8K7P+NT97FVnq8xVZSpI9R7oeY4NpxWzxXtoHX9cvu/itctnB
+   jSWVNuxG8N8WBr9f2hWoJspwImVPkTcRvjxq74IcOv+1GLgOOrikYaWUT
+   Q==;
+X-CSE-ConnectionGUID: aQWlNHXfSNq2YhgSugc3Tg==
+X-CSE-MsgGUID: EsYEG9W2SzaSDsmQYpu4zA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="88750103"
 X-IronPort-AV: E=Sophos;i="6.23,206,1770624000"; 
-   d="scan'208";a="78358419"
+   d="scan'208";a="88750103"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 14:23:57 -0700
-X-CSE-ConnectionGUID: LQgLPGanRPa9vXmI1M2ucw==
-X-CSE-MsgGUID: n5KkpAWPSc2gy/lnPaiJ3A==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 14:36:25 -0700
+X-CSE-ConnectionGUID: 8zIvfJf4QWCoTXKbDnAG3A==
+X-CSE-MsgGUID: sK1ryX4rSWmnWJAakzrVNQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,206,1770624000"; 
-   d="scan'208";a="233541641"
-Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 29 Apr 2026 14:23:53 -0700
-Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
+   d="scan'208";a="233544782"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa010.jf.intel.com with ESMTP; 29 Apr 2026 14:36:23 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wICNp-00000000BYS-3jfU;
-	Wed, 29 Apr 2026 21:23:49 +0000
-Date: Thu, 30 Apr 2026 05:23:26 +0800
+	id 1wICZx-000000004a1-07x2;
+	Wed, 29 Apr 2026 21:36:21 +0000
+Date: Wed, 29 Apr 2026 23:36:15 +0200
 From: kernel test robot <lkp@intel.com>
-To: Jianping Li <jianping.li@oss.qualcomm.com>, srini@kernel.org,
-	amahesh@qti.qualcomm.com, arnd@arndb.de, gregkh@linuxfoundation.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jianping Li <jianping.li@oss.qualcomm.com>,
-	thierry.escande@linaro.org, linux-arm-msm@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	ekansh.gupta@oss.qualcomm.com, quic_chennak@quicinc.com,
-	stable@kernel.org
-Subject: Re: [PATCH] misc: fastrpc: fix UAF and kernel panic during cleanup
- on process abort
-Message-ID: <202604300542.cRI7jldQ-lkp@intel.com>
-References: <20260427105310.4056-1-jianping.li@oss.qualcomm.com>
+To: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
+	kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+	decui@microsoft.com, longli@microsoft.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mshv: Add dedicated ioctl for GVA to GPA translation
+Message-ID: <202604292359.AoPLVCEb-lkp@intel.com>
+References: <177741648871.626779.11067281081219290277.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,63 +65,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260427105310.4056-1-jianping.li@oss.qualcomm.com>
+In-Reply-To: <177741648871.626779.11067281081219290277.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 
-Hi Jianping,
+Hi Stanislav,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on char-misc/char-misc-testing]
-[also build test ERROR on char-misc/char-misc-next char-misc/char-misc-linus linus/master v7.1-rc1 next-20260429]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v7.1-rc1 next-20260429]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jianping-Li/misc-fastrpc-fix-UAF-and-kernel-panic-during-cleanup-on-process-abort/20260428-043358
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/20260427105310.4056-1-jianping.li%40oss.qualcomm.com
-patch subject: [PATCH] misc: fastrpc: fix UAF and kernel panic during cleanup on process abort
-config: arm64-randconfig-002-20260430 (https://download.01.org/0day-ci/archive/20260430/202604300542.cRI7jldQ-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604300542.cRI7jldQ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Kinsburskii/mshv-Add-dedicated-ioctl-for-GVA-to-GPA-translation/20260429-094326
+base:   linus/master
+patch link:    https://lore.kernel.org/r/177741648871.626779.11067281081219290277.stgit%40skinsburskii-cloud-desktop.internal.cloudapp.net
+patch subject: [PATCH] mshv: Add dedicated ioctl for GVA to GPA translation
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260429/202604292359.AoPLVCEb-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260429/202604292359.AoPLVCEb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604300542.cRI7jldQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604292359.AoPLVCEb-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/misc/fastrpc.c:437:7: error: call to undeclared function 'FASTRPC_PHYS'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     437 |                                   FASTRPC_PHYS(buf->phys));
-         |                                   ^
->> drivers/misc/fastrpc.c:437:25: error: no member named 'phys' in 'struct fastrpc_buf'
-     437 |                                   FASTRPC_PHYS(buf->phys));
-         |                                                ~~~  ^
-   drivers/misc/fastrpc.c:465:70: error: no member named 'phys' in 'struct fastrpc_buf'
-     465 |                 buf->virt = dma_alloc_coherent(dev, buf->size, (dma_addr_t *)&buf->phys, GFP_KERNEL);
-         |                                                                               ~~~  ^
-   3 errors generated.
-
-
-vim +/FASTRPC_PHYS +437 drivers/misc/fastrpc.c
-
-   427	
-   428	static void fastrpc_buf_free(struct fastrpc_buf *buf)
-   429	{
-   430		struct fastrpc_user *fl = buf->fl;
-   431	
-   432		if (!fl)
-   433			return;
-   434		mutex_lock(&fl->sctx->mutex);
-   435		if (fl->sctx->dev) {
-   436			dma_free_coherent(buf->dev, buf->size, buf->virt,
- > 437					  FASTRPC_PHYS(buf->phys));
-   438			kfree(buf);
-   439		}
-   440		mutex_unlock(&fl->sctx->mutex);
-   441	}
-   442	
+   In file included from <command-line>:
+>> ./usr/include/linux/mshv.h:325:14: error: use of enum 'hv_translate_gva_result_code' without previous declaration
+     325 |         enum hv_translate_gva_result_code *result;
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -- 
 0-DAY CI Kernel Test Service
