@@ -1,87 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B647042188D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Apr 2026 18:31:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0FD332608
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Apr 2026 19:04:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777487497; cv=none; b=UmpF3dbO2f9aO74+yhVWTAo3LsgC+cx1CFUJ5+6U1xaD3vqEU/5+j4dHRLD6W8PEniTSgJSQXHQSqFZgX3qTCB8Ptgko0T1IsJ1w6rljurszVwCUfJGIN+VZ1U8rPPQXRW3U87Fpg/2+Npg/4uxzD2z+a5c2Hk+UG3/IPUFKDK8=
+	t=1777489487; cv=none; b=q8aeTZOGwEjRb+DOMXixWWg/WCo/Kqu1s/j0UYury4xw7aiWJHjcBShiedM61CJao/yi8DVFhJduQfLNMtzaUUar0hHTV3vkb0Q70GCOb86amicUnlxJtlTpJcyp3xVXS8EXzPxiSwhGCgVz8XfHjpbv2BHqlyvJkHZI7qqJpcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777487497; c=relaxed/simple;
-	bh=2qlb2zRtXhcARElLdCB7r6LE6EIqjovw5xWAz/VYfzE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KDEX7kS2VqCvMig8g1yrDXPdV21E5E4Lr2gX6YiCLa+p9nDzIJE2dC3iStdTX8w2w1YMLC/ZvxfZ4kgkQXQHDG/dORyvVjX3ScW+1Gn8YHcPks1tQho9ZXk3i3qKXTZMSvXX2QmET+Y6DF+DAJL07LYxan6juvZr+K/xFcvf6zs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CYRBJ4Xx; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1777489487; c=relaxed/simple;
+	bh=tsidYZBHseBKOISqltd/eKHnliZi9ZyEiXutHjbxvS0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p8dWN14aFkG6ffsxLVTxblWvffb9+6Rq/yZgH3CfWUCDixyCwGfQCdwUEV24lrYpnChCUutW1b+Hzv2SywcSNtcx85C8vkFXapc+0PCUEIO7iuMj1KN/0Kg3VXj6+Xf202MomDHzwJ3w6k4ykj6FbhQUipv2PaUK2Ul9BEKtj60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k2QUmowe; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CYRBJ4Xx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k2QUmowe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777487495; x=1809023495;
-  h=date:from:to:cc:subject:message-id;
-  bh=2qlb2zRtXhcARElLdCB7r6LE6EIqjovw5xWAz/VYfzE=;
-  b=CYRBJ4Xxk12UuvZGh1WinfFeph6a+8iAbrxewmpDZ/ad6muENJ3Reaw8
-   zU9Sfyf60OV3ZE89fUiRUVqNWCaYMKl7rzPFxwVySm07UlreuyPTQCAti
-   U9I65KejJvooueSMEhToUZ6mE5csbwij0QF1bIK/g+gDPgkwuQYiYZHVY
-   B6pMZXJGEXbYGhOFnclBbAOqyPOyop8JM8IrtSG9e5AF0TiZRZGM+aNBM
-   6/UVq7sHx1+2R38piE4LiUF3OOJD+lrnnbqS75GKdMAGXGeHIiPuj0R+F
-   7xot11d0cm5YXHY/HO4xR0WO/igFn/2HHx5vLr9ci4s3Ja9DPQw6wttBR
+  t=1777489486; x=1809025486;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tsidYZBHseBKOISqltd/eKHnliZi9ZyEiXutHjbxvS0=;
+  b=k2QUmowePQJYtexxH//yyHi8DUMMJF/dHdT01a7gK0DIdqkmM9J6XjC9
+   /iEjVdMSCyxW1JuaCyD11ST3CIxh1i84mJP9oqkSNirrhao/LxUKVWsQr
+   Pp9yH6vTlhLsxUrJzJ4++H7zaKuOdG1QWQR1d0FbPF/cJOc/XVsXdkAas
+   By3cZv6YUQ30kng1fi0CACMzc9h4tIGVs3++8b9T4mpSTUzvD1eSj5hh5
+   23G0vts2pj4jxs1rkLxkrIe/9QwRUZM0+57vISpXPz9niCerdbuupHQ4c
+   5PbKIRsxo7augUoimnjisWGZb7Fmin2JuJZyCPz7vbH6vcYwjP4enTKSI
    w==;
-X-CSE-ConnectionGUID: R/uVlwHOTsSg+HY00hACNg==
-X-CSE-MsgGUID: etH7FWKXQWO+WQUYjsHT4w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="82033809"
+X-CSE-ConnectionGUID: qJcfwGmpQzOQIpkGInACyQ==
+X-CSE-MsgGUID: qKEfcJB5R6aqMx9Kr1xq3Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="78536926"
 X-IronPort-AV: E=Sophos;i="6.23,206,1770624000"; 
-   d="scan'208";a="82033809"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 11:31:34 -0700
-X-CSE-ConnectionGUID: O8mY1WpoRBWG1T08oEFnJA==
-X-CSE-MsgGUID: cTzBApnOSXiAEK9hgsLKAA==
+   d="scan'208";a="78536926"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 12:04:45 -0700
+X-CSE-ConnectionGUID: wUoF0Hs8Tr2pd2NJYUbiCg==
+X-CSE-MsgGUID: 1aNgzHMcQSSPenipv5Uycg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,206,1770624000"; 
-   d="scan'208";a="229995088"
+   d="scan'208";a="272481706"
 Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 29 Apr 2026 11:31:32 -0700
+  by orviesa001.jf.intel.com with ESMTP; 29 Apr 2026 12:04:42 -0700
 Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wI9h4-00000000BNc-0rA2;
-	Wed, 29 Apr 2026 18:31:30 +0000
-Date: Thu, 30 Apr 2026 02:30:42 +0800
+	id 1wIAD7-00000000BRA-48UD;
+	Wed, 29 Apr 2026 19:04:37 +0000
+Date: Thu, 30 Apr 2026 03:04:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:bitmap_print_to_pagebuf 12/13] undefined reference to
- `cpumap_print_to_pagebuf'
-Message-ID: <202604300259.E3qp3AZT-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Evgenii Burenchev <evg28bur@yandex.ru>, stable@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, Evgenii Burenchev <evg28bur@yandex.ru>,
+	alexander.deucher@amd.com, christian.koenig@amd.com,
+	airlied@gmail.com, simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/radeon/rs780: prevent division by zero in refresh
+ rate calculation
+Message-ID: <202604300247.Gzeia1bh-lkp@intel.com>
+References: <20260428190318.34413-1-evg28bur@yandex.ru>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260428190318.34413-1-evg28bur@yandex.ru>
 
-tree:   https://github.com/norov/linux bitmap_print_to_pagebuf
-head:   09e1bcbc7572ac6d30f74e6f8ff9ea087b259a26
-commit: f0db9f47a158c5333bd0d709d44a57bd700224df [12/13] cpumask: switch cpumap_print_to_pagebuf() to using scnprintf()
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260430/202604300259.E3qp3AZT-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604300259.E3qp3AZT-lkp@intel.com/reproduce)
+Hi Evgenii,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v7.1-rc1 next-20260428]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Evgenii-Burenchev/drm-radeon-rs780-prevent-division-by-zero-in-refresh-rate-calculation/20260429-055830
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20260428190318.34413-1-evg28bur%40yandex.ru
+patch subject: [PATCH] drm/radeon/rs780: prevent division by zero in refresh rate calculation
+config: parisc-defconfig (https://download.01.org/0day-ci/archive/20260430/202604300247.Gzeia1bh-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604300247.Gzeia1bh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604300259.E3qp3AZT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604300247.Gzeia1bh-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   alpha-linux-ld: drivers/pci/pci-sysfs.o: in function `local_cpulist_show':
->> (.text+0x40c): undefined reference to `cpumap_print_to_pagebuf'
->> alpha-linux-ld: (.text+0x420): undefined reference to `cpumap_print_to_pagebuf'
-   alpha-linux-ld: drivers/pci/pci-sysfs.o: in function `local_cpus_show':
-   (.text+0x44c): undefined reference to `cpumap_print_to_pagebuf'
-   alpha-linux-ld: (.text+0x460): undefined reference to `cpumap_print_to_pagebuf'
-   alpha-linux-ld: drivers/pci/pci-sysfs.o: in function `cpuaffinity_show':
-   (.text+0x280c): undefined reference to `cpumap_print_to_pagebuf'
-   alpha-linux-ld: drivers/pci/pci-sysfs.o:(.text+0x2820): more undefined references to `cpumap_print_to_pagebuf' follow
+   drivers/gpu/drm/radeon/rs780_dpm.c: In function 'rs780_get_pm_mode_parameters':
+>> drivers/gpu/drm/radeon/rs780_dpm.c:66:25: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
+      66 |                         if (crtc->mode.htotal && crtc->mode.vtotal)
+         |                         ^~
+   drivers/gpu/drm/radeon/rs780_dpm.c:68:33: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
+      68 |                                 if (pi->refresh_rate == 0)
+         |                                 ^~
+
+
+vim +/if +66 drivers/gpu/drm/radeon/rs780_dpm.c
+
+9d67006e6ebc6c Alex Deucher      2013-04-12  48  
+9d67006e6ebc6c Alex Deucher      2013-04-12  49  static void rs780_get_pm_mode_parameters(struct radeon_device *rdev)
+9d67006e6ebc6c Alex Deucher      2013-04-12  50  {
+9d67006e6ebc6c Alex Deucher      2013-04-12  51  	struct igp_power_info *pi = rs780_get_pi(rdev);
+9d67006e6ebc6c Alex Deucher      2013-04-12  52  	struct radeon_mode_info *minfo = &rdev->mode_info;
+9d67006e6ebc6c Alex Deucher      2013-04-12  53  	struct drm_crtc *crtc;
+9d67006e6ebc6c Alex Deucher      2013-04-12  54  	struct radeon_crtc *radeon_crtc;
+9d67006e6ebc6c Alex Deucher      2013-04-12  55  	int i;
+9d67006e6ebc6c Alex Deucher      2013-04-12  56  
+9d67006e6ebc6c Alex Deucher      2013-04-12  57  	/* defaults */
+9d67006e6ebc6c Alex Deucher      2013-04-12  58  	pi->crtc_id = 0;
+9d67006e6ebc6c Alex Deucher      2013-04-12  59  	pi->refresh_rate = 60;
+9d67006e6ebc6c Alex Deucher      2013-04-12  60  
+9d67006e6ebc6c Alex Deucher      2013-04-12  61  	for (i = 0; i < rdev->num_crtc; i++) {
+9d67006e6ebc6c Alex Deucher      2013-04-12  62  		crtc = (struct drm_crtc *)minfo->crtcs[i];
+9d67006e6ebc6c Alex Deucher      2013-04-12  63  		if (crtc && crtc->enabled) {
+9d67006e6ebc6c Alex Deucher      2013-04-12  64  			radeon_crtc = to_radeon_crtc(crtc);
+9d67006e6ebc6c Alex Deucher      2013-04-12  65  			pi->crtc_id = radeon_crtc->crtc_id;
+9d67006e6ebc6c Alex Deucher      2013-04-12 @66  			if (crtc->mode.htotal && crtc->mode.vtotal)
+c3eaa088277709 Alex Deucher      2013-09-13  67  				pi->refresh_rate = drm_mode_vrefresh(&crtc->mode);
+0d99a77de43b3f Evgenii Burenchev 2026-04-28  68  				if (pi->refresh_rate == 0)
+0d99a77de43b3f Evgenii Burenchev 2026-04-28  69  					pi->refresh_rate = 60;
+9d67006e6ebc6c Alex Deucher      2013-04-12  70  			break;
+9d67006e6ebc6c Alex Deucher      2013-04-12  71  		}
+9d67006e6ebc6c Alex Deucher      2013-04-12  72  	}
+9d67006e6ebc6c Alex Deucher      2013-04-12  73  }
+9d67006e6ebc6c Alex Deucher      2013-04-12  74  
 
 -- 
 0-DAY CI Kernel Test Service
