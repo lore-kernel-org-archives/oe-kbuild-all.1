@@ -1,81 +1,114 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD0BB13A3ED
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Apr 2026 03:20:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AD5D335064;
+	Thu, 30 Apr 2026 03:20:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777519239; cv=none; b=hSJxAk9NUVJ1znwIX6uXmVz9Y5gSaCrKKEbqOYyJoX6YrvwjqmpfEOy8/KfraOfLx8IukJCONJacPoxD25KP64+ihwo+R/W6J0egZBYf5U+mebBMpn8oGER0njwGVqCutOadEDDNpRTO9OUWD1fOTe7nYVBOsRbvd/tYJHygwqg=
+	t=1777519241; cv=none; b=BumH51Nd7MoREe9cE2JfH6OBH06FbTzzROtGUTCFi0TGS1NteH3nWD2+UzxR67W6tKCEY+RUp1Ep9aR5Owgho4k5sV1M1ux5cq2RGMT83S0jFvHPF10bc0dp9O/lM1dTL+lxN0ZS3Hvh3Xa+Puq2vPV1WaTLU719lXPWoPpl2OM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777519239; c=relaxed/simple;
-	bh=kzMviL+L+ILBZ8kA+WBM5m4c4JUfSh2PbkZ0MH2Z8CM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=SdekrWz4SU0yAlZ9EGwn+7UuwlbENWudJer99qdN0Zu43mpMBEOSQPSrlSutUTpocPv2KvcXYei0ZkIfhNLs+JbfjV//rqJqDroukx9rhSeTqhzQeZb7BxwtRu2bYL6VseCzR4XhV413rofbEXzWTeu/Lnq0upx+S4dSs2FZWwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l2vZgfB9; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1777519241; c=relaxed/simple;
+	bh=TMMIK1incSbHTts07AKbuWcnjJGwByY/8es7LJzTnGc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XgZhYwUaNd3CeyGeHUqmOcilchRoBc0GvmkwpKeEVTOIh9f/obrHtKD6bWH230ixX+Loz9mlMeefraxEc6lQ/OY32cU8op2B57TPT93ex8Rp/MOYpYtUD6kAtmkpDPu/pHurXv0tFS8yEZkRCRp9hT6r+xxp6U+Ioto8U2W2ux4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZPLnOL87; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l2vZgfB9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZPLnOL87"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777519238; x=1809055238;
-  h=date:from:to:cc:subject:message-id;
-  bh=kzMviL+L+ILBZ8kA+WBM5m4c4JUfSh2PbkZ0MH2Z8CM=;
-  b=l2vZgfB93NKBhf2rVe9koq1LyLbtp2fgL3f3Yb6p1VdGV8MFEEjJF4Zb
-   PhgA78gX6q0/p++4TRAHrEgW6ECLsRTNZWuIw2fxJBixJriOtuQnyz0lU
-   9RrN/MNMZ/qnnWeH1oZE+dnLfylazy8ceCKHZLFj6LPAN8lK2zmXRSED3
-   leEoNQK8jwdcjL7JeIoOEDGx7DwEodAIInSTLAgkt5K2Pyhtgz3m6C84E
-   JFObnpn3YtLusR8Qs5t+34zda8wkQ8qvGpguLn43aRI6pPDMuNIq+gYz4
-   CO/Kd2e1vULnnsNxxGoprIpvSKggLnFV3WPK+0+MquszN0ps71uBu7uNn
-   g==;
-X-CSE-ConnectionGUID: f5exWHXoRL+dPr12nK8nKQ==
-X-CSE-MsgGUID: kX0otaHESwCbQl3MkDhhSA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="82316451"
+  t=1777519240; x=1809055240;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TMMIK1incSbHTts07AKbuWcnjJGwByY/8es7LJzTnGc=;
+  b=ZPLnOL87Aq4i5H+GpmvKIKUSREUPW+bCMqgs9oRZgmZakFF2ozjCf26y
+   1hVabSev3lJgLgtBenzbsdkkd2TLEGS81GHfxlBaGwPSNjUymXKcwjj2o
+   GzDaG6iXcg/0LBZa1frBRe3OManaKbiDz2+R+M/xmp+3BNRAITHMPJAb3
+   dWGfsT56R8c73VEaofSyqG3lKUTYjwSoGTIpzOwoYgDSNMMoarI4bmmK8
+   U0if2Fq7Jnu49msvegFCqNLMzwjsdEkL1QNrGSpb0Eyebj+zhTb/FlC/U
+   +3F1Tecgy9spjEskWv3RCp5qIhdWh6ave00TEzg0zqGe8ywZ5eH5j8SQR
+   Q==;
+X-CSE-ConnectionGUID: ZW169Fn4TBacCYLBNJ/wCg==
+X-CSE-MsgGUID: pq1Qiae+TymWDoK+WUzUDw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="82316455"
 X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
-   d="scan'208";a="82316451"
+   d="scan'208";a="82316455"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
   by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 20:20:37 -0700
-X-CSE-ConnectionGUID: 9cj1/UO1SeuhyBwUUKtxnQ==
-X-CSE-MsgGUID: 7sCkt6UVQ+azpW50VKzmkA==
+X-CSE-ConnectionGUID: wVjtGuCMQUOlP178MdIGRg==
+X-CSE-MsgGUID: QHDshEksQNySPD4lGjTf8w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
-   d="scan'208";a="257779406"
+   d="scan'208";a="257779404"
 Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 29 Apr 2026 20:20:35 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 29 Apr 2026 20:20:36 -0700
 Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wIHx2-00000000Bso-3C9O;
+	id 1wIHx2-00000000Bsm-32uK;
 	Thu, 30 Apr 2026 03:20:32 +0000
-Date: Thu, 30 Apr 2026 11:19:47 +0800
+Date: Thu, 30 Apr 2026 11:19:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexei Starovoitov <ast@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ast-bpf:rust-bpf 7/14] /tmp/cce1Zv2Z.s:4891: Error: unknown
- mnemonic `movq' -- `movq %r12,x3'
-Message-ID: <202604301138.QrItH3IU-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Li Wang <liwang@kylinos.cn>, Miklos Szeredi <miklos@szeredi.hu>
+Cc: oe-kbuild-all@lists.linux.dev, Joanne Koong <joannelkoong@gmail.com>,
+	Bernd Schubert <bernd@bsbernd.com>, fuse-devel@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Li Wang <liwang@kylinos.cn>
+Subject: Re: [PATCH v3] fuse: optional FORGET delivery over io_uring
+Message-ID: <202604301155.Gw5TQF7K-lkp@intel.com>
+References: <20260423110954.2676-1-liwang@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260423110954.2676-1-liwang@kylinos.cn>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ast/bpf.git rust-bpf
-head:   1623628cc9588b205a0e913c5e62d267ef0f6d70
-commit: 57b8503e842e4c2843af80176ba6fd68b478c5d0 [7/14] bpf_arena_memcmp
-config: arm64-randconfig-001-20260430 (https://download.01.org/0day-ci/archive/20260430/202604301138.QrItH3IU-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604301138.QrItH3IU-lkp@intel.com/reproduce)
+Hi Li,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on mszeredi-fuse/for-next]
+[also build test WARNING on next-20260429]
+[cannot apply to linus/master v7.1-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Li-Wang/fuse-optional-FORGET-delivery-over-io_uring/20260424-173453
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git for-next
+patch link:    https://lore.kernel.org/r/20260423110954.2676-1-liwang%40kylinos.cn
+patch subject: [PATCH v3] fuse: optional FORGET delivery over io_uring
+config: x86_64-randconfig-076-20260427 (https://download.01.org/0day-ci/archive/20260430/202604301155.Gw5TQF7K-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604301155.Gw5TQF7K-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604301138.QrItH3IU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604301155.Gw5TQF7K-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   /tmp/cce1Zv2Z.s: Assembler messages:
->> /tmp/cce1Zv2Z.s:4891: Error: unknown mnemonic `movq' -- `movq %r12,x3'
->> /tmp/cce1Zv2Z.s:4912: Error: unknown mnemonic `movq' -- `movq %r12,x0'
+>> fs/fuse/dev.c:825:13: warning: 'fuse_forget_uring_free' defined but not used [-Wunused-function]
+     825 | static void fuse_forget_uring_free(struct fuse_args *args, int error)
+         |             ^~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/fuse_forget_uring_free +825 fs/fuse/dev.c
+
+   824	
+ > 825	static void fuse_forget_uring_free(struct fuse_args *args, int error)
+   826	{
+   827		struct fuse_forget_uring_data *d =
+   828			container_of(args, struct fuse_forget_uring_data, args);
+   829	
+   830		kfree(d);
+   831	}
+   832	
 
 -- 
 0-DAY CI Kernel Test Service
