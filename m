@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A9537C114
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Apr 2026 09:32:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F3F3A8736
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Apr 2026 09:55:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777541532; cv=none; b=my93TXfRHFRAIkOoLblITSva8fwDNrRS6wqZnz1ciPx+1TqxaJ7CDVMw2uTzGuXNOALJaaodbTARLCVdWb5G5cFbvlSquaoVwitpLZnMP3NCUOt7PrEGUNjSZLC/ozzuSeuv/UJFD9SoN+SGkMataopXwQBnf7BI+kj3OcFzDMU=
+	t=1777542938; cv=none; b=LKscdHuvEppYOLa36MJUS/RrWH79CrUMzFFcSWqlhN7LWxEg5rxQQixlP8BETbUDYcOxu5rS5aLIjrpGoE0jVwy5N/D3qDbu47+paL3ryPH6XS/gEc2RnMgwne1Akn+7la5EUhoRNph7qYUgN5hBzJtD0GzzMb+xjGZOYDx7D0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777541532; c=relaxed/simple;
-	bh=Edo/4VDDbG9q5Dk8xBeS+8/1y/yklRmcBRiqKklnoLY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=cLpzJgjIXDUOWBiJ5qVvK5Dbf0CYpygkYtCOfwrkU5Y9laNujU0TSBInMYyK35hLqNGXTogX+QhJ6G18ABpGDo2pujtRfoJgXsQTYNf0ti3Nl4DNwLrUbIAUF9BPQ6YhHnj28ITJEj2752K2TfsZATKMZ03qlSp7bHzRvH9m4Rg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CSoymuJa; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1777542938; c=relaxed/simple;
+	bh=npVlwqN7F2F6TbVEj8IrKzE2qZgKFn1fGBTyy/bAoBw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ITChoiGB6pdKkIDmp12mBzaORZEZGNlUljiXzxt4ewL/u+Ocp+52nfHKy4oXfbGx5Ha3X3OvDZcyNeKq0HoaTEfsVxl41nCopcK82Cd32SLSQ8vfZ6Itd+MCrG7qiwzDnMw3xRVwhAZmNBH21ULgzbJhak4Vx9HhnJkAI6WWf+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uhaq2eql; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CSoymuJa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uhaq2eql"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777541532; x=1809077532;
+  t=1777542937; x=1809078937;
   h=date:from:to:cc:subject:message-id;
-  bh=Edo/4VDDbG9q5Dk8xBeS+8/1y/yklRmcBRiqKklnoLY=;
-  b=CSoymuJaWMSGi6qsKBjqN8a3zETQkfEkCcYxFbM4yJtUJ6yvoc+tqWGw
-   Z0Wh8mo52r8E4j3qRufXBIBt77JT+t4AQ2XeKUCaRGhVleub2ct83k7kx
-   Lh6yCceJ1gMH53X0EJTR1o+qsBAViU9w9Pg8S/kFDeLq43+94eWDsVjTk
-   YA9gb7441Kl/EV1pwujFY8TrxSKvlXi4Yh0Fu7KdXPyEmNHFp3uPouqfi
-   L1N4sbd2lpDqky9CekRxXzdeLYUfWWaAunaxdbrGpPzcdy9a3WGWilg4P
-   okJksrtClJkdefRfcbDIUadGtyA7AhcBP0syBPkjQo9Ez7IYG5U8ZXQxq
-   w==;
-X-CSE-ConnectionGUID: Gnw/w7b6TX6ol/8OMr69Ew==
-X-CSE-MsgGUID: R8TqFIguSRWgTyeGuiDF5w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="78380908"
+  bh=npVlwqN7F2F6TbVEj8IrKzE2qZgKFn1fGBTyy/bAoBw=;
+  b=Uhaq2eqlgoSiQDdEuIzq1CDxPUhCh6DtPa89vG0BULhF84MlNZU1Dylk
+   mSPzjmWEQC9XtjPjc+svftfcalwfB/2XN0wTuaPvD2pYmfepfULHvyeU3
+   0SN3/k8hby+PsvkZGrE7Y0OFhbINXJMMCAyIj0qR6UN8BtEisywPPzBk4
+   Ig1BSv00Sbu118ggtosO6UCN6rw+AtD8gaYrAXbQBy28htmDPNo/bSaGn
+   UbNQlBuEh7lor4eLoW1n9f3Xq8dMkL3CLlRqs4x3edM0dp+GyNkCvGvS4
+   V3N8sZ3/4fFWU1P6jmpu01NMcAq65TezYESrdVSuWsl+9C9Vj4CV1Sul+
+   A==;
+X-CSE-ConnectionGUID: f7SEsTYMRRKVqT6ykwSd4w==
+X-CSE-MsgGUID: M6RoBdZmSJmoC2PUCdUFjw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="81065526"
 X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
-   d="scan'208";a="78380908"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 02:32:11 -0700
-X-CSE-ConnectionGUID: h/VRlDBuQbuHZhAXzyXejA==
-X-CSE-MsgGUID: jRLOFIWBSoGWdLboYF28Hw==
+   d="scan'208";a="81065526"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 02:55:36 -0700
+X-CSE-ConnectionGUID: J3SXjjh/RTihRT0cb9lI3Q==
+X-CSE-MsgGUID: p1VMTUztRmSAbFfV7tjRyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
-   d="scan'208";a="230184693"
-Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 30 Apr 2026 02:32:09 -0700
-Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
+   d="scan'208";a="234428210"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa008.jf.intel.com with ESMTP; 30 Apr 2026 02:55:35 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wINkd-00000000CEM-1aEO;
-	Thu, 30 Apr 2026 09:32:07 +0000
-Date: Thu, 30 Apr 2026 17:31:45 +0800
+	id 1wIO7I-000000004nJ-1sHx;
+	Thu, 30 Apr 2026 09:55:32 +0000
+Date: Thu, 30 Apr 2026 11:55:07 +0200
 From: kernel test robot <lkp@intel.com>
-To: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 14050/14863] drivers/block/loop.c:119:17:
- error: implicit declaration of function 'stack_trace_print'
-Message-ID: <202604301730.9XIcVfrK-lkp@intel.com>
+To: Daniel Golle <daniel@makrotopia.org>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: net/netfilter/nf_flow_table_offload.c:1080:60: error:
+ incompatible type for argument 1 of 'dev_net'
+Message-ID: <202604301130.yR12CSul-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,53 +59,89 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0787c45ea08a13b5482e701fabc741877cf681f6
-commit: 7454b88731fd320e7dbfbf1ea72f25705c3befc0 [14050/14863] loop: check lo->lo_backing_file in lo_rw_aio
-config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20260430/202604301730.9XIcVfrK-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604301730.9XIcVfrK-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Daniel-Golle/net-flow_offload-let-drivers-report-byte-counter-semantics/20260416-222603
+head:   dcabaf6b4b67a90cc0e0a91709c382a82c29f182
+commit: 73b3a08b530034da560fff6b3270293990e1110d nf_flow_table: convert hw byte counts and update sub-interface stats
+date:   2 weeks ago
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260430/202604301130.yR12CSul-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604301130.yR12CSul-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604301730.9XIcVfrK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604301130.yR12CSul-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/block/loop.c: In function 'check_file_not_null':
->> drivers/block/loop.c:119:17: error: implicit declaration of function 'stack_trace_print' [-Wimplicit-function-declaration]
-     119 |                 stack_trace_print(lo->clear_entries, lo->clear_nr_entries, 4);
-         |                 ^~~~~~~~~~~~~~~~~
-   drivers/block/loop.c: In function '__loop_clr_fd':
->> drivers/block/loop.c:1153:32: error: implicit declaration of function 'stack_trace_save' [-Wimplicit-function-declaration]
-    1153 |         lo->clear_nr_entries = stack_trace_save(lo->clear_entries,
-         |                                ^~~~~~~~~~~~~~~~
+   net/netfilter/nf_flow_table_offload.c: In function 'flow_offload_update_encap_stats':
+>> net/netfilter/nf_flow_table_offload.c:1080:60: error: incompatible type for argument 1 of 'dev_net'
+    1080 |                 dev = dev_get_by_index_rcu(dev_net(flow->ct->ct_net),
+         |                                                    ~~~~~~~~^~~~~~~~
+         |                                                            |
+         |                                                            possible_net_t
+   In file included from include/linux/netfilter.h:16,
+                    from net/netfilter/nf_flow_table_offload.c:5:
+   include/linux/netdevice.h:2745:46: note: expected 'const struct net_device *' but argument is of type 'possible_net_t'
+    2745 | struct net *dev_net(const struct net_device *dev)
+         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+   net/netfilter/nf_flow_table_offload.c:1095:60: error: incompatible type for argument 1 of 'dev_net'
+    1095 |                 dev = dev_get_by_index_rcu(dev_net(flow->ct->ct_net),
+         |                                                    ~~~~~~~~^~~~~~~~
+         |                                                            |
+         |                                                            possible_net_t
+   include/linux/netdevice.h:2745:46: note: expected 'const struct net_device *' but argument is of type 'possible_net_t'
+    2745 | struct net *dev_net(const struct net_device *dev)
+         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~^~~
 
 
-vim +/stack_trace_print +119 drivers/block/loop.c
+vim +/dev_net +1080 net/netfilter/nf_flow_table_offload.c
 
-   104	
-   105	static struct file *check_file_not_null(struct loop_device *lo)
-   106	{
-   107		struct file *file = READ_ONCE(lo->lo_backing_file);
-   108	
-   109	#ifdef CONFIG_DEBUG_AID_FOR_SYZBOT
-   110		if (!file)
-   111			pr_err("file == NULL\n");
-   112		else if (IS_ERR(file))
-   113			pr_err("IS_ERR(file)\n");
-   114		else
-   115			return file;
-   116		if (lo->clear_nr_entries) {
-   117			pr_err("Last __loop_clr_fd() call was %lu jiffies ago by %s (%d)\n",
-   118			       jiffies - lo->clear_jiffies, lo->clear_comm, lo->clear_pid);
- > 119			stack_trace_print(lo->clear_entries, lo->clear_nr_entries, 4);
-   120		}
-   121	#endif
-   122		return file;
-   123	}
-   124	
+  1058	
+  1059	/* Update sub-interface (VLAN, PPPoE) stats for hw-offloaded flows.
+  1060	 *
+  1061	 * The driver reports L3 (IP) bytes. Each sub-interface in the
+  1062	 * software path sees the frame with the headers of all layers
+  1063	 * BELOW it still present, so we add back inner-layer overhead.
+  1064	 *
+  1065	 * encap[] is ordered outermost to innermost, so walk from the
+  1066	 * innermost layer outward, accumulating overhead as we go.
+  1067	 */
+  1068	static void flow_offload_update_encap_stats(struct flow_offload *flow,
+  1069						    struct flow_offload_tuple *tuple,
+  1070						    bool rx, u64 pkts, u64 bytes)
+  1071	{
+  1072		struct net_device *dev;
+  1073		int inner_hlen = 0;
+  1074		int i;
+  1075	
+  1076		for (i = tuple->encap_num - 1; i >= 0; i--) {
+  1077			if (tuple->in_vlan_ingress & BIT(i))
+  1078				continue;
+  1079	
+> 1080			dev = dev_get_by_index_rcu(dev_net(flow->ct->ct_net),
+  1081						   tuple->encap_ifidx[i]);
+  1082			if (dev)
+  1083				flow_offload_encap_netstats(dev,
+  1084							    tuple->encap[i].proto, rx,
+  1085							    pkts,
+  1086							    bytes + inner_hlen * pkts);
+  1087	
+  1088			inner_hlen += flow_offload_encap_hlen(tuple, i);
+  1089		}
+  1090	
+  1091		/* Bridge device sits outside all encap layers -- it sees
+  1092		 * L3 bytes plus the full encap overhead.
+  1093		 */
+  1094		if (tuple->bridge_ifidx) {
+  1095			dev = dev_get_by_index_rcu(dev_net(flow->ct->ct_net),
+  1096						   tuple->bridge_ifidx);
+  1097			if (dev && dev->tstats)
+  1098				flow_offload_encap_netstats(dev, 0, rx, pkts,
+  1099							    bytes + inner_hlen * pkts);
+  1100		}
+  1101	}
+  1102	
 
 -- 
 0-DAY CI Kernel Test Service
