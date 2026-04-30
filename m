@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA97C43CEEE
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Apr 2026 15:50:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B5147276B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Apr 2026 16:02:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777564241; cv=none; b=rYAKPCrQyVhhuxMicxa3J97IugRirjfTRaa4sDHyNWC9nzriKVTVLorHWx8TyeogMuojHnT311BMPxM6aIDfbAcog9/PGcRYvE01wHGQvcylh/qiQ1fzhFBwj5HfljrQNLobMlLnfXWl6+Gsx6mT2wnUAu6WApLSEh0g8fLM0/s=
+	t=1777564961; cv=none; b=VXJigQnngiVq9FARYhH3E89BQLVxXVHIwwHVaAek1wKAh81yH+JoqhdyBTf1PzneySW7ReG8oO0OwFzNT/oinoUbsJNrBgBl5SNw2vOT7n2WpIpqeJDXfnYi9CGLGtbP4AlmMQrJiRuiBVBMVFOy4CnMEFEZ7htOmmXHS9juNeQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777564241; c=relaxed/simple;
-	bh=VMcKe0LpMj2JIoPQ03X4rOHmi/Dub8ON3b1sMaZSGbI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Vq9mvsFF5m9hloMRk7/LYnp/ATBkBn96GabC7l1fMGbtOBRM+xazvIyamOVaAN2cJQKhIZ0FSIxVjR7BK2Jiqv8GW5dza1MYe7PEy1TSP5rsD40Jh19I3h6l7NN90sPFBhpAALkppWr7aIf6zEKbD7JwTG6XsWKCA+ITI4O62Xc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LdFJpapY; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1777564961; c=relaxed/simple;
+	bh=d4nPnv7EX0gkC5nj7dq6LqIQIFD/qBzh74DFrc6HpQo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Y49WasUNZB3fhuxlnsheDbskjTk0TUoYkpGd6pOq99y5ly8YNaJj5t+eAIkgywQ/2vVq3fyQdrUJmYvCwjndx2OFA60VhDJn+Dso0Y6KhaQV+X+vWNVnoi89xqeyVWSBvyb7KXCIRNBpWTjdohxG54XWcig36hNqvHGuA7FGnz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V80TapwX; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LdFJpapY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V80TapwX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777564240; x=1809100240;
+  t=1777564960; x=1809100960;
   h=date:from:to:cc:subject:message-id;
-  bh=VMcKe0LpMj2JIoPQ03X4rOHmi/Dub8ON3b1sMaZSGbI=;
-  b=LdFJpapYtfw0c9RFkdJKtNpCJmu14/oB/fic0DFvainzZ8ynCrDKP7my
-   02ME3y0ILVJvyRRUVVeLAvQMYi/skUa7eL7lOERj/4nqF4luHrx5m5pwi
-   WZtB5nFhgB4gT7U+pDBhc1N2vc7Ti0coftTeL4vgFbEO/nXG1IDBt8TyA
-   lXosOPENc+sv7cQy6FV7noHky71D44UJC2cnB8zfbMjZlQXKrahdMT6n9
-   QT3RKT2qSV0OZURRK4sry4UFBketA9wf0KtymIwbGJt2aIvb0BSqJZGh0
-   Vmk3KlxiVKAYiT+19QSg1lJ2l995eNUEdqF23B+o12HxshGBSju8bDXpe
-   g==;
-X-CSE-ConnectionGUID: FNferxexRs+hsZapnxikUg==
-X-CSE-MsgGUID: ypiYen8YRvaRrpwxfm2fOg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11772"; a="81097018"
+  bh=d4nPnv7EX0gkC5nj7dq6LqIQIFD/qBzh74DFrc6HpQo=;
+  b=V80TapwXbOO9p3kI0sMg18DpWvom9Nh1YpJxCDwcLvNVnYbVOS8URWt1
+   A+xbLQaIShl7Z5hqFzbn+q7c7afIaav3oFk+XzNLdvVtZRLr56id8oX25
+   9iVo2WPJ1ZjhzRfkb+KVQzrKITD1M5qK5d3dVikyWrAq9pMUrDFCiV8e9
+   CD2qh2tXifcccc6XlAcc92nuthIz9OEmUhR8mj9T2iTVzFTOeRBhiXozc
+   7QfSAwd7rE71LqeUCJ26s3GQFRDdrzIpaRcrYoziRsB71uOqr+OFjGqsg
+   OuRgw7qqETA+gsVVdmYVHjUSpErueYuAU3wjWOJ//QXcSQ9OMNtB7lcBo
+   w==;
+X-CSE-ConnectionGUID: 7UlKFHgqSse2pVJALmIgxg==
+X-CSE-MsgGUID: 97xHUzrpSAG5rrd9SouV+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11772"; a="88835664"
 X-IronPort-AV: E=Sophos;i="6.23,208,1770624000"; 
-   d="scan'208";a="81097018"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 08:50:40 -0700
-X-CSE-ConnectionGUID: dgpvebFhTrGAKJB0ntYz1g==
-X-CSE-MsgGUID: nWyuaYbrQKeXzF3kiBhzJw==
+   d="scan'208";a="88835664"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 09:02:40 -0700
+X-CSE-ConnectionGUID: gSoA2tx2RMC1y2uIxilB1Q==
+X-CSE-MsgGUID: rlDtiZDvTKeRJkBPTujjTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,208,1770624000"; 
-   d="scan'208";a="258203652"
-Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 30 Apr 2026 08:50:38 -0700
-Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
+   d="scan'208";a="231971916"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 30 Apr 2026 09:02:38 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wITet-00000000CYO-1lj8;
-	Thu, 30 Apr 2026 15:50:35 +0000
-Date: Thu, 30 Apr 2026 23:50:03 +0800
+	id 1wITqV-000000004qr-3alb;
+	Thu, 30 Apr 2026 16:02:35 +0000
+Date: Thu, 30 Apr 2026 18:02:28 +0200
 From: kernel test robot <lkp@intel.com>
-To: David Woodhouse <dwmw@amazon.co.uk>
-Cc: oe-kbuild-all@lists.linux.dev, Paul Durrant <paul@xen.org>
-Subject: [dwmw2:kvmclock4 23/30] arch/x86/kvm/x86.c:2641:13: warning:
- 'kvm_use_master_clock' defined but not used
-Message-ID: <202604302359.g6ejgjts-lkp@intel.com>
+To: "Tzung-Bi Shih" <tzungbi@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: ./include/linux/miscdevice.h:89:32: error: field 'fops' has
+ incomplete type
+Message-ID: <202604301743.JW3m2oP8-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,61 +59,39 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   git://git.infradead.org/users/dwmw2/linux kvmclock4
-head:   0cb32bb9e5aca98889425721c283ce2fc3f3ff95
-commit: c693b7a5eac013c1bbc94bf1fe6d318cc2e7d7bf [23/30] KVM: x86: Factor out kvm_use_master_clock()
-config: i386-randconfig-062-20260430 (https://download.01.org/0day-ci/archive/20260430/202604302359.g6ejgjts-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604302359.g6ejgjts-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Tzung-Bi-Shih/char-misc-Simplify-locking-with-guard/20260427-231042
+head:   a108f6242a528b7f829f7e2aefd51355c06848bb
+commit: ccfedb0a2f5cbe99e74cc676d316f35195e82f90 char: misc: Introduce misc_sync_register()
+date:   3 days ago
+config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260430/202604301743.JW3m2oP8-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604301743.JW3m2oP8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604302359.g6ejgjts-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604301743.JW3m2oP8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/x86/kvm/x86.c: In function 'kvm_guest_time_update':
-   arch/x86/kvm/x86.c:3467:22: error: implicit declaration of function 'kvm_get_time_and_clockread'; did you mean 'kvm_get_monotonic_and_clockread'? [-Werror=implicit-function-declaration]
-    3467 |                     !kvm_get_time_and_clockread(&kernel_ns, &host_tsc) &&
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                      kvm_get_monotonic_and_clockread
-   arch/x86/kvm/x86.c:3438:23: warning: unused variable 'flags' [-Wunused-variable]
-    3438 |         unsigned long flags;
-         |                       ^~~~~
-   arch/x86/kvm/x86.c: At top level:
->> arch/x86/kvm/x86.c:2641:13: warning: 'kvm_use_master_clock' defined but not used [-Wunused-function]
-    2641 | static bool kvm_use_master_clock(struct kvm *kvm)
-         |             ^~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from drivers/char/hpet.c:14:
+>> ./include/linux/miscdevice.h:89:32: error: field 'fops' has incomplete type
+      89 |         struct file_operations fops;
+         |                                ^~~~
 
 
-vim +/kvm_use_master_clock +2641 arch/x86/kvm/x86.c
+vim +/fops +89 ./include/linux/miscdevice.h
 
-  2640	
-> 2641	static bool kvm_use_master_clock(struct kvm *kvm)
-  2642	{
-  2643		struct kvm_arch *ka = &kvm->arch;
-  2644	
-  2645		/*
-  2646		 * The 'old kvmclock' check is a workaround (from 2015) for a
-  2647		 * SUSE 2.6.16 kernel that didn't boot if the system_time in
-  2648		 * its kvmclock was too far behind the current time. So the
-  2649		 * mode of just setting the reference point and allowing time
-  2650		 * to proceed linearly from there makes it fail to boot.
-  2651		 * Despite that being kind of the *point* of the way the clock
-  2652		 * is exposed to the guest. By coincidence, the offending
-  2653		 * kernels used the old MSR_KVM_SYSTEM_TIME, which was moved
-  2654		 * only because it resided in the wrong number range. So the
-  2655		 * workaround is activated for *all* guests using the old MSR.
-  2656		 */
-  2657		return ka->all_vcpus_matched_freq &&
-  2658			!ka->backwards_tsc_observed &&
-  2659			!ka->boot_vcpu_runs_old_kvmclock;
-  2660	}
-  2661	
+    83	
+    84	struct miscdevice_sync_ctx {
+    85		int minor;
+    86		struct kref kref;
+    87		const struct file_operations *orig_fops;
+    88		struct list_head list;
+  > 89		struct file_operations fops;
+    90	};
+    91	
 
--- 
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
