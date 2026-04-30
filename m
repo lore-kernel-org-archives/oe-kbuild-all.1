@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B5147276B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Apr 2026 16:02:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB4446AEFC
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Apr 2026 16:13:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777564961; cv=none; b=VXJigQnngiVq9FARYhH3E89BQLVxXVHIwwHVaAek1wKAh81yH+JoqhdyBTf1PzneySW7ReG8oO0OwFzNT/oinoUbsJNrBgBl5SNw2vOT7n2WpIpqeJDXfnYi9CGLGtbP4AlmMQrJiRuiBVBMVFOy4CnMEFEZ7htOmmXHS9juNeQ=
+	t=1777565622; cv=none; b=EoTkqLoIhD35h6o9FYapEs3sQNUssU4S86dW79CiXPWcUocg+MrnsGO7YDwJyYK4CZ8OtmavxijqTlqUXAW3w9Ps/zoAw8K1Q0hi4ibFC4dEh6j8Gf1VnwsD67/P5BTP6PSHq3VCXwqp8y1dDHC9zKb0f3QLT3mXzSF9Kvp3zj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777564961; c=relaxed/simple;
-	bh=d4nPnv7EX0gkC5nj7dq6LqIQIFD/qBzh74DFrc6HpQo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Y49WasUNZB3fhuxlnsheDbskjTk0TUoYkpGd6pOq99y5ly8YNaJj5t+eAIkgywQ/2vVq3fyQdrUJmYvCwjndx2OFA60VhDJn+Dso0Y6KhaQV+X+vWNVnoi89xqeyVWSBvyb7KXCIRNBpWTjdohxG54XWcig36hNqvHGuA7FGnz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V80TapwX; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1777565622; c=relaxed/simple;
+	bh=lq8jBT61I1uiGUR5LkOt48M85YX/pTLmb1BRdmrnAu8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=uBvYM7pGBkNDu87lUwDPTNPZPFmhVc1cPn3hJIXJUAizAqVt+EMa0jdTKP6piL9O4PA9iiwQ2VlPZTdPv11LJ9ApUxY9iBMEOXFLKw/dA3+R4Rvc+7RgD56L9f2/FtVp1KvUQBGCZxsodZbr03Ah17/F6uBjJhEUqjYSuw0oYvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JzCsnuM5; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V80TapwX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JzCsnuM5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777564960; x=1809100960;
+  t=1777565620; x=1809101620;
   h=date:from:to:cc:subject:message-id;
-  bh=d4nPnv7EX0gkC5nj7dq6LqIQIFD/qBzh74DFrc6HpQo=;
-  b=V80TapwXbOO9p3kI0sMg18DpWvom9Nh1YpJxCDwcLvNVnYbVOS8URWt1
-   A+xbLQaIShl7Z5hqFzbn+q7c7afIaav3oFk+XzNLdvVtZRLr56id8oX25
-   9iVo2WPJ1ZjhzRfkb+KVQzrKITD1M5qK5d3dVikyWrAq9pMUrDFCiV8e9
-   CD2qh2tXifcccc6XlAcc92nuthIz9OEmUhR8mj9T2iTVzFTOeRBhiXozc
-   7QfSAwd7rE71LqeUCJ26s3GQFRDdrzIpaRcrYoziRsB71uOqr+OFjGqsg
-   OuRgw7qqETA+gsVVdmYVHjUSpErueYuAU3wjWOJ//QXcSQ9OMNtB7lcBo
-   w==;
-X-CSE-ConnectionGUID: 7UlKFHgqSse2pVJALmIgxg==
-X-CSE-MsgGUID: 97xHUzrpSAG5rrd9SouV+w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11772"; a="88835664"
+  bh=lq8jBT61I1uiGUR5LkOt48M85YX/pTLmb1BRdmrnAu8=;
+  b=JzCsnuM5Uy4Xo/V5eixFnFtDFfldTviLOCKLlC6zI+B1nl8tOtHXzRoH
+   cK9nvg+jhUoEvS3ehW6ZEDEMJZ6W38FAzsHNntDxZWh9shZTrFtEjJDwn
+   CmJr11gIHfkCQHtY1jXusqz2yFK6u6nP+MtazSwtDLtf3u5V0sz3+Kj0J
+   a85eCNUEPVWFG27B1596n1ojWEe1xIlvFeF6poRiJ73ezd9mTOPw4Sr/M
+   VIJQI6pfyQX2P1m+o+F9qhHBE4CjCpEnH+2Jk6TXJXImUIKyJsvTjvVsi
+   sF+GYdLef82bW7mmp6Ktk8jlBwIILTUFlQBFT4JWobjBiVGilw91v5p45
+   A==;
+X-CSE-ConnectionGUID: rFjzpF0BTK+sHo9OYzpV3A==
+X-CSE-MsgGUID: y0MgWhJuRnu0QYTwOY+CNA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11772"; a="81100517"
 X-IronPort-AV: E=Sophos;i="6.23,208,1770624000"; 
-   d="scan'208";a="88835664"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 09:02:40 -0700
-X-CSE-ConnectionGUID: gSoA2tx2RMC1y2uIxilB1Q==
-X-CSE-MsgGUID: rlDtiZDvTKeRJkBPTujjTw==
+   d="scan'208";a="81100517"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 09:13:39 -0700
+X-CSE-ConnectionGUID: wjYcXfIRSeS6zIHfTCZpbg==
+X-CSE-MsgGUID: ZXd5EdebS9GrStM0B2xTOw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,208,1770624000"; 
-   d="scan'208";a="231971916"
+   d="scan'208";a="239635955"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 30 Apr 2026 09:02:38 -0700
+  by orviesa005.jf.intel.com with ESMTP; 30 Apr 2026 09:13:38 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wITqV-000000004qr-3alb;
-	Thu, 30 Apr 2026 16:02:35 +0000
-Date: Thu, 30 Apr 2026 18:02:28 +0200
+	id 1wIU1A-000000004r5-0Jtg;
+	Thu, 30 Apr 2026 16:13:36 +0000
+Date: Thu, 30 Apr 2026 18:13:02 +0200
 From: kernel test robot <lkp@intel.com>
-To: "Tzung-Bi Shih" <tzungbi@kernel.org>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: ./include/linux/miscdevice.h:89:32: error: field 'fops' has
- incomplete type
-Message-ID: <202604301743.JW3m2oP8-lkp@intel.com>
+Subject: drivers/base/test/platform-device-test.c:350:35: warning:
+ 'platform_device_test_primary_swnode' defined but not used
+Message-ID: <202604301801.b0eNhM15-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,38 +59,31 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Tzung-Bi-Shih/char-misc-Simplify-locking-with-guard/20260427-231042
-head:   a108f6242a528b7f829f7e2aefd51355c06848bb
-commit: ccfedb0a2f5cbe99e74cc676d316f35195e82f90 char: misc: Introduce misc_sync_register()
-date:   3 days ago
-config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260430/202604301743.JW3m2oP8-lkp@intel.com/config)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/driver-core-platform-remove-software-node-on-release/20260430-181813
+head:   b96eb2a182c07ba3198eb9bc3373eef3201ddcf3
+commit: b96eb2a182c07ba3198eb9bc3373eef3201ddcf3 driver core: platform: tests: add test cases for correct swnode removal
+date:   6 hours ago
+config: x86_64-rhel-9.4-kunit (https://download.01.org/0day-ci/archive/20260430/202604301801.b0eNhM15-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604301743.JW3m2oP8-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604301801.b0eNhM15-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604301743.JW3m2oP8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604301801.b0eNhM15-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/char/hpet.c:14:
->> ./include/linux/miscdevice.h:89:32: error: field 'fops' has incomplete type
-      89 |         struct file_operations fops;
-         |                                ^~~~
+>> drivers/base/test/platform-device-test.c:350:35: warning: 'platform_device_test_primary_swnode' defined but not used [-Wunused-const-variable=]
+     350 | static const struct software_node platform_device_test_primary_swnode = { };
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/fops +89 ./include/linux/miscdevice.h
+vim +/platform_device_test_primary_swnode +350 drivers/base/test/platform-device-test.c
 
-    83	
-    84	struct miscdevice_sync_ctx {
-    85		int minor;
-    86		struct kref kref;
-    87		const struct file_operations *orig_fops;
-    88		struct list_head list;
-  > 89		struct file_operations fops;
-    90	};
-    91	
+   349	
+ > 350	static const struct software_node platform_device_test_primary_swnode = { };
+   351	
 
 --
 0-DAY CI Kernel Test Service
