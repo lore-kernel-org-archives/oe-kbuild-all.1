@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E07B40B6FC;
-	Thu, 30 Apr 2026 13:00:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B76AD38423B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Apr 2026 13:07:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777554045; cv=none; b=KMgVbhgraxdOLy4/U5q5XrtSuNGQ8TkHsPVOksqlZ1n5MEONwmsD1mZsZWiR2V1My0XN9gR1XVvAjdn+88GtRBiKN0hY6nSbBparudZNuR0BcIkwCFeWZ5tTaRkTATpufX8OApRVTdeZWtQpHFBYjJ/x3VuRzh6EHVcHUpOfFIA=
+	t=1777554450; cv=none; b=kLEqtZCxYlpT0miqpxlL6WJ9SGkazlN26Sx5KuvIR/9bLUR1Yzmm3O/uRsVNvXf0fKWpq0i4tNXDbYeyjUfj4YQ0JlAjkq1+WRPvPQrzk4WZsVdKCy+SqoZ39O7nCFNlNxQlbTsGoGH2aHs0sqJn4U4nwYCALvOSRlY9VKoQD/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777554045; c=relaxed/simple;
-	bh=TzXDbsYGSHTWAezAaEoJRzj54VG5cpwL66zImuy/ACw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TV0jHpcCXgidWM70U53x81gGZliwpZ+v769BbD7ZC+Hq60JZE7pWsgAh2gJ90crrKxNS80yttFdG6pMjHIDpuscZbp6a2Yl5y3Xrgn2S3QUFNTi4B7dolQc6bfvq9B7jUgM8zTfKtLGcv8gNuPhVJsjVDBzfzMWiU6s78nos36M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LSvMai43; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1777554450; c=relaxed/simple;
+	bh=Z2cAcabUhgwviq787moawJMLwhFnq7gWY/8G4VRV1+0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=reVL0x66E54KV0kOekxU/BPwuk38iQXjPAiCrwSAr6ymFif6VRSOGFngI48x4dueIK12KrEvbRjePI/7dPANHtfQTi5Jfbf7k7Np3dCFfZjA0/8GCYyvXfvRbe+WbmmU9Lhl0OSbtBoj9347ScASRlE4gdYDq9wmJF1uTxsyNyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iiBOlgpR; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LSvMai43"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iiBOlgpR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777554043; x=1809090043;
+  t=1777554449; x=1809090449;
   h=date:from:to:cc:subject:message-id;
-  bh=TzXDbsYGSHTWAezAaEoJRzj54VG5cpwL66zImuy/ACw=;
-  b=LSvMai43VDfDuZDXh7UTcVqtUo7DVGQ5ntT0OmpJZAfVbpjd60ykoM6j
-   bc9+eT+xLMuOazoGkgC4FsWXkMCDbVPZnMbtXIdXRK5if92E56/OsU1Zw
-   IFhWNJGqWwf9rH+2tf3id8ftKy2fCOAWzjJwJGZjAcyuJEAVMzSDB4/dL
-   P5EW8PrTWbxqQrFOQT10WlQXSq/n/AnN0QK3ANtBcqogDGXAqCNmUCG+/
-   imFh2es+Bu30FYgy+psJ9SxuQEh8ZjuXs121yG3gJgUfhnRsP0iO7Ix76
-   6js92CtBQzNgAMA4wZFLq+ItDJzwXteJr3nP+wBLAWJDkCV6XKJFMw20R
+  bh=Z2cAcabUhgwviq787moawJMLwhFnq7gWY/8G4VRV1+0=;
+  b=iiBOlgpRvAb3wWTYduDGECHaiCVUhyyDnfwgJcDNtT+iByq+jBftwvrr
+   V4wQBU6qfgubnJviTCgoEbt3TgmLSg6i1h3w0IyHbZtM5U8pfl6/FdkUF
+   DYB82L9oKJOaoJgIhDLHZTHFuYBF3G1S3dYj6+3pGCT/FVjProagoxKpv
+   lpj6QGRGtOjyaB5uufw6GhCAbs91zKywsADfyMupi5S04IDtSvtbJWnJv
+   agEtKzIX/Ep2CrbBr2J+WnNAudzgYbRZFow1waG8BpIaI6bQSfOiGD2lm
+   kxJ0pwf7NtP8VU0EGi+n0pnBphLQLB7kjt2fTcJ9m9pzU8eqLTRLLhAxD
    Q==;
-X-CSE-ConnectionGUID: u/mavsmsT9atybh1hFbKFQ==
-X-CSE-MsgGUID: rErjrmp/Rh+WsuSxbpkVvw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="78691798"
+X-CSE-ConnectionGUID: byS9smlKScqhdjZF+rPdZw==
+X-CSE-MsgGUID: YWcwpnUhQpuS64ewOcZCJw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="89963171"
 X-IronPort-AV: E=Sophos;i="6.23,208,1770624000"; 
-   d="scan'208";a="78691798"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 06:00:38 -0700
-X-CSE-ConnectionGUID: RJWDCcmOS/CFlb8R2AVJMw==
-X-CSE-MsgGUID: 8MweghofT4qcKqzFK3pFpw==
+   d="scan'208";a="89963171"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 06:07:29 -0700
+X-CSE-ConnectionGUID: mwJh41SQSU2C12Fvxh6Oxw==
+X-CSE-MsgGUID: ne9qaGMaTM2y5y6JEpc5hg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,208,1770624000"; 
-   d="scan'208";a="239580246"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 30 Apr 2026 06:00:37 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="264947044"
+Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 30 Apr 2026 06:07:26 -0700
+Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wIR0M-000000004p5-0BcH;
-	Thu, 30 Apr 2026 13:00:34 +0000
-Date: Thu, 30 Apr 2026 14:59:42 +0200
+	id 1wIR6x-00000000CPM-2ZIz;
+	Thu, 30 Apr 2026 13:07:23 +0000
+Date: Thu, 30 Apr 2026 21:07:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yang Shi <yang@os.amperecomputing.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- 0day robot <lkp@intel.com>
-Subject: mm/percpu-vm.c:190:28: error: use of undeclared identifier
- 'percpu_pgd'
-Message-ID: <202604301449.4Jz6CEe5-lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ mm-commits@vger.kernel.org, Davidlohr Bueso <dave@stgolabs.net>
+Subject: [akpm-mm:mm-new 115/182] mm/internal.h:847:26: warning:
+ implicit conversion from 'unsigned long long' to 'u32' (aka 'unsigned int')
+ changes value from 17179869184 to 0
+Message-ID: <202604302039.yKocJk8m-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,76 +62,92 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Yang-Shi/arm64-mm-enable-percpu-kernel-page-table/20260430-122920
-head:   7e0c701a28a9dc36bcaf857ae2a956b4f3131bf2
-commit: 373b4cb83c6c0116f0501c81416c27dd7c07f8a5 mm: percpu: allocate and free local percpu vm area
-date:   8 hours ago
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260430/202604301449.4Jz6CEe5-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604301449.4Jz6CEe5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+head:   0587fb0c820d86e5b77a975680d79b5176d09abb
+commit: 78c22ab4ad70900027ae72e857274535c798ccfb [115/182] include/asm-generic/fixmap.h: reimplement nasty macros in C
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20260430/202604302039.yKocJk8m-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604302039.yKocJk8m-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604301449.4Jz6CEe5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604302039.yKocJk8m-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from mm/percpu.c:1585:
->> mm/percpu-vm.c:190:28: error: use of undeclared identifier 'percpu_pgd'
-     190 |                 __pcpu_unmap_pages_local(percpu_pgd[cpu],
-         |                                          ^
-   mm/percpu-vm.c:283:32: error: use of undeclared identifier 'percpu_pgd'
-     283 |                 err = __pcpu_map_pages_local(percpu_pgd[cpu],
-         |                                              ^
-   mm/percpu-vm.c:299:28: error: use of undeclared identifier 'percpu_pgd'
-     299 |                 __pcpu_unmap_pages_local(percpu_pgd[cpu],
-         |                                          ^
-   mm/percpu.c:3292:32: error: use of undeclared identifier 'percpu_pgd'
-    3292 |                 map_local_percpu_first_chunk(percpu_pgd[unit], (unsigned long)pcpu_vm.addr,
-         |                                              ^
-   4 errors generated.
+   In file included from mm/early_ioremap.c:18:
+   In file included from arch/riscv/include/asm/fixmap.h:64:
+   include/asm-generic/fixmap.h:93:26: error: use of undeclared identifier 'PAGE_KERNEL_NOCACHE'
+      93 |         __set_fixmap(idx, phys, FIXMAP_PAGE_NOCACHE);
+         |                                 ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/fixmap.h:54:29: note: expanded from macro 'FIXMAP_PAGE_NOCACHE'
+      54 | #define FIXMAP_PAGE_NOCACHE PAGE_KERNEL_NOCACHE
+         |                             ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/fixmap.h:99:33: error: use of undeclared identifier 'PAGE_KERNEL_NOCACHE'
+      99 |         __set_fixmap_offset(idx, phys, FIXMAP_PAGE_NOCACHE);
+         |                                        ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/fixmap.h:54:29: note: expanded from macro 'FIXMAP_PAGE_NOCACHE'
+      54 | #define FIXMAP_PAGE_NOCACHE PAGE_KERNEL_NOCACHE
+         |                             ^~~~~~~~~~~~~~~~~~~
+   In file included from mm/early_ioremap.c:20:
+>> mm/internal.h:847:26: warning: implicit conversion from 'unsigned long long' to 'u32' (aka 'unsigned int') changes value from 17179869184 to 0 [-Wconstant-conversion]
+     847 |         VM_WARN_ON_ONCE(order > MAX_FOLIO_ORDER);
+         |                                 ^~~~~~~~~~~~~~~
+   include/linux/mmzone.h:85:33: note: expanded from macro 'MAX_FOLIO_ORDER'
+      85 | #define MAX_FOLIO_ORDER         (ilog2(SZ_16G) - PAGE_SHIFT)
+         |                                  ~~~~~~^~~~~~~
+   include/linux/sizes.h:56:19: note: expanded from macro 'SZ_16G'
+      56 | #define SZ_16G                          _AC(0x400000000, ULL)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/const.h:21:18: note: expanded from macro '_AC'
+      21 | #define _AC(X,Y)        __AC(X,Y)
+         |                         ^~~~~~~~~
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/log2.h:162:14: note: expanded from macro 'ilog2'
+     162 |         __ilog2_u32(n) :                \
+         |         ~~~~~~~~~~~ ^
+   include/linux/mmdebug.h:123:50: note: expanded from macro 'VM_WARN_ON_ONCE'
+     123 | #define VM_WARN_ON_ONCE(cond) (void)WARN_ON_ONCE(cond)
+         |                                                  ^~~~
+   include/asm-generic/bug.h:120:25: note: expanded from macro 'WARN_ON_ONCE'
+     120 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   1 warning and 2 errors generated.
 
 
-vim +/percpu_pgd +190 mm/percpu-vm.c
+vim +847 mm/internal.h
 
-   159	
-   160	/**
-   161	 * pcpu_unmap_pages - unmap pages out of a pcpu_chunk
-   162	 * @chunk: chunk of interest
-   163	 * @pages: pages array which can be used to pass information to free
-   164	 * @page_start: page index of the first page to unmap
-   165	 * @page_end: page index of the last page to unmap + 1
-   166	 *
-   167	 * For each cpu, unmap pages [@page_start,@page_end) out of @chunk.
-   168	 * Corresponding elements in @pages were cleared by the caller and can
-   169	 * be used to carry information to pcpu_free_pages() which will be
-   170	 * called after all unmaps are finished.  The caller should call
-   171	 * proper pre/post flush functions.
-   172	 */
-   173	static void pcpu_unmap_pages(struct pcpu_chunk *chunk,
-   174				     struct page **pages, int page_start, int page_end)
-   175	{
-   176		unsigned int cpu;
-   177		int i;
-   178	
-   179		for_each_possible_cpu(cpu) {
-   180			for (i = page_start; i < page_end; i++) {
-   181				struct page *page;
-   182	
-   183				page = pcpu_chunk_page(chunk, cpu, i);
-   184				WARN_ON(!page);
-   185				pages[pcpu_page_idx(cpu, i)] = page;
-   186			}
-   187			__pcpu_unmap_pages(pcpu_chunk_addr(chunk, cpu, page_start),
-   188					   page_end - page_start);
-   189	
- > 190			__pcpu_unmap_pages_local(percpu_pgd[cpu],
-   191						(unsigned long)chunk->local_base + (page_start << PAGE_SHIFT),
-   192						page_end - page_start);
-   193		}
-   194	}
-   195	
+904d58578fce53 Kefeng Wang             2023-05-16  831  
+3c605096d31582 Joonsoo Kim             2014-11-13  832  extern int __isolate_free_page(struct page *page, unsigned int order);
+624f58d8f46396 Alexander Duyck         2020-04-06  833  extern void __putback_isolated_page(struct page *page, unsigned int order,
+624f58d8f46396 Alexander Duyck         2020-04-06  834  				    int mt);
+58e3e5265484a1 Shengming Hu            2025-12-29  835  extern void memblock_free_pages(unsigned long pfn, unsigned int order);
+13c526540b3169 David Hildenbrand       2024-06-07  836  extern void __free_pages_core(struct page *page, unsigned int order,
+13c526540b3169 David Hildenbrand       2024-06-07  837  		enum meminit_context context);
+9420f89db2dd61 Mike Rapoport (IBM      2023-03-21  838) 
+1e3be4856f49d5 Tarun Sahu              2023-06-12  839  /*
+1e3be4856f49d5 Tarun Sahu              2023-06-12  840   * This will have no effect, other than possibly generating a warning, if the
+1e3be4856f49d5 Tarun Sahu              2023-06-12  841   * caller passes in a non-large folio.
+1e3be4856f49d5 Tarun Sahu              2023-06-12  842   */
+1e3be4856f49d5 Tarun Sahu              2023-06-12  843  static inline void folio_set_order(struct folio *folio, unsigned int order)
+1e3be4856f49d5 Tarun Sahu              2023-06-12  844  {
+1e3be4856f49d5 Tarun Sahu              2023-06-12  845  	if (WARN_ON_ONCE(!order || !folio_test_large(folio)))
+1e3be4856f49d5 Tarun Sahu              2023-06-12  846  		return;
+99132d24d76511 David Hildenbrand       2025-09-01 @847  	VM_WARN_ON_ONCE(order > MAX_FOLIO_ORDER);
+1e3be4856f49d5 Tarun Sahu              2023-06-12  848  
+ebc1baf5c9b46c Matthew Wilcox (Oracle  2023-08-16  849) 	folio->_flags_1 = (folio->_flags_1 & ~0xffUL) | order;
+4996fc547f5b49 David Hildenbrand       2025-03-03  850  #ifdef NR_PAGES_IN_LARGE_FOLIO
+4996fc547f5b49 David Hildenbrand       2025-03-03  851  	folio->_nr_pages = 1U << order;
+1e3be4856f49d5 Tarun Sahu              2023-06-12  852  #endif
+1e3be4856f49d5 Tarun Sahu              2023-06-12  853  }
+1e3be4856f49d5 Tarun Sahu              2023-06-12  854  
+
+:::::: The code at line 847 was first introduced by commit
+:::::: 99132d24d76511f0f6ded2e25448765b632794aa mm: sanity-check maximum folio size in folio_set_order()
+
+:::::: TO: David Hildenbrand <david@redhat.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
