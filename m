@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D25F5260565
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Apr 2026 02:14:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F48325F98A;
+	Thu, 30 Apr 2026 02:25:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777515271; cv=none; b=YtfatLECdbcXk1xFqUVu9Q07sf9Z9W9JN9SI7RStKlv7YtuSoT7S1h5PpvsUukzHv/vNxhve7mHS4uDNN9Nh2cm041H6YbJ/ptwvoEAFmqjX6LNr8cHNYkBQ5SVGLHNeFfSelQpvTTr6Its3KSw4wBN8n4WIVoumuJVqoktWOzQ=
+	t=1777515930; cv=none; b=cubdOecBXmcrKYWSMHW816K4unTf3AcDaJ/i6aHyO2ZCoQ839TakD+zQoI7R3sUhA6R4N+ODxftErNDxClqJSJSAu62CdJ1ex6d8r/RlL2oMSQFAV1fT/0zsrv0XAD/wzlxF/G7WPe816smJMj/+KXJKzJnZKpciIAAtEMGp/OU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777515271; c=relaxed/simple;
-	bh=HwSCtJCE1BhUhqqgpVeiS4KXQmuufAwvLupi7xn5YVU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=awHeE7gw0SxiJulI134H43jkGfkZoJx378i1aY6RND1TEfYXlbXyeneiB0uKSaSQ+SBFoROQ4Ude+ZG2EyxUtHkjXbaVnBwh1tCPXDLnnf03QHbR9h2GzWkfiAKyoNPUGsTeLK7x3EDmYSjmMhTeU5bQbbMuS3yLMkv5+eP88KY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M5VPorNj; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1777515930; c=relaxed/simple;
+	bh=OGb9tfrgQNP10hKbWyzU17zKzqAihjSGotUXO93TuNk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=M/OaZ/CVlB3lwxJBa/P/aDvbFcKvgWCGojfnOIs4W2qYbvfd8NG1JrgidROYgcfQ0CKf5OCRJSd3m480tN+YNC0KhYjkm4+fWpthRp1gIXLpm6jaMGIUY/pHOzRJKUigz7eqyIbB6Ns/4tmkzsRsNJyQS0qXhVA4vmPe/AMU2vU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IP1s4MxY; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M5VPorNj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IP1s4MxY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777515269; x=1809051269;
+  t=1777515928; x=1809051928;
   h=date:from:to:cc:subject:message-id;
-  bh=HwSCtJCE1BhUhqqgpVeiS4KXQmuufAwvLupi7xn5YVU=;
-  b=M5VPorNjbKBiTL7bFEDe3wDN5h+YfQItoiVeBl5OQ682l/ZPL3c2Bd9b
-   387dEw7DvHNPYAb1LQ3y6CsfENkkkuwPkfjmofOCPJ1sCYXIkasSsuRde
-   4VaF5znNfoBP1apfE6ifvE9aWFFG4heyiYgahM+HFyDy08FdRrRd+uO7u
-   eIxLPg9UExRGhSQutLjbFpdUCKt5eb35GvW4qxfQX9UYu+716N50CDMkJ
-   9NXejaHhhcBpoeE67v/iam0T+E8W3EWv45AJ4fEM9ZjqCk64awOVikOcC
-   GtyDv0Enm7uEzcO5WIJaNAE6afGbOGT9HZEeuOjq/D2qsDJjSjerzlXGd
-   Q==;
-X-CSE-ConnectionGUID: MbUMcr2DRrWqtsjN8xbvig==
-X-CSE-MsgGUID: PBzAfcAFT9WLrToPIbBORg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="78510098"
+  bh=OGb9tfrgQNP10hKbWyzU17zKzqAihjSGotUXO93TuNk=;
+  b=IP1s4MxYq0YZuUpyi05rBL4nnOJ/4wzh9CMh87dP8e0XulTovLXOFFkY
+   OahCqeHT1N9O2fQ4JFdetw7DD3OnsAeH3TIjgSOKTwHJ0DEBlJ0OcUQUn
+   gBvEWo5Asx603WF0qfsh0DRgAbT53SHeXCb6qDUYdPHDGhgPDzfccrkUo
+   02UqeDraqp7aQkXqcfwzudSvAF40fji0gVa/rib1WlIKs8FzeGlofR2NU
+   Np9g+RI9n3RRqR9su6H2e99L+gLomD600R8uw4g/nohizol4Mz5/Ud48y
+   rfS6DvVAcd2EfvHNITpSZL6rz6RONffpjtKaTEsVpWNPdF4iVA3dMslDV
+   w==;
+X-CSE-ConnectionGUID: eJk70LFJSc2X5hoBBdSaCg==
+X-CSE-MsgGUID: zeyK+oomSFScXzbQoPdBQw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="78326234"
 X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
-   d="scan'208";a="78510098"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 19:14:28 -0700
-X-CSE-ConnectionGUID: VK7jVwyWTe+iUAzYmSA8HA==
-X-CSE-MsgGUID: l+v9zE3LSYqfzqR7lZTm5Q==
+   d="scan'208";a="78326234"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 19:25:28 -0700
+X-CSE-ConnectionGUID: /Lne4KvpQ4+6yL1B6sA5ww==
+X-CSE-MsgGUID: +L0FSZFaTbW/lOXV7JW4jA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
-   d="scan'208";a="236210274"
+   d="scan'208";a="257772913"
 Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 29 Apr 2026 19:14:25 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 29 Apr 2026 19:25:26 -0700
 Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wIGuz-00000000Bo8-2lzI;
-	Thu, 30 Apr 2026 02:14:21 +0000
-Date: Thu, 30 Apr 2026 10:14:13 +0800
+	id 1wIH5f-00000000Bom-3Ejh;
+	Thu, 30 Apr 2026 02:25:23 +0000
+Date: Thu, 30 Apr 2026 10:24:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrew Jones <ajones@ventanamicro.com>
-Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
-Subject: [avpatel:riscv_iommu_irqbypass_v2 13/18]
- drivers/iommu/riscv/iommu-ir.c:327:53: warning: 'struct
- riscv_iommu_ir_vcpu_info' declared inside parameter list will not be visible
- outside of this definition or declaration
-Message-ID: <202604301024.IPRzkxWv-lkp@intel.com>
+To: Richard Kuo <rkuo@quicinc.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Brian Cain <bcain@kernel.org>
+Subject: [bcain:bcain/hmx 26/56]
+ drivers/video/fbdev/smscufx.c:802:52: error: use of undeclared identifier
+ 'PAGE_SHARED'
+Message-ID: <202604301034.gW2J7Art-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,359 +61,81 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/avpatel/linux.git riscv_iommu_irqbypass_v2
-head:   0ba166d111b762ae8f37075ba1266e345ae5ef59
-commit: e3141898f38de6d63cb78f33d1b1e7bfb00d6e29 [13/18] iommu/riscv: Add guest file irqbypass support
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260430/202604301024.IPRzkxWv-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604301024.IPRzkxWv-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git bcain/hmx
+head:   702d39aaafd354863915b40f8167c4d998175f9c
+commit: 5168e5ebe50537ef5ae89f3e1af1de1913f9c59d [26/56] hexagon: add memory management enhancements
+config: hexagon-randconfig-002-20260430 (https://download.01.org/0day-ci/archive/20260430/202604301034.gW2J7Art-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604301034.gW2J7Art-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604301024.IPRzkxWv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604301034.gW2J7Art-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:138:17: note: in expansion of macro '__FIELD_PREP'
-     138 |                 __FIELD_PREP(_mask, _val, "FIELD_PREP: ");              \
-         |                 ^~~~~~~~~~~~
-   drivers/iommu/riscv/iommu-ir.c:184:24: note: in expansion of macro 'FIELD_PREP'
-     184 |                 .fsc = FIELD_PREP(RISCV_IOMMU_PC_FSC_MODE, domain->pgd_mode) |
-         |                        ^~~~~~~~~~
-   In file included from drivers/iommu/riscv/iommu-bits.h:18,
-                    from drivers/iommu/riscv/iommu.h:18:
-   drivers/iommu/riscv/iommu-ir.c:184:66: error: 'struct riscv_iommu_domain' has no member named 'pgd_mode'
-     184 |                 .fsc = FIELD_PREP(RISCV_IOMMU_PC_FSC_MODE, domain->pgd_mode) |
-         |                                                                  ^~
-   include/linux/bitfield.h:92:33: note: in definition of macro '__FIELD_PREP'
-      92 |                 ((typeof(mask))(val) << __bf_shf(mask)) & (mask);       \
-         |                                 ^~~
-   drivers/iommu/riscv/iommu-ir.c:184:24: note: in expansion of macro 'FIELD_PREP'
-     184 |                 .fsc = FIELD_PREP(RISCV_IOMMU_PC_FSC_MODE, domain->pgd_mode) |
-         |                        ^~~~~~~~~~
-   drivers/iommu/riscv/iommu-ir.c:185:59: error: implicit declaration of function 'virt_to_pfn'; did you mean 'virt_to_phys'? [-Wimplicit-function-declaration]
-     185 |                        FIELD_PREP(RISCV_IOMMU_PC_FSC_PPN, virt_to_pfn(domain->pgd_root)),
-         |                                                           ^~~~~~~~~~~
-   include/linux/compiler_types.h:679:23: note: in definition of macro '__compiletime_assert'
-     679 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:699:9: note: in expansion of macro '_compiletime_assert'
-     699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:40:37: note: in expansion of macro 'compiletime_assert'
-      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:70:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      70 |                 BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
-         |                 ^~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:91:17: note: in expansion of macro '__BF_FIELD_CHECK_MASK'
-      91 |                 __BF_FIELD_CHECK_MASK(mask, val, pfx);                  \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:138:17: note: in expansion of macro '__FIELD_PREP'
-     138 |                 __FIELD_PREP(_mask, _val, "FIELD_PREP: ");              \
-         |                 ^~~~~~~~~~~~
-   drivers/iommu/riscv/iommu-ir.c:185:24: note: in expansion of macro 'FIELD_PREP'
-     185 |                        FIELD_PREP(RISCV_IOMMU_PC_FSC_PPN, virt_to_pfn(domain->pgd_root)),
-         |                        ^~~~~~~~~~
-   drivers/iommu/riscv/iommu-ir.c:185:77: error: 'struct riscv_iommu_domain' has no member named 'pgd_root'
-     185 |                        FIELD_PREP(RISCV_IOMMU_PC_FSC_PPN, virt_to_pfn(domain->pgd_root)),
-         |                                                                             ^~
-   include/linux/compiler_types.h:679:23: note: in definition of macro '__compiletime_assert'
-     679 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:699:9: note: in expansion of macro '_compiletime_assert'
-     699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:40:37: note: in expansion of macro 'compiletime_assert'
-      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:70:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      70 |                 BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
-         |                 ^~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:91:17: note: in expansion of macro '__BF_FIELD_CHECK_MASK'
-      91 |                 __BF_FIELD_CHECK_MASK(mask, val, pfx);                  \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:138:17: note: in expansion of macro '__FIELD_PREP'
-     138 |                 __FIELD_PREP(_mask, _val, "FIELD_PREP: ");              \
-         |                 ^~~~~~~~~~~~
-   drivers/iommu/riscv/iommu-ir.c:185:24: note: in expansion of macro 'FIELD_PREP'
-     185 |                        FIELD_PREP(RISCV_IOMMU_PC_FSC_PPN, virt_to_pfn(domain->pgd_root)),
-         |                        ^~~~~~~~~~
-   drivers/iommu/riscv/iommu-ir.c:185:77: error: 'struct riscv_iommu_domain' has no member named 'pgd_root'
-     185 |                        FIELD_PREP(RISCV_IOMMU_PC_FSC_PPN, virt_to_pfn(domain->pgd_root)),
-         |                                                                             ^~
-   include/linux/compiler_types.h:679:23: note: in definition of macro '__compiletime_assert'
-     679 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:699:9: note: in expansion of macro '_compiletime_assert'
-     699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:40:37: note: in expansion of macro 'compiletime_assert'
-      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:70:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      70 |                 BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
-         |                 ^~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:91:17: note: in expansion of macro '__BF_FIELD_CHECK_MASK'
-      91 |                 __BF_FIELD_CHECK_MASK(mask, val, pfx);                  \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:138:17: note: in expansion of macro '__FIELD_PREP'
-     138 |                 __FIELD_PREP(_mask, _val, "FIELD_PREP: ");              \
-         |                 ^~~~~~~~~~~~
-   drivers/iommu/riscv/iommu-ir.c:185:24: note: in expansion of macro 'FIELD_PREP'
-     185 |                        FIELD_PREP(RISCV_IOMMU_PC_FSC_PPN, virt_to_pfn(domain->pgd_root)),
-         |                        ^~~~~~~~~~
-   drivers/iommu/riscv/iommu-ir.c:185:77: error: 'struct riscv_iommu_domain' has no member named 'pgd_root'
-     185 |                        FIELD_PREP(RISCV_IOMMU_PC_FSC_PPN, virt_to_pfn(domain->pgd_root)),
-         |                                                                             ^~
-   include/linux/bitfield.h:92:33: note: in definition of macro '__FIELD_PREP'
-      92 |                 ((typeof(mask))(val) << __bf_shf(mask)) & (mask);       \
-         |                                 ^~~
-   drivers/iommu/riscv/iommu-ir.c:185:24: note: in expansion of macro 'FIELD_PREP'
-     185 |                        FIELD_PREP(RISCV_IOMMU_PC_FSC_PPN, virt_to_pfn(domain->pgd_root)),
-         |                        ^~~~~~~~~~
-   drivers/iommu/riscv/iommu-ir.c: At top level:
->> drivers/iommu/riscv/iommu-ir.c:327:53: warning: 'struct riscv_iommu_ir_vcpu_info' declared inside parameter list will not be visible outside of this definition or declaration
-     327 |                                              struct riscv_iommu_ir_vcpu_info *vcpu_info)
-         |                                                     ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/riscv/iommu-ir.c: In function 'riscv_iommu_ir_vcpu_check_config':
-   drivers/iommu/riscv/iommu-ir.c:329:50: error: invalid use of undefined type 'struct riscv_iommu_ir_vcpu_info'
-     329 |         return domain->msi_addr_mask == vcpu_info->msi_addr_mask &&
-         |                                                  ^~
-   drivers/iommu/riscv/iommu-ir.c:330:53: error: invalid use of undefined type 'struct riscv_iommu_ir_vcpu_info'
-     330 |                domain->msi_addr_pattern == vcpu_info->msi_addr_pattern &&
-         |                                                     ^~
-   drivers/iommu/riscv/iommu-ir.c:331:53: error: invalid use of undefined type 'struct riscv_iommu_ir_vcpu_info'
-     331 |                domain->group_index_bits == vcpu_info->group_index_bits &&
-         |                                                     ^~
-   drivers/iommu/riscv/iommu-ir.c:332:54: error: invalid use of undefined type 'struct riscv_iommu_ir_vcpu_info'
-     332 |                domain->group_index_shift == vcpu_info->group_index_shift;
-         |                                                      ^~
-   drivers/iommu/riscv/iommu-ir.c: At top level:
-   drivers/iommu/riscv/iommu-ir.c:337:50: warning: 'struct riscv_iommu_ir_vcpu_info' declared inside parameter list will not be visible outside of this definition or declaration
-     337 |                                           struct riscv_iommu_ir_vcpu_info *vcpu_info)
-         |                                                  ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/riscv/iommu-ir.c: In function 'riscv_iommu_ir_vcpu_new_config':
-   drivers/iommu/riscv/iommu-ir.c:343:19: error: 'struct riscv_iommu_domain' has no member named 'pgd_mode'
-     343 |         if (domain->pgd_mode)
-         |                   ^~
-   drivers/iommu/riscv/iommu-ir.c:348:42: error: invalid use of undefined type 'struct riscv_iommu_ir_vcpu_info'
-     348 |         domain->msi_addr_mask = vcpu_info->msi_addr_mask;
-         |                                          ^~
-   drivers/iommu/riscv/iommu-ir.c:349:45: error: invalid use of undefined type 'struct riscv_iommu_ir_vcpu_info'
-     349 |         domain->msi_addr_pattern = vcpu_info->msi_addr_pattern;
-         |                                             ^~
-   drivers/iommu/riscv/iommu-ir.c:350:45: error: invalid use of undefined type 'struct riscv_iommu_ir_vcpu_info'
-     350 |         domain->group_index_bits = vcpu_info->group_index_bits;
-         |                                             ^~
-   drivers/iommu/riscv/iommu-ir.c:351:46: error: invalid use of undefined type 'struct riscv_iommu_ir_vcpu_info'
-     351 |         domain->group_index_shift = vcpu_info->group_index_shift;
-         |                                              ^~
-   drivers/iommu/riscv/iommu-ir.c:355:19: error: 'struct riscv_iommu_domain' has no member named 'pgd_mode'
-     355 |         if (domain->pgd_mode) {
-         |                   ^~
-   drivers/iommu/riscv/iommu-ir.c:373:66: error: invalid use of undefined type 'struct riscv_iommu_ir_vcpu_info'
-     373 |         idx = riscv_iommu_ir_compute_msipte_idx(domain, vcpu_info->gpa);
-         |                                                                  ^~
-   drivers/iommu/riscv/iommu-ir.c:376:46: error: invalid use of undefined type 'struct riscv_iommu_ir_vcpu_info'
-     376 |         riscv_iommu_ir_set_pte(pte, vcpu_info->hpa);
-         |                                              ^~
-   drivers/iommu/riscv/iommu-ir.c: In function 'riscv_iommu_ir_irq_set_vcpu_affinity':
-   drivers/iommu/riscv/iommu-ir.c:409:55: error: passing argument 2 of 'riscv_iommu_ir_vcpu_check_config' from incompatible pointer type [-Wincompatible-pointer-types]
-     409 |         if (!riscv_iommu_ir_vcpu_check_config(domain, vcpu_info))
-         |                                                       ^~~~~~~~~
-         |                                                       |
-         |                                                       struct riscv_iommu_ir_vcpu_info *
-   drivers/iommu/riscv/iommu-ir.c:327:79: note: expected 'struct riscv_iommu_ir_vcpu_info *' but argument is of type 'struct riscv_iommu_ir_vcpu_info *'
-     327 |                                              struct riscv_iommu_ir_vcpu_info *vcpu_info)
-         |                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
-   drivers/iommu/riscv/iommu-ir.c:410:69: error: passing argument 3 of 'riscv_iommu_ir_vcpu_new_config' from incompatible pointer type [-Wincompatible-pointer-types]
-     410 |                 return riscv_iommu_ir_vcpu_new_config(domain, data, vcpu_info);
-         |                                                                     ^~~~~~~~~
-         |                                                                     |
-         |                                                                     struct riscv_iommu_ir_vcpu_info *
-   drivers/iommu/riscv/iommu-ir.c:337:76: note: expected 'struct riscv_iommu_ir_vcpu_info *' but argument is of type 'struct riscv_iommu_ir_vcpu_info *'
-     337 |                                           struct riscv_iommu_ir_vcpu_info *vcpu_info)
-         |                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
-   drivers/iommu/riscv/iommu-ir.c:412:70: error: invalid use of undefined type 'struct riscv_iommu_ir_vcpu_info'
-     412 |         new_idx = riscv_iommu_ir_compute_msipte_idx(domain, vcpu_info->gpa);
-         |                                                                      ^~
-   drivers/iommu/riscv/iommu-ir.c:416:50: error: invalid use of undefined type 'struct riscv_iommu_ir_vcpu_info'
-     416 |         riscv_iommu_ir_set_pte(&pteval, vcpu_info->hpa);
-         |                                                  ^~
-   drivers/iommu/riscv/iommu-ir.c: In function 'riscv_ir_set_imsic_global_config':
-   drivers/iommu/riscv/iommu-ir.c:620:68: error: 'struct riscv_iommu_domain' has no member named 'numa_node'
-     620 |                 domain->msi_root = iommu_alloc_pages_node_sz(domain->numa_node, GFP_KERNEL_ACCOUNT,
-         |                                                                    ^~
-   drivers/iommu/riscv/iommu-ir.c: In function 'riscv_iommu_ir_attach_paging_domain':
-   drivers/iommu/riscv/iommu-ir.c:662:27: error: 'struct riscv_iommu_domain' has no member named 'pgd_mode'
-     662 |                 if (domain->pgd_mode) {
-         |                           ^~
+>> drivers/video/fbdev/smscufx.c:802:52: error: use of undeclared identifier 'PAGE_SHARED'
+     802 |                 if (remap_pfn_range(vma, start, page, PAGE_SIZE, PAGE_SHARED))
+         |                                                                  ^~~~~~~~~~~
+>> drivers/video/fbdev/smscufx.c:802:52: error: use of undeclared identifier 'PAGE_SHARED'
+     802 |                 if (remap_pfn_range(vma, start, page, PAGE_SIZE, PAGE_SHARED))
+         |                                                                  ^~~~~~~~~~~
+>> drivers/video/fbdev/smscufx.c:802:52: error: use of undeclared identifier 'PAGE_SHARED'
+     802 |                 if (remap_pfn_range(vma, start, page, PAGE_SIZE, PAGE_SHARED))
+         |                                                                  ^~~~~~~~~~~
+   3 errors generated.
 
 
-vim +327 drivers/iommu/riscv/iommu-ir.c
+vim +/PAGE_SHARED +802 drivers/video/fbdev/smscufx.c
 
-   176	
-   177	static void riscv_iommu_ir_msiptp_update(struct riscv_iommu_domain *domain)
-   178	{
-   179		struct riscv_iommu_bond *bond;
-   180		struct riscv_iommu_device *iommu, *prev;
-   181		struct riscv_iommu_dc new_dc = {
-   182			.ta = FIELD_PREP(RISCV_IOMMU_PC_TA_PSCID, domain->pscid) |
-   183			      RISCV_IOMMU_PC_TA_V,
-   184			.fsc = FIELD_PREP(RISCV_IOMMU_PC_FSC_MODE, domain->pgd_mode) |
- > 185			       FIELD_PREP(RISCV_IOMMU_PC_FSC_PPN, virt_to_pfn(domain->pgd_root)),
-   186			.msiptp = virt_to_pfn(domain->msi_root) |
-   187				  FIELD_PREP(RISCV_IOMMU_DC_MSIPTP_MODE,
-   188					     RISCV_IOMMU_DC_MSIPTP_MODE_FLAT),
-   189			.msi_addr_mask = domain->msi_addr_mask,
-   190			.msi_addr_pattern = domain->msi_addr_pattern,
-   191		};
-   192	
-   193		/* Like riscv_iommu_ir_msitbl_inval(), synchronize with riscv_iommu_bond_link() */
-   194		smp_mb();
-   195	
-   196		rcu_read_lock();
-   197	
-   198		prev = NULL;
-   199		list_for_each_entry_rcu(bond, &domain->bonds, list) {
-   200			iommu = dev_to_iommu(bond->dev);
-   201			if (iommu == prev)
-   202				continue;
-   203	
-   204			riscv_iommu_iodir_update(iommu, bond->dev, &new_dc);
-   205			prev = iommu;
-   206		}
-   207	
-   208		rcu_read_unlock();
-   209	}
-   210	
-   211	struct riscv_iommu_ir_chip_data {
-   212		size_t idx;
-   213		u32 config;
-   214	};
-   215	
-   216	static size_t riscv_iommu_ir_irq_msitbl_idx(struct irq_data *data)
-   217	{
-   218		struct riscv_iommu_ir_chip_data *chip_data = irq_data_get_irq_chip_data(data);
-   219	
-   220		return chip_data->idx;
-   221	}
-   222	
-   223	static u32 riscv_iommu_ir_irq_msitbl_config(struct irq_data *data)
-   224	{
-   225		struct riscv_iommu_ir_chip_data *chip_data = irq_data_get_irq_chip_data(data);
-   226	
-   227		return chip_data->config;
-   228	}
-   229	
-   230	static void riscv_iommu_ir_irq_set_msitbl_info(struct irq_data *data,
-   231						       size_t idx, u32 config)
-   232	{
-   233		struct riscv_iommu_ir_chip_data *chip_data = irq_data_get_irq_chip_data(data);
-   234	
-   235		chip_data->idx = idx;
-   236		chip_data->config = config;
-   237	}
-   238	
-   239	static void riscv_iommu_ir_msitbl_map(struct riscv_iommu_domain *domain,
-   240					      struct irq_data *data,
-   241					      size_t idx, phys_addr_t addr)
-   242	{
-   243		struct riscv_iommu_msipte *pte;
-   244	
-   245		riscv_iommu_ir_irq_set_msitbl_info(data, idx, domain->msitbl_config);
-   246	
-   247		if (!domain->msi_root)
-   248			return;
-   249	
-   250		if (!refcount_inc_not_zero(&domain->msi_pte_counts[idx])) {
-   251			scoped_guard(raw_spinlock_irqsave, &domain->msi_lock) {
-   252				if (refcount_read(&domain->msi_pte_counts[idx]) == 0) {
-   253					pte = &domain->msi_root[idx];
-   254					riscv_iommu_ir_set_pte(pte, addr);
-   255					riscv_iommu_ir_msitbl_inval(domain, pte);
-   256					refcount_set(&domain->msi_pte_counts[idx], 1);
-   257				} else {
-   258					refcount_inc(&domain->msi_pte_counts[idx]);
-   259				}
-   260			}
-   261		}
-   262	}
-   263	
-   264	static void riscv_iommu_ir_msitbl_unmap(struct riscv_iommu_domain *domain,
-   265						struct irq_data *data, size_t idx)
-   266	{
-   267		struct riscv_iommu_msipte *pte;
-   268		u32 config;
-   269	
-   270		config = riscv_iommu_ir_irq_msitbl_config(data);
-   271		riscv_iommu_ir_irq_set_msitbl_info(data, -1, -1);
-   272	
-   273		if (WARN_ON_ONCE(config != domain->msitbl_config))
-   274			return;
-   275	
-   276		if (!domain->msi_root)
-   277			return;
-   278	
-   279		scoped_guard(raw_spinlock_irqsave, &domain->msi_lock) {
-   280			if (refcount_dec_and_test(&domain->msi_pte_counts[idx])) {
-   281				pte = &domain->msi_root[idx];
-   282				riscv_iommu_ir_clear_pte(pte);
-   283				riscv_iommu_ir_msitbl_inval(domain, pte);
-   284			}
-   285		}
-   286	}
-   287	
-   288	static size_t riscv_iommu_ir_get_msipte_idx_from_target(struct riscv_iommu_domain *domain,
-   289								struct irq_data *data, phys_addr_t *addr)
-   290	{
-   291		struct msi_msg msg;
-   292	
-   293		BUG_ON(irq_chip_compose_msi_msg(data, &msg));
-   294	
-   295		*addr = ((phys_addr_t)msg.address_hi << 32) | msg.address_lo;
-   296	
-   297		return riscv_iommu_ir_compute_msipte_idx(domain, *addr);
-   298	}
-   299	
-   300	static int riscv_iommu_ir_irq_set_affinity(struct irq_data *data,
-   301						   const struct cpumask *dest, bool force)
-   302	{
-   303		struct riscv_iommu_info *info = data->domain->host_data;
-   304		struct riscv_iommu_domain *domain = info->domain;
-   305		size_t old_idx, new_idx;
-   306		phys_addr_t new_addr;
-   307		int ret;
-   308	
-   309		old_idx = riscv_iommu_ir_irq_msitbl_idx(data);
-   310	
-   311		ret = irq_chip_set_affinity_parent(data, dest, force);
-   312		if (ret < 0)
-   313			return ret;
-   314	
-   315		new_idx = riscv_iommu_ir_get_msipte_idx_from_target(domain, data, &new_addr);
-   316	
-   317		if (new_idx == old_idx)
-   318			return ret;
-   319	
-   320		riscv_iommu_ir_msitbl_unmap(domain, data, old_idx);
-   321		riscv_iommu_ir_msitbl_map(domain, data, new_idx, new_addr);
-   322	
-   323		return ret;
-   324	}
-   325	
-   326	static bool riscv_iommu_ir_vcpu_check_config(struct riscv_iommu_domain *domain,
- > 327						     struct riscv_iommu_ir_vcpu_info *vcpu_info)
-   328	{
-   329		return domain->msi_addr_mask == vcpu_info->msi_addr_mask &&
-   330		       domain->msi_addr_pattern == vcpu_info->msi_addr_pattern &&
-   331		       domain->group_index_bits == vcpu_info->group_index_bits &&
-   332		       domain->group_index_shift == vcpu_info->group_index_shift;
-   333	}
-   334	
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  775  
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  776  static int ufx_ops_mmap(struct fb_info *info, struct vm_area_struct *vma)
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  777  {
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  778  	unsigned long start = vma->vm_start;
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  779  	unsigned long size = vma->vm_end - vma->vm_start;
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  780  	unsigned long offset = vma->vm_pgoff << PAGE_SHIFT;
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  781  	unsigned long page, pos;
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  782  
+5905585103276b7 drivers/video/fbdev/smscufx.c Thomas Zimmermann 2022-04-29  783  	if (info->fbdefio)
+5905585103276b7 drivers/video/fbdev/smscufx.c Thomas Zimmermann 2022-04-29  784  		return fb_deferred_io_mmap(info, vma);
+5905585103276b7 drivers/video/fbdev/smscufx.c Thomas Zimmermann 2022-04-29  785  
+76f92201b821dd2 drivers/video/fbdev/smscufx.c Thomas Zimmermann 2023-11-27  786  	vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
+76f92201b821dd2 drivers/video/fbdev/smscufx.c Thomas Zimmermann 2023-11-27  787  
+04f8afbec37f63f drivers/video/smscufx.c       Tomi Valkeinen    2013-04-18  788  	if (vma->vm_pgoff > (~0UL >> PAGE_SHIFT))
+04f8afbec37f63f drivers/video/smscufx.c       Tomi Valkeinen    2013-04-18  789  		return -EINVAL;
+04f8afbec37f63f drivers/video/smscufx.c       Tomi Valkeinen    2013-04-18  790  	if (size > info->fix.smem_len)
+04f8afbec37f63f drivers/video/smscufx.c       Tomi Valkeinen    2013-04-18  791  		return -EINVAL;
+04f8afbec37f63f drivers/video/smscufx.c       Tomi Valkeinen    2013-04-18  792  	if (offset > info->fix.smem_len - size)
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  793  		return -EINVAL;
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  794  
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  795  	pos = (unsigned long)info->fix.smem_start + offset;
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  796  
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  797  	pr_debug("mmap() framebuffer addr:%lu size:%lu\n",
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  798  		  pos, size);
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  799  
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  800  	while (size > 0) {
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  801  		page = vmalloc_to_pfn((void *)pos);
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18 @802  		if (remap_pfn_range(vma, start, page, PAGE_SIZE, PAGE_SHARED))
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  803  			return -EAGAIN;
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  804  
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  805  		start += PAGE_SIZE;
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  806  		pos += PAGE_SIZE;
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  807  		if (size > PAGE_SIZE)
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  808  			size -= PAGE_SIZE;
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  809  		else
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  810  			size = 0;
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  811  	}
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  812  
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  813  	return 0;
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  814  }
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  815  
+
+:::::: The code at line 802 was first introduced by commit
+:::::: 3c8a63e22a0802fd56380f6ab305b419f18eb6f5 Add support for SMSC UFX6000/7000 USB display adapters
+
+:::::: TO: Steve Glendinning <steve.glendinning@smsc.com>
+:::::: CC: Florian Tobias Schandinat <FlorianSchandinat@gmx.de>
 
 -- 
 0-DAY CI Kernel Test Service
