@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A75AE2D7DCF
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Apr 2026 17:24:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AA25478E26
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Apr 2026 17:39:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777569882; cv=none; b=OKmKD5IhHuk7rnjfKAyCoyUybboqhCA5uckB7f60rq0MMO7tShu6QhyyO4SJv+DegMr0BY73+2jZwAE2kH3Q4u82yKpiWo/loiCV7sojWtPohSHOCkE2n7WlyS/Ya+qY+YhcdnXVVnDLYYQbOr89yHF5ZX8LoGuMVH3jDPjmmDs=
+	t=1777570800; cv=none; b=YVpaQCkKDZSUr6InjIIeaakQjlgJm6AAwoHLAVst+PB/KQAKeXVYtbRaLRw9FpmPN72hC25PGrbgvbgp7iMEBGnXit3r9MlgS+0D7RustmZyR+lrtDudOcTZ+9rdPZzhGm6Fnd8EmxtuQagUkpUmC/F3NvHEmtb+yLRQhsAg7tI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777569882; c=relaxed/simple;
-	bh=HW9Apt1RUtPFJEfCazcPESpZLA+IJh2343tEt4yHf+8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=d8Xr7o7HK/HVRxPc52k5g0QUw5o4efGndNEGguulTXWslP9w+rWH1JmZN4kl/gucScVDRrLKM+UJWygJzeeKiNqCjXEXW5AHtnHh+9nCroLRingJOp7LeSQbWJl6LknMt8iWE8v0PaZqBsUdh/kg5sTeIMcYj7Zl+RSVdeErxc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PCpTdh5O; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1777570800; c=relaxed/simple;
+	bh=0NWGD8Y3heY49SLb04SY5BHOjHwbE6p6DkLAYURSe90=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sCqkfxKvKwV6jwI2+8Nw/7s9e1cpbVq130GrcMTUmnygLsfVKxRPg6R3UeKncjk+EM/1IaDBRQkAVXrK5JyQaC6kn006G2Lk6gGW3Ibvf7dNCSuFZ2cQoQmxm22F7vzAhKDF4tA+8RFwDOEXj3q/qwKSewjUKJSSDZhHEtoPlEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D2q0q6jv; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PCpTdh5O"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D2q0q6jv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777569880; x=1809105880;
+  t=1777570797; x=1809106797;
   h=date:from:to:cc:subject:message-id;
-  bh=HW9Apt1RUtPFJEfCazcPESpZLA+IJh2343tEt4yHf+8=;
-  b=PCpTdh5O1IIzR+8Sn1uwEznw0ln+Pve+Bp05pc4o3tWmUnzA2zOvSQ0K
-   mkIncgX8rrQGqFo5FnNJw9TYrROHt9cRA94oYXDxoRxV1u+doPBGwbwym
-   xOHTaMA8A8tlXI+zf2JuM4cYQjhA09ggQS6iEIvQRjwxg2k84D83CzHa5
-   emMRZyRRxv9KMw34XXRLV/TM7+yBrmSiRjDH8+QASjP0rzeml8t+D3eAj
-   UcTuIIQ85QC5/Woo/WXsHrxQRyow0KLoZQNQ22dcBXIR82UvcSz3gkB7G
-   WZhYMoaN8Bib4P/aYAYms6PpDXJgJPbAkHc0vPzwWNhbEM/avTXGHwy9Y
-   g==;
-X-CSE-ConnectionGUID: 8khn+8F4RTuJiLicxCE/mA==
-X-CSE-MsgGUID: aO733YMfRO+UxBnPhU2Hyw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11772"; a="77560127"
+  bh=0NWGD8Y3heY49SLb04SY5BHOjHwbE6p6DkLAYURSe90=;
+  b=D2q0q6jvYVi9ybDorQJWDVBgWg6mkwgBpcQSPmqEifcog/btkLWxolBj
+   8somZj1xTlydpq/FzGBqokElXdPDMzDpGbot3tcG4GZNKdorHdZnLuAyV
+   FIRM+tVoBcF7+cKmVH2IAE6l3qqCpF0+TTX69AfGKfOhfdIsd6xJMBqyl
+   shGCJk3Y/PUkhKOGbE1QryNit2BVO5whNSSt+DvzTZs9nRVO8DiwfWITK
+   9PYopRNzDU1DYbeZZQu7aF3MVivXNyRfF8OcvMqCqevYj147qKMzO7IMf
+   DAfu8bDSgXjbYIFlgksd1khureumDjEeuSqijGqt/4ZDTMhCxJoo7xL6q
+   w==;
+X-CSE-ConnectionGUID: alSYaLAmSpOW8BZyLs5ZBw==
+X-CSE-MsgGUID: KXb83vC0TPu9KB0QR2n/XQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11772"; a="81110941"
 X-IronPort-AV: E=Sophos;i="6.23,208,1770624000"; 
-   d="scan'208";a="77560127"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 10:24:40 -0700
-X-CSE-ConnectionGUID: G3QRTFxVTlS9We8I5hEsRw==
-X-CSE-MsgGUID: f5frPtQmQqaBporztdnypw==
+   d="scan'208";a="81110941"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 10:39:56 -0700
+X-CSE-ConnectionGUID: IcqnseorRzOYwI5Tw0g7Jg==
+X-CSE-MsgGUID: 6SC1i2gSQ8mXME+gBrF7KA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,208,1770624000"; 
-   d="scan'208";a="234531401"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 30 Apr 2026 10:24:38 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="258231871"
+Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 30 Apr 2026 10:39:55 -0700
+Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wIV7s-000000004rt-3811;
-	Thu, 30 Apr 2026 17:24:36 +0000
-Date: Thu, 30 Apr 2026 19:24:05 +0200
+	id 1wIVMe-00000000Ck0-3V81;
+	Thu, 30 Apr 2026 17:39:52 +0000
+Date: Fri, 01 May 2026 01:38:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oscar Salvador <osalvador@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: fs/proc/task_mmu.c:1139:31: warning: unused variable
- 'curr_addr'
-Message-ID: <202604301935.VvtowdCY-lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:7.0-mt7622 0/3]
+ block/partitions/msdos.c:310:52: warning: operation on 'state->next' may be
+ undefined
+Message-ID: <202605010116.NuNB9l1N-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,160 +60,91 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Oscar-Salvador/mm-Add-softleaf_from_pud/20260427-233610
-head:   a50a24d8da5140888004ac6386c0a0f6b4d0dd9a
-commit: 90dce2a662135115d3afedef7ca80af4cd869414 mm: Make /proc/pid/smaps use the new generic pagewalk API
-date:   3 days ago
-config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260430/202604301935.VvtowdCY-lkp@intel.com/config)
+tree:   https://github.com/frank-w/BPI-R2-4.14 7.0-mt7622
+head:   d8b6134553d0f268ed594061eba808fcb51257f4
+commit: 7ba12f95aa40e90f9d5a619606e3fc98cdb91b65 [0/3] block: partitions: msdos: add OF node by partition number
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260501/202605010116.NuNB9l1N-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604301935.VvtowdCY-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260501/202605010116.NuNB9l1N-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604301935.VvtowdCY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605010116.NuNB9l1N-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/proc/task_mmu.c: In function 'smap_gather_stats':
->> fs/proc/task_mmu.c:1139:31: warning: unused variable 'curr_addr' [-Wunused-variable]
-    1139 |                 unsigned long curr_addr = ptw.curr_addr;
-         |                               ^~~~~~~~~
+   block/partitions/msdos.c: In function 'parse_solaris_x86':
+>> block/partitions/msdos.c:310:52: warning: operation on 'state->next' may be undefined [-Wsequence-point]
+     310 |                 of_put_partition(state, state->next++,
+         |                                         ~~~~~~~~~~~^~
+   block/partitions/msdos.c: In function 'parse_bsd':
+   block/partitions/msdos.c:415:52: warning: operation on 'state->next' may be undefined [-Wsequence-point]
+     415 |                 of_put_partition(state, state->next++, bsd_start, bsd_size,
+         |                                         ~~~~~~~~~~~^~
+   block/partitions/msdos.c: In function 'parse_unixware':
+   block/partitions/msdos.c:526:60: warning: operation on 'state->next' may be undefined [-Wsequence-point]
+     526 |                         of_put_partition(state, state->next++,
+         |                                                 ~~~~~~~~~~~^~
+   block/partitions/msdos.c: In function 'parse_minix':
+   block/partitions/msdos.c:573:68: warning: operation on 'state->next' may be undefined [-Wsequence-point]
+     573 |                                 of_put_partition(state, state->next++,
+         |                                                         ~~~~~~~~~~~^~
 
 
-vim +/curr_addr +1139 fs/proc/task_mmu.c
+vim +310 block/partitions/msdos.c
 
-  1091	
-  1092	/*
-  1093	 * Gather mem stats from @vma with the indicated beginning
-  1094	 * address @start, and keep them in @mss.
-  1095	 *
-  1096	 * Use vm_start of @vma as the beginning address if @start is 0.
-  1097	 */
-  1098	static void smap_gather_stats(struct vm_area_struct *vma,
-  1099					  struct mem_size_stats *mss,
-  1100					  unsigned long start)
-  1101	{
-  1102		struct pt_range_walk ptw = {
-  1103			.mm = vma->vm_mm
-  1104		};
-  1105		enum pt_range_walk_type type;
-  1106		pt_type_flags_t flags = PT_TYPE_ALL;
-  1107	
-  1108		if (start >= vma->vm_end)
-  1109			return;
-  1110	
-  1111		flags &= ~(PT_TYPE_NONE|PT_TYPE_PFN);
-  1112	
-  1113		if (vma->vm_file && shmem_mapping(vma->vm_file->f_mapping)) {
-  1114			/*
-  1115			 * For shared or readonly shmem mappings we know that all
-  1116			 * swapped out pages belong to the shmem object, and we can
-  1117			 * obtain the swap value much more efficiently. For private
-  1118			 * writable mappings, we might have COW pages that are
-  1119			 * not affected by the parent swapped out pages of the shmem
-  1120			 * object, so we have to distinguish them during the page walk.
-  1121			 * Unless we know that the shmem object (or the part mapped by
-  1122			 * our VMA) has no swapped out pages at all.
-  1123			 */
-  1124			unsigned long shmem_swapped = shmem_swap_usage(vma);
-  1125	
-  1126			if (!start && (!shmem_swapped || (vma->vm_flags & VM_SHARED) ||
-  1127			    !(vma->vm_flags & VM_WRITE))) {
-  1128				mss->swap += shmem_swapped;
-  1129			} else {
-  1130				flags |= PT_TYPE_NONE;
-  1131			}
-  1132		}
-  1133	
-  1134		if (!start)
-  1135			start = vma->vm_start;
-  1136	
-  1137		type = pt_range_walk_start(&ptw, vma, start, vma->vm_end, flags);
-  1138		while (type != PTW_DONE) {
-> 1139			unsigned long curr_addr = ptw.curr_addr;
-  1140			bool locked = !!(vma->vm_flags & VM_LOCKED);
-  1141			bool compound = false, account = false;
-  1142			unsigned long swap_size;
-  1143			int mapcount;
-  1144	
-  1145			switch (type) {
-  1146			case PTW_FOLIO:
-  1147			case PTW_MIGRATION:
-  1148			case PTW_HWPOISON:
-  1149			case PTW_DEVICE:
-  1150				/*
-  1151				 * We either have a folio because vm_normal_folio was
-  1152				 * successful, or because we had a special swap entry
-  1153				 * and could retrieve it with softleaf_to_page.
-  1154				 */
-  1155				if (is_vm_hugetlb_page(vma)) {
-  1156					/* HugeTLB */
-  1157					unsigned long size = huge_page_size(hstate_vma(ptw.vma));
-  1158	
-  1159					if (!ptw.present || folio_maybe_mapped_shared(ptw.folio) ||
-  1160					    ptw.pmd_shared)
-  1161						mss->shared_hugetlb += size;
-  1162					else
-  1163						mss->private_hugetlb += size;
-  1164				} else {
-  1165					account = true;
-  1166					if (ptw.level == PTW_PMD_LEVEL) {
-  1167						/* THP */
-  1168						compound = true;
-  1169						if (folio_test_anon(ptw.folio))
-  1170							mss->anonymous_thp += ptw.size;
-  1171						else if (folio_test_swapbacked(ptw.folio))
-  1172							mss->shmem_thp += ptw.size;
-  1173						else if (folio_is_zone_device(ptw.folio))
-  1174							/* pass */;
-  1175						else
-  1176							mss->file_thp += ptw.size;
-  1177					} else if (ptw.level == PTW_PTE_LEVEL && ptw.nr_entries > 1) {
-  1178						compound = true;
-  1179					}
-  1180				}
-  1181				break;
-  1182			case PTW_SWAP:
-  1183				account = true;
-  1184				swap_size = PAGE_SIZE * ptw.nr_entries;
-  1185				mss->swap += swap_size;
-  1186				mapcount = swp_swapcount(ptw.softleaf_entry);
-  1187				if (mapcount >= 2) {
-  1188					u64 pss_delta = (u64)swap_size << PSS_SHIFT;
-  1189	
-  1190					do_div(pss_delta, mapcount);
-  1191					mss->swap_pss += pss_delta;
-  1192				} else {
-  1193					mss->swap_pss += (u64)swap_size << PSS_SHIFT;
-  1194				}
-  1195				break;
-  1196			case PTW_NONE:
-  1197	#ifdef CONFIG_SHMEM
-  1198				unsigned long addr = ptw.curr_addr;
-  1199				unsigned long end = ptw.next_addr;
-  1200	
-  1201				if (ptw.level == PTW_PMD_LEVEL || ptw.level == PTW_PTE_LEVEL)
-  1202					mss->swap += shmem_partial_swap_usage(vma->vm_file->f_mapping,
-  1203								      linear_page_index(vma, addr),
-  1204								      linear_page_index(vma, end));
-  1205	#endif
-  1206				break;
-  1207			default:
-  1208				/* Ooops */
-  1209				break;
-  1210			}
-  1211	
-  1212			if (account && ptw.folio)
-  1213				smaps_account(mss, ptw.page, compound, ptw.young,
-  1214					      ptw.dirty, locked, ptw.present, ptw.size);
-  1215			type = pt_range_walk_next(&ptw, vma, start, vma->vm_end, flags);
-  1216		}
-  1217	
-  1218		pt_range_walk_done(&ptw);
-  1219	}
-  1220	
+   270	
+   271	/* james@bpgc.com: Solaris has a nasty indicator: 0x82 which also
+   272	   indicates linux swap.  Be careful before believing this is Solaris. */
+   273	
+   274	static void parse_solaris_x86(struct parsed_partitions *state,
+   275				      sector_t offset, sector_t size, int origin)
+   276	{
+   277	#ifdef CONFIG_SOLARIS_X86_PARTITION
+   278		struct device *ddev = disk_to_dev(state->disk);
+   279		struct device_node *partitions_np = of_node_get(ddev->of_node);
+   280		Sector sect;
+   281		struct solaris_x86_vtoc *v;
+   282		int i;
+   283		short max_nparts;
+   284	
+   285		v = read_part_sector(state, offset + 1, &sect);
+   286		if (!v)
+   287			return;
+   288		if (le32_to_cpu(v->v_sanity) != SOLARIS_X86_VTOC_SANE) {
+   289			put_dev_sector(sect);
+   290			return;
+   291		}
+   292		seq_buf_printf(&state->pp_buf, " %s%d: <solaris:", state->name, origin);
+   293		if (le32_to_cpu(v->v_version) != 1) {
+   294			seq_buf_printf(&state->pp_buf,
+   295				       "  cannot handle version %d vtoc>\n",
+   296				       le32_to_cpu(v->v_version));
+   297			put_dev_sector(sect);
+   298			return;
+   299		}
+   300		/* Ensure we can handle previous case of VTOC with 8 entries gracefully */
+   301		max_nparts = le16_to_cpu(v->v_nparts) > 8 ? SOLARIS_X86_NUMSLICE : 8;
+   302		for (i = 0; i < max_nparts && state->next < state->limit; i++) {
+   303			struct solaris_x86_slice *s = &v->v_slice[i];
+   304	
+   305			if (s->s_size == 0)
+   306				continue;
+   307			seq_buf_printf(&state->pp_buf, " [s%d]", i);
+   308			/* solaris partitions are relative to current MS-DOS
+   309			 * one; must add the offset of the current partition */
+ > 310			of_put_partition(state, state->next++,
+   311					 le32_to_cpu(s->s_start)+offset,
+   312					 le32_to_cpu(s->s_size),
+   313					 find_partno_of_node(partitions_np, state->next));
+   314		}
+   315		put_dev_sector(sect);
+   316		seq_buf_puts(&state->pp_buf, " >\n");
+   317	#endif
+   318	}
+   319	
 
---
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
