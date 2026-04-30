@@ -1,147 +1,217 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F3F3A8736
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Apr 2026 09:55:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E22B3FE37C;
+	Thu, 30 Apr 2026 10:05:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777542938; cv=none; b=LKscdHuvEppYOLa36MJUS/RrWH79CrUMzFFcSWqlhN7LWxEg5rxQQixlP8BETbUDYcOxu5rS5aLIjrpGoE0jVwy5N/D3qDbu47+paL3ryPH6XS/gEc2RnMgwne1Akn+7la5EUhoRNph7qYUgN5hBzJtD0GzzMb+xjGZOYDx7D0M=
+	t=1777543519; cv=none; b=lFzAkgO40xCPKkt5g85OZB+Vh7QP5emIbqzEVorFvtizg6epCSawQWEf4+4Sl7HZSNNglY3oR6LJk3MgUQpYayVe/6pNNG7cGznHgUCPTEyjQxZTd2v8m3WKzkEu8JGmHykd2q5LIxOmJMhu7hM5qwM8hL5Ia9DRSdxThGhG6To=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777542938; c=relaxed/simple;
-	bh=npVlwqN7F2F6TbVEj8IrKzE2qZgKFn1fGBTyy/bAoBw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ITChoiGB6pdKkIDmp12mBzaORZEZGNlUljiXzxt4ewL/u+Ocp+52nfHKy4oXfbGx5Ha3X3OvDZcyNeKq0HoaTEfsVxl41nCopcK82Cd32SLSQ8vfZ6Itd+MCrG7qiwzDnMw3xRVwhAZmNBH21ULgzbJhak4Vx9HhnJkAI6WWf+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uhaq2eql; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1777543519; c=relaxed/simple;
+	bh=43/PYTKoM5Si0NIj9BiQpEm3hIxxN21kEzjN//oZk2c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gcI+MQlmlavDB5k7IJWmZdMkTJ+Jrl+SLLmsTzm1qs/h3LTXtN8/WdbzS2OWZ4sgE5W/+ZhWgoJmLFJyM84mvRYilrNEVPf5X4GvTpvokvkwdOEhK1ObcH3WXKgs7/edvvJDo9eAggolWduGogfBw06StZ/xh7u8JB5Qa28DR3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ewglzuO2; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uhaq2eql"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ewglzuO2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777542937; x=1809078937;
-  h=date:from:to:cc:subject:message-id;
-  bh=npVlwqN7F2F6TbVEj8IrKzE2qZgKFn1fGBTyy/bAoBw=;
-  b=Uhaq2eqlgoSiQDdEuIzq1CDxPUhCh6DtPa89vG0BULhF84MlNZU1Dylk
-   mSPzjmWEQC9XtjPjc+svftfcalwfB/2XN0wTuaPvD2pYmfepfULHvyeU3
-   0SN3/k8hby+PsvkZGrE7Y0OFhbINXJMMCAyIj0qR6UN8BtEisywPPzBk4
-   Ig1BSv00Sbu118ggtosO6UCN6rw+AtD8gaYrAXbQBy28htmDPNo/bSaGn
-   UbNQlBuEh7lor4eLoW1n9f3Xq8dMkL3CLlRqs4x3edM0dp+GyNkCvGvS4
-   V3N8sZ3/4fFWU1P6jmpu01NMcAq65TezYESrdVSuWsl+9C9Vj4CV1Sul+
+  t=1777543518; x=1809079518;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=43/PYTKoM5Si0NIj9BiQpEm3hIxxN21kEzjN//oZk2c=;
+  b=ewglzuO2k9LLXrjSWyS6OI/3iKUv3aOls09XNTVsMyU8240RTcoGkiaP
+   AhRhwGcTHuOTqaAnEKhS4KqgZuAAmEX6wAqBNdAdbfVZc4PAmwIQzguZW
+   5MdAaYGtcV4KnReYgW42OubmihYuvuFzxW4EWMma86mZ2DqWxsDl1XJhO
+   4r/vZnLbSHiDvw8N4eymDc8zYmrGlQ8O+Eve2XJtAyOgA14OQiVBqH+2E
+   L/xiePGpHfQmQ9U/jUi0KIpgzWYNgcDkn3unvtw3rwYVqzz5RZhDXMmPw
+   +EmSXn5bsBBtqzFTiUPIwXQW9V84Q2NYOBwr9SfMnvJ2Bq2MhI9pmgdAI
    A==;
-X-CSE-ConnectionGUID: f7SEsTYMRRKVqT6ykwSd4w==
-X-CSE-MsgGUID: M6RoBdZmSJmoC2PUCdUFjw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="81065526"
+X-CSE-ConnectionGUID: QGcIAXNVRwSJ2Ua1rF5K6A==
+X-CSE-MsgGUID: zQhmu19yQPeRqFn6mK+TKw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="101153183"
 X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
-   d="scan'208";a="81065526"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 02:55:36 -0700
-X-CSE-ConnectionGUID: J3SXjjh/RTihRT0cb9lI3Q==
-X-CSE-MsgGUID: p1VMTUztRmSAbFfV7tjRyQ==
+   d="scan'208";a="101153183"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 03:05:17 -0700
+X-CSE-ConnectionGUID: 4eINE8sUQdOCWlG9SAe+Vg==
+X-CSE-MsgGUID: eLSDstEeSa6KHP0wrJRw4w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
-   d="scan'208";a="234428210"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 30 Apr 2026 02:55:35 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="229932585"
+Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 30 Apr 2026 03:05:14 -0700
+Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wIO7I-000000004nJ-1sHx;
-	Thu, 30 Apr 2026 09:55:32 +0000
-Date: Thu, 30 Apr 2026 11:55:07 +0200
+	id 1wIOGc-00000000CGW-3J3K;
+	Thu, 30 Apr 2026 10:05:10 +0000
+Date: Thu, 30 Apr 2026 18:04:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Golle <daniel@makrotopia.org>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: net/netfilter/nf_flow_table_offload.c:1080:60: error:
- incompatible type for argument 1 of 'dev_net'
-Message-ID: <202604301130.yR12CSul-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: wit_yuan <yuanzhaoming901030@126.com>, jk@codeconstruct.com.au
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	yuanzhaoming901030@126.com, yuanzm2@lenovo.com,
+	matt@codeconstruct.com.au, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] net:mctp: split mctp hdr version to ver and rsvd
+Message-ID: <202604301714.OQSuNMur-lkp@intel.com>
+References: <20260409125129.9210-1-yuanzhaoming901030@126.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260409125129.9210-1-yuanzhaoming901030@126.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Daniel-Golle/net-flow_offload-let-drivers-report-byte-counter-semantics/20260416-222603
-head:   dcabaf6b4b67a90cc0e0a91709c382a82c29f182
-commit: 73b3a08b530034da560fff6b3270293990e1110d nf_flow_table: convert hw byte counts and update sub-interface stats
-date:   2 weeks ago
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260430/202604301130.yR12CSul-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604301130.yR12CSul-lkp@intel.com/reproduce)
+Hi wit_yuan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v7.1-rc1 next-20260429]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/wit_yuan/net-mctp-split-mctp-hdr-version-to-ver-and-rsvd/20260414-044431
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260409125129.9210-1-yuanzhaoming901030%40126.com
+patch subject: [PATCH] net:mctp: split mctp hdr version to ver and rsvd
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260430/202604301714.OQSuNMur-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604301714.OQSuNMur-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604301130.yR12CSul-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604301714.OQSuNMur-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   net/netfilter/nf_flow_table_offload.c: In function 'flow_offload_update_encap_stats':
->> net/netfilter/nf_flow_table_offload.c:1080:60: error: incompatible type for argument 1 of 'dev_net'
-    1080 |                 dev = dev_get_by_index_rcu(dev_net(flow->ct->ct_net),
-         |                                                    ~~~~~~~~^~~~~~~~
-         |                                                            |
-         |                                                            possible_net_t
-   In file included from include/linux/netfilter.h:16,
-                    from net/netfilter/nf_flow_table_offload.c:5:
-   include/linux/netdevice.h:2745:46: note: expected 'const struct net_device *' but argument is of type 'possible_net_t'
-    2745 | struct net *dev_net(const struct net_device *dev)
-         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-   net/netfilter/nf_flow_table_offload.c:1095:60: error: incompatible type for argument 1 of 'dev_net'
-    1095 |                 dev = dev_get_by_index_rcu(dev_net(flow->ct->ct_net),
-         |                                                    ~~~~~~~~^~~~~~~~
-         |                                                            |
-         |                                                            possible_net_t
-   include/linux/netdevice.h:2745:46: note: expected 'const struct net_device *' but argument is of type 'possible_net_t'
-    2745 | struct net *dev_net(const struct net_device *dev)
-         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+   In file included from net/mctp/route.c:1793:
+>> net/mctp/test/route-test.c:70:3: error: invalid application of 'typeof' to bit-field
+                   KUNIT_EXPECT_EQ(test, hdr2->ver, hdr.ver);
+                   ^
+   include/kunit/test.h:1033:2: note: expanded from macro 'KUNIT_EXPECT_EQ'
+           KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+           ^
+   include/kunit/test.h:1036:2: note: expanded from macro 'KUNIT_EXPECT_EQ_MSG'
+           KUNIT_BINARY_INT_ASSERTION(test,                                       \
+           ^
+   include/kunit/test.h:869:2: note: expanded from macro 'KUNIT_BINARY_INT_ASSERTION'
+           KUNIT_BASE_BINARY_ASSERTION(test,                                      \
+           ^
+   include/kunit/test.h:839:14: note: expanded from macro 'KUNIT_BASE_BINARY_ASSERTION'
+           const typeof(left) __left = (left);                                    \
+                       ^
+   In file included from net/mctp/route.c:1793:
+>> net/mctp/test/route-test.c:70:3: error: invalid application of 'typeof' to bit-field
+   include/kunit/test.h:1033:2: note: expanded from macro 'KUNIT_EXPECT_EQ'
+           KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+           ^
+   include/kunit/test.h:1036:2: note: expanded from macro 'KUNIT_EXPECT_EQ_MSG'
+           KUNIT_BINARY_INT_ASSERTION(test,                                       \
+           ^
+   include/kunit/test.h:869:2: note: expanded from macro 'KUNIT_BINARY_INT_ASSERTION'
+           KUNIT_BASE_BINARY_ASSERTION(test,                                      \
+           ^
+   include/kunit/test.h:840:14: note: expanded from macro 'KUNIT_BASE_BINARY_ASSERTION'
+           const typeof(right) __right = (right);                                 \
+                       ^
+   2 errors generated.
 
 
-vim +/dev_net +1080 net/netfilter/nf_flow_table_offload.c
+vim +/typeof +70 net/mctp/test/route-test.c
 
-  1058	
-  1059	/* Update sub-interface (VLAN, PPPoE) stats for hw-offloaded flows.
-  1060	 *
-  1061	 * The driver reports L3 (IP) bytes. Each sub-interface in the
-  1062	 * software path sees the frame with the headers of all layers
-  1063	 * BELOW it still present, so we add back inner-layer overhead.
-  1064	 *
-  1065	 * encap[] is ordered outermost to innermost, so walk from the
-  1066	 * innermost layer outward, accumulating overhead as we go.
-  1067	 */
-  1068	static void flow_offload_update_encap_stats(struct flow_offload *flow,
-  1069						    struct flow_offload_tuple *tuple,
-  1070						    bool rx, u64 pkts, u64 bytes)
-  1071	{
-  1072		struct net_device *dev;
-  1073		int inner_hlen = 0;
-  1074		int i;
-  1075	
-  1076		for (i = tuple->encap_num - 1; i >= 0; i--) {
-  1077			if (tuple->in_vlan_ingress & BIT(i))
-  1078				continue;
-  1079	
-> 1080			dev = dev_get_by_index_rcu(dev_net(flow->ct->ct_net),
-  1081						   tuple->encap_ifidx[i]);
-  1082			if (dev)
-  1083				flow_offload_encap_netstats(dev,
-  1084							    tuple->encap[i].proto, rx,
-  1085							    pkts,
-  1086							    bytes + inner_hlen * pkts);
-  1087	
-  1088			inner_hlen += flow_offload_encap_hlen(tuple, i);
-  1089		}
-  1090	
-  1091		/* Bridge device sits outside all encap layers -- it sees
-  1092		 * L3 bytes plus the full encap overhead.
-  1093		 */
-  1094		if (tuple->bridge_ifidx) {
-  1095			dev = dev_get_by_index_rcu(dev_net(flow->ct->ct_net),
-  1096						   tuple->bridge_ifidx);
-  1097			if (dev && dev->tstats)
-  1098				flow_offload_encap_netstats(dev, 0, rx, pkts,
-  1099							    bytes + inner_hlen * pkts);
-  1100		}
-  1101	}
-  1102	
+161eba50e183ed4 Jeremy Kerr 2021-10-03   19  
+161eba50e183ed4 Jeremy Kerr 2021-10-03   20  static void mctp_test_fragment(struct kunit *test)
+161eba50e183ed4 Jeremy Kerr 2021-10-03   21  {
+161eba50e183ed4 Jeremy Kerr 2021-10-03   22  	const struct mctp_frag_test *params;
+161eba50e183ed4 Jeremy Kerr 2021-10-03   23  	int rc, i, n, mtu, msgsize;
+269936db5eb3962 Jeremy Kerr 2025-07-02   24  	struct mctp_test_dev *dev;
+269936db5eb3962 Jeremy Kerr 2025-07-02   25  	struct mctp_dst dst;
+161eba50e183ed4 Jeremy Kerr 2021-10-03   26  	struct sk_buff *skb;
+161eba50e183ed4 Jeremy Kerr 2021-10-03   27  	struct mctp_hdr hdr;
+161eba50e183ed4 Jeremy Kerr 2021-10-03   28  	u8 seq;
+161eba50e183ed4 Jeremy Kerr 2021-10-03   29  
+161eba50e183ed4 Jeremy Kerr 2021-10-03   30  	params = test->param_value;
+161eba50e183ed4 Jeremy Kerr 2021-10-03   31  	mtu = params->mtu;
+161eba50e183ed4 Jeremy Kerr 2021-10-03   32  	msgsize = params->msgsize;
+161eba50e183ed4 Jeremy Kerr 2021-10-03   33  
+161eba50e183ed4 Jeremy Kerr 2021-10-03   34  	hdr.ver = 1;
+161eba50e183ed4 Jeremy Kerr 2021-10-03   35  	hdr.src = 8;
+161eba50e183ed4 Jeremy Kerr 2021-10-03   36  	hdr.dest = 10;
+161eba50e183ed4 Jeremy Kerr 2021-10-03   37  	hdr.flags_seq_tag = MCTP_HDR_FLAG_TO;
+161eba50e183ed4 Jeremy Kerr 2021-10-03   38  
+161eba50e183ed4 Jeremy Kerr 2021-10-03   39  	skb = mctp_test_create_skb(&hdr, msgsize);
+161eba50e183ed4 Jeremy Kerr 2021-10-03   40  	KUNIT_ASSERT_TRUE(test, skb);
+161eba50e183ed4 Jeremy Kerr 2021-10-03   41  
+269936db5eb3962 Jeremy Kerr 2025-07-02   42  	dev = mctp_test_create_dev();
+269936db5eb3962 Jeremy Kerr 2025-07-02   43  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
+269936db5eb3962 Jeremy Kerr 2025-07-02   44  
+6ab578739a4c1f5 Jeremy Kerr 2025-11-26   45  	mctp_test_dst_setup(test, &dst, dev, mtu);
+161eba50e183ed4 Jeremy Kerr 2021-10-03   46  
+269936db5eb3962 Jeremy Kerr 2025-07-02   47  	rc = mctp_do_fragment_route(&dst, skb, mtu, MCTP_TAG_OWNER);
+161eba50e183ed4 Jeremy Kerr 2021-10-03   48  	KUNIT_EXPECT_FALSE(test, rc);
+161eba50e183ed4 Jeremy Kerr 2021-10-03   49  
+6ab578739a4c1f5 Jeremy Kerr 2025-11-26   50  	n = dev->pkts.qlen;
+161eba50e183ed4 Jeremy Kerr 2021-10-03   51  	KUNIT_EXPECT_EQ(test, n, params->n_frags);
+161eba50e183ed4 Jeremy Kerr 2021-10-03   52  
+161eba50e183ed4 Jeremy Kerr 2021-10-03   53  	for (i = 0;; i++) {
+161eba50e183ed4 Jeremy Kerr 2021-10-03   54  		struct mctp_hdr *hdr2;
+161eba50e183ed4 Jeremy Kerr 2021-10-03   55  		struct sk_buff *skb2;
+161eba50e183ed4 Jeremy Kerr 2021-10-03   56  		u8 tag_mask, seq2;
+161eba50e183ed4 Jeremy Kerr 2021-10-03   57  		bool first, last;
+161eba50e183ed4 Jeremy Kerr 2021-10-03   58  
+161eba50e183ed4 Jeremy Kerr 2021-10-03   59  		first = i == 0;
+161eba50e183ed4 Jeremy Kerr 2021-10-03   60  		last = i == (n - 1);
+161eba50e183ed4 Jeremy Kerr 2021-10-03   61  
+6ab578739a4c1f5 Jeremy Kerr 2025-11-26   62  		skb2 = skb_dequeue(&dev->pkts);
+161eba50e183ed4 Jeremy Kerr 2021-10-03   63  		if (!skb2)
+161eba50e183ed4 Jeremy Kerr 2021-10-03   64  			break;
+161eba50e183ed4 Jeremy Kerr 2021-10-03   65  
+161eba50e183ed4 Jeremy Kerr 2021-10-03   66  		hdr2 = mctp_hdr(skb2);
+161eba50e183ed4 Jeremy Kerr 2021-10-03   67  
+161eba50e183ed4 Jeremy Kerr 2021-10-03   68  		tag_mask = MCTP_HDR_TAG_MASK | MCTP_HDR_FLAG_TO;
+161eba50e183ed4 Jeremy Kerr 2021-10-03   69  
+161eba50e183ed4 Jeremy Kerr 2021-10-03  @70  		KUNIT_EXPECT_EQ(test, hdr2->ver, hdr.ver);
+161eba50e183ed4 Jeremy Kerr 2021-10-03   71  		KUNIT_EXPECT_EQ(test, hdr2->src, hdr.src);
+161eba50e183ed4 Jeremy Kerr 2021-10-03   72  		KUNIT_EXPECT_EQ(test, hdr2->dest, hdr.dest);
+161eba50e183ed4 Jeremy Kerr 2021-10-03   73  		KUNIT_EXPECT_EQ(test, hdr2->flags_seq_tag & tag_mask,
+161eba50e183ed4 Jeremy Kerr 2021-10-03   74  				hdr.flags_seq_tag & tag_mask);
+161eba50e183ed4 Jeremy Kerr 2021-10-03   75  
+161eba50e183ed4 Jeremy Kerr 2021-10-03   76  		KUNIT_EXPECT_EQ(test,
+161eba50e183ed4 Jeremy Kerr 2021-10-03   77  				!!(hdr2->flags_seq_tag & MCTP_HDR_FLAG_SOM), first);
+161eba50e183ed4 Jeremy Kerr 2021-10-03   78  		KUNIT_EXPECT_EQ(test,
+161eba50e183ed4 Jeremy Kerr 2021-10-03   79  				!!(hdr2->flags_seq_tag & MCTP_HDR_FLAG_EOM), last);
+161eba50e183ed4 Jeremy Kerr 2021-10-03   80  
+161eba50e183ed4 Jeremy Kerr 2021-10-03   81  		seq2 = (hdr2->flags_seq_tag >> MCTP_HDR_SEQ_SHIFT) &
+161eba50e183ed4 Jeremy Kerr 2021-10-03   82  			MCTP_HDR_SEQ_MASK;
+161eba50e183ed4 Jeremy Kerr 2021-10-03   83  
+161eba50e183ed4 Jeremy Kerr 2021-10-03   84  		if (first) {
+161eba50e183ed4 Jeremy Kerr 2021-10-03   85  			seq = seq2;
+161eba50e183ed4 Jeremy Kerr 2021-10-03   86  		} else {
+161eba50e183ed4 Jeremy Kerr 2021-10-03   87  			seq++;
+161eba50e183ed4 Jeremy Kerr 2021-10-03   88  			KUNIT_EXPECT_EQ(test, seq2, seq & MCTP_HDR_SEQ_MASK);
+161eba50e183ed4 Jeremy Kerr 2021-10-03   89  		}
+161eba50e183ed4 Jeremy Kerr 2021-10-03   90  
+161eba50e183ed4 Jeremy Kerr 2021-10-03   91  		if (!last)
+161eba50e183ed4 Jeremy Kerr 2021-10-03   92  			KUNIT_EXPECT_EQ(test, skb2->len, mtu);
+161eba50e183ed4 Jeremy Kerr 2021-10-03   93  		else
+161eba50e183ed4 Jeremy Kerr 2021-10-03   94  			KUNIT_EXPECT_LE(test, skb2->len, mtu);
+161eba50e183ed4 Jeremy Kerr 2021-10-03   95  
+161eba50e183ed4 Jeremy Kerr 2021-10-03   96  		kfree_skb(skb2);
+161eba50e183ed4 Jeremy Kerr 2021-10-03   97  	}
+161eba50e183ed4 Jeremy Kerr 2021-10-03   98  
+6ab578739a4c1f5 Jeremy Kerr 2025-11-26   99  	mctp_dst_release(&dst);
+269936db5eb3962 Jeremy Kerr 2025-07-02  100  	mctp_test_destroy_dev(dev);
+161eba50e183ed4 Jeremy Kerr 2021-10-03  101  }
+161eba50e183ed4 Jeremy Kerr 2021-10-03  102  
 
 -- 
 0-DAY CI Kernel Test Service
