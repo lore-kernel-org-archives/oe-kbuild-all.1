@@ -1,318 +1,193 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2954730FC34
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Apr 2026 15:41:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7439F44B679
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Apr 2026 15:49:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777563662; cv=none; b=sFm8i3YPQcFxysz+XWmn4hWZwk5vFTIFVhCgfnEt9u4NwxjUrzKLSlROid0y/Z8JzEGTZd4KTHcckqQ/dTOxytpYpZxBkraf0bMDcZcrsDnz/TYczVshmvs/dbw8Hdc4wAvZtvf9USaO5duZUgt4EX9msRhrkb7Tw/opN3NXjxQ=
+	t=1777564183; cv=none; b=ldPtV53fp8S3k1av4nWNf1x2h0cWhi6NCn3AqAFTub5EFGQFzQQCl/mez8p9M3V0dMRGW0wHJui/KB5fPHFoQdaWpb89jWS1Ynv4xPVN4qOHAPKtNZ9Z6gWICp8Tz3NA9ZIYzwitPR5onVKboA/1zI3EHkUu1jnZGRwy+z6SKtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777563662; c=relaxed/simple;
-	bh=6F4FIqvRlAxLMiyzjB1a0Loef1xYOuziOaEvpkQ9tjE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=faNNzOmvmDuCGUHmAx60FXJqvyUxhdX0Dq2zWoV2kyN9IOHdZWmb+6mUQpOSUOzdZ5HbG6XJkg0cihIG9DAl0LypXG7mVhQqDAZ57XJwvWgCa4vYv0FqNQtRg6Zw8Vgzbtx1ZP1au7vVirhu2VbNfrfi2iZHaL+Q3IUnF5hhzzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rd5OUgGv; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777564183; c=relaxed/simple;
+	bh=GeY1UMVQV7uEtbTBXvv8knlOVibm6unWQND/aCAhqjc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=IE6mTgjcCyp2d46iqeKPgNujC6s+ygofq4CpQS8XS1rme6nwkPE4OkImydQBl8HPqP8Lpw3hGmiOtnjWFccYQNjzmWGhpmEYqQ95Bf4KnW5dKWM/S4n/xrzNMBqmkJw4Uu39MU/cMPUS7is0FjvvL4xI8PyONXKkI0CTTxZK8u4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RZfj/OCm; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rd5OUgGv"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4891e86fabeso13795065e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Apr 2026 08:41:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777563659; x=1778168459; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/MHpRBHdNTVeiHYde/smY3bJSKHcAn6/QCWkGp6rSLM=;
-        b=rd5OUgGvSn0cqGlta2t8oIJGbrSNeZiN0nqN4UGc43X5NJQ+GTlITmH1dskDjqC7fs
-         96Unri7zphyt3pOrT99OR6DLWMwoYwp7MtDhCr5oAiy8esIzZuzK5lZrMwVt1AgVL3+i
-         Hexo2sHB0HEVy4/i/HkKUopdrn22wCzUNNN88kxzdrm9eUS/GkcI5d61XJO+2wtVTICC
-         GQRSz0q0p4OsFSzW3rTmTFLt4t9knP6M/4uDQPgZJZQdzxWBG4IfPwNuLXYeQ/gcRjjX
-         0BnT4ugKJJ6eTjQcgxDGAKEac1MhAIxdF2/A1wEEd2wm/VkSkN/i8QTTnyIjrvoDt8Yy
-         kLqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777563659; x=1778168459;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=/MHpRBHdNTVeiHYde/smY3bJSKHcAn6/QCWkGp6rSLM=;
-        b=d9qef0dF5I2hAkC20wW5XEDBCgwhFmeb0et/HqqQie2Zrxl+eR1msXcjGEe0zbrxnD
-         cZ3+8I0G7JZGq3FxyqobRQYeycpzn5ThLtlcTKeb/RcpqKeHD5vAIN1p/KlkLjJjeX4e
-         tlmw4Nm4ElORc50ucHy7fbsS7H2U7/+aSsoS0aueqk2a9a9THkjZHf6Cm6Xf3zQQxJnW
-         qStxUBWgqx/K9sjq7EqRp5O4+cFO25OQPYiRCaLFrrHlAwled8Fmy8ThI2Fw/gZK0d1E
-         YzBLulo+iU1ltuKqMelml1Zp02COoqNFKXKS564LOOEyiSJYVqjXxMSAv0NLXhMChx2E
-         WmfA==
-X-Forwarded-Encrypted: i=1; AFNElJ8FjtNi9jGN8Uaf9v8A4kzovnoYvqcsnaw4nU56R4b3pAFlug66t5jkF79pYvMQo0eTUKCDmxjZpUaKE8eF@lists.linux.dev
-X-Gm-Message-State: AOJu0YwyxbBnAGM9W8PxigPRVBXNPV9L73sfDtcQIWci4FFM3wTDcOa3
-	N6Q821OAaT8M7Zwb/Newd3J8Xt2Bwo9mgPntTcTHJ5vEiRoe34rl+MqLIn88/H/kc9LVRw==
-X-Gm-Gg: AeBDieta8NnJQ7Bb8Ibl/SOY+R6ZrvKwGzTYsThYkN3UmgFBDBN5nQczhtOyRxP2ViT
-	h6vageU46QtUWGvXrFbAlu4jrzccaysLyrteS1RPl68F8cyp7CqzqdzK6rH0MdCxbzlpOMSjCpw
-	IZDQcEWtJPmCRxRnE3VqWi0cg4UFix6JxX0sbr5wtf0Np+WjGluybN3Ub9RA3LUSieo9mqhJguG
-	I/dT1x/m3Q4hGvWLx81RFigRSeLYc9sZTGtxSuB2b5y+tZX+ikmNhqTegYBVxLkOhFIiAjEPaf9
-	oGEtg7h7nQ208AGyOQlX7Kcsd6mzPU0xaBuNkTdUqOfc0Z7m8TQSjTR7Vpg5IMV0cSgqN37ncGf
-	jBlRrkeMf3GnN/BQp2iuuMt62Mmf3v01u3VkaxqWIIXGHBvjf2jKWBFT5LzistJVXmVViFg5L2V
-	2mfs628aFh9mfbLMEcfQPZ+FOeVS32RObJ6sHJM2Fw2oi/L4O5kqqbXMcbZXVoTTcs8zkXddyVE
-	/BI3TJBFMfsGAxo/Mz7lG2CPQT6C7163V/OYA==
-X-Received: by 2002:a05:600c:c10b:b0:488:8840:e5ae with SMTP id 5b1f17b1804b1-48a8445876dmr49276425e9.24.1777563659236;
-        Thu, 30 Apr 2026 08:40:59 -0700 (PDT)
-Received: from localhost.localdomain ([2a00:a041:e04f:2600:f9d2:9c9e:9a42:5d91])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a7c31fb8asm43928545e9.30.2026.04.30.08.40.57
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 30 Apr 2026 08:40:58 -0700 (PDT)
-From: "SnailSploit | Kai Aizen" <kai.aizen.dev@gmail.com>
-X-Google-Original-From: SnailSploit | Kai Aizen <95986478+SnailSploit@users.noreply.github.com>
-To: netdev@vger.kernel.org
-Cc: stable@vger.kernel.org,
-	jmaloy@redhat.com,
-	ying.xue@windriver.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	tipc-discussion@lists.sourceforge.net,
-	tung.q.nguyen@dektech.com.au,
-	lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev,
-	syzkaller-bugs@googlegroups.com,
-	"SnailSploit | Kai Aizen" <95986478+SnailSploit@users.noreply.github.com>,
-	syzbot ci <syzbot+ci779e8ed86620f383@syzkaller.appspotmail.com>
-Subject: [PATCH net v3] tipc: fix UAF race in tipc_mon_peer_up/down/remove_peer vs bearer teardown
-Date: Thu, 30 Apr 2026 18:40:55 +0300
-Message-ID: <80ae67e96de2f702028e5bacc89db4575e1531ca.1777559945.git.kai.aizen.dev@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <CALynFi5d0DuGW50xq7xQnsDPdEuN5jBGTqh8bcsUwxk6L-FAdA@mail.gmail.com>
-References: <CALynFi5d0DuGW50xq7xQnsDPdEuN5jBGTqh8bcsUwxk6L-FAdA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RZfj/OCm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777564181; x=1809100181;
+  h=date:from:to:cc:subject:message-id;
+  bh=GeY1UMVQV7uEtbTBXvv8knlOVibm6unWQND/aCAhqjc=;
+  b=RZfj/OCmOUiYEcAPHToYzrgbLTal9BPtvj26QBZHbTH2bXm8CWK3VUNt
+   ZAc9HmFpQy4AGblihYhhSzOP4ld6pSgomkVav+p38+/hcao7NDspRVmAS
+   LQPnInEk8ZdcZBnypKIm2/PoK3wzs7vwNNOCej0RJnjlLWu0J+Wyk2Os9
+   DSztiD/nAcqKBjmaKq2j5+UTiO+wPKHWqsUaM0KkJQ8K/r5+vCpbQSJGb
+   Jkyoma189aWtGvaNlEdaqAFRoHBY8lYKZGUNZHw+k5/5vpTQNoyc8wrMR
+   y4o/2dDfUFURe7dsqdvK2XUgNXfrZgJIi3NYCuMQNQuLY4jZo/sJPHd80
+   g==;
+X-CSE-ConnectionGUID: tYdOtnqlReuOCKuEUI4iUQ==
+X-CSE-MsgGUID: Nzv1bVBQTiiqsFZa0HjKUQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11772"; a="66054624"
+X-IronPort-AV: E=Sophos;i="6.23,208,1770624000"; 
+   d="scan'208";a="66054624"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 08:49:40 -0700
+X-CSE-ConnectionGUID: ce8aESiLR0u6cO/WPDEdhg==
+X-CSE-MsgGUID: +LWVFC6hSIyFfyMsgiDwiA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,208,1770624000"; 
+   d="scan'208";a="238604298"
+Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 30 Apr 2026 08:49:38 -0700
+Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wITdv-00000000CYK-1YNF;
+	Thu, 30 Apr 2026 15:49:35 +0000
+Date: Thu, 30 Apr 2026 23:49:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sudeep Holla <sudeep.holla@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Guenter Roeck <linux@roeck-us.net>
+Subject: drivers/hwmon/xgene-hwmon.c:540:38: sparse: sparse:
+ incorrect type in argument 1 (different address spaces)
+Message-ID: <202604302337.B8E9w0uX-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Message-ID: <20260430154055.ItGy8Ehuc7RGk6Z9zchOEodw_WihnLUQoOxgxiLsL8U@z>
 
-From: "SnailSploit | Kai Aizen" <95986478+SnailSploit@users.noreply.github.com>
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e75a43c7cec459a07d91ed17de4de13ede2b7758
+commit: 80fcd1e7f5c7009fa1c64737df100cc304c19c1f hwmon: (xgene-hwmon) Simplify PCC shared memory region handling
+date:   1 year ago
+config: x86_64-randconfig-123-20260430 (https://download.01.org/0day-ci/archive/20260430/202604302337.B8E9w0uX-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604302337.B8E9w0uX-lkp@intel.com/reproduce)
 
-CVE-2025-40280 fixed tipc_mon_reinit_self() accessing monitors[] from a
-workqueue without RTNL.  That patch closed the workqueue path by adding
-rtnl_lock() around the call.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Fixes: 80fcd1e7f5c7 ("hwmon: (xgene-hwmon) Simplify PCC shared memory region handling")
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604302337.B8E9w0uX-lkp@intel.com/
 
-However, three additional functions in the same subsystem access
-tipc_net->monitors[] from softirq context with no RCU protection at all:
+sparse warnings: (new ones prefixed by >>)
+   drivers/hwmon/xgene-hwmon.c:116:15: sparse: sparse: cast to restricted __le16
+   drivers/hwmon/xgene-hwmon.c:119:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short volatile @@     got restricted __le16 [usertype] @@
+   drivers/hwmon/xgene-hwmon.c:119:9: sparse:     expected unsigned short volatile
+   drivers/hwmon/xgene-hwmon.c:119:9: sparse:     got restricted __le16 [usertype]
+   drivers/hwmon/xgene-hwmon.c:128:21: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/hwmon/xgene-hwmon.c:137:9: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/hwmon/xgene-hwmon.c:137:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile @@     got restricted __le32 [usertype] @@
+   drivers/hwmon/xgene-hwmon.c:137:9: sparse:     expected unsigned int volatile
+   drivers/hwmon/xgene-hwmon.c:137:9: sparse:     got restricted __le32 [usertype]
+   drivers/hwmon/xgene-hwmon.c:141:9: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/hwmon/xgene-hwmon.c:141:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short volatile @@     got restricted __le16 [usertype] @@
+   drivers/hwmon/xgene-hwmon.c:141:9: sparse:     expected unsigned short volatile
+   drivers/hwmon/xgene-hwmon.c:141:9: sparse:     got restricted __le16 [usertype]
+   drivers/hwmon/xgene-hwmon.c:145:15: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/hwmon/xgene-hwmon.c:145:15: sparse: sparse: cast to restricted __le16
+   drivers/hwmon/xgene-hwmon.c:147:9: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/hwmon/xgene-hwmon.c:147:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short volatile @@     got restricted __le16 [usertype] @@
+   drivers/hwmon/xgene-hwmon.c:147:9: sparse:     expected unsigned short volatile
+   drivers/hwmon/xgene-hwmon.c:147:9: sparse:     got restricted __le16 [usertype]
+   drivers/hwmon/xgene-hwmon.c:151:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile @@     got restricted __le32 [usertype] @@
+   drivers/hwmon/xgene-hwmon.c:151:17: sparse:     expected unsigned int volatile
+   drivers/hwmon/xgene-hwmon.c:151:17: sparse:     got restricted __le32 [usertype]
+   drivers/hwmon/xgene-hwmon.c:538:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *msg @@     got struct acpi_pcct_shared_memory [noderef] __iomem * @@
+   drivers/hwmon/xgene-hwmon.c:538:13: sparse:     expected void *msg
+   drivers/hwmon/xgene-hwmon.c:538:13: sparse:     got struct acpi_pcct_shared_memory [noderef] __iomem *
+>> drivers/hwmon/xgene-hwmon.c:540:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned short [usertype] *addr @@     got unsigned short [noderef] __iomem * @@
+   drivers/hwmon/xgene-hwmon.c:540:38: sparse:     expected unsigned short [usertype] *addr
+   drivers/hwmon/xgene-hwmon.c:540:38: sparse:     got unsigned short [noderef] __iomem *
+   drivers/hwmon/xgene-hwmon.c:562:45: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned short [usertype] *addr @@     got unsigned short [noderef] __iomem * @@
+   drivers/hwmon/xgene-hwmon.c:562:45: sparse:     expected unsigned short [usertype] *addr
+   drivers/hwmon/xgene-hwmon.c:562:45: sparse:     got unsigned short [noderef] __iomem *
 
-  tipc_mon_peer_up()     - called from tipc_node_write_unlock()
-  tipc_mon_peer_down()   - called from tipc_node_write_unlock()
-  tipc_mon_remove_peer() - called from tipc_node_link_down()
+vim +540 drivers/hwmon/xgene-hwmon.c
 
-These are invoked from the packet receive path (tipc_rcv ->
-tipc_node_write_unlock / tipc_node_link_down) and hold only the per-node
-rwlock, not RTNL.
+ed42cfa881e1d8d hotran       2016-07-21  518  
+ed42cfa881e1d8d hotran       2016-07-21  519  /*
+ed42cfa881e1d8d hotran       2016-07-21  520   * This function is called when the PCC Mailbox received a message
+ed42cfa881e1d8d hotran       2016-07-21  521   */
+ed42cfa881e1d8d hotran       2016-07-21  522  static void xgene_hwmon_pcc_rx_cb(struct mbox_client *cl, void *msg)
+ed42cfa881e1d8d hotran       2016-07-21  523  {
+ed42cfa881e1d8d hotran       2016-07-21  524  	struct xgene_hwmon_dev *ctx = to_xgene_hwmon_dev(cl);
+80fcd1e7f5c7009 Sudeep Holla 2025-04-11  525  	struct acpi_pcct_shared_memory __iomem *generic_comm_base =
+80fcd1e7f5c7009 Sudeep Holla 2025-04-11  526  							ctx->pcc_chan->shmem;
+ed42cfa881e1d8d hotran       2016-07-21  527  	struct slimpro_resp_msg amsg;
+ed42cfa881e1d8d hotran       2016-07-21  528  
+2ca492e22cb70a0 hotran       2016-09-08  529  	/*
+2ca492e22cb70a0 hotran       2016-09-08  530  	 * While the driver registers with the mailbox framework, an interrupt
+2ca492e22cb70a0 hotran       2016-09-08  531  	 * can be pending before the probe function completes its
+2ca492e22cb70a0 hotran       2016-09-08  532  	 * initialization. If such condition occurs, just queue up the message
+2ca492e22cb70a0 hotran       2016-09-08  533  	 * as the driver is not ready for servicing the callback.
+2ca492e22cb70a0 hotran       2016-09-08  534  	 */
+2ca492e22cb70a0 hotran       2016-09-08  535  	if (xgene_hwmon_rx_ready(ctx, &amsg) < 0)
+2ca492e22cb70a0 hotran       2016-09-08  536  		return;
+2ca492e22cb70a0 hotran       2016-09-08  537  
+ed42cfa881e1d8d hotran       2016-07-21  538  	msg = generic_comm_base + 1;
+ed42cfa881e1d8d hotran       2016-07-21  539  	/* Check if platform sends interrupt */
+ed42cfa881e1d8d hotran       2016-07-21 @540  	if (!xgene_word_tst_and_clr(&generic_comm_base->status,
+2cf39b806be7466 Sudeep Holla 2023-09-27  541  				    PCC_STATUS_SCI_DOORBELL))
+ed42cfa881e1d8d hotran       2016-07-21  542  		return;
+ed42cfa881e1d8d hotran       2016-07-21  543  
+ed42cfa881e1d8d hotran       2016-07-21  544  	/*
+ed42cfa881e1d8d hotran       2016-07-21  545  	 * Response message format:
+ed42cfa881e1d8d hotran       2016-07-21  546  	 * msg[0] is the return code of the operation
+ed42cfa881e1d8d hotran       2016-07-21  547  	 * msg[1] is the first parameter word
+ed42cfa881e1d8d hotran       2016-07-21  548  	 * msg[2] is the second parameter word
+ed42cfa881e1d8d hotran       2016-07-21  549  	 *
+ed42cfa881e1d8d hotran       2016-07-21  550  	 * As message only supports dword size, just assign it.
+ed42cfa881e1d8d hotran       2016-07-21  551  	 */
+ed42cfa881e1d8d hotran       2016-07-21  552  
+ed42cfa881e1d8d hotran       2016-07-21  553  	/* Check for sync query */
+ed42cfa881e1d8d hotran       2016-07-21  554  	if (ctx->resp_pending &&
+ed42cfa881e1d8d hotran       2016-07-21  555  	    ((MSG_TYPE(((u32 *)msg)[0]) == MSG_TYPE_ERR) ||
+ed42cfa881e1d8d hotran       2016-07-21  556  	     (MSG_TYPE(((u32 *)msg)[0]) == MSG_TYPE_DBG &&
+ed42cfa881e1d8d hotran       2016-07-21  557  	      MSG_SUBTYPE(((u32 *)msg)[0]) == DBG_SUBTYPE_SENSOR_READ) ||
+ed42cfa881e1d8d hotran       2016-07-21  558  	     (MSG_TYPE(((u32 *)msg)[0]) == MSG_TYPE_PWRMGMT &&
+ed42cfa881e1d8d hotran       2016-07-21  559  	      MSG_SUBTYPE(((u32 *)msg)[0]) == PWRMGMT_SUBTYPE_TPC &&
+ed42cfa881e1d8d hotran       2016-07-21  560  	      TPC_CMD(((u32 *)msg)[0]) == TPC_ALARM))) {
+ed42cfa881e1d8d hotran       2016-07-21  561  		/* Check if platform completes command */
+ed42cfa881e1d8d hotran       2016-07-21  562  		if (xgene_word_tst_and_clr(&generic_comm_base->status,
+2cf39b806be7466 Sudeep Holla 2023-09-27  563  					   PCC_STATUS_CMD_COMPLETE)) {
+ed42cfa881e1d8d hotran       2016-07-21  564  			ctx->sync_msg.msg = ((u32 *)msg)[0];
+ed42cfa881e1d8d hotran       2016-07-21  565  			ctx->sync_msg.param1 = ((u32 *)msg)[1];
+ed42cfa881e1d8d hotran       2016-07-21  566  			ctx->sync_msg.param2 = ((u32 *)msg)[2];
+ed42cfa881e1d8d hotran       2016-07-21  567  
+ed42cfa881e1d8d hotran       2016-07-21  568  			/* Operation waiting for response */
+ed42cfa881e1d8d hotran       2016-07-21  569  			complete(&ctx->rd_complete);
+ed42cfa881e1d8d hotran       2016-07-21  570  
+ed42cfa881e1d8d hotran       2016-07-21  571  			return;
+ed42cfa881e1d8d hotran       2016-07-21  572  		}
+ed42cfa881e1d8d hotran       2016-07-21  573  	}
+ed42cfa881e1d8d hotran       2016-07-21  574  
+ed42cfa881e1d8d hotran       2016-07-21  575  	/*
+ed42cfa881e1d8d hotran       2016-07-21  576  	 * Platform notifies interrupt to OSPM.
+ed42cfa881e1d8d hotran       2016-07-21  577  	 * OPSM schedules a consumer command to get this information
+ed42cfa881e1d8d hotran       2016-07-21  578  	 * in a workqueue. Platform must wait until OSPM has issued
+ed42cfa881e1d8d hotran       2016-07-21  579  	 * a consumer command that serves this notification.
+ed42cfa881e1d8d hotran       2016-07-21  580  	 */
+ed42cfa881e1d8d hotran       2016-07-21  581  
+ed42cfa881e1d8d hotran       2016-07-21  582  	/* Enqueue to the FIFO */
+ed42cfa881e1d8d hotran       2016-07-21  583  	kfifo_in_spinlocked(&ctx->async_msg_fifo, &amsg,
+ed42cfa881e1d8d hotran       2016-07-21  584  			    sizeof(struct slimpro_resp_msg), &ctx->kfifo_lock);
+ed42cfa881e1d8d hotran       2016-07-21  585  	/* Schedule the bottom handler */
+ed42cfa881e1d8d hotran       2016-07-21  586  	schedule_work(&ctx->workq);
+ed42cfa881e1d8d hotran       2016-07-21  587  }
+ed42cfa881e1d8d hotran       2016-07-21  588  
 
-Concurrently, bearer_disable() -- which always holds RTNL -- calls
-tipc_mon_delete(), which sets tn->monitors[bearer_id] = NULL and then
-kfree(mon) without an RCU grace period. A softirq reader can observe
-the non-NULL slot, take a reference, get preempted, and resume after
-kfree(mon) on another CPU, dereferencing freed memory.
+:::::: The code at line 540 was first introduced by commit
+:::::: ed42cfa881e1d8d9603b7cb872199e3c8e0d1b19 hwmon: Add xgene hwmon driver
 
-Convert monitors[] to __rcu, use rcu_assign_pointer() on creation,
-RCU_INIT_POINTER() + synchronize_rcu() on deletion before kfree(), and
-the appropriate dereference variant at each read site:
+:::::: TO: hotran <hotran@apm.com>
+:::::: CC: Guenter Roeck <linux@roeck-us.net>
 
-  - tipc_monitor() returns rcu_dereference_bh(...) for softirq callers
-    (tipc_mon_peer_up/down/remove_peer/rcv/prep/get_state).
-  - tipc_monitor_rtnl() returns rtnl_dereference(...) for RTNL-held
-    callers (tipc_mon_delete via bearer_disable, tipc_mon_reinit_self
-    via tipc_net_finalize_work which wraps in rtnl_lock(), and the
-    netlink dump handlers tipc_nl_add_monitor_peer /
-    __tipc_nl_add_monitor).
-
-Also, get_self() was a thin wrapper over tipc_monitor() + ->self deref,
-duplicating the RCU-checked load that callers already perform on entry.
-With monitors[] becoming __rcu, get_self()'s use of tipc_monitor()
-generates a lockdep splat in tipc_mon_delete() (RTNL context) because
-the inner load is rcu_dereference_bh().  syzbot CI reported this on
-v1/v2 of this patch:
-
-  WARNING: suspicious RCU usage in tipc_mon_delete
-  net/tipc/monitor.c:108 suspicious rcu_dereference_check() usage!
-  ...
-  tipc_monitor_rcu_bh+0xf5/0x110  net/tipc/monitor.c:108
-  get_self                        net/tipc/monitor.c:209
-  tipc_mon_delete+0x10b/0x4d0     net/tipc/monitor.c:704
-
-Drop get_self() entirely.  Each existing caller already has a valid
-mon pointer from its initial RCU-correct load, and mon->self is the
-result get_self() was returning.  Replace each "self = get_self(...)"
-with "self = mon->self;".  This both removes the duplicate dereference
-and fixes the lockdep splat.
-
-synchronize_rcu() in tipc_mon_delete() is placed after
-write_unlock_bh() and before timer_shutdown_sync() + kfree() so all
-softirq readers that already observed the old pointer have completed
-before the memory is freed.
-
-Fixes: 35c55c9877f8 ("tipc: add neighbor monitoring framework")
-Cc: stable@vger.kernel.org
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202604301148.jfXKC9HF-lkp@intel.com/
-Reported-by: syzbot ci <syzbot+ci779e8ed86620f383@syzkaller.appspotmail.com>
-Closes: https://ci.syzbot.org/series/6267bc07-4172-4821-b3e5-dac381479d9d
-Signed-off-by: SnailSploit | Kai Aizen <95986478+SnailSploit@users.noreply.github.com>
----
- net/tipc/core.h    |  2 +-
- net/tipc/monitor.c | 42 +++++++++++++++++++++++-------------------
- 2 files changed, 24 insertions(+), 20 deletions(-)
-
-diff --git a/net/tipc/core.h b/net/tipc/core.h
-index 9ce5f9ff6..cd582f7a2 100644
---- a/net/tipc/core.h
-+++ b/net/tipc/core.h
-@@ -109,7 +109,7 @@ struct tipc_net {
- 	u32 num_links;
- 
- 	/* Neighbor monitoring list */
--	struct tipc_monitor *monitors[MAX_BEARERS];
-+	struct tipc_monitor __rcu *monitors[MAX_BEARERS];
- 	int mon_threshold;
- 
- 	/* Bearer list */
-diff --git a/net/tipc/monitor.c b/net/tipc/monitor.c
-index a94b9b36a..0095a62ae 100644
---- a/net/tipc/monitor.c
-+++ b/net/tipc/monitor.c
-@@ -99,7 +99,14 @@ struct tipc_monitor {
- 
- static struct tipc_monitor *tipc_monitor(struct net *net, int bearer_id)
- {
--	return tipc_net(net)->monitors[bearer_id];
-+	return rcu_dereference_bh(tipc_net(net)->monitors[bearer_id]);
-+}
-+
-+/* tipc_monitor_rtnl - dereference monitors[] from RTNL-held control path. */
-+static struct tipc_monitor * __maybe_unused
-+tipc_monitor_rtnl(struct net *net, int bearer_id)
-+{
-+	return rtnl_dereference(tipc_net(net)->monitors[bearer_id]);
- }
- 
- const int tipc_max_domain_size = sizeof(struct tipc_mon_domain);
-@@ -192,13 +199,6 @@ static struct tipc_peer *get_peer(struct tipc_monitor *mon, u32 addr)
- 	return NULL;
- }
- 
--static struct tipc_peer *get_self(struct net *net, int bearer_id)
--{
--	struct tipc_monitor *mon = tipc_monitor(net, bearer_id);
--
--	return mon->self;
--}
--
- static inline bool tipc_mon_is_active(struct net *net, struct tipc_monitor *mon)
- {
- 	struct tipc_net *tn = tipc_net(net);
-@@ -358,7 +358,7 @@ void tipc_mon_remove_peer(struct net *net, u32 addr, int bearer_id)
- 	if (!mon)
- 		return;
- 
--	self = get_self(net, bearer_id);
-+	self = mon->self;
- 	write_lock_bh(&mon->lock);
- 	peer = get_peer(mon, addr);
- 	if (!peer)
-@@ -422,9 +422,12 @@ static bool tipc_mon_add_peer(struct tipc_monitor *mon, u32 addr,
- void tipc_mon_peer_up(struct net *net, u32 addr, int bearer_id)
- {
- 	struct tipc_monitor *mon = tipc_monitor(net, bearer_id);
--	struct tipc_peer *self = get_self(net, bearer_id);
-+	struct tipc_peer *self;
- 	struct tipc_peer *peer, *head;
- 
-+	if (!mon)
-+		return;
-+	self = mon->self;
- 	write_lock_bh(&mon->lock);
- 	peer = get_peer(mon, addr);
- 	if (!peer && !tipc_mon_add_peer(mon, addr, &peer))
-@@ -449,7 +452,7 @@ void tipc_mon_peer_down(struct net *net, u32 addr, int bearer_id)
- 	if (!mon)
- 		return;
- 
--	self = get_self(net, bearer_id);
-+	self = mon->self;
- 	write_lock_bh(&mon->lock);
- 	peer = get_peer(mon, addr);
- 	if (!peer) {
-@@ -651,7 +654,7 @@ int tipc_mon_create(struct net *net, int bearer_id)
- 	struct tipc_peer *self;
- 	struct tipc_mon_domain *dom;
- 
--	if (tn->monitors[bearer_id])
-+	if (rtnl_dereference(tn->monitors[bearer_id]))
- 		return 0;
- 
- 	mon = kzalloc_obj(*mon, GFP_ATOMIC);
-@@ -663,7 +666,7 @@ int tipc_mon_create(struct net *net, int bearer_id)
- 		kfree(dom);
- 		return -ENOMEM;
- 	}
--	tn->monitors[bearer_id] = mon;
-+	rcu_assign_pointer(tn->monitors[bearer_id], mon);
- 	rwlock_init(&mon->lock);
- 	mon->net = net;
- 	mon->peer_cnt = 1;
-@@ -682,16 +685,16 @@ int tipc_mon_create(struct net *net, int bearer_id)
- void tipc_mon_delete(struct net *net, int bearer_id)
- {
- 	struct tipc_net *tn = tipc_net(net);
--	struct tipc_monitor *mon = tipc_monitor(net, bearer_id);
-+	struct tipc_monitor *mon = tipc_monitor_rtnl(net, bearer_id);
- 	struct tipc_peer *self;
- 	struct tipc_peer *peer, *tmp;
- 
- 	if (!mon)
- 		return;
- 
--	self = get_self(net, bearer_id);
-+	self = mon->self;
-+	RCU_INIT_POINTER(tn->monitors[bearer_id], NULL);
- 	write_lock_bh(&mon->lock);
--	tn->monitors[bearer_id] = NULL;
- 	list_for_each_entry_safe(peer, tmp, &self->list, list) {
- 		list_del(&peer->list);
- 		hlist_del(&peer->hash);
-@@ -700,6 +703,7 @@ void tipc_mon_delete(struct net *net, int bearer_id)
- 	}
- 	mon->self = NULL;
- 	write_unlock_bh(&mon->lock);
-+	synchronize_rcu();
- 	timer_shutdown_sync(&mon->timer);
- 	kfree(self->domain);
- 	kfree(self);
-@@ -712,7 +716,7 @@ void tipc_mon_reinit_self(struct net *net)
- 	int bearer_id;
- 
- 	for (bearer_id = 0; bearer_id < MAX_BEARERS; bearer_id++) {
--		mon = tipc_monitor(net, bearer_id);
-+		mon = tipc_monitor_rtnl(net, bearer_id);
- 		if (!mon)
- 			continue;
- 		write_lock_bh(&mon->lock);
-@@ -798,7 +802,7 @@ static int __tipc_nl_add_monitor_peer(struct tipc_peer *peer,
- int tipc_nl_add_monitor_peer(struct net *net, struct tipc_nl_msg *msg,
- 			     u32 bearer_id, u32 *prev_node)
- {
--	struct tipc_monitor *mon = tipc_monitor(net, bearer_id);
-+	struct tipc_monitor *mon = tipc_monitor_rtnl(net, bearer_id);
- 	struct tipc_peer *peer;
- 
- 	if (!mon)
-@@ -827,7 +831,7 @@ int tipc_nl_add_monitor_peer(struct net *net, struct tipc_nl_msg *msg,
- int __tipc_nl_add_monitor(struct net *net, struct tipc_nl_msg *msg,
- 			  u32 bearer_id)
- {
--	struct tipc_monitor *mon = tipc_monitor(net, bearer_id);
-+	struct tipc_monitor *mon = tipc_monitor_rtnl(net, bearer_id);
- 	char bearer_name[TIPC_MAX_BEARER_NAME];
- 	struct nlattr *attrs;
- 	void *hdr;
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
