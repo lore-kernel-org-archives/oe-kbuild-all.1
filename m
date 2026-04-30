@@ -1,116 +1,189 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C4CDC2EA
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Apr 2026 00:07:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC3315C14F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Apr 2026 00:29:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777507636; cv=none; b=NYiMDyC3LNnEX8i0go208cCzHwsP78sALJGyufRpI9TUbAMrhE1bnOEoT3fZUsQUDwJptCQTjHZ5JAzKS5JBx24yQRyaLwwhfLIjBe4exDTEpcgHw5iBckomskioVvaUEU4IhzJVT57O0o7iI5zzWSn6flmNOr8OIYoQpx8XJJQ=
+	t=1777508975; cv=none; b=WuF/4dzzbg3eQ/fpNVzYD4Li80dF1h2sQ6MV8SHwLo8MgEyaN3zKyxHflwD7lsjWp0GTH92JzUhCdxps/2NX+WBLZed/33MEF8MCdnifhEh0ohwQ0svLHvcZVuXwV91co7KeQHBS3RRuWKQOE+xvsaVQVKhbOT3dynmnjeLteho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777507636; c=relaxed/simple;
-	bh=kUuPK2Upzb3skF4hDU00RTgPlhwNtBKSeVP5pUjhA7Y=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=rLJPcuyDa4X2MfraB7sh4+QaG2twSY7ZyOqwkuo3bOoTkNhHL/FRl88Zs0hsMzFBSP8ebZCWBZFl3dmXxhRT57Jc0pKOE9/GUo4YEO7FNghWPLm8Z686wmA7+uG5I8Jw3ySV4/M9qWT9yaExzVJhU18MyEcJzt8dKGUJahjJz1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sg5Rr/Yp; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1777508975; c=relaxed/simple;
+	bh=u+mAU+2ACD5HlTJIsOgQLMOWjvExUPaLvfx7XhWNVcQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h+ychkJ9cmoDwWHb3s/+RkpMdNjHKu9dYKZ9tXSsO3cD3z9kpJkEiytOTjPWol8VE2RbSS3LTzyFt0L7JWQ6n3uv9ezXSSGV5GjrvEBHk/6/bVwc2TGiHef3au6fuhCAuZVupy9t+aqFzI95mmP4y1qb4bXEd5rtcSVCeiBGIQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GMpefFh1; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sg5Rr/Yp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GMpefFh1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777507635; x=1809043635;
-  h=date:from:to:cc:subject:message-id;
-  bh=kUuPK2Upzb3skF4hDU00RTgPlhwNtBKSeVP5pUjhA7Y=;
-  b=Sg5Rr/YpnH/e8PxyIyN/p3d16T6XDO/HzqHIli8giD7BRFvV1C3ntJzO
-   tvljiwNtdEdFOGmR2ZmpZx20g4iiLmiF8XUDj5Zht8M5KDVbGJH1VfJtF
-   f72PCzaNmL3Wk0ilfmfNV02FNtM1Aql55ywYk5KXVXJQZlXFVuhRljYVh
-   WaY4ov6tcCoNfx0IVw9S+9ppysP7SpxmtVM5x0Z1goV9olzalkDyKX0d0
-   u6xFdnsUNDizooJMp7UodNQtScN008WWaEULrlf33jHX9gI5QWYDkO2Ho
-   5YWXScfV/3fyh/YOsrzyq09gcfVhmHLFzjuiiXcDwNFBw/P3f4uzqhc5u
+  t=1777508973; x=1809044973;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=u+mAU+2ACD5HlTJIsOgQLMOWjvExUPaLvfx7XhWNVcQ=;
+  b=GMpefFh1qmamLAiQvtLJ0Bzo2YNI3CuwWwDoZhufnqsjpzartzu91qYw
+   WpT+1SIGwhhjR05LS3tpf7bplpolC1tEyb3oMWEn6IUI+Z4ApOXvLbm1T
+   QYWdx4V4W/TdoNhcvPQAxdC/70aH3gA8GRV2FsLq0/fBJvGP3WonIxizN
+   vtFHDnYSutkDtscYtWTEniAhz9nwj6dDsMh8LRMlmQm+6F9y+W6Cz+scO
+   rafME4ZHza4Hm1laZO7aP5XbU27qhtJjsn/IuDxxWvP4wF44yjHB92b77
+   tBKymZma78PAon6YJ8LyMg1s20q3k+/MTlk+WjHm1+B6yurWwDTPIbz2Q
    A==;
-X-CSE-ConnectionGUID: HmcShiDBTCqVOionSjA22Q==
-X-CSE-MsgGUID: yvKmWiYeSsyFYmYw/4yhQQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="96014449"
+X-CSE-ConnectionGUID: qeAcWy2RTnmBOHisYgm6Xw==
+X-CSE-MsgGUID: X4Os2gtgR86ebvCvW2vmiA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="89825874"
 X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
-   d="scan'208";a="96014449"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 17:07:13 -0700
-X-CSE-ConnectionGUID: Ur9IlTKZSCS8yOb0IRsjGA==
-X-CSE-MsgGUID: v8eTJKtzSmG1wUFsOq9hnw==
+   d="scan'208";a="89825874"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 17:29:33 -0700
+X-CSE-ConnectionGUID: bjkpnPIORPqr710/UgULsQ==
+X-CSE-MsgGUID: V3VIqX+NQPuoLZ0YSMyLEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
-   d="scan'208";a="239402354"
-Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 29 Apr 2026 17:07:11 -0700
-Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
+   d="scan'208";a="257752349"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa002.fm.intel.com with ESMTP; 29 Apr 2026 17:29:29 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wIEvs-00000000Bgg-3aB9;
-	Thu, 30 Apr 2026 00:07:08 +0000
-Date: Thu, 30 Apr 2026 08:06:20 +0800
+	id 1wIFHS-000000004gn-2Zzy;
+	Thu, 30 Apr 2026 00:29:26 +0000
+Date: Thu, 30 Apr 2026 02:28:54 +0200
 From: kernel test robot <lkp@intel.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
- "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
- LKML <linux-kernel@vger.kernel.org>
-Subject: [gustavoars:testing/wfamnae-next20260407 13/19]
- mm/mmu_gather.c:90:25: sparse: sparse: incompatible types in comparison
- expression (different base types):
-Message-ID: <202604300741.UELmFWex-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Aaron Tomlin <atomlin@atomlin.com>, corbet@lwn.net,
+	skhan@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, tglx@kernel.org,
+	akpm@linux-foundation.org, bp@alien8.de, rdunlap@infradead.org,
+	dave.hansen@linux.intel.com, feng.tang@linux.alibaba.com,
+	pawan.kumar.gupta@linux.intel.com, dapeng1.mi@linux.intel.com,
+	kees@kernel.org, elver@google.com, paulmck@kernel.org,
+	lirongqing@baidu.com, bhelgaas@google.com, bigeasy@linutronix.de,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: kernel-parameters: document scope of
+ irqaffinity= parameter
+Message-ID: <202604300215.1Alrqyxi-lkp@intel.com>
+References: <20260421150911.42404-1-atomlin@atomlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260421150911.42404-1-atomlin@atomlin.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20260407
-head:   9505f43094e1efb72854c166160fb7666517f07a
-commit: c9b77f29ae08cb9afc5965f0d31fc8e5d3d44497 [13/19] mm/mmu_gather: avoid dozens of -Wflex-array-member-not-at-end warnings
-config: sparc64-randconfig-r112-20260430 (https://download.01.org/0day-ci/archive/20260430/202604300741.UELmFWex-lkp@intel.com/config)
+Hi Aaron,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on lwn/docs-next]
+[also build test WARNING on linus/master v7.1-rc1 next-20260429]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aaron-Tomlin/docs-kernel-parameters-document-scope-of-irqaffinity-parameter/20260423-221944
+base:   git://git.lwn.net/linux.git docs-next
+patch link:    https://lore.kernel.org/r/20260421150911.42404-1-atomlin%40atomlin.com
+patch subject: [PATCH v2] docs: kernel-parameters: document scope of irqaffinity= parameter
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604300741.UELmFWex-lkp@intel.com/reproduce)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260430/202604300215.1Alrqyxi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604300741.UELmFWex-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604300215.1Alrqyxi-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/mmu_gather.c:90:25: sparse: sparse: incompatible types in comparison expression (different base types):
-   mm/mmu_gather.c:90:25: sparse:    struct mmu_gather_batch *
-   mm/mmu_gather.c:90:25: sparse:    struct mmu_gather_batch_hdr *
+All warnings (new ones prefixed by >>):
 
-vim +90 mm/mmu_gather.c
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/devicetree/dt-object-internal.txt
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,^Documentation/scheduler/sched-pelt
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,(Documentation/translations/[
+   Using alabaster theme
+   Documentation/core-api/irq/managed_irq.rst:97: ERROR: Unexpected indentation. [docutils]
+>> Documentation/core-api/irq/managed_irq.rst:104: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/core-api/irq/managed_irq.rst:109: ERROR: Unexpected indentation. [docutils]
+   Documentation/core-api/irq/managed_irq.rst:111: ERROR: Unexpected indentation. [docutils]
+   Documentation/core-api/irq/managed_irq.rst:118: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/core-api/irq/managed_irq.rst:122: ERROR: Unexpected indentation. [docutils]
+   Documentation/core-api/irq/managed_irq.rst:123: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
 
-c47454823bd4e3 Linus Torvalds          2022-12-06  73  
-5df397dec7c4c0 Linus Torvalds          2022-11-09  74  /**
-5df397dec7c4c0 Linus Torvalds          2022-11-09  75   * tlb_flush_rmaps - do pending rmap removals after we have flushed the TLB
-5df397dec7c4c0 Linus Torvalds          2022-11-09  76   * @tlb: the current mmu_gather
-19134bc23500a0 Matthew Wilcox (Oracle  2023-08-18  77)  * @vma: The memory area from which the pages are being removed.
-5df397dec7c4c0 Linus Torvalds          2022-11-09  78   *
-5df397dec7c4c0 Linus Torvalds          2022-11-09  79   * Note that because of how tlb_next_batch() above works, we will
-c47454823bd4e3 Linus Torvalds          2022-12-06  80   * never start multiple new batches with pending delayed rmaps, so
-c47454823bd4e3 Linus Torvalds          2022-12-06  81   * we only need to walk through the current active batch and the
-c47454823bd4e3 Linus Torvalds          2022-12-06  82   * original local one.
-5df397dec7c4c0 Linus Torvalds          2022-11-09  83   */
-5df397dec7c4c0 Linus Torvalds          2022-11-09  84  void tlb_flush_rmaps(struct mmu_gather *tlb, struct vm_area_struct *vma)
-5df397dec7c4c0 Linus Torvalds          2022-11-09  85  {
-f036c8184f8b67 Alexander Gordeev       2022-11-16  86  	if (!tlb->delayed_rmap)
-f036c8184f8b67 Alexander Gordeev       2022-11-16  87  		return;
-f036c8184f8b67 Alexander Gordeev       2022-11-16  88  
-c9b77f29ae08cb Gustavo A. R. Silva     2026-03-10  89  	tlb_flush_rmap_batch(MMU_GATHER_BATCH_FROM_HDR(&tlb->local), vma);
-c47454823bd4e3 Linus Torvalds          2022-12-06 @90  	if (tlb->active != &tlb->local)
-c47454823bd4e3 Linus Torvalds          2022-12-06  91  		tlb_flush_rmap_batch(tlb->active, vma);
-5df397dec7c4c0 Linus Torvalds          2022-11-09  92  	tlb->delayed_rmap = 0;
-5df397dec7c4c0 Linus Torvalds          2022-11-09  93  }
-5df397dec7c4c0 Linus Torvalds          2022-11-09  94  #endif
-5df397dec7c4c0 Linus Torvalds          2022-11-09  95  
 
-:::::: The code at line 90 was first introduced by commit
-:::::: c47454823bd4e3ab34ed3f795afd4479ab938a3f mm: mmu_gather: allow more than one batch of delayed rmaps
+vim +104 Documentation/core-api/irq/managed_irq.rst
 
-:::::: TO: Linus Torvalds <torvalds@linux-foundation.org>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+    65	
+    66	- A QEMU instance is booted with "-device virtio-scsi-pci".
+    67	  The MSI‑X device exposes 11 interrupts: 3 "management" interrupts and 8
+    68	  "queue" interrupts. The driver requests the 8 queue interrupts, each of which
+    69	  is affine to exactly one CPU. If that CPU goes offline, the interrupt is shut
+    70	  down.
+    71	
+    72	  Assuming interrupt 48 is one of the queue interrupts, the following appears::
+    73	
+    74	    /proc/irq/48/effective_affinity_list:7
+    75	    /proc/irq/48/smp_affinity_list:7
+    76	
+    77	  This indicates that the interrupt is served only by CPU7. Shutting down CPU7
+    78	  does not migrate the interrupt to another CPU::
+    79	
+    80	    /proc/irq/48/effective_affinity_list:0
+    81	    /proc/irq/48/smp_affinity_list:7
+    82	
+    83	  If the Linux kernel was built with Kconfig CONFIG_GENERIC_IRQ_DEBUGFS
+    84	  enabled, this can be verified via the debugfs interface (e.g.,
+    85	  /sys/kernel/debug/irq/irqs/48). The dstate field will include
+    86	  IRQD_IRQ_DISABLED, IRQD_IRQ_MASKED and IRQD_MANAGED_SHUTDOWN.
+    87	  A managed IRQ will also include IRQD_AFFINITY_MANAGED. For example:
+    88	
+    89	    # cat /sys/kernel/debug/irq/irqs/87
+    90	    handler:  handle_edge_irq
+    91	    device:   0000:41:00.0
+    92	    status:   0x00000000
+    93	    istate:   0x00004000
+    94	    ddepth:   0
+    95	    wdepth:   0
+    96	    dstate:   0x19601200
+    97			IRQD_ACTIVATED
+    98			IRQD_IRQ_STARTED
+    99			IRQD_SINGLE_TARGET
+   100			IRQD_AFFINITY_SET
+   101			IRQD_AFFINITY_MANAGED
+   102			IRQD_AFFINITY_ON_ACTIVATE
+   103			IRQD_HANDLE_ENFORCE_IRQCTX
+ > 104	    node:     0
+   105	    affinity: 9
+   106	    effectiv: 9
+   107	    pending:
+   108	    domain:  IR-PCI-MSIX-0000:41:00.0-12
+   109	     hwirq:   0x8
+   110	     chip:    IR-PCI-MSIX-0000:41:00.0
+   111	      flags:   0x430
+   112			 IRQCHIP_SKIP_SET_WAKE
+   113			 IRQCHIP_ONESHOT_SAFE
+   114	
+   115	      address_hi: 0x00000000
+   116	      address_lo: 0xfee00000
+   117	      msg_data:   0x00000008
+   118	     parent:
+   119		domain:  AMD-IR-3-14
+   120		 hwirq:   0x41000000
+   121		 chip:    AMD-IR
+   122		  flags:   0x0
+   123		 parent:
+   124		    domain:  VECTOR
+   125		     hwirq:   0x57
+   126		     chip:    APIC
+   127		      flags:   0x0
+   128		     Vector:    33
+   129		     Target:     9
+   130		     move_in_progress: 0
+   131		     is_managed:       1
+   132		     can_reserve:      0
+   133		     has_reserved:     0
+   134		     cleanup_pending:  0
+   135	
 
 -- 
 0-DAY CI Kernel Test Service
