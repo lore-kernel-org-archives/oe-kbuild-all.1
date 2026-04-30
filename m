@@ -1,178 +1,218 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21E1946AF33;
-	Thu, 30 Apr 2026 16:33:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A75AE2D7DCF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Apr 2026 17:24:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777566833; cv=none; b=uWR307WFl32pDhGNGofYRKsajRhuW8dALA/iIN9d9ZNoK0PJstezHBzDuh51uxsoG11sQLFbQ8qFsU7DCQPZiTwdx5BGaqa3SLncobKe19vUfvxpn2+Thp0Udf74H+QN0+WydSAy2W+HnzYzI7FmAgCot1dHEkoRK+H6rQg6lcM=
+	t=1777569882; cv=none; b=OKmKD5IhHuk7rnjfKAyCoyUybboqhCA5uckB7f60rq0MMO7tShu6QhyyO4SJv+DegMr0BY73+2jZwAE2kH3Q4u82yKpiWo/loiCV7sojWtPohSHOCkE2n7WlyS/Ya+qY+YhcdnXVVnDLYYQbOr89yHF5ZX8LoGuMVH3jDPjmmDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777566833; c=relaxed/simple;
-	bh=cfENCjc1fzzR6KbL+6+PAAkvtumH6My77uGSdh60sFg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=llCy3S2bw8V/j2cRI0HN3bfDJSrindsvBps2fAOv8KUARkKWMZ4tV6iSsETZ0slLuV5EowTOIbev1Qqdwd8Oo2hF5cGmYHJ6k+CfzGXvJ3SYlqzHGY1JX1RTPLBq73GetVZOKqHGcV9m76KiwAoEygJkREF/acaABAMGIAdemYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dz5o9OOH; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1777569882; c=relaxed/simple;
+	bh=HW9Apt1RUtPFJEfCazcPESpZLA+IJh2343tEt4yHf+8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=d8Xr7o7HK/HVRxPc52k5g0QUw5o4efGndNEGguulTXWslP9w+rWH1JmZN4kl/gucScVDRrLKM+UJWygJzeeKiNqCjXEXW5AHtnHh+9nCroLRingJOp7LeSQbWJl6LknMt8iWE8v0PaZqBsUdh/kg5sTeIMcYj7Zl+RSVdeErxc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PCpTdh5O; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dz5o9OOH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PCpTdh5O"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777566832; x=1809102832;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cfENCjc1fzzR6KbL+6+PAAkvtumH6My77uGSdh60sFg=;
-  b=dz5o9OOHBRiOVjwahPWla7r/T4wsp3a7wa/1Y2Mcs+063ooj9/Q2Ol3x
-   hI1TnQ2Uzgc0BZj/FWredUq6WGboSgQG+IsCqYj3DLprE4jOgkfu1yH35
-   YsV604jwIyE2DQT6lKYZFk7GcLaHFX42kUtXfHKGHQh1pows9Q4C96YgZ
-   eetTINU0UHVyEwSiTHHqFV6jBglyh0+tOSJ+z9fEbWuG3F5gZUsZYRaVD
-   Io2pAqEJdQV65y5vZPZE5UcPnpQc4TJ86th/onrYTKwPAkmfIa7mLGqN/
-   eaSXBljGCthN9iqUXGVSCGaMTGJtxUBvC9r/7iww5bh6uFGmNaX1seY1K
-   Q==;
-X-CSE-ConnectionGUID: +CWoF0U0SLmnA77Gd/Qi4Q==
-X-CSE-MsgGUID: AgCT0kDETK2GZXoAfeAW9g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11772"; a="78236278"
+  t=1777569880; x=1809105880;
+  h=date:from:to:cc:subject:message-id;
+  bh=HW9Apt1RUtPFJEfCazcPESpZLA+IJh2343tEt4yHf+8=;
+  b=PCpTdh5O1IIzR+8Sn1uwEznw0ln+Pve+Bp05pc4o3tWmUnzA2zOvSQ0K
+   mkIncgX8rrQGqFo5FnNJw9TYrROHt9cRA94oYXDxoRxV1u+doPBGwbwym
+   xOHTaMA8A8tlXI+zf2JuM4cYQjhA09ggQS6iEIvQRjwxg2k84D83CzHa5
+   emMRZyRRxv9KMw34XXRLV/TM7+yBrmSiRjDH8+QASjP0rzeml8t+D3eAj
+   UcTuIIQ85QC5/Woo/WXsHrxQRyow0KLoZQNQ22dcBXIR82UvcSz3gkB7G
+   WZhYMoaN8Bib4P/aYAYms6PpDXJgJPbAkHc0vPzwWNhbEM/avTXGHwy9Y
+   g==;
+X-CSE-ConnectionGUID: 8khn+8F4RTuJiLicxCE/mA==
+X-CSE-MsgGUID: aO733YMfRO+UxBnPhU2Hyw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11772"; a="77560127"
 X-IronPort-AV: E=Sophos;i="6.23,208,1770624000"; 
-   d="scan'208";a="78236278"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 09:33:52 -0700
-X-CSE-ConnectionGUID: eQNDi5mTSUy9Qg9nksZGIw==
-X-CSE-MsgGUID: gnxf2RtZQkewiLYuAZR9QA==
+   d="scan'208";a="77560127"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 10:24:40 -0700
+X-CSE-ConnectionGUID: G3QRTFxVTlS9We8I5hEsRw==
+X-CSE-MsgGUID: f5frPtQmQqaBporztdnypw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,208,1770624000"; 
-   d="scan'208";a="230278698"
-Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 30 Apr 2026 09:33:48 -0700
-Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
+   d="scan'208";a="234531401"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa008.jf.intel.com with ESMTP; 30 Apr 2026 10:24:38 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wIUKf-00000000CeW-2GTG;
-	Thu, 30 Apr 2026 16:33:45 +0000
-Date: Fri, 1 May 2026 00:33:18 +0800
+	id 1wIV7s-000000004rt-3811;
+	Thu, 30 Apr 2026 17:24:36 +0000
+Date: Thu, 30 Apr 2026 19:24:05 +0200
 From: kernel test robot <lkp@intel.com>
-To: Dexuan Cui <decui@microsoft.com>, kys@microsoft.com,
-	haiyangz@microsoft.com, wei.liu@kernel.org, longli@microsoft.com,
-	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-	mhklinux@outlook.com, matthew.ruffell@canonical.com,
-	johansen@templeofstupid.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] Drivers: hv: vmbus: Improve the logc of reserving
- fb_mmio on Gen2 VMs
-Message-ID: <202605010002.dnnxVZFF-lkp@intel.com>
-References: <20260416183529.838321-1-decui@microsoft.com>
+To: Oscar Salvador <osalvador@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: fs/proc/task_mmu.c:1139:31: warning: unused variable
+ 'curr_addr'
+Message-ID: <202604301935.VvtowdCY-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260416183529.838321-1-decui@microsoft.com>
 
-Hi Dexuan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v7.1-rc1 next-20260429]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dexuan-Cui/Drivers-hv-vmbus-Improve-the-logc-of-reserving-fb_mmio-on-Gen2-VMs/20260424-033622
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260416183529.838321-1-decui%40microsoft.com
-patch subject: [PATCH] Drivers: hv: vmbus: Improve the logc of reserving fb_mmio on Gen2 VMs
-config: i386-buildonly-randconfig-002-20260430 (https://download.01.org/0day-ci/archive/20260501/202605010002.dnnxVZFF-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260501/202605010002.dnnxVZFF-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Oscar-Salvador/mm-Add-softleaf_from_pud/20260427-233610
+head:   a50a24d8da5140888004ac6386c0a0f6b4d0dd9a
+commit: 90dce2a662135115d3afedef7ca80af4cd869414 mm: Make /proc/pid/smaps use the new generic pagewalk API
+date:   3 days ago
+config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260430/202604301935.VvtowdCY-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604301935.VvtowdCY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605010002.dnnxVZFF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604301935.VvtowdCY-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/hv/vmbus_drv.c:2403:40: warning: result of comparison of constant 4294967296 with expression of type 'resource_size_t' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
-    2403 |                         if (!low_mmio_base || low_mmio_base >= SZ_4G ||
-         |                                               ~~~~~~~~~~~~~ ^  ~~~~~
-   1 warning generated.
+   fs/proc/task_mmu.c: In function 'smap_gather_stats':
+>> fs/proc/task_mmu.c:1139:31: warning: unused variable 'curr_addr' [-Wunused-variable]
+    1139 |                 unsigned long curr_addr = ptw.curr_addr;
+         |                               ^~~~~~~~~
 
 
-vim +2403 drivers/hv/vmbus_drv.c
+vim +/curr_addr +1139 fs/proc/task_mmu.c
 
-  2385	
-  2386	static void __maybe_unused vmbus_reserve_fb(void)
-  2387	{
-  2388		resource_size_t start = 0, size;
-  2389		resource_size_t low_mmio_base;
-  2390		struct pci_dev *pdev;
-  2391	
-  2392		/* Hyper-V CoCo guests do not have a framebuffer device. */
-  2393		if (cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT))
-  2394			return;
-  2395	
-  2396		if (efi_enabled(EFI_BOOT)) {
-  2397			/* Gen2 VM: get FB base from EFI framebuffer */
-  2398			if (IS_ENABLED(CONFIG_SYSFB)) {
-  2399				start = sysfb_primary_display.screen.lfb_base;
-  2400				size = max_t(__u32, sysfb_primary_display.screen.lfb_size, 0x800000);
-  2401	
-  2402				low_mmio_base = hyperv_mmio->start;
-> 2403				if (!low_mmio_base || low_mmio_base >= SZ_4G ||
-  2404				    (start && start < low_mmio_base)) {
-  2405					pr_warn("Unexpected low mmio base 0x%pa\n", &low_mmio_base);
-  2406				} else {
-  2407					/*
-  2408					 * If the kdump kernel's lfb_base is 0,
-  2409					 * fall back to the low mmio base.
-  2410					 */
-  2411					if (!start)
-  2412						start = low_mmio_base;
-  2413					/*
-  2414					 * Reserve half of the space below 4GB for high
-  2415					 * resolutions, but cap the reservation to 128MB.
-  2416					 */
-  2417					size = min((SZ_4G - start) / 2, SZ_128M);
-  2418				}
-  2419			}
-  2420		} else {
-  2421			/* Gen1 VM: get FB base from PCI */
-  2422			pdev = pci_get_device(PCI_VENDOR_ID_MICROSOFT,
-  2423					      PCI_DEVICE_ID_HYPERV_VIDEO, NULL);
-  2424			if (!pdev)
-  2425				return;
-  2426	
-  2427			if (pdev->resource[0].flags & IORESOURCE_MEM) {
-  2428				start = pci_resource_start(pdev, 0);
-  2429				size = pci_resource_len(pdev, 0);
-  2430			}
-  2431	
-  2432			/*
-  2433			 * Release the PCI device so hyperv_drm driver can grab it
-  2434			 * later.
-  2435			 */
-  2436			pci_dev_put(pdev);
-  2437		}
-  2438	
-  2439		if (!start)
-  2440			return;
-  2441	
-  2442		/*
-  2443		 * Make a claim for the frame buffer in the resource tree under the
-  2444		 * first node, which will be the one below 4GB.  The length seems to
-  2445		 * be underreported, particularly in a Generation 1 VM.  So start out
-  2446		 * reserving a larger area and make it smaller until it succeeds.
-  2447		 */
-  2448		for (; !fb_mmio && (size >= 0x100000); size >>= 1)
-  2449			fb_mmio = __request_region(hyperv_mmio, start, size, fb_mmio_name, 0);
-  2450	
-  2451		pr_info("hv_mmio=%pR,%pR fb=%pR\n", hyperv_mmio, hyperv_mmio->sibling, fb_mmio);
-  2452	}
-  2453	
+  1091	
+  1092	/*
+  1093	 * Gather mem stats from @vma with the indicated beginning
+  1094	 * address @start, and keep them in @mss.
+  1095	 *
+  1096	 * Use vm_start of @vma as the beginning address if @start is 0.
+  1097	 */
+  1098	static void smap_gather_stats(struct vm_area_struct *vma,
+  1099					  struct mem_size_stats *mss,
+  1100					  unsigned long start)
+  1101	{
+  1102		struct pt_range_walk ptw = {
+  1103			.mm = vma->vm_mm
+  1104		};
+  1105		enum pt_range_walk_type type;
+  1106		pt_type_flags_t flags = PT_TYPE_ALL;
+  1107	
+  1108		if (start >= vma->vm_end)
+  1109			return;
+  1110	
+  1111		flags &= ~(PT_TYPE_NONE|PT_TYPE_PFN);
+  1112	
+  1113		if (vma->vm_file && shmem_mapping(vma->vm_file->f_mapping)) {
+  1114			/*
+  1115			 * For shared or readonly shmem mappings we know that all
+  1116			 * swapped out pages belong to the shmem object, and we can
+  1117			 * obtain the swap value much more efficiently. For private
+  1118			 * writable mappings, we might have COW pages that are
+  1119			 * not affected by the parent swapped out pages of the shmem
+  1120			 * object, so we have to distinguish them during the page walk.
+  1121			 * Unless we know that the shmem object (or the part mapped by
+  1122			 * our VMA) has no swapped out pages at all.
+  1123			 */
+  1124			unsigned long shmem_swapped = shmem_swap_usage(vma);
+  1125	
+  1126			if (!start && (!shmem_swapped || (vma->vm_flags & VM_SHARED) ||
+  1127			    !(vma->vm_flags & VM_WRITE))) {
+  1128				mss->swap += shmem_swapped;
+  1129			} else {
+  1130				flags |= PT_TYPE_NONE;
+  1131			}
+  1132		}
+  1133	
+  1134		if (!start)
+  1135			start = vma->vm_start;
+  1136	
+  1137		type = pt_range_walk_start(&ptw, vma, start, vma->vm_end, flags);
+  1138		while (type != PTW_DONE) {
+> 1139			unsigned long curr_addr = ptw.curr_addr;
+  1140			bool locked = !!(vma->vm_flags & VM_LOCKED);
+  1141			bool compound = false, account = false;
+  1142			unsigned long swap_size;
+  1143			int mapcount;
+  1144	
+  1145			switch (type) {
+  1146			case PTW_FOLIO:
+  1147			case PTW_MIGRATION:
+  1148			case PTW_HWPOISON:
+  1149			case PTW_DEVICE:
+  1150				/*
+  1151				 * We either have a folio because vm_normal_folio was
+  1152				 * successful, or because we had a special swap entry
+  1153				 * and could retrieve it with softleaf_to_page.
+  1154				 */
+  1155				if (is_vm_hugetlb_page(vma)) {
+  1156					/* HugeTLB */
+  1157					unsigned long size = huge_page_size(hstate_vma(ptw.vma));
+  1158	
+  1159					if (!ptw.present || folio_maybe_mapped_shared(ptw.folio) ||
+  1160					    ptw.pmd_shared)
+  1161						mss->shared_hugetlb += size;
+  1162					else
+  1163						mss->private_hugetlb += size;
+  1164				} else {
+  1165					account = true;
+  1166					if (ptw.level == PTW_PMD_LEVEL) {
+  1167						/* THP */
+  1168						compound = true;
+  1169						if (folio_test_anon(ptw.folio))
+  1170							mss->anonymous_thp += ptw.size;
+  1171						else if (folio_test_swapbacked(ptw.folio))
+  1172							mss->shmem_thp += ptw.size;
+  1173						else if (folio_is_zone_device(ptw.folio))
+  1174							/* pass */;
+  1175						else
+  1176							mss->file_thp += ptw.size;
+  1177					} else if (ptw.level == PTW_PTE_LEVEL && ptw.nr_entries > 1) {
+  1178						compound = true;
+  1179					}
+  1180				}
+  1181				break;
+  1182			case PTW_SWAP:
+  1183				account = true;
+  1184				swap_size = PAGE_SIZE * ptw.nr_entries;
+  1185				mss->swap += swap_size;
+  1186				mapcount = swp_swapcount(ptw.softleaf_entry);
+  1187				if (mapcount >= 2) {
+  1188					u64 pss_delta = (u64)swap_size << PSS_SHIFT;
+  1189	
+  1190					do_div(pss_delta, mapcount);
+  1191					mss->swap_pss += pss_delta;
+  1192				} else {
+  1193					mss->swap_pss += (u64)swap_size << PSS_SHIFT;
+  1194				}
+  1195				break;
+  1196			case PTW_NONE:
+  1197	#ifdef CONFIG_SHMEM
+  1198				unsigned long addr = ptw.curr_addr;
+  1199				unsigned long end = ptw.next_addr;
+  1200	
+  1201				if (ptw.level == PTW_PMD_LEVEL || ptw.level == PTW_PTE_LEVEL)
+  1202					mss->swap += shmem_partial_swap_usage(vma->vm_file->f_mapping,
+  1203								      linear_page_index(vma, addr),
+  1204								      linear_page_index(vma, end));
+  1205	#endif
+  1206				break;
+  1207			default:
+  1208				/* Ooops */
+  1209				break;
+  1210			}
+  1211	
+  1212			if (account && ptw.folio)
+  1213				smaps_account(mss, ptw.page, compound, ptw.young,
+  1214					      ptw.dirty, locked, ptw.present, ptw.size);
+  1215			type = pt_range_walk_next(&ptw, vma, start, vma->vm_end, flags);
+  1216		}
+  1217	
+  1218		pt_range_walk_done(&ptw);
+  1219	}
+  1220	
 
--- 
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
