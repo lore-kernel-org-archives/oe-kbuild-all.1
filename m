@@ -1,83 +1,141 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11B8E38838C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Apr 2026 03:26:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C540933F385;
+	Thu, 30 Apr 2026 03:43:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777519594; cv=none; b=g8OdEfWpHCC4UJbYVLH+KFz9lkr1NmHPKrzlvg7u/2rZ3Vw6/Fx6m2JKr/rsq81Briy4el8w05gShE0uB7GC0I/sWzms0s6que1wRARbpiZ/gt87NP29V1YoHHXRDn1badEriVWDrgu4NI0f1LsYzLuPujegUDYoTgZfLmvrpMY=
+	t=1777520622; cv=none; b=kfkWuPFkdZbaqcPfneylm0Dgj8NcX/8LOZYlMeAPx0mzvKM4Q0r8pMOt78efShGAq+Az4KaEem1JfxaicobcfoCXfRGErSmgRly2+3JA1wSd35zsfx85F5CbzfjppBsOV+BP3a14TqGEHIdRR3ecEzRFvyblELo4qQvFaAqTU5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777519594; c=relaxed/simple;
-	bh=mBGFoGTfVIEYnD9cpA0hiK85Y7/1pj9ug2F2TD8pFfs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ooUfkDFfvW1mh24ewR6f9J8VJ/NiWaTbWNchhFI5NGYSTvx4JowP6qCRvSS0hH4HNtVkHienVqLYgchgEVrnnZocigZKWKUCEwQwgX/gSTgiFxEOIxeIghVuCIWCPXq3wV4EFo558V62+iGBQQaZe9HDU+JiZR+U+5l8UC8jBfc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WtgM2e2z; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1777520622; c=relaxed/simple;
+	bh=sADgS20dzGTorMLScEHXlWECdOD7s+6LyTDkNgNjNBg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c4/xll6IsK+m0Agit6yYDWnJ857anIGtp6Jr7Kz/fYENu6mfjlEfVVp0SRpinoDl+NV770QCG5EseTR41bxhTl9RKnIljOFKvriRMrOUNapOXtPHVBDDaOrjmjT2SDkSxI43ooBf8Rr3lxqGSKlrWgvw7PcYcDLSIZFp2TPskCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BG8NlHaO; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WtgM2e2z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BG8NlHaO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777519593; x=1809055593;
-  h=date:from:to:cc:subject:message-id;
-  bh=mBGFoGTfVIEYnD9cpA0hiK85Y7/1pj9ug2F2TD8pFfs=;
-  b=WtgM2e2zvbt6t+x2qSZnskrCd0wugb6ZcizIeBsgyAqIB9VZSlq8Y5y+
-   ZTwWyR3DFLLm+W/gJg5G1SUlUYQhHQDQz0wPohE7Cf8/Jj50lMoOAP597
-   ZefKrMJ33oCQDaZNbkqVtvS3WYzzJeAZ0mWdOG7HH8mGNEadQIHk1UM9/
-   kCd3vPJMpcsZVl3GQXC1QTM9jkLSN1cvIczVW+GF9UO5uH4xUlSYYWw7Y
-   XuzJ0Y5CCXEP7sAUapjIlPBFtX46kUcWp7kgU34MEvgbW3OlMZI7Kw/OW
-   ZmU+xpS2fcdwMheaO1Sta2vsaEQLnxOea6e4Wl8qJoFi8Tshg/IbncGpT
-   w==;
-X-CSE-ConnectionGUID: wR2RRwKWSbuyQ6LJd0DTRA==
-X-CSE-MsgGUID: JX76PorzTjKFpkejDp0GCQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="78566193"
+  t=1777520620; x=1809056620;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sADgS20dzGTorMLScEHXlWECdOD7s+6LyTDkNgNjNBg=;
+  b=BG8NlHaO923SULfHEr5lmEgZ5qT2galifNUCuju/xgMf07QfT9oEbvdk
+   pJZqRref+bFEzCKy4Suhpl6nh0aZe6NILFJDB4H7fg1au3fvRf+wnCWos
+   u2niBdF4NppL40Te2uRxMCSsmvqtq7BpHrUZw/544sehek5J7Vs0D80en
+   MjBFwX8efr65lsvg1YijEctWENVxTWccSEuPZkDU/pNOCNIa51eyT9pb9
+   5c/p14rzruaqllptrWUa+81BfVqMBF7W6pPpdB8VznmQGth94P9YU71+J
+   9rQ3i7P6NNqZxA6oaf7LQoswBaEhrukTkFlFbqKbN4GpG8HQ3deNAqoBT
+   A==;
+X-CSE-ConnectionGUID: UHx/EoKKTSqc8/GD4pvEwQ==
+X-CSE-MsgGUID: BwGnUZyNSC+KjUN6D9/8JA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="82317508"
 X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
-   d="scan'208";a="78566193"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 20:26:32 -0700
-X-CSE-ConnectionGUID: 4dfhP2MASIucLbyUveDZbw==
-X-CSE-MsgGUID: lZ2IQQPlR5iUYIMdAfbYaQ==
+   d="scan'208";a="82317508"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 20:43:39 -0700
+X-CSE-ConnectionGUID: 5LLG8mA4SdG6nasqzg+z9Q==
+X-CSE-MsgGUID: c6WpgVOORaul66b0lrkkTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
-   d="scan'208";a="234340171"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 29 Apr 2026 20:26:31 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="272575621"
+Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 29 Apr 2026 20:43:36 -0700
+Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wII2m-000000004j3-3p9r;
-	Thu, 30 Apr 2026 03:26:28 +0000
-Date: Thu, 30 Apr 2026 05:25:29 +0200
+	id 1wIIJJ-00000000Bti-2Q0i;
+	Thu, 30 Apr 2026 03:43:33 +0000
+Date: Thu, 30 Apr 2026 11:42:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eduard Zingerman <eddyz87@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Alexei Starovoitov <ast@kernel.org>
-Subject: [linux-next:master 1144/2157] ERROR: modpost: "cnum64_umin"
- [drivers/net/ethernet/netronome/nfp/nfp.ko] undefined!
-Message-ID: <202604300532.DOKjDgJo-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Aniket Randive <aniket.randive@oss.qualcomm.com>,
+	gregkh@linuxfoundation.org, jirislaby@kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org, praveen.talari@oss.qualcomm.com,
+	anup.kulkarni@oss.qualcomm.com, dmitry.baryshkov@oss.qualcomm.com,
+	viken.dadhaniya@oss.qualcomm.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Aniket Randive <aniket.randive@oss.qualcomm.com>
+Subject: Re: [PATCH v1] serial: qcom-geni: Avoid probing debug console UART
+ without console support
+Message-ID: <202604301151.rPBXnWLg-lkp@intel.com>
+References: <20260413072501.263871-1-aniket.randive@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260413072501.263871-1-aniket.randive@oss.qualcomm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0787c45ea08a13b5482e701fabc741877cf681f6
-commit: bbc631085503a7fde9617be18b0657cc9a83910a [1144/2157] bpf: replace min/max fields with struct cnum{32,64}
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260430/202604300532.DOKjDgJo-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604300532.DOKjDgJo-lkp@intel.com/reproduce)
+Hi Aniket,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tty/tty-testing]
+[also build test WARNING on tty/tty-next tty/tty-linus usb/usb-testing usb/usb-next usb/usb-linus linus/master v7.1-rc1 next-20260429]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aniket-Randive/serial-qcom-geni-Avoid-probing-debug-console-UART-without-console-support/20260423-150710
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20260413072501.263871-1-aniket.randive%40oss.qualcomm.com
+patch subject: [PATCH v1] serial: qcom-geni: Avoid probing debug console UART without console support
+config: s390-randconfig-002-20260430 (https://download.01.org/0day-ci/archive/20260430/202604301151.rPBXnWLg-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604301151.rPBXnWLg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604300532.DOKjDgJo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604301151.rPBXnWLg-lkp@intel.com/
 
-Note: the linux-next/master HEAD 0787c45ea08a13b5482e701fabc741877cf681f6 builds fine.
-      It may have been fixed somewhere.
+All warnings (new ones prefixed by >>):
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+>> drivers/tty/serial/qcom_geni_serial.c:1995:43: warning: unused variable 'qcom_geni_console_data' [-Wunused-const-variable]
+    1995 | static const struct qcom_geni_device_data qcom_geni_console_data = {
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/tty/serial/qcom_geni_serial.c:2011:43: warning: unused variable 'sa8255p_qcom_geni_console_data' [-Wunused-const-variable]
+    2011 | static const struct qcom_geni_device_data sa8255p_qcom_geni_console_data = {
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 warnings generated.
 
->> ERROR: modpost: "cnum64_umin" [drivers/net/ethernet/netronome/nfp/nfp.ko] undefined!
->> ERROR: modpost: "cnum64_umax" [drivers/net/ethernet/netronome/nfp/nfp.ko] undefined!
+
+vim +/qcom_geni_console_data +1995 drivers/tty/serial/qcom_geni_serial.c
+
+c4f528795d1add Karthikeyan Ramasubramanian 2018-03-14  1994  
+40ec6d41c841e2 Bartosz Golaszewski         2022-12-29 @1995  static const struct qcom_geni_device_data qcom_geni_console_data = {
+40ec6d41c841e2 Bartosz Golaszewski         2022-12-29  1996  	.console = true,
+2aaa43c7077833 Bartosz Golaszewski         2022-12-29  1997  	.mode = GENI_SE_FIFO,
+abffd1e6c4f1c9 Praveen Talari              2025-11-10  1998  	.resources_init = geni_serial_resource_init,
+abffd1e6c4f1c9 Praveen Talari              2025-11-10  1999  	.set_rate = geni_serial_set_rate,
+abffd1e6c4f1c9 Praveen Talari              2025-11-10  2000  	.power_state = geni_serial_resource_state,
+40ec6d41c841e2 Bartosz Golaszewski         2022-12-29  2001  };
+40ec6d41c841e2 Bartosz Golaszewski         2022-12-29  2002  
+40ec6d41c841e2 Bartosz Golaszewski         2022-12-29  2003  static const struct qcom_geni_device_data qcom_geni_uart_data = {
+40ec6d41c841e2 Bartosz Golaszewski         2022-12-29  2004  	.console = false,
+2aaa43c7077833 Bartosz Golaszewski         2022-12-29  2005  	.mode = GENI_SE_DMA,
+abffd1e6c4f1c9 Praveen Talari              2025-11-10  2006  	.resources_init = geni_serial_resource_init,
+abffd1e6c4f1c9 Praveen Talari              2025-11-10  2007  	.set_rate = geni_serial_set_rate,
+abffd1e6c4f1c9 Praveen Talari              2025-11-10  2008  	.power_state = geni_serial_resource_state,
+abffd1e6c4f1c9 Praveen Talari              2025-11-10  2009  };
+abffd1e6c4f1c9 Praveen Talari              2025-11-10  2010  
+abffd1e6c4f1c9 Praveen Talari              2025-11-10 @2011  static const struct qcom_geni_device_data sa8255p_qcom_geni_console_data = {
+abffd1e6c4f1c9 Praveen Talari              2025-11-10  2012  	.console = true,
+abffd1e6c4f1c9 Praveen Talari              2025-11-10  2013  	.mode = GENI_SE_FIFO,
+abffd1e6c4f1c9 Praveen Talari              2025-11-10  2014  	.pd_data = {
+abffd1e6c4f1c9 Praveen Talari              2025-11-10  2015  		.pd_flags = PD_FLAG_DEV_LINK_ON,
+abffd1e6c4f1c9 Praveen Talari              2025-11-10  2016  		.pd_names = (const char*[]) { "power", "perf" },
+abffd1e6c4f1c9 Praveen Talari              2025-11-10  2017  		.num_pd_names = 2,
+abffd1e6c4f1c9 Praveen Talari              2025-11-10  2018  	},
+abffd1e6c4f1c9 Praveen Talari              2025-11-10  2019  	.resources_init = geni_serial_pwr_init,
+abffd1e6c4f1c9 Praveen Talari              2025-11-10  2020  	.set_rate = geni_serial_set_level,
+abffd1e6c4f1c9 Praveen Talari              2025-11-10  2021  };
+abffd1e6c4f1c9 Praveen Talari              2025-11-10  2022  
 
 -- 
 0-DAY CI Kernel Test Service
