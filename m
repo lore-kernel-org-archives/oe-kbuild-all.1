@@ -1,62 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B4412741B5;
-	Thu, 30 Apr 2026 03:04:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A141D331A76
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Apr 2026 03:07:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777518280; cv=none; b=gYEzqSJMeBvezkFMvluYNv8spAm1f9d5x7bnggMprQ3rNtnMeYO2TqR86TuL1ggyb1Xp5PMw4bjjuZ1PkCp5d6x9lDvjdQKKR6ixCGC1xePGkFGrXw8Yndr1I7LHB1MLXEoOuDTZVv3kn/iHeMnshxxZnMbxUtgD9j258A1m0WY=
+	t=1777518458; cv=none; b=Votcj8Eo6ZPcULCPKu7HcrQP/2zD7kUKnApP7Fds8NQ+HO/foPqL9Db9MZzHybgZNDrLHAlDD0xJIoX01pDTyLCp6OUO//m2uDpQAkkFITZDAfc3mxgcGuYCNE/qh/UKdbrg6rGo+2gHRiGnAYt2OjnjueeP4vhx4mh0ggR4Q28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777518280; c=relaxed/simple;
-	bh=mxAeFa0zucritB95EEF1sgq4ftLNUflodECe6CLmwnE=;
+	s=arc-20240116; t=1777518458; c=relaxed/simple;
+	bh=u2VlrUPVBUnzaWloJk9ky0BKD9EKlTnoSGKFrpV3GSw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VfhM96KhWz1toSraWeO4zMvHsOpnfFuWYb7ZvKj+rahXOu8wIATB7QzDioXTAs2o+NxL1piLIairzijkl0P/SP5V2L6HWBqniKhXYyGAW3ZuxeEOWle1rRlcT/7tuz5RqvFxbrNgdluq04eL8IwQjpfA7NpRyK5RD7Z4cdKF3tg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hVw263LQ; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=VyVpCPRjlOW7EapJXhoDDhpUgtE2OhKPU09Zj+T8DEju1s8p2WeplypUrnau+dniGJIH8QBQbCiAd0DmI9dqLI9RZFjTUjh+3+2u7uDiNbHXyFVd89RV57glWJsIA/qE54mnkEME5RaqFYHLgtDKXvjdLjsk1rtM/kgDAcxoMhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m1xlXiuC; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hVw263LQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m1xlXiuC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777518277; x=1809054277;
+  t=1777518456; x=1809054456;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=mxAeFa0zucritB95EEF1sgq4ftLNUflodECe6CLmwnE=;
-  b=hVw263LQcp/BCvS4f3r1GPxaBnxFjdNhEmn/QElfbhgRYdGjpBexctob
-   pynKACKiGYBaybbPFJYS1Ms8Tqjy59eTbRUITlCHFpprdW9BYsWlOwEp+
-   hAPLsiMM/0/VOmuHimek9xBzN0hp94yAOjlNhym3cuyO+jBTK9YQz5fyN
-   BGxR74G8GB7VlK/KG7Vf1XkU+8kJdofcsBsihvzCIrT/BxW9FMG3NcC5l
-   RMTCZNBSclIGF797bnK+ELWIPlGk5hLAjiOukjwlFgoVIlU3rNpifgX1j
-   plyR5izCx+fX0+0TDfuaTUZQ/JguMrwus+VKS6KEtS8I8AQ6Qjhbf2zDB
-   g==;
-X-CSE-ConnectionGUID: oYwJlBtPTgWqoYnSBCtI4w==
-X-CSE-MsgGUID: Nz4V/HqgTyWZ0KVpG/88Gw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="65991964"
+  bh=u2VlrUPVBUnzaWloJk9ky0BKD9EKlTnoSGKFrpV3GSw=;
+  b=m1xlXiuCPxPdkRUayeCTf+g4IBhIE8JDg9SMVa2i3lzEOL8fCdEjmHtr
+   /QFI2h0/wieW1fLzbRzOq0gZVJ+SkrJdzOrY0DL+6HMaqdBcy9FqPtGIu
+   eMqq2HYc6/GmfeDD8JV2jWFwBe1TaTBBsnqNfcXDdttbAoRMCpl2+ivaW
+   be8YJu/tg8J/qbbu4vzOTWw4D6HzyA5TXWh0WPmWTPEQ3PuGrMpWb7svP
+   a6mRETV+Wj5Y1xIPLFiAyY7LXVovfKKAMm7vo4OYwFygDR36v4NbwpkVW
+   V3Uadoley7RbH+7QP49WmRoX1eilabBzCqtTOSmTAi6c5Az8i427s4AfY
+   w==;
+X-CSE-ConnectionGUID: Z01C3rQCTwiUqUIIeOL8Vg==
+X-CSE-MsgGUID: jnAFh5TQSbOyHwtZx2mQWg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="65992132"
 X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
-   d="scan'208";a="65991964"
+   d="scan'208";a="65992132"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 20:04:36 -0700
-X-CSE-ConnectionGUID: bk16eBbRQOy1LcpnzG9kqg==
-X-CSE-MsgGUID: 0A6sJFtkRC61WCvn12Vhew==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 20:07:36 -0700
+X-CSE-ConnectionGUID: /QrqABKOSEKIRgItJVk1JA==
+X-CSE-MsgGUID: HVjXfoN2TMi1n0Fbe4E5tA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
-   d="scan'208";a="234480184"
+   d="scan'208";a="234480762"
 Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 29 Apr 2026 20:04:34 -0700
+  by orviesa009.jf.intel.com with ESMTP; 29 Apr 2026 20:07:34 -0700
 Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wIHhX-00000000Brc-0OVn;
-	Thu, 30 Apr 2026 03:04:31 +0000
-Date: Thu, 30 Apr 2026 11:03:46 +0800
+	id 1wIHkR-00000000Brw-2wud;
+	Thu, 30 Apr 2026 03:07:31 +0000
+Date: Thu, 30 Apr 2026 11:06:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dudu Lu <phx0fer@gmail.com>, netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, Dudu Lu <phx0fer@gmail.com>
-Subject: Re: [PATCH] nfc: nci: Add skb length validation in
- nci_core_init_rsp_packet
-Message-ID: <202604301024.q9hVP893-lkp@intel.com>
-References: <20260413090102.77980-1-phx0fer@gmail.com>
+To: a <osalexandeko@gmail.com>, arnd@arndb.de, gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	a <a@js-host.myguest.virtualbox.org>,
+	Alex Kazansky <osalexandeko@gmail.com>
+Subject: Re: [PATCH] [PATCH] drivers/misc: dummy-irq: use pr_* logging helpers
+Message-ID: <202604301104.37n6lDbO-lkp@intel.com>
+References: <20260419040308.4239-1-a@JS-Host.myguest.virtualbox.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,163 +64,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260413090102.77980-1-phx0fer@gmail.com>
+In-Reply-To: <20260419040308.4239-1-a@JS-Host.myguest.virtualbox.org>
 
-Hi Dudu,
+Hi a,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on net/main]
-[also build test ERROR on net-next/main linus/master horms-ipvs/master v7.1-rc1 next-20260429]
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus soc/for-next staging/staging-testing staging/staging-next staging/staging-linus linus/master v7.1-rc1 next-20260429]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dudu-Lu/nfc-nci-Add-skb-length-validation-in-nci_core_init_rsp_packet/20260423-210923
-base:   net/main
-patch link:    https://lore.kernel.org/r/20260413090102.77980-1-phx0fer%40gmail.com
-patch subject: [PATCH] nfc: nci: Add skb length validation in nci_core_init_rsp_packet
-config: arm64-randconfig-004-20260430 (https://download.01.org/0day-ci/archive/20260430/202604301024.q9hVP893-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604301024.q9hVP893-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/a/drivers-misc-dummy-irq-use-pr_-logging-helpers/20260426-190343
+base:   char-misc/char-misc-testing
+patch link:    https://lore.kernel.org/r/20260419040308.4239-1-a%40JS-Host.myguest.virtualbox.org
+patch subject: [PATCH] [PATCH] drivers/misc: dummy-irq: use pr_* logging helpers
+config: csky-randconfig-002-20260430 (https://download.01.org/0day-ci/archive/20260430/202604301104.37n6lDbO-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604301104.37n6lDbO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604301024.q9hVP893-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604301104.37n6lDbO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> net/nfc/nci/rsp.c:1:2: error: expected identifier or '('
-       1 |         if (skb->len < sizeof(*rsp)) {
-         |         ^
-   net/nfc/nci/rsp.c:5:2: error: expected identifier or '('
-       5 |         if (skb->len < 6 + rsp_1->num_supported_rf_interfaces +
-         |         ^
-   net/nfc/nci/rsp.c:10:2: error: expected identifier or '('
-      10 |         if (skb->len < sizeof(*rsp_1))
-         |         ^
-   In file included from net/nfc/nci/rsp.c:29:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/arm64/include/asm/hardirq.h:17:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:588:
-   In file included from include/linux/irqdesc.h:5:
-   In file included from include/linux/irq_work.h:6:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from net/nfc/nci/rsp.c:29:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/arm64/include/asm/hardirq.h:17:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:588:
-   In file included from include/linux/irqdesc.h:5:
-   In file included from include/linux/irq_work.h:6:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from net/nfc/nci/rsp.c:29:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/arm64/include/asm/hardirq.h:17:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:588:
-   In file included from include/linux/irqdesc.h:5:
-   In file included from include/linux/irq_work.h:6:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      99 |                         set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from net/nfc/nci/rsp.c:29:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/arm64/include/asm/hardirq.h:17:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:588:
-   In file included from include/linux/irqdesc.h:5:
-   In file included from include/linux/irq_work.h:6:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-     101 |                 return (set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from net/nfc/nci/rsp.c:29:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/arm64/include/asm/hardirq.h:17:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:588:
-   In file included from include/linux/irqdesc.h:5:
-   In file included from include/linux/irq_work.h:6:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from net/nfc/nci/rsp.c:29:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/arm64/include/asm/hardirq.h:17:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:588:
-   In file included from include/linux/irqdesc.h:5:
-   In file included from include/linux/irq_work.h:6:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+>> drivers/misc/dummy-irq.c:17:9: warning: "pr_fmt" redefined
+      17 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+         |         ^~~~~~
+   In file included from include/asm-generic/bug.h:31,
+                    from arch/csky/include/asm/bug.h:18,
+                    from include/linux/bug.h:5,
+                    from include/linux/instrumented.h:10,
+                    from include/linux/atomic/atomic-instrumented.h:17,
+                    from include/linux/atomic.h:82,
+                    from include/asm-generic/bitops/lock.h:5,
+                    from arch/csky/include/asm/bitops.h:69,
+                    from include/linux/bitops.h:67,
+                    from include/linux/log2.h:12,
+                    from include/asm-generic/div64.h:55,
+                    from ./arch/csky/include/generated/asm/div64.h:1,
+                    from include/linux/math.h:6,
+                    from include/linux/math64.h:6,
+                    from include/linux/time.h:6,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from drivers/misc/dummy-irq.c:14:
+   include/linux/printk.h:401:9: note: this is the location of the previous definition
+     401 | #define pr_fmt(fmt) fmt
+         |         ^~~~~~
 
 
-vim +1 net/nfc/nci/rsp.c
+vim +/pr_fmt +17 drivers/misc/dummy-irq.c
 
-   > 1		if (skb->len < sizeof(*rsp)) {
-     2			pr_err("short NCI_CORE_INIT_RSP v2 packet\n");
-     3			return NCI_STATUS_SYNTAX_ERROR;
-     4		}
-     5		if (skb->len < 6 + rsp_1->num_supported_rf_interfaces +
-     6				sizeof(*rsp_2)) {
-     7			pr_err("short NCI_CORE_INIT_RSP v1 packet\n");
-     8			return NCI_STATUS_SYNTAX_ERROR;
-     9		}
-    10		if (skb->len < sizeof(*rsp_1))
-    11			return NCI_STATUS_SYNTAX_ERROR;
-    12	// SPDX-License-Identifier: GPL-2.0-only
-    13	/*
-    14	 *  The NFC Controller Interface is the communication protocol between an
-    15	 *  NFC Controller (NFCC) and a Device Host (DH).
-    16	 *
-    17	 *  Copyright (C) 2011 Texas Instruments, Inc.
-    18	 *
-    19	 *  Written by Ilan Elias <ilane@ti.com>
-    20	 *
-    21	 *  Acknowledgements:
-    22	 *  This file is based on hci_event.c, which was written
-    23	 *  by Maxim Krasnyansky.
-    24	 */
-    25	
+  > 17	#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+    18	
 
 -- 
 0-DAY CI Kernel Test Service
