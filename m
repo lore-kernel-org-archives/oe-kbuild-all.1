@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA8B217A2E8;
-	Fri,  1 May 2026 23:32:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5A537FF54
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 May 2026 23:45:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777678327; cv=none; b=LTJ3C2iG55AbML4+0UEOT9eDdh6sdp5cNGP5GicTkIbwkcl+g7ZuvxaN3dEApnLFJpq63xJXHeye6mZBpuN4itqmos4Bh5e6xW0QXYfxEDO7GuXvZ3rKpY+uV6Uv2VbBPn+pORt0c4t9y9dgA6/cIDXOBpTu5pEFecZsV2SVUms=
+	t=1777679113; cv=none; b=CS/SHVBdUdFIVvwEWQXaWLVF15/SCZRSyRWobuEclYX2LCR5HYzh/+ORGSx7Am9AArWS28Fx0Oaz3m+S4fvtThZ6+Tv0FlqnVfp0tFfTEIb/VAu/pCCEkUR9Bhi5ol4hf/EQd84ilQWyLlR/XwNu96igtRyikKEIKnUcROgD5gI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777678327; c=relaxed/simple;
-	bh=DeEnZ9wH+nwwQfH2YdPfigVfX6s4de61PvGhKOpWn48=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=INTvkSyzjNddCkBS1241ervavwrm/puvGsFXQ5vXKnDz7DV9rSSx5FJbRDk3C3RTT9iL9v+qdtpjCmvlWd84Hh3wauhaQe0Q+5L0YziRyxBGQtNzpCM+dNHmVLAtwFWlsa+As5LWVuXydOl4hOrAJzvmBx0HQacwld3tbyQY+ko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f+AYuPDV; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1777679113; c=relaxed/simple;
+	bh=YAVubpdqJTSqsk6UpIudNr2vAV6Ui2pIcLPZkseILyU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=RvnmIp1+GfYH48JkMKL52SuW8yfcYX/w7BBud26zoNhdjzG3jghxwqSqsjM85I5lNEHg6XAlleO1PxIVxgtiO+fWhGpc77blcGfKjzLFBrCj0bPFq+Pa9wl3PCAc02PJxx+Xz8yMTCnhZoPzYdDzV/IvQcFBnn9k43e6W0PRuBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NC7RDe/b; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f+AYuPDV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NC7RDe/b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777678325; x=1809214325;
+  t=1777679110; x=1809215110;
   h=date:from:to:cc:subject:message-id;
-  bh=DeEnZ9wH+nwwQfH2YdPfigVfX6s4de61PvGhKOpWn48=;
-  b=f+AYuPDVF15TVrQ2isBr8bD/VRKzHtfsLFvSG0iZN5X5wnGOj8JUStaz
-   RoUBnwQKLM1aObtWFJo9X5TTgiHi7WrpQHQm9N6Exyr00HWdbGVFdGy8T
-   epfkSBYHxhPwvn/6XociXUg4ZT2y/sAj+l5c1dEIIz0zPtfGJxWnn3++b
-   paQLPjH0hC0D3m2WCNLJahiopMMYuc/VE4tZaJFv8vbBZP6BxMPICKPFq
-   joIRvSlQ5OYfoM6IffPPi8VoDH20wV04Z9/B79bRUewuGS3J/EuQrDeH1
-   1inb0kHQ9QsKUBTtzJoVwtAeBmGShdDsZhpkc6PFLSaOMLP2GoTYlXh1g
+  bh=YAVubpdqJTSqsk6UpIudNr2vAV6Ui2pIcLPZkseILyU=;
+  b=NC7RDe/baUB3LBPR+uu7hYqWIPzAMzN33sAuR/0xsEoHY31qMed72Ol3
+   lUBPPigHhU1DzsjwY/135mia3ggdQ27mlYJoDIWmaZM4/KtvDrElSB9ac
+   y6P8lcgpzb6sV1I0o/T2e9ivDnWQKHmfGolNTuPHrvUMjo86+l6Zb47h+
+   NOj4E5CBpn9xGZtc3pHss1mm+HU36aAv5ni7YnEQpPEmrUc8nPUFZe9Rv
+   E1QLQvLh5zvCl5N1J4xtwAMV9Z6hDOfHFyMz8s0SLoqw+BM6zGKGe+tBY
+   Q+sPG+fEEoeVU3E8wqxJliCTxdYaRf2s1JtJUUT7l3N5gIbBqBPL/+oLg
    g==;
-X-CSE-ConnectionGUID: u2fqIqCbQYuMrCZMgmZlIg==
-X-CSE-MsgGUID: dqfvNQmfSHqGODDLMv3fKQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="78691821"
+X-CSE-ConnectionGUID: Fk5kjMGERki1sm1ivOihJg==
+X-CSE-MsgGUID: EuDpjZBPRquXE2eXt+qsjA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="82509748"
 X-IronPort-AV: E=Sophos;i="6.23,210,1770624000"; 
-   d="scan'208";a="78691821"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2026 16:32:04 -0700
-X-CSE-ConnectionGUID: 8U/mqc8mRvK1mVlF/3sMRQ==
-X-CSE-MsgGUID: 3UZLaT9fTXGllpvpOZSw6A==
+   d="scan'208";a="82509748"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2026 16:45:05 -0700
+X-CSE-ConnectionGUID: ZK1nqZYzSlaxaL6pultnZw==
+X-CSE-MsgGUID: gYuUf+N6S0izBuyj3lOqDQ==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,210,1770624000"; 
+   d="scan'208";a="236769902"
 Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 01 May 2026 16:32:02 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 01 May 2026 16:45:03 -0700
 Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wIxKy-000000000wr-19kO;
-	Fri, 01 May 2026 23:32:00 +0000
-Date: Sat, 02 May 2026 07:31:58 +0800
+	id 1wIxXY-000000000xZ-3qmu;
+	Fri, 01 May 2026 23:45:00 +0000
+Date: Sat, 02 May 2026 07:44:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexey Dobriyan <adobriyan@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Christian Brauner <christianvanbrauner@gmail.com>,
- Christian Brauner <brauner@kernel.org>
-Subject: [brauner-vfs:vfs-7.2.procfs 1/12] fs/proc/generic.c:849:6:
- warning: no previous prototype for function 'impl_proc_make_permanent'
-Message-ID: <202605020725.KvLbjBLv-lkp@intel.com>
+To: Alexander Lobakin <aleksander.lobakin@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Tony Nguyen <anthony.l.nguyen@intel.com>
+Subject: include/linux/build_bug.h:78:41: error: static assertion
+ failed: "sizeof(struct idpf_xdp_rx_desc) == sizeof(struct
+ virtchnl2_rx_flex_desc_adv_nic_3)"
+Message-ID: <202605020707.9e3f2lTL-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,38 +61,71 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs-7.2.procfs
-head:   16b3565414446449677ec503a8a25d802c7512a7
-commit: b26811a2ab5878e84275d8ad8e709bba9147c62c [1/12] proc: allow to mark /proc files permanent outside of fs/proc/
-config: hexagon-allnoconfig (https://download.01.org/0day-ci/archive/20260502/202605020725.KvLbjBLv-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605020725.KvLbjBLv-lkp@intel.com/reproduce)
+Hi Alexander,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ef5f46b630235b75beec43174348c3d01d6fc49a
+commit: 88ca0c738c4159ce87893782b6dd964b5aa01f6e idpf: add XDP RSS hash hint
+date:   8 months ago
+config: arm-randconfig-004-20260502 (https://download.01.org/0day-ci/archive/20260502/202605020707.9e3f2lTL-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605020707.9e3f2lTL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 88ca0c738c41 ("idpf: add XDP RSS hash hint")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605020725.KvLbjBLv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605020707.9e3f2lTL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/proc/generic.c:849:6: warning: no previous prototype for function 'impl_proc_make_permanent' [-Wmissing-prototypes]
-     849 | void impl_proc_make_permanent(struct proc_dir_entry *pde)
-         |      ^
-   fs/proc/generic.c:849:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     849 | void impl_proc_make_permanent(struct proc_dir_entry *pde)
-         | ^
-         | static 
-   1 warning generated.
+   In file included from include/linux/minmax.h:5,
+                    from include/linux/jiffies.h:8,
+                    from include/net/pkt_sched.h:5,
+                    from drivers/net/ethernet/intel/idpf/idpf.h:12,
+                    from drivers/net/ethernet/intel/idpf/xdp.c:4:
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct idpf_xdp_rx_desc) == sizeof(struct virtchnl2_rx_flex_desc_adv_nic_3)"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/idpf/xdp.h:118:1: note: in expansion of macro 'static_assert'
+     118 | static_assert(sizeof(struct idpf_xdp_rx_desc) ==
+         | ^~~~~~~~~~~~~
 
 
-vim +/impl_proc_make_permanent +849 fs/proc/generic.c
+vim +78 include/linux/build_bug.h
 
-   844	
-   845	/*
-   846	 * Not exported to modules:
-   847	 * modules' /proc files aren't permanent because modules aren't permanent.
-   848	 */
- > 849	void impl_proc_make_permanent(struct proc_dir_entry *pde)
+bc6245e5efd70c Ian Abbott       2017-07-10  60  
+6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
+6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
+6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
+6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
+6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
+6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
+6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
+6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
+6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
+6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
+6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
+6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
+6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
+6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+6bab69c65013be Rasmus Villemoes 2019-03-07  79  
+07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
+
+:::::: The code at line 78 was first introduced by commit
+:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
+
+:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
