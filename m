@@ -1,286 +1,216 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9E6F287503
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 May 2026 22:04:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF73536B04E
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 May 2026 22:14:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777673042; cv=none; b=uDHkOZabWRC3TxBXZfyLIpKHeoYtR93y37APfegmXf1+xE8f8IHtZQUpAbi5/twJ2pnz/PdNfP/FgNfvCj4fHr4MGeftZnscN4R2q43YiuxVsHbH+hPcBh9UQewd7727inWk4dDOacLeIj6UxeYhwDngwxPJq3MNxnc/3SUO22Y=
+	t=1777673702; cv=none; b=NJyjxfINM/hT9WL623FA05R02n3OUoe6VN3/cPt3J5cmg9v+Zqr6Jy3Dr9NVRJLooaU6qUzENkDagAkmhJmEGBeztMaGIUVZJMJyhpB0TRQQqsrtNMJ8FJRoHmP2fW+N2IaSSDLqwXybbvvIEOvVjN8txueBMJxRpcwkK/1zEG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777673042; c=relaxed/simple;
-	bh=lcPJeo6DArDowkNTA3zFkLrkFChUecHJGwfYIuLP75k=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=N0p7itOllHPMZpFxbJxBtPiYopmEtfKFYucm6krA+3MrdZmBciCMg837qlzA6wMRimel8Yk4HxvfbNYc8JA/OXpAQmh35NF4TZUqoDBxqhu6bZMCT2vMCQB1GgbZ7kMftCOo7RPBz+lrTjlaOx0BflgWFDZ6QXBzFClSqCylzbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UFFB9KPN; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1777673702; c=relaxed/simple;
+	bh=Vym5EpOPRmdeVEuQRPr8ojXfyAierx2wF97UU52pzL8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aDBAZZ6MlpEdJpZy4RcMS7eHzhqCRdvYgXRwZpns3Ky1MgTgM6Kxt8Yqs503dFiuWwFO0xDXyQSxWCfTr/f7feFojXPF5u6SXGUHt1RTRGeWyfQBqhR6UAF97676060yYtvr27tW9CWOaBAfNrqmTpgNsNNN4dvn0zZSv96xyQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CeUY2Xc9; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UFFB9KPN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CeUY2Xc9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777673040; x=1809209040;
-  h=date:from:to:cc:subject:message-id;
-  bh=lcPJeo6DArDowkNTA3zFkLrkFChUecHJGwfYIuLP75k=;
-  b=UFFB9KPNDz8U8UMUTUl2+bOtjRIS+g9PJIOjOm9O3mZqIBPdXNLn213b
-   iPeGYmK3BsShSX2pIdOp6naG81h+g65DtVT2fDIbT6NGdXKGXr2WWjsYu
-   Ojra7DUIAPG5Kfh6RayuD1/Fb6F0diVYF/3cJj2+SSPBJ93Ld1KXEqFp5
-   MxraBx5WfADLGTHJ4Jm3PLxrs5x0xg73hadz5kNhYV8LvSS1LEGJy7HHH
-   zqvr7/7+z9uAzprn+jnZ1T/lBqASDbnDWaOQqrSDYtsNeOetOlZcj8ka5
-   djOKh5zxme86uU5AolT/iMpE3+U5hQ3Nobxz4GjwlnDTlpFBQGk1+PXyc
+  t=1777673699; x=1809209699;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Vym5EpOPRmdeVEuQRPr8ojXfyAierx2wF97UU52pzL8=;
+  b=CeUY2Xc9mSGYO3m608fZHYSlvQk2I2pdfoRc5koYSzRLJ/GhUy7JGpV6
+   F0mnn1KTmk7dZ6UCR+M3qsi0tGn3EQWzqD0tIyt/QTT3YwvmYItZjIp91
+   4ERDUJO6fOg2AABK4DepalrnOVKTKnBxXKnmOZLf4opT0S9JxlIeZN9Vj
+   B40LDkB3SAUPHIYvC60WWYnC3cBkd57qtoJ0VtVhHXUEUXP4Q1DOAa7vV
+   5pL/ZkxyUq3s5q2/p+NuXnOBjAPYMzOuxLVzVJVf9FJlbL4gLrSKBetGU
+   TnNlTLH+8dwfAi/wzsHlwfX9RyFICtHo92lgJ+BXuuMYftntUJ/NvajDt
    w==;
-X-CSE-ConnectionGUID: 92hD5xR9RJCjtg3wcfGBQw==
-X-CSE-MsgGUID: V8Ei93XlQzGMlBkiCE08tg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="82487372"
+X-CSE-ConnectionGUID: FIxJ6TqiQD6t5doP4XqPXA==
+X-CSE-MsgGUID: llmY4eLeQHy+M0hiSqqosg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="78687046"
 X-IronPort-AV: E=Sophos;i="6.23,210,1770624000"; 
-   d="scan'208";a="82487372"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2026 15:04:00 -0700
-X-CSE-ConnectionGUID: iQL1grRnR9qshp5/sPi5MA==
-X-CSE-MsgGUID: 3N5lVQW4Rb+hDCTd0O917Q==
+   d="scan'208";a="78687046"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2026 15:14:59 -0700
+X-CSE-ConnectionGUID: UmcSV/8fS+Obs0RoKg/pyw==
+X-CSE-MsgGUID: +An0TqmcSrS7beiUavDlrg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,210,1770624000"; 
-   d="scan'208";a="234860140"
+   d="scan'208";a="236755530"
 Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 01 May 2026 15:03:58 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 01 May 2026 15:14:58 -0700
 Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wIvxj-000000000tQ-1M2j;
-	Fri, 01 May 2026 22:03:55 +0000
-Date: Sat, 02 May 2026 06:03:13 +0800
+	id 1wIw8O-000000000tx-0S2O;
+	Fri, 01 May 2026 22:14:56 +0000
+Date: Sat, 2 May 2026 06:14:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dorjoy Chowdhury <dorjoychy111@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Christian Brauner <christianvanbrauner@gmail.com>,
- Christian Brauner <brauner@kernel.org>,
- Jeff Layton <jlayton@kernel.org>, Aleksa Sarai <aleksa@amutable.com>
-Subject: fs/smb/client/dir.c:248:33: error: label 'out' used but not
- defined
-Message-ID: <202605020512.8DNwzYZU-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Mingyu Wang <25181214217@stu.xidian.edu.cn>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH] mm/hugetlb: fix resv_map memory leak in
+ __mmap_region error path
+Message-ID: <202605020656.9mdM8VGh-lkp@intel.com>
+References: <20260425070700.562229-1-25181214217@stu.xidian.edu.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260425070700.562229-1-25181214217@stu.xidian.edu.cn>
 
-tree:   https://github.com/brauner/linux.git vfs-7.2.openat.regular
-head:   be7728badbd230f1ee7beba4162383fa022ae767
-commit: 93306cec35846eebf467d63a775fa711d7106b2e openat2: new OPENAT2_REGULAR flag support
-date:   2 weeks ago
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260502/202605020512.8DNwzYZU-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605020512.8DNwzYZU-lkp@intel.com/reproduce)
+Hi Mingyu,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mingyu-Wang/mm-hugetlb-fix-resv_map-memory-leak-in-__mmap_region-error-path/20260425-203812
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20260425070700.562229-1-25181214217%40stu.xidian.edu.cn
+patch subject: [RFC PATCH] mm/hugetlb: fix resv_map memory leak in __mmap_region error path
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260502/202605020656.9mdM8VGh-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605020656.9mdM8VGh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605020512.8DNwzYZU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605020656.9mdM8VGh-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   fs/smb/client/dir.c: In function '__cifs_do_create':
->> fs/smb/client/dir.c:248:33: error: label 'out' used but not defined
-     248 |                                 goto out;
-         |                                 ^~~~
+   In file included from include/linux/sched/signal.h:14,
+                    from include/linux/ptrace.h:7,
+                    from arch/alpha/kernel/asm-offsets.c:12:
+>> include/linux/mm_types.h:865:35: warning: 'struct vm_area_desc' declared inside parameter list will not be visible outside of this definition or declaration
+     865 |         void (*abort_hook)(struct vm_area_desc *desc);
+         |                                   ^~~~~~~~~~~~
+--
+   In file included from include/linux/mmzone.h:22,
+                    from include/linux/gfp.h:7,
+                    from include/linux/xarray.h:16,
+                    from include/linux/list_lru.h:14,
+                    from include/linux/fs/super_types.h:7,
+                    from include/linux/fs/super.h:5,
+                    from include/linux/fs.h:5,
+                    from include/linux/backing-dev.h:13,
+                    from mm/vma_internal.h:12,
+                    from mm/vma.c:7:
+>> include/linux/mm_types.h:865:35: warning: 'struct vm_area_desc' declared inside parameter list will not be visible outside of this definition or declaration
+     865 |         void (*abort_hook)(struct vm_area_desc *desc);
+         |                                   ^~~~~~~~~~~~
+   mm/vma.c: In function '__mmap_region':
+>> mm/vma.c:2805:40: error: passing argument 1 of 'desc.action.abort_hook' from incompatible pointer type [-Wincompatible-pointer-types]
+    2805 |                 desc.action.abort_hook(&desc);
+         |                                        ^~~~~
+         |                                        |
+         |                                        struct vm_area_desc *
+   mm/vma.c:2805:40: note: expected 'struct vm_area_desc *' but argument is of type 'struct vm_area_desc *'
+--
+   In file included from include/linux/sched/signal.h:14,
+                    from include/linux/ptrace.h:7,
+                    from arch/alpha/kernel/asm-offsets.c:12:
+>> include/linux/mm_types.h:865:35: warning: 'struct vm_area_desc' declared inside parameter list will not be visible outside of this definition or declaration
+     865 |         void (*abort_hook)(struct vm_area_desc *desc);
+         |                                   ^~~~~~~~~~~~
+   In file included from include/linux/sched/mm.h:8,
+                    from kernel/sched/sched.h:15,
+                    from kernel/sched/rq-offsets.c:5:
+>> include/linux/mm_types.h:865:35: warning: 'struct vm_area_desc' declared inside parameter list will not be visible outside of this definition or declaration
+     865 |         void (*abort_hook)(struct vm_area_desc *desc);
+         |                                   ^~~~~~~~~~~~
 
 
-vim +/out +248 fs/smb/client/dir.c
+vim +2805 mm/vma.c
 
-   199	
-   200	/* Inode operations in similar order to how they appear in Linux file fs.h */
-   201	static int __cifs_do_create(struct inode *dir, struct dentry *direntry,
-   202				    const char *full_path, unsigned int xid,
-   203				    struct tcon_link *tlink, unsigned int oflags,
-   204				    umode_t mode, __u32 *oplock, struct cifs_fid *fid,
-   205				    struct cifs_open_info_data *buf,
-   206				    struct inode **inode)
-   207	{
-   208		int rc = -ENOENT;
-   209		int create_options = CREATE_NOT_DIR;
-   210		int desired_access;
-   211		struct cifs_sb_info *cifs_sb = CIFS_SB(dir);
-   212		struct cifs_tcon *tcon = tlink_tcon(tlink);
-   213		struct inode *newinode = NULL;
-   214		unsigned int sbflags = cifs_sb_flags(cifs_sb);
-   215		int disposition;
-   216		struct TCP_Server_Info *server = tcon->ses->server;
-   217		struct cifs_open_parms oparms;
-   218		struct cached_fid *parent_cfid = NULL;
-   219		int rdwr_for_fscache = 0;
-   220		__le32 lease_flags = 0;
-   221	
-   222		*inode = NULL;
-   223		*oplock = 0;
-   224		if (tcon->ses->server->oplocks)
-   225			*oplock = REQ_OPLOCK;
-   226	
-   227		/* If we're caching, we need to be able to fill in around partial writes. */
-   228		if (cifs_fscache_enabled(dir) && (oflags & O_ACCMODE) == O_WRONLY)
-   229			rdwr_for_fscache = 1;
-   230	
-   231	#ifdef CONFIG_CIFS_ALLOW_INSECURE_LEGACY
-   232		if (tcon->unix_ext && cap_unix(tcon->ses) && !tcon->broken_posix_open &&
-   233		    (CIFS_UNIX_POSIX_PATH_OPS_CAP &
-   234				le64_to_cpu(tcon->fsUnixInfo.Capability))) {
-   235			rc = cifs_posix_open(full_path, &newinode, dir->i_sb, mode,
-   236					     oflags, oplock, &fid->netfid, xid);
-   237			switch (rc) {
-   238			case 0:
-   239				if (newinode == NULL) {
-   240					/* query inode info */
-   241					goto cifs_create_get_file_info;
-   242				}
-   243	
-   244				if ((oflags & OPENAT2_REGULAR) && !S_ISREG(newinode->i_mode)) {
-   245					CIFSSMBClose(xid, tcon, fid->netfid);
-   246					iput(newinode);
-   247					rc = -EFTYPE;
- > 248					goto out;
-   249				}
-   250	
-   251				if (S_ISDIR(newinode->i_mode)) {
-   252					CIFSSMBClose(xid, tcon, fid->netfid);
-   253					iput(newinode);
-   254					return -EISDIR;
-   255				}
-   256	
-   257				if (!S_ISREG(newinode->i_mode)) {
-   258					/*
-   259					 * The server may allow us to open things like
-   260					 * FIFOs, but the client isn't set up to deal
-   261					 * with that. If it's not a regular file, just
-   262					 * close it and proceed as if it were a normal
-   263					 * lookup.
-   264					 */
-   265					CIFSSMBClose(xid, tcon, fid->netfid);
-   266					goto cifs_create_get_file_info;
-   267				}
-   268				/* success, no need to query */
-   269				goto cifs_create_set_dentry;
-   270	
-   271			case -ENOENT:
-   272				goto cifs_create_get_file_info;
-   273	
-   274			case -EIO:
-   275			case -EINVAL:
-   276				/*
-   277				 * EIO could indicate that (posix open) operation is not
-   278				 * supported, despite what server claimed in capability
-   279				 * negotiation.
-   280				 *
-   281				 * POSIX open in samba versions 3.3.1 and earlier could
-   282				 * incorrectly fail with invalid parameter.
-   283				 */
-   284				tcon->broken_posix_open = true;
-   285				break;
-   286	
-   287			case -EREMOTE:
-   288			case -EOPNOTSUPP:
-   289				/*
-   290				 * EREMOTE indicates DFS junction, which is not handled
-   291				 * in posix open.  If either that or op not supported
-   292				 * returned, follow the normal lookup.
-   293				 */
-   294				break;
-   295	
-   296			default:
-   297				return rc;
-   298			}
-   299			/*
-   300			 * fallthrough to retry, using older open call, this is case
-   301			 * where server does not support this SMB level, and falsely
-   302			 * claims capability (also get here for DFS case which should be
-   303			 * rare for path not covered on files)
-   304			 */
-   305		}
-   306	#endif /* CONFIG_CIFS_ALLOW_INSECURE_LEGACY */
-   307	
-   308		desired_access = 0;
-   309		if (OPEN_FMODE(oflags) & FMODE_READ)
-   310			desired_access |= GENERIC_READ; /* is this too little? */
-   311		if (OPEN_FMODE(oflags) & FMODE_WRITE)
-   312			desired_access |= GENERIC_WRITE;
-   313		if (rdwr_for_fscache == 1)
-   314			desired_access |= GENERIC_READ;
-   315		if (oflags & O_TMPFILE)
-   316			desired_access |= DELETE;
-   317	
-   318		disposition = FILE_OVERWRITE_IF;
-   319		if (oflags & O_CREAT) {
-   320			if (oflags & O_EXCL)
-   321				disposition = FILE_CREATE;
-   322			else if (oflags & O_TRUNC)
-   323				disposition = FILE_OVERWRITE_IF;
-   324			else
-   325				disposition = FILE_OPEN_IF;
-   326		} else if (oflags & O_TMPFILE) {
-   327			disposition = FILE_CREATE;
-   328		} else {
-   329			cifs_dbg(FYI, "Create flag not set in create function\n");
-   330		}
-   331	
-   332		/*
-   333		 * BB add processing to set equivalent of mode - e.g. via CreateX with
-   334		 * ACLs
-   335		 */
-   336	
-   337		if (!server->ops->open)
-   338			return -EOPNOTSUPP;
-   339	
-   340		create_options |= cifs_open_create_options(oflags, create_options);
-   341		/*
-   342		 * if we're not using unix extensions, see if we need to set
-   343		 * ATTR_READONLY on the create call
-   344		 */
-   345		if (!tcon->unix_ext && (mode & S_IWUGO) == 0)
-   346			create_options |= CREATE_OPTION_READONLY;
-   347	
-   348	
-   349	retry_open:
-   350		if (tcon->cfids && direntry->d_parent && server->dialect >= SMB30_PROT_ID) {
-   351			parent_cfid = NULL;
-   352			spin_lock(&tcon->cfids->cfid_list_lock);
-   353			list_for_each_entry(parent_cfid, &tcon->cfids->entries, entry) {
-   354				if (parent_cfid->dentry == direntry->d_parent) {
-   355					cifs_dbg(FYI, "found a parent cached file handle\n");
-   356					if (is_valid_cached_dir(parent_cfid)) {
-   357						lease_flags
-   358							|= SMB2_LEASE_FLAG_PARENT_LEASE_KEY_SET_LE;
-   359						memcpy(fid->parent_lease_key,
-   360						       parent_cfid->fid.lease_key,
-   361						       SMB2_LEASE_KEY_SIZE);
-   362						parent_cfid->dirents.is_valid = false;
-   363						parent_cfid->dirents.is_failed = true;
-   364					}
-   365					break;
-   366				}
-   367			}
-   368			spin_unlock(&tcon->cfids->cfid_list_lock);
-   369		}
-   370	
-   371		oparms = (struct cifs_open_parms) {
-   372			.tcon = tcon,
-   373			.cifs_sb = cifs_sb,
-   374			.desired_access = desired_access,
-   375			.create_options = cifs_create_options(cifs_sb, create_options),
-   376			.disposition = disposition,
-   377			.path = full_path,
-   378			.fid = fid,
-   379			.lease_flags = lease_flags,
-   380			.mode = mode,
-   381		};
-   382		rc = server->ops->open(xid, &oparms, oplock, buf);
-   383		if (rc) {
-   384			cifs_dbg(FYI, "cifs_create returned 0x%x\n", rc);
-   385			if (rc == -EACCES && rdwr_for_fscache == 1) {
-   386				desired_access &= ~GENERIC_READ;
-   387				rdwr_for_fscache = 2;
-   388				goto retry_open;
-   389			}
-   390			return rc;
-   391		}
-   392		if (rdwr_for_fscache == 2)
-   393			cifs_invalidate_cache(dir, FSCACHE_INVAL_DIO_WRITE);
-   394	
+  2731	
+  2732	static unsigned long __mmap_region(struct file *file, unsigned long addr,
+  2733			unsigned long len, vma_flags_t vma_flags,
+  2734			unsigned long pgoff, struct list_head *uf)
+  2735	{
+  2736		struct mm_struct *mm = current->mm;
+  2737		struct vm_area_struct *vma = NULL;
+  2738		bool have_mmap_prepare = file && file->f_op->mmap_prepare;
+  2739		VMA_ITERATOR(vmi, mm, addr);
+  2740		MMAP_STATE(map, mm, &vmi, addr, len, pgoff, vma_flags, file);
+  2741		struct vm_area_desc desc = {
+  2742			.mm = mm,
+  2743			.file = file,
+  2744			.action = {
+  2745				.type = MMAP_NOTHING, /* Default to no further action. */
+  2746			},
+  2747		};
+  2748		bool allocated_new = false;
+  2749		int error;
+  2750	
+  2751		map.check_ksm_early = can_set_ksm_flags_early(&map);
+  2752	
+  2753		error = __mmap_setup(&map, &desc, uf);
+  2754		if (!error && have_mmap_prepare)
+  2755			error = call_mmap_prepare(&map, &desc);
+  2756		if (error)
+  2757			goto abort_munmap;
+  2758	
+  2759		if (map.check_ksm_early)
+  2760			update_ksm_flags(&map);
+  2761	
+  2762		/* Attempt to merge with adjacent VMAs... */
+  2763		if (map.prev || map.next) {
+  2764			VMG_MMAP_STATE(vmg, &map, /* vma = */ NULL);
+  2765	
+  2766			vma = vma_merge_new_range(&vmg);
+  2767		}
+  2768	
+  2769		/* ...but if we can't, allocate a new VMA. */
+  2770		if (!vma) {
+  2771			error = __mmap_new_vma(&map, &vma, &desc.action);
+  2772			if (error)
+  2773				goto unacct_error;
+  2774			allocated_new = true;
+  2775		}
+  2776	
+  2777		if (have_mmap_prepare)
+  2778			set_vma_user_defined_fields(vma, &map);
+  2779	
+  2780		__mmap_complete(&map, vma);
+  2781	
+  2782		if (have_mmap_prepare && allocated_new) {
+  2783			error = mmap_action_complete(vma, &desc.action,
+  2784						     /*is_compat=*/false);
+  2785			if (error)
+  2786				return error;
+  2787		}
+  2788	
+  2789		return addr;
+  2790	
+  2791		/* Accounting was done by __mmap_setup(). */
+  2792	unacct_error:
+  2793		if (map.charged)
+  2794			vm_unacct_memory(map.charged);
+  2795	abort_munmap:
+  2796		/*
+  2797		 * This indicates that .mmap_prepare has set a new file, differing from
+  2798		 * desc->vm_file. But since we're aborting the operation, only the
+  2799		 * original file will be cleaned up. Ensure we clean up both.
+  2800		 */
+  2801		if (map.file_doesnt_need_get)
+  2802			fput(map.file);
+  2803		
+  2804		if (have_mmap_prepare && desc.action.abort_hook)
+> 2805			desc.action.abort_hook(&desc);
+  2806		
+  2807		vms_abort_munmap_vmas(&map.vms, &map.mas_detach);
+  2808		return error;
+  2809	}
+  2810	
 
 -- 
 0-DAY CI Kernel Test Service
