@@ -1,287 +1,363 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE9E9463
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 May 2026 17:27:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 657442DAFD7;
+	Fri,  1 May 2026 18:40:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777656470; cv=none; b=YcfnmcClVmH/DBdF8qqIEO+mY4+v620fHD6uyB6xUwg6TyCpGdQ3IxXotRs6JYXAIUSXxw1J5tXYUYuZXCNq/MGeYbSm24n7f63wrKmWENKGK3RsYK8fmzzK/hlNYOVAA9EIuvzxJahz95/Kux17Q0wJr2+RXXv1iOc72uqK+KM=
+	t=1777660853; cv=none; b=gACu4ME/H6kxmm+Fc8Q7HAk+IZBBCKwnvNlbDdbMdHoopkbicHmMQnhEoQWY4OFaPGTIC9arfz4LGAyYgPL7hwQXrsKjm1C0eN8BB4ZAObaEGUA0j/DCvekhwW0rEZbCuLniOw9DWSRq6eqk/0eNErtNj3ayeSsSO9LKUP9iJ7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777656470; c=relaxed/simple;
-	bh=T9cMx+PRICQZb5Kc2oyCd9aUOoirKITdFLi0IHolJug=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=YImUlYuo445NV7/LvkBGctwETyHZac3aQQFFON4qeC4OGoqTtlqcLY1q+WHfcJ99k2OirreckvbTpMEWuLSzI3OIFzwSZtTAu+8Hzbdd+aP7H7huXm7hF8rnKAAOvgT9RxWlz1W9u/wALD9YbZ9CboWJjCtvS0OoNO/1B6PHJFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ItnpQjAy; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1777660853; c=relaxed/simple;
+	bh=zvGrBicncWSbwbO4FH/3RpNAwA+5nTSTGhioNyJOWco=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NSizSU6SV730ZEsgDe9jGaVEcLaosqnHW/2/R2vSPamAidyLwSmkJMPqnJH5CLSzEa/f9m78ncoUjgTyzTNf1qteb++pQwO58bMVMyNrP+SDAqLLDHUid4IuLzq+uB/jBZa/dr1+Z3mFWkQh/q5qNd9MhKU8A+Oc20FoNJiZQpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RBsH6vPW; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ItnpQjAy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RBsH6vPW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777656468; x=1809192468;
-  h=date:from:to:cc:subject:message-id;
-  bh=T9cMx+PRICQZb5Kc2oyCd9aUOoirKITdFLi0IHolJug=;
-  b=ItnpQjAylButUK1eCn4Z9Y9ltvG9sxCag/IAO8UT+/YzZw5Offk6kZx+
-   VuH1OegVP27QuQysqlSsoUCLFozuqkV6GZtIXsFc/YHFXPiuaFDVXrEyf
-   lB5/d8NfxGKaPPsBwXbiZhQ2nbipOgTEQtHgNrMMb8vIWwdLKEqYY5JLI
-   3UxAh21MU/s59fEcZikjQwwGi6Yynst8IPUu40sC5W1634121rlsQJTwH
-   kEz0KFg/OpSPLGY7D9LJNAGGpISs49T8OwFhn478cthofWhbb0/W/++GX
-   5fNO/R/WmBMF1x3qxslZXcysjSu2bSKnDRT+xIoE2/jQIVioqf+vq/6U3
-   w==;
-X-CSE-ConnectionGUID: 8YqivvmcQ+qbipNTAKYdAg==
-X-CSE-MsgGUID: s/m3lA0cSyyE76gLALEC6A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="90079909"
+  t=1777660852; x=1809196852;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zvGrBicncWSbwbO4FH/3RpNAwA+5nTSTGhioNyJOWco=;
+  b=RBsH6vPW3PDrgVSBYOUcvPKFsDc0claVqdl0A8SF1e3aynf8Eyr1wUrr
+   Y/zIugojZHyUkVI3KE385pnpbustcVM4wkfx/yum6nUq9q6hFQhcFI0b7
+   Ci5M2z1TghcQnyUbPyXlUZTw9OD00/YEyGhen+rWf3FXFke/VTLRUfSYq
+   acN/zG+11O/Csc5I93oXMX3lj+/yB4vqVMVZhCBiIICqWgXPeP1xeh3lo
+   zmhWeSw3nlAUTMTl/qcg1ZWkGKAcZi99mw5eBPh62WSyoLb6rt6Zblrbk
+   Aoqo8sjGrJImIprVibXN1w99TPY7FLl+JZJWoasP1gk3Lqj8PwwfomtDN
+   Q==;
+X-CSE-ConnectionGUID: ZKl+jMFsRp+OGXYARzu/0w==
+X-CSE-MsgGUID: caURCVVtTfya0byR7jOJYQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="78523604"
 X-IronPort-AV: E=Sophos;i="6.23,210,1770624000"; 
-   d="scan'208";a="90079909"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2026 10:27:47 -0700
-X-CSE-ConnectionGUID: e+Ev8nzTT/6F/s04Yp/+Ow==
-X-CSE-MsgGUID: cvVrLSifS2Oi8IDaxwOYSQ==
+   d="scan'208";a="78523604"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2026 11:40:52 -0700
+X-CSE-ConnectionGUID: W+agS+EWSo+XBBU+/6a85A==
+X-CSE-MsgGUID: gSZdrQHASuKwMGTZUHsE4Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,210,1770624000"; 
-   d="scan'208";a="234814301"
+   d="scan'208";a="265297256"
 Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 01 May 2026 10:27:45 -0700
+  by orviesa002.jf.intel.com with ESMTP; 01 May 2026 11:40:48 -0700
 Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wIreQ-000000000k5-2cX8;
-	Fri, 01 May 2026 17:27:42 +0000
-Date: Sat, 02 May 2026 01:27:11 +0800
+	id 1wIsn8-000000000mT-15f3;
+	Fri, 01 May 2026 18:40:46 +0000
+Date: Sat, 2 May 2026 02:40:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dorjoy Chowdhury <dorjoychy111@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Christian Brauner <christianvanbrauner@gmail.com>,
- Christian Brauner <brauner@kernel.org>,
- Jeff Layton <jlayton@kernel.org>, Aleksa Sarai <aleksa@amutable.com>
-Subject: fs/smb/client/dir.c:248:10: error: use of undeclared label
- 'out'
-Message-ID: <202605020138.EI8o7MFz-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Yuho Choi <dbgh9129@gmail.com>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Yuho Choi <dbgh9129@gmail.com>
+Subject: Re: [PATCH v1] cpufreq: pcc: fix use-after-free and double free in
+ _OSC evaluation
+Message-ID: <202605020207.kSlb7cj7-lkp@intel.com>
+References: <20260415165139.14113-1-dbgh9129@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260415165139.14113-1-dbgh9129@gmail.com>
 
-tree:   https://github.com/brauner/linux.git vfs-7.2.openat.regular
-head:   be7728badbd230f1ee7beba4162383fa022ae767
-commit: 93306cec35846eebf467d63a775fa711d7106b2e openat2: new OPENAT2_REGULAR flag support
-date:   2 weeks ago
-config: i386-randconfig-141-20260501 (https://download.01.org/0day-ci/archive/20260502/202605020138.EI8o7MFz-lkp@intel.com/config)
+Hi Yuho,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on rafael-pm/linux-next]
+[also build test ERROR on rafael-pm/bleeding-edge linus/master v7.1-rc1 next-20260430]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yuho-Choi/cpufreq-pcc-fix-use-after-free-and-double-free-in-_OSC-evaluation/20260418-135954
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20260415165139.14113-1-dbgh9129%40gmail.com
+patch subject: [PATCH v1] cpufreq: pcc: fix use-after-free and double free in _OSC evaluation
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20260502/202605020207.kSlb7cj7-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-smatch: v0.5.0-9065-ge9cc34fd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605020138.EI8o7MFz-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605020207.kSlb7cj7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605020138.EI8o7MFz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605020207.kSlb7cj7-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/smb/client/dir.c:248:10: error: use of undeclared label 'out'
-     248 |                                 goto out;
-         |                                      ^
-   1 error generated.
+   In file included from drivers/cpufreq/pcc-cpufreq.c:26:
+>> include/acpi/actypes.h:21:2: error: ACPI_MACHINE_WIDTH not defined
+      21 | #error ACPI_MACHINE_WIDTH not defined
+         |  ^
+   include/acpi/actypes.h:95:9: error: unknown type name 'COMPILER_DEPENDENT_UINT64'
+      95 | typedef COMPILER_DEPENDENT_UINT64 u64;
+         |         ^
+   include/acpi/actypes.h:96:9: error: unknown type name 'COMPILER_DEPENDENT_INT64'
+      96 | typedef COMPILER_DEPENDENT_INT64 s64;
+         |         ^
+   include/acpi/actypes.h:116:5: warning: 'ACPI_MACHINE_WIDTH' is not defined, evaluates to 0 [-Wundef]
+     116 | #if ACPI_MACHINE_WIDTH == 64
+         |     ^
+   include/acpi/actypes.h:157:7: warning: 'ACPI_MACHINE_WIDTH' is not defined, evaluates to 0 [-Wundef]
+     157 | #elif ACPI_MACHINE_WIDTH == 32
+         |       ^
+>> include/acpi/actypes.h:199:2: error: unknown ACPI_MACHINE_WIDTH
+     199 | #error unknown ACPI_MACHINE_WIDTH
+         |  ^
+   include/acpi/actypes.h:230:6: warning: 'ACPI_MUTEX_TYPE' is not defined, evaluates to 0 [-Wundef]
+     230 | #if (ACPI_MUTEX_TYPE == ACPI_BINARY_SEMAPHORE)
+         |      ^
+   include/acpi/actypes.h:230:25: warning: 'ACPI_BINARY_SEMAPHORE' is not defined, evaluates to 0 [-Wundef]
+     230 | #if (ACPI_MUTEX_TYPE == ACPI_BINARY_SEMAPHORE)
+         |                         ^
+   include/acpi/actypes.h:421:9: error: unknown type name 'u32'
+     421 | typedef u32 acpi_status;        /* All ACPI Exceptions */
+         |         ^
+   include/acpi/actypes.h:422:9: error: unknown type name 'u32'
+     422 | typedef u32 acpi_name;          /* 4-byte ACPI name */
+         |         ^
+   include/acpi/actypes.h:644:9: error: unknown type name 'u32'
+     644 | typedef u32 acpi_object_type;
+         |         ^
+   include/acpi/actypes.h:716:9: error: unknown type name 'u32'
+     716 | typedef u32 acpi_event_type;
+         |         ^
+   include/acpi/actypes.h:747:9: error: unknown type name 'u32'
+     747 | typedef u32 acpi_event_status;
+         |         ^
+   include/acpi/actypes.h:917:3: error: unknown type name 'u32'
+     917 |                 u32 length;     /* # of bytes in string, excluding trailing null */
+         |                 ^
+   include/acpi/actypes.h:923:3: error: unknown type name 'u32'
+     923 |                 u32 length;     /* # of bytes in buffer */
+         |                 ^
+   include/acpi/actypes.h:929:3: error: unknown type name 'u32'
+     929 |                 u32 count;      /* # of elements in package */
+         |                 ^
+   include/acpi/actypes.h:941:3: error: unknown type name 'u32'
+     941 |                 u32 proc_id;
+         |                 ^
+   include/acpi/actypes.h:942:3: error: unknown type name 'acpi_io_address'
+     942 |                 acpi_io_address pblk_address;
+         |                 ^
+   include/acpi/actypes.h:943:3: error: unknown type name 'u32'
+     943 |                 u32 pblk_length;
+         |                 ^
+   include/acpi/actypes.h:948:3: error: unknown type name 'u32'
+     948 |                 u32 system_level;
+         |                 ^
+   include/acpi/actypes.h:949:3: error: unknown type name 'u32'
+     949 |                 u32 resource_order;
+         |                 ^
+   include/acpi/actypes.h:957:2: error: unknown type name 'u32'
+     957 |         u32 count;
+         |         ^
+   include/acpi/actypes.h:979:2: error: unknown type name 'acpi_size'
+     979 |         acpi_size length;       /* Length in bytes of the buffer */
+         |         ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   4 warnings and 20 errors generated.
 
 
-vim +/out +248 fs/smb/client/dir.c
+vim +21 include/acpi/actypes.h
 
-   199	
-   200	/* Inode operations in similar order to how they appear in Linux file fs.h */
-   201	static int __cifs_do_create(struct inode *dir, struct dentry *direntry,
-   202				    const char *full_path, unsigned int xid,
-   203				    struct tcon_link *tlink, unsigned int oflags,
-   204				    umode_t mode, __u32 *oplock, struct cifs_fid *fid,
-   205				    struct cifs_open_info_data *buf,
-   206				    struct inode **inode)
-   207	{
-   208		int rc = -ENOENT;
-   209		int create_options = CREATE_NOT_DIR;
-   210		int desired_access;
-   211		struct cifs_sb_info *cifs_sb = CIFS_SB(dir);
-   212		struct cifs_tcon *tcon = tlink_tcon(tlink);
-   213		struct inode *newinode = NULL;
-   214		unsigned int sbflags = cifs_sb_flags(cifs_sb);
-   215		int disposition;
-   216		struct TCP_Server_Info *server = tcon->ses->server;
-   217		struct cifs_open_parms oparms;
-   218		struct cached_fid *parent_cfid = NULL;
-   219		int rdwr_for_fscache = 0;
-   220		__le32 lease_flags = 0;
-   221	
-   222		*inode = NULL;
-   223		*oplock = 0;
-   224		if (tcon->ses->server->oplocks)
-   225			*oplock = REQ_OPLOCK;
-   226	
-   227		/* If we're caching, we need to be able to fill in around partial writes. */
-   228		if (cifs_fscache_enabled(dir) && (oflags & O_ACCMODE) == O_WRONLY)
-   229			rdwr_for_fscache = 1;
-   230	
-   231	#ifdef CONFIG_CIFS_ALLOW_INSECURE_LEGACY
-   232		if (tcon->unix_ext && cap_unix(tcon->ses) && !tcon->broken_posix_open &&
-   233		    (CIFS_UNIX_POSIX_PATH_OPS_CAP &
-   234				le64_to_cpu(tcon->fsUnixInfo.Capability))) {
-   235			rc = cifs_posix_open(full_path, &newinode, dir->i_sb, mode,
-   236					     oflags, oplock, &fid->netfid, xid);
-   237			switch (rc) {
-   238			case 0:
-   239				if (newinode == NULL) {
-   240					/* query inode info */
-   241					goto cifs_create_get_file_info;
-   242				}
-   243	
-   244				if ((oflags & OPENAT2_REGULAR) && !S_ISREG(newinode->i_mode)) {
-   245					CIFSSMBClose(xid, tcon, fid->netfid);
-   246					iput(newinode);
-   247					rc = -EFTYPE;
- > 248					goto out;
-   249				}
-   250	
-   251				if (S_ISDIR(newinode->i_mode)) {
-   252					CIFSSMBClose(xid, tcon, fid->netfid);
-   253					iput(newinode);
-   254					return -EISDIR;
-   255				}
-   256	
-   257				if (!S_ISREG(newinode->i_mode)) {
-   258					/*
-   259					 * The server may allow us to open things like
-   260					 * FIFOs, but the client isn't set up to deal
-   261					 * with that. If it's not a regular file, just
-   262					 * close it and proceed as if it were a normal
-   263					 * lookup.
-   264					 */
-   265					CIFSSMBClose(xid, tcon, fid->netfid);
-   266					goto cifs_create_get_file_info;
-   267				}
-   268				/* success, no need to query */
-   269				goto cifs_create_set_dentry;
-   270	
-   271			case -ENOENT:
-   272				goto cifs_create_get_file_info;
-   273	
-   274			case -EIO:
-   275			case -EINVAL:
-   276				/*
-   277				 * EIO could indicate that (posix open) operation is not
-   278				 * supported, despite what server claimed in capability
-   279				 * negotiation.
-   280				 *
-   281				 * POSIX open in samba versions 3.3.1 and earlier could
-   282				 * incorrectly fail with invalid parameter.
-   283				 */
-   284				tcon->broken_posix_open = true;
-   285				break;
-   286	
-   287			case -EREMOTE:
-   288			case -EOPNOTSUPP:
-   289				/*
-   290				 * EREMOTE indicates DFS junction, which is not handled
-   291				 * in posix open.  If either that or op not supported
-   292				 * returned, follow the normal lookup.
-   293				 */
-   294				break;
-   295	
-   296			default:
-   297				return rc;
-   298			}
-   299			/*
-   300			 * fallthrough to retry, using older open call, this is case
-   301			 * where server does not support this SMB level, and falsely
-   302			 * claims capability (also get here for DFS case which should be
-   303			 * rare for path not covered on files)
-   304			 */
-   305		}
-   306	#endif /* CONFIG_CIFS_ALLOW_INSECURE_LEGACY */
-   307	
-   308		desired_access = 0;
-   309		if (OPEN_FMODE(oflags) & FMODE_READ)
-   310			desired_access |= GENERIC_READ; /* is this too little? */
-   311		if (OPEN_FMODE(oflags) & FMODE_WRITE)
-   312			desired_access |= GENERIC_WRITE;
-   313		if (rdwr_for_fscache == 1)
-   314			desired_access |= GENERIC_READ;
-   315		if (oflags & O_TMPFILE)
-   316			desired_access |= DELETE;
-   317	
-   318		disposition = FILE_OVERWRITE_IF;
-   319		if (oflags & O_CREAT) {
-   320			if (oflags & O_EXCL)
-   321				disposition = FILE_CREATE;
-   322			else if (oflags & O_TRUNC)
-   323				disposition = FILE_OVERWRITE_IF;
-   324			else
-   325				disposition = FILE_OPEN_IF;
-   326		} else if (oflags & O_TMPFILE) {
-   327			disposition = FILE_CREATE;
-   328		} else {
-   329			cifs_dbg(FYI, "Create flag not set in create function\n");
-   330		}
-   331	
-   332		/*
-   333		 * BB add processing to set equivalent of mode - e.g. via CreateX with
-   334		 * ACLs
-   335		 */
-   336	
-   337		if (!server->ops->open)
-   338			return -EOPNOTSUPP;
-   339	
-   340		create_options |= cifs_open_create_options(oflags, create_options);
-   341		/*
-   342		 * if we're not using unix extensions, see if we need to set
-   343		 * ATTR_READONLY on the create call
-   344		 */
-   345		if (!tcon->unix_ext && (mode & S_IWUGO) == 0)
-   346			create_options |= CREATE_OPTION_READONLY;
-   347	
-   348	
-   349	retry_open:
-   350		if (tcon->cfids && direntry->d_parent && server->dialect >= SMB30_PROT_ID) {
-   351			parent_cfid = NULL;
-   352			spin_lock(&tcon->cfids->cfid_list_lock);
-   353			list_for_each_entry(parent_cfid, &tcon->cfids->entries, entry) {
-   354				if (parent_cfid->dentry == direntry->d_parent) {
-   355					cifs_dbg(FYI, "found a parent cached file handle\n");
-   356					if (is_valid_cached_dir(parent_cfid)) {
-   357						lease_flags
-   358							|= SMB2_LEASE_FLAG_PARENT_LEASE_KEY_SET_LE;
-   359						memcpy(fid->parent_lease_key,
-   360						       parent_cfid->fid.lease_key,
-   361						       SMB2_LEASE_KEY_SIZE);
-   362						parent_cfid->dirents.is_valid = false;
-   363						parent_cfid->dirents.is_failed = true;
-   364					}
-   365					break;
-   366				}
-   367			}
-   368			spin_unlock(&tcon->cfids->cfid_list_lock);
-   369		}
-   370	
-   371		oparms = (struct cifs_open_parms) {
-   372			.tcon = tcon,
-   373			.cifs_sb = cifs_sb,
-   374			.desired_access = desired_access,
-   375			.create_options = cifs_create_options(cifs_sb, create_options),
-   376			.disposition = disposition,
-   377			.path = full_path,
-   378			.fid = fid,
-   379			.lease_flags = lease_flags,
-   380			.mode = mode,
-   381		};
-   382		rc = server->ops->open(xid, &oparms, oplock, buf);
-   383		if (rc) {
-   384			cifs_dbg(FYI, "cifs_create returned 0x%x\n", rc);
-   385			if (rc == -EACCES && rdwr_for_fscache == 1) {
-   386				desired_access &= ~GENERIC_READ;
-   387				rdwr_for_fscache = 2;
-   388				goto retry_open;
-   389			}
-   390			return rc;
-   391		}
-   392		if (rdwr_for_fscache == 2)
-   393			cifs_invalidate_cache(dir, FSCACHE_INVAL_DIO_WRITE);
-   394	
+61686124f47d7c Bob Moore      2006-03-17   14  
+defba1d8f233c0 Bob Moore      2005-12-16   15  /*
+c6915b3f29eb09 Bob Moore      2017-06-05   16   * ACPI_MACHINE_WIDTH must be specified in an OS- or compiler-dependent
+c6915b3f29eb09 Bob Moore      2017-06-05   17   * header and must be either 32 or 64. 16-bit ACPICA is no longer
+c6915b3f29eb09 Bob Moore      2017-06-05   18   * supported, as of 12/2006.
+defba1d8f233c0 Bob Moore      2005-12-16   19   */
+defba1d8f233c0 Bob Moore      2005-12-16   20  #ifndef ACPI_MACHINE_WIDTH
+defba1d8f233c0 Bob Moore      2005-12-16  @21  #error ACPI_MACHINE_WIDTH not defined
+defba1d8f233c0 Bob Moore      2005-12-16   22  #endif
+defba1d8f233c0 Bob Moore      2005-12-16   23  
+^1da177e4c3f41 Linus Torvalds 2005-04-16   24  /*
+^1da177e4c3f41 Linus Torvalds 2005-04-16   25   * Data type ranges
+^1da177e4c3f41 Linus Torvalds 2005-04-16   26   * Note: These macros are designed to be compiler independent as well as
+^1da177e4c3f41 Linus Torvalds 2005-04-16   27   * working around problems that some 32-bit compilers have with 64-bit
+^1da177e4c3f41 Linus Torvalds 2005-04-16   28   * constants.
+^1da177e4c3f41 Linus Torvalds 2005-04-16   29   */
+e252652fb2664d Lv Zheng       2014-02-11   30  #define ACPI_UINT8_MAX                  (u8) (~((u8)  0))	/* 0xFF               */
+e252652fb2664d Lv Zheng       2014-02-11   31  #define ACPI_UINT16_MAX                 (u16)(~((u16) 0))	/* 0xFFFF             */
+e252652fb2664d Lv Zheng       2014-02-11   32  #define ACPI_UINT32_MAX                 (u32)(~((u32) 0))	/* 0xFFFFFFFF         */
+e252652fb2664d Lv Zheng       2014-02-11   33  #define ACPI_UINT64_MAX                 (u64)(~((u64) 0))	/* 0xFFFFFFFFFFFFFFFF */
+^1da177e4c3f41 Linus Torvalds 2005-04-16   34  #define ACPI_ASCII_MAX                  0x7F
+^1da177e4c3f41 Linus Torvalds 2005-04-16   35  
+^1da177e4c3f41 Linus Torvalds 2005-04-16   36  /*
+defba1d8f233c0 Bob Moore      2005-12-16   37   * Architecture-specific ACPICA Subsystem Data Types
+defba1d8f233c0 Bob Moore      2005-12-16   38   *
+defba1d8f233c0 Bob Moore      2005-12-16   39   * The goal of these types is to provide source code portability across
+defba1d8f233c0 Bob Moore      2005-12-16   40   * 16-bit, 32-bit, and 64-bit targets.
+defba1d8f233c0 Bob Moore      2005-12-16   41   *
+defba1d8f233c0 Bob Moore      2005-12-16   42   * 1) The following types are of fixed size for all targets (16/32/64):
+defba1d8f233c0 Bob Moore      2005-12-16   43   *
+e252652fb2664d Lv Zheng       2014-02-11   44   * u8           Logical boolean
+^1da177e4c3f41 Linus Torvalds 2005-04-16   45   *
+e252652fb2664d Lv Zheng       2014-02-11   46   * u8           8-bit  (1 byte) unsigned value
+e252652fb2664d Lv Zheng       2014-02-11   47   * u16          16-bit (2 byte) unsigned value
+e252652fb2664d Lv Zheng       2014-02-11   48   * u32          32-bit (4 byte) unsigned value
+e252652fb2664d Lv Zheng       2014-02-11   49   * u64          64-bit (8 byte) unsigned value
+defba1d8f233c0 Bob Moore      2005-12-16   50   *
+e252652fb2664d Lv Zheng       2014-02-11   51   * s16          16-bit (2 byte) signed value
+e252652fb2664d Lv Zheng       2014-02-11   52   * s32          32-bit (4 byte) signed value
+e252652fb2664d Lv Zheng       2014-02-11   53   * s64          64-bit (8 byte) signed value
+defba1d8f233c0 Bob Moore      2005-12-16   54   *
+e252652fb2664d Lv Zheng       2014-02-11   55   * COMPILER_DEPENDENT_UINT64/s64 - These types are defined in the
+c6915b3f29eb09 Bob Moore      2017-06-05   56   * compiler-dependent header(s) and were introduced because there is no
+c6915b3f29eb09 Bob Moore      2017-06-05   57   * common 64-bit integer type across the various compilation models, as
+c6915b3f29eb09 Bob Moore      2017-06-05   58   * shown in the table below.
+defba1d8f233c0 Bob Moore      2005-12-16   59   *
+defba1d8f233c0 Bob Moore      2005-12-16   60   * Datatype  LP64 ILP64 LLP64 ILP32 LP32 16bit
+defba1d8f233c0 Bob Moore      2005-12-16   61   * char      8    8     8     8     8    8
+defba1d8f233c0 Bob Moore      2005-12-16   62   * short     16   16    16    16    16   16
+defba1d8f233c0 Bob Moore      2005-12-16   63   * _int32         32
+defba1d8f233c0 Bob Moore      2005-12-16   64   * int       32   64    32    32    16   16
+defba1d8f233c0 Bob Moore      2005-12-16   65   * long      64   64    32    32    32   32
+defba1d8f233c0 Bob Moore      2005-12-16   66   * long long            64    64
+defba1d8f233c0 Bob Moore      2005-12-16   67   * pointer   64   64    64    32    32   32
+defba1d8f233c0 Bob Moore      2005-12-16   68   *
+defba1d8f233c0 Bob Moore      2005-12-16   69   * Note: ILP64 and LP32 are currently not supported.
+defba1d8f233c0 Bob Moore      2005-12-16   70   *
+defba1d8f233c0 Bob Moore      2005-12-16   71   *
+defba1d8f233c0 Bob Moore      2005-12-16   72   * 2) These types represent the native word size of the target mode of the
+defba1d8f233c0 Bob Moore      2005-12-16   73   * processor, and may be 16-bit, 32-bit, or 64-bit as required. They are
+defba1d8f233c0 Bob Moore      2005-12-16   74   * usually used for memory allocation, efficient loop counters, and array
+c6915b3f29eb09 Bob Moore      2017-06-05   75   * indexes. The types are similar to the size_t type in the C library and
+c6915b3f29eb09 Bob Moore      2017-06-05   76   * are required because there is no C type that consistently represents the
+c6915b3f29eb09 Bob Moore      2017-06-05   77   * native data width. acpi_size is needed because there is no guarantee
+c6915b3f29eb09 Bob Moore      2017-06-05   78   * that a kernel-level C library is present.
+defba1d8f233c0 Bob Moore      2005-12-16   79   *
+e252652fb2664d Lv Zheng       2014-02-11   80   * acpi_size        16/32/64-bit unsigned value
+e252652fb2664d Lv Zheng       2014-02-11   81   * acpi_native_int  16/32/64-bit signed value
+^1da177e4c3f41 Linus Torvalds 2005-04-16   82   */
+^1da177e4c3f41 Linus Torvalds 2005-04-16   83  
+defba1d8f233c0 Bob Moore      2005-12-16   84  /*******************************************************************************
+defba1d8f233c0 Bob Moore      2005-12-16   85   *
+defba1d8f233c0 Bob Moore      2005-12-16   86   * Common types for all compilers, all targets
+defba1d8f233c0 Bob Moore      2005-12-16   87   *
+defba1d8f233c0 Bob Moore      2005-12-16   88   ******************************************************************************/
+0897831bb54eb3 Bob Moore      2005-10-21   89  
+e252652fb2664d Lv Zheng       2014-02-11   90  #ifndef ACPI_USE_SYSTEM_INTTYPES
+e252652fb2664d Lv Zheng       2014-02-11   91  
+e252652fb2664d Lv Zheng       2014-02-11   92  typedef unsigned char u8;
+e252652fb2664d Lv Zheng       2014-02-11   93  typedef unsigned short u16;
+80a648c12e4bda Lv Zheng       2014-07-08   94  typedef short s16;
+e252652fb2664d Lv Zheng       2014-02-11   95  typedef COMPILER_DEPENDENT_UINT64 u64;
+e252652fb2664d Lv Zheng       2014-02-11   96  typedef COMPILER_DEPENDENT_INT64 s64;
+defba1d8f233c0 Bob Moore      2005-12-16   97  
+e252652fb2664d Lv Zheng       2014-02-11   98  #endif				/* ACPI_USE_SYSTEM_INTTYPES */
+defba1d8f233c0 Bob Moore      2005-12-16   99  
+28eb3fcf8762a3 Lin Ming       2010-09-15  100  /*
+28eb3fcf8762a3 Lin Ming       2010-09-15  101   * Value returned by acpi_os_get_thread_id. There is no standard "thread_id"
+28eb3fcf8762a3 Lin Ming       2010-09-15  102   * across operating systems or even the various UNIX systems. Since ACPICA
+28eb3fcf8762a3 Lin Ming       2010-09-15  103   * only needs the thread ID as a unique thread identifier, we use a u64
+28eb3fcf8762a3 Lin Ming       2010-09-15  104   * as the only common data type - it will accommodate any type of pointer or
+28eb3fcf8762a3 Lin Ming       2010-09-15  105   * any type of integer. It is up to the host-dependent OSL to cast the
+28eb3fcf8762a3 Lin Ming       2010-09-15  106   * native thread ID type to a u64 (in acpi_os_get_thread_id).
+28eb3fcf8762a3 Lin Ming       2010-09-15  107   */
+28eb3fcf8762a3 Lin Ming       2010-09-15  108  #define acpi_thread_id                  u64
+28eb3fcf8762a3 Lin Ming       2010-09-15  109  
+defba1d8f233c0 Bob Moore      2005-12-16  110  /*******************************************************************************
+defba1d8f233c0 Bob Moore      2005-12-16  111   *
+defba1d8f233c0 Bob Moore      2005-12-16  112   * Types specific to 64-bit targets
+defba1d8f233c0 Bob Moore      2005-12-16  113   *
+defba1d8f233c0 Bob Moore      2005-12-16  114   ******************************************************************************/
+^1da177e4c3f41 Linus Torvalds 2005-04-16  115  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  116  #if ACPI_MACHINE_WIDTH == 64
+^1da177e4c3f41 Linus Torvalds 2005-04-16  117  
+e252652fb2664d Lv Zheng       2014-02-11  118  #ifndef ACPI_USE_SYSTEM_INTTYPES
+^1da177e4c3f41 Linus Torvalds 2005-04-16  119  
+e252652fb2664d Lv Zheng       2014-02-11  120  typedef unsigned int u32;
+e252652fb2664d Lv Zheng       2014-02-11  121  typedef int s32;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  122  
+e252652fb2664d Lv Zheng       2014-02-11  123  #endif				/* ACPI_USE_SYSTEM_INTTYPES */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  124  
+defba1d8f233c0 Bob Moore      2005-12-16  125  typedef s64 acpi_native_int;
+defba1d8f233c0 Bob Moore      2005-12-16  126  
+67a119f990063f Bob Moore      2008-06-10  127  typedef u64 acpi_size;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  128  typedef u64 acpi_io_address;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  129  typedef u64 acpi_physical_address;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  130  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  131  #define ACPI_MAX_PTR                    ACPI_UINT64_MAX
+^1da177e4c3f41 Linus Torvalds 2005-04-16  132  #define ACPI_SIZE_MAX                   ACPI_UINT64_MAX
+^1da177e4c3f41 Linus Torvalds 2005-04-16  133  
+defba1d8f233c0 Bob Moore      2005-12-16  134  #define ACPI_USE_NATIVE_DIVIDE	/* Has native 64-bit integer support */
+65082bfcb486ef Lv Zheng       2017-08-03  135  #define ACPI_USE_NATIVE_MATH64	/* Has native 64-bit integer support */
+defba1d8f233c0 Bob Moore      2005-12-16  136  
+0897831bb54eb3 Bob Moore      2005-10-21  137  /*
+0897831bb54eb3 Bob Moore      2005-10-21  138   * In the case of the Itanium Processor Family (IPF), the hardware does not
+c6915b3f29eb09 Bob Moore      2017-06-05  139   * support misaligned memory transfers. Set the MISALIGNMENT_NOT_SUPPORTED
+c6915b3f29eb09 Bob Moore      2017-06-05  140   * flag to indicate that special precautions must be taken to avoid alignment
+c6915b3f29eb09 Bob Moore      2017-06-05  141   * faults. (IA64 or ia64 is currently used by existing compilers to indicate
+c6915b3f29eb09 Bob Moore      2017-06-05  142   * IPF.)
+0897831bb54eb3 Bob Moore      2005-10-21  143   *
+ba494beeaa69bc Bob Moore      2012-07-12  144   * Note: EM64T and other X86-64 processors support misaligned transfers,
+0897831bb54eb3 Bob Moore      2005-10-21  145   * so there is no need to define this flag.
+0897831bb54eb3 Bob Moore      2005-10-21  146   */
+0897831bb54eb3 Bob Moore      2005-10-21  147  #if defined (__IA64__) || defined (__ia64__)
+0897831bb54eb3 Bob Moore      2005-10-21  148  #define ACPI_MISALIGNMENT_NOT_SUPPORTED
+0897831bb54eb3 Bob Moore      2005-10-21  149  #endif
+0897831bb54eb3 Bob Moore      2005-10-21  150  
+defba1d8f233c0 Bob Moore      2005-12-16  151  /*******************************************************************************
+defba1d8f233c0 Bob Moore      2005-12-16  152   *
+defba1d8f233c0 Bob Moore      2005-12-16  153   * Types specific to 32-bit targets
+defba1d8f233c0 Bob Moore      2005-12-16  154   *
+defba1d8f233c0 Bob Moore      2005-12-16  155   ******************************************************************************/
+defba1d8f233c0 Bob Moore      2005-12-16  156  
+defba1d8f233c0 Bob Moore      2005-12-16  157  #elif ACPI_MACHINE_WIDTH == 32
+defba1d8f233c0 Bob Moore      2005-12-16  158  
+e252652fb2664d Lv Zheng       2014-02-11  159  #ifndef ACPI_USE_SYSTEM_INTTYPES
+defba1d8f233c0 Bob Moore      2005-12-16  160  
+e252652fb2664d Lv Zheng       2014-02-11  161  typedef unsigned int u32;
+e252652fb2664d Lv Zheng       2014-02-11  162  typedef int s32;
+defba1d8f233c0 Bob Moore      2005-12-16  163  
+e252652fb2664d Lv Zheng       2014-02-11  164  #endif				/* ACPI_USE_SYSTEM_INTTYPES */
+defba1d8f233c0 Bob Moore      2005-12-16  165  
+defba1d8f233c0 Bob Moore      2005-12-16  166  typedef s32 acpi_native_int;
+defba1d8f233c0 Bob Moore      2005-12-16  167  
+67a119f990063f Bob Moore      2008-06-10  168  typedef u32 acpi_size;
+2b8760100e1de6 Lv Zheng       2015-04-13  169  
+2b8760100e1de6 Lv Zheng       2015-04-13  170  #ifdef ACPI_32BIT_PHYSICAL_ADDRESS
+2b8760100e1de6 Lv Zheng       2015-04-13  171  
+2b8760100e1de6 Lv Zheng       2015-04-13  172  /*
+2b8760100e1de6 Lv Zheng       2015-04-13  173   * OSPMs can define this to shrink the size of the structures for 32-bit
+2b8760100e1de6 Lv Zheng       2015-04-13  174   * none PAE environment. ASL compiler may always define this to generate
+2b8760100e1de6 Lv Zheng       2015-04-13  175   * 32-bit OSPM compliant tables.
+2b8760100e1de6 Lv Zheng       2015-04-13  176   */
+defba1d8f233c0 Bob Moore      2005-12-16  177  typedef u32 acpi_io_address;
+f3d2e7865c8162 Bob Moore      2007-02-02  178  typedef u32 acpi_physical_address;
+defba1d8f233c0 Bob Moore      2005-12-16  179  
+2b8760100e1de6 Lv Zheng       2015-04-13  180  #else				/* ACPI_32BIT_PHYSICAL_ADDRESS */
+2b8760100e1de6 Lv Zheng       2015-04-13  181  
+2b8760100e1de6 Lv Zheng       2015-04-13  182  /*
+2b8760100e1de6 Lv Zheng       2015-04-13  183   * It is reported that, after some calculations, the physical addresses can
+2b8760100e1de6 Lv Zheng       2015-04-13  184   * wrap over the 32-bit boundary on 32-bit PAE environment.
+2b8760100e1de6 Lv Zheng       2015-04-13  185   * https://bugzilla.kernel.org/show_bug.cgi?id=87971
+2b8760100e1de6 Lv Zheng       2015-04-13  186   */
+2b8760100e1de6 Lv Zheng       2015-04-13  187  typedef u64 acpi_io_address;
+2b8760100e1de6 Lv Zheng       2015-04-13  188  typedef u64 acpi_physical_address;
+2b8760100e1de6 Lv Zheng       2015-04-13  189  
+2b8760100e1de6 Lv Zheng       2015-04-13  190  #endif				/* ACPI_32BIT_PHYSICAL_ADDRESS */
+2b8760100e1de6 Lv Zheng       2015-04-13  191  
+defba1d8f233c0 Bob Moore      2005-12-16  192  #define ACPI_MAX_PTR                    ACPI_UINT32_MAX
+defba1d8f233c0 Bob Moore      2005-12-16  193  #define ACPI_SIZE_MAX                   ACPI_UINT32_MAX
+defba1d8f233c0 Bob Moore      2005-12-16  194  
+defba1d8f233c0 Bob Moore      2005-12-16  195  #else
+^1da177e4c3f41 Linus Torvalds 2005-04-16  196  
+59fa85057e12ff Bob Moore      2007-02-02  197  /* ACPI_MACHINE_WIDTH must be either 64 or 32 */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  198  
+defba1d8f233c0 Bob Moore      2005-12-16 @199  #error unknown ACPI_MACHINE_WIDTH
+defba1d8f233c0 Bob Moore      2005-12-16  200  #endif
+^1da177e4c3f41 Linus Torvalds 2005-04-16  201  
 
 -- 
 0-DAY CI Kernel Test Service
