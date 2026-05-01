@@ -1,193 +1,392 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49B98374170;
-	Fri,  1 May 2026 22:15:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7454F314A6B
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 May 2026 22:40:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777673704; cv=none; b=VpqvBdHrrPNquEIu5YPgtlNKun2UDUYNxfrtOEgMIZsT47X0A8/kSRzjrlTZoXgqBZ8UQMiZ8Wa2C5HPyUu9xa4QGBsj7Q9Jf6BQq7rMD6sNhcvcQpnE6xtcnlNzYvJOdyLeAVlNizFWcTtzFWKyH5Vmqg0Wzk574QgeYO+UzUA=
+	t=1777675207; cv=none; b=nHMdWqG6VpZOqw0hjE1AfmRo6ieLwBaqdiyBPbchh8Lfh23U4un6NsQWaLj9AE/xJAvFbsmTxXcz9O5vsV/IpN+E7jLdJWadu1wf50N/ROz4ZOOzzw2we2B1yEt+Pb6ZNVZuCrpmofGytdN5m4SBDjNheRe4t5j808tbWt5UMTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777673704; c=relaxed/simple;
-	bh=UQFh2dxLrFfTT3joSk89lPfDGLUIzP9/Fl3nOepwdxs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q9hYV/yxDX4s17R3S/g1aVVLWQBJTYi0yhVo+gXr2DXOIQOifY6shi/cwKIvsWsix/6kQfpPwYayrr0Obt8U6ldHCeac+9JbibIiTLihbrOos8XkKySAvA5gcrNco7WFVLMoUOXE/L6tRYtdea2cVwzE3Wbp1oVKFJugNWNcr7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VbVRFkcQ; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1777675207; c=relaxed/simple;
+	bh=dAB8mT4meY/z96YrhWGvt6a6ZS9QWiGP6At5yTE4Bs0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=gwblKUQOuaLMcxw1FAtlEQzWppsMW06jwgeMWHYvsjZZmrQtP90Nz/pBVcRlEx796LcyD5352tyJP8pWMZtz+pesor1bK2cj5HUdF/q+9JJBX/ObhdoU7a4ShIYvQrz42+bSiSnmDXUwoR1+7yx2cr/ML7/mgIDKUThOREUW9Xs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YWAOQWuy; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VbVRFkcQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YWAOQWuy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777673702; x=1809209702;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UQFh2dxLrFfTT3joSk89lPfDGLUIzP9/Fl3nOepwdxs=;
-  b=VbVRFkcQtv8fqJOAN214rrk3dRtx/6yU3LcGyAHDuU67YpvQicBr4qVG
-   Tce/1qDrEPn30CAYW4UyEdCGNAmm34yoVwvHZOnyOh3pDrU5PDbEZ+GDx
-   OF8ZJaAaXmyi3acW85+troZKIf7KZHbmaRSP6f783/gjCpWWGhZes4wLR
-   Brib8uZ7ksQZgHljk2gEgzJcVdZnN2duhSpvjWTAUIidj3qLkfFh2uLUX
-   wmo8+0AwBY+zqwjf+WVM0EgcOFizv6jjQ809sxHga3pe2VfloX0QjvL3z
-   Xt7cVvl1d61f4t6nWjXcOAq6mttqiMAfvHtwkNDh3/dTPCV91pNx62N/9
-   g==;
-X-CSE-ConnectionGUID: vzUa20JbT7CYZaRAMfB47w==
-X-CSE-MsgGUID: 9hxM2WE0RB6EPMDwVyQKMw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="78687050"
+  t=1777675205; x=1809211205;
+  h=date:from:to:cc:subject:message-id;
+  bh=dAB8mT4meY/z96YrhWGvt6a6ZS9QWiGP6At5yTE4Bs0=;
+  b=YWAOQWuyeWlconJXAPHRQqN6xSD/5AELD6IK6rmdZYpc2Webti/GskyM
+   yiexc+Cp/ULNoizhWOiM2ftsGadw/hLLRmLTEGFiGsUxt8iWReaOLvBJq
+   zkqrmtblMjIQbb7MxFOQcZ0jm8HFHrXYqaqeuN5i5tlusyJ4BxMz9thZc
+   Js9r227XnAiObzSmQYfCk/mKkmZKPy3zzo5Scr5rO7TxI4q2j3CGkmaWA
+   ptNC//GA7h0LcilgLwTWB4Lndd8nI/h54rY2vZi6lAs9OGjY0awxkHemj
+   UD5We3FdmSGVe99E4FBBv3S9JDlBLipAWOFmsYUa0KFSDiPfCAdnZKDV7
+   A==;
+X-CSE-ConnectionGUID: 6HmJMOhJS7iAIs0l/VU8Kg==
+X-CSE-MsgGUID: qqJ4Eit7SW+9m4f+P8/ITg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="101302763"
 X-IronPort-AV: E=Sophos;i="6.23,210,1770624000"; 
-   d="scan'208";a="78687050"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2026 15:14:59 -0700
-X-CSE-ConnectionGUID: R4nIAizqTvmUjBgRQ31dig==
-X-CSE-MsgGUID: GVP6g5e1TXmfSWpKF1VngQ==
+   d="scan'208";a="101302763"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2026 15:40:01 -0700
+X-CSE-ConnectionGUID: CWwHh3saQ66pwlIbmQZBqw==
+X-CSE-MsgGUID: dwcZtQrRQfK4pXQD6i8WMA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,210,1770624000"; 
-   d="scan'208";a="236755529"
 Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 01 May 2026 15:14:58 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 01 May 2026 15:39:59 -0700
 Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wIw8O-000000000tz-0XYa;
-	Fri, 01 May 2026 22:14:56 +0000
-Date: Sat, 2 May 2026 06:14:37 +0800
+	id 1wIwWa-000000000uj-2fzI;
+	Fri, 01 May 2026 22:39:56 +0000
+Date: Sat, 02 May 2026 06:39:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mingyu Wang <25181214217@stu.xidian.edu.cn>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH] mm/hugetlb: fix resv_map memory leak in
- __mmap_region error path
-Message-ID: <202605020645.8318Xwwx-lkp@intel.com>
-References: <20260425070700.562229-1-25181214217@stu.xidian.edu.cn>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+ "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+ LKML <linux-kernel@vger.kernel.org>
+Subject: [gustavoars:testing/wfamnae-next20260407 4/19]
+ drivers/scsi/aic94xx/aic94xx_sas.h:323:28: error: field has incomplete type
+ 'struct ssp_command_iu_hdr'
+Message-ID: <202605020626.ygND5GhO-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260425070700.562229-1-25181214217@stu.xidian.edu.cn>
 
-Hi Mingyu,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mingyu-Wang/mm-hugetlb-fix-resv_map-memory-leak-in-__mmap_region-error-path/20260425-203812
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20260425070700.562229-1-25181214217%40stu.xidian.edu.cn
-patch subject: [RFC PATCH] mm/hugetlb: fix resv_map memory leak in __mmap_region error path
-config: hexagon-allnoconfig (https://download.01.org/0day-ci/archive/20260502/202605020645.8318Xwwx-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20260407
+head:   9505f43094e1efb72854c166160fb7666517f07a
+commit: f6054f7e1b3b8a6fdba096f5d0b2a273d07452d4 [4/19] scsi: libsas/aci94xx: Avoid multiple -Wflex-array-member-not-at-end warnings
+config: sparc64-randconfig-r122-20260430 (https://download.01.org/0day-ci/archive/20260502/202605020626.ygND5GhO-lkp@intel.com/config)
 compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605020645.8318Xwwx-lkp@intel.com/reproduce)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605020626.ygND5GhO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605020645.8318Xwwx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605020626.ygND5GhO-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from mm/vma.c:7:
-   In file included from mm/vma_internal.h:12:
-   In file included from include/linux/backing-dev.h:13:
-   In file included from include/linux/fs.h:5:
-   In file included from include/linux/fs/super.h:5:
-   In file included from include/linux/fs/super_types.h:7:
-   In file included from include/linux/list_lru.h:14:
-   In file included from include/linux/xarray.h:16:
-   In file included from include/linux/gfp.h:7:
-   In file included from include/linux/mmzone.h:22:
-   include/linux/mm_types.h:865:28: warning: declaration of 'struct vm_area_desc' will not be visible outside of this function [-Wvisibility]
-     865 |         void (*abort_hook)(struct vm_area_desc *desc);
+   In file included from drivers/scsi/aic94xx/aic94xx_init.c:21:
+   In file included from drivers/scsi/aic94xx/aic94xx_reg.h:13:
+   In file included from drivers/scsi/aic94xx/aic94xx_hwi.h:19:
+>> drivers/scsi/aic94xx/aic94xx_sas.h:323:28: error: field has incomplete type 'struct ssp_command_iu_hdr'
+     323 |         struct ssp_command_iu_hdr ssp_cmd;
          |                                   ^
->> mm/vma.c:2805:26: error: incompatible pointer types passing 'struct vm_area_desc *' to parameter of type 'struct vm_area_desc *' [-Wincompatible-pointer-types]
-    2805 |                 desc.action.abort_hook(&desc);
-         |                                        ^~~~~
-   1 warning and 1 error generated.
+   drivers/scsi/aic94xx/aic94xx_sas.h:323:9: note: forward declaration of 'struct ssp_command_iu_hdr'
+     323 |         struct ssp_command_iu_hdr ssp_cmd;
+         |                ^
+   1 error generated.
+--
+   In file included from drivers/scsi/aic94xx/aic94xx_hwi.c:16:
+   In file included from drivers/scsi/aic94xx/aic94xx_reg.h:13:
+   In file included from drivers/scsi/aic94xx/aic94xx_hwi.h:19:
+>> drivers/scsi/aic94xx/aic94xx_sas.h:323:28: error: field has incomplete type 'struct ssp_command_iu_hdr'
+     323 |         struct ssp_command_iu_hdr ssp_cmd;
+         |                                   ^
+   drivers/scsi/aic94xx/aic94xx_sas.h:323:9: note: forward declaration of 'struct ssp_command_iu_hdr'
+     323 |         struct ssp_command_iu_hdr ssp_cmd;
+         |                ^
+>> drivers/scsi/aic94xx/aic94xx_hwi.c:342:40: error: no member named 'escb' in 'struct scb'
+     342 |                 struct empty_scb *escb = &ascb->scb->escb;
+         |                                           ~~~~~~~~~  ^
+   2 errors generated.
+--
+   In file included from drivers/scsi/aic94xx/aic94xx_scb.c:13:
+   In file included from drivers/scsi/aic94xx/aic94xx_reg.h:13:
+   In file included from drivers/scsi/aic94xx/aic94xx_hwi.h:19:
+>> drivers/scsi/aic94xx/aic94xx_sas.h:323:28: error: field has incomplete type 'struct ssp_command_iu_hdr'
+     323 |         struct ssp_command_iu_hdr ssp_cmd;
+         |                                   ^
+   drivers/scsi/aic94xx/aic94xx_sas.h:323:9: note: forward declaration of 'struct ssp_command_iu_hdr'
+     323 |         struct ssp_command_iu_hdr ssp_cmd;
+         |                ^
+>> drivers/scsi/aic94xx/aic94xx_scb.c:369:39: error: no member named 'escb' in 'struct scb'
+     369 |         struct empty_scb *escb = &ascb->scb->escb;
+         |                                   ~~~~~~~~~  ^
+>> drivers/scsi/aic94xx/aic94xx_scb.c:631:42: error: no member named 'control_phy' in 'struct scb'
+     631 |         struct control_phy *control_phy = &scb->control_phy;
+         |                                            ~~~  ^
+   drivers/scsi/aic94xx/aic94xx_scb.c:770:42: error: no member named 'control_phy' in 'struct scb'
+     770 |         struct control_phy *control_phy = &scb->control_phy;
+         |                                            ~~~  ^
+   4 errors generated.
+--
+   In file included from drivers/scsi/aic94xx/aic94xx_tmf.c:12:
+>> drivers/scsi/aic94xx/aic94xx_sas.h:323:28: error: field has incomplete type 'struct ssp_command_iu_hdr'
+     323 |         struct ssp_command_iu_hdr ssp_cmd;
+         |                                   ^
+   drivers/scsi/aic94xx/aic94xx_sas.h:323:9: note: forward declaration of 'struct ssp_command_iu_hdr'
+     323 |         struct ssp_command_iu_hdr ssp_cmd;
+         |                ^
+>> drivers/scsi/aic94xx/aic94xx_tmf.c:120:7: error: no member named 'clear_nexus' in 'struct scb'
+     120 |         scb->clear_nexus.nexus = NEXUS_ADAPTER;
+         |         ~~~  ^
+   drivers/scsi/aic94xx/aic94xx_tmf.c:129:7: error: no member named 'clear_nexus' in 'struct scb'
+     129 |         scb->clear_nexus.nexus = NEXUS_PORT;
+         |         ~~~  ^
+   drivers/scsi/aic94xx/aic94xx_tmf.c:130:7: error: no member named 'clear_nexus' in 'struct scb'
+     130 |         scb->clear_nexus.conn_mask = port->phy_mask;
+         |         ~~~  ^
+   drivers/scsi/aic94xx/aic94xx_tmf.c:146:7: error: no member named 'clear_nexus' in 'struct scb'
+     146 |         scb->clear_nexus.nexus = NEXUS_I_T;
+         |         ~~~  ^
+   drivers/scsi/aic94xx/aic94xx_tmf.c:149:8: error: no member named 'clear_nexus' in 'struct scb'
+     149 |                 scb->clear_nexus.flags = EXEC_Q | SUSPEND_TX;
+         |                 ~~~  ^
+   drivers/scsi/aic94xx/aic94xx_tmf.c:152:8: error: no member named 'clear_nexus' in 'struct scb'
+     152 |                 scb->clear_nexus.flags = SEND_Q | NOTINQ;
+         |                 ~~~  ^
+   drivers/scsi/aic94xx/aic94xx_tmf.c:155:8: error: no member named 'clear_nexus' in 'struct scb'
+     155 |                 scb->clear_nexus.flags = RESUME_TX;
+         |                 ~~~  ^
+   drivers/scsi/aic94xx/aic94xx_tmf.c:157:7: error: no member named 'clear_nexus' in 'struct scb'
+     157 |         scb->clear_nexus.conn_handle = cpu_to_le16((u16)(unsigned long)
+         |         ~~~  ^
+   drivers/scsi/aic94xx/aic94xx_tmf.c:206:7: error: no member named 'clear_nexus' in 'struct scb'
+     206 |         scb->clear_nexus.nexus = NEXUS_I_T_L;
+         |         ~~~  ^
+   drivers/scsi/aic94xx/aic94xx_tmf.c:207:7: error: no member named 'clear_nexus' in 'struct scb'
+     207 |         scb->clear_nexus.flags = SEND_Q | EXEC_Q | NOTINQ;
+         |         ~~~  ^
+   drivers/scsi/aic94xx/aic94xx_tmf.c:208:14: error: no member named 'clear_nexus' in 'struct scb'
+     208 |         memcpy(scb->clear_nexus.ssp_task.lun, lun, 8);
+         |                ~~~  ^
+   drivers/scsi/aic94xx/aic94xx_tmf.c:209:7: error: no member named 'clear_nexus' in 'struct scb'
+     209 |         scb->clear_nexus.conn_handle = cpu_to_le16((u16)(unsigned long)
+         |         ~~~  ^
+   drivers/scsi/aic94xx/aic94xx_tmf.c:220:7: error: no member named 'clear_nexus' in 'struct scb'
+     220 |         scb->clear_nexus.nexus = NEXUS_TAG;
+         |         ~~~  ^
+   drivers/scsi/aic94xx/aic94xx_tmf.c:221:14: error: no member named 'clear_nexus' in 'struct scb'
+     221 |         memcpy(scb->clear_nexus.ssp_task.lun, task->ssp_task.LUN, 8);
+         |                ~~~  ^
+   drivers/scsi/aic94xx/aic94xx_tmf.c:222:7: error: no member named 'clear_nexus' in 'struct scb'
+     222 |         scb->clear_nexus.ssp_task.tag = tascb->tag;
+         |         ~~~  ^
+   drivers/scsi/aic94xx/aic94xx_tmf.c:224:8: error: no member named 'clear_nexus' in 'struct scb'
+     224 |                 scb->clear_nexus.conn_handle = cpu_to_le16((u16)(unsigned long)
+         |                 ~~~  ^
+   drivers/scsi/aic94xx/aic94xx_tmf.c:235:7: error: no member named 'clear_nexus' in 'struct scb'
+     235 |         scb->clear_nexus.nexus = NEXUS_TRANS_CX;
+         |         ~~~  ^
+   drivers/scsi/aic94xx/aic94xx_tmf.c:237:8: error: no member named 'clear_nexus' in 'struct scb'
+     237 |                 scb->clear_nexus.conn_handle = cpu_to_le16((u16)(unsigned long)
+         |                 ~~~  ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
+--
+   In file included from drivers/scsi/aic94xx/aic94xx_task.c:11:
+>> drivers/scsi/aic94xx/aic94xx_sas.h:323:28: error: field has incomplete type 'struct ssp_command_iu_hdr'
+     323 |         struct ssp_command_iu_hdr ssp_cmd;
+         |                                   ^
+   drivers/scsi/aic94xx/aic94xx_sas.h:323:9: note: forward declaration of 'struct ssp_command_iu_hdr'
+     323 |         struct ssp_command_iu_hdr ssp_cmd;
+         |                ^
+>> drivers/scsi/aic94xx/aic94xx_task.c:129:33: error: no member named 'ssp_task' in 'struct scb'
+     129 |                        le64_to_cpu(ascb->scb->ssp_task.sg_element[0].bus_addr);
+         |                                    ~~~~~~~~~  ^
+   include/linux/byteorder/generic.h:87:21: note: expanded from macro 'le64_to_cpu'
+      87 | #define le64_to_cpu __le64_to_cpu
+         |                     ^
+   include/uapi/linux/byteorder/big_endian.h:33:59: note: expanded from macro '__le64_to_cpu'
+      33 | #define __le64_to_cpu(x) __swab64((__force __u64)(__le64)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:131:31: note: expanded from macro '__swab64'
+     131 |         (__u64)(__builtin_constant_p(x) ?       \
+         |                                      ^
+>> drivers/scsi/aic94xx/aic94xx_task.c:129:33: error: no member named 'ssp_task' in 'struct scb'
+     129 |                        le64_to_cpu(ascb->scb->ssp_task.sg_element[0].bus_addr);
+         |                                    ~~~~~~~~~  ^
+   include/linux/byteorder/generic.h:87:21: note: expanded from macro 'le64_to_cpu'
+      87 | #define le64_to_cpu __le64_to_cpu
+         |                     ^
+   include/uapi/linux/byteorder/big_endian.h:33:59: note: expanded from macro '__le64_to_cpu'
+      33 | #define __le64_to_cpu(x) __swab64((__force __u64)(__le64)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:132:21: note: expanded from macro '__swab64'
+     132 |         ___constant_swab64(x) :                 \
+         |                            ^
+   include/uapi/linux/swab.h:25:12: note: expanded from macro '___constant_swab64'
+      25 |         (((__u64)(x) & (__u64)0x00000000000000ffULL) << 56) |   \
+         |                   ^
+>> drivers/scsi/aic94xx/aic94xx_task.c:129:33: error: no member named 'ssp_task' in 'struct scb'
+     129 |                        le64_to_cpu(ascb->scb->ssp_task.sg_element[0].bus_addr);
+         |                                    ~~~~~~~~~  ^
+   include/linux/byteorder/generic.h:87:21: note: expanded from macro 'le64_to_cpu'
+      87 | #define le64_to_cpu __le64_to_cpu
+         |                     ^
+   include/uapi/linux/byteorder/big_endian.h:33:59: note: expanded from macro '__le64_to_cpu'
+      33 | #define __le64_to_cpu(x) __swab64((__force __u64)(__le64)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:132:21: note: expanded from macro '__swab64'
+     132 |         ___constant_swab64(x) :                 \
+         |                            ^
+   include/uapi/linux/swab.h:26:12: note: expanded from macro '___constant_swab64'
+      26 |         (((__u64)(x) & (__u64)0x000000000000ff00ULL) << 40) |   \
+         |                   ^
+>> drivers/scsi/aic94xx/aic94xx_task.c:129:33: error: no member named 'ssp_task' in 'struct scb'
+     129 |                        le64_to_cpu(ascb->scb->ssp_task.sg_element[0].bus_addr);
+         |                                    ~~~~~~~~~  ^
+   include/linux/byteorder/generic.h:87:21: note: expanded from macro 'le64_to_cpu'
+      87 | #define le64_to_cpu __le64_to_cpu
+         |                     ^
+   include/uapi/linux/byteorder/big_endian.h:33:59: note: expanded from macro '__le64_to_cpu'
+      33 | #define __le64_to_cpu(x) __swab64((__force __u64)(__le64)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:132:21: note: expanded from macro '__swab64'
+     132 |         ___constant_swab64(x) :                 \
+         |                            ^
+   include/uapi/linux/swab.h:27:12: note: expanded from macro '___constant_swab64'
+      27 |         (((__u64)(x) & (__u64)0x0000000000ff0000ULL) << 24) |   \
+         |                   ^
+>> drivers/scsi/aic94xx/aic94xx_task.c:129:33: error: no member named 'ssp_task' in 'struct scb'
+     129 |                        le64_to_cpu(ascb->scb->ssp_task.sg_element[0].bus_addr);
+         |                                    ~~~~~~~~~  ^
+   include/linux/byteorder/generic.h:87:21: note: expanded from macro 'le64_to_cpu'
+      87 | #define le64_to_cpu __le64_to_cpu
+         |                     ^
+   include/uapi/linux/byteorder/big_endian.h:33:59: note: expanded from macro '__le64_to_cpu'
+      33 | #define __le64_to_cpu(x) __swab64((__force __u64)(__le64)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:132:21: note: expanded from macro '__swab64'
+     132 |         ___constant_swab64(x) :                 \
+         |                            ^
+   include/uapi/linux/swab.h:28:12: note: expanded from macro '___constant_swab64'
+      28 |         (((__u64)(x) & (__u64)0x00000000ff000000ULL) <<  8) |   \
+         |                   ^
+>> drivers/scsi/aic94xx/aic94xx_task.c:129:33: error: no member named 'ssp_task' in 'struct scb'
+     129 |                        le64_to_cpu(ascb->scb->ssp_task.sg_element[0].bus_addr);
+         |                                    ~~~~~~~~~  ^
+   include/linux/byteorder/generic.h:87:21: note: expanded from macro 'le64_to_cpu'
+      87 | #define le64_to_cpu __le64_to_cpu
+         |                     ^
+   include/uapi/linux/byteorder/big_endian.h:33:59: note: expanded from macro '__le64_to_cpu'
+      33 | #define __le64_to_cpu(x) __swab64((__force __u64)(__le64)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:132:21: note: expanded from macro '__swab64'
+     132 |         ___constant_swab64(x) :                 \
+         |                            ^
+   include/uapi/linux/swab.h:29:12: note: expanded from macro '___constant_swab64'
+      29 |         (((__u64)(x) & (__u64)0x000000ff00000000ULL) >>  8) |   \
+         |                   ^
+>> drivers/scsi/aic94xx/aic94xx_task.c:129:33: error: no member named 'ssp_task' in 'struct scb'
+     129 |                        le64_to_cpu(ascb->scb->ssp_task.sg_element[0].bus_addr);
+         |                                    ~~~~~~~~~  ^
+   include/linux/byteorder/generic.h:87:21: note: expanded from macro 'le64_to_cpu'
+      87 | #define le64_to_cpu __le64_to_cpu
+         |                     ^
+   include/uapi/linux/byteorder/big_endian.h:33:59: note: expanded from macro '__le64_to_cpu'
+      33 | #define __le64_to_cpu(x) __swab64((__force __u64)(__le64)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:132:21: note: expanded from macro '__swab64'
+     132 |         ___constant_swab64(x) :                 \
+         |                            ^
+   include/uapi/linux/swab.h:30:12: note: expanded from macro '___constant_swab64'
+      30 |         (((__u64)(x) & (__u64)0x0000ff0000000000ULL) >> 24) |   \
+         |                   ^
+>> drivers/scsi/aic94xx/aic94xx_task.c:129:33: error: no member named 'ssp_task' in 'struct scb'
+     129 |                        le64_to_cpu(ascb->scb->ssp_task.sg_element[0].bus_addr);
+         |                                    ~~~~~~~~~  ^
+   include/linux/byteorder/generic.h:87:21: note: expanded from macro 'le64_to_cpu'
+      87 | #define le64_to_cpu __le64_to_cpu
+         |                     ^
+   include/uapi/linux/byteorder/big_endian.h:33:59: note: expanded from macro '__le64_to_cpu'
+      33 | #define __le64_to_cpu(x) __swab64((__force __u64)(__le64)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:132:21: note: expanded from macro '__swab64'
+     132 |         ___constant_swab64(x) :                 \
+         |                            ^
+   include/uapi/linux/swab.h:31:12: note: expanded from macro '___constant_swab64'
+      31 |         (((__u64)(x) & (__u64)0x00ff000000000000ULL) >> 40) |   \
+         |                   ^
+>> drivers/scsi/aic94xx/aic94xx_task.c:129:33: error: no member named 'ssp_task' in 'struct scb'
+     129 |                        le64_to_cpu(ascb->scb->ssp_task.sg_element[0].bus_addr);
+         |                                    ~~~~~~~~~  ^
+   include/linux/byteorder/generic.h:87:21: note: expanded from macro 'le64_to_cpu'
+      87 | #define le64_to_cpu __le64_to_cpu
+         |                     ^
+   include/uapi/linux/byteorder/big_endian.h:33:59: note: expanded from macro '__le64_to_cpu'
+      33 | #define __le64_to_cpu(x) __swab64((__force __u64)(__le64)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:132:21: note: expanded from macro '__swab64'
+     132 |         ___constant_swab64(x) :                 \
+         |                            ^
+   include/uapi/linux/swab.h:32:12: note: expanded from macro '___constant_swab64'
+      32 |         (((__u64)(x) & (__u64)0xff00000000000000ULL) >> 56)))
+         |                   ^
+>> drivers/scsi/aic94xx/aic94xx_task.c:129:33: error: no member named 'ssp_task' in 'struct scb'
+     129 |                        le64_to_cpu(ascb->scb->ssp_task.sg_element[0].bus_addr);
+         |                                    ~~~~~~~~~  ^
+   include/linux/byteorder/generic.h:87:21: note: expanded from macro 'le64_to_cpu'
+      87 | #define le64_to_cpu __le64_to_cpu
+         |                     ^
+   include/uapi/linux/byteorder/big_endian.h:33:59: note: expanded from macro '__le64_to_cpu'
+      33 | #define __le64_to_cpu(x) __swab64((__force __u64)(__le64)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:133:12: note: expanded from macro '__swab64'
+     133 |         __fswab64(x))
+         |                   ^
+>> drivers/scsi/aic94xx/aic94xx_task.c:365:7: error: no member named 'ata_task' in 'struct scb'
+     365 |         scb->ata_task.proto_conn_rate = (1 << 5); /* STP */
+         |         ~~~  ^
+   drivers/scsi/aic94xx/aic94xx_task.c:367:8: error: no member named 'ata_task' in 'struct scb'
+     367 |                 scb->ata_task.proto_conn_rate |= dev->linkrate;
+         |                 ~~~  ^
+   drivers/scsi/aic94xx/aic94xx_task.c:369:7: error: no member named 'ata_task' in 'struct scb'
+     369 |         scb->ata_task.total_xfer_len = cpu_to_le32(task->total_xfer_len);
+         |         ~~~  ^
+   drivers/scsi/aic94xx/aic94xx_task.c:370:7: error: no member named 'ata_task' in 'struct scb'
+     370 |         scb->ata_task.fis = task->ata_task.fis;
+         |         ~~~  ^
+   drivers/scsi/aic94xx/aic94xx_task.c:372:8: error: no member named 'ata_task' in 'struct scb'
+     372 |                 scb->ata_task.fis.flags |= 0x80; /* C=1: update ATA cmd reg */
+         |                 ~~~  ^
+   drivers/scsi/aic94xx/aic94xx_task.c:373:7: error: no member named 'ata_task' in 'struct scb'
+     373 |         scb->ata_task.fis.flags &= 0xF0; /* PM_PORT field shall be 0 */
+         |         ~~~  ^
+   drivers/scsi/aic94xx/aic94xx_task.c:375:15: error: no member named 'ata_task' in 'struct scb'
+     375 |                 memcpy(scb->ata_task.atapi_packet, task->ata_task.atapi_packet,
+         |                        ~~~  ^
+   drivers/scsi/aic94xx/aic94xx_task.c:377:7: error: no member named 'ata_task' in 'struct scb'
+     377 |         scb->ata_task.sister_scb = cpu_to_le16(0xFFFF);
+         |         ~~~  ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
 
 
-vim +2805 mm/vma.c
+vim +323 drivers/scsi/aic94xx/aic94xx_sas.h
 
-  2731	
-  2732	static unsigned long __mmap_region(struct file *file, unsigned long addr,
-  2733			unsigned long len, vma_flags_t vma_flags,
-  2734			unsigned long pgoff, struct list_head *uf)
-  2735	{
-  2736		struct mm_struct *mm = current->mm;
-  2737		struct vm_area_struct *vma = NULL;
-  2738		bool have_mmap_prepare = file && file->f_op->mmap_prepare;
-  2739		VMA_ITERATOR(vmi, mm, addr);
-  2740		MMAP_STATE(map, mm, &vmi, addr, len, pgoff, vma_flags, file);
-  2741		struct vm_area_desc desc = {
-  2742			.mm = mm,
-  2743			.file = file,
-  2744			.action = {
-  2745				.type = MMAP_NOTHING, /* Default to no further action. */
-  2746			},
-  2747		};
-  2748		bool allocated_new = false;
-  2749		int error;
-  2750	
-  2751		map.check_ksm_early = can_set_ksm_flags_early(&map);
-  2752	
-  2753		error = __mmap_setup(&map, &desc, uf);
-  2754		if (!error && have_mmap_prepare)
-  2755			error = call_mmap_prepare(&map, &desc);
-  2756		if (error)
-  2757			goto abort_munmap;
-  2758	
-  2759		if (map.check_ksm_early)
-  2760			update_ksm_flags(&map);
-  2761	
-  2762		/* Attempt to merge with adjacent VMAs... */
-  2763		if (map.prev || map.next) {
-  2764			VMG_MMAP_STATE(vmg, &map, /* vma = */ NULL);
-  2765	
-  2766			vma = vma_merge_new_range(&vmg);
-  2767		}
-  2768	
-  2769		/* ...but if we can't, allocate a new VMA. */
-  2770		if (!vma) {
-  2771			error = __mmap_new_vma(&map, &vma, &desc.action);
-  2772			if (error)
-  2773				goto unacct_error;
-  2774			allocated_new = true;
-  2775		}
-  2776	
-  2777		if (have_mmap_prepare)
-  2778			set_vma_user_defined_fields(vma, &map);
-  2779	
-  2780		__mmap_complete(&map, vma);
-  2781	
-  2782		if (have_mmap_prepare && allocated_new) {
-  2783			error = mmap_action_complete(vma, &desc.action,
-  2784						     /*is_compat=*/false);
-  2785			if (error)
-  2786				return error;
-  2787		}
-  2788	
-  2789		return addr;
-  2790	
-  2791		/* Accounting was done by __mmap_setup(). */
-  2792	unacct_error:
-  2793		if (map.charged)
-  2794			vm_unacct_memory(map.charged);
-  2795	abort_munmap:
-  2796		/*
-  2797		 * This indicates that .mmap_prepare has set a new file, differing from
-  2798		 * desc->vm_file. But since we're aborting the operation, only the
-  2799		 * original file will be cleaned up. Ensure we clean up both.
-  2800		 */
-  2801		if (map.file_doesnt_need_get)
-  2802			fput(map.file);
-  2803		
-  2804		if (have_mmap_prepare && desc.action.abort_hook)
-> 2805			desc.action.abort_hook(&desc);
-  2806		
-  2807		vms_abort_munmap_vmas(&map.vms, &map.mas_detach);
-  2808		return error;
-  2809	}
-  2810	
+   316	
+   317	/* This is both ssp_task and long_ssp_task
+   318	 */
+   319	struct initiate_ssp_task {
+   320		u8     proto_conn_rate;	  /* proto:6,4, conn_rate:3,0 */
+   321		__le32 total_xfer_len;
+   322		struct ssp_frame_hdr  ssp_frame;
+ > 323		struct ssp_command_iu_hdr ssp_cmd;
+   324		__le16 sister_scb;	  /* 0xFFFF */
+   325		__le16 conn_handle;	  /* index to DDB for the intended target */
+   326		u8     data_dir;	  /* :1,0 */
+   327	#define DATA_DIR_NONE   0x00
+   328	#define DATA_DIR_IN     0x01
+   329	#define DATA_DIR_OUT    0x02
+   330	#define DATA_DIR_BYRECIPIENT 0x03
+   331	
+   332		u8     _r_a;
+   333		u8     retry_count;
+   334		u8     _r_b[5];
+   335		struct sg_el sg_element[3]; /* 2 real and 1 link */
+   336	} __attribute__ ((packed));
+   337	
 
 -- 
 0-DAY CI Kernel Test Service
