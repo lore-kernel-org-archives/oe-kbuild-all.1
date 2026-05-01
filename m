@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2FEE325495
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 May 2026 07:37:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A95A9325495
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 May 2026 07:38:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777621058; cv=none; b=ZDIsEs2jUayrd2KgJK3OB3Rbyb7AXAIy85PM+5Y4pKRE9WxHPJePTc0B6d4h5cbue475LtWjoFmvfkn8S27I3vhEhGRbmaSStzual3isC/YJUWzJr57xirzuYqHWLIpd+FsSICGdwldzQWphVSXIWYvU3r/wPAALbjJ27C+b6c8=
+	t=1777621116; cv=none; b=tJTcG77r3y03YsqqXaSH+7kDgPkdE2lV90ZvhREc9ASCoUFjkjxleGftDx6zUaS0OqE7JaKc1lBQYiUM+PGoj9yi9oBHe5u3oHM+xv+Dbbc4PEGAoZ03c1e7So95bscpO1s7kDysySqLP46rWKFxtwMTPMkLm2leclJgpPDdfhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777621058; c=relaxed/simple;
-	bh=JmVsY36FQdx53MZH74cDkrWE1P2IY+NNn0vI+hpefn8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=IYZGMJxVZr+wHdvo+VQLvGB3cCzkL6vAsYGLQDcRDVreJY3va7eVZ8j4ls5lp9eEjLRAuYikb9+4qfqbnj0Uy/Tf1giLL7hp/A8E3cIXoT7L/YGG6d+EcFuk1uCigSnYOww+eTNFdFcvp5g02NOYm26fLq6cippUxewc0L3A4fw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n9SvGJ7h; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1777621116; c=relaxed/simple;
+	bh=YnuS3CmK5mP4sbZ4JQgfQGdReE+oBJzc7XotgYrnfSw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sNlAr/M9wneMK9+qiJEO/kWM6xS5dVwaQyvw5RYyQM9XtLrSz4oa52qpP0+Taof6EkveE4xy55z5qM/p/O5ZhlXA+8R4TLJPHJ+qGlhPE8mmoT083EdFfhXUdcQshpe4LVA1Yeiq40KNHPWK+HLht1ogu16wjoBPRhTi/VOexdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X8ocipVM; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n9SvGJ7h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X8ocipVM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777621056; x=1809157056;
+  t=1777621116; x=1809157116;
   h=date:from:to:cc:subject:message-id;
-  bh=JmVsY36FQdx53MZH74cDkrWE1P2IY+NNn0vI+hpefn8=;
-  b=n9SvGJ7h6eCj6rBw9psQBJ3QUnEXcOZavWq0xMQbuhmT7rezmf/DjEp5
-   GN6sPcLpUcQd5MTbXrld7vD1UozNaS39/8frfR4aAUbH27tOuANo9LBqf
-   ZPO4G/VenEJG80Mv2omJu3tsZacUESL8LhgpxPzaxv9gWve2YzbM5Mddf
-   U1vk2XvpH84NOk9b/NsybDotwcVJmEQvTgU+OIz39QVOX6zVSa9aW1qIS
-   lgH8FaGqP+ANMlNnhe2iBYc8o/Kww0bmFJ9bTUoJzHF8RN7tWQ8u5yKXm
-   GhPPUMXuza07nJZY79cdC+MlD8bxCBC/z9f6b4kBJbRsiNT0ug+Ts6kE3
+  bh=YnuS3CmK5mP4sbZ4JQgfQGdReE+oBJzc7XotgYrnfSw=;
+  b=X8ocipVM0zbI5kE5BnSGwnJxEWCyKHga4rTLdpfoBY1VHucQ7YPdxSUh
+   bdLLt09x70IaHssN8l2K7GSitcn6ugHUtyIcM1+49KlT2KmXV3p0tylRV
+   s3FW4u6x0mdkPbpMzoFLHFEHen5GRGNNIcGEWYmQRtlVMR3Z6BhFN11O6
+   U7e7q4jqbIKu6RLO/ECGW4mMEJpmNBUT8tGbZjhtju+gzGbmRCguSAEhA
+   NngJtq3GSGQpblU9vSZpbUlsDjSkwDGVOunXKVPRtiH2pGYisDmY0NuFx
+   FfF1RjTzMxEP7MvfNNU1zXwgWoPIH/35jjX5BxDY+tfK/dtQU+6+EYCCg
    A==;
-X-CSE-ConnectionGUID: uc5EN7MwTo+Vo9/VBvX7uw==
-X-CSE-MsgGUID: KtgGS1YHShWiL3D7jas4eQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11772"; a="78778169"
+X-CSE-ConnectionGUID: TD1ClbYjTMqi5g+tnQyr2Q==
+X-CSE-MsgGUID: 1CeclIl2QZyF9MKWypxUEw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11772"; a="78480247"
 X-IronPort-AV: E=Sophos;i="6.23,209,1770624000"; 
-   d="scan'208";a="78778169"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2026 00:37:36 -0700
-X-CSE-ConnectionGUID: c7SoflfoQ7GbbTjghH/rYg==
-X-CSE-MsgGUID: /KV4pheNShSvlyqwzo18dw==
+   d="scan'208";a="78480247"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2026 00:38:36 -0700
+X-CSE-ConnectionGUID: DP4b35xASO+qM4fraHVQeg==
+X-CSE-MsgGUID: aQfw/blsR1Ghqx3eI2fZUw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,209,1770624000"; 
-   d="scan'208";a="233761861"
+   d="scan'208";a="265180907"
 Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 01 May 2026 00:37:34 -0700
+  by orviesa002.jf.intel.com with ESMTP; 01 May 2026 00:38:33 -0700
 Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wIiRH-000000000Ja-0ioY;
-	Fri, 01 May 2026 07:37:31 +0000
-Date: Fri, 01 May 2026 15:37:01 +0800
+	id 1wIiSF-000000000Jj-1O57;
+	Fri, 01 May 2026 07:38:31 +0000
+Date: Fri, 01 May 2026 15:37:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sudeep Holla <sudeep.holla@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Guenter Roeck <linux@roeck-us.net>
-Subject: drivers/hwmon/xgene-hwmon.c:540:38: sparse: sparse:
- incorrect type in argument 1 (different address spaces)
-Message-ID: <202605011553.niL8BRgm-lkp@intel.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [lunn:v7.0.0-net-next-driver-removal-v1 13/18]
+ scripts/Makefile.clean:12: drivers/net/ethernet/fujitsu/Makefile: No such
+ file or directory
+Message-ID: <202605011510.tz5UuHNI-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,133 +60,58 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   26fd6bff2c050196005312d1d306889220952a99
-commit: 80fcd1e7f5c7009fa1c64737df100cc304c19c1f hwmon: (xgene-hwmon) Simplify PCC shared memory region handling
-date:   1 year ago
-config: x86_64-randconfig-123-20260430 (https://download.01.org/0day-ci/archive/20260501/202605011553.niL8BRgm-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260501/202605011553.niL8BRgm-lkp@intel.com/reproduce)
+Hi Andrew,
+
+First bad commit (maybe != root cause):
+
+tree:   https://github.com/lunn/linux.git v7.0.0-net-next-driver-removal-v1
+head:   75e17109856eb8e407a19759d3ad750fe3854b63
+commit: 9b67496f74c3d885af0541d8c378fd73f8ca2f5d [13/18] drivers: net: fujitsu: fmvj18x: Remove this driver
+config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20260501/202605011510.tz5UuHNI-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260501/202605011510.tz5UuHNI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 80fcd1e7f5c7 ("hwmon: (xgene-hwmon) Simplify PCC shared memory region handling")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605011553.niL8BRgm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605011510.tz5UuHNI-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/hwmon/xgene-hwmon.c:116:15: sparse: sparse: cast to restricted __le16
-   drivers/hwmon/xgene-hwmon.c:119:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short volatile @@     got restricted __le16 [usertype] @@
-   drivers/hwmon/xgene-hwmon.c:119:9: sparse:     expected unsigned short volatile
-   drivers/hwmon/xgene-hwmon.c:119:9: sparse:     got restricted __le16 [usertype]
-   drivers/hwmon/xgene-hwmon.c:128:21: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/hwmon/xgene-hwmon.c:137:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/hwmon/xgene-hwmon.c:137:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile @@     got restricted __le32 [usertype] @@
-   drivers/hwmon/xgene-hwmon.c:137:9: sparse:     expected unsigned int volatile
-   drivers/hwmon/xgene-hwmon.c:137:9: sparse:     got restricted __le32 [usertype]
-   drivers/hwmon/xgene-hwmon.c:141:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/hwmon/xgene-hwmon.c:141:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short volatile @@     got restricted __le16 [usertype] @@
-   drivers/hwmon/xgene-hwmon.c:141:9: sparse:     expected unsigned short volatile
-   drivers/hwmon/xgene-hwmon.c:141:9: sparse:     got restricted __le16 [usertype]
-   drivers/hwmon/xgene-hwmon.c:145:15: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/hwmon/xgene-hwmon.c:145:15: sparse: sparse: cast to restricted __le16
-   drivers/hwmon/xgene-hwmon.c:147:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/hwmon/xgene-hwmon.c:147:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short volatile @@     got restricted __le16 [usertype] @@
-   drivers/hwmon/xgene-hwmon.c:147:9: sparse:     expected unsigned short volatile
-   drivers/hwmon/xgene-hwmon.c:147:9: sparse:     got restricted __le16 [usertype]
-   drivers/hwmon/xgene-hwmon.c:151:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile @@     got restricted __le32 [usertype] @@
-   drivers/hwmon/xgene-hwmon.c:151:17: sparse:     expected unsigned int volatile
-   drivers/hwmon/xgene-hwmon.c:151:17: sparse:     got restricted __le32 [usertype]
-   drivers/hwmon/xgene-hwmon.c:538:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *msg @@     got struct acpi_pcct_shared_memory [noderef] __iomem * @@
-   drivers/hwmon/xgene-hwmon.c:538:13: sparse:     expected void *msg
-   drivers/hwmon/xgene-hwmon.c:538:13: sparse:     got struct acpi_pcct_shared_memory [noderef] __iomem *
->> drivers/hwmon/xgene-hwmon.c:540:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned short [usertype] *addr @@     got unsigned short [noderef] __iomem * @@
-   drivers/hwmon/xgene-hwmon.c:540:38: sparse:     expected unsigned short [usertype] *addr
-   drivers/hwmon/xgene-hwmon.c:540:38: sparse:     got unsigned short [noderef] __iomem *
-   drivers/hwmon/xgene-hwmon.c:562:45: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned short [usertype] *addr @@     got unsigned short [noderef] __iomem * @@
-   drivers/hwmon/xgene-hwmon.c:562:45: sparse:     expected unsigned short [usertype] *addr
-   drivers/hwmon/xgene-hwmon.c:562:45: sparse:     got unsigned short [noderef] __iomem *
+All errors (new ones prefixed by >>):
 
-vim +540 drivers/hwmon/xgene-hwmon.c
+>> scripts/Makefile.clean:12: drivers/net/ethernet/fujitsu/Makefile: No such file or directory
+>> make[7]: *** No rule to make target 'drivers/net/ethernet/fujitsu/Makefile'.
+   scripts/Makefile.clean:12: Failed to remake makefile 'drivers/net/ethernet/fujitsu/Makefile'.
+   make[6]: *** [scripts/Makefile.clean:61: drivers/net/ethernet/fujitsu] Error 2
+   make[6]: Target '__clean' not remade because of errors.
+   make[5]: *** [scripts/Makefile.clean:61: drivers/net/ethernet] Error 2
+   make[5]: Target '__clean' not remade because of errors.
+   make[4]: *** [scripts/Makefile.clean:61: drivers/net] Error 2
+   make[4]: Target '__clean' not remade because of errors.
+   make[3]: *** [scripts/Makefile.clean:61: drivers] Error 2
+   make[3]: Target '__clean' not remade because of errors.
+   make[2]: *** [Makefile:2144: _clean_.] Error 2
+   make[2]: Target 'distclean' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'distclean' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'distclean' not remade because of errors.
 
-ed42cfa881e1d8 hotran       2016-07-21  518  
-ed42cfa881e1d8 hotran       2016-07-21  519  /*
-ed42cfa881e1d8 hotran       2016-07-21  520   * This function is called when the PCC Mailbox received a message
-ed42cfa881e1d8 hotran       2016-07-21  521   */
-ed42cfa881e1d8 hotran       2016-07-21  522  static void xgene_hwmon_pcc_rx_cb(struct mbox_client *cl, void *msg)
-ed42cfa881e1d8 hotran       2016-07-21  523  {
-ed42cfa881e1d8 hotran       2016-07-21  524  	struct xgene_hwmon_dev *ctx = to_xgene_hwmon_dev(cl);
-80fcd1e7f5c700 Sudeep Holla 2025-04-11  525  	struct acpi_pcct_shared_memory __iomem *generic_comm_base =
-80fcd1e7f5c700 Sudeep Holla 2025-04-11  526  							ctx->pcc_chan->shmem;
-ed42cfa881e1d8 hotran       2016-07-21  527  	struct slimpro_resp_msg amsg;
-ed42cfa881e1d8 hotran       2016-07-21  528  
-2ca492e22cb70a hotran       2016-09-08  529  	/*
-2ca492e22cb70a hotran       2016-09-08  530  	 * While the driver registers with the mailbox framework, an interrupt
-2ca492e22cb70a hotran       2016-09-08  531  	 * can be pending before the probe function completes its
-2ca492e22cb70a hotran       2016-09-08  532  	 * initialization. If such condition occurs, just queue up the message
-2ca492e22cb70a hotran       2016-09-08  533  	 * as the driver is not ready for servicing the callback.
-2ca492e22cb70a hotran       2016-09-08  534  	 */
-2ca492e22cb70a hotran       2016-09-08  535  	if (xgene_hwmon_rx_ready(ctx, &amsg) < 0)
-2ca492e22cb70a hotran       2016-09-08  536  		return;
-2ca492e22cb70a hotran       2016-09-08  537  
-ed42cfa881e1d8 hotran       2016-07-21  538  	msg = generic_comm_base + 1;
-ed42cfa881e1d8 hotran       2016-07-21  539  	/* Check if platform sends interrupt */
-ed42cfa881e1d8 hotran       2016-07-21 @540  	if (!xgene_word_tst_and_clr(&generic_comm_base->status,
-2cf39b806be746 Sudeep Holla 2023-09-27  541  				    PCC_STATUS_SCI_DOORBELL))
-ed42cfa881e1d8 hotran       2016-07-21  542  		return;
-ed42cfa881e1d8 hotran       2016-07-21  543  
-ed42cfa881e1d8 hotran       2016-07-21  544  	/*
-ed42cfa881e1d8 hotran       2016-07-21  545  	 * Response message format:
-ed42cfa881e1d8 hotran       2016-07-21  546  	 * msg[0] is the return code of the operation
-ed42cfa881e1d8 hotran       2016-07-21  547  	 * msg[1] is the first parameter word
-ed42cfa881e1d8 hotran       2016-07-21  548  	 * msg[2] is the second parameter word
-ed42cfa881e1d8 hotran       2016-07-21  549  	 *
-ed42cfa881e1d8 hotran       2016-07-21  550  	 * As message only supports dword size, just assign it.
-ed42cfa881e1d8 hotran       2016-07-21  551  	 */
-ed42cfa881e1d8 hotran       2016-07-21  552  
-ed42cfa881e1d8 hotran       2016-07-21  553  	/* Check for sync query */
-ed42cfa881e1d8 hotran       2016-07-21  554  	if (ctx->resp_pending &&
-ed42cfa881e1d8 hotran       2016-07-21  555  	    ((MSG_TYPE(((u32 *)msg)[0]) == MSG_TYPE_ERR) ||
-ed42cfa881e1d8 hotran       2016-07-21  556  	     (MSG_TYPE(((u32 *)msg)[0]) == MSG_TYPE_DBG &&
-ed42cfa881e1d8 hotran       2016-07-21  557  	      MSG_SUBTYPE(((u32 *)msg)[0]) == DBG_SUBTYPE_SENSOR_READ) ||
-ed42cfa881e1d8 hotran       2016-07-21  558  	     (MSG_TYPE(((u32 *)msg)[0]) == MSG_TYPE_PWRMGMT &&
-ed42cfa881e1d8 hotran       2016-07-21  559  	      MSG_SUBTYPE(((u32 *)msg)[0]) == PWRMGMT_SUBTYPE_TPC &&
-ed42cfa881e1d8 hotran       2016-07-21  560  	      TPC_CMD(((u32 *)msg)[0]) == TPC_ALARM))) {
-ed42cfa881e1d8 hotran       2016-07-21  561  		/* Check if platform completes command */
-ed42cfa881e1d8 hotran       2016-07-21  562  		if (xgene_word_tst_and_clr(&generic_comm_base->status,
-2cf39b806be746 Sudeep Holla 2023-09-27  563  					   PCC_STATUS_CMD_COMPLETE)) {
-ed42cfa881e1d8 hotran       2016-07-21  564  			ctx->sync_msg.msg = ((u32 *)msg)[0];
-ed42cfa881e1d8 hotran       2016-07-21  565  			ctx->sync_msg.param1 = ((u32 *)msg)[1];
-ed42cfa881e1d8 hotran       2016-07-21  566  			ctx->sync_msg.param2 = ((u32 *)msg)[2];
-ed42cfa881e1d8 hotran       2016-07-21  567  
-ed42cfa881e1d8 hotran       2016-07-21  568  			/* Operation waiting for response */
-ed42cfa881e1d8 hotran       2016-07-21  569  			complete(&ctx->rd_complete);
-ed42cfa881e1d8 hotran       2016-07-21  570  
-ed42cfa881e1d8 hotran       2016-07-21  571  			return;
-ed42cfa881e1d8 hotran       2016-07-21  572  		}
-ed42cfa881e1d8 hotran       2016-07-21  573  	}
-ed42cfa881e1d8 hotran       2016-07-21  574  
-ed42cfa881e1d8 hotran       2016-07-21  575  	/*
-ed42cfa881e1d8 hotran       2016-07-21  576  	 * Platform notifies interrupt to OSPM.
-ed42cfa881e1d8 hotran       2016-07-21  577  	 * OPSM schedules a consumer command to get this information
-ed42cfa881e1d8 hotran       2016-07-21  578  	 * in a workqueue. Platform must wait until OSPM has issued
-ed42cfa881e1d8 hotran       2016-07-21  579  	 * a consumer command that serves this notification.
-ed42cfa881e1d8 hotran       2016-07-21  580  	 */
-ed42cfa881e1d8 hotran       2016-07-21  581  
-ed42cfa881e1d8 hotran       2016-07-21  582  	/* Enqueue to the FIFO */
-ed42cfa881e1d8 hotran       2016-07-21  583  	kfifo_in_spinlocked(&ctx->async_msg_fifo, &amsg,
-ed42cfa881e1d8 hotran       2016-07-21  584  			    sizeof(struct slimpro_resp_msg), &ctx->kfifo_lock);
-ed42cfa881e1d8 hotran       2016-07-21  585  	/* Schedule the bottom handler */
-ed42cfa881e1d8 hotran       2016-07-21  586  	schedule_work(&ctx->workq);
-ed42cfa881e1d8 hotran       2016-07-21  587  }
-ed42cfa881e1d8 hotran       2016-07-21  588  
 
-:::::: The code at line 540 was first introduced by commit
-:::::: ed42cfa881e1d8d9603b7cb872199e3c8e0d1b19 hwmon: Add xgene hwmon driver
+vim +12 scripts/Makefile.clean
 
-:::::: TO: hotran <hotran@apm.com>
-:::::: CC: Guenter Roeck <linux@roeck-us.net>
+^1da177e4c3f41 Linus Torvalds  2005-04-16   7  
+4f1933620f5714 Paul Smith      2006-03-05   8  PHONY := __clean
+^1da177e4c3f41 Linus Torvalds  2005-04-16   9  __clean:
+^1da177e4c3f41 Linus Torvalds  2005-04-16  10  
+3204a7fb98a3bc Masahiro Yamada 2021-02-28  11  include $(srctree)/scripts/Kbuild.include
+a2430b25c31840 Masahiro Yamada 2022-11-19 @12  include $(kbuild-file)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  13  
+
+:::::: The code at line 12 was first introduced by commit
+:::::: a2430b25c31840a6dcbf95c65415d5fee2984dbc kbuild: add kbuild-file macro
+
+:::::: TO: Masahiro Yamada <masahiroy@kernel.org>
+:::::: CC: Masahiro Yamada <masahiroy@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
