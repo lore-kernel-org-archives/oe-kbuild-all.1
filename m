@@ -1,235 +1,229 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9841E3D88F9;
-	Fri,  1 May 2026 18:52:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C52F4214A9B
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 May 2026 19:55:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777661573; cv=none; b=RQKHM1xj35yBpgwBPd8VDUUzwh+3cZJbDobp1r6wFOGe5skpVsJD/F5Cxe8KQEEbP8C8BiRxA/CQSXPtQzCsW1SVn9AkVBGUAe0kPPbihkXqrl5JEXH4q4vwuTfOHqWzgrlCdFqz0yriCrpVwxwd9+YXbUI2ig9SD9Ir1MVSVOg=
+	t=1777665356; cv=none; b=I3+6mCu20Duc3w2JL1x+cJIM1PE6D8BSlgVxyWYPZrZg6eJKLf5uvWova5uAOD/VqWDBXUimX7VS01YwSlQtFGYjqXdEKpW803lHKj44dyhDzmXFLS/Rb+BHqjoUFN38FDiRMZDwTqUopWXhGpnhCI1cd1mLkhlj5iUPtYUlKpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777661573; c=relaxed/simple;
-	bh=Gb81zF9Tq5L5FBR3lJVIDEkIRRuAY1002gP+x4TmFgA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LiD4A876HsTUqkAZfh7Eq3KN+Os8BtRoanEQYqoaiAfTg4oBQ/90jK4FSsZMtjm3tMGmhFWRnkZsL6JYMJ1XmkacLQaUf414rcJ9Sp5Rf9l5DrFsb3tn26V5CfU8rHbkdI2HJgJsrrsxDUeXXRSTPNvH08PxOEcL71TF0QQkFRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VGDqi1zt; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1777665356; c=relaxed/simple;
+	bh=Or3K5zqEQ1Y2w4HVOfM5TMIpr8lH9DzItMD2+P0zkKk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=c4i7LtdNdA1BEP+IV24iFhua5ezvC7RAUUk/g8PMua4YO5+mLbfaEUa09KkDKFKIwU56yvAMvePpI8N+kjo7MtPCWiYBCqlOf0ISs8AiRlZAYUs5R9D04deRulUFxefRKkOW3V7wZuATJu+KlddDE1oGqrbTU017z08MFh+0iJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hHgoUky5; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VGDqi1zt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hHgoUky5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777661572; x=1809197572;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Gb81zF9Tq5L5FBR3lJVIDEkIRRuAY1002gP+x4TmFgA=;
-  b=VGDqi1ztM1JkhiKw9+zlO5we7zJ19+nb9PZ3QDvJscjjqgTSbtqskw+K
-   jI3Rh5yhRl6rj0w3SFA7/yT6D0XgTD4yAfqd26C+IPijWczLiHbmyTZdM
-   HM4XKJTxI6pKWOmDLWpuu18Eh8mu1sr3f5OuQ5mbd7VLkbiYVA9UXpJCl
-   RU4j4h6LmFc3BZME1Rywk5n+gi4UOPVgkAdn02CrXsFjHZPghcVTVaJFo
-   u/w/oN1j8tj0bKfy3wYss5RgBk9zdQ9uUgycJVUHDYB3jZDFdB7HgjpR3
-   tSQZjDFuiu6mBRWznnITKbgISp/BsvXvRygedKq4KY32xcB0XhIdlYX8s
-   g==;
-X-CSE-ConnectionGUID: 9KYj05gYSkOgWTFSKZo36A==
-X-CSE-MsgGUID: JfJbe+3CRSij786HQ3g1iw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="78613716"
+  t=1777665354; x=1809201354;
+  h=date:from:to:cc:subject:message-id;
+  bh=Or3K5zqEQ1Y2w4HVOfM5TMIpr8lH9DzItMD2+P0zkKk=;
+  b=hHgoUky5VDGOevZsAC0vD4rDU/Dv31wnWThDVPD1c2dj01RkSt2lbi3p
+   5bLKf0jsJi+2XG/t9CItY/vYYBYbCtZZ6zvE8eiP4yo7nMELFPGNXaJeq
+   mYcZ2XEvuhrTKmfqhSSqv5DRLF9PniU/lOclJXO/QiA8YCt9T9kyJT39C
+   nYqyaSyGT2Bh0/5Q7A8DU3wSD4vfpNGLgaTyL9NzeRHoFf4N96fWXGo6D
+   /AFiQHxF5188ZBdWwW9tnuH8sMAYJW3z4RQPuXumwPV8mU7vlorELV+7g
+   2rXDL5njioZZ2gUcZMYQeaWJTGW6zBGsmb4YJCvuRqN0FRcL690kBaz68
+   A==;
+X-CSE-ConnectionGUID: X8D+HhWsRjSolysMNr5vuQ==
+X-CSE-MsgGUID: ziMSc6f2Ti2LhYeHnUDblQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="78618244"
 X-IronPort-AV: E=Sophos;i="6.23,210,1770624000"; 
-   d="scan'208";a="78613716"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2026 11:52:52 -0700
-X-CSE-ConnectionGUID: 9DSJie/HSi+Un+oXPDhhiA==
-X-CSE-MsgGUID: /pX7oiyERJ2wQOKkYXQhdQ==
+   d="scan'208";a="78618244"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2026 12:55:54 -0700
+X-CSE-ConnectionGUID: kcixGAb6SBeVrILo66hGMg==
+X-CSE-MsgGUID: wXgndGEuQOuauBMSOm3JTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,210,1770624000"; 
-   d="scan'208";a="238907819"
+   d="scan'208";a="258551026"
 Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 01 May 2026 11:52:49 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 01 May 2026 12:55:52 -0700
 Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wIsyk-000000000mj-1sql;
-	Fri, 01 May 2026 18:52:46 +0000
-Date: Sat, 2 May 2026 02:51:52 +0800
+	id 1wItxl-000000000op-2l58;
+	Fri, 01 May 2026 19:55:49 +0000
+Date: Sat, 02 May 2026 03:54:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yu Kuai <yukuai@fnnas.com>, linux-raid@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Li Nan <linan122@huawei.com>,
-	Yu Kuai <yukuai@fnnas.com>, Cheng Cheng <chencheng@fnnas.com>
-Subject: Re: [PATCH] md/raid5: add exact old and new llbitmap mapping helpers
-Message-ID: <202605020242.1lRKHrkP-lkp@intel.com>
-References: <20260419030942.824195-17-yukuai@fnnas.com>
+To: David Woodhouse <dwmw@amazon.co.uk>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dwmw2:kvmclock4 16/30] arch/x86/kvm/x86.c:3386:8: error:
+ call to undeclared function 'kvm_get_time_and_clockread'; ISO C99 and later
+ do not support implicit function declarations
+Message-ID: <202605020352.78zvfhDe-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260419030942.824195-17-yukuai@fnnas.com>
 
-Hi Yu,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v7.1-rc1 next-20260430]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yu-Kuai/md-raid5-add-exact-old-and-new-llbitmap-mapping-helpers/20260421-233709
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260419030942.824195-17-yukuai%40fnnas.com
-patch subject: [PATCH] md/raid5: add exact old and new llbitmap mapping helpers
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260502/202605020242.1lRKHrkP-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605020242.1lRKHrkP-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/dwmw2/linux kvmclock4
+head:   0cb32bb9e5aca98889425721c283ce2fc3f3ff95
+commit: 2cc092bad3decacbc01e30080a45933cd5ca64cc [16/30] KVM: x86: Restructure kvm_guest_time_update() for TSC upscaling
+config: i386-randconfig-141-20260501 (https://download.01.org/0day-ci/archive/20260502/202605020352.78zvfhDe-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+smatch: v0.5.0-9065-ge9cc34fd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605020352.78zvfhDe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605020242.1lRKHrkP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605020352.78zvfhDe-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/md/raid5.c:9065:3: error: field designator 'bitmap_sector_map' does not refer to any field in type 'struct md_personality'; did you mean 'bitmap_sector'?
-    9065 |         .bitmap_sector_map = raid5_bitmap_sector_map,
-         |          ^~~~~~~~~~~~~~~~~
-         |          bitmap_sector
-   drivers/md/md.h:797:9: note: 'bitmap_sector' declared here
-     797 |         void (*bitmap_sector)(struct mddev *mddev, sector_t *offset,
-         |                ^
->> drivers/md/raid5.c:9065:23: error: incompatible function pointer types initializing 'void (*)(struct mddev *, sector_t *, unsigned long *)' (aka 'void (*)(struct mddev *, unsigned long long *, unsigned long *)') with an expression of type 'void (struct mddev *, sector_t *, unsigned long *, bool)' (aka 'void (struct mddev *, unsigned long long *, unsigned long *, _Bool)') [-Wincompatible-function-pointer-types]
-    9065 |         .bitmap_sector_map = raid5_bitmap_sector_map,
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/raid5.c:9065:23: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-    9065 |         .bitmap_sector_map = raid5_bitmap_sector_map,
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/raid5.c:9064:19: note: previous initialization is here
-    9064 |         .bitmap_sector  = raid5_bitmap_sector,
-         |                           ^~~~~~~~~~~~~~~~~~~
->> drivers/md/raid5.c:9066:3: error: field designator 'bitmap_sync_size' does not refer to any field in type 'struct md_personality'
-    9066 |         .bitmap_sync_size = raid5_bitmap_sync_size,
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/md/raid5.c:9067:3: error: field designator 'bitmap_array_sectors' does not refer to any field in type 'struct md_personality'
-    9067 |         .bitmap_array_sectors = raid5_bitmap_array_sectors,
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/raid5.c:9098:3: error: field designator 'bitmap_sector_map' does not refer to any field in type 'struct md_personality'; did you mean 'bitmap_sector'?
-    9098 |         .bitmap_sector_map = raid5_bitmap_sector_map,
-         |          ^~~~~~~~~~~~~~~~~
-         |          bitmap_sector
-   drivers/md/md.h:797:9: note: 'bitmap_sector' declared here
-     797 |         void (*bitmap_sector)(struct mddev *mddev, sector_t *offset,
-         |                ^
-   drivers/md/raid5.c:9098:23: error: incompatible function pointer types initializing 'void (*)(struct mddev *, sector_t *, unsigned long *)' (aka 'void (*)(struct mddev *, unsigned long long *, unsigned long *)') with an expression of type 'void (struct mddev *, sector_t *, unsigned long *, bool)' (aka 'void (struct mddev *, unsigned long long *, unsigned long *, _Bool)') [-Wincompatible-function-pointer-types]
-    9098 |         .bitmap_sector_map = raid5_bitmap_sector_map,
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/raid5.c:9098:23: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-    9098 |         .bitmap_sector_map = raid5_bitmap_sector_map,
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/raid5.c:9097:19: note: previous initialization is here
-    9097 |         .bitmap_sector  = raid5_bitmap_sector,
-         |                           ^~~~~~~~~~~~~~~~~~~
-   drivers/md/raid5.c:9099:3: error: field designator 'bitmap_sync_size' does not refer to any field in type 'struct md_personality'
-    9099 |         .bitmap_sync_size = raid5_bitmap_sync_size,
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/raid5.c:9100:3: error: field designator 'bitmap_array_sectors' does not refer to any field in type 'struct md_personality'
-    9100 |         .bitmap_array_sectors = raid5_bitmap_array_sectors,
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/raid5.c:9132:3: error: field designator 'bitmap_sector_map' does not refer to any field in type 'struct md_personality'; did you mean 'bitmap_sector'?
-    9132 |         .bitmap_sector_map = raid5_bitmap_sector_map,
-         |          ^~~~~~~~~~~~~~~~~
-         |          bitmap_sector
-   drivers/md/md.h:797:9: note: 'bitmap_sector' declared here
-     797 |         void (*bitmap_sector)(struct mddev *mddev, sector_t *offset,
-         |                ^
-   drivers/md/raid5.c:9132:23: error: incompatible function pointer types initializing 'void (*)(struct mddev *, sector_t *, unsigned long *)' (aka 'void (*)(struct mddev *, unsigned long long *, unsigned long *)') with an expression of type 'void (struct mddev *, sector_t *, unsigned long *, bool)' (aka 'void (struct mddev *, unsigned long long *, unsigned long *, _Bool)') [-Wincompatible-function-pointer-types]
-    9132 |         .bitmap_sector_map = raid5_bitmap_sector_map,
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/raid5.c:9132:23: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-    9132 |         .bitmap_sector_map = raid5_bitmap_sector_map,
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/raid5.c:9131:19: note: previous initialization is here
-    9131 |         .bitmap_sector  = raid5_bitmap_sector,
-         |                           ^~~~~~~~~~~~~~~~~~~
-   drivers/md/raid5.c:9133:3: error: field designator 'bitmap_sync_size' does not refer to any field in type 'struct md_personality'
-    9133 |         .bitmap_sync_size = raid5_bitmap_sync_size,
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/raid5.c:9134:3: error: field designator 'bitmap_array_sectors' does not refer to any field in type 'struct md_personality'
-    9134 |         .bitmap_array_sectors = raid5_bitmap_array_sectors,
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   3 warnings and 12 errors generated.
+>> arch/x86/kvm/x86.c:3386:8: error: call to undeclared function 'kvm_get_time_and_clockread'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    3386 |                     !kvm_get_time_and_clockread(&kernel_ns, &host_tsc) &&
+         |                      ^
+   arch/x86/kvm/x86.c:3386:8: note: did you mean 'kvm_get_monotonic_and_clockread'?
+   arch/x86/kvm/x86.h:452:6: note: 'kvm_get_monotonic_and_clockread' declared here
+     452 | bool kvm_get_monotonic_and_clockread(s64 *kernel_ns, u64 *tsc_timestamp);
+         |      ^
+   arch/x86/kvm/x86.c:3357:16: warning: unused variable 'flags' [-Wunused-variable]
+    3357 |         unsigned long flags;
+         |                       ^~~~~
+   1 warning and 1 error generated.
 
 
-vim +9065 drivers/md/raid5.c
+vim +/kvm_get_time_and_clockread +3386 arch/x86/kvm/x86.c
 
-  9035	
-  9036	static struct md_personality raid6_personality =
-  9037	{
-  9038		.head = {
-  9039			.type	= MD_PERSONALITY,
-  9040			.id	= ID_RAID6,
-  9041			.name	= "raid6",
-  9042			.owner	= THIS_MODULE,
-  9043		},
-  9044	
-  9045		.make_request	= raid5_make_request,
-  9046		.run		= raid5_run,
-  9047		.start		= raid5_start,
-  9048		.free		= raid5_free,
-  9049		.status		= raid5_status,
-  9050		.error_handler	= raid5_error,
-  9051		.hot_add_disk	= raid5_add_disk,
-  9052		.hot_remove_disk= raid5_remove_disk,
-  9053		.spare_active	= raid5_spare_active,
-  9054		.sync_request	= raid5_sync_request,
-  9055		.resize		= raid5_resize,
-  9056		.size		= raid5_size,
-  9057		.check_reshape	= raid6_check_reshape,
-  9058		.start_reshape  = raid5_start_reshape,
-  9059		.finish_reshape = raid5_finish_reshape,
-  9060		.quiesce	= raid5_quiesce,
-  9061		.takeover	= raid6_takeover,
-  9062		.change_consistency_policy = raid5_change_consistency_policy,
-  9063		.prepare_suspend = raid5_prepare_suspend,
-  9064		.bitmap_sector	= raid5_bitmap_sector,
-> 9065		.bitmap_sector_map = raid5_bitmap_sector_map,
-> 9066		.bitmap_sync_size = raid5_bitmap_sync_size,
-> 9067		.bitmap_array_sectors = raid5_bitmap_array_sectors,
-  9068	};
-  9069	static struct md_personality raid5_personality =
-  9070	{
-  9071		.head = {
-  9072			.type	= MD_PERSONALITY,
-  9073			.id	= ID_RAID5,
-  9074			.name	= "raid5",
-  9075			.owner	= THIS_MODULE,
-  9076		},
-  9077	
-  9078		.make_request	= raid5_make_request,
-  9079		.run		= raid5_run,
-  9080		.start		= raid5_start,
-  9081		.free		= raid5_free,
-  9082		.status		= raid5_status,
-  9083		.error_handler	= raid5_error,
-  9084		.hot_add_disk	= raid5_add_disk,
-  9085		.hot_remove_disk= raid5_remove_disk,
-  9086		.spare_active	= raid5_spare_active,
-  9087		.sync_request	= raid5_sync_request,
-  9088		.resize		= raid5_resize,
-  9089		.size		= raid5_size,
-  9090		.check_reshape	= raid5_check_reshape,
-  9091		.start_reshape  = raid5_start_reshape,
-  9092		.finish_reshape = raid5_finish_reshape,
-  9093		.quiesce	= raid5_quiesce,
-  9094		.takeover	= raid5_takeover,
-  9095		.change_consistency_policy = raid5_change_consistency_policy,
-  9096		.prepare_suspend = raid5_prepare_suspend,
-  9097		.bitmap_sector	= raid5_bitmap_sector,
-  9098		.bitmap_sector_map = raid5_bitmap_sector_map,
-  9099		.bitmap_sync_size = raid5_bitmap_sync_size,
-  9100		.bitmap_array_sectors = raid5_bitmap_array_sectors,
-  9101	};
-  9102	
+  3353	
+  3354	int kvm_guest_time_update(struct kvm_vcpu *v)
+  3355	{
+  3356		struct pvclock_vcpu_time_info hv_clock = {};
+  3357		unsigned long flags;
+  3358		u64 tgt_tsc_hz;
+  3359		unsigned seq;
+  3360		struct kvm_vcpu_arch *vcpu = &v->arch;
+  3361		struct kvm_arch *ka = &v->kvm->arch;
+  3362		s64 kernel_ns;
+  3363		u64 tsc_timestamp, host_tsc;
+  3364		u64 master_host_tsc = 0;
+  3365		s64 master_kernel_ns = 0;
+  3366		bool use_master_clock;
+  3367	
+  3368		/*
+  3369		 * If the host uses TSC clock, then passthrough TSC as stable
+  3370		 * to the guest.
+  3371		 */
+  3372		do {
+  3373			seq = read_seqcount_begin(&ka->pvclock_sc);
+  3374	
+  3375			use_master_clock = ka->use_master_clock;
+  3376	
+  3377			/*
+  3378			 * The TSC read and the call to get_cpu_tsc_khz() must happen
+  3379			 * on the same CPU.
+  3380			 */
+  3381			get_cpu();
+  3382	
+  3383			tgt_tsc_hz = (u64)get_cpu_tsc_khz() * 1000;
+  3384	
+  3385			if (use_master_clock &&
+> 3386			    !kvm_get_time_and_clockread(&kernel_ns, &host_tsc) &&
+  3387			    WARN_ON_ONCE(!read_seqcount_retry(&ka->pvclock_sc, seq)))
+  3388				use_master_clock = false;
+  3389	
+  3390			put_cpu();
+  3391	
+  3392			if (!use_master_clock)
+  3393				break;
+  3394	
+  3395			master_host_tsc = ka->master_cycle_now;
+  3396			master_kernel_ns = ka->master_kernel_ns;
+  3397		} while (read_seqcount_retry(&ka->pvclock_sc, seq));
+  3398	
+  3399		if (unlikely(tgt_tsc_hz == 0)) {
+  3400			kvm_make_request(KVM_REQ_CLOCK_UPDATE, v);
+  3401			return 1;
+  3402		}
+  3403	
+  3404		if (!use_master_clock) {
+  3405			host_tsc = rdtsc();
+  3406			kernel_ns = get_kvmclock_base_ns();
+  3407		}
+  3408	
+  3409		/*
+  3410		 * We may have to catch up the TSC to match elapsed wall clock
+  3411		 * time for two reasons, even if kvmclock is used.
+  3412		 *   1) CPU could have been running below the maximum TSC rate
+  3413		 *   2) Broken TSC compensation resets the base at each VCPU
+  3414		 *      entry to avoid unknown leaps of TSC even when running
+  3415		 *      again on the same CPU.  This may cause apparent elapsed
+  3416		 *      time to disappear, and the guest to stand still or run
+  3417		 *      very slowly.
+  3418		 */
+  3419		if (vcpu->tsc_catchup) {
+  3420			s64 adjustment;
+  3421	
+  3422			/*
+  3423			 * Calculate the delta between what the guest TSC *should* be
+  3424			 * and what it actually is according to kvm_read_l1_tsc().
+  3425			 */
+  3426			adjustment = compute_guest_tsc(v, kernel_ns) -
+  3427				     kvm_read_l1_tsc(v, host_tsc);
+  3428			if (adjustment > 0)
+  3429				adjust_tsc_offset_guest(v, adjustment);
+  3430		}
+  3431	
+  3432		/*
+  3433		 * Now that TSC upscaling is out of the way, the remaining calculations
+  3434		 * are all relative to the reference time that's placed in hv_clock.
+  3435		 * If the master clock is NOT in use, the reference time is "now".  If
+  3436		 * master clock is in use, the reference time comes from there.
+  3437		 */
+  3438		if (use_master_clock) {
+  3439			host_tsc = master_host_tsc;
+  3440			kernel_ns = master_kernel_ns;
+  3441		}
+  3442		tsc_timestamp = kvm_read_l1_tsc(v, host_tsc);
+  3443	
+  3444		/* With all the info we got, fill in the values */
+  3445	
+  3446		if (kvm_caps.has_tsc_control) {
+  3447			tgt_tsc_hz = kvm_scale_tsc(tgt_tsc_hz,
+  3448						    v->arch.l1_tsc_scaling_ratio);
+  3449			tgt_tsc_hz = tgt_tsc_hz ? : 1;
+  3450		}
+  3451	
+  3452		if (unlikely(vcpu->hw_tsc_hz != tgt_tsc_hz)) {
+  3453			kvm_get_time_scale(NSEC_PER_SEC, tgt_tsc_hz,
+  3454					   &vcpu->pvclock_tsc_shift,
+  3455					   &vcpu->pvclock_tsc_mul);
+  3456			vcpu->hw_tsc_hz = tgt_tsc_hz;
+  3457		}
+  3458	
+  3459		hv_clock.tsc_shift = vcpu->pvclock_tsc_shift;
+  3460		hv_clock.tsc_to_system_mul = vcpu->pvclock_tsc_mul;
+  3461		hv_clock.tsc_timestamp = tsc_timestamp;
+  3462		hv_clock.system_time = kernel_ns + v->kvm->arch.kvmclock_offset;
+  3463		vcpu->last_guest_tsc = tsc_timestamp;
+  3464	
+  3465		/* If the host uses TSC clocksource, then it is stable */
+  3466		hv_clock.flags = 0;
+  3467		if (use_master_clock)
+  3468			hv_clock.flags |= PVCLOCK_TSC_STABLE_BIT;
+  3469	
+  3470		if (vcpu->pv_time.active) {
+  3471			/*
+  3472			 * GUEST_STOPPED is only supported by kvmclock, and KVM's
+  3473			 * historic behavior is to only process the request if kvmclock
+  3474			 * is active/enabled.
+  3475			 */
+  3476			if (vcpu->pvclock_set_guest_stopped_request) {
+  3477				hv_clock.flags |= PVCLOCK_GUEST_STOPPED;
+  3478				vcpu->pvclock_set_guest_stopped_request = false;
+  3479			}
+  3480			kvm_setup_guest_pvclock(&hv_clock, v, &vcpu->pv_time, 0);
+  3481	
+  3482			hv_clock.flags &= ~PVCLOCK_GUEST_STOPPED;
+  3483		}
+  3484	
+  3485		kvm_hv_setup_tsc_page(v->kvm, &hv_clock);
+  3486	
 
 -- 
 0-DAY CI Kernel Test Service
