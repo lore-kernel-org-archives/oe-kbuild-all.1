@@ -1,146 +1,140 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36F1126ADC
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 May 2026 02:40:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCCED226863;
+	Sat,  2 May 2026 02:47:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777689660; cv=none; b=hsU60YyiqrLFHZcHT6mhYsYg5pkjGe5vt1GlcDbhJ9BaQAMPtMKFCKPtM8+/VJJA3fRajUIg9cY2EoeNI7na1X9rSLXMXKwWLEwFSLqAIsofCNU3eJtsU1AOV1/6z0fR1/6ytar/Ffa9nOL1jrrWt1sOrht+4qtuY4SNOfAtCNc=
+	t=1777690036; cv=none; b=LCwEemynOMfdsx97dZvnXBAswqw3nvXoQMCxxp5GTojrdFQG6e9nedz9BhqI/1YU/Dk+Ym6nms5NUsQI2G1AlztL8rl02bO0GKVSa8tJ3K6ZdbBsQY7Cs8FeKRLnRC+81/GgJSQDJksGY9oKpRd7NmvnHeCtnzJ+m0IMzATGs0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777689660; c=relaxed/simple;
-	bh=PwYSslFHsPQhZTLLv+TBvjyN+HVkndPdSWWJpWbzWUk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=n768jkAmJ59byZ75yQy4eyWl24wS8DoSor+3lgO2/bi5dx3QOYKsdDR2TROmlXmjjv4SBAGRtp/y5gHpLCckBtfJxYZVoGZxQaotFrDc42wvFUGzVHjleYyv7cqZXJHeh/L1f42hEandJZyb8+tUvPc81IXhYc8F7hBHQmuEdCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Co8VbLxv; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1777690036; c=relaxed/simple;
+	bh=BEVICxriND/4ZEHjdaZWgt3YWFVaCsGLptcR9kyxMRA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fqq7kC4pv2rtceBYziPNuURtKxo+KjY0/gU0Qp9QsBlbjKnAXRdipwdYWP1v0I1jA40UPVRD5P35uLZiph4yeXsMBLcedjdIwwAI3il9cJydjs5K8Y6knMtRKzURca1sZu5p3wEZRaQQ9d3AKopL+gwzPvbiHWrlezw3wMNWAOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VdmfSk9F; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Co8VbLxv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VdmfSk9F"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777689659; x=1809225659;
-  h=date:from:to:cc:subject:message-id;
-  bh=PwYSslFHsPQhZTLLv+TBvjyN+HVkndPdSWWJpWbzWUk=;
-  b=Co8VbLxvVqGxyK7WNRWGO9RJhVh71aXjnLo8pYhZs1ZyMSQOpMQ3u0HN
-   tGIRflfu+t0Q5PJ+B3tl+e5MICp1em8ZxYz6abRumQIfoGNpAbE2csMGj
-   xV5NZxoPW97nCI5mG1rDtQjwKkyCfsowA5Vjx3/icfgoxHFDggt8I40yw
-   1iDBib3XQJTiJyKuEywYHJOMH9qnIRexT01vg/P40wD2dzrmEpdDJLsf0
-   LohcLmnYDHlpcE9UaYKGAuo7ma1eEu+IbNEimF5iW4Ws+J5jdisSpnhu0
-   iRr1594uM7FYGN7L2doN8PaElLrmOKRm10RJ9CZ095vuX9togTpHrOp1d
-   g==;
-X-CSE-ConnectionGUID: 2uyvzMrcS4y1wa6HBYRUcw==
-X-CSE-MsgGUID: G+kSu97dThWDyXrqmUHsZg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="88956894"
+  t=1777690035; x=1809226035;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BEVICxriND/4ZEHjdaZWgt3YWFVaCsGLptcR9kyxMRA=;
+  b=VdmfSk9F2c4sSaTRyn91YMyT7xVqTmJUPAssBYqGsnzSyk1a5nIEd1qp
+   vAUztELbo31CCa814o0lycuMY6zducbYirfXsNO61sIsTO5m3ExgYWIgj
+   F29dxo3XV6ubmzc1+lBXVTN7CjixeIpDjcaSiw9wjCs5xkKJvneeKvS88
+   B3GNmHxTr8oSb0U7/dy89+B7lHtt3ligcmiG7Sslj9i7tsUbcYPVTHhfj
+   +VFravXUXbhchvqMVlkT6gYufKrmoihsO8N0MqYxlnLI0XGfHV2POlF/U
+   TM/Nas0n/W9WgmGQe48oLAJMk8mkmif7KvRk7IgDzFwttT8z7v7Jl1h43
+   w==;
+X-CSE-ConnectionGUID: tTmJJjm/RlyjVDAwwkEiEg==
+X-CSE-MsgGUID: N/WjGsTiSy+DkCHnQ9ALRg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="78673067"
 X-IronPort-AV: E=Sophos;i="6.23,211,1770624000"; 
-   d="scan'208";a="88956894"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2026 19:40:59 -0700
-X-CSE-ConnectionGUID: eRKTpx7/TAStF4SrLk+Lpg==
-X-CSE-MsgGUID: auNmcFI+SnmfiqXO4cZ0yA==
+   d="scan'208";a="78673067"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2026 19:47:15 -0700
+X-CSE-ConnectionGUID: VgKbe9uJR/SqBJSEqxxWXQ==
+X-CSE-MsgGUID: nmZvDmbLQNCH3vpAuWGAWw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,211,1770624000"; 
-   d="scan'208";a="235081582"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 01 May 2026 19:40:57 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="234154052"
+Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 01 May 2026 19:47:13 -0700
+Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wJ0Hm-000000005Az-43ln;
-	Sat, 02 May 2026 02:40:54 +0000
-Date: Sat, 02 May 2026 04:40:37 +0200
+	id 1wJ0Nq-00000000165-3Ve1;
+	Sat, 02 May 2026 02:47:10 +0000
+Date: Sat, 2 May 2026 10:46:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kas:pte_size 69/69] ../../../lib/test_xarray.c:825:24:
- error: 'PG_SHIFT' undeclared; did you mean 'PAGE_SHIFT'?
-Message-ID: <202605020414.kf1N6YUw-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 1/1] mm: vmscan: keep anon scanning enabled when
+ swapcache folios are present
+Message-ID: <202605021047.kY1JeLwn-lkp@intel.com>
+References: <20260427103532.5623-2-thomas.hellstrom@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260427103532.5623-2-thomas.hellstrom@linux.intel.com>
 
-Hi Kiryl,
+Hi Thomas,
 
-First bad commit (maybe != root cause):
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kas/linux.git pte_size
-head:   3453a5ad954365409373c2762ba237c7e31a623b
-commit: 3453a5ad954365409373c2762ba237c7e31a623b [69/69] treewide: Rename PAGE_SIZE/SHIFT/MASK to PG_* (cocci)
-config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260502/202605020414.kf1N6YUw-lkp@intel.com/config)
-compiler: aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605020414.kf1N6YUw-lkp@intel.com/reproduce)
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on linus/master v7.1-rc1 next-20260430]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/mm-vmscan-keep-anon-scanning-enabled-when-swapcache-folios-are-present/20260428-183540
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20260427103532.5623-2-thomas.hellstrom%40linux.intel.com
+patch subject: [RFC PATCH 1/1] mm: vmscan: keep anon scanning enabled when swapcache folios are present
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20260502/202605021047.kY1JeLwn-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605021047.kY1JeLwn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605020414.kf1N6YUw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605021047.kY1JeLwn-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from xarray.c:11:
-   ../../../lib/test_xarray.c: In function 'check_xa_multi_store_adv':
->> ../../../lib/test_xarray.c:825:24: error: 'PG_SHIFT' undeclared (first use in this function); did you mean 'PAGE_SHIFT'?
-     825 |         index = pos >> PG_SHIFT;
-         |                        ^~~~~~~~
-         |                        PAGE_SHIFT
-   ../../../lib/test_xarray.c:825:24: note: each undeclared identifier is reported only once for each function it appears in
---
-   In file included from ./linux/scatterlist.h:8,
-                    from scatterlist.c:9:
-   ./linux/mm.h: In function '__get_free_page':
->> ./linux/mm.h:104:38: error: 'PG_SIZE' undeclared (first use in this function); did you mean 'PAGE_SIZE'?
-     104 |         return (unsigned long)malloc(PG_SIZE);
-         |                                      ^~~~~~~
-         |                                      PAGE_SIZE
-   ./linux/mm.h:104:38: note: each undeclared identifier is reported only once for each function it appears in
-   ./linux/scatterlist.h: In function 'sg_set_page':
-   ./linux/scatterlist.h:161:9: error: implicit declaration of function 'VM_WARN_ON_ONCE'; did you mean 'WARN_ON_ONCE'? [-Wimplicit-function-declaration]
-     161 |         VM_WARN_ON_ONCE(!page_range_contiguous(page, ALIGN(len + offset, PG_SIZE) / PG_SIZE));
-         |         ^~~~~~~~~~~~~~~
-         |         WARN_ON_ONCE
-   ./linux/scatterlist.h:161:26: error: implicit declaration of function 'page_range_contiguous' [-Wimplicit-function-declaration]
-     161 |         VM_WARN_ON_ONCE(!page_range_contiguous(page, ALIGN(len + offset, PG_SIZE) / PG_SIZE));
-         |                          ^~~~~~~~~~~~~~~~~~~~~
-   ./linux/scatterlist.h:161:74: error: 'PG_SIZE' undeclared (first use in this function); did you mean 'PAGE_SIZE'?
-     161 |         VM_WARN_ON_ONCE(!page_range_contiguous(page, ALIGN(len + offset, PG_SIZE) / PG_SIZE));
-         |                                                                          ^~~~~~~
-   ./linux/mm.h:34:50: note: in definition of macro '__ALIGN_KERNEL_MASK'
-      34 | #define __ALIGN_KERNEL_MASK(x, mask)    (((x) + (mask)) & ~(mask))
-         |                                                  ^~~~
-   ./linux/mm.h:35:41: note: in expansion of macro '__ALIGN_KERNEL'
-      35 | #define ALIGN(x, a)                     __ALIGN_KERNEL((x), (a))
-         |                                         ^~~~~~~~~~~~~~
-   ./linux/scatterlist.h:161:54: note: in expansion of macro 'ALIGN'
-     161 |         VM_WARN_ON_ONCE(!page_range_contiguous(page, ALIGN(len + offset, PG_SIZE) / PG_SIZE));
-         |                                                      ^~~~~
-   ./linux/scatterlist.h: At top level:
-   ./linux/scatterlist.h:181:64: warning: 'struct folio' declared inside parameter list will not be visible outside of this definition or declaration
-     181 | static inline void sg_set_folio(struct scatterlist *sg, struct folio *folio,
-         |                                                                ^~~~~
-   ./linux/scatterlist.h: In function 'sg_set_folio':
-   ./linux/scatterlist.h:186:34: error: invalid use of undefined type 'struct folio'
-     186 |         sg_assign_page(sg, &folio->page);
-         |                                  ^~
-   ./linux/scatterlist.h: In function 'sg_set_buf':
-   ./linux/scatterlist.h:212:52: error: implicit declaration of function 'offset_in_pg'; did you mean 'offset_in_page'? [-Wimplicit-function-declaration]
-     212 |         sg_set_page(sg, virt_to_page(buf), buflen, offset_in_pg(buf));
-         |                                                    ^~~~~~~~~~~~
-         |                                                    offset_in_page
-   ./linux/scatterlist.h: In function 'sg_page_iter_page':
-   ./linux/scatterlist.h:606:35: error: invalid use of undefined type 'struct page'
-     606 |         return sg_page(piter->sg) + piter->sg_pgoffset;
-         |                                   ^
-   ./linux/scatterlist.h: In function 'sg_page_iter_dma_address':
-   ./linux/scatterlist.h:618:47: error: 'PG_SHIFT' undeclared (first use in this function); did you mean 'PAGE_SHIFT'?
-     618 |                (dma_iter->base.sg_pgoffset << PG_SHIFT);
-         |                                               ^~~~~~~~
-         |                                               PAGE_SHIFT
-   scatterlist.c: At top level:
-   scatterlist.c:12:10: fatal error: linux/bvec.h: No such file or directory
-      12 | #include <linux/bvec.h>
-         |          ^~~~~~~~~~~~~~
-   compilation terminated.
+>> mm/vmscan.c:365:38: error: use of undeclared identifier 'NR_SWAPCACHE'
+     365 |         if (node_page_state(NODE_DATA(nid), NR_SWAPCACHE) > 0)
+         |                                             ^~~~~~~~~~~~
+   1 error generated.
 
---
+
+vim +/NR_SWAPCACHE +365 mm/vmscan.c
+
+   341	
+   342	static inline bool can_reclaim_anon_pages(struct mem_cgroup *memcg,
+   343						  int nid,
+   344						  struct scan_control *sc)
+   345	{
+   346		if (memcg == NULL) {
+   347			/*
+   348			 * For non-memcg reclaim, is there
+   349			 * space in any swap device?
+   350			 */
+   351			if (get_nr_swap_pages() > 0)
+   352				return true;
+   353		} else {
+   354			/* Is the memcg below its swap limit? */
+   355			if (mem_cgroup_get_nr_swap_pages(memcg) > 0)
+   356				return true;
+   357		}
+   358	
+   359		/*
+   360		 * Even with no free swap slots, anon folios already in the swap cache
+   361		 * carry a pre-allocated slot and can be written back and freed from RAM
+   362		 * without consuming a new one.  Do not suppress anon scanning when such
+   363		 * folios are present on this node.
+   364		 */
+ > 365		if (node_page_state(NODE_DATA(nid), NR_SWAPCACHE) > 0)
+   366			return true;
+   367	
+   368		/*
+   369		 * The page can not be swapped.
+   370		 *
+   371		 * Can it be reclaimed from this node via demotion?
+   372		 */
+   373		return can_demote(nid, sc, memcg);
+   374	}
+   375	
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
