@@ -1,57 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0816C263C8F
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 May 2026 22:09:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EE9D318EC4
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 May 2026 22:09:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777759752; cv=none; b=ZHW31HUyL24Hs7XSyr3BlXgHVMhTR2UwVnNovtdnHl4Wk57iZn1cO17R72+VDvgMMmURJAueqkFxpDzcKF2G+5xiMMn4B/TOF/DC/IpvsOidS8t9VjmvNBoi9/mQ0qVepWRkSgLyw34cPv3px+D6iXUgYekRpDNGCvhgHk0e8O8=
+	t=1777759787; cv=none; b=K+oR1aQWjpjYMEZCkfM9ekxmIvysFKNf2jwqzdMeEjwTrr+B2EVqh3OZkBx1x0gASyfWLlirZjGkWL6FLye6rHRe8BZR9BG+j1f0LUdNoMxHK0BO9sXAnVPyYV/07lUSJaxEFdjnYMW5y0OYhYPYNg24DQ6hKCxTH4AGY1CLc4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777759752; c=relaxed/simple;
-	bh=r/xYnPncpaXHg0Ffy9FfBaPoXMrpovCdThcLpQDG7nI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=OtMGYwCXyZoYEhS4Zf3t1QLxalZkKAKUksmzs47iHEWI9rfs6xPxC6JEbEWVSJPNKlik3LCQIZ0BPxDHIXZBUBFTavJC3Ci6PFU+2le3s3CXRfhR7QC8WxQ4fABstpXTxCaGkz1bx7MNNCb5a7op/EqFcX7AN2ciVi8Fe5mw9lI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iFIbHwHs; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1777759787; c=relaxed/simple;
+	bh=lNdeYxhYiimJUtCwrtP5Nzi9fYt5zLlqDhGXvfjby6A=;
+	h=Date:From:Cc:Subject:Message-ID; b=IqTEB2vsbgaC1N2+RLxVSXS90/70MSILUuFp7G+gcQPhSTnD2QhmbFQpPWs/hRPkWvlhNJKgqD4W5LX/cKMtryY2aUY+p7GehdXM5F6rUfBjk/H4laWjUiUHqo7jSHa54uCf3rtOfmj+SPPR86lg53uDe+73IWBx1Be0BKhhqlU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gr/TTHFD; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iFIbHwHs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gr/TTHFD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777759750; x=1809295750;
-  h=date:from:to:cc:subject:message-id;
-  bh=r/xYnPncpaXHg0Ffy9FfBaPoXMrpovCdThcLpQDG7nI=;
-  b=iFIbHwHsfm8OFz3+IbMD2coDI0cvo65FMqg6YsFa6kwA9gumeUMJHPL7
-   6diWLBRbb9cipH+ruczPYpa1PPGk8fF9ZC4a2rOHi+AwkoGkB4OWMnSBy
-   qJuoVaa/THiElJeqtasUYtcDJ08Ir6DjO/JLvGzQUrzImLc4yIK2eAUfI
-   jHGe24tRPtl4CZm9duZXe2YGZL5cueGcMqS7hhK2O4M3TYfFaK8KpkpWl
-   lwJHxXf7O3BL9nbkx0nur8a2ot38aIVRTJCYCFc+mIBut25et+WxM5ol+
-   +nPYMgodeOXPxq2MM5umjv9RwIOScmHuLaEpAcv1HPJGomWrMDik77P6R
-   w==;
-X-CSE-ConnectionGUID: yI1CAJ0aRo2lPckWFJE4fA==
-X-CSE-MsgGUID: x4d8miu/S2i+g1/hKGNDPg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="78540691"
+  t=1777759786; x=1809295786;
+  h=date:from:cc:subject:message-id;
+  bh=lNdeYxhYiimJUtCwrtP5Nzi9fYt5zLlqDhGXvfjby6A=;
+  b=Gr/TTHFDRdkY6LLGRshpkyyKpR4aoE59VKzJ9pPUwzf5lvVR4603EgLh
+   14DzI5PGVyBz50gWaZbLVGBTFsEDgQ43IHp0tjyX/tJiKDmWEBsTDCC4G
+   y6OzAA3zWvzXLSLzuCF48ueCaGSaNESBfTlVQ70ooHxt7EolJSKPyNK1+
+   Pl4GpnLLRnpiIEQmGfUdANc30yQh4Uy5Co98vZ0PKkZOeMFwsLXiyuQwB
+   vefLizMX4gN+EkCV6Q2VJ9z712eBEXe/+e4DWICvDHUIKVsqC4MIDg3b7
+   WDxb0eHQXwXrm26F2aHqeTi7+i4BPtOAwggPSEbXughpoYNdPowPsrBUQ
+   g==;
+X-CSE-ConnectionGUID: HVIvruWbRJm06gZHfbHydg==
+X-CSE-MsgGUID: cCwXieOFQsqhkR0ReCn+qA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="78540713"
 X-IronPort-AV: E=Sophos;i="6.23,212,1770624000"; 
-   d="scan'208";a="78540691"
+   d="scan'208";a="78540713"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 15:09:09 -0700
-X-CSE-ConnectionGUID: kjHlrs8YQ06+BZ45uSo10A==
-X-CSE-MsgGUID: 2iLZQ7yuTp2xLl5BTRLo9w==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 15:09:43 -0700
+X-CSE-ConnectionGUID: So4pX+8vTxCQ7KtUdGQqtw==
+X-CSE-MsgGUID: TWADoYVGSdGIxDT3nT13DA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,212,1770624000"; 
-   d="scan'208";a="239487657"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 02 May 2026 15:09:08 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="239487728"
+Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 02 May 2026 15:09:40 -0700
+Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wJIWH-000000005Mm-3YXP;
-	Sat, 02 May 2026 22:09:05 +0000
-Date: Sun, 03 May 2026 00:08:30 +0200
+	id 1wJIWn-000000001qT-3nEp;
+	Sat, 02 May 2026 22:09:37 +0000
+Date: Sun, 03 May 2026 06:09:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steve French <stfrench@microsoft.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [smfrench-smb3:pr/192 3/3] fs/smb/client/smb2inode.c:124:25:
- warning: comparison of distinct pointer types lacks a cast
-Message-ID: <202605030011.ousN8aw6-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Sean Christopherson <seanjc@google.com>, Chao Gao <chao.gao@intel.com>,
+ "Xin Li (Intel)" <xin3.li@intel.com>
+Subject: arch/x86/kvm/vmx/vmcs12.c:142:9: sparse: sparse: cast
+ truncates bits from constant value (1a0a1a becomes a1a)
+Message-ID: <202605030544.0CsWnfoI-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,94 +60,282 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/smfrench/smb3-kernel.git pr/192
-head:   bedb46d0f4ef3fe98e9da42665bd1d8ec3d013cb
-commit: bedb46d0f4ef3fe98e9da42665bd1d8ec3d013cb [3/3] smb/client: fix out-of-bounds read in smb2_compound_op()
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260503/202605030011.ousN8aw6-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f1a5e78a55ebf2b05777fd5eb738038ddae609d6
+commit: 625884996bff1b25a39834fa4935d695d71ef1b1 KVM: nVMX: Prepare for enabling CET support for nested guest
+date:   7 months ago
+config: x86_64-randconfig-r123-20260501 (https://download.01.org/0day-ci/archive/20260503/202605030544.0CsWnfoI-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260503/202605030011.ousN8aw6-lkp@intel.com/reproduce)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260503/202605030544.0CsWnfoI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 625884996bff ("KVM: nVMX: Prepare for enabling CET support for nested guest")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605030011.ousN8aw6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605030544.0CsWnfoI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   arch/x86/kvm/vmx/vmcs12.c:55:9: sparse: sparse: cast truncates bits from constant value (90049 becomes 49)
+   arch/x86/kvm/vmx/vmcs12.c:56:9: sparse: sparse: cast truncates bits from constant value (a000a becomes a)
+   arch/x86/kvm/vmx/vmcs12.c:56:9: sparse: sparse: cast truncates bits from constant value (a004a becomes 4a)
+   arch/x86/kvm/vmx/vmcs12.c:57:9: sparse: sparse: cast truncates bits from constant value (a008a becomes 8a)
+   arch/x86/kvm/vmx/vmcs12.c:57:9: sparse: sparse: cast truncates bits from constant value (a00ca becomes ca)
+   arch/x86/kvm/vmx/vmcs12.c:58:9: sparse: sparse: cast truncates bits from constant value (a010a becomes 10a)
+   arch/x86/kvm/vmx/vmcs12.c:58:9: sparse: sparse: cast truncates bits from constant value (a014a becomes 14a)
+   arch/x86/kvm/vmx/vmcs12.c:59:9: sparse: sparse: cast truncates bits from constant value (a018a becomes 18a)
+   arch/x86/kvm/vmx/vmcs12.c:59:9: sparse: sparse: cast truncates bits from constant value (a01ca becomes 1ca)
+   arch/x86/kvm/vmx/vmcs12.c:60:9: sparse: sparse: cast truncates bits from constant value (a020a becomes 20a)
+   arch/x86/kvm/vmx/vmcs12.c:60:9: sparse: sparse: cast truncates bits from constant value (a024a becomes 24a)
+   arch/x86/kvm/vmx/vmcs12.c:61:9: sparse: sparse: cast truncates bits from constant value (a028a becomes 28a)
+   arch/x86/kvm/vmx/vmcs12.c:61:9: sparse: sparse: cast truncates bits from constant value (a02ca becomes 2ca)
+   arch/x86/kvm/vmx/vmcs12.c:62:9: sparse: sparse: cast truncates bits from constant value (a030a becomes 30a)
+   arch/x86/kvm/vmx/vmcs12.c:62:9: sparse: sparse: cast truncates bits from constant value (a034a becomes 34a)
+   arch/x86/kvm/vmx/vmcs12.c:63:9: sparse: sparse: cast truncates bits from constant value (a038a becomes 38a)
+   arch/x86/kvm/vmx/vmcs12.c:63:9: sparse: sparse: cast truncates bits from constant value (a03ca becomes 3ca)
+   arch/x86/kvm/vmx/vmcs12.c:64:9: sparse: sparse: cast truncates bits from constant value (a040a becomes 40a)
+   arch/x86/kvm/vmx/vmcs12.c:64:9: sparse: sparse: cast truncates bits from constant value (a044a becomes 44a)
+   arch/x86/kvm/vmx/vmcs12.c:65:9: sparse: sparse: cast truncates bits from constant value (a048a becomes 48a)
+   arch/x86/kvm/vmx/vmcs12.c:65:9: sparse: sparse: cast truncates bits from constant value (a04ca becomes 4ca)
+   arch/x86/kvm/vmx/vmcs12.c:66:9: sparse: sparse: cast truncates bits from constant value (b000b becomes b)
+   arch/x86/kvm/vmx/vmcs12.c:66:9: sparse: sparse: cast truncates bits from constant value (b004b becomes 4b)
+   arch/x86/kvm/vmx/vmcs12.c:67:9: sparse: sparse: cast truncates bits from constant value (b008b becomes 8b)
+   arch/x86/kvm/vmx/vmcs12.c:67:9: sparse: sparse: cast truncates bits from constant value (b00cb becomes cb)
+   arch/x86/kvm/vmx/vmcs12.c:68:9: sparse: sparse: cast truncates bits from constant value (b010b becomes 10b)
+   arch/x86/kvm/vmx/vmcs12.c:68:9: sparse: sparse: cast truncates bits from constant value (b014b becomes 14b)
+   arch/x86/kvm/vmx/vmcs12.c:69:9: sparse: sparse: cast truncates bits from constant value (100010 becomes 10)
+   arch/x86/kvm/vmx/vmcs12.c:70:9: sparse: sparse: cast truncates bits from constant value (100090 becomes 90)
+   arch/x86/kvm/vmx/vmcs12.c:71:9: sparse: sparse: cast truncates bits from constant value (100110 becomes 110)
+   arch/x86/kvm/vmx/vmcs12.c:72:9: sparse: sparse: cast truncates bits from constant value (100190 becomes 190)
+   arch/x86/kvm/vmx/vmcs12.c:73:9: sparse: sparse: cast truncates bits from constant value (100210 becomes 210)
+   arch/x86/kvm/vmx/vmcs12.c:74:9: sparse: sparse: cast truncates bits from constant value (100290 becomes 290)
+   arch/x86/kvm/vmx/vmcs12.c:75:9: sparse: sparse: cast truncates bits from constant value (100310 becomes 310)
+   arch/x86/kvm/vmx/vmcs12.c:76:9: sparse: sparse: cast truncates bits from constant value (100390 becomes 390)
+   arch/x86/kvm/vmx/vmcs12.c:77:9: sparse: sparse: cast truncates bits from constant value (100410 becomes 410)
+   arch/x86/kvm/vmx/vmcs12.c:78:9: sparse: sparse: cast truncates bits from constant value (100490 becomes 490)
+   arch/x86/kvm/vmx/vmcs12.c:79:9: sparse: sparse: cast truncates bits from constant value (100510 becomes 510)
+   arch/x86/kvm/vmx/vmcs12.c:80:9: sparse: sparse: cast truncates bits from constant value (100590 becomes 590)
+   arch/x86/kvm/vmx/vmcs12.c:81:9: sparse: sparse: cast truncates bits from constant value (100610 becomes 610)
+   arch/x86/kvm/vmx/vmcs12.c:82:9: sparse: sparse: cast truncates bits from constant value (100690 becomes 690)
+   arch/x86/kvm/vmx/vmcs12.c:83:9: sparse: sparse: cast truncates bits from constant value (100710 becomes 710)
+   arch/x86/kvm/vmx/vmcs12.c:84:9: sparse: sparse: cast truncates bits from constant value (100790 becomes 790)
+   arch/x86/kvm/vmx/vmcs12.c:85:9: sparse: sparse: cast truncates bits from constant value (110011 becomes 11)
+   arch/x86/kvm/vmx/vmcs12.c:86:9: sparse: sparse: cast truncates bits from constant value (110091 becomes 91)
+   arch/x86/kvm/vmx/vmcs12.c:87:9: sparse: sparse: cast truncates bits from constant value (110111 becomes 111)
+   arch/x86/kvm/vmx/vmcs12.c:88:9: sparse: sparse: cast truncates bits from constant value (110191 becomes 191)
+   arch/x86/kvm/vmx/vmcs12.c:89:9: sparse: sparse: cast truncates bits from constant value (110211 becomes 211)
+   arch/x86/kvm/vmx/vmcs12.c:90:9: sparse: sparse: cast truncates bits from constant value (110291 becomes 291)
+   arch/x86/kvm/vmx/vmcs12.c:91:9: sparse: sparse: cast truncates bits from constant value (110311 becomes 311)
+   arch/x86/kvm/vmx/vmcs12.c:92:9: sparse: sparse: cast truncates bits from constant value (110391 becomes 391)
+   arch/x86/kvm/vmx/vmcs12.c:93:9: sparse: sparse: cast truncates bits from constant value (120012 becomes 12)
+   arch/x86/kvm/vmx/vmcs12.c:94:9: sparse: sparse: cast truncates bits from constant value (120092 becomes 92)
+   arch/x86/kvm/vmx/vmcs12.c:95:9: sparse: sparse: cast truncates bits from constant value (120112 becomes 112)
+   arch/x86/kvm/vmx/vmcs12.c:96:9: sparse: sparse: cast truncates bits from constant value (120192 becomes 192)
+   arch/x86/kvm/vmx/vmcs12.c:97:9: sparse: sparse: cast truncates bits from constant value (120212 becomes 212)
+   arch/x86/kvm/vmx/vmcs12.c:98:9: sparse: sparse: cast truncates bits from constant value (120292 becomes 292)
+   arch/x86/kvm/vmx/vmcs12.c:99:9: sparse: sparse: cast truncates bits from constant value (120312 becomes 312)
+   arch/x86/kvm/vmx/vmcs12.c:100:9: sparse: sparse: cast truncates bits from constant value (120392 becomes 392)
+   arch/x86/kvm/vmx/vmcs12.c:101:9: sparse: sparse: cast truncates bits from constant value (120412 becomes 412)
+   arch/x86/kvm/vmx/vmcs12.c:102:9: sparse: sparse: cast truncates bits from constant value (120492 becomes 492)
+   arch/x86/kvm/vmx/vmcs12.c:103:9: sparse: sparse: cast truncates bits from constant value (120512 becomes 512)
+   arch/x86/kvm/vmx/vmcs12.c:104:9: sparse: sparse: cast truncates bits from constant value (120592 becomes 592)
+   arch/x86/kvm/vmx/vmcs12.c:105:9: sparse: sparse: cast truncates bits from constant value (120612 becomes 612)
+   arch/x86/kvm/vmx/vmcs12.c:106:9: sparse: sparse: cast truncates bits from constant value (120692 becomes 692)
+   arch/x86/kvm/vmx/vmcs12.c:107:9: sparse: sparse: cast truncates bits from constant value (120712 becomes 712)
+   arch/x86/kvm/vmx/vmcs12.c:108:9: sparse: sparse: cast truncates bits from constant value (120792 becomes 792)
+   arch/x86/kvm/vmx/vmcs12.c:109:9: sparse: sparse: cast truncates bits from constant value (120812 becomes 812)
+   arch/x86/kvm/vmx/vmcs12.c:110:9: sparse: sparse: cast truncates bits from constant value (120892 becomes 892)
+   arch/x86/kvm/vmx/vmcs12.c:111:9: sparse: sparse: cast truncates bits from constant value (120912 becomes 912)
+   arch/x86/kvm/vmx/vmcs12.c:112:9: sparse: sparse: cast truncates bits from constant value (120992 becomes 992)
+   arch/x86/kvm/vmx/vmcs12.c:113:9: sparse: sparse: cast truncates bits from constant value (120a92 becomes a92)
+   arch/x86/kvm/vmx/vmcs12.c:114:9: sparse: sparse: cast truncates bits from constant value (130013 becomes 13)
+   arch/x86/kvm/vmx/vmcs12.c:115:9: sparse: sparse: cast truncates bits from constant value (120b92 becomes b92)
+   arch/x86/kvm/vmx/vmcs12.c:116:9: sparse: sparse: cast truncates bits from constant value (180018 becomes 18)
+   arch/x86/kvm/vmx/vmcs12.c:117:9: sparse: sparse: cast truncates bits from constant value (180098 becomes 98)
+   arch/x86/kvm/vmx/vmcs12.c:118:9: sparse: sparse: cast truncates bits from constant value (180118 becomes 118)
+   arch/x86/kvm/vmx/vmcs12.c:119:9: sparse: sparse: cast truncates bits from constant value (180198 becomes 198)
+   arch/x86/kvm/vmx/vmcs12.c:120:9: sparse: sparse: cast truncates bits from constant value (190019 becomes 19)
+   arch/x86/kvm/vmx/vmcs12.c:121:9: sparse: sparse: cast truncates bits from constant value (190299 becomes 299)
+   arch/x86/kvm/vmx/vmcs12.c:122:9: sparse: sparse: cast truncates bits from constant value (1a001a becomes 1a)
+   arch/x86/kvm/vmx/vmcs12.c:123:9: sparse: sparse: cast truncates bits from constant value (1a009a becomes 9a)
+   arch/x86/kvm/vmx/vmcs12.c:124:9: sparse: sparse: cast truncates bits from constant value (1a011a becomes 11a)
+   arch/x86/kvm/vmx/vmcs12.c:125:9: sparse: sparse: cast truncates bits from constant value (1a019a becomes 19a)
+   arch/x86/kvm/vmx/vmcs12.c:126:9: sparse: sparse: cast truncates bits from constant value (1a021a becomes 21a)
+   arch/x86/kvm/vmx/vmcs12.c:127:9: sparse: sparse: cast truncates bits from constant value (1a029a becomes 29a)
+   arch/x86/kvm/vmx/vmcs12.c:128:9: sparse: sparse: cast truncates bits from constant value (1a031a becomes 31a)
+   arch/x86/kvm/vmx/vmcs12.c:129:9: sparse: sparse: cast truncates bits from constant value (1a039a becomes 39a)
+   arch/x86/kvm/vmx/vmcs12.c:130:9: sparse: sparse: cast truncates bits from constant value (1a041a becomes 41a)
+   arch/x86/kvm/vmx/vmcs12.c:131:9: sparse: sparse: cast truncates bits from constant value (1a049a becomes 49a)
+   arch/x86/kvm/vmx/vmcs12.c:132:9: sparse: sparse: cast truncates bits from constant value (1a051a becomes 51a)
+   arch/x86/kvm/vmx/vmcs12.c:133:9: sparse: sparse: cast truncates bits from constant value (1a059a becomes 59a)
+   arch/x86/kvm/vmx/vmcs12.c:134:9: sparse: sparse: cast truncates bits from constant value (1a061a becomes 61a)
+   arch/x86/kvm/vmx/vmcs12.c:135:9: sparse: sparse: cast truncates bits from constant value (1a069a becomes 69a)
+   arch/x86/kvm/vmx/vmcs12.c:136:9: sparse: sparse: cast truncates bits from constant value (1a071a becomes 71a)
+   arch/x86/kvm/vmx/vmcs12.c:137:9: sparse: sparse: cast truncates bits from constant value (1a079a becomes 79a)
+   arch/x86/kvm/vmx/vmcs12.c:138:9: sparse: sparse: cast truncates bits from constant value (1a081a becomes 81a)
+   arch/x86/kvm/vmx/vmcs12.c:139:9: sparse: sparse: cast truncates bits from constant value (1a089a becomes 89a)
+   arch/x86/kvm/vmx/vmcs12.c:140:9: sparse: sparse: cast truncates bits from constant value (1a091a becomes 91a)
+   arch/x86/kvm/vmx/vmcs12.c:141:9: sparse: sparse: cast truncates bits from constant value (1a099a becomes 99a)
+>> arch/x86/kvm/vmx/vmcs12.c:142:9: sparse: sparse: cast truncates bits from constant value (1a0a1a becomes a1a)
+   arch/x86/kvm/vmx/vmcs12.c:143:9: sparse: sparse: cast truncates bits from constant value (1a0a9a becomes a9a)
+   arch/x86/kvm/vmx/vmcs12.c:144:9: sparse: sparse: cast truncates bits from constant value (1a0b1a becomes b1a)
+   arch/x86/kvm/vmx/vmcs12.c:145:9: sparse: sparse: cast truncates bits from constant value (1b001b becomes 1b)
+   arch/x86/kvm/vmx/vmcs12.c:146:9: sparse: sparse: cast truncates bits from constant value (1b009b becomes 9b)
+   arch/x86/kvm/vmx/vmcs12.c:147:9: sparse: sparse: cast truncates bits from constant value (1b011b becomes 11b)
+   arch/x86/kvm/vmx/vmcs12.c:148:9: sparse: sparse: cast truncates bits from constant value (1b019b becomes 19b)
+   arch/x86/kvm/vmx/vmcs12.c:149:9: sparse: sparse: cast truncates bits from constant value (1b021b becomes 21b)
+   arch/x86/kvm/vmx/vmcs12.c:150:9: sparse: sparse: cast truncates bits from constant value (1b029b becomes 29b)
+   arch/x86/kvm/vmx/vmcs12.c:151:9: sparse: sparse: cast truncates bits from constant value (1b031b becomes 31b)
+   arch/x86/kvm/vmx/vmcs12.c:152:9: sparse: sparse: cast truncates bits from constant value (1b039b becomes 39b)
+   arch/x86/kvm/vmx/vmcs12.c:153:9: sparse: sparse: cast truncates bits from constant value (1b041b becomes 41b)
+   arch/x86/kvm/vmx/vmcs12.c:154:9: sparse: sparse: cast truncates bits from constant value (1b049b becomes 49b)
+   arch/x86/kvm/vmx/vmcs12.c:155:9: sparse: sparse: cast truncates bits from constant value (1b051b becomes 51b)
+   arch/x86/kvm/vmx/vmcs12.c:156:9: sparse: sparse: cast truncates bits from constant value (1b059b becomes 59b)
+   arch/x86/kvm/vmx/vmcs12.c:157:9: sparse: sparse: cast truncates bits from constant value (1b061b becomes 61b)
+   arch/x86/kvm/vmx/vmcs12.c:158:9: sparse: sparse: cast truncates bits from constant value (1b069b becomes 69b)
+   arch/x86/kvm/vmx/vmcs12.c:159:9: sparse: sparse: cast truncates bits from constant value (1b071b becomes 71b)
 
-   fs/smb/client/smb2inode.c: In function 'check_wsl_eas':
->> fs/smb/client/smb2inode.c:124:25: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
-     124 |         if (ea + outlen > end)
-         |                         ^
+vim +142 arch/x86/kvm/vmx/vmcs12.c
 
+     5	
+     6	#define VMCS12_OFFSET(x) offsetof(struct vmcs12, x)
+     7	#define FIELD(number, name)	[ROL16(number, 6)] = VMCS12_OFFSET(name)
+     8	#define FIELD64(number, name)						\
+     9		FIELD(number, name),						\
+    10		[ROL16(number##_HIGH, 6)] = VMCS12_OFFSET(name) + sizeof(u32)
+    11	
+    12	const unsigned short vmcs12_field_offsets[] = {
+    13		FIELD(VIRTUAL_PROCESSOR_ID, virtual_processor_id),
+    14		FIELD(POSTED_INTR_NV, posted_intr_nv),
+    15		FIELD(GUEST_ES_SELECTOR, guest_es_selector),
+    16		FIELD(GUEST_CS_SELECTOR, guest_cs_selector),
+    17		FIELD(GUEST_SS_SELECTOR, guest_ss_selector),
+    18		FIELD(GUEST_DS_SELECTOR, guest_ds_selector),
+    19		FIELD(GUEST_FS_SELECTOR, guest_fs_selector),
+    20		FIELD(GUEST_GS_SELECTOR, guest_gs_selector),
+    21		FIELD(GUEST_LDTR_SELECTOR, guest_ldtr_selector),
+    22		FIELD(GUEST_TR_SELECTOR, guest_tr_selector),
+    23		FIELD(GUEST_INTR_STATUS, guest_intr_status),
+    24		FIELD(GUEST_PML_INDEX, guest_pml_index),
+    25		FIELD(HOST_ES_SELECTOR, host_es_selector),
+    26		FIELD(HOST_CS_SELECTOR, host_cs_selector),
+    27		FIELD(HOST_SS_SELECTOR, host_ss_selector),
+    28		FIELD(HOST_DS_SELECTOR, host_ds_selector),
+    29		FIELD(HOST_FS_SELECTOR, host_fs_selector),
+    30		FIELD(HOST_GS_SELECTOR, host_gs_selector),
+    31		FIELD(HOST_TR_SELECTOR, host_tr_selector),
+    32		FIELD64(IO_BITMAP_A, io_bitmap_a),
+    33		FIELD64(IO_BITMAP_B, io_bitmap_b),
+    34		FIELD64(MSR_BITMAP, msr_bitmap),
+    35		FIELD64(VM_EXIT_MSR_STORE_ADDR, vm_exit_msr_store_addr),
+    36		FIELD64(VM_EXIT_MSR_LOAD_ADDR, vm_exit_msr_load_addr),
+    37		FIELD64(VM_ENTRY_MSR_LOAD_ADDR, vm_entry_msr_load_addr),
+    38		FIELD64(PML_ADDRESS, pml_address),
+    39		FIELD64(TSC_OFFSET, tsc_offset),
+    40		FIELD64(TSC_MULTIPLIER, tsc_multiplier),
+    41		FIELD64(VIRTUAL_APIC_PAGE_ADDR, virtual_apic_page_addr),
+    42		FIELD64(APIC_ACCESS_ADDR, apic_access_addr),
+    43		FIELD64(POSTED_INTR_DESC_ADDR, posted_intr_desc_addr),
+    44		FIELD64(VM_FUNCTION_CONTROL, vm_function_control),
+    45		FIELD64(EPT_POINTER, ept_pointer),
+    46		FIELD64(EOI_EXIT_BITMAP0, eoi_exit_bitmap0),
+    47		FIELD64(EOI_EXIT_BITMAP1, eoi_exit_bitmap1),
+    48		FIELD64(EOI_EXIT_BITMAP2, eoi_exit_bitmap2),
+    49		FIELD64(EOI_EXIT_BITMAP3, eoi_exit_bitmap3),
+    50		FIELD64(EPTP_LIST_ADDRESS, eptp_list_address),
+    51		FIELD64(VMREAD_BITMAP, vmread_bitmap),
+    52		FIELD64(VMWRITE_BITMAP, vmwrite_bitmap),
+    53		FIELD64(XSS_EXIT_BITMAP, xss_exit_bitmap),
+    54		FIELD64(ENCLS_EXITING_BITMAP, encls_exiting_bitmap),
+    55		FIELD64(GUEST_PHYSICAL_ADDRESS, guest_physical_address),
+    56		FIELD64(VMCS_LINK_POINTER, vmcs_link_pointer),
+    57		FIELD64(GUEST_IA32_DEBUGCTL, guest_ia32_debugctl),
+    58		FIELD64(GUEST_IA32_PAT, guest_ia32_pat),
+    59		FIELD64(GUEST_IA32_EFER, guest_ia32_efer),
+    60		FIELD64(GUEST_IA32_PERF_GLOBAL_CTRL, guest_ia32_perf_global_ctrl),
+    61		FIELD64(GUEST_PDPTR0, guest_pdptr0),
+    62		FIELD64(GUEST_PDPTR1, guest_pdptr1),
+    63		FIELD64(GUEST_PDPTR2, guest_pdptr2),
+    64		FIELD64(GUEST_PDPTR3, guest_pdptr3),
+    65		FIELD64(GUEST_BNDCFGS, guest_bndcfgs),
+    66		FIELD64(HOST_IA32_PAT, host_ia32_pat),
+    67		FIELD64(HOST_IA32_EFER, host_ia32_efer),
+    68		FIELD64(HOST_IA32_PERF_GLOBAL_CTRL, host_ia32_perf_global_ctrl),
+    69		FIELD(PIN_BASED_VM_EXEC_CONTROL, pin_based_vm_exec_control),
+    70		FIELD(CPU_BASED_VM_EXEC_CONTROL, cpu_based_vm_exec_control),
+    71		FIELD(EXCEPTION_BITMAP, exception_bitmap),
+    72		FIELD(PAGE_FAULT_ERROR_CODE_MASK, page_fault_error_code_mask),
+    73		FIELD(PAGE_FAULT_ERROR_CODE_MATCH, page_fault_error_code_match),
+    74		FIELD(CR3_TARGET_COUNT, cr3_target_count),
+    75		FIELD(VM_EXIT_CONTROLS, vm_exit_controls),
+    76		FIELD(VM_EXIT_MSR_STORE_COUNT, vm_exit_msr_store_count),
+    77		FIELD(VM_EXIT_MSR_LOAD_COUNT, vm_exit_msr_load_count),
+    78		FIELD(VM_ENTRY_CONTROLS, vm_entry_controls),
+    79		FIELD(VM_ENTRY_MSR_LOAD_COUNT, vm_entry_msr_load_count),
+    80		FIELD(VM_ENTRY_INTR_INFO_FIELD, vm_entry_intr_info_field),
+    81		FIELD(VM_ENTRY_EXCEPTION_ERROR_CODE, vm_entry_exception_error_code),
+    82		FIELD(VM_ENTRY_INSTRUCTION_LEN, vm_entry_instruction_len),
+    83		FIELD(TPR_THRESHOLD, tpr_threshold),
+    84		FIELD(SECONDARY_VM_EXEC_CONTROL, secondary_vm_exec_control),
+    85		FIELD(VM_INSTRUCTION_ERROR, vm_instruction_error),
+    86		FIELD(VM_EXIT_REASON, vm_exit_reason),
+    87		FIELD(VM_EXIT_INTR_INFO, vm_exit_intr_info),
+    88		FIELD(VM_EXIT_INTR_ERROR_CODE, vm_exit_intr_error_code),
+    89		FIELD(IDT_VECTORING_INFO_FIELD, idt_vectoring_info_field),
+    90		FIELD(IDT_VECTORING_ERROR_CODE, idt_vectoring_error_code),
+    91		FIELD(VM_EXIT_INSTRUCTION_LEN, vm_exit_instruction_len),
+    92		FIELD(VMX_INSTRUCTION_INFO, vmx_instruction_info),
+    93		FIELD(GUEST_ES_LIMIT, guest_es_limit),
+    94		FIELD(GUEST_CS_LIMIT, guest_cs_limit),
+    95		FIELD(GUEST_SS_LIMIT, guest_ss_limit),
+    96		FIELD(GUEST_DS_LIMIT, guest_ds_limit),
+    97		FIELD(GUEST_FS_LIMIT, guest_fs_limit),
+    98		FIELD(GUEST_GS_LIMIT, guest_gs_limit),
+    99		FIELD(GUEST_LDTR_LIMIT, guest_ldtr_limit),
+   100		FIELD(GUEST_TR_LIMIT, guest_tr_limit),
+   101		FIELD(GUEST_GDTR_LIMIT, guest_gdtr_limit),
+   102		FIELD(GUEST_IDTR_LIMIT, guest_idtr_limit),
+   103		FIELD(GUEST_ES_AR_BYTES, guest_es_ar_bytes),
+   104		FIELD(GUEST_CS_AR_BYTES, guest_cs_ar_bytes),
+   105		FIELD(GUEST_SS_AR_BYTES, guest_ss_ar_bytes),
+   106		FIELD(GUEST_DS_AR_BYTES, guest_ds_ar_bytes),
+   107		FIELD(GUEST_FS_AR_BYTES, guest_fs_ar_bytes),
+   108		FIELD(GUEST_GS_AR_BYTES, guest_gs_ar_bytes),
+   109		FIELD(GUEST_LDTR_AR_BYTES, guest_ldtr_ar_bytes),
+   110		FIELD(GUEST_TR_AR_BYTES, guest_tr_ar_bytes),
+   111		FIELD(GUEST_INTERRUPTIBILITY_INFO, guest_interruptibility_info),
+   112		FIELD(GUEST_ACTIVITY_STATE, guest_activity_state),
+   113		FIELD(GUEST_SYSENTER_CS, guest_sysenter_cs),
+   114		FIELD(HOST_IA32_SYSENTER_CS, host_ia32_sysenter_cs),
+   115		FIELD(VMX_PREEMPTION_TIMER_VALUE, vmx_preemption_timer_value),
+   116		FIELD(CR0_GUEST_HOST_MASK, cr0_guest_host_mask),
+   117		FIELD(CR4_GUEST_HOST_MASK, cr4_guest_host_mask),
+   118		FIELD(CR0_READ_SHADOW, cr0_read_shadow),
+   119		FIELD(CR4_READ_SHADOW, cr4_read_shadow),
+   120		FIELD(EXIT_QUALIFICATION, exit_qualification),
+   121		FIELD(GUEST_LINEAR_ADDRESS, guest_linear_address),
+   122		FIELD(GUEST_CR0, guest_cr0),
+   123		FIELD(GUEST_CR3, guest_cr3),
+   124		FIELD(GUEST_CR4, guest_cr4),
+   125		FIELD(GUEST_ES_BASE, guest_es_base),
+   126		FIELD(GUEST_CS_BASE, guest_cs_base),
+   127		FIELD(GUEST_SS_BASE, guest_ss_base),
+   128		FIELD(GUEST_DS_BASE, guest_ds_base),
+   129		FIELD(GUEST_FS_BASE, guest_fs_base),
+   130		FIELD(GUEST_GS_BASE, guest_gs_base),
+   131		FIELD(GUEST_LDTR_BASE, guest_ldtr_base),
+   132		FIELD(GUEST_TR_BASE, guest_tr_base),
+   133		FIELD(GUEST_GDTR_BASE, guest_gdtr_base),
+   134		FIELD(GUEST_IDTR_BASE, guest_idtr_base),
+   135		FIELD(GUEST_DR7, guest_dr7),
+   136		FIELD(GUEST_RSP, guest_rsp),
+   137		FIELD(GUEST_RIP, guest_rip),
+   138		FIELD(GUEST_RFLAGS, guest_rflags),
+   139		FIELD(GUEST_PENDING_DBG_EXCEPTIONS, guest_pending_dbg_exceptions),
+   140		FIELD(GUEST_SYSENTER_ESP, guest_sysenter_esp),
+   141		FIELD(GUEST_SYSENTER_EIP, guest_sysenter_eip),
+ > 142		FIELD(GUEST_S_CET, guest_s_cet),
 
-vim +124 fs/smb/client/smb2inode.c
-
-   105	
-   106	static int check_wsl_eas(struct kvec *rsp_iov)
-   107	{
-   108		struct smb2_file_full_ea_info *ea;
-   109		struct smb2_query_info_rsp *rsp = rsp_iov->iov_base;
-   110		unsigned long addr;
-   111		u32 outlen, next;
-   112		u16 vlen;
-   113		u8 nlen;
-   114		u8 *end;
-   115	
-   116		outlen = le32_to_cpu(rsp->OutputBufferLength);
-   117		if (outlen < SMB2_WSL_MIN_QUERY_EA_RESP_SIZE ||
-   118		    outlen > SMB2_WSL_MAX_QUERY_EA_RESP_SIZE)
-   119			return -EINVAL;
-   120	
-   121		ea = (void *)((u8 *)rsp_iov->iov_base +
-   122			      le16_to_cpu(rsp->OutputBufferOffset));
-   123		end = (u8 *)rsp_iov->iov_base + rsp_iov->iov_len;
- > 124		if (ea + outlen > end)
-   125			return -EINVAL;
-   126	
-   127		for (;;) {
-   128			if ((u8 *)ea > end - sizeof(*ea))
-   129				return -EINVAL;
-   130	
-   131			nlen = ea->ea_name_length;
-   132			vlen = le16_to_cpu(ea->ea_value_length);
-   133			if (nlen != SMB2_WSL_XATTR_NAME_LEN ||
-   134			    (u8 *)ea->ea_data + nlen + 1 + vlen > end)
-   135				return -EINVAL;
-   136	
-   137			switch (vlen) {
-   138			case 4:
-   139				if (strncmp(ea->ea_data, SMB2_WSL_XATTR_UID, nlen) &&
-   140				    strncmp(ea->ea_data, SMB2_WSL_XATTR_GID, nlen) &&
-   141				    strncmp(ea->ea_data, SMB2_WSL_XATTR_MODE, nlen))
-   142					return -EINVAL;
-   143				break;
-   144			case 8:
-   145				if (strncmp(ea->ea_data, SMB2_WSL_XATTR_DEV, nlen))
-   146					return -EINVAL;
-   147				break;
-   148			case 0:
-   149				if (!strncmp(ea->ea_data, SMB2_WSL_XATTR_UID, nlen) ||
-   150				    !strncmp(ea->ea_data, SMB2_WSL_XATTR_GID, nlen) ||
-   151				    !strncmp(ea->ea_data, SMB2_WSL_XATTR_MODE, nlen) ||
-   152				    !strncmp(ea->ea_data, SMB2_WSL_XATTR_DEV, nlen))
-   153					break;
-   154				fallthrough;
-   155			default:
-   156				return -EINVAL;
-   157			}
-   158	
-   159			next = le32_to_cpu(ea->next_entry_offset);
-   160			if (!next)
-   161				break;
-   162			if (!IS_ALIGNED(next, 4) ||
-   163			    check_add_overflow((unsigned long)ea, next, &addr))
-   164				return -EINVAL;
-   165			ea = (void *)addr;
-   166		}
-   167		return 0;
-   168	}
-   169	
-
---
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
