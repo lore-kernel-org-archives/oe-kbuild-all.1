@@ -1,157 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1886B231A21;
-	Sat,  2 May 2026 11:09:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283C43594A
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 May 2026 11:19:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777720187; cv=none; b=Sl66p1LGyyGAlexpI4q/yanhta8IiP9gWAifwv6DruiIFCZWTEQyDmE0LjSN24W+Y4ZB5LqEX+SojHzh62YswMeSwrbZNeXniUjVhMOjqzM3PWi63zVMmGULs64ipuAF/JHSTjt0ZsGruVaYdRg6MBs2q+4h5MtmijAZHeALwCM=
+	t=1777720748; cv=none; b=gEqbfSmH+IfaQsFAKyrrs5C8hbz/crhpvKyZc4Bxivh/ef+xtrRbtE8du6FZ4rT9Aj56l9kAtSNwYHZ8xqn5ptNqji2wnT5GVu3J765NHqbs3/hqr1GGQ9DMypzNc2lrD20lOLDOVGLe/TNNhYm6LJkFaB/8KFtavLoIWRG1kAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777720187; c=relaxed/simple;
-	bh=3DSa5aKXlscgn8Si/AbQ9D7izrFBAEnEPhWJuP19/5E=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bFf1FfKr5WW6HatJeAOul2jakdzzUTiiIeQ0YAdGvjSJWcpfoGhHzfbJ+zaI85a75ZAwb9DFIB17JBStyv0eJkSwghWRPPsI5Jxk8rqid3BOVT4RMfi/1i62X+C+AxZ5b0NPJuU5TPh7dFD9EYqNiqDwbYHBN/QOhjDBYdYtVOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aJE/9M2a; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1777720748; c=relaxed/simple;
+	bh=0PgggsRU117dtsO6/PX8WLCRZH5x1OP6Qp+tAoF87h8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a4pyUV5EaMAioZH44ZMDi8Q/pWtG4FTR9KAvFI2RcL6LJ8yUopCoDa1VjuQOMkjC9b1CtYSOx4tP9l9iH444p0e6Ok9/+bVhF6iwyI5aDbXc7ANZLLJJhjaIRNchTcEaNroo0tAQ8RRlNuUOMhIxCAPrkxadOi7V6x9DaLXXnMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XxMBDqQy; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aJE/9M2a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XxMBDqQy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777720186; x=1809256186;
-  h=date:from:to:cc:subject:message-id;
-  bh=3DSa5aKXlscgn8Si/AbQ9D7izrFBAEnEPhWJuP19/5E=;
-  b=aJE/9M2aZ9rXNXqtGFJbKHy29uGVZxEomfP0eqZfh1rDq1+g1bladKB+
-   MYTsXBJzibm3v2AsOKUUh5UKrU32EVTpeLE0lQD5yCnXmkjDPSKsz2+IL
-   RixdUKMKnX5Djht9O8PW1fQMycD5TYD+m9XVL2PFBx/Zv2d5lSCDPFYO9
-   hiJsz844LaZI5NJC7o/cNDQd0zyETgpMgHKpYI/VliTucU7YtIXrhE8Mg
-   c89resmQKX/pLzGO9lsmdJS1GfF0+LElELjs3EGdqfXMaJH25tegQeT8G
-   tShzuTooq2xONCYDWE3ZVuyrlvGZLccj05eDrE2TTYHjbCrdC76clnFv5
-   w==;
-X-CSE-ConnectionGUID: rEzdJ5HKSIKjpDmSMA/kng==
-X-CSE-MsgGUID: ZoGL8NJWTn2FFMuDC6tmdQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="78589163"
+  t=1777720746; x=1809256746;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0PgggsRU117dtsO6/PX8WLCRZH5x1OP6Qp+tAoF87h8=;
+  b=XxMBDqQyD12dpR2dRXOq+YhabDtB2dB9Vxs4BrK962+njY/BXZjuX6Y6
+   d7wheW0Lo5raJ9phNAuRHPl4168cwaqYbNwDDoFOCT5qCw62OIhedNung
+   VCjEma8aFjwSOrmPNV3gcVOy1ptuMjM5aepzrVsq6spY/xmal3x7q0/2s
+   bxSmGAUvsWSck3HgvoE84x2AIVt75TF7llFoHAoI+VXcCQMRMktjBztYU
+   ZTLPwuhSiobsbxhldZwKiK1DPN6nag71VK0ka/QjROn7GSmSP8/j7UaJg
+   uL/Z2rnW4E77NbmGNmLEIuYdXdN4yRiz4yv6F9BeyRnnlP9ClR8yLDZWT
+   A==;
+X-CSE-ConnectionGUID: 2vmQGXDrR0ar8MvEfepjjQ==
+X-CSE-MsgGUID: 8Aive9oHTU2dw+BnqAimlw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="81233272"
 X-IronPort-AV: E=Sophos;i="6.23,211,1770624000"; 
-   d="scan'208";a="78589163"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 04:09:46 -0700
-X-CSE-ConnectionGUID: x9ELS1AORduqCSSFGaED+A==
-X-CSE-MsgGUID: bZJS6TjXTxuQjonxTL4C1Q==
+   d="scan'208";a="81233272"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 04:19:05 -0700
+X-CSE-ConnectionGUID: nlUSMv1QR4il5ma1NB1rQA==
+X-CSE-MsgGUID: s6cZAwSdTtSPJzEQBanOAw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,211,1770624000"; 
-   d="scan'208";a="234055251"
-Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 02 May 2026 04:09:44 -0700
-Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
+   d="scan'208";a="235155215"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 02 May 2026 04:19:02 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wJ8E9-000000001LV-1tuP;
-	Sat, 02 May 2026 11:09:41 +0000
-Date: Sat, 02 May 2026 19:08:59 +0800
+	id 1wJ8N9-000000005Ft-34x5;
+	Sat, 02 May 2026 11:18:59 +0000
+Date: Sat, 2 May 2026 13:18:15 +0200
 From: kernel test robot <lkp@intel.com>
-To: Miklos Szeredi <mszeredi@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- fuse-devel@lists.sourceforge.net
-Subject: [mszeredi-fuse:fusex 40/40] fs/fuse/fusex.c:1601:16: error:
- use of undeclared identifier 'FUSE_SUPER_MAGIC'
-Message-ID: <202605021906.FIqlVWd9-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, ojeda@kernel.org, boqun@kernel.org,
+	gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org,
+	a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
+	dakr@kernel.org, peterz@infradead.org, fujita.tomonori@gmail.com,
+	tamird@kernel.org,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>
+Subject: Re: [PATCH v1 1/1] rust: add Work::disable_sync
+Message-ID: <202605021337.ck8OCWEF-lkp@intel.com>
+References: <20260428104459.174602-2-work@onurozkan.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260428104459.174602-2-work@onurozkan.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git fusex
-head:   1934d254361977df9fad43102ec1d72e20434a99
-commit: 1934d254361977df9fad43102ec1d72e20434a99 [40/40] fuse: add fusex filesystem
-config: hexagon-randconfig-002-20260502 (https://download.01.org/0day-ci/archive/20260502/202605021906.FIqlVWd9-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605021906.FIqlVWd9-lkp@intel.com/reproduce)
+Hi Onur,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on rust/rust-next]
+[also build test WARNING on linus/master v7.1-rc1 next-20260430]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Onur-zkan/rust-add-Work-disable_sync/20260502-140019
+base:   https://github.com/Rust-for-Linux/linux rust-next
+patch link:    https://lore.kernel.org/r/20260428104459.174602-2-work%40onurozkan.dev
+patch subject: [PATCH v1 1/1] rust: add Work::disable_sync
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260502/202605021337.ck8OCWEF-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605021337.ck8OCWEF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605021906.FIqlVWd9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605021337.ck8OCWEF-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> fs/fuse/fusex.c:1065:2: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
-    1065 |         struct fuse_inode *fi = get_fuse_inode(inode);
-         |         ^
->> fs/fuse/fusex.c:1601:16: error: use of undeclared identifier 'FUSE_SUPER_MAGIC'
-    1601 |         sb->s_magic = FUSE_SUPER_MAGIC;
-         |                       ^~~~~~~~~~~~~~~~
-   1 warning and 1 error generated.
+>> warning: unresolved link to `run`
+   --> rust/kernel/workqueue.rs:436:62
+   |
+   436 | /// structs, you would implement [`WorkItem`] instead. The [`run`] method on
+   |                                                              ^^^ no item named `run` in scope
+   |
+   = help: to escape `[` and `]` characters, add '\' before them like `\[` or `\]`
+   = note: `#[warn(rustdoc::broken_intra_doc_links)]` on by default
 
-
-vim +/FUSE_SUPER_MAGIC +1601 fs/fuse/fusex.c
-
-  1574	
-  1575	static int fusex_fill_super(struct super_block *sb, struct fs_context *fsc)
-  1576	{
-  1577		struct fuse_mount *fm = get_fuse_mount_super(sb);
-  1578		struct fuse_conn *fc = fm->fc;
-  1579		struct inode *inode;
-  1580		struct fusex_id id;
-  1581		struct fuse_statx_out statx;
-  1582		struct fuse_chan_param cp;
-  1583		int err;
-  1584	
-  1585		/* Dropped in fuse_mount_destroy() */
-  1586		fuse_conn_get(fc);
-  1587		fm->sb = sb;
-  1588		fc->dev = sb->s_dev;
-  1589	
-  1590		scoped_guard(mutex, &fuse_mutex) {
-  1591			list_add_tail(&fc->entry, &fuse_conn_list);
-  1592			err = fuse_ctl_add_conn(fc);
-  1593			if (err)
-  1594				return err;
-  1595		}
-  1596	
-  1597		err = super_setup_bdi(sb);
-  1598		if (err)
-  1599			return err;
-  1600	
-> 1601		sb->s_magic = FUSE_SUPER_MAGIC;
-  1602		sb->s_op = &fusex_super_operations;
-  1603		sb->s_xattr = fusex_xattr_handlers;
-  1604		sb->s_maxbytes = MAX_LFS_FILESIZE;
-  1605		sb->s_time_gran = 1;
-  1606		sb->s_iflags |= SB_I_IMA_UNVERIFIABLE_SIGNATURE;
-  1607		if (sb->s_user_ns != &init_user_ns)
-  1608			sb->s_iflags |= SB_I_UNTRUSTED_MOUNTER;
-  1609		sb->s_blocksize = PAGE_SIZE;
-  1610		sb->s_blocksize_bits = PAGE_SHIFT;
-  1611		sb->s_flags &= SB_RDONLY;
-  1612		sb->s_flags |= SB_POSIXACL;
-  1613	
-  1614		err = fusex_send_init(fm, &id, &statx);
-  1615		if (err)
-  1616			return err;
-  1617	
-  1618		inode = fusex_iget(sb, &id);
-  1619		if (inode) {
-  1620			WARN_ON(!(inode_state_read_once(inode) & I_NEW));
-  1621			fusex_set_attr(inode, &statx.stat);
-  1622			fusex_init_inode(inode);
-  1623			unlock_new_inode(inode);
-  1624		}
-  1625		sb->s_root = d_make_root(inode);
-  1626		if (!sb->s_root)
-  1627			return -ENOMEM;
-  1628	
-  1629		fc->parallel_dirops = true;
-  1630		fc->destroy = true;
-  1631	
-  1632		cp.minor = fc->minor;
-  1633		cp.max_write = fc->max_write;
-  1634		cp.max_pages = fc->max_pages;
-  1635		fuse_chan_set_initialized(fc->chan, &cp);
-  1636	
-  1637		return 0;
-  1638	}
-  1639	
-
--- 
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
