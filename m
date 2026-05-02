@@ -1,58 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 757882BF3F3
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 May 2026 16:44:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45351382374;
+	Sat,  2 May 2026 16:44:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777740248; cv=none; b=SUXCCVx9iwtH64lAoo2FuKEmXCxQFpBboFaYItwpFTL9ohuepJDHj2DaZ9/O1ZRRFMXjxAtMGRIJQgatnX22R7mHB8PMuvcfOnoT5kKn/KYCq5IaOiO9BOKzPOfW4OxOQUWC13XCTN/tQqoojQssdNFsN9VQF6liQ6Ci62+FHz4=
+	t=1777740249; cv=none; b=qR+CyzkFtjQ3yvil0jRu5mnIvaRQNYlDwggpsw2ywbU5HkYtbYFhUS4FiouZAfhfq2pfYr/FrxNuw8Ys/xh+ySkmRDuX3r7nq6M1MZ3DM6GuVTWrvDw1UY2VNfFwcv5WurQ2Ges6KzMX5hB2PSHxgXU/f3VUi2n02SvlKD0BNtM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777740248; c=relaxed/simple;
-	bh=j6gw8lrSGKKNqZMZfGvL43QKf4jGoCJD7j9uKsSu9tg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=px6VaZUOXZAjK0u+g/BochbiKzu7vkMPnKyCJaM5hw+Dhh9Rsm65m5PrxHP7P0B7a+gELvGvH6AwFlHv8Tv8x8JeXs2nEok7/NdiVEl/F9dexDuJdNtcMIg2eHNQzeqH/lWJ2lyBOq3tXGNaos6ovuuT8Aoq+uCk2gcCXaCu/qg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bKOzYDO2; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1777740249; c=relaxed/simple;
+	bh=/S2DrytkdsJiRBlu/KrrWfIC9N0Z2YneEpNIMRd0tdU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=MK0KBuQ+HhQH1NeMztNH14ubeU+9r9EWxFOXdi9dlDTeuXKsv3mzMk1GbfdsPPC18URtfXyzxxAudgZanAJeg8bh+sQYtlDj/4dnwj3bmdLd3YAis4WNe8FRQEVBnSl+PgkussWeGZ9NPB/PQuxANnBMgA39ukhwTFm5SLRTN4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bkgx8nqe; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bKOzYDO2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bkgx8nqe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777740246; x=1809276246;
+  t=1777740248; x=1809276248;
   h=date:from:to:cc:subject:message-id;
-  bh=j6gw8lrSGKKNqZMZfGvL43QKf4jGoCJD7j9uKsSu9tg=;
-  b=bKOzYDO2lS21GsfHhg9UhKZiYjDYbv4vqaOp8+LZldyBuR25nR9Eve3N
-   SQLjQUpImCkSdXgd2TJX13a7IaLyovfZEuKmGX/8azMb9U0EZ8dfXG7by
-   49jPbKjD8i7ee6Pi+LHlhcMLu/pbcEfYipN2WK9GX3ZXOFBqq79QATwP9
-   K6TmS/2Y+IVJUB378BVZZcZ+K4Ay0h+QOR6IE9hpa+NBasvbeOh+ahP0H
-   G31W95nLwshus8+Nw5Q5G6Nnz7enjKSIQVAdVwbpn3kOidSeUeU3Y4YlL
-   QBK3z8VVt3hoIdYOb1T8SwEkQFUOHvWh9H1o/gxKwcm5E3rkBBB30LeA7
-   A==;
-X-CSE-ConnectionGUID: GwFRiD3uTVa9L8WlpH3lRQ==
-X-CSE-MsgGUID: b02GM/RjT/W33uPTzOZFyw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="77830717"
+  bh=/S2DrytkdsJiRBlu/KrrWfIC9N0Z2YneEpNIMRd0tdU=;
+  b=bkgx8nqekTT96T1DKVJ1fY4eFq9CNJzHkP9lwkjw3YLhgo1ZgKTojKyX
+   HfltS4twUzwu+Xh+CReGrddzR6GUBoAT5DMHz3AAZBWEtkq5rKpDI4sO5
+   p4yW0KisFeBsFEZEAsTkMd8O6NBMBXMSv9ck35ceZV1KXolFJIiF3prXm
+   ElbLHr4vm5xizgadxoIUbuGdosgCilNPYnPo721jy5aWW3OhYFsWga5ek
+   CISkyWibok7rPjpNqpRs8UUnRUYbhQfHLvdBg9qk0NJ+BRTBYOqXwUFpB
+   kpQ2MEX79FtGCgz+cIbKlXFCMOzBf7EKBVsBl++7CVauDIGG+Muwipayq
+   g==;
+X-CSE-ConnectionGUID: s5mwefKuTISt+YIu5ap2jA==
+X-CSE-MsgGUID: hHbspEGlQ/6CU7zLEcZQog==
+X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="77830718"
 X-IronPort-AV: E=Sophos;i="6.23,212,1770624000"; 
-   d="scan'208";a="77830717"
+   d="scan'208";a="77830718"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
   by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 09:44:06 -0700
-X-CSE-ConnectionGUID: NryiOJ/YSHCsUv/+lOWR1w==
-X-CSE-MsgGUID: rLBSrGPYR+m7xsq2OqmXUg==
+X-CSE-ConnectionGUID: uuUuqTX3SL2RFZFOSAmWQA==
+X-CSE-MsgGUID: 7q86Um4DQDuwLWHVyIpQ2w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,212,1770624000"; 
-   d="scan'208";a="258477511"
+   d="scan'208";a="258477514"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
   by fmviesa002.fm.intel.com with ESMTP; 02 May 2026 09:44:04 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wJDRi-000000005Ix-2B0S;
+	id 1wJDRi-000000005Iv-1zRd;
 	Sat, 02 May 2026 16:44:02 +0000
-Date: Sat, 02 May 2026 18:43:28 +0200
+Date: Sat, 02 May 2026 18:43:29 +0200
 From: kernel test robot <lkp@intel.com>
-To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kas:pte_size 69/69] htmldocs: Warning:
- scripts/pte-size-rename.cocci references a file that doesn't exist:
- Documentation/mm/pte-size-fault-handling.rst
-Message-ID: <202605021808.m9OBkd7l-lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:netfs-next 46/50] fs/9p/vfs_addr.c:79:6:
+ warning: variable 'len' is used uninitialized whenever 'if' condition is true
+Message-ID: <202605021801.7vqkz933-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,35 +59,90 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Kiryl,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kas/linux.git pte_size
-head:   3453a5ad954365409373c2762ba237c7e31a623b
-commit: 3453a5ad954365409373c2762ba237c7e31a623b [69/69] treewide: Rename PAGE_SIZE/SHIFT/MASK to PG_* (cocci)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-next
+head:   2c55c7cf98847d593219ef29d3fedfd551d6f55f
+commit: e192187e9d3cdb786b7b6aeb6fc6d4048a806004 [46/50] netfs: Combine prepare and issue ops and grab the buffers on request
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260502/202605021801.7vqkz933-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260502/202605021808.m9OBkd7l-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605021801.7vqkz933-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605021808.m9OBkd7l-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605021801.7vqkz933-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
-   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
-   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
->> Warning: scripts/pte-size-rename.cocci references a file that doesn't exist: Documentation/mm/pte-size-fault-handling.rst
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/virtual/lguest/lguest.c
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,\b(\S*)(Documentation/[A-Za-z0-9
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/devicetree/dt-object-internal.txt
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,^Documentation/scheduler/sched-pelt
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,(Documentation/translations/[
+>> fs/9p/vfs_addr.c:79:6: warning: variable 'len' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+      79 |         if (err < 0)
+         |             ^~~~~~~
+   fs/9p/vfs_addr.c:90:51: note: uninitialized use occurs here
+      90 |         return netfs_write_subrequest_terminated(subreq, len ?: err);
+         |                                                          ^~~
+   fs/9p/vfs_addr.c:79:2: note: remove the 'if' if its condition is always false
+      79 |         if (err < 0)
+         |         ^~~~~~~~~~~~
+      80 |                 goto term;
+         |                 ~~~~~~~~~
+   fs/9p/vfs_addr.c:74:14: note: initialize the variable 'len' to silence this warning
+      74 |         int err, len;
+         |                     ^
+         |                      = 0
+   1 warning generated.
+--
+>> fs/netfs/write_collect.c:155:7: warning: variable 'fpos' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     155 |                 if (!bvecq->bv[slot].bv_page) {
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~
+   fs/netfs/write_collect.c:187:7: note: uninitialized use occurs here
+     187 |                 if (fpos + fsize >= collected_to)
+         |                     ^~~~
+   fs/netfs/write_collect.c:155:3: note: remove the 'if' if its condition is always false
+     155 |                 if (!bvecq->bv[slot].bv_page) {
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     156 |                         WARN_ONCE(1, "R=%08x slot already cleared?\n", wreq->debug_id);
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     157 |                         fsize = bvecq->bv[slot].bv_len;
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     158 |                         goto skip;
+         |                         ~~~~~~~~~~
+     159 |                 }
+         |                 ~
+   fs/netfs/write_collect.c:137:26: note: initialize the variable 'fpos' to silence this warning
+     137 |                 unsigned long long fpos, fend;
+         |                                        ^
+         |                                         = 0
+   1 warning generated.
+
+
+vim +79 fs/9p/vfs_addr.c
+
+    66	
+    67	/*
+    68	 * Issue a subrequest to write to the server.
+    69	 */
+    70	static void v9fs_issue_write(struct netfs_io_subrequest *subreq)
+    71	{
+    72		struct iov_iter iter;
+    73		struct p9_fid *fid = subreq->rreq->netfs_priv;
+    74		int err, len;
+    75	
+    76		subreq->len = umin(subreq->len, fid->clnt->msize - P9_IOHDRSZ);
+    77	
+    78		err = netfs_prepare_write_buffer(subreq, INT_MAX);
+  > 79		if (err < 0)
+    80			goto term;
+    81	
+    82		iov_iter_bvec_queue(&iter, ITER_SOURCE, subreq->content.bvecq,
+    83				    subreq->content.slot, subreq->content.offset, subreq->len);
+    84	
+    85		len = p9_client_write(fid, subreq->start, &iter, &err);
+    86		if (len > 0)
+    87			__set_bit(NETFS_SREQ_MADE_PROGRESS, &subreq->flags);
+    88	
+    89	term:
+    90		return netfs_write_subrequest_terminated(subreq, len ?: err);
+    91	}
+    92	
 
 --
 0-DAY CI Kernel Test Service
