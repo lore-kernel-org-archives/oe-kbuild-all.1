@@ -1,104 +1,88 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1032C2DA768
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 May 2026 17:05:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC708241139
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 May 2026 17:12:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777741513; cv=none; b=tiBHc6cPa+5lptCm/fysQEB27Vj85I8XyRaSOcrqG+Es749ec/E+gHRqwpbwiXESVny+lyQ41OboTEkb6mRXx/UNxfJTV0TPGmGcStLdX689dntLShEmEJnpFmy4MKn5Zo+Ueb+Vzki7MmW+SmNN+apXxKXyWAMk965zgPFDV2c=
+	t=1777741951; cv=none; b=cEPOpjkLiRKYmyltQzr/L6MI24JuJrzl26T88iO7ntxT+f2N7iC2qPEvsdvsj04jCkb47A8vKTBK7gu3NRZq08ygHO5wOwCbSlnFqatImk/7ZRrFYvNqPxKL5Zba8sctB6j7+Ukgq5FAyIrWPF70vEm92c9941oF8/k0FXHAgaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777741513; c=relaxed/simple;
-	bh=FdBVkyT70nLb57XfOr6JT3sFi3ZSJD39ANIk5R41Idk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jtF5K3KdfoimW6P41BoBhgCSRgvbyV7JHwfhxACph9v2pRTlhRT0oh/5MkSZgdaVw8PMXhwFVodGJbiciDpyUHR2fXrW+GCXGi3N79zYWnsuUJkT1FR5wTMyABzWccDA1T5oXgdo5htmdwcxGqzu5VWkMqIQ8CHI+YJh8yJRrVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bQvtBn1b; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777741951; c=relaxed/simple;
+	bh=UFTCWqWYLlcZkBWKMO1VRa2QXVxrNnBqhtu6gTX3rlw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=c9C2zu1+58twJ/yXUbB5v3xwhZkZKYYZsFI1WZm21xG1i52aOm4ckD1NGO7YmAl10fdbwOfsqTufE6DEUEXIJMpTZE2Wbd1rDh7/OtSD8y1OcebthtPRm/j3l6qRwzlhDyCzvD7OndQeNzP2WNwpdvOvM66VpgI8wWwFvCpYsXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mJEwXULs; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bQvtBn1b"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-43cfd832155so1720358f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 02 May 2026 10:05:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777741510; x=1778346310; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1OvxfOGDImPDEvap085cD/4NlYHfKvABsDFeu1Dgyuc=;
-        b=bQvtBn1bnlWLica1GcwjYRYSbtjvxtRkBoX9QrkZMn7xpuDHm6HSxCpiO/52KG6zrq
-         jkTl6IUpQrR5/5LdbaREy0h50T09nkc+vdPqeVB95FVIJ2RsR9yixEx+aEMb2F7QqM8P
-         wXRBiRC9ssBAhTkEvjHJMVb288RfPj2jIXfqiINyCA7KGQHAz8GhquQE2lKaI6fiaInd
-         A58VhEkYmaaY28BS6islrhijLvqXxGAYX6yOdnNyzGNqzsTUkNkAIli+Wy8ed7ksRvfj
-         jNbLqiSPu8Vf0CfxkMbb78iHXUvUG20UCCJkJQbAtCzrAJ78Ef02dw8jpOJ+elYumtlD
-         fFVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777741510; x=1778346310;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1OvxfOGDImPDEvap085cD/4NlYHfKvABsDFeu1Dgyuc=;
-        b=ir0ZoW+3fgD1FnK8frS92cULx98JYXRmVp83wNsPwRK/q//UFTfa/UUB5JE/8Gk4IE
-         epp1rpdS6m8z2CdmgqF6gvLVFuAKP63Akm9XN6gBSJ3H8I/5W33TNfHxyW8lAanXsZpb
-         ehmktLgcrLIAJUc9At9MTwczmYcfsxXeRGbLtd+xhOPDMHW9QNhArP0HRll2yf6al827
-         5V+GrcE4KJf1EXeNeujp3CYN4qNSbJxPpmvzW0RqJ6Q9Iw/hrQ873KN2T2TKvH3W5Xus
-         aQiVC6StsSZB1qlcxPv7mGGG7H1bFKDWihluy9CJzJ6WVTNtGeoan6UKhCN/5x+zJ5tx
-         gxRA==
-X-Forwarded-Encrypted: i=1; AFNElJ+WF5E21ZwqOhWMdOHcw0jRKG7Xro96vRtJgabrlqBo5Dr6fEeSEp7StMHS5kSL1Sj22qWCO+xA7stpNEGp@lists.linux.dev
-X-Gm-Message-State: AOJu0YxAXWwcjKFILakXI+3zYINjGSYsoPbIfUd91ceJX12VsBF60aVT
-	18aI4NWZT5P2/AQiIHG51EzSWgymggZ8af4YdVOv9bImr5lzOTicftOD
-X-Gm-Gg: AeBDievFkZxfLvLpuurC+p/hv/smPmO5E8He5ZyMvDeQBTP04QOq1DYc370GxsAdJub
-	gZpX36XG2rRTOYdftGSTOwMBbE58Msq6aDfsWpJCV0CLbQdZXKvk9ARaOmlvj63iDb7Ry+eGRDe
-	GJVfwbXsQf6/NpmsDoby3+7Rkyb8EgwCTvu/3ZAW69M4urCUQtBM93FInisdYelD0ntrHS8GX03
-	I1LM/EksusjUTwux5r7TrsW9MfgQBhRYghvVi0mtIrmtyC/58CV4S+wWznRilFOos/e7hYuVchp
-	dFe9tBAPeWPCDkC472HUZEMDSx2hFOV3Vu+6mEeSsbx114tgrPhixHf1qHxiF+ou6hgwn75Heyk
-	Ag0m0V4d7q0kd6wYaPZrVmTQEob1uJDRfer4LgiA7CYPEhWRzwGv+gjLKF6O6puSOZrXd9NLknE
-	HkbxK/Re1DcQkYEDpQhhQlPuldPd7OCg==
-X-Received: by 2002:a05:6000:1acf:b0:441:2473:c30a with SMTP id ffacd0b85a97d-44bb5c425d4mr5958184f8f.31.1777741510282;
-        Sat, 02 May 2026 10:05:10 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-44a986aaad6sm11422643f8f.28.2026.05.02.10.05.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 May 2026 10:05:09 -0700 (PDT)
-Date: Sat, 2 May 2026 20:05:05 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Tristan Madani <tristmd@gmail.com>,
-	Johannes Berg <johannes@sipsolutions.net>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org,
-	Tristan Madani <tristan@talencesecurity.com>
-Subject: Re: [PATCH v3 2/2] wifi: libertas: fix OOB read from firmware
- bssdescriptsize in scan response
-Message-ID: <afYuwVf23vKag2XA@stanley.mountain>
-References: <20260421135027.357622-3-tristmd@gmail.com>
- <202605030019.lL8x0ZPx-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mJEwXULs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777741950; x=1809277950;
+  h=date:from:to:cc:subject:message-id;
+  bh=UFTCWqWYLlcZkBWKMO1VRa2QXVxrNnBqhtu6gTX3rlw=;
+  b=mJEwXULswEuOnTiTtvnzEGFVp2g4tdI5tjF2uz1f+vuxaHCsk+b+nU+l
+   h7PMZjXTJEsnCOwRAPAz0mJh0CKu3sQg+s1lMesOx1L6eExnKxgbeKnEG
+   dkySDbQ0OJg+mDZqzY0Ur7iN4e7gFPCed77FKVhyPw25Ui05UXSXMv/l2
+   7L+grOmtNrkneIPBSBFSlWhIltGJHjtXjQbbXf9dNqN30EdwluElUtTGw
+   7fvpkMWrFf1yg8Hr3Q0yR/5B/7UNCyfd7J4tHDSPDdcOML4NKJyN7kHlZ
+   NcTTyhtbBPE5swDTILPd9EwPbIrUCCpdIn/ybyPUMXtxp+8xe3EL+qT9H
+   A==;
+X-CSE-ConnectionGUID: 42k/TJXDQDmUSUrFhMwf+A==
+X-CSE-MsgGUID: 5SnEaz/FStejBY4UceLUoA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="96097953"
+X-IronPort-AV: E=Sophos;i="6.23,212,1770624000"; 
+   d="scan'208";a="96097953"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 10:12:29 -0700
+X-CSE-ConnectionGUID: JSpce0juRw2uEpjcEVkxNg==
+X-CSE-MsgGUID: XHHW8DHnR9qzLue7KU9eig==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,212,1770624000"; 
+   d="scan'208";a="235014839"
+Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 02 May 2026 10:12:28 -0700
+Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wJDtB-000000001dr-2DZL;
+	Sat, 02 May 2026 17:12:25 +0000
+Date: Sun, 03 May 2026 01:12:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Eduard Zingerman <eddyz87@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Alexei Starovoitov <ast@kernel.org>
+Subject: {standard input}:2791: Error: register save offset not a
+ multiple of 4
+Message-ID: <202605030148.PAS4Jr9J-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202605030019.lL8x0ZPx-lkp@intel.com>
 
-On Sat, May 02, 2026 at 08:02:39PM +0300, Dan Carpenter wrote:
-> Hi Tristan,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Tristan-Madani/wifi-libertas-fix-OOB-read-from-firmware-pkt_ptr-offset-in-RX-path/20260423-061353
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-> patch link:    https://lore.kernel.org/r/20260421135027.357622-3-tristmd%40gmail.com
-> patch subject: [PATCH v3 2/2] wifi: libertas: fix OOB read from firmware bssdescriptsize in scan response
-> config: i386-randconfig-141 (https://download.01.org/0day-ci/archive/20260503/202605030019.lL8x0ZPx-lkp@intel.com/config)
-          ^^^^^^^^^^^^^^^^^^^
-Of course, it can't wrap on 64 bit systems.  But just do
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f1a5e78a55ebf2b05777fd5eb738038ddae609d6
+commit: bf0c571f7feb6fa05a512e2a5e50702501849d61 bpf: introduce forward arg-tracking dataflow analysis
+date:   3 weeks ago
+config: m68k-randconfig-r053-20260502 (https://download.01.org/0day-ci/archive/20260503/202605030148.PAS4Jr9J-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260503/202605030148.PAS4Jr9J-lkp@intel.com/reproduce)
 
-	if (size_add(le32_to_cpu(p_rx_pd->pkt_ptr), sizeof(struct rxpackethdr)) > skb->len) {
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Fixes: bf0c571f7feb ("bpf: introduce forward arg-tracking dataflow analysis")
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605030148.PAS4Jr9J-lkp@intel.com/
 
-I don't know if anyone uses this hardware on 32 bit systems but we may
-as well do it right.
+All errors (new ones prefixed by >>):
 
-regards,
-dan carpenter
+   {standard input}: Assembler messages:
+>> {standard input}:2791: Error: register save offset not a multiple of 4
+   {standard input}:2792: Error: register save offset not a multiple of 4
+   {standard input}:2793: Error: register save offset not a multiple of 4
+   {standard input}:2794: Error: register save offset not a multiple of 4
+   {standard input}:2795: Error: register save offset not a multiple of 4
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
