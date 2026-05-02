@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EBE1382374
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5965382398
 	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 May 2026 15:44:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777736660; cv=none; b=lJTJOwGWEq7aWoDvno9naGIIAjZVpYY1cUE2uNy+a7UIqhF7+aiR2+D5ls0AxCT2RjXin6W0ic/loAAGFL3tVtnuj15XHwugT6UUsnAE/GIbAPoUaV+1gTVQI5WoFnQj0sqVxrBoFk3q600SNrC7EQBUQzTTxF8fLU1iDScKgw0=
+	t=1777736662; cv=none; b=tbpbGEQcVOH1uQkiWKu5bStgMrLuc5LKwU+MHD9heQIwA03442oqNa43Y12vXMyj+Te96Wv7nzFA0T+2U5ef6w4So0uezx95ljCNHKg9CLTkB/6clYVNtcqKt+M3cBAluBhD6616aTPk1QUCaQRuLMae2cxLwcNn28fVCdE9E+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777736660; c=relaxed/simple;
-	bh=N4k5EFWE6SCa1qKNTTkTgsFReBWWvLe61gXSvt/QWd0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=rqPiCFKsW1ige37bARdN1nNQDOKuZkA6pltt/D8tXgX8AK0ZoPOVUQDYe3xurW07ZPrkrIfQZ+sfbtV2KVlCB7IVqaqWxbBkzf2CBBYSgTLjvxjKhl2A8N9GWVUXVWyaTOV5FbrtSTzpHwWxO3+sRJnZbq6Y2B69GguzSoCU7GA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U0Od8noh; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1777736662; c=relaxed/simple;
+	bh=etR95GBOHv4TQeojweRIOWKd5+r+Jf5Tyz0QDG+2VIU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=V5esEQ7sfYdEkeicorDm2UkedM8kJA3YIDVaKqYpFU1dmSsz46BAb413huywrXugHXfJduyUZatgrUz1kDPqWtyjUotjdMiw10qdIswj8PfEPkgWZsEJL+9ity7V1iL4ra1/KI+MVn9Ah7C2mgBEGUQQe6dcaqmr1Xfxn4T5VzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=auILf+UH; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U0Od8noh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="auILf+UH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777736657; x=1809272657;
+  t=1777736658; x=1809272658;
   h=date:from:to:cc:subject:message-id;
-  bh=N4k5EFWE6SCa1qKNTTkTgsFReBWWvLe61gXSvt/QWd0=;
-  b=U0Od8nohfORAua5lqLiJUlIvxOaHTNQ5Vd14iOOM70Gf7SbhdDYtOrfK
-   MOayxRnZobkKym7N99txt/jxqs5J6IAMLVj7anWsDfKj2OMqtQ7gZakYA
-   J/Kl6MBmTSMJqhiiis2wpy72Hpm/RrQzLdM/H28CsTEQ2pEiceTdsGAFs
-   CFi5RHoLZTZSwaW9WD9VdfD46ME6svNlt1hwSkRlJw0ihj6a96R9ZmiuM
-   KN9t3nVoZoalAbqwtcdym1ZueWj8cw1/kLjamL+w2Oy2kmiomm8uIeR3E
-   Rk0y8SUazvokpQ42/l0Bhq1vq5zunuS9XliUztcQJ/ovHc4+1OVQCWU36
-   Q==;
-X-CSE-ConnectionGUID: 7lk81LFLQiO3yyMj1ngjQA==
-X-CSE-MsgGUID: SFPZH4laQRKQr6vVAwpjLg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="89768118"
+  bh=etR95GBOHv4TQeojweRIOWKd5+r+Jf5Tyz0QDG+2VIU=;
+  b=auILf+UH8tmMYnrqCw2YxMr78vyh1vjlqRLIng9AOfuwsVG0pvRikdG5
+   mivcmqGgKPQI4lcYH9S4mCGBMCbTrsY/P3iuGXOs+toQFHk619legkoV1
+   yDS1+tFpK1dG18RcFP2Obo3HCKH8TkOYDUesEInlj1ZrKoIK97Ro74LgM
+   xd+ZFpK+g54V7naw9osv3Mv/R5yuzI3Ls8zMjHDUzPkW8QttpEJzpcabq
+   8rob/8tgXEsRbCAUBT8SgXzYpcqD/IyJlgd7L/5KNGSi0rxGqZQTz7GMO
+   7+/38p4GmmODd+x9Iyi+CbeLOnR9aCI0cXDfL1Fb490IEw+LVaG4QUCdP
+   A==;
+X-CSE-ConnectionGUID: 9KTdvIaTQRi9Nx/+xJY9xw==
+X-CSE-MsgGUID: yT8BsikNSwGEi6jY/CwIog==
+X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="90128795"
 X-IronPort-AV: E=Sophos;i="6.23,212,1770624000"; 
-   d="scan'208";a="89768118"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 08:44:17 -0700
-X-CSE-ConnectionGUID: iKsQNDcxS4KXf8x2uLXtWw==
-X-CSE-MsgGUID: XfmKLY/9RiqFOGp5MaBGCA==
+   d="scan'208";a="90128795"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 08:44:17 -0700
+X-CSE-ConnectionGUID: BQz8qQHpR1S7OdGRniJ1gA==
+X-CSE-MsgGUID: ZB9BtVZ5RS+vi97YCEorEA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,212,1770624000"; 
-   d="scan'208";a="239443189"
+   d="scan'208";a="235003196"
 Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 02 May 2026 08:44:16 -0700
+  by orviesa008.jf.intel.com with ESMTP; 02 May 2026 08:44:15 -0700
 Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wJCVo-000000001VO-48K3;
+	id 1wJCVo-000000001VL-20l7;
 	Sat, 02 May 2026 15:44:12 +0000
-Date: Sat, 02 May 2026 23:43:23 +0800
+Date: Sat, 02 May 2026 23:43:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-2025-12 1/1]
- include/linux/android_kabi.h:65:17: error: static assertion failed:
- "include/linux/dma-buf.h:547: u64 __kabi_reserved_backport1 is not aligned
- the same as atomic64_t nr_task_refs"
-Message-ID: <202605022332.oNYLGvDv-lkp@intel.com>
+Subject: [android-common:android14-5.15-2024-11 1/1]
+ io_uring/io_uring.c:6135:31: warning: default initialization of an object of
+ type 'typeof ((sqe->addr2))' (aka 'const unsigned long long') leaves the
+ object uninitialized
+Message-ID: <202605022303.ysiZIGoX-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,85 +61,176 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-12
-head:   f5f1b71c7f2185e607cfaac7c35e2289caa5c27c
-commit: e24cc2d5218669b7412788d57528059ec6ecee4e [1/1] ANDROID: ABI: refresh, CRC fixups and allowed breaks
-config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20260502/202605022332.oNYLGvDv-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605022332.oNYLGvDv-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-5.15-2024-11
+head:   bd8d813d37e9e795ed789439e02bf8c6499e3c59
+commit: f435c66d2336fff104e2c3cbfff60905733e7d89 [1/1] io_uring: move to separate directory
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20260502/202605022303.ysiZIGoX-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605022303.ysiZIGoX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605022332.oNYLGvDv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605022303.ysiZIGoX-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from mm/slab_common.c:7:
->> include/linux/android_kabi.h:65:17: error: static assertion failed: "include/linux/dma-buf.h:547: u64 __kabi_reserved_backport1 is not aligned the same as atomic64_t nr_task_refs"
-      65 |                 _Static_assert(                                         \
-         |                 ^~~~~~~~~~~~~~
-   include/linux/android_kabi.h:79:17: note: in expansion of macro '_ANDROID_KABI_NORMAL_SIZE_ALIGN'
-      79 |                 _ANDROID_KABI_NORMAL_SIZE_ALIGN(_orig, _new); \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/android_kabi.h:189:9: note: in expansion of macro '_ANDROID_KABI_REPLACE'
-     189 |         _ANDROID_KABI_REPLACE(ANDROID_BACKPORT_RESERVE(number), _new)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dma-buf.h:547:9: note: in expansion of macro 'ANDROID_BACKPORT_USE'
-     547 |         ANDROID_BACKPORT_USE(1, atomic64_t nr_task_refs);
-         |         ^~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from mm/page_alloc.c:19:
->> include/linux/android_kabi.h:65:17: error: static assertion failed: "include/linux/dma-buf.h:547: u64 __kabi_reserved_backport1 is not aligned the same as atomic64_t nr_task_refs"
-      65 |                 _Static_assert(                                         \
-         |                 ^~~~~~~~~~~~~~
-   include/linux/android_kabi.h:79:17: note: in expansion of macro '_ANDROID_KABI_NORMAL_SIZE_ALIGN'
-      79 |                 _ANDROID_KABI_NORMAL_SIZE_ALIGN(_orig, _new); \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/android_kabi.h:189:9: note: in expansion of macro '_ANDROID_KABI_REPLACE'
-     189 |         _ANDROID_KABI_REPLACE(ANDROID_BACKPORT_RESERVE(number), _new)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dma-buf.h:547:9: note: in expansion of macro 'ANDROID_BACKPORT_USE'
-     547 |         ANDROID_BACKPORT_USE(1, atomic64_t nr_task_refs);
-         |         ^~~~~~~~~~~~~~~~~~~~
-   mm/page_alloc.c:1831:6: warning: no previous prototype for 'prep_new_page' [-Wmissing-prototypes]
-    1831 | void prep_new_page(struct page *page, unsigned int order, gfp_t gfp_flags,
-         |      ^~~~~~~~~~~~~
+   io_uring/io_uring.c:1469:61: warning: parameter 'locked' set but not used [-Wunused-but-set-parameter]
+    1469 | static void io_queue_async_work(struct io_kiocb *req, bool *locked)
+         |                                                             ^
+>> io_uring/io_uring.c:6135:31: warning: default initialization of an object of type 'typeof ((sqe->addr2))' (aka 'const unsigned long long') leaves the object uninitialized [-Wdefault-const-init-var-unsafe]
+    6135 |                 if (get_timespec64(&tr->ts, u64_to_user_ptr(sqe->addr2)))
+         |                                             ^
+   include/linux/kernel.h:50:2: note: expanded from macro 'u64_to_user_ptr'
+      50 |         typecheck(u64, (x));            \
+         |         ^
+   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
+      11 |         typeof(x) __dummy2; \
+         |                   ^
+>> io_uring/io_uring.c:6216:32: warning: default initialization of an object of type 'typeof ((sqe->addr))' (aka 'const unsigned long long') leaves the object uninitialized [-Wdefault-const-init-var-unsafe]
+    6216 |         if (get_timespec64(&data->ts, u64_to_user_ptr(sqe->addr)))
+         |                                       ^
+   include/linux/kernel.h:50:2: note: expanded from macro 'u64_to_user_ptr'
+      50 |         typecheck(u64, (x));            \
+         |         ^
+   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
+      11 |         typeof(x) __dummy2; \
+         |                   ^
+   3 warnings generated.
 
 
-vim +65 include/linux/android_kabi.h
+vim +6135 io_uring/io_uring.c
 
-e97af2a2f5563a Giuliano Procida   2025-05-28  54  
-e97af2a2f5563a Giuliano Procida   2025-05-28  55  #define _ANDROID_KABI_RULE(hint, target, value) \
-e97af2a2f5563a Giuliano Procida   2025-05-28  56  	__ANDROID_KABI_RULE(hint, #target, #value)
-e3e94686886450 Giuliano Procida   2025-04-16  57  
-e3e94686886450 Giuliano Procida   2025-04-16  58  #define _ANDROID_KABI_NORMAL_SIZE_ALIGN(_orig, _new)			\
-804873a198f8dc Greg Kroah-Hartman 2020-03-11  59  	union {								\
-e3e94686886450 Giuliano Procida   2025-04-16  60  		_Static_assert(						\
-e3e94686886450 Giuliano Procida   2025-04-16  61  			sizeof(struct { _new; }) <=			\
-e3e94686886450 Giuliano Procida   2025-04-16  62  				sizeof(struct { _orig; }),		\
-e3e94686886450 Giuliano Procida   2025-04-16  63  			FILE_LINE ": " __stringify(_new)		\
-e3e94686886450 Giuliano Procida   2025-04-16  64  				" is larger than " __stringify(_orig));	\
-e3e94686886450 Giuliano Procida   2025-04-16 @65  		_Static_assert(						\
-e3e94686886450 Giuliano Procida   2025-04-16  66  			__alignof__(struct { _new; }) <=		\
-e3e94686886450 Giuliano Procida   2025-04-16  67  				__alignof__(struct { _orig; }),		\
-e3e94686886450 Giuliano Procida   2025-04-16  68  			FILE_LINE ": " __stringify(_orig)		\
-804873a198f8dc Greg Kroah-Hartman 2020-03-11  69  				" is not aligned the same as "		\
-804873a198f8dc Greg Kroah-Hartman 2020-03-11  70  				__stringify(_new));			\
-804873a198f8dc Greg Kroah-Hartman 2020-03-11  71  	}
-804873a198f8dc Greg Kroah-Hartman 2020-03-11  72  
+47f467686ec02f fs/io_uring.c Jens Axboe     2019-11-09  6112  
+3529d8c2b353e6 fs/io_uring.c Jens Axboe     2019-12-19  6113  static int io_timeout_remove_prep(struct io_kiocb *req,
+3529d8c2b353e6 fs/io_uring.c Jens Axboe     2019-12-19  6114  				  const struct io_uring_sqe *sqe)
+b29472ee7b5378 fs/io_uring.c Jens Axboe     2019-12-17  6115  {
+9c8e11b36c9b64 fs/io_uring.c Pavel Begunkov 2020-11-30  6116  	struct io_timeout_rem *tr = &req->timeout_rem;
+9c8e11b36c9b64 fs/io_uring.c Pavel Begunkov 2020-11-30  6117  
+b29472ee7b5378 fs/io_uring.c Jens Axboe     2019-12-17  6118  	if (unlikely(req->ctx->flags & IORING_SETUP_IOPOLL))
+b29472ee7b5378 fs/io_uring.c Jens Axboe     2019-12-17  6119  		return -EINVAL;
+61710e437f2807 fs/io_uring.c Daniele Albano 2020-07-18  6120  	if (unlikely(req->flags & (REQ_F_FIXED_FILE | REQ_F_BUFFER_SELECT)))
+61710e437f2807 fs/io_uring.c Daniele Albano 2020-07-18  6121  		return -EINVAL;
+26578cda3db983 fs/io_uring.c Pavel Begunkov 2021-08-20  6122  	if (sqe->ioprio || sqe->buf_index || sqe->len || sqe->splice_fd_in)
+b29472ee7b5378 fs/io_uring.c Jens Axboe     2019-12-17  6123  		return -EINVAL;
+b29472ee7b5378 fs/io_uring.c Jens Axboe     2019-12-17  6124  
+f1042b6ccb887f fs/io_uring.c Pavel Begunkov 2021-08-28  6125  	tr->ltimeout = false;
+9c8e11b36c9b64 fs/io_uring.c Pavel Begunkov 2020-11-30  6126  	tr->addr = READ_ONCE(sqe->addr);
+9c8e11b36c9b64 fs/io_uring.c Pavel Begunkov 2020-11-30  6127  	tr->flags = READ_ONCE(sqe->timeout_flags);
+f1042b6ccb887f fs/io_uring.c Pavel Begunkov 2021-08-28  6128  	if (tr->flags & IORING_TIMEOUT_UPDATE_MASK) {
+f1042b6ccb887f fs/io_uring.c Pavel Begunkov 2021-08-28  6129  		if (hweight32(tr->flags & IORING_TIMEOUT_CLOCK_MASK) > 1)
+f1042b6ccb887f fs/io_uring.c Pavel Begunkov 2021-08-28  6130  			return -EINVAL;
+f1042b6ccb887f fs/io_uring.c Pavel Begunkov 2021-08-28  6131  		if (tr->flags & IORING_LINK_TIMEOUT_UPDATE)
+f1042b6ccb887f fs/io_uring.c Pavel Begunkov 2021-08-28  6132  			tr->ltimeout = true;
+f1042b6ccb887f fs/io_uring.c Pavel Begunkov 2021-08-28  6133  		if (tr->flags & ~(IORING_TIMEOUT_UPDATE_MASK|IORING_TIMEOUT_ABS))
+9c8e11b36c9b64 fs/io_uring.c Pavel Begunkov 2020-11-30  6134  			return -EINVAL;
+9c8e11b36c9b64 fs/io_uring.c Pavel Begunkov 2020-11-30 @6135  		if (get_timespec64(&tr->ts, u64_to_user_ptr(sqe->addr2)))
+9c8e11b36c9b64 fs/io_uring.c Pavel Begunkov 2020-11-30  6136  			return -EFAULT;
+9c8e11b36c9b64 fs/io_uring.c Pavel Begunkov 2020-11-30  6137  	} else if (tr->flags) {
+9c8e11b36c9b64 fs/io_uring.c Pavel Begunkov 2020-11-30  6138  		/* timeout removal doesn't support flags */
+b29472ee7b5378 fs/io_uring.c Jens Axboe     2019-12-17  6139  		return -EINVAL;
+9c8e11b36c9b64 fs/io_uring.c Pavel Begunkov 2020-11-30  6140  	}
+b29472ee7b5378 fs/io_uring.c Jens Axboe     2019-12-17  6141  
+b29472ee7b5378 fs/io_uring.c Jens Axboe     2019-12-17  6142  	return 0;
+b29472ee7b5378 fs/io_uring.c Jens Axboe     2019-12-17  6143  }
+b29472ee7b5378 fs/io_uring.c Jens Axboe     2019-12-17  6144  
+8662daec09edcd fs/io_uring.c Pavel Begunkov 2021-01-19  6145  static inline enum hrtimer_mode io_translate_timeout_mode(unsigned int flags)
+8662daec09edcd fs/io_uring.c Pavel Begunkov 2021-01-19  6146  {
+8662daec09edcd fs/io_uring.c Pavel Begunkov 2021-01-19  6147  	return (flags & IORING_TIMEOUT_ABS) ? HRTIMER_MODE_ABS
+8662daec09edcd fs/io_uring.c Pavel Begunkov 2021-01-19  6148  					    : HRTIMER_MODE_REL;
+8662daec09edcd fs/io_uring.c Pavel Begunkov 2021-01-19  6149  }
+8662daec09edcd fs/io_uring.c Pavel Begunkov 2021-01-19  6150  
+11365043e5271f fs/io_uring.c Jens Axboe     2019-10-16  6151  /*
+11365043e5271f fs/io_uring.c Jens Axboe     2019-10-16  6152   * Remove or update an existing timeout command
+11365043e5271f fs/io_uring.c Jens Axboe     2019-10-16  6153   */
+61e98203047983 fs/io_uring.c Pavel Begunkov 2021-02-10  6154  static int io_timeout_remove(struct io_kiocb *req, unsigned int issue_flags)
+11365043e5271f fs/io_uring.c Jens Axboe     2019-10-16  6155  {
+9c8e11b36c9b64 fs/io_uring.c Pavel Begunkov 2020-11-30  6156  	struct io_timeout_rem *tr = &req->timeout_rem;
+11365043e5271f fs/io_uring.c Jens Axboe     2019-10-16  6157  	struct io_ring_ctx *ctx = req->ctx;
+47f467686ec02f fs/io_uring.c Jens Axboe     2019-11-09  6158  	int ret;
+11365043e5271f fs/io_uring.c Jens Axboe     2019-10-16  6159  
+ec3c3d0f3a271b fs/io_uring.c Pavel Begunkov 2021-08-18  6160  	if (!(req->timeout_rem.flags & IORING_TIMEOUT_UPDATE)) {
+ec3c3d0f3a271b fs/io_uring.c Pavel Begunkov 2021-08-18  6161  		spin_lock(&ctx->completion_lock);
+89850fce16a1a7 fs/io_uring.c Jens Axboe     2021-08-10  6162  		spin_lock_irq(&ctx->timeout_lock);
+9c8e11b36c9b64 fs/io_uring.c Pavel Begunkov 2020-11-30  6163  		ret = io_timeout_cancel(ctx, tr->addr);
+ec3c3d0f3a271b fs/io_uring.c Pavel Begunkov 2021-08-18  6164  		spin_unlock_irq(&ctx->timeout_lock);
+ec3c3d0f3a271b fs/io_uring.c Pavel Begunkov 2021-08-18  6165  		spin_unlock(&ctx->completion_lock);
+ec3c3d0f3a271b fs/io_uring.c Pavel Begunkov 2021-08-18  6166  	} else {
+f1042b6ccb887f fs/io_uring.c Pavel Begunkov 2021-08-28  6167  		enum hrtimer_mode mode = io_translate_timeout_mode(tr->flags);
+f1042b6ccb887f fs/io_uring.c Pavel Begunkov 2021-08-28  6168  
+ec3c3d0f3a271b fs/io_uring.c Pavel Begunkov 2021-08-18  6169  		spin_lock_irq(&ctx->timeout_lock);
+f1042b6ccb887f fs/io_uring.c Pavel Begunkov 2021-08-28  6170  		if (tr->ltimeout)
+f1042b6ccb887f fs/io_uring.c Pavel Begunkov 2021-08-28  6171  			ret = io_linked_timeout_update(ctx, tr->addr, &tr->ts, mode);
+f1042b6ccb887f fs/io_uring.c Pavel Begunkov 2021-08-28  6172  		else
+f1042b6ccb887f fs/io_uring.c Pavel Begunkov 2021-08-28  6173  			ret = io_timeout_update(ctx, tr->addr, &tr->ts, mode);
+89850fce16a1a7 fs/io_uring.c Jens Axboe     2021-08-10  6174  		spin_unlock_irq(&ctx->timeout_lock);
+ec3c3d0f3a271b fs/io_uring.c Pavel Begunkov 2021-08-18  6175  	}
+11365043e5271f fs/io_uring.c Jens Axboe     2019-10-16  6176  
+4e88d6e7793f2f fs/io_uring.c Jens Axboe     2019-12-07  6177  	if (ret < 0)
+93d2bcd2cbfed2 fs/io_uring.c Pavel Begunkov 2021-05-16  6178  		req_set_fail(req);
+505657bc6c52b0 fs/io_uring.c Pavel Begunkov 2021-08-17  6179  	io_req_complete_post(req, ret, 0);
+11365043e5271f fs/io_uring.c Jens Axboe     2019-10-16  6180  	return 0;
+11365043e5271f fs/io_uring.c Jens Axboe     2019-10-16  6181  }
+11365043e5271f fs/io_uring.c Jens Axboe     2019-10-16  6182  
+3529d8c2b353e6 fs/io_uring.c Jens Axboe     2019-12-19  6183  static int io_timeout_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe,
+2d28390aff8792 fs/io_uring.c Jens Axboe     2019-12-04  6184  			   bool is_timeout_link)
+5262f567987d3c fs/io_uring.c Jens Axboe     2019-09-17  6185  {
+ad8a48acc23cb1 fs/io_uring.c Jens Axboe     2019-11-15  6186  	struct io_timeout_data *data;
+a41525ab2e7598 fs/io_uring.c Jens Axboe     2019-10-15  6187  	unsigned flags;
+56080b02ed6e71 fs/io_uring.c Pavel Begunkov 2020-05-26  6188  	u32 off = READ_ONCE(sqe->off);
+5262f567987d3c fs/io_uring.c Jens Axboe     2019-09-17  6189  
+ad8a48acc23cb1 fs/io_uring.c Jens Axboe     2019-11-15  6190  	if (unlikely(req->ctx->flags & IORING_SETUP_IOPOLL))
+5262f567987d3c fs/io_uring.c Jens Axboe     2019-09-17  6191  		return -EINVAL;
+26578cda3db983 fs/io_uring.c Pavel Begunkov 2021-08-20  6192  	if (sqe->ioprio || sqe->buf_index || sqe->len != 1 ||
+26578cda3db983 fs/io_uring.c Pavel Begunkov 2021-08-20  6193  	    sqe->splice_fd_in)
+a41525ab2e7598 fs/io_uring.c Jens Axboe     2019-10-15  6194  		return -EINVAL;
+56080b02ed6e71 fs/io_uring.c Pavel Begunkov 2020-05-26  6195  	if (off && is_timeout_link)
+2d28390aff8792 fs/io_uring.c Jens Axboe     2019-12-04  6196  		return -EINVAL;
+a41525ab2e7598 fs/io_uring.c Jens Axboe     2019-10-15  6197  	flags = READ_ONCE(sqe->timeout_flags);
+50c1df2b56e0f5 fs/io_uring.c Jens Axboe     2021-08-27  6198  	if (flags & ~(IORING_TIMEOUT_ABS | IORING_TIMEOUT_CLOCK_MASK))
+50c1df2b56e0f5 fs/io_uring.c Jens Axboe     2021-08-27  6199  		return -EINVAL;
+50c1df2b56e0f5 fs/io_uring.c Jens Axboe     2021-08-27  6200  	/* more than one clock specified is invalid, obviously */
+50c1df2b56e0f5 fs/io_uring.c Jens Axboe     2021-08-27  6201  	if (hweight32(flags & IORING_TIMEOUT_CLOCK_MASK) > 1)
+5262f567987d3c fs/io_uring.c Jens Axboe     2019-09-17  6202  		return -EINVAL;
+bdf200731145f0 fs/io_uring.c Arnd Bergmann  2019-10-01  6203  
+ef9dd637084d43 fs/io_uring.c Pavel Begunkov 2021-08-28  6204  	INIT_LIST_HEAD(&req->timeout.list);
+bfe68a221905de fs/io_uring.c Pavel Begunkov 2020-05-30  6205  	req->timeout.off = off;
+f18ee4cf0a277a fs/io_uring.c Pavel Begunkov 2021-06-14  6206  	if (unlikely(off && !req->ctx->off_timeout_used))
+f18ee4cf0a277a fs/io_uring.c Pavel Begunkov 2021-06-14  6207  		req->ctx->off_timeout_used = true;
+26a61679f10c6f fs/io_uring.c Jens Axboe     2019-12-20  6208  
+e8c2bc1fb6c949 fs/io_uring.c Jens Axboe     2020-08-15  6209  	if (!req->async_data && io_alloc_async_data(req))
+26a61679f10c6f fs/io_uring.c Jens Axboe     2019-12-20  6210  		return -ENOMEM;
+26a61679f10c6f fs/io_uring.c Jens Axboe     2019-12-20  6211  
+e8c2bc1fb6c949 fs/io_uring.c Jens Axboe     2020-08-15  6212  	data = req->async_data;
+ad8a48acc23cb1 fs/io_uring.c Jens Axboe     2019-11-15  6213  	data->req = req;
+50c1df2b56e0f5 fs/io_uring.c Jens Axboe     2021-08-27  6214  	data->flags = flags;
+ad8a48acc23cb1 fs/io_uring.c Jens Axboe     2019-11-15  6215  
+ad8a48acc23cb1 fs/io_uring.c Jens Axboe     2019-11-15 @6216  	if (get_timespec64(&data->ts, u64_to_user_ptr(sqe->addr)))
+5262f567987d3c fs/io_uring.c Jens Axboe     2019-09-17  6217  		return -EFAULT;
+5262f567987d3c fs/io_uring.c Jens Axboe     2019-09-17  6218  
+ba7261af2b030a fs/io_uring.c Jens Axboe     2022-04-08  6219  	INIT_LIST_HEAD(&req->timeout.list);
+8662daec09edcd fs/io_uring.c Pavel Begunkov 2021-01-19  6220  	data->mode = io_translate_timeout_mode(flags);
+50c1df2b56e0f5 fs/io_uring.c Jens Axboe     2021-08-27  6221  	hrtimer_init(&data->timer, io_timeout_get_clock(data), data->mode);
+b97e736a4b553f fs/io_uring.c Pavel Begunkov 2021-08-15  6222  
+b97e736a4b553f fs/io_uring.c Pavel Begunkov 2021-08-15  6223  	if (is_timeout_link) {
+b97e736a4b553f fs/io_uring.c Pavel Begunkov 2021-08-15  6224  		struct io_submit_link *link = &req->ctx->submit_state.link;
+b97e736a4b553f fs/io_uring.c Pavel Begunkov 2021-08-15  6225  
+b97e736a4b553f fs/io_uring.c Pavel Begunkov 2021-08-15  6226  		if (!link->head)
+b97e736a4b553f fs/io_uring.c Pavel Begunkov 2021-08-15  6227  			return -EINVAL;
+b97e736a4b553f fs/io_uring.c Pavel Begunkov 2021-08-15  6228  		if (link->last->opcode == IORING_OP_LINK_TIMEOUT)
+b97e736a4b553f fs/io_uring.c Pavel Begunkov 2021-08-15  6229  			return -EINVAL;
+4d13d1a4d1e180 fs/io_uring.c Pavel Begunkov 2021-08-15  6230  		req->timeout.head = link->last;
+4d13d1a4d1e180 fs/io_uring.c Pavel Begunkov 2021-08-15  6231  		link->last->flags |= REQ_F_ARM_LTIMEOUT;
+b97e736a4b553f fs/io_uring.c Pavel Begunkov 2021-08-15  6232  	}
+ad8a48acc23cb1 fs/io_uring.c Jens Axboe     2019-11-15  6233  	return 0;
+ad8a48acc23cb1 fs/io_uring.c Jens Axboe     2019-11-15  6234  }
+ad8a48acc23cb1 fs/io_uring.c Jens Axboe     2019-11-15  6235  
 
-:::::: The code at line 65 was first introduced by commit
-:::::: e3e946868864503f88b95a0d8ffe6d61b7df82d6 ANDROID: update KABI macros for gendwarfksyms
+:::::: The code at line 6135 was first introduced by commit
+:::::: 9c8e11b36c9b640a85a4a33a9e9dff418993cc34 io_uring: add timeout update
 
-:::::: TO: Giuliano Procida <gprocida@google.com>
-:::::: CC: Carlos Llamas <cmllamas@google.com>
+:::::: TO: Pavel Begunkov <asml.silence@gmail.com>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- 
 0-DAY CI Kernel Test Service
