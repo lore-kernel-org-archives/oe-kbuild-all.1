@@ -1,56 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0ED31FBEBC
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 May 2026 07:45:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F18D35975
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 May 2026 09:30:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777707933; cv=none; b=G7Oz8it7GxsAj3s72ZVKyiCD10M8agRukFD5jp0+AbtT9Dwvngq1tiGlUMReWFZ4vaajDtvYuRry5QhKOIu2NhKIjcF8w5+ZcQedD3a1V0FHYYSAEvPFRgjxmFUKavHOAgsIIB2u35peEucHX/F5IU7AANF868dR+LZT/8oQB+8=
+	t=1777714243; cv=none; b=TJSZ82UtgYD5mZrqSWzeXOhlHcLnf90rFru9URpyO4HCwVbn8xtw+2iW/EDw6l+DqHcKt8aJJHHeb88t/daT64AtMrwqcwhlZ/Bvi8tBfjVushxCBNgUsTP7jSYteowLGLKq5cA8JA/e5GewGxmiOesIhS65HLLH/39BrnjgBnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777707933; c=relaxed/simple;
-	bh=b7UMK8mjgWHbZB/VDcBxYyUZBUuq8YUHq4LZARrl+2E=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=osH0o9QBRigXswfTT7uaGBksVf955TEz2l+F5+3M0gWFkj/Di3gihpDJJjmEUlDPXEZ1+0LxBZRgGlQyKKBwkmhHq0moHHtoJh1iOaBI0CCHvIpl8ReRRG455kh+9Q4P14Sj4WNjBP+W1k9NJc8eQ7cZKIvkhGbrzAs+DHXfS2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AZ6Mrtnv; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1777714243; c=relaxed/simple;
+	bh=tUe7MDx/V/V3VoMgtVSZ5m0HITGsZEOcvllfDUT9xjQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=FCpWwCyX9kDC2BdmbxlaHQbXI6sz5H5QPrBkGHaFbb9yXKHMvN3ExCUHPvMNB9DAqpdrXWvvCQIdmgy/IeFeeANLACwxfq4jYVncO1w7505V/e2cZ52SBCguW0u5t2JVDytabLJ0RCVlb7tUjpoD7oY7XxpWy8pCMlK0PawEX2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zrzdlaz+; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AZ6Mrtnv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zrzdlaz+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777707931; x=1809243931;
+  t=1777714242; x=1809250242;
   h=date:from:to:cc:subject:message-id;
-  bh=b7UMK8mjgWHbZB/VDcBxYyUZBUuq8YUHq4LZARrl+2E=;
-  b=AZ6MrtnvgbBShJddAxdvwEQt+Z9JmAu0f46R80Kc02RKWMlBukb9p0dr
-   eF/ge1deiux5aCnfuPbyoEkNrljq1Y9EXCMqOnD6VmP+d5vVtVlsw6hGm
-   ls42YkHp0ljTaOpmibJ5roWWhJcSux9vsJUH7owrwqnMR/B3BYY63hDOH
-   fQ8pEnNvr5qZ3znP8sFyPAh+T5MZ+v9IdC9gfLnf4cZBRpzInOnMLStjh
-   ufApRjuhIAZe3Lx6HU1JSXh1Ta94Gur2X2N/IwBv7EgfS4jgspsY73036
-   7Bwa7A05T5fiCg332Ndc7y8CTKNtmkqr6sXMHXr8AmDq2KxBQTLwTIHi2
+  bh=tUe7MDx/V/V3VoMgtVSZ5m0HITGsZEOcvllfDUT9xjQ=;
+  b=Zrzdlaz+kXU67zir8X/XhUVtNr+bZ4m/WjFsYDzrAXIjhIJY+Fs5WwmZ
+   4jh68K9mLt8WTyXJiul3EVzAoBeSvXMm+r7CBQV3zXpvjTyBqdXsVAH0N
+   hg7Y7qpsdi16Eps/DaNftN7WbY9GnvaD4xcC5dzljijsN9KsAPkYHoMjn
+   8V3RTVFWG/4aDAwDgENLBW2G+gzzrcbNKE9f4XqLFUREOCrKpOnTNiGnX
+   XmJneLncKkXypJQZFg/ls7xFmo8XNmEck0ZdS0aE01PqtRMa9JaP2FGu0
+   kKL2nlHtl3eV9f0mfb8o1jurv2v+zI7pKQwZ0og1fKypJvh8cnMfDeZNR
    g==;
-X-CSE-ConnectionGUID: V939AsBBSrCIIJB+xHdqAw==
-X-CSE-MsgGUID: VTjOJYijTMumUdug7vsgCg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="89344702"
+X-CSE-ConnectionGUID: PofUfymgT/Gtp9/M674Z0A==
+X-CSE-MsgGUID: ocIkSANDRLC5SGeDC/H6VQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="66190634"
 X-IronPort-AV: E=Sophos;i="6.23,211,1770624000"; 
-   d="scan'208";a="89344702"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 00:45:31 -0700
-X-CSE-ConnectionGUID: 1U1euSegR46mnlUnMyRuTQ==
-X-CSE-MsgGUID: 6B1j9NusRKqr3sH7IdMOZA==
+   d="scan'208";a="66190634"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 02:30:41 -0700
+X-CSE-ConnectionGUID: 6HpYJi1JSqef61CzYV7qSA==
+X-CSE-MsgGUID: Xal4siPeR52/mKp2DO6M3w==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,211,1770624000"; 
+   d="scan'208";a="235327668"
 Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 02 May 2026 00:45:30 -0700
+  by orviesa007.jf.intel.com with ESMTP; 02 May 2026 02:30:39 -0700
 Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wJ52V-000000001Ef-49mU;
-	Sat, 02 May 2026 07:45:27 +0000
-Date: Sat, 02 May 2026 15:45:06 +0800
+	id 1wJ6gG-000000001IL-3FbP;
+	Sat, 02 May 2026 09:30:36 +0000
+Date: Sat, 02 May 2026 17:30:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexei Starovoitov <ast@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ast-bpf:rust-bpf 2/14] kernel/bpf/helpers.c:3274:18:
- sparse: sparse: symbol '_Unwind_Resume' was not declared. Should it be
- static?
-Message-ID: <202605021536.zJK0CaKr-lkp@intel.com>
+To: Miklos Szeredi <mszeredi@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, fuse-devel@lists.sourceforge.net
+Subject: [mszeredi-fuse:fusex 40/40] fs/fuse/fusex.c:581:14: error:
+ implicit declaration of function 'iov_iter_count'
+Message-ID: <202605021740.6mEasqtO-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -58,37 +59,100 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ast/bpf.git rust-bpf
-head:   1623628cc9588b205a0e913c5e62d267ef0f6d70
-commit: c600490dd1c522f33cb608687588d9f16af70f8c [2/14] kernel and libbpf hacks
-config: sparc64-randconfig-r132-20260430 (https://download.01.org/0day-ci/archive/20260502/202605021536.zJK0CaKr-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605021536.zJK0CaKr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git fusex
+head:   1934d254361977df9fad43102ec1d72e20434a99
+commit: 1934d254361977df9fad43102ec1d72e20434a99 [40/40] fuse: add fusex filesystem
+config: m68k-mvme147_defconfig (https://download.01.org/0day-ci/archive/20260502/202605021740.6mEasqtO-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605021740.6mEasqtO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605021536.zJK0CaKr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605021740.6mEasqtO-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/bpf/helpers.c:1212:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned long long ( *[usertype] callback_fn )( ... ) @@     got void [noderef] __rcu * @@
-   kernel/bpf/helpers.c:1212:21: sparse:     expected unsigned long long ( *[usertype] callback_fn )( ... )
-   kernel/bpf/helpers.c:1212:21: sparse:     got void [noderef] __rcu *
-   kernel/bpf/helpers.c:2734:18: sparse: sparse: symbol 'bpf_task_release_dtor' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2764:18: sparse: sparse: symbol 'bpf_cgroup_release_dtor' was not declared. Should it be static?
->> kernel/bpf/helpers.c:3274:18: sparse: sparse: symbol '_Unwind_Resume' was not declared. Should it be static?
-   kernel/bpf/helpers.c: note: in included file (through arch/sparc/include/asm/cmpxchg.h, arch/sparc/include/asm/atomic_64.h, arch/sparc/include/asm/atomic.h, ...):
-   arch/sparc/include/asm/cmpxchg_64.h:161:55: sparse: sparse: cast truncates bits from constant value (eb9f becomes 9f)
-   arch/sparc/include/asm/cmpxchg_64.h:161:55: sparse: sparse: cast truncates bits from constant value (eb9f becomes 9f)
+All errors (new ones prefixed by >>):
 
-vim +/_Unwind_Resume +3274 kernel/bpf/helpers.c
+   fs/fuse/fusex.c: In function 'fusex_direct_IO':
+>> fs/fuse/fusex.c:581:14: error: implicit declaration of function 'iov_iter_count' [-Wimplicit-function-declaration]
+     581 |         if (!iov_iter_count(iter) || (iov_iter_rw(iter) == READ && pos >= old_size))
+         |              ^~~~~~~~~~~~~~
+>> fs/fuse/fusex.c:581:39: error: implicit declaration of function 'iov_iter_rw' [-Wimplicit-function-declaration]
+     581 |         if (!iov_iter_count(iter) || (iov_iter_rw(iter) == READ && pos >= old_size))
+         |                                       ^~~~~~~~~~~
+>> fs/fuse/fusex.c:590:23: error: implicit declaration of function 'iov_iter_extract_pages' [-Wimplicit-function-declaration]
+     590 |                 len = iov_iter_extract_pages(iter, &pages, PAGE_SIZE, 1, 0, &off);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~
+>> fs/fuse/fusex.c:607:37: error: implicit declaration of function 'user_backed_iter' [-Wimplicit-function-declaration]
+     607 |                         if (!err && user_backed_iter(iter))
+         |                                     ^~~~~~~~~~~~~~~~
+>> fs/fuse/fusex.c:610:21: error: implicit declaration of function 'iov_iter_extract_will_pin' [-Wimplicit-function-declaration]
+     610 |                 if (iov_iter_extract_will_pin(iter))
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/fuse/fusex.c: In function 'fusex_fill_super':
+>> fs/fuse/fusex.c:1601:23: error: 'FUSE_SUPER_MAGIC' undeclared (first use in this function)
+    1601 |         sb->s_magic = FUSE_SUPER_MAGIC;
+         |                       ^~~~~~~~~~~~~~~~
+   fs/fuse/fusex.c:1601:23: note: each undeclared identifier is reported only once for each function it appears in
 
-  3273	
-> 3274	__bpf_kfunc void _Unwind_Resume(void) {}
-  3275	__bpf_kfunc void bpf_alloc(void) {}
-  3276	__bpf_kfunc void bpf_free(void) {}
-  3277	
+
+vim +/iov_iter_count +581 fs/fuse/fusex.c
+
+   573	
+   574	static ssize_t fusex_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
+   575	{
+   576		struct inode *inode = file_inode(iocb->ki_filp);
+   577		loff_t old_size = i_size_read(inode);
+   578		loff_t pos = iocb->ki_pos;
+   579		int err = 0;
+   580	
+ > 581		if (!iov_iter_count(iter) || (iov_iter_rw(iter) == READ && pos >= old_size))
+   582			return 0;
+   583	
+   584		for (;;) {
+   585			struct page **pages = NULL;
+   586			struct folio *folio;
+   587			ssize_t len;
+   588			size_t off;
+   589	
+ > 590			len = iov_iter_extract_pages(iter, &pages, PAGE_SIZE, 1, 0, &off);
+   591			if (len <= 0) {
+   592				err = len;
+   593				break;
+   594			}
+   595	
+   596			folio = page_folio(pages[0]);
+   597			off += folio_page_idx(folio, pages[0]) * PAGE_SIZE;
+   598			kvfree(pages);
+   599	
+   600			if (iov_iter_rw(iter) == WRITE) {
+   601				err = fusex_send_write(inode, pos, folio, off, len);
+   602			} else {
+   603				if (pos + len > old_size)
+   604					len = old_size - pos;
+   605	
+   606				err = fusex_send_read(inode, pos, iocb->ki_filp, folio, off, len);
+ > 607				if (!err && user_backed_iter(iter))
+   608					folio_mark_dirty_lock(folio);
+   609			}
+ > 610			if (iov_iter_extract_will_pin(iter))
+   611				unpin_folio(folio);
+   612	
+   613			if (err || !len)
+   614				break;
+   615			pos += len;
+   616		}
+   617		if (pos > iocb->ki_pos) {
+   618			if (iov_iter_rw(iter) == WRITE) {
+   619				if (pos > old_size)
+   620					i_size_write(inode, pos);
+   621				fusex_extend_file(inode, old_size, iocb->ki_pos);
+   622			}
+   623		}
+   624	
+   625		return (pos - iocb->ki_pos) ?: err;
+   626	}
+   627	
 
 -- 
 0-DAY CI Kernel Test Service
