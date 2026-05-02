@@ -1,68 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 343F619C54E
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 May 2026 04:55:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD3D1D555
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 May 2026 06:30:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777697729; cv=none; b=jfuz1gjEN6YNOhACAXE9gfHwp8jOVni+jvVThb7Cs4MeihsDO7sYKwTuYIhzQgagQPDYt/o3kWTtDjxA0cxmzOajAriTASbxIs2WNmGvVf2mScxsb0PPobuT/qdGX9rBQWocmRqQ4hm6e77fXFgBePKNoK3MpvR9SDGRZ2hAQcM=
+	t=1777703433; cv=none; b=BbvRmf91vtGsA2ZNgfecVvt+FWGtl/WiDDPeRURDqJiwG5MigTaeMY5ncCjrEOtf0vJonfxutnO6p+vzh4UOiYPawZvTuHz2FiP1F8Yl5r1ysenbEGMJpWgnnNq9gbIf2oi1ju2x3xeb/E5G/cw1d/2ngNLuTxsUyxJEckFEsHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777697729; c=relaxed/simple;
-	bh=muz3Gn4korg+6J8rsu49cXA8q5KYIYesTuw3bKtX29A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nZOM2BN3Hc2YYqB3UFh5gPHRGZYqbkVHFwNf4pqsSM0njUAQYbyk1QsO++Rz00gQKuUplrIim9UOYbtxateCQ1eL0F4Up+RapEH2Jbhayrr+YS8b+q31viyhoy8nHwHnpGSd7lRQkZDUNLo536fYcJnxD9cnkAxJCUdSnE4Oj4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TFoS3qFR; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1777703433; c=relaxed/simple;
+	bh=3t5zMyowDctmoHPn2LezGJJ86pRYkNoM8HPhBEHeJl8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=gKhZ9ArKa9T7NoRU620zg2sTmcHkieQ4JgwZ5L62li7jeR80DFUiPIUBSMFgJcEk73RLrBi18F4BcQuA8l0eyt9FhvNbMeYsRAuXuEq/MRjpZOXu8+0i6Ga5FMIQHSTGzCvztlS4XLDE1WWpprgrQic8R06DFepBdpTvs04t5PU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E6oZn68T; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TFoS3qFR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E6oZn68T"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777697727; x=1809233727;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=muz3Gn4korg+6J8rsu49cXA8q5KYIYesTuw3bKtX29A=;
-  b=TFoS3qFRJFvfgbld4o/SkLZoTRWcYGv2xxdQfgw4TsQMqQriO9xjR4Az
-   5CD+00D6eFVLL7Zcc93EU2iGzT9XpPuSQSNU/eOX0p758Bf85Eupq0wd/
-   K/u4R6i3KhwXHgq2Poythd/CN9i8uiP/uR8pLBg1c7Y9XLWIFpKTugpS/
-   s6mpeQ5NkNrqzwG7Ctf/bmfjg8c1fIqqDpCPmqDqBvEkDfYShtBxMsR/P
-   6bMNQa7z5QXqGPCsedJm/e3W284n8aLSh53gUMXK1uCcmNs+QnODiR22m
-   r0vaWJP4lb14kd3gno/fXKFWn/LL8ltVK4K3pa0BOWIoxMgNy/aKl7Q3O
+  t=1777703431; x=1809239431;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3t5zMyowDctmoHPn2LezGJJ86pRYkNoM8HPhBEHeJl8=;
+  b=E6oZn68TWAMcJKIaabwpuVQFhoKfHAjtiIBMkmt/erR1To/DPClQae3U
+   AgP5VYe//tdL5Yoh7h3dd25JHFjzIa8NYFuuDYTChSIs7cilI0DKy0FEm
+   5zLfQmFWeyNqMu7yByN9iYWZpfnoOuWpiqL3dCw2A2keHvuuU389+3amg
+   F17P/zEH3yAcB/vYG4qLXlSKcEBIVM2wLAYeWK54B9m2FwONyf+j9+O0S
+   c7Ockdopxv30Jb30/YSAU6GBT4e1BEr5tyxelFBqe/UX8UTRz/lYiRsAP
+   AAYrBc7BVdGCVZkckboEqwZlPQv4a5lH9D9iIVSeGY1bEUCRbIUE9kMES
    w==;
-X-CSE-ConnectionGUID: UjZtOVWxQWuopUVbVthXoQ==
-X-CSE-MsgGUID: if6w2FyeQUKfyoMeXeHrgQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="77811820"
+X-CSE-ConnectionGUID: 9E5J2oLnQfi1sbhELVabHg==
+X-CSE-MsgGUID: memZJs5wS2Ohvq396+r0mg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="78517528"
 X-IronPort-AV: E=Sophos;i="6.23,211,1770624000"; 
-   d="scan'208";a="77811820"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2026 21:55:26 -0700
-X-CSE-ConnectionGUID: llL2noBBTQS1hGL4KDHO9w==
-X-CSE-MsgGUID: qCtvcYm+R+2TAH3W5hO1JA==
+   d="scan'208";a="78517528"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2026 23:30:30 -0700
+X-CSE-ConnectionGUID: v6pkUW4wRgiT+n3VAeWC6A==
+X-CSE-MsgGUID: r62b402cTRWILX4B6UaP/A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,211,1770624000"; 
-   d="scan'208";a="235099619"
+   d="scan'208";a="258398470"
 Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 01 May 2026 21:55:24 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 01 May 2026 23:30:29 -0700
 Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wJ2Nt-000000001A5-0AOd;
-	Sat, 02 May 2026 04:55:21 +0000
-Date: Sat, 2 May 2026 12:54:45 +0800
+	id 1wJ3ru-000000001Cr-0fQE;
+	Sat, 02 May 2026 06:30:26 +0000
+Date: Sat, 02 May 2026 14:29:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Gordeev <agordeev@linux.ibm.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>,
-	Lorenzo Stoakes <ljs@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>, linux-s390@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mm/page_vma_mapped_walk: add missing pgtable entry
- accessors
-Message-ID: <202605021251.huVQW8Xg-lkp@intel.com>
-References: <20260427052000.196402-1-agordeev@linux.ibm.com>
+To: "Christian =?utf-8?Q?K=C3=B6nig"?= <christian.koenig@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Boris Brezillon <bbrezillon@kernel.org>
+Subject: drivers/dma-buf/sw_sync.c:88:24: sparse: sparse:
+ incompatible types in comparison expression (different address spaces):
+Message-ID: <202605021435.i9s35ZfI-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,87 +62,78 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260427052000.196402-1-agordeev@linux.ibm.com>
 
-Hi Alexander,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Gordeev/mm-page_vma_mapped_walk-add-missing-pgtable-entry-accessors/20260429-030409
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20260427052000.196402-1-agordeev%40linux.ibm.com
-patch subject: [PATCH] mm/page_vma_mapped_walk: add missing pgtable entry accessors
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260502/202605021251.huVQW8Xg-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605021251.huVQW8Xg-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   cd546f7ae2fce8b695c834143b50e712d62ebed8
+commit: f4cc3ab824d6772a48ca9d9c74ac623b3309985d dma-buf: protected fence ops by RCU v8
+date:   10 weeks ago
+config: sparc64-randconfig-r113-20260430 (https://download.01.org/0day-ci/archive/20260502/202605021435.i9s35ZfI-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605021435.i9s35ZfI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: f4cc3ab824d6 ("dma-buf: protected fence ops by RCU v8")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605021251.huVQW8Xg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605021435.i9s35ZfI-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/dma-buf/sw_sync.c: note: in included file (through include/linux/security.h, include/linux/perf_event.h, include/linux/trace_events.h, include/trace/trace_events.h, ...):
+   include/linux/bpf.h:2302:16: sparse: sparse: Expected ) in function call
+   include/linux/bpf.h:2302:16: sparse: sparse: got __VA_OPT__
+   include/linux/bpf.h:2302:16: sparse: sparse: Expected ) in function call
+   include/linux/bpf.h:2302:16: sparse: sparse: got __VA_OPT__
+   include/linux/bpf.h:2302:16: sparse: sparse: Expected ) in function call
+   include/linux/bpf.h:2302:16: sparse: sparse: got __VA_OPT__
+   drivers/dma-buf/sw_sync.c:104:15: sparse: sparse: Expected ) in function call
+   drivers/dma-buf/sw_sync.c:104:15: sparse: sparse: got ,
+   drivers/dma-buf/sw_sync.c:104:15: sparse: sparse: Expected ) in function call
+   drivers/dma-buf/sw_sync.c:104:15: sparse: sparse: got ,
+   drivers/dma-buf/sw_sync.c:104:15: sparse: sparse: Expected ) in function call
+   drivers/dma-buf/sw_sync.c:104:15: sparse: sparse: got ,
+   drivers/dma-buf/sw_sync.c:255:14: sparse: sparse: Expected ) in function call
+   drivers/dma-buf/sw_sync.c:255:14: sparse: sparse: got ,
+   drivers/dma-buf/sw_sync.c:255:14: sparse: sparse: Expected ) in function call
+   drivers/dma-buf/sw_sync.c:255:14: sparse: sparse: got ,
+   drivers/dma-buf/sw_sync.c:255:14: sparse: sparse: Expected ) in function call
+   drivers/dma-buf/sw_sync.c:255:14: sparse: sparse: got ,
+   drivers/dma-buf/sw_sync.c:104:15: sparse: sparse: undefined identifier '_res'
+   drivers/dma-buf/sw_sync.c:104:15: sparse: sparse: undefined identifier '__VA_OPT__'
+   drivers/dma-buf/sw_sync.c:104:15: sparse: sparse: undefined identifier '_res'
+   drivers/dma-buf/sw_sync.c:104:15: sparse: sparse: undefined identifier '__VA_OPT__'
+   drivers/dma-buf/sw_sync.c:104:15: sparse: sparse: undefined identifier '_res'
+   drivers/dma-buf/sw_sync.c:255:14: sparse: sparse: undefined identifier '_res'
+   drivers/dma-buf/sw_sync.c:255:14: sparse: sparse: undefined identifier '__VA_OPT__'
+   drivers/dma-buf/sw_sync.c:255:14: sparse: sparse: undefined identifier '_res'
+   drivers/dma-buf/sw_sync.c:255:14: sparse: sparse: undefined identifier '__VA_OPT__'
+   drivers/dma-buf/sw_sync.c:255:14: sparse: sparse: undefined identifier '_res'
+>> drivers/dma-buf/sw_sync.c:88:24: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/dma-buf/sw_sync.c:88:24: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   drivers/dma-buf/sw_sync.c:88:24: sparse:    struct dma_fence_ops const *
+>> drivers/dma-buf/sw_sync.c:88:24: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/dma-buf/sw_sync.c:88:24: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   drivers/dma-buf/sw_sync.c:88:24: sparse:    struct dma_fence_ops const *
+>> drivers/dma-buf/sw_sync.c:88:24: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/dma-buf/sw_sync.c:88:24: sparse:    struct dma_fence_ops const [noderef] __rcu *
+   drivers/dma-buf/sw_sync.c:88:24: sparse:    struct dma_fence_ops const *
 
-   In file included from <command-line>:
-   mm/page_vma_mapped.c: In function 'page_vma_mapped_walk':
->> arch/arm/include/asm/pgtable.h:144:44: error: 'pgdp' undeclared (first use in this function); did you mean 'pgd'?
-     144 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^~~~
-   include/linux/compiler_types.h:679:23: note: in definition of macro '__compiletime_assert'
-     679 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:699:9: note: in expansion of macro '_compiletime_assert'
-     699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm/include/asm/pgtable.h:144:33: note: in expansion of macro 'READ_ONCE'
-     144 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                 ^~~~~~~~~
-   mm/page_vma_mapped.c:222:34: note: in expansion of macro 'pgdp_get'
-     222 |                 if (!pgd_present(pgdp_get(pgd))) {
-         |                                  ^~~~~~~~
-   arch/arm/include/asm/pgtable.h:144:44: note: each undeclared identifier is reported only once for each function it appears in
-     144 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^~~~
-   include/linux/compiler_types.h:679:23: note: in definition of macro '__compiletime_assert'
-     679 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:699:9: note: in expansion of macro '_compiletime_assert'
-     699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm/include/asm/pgtable.h:144:33: note: in expansion of macro 'READ_ONCE'
-     144 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                 ^~~~~~~~~
-   mm/page_vma_mapped.c:222:34: note: in expansion of macro 'pgdp_get'
-     222 |                 if (!pgd_present(pgdp_get(pgd))) {
-         |                                  ^~~~~~~~
+vim +88 drivers/dma-buf/sw_sync.c
 
+aff9da10e218c5 drivers/staging/android/sw_sync.c Gustavo Padovan 2016-05-31  85  
+f54d1867005c33 drivers/dma-buf/sw_sync.c         Chris Wilson    2016-10-25  86  static inline struct sync_pt *dma_fence_to_sync_pt(struct dma_fence *fence)
+aff9da10e218c5 drivers/staging/android/sw_sync.c Gustavo Padovan 2016-05-31  87  {
+aff9da10e218c5 drivers/staging/android/sw_sync.c Gustavo Padovan 2016-05-31 @88  	if (fence->ops != &timeline_fence_ops)
+aff9da10e218c5 drivers/staging/android/sw_sync.c Gustavo Padovan 2016-05-31  89  		return NULL;
+aff9da10e218c5 drivers/staging/android/sw_sync.c Gustavo Padovan 2016-05-31  90  	return container_of(fence, struct sync_pt, base);
+aff9da10e218c5 drivers/staging/android/sw_sync.c Gustavo Padovan 2016-05-31  91  }
+aff9da10e218c5 drivers/staging/android/sw_sync.c Gustavo Padovan 2016-05-31  92  
 
-vim +144 arch/arm/include/asm/pgtable.h
+:::::: The code at line 88 was first introduced by commit
+:::::: aff9da10e218c54f5ffc8bcb66c9837135074190 staging/android: make sync_timeline internal to sw_sync
 
-4eec4b1396ac6a6 Russell King    2010-11-26  143  
-eba2591d99d1f14 Alexandre Ghiti 2023-12-13 @144  #define pgdp_get(pgpd)		READ_ONCE(*pgdp)
-eba2591d99d1f14 Alexandre Ghiti 2023-12-13  145  
+:::::: TO: Gustavo Padovan <gustavo.padovan@collabora.co.uk>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
