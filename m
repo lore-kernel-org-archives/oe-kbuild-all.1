@@ -1,140 +1,388 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011035.outbound.protection.outlook.com [52.101.70.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCCED226863;
-	Sat,  2 May 2026 02:47:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777690036; cv=none; b=LCwEemynOMfdsx97dZvnXBAswqw3nvXoQMCxxp5GTojrdFQG6e9nedz9BhqI/1YU/Dk+Ym6nms5NUsQI2G1AlztL8rl02bO0GKVSa8tJ3K6ZdbBsQY7Cs8FeKRLnRC+81/GgJSQDJksGY9oKpRd7NmvnHeCtnzJ+m0IMzATGs0o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777690036; c=relaxed/simple;
-	bh=BEVICxriND/4ZEHjdaZWgt3YWFVaCsGLptcR9kyxMRA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fqq7kC4pv2rtceBYziPNuURtKxo+KjY0/gU0Qp9QsBlbjKnAXRdipwdYWP1v0I1jA40UPVRD5P35uLZiph4yeXsMBLcedjdIwwAI3il9cJydjs5K8Y6knMtRKzURca1sZu5p3wEZRaQQ9d3AKopL+gwzPvbiHWrlezw3wMNWAOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VdmfSk9F; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 101311D63E4
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 May 2026 03:35:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.35
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777692931; cv=fail; b=nX/0ngCGiWdEjLsZGlkpRuzAyPj8JRi8WsFFB6FzQ6t9WYQ0Miw6wqTXV5zW7yJPMVZCxQY0+wgK5biS6czl9HNzS4fm6Fcje4rj2BkQ/378fvQQvQLAb+BK8yA3ZNPywIGfbiETWi1HtSL72ejrKtJXyFyorsVxGJ3oRPUxhEI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777692931; c=relaxed/simple;
+	bh=hRYoL60hN/UsjlZhSppq6eOtCUhEb2kzo41XToUqqwE=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=RWW7SzEzcoJQQCQb6XyLGBnb2fBqSJH4AXAQN5QYinL0TZSBBiLAyH+uoLlcd8bsDoK9nIB9hy3d8JCr1SuSPs+TBvbmK9pZ0ly8DDK2RizOgN0qTeIv08sOWHgW2fJBd/Vjwfl9qVSQbTUUM5nebjVr7vF5f04L+1KCqgQqhks=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech; spf=pass smtp.mailfrom=est.tech; dkim=pass (2048-bit key) header.d=est.tech header.i=@est.tech header.b=jsM8XjaE; arc=fail smtp.client-ip=52.101.70.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=est.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VdmfSk9F"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777690035; x=1809226035;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BEVICxriND/4ZEHjdaZWgt3YWFVaCsGLptcR9kyxMRA=;
-  b=VdmfSk9F2c4sSaTRyn91YMyT7xVqTmJUPAssBYqGsnzSyk1a5nIEd1qp
-   vAUztELbo31CCa814o0lycuMY6zducbYirfXsNO61sIsTO5m3ExgYWIgj
-   F29dxo3XV6ubmzc1+lBXVTN7CjixeIpDjcaSiw9wjCs5xkKJvneeKvS88
-   B3GNmHxTr8oSb0U7/dy89+B7lHtt3ligcmiG7Sslj9i7tsUbcYPVTHhfj
-   +VFravXUXbhchvqMVlkT6gYufKrmoihsO8N0MqYxlnLI0XGfHV2POlF/U
-   TM/Nas0n/W9WgmGQe48oLAJMk8mkmif7KvRk7IgDzFwttT8z7v7Jl1h43
-   w==;
-X-CSE-ConnectionGUID: tTmJJjm/RlyjVDAwwkEiEg==
-X-CSE-MsgGUID: N/WjGsTiSy+DkCHnQ9ALRg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="78673067"
-X-IronPort-AV: E=Sophos;i="6.23,211,1770624000"; 
-   d="scan'208";a="78673067"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2026 19:47:15 -0700
-X-CSE-ConnectionGUID: VgKbe9uJR/SqBJSEqxxWXQ==
-X-CSE-MsgGUID: nmZvDmbLQNCH3vpAuWGAWw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,211,1770624000"; 
-   d="scan'208";a="234154052"
-Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 01 May 2026 19:47:13 -0700
-Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wJ0Nq-00000000165-3Ve1;
-	Sat, 02 May 2026 02:47:10 +0000
-Date: Sat, 2 May 2026 10:46:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 1/1] mm: vmscan: keep anon scanning enabled when
- swapcache folios are present
-Message-ID: <202605021047.kY1JeLwn-lkp@intel.com>
-References: <20260427103532.5623-2-thomas.hellstrom@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=est.tech header.i=@est.tech header.b="jsM8XjaE"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=n+7XnkKEaYLVf9vyQUDRuHL3pNELtfaFUj6oqoR9glWWnfFmrrk7DfjLAmUvYQaTLFL52ICfdht1RxJ36EOZA5d6nVN/JDl+wI34HcxpqvPDuFnlAtpPoOfvikQ0QwjIoB0N8WzW5fPBIus2R2jAexvFTO/uqq2JjycbumGEkPA6I7OcdZsj4vgwrTzIAP12fw3FOdfgn0atr7iF8GjbKR4w2A9E+9k6kVIEA3lmcyqvibxpwZBx5iofCPjQ2yF9JoRhmFZCwNAd4O6qZ6IHWhwLEVjXZh4rbfm5iB9oMdsC8YX8g6EE9rFWHAoQ9ag9hwh/Z5z1WzMMWyTF9cITbg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zvDAZZmBFPeo0F8Y4uIStc7DWXaKgMKjZb/yI7KWX+o=;
+ b=ERJiSLBZuFDAmKTxD+2X25q377kQhR/+JcFiEqyUVrD3VkiDVjroSgegB8fTQUnXzvaoqvRcYaIlK15N4302ThmfOVw4wLUUL8529qH3uUG0IlUK4PZVqj2tryZ5iA5ipA4l1qwBPKUd/oIYmXt2PgmcA0a474JzpNNXc7CR6ZhbPZKjpNP9ANBGtObUatej+vcXfMNWa9+ybcAH5bCai03w+4nTvJVinfpDYeBXiLpr/jyA4MhsMq+aYaun5CYm/7/RzLu8tudUz2LlE8aZM47ouH8AAP6+hMRokv1hH9oVJbT6Z9Srb4nbyVPgTcM79hEzi6bfD1/b53HGj6whMg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zvDAZZmBFPeo0F8Y4uIStc7DWXaKgMKjZb/yI7KWX+o=;
+ b=jsM8XjaElSIrYU3NXF9y1S7bnRlgxLB2QCqE6wkJh/blBdWPkJrbRxPbMekp4VI8hdsg+MHgCgdlj94t+XdxckAZkRXNtmA9IWWL8ZjEF+uW+nmMhIql2l/3us0/FE8KeN9+6htxIYnstJlsWYcT5aE9cOUxL9thoVPVV+lqNnqUgEQqjGYbluHG1ni+hzqWWk5+hdQPo+aF+6h/1WOfsmg8iGckk/YQBq5McUDPGkL/JoejujMFW4ZUGTL2UZoEZjuo6oxqY+zsa2tEiNwapxCs6bIV7QHdDJQnyp+cyet78G7DXhiWA6Qbr67Pzx7IYuKbQ5Wj6q4C65NykQgSsw==
+Received: from GV1P189MB1988.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:63::5) by
+ AS8P189MB1223.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:28a::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9870.23; Sat, 2 May 2026 03:35:25 +0000
+Received: from GV1P189MB1988.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bfff:5391:8a49:21b7]) by GV1P189MB1988.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bfff:5391:8a49:21b7%5]) with mapi id 15.20.9870.020; Sat, 2 May 2026
+ 03:35:24 +0000
+From: Tung Quang Nguyen <tung.quang.nguyen@est.tech>
+To: SnailSploit | Kai Aizen <kai.aizen.dev@gmail.com>
+CC: "stable@vger.kernel.org" <stable@vger.kernel.org>, "jmaloy@redhat.com"
+	<jmaloy@redhat.com>, "ying.xue@windriver.com" <ying.xue@windriver.com>,
+	"kuba@kernel.org" <kuba@kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>,
+	"tipc-discussion@lists.sourceforge.net"
+	<tipc-discussion@lists.sourceforge.net>, "tung.q.nguyen@dektech.com.au"
+	<tung.q.nguyen@dektech.com.au>, "lkp@intel.com" <lkp@intel.com>,
+	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+	"syzkaller-bugs@googlegroups.com" <syzkaller-bugs@googlegroups.com>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, SnailSploit | Kai Aizen
+	<95986478+SnailSploit@users.noreply.github.com>, syzbot ci
+	<syzbot+ci779e8ed86620f383@syzkaller.appspotmail.com>
+Subject: RE: [PATCH net v3] tipc: fix UAF race in
+ tipc_mon_peer_up/down/remove_peer vs bearer teardown
+Thread-Topic: [PATCH net v3] tipc: fix UAF race in
+ tipc_mon_peer_up/down/remove_peer vs bearer teardown
+Thread-Index: AQHc2LYkD8YFjqF7R0iF69rUxPDWPLX6F9Qw
+Date: Sat, 2 May 2026 03:35:24 +0000
+Message-ID:
+ <GV1P189MB1988B432C75AFDC1131F2BC8C6332@GV1P189MB1988.EURP189.PROD.OUTLOOK.COM>
+References:
+ <CALynFi5d0DuGW50xq7xQnsDPdEuN5jBGTqh8bcsUwxk6L-FAdA@mail.gmail.com>
+ <80ae67e96de2f702028e5bacc89db4575e1531ca.1777559945.git.kai.aizen.dev@gmail.com>
+In-Reply-To:
+ <80ae67e96de2f702028e5bacc89db4575e1531ca.1777559945.git.kai.aizen.dev@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: GV1P189MB1988:EE_|AS8P189MB1223:EE_
+x-ms-office365-filtering-correlation-id: b6dca385-6aa9-4e54-7648-08dea7fbd881
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|376014|366016|7416014|22082099003|56012099003|18002099003|38070700021;
+x-microsoft-antispam-message-info:
+ /qoFFyp2VEwhS+BW7wIBBSDCDNvjGZfR/mBatamFjOjL4GJSjBy3DMAOHOPWuDchWWtwzICVu16gU6mTpiLUf5aNzauSf9ZqNteBUmkgvRo/7VDtyzocaTzi5v16XgzM7miDKfhQ29v7QT95988u4x1HpUnTOSDdTnMsvlOjykt+OE5DNIM9lHCvCmwL8L6nMkKm4L4HR7m275oHBz0U4DByVjHsAzQMNOoPfPft07mkKiWDa0tqgvCjSHMSpy61PO5hwqJ0/EdLkL9NACOZ2tDI4Qqa+ahtb8WDpX9K+0DJ9Sesb+JJCUPoEU77fymtAKk/0ant1bAzyi95bDQIyWyIgS9Y4f9VNlT2HFHUoYmZtRzYXzY3UbPM/vOWcdL82SxqGCiL/YwT7WCk0shoCEqNwOfI/wiglo2ReS4aLuhhbDCkyhD+gTqNDejCXK14kPB862DqLB31/zAItoWNBhlbQg2on0xF7HE57QeYInbaJXH5yT1BZ5CN8YRXP4zC3t2FwTAszsx48uK2zvc0pDOxhOii7q5fHI+619kxaN/xWsUszEtnZkDMEoG26FVgwUZcwLRT6RHronbgYw89M2iFpgsPhBrpdfHS8PUsqh2UvtbW9HdNpR2Gg1Xm9BaoaX5fHb2R9Wdj8e1q4fyl+QBwGR9NO/nuo2KYfjUGYsdjzViK/hHwsZu/9I2UPk5dHNBRmYp+DLiGmCvvdr0Ucg==
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1P189MB1988.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(7416014)(22082099003)(56012099003)(18002099003)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?2t7Aot7S88yNXRTJT29vRO8vGvt5LgjI61BtilM1uulmfY9ySYN1C0Wctz65?=
+ =?us-ascii?Q?qYMjOkH55TbewPbhq/rb9FP+c/kQ+8sHyWC3FSNpAFFRD0I5NKIK7x/LVzsJ?=
+ =?us-ascii?Q?7wIjCUk5n3mehXP6iIfDjzenySL330ilV1nu7m2lo1y4fepXOD3Z2ZIsaXm4?=
+ =?us-ascii?Q?u+tw4vn1D7OBZKvSPZwEOxMNh8OU1emYC+xKjDZkZjDH5L0T1paNkoEGG3Ir?=
+ =?us-ascii?Q?8uO9cqEzkpU3WL+sYheUUMLDqeiMQzvc6rJeWrZe7JBTT/1B1VCZ2UHvO6+j?=
+ =?us-ascii?Q?es4x594cCLilb90lIrSLEE80JaFtsAvujNlCqUrl2dQuIJEf4mkIrRlq1y3c?=
+ =?us-ascii?Q?UZHKjDPvxy3bIx5jNY7tZgMQxX6I4MkB4Gr9xE+fftLLOgVLPz7Yc6hg4H38?=
+ =?us-ascii?Q?nH9GSP6mOiYcIfxDStexnoqkMecrAxkoNvn8ZGHKou9eTNgxqppYOJ4frgs7?=
+ =?us-ascii?Q?QYfh4zpCM/L4LIJhnfItjRNIKO47RS7332ya4O9YDq9i4+l22PsCuDRhUEqf?=
+ =?us-ascii?Q?z9nL3TGQp8nW4xXAFvKnE90OrVKFi2aJ2HUWkm71zRTJw03W9xJ/rn+YK/wt?=
+ =?us-ascii?Q?9hwE/FAPKzGNvmAuOSMCOGZPtUd2SLkiI6WfHMKQdIfNgvkoooCIajPWwsYZ?=
+ =?us-ascii?Q?zI8IYvPu4BIhcPSp/hMpiKF/VHAZ9tCG0y5WOBtLqEy9/6EIkZsDDe3tP+Vz?=
+ =?us-ascii?Q?Zr0WV+BX1SGSSMUEhhT6oV1PQjZwf42UWkoiPKsZv+9AQ1Fh3OqdBO4Vd6SU?=
+ =?us-ascii?Q?BjmV7gS40qJakwLZ+dpT+Y5MepWpw3zOwVx3q4OpPrZ4UI38HdCX4ZYsU3Uh?=
+ =?us-ascii?Q?6/wjH0t1fKS3RCBdu9Uq/56cZnYpbGf4DQuAhyYjSw/1LPCSdTEb3xbOlW27?=
+ =?us-ascii?Q?1Av6lmVIYZngQGMaSUhj3nF8xNFYLo9JM5LvocW9H8LAJ+aLKzXwS3mwtQVy?=
+ =?us-ascii?Q?UGvDBI6mGIItJuJGKO/xKliLIyHnvm0qO7YC374DO9tIxsdt6ZtPUHvV3lHC?=
+ =?us-ascii?Q?FnifNMBKXzlupJRefGdOU4RwEoYaO81CjiX2B/YJjYp63Bue5zMAMiAEyVwb?=
+ =?us-ascii?Q?NG95iH2wt661XPgMwresaHq7ULu/qsd+2OhMIVtUadiOSnshQ/t5UYQsFwOq?=
+ =?us-ascii?Q?9f5Z8tz1uhtVuzeOTtAfzMSKffUw3ahC9NwNa4GTqjXwQ7+DToal2WdlxsRs?=
+ =?us-ascii?Q?qitsswgWtMsnyN/kPHvrUWoDKgHZqkZbwpt1Wp1Zm/bOXMmlgB3t4Ql8yBw9?=
+ =?us-ascii?Q?sDDjaUBn7BmMy2eKzIDl7UhfPK3wNEU9LYyvr7zDHJsBACJNO6gSShL0IxH0?=
+ =?us-ascii?Q?x1wY7SJvwnZwA1EC/vruBQmFkJqx4hNKlgSUcAYM/fzb1r+v5nc6eT7sfpJ1?=
+ =?us-ascii?Q?AhHAecMzBnW+pC2sDC5Y+wzd6XwTEBMcQS7x3WVAB0bgVZPQd0u0/OWr0DeB?=
+ =?us-ascii?Q?EVUbHjCJGHYbjJvNwdmCjJqGDDVUMxipYsA2Gdax4SVluE+bDZyVa8ERCj9V?=
+ =?us-ascii?Q?ESnT+mWSTevV3dRWyxdF6djBpZJ8+OzWplPsg34x0L+4H2+Vz7hUomXG1K6G?=
+ =?us-ascii?Q?KD1OilVmQrwVa959qxYftv/EADjS/o9rt44y1tQV7Te51gZx1UosikJAK8MQ?=
+ =?us-ascii?Q?mRBFUNjVS/BAEm/PkuBDbpDl290CeD68oXZk43VAJyM8S/cVgQydzWy7nq/8?=
+ =?us-ascii?Q?RQnUgBfq9TKouFSXFsyqbDTBt3RY3MQFzc9FXD2WtysjoPzL5RLkET0OJLYC?=
+ =?us-ascii?Q?akuRpu84Tw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260427103532.5623-2-thomas.hellstrom@linux.intel.com>
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: GV1P189MB1988.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: b6dca385-6aa9-4e54-7648-08dea7fbd881
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 May 2026 03:35:24.3753
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 4Iooz0c+2aDnLv/OCr5PDaqlJem117tpGnwuu/TWHJ0jknRJGoUJqpAXmnfRNSGA2XCXqbrGd6RfI1G+cHy++VV+tyN4x4P9u3IVkx8pVI4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8P189MB1223
 
-Hi Thomas,
+><syzbot+ci779e8ed86620f383@syzkaller.appspotmail.com>
+>Subject: [PATCH net v3] tipc: fix UAF race in
+>tipc_mon_peer_up/down/remove_peer vs bearer teardown
+>
+>From: "SnailSploit | Kai Aizen"
+><95986478+SnailSploit@users.noreply.github.com>
+>
+>CVE-2025-40280 fixed tipc_mon_reinit_self() accessing monitors[] from a
+>workqueue without RTNL.  That patch closed the workqueue path by adding
+>rtnl_lock() around the call.
+>
+>However, three additional functions in the same subsystem access tipc_net-
+>>monitors[] from softirq context with no RCU protection at all:
+>
+>  tipc_mon_peer_up()     - called from tipc_node_write_unlock()
+>  tipc_mon_peer_down()   - called from tipc_node_write_unlock()
+>  tipc_mon_remove_peer() - called from tipc_node_link_down()
+>
+>These are invoked from the packet receive path (tipc_rcv ->
+>tipc_node_write_unlock / tipc_node_link_down) and hold only the per-node
+>rwlock, not RTNL.
+>
+>Concurrently, bearer_disable() -- which always holds RTNL -- calls
+>tipc_mon_delete(), which sets tn->monitors[bearer_id] =3D NULL and then
+>kfree(mon) without an RCU grace period. A softirq reader can observe the
+>non-NULL slot, take a reference, get preempted, and resume after
+>kfree(mon) on another CPU, dereferencing freed memory.
+>
+>Convert monitors[] to __rcu, use rcu_assign_pointer() on creation,
+>RCU_INIT_POINTER() + synchronize_rcu() on deletion before kfree(), and the
+>appropriate dereference variant at each read site:
+>
+>  - tipc_monitor() returns rcu_dereference_bh(...) for softirq callers
+>    (tipc_mon_peer_up/down/remove_peer/rcv/prep/get_state).
+>  - tipc_monitor_rtnl() returns rtnl_dereference(...) for RTNL-held
+>    callers (tipc_mon_delete via bearer_disable, tipc_mon_reinit_self
+>    via tipc_net_finalize_work which wraps in rtnl_lock(), and the
+>    netlink dump handlers tipc_nl_add_monitor_peer /
+>    __tipc_nl_add_monitor).
+>
+>Also, get_self() was a thin wrapper over tipc_monitor() + ->self deref,
+>duplicating the RCU-checked load that callers already perform on entry.
+>With monitors[] becoming __rcu, get_self()'s use of tipc_monitor() generat=
+es a
+>lockdep splat in tipc_mon_delete() (RTNL context) because the inner load i=
+s
+>rcu_dereference_bh().  syzbot CI reported this on
+>v1/v2 of this patch:
+>
+>  WARNING: suspicious RCU usage in tipc_mon_delete
+>  net/tipc/monitor.c:108 suspicious rcu_dereference_check() usage!
+>  ...
+>  tipc_monitor_rcu_bh+0xf5/0x110  net/tipc/monitor.c:108
+>  get_self                        net/tipc/monitor.c:209
+>  tipc_mon_delete+0x10b/0x4d0     net/tipc/monitor.c:704
+>
+>Drop get_self() entirely.  Each existing caller already has a valid mon po=
+inter
+>from its initial RCU-correct load, and mon->self is the result get_self() =
+was
+>returning.  Replace each "self =3D get_self(...)"
+>with "self =3D mon->self;".  This both removes the duplicate dereference a=
+nd
+>fixes the lockdep splat.
+>
+>synchronize_rcu() in tipc_mon_delete() is placed after
+>write_unlock_bh() and before timer_shutdown_sync() + kfree() so all softir=
+q
+>readers that already observed the old pointer have completed before the
+>memory is freed.
+>
+>Fixes: 35c55c9877f8 ("tipc: add neighbor monitoring framework")
+>Cc: stable@vger.kernel.org
+>Reported-by: kernel test robot <lkp@intel.com>
+>Closes: https://lore.kernel.org/oe-kbuild-all/202604301148.jfXKC9HF-
+>lkp@intel.com/
+>Reported-by: syzbot ci
+><syzbot+ci779e8ed86620f383@syzkaller.appspotmail.com>
+>Closes: https://ci.syzbot.org/series/6267bc07-4172-4821-b3e5-dac381479d9d
+>Signed-off-by: SnailSploit | Kai Aizen
+><95986478+SnailSploit@users.noreply.github.com>
+>---
+> net/tipc/core.h    |  2 +-
+> net/tipc/monitor.c | 42 +++++++++++++++++++++++-------------------
+> 2 files changed, 24 insertions(+), 20 deletions(-)
+>
+>diff --git a/net/tipc/core.h b/net/tipc/core.h index 9ce5f9ff6..cd582f7a2 =
+100644
+>--- a/net/tipc/core.h
+>+++ b/net/tipc/core.h
+>@@ -109,7 +109,7 @@ struct tipc_net {
+> 	u32 num_links;
+>
+> 	/* Neighbor monitoring list */
+>-	struct tipc_monitor *monitors[MAX_BEARERS];
+>+	struct tipc_monitor __rcu *monitors[MAX_BEARERS];
+> 	int mon_threshold;
+>
+> 	/* Bearer list */
+>diff --git a/net/tipc/monitor.c b/net/tipc/monitor.c index
+>a94b9b36a..0095a62ae 100644
+>--- a/net/tipc/monitor.c
+>+++ b/net/tipc/monitor.c
+>@@ -99,7 +99,14 @@ struct tipc_monitor {
+>
+> static struct tipc_monitor *tipc_monitor(struct net *net, int bearer_id) =
+ {
+>-	return tipc_net(net)->monitors[bearer_id];
+>+	return rcu_dereference_bh(tipc_net(net)->monitors[bearer_id]);
+Please use rcu_ dereference() because the read-side does not use RCU_bh mar=
+kers.
+>+}
+>+
+>+/* tipc_monitor_rtnl - dereference monitors[] from RTNL-held control
+>+path. */ static struct tipc_monitor * __maybe_unused
+>+tipc_monitor_rtnl(struct net *net, int bearer_id) {
+Please use simple form like this for readability:
+static struct tipc_monitor* tipc_monitor_rtnl(struct net *net,=20
+                                                                           =
+       int bearer_id)
+>+	return rtnl_dereference(tipc_net(net)->monitors[bearer_id]);
+> }
+>
+> const int tipc_max_domain_size =3D sizeof(struct tipc_mon_domain); @@ -
+>192,13 +199,6 @@ static struct tipc_peer *get_peer(struct tipc_monitor *mo=
+n,
+>u32 addr)
+> 	return NULL;
+> }
+>
+>-static struct tipc_peer *get_self(struct net *net, int bearer_id) -{
+>-	struct tipc_monitor *mon =3D tipc_monitor(net, bearer_id);
+>-
+>-	return mon->self;
+>-}
+>-
+> static inline bool tipc_mon_is_active(struct net *net, struct tipc_monito=
+r
+>*mon)  {
+> 	struct tipc_net *tn =3D tipc_net(net);
+>@@ -358,7 +358,7 @@ void tipc_mon_remove_peer(struct net *net, u32 addr,
+>int bearer_id)
+> 	if (!mon)
+> 		return;
+>
+>-	self =3D get_self(net, bearer_id);
+>+	self =3D mon->self;
+> 	write_lock_bh(&mon->lock);
+> 	peer =3D get_peer(mon, addr);
+> 	if (!peer)
+>@@ -422,9 +422,12 @@ static bool tipc_mon_add_peer(struct tipc_monitor
+>*mon, u32 addr,  void tipc_mon_peer_up(struct net *net, u32 addr, int
+>bearer_id)  {
+> 	struct tipc_monitor *mon =3D tipc_monitor(net, bearer_id);
+>-	struct tipc_peer *self =3D get_self(net, bearer_id);
+>+	struct tipc_peer *self;
+> 	struct tipc_peer *peer, *head;
+>
+>+	if (!mon)
+>+		return;
+>+	self =3D mon->self;
+> 	write_lock_bh(&mon->lock);
+> 	peer =3D get_peer(mon, addr);
+> 	if (!peer && !tipc_mon_add_peer(mon, addr, &peer)) @@ -449,7
+>+452,7 @@ void tipc_mon_peer_down(struct net *net, u32 addr, int
+>bearer_id)
+> 	if (!mon)
+> 		return;
+>
+>-	self =3D get_self(net, bearer_id);
+>+	self =3D mon->self;
+> 	write_lock_bh(&mon->lock);
+> 	peer =3D get_peer(mon, addr);
+> 	if (!peer) {
+>@@ -651,7 +654,7 @@ int tipc_mon_create(struct net *net, int bearer_id)
+> 	struct tipc_peer *self;
+> 	struct tipc_mon_domain *dom;
+>
+>-	if (tn->monitors[bearer_id])
+>+	if (rtnl_dereference(tn->monitors[bearer_id]))
+> 		return 0;
+>
+> 	mon =3D kzalloc_obj(*mon, GFP_ATOMIC);
+>@@ -663,7 +666,7 @@ int tipc_mon_create(struct net *net, int bearer_id)
+> 		kfree(dom);
+> 		return -ENOMEM;
+> 	}
+>-	tn->monitors[bearer_id] =3D mon;
+>+	rcu_assign_pointer(tn->monitors[bearer_id], mon);
+> 	rwlock_init(&mon->lock);
+> 	mon->net =3D net;
+> 	mon->peer_cnt =3D 1;
+>@@ -682,16 +685,16 @@ int tipc_mon_create(struct net *net, int bearer_id)
+>void tipc_mon_delete(struct net *net, int bearer_id)  {
+> 	struct tipc_net *tn =3D tipc_net(net);
+>-	struct tipc_monitor *mon =3D tipc_monitor(net, bearer_id);
+>+	struct tipc_monitor *mon =3D tipc_monitor_rtnl(net, bearer_id);
+> 	struct tipc_peer *self;
+> 	struct tipc_peer *peer, *tmp;
+>
+> 	if (!mon)
+> 		return;
+>
+>-	self =3D get_self(net, bearer_id);
+>+	self =3D mon->self;
+>+	RCU_INIT_POINTER(tn->monitors[bearer_id], NULL);
+> 	write_lock_bh(&mon->lock);
+>-	tn->monitors[bearer_id] =3D NULL;
+> 	list_for_each_entry_safe(peer, tmp, &self->list, list) {
+> 		list_del(&peer->list);
+> 		hlist_del(&peer->hash);
+>@@ -700,6 +703,7 @@ void tipc_mon_delete(struct net *net, int bearer_id)
+> 	}
+> 	mon->self =3D NULL;
+> 	write_unlock_bh(&mon->lock);
+>+	synchronize_rcu();
+Please use kfree_rcu() instead.
+> 	timer_shutdown_sync(&mon->timer);
+> 	kfree(self->domain);
+> 	kfree(self);
+>@@ -712,7 +716,7 @@ void tipc_mon_reinit_self(struct net *net)
+> 	int bearer_id;
+>
+> 	for (bearer_id =3D 0; bearer_id < MAX_BEARERS; bearer_id++) {
+>-		mon =3D tipc_monitor(net, bearer_id);
+>+		mon =3D tipc_monitor_rtnl(net, bearer_id);
+> 		if (!mon)
+> 			continue;
+> 		write_lock_bh(&mon->lock);
+>@@ -798,7 +802,7 @@ static int __tipc_nl_add_monitor_peer(struct tipc_peer
+>*peer,  int tipc_nl_add_monitor_peer(struct net *net, struct tipc_nl_msg *=
+msg,
+> 			     u32 bearer_id, u32 *prev_node)
+> {
+>-	struct tipc_monitor *mon =3D tipc_monitor(net, bearer_id);
+>+	struct tipc_monitor *mon =3D tipc_monitor_rtnl(net, bearer_id);
+> 	struct tipc_peer *peer;
+>
+> 	if (!mon)
+>@@ -827,7 +831,7 @@ int tipc_nl_add_monitor_peer(struct net *net, struct
+>tipc_nl_msg *msg,  int __tipc_nl_add_monitor(struct net *net, struct
+>tipc_nl_msg *msg,
+> 			  u32 bearer_id)
+> {
+>-	struct tipc_monitor *mon =3D tipc_monitor(net, bearer_id);
+>+	struct tipc_monitor *mon =3D tipc_monitor_rtnl(net, bearer_id);
+> 	char bearer_name[TIPC_MAX_BEARER_NAME];
+> 	struct nlattr *attrs;
+> 	void *hdr;
+>--
+>2.43.0
+>
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on linus/master v7.1-rc1 next-20260430]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/mm-vmscan-keep-anon-scanning-enabled-when-swapcache-folios-are-present/20260428-183540
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20260427103532.5623-2-thomas.hellstrom%40linux.intel.com
-patch subject: [RFC PATCH 1/1] mm: vmscan: keep anon scanning enabled when swapcache folios are present
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20260502/202605021047.kY1JeLwn-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605021047.kY1JeLwn-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605021047.kY1JeLwn-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> mm/vmscan.c:365:38: error: use of undeclared identifier 'NR_SWAPCACHE'
-     365 |         if (node_page_state(NODE_DATA(nid), NR_SWAPCACHE) > 0)
-         |                                             ^~~~~~~~~~~~
-   1 error generated.
-
-
-vim +/NR_SWAPCACHE +365 mm/vmscan.c
-
-   341	
-   342	static inline bool can_reclaim_anon_pages(struct mem_cgroup *memcg,
-   343						  int nid,
-   344						  struct scan_control *sc)
-   345	{
-   346		if (memcg == NULL) {
-   347			/*
-   348			 * For non-memcg reclaim, is there
-   349			 * space in any swap device?
-   350			 */
-   351			if (get_nr_swap_pages() > 0)
-   352				return true;
-   353		} else {
-   354			/* Is the memcg below its swap limit? */
-   355			if (mem_cgroup_get_nr_swap_pages(memcg) > 0)
-   356				return true;
-   357		}
-   358	
-   359		/*
-   360		 * Even with no free swap slots, anon folios already in the swap cache
-   361		 * carry a pre-allocated slot and can be written back and freed from RAM
-   362		 * without consuming a new one.  Do not suppress anon scanning when such
-   363		 * folios are present on this node.
-   364		 */
- > 365		if (node_page_state(NODE_DATA(nid), NR_SWAPCACHE) > 0)
-   366			return true;
-   367	
-   368		/*
-   369		 * The page can not be swapped.
-   370		 *
-   371		 * Can it be reclaimed from this node via demotion?
-   372		 */
-   373		return can_demote(nid, sc, memcg);
-   374	}
-   375	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
