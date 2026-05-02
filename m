@@ -1,260 +1,186 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 075E41A680D
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 May 2026 13:58:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E722FA0C4
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 May 2026 13:58:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777730293; cv=none; b=dc1cQBrVhTP27OJsWVByIKfZXx6jHWNXnib94rD+5gRkvZyxOT4HHiJ0PqQBAf7JQCG1WcTzd+SLdIQAMz3upTa7WiL+n9NR4ne6KYNoN8tQVWjjUL9EP9hsmDw/ngyib5CRgRrF3BPA7Ulr2S6kZpHzObYFF+i93v4HaZP05qE=
+	t=1777730296; cv=none; b=RW7VexBGjAKqmaRzbe2NY41km0I+DeMZjCBEDOSCwSm8D1nadJv6sVP0uNMdPfVEgeZ4Q1Zk3tB0u4+TOinFqIzUtGOreSYhjlqdV6CGy9a5OFcDRNc/mOY3D3i/c4S8qJ3qAO5RLychi/Q8aYHxsRTHBfVmFWInbCDaN3H+A9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777730293; c=relaxed/simple;
-	bh=yzPEVICBV6PQFZVGa34d6Nwemf4zvLhzf+hGvHpcw88=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=oecazy0rWRyIDOeVDHbsW4VjqKva8ixC6T3lX5AxKbiNZ4/6dJZu/dDVW2o9Qe0uyXUzq11ewtdNTXf4lBkd4buF2plHnK8RF386Sh1Cr/qEVWRHd4kKlTPcUVDE8agOluJhwapUGQXNZdjpiO6zBRJOIyJov0Tq+10MVssQFGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DiXbRE99; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1777730296; c=relaxed/simple;
+	bh=UfLEForVupm1MSHwxcg6G38uIqPC6qu5m7ewRH4XFHc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UfybXYoZdUbuEzTgGvv5WUhqX10V6x+YGiu4gNE/DoEvrhwZGZJcg+ZTlny7qy3M5XPPgWHTMA0lAbE735OBBEfJd4D/2kufVzMuaM5yIeq3xEeLdvmZ3z79Nn6ry45392QU9SXHiznzX2alh+jWsaRQt1ItOaevPzsf3neNZHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KJ7aylhT; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DiXbRE99"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KJ7aylhT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777730292; x=1809266292;
-  h=date:from:to:cc:subject:message-id;
-  bh=yzPEVICBV6PQFZVGa34d6Nwemf4zvLhzf+hGvHpcw88=;
-  b=DiXbRE99N2kh3PO5QowJW9UlbrdzNznOZ16FSPItzhWPBJ++XovLZ/km
-   TQOUwPB9TrcokAlNpGPYJWP5aoyZ7U/PPRKlQ0srBNrIW2Mn9FyHWEF3+
-   FO5smtYiKSyxRiWdRH1/50by+3s4cTSPGz2Dv5g4liIyXlYLpdx88T7At
-   u0dfZMggJpem2BlWrapG+hcgw5V0sc912cRSCKCquXGvY1reo7+McdCNA
-   FmwZouTIhcqLV+oFM4s5srAeHzJpl07P2Jgy5DeQ+xjiYXKhGc2Y0yPC5
-   4C5uBj08eRePK3iJqAN2plJ7Si+vti2eeqhtb1Tr5S8C6xpHbWTXhtwWD
+  t=1777730295; x=1809266295;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UfLEForVupm1MSHwxcg6G38uIqPC6qu5m7ewRH4XFHc=;
+  b=KJ7aylhTES37T7mHFW40GNyTpnmDgNFnrcgyZo4BkwH2I4fwLkuR2rM8
+   kaHVmeBYiTtErGPLkz53DmMdaEeyMBnXiuBTOTMDOJ0kcyk8iCkv5dtJF
+   bvMZhF3EREwjCrbub+7SKw/PW5XZ/im3OfipqYDxkOu22UVBdvaeivc+0
+   /GiPRpdvn89Yhzux5oDkGVRukaw8azjwLgK5mgRseD22eV+90eVj2mbE7
+   z3PtFyHdX7JWcOxHg8feTzORQzT69di64oeYal+lnPQFO8bGYHjJhDp6C
+   mbdd4BR3X4jDxiMgRpWWMTAsWi2sppAqbGJtwCLam1fHPRSpfajORzSfh
    w==;
-X-CSE-ConnectionGUID: Jgx0gPMZQS2LQxCfr6ffpw==
-X-CSE-MsgGUID: FvdK0rpvRaWV5x5Sg3w4aQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="96091440"
+X-CSE-ConnectionGUID: 8XAzoTcISHCfa8VwMYBfLw==
+X-CSE-MsgGUID: SAh1Ek4kSGyeCDU+BfDrJw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="96091443"
 X-IronPort-AV: E=Sophos;i="6.23,211,1770624000"; 
-   d="scan'208";a="96091440"
+   d="scan'208";a="96091443"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 06:58:11 -0700
-X-CSE-ConnectionGUID: 30Hbd3lGQQSopu2226kK+g==
-X-CSE-MsgGUID: c37rBvWlQsipevkqbE23IA==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 06:58:12 -0700
+X-CSE-ConnectionGUID: TLLpC88TTneEn87bOTyujA==
+X-CSE-MsgGUID: 1rscNHlxTTSnui+FQu/1FQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,211,1770624000"; 
-   d="scan'208";a="231962274"
+   d="scan'208";a="231962269"
 Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
   by fmviesa007.fm.intel.com with ESMTP; 02 May 2026 06:58:09 -0700
 Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wJAr8-000000001R3-0waT;
+	id 1wJAr8-000000001Qz-0kjs;
 	Sat, 02 May 2026 13:58:06 +0000
-Date: Sat, 02 May 2026 21:57:13 +0800
+Date: Sat, 2 May 2026 21:57:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zev Weiss <zev@bewilderbeest.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Andrew Jeffery <andrew@aj.id.au>
-Subject: drivers/tty/serial/8250/8250_aspeed_vuart.c:563:1: warning:
- the frame size of 1048 bytes is larger than 1024 bytes
-Message-ID: <202605022114.Ojk5kWod-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Hongjie Fang <hongjiefang@asrmicro.com>, alim.akhtar@samsung.com,
+	avri.altman@wdc.com, bvanassche@acm.org,
+	James.Bottomley@hansenpartnership.com, martin.petersen@oracle.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] scsi: ufs: core: call hibern8 notify when hibern8 cmd
+ failed
+Message-ID: <202605022153.181ENp5n-lkp@intel.com>
+References: <20260430042212.3712251-1-hongjiefang@asrmicro.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260430042212.3712251-1-hongjiefang@asrmicro.com>
 
-Hi Zev,
+Hi Hongjie,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f1a5e78a55ebf2b05777fd5eb738038ddae609d6
-commit: ca03042f0f1221c3173bbe81ebd974b91a4dbb15 serial: 8250_aspeed_vuart: add aspeed, lpc-io-reg and aspeed, lpc-interrupts DT properties
-date:   5 years ago
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260502/202605022114.Ojk5kWod-lkp@intel.com/config)
+[auto build test WARNING on jejb-scsi/for-next]
+[also build test WARNING on mkp-scsi/for-next linus/master v7.1-rc1 next-20260430]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hongjie-Fang/scsi-ufs-core-call-hibern8-notify-when-hibern8-cmd-failed/20260501-050358
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20260430042212.3712251-1-hongjiefang%40asrmicro.com
+patch subject: [PATCH v3] scsi: ufs: core: call hibern8 notify when hibern8 cmd failed
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260502/202605022153.181ENp5n-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605022114.Ojk5kWod-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605022153.181ENp5n-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: ca03042f0f12 ("serial: 8250_aspeed_vuart: add aspeed, lpc-io-reg and aspeed, lpc-interrupts DT properties")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605022114.Ojk5kWod-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605022153.181ENp5n-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/tty/serial/8250/8250_aspeed_vuart.c: In function 'aspeed_vuart_probe':
->> drivers/tty/serial/8250/8250_aspeed_vuart.c:563:1: warning: the frame size of 1048 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-     563 | }
-         | ^
+   drivers/ufs/host/ufs-qcom.c: In function 'ufs_qcom_setup_clocks':
+>> drivers/ufs/host/ufs-qcom.c:1433:9: warning: enumeration value 'ROLLBACK_CHANGE' not handled in switch [-Wswitch]
+    1433 |         switch (status) {
+         |         ^~~~~~
 
 
-vim +563 drivers/tty/serial/8250/8250_aspeed_vuart.c
+vim +/ROLLBACK_CHANGE +1433 drivers/ufs/host/ufs-qcom.c
 
-ca03042f0f1221 Zev Weiss          2021-04-11  404  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  405  static int aspeed_vuart_probe(struct platform_device *pdev)
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  406  {
-8d310c9107a2a3 Oskar Senft        2019-09-05  407  	struct of_phandle_args sirq_polarity_sense_args;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  408  	struct uart_8250_port port;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  409  	struct aspeed_vuart *vuart;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  410  	struct device_node *np;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  411  	struct resource *res;
-ca03042f0f1221 Zev Weiss          2021-04-11  412  	u32 clk, prop, sirq[2];
-ca03042f0f1221 Zev Weiss          2021-04-11  413  	int rc, sirq_polarity;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  414  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  415  	np = pdev->dev.of_node;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  416  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  417  	vuart = devm_kzalloc(&pdev->dev, sizeof(*vuart), GFP_KERNEL);
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  418  	if (!vuart)
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  419  		return -ENOMEM;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  420  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  421  	vuart->dev = &pdev->dev;
-5909c0bf9c7a17 Jeremy Kerr        2018-03-27  422  	timer_setup(&vuart->unthrottle_timer, aspeed_vuart_unthrottle_exp, 0);
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  423  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  424  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  425  	vuart->regs = devm_ioremap_resource(&pdev->dev, res);
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  426  	if (IS_ERR(vuart->regs))
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  427  		return PTR_ERR(vuart->regs);
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  428  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  429  	memset(&port, 0, sizeof(port));
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  430  	port.port.private_data = vuart;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  431  	port.port.membase = vuart->regs;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  432  	port.port.mapbase = res->start;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  433  	port.port.mapsize = resource_size(res);
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  434  	port.port.startup = aspeed_vuart_startup;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  435  	port.port.shutdown = aspeed_vuart_shutdown;
-989983ea849d94 Jeremy Kerr        2018-03-27  436  	port.port.throttle = aspeed_vuart_throttle;
-989983ea849d94 Jeremy Kerr        2018-03-27  437  	port.port.unthrottle = aspeed_vuart_unthrottle;
-989983ea849d94 Jeremy Kerr        2018-03-27  438  	port.port.status = UPSTAT_SYNC_FIFO;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  439  	port.port.dev = &pdev->dev;
-9b614afe6c8048 Dmitry Safonov     2019-12-13  440  	port.port.has_sysrq = IS_ENABLED(CONFIG_SERIAL_8250_CONSOLE);
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  441  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  442  	rc = sysfs_create_group(&vuart->dev->kobj, &aspeed_vuart_attr_group);
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  443  	if (rc < 0)
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  444  		return rc;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  445  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  446  	if (of_property_read_u32(np, "clock-frequency", &clk)) {
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  447  		vuart->clk = devm_clk_get(&pdev->dev, NULL);
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  448  		if (IS_ERR(vuart->clk)) {
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  449  			dev_warn(&pdev->dev,
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  450  				"clk or clock-frequency not defined\n");
-cbafe9d5c34673 Alexey Khoroshilov 2017-07-28  451  			rc = PTR_ERR(vuart->clk);
-cbafe9d5c34673 Alexey Khoroshilov 2017-07-28  452  			goto err_sysfs_remove;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  453  		}
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  454  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  455  		rc = clk_prepare_enable(vuart->clk);
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  456  		if (rc < 0)
-cbafe9d5c34673 Alexey Khoroshilov 2017-07-28  457  			goto err_sysfs_remove;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  458  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  459  		clk = clk_get_rate(vuart->clk);
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  460  	}
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  461  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  462  	/* If current-speed was set, then try not to change it. */
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  463  	if (of_property_read_u32(np, "current-speed", &prop) == 0)
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  464  		port.port.custom_divisor = clk / (16 * prop);
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  465  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  466  	/* Check for shifted address mapping */
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  467  	if (of_property_read_u32(np, "reg-offset", &prop) == 0)
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  468  		port.port.mapbase += prop;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  469  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  470  	/* Check for registers offset within the devices address range */
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  471  	if (of_property_read_u32(np, "reg-shift", &prop) == 0)
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  472  		port.port.regshift = prop;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  473  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  474  	/* Check for fifo size */
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  475  	if (of_property_read_u32(np, "fifo-size", &prop) == 0)
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  476  		port.port.fifosize = prop;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  477  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  478  	/* Check for a fixed line number */
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  479  	rc = of_alias_get_id(np, "serial");
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  480  	if (rc >= 0)
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  481  		port.port.line = rc;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  482  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  483  	port.port.irq = irq_of_parse_and_map(np, 0);
-5909c0bf9c7a17 Jeremy Kerr        2018-03-27  484  	port.port.handle_irq = aspeed_vuart_handle_irq;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  485  	port.port.iotype = UPIO_MEM;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  486  	port.port.type = PORT_16550A;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  487  	port.port.uartclk = clk;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  488  	port.port.flags = UPF_SHARE_IRQ | UPF_BOOT_AUTOCONF
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  489  		| UPF_FIXED_PORT | UPF_FIXED_TYPE | UPF_NO_THRE_TEST;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  490  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  491  	if (of_property_read_bool(np, "no-loopback-test"))
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  492  		port.port.flags |= UPF_SKIP_TEST;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  493  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  494  	if (port.port.fifosize)
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  495  		port.capabilities = UART_CAP_FIFO;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  496  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  497  	if (of_property_read_bool(np, "auto-flow-control"))
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  498  		port.capabilities |= UART_CAP_AFE;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  499  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  500  	rc = serial8250_register_8250_port(&port);
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  501  	if (rc < 0)
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  502  		goto err_clk_disable;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  503  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  504  	vuart->line = rc;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  505  
-8d310c9107a2a3 Oskar Senft        2019-09-05  506  	rc = of_parse_phandle_with_fixed_args(
-8d310c9107a2a3 Oskar Senft        2019-09-05  507  		np, "aspeed,sirq-polarity-sense", 2, 0,
-8d310c9107a2a3 Oskar Senft        2019-09-05  508  		&sirq_polarity_sense_args);
-8d310c9107a2a3 Oskar Senft        2019-09-05  509  	if (rc < 0) {
-8d310c9107a2a3 Oskar Senft        2019-09-05  510  		dev_dbg(&pdev->dev,
-8d310c9107a2a3 Oskar Senft        2019-09-05  511  			"aspeed,sirq-polarity-sense property not found\n");
-8d310c9107a2a3 Oskar Senft        2019-09-05  512  	} else {
-8d310c9107a2a3 Oskar Senft        2019-09-05  513  		aspeed_vuart_auto_configure_sirq_polarity(
-8d310c9107a2a3 Oskar Senft        2019-09-05  514  			vuart, sirq_polarity_sense_args.np,
-8d310c9107a2a3 Oskar Senft        2019-09-05  515  			sirq_polarity_sense_args.args[0],
-8d310c9107a2a3 Oskar Senft        2019-09-05  516  			BIT(sirq_polarity_sense_args.args[1]));
-8d310c9107a2a3 Oskar Senft        2019-09-05  517  		of_node_put(sirq_polarity_sense_args.np);
-8d310c9107a2a3 Oskar Senft        2019-09-05  518  	}
-8d310c9107a2a3 Oskar Senft        2019-09-05  519  
-ca03042f0f1221 Zev Weiss          2021-04-11  520  	rc = of_property_read_u32(np, "aspeed,lpc-io-reg", &prop);
-ca03042f0f1221 Zev Weiss          2021-04-11  521  	if (rc < 0)
-ca03042f0f1221 Zev Weiss          2021-04-11  522  		prop = ASPEED_VUART_DEFAULT_LPC_ADDR;
-ca03042f0f1221 Zev Weiss          2021-04-11  523  
-ca03042f0f1221 Zev Weiss          2021-04-11  524  	rc = aspeed_vuart_set_lpc_address(vuart, prop);
-ca03042f0f1221 Zev Weiss          2021-04-11  525  	if (rc < 0) {
-ca03042f0f1221 Zev Weiss          2021-04-11  526  		dev_err(&pdev->dev, "invalid value in aspeed,lpc-io-reg property\n");
-ca03042f0f1221 Zev Weiss          2021-04-11  527  		goto err_clk_disable;
-ca03042f0f1221 Zev Weiss          2021-04-11  528  	}
-ca03042f0f1221 Zev Weiss          2021-04-11  529  
-ca03042f0f1221 Zev Weiss          2021-04-11  530  	rc = of_property_read_u32_array(np, "aspeed,lpc-interrupts", sirq, 2);
-ca03042f0f1221 Zev Weiss          2021-04-11  531  	if (rc < 0) {
-ca03042f0f1221 Zev Weiss          2021-04-11  532  		sirq[0] = ASPEED_VUART_DEFAULT_SIRQ;
-ca03042f0f1221 Zev Weiss          2021-04-11  533  		sirq[1] = ASPEED_VUART_DEFAULT_SIRQ_POLARITY;
-ca03042f0f1221 Zev Weiss          2021-04-11  534  	}
-ca03042f0f1221 Zev Weiss          2021-04-11  535  
-ca03042f0f1221 Zev Weiss          2021-04-11  536  	rc = aspeed_vuart_set_sirq(vuart, sirq[0]);
-ca03042f0f1221 Zev Weiss          2021-04-11  537  	if (rc < 0) {
-ca03042f0f1221 Zev Weiss          2021-04-11  538  		dev_err(&pdev->dev, "invalid sirq number in aspeed,lpc-interrupts property\n");
-ca03042f0f1221 Zev Weiss          2021-04-11  539  		goto err_clk_disable;
-ca03042f0f1221 Zev Weiss          2021-04-11  540  	}
-ca03042f0f1221 Zev Weiss          2021-04-11  541  
-ca03042f0f1221 Zev Weiss          2021-04-11  542  	sirq_polarity = aspeed_vuart_map_irq_polarity(sirq[1]);
-ca03042f0f1221 Zev Weiss          2021-04-11  543  	if (sirq_polarity < 0) {
-ca03042f0f1221 Zev Weiss          2021-04-11  544  		dev_err(&pdev->dev, "invalid sirq polarity in aspeed,lpc-interrupts property\n");
-ca03042f0f1221 Zev Weiss          2021-04-11  545  		rc = sirq_polarity;
-ca03042f0f1221 Zev Weiss          2021-04-11  546  		goto err_clk_disable;
-ca03042f0f1221 Zev Weiss          2021-04-11  547  	}
-ca03042f0f1221 Zev Weiss          2021-04-11  548  
-ca03042f0f1221 Zev Weiss          2021-04-11  549  	aspeed_vuart_set_sirq_polarity(vuart, sirq_polarity);
-ca03042f0f1221 Zev Weiss          2021-04-11  550  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  551  	aspeed_vuart_set_enabled(vuart, true);
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  552  	aspeed_vuart_set_host_tx_discard(vuart, true);
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  553  	platform_set_drvdata(pdev, vuart);
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  554  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  555  	return 0;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  556  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  557  err_clk_disable:
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  558  	clk_disable_unprepare(vuart->clk);
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  559  	irq_dispose_mapping(port.port.irq);
-cbafe9d5c34673 Alexey Khoroshilov 2017-07-28  560  err_sysfs_remove:
-cbafe9d5c34673 Alexey Khoroshilov 2017-07-28  561  	sysfs_remove_group(&vuart->dev->kobj, &aspeed_vuart_attr_group);
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  562  	return rc;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02 @563  }
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  564  
-
-:::::: The code at line 563 was first introduced by commit
-:::::: 7fbcf3afe6e8e180bfc39fb3f41657fa6e4af55c drivers/serial: Add driver for Aspeed virtual UART
-
-:::::: TO: Jeremy Kerr <jk@ozlabs.org>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1401  
+f06fcc7155dcbc drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-10-28  1402  /**
+f06fcc7155dcbc drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-10-28  1403   * ufs_qcom_setup_clocks - enables/disable clocks
+f06fcc7155dcbc drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-10-28  1404   * @hba: host controller instance
+f06fcc7155dcbc drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-10-28  1405   * @on: If true, enable clocks else disable them.
+1e879e8fa9f62e drivers/scsi/ufs/ufs-qcom.c Subhash Jadavani      2016-10-06  1406   * @status: PRE_CHANGE or POST_CHANGE notify
+f06fcc7155dcbc drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-10-28  1407   *
+77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1408   * There are certain clocks which comes from the PHY so it needs
+77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1409   * to be managed together along with controller clocks which also
+77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1410   * provides a better power saving. Hence keep phy_power_off/on calls
+77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1411   * in ufs_qcom_setup_clocks, so that PHY's regulators & clks can be
+77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1412   * turned on/off along with UFS's clocks.
+77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1413   *
+3a17fefe0f1960 drivers/ufs/host/ufs-qcom.c Bart Van Assche       2023-07-27  1414   * Return: 0 on success, non-zero on failure.
+f06fcc7155dcbc drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-10-28  1415   */
+1e879e8fa9f62e drivers/scsi/ufs/ufs-qcom.c Subhash Jadavani      2016-10-06  1416  static int ufs_qcom_setup_clocks(struct ufs_hba *hba, bool on,
+1e879e8fa9f62e drivers/scsi/ufs/ufs-qcom.c Subhash Jadavani      2016-10-06  1417  				 enum ufs_notify_change_status status)
+81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1418  {
+1ce5898af55e23 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-10-28  1419  	struct ufs_qcom_host *host = ufshcd_get_variant(hba);
+720fa0cb59e411 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-06-23  1420  	struct phy *phy;
+77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1421  	int err;
+81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1422  
+81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1423  	/*
+81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1424  	 * In case ufs_qcom_init() is not yet done, simply ignore.
+81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1425  	 * This ufs_qcom_setup_clocks() shall be called from
+81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1426  	 * ufs_qcom_init() after init is done.
+81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1427  	 */
+81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1428  	if (!host)
+81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1429  		return 0;
+81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1430  
+720fa0cb59e411 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-06-23  1431  	phy = host->generic_phy;
+720fa0cb59e411 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-06-23  1432  
+8240dd97cef424 drivers/scsi/ufs/ufs-qcom.c Can Guo               2020-02-10 @1433  	switch (status) {
+8240dd97cef424 drivers/scsi/ufs/ufs-qcom.c Can Guo               2020-02-10  1434  	case PRE_CHANGE:
+03ce80a1bb869f drivers/ufs/host/ufs-qcom.c Manivannan Sadhasivam 2023-07-31  1435  		if (on) {
+03ce80a1bb869f drivers/ufs/host/ufs-qcom.c Manivannan Sadhasivam 2023-07-31  1436  			ufs_qcom_icc_update_bw(host);
+c1553fc105dff2 drivers/ufs/host/ufs-qcom.c Palash Kambar         2025-09-09  1437  			if (ufs_qcom_is_link_hibern8(hba)) {
+c1553fc105dff2 drivers/ufs/host/ufs-qcom.c Palash Kambar         2025-09-09  1438  				err = ufs_qcom_enable_lane_clks(host);
+c1553fc105dff2 drivers/ufs/host/ufs-qcom.c Palash Kambar         2025-09-09  1439  				if (err) {
+c1553fc105dff2 drivers/ufs/host/ufs-qcom.c Palash Kambar         2025-09-09  1440  					dev_err(hba->dev, "enable lane clks failed, ret=%d\n", err);
+c1553fc105dff2 drivers/ufs/host/ufs-qcom.c Palash Kambar         2025-09-09  1441  					return err;
+c1553fc105dff2 drivers/ufs/host/ufs-qcom.c Palash Kambar         2025-09-09  1442  				}
+c1553fc105dff2 drivers/ufs/host/ufs-qcom.c Palash Kambar         2025-09-09  1443  			}
+03ce80a1bb869f drivers/ufs/host/ufs-qcom.c Manivannan Sadhasivam 2023-07-31  1444  		} else {
+feb3d79800ece1 drivers/scsi/ufs/ufs-qcom.c Vivek Gautam          2016-11-08  1445  			if (!ufs_qcom_is_link_active(hba)) {
+81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1446  				/* disable device ref_clk */
+f06fcc7155dcbc drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-10-28  1447  				ufs_qcom_dev_ref_clk_ctrl(host, false);
+feb3d79800ece1 drivers/scsi/ufs/ufs-qcom.c Vivek Gautam          2016-11-08  1448  			}
+77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1449  
+77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1450  			err = phy_power_off(phy);
+77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1451  			if (err) {
+77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1452  				dev_err(hba->dev, "phy power off failed, ret=%d\n", err);
+77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1453  				return err;
+77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1454  			}
+81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1455  		}
+8240dd97cef424 drivers/scsi/ufs/ufs-qcom.c Can Guo               2020-02-10  1456  		break;
+8240dd97cef424 drivers/scsi/ufs/ufs-qcom.c Can Guo               2020-02-10  1457  	case POST_CHANGE:
+8240dd97cef424 drivers/scsi/ufs/ufs-qcom.c Can Guo               2020-02-10  1458  		if (on) {
+77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1459  			err = phy_power_on(phy);
+77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1460  			if (err) {
+77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1461  				dev_err(hba->dev, "phy power on failed, ret = %d\n", err);
+77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1462  				return err;
+77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1463  			}
+77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1464  
+8240dd97cef424 drivers/scsi/ufs/ufs-qcom.c Can Guo               2020-02-10  1465  			/* enable the device ref clock for HS mode*/
+8240dd97cef424 drivers/scsi/ufs/ufs-qcom.c Can Guo               2020-02-10  1466  			if (ufshcd_is_hs_mode(&hba->pwr_info))
+8240dd97cef424 drivers/scsi/ufs/ufs-qcom.c Can Guo               2020-02-10  1467  				ufs_qcom_dev_ref_clk_ctrl(host, true);
+03ce80a1bb869f drivers/ufs/host/ufs-qcom.c Manivannan Sadhasivam 2023-07-31  1468  		} else {
+c1553fc105dff2 drivers/ufs/host/ufs-qcom.c Palash Kambar         2025-09-09  1469  			if (ufs_qcom_is_link_hibern8(hba))
+c1553fc105dff2 drivers/ufs/host/ufs-qcom.c Palash Kambar         2025-09-09  1470  				ufs_qcom_disable_lane_clks(host);
+c1553fc105dff2 drivers/ufs/host/ufs-qcom.c Palash Kambar         2025-09-09  1471  
+03ce80a1bb869f drivers/ufs/host/ufs-qcom.c Manivannan Sadhasivam 2023-07-31  1472  			ufs_qcom_icc_set_bw(host, ufs_qcom_bw_table[MODE_MIN][0][0].mem_bw,
+03ce80a1bb869f drivers/ufs/host/ufs-qcom.c Manivannan Sadhasivam 2023-07-31  1473  					    ufs_qcom_bw_table[MODE_MIN][0][0].cfg_bw);
+8240dd97cef424 drivers/scsi/ufs/ufs-qcom.c Can Guo               2020-02-10  1474  		}
+8240dd97cef424 drivers/scsi/ufs/ufs-qcom.c Can Guo               2020-02-10  1475  		break;
+8240dd97cef424 drivers/scsi/ufs/ufs-qcom.c Can Guo               2020-02-10  1476  	}
+81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1477  
+c4adf171e834da drivers/scsi/ufs/ufs-qcom.c ChanWoo Lee           2021-09-07  1478  	return 0;
+81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1479  }
+81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1480  
 
 -- 
 0-DAY CI Kernel Test Service
