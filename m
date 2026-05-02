@@ -1,228 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 391BB16CD33
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 May 2026 17:35:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777743309; cv=none; b=g5VAMbMy2fZWIiuLkbD8VfjR5kkUuNVxQ1pz2Ib7H3G8+3wQACzPGOfUtw8uMrIiNB0oj1i5aIPldk2Eq9DGF0P6PfmDUzXvIT+nqGZJoNMXZt0XYyzK289CshmOIIdXqPFsJ+v9ACREDFALIuAjIzle7NKUjnAt6cRRiCvcaY8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777743309; c=relaxed/simple;
-	bh=8I81VJ0WSZ9XNZBcFV1kgKX0kDVzxLwiCAHe2dPWURA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=fheiE77RVh05xdKsalRYwN4BMTktt5yz2dQvyEPcRWJkRzjREp9BXsf1ZTMe2YGYvnODxBnbQkd2+nKyukiDf2TYAq8aTKjN6KmT0vD0kqK+6qY/MhaqIWGtysK5qmsicv4RsC+8yMiiGT8RgDrbchObVZDEGPefsIRsAktePso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d+xZcYUe; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 220EE2DF13B
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 May 2026 17:54:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777744455; cv=pass; b=QfXqj4GKhyGYKSOdvgZTciauf+EWTqir6x12VHDQGwaWY9WxQA+e+qMnwDiADME6yDOe7+DzpCck0/PPaTGKGHkMgKrmn2CHowUIPDI/gTZp/Yk32xL7kVYLs52j+I1mL0GS9qPiWQfSilpbvfEQyrSx4+JbhVfBy0e2Lf+Q4CA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777744455; c=relaxed/simple;
+	bh=QDrbfDAXOOnypvZy26/N7cuw26NME2IlMJKn5zQb9fA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Oe8iYgR2kB+fsQKPN8Hyuhikwm7AowtAX1bgcZY257M7RUvMn3ZSL7/cl5sE+s1X4UIJHpKGFXKZVdZI1CTojOfViiizmJdok/Olg8NsVfoGC5qDbhr4CzTX3LHQlHdNT6hOWAEAbPKEESmENUCXM+0Wkta1jbfUWQ8ZZ+mcjuM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=m3oAwz9O; arc=pass smtp.client-ip=74.125.82.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d+xZcYUe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777743307; x=1809279307;
-  h=date:from:to:cc:subject:message-id;
-  bh=8I81VJ0WSZ9XNZBcFV1kgKX0kDVzxLwiCAHe2dPWURA=;
-  b=d+xZcYUebU2zYfsFSsKKx0QVFNHpZML9i9iOXye0QlYPARElryTg97lA
-   ZxrQcPWX871PSjc4EqTpm1qhAmRCUB0Z6vyhfd2BXRRBzQvhI8V4yKnEX
-   vfOBnl2cGMo9cHAt1smj7cNHDLSA3oYUWmRPdnLOBj+8QrExGtbRjmrxs
-   Ug61QwToZg2BFtwcOsJCV3KLdj362+rK7mf9G4bQFCvatk6ODwwThhv/B
-   s/DmX8ToyJC8gASiVe1unhR3ngsU1ghMGhnV3MDnAU7Oi7GQJ4WUJAfxL
-   GN/l5loURwFwSOkxSN9yAQ9SPE4DeOix1C8oPHZcZP9mcQSK1ZUc3do3l
-   Q==;
-X-CSE-ConnectionGUID: R7dafqdJQ8qD10R8SgF9kA==
-X-CSE-MsgGUID: eIAWcB4+QSiqjN33LfHRRQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="78662531"
-X-IronPort-AV: E=Sophos;i="6.23,212,1770624000"; 
-   d="scan'208";a="78662531"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 10:35:07 -0700
-X-CSE-ConnectionGUID: d9V+94s+SmSITyv9uSiCsw==
-X-CSE-MsgGUID: ACVkmpAoQJq0p84CEuGe0A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,212,1770624000"; 
-   d="scan'208";a="230769722"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 02 May 2026 10:35:05 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wJEF4-000000005JR-45dG;
-	Sat, 02 May 2026 17:35:02 +0000
-Date: Sat, 02 May 2026 19:34:21 +0200
-From: kernel test robot <lkp@intel.com>
-To: "Tycho Andersen (AMD)" <tycho@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: drivers/crypto/ccp/sev-dev.c:2165:17: warning: variable
- 'error' set but not used
-Message-ID: <202605021948.Ev9XGd7i-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="m3oAwz9O"
+Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-12e332315a8so1087152c88.0
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 02 May 2026 10:54:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777744452; cv=none;
+        d=google.com; s=arc-20240605;
+        b=VC6Nr6z5X6v0hEogcJTWpbj2NbCApM4iuEXHMVueJzInmYOA+lkzB5iVI1SNB08Ah9
+         mhGLRU+VR5dt7wSWCHjXKYd7AbjhcRNdc8ZI9hkO6IxZ0koJZ59UgzUyJuFIohe9rltW
+         FQ1G2Bv0QhNLzwQHBnCFQusxifNmLIm1BXA1zm39Y4/5kWBB8ta3BUqBg4ZrcB57mtzL
+         bcUilTNxwUOcBIxPrOidbAJw9hd9VTJCM5NPQhrkWlxZ58cAFWqwr2mPPolXQxbO9pEj
+         6LZqGzLzhyphbG/weJ7/teXCUqdkcvDC/ma16KVCl7lQ9sOOrvODXNWO+3lborgu6TyR
+         yvfw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=dd3SXfdo7HTpUts7GZf8WkSWOn5DNHYOt9FOiijtIO4=;
+        fh=w4ATK5v7FDZmg9CfhcjmGjVccfFvIODKqeMYRrxy4to=;
+        b=gHA4aLIdJSEh15b6pJ901Oed9OPuN1dQoyNDApa1Rkz5Xo0BLvBwvAA50Mld3syS1s
+         GB6Ol0p2vUcQRDh3XiraGYdaxTXEvcW3YqvMfv4HN8GU7GmZUkSPlpSd9/ZtjqmMJxSw
+         aFN46M75m7B4Ni7NrSt1VpTQVt9eS51Y0N/V+A/UPWvboc3fa/3BvSHTXT8AKH+Pqv9g
+         OW4MENLdh9HxbxovyxfQQ+EzNCnOshQCbRSRuyVyAMsqnrjvd+ZC1nzjN6Hy0wxGiIiy
+         wOKXqECXgw7G2t0cCFUOol5k/UO9q80T2oWh0j+/Cjly9J1/AlmrLt9dFaxBLJZksKDP
+         Htuw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1777744452; x=1778349252; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dd3SXfdo7HTpUts7GZf8WkSWOn5DNHYOt9FOiijtIO4=;
+        b=m3oAwz9OtN3ew0heCGWze4nydeM4Pfs3NYxfulI4aPTzQgS/pKhD7zxQ7Hbr1m/JSg
+         +96kL+BedWKB/wGMNk9X1CxP1cD8s5dkj9aApqbdyHbQz6F0oknhtIL2lUQS/EOdSfVg
+         kuncBn6GgnEtUOxvdeCzoKxMR08yrAbHjtS8MBf9wwAhBPdNwE2zdgOHqsBQFF2JKlM+
+         xqo8U/Il+yMwiYc+wRMoseksNZfG6NaDod2O19LEwQujPXRSpAlOXn8UFDrDRAlF0QCW
+         m1VnCrv4l1cmHZNHafzOS4x0a0vMm8G+Txq/73UpcAuNEr0lhpygrad4SiB9eL/NCbk+
+         42Fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777744452; x=1778349252;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=dd3SXfdo7HTpUts7GZf8WkSWOn5DNHYOt9FOiijtIO4=;
+        b=XJBZTbV6pEE95Gxe/GhMJS0r4xj6EyHVdybpucgUB/tU/Y9TVU+uCE8jIpCa8HcxP/
+         GQnma+9lxeYYJ1CYwfHxhWD/b9OwdcRmlD80KUz8ingRIAldDnW7RrLahpKIo7sv7+K0
+         XXHuyafyT9oXbetUWW7HUGlWgMhO/XR6Kg/dy+qb0hgBOAr2MECcowbD+WSuD/QvTuOU
+         ANnT73imKpVauj5IAuzsCPBQBcT2gi9VKvvmA8QvRNkIR8pfXGPTECn5UsrocajDY4C5
+         29ZeJptiKk9t+cXT7ukccZ2+X8qCfPDgP3HgccBA9iLZNTvP/UcYPqvNlk3M8CnuTT2B
+         Nhag==
+X-Gm-Message-State: AOJu0YwmA1RC5gkTlb5OChElS9pSof9HSyav3strVki1NdEiwIgrQ9pw
+	e+ShDAQVzsEmmefYzvu7kiZDIt1flJZfo08vB43N6MVLRfmCDQjDyr7dk6j0kv1Bv/841gpU6Rm
+	GB5TriMADM9jKc8F/52BXSfsYRYOHLf1EST7YQDV+GqdlIcfxEG4GGpJWohwRHg==
+X-Gm-Gg: AeBDies6ehZasLqMFHR+B2eAqUeJVKBweb3zA2e5ZuWlFC3PhlpjPfyY7lBAkfqc/WD
+	uvmu0VNK7Mh5S8bU1QyK4TpfhvXTLGBcXVLsHV6i3VLSPm9k0HuqRLMxSMUIIcBmYV11C/vsytN
+	e6dpV1cOOpsvRgs5uZtoKICZeqHWtOH4VZL7L0iExs8ceaAyhzlzefKodlFX1VfL+pNN/knw5bF
+	Ew8F6293fRiy3MVjFR1LD/OzZhhjY6I+XIbb+n374xatQyVpqSLf6WuLAuv+QcEiOyJqXl6T+za
+	DTQYtJxrThunYm0NjzEchGUNrxQlbl2iSQN+E1P5yugE98WrkbQjVh1JoSOdY8qBvZWpaIvV0Xd
+	ULc6Qj38k63H+sEjtMN/gxwqrD5K6BFUmITQAncHPX1dy/qxRAtTdC1+xyUNPkrLM48SJgeWdVw
+	==
+X-Received: by 2002:a05:7022:389:b0:12c:8cae:cca5 with SMTP id
+ a92af1059eb24-12dfd830619mr1840632c88.23.1777744451605; Sat, 02 May 2026
+ 10:54:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <202605030032.glNApko7-lkp@intel.com>
+In-Reply-To: <202605030032.glNApko7-lkp@intel.com>
+From: Kuniyuki Iwashima <kuniyu@google.com>
+Date: Sat, 2 May 2026 10:54:00 -0700
+X-Gm-Features: AVHnY4JRDEqsP2MwKxyXLnAruXq_oBWsmjYH0kiopTIaHyMvJvbNvrh_GfSEaYU
+Message-ID: <CAAVpQUA5STowrBX77w47_jw1fgiug00uP81EKhXuwkbLX6_7fw@mail.gmail.com>
+Subject: Re: net/ipv4/ipmr.c:312:24: sparse: sparse: incompatible types in
+ comparison expression (different address spaces):
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Jakub Kicinski <kuba@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Tycho-Andersen/crypto-ccp-Hoist-kernel-part-of-SNP_PLATFORM_STATUS/20260502-181408
-head:   61b6850d2a4e7abc1dc7b500a6786191f7fad8d3
-commit: 61b6850d2a4e7abc1dc7b500a6786191f7fad8d3 crypto/ccp: Implement SNP firmware live update
-date:   7 hours ago
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260502/202605021948.Ev9XGd7i-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605021948.Ev9XGd7i-lkp@intel.com/reproduce)
+On Sat, May 2, 2026 at 9:39=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
+ote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   f1a5e78a55ebf2b05777fd5eb738038ddae609d6
+> commit: b3b6babf47517fde6b6de2493dea28e8831b9347 ipmr: Free mr_table afte=
+r RCU grace period.
+> date:   5 days ago
+> config: nios2-randconfig-r132-20260502 (https://download.01.org/0day-ci/a=
+rchive/20260503/202605030032.glNApko7-lkp@intel.com/config)
+> compiler: nios2-linux-gcc (GCC) 8.5.0
+> sparse: v0.6.5-rc1
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20260503/202605030032.glNApko7-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Fixes: b3b6babf4751 ("ipmr: Free mr_table after RCU grace period.")
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202605030032.glNApko7-lkp=
+@intel.com/
+>
+> sparse warnings: (new ones prefixed by >>)
+>    net/ipv4/ipmr.c: note: in included file (through include/uapi/linux/sw=
+ab.h, include/linux/swab.h, include/uapi/linux/byteorder/little_endian.h, .=
+..):
+>    arch/nios2/include/asm/swab.h:25:24: sparse: sparse: too many argument=
+s for function __builtin_custom_ini
+> >> net/ipv4/ipmr.c:312:24: sparse: sparse: incompatible types in comparis=
+on expression (different address spaces):
+>    net/ipv4/ipmr.c:312:24: sparse:    struct mr_table [noderef] __rcu *
+>    net/ipv4/ipmr.c:312:24: sparse:    struct mr_table *
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605021948.Ev9XGd7i-lkp@intel.com/
+Will add __rcu to struct mr_table in netns_ipv4.
 
-All warnings (new ones prefixed by >>):
-
-   drivers/crypto/ccp/sev-dev.c: In function 'sev_fw_upload_write':
->> drivers/crypto/ccp/sev-dev.c:2165:17: warning: variable 'error' set but not used [-Wunused-but-set-variable]
-    2165 |         int rc, error = 0;
-         |                 ^~~~~
-
-
-vim +/error +2165 drivers/crypto/ccp/sev-dev.c
-
-  2158	
-  2159	static enum fw_upload_err sev_fw_upload_write(struct fw_upload *fw_upload,
-  2160						      const u8 *data, u32 offset,
-  2161						      u32 size, u32 *written)
-  2162	{
-  2163		struct sev_device *sev = fw_upload->dd_handle;
-  2164		u8 old_major, old_minor, old_build;
-> 2165		int rc, error = 0;
-  2166		enum fw_upload_err ret;
-  2167	
-  2168		if (offset != 0)
-  2169			return FW_UPLOAD_ERR_INVALID_SIZE;
-  2170	
-  2171		old_major = sev->api_major;
-  2172		old_minor = sev->api_minor;
-  2173		old_build = sev->build;
-  2174	
-  2175		mutex_lock(&sev_cmd_mutex);
-  2176	
-  2177		/*
-  2178		 * If the last firmware update returned RESTORE_REQUIRED, allow only
-  2179		 * this DLFWEX command so the admin can restore the previous FW
-  2180		 * version. If we are in this state the legacy firmware has previously
-  2181		 * been shut down, so no need to do it again.
-  2182		 */
-  2183		if (dlfwex_wants_rollback && psp_dead) {
-  2184			dlfwex_wants_rollback = false;
-  2185			psp_dead = false;
-  2186		} else {
-  2187			rc = sev_firmware_shutdown_if_sev_initialized(sev);
-  2188			if (rc) {
-  2189				ret = FW_UPLOAD_ERR_BUSY;
-  2190				goto unlock;
-  2191			}
-  2192		}
-  2193	
-  2194		rc = sev_download_firmware_ex(sev, data, size);
-  2195		if (rc) {
-  2196			ret = FW_UPLOAD_ERR_FW_INVALID;
-  2197			switch (rc) {
-  2198			case SEV_RET_INVALID_PLATFORM_STATE:
-  2199				fallthrough;
-  2200			case SEV_RET_INVALID_ADDRESS:
-  2201				/* these are probably kernel bugs */
-  2202				WARN_ON_ONCE(true);
-  2203				ret = FW_UPLOAD_ERR_BUSY;
-  2204				goto unlock;
-  2205			case SEV_RET_INVALID_LEN:
-  2206				ret = FW_UPLOAD_ERR_INVALID_SIZE;
-  2207				goto unlock;
-  2208			case SEV_RET_INVALID_PARAM:
-  2209				dev_err(sev->dev, "SEV firmware image is not well formed\n");
-  2210				goto unlock;
-  2211			case SEV_RET_SHUTDOWN_REQUIRED:
-  2212				dev_err(sev->dev, "SEV firmware too far, shutdown required\n");
-  2213				goto unlock;
-  2214			case SEV_RET_INVALID_CONFIG:
-  2215				dev_err(sev->dev, "SEV firmware upgrade would rollback SVN\n");
-  2216				goto unlock;
-  2217			case SEV_RET_BAD_SIGNATURE:
-  2218				dev_err(sev->dev, "SEV firmware upgrade bad signature\n");
-  2219				goto unlock;
-  2220			case SEV_RET_BAD_VERSION:
-  2221				dev_err(sev->dev, "SEV firmware upgrade less than CommittedVersion\n");
-  2222				goto unlock;
-  2223			case SEV_RET_UNSUPPORTED:
-  2224				dev_err(sev->dev, "SEV firmware required feature not supported\n");
-  2225				goto unlock;
-  2226			case SEV_RET_UPDATE_FAILED:
-  2227				/*
-  2228				 * Update failed but fw rolled back on its own,
-  2229				 * operation can continue normally.
-  2230				 */
-  2231				dev_err(sev->dev, "SEV firmware update failed\n");
-  2232				ret = FW_UPLOAD_ERR_HW_ERROR;
-  2233				goto unlock;
-  2234			case SEV_RET_HWSEV_RET_UNSAFE:
-  2235				/*
-  2236				 * "Following a return of HARDWARE_UNSAFE, operation of
-  2237				 * the SEV firmware is indeterminate
-  2238				 * and the recommendation is to reboot the platform."
-  2239				 */
-  2240				dev_err(sev->dev, "SEV firmware no longer safe to operate\n");
-  2241				psp_dead = true;
-  2242				ret = FW_UPLOAD_ERR_HW_ERROR;
-  2243				goto unlock;
-  2244			case SEV_RET_RESTORE_REQUIRED:
-  2245				/*
-  2246				 * FW asked us to roll back; we don't hold onto the
-  2247				 * last FW image, so we can't. We can set a flag to
-  2248				 * allow the admin to rollback if they happen to have
-  2249				 * the old firmware image handy.
-  2250				 */
-  2251				dev_err(sev->dev, "SEV firmware update failed, please roll back\n");
-  2252				psp_dead = true;
-  2253				dlfwex_wants_rollback = true;
-  2254				ret = FW_UPLOAD_ERR_HW_ERROR;
-  2255				goto unlock;
-  2256			default:
-  2257				dev_err(sev->dev, "Unknown SEV firmware err %d\n", rc);
-  2258				ret = FW_UPLOAD_ERR_HW_ERROR;
-  2259				goto unlock;
-  2260			}
-  2261		}
-  2262	
-  2263		*written = size;
-  2264		ret = FW_UPLOAD_ERR_NONE;
-  2265	
-  2266	unlock:
-  2267		mutex_unlock(&sev_cmd_mutex);
-  2268	
-  2269		/*
-  2270		 * sev_get_api_version() updates the SEV and SNP statuses, SNP feature
-  2271		 * info if available, build numbers, etc. cached in struct sev_device.
-  2272		 * Update these if they may have changed for new firmware.
-  2273		 */
-  2274		if (ret == FW_UPLOAD_ERR_NONE) {
-  2275			error = 0;
-  2276	
-  2277			rc = sev_get_api_version();
-  2278			if (rc) {
-  2279				dev_warn(sev->dev,
-  2280					 "SNP platform data refresh after firmware update failed %d\n",
-  2281					 rc);
-  2282			} else if (sev->api_major != old_major ||
-  2283				   sev->api_minor != old_minor ||
-  2284				   sev->build != old_build) {
-  2285				dev_info(sev->dev, "SEV firmware updated to %d.%d build %d\n",
-  2286					 sev->api_major, sev->api_minor, sev->build);
-  2287			} else {
-  2288				dev_info(sev->dev, "SEV firmware not updated\n");
-  2289			}
-  2290		}
-  2291	
-  2292		if (!dlfwex_wants_rollback)
-  2293			sev_firmware_reinit_if_shutdown(sev);
-  2294	
-  2295		return ret;
-  2296	}
-  2297	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks
