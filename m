@@ -1,186 +1,182 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E722FA0C4
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 May 2026 13:58:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5929C27A907
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 May 2026 15:31:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777730296; cv=none; b=RW7VexBGjAKqmaRzbe2NY41km0I+DeMZjCBEDOSCwSm8D1nadJv6sVP0uNMdPfVEgeZ4Q1Zk3tB0u4+TOinFqIzUtGOreSYhjlqdV6CGy9a5OFcDRNc/mOY3D3i/c4S8qJ3qAO5RLychi/Q8aYHxsRTHBfVmFWInbCDaN3H+A9Q=
+	t=1777735878; cv=none; b=tdK2MHcZPx6TBW7HGxH56OWaKF7Q+HGvf0FcYfxZhEQUk/JELCAR90iwUK8NSO5LFup5D4nxh0/DBl8+YhJW0YUgb6vkxUOpOJE2DAGdlVF9RAXK2yrayFptBMmBQgDF/45CpK5Q6zMR9J4JkOUHuQoQ4GpJp4TOlv9MPV3EEJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777730296; c=relaxed/simple;
-	bh=UfLEForVupm1MSHwxcg6G38uIqPC6qu5m7ewRH4XFHc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UfybXYoZdUbuEzTgGvv5WUhqX10V6x+YGiu4gNE/DoEvrhwZGZJcg+ZTlny7qy3M5XPPgWHTMA0lAbE735OBBEfJd4D/2kufVzMuaM5yIeq3xEeLdvmZ3z79Nn6ry45392QU9SXHiznzX2alh+jWsaRQt1ItOaevPzsf3neNZHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KJ7aylhT; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1777735878; c=relaxed/simple;
+	bh=Tzh6u8ZVsG/3zCcarzMYvhkD23p3lWdBoQwmH4OAHqI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=uKB/H70FUStbE4FKs5ajHPiDoarp8N6XDp+KEK81E0foz6lLNIdSxsDOCRNJIqgC+NOCK/0onzYRAxC8JDa6MEBT9pg0ZkoS71AAOTXs+vh3jw3fz/SlH77HpNtTkKlD32Z6zwX1O2O038eAjorO/3G5J5dfEv+BV0aVKSPSzYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DqpIHl5M; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KJ7aylhT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DqpIHl5M"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777730295; x=1809266295;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UfLEForVupm1MSHwxcg6G38uIqPC6qu5m7ewRH4XFHc=;
-  b=KJ7aylhTES37T7mHFW40GNyTpnmDgNFnrcgyZo4BkwH2I4fwLkuR2rM8
-   kaHVmeBYiTtErGPLkz53DmMdaEeyMBnXiuBTOTMDOJ0kcyk8iCkv5dtJF
-   bvMZhF3EREwjCrbub+7SKw/PW5XZ/im3OfipqYDxkOu22UVBdvaeivc+0
-   /GiPRpdvn89Yhzux5oDkGVRukaw8azjwLgK5mgRseD22eV+90eVj2mbE7
-   z3PtFyHdX7JWcOxHg8feTzORQzT69di64oeYal+lnPQFO8bGYHjJhDp6C
-   mbdd4BR3X4jDxiMgRpWWMTAsWi2sppAqbGJtwCLam1fHPRSpfajORzSfh
-   w==;
-X-CSE-ConnectionGUID: 8XAzoTcISHCfa8VwMYBfLw==
-X-CSE-MsgGUID: SAh1Ek4kSGyeCDU+BfDrJw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="96091443"
-X-IronPort-AV: E=Sophos;i="6.23,211,1770624000"; 
-   d="scan'208";a="96091443"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 06:58:12 -0700
-X-CSE-ConnectionGUID: TLLpC88TTneEn87bOTyujA==
-X-CSE-MsgGUID: 1rscNHlxTTSnui+FQu/1FQ==
+  t=1777735875; x=1809271875;
+  h=date:from:to:cc:subject:message-id;
+  bh=Tzh6u8ZVsG/3zCcarzMYvhkD23p3lWdBoQwmH4OAHqI=;
+  b=DqpIHl5Mx84cKyxsD3aIuEVz+MM4rbFLaMgYANA3cYzNjS9SOsBw/TSW
+   OWGdAVTgSRwZD5loDlKIGxzutc5cUnPngSL361L7cGS9/y2C3i82Hx4xg
+   tFyZeZN0FaupNNFmsKqw6lADkMrESMpk7202z4ImOmXfFQSznCrskYC+w
+   Radger3nmlKrByFzT7vXHyNFwhh6AtaY/4CAoQT7b3PsOk6/WTfsiaO/5
+   5a8Hv7bDE12q3PVHUY9/jGt4mZo6KLgDLPFEUhnDhnaFOvldiEX4w0AVH
+   XPu3qURpPcVaba5XpZcS1vILGbIG1pVCfFFLPceh5gKvAkF8DLiMCQ0Rk
+   A==;
+X-CSE-ConnectionGUID: NKPXc2HoSFyLkFLCnz2eag==
+X-CSE-MsgGUID: KmWAwpeNRFSVCUOl42hv6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="82520457"
+X-IronPort-AV: E=Sophos;i="6.23,212,1770624000"; 
+   d="scan'208";a="82520457"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 08:31:15 -0700
+X-CSE-ConnectionGUID: 9Xc+PM5eSAaWGe7X8QrVdA==
+X-CSE-MsgGUID: kl+pjKHZThK0Senzcr4IgA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,211,1770624000"; 
-   d="scan'208";a="231962269"
+X-IronPort-AV: E=Sophos;i="6.23,212,1770624000"; 
+   d="scan'208";a="235186785"
 Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 02 May 2026 06:58:09 -0700
+  by orviesa009.jf.intel.com with ESMTP; 02 May 2026 08:31:14 -0700
 Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wJAr8-000000001Qz-0kjs;
-	Sat, 02 May 2026 13:58:06 +0000
-Date: Sat, 2 May 2026 21:57:57 +0800
+	id 1wJCJC-000000001UT-3yCE;
+	Sat, 02 May 2026 15:31:10 +0000
+Date: Sat, 02 May 2026 23:30:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hongjie Fang <hongjiefang@asrmicro.com>, alim.akhtar@samsung.com,
-	avri.altman@wdc.com, bvanassche@acm.org,
-	James.Bottomley@hansenpartnership.com, martin.petersen@oracle.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] scsi: ufs: core: call hibern8 notify when hibern8 cmd
- failed
-Message-ID: <202605022153.181ENp5n-lkp@intel.com>
-References: <20260430042212.3712251-1-hongjiefang@asrmicro.com>
+To: Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [mnyman-xhci:for-usb-linus 1/1]
+ drivers/usb/host/xhci-ring.c:780:30: sparse: sparse: Using plain integer as
+ NULL pointer
+Message-ID: <202605022341.Wly02RYQ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260430042212.3712251-1-hongjiefang@asrmicro.com>
 
-Hi Hongjie,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on jejb-scsi/for-next]
-[also build test WARNING on mkp-scsi/for-next linus/master v7.1-rc1 next-20260430]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hongjie-Fang/scsi-ufs-core-call-hibern8-notify-when-hibern8-cmd-failed/20260501-050358
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20260430042212.3712251-1-hongjiefang%40asrmicro.com
-patch subject: [PATCH v3] scsi: ufs: core: call hibern8 notify when hibern8 cmd failed
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260502/202605022153.181ENp5n-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605022153.181ENp5n-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git for-usb-linus
+head:   5a2eae179a9b34eddd47a25bdb48bfd93411cef9
+commit: 5a2eae179a9b34eddd47a25bdb48bfd93411cef9 [1/1] xhci: move dequeue to next valid td instead of past cancelled one
+config: parisc-randconfig-r134-20260502 (https://download.01.org/0day-ci/archive/20260502/202605022341.Wly02RYQ-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605022341.Wly02RYQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605022153.181ENp5n-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605022341.Wly02RYQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/usb/host/xhci-ring.c:780:30: sparse: sparse: Using plain integer as NULL pointer
+   drivers/usb/host/xhci-ring.c:781:30: sparse: sparse: Using plain integer as NULL pointer
 
-   drivers/ufs/host/ufs-qcom.c: In function 'ufs_qcom_setup_clocks':
->> drivers/ufs/host/ufs-qcom.c:1433:9: warning: enumeration value 'ROLLBACK_CHANGE' not handled in switch [-Wswitch]
-    1433 |         switch (status) {
-         |         ^~~~~~
+vim +780 drivers/usb/host/xhci-ring.c
 
-
-vim +/ROLLBACK_CHANGE +1433 drivers/ufs/host/ufs-qcom.c
-
-81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1401  
-f06fcc7155dcbc drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-10-28  1402  /**
-f06fcc7155dcbc drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-10-28  1403   * ufs_qcom_setup_clocks - enables/disable clocks
-f06fcc7155dcbc drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-10-28  1404   * @hba: host controller instance
-f06fcc7155dcbc drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-10-28  1405   * @on: If true, enable clocks else disable them.
-1e879e8fa9f62e drivers/scsi/ufs/ufs-qcom.c Subhash Jadavani      2016-10-06  1406   * @status: PRE_CHANGE or POST_CHANGE notify
-f06fcc7155dcbc drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-10-28  1407   *
-77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1408   * There are certain clocks which comes from the PHY so it needs
-77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1409   * to be managed together along with controller clocks which also
-77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1410   * provides a better power saving. Hence keep phy_power_off/on calls
-77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1411   * in ufs_qcom_setup_clocks, so that PHY's regulators & clks can be
-77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1412   * turned on/off along with UFS's clocks.
-77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1413   *
-3a17fefe0f1960 drivers/ufs/host/ufs-qcom.c Bart Van Assche       2023-07-27  1414   * Return: 0 on success, non-zero on failure.
-f06fcc7155dcbc drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-10-28  1415   */
-1e879e8fa9f62e drivers/scsi/ufs/ufs-qcom.c Subhash Jadavani      2016-10-06  1416  static int ufs_qcom_setup_clocks(struct ufs_hba *hba, bool on,
-1e879e8fa9f62e drivers/scsi/ufs/ufs-qcom.c Subhash Jadavani      2016-10-06  1417  				 enum ufs_notify_change_status status)
-81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1418  {
-1ce5898af55e23 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-10-28  1419  	struct ufs_qcom_host *host = ufshcd_get_variant(hba);
-720fa0cb59e411 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-06-23  1420  	struct phy *phy;
-77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1421  	int err;
-81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1422  
-81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1423  	/*
-81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1424  	 * In case ufs_qcom_init() is not yet done, simply ignore.
-81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1425  	 * This ufs_qcom_setup_clocks() shall be called from
-81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1426  	 * ufs_qcom_init() after init is done.
-81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1427  	 */
-81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1428  	if (!host)
-81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1429  		return 0;
-81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1430  
-720fa0cb59e411 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-06-23  1431  	phy = host->generic_phy;
-720fa0cb59e411 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-06-23  1432  
-8240dd97cef424 drivers/scsi/ufs/ufs-qcom.c Can Guo               2020-02-10 @1433  	switch (status) {
-8240dd97cef424 drivers/scsi/ufs/ufs-qcom.c Can Guo               2020-02-10  1434  	case PRE_CHANGE:
-03ce80a1bb869f drivers/ufs/host/ufs-qcom.c Manivannan Sadhasivam 2023-07-31  1435  		if (on) {
-03ce80a1bb869f drivers/ufs/host/ufs-qcom.c Manivannan Sadhasivam 2023-07-31  1436  			ufs_qcom_icc_update_bw(host);
-c1553fc105dff2 drivers/ufs/host/ufs-qcom.c Palash Kambar         2025-09-09  1437  			if (ufs_qcom_is_link_hibern8(hba)) {
-c1553fc105dff2 drivers/ufs/host/ufs-qcom.c Palash Kambar         2025-09-09  1438  				err = ufs_qcom_enable_lane_clks(host);
-c1553fc105dff2 drivers/ufs/host/ufs-qcom.c Palash Kambar         2025-09-09  1439  				if (err) {
-c1553fc105dff2 drivers/ufs/host/ufs-qcom.c Palash Kambar         2025-09-09  1440  					dev_err(hba->dev, "enable lane clks failed, ret=%d\n", err);
-c1553fc105dff2 drivers/ufs/host/ufs-qcom.c Palash Kambar         2025-09-09  1441  					return err;
-c1553fc105dff2 drivers/ufs/host/ufs-qcom.c Palash Kambar         2025-09-09  1442  				}
-c1553fc105dff2 drivers/ufs/host/ufs-qcom.c Palash Kambar         2025-09-09  1443  			}
-03ce80a1bb869f drivers/ufs/host/ufs-qcom.c Manivannan Sadhasivam 2023-07-31  1444  		} else {
-feb3d79800ece1 drivers/scsi/ufs/ufs-qcom.c Vivek Gautam          2016-11-08  1445  			if (!ufs_qcom_is_link_active(hba)) {
-81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1446  				/* disable device ref_clk */
-f06fcc7155dcbc drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-10-28  1447  				ufs_qcom_dev_ref_clk_ctrl(host, false);
-feb3d79800ece1 drivers/scsi/ufs/ufs-qcom.c Vivek Gautam          2016-11-08  1448  			}
-77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1449  
-77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1450  			err = phy_power_off(phy);
-77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1451  			if (err) {
-77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1452  				dev_err(hba->dev, "phy power off failed, ret=%d\n", err);
-77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1453  				return err;
-77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1454  			}
-81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1455  		}
-8240dd97cef424 drivers/scsi/ufs/ufs-qcom.c Can Guo               2020-02-10  1456  		break;
-8240dd97cef424 drivers/scsi/ufs/ufs-qcom.c Can Guo               2020-02-10  1457  	case POST_CHANGE:
-8240dd97cef424 drivers/scsi/ufs/ufs-qcom.c Can Guo               2020-02-10  1458  		if (on) {
-77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1459  			err = phy_power_on(phy);
-77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1460  			if (err) {
-77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1461  				dev_err(hba->dev, "phy power on failed, ret = %d\n", err);
-77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1462  				return err;
-77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1463  			}
-77d2fa54a94574 drivers/ufs/host/ufs-qcom.c Nitin Rawat           2025-05-26  1464  
-8240dd97cef424 drivers/scsi/ufs/ufs-qcom.c Can Guo               2020-02-10  1465  			/* enable the device ref clock for HS mode*/
-8240dd97cef424 drivers/scsi/ufs/ufs-qcom.c Can Guo               2020-02-10  1466  			if (ufshcd_is_hs_mode(&hba->pwr_info))
-8240dd97cef424 drivers/scsi/ufs/ufs-qcom.c Can Guo               2020-02-10  1467  				ufs_qcom_dev_ref_clk_ctrl(host, true);
-03ce80a1bb869f drivers/ufs/host/ufs-qcom.c Manivannan Sadhasivam 2023-07-31  1468  		} else {
-c1553fc105dff2 drivers/ufs/host/ufs-qcom.c Palash Kambar         2025-09-09  1469  			if (ufs_qcom_is_link_hibern8(hba))
-c1553fc105dff2 drivers/ufs/host/ufs-qcom.c Palash Kambar         2025-09-09  1470  				ufs_qcom_disable_lane_clks(host);
-c1553fc105dff2 drivers/ufs/host/ufs-qcom.c Palash Kambar         2025-09-09  1471  
-03ce80a1bb869f drivers/ufs/host/ufs-qcom.c Manivannan Sadhasivam 2023-07-31  1472  			ufs_qcom_icc_set_bw(host, ufs_qcom_bw_table[MODE_MIN][0][0].mem_bw,
-03ce80a1bb869f drivers/ufs/host/ufs-qcom.c Manivannan Sadhasivam 2023-07-31  1473  					    ufs_qcom_bw_table[MODE_MIN][0][0].cfg_bw);
-8240dd97cef424 drivers/scsi/ufs/ufs-qcom.c Can Guo               2020-02-10  1474  		}
-8240dd97cef424 drivers/scsi/ufs/ufs-qcom.c Can Guo               2020-02-10  1475  		break;
-8240dd97cef424 drivers/scsi/ufs/ufs-qcom.c Can Guo               2020-02-10  1476  	}
-81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1477  
-c4adf171e834da drivers/scsi/ufs/ufs-qcom.c ChanWoo Lee           2021-09-07  1478  	return 0;
-81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1479  }
-81c0fc51b7a790 drivers/scsi/ufs/ufs-qcom.c Yaniv Gardi           2015-01-15  1480  
+   688	
+   689	/*
+   690	 * Move the endpoint dequeue pointer to the next queued TD on ring->td_list or
+   691	 * to enqueue if no TDs are queued (empty ring)
+   692	 * Remember to move all cancelled TDs from ring->td_list to
+   693	 * ep->cancelled_td_list before calling this function
+   694	 */
+   695	static int xhci_move_deq_to_next_td(struct xhci_hcd *xhci,
+   696					    struct xhci_virt_ep *ep,
+   697					    unsigned int stream_id)
+   698	{
+   699		struct xhci_command *cmd;
+   700		struct xhci_ring *ring;
+   701		struct xhci_td *td;
+   702		dma_addr_t addr;
+   703		int new_cycle;
+   704		u32 trb_sct = 0;
+   705		int ret = 0;
+   706	
+   707		ring = xhci_virt_ep_to_ring(xhci, ep, stream_id);
+   708		if (!ring) {
+   709			xhci_warn(xhci, "WARN can't find new dequeue, invalid stream ID %u\n",
+   710				  stream_id);
+   711			return -ENODEV;
+   712		}
+   713	
+   714		if ((ep->ep_state & SET_DEQ_PENDING)) {
+   715			xhci_warn(xhci, "Set TR Deq already pending\n");
+   716			return -EBUSY;
+   717		}
+   718	
+   719		/* This function gets called from contexts where it cannot sleep */
+   720		cmd = xhci_alloc_command(xhci, false, GFP_ATOMIC);
+   721		if (!cmd) {
+   722			xhci_warn(xhci, "Can't alloc Set TR Deq cmd\n");
+   723			return -ENOMEM;
+   724		}
+   725	
+   726		td = list_first_entry_or_null(&ring->td_list, struct xhci_td, td_list);
+   727	
+   728		/*
+   729		 * Move dequeue to the beginning of next td, or to enqueue if ring is
+   730		 * empty. Avoid moving dequeue to a link trb (empty ring) as it causes
+   731		 * issues on some hosts. In that case advance the enqueue to next segment
+   732		 * before moving dequeue to it
+   733		 */
+   734	
+   735		if (td) {
+   736			ep->queued_deq_seg = td->start_seg;
+   737			ep->queued_deq_ptr = td->start_trb;
+   738			new_cycle = le32_to_cpu(td->start_trb->generic.field[3]) & TRB_CYCLE;
+   739		} else {
+   740			if (trb_is_link(ring->enqueue))
+   741				inc_enq_past_link(xhci, ring, 0);
+   742			ep->queued_deq_seg = ring->enq_seg;
+   743			ep->queued_deq_ptr = ring->enqueue;
+   744			new_cycle = ring->cycle_state;
+   745		}
+   746	
+   747		addr = xhci_trb_virt_to_dma(ep->queued_deq_seg, ep->queued_deq_ptr);
+   748		if (addr == 0) {
+   749			xhci_warn(xhci, "Can't find new dequeue dma of seg %p, ptr %p\n",
+   750				  ep->queued_deq_seg, ep->queued_deq_ptr);
+   751			ret = -EINVAL;
+   752			goto err_out;
+   753		}
+   754	
+   755		if (stream_id)
+   756			trb_sct = SCT_FOR_TRB(SCT_PRI_TR);
+   757		ret = queue_command(xhci, cmd,
+   758			lower_32_bits(addr) | trb_sct | new_cycle,
+   759			upper_32_bits(addr),
+   760			STREAM_ID_FOR_TRB(stream_id), SLOT_ID_FOR_TRB(ep->vdev->slot_id) |
+   761			EP_INDEX_FOR_TRB(ep->ep_index) | TRB_TYPE(TRB_SET_DEQ), false);
+   762		if (ret < 0)
+   763			goto err_out;
+   764	
+   765		xhci_dbg_trace(xhci, trace_xhci_dbg_cancel_urb,
+   766			       "Set TR Deq ptr 0x%llx, cycle %u\n", addr, new_cycle);
+   767	
+   768		/*
+   769		 * Stop the TD queueing code from ringing the doorbell until this
+   770		 * command completes. The HC won't set the dequeue pointer if the ring
+   771		 * is running, and ringing the doorbell starts the ring.
+   772		 */
+   773		ep->ep_state |= SET_DEQ_PENDING;
+   774		xhci_ring_cmd_db(xhci);
+   775	
+   776		return 0;
+   777	
+   778	err_out:
+   779		xhci_free_command(xhci, cmd);
+ > 780		ep->queued_deq_seg = 0;
+   781		ep->queued_deq_ptr = 0;
+   782	
+   783		return ret;
+   784	}
+   785	
 
 -- 
 0-DAY CI Kernel Test Service
