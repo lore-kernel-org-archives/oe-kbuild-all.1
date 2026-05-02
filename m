@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5929C27A907
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 May 2026 15:31:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EBE1382374
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 May 2026 15:44:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777735878; cv=none; b=tdK2MHcZPx6TBW7HGxH56OWaKF7Q+HGvf0FcYfxZhEQUk/JELCAR90iwUK8NSO5LFup5D4nxh0/DBl8+YhJW0YUgb6vkxUOpOJE2DAGdlVF9RAXK2yrayFptBMmBQgDF/45CpK5Q6zMR9J4JkOUHuQoQ4GpJp4TOlv9MPV3EEJo=
+	t=1777736660; cv=none; b=lJTJOwGWEq7aWoDvno9naGIIAjZVpYY1cUE2uNy+a7UIqhF7+aiR2+D5ls0AxCT2RjXin6W0ic/loAAGFL3tVtnuj15XHwugT6UUsnAE/GIbAPoUaV+1gTVQI5WoFnQj0sqVxrBoFk3q600SNrC7EQBUQzTTxF8fLU1iDScKgw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777735878; c=relaxed/simple;
-	bh=Tzh6u8ZVsG/3zCcarzMYvhkD23p3lWdBoQwmH4OAHqI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=uKB/H70FUStbE4FKs5ajHPiDoarp8N6XDp+KEK81E0foz6lLNIdSxsDOCRNJIqgC+NOCK/0onzYRAxC8JDa6MEBT9pg0ZkoS71AAOTXs+vh3jw3fz/SlH77HpNtTkKlD32Z6zwX1O2O038eAjorO/3G5J5dfEv+BV0aVKSPSzYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DqpIHl5M; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1777736660; c=relaxed/simple;
+	bh=N4k5EFWE6SCa1qKNTTkTgsFReBWWvLe61gXSvt/QWd0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rqPiCFKsW1ige37bARdN1nNQDOKuZkA6pltt/D8tXgX8AK0ZoPOVUQDYe3xurW07ZPrkrIfQZ+sfbtV2KVlCB7IVqaqWxbBkzf2CBBYSgTLjvxjKhl2A8N9GWVUXVWyaTOV5FbrtSTzpHwWxO3+sRJnZbq6Y2B69GguzSoCU7GA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U0Od8noh; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DqpIHl5M"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U0Od8noh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777735875; x=1809271875;
+  t=1777736657; x=1809272657;
   h=date:from:to:cc:subject:message-id;
-  bh=Tzh6u8ZVsG/3zCcarzMYvhkD23p3lWdBoQwmH4OAHqI=;
-  b=DqpIHl5Mx84cKyxsD3aIuEVz+MM4rbFLaMgYANA3cYzNjS9SOsBw/TSW
-   OWGdAVTgSRwZD5loDlKIGxzutc5cUnPngSL361L7cGS9/y2C3i82Hx4xg
-   tFyZeZN0FaupNNFmsKqw6lADkMrESMpk7202z4ImOmXfFQSznCrskYC+w
-   Radger3nmlKrByFzT7vXHyNFwhh6AtaY/4CAoQT7b3PsOk6/WTfsiaO/5
-   5a8Hv7bDE12q3PVHUY9/jGt4mZo6KLgDLPFEUhnDhnaFOvldiEX4w0AVH
-   XPu3qURpPcVaba5XpZcS1vILGbIG1pVCfFFLPceh5gKvAkF8DLiMCQ0Rk
-   A==;
-X-CSE-ConnectionGUID: NKPXc2HoSFyLkFLCnz2eag==
-X-CSE-MsgGUID: KmWAwpeNRFSVCUOl42hv6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="82520457"
+  bh=N4k5EFWE6SCa1qKNTTkTgsFReBWWvLe61gXSvt/QWd0=;
+  b=U0Od8nohfORAua5lqLiJUlIvxOaHTNQ5Vd14iOOM70Gf7SbhdDYtOrfK
+   MOayxRnZobkKym7N99txt/jxqs5J6IAMLVj7anWsDfKj2OMqtQ7gZakYA
+   J/Kl6MBmTSMJqhiiis2wpy72Hpm/RrQzLdM/H28CsTEQ2pEiceTdsGAFs
+   CFi5RHoLZTZSwaW9WD9VdfD46ME6svNlt1hwSkRlJw0ihj6a96R9ZmiuM
+   KN9t3nVoZoalAbqwtcdym1ZueWj8cw1/kLjamL+w2Oy2kmiomm8uIeR3E
+   Rk0y8SUazvokpQ42/l0Bhq1vq5zunuS9XliUztcQJ/ovHc4+1OVQCWU36
+   Q==;
+X-CSE-ConnectionGUID: 7lk81LFLQiO3yyMj1ngjQA==
+X-CSE-MsgGUID: SFPZH4laQRKQr6vVAwpjLg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="89768118"
 X-IronPort-AV: E=Sophos;i="6.23,212,1770624000"; 
-   d="scan'208";a="82520457"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 08:31:15 -0700
-X-CSE-ConnectionGUID: 9Xc+PM5eSAaWGe7X8QrVdA==
-X-CSE-MsgGUID: kl+pjKHZThK0Senzcr4IgA==
+   d="scan'208";a="89768118"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 08:44:17 -0700
+X-CSE-ConnectionGUID: iKsQNDcxS4KXf8x2uLXtWw==
+X-CSE-MsgGUID: XfmKLY/9RiqFOGp5MaBGCA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,212,1770624000"; 
-   d="scan'208";a="235186785"
+   d="scan'208";a="239443189"
 Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 02 May 2026 08:31:14 -0700
+  by orviesa004.jf.intel.com with ESMTP; 02 May 2026 08:44:16 -0700
 Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wJCJC-000000001UT-3yCE;
-	Sat, 02 May 2026 15:31:10 +0000
-Date: Sat, 02 May 2026 23:30:55 +0800
+	id 1wJCVo-000000001VO-48K3;
+	Sat, 02 May 2026 15:44:12 +0000
+Date: Sat, 02 May 2026 23:43:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [mnyman-xhci:for-usb-linus 1/1]
- drivers/usb/host/xhci-ring.c:780:30: sparse: sparse: Using plain integer as
- NULL pointer
-Message-ID: <202605022341.Wly02RYQ-lkp@intel.com>
+Subject: [android-common:android16-6.12-2025-12 1/1]
+ include/linux/android_kabi.h:65:17: error: static assertion failed:
+ "include/linux/dma-buf.h:547: u64 __kabi_reserved_backport1 is not aligned
+ the same as atomic64_t nr_task_refs"
+Message-ID: <202605022332.oNYLGvDv-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,123 +61,85 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git for-usb-linus
-head:   5a2eae179a9b34eddd47a25bdb48bfd93411cef9
-commit: 5a2eae179a9b34eddd47a25bdb48bfd93411cef9 [1/1] xhci: move dequeue to next valid td instead of past cancelled one
-config: parisc-randconfig-r134-20260502 (https://download.01.org/0day-ci/archive/20260502/202605022341.Wly02RYQ-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 8.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605022341.Wly02RYQ-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-12
+head:   f5f1b71c7f2185e607cfaac7c35e2289caa5c27c
+commit: e24cc2d5218669b7412788d57528059ec6ecee4e [1/1] ANDROID: ABI: refresh, CRC fixups and allowed breaks
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20260502/202605022332.oNYLGvDv-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605022332.oNYLGvDv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605022341.Wly02RYQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605022332.oNYLGvDv-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/usb/host/xhci-ring.c:780:30: sparse: sparse: Using plain integer as NULL pointer
-   drivers/usb/host/xhci-ring.c:781:30: sparse: sparse: Using plain integer as NULL pointer
+All errors (new ones prefixed by >>):
 
-vim +780 drivers/usb/host/xhci-ring.c
+   In file included from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from mm/slab_common.c:7:
+>> include/linux/android_kabi.h:65:17: error: static assertion failed: "include/linux/dma-buf.h:547: u64 __kabi_reserved_backport1 is not aligned the same as atomic64_t nr_task_refs"
+      65 |                 _Static_assert(                                         \
+         |                 ^~~~~~~~~~~~~~
+   include/linux/android_kabi.h:79:17: note: in expansion of macro '_ANDROID_KABI_NORMAL_SIZE_ALIGN'
+      79 |                 _ANDROID_KABI_NORMAL_SIZE_ALIGN(_orig, _new); \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/android_kabi.h:189:9: note: in expansion of macro '_ANDROID_KABI_REPLACE'
+     189 |         _ANDROID_KABI_REPLACE(ANDROID_BACKPORT_RESERVE(number), _new)
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/dma-buf.h:547:9: note: in expansion of macro 'ANDROID_BACKPORT_USE'
+     547 |         ANDROID_BACKPORT_USE(1, atomic64_t nr_task_refs);
+         |         ^~~~~~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from mm/page_alloc.c:19:
+>> include/linux/android_kabi.h:65:17: error: static assertion failed: "include/linux/dma-buf.h:547: u64 __kabi_reserved_backport1 is not aligned the same as atomic64_t nr_task_refs"
+      65 |                 _Static_assert(                                         \
+         |                 ^~~~~~~~~~~~~~
+   include/linux/android_kabi.h:79:17: note: in expansion of macro '_ANDROID_KABI_NORMAL_SIZE_ALIGN'
+      79 |                 _ANDROID_KABI_NORMAL_SIZE_ALIGN(_orig, _new); \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/android_kabi.h:189:9: note: in expansion of macro '_ANDROID_KABI_REPLACE'
+     189 |         _ANDROID_KABI_REPLACE(ANDROID_BACKPORT_RESERVE(number), _new)
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/dma-buf.h:547:9: note: in expansion of macro 'ANDROID_BACKPORT_USE'
+     547 |         ANDROID_BACKPORT_USE(1, atomic64_t nr_task_refs);
+         |         ^~~~~~~~~~~~~~~~~~~~
+   mm/page_alloc.c:1831:6: warning: no previous prototype for 'prep_new_page' [-Wmissing-prototypes]
+    1831 | void prep_new_page(struct page *page, unsigned int order, gfp_t gfp_flags,
+         |      ^~~~~~~~~~~~~
 
-   688	
-   689	/*
-   690	 * Move the endpoint dequeue pointer to the next queued TD on ring->td_list or
-   691	 * to enqueue if no TDs are queued (empty ring)
-   692	 * Remember to move all cancelled TDs from ring->td_list to
-   693	 * ep->cancelled_td_list before calling this function
-   694	 */
-   695	static int xhci_move_deq_to_next_td(struct xhci_hcd *xhci,
-   696					    struct xhci_virt_ep *ep,
-   697					    unsigned int stream_id)
-   698	{
-   699		struct xhci_command *cmd;
-   700		struct xhci_ring *ring;
-   701		struct xhci_td *td;
-   702		dma_addr_t addr;
-   703		int new_cycle;
-   704		u32 trb_sct = 0;
-   705		int ret = 0;
-   706	
-   707		ring = xhci_virt_ep_to_ring(xhci, ep, stream_id);
-   708		if (!ring) {
-   709			xhci_warn(xhci, "WARN can't find new dequeue, invalid stream ID %u\n",
-   710				  stream_id);
-   711			return -ENODEV;
-   712		}
-   713	
-   714		if ((ep->ep_state & SET_DEQ_PENDING)) {
-   715			xhci_warn(xhci, "Set TR Deq already pending\n");
-   716			return -EBUSY;
-   717		}
-   718	
-   719		/* This function gets called from contexts where it cannot sleep */
-   720		cmd = xhci_alloc_command(xhci, false, GFP_ATOMIC);
-   721		if (!cmd) {
-   722			xhci_warn(xhci, "Can't alloc Set TR Deq cmd\n");
-   723			return -ENOMEM;
-   724		}
-   725	
-   726		td = list_first_entry_or_null(&ring->td_list, struct xhci_td, td_list);
-   727	
-   728		/*
-   729		 * Move dequeue to the beginning of next td, or to enqueue if ring is
-   730		 * empty. Avoid moving dequeue to a link trb (empty ring) as it causes
-   731		 * issues on some hosts. In that case advance the enqueue to next segment
-   732		 * before moving dequeue to it
-   733		 */
-   734	
-   735		if (td) {
-   736			ep->queued_deq_seg = td->start_seg;
-   737			ep->queued_deq_ptr = td->start_trb;
-   738			new_cycle = le32_to_cpu(td->start_trb->generic.field[3]) & TRB_CYCLE;
-   739		} else {
-   740			if (trb_is_link(ring->enqueue))
-   741				inc_enq_past_link(xhci, ring, 0);
-   742			ep->queued_deq_seg = ring->enq_seg;
-   743			ep->queued_deq_ptr = ring->enqueue;
-   744			new_cycle = ring->cycle_state;
-   745		}
-   746	
-   747		addr = xhci_trb_virt_to_dma(ep->queued_deq_seg, ep->queued_deq_ptr);
-   748		if (addr == 0) {
-   749			xhci_warn(xhci, "Can't find new dequeue dma of seg %p, ptr %p\n",
-   750				  ep->queued_deq_seg, ep->queued_deq_ptr);
-   751			ret = -EINVAL;
-   752			goto err_out;
-   753		}
-   754	
-   755		if (stream_id)
-   756			trb_sct = SCT_FOR_TRB(SCT_PRI_TR);
-   757		ret = queue_command(xhci, cmd,
-   758			lower_32_bits(addr) | trb_sct | new_cycle,
-   759			upper_32_bits(addr),
-   760			STREAM_ID_FOR_TRB(stream_id), SLOT_ID_FOR_TRB(ep->vdev->slot_id) |
-   761			EP_INDEX_FOR_TRB(ep->ep_index) | TRB_TYPE(TRB_SET_DEQ), false);
-   762		if (ret < 0)
-   763			goto err_out;
-   764	
-   765		xhci_dbg_trace(xhci, trace_xhci_dbg_cancel_urb,
-   766			       "Set TR Deq ptr 0x%llx, cycle %u\n", addr, new_cycle);
-   767	
-   768		/*
-   769		 * Stop the TD queueing code from ringing the doorbell until this
-   770		 * command completes. The HC won't set the dequeue pointer if the ring
-   771		 * is running, and ringing the doorbell starts the ring.
-   772		 */
-   773		ep->ep_state |= SET_DEQ_PENDING;
-   774		xhci_ring_cmd_db(xhci);
-   775	
-   776		return 0;
-   777	
-   778	err_out:
-   779		xhci_free_command(xhci, cmd);
- > 780		ep->queued_deq_seg = 0;
-   781		ep->queued_deq_ptr = 0;
-   782	
-   783		return ret;
-   784	}
-   785	
+
+vim +65 include/linux/android_kabi.h
+
+e97af2a2f5563a Giuliano Procida   2025-05-28  54  
+e97af2a2f5563a Giuliano Procida   2025-05-28  55  #define _ANDROID_KABI_RULE(hint, target, value) \
+e97af2a2f5563a Giuliano Procida   2025-05-28  56  	__ANDROID_KABI_RULE(hint, #target, #value)
+e3e94686886450 Giuliano Procida   2025-04-16  57  
+e3e94686886450 Giuliano Procida   2025-04-16  58  #define _ANDROID_KABI_NORMAL_SIZE_ALIGN(_orig, _new)			\
+804873a198f8dc Greg Kroah-Hartman 2020-03-11  59  	union {								\
+e3e94686886450 Giuliano Procida   2025-04-16  60  		_Static_assert(						\
+e3e94686886450 Giuliano Procida   2025-04-16  61  			sizeof(struct { _new; }) <=			\
+e3e94686886450 Giuliano Procida   2025-04-16  62  				sizeof(struct { _orig; }),		\
+e3e94686886450 Giuliano Procida   2025-04-16  63  			FILE_LINE ": " __stringify(_new)		\
+e3e94686886450 Giuliano Procida   2025-04-16  64  				" is larger than " __stringify(_orig));	\
+e3e94686886450 Giuliano Procida   2025-04-16 @65  		_Static_assert(						\
+e3e94686886450 Giuliano Procida   2025-04-16  66  			__alignof__(struct { _new; }) <=		\
+e3e94686886450 Giuliano Procida   2025-04-16  67  				__alignof__(struct { _orig; }),		\
+e3e94686886450 Giuliano Procida   2025-04-16  68  			FILE_LINE ": " __stringify(_orig)		\
+804873a198f8dc Greg Kroah-Hartman 2020-03-11  69  				" is not aligned the same as "		\
+804873a198f8dc Greg Kroah-Hartman 2020-03-11  70  				__stringify(_new));			\
+804873a198f8dc Greg Kroah-Hartman 2020-03-11  71  	}
+804873a198f8dc Greg Kroah-Hartman 2020-03-11  72  
+
+:::::: The code at line 65 was first introduced by commit
+:::::: e3e946868864503f88b95a0d8ffe6d61b7df82d6 ANDROID: update KABI macros for gendwarfksyms
+
+:::::: TO: Giuliano Procida <gprocida@google.com>
+:::::: CC: Carlos Llamas <cmllamas@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
