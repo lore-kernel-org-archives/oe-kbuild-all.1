@@ -1,149 +1,164 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45351382374;
-	Sat,  2 May 2026 16:44:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 048561EEA54
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 May 2026 17:02:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777740249; cv=none; b=qR+CyzkFtjQ3yvil0jRu5mnIvaRQNYlDwggpsw2ywbU5HkYtbYFhUS4FiouZAfhfq2pfYr/FrxNuw8Ys/xh+ySkmRDuX3r7nq6M1MZ3DM6GuVTWrvDw1UY2VNfFwcv5WurQ2Ges6KzMX5hB2PSHxgXU/f3VUi2n02SvlKD0BNtM=
+	t=1777741368; cv=none; b=BAj147ThWdAdljaj0TmvHu++scl5nsV9QCv8dS8NykBxaUHzLHJdKcdB7ROq24HQcVxhp7B6hfdSP9a4bu00RhK9+XZ5HYw0DJx/wDOLS242prIt+U62v4Lh4Ud5C6D3v8AkyT116Ws4czJTrctN+hLw6rN521YW2EkcJBcdNZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777740249; c=relaxed/simple;
-	bh=/S2DrytkdsJiRBlu/KrrWfIC9N0Z2YneEpNIMRd0tdU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=MK0KBuQ+HhQH1NeMztNH14ubeU+9r9EWxFOXdi9dlDTeuXKsv3mzMk1GbfdsPPC18URtfXyzxxAudgZanAJeg8bh+sQYtlDj/4dnwj3bmdLd3YAis4WNe8FRQEVBnSl+PgkussWeGZ9NPB/PQuxANnBMgA39ukhwTFm5SLRTN4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bkgx8nqe; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1777741368; c=relaxed/simple;
+	bh=VriAp7foZmsCBzHErYGHVXgwk9LudvrUIJpK0IpR+nE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=VVxXFOrsrKB0yJTYwG0KCdImrNkgOrHTaM4U1hz6WxDvcqGlHkbyujobN5fjhcu50j5pZG2+4xUsAoEV891bnjOVVuznLlQTsI0VylZvTXwWSQmx1wWpgg+tBaFXa1JepdZiD04E8BNFnkmXwvd2FQ5FQwRUxJFPUXvwY1HZqMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ED3bvbzK; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bkgx8nqe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777740248; x=1809276248;
-  h=date:from:to:cc:subject:message-id;
-  bh=/S2DrytkdsJiRBlu/KrrWfIC9N0Z2YneEpNIMRd0tdU=;
-  b=bkgx8nqekTT96T1DKVJ1fY4eFq9CNJzHkP9lwkjw3YLhgo1ZgKTojKyX
-   HfltS4twUzwu+Xh+CReGrddzR6GUBoAT5DMHz3AAZBWEtkq5rKpDI4sO5
-   p4yW0KisFeBsFEZEAsTkMd8O6NBMBXMSv9ck35ceZV1KXolFJIiF3prXm
-   ElbLHr4vm5xizgadxoIUbuGdosgCilNPYnPo721jy5aWW3OhYFsWga5ek
-   CISkyWibok7rPjpNqpRs8UUnRUYbhQfHLvdBg9qk0NJ+BRTBYOqXwUFpB
-   kpQ2MEX79FtGCgz+cIbKlXFCMOzBf7EKBVsBl++7CVauDIGG+Muwipayq
-   g==;
-X-CSE-ConnectionGUID: s5mwefKuTISt+YIu5ap2jA==
-X-CSE-MsgGUID: hHbspEGlQ/6CU7zLEcZQog==
-X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="77830718"
-X-IronPort-AV: E=Sophos;i="6.23,212,1770624000"; 
-   d="scan'208";a="77830718"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 09:44:06 -0700
-X-CSE-ConnectionGUID: uuUuqTX3SL2RFZFOSAmWQA==
-X-CSE-MsgGUID: 7q86Um4DQDuwLWHVyIpQ2w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,212,1770624000"; 
-   d="scan'208";a="258477514"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 02 May 2026 09:44:04 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wJDRi-000000005Iv-1zRd;
-	Sat, 02 May 2026 16:44:02 +0000
-Date: Sat, 02 May 2026 18:43:29 +0200
-From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:netfs-next 46/50] fs/9p/vfs_addr.c:79:6:
- warning: variable 'len' is used uninitialized whenever 'if' condition is true
-Message-ID: <202605021801.7vqkz933-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ED3bvbzK"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-488af96f6b2so36084335e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 02 May 2026 10:02:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777741365; x=1778346165; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YzZgdwNJdhU6FxCtJG+UDhVcrXtg6d879KRoARyawaI=;
+        b=ED3bvbzKx+6NHbau1RG3iWBRuLO/Nntk6XLZteOySldDdlx5PTXCq0wutzufQVxM2e
+         XuQLlHRCeQwpXGLMBoutoZAb5LF7trSAme3AsQ0jMuvps923pkxSaNTyw634Gyrif5i1
+         A35CD7cp/Jb+C5WQEo9fo3xbA3P2+fvf4CMtDu0SGppkhoTMq2csbcxjNXyZ8DV+EGXy
+         lGsAczM6eVjIjkp045IPxApseij39j77guF/jWShndnNPKhEKWhVuDHIIo/uvpunm9G4
+         Tr80b9nobHJ2NRuLbSJRFzboIutihvfvP4oaNOJhiZ2tCvrdqY6T0sD09vuLboUOSuk6
+         0rbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777741365; x=1778346165;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YzZgdwNJdhU6FxCtJG+UDhVcrXtg6d879KRoARyawaI=;
+        b=NUj5oWnP93TsSIuAQpxMeclvqlZFoVqMK8Qg5nlgDg15sDywLry0w7nTxkE7cR8FFg
+         2trPGLvaIL9bEskG8pawqMzmpnLaNSYoe81OX2ONy+1Nc+yUN0QGs0NDmV3RMYDxTIgZ
+         H2gIais/Zf1lARlYZwluittLQufJ7l4/BbU30P+GpRhyLP2Wskj51eB5W0CrgDLLjgaw
+         6qvuETcUDVmV7VUozUKg6tamtH1ahdNA4JiZsrTyFNxs5wXSpptBshfRku2DJ/4EWinv
+         jkbFAvPwppG07M+FM8Ek8kJYRxU2v1L0EOjGibanuKntCvKQb1zXnxJMBS+jmr2jgD0g
+         5feQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/AAH9sB0ZmLZZ2Ogxqg7QT+RJSUx2RyZGXWveumofyKmvZxq15lz2RQoyklVbW5dWipSBalRbcH3sonCwx@lists.linux.dev
+X-Gm-Message-State: AOJu0YyI+J2Hmn6CTt6y/Yjt6jOHY50YoDRJpf2EGIc+BX0A9qJvdoaD
+	5xzdoJRzsAWIfO1USmnUUC8kqmLbWHI7dH8y1zOvUcOCuczB1nSXzy24
+X-Gm-Gg: AeBDieu8T3gvL16gzBwF9kkxJLRUkTXmCFrcvquDozYhz7aP5cPspAEVlcCfUaxgAp9
+	cxhC/PIMIyzl4wp7lWuuCJJIoYuVMzJZXZYPraSJ8irAsBBhZvU8UBbe3bpk3CMZyP+25Y1zDQl
+	gFgDQ6eIB1ZQJoINoQlAlNB+Cxt0HKl6zYycp+4HBURQPHDsiGFImopyTz1eifgZ6c7u6CeEF4v
+	HQdiZE9GfXuJzMnftGYT1R/564uBNvg6c9GeykKecszxrrwGVwgJFQIsEO7AQYy+BzMv4l0M2os
+	prmxiCVREDiXDVg8N1T5gQADAVdIY3V/pPVvaxDNqnHKN2MtQmvxOwUZGry/8wlYBwNau+lJWVP
+	pbDIpidlwoDIR1bnTbcd3afOcs+zsGXNz/UvOncxtzshqvF9yQ9eA2+IY0aUefb5+uxdaYADgsB
+	DHYOFFPpek5dNpAP8UJ4o0xpFnIbgzfA==
+X-Received: by 2002:a05:600c:620c:b0:48a:97b6:7420 with SMTP id 5b1f17b1804b1-48a98670f8emr57099515e9.24.1777741364564;
+        Sat, 02 May 2026 10:02:44 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a8fe92924sm38292845e9.2.2026.05.02.10.02.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 May 2026 10:02:43 -0700 (PDT)
+Date: Sat, 2 May 2026 20:02:39 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Tristan Madani <tristmd@gmail.com>,
+	Johannes Berg <johannes@sipsolutions.net>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org,
+	Tristan Madani <tristan@talencesecurity.com>
+Subject: Re: [PATCH v3 2/2] wifi: libertas: fix OOB read from firmware
+ bssdescriptsize in scan response
+Message-ID: <202605030019.lL8x0ZPx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260421135027.357622-3-tristmd@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-next
-head:   2c55c7cf98847d593219ef29d3fedfd551d6f55f
-commit: e192187e9d3cdb786b7b6aeb6fc6d4048a806004 [46/50] netfs: Combine prepare and issue ops and grab the buffers on request
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260502/202605021801.7vqkz933-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605021801.7vqkz933-lkp@intel.com/reproduce)
+Hi Tristan,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tristan-Madani/wifi-libertas-fix-OOB-read-from-firmware-pkt_ptr-offset-in-RX-path/20260423-061353
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20260421135027.357622-3-tristmd%40gmail.com
+patch subject: [PATCH v3 2/2] wifi: libertas: fix OOB read from firmware bssdescriptsize in scan response
+config: i386-randconfig-141 (https://download.01.org/0day-ci/archive/20260503/202605030019.lL8x0ZPx-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9065-ge9cc34fd
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605021801.7vqkz933-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202605030019.lL8x0ZPx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/net/wireless/marvell/libertas/rx.c:77 lbs_process_rxed_packet() warn: potential user controlled sizeof overflow '((p_rx_pd->pkt_ptr)) + 22' '0-u32max + 22'
 
->> fs/9p/vfs_addr.c:79:6: warning: variable 'len' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-      79 |         if (err < 0)
-         |             ^~~~~~~
-   fs/9p/vfs_addr.c:90:51: note: uninitialized use occurs here
-      90 |         return netfs_write_subrequest_terminated(subreq, len ?: err);
-         |                                                          ^~~
-   fs/9p/vfs_addr.c:79:2: note: remove the 'if' if its condition is always false
-      79 |         if (err < 0)
-         |         ^~~~~~~~~~~~
-      80 |                 goto term;
-         |                 ~~~~~~~~~
-   fs/9p/vfs_addr.c:74:14: note: initialize the variable 'len' to silence this warning
-      74 |         int err, len;
-         |                     ^
-         |                      = 0
-   1 warning generated.
---
->> fs/netfs/write_collect.c:155:7: warning: variable 'fpos' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-     155 |                 if (!bvecq->bv[slot].bv_page) {
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~
-   fs/netfs/write_collect.c:187:7: note: uninitialized use occurs here
-     187 |                 if (fpos + fsize >= collected_to)
-         |                     ^~~~
-   fs/netfs/write_collect.c:155:3: note: remove the 'if' if its condition is always false
-     155 |                 if (!bvecq->bv[slot].bv_page) {
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     156 |                         WARN_ONCE(1, "R=%08x slot already cleared?\n", wreq->debug_id);
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     157 |                         fsize = bvecq->bv[slot].bv_len;
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     158 |                         goto skip;
-         |                         ~~~~~~~~~~
-     159 |                 }
-         |                 ~
-   fs/netfs/write_collect.c:137:26: note: initialize the variable 'fpos' to silence this warning
-     137 |                 unsigned long long fpos, fend;
-         |                                        ^
-         |                                         = 0
-   1 warning generated.
+vim +77 drivers/net/wireless/marvell/libertas/rx.c
 
+69f9032d9dfeb7 drivers/net/wireless/libertas/rx.c         Holger Schurig            2007-11-23   57  int lbs_process_rxed_packet(struct lbs_private *priv, struct sk_buff *skb)
+876c9d3aeb989c drivers/net/wireless/libertas/rx.c         Marcelo Tosatti           2007-02-10   58  {
+876c9d3aeb989c drivers/net/wireless/libertas/rx.c         Marcelo Tosatti           2007-02-10   59  	int ret = 0;
+6f93a8e7e41c2d drivers/net/wireless/libertas/rx.c         David Woodhouse           2007-12-10   60  	struct net_device *dev = priv->dev;
+876c9d3aeb989c drivers/net/wireless/libertas/rx.c         Marcelo Tosatti           2007-02-10   61  	struct rxpackethdr *p_rx_pkt;
+876c9d3aeb989c drivers/net/wireless/libertas/rx.c         Marcelo Tosatti           2007-02-10   62  	struct rxpd *p_rx_pd;
+876c9d3aeb989c drivers/net/wireless/libertas/rx.c         Marcelo Tosatti           2007-02-10   63  	int hdrchop;
+876c9d3aeb989c drivers/net/wireless/libertas/rx.c         Marcelo Tosatti           2007-02-10   64  	struct ethhdr *p_ethhdr;
+876c9d3aeb989c drivers/net/wireless/libertas/rx.c         Marcelo Tosatti           2007-02-10   65  
+7919b89c8276d6 drivers/net/wireless/libertas/rx.c         Holger Schurig            2008-04-01   66  	BUG_ON(!skb);
+7919b89c8276d6 drivers/net/wireless/libertas/rx.c         Holger Schurig            2008-04-01   67  
+6f93a8e7e41c2d drivers/net/wireless/libertas/rx.c         David Woodhouse           2007-12-10   68  	skb->ip_summed = CHECKSUM_NONE;
+6f93a8e7e41c2d drivers/net/wireless/libertas/rx.c         David Woodhouse           2007-12-10   69  
+d2ed2703cabd1e drivers/net/wireless/libertas/rx.c         Dan Williams              2014-05-22   70  	if (priv->wdev->iftype == NL80211_IFTYPE_MONITOR) {
+d2ed2703cabd1e drivers/net/wireless/libertas/rx.c         Dan Williams              2014-05-22   71  		ret = process_rxed_802_11_packet(priv, skb);
+d2ed2703cabd1e drivers/net/wireless/libertas/rx.c         Dan Williams              2014-05-22   72  		goto done;
+d2ed2703cabd1e drivers/net/wireless/libertas/rx.c         Dan Williams              2014-05-22   73  	}
+876c9d3aeb989c drivers/net/wireless/libertas/rx.c         Marcelo Tosatti           2007-02-10   74  
+e45d8e534b6758 drivers/net/wireless/libertas/rx.c         Bing Zhao                 2009-04-06   75  	p_rx_pd = (struct rxpd *) skb->data;
+                                                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+This comes from rx network data.
 
-vim +79 fs/9p/vfs_addr.c
+695347d07c2b05 drivers/net/wireless/marvell/libertas/rx.c Tristan Madani            2026-04-21   76  
+695347d07c2b05 drivers/net/wireless/marvell/libertas/rx.c Tristan Madani            2026-04-21  @77  	if (le32_to_cpu(p_rx_pd->pkt_ptr) + sizeof(struct rxpackethdr) >
+                                                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+This + operation can have an integer wrapping bug.
 
-    66	
-    67	/*
-    68	 * Issue a subrequest to write to the server.
-    69	 */
-    70	static void v9fs_issue_write(struct netfs_io_subrequest *subreq)
-    71	{
-    72		struct iov_iter iter;
-    73		struct p9_fid *fid = subreq->rreq->netfs_priv;
-    74		int err, len;
-    75	
-    76		subreq->len = umin(subreq->len, fid->clnt->msize - P9_IOHDRSZ);
-    77	
-    78		err = netfs_prepare_write_buffer(subreq, INT_MAX);
-  > 79		if (err < 0)
-    80			goto term;
-    81	
-    82		iov_iter_bvec_queue(&iter, ITER_SOURCE, subreq->content.bvecq,
-    83				    subreq->content.slot, subreq->content.offset, subreq->len);
-    84	
-    85		len = p9_client_write(fid, subreq->start, &iter, &err);
-    86		if (len > 0)
-    87			__set_bit(NETFS_SREQ_MADE_PROGRESS, &subreq->flags);
-    88	
-    89	term:
-    90		return netfs_write_subrequest_terminated(subreq, len ?: err);
-    91	}
-    92	
+695347d07c2b05 drivers/net/wireless/marvell/libertas/rx.c Tristan Madani            2026-04-21   78  	    skb->len) {
+695347d07c2b05 drivers/net/wireless/marvell/libertas/rx.c Tristan Madani            2026-04-21   79  		lbs_deb_rx("rx err: pkt_ptr %u beyond skb len %u\n",
+695347d07c2b05 drivers/net/wireless/marvell/libertas/rx.c Tristan Madani            2026-04-21   80  			   le32_to_cpu(p_rx_pd->pkt_ptr), skb->len);
+695347d07c2b05 drivers/net/wireless/marvell/libertas/rx.c Tristan Madani            2026-04-21   81  		ret = -EINVAL;
+695347d07c2b05 drivers/net/wireless/marvell/libertas/rx.c Tristan Madani            2026-04-21   82  		dev_kfree_skb(skb);
+695347d07c2b05 drivers/net/wireless/marvell/libertas/rx.c Tristan Madani            2026-04-21   83  		goto done;
+695347d07c2b05 drivers/net/wireless/marvell/libertas/rx.c Tristan Madani            2026-04-21   84  	}
+e45d8e534b6758 drivers/net/wireless/libertas/rx.c         Bing Zhao                 2009-04-06   85  	p_rx_pkt = (struct rxpackethdr *) ((u8 *)p_rx_pd +
+e45d8e534b6758 drivers/net/wireless/libertas/rx.c         Bing Zhao                 2009-04-06   86  		le32_to_cpu(p_rx_pd->pkt_ptr));
+e0e42da3a4df6f drivers/net/wireless/libertas/rx.c         Holger Schurig            2009-11-25   87  
+e0e42da3a4df6f drivers/net/wireless/libertas/rx.c         Holger Schurig            2009-11-25   88  	dev = lbs_mesh_set_dev(priv, dev, p_rx_pd);
+876c9d3aeb989c drivers/net/wireless/libertas/rx.c         Marcelo Tosatti           2007-02-10   89  
+ece56191932623 drivers/net/wireless/libertas/rx.c         Holger Schurig            2007-08-02   90  	lbs_deb_hex(LBS_DEB_RX, "RX Data: Before chop rxpd", skb->data,
+876c9d3aeb989c drivers/net/wireless/libertas/rx.c         Marcelo Tosatti           2007-02-10   91  		 min_t(unsigned int, skb->len, 100));
+876c9d3aeb989c drivers/net/wireless/libertas/rx.c         Marcelo Tosatti           2007-02-10   92  
+876c9d3aeb989c drivers/net/wireless/libertas/rx.c         Marcelo Tosatti           2007-02-10   93  	if (skb->len < (ETH_HLEN + 8 + sizeof(struct rxpd))) {
+9012b28a407511 drivers/net/wireless/libertas/rx.c         Holger Schurig            2007-05-25   94  		lbs_deb_rx("rx err: frame received with bad length\n");
+bbfc6b788f63f0 drivers/net/wireless/libertas/rx.c         Stephen Hemminger         2009-03-20   95  		dev->stats.rx_length_errors++;
+d2ed2703cabd1e drivers/net/wireless/libertas/rx.c         Dan Williams              2014-05-22   96  		ret = -EINVAL;
+f54930f363113a drivers/net/wireless/libertas/rx.c         Philip Rakity             2009-04-07   97  		dev_kfree_skb(skb);
+876c9d3aeb989c drivers/net/wireless/libertas/rx.c         Marcelo Tosatti           2007-02-10   98  		goto done;
+876c9d3aeb989c drivers/net/wireless/libertas/rx.c         Marcelo Tosatti           2007-02-10   99  	}
+876c9d3aeb989c drivers/net/wireless/libertas/rx.c         Marcelo Tosatti           2007-02-10  100  
+e45d8e534b6758 drivers/net/wireless/libertas/rx.c         Bing Zhao                 2009-04-06  101  	lbs_deb_rx("rx data: skb->len - pkt_ptr = %d-%zd = %zd\n",
+a2caba6b5fc4e0 drivers/net/wireless/libertas/rx.c         John W. Linville          2009-04-14  102  		skb->len, (size_t)le32_to_cpu(p_rx_pd->pkt_ptr),
+a2caba6b5fc4e0 drivers/net/wireless/libertas/rx.c         John W. Linville          2009-04-14  103  		skb->len - (size_t)le32_to_cpu(p_rx_pd->pkt_ptr));
+876c9d3aeb989c drivers/net/wireless/libertas/rx.c         Marcelo Tosatti           2007-02-10  104  
+ece56191932623 drivers/net/wireless/libertas/rx.c         Holger Schurig            2007-08-02  105  	lbs_deb_hex(LBS_DEB_RX, "RX Data: Dest", p_rx_pkt->eth803_hdr.dest_addr,
 
---
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
