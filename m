@@ -1,109 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283C43594A
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 May 2026 11:19:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FBBE33EAEC
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 May 2026 12:00:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777720748; cv=none; b=gEqbfSmH+IfaQsFAKyrrs5C8hbz/crhpvKyZc4Bxivh/ef+xtrRbtE8du6FZ4rT9Aj56l9kAtSNwYHZ8xqn5ptNqji2wnT5GVu3J765NHqbs3/hqr1GGQ9DMypzNc2lrD20lOLDOVGLe/TNNhYm6LJkFaB/8KFtavLoIWRG1kAg=
+	t=1777723209; cv=none; b=Qwa0A6RZMY9Ir2HKv1JJhLk/Uj37fhISlJpf3p72lJ8zGjHA4tQzCIVtLnSUzCaS8DHeSKCnUbM5YUy1hM2g9XYZxnjV9EcDrfvZD8bWi5eCfepedEyamk3BhV++TdqF7huQLQvdyaOjcZWlzz2wqqHY3I+YWcsTXmN7xXKlKHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777720748; c=relaxed/simple;
-	bh=0PgggsRU117dtsO6/PX8WLCRZH5x1OP6Qp+tAoF87h8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a4pyUV5EaMAioZH44ZMDi8Q/pWtG4FTR9KAvFI2RcL6LJ8yUopCoDa1VjuQOMkjC9b1CtYSOx4tP9l9iH444p0e6Ok9/+bVhF6iwyI5aDbXc7ANZLLJJhjaIRNchTcEaNroo0tAQ8RRlNuUOMhIxCAPrkxadOi7V6x9DaLXXnMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XxMBDqQy; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1777723209; c=relaxed/simple;
+	bh=QFuA51lyThWzDOlS107Hk0YaS1/agd0/IJNejTmJ4ZI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=kOQAvsGb49jnUtR1AhYZUIlVkfL7ky0r/2T/IjbnPvD+5wQWrguN+IN6JIS5mFkthR+J8RfqvvEyho/IXyZwF5GAHoZq+pzAcHk8ICX6Hkb6et4ptxMnKlrXl9p05rA36Q8rhTESX+K3JP6Bodl9XYU/9zf6drwy4z2oRL9FYag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jN2D32xO; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XxMBDqQy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jN2D32xO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777720746; x=1809256746;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0PgggsRU117dtsO6/PX8WLCRZH5x1OP6Qp+tAoF87h8=;
-  b=XxMBDqQyD12dpR2dRXOq+YhabDtB2dB9Vxs4BrK962+njY/BXZjuX6Y6
-   d7wheW0Lo5raJ9phNAuRHPl4168cwaqYbNwDDoFOCT5qCw62OIhedNung
-   VCjEma8aFjwSOrmPNV3gcVOy1ptuMjM5aepzrVsq6spY/xmal3x7q0/2s
-   bxSmGAUvsWSck3HgvoE84x2AIVt75TF7llFoHAoI+VXcCQMRMktjBztYU
-   ZTLPwuhSiobsbxhldZwKiK1DPN6nag71VK0ka/QjROn7GSmSP8/j7UaJg
-   uL/Z2rnW4E77NbmGNmLEIuYdXdN4yRiz4yv6F9BeyRnnlP9ClR8yLDZWT
-   A==;
-X-CSE-ConnectionGUID: 2vmQGXDrR0ar8MvEfepjjQ==
-X-CSE-MsgGUID: 8Aive9oHTU2dw+BnqAimlw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="81233272"
+  t=1777723206; x=1809259206;
+  h=date:from:to:cc:subject:message-id;
+  bh=QFuA51lyThWzDOlS107Hk0YaS1/agd0/IJNejTmJ4ZI=;
+  b=jN2D32xOBuz+jxTyi3b9yGF2JSpe2NQuEj16Oqbv3b9fqx4RterwRVYt
+   bN57xfOYcOz5cY3lTNI4edn28V8C4DmgCYWIBXwBum4p2m0JEV8zfyMmu
+   egTSDaX9XjeFckvzVPVTK/BxGx0BWXI2gqC+ZKRu3Hh2/gKwMfK5AT6fb
+   Af0m+IqKGkF7hdxEa6kRJtchFL/+re5+BqjMoBQjNPZ8C0ODJtuAb6csX
+   FlvT0xMrLz9N/uMAlVIXlPjLvzUu75pFYXbIggc56plZsUqcGSunCQTBm
+   baBCdvMVvDomG/2rUKd7XPQYxbBz38xwFiLxhcd/RyYxenP2PSpelSUec
+   w==;
+X-CSE-ConnectionGUID: 9wkZeGxqSeOOWm4z8TMzFQ==
+X-CSE-MsgGUID: a0XdTTIVTj2J33DUDnyYnA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="78368256"
 X-IronPort-AV: E=Sophos;i="6.23,211,1770624000"; 
-   d="scan'208";a="81233272"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 04:19:05 -0700
-X-CSE-ConnectionGUID: nlUSMv1QR4il5ma1NB1rQA==
-X-CSE-MsgGUID: s6cZAwSdTtSPJzEQBanOAw==
+   d="scan'208";a="78368256"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 05:00:05 -0700
+X-CSE-ConnectionGUID: PtVLJjGxSyW4n+Nub8OSzw==
+X-CSE-MsgGUID: B4x+dUYUS9yEp1OMM9DPsw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,211,1770624000"; 
-   d="scan'208";a="235155215"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 02 May 2026 04:19:02 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 02 May 2026 05:00:02 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wJ8N9-000000005Ft-34x5;
-	Sat, 02 May 2026 11:18:59 +0000
-Date: Sat, 2 May 2026 13:18:15 +0200
+	id 1wJ90q-000000005GX-1Ioj;
+	Sat, 02 May 2026 12:00:00 +0000
+Date: Sat, 02 May 2026 13:59:00 +0200
 From: kernel test robot <lkp@intel.com>
-To: Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ojeda@kernel.org, boqun@kernel.org,
-	gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org,
-	a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
-	dakr@kernel.org, peterz@infradead.org, fujita.tomonori@gmail.com,
-	tamird@kernel.org,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>
-Subject: Re: [PATCH v1 1/1] rust: add Work::disable_sync
-Message-ID: <202605021337.ck8OCWEF-lkp@intel.com>
-References: <20260428104459.174602-2-work@onurozkan.dev>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
+ linux-doc@vger.kernel.org
+Subject: htmldocs: Documentation/gpu/nova/core/intr-ctrl.rst:88:
+ WARNING: Inline substitution_reference start-string without end-string.
+ [docutils]
+Message-ID: <202605021358.ldpuPGZI-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260428104459.174602-2-work@onurozkan.dev>
 
-Hi Onur,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rust/rust-next]
-[also build test WARNING on linus/master v7.1-rc1 next-20260430]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Onur-zkan/rust-add-Work-disable_sync/20260502-140019
-base:   https://github.com/Rust-for-Linux/linux rust-next
-patch link:    https://lore.kernel.org/r/20260428104459.174602-2-work%40onurozkan.dev
-patch subject: [PATCH v1 1/1] rust: add Work::disable_sync
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260502/202605021337.ck8OCWEF-lkp@intel.com/config)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Joel-Fernandes/rust-sync-completion-add-wait_for_completion_timeout/20260502-113009
+head:   4e10e05ecde578bc23419ce04c62d82020b21d1a
+commit: 4e10e05ecde578bc23419ce04c62d82020b21d1a gpu: nova-core: document INTR_CTRL interrupt tree
+date:   8 hours ago
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605021337.ck8OCWEF-lkp@intel.com/reproduce)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260502/202605021358.ldpuPGZI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605021337.ck8OCWEF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605021358.ldpuPGZI-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> warning: unresolved link to `run`
-   --> rust/kernel/workqueue.rs:436:62
-   |
-   436 | /// structs, you would implement [`WorkItem`] instead. The [`run`] method on
-   |                                                              ^^^ no item named `run` in scope
-   |
-   = help: to escape `[` and `]` characters, add '\' before them like `\[` or `\]`
-   = note: `#[warn(rustdoc::broken_intra_doc_links)]` on by default
+   Examples
+   ~~~~~~~~ [docutils]
+   Documentation/gpu/nova/core/intr-ctrl.rst:110: ERROR: Unexpected indentation. [docutils]
+>> Documentation/gpu/nova/core/intr-ctrl.rst:88: WARNING: Inline substitution_reference start-string without end-string. [docutils]
+>> Documentation/gpu/nova/core/intr-ctrl.rst:111: WARNING: Line block ends without a blank line. [docutils]
+>> Documentation/gpu/nova/core/intr-ctrl.rst:112: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/gpu/nova/core/intr-ctrl.rst:121: ERROR: Unexpected indentation. [docutils]
+   Documentation/gpu/nova/core/intr-ctrl.rst:117: ERROR: Unexpected indentation. [docutils]
+   Documentation/gpu/nova/core/intr-ctrl.rst:120: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+>> Documentation/gpu/nova/core/intr-ctrl.rst:121: WARNING: Blank line required after table. [docutils]
+   Documentation/gpu/nova/core/intr-ctrl.rst:122: WARNING: Line block ends without a blank line. [docutils]
+   Documentation/gpu/nova/core/intr-ctrl.rst:123: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/gpu/xe/xe_configfs:9: ./drivers/gpu/drm/xe/xe_configfs.c:27: ERROR: Unexpected section title.
+
+
+vim +88 Documentation/gpu/nova/core/intr-ctrl.rst
+
+    86	
+    87	It roughly looks like the following::
+  > 88	              +--------------- Engine (CE, GR, NVDEC, ...) ---------------+
+    89	              |                                                           |
+    90	              |   internal work completes                                 |
+    91	              |          |                                                |
+    92	              |          v                                                |
+    93	              |   +-----------------------------------------+             |
+    94	              |   | INTR_CTRL(i): programmable register     |             |
+    95	              |   | (written once by GSP-RM at boot,        |             |
+    96	              |   |  one such reg per engine)               |             |
+    97	              |   |                                         |             |
+    98	              |   |   VECTOR  = 200   (-> which leaf bit)   |             |
+    99	              |   |   GFID    = 0     (-> which function's  |             |
+   100	              |   |                       tree: 0=PF, N=VF) |             |
+   101	              |   |   CPU     = 1     (-> copy to CPU tree?)|             |
+   102	              |   |   GSP     = 0     (-> copy to GSP tree?)|             |
+   103	              |   +--------------------+--------------------+             |
+   104	              |                        |                                  |
+   105	              |     engine builds      |                                  |
+   106	              |     interrupt ctrl     |                                  |
+   107	              |     command message    |                                  |
+   108	              |  (all2ctrl_intr_cmd)   |                                  |
+   109	              +------------------------|----------------------------------+
+   110	                                       |
+ > 111	                                       v
+ > 112	                   +-----------------------------------------+
+   113	                   | Central INTR_CTRL block                 |
+   114	                   |                                         |
+   115	                   | reads message; for the tree picked      |
+   116	                   | by GFID, sets:                          |
+   117	                   |   LEAF[ 200 / 32 ]  = LEAF[6]           |
+   118	                   |   bit  ( 200 % 32 ) = bit 8             |
+   119	                   | TOP subtree 3 = pending                 |
+   120	                   +--------------------+--------------------+
+ > 121	                                        |
+   122	                                        v
+   123	                                MSI to host (PF)
+   124	
 
 --
 0-DAY CI Kernel Test Service
