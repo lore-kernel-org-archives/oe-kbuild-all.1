@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE3633A9F5
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 May 2026 20:25:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8534223DEA;
+	Sat,  2 May 2026 20:58:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777753541; cv=none; b=ggxODk9pSrf3fP+pg01s+dB3vIRPkIDR2FutM6rPOBTDqIZzcMoOAT8ucxpadDPxNa9fg6vA5nzN4C0zCQZGDUpArTeN87NNoSZZbkWfZUZGU4IEnM1JuY1kbmWfoIVDubbx6cc95JT1bumjYfwyrKIdCXa2oCw+MheTDWik5w8=
+	t=1777755491; cv=none; b=MDrH8nepzDcym4raBvSmKaEvq1Xjf35zprO1HG9pVPZEUJWSi0hjBL2FvNQJIIWyeQCLdkksv7fiBmoBmPubJ9LkvZaGe2kYY0vDS/Zj0ryadc7ktPfsInB1NpQVPCQzDaCMvB9AvJjQlkqxVBZnGyZO+fDmFxNPhJRxenzRors=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777753541; c=relaxed/simple;
-	bh=uuArgmr5eklzqswRp3TstvzVwhQnnvwL6uD+hBsuFaw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=E9uHMmdqzE7yo0nhwGGBm/30ijXrexvN4xH7EOyRBLoM+fXKigvF5kjuPgBh77/i1ALxujAlQ0D3dAdlsumcR+wb6dJdhsb6c57eS9OB+mbZPp5xwc8x7aNtIbNiwp4+1iJKWCrKZNNewIo/HXYIoPfaRa/X3ynSVEX0Cwj6AJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NCLe/QT7; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1777755491; c=relaxed/simple;
+	bh=mB35y+G02AyJsoUv4RJ4RE8TI/Ftg8+CNAmNOmrb/hE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=lFep9cVocpKehevPmKjNuhDfCQczhFlFy22wJS9kJLWaHXC4JSF8cU3JKtEYjmnbk9ZiNmNnftOsdzfvZAr2M3gHPF821GKXxakNO1JTg16VoVLmmAaOEP9L/EByCk5pV7vC6imHKkJVcY8zyRGw0xIoHP84dzE89bm1VCKFIz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KLkXJQeH; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NCLe/QT7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KLkXJQeH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777753538; x=1809289538;
+  t=1777755489; x=1809291489;
   h=date:from:to:cc:subject:message-id;
-  bh=uuArgmr5eklzqswRp3TstvzVwhQnnvwL6uD+hBsuFaw=;
-  b=NCLe/QT785GJo9T6Ul8F7qAAVboyo5ttaB8dBLNzuNxnlF3YY3pDK9tn
-   6VoZTgsOX/FvX8/oqpmdA2qxaZ8dhlvKM9eq/5iH0QEjJQJSgk9jrARZL
-   R2+Ol/YW+QsWjeypjnNzjODtfuV9WDyfRxaHLSE7cWKVoQHRr1TWwvWxE
-   y1ohbU7J7KfcszUDUtJ0ppOiFBJ65mxYPL5cdmGX7tF3BbBs30bwI6HYy
-   asGWMPlV50LnxIt+ZwUPtYD3AE+oc324qPG1Gr5UsQSjm3GUYdAPKg/8j
-   MX2/n7mNabicPgMfI3lj3mV7mlYJyN2dXe5jAePoyNgqxw1okYOsqrgVI
+  bh=mB35y+G02AyJsoUv4RJ4RE8TI/Ftg8+CNAmNOmrb/hE=;
+  b=KLkXJQeH1YtpOrbhZP+yJbP1WIXtV1qDbVFFmC6cXNraX0jO3KXPma3D
+   s10wgpSYNsDcI8uW57duE5Lx1Db7/KTdCKwRogimUN100geADsQ1U5+L8
+   grmxOnaBoLtAhwkqv+D/QpVg/hM9uUwkT4yOcMriHuqgEfAX2ti5z2fFi
+   i2ZgjzPgF9CnzD2dteGv+fe6mlxNceGlBiFil7rRb7ae5PDr6Ps2kelqV
+   S5iAscD5pWNIwBb61ySufpImT01tv25sXkazGYaPNafbL9kheSfmXxZYm
+   TI9YsDn9mb7E8EjJwvAhgsPZoCbx1Sn7BQu5y58BPPAvmdhqeS4VL58Jb
    A==;
-X-CSE-ConnectionGUID: Db720jsETaeBAP9yVrqlsA==
-X-CSE-MsgGUID: UAGT742MQTisdlfvnrTPLA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="90053042"
+X-CSE-ConnectionGUID: oP82ZfaoRQKNeqkT9e/HuA==
+X-CSE-MsgGUID: 4YewRP+iRRqdwVQ4n5ofJg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="96240206"
 X-IronPort-AV: E=Sophos;i="6.23,212,1770624000"; 
-   d="scan'208";a="90053042"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 13:25:38 -0700
-X-CSE-ConnectionGUID: zWSQFuZeSPiY6we/pMrhkw==
-X-CSE-MsgGUID: F10fvyZvRzCO7IbHCO5Jlw==
+   d="scan'208";a="96240206"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 13:58:08 -0700
+X-CSE-ConnectionGUID: NnF1fwNFRrC8s+H97EwL4g==
+X-CSE-MsgGUID: BuUsTAp0T8SJyBytD2QooA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,212,1770624000"; 
-   d="scan'208";a="235038348"
-Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 02 May 2026 13:25:35 -0700
-Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
+   d="scan'208";a="273259470"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 02 May 2026 13:58:07 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wJGu5-000000001mr-0i0d;
-	Sat, 02 May 2026 20:25:33 +0000
-Date: Sun, 03 May 2026 04:25:14 +0800
+	id 1wJHPZ-000000005Lx-07em;
+	Sat, 02 May 2026 20:58:05 +0000
+Date: Sat, 02 May 2026 22:57:29 +0200
 From: kernel test robot <lkp@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
- Farrah Chen <farrah.chen@intel.com>
-Subject: [kvm:kvm-mbec 23/42] arch/x86/kvm/mmu/mmu.c:5596:82: sparse:
- sparse: cast truncates bits from constant value (ffff5555 becomes 5555)
-Message-ID: <202605030445.y0PllUlP-lkp@intel.com>
+To: Muchun Song <songmuchun@bytedance.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ 0day robot <lkp@intel.com>
+Subject: Warning: mm/memory_hotplug.c:586 function parameter 'pgmap'
+ not described in '__remove_pages'
+Message-ID: <202605022258.E1bRDIm9-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,151 +60,24 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git kvm-mbec
-head:   0cd666f1b567c059fb1b7c4de7d3c7a55e1d56e6
-commit: 4e6f3b85892327c973fb5e7bf4633dce9ea63ec5 [23/42] KVM: x86/mmu: introduce ACC_READ_MASK
-config: x86_64-randconfig-121 (https://download.01.org/0day-ci/archive/20260503/202605030445.y0PllUlP-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260503/202605030445.y0PllUlP-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Muchun-Song/mm-sparse-vmemmap-Fix-vmemmap-accounting-underflow/20260421-132535
+head:   dc0177fc2cee4d3ad5682369d961087baf084ece
+commit: c3a62066e7b934b30859a8dbe3976202bde93d16 mm/sparse-vmemmap: Pass @pgmap argument to memory deactivation paths
+date:   12 days ago
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260502/202605022258.E1bRDIm9-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605022258.E1bRDIm9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605030445.y0PllUlP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605022258.E1bRDIm9-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   arch/x86/kvm/mmu/mmu.c: note: in included file:
-   arch/x86/kvm/mmu/paging_tmpl.h:106:24: sparse: sparse: cast truncates bits from constant value (ffffffffff000 becomes fffff000)
-   arch/x86/kvm/mmu/paging_tmpl.h:440:24: sparse: sparse: cast truncates bits from constant value (ffffffffff000 becomes fffff000)
->> arch/x86/kvm/mmu/mmu.c:5596:82: sparse: sparse: cast truncates bits from constant value (ffff5555 becomes 5555)
->> arch/x86/kvm/mmu/mmu.c:5598:59: sparse: sparse: cast truncates bits from constant value (ffff3333 becomes 3333)
->> arch/x86/kvm/mmu/mmu.c:5607:63: sparse: sparse: cast truncates bits from constant value (ffff00ff becomes ff)
->> arch/x86/kvm/mmu/mmu.c:5614:62: sparse: sparse: cast truncates bits from constant value (ffff0f0f becomes f0f)
-   arch/x86/kvm/mmu/mmu.c:5617:71: sparse: sparse: cast truncates bits from constant value (ffff00ff becomes ff)
+All warnings (new ones prefixed by >>):
 
-vim +5596 arch/x86/kvm/mmu/mmu.c
+>> Warning: mm/memory_hotplug.c:586 function parameter 'pgmap' not described in '__remove_pages'
+>> Warning: mm/memory_hotplug.c:586 function parameter 'pgmap' not described in '__remove_pages'
 
-  5531	
-  5532	/*
-  5533	 * Build a mask with all combinations of PTE access rights that
-  5534	 * include the given access bit.  The mask can be queried with
-  5535	 * "mask & (1 << access)", where access is a combination of
-  5536	 * ACC_* bits.
-  5537	 *
-  5538	 * By mixing and matching multiple masks returned by ACC_BITS_MASK,
-  5539	 * update_permission_bitmask() builds what is effectively a
-  5540	 * two-dimensional array of bools.  The second dimension is
-  5541	 * provided by individual bits of permissions[pfec >> 1], and
-  5542	 * logical &, | and ~ operations operate on all the 16 possible
-  5543	 * combinations of ACC_* bits.
-  5544	 */
-  5545	#define ACC_BITS_MASK(access) \
-  5546		((1 & (access) ? 1 << 1 : 0) | \
-  5547		 (2 & (access) ? 1 << 2 : 0) | \
-  5548		 (3 & (access) ? 1 << 3 : 0) | \
-  5549		 (4 & (access) ? 1 << 4 : 0) | \
-  5550		 (5 & (access) ? 1 << 5 : 0) | \
-  5551		 (6 & (access) ? 1 << 6 : 0) | \
-  5552		 (7 & (access) ? 1 << 7 : 0) | \
-  5553		 (8 & (access) ? 1 << 8 : 0) | \
-  5554		 (9 & (access) ? 1 << 9 : 0) | \
-  5555		 (10 & (access) ? 1 << 10 : 0) | \
-  5556		 (11 & (access) ? 1 << 11 : 0) | \
-  5557		 (12 & (access) ? 1 << 12 : 0) | \
-  5558		 (13 & (access) ? 1 << 13 : 0) | \
-  5559		 (14 & (access) ? 1 << 14 : 0) | \
-  5560		 (15 & (access) ? 1 << 15 : 0))
-  5561	
-  5562	static void update_permission_bitmask(struct kvm_mmu *mmu, bool ept)
-  5563	{
-  5564		unsigned byte;
-  5565	
-  5566		const u16 x = ACC_BITS_MASK(ACC_EXEC_MASK);
-  5567		const u16 w = ACC_BITS_MASK(ACC_WRITE_MASK);
-  5568		const u16 r = ACC_BITS_MASK(ACC_READ_MASK);
-  5569	
-  5570		bool cr4_smep = is_cr4_smep(mmu);
-  5571		bool cr4_smap = is_cr4_smap(mmu);
-  5572		bool cr0_wp = is_cr0_wp(mmu);
-  5573		bool efer_nx = is_efer_nx(mmu);
-  5574	
-  5575		/*
-  5576		 * In hardware, page fault error codes are generated (as the name
-  5577		 * suggests) on any kind of page fault.  permission_fault() and
-  5578		 * paging_tmpl.h already use the same bits after a successful page
-  5579		 * table walk, to indicate the kind of access being performed.
-  5580		 *
-  5581		 * However, PFERR_PRESENT_MASK and PFERR_RSVD_MASK are never set here,
-  5582		 * exactly because the page walk is successful.  PFERR_PRESENT_MASK is
-  5583		 * removed by the shift, while PFERR_RSVD_MASK is repurposed in
-  5584		 * permission_fault() to indicate accesses that are *not* subject to
-  5585		 * SMAP restrictions.
-  5586		 */
-  5587		for (byte = 0; byte < ARRAY_SIZE(mmu->permissions); ++byte) {
-  5588			unsigned pfec = byte << 1;
-  5589	
-  5590			/*
-  5591			 * Each "*f" variable has a 1 bit for each ACC_* combo
-  5592			 * that causes a fault with the given PFEC.
-  5593			 */
-  5594	
-  5595			/* Faults from reads to non-readable pages */
-> 5596			u16 rf = (pfec & (PFERR_WRITE_MASK|PFERR_FETCH_MASK)) ? 0 : (u16)~r;
-  5597			/* Faults from writes to non-writable pages */
-> 5598			u16 wf = (pfec & PFERR_WRITE_MASK) ? (u16)~w : 0;
-  5599			/* Faults from user mode accesses to supervisor pages */
-  5600			u16 uf = 0;
-  5601			/* Faults from fetches of non-executable pages */
-  5602			u16 ff = 0;
-  5603			/* Faults from kernel mode accesses of user pages */
-  5604			u16 smapf = 0;
-  5605	
-  5606			if (ept) {
-> 5607				ff = (pfec & PFERR_FETCH_MASK) ? (u16)~x : 0;
-  5608			} else {
-  5609				const u16 u = ACC_BITS_MASK(ACC_USER_MASK);
-  5610	
-  5611				/* Faults from kernel mode accesses to user pages */
-  5612				u16 kf = (pfec & PFERR_USER_MASK) ? 0 : u;
-  5613	
-> 5614				uf = (pfec & PFERR_USER_MASK) ? (u16)~u : 0;
-  5615	
-  5616				if (efer_nx)
-  5617					ff = (pfec & PFERR_FETCH_MASK) ? (u16)~x : 0;
-  5618	
-  5619				/* Allow supervisor writes if !cr0.wp */
-  5620				if (!cr0_wp)
-  5621					wf = (pfec & PFERR_USER_MASK) ? wf : 0;
-  5622	
-  5623				/* Disallow supervisor fetches of user code if cr4.smep */
-  5624				if (cr4_smep)
-  5625					ff |= (pfec & PFERR_FETCH_MASK) ? kf : 0;
-  5626	
-  5627				/*
-  5628				 * SMAP:kernel-mode data accesses from user-mode
-  5629				 * mappings should fault. A fault is considered
-  5630				 * as a SMAP violation if all of the following
-  5631				 * conditions are true:
-  5632				 *   - X86_CR4_SMAP is set in CR4
-  5633				 *   - A user page is accessed
-  5634				 *   - The access is not a fetch
-  5635				 *   - The access is supervisor mode
-  5636				 *   - If implicit supervisor access or X86_EFLAGS_AC is clear
-  5637				 *
-  5638				 * Here, we cover the first four conditions.  The fifth
-  5639				 * is computed dynamically in permission_fault() and
-  5640				 * communicated by setting PFERR_RSVD_MASK.
-  5641				 */
-  5642				if (cr4_smap)
-  5643					smapf = (pfec & (PFERR_RSVD_MASK|PFERR_FETCH_MASK)) ? 0 : kf;
-  5644			}
-  5645	
-  5646			mmu->permissions[byte] = ff | uf | wf | rf | smapf;
-  5647		}
-  5648	}
-  5649	
-
--- 
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
