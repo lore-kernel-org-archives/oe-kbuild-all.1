@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5965382398
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 May 2026 15:44:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43FD3304BA3
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 May 2026 16:23:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777736662; cv=none; b=tbpbGEQcVOH1uQkiWKu5bStgMrLuc5LKwU+MHD9heQIwA03442oqNa43Y12vXMyj+Te96Wv7nzFA0T+2U5ef6w4So0uezx95ljCNHKg9CLTkB/6clYVNtcqKt+M3cBAluBhD6616aTPk1QUCaQRuLMae2cxLwcNn28fVCdE9E+4=
+	t=1777738988; cv=none; b=TkLYc0EDeSj+P+dErjwV//9Aak3shJh5xVgRwL/pTOsEVHSoTxcH0W+SwF/JQf+X7tmRAScxg3Hy0jlZek+mv4f0uldZatYDkW9FjtSp6G40K598NZZ60A3fHwTkf0RBitoCVQNe81TkSVhHYkZe8o5tTLUDRlnR7tEod9DSkrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777736662; c=relaxed/simple;
-	bh=etR95GBOHv4TQeojweRIOWKd5+r+Jf5Tyz0QDG+2VIU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=V5esEQ7sfYdEkeicorDm2UkedM8kJA3YIDVaKqYpFU1dmSsz46BAb413huywrXugHXfJduyUZatgrUz1kDPqWtyjUotjdMiw10qdIswj8PfEPkgWZsEJL+9ity7V1iL4ra1/KI+MVn9Ah7C2mgBEGUQQe6dcaqmr1Xfxn4T5VzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=auILf+UH; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1777738988; c=relaxed/simple;
+	bh=ZI4yzm+5sxrZ8GMosuUAV8wK2IDr77Ep3ceOGM56wRQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=RNLwgPtGQrtCgeYqP86npoZPD8gHyrvBCWaYNmfWx5VJr1K3D+P0ubcRxVQG4hrBCGe8QDAL0Rr/uuDzIUojU2i0wFfm45bGDY/Ql903i6+Ep82UITTjQylkFk6bIM1qChdX7N9FlUhMA4CjzUrRe5V1WpzGAV1CNTeOO2shYi0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gbc58yNz; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="auILf+UH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gbc58yNz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777736658; x=1809272658;
+  t=1777738986; x=1809274986;
   h=date:from:to:cc:subject:message-id;
-  bh=etR95GBOHv4TQeojweRIOWKd5+r+Jf5Tyz0QDG+2VIU=;
-  b=auILf+UH8tmMYnrqCw2YxMr78vyh1vjlqRLIng9AOfuwsVG0pvRikdG5
-   mivcmqGgKPQI4lcYH9S4mCGBMCbTrsY/P3iuGXOs+toQFHk619legkoV1
-   yDS1+tFpK1dG18RcFP2Obo3HCKH8TkOYDUesEInlj1ZrKoIK97Ro74LgM
-   xd+ZFpK+g54V7naw9osv3Mv/R5yuzI3Ls8zMjHDUzPkW8QttpEJzpcabq
-   8rob/8tgXEsRbCAUBT8SgXzYpcqD/IyJlgd7L/5KNGSi0rxGqZQTz7GMO
-   7+/38p4GmmODd+x9Iyi+CbeLOnR9aCI0cXDfL1Fb490IEw+LVaG4QUCdP
-   A==;
-X-CSE-ConnectionGUID: 9KTdvIaTQRi9Nx/+xJY9xw==
-X-CSE-MsgGUID: yT8BsikNSwGEi6jY/CwIog==
-X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="90128795"
+  bh=ZI4yzm+5sxrZ8GMosuUAV8wK2IDr77Ep3ceOGM56wRQ=;
+  b=Gbc58yNzsUgbi5qRAGOVxhL3S/BMoGTMSsxDtITtTxuZitJ32A7aig1d
+   SBL8WH3oey5PSCnd8b0Gln9rpffA4KxVpmG/lhG1gFiCiz2ibVCQAtl9c
+   qGUowQnehYQVtMCKBa8hcolVV3Z21uJxLMYjmis1Y4z9g6JYnycID9/iB
+   ntCx22yHgk7Ege01P+B3F54MEsYsSEnovq1JELiNXox3woh0yvS8mEiUI
+   MOVGQbIXTxNX2yrMlsT0r0LiqmLSdi5Hj/Puje2UIy77m2j8nOlA8lgGn
+   DXnialK0luNHbipwJx7O169dET/oNcboZx+eH4DYYsLq+W9dZ+/i5DrON
+   Q==;
+X-CSE-ConnectionGUID: A53XGQ+hS26Nwlx/SHfawQ==
+X-CSE-MsgGUID: D/oUi0vqSGKOHr+qYyro9g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="82275377"
 X-IronPort-AV: E=Sophos;i="6.23,212,1770624000"; 
-   d="scan'208";a="90128795"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 08:44:17 -0700
-X-CSE-ConnectionGUID: BQz8qQHpR1S7OdGRniJ1gA==
-X-CSE-MsgGUID: ZB9BtVZ5RS+vi97YCEorEA==
+   d="scan'208";a="82275377"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 09:23:05 -0700
+X-CSE-ConnectionGUID: gSr/1JdWRoCgNLDNBGyOZg==
+X-CSE-MsgGUID: 5bPVhZ52RSilBwA1xh4UYw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,212,1770624000"; 
-   d="scan'208";a="235003196"
-Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 02 May 2026 08:44:15 -0700
-Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
+   d="scan'208";a="240104272"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 02 May 2026 09:23:04 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wJCVo-000000001VL-20l7;
-	Sat, 02 May 2026 15:44:12 +0000
-Date: Sat, 02 May 2026 23:43:22 +0800
+	id 1wJD7O-000000005Ir-1jgI;
+	Sat, 02 May 2026 16:23:02 +0000
+Date: Sat, 02 May 2026 18:22:49 +0200
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Kent Overstreet <kent.overstreet@linux.dev>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15-2024-11 1/1]
- io_uring/io_uring.c:6135:31: warning: default initialization of an object of
- type 'typeof ((sqe->addr2))' (aka 'const unsigned long long') leaves the
- object uninitialized
-Message-ID: <202605022303.ysiZIGoX-lkp@intel.com>
+Subject: [koverstreet-bcachefs:bcachefs-testing 23/23] versioncheck:
+ ./fs/bcachefs/data/ec/io.c: 594: need linux/version.h
+Message-ID: <202605021811.dYpBnU86-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,177 +59,39 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android14-5.15-2024-11
-head:   bd8d813d37e9e795ed789439e02bf8c6499e3c59
-commit: f435c66d2336fff104e2c3cbfff60905733e7d89 [1/1] io_uring: move to separate directory
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20260502/202605022303.ysiZIGoX-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605022303.ysiZIGoX-lkp@intel.com/reproduce)
+tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
+head:   28c1a456c029fb2053818271a8810e557f02eaa0
+commit: 28c1a456c029fb2053818271a8810e557f02eaa0 [23/23] bcachefs: Update for Linux 7.1
+reproduce: (https://download.01.org/0day-ci/archive/20260502/202605021811.dYpBnU86-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605022303.ysiZIGoX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605021811.dYpBnU86-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS=\ -fno-crash-diagnostics\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 W=1 --keep-going LLVM=1 -j384 ARCH=x86_64 versioncheck 
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/media/i2c/ov02c10.c: 12 linux/version.h not needed.
+   ./drivers/staging/media/ipu7/ipu7.c: 24 linux/version.h not needed.
+>> ./fs/bcachefs/data/ec/io.c: 594: need linux/version.h
+   ./fs/bcachefs/util/util.c: 1210: need linux/version.h
+   ./fs/bcachefs/vfs/buffered.c: 1169: need linux/version.h
+>> ./fs/bcachefs/vfs/io.c: 1087: need linux/version.h
+>> ./fs/bcachefs/vfs/pagecache.c: 916: need linux/version.h
+   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 449: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
-   io_uring/io_uring.c:1469:61: warning: parameter 'locked' set but not used [-Wunused-but-set-parameter]
-    1469 | static void io_queue_async_work(struct io_kiocb *req, bool *locked)
-         |                                                             ^
->> io_uring/io_uring.c:6135:31: warning: default initialization of an object of type 'typeof ((sqe->addr2))' (aka 'const unsigned long long') leaves the object uninitialized [-Wdefault-const-init-var-unsafe]
-    6135 |                 if (get_timespec64(&tr->ts, u64_to_user_ptr(sqe->addr2)))
-         |                                             ^
-   include/linux/kernel.h:50:2: note: expanded from macro 'u64_to_user_ptr'
-      50 |         typecheck(u64, (x));            \
-         |         ^
-   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
-      11 |         typeof(x) __dummy2; \
-         |                   ^
->> io_uring/io_uring.c:6216:32: warning: default initialization of an object of type 'typeof ((sqe->addr))' (aka 'const unsigned long long') leaves the object uninitialized [-Wdefault-const-init-var-unsafe]
-    6216 |         if (get_timespec64(&data->ts, u64_to_user_ptr(sqe->addr)))
-         |                                       ^
-   include/linux/kernel.h:50:2: note: expanded from macro 'u64_to_user_ptr'
-      50 |         typecheck(u64, (x));            \
-         |         ^
-   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
-      11 |         typeof(x) __dummy2; \
-         |                   ^
-   3 warnings generated.
-
-
-vim +6135 io_uring/io_uring.c
-
-47f467686ec02f fs/io_uring.c Jens Axboe     2019-11-09  6112  
-3529d8c2b353e6 fs/io_uring.c Jens Axboe     2019-12-19  6113  static int io_timeout_remove_prep(struct io_kiocb *req,
-3529d8c2b353e6 fs/io_uring.c Jens Axboe     2019-12-19  6114  				  const struct io_uring_sqe *sqe)
-b29472ee7b5378 fs/io_uring.c Jens Axboe     2019-12-17  6115  {
-9c8e11b36c9b64 fs/io_uring.c Pavel Begunkov 2020-11-30  6116  	struct io_timeout_rem *tr = &req->timeout_rem;
-9c8e11b36c9b64 fs/io_uring.c Pavel Begunkov 2020-11-30  6117  
-b29472ee7b5378 fs/io_uring.c Jens Axboe     2019-12-17  6118  	if (unlikely(req->ctx->flags & IORING_SETUP_IOPOLL))
-b29472ee7b5378 fs/io_uring.c Jens Axboe     2019-12-17  6119  		return -EINVAL;
-61710e437f2807 fs/io_uring.c Daniele Albano 2020-07-18  6120  	if (unlikely(req->flags & (REQ_F_FIXED_FILE | REQ_F_BUFFER_SELECT)))
-61710e437f2807 fs/io_uring.c Daniele Albano 2020-07-18  6121  		return -EINVAL;
-26578cda3db983 fs/io_uring.c Pavel Begunkov 2021-08-20  6122  	if (sqe->ioprio || sqe->buf_index || sqe->len || sqe->splice_fd_in)
-b29472ee7b5378 fs/io_uring.c Jens Axboe     2019-12-17  6123  		return -EINVAL;
-b29472ee7b5378 fs/io_uring.c Jens Axboe     2019-12-17  6124  
-f1042b6ccb887f fs/io_uring.c Pavel Begunkov 2021-08-28  6125  	tr->ltimeout = false;
-9c8e11b36c9b64 fs/io_uring.c Pavel Begunkov 2020-11-30  6126  	tr->addr = READ_ONCE(sqe->addr);
-9c8e11b36c9b64 fs/io_uring.c Pavel Begunkov 2020-11-30  6127  	tr->flags = READ_ONCE(sqe->timeout_flags);
-f1042b6ccb887f fs/io_uring.c Pavel Begunkov 2021-08-28  6128  	if (tr->flags & IORING_TIMEOUT_UPDATE_MASK) {
-f1042b6ccb887f fs/io_uring.c Pavel Begunkov 2021-08-28  6129  		if (hweight32(tr->flags & IORING_TIMEOUT_CLOCK_MASK) > 1)
-f1042b6ccb887f fs/io_uring.c Pavel Begunkov 2021-08-28  6130  			return -EINVAL;
-f1042b6ccb887f fs/io_uring.c Pavel Begunkov 2021-08-28  6131  		if (tr->flags & IORING_LINK_TIMEOUT_UPDATE)
-f1042b6ccb887f fs/io_uring.c Pavel Begunkov 2021-08-28  6132  			tr->ltimeout = true;
-f1042b6ccb887f fs/io_uring.c Pavel Begunkov 2021-08-28  6133  		if (tr->flags & ~(IORING_TIMEOUT_UPDATE_MASK|IORING_TIMEOUT_ABS))
-9c8e11b36c9b64 fs/io_uring.c Pavel Begunkov 2020-11-30  6134  			return -EINVAL;
-9c8e11b36c9b64 fs/io_uring.c Pavel Begunkov 2020-11-30 @6135  		if (get_timespec64(&tr->ts, u64_to_user_ptr(sqe->addr2)))
-9c8e11b36c9b64 fs/io_uring.c Pavel Begunkov 2020-11-30  6136  			return -EFAULT;
-9c8e11b36c9b64 fs/io_uring.c Pavel Begunkov 2020-11-30  6137  	} else if (tr->flags) {
-9c8e11b36c9b64 fs/io_uring.c Pavel Begunkov 2020-11-30  6138  		/* timeout removal doesn't support flags */
-b29472ee7b5378 fs/io_uring.c Jens Axboe     2019-12-17  6139  		return -EINVAL;
-9c8e11b36c9b64 fs/io_uring.c Pavel Begunkov 2020-11-30  6140  	}
-b29472ee7b5378 fs/io_uring.c Jens Axboe     2019-12-17  6141  
-b29472ee7b5378 fs/io_uring.c Jens Axboe     2019-12-17  6142  	return 0;
-b29472ee7b5378 fs/io_uring.c Jens Axboe     2019-12-17  6143  }
-b29472ee7b5378 fs/io_uring.c Jens Axboe     2019-12-17  6144  
-8662daec09edcd fs/io_uring.c Pavel Begunkov 2021-01-19  6145  static inline enum hrtimer_mode io_translate_timeout_mode(unsigned int flags)
-8662daec09edcd fs/io_uring.c Pavel Begunkov 2021-01-19  6146  {
-8662daec09edcd fs/io_uring.c Pavel Begunkov 2021-01-19  6147  	return (flags & IORING_TIMEOUT_ABS) ? HRTIMER_MODE_ABS
-8662daec09edcd fs/io_uring.c Pavel Begunkov 2021-01-19  6148  					    : HRTIMER_MODE_REL;
-8662daec09edcd fs/io_uring.c Pavel Begunkov 2021-01-19  6149  }
-8662daec09edcd fs/io_uring.c Pavel Begunkov 2021-01-19  6150  
-11365043e5271f fs/io_uring.c Jens Axboe     2019-10-16  6151  /*
-11365043e5271f fs/io_uring.c Jens Axboe     2019-10-16  6152   * Remove or update an existing timeout command
-11365043e5271f fs/io_uring.c Jens Axboe     2019-10-16  6153   */
-61e98203047983 fs/io_uring.c Pavel Begunkov 2021-02-10  6154  static int io_timeout_remove(struct io_kiocb *req, unsigned int issue_flags)
-11365043e5271f fs/io_uring.c Jens Axboe     2019-10-16  6155  {
-9c8e11b36c9b64 fs/io_uring.c Pavel Begunkov 2020-11-30  6156  	struct io_timeout_rem *tr = &req->timeout_rem;
-11365043e5271f fs/io_uring.c Jens Axboe     2019-10-16  6157  	struct io_ring_ctx *ctx = req->ctx;
-47f467686ec02f fs/io_uring.c Jens Axboe     2019-11-09  6158  	int ret;
-11365043e5271f fs/io_uring.c Jens Axboe     2019-10-16  6159  
-ec3c3d0f3a271b fs/io_uring.c Pavel Begunkov 2021-08-18  6160  	if (!(req->timeout_rem.flags & IORING_TIMEOUT_UPDATE)) {
-ec3c3d0f3a271b fs/io_uring.c Pavel Begunkov 2021-08-18  6161  		spin_lock(&ctx->completion_lock);
-89850fce16a1a7 fs/io_uring.c Jens Axboe     2021-08-10  6162  		spin_lock_irq(&ctx->timeout_lock);
-9c8e11b36c9b64 fs/io_uring.c Pavel Begunkov 2020-11-30  6163  		ret = io_timeout_cancel(ctx, tr->addr);
-ec3c3d0f3a271b fs/io_uring.c Pavel Begunkov 2021-08-18  6164  		spin_unlock_irq(&ctx->timeout_lock);
-ec3c3d0f3a271b fs/io_uring.c Pavel Begunkov 2021-08-18  6165  		spin_unlock(&ctx->completion_lock);
-ec3c3d0f3a271b fs/io_uring.c Pavel Begunkov 2021-08-18  6166  	} else {
-f1042b6ccb887f fs/io_uring.c Pavel Begunkov 2021-08-28  6167  		enum hrtimer_mode mode = io_translate_timeout_mode(tr->flags);
-f1042b6ccb887f fs/io_uring.c Pavel Begunkov 2021-08-28  6168  
-ec3c3d0f3a271b fs/io_uring.c Pavel Begunkov 2021-08-18  6169  		spin_lock_irq(&ctx->timeout_lock);
-f1042b6ccb887f fs/io_uring.c Pavel Begunkov 2021-08-28  6170  		if (tr->ltimeout)
-f1042b6ccb887f fs/io_uring.c Pavel Begunkov 2021-08-28  6171  			ret = io_linked_timeout_update(ctx, tr->addr, &tr->ts, mode);
-f1042b6ccb887f fs/io_uring.c Pavel Begunkov 2021-08-28  6172  		else
-f1042b6ccb887f fs/io_uring.c Pavel Begunkov 2021-08-28  6173  			ret = io_timeout_update(ctx, tr->addr, &tr->ts, mode);
-89850fce16a1a7 fs/io_uring.c Jens Axboe     2021-08-10  6174  		spin_unlock_irq(&ctx->timeout_lock);
-ec3c3d0f3a271b fs/io_uring.c Pavel Begunkov 2021-08-18  6175  	}
-11365043e5271f fs/io_uring.c Jens Axboe     2019-10-16  6176  
-4e88d6e7793f2f fs/io_uring.c Jens Axboe     2019-12-07  6177  	if (ret < 0)
-93d2bcd2cbfed2 fs/io_uring.c Pavel Begunkov 2021-05-16  6178  		req_set_fail(req);
-505657bc6c52b0 fs/io_uring.c Pavel Begunkov 2021-08-17  6179  	io_req_complete_post(req, ret, 0);
-11365043e5271f fs/io_uring.c Jens Axboe     2019-10-16  6180  	return 0;
-11365043e5271f fs/io_uring.c Jens Axboe     2019-10-16  6181  }
-11365043e5271f fs/io_uring.c Jens Axboe     2019-10-16  6182  
-3529d8c2b353e6 fs/io_uring.c Jens Axboe     2019-12-19  6183  static int io_timeout_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe,
-2d28390aff8792 fs/io_uring.c Jens Axboe     2019-12-04  6184  			   bool is_timeout_link)
-5262f567987d3c fs/io_uring.c Jens Axboe     2019-09-17  6185  {
-ad8a48acc23cb1 fs/io_uring.c Jens Axboe     2019-11-15  6186  	struct io_timeout_data *data;
-a41525ab2e7598 fs/io_uring.c Jens Axboe     2019-10-15  6187  	unsigned flags;
-56080b02ed6e71 fs/io_uring.c Pavel Begunkov 2020-05-26  6188  	u32 off = READ_ONCE(sqe->off);
-5262f567987d3c fs/io_uring.c Jens Axboe     2019-09-17  6189  
-ad8a48acc23cb1 fs/io_uring.c Jens Axboe     2019-11-15  6190  	if (unlikely(req->ctx->flags & IORING_SETUP_IOPOLL))
-5262f567987d3c fs/io_uring.c Jens Axboe     2019-09-17  6191  		return -EINVAL;
-26578cda3db983 fs/io_uring.c Pavel Begunkov 2021-08-20  6192  	if (sqe->ioprio || sqe->buf_index || sqe->len != 1 ||
-26578cda3db983 fs/io_uring.c Pavel Begunkov 2021-08-20  6193  	    sqe->splice_fd_in)
-a41525ab2e7598 fs/io_uring.c Jens Axboe     2019-10-15  6194  		return -EINVAL;
-56080b02ed6e71 fs/io_uring.c Pavel Begunkov 2020-05-26  6195  	if (off && is_timeout_link)
-2d28390aff8792 fs/io_uring.c Jens Axboe     2019-12-04  6196  		return -EINVAL;
-a41525ab2e7598 fs/io_uring.c Jens Axboe     2019-10-15  6197  	flags = READ_ONCE(sqe->timeout_flags);
-50c1df2b56e0f5 fs/io_uring.c Jens Axboe     2021-08-27  6198  	if (flags & ~(IORING_TIMEOUT_ABS | IORING_TIMEOUT_CLOCK_MASK))
-50c1df2b56e0f5 fs/io_uring.c Jens Axboe     2021-08-27  6199  		return -EINVAL;
-50c1df2b56e0f5 fs/io_uring.c Jens Axboe     2021-08-27  6200  	/* more than one clock specified is invalid, obviously */
-50c1df2b56e0f5 fs/io_uring.c Jens Axboe     2021-08-27  6201  	if (hweight32(flags & IORING_TIMEOUT_CLOCK_MASK) > 1)
-5262f567987d3c fs/io_uring.c Jens Axboe     2019-09-17  6202  		return -EINVAL;
-bdf200731145f0 fs/io_uring.c Arnd Bergmann  2019-10-01  6203  
-ef9dd637084d43 fs/io_uring.c Pavel Begunkov 2021-08-28  6204  	INIT_LIST_HEAD(&req->timeout.list);
-bfe68a221905de fs/io_uring.c Pavel Begunkov 2020-05-30  6205  	req->timeout.off = off;
-f18ee4cf0a277a fs/io_uring.c Pavel Begunkov 2021-06-14  6206  	if (unlikely(off && !req->ctx->off_timeout_used))
-f18ee4cf0a277a fs/io_uring.c Pavel Begunkov 2021-06-14  6207  		req->ctx->off_timeout_used = true;
-26a61679f10c6f fs/io_uring.c Jens Axboe     2019-12-20  6208  
-e8c2bc1fb6c949 fs/io_uring.c Jens Axboe     2020-08-15  6209  	if (!req->async_data && io_alloc_async_data(req))
-26a61679f10c6f fs/io_uring.c Jens Axboe     2019-12-20  6210  		return -ENOMEM;
-26a61679f10c6f fs/io_uring.c Jens Axboe     2019-12-20  6211  
-e8c2bc1fb6c949 fs/io_uring.c Jens Axboe     2020-08-15  6212  	data = req->async_data;
-ad8a48acc23cb1 fs/io_uring.c Jens Axboe     2019-11-15  6213  	data->req = req;
-50c1df2b56e0f5 fs/io_uring.c Jens Axboe     2021-08-27  6214  	data->flags = flags;
-ad8a48acc23cb1 fs/io_uring.c Jens Axboe     2019-11-15  6215  
-ad8a48acc23cb1 fs/io_uring.c Jens Axboe     2019-11-15 @6216  	if (get_timespec64(&data->ts, u64_to_user_ptr(sqe->addr)))
-5262f567987d3c fs/io_uring.c Jens Axboe     2019-09-17  6217  		return -EFAULT;
-5262f567987d3c fs/io_uring.c Jens Axboe     2019-09-17  6218  
-ba7261af2b030a fs/io_uring.c Jens Axboe     2022-04-08  6219  	INIT_LIST_HEAD(&req->timeout.list);
-8662daec09edcd fs/io_uring.c Pavel Begunkov 2021-01-19  6220  	data->mode = io_translate_timeout_mode(flags);
-50c1df2b56e0f5 fs/io_uring.c Jens Axboe     2021-08-27  6221  	hrtimer_init(&data->timer, io_timeout_get_clock(data), data->mode);
-b97e736a4b553f fs/io_uring.c Pavel Begunkov 2021-08-15  6222  
-b97e736a4b553f fs/io_uring.c Pavel Begunkov 2021-08-15  6223  	if (is_timeout_link) {
-b97e736a4b553f fs/io_uring.c Pavel Begunkov 2021-08-15  6224  		struct io_submit_link *link = &req->ctx->submit_state.link;
-b97e736a4b553f fs/io_uring.c Pavel Begunkov 2021-08-15  6225  
-b97e736a4b553f fs/io_uring.c Pavel Begunkov 2021-08-15  6226  		if (!link->head)
-b97e736a4b553f fs/io_uring.c Pavel Begunkov 2021-08-15  6227  			return -EINVAL;
-b97e736a4b553f fs/io_uring.c Pavel Begunkov 2021-08-15  6228  		if (link->last->opcode == IORING_OP_LINK_TIMEOUT)
-b97e736a4b553f fs/io_uring.c Pavel Begunkov 2021-08-15  6229  			return -EINVAL;
-4d13d1a4d1e180 fs/io_uring.c Pavel Begunkov 2021-08-15  6230  		req->timeout.head = link->last;
-4d13d1a4d1e180 fs/io_uring.c Pavel Begunkov 2021-08-15  6231  		link->last->flags |= REQ_F_ARM_LTIMEOUT;
-b97e736a4b553f fs/io_uring.c Pavel Begunkov 2021-08-15  6232  	}
-ad8a48acc23cb1 fs/io_uring.c Jens Axboe     2019-11-15  6233  	return 0;
-ad8a48acc23cb1 fs/io_uring.c Jens Axboe     2019-11-15  6234  }
-ad8a48acc23cb1 fs/io_uring.c Jens Axboe     2019-11-15  6235  
-
-:::::: The code at line 6135 was first introduced by commit
-:::::: 9c8e11b36c9b640a85a4a33a9e9dff418993cc34 io_uring: add timeout update
-
-:::::: TO: Pavel Begunkov <asml.silence@gmail.com>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
-
--- 
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
