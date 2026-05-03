@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2BF23A562
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 May 2026 02:09:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51C1F299944
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 May 2026 02:13:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777774199; cv=none; b=PoUHrL3MghynisztBUSqLsQpxQ+L09SLV2058Ruep8dtC7YOEeTcxH+7UpVjTyiKKBNxE2/7mkVyEvznpMVdM9UfZz2U/JhSt9y4drH6cPfwCpCMAWiUF7GYD/Rt/weoLSisDUI7y3DOuELLojOPJGuPSZUF71hc0N0Xx8AzV54=
+	t=1777774397; cv=none; b=oQybV2YOs2KdYHwWt4Y3eTfoQ2RWGzr6+rSuTUvVaRsD4awD8zrXI9+USCpJqKeWWp/8eYRySjeoTo9w/4GXMRGIWQQeHffhPmuxQG5b9h6VktKwQlymHHQQrMWJcb391j8U2mFp4fh/C6MscNIn7IKLsQyOJP4c19Z3uo+Ef+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777774199; c=relaxed/simple;
-	bh=DPllzNMxrAToKlR7COPVOH3YD5LZGlUYjbk2bArNQo8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ZaCCoNZxvJAv7dlQAdsU10RcjR/GRPy2+84hQArGSPeS81rHK7aRfSDzyLQLsda16cEufFbJqmeB5tMse0vvsbTaBif1dE9Uxexub0SCCSKffxZL+/c0JgI6tQzD7NFpkHUxncSLEuqcRVN8MOBcJCeYaTdG6glCQFt7xrfqzts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cn+xsmGL; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1777774397; c=relaxed/simple;
+	bh=bDAE2kV4RTTi9V+0DohdTzgAc0yZRgdDpVSa7SISaLM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=OFAMEYlLfkzYVyeVJbBjh+pSbkIkCeRAl2x2AL9TkyaYFjUcaq3KCJ6lMKnQTtyqykvJ7MNDjD+L1BVsZPrDyeKLqzcBelKl9sEqnZoq8l+7uXtYBBI7NANOc5TXO54KwW2y2t/Z/SUBauqo56jQUiREr2UPOxrBX+G8A1S4qKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XUiRV50i; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cn+xsmGL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XUiRV50i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777774196; x=1809310196;
+  t=1777774394; x=1809310394;
   h=date:from:to:cc:subject:message-id;
-  bh=DPllzNMxrAToKlR7COPVOH3YD5LZGlUYjbk2bArNQo8=;
-  b=cn+xsmGLDKGFTnNbD4z3rjlNliB+ARtBYd9zR2giMC3AZgiM8froHzTx
-   01IY9BwR8c4ENa5E+A0yRK2o9zlTSQPEVkfvni96s14uWiIZ8pGwmNqFU
-   X7DmMkPFLxsItzvxzRG09i0KSzbVgH7QceoMP7XsIzLpMTerNaHwnRyDg
-   06wVwR9I+udNd59cDVVbC5816vKQigH591ETRtvAkuYUeAVMTx2K9lYB3
-   HRT1KI2OwXN4CPCFGeiqdA8Xa/J58y9WQEypoafFkUqg9VEx9Atx/V4Ep
-   Kzm0LGHNRzjC3R0Rz282gYfu11YfEBVljpJgsnz/OAnk45zwESGhe2ySe
-   A==;
-X-CSE-ConnectionGUID: N+FYo3JGSiSIF8oUPb8GwA==
-X-CSE-MsgGUID: uxyqApxjQ3y+SF1jzVI9zg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="89371246"
+  bh=bDAE2kV4RTTi9V+0DohdTzgAc0yZRgdDpVSa7SISaLM=;
+  b=XUiRV50iXJORp9VHQnKIi6WYxx4xQyo5j7SwS1HqCRuVBfyt6MP3Jxzv
+   gkQ6uOOHQjNfDnCge+pMBkVeljlTt9YlbtPDGr0p5rDaKzyUUWjLthWtT
+   AhDZrApkjAWII+W9+MANrO51TadgG6/xHJl7nktX994CdYRNEMs7yAVpO
+   QM5D+CAJu2rPhbWUyPiiP7riJz829+yYvw1pJFdclzz0vG70A1//kvusu
+   XK0seQUBa1XqBIUykngi6e+ugx95UOgAE7O0nsOhJ1xQSwlO9lFkqJjtQ
+   nqII7i8xsbTGiwPDaPKY2iOQVkwm0DiheEAZQV3DEe9/MwkuRSlhimq3s
+   w==;
+X-CSE-ConnectionGUID: fRIX48/IQzK1t+RkLWscEQ==
+X-CSE-MsgGUID: pL+fPDumQICkGu28eaJjvA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="78582384"
 X-IronPort-AV: E=Sophos;i="6.23,213,1770624000"; 
-   d="scan'208";a="89371246"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 19:09:55 -0700
-X-CSE-ConnectionGUID: Ml/lQbDeQ261xr0Qt2X5lA==
-X-CSE-MsgGUID: ynM8CSL2TY+xXEoMjJbu6A==
+   d="scan'208";a="78582384"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 19:13:13 -0700
+X-CSE-ConnectionGUID: /XYU6vk3SYyBERzGhieWbg==
+X-CSE-MsgGUID: VNvs/KkKTZijoBzDajvOkA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,213,1770624000"; 
-   d="scan'208";a="230593698"
-Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 02 May 2026 19:09:54 -0700
-Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
+   d="scan'208";a="265548653"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 02 May 2026 19:13:12 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wJMHH-0000000021x-3UaK;
-	Sun, 03 May 2026 02:09:51 +0000
-Date: Sun, 03 May 2026 10:09:26 +0800
+	id 1wJMKU-000000005Qv-07po;
+	Sun, 03 May 2026 02:13:10 +0000
+Date: Sun, 03 May 2026 04:12:10 +0200
 From: kernel test robot <lkp@intel.com>
-To: "Harry Yoo (Oracle)" <harry@kernel.org>
+To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [harry:kvfree-rcu-improvements-rfc-v2r1-wip 7/9] Warning:
- mm/slab_common.c:1345 struct member 'defer_call_rcu_head' not described in
- 'kfree_rcu_cpu'
-Message-ID: <202605031025.Xs4EIhGv-lkp@intel.com>
+Subject: [kas:pte_size 11/69] ../../../mm/vma.h:233:21: error:
+ 'struct vm_area_struct' has no member named 'vm_pteoff'; did you mean
+ 'vm_pgoff'?
+Message-ID: <202605030410.vFOcLBYt-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,33 +60,135 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/harry/linux.git kvfree-rcu-improvements-rfc-v2r1-wip
-head:   1e4fd024c798fbeff0b5a3c5f55cdcf710367c59
-commit: 0f991a4617a587dc421a4d8a7dd824a972f5df41 [7/9] mm/slab: introduce deferred submission of rcu sheaves
-config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20260503/202605031025.Xs4EIhGv-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260503/202605031025.Xs4EIhGv-lkp@intel.com/reproduce)
+Hi Kiryl,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kas/linux.git pte_size
+head:   3453a5ad954365409373c2762ba237c7e31a623b
+commit: f5f8a46a7c252a67e59b61ee475f5ef67c6b3988 [11/69] mm/vma: Use pteoff in vma_merge_struct and mmap_state
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260503/202605030410.vFOcLBYt-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260503/202605030410.vFOcLBYt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605031025.Xs4EIhGv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605030410.vFOcLBYt-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   Warning: mm/slab_common.c:1345 struct member 'defer_head' not described in 'kfree_rcu_cpu'
-   Warning: mm/slab_common.c:1345 struct member 'defer_free' not described in 'kfree_rcu_cpu'
->> Warning: mm/slab_common.c:1345 struct member 'defer_call_rcu_head' not described in 'kfree_rcu_cpu'
->> Warning: mm/slab_common.c:1345 struct member 'defer_call_rcu' not described in 'kfree_rcu_cpu'
-   Warning: mm/slab_common.c:1345 struct member 'sched_delayed_monitor' not described in 'kfree_rcu_cpu'
-   Warning: mm/slab_common.c:1345 struct member 'run_page_cache_worker' not described in 'kfree_rcu_cpu'
-   Warning: mm/slab_common.c:1345 struct member 'defer_head' not described in 'kfree_rcu_cpu'
-   Warning: mm/slab_common.c:1345 struct member 'defer_free' not described in 'kfree_rcu_cpu'
->> Warning: mm/slab_common.c:1345 struct member 'defer_call_rcu_head' not described in 'kfree_rcu_cpu'
->> Warning: mm/slab_common.c:1345 struct member 'defer_call_rcu' not described in 'kfree_rcu_cpu'
-   Warning: mm/slab_common.c:1345 struct member 'sched_delayed_monitor' not described in 'kfree_rcu_cpu'
-   Warning: mm/slab_common.c:1345 struct member 'run_page_cache_worker' not described in 'kfree_rcu_cpu'
+   In file included from shared.h:12,
+                    from main.c:3:
+   ../../../mm/vma.h: In function 'vma_pte_offset':
+>> ../../../mm/vma.h:233:21: error: 'struct vm_area_struct' has no member named 'vm_pteoff'; did you mean 'vm_pgoff'?
+     233 |         return vma->vm_pteoff + ((addr - vma->vm_start) >> PTE_SHIFT);
+         |                     ^~~~~~~~~
+         |                     vm_pgoff
+>> ../../../mm/vma.h:233:60: error: 'PTE_SHIFT' undeclared (first use in this function); did you mean 'PAGE_SHIFT'?
+     233 |         return vma->vm_pteoff + ((addr - vma->vm_start) >> PTE_SHIFT);
+         |                                                            ^~~~~~~~~
+         |                                                            PAGE_SHIFT
+   ../../../mm/vma.h:233:60: note: each undeclared identifier is reported only once for each function it appears in
+   ../../../mm/vma.h: In function 'set_vma_from_desc':
+   ../../../mm/vma.h:309:14: error: 'struct vm_area_struct' has no member named 'vm_pteoff'; did you mean 'vm_pgoff'?
+     309 |         vma->vm_pteoff = desc->pteoff;
+         |              ^~~~~~~~~
+         |              vm_pgoff
+>> ../../../mm/vma.h:309:32: error: 'struct vm_area_desc' has no member named 'pteoff'; did you mean 'pgoff'?
+     309 |         vma->vm_pteoff = desc->pteoff;
+         |                                ^~~~~~
+         |                                pgoff
+   In file included from main.c:10:
+   ../../../mm/vma.c: In function 'can_vma_merge_before':
+>> ../../../mm/vma.c:201:32: error: 'struct vm_area_struct' has no member named 'vm_pteoff'; did you mean 'vm_pgoff'?
+     201 |                 if (vmg->next->vm_pteoff == vmg->pteoff + ptelen)
+         |                                ^~~~~~~~~
+         |                                vm_pgoff
+   ../../../mm/vma.c: In function 'can_vma_merge_after':
+   ../../../mm/vma.c:221:32: error: 'struct vm_area_struct' has no member named 'vm_pteoff'; did you mean 'vm_pgoff'?
+     221 |                 if (vmg->prev->vm_pteoff + vma_pages(vmg->prev) == vmg->pteoff)
+         |                                ^~~~~~~~~
+         |                                vm_pgoff
+   ../../../mm/vma.c: In function 'vma_merge_existing_range':
+   ../../../mm/vma.c:922:37: error: 'struct vm_area_struct' has no member named 'vm_pteoff'; did you mean 'vm_pgoff'?
+     922 |                 vmg->pteoff = prev->vm_pteoff;
+         |                                     ^~~~~~~~~
+         |                                     vm_pgoff
+   ../../../mm/vma.c:941:37: error: 'struct vm_area_struct' has no member named 'vm_pteoff'; did you mean 'vm_pgoff'?
+     941 |                 vmg->pteoff = prev->vm_pteoff;
+         |                                     ^~~~~~~~~
+         |                                     vm_pgoff
+   ../../../mm/vma.c:964:45: error: 'struct vm_area_struct' has no member named 'vm_pteoff'; did you mean 'vm_pgoff'?
+     964 |                         vmg->pteoff = next->vm_pteoff - ptelen;
+         |                                             ^~~~~~~~~
+         |                                             vm_pgoff
+   ../../../mm/vma.c:970:47: error: 'struct vm_area_struct' has no member named 'vm_pteoff'; did you mean 'vm_pgoff'?
+     970 |                         vmg->pteoff = middle->vm_pteoff;
+         |                                               ^~~~~~~~~
+         |                                               vm_pgoff
+   ../../../mm/vma.c: In function 'vma_merge_new_range':
+   ../../../mm/vma.c:1078:37: error: 'struct vm_area_struct' has no member named 'vm_pteoff'; did you mean 'vm_pgoff'?
+    1078 |                 vmg->pteoff = prev->vm_pteoff;
+         |                                     ^~~~~~~~~
+         |                                     vm_pgoff
+   ../../../mm/vma.c: In function 'set_desc_from_map':
+>> ../../../mm/vma.c:2373:15: error: 'struct vm_area_desc' has no member named 'pteoff'; did you mean 'pgoff'?
+    2373 |         desc->pteoff = map->pteoff;
+         |               ^~~~~~
+         |               pgoff
+   ../../../mm/vma.c: In function 'call_mmap_prepare':
+   ../../../mm/vma.c:2651:29: error: 'struct vm_area_desc' has no member named 'pteoff'; did you mean 'pgoff'?
+    2651 |         map->pteoff = desc->pteoff;
+         |                             ^~~~~~
+         |                             pgoff
+   In file included from main.c:13:
+   tests/merge.c: In function 'vmg_set_range':
+>> tests/merge.c:47:14: error: 'struct vma_merge_struct' has no member named 'pgoff'; did you mean 'pteoff'?
+      47 |         vmg->pgoff = pgoff;
+         |              ^~~~~
+         |              pteoff
+   tests/merge.c: In function 'test_simple_merge':
+   tests/merge.c:109:18: error: 'struct vma_merge_struct' has no member named 'pgoff'; did you mean 'pteoff'?
+     109 |                 .pgoff = 1,
+         |                  ^~~~~
+         |                  pteoff
+>> tests/merge.c:109:26: error: initialization of 'struct file *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     109 |                 .pgoff = 1,
+         |                          ^
+   tests/merge.c:109:26: note: (near initialization for 'vmg.file')
+   tests/merge.c: In function 'test_simple_expand':
+   tests/merge.c:201:18: error: 'struct vma_merge_struct' has no member named 'pgoff'; did you mean 'pteoff'?
+     201 |                 .pgoff = 0,
+         |                  ^~~~~
+         |                  pteoff
+   ../../../mm/vma.h: In function 'vma_pte_offset':
+>> ../../../mm/vma.h:234:1: warning: control reaches end of non-void function [-Wreturn-type]
+     234 | }
+         | ^
+--
+   In file included from shared.h:12,
+                    from shared.c:3:
+   ../../../mm/vma.h: In function 'vma_pte_offset':
+>> ../../../mm/vma.h:233:21: error: 'struct vm_area_struct' has no member named 'vm_pteoff'; did you mean 'vm_pgoff'?
+     233 |         return vma->vm_pteoff + ((addr - vma->vm_start) >> PTE_SHIFT);
+         |                     ^~~~~~~~~
+         |                     vm_pgoff
+>> ../../../mm/vma.h:233:60: error: 'PTE_SHIFT' undeclared (first use in this function); did you mean 'PAGE_SHIFT'?
+     233 |         return vma->vm_pteoff + ((addr - vma->vm_start) >> PTE_SHIFT);
+         |                                                            ^~~~~~~~~
+         |                                                            PAGE_SHIFT
+   ../../../mm/vma.h:233:60: note: each undeclared identifier is reported only once for each function it appears in
+   ../../../mm/vma.h: In function 'set_vma_from_desc':
+   ../../../mm/vma.h:309:14: error: 'struct vm_area_struct' has no member named 'vm_pteoff'; did you mean 'vm_pgoff'?
+     309 |         vma->vm_pteoff = desc->pteoff;
+         |              ^~~~~~~~~
+         |              vm_pgoff
+>> ../../../mm/vma.h:309:32: error: 'struct vm_area_desc' has no member named 'pteoff'; did you mean 'pgoff'?
+     309 |         vma->vm_pteoff = desc->pteoff;
+         |                                ^~~~~~
+         |                                pgoff
 
--- 
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
