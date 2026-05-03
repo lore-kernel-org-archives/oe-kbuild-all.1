@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13DBD299AAB
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 May 2026 07:21:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 958DB39280A
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 May 2026 08:14:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777792891; cv=none; b=R1xEa+EJdFE9jK6FXwQCS5LSK81BI+3TQkTrMi2+5DD3nk6MqKEGkUErzbNuU2uUI8Ayx/wmBQjV2BIPEmX5Bfwc+uwlThRpikp+TZygn7ZTE6l50WUiomOQlAo2znCG8lEdfuvEU3zYjBYbCzoDtRSvxaWLCQWuNsSquMPOtWQ=
+	t=1777796072; cv=none; b=T9CF9AxPSzeJZInY88VmRjvd/vIwKWYguQimtEjgAbaoeHz0buQzheQ8L4dW4Sj/DaclrnYZSNBcbb6EoHV577zGo3BFLU9SyxkX7H6jU/lF191Ggr91O+E0A3ZSVISiG/4mT/BwFe21dhviobfnMe4CdQawk8DVEgmg9o9xcjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777792891; c=relaxed/simple;
-	bh=QMTgc7QEbykopHRnyDyAa3x9kHCEtq05icioyVKc3zc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Z9xEC6Oe56/dl6RM4LLrWiChboxL+aKXeStKJdWcH0XSZZA6IAYetoFL4yaJgcmmrwLjE6FeZJHBq/iKRpPuRTrQadMRZIPnVPqu8PQWK2AjZNvwA+gp0+C5Zafpj/DQXUxIlP75nJwnLXGZB4YlEyX0RRc31HcfZ9XCniptlt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TNykyyNC; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1777796072; c=relaxed/simple;
+	bh=1qp5czNubUNf2WDFGeDKCzxxf8K1iCoDCnCO0C649Uk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=lhMWlCjCNZVi8Rb7SHQz/MZu/0ZbzULkSj1X0Msx+mGm/1WsyLrYlmCvLm9I9pvXXepKWmhYKAKAdXV6SSqdfbx8ggG+qQSeLLNiDrqlt9fHHm5O3QkelyLHElaqdCcC7cJ06PACqXLxIwktQiyzqX4EH2wc118p4SgkNn6Vt9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sw+wUU6P; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TNykyyNC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sw+wUU6P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777792890; x=1809328890;
+  t=1777796070; x=1809332070;
   h=date:from:to:cc:subject:message-id;
-  bh=QMTgc7QEbykopHRnyDyAa3x9kHCEtq05icioyVKc3zc=;
-  b=TNykyyNC6Dgb5asoNSePe73rpfpuELXS4ST8SbwRotK6QM7UynTs9DeR
-   d9I5BSmic4BauPobKDzjOeFPTvZ3z62P05FgknOoUv0N6UqnRBzUmdSbK
-   5IQIoCcqSkoNtD7OhLEUpvwy1X2/0PewTjrKirREaXgcpsPeaX32EzQFE
-   hj4VP0oVxQVlFlzFq4b4fWaKl7aneif9wM71genEEZPpot3pconhHtvDb
-   9EBo1J1blNDEVDSwCcF2RzpC1fgpUQqVCKUdYjtXmVy7KJSUO6WKvRq9l
-   02tymOsY/nKjysJbQ0uVQXujbUH5eeDYgeFcAsuiZ7+NYKnpqDPbGboTO
+  bh=1qp5czNubUNf2WDFGeDKCzxxf8K1iCoDCnCO0C649Uk=;
+  b=Sw+wUU6PrHhm/6wO/A3vEphDlrcxDGwZck5OI1mxQvFx/4i2xEcYOUIl
+   eBezQzG5wD+TtT3UJdEIIQWqMF/xvmHHaEVK7jVUnt2WBzWNu7JwEGpSK
+   iidPB3L0ytMWEGdVOkW6UyN57PEcfKIyg+ykBHgtYbvg1MllOBizzWPQ/
+   ksn1h3JHAXiow/5Sfv/hVz72l9OPyz0g9OWJkssT9CNOMnUbPiBSOrY7g
+   tHrVp6yQdIqbockNddLhcwewibj26yEV+HuMPFiNjjTA+NxWtRnALlkez
+   9OYI0XzAfeWjkkArU4vibZkArSjga+w+iM1pzFOlzjpw5EBTW07ZdowsN
    g==;
-X-CSE-ConnectionGUID: m4xlO8OxRXuH1lxpXYJHWA==
-X-CSE-MsgGUID: AHR56JWJQwWtWfLAOItfnw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="82540068"
+X-CSE-ConnectionGUID: uke3BtNUSFetnVPrSRRXUA==
+X-CSE-MsgGUID: M+14Zp3GQAC4vNyMQKhZBg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="78886034"
 X-IronPort-AV: E=Sophos;i="6.23,213,1770624000"; 
-   d="scan'208";a="82540068"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2026 00:21:27 -0700
-X-CSE-ConnectionGUID: OfDXyE6YSLCL1vJFMPfxhA==
-X-CSE-MsgGUID: M1k4MPYjSmOdTFsbr4mlZw==
+   d="scan'208";a="78886034"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2026 01:14:29 -0700
+X-CSE-ConnectionGUID: YE9uwWGHTvS8gJC97mW8JQ==
+X-CSE-MsgGUID: h6PLq8FRQ8eNhmrXGC5H4g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,213,1770624000"; 
-   d="scan'208";a="228737440"
+   d="scan'208";a="235320370"
 Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 03 May 2026 00:21:26 -0700
+  by orviesa009.jf.intel.com with ESMTP; 03 May 2026 01:14:29 -0700
 Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wJR8l-000000002JL-3CJQ;
-	Sun, 03 May 2026 07:21:23 +0000
-Date: Sun, 03 May 2026 15:20:33 +0800
+	id 1wJRy6-000000002LP-0ocs;
+	Sun, 03 May 2026 08:14:26 +0000
+Date: Sun, 03 May 2026 16:14:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+To: Frank Wunderlich <frank-w@public-files.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kas:pte_size 8/69] arch/microblaze/include/asm/page.h:26:9:
- warning: 'PTE_SHIFT' redefined
-Message-ID: <202605031520.Hdy1tWJr-lkp@intel.com>
+Subject: [frank-w-bpi-r2-4.14:7.1-rc 136/147]
+ drivers/net/phy/as21xx_1.9.2/as21xxx.c:645:27: warning: variable 'ret' set
+ but not used
+Message-ID: <202605031623.wEucdNud-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,137 +60,93 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kas/linux.git pte_size
-head:   3453a5ad954365409373c2762ba237c7e31a623b
-commit: 7445c40244aacfd71c931e23818d81c246dcd0dd [8/69] mm: Introduce PTE_SIZE, PTE_SHIFT and PTE_MASK
-config: microblaze-allnoconfig (https://download.01.org/0day-ci/archive/20260503/202605031520.Hdy1tWJr-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260503/202605031520.Hdy1tWJr-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 7.1-rc
+head:   445521c1e8057d80bfd079aa69ad69ba0a9293b3
+commit: 657b088cd0f209f0e854466b0beb68911b6ed836 [136/147] net: phy: as21xxx: update driver to v1.9.2
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20260503/202605031623.wEucdNud-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260503/202605031623.wEucdNud-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605031520.Hdy1tWJr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605031623.wEucdNud-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/shm.h:6,
-                    from include/linux/sched.h:23,
-                    from arch/microblaze/kernel/asm-offsets.c:14:
->> arch/microblaze/include/asm/page.h:26:9: warning: 'PTE_SHIFT' redefined
-      26 | #define PTE_SHIFT       (PAGE_SHIFT - 2)        /* 1024 ptes per page */
-         |         ^~~~~~~~~
-   In file included from arch/microblaze/include/asm/page.h:22:
-   include/vdso/page.h:13:9: note: this is the location of the previous definition
-      13 | #define PTE_SHIFT      CONFIG_PTE_SHIFT
-         |         ^~~~~~~~~
-   arch/microblaze/include/asm/page.h: In function 'virt_to_pfn':
-   arch/microblaze/include/asm/page.h:26:26: error: 'PAGE_SHIFT' undeclared (first use in this function)
-      26 | #define PTE_SHIFT       (PAGE_SHIFT - 2)        /* 1024 ptes per page */
-         |                          ^~~~~~~~~~
-   include/vdso/page.h:31:25: note: in expansion of macro 'PTE_SHIFT'
-      31 | #define PAGE_SHIFT      PTE_SHIFT
-         |                         ^~~~~~~~~
-   include/linux/pfn.h:11:33: note: in expansion of macro 'PAGE_SHIFT'
-      11 | #define PFN_DOWN(x)     ((x) >> PAGE_SHIFT)
-         |                                 ^~~~~~~~~~
-   arch/microblaze/include/asm/page.h:95:34: note: in expansion of macro 'PFN_DOWN'
-      95 | # define phys_to_pfn(phys)      (PFN_DOWN(phys))
-         |                                  ^~~~~~~~
-   arch/microblaze/include/asm/page.h:122:16: note: in expansion of macro 'phys_to_pfn'
-     122 |         return phys_to_pfn(__pa(vaddr));
-         |                ^~~~~~~~~~~
-   arch/microblaze/include/asm/page.h:26:26: note: each undeclared identifier is reported only once for each function it appears in
-      26 | #define PTE_SHIFT       (PAGE_SHIFT - 2)        /* 1024 ptes per page */
-         |                          ^~~~~~~~~~
-   include/vdso/page.h:31:25: note: in expansion of macro 'PTE_SHIFT'
-      31 | #define PAGE_SHIFT      PTE_SHIFT
-         |                         ^~~~~~~~~
-   include/linux/pfn.h:11:33: note: in expansion of macro 'PAGE_SHIFT'
-      11 | #define PFN_DOWN(x)     ((x) >> PAGE_SHIFT)
-         |                                 ^~~~~~~~~~
-   arch/microblaze/include/asm/page.h:95:34: note: in expansion of macro 'PFN_DOWN'
-      95 | # define phys_to_pfn(phys)      (PFN_DOWN(phys))
-         |                                  ^~~~~~~~
-   arch/microblaze/include/asm/page.h:122:16: note: in expansion of macro 'phys_to_pfn'
-     122 |         return phys_to_pfn(__pa(vaddr));
-         |                ^~~~~~~~~~~
-   arch/microblaze/include/asm/page.h: In function 'pfn_to_virt':
-   arch/microblaze/include/asm/page.h:26:26: error: 'PAGE_SHIFT' undeclared (first use in this function)
-      26 | #define PTE_SHIFT       (PAGE_SHIFT - 2)        /* 1024 ptes per page */
-         |                          ^~~~~~~~~~
-   arch/microblaze/include/asm/page.h:109:11: note: in definition of macro '__phys_to_virt'
-     109 |         ((addr) + CONFIG_KERNEL_START - CONFIG_KERNEL_BASE_ADDR)
-         |           ^~~~
-   arch/microblaze/include/asm/page.h:127:16: note: in expansion of macro '__va'
-     127 |         return __va(pfn_to_phys((pfn)));
-         |                ^~~~
-   include/vdso/page.h:31:25: note: in expansion of macro 'PTE_SHIFT'
-      31 | #define PAGE_SHIFT      PTE_SHIFT
-         |                         ^~~~~~~~~
-   include/linux/pfn.h:12:46: note: in expansion of macro 'PAGE_SHIFT'
-      12 | #define PFN_PHYS(x)     ((phys_addr_t)(x) << PAGE_SHIFT)
-         |                                              ^~~~~~~~~~
-   arch/microblaze/include/asm/page.h:96:34: note: in expansion of macro 'PFN_PHYS'
-      96 | # define pfn_to_phys(pfn)       (PFN_PHYS(pfn))
-         |                                  ^~~~~~~~
-   arch/microblaze/include/asm/page.h:127:21: note: in expansion of macro 'pfn_to_phys'
-     127 |         return __va(pfn_to_phys((pfn)));
-         |                     ^~~~~~~~~~~
-   include/asm-generic/memory_model.h: In function 'pfn_valid':
-   arch/microblaze/include/asm/page.h:26:26: error: 'PAGE_SHIFT' undeclared (first use in this function)
-      26 | #define PTE_SHIFT       (PAGE_SHIFT - 2)        /* 1024 ptes per page */
-         |                          ^~~~~~~~~~
-   include/vdso/page.h:31:25: note: in expansion of macro 'PTE_SHIFT'
-      31 | #define PAGE_SHIFT      PTE_SHIFT
-         |                         ^~~~~~~~~
-   arch/microblaze/include/asm/page.h:101:50: note: in expansion of macro 'PAGE_SHIFT'
-     101 | #  define ARCH_PFN_OFFSET       (memory_start >> PAGE_SHIFT)
-         |                                                  ^~~~~~~~~~
-   include/asm-generic/memory_model.h:28:36: note: in expansion of macro 'ARCH_PFN_OFFSET'
-      28 |         unsigned long pfn_offset = ARCH_PFN_OFFSET;
-         |                                    ^~~~~~~~~~~~~~~
-   include/asm-generic/getorder.h: In function 'get_order':
-   arch/microblaze/include/asm/page.h:26:26: error: 'PAGE_SHIFT' undeclared (first use in this function)
-      26 | #define PTE_SHIFT       (PAGE_SHIFT - 2)        /* 1024 ptes per page */
-         |                          ^~~~~~~~~~
-   include/vdso/page.h:31:25: note: in expansion of macro 'PTE_SHIFT'
-      31 | #define PAGE_SHIFT      PTE_SHIFT
-         |                         ^~~~~~~~~
-   include/asm-generic/getorder.h:33:48: note: in expansion of macro 'PAGE_SHIFT'
-      33 |                         return BITS_PER_LONG - PAGE_SHIFT;
-         |                                                ^~~~~~~~~~
-   arch/microblaze/include/asm/pgtable.h: At top level:
-   arch/microblaze/include/asm/page.h:26:26: error: 'PAGE_SHIFT' undeclared here (not in a function)
-      26 | #define PTE_SHIFT       (PAGE_SHIFT - 2)        /* 1024 ptes per page */
-         |                          ^~~~~~~~~~
-   include/vdso/page.h:31:25: note: in expansion of macro 'PTE_SHIFT'
-      31 | #define PAGE_SHIFT      PTE_SHIFT
-         |                         ^~~~~~~~~
-   arch/microblaze/include/asm/pgtable.h:89:26: note: in expansion of macro 'PAGE_SHIFT'
-      89 | #define PGDIR_SHIFT     (PAGE_SHIFT + PTE_SHIFT)
-         |                          ^~~~~~~~~~
-   arch/microblaze/include/asm/pgtable.h:99:37: note: in expansion of macro 'PGDIR_SHIFT'
-      99 | #define PTRS_PER_PGD    (1 << (32 - PGDIR_SHIFT))
-         |                                     ^~~~~~~~~~~
-   arch/microblaze/include/asm/pgtable.h:381:29: note: in expansion of macro 'PTRS_PER_PGD'
-     381 | extern pgd_t swapper_pg_dir[PTRS_PER_PGD];
-         |                             ^~~~~~~~~~~~
-   include/vdso/page.h:31:25: error: 'PTE_SHIFT' undeclared here (not in a function)
-      31 | #define PAGE_SHIFT      PTE_SHIFT
+   drivers/net/phy/as21xx_1.9.2/as21xxx.c: In function 'aeon_set_default_value':
+>> drivers/net/phy/as21xx_1.9.2/as21xxx.c:645:27: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     645 |         int pos = 0, val, ret = 0, remaining;
+         |                           ^~~
 
 
-vim +/PTE_SHIFT +26 arch/microblaze/include/asm/page.h
+vim +/ret +645 drivers/net/phy/as21xx_1.9.2/as21xxx.c
 
-a1253977dff4a03 John Williams 2009-06-22  25  
-9f78d3b5ab97a22 Michal Simek  2012-07-31 @26  #define PTE_SHIFT	(PAGE_SHIFT - 2)	/* 1024 ptes per page */
-9f78d3b5ab97a22 Michal Simek  2012-07-31  27  
-
-:::::: The code at line 26 was first introduced by commit
-:::::: 9f78d3b5ab97a22a7e836312c495804ee4bca4ab microblaze: Do not used hardcoded value in exception handler
-
-:::::: TO: Michal Simek <monstr@monstr.eu>
-:::::: CC: Michal Simek <monstr@monstr.eu>
+   637	
+   638	static int aeon_set_default_value(struct phy_device *phydev)
+   639	{
+   640		static const unsigned char base_data[] = {0x32, 0x30, 0x32, 0x33, 0x30, 0x37, 0x31, 0x34};
+   641		unsigned char bytebuf[16];
+   642		unsigned short *wdata;
+   643		unsigned int mask;
+   644		int byte_count, wdata_count = 0;
+ > 645		int pos = 0, val, ret = 0, remaining;
+   646		unsigned char padded_bytes[MEM_WORD_SIZE] = {0};
+   647	
+   648		mask = param1 | 14;
+   649		memcpy(bytebuf, base_data, sizeof(base_data));
+   650		bytebuf[8] = mask & 0xff;
+   651		bytebuf[9] = (mask >> 8) & 0xff;
+   652		byte_count = 10;
+   653	
+   654		wdata = kmalloc(MAX_WDATA_SIZE * sizeof(unsigned short), GFP_KERNEL);
+   655		if (!wdata)
+   656			return -ENOMEM;
+   657	
+   658		while (pos + MEM_WORD_SIZE <= byte_count) {
+   659			if (wdata_count + 2 > MAX_WDATA_SIZE) {
+   660				pr_err("wdata array overflow\n");
+   661				ret = -ENOSPC;
+   662				goto cleanup;
+   663			}
+   664			wdata[wdata_count++] = le16_to_cpu(*(unsigned short *)&bytebuf[pos]);
+   665			wdata[wdata_count++] = le16_to_cpu(*(unsigned short *)&bytebuf[pos + 2]);
+   666			pos += MEM_WORD_SIZE;
+   667		}
+   668	
+   669		remaining = byte_count - pos;
+   670		if (remaining > 0) {
+   671			if (wdata_count + 2 <= MAX_WDATA_SIZE) {
+   672				// Here we just need padded_bytes once, otherwise we need to read from mem
+   673				memcpy(padded_bytes, &bytebuf[pos], remaining);
+   674				wdata[wdata_count++] = le16_to_cpu(*(unsigned short *)&padded_bytes[0]);
+   675				wdata[wdata_count++] = le16_to_cpu(*(unsigned short *)&padded_bytes[2]);
+   676			}
+   677		}
+   678	
+   679		val = phy_read_mmd(phydev, MDIO_MMD_VEND1, VEND1_GLB_REG_CPU_CTRL); //GLB_REG_CPU_CTRL
+   680		val |= 0x12;
+   681		phy_write_mmd(phydev, MDIO_MMD_VEND1, VEND1_GLB_REG_CPU_CTRL, val);
+   682		phy_write_mmd(phydev, MDIO_MMD_VEND1, VEND1_FW_START_ADDR,
+   683				(u16)(AEON_MEM_DEFAULT_ADDR & 0xFFFF));
+   684		phy_modify_mmd(phydev, MDIO_MMD_VEND1,
+   685				VEND1_GLB_REG_MDIO_INDIRECT_ADDRCMD,
+   686				0x3ffc, 0xc000);
+   687		aeon_cl45_write_burst(phydev, MDIO_MMD_VEND1, VEND1_GLB_REG_MDIO_INDIRECT_LOAD,
+   688				(unsigned char *)wdata, wdata_count*2);
+   689		val = phy_read_mmd(phydev, MDIO_MMD_VEND1,
+   690				VEND1_GLB_REG_MDIO_INDIRECT_ADDRCMD); //GLB_REG_MDIO_INDIRECT_ADDRCMD
+   691		val &= 0x3FFF;
+   692		phy_write_mmd(phydev, MDIO_MMD_VEND1, VEND1_GLB_REG_MDIO_INDIRECT_ADDRCMD, val);
+   693		val = phy_read_mmd(phydev, MDIO_MMD_VEND1, VEND1_GLB_REG_CPU_CTRL); //GLB_REG_CPU_CTRL
+   694		val &= 0xFFED;
+   695		phy_write_mmd(phydev, MDIO_MMD_VEND1, VEND1_GLB_REG_CPU_CTRL, val);
+   696	
+   697	cleanup:
+   698		kfree(wdata);
+   699		return 0;
+   700	}
+   701	
 
 -- 
 0-DAY CI Kernel Test Service
