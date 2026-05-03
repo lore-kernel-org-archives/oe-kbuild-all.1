@@ -1,118 +1,203 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71CEA26059D
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 May 2026 19:31:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC154346E43;
+	Sun,  3 May 2026 19:32:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777836681; cv=none; b=Fj3LNm1TZ7tdA1J5ZuZTtws8HQXE7G10r7izNKv5vhDIZ55ly/6thxCLivSqlHpa6Csc1NMO6Ji9d+44EpT2WfhA1qIQOLb8T+K0aDsW+dADRwB+QCU81P2aYSTE0Nf411Z3tKJ8x1it/aLIrHoR3Er+kIX/wxTVP9obLMdRLI4=
+	t=1777836755; cv=none; b=HfWw8hYaf6rm9DnDueV9Ae35oU9xYBu/Eav5iLSIN8M9v1zM4Bj/bcE++Dih2d7W8gljGohHVUtO8hwlGXC9iuz+89q8+qqvbuHBdkpHiE8MOXX8ZgEJDjwmNFe+A+ysoz1Hc/yvq3M18DXdfXC4Se5bfmmtDAE/F6fc8v5qSGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777836681; c=relaxed/simple;
-	bh=t9jocURxGOfbR6VAYcSA56+zaJUseaCY9IZdvtCBYfU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=SQxEiNmUbf2hpopoX+9m2QCLAKf+/gP2xwYT9mCHM8qujRu4ZiE1tkzf+4p1cIN1jVkKgQO5Y1TZ6Ygauyem9OURR2YiUOWYCq9g8cGWSFv3858NYuMcR3YOJob5y9uTT3A7XnDTFTphVfxnJltJXg2Uql83Q8qeLuIkmUM/S0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GtvXnFdn; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1777836755; c=relaxed/simple;
+	bh=PJgmPFGMNo+aUZU7RYDsZtYKqYVzGFJCD9AzjJlTtJo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qIL43iZDPnkI1H7pmjmVu1AUrAK/LZnISQaO1JMeTi6/t5aiGs85qrby5bKU/SvGgjC7uYWuTEYH7xIPFi9tcm70BWiWQgMq+rZiAMxvmmTX+Y6KGu22GPHh101ib8xpUZYg4Xd5ErXWSROvJJLUBuTD7FCfEKUFdTUvBaEBDKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f72OfGU0; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GtvXnFdn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f72OfGU0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777836680; x=1809372680;
-  h=date:from:to:cc:subject:message-id;
-  bh=t9jocURxGOfbR6VAYcSA56+zaJUseaCY9IZdvtCBYfU=;
-  b=GtvXnFdntKZJEi4/oAe7TRWd41aiDbXm5ggKDTp1jGEjpk5GeutblSir
-   wf/L9klavoNd28zBxYIVMu9zpGT8L88k6uGW8PuSEfkJ9Xen7Izq5Nt1h
-   iMPgiv9+ZAbH4pxD/dcR9T+RS4uWZALYcKI6ofyK2O/JYhcPnytjialsk
-   QrU9AvJ6dBnNhhi1rfT7HCPXaq87u2YcqxCYOddVgB0mlcnwdtJr8xxKj
-   RS2H98uDOvwiYrM6xrgUYF7XTSnV+XW1gDWxIPneRoL8iUAr16+C0LzGZ
-   6n7EvZ+1UpLH3OpVvVBcgDFcG2lshj9CN8h8m7i31U1KbTaKJjuNHnnZY
-   w==;
-X-CSE-ConnectionGUID: bZyLTKBJToC1heIsFOypyg==
-X-CSE-MsgGUID: 4IfoA9pfSKiHy4ewHWbRIw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11775"; a="82321837"
+  t=1777836754; x=1809372754;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PJgmPFGMNo+aUZU7RYDsZtYKqYVzGFJCD9AzjJlTtJo=;
+  b=f72OfGU0Q1GK3yYoAR4/JLPzYcadbrFhqQdnP9H1g9y8PqdR05lNNan+
+   hJ4I1WmV0RwSQBOoRq07WP++1472ASgGyLs2LEmU6AQ993TsEFoJqFzHO
+   vrPLG6/A2r2zTtz+F16ayE8vY2IiPk09uXyhxEgi4Q74sQJMIl+7zjUJf
+   V3/+zd/KIoLtCIkudxMyVVrgJhzHMXzBa6knF8eevdoe0bS7/A6DDLgho
+   /ZulitCbKPV71CGC1XzGlH5k9RI32Qb+P/K3ymOPd0v6azVqzoUW2QZBt
+   5ik5OkWdqxyua/PugEW9w6leVK3DRkpE9Bk8Q4waiMTcSJ9OgrdjKRDUU
+   A==;
+X-CSE-ConnectionGUID: MXOd8TEQTuKSZU73MQUpNg==
+X-CSE-MsgGUID: bT8WcbEvR3WyCFQaN8MApw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11775"; a="78905027"
 X-IronPort-AV: E=Sophos;i="6.23,214,1770624000"; 
-   d="scan'208";a="82321837"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2026 12:31:20 -0700
-X-CSE-ConnectionGUID: 4qi6YtN0RYmLF/1BN08TVA==
-X-CSE-MsgGUID: ngpRIyO8Sua8Hydu0I2V/g==
+   d="scan'208";a="78905027"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2026 12:32:33 -0700
+X-CSE-ConnectionGUID: Da0YIf2qRoG6zrFi3p71Zw==
+X-CSE-MsgGUID: xIySiJImSBqll0oDzWNHyQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,214,1770624000"; 
-   d="scan'208";a="234307807"
 Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 03 May 2026 12:31:18 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 03 May 2026 12:32:31 -0700
 Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wJcWs-000000002wJ-3KWh;
-	Sun, 03 May 2026 19:31:04 +0000
-Date: Mon, 04 May 2026 03:30:18 +0800
+	id 1wJcY3-000000002wP-3Loe;
+	Sun, 03 May 2026 19:32:19 +0000
+Date: Mon, 4 May 2026 03:30:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Johannes Berg <johannes.berg@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Gregory Greenman <gregory.greenman@intel.com>
-Subject: drivers/net/wireless/intel/iwlwifi/pcie/trans.c:1093:9:
- warning: 'CAUSE' redefined
-Message-ID: <202605040340.6rml3fNr-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Tejun Heo <tj@kernel.org>, Martin Pitt <martin@piware.de>
+Cc: oe-kbuild-all@lists.linux.dev, regressions@lists.linux.dev,
+	cgroups@vger.kernel.org, lizefan.x@bytedance.com,
+	hannes@cmpxchg.org,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	linux-kernel@vger.kernel.org, Tejun Heo <tj@kernel.org>
+Subject: Re: [PATCH] cgroup: Defer css percpu_ref kill on rmdir until cgroup
+ is depopulated
+Message-ID: <202605040315.QbFTzfWy-lkp@intel.com>
+References: <20260501022943.3714461-1-tj@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260501022943.3714461-1-tj@kernel.org>
 
-Hi Johannes,
+Hi Tejun,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   66edb901bf874d9e0787326ba12d3548b2da8700
-commit: c1918196427b917d1fbf064b07538410807f8b03 iwlwifi: pcie: simplify MSI-X cause mapping
-date:   4 years ago
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20260504/202605040340.6rml3fNr-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260504/202605040340.6rml3fNr-lkp@intel.com/reproduce)
+[auto build test WARNING on tj-cgroup/for-next]
+[also build test WARNING on linus/master next-20260430]
+[cannot apply to v7.1-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tejun-Heo/cgroup-Defer-css-percpu_ref-kill-on-rmdir-until-cgroup-is-depopulated/20260503-165802
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git for-next
+patch link:    https://lore.kernel.org/r/20260501022943.3714461-1-tj%40kernel.org
+patch subject: [PATCH] cgroup: Defer css percpu_ref kill on rmdir until cgroup is depopulated
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260504/202605040315.QbFTzfWy-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260504/202605040315.QbFTzfWy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: c1918196427b ("iwlwifi: pcie: simplify MSI-X cause mapping")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605040340.6rml3fNr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605040315.QbFTzfWy-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/wireless/intel/iwlwifi/pcie/trans.c:1093:9: warning: 'CAUSE' redefined
-    1093 | #define CAUSE(reg, mask)                                                \
-         |         ^~~~~
-   In file included from arch/mips/include/asm/ptrace.h:19,
-                    from include/linux/sched/signal.h:14,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/percpu-rwsem.h:7,
-                    from include/linux/fs.h:33,
-                    from arch/mips/include/asm/elf.h:12,
-                    from include/linux/elf.h:6,
-                    from include/linux/module.h:19,
-                    from include/linux/device/driver.h:21,
-                    from include/linux/device.h:32,
-                    from include/linux/pci.h:37,
-                    from drivers/net/wireless/intel/iwlwifi/pcie/trans.c:7:
-   arch/mips/include/uapi/asm/ptrace.h:18:9: note: this is the location of the previous definition
-      18 | #define CAUSE           65
-         |         ^~~~~
+   kernel/cgroup/cgroup.c: In function 'cgroup_apply_control_disable':
+   kernel/cgroup/cgroup.c:3391:33: error: implicit declaration of function 'kill_css_sync'; did you mean 'kill_fasync'? [-Wimplicit-function-declaration]
+    3391 |                                 kill_css_sync(css);
+         |                                 ^~~~~~~~~~~~~
+         |                                 kill_fasync
+   kernel/cgroup/cgroup.c:3392:33: error: implicit declaration of function 'kill_css_finish' [-Wimplicit-function-declaration]
+    3392 |                                 kill_css_finish(css);
+         |                                 ^~~~~~~~~~~~~~~
+   kernel/cgroup/cgroup.c: At top level:
+>> kernel/cgroup/cgroup.c:6047:13: warning: conflicting types for 'kill_css_sync'; have 'void(struct cgroup_subsys_state *)'
+    6047 | static void kill_css_sync(struct cgroup_subsys_state *css)
+         |             ^~~~~~~~~~~~~
+   kernel/cgroup/cgroup.c:6047:13: error: static declaration of 'kill_css_sync' follows non-static declaration
+   kernel/cgroup/cgroup.c:3391:33: note: previous implicit declaration of 'kill_css_sync' with type 'void(struct cgroup_subsys_state *)'
+    3391 |                                 kill_css_sync(css);
+         |                                 ^~~~~~~~~~~~~
+>> kernel/cgroup/cgroup.c:6087:13: warning: conflicting types for 'kill_css_finish'; have 'void(struct cgroup_subsys_state *)'
+    6087 | static void kill_css_finish(struct cgroup_subsys_state *css)
+         |             ^~~~~~~~~~~~~~~
+   kernel/cgroup/cgroup.c:6087:13: error: static declaration of 'kill_css_finish' follows non-static declaration
+   kernel/cgroup/cgroup.c:3392:33: note: previous implicit declaration of 'kill_css_finish' with type 'void(struct cgroup_subsys_state *)'
+    3392 |                                 kill_css_finish(css);
+         |                                 ^~~~~~~~~~~~~~~
 
 
-vim +/CAUSE +1093 drivers/net/wireless/intel/iwlwifi/pcie/trans.c
+vim +6047 kernel/cgroup/cgroup.c
 
-  1092	
-> 1093	#define CAUSE(reg, mask)						\
-  1094		{								\
-  1095			.mask_reg = reg,					\
-  1096			.bit = ilog2(mask),					\
-  1097			.addr = ilog2(mask) +					\
-  1098				((reg) == CSR_MSIX_FH_INT_MASK_AD ? -16 :	\
-  1099				 (reg) == CSR_MSIX_HW_INT_MASK_AD ? 16 :	\
-  1100				 0xffff),	/* causes overflow warning */	\
-  1101		}
-  1102	
+  6040	
+  6041	/**
+  6042	 * kill_css_sync - synchronous half of css teardown
+  6043	 * @css: css being killed
+  6044	 *
+  6045	 * See cgroup_destroy_locked().
+  6046	 */
+> 6047	static void kill_css_sync(struct cgroup_subsys_state *css)
+  6048	{
+  6049		struct cgroup_subsys *ss = css->ss;
+  6050	
+  6051		lockdep_assert_held(&cgroup_mutex);
+  6052	
+  6053		if (css->flags & CSS_DYING)
+  6054			return;
+  6055	
+  6056		/*
+  6057		 * Call css_killed(), if defined, before setting the CSS_DYING flag
+  6058		 */
+  6059		if (css->ss->css_killed)
+  6060			css->ss->css_killed(css);
+  6061	
+  6062		css->flags |= CSS_DYING;
+  6063	
+  6064		/*
+  6065		 * This must happen before css is disassociated with its cgroup.
+  6066		 * See seq_css() for details.
+  6067		 */
+  6068		css_clear_dir(css);
+  6069	
+  6070		css->cgroup->nr_dying_subsys[ss->id]++;
+  6071		/*
+  6072		 * Parent css and cgroup cannot be freed until after the freeing
+  6073		 * of child css, see css_free_rwork_fn().
+  6074		 */
+  6075		while ((css = css->parent)) {
+  6076			css->nr_descendants--;
+  6077			css->cgroup->nr_dying_subsys[ss->id]++;
+  6078		}
+  6079	}
+  6080	
+  6081	/**
+  6082	 * kill_css_finish - deferred half of css teardown
+  6083	 * @css: css being killed
+  6084	 *
+  6085	 * See cgroup_destroy_locked().
+  6086	 */
+> 6087	static void kill_css_finish(struct cgroup_subsys_state *css)
+  6088	{
+  6089		lockdep_assert_held(&cgroup_mutex);
+  6090	
+  6091		/*
+  6092		 * Skip on re-entry: cgroup_apply_control_disable() may have killed @css
+  6093		 * earlier. cgroup_destroy_locked() can still walk it because
+  6094		 * offline_css() (which NULLs cgrp->subsys[ssid]) runs async.
+  6095		 */
+  6096		if (percpu_ref_is_dying(&css->refcnt))
+  6097			return;
+  6098	
+  6099		/*
+  6100		 * Killing would put the base ref, but we need to keep it alive until
+  6101		 * after ->css_offline().
+  6102		 */
+  6103		css_get(css);
+  6104	
+  6105		/*
+  6106		 * cgroup core guarantees that, by the time ->css_offline() is invoked,
+  6107		 * no new css reference will be given out via css_tryget_online(). We
+  6108		 * can't simply call percpu_ref_kill() and proceed to offlining css's
+  6109		 * because percpu_ref_kill() doesn't guarantee that the ref is seen as
+  6110		 * killed on all CPUs on return.
+  6111		 *
+  6112		 * Use percpu_ref_kill_and_confirm() to get notifications as each css is
+  6113		 * confirmed to be seen as killed on all CPUs.
+  6114		 */
+  6115		percpu_ref_kill_and_confirm(&css->refcnt, css_killed_ref_fn);
+  6116	}
+  6117	
 
 -- 
 0-DAY CI Kernel Test Service
