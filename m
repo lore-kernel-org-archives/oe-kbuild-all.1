@@ -1,187 +1,250 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B3A23D7E6;
-	Sun,  3 May 2026 14:52:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6558262BD;
+	Sun,  3 May 2026 15:04:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777819980; cv=none; b=SCf7+IgGhzxcIIGoq1yMsBqVMJhQPP81njl6FSHofQKSIS1o7M2QXCJYD+A7wu4SUrh7GxPTFBJsZVGDBVw1nuKuxq7iSs+4ercy3ENYGF4m/y2TzXpleh4K7h4wgd0reZzQ5UCNjDMKGOANxyn7FFEM/ItzYhKCGQX3wQOkBwo=
+	t=1777820698; cv=none; b=u+7b9CBdIxZe/osEp2+Rfj0+VWN9xrwpAe3y7V3sInzLY2BQBQVlaA96FHxdNTq9BeN5LD5g5rP8G8Ti6MDVFQcGjm4nmMpEi/uwRbNoJVGO5NakFZ+fvanRw0BScAUixnvpzPdELEQ9hqM7WqeyslTCpc5ki/rgIRWyANV3Qbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777819980; c=relaxed/simple;
-	bh=C2wVE/sIvMEAvhthdCARXccZQpF7oYZBLXDphUbG2Os=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ThrCp/YENW8jqmfXSMOjf0lEWJzwzXlyBO3k/wQC6/gOCjcClaIvYh0EigC/slopm8FnV6czjPXuxiirUkKgfNlF0+mLxKUcYgCWXxqHpjc93+09PPAZE/ZH5dwQcH2NSCfMwsrbf7Wu+e/lxGkJ4vZmsWCpoUcG75itcLLT3+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZC4QxfIJ; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1777820698; c=relaxed/simple;
+	bh=0AncZI7gUlR0rEVkbKmSVNDESW916ao2VYh46jFq6h0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=CuH/zmOG161XX+tA9rbJt42TeCWoFlvSE3/6dq2uY7mA5YYR4Gi4XRaRJ2bCmvgvGjWMq+C8B9+rh/zWg5+Z+eyIsBRZ9TbirXfwm4WM8DvJADdPs0wQHFDwxtxaHjJmXB0FGxcUFBqEjYPsZR5hqLhr6NkVLeZPHrOSeAv4mhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NOl7zBEm; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZC4QxfIJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NOl7zBEm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777819978; x=1809355978;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=C2wVE/sIvMEAvhthdCARXccZQpF7oYZBLXDphUbG2Os=;
-  b=ZC4QxfIJFxqtdVeZuBFlIdYwSUBUbO0GQysUBEIzH0UAyTl1tyqGCREA
-   DUUSBdbTew7FxIfJMSUAAunZOQRYyqp9NLZtcrLKcid0SftaMAeV+Lsw3
-   QK1QcZXIHjJqLDjT3Be3aenVS3E/vHgI3n5xKOU6PjGrnpCKMCU0HpxJJ
-   Ho83EyxqwX+J0SWhetB+6bEAx+z8sxCUlArKVdeXp+z0O+mrZtG6cRsrA
-   P62bNAYCsvjOBm0bRYN5xBV4uU/qr/2AWl8d63TtC1vlf1U+MQHfgpq4V
-   94g+rRGesxm/GxAkyDkC+oiwOaqF0PzmuDrPtTspvVJJvgLcaEcKNfU+C
-   w==;
-X-CSE-ConnectionGUID: eMdNDKKLSwqfhQLh+hiobg==
-X-CSE-MsgGUID: Ft3kFw6+QIuemhk/JMU6eA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11775"; a="104153666"
+  t=1777820698; x=1809356698;
+  h=date:from:to:cc:subject:message-id;
+  bh=0AncZI7gUlR0rEVkbKmSVNDESW916ao2VYh46jFq6h0=;
+  b=NOl7zBEmfJnxPiZccfge7epMdDbqsU07V6sHF/OpZ+VgslxU7AYeVsxu
+   Rwq6KxaXFEigMZu+AxbbaDikdwAdFu3K8b69ht8RMkBc1F9jhX2GwhA+i
+   rf81rIFSflv+RlrpxcuqVN3lrLddNQd4R4Lq+0BKvQfHvnnJtWY6hT9OL
+   lWOtO+wvHggnOn7QIRSlWhsuG59sHxdJtUHxCzINPdpgik2vlUpg5r90M
+   1Ott2/e9JXb+ekJ9io8zGmAzQSbRjcPaFa+gQodSWpvxxksre2n4R3L1S
+   uzJgKJtLAnM1y++zStvfGBVVy4Jp/9lS3BB8Ufebt9lJR1BXBMESsXRz7
+   g==;
+X-CSE-ConnectionGUID: BguFkCHfSJugC2J9eoa94Q==
+X-CSE-MsgGUID: G8lbW65OR/iYVtfftEJdAw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11775"; a="82314297"
 X-IronPort-AV: E=Sophos;i="6.23,213,1770624000"; 
-   d="scan'208";a="104153666"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2026 07:52:57 -0700
-X-CSE-ConnectionGUID: aA34QxKrQW+Vx0+WNBfInA==
-X-CSE-MsgGUID: ydHjP4+nTxatXV3fjKeqDw==
+   d="scan'208";a="82314297"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2026 08:04:57 -0700
+X-CSE-ConnectionGUID: irP+4t+TTSW4QxHIzEhGqw==
+X-CSE-MsgGUID: 933KS4veSFKsuEoRAorCaQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,213,1770624000"; 
-   d="scan'208";a="228801147"
 Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 03 May 2026 07:52:55 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 03 May 2026 08:04:54 -0700
 Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wJYBg-000000002ez-0Ojf;
-	Sun, 03 May 2026 14:52:52 +0000
-Date: Sun, 3 May 2026 22:51:54 +0800
+	id 1wJYNI-000000002fZ-2EIL;
+	Sun, 03 May 2026 15:04:52 +0000
+Date: Sun, 03 May 2026 23:04:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Guangshuo Li <lgs201920130244@gmail.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil@kernel.org>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Guangshuo Li <lgs201920130244@gmail.com>
-Subject: Re: [PATCH] media: staging/ipu7: Fix pdata double free in init error
- paths
-Message-ID: <202605032224.WHCEx7uc-lkp@intel.com>
-References: <20260430053820.446080-1-lgs201920130244@gmail.com>
+To: David Howells <dhowells@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:netfs-crypt 55/68]
+ fs/netfs/buffered_read.c:351:42: warning: variable 'subreq' is uninitialized
+ when used here
+Message-ID: <202605032211.ochIXzo6-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260430053820.446080-1-lgs201920130244@gmail.com>
 
-Hi Guangshuo,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on staging/staging-testing]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Guangshuo-Li/media-staging-ipu7-Fix-pdata-double-free-in-init-error-paths/20260501-032323
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260430053820.446080-1-lgs201920130244%40gmail.com
-patch subject: [PATCH] media: staging/ipu7: Fix pdata double free in init error paths
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20260503/202605032224.WHCEx7uc-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260503/202605032224.WHCEx7uc-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-crypt
+head:   390dd59a3747b71c4dcff11b2cc5240385cbfedf
+commit: 7693c7841ea1917c01c8cb6ae171070f4b69102b [55/68] netfs: Set subrequest->source at alloc before trace emission
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260503/202605032211.ochIXzo6-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260503/202605032211.ochIXzo6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605032224.WHCEx7uc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605032211.ochIXzo6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/staging/media/ipu7/ipu7.c: In function 'ipu7_isys_init':
->> drivers/staging/media/ipu7/ipu7.c:2176:33: error: passing argument 1 of 'ERR_CAST' makes pointer from integer without a cast [-Wint-conversion]
-    2176 |                 return ERR_CAST(ret);
-         |                                 ^~~
-         |                                 |
-         |                                 int
-   In file included from include/linux/cleanup.h:6,
-                    from include/linux/acpi.h:11,
-                    from drivers/staging/media/ipu7/ipu7.c:6:
-   include/linux/err.h:102:64: note: expected 'const void *' but argument is of type 'int'
-     102 | static inline void * __must_check ERR_CAST(__force const void *ptr)
-         |                                                    ~~~~~~~~~~~~^~~
-   drivers/staging/media/ipu7/ipu7.c: In function 'ipu7_psys_init':
-   drivers/staging/media/ipu7/ipu7.c:2221:33: error: passing argument 1 of 'ERR_CAST' makes pointer from integer without a cast [-Wint-conversion]
-    2221 |                 return ERR_CAST(ret);
-         |                                 ^~~
-         |                                 |
-         |                                 int
-   include/linux/err.h:102:64: note: expected 'const void *' but argument is of type 'int'
-     102 | static inline void * __must_check ERR_CAST(__force const void *ptr)
-         |                                                    ~~~~~~~~~~~~^~~
+>> fs/netfs/buffered_read.c:351:42: warning: variable 'subreq' is uninitialized when used here [-Wuninitialized]
+     351 |                                 __set_bit(NETFS_SREQ_COPY_TO_CACHE, &subreq->flags);
+         |                                                                      ^~~~~~
+   include/linux/bitops.h:53:52: note: expanded from macro '__set_bit'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                                               ^~~~
+   include/linux/bitops.h:44:37: note: expanded from macro 'bitop'
+      44 |           __builtin_constant_p((uintptr_t)(addr) != (uintptr_t)NULL) && \
+         |                                            ^~~~
+   fs/netfs/buffered_read.c:273:37: note: initialize the variable 'subreq' to silence this warning
+     273 |                 struct netfs_io_subrequest *subreq;
+         |                                                   ^
+         |                                                    = NULL
+   1 warning generated.
 
 
-vim +/ERR_CAST +2176 drivers/staging/media/ipu7/ipu7.c
+vim +/subreq +351 fs/netfs/buffered_read.c
 
-  2125	
-  2126	static struct ipu7_bus_device *
-  2127	ipu7_isys_init(struct pci_dev *pdev, struct device *parent,
-  2128		       const struct ipu_buttress_ctrl *ctrl, void __iomem *base,
-  2129		       const struct ipu_isys_internal_pdata *ipdata,
-  2130		       unsigned int nr)
-  2131	{
-  2132		struct fwnode_handle *fwnode = dev_fwnode(&pdev->dev);
-  2133		struct ipu7_bus_device *isys_adev;
-  2134		struct device *dev = &pdev->dev;
-  2135		struct ipu7_isys_pdata *pdata;
-  2136		int ret;
-  2137	
-  2138		ret = ipu7_isys_check_fwnode_graph(fwnode);
-  2139		if (ret) {
-  2140			if (fwnode && !IS_ERR_OR_NULL(fwnode->secondary)) {
-  2141				dev_err(dev,
-  2142					"fwnode graph has no endpoints connection\n");
-  2143				return ERR_PTR(-EINVAL);
-  2144			}
-  2145	
-  2146			ret = ipu_bridge_init(dev, ipu_bridge_parse_ssdb);
-  2147			if (ret) {
-  2148				dev_err_probe(dev, ret, "IPU bridge init failed\n");
-  2149				return ERR_PTR(ret);
-  2150			}
-  2151		}
-  2152	
-  2153		pdata = kzalloc_obj(*pdata);
-  2154		if (!pdata)
-  2155			return ERR_PTR(-ENOMEM);
-  2156	
-  2157		pdata->base = base;
-  2158		pdata->ipdata = ipdata;
-  2159	
-  2160		isys_adev = ipu7_bus_initialize_device(pdev, parent, pdata, ctrl,
-  2161						       IPU_ISYS_NAME);
-  2162		if (IS_ERR(isys_adev)) {
-  2163			dev_err_probe(dev, PTR_ERR(isys_adev),
-  2164				      "ipu7_bus_initialize_device isys failed\n");
-  2165			kfree(pdata);
-  2166			return ERR_CAST(isys_adev);
-  2167		}
-  2168	
-  2169		isys_adev->mmu = ipu7_mmu_init(dev, base, ISYS_MMID,
-  2170					       &ipdata->hw_variant);
-  2171		if (IS_ERR(isys_adev->mmu)) {
-  2172			ret = PTR_ERR(isys_adev->mmu);
-  2173			dev_err_probe(dev, ret,
-  2174				      "ipu7_mmu_init(isys_adev->mmu) failed\n");
-  2175			put_device(&isys_adev->auxdev.dev);
-> 2176			return ERR_CAST(ret);
-  2177		}
-  2178	
-  2179		isys_adev->mmu->dev = &isys_adev->auxdev.dev;
-  2180		isys_adev->subsys = IPU_IS;
-  2181	
-  2182		ret = ipu7_bus_add_device(isys_adev);
-  2183		if (ret)
-  2184			return ERR_PTR(ret);
-  2185	
-  2186		return isys_adev;
-  2187	}
-  2188	
+e2d46f2ec33253 David Howells 2024-12-16  247  
+ee4cdf7ba857a8 David Howells 2024-07-02  248  /*
+ee4cdf7ba857a8 David Howells 2024-07-02  249   * Perform a read to the pagecache from a series of sources of different types,
+ee4cdf7ba857a8 David Howells 2024-07-02  250   * slicing up the region to be read according to available cache blocks and
+ee4cdf7ba857a8 David Howells 2024-07-02  251   * network rsize.
+ee4cdf7ba857a8 David Howells 2024-07-02  252   */
+5454216af502c6 David Howells 2026-03-13  253  static void netfs_read_to_pagecache(struct netfs_io_request *rreq)
+ee4cdf7ba857a8 David Howells 2024-07-02  254  {
+4cbdfd0da8d2d5 David Howells 2026-04-09  255  	struct fscache_occupancy _occ = {
+4cbdfd0da8d2d5 David Howells 2026-04-09  256  		.query_from	= rreq->start,
+4cbdfd0da8d2d5 David Howells 2026-04-09  257  		.query_to	= rreq->start + rreq->len,
+4cbdfd0da8d2d5 David Howells 2026-04-09  258  		.cached_from[0]	= 0,
+4cbdfd0da8d2d5 David Howells 2026-04-09  259  		.cached_to[0]	= 0,
+4cbdfd0da8d2d5 David Howells 2026-04-09  260  		.cached_from[1]	= ULLONG_MAX,
+4cbdfd0da8d2d5 David Howells 2026-04-09  261  		.cached_to[1]	= ULLONG_MAX,
+4cbdfd0da8d2d5 David Howells 2026-04-09  262  	};
+4cbdfd0da8d2d5 David Howells 2026-04-09  263  	struct fscache_occupancy *occ = &_occ;
+e192187e9d3cdb David Howells 2026-04-09  264  	struct netfs_io_stream *stream = &rreq->io_streams[0];
+ee4cdf7ba857a8 David Howells 2024-07-02  265  	int ret = 0;
+7e043a80b5dae5 David Howells 2022-11-03  266  
+615fc17c41427e David Howells 2026-04-09  267  	_enter("R=%08x", rreq->debug_id);
+615fc17c41427e David Howells 2026-04-09  268  
+e192187e9d3cdb David Howells 2026-04-09  269  	bvecq_pos_set(&stream->dispatch_cursor, &rreq->load_cursor);
+e192187e9d3cdb David Howells 2026-04-09  270  	bvecq_pos_set(&rreq->collect_cursor, &rreq->load_cursor);
+615fc17c41427e David Howells 2026-04-09  271  
+ee4cdf7ba857a8 David Howells 2024-07-02  272  	do {
+ee4cdf7ba857a8 David Howells 2024-07-02  273  		struct netfs_io_subrequest *subreq;
+7693c7841ea191 David Howells 2026-03-19  274  		enum netfs_io_source source;
+7693c7841ea191 David Howells 2026-03-19  275  		unsigned long long hole_to, cache_to, start, stop;
+7693c7841ea191 David Howells 2026-03-19  276  		size_t len;
+7693c7841ea191 David Howells 2026-03-19  277  		bool copy;
+5e51c627c5acbc David Howells 2022-11-04  278  
+4cbdfd0da8d2d5 David Howells 2026-04-09  279  		/* If we don't have any, find out the next couple of data
+4cbdfd0da8d2d5 David Howells 2026-04-09  280  		 * extents from the cache, containing of following the
+4cbdfd0da8d2d5 David Howells 2026-04-09  281  		 * specified start offset.  Holes have to be fetched from the
+4cbdfd0da8d2d5 David Howells 2026-04-09  282  		 * server; data regions from the cache.
+4cbdfd0da8d2d5 David Howells 2026-04-09  283  		 */
+4cbdfd0da8d2d5 David Howells 2026-04-09  284  		hole_to = occ->cached_from[0];
+4cbdfd0da8d2d5 David Howells 2026-04-09  285  		cache_to = occ->cached_to[0];
+e192187e9d3cdb David Howells 2026-04-09  286  		if (stream->issue_from >= cache_to) {
+4cbdfd0da8d2d5 David Howells 2026-04-09  287  			/* Extent exhausted; shuffle down. */
+4cbdfd0da8d2d5 David Howells 2026-04-09  288  			int i;
+4cbdfd0da8d2d5 David Howells 2026-04-09  289  
+4cbdfd0da8d2d5 David Howells 2026-04-09  290  			for (i = 0; i < ARRAY_SIZE(occ->cached_from) - 1; i++) {
+4cbdfd0da8d2d5 David Howells 2026-04-09  291  				occ->cached_from[i] = occ->cached_from[i + 1];
+4cbdfd0da8d2d5 David Howells 2026-04-09  292  				occ->cached_to[i]   = occ->cached_to[i + 1];
+4cbdfd0da8d2d5 David Howells 2026-04-09  293  				occ->cached_type[i] = occ->cached_type[i + 1];
+4cbdfd0da8d2d5 David Howells 2026-04-09  294  			}
+4cbdfd0da8d2d5 David Howells 2026-04-09  295  			occ->cached_from[i] = ULLONG_MAX;
+4cbdfd0da8d2d5 David Howells 2026-04-09  296  			occ->cached_to[i]   = ULLONG_MAX;
+4cbdfd0da8d2d5 David Howells 2026-04-09  297  
+4cbdfd0da8d2d5 David Howells 2026-04-09  298  			if (occ->cached_from[0] != ULLONG_MAX)
+4cbdfd0da8d2d5 David Howells 2026-04-09  299  				continue;
+4cbdfd0da8d2d5 David Howells 2026-04-09  300  
+4cbdfd0da8d2d5 David Howells 2026-04-09  301  			/* Get new extents */
+e192187e9d3cdb David Howells 2026-04-09  302  			netfs_read_query_cache(rreq, occ);
+4cbdfd0da8d2d5 David Howells 2026-04-09  303  			continue;
+4cbdfd0da8d2d5 David Howells 2026-04-09  304  		}
+4cbdfd0da8d2d5 David Howells 2026-04-09  305  
+7693c7841ea191 David Howells 2026-03-19  306  		start = stream->issue_from;
+e192187e9d3cdb David Howells 2026-04-09  307  		stop = stream->issue_from + stream->buffered;
+4986700e02d674 David Howells 2026-04-27  308  
+09f608d47661d0 David Howells 2026-04-20  309  		unsigned long long zero_point = netfs_read_zero_point(rreq->inode);
+4cbdfd0da8d2d5 David Howells 2026-04-09  310  		unsigned long long zlimit = umin(zero_point, rreq->i_size);
+4cbdfd0da8d2d5 David Howells 2026-04-09  311  
+7693c7841ea191 David Howells 2026-03-19  312  		_debug("rsub %llx %llx-%llx", start, hole_to, cache_to);
+4cbdfd0da8d2d5 David Howells 2026-04-09  313  
+e192187e9d3cdb David Howells 2026-04-09  314  		if (stream->issue_from >= hole_to && stream->issue_from < cache_to) {
+4cbdfd0da8d2d5 David Howells 2026-04-09  315  			/* Overlap with a cached region, where the cache may
+4cbdfd0da8d2d5 David Howells 2026-04-09  316  			 * record a block of zeroes.
+4cbdfd0da8d2d5 David Howells 2026-04-09  317  			 */
+e192187e9d3cdb David Howells 2026-04-09  318  			_debug("cached s=%llx c=%llx l=%zx",
+e192187e9d3cdb David Howells 2026-04-09  319  			       stream->issue_from, cache_to, stream->buffered);
+7693c7841ea191 David Howells 2026-03-19  320  			len = umin(cache_to - stream->issue_from, stream->buffered);
+7693c7841ea191 David Howells 2026-03-19  321  			len = round_up(len, occ->granularity);
+4cbdfd0da8d2d5 David Howells 2026-04-09  322  			if (occ->cached_type[0] == FSCACHE_EXTENT_ZERO) {
+7693c7841ea191 David Howells 2026-03-19  323  				source = NETFS_FILL_WITH_ZEROES;
+4cbdfd0da8d2d5 David Howells 2026-04-09  324  				netfs_stat(&netfs_n_rh_zero);
+4cbdfd0da8d2d5 David Howells 2026-04-09  325  			} else {
+7693c7841ea191 David Howells 2026-03-19  326  				source = NETFS_READ_FROM_CACHE;
+16211268fcb366 David Howells 2022-03-01  327  			}
+7693c7841ea191 David Howells 2026-03-19  328  		} else if (start >= zlimit &&
+7693c7841ea191 David Howells 2026-03-19  329  			   start < stop) {
+4cbdfd0da8d2d5 David Howells 2026-04-09  330  			/* If this range lies beyond the zero-point, that part
+4cbdfd0da8d2d5 David Howells 2026-04-09  331  			 * can just be cleared locally.
+4cbdfd0da8d2d5 David Howells 2026-04-09  332  			 */
+7693c7841ea191 David Howells 2026-03-19  333  			_debug("zero %llx-%llx", start, stop);
+7693c7841ea191 David Howells 2026-03-19  334  			len = stream->buffered;
+7693c7841ea191 David Howells 2026-03-19  335  			source = NETFS_FILL_WITH_ZEROES;
+4cbdfd0da8d2d5 David Howells 2026-04-09  336  			if (rreq->cache_resources.ops)
+7693c7841ea191 David Howells 2026-03-19  337  				copy = true;
+4cbdfd0da8d2d5 David Howells 2026-04-09  338  			netfs_stat(&netfs_n_rh_zero);
+4cbdfd0da8d2d5 David Howells 2026-04-09  339  		} else {
+4cbdfd0da8d2d5 David Howells 2026-04-09  340  			/* Read a cache hole from the server.  If any part of
+4cbdfd0da8d2d5 David Howells 2026-04-09  341  			 * this range lies beyond the zero-point or the EOF,
+4cbdfd0da8d2d5 David Howells 2026-04-09  342  			 * that part can just be cleared locally.
+4cbdfd0da8d2d5 David Howells 2026-04-09  343  			 */
+e192187e9d3cdb David Howells 2026-04-09  344  			unsigned long long limit = min3(zlimit, stop, hole_to);
+4cbdfd0da8d2d5 David Howells 2026-04-09  345  
+4cbdfd0da8d2d5 David Howells 2026-04-09  346  			_debug("limit %llx %llx", rreq->i_size, zero_point);
+7693c7841ea191 David Howells 2026-03-19  347  			_debug("download %llx-%llx", start, stop);
+7693c7841ea191 David Howells 2026-03-19  348  			len = umin(limit - start, ULONG_MAX);
+7693c7841ea191 David Howells 2026-03-19  349  			source = NETFS_DOWNLOAD_FROM_SERVER;
+4cbdfd0da8d2d5 David Howells 2026-04-09  350  			if (rreq->cache_resources.ops)
+4cbdfd0da8d2d5 David Howells 2026-04-09 @351  				__set_bit(NETFS_SREQ_COPY_TO_CACHE, &subreq->flags);
+4cbdfd0da8d2d5 David Howells 2026-04-09  352  			netfs_stat(&netfs_n_rh_download);
+4cbdfd0da8d2d5 David Howells 2026-04-09  353  		}
+4cbdfd0da8d2d5 David Howells 2026-04-09  354  
+7693c7841ea191 David Howells 2026-03-19  355  		if (len == 0) {
+7693c7841ea191 David Howells 2026-03-19  356  			pr_err("ZERO-LEN READ: R=%08x l=%zx/%zx s=%llx z=%llx i=%llx",
+7693c7841ea191 David Howells 2026-03-19  357  			       rreq->debug_id, len, stream->buffered,
+7693c7841ea191 David Howells 2026-03-19  358  			       start, zero_point, rreq->i_size);
+16211268fcb366 David Howells 2022-03-01  359  			break;
+16211268fcb366 David Howells 2022-03-01  360  		}
+16211268fcb366 David Howells 2022-03-01  361  
+7693c7841ea191 David Howells 2026-03-19  362  		subreq = netfs_alloc_read_subrequest(rreq, source);
+7693c7841ea191 David Howells 2026-03-19  363  		if (!subreq) {
+7693c7841ea191 David Howells 2026-03-19  364  			ret = -ENOMEM;
+7693c7841ea191 David Howells 2026-03-19  365  			break;
+7693c7841ea191 David Howells 2026-03-19  366  		}
+7693c7841ea191 David Howells 2026-03-19  367  
+7693c7841ea191 David Howells 2026-03-19  368  		subreq->start = start;
+7693c7841ea191 David Howells 2026-03-19  369  		subreq->len   = len;
+7693c7841ea191 David Howells 2026-03-19  370  		if (copy)
+7693c7841ea191 David Howells 2026-03-19  371  			__set_bit(NETFS_SREQ_COPY_TO_CACHE, &subreq->flags);
+7693c7841ea191 David Howells 2026-03-19  372  
+e2d46f2ec33253 David Howells 2024-12-16  373  		netfs_issue_read(rreq, subreq);
+5454216af502c6 David Howells 2026-03-13  374  		netfs_maybe_bulk_drop_ra_refs(rreq);
+6b43bbe7fa2c53 David Howells 2026-04-27  375  
+6b43bbe7fa2c53 David Howells 2026-04-27  376  		if (test_bit(NETFS_RREQ_PAUSE, &rreq->flags))
+6b43bbe7fa2c53 David Howells 2026-04-27  377  			netfs_wait_for_paused_read(rreq);
+6b43bbe7fa2c53 David Howells 2026-04-27  378  		if (test_bit(NETFS_RREQ_FAILED, &rreq->flags))
+6b43bbe7fa2c53 David Howells 2026-04-27  379  			break;
+ee4cdf7ba857a8 David Howells 2024-07-02  380  		cond_resched();
+e192187e9d3cdb David Howells 2026-04-09  381  	} while (stream->buffered > 0);
+ee4cdf7ba857a8 David Howells 2024-07-02  382  
+e192187e9d3cdb David Howells 2026-04-09  383  	if (unlikely(!netfs_are_all_subreqs_queued(rreq))) {
+e192187e9d3cdb David Howells 2026-04-09  384  		netfs_all_subreqs_queued(rreq);
+2b1424cd131cfa David Howells 2025-05-19  385  		netfs_wake_collector(rreq);
+e2d46f2ec33253 David Howells 2024-12-16  386  	}
+ee4cdf7ba857a8 David Howells 2024-07-02  387  
+ee4cdf7ba857a8 David Howells 2024-07-02  388  	/* Defer error return as we may need to wait for outstanding I/O. */
+e192187e9d3cdb David Howells 2026-04-09  389  	if (ret < 0)
+ee4cdf7ba857a8 David Howells 2024-07-02  390  		cmpxchg(&rreq->error, 0, ret);
+615fc17c41427e David Howells 2026-04-09  391  
+615fc17c41427e David Howells 2026-04-09  392  	bvecq_pos_unset(&rreq->load_cursor);
+e192187e9d3cdb David Howells 2026-04-09  393  	bvecq_pos_unset(&stream->dispatch_cursor);
+16211268fcb366 David Howells 2022-03-01  394  }
+16211268fcb366 David Howells 2022-03-01  395  
+
+:::::: The code at line 351 was first introduced by commit
+:::::: 4cbdfd0da8d2d5220304b2df6260465f6cc50c7c cachefiles: Don't rely on backing fs storage map for most use cases
+
+:::::: TO: David Howells <dhowells@redhat.com>
+:::::: CC: David Howells <dhowells@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
