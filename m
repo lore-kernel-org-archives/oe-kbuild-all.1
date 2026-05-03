@@ -1,153 +1,151 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF20F188596
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 May 2026 02:54:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EA5F23BCEE;
+	Sun,  3 May 2026 03:25:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777776857; cv=none; b=rxqx46te/tXWV5IM7qm9W6hAVSX9xKfclp5krJlavAkQmNf2534AEmV0I5hZ/F67ZdTwzTkM5FKhW8GRqDOjPcQYHVyNe9P8Fs6FBce3rQS9kCYKGCF5AYmFUmMC3DlEH3/LIeb8eSnbgo/uVFheKoqLXkMy0v2Rp/1Dv2GL8SU=
+	t=1777778762; cv=none; b=pTZM2WKKkUH1Y3mvZWVFSVijj+HFBg/LkOms0qyFqT/o10pRFR+A0rPvz6d3d/OZXznMt0+IR5o/qfe/W07Kk83Balv17b/Tz7rUYZJ00+iKo4kicY5BWdduqUAQ2KndRyr9a8YfdMQFQGx4KeB/1r9OIDBIKLRgOB6Lgw1nhq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777776857; c=relaxed/simple;
-	bh=UoevCn+LRaMev6ezvPwPs9UAvj9rIEZYLPDkjEh/s+8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=AoKCDN8HEdbakS22osdQZDwzNRZyFd4mzvAWSMVk5Rwnv9dK94luZct37dX+7imQ7inv/QJOUc8dD11KIJrbVjnpYg22uRWJtKzap282j+bgWhzjtSKXHI9P6aPJqx/CW2zvHpHgBhRay/M50+LKWAPBwULb3qaOVHtOnFy78Rg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AT0Vwo2V; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1777778762; c=relaxed/simple;
+	bh=j1/kIBcHZUMOudByREv8j4jr2E27O77zrId0Of7mnQg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fPysYliXEq6dORcLGjhMJU8blSQFnLUhl7JtPNzzmM3lifAFFGgFXYpdGIveMMytuzuIoNPx0u1wG1uPaoB9O2YoF+zSg/5Rw4jPhSL32GT5xUKDDsm98wTmvGuHOZVIKMWETUWULRQpuiO9jo3n7ifijuM+uoXmloJSk/xI3C0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e1ykKIvf; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AT0Vwo2V"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e1ykKIvf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777776855; x=1809312855;
-  h=date:from:to:cc:subject:message-id;
-  bh=UoevCn+LRaMev6ezvPwPs9UAvj9rIEZYLPDkjEh/s+8=;
-  b=AT0Vwo2V77P/PYtvPMDuVGg4isU1IXH8mOxxZu6UeZn2uYro+SrOfuSN
-   dE+CvUi4kj9GRH6qtFF+SEbJTz2OXra1DTMi/CVCiC5tCEefXfF6/7arZ
-   yvnFj3Ur2OQ7C9GONbh0+PpWSEaLCimoUbWLytAD6SivGpI/Os2PfElSs
-   luxNWnjjEs/lzLAmkkmiEIr2G8bgbhs/qw/MQIcROfozdHpPvMoCxN3G0
-   DVhIIdOB9XNtB2NjKiA+grErqNPacAq+bwxzRruXBa2urfuF3+Neuw9fp
-   wvyL8g5bvW8n2aLoxAglcKR/ESfhBiGYt6WNFHkWuHqeVgUCLg7By51Z7
-   w==;
-X-CSE-ConnectionGUID: qGgOPmmlRhiXJGNeD6xgIw==
-X-CSE-MsgGUID: XUw744fwTt+K3yPiklpTIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="77846080"
+  t=1777778759; x=1809314759;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=j1/kIBcHZUMOudByREv8j4jr2E27O77zrId0Of7mnQg=;
+  b=e1ykKIvfLEIsINyo7STzAGrK/pDeA+OZhebpD83hPLqRb/4T7Apbb9nA
+   YZTwHuIQl7GQrpITKRokuPtsXb9u1s+3PgUPGUvMNsi72pkDm6obBNZ6o
+   rIW+jKDNms7RQ/EzarTXWPM4iyB2J+vOVtRiqs8Sj6a1HUUdXZubKujRk
+   2GhXL7wZaMO23Kzcpvsa7RATYtV+JSumu48sHYSe9mmpd11a7ZrkvkrDd
+   WsauT1SCJbcmqjj3w/ZylWMfBEShhFJzimRhK/gHpb+lWWhfYXec9S4ap
+   DKIH2Dq4PhU1lQ7mGp1LiT6ES5L1jk5kZvaugJ344OTl4QcthHLg5GiU4
+   Q==;
+X-CSE-ConnectionGUID: VTY+EbdxSYK67HSPEgTd3w==
+X-CSE-MsgGUID: l6AqEjL7RDedv03LhhL3HQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="82293742"
 X-IronPort-AV: E=Sophos;i="6.23,213,1770624000"; 
-   d="scan'208";a="77846080"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 19:54:14 -0700
-X-CSE-ConnectionGUID: bGLlSS+uQIK8JFM/btc0Gg==
-X-CSE-MsgGUID: KRwwK/C2Rv2n5bzkKMb66A==
+   d="scan'208";a="82293742"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 20:25:59 -0700
+X-CSE-ConnectionGUID: oyxP96lmT5unJUI6aquoVg==
+X-CSE-MsgGUID: EgBcMGlfSRG4Wrkl1x+AZA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,213,1770624000"; 
-   d="scan'208";a="234332098"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 02 May 2026 19:54:12 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 02 May 2026 20:25:57 -0700
+Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wJMyA-000000005RN-1tMd;
-	Sun, 03 May 2026 02:54:10 +0000
-Date: Sun, 03 May 2026 04:53:15 +0200
+	id 1wJNSs-0000000025Z-1pHI;
+	Sun, 03 May 2026 03:25:54 +0000
+Date: Sun, 3 May 2026 11:25:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:7.1-rc 118/147]
- arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: pinctrl@1001f000
- (mediatek,mt7988-pinctrl): uart2-3-lite-pins:mux:groups:0: 'uart2_3_lite' is
- not one of ['net_wo0_uart_txd_0', 'net_wo0_uart_txd_1', 'net_wo1_uart_txd_0',
- 'net_wo1_uart_txd_1', 'ne...
-Message-ID: <202605030407.dEy79FZ0-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] fprobe: Add unregister_fprobe_sync() for synchronous
+ unregistration
+Message-ID: <202605031133.LJkoT4xo-lkp@intel.com>
+References: <177729179863.401400.6063130067239479972.stgit@mhiramat.tok.corp.google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <177729179863.401400.6063130067239479972.stgit@mhiramat.tok.corp.google.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.1-rc
-head:   445521c1e8057d80bfd079aa69ad69ba0a9293b3
-commit: 0f1d88093e9361840ece6a323b08a0d70641f1d8 [118/147] arm64: dts: mediatek: mt7988-bpi-r4: add uart1 / uart2
-config: arm64-randconfig-2052-20260502 (https://download.01.org/0day-ci/archive/20260503/202605030407.dEy79FZ0-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-dtschema: 2026.5.dev4+g4ccc1997d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260503/202605030407.dEy79FZ0-lkp@intel.com/reproduce)
+Hi Masami,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on trace/for-next]
+[cannot apply to linus/master v7.1-rc1 next-20260430]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Masami-Hiramatsu-Google/fprobe-Add-unregister_fprobe_sync-for-synchronous-unregistration/20260427-214258
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+patch link:    https://lore.kernel.org/r/177729179863.401400.6063130067239479972.stgit%40mhiramat.tok.corp.google.com
+patch subject: [PATCH] fprobe: Add unregister_fprobe_sync() for synchronous unregistration
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260503/202605031133.LJkoT4xo-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260503/202605031133.LJkoT4xo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605030407.dEy79FZ0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605031133.LJkoT4xo-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: pinctrl@1001f000 (mediatek,mt7988-pinctrl): uart2-3-lite-pins:mux:groups:0: 'uart2_3_lite' is not one of ['net_wo0_uart_txd_0', 'net_wo0_uart_txd_1', 'net_wo1_uart_txd_0', 'net_wo1_uart_txd_1', 'net_wo2_uart_txd_0', 'net_wo2_uart_txd_1', 'tops_uart0_0', 'tops_uart0_1', 'tops_uart0_2', 'tops_uart1_0', 'tops_uart1_1', 'tops_uart1_2', 'uart0', 'uart1_0', 'uart1_1', 'uart1_2', 'uart1_2_lite', 'uart2', 'uart2_0', 'uart2_1', 'uart2_3']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7988-pinctrl.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
---
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: pinctrl@1001f000 (mediatek,mt7988-pinctrl): uart2-3-lite-pins:mux:groups:0: 'uart2_3_lite' is not one of ['net_wo0_uart_txd_0', 'net_wo0_uart_txd_1', 'net_wo1_uart_txd_0', 'net_wo1_uart_txd_1', 'net_wo2_uart_txd_0', 'net_wo2_uart_txd_1', 'tops_uart0_0', 'tops_uart0_1', 'tops_uart0_2', 'tops_uart1_0', 'tops_uart1_1', 'tops_uart1_2', 'uart0', 'uart1_0', 'uart1_1', 'uart1_2', 'uart1_2_lite', 'uart2', 'uart2_0', 'uart2_1', 'uart2_3']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7988-pinctrl.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
---
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-emmc.dtb: pinctrl@1001f000 (mediatek,mt7988-pinctrl): uart2-3-lite-pins:mux:groups:0: 'uart2_3_lite' is not one of ['net_wo0_uart_txd_0', 'net_wo0_uart_txd_1', 'net_wo1_uart_txd_0', 'net_wo1_uart_txd_1', 'net_wo2_uart_txd_0', 'net_wo2_uart_txd_1', 'tops_uart0_0', 'tops_uart0_1', 'tops_uart0_2', 'tops_uart1_0', 'tops_uart1_1', 'tops_uart1_2', 'uart0', 'uart1_0', 'uart1_1', 'uart1_2', 'uart1_2_lite', 'uart2', 'uart2_0', 'uart2_1', 'uart2_3']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7988-pinctrl.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-emmc.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-emmc.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-emmc.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-emmc.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-emmc.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
---
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-sd.dtb: pinctrl@1001f000 (mediatek,mt7988-pinctrl): uart2-3-lite-pins:mux:groups:0: 'uart2_3_lite' is not one of ['net_wo0_uart_txd_0', 'net_wo0_uart_txd_1', 'net_wo1_uart_txd_0', 'net_wo1_uart_txd_1', 'net_wo2_uart_txd_0', 'net_wo2_uart_txd_1', 'tops_uart0_0', 'tops_uart0_1', 'tops_uart0_2', 'tops_uart1_0', 'tops_uart1_1', 'tops_uart1_2', 'uart0', 'uart1_0', 'uart1_1', 'uart1_2', 'uart1_2_lite', 'uart2', 'uart2_0', 'uart2_1', 'uart2_3']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7988-pinctrl.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-sd.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-sd.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-sd.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-sd.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-sd.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
---
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-emmc.dtb: pinctrl@1001f000 (mediatek,mt7988-pinctrl): uart2-3-lite-pins:mux:groups:0: 'uart2_3_lite' is not one of ['net_wo0_uart_txd_0', 'net_wo0_uart_txd_1', 'net_wo1_uart_txd_0', 'net_wo1_uart_txd_1', 'net_wo2_uart_txd_0', 'net_wo2_uart_txd_1', 'tops_uart0_0', 'tops_uart0_1', 'tops_uart0_2', 'tops_uart1_0', 'tops_uart1_1', 'tops_uart1_2', 'uart0', 'uart1_0', 'uart1_1', 'uart1_2', 'uart1_2_lite', 'uart2', 'uart2_0', 'uart2_1', 'uart2_3']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7988-pinctrl.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-emmc.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-emmc.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-emmc.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-emmc.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-emmc.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
---
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-sd.dtb: pinctrl@1001f000 (mediatek,mt7988-pinctrl): uart2-3-lite-pins:mux:groups:0: 'uart2_3_lite' is not one of ['net_wo0_uart_txd_0', 'net_wo0_uart_txd_1', 'net_wo1_uart_txd_0', 'net_wo1_uart_txd_1', 'net_wo2_uart_txd_0', 'net_wo2_uart_txd_1', 'tops_uart0_0', 'tops_uart0_1', 'tops_uart0_2', 'tops_uart1_0', 'tops_uart1_1', 'tops_uart1_2', 'uart0', 'uart1_0', 'uart1_1', 'uart1_2', 'uart1_2_lite', 'uart2', 'uart2_0', 'uart2_1', 'uart2_3']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7988-pinctrl.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-sd.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-sd.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-sd.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-sd.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-sd.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+All errors (new ones prefixed by >>):
 
---
+>> kernel/trace/fprobe.c:983:14: error: call to undeclared function 'fprobe_registered'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     983 |         if (!fp || !fprobe_registered(fp))
+         |                     ^
+>> kernel/trace/fprobe.c:986:8: error: call to undeclared function 'unregister_fprobe_nolock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     986 |         ret = unregister_fprobe_nolock(fp);
+         |               ^
+   kernel/trace/fprobe.c:986:8: note: did you mean 'unregister_fprobe_sync'?
+   kernel/trace/fprobe.c:978:5: note: 'unregister_fprobe_sync' declared here
+     978 | int unregister_fprobe_sync(struct fprobe *fp)
+         |     ^
+     979 | {
+     980 |         int ret;
+     981 | 
+     982 |         guard(mutex)(&fprobe_mutex);
+     983 |         if (!fp || !fprobe_registered(fp))
+     984 |                 return -EINVAL;
+     985 | 
+     986 |         ret = unregister_fprobe_nolock(fp);
+         |               ~~~~~~~~~~~~~~~~~~~~~~~~
+         |               unregister_fprobe_sync
+   2 errors generated.
+
+
+vim +/fprobe_registered +983 kernel/trace/fprobe.c
+
+   967	
+   968	/**
+   969	 * unregister_fprobe_sync() - Unregister fprobe synchronously with RCU grace period.
+   970	 * @fp: A fprobe data structure to be unregistered.
+   971	 *
+   972	 * Unregister fprobe (and remove ftrace hooks from the function entries) and
+   973	 * wait for the RCU grace period to finish. This is useful for preventing
+   974	 * the fprobe from being used after it is unregistered.
+   975	 *
+   976	 * Return 0 if @fp is unregistered successfully, -errno if not.
+   977	 */
+   978	int unregister_fprobe_sync(struct fprobe *fp)
+   979	{
+   980		int ret;
+   981	
+   982		guard(mutex)(&fprobe_mutex);
+ > 983		if (!fp || !fprobe_registered(fp))
+   984			return -EINVAL;
+   985	
+ > 986		ret = unregister_fprobe_nolock(fp);
+   987		if (ret)
+   988			return ret;
+   989	
+   990		synchronize_rcu();
+   991		return 0;
+   992	}
+   993	EXPORT_SYMBOL_GPL(unregister_fprobe_sync);
+   994	
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
