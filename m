@@ -1,203 +1,86 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC154346E43;
-	Sun,  3 May 2026 19:32:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72EF11ACEDE
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 May 2026 20:05:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777836755; cv=none; b=HfWw8hYaf6rm9DnDueV9Ae35oU9xYBu/Eav5iLSIN8M9v1zM4Bj/bcE++Dih2d7W8gljGohHVUtO8hwlGXC9iuz+89q8+qqvbuHBdkpHiE8MOXX8ZgEJDjwmNFe+A+ysoz1Hc/yvq3M18DXdfXC4Se5bfmmtDAE/F6fc8v5qSGc=
+	t=1777838737; cv=none; b=VgrVd9AbnCP8DFdlre+i3jhcLQbBmZocA7wlGrHKYQThuVWqbl67JJearxy/8JRJ7fll6fjKUEg50iLAbAbNhBnb5evo3mTF9vaX9JZ7o4VZ0lo76LzxjthQ2QWj2JNI0LKJHW7HzP9S5qvOPHhhosLHBD/WP4/FpLfLtsoMeqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777836755; c=relaxed/simple;
-	bh=PJgmPFGMNo+aUZU7RYDsZtYKqYVzGFJCD9AzjJlTtJo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qIL43iZDPnkI1H7pmjmVu1AUrAK/LZnISQaO1JMeTi6/t5aiGs85qrby5bKU/SvGgjC7uYWuTEYH7xIPFi9tcm70BWiWQgMq+rZiAMxvmmTX+Y6KGu22GPHh101ib8xpUZYg4Xd5ErXWSROvJJLUBuTD7FCfEKUFdTUvBaEBDKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f72OfGU0; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1777838737; c=relaxed/simple;
+	bh=MmdMMtOFsntLnYN2guDY5pdqyaGF8JxRTuJAbsRWlyc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=i8/8s/ItvTNcZzd/v+3hKIHvy03QAUvW7gkhUr+qW1tE/NAb9U3QYHFbFqDHqkTRMi2QU+CVs6KK3OrqV/ZPP3gUQSv1U/0chrSjnGN47EeaXeTWoO1sxTm8y/lSg3uKKQsbS+rW/reyZWwZfnLuavTIosLw2PDn1LgH8uKVK3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MkJaR+zS; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f72OfGU0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MkJaR+zS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777836754; x=1809372754;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PJgmPFGMNo+aUZU7RYDsZtYKqYVzGFJCD9AzjJlTtJo=;
-  b=f72OfGU0Q1GK3yYoAR4/JLPzYcadbrFhqQdnP9H1g9y8PqdR05lNNan+
-   hJ4I1WmV0RwSQBOoRq07WP++1472ASgGyLs2LEmU6AQ993TsEFoJqFzHO
-   vrPLG6/A2r2zTtz+F16ayE8vY2IiPk09uXyhxEgi4Q74sQJMIl+7zjUJf
-   V3/+zd/KIoLtCIkudxMyVVrgJhzHMXzBa6knF8eevdoe0bS7/A6DDLgho
-   /ZulitCbKPV71CGC1XzGlH5k9RI32Qb+P/K3ymOPd0v6azVqzoUW2QZBt
-   5ik5OkWdqxyua/PugEW9w6leVK3DRkpE9Bk8Q4waiMTcSJ9OgrdjKRDUU
-   A==;
-X-CSE-ConnectionGUID: MXOd8TEQTuKSZU73MQUpNg==
-X-CSE-MsgGUID: bT8WcbEvR3WyCFQaN8MApw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11775"; a="78905027"
+  t=1777838736; x=1809374736;
+  h=date:from:to:cc:subject:message-id;
+  bh=MmdMMtOFsntLnYN2guDY5pdqyaGF8JxRTuJAbsRWlyc=;
+  b=MkJaR+zSYL0dmhpZp6QMd6DnsboYeokueaiLEtkw6RY58kYM+s4izV4Q
+   leYCnonof6LXI5DS6tRfDRjvE82tI9n3OY/GoA0FrwQH5FaHYnj+aDATt
+   ongTZqKEJlwWwusRHh1og59y3soaSzBOsVuFI2reGBHj8NVYTZBXzxqyT
+   DL3AAJs/sc/UVHKcv9xAwJXfKtI1FpnoVZ44W+8eIxI9DBXTg/CIbShxn
+   fca7amPoAc/Cv7Oc4qznHd/Kxw8491h9eRDwMnNiDZcNmIah9+LF3Fq6Y
+   +4NBzOoCDFqAexjjCywV24KgreyLSb551dHAilw0aoVmx1fKdf3DgloF9
+   Q==;
+X-CSE-ConnectionGUID: r1ZPVfHpRpaV8Ctcybgwww==
+X-CSE-MsgGUID: sXjQNnh/SPuTbz5mj8FP3Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11775"; a="101377242"
 X-IronPort-AV: E=Sophos;i="6.23,214,1770624000"; 
-   d="scan'208";a="78905027"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2026 12:32:33 -0700
-X-CSE-ConnectionGUID: Da0YIf2qRoG6zrFi3p71Zw==
-X-CSE-MsgGUID: xIySiJImSBqll0oDzWNHyQ==
+   d="scan'208";a="101377242"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2026 13:05:35 -0700
+X-CSE-ConnectionGUID: LtErNYKQTLu2+BHYXOf6wg==
+X-CSE-MsgGUID: nGT/WvX+QgWed/oAm4u6ag==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,214,1770624000"; 
+   d="scan'208";a="239662821"
 Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 03 May 2026 12:32:31 -0700
+  by orviesa004.jf.intel.com with ESMTP; 03 May 2026 13:05:33 -0700
 Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wJcY3-000000002wP-3Loe;
-	Sun, 03 May 2026 19:32:19 +0000
-Date: Mon, 4 May 2026 03:30:48 +0800
+	id 1wJd46-000000002zb-0RhB;
+	Sun, 03 May 2026 20:05:25 +0000
+Date: Mon, 04 May 2026 04:03:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tejun Heo <tj@kernel.org>, Martin Pitt <martin@piware.de>
-Cc: oe-kbuild-all@lists.linux.dev, regressions@lists.linux.dev,
-	cgroups@vger.kernel.org, lizefan.x@bytedance.com,
-	hannes@cmpxchg.org,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	linux-kernel@vger.kernel.org, Tejun Heo <tj@kernel.org>
-Subject: Re: [PATCH] cgroup: Defer css percpu_ref kill on rmdir until cgroup
- is depopulated
-Message-ID: <202605040315.QbFTzfWy-lkp@intel.com>
-References: <20260501022943.3714461-1-tj@kernel.org>
+To: Harry Yoo <harry.yoo@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ "Harry Yoo (Oracle)" <harry@kernel.org>
+Subject: [harry:kvfree-rcu-improvements-rfc-v1r1 6/7] Warning:
+ mm/slab_common.c:1340 struct member 'llist_head' not described in
+ 'kfree_rcu_cpu'
+Message-ID: <202605040420.h53oOkYP-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260501022943.3714461-1-tj@kernel.org>
 
-Hi Tejun,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tj-cgroup/for-next]
-[also build test WARNING on linus/master next-20260430]
-[cannot apply to v7.1-rc1]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tejun-Heo/cgroup-Defer-css-percpu_ref-kill-on-rmdir-until-cgroup-is-depopulated/20260503-165802
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git for-next
-patch link:    https://lore.kernel.org/r/20260501022943.3714461-1-tj%40kernel.org
-patch subject: [PATCH] cgroup: Defer css percpu_ref kill on rmdir until cgroup is depopulated
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260504/202605040315.QbFTzfWy-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260504/202605040315.QbFTzfWy-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/harry/linux.git kvfree-rcu-improvements-rfc-v1r1
+head:   51772323aadc1a7ab9654997f5398cff0e190bcf
+commit: 38b523021a8b745d402010232cc6995f5ae30cd0 [6/7] mm/slab: introduce kfree_rcu_nolock()
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260504/202605040420.h53oOkYP-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260504/202605040420.h53oOkYP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605040315.QbFTzfWy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605040420.h53oOkYP-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/cgroup/cgroup.c: In function 'cgroup_apply_control_disable':
-   kernel/cgroup/cgroup.c:3391:33: error: implicit declaration of function 'kill_css_sync'; did you mean 'kill_fasync'? [-Wimplicit-function-declaration]
-    3391 |                                 kill_css_sync(css);
-         |                                 ^~~~~~~~~~~~~
-         |                                 kill_fasync
-   kernel/cgroup/cgroup.c:3392:33: error: implicit declaration of function 'kill_css_finish' [-Wimplicit-function-declaration]
-    3392 |                                 kill_css_finish(css);
-         |                                 ^~~~~~~~~~~~~~~
-   kernel/cgroup/cgroup.c: At top level:
->> kernel/cgroup/cgroup.c:6047:13: warning: conflicting types for 'kill_css_sync'; have 'void(struct cgroup_subsys_state *)'
-    6047 | static void kill_css_sync(struct cgroup_subsys_state *css)
-         |             ^~~~~~~~~~~~~
-   kernel/cgroup/cgroup.c:6047:13: error: static declaration of 'kill_css_sync' follows non-static declaration
-   kernel/cgroup/cgroup.c:3391:33: note: previous implicit declaration of 'kill_css_sync' with type 'void(struct cgroup_subsys_state *)'
-    3391 |                                 kill_css_sync(css);
-         |                                 ^~~~~~~~~~~~~
->> kernel/cgroup/cgroup.c:6087:13: warning: conflicting types for 'kill_css_finish'; have 'void(struct cgroup_subsys_state *)'
-    6087 | static void kill_css_finish(struct cgroup_subsys_state *css)
-         |             ^~~~~~~~~~~~~~~
-   kernel/cgroup/cgroup.c:6087:13: error: static declaration of 'kill_css_finish' follows non-static declaration
-   kernel/cgroup/cgroup.c:3392:33: note: previous implicit declaration of 'kill_css_finish' with type 'void(struct cgroup_subsys_state *)'
-    3392 |                                 kill_css_finish(css);
-         |                                 ^~~~~~~~~~~~~~~
-
-
-vim +6047 kernel/cgroup/cgroup.c
-
-  6040	
-  6041	/**
-  6042	 * kill_css_sync - synchronous half of css teardown
-  6043	 * @css: css being killed
-  6044	 *
-  6045	 * See cgroup_destroy_locked().
-  6046	 */
-> 6047	static void kill_css_sync(struct cgroup_subsys_state *css)
-  6048	{
-  6049		struct cgroup_subsys *ss = css->ss;
-  6050	
-  6051		lockdep_assert_held(&cgroup_mutex);
-  6052	
-  6053		if (css->flags & CSS_DYING)
-  6054			return;
-  6055	
-  6056		/*
-  6057		 * Call css_killed(), if defined, before setting the CSS_DYING flag
-  6058		 */
-  6059		if (css->ss->css_killed)
-  6060			css->ss->css_killed(css);
-  6061	
-  6062		css->flags |= CSS_DYING;
-  6063	
-  6064		/*
-  6065		 * This must happen before css is disassociated with its cgroup.
-  6066		 * See seq_css() for details.
-  6067		 */
-  6068		css_clear_dir(css);
-  6069	
-  6070		css->cgroup->nr_dying_subsys[ss->id]++;
-  6071		/*
-  6072		 * Parent css and cgroup cannot be freed until after the freeing
-  6073		 * of child css, see css_free_rwork_fn().
-  6074		 */
-  6075		while ((css = css->parent)) {
-  6076			css->nr_descendants--;
-  6077			css->cgroup->nr_dying_subsys[ss->id]++;
-  6078		}
-  6079	}
-  6080	
-  6081	/**
-  6082	 * kill_css_finish - deferred half of css teardown
-  6083	 * @css: css being killed
-  6084	 *
-  6085	 * See cgroup_destroy_locked().
-  6086	 */
-> 6087	static void kill_css_finish(struct cgroup_subsys_state *css)
-  6088	{
-  6089		lockdep_assert_held(&cgroup_mutex);
-  6090	
-  6091		/*
-  6092		 * Skip on re-entry: cgroup_apply_control_disable() may have killed @css
-  6093		 * earlier. cgroup_destroy_locked() can still walk it because
-  6094		 * offline_css() (which NULLs cgrp->subsys[ssid]) runs async.
-  6095		 */
-  6096		if (percpu_ref_is_dying(&css->refcnt))
-  6097			return;
-  6098	
-  6099		/*
-  6100		 * Killing would put the base ref, but we need to keep it alive until
-  6101		 * after ->css_offline().
-  6102		 */
-  6103		css_get(css);
-  6104	
-  6105		/*
-  6106		 * cgroup core guarantees that, by the time ->css_offline() is invoked,
-  6107		 * no new css reference will be given out via css_tryget_online(). We
-  6108		 * can't simply call percpu_ref_kill() and proceed to offlining css's
-  6109		 * because percpu_ref_kill() doesn't guarantee that the ref is seen as
-  6110		 * killed on all CPUs on return.
-  6111		 *
-  6112		 * Use percpu_ref_kill_and_confirm() to get notifications as each css is
-  6113		 * confirmed to be seen as killed on all CPUs.
-  6114		 */
-  6115		percpu_ref_kill_and_confirm(&css->refcnt, css_killed_ref_fn);
-  6116	}
-  6117	
+>> Warning: mm/slab_common.c:1340 struct member 'llist_head' not described in 'kfree_rcu_cpu'
+>> Warning: mm/slab_common.c:1340 struct member 'irq_work' not described in 'kfree_rcu_cpu'
+>> Warning: mm/slab_common.c:1340 struct member 'sched_monitor_irq_work' not described in 'kfree_rcu_cpu'
+>> Warning: mm/slab_common.c:1340 struct member 'llist_head' not described in 'kfree_rcu_cpu'
+>> Warning: mm/slab_common.c:1340 struct member 'irq_work' not described in 'kfree_rcu_cpu'
+>> Warning: mm/slab_common.c:1340 struct member 'sched_monitor_irq_work' not described in 'kfree_rcu_cpu'
 
 -- 
 0-DAY CI Kernel Test Service
