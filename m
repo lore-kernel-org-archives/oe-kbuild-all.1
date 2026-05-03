@@ -1,152 +1,188 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A58A199931;
-	Sun,  3 May 2026 14:44:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B3A23D7E6;
+	Sun,  3 May 2026 14:52:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777819464; cv=none; b=oWcEfEkblsQcCOoBuPR6N3530+7UWINcTm20dBnA2NR1GX8M7rcok6VqodqHU4aA3D6/zqnqmOmW+o2S/OGbTBcxnALyzXXGjUI/vNZgEGwWlpoZlTHuw1YJ4CUp5AuWJzOdJFMIjbJH6syn9d3vIXVGZfL/q8l8DfLj+5fRmBI=
+	t=1777819980; cv=none; b=SCf7+IgGhzxcIIGoq1yMsBqVMJhQPP81njl6FSHofQKSIS1o7M2QXCJYD+A7wu4SUrh7GxPTFBJsZVGDBVw1nuKuxq7iSs+4ercy3ENYGF4m/y2TzXpleh4K7h4wgd0reZzQ5UCNjDMKGOANxyn7FFEM/ItzYhKCGQX3wQOkBwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777819464; c=relaxed/simple;
-	bh=N7tGi20SzbfmetaS8tbfiOf2XL2I3RUqtEQg29bqN30=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=nRo7W4squSBwHfdrkowJlvZpDB5MzQ9q77efEx8NgNi6kshke8eJDcwT7ywP8VP5l+WM6dofM8TqWXLKSWs1n5TFfsRbQ0gwh9hX19VjC/e4U8+k6pZ60iPxYzySz74C0OtHENNsB5bBsxXt08HvE+3/njuwp8wwp0ZhDnanhH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j9VBXRj6; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1777819980; c=relaxed/simple;
+	bh=C2wVE/sIvMEAvhthdCARXccZQpF7oYZBLXDphUbG2Os=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ThrCp/YENW8jqmfXSMOjf0lEWJzwzXlyBO3k/wQC6/gOCjcClaIvYh0EigC/slopm8FnV6czjPXuxiirUkKgfNlF0+mLxKUcYgCWXxqHpjc93+09PPAZE/ZH5dwQcH2NSCfMwsrbf7Wu+e/lxGkJ4vZmsWCpoUcG75itcLLT3+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZC4QxfIJ; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j9VBXRj6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZC4QxfIJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777819462; x=1809355462;
-  h=date:from:to:cc:subject:message-id;
-  bh=N7tGi20SzbfmetaS8tbfiOf2XL2I3RUqtEQg29bqN30=;
-  b=j9VBXRj6AAbgCRzu/Rm8KMcK5+4ugKWOTnooKNrTfYOd/DRegIWBirAU
-   ezD2butBq6ZVn7zt0aBA5tpgVND3EXwzg8ZiUwWk2r24DNT0563azPR4a
-   QInE6Fb3PyqovKHLxdaR2S4cP3I+yGiDR8fvxBM5HGfTKZ5A9uwwGmy5u
-   bLLS12YWy1Y/NKdioAJySNUqnkHjUgSNTx15I19k4RqgivBjqFh2zmSq1
-   ukA1Ed50Omiy3cSDaqLp3H43Qp7sbTvFXT6TyY8QoOVWcaL7y//3lhq6J
-   WttYGorvAt7mx2sEZ9aG6ZuVI4LH3Qe/AAqZjjXqvu03RVSwpcWZfLE6q
-   A==;
-X-CSE-ConnectionGUID: StGCfdY6RsGtWfhICOaeSQ==
-X-CSE-MsgGUID: nqzd9yLiROmqemrvo6Cg2g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11775"; a="77863685"
+  t=1777819978; x=1809355978;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=C2wVE/sIvMEAvhthdCARXccZQpF7oYZBLXDphUbG2Os=;
+  b=ZC4QxfIJFxqtdVeZuBFlIdYwSUBUbO0GQysUBEIzH0UAyTl1tyqGCREA
+   DUUSBdbTew7FxIfJMSUAAunZOQRYyqp9NLZtcrLKcid0SftaMAeV+Lsw3
+   QK1QcZXIHjJqLDjT3Be3aenVS3E/vHgI3n5xKOU6PjGrnpCKMCU0HpxJJ
+   Ho83EyxqwX+J0SWhetB+6bEAx+z8sxCUlArKVdeXp+z0O+mrZtG6cRsrA
+   P62bNAYCsvjOBm0bRYN5xBV4uU/qr/2AWl8d63TtC1vlf1U+MQHfgpq4V
+   94g+rRGesxm/GxAkyDkC+oiwOaqF0PzmuDrPtTspvVJJvgLcaEcKNfU+C
+   w==;
+X-CSE-ConnectionGUID: eMdNDKKLSwqfhQLh+hiobg==
+X-CSE-MsgGUID: Ft3kFw6+QIuemhk/JMU6eA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11775"; a="104153666"
 X-IronPort-AV: E=Sophos;i="6.23,213,1770624000"; 
-   d="scan'208";a="77863685"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2026 07:44:21 -0700
-X-CSE-ConnectionGUID: JinsV/Z0TgmR+2D4Kh1kmg==
-X-CSE-MsgGUID: CEweYO7aQWmxJxJwICi7TQ==
+   d="scan'208";a="104153666"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2026 07:52:57 -0700
+X-CSE-ConnectionGUID: aA34QxKrQW+Vx0+WNBfInA==
+X-CSE-MsgGUID: ydHjP4+nTxatXV3fjKeqDw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,213,1770624000"; 
-   d="scan'208";a="235174312"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 03 May 2026 07:44:19 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="228801147"
+Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 03 May 2026 07:52:55 -0700
+Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wJY3N-000000005ZP-46Gz;
-	Sun, 03 May 2026 14:44:17 +0000
-Date: Sun, 03 May 2026 16:43:32 +0200
+	id 1wJYBg-000000002ez-0Ojf;
+	Sun, 03 May 2026 14:52:52 +0000
+Date: Sun, 3 May 2026 22:51:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tejun Heo <tj@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- 0day robot <lkp@intel.com>
-Subject: kernel/cgroup/cgroup.c:3391:5: error: call to undeclared
- function 'kill_css_sync'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202605031603.MJK6LzJs-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Guangshuo Li <lgs201920130244@gmail.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil@kernel.org>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Guangshuo Li <lgs201920130244@gmail.com>
+Subject: Re: [PATCH] media: staging/ipu7: Fix pdata double free in init error
+ paths
+Message-ID: <202605032224.WHCEx7uc-lkp@intel.com>
+References: <20260430053820.446080-1-lgs201920130244@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260430053820.446080-1-lgs201920130244@gmail.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Tejun-Heo/cgroup-Defer-css-percpu_ref-kill-on-rmdir-until-cgroup-is-depopulated/20260503-165802
-head:   f18fcea709e431e32f29d553290a21173d8530f6
-commit: f18fcea709e431e32f29d553290a21173d8530f6 cgroup: Defer css percpu_ref kill on rmdir until cgroup is depopulated
-date:   6 hours ago
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260503/202605031603.MJK6LzJs-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260503/202605031603.MJK6LzJs-lkp@intel.com/reproduce)
+Hi Guangshuo,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Guangshuo-Li/media-staging-ipu7-Fix-pdata-double-free-in-init-error-paths/20260501-032323
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20260430053820.446080-1-lgs201920130244%40gmail.com
+patch subject: [PATCH] media: staging/ipu7: Fix pdata double free in init error paths
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20260503/202605032224.WHCEx7uc-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260503/202605032224.WHCEx7uc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605031603.MJK6LzJs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605032224.WHCEx7uc-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/cgroup/cgroup.c:3391:5: error: call to undeclared function 'kill_css_sync'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    3391 |                                 kill_css_sync(css);
-         |                                 ^
-   kernel/cgroup/cgroup.c:3391:5: note: did you mean 'kill_fasync'?
-   include/linux/fs.h:1391:13: note: 'kill_fasync' declared here
-    1391 | extern void kill_fasync(struct fasync_struct **, int, int);
-         |             ^
->> kernel/cgroup/cgroup.c:3392:5: error: call to undeclared function 'kill_css_finish'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    3392 |                                 kill_css_finish(css);
-         |                                 ^
->> kernel/cgroup/cgroup.c:6047:13: error: conflicting types for 'kill_css_sync'
-    6047 | static void kill_css_sync(struct cgroup_subsys_state *css)
-         |             ^
-   kernel/cgroup/cgroup.c:3391:5: note: previous implicit declaration is here
-    3391 |                                 kill_css_sync(css);
-         |                                 ^
->> kernel/cgroup/cgroup.c:6087:13: error: conflicting types for 'kill_css_finish'
-    6087 | static void kill_css_finish(struct cgroup_subsys_state *css)
-         |             ^
-   kernel/cgroup/cgroup.c:3392:5: note: previous implicit declaration is here
-    3392 |                                 kill_css_finish(css);
-         |                                 ^
-   4 errors generated.
+   drivers/staging/media/ipu7/ipu7.c: In function 'ipu7_isys_init':
+>> drivers/staging/media/ipu7/ipu7.c:2176:33: error: passing argument 1 of 'ERR_CAST' makes pointer from integer without a cast [-Wint-conversion]
+    2176 |                 return ERR_CAST(ret);
+         |                                 ^~~
+         |                                 |
+         |                                 int
+   In file included from include/linux/cleanup.h:6,
+                    from include/linux/acpi.h:11,
+                    from drivers/staging/media/ipu7/ipu7.c:6:
+   include/linux/err.h:102:64: note: expected 'const void *' but argument is of type 'int'
+     102 | static inline void * __must_check ERR_CAST(__force const void *ptr)
+         |                                                    ~~~~~~~~~~~~^~~
+   drivers/staging/media/ipu7/ipu7.c: In function 'ipu7_psys_init':
+   drivers/staging/media/ipu7/ipu7.c:2221:33: error: passing argument 1 of 'ERR_CAST' makes pointer from integer without a cast [-Wint-conversion]
+    2221 |                 return ERR_CAST(ret);
+         |                                 ^~~
+         |                                 |
+         |                                 int
+   include/linux/err.h:102:64: note: expected 'const void *' but argument is of type 'int'
+     102 | static inline void * __must_check ERR_CAST(__force const void *ptr)
+         |                                                    ~~~~~~~~~~~~^~~
 
 
-vim +/kill_css_sync +3391 kernel/cgroup/cgroup.c
+vim +/ERR_CAST +2176 drivers/staging/media/ipu7/ipu7.c
 
-  3359	
-  3360	/**
-  3361	 * cgroup_apply_control_disable - kill or hide csses according to control
-  3362	 * @cgrp: root of the target subtree
-  3363	 *
-  3364	 * Walk @cgrp's subtree and kill and hide csses so that they match
-  3365	 * cgroup_ss_mask() and cgroup_visible_mask().
-  3366	 *
-  3367	 * A css is hidden when the userland requests it to be disabled while other
-  3368	 * subsystems are still depending on it.  The css must not actively control
-  3369	 * resources and be in the vanilla state if it's made visible again later.
-  3370	 * Controllers which may be depended upon should provide ->css_reset() for
-  3371	 * this purpose.
-  3372	 */
-  3373	static void cgroup_apply_control_disable(struct cgroup *cgrp)
-  3374	{
-  3375		struct cgroup *dsct;
-  3376		struct cgroup_subsys_state *d_css;
-  3377		struct cgroup_subsys *ss;
-  3378		int ssid;
-  3379	
-  3380		cgroup_for_each_live_descendant_post(dsct, d_css, cgrp) {
-  3381			for_each_subsys(ss, ssid) {
-  3382				struct cgroup_subsys_state *css = cgroup_css(dsct, ss);
-  3383	
-  3384				if (!css)
-  3385					continue;
-  3386	
-  3387				WARN_ON_ONCE(percpu_ref_is_dying(&css->refcnt));
-  3388	
-  3389				if (css->parent &&
-  3390				    !(cgroup_ss_mask(dsct) & (1 << ss->id))) {
-> 3391					kill_css_sync(css);
-> 3392					kill_css_finish(css);
-  3393				} else if (!css_visible(css)) {
-  3394					css_clear_dir(css);
-  3395					if (ss->css_reset)
-  3396						ss->css_reset(css);
-  3397				}
-  3398			}
-  3399		}
-  3400	}
-  3401	
+  2125	
+  2126	static struct ipu7_bus_device *
+  2127	ipu7_isys_init(struct pci_dev *pdev, struct device *parent,
+  2128		       const struct ipu_buttress_ctrl *ctrl, void __iomem *base,
+  2129		       const struct ipu_isys_internal_pdata *ipdata,
+  2130		       unsigned int nr)
+  2131	{
+  2132		struct fwnode_handle *fwnode = dev_fwnode(&pdev->dev);
+  2133		struct ipu7_bus_device *isys_adev;
+  2134		struct device *dev = &pdev->dev;
+  2135		struct ipu7_isys_pdata *pdata;
+  2136		int ret;
+  2137	
+  2138		ret = ipu7_isys_check_fwnode_graph(fwnode);
+  2139		if (ret) {
+  2140			if (fwnode && !IS_ERR_OR_NULL(fwnode->secondary)) {
+  2141				dev_err(dev,
+  2142					"fwnode graph has no endpoints connection\n");
+  2143				return ERR_PTR(-EINVAL);
+  2144			}
+  2145	
+  2146			ret = ipu_bridge_init(dev, ipu_bridge_parse_ssdb);
+  2147			if (ret) {
+  2148				dev_err_probe(dev, ret, "IPU bridge init failed\n");
+  2149				return ERR_PTR(ret);
+  2150			}
+  2151		}
+  2152	
+  2153		pdata = kzalloc_obj(*pdata);
+  2154		if (!pdata)
+  2155			return ERR_PTR(-ENOMEM);
+  2156	
+  2157		pdata->base = base;
+  2158		pdata->ipdata = ipdata;
+  2159	
+  2160		isys_adev = ipu7_bus_initialize_device(pdev, parent, pdata, ctrl,
+  2161						       IPU_ISYS_NAME);
+  2162		if (IS_ERR(isys_adev)) {
+  2163			dev_err_probe(dev, PTR_ERR(isys_adev),
+  2164				      "ipu7_bus_initialize_device isys failed\n");
+  2165			kfree(pdata);
+  2166			return ERR_CAST(isys_adev);
+  2167		}
+  2168	
+  2169		isys_adev->mmu = ipu7_mmu_init(dev, base, ISYS_MMID,
+  2170					       &ipdata->hw_variant);
+  2171		if (IS_ERR(isys_adev->mmu)) {
+  2172			ret = PTR_ERR(isys_adev->mmu);
+  2173			dev_err_probe(dev, ret,
+  2174				      "ipu7_mmu_init(isys_adev->mmu) failed\n");
+  2175			put_device(&isys_adev->auxdev.dev);
+> 2176			return ERR_CAST(ret);
+  2177		}
+  2178	
+  2179		isys_adev->mmu->dev = &isys_adev->auxdev.dev;
+  2180		isys_adev->subsys = IPU_IS;
+  2181	
+  2182		ret = ipu7_bus_add_device(isys_adev);
+  2183		if (ret)
+  2184			return ERR_PTR(ret);
+  2185	
+  2186		return isys_adev;
+  2187	}
+  2188	
 
---
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
