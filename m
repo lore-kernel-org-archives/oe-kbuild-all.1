@@ -1,184 +1,185 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B372B33B6D0;
-	Sun,  3 May 2026 03:27:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD63201113
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 May 2026 03:38:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777778826; cv=none; b=gOCCngqdy8J5gRDgOlDWs16gZDEftTJuXx0RPTjbOG+L5VgX1vbNHR92YV9QTg8uPjgPSCninNLFuJCby+fEJHfAoEJhf8HIqtbuFqVrRxrYqgydiOiHJVEIKSeYTOO1SVccnA5o72+IwP34KNU1HhS7d6uWET+Z+JrorbvCp8U=
+	t=1777779540; cv=none; b=QBujIF0FeucdD53Hteo7pq4hi/Pa5vU1oUMFhoJPM4nHvhvMrGpn5hjOb7eYXK+SHfnd9WZNQ07yCpLx8GU8kWGFPmXiOH9yYMXZjCN9rjGTW8bRfOj+Z8XnmJR7QKuod54eHADd1nwGXAs58zvG87ZIdfjy8AlPIvn2azdltoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777778826; c=relaxed/simple;
-	bh=ThXQhMikk8hxgAx07+XgCLWhDs9WRJYcmWLBf6AsvLc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BFweVgp7ORH74IWipBtuzF0QWB8UR4sj4v7favKfpFDzLJYf1p5Ua+qzbOX7SIpbJBt01ZmVhWMelpwsoiHy+p4euPohCogTm2VaGMzQpGq1QF2aIyhGErzhcv3tAub7/4RUJw5i4JDaOzIfECBxLFW/ydjd37eFipyri7YjJAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=adlNakCc; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1777779540; c=relaxed/simple;
+	bh=bie6eMWjDDf0C3V8G6yDDGWKiSNiWfjcDHHp8hIMKpA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Riz5X2UfeIhUo6F4GTF+neanYl+o39ShyvZHqGPwoN/pb26COnsIKWlLaZcl+78+P2f5twOa4AKUjshOI/Q5nIdla9xTYvWgBFqpjx8wIrE8Wynxco40KD84zO6UWKzSOVOvCBeuROW7jO411mPNmx065XTGt1j6uOOy8eSRMCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G7Lkxn8B; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="adlNakCc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G7Lkxn8B"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777778824; x=1809314824;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ThXQhMikk8hxgAx07+XgCLWhDs9WRJYcmWLBf6AsvLc=;
-  b=adlNakCc6gAbF4VGPz1TwU/J3HUe34A8h75+l/ZK9yGsMzw+zUoHiOGS
-   HPeFiKPHoSNXPwR+6/Gdn+UbNb91kMghmrUeKYjUp7I0+pT72uENCScDW
-   diNxuT7U7AZ1QG6IJm6POnDVyvWhbX3rVKhtY5e7Z/r3y8DsgEJKINxsn
-   rSFhDXwAgzSBCvl6iDhyuLMpOR3Xd5AbWHbfNtUSQwC0XqEP8FT6NMGeB
-   sqfMMsG40/Qwm/oo+PidEJe24aH+Yx4AKrigsjkpZ847KL6iksBEBMTlw
-   lXkCfcAcK5B5uZJbau2oDNIurQkyUR+DgfrwCPn+FKoKodizyqOgyCQ2C
-   g==;
-X-CSE-ConnectionGUID: dtkVi2O2Ts6e9JpDrYWWxQ==
-X-CSE-MsgGUID: DD7deF9AR9qRBGkUq4RMFA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="96111910"
+  t=1777779539; x=1809315539;
+  h=date:from:to:cc:subject:message-id;
+  bh=bie6eMWjDDf0C3V8G6yDDGWKiSNiWfjcDHHp8hIMKpA=;
+  b=G7Lkxn8BDxW/EOCkdUkJRqTvmL5yGjWFocx+pG+Mr6l0HRKq9hnp2Gm6
+   n/ETRXjhlyXSzIe9aSVYzDQK2Jd4viQSylaUGwcPYz4/6nxlKHVcEUgHx
+   kb9t1pvrDKY3ab+bFYoDdF8uzcHmy8BSvBET17W+i/+zRc9G0bntgv6Ds
+   cMK3uvlpqMQEavRRApp+sr+J3cgB9MNP3TNpRDrPxXALXqs38AGVsLnMC
+   2Lc0Js1cp0HJP/vRBbKKTgpiueXV6gjTeHKAK/ZjdNsLyd53hDyaYG0A4
+   C8cxziFVWeqTpiiRoCD+mOt/oeRa0tk2u4aPrmx3c1UDxWtSXYRGmdp6O
+   w==;
+X-CSE-ConnectionGUID: WiM6AUiTTYuzeHvU2GJ2sw==
+X-CSE-MsgGUID: fg0hF4OsQL+SEEO6WDFquQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="82294396"
 X-IronPort-AV: E=Sophos;i="6.23,213,1770624000"; 
-   d="scan'208";a="96111910"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 20:27:02 -0700
-X-CSE-ConnectionGUID: qHMWufCwSIGpnrzHrQx6fQ==
-X-CSE-MsgGUID: ZO1gsvhvSgCXvuXrkhaoRg==
+   d="scan'208";a="82294396"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 20:38:59 -0700
+X-CSE-ConnectionGUID: GQUcEiy5Q3u3avfXRf5t/Q==
+X-CSE-MsgGUID: QUZHw+7PQxy8LGSIi3ftQg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,213,1770624000"; 
-   d="scan'208";a="240182796"
+   d="scan'208";a="239529313"
 Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 02 May 2026 20:26:57 -0700
+  by orviesa004.jf.intel.com with ESMTP; 02 May 2026 20:38:58 -0700
 Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wJNTq-0000000025d-1ypD;
-	Sun, 03 May 2026 03:26:54 +0000
-Date: Sun, 3 May 2026 11:26:03 +0800
+	id 1wJNfS-0000000026B-3OfG;
+	Sun, 03 May 2026 03:38:54 +0000
+Date: Sun, 03 May 2026 11:38:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: "shaikh.kamal" <shaikhkamal2012@gmail.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	David Rientjes <rientjes@google.com>,
-	Shakeel Butt <shakeel.butt@linux.dev>, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	pbonzini@redhat.com, skhan@linuxfoundation.org,
-	me@brighamcampbell.com,
-	syzbot+c3178b6b512446632bac@syzkaller.appspotmail.com,
-	"shaikh.kamal" <shaikhkamal2012@gmail.com>
-Subject: Re: [PATCH v2 1/1] mm/mmu_notifier: Add async OOM cleanup via
- call_srcu()
-Message-ID: <202605031115.qmkkOLQc-lkp@intel.com>
-References: <20260429222548.25475-1-shaikhkamal2012@gmail.com>
+To: "Harry Yoo (Oracle)" <harry@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [harry:kvfree-rcu-improvements-rfc-v2r1-wip 4/9]
+ mm/slab_common.c:1368:23: error: implicit declaration of function
+ 'IRQ_WORK_INIT'; did you mean 'IRQ_WORK_VECTOR'?
+Message-ID: <202605031132.83gN286l-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260429222548.25475-1-shaikhkamal2012@gmail.com>
 
-Hi shaikh.kamal,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on v7.0]
-[cannot apply to akpm-mm/mm-everything kvm/queue kvm/next kvm/linux-next v7.1-rc1 linus/master next-20260430]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/shaikh-kamal/mm-mmu_notifier-Add-async-OOM-cleanup-via-call_srcu/20260430-202943
-base:   v7.0
-patch link:    https://lore.kernel.org/r/20260429222548.25475-1-shaikhkamal2012%40gmail.com
-patch subject: [PATCH v2 1/1] mm/mmu_notifier: Add async OOM cleanup via call_srcu()
-config: hexagon-allnoconfig (https://download.01.org/0day-ci/archive/20260503/202605031115.qmkkOLQc-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260503/202605031115.qmkkOLQc-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/harry/linux.git kvfree-rcu-improvements-rfc-v2r1-wip
+head:   1e4fd024c798fbeff0b5a3c5f55cdcf710367c59
+commit: 56d22ff0926080094a3df57e64b2aa87c9e1433d [4/9] mm/slab: introduce kfree_rcu_nolock()
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20260503/202605031132.83gN286l-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260503/202605031132.83gN286l-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605031115.qmkkOLQc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605031132.83gN286l-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> mm/oom_kill.c:523:2: error: call to undeclared function 'mmu_notifier_oom_enter'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     523 |         mmu_notifier_oom_enter(mm);
-         |         ^
-   mm/oom_kill.c:523:2: note: did you mean 'mmu_notifier_release'?
-   include/linux/mmu_notifier.h:610:20: note: 'mmu_notifier_release' declared here
-     610 | static inline void mmu_notifier_release(struct mm_struct *mm)
-         |                    ^
-   mm/oom_kill.c:511:28: warning: variable 'oom_reaper_th' set but not used [-Wunused-but-set-global]
-     511 | static struct task_struct *oom_reaper_th;
-         |                            ^
-   1 warning and 1 error generated.
+>> mm/slab_common.c:1368:23: error: implicit declaration of function 'IRQ_WORK_INIT'; did you mean 'IRQ_WORK_VECTOR'? [-Wimplicit-function-declaration]
+    1368 |         .defer_free = IRQ_WORK_INIT(defer_kfree_rcu_irq_work_fn),
+         |                       ^~~~~~~~~~~~~
+         |                       IRQ_WORK_VECTOR
+>> mm/slab_common.c:1368:23: error: initialization of 'struct llist_node *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   mm/slab_common.c:1368:23: note: (near initialization for 'krc.defer_free.node.llist.next')
+>> mm/slab_common.c:1368:23: error: initializer element is not constant
+   mm/slab_common.c:1368:23: note: (near initialization for 'krc.defer_free.node.llist.next')
+   mm/slab_common.c: In function 'defer_kvfree_rcu_barrier':
+>> mm/slab_common.c:1378:17: error: implicit declaration of function 'irq_work_sync' [-Wimplicit-function-declaration]
+    1378 |                 irq_work_sync(&per_cpu_ptr(&krc, cpu)->defer_free);
+         |                 ^~~~~~~~~~~~~
+   mm/slab_common.c: In function 'kvfree_call_rcu_head':
+>> mm/slab_common.c:1433:25: error: implicit declaration of function 'irq_work_queue'; did you mean 'drain_workqueue'? [-Wimplicit-function-declaration]
+    1433 |                         irq_work_queue(&krcp->defer_free);
+         |                         ^~~~~~~~~~~~~~
+         |                         drain_workqueue
 
 
-vim +/mmu_notifier_oom_enter +523 mm/oom_kill.c
+vim +1368 mm/slab_common.c
 
-   515	
-   516	static bool __oom_reap_task_mm(struct mm_struct *mm)
-   517	{
-   518		struct vm_area_struct *vma;
-   519		bool ret = true;
-   520		MA_STATE(mas, &mm->mm_mt, ULONG_MAX, ULONG_MAX);
-   521	
-   522		/* Notify MMU notifiers about the OOM event */
- > 523		mmu_notifier_oom_enter(mm);
-   524	
-   525		/*
-   526		 * Tell all users of get_user/copy_from_user etc... that the content
-   527		 * is no longer stable. No barriers really needed because unmapping
-   528		 * should imply barriers already and the reader would hit a page fault
-   529		 * if it stumbled over a reaped memory.
-   530		 */
-   531		mm_flags_set(MMF_UNSTABLE, mm);
-   532	
-   533		/*
-   534		 * It might start racing with the dying task and compete for shared
-   535		 * resources - e.g. page table lock contention has been observed.
-   536		 * Reduce those races by reaping the oom victim from the other end
-   537		 * of the address space.
-   538		 */
-   539		mas_for_each_rev(&mas, vma, 0) {
-   540			if (vma->vm_flags & (VM_HUGETLB|VM_PFNMAP))
-   541				continue;
-   542	
-   543			/*
-   544			 * Only anonymous pages have a good chance to be dropped
-   545			 * without additional steps which we cannot afford as we
-   546			 * are OOM already.
-   547			 *
-   548			 * We do not even care about fs backed pages because all
-   549			 * which are reclaimable have already been reclaimed and
-   550			 * we do not want to block exit_mmap by keeping mm ref
-   551			 * count elevated without a good reason.
-   552			 */
-   553			if (vma_is_anonymous(vma) || !(vma->vm_flags & VM_SHARED)) {
-   554				struct mmu_notifier_range range;
-   555				struct mmu_gather tlb;
-   556	
-   557				mmu_notifier_range_init(&range, MMU_NOTIFY_UNMAP, 0,
-   558							mm, vma->vm_start,
-   559							vma->vm_end);
-   560				tlb_gather_mmu(&tlb, mm);
-   561				if (mmu_notifier_invalidate_range_start_nonblock(&range)) {
-   562					tlb_finish_mmu(&tlb);
-   563					ret = false;
-   564					continue;
-   565				}
-   566				unmap_page_range(&tlb, vma, range.start, range.end, NULL);
-   567				mmu_notifier_invalidate_range_end(&range);
-   568				tlb_finish_mmu(&tlb);
-   569			}
-   570		}
-   571	
-   572		return ret;
-   573	}
-   574	
+  1365	
+  1366	static DEFINE_PER_CPU(struct kfree_rcu_cpu, krc) = {
+  1367		.defer_head = LLIST_HEAD_INIT(defer_head),
+> 1368		.defer_free = IRQ_WORK_INIT(defer_kfree_rcu_irq_work_fn),
+  1369	};
+  1370	#endif
+  1371	
+  1372	/* Wait for deferred work from kfree_rcu_nolock() */
+  1373	void defer_kvfree_rcu_barrier(void)
+  1374	{
+  1375		int cpu;
+  1376	
+  1377		for_each_possible_cpu(cpu)
+> 1378			irq_work_sync(&per_cpu_ptr(&krc, cpu)->defer_free);
+  1379	}
+  1380	
+  1381	static void *object_start_addr(void *ptr)
+  1382	{
+  1383		struct slab *slab;
+  1384		void *start;
+  1385	
+  1386		if (is_vmalloc_addr(ptr)) {
+  1387			start  = (void *)PAGE_ALIGN_DOWN((unsigned long)ptr);
+  1388		} else {
+  1389			slab = virt_to_slab(ptr);
+  1390			if (!slab)
+  1391				start = (void *)PAGE_ALIGN_DOWN((unsigned long)ptr);
+  1392			else if (is_kfence_address(ptr))
+  1393				start = kfence_object_start(ptr);
+  1394			else
+  1395				start = nearest_obj(slab->slab_cache, slab, ptr);
+  1396		}
+  1397	
+  1398		return start;
+  1399	}
+  1400	
+  1401	static void defer_kfree_rcu_irq_work_fn(struct irq_work *work)
+  1402	{
+  1403		struct kfree_rcu_cpu *krcp;
+  1404		struct llist_head *head;
+  1405		struct llist_node *llnode, *pos, *t;
+  1406	
+  1407		krcp = container_of(work, struct kfree_rcu_cpu, defer_free);
+  1408		head = &krcp->defer_head;
+  1409	
+  1410		if (llist_empty(head))
+  1411			return;
+  1412	
+  1413		llnode = llist_del_all(head);
+  1414		llist_for_each_safe(pos, t, llnode) {
+  1415			void *objp;
+  1416			struct rcu_ptr *rcup = (struct rcu_ptr *)pos;
+  1417	
+  1418			objp = object_start_addr(rcup);
+  1419			kvfree_call_rcu(rcup, objp, true);
+  1420		}
+  1421	}
+  1422	
+  1423	#ifndef CONFIG_KVFREE_RCU_BATCHED
+  1424	void kvfree_call_rcu_head(struct rcu_head *head, void *ptr, bool allow_spin)
+  1425	{
+  1426		if (!allow_spin) {
+  1427			struct kfree_rcu_cpu *krcp;
+  1428	
+  1429			guard(preempt)();
+  1430	
+  1431			krcp = this_cpu_ptr(&krc);
+  1432			if (llist_add((struct llist_node *)head, &krcp->defer_head))
+> 1433				irq_work_queue(&krcp->defer_free);
+  1434			return;
+  1435		}
+  1436	
+  1437		if (head) {
+  1438			kasan_record_aux_stack(ptr);
+  1439			call_rcu(head, kvfree_rcu_cb);
+  1440			return;
+  1441		}
+  1442	
+  1443		// kvfree_rcu(one_arg) call.
+  1444		might_sleep();
+  1445		synchronize_rcu();
+  1446		kvfree(ptr);
+  1447	}
+  1448	EXPORT_SYMBOL_GPL(kvfree_call_rcu_head);
+  1449	
 
 -- 
 0-DAY CI Kernel Test Service
