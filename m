@@ -1,148 +1,160 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f77.google.com (mail-ot1-f77.google.com [209.85.210.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B189C238C1A
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 May 2026 17:53:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE44A3E3D99
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 May 2026 17:54:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777917221; cv=none; b=VXSAeMHMBcflUvXq8euT71cQWADDgNLS3H3rmjzm7Ds6JCj2j0cPCTgjoVNl8J+XHnt5joXixCzyRiZD0e6Ncx13fh5pH0f98NIWElds+TNqlhO7SdR5+kjTmDc+5X4EyvoFT9mZ+u0mDv8yBfGN7TrWYUvAkBJ9DoB1/bF2BWA=
+	t=1777917276; cv=none; b=hW58/2zXmgT1hVEenZTlbs/SsanvW4SYPg9T46QmeaqEO2tqjqFqauPmoklj2BLuU8YGJmaVr7Mk6dmlnaoj/hOqgWVqZ708E/SXYbcxbLw/ugLunHhndy/DvGliDvZUGkRLKWT46AppCzGp6V+0ovcBmbigkZfYf+UViUQ2o8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777917221; c=relaxed/simple;
-	bh=d2x6M4cEiytDPcPROscSFgBbvpWjisjyr3yJxYYJGlk=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=DBhIrOBDBdzQlH2rQQBqrazUXmwtv4UwqVQkEepVeNzv2UsO5mHBHVvjXQidF9jBZ/C6EyxVi0DDUSoMxIX8cLm/W5OBrzjEO2eR9VAloo99zteOHz5wbfos+Ch/o4eeSWQCWYBUrX7+v1nDRgxk56Begc22UcQuoaxMDVLmrSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=jpsP235X; arc=none smtp.client-ip=195.121.94.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="jpsP235X"
-X-KPN-MessageId: 0529c948-47e2-11f1-8ff3-005056999439
-Received: from mta.kpnmail.nl (unknown [10.31.161.188])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 0529c948-47e2-11f1-8ff3-005056999439;
-	Mon, 04 May 2026 19:52:30 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 052db099-47e2-11f1-80fc-00505699693e;
-	Mon, 04 May 2026 19:52:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=fdrkKK8eMnV7dOibno8gNAj2pFai329E4Bo4z1jjiII=;
-	b=jpsP235X0lhyZidE9s41AgDnuaESMQZIH3qThoqy9Adwdshb3Vf1iNyE+bGZsNuBTdjN3ogX3v0t9
-	 oZUfaQNQ4xruJMz/MGUMDb3cvVQdapuf2tSPL4f0AvPw1mBPfXRNvaaLUyQ+TAJUNemK1zkt2TGZjO
-	 dhJP1lvvhih83dDoi2qvlZhHD6dVhfwmDxLIgwv+fycKCcE+6a5jP7XDr2EEMYI2FN9/2NO/6sG1y9
-	 N0mzvenFFQRaBVSgQAGSCJmScLPOd6GgdVWfzNXebWe40/emHxkVlfaDoEWlWIR9Q2QSfaVUwL01FF
-	 UbQT7yNsg9qulAyMPk/x7Df3ZDeKVew==
-X-KPN-MID: 33|CkxRfNmdvMOQDK2JEfc1ZEppa/3dJ21ky2XYngOckzUjHzzZGN0AnQVFFclUN9M
- AC7LqLCeitC4TMFMf86ro+b0DxK4Vq+RFAThElraxqGo=
-X-CMASSUN: 33|3U+OCzuc8KmDb1Q2iZ8wCPpRlMM0+2DqPjs94vqJNTLcjKxxgerjL0KkHp8znkV
- vztL7z/EGEOj1WAtmbmUjzg==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh02 (cpxoxapps-mh02.personalcloud.so.kpn.org [10.128.135.208])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 051b5a88-47e2-11f1-b8d7-005056995d6c;
-	Mon, 04 May 2026 19:52:29 +0200 (CEST)
-Date: Mon, 4 May 2026 19:52:29 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Christian Brauner <christianvanbrauner@gmail.com>,
-	Christian Brauner <brauner@kernel.org>
-Message-ID: <1858441603.78403.1777917149902@kpc.webmail.kpnmail.nl>
-In-Reply-To: <202604301053.5Axle7Cg-lkp@intel.com>
-References: <202604301053.5Axle7Cg-lkp@intel.com>
-Subject: Re: [brauner-github:vfs-7.2.reopen 1/2]
- include/linux/compiler_types.h:699:45: error: call to
- '__compiletime_assert_396' declared with attribute error: BUILD_BUG_ON
- failed: 21 - 1 != HWEIGHT32( (VALID_OPEN_FLAGS & ~(O_NONBLOCK | O_NDELAY))
- | __FMODE_EXEC)
+	s=arc-20240116; t=1777917276; c=relaxed/simple;
+	bh=N3OJlCmNm5ZFq7j1A2SYJQW6LfmovEqwcV0g/6bRjFM=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=o0X6VDaDffscSwpyC0p4hudPi4vz46jMZesGxws9Di6YoH8K27C+YgcaVT+rew/gXIRwL9k8aLRxkAM8ObrQsqTGLBCtmyB40g9z+Zo8+rdGwOqJ944YqR1S/FwioE3XbK5/f2aKN188VQDWcLMt/o2/Z9ILfRbWpTZIx3Hb3ws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f77.google.com with SMTP id 46e09a7af769-7de75c9be4aso10209380a34.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 04 May 2026 10:54:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777917274; x=1778522074;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yf1acHnuMkvLtJHbgF3Z56jQ1gcWmSXrdwsWfpDSszg=;
+        b=WV2o5/oO13+I8JC3892zP5nB8lBPBzMCbBHqAVCV73EKkG0LvTzx/VgfCd5BMRPGPx
+         Resc2KfRLmaa1eneYCM3sObV6Xmq6AXesX3P4vaatY/H7q4TYr4Rh/UEmnjIWpFzcJA7
+         yKQYYNr0T7F/Jm98ct/tsRaqaSANOKpnNvnB6H5TZG7/hOYGU3rbGpCl/ry4XVNfk94Q
+         /0ALfL4+CzXSTzAd3ugpfjAO88HZ3kKWknKHA5PAnM13MOgVIBsjIsOF0ByoH4ZZe9u+
+         sZlYslsggLGOrf0BYTL6+SX/kdQ7jeECgo719B3/5evgCqH1tpJvQrbgkjYwXkTgiFHp
+         +kLg==
+X-Forwarded-Encrypted: i=1; AFNElJ+SVTsSypkC3Du72js5tRHUN0b3pNBcIphz8BYWKDc6WZbDS75dOdkUMxCfaFOXjCRhX6aAl1YBjguiFnWD@lists.linux.dev
+X-Gm-Message-State: AOJu0YxmYraFqsFIq4wb8ycH3nkjZDeh3wc0UXatCxnd2ZQ6JJ2Twooi
+	U0fepFkcwLpdr43nos/i3qfDh99IzB527vUOrBBYcXhd4dKjKntkGk0AYEanCNh4/WO2mZtvXxA
+	MJuQtAfqU9tst2Bz1wLzGTECd7gG0MCYqvgf4HcYjnsriXriFxlDlfCVEMy0=
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+X-Received: by 2002:a05:6820:f022:b0:68a:e01a:9b99 with SMTP id
+ 006d021491bc7-69697df9a6cmr5304663eaf.50.1777917273794; Mon, 04 May 2026
+ 10:54:33 -0700 (PDT)
+Date: Mon, 04 May 2026 10:54:33 -0700
+In-Reply-To: <6936812a.a70a0220.38f243.0090.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69f8dd59.170a0220.bb392.0004.GAE@google.com>
+Subject: Re: [syzbot] [mm?] BUG: sleeping function called from invalid context
+ in kvm_mmu_notifier_invalidate_range_start
+From: syzbot <syzbot+c3178b6b512446632bac@syzkaller.appspotmail.com>
+To: akpm@linux-foundation.org, dwmw@amazon.co.uk, kvm@vger.kernel.org, 
+	liam.howlett@oracle.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-rt-devel@lists.linux.dev, lkp@intel.com, llvm@lists.linux.dev, 
+	lorenzo.stoakes@oracle.com, me@brighamcampbell.com, mhocko@suse.com, 
+	oe-kbuild-all@lists.linux.dev, pbonzini@redhat.com, rientjes@google.com, 
+	rppt@kernel.org, seanjc@google.com, shaikhkamal2012@gmail.com, 
+	shakeel.butt@linux.dev, skhan@linuxfoundation.org, surenb@google.com, 
+	syzkaller-bugs@googlegroups.com, vbabka@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Christian,
+syzbot has found a reproducer for the following issue on:
 
-Aleksa had already alerted me that this will happen; some arches
-conflicted with my bit setting for O_EMPTYPATH, I fixed that already
-here [1].
+HEAD commit:    b9303e6bff70 Add linux-next specific files for 20260430
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=13745dba580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=5474e13c6d20d45c
+dashboard link: https://syzkaller.appspot.com/bug?extid=c3178b6b512446632bac
+compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=125dd748580000
 
-[1]: https://lore.kernel.org/linux-fsdevel/20260424114611.1678641-1-jkoolstra@xs4all.nl/
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/b3a0a2e50f73/disk-b9303e6b.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/d3d481b220d4/vmlinux-b9303e6b.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/d6e012913960/bzImage-b9303e6b.xz
 
-Thanks, Jori.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+c3178b6b512446632bac@syzkaller.appspotmail.com
+
+BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:48
+in_atomic(): 0, irqs_disabled(): 0, non_block: 1, pid: 40, name: oom_reaper
+preempt_count: 0, expected: 0
+RCU nest depth: 0, expected: 0
+4 locks held by oom_reaper/40:
+ #0: ffff8880335ed1b0 (&mm->mmap_lock){++++}-{4:4}, at: mmap_read_trylock include/linux/mmap_lock.h:611 [inline]
+ #0: ffff8880335ed1b0 (&mm->mmap_lock){++++}-{4:4}, at: oom_reap_task_mm mm/oom_kill.c:566 [inline]
+ #0: ffff8880335ed1b0 (&mm->mmap_lock){++++}-{4:4}, at: oom_reap_task mm/oom_kill.c:609 [inline]
+ #0: ffff8880335ed1b0 (&mm->mmap_lock){++++}-{4:4}, at: oom_reaper+0x2bb/0xc10 mm/oom_kill.c:650
+ #1: ffffffff8e3066c0 (mmu_notifier_invalidate_range_start){+.+.}-{0:0}, at: mmu_notifier_invalidate_range_start_nonblock include/linux/mmu_notifier.h:495 [inline]
+ #1: ffffffff8e3066c0 (mmu_notifier_invalidate_range_start){+.+.}-{0:0}, at: zap_vma_for_reaping+0x193/0x380 mm/memory.c:2119
+ #2: ffffffff8e306718 (srcu){.+.+}-{0:0}, at: srcu_lock_acquire include/linux/srcu.h:187 [inline]
+ #2: ffffffff8e306718 (srcu){.+.+}-{0:0}, at: srcu_read_lock include/linux/srcu.h:294 [inline]
+ #2: ffffffff8e306718 (srcu){.+.+}-{0:0}, at: mn_hlist_invalidate_range_start mm/mmu_notifier.c:515 [inline]
+ #2: ffffffff8e306718 (srcu){.+.+}-{0:0}, at: __mmu_notifier_invalidate_range_start+0x5a1/0xb60 mm/mmu_notifier.c:580
+ #3: ffff88803996caf8 (&kvm->mn_invalidate_lock){+.+.}-{3:3}, at: spin_lock include/linux/spinlock_rt.h:45 [inline]
+ #3: ffff88803996caf8 (&kvm->mn_invalidate_lock){+.+.}-{3:3}, at: kvm_mmu_notifier_invalidate_range_start+0x1b7/0xc00 virt/kvm/kvm_main.c:744
+CPU: 0 UID: 0 PID: 40 Comm: oom_reaper Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/18/2026
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ __might_resched+0x329/0x480 kernel/sched/core.c:9163
+ __rt_spin_lock kernel/locking/spinlock_rt.c:48 [inline]
+ rt_spin_lock+0xc2/0x400 kernel/locking/spinlock_rt.c:57
+ spin_lock include/linux/spinlock_rt.h:45 [inline]
+ kvm_mmu_notifier_invalidate_range_start+0x1b7/0xc00 virt/kvm/kvm_main.c:744
+ mn_hlist_invalidate_range_start mm/mmu_notifier.c:525 [inline]
+ __mmu_notifier_invalidate_range_start+0x6e4/0xb60 mm/mmu_notifier.c:580
+ mmu_notifier_invalidate_range_start_nonblock include/linux/mmu_notifier.h:498 [inline]
+ zap_vma_for_reaping+0x1f7/0x380 mm/memory.c:2119
+ __oom_reap_task_mm mm/oom_kill.c:548 [inline]
+ oom_reap_task_mm mm/oom_kill.c:585 [inline]
+ oom_reap_task mm/oom_kill.c:609 [inline]
+ oom_reaper+0x51e/0xc10 mm/oom_kill.c:650
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:48
+in_atomic(): 0, irqs_disabled(): 0, non_block: 1, pid: 40, name: oom_reaper
+preempt_count: 0, expected: 0
+RCU nest depth: 0, expected: 0
+4 locks held by oom_reaper/40:
+ #0: ffff8880335ed1b0 (&mm->mmap_lock){++++}-{4:4}, at: mmap_read_trylock include/linux/mmap_lock.h:611 [inline]
+ #0: ffff8880335ed1b0 (&mm->mmap_lock){++++}-{4:4}, at: oom_reap_task_mm mm/oom_kill.c:566 [inline]
+ #0: ffff8880335ed1b0 (&mm->mmap_lock){++++}-{4:4}, at: oom_reap_task mm/oom_kill.c:609 [inline]
+ #0: ffff8880335ed1b0 (&mm->mmap_lock){++++}-{4:4}, at: oom_reaper+0x2bb/0xc10 mm/oom_kill.c:650
+ #1: ffffffff8e3066c0 (mmu_notifier_invalidate_range_start){+.+.}-{0:0}, at: __mmu_notifier_invalidate_range_end+0x67/0x400 mm/mmu_notifier.c:611
+ #2: ffffffff8e306718 (srcu){.+.+}-{0:0}, at: __mmu_notifier_invalidate_range_end+0x67/0x400 mm/mmu_notifier.c:611
+ #3: ffff88803996caf8 (&kvm->mn_invalidate_lock){+.+.}-{3:3}, at: spin_lock include/linux/spinlock_rt.h:45 [inline]
+ #3: ffff88803996caf8 (&kvm->mn_invalidate_lock){+.+.}-{3:3}, at: kvm_mmu_notifier_invalidate_range_end+0x1d6/0x3d0 virt/kvm/kvm_main.c:814
+CPU: 0 UID: 0 PID: 40 Comm: oom_reaper Tainted: G        W           syzkaller #0 PREEMPT_{RT,(full)} 
+Tainted: [W]=WARN
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/18/2026
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ __might_resched+0x329/0x480 kernel/sched/core.c:9163
+ __rt_spin_lock kernel/locking/spinlock_rt.c:48 [inline]
+ rt_spin_lock+0xc2/0x400 kernel/locking/spinlock_rt.c:57
+ spin_lock include/linux/spinlock_rt.h:45 [inline]
+ kvm_mmu_notifier_invalidate_range_end+0x1d6/0x3d0 virt/kvm/kvm_main.c:814
+ mn_hlist_invalidate_end mm/mmu_notifier.c:597 [inline]
+ __mmu_notifier_invalidate_range_end+0x23b/0x400 mm/mmu_notifier.c:616
+ mmu_notifier_invalidate_range_end include/linux/mmu_notifier.h:511 [inline]
+ zap_vma_for_reaping+0x2d9/0x380 mm/memory.c:2124
+ __oom_reap_task_mm mm/oom_kill.c:548 [inline]
+ oom_reap_task_mm mm/oom_kill.c:585 [inline]
+ oom_reap_task mm/oom_kill.c:609 [inline]
+ oom_reaper+0x51e/0xc10 mm/oom_kill.c:650
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+oom_reaper: reaped process 6034 (syz.0.24), now anon-rss:0kB, file-rss:64kB, shmem-rss:0kB
 
 
-> Op 30-04-2026 04:37 CEST schreef kernel test robot <lkp@intel.com>:
-> 
->  
-> tree:   https://github.com/brauner/linux.git vfs-7.2.reopen
-> head:   89f1e153b6fa4a7a1e2f3d5a4ede7d9c3108c099
-> commit: 097b1e297e41636d34856f987875e9f80b381813 [1/2] vfs: add O_EMPTYPATH to openat(2)/openat2(2)
-> config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260430/202604301053.5Axle7Cg-lkp@intel.com/config)
-> compiler: alpha-linux-gcc (GCC) 15.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604301053.5Axle7Cg-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202604301053.5Axle7Cg-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from <command-line>:
->    fs/fcntl.c: In function 'fcntl_init':
-> >> include/linux/compiler_types.h:699:45: error: call to '__compiletime_assert_396' declared with attribute error: BUILD_BUG_ON failed: 21 - 1 != HWEIGHT32( (VALID_OPEN_FLAGS & ~(O_NONBLOCK | O_NDELAY)) | __FMODE_EXEC)
->      699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
->          |                                             ^
->    include/linux/compiler_types.h:680:25: note: in definition of macro '__compiletime_assert'
->      680 |                         prefix ## suffix();                             \
->          |                         ^~~~~~
->    include/linux/compiler_types.h:699:9: note: in expansion of macro '_compiletime_assert'
->      699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
->          |         ^~~~~~~~~~~~~~~~~~~
->    include/linux/build_bug.h:40:37: note: in expansion of macro 'compiletime_assert'
->       40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
->          |                                     ^~~~~~~~~~~~~~~~~~
->    include/linux/build_bug.h:51:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
->       51 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
->          |         ^~~~~~~~~~~~~~~~
->    fs/fcntl.c:1172:9: note: in expansion of macro 'BUILD_BUG_ON'
->     1172 |         BUILD_BUG_ON(21 - 1 /* for O_RDONLY being 0 */ !=
->          |         ^~~~~~~~~~~~
-> 
-> 
-> vim +/__compiletime_assert_396 +699 include/linux/compiler_types.h
-> 
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  685  
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  686  #define _compiletime_assert(condition, msg, prefix, suffix) \
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  687  	__compiletime_assert(condition, msg, prefix, suffix)
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  688  
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  689  /**
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  690   * compiletime_assert - break build and emit msg if condition is false
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  691   * @condition: a compile-time constant condition to check
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  692   * @msg:       a message to emit if condition is false
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  693   *
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  694   * In tradition of POSIX assert, this macro will break the build if the
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  695   * supplied condition is *false*, emitting the supplied error message if the
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  696   * compiler has support to do so.
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  697   */
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  698  #define compiletime_assert(condition, msg) \
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21 @699  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  700  
-> 
-> :::::: The code at line 699 was first introduced by commit
-> :::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-> 
-> :::::: TO: Will Deacon <will@kernel.org>
-> :::::: CC: Will Deacon <will@kernel.org>
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
