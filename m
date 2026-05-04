@@ -1,210 +1,325 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A15643DFC85;
-	Mon,  4 May 2026 15:55:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AB223E1205
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 May 2026 15:55:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777910138; cv=none; b=Qiccyudt/L2wHpvqJ0oxNmPrCcLZreXvxUnuGdgp/TdaFAaf+Mu8FuWhWVaYjbRnFGFIq/weLZTBwRUgEhL+RcyRRA5nkA6L6SSNVlm8j5Rz1pqC2BqZqDgGxZjMGdMuFrxNB2v+7xXTILzG6SnVFWWCU4zBPDgyg7e747iCd7g=
+	t=1777910146; cv=none; b=nzu+LjlJ18t2mGevzgr+ZPi5+eODu8xz7Na35m+ahsT7yT8L+KMWXUkSHRrwg+aDWU/VYv48GXq+gwvOziW8LQVv13SdNC7qnJt4+IqVWYXBOzt3SYUhurGh24A46LTjMsYwM7fULsAqtDXhM5WRdNDt+mmBzotSgTPTJN8sGrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777910138; c=relaxed/simple;
-	bh=AxBe0Pli9xlS8xkxnpJ1QukNFc97/w4zdD7V42Zjc0o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dQ/4Mh349EOItMYDbUhVbWIX6B62YSihnnBaGqa23522DwtizRa0KfuxIy5iRPG/zZ/JHfEgfT/Cvmf6p5D9S1XAKUaftntCFiLzTWoOzhTO3DjytrajLlmjPjMey0knuF2Ml80MtLf+/hE7n5rbYmS0MO0xg+gHuELisCbJSv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mMIzvL8k; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1777910146; c=relaxed/simple;
+	bh=/ceYaueoAmLdIxHhfjVZCMt1dEFhwXO3y7F8Kvx1EgE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=oaPdAxsvl//zfrUiHsz69GQOZkL3Zlly8R3wz3TGVInTO1hyDWGhO+FhBZM98/Z8eDS9LFWp62eC62/+9D0kyQ6GJtUmjEANriiFUJKJPMCK/ETBtWoKzj65I8nowuFM6eyw7N0gO2dfL1GYR8ERFd57Z1vtqDEu1LeWU88ChMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i8jKlStc; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mMIzvL8k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i8jKlStc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777910136; x=1809446136;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=AxBe0Pli9xlS8xkxnpJ1QukNFc97/w4zdD7V42Zjc0o=;
-  b=mMIzvL8klJJDl+Qp21eA06sv/Gp97lH3xbhp7cHF82ScVaFTtZ6seOq9
-   6FskiDSi6EXWZ+aYbEbumDt+PEz+TSlHzlDydsKMmaUP7q1JYLGCgfovi
-   vig1ZdpO5wZJTkn6G4hjBWrBbVvh98E+GYpZ9e7issKtb1mI1EWlbmlaU
-   zvz/Bksa5FgDrmcWhY+Dzrs754uXu5B3q6Qr0KAqOgQ/zkTvIVDhHxgXt
-   +gAi7Ab9TSYKMJhvYXbG0we4ChWUomLsE14UPuIyzwF80wxyANopi2W3O
-   e5zpmQyPHXO8qQRaJWzPvYoRpNzICn9/pMqxTmnjxJslioP7INqUqIZey
-   A==;
-X-CSE-ConnectionGUID: 3m0Xw7+KS1eB1LsA1jHVGw==
-X-CSE-MsgGUID: DFFwpRRMSw2QBgVmfviFow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11776"; a="78960688"
+  t=1777910145; x=1809446145;
+  h=date:from:to:cc:subject:message-id;
+  bh=/ceYaueoAmLdIxHhfjVZCMt1dEFhwXO3y7F8Kvx1EgE=;
+  b=i8jKlStcQx44Yeww88Qyt9MkRs2N14QkiZd4nN/dLDWnD/zfXFSS8sF/
+   MZZ0SCU5T3kCztT734qfzsQKoMvX0xMOZu/rx6CtBcs2tENpjwaqt+Dgg
+   cIJwiLvc92/qwT2FPwHL8+zZmnGhEV3dsPvNvZowDs2GNJwHYBOyMPdNS
+   lFa0KeYBqj1USpwCeaf6s88H6gbIKCB55EAn2+d5pmmufxnLEnyug1XE2
+   AfN2dXaWyxglD9aO4zh4t6rgsuMBanX0U5LupUQZ7NiVui3qs9TGCE2T8
+   gOAR/t8gP6lNnA7L0KmCF4T/+HJdoIQuM8wi6fFuzlSf9LX3mtBqP6O4c
+   w==;
+X-CSE-ConnectionGUID: kHuVXPhxR9eI6jnVS2bE8g==
+X-CSE-MsgGUID: E4EvJRgyR/WFH1X5x0QaZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11776"; a="66301149"
 X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
-   d="scan'208";a="78960688"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 08:55:35 -0700
-X-CSE-ConnectionGUID: RGqtXx4aSty212Yr8xdNzw==
-X-CSE-MsgGUID: SRXLLebGTrCOXuylfZslEg==
+   d="scan'208";a="66301149"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 08:55:44 -0700
+X-CSE-ConnectionGUID: L00tum4gQMmXaLKrPnAJQg==
+X-CSE-MsgGUID: wuqG0bjvT2asolCd7bTg2Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
-   d="scan'208";a="273660379"
+   d="scan'208";a="235613629"
 Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 04 May 2026 08:55:33 -0700
+  by orviesa009.jf.intel.com with ESMTP; 04 May 2026 08:55:42 -0700
 Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wJvdg-000000003or-2yJs;
-	Mon, 04 May 2026 15:55:23 +0000
-Date: Mon, 4 May 2026 23:54:22 +0800
+	id 1wJvdq-000000003ot-2iTz;
+	Mon, 04 May 2026 15:55:34 +0000
+Date: Mon, 04 May 2026 23:54:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oliver Neukum <oneukum@suse.com>, hanguidong02@gmail.com,
-	linux-usb@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Oliver Neukum <oneukum@suse.com>
-Subject: Re: [RFT] usb: class: cdc-wdm: switch to kfifo for buffering
-Message-ID: <202605042331.sI8rgflD-lkp@intel.com>
-References: <20260430121859.1018894-1-oneukum@suse.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:7.1-rc 141/147]
+ drivers/net/ethernet/mediatek/mtk_eth_dbg.c:435:25: warning: variable 'mac'
+ set but not used
+Message-ID: <202605042313.PJ1l9Zm1-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260430121859.1018894-1-oneukum@suse.com>
 
-Hi Oliver,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus westeri-thunderbolt/next linus/master v7.1-rc2 next-20260430]
-[cannot apply to peter-chen-usb/for-usb-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Oliver-Neukum/usb-class-cdc-wdm-switch-to-kfifo-for-buffering/20260504-164851
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20260430121859.1018894-1-oneukum%40suse.com
-patch subject: [RFT] usb: class: cdc-wdm: switch to kfifo for buffering
-config: arm-randconfig-004-20260504 (https://download.01.org/0day-ci/archive/20260504/202605042331.sI8rgflD-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260504/202605042331.sI8rgflD-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 7.1-rc
+head:   445521c1e8057d80bfd079aa69ad69ba0a9293b3
+commit: 3d7587812f1f0f35408e7efbf4bf78cbe5b07ec3 [141/147] net: mediatek: add proprietary debugfs
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20260504/202605042313.PJ1l9Zm1-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260504/202605042313.PJ1l9Zm1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605042331.sI8rgflD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605042313.PJ1l9Zm1-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/usb/class/cdc-wdm.c:526:6: warning: variable 'i' set but not used [-Wunused-but-set-variable]
-     526 |         int i = 0;
-         |             ^
-   1 warning generated.
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c: In function 'mtketh_debug_show':
+>> drivers/net/ethernet/mediatek/mtk_eth_dbg.c:435:25: warning: variable 'mac' set but not used [-Wunused-but-set-variable]
+     435 |         struct mtk_mac *mac = 0;
+         |                         ^~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c: In function 'hw_lro_stats_update':
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1443:20: error: 'MTK_HW_LRO_RING_NUM' undeclared (first use in this function)
+    1443 |         if (idx >= MTK_HW_LRO_RING_NUM)
+         |                    ^~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1443:20: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c: In function 'hw_lro_flush_stats_update':
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1467:20: error: 'MTK_HW_LRO_RING_NUM' undeclared (first use in this function)
+    1467 |         if (idx >= MTK_HW_LRO_RING_NUM)
+         |                    ^~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c: In function 'hwlro_agg_cnt_ctrl':
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1736:26: error: 'MTK_HW_LRO_RING_NUM' undeclared (first use in this function)
+    1736 |         for (i = 1; i <= MTK_HW_LRO_RING_NUM; i++)
+         |                          ^~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1737:56: error: macro 'MTK_LRO_CTRL_DW2_CFG' requires 2 arguments, but only 1 given
+    1737 |                 SET_PDMA_RXRING_MAX_AGG_CNT(eth, i, cnt);
+         |                                                        ^
+   In file included from drivers/net/ethernet/mediatek/mtk_eth_dbg.c:29:
+   drivers/net/ethernet/mediatek/mtk_eth_soc.h:275:9: note: macro 'MTK_LRO_CTRL_DW2_CFG' defined here
+     275 | #define MTK_LRO_CTRL_DW2_CFG(reg_map, x)        ((reg_map)->pdma.lro_ring_ctrl_dw1 + \
+         |         ^~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/net/ethernet/mediatek/mtk_eth_dbg.c:30:
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.h:118:37: error: 'MTK_LRO_CTRL_DW2_CFG' undeclared (first use in this function)
+     118 |         u32 reg_val1 = mtk_r32(eth, MTK_LRO_CTRL_DW2_CFG(x));           \
+         |                                     ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1737:17: note: in expansion of macro 'SET_PDMA_RXRING_MAX_AGG_CNT'
+    1737 |                 SET_PDMA_RXRING_MAX_AGG_CNT(eth, i, cnt);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1737:56: error: macro 'MTK_LRO_CTRL_DW3_CFG' requires 2 arguments, but only 1 given
+    1737 |                 SET_PDMA_RXRING_MAX_AGG_CNT(eth, i, cnt);
+         |                                                        ^
+   drivers/net/ethernet/mediatek/mtk_eth_soc.h:277:9: note: macro 'MTK_LRO_CTRL_DW3_CFG' defined here
+     277 | #define MTK_LRO_CTRL_DW3_CFG(reg_map, x)        ((reg_map)->pdma.lro_ring_ctrl_dw1 + \
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.h:119:37: error: 'MTK_LRO_CTRL_DW3_CFG' undeclared (first use in this function)
+     119 |         u32 reg_val2 = mtk_r32(eth, MTK_LRO_CTRL_DW3_CFG(x));           \
+         |                                     ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1737:17: note: in expansion of macro 'SET_PDMA_RXRING_MAX_AGG_CNT'
+    1737 |                 SET_PDMA_RXRING_MAX_AGG_CNT(eth, i, cnt);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1737:56: error: macro 'MTK_LRO_CTRL_DW2_CFG' requires 2 arguments, but only 1 given
+    1737 |                 SET_PDMA_RXRING_MAX_AGG_CNT(eth, i, cnt);
+         |                                                        ^
+   drivers/net/ethernet/mediatek/mtk_eth_soc.h:275:9: note: macro 'MTK_LRO_CTRL_DW2_CFG' defined here
+     275 | #define MTK_LRO_CTRL_DW2_CFG(reg_map, x)        ((reg_map)->pdma.lro_ring_ctrl_dw1 + \
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1737:56: error: macro 'MTK_LRO_CTRL_DW3_CFG' requires 2 arguments, but only 1 given
+    1737 |                 SET_PDMA_RXRING_MAX_AGG_CNT(eth, i, cnt);
+         |                                                        ^
+   drivers/net/ethernet/mediatek/mtk_eth_soc.h:277:9: note: macro 'MTK_LRO_CTRL_DW3_CFG' defined here
+     277 | #define MTK_LRO_CTRL_DW3_CFG(reg_map, x)        ((reg_map)->pdma.lro_ring_ctrl_dw1 + \
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1733:35: warning: unused variable 'reg_map' [-Wunused-variable]
+    1733 |         const struct mtk_reg_map *reg_map = eth->soc->reg_map;
+         |                                   ^~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c: In function 'hwlro_agg_time_ctrl':
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1748:26: error: 'MTK_HW_LRO_RING_NUM' undeclared (first use in this function)
+    1748 |         for (i = 1; i <= MTK_HW_LRO_RING_NUM; i++)
+         |                          ^~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1749:54: error: macro 'MTK_LRO_CTRL_DW2_CFG' requires 2 arguments, but only 1 given
+    1749 |                 SET_PDMA_RXRING_AGG_TIME(eth, i, time);
+         |                                                      ^
+   drivers/net/ethernet/mediatek/mtk_eth_soc.h:275:9: note: macro 'MTK_LRO_CTRL_DW2_CFG' defined here
+     275 | #define MTK_LRO_CTRL_DW2_CFG(reg_map, x)        ((reg_map)->pdma.lro_ring_ctrl_dw1 + \
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.h:131:36: error: 'MTK_LRO_CTRL_DW2_CFG' undeclared (first use in this function)
+     131 |         u32 reg_val = mtk_r32(eth, MTK_LRO_CTRL_DW2_CFG(x));            \
+         |                                    ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1749:17: note: in expansion of macro 'SET_PDMA_RXRING_AGG_TIME'
+    1749 |                 SET_PDMA_RXRING_AGG_TIME(eth, i, time);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1749:54: error: macro 'MTK_LRO_CTRL_DW2_CFG' requires 2 arguments, but only 1 given
+    1749 |                 SET_PDMA_RXRING_AGG_TIME(eth, i, time);
+         |                                                      ^
+   drivers/net/ethernet/mediatek/mtk_eth_soc.h:275:9: note: macro 'MTK_LRO_CTRL_DW2_CFG' defined here
+     275 | #define MTK_LRO_CTRL_DW2_CFG(reg_map, x)        ((reg_map)->pdma.lro_ring_ctrl_dw1 + \
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1745:35: warning: unused variable 'reg_map' [-Wunused-variable]
+    1745 |         const struct mtk_reg_map *reg_map = eth->soc->reg_map;
+         |                                   ^~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c: In function 'hwlro_age_time_ctrl':
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1760:26: error: 'MTK_HW_LRO_RING_NUM' undeclared (first use in this function)
+    1760 |         for (i = 1; i <= MTK_HW_LRO_RING_NUM; i++)
+         |                          ^~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1761:54: error: macro 'MTK_LRO_CTRL_DW1_CFG' requires 2 arguments, but only 1 given
+    1761 |                 SET_PDMA_RXRING_AGE_TIME(eth, i, time);
+         |                                                      ^
+   drivers/net/ethernet/mediatek/mtk_eth_soc.h:273:9: note: macro 'MTK_LRO_CTRL_DW1_CFG' defined here
+     273 | #define MTK_LRO_CTRL_DW1_CFG(reg_map, x)        ((reg_map)->pdma.lro_ring_ctrl_dw1 + \
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.h:139:37: error: 'MTK_LRO_CTRL_DW1_CFG' undeclared (first use in this function)
+     139 |         u32 reg_val1 = mtk_r32(eth, MTK_LRO_CTRL_DW1_CFG(x));           \
+         |                                     ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1761:17: note: in expansion of macro 'SET_PDMA_RXRING_AGE_TIME'
+    1761 |                 SET_PDMA_RXRING_AGE_TIME(eth, i, time);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1761:54: error: macro 'MTK_LRO_CTRL_DW2_CFG' requires 2 arguments, but only 1 given
+    1761 |                 SET_PDMA_RXRING_AGE_TIME(eth, i, time);
+         |                                                      ^
+   drivers/net/ethernet/mediatek/mtk_eth_soc.h:275:9: note: macro 'MTK_LRO_CTRL_DW2_CFG' defined here
+     275 | #define MTK_LRO_CTRL_DW2_CFG(reg_map, x)        ((reg_map)->pdma.lro_ring_ctrl_dw1 + \
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.h:140:37: error: 'MTK_LRO_CTRL_DW2_CFG' undeclared (first use in this function)
+     140 |         u32 reg_val2 = mtk_r32(eth, MTK_LRO_CTRL_DW2_CFG(x));           \
+         |                                     ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1761:17: note: in expansion of macro 'SET_PDMA_RXRING_AGE_TIME'
+    1761 |                 SET_PDMA_RXRING_AGE_TIME(eth, i, time);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1761:54: error: macro 'MTK_LRO_CTRL_DW1_CFG' requires 2 arguments, but only 1 given
+    1761 |                 SET_PDMA_RXRING_AGE_TIME(eth, i, time);
+         |                                                      ^
+   drivers/net/ethernet/mediatek/mtk_eth_soc.h:273:9: note: macro 'MTK_LRO_CTRL_DW1_CFG' defined here
+     273 | #define MTK_LRO_CTRL_DW1_CFG(reg_map, x)        ((reg_map)->pdma.lro_ring_ctrl_dw1 + \
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1761:54: error: macro 'MTK_LRO_CTRL_DW2_CFG' requires 2 arguments, but only 1 given
+    1761 |                 SET_PDMA_RXRING_AGE_TIME(eth, i, time);
+         |                                                      ^
+   drivers/net/ethernet/mediatek/mtk_eth_soc.h:275:9: note: macro 'MTK_LRO_CTRL_DW2_CFG' defined here
+     275 | #define MTK_LRO_CTRL_DW2_CFG(reg_map, x)        ((reg_map)->pdma.lro_ring_ctrl_dw1 + \
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1757:35: warning: unused variable 'reg_map' [-Wunused-variable]
+    1757 |         const struct mtk_reg_map *reg_map = eth->soc->reg_map;
+         |                                   ^~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c: In function 'hwlro_threshold_ctrl':
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.h:152:36: error: 'MTK_PDMA_LRO_CTRL_DW2' undeclared (first use in this function)
+     152 |         u32 reg_val = mtk_r32(eth, MTK_PDMA_LRO_CTRL_DW2);              \
+         |                                    ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1770:9: note: in expansion of macro 'SET_PDMA_LRO_BW_THRESHOLD'
+    1770 |         SET_PDMA_LRO_BW_THRESHOLD(eth, bandwidth);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1768:35: warning: unused variable 'reg_map' [-Wunused-variable]
+    1768 |         const struct mtk_reg_map *reg_map = eth->soc->reg_map;
+         |                                   ^~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c: In function 'hwlro_ring_enable_ctrl':
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1783:26: error: 'MTK_HW_LRO_RING_NUM' undeclared (first use in this function)
+    1783 |         for (i = 1; i <= MTK_HW_LRO_RING_NUM; i++)
+         |                          ^~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1784:53: error: macro 'MTK_LRO_CTRL_DW2_CFG' requires 2 arguments, but only 1 given
+    1784 |                 SET_PDMA_RXRING_VALID(eth, i, enable);
+         |                                                     ^
+   drivers/net/ethernet/mediatek/mtk_eth_soc.h:275:9: note: macro 'MTK_LRO_CTRL_DW2_CFG' defined here
+     275 | #define MTK_LRO_CTRL_DW2_CFG(reg_map, x)        ((reg_map)->pdma.lro_ring_ctrl_dw1 + \
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.h:159:36: error: 'MTK_LRO_CTRL_DW2_CFG' undeclared (first use in this function)
+     159 |         u32 reg_val = mtk_r32(eth, MTK_LRO_CTRL_DW2_CFG(x));            \
+         |                                    ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1784:17: note: in expansion of macro 'SET_PDMA_RXRING_VALID'
+    1784 |                 SET_PDMA_RXRING_VALID(eth, i, enable);
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1784:53: error: macro 'MTK_LRO_CTRL_DW2_CFG' requires 2 arguments, but only 1 given
+    1784 |                 SET_PDMA_RXRING_VALID(eth, i, enable);
+         |                                                     ^
+   drivers/net/ethernet/mediatek/mtk_eth_soc.h:275:9: note: macro 'MTK_LRO_CTRL_DW2_CFG' defined here
+     275 | #define MTK_LRO_CTRL_DW2_CFG(reg_map, x)        ((reg_map)->pdma.lro_ring_ctrl_dw1 + \
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1778:35: warning: unused variable 'reg_map' [-Wunused-variable]
+    1778 |         const struct mtk_reg_map *reg_map = eth->soc->reg_map;
+         |                                   ^~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c: In function 'hw_lro_auto_tlb_write':
+>> drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1815:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+    1815 |         int ret;
+         |             ^~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c: In function 'hw_lro_auto_tlb_dump_v1':
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1870:26: error: 'MTK_PDMA_LRO_CTRL_DW0' undeclared (first use in this function)
+    1870 |         if (mtk_r32(eth, MTK_PDMA_LRO_CTRL_DW0) & MTK_LRO_ALT_PKT_CNT_MODE)
+         |                          ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1848:35: warning: unused variable 'reg_map' [-Wunused-variable]
+    1848 |         const struct mtk_reg_map *reg_map = eth->soc->reg_map;
+         |                                   ^~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c: In function 'hw_lro_auto_tlb_dump_v2':
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1922:26: error: 'MTK_PDMA_LRO_CTRL_DW0' undeclared (first use in this function)
+    1922 |         if (mtk_r32(eth, MTK_PDMA_LRO_CTRL_DW0) & MTK_LRO_ALT_PKT_CNT_MODE)
+         |                          ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1909:13: warning: variable 'score' set but not used [-Wunused-but-set-variable]
+    1909 |         u32 score = 0, ipv4 = 0;
+         |             ^~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c: In function 'hw_lro_auto_tlb_read':
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:2016:26: error: 'MTK_HW_LRO_RING_NUM' undeclared (first use in this function)
+    2016 |         for (i = 1; i <= MTK_HW_LRO_RING_NUM; i++) {
+         |                          ^~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:2017:62: error: macro 'MTK_LRO_CTRL_DW1_CFG' requires 2 arguments, but only 1 given
+    2017 |                 reg_op1 = mtk_r32(eth, MTK_LRO_CTRL_DW1_CFG(i));
+         |                                                              ^
+   drivers/net/ethernet/mediatek/mtk_eth_soc.h:273:9: note: macro 'MTK_LRO_CTRL_DW1_CFG' defined here
+     273 | #define MTK_LRO_CTRL_DW1_CFG(reg_map, x)        ((reg_map)->pdma.lro_ring_ctrl_dw1 + \
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:2017:40: error: 'MTK_LRO_CTRL_DW1_CFG' undeclared (first use in this function)
+    2017 |                 reg_op1 = mtk_r32(eth, MTK_LRO_CTRL_DW1_CFG(i));
+         |                                        ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:2018:62: error: macro 'MTK_LRO_CTRL_DW2_CFG' requires 2 arguments, but only 1 given
+    2018 |                 reg_op2 = mtk_r32(eth, MTK_LRO_CTRL_DW2_CFG(i));
+         |                                                              ^
+   drivers/net/ethernet/mediatek/mtk_eth_soc.h:275:9: note: macro 'MTK_LRO_CTRL_DW2_CFG' defined here
+     275 | #define MTK_LRO_CTRL_DW2_CFG(reg_map, x)        ((reg_map)->pdma.lro_ring_ctrl_dw1 + \
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:2018:40: error: 'MTK_LRO_CTRL_DW2_CFG' undeclared (first use in this function)
+    2018 |                 reg_op2 = mtk_r32(eth, MTK_LRO_CTRL_DW2_CFG(i));
+         |                                        ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:2019:62: error: macro 'MTK_LRO_CTRL_DW3_CFG' requires 2 arguments, but only 1 given
+    2019 |                 reg_op3 = mtk_r32(eth, MTK_LRO_CTRL_DW3_CFG(i));
+         |                                                              ^
+   drivers/net/ethernet/mediatek/mtk_eth_soc.h:277:9: note: macro 'MTK_LRO_CTRL_DW3_CFG' defined here
+     277 | #define MTK_LRO_CTRL_DW3_CFG(reg_map, x)        ((reg_map)->pdma.lro_ring_ctrl_dw1 + \
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:2019:40: error: 'MTK_LRO_CTRL_DW3_CFG' undeclared (first use in this function)
+    2019 |                 reg_op3 = mtk_r32(eth, MTK_LRO_CTRL_DW3_CFG(i));
+         |                                        ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:2020:40: error: 'MTK_PDMA_LRO_CTRL_DW2' undeclared (first use in this function)
+    2020 |                 reg_op4 = mtk_r32(eth, MTK_PDMA_LRO_CTRL_DW2);
+         |                                        ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1983:35: warning: unused variable 'reg_map' [-Wunused-variable]
+    1983 |         const struct mtk_reg_map *reg_map = eth->soc->reg_map;
+         |                                   ^~~~~~~
 
 
-vim +/i +526 drivers/usb/class/cdc-wdm.c
+vim +/mac +435 drivers/net/ethernet/mediatek/mtk_eth_dbg.c
 
-8dd5cd5395b9007 Bjørn Mork          2013-12-20  521  
-afba937e540c902 Oliver Neukum       2008-05-13  522  static ssize_t wdm_read
-afba937e540c902 Oliver Neukum       2008-05-13  523  (struct file *file, char __user *buffer, size_t count, loff_t *ppos)
-afba937e540c902 Oliver Neukum       2008-05-13  524  {
-055e352971719f8 Oliver Neukum       2026-04-30  525  	int rv, cntr, done;
-afba937e540c902 Oliver Neukum       2008-05-13 @526  	int i = 0;
-afba937e540c902 Oliver Neukum       2008-05-13  527  	struct wdm_device *desc = file->private_data;
-afba937e540c902 Oliver Neukum       2008-05-13  528  
-afba937e540c902 Oliver Neukum       2008-05-13  529  
-e8537bd2c4f325a Bjørn Mork          2012-01-16  530  	rv = mutex_lock_interruptible(&desc->rlock); /*concurrent reads */
-afba937e540c902 Oliver Neukum       2008-05-13  531  	if (rv < 0)
-afba937e540c902 Oliver Neukum       2008-05-13  532  		return -ERESTARTSYS;
-afba937e540c902 Oliver Neukum       2008-05-13  533  
-055e352971719f8 Oliver Neukum       2026-04-30  534  	cntr = kfifo_len(&desc->ubuf);
-711c68b3c0f7a92 Ben Hutchings       2012-02-12  535  	if (cntr == 0) {
-afba937e540c902 Oliver Neukum       2008-05-13  536  		desc->read = 0;
-afba937e540c902 Oliver Neukum       2008-05-13  537  retry:
-7f1dc313d01f5f0 Oliver Neukum       2009-09-09  538  		if (test_bit(WDM_DISCONNECTING, &desc->flags)) {
-7f1dc313d01f5f0 Oliver Neukum       2009-09-09  539  			rv = -ENODEV;
-7f1dc313d01f5f0 Oliver Neukum       2009-09-09  540  			goto err;
-7f1dc313d01f5f0 Oliver Neukum       2009-09-09  541  		}
-c0f5ecee4e74166 Oliver Neukum       2013-03-12  542  		if (test_bit(WDM_OVERFLOW, &desc->flags)) {
-c0f5ecee4e74166 Oliver Neukum       2013-03-12  543  			clear_bit(WDM_OVERFLOW, &desc->flags);
-c0f5ecee4e74166 Oliver Neukum       2013-03-12  544  			rv = -ENOBUFS;
-c0f5ecee4e74166 Oliver Neukum       2013-03-12  545  			goto err;
-c0f5ecee4e74166 Oliver Neukum       2013-03-12  546  		}
-afba937e540c902 Oliver Neukum       2008-05-13  547  		i++;
-7f1dc313d01f5f0 Oliver Neukum       2009-09-09  548  		if (file->f_flags & O_NONBLOCK) {
-7f1dc313d01f5f0 Oliver Neukum       2009-09-09  549  			if (!test_bit(WDM_READ, &desc->flags)) {
-53b7f7b53d83727 Gustavo A. R. Silva 2017-02-14  550  				rv = -EAGAIN;
-7f1dc313d01f5f0 Oliver Neukum       2009-09-09  551  				goto err;
-7f1dc313d01f5f0 Oliver Neukum       2009-09-09  552  			}
-7f1dc313d01f5f0 Oliver Neukum       2009-09-09  553  			rv = 0;
-7f1dc313d01f5f0 Oliver Neukum       2009-09-09  554  		} else {
-afba937e540c902 Oliver Neukum       2008-05-13  555  			rv = wait_event_interruptible(desc->wait,
-afba937e540c902 Oliver Neukum       2008-05-13  556  				test_bit(WDM_READ, &desc->flags));
-7f1dc313d01f5f0 Oliver Neukum       2009-09-09  557  		}
-afba937e540c902 Oliver Neukum       2008-05-13  558  
-7f1dc313d01f5f0 Oliver Neukum       2009-09-09  559  		/* may have happened while we slept */
-17d80d562fd78a0 Oliver Neukum       2008-06-24  560  		if (test_bit(WDM_DISCONNECTING, &desc->flags)) {
-17d80d562fd78a0 Oliver Neukum       2008-06-24  561  			rv = -ENODEV;
-17d80d562fd78a0 Oliver Neukum       2008-06-24  562  			goto err;
-17d80d562fd78a0 Oliver Neukum       2008-06-24  563  		}
-88044202756925a Bjørn Mork          2012-02-10  564  		if (test_bit(WDM_RESETTING, &desc->flags)) {
-88044202756925a Bjørn Mork          2012-02-10  565  			rv = -EIO;
-88044202756925a Bjørn Mork          2012-02-10  566  			goto err;
-88044202756925a Bjørn Mork          2012-02-10  567  		}
-055e352971719f8 Oliver Neukum       2026-04-30  568  		smp_rmb(); /* against wdm_in_callback() */
-055e352971719f8 Oliver Neukum       2026-04-30  569  		if (test_bit(WDM_OVERFLOW, &desc->flags)) {
-055e352971719f8 Oliver Neukum       2026-04-30  570  			clear_bit(WDM_OVERFLOW, &desc->flags);
-055e352971719f8 Oliver Neukum       2026-04-30  571  			rv = -ENOBUFS;
-055e352971719f8 Oliver Neukum       2026-04-30  572  			goto err;
-055e352971719f8 Oliver Neukum       2026-04-30  573  		}
-055e352971719f8 Oliver Neukum       2026-04-30  574  
-17d80d562fd78a0 Oliver Neukum       2008-06-24  575  		usb_mark_last_busy(interface_to_usbdev(desc->intf));
-afba937e540c902 Oliver Neukum       2008-05-13  576  		if (rv < 0) {
-afba937e540c902 Oliver Neukum       2008-05-13  577  			rv = -ERESTARTSYS;
-afba937e540c902 Oliver Neukum       2008-05-13  578  			goto err;
-afba937e540c902 Oliver Neukum       2008-05-13  579  		}
-afba937e540c902 Oliver Neukum       2008-05-13  580  
-afba937e540c902 Oliver Neukum       2008-05-13  581  		spin_lock_irq(&desc->iuspin);
-afba937e540c902 Oliver Neukum       2008-05-13  582  
-afba937e540c902 Oliver Neukum       2008-05-13  583  		if (desc->rerr) { /* read completed, error happened */
-85e8a0b9a3565c8 Oliver Neukum       2015-03-23  584  			rv = usb_translate_errors(desc->rerr);
-afba937e540c902 Oliver Neukum       2008-05-13  585  			desc->rerr = 0;
-afba937e540c902 Oliver Neukum       2008-05-13  586  			spin_unlock_irq(&desc->iuspin);
-afba937e540c902 Oliver Neukum       2008-05-13  587  			goto err;
-afba937e540c902 Oliver Neukum       2008-05-13  588  		}
-afba937e540c902 Oliver Neukum       2008-05-13  589  		/*
-afba937e540c902 Oliver Neukum       2008-05-13  590  		 * recheck whether we've lost the race
-afba937e540c902 Oliver Neukum       2008-05-13  591  		 * against the completion handler
-afba937e540c902 Oliver Neukum       2008-05-13  592  		 */
-afba937e540c902 Oliver Neukum       2008-05-13  593  		if (!test_bit(WDM_READ, &desc->flags)) { /* lost race */
-afba937e540c902 Oliver Neukum       2008-05-13  594  			spin_unlock_irq(&desc->iuspin);
-afba937e540c902 Oliver Neukum       2008-05-13  595  			goto retry;
-afba937e540c902 Oliver Neukum       2008-05-13  596  		}
-c0f5ecee4e74166 Oliver Neukum       2013-03-12  597  
-055e352971719f8 Oliver Neukum       2026-04-30  598  		cntr = kfifo_len(&desc->ubuf);
-afba937e540c902 Oliver Neukum       2008-05-13  599  		spin_unlock_irq(&desc->iuspin);
-afba937e540c902 Oliver Neukum       2008-05-13  600  	}
-afba937e540c902 Oliver Neukum       2008-05-13  601  
-711c68b3c0f7a92 Ben Hutchings       2012-02-12  602  	if (cntr > count)
-711c68b3c0f7a92 Ben Hutchings       2012-02-12  603  		cntr = count;
-055e352971719f8 Oliver Neukum       2026-04-30  604  	rv = kfifo_to_user(&desc->ubuf, buffer, cntr, &done);
-055e352971719f8 Oliver Neukum       2026-04-30  605  	if (rv < 0) {
-afba937e540c902 Oliver Neukum       2008-05-13  606  		rv = -EFAULT;
-afba937e540c902 Oliver Neukum       2008-05-13  607  		goto err;
-afba937e540c902 Oliver Neukum       2008-05-13  608  	}
-afba937e540c902 Oliver Neukum       2008-05-13  609  
-711c68b3c0f7a92 Ben Hutchings       2012-02-12  610  	spin_lock_irq(&desc->iuspin);
-711c68b3c0f7a92 Ben Hutchings       2012-02-12  611  
-87d65e54b6d5ff6 Oliver Neukum       2008-06-19  612  	/* in case we had outstanding data */
-055e352971719f8 Oliver Neukum       2026-04-30  613  	if (kfifo_is_empty(&desc->ubuf)) {
-c1da59dad0ebd3f Robert Foss         2016-08-09  614  		clear_bit(WDM_READ, &desc->flags);
-c1da59dad0ebd3f Robert Foss         2016-08-09  615  		service_outstanding_interrupt(desc);
-c1da59dad0ebd3f Robert Foss         2016-08-09  616  	}
-73e06865ead1bec Greg Suarez         2013-10-29  617  	spin_unlock_irq(&desc->iuspin);
-055e352971719f8 Oliver Neukum       2026-04-30  618  	rv = done;
-afba937e540c902 Oliver Neukum       2008-05-13  619  
-afba937e540c902 Oliver Neukum       2008-05-13  620  err:
-e8537bd2c4f325a Bjørn Mork          2012-01-16  621  	mutex_unlock(&desc->rlock);
-afba937e540c902 Oliver Neukum       2008-05-13  622  	return rv;
-afba937e540c902 Oliver Neukum       2008-05-13  623  }
-afba937e540c902 Oliver Neukum       2008-05-13  624  
+   431	
+   432	static int mtketh_debug_show(struct seq_file *m, void *private)
+   433	{
+   434		struct mtk_eth *eth = m->private;
+ > 435		struct mtk_mac *mac = 0;
+   436		int  i = 0;
+   437	
+   438		for (i = 0 ; i < MTK_MAX_DEVS ; i++) {
+   439			if (!eth->mac[i] ||
+   440			    of_phy_is_fixed_link(eth->mac[i]->of_node))
+   441				continue;
+   442			mac = eth->mac[i];
+   443	/* FIXME */
+   444	/*
+   445			while (j < 30) {
+   446				d =  _mtk_mdio_read_c22(eth, mac->phy_dev->addr, j);
+   447	
+   448				seq_printf(m, "phy=%d, reg=0x%08x, data=0x%08x\n",
+   449					   mac->phy_dev->addr, j, d);
+   450				j++;
+   451			}
+   452	*/
+   453		}
+   454		return 0;
+   455	}
+   456	
 
 -- 
 0-DAY CI Kernel Test Service
