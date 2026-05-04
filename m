@@ -1,63 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA15364046;
-	Mon,  4 May 2026 21:49:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 118E7381AF5
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 May 2026 22:30:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777931391; cv=none; b=Up6j5ypTAgmkdhO9unIpwnaGPiheetTh+zWg4cMbTE0mE40Udpm0H9BQQ/RZRfQnuxtswjHsBMrKW6tTxlQXd85MeKol65rij867lkIq5/OvwH/jrQTmSj4d/u0e7K2TDD3yOIvmWArBtzJ/FL+erX7UmRUkTDuLEJJuSKrePaE=
+	t=1777933854; cv=none; b=TCFWRXVEFZhYsUjQmFGYmsxXHU2s11VZDoB/a0uhK8EzvWYx+45wsmzLcEqcmEEDu8+YRyC0xpAMiXNqxdkmSAy/twC04xYDX/9taLsKT2syMr1Hjm4cfeL4SMUAVtfa/9cmF9W85BpDw7Eihwgvw5yy2fGyH4dvEHi9OHLk3fw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777931391; c=relaxed/simple;
-	bh=cbnU6gj7O0ry9v8dc64v8x0h01WyetZZ+GqiP32svHw=;
+	s=arc-20240116; t=1777933854; c=relaxed/simple;
+	bh=/ovehKJoCst29yIojXOITeCdi8/RPGXy7aHV3EFtrkw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kVKbp1QreXSf63ABUTYTFgd/v/LcrbPLh7nWNQFmIzs34yJ1FfParOU9wbgtJ0CZZFI9MZuctYCaBYe9tjtqbngaXnhjfdJhQEiDPnYOEQpau8Ldn+AHaruRsNZsew/ft4M4CR8KhDNKAEYKWvj670NwZAmSdIMaUval4R0XtPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aCM2vi2q; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=JUMtjBcisHcppvWD5mCZDJXC3/mr9TMzDwzOWAFsopuXXuRiNyfhxHBg+v0FJN+m/LrNHh4mUTSkEAb8+epZyIcRvT4Vymwc0wzqGBrfu1BhjV8Ad1QbBh1C7oz8dTWCSbz2VOL6QTL0fnUCihI0JRAwvAGR/VAAdr1ENZL1GJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a7VJ0FPZ; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aCM2vi2q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a7VJ0FPZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777931388; x=1809467388;
+  t=1777933853; x=1809469853;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=cbnU6gj7O0ry9v8dc64v8x0h01WyetZZ+GqiP32svHw=;
-  b=aCM2vi2qEx5MWlQE4d9f+4k1unqOpsWb26QnNglIrHFOuZ9gl445UtPY
-   hTTgk8kn62yFSj23akBkx/UYVAIWxL1mD7MTMRWqI/CDwf24aROS6Aiaf
-   XeurpeoRymz9BlXbtQvKhbNQ8PwfbB258EocXOXo1Dp/JCW0CTyUP3fJL
-   XFj6aAlgnE0taxj7ZcIEZiKhKtKsBUrf5LfwzMfV1yLj1Y8tPV4yxUa2G
-   Q1rtJIwmyWbWgB3DxwCTUX5ARNcdTlr9CXiDJbMnsoFi6PlP9OAffSzTg
-   f5bgYNrNpCyKMeD0jyi68iFx5/eJLXCEkFDI/zM51eWzLnch0hl8hYqZP
+  bh=/ovehKJoCst29yIojXOITeCdi8/RPGXy7aHV3EFtrkw=;
+  b=a7VJ0FPZHFmOxIXxXf8h4YoAGmE2eC/lLsf9hzHA/siUuSkCeIswIrW3
+   iRKgz45niist46UM7n8Xq67uhpO92OnAidJmqiCZermw6a+2zX2HqHC+9
+   vfSPMEzbo915ED8KkyGjKwtSGHmMqfUM3n6gYnXMKN7UzCUZ+h6vvPe6I
+   sZpNOwXrvvBgwvbFnunVA+YtnrFb4scnCr3XqF0RzTXnuhNpEBEk84GXf
+   +cBlLyAKwmmR23hG2a/sbrMzVRcTQoZv7GXDX2Sf/2rlZbxFPumPTFZ2f
+   bJsG18MVPgGgZAZ2KksF5nQFBKX6Cqkg7u3J3oJoqyHdU12ghNFZcGNJb
    g==;
-X-CSE-ConnectionGUID: 4gmrrrwPQRS8xq+KvuYNIA==
-X-CSE-MsgGUID: ofqs9DZWTfWMWUxF/6kV5g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11776"; a="78698823"
+X-CSE-ConnectionGUID: qegKRlBnQy+RJA/gAF+4hQ==
+X-CSE-MsgGUID: U+LobpCgQ2ea94nJBThLEA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11776"; a="77820526"
 X-IronPort-AV: E=Sophos;i="6.23,216,1770624000"; 
-   d="scan'208";a="78698823"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 14:49:47 -0700
-X-CSE-ConnectionGUID: dRKqUbYQQWuKkdWo+jsxiA==
-X-CSE-MsgGUID: X6zScUrHRR+LKzFLUZum9g==
+   d="scan'208";a="77820526"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 15:30:52 -0700
+X-CSE-ConnectionGUID: 3Gz0V3gsQiCWZ1n1qxJMTw==
+X-CSE-MsgGUID: EsrQ9gobTv2vnj/M0WadXQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,216,1770624000"; 
-   d="scan'208";a="232492386"
+   d="scan'208";a="235509975"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 04 May 2026 14:49:45 -0700
+  by orviesa008.jf.intel.com with ESMTP; 04 May 2026 15:30:46 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wK1Ac-000000005yv-3Mng;
-	Mon, 04 May 2026 21:49:42 +0000
-Date: Mon, 4 May 2026 23:49:38 +0200
+	id 1wK1oK-00000000609-0CBH;
+	Mon, 04 May 2026 22:30:44 +0000
+Date: Tue, 5 May 2026 00:30:18 +0200
 From: kernel test robot <lkp@intel.com>
-To: James Ye <jye836@gmail.com>, jikos@kernel.org, bentiss@kernel.org,
-	lee@kernel.org, pavel@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org, denis.benato@linux.dev,
-	James Ye <jye836@gmail.com>
-Subject: Re: [PATCH 6/6] leds: led-class: mark classdev as unregistering early
-Message-ID: <202605042355.hVEd8jjX-lkp@intel.com>
-References: <20260503072643.2774762-7-jye836@gmail.com>
+To: John Stultz <jstultz@google.com>, LKML <linux-kernel@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, John Stultz <jstultz@google.com>,
+	Vineeth Pillai <vineethrp@google.com>,
+	Sonam Sanju <sonam.sanju@intel.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Kunwu Chan <kunwu.chan@linux.dev>, Tejun Heo <tj@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Qais Yousef <qyousef@layalina.io>, Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Steven Rostedt <rostedt@goodmis.org>, Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Metin Kaya <Metin.Kaya@arm.com>,
+	Xuewen Yan <xuewen.yan94@gmail.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Suleiman Souhlal <suleiman@google.com>,
+	kuyo chang <kuyo.chang@mediatek.com>, hupu <hupu.gm@gmail.com>,
+	kernel-team@android.com
+Subject: Re: [PATCH v2 2/2] locking: mutex: Fix proxy-exec potentially
+ deactivating tasks marked TASK_RUNNING
+Message-ID: <202605050032.Sh1SUziK-lkp@intel.com>
+References: <20260430215103.2978955-3-jstultz@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,134 +85,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260503072643.2774762-7-jye836@gmail.com>
+In-Reply-To: <20260430215103.2978955-3-jstultz@google.com>
 
-Hi James,
+Hi John,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on hid/for-next]
-[also build test ERROR on lee-leds/for-leds-next linus/master v6.16-rc1 next-20260430]
+[auto build test WARNING on tip/sched/core]
+[also build test WARNING on tip/master next-20260430]
+[cannot apply to tip/locking/core tip/auto-latest linus/master v6.16-rc1]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/James-Ye/HID-input-delete-hid_battery-on-disconnect/20260504-013406
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20260503072643.2774762-7-jye836%40gmail.com
-patch subject: [PATCH 6/6] leds: led-class: mark classdev as unregistering early
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260504/202605042355.hVEd8jjX-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/John-Stultz/sched-proxy-exec-Close-race-causing-workqueue-work-being-delayed/20260504-045026
+base:   tip/sched/core
+patch link:    https://lore.kernel.org/r/20260430215103.2978955-3-jstultz%40google.com
+patch subject: [PATCH v2 2/2] locking: mutex: Fix proxy-exec potentially deactivating tasks marked TASK_RUNNING
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260505/202605050032.Sh1SUziK-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260504/202605042355.hVEd8jjX-lkp@intel.com/reproduce)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260505/202605050032.Sh1SUziK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605042355.hVEd8jjX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605050032.Sh1SUziK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/hid/hid-input.c:2423:48: error: no member named 'batteries' in 'struct hid_device'
-    2423 |         list_for_each_entry_safe(bat, bat_next, &hid->batteries, list) {
-         |                                                  ~~~  ^
-   include/linux/list.h:869:30: note: expanded from macro 'list_for_each_entry_safe'
-     869 |         for (pos = list_first_entry(head, typeof(*pos), member),        \
-         |                                     ^~~~
-   include/linux/list.h:620:14: note: expanded from macro 'list_first_entry'
-     620 |         list_entry((ptr)->next, type, member)
-         |                     ^~~
-   include/linux/list.h:609:15: note: expanded from macro 'list_entry'
-     609 |         container_of(ptr, type, member)
-         |                      ^~~
-   include/linux/container_of.h:20:26: note: expanded from macro 'container_of'
-      20 |         void *__mptr = (void *)(ptr);                                   \
-         |                                 ^~~
->> drivers/hid/hid-input.c:2423:48: error: no member named 'batteries' in 'struct hid_device'
-    2423 |         list_for_each_entry_safe(bat, bat_next, &hid->batteries, list) {
-         |                                                  ~~~  ^
-   include/linux/list.h:869:30: note: expanded from macro 'list_for_each_entry_safe'
-     869 |         for (pos = list_first_entry(head, typeof(*pos), member),        \
-         |                                     ^~~~
-   include/linux/list.h:620:14: note: expanded from macro 'list_first_entry'
-     620 |         list_entry((ptr)->next, type, member)
-         |                     ^~~
-   include/linux/list.h:609:15: note: expanded from macro 'list_entry'
-     609 |         container_of(ptr, type, member)
-         |                      ^~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:610:63: note: expanded from macro '__same_type'
-     610 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                               ^
-   include/linux/build_bug.h:79:50: note: expanded from macro 'static_assert'
-      79 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                                  ^~~~
-   include/linux/build_bug.h:80:56: note: expanded from macro '__static_assert'
-      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
->> drivers/hid/hid-input.c:2423:48: error: no member named 'batteries' in 'struct hid_device'
-    2423 |         list_for_each_entry_safe(bat, bat_next, &hid->batteries, list) {
-         |                                                  ~~~  ^
-   include/linux/list.h:869:30: note: expanded from macro 'list_for_each_entry_safe'
-     869 |         for (pos = list_first_entry(head, typeof(*pos), member),        \
-         |                                     ^~~~
-   include/linux/list.h:620:14: note: expanded from macro 'list_first_entry'
-     620 |         list_entry((ptr)->next, type, member)
-         |                     ^~~
-   include/linux/list.h:609:15: note: expanded from macro 'list_entry'
-     609 |         container_of(ptr, type, member)
-         |                      ^~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:610:63: note: expanded from macro '__same_type'
-     610 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                               ^
-   include/linux/build_bug.h:79:50: note: expanded from macro 'static_assert'
-      79 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                                  ^~~~
-   include/linux/build_bug.h:80:56: note: expanded from macro '__static_assert'
-      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
->> drivers/hid/hid-input.c:2423:48: error: no member named 'batteries' in 'struct hid_device'
-    2423 |         list_for_each_entry_safe(bat, bat_next, &hid->batteries, list) {
-         |                                                  ~~~  ^
-   include/linux/list.h:871:32: note: expanded from macro 'list_for_each_entry_safe'
-     871 |              !list_entry_is_head(pos, head, member);                    \
-         |                                       ^~~~
-   include/linux/list.h:773:30: note: expanded from macro 'list_entry_is_head'
-     773 |         list_is_head(&pos->member, (head))
-         |                                     ^~~~
-   4 errors generated.
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:18:
+   In file included from include/linux/slab.h:17:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:22:
+   In file included from include/linux/mm_types.h:11:
+   In file included from include/linux/rbtree.h:24:
+   In file included from include/linux/rcupdate.h:27:
+>> include/linux/sched.h:2209:10: warning: expression which evaluates to zero treated as a null pointer constant of type 'struct mutex *' [-Wnon-literal-null-conversion]
+    2209 |                 return false;
+         |                        ^~~~~
+   1 warning generated.
+--
+>> clang diag: include/linux/sched.h:2209:10: warning: expression which evaluates to zero treated as a null pointer constant of type 'struct mutex *' [-Wnon-literal-null-conversion]
 
 
-vim +2423 drivers/hid/hid-input.c
+vim +2209 include/linux/sched.h
 
-  2407	
-  2408	void hidinput_disconnect(struct hid_device *hid)
-  2409	{
-  2410		struct hid_input *hidinput, *next;
-  2411		struct hid_battery *bat, *bat_next;
-  2412	
-  2413		list_for_each_entry_safe(hidinput, next, &hid->inputs, list) {
-  2414			list_del(&hidinput->list);
-  2415			if (hidinput->registered)
-  2416				input_unregister_device(hidinput->input);
-  2417			else
-  2418				input_free_device(hidinput->input);
-  2419			kfree(hidinput->name);
-  2420			kfree(hidinput);
-  2421		}
-  2422	
-> 2423		list_for_each_entry_safe(bat, bat_next, &hid->batteries, list) {
-  2424			list_del(&bat->list);
-  2425		}
-  2426	
-  2427		/* led_work is spawned by input_dev callbacks, but doesn't access the
-  2428		 * parent input_dev at all. Once all input devices are removed, we
-  2429		 * know that led_work will never get restarted, so we can cancel it
-  2430		 * synchronously and are safe. */
-  2431		cancel_work_sync(&hid->led_work);
-  2432	}
-  2433	EXPORT_SYMBOL_GPL(hidinput_disconnect);
-  2434	
+  2205	
+  2206	static inline struct mutex *task_is_blocked_on(struct task_struct *p)
+  2207	{
+  2208		if (!sched_proxy_exec())
+> 2209			return false;
+  2210		return (struct mutex *)((unsigned long)p->blocked_on & PROXY_BLOCKED_LATCH);
+  2211	}
+  2212	
 
 --
 0-DAY CI Kernel Test Service
