@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A3413D3016
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 May 2026 19:50:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0877D2F1FE4
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 May 2026 20:13:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777924215; cv=none; b=DXtg0HG1Ag6euTGs/FjjGYx9PK88Oxhu08zar7MC26+DRLl10QuqY0r6A+CGLIVtMM/4g9vj6Hl7A+bXqDKx9ECC1146WLC+oNsJaXLok9rO399DQicZfyaf3sXey4NRHK+6SkYetK3xHImzpEBUYsUm2LnXa4OE9rc+lHBdfe8=
+	t=1777925610; cv=none; b=qF+f5hV82vBjTSGRArBDztZyH8wjpUhIWKUbHmzDchD3df73bXIJhzBkTNy6Jwd4Lztmlzxah3KutCF4xNMimUrCCZyWmblKojS1FZQ9Zu+ZzGZo3nXyBM4u9xd1xbGmfnywbsJBrDBmcXp/SuXbOXLadeoPuRZTFhhhAINRUWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777924215; c=relaxed/simple;
-	bh=fWwEjgrvGoFC8bQ/vU/AjOtSKG16KtRQsNCE3GncVzc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=PY4m76slAqjO0c/z7mwn/Vo/aUDVHo6KqsE8e39NabJdNU94cTVuvmH8d9TGflhXRJhT1Ymr733oIvUIwvIjKD4IhccPZ8QL8f201Ht5KsLNk8tgC3dzfNZ7XUoNNP9E9wmGQ9SDml/ATPAoPUU5FO7kk6gZqdKPJSwf2Z4GGlk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gRig63Sc; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1777925610; c=relaxed/simple;
+	bh=apAR7ShrDZ9o61w2T4V8wMXaMJSl4blFCWofDMqZEjM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ow1c+hJ6csUyceG0bvKW2cDzxoyi5kh8eengu5VOUMcA5mhWN/BNhqzb9eOzqXhbcA4ZKVPJ/s8IUC/NMW4pfHKIA1dGJz2Hyxd3uKelAa5iQBFod3gva6ItcdFGNKV6KKJS242AM3rJgRhQu+fmoTfEEszNm4xEM2mGBTf24Ss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xr5ruLcE; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gRig63Sc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xr5ruLcE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777924212; x=1809460212;
+  t=1777925607; x=1809461607;
   h=date:from:to:cc:subject:message-id;
-  bh=fWwEjgrvGoFC8bQ/vU/AjOtSKG16KtRQsNCE3GncVzc=;
-  b=gRig63ScydCsMAv1Y6kraZj81qqSEBjq8K1GyPQAXcn0Mwq1vXDOrfIl
-   l/uhEaZXH8adyTJmo2qb9utVjZvOsRwkoplkZZ5DK/z9USxRBav22Slao
-   VoVv/wPNQ6r+10kkNWUKFux3mjrLqsZ/PUdjhqnFKbgaOVlCOleRNu5oB
-   LAvl4XoD52SNsMAmvvOj8rXkbplFnOf80HnL77jjgltYFHc+pEwmhQZM4
-   5C0kI5S7gV0kMyRtBKw1/faKVmpoMiHL2JjzWIjxp33lXCfeYqKSIPX0a
-   EOzR0pC3hkvPmpkr0lY6vI9QmtYveBsOqHiWTdGDP8uHjEox6RzC3drvY
-   Q==;
-X-CSE-ConnectionGUID: p7UHyMiUR+mb5TVHwNNjlg==
-X-CSE-MsgGUID: SFPvtnsuRJq4QDxLJQLEqg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11776"; a="89484639"
+  bh=apAR7ShrDZ9o61w2T4V8wMXaMJSl4blFCWofDMqZEjM=;
+  b=Xr5ruLcEIkFjoP9hin/J2ppJOy2NA+pRkh3be/2lTbp4Li51brpLiUEj
+   48/dBlZHMzORQaB3LyKC6NxlrFwnPLsJRlqLfOzI0ymApEYQWhZAJrq8K
+   n0fWqaDtr7w1ioR7tZZGjEC8HvR7FFfjIqEJTbokVJkqNS0nhrzGklH71
+   sOUXwlJ5ATGV5ZC3twLRUF6RA6vuN2BYK/FzWY91hTO5l9zYi81wjazRg
+   qMSsfxe8mwKLnuPAez2MMUYh7pv+Paao3n8LwWzC2rKddrpWySxzOZmAy
+   A8S2YuYJ103K+gLnORH9YGMwdo6LNH8n5uCTiNg+oqQa9Q9IXvnuhCqth
+   g==;
+X-CSE-ConnectionGUID: WdWgTvT8SwelLloRBcG2sQ==
+X-CSE-MsgGUID: a2LV4EHcRymk+Tcc7vtZPA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11776"; a="78888556"
 X-IronPort-AV: E=Sophos;i="6.23,216,1770624000"; 
-   d="scan'208";a="89484639"
+   d="scan'208";a="78888556"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 12:50:11 -0700
-X-CSE-ConnectionGUID: pfr0ft7BSUqRglPpDAzCjA==
-X-CSE-MsgGUID: XzRXRTUoTXGGaFiqy2io7w==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 13:13:26 -0700
+X-CSE-ConnectionGUID: i5cQsQSFTIG/Wrp0SuNQJw==
+X-CSE-MsgGUID: u3pzX3R6TZGwj6OYQWBRVg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,216,1770624000"; 
-   d="scan'208";a="232468001"
+   d="scan'208";a="232473951"
 Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 04 May 2026 12:50:10 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 04 May 2026 13:13:23 -0700
 Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wJzIm-000000003yT-1XZc;
-	Mon, 04 May 2026 19:50:02 +0000
-Date: Tue, 05 May 2026 03:49:31 +0800
+	id 1wJzfE-000000003zF-1lg0;
+	Mon, 04 May 2026 20:13:14 +0000
+Date: Tue, 05 May 2026 04:12:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Elder <elder@riscstar.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
- Guodong Xu <guodong@riscstar.com>
-Subject: [broonie-ci:spi-7.2 9/9]
- drivers/spi/spi-spacemit-k1.c:393:38: warning: integer overflow in expression
- of type 'long int' results in '-589934592'
-Message-ID: <202605050317.Tf9j487w-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 7/7]
+ arch/arm64/include/asm/barrier.h:133:20: warning: passing argument 1 of
+ 'kasan_check_write' makes pointer from integer without a cast
+Message-ID: <202605050422.KHGVX3sb-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,83 +60,337 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git spi-7.2
-head:   efcd8b9d111177d48c841d09beca43b15d5b9e5f
-commit: efcd8b9d111177d48c841d09beca43b15d5b9e5f [9/9] spi: spacemit: introduce SpacemiT K1 SPI controller driver
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260505/202605050317.Tf9j487w-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260505/202605050317.Tf9j487w-lkp@intel.com/reproduce)
+Hi Isaac,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   d98c011e8834c317cda7bc200e5a8caf0ed42072
+commit: 06f8e52b34f38555bb820ac1cb1d9547a3c9c50a [7/7] ANDROID: GKI: Introduce GKI_HIDDEN_IOMMU_CONFIGS
+config: arm64-randconfig-001-20260505 (https://download.01.org/0day-ci/archive/20260505/202605050422.KHGVX3sb-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260505/202605050422.KHGVX3sb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605050317.Tf9j487w-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605050422.KHGVX3sb-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/spi/spi-spacemit-k1.c: In function 'k1_spi_set_speed':
->> drivers/spi/spi-spacemit-k1.c:393:38: warning: integer overflow in expression of type 'long int' results in '-589934592' [-Woverflow]
-     393 |         nsec_per_word = NSEC_PER_SEC * BITS_PER_BYTE * drv_data->bytes;
-         |                                      ^
+   arch/arm64/include/asm/barrier.h:132:2: note: in expansion of macro 'compiletime_assert_atomic_type'
+     compiletime_assert_atomic_type(*p);    \
+     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
+    #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+                                                          ^~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommu-sva.c:51:2: note: in expansion of macro 'smp_store_release'
+     smp_store_release(&mm->iommu_mm, iommu_mm);
+     ^~~~~~~~~~~~~~~~~
+   drivers/iommu/iommu-sva.c:51:25: error: 'struct mm_struct' has no member named 'iommu_mm'; did you mean 'mm_mt'?
+     smp_store_release(&mm->iommu_mm, iommu_mm);
+                            ^~~~~~~~
+   include/linux/compiler_types.h:548:9: note: in definition of macro '__compiletime_assert'
+      if (!(condition))     \
+            ^~~~~~~~~
+   include/linux/compiler_types.h:568:2: note: in expansion of macro '_compiletime_assert'
+     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+     ^~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:571:2: note: in expansion of macro 'compiletime_assert'
+     compiletime_assert(__native_word(t),    \
+     ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:571:21: note: in expansion of macro '__native_word'
+     compiletime_assert(__native_word(t),    \
+                        ^~~~~~~~~~~~~
+   arch/arm64/include/asm/barrier.h:132:2: note: in expansion of macro 'compiletime_assert_atomic_type'
+     compiletime_assert_atomic_type(*p);    \
+     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
+    #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+                                                          ^~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommu-sva.c:51:2: note: in expansion of macro 'smp_store_release'
+     smp_store_release(&mm->iommu_mm, iommu_mm);
+     ^~~~~~~~~~~~~~~~~
+   drivers/iommu/iommu-sva.c:51:25: error: 'struct mm_struct' has no member named 'iommu_mm'; did you mean 'mm_mt'?
+     smp_store_release(&mm->iommu_mm, iommu_mm);
+                            ^~~~~~~~
+   include/linux/compiler_types.h:548:9: note: in definition of macro '__compiletime_assert'
+      if (!(condition))     \
+            ^~~~~~~~~
+   include/linux/compiler_types.h:568:2: note: in expansion of macro '_compiletime_assert'
+     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+     ^~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:571:2: note: in expansion of macro 'compiletime_assert'
+     compiletime_assert(__native_word(t),    \
+     ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:571:21: note: in expansion of macro '__native_word'
+     compiletime_assert(__native_word(t),    \
+                        ^~~~~~~~~~~~~
+   arch/arm64/include/asm/barrier.h:132:2: note: in expansion of macro 'compiletime_assert_atomic_type'
+     compiletime_assert_atomic_type(*p);    \
+     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
+    #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+                                                          ^~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommu-sva.c:51:2: note: in expansion of macro 'smp_store_release'
+     smp_store_release(&mm->iommu_mm, iommu_mm);
+     ^~~~~~~~~~~~~~~~~
+   drivers/iommu/iommu-sva.c:51:25: error: 'struct mm_struct' has no member named 'iommu_mm'; did you mean 'mm_mt'?
+     smp_store_release(&mm->iommu_mm, iommu_mm);
+                            ^~~~~~~~
+   include/linux/compiler_types.h:548:9: note: in definition of macro '__compiletime_assert'
+      if (!(condition))     \
+            ^~~~~~~~~
+   include/linux/compiler_types.h:568:2: note: in expansion of macro '_compiletime_assert'
+     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+     ^~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:571:2: note: in expansion of macro 'compiletime_assert'
+     compiletime_assert(__native_word(t),    \
+     ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:571:21: note: in expansion of macro '__native_word'
+     compiletime_assert(__native_word(t),    \
+                        ^~~~~~~~~~~~~
+   arch/arm64/include/asm/barrier.h:132:2: note: in expansion of macro 'compiletime_assert_atomic_type'
+     compiletime_assert_atomic_type(*p);    \
+     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
+    #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+                                                          ^~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommu-sva.c:51:2: note: in expansion of macro 'smp_store_release'
+     smp_store_release(&mm->iommu_mm, iommu_mm);
+     ^~~~~~~~~~~~~~~~~
+   In file included from include/asm-generic/bitops/generic-non-atomic.h:7,
+                    from include/linux/bitops.h:28,
+                    from arch/arm64/include/asm/cache.h:40,
+                    from include/vdso/cache.h:5,
+                    from include/linux/cache.h:6,
+                    from arch/arm64/include/asm/processor.h:29,
+                    from include/linux/sched.h:13,
+                    from arch/arm64/include/asm/mmu_context.h:14,
+                    from include/linux/mmu_context.h:5,
+                    from drivers/iommu/iommu-sva.c:5:
+   drivers/iommu/iommu-sva.c:51:25: error: 'struct mm_struct' has no member named 'iommu_mm'; did you mean 'mm_mt'?
+     smp_store_release(&mm->iommu_mm, iommu_mm);
+                            ^~~~~~~~
+   arch/arm64/include/asm/barrier.h:133:33: note: in definition of macro '__smp_store_release'
+     kasan_check_write(__p, sizeof(*p));    \
+                                    ^
+   drivers/iommu/iommu-sva.c:51:2: note: in expansion of macro 'smp_store_release'
+     smp_store_release(&mm->iommu_mm, iommu_mm);
+     ^~~~~~~~~~~~~~~~~
+>> arch/arm64/include/asm/barrier.h:133:20: warning: passing argument 1 of 'kasan_check_write' makes pointer from integer without a cast [-Wint-conversion]
+     kasan_check_write(__p, sizeof(*p));    \
+                       ^~~
+   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
+    #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+                                                          ^~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommu-sva.c:51:2: note: in expansion of macro 'smp_store_release'
+     smp_store_release(&mm->iommu_mm, iommu_mm);
+     ^~~~~~~~~~~~~~~~~
+   In file included from include/asm-generic/rwonce.h:26,
+                    from arch/arm64/include/asm/rwonce.h:67,
+                    from include/linux/compiler.h:390,
+                    from arch/arm64/include/asm/mmu_context.h:13,
+                    from include/linux/mmu_context.h:5,
+                    from drivers/iommu/iommu-sva.c:5:
+   include/linux/kasan-checks.h:44:59: note: expected 'const volatile void *' but argument is of type 'int'
+    static inline bool kasan_check_write(const volatile void *p, unsigned int size)
+                                         ~~~~~~~~~~~~~~~~~~~~~^
+   In file included from include/asm-generic/bitops/generic-non-atomic.h:7,
+                    from include/linux/bitops.h:28,
+                    from arch/arm64/include/asm/cache.h:40,
+                    from include/vdso/cache.h:5,
+                    from include/linux/cache.h:6,
+                    from arch/arm64/include/asm/processor.h:29,
+                    from include/linux/sched.h:13,
+                    from arch/arm64/include/asm/mmu_context.h:14,
+                    from include/linux/mmu_context.h:5,
+                    from drivers/iommu/iommu-sva.c:5:
+   drivers/iommu/iommu-sva.c:51:25: error: 'struct mm_struct' has no member named 'iommu_mm'; did you mean 'mm_mt'?
+     smp_store_release(&mm->iommu_mm, iommu_mm);
+                            ^~~~~~~~
+   arch/arm64/include/asm/barrier.h:134:18: note: in definition of macro '__smp_store_release'
+     switch (sizeof(*p)) {      \
+                     ^
+   drivers/iommu/iommu-sva.c:51:2: note: in expansion of macro 'smp_store_release'
+     smp_store_release(&mm->iommu_mm, iommu_mm);
+     ^~~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/barrier.h:137:13: error: invalid type argument of unary '*' (have 'int')
+        : "=Q" (*__p)    \
+                ^~~~
+   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
+    #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+                                                          ^~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommu-sva.c:51:2: note: in expansion of macro 'smp_store_release'
+     smp_store_release(&mm->iommu_mm, iommu_mm);
+     ^~~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/barrier.h:143:13: error: invalid type argument of unary '*' (have 'int')
+        : "=Q" (*__p)    \
+                ^~~~
+   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
+    #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+                                                          ^~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommu-sva.c:51:2: note: in expansion of macro 'smp_store_release'
+     smp_store_release(&mm->iommu_mm, iommu_mm);
+     ^~~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/barrier.h:149:13: error: invalid type argument of unary '*' (have 'int')
+        : "=Q" (*__p)    \
+                ^~~~
+   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
+    #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+                                                          ^~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommu-sva.c:51:2: note: in expansion of macro 'smp_store_release'
+     smp_store_release(&mm->iommu_mm, iommu_mm);
+     ^~~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/barrier.h:155:13: error: invalid type argument of unary '*' (have 'int')
+        : "=Q" (*__p)    \
+                ^~~~
+   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
+    #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+                                                          ^~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommu-sva.c:51:2: note: in expansion of macro 'smp_store_release'
+     smp_store_release(&mm->iommu_mm, iommu_mm);
+     ^~~~~~~~~~~~~~~~~
+   drivers/iommu/iommu-sva.c: At top level:
+   drivers/iommu/iommu-sva.c:68:19: error: redefinition of 'iommu_sva_bind_device'
+    struct iommu_sva *iommu_sva_bind_device(struct device *dev, struct mm_struct *mm)
+                      ^~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/iommu/iommu-sva.c:8:
+   include/linux/iommu.h:1576:1: note: previous definition of 'iommu_sva_bind_device' was here
+    iommu_sva_bind_device(struct device *dev, struct mm_struct *mm)
+    ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/kernel.h:22,
+                    from arch/arm64/include/asm/cpufeature.h:26,
+                    from arch/arm64/include/asm/processor.h:39,
+                    from include/linux/sched.h:13,
+                    from arch/arm64/include/asm/mmu_context.h:14,
+                    from include/linux/mmu_context.h:5,
+                    from drivers/iommu/iommu-sva.c:5:
+   drivers/iommu/iommu-sva.c: In function 'iommu_sva_bind_device':
+   drivers/iommu/iommu-sva.c:114:35: error: 'struct mm_struct' has no member named 'iommu_mm'; did you mean 'mm_mt'?
+     list_for_each_entry(domain, &mm->iommu_mm->sva_domains, next) {
+                                      ^~~~~~~~
+   include/linux/container_of.h:19:26: note: in definition of macro 'container_of'
+     void *__mptr = (void *)(ptr);     \
+                             ^~~
+   include/linux/list.h:612:2: note: in expansion of macro 'list_entry'
+     list_entry((ptr)->next, type, member)
+     ^~~~~~~~~~
+   include/linux/list.h:770:13: note: in expansion of macro 'list_first_entry'
+     for (pos = list_first_entry(head, typeof(*pos), member); \
+                ^~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for USB_PHY
+   Depends on [n]: USB_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_USB_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for NET_DEVLINK
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for DIMLIB
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for HVC_DRIVER
+   Depends on [n]: TTY [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
+   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_MM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
+   Depends on [n]: IOMMU_SUPPORT [=n] && (ARM || ARM64 [=y] || COMPILE_TEST [=y]) && !GENERIC_ATOMIC64 [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_QCOM_CONFIGS [=y] && ARCH_QCOM [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for IOMMU_SVA
+   Depends on [n]: IOMMU_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_IOMMU_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for PAGE_POOL
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
 
 
-vim +393 drivers/spi/spi-spacemit-k1.c
+vim +/kasan_check_write +133 arch/arm64/include/asm/barrier.h
 
-   356	
-   357	/* Set the transfer speed; the SPI core code ensures it is supported */
-   358	static int k1_spi_set_speed(struct k1_spi_driver_data *drv_data,
-   359				    struct spi_transfer *transfer)
-   360	{
-   361		struct clk *clk = drv_data->clk;
-   362		u64 nsec_per_word;
-   363		u64 bus_ticks;
-   364		u32 timeout;
-   365		u32 val;
-   366		int ret;
-   367	
-   368		ret = clk_set_rate(clk, transfer->speed_hz);
-   369		if (ret)
-   370			return ret;
-   371	
-   372		drv_data->rate = clk_get_rate(clk);
-   373	
-   374		/* No need for RX FIFO timeout if we're not receiving anything */
-   375		if (!transfer->rx_buf)
-   376			return 0;
-   377	
-   378		/*
-   379		 * Compute the RX FIFO inactivity timeout value that should be used.
-   380		 * The inactivity timer restarts with each word that lands in the
-   381		 * FIFO.  If several "word transfer times" pass without any new data
-   382		 * in the RX FIFO, we might as well read what's there.
-   383		 *
-   384		 * The rate at which words land in the FIFO is determined by the
-   385		 * word size and the transfer rate.  One bit is transferred per
-   386		 * clock tick, and 8 (or 16 or 32) bits are transferred per word.
-   387		 *
-   388		 * So we can get word transfer time (in nanoseconds) from:
-   389		 *   nsec_per_tick = NSEC_PER_SEC / drv_data->rate;
-   390		 *   ticks_per_word = BITS_PER_BYTE * drv_data->bytes;
-   391		 * We do the divide last for better accuracy.
-   392		 */
- > 393		nsec_per_word = NSEC_PER_SEC * BITS_PER_BYTE * drv_data->bytes;
-   394		nsec_per_word = DIV_ROUND_UP_ULL(nsec_per_word, drv_data->rate);
-   395	
-   396		/*
-   397		 * The timeout (which we'll set to three word transfer times) is
-   398		 * expressed as a number of APB clock ticks.
-   399		 *   bus_ticks = 3 * nsec * (drv_data->bus_rate / NSEC_PER_SEC)
-   400		 */
-   401		bus_ticks = 3 * nsec_per_word * drv_data->bus_rate;
-   402		timeout = DIV_ROUND_UP_ULL(bus_ticks, NSEC_PER_SEC);
-   403	
-   404		/* Set the RX timeout period (required for both DMA and PIO) */
-   405		val = FIELD_PREP(SSP_TIMEOUT_MASK, timeout);
-   406		writel(val, drv_data->base + SSP_TIMEOUT);
-   407	
-   408		return 0;
-   409	}
-   410	
+47933ad41a86a4a Peter Zijlstra     2013-11-06  126  
+fd072df850e536b Michael S. Tsirkin 2015-12-27  127  #define __smp_store_release(p, v)					\
+47933ad41a86a4a Peter Zijlstra     2013-11-06  128  do {									\
+131e135f7fd14b1 Mark Rutland       2019-04-09  129  	typeof(p) __p = (p);						\
+10223c5286f7389 Will Deacon        2019-12-19  130  	union { __unqual_scalar_typeof(*p) __val; char __c[1]; } __u =	\
+10223c5286f7389 Will Deacon        2019-12-19  131  		{ .__val = (__force __unqual_scalar_typeof(*p)) (v) };	\
+47933ad41a86a4a Peter Zijlstra     2013-11-06  132  	compiletime_assert_atomic_type(*p);				\
+131e135f7fd14b1 Mark Rutland       2019-04-09 @133  	kasan_check_write(__p, sizeof(*p));				\
+47933ad41a86a4a Peter Zijlstra     2013-11-06  134  	switch (sizeof(*p)) {						\
+878a84d5a8a18a4 Andre Przywara     2015-04-20  135  	case 1:								\
+878a84d5a8a18a4 Andre Przywara     2015-04-20  136  		asm volatile ("stlrb %w1, %0"				\
+131e135f7fd14b1 Mark Rutland       2019-04-09  137  				: "=Q" (*__p)				\
+39c8275de81cf7f Mark Rutland       2023-03-14  138  				: "rZ" (*(__u8 *)__u.__c)		\
+994870bead4ab19 Mark Rutland       2017-05-03  139  				: "memory");				\
+878a84d5a8a18a4 Andre Przywara     2015-04-20  140  		break;							\
+878a84d5a8a18a4 Andre Przywara     2015-04-20  141  	case 2:								\
+878a84d5a8a18a4 Andre Przywara     2015-04-20  142  		asm volatile ("stlrh %w1, %0"				\
+131e135f7fd14b1 Mark Rutland       2019-04-09  143  				: "=Q" (*__p)				\
+39c8275de81cf7f Mark Rutland       2023-03-14  144  				: "rZ" (*(__u16 *)__u.__c)		\
+994870bead4ab19 Mark Rutland       2017-05-03  145  				: "memory");				\
+878a84d5a8a18a4 Andre Przywara     2015-04-20  146  		break;							\
+47933ad41a86a4a Peter Zijlstra     2013-11-06  147  	case 4:								\
+47933ad41a86a4a Peter Zijlstra     2013-11-06  148  		asm volatile ("stlr %w1, %0"				\
+131e135f7fd14b1 Mark Rutland       2019-04-09  149  				: "=Q" (*__p)				\
+39c8275de81cf7f Mark Rutland       2023-03-14  150  				: "rZ" (*(__u32 *)__u.__c)		\
+994870bead4ab19 Mark Rutland       2017-05-03  151  				: "memory");				\
+47933ad41a86a4a Peter Zijlstra     2013-11-06  152  		break;							\
+47933ad41a86a4a Peter Zijlstra     2013-11-06  153  	case 8:								\
+39c8275de81cf7f Mark Rutland       2023-03-14  154  		asm volatile ("stlr %x1, %0"				\
+131e135f7fd14b1 Mark Rutland       2019-04-09  155  				: "=Q" (*__p)				\
+39c8275de81cf7f Mark Rutland       2023-03-14  156  				: "rZ" (*(__u64 *)__u.__c)		\
+994870bead4ab19 Mark Rutland       2017-05-03  157  				: "memory");				\
+47933ad41a86a4a Peter Zijlstra     2013-11-06  158  		break;							\
+47933ad41a86a4a Peter Zijlstra     2013-11-06  159  	}								\
+47933ad41a86a4a Peter Zijlstra     2013-11-06  160  } while (0)
+47933ad41a86a4a Peter Zijlstra     2013-11-06  161  
+
+:::::: The code at line 133 was first introduced by commit
+:::::: 131e135f7fd14b1de7a5eb26631076705c18073f arm64: instrument smp_{load_acquire,store_release}
+
+:::::: TO: Mark Rutland <mark.rutland@arm.com>
+:::::: CC: Will Deacon <will.deacon@arm.com>
 
 -- 
 0-DAY CI Kernel Test Service
