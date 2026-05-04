@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6161321B905
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 May 2026 05:34:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4001226CE11
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 May 2026 05:54:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777872866; cv=none; b=sotUsQO8Sf8zbDmzC3CB1Mx65ym33pCd5i79OJYmv5Ltlohll+cvJV81A2UaVi8h1Ze/Y5SA5ilji1ppJvHntcj2QTX45SAtFEGowhsNOv2PH5CfAjSSN0qoyLwELIDocz/Kl8Im21CbKh+0Z2l41fWa7fM3YffhrRhNwXEg2bk=
+	t=1777874063; cv=none; b=XaNDZj5n043bZSurznnyHqrJWLVsCAXuIeug64q0cQdxXMYqIJb1W1lR4pHC9NQXNhpUsJFLJcdgrQQ8yxhcYXuODpNatYKL49jwZ8J9Yxw+X5jB28u21kEK5jCpW0DdUDU7FY0d6/ulH9f3ba0Sluf/uc1Nss1DHcHheYksMhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777872866; c=relaxed/simple;
-	bh=iBxX0o1N0JowWdYJGPWfKljfs7kDRL1Al/9j6z1MNig=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=es6EJYx7q5HdfaoN8mLFuC4KtO9kPrQ1acwsq74ZkyuJ2pRXKTafNDlXoobfKlQPV8Wmrf7Xz6Kj6IjI2FoIUMGaQNPSDBhMqd/HDv6elqpUCk4e7uFi9bCDf6xUr7b7vU8RmJhp0PNQ7Uy3aTQi0Zo3LnTCCksXgFaIJR6u2Kk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ByADcQ13; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1777874063; c=relaxed/simple;
+	bh=G9sV6WS9y1WaxoreWJt3dl9M0USZgnNKFz4wveR7QPk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=kSaIgcLPXa7Z0ZYApc+PRK339IsvqZ/fvk3sldANshRbk4rWCn67GAGU4pzU23zbb0X1CKnfqzvQBACCRUXaa6fAVnpJboxzgwaX7zKH5xKYuKuvLLh0W3AMgVbkpDOO8EsFeSTmMt8i+5Pph96sRxT7a++X0DLveb3g60ps1VQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CDNRCPmJ; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ByADcQ13"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CDNRCPmJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777872864; x=1809408864;
+  t=1777874061; x=1809410061;
   h=date:from:to:cc:subject:message-id;
-  bh=iBxX0o1N0JowWdYJGPWfKljfs7kDRL1Al/9j6z1MNig=;
-  b=ByADcQ13etk4iD0yisojrMJeqHsEQSvVMgLOHQmGn9OzDvB3699MLk1o
-   JTphrddhCxXUyr9kMvxr254AV5IXXwhXbJDVMcrYNvH9N0qK1XLkJSEyS
-   7E7Sxx3a3JlV0XA3ffzWoo2/LRpnV8JjIpNgpESkCDoSaX3DbZV77/MLA
-   C5A5WONtdex5WSdzRxM6EEk3s+Qkyfz8xhpQssvoXcMOQ1AKquxID5kyh
-   Yb4848ZegT0MPrYsKQJBFPBNgrbAUKNNjCkW0z7fU9YSdZEJQ+i4lGUrQ
-   giudK6c6JfSu2Qg5+l9aPOflXdb29j/j/SCDJdPc1omxqZh7Ofkn/GbvT
-   w==;
-X-CSE-ConnectionGUID: X6R3GLo0RgemYWmxvJl5+A==
-X-CSE-MsgGUID: bFnMdpiLSfmf7L0Vxor0lA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11775"; a="89418715"
-X-IronPort-AV: E=Sophos;i="6.23,214,1770624000"; 
-   d="scan'208";a="89418715"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2026 22:34:24 -0700
-X-CSE-ConnectionGUID: 8XVUzfuWQvOoPIrIHmIz1w==
-X-CSE-MsgGUID: zn9J8XY0RYShQAn0MG2LTA==
+  bh=G9sV6WS9y1WaxoreWJt3dl9M0USZgnNKFz4wveR7QPk=;
+  b=CDNRCPmJzPZlPxQbRS+p7Sh7RZ8YY6swyfqr0xgFjlB6eqrFdSuvEUAp
+   b67Oi76t4hiZvJCo4l4VmZ9ZDhOiNqEmRxgsS5BcCYh5GC8JL9Ye0L3ub
+   aOTgUKsq5ip5jck+s5NdasTCqYy1hJoEYGHtQNmRik9RoelV3DBiG6l5D
+   57ProNYcS1+fRLME6lEBKIMeB6PdTXv6TjxkFhtSc7W59oSr03rl2Play
+   xDuZYHcDo5rPe7lP/hognFGau85A4aEnHo+KQa7CXSp+C4tTvRgXfC86J
+   h9rdJhKHErrH2wfftVBE2xlX/vLpsN0DhGy/DwX558Wcf7Kgpfb8bjVTf
+   A==;
+X-CSE-ConnectionGUID: wCxAraj1RnqCO/ymq+KmYw==
+X-CSE-MsgGUID: SSPpGn9ITOORWKbk7l5bWw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11775"; a="90106126"
+X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
+   d="scan'208";a="90106126"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2026 22:54:20 -0700
+X-CSE-ConnectionGUID: ExEC3OOaRwK5U0e8zBNoyQ==
+X-CSE-MsgGUID: Cus5PVTpTWK2IXdAoAgZdA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,214,1770624000"; 
-   d="scan'208";a="235676916"
 Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 03 May 2026 22:34:22 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 03 May 2026 22:54:19 -0700
 Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wJlwZ-000000003VZ-3AJk;
-	Mon, 04 May 2026 05:34:14 +0000
-Date: Mon, 04 May 2026 13:33:05 +0800
+	id 1wJmFv-000000003Wr-3UO8;
+	Mon, 04 May 2026 05:54:13 +0000
+Date: Mon, 04 May 2026 13:54:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Boqun Feng <boqun@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [boqun:rust-sync 9/12] include/linux/preempt.h:149:31:
- error: unknown type name 'nmi_nesting'
-Message-ID: <202605041337.NcWnc5Lp-lkp@intel.com>
+To: Michal Wilczynski <m.wilczynski@samsung.com>
+Cc: oe-kbuild-all@lists.linux.dev, Ulf Hansson <ulf.hansson@linaro.org>,
+ Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 9745/13443]
+ drivers/firmware/thead,th1520-aon.c:173:22: sparse: sparse: incorrect type in
+ assignment (different base types)
+Message-ID: <202605041356.5wYoNdzy-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,41 +59,72 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/boqun/linux.git rust-sync
-head:   25f8ae3956f6e747f0eedaca70ed975a79068ec4
-commit: 06213534538c49fcab99613e767100580c940910 [9/12] preempt: x86: Avoid tracking NMI separately when 64BIT=y
-config: um-randconfig-002-20260504 (https://download.01.org/0day-ci/archive/20260504/202605041337.NcWnc5Lp-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260504/202605041337.NcWnc5Lp-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   b9303e6bff706758c167af686b5315ad00233bf8
+commit: 88c4bd90725557796c15878b7cb70066e9e6b5ab [9745/13443] firmware: thead: Fix buffer overflow and use standard endian macros
+config: openrisc-randconfig-r111-20260504 (https://download.01.org/0day-ci/archive/20260504/202605041356.5wYoNdzy-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260504/202605041356.5wYoNdzy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605041337.NcWnc5Lp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605041356.5wYoNdzy-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/firmware/thead,th1520-aon.c:173:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [addressable] [usertype] resource @@     got restricted __be16 [usertype] @@
+   drivers/firmware/thead,th1520-aon.c:173:22: sparse:     expected unsigned short [addressable] [usertype] resource
+   drivers/firmware/thead,th1520-aon.c:173:22: sparse:     got restricted __be16 [usertype]
+>> drivers/firmware/thead,th1520-aon.c:174:18: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [addressable] [usertype] mode @@     got restricted __be16 [usertype] @@
+   drivers/firmware/thead,th1520-aon.c:174:18: sparse:     expected unsigned short [addressable] [usertype] mode
+   drivers/firmware/thead,th1520-aon.c:174:18: sparse:     got restricted __be16 [usertype]
 
-   In file included from include/linux/sched.h:15,
-                    from arch/um/kernel/asm-offsets.c:4:
->> include/linux/preempt.h:149:31: error: unknown type name 'nmi_nesting'
-     149 | DECLARE_PER_CPU(unsigned int, nmi_nesting);
-         |                               ^~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:184: arch/um/kernel/asm-offsets.s] Error 1 shuffle=2055369200
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1373: prepare0] Error 2 shuffle=2055369200
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=2055369200
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=2055369200
-   make: Target 'prepare' not remade because of errors.
+vim +173 drivers/firmware/thead,th1520-aon.c
 
-
-vim +/nmi_nesting +149 include/linux/preempt.h
-
-   147	
-   148	#ifndef CONFIG_PREEMPT_LONG
- > 149	DECLARE_PER_CPU(unsigned int, nmi_nesting);
-   150	
+   143	
+   144	/**
+   145	 * th1520_aon_power_update() - Change power state of a resource via TH1520 AON
+   146	 * @aon_chan: Pointer to the AON channel structure
+   147	 * @rsrc: Resource ID whose power state needs to be updated
+   148	 * @power_on: Boolean indicating whether the resource should be powered on (true)
+   149	 *            or powered off (false)
+   150	 *
+   151	 * This function requests the TH1520 AON subsystem to set the power mode of the
+   152	 * given resource (@rsrc) to either on or off. It constructs the message in
+   153	 * `struct th1520_aon_msg_req_set_resource_power_mode` and then invokes
+   154	 * th1520_aon_call_rpc() to make the request. If the AON call fails, an error
+   155	 * message is logged along with the specific return code.
+   156	 *
+   157	 * Return:
+   158	 * * 0 on success
+   159	 * * A negative error code in case of failures (propagated from
+   160	 *   th1520_aon_call_rpc()).
+   161	 */
+   162	int th1520_aon_power_update(struct th1520_aon_chan *aon_chan, u16 rsrc,
+   163				    bool power_on)
+   164	{
+   165		struct th1520_aon_msg_req_set_resource_power_mode msg = {};
+   166		struct th1520_aon_rpc_msg_hdr *hdr = &msg.hdr;
+   167		int ret;
+   168	
+   169		hdr->svc = TH1520_AON_RPC_SVC_PM;
+   170		hdr->func = TH1520_AON_PM_FUNC_SET_RESOURCE_POWER_MODE;
+   171		hdr->size = TH1520_AON_RPC_MSG_NUM;
+   172	
+ > 173		msg.resource = cpu_to_be16(rsrc);
+ > 174		msg.mode = cpu_to_be16(power_on ? TH1520_AON_PM_PW_MODE_ON :
+   175						  TH1520_AON_PM_PW_MODE_OFF);
+   176	
+   177		ret = th1520_aon_call_rpc(aon_chan, &msg);
+   178		if (ret)
+   179			dev_err(aon_chan->cl.dev, "failed to power %s resource %d ret %d\n",
+   180				power_on ? "up" : "off", rsrc, ret);
+   181	
+   182		return ret;
+   183	}
+   184	EXPORT_SYMBOL_GPL(th1520_aon_power_update);
+   185	
 
 -- 
 0-DAY CI Kernel Test Service
