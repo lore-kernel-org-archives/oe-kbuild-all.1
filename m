@@ -1,160 +1,89 @@
-Received: from mail-ot1-f77.google.com (mail-ot1-f77.google.com [209.85.210.77])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE44A3E3D99
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 May 2026 17:54:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A36013EE1CB
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 May 2026 19:05:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777917276; cv=none; b=hW58/2zXmgT1hVEenZTlbs/SsanvW4SYPg9T46QmeaqEO2tqjqFqauPmoklj2BLuU8YGJmaVr7Mk6dmlnaoj/hOqgWVqZ708E/SXYbcxbLw/ugLunHhndy/DvGliDvZUGkRLKWT46AppCzGp6V+0ovcBmbigkZfYf+UViUQ2o8g=
+	t=1777921554; cv=none; b=m0ZlCPi2FZW8TuZ2XgLd4yVn1D3glOHvVlzJQUYneu6u5a5y7msr0VVmxhTJoja2hUw2Qwm5u4C88kG0zccEWpI2VKIIpdBq3pugafFPEzW/Ij7OoMTt45ZPY2F79N1sxLn5W6arf9H0vUp0YTfj5+YZ3mHXkfUiEYq6Nxg+Hwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777917276; c=relaxed/simple;
-	bh=N3OJlCmNm5ZFq7j1A2SYJQW6LfmovEqwcV0g/6bRjFM=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=o0X6VDaDffscSwpyC0p4hudPi4vz46jMZesGxws9Di6YoH8K27C+YgcaVT+rew/gXIRwL9k8aLRxkAM8ObrQsqTGLBCtmyB40g9z+Zo8+rdGwOqJ944YqR1S/FwioE3XbK5/f2aKN188VQDWcLMt/o2/Z9ILfRbWpTZIx3Hb3ws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f77.google.com with SMTP id 46e09a7af769-7de75c9be4aso10209380a34.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 04 May 2026 10:54:34 -0700 (PDT)
+	s=arc-20240116; t=1777921554; c=relaxed/simple;
+	bh=q5HtbRF94Pn54snggSn/E4S0jrZKW4+oCTJyu6Je3q0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=KHymeCZjzAsNcNvVmRkn3JDM/p/5ik8AbLUuwdRWc/QRjn9mKiakYbz2i8Mawh6uHf4pxkY8ceIEPtDeE8KITXlvlSXBtvZsHxkR4PGFAVVURXYY2S/qRJPLzJV8bvtrM8HDt1QU4YYeH4cUgUjdBM4uND/D9B23VP/wOANeAHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LFYFA2T9; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LFYFA2T9"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-44e1860558fso949064f8f.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 04 May 2026 12:05:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777921550; x=1778526350; darn=lists.linux.dev;
+        h=mime-version:content-transfer-encoding:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=q5HtbRF94Pn54snggSn/E4S0jrZKW4+oCTJyu6Je3q0=;
+        b=LFYFA2T9+QNkHE2NB1H5lRI6heDKGhtcLeVO8qVXOKy6GlY24eOjod0Sx0p7QTA04C
+         9prHeLivqgEise+4hL5/7GZOpFAz3kK7jvrfgohxoqkF86/COLK8a5Us2YJB/VpPWGLL
+         vZFpEjwNEbCP2u21BSGy2HgAAnvccH8xLB6USLEF7L8IcT+v9iWWLyZMzcBBWe9ykFbf
+         Nzpmm7Ndn1kvUPkFJ4gwawnx0UItgXe0lKSAxyaMFsU6UUf8M191+NEFOb1QKFQYUqoz
+         JkNllIYrXksBCrL2hQcIiNNP1Inxc+oyVRvPygMKBEoRwPGsXzl0SP7J7qnPDShN8gzp
+         fVKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777917274; x=1778522074;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yf1acHnuMkvLtJHbgF3Z56jQ1gcWmSXrdwsWfpDSszg=;
-        b=WV2o5/oO13+I8JC3892zP5nB8lBPBzMCbBHqAVCV73EKkG0LvTzx/VgfCd5BMRPGPx
-         Resc2KfRLmaa1eneYCM3sObV6Xmq6AXesX3P4vaatY/H7q4TYr4Rh/UEmnjIWpFzcJA7
-         yKQYYNr0T7F/Jm98ct/tsRaqaSANOKpnNvnB6H5TZG7/hOYGU3rbGpCl/ry4XVNfk94Q
-         /0ALfL4+CzXSTzAd3ugpfjAO88HZ3kKWknKHA5PAnM13MOgVIBsjIsOF0ByoH4ZZe9u+
-         sZlYslsggLGOrf0BYTL6+SX/kdQ7jeECgo719B3/5evgCqH1tpJvQrbgkjYwXkTgiFHp
-         +kLg==
-X-Forwarded-Encrypted: i=1; AFNElJ+SVTsSypkC3Du72js5tRHUN0b3pNBcIphz8BYWKDc6WZbDS75dOdkUMxCfaFOXjCRhX6aAl1YBjguiFnWD@lists.linux.dev
-X-Gm-Message-State: AOJu0YxmYraFqsFIq4wb8ycH3nkjZDeh3wc0UXatCxnd2ZQ6JJ2Twooi
-	U0fepFkcwLpdr43nos/i3qfDh99IzB527vUOrBBYcXhd4dKjKntkGk0AYEanCNh4/WO2mZtvXxA
-	MJuQtAfqU9tst2Bz1wLzGTECd7gG0MCYqvgf4HcYjnsriXriFxlDlfCVEMy0=
+        d=1e100.net; s=20251104; t=1777921550; x=1778526350;
+        h=mime-version:content-transfer-encoding:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=q5HtbRF94Pn54snggSn/E4S0jrZKW4+oCTJyu6Je3q0=;
+        b=tQ/lW2UDkGhO0foHykonf7ijSEnAnHttQepLjqE5lsbb43JihYUKxGWqwQ1C/U+1ju
+         lfiXUltFfzoOiz6fw6xMUhX9xhgBztufczeLijNmz9wEA8B1WwgVxTiga6zpxunGTmmn
+         moT7qV3i6sE1d+wbLPKrC2bCNELfxa+5VcQQoEVdUNzqxw36umsRU9fxarh7fK3xsr6H
+         RH7G0acZOP8nIQ/aE4BeKaJtHc5Nx9BGZfINb+Tapj4wRH7DkV9H2kw3KXiBmCsL3QAa
+         qnM4vgI8pQ1sombF+KwN0IrSOtCBTGJalnwOxuuafgHseENIU9hHnnFilMJfScErd7NJ
+         sVRg==
+X-Forwarded-Encrypted: i=1; AFNElJ95GqKJ0uFSOL3OONSKgqtS4W8k0nffYxJaKi7MxBX1xKGvHBF6kATXH+HfIuIrL3DNeauDQddhiy9voowN@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw+V25NuvO4Fl9vWMliMWMFSQGOcXeySNhYvQv7sdHGZEfoPr6g
+	QERAtKfAlLhilOOYfjA5Ul0H+rqR2AQdzqigMZO8kRY90+p07gSVB/0=
+X-Gm-Gg: AeBDiev0XXwq3kgxY29/WgMWHj8YKYUi56AysAtx6TIT0wyI7Nus51X2X9NuQ4cvzQX
+	sRFhDQf7dJx398AbZEFl847GiDGzuK0KlB3qLq04OYMY5UheG0eWbalCnTJAkGCAi58T7B1b6FF
+	7Ms0Ym1Jym0Gubt2SFUrorbopOTMHXaleGNsCcIK6Zz/48VwtKjT8UOZqBBnCPmE1BLWsitDVCM
+	JrtxRiaoVOTFeDu4RD3E4LGBTYDw8CAxx+mMOw45CPtsRbupkZh253sFMlW5H4YQcvYBKsIJ4el
+	3QJAwOdjPkClvhuuL28VAkDxczwE8yU7n4Ynhr3s0Zi0QD9myXGoTtXxZpliE5e31rrZNZSyUdv
+	aXUoa/LAET9spRpYUVA2EkaZNo5/T6U1NO4ByPgPd/tYadxTKyiMQzd9yK/dVsWY28XFHodXNMm
+	+K
+X-Received: by 2002:a05:6000:310e:b0:43d:a37f:8d5e with SMTP id ffacd0b85a97d-44bb472271fmr18685488f8f.18.1777921549502;
+        Mon, 04 May 2026 12:05:49 -0700 (PDT)
+Received: from debian ([2001:41d0:303:db6b::])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4500d172c63sm85886f8f.8.2026.05.04.12.05.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 May 2026 12:05:48 -0700 (PDT)
+From: Tristan Madani <tristmd@gmail.com>
+To: Dan Carpenter <error27@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, Johannes Berg <johannes@sipsolutions.net>,
+ lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org,
+ tristan@talencesecurity.com
+Subject: Re: [PATCH v3 2/2] wifi: libertas: fix OOB read from firmware
+ bssdescriptsize in scan response
+Date: Mon, 04 May 2026 19:05:48 -0000
+Message-ID: <177792154836.3040070.7814391775444667231@gmail.com>
+In-Reply-To: <afYuwVf23vKag2XA@stanley.mountain>
+References: <20260421135027.357622-3-tristmd@gmail.com>
+ <202605030019.lL8x0ZPx-lkp@intel.com> <afYuwVf23vKag2XA@stanley.mountain>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:f022:b0:68a:e01a:9b99 with SMTP id
- 006d021491bc7-69697df9a6cmr5304663eaf.50.1777917273794; Mon, 04 May 2026
- 10:54:33 -0700 (PDT)
-Date: Mon, 04 May 2026 10:54:33 -0700
-In-Reply-To: <6936812a.a70a0220.38f243.0090.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69f8dd59.170a0220.bb392.0004.GAE@google.com>
-Subject: Re: [syzbot] [mm?] BUG: sleeping function called from invalid context
- in kvm_mmu_notifier_invalidate_range_start
-From: syzbot <syzbot+c3178b6b512446632bac@syzkaller.appspotmail.com>
-To: akpm@linux-foundation.org, dwmw@amazon.co.uk, kvm@vger.kernel.org, 
-	liam.howlett@oracle.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-rt-devel@lists.linux.dev, lkp@intel.com, llvm@lists.linux.dev, 
-	lorenzo.stoakes@oracle.com, me@brighamcampbell.com, mhocko@suse.com, 
-	oe-kbuild-all@lists.linux.dev, pbonzini@redhat.com, rientjes@google.com, 
-	rppt@kernel.org, seanjc@google.com, shaikhkamal2012@gmail.com, 
-	shakeel.butt@linux.dev, skhan@linuxfoundation.org, surenb@google.com, 
-	syzkaller-bugs@googlegroups.com, vbabka@kernel.org
-Content-Type: text/plain; charset="UTF-8"
 
-syzbot has found a reproducer for the following issue on:
+Hi Dan,
 
-HEAD commit:    b9303e6bff70 Add linux-next specific files for 20260430
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=13745dba580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=5474e13c6d20d45c
-dashboard link: https://syzkaller.appspot.com/bug?extid=c3178b6b512446632bac
-compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=125dd748580000
+Good catch, thanks. I'll send a V4 with size_add() for both
+the pkt_ptr and bssdescriptsize checks.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/b3a0a2e50f73/disk-b9303e6b.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/d3d481b220d4/vmlinux-b9303e6b.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/d6e012913960/bzImage-b9303e6b.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+c3178b6b512446632bac@syzkaller.appspotmail.com
-
-BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:48
-in_atomic(): 0, irqs_disabled(): 0, non_block: 1, pid: 40, name: oom_reaper
-preempt_count: 0, expected: 0
-RCU nest depth: 0, expected: 0
-4 locks held by oom_reaper/40:
- #0: ffff8880335ed1b0 (&mm->mmap_lock){++++}-{4:4}, at: mmap_read_trylock include/linux/mmap_lock.h:611 [inline]
- #0: ffff8880335ed1b0 (&mm->mmap_lock){++++}-{4:4}, at: oom_reap_task_mm mm/oom_kill.c:566 [inline]
- #0: ffff8880335ed1b0 (&mm->mmap_lock){++++}-{4:4}, at: oom_reap_task mm/oom_kill.c:609 [inline]
- #0: ffff8880335ed1b0 (&mm->mmap_lock){++++}-{4:4}, at: oom_reaper+0x2bb/0xc10 mm/oom_kill.c:650
- #1: ffffffff8e3066c0 (mmu_notifier_invalidate_range_start){+.+.}-{0:0}, at: mmu_notifier_invalidate_range_start_nonblock include/linux/mmu_notifier.h:495 [inline]
- #1: ffffffff8e3066c0 (mmu_notifier_invalidate_range_start){+.+.}-{0:0}, at: zap_vma_for_reaping+0x193/0x380 mm/memory.c:2119
- #2: ffffffff8e306718 (srcu){.+.+}-{0:0}, at: srcu_lock_acquire include/linux/srcu.h:187 [inline]
- #2: ffffffff8e306718 (srcu){.+.+}-{0:0}, at: srcu_read_lock include/linux/srcu.h:294 [inline]
- #2: ffffffff8e306718 (srcu){.+.+}-{0:0}, at: mn_hlist_invalidate_range_start mm/mmu_notifier.c:515 [inline]
- #2: ffffffff8e306718 (srcu){.+.+}-{0:0}, at: __mmu_notifier_invalidate_range_start+0x5a1/0xb60 mm/mmu_notifier.c:580
- #3: ffff88803996caf8 (&kvm->mn_invalidate_lock){+.+.}-{3:3}, at: spin_lock include/linux/spinlock_rt.h:45 [inline]
- #3: ffff88803996caf8 (&kvm->mn_invalidate_lock){+.+.}-{3:3}, at: kvm_mmu_notifier_invalidate_range_start+0x1b7/0xc00 virt/kvm/kvm_main.c:744
-CPU: 0 UID: 0 PID: 40 Comm: oom_reaper Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/18/2026
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- __might_resched+0x329/0x480 kernel/sched/core.c:9163
- __rt_spin_lock kernel/locking/spinlock_rt.c:48 [inline]
- rt_spin_lock+0xc2/0x400 kernel/locking/spinlock_rt.c:57
- spin_lock include/linux/spinlock_rt.h:45 [inline]
- kvm_mmu_notifier_invalidate_range_start+0x1b7/0xc00 virt/kvm/kvm_main.c:744
- mn_hlist_invalidate_range_start mm/mmu_notifier.c:525 [inline]
- __mmu_notifier_invalidate_range_start+0x6e4/0xb60 mm/mmu_notifier.c:580
- mmu_notifier_invalidate_range_start_nonblock include/linux/mmu_notifier.h:498 [inline]
- zap_vma_for_reaping+0x1f7/0x380 mm/memory.c:2119
- __oom_reap_task_mm mm/oom_kill.c:548 [inline]
- oom_reap_task_mm mm/oom_kill.c:585 [inline]
- oom_reap_task mm/oom_kill.c:609 [inline]
- oom_reaper+0x51e/0xc10 mm/oom_kill.c:650
- kthread+0x388/0x470 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:48
-in_atomic(): 0, irqs_disabled(): 0, non_block: 1, pid: 40, name: oom_reaper
-preempt_count: 0, expected: 0
-RCU nest depth: 0, expected: 0
-4 locks held by oom_reaper/40:
- #0: ffff8880335ed1b0 (&mm->mmap_lock){++++}-{4:4}, at: mmap_read_trylock include/linux/mmap_lock.h:611 [inline]
- #0: ffff8880335ed1b0 (&mm->mmap_lock){++++}-{4:4}, at: oom_reap_task_mm mm/oom_kill.c:566 [inline]
- #0: ffff8880335ed1b0 (&mm->mmap_lock){++++}-{4:4}, at: oom_reap_task mm/oom_kill.c:609 [inline]
- #0: ffff8880335ed1b0 (&mm->mmap_lock){++++}-{4:4}, at: oom_reaper+0x2bb/0xc10 mm/oom_kill.c:650
- #1: ffffffff8e3066c0 (mmu_notifier_invalidate_range_start){+.+.}-{0:0}, at: __mmu_notifier_invalidate_range_end+0x67/0x400 mm/mmu_notifier.c:611
- #2: ffffffff8e306718 (srcu){.+.+}-{0:0}, at: __mmu_notifier_invalidate_range_end+0x67/0x400 mm/mmu_notifier.c:611
- #3: ffff88803996caf8 (&kvm->mn_invalidate_lock){+.+.}-{3:3}, at: spin_lock include/linux/spinlock_rt.h:45 [inline]
- #3: ffff88803996caf8 (&kvm->mn_invalidate_lock){+.+.}-{3:3}, at: kvm_mmu_notifier_invalidate_range_end+0x1d6/0x3d0 virt/kvm/kvm_main.c:814
-CPU: 0 UID: 0 PID: 40 Comm: oom_reaper Tainted: G        W           syzkaller #0 PREEMPT_{RT,(full)} 
-Tainted: [W]=WARN
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/18/2026
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- __might_resched+0x329/0x480 kernel/sched/core.c:9163
- __rt_spin_lock kernel/locking/spinlock_rt.c:48 [inline]
- rt_spin_lock+0xc2/0x400 kernel/locking/spinlock_rt.c:57
- spin_lock include/linux/spinlock_rt.h:45 [inline]
- kvm_mmu_notifier_invalidate_range_end+0x1d6/0x3d0 virt/kvm/kvm_main.c:814
- mn_hlist_invalidate_end mm/mmu_notifier.c:597 [inline]
- __mmu_notifier_invalidate_range_end+0x23b/0x400 mm/mmu_notifier.c:616
- mmu_notifier_invalidate_range_end include/linux/mmu_notifier.h:511 [inline]
- zap_vma_for_reaping+0x2d9/0x380 mm/memory.c:2124
- __oom_reap_task_mm mm/oom_kill.c:548 [inline]
- oom_reap_task_mm mm/oom_kill.c:585 [inline]
- oom_reap_task mm/oom_kill.c:609 [inline]
- oom_reaper+0x51e/0xc10 mm/oom_kill.c:650
- kthread+0x388/0x470 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-oom_reaper: reaped process 6034 (syz.0.24), now anon-rss:0kB, file-rss:64kB, shmem-rss:0kB
-
-
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+Thanks,
+Tristan
