@@ -1,226 +1,211 @@
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE9DE3D75B9
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 May 2026 12:48:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777898934; cv=pass; b=LCfmhMOBWx1qam/9VaISXhTY/PBzrvf9Da2eaOKj7xiv3oaVhjfRDyJAgqGZr+Nz7Dmi6SDKz1H8+E/auYLrWRSkDKnIp47kapvWqDYR/NVZZdFsOmvaGeya/a+QH9oz7H8J8StVFovzQawMqo+Xzffa8En2wBsPeeg34T4aPs8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777898934; c=relaxed/simple;
-	bh=2kY5BIuB+ufB2Pehc7AcK+zOLtv4KIKzsUJRFie7MG4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sECX5RUFlpMHkkeHXov+63oLqR5mBK4AeRylgpNDu8+z8W5a/D4/ei9Be8Jo/kbSVFOrdqPDjIi68Y8iXqr4MgIfmh9RfN7YPCK+nRmPgK1iBjWRa2w1xeqq4cwCHsoc1brx4ZRyZpwBV/xBXa1Urir47xwfnz8A7HhvYd9LX+Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f28+mNKo; arc=pass smtp.client-ip=74.125.224.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A15643DFC85;
+	Mon,  4 May 2026 15:55:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777910138; cv=none; b=Qiccyudt/L2wHpvqJ0oxNmPrCcLZreXvxUnuGdgp/TdaFAaf+Mu8FuWhWVaYjbRnFGFIq/weLZTBwRUgEhL+RcyRRA5nkA6L6SSNVlm8j5Rz1pqC2BqZqDgGxZjMGdMuFrxNB2v+7xXTILzG6SnVFWWCU4zBPDgyg7e747iCd7g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777910138; c=relaxed/simple;
+	bh=AxBe0Pli9xlS8xkxnpJ1QukNFc97/w4zdD7V42Zjc0o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dQ/4Mh349EOItMYDbUhVbWIX6B62YSihnnBaGqa23522DwtizRa0KfuxIy5iRPG/zZ/JHfEgfT/Cvmf6p5D9S1XAKUaftntCFiLzTWoOzhTO3DjytrajLlmjPjMey0knuF2Ml80MtLf+/hE7n5rbYmS0MO0xg+gHuELisCbJSv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mMIzvL8k; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f28+mNKo"
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-65c5361142fso760407d50.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 04 May 2026 05:48:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777898930; cv=none;
-        d=google.com; s=arc-20240605;
-        b=PWxpE5qv/mou6udJpWwgsMbgvTaXBUK8tZuAjLE3pPq03hUCYIM1zHMSbgyGy+bFOV
-         QxajKwUp7r7DKh19AZT1RK2QVrGvfeMXBVC052elaF4EUBmIEyVGfOnRrnwlnpsDyHaX
-         PKUaMQIuhhfzB+xXiANeOeE+z50msoWc5XhcqPMPIMxB1yXzPA0IDmFmoVrgQdciYUfn
-         iYrQ+gGdNhTqq+b8Nm5gm/50OsuFQRmzgTG65Mc+qsJJ6nG/cczOPqX95Ilsdvz4OM5B
-         AwXsFY/eJlmYgF65OxEbJHN5J3+YN7OH4iGKsCUSSeS+eW/8B3zGgB/4/TPjL90UW7ld
-         BsEg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=AwgutxwEVlGDgPMcTWx07aMbhOve2XFxqkKRegLCJPo=;
-        fh=mgu2X7ipO1L2YklfCQcZxfTnvtJ2ccX9bmvHToWp5uw=;
-        b=heEA6G7Bx/ABhklg9+J8NlPsRDIin8FjbTR6Eu0wNYmYRcWGapatBErPPLZElAN4r5
-         9aB8pSnekLQUUiyw5RdGynkon3/haWDw0mbfxc4cBNb/8lGLEGPcd4hDOX+eF7YlyMDO
-         8C83ga5/PjpKE2FSLqMrSZopap1MsJ2a+IWWD3cXG4jIe0eFCVonK3v2TAUvp4BJOh9f
-         UHliI0JZFnMI4wF4hzg/FJJoMuCWDar1xXVae8zHaIBA8E9Nr1UtvlYLUL1lpa9+vMTg
-         Alol6EIpXPWQxIZVRxu8qSTmNsMo5u+enKoUaK8YLuaqOPi9T6+rltjKYUFF+vQmSqy7
-         bZ0w==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777898930; x=1778503730; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=AwgutxwEVlGDgPMcTWx07aMbhOve2XFxqkKRegLCJPo=;
-        b=f28+mNKo/bDFWBrDnCgz4NDgW3Re280uzFjCYGW3tZKBWV7Vi2RmagVLCITtAw8qMm
-         ZJQ4ZdjWma8XKzNlqiKGNoRoEWrd1uD5ZRu0a0DPDf+Sfj/mzCOf9jY7AMa/g78P6ii0
-         XEaTH2ng3rJ2KbT26lRgJQ4fCzd/Fv6o7V8yId1yg+Cp2UEzmiDoLdcINg7zoPDRTt2K
-         bGBEXEzQoqLeUbk/HxkqLiUkI1h+EKIQZF91Hy63+8CTn+irxxe/yNNuIhZoWcqJ1KPJ
-         nl1wir+G2zko35xkWKBJcYkb2d9rjMkEMc2pPY7udlFavzLCLlkv0BnNm4pvDAP6yDKa
-         fkmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777898930; x=1778503730;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AwgutxwEVlGDgPMcTWx07aMbhOve2XFxqkKRegLCJPo=;
-        b=lUr3X4E8FfG1WRVD5ZU8KmMBQC+kV6KH1d45SAvHkKDA9Y9Q0auUjW/AwE87tA/ZW+
-         HsF+OmADTNBI6wA3qwHVLdGeeB1arRLA4aMlQ4O9tpxVCrz55L8h1KP+DcHKyYXCFH8S
-         uKNPWRd//8VJqjM/EmcU7Aicf79YQ/H0uEdWvom1kNTWOUyszY54aY6imOtaDDm+/OEp
-         ZA+0aI2HzzpwnEFQ7DEzS5d4pfyotBhPKiq+2nO4UM8Gu61xOo2woWtx4gVYEv+8SnKp
-         NCgXaOfbUCOArEI8OHewA8o9LL/40CMCNORbT9LxwryyjfhkJSUkYJIb4wTiU2Vskx2+
-         TVtg==
-X-Forwarded-Encrypted: i=1; AFNElJ+EmKbS33hlwx9kYtugat81+2xKoi/t5xDTOj5mIssrMkLq8IgjPybYJokXa1cnL5G9Zgcv8MmDCc2cxUcV@lists.linux.dev
-X-Gm-Message-State: AOJu0YztYKrbV64drKcXm2VhcCXkalo8TvYMB50JR25hFBwqgwpmdmc2
-	R/IeSjjpzPRcvM8BT1KK510BZKaxmx/BdwfHhrRLcvptyn/pCT9+/gRMoJ9uPVZn9ElRKAhiCQQ
-	HbHlr7ISp3rC03tlLAEVkqRjJ3a//V1A=
-X-Gm-Gg: AeBDievztI1i9yvIsIugnzMVuMj9hTcnkmdncj60ItFZwUCMv3v90S+02D4PyVzzlwy
-	PSU8ltPcBvnNArh4zbrvDXvq1cfUVwW33Jok5iEprgchsmEBO4n6mL7Q2eYp1/n4OFgmTQ5AGhG
-	y35puaZojo266hTet3xUgw+CyJK5l2vL8OFOZgjdJkashn83L/aevZUEF/J0yEFIL0PvhXO3AxV
-	QyYxmu7P475NMcFJcSGg0nUPwYH/WHPK3YcxIM2yP/PG52fLZ1dg/E/lObm+KsLvU7cC3SYqSCT
-	Tjh9BtudMC5Btcd21g==
-X-Received: by 2002:a05:690e:168c:b0:651:d0a5:ce2 with SMTP id
- 956f58d0204a3-65c3dbd0c18mr9274835d50.60.1777898929910; Mon, 04 May 2026
- 05:48:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mMIzvL8k"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777910136; x=1809446136;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=AxBe0Pli9xlS8xkxnpJ1QukNFc97/w4zdD7V42Zjc0o=;
+  b=mMIzvL8klJJDl+Qp21eA06sv/Gp97lH3xbhp7cHF82ScVaFTtZ6seOq9
+   6FskiDSi6EXWZ+aYbEbumDt+PEz+TSlHzlDydsKMmaUP7q1JYLGCgfovi
+   vig1ZdpO5wZJTkn6G4hjBWrBbVvh98E+GYpZ9e7issKtb1mI1EWlbmlaU
+   zvz/Bksa5FgDrmcWhY+Dzrs754uXu5B3q6Qr0KAqOgQ/zkTvIVDhHxgXt
+   +gAi7Ab9TSYKMJhvYXbG0we4ChWUomLsE14UPuIyzwF80wxyANopi2W3O
+   e5zpmQyPHXO8qQRaJWzPvYoRpNzICn9/pMqxTmnjxJslioP7INqUqIZey
+   A==;
+X-CSE-ConnectionGUID: 3m0Xw7+KS1eB1LsA1jHVGw==
+X-CSE-MsgGUID: DFFwpRRMSw2QBgVmfviFow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11776"; a="78960688"
+X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
+   d="scan'208";a="78960688"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 08:55:35 -0700
+X-CSE-ConnectionGUID: RGqtXx4aSty212Yr8xdNzw==
+X-CSE-MsgGUID: SRXLLebGTrCOXuylfZslEg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
+   d="scan'208";a="273660379"
+Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 04 May 2026 08:55:33 -0700
+Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wJvdg-000000003or-2yJs;
+	Mon, 04 May 2026 15:55:23 +0000
+Date: Mon, 4 May 2026 23:54:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Oliver Neukum <oneukum@suse.com>, hanguidong02@gmail.com,
+	linux-usb@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Oliver Neukum <oneukum@suse.com>
+Subject: Re: [RFT] usb: class: cdc-wdm: switch to kfifo for buffering
+Message-ID: <202605042331.sI8rgflD-lkp@intel.com>
+References: <20260430121859.1018894-1-oneukum@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260430053820.446080-1-lgs201920130244@gmail.com> <202605032224.WHCEx7uc-lkp@intel.com>
-In-Reply-To: <202605032224.WHCEx7uc-lkp@intel.com>
-From: Guangshuo Li <lgs201920130244@gmail.com>
-Date: Mon, 4 May 2026 20:48:40 +0800
-X-Gm-Features: AVHnY4KjNnZnjqUSHDRUd793YOF0624mKw7IO-xD2BfGfwjxsYdj1bk1K-D3VyQ
-Message-ID: <CANUHTR_UeQq5hLtLFMqeEORbGuWTJBZdpmi+0AqzzO42y-S3ow@mail.gmail.com>
-Subject: Re: [PATCH] media: staging/ipu7: Fix pdata double free in init error paths
-To: kernel test robot <lkp@intel.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Bingbu Cao <bingbu.cao@intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Hans Verkuil <hverkuil@kernel.org>, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev, 
-	linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260430121859.1018894-1-oneukum@suse.com>
 
-Hi kernel test robot,
+Hi Oliver,
 
-Thanks for the report.
+kernel test robot noticed the following build warnings:
 
-On Sun, 3 May 2026 at 22:52, kernel test robot <lkp@intel.com> wrote:
->
-> Hi Guangshuo,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on staging/staging-testing]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Guangshuo-Li/media-staging-ipu7-Fix-pdata-double-free-in-init-error-paths/20260501-032323
-> base:   staging/staging-testing
-> patch link:    https://lore.kernel.org/r/20260430053820.446080-1-lgs201920130244%40gmail.com
-> patch subject: [PATCH] media: staging/ipu7: Fix pdata double free in init error paths
-> config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20260503/202605032224.WHCEx7uc-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260503/202605032224.WHCEx7uc-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202605032224.WHCEx7uc-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    drivers/staging/media/ipu7/ipu7.c: In function 'ipu7_isys_init':
-> >> drivers/staging/media/ipu7/ipu7.c:2176:33: error: passing argument 1 of 'ERR_CAST' makes pointer from integer without a cast [-Wint-conversion]
->     2176 |                 return ERR_CAST(ret);
->          |                                 ^~~
->          |                                 |
->          |                                 int
->    In file included from include/linux/cleanup.h:6,
->                     from include/linux/acpi.h:11,
->                     from drivers/staging/media/ipu7/ipu7.c:6:
->    include/linux/err.h:102:64: note: expected 'const void *' but argument is of type 'int'
->      102 | static inline void * __must_check ERR_CAST(__force const void *ptr)
->          |                                                    ~~~~~~~~~~~~^~~
->    drivers/staging/media/ipu7/ipu7.c: In function 'ipu7_psys_init':
->    drivers/staging/media/ipu7/ipu7.c:2221:33: error: passing argument 1 of 'ERR_CAST' makes pointer from integer without a cast [-Wint-conversion]
->     2221 |                 return ERR_CAST(ret);
->          |                                 ^~~
->          |                                 |
->          |                                 int
->    include/linux/err.h:102:64: note: expected 'const void *' but argument is of type 'int'
->      102 | static inline void * __must_check ERR_CAST(__force const void *ptr)
->          |                                                    ~~~~~~~~~~~~^~~
->
->
-> vim +/ERR_CAST +2176 drivers/staging/media/ipu7/ipu7.c
->
->   2125
->   2126  static struct ipu7_bus_device *
->   2127  ipu7_isys_init(struct pci_dev *pdev, struct device *parent,
->   2128                 const struct ipu_buttress_ctrl *ctrl, void __iomem *base,
->   2129                 const struct ipu_isys_internal_pdata *ipdata,
->   2130                 unsigned int nr)
->   2131  {
->   2132          struct fwnode_handle *fwnode = dev_fwnode(&pdev->dev);
->   2133          struct ipu7_bus_device *isys_adev;
->   2134          struct device *dev = &pdev->dev;
->   2135          struct ipu7_isys_pdata *pdata;
->   2136          int ret;
->   2137
->   2138          ret = ipu7_isys_check_fwnode_graph(fwnode);
->   2139          if (ret) {
->   2140                  if (fwnode && !IS_ERR_OR_NULL(fwnode->secondary)) {
->   2141                          dev_err(dev,
->   2142                                  "fwnode graph has no endpoints connection\n");
->   2143                          return ERR_PTR(-EINVAL);
->   2144                  }
->   2145
->   2146                  ret = ipu_bridge_init(dev, ipu_bridge_parse_ssdb);
->   2147                  if (ret) {
->   2148                          dev_err_probe(dev, ret, "IPU bridge init failed\n");
->   2149                          return ERR_PTR(ret);
->   2150                  }
->   2151          }
->   2152
->   2153          pdata = kzalloc_obj(*pdata);
->   2154          if (!pdata)
->   2155                  return ERR_PTR(-ENOMEM);
->   2156
->   2157          pdata->base = base;
->   2158          pdata->ipdata = ipdata;
->   2159
->   2160          isys_adev = ipu7_bus_initialize_device(pdev, parent, pdata, ctrl,
->   2161                                                 IPU_ISYS_NAME);
->   2162          if (IS_ERR(isys_adev)) {
->   2163                  dev_err_probe(dev, PTR_ERR(isys_adev),
->   2164                                "ipu7_bus_initialize_device isys failed\n");
->   2165                  kfree(pdata);
->   2166                  return ERR_CAST(isys_adev);
->   2167          }
->   2168
->   2169          isys_adev->mmu = ipu7_mmu_init(dev, base, ISYS_MMID,
->   2170                                         &ipdata->hw_variant);
->   2171          if (IS_ERR(isys_adev->mmu)) {
->   2172                  ret = PTR_ERR(isys_adev->mmu);
->   2173                  dev_err_probe(dev, ret,
->   2174                                "ipu7_mmu_init(isys_adev->mmu) failed\n");
->   2175                  put_device(&isys_adev->auxdev.dev);
-> > 2176                  return ERR_CAST(ret);
->   2177          }
->   2178
->   2179          isys_adev->mmu->dev = &isys_adev->auxdev.dev;
->   2180          isys_adev->subsys = IPU_IS;
->   2181
->   2182          ret = ipu7_bus_add_device(isys_adev);
->   2183          if (ret)
->   2184                  return ERR_PTR(ret);
->   2185
->   2186          return isys_adev;
->   2187  }
->   2188
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on usb/usb-next usb/usb-linus westeri-thunderbolt/next linus/master v7.1-rc2 next-20260430]
+[cannot apply to peter-chen-usb/for-usb-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The build failure is caused by my use of ERR_CAST(ret) after caching
-PTR_ERR(isys_adev->mmu) / PTR_ERR(psys_adev->mmu) into the integer variable
-ret. ERR_CAST() expects an error pointer, not an integer error code.
+url:    https://github.com/intel-lab-lkp/linux/commits/Oliver-Neukum/usb-class-cdc-wdm-switch-to-kfifo-for-buffering/20260504-164851
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20260430121859.1018894-1-oneukum%40suse.com
+patch subject: [RFT] usb: class: cdc-wdm: switch to kfifo for buffering
+config: arm-randconfig-004-20260504 (https://download.01.org/0day-ci/archive/20260504/202605042331.sI8rgflD-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260504/202605042331.sI8rgflD-lkp@intel.com/reproduce)
 
-I will fix this in v2 by returning ERR_PTR(ret) instead.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605042331.sI8rgflD-lkp@intel.com/
 
-Thanks,
-Guangshuo
+All warnings (new ones prefixed by >>):
+
+>> drivers/usb/class/cdc-wdm.c:526:6: warning: variable 'i' set but not used [-Wunused-but-set-variable]
+     526 |         int i = 0;
+         |             ^
+   1 warning generated.
+
+
+vim +/i +526 drivers/usb/class/cdc-wdm.c
+
+8dd5cd5395b9007 Bjørn Mork          2013-12-20  521  
+afba937e540c902 Oliver Neukum       2008-05-13  522  static ssize_t wdm_read
+afba937e540c902 Oliver Neukum       2008-05-13  523  (struct file *file, char __user *buffer, size_t count, loff_t *ppos)
+afba937e540c902 Oliver Neukum       2008-05-13  524  {
+055e352971719f8 Oliver Neukum       2026-04-30  525  	int rv, cntr, done;
+afba937e540c902 Oliver Neukum       2008-05-13 @526  	int i = 0;
+afba937e540c902 Oliver Neukum       2008-05-13  527  	struct wdm_device *desc = file->private_data;
+afba937e540c902 Oliver Neukum       2008-05-13  528  
+afba937e540c902 Oliver Neukum       2008-05-13  529  
+e8537bd2c4f325a Bjørn Mork          2012-01-16  530  	rv = mutex_lock_interruptible(&desc->rlock); /*concurrent reads */
+afba937e540c902 Oliver Neukum       2008-05-13  531  	if (rv < 0)
+afba937e540c902 Oliver Neukum       2008-05-13  532  		return -ERESTARTSYS;
+afba937e540c902 Oliver Neukum       2008-05-13  533  
+055e352971719f8 Oliver Neukum       2026-04-30  534  	cntr = kfifo_len(&desc->ubuf);
+711c68b3c0f7a92 Ben Hutchings       2012-02-12  535  	if (cntr == 0) {
+afba937e540c902 Oliver Neukum       2008-05-13  536  		desc->read = 0;
+afba937e540c902 Oliver Neukum       2008-05-13  537  retry:
+7f1dc313d01f5f0 Oliver Neukum       2009-09-09  538  		if (test_bit(WDM_DISCONNECTING, &desc->flags)) {
+7f1dc313d01f5f0 Oliver Neukum       2009-09-09  539  			rv = -ENODEV;
+7f1dc313d01f5f0 Oliver Neukum       2009-09-09  540  			goto err;
+7f1dc313d01f5f0 Oliver Neukum       2009-09-09  541  		}
+c0f5ecee4e74166 Oliver Neukum       2013-03-12  542  		if (test_bit(WDM_OVERFLOW, &desc->flags)) {
+c0f5ecee4e74166 Oliver Neukum       2013-03-12  543  			clear_bit(WDM_OVERFLOW, &desc->flags);
+c0f5ecee4e74166 Oliver Neukum       2013-03-12  544  			rv = -ENOBUFS;
+c0f5ecee4e74166 Oliver Neukum       2013-03-12  545  			goto err;
+c0f5ecee4e74166 Oliver Neukum       2013-03-12  546  		}
+afba937e540c902 Oliver Neukum       2008-05-13  547  		i++;
+7f1dc313d01f5f0 Oliver Neukum       2009-09-09  548  		if (file->f_flags & O_NONBLOCK) {
+7f1dc313d01f5f0 Oliver Neukum       2009-09-09  549  			if (!test_bit(WDM_READ, &desc->flags)) {
+53b7f7b53d83727 Gustavo A. R. Silva 2017-02-14  550  				rv = -EAGAIN;
+7f1dc313d01f5f0 Oliver Neukum       2009-09-09  551  				goto err;
+7f1dc313d01f5f0 Oliver Neukum       2009-09-09  552  			}
+7f1dc313d01f5f0 Oliver Neukum       2009-09-09  553  			rv = 0;
+7f1dc313d01f5f0 Oliver Neukum       2009-09-09  554  		} else {
+afba937e540c902 Oliver Neukum       2008-05-13  555  			rv = wait_event_interruptible(desc->wait,
+afba937e540c902 Oliver Neukum       2008-05-13  556  				test_bit(WDM_READ, &desc->flags));
+7f1dc313d01f5f0 Oliver Neukum       2009-09-09  557  		}
+afba937e540c902 Oliver Neukum       2008-05-13  558  
+7f1dc313d01f5f0 Oliver Neukum       2009-09-09  559  		/* may have happened while we slept */
+17d80d562fd78a0 Oliver Neukum       2008-06-24  560  		if (test_bit(WDM_DISCONNECTING, &desc->flags)) {
+17d80d562fd78a0 Oliver Neukum       2008-06-24  561  			rv = -ENODEV;
+17d80d562fd78a0 Oliver Neukum       2008-06-24  562  			goto err;
+17d80d562fd78a0 Oliver Neukum       2008-06-24  563  		}
+88044202756925a Bjørn Mork          2012-02-10  564  		if (test_bit(WDM_RESETTING, &desc->flags)) {
+88044202756925a Bjørn Mork          2012-02-10  565  			rv = -EIO;
+88044202756925a Bjørn Mork          2012-02-10  566  			goto err;
+88044202756925a Bjørn Mork          2012-02-10  567  		}
+055e352971719f8 Oliver Neukum       2026-04-30  568  		smp_rmb(); /* against wdm_in_callback() */
+055e352971719f8 Oliver Neukum       2026-04-30  569  		if (test_bit(WDM_OVERFLOW, &desc->flags)) {
+055e352971719f8 Oliver Neukum       2026-04-30  570  			clear_bit(WDM_OVERFLOW, &desc->flags);
+055e352971719f8 Oliver Neukum       2026-04-30  571  			rv = -ENOBUFS;
+055e352971719f8 Oliver Neukum       2026-04-30  572  			goto err;
+055e352971719f8 Oliver Neukum       2026-04-30  573  		}
+055e352971719f8 Oliver Neukum       2026-04-30  574  
+17d80d562fd78a0 Oliver Neukum       2008-06-24  575  		usb_mark_last_busy(interface_to_usbdev(desc->intf));
+afba937e540c902 Oliver Neukum       2008-05-13  576  		if (rv < 0) {
+afba937e540c902 Oliver Neukum       2008-05-13  577  			rv = -ERESTARTSYS;
+afba937e540c902 Oliver Neukum       2008-05-13  578  			goto err;
+afba937e540c902 Oliver Neukum       2008-05-13  579  		}
+afba937e540c902 Oliver Neukum       2008-05-13  580  
+afba937e540c902 Oliver Neukum       2008-05-13  581  		spin_lock_irq(&desc->iuspin);
+afba937e540c902 Oliver Neukum       2008-05-13  582  
+afba937e540c902 Oliver Neukum       2008-05-13  583  		if (desc->rerr) { /* read completed, error happened */
+85e8a0b9a3565c8 Oliver Neukum       2015-03-23  584  			rv = usb_translate_errors(desc->rerr);
+afba937e540c902 Oliver Neukum       2008-05-13  585  			desc->rerr = 0;
+afba937e540c902 Oliver Neukum       2008-05-13  586  			spin_unlock_irq(&desc->iuspin);
+afba937e540c902 Oliver Neukum       2008-05-13  587  			goto err;
+afba937e540c902 Oliver Neukum       2008-05-13  588  		}
+afba937e540c902 Oliver Neukum       2008-05-13  589  		/*
+afba937e540c902 Oliver Neukum       2008-05-13  590  		 * recheck whether we've lost the race
+afba937e540c902 Oliver Neukum       2008-05-13  591  		 * against the completion handler
+afba937e540c902 Oliver Neukum       2008-05-13  592  		 */
+afba937e540c902 Oliver Neukum       2008-05-13  593  		if (!test_bit(WDM_READ, &desc->flags)) { /* lost race */
+afba937e540c902 Oliver Neukum       2008-05-13  594  			spin_unlock_irq(&desc->iuspin);
+afba937e540c902 Oliver Neukum       2008-05-13  595  			goto retry;
+afba937e540c902 Oliver Neukum       2008-05-13  596  		}
+c0f5ecee4e74166 Oliver Neukum       2013-03-12  597  
+055e352971719f8 Oliver Neukum       2026-04-30  598  		cntr = kfifo_len(&desc->ubuf);
+afba937e540c902 Oliver Neukum       2008-05-13  599  		spin_unlock_irq(&desc->iuspin);
+afba937e540c902 Oliver Neukum       2008-05-13  600  	}
+afba937e540c902 Oliver Neukum       2008-05-13  601  
+711c68b3c0f7a92 Ben Hutchings       2012-02-12  602  	if (cntr > count)
+711c68b3c0f7a92 Ben Hutchings       2012-02-12  603  		cntr = count;
+055e352971719f8 Oliver Neukum       2026-04-30  604  	rv = kfifo_to_user(&desc->ubuf, buffer, cntr, &done);
+055e352971719f8 Oliver Neukum       2026-04-30  605  	if (rv < 0) {
+afba937e540c902 Oliver Neukum       2008-05-13  606  		rv = -EFAULT;
+afba937e540c902 Oliver Neukum       2008-05-13  607  		goto err;
+afba937e540c902 Oliver Neukum       2008-05-13  608  	}
+afba937e540c902 Oliver Neukum       2008-05-13  609  
+711c68b3c0f7a92 Ben Hutchings       2012-02-12  610  	spin_lock_irq(&desc->iuspin);
+711c68b3c0f7a92 Ben Hutchings       2012-02-12  611  
+87d65e54b6d5ff6 Oliver Neukum       2008-06-19  612  	/* in case we had outstanding data */
+055e352971719f8 Oliver Neukum       2026-04-30  613  	if (kfifo_is_empty(&desc->ubuf)) {
+c1da59dad0ebd3f Robert Foss         2016-08-09  614  		clear_bit(WDM_READ, &desc->flags);
+c1da59dad0ebd3f Robert Foss         2016-08-09  615  		service_outstanding_interrupt(desc);
+c1da59dad0ebd3f Robert Foss         2016-08-09  616  	}
+73e06865ead1bec Greg Suarez         2013-10-29  617  	spin_unlock_irq(&desc->iuspin);
+055e352971719f8 Oliver Neukum       2026-04-30  618  	rv = done;
+afba937e540c902 Oliver Neukum       2008-05-13  619  
+afba937e540c902 Oliver Neukum       2008-05-13  620  err:
+e8537bd2c4f325a Bjørn Mork          2012-01-16  621  	mutex_unlock(&desc->rlock);
+afba937e540c902 Oliver Neukum       2008-05-13  622  	return rv;
+afba937e540c902 Oliver Neukum       2008-05-13  623  }
+afba937e540c902 Oliver Neukum       2008-05-13  624  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
