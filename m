@@ -1,96 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8CBD349AF9
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 May 2026 08:57:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FCA331F991
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 May 2026 09:08:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777885055; cv=none; b=tzHBDc/mKQDyxtdyyXRcjeIEH+3ikFDktF6p1ZEfY9e3+aogjNb++1I7jz/Ywt4F4+NN4Yo7Qp7nQt6zQP20FwG5YZBFc2XHkqdahjzfVCuPXHJDC0qMBxEyJshmkAfUGkH8TVDiFpMW+RpSOgEExwjxHhZR4GDTX0C6QjtwHck=
+	t=1777885699; cv=none; b=Zq7LItymuF4o1Qh1nNEkCy7d2aZKIdhZAi7v0wXF+nFEpCbwU1jKlzAEL8luob08WNeH92eVqxdmZCpJRnlZCzMafc3gMyykf34O7g28LcucLBCW44zBSP9haq2BcQWdjqM5rjb4hjCfvxmCIs2Y3gNPbN+WIhE2UUK0JWRb42A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777885055; c=relaxed/simple;
-	bh=bEUtuzg/HJMugeLpdZwkZhBPJJZM/mIjQu4dSdyGCww=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bFNv+v9XDWR+DUS0VyfhCnhj6t2FrmLv1PdyZ6vnTBrdVBf4/YQD437cX3wSI0em06go4nbxVPbciRrpzxgzXAjxx6x3Eja0dEFKANSVkgqyF2w13/F3SvAMT97ZM3MSATkZh3X83xKT1BFOMkJk13DtHLupbrZn84f7VyRoUl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kc+FbSHs; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1777885699; c=relaxed/simple;
+	bh=04i01+4s7p1T1DW+YXo4VhZu2WF5QYa5Aso+HESw4Yk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ARUKh9kJZNSSWwT4ZIpvBgJOqzhkAnh5RcofxMl7Qr9JEVOfXZwUQeS0sRYOhPYM7QMaAFtoztusfn/Y/GIVuax10UY63io7nqlp6XUvsjs+tE7AfBX1bhVYUD2qEdWGWnrkZ3DnIfTJEwQbU2P/wQKLRiStSTvSlASKlK4Tm9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=eeCYdVyc; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=+JUuDPkq; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kc+FbSHs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777885054; x=1809421054;
-  h=date:from:to:cc:subject:message-id;
-  bh=bEUtuzg/HJMugeLpdZwkZhBPJJZM/mIjQu4dSdyGCww=;
-  b=Kc+FbSHsIM20gnTq3ADe8FCeUW0yAfD8eO8uhbRBZrevxtX5ZE7DjkDP
-   iOvJSyRX3i6DufXlN8hVIMrrywwGnhT+2bjq5HGzB259Ln1aqZQs49JVf
-   bU0WT+GYxMUrqh8QBlGYmIQo4sH9mKhcio+ZHDtyqa+kYT01Fahq3Qixk
-   9L1jh7XwpzodWNOgEIH590f0muof4Y58qtAJgYHxjxtQZJNJSz47pdEVh
-   0nZ9YNXAX7YkfFQ66H/KUlqn4htjCHRN+gB/NT0hQMYcpZcWp+fQ8EUqD
-   RQ7tuKJZQT0mRRmSnvdjNVAHjpL41rWw/M93VpujWneZG/QvVbwoOcrPm
-   Q==;
-X-CSE-ConnectionGUID: TtcShkBvR2OdKoj9oEiOnw==
-X-CSE-MsgGUID: lQUUTYqYTe6XTfg0DLPS0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11775"; a="82350840"
-X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
-   d="scan'208";a="82350840"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 01:57:34 -0700
-X-CSE-ConnectionGUID: WTvQcTosRAanbY/0x6myGg==
-X-CSE-MsgGUID: aKiAhSfeSY6ja206pSOcYQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
-   d="scan'208";a="240444642"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 04 May 2026 01:57:32 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wJp7K-000000005nN-1EVC;
-	Mon, 04 May 2026 08:57:30 +0000
-Date: Mon, 04 May 2026 10:57:17 +0200
-From: kernel test robot <lkp@intel.com>
-To: Felipe Matarazzo <felipemps@protonmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
- linux-doc@vger.kernel.org
-Subject: htmldocs:
- Documentation/admin-guide/reporting-issues.rst:1390: WARNING: Title underline
- too short.
-Message-ID: <202605041002.NG14fe8J-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="eeCYdVyc";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="+JUuDPkq"
+Date: Mon, 4 May 2026 11:08:15 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1777885696;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MFn4ndPtC7YyH1CwdKF8EBrBtoca3wcCGLA1iZdHQjA=;
+	b=eeCYdVyc6PKnXU6KC2HwEmC4F1ANPYfE+fPmrdyXz//LrLBx84MSYkHC3HpkKwoXlzFlPN
+	YuHsc5xVgp+/nSeFtMghtps39AYvtONkI9gw6pP3kur7YtsX5T3D+VjS9uch6e2ZhtGMfl
+	mrq3m7WwxaEbKgLx++sI3QRe3KnkfPGoqEb85H6cY9OF0r8ExJCuMEIXpp0xU/XLxoNll1
+	LJJKEiFJppFOAxA5PdKlDLwt1H/I1qyOEtOf5Vj+RHc6YDEJA2PZWvAc8W8qKClrP3SplK
+	uXiTe4tq+2h0gh8+wq9XxNHxY7wUnBodGQhZIQLB5LNaKsUioaeM+HbzRNPpNA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1777885696;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MFn4ndPtC7YyH1CwdKF8EBrBtoca3wcCGLA1iZdHQjA=;
+	b=+JUuDPkqkpKaWResz1d3+1f7hKSwtWxbDqevL57eruAnhIL5VYSWIKWDuSK8RT89Qberae
+	9GcH22gr6xpGw1Aw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, MD Danish Anwar <danishanwar@ti.com>
+Subject: Re: [mda-next:icssg-dev 1/8] include/linux/if_hsr.h:58:19: error:
+ implicit declaration of function 'skb_ext_find'
+Message-ID: <20260504090815.AtyOwpll@linutronix.de>
+References: <202605031429.Vd6jaWrJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <202605031429.Vd6jaWrJ-lkp@intel.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Felipe-Matarazzo/docs-fix-typos-in-reporting-issues-rst/20260504-100627
-head:   87c6043bc64dbd3613715bed7671c5b8e586a71e
-commit: 87c6043bc64dbd3613715bed7671c5b8e586a71e docs: fix typos in reporting-issues.rst
-date:   7 hours ago
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260504/202605041002.NG14fe8J-lkp@intel.com/reproduce)
+On 2026-05-03 14:31:41 [+0800], kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mda/linux-next.git icssg-dev
+> head:   a5d36e904451db02a17787219fd06b6d2ba16f1b
+> commit: 756ed4bc4a527cdddc3f9f09240637ceb3408645 [1/8] hsr: Allow to send a specific port and with HSR header
+> config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260503/202605031429.Vd6jaWrJ-lkp@intel.com/config)
+> compiler: m68k-linux-gcc (GCC) 15.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260503/202605031429.Vd6jaWrJ-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202605031429.Vd6jaWrJ-lkp@intel.com/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605041002.NG14fe8J-lkp@intel.com/
+This appears to be an older version.
 
-All warnings (new ones prefixed by >>):
-
-   WARNING: Documentation/ABI/testing/sysfs-class-reboot-mode-reboot_modes:36: abi_sys_class_reboot_mode_driver_reboot_modes doesn't have a description
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:364; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:234
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
->> Documentation/admin-guide/reporting-issues.rst:1390: WARNING: Title underline too short.
-
-
-vim +1390 Documentation/admin-guide/reporting-issues.rst
-
-3e544d72dfc8bb Thorsten Leemhuis 2020-12-04  1388  
-87c6043bc64dbd Felipe Matarazzo  2026-05-03  1389  Inquiries and testing requests
-3e544d72dfc8bb Thorsten Leemhuis 2020-12-04 @1390  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-3e544d72dfc8bb Thorsten Leemhuis 2020-12-04  1391  
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Sebastian
