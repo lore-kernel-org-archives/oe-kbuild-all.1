@@ -1,231 +1,202 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1643A39020C
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 May 2026 02:24:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 111D117BA6;
+	Tue,  5 May 2026 02:29:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777947895; cv=none; b=IoQk8jyeRBxbAf7u15MFmYd/Fqu5Q/9V3ZMe3umbcV8XazRBUdhD1IjIUNlq7x5fRVE/sz1q75GKx0yIv5bAWVBjd6Uk+fzuIeEQ7LmZoyG3dWdjF45p9AH/YY1MpIuSWxpl4Y1Q2imK5hW7WgmT5gRlm/6y0bl5g7XKDTNm460=
+	t=1777948154; cv=none; b=YIeqLeKWeq8R3X5l8lwbXhXZXWEkM7/EeXTqLUb7x43yDW7kIgtlcnQVvvFfpad3ChNoSGCs1tflHR0ZdnhqLP9ftyMGJN4kHjZtYr1lTXEZdPyDbIDDR3izdbSwat8DoR3pHQsyto3Ff9uPhQtny+rgGbk/llWw4WD/R0wQvIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777947895; c=relaxed/simple;
-	bh=fSMkhgHKSMB/wjHAWrXttxnwi81JgB6NIQOYqA6+e4Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t6epgb5F68ftJx4H9K++tvj9QFJDBfEtHQpSSbN3ApxfUw8SPpglOyb97ullTEd2dvXt3RFWeSX5ptwbGvZ/SkhiT72p7dURCUZIN1onbMNTU1OL8jJiVn2UIoIBaxCdZ4NCg+wBZCE7ha3TwjEPbleXLk7kNh1LczoFWOEbxQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZfnHutnN; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1777948154; c=relaxed/simple;
+	bh=xMDOpFuV/QpjXQueUurBsSOm/lhLbfdmda63ejEJYAE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=pUNn36NKuLM6Se3RzcIqePDNjEJuzecJOTK6XSxcD/IoIVKazMLsUFltb3BBLMYs/DQOFxTjXfHKy9iWN58VMe8TsdwczDdrxhdBfmFe1jVNSYAKhUKhhxbzwFEBLZK+3yMI8CRc7X9+CcJVtW+Y2QY822kBdDyg1B1XCwP8ZcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MhMPt4Xm; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZfnHutnN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MhMPt4Xm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777947893; x=1809483893;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fSMkhgHKSMB/wjHAWrXttxnwi81JgB6NIQOYqA6+e4Y=;
-  b=ZfnHutnNIVQxE7P6G6USA8zYmD7gijFLcMiYTuEcvxyTdk9i+97fBvNM
-   i9AzEJtgEP83xIGzuGHgrt1V+cwmrEMrqKvxRCfab6DSGQ8QU7NqlK/rn
-   DWZqaMOa/lrkGfvHe8rVCwaesw71lo2iUMlhQHoT/hulR0iox51plwPuR
-   xYWkok7Ldw1NXZU/ZonbthyBQHaFO9beevYVa+VLyezfT2Pylcy2jJopv
-   eUtm4RYEWhAUSZAXel/nQH1H3uF3kbTUQGCJ6nNZ84sPngaANQRd9dp24
-   OHIXiXj7CVTs8s53bc0dcjpF5lzcsOf3ASjJkjxCq0w9AOlKDphOIqFp1
-   g==;
-X-CSE-ConnectionGUID: 8NNcgtsdRnWvX0dKKYo2PA==
-X-CSE-MsgGUID: 7/utlJuFSBidXOQ49wRylA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11776"; a="66341359"
+  t=1777948152; x=1809484152;
+  h=date:from:to:cc:subject:message-id;
+  bh=xMDOpFuV/QpjXQueUurBsSOm/lhLbfdmda63ejEJYAE=;
+  b=MhMPt4XmIOBnh6BxZV0t0seRzP2BDTy+LPSSjbVEnGkpZKXYP4Tbz3St
+   ryN5ntJOcDthmNdHlnMPNNSD3QSNw8gfwj8Rbf097QZiOy2CbrTXq9a68
+   3L2UfygpGEUl0pIgPNo51V+x3hNfDr/b1IqZbMfIWEaEpCbtlaWCTsht4
+   U1NEJkFa0tU3PgU0slu3jWyTiLzfWLWyO9qgYP4L6wYCQmhUpqIUJ5WZk
+   ceoyowA1SEqEaF8HzsyrCWqMpJjDihgZbnq5ijqbqF+mCGw8FVESpsWrN
+   AL0P7XaGTHXy2izQXI2i8/QYOSWY2qHBxP7H/jXiNk77L7SQBAn2NJUv+
+   A==;
+X-CSE-ConnectionGUID: NBQjQrU/TLaA9CVFrVyPLQ==
+X-CSE-MsgGUID: +7jf3PNrSAm8c6eoRKuUuA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11776"; a="89400893"
 X-IronPort-AV: E=Sophos;i="6.23,216,1770624000"; 
-   d="scan'208";a="66341359"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 19:24:52 -0700
-X-CSE-ConnectionGUID: 2dwCd0eQTEiblfPsVoBhNg==
-X-CSE-MsgGUID: sKkp8elRQTK93d4gmQF+NA==
+   d="scan'208";a="89400893"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 19:29:11 -0700
+X-CSE-ConnectionGUID: bEVthhVtTe+wf//B6RT/qw==
+X-CSE-MsgGUID: AofikJ2HT9a918LimDaH8A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,216,1770624000"; 
-   d="scan'208";a="231306794"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 04 May 2026 19:24:50 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="232546923"
+Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 04 May 2026 19:29:09 -0700
+Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wK5Sq-0000000064H-0N93;
-	Tue, 05 May 2026 02:24:48 +0000
-Date: Tue, 5 May 2026 04:24:16 +0200
+	id 1wK5Ww-000000004AT-11ty;
+	Tue, 05 May 2026 02:29:03 +0000
+Date: Tue, 05 May 2026 10:28:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Ye <jye836@gmail.com>, jikos@kernel.org, bentiss@kernel.org,
-	lee@kernel.org, pavel@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
-	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-	denis.benato@linux.dev, James Ye <jye836@gmail.com>
-Subject: Re: [PATCH 6/6] leds: led-class: mark classdev as unregistering early
-Message-ID: <202605050414.YJmW3t4y-lkp@intel.com>
-References: <20260503072643.2774762-7-jye836@gmail.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [koverstreet-bcachefs:bcachefs-testing 35/95]
+ fs/bcachefs/alloc/foreground.c:560:2: error: expected expression
+Message-ID: <202605051042.0qptLM0O-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260503072643.2774762-7-jye836@gmail.com>
 
-Hi James,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on hid/for-next]
-[also build test ERROR on lee-leds/for-leds-next linus/master v7.1-rc2 next-20260504]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/James-Ye/HID-input-delete-hid_battery-on-disconnect/20260504-013406
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20260503072643.2774762-7-jye836%40gmail.com
-patch subject: [PATCH 6/6] leds: led-class: mark classdev as unregistering early
-config: x86_64-randconfig-2005-20250721 (https://download.01.org/0day-ci/archive/20260505/202605050414.YJmW3t4y-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260505/202605050414.YJmW3t4y-lkp@intel.com/reproduce)
+tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
+head:   8f7020ecb925b9ea9413ac31dd0d2078e99f92cf
+commit: ca284ad06b139fe4dc8f053ada179473c1b71bb1 [35/95] bcachefs: alloc: filter spurious freelist_wait wakes on the waiter side
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260505/202605051042.0qptLM0O-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260505/202605051042.0qptLM0O-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605050414.YJmW3t4y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605051042.0qptLM0O-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/list.h:5,
-                    from include/linux/module.h:12,
-                    from drivers/hid/hid-input.c:16:
-   drivers/hid/hid-input.c: In function 'hidinput_disconnect':
->> drivers/hid/hid-input.c:2423:53: error: 'struct hid_device' has no member named 'batteries'
-    2423 |         list_for_each_entry_safe(bat, bat_next, &hid->batteries, list) {
-         |                                                     ^~
-   include/linux/container_of.h:20:33: note: in definition of macro 'container_of'
-      20 |         void *__mptr = (void *)(ptr);                                   \
-         |                                 ^~~
-   include/linux/list.h:620:9: note: in expansion of macro 'list_entry'
-     620 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:869:20: note: in expansion of macro 'list_first_entry'
-     869 |         for (pos = list_first_entry(head, typeof(*pos), member),        \
-         |                    ^~~~~~~~~~~~~~~~
-   drivers/hid/hid-input.c:2423:9: note: in expansion of macro 'list_for_each_entry_safe'
-    2423 |         list_for_each_entry_safe(bat, bat_next, &hid->batteries, list) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/container_of.h:5:
->> drivers/hid/hid-input.c:2423:53: error: 'struct hid_device' has no member named 'batteries'
-    2423 |         list_for_each_entry_safe(bat, bat_next, &hid->batteries, list) {
-         |                                                     ^~
-   include/linux/build_bug.h:80:56: note: in definition of macro '__static_assert'
-      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
-     609 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:620:9: note: in expansion of macro 'list_entry'
-     620 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:869:20: note: in expansion of macro 'list_first_entry'
-     869 |         for (pos = list_first_entry(head, typeof(*pos), member),        \
-         |                    ^~~~~~~~~~~~~~~~
-   drivers/hid/hid-input.c:2423:9: note: in expansion of macro 'list_for_each_entry_safe'
-    2423 |         list_for_each_entry_safe(bat, bat_next, &hid->batteries, list) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/hid/hid-input.c:2423:53: error: 'struct hid_device' has no member named 'batteries'
-    2423 |         list_for_each_entry_safe(bat, bat_next, &hid->batteries, list) {
-         |                                                     ^~
-   include/linux/build_bug.h:80:56: note: in definition of macro '__static_assert'
-      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:22:23: note: in expansion of macro '__same_type'
-      22 |                       __same_type(*(ptr), void),                        \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
-     609 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:620:9: note: in expansion of macro 'list_entry'
-     620 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:869:20: note: in expansion of macro 'list_first_entry'
-     869 |         for (pos = list_first_entry(head, typeof(*pos), member),        \
-         |                    ^~~~~~~~~~~~~~~~
-   drivers/hid/hid-input.c:2423:9: note: in expansion of macro 'list_for_each_entry_safe'
-    2423 |         list_for_each_entry_safe(bat, bat_next, &hid->batteries, list) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:610:27: error: expression in static assertion is not an integer
-     610 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:80:56: note: in definition of macro '__static_assert'
-      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
-     609 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:620:9: note: in expansion of macro 'list_entry'
-     620 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:869:20: note: in expansion of macro 'list_first_entry'
-     869 |         for (pos = list_first_entry(head, typeof(*pos), member),        \
-         |                    ^~~~~~~~~~~~~~~~
-   drivers/hid/hid-input.c:2423:9: note: in expansion of macro 'list_for_each_entry_safe'
-    2423 |         list_for_each_entry_safe(bat, bat_next, &hid->batteries, list) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/hid/hid-input.c:2423:53: error: 'struct hid_device' has no member named 'batteries'
-    2423 |         list_for_each_entry_safe(bat, bat_next, &hid->batteries, list) {
-         |                                                     ^~
-   include/linux/list.h:773:37: note: in definition of macro 'list_entry_is_head'
-     773 |         list_is_head(&pos->member, (head))
-         |                                     ^~~~
-   drivers/hid/hid-input.c:2423:9: note: in expansion of macro 'list_for_each_entry_safe'
-    2423 |         list_for_each_entry_safe(bat, bat_next, &hid->batteries, list) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+>> fs/bcachefs/alloc/foreground.c:560:2: error: expected expression
+           u32 wake_counter_snapshot = atomic_read(&ca->alloc_wake_counter);
+           ^
+>> fs/bcachefs/alloc/foreground.c:647:41: error: use of undeclared identifier 'wake_counter_snapshot'
+           alloc_trace_add(req, ca->dev_idx, ret, wake_counter_snapshot);
+                                                  ^
+   2 errors generated.
 
 
-vim +2423 drivers/hid/hid-input.c
+vim +560 fs/bcachefs/alloc/foreground.c
 
-  2407	
-  2408	void hidinput_disconnect(struct hid_device *hid)
-  2409	{
-  2410		struct hid_input *hidinput, *next;
-  2411		struct hid_battery *bat, *bat_next;
-  2412	
-  2413		list_for_each_entry_safe(hidinput, next, &hid->inputs, list) {
-  2414			list_del(&hidinput->list);
-  2415			if (hidinput->registered)
-  2416				input_unregister_device(hidinput->input);
-  2417			else
-  2418				input_free_device(hidinput->input);
-  2419			kfree(hidinput->name);
-  2420			kfree(hidinput);
-  2421		}
-  2422	
-> 2423		list_for_each_entry_safe(bat, bat_next, &hid->batteries, list) {
-  2424			list_del(&bat->list);
-  2425		}
-  2426	
-  2427		/* led_work is spawned by input_dev callbacks, but doesn't access the
-  2428		 * parent input_dev at all. Once all input devices are removed, we
-  2429		 * know that led_work will never get restarted, so we can cancel it
-  2430		 * synchronously and are safe. */
-  2431		cancel_work_sync(&hid->led_work);
-  2432	}
-  2433	EXPORT_SYMBOL_GPL(hidinput_disconnect);
-  2434	
+   540	
+   541	/**
+   542	 * bch2_bucket_alloc_trans - allocate a single bucket from a specific device
+   543	 * @trans:	transaction object
+   544	 * @req:	state for the entire allocation
+   545	 *
+   546	 * Returns:	an open_bucket on success, or an ERR_PTR() on failure.
+   547	 */
+   548	static struct open_bucket *bch2_bucket_alloc_trans(struct btree_trans *trans,
+   549							   struct alloc_request *req)
+   550	{
+   551		struct bch_fs *c = trans->c;
+   552		struct bch_dev *ca = req->ca;
+   553		struct open_bucket *ob = NULL;
+   554		bool freespace = READ_ONCE(ca->mi.freespace_initialized);
+   555		bool waiting = false;
+   556	
+   557		req->btree_bitmap = req->data_type == BCH_DATA_btree;
+   558		memset(&req->counters, 0, sizeof(req->counters));
+   559	again:
+ > 560		u32 wake_counter_snapshot = atomic_read(&ca->alloc_wake_counter);
+   561		bch2_dev_usage_read_fast(ca, &req->usage);
+   562		u64 avail = __dev_buckets_free(ca, req->usage, req->watermark);
+   563	
+   564		if (req->usage.buckets[BCH_DATA_need_discard] >
+   565		    min(avail, ca->mi.nbuckets >> 7))
+   566			bch2_do_discards_async(c);
+   567	
+   568		if (req->usage.buckets[BCH_DATA_need_gc_gens] > avail)
+   569			bch2_gc_gens_async(c);
+   570	
+   571		if (should_invalidate_buckets(ca, req->usage))
+   572			bch2_dev_do_invalidates(ca);
+   573	
+   574		if (!avail) {
+   575			if (req->watermark > BCH_WATERMARK_normal &&
+   576			    c->recovery.pass_done < BCH_RECOVERY_PASS_check_allocations)
+   577				goto alloc;
+   578	
+   579			if (bch2_copygc_can_make_progress(ca)) {
+   580				req->copygc_can_make_progress = true;
+   581				bch2_copygc_wakeup(c);
+   582			}
+   583	
+   584			track_event_change(&c->times[BCH_TIME_blocked_allocate], true);
+   585	
+   586			if (req->cl &&
+   587			    !(req->flags & BCH_WRITE_alloc_nowait) &&
+   588			    !req->will_retry_target_devices &&
+   589			    !req->will_retry_all_devices &&
+   590			    !req->will_retry_set_devices) {
+   591				if ((!req->copygc_can_make_progress ||
+   592				     req->watermark == BCH_WATERMARK_copygc) &&
+   593				    (req->nr_effective || (req->devs_have && req->devs_have->nr))) {
+   594					ob = ERR_PTR(bch_err_throw(c, bucket_alloc_no_progress));
+   595				} else if (!waiting) {
+   596					closure_wait(&c->allocator.freelist_wait, req->cl);
+   597					waiting = true;
+   598					goto again;
+   599				} else {
+   600					ob = ERR_PTR(bch_err_throw(c, bucket_alloc_blocked));
+   601				}
+   602			} else {
+   603				ob = ERR_PTR(bch_err_throw(c, freelist_empty));
+   604			}
+   605	
+   606			goto err;
+   607		}
+   608	
+   609		if (waiting)
+   610			bch2_alloc_wake_dev(ca);
+   611	alloc:
+   612		ob = likely(freespace)
+   613			? bch2_bucket_alloc_freelist(trans, req)
+   614			: bch2_bucket_alloc_early(trans, req);
+   615	
+   616		if (!ob && req->btree_bitmap != BTREE_BITMAP_ANY) {
+   617			req->btree_bitmap = BTREE_BITMAP_ANY;
+   618			goto alloc;
+   619		}
+   620	
+   621		if (!ob && freespace && c->recovery.pass_done < BCH_RECOVERY_PASS_check_alloc_info) {
+   622			freespace = false;
+   623			goto alloc;
+   624		}
+   625	err:
+   626		if (!ob)
+   627			ob = ERR_PTR(bch_err_throw(c, no_buckets_found));
+   628	
+   629		int ret = PTR_ERR_OR_ZERO(ob);
+   630	
+   631		if (!ret) {
+   632			ob->data_type = req->data_type;
+   633	
+   634			event_inc_trace(c, bucket_alloc, buf,
+   635				bucket_alloc_to_text(&buf, c, req, ob));
+   636		} else if (bch2_err_matches(ret, BCH_ERR_open_buckets_empty) ||
+   637			   bch2_err_matches(ret, BCH_ERR_open_bucket_alloc_blocked)) {
+   638			event_inc_trace(c, open_bucket_alloc_fail, buf,
+   639				bch2_fs_open_buckets_to_text(&buf, c));
+   640		} else if (!bch2_err_matches(ret, BCH_ERR_transaction_restart) &&
+   641			   !req->will_retry_target_devices &&
+   642			   !req->will_retry_all_devices &&
+   643			   !req->will_retry_set_devices)
+   644			event_inc_trace(c, bucket_alloc_fail, buf,
+   645				bucket_alloc_to_text(&buf, c, req, ob));
+   646	
+ > 647		alloc_trace_add(req, ca->dev_idx, ret, wake_counter_snapshot);
+   648	
+   649		return ob;
+   650	}
+   651	
 
---
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
