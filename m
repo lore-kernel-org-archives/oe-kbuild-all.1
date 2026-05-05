@@ -1,133 +1,161 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F1BB390233;
-	Tue,  5 May 2026 11:37:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A21C6175A60
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 May 2026 12:13:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777981073; cv=none; b=iDunQF5UhWOTsHmviwIHAuGckwqDESUnQSMvq4awD1PAeBvQJveuvxImza11P3bd5tgyyEmefoHvphJP4lnaIVU0OZ5DABUKePHIYz6hK5vYeY2nBNnNPlXmB0aRDNHj2axxPxcLY4HdS8td4CF1tIcJkJjy+StufkLfWvCcdUY=
+	t=1777983233; cv=none; b=fQoGpKvCQlXTxww81fZqaEErmHhnIHtMn68ATHOSyaIKhGDERN5wInCHNHY8Ft1aoT80tZqajMYz2+0PxYGROvQcWXQVF8vDNdDezFpKJ5PuvrS3h+llu61/v4L9ss6C3NnvQz0pFhPXy7WVmgCh8sT9ZXwZOfgvcuxe/RqZpbQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777981073; c=relaxed/simple;
-	bh=2Mjv+BICWQwv29Q5kMRWqd29IhT5UFcBjsGRvUZ+13w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Onyu9QwynyQnepXDtYlNL9+ugYDmKURbQWxSNo8hlZ4DLLZvLYpL5VUkcgCKK6OwbccTYe1gGU2jW5sYXLLVHd1wsy4Gub1AR/R52wmL7IKAQZNXRIieXYRDtZ6E9Q9HRPxSnNPtSpyUtGP7KK1T/KDqqCqriceDDJ0TLcv4xac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R99aMOs4; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1777983233; c=relaxed/simple;
+	bh=Gkyoq4R9pCYHQdgGS6nHBOebNJ67o+/AAXFpLvLfkvc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Q7vQoE7Lz6CUK9/0LUrLv+f4dqLR/Xs6mKEn0dEJmd1eYU5EWVZcnGRhh2E93e/MEmxx18+HxIFrOZN4jAPASMnIDPfcJavcCOXqCERI2g0R2Fyg1klEBp5e4gG74DMJwL2gZlcuY1CMB1aMWxtLJL0vhKlVCKJgt3BAGsFFrX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N5uXuu+H; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R99aMOs4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N5uXuu+H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777981072; x=1809517072;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=2Mjv+BICWQwv29Q5kMRWqd29IhT5UFcBjsGRvUZ+13w=;
-  b=R99aMOs4a/aqiiwmBScrid2qqirJYSGWM3MCVaeDRiDI1hDl2aAR6Ktf
-   vLsHdDJ3Bnh4851OTIC0advBFNzMeWY3rBxYFuuR7eUDLpmYLAK6s0XyD
-   R2fS0gW9yVOAUdIhilBbG5TwAV2+TYxA4Y6rO0RMalmYwdGaoLEj6rtIm
-   Tyjf1lx1xjvhBFILHMTCIEiKPXfUXETklDAMNtTQ1yH+OdY8+1941yegZ
-   ovZ5F28+StdJ4sIZ5zlqHvj32RabWmYO4i41O/dxKboUwQUdivYeg2wk0
-   FYOnIUhFnQ4EA1l/xzM04kaeUBLN1SLFuNxrxWyw13bl3qnI3vSV6O030
-   g==;
-X-CSE-ConnectionGUID: 56R+66k/RHaQv5vDLRx4tg==
-X-CSE-MsgGUID: XlaJM1FrSyKqYWMIRQTO1g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11776"; a="82716259"
+  t=1777983231; x=1809519231;
+  h=date:from:to:cc:subject:message-id;
+  bh=Gkyoq4R9pCYHQdgGS6nHBOebNJ67o+/AAXFpLvLfkvc=;
+  b=N5uXuu+HzZsKQr5ApHA3tAghlG1WuQvGQR33tPUs5GCePPaB8rGgyPkC
+   +ler2dL+WsMh+6McPfMkKICRZEKp0GTVAKWsC5AUvtY5gayhZUZEgrvsW
+   agEP1v4CWt8H95ldhEEmdnFDdgL5wnCk61GKL3SdoOuhCzB0/CvAgt9DR
+   gtCAvLjDqproJLZfm7jzZd1T6WXapeavMZrTuWKKNi0HlQEJTslj4rpPp
+   5EPhzBTtcWGC/inaYjxyZP9vsqyMZ4Hhet38XQ0eIBG6EX6qGdrOaYySg
+   CMojVFUAYhzOzgOT3GGCCqcPipSnLv1tGh7jnKPKsVZcmoz/QilI8o1tW
+   w==;
+X-CSE-ConnectionGUID: W+sy500BSkO7QUZAl1grmg==
+X-CSE-MsgGUID: BPMYSUR8SAyBVdij0NIRBA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11776"; a="82702313"
 X-IronPort-AV: E=Sophos;i="6.23,217,1770624000"; 
-   d="scan'208";a="82716259"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 04:37:50 -0700
-X-CSE-ConnectionGUID: 7lWnwyA4QWu3/akHlapfGg==
-X-CSE-MsgGUID: DNhmX/gsTYOcNR8Heeacpw==
+   d="scan'208";a="82702313"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 05:13:51 -0700
+X-CSE-ConnectionGUID: 6FvHUXDHQVeKTKC8YE329g==
+X-CSE-MsgGUID: kCEeYXzSQ9e8gTA2EY4jzg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,217,1770624000"; 
-   d="scan'208";a="234921066"
+   d="scan'208";a="240093834"
 Received: from lkp-server01.sh.intel.com (HELO 9ec114424ce8) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 05 May 2026 04:37:48 -0700
+  by orviesa004.jf.intel.com with ESMTP; 05 May 2026 05:13:49 -0700
 Received: from kbuild by 9ec114424ce8 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wKE5x-0000000006p-3ZCY;
-	Tue, 05 May 2026 11:37:45 +0000
-Date: Tue, 05 May 2026 19:36:53 +0800
+	id 1wKEeo-0000000007d-3ZSm;
+	Tue, 05 May 2026 12:13:46 +0000
+Date: Tue, 05 May 2026 20:13:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brian Cain <brian.cain@oss.qualcomm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [bcain:bcain/glink 46/71]
- arch/hexagon/kernel/process.c:72:2: error: call to undeclared function
- 'flush_smp_call_function_queue'; ISO C99 and later do not support implicit
- function declarations
-Message-ID: <202605051923.IzqCBvfX-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-mainline-desktop 166/166]
+ drivers/staging/android/ashmem-legacy.c:924:34: warning: format specifies
+ type 'long' but the argument has type 'u64' (aka 'unsigned long long')
+Message-ID: <202605052002.wuv5nPDN-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git bca=
-in/glink
-head:   f5a983a09d006ee1c9fe4c66beca5f1f927caa04
-commit: 0d2f3aa6da801431e0498989f03e5c498c538b82 [46/71] hexagon: flush SMP=
- call-function queue before entering idle
-config: hexagon-randconfig-001-20260505 (https://download.01.org/0day-ci/ar=
-chive/20260505/202605051923.IzqCBvfX-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5ba=
-c06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260505/202605051923.IzqCBvfX-lkp@intel.com/reproduce)
+Hi Carlos,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+First bad commit (maybe != root cause):
+
+tree:   https://android.googlesource.com/kernel/common android-mainline-desktop
+head:   446cfce1bd48badcbed1499c5bc3c444214790ab
+commit: be18d47ba7a6d22f0d5a93ff4811002e05321306 [166/166] Merge b7d74ea0fdaa ("Merge tag 'vfs-7.1-rc1.kino' of git://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs") into android-mainline
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260505/202605052002.wuv5nPDN-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260505/202605052002.wuv5nPDN-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605051923.IzqCBvfX-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605052002.wuv5nPDN-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> arch/hexagon/kernel/process.c:72:2: error: call to undeclared function '=
-flush_smp_call_function_queue'; ISO C99 and later do not support implicit f=
-unction declarations [-Wimplicit-function-declaration]
-      72 |         flush_smp_call_function_queue();
-         |         ^
-   1 error generated.
+>> drivers/staging/android/ashmem-legacy.c:924:34: warning: format specifies type 'long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     924 |                 seq_printf(m, "inode:\t%ld\n", file_inode(asma->file)->i_ino);
+         |                                        ~~~     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                        %llu
+   1 warning generated.
 
 
-vim +/flush_smp_call_function_queue +72 arch/hexagon/kernel/process.c
+vim +924 drivers/staging/android/ashmem-legacy.c
 
-    51=09
-    52	/*
-    53	 * Flush pending SMP call-function work before entering __vmwait().
-    54	 *
-    55	 * On platforms with high IPI delivery latency (e.g. Hexagon hardware
-    56	 * threads behind a hypervisor under QEMU TCG emulation), the interr=
-upt
-    57	 * from __vmintop_post() can take an extremely long time to wake the
-    58	 * target thread from __vmwait().  During this time, call_single_dat=
-a_t
-    59	 * objects sit locked on the call_single_queue.  Since v5.7 (commit
-    60	 * 5a18ceca6350), smp_call_function_single_async() returns -EBUSY wh=
-en
-    61	 * it finds a locked CSD instead of spinning, and callers like the
-    62	 * scheduler's NOHZ kick and hrtimer migration silently drop the wor=
-k.
-    63	 *
-    64	 * By draining the queue here =E2=80=94 with IRQs disabled but befor=
-e the RCU
-    65	 * idle context (ct_cpuidle_enter) =E2=80=94 we unlock CSDs while th=
-e CPU is
-    66	 * still responsive.  This shrinks the -EBUSY window to just the
-    67	 * __vmwait() duration and prevents the cascading stalls that otherw=
-ise
-    68	 * hang SMP boot on v5.7+ kernels.
-    69	 */
-    70	void arch_cpu_idle_enter(void)
-    71	{
-  > 72		flush_smp_call_function_queue();
-    73	}
-    74=09
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  889  
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  890  /* support of 32bit userspace on 64bit platforms */
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  891  #ifdef CONFIG_COMPAT
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  892  static long compat_ashmem_ioctl(struct file *file, unsigned int cmd,
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  893  				unsigned long arg)
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  894  {
+897b372d5d731cc drivers/staging/android/ashmem-legacy.c Isaac J. Manjarres 2026-04-23  895  	struct ashmem_area *asma = file->private_data;
+897b372d5d731cc drivers/staging/android/ashmem-legacy.c Isaac J. Manjarres 2026-04-23  896  	unsigned long ino;
+897b372d5d731cc drivers/staging/android/ashmem-legacy.c Isaac J. Manjarres 2026-04-23  897  	long ret;
+897b372d5d731cc drivers/staging/android/ashmem-legacy.c Isaac J. Manjarres 2026-04-23  898  
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  899  	switch (cmd) {
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  900  	case COMPAT_ASHMEM_SET_SIZE:
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  901  		cmd = ASHMEM_SET_SIZE;
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  902  		break;
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  903  	case COMPAT_ASHMEM_SET_PROT_MASK:
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  904  		cmd = ASHMEM_SET_PROT_MASK;
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  905  		break;
+897b372d5d731cc drivers/staging/android/ashmem-legacy.c Isaac J. Manjarres 2026-04-23  906  	case COMPAT_ASHMEM_GET_FILE_ID:
+897b372d5d731cc drivers/staging/android/ashmem-legacy.c Isaac J. Manjarres 2026-04-23  907  		ret = get_file_id(asma, &ino);
+897b372d5d731cc drivers/staging/android/ashmem-legacy.c Isaac J. Manjarres 2026-04-23  908  		if (ret)
+897b372d5d731cc drivers/staging/android/ashmem-legacy.c Isaac J. Manjarres 2026-04-23  909  			return ret;
+897b372d5d731cc drivers/staging/android/ashmem-legacy.c Isaac J. Manjarres 2026-04-23  910  
+897b372d5d731cc drivers/staging/android/ashmem-legacy.c Isaac J. Manjarres 2026-04-23  911  		return put_user(ino, (compat_uptr_t __user *)compat_ptr(arg)) ? -EFAULT : 0;
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  912  	}
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  913  	return ashmem_ioctl(file, cmd, arg);
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  914  }
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  915  #endif
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  916  #ifdef CONFIG_PROC_FS
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  917  static void ashmem_show_fdinfo(struct seq_file *m, struct file *file)
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  918  {
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  919  	struct ashmem_area *asma = file->private_data;
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  920  
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  921  	mutex_lock(&ashmem_mutex);
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  922  
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  923  	if (asma->file)
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26 @924  		seq_printf(m, "inode:\t%ld\n", file_inode(asma->file)->i_ino);
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  925  
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  926  	if (asma->name[ASHMEM_NAME_PREFIX_LEN] != '\0')
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  927  		seq_printf(m, "name:\t%s\n",
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  928  			   asma->name + ASHMEM_NAME_PREFIX_LEN);
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  929  
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  930  	seq_printf(m, "size:\t%zu\n", asma->size);
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  931  
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  932  	mutex_unlock(&ashmem_mutex);
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  933  }
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  934  #endif
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  935  static const struct file_operations ashmem_fops = {
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  936  	.owner = THIS_MODULE,
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  937  	.open = ashmem_open,
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  938  	.release = ashmem_release,
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  939  	.read_iter = ashmem_read_iter,
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  940  	.llseek = ashmem_llseek,
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  941  	.mmap = ashmem_mmap,
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  942  	.unlocked_ioctl = ashmem_ioctl,
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  943  #ifdef CONFIG_COMPAT
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  944  	.compat_ioctl = compat_ashmem_ioctl,
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  945  #endif
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  946  #ifdef CONFIG_PROC_FS
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  947  	.show_fdinfo = ashmem_show_fdinfo,
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  948  #endif
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  949  };
+4b3275bbb3dda00 drivers/staging/android/ashmem.c        Isaac J. Manjarres 2026-03-26  950  
 
---=20
+:::::: The code at line 924 was first introduced by commit
+:::::: 4b3275bbb3dda0062c3ba6146b6f56a9234c64da Revert "ANDROID: ashmem: Remove C version of the ashmem driver"
+
+:::::: TO: Isaac J. Manjarres <isaacmanjarres@google.com>
+:::::: CC: Treehugger Robot <android-test-infra-autosubmit@system.gserviceaccount.com>
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
