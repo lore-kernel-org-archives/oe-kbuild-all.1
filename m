@@ -1,133 +1,104 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6995B47CC6C
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 May 2026 13:30:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777987859; cv=none; b=XrnE6MLg81oL9rb8OcaJRYF+O12UeoBCZNmeiD85RA6sSNEnTl+8+S8wHepW5d8dviIWzZhL52DjH1aPP33E8wc/jn1TpHEmrEqCaGEQpNOB/lQflBv77kUTzJycMX/Gjgpt+V8ZZo0z1+IO7RSLd0sJG5ZxaO1JylHD96I+ozA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777987859; c=relaxed/simple;
-	bh=ff0bQu0OzmBOvCruwXQGsD7UOTSGmca6Fy1TK72u9Sw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fwgwQzv2xw54DYQ9oZsEamireIaGF3m0jVrJdDZCdVh2a0ueQPakAM0sNIlBJUG3gusAReX+Z//kVaqVqADfZHnFFpyR6fOE7+5HEg1PZsie7cOS/vTePzOmu+bVaOSeXrq2l2sVcg31027ma+pBKl3cZI6NoaKxsl6an5csvT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=go54FPLB; arc=none smtp.client-ip=209.85.222.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4473480345
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 May 2026 14:17:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.176
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777990629; cv=pass; b=lgiEZN1KX/p56gsObjGPOTyYtuR7cUUfZVmuJhzX/AOZPelRs6O2LdL1yqvphvfO6vPOEqVjmmhCiL9dF2ukCxKrthET1Q8DDsiuNf0CWgOVIa36SCPWjbZM6GOHkfBSNHkfD64h4IP5IQVRHooCimUzUUymUM03YdXFtKbE+n0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777990629; c=relaxed/simple;
+	bh=FB2RoDWHRP5TG5kB/5M7XrFIp8sR/BsgKWGfpjGsJ7Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NGIrjg1fG6Yr7+WsCpyasKv459+1qycJAj5uqayy0B2y7i4UIwbsrlLMej1ucflVFvyS3yWImyw48DQZIS7EzLSNbjhYzPxtVZMW5gD5rAkUVIfBVDHIZbtNgFSb+qzlQslPxuVnTb5XoqYU4xud+MAyQ/ffibrAKgOstW9p0fU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C1k0XiGt; arc=pass smtp.client-ip=209.85.167.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="go54FPLB"
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-8f15e900586so258245085a.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 05 May 2026 06:30:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C1k0XiGt"
+Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-463a0e14abfso2635978b6e.2
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 05 May 2026 07:17:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777990627; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ARuT3KtTObCvL8Ptp0d+QvL9UJgg/Ippse+SNBaXLTwygHIfASbRrcg4YAlnGLKG6E
+         l8zRd4etluBLQapBpbBkEXeMZ/6JiEyPgSYhShGy/wkyh0duQQ9ErQ/NPLQ3zSBdHW2c
+         x2O9eM/QOEbAdghzoREvct1bZkYicTRxCuwIGb51tTHo4bFozDfeqIHYDMUBA5a7vHXk
+         jeh9XuBomDJSIGfx2qzvNXOaoWcMprQu2DZGdmsNrGWBWVcT6EaeZ/aJQgoPHavVbVve
+         Bg8jiDFA+bI6IvSIa7eNUX0CGKCK4opki94knfoI31qYe8bj+K5udXVZElO6duX83Dwi
+         NeIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=FB2RoDWHRP5TG5kB/5M7XrFIp8sR/BsgKWGfpjGsJ7Q=;
+        fh=f3KjfadDJucYBSKJ23ao3ZrLE5OVHmvt8urLf+0DH1U=;
+        b=MWudww7ZXiGPTgjmCgWtyxP+oqOjK4mK4X7OhGDacmqPSLwXiwh1AUeyceB5bMmX4s
+         fnyS7HJK6a+vGOXhacijEM2eW+V5WBjsAmz1pXV5Sh2bpjjej55uJnl0cglkAfA4jAZr
+         oKfPvZ1MBHjZEXG1Ja329AdYNaopF/dFi+h7ypPm3dLT/zqwGbYG4NNMQ81OvbA8uCRI
+         WOzHFytzrqABiicOnHbIfw3/uxoi11iD9r8QaOlfVLBfRKtndVSyrqkHDDVbcp8YlxVf
+         /ULanfKfSfOeTM0Z9u0EaiYermFQKv9/mOPDWSp6vyusdHEo1RLVq7+5YrkbBOOarcgy
+         ufaA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777987857; x=1778592657; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=35CH6Yi9uh5mtNuWSXZJ4xVnriQjRm7LpXCym9MsM78=;
-        b=go54FPLBPBM7ZlCPXVoaE5mR9bCmhfLEQdlOWfQLGCMaY4fRfdwW3FORDAB0jNo47Y
-         oN5yh3UcLw7InLon/P1WIdvIQHe/ntsKbhg+Z3lMvYJMmu1B6bQANS779OzOs1whmZTl
-         nZY7rGDciOUdo1OCoDmqAqh+CaI6gJKj/gvHPnKIlUFiCnfiVYsfGj9qa+lhKjl3USbl
-         Biqqn6JyRAx+pcdg4nh9jTKjXrJS2QWg4qr3FsD+9nj5w/nR4velOwWUFcA9/t2JOagA
-         xKtX4Tqar4e9ShBWkkWExdnixbYLz5WaLRHr+bDNmqFElsHjKG7FSNeqSbmr/K+A5l1D
-         kTBA==
+        d=gmail.com; s=20251104; t=1777990627; x=1778595427; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=FB2RoDWHRP5TG5kB/5M7XrFIp8sR/BsgKWGfpjGsJ7Q=;
+        b=C1k0XiGtkffgbRhgSinRXM4x0Gd57j42GWtWiVaJv9eObGOhXa2/QdMI0TgAtoKI6r
+         0iXqZpxZsWULQ2La4vxb5ncf/w7N2VtGg8rW0WrAb0sNQJ2zY1oNK4wxi4FNDg1bS3kM
+         w5UzKIX2h3hjoiusr+9JBH5mWIEY76b2OxmBPQXXy4GrsjpO0ZeIVXScMn27oQLXogtf
+         mbuDVy77PGr2bS3EtzgI6vXX3nS6QYAkYAwUOf0B8vvLGxBTyEeAwA56EVRA9IIYglBT
+         DHADDP7qfrmj229JcIr0FlAzFeuy2ADKHByL+t8RZOVgRRAZXIQgzpotckRq5gQK998H
+         JONw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777987857; x=1778592657;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=35CH6Yi9uh5mtNuWSXZJ4xVnriQjRm7LpXCym9MsM78=;
-        b=AFT5QU0KP90RMctvStWJ3ADpdI+2fzsVFUEu02mFFr0yuMElEJu3qUwdBnYFNl35Ny
-         AtJc7uFjNf1VrAeP+ydPYrejnFLuAaYyqC2O0ycNioj7XVsl55sy5ZjJrN1rXQAGyqnG
-         V8oyu4aE+wjQiiui9iwRS4voz4UEtH/2EzJC0+LfQm0GpJ/6SGooZCrcMCBUGWv77JiM
-         dXb7mk42C65F2lZxCb0UoYfrC/CQoNW83cmsfekhW1MgxEUOOnu+rM7Nu1zqwQG34gZ9
-         IwNnRRJR51egRb8B4tCwaBgvIBApKKK8LH0TRKQAfTYveKRgWV/SJvBXgBdggsCofgFF
-         QINQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8GbcXhJH7hhBp5zwZj0mUyhUvRjkNsfFhaaqb/hLHaMoR7HsucyKgyc1NZ0fOZ5gkn+U3fBzv7jX3LvqPa@lists.linux.dev
-X-Gm-Message-State: AOJu0YyklzTPtRYTeyy/pZViG/ULWHQA34RyO7qViBymnAUcH963UOgU
-	bJYeQG5bnYHErRgqj1hX4mJ1puCZhUqNcbD2d/489swDVpnjhTZkzCcz
-X-Gm-Gg: AeBDietWehQ7mCfi5VIQfzlSHMpZKbfUF9hL3gFRtgANmY1FrCO3FmctAmBbPJ1QCUj
-	t30TmSGr5twXS6HaIyia1E9c1egeg21Wug0IZL+ubZfuASwZ1MdXIyKoA/9QXRQyf/Mqk2vn3ro
-	suEJb1WUgja9EKVqAENoeInoPNEwGXnmk4ZRk5T6SWsXSOfFQMpB5hGUdBcTTEk5qhyS3LKtTk1
-	zxHcI5yqxX40c7kCFnpSLWYgq1cZmCJQVPODaAFGca3ZK1thNjzR7qdQvrd0ZdGc9ASg5wBiviB
-	YM6DwYtSTPz6gYRPs0Mhq08yJW2LSb/7sJjH/t/LWtmR/0BmhOvd6z3ExynPZZ3taCn/zr8l73a
-	YxptdqiRs0ifcqXviEzqmcb7dvJLnlmo1eFkr6AKEIUT+RXQIzWpuZvOvzyVOP7LiCcnFU86XKP
-	DAewzIgK5ZMlLlQStATpuwsZJCM1Jl+Q==
-X-Received: by 2002:a05:620a:7005:b0:8ee:7878:af3e with SMTP id af79cd13be357-8fd18635115mr2321716785a.45.1777987847228;
-        Tue, 05 May 2026 06:30:47 -0700 (PDT)
-Received: from localhost ([185.141.119.121])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8fc2938e7f8sm1344298785a.7.2026.05.05.06.30.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2026 06:30:44 -0700 (PDT)
-Date: Tue, 5 May 2026 16:30:39 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Namjae Jeon <linkinjeon@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 2139/2816] fs/ntfs/attrib.c:2631 ntfs_attr_add()
- warn: variable dereferenced before check 'ni' (see line 2628)
-Message-ID: <202605051951.OStHgx7p-lkp@intel.com>
+        d=1e100.net; s=20251104; t=1777990627; x=1778595427;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FB2RoDWHRP5TG5kB/5M7XrFIp8sR/BsgKWGfpjGsJ7Q=;
+        b=eWrYElZ6sQjPHwUwB4W5yVHznurxRjHEPyZdpsHy7znA0WEmK5piGVmmo6XVupNUy+
+         x15tGawa0ZWhIO1p8V8ZEx4D6tWnDOTHDoEk4p3C55eiE0UpasoLAthgchhYL6bcoTfS
+         FtN5Ds+KtbyWt3hbWNmWZXyHQa2pcqHHz5RbQOcjzBGZWImmn31eO7cag7qDGmIneVoy
+         AswSMyUvdmMoPvySUMUH4hZZ2IUg/L94P1zS8ZupNsCNRIQUCpoKkExwoSGCT518iFyW
+         RjUM/yTrB2XVYLf4a1tX0CzgYj8ucjFyWDe4en0B2AwpRMp68ugL7dRqNueLPQfz9OBG
+         uzGQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8l1MMoTOyoh3QtYiEd5acbPvvTuB8v3ftXSZ8X/lKkIROA9JW9Ap+FSSFHqSHMwi1rsLgmJJhHvBiJ/QLT@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw01yH8X8sGULuM3LqwUfO0IZbB1n8sDUqnXz7qe1Wd3Gh8ucrK
+	aon6BcllynEvRsEXtISqVAFWAD+CkDF00qWz0x6R9S+1WdS2sNNDyae242P7KTMD5obtB2VlIHu
+	oiqt370Hfe60mAzn+gjCUdD5px9kOQQM=
+X-Gm-Gg: AeBDiet8hfGHfkydrxn2eZXApWMeopGGo8DMDs/5QAWzXt443EcFEdeDQ18g6RhzHBz
+	x0hliS4tyDumQH+JS5G40vEIJ8CNy9kNx17LB0J4wZsd6Y2WqvBwa9YXUDM8Riy8Gt79D6QTUYd
+	X7luUfz1YgS7HG93zrCQP2VL6f0UkbzqBv7ygSnb7jwQo9PkdjiZ0lPImK4bvhhZzgadhxg67tT
+	FuXZ9O5rF+Zb0xfW+Pwe1aCC7qm0yHhpvZuXaREvHc31ky8xXorBnsZM9Y2adotnqOBVnsQsSux
+	ZDHCO6MP3aB9sfkDw9MNm+Odoyo=
+X-Received: by 2002:a05:6808:f8c:b0:47c:374:20cc with SMTP id
+ 5614622812f47-47c892445ccmr6953376b6e.27.1777990626486; Tue, 05 May 2026
+ 07:17:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20260503072643.2774762-7-jye836@gmail.com> <202605050414.YJmW3t4y-lkp@intel.com>
+In-Reply-To: <202605050414.YJmW3t4y-lkp@intel.com>
+From: James Ye <jye836@gmail.com>
+Date: Wed, 6 May 2026 00:16:53 +1000
+X-Gm-Features: AVHnY4IHW_EApghA23w0AimDU8GeJhlp8R6o_CN6px5MGNoaZm9YKYzSqzJ4U4c
+Message-ID: <CAEV1_7HRUhPHorhKoaC5a1f7-hyLpDWrLG29XHfc4SmeffpmpA@mail.gmail.com>
+Subject: Re: [PATCH 6/6] leds: led-class: mark classdev as unregistering early
+To: kernel test robot <lkp@intel.com>
+Cc: jikos@kernel.org, bentiss@kernel.org, lee@kernel.org, pavel@kernel.org, 
+	oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org, 
+	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	denis.benato@linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   9d0d467c3572e93c5faa2e5906a8bbcd70b24efd
-commit: ae00c45e40f1eb19428865ee3a3f487a454bdc20 [2139/2816] ntfs: fix variable dereferenced before check ni in ntfs_attr_open()
-config: alpha-randconfig-r071-20260505 (https://download.01.org/0day-ci/archive/20260505/202605051951.OStHgx7p-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 10.5.0
-smatch: v0.5.0-9065-ge9cc34fd
+On Tue, 5 May 2026 at 12:24, kernel test robot <lkp@intel.com> wrote:
+>
+> Hi James,
+>
+> kernel test robot noticed the following build errors:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605051951.OStHgx7p-lkp@intel.com/
-
-New smatch warnings:
-fs/ntfs/attrib.c:2631 ntfs_attr_add() warn: variable dereferenced before check 'ni' (see line 2628)
-
-Old smatch warnings:
-fs/ntfs/attrib.c:2930 ntfs_attr_open() warn: variable dereferenced before check 'ni' (see line 2927)
-
-vim +/ni +2631 fs/ntfs/attrib.c
-
-495e90fa334828 Namjae Jeon   2026-02-13  2616  int ntfs_attr_add(struct ntfs_inode *ni, __le32 type,
-495e90fa334828 Namjae Jeon   2026-02-13  2617  		__le16 *name, u8 name_len, u8 *val, s64 size)
-1e9ea7e04472d4 Namjae Jeon   2025-12-30  2618  {
-495e90fa334828 Namjae Jeon   2026-02-13  2619  	struct super_block *sb;
-495e90fa334828 Namjae Jeon   2026-02-13  2620  	u32 attr_rec_size;
-495e90fa334828 Namjae Jeon   2026-02-13  2621  	int err, i, offset;
-495e90fa334828 Namjae Jeon   2026-02-13  2622  	bool is_resident;
-495e90fa334828 Namjae Jeon   2026-02-13  2623  	bool can_be_non_resident = false;
-495e90fa334828 Namjae Jeon   2026-02-13  2624  	struct ntfs_inode *attr_ni;
-495e90fa334828 Namjae Jeon   2026-02-13  2625  	struct inode *attr_vi;
-495e90fa334828 Namjae Jeon   2026-02-13  2626  	struct mft_record *ni_mrec;
-495e90fa334828 Namjae Jeon   2026-02-13  2627  
-ae00c45e40f1eb Namjae Jeon   2026-05-01 @2628  	ntfs_debug("Entering for inode 0x%llx, attr %x, size %lld.\n",
-ae00c45e40f1eb Namjae Jeon   2026-05-01  2629  			ni->mft_no, type, size);
-                                                                ^^^^^^^^^^
-Dereference
-
-ae00c45e40f1eb Namjae Jeon   2026-05-01  2630  
-495e90fa334828 Namjae Jeon   2026-02-13 @2631  	if (!ni || size < 0 || type == AT_ATTRIBUTE_LIST)
-                                                     ^^
-Checked too late.
-
-495e90fa334828 Namjae Jeon   2026-02-13  2632  		return -EINVAL;
-495e90fa334828 Namjae Jeon   2026-02-13  2633  
-495e90fa334828 Namjae Jeon   2026-02-13  2634  	if (ni->nr_extents == -1)
-495e90fa334828 Namjae Jeon   2026-02-13  2635  		ni = ni->ext.base_ntfs_ino;
-495e90fa334828 Namjae Jeon   2026-02-13  2636  
-495e90fa334828 Namjae Jeon   2026-02-13  2637  	/* Check the attribute type and the size. */
-495e90fa334828 Namjae Jeon   2026-02-13  2638  	err = ntfs_attr_size_bounds_check(ni->vol, type, size);
-495e90fa334828 Namjae Jeon   2026-02-13  2639  	if (err) {
-495e90fa334828 Namjae Jeon   2026-02-13  2640  		if (err == -ENOENT)
-495e90fa334828 Namjae Jeon   2026-02-13  2641  			err = -EIO;
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+This is due to CONFIG_HID_BATTERY_STRENGTH being turned off, I will
+fix it in the next version.
