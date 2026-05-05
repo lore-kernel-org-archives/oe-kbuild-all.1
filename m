@@ -1,109 +1,168 @@
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C869F3590C3
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 May 2026 01:09:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777943378; cv=pass; b=D+V2YDvQAJ/5/+385DLYMWT/7+gUAi8QNFc/tZlWsc6Vni9BxGRRyvhTkLmMSXxIjEgnAi+hPy3xc1VfrIfMmNfNpaQdvAq34eRlTL4r8QtRy84A0OLa4gtcadLR6PfRQ9nyW9uvDUEAVB6T7qvcD1wfzXrzgjd4I8beSWTvrnw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777943378; c=relaxed/simple;
-	bh=yrhSLKaa2QeaWDT1n9VW0NMC4Y38i52sMx4Jmnj00zE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tjXYnqEhHx3AdFyqebHTqIGXLUFYywsMsAzeuWz8dNx77j3bOuBAEPVLviRRpYXSvWO1Bzoa9kqTUPiN2XfrZrTtnO0RkSddBi9DJJHWHpxkHVNJTa399SQRsSb1FnIIhOwbe0xR3vu68H/l/9DObc6zW9QRGpOb2TChdIXrM0g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com; spf=pass smtp.mailfrom=riscstar.com; dkim=pass (2048-bit key) header.d=riscstar-com.20251104.gappssmtp.com header.i=@riscstar-com.20251104.gappssmtp.com header.b=h64ZxD6Y; arc=pass smtp.client-ip=74.125.224.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riscstar.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2884B1A5B90
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 May 2026 01:23:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777944232; cv=none; b=kOwZLq4yZJnFjhMq9TAiQCLsCim8AS4k2AlzVH+ziPlZuZh4Q2tdRKuUsL+AQcqcjs848U2p705A/8mnmAYQ94V49rOO5cIdNI7XwXz/GgfRWTK+3q4vZRm0AfO4r1IjAa6BhMa4d6IepKFXWQhin8MLXJRPLLKyOT3M1IfC/ak=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777944232; c=relaxed/simple;
+	bh=HaKBOWBgJEvEuQMnT6LLL79NHbb9ZpiMGfPSi3xCnsA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Sv59Z7LxVFWUUzItTr8ruqHtISizER+Sylb5si3QTxvkWcfnQIq6mYOPtvJOBPpDSm/0OuCuFu/Tky+YuRnUMv6A8FsPTGu0+DsvxFNJDp3iyDICZZlo14wr4W+Q6vA4rJvPKMkcdCBma02Vwr+9oSPrKAILJgSBdTZxlgcxMsc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bKzLjKPc; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=riscstar-com.20251104.gappssmtp.com header.i=@riscstar-com.20251104.gappssmtp.com header.b="h64ZxD6Y"
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-651bf695701so4632919d50.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 04 May 2026 18:09:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777943376; cv=none;
-        d=google.com; s=arc-20240605;
-        b=OlPxHhRTS9Vav68SkAUpndoQUE+58VA/pLtQ1rqeEyo5IyqHfvhR4BW+eDR85avGUX
-         Kr59y1QVZv2g9LeTJ4lpEGllfXlbU4zqx9mMx5x0XWpYj4I8RybslTaFqyMfChnIezlk
-         uiN45Yl8mpeQyx1NpvFTMqN+4cUsVjUdwWZzIofvHUq+hogOkNdllt52uZbmUeWZCxJc
-         MflldqfHxmkMo95luEGfi2Q7861eT+cTBPxazs6ivCV/TALrp2CMQ/jOIF9JBJ7sipC8
-         eFVeC8LKvQEYM0TuZPgxzAt3VRwMr3q34pcSjI6iXaiXsz0jjIeXPtWGVHw9BQ6lIED5
-         T1sQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=yrhSLKaa2QeaWDT1n9VW0NMC4Y38i52sMx4Jmnj00zE=;
-        fh=J2iPitDlVE18SsmxM+JWIYhTdL3oEOMuqA2b1h1SIgM=;
-        b=KZxwgDJcDvIah30UKvJ25lP+CUCYrNc3c/kThAJeUezwlIRfyGa89GkAYNdU1VW5Qt
-         0R+ZmYph475sZa0djhcRqvo6On8xFfAHU0TCp/E2pABqrNeq/b6ExXISfCWLzscezyLL
-         ELe2/Z82yaeZ2ZwfXR7xg7c5J8HEx+BXT+U46HJkpdJAKD2gVnRwTrRGjCJ0WPcAX06a
-         aa80V9jiNs6a+nqBTmxcodle2v782WPjKl8SvmF5EnaHrLZDrBkZo5ZUukWt1pRjmRe9
-         +UkRqdQTkfPJjqHVHGhE2mVdJ+Y85aoyXp/sdhZqjak8qu1uEezvr+vcZVMlMdQH+MvI
-         /F2Q==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=riscstar-com.20251104.gappssmtp.com; s=20251104; t=1777943376; x=1778548176; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yrhSLKaa2QeaWDT1n9VW0NMC4Y38i52sMx4Jmnj00zE=;
-        b=h64ZxD6YVFIdALYinSeIcta1kCMUlyPY0fzHRryTaBxWBA3r6vTPxPtxDlWa0CHhhh
-         3Is4Ys1XFiI69AWqS1EhgRDBsm/Lh6LgGYyvOHl0EPDP4e4AHn8a7VtfFIm8MzQBTUkn
-         vWZv3G+NUp3XEJaThnd5M5vogL/s/oo0cmoqysEMYSvFEC+QC/eoZClb1HQLoHxvRKXL
-         YHvUo4TSwv2idpepoAqaCWv0rijq9e6PKwK/cUf24+8O706fEKrBk6eVFBsAGMRx1y7V
-         vKQ0GHG71ZgJgKLnxvoEBnGe4cNjNvOR4mwmODNtCdpgCga6agBsDd+uNcWWjxXaJGy9
-         P55w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777943376; x=1778548176;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=yrhSLKaa2QeaWDT1n9VW0NMC4Y38i52sMx4Jmnj00zE=;
-        b=YQ4VsiX3N44LUzNq8wW4sZpbf+HwrEzWFzr88Whx5ci+StpisdwLNKQhLcOpUHUg13
-         qX07r0l3zGDXHuWEDl/UcP3afxwLEW48uzPbDyEB8idDWygxu7TWkyohX+SdLji7SJk8
-         E8PZ6naOyS/2yZnpM+OLouBa7X/AEG76mu0TFDVFRZKNuySbtGpWlCpG2m66nNs4jfxV
-         iqf85jnBr95LqVO1tZD7Rqx/SxVCldq2eGBwGn7ZLt5w7a6NhfSZIgELxOy1TKUZgroA
-         LscX+PYBxWe2qWVw5qolyvcgnaIvJHjkBLt4RZ5UN3LpYoQxrkZ+hCMyEHisK9bSiqCv
-         Hh0g==
-X-Forwarded-Encrypted: i=1; AFNElJ8QFGKr00R4zc6PXYKOO7S9QJOhYDLsfjh/kYMTpo9nc27xqnkhJb7BcOn43fK1dSsCivrja7RvRratTa6W@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywi96+wNUmmIXe0x39Ho0Rb7yeI0cf0iFRNUIIJkfZtNrDoo20m
-	Tv6O0CI3bQpIq+6tyoAaqnkAaH8S+9ObyR+zmK7lJl1OeMrnjLHWh2eTxZ6yzDvqhYITcpOYlNy
-	QfAd7cmvdWm8NZgoSeulXL7pjqS2XUZOvsCuU2dXnifK8XCvf4NstJkHpAQ==
-X-Gm-Gg: AeBDievwFMQ1Q0PmIU4U9vdBmtzVLQWnT/7ceCx3rIa9NFSpkbY3iOU6XSuf9mhoVFN
-	tguNRqjDzA1MnXqtdFmJvJlOEiLImhvYZKbmr9s0peuqGzJ2Hjbg7zzwIIaDuB083ugwcJ0x4Vy
-	IMr9MOuKePMUm7pM6vSRVJmGlQlyziwRvzNOa2u39VCr3yMpdoc+ZvN4GJPKPqCBUQ4x1FNnvpD
-	0ZiRYKoS+027qV7vX3wHBsEQsxCZWzCUw/ImwH4NCduteoMz3rWc686RVBDypCinoa4LNe0dFkN
-	5of+Hx904HLkjSQt82XY6HbSMDrHthKjZgJLu4JXA3VVoEjc1sa4WfadDUGP8Y0vwoI=
-X-Received: by 2002:a53:e3c2:0:b0:650:1cf8:f608 with SMTP id
- 956f58d0204a3-65c69ef155amr904239d50.45.1777943375786; Mon, 04 May 2026
- 18:09:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bKzLjKPc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777944231; x=1809480231;
+  h=date:from:to:cc:subject:message-id;
+  bh=HaKBOWBgJEvEuQMnT6LLL79NHbb9ZpiMGfPSi3xCnsA=;
+  b=bKzLjKPcnHfiwhOloNDbLbxc020/EFojgilX+agxDl5jzHZdVWsdFkVS
+   hESMjBnWJMiD9YVrMFZzjejz2EKaYbhkpD2MhJRKp2u1vrGhvnWlemx7h
+   ESGHFI+K8VhS6cz/pg4HF7HtOn/EGdWFCNs1UJJ2yPaB1m3LCamsGT904
+   MYpSirQ5PWD9HEuz7WapiydRY5zta8Kn01lsVemJ538VfKbPDHtezTJNJ
+   36RgpJP8wTrpDojv3Pae6ZzFblG28nfx/cvFlWVPeE6f1jmydOtZwcaxs
+   BbVEfdvDYx7QRgYV4Q0kJNOLNCu/3LDdYXbna2f3hS1g7CtXDS/OiwRjj
+   A==;
+X-CSE-ConnectionGUID: +ZXnLRzCSFG0N10QSIYJ/A==
+X-CSE-MsgGUID: q9FhpUV1RVOoZATenG+WwQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11776"; a="104258162"
+X-IronPort-AV: E=Sophos;i="6.23,216,1770624000"; 
+   d="scan'208";a="104258162"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 18:23:51 -0700
+X-CSE-ConnectionGUID: YfeVTVanSxqKYUma6ccQng==
+X-CSE-MsgGUID: jea98nYWRAydGdc1Pwn8Ig==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,216,1770624000"; 
+   d="scan'208";a="231078768"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 04 May 2026 18:23:49 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wK4Vn-0000000063V-20BG;
+	Tue, 05 May 2026 01:23:47 +0000
+Date: Tue, 05 May 2026 03:23:25 +0200
+From: kernel test robot <lkp@intel.com>
+To: Jun Yan <jerrysteve1101@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: drivers/leds/leds-is31fl32xx.c:425:32: error: implicit
+ declaration of function 'devm_gpiod_get_optional'; did you mean
+ 'devm_of_led_get_optional'?
+Message-ID: <202605050356.vYbjKZr6-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <202605050317.Tf9j487w-lkp@intel.com> <5da3b012-80df-44aa-bd32-e5336a222899@riscstar.com>
- <aflCpEYKjO64ECFW@sirena.co.uk>
-In-Reply-To: <aflCpEYKjO64ECFW@sirena.co.uk>
-From: Guodong Xu <guodong@riscstar.com>
-Date: Tue, 5 May 2026 09:09:23 +0800
-X-Gm-Features: AVHnY4J0gFQSyZGZI4All6-0O22QjtbN5MUWMUeExbjSEPTRARevCBjLJgOXzzs
-Message-ID: <CAH1PCMaqzC6Hw4j1JaxcXkJpQg1Z3KU3EJvrKZOkho6Yixhh7Q@mail.gmail.com>
-Subject: Re: [broonie-ci:spi-7.2 9/9] drivers/spi/spi-spacemit-k1.c:393:38:
- warning: integer overflow in expression of type 'long int' results in '-589934592'
-To: Mark Brown <broonie@kernel.org>
-Cc: Alex Elder <elder@riscstar.com>, oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 5, 2026 at 9:06=E2=80=AFAM Mark Brown <broonie@kernel.org> wrot=
-e:
->
-> On Mon, May 04, 2026 at 04:40:10PM -0500, Alex Elder wrote:
->
-> > Could you please submit a correction to this (by which I
-> > think you need to post v11 of the series).
->
-> Please send an incremental patch, I already applied before I saw this.
+tree:   https://github.com/intel-lab-lkp/linux/commits/Jun-Yan/dt-bindings-leds-is31fl32xx-convert-the-binding-to-yaml/20260430-225214
+head:   f27392dfdcb0de460ed4763169fd9ba7e9db0035
+commit: 11612cb7ec953422c7d0a8f327a4a704dfb38b29 leds: is31fl32xx: Add powerdown pin to exit hardware shutdown mode
+date:   4 days ago
+config: i386-randconfig-2006-20250804 (https://download.01.org/0day-ci/archive/20260505/202605050356.vYbjKZr6-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260505/202605050356.vYbjKZr6-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605050356.vYbjKZr6-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/leds/leds-is31fl32xx.c: In function 'is31fl32xx_parse_dt':
+>> drivers/leds/leds-is31fl32xx.c:425:32: error: implicit declaration of function 'devm_gpiod_get_optional'; did you mean 'devm_of_led_get_optional'? [-Wimplicit-function-declaration]
+     425 |         priv->powerdown_gpio = devm_gpiod_get_optional(dev, "powerdown", GPIOD_OUT_LOW);
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                devm_of_led_get_optional
+>> drivers/leds/leds-is31fl32xx.c:425:74: error: 'GPIOD_OUT_LOW' undeclared (first use in this function)
+     425 |         priv->powerdown_gpio = devm_gpiod_get_optional(dev, "powerdown", GPIOD_OUT_LOW);
+         |                                                                          ^~~~~~~~~~~~~
+   drivers/leds/leds-is31fl32xx.c:425:74: note: each undeclared identifier is reported only once for each function it appears in
 
 
-Sure
+vim +425 drivers/leds/leds-is31fl32xx.c
+
+   418	
+   419	static int is31fl32xx_parse_dt(struct device *dev,
+   420				       struct is31fl32xx_priv *priv)
+   421	{
+   422		const struct is31fl32xx_chipdef *cdef = priv->cdef;
+   423		int ret = 0;
+   424	
+ > 425		priv->powerdown_gpio = devm_gpiod_get_optional(dev, "powerdown", GPIOD_OUT_LOW);
+   426		if (IS_ERR(priv->powerdown_gpio))
+   427			return dev_err_probe(dev, PTR_ERR(priv->powerdown_gpio),
+   428					"Failed to get powerdown gpio\n");
+   429	
+   430		if ((cdef->output_frequency_setting_reg != IS31FL32XX_REG_NONE) &&
+   431		    of_property_read_bool(dev_of_node(dev), "issi,22khz-pwm")) {
+   432	
+   433			ret = is31fl32xx_write(priv, cdef->output_frequency_setting_reg,
+   434					       IS31FL32XX_PWM_FREQUENCY_22KHZ);
+   435	
+   436			if (ret) {
+   437				dev_err(dev, "Failed to write output PWM frequency register\n");
+   438				return ret;
+   439			}
+   440		}
+   441	
+   442		for_each_available_child_of_node_scoped(dev_of_node(dev), child) {
+   443			struct led_init_data init_data = {};
+   444			struct is31fl32xx_led_data *led_data =
+   445				&priv->leds[priv->num_leds];
+   446			const struct is31fl32xx_led_data *other_led_data;
+   447	
+   448			led_data->priv = priv;
+   449			led_data->cdev.max_brightness = priv->cdef->brightness_steps - 1;
+   450	
+   451			ret = is31fl32xx_parse_child_dt(dev, child, led_data);
+   452			if (ret)
+   453				return ret;
+   454	
+   455			/* Detect if channel is already in use by another child */
+   456			other_led_data = is31fl32xx_find_led_data(priv,
+   457								  led_data->channel);
+   458			if (other_led_data) {
+   459				dev_err(dev,
+   460					"Node %pOF 'reg' conflicts with another LED\n",
+   461					child);
+   462				return -EINVAL;
+   463			}
+   464	
+   465			init_data.fwnode = of_fwnode_handle(child);
+   466	
+   467			ret = devm_led_classdev_register_ext(dev, &led_data->cdev,
+   468							     &init_data);
+   469			if (ret) {
+   470				dev_err(dev, "Failed to register LED for %pOF: %d\n",
+   471					child, ret);
+   472				return ret;
+   473			}
+   474	
+   475			priv->num_leds++;
+   476		}
+   477	
+   478		return 0;
+   479	}
+   480	static const struct is31fl32xx_chipdef is31fl3236_cdef = {
+   481		.channels				= 36,
+   482		.shutdown_reg				= 0x00,
+   483		.pwm_update_reg				= 0x25,
+   484		.global_control_reg			= 0x4a,
+   485		.reset_reg				= 0x4f,
+   486		.output_frequency_setting_reg		= IS31FL32XX_REG_NONE,
+   487		.pwm_register_base			= 0x01,
+   488		.led_control_register_base		= 0x26,
+   489		.enable_bits_per_led_control_register	= 1,
+   490	};
+   491	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
