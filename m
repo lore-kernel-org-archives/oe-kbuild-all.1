@@ -1,63 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A35335B636
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 May 2026 01:56:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629CD35F195;
+	Tue,  5 May 2026 01:56:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777946166; cv=none; b=Msm8LiG3F5zb1Ei+XG9qmcuZuiRv7JiCHnAcjqith5IupQJWDEU+jjACuVaX9+smwTl14h9ZGS8at0m+xyUH0NI94qFt8XzjgKxMPXyaUH3kQH2i+/8H4Qty86qB2qKW12tL5kUMGR1/zmq4Ck1noiGk7CXhVousDIn09PqgoGI=
+	t=1777946173; cv=none; b=uzgFPWAjxfVzVqYNH9MwXMAJRBXOU9kkWh+ydNHe2A34LPLY0TGuCqXyPefBfsAh9MZGSGJFkJpNjYeIf0N+/OfTwNNngxgmubAf/91b1m4zfQRd6Z7zudQ3iCkXDMKtYnm+RK5XnhBppRrXwAvmfxb7ZxfvIJIhEyUg4/oqw9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777946166; c=relaxed/simple;
-	bh=q0F2mpqwHxaZMFwNbS2gb8O51HQZyEq7sZDL9uGk2lU=;
+	s=arc-20240116; t=1777946173; c=relaxed/simple;
+	bh=1wpXsfSDdNVdYsw2uAcselBqc2jTlYPW0Tm1KGTmEmg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XDiN8l5jSfCUglGQXhKxGiUwi4RxhTXENwN9EEr48yFqc9xHhdNQzimSFHDfkiXLmnfmZykClaYRVVUYRNqSvTi3lSCNtiaZCpTjCG00KwhnnoyezmGaAcVjFtmOGkzEEC73q9ENSI+ZE94I/waKt5Hmp5jDMhlT50sL0k1+GCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CcoJ39/y; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=bxjpQPdTVvZFik1AaBLc3Z3hbl86im7oEfE93r/ddhmxCuJU2a89Q0wec7lel4injVPzyl1WtfWYr0vKcQnY/hEyqiXbR5nA7Nx+nXvlPQVA0IJckae2HUq7gRGSWGI7153oFazc8vsNBwuJwXW3G3sfI1SvTdII9QFDCm/WMVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UeLJwcWN; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CcoJ39/y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UeLJwcWN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777946165; x=1809482165;
+  t=1777946172; x=1809482172;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=q0F2mpqwHxaZMFwNbS2gb8O51HQZyEq7sZDL9uGk2lU=;
-  b=CcoJ39/yUcxaAntUjlZguLza1Q5i9xx7op5xPS6vsibiCt5htg9qj5v1
-   QWTeu3G8hQQKbBqP0jfCF9scDRAtdlpkDrgzYBtG1CTv034YcST7fLg8Q
-   +vL94gH/TT4v8QJZZzlMODD7y0CLZxgKwNEcJ4TYI8UM2O5jGXwT6Y994
-   4rGQCOXtBZIPn232DMPIYzdLRx64fr4QRCNB6BmHi8DQp02Aa9WKR/Kbz
-   ZaKRnEg2fpCr069azoLqOGHDlpG+onmMw57KE43nE0WSx5fkUqCMZHnvC
-   o6nKsybtj3P9ZuR5DUI6GZ9vEoQHc64UOFJFxN/0ow8HRqzXXrwarFKYb
-   Q==;
-X-CSE-ConnectionGUID: ihILO0jGRO+iTYwhy02zRg==
-X-CSE-MsgGUID: bD2bUa0fSXi3fHY7qFLK6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11776"; a="101476801"
+  bh=1wpXsfSDdNVdYsw2uAcselBqc2jTlYPW0Tm1KGTmEmg=;
+  b=UeLJwcWNR1E3YiKRvdFC78svkXw56CY2z4oLek7fe/QuzVzLDTTEeVNp
+   8PRq5Z8VJdNVTr2JF0YjqwVIWGbmwlMAovvv3sA7hEZa8uyeHgaYWsBW+
+   M7+8Pzi+oxTQAyBoXqFzMCWpGY+pelZe9vzQTKjsuqZ37Jpa41m6zl8Wb
+   MykKBSIjVJ71BcDrMEQ6ig1RSQMX4PuzxwMqDTYQqHxKYRV8V5EBsfPF8
+   CX8jQKTnRpMlMSThfFwB5VOpnDSYyD5uTLpfZ1O5u+r11pj9i/8tkXaP6
+   NISMgGf/xkO7m0Lajqjm/030YkgD8WjqzFC4Q/o2rTKy0YpEBip5ztySI
+   g==;
+X-CSE-ConnectionGUID: 3Dxv829NR6KutVOs2OEz4A==
+X-CSE-MsgGUID: JihHyeqSSeWMVQ0eTrmxtA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11776"; a="82678906"
 X-IronPort-AV: E=Sophos;i="6.23,216,1770624000"; 
-   d="scan'208";a="101476801"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 18:56:04 -0700
-X-CSE-ConnectionGUID: 9wYmG9eBRwy9iAKqAvjAwQ==
-X-CSE-MsgGUID: p9nTE8P2S8CEy0s+Q2H16w==
+   d="scan'208";a="82678906"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 18:56:11 -0700
+X-CSE-ConnectionGUID: 2hdTSHCbSFqha+KU5UjQ4w==
+X-CSE-MsgGUID: U6xMspBKSTufqCJhBUu3uw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,216,1770624000"; 
-   d="scan'208";a="266026483"
+   d="scan'208";a="234798741"
 Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 04 May 2026 18:56:02 -0700
+  by orviesa010.jf.intel.com with ESMTP; 04 May 2026 18:56:08 -0700
 Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wK50q-0000000048f-1F4S;
-	Tue, 05 May 2026 01:55:54 +0000
-Date: Tue, 5 May 2026 09:55:25 +0800
+	id 1wK50x-0000000048h-0AQZ;
+	Tue, 05 May 2026 01:56:01 +0000
+Date: Tue, 5 May 2026 09:55:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Fernando Fernandez Mancera <fmancera@suse.de>,
-	netfilter-devel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, coreteam@netfilter.org, phil@nwl.cc,
-	fw@strlen.de, pablo@netfilter.org,
-	Fernando Fernandez Mancera <fmancera@suse.de>
-Subject: Re: [PATCH nf-next v5] netfilter: nf_tables: add math expression
- support
-Message-ID: <202605050928.BM8aFWgX-lkp@intel.com>
-References: <20260421155859.7049-2-fmancera@suse.de>
+To: Bentley Blacketer <sonionwhat@gmail.com>, gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, vireshk@kernel.org, johan@kernel.org,
+	elder@kernel.org, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Bentley Blacketer <sonionwhat@gmail.com>
+Subject: Re: [PATCH v3] staging: greybus: bootrom: replace dev_info with
+ dev_dbg for firmware name
+Message-ID: <202605050911.O85GmqxE-lkp@intel.com>
+References: <20260430173045.4619-1-sonionwhat@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,194 +66,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260421155859.7049-2-fmancera@suse.de>
+In-Reply-To: <20260430173045.4619-1-sonionwhat@gmail.com>
 
-Hi Fernando,
+Hi Bentley,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on nf-next/master]
+[auto build test WARNING on staging/staging-testing]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Fernando-Fernandez-Mancera/netfilter-nf_tables-add-math-expression-support/20260424-055358
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf-next.git master
-patch link:    https://lore.kernel.org/r/20260421155859.7049-2-fmancera%40suse.de
-patch subject: [PATCH nf-next v5] netfilter: nf_tables: add math expression support
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260505/202605050928.BM8aFWgX-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260505/202605050928.BM8aFWgX-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Bentley-Blacketer/staging-greybus-bootrom-replace-dev_info-with-dev_dbg-for-firmware-name/20260505-034304
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20260430173045.4619-1-sonionwhat%40gmail.com
+patch subject: [PATCH v3] staging: greybus: bootrom: replace dev_info with dev_dbg for firmware name
+config: hexagon-randconfig-r071-20260505 (https://download.01.org/0day-ci/archive/20260505/202605050911.O85GmqxE-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+smatch: v0.5.0-9065-ge9cc34fd
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605050928.BM8aFWgX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605050911.O85GmqxE-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/staging/greybus/bootrom.c:166 find_firmware() warn: inconsistent indenting
 
-   net/netfilter/nft_math.c: In function 'nft_math_eval_bitmask':
->> net/netfilter/nft_math.c:49:17: error: implicit declaration of function 'DEBUG_NET_WARN_ONCE'; did you mean 'DEBUG_NET_WARN_ON_ONCE'? [-Wimplicit-function-declaration]
-      49 |                 DEBUG_NET_WARN_ONCE(true, "unknown operation path in nft_math");
-         |                 ^~~~~~~~~~~~~~~~~~~
-         |                 DEBUG_NET_WARN_ON_ONCE
-   net/netfilter/nft_math.c: In function 'nft_math_init':
->> net/netfilter/nft_math.c:95:39: error: passing argument 1 of 'nft_parse_register_load' from incompatible pointer type [-Wincompatible-pointer-types]
-      95 |         err = nft_parse_register_load(ctx, tb[NFTA_MATH_SREG], &priv->sreg,
-         |                                       ^~~
-         |                                       |
-         |                                       const struct nft_ctx *
-   In file included from net/netfilter/nft_math.c:4:
-   include/net/netfilter/nf_tables.h:235:50: note: expected 'const struct nlattr *' but argument is of type 'const struct nft_ctx *'
-     235 | int nft_parse_register_load(const struct nlattr *attr, u8 *sreg, u32 len);
-         |                             ~~~~~~~~~~~~~~~~~~~~~^~~~
-   net/netfilter/nft_math.c:95:46: error: passing argument 2 of 'nft_parse_register_load' from incompatible pointer type [-Wincompatible-pointer-types]
-      95 |         err = nft_parse_register_load(ctx, tb[NFTA_MATH_SREG], &priv->sreg,
-         |                                            ~~^~~~~~~~~~~~~~~~
-         |                                              |
-         |                                              const struct nlattr *
-   include/net/netfilter/nf_tables.h:235:60: note: expected 'u8 *' {aka 'unsigned char *'} but argument is of type 'const struct nlattr *'
-     235 | int nft_parse_register_load(const struct nlattr *attr, u8 *sreg, u32 len);
-         |                                                        ~~~~^~~~
->> net/netfilter/nft_math.c:95:64: error: passing argument 3 of 'nft_parse_register_load' makes integer from pointer without a cast [-Wint-conversion]
-      95 |         err = nft_parse_register_load(ctx, tb[NFTA_MATH_SREG], &priv->sreg,
-         |                                                                ^~~~~~~~~~~
-         |                                                                |
-         |                                                                u8 * {aka unsigned char *}
-   include/net/netfilter/nf_tables.h:235:70: note: expected 'u32' {aka 'unsigned int'} but argument is of type 'u8 *' {aka 'unsigned char *'}
-     235 | int nft_parse_register_load(const struct nlattr *attr, u8 *sreg, u32 len);
-         |                                                                  ~~~~^~~
->> net/netfilter/nft_math.c:95:15: error: too many arguments to function 'nft_parse_register_load'; expected 3, have 4
-      95 |         err = nft_parse_register_load(ctx, tb[NFTA_MATH_SREG], &priv->sreg,
-         |               ^~~~~~~~~~~~~~~~~~~~~~~
-      96 |                                       sizeof(u32));
-         |                                       ~~~~~~~~~~~
-   include/net/netfilter/nf_tables.h:235:5: note: declared here
-     235 | int nft_parse_register_load(const struct nlattr *attr, u8 *sreg, u32 len);
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nft_math.c: At top level:
->> net/netfilter/nft_math.c:129:27: error: initialization of 'int (*)(struct sk_buff *, const struct nft_expr *)' from incompatible pointer type 'int (*)(struct sk_buff *, const struct nft_expr *, bool)' {aka 'int (*)(struct sk_buff *, const struct nft_expr *, _Bool)'} [-Wincompatible-pointer-types]
-     129 |         .dump           = nft_math_dump,
-         |                           ^~~~~~~~~~~~~
-   net/netfilter/nft_math.c:129:27: note: (near initialization for 'nft_math_op.dump')
-   net/netfilter/nft_math.c:105:12: note: 'nft_math_dump' declared here
-     105 | static int nft_math_dump(struct sk_buff *skb,
-         |            ^~~~~~~~~~~~~
+vim +166 drivers/staging/greybus/bootrom.c
 
-
-vim +49 net/netfilter/nft_math.c
-
-    19	
-    20	static void nft_math_eval_bitmask(u32 *src, u32 *dst,
-    21					  const struct nft_math *priv)
-    22	{
-    23		u32 target, keep, bit_unit;
-    24	
-    25		target = *src & priv->bitmask;
-    26		keep = *src & ~priv->bitmask;
-    27		bit_unit = priv->bitmask & -priv->bitmask;
-    28	
-    29		switch (priv->op) {
-    30		case NFT_MATH_OP_INC:
-    31			if (target == priv->bitmask) {
-    32				*dst = *src;
-    33				break;
-    34			}
-    35	
-    36			target = target + bit_unit;
-    37			*dst = target | keep;
-    38			break;
-    39		case NFT_MATH_OP_DEC:
-    40			if (!target) {
-    41				*dst = *src;
-    42				break;
-    43			}
-    44	
-    45			target = target - bit_unit;
-    46			*dst = target | keep;
-    47			break;
-    48		default:
-  > 49			DEBUG_NET_WARN_ONCE(true, "unknown operation path in nft_math");
-    50			*dst = *src;
-    51			break;
-    52		}
-    53	}
-    54	
-    55	static void nft_math_eval(const struct nft_expr *expr,
-    56				  struct nft_regs *regs,
-    57				  const struct nft_pktinfo *pkt)
-    58	{
-    59		const struct nft_math *priv = nft_expr_priv(expr);
-    60		u32 *src = &regs->data[priv->sreg];
-    61		u32 *dst = &regs->data[priv->dreg];
-    62	
-    63		nft_math_eval_bitmask(src, dst, priv);
-    64	}
-    65	
-    66	static int nft_math_init(const struct nft_ctx *ctx,
-    67				 const struct nft_expr *expr,
-    68				 const struct nlattr * const tb[])
-    69	{
-    70		struct nft_math *priv = nft_expr_priv(expr);
-    71		u32 bitmask_check;
-    72		int err;
-    73		u32 op;
-    74	
-    75		if (!tb[NFTA_MATH_SREG] ||
-    76		    !tb[NFTA_MATH_DREG] ||
-    77		    !tb[NFTA_MATH_BITMASK] ||
-    78		    !tb[NFTA_MATH_OP])
-    79			return -EINVAL;
-    80	
-    81		op = nla_get_u32(tb[NFTA_MATH_OP]);
-    82		if (op > NFT_MATH_OP_MAX)
-    83			return -EOPNOTSUPP;
-    84		priv->op = op;
-    85	
-    86		priv->bitmask = nla_get_u32(tb[NFTA_MATH_BITMASK]);
-    87		if (!priv->bitmask)
-    88			return -EINVAL;
-    89	
-    90		/* check if the bitmask is contiguous, otherwise reject it */
-    91		bitmask_check = priv->bitmask + (priv->bitmask & -priv->bitmask);
-    92		if (bitmask_check & (bitmask_check - 1))
-    93			return -EINVAL;
-    94	
-  > 95		err = nft_parse_register_load(ctx, tb[NFTA_MATH_SREG], &priv->sreg,
-    96					      sizeof(u32));
-    97		if (err < 0)
-    98			return err;
-    99	
-   100		return nft_parse_register_store(ctx, tb[NFTA_MATH_DREG],
-   101						&priv->dreg, NULL, NFT_DATA_VALUE,
-   102						sizeof(u32));
-   103	}
-   104	
-   105	static int nft_math_dump(struct sk_buff *skb,
-   106				 const struct nft_expr *expr, bool reset)
-   107	{
-   108		const struct nft_math *priv = nft_expr_priv(expr);
-   109	
-   110		if (nft_dump_register(skb, NFTA_MATH_SREG, priv->sreg))
-   111			goto nla_put_failure;
-   112		if (nft_dump_register(skb, NFTA_MATH_DREG, priv->dreg))
-   113			goto nla_put_failure;
-   114		if (nla_put_u32(skb, NFTA_MATH_BITMASK, priv->bitmask))
-   115			goto nla_put_failure;
-   116		if (nla_put_u32(skb, NFTA_MATH_OP, priv->op))
-   117			goto nla_put_failure;
-   118		return 0;
-   119	
-   120	nla_put_failure:
-   121		return -1;
-   122	}
-   123	
-   124	static struct nft_expr_type nft_math_type;
-   125	static const struct nft_expr_ops nft_math_op = {
-   126		.eval		= nft_math_eval,
-   127		.size		= NFT_EXPR_SIZE(sizeof(struct nft_math)),
-   128		.init		= nft_math_init,
- > 129		.dump		= nft_math_dump,
-   130		.type		= &nft_math_type,
-   131	};
-   132	
+f1e941a6e4b71a drivers/staging/greybus/firmware.c Viresh Kumar       2015-11-26  142  
+90f1b617d88f14 drivers/staging/greybus/firmware.c Viresh Kumar       2015-08-12  143  /* This returns path of the firmware blob on the disk */
+68793c4c8824a0 drivers/staging/greybus/bootrom.c  Viresh Kumar       2016-07-22  144  static int find_firmware(struct gb_bootrom *bootrom, u8 stage)
+90f1b617d88f14 drivers/staging/greybus/firmware.c Viresh Kumar       2015-08-12  145  {
+5a53e02eaf223c drivers/staging/greybus/bootrom.c  Viresh Kumar       2016-04-03  146  	struct gb_connection *connection = bootrom->connection;
+90f1b617d88f14 drivers/staging/greybus/firmware.c Viresh Kumar       2015-08-12  147  	struct gb_interface *intf = connection->bundle->intf;
+56c78715eaaeba drivers/staging/greybus/bootrom.c  Viresh Kumar       2016-07-16  148  	char firmware_name[49];
+fc41c2da44c510 drivers/staging/greybus/firmware.c Eli Sennesh        2016-01-08  149  	int rc;
+90f1b617d88f14 drivers/staging/greybus/firmware.c Viresh Kumar       2015-08-12  150  
+90f1b617d88f14 drivers/staging/greybus/firmware.c Viresh Kumar       2015-08-12  151  	/* Already have a firmware, free it */
+5a53e02eaf223c drivers/staging/greybus/bootrom.c  Viresh Kumar       2016-04-03  152  	free_firmware(bootrom);
+90f1b617d88f14 drivers/staging/greybus/firmware.c Viresh Kumar       2015-08-12  153  
+56c78715eaaeba drivers/staging/greybus/bootrom.c  Viresh Kumar       2016-07-16  154  	/* Bootrom protocol is only supported for loading Stage 2 firmware */
+56c78715eaaeba drivers/staging/greybus/bootrom.c  Viresh Kumar       2016-07-16  155  	if (stage != 2) {
+56c78715eaaeba drivers/staging/greybus/bootrom.c  Viresh Kumar       2016-07-16  156  		dev_err(&connection->bundle->dev, "Invalid boot stage: %u\n",
+56c78715eaaeba drivers/staging/greybus/bootrom.c  Viresh Kumar       2016-07-16  157  			stage);
+56c78715eaaeba drivers/staging/greybus/bootrom.c  Viresh Kumar       2016-07-16  158  		return -EINVAL;
+56c78715eaaeba drivers/staging/greybus/bootrom.c  Viresh Kumar       2016-07-16  159  	}
+56c78715eaaeba drivers/staging/greybus/bootrom.c  Viresh Kumar       2016-07-16  160  
+90f1b617d88f14 drivers/staging/greybus/firmware.c Viresh Kumar       2015-08-12  161  	/*
+90f1b617d88f14 drivers/staging/greybus/firmware.c Viresh Kumar       2015-08-12  162  	 * Create firmware name
+90f1b617d88f14 drivers/staging/greybus/firmware.c Viresh Kumar       2015-08-12  163  	 *
+90f1b617d88f14 drivers/staging/greybus/firmware.c Viresh Kumar       2015-08-12  164  	 * XXX Name it properly..
+90f1b617d88f14 drivers/staging/greybus/firmware.c Viresh Kumar       2015-08-12  165  	 */
+af0b4d5a19e3d4 drivers/staging/greybus/firmware.c Johan Hovold       2015-08-28 @166  snprintf(firmware_name, sizeof(firmware_name),
+8a704565ebda96 drivers/staging/greybus/bootrom.c  Greg Kroah-Hartman 2016-07-20  167  		 FW_NAME_PREFIX "%08x_%08x_%08x_%08x_s2l.tftf",
+b32a5c5346bdaa drivers/staging/greybus/firmware.c Viresh Kumar       2015-12-22  168  		 intf->ddbl1_manufacturer_id, intf->ddbl1_product_id,
+56c78715eaaeba drivers/staging/greybus/bootrom.c  Viresh Kumar       2016-07-16  169  		 intf->vendor_id, intf->product_id);
+90f1b617d88f14 drivers/staging/greybus/firmware.c Viresh Kumar       2015-08-12  170  
+6472c9b9299508 drivers/staging/greybus/bootrom.c  Bentley Blacketer  2026-04-30  171  	dev_dbg(&connection->bundle->dev, "Firmware file '%s' requested\n",
+eb8fafdfb9fce9 drivers/staging/greybus/firmware.c Greg Kroah-Hartman 2016-01-20  172  		 firmware_name);
+5a53e02eaf223c drivers/staging/greybus/bootrom.c  Viresh Kumar       2016-04-03  173  	rc = request_firmware(&bootrom->fw, firmware_name,
+0a72bd36df9478 drivers/staging/greybus/firmware.c Greg Kroah-Hartman 2015-10-14  174  			      &connection->bundle->dev);
+2d6f1c29988c0f drivers/staging/greybus/bootrom.c  Viresh Kumar       2016-07-22  175  	if (rc) {
+68793c4c8824a0 drivers/staging/greybus/bootrom.c  Viresh Kumar       2016-07-22  176  		dev_err(&connection->bundle->dev,
+68793c4c8824a0 drivers/staging/greybus/bootrom.c  Viresh Kumar       2016-07-22  177  			"failed to find %s firmware (%d)\n", firmware_name, rc);
+2d6f1c29988c0f drivers/staging/greybus/bootrom.c  Viresh Kumar       2016-07-22  178  	}
+2d6f1c29988c0f drivers/staging/greybus/bootrom.c  Viresh Kumar       2016-07-22  179  
+fc41c2da44c510 drivers/staging/greybus/firmware.c Eli Sennesh        2016-01-08  180  	return rc;
+90f1b617d88f14 drivers/staging/greybus/firmware.c Viresh Kumar       2015-08-12  181  }
+90f1b617d88f14 drivers/staging/greybus/firmware.c Viresh Kumar       2015-08-12  182  
 
 -- 
 0-DAY CI Kernel Test Service
