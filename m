@@ -1,191 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4547B3DE44C;
-	Mon,  4 May 2026 23:51:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14F9517B506
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 May 2026 01:06:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777938697; cv=none; b=FxjDZBuVRKqEsbuky3/nPUVJiqpsEHmj88jwIu0d+UjGpDM3b31YTa4ru1aFYiwgrgMntm/MiqffJ2CBm3lxAo6wfWVoARoZTiMWj+LoH6IPhDrpsOo1ewFMyFAXZU3PQMna0nxfWYqhXYvDoSW45AfI9tQVd5PSK9GqNHiiR6E=
+	t=1777943208; cv=none; b=IWNvLq6VPKOFqWYs2phGjv4AoV2g04N1qGSEBUrkH+dQCpAl/p7AxvOC5ET5wn3kLak+RmxpLtT/61ucFxZBGmOE+41tnYHN+S/VaFeMZjsqatXmzjX0recyCmoXIfouJdmywk2yuMy6iJlwEsis+yKdIiOKXSmK2g2zmFEqJEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777938697; c=relaxed/simple;
-	bh=OzNt4t1E1lWvuEosz42yQrrNtCy7qj3PJo/0Iqh5IKY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=fKNvhpa6gsrYIMVmMlNWrUJU7Br+3QJtfNtwEPjDjlcfjakFKzr4NWtgTQlI1mIsFN4/vw7KgcZxoGG1Kq+T4+ksbPHAbD+z3nO8IA1c8jTRdNv/A6qyQVFp45mjYqyR7VnL2MTy1YnNcdW6qywVR5M6gPgs7vwODv7eayJcUOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QX4oIrZJ; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1777943208; c=relaxed/simple;
+	bh=zVcTRNW/LMYkIn2rlXZ392Z7CNYuTJSkUkHcC+IiJ24=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KR5+KEnX3yyAuFbWUOVfPmtcx7cbiOspO3+5SHoKzpNXXjZED+S2qVp3spBtV5lCOB1bM+eLy1tlCqvWQm+1xF4zxAOBBr5OZhejsid4oMgH6w9k5njnZO0nFZyd0gYuD2PkIARK1z0iC7i24BLgbh61FZDSFjiDPD9OFe3ynik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CBXTw+O1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QX4oIrZJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777938696; x=1809474696;
-  h=date:from:to:cc:subject:message-id;
-  bh=OzNt4t1E1lWvuEosz42yQrrNtCy7qj3PJo/0Iqh5IKY=;
-  b=QX4oIrZJwlBA8PHVuOoAUsP+j62ncxwv3XG4u9PjykmFufGgcLby2fUI
-   /69iN97DHHcBBKOIJCLgs78K/LOgujL7RW/9gTkr2yvK0hNQyBDZCzaGK
-   VbEIKD33Cb9TfLvoqrE1Bqj0nFRGAzVtGP1dqU5pM1OzussomKS9wPKDG
-   jzjTlhelAM29I+gPasxQd1hYkRvOrZ66rGG6EVqgkROaIxgz/ueZsH4nW
-   rvLxL+R4FZfrtGHjqQalFTho4lybok2Xjl9a1YZP0ltVEN1i9jYhEoD2B
-   Wic2wlOGlZ8lfP98tDBQpSdHPrNVLNR8kKGa6i/sbbiDz2T928UExvpp1
-   Q==;
-X-CSE-ConnectionGUID: ERTy7cG4SZW6EAv1esOZ0A==
-X-CSE-MsgGUID: WVy1Pd3PSUOTwwlprGYnYQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11776"; a="82654441"
-X-IronPort-AV: E=Sophos;i="6.23,216,1770624000"; 
-   d="scan'208";a="82654441"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 16:51:35 -0700
-X-CSE-ConnectionGUID: wHqg7XrnQYixtw+TlLyy6w==
-X-CSE-MsgGUID: I/YGVSvTQEWdMV2/M8ubUQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,216,1770624000"; 
-   d="scan'208";a="231057872"
-Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 04 May 2026 16:51:33 -0700
-Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wK34N-00000000449-31nv;
-	Mon, 04 May 2026 23:51:26 +0000
-Date: Tue, 05 May 2026 07:51:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- MD Danish Anwar <danishanwar@ti.com>
-Subject: [mda-next:icssg-dev 1/8] include/linux/if_hsr.h:58:12:
- error: call to undeclared function 'skb_ext_find'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202605050742.bDIpymJB-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CBXTw+O1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A8D8C2BCB8;
+	Tue,  5 May 2026 01:06:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777943207;
+	bh=zVcTRNW/LMYkIn2rlXZ392Z7CNYuTJSkUkHcC+IiJ24=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CBXTw+O1tt4E54rSr7BKCBgwiEhPqYMJFH6M0vD3Ab08QzVbu4sQ2JGV53XjjGYVm
+	 uHIBf7BdnNx1TCzCQiGDmQOnWGsJqC6WhN0e3LDaywWVrschXGKAD8qbcC11AW5xeu
+	 7rg3C1FR+U677SBnuK30JNkmfop04G3XI1SKfIIxU1bI85YfAVQ3abjy7nmQASeftQ
+	 FubaglrDRs0elxk9n8Eq/fzalN8xApnh48+UAKrUrN05lI1/7fPEPLh/+7+qHM4nae
+	 k7axtBqSYyv/ZeMTUH9avH+qo8+by4rvrvBAmse3E2lagd+BZAxPdu31GcYOf/oW2c
+	 61ZgPJaBsqdhQ==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id B0AF01AC586B; Tue, 05 May 2026 02:06:44 +0100 (BST)
+Date: Tue, 5 May 2026 10:06:44 +0900
+From: Mark Brown <broonie@kernel.org>
+To: Alex Elder <elder@riscstar.com>
+Cc: Guodong Xu <guodong@riscstar.com>, oe-kbuild-all@lists.linux.dev
+Subject: Re: [broonie-ci:spi-7.2 9/9] drivers/spi/spi-spacemit-k1.c:393:38:
+ warning: integer overflow in expression of type 'long int' results in
+ '-589934592'
+Message-ID: <aflCpEYKjO64ECFW@sirena.co.uk>
+References: <202605050317.Tf9j487w-lkp@intel.com>
+ <5da3b012-80df-44aa-bd32-e5336a222899@riscstar.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mda/linux-next.git icssg-dev
-head:   a5d36e904451db02a17787219fd06b6d2ba16f1b
-commit: 756ed4bc4a527cdddc3f9f09240637ceb3408645 [1/8] hsr: Allow to send a specific port and with HSR header
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260505/202605050742.bDIpymJB-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260505/202605050742.bDIpymJB-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605050742.bDIpymJB-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from net/dsa/dsa.c:12:
->> include/linux/if_hsr.h:58:12: error: call to undeclared function 'skb_ext_find'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           ptp_ext = skb_ext_find(skb, SKB_EXT_HSR);
-                     ^
->> include/linux/if_hsr.h:58:30: error: use of undeclared identifier 'SKB_EXT_HSR'
-           ptp_ext = skb_ext_find(skb, SKB_EXT_HSR);
-                                       ^
-   include/linux/if_hsr.h:71:12: error: call to undeclared function 'skb_ext_find'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           ptp_ext = skb_ext_find(skb, SKB_EXT_HSR);
-                     ^
-   include/linux/if_hsr.h:71:30: error: use of undeclared identifier 'SKB_EXT_HSR'
-           ptp_ext = skb_ext_find(skb, SKB_EXT_HSR);
-                                       ^
-   include/linux/if_hsr.h:85:12: error: call to undeclared function 'skb_ext_find'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           ptp_ext = skb_ext_find(skb, SKB_EXT_HSR);
-                     ^
-   include/linux/if_hsr.h:85:30: error: use of undeclared identifier 'SKB_EXT_HSR'
-           ptp_ext = skb_ext_find(skb, SKB_EXT_HSR);
-                                       ^
->> include/linux/if_hsr.h:99:12: error: call to undeclared function 'skb_ext_add'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           ptp_ext = skb_ext_add(skb, SKB_EXT_HSR);
-                     ^
-   include/linux/if_hsr.h:99:29: error: use of undeclared identifier 'SKB_EXT_HSR'
-           ptp_ext = skb_ext_add(skb, SKB_EXT_HSR);
-                                      ^
-   In file included from net/dsa/dsa.c:15:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:44:
->> include/linux/skbuff.h:5060:7: error: conflicting types for 'skb_ext_add'
-   void *skb_ext_add(struct sk_buff *skb, enum skb_ext_id id);
-         ^
-   include/linux/if_hsr.h:99:12: note: previous implicit declaration is here
-           ptp_ext = skb_ext_add(skb, SKB_EXT_HSR);
-                     ^
-   In file included from net/dsa/dsa.c:15:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:44:
->> include/linux/skbuff.h:5105:21: error: conflicting types for 'skb_ext_find'
-   static inline void *skb_ext_find(const struct sk_buff *skb, enum skb_ext_id id)
-                       ^
-   include/linux/if_hsr.h:58:12: note: previous implicit declaration is here
-           ptp_ext = skb_ext_find(skb, SKB_EXT_HSR);
-                     ^
-   10 errors generated.
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="/ycf9Wq2jwkCr6XX"
+Content-Disposition: inline
+In-Reply-To: <5da3b012-80df-44aa-bd32-e5336a222899@riscstar.com>
+X-Cookie: Alex Haley was adopted!
 
 
-vim +/skb_ext_find +58 include/linux/if_hsr.h
+--/ycf9Wq2jwkCr6XX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-    45	
-    46	#if IS_ENABLED(CONFIG_HSR)
-    47	extern bool is_hsr_master(struct net_device *dev);
-    48	extern int hsr_get_version(struct net_device *dev, enum hsr_version *ver);
-    49	struct net_device *hsr_get_port_ndev(struct net_device *ndev,
-    50					     enum hsr_port_type pt);
-    51	int hsr_get_port_type(struct net_device *hsr_dev, struct net_device *dev,
-    52			      enum hsr_port_type *type);
-    53	
-    54	static inline bool hsr_skb_has_header(struct sk_buff *skb)
-    55	{
-    56		struct hsr_ptp_ext *ptp_ext;
-    57	
-  > 58		ptp_ext = skb_ext_find(skb, SKB_EXT_HSR);
-    59		if (!ptp_ext)
-    60			return false;
-    61		return ptp_ext->header;
-    62	}
-    63	
-    64	static inline unsigned int hsr_skb_has_port(struct sk_buff *skb)
-    65	{
-    66		struct hsr_ptp_ext *ptp_ext;
-    67	
-    68		if (!skb)
-    69			return 0;
-    70	
-    71		ptp_ext = skb_ext_find(skb, SKB_EXT_HSR);
-    72		if (!ptp_ext)
-    73			return 0;
-    74		return ptp_ext->port;
-    75	}
-    76	
-    77	static inline bool hsr_skb_get_header_port(struct sk_buff *skb, bool *header,
-    78						   enum hsr_port_type *port_type)
-    79	{
-    80		struct hsr_ptp_ext *ptp_ext;
-    81	
-    82		*port_type = HSR_PT_NONE;
-    83		*header = false;
-    84	
-    85		ptp_ext = skb_ext_find(skb, SKB_EXT_HSR);
-    86		if (!ptp_ext)
-    87			return false;
-    88	
-    89		*port_type = ptp_ext->port;
-    90		*header = ptp_ext->header;
-    91		return true;
-    92	}
-    93	
-    94	static inline bool hsr_skb_add_header_port(struct sk_buff *skb, bool header,
-    95						   enum hsr_port_type port)
-    96	{
-    97		struct hsr_ptp_ext *ptp_ext;
-    98	
-  > 99		ptp_ext = skb_ext_add(skb, SKB_EXT_HSR);
-   100		if (!ptp_ext)
-   101			return false;
-   102		ptp_ext->port = port;
-   103		ptp_ext->header = header;
-   104		return true;
-   105	}
-   106	
+On Mon, May 04, 2026 at 04:40:10PM -0500, Alex Elder wrote:
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> Could you please submit a correction to this (by which I
+> think you need to post v11 of the series).
+
+Please send an incremental patch, I already applied before I saw this.
+
+--/ycf9Wq2jwkCr6XX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmn5QqMACgkQJNaLcl1U
+h9CEIAf+I0UypkakI+EHjvJoX9rEQjNPtlT9ZSPDMEaQ4Yth79thGOTq3AxT5mZQ
+A2ojVDG8PWNC/R00WLpwS25TJs/CEdMfSLF7JzFO+lzYgYPiYLvZ/lfs4t5t9Tdx
+vNO1/oNAKhjHfMgqv3D3OJEg7kMLBAPLc03t5k80OTuP9HJoICCi02HhjVbR5hMY
+tf8a4H/uU+IUqa6u+BGl9MPiwg/gb/qQep+iS+E7mU3P2C8wMW973R9m16k0blqt
+/ByKrv5f1xYdBl3ssmzAVEF2OCg7RwDPfEvfrUbo4gWiHwNoepxl3jrtNZFyaLXq
+i76Jb9ytZ3HKVP/d4xPbrVeW/jKV3A==
+=2y4R
+-----END PGP SIGNATURE-----
+
+--/ycf9Wq2jwkCr6XX--
