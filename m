@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6C372D061D
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 May 2026 09:58:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E7823148C5
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 May 2026 09:58:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777975129; cv=none; b=iEeyxaW61snPJf3Nz+mq2Fmpy7Oxn5+np8OlZSFbef98dmQ8m2zQJp3oqtHpNTjF+vzlcVvvfPBU1vUxG7cuq5a6qms+R9mBGYzSKclNFUMMH2AvHhrshQ+8sKZ/n71MrPfUYLaskxdWsGnvUmaMGyEwZwubbKm8TS2TsaLlsmM=
+	t=1777975131; cv=none; b=u7/lhv5banfrMhyLzCXLsIGPpp8mylhsLlbwS41ZQAHeoHydZF5o5+otVBJUXZnrbnJkB77lsnRsxEEH4UTuwSF11RbnWQOZe24beyE4rxfH8koxWAR7wj8/t+o6acKVLVQ+1+XRYpoXoKWF10NVWWcXRa0tgZfvdziFX9gSroY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777975129; c=relaxed/simple;
-	bh=QRZv954mBw3Ha2Q048/MIQaSLvKZ6ZXzeBK18PjwiFs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=SOM80mQuxJCw0oDMuHKMg/sfcxUR0gz998EdbsHoHmHBmUJMZs3dxzHPzdjUPLeggIqaYehgs3l0JlpbkQrsfUV1W2OkGIgHt8GXQz8cE8R/iHsHReturwbFk522zRW8KN5KVnrG93AYcYuputVjCbb2E2MGrgoEVPd12hA2RUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aYoUTyCG; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1777975131; c=relaxed/simple;
+	bh=qHGClcuFdhwH2M0ZUCbNxsrsMu+caPrSkpw+3xdkHp0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ml2trUmH9oI3WjQNhKobUUJ7kIdrP2f68bocp4Y4VC8CwC6MnM/Zvmnt5nsrFSSi2JQhvAdB2t2hbQKfoxy3KBRh8NjWEClCQHfHBZG50QW+CJSIBgZgsTj4WAaFH1LQiXX/5t73Scr03BCM1mR8wqFJPBy9ESlppc3BHXWbX7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H4Jos+ih; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aYoUTyCG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H4Jos+ih"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777975128; x=1809511128;
+  t=1777975131; x=1809511131;
   h=date:from:to:cc:subject:message-id;
-  bh=QRZv954mBw3Ha2Q048/MIQaSLvKZ6ZXzeBK18PjwiFs=;
-  b=aYoUTyCGvXJERIk2yvr22Km8TEchTJb3Y+2+JxqcBUsvkE7WP+Qyxb8H
-   NZTYbB28rql4zS2Q8ONTdg0p807/sSnsrneJhdRflsV4iijgdrIZsPE6D
-   mGFdhWsozEsxe/NzxIE64555ferOoVg0XYv0jbW+CUqrPn3wyrxrTZX4f
-   AKgnahJTbV5QbkZCLGAzDb6EgD7ES3T1Pua8Xz45P1ZvW+qgIF3c8EqSb
-   Yz6629mZ0IdmHi0I2WdE4fQ+HzZM7/oS91be6t8YYpiQ+urmExwOX5Ibi
-   0ctF4pOwU4zeELPNYe60kq5C73iYZwEmhNeVzSiAo9zFa3pSzNz3wmEzV
+  bh=qHGClcuFdhwH2M0ZUCbNxsrsMu+caPrSkpw+3xdkHp0=;
+  b=H4Jos+ihJlmZHVtNU0s8I2/9ZNlYvKxNq8jQJ+661IAZCGHLQ8TS2oKj
+   m4kbpHN8H690UIbgml9a7/XvpCk07UvBohmXBAhcQN3XIpk2w6AJpy7ds
+   oM65cifvVJMR4ByAJVLd+m7IV+TzzfaMWIWSbENDNZEZItftEEe/vfY4q
+   dsNGeFlBNQIrgcIWFsriivLSwCSVAzxMiCXAB/OyHoHnpz3z5iNTzE4g7
+   9L3S5WXW97t5MWfxMsQL9HyqjY8mftnHQdiGGF15mafi3YWQfpTl+wnRq
+   rXKag8LjzrUM/p5GFNveiDVj6hOQU4kr1NL8OMVIWesrwiTuSD/BnKHds
    A==;
-X-CSE-ConnectionGUID: tJNUrgSzRGS2870WBtAklg==
-X-CSE-MsgGUID: p+mShSy/RPa82VGQFm5cAw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11776"; a="78939964"
+X-CSE-ConnectionGUID: dKb3XzNXSxKoikTv0jaASg==
+X-CSE-MsgGUID: 0NwPjsQnSrC/HsaiiOygDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11776"; a="96268744"
 X-IronPort-AV: E=Sophos;i="6.23,217,1770624000"; 
-   d="scan'208";a="78939964"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 02:58:47 -0700
-X-CSE-ConnectionGUID: Yx9A7vclSSixqUG/EPvRHw==
-X-CSE-MsgGUID: x3Tf8jhHR5eFlLcea69p8Q==
+   d="scan'208";a="96268744"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 02:58:47 -0700
+X-CSE-ConnectionGUID: dJ9zFDXcTb6KmI2wjNAN8g==
+X-CSE-MsgGUID: G63o9HdwSaKBuxdc+0K+FA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,217,1770624000"; 
-   d="scan'208";a="259122214"
+   d="scan'208";a="273918769"
 Received: from lkp-server01.sh.intel.com (HELO 9ec114424ce8) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 05 May 2026 02:58:45 -0700
+  by orviesa001.jf.intel.com with ESMTP; 05 May 2026 02:58:45 -0700
 Received: from kbuild by 9ec114424ce8 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wKCY6-0000000003X-237j;
+	id 1wKCY6-0000000003V-1tAG;
 	Tue, 05 May 2026 09:58:42 +0000
-Date: Tue, 05 May 2026 17:58:06 +0800
+Date: Tue, 05 May 2026 17:58:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Youling Tang <tangyouling@kylinos.cn>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Huacai Chen <chenhuacai@kernel.org>
-Subject: arch/loongarch/kernel/kexec_efi.c:64:22: sparse: sparse:
- cast to restricted __le64
-Message-ID: <202605051728.xa3HaqRv-lkp@intel.com>
+To: Magnus Lindholm <linmag7@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [lindholm-alpha:entry 1/5] arch/alpha/kernel/ptrace.c:252
+ alpha_elf_gregs_set() warn: inconsistent indenting
+Message-ID: <202605051745.R7BnZxjn-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,100 +59,121 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a293ec25d59dd96309058c70df5a4dd0f889a1e4
-commit: 55d990f0084c2b8ab9321dc59fc11dce855b4d61 LoongArch: Add EFI binary support for kexec_file
-date:   7 months ago
-config: loongarch-randconfig-r122-20260505 (https://download.01.org/0day-ci/archive/20260505/202605051728.xa3HaqRv-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.3.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260505/202605051728.xa3HaqRv-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lindholm/alpha.git entry
+head:   179e607df962ebcf32040f8e9091bf75006e8970
+commit: 798dd93852a44b4b649ea71287dad554b0579f90 [1/5] alpha: enable regset-based ptrace and core dumps
+config: alpha-randconfig-r071-20260505 (https://download.01.org/0day-ci/archive/20260505/202605051745.R7BnZxjn-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 10.5.0
+smatch: v0.5.0-9065-ge9cc34fd
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 55d990f0084c ("LoongArch: Add EFI binary support for kexec_file")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605051728.xa3HaqRv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605051745.R7BnZxjn-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/loongarch/kernel/kexec_efi.c:64:22: sparse: sparse: cast to restricted __le64
-   arch/loongarch/kernel/kexec_efi.c:65:23: sparse: sparse: cast to restricted __le64
+New smatch warnings:
+arch/alpha/kernel/ptrace.c:252 alpha_elf_gregs_set() warn: inconsistent indenting
+arch/alpha/kernel/ptrace.c:473 arch_ptrace() warn: inconsistent indenting
 
-vim +64 arch/loongarch/kernel/kexec_efi.c
+Old smatch warnings:
+arch/alpha/kernel/ptrace.c:501 arch_ptrace() warn: inconsistent indenting
+arch/alpha/kernel/ptrace.c:505 arch_ptrace() warn: inconsistent indenting
 
-    37	
-    38	static void *efi_kexec_load(struct kimage *image,
-    39					char *kernel, unsigned long kernel_len,
-    40					char *initrd, unsigned long initrd_len,
-    41					char *cmdline, unsigned long cmdline_len)
-    42	{
-    43		int ret;
-    44		unsigned long text_offset, kernel_segment_number;
-    45		struct kexec_buf kbuf;
-    46		struct kexec_segment *kernel_segment;
-    47		struct loongarch_image_header *h;
-    48	
-    49		h = (struct loongarch_image_header *)kernel;
-    50		if (!h->kernel_asize)
-    51			return ERR_PTR(-EINVAL);
-    52	
-    53		/*
-    54		 * Load the kernel
-    55		 * FIXME: Non-relocatable kernel rejected for kexec_file (require CONFIG_RELOCATABLE)
-    56		 */
-    57		kbuf.image = image;
-    58		kbuf.buf_max = ULONG_MAX;
-    59		kbuf.top_down = false;
-    60	
-    61		kbuf.buffer = kernel;
-    62		kbuf.bufsz = kernel_len;
-    63		kbuf.mem = KEXEC_BUF_MEM_UNKNOWN;
-  > 64		kbuf.memsz = le64_to_cpu(h->kernel_asize);
-    65		text_offset = le64_to_cpu(h->text_offset);
-    66		kbuf.buf_min = text_offset;
-    67		kbuf.buf_align = SZ_2M;
-    68	
-    69		kernel_segment_number = image->nr_segments;
-    70	
-    71		/*
-    72		 * The location of the kernel segment may make it impossible to
-    73		 * satisfy the other segment requirements, so we try repeatedly
-    74		 * to find a location that will work.
-    75		 */
-    76		while ((ret = kexec_add_buffer(&kbuf)) == 0) {
-    77			/* Try to load additional data */
-    78			kernel_segment = &image->segment[kernel_segment_number];
-    79			ret = load_other_segments(image, kernel_segment->mem,
-    80						  kernel_segment->memsz, initrd,
-    81						  initrd_len, cmdline, cmdline_len);
-    82			if (!ret)
-    83				break;
-    84	
-    85			/*
-    86			 * We couldn't find space for the other segments; erase the
-    87			 * kernel segment and try the next available hole.
-    88			 */
-    89			image->nr_segments -= 1;
-    90			kbuf.buf_min = kernel_segment->mem + kernel_segment->memsz;
-    91			kbuf.mem = KEXEC_BUF_MEM_UNKNOWN;
-    92		}
-    93	
-    94		if (ret < 0) {
-    95			pr_err("Could not find any suitable kernel location!");
-    96			return ERR_PTR(ret);
-    97		}
-    98	
-    99		kernel_segment = &image->segment[kernel_segment_number];
-   100	
-   101		/* Make sure the second kernel jumps to the correct "kernel_entry" */
-   102		image->start = kernel_segment->mem + h->kernel_entry - text_offset;
-   103	
-   104		kexec_dprintk("Loaded kernel at 0x%lx bufsz=0x%lx memsz=0x%lx\n",
-   105			      kernel_segment->mem, kbuf.bufsz, kernel_segment->memsz);
-   106	
-   107		return NULL;
-   108	}
-   109	
+vim +252 arch/alpha/kernel/ptrace.c
+
+   169	
+   170	static void alpha_elf_gregs_set(struct task_struct *child,
+   171				const elf_greg_t *src,
+   172				size_t nwords)
+   173	{
+   174		struct pt_regs *pt = task_pt_regs(child);
+   175		struct thread_info *ti = task_thread_info(child);
+   176		struct switch_stack *sw = ((struct switch_stack *)pt) - 1;
+   177	
+   178		/* GPRs r0..r8 live in pt_regs */
+   179		if (nwords > 0)
+   180			pt->r0 = src[0];
+   181		if (nwords > 1)
+   182			pt->r1 = src[1];
+   183		if (nwords > 2)
+   184			pt->r2 = src[2];
+   185		if (nwords > 3)
+   186			pt->r3 = src[3];
+   187		if (nwords > 4)
+   188			pt->r4 = src[4];
+   189		if (nwords > 5)
+   190			pt->r5 = src[5];
+   191		if (nwords > 6)
+   192			pt->r6 = src[6];
+   193		if (nwords > 7)
+   194			pt->r7 = src[7];
+   195		if (nwords > 8)
+   196			pt->r8 = src[8];
+   197	
+   198		/* r9..r15 live in switch_stack */
+   199		if (nwords > 9)
+   200			sw->r9 = src[9];
+   201		if (nwords > 10)
+   202			sw->r10 = src[10];
+   203		if (nwords > 11)
+   204			sw->r11 = src[11];
+   205		if (nwords > 12)
+   206			sw->r12 = src[12];
+   207		if (nwords > 13)
+   208			sw->r13 = src[13];
+   209		if (nwords > 14)
+   210			sw->r14 = src[14];
+   211		if (nwords > 15)
+   212			sw->r15 = src[15];
+   213	
+   214		/* r16..r28 live in pt_regs */
+   215		if (nwords > 16)
+   216			pt->r16 = src[16];
+   217		if (nwords > 17)
+   218			pt->r17 = src[17];
+   219		if (nwords > 18)
+   220			pt->r18 = src[18];
+   221		if (nwords > 19)
+   222			pt->r19 = src[19];
+   223		if (nwords > 20)
+   224			pt->r20 = src[20];
+   225		if (nwords > 21)
+   226			pt->r21 = src[21];
+   227		if (nwords > 22)
+   228			pt->r22 = src[22];
+   229		if (nwords > 23)
+   230			pt->r23 = src[23];
+   231		if (nwords > 24)
+   232			pt->r24 = src[24];
+   233		if (nwords > 25)
+   234			pt->r25 = src[25];
+   235		if (nwords > 26)
+   236			pt->r26 = src[26];
+   237		if (nwords > 27)
+   238			pt->r27 = src[27];
+   239		if (nwords > 28)
+   240			pt->r28 = src[28];
+   241	
+   242		/* gp, usp, pc, unique */
+   243		if (nwords > 29)
+   244			pt->gp = src[29];
+   245	
+   246		if (nwords > 30) {
+   247			ti->pcb.usp = src[30];
+   248			/*
+   249			 * If someone ever does this to current (rare), keep the
+   250			 * hardware usp consistent.
+   251			 */
+ > 252		if (child == current)
+   253			wrusp(src[30]);
+   254		}
+   255	
+   256		if (nwords > 31)
+   257			pt->pc = src[31];
+   258	
+   259		if (nwords > 32)
+   260			ti->pcb.unique = src[32];
+   261	
 
 -- 
 0-DAY CI Kernel Test Service
