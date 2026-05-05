@@ -1,105 +1,153 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E4E748BD2C
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 May 2026 16:16:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D48C48BD4E
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 May 2026 16:29:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777997792; cv=none; b=Ib+BMGmmmRmJPEuwMwJH62fzzK1emoT6PcEQYyHD2aaxeCFMJAEaYAnxqCFGuBqjq4aAsFze2bGrFpNQ/OyiVp0rlEm6z3YKbpgDcdAPF2M/zU002rGbivBOatUEN615Pg/ADKhdEjo5D4yw4PVexZ64+YHhG2Q7JcUH311SGe0=
+	t=1777998550; cv=none; b=QhXspeaeI1dQwH4/XtEpINTGjA0dnAYH9UdJ7e9PKgXPGDZ5opAxK0izqfJRLtel+KuRdE0wOJWZJ5oE8SFUvLwu/5uJLJl/3loFP8KZSnoE52tYH2CJ5TQfH3KJ02k7vDlF0syG/Q71j4q6/mWKpPVxD0FOVjZaODaT35i+zPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777997792; c=relaxed/simple;
-	bh=s4fm0PP8nSo7Lq28CwvuCdQuyAqiY4aS0vrgu0mSxo0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Pk30Zy65zPt5iCyFTS8tal4St6UfI+uBmT0ciInQeKop8emxFuFZ0HsePJUQLLm9IHXZaFGrrjKSA+yCRJzBuXClSgSskO/J6KSMSzBRuoBLhiJ90cdU16QiC0nW6ARrFv1LfwLnK9OFTVpR0X9v+K+gIy4YWBdscDeiwXkdKI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FoLQKcO9; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1777998550; c=relaxed/simple;
+	bh=KvfMVdpRley/+WIdidsNW1LRFF/W8bVALcXRMAFhPgw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=jNXxNsxH/h4lO4i2mwhe8ZonohMB1ybRYnCVjNOZtmxlBWxa33wbYXDQunznwfyycMLc8mC335+jW9GOFPku3GEP6pNAbQ1AS/sTo7hwPlL+A/Ipvw3pLaLtsFRlYg73rNpW3G0PwW+bXFea8CxGp6R/uEwcc8c++4DN35jlDBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oIEV0NE3; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FoLQKcO9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oIEV0NE3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777997789; x=1809533789;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=s4fm0PP8nSo7Lq28CwvuCdQuyAqiY4aS0vrgu0mSxo0=;
-  b=FoLQKcO9A14AYqjJzMX4hv+96cZN/M/qzvl91konWOfaGj3f5+V2SE1W
-   aqnqfckvYa7EGkUbRdz8bf6Y2L8nCv0fgLzMY/gocX8+w479sCx0r+ZbE
-   pAVrIFNBUcIdUeSsUpQwfk1lYSe9MSvXakvTLWjBypEH8ZCCAmyrSDa85
-   Uyif/SR1uptVSojNxIt5e3J/XKBSOh4WGElw/YLiRRnKq6pWPWHTWFI7B
-   hWU2Oxe/fXwNdvTqlYvmdP3s8OwgUX5GkCiZFilLhXWfTKj59PiqCLX8q
-   mlqUIgArpixwXSCPxkgfFw97U00ZrRVD5YVPhFESt2MXDxlePavCxG4vB
+  t=1777998549; x=1809534549;
+  h=date:from:to:cc:subject:message-id;
+  bh=KvfMVdpRley/+WIdidsNW1LRFF/W8bVALcXRMAFhPgw=;
+  b=oIEV0NE3JeZqZmeLfDbTSKrx79RDKg+Ju+oAGzTQOUHossqNcw9OWU/P
+   yOzldayIYsPl8FtmWhFoofZk/7HRiqzTf7M0dJmkOEsagxQHEUF/d/fcv
+   JBpMtC/m35LQd1bR60YUKSMT7mlhXvBKV4723CJN0wB1KSuy1nYjfGRVY
+   9mU9zFkm9xjQgZv5irYetRs/UHmAVOM11mdqdN5M+cCkXmmjFk/ZfdHx0
+   HBYJXXV1YBECJLqvQqQ8rFlR8MEdeez7+UaVvT+X9FAUSej7U550Y5pDr
+   XQRcxdWAQUkCgDu12SlsXNtVmfCfYcyYUFQ9B1Hp2lBKuEGUXdpVdhlD1
    g==;
-X-CSE-ConnectionGUID: j1Z8nuF0TkCWyMlfVflOSg==
-X-CSE-MsgGUID: YLL+VmOWRC2tLGrFMmbSeg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11777"; a="104322507"
+X-CSE-ConnectionGUID: rAKPOLmkTzmyx1o2eOU0MQ==
+X-CSE-MsgGUID: TEyE/6IFQ/CZV2bgM9wF0Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11777"; a="82743806"
 X-IronPort-AV: E=Sophos;i="6.23,217,1770624000"; 
-   d="scan'208";a="104322507"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 09:16:09 -0700
-X-CSE-ConnectionGUID: pet8ZI4GRbKoCicdEV0frQ==
-X-CSE-MsgGUID: Ui82/TkfTPSn9S9ClXxR3Q==
+   d="scan'208";a="82743806"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 09:29:09 -0700
+X-CSE-ConnectionGUID: mVFgS6oIRZ+gK1qwmwhHNw==
+X-CSE-MsgGUID: gRNvUrdFSlSgYTN0qXlbVg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,217,1770624000"; 
-   d="scan'208";a="236114766"
+   d="scan'208";a="237635309"
 Received: from lkp-server01.sh.intel.com (HELO 9ec114424ce8) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 05 May 2026 09:16:08 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 05 May 2026 09:29:07 -0700
 Received: from kbuild by 9ec114424ce8 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wKIRI-000000000HN-3uVp;
-	Tue, 05 May 2026 16:16:04 +0000
-Date: Wed, 06 May 2026 00:15:18 +0800
+	id 1wKIdt-000000000Hp-0xRV;
+	Tue, 05 May 2026 16:29:05 +0000
+Date: Wed, 06 May 2026 00:28:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Duje =?utf-8?Q?Mihanovi=C4=87"?= <duje@dujemihanovic.xyz>
-Cc: oe-kbuild-all@lists.linux.dev, Stephen Boyd <sboyd@kernel.org>
-Subject: [linux-next:master 1589/2999]
- drivers/clk/mmp/clk-pxa1908-apbc.c:117:2-3: Unneeded semicolon
-Message-ID: <202605060038.2KOj54Kk-lkp@intel.com>
+To: Harry Austen <hpausten@protonmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/gpu/drm/xe/xe_oa.c:2384:15: sparse: sparse:
+ incorrect type in initializer (different address spaces)
+Message-ID: <202605060058.gvgETBpP-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   4cd074ae20bbcc293bbbce9163abe99d68ae6ae0
-commit: fcfae77b39cea1e129f86eb88bfd6ca34506effe [1589/2999] clk: mmp: pxa1908-apbc: Add reset cells
-config: arm64-randconfig-r061-20260505 (https://download.01.org/0day-ci/archive/20260506/202605060038.2KOj54Kk-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a293ec25d59dd96309058c70df5a4dd0f889a1e4
+commit: aa18d5769fcafe645a3ba01a9a69dde4f8dc8cc3 drm/xe: Allow dropping kunit dependency as built-in
+date:   10 months ago
+config: arm-randconfig-r132-20260505 (https://download.01.org/0day-ci/archive/20260506/202605060058.gvgETBpP-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260506/202605060058.gvgETBpP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: aa18d5769fca ("drm/xe: Allow dropping kunit dependency as built-in")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605060038.2KOj54Kk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605060058.gvgETBpP-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/clk/mmp/clk-pxa1908-apbc.c:117:2-3: Unneeded semicolon
+sparse warnings: (new ones prefixed by >>)
+   drivers/gpu/drm/xe/xe_oa.c:2371:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long long [usertype] *ptr @@     got void [noderef] __user * @@
+   drivers/gpu/drm/xe/xe_oa.c:2371:25: sparse:     expected unsigned long long [usertype] *ptr
+   drivers/gpu/drm/xe/xe_oa.c:2371:25: sparse:     got void [noderef] __user *
+>> drivers/gpu/drm/xe/xe_oa.c:2384:15: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long long [noderef] __user *register __p @@     got unsigned long long [usertype] *ptr @@
+   drivers/gpu/drm/xe/xe_oa.c:2384:15: sparse:     expected unsigned long long [noderef] __user *register __p
+   drivers/gpu/drm/xe/xe_oa.c:2384:15: sparse:     got unsigned long long [usertype] *ptr
 
-vim +117 drivers/clk/mmp/clk-pxa1908-apbc.c
+vim +2384 drivers/gpu/drm/xe/xe_oa.c
 
-    99	
-   100	/* Taken from clk-of-pxa1928.c */
-   101	static void pxa1908_clk_reset_init(struct device_node *np,
-   102					   struct pxa1908_clk_unit *pxa_unit)
-   103	{
-   104		struct mmp_clk_reset_cell *cells;
-   105		int nr_cells = ARRAY_SIZE(apbc_gate_clks);
-   106	
-   107		cells = kzalloc_objs(*cells, nr_cells);
-   108		if (!cells)
-   109			return;
-   110	
-   111		for (int i = 0; i < nr_cells; i++) {
-   112			cells[i].clk_id = apbc_gate_clks[i].id;
-   113			cells[i].reg = pxa_unit->base + apbc_gate_clks[i].offset;
-   114			cells[i].bits = BIT(2);
-   115			cells[i].flags = 0;
-   116			cells[i].lock = apbc_gate_clks[i].lock;
- > 117		};
-   118	
-   119		mmp_clk_reset_register(np, cells, nr_cells);
-   120	}
-   121	
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2359  
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2360  /**
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2361   * xe_oa_remove_config_ioctl - Removes one OA config
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2362   * @dev: @drm_device
+8169b2097d88d9 Ashutosh Dixit   2024-07-03  2363   * @data: pointer to struct @drm_xe_observation_param
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2364   * @file: @drm_file
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2365   */
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2366  int xe_oa_remove_config_ioctl(struct drm_device *dev, u64 data, struct drm_file *file)
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2367  {
+cb925d31f09146 Michal Wajdeczko 2024-06-19  2368  	struct xe_device *xe = to_xe_device(dev);
+cb925d31f09146 Michal Wajdeczko 2024-06-19  2369  	struct xe_oa *oa = &xe->oa;
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2370  	struct xe_oa_config *oa_config;
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17 @2371  	u64 arg, *ptr = u64_to_user_ptr(data);
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2372  	int ret;
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2373  
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2374  	if (!oa->xe) {
+cb925d31f09146 Michal Wajdeczko 2024-06-19  2375  		drm_dbg(&xe->drm, "xe oa interface not available for this system\n");
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2376  		return -ENODEV;
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2377  	}
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2378  
+8169b2097d88d9 Ashutosh Dixit   2024-07-03  2379  	if (xe_observation_paranoid && !perfmon_capable()) {
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2380  		drm_dbg(&oa->xe->drm, "Insufficient privileges to remove xe OA config\n");
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2381  		return -EACCES;
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2382  	}
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2383  
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17 @2384  	ret = get_user(arg, ptr);
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2385  	if (XE_IOCTL_DBG(oa->xe, ret))
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2386  		return ret;
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2387  
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2388  	ret = mutex_lock_interruptible(&oa->metrics_lock);
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2389  	if (ret)
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2390  		return ret;
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2391  
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2392  	oa_config = idr_find(&oa->metrics_idr, arg);
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2393  	if (!oa_config) {
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2394  		drm_dbg(&oa->xe->drm, "Failed to remove unknown OA config\n");
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2395  		ret = -ENOENT;
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2396  		goto err_unlock;
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2397  	}
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2398  
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2399  	WARN_ON(arg != oa_config->id);
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2400  
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2401  	sysfs_remove_group(oa->metrics_kobj, &oa_config->sysfs_metric);
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2402  	idr_remove(&oa->metrics_idr, arg);
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2403  
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2404  	mutex_unlock(&oa->metrics_lock);
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2405  
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2406  	drm_dbg(&oa->xe->drm, "Removed config %s id=%i\n", oa_config->uuid, oa_config->id);
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2407  
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2408  	xe_oa_config_put(oa_config);
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2409  
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2410  	return 0;
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2411  
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2412  err_unlock:
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2413  	mutex_unlock(&oa->metrics_lock);
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2414  	return ret;
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2415  }
+cdf02fe1a94a76 Ashutosh Dixit   2024-06-17  2416  
+
+:::::: The code at line 2384 was first introduced by commit
+:::::: cdf02fe1a94a768cbcd20f5c4e1a1d805f4a06c0 drm/xe/oa/uapi: Add/remove OA config perf ops
+
+:::::: TO: Ashutosh Dixit <ashutosh.dixit@intel.com>
+:::::: CC: Ashutosh Dixit <ashutosh.dixit@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
