@@ -1,86 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FB362949E0
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 May 2026 02:21:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C9923183C
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 May 2026 02:44:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778034108; cv=none; b=D7ATQUPsBA8JbjyS/5TyYNEDkowW9A69V++liKFwnE6k40y+PwvjhSQcdOXfubztAvqETeSGTcx/+6VGAJ58hfDnZpjcuTQdxBTbgF+7F9iYHsoOG6H8AhvOTZ+IM90AtY/vT25M9h3T28fGLYpQWdxv5wBi/7+6uNa02YPPjiw=
+	t=1778035453; cv=none; b=OzqBYNAA7wXTUhge4TnliaMMC1RQCFVM/yaTSIc65lADODp0URI7VE8yTDYBT9SbyGD9ruIthaRixfoARjcPv1oOuhgHproOScgBmBgtNGCN2CILoMtdZnGAB30Yutllb0Cra/hJQqPZzz7lSnFArYU4AJBqR8AUhEWvTaoIpfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778034108; c=relaxed/simple;
-	bh=CfB8B8ipj0D5OFWh98IVTql4NcSQtNN1XsYgx39CFD8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HJtumfdUjWlR0MKjrluKsY4DGTaCPSj2CIpznTSK2z70tcXMv4Oi98CLP8gAUM0Mrqd8/aJEHrDj2+ayhKbDTE9Ne8JV6Um4+jEvFH1ydOs3Rew9FgQh/ogUWtJ6yNg9ZBJbghf7iMVSP+njG6mGRwEZ5LJx58ibL+YD9XmokTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TQBgM3Vs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778035453; c=relaxed/simple;
+	bh=GNFM3iNK492RisaR+k0nyja2/ehg1otPsgZR0uAeBFc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=YlDRfuqQ/kDQYdUzj9G1LonqLYxI/wpgNjBsNco5OtwVklgSlHBm5bkh5ruom72PNe5klNbtFizKzuFQkzXdlNGQ479tEb7LP9O88MhklahA+EC5KgxCpn8xwNylcUEP0oNAOVL1O7N1h0fqkaXvdI4CBm+8dWoQGWAvLPbWkis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CZKPX2xN; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TQBgM3Vs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46AE2C2BCF5
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 May 2026 02:21:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778034108;
-	bh=CfB8B8ipj0D5OFWh98IVTql4NcSQtNN1XsYgx39CFD8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=TQBgM3VsGC030V1NSHoVtckUWQ1cxAq4tR39XsgJoNsWuVVNul/qyBGBNuCEQeq//
-	 da0foHkI9/cTrVM5G4ClxHNN53z5LcVKoM+htDOgaAmI7lxcWNWvDdfzz0BydERztc
-	 bn1vf+1C7pwznj5zcq98W8fn6SWJfBcFQRoKuvru2u4KvxzrfAwEKN96pblqp6xVyY
-	 K/HMDjoW8OMsK5La0nRLs3cZNRMR8DHa/A61UnpC1uMQGmHDeQ1ofC4BrQoRmfU8+B
-	 6LSTW+HN9kmIBONWTL6kxhn06Ug91YdXHyPyeRIdLpECQGWOGDDedIfP2LpCaHECvI
-	 UMpRWtg8eYDaw==
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6729c6f0ca7so7621117a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 05 May 2026 19:21:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9fGxEflBulLdL0hLBsB5KCKF/qP8zGnsY7hJrDMngZf8OUjAcgfvyOjVwDEkhbIjoozdW9Mg4tJX+PqmsV@lists.linux.dev
-X-Gm-Message-State: AOJu0YyTJ4Zo3x1EKzrqK+2j5T9aS454JbBe59ABFJZU93RXRDIHmelU
-	YbcSrjBrXtjQlnzY7BxJ4BoiLwhq3kAGFihradzsgDiocR30rXTBS4o4hJ4A6Nu8VSYGBfC3mNa
-	hzHvAUcrNBB62EXMYrTIK+B5h2Wqbp9o=
-X-Received: by 2002:a05:6402:5407:b0:673:9b15:39d3 with SMTP id
- 4fb4d7f45d1cf-67d642b04ddmr435212a12.16.1778034106883; Tue, 05 May 2026
- 19:21:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CZKPX2xN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778035452; x=1809571452;
+  h=date:from:to:cc:subject:message-id;
+  bh=GNFM3iNK492RisaR+k0nyja2/ehg1otPsgZR0uAeBFc=;
+  b=CZKPX2xNHJJ3POROvL3Rf7IoqkYKgZaT7yJj7hEDvvY1F7WEhO1tfBsT
+   HCRjpDX6E7X2YScng36UK3hoU+L7ioM26Ro5FNbKO+NRu7jLUI2FvR0WJ
+   UUKDE9rYUDNuHhAise56n6uvi9UXtG3odNLPyF5khOmyAJn1hyYrUdH9P
+   0eR6xgSBFoyhZ91qTUxdAZSyoeBZdHsTeUBKMAVfc6LX/RuBvqFbfSwM3
+   KUcZjkS1o4tPALoDR7Q0HPYz/+TDqbFCbhZEEr5v6OdhnkOcfCFn23cML
+   WLxo4LUbSjUMB+fzgLvqORaE5DhlpzWnVFd/tuy+NRMDk/iJxJ7OzKa8w
+   A==;
+X-CSE-ConnectionGUID: jV3OQuSZRR6hQ3aWV+ZxPg==
+X-CSE-MsgGUID: v0HMilIFSMytTJmKP3PkHg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11777"; a="81480946"
+X-IronPort-AV: E=Sophos;i="6.23,218,1770624000"; 
+   d="scan'208";a="81480946"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 19:44:12 -0700
+X-CSE-ConnectionGUID: nYOOMJghQACP33YWKuxWnA==
+X-CSE-MsgGUID: s+NYO3RISoqgXmpl8P5KQQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,218,1770624000"; 
+   d="scan'208";a="231602459"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa010.fm.intel.com with ESMTP; 05 May 2026 19:44:10 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wKSF6-000000006Qf-12nn;
+	Wed, 06 May 2026 02:44:08 +0000
+Date: Wed, 06 May 2026 04:43:38 +0200
+From: kernel test robot <lkp@intel.com>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [davidhildenbrand:b4/bootmem_info 10/19]
+ arch/s390/mm/vmem.c:42:22: warning: unused variable 'nr_pages'
+Message-ID: <202605060456.ObYmLlHg-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <202605051951.OStHgx7p-lkp@intel.com>
-In-Reply-To: <202605051951.OStHgx7p-lkp@intel.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Wed, 6 May 2026 11:21:34 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd98VwNma+BhNw_4_T_OOZdVyCApSOmWiWQPQyMO8J0p=g@mail.gmail.com>
-X-Gm-Features: AVHnY4I4a3P1HlCPaYhF9z-GQLRkiw624eY1U61HweeeNBppkw7243i87LnfG2E
-Message-ID: <CAKYAXd98VwNma+BhNw_4_T_OOZdVyCApSOmWiWQPQyMO8J0p=g@mail.gmail.com>
-Subject: Re: [linux-next:master 2139/2816] fs/ntfs/attrib.c:2631
- ntfs_attr_add() warn: variable dereferenced before check 'ni' (see line 2628)
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 5, 2026 at 10:30=E2=80=AFPM Dan Carpenter <error27@gmail.com> w=
-rote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   9d0d467c3572e93c5faa2e5906a8bbcd70b24efd
-> commit: ae00c45e40f1eb19428865ee3a3f487a454bdc20 [2139/2816] ntfs: fix va=
-riable dereferenced before check ni in ntfs_attr_open()
-> config: alpha-randconfig-r071-20260505 (https://download.01.org/0day-ci/a=
-rchive/20260505/202605051951.OStHgx7p-lkp@intel.com/config)
-> compiler: alpha-linux-gcc (GCC) 10.5.0
-> smatch: v0.5.0-9065-ge9cc34fd
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Closes: https://lore.kernel.org/r/202605051951.OStHgx7p-lkp@intel.com/
->
-> New smatch warnings:
-> fs/ntfs/attrib.c:2631 ntfs_attr_add() warn: variable dereferenced before =
-check 'ni' (see line 2628)
->
-> Old smatch warnings:
-> fs/ntfs/attrib.c:2930 ntfs_attr_open() warn: variable dereferenced before=
- check 'ni' (see line 2927)
-I will fix them.
-Thanks for the report!
+tree:   https://github.com/davidhildenbrand/linux b4/bootmem_info
+head:   9bd8b9ac2bf1b3e7ffee070da9c2f0607c507207
+commit: ad0ab8ac08f34bb72542795d52e15d8b5d174973 [10/19] s390/mm: use free_reserved_pages() in vmem_free_pages()
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260506/202605060456.ObYmLlHg-lkp@intel.com/config)
+compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260506/202605060456.ObYmLlHg-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605060456.ObYmLlHg-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   arch/s390/mm/vmem.c: In function 'vmem_free_pages':
+>> arch/s390/mm/vmem.c:42:22: warning: unused variable 'nr_pages' [-Wunused-variable]
+      42 |         unsigned int nr_pages = 1 << order;
+         |                      ^~~~~~~~
+
+
+vim +/nr_pages +42 arch/s390/mm/vmem.c
+
+67060d9c1f5d91 Heiko Carstens          2008-05-30  39  
+1a65b73ae9abd6 Sumanth Korikkar        2024-01-08  40  static void vmem_free_pages(unsigned long addr, int order, struct vmem_altmap *altmap)
+9ec8fa8dc331be David Hildenbrand       2020-07-22  41  {
+d5e88d32de4e4c Sumanth Korikkar        2025-10-10 @42  	unsigned int nr_pages = 1 << order;
+d5e88d32de4e4c Sumanth Korikkar        2025-10-10  43  	struct page *page;
+d5e88d32de4e4c Sumanth Korikkar        2025-10-10  44  
+1a65b73ae9abd6 Sumanth Korikkar        2024-01-08  45  	if (altmap) {
+1a65b73ae9abd6 Sumanth Korikkar        2024-01-08  46  		vmem_altmap_free(altmap, 1 << order);
+1a65b73ae9abd6 Sumanth Korikkar        2024-01-08  47  		return;
+1a65b73ae9abd6 Sumanth Korikkar        2024-01-08  48  	}
+d5e88d32de4e4c Sumanth Korikkar        2025-10-10  49  	page = virt_to_page((void *)addr);
+d5e88d32de4e4c Sumanth Korikkar        2025-10-10  50  	if (PageReserved(page)) {
+d5e88d32de4e4c Sumanth Korikkar        2025-10-10  51  		/* allocated from memblock */
+ad0ab8ac08f34b David Hildenbrand (Arm  2026-03-12  52) 		free_reserved_pages(page, order);
+d5e88d32de4e4c Sumanth Korikkar        2025-10-10  53  	} else {
+9ec8fa8dc331be David Hildenbrand       2020-07-22  54  		free_pages(addr, order);
+9ec8fa8dc331be David Hildenbrand       2020-07-22  55  	}
+d5e88d32de4e4c Sumanth Korikkar        2025-10-10  56  }
+9ec8fa8dc331be David Hildenbrand       2020-07-22  57  
+
+:::::: The code at line 42 was first introduced by commit
+:::::: d5e88d32de4e4ce289d107939da970763669d631 s390/mm: Support removal of boot-allocated virtual memory map
+
+:::::: TO: Sumanth Korikkar <sumanthk@linux.ibm.com>
+:::::: CC: Heiko Carstens <hca@linux.ibm.com>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
