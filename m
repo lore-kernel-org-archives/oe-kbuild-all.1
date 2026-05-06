@@ -1,68 +1,79 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22DD3316192
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 May 2026 19:36:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD3717993
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 May 2026 22:17:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778096186; cv=none; b=tcYn6dqirDHB4uS2sBRsE8I4sWozW+ibwO5gmR6cffTM/Xmh2N4dUqietZcF2VwaL63rYERXF8ez+D4DciYqciWNfxJ8XRN9HrH9d8I4DrhRWi4rFmrgxJuFrGbT2LOHc5VNvdrePBVewrLkW3UwmV1ve+RkVGIaN4MPGFtSj/I=
+	t=1778105853; cv=none; b=Wna3WRq+K2UkIP7fW5FGC/ZRa4Vxj+GYJNpLEvzLciPeDwaGF6hXxDq8TmPFXIlKvkXWIUo6sHpNxho46o+139IeBcy38/8ba6HURqna9bcP7Eksrj/XZcQOjatFkZGmsB6COkM1PsJV/N6ywoRDf+6HDQ6T7fl+hE0IOU8f20Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778096186; c=relaxed/simple;
-	bh=NrxXVqT6gZqs778saJwmFa7N3g9GsPnabIuBuX5oqIM=;
+	s=arc-20240116; t=1778105853; c=relaxed/simple;
+	bh=sSBdSxsfHapwhnk8JWsFU92IVShCY53vUe1hkAP78Xk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HsPngCAlK3uGDxERn3Dr3dM7I3s6Jz5H8x/23ypSSbmJ3yPPIotGY8Tbo8hAGFnRSEE9wUGjUr2qaVCPA+8n6H53JB59Q5aM1PHg9cjv1A+VCJaVl/rYhVPhAdo9Ksr3w+sqBAP60rjwPu6fEqKGcHgSg1qdQhYDCD2EuGoP+FA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b1aEmZsd; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=FOZaVwjixJoS/jBd9uZlo0JG8cQDTov8Dm4BDI/eufdaNQVOcq7IHwirLY9OFW0cO1AYCBOjrxXeYAISUE7BRz7rz2IrmvEI1BEQ8ZgMr24murx35epkLVI5LCbiJmP0lPGYvOQDbNDac+lcalE13QAm0m9dVZvjyVifGBjj9mM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P4urrMT9; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b1aEmZsd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P4urrMT9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778096184; x=1809632184;
+  t=1778105852; x=1809641852;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=NrxXVqT6gZqs778saJwmFa7N3g9GsPnabIuBuX5oqIM=;
-  b=b1aEmZsduuWco4AxxSp8zlKiz86wHzrzziogs1YRRHJD4/oe+51tdfkR
-   pwiKNM0y0cLGVEZXmNJeci2erKx2NEA0cPeVERwx7E8v/3la6yWKtFbXR
-   Jt16SbnGCIrdr77Gexmwc1xCp/wSWg3J67juQMToiGOMbW0jQxvEvHV9Z
-   xXMJ8eCqiZBZJCbevmcbC+kX2mNPGSrcAYAVBuiy4bw5cDJZqQ6KZMlQi
-   Trzf/NVxGlwWzofye2kWNcSiUzbTT5C0CyRt6TOOeSeNQMzdik5KGyx7G
-   ErhH6HYTfhj7BDK56VBCAHBuA0gB47mLg1dqJZ8mDX0XxDMlXKAtA/WGU
-   A==;
-X-CSE-ConnectionGUID: Mfe5BJ4nQti4ois1hs1W2g==
-X-CSE-MsgGUID: +SA/OH02R9qwWnFrodtrXQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11778"; a="79086559"
+  bh=sSBdSxsfHapwhnk8JWsFU92IVShCY53vUe1hkAP78Xk=;
+  b=P4urrMT9bsrMV99XWmaSAY9yxZnV52dUotTzXYzTzFcufjalnyc0Eqsj
+   2tn1bFKJS6h04mKEaPcpRRWS+DXcydU8he3EyV/JospbAhAtAcEy5PyUJ
+   5HeMhe0OxmaAVq4BEoVObEU6LhYYsEM5iT7TZH2xLGJfL+WBTY7rgsT5/
+   f3mNOFuF8iednH9A8CXlHl2qEx6fOikzjWbUiMm661w5qNF8bN4KV8cMw
+   WzyGlDzgDUv5fMpl1Tx3y64aoJa7yqAl/Lu/bXSm30G+SrrA17kY8Q5kd
+   98G67ilwHjZG5sty3ODC08ptr3gpsYyLIWI1HObdgtQMyyBeiWWK1Fy45
+   Q==;
+X-CSE-ConnectionGUID: rbFmAMXBSRqzd3LH5JGu6g==
+X-CSE-MsgGUID: YY/97588TUGiFvkBSWIwUA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11778"; a="89638191"
 X-IronPort-AV: E=Sophos;i="6.23,220,1770624000"; 
-   d="scan'208";a="79086559"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2026 12:36:23 -0700
-X-CSE-ConnectionGUID: FE+u2+MMSB+CUTST28UnZA==
-X-CSE-MsgGUID: SuIM1A7jSJGWv3SsGJVDrA==
+   d="scan'208";a="89638191"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2026 15:16:42 -0700
+X-CSE-ConnectionGUID: JIThJWJVRKuSM5IItQBo2Q==
+X-CSE-MsgGUID: 8T928h7nSWWvXYEh0v5dug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,220,1770624000"; 
-   d="scan'208";a="233132424"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 06 May 2026 12:36:21 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="238072298"
+Received: from lkp-server01.sh.intel.com (HELO 9ec114424ce8) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 06 May 2026 15:16:36 -0700
+Received: from kbuild by 9ec114424ce8 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wKi2d-000000006bx-0SxN;
-	Wed, 06 May 2026 19:36:19 +0000
-Date: Wed, 6 May 2026 21:36:09 +0200
+	id 1wKkXg-000000001Gz-27pO;
+	Wed, 06 May 2026 22:16:32 +0000
+Date: Thu, 7 May 2026 06:15:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuniyuki Iwashima <kuniyu@google.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Kuniyuki Iwashima <kuniyu@google.com>,
-	bpf@vger.kernel.org, netdev@vger.kernel.org,
-	Eulgyu Kim <eulgyukim@snu.ac.kr>
-Subject: Re: [PATCH v1 bpf] bpf: Free reuseport cBPF prog after RCU grace
- period.
-Message-ID: <202605062104.y7Xps52z-lkp@intel.com>
-References: <20260424235247.1990272-1-kuniyu@google.com>
+To: Melissa Wen <mwen@igalia.com>, airlied@gmail.com,
+	alexander.deucher@amd.com, christian.koenig@amd.com,
+	harry.wentland@amd.com, maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org, simona@ffwll.ch, siqueira@igalia.com,
+	sunpeng.li@amd.com, tzimmermann@suse.de
+Cc: oe-kbuild-all@lists.linux.dev, Alex Hung <alex.hung@amd.com>,
+	Simon Ser <contact@emersion.fr>,
+	Uma Shankar <uma.shankar@intel.com>,
+	Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>,
+	Xaver Hugl <xaver.hugl@kde.org>,
+	Pekka Paalanen <pekka.paalanen@collabora.com>,
+	Louis Chauvet <louis.chauvet@bootlin.com>,
+	Matthew Schwartz <matthew.schwartz@linux.dev>,
+	amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v4 6/6] drm/amd/display: use plane color_mgmt_changed to
+ track colorop changes
+Message-ID: <202605070624.Fss9vEZt-lkp@intel.com>
+References: <20260501132527.522320-7-mwen@igalia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,54 +82,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260424235247.1990272-1-kuniyu@google.com>
+In-Reply-To: <20260501132527.522320-7-mwen@igalia.com>
 
-Hi Kuniyuki,
+Hi Melissa,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on bpf/master]
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v7.1-rc2]
+[cannot apply to next-20260506]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/bpf-Free-reuseport-cBPF-prog-after-RCU-grace-period/20260425-093050
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
-patch link:    https://lore.kernel.org/r/20260424235247.1990272-1-kuniyu%40google.com
-patch subject: [PATCH v1 bpf] bpf: Free reuseport cBPF prog after RCU grace period.
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260506/202605062104.y7Xps52z-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260506/202605062104.y7Xps52z-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Melissa-Wen/drm-atomic-only-add-colorop-state-from-active-color-pipeline/20260504-102820
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20260501132527.522320-7-mwen%40igalia.com
+patch subject: [PATCH v4 6/6] drm/amd/display: use plane color_mgmt_changed to track colorop changes
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260507/202605070624.Fss9vEZt-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260507/202605070624.Fss9vEZt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605062104.y7Xps52z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605070624.Fss9vEZt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> net/core/filter.c:1666:6: error: conflicting types for 'sk_reuseport_prog_free'; have 'void(struct bpf_prog *, bool)' {aka 'void(struct bpf_prog *, _Bool)'}
-    1666 | void sk_reuseport_prog_free(struct bpf_prog *prog, bool wait_rcu)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/bpf_verifier.h:9,
-                    from net/core/filter.c:21:
-   include/linux/filter.h:1146:6: note: previous declaration of 'sk_reuseport_prog_free' with type 'void(struct bpf_prog *)'
-    1146 | void sk_reuseport_prog_free(struct bpf_prog *prog);
-         |      ^~~~~~~~~~~~~~~~~~~~~~
+>> Warning: drivers/gpu/drm/drm_atomic.c:1625 function parameter 'plane_state' not described in 'drm_atomic_add_affected_colorops'
+>> Warning: drivers/gpu/drm/drm_atomic.c:1625 function parameter 'plane_state' not described in 'drm_atomic_add_affected_colorops'
 
-
-vim +1666 net/core/filter.c
-
-  1665	
-> 1666	void sk_reuseport_prog_free(struct bpf_prog *prog, bool wait_rcu)
-  1667	{
-  1668		if (!prog)
-  1669			return;
-  1670	
-  1671		if (bpf_prog_was_classic(prog))
-  1672			call_rcu(&prog->aux->rcu, sk_reuseport_prog_free_rcu);
-  1673		else
-  1674			bpf_prog_put(prog);
-  1675	}
-  1676	
-
---
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
