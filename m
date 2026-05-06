@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7408830DD2F
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 May 2026 08:47:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D610933ADAF
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 May 2026 09:22:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778057250; cv=none; b=rZZX7TfzlW9NtJy+Zu+48EkPgUm2q433kcMY1aXs3kMJL+45X6IV283mDLMRK02HIDsJ87ZYdCyflF1LZdUIOZ+aOHpGDSK9uT6Y2r/9bzTcXiDg3IL98Xm2TN+hYy/o0OxxGdcftMhPxgiPoYYwTzc2yxq58xWlLTJqutd4dqs=
+	t=1778059354; cv=none; b=T5oVcMBwjZJWy+KHkjb+/rSPxMA4ek3iUGdGzAc0kIj/ZeWO1/CG+FYBGmgISZKfCfCbZvYFWeEvGkv0KO77XjgZ/tDXgBmjKk/vxwI1F2QRS+ogBoyBhYtaBFItx3S0gdK+nt6beeezNsFCV2XBM1uTeFVjK05rg/gow7HQPQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778057250; c=relaxed/simple;
-	bh=wBjTmVoZj6LeWFYADoLEyqRb76qAFRCDjeAhjHxofwc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NQliEiggyMid0Un2DtU1HJNvK2fh7hZfwe78FoG2Di3879EZTOwmTLj6Lnp0VytWfDbgDTKxQnwO6AF0nnyW0YGtKGj2PE0lJ4WNwt5hsE5Yd99kIrLCrvK4lu2aKO6KHOa3dHsOHUKmuZNfjs1A+fjvxpyPbphGTAqn1SN726I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k9gmSTpz; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1778059354; c=relaxed/simple;
+	bh=3Gr+ou/7S145m5BgT3QJizEly49CwDfW+ViL5pyinXc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mQTpcRe2Z8pS270LpghZvcPOuRlwjV130P/5XrgTw388P/MzkIvYv2OAsypVrfrQsFWlrO/hDRzxhetZ1WASSW/P6QIpxf+OGnKCYq2UP8tWLdS3f+JpUbUYvSmHJojSVGhT4GtirLJCSNElLGh0PYfVAlEWUMysLyHwnXrHQDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AiAsclvK; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k9gmSTpz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AiAsclvK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778057247; x=1809593247;
+  t=1778059353; x=1809595353;
   h=date:from:to:cc:subject:message-id;
-  bh=wBjTmVoZj6LeWFYADoLEyqRb76qAFRCDjeAhjHxofwc=;
-  b=k9gmSTpz3GO1U/swPEFlqOG4BTRZ1hIazsfu2dUhZ77ACbD87I8kDHZ7
-   xPUmtSjD59Ii/e2kQmtILUaSNypst0xYeCf1H6FWMDZVcvL4V68EkvceZ
-   NRuXXDSq4vM6R2tvhEGqjVRXQGygrDnTG+35FzXE6h0679ditdjx0cGo2
-   r1cNtWgiPl2rdCNBPxidV0yvtuYIAy6+54l+FhUd5xn/yJqmCGL7kiioS
-   Am5GCk1MOmDn6b7zUPkcBWBEEtTrvuaJ/JxGsKL7HFRQQTolHo6xHUnjr
-   egIxc0zYaJWn4AuY+X21bJRgRwP1Kd1T0gWyIhxg9rL3Hrvl75Slzklh0
-   A==;
-X-CSE-ConnectionGUID: 6dA+ECaUQcKQxRJK92kV1w==
-X-CSE-MsgGUID: FOBB4xZ/RUm9rdQJEiIBtw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11777"; a="78130149"
+  bh=3Gr+ou/7S145m5BgT3QJizEly49CwDfW+ViL5pyinXc=;
+  b=AiAsclvKVJuPOTFD2aE75scp3C56iFBw5+5/j4/1RLfliXb+JHsVU37y
+   hSMFCxa1xMkpSKsq/SQX0bF9KTU9+6qqFUBHositcJB2IsmVYWKKUQ8i4
+   za0+9JslzZDV7uHtKGOuk1tvzcDQrQp5y0regW90Eq18VsE87FpTvphta
+   ad08ao2C6dzhVa5NqObT5MSyyREsHzh//+nJrXeawz1stgRZPeyK+btu0
+   3jg2YrZBYFMgcu+BIBqNyS634IhE2Akn8mtjNlXdrNFDN+mWGP1IGHcph
+   nNy1zcwJtOS1TzcdzYXLfV/nVfs7cGy57xqwImMKiPs3KGKQGV1BPofBz
+   Q==;
+X-CSE-ConnectionGUID: I0rcUudrSmuorvceAEs/Fw==
+X-CSE-MsgGUID: mNO1f3amSU6MxGKbnuxL1Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11777"; a="79092638"
 X-IronPort-AV: E=Sophos;i="6.23,219,1770624000"; 
-   d="scan'208";a="78130149"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2026 01:47:27 -0700
-X-CSE-ConnectionGUID: mNyXde+zSqSH4x3akhqDkg==
-X-CSE-MsgGUID: 2DLCifDnRZG44lyEI3DFNQ==
+   d="scan'208";a="79092638"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2026 02:22:32 -0700
+X-CSE-ConnectionGUID: cyJItb09SU69wEU5SMjVIA==
+X-CSE-MsgGUID: CQYc5u8ETpy6M0P63vChnQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,219,1770624000"; 
-   d="scan'208";a="232982929"
+   d="scan'208";a="259517996"
 Received: from lkp-server01.sh.intel.com (HELO 9ec114424ce8) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 06 May 2026 01:47:24 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 06 May 2026 02:22:30 -0700
 Received: from kbuild by 9ec114424ce8 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wKXub-000000000pd-3rbY;
-	Wed, 06 May 2026 08:47:21 +0000
-Date: Wed, 06 May 2026 16:46:58 +0800
+	id 1wKYSa-000000000ql-0E0Q;
+	Wed, 06 May 2026 09:22:28 +0000
+Date: Wed, 06 May 2026 17:21:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
- Linus Walleij <linusw@kernel.org>,
- Shawn Guo <shengchao.guo@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Maulik Shah <maulik.shah@oss.qualcomm.com>,
- Pankaj Patil <pankaj.patil@oss.qualcomm.com>
-Subject: [linusw-pinctrl:devel 20/35]
- drivers/pinctrl/qcom/pinctrl-nord.c:1420:9: sparse: sparse: Initializer entry
- defined twice
-Message-ID: <202605061633.BJLI5voT-lkp@intel.com>
+To: Pavan Chebbi <pavan.chebbi@broadcom.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Jason Gunthorpe <jgg@ziepe.ca>, Andy Gospodarek <gospo@broadcom.com>,
+ Dave Jiang <dave.jiang@intel.com>
+Subject: drivers/fwctl/bnxt/main.c:85 bnxtctl_validate_rpc() warn:
+ always true condition '(scope >= 0) => (0-u32max >= 0)'
+Message-ID: <202605061701.ZCok0cvD-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -65,187 +61,121 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-head:   590bb3b76d18487f884e0915efedbd6e80250bb1
-commit: c24dd0826f064d6b99a74ca0e004a4cda6677b9f [20/35] pinctrl: qcom: add the TLMM driver for the Nord platforms
-config: loongarch-randconfig-r134-20260505 (https://download.01.org/0day-ci/archive/20260506/202605061633.BJLI5voT-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   74fe02ce122a6103f207d29fafc8b3a53de6abaf
+commit: e782efb830cd8c1879ee15d80c6441ac9fa6c8a8 fwctl/bnxt_fwctl: Add bnxt fwctl device
+date:   5 weeks ago
+config: loongarch-randconfig-r073-20260506 (https://download.01.org/0day-ci/archive/20260506/202605061701.ZCok0cvD-lkp@intel.com/config)
 compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260506/202605061633.BJLI5voT-lkp@intel.com/reproduce)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+smatch: v0.5.0-9065-ge9cc34fd
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: e782efb830cd ("fwctl/bnxt_fwctl: Add bnxt fwctl device")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605061633.BJLI5voT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605061701.ZCok0cvD-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/pinctrl/qcom/pinctrl-nord.c:1420:9: sparse: sparse: Initializer entry defined twice
-   drivers/pinctrl/qcom/pinctrl-nord.c:1422:9: sparse:   also defined here
+smatch warnings:
+drivers/fwctl/bnxt/main.c:85 bnxtctl_validate_rpc() warn: always true condition '(scope >= 0) => (0-u32max >= 0)'
 
-vim +1420 drivers/pinctrl/qcom/pinctrl-nord.c
+vim +85 drivers/fwctl/bnxt/main.c
 
-  1309	
-  1310	static const struct pinfunction nord_functions[] = {
-  1311		MSM_GPIO_PIN_FUNCTION(gpio),
-  1312		MSM_PIN_FUNCTION(aoss_cti),
-  1313		MSM_PIN_FUNCTION(atest_char),
-  1314		MSM_PIN_FUNCTION(atest_usb20),
-  1315		MSM_PIN_FUNCTION(atest_usb21),
-  1316		MSM_PIN_FUNCTION(aud_intfc0_clk),
-  1317		MSM_PIN_FUNCTION(aud_intfc0_data),
-  1318		MSM_PIN_FUNCTION(aud_intfc0_ws),
-  1319		MSM_PIN_FUNCTION(aud_intfc10_clk),
-  1320		MSM_PIN_FUNCTION(aud_intfc10_data),
-  1321		MSM_PIN_FUNCTION(aud_intfc10_ws),
-  1322		MSM_PIN_FUNCTION(aud_intfc1_clk),
-  1323		MSM_PIN_FUNCTION(aud_intfc1_data),
-  1324		MSM_PIN_FUNCTION(aud_intfc1_ws),
-  1325		MSM_PIN_FUNCTION(aud_intfc2_clk),
-  1326		MSM_PIN_FUNCTION(aud_intfc2_data),
-  1327		MSM_PIN_FUNCTION(aud_intfc2_ws),
-  1328		MSM_PIN_FUNCTION(aud_intfc3_clk),
-  1329		MSM_PIN_FUNCTION(aud_intfc3_data),
-  1330		MSM_PIN_FUNCTION(aud_intfc3_ws),
-  1331		MSM_PIN_FUNCTION(aud_intfc4_clk),
-  1332		MSM_PIN_FUNCTION(aud_intfc4_data),
-  1333		MSM_PIN_FUNCTION(aud_intfc4_ws),
-  1334		MSM_PIN_FUNCTION(aud_intfc5_clk),
-  1335		MSM_PIN_FUNCTION(aud_intfc5_data),
-  1336		MSM_PIN_FUNCTION(aud_intfc5_ws),
-  1337		MSM_PIN_FUNCTION(aud_intfc6_clk),
-  1338		MSM_PIN_FUNCTION(aud_intfc6_data),
-  1339		MSM_PIN_FUNCTION(aud_intfc6_ws),
-  1340		MSM_PIN_FUNCTION(aud_intfc7_clk),
-  1341		MSM_PIN_FUNCTION(aud_intfc7_data),
-  1342		MSM_PIN_FUNCTION(aud_intfc7_ws),
-  1343		MSM_PIN_FUNCTION(aud_intfc8_clk),
-  1344		MSM_PIN_FUNCTION(aud_intfc8_data),
-  1345		MSM_PIN_FUNCTION(aud_intfc8_ws),
-  1346		MSM_PIN_FUNCTION(aud_intfc9_clk),
-  1347		MSM_PIN_FUNCTION(aud_intfc9_data),
-  1348		MSM_PIN_FUNCTION(aud_intfc9_ws),
-  1349		MSM_PIN_FUNCTION(aud_mclk0_mira),
-  1350		MSM_PIN_FUNCTION(aud_mclk0_mirb),
-  1351		MSM_PIN_FUNCTION(aud_mclk1_mira),
-  1352		MSM_PIN_FUNCTION(aud_mclk1_mirb),
-  1353		MSM_PIN_FUNCTION(aud_mclk2_mira),
-  1354		MSM_PIN_FUNCTION(aud_mclk2_mirb),
-  1355		MSM_PIN_FUNCTION(aud_refclk0),
-  1356		MSM_PIN_FUNCTION(aud_refclk1),
-  1357		MSM_PIN_FUNCTION(bist_done),
-  1358		MSM_PIN_FUNCTION(ccu_async_in),
-  1359		MSM_PIN_FUNCTION(ccu_i2c_scl),
-  1360		MSM_PIN_FUNCTION(ccu_i2c_sda),
-  1361		MSM_PIN_FUNCTION(ccu_timer),
-  1362		MSM_PIN_FUNCTION(clink_debug),
-  1363		MSM_PIN_FUNCTION(dbg_out),
-  1364		MSM_PIN_FUNCTION(dbg_out_clk),
-  1365		MSM_PIN_FUNCTION(ddr_bist_complete),
-  1366		MSM_PIN_FUNCTION(ddr_bist_fail),
-  1367		MSM_PIN_FUNCTION(ddr_bist_start),
-  1368		MSM_PIN_FUNCTION(ddr_bist_stop),
-  1369		MSM_PIN_FUNCTION(ddr_pxi),
-  1370		MSM_PIN_FUNCTION(dp_rx0),
-  1371		MSM_PIN_FUNCTION(dp_rx00),
-  1372		MSM_PIN_FUNCTION(dp_rx01),
-  1373		MSM_PIN_FUNCTION(dp_rx0_mute),
-  1374		MSM_PIN_FUNCTION(dp_rx1),
-  1375		MSM_PIN_FUNCTION(dp_rx10),
-  1376		MSM_PIN_FUNCTION(dp_rx11),
-  1377		MSM_PIN_FUNCTION(dp_rx1_mute),
-  1378		MSM_PIN_FUNCTION(edp0_hot),
-  1379		MSM_PIN_FUNCTION(edp0_lcd),
-  1380		MSM_PIN_FUNCTION(edp1_hot),
-  1381		MSM_PIN_FUNCTION(edp1_lcd),
-  1382		MSM_PIN_FUNCTION(edp2_hot),
-  1383		MSM_PIN_FUNCTION(edp2_lcd),
-  1384		MSM_PIN_FUNCTION(edp3_hot),
-  1385		MSM_PIN_FUNCTION(edp3_lcd),
-  1386		MSM_PIN_FUNCTION(emac0_mcg),
-  1387		MSM_PIN_FUNCTION(emac0_mdc),
-  1388		MSM_PIN_FUNCTION(emac0_mdio),
-  1389		MSM_PIN_FUNCTION(emac0_ptp),
-  1390		MSM_PIN_FUNCTION(emac1_mcg),
-  1391		MSM_PIN_FUNCTION(emac1_mdc),
-  1392		MSM_PIN_FUNCTION(emac1_mdio),
-  1393		MSM_PIN_FUNCTION(emac1_ptp),
-  1394		MSM_PIN_FUNCTION(gcc_gp1_clk),
-  1395		MSM_PIN_FUNCTION(gcc_gp2_clk),
-  1396		MSM_PIN_FUNCTION(gcc_gp3_clk),
-  1397		MSM_PIN_FUNCTION(gcc_gp4_clk),
-  1398		MSM_PIN_FUNCTION(gcc_gp5_clk),
-  1399		MSM_PIN_FUNCTION(gcc_gp6_clk),
-  1400		MSM_PIN_FUNCTION(gcc_gp7_clk),
-  1401		MSM_PIN_FUNCTION(gcc_gp8_clk),
-  1402		MSM_PIN_FUNCTION(jitter_bist),
-  1403		MSM_PIN_FUNCTION(lbist_pass),
-  1404		MSM_PIN_FUNCTION(mbist_pass),
-  1405		MSM_PIN_FUNCTION(mdp0_vsync_out),
-  1406		MSM_PIN_FUNCTION(mdp1_vsync_out),
-  1407		MSM_PIN_FUNCTION(mdp_vsync_e),
-  1408		MSM_PIN_FUNCTION(mdp_vsync_p),
-  1409		MSM_PIN_FUNCTION(mdp_vsync_s),
-  1410		MSM_PIN_FUNCTION(pcie0_clk_req_n),
-  1411		MSM_PIN_FUNCTION(pcie1_clk_req_n),
-  1412		MSM_PIN_FUNCTION(pcie2_clk_req_n),
-  1413		MSM_PIN_FUNCTION(pcie3_clk_req_n),
-  1414		MSM_PIN_FUNCTION(phase_flag),
-  1415		MSM_PIN_FUNCTION(pll_bist_sync),
-  1416		MSM_PIN_FUNCTION(pll_clk_aux),
-  1417		MSM_PIN_FUNCTION(prng_rosc0),
-  1418		MSM_PIN_FUNCTION(prng_rosc1),
-  1419		MSM_PIN_FUNCTION(pwrbrk_i_n),
-> 1420		MSM_PIN_FUNCTION(qdss_cti),
-  1421		MSM_PIN_FUNCTION(qdss),
-  1422		MSM_PIN_FUNCTION(qdss_cti),
-  1423		MSM_PIN_FUNCTION(qspi),
-  1424		MSM_PIN_FUNCTION(qup0_se0),
-  1425		MSM_PIN_FUNCTION(qup0_se1),
-  1426		MSM_PIN_FUNCTION(qup0_se2),
-  1427		MSM_PIN_FUNCTION(qup0_se3),
-  1428		MSM_PIN_FUNCTION(qup0_se4),
-  1429		MSM_PIN_FUNCTION(qup0_se5),
-  1430		MSM_PIN_FUNCTION(qup1_se0),
-  1431		MSM_PIN_FUNCTION(qup1_se1),
-  1432		MSM_PIN_FUNCTION(qup1_se2),
-  1433		MSM_PIN_FUNCTION(qup1_se3),
-  1434		MSM_PIN_FUNCTION(qup1_se4),
-  1435		MSM_PIN_FUNCTION(qup1_se5),
-  1436		MSM_PIN_FUNCTION(qup1_se6),
-  1437		MSM_PIN_FUNCTION(qup2_se0),
-  1438		MSM_PIN_FUNCTION(qup2_se1),
-  1439		MSM_PIN_FUNCTION(qup2_se2),
-  1440		MSM_PIN_FUNCTION(qup2_se3),
-  1441		MSM_PIN_FUNCTION(qup2_se4),
-  1442		MSM_PIN_FUNCTION(qup2_se5),
-  1443		MSM_PIN_FUNCTION(qup2_se6),
-  1444		MSM_PIN_FUNCTION(qup3_se0_mira),
-  1445		MSM_PIN_FUNCTION(qup3_se0_mirb),
-  1446		MSM_PIN_FUNCTION(sailss_ospi),
-  1447		MSM_PIN_FUNCTION(sdc4_clk),
-  1448		MSM_PIN_FUNCTION(sdc4_cmd),
-  1449		MSM_PIN_FUNCTION(sdc4_data),
-  1450		MSM_PIN_FUNCTION(smb_alert),
-  1451		MSM_PIN_FUNCTION(smb_alert_n),
-  1452		MSM_PIN_FUNCTION(smb_clk),
-  1453		MSM_PIN_FUNCTION(smb_dat),
-  1454		MSM_PIN_FUNCTION(tb_trig_sdc4),
-  1455		MSM_PIN_FUNCTION(tmess_prng0),
-  1456		MSM_PIN_FUNCTION(tmess_prng1),
-  1457		MSM_PIN_FUNCTION(tsc_timer),
-  1458		MSM_PIN_FUNCTION(tsense_pwm),
-  1459		MSM_PIN_FUNCTION(usb0_hs),
-  1460		MSM_PIN_FUNCTION(usb0_phy_ps),
-  1461		MSM_PIN_FUNCTION(usb1_hs),
-  1462		MSM_PIN_FUNCTION(usb1_phy_ps),
-  1463		MSM_PIN_FUNCTION(usb2_hs),
-  1464		MSM_PIN_FUNCTION(usxgmii0_phy),
-  1465		MSM_PIN_FUNCTION(usxgmii1_phy),
-  1466		MSM_PIN_FUNCTION(vsense_trigger_mirnat),
-  1467		MSM_PIN_FUNCTION(wcn_sw),
-  1468		MSM_PIN_FUNCTION(wcn_sw_ctrl),
-  1469	};
-  1470	
+    57	
+    58	/* Caller must hold edev->en_dev_lock */
+    59	static bool bnxtctl_validate_rpc(struct bnxt_en_dev *edev,
+    60					 struct bnxt_fw_msg *hwrm_in,
+    61					 enum fwctl_rpc_scope scope)
+    62	{
+    63		struct input *req = (struct input *)hwrm_in->msg;
+    64	
+    65		lockdep_assert_held(&edev->en_dev_lock);
+    66		if (edev->flags & BNXT_EN_FLAG_ULP_STOPPED)
+    67			return false;
+    68	
+    69		switch (le16_to_cpu(req->req_type)) {
+    70		case HWRM_FUNC_RESET:
+    71		case HWRM_PORT_CLR_STATS:
+    72		case HWRM_FW_RESET:
+    73		case HWRM_FW_SYNC:
+    74		case HWRM_FW_SET_TIME:
+    75		case HWRM_DBG_LOG_BUFFER_FLUSH:
+    76		case HWRM_DBG_ERASE_NVM:
+    77		case HWRM_DBG_CFG:
+    78		case HWRM_NVM_DEFRAG:
+    79		case HWRM_NVM_FACTORY_DEFAULTS:
+    80		case HWRM_NVM_FLUSH:
+    81		case HWRM_NVM_VERIFY_UPDATE:
+    82		case HWRM_NVM_ERASE_DIR_ENTRY:
+    83		case HWRM_NVM_MOD_DIR_ENTRY:
+    84		case HWRM_NVM_FIND_DIR_ENTRY:
+  > 85			return scope >= FWCTL_RPC_CONFIGURATION;
+    86	
+    87		case HWRM_VER_GET:
+    88		case HWRM_ERROR_RECOVERY_QCFG:
+    89		case HWRM_FUNC_QCAPS:
+    90		case HWRM_FUNC_QCFG:
+    91		case HWRM_FUNC_QSTATS:
+    92		case HWRM_PORT_PHY_QCFG:
+    93		case HWRM_PORT_MAC_QCFG:
+    94		case HWRM_PORT_PHY_QCAPS:
+    95		case HWRM_PORT_PHY_I2C_READ:
+    96		case HWRM_PORT_PHY_MDIO_READ:
+    97		case HWRM_QUEUE_PRI2COS_QCFG:
+    98		case HWRM_QUEUE_COS2BW_QCFG:
+    99		case HWRM_VNIC_RSS_QCFG:
+   100		case HWRM_QUEUE_GLOBAL_QCFG:
+   101		case HWRM_QUEUE_ADPTV_QOS_RX_FEATURE_QCFG:
+   102		case HWRM_QUEUE_ADPTV_QOS_TX_FEATURE_QCFG:
+   103		case HWRM_QUEUE_QCAPS:
+   104		case HWRM_QUEUE_ADPTV_QOS_RX_TUNING_QCFG:
+   105		case HWRM_QUEUE_ADPTV_QOS_TX_TUNING_QCFG:
+   106		case HWRM_TUNNEL_DST_PORT_QUERY:
+   107		case HWRM_PORT_TX_FIR_QCFG:
+   108		case HWRM_FW_LIVEPATCH_QUERY:
+   109		case HWRM_FW_QSTATUS:
+   110		case HWRM_FW_HEALTH_CHECK:
+   111		case HWRM_FW_GET_TIME:
+   112		case HWRM_PORT_EP_TX_QCFG:
+   113		case HWRM_PORT_QCFG:
+   114		case HWRM_PORT_MAC_QCAPS:
+   115		case HWRM_TEMP_MONITOR_QUERY:
+   116		case HWRM_REG_POWER_QUERY:
+   117		case HWRM_CORE_FREQUENCY_QUERY:
+   118		case HWRM_CFA_REDIRECT_QUERY_TUNNEL_TYPE:
+   119		case HWRM_CFA_ADV_FLOW_MGNT_QCAPS:
+   120		case HWRM_FUNC_RESOURCE_QCAPS:
+   121		case HWRM_FUNC_BACKING_STORE_QCAPS:
+   122		case HWRM_FUNC_BACKING_STORE_QCFG:
+   123		case HWRM_FUNC_QSTATS_EXT:
+   124		case HWRM_FUNC_PTP_PIN_QCFG:
+   125		case HWRM_FUNC_PTP_EXT_QCFG:
+   126		case HWRM_FUNC_BACKING_STORE_QCFG_V2:
+   127		case HWRM_FUNC_BACKING_STORE_QCAPS_V2:
+   128		case HWRM_FUNC_SYNCE_QCFG:
+   129		case HWRM_FUNC_TTX_PACING_RATE_PROF_QUERY:
+   130		case HWRM_PORT_PHY_FDRSTAT:
+   131		case HWRM_DBG_RING_INFO_GET:
+   132		case HWRM_DBG_QCAPS:
+   133		case HWRM_DBG_QCFG:
+   134		case HWRM_DBG_USEQ_FLUSH:
+   135		case HWRM_DBG_USEQ_QCAPS:
+   136		case HWRM_DBG_SIM_CABLE_STATE:
+   137		case HWRM_DBG_TOKEN_QUERY_AUTH_IDS:
+   138		case HWRM_NVM_GET_DEV_INFO:
+   139		case HWRM_NVM_GET_DIR_INFO:
+   140		case HWRM_SELFTEST_QLIST:
+   141			return scope >= FWCTL_RPC_DEBUG_READ_ONLY;
+   142	
+   143		case HWRM_PORT_PHY_I2C_WRITE:
+   144		case HWRM_PORT_PHY_MDIO_WRITE:
+   145			return scope >= FWCTL_RPC_DEBUG_WRITE;
+   146	
+   147		default:
+   148			return false;
+   149		}
+   150	}
+   151	
 
 -- 
 0-DAY CI Kernel Test Service
