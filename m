@@ -1,87 +1,180 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6AFA44CF5B
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 May 2026 12:41:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7CAE47ECDE
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 May 2026 13:57:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778071281; cv=none; b=YuPWFf6O1Nxq7FbQLHysnKKHt5F4rXCrM7Eqp3cJiLGG9XjNxReHjPmgVmjBMw8hH1d0+RH2RlLPRGoiz8dyRLoyZe7aKmScVPvYaZWx1sjFolFri8w8Iebq1WPIUlGYjSrRQaLzCUjHs5Snd3nS7VxgHZlZjT89vj/0CPxqnps=
+	t=1778075865; cv=none; b=e7PyYZkrldlPQCiGKDmEZr7aTVJevUvjOFFwgd/7CEHqyy4zWmCWVkILeFhJ5qoOSYLSrd8G0GJykfboj/cGtmJKurMnGz05BnU4hc8k/SVDvm9m6smgPCfIl6V4+8qJSyVvvjUj6k1inXCxj29+SHVOBUELBNn7MuCaot3vXYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778071281; c=relaxed/simple;
-	bh=xqNL7Yz+c6CtEBPB7Gb8+W57OWUUd4rlvz0gf3H/SQ4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=e8try7OTX4yxVN2NQJQVG31UytgVYK2DQeNP1Oj7+wGa9+kBVsPjvZ32JS+Ki+7z0v+kTYRQ7F7WiUxIb2brHgLgeqRc8CHjAdi76UNbHiF5Lh7i72hMTBz9o2tLmJ4dMwvsTgyPp4bIinOxcWnVMWsrRPnoqUYScnV9XoPn84U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HfRNGhGg; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1778075865; c=relaxed/simple;
+	bh=Mp+WgSWHYdKleZjS+gQsLtyvkLgTIxaCvE/kSEKBR5U=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=Tc5NlE7XUcLGUywocDpCKT70BAHqHYtoOL9Rw/hQeanlAnszG6Rs44cZLEB0sTaXM0c7xVqk6/DADHoPhe18dK6fM9Z6YE46Xtw1/lSppNVzHLeYVW0Ysu0g5p5bj7Nr2wGGGWaLPRThrjDprpWQKjMM3LDkq9cnH08m7kdfL34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=e63Lr1sM; arc=none smtp.client-ip=209.85.216.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HfRNGhGg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778071280; x=1809607280;
-  h=date:from:to:cc:subject:message-id;
-  bh=xqNL7Yz+c6CtEBPB7Gb8+W57OWUUd4rlvz0gf3H/SQ4=;
-  b=HfRNGhGgSw8xmGY7GrPl5kghKT7tPQOQJeIf9B9lfF9XoQ67dwWBwYl+
-   mTT+mEiIoMsPk8phrK/wASs9nXzJDFJAgwngMAJ4NA27um/Ku8h1dYzqj
-   cUMveZ/H9f8XkPZ+xg8igGM7Val/ifl+JQ1bMCxeo1g2dzS2KyH768s6/
-   FRwMwbH6K50VFyhA5jWt/5NK0pmiuyIs+Js8wf/WhH9BYBFlZTla6r1Ea
-   pH+m3E1cDvpcwh3QROqc2mjfgcy4uu2A3gu+aO0NY1G5zm7jf9UemQS40
-   XUlhNdm3wDo8xZnlMbZ8H3xSjAbyGyIrziIip7fMw9i2gOyev0aEUvgX3
-   g==;
-X-CSE-ConnectionGUID: XzUOBNldQya7ooAqayY5xA==
-X-CSE-MsgGUID: YadgAEAsQs25mv/zxKJs6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11777"; a="66529487"
-X-IronPort-AV: E=Sophos;i="6.23,219,1770624000"; 
-   d="scan'208";a="66529487"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2026 05:41:19 -0700
-X-CSE-ConnectionGUID: kXWneAhERdmmwZRVy5n1Pw==
-X-CSE-MsgGUID: IqQfAVz3Q+esiptBKsY0Hg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,219,1770624000"; 
-   d="scan'208";a="233477656"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 06 May 2026 05:41:18 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wKbYy-000000006Yb-0K0t;
-	Wed, 06 May 2026 12:41:16 +0000
-Date: Wed, 06 May 2026 14:40:57 +0200
-From: kernel test robot <lkp@intel.com>
-To: Anuj Gupta <anuj20.g@samsung.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jens Axboe <axboe@kernel.dk>,
- Kanchan Joshi <joshi.k@samsung.com>
-Subject: [axboe:nvme-raw-queues 8/16] error[E0063]: missing fields
- `poll_uring_cmd`, `queue_uring_cmd`, `register_queue` and 1 other field in
- initializer of `bindings::blk_mq_ops`
-Message-ID: <202605061431.U03wNzgJ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="e63Lr1sM"
+Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-364ef32a758so10073201a91.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 06 May 2026 06:57:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1778075862; x=1778680662; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bte2ikXfMH1X30UWHnUNHKf52jg/NvhErm9OVWL82Ks=;
+        b=e63Lr1sM4Z2uHU69e/wPUZvCuDF5nQOuThsa94OGYbQJFk97G3I/DWNekFkpc96wM3
+         fP7IUWZgd+XW9gJ33io0mnAmCv5vXgyKyxIyYKcJurSjmJN9v0iFxbiSMU85wqzNUgpz
+         n22Mlz4JQOEtU6yNeaixSMKTzMLR8lucMWvCk+s6hWcYbCq60X4BSIQ7A/BPfAk2LWda
+         MQt2ubNzUpftCXkky8eYnW6rtk+c/nyaKoGh6XntWQX6N0FmiLmj5r3ivV6+T4aQCaZz
+         1rTnMSLpzgaGq9zBz00MZOSYnMyatI/GJU+Jt/tNq+VzWcin630oZ4NyrqkCWwooCjrS
+         Zj8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778075862; x=1778680662;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bte2ikXfMH1X30UWHnUNHKf52jg/NvhErm9OVWL82Ks=;
+        b=RC5z3i5nTHM9KAsIjb7kkGluTk/YWl3AgupgFFMwaaz2koKNLnhuqupsH4OqkRelzD
+         hU1QrIOI3Dc0eLFEdn/rbujIxCvH5kRU1AItmS2cdRdBUl33yIkprR92oBRWguPbtWIT
+         pb6PSpQX5zQVmXhmaztwL2wIyAW0dp4sr+TQE2r3z54GDoQDgxp9lf+jSBoy+jL84AgS
+         fyoSHinfCt8HUntnarj/TQg7Wg9ZtPfCt0gNYiNoVQjJwIlvsBBfe5VPnHORREMt9Pz3
+         nDzngU5r90GItJsH3BrH5C+MMIlfhHY66j8g4Q/F788AnDl1TpnoM/erOtFzlUWogfhl
+         qvOQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+X2raxgw9J/4tfrVZuMZOyfWS7j6zZ2wuxAlSvVxDBgHqGzTzfkjCdkE25RHk7Cnw03Kaxk+jh4q9SB+CZ@lists.linux.dev
+X-Gm-Message-State: AOJu0YySojii6a4Lhnb+bePska1bjRNcAIS7fkdARC2RKvO2NH0fD/Tv
+	eDAkmi+6rC5P+FLb9oijB1W7su8akjiRwwop20KpkrOI+Oyu80KfRV9iX2E5q7XJvzWjQvw9dhr
+	H23m5cw==
+X-Received: from pgbcr4.prod.google.com ([2002:a05:6a02:4104:b0:c80:2817:3a23])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:4314:b0:3a2:dbaa:82ec
+ with SMTP id adf61e73a8af0-3aa5aae7ab0mr3951938637.32.1778075861517; Wed, 06
+ May 2026 06:57:41 -0700 (PDT)
+Date: Wed, 6 May 2026 06:57:40 -0700
+In-Reply-To: <69f8dd59.170a0220.bb392.0004.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+Mime-Version: 1.0
+References: <6936812a.a70a0220.38f243.0090.GAE@google.com> <69f8dd59.170a0220.bb392.0004.GAE@google.com>
+Message-ID: <aftI1Nt2PTptaUs2@google.com>
+Subject: Re: [syzbot] [mm?] BUG: sleeping function called from invalid context
+ in kvm_mmu_notifier_invalidate_range_start
+From: Sean Christopherson <seanjc@google.com>
+To: syzbot <syzbot+c3178b6b512446632bac@syzkaller.appspotmail.com>
+Cc: akpm@linux-foundation.org, dwmw@amazon.co.uk, kvm@vger.kernel.org, 
+	liam.howlett@oracle.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-rt-devel@lists.linux.dev, lkp@intel.com, llvm@lists.linux.dev, 
+	lorenzo.stoakes@oracle.com, me@brighamcampbell.com, mhocko@suse.com, 
+	oe-kbuild-all@lists.linux.dev, pbonzini@redhat.com, rientjes@google.com, 
+	rppt@kernel.org, shaikhkamal2012@gmail.com, shakeel.butt@linux.dev, 
+	skhan@linuxfoundation.org, surenb@google.com, syzkaller-bugs@googlegroups.com, 
+	vbabka@kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git nvme-raw-queues
-head:   38cfa7887dc8d403af2baa576d06c438408a192c
-commit: baa3150843ddf26bb83bff0a7e87b22d60a4bb70 [8/16] block: add mq_ops to submit and complete commands from raw-queue
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260506/202605061431.U03wNzgJ-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260506/202605061431.U03wNzgJ-lkp@intel.com/reproduce)
+On Mon, May 04, 2026, syzbot wrote:
+> syzbot has found a reproducer for the following issue on:
+> 
+> HEAD commit:    b9303e6bff70 Add linux-next specific files for 20260430
+> git tree:       linux-next
+> console output: https://syzkaller.appspot.com/x/log.txt?x=13745dba580000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=5474e13c6d20d45c
+> dashboard link: https://syzkaller.appspot.com/bug?extid=c3178b6b512446632bac
+> compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=125dd748580000
+> 
+> Downloadable assets:
+> disk image: https://storage.googleapis.com/syzbot-assets/b3a0a2e50f73/disk-b9303e6b.raw.xz
+> vmlinux: https://storage.googleapis.com/syzbot-assets/d3d481b220d4/vmlinux-b9303e6b.xz
+> kernel image: https://storage.googleapis.com/syzbot-assets/d6e012913960/bzImage-b9303e6b.xz
+> 
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+c3178b6b512446632bac@syzkaller.appspotmail.com
+> 
+> BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:48
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605061431.U03wNzgJ-lkp@intel.com/
+This is a known issue:
 
-All errors (new ones prefixed by >>):
+https://lore.kernel.org/all/20260429222502.25414-1-shaikhkamal2012@gmail.com
 
->> error[E0063]: missing fields `poll_uring_cmd`, `queue_uring_cmd`, `register_queue` and 1 other field in initializer of `bindings::blk_mq_ops`
-   --> rust/kernel/block/mq/operations.rs:257:42
-   |
-   257 |     const VTABLE: bindings::blk_mq_ops = bindings::blk_mq_ops {
-   |                                          ^^^^^^^^^^^^^^^^^^^^ missing `poll_uring_cmd`, `queue_uring_cmd`, `register_queue` and 1 other field
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> in_atomic(): 0, irqs_disabled(): 0, non_block: 1, pid: 40, name: oom_reaper
+> preempt_count: 0, expected: 0
+> RCU nest depth: 0, expected: 0
+> 4 locks held by oom_reaper/40:
+>  #0: ffff8880335ed1b0 (&mm->mmap_lock){++++}-{4:4}, at: mmap_read_trylock include/linux/mmap_lock.h:611 [inline]
+>  #0: ffff8880335ed1b0 (&mm->mmap_lock){++++}-{4:4}, at: oom_reap_task_mm mm/oom_kill.c:566 [inline]
+>  #0: ffff8880335ed1b0 (&mm->mmap_lock){++++}-{4:4}, at: oom_reap_task mm/oom_kill.c:609 [inline]
+>  #0: ffff8880335ed1b0 (&mm->mmap_lock){++++}-{4:4}, at: oom_reaper+0x2bb/0xc10 mm/oom_kill.c:650
+>  #1: ffffffff8e3066c0 (mmu_notifier_invalidate_range_start){+.+.}-{0:0}, at: mmu_notifier_invalidate_range_start_nonblock include/linux/mmu_notifier.h:495 [inline]
+>  #1: ffffffff8e3066c0 (mmu_notifier_invalidate_range_start){+.+.}-{0:0}, at: zap_vma_for_reaping+0x193/0x380 mm/memory.c:2119
+>  #2: ffffffff8e306718 (srcu){.+.+}-{0:0}, at: srcu_lock_acquire include/linux/srcu.h:187 [inline]
+>  #2: ffffffff8e306718 (srcu){.+.+}-{0:0}, at: srcu_read_lock include/linux/srcu.h:294 [inline]
+>  #2: ffffffff8e306718 (srcu){.+.+}-{0:0}, at: mn_hlist_invalidate_range_start mm/mmu_notifier.c:515 [inline]
+>  #2: ffffffff8e306718 (srcu){.+.+}-{0:0}, at: __mmu_notifier_invalidate_range_start+0x5a1/0xb60 mm/mmu_notifier.c:580
+>  #3: ffff88803996caf8 (&kvm->mn_invalidate_lock){+.+.}-{3:3}, at: spin_lock include/linux/spinlock_rt.h:45 [inline]
+>  #3: ffff88803996caf8 (&kvm->mn_invalidate_lock){+.+.}-{3:3}, at: kvm_mmu_notifier_invalidate_range_start+0x1b7/0xc00 virt/kvm/kvm_main.c:744
+> CPU: 0 UID: 0 PID: 40 Comm: oom_reaper Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/18/2026
+> Call Trace:
+>  <TASK>
+>  dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+>  __might_resched+0x329/0x480 kernel/sched/core.c:9163
+>  __rt_spin_lock kernel/locking/spinlock_rt.c:48 [inline]
+>  rt_spin_lock+0xc2/0x400 kernel/locking/spinlock_rt.c:57
+>  spin_lock include/linux/spinlock_rt.h:45 [inline]
+>  kvm_mmu_notifier_invalidate_range_start+0x1b7/0xc00 virt/kvm/kvm_main.c:744
+>  mn_hlist_invalidate_range_start mm/mmu_notifier.c:525 [inline]
+>  __mmu_notifier_invalidate_range_start+0x6e4/0xb60 mm/mmu_notifier.c:580
+>  mmu_notifier_invalidate_range_start_nonblock include/linux/mmu_notifier.h:498 [inline]
+>  zap_vma_for_reaping+0x1f7/0x380 mm/memory.c:2119
+>  __oom_reap_task_mm mm/oom_kill.c:548 [inline]
+>  oom_reap_task_mm mm/oom_kill.c:585 [inline]
+>  oom_reap_task mm/oom_kill.c:609 [inline]
+>  oom_reaper+0x51e/0xc10 mm/oom_kill.c:650
+>  kthread+0x388/0x470 kernel/kthread.c:436
+>  ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+>  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+>  </TASK>
+> BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:48
+> in_atomic(): 0, irqs_disabled(): 0, non_block: 1, pid: 40, name: oom_reaper
+> preempt_count: 0, expected: 0
+> RCU nest depth: 0, expected: 0
+> 4 locks held by oom_reaper/40:
+>  #0: ffff8880335ed1b0 (&mm->mmap_lock){++++}-{4:4}, at: mmap_read_trylock include/linux/mmap_lock.h:611 [inline]
+>  #0: ffff8880335ed1b0 (&mm->mmap_lock){++++}-{4:4}, at: oom_reap_task_mm mm/oom_kill.c:566 [inline]
+>  #0: ffff8880335ed1b0 (&mm->mmap_lock){++++}-{4:4}, at: oom_reap_task mm/oom_kill.c:609 [inline]
+>  #0: ffff8880335ed1b0 (&mm->mmap_lock){++++}-{4:4}, at: oom_reaper+0x2bb/0xc10 mm/oom_kill.c:650
+>  #1: ffffffff8e3066c0 (mmu_notifier_invalidate_range_start){+.+.}-{0:0}, at: __mmu_notifier_invalidate_range_end+0x67/0x400 mm/mmu_notifier.c:611
+>  #2: ffffffff8e306718 (srcu){.+.+}-{0:0}, at: __mmu_notifier_invalidate_range_end+0x67/0x400 mm/mmu_notifier.c:611
+>  #3: ffff88803996caf8 (&kvm->mn_invalidate_lock){+.+.}-{3:3}, at: spin_lock include/linux/spinlock_rt.h:45 [inline]
+>  #3: ffff88803996caf8 (&kvm->mn_invalidate_lock){+.+.}-{3:3}, at: kvm_mmu_notifier_invalidate_range_end+0x1d6/0x3d0 virt/kvm/kvm_main.c:814
+> CPU: 0 UID: 0 PID: 40 Comm: oom_reaper Tainted: G        W           syzkaller #0 PREEMPT_{RT,(full)} 
+> Tainted: [W]=WARN
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/18/2026
+> Call Trace:
+>  <TASK>
+>  dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+>  __might_resched+0x329/0x480 kernel/sched/core.c:9163
+>  __rt_spin_lock kernel/locking/spinlock_rt.c:48 [inline]
+>  rt_spin_lock+0xc2/0x400 kernel/locking/spinlock_rt.c:57
+>  spin_lock include/linux/spinlock_rt.h:45 [inline]
+>  kvm_mmu_notifier_invalidate_range_end+0x1d6/0x3d0 virt/kvm/kvm_main.c:814
+>  mn_hlist_invalidate_end mm/mmu_notifier.c:597 [inline]
+>  __mmu_notifier_invalidate_range_end+0x23b/0x400 mm/mmu_notifier.c:616
+>  mmu_notifier_invalidate_range_end include/linux/mmu_notifier.h:511 [inline]
+>  zap_vma_for_reaping+0x2d9/0x380 mm/memory.c:2124
+>  __oom_reap_task_mm mm/oom_kill.c:548 [inline]
+>  oom_reap_task_mm mm/oom_kill.c:585 [inline]
+>  oom_reap_task mm/oom_kill.c:609 [inline]
+>  oom_reaper+0x51e/0xc10 mm/oom_kill.c:650
+>  kthread+0x388/0x470 kernel/kthread.c:436
+>  ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+>  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+>  </TASK>
+> oom_reaper: reaped process 6034 (syz.0.24), now anon-rss:0kB, file-rss:64kB, shmem-rss:0kB
+> 
+> 
+> ---
+> If you want syzbot to run the reproducer, reply with:
+> #syz test: git://repo/address.git branch-or-commit-hash
+> If you attach or paste a git patch, syzbot will apply it before testing.
