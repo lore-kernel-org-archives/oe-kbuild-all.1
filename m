@@ -1,83 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A27DA36B071
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 May 2026 07:11:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B34E22FE56E
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 May 2026 07:52:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778051464; cv=none; b=tKU3YLjRyQV+EEJtnBE+yCYHD+hU4qKpDWqAIlfGEgH4EXi5kJPgT7nqXD2oXHwWFpXTMDdc2BdUMaE+yYgcW7CVVKU33J25Qe+GQJMUjsucynVxRAQ7LGYl3JQMH4guuvtidbSnugqG/fEeSVuxcQlWR5VtLLlxiNZEmAYZWwk=
+	t=1778053972; cv=none; b=Ge0uk7bTnbEeTmdITNGvLJ54CP8f33l3eTibiq8gWRb4OOc2U8ilSIs1WUgNVOj8Zv29C207nmUUxRVFNQJn2RkJSQwHjlU5PPiHbfXhuYoYntNHqZVHMqgmYEuHpr9/mEXftBqW3u78An57Y45qDTDeBFe4AUPVtu77XgEkH18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778051464; c=relaxed/simple;
-	bh=IHFHOBmXYBPm5KTZiarU0GfsN2kwgiTDNhjCA27wrEc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=U/J+6oUNztJrbnvyArmRd3kH3ALDHd8+mKFltQmPstEbjuBXG2hFaBGT9bVWq552rI4xBFkR5PbT/oIhYho0c040SLzRAtAtRJXvQT+lJGy7JB8VtE+etOiID1zZpbE5X1rM8fSW3r+/6Sy/Kck/cKjrmqShFV+IdC3DSd6Jpsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qmluxh7Z; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qmluxh7Z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778051463; x=1809587463;
-  h=date:from:to:cc:subject:message-id;
-  bh=IHFHOBmXYBPm5KTZiarU0GfsN2kwgiTDNhjCA27wrEc=;
-  b=Qmluxh7ZQZjPmE+NiWHupGWdLeEyn3THuUoEmB1Nwzus/qSH+DTu0D3c
-   9NtnXetdSlzBNZxq5qkFmnsdhRIVMZ0HMGxs/C8rOkkKEaYxj+Y9vEil8
-   UyjalE/K/W1NJKjY7XVOQi0Pua3dJNAoIHkvGY/ODtAuhIVm2LKfxHSdt
-   JWrqHybjCz2RqtI/J0Az7L97iP0t+EwFRem2EPHyETqLZ3jZUsFbnn3MP
-   fthnHd6AIKT9+20EvLpA28AtsymaoCldX90KtBjTv+53eAThyo4Cw0vBJ
-   z+xzqXDsHuUEXQEgCsQop/S1z2LCFZncaWQeh6uS5Fiy+3RwKPxm+oM5C
-   w==;
-X-CSE-ConnectionGUID: 2qXo04c5RF+Mfq26Jfsygw==
-X-CSE-MsgGUID: G42SoyNwSyOxDmBicN8LkA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11777"; a="78861842"
-X-IronPort-AV: E=Sophos;i="6.23,219,1770624000"; 
-   d="scan'208";a="78861842"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2026 00:11:02 -0700
-X-CSE-ConnectionGUID: L+ropou7Sv+A7pLNphVvDQ==
-X-CSE-MsgGUID: SgBf4SRCSnqtAQhZNZQQ2w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,219,1770624000"; 
-   d="scan'208";a="274188907"
-Received: from lkp-server01.sh.intel.com (HELO 9ec114424ce8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 06 May 2026 00:11:01 -0700
-Received: from kbuild by 9ec114424ce8 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wKWPK-000000000my-0W4Z;
-	Wed, 06 May 2026 07:10:58 +0000
-Date: Wed, 06 May 2026 15:10:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
- Linus Walleij <linusw@kernel.org>
-Subject: [linusw-pinctrl:ib-mux-pinctrl 1/5] Warning:
- drivers/mux/core.c:783 function parameter 'np' not described in
- '__devm_mux_state_get'
-Message-ID: <202605061502.ullLjmtN-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1778053972; c=relaxed/simple;
+	bh=FI2DdPWhFbecoyxp/7JFlOlfBBviPgoJND/IIgfobB4=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=appgMwfcY54K23c1mFXAyO3Ss6a4E/UgnBosrX3iso+NCFaTLm+K5ANNMYdatlQMc9woKcOBlPzSreI7p6a0cUJGA61pgZvsy9b/kwGXIoj+rXgJTkBXUTZ4Y+C3qh194LexX2dXrIfWaLoXC4hqXjHHuRR4EM52KLC05/fhHB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [10.20.42.62])
+	by gateway (Coremail) with SMTP id _____8Cx4epO8_pp_QgHAA--.22997S3;
+	Wed, 06 May 2026 15:52:46 +0800 (CST)
+Received: from [10.20.42.62] (unknown [10.20.42.62])
+	by front1 (Coremail) with SMTP id qMiowJDxjcJE8_pproh7AA--.36137S3;
+	Wed, 06 May 2026 15:52:37 +0800 (CST)
+Subject: Re: arch/loongarch/kernel/paravirt.c:15:1: sparse: sparse: symbol
+ '__pcpu_scope_steal_time' was not declared. Should it be static?
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Huacai Chen <chenhuacai@kernel.org>
+References: <202605061313.O8Hswm2b-lkp@intel.com>
+From: Bibo Mao <maobibo@loongson.cn>
+Message-ID: <fdf57e20-2469-e639-509d-897f37a4746b@loongson.cn>
+Date: Wed, 6 May 2026 15:49:41 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+In-Reply-To: <202605061313.O8Hswm2b-lkp@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qMiowJDxjcJE8_pproh7AA--.36137S3
+X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBj93XoWxCw1fJr4fZry3Jr4rZr4xGrX_yoW5Xry5pF
+	y7Arn5Ka1xG3yrAws29rWDuryjy3y7Ww17WFy8Cr15CF4jvr17Kr4vkrsFqFyjqw4vkw1I
+	9F4fZryqgF1UZabCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUvIb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+	xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
+	1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv
+	67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07
+	AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
+	F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw
+	1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7Cj
+	xVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r
+	1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UE
+	-erUUUUU=
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git ib-mux-pinctrl
-head:   34acc5a8adfb76f2de63c8b8317397fb72b0aec8
-commit: 05e58da46d8e8f8b29bc9b47053bb0637891c06f [1/5] mux: add devm_mux_state_get_from_np() to get mux from child node
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260506/202605061502.ullLjmtN-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260506/202605061502.ullLjmtN-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605061502.ullLjmtN-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+On 2026/5/6 下午1:44, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   74fe02ce122a6103f207d29fafc8b3a53de6abaf
+> commit: c43dce6f13fb12144571c168c7a593e5e546f3b5 LoongArch: KVM: Make vcpu_is_preempted() as a macro rather than function
+> date:   4 weeks ago
+> config: loongarch-randconfig-r134-20260505 (https://download.01.org/0day-ci/archive/20260506/202605061313.O8Hswm2b-lkp@intel.com/config)
+> compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+> sparse: v0.6.5-rc1
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260506/202605061313.O8Hswm2b-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Fixes: c43dce6f13fb ("LoongArch: KVM: Make vcpu_is_preempted() as a macro rather than function")
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202605061313.O8Hswm2b-lkp@intel.com/
+> 
+> sparse warnings: (new ones prefixed by >>)
+>>> arch/loongarch/kernel/paravirt.c:15:1: sparse: sparse: symbol '__pcpu_scope_steal_time' was not declared. Should it be static?
+with the config file, CONFIG_SMP is not set, Header file 
+include/asm/qspinlock.h is not included. In theory varible steal_time 
+should be defined with prefix static if CONFIG_SMP is not set, only that 
+the code will be a little strange.
 
->> Warning: drivers/mux/core.c:783 function parameter 'np' not described in '__devm_mux_state_get'
->> Warning: drivers/mux/core.c:783 function parameter 'np' not described in '__devm_mux_state_get'
+Is there any method to avoid warning about static variable declaration?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards
+Bibo Mao
+
+>     arch/loongarch/kernel/paravirt.c: note: in included file (through arch/loongarch/include/asm/loongarch.h, arch/loongarch/include/asm/cpu-info.h, arch/loongarch/include/asm/cpu-features.h, ...):
+>     /opt/cross/clang-5bac06718f/lib/clang/23/include/larchintrin.h:202:24: sparse: sparse: undefined identifier '__builtin_loongarch_cpucfg'
+>     /opt/cross/clang-5bac06718f/lib/clang/23/include/larchintrin.h:202:11: sparse: sparse: cast from unknown type
+>     /opt/cross/clang-5bac06718f/lib/clang/23/include/larchintrin.h:202:11: sparse: sparse: cast from unknown type
+> 
+> vim +/__pcpu_scope_steal_time +15 arch/loongarch/kernel/paravirt.c
+> 
+>      11	
+>      12	static int has_steal_clock;
+>      13	DEFINE_STATIC_KEY_FALSE(virt_preempt_key);
+>      14	DEFINE_STATIC_KEY_FALSE(virt_spin_lock_key);
+>    > 15	DEFINE_PER_CPU(struct kvm_steal_time, steal_time) __aligned(64);
+>      16	
+> 
+
