@@ -1,106 +1,105 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B34E22FE56E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 May 2026 07:52:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB4483E3166
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 May 2026 08:25:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778053972; cv=none; b=Ge0uk7bTnbEeTmdITNGvLJ54CP8f33l3eTibiq8gWRb4OOc2U8ilSIs1WUgNVOj8Zv29C207nmUUxRVFNQJn2RkJSQwHjlU5PPiHbfXhuYoYntNHqZVHMqgmYEuHpr9/mEXftBqW3u78An57Y45qDTDeBFe4AUPVtu77XgEkH18=
+	t=1778055918; cv=none; b=MWkdnMkUSrV7Jjlv84nX7cHQNDCahWjw2alXNRRSIlzOghRI86Mn+O+hUJr7eecpULhYZ07n509rIC1euSUJD5AYpbjcm6TdY3zy/Bj4EXsDEPTRLIlg+lBdrIPwu81z2EwmnuJU0LiOnYuwb5Ldo0xxrDR42HEMQ0oBmldIEGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778053972; c=relaxed/simple;
-	bh=FI2DdPWhFbecoyxp/7JFlOlfBBviPgoJND/IIgfobB4=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=appgMwfcY54K23c1mFXAyO3Ss6a4E/UgnBosrX3iso+NCFaTLm+K5ANNMYdatlQMc9woKcOBlPzSreI7p6a0cUJGA61pgZvsy9b/kwGXIoj+rXgJTkBXUTZ4Y+C3qh194LexX2dXrIfWaLoXC4hqXjHHuRR4EM52KLC05/fhHB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [10.20.42.62])
-	by gateway (Coremail) with SMTP id _____8Cx4epO8_pp_QgHAA--.22997S3;
-	Wed, 06 May 2026 15:52:46 +0800 (CST)
-Received: from [10.20.42.62] (unknown [10.20.42.62])
-	by front1 (Coremail) with SMTP id qMiowJDxjcJE8_pproh7AA--.36137S3;
-	Wed, 06 May 2026 15:52:37 +0800 (CST)
-Subject: Re: arch/loongarch/kernel/paravirt.c:15:1: sparse: sparse: symbol
- '__pcpu_scope_steal_time' was not declared. Should it be static?
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Huacai Chen <chenhuacai@kernel.org>
-References: <202605061313.O8Hswm2b-lkp@intel.com>
-From: Bibo Mao <maobibo@loongson.cn>
-Message-ID: <fdf57e20-2469-e639-509d-897f37a4746b@loongson.cn>
-Date: Wed, 6 May 2026 15:49:41 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+	s=arc-20240116; t=1778055918; c=relaxed/simple;
+	bh=N12nPZYf2u1yr3Ev14RSnFNpCOpeV7gF83ycOxTXIVQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=iCsejr2mYzL0FWDE7kBCM7dDdQzw5knoKwWNXebEjrmFvmy3OgR6ZAdI08ZGgHEgs0Lao910UFXKHqTEKhjaqECshUT32dXs9HA99pTXecc6KrV/z02NqkNhukV75lakYnDEdmIDbKe8/lO4CXy6lgLkqRF1TdJey117cULewM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=geA+/hIq; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="geA+/hIq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778055916; x=1809591916;
+  h=date:from:to:cc:subject:message-id;
+  bh=N12nPZYf2u1yr3Ev14RSnFNpCOpeV7gF83ycOxTXIVQ=;
+  b=geA+/hIqeFCr/SrEyVAhfplrD3FChHmwJ1fCi74+NAJ7lzwKWOmw8aLt
+   gLJ+DG5IiJWYtWCXTDOA8iCUXUQgmNULsJM6KnUK6QAXw6rgKxf7oELVR
+   D5caaR7eFQkM31+Ch5pdqCaSt480N2CxbEXBo6g8uy9BDlf0Ck2Tb5+N3
+   bilN3flGkxGHqKYmq6oMRG7FFKlPhSATopU14KPj5tKrICh1HSdAzipdL
+   6iWk6Z9B5g8tiM+Pvd1imbII0RMSJqa3HlNJwT/p2UtVdQOZyBq0EdziB
+   WQJhWNzoVET1eJWnW38GHYRnB4Ui3Pfw139sqZQ5otu4JnHEGAnv4tLJ3
+   A==;
+X-CSE-ConnectionGUID: CcypJVlaRkGpIBNJL5uEDw==
+X-CSE-MsgGUID: V715RnYXTG2z81+RB/zHeg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11777"; a="66509680"
+X-IronPort-AV: E=Sophos;i="6.23,219,1770624000"; 
+   d="scan'208";a="66509680"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2026 01:25:15 -0700
+X-CSE-ConnectionGUID: 1RWtM83CSPuH5Do7c+RBRA==
+X-CSE-MsgGUID: xz4WsTfvQv+UAp2+qS7juw==
+X-ExtLoop1: 1
+Received: from lkp-server01.sh.intel.com (HELO 9ec114424ce8) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 06 May 2026 01:25:14 -0700
+Received: from kbuild by 9ec114424ce8 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wKXZA-000000000on-05ct;
+	Wed, 06 May 2026 08:25:12 +0000
+Date: Wed, 06 May 2026 16:24:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [cris:scmi_transport_instance_handle_V1 4/5]
+ drivers/firmware/arm_scmi/transports/virtio.c:187:29: error: use of
+ undeclared identifier 'mutexname'; did you mean 'putname'?
+Message-ID: <202605061629.PXw0so2F-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-In-Reply-To: <202605061313.O8Hswm2b-lkp@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowJDxjcJE8_pproh7AA--.36137S3
-X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBj93XoWxCw1fJr4fZry3Jr4rZr4xGrX_yoW5Xry5pF
-	y7Arn5Ka1xG3yrAws29rWDuryjy3y7Ww17WFy8Cr15CF4jvr17Kr4vkrsFqFyjqw4vkw1I
-	9F4fZryqgF1UZabCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUvIb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
-	xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
-	1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv
-	67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07
-	AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
-	F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw
-	1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7Cj
-	xVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r
-	1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UE
-	-erUUUUU=
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cris/linux.git scmi_transport_instance_handle_V1
+head:   13190d4c752c9adc3184690ccf035795be170fb9
+commit: 25da96b2ceb31392d167fcc5d252a1f26ccae5c4 [4/5] firmware: arm_scmi: virtio: Rework transport probe sequence
+config: powerpc-randconfig-r073-20260506 (https://download.01.org/0day-ci/archive/20260506/202605061629.PXw0so2F-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+smatch: v0.5.0-9065-ge9cc34fd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260506/202605061629.PXw0so2F-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605061629.PXw0so2F-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/firmware/arm_scmi/transports/virtio.c:187:29: error: use of undeclared identifier 'mutexname'; did you mean 'putname'?
+     187 |         .mtx = __MUTEX_INITIALIZER(mutexname),
+         |                                    ^~~~~~~~~
+         |                                    putname
+   include/linux/mutex.h:83:29: note: expanded from macro '__MUTEX_INITIALIZER'
+      83 |                 __DEBUG_MUTEX_INITIALIZER(lockname) \
+         |                                           ^~~~~~~~
+   include/linux/mutex.h:40:14: note: expanded from macro '__DEBUG_MUTEX_INITIALIZER'
+      40 |         , .magic = &lockname
+         |                     ^~~~~~~~
+   include/linux/fs.h:2539:13: note: 'putname' declared here
+    2539 | extern void putname(struct filename *name);
+         |             ^
+   1 error generated.
 
 
+vim +187 drivers/firmware/arm_scmi/transports/virtio.c
 
-On 2026/5/6 下午1:44, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   74fe02ce122a6103f207d29fafc8b3a53de6abaf
-> commit: c43dce6f13fb12144571c168c7a593e5e546f3b5 LoongArch: KVM: Make vcpu_is_preempted() as a macro rather than function
-> date:   4 weeks ago
-> config: loongarch-randconfig-r134-20260505 (https://download.01.org/0day-ci/archive/20260506/202605061313.O8Hswm2b-lkp@intel.com/config)
-> compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-> sparse: v0.6.5-rc1
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260506/202605061313.O8Hswm2b-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Fixes: c43dce6f13fb ("LoongArch: KVM: Make vcpu_is_preempted() as a macro rather than function")
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202605061313.O8Hswm2b-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
->>> arch/loongarch/kernel/paravirt.c:15:1: sparse: sparse: symbol '__pcpu_scope_steal_time' was not declared. Should it be static?
-with the config file, CONFIG_SMP is not set, Header file 
-include/asm/qspinlock.h is not included. In theory varible steal_time 
-should be defined with prefix static if CONFIG_SMP is not set, only that 
-the code will be a little strange.
+   185	
+   186	static struct scmi_virtio_suppliers scmi_transport_suppliers = {
+ > 187		.mtx = __MUTEX_INITIALIZER(mutexname),
+   188		.available = INIT_ERR_PTR(-EPROBE_DEFER),
+   189		.th.supplier_get = scmi_virtio_supplier_get,
+   190		.th.supplier_put = scmi_virtio_supplier_put,
+   191	};
+   192	
 
-Is there any method to avoid warning about static variable declaration?
-
-Regards
-Bibo Mao
-
->     arch/loongarch/kernel/paravirt.c: note: in included file (through arch/loongarch/include/asm/loongarch.h, arch/loongarch/include/asm/cpu-info.h, arch/loongarch/include/asm/cpu-features.h, ...):
->     /opt/cross/clang-5bac06718f/lib/clang/23/include/larchintrin.h:202:24: sparse: sparse: undefined identifier '__builtin_loongarch_cpucfg'
->     /opt/cross/clang-5bac06718f/lib/clang/23/include/larchintrin.h:202:11: sparse: sparse: cast from unknown type
->     /opt/cross/clang-5bac06718f/lib/clang/23/include/larchintrin.h:202:11: sparse: sparse: cast from unknown type
-> 
-> vim +/__pcpu_scope_steal_time +15 arch/loongarch/kernel/paravirt.c
-> 
->      11	
->      12	static int has_steal_clock;
->      13	DEFINE_STATIC_KEY_FALSE(virt_preempt_key);
->      14	DEFINE_STATIC_KEY_FALSE(virt_spin_lock_key);
->    > 15	DEFINE_PER_CPU(struct kvm_steal_time, steal_time) __aligned(64);
->      16	
-> 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
