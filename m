@@ -1,57 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A2A42F12C6;
-	Wed,  6 May 2026 08:47:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7408830DD2F
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 May 2026 08:47:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778057249; cv=none; b=EtAX50pj35FkorprkWtQYgPaSCkn6wrbtOEEzPI2j2QHK5pKuOPMtbW6GMzaELeERfUYSnct0G9Ub9GYXp/ie+HPhp9NlS9X2pSuR9GT+mXP9aeAdcIwfd78oBuGyLet3rDE//DMNbrBBqzgaOs9dkXKSn3lClbxyhKz96CxQMo=
+	t=1778057250; cv=none; b=rZZX7TfzlW9NtJy+Zu+48EkPgUm2q433kcMY1aXs3kMJL+45X6IV283mDLMRK02HIDsJ87ZYdCyflF1LZdUIOZ+aOHpGDSK9uT6Y2r/9bzTcXiDg3IL98Xm2TN+hYy/o0OxxGdcftMhPxgiPoYYwTzc2yxq58xWlLTJqutd4dqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778057249; c=relaxed/simple;
-	bh=MFmaIMbnFEXwGB3PPJF9pDgE/AOZrA/3B9LkdnhKQWU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=XvamhTVP6TwAXJgbd+RuTmGYxbl4TGWQew/cssqpR69SHBwyIo0Lxz3H6rmj6Gm1wyS96scXhpuZUWVucIIQtohpZUNHjs/06xx/QGs2KDZDK7V7MDYN1yi5Zwgv6KoFKIZnG9iUO0mGwxqoNVoiiUxYMeI9e7QGxAZVzL0SIss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JS3HwStA; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1778057250; c=relaxed/simple;
+	bh=wBjTmVoZj6LeWFYADoLEyqRb76qAFRCDjeAhjHxofwc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=NQliEiggyMid0Un2DtU1HJNvK2fh7hZfwe78FoG2Di3879EZTOwmTLj6Lnp0VytWfDbgDTKxQnwO6AF0nnyW0YGtKGj2PE0lJ4WNwt5hsE5Yd99kIrLCrvK4lu2aKO6KHOa3dHsOHUKmuZNfjs1A+fjvxpyPbphGTAqn1SN726I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k9gmSTpz; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JS3HwStA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k9gmSTpz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1778057247; x=1809593247;
   h=date:from:to:cc:subject:message-id;
-  bh=MFmaIMbnFEXwGB3PPJF9pDgE/AOZrA/3B9LkdnhKQWU=;
-  b=JS3HwStARf0oeK19lwHUKAoizdWEGC3YcIMM1L7vEu4ETAv89w8wreFn
-   oG0f7E9q/KOY+rUyDWvJ6MgntvW85+d/rZfaJOZmJv+1HHYPdnsO51wwC
-   8sCsO4x0pBma4NhzyRQHSKDtV90Uam8nTTjT/LMNcMITjh/rKAE0v6DnJ
-   aQN5NKHRCAv9kSi54XJXxBYDHhAwjLaBab7qBNzWU95PTQw7WNi1s/25F
-   x/BTICRUqhHzJV1CtBBBb2fLrGvcZt6Yztt3ygUf/a40w9ywtETKHbSM1
-   J6DPaNcEgEgVse4z4OondNGfskUnA0EnRZmtN6KlljENopKyM0dIv4hy/
+  bh=wBjTmVoZj6LeWFYADoLEyqRb76qAFRCDjeAhjHxofwc=;
+  b=k9gmSTpz3GO1U/swPEFlqOG4BTRZ1hIazsfu2dUhZ77ACbD87I8kDHZ7
+   xPUmtSjD59Ii/e2kQmtILUaSNypst0xYeCf1H6FWMDZVcvL4V68EkvceZ
+   NRuXXDSq4vM6R2tvhEGqjVRXQGygrDnTG+35FzXE6h0679ditdjx0cGo2
+   r1cNtWgiPl2rdCNBPxidV0yvtuYIAy6+54l+FhUd5xn/yJqmCGL7kiioS
+   Am5GCk1MOmDn6b7zUPkcBWBEEtTrvuaJ/JxGsKL7HFRQQTolHo6xHUnjr
+   egIxc0zYaJWn4AuY+X21bJRgRwP1Kd1T0gWyIhxg9rL3Hrvl75Slzklh0
    A==;
-X-CSE-ConnectionGUID: GyKhCgEoRFG1JwBnnkwsYA==
-X-CSE-MsgGUID: c9AQufnsQAOpru6t+GRVfg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11777"; a="89681405"
+X-CSE-ConnectionGUID: 6dA+ECaUQcKQxRJK92kV1w==
+X-CSE-MsgGUID: FOBB4xZ/RUm9rdQJEiIBtw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11777"; a="78130149"
 X-IronPort-AV: E=Sophos;i="6.23,219,1770624000"; 
-   d="scan'208";a="89681405"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2026 01:47:26 -0700
-X-CSE-ConnectionGUID: I+bfruxcTjir4jBfjmu4tQ==
-X-CSE-MsgGUID: QLr7vR4aQnifBr2ufYH83Q==
+   d="scan'208";a="78130149"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2026 01:47:27 -0700
+X-CSE-ConnectionGUID: mNyXde+zSqSH4x3akhqDkg==
+X-CSE-MsgGUID: 2DLCifDnRZG44lyEI3DFNQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,219,1770624000"; 
-   d="scan'208";a="274208919"
+   d="scan'208";a="232982929"
 Received: from lkp-server01.sh.intel.com (HELO 9ec114424ce8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 06 May 2026 01:47:24 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 06 May 2026 01:47:24 -0700
 Received: from kbuild by 9ec114424ce8 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wKXuc-000000000pf-0Kft;
-	Wed, 06 May 2026 08:47:22 +0000
-Date: Wed, 06 May 2026 16:47:07 +0800
+	id 1wKXub-000000000pd-3rbY;
+	Wed, 06 May 2026 08:47:21 +0000
+Date: Wed, 06 May 2026 16:46:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:timers/cleanup 33/37] include/linux/smp.h:72:48:
- error: use of undeclared identifier 'cpu_online_mask'
-Message-ID: <202605061620.lTIwySVT-lkp@intel.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
+ Linus Walleij <linusw@kernel.org>,
+ Shawn Guo <shengchao.guo@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Maulik Shah <maulik.shah@oss.qualcomm.com>,
+ Pankaj Patil <pankaj.patil@oss.qualcomm.com>
+Subject: [linusw-pinctrl:devel 20/35]
+ drivers/pinctrl/qcom/pinctrl-nord.c:1420:9: sparse: sparse: Initializer entry
+ defined twice
+Message-ID: <202605061633.BJLI5voT-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,240 +65,187 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git timers/cleanup
-head:   53bcd35f2ff331adc7277b797333287028c91655
-commit: 3e8fdfa964516dc41fe2573974f779b15dead630 [33/37] riscv: Select ARCH_HAS_RANDOM_ENTROPY
-config: riscv-randconfig-002-20260506 (https://download.01.org/0day-ci/archive/20260506/202605061620.lTIwySVT-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+head:   590bb3b76d18487f884e0915efedbd6e80250bb1
+commit: c24dd0826f064d6b99a74ca0e004a4cda6677b9f [20/35] pinctrl: qcom: add the TLMM driver for the Nord platforms
+config: loongarch-randconfig-r134-20260505 (https://download.01.org/0day-ci/archive/20260506/202605061633.BJLI5voT-lkp@intel.com/config)
 compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260506/202605061620.lTIwySVT-lkp@intel.com/reproduce)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260506/202605061633.BJLI5voT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605061620.lTIwySVT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605061633.BJLI5voT-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/pinctrl/qcom/pinctrl-nord.c:1420:9: sparse: sparse: Initializer entry defined twice
+   drivers/pinctrl/qcom/pinctrl-nord.c:1422:9: sparse:   also defined here
 
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:140:
-   include/asm-generic/io.h:846:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     846 |         insw(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:109:53: note: expanded from macro 'insw'
-     109 | #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from arch/riscv/kernel/asm-offsets.c:11:
-   In file included from include/linux/ftrace.h:10:
-   In file included from include/linux/trace_recursion.h:5:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:140:
-   include/asm-generic/io.h:854:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     854 |         insl(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:110:53: note: expanded from macro 'insl'
-     110 | #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from arch/riscv/kernel/asm-offsets.c:11:
-   In file included from include/linux/ftrace.h:10:
-   In file included from include/linux/trace_recursion.h:5:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:140:
-   include/asm-generic/io.h:863:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     863 |         outsb(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:122:55: note: expanded from macro 'outsb'
-     122 | #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from arch/riscv/kernel/asm-offsets.c:11:
-   In file included from include/linux/ftrace.h:10:
-   In file included from include/linux/trace_recursion.h:5:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:140:
-   include/asm-generic/io.h:872:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     872 |         outsw(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:123:55: note: expanded from macro 'outsw'
-     123 | #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from arch/riscv/kernel/asm-offsets.c:11:
-   In file included from include/linux/ftrace.h:10:
-   In file included from include/linux/trace_recursion.h:5:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:140:
-   include/asm-generic/io.h:881:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     881 |         outsl(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:124:55: note: expanded from macro 'outsl'
-     124 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from arch/riscv/kernel/asm-offsets.c:11:
-   In file included from include/linux/ftrace.h:10:
-   In file included from include/linux/trace_recursion.h:5:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:140:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
-   7 warnings generated.
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:8:
-   In file included from include/linux/prandom.h:13:
-   In file included from include/linux/percpu.h:5:
-   In file included from include/linux/alloc_tag.h:13:
-   In file included from include/linux/cpumask.h:15:
-   In file included from include/linux/numa.h:6:
-   In file included from include/linux/nodemask.h:94:
-   In file included from include/linux/random.h:154:
-   In file included from arch/riscv/include/asm/random.h:5:
-   In file included from arch/riscv/include/asm/timex.h:13:
-   In file included from arch/riscv/include/asm/clint.h:10:
-   In file included from arch/riscv/include/asm/mmio.h:16:
-   In file included from arch/riscv/include/asm/mmiowb.h:12:
->> include/linux/smp.h:72:48: error: use of undeclared identifier 'cpu_online_mask'
-      72 |         on_each_cpu_cond_mask(NULL, func, info, wait, cpu_online_mask);
-         |                                                       ^~~~~~~~~~~~~~~
-   include/linux/smp.h:106:53: error: use of undeclared identifier 'cpu_online_mask'
-     106 |         on_each_cpu_cond_mask(cond_func, func, info, wait, cpu_online_mask);
-         |                                                            ^~~~~~~~~~~~~~~
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:17:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:17:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:17:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:17:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                                          ^         ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:17:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                          ^         ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:17:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                                          ^         ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:17:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:157:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:138:8: note: expanded from macro '_SIG_SET_BINOP'
-     138 |                 a3 = a->sig[3]; a2 = a->sig[2];                         \
-         |                      ^      ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:17:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:157:1: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:138:24: note: expanded from macro '_SIG_SET_BINOP'
-     138 |                 a3 = a->sig[3]; a2 = a->sig[2];                         \
-         |                                      ^      ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:17:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:157:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:139:8: note: expanded from macro '_SIG_SET_BINOP'
-     139 |                 b3 = b->sig[3]; b2 = b->sig[2];                         \
-         |                      ^      ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:17:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:157:1: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
+vim +1420 drivers/pinctrl/qcom/pinctrl-nord.c
 
-
-vim +/cpu_online_mask +72 include/linux/smp.h
-
-6f1f942cd5fbbe He Ying     2021-05-06  66  
-bff2dc42bcafdd David Daney 2013-09-11  67  /*
-bff2dc42bcafdd David Daney 2013-09-11  68   * Call a function on all processors
-bff2dc42bcafdd David Daney 2013-09-11  69   */
-a5aa5ce3005972 Nadav Amit  2021-02-20  70  static inline void on_each_cpu(smp_call_func_t func, void *info, int wait)
-a5aa5ce3005972 Nadav Amit  2021-02-20  71  {
-a5aa5ce3005972 Nadav Amit  2021-02-20 @72  	on_each_cpu_cond_mask(NULL, func, info, wait, cpu_online_mask);
-a5aa5ce3005972 Nadav Amit  2021-02-20  73  }
-a5aa5ce3005972 Nadav Amit  2021-02-20  74  
-
-:::::: The code at line 72 was first introduced by commit
-:::::: a5aa5ce300597224ec76dacc8e63ba3ad7a18bbd smp: Inline on_each_cpu_cond() and on_each_cpu()
-
-:::::: TO: Nadav Amit <namit@vmware.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+  1309	
+  1310	static const struct pinfunction nord_functions[] = {
+  1311		MSM_GPIO_PIN_FUNCTION(gpio),
+  1312		MSM_PIN_FUNCTION(aoss_cti),
+  1313		MSM_PIN_FUNCTION(atest_char),
+  1314		MSM_PIN_FUNCTION(atest_usb20),
+  1315		MSM_PIN_FUNCTION(atest_usb21),
+  1316		MSM_PIN_FUNCTION(aud_intfc0_clk),
+  1317		MSM_PIN_FUNCTION(aud_intfc0_data),
+  1318		MSM_PIN_FUNCTION(aud_intfc0_ws),
+  1319		MSM_PIN_FUNCTION(aud_intfc10_clk),
+  1320		MSM_PIN_FUNCTION(aud_intfc10_data),
+  1321		MSM_PIN_FUNCTION(aud_intfc10_ws),
+  1322		MSM_PIN_FUNCTION(aud_intfc1_clk),
+  1323		MSM_PIN_FUNCTION(aud_intfc1_data),
+  1324		MSM_PIN_FUNCTION(aud_intfc1_ws),
+  1325		MSM_PIN_FUNCTION(aud_intfc2_clk),
+  1326		MSM_PIN_FUNCTION(aud_intfc2_data),
+  1327		MSM_PIN_FUNCTION(aud_intfc2_ws),
+  1328		MSM_PIN_FUNCTION(aud_intfc3_clk),
+  1329		MSM_PIN_FUNCTION(aud_intfc3_data),
+  1330		MSM_PIN_FUNCTION(aud_intfc3_ws),
+  1331		MSM_PIN_FUNCTION(aud_intfc4_clk),
+  1332		MSM_PIN_FUNCTION(aud_intfc4_data),
+  1333		MSM_PIN_FUNCTION(aud_intfc4_ws),
+  1334		MSM_PIN_FUNCTION(aud_intfc5_clk),
+  1335		MSM_PIN_FUNCTION(aud_intfc5_data),
+  1336		MSM_PIN_FUNCTION(aud_intfc5_ws),
+  1337		MSM_PIN_FUNCTION(aud_intfc6_clk),
+  1338		MSM_PIN_FUNCTION(aud_intfc6_data),
+  1339		MSM_PIN_FUNCTION(aud_intfc6_ws),
+  1340		MSM_PIN_FUNCTION(aud_intfc7_clk),
+  1341		MSM_PIN_FUNCTION(aud_intfc7_data),
+  1342		MSM_PIN_FUNCTION(aud_intfc7_ws),
+  1343		MSM_PIN_FUNCTION(aud_intfc8_clk),
+  1344		MSM_PIN_FUNCTION(aud_intfc8_data),
+  1345		MSM_PIN_FUNCTION(aud_intfc8_ws),
+  1346		MSM_PIN_FUNCTION(aud_intfc9_clk),
+  1347		MSM_PIN_FUNCTION(aud_intfc9_data),
+  1348		MSM_PIN_FUNCTION(aud_intfc9_ws),
+  1349		MSM_PIN_FUNCTION(aud_mclk0_mira),
+  1350		MSM_PIN_FUNCTION(aud_mclk0_mirb),
+  1351		MSM_PIN_FUNCTION(aud_mclk1_mira),
+  1352		MSM_PIN_FUNCTION(aud_mclk1_mirb),
+  1353		MSM_PIN_FUNCTION(aud_mclk2_mira),
+  1354		MSM_PIN_FUNCTION(aud_mclk2_mirb),
+  1355		MSM_PIN_FUNCTION(aud_refclk0),
+  1356		MSM_PIN_FUNCTION(aud_refclk1),
+  1357		MSM_PIN_FUNCTION(bist_done),
+  1358		MSM_PIN_FUNCTION(ccu_async_in),
+  1359		MSM_PIN_FUNCTION(ccu_i2c_scl),
+  1360		MSM_PIN_FUNCTION(ccu_i2c_sda),
+  1361		MSM_PIN_FUNCTION(ccu_timer),
+  1362		MSM_PIN_FUNCTION(clink_debug),
+  1363		MSM_PIN_FUNCTION(dbg_out),
+  1364		MSM_PIN_FUNCTION(dbg_out_clk),
+  1365		MSM_PIN_FUNCTION(ddr_bist_complete),
+  1366		MSM_PIN_FUNCTION(ddr_bist_fail),
+  1367		MSM_PIN_FUNCTION(ddr_bist_start),
+  1368		MSM_PIN_FUNCTION(ddr_bist_stop),
+  1369		MSM_PIN_FUNCTION(ddr_pxi),
+  1370		MSM_PIN_FUNCTION(dp_rx0),
+  1371		MSM_PIN_FUNCTION(dp_rx00),
+  1372		MSM_PIN_FUNCTION(dp_rx01),
+  1373		MSM_PIN_FUNCTION(dp_rx0_mute),
+  1374		MSM_PIN_FUNCTION(dp_rx1),
+  1375		MSM_PIN_FUNCTION(dp_rx10),
+  1376		MSM_PIN_FUNCTION(dp_rx11),
+  1377		MSM_PIN_FUNCTION(dp_rx1_mute),
+  1378		MSM_PIN_FUNCTION(edp0_hot),
+  1379		MSM_PIN_FUNCTION(edp0_lcd),
+  1380		MSM_PIN_FUNCTION(edp1_hot),
+  1381		MSM_PIN_FUNCTION(edp1_lcd),
+  1382		MSM_PIN_FUNCTION(edp2_hot),
+  1383		MSM_PIN_FUNCTION(edp2_lcd),
+  1384		MSM_PIN_FUNCTION(edp3_hot),
+  1385		MSM_PIN_FUNCTION(edp3_lcd),
+  1386		MSM_PIN_FUNCTION(emac0_mcg),
+  1387		MSM_PIN_FUNCTION(emac0_mdc),
+  1388		MSM_PIN_FUNCTION(emac0_mdio),
+  1389		MSM_PIN_FUNCTION(emac0_ptp),
+  1390		MSM_PIN_FUNCTION(emac1_mcg),
+  1391		MSM_PIN_FUNCTION(emac1_mdc),
+  1392		MSM_PIN_FUNCTION(emac1_mdio),
+  1393		MSM_PIN_FUNCTION(emac1_ptp),
+  1394		MSM_PIN_FUNCTION(gcc_gp1_clk),
+  1395		MSM_PIN_FUNCTION(gcc_gp2_clk),
+  1396		MSM_PIN_FUNCTION(gcc_gp3_clk),
+  1397		MSM_PIN_FUNCTION(gcc_gp4_clk),
+  1398		MSM_PIN_FUNCTION(gcc_gp5_clk),
+  1399		MSM_PIN_FUNCTION(gcc_gp6_clk),
+  1400		MSM_PIN_FUNCTION(gcc_gp7_clk),
+  1401		MSM_PIN_FUNCTION(gcc_gp8_clk),
+  1402		MSM_PIN_FUNCTION(jitter_bist),
+  1403		MSM_PIN_FUNCTION(lbist_pass),
+  1404		MSM_PIN_FUNCTION(mbist_pass),
+  1405		MSM_PIN_FUNCTION(mdp0_vsync_out),
+  1406		MSM_PIN_FUNCTION(mdp1_vsync_out),
+  1407		MSM_PIN_FUNCTION(mdp_vsync_e),
+  1408		MSM_PIN_FUNCTION(mdp_vsync_p),
+  1409		MSM_PIN_FUNCTION(mdp_vsync_s),
+  1410		MSM_PIN_FUNCTION(pcie0_clk_req_n),
+  1411		MSM_PIN_FUNCTION(pcie1_clk_req_n),
+  1412		MSM_PIN_FUNCTION(pcie2_clk_req_n),
+  1413		MSM_PIN_FUNCTION(pcie3_clk_req_n),
+  1414		MSM_PIN_FUNCTION(phase_flag),
+  1415		MSM_PIN_FUNCTION(pll_bist_sync),
+  1416		MSM_PIN_FUNCTION(pll_clk_aux),
+  1417		MSM_PIN_FUNCTION(prng_rosc0),
+  1418		MSM_PIN_FUNCTION(prng_rosc1),
+  1419		MSM_PIN_FUNCTION(pwrbrk_i_n),
+> 1420		MSM_PIN_FUNCTION(qdss_cti),
+  1421		MSM_PIN_FUNCTION(qdss),
+  1422		MSM_PIN_FUNCTION(qdss_cti),
+  1423		MSM_PIN_FUNCTION(qspi),
+  1424		MSM_PIN_FUNCTION(qup0_se0),
+  1425		MSM_PIN_FUNCTION(qup0_se1),
+  1426		MSM_PIN_FUNCTION(qup0_se2),
+  1427		MSM_PIN_FUNCTION(qup0_se3),
+  1428		MSM_PIN_FUNCTION(qup0_se4),
+  1429		MSM_PIN_FUNCTION(qup0_se5),
+  1430		MSM_PIN_FUNCTION(qup1_se0),
+  1431		MSM_PIN_FUNCTION(qup1_se1),
+  1432		MSM_PIN_FUNCTION(qup1_se2),
+  1433		MSM_PIN_FUNCTION(qup1_se3),
+  1434		MSM_PIN_FUNCTION(qup1_se4),
+  1435		MSM_PIN_FUNCTION(qup1_se5),
+  1436		MSM_PIN_FUNCTION(qup1_se6),
+  1437		MSM_PIN_FUNCTION(qup2_se0),
+  1438		MSM_PIN_FUNCTION(qup2_se1),
+  1439		MSM_PIN_FUNCTION(qup2_se2),
+  1440		MSM_PIN_FUNCTION(qup2_se3),
+  1441		MSM_PIN_FUNCTION(qup2_se4),
+  1442		MSM_PIN_FUNCTION(qup2_se5),
+  1443		MSM_PIN_FUNCTION(qup2_se6),
+  1444		MSM_PIN_FUNCTION(qup3_se0_mira),
+  1445		MSM_PIN_FUNCTION(qup3_se0_mirb),
+  1446		MSM_PIN_FUNCTION(sailss_ospi),
+  1447		MSM_PIN_FUNCTION(sdc4_clk),
+  1448		MSM_PIN_FUNCTION(sdc4_cmd),
+  1449		MSM_PIN_FUNCTION(sdc4_data),
+  1450		MSM_PIN_FUNCTION(smb_alert),
+  1451		MSM_PIN_FUNCTION(smb_alert_n),
+  1452		MSM_PIN_FUNCTION(smb_clk),
+  1453		MSM_PIN_FUNCTION(smb_dat),
+  1454		MSM_PIN_FUNCTION(tb_trig_sdc4),
+  1455		MSM_PIN_FUNCTION(tmess_prng0),
+  1456		MSM_PIN_FUNCTION(tmess_prng1),
+  1457		MSM_PIN_FUNCTION(tsc_timer),
+  1458		MSM_PIN_FUNCTION(tsense_pwm),
+  1459		MSM_PIN_FUNCTION(usb0_hs),
+  1460		MSM_PIN_FUNCTION(usb0_phy_ps),
+  1461		MSM_PIN_FUNCTION(usb1_hs),
+  1462		MSM_PIN_FUNCTION(usb1_phy_ps),
+  1463		MSM_PIN_FUNCTION(usb2_hs),
+  1464		MSM_PIN_FUNCTION(usxgmii0_phy),
+  1465		MSM_PIN_FUNCTION(usxgmii1_phy),
+  1466		MSM_PIN_FUNCTION(vsense_trigger_mirnat),
+  1467		MSM_PIN_FUNCTION(wcn_sw),
+  1468		MSM_PIN_FUNCTION(wcn_sw_ctrl),
+  1469	};
+  1470	
 
 -- 
 0-DAY CI Kernel Test Service
