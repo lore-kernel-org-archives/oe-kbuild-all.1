@@ -1,105 +1,204 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36FD633D6C0
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 May 2026 18:51:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ECEB3E6DFA
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 May 2026 19:57:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778179899; cv=none; b=JNS4Qn/czUTU+KW0FUY95pDnYpsP36KqqgByTfUfwP8C+pDl6I2QTYOwAJG4G6jp+XzGw4glKj+SY7iWNFtQwwt1lXnQKRFir/7rOQsj3MFQvZVirdPc4sYCHog7jPJ+EiiJ8KXQYe0cadS8JRt79PVyin45pNUye525KpQrSJo=
+	t=1778183862; cv=none; b=eI9rtVOCG1+5MrzNypMepE3JH2x7iOYKp/DHAsFak9PpRhzKLNaeoLS6PaNGgJTP3GR+lFstFnnexO2CkDAO/Z6RLd0WpK0rEDViaXNE824IGQsoDH54QMIXiGtbQ6jj0TLmrxTXDLovLbiSMUul2to/MzKGAm7aaZYjiIJKl/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778179899; c=relaxed/simple;
-	bh=3ppLWT9DxwsK5KUA1HHOqBYCDrT4cU/2ayoUvet7r9E=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=pHjv8AkWmjg6MQ1neyzgazcnYrXka5cEIDwaooXFakpv9+nBh5zDfzuYcFCI4NBqXR4VZH1MFojBjp18/kqU5uUdjgrrDM3uftxULkG5uzSvZlmt33nnGjvrVBS6Jv2tT0sqn1UIUSewXZJxlhBG62MFoC4l2DXdYGTG8Z6NkWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S61ilcw/; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1778183862; c=relaxed/simple;
+	bh=34OJZhJ5yG++EW43nWqRAhv5Or5whGUi9gWAxb0QMZo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=KEVeWDAJl0nQnixBPaQR7azycHkDgA2pPsnIkfdMl3fDWKHclK66Z8C3nFrw1cyA2EKT/iJ8+X+TmxiHSGuw6evnCRbe9jokeQadCWlGuvkphJw3Xp6ZbR1g/I1ViNQFvUr90/Aq/adCT9xpfOhtB9mg0oOGx4GcJtxNtddosF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pb6ocjBS; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S61ilcw/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pb6ocjBS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778179897; x=1809715897;
-  h=date:from:to:cc:subject:message-id;
-  bh=3ppLWT9DxwsK5KUA1HHOqBYCDrT4cU/2ayoUvet7r9E=;
-  b=S61ilcw/sfiurJUHH+rJzj5HMYnFqanvRg56muMl8257DElMaF2Ckx0V
-   t0s7WWtRy91RaVMuDH71Lc+IeyWIfjCXkYxwUD+TBX26UYl87s0tZ13SE
-   Sqvv5Qv+8yIZ7CoB/8K+ugK+MS3dBbndnHM11sqEJ10oykMplNa628ye+
-   ZfM+R/Ep3vnzcGQOsQyWzMbeD4nycxfRKQYJq1ZIRMU+y6fYs7W5C8DFO
-   OlVgBtzjGiSBwCTx/+1dO4oHsqBhMv0rZTFgnBi21MR+8P9G83KaxAv+X
-   Tkoki4Qk+3ghLQDGXDZMgV5Mhth2DThDBPH97z8ZxZvn5637zgZWVInbd
-   A==;
-X-CSE-ConnectionGUID: P5Dhbi5nSFSnnccmHhl+Qg==
-X-CSE-MsgGUID: gAg8srbjQn+wBHbd36hf4Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11779"; a="79079426"
+  t=1778183860; x=1809719860;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=34OJZhJ5yG++EW43nWqRAhv5Or5whGUi9gWAxb0QMZo=;
+  b=Pb6ocjBSUnQuNhfa5WbzlHuGs9O53rYm17JQX5nLrB6qvz6IneHUTyNP
+   Oq7PXDP4B+O2nY5JmUj+vxGHwRo0/zqx/FS0H0V4xCoYXpLgT02qUVULi
+   JzW9MfUs6983bSk/lT5cZlqkybNoPqEf5G21YHz+uzTqYneWiNXhm4Rw+
+   4HY+2F2PMgpV27JynojJ32myGOlD2Cvu0JKyVAHlkKtgtGp+UpO3cDGAp
+   6CA0dfAQcGOQ8dByDmNOA9pLFknRh7K8y18io3PfiiGqpi+havGdSUhwf
+   b4SNP852XH2S+kRpx+pfosMFz5V37U0Z7P2vH/LBhChKp2U+6ES0kiynH
+   g==;
+X-CSE-ConnectionGUID: +26O/YyUS1ao+vIcYmhZVA==
+X-CSE-MsgGUID: YgPTbqC2SjKOT2hYC5j5UQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11779"; a="89843712"
 X-IronPort-AV: E=Sophos;i="6.23,222,1770624000"; 
-   d="scan'208";a="79079426"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2026 11:51:36 -0700
-X-CSE-ConnectionGUID: 5H0P1wr4Sa+OluLubNXXWA==
-X-CSE-MsgGUID: 6LcrZhQAQZC0959WhmBPXg==
+   d="scan'208";a="89843712"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2026 12:57:39 -0700
+X-CSE-ConnectionGUID: gfg9R6fiRDmA/gZxfpFeUQ==
+X-CSE-MsgGUID: bzow6c6WQoOZxBN1Wy1PMA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,222,1770624000"; 
-   d="scan'208";a="236644356"
+   d="scan'208";a="240549809"
 Received: from lkp-server01.sh.intel.com (HELO d6e19f2f5857) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 07 May 2026 11:51:35 -0700
+  by orviesa003.jf.intel.com with ESMTP; 07 May 2026 12:57:37 -0700
 Received: from kbuild by d6e19f2f5857 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wL3oq-000000000Nx-3YrN;
-	Thu, 07 May 2026 18:51:32 +0000
-Date: Fri, 08 May 2026 02:50:39 +0800
+	id 1wL4ql-000000000Pf-0KFw;
+	Thu, 07 May 2026 19:57:35 +0000
+Date: Fri, 08 May 2026 03:56:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:7.1-rc 157/157]
- drivers/net/pcs/pcs-mtk-usxgmii.c:344:undefined reference to
- `mtk_xfi_tphy_valid_ctle'
-Message-ID: <202605080248.ODOIVhvo-lkp@intel.com>
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+ linux-pm@vger.kernel.org
+Subject: [rafael-pm:bleeding-edge 15/24]
+ drivers/platform/x86/xo15-ebook.c:104:17: error: label 'err_free_input' used
+ but not defined
+Message-ID: <202605080333.a4CP1ejZ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.1-rc
-head:   ce3735b05f8971cb2a88ba66c5df025751f12b10
-commit: ce3735b05f8971cb2a88ba66c5df025751f12b10 [157/157] net: pcs: mtk-usxgmii: check link status and phy ctle before reset
-config: microblaze-randconfig-r051-20260507 (https://download.01.org/0day-ci/archive/20260508/202605080248.ODOIVhvo-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260508/202605080248.ODOIVhvo-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git=
+ bleeding-edge
+head:   232e74ed0633787ae1258c7d33ef7599210396ce
+commit: f3f83acc4b2615dc2f4a25bc5bcca4af83cf0cae [15/24] platform/x86: xo15=
+-ebook: Register ACPI notify handler directly
+config: i386-buildonly-randconfig-004-20260507 (https://download.01.org/0da=
+y-ci/archive/20260508/202605080333.a4CP1ejZ-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260508/202605080333.a4CP1ejZ-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605080248.ODOIVhvo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605080333.a4CP1ejZ-lkp@i=
+ntel.com/
 
 All errors (new ones prefixed by >>):
 
-   microblaze-linux-ld: drivers/net/pcs/pcs-mtk-usxgmii.o: in function `mtk_usxgmii_pcs_link_up':
->> drivers/net/pcs/pcs-mtk-usxgmii.c:344:(.text+0x724): undefined reference to `mtk_xfi_tphy_valid_ctle'
+   drivers/platform/x86/xo15-ebook.c: In function 'ebook_switch_add':
+>> drivers/platform/x86/xo15-ebook.c:104:17: error: label 'err_free_input' =
+used but not defined
+     104 |                 goto err_free_input;
+         |                 ^~~~
 
 
-vim +344 drivers/net/pcs/pcs-mtk-usxgmii.c
+vim +/err_free_input +104 drivers/platform/x86/xo15-ebook.c
 
-   333	
-   334	static void mtk_usxgmii_pcs_link_up(struct phylink_pcs *pcs, unsigned int neg_mode,
-   335					    phy_interface_t interface,
-   336					    int speed, int duplex)
-   337	{
-   338		struct mtk_usxgmii_pcs *mpcs = pcs_to_mtk_usxgmii_pcs(pcs);
-   339	
-   340		/* Reconfiguring USXGMII to ensure the quality of the RX signal
-   341		 * after the line side link up.
-   342		 */
-   343		if (mtk_usxgmii_pcs_link_status(mpcs) &&
- > 344		    mtk_xfi_tphy_valid_ctle(mpcs->xfi_tphy))
-   345			return;
-   346	
-   347		mtk_usxgmii_pcs_config(pcs, neg_mode, interface, NULL, false);
-   348		phy_reset(mpcs->xfi_tphy);
-   349		phy_set_mode_ext(mpcs->xfi_tphy, PHY_MODE_ETHERNET, interface);
-   350	}
-   351	
+44cb98c48e19f5 Rafael J. Wysocki 2012-06-27   80 =20
+89ca11771a4b50 Paul Fox          2011-02-03   81  static int ebook_switch_a=
+dd(struct acpi_device *device)
+89ca11771a4b50 Paul Fox          2011-02-03   82  {
+39789590cff404 Andy Shevchenko   2023-10-10   83  	const struct acpi_device=
+_id *id;
+89ca11771a4b50 Paul Fox          2011-02-03   84  	struct ebook_switch *but=
+ton;
+89ca11771a4b50 Paul Fox          2011-02-03   85  	struct input_dev *input;
+89ca11771a4b50 Paul Fox          2011-02-03   86  	int error;
+89ca11771a4b50 Paul Fox          2011-02-03   87 =20
+bf4afc53b77aea Linus Torvalds    2026-02-21   88  	button =3D kzalloc_obj(s=
+truct ebook_switch);
+89ca11771a4b50 Paul Fox          2011-02-03   89  	if (!button)
+89ca11771a4b50 Paul Fox          2011-02-03   90  		return -ENOMEM;
+89ca11771a4b50 Paul Fox          2011-02-03   91 =20
+89ca11771a4b50 Paul Fox          2011-02-03   92  	device->driver_data =3D =
+button;
+89ca11771a4b50 Paul Fox          2011-02-03   93 =20
+89ca11771a4b50 Paul Fox          2011-02-03   94  	button->input =3D input =
+=3D input_allocate_device();
+89ca11771a4b50 Paul Fox          2011-02-03   95  	if (!input) {
+89ca11771a4b50 Paul Fox          2011-02-03   96  		error =3D -ENOMEM;
+89ca11771a4b50 Paul Fox          2011-02-03   97  		goto err_free_button;
+89ca11771a4b50 Paul Fox          2011-02-03   98  	}
+89ca11771a4b50 Paul Fox          2011-02-03   99 =20
+39789590cff404 Andy Shevchenko   2023-10-10  100  	id =3D acpi_match_acpi_d=
+evice(ebook_device_ids, device);
+39789590cff404 Andy Shevchenko   2023-10-10  101  	if (!id) {
+39789590cff404 Andy Shevchenko   2023-10-10  102  		dev_err(&device->dev, "=
+Unsupported hid\n");
+89ca11771a4b50 Paul Fox          2011-02-03  103  		error =3D -ENODEV;
+89ca11771a4b50 Paul Fox          2011-02-03 @104  		goto err_free_input;
+89ca11771a4b50 Paul Fox          2011-02-03  105  	}
+89ca11771a4b50 Paul Fox          2011-02-03  106 =20
+8625c4c06a79dd Ilpo J=C3=A4rvinen     2025-04-07  107  	strscpy(acpi_device=
+_name(device), XO15_EBOOK_DEVICE_NAME);
+8625c4c06a79dd Ilpo J=C3=A4rvinen     2025-04-07  108  	strscpy(acpi_device=
+_class(device), XO15_EBOOK_CLASS "/" XO15_EBOOK_SUBCLASS);
+89ca11771a4b50 Paul Fox          2011-02-03  109 =20
+39789590cff404 Andy Shevchenko   2023-10-10  110  	snprintf(button->phys, s=
+izeof(button->phys), "%s/button/input0", id->id);
+89ca11771a4b50 Paul Fox          2011-02-03  111 =20
+8625c4c06a79dd Ilpo J=C3=A4rvinen     2025-04-07  112  	input->name =3D acp=
+i_device_name(device);
+89ca11771a4b50 Paul Fox          2011-02-03  113  	input->phys =3D button->=
+phys;
+89ca11771a4b50 Paul Fox          2011-02-03  114  	input->id.bustype =3D BU=
+S_HOST;
+89ca11771a4b50 Paul Fox          2011-02-03  115  	input->dev.parent =3D &d=
+evice->dev;
+89ca11771a4b50 Paul Fox          2011-02-03  116 =20
+89ca11771a4b50 Paul Fox          2011-02-03  117  	input->evbit[0] =3D BIT_=
+MASK(EV_SW);
+89ca11771a4b50 Paul Fox          2011-02-03  118  	set_bit(SW_TABLET_MODE, =
+input->swbit);
+89ca11771a4b50 Paul Fox          2011-02-03  119 =20
+89ca11771a4b50 Paul Fox          2011-02-03  120  	error =3D input_register=
+_device(input);
+f3f83acc4b2615 Rafael J. Wysocki 2026-02-09  121  	if (error) {
+f3f83acc4b2615 Rafael J. Wysocki 2026-02-09  122  		input_free_device(input=
+);
+f3f83acc4b2615 Rafael J. Wysocki 2026-02-09  123  		goto err_free_button;
+f3f83acc4b2615 Rafael J. Wysocki 2026-02-09  124  	}
+f3f83acc4b2615 Rafael J. Wysocki 2026-02-09  125 =20
+f3f83acc4b2615 Rafael J. Wysocki 2026-02-09  126  	error =3D acpi_dev_insta=
+ll_notify_handler(device, ACPI_DEVICE_NOTIFY,
+f3f83acc4b2615 Rafael J. Wysocki 2026-02-09  127  						ebook_switch_notify=
+, device);
+89ca11771a4b50 Paul Fox          2011-02-03  128  	if (error)
+f3f83acc4b2615 Rafael J. Wysocki 2026-02-09  129  		goto err_unregister_inp=
+ut;
+89ca11771a4b50 Paul Fox          2011-02-03  130 =20
+89ca11771a4b50 Paul Fox          2011-02-03  131  	ebook_send_state(device);
+89ca11771a4b50 Paul Fox          2011-02-03  132 =20
+89ca11771a4b50 Paul Fox          2011-02-03  133  	if (device->wakeup.flags=
+.valid) {
+89ca11771a4b50 Paul Fox          2011-02-03  134  		/* Button's GPE is run-=
+wake GPE */
+89ca11771a4b50 Paul Fox          2011-02-03  135  		acpi_enable_gpe(device-=
+>wakeup.gpe_device,
+89ca11771a4b50 Paul Fox          2011-02-03  136  				device->wakeup.gpe_nu=
+mber);
+89ca11771a4b50 Paul Fox          2011-02-03  137  		device_set_wakeup_enabl=
+e(&device->dev, true);
+89ca11771a4b50 Paul Fox          2011-02-03  138  	}
+89ca11771a4b50 Paul Fox          2011-02-03  139 =20
+89ca11771a4b50 Paul Fox          2011-02-03  140  	return 0;
+89ca11771a4b50 Paul Fox          2011-02-03  141 =20
+f3f83acc4b2615 Rafael J. Wysocki 2026-02-09  142  err_unregister_input:
+f3f83acc4b2615 Rafael J. Wysocki 2026-02-09  143  	input_unregister_device(=
+input);
+89ca11771a4b50 Paul Fox          2011-02-03  144  err_free_button:
+89ca11771a4b50 Paul Fox          2011-02-03  145  	kfree(button);
+89ca11771a4b50 Paul Fox          2011-02-03  146  	return error;
+89ca11771a4b50 Paul Fox          2011-02-03  147  }
+89ca11771a4b50 Paul Fox          2011-02-03  148 =20
 
--- 
+:::::: The code at line 104 was first introduced by commit
+:::::: 89ca11771a4b50ed616ab6c37e0ef333d02f1d47 OLPC XO-1.5 ebook switch dr=
+iver
+
+:::::: TO: Paul Fox <pgf@laptop.org>
+:::::: CC: Matthew Garrett <mjg@redhat.com>
+
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
