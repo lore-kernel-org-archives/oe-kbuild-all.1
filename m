@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B031239C631;
-	Thu,  7 May 2026 10:43:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CFEF2D879E
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 May 2026 10:55:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778150592; cv=none; b=oNAUqsRtNC7FOODVCP6qsZBcCTfil/mJDwyUXhyyEekQlIjnCvS+jKbplgNyeE6hNXI2IHcXm7TBYZFoNXoBuOi/PqXVtLnCEGlgLmF1Ku4tWvbEh9k2BxkrlanxWtztxVA00EEppBnBtAef4PwLBNdJHUE5gGuLOnxMyNMzQXQ=
+	t=1778151322; cv=none; b=Di3srWuGGgjEZgsZfFlblxFSomIXEXa3RPwg8Df7ZTdZihp/tOg4waZhBx1auS83D11Bo4HqSU5Nd0K++FnU5c8fxyDrvLb1c5T/quzefLEx3IoVP6U5XpnQyWRak8LLA7DUc5gFXtHb27ScX3OaLvrBxsXx0hu7Tc4Oydaf98Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778150592; c=relaxed/simple;
-	bh=mKTCEYj8j65FjZvQC8rApCqQNvkpRKdJ/QeLDCo821c=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=qljjU7odpjp7WqX/gfv75rV7XHE/AGbnWoUw7d+DLODbZOT6nZZKW+VRTCTzSurUn6ew08KCW/owSP9Iely8wgHBdCws1EsNwwBp9b4JQ3OXJE5tX9o27ZXCtISevg6vl5aNpTOXk1L0Sp6H0Mu3qvwD+pZr/xh0MiFSIc23dac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IqsQl07f; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1778151322; c=relaxed/simple;
+	bh=rcW5piGPfnnRZWIe1CCa0jYI8j7c5xp47tMw8XvbHIM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=XvVoK0KjY4k+5z7Li6VpcbERssa1iPu9o/dYh0fr4aD6hWlfebOA6CYAaviJr1mcq/VgTOg65LuigawjU5iY2JbvS53W1rx/c08p33m6s9LVsg8RdlpWJZgvnwHA5FMMVLLCI+CeRLq9FZyi/ElJZEl94uUwrkmCTNXDWrESq5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Iy4PRWUT; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IqsQl07f"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Iy4PRWUT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778150590; x=1809686590;
+  t=1778151317; x=1809687317;
   h=date:from:to:cc:subject:message-id;
-  bh=mKTCEYj8j65FjZvQC8rApCqQNvkpRKdJ/QeLDCo821c=;
-  b=IqsQl07fogJrH+QkZDs8hbwOBEaa90y57wkL4WR/8rJlgWRNngevMfCa
-   Qe8rte0jQmIafO8X5acSx9bgFf8PqejYk8HjEDGHTTjeHKHg4Cc2945Se
-   +ycci3irmDWmeqJI4sMwiZiDUOdHn2zd4fAeQ9G/2m8kkVP4Hyh6w0sXr
-   fyagRK7qtvb0DVr4jL83XobXqzvMfNj9Si4WJnDdUADTo7Dflt72TVpR4
-   d7zmnuPoJ7YJ8LiYoYVNAIZEIprwjrPTWEAW1JHHoRX4k45wAr2kPxEFd
-   3ILyaVPLGulPTa3C5L2DCcx2yJ9Sr1h7zCuj+O4ODN7d+CCSEyq7EnLIx
-   g==;
-X-CSE-ConnectionGUID: 1x+xhK/5SYKWcbZOWPCGWw==
-X-CSE-MsgGUID: 1A6Mk1skREuloXSFMzFtMQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11778"; a="78948277"
+  bh=rcW5piGPfnnRZWIe1CCa0jYI8j7c5xp47tMw8XvbHIM=;
+  b=Iy4PRWUTx4N0Tx5E2O/lsjpwuBsqJ/2gS6GRyK6pJFRCDknxsYjAl0FS
+   rw3Bn+hRVI7WYSBAU7AgmF1F6JWpOX7/w/GYMpfsN7i/ISy88y6Xf7ZpH
+   QTHEY03S0NE7Oav80/UTRtudF2qsVPcPvAdFcou6Ia0N1n7zBud/T2qWr
+   Et7u9cX8Q8EKXeZGfb9/GWgy/g4pb+qgy61eiCLzq+nTp5HH3MytJ/CTW
+   +l2aZtUYuUWmMRdi7c4JmPrQ2kGIypcIhQz7Z0WMJ61brv1db27LR7uVv
+   VaSBlTlqWHbR6E59vdBo6p2n9/johdBy1Ns8bJ4XPQrncLphj1c2jIsDw
+   A==;
+X-CSE-ConnectionGUID: XIoMa8KpRPagPaUbgB13/Q==
+X-CSE-MsgGUID: Szbte5OKR3aZR2k2Ho6Bow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11778"; a="90199799"
 X-IronPort-AV: E=Sophos;i="6.23,221,1770624000"; 
-   d="scan'208";a="78948277"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2026 03:43:09 -0700
-X-CSE-ConnectionGUID: QZ2ksAdgRaG/BnUYUOvrjA==
-X-CSE-MsgGUID: M/7SF9gJSgeucn37n36/wA==
+   d="scan'208";a="90199799"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2026 03:55:10 -0700
+X-CSE-ConnectionGUID: JSy1wbI/SIGQsFusBdoSnQ==
+X-CSE-MsgGUID: Dt+0dmBaSFm6fEFooo95Lg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,221,1770624000"; 
-   d="scan'208";a="241413805"
+   d="scan'208";a="233766835"
 Received: from lkp-server01.sh.intel.com (HELO 8365ac1094ea) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 07 May 2026 03:43:08 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 07 May 2026 03:55:08 -0700
 Received: from kbuild by 8365ac1094ea with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wKwC9-000000000BR-10Mm;
-	Thu, 07 May 2026 10:43:05 +0000
-Date: Thu, 07 May 2026 18:42:05 +0800
+	id 1wKwNm-000000000Bx-0lFx;
+	Thu, 07 May 2026 10:55:06 +0000
+Date: Thu, 07 May 2026 18:54:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [ljs:project/cow-context 1/18] kernel/fork.c:738:2: error:
- call to undeclared function 'drop_cow_context'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202605071818.oG5849si-lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-6.6 20/20]
+ kernel/sched/sched.h:1842:54: warning: 'struct cgroup_taskset' declared
+ inside parameter list will not be visible outside of this definition or
+ declaration
+Message-ID: <202605071812.SwSkld7e-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,65 +61,42 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ljs/linux.git project/cow-context
-head:   e02aa02fef8128743869032cb20d26f752cd9154
-commit: 1be9d553f4be97b754471cc04735f215e75c4bf2 [1/18] mm/rmap: add cow_context data structure and assign to mm
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20260507/202605071818.oG5849si-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260507/202605071818.oG5849si-lkp@intel.com/reproduce)
+Hi Cruz,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   7869ad90f786f903dadc68707ecf94fd3e89b98c
+commit: 54118d6b739756063c9deb7c27113cf731cf6c2e [20/20] anolis: sched: introduce SMT expeller and SMT expellee
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260507/202605071812.SwSkld7e-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260507/202605071812.SwSkld7e-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605071818.oG5849si-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605071812.SwSkld7e-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/fork.c:738:2: error: call to undeclared function 'drop_cow_context'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     738 |         drop_cow_context(mm);
-         |         ^
->> kernel/fork.c:1097:2: error: call to undeclared function 'mm_init_cow_context'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1097 |         mm_init_cow_context(mm);
-         |         ^
-   kernel/fork.c:1097:2: note: did you mean 'init_new_context'?
-   include/asm-generic/mmu_context.h:34:19: note: 'init_new_context' declared here
-      34 | static inline int init_new_context(struct task_struct *tsk,
-         |                   ^
-   2 errors generated.
+   In file included from kernel/sched/core.c:87:
+>> kernel/sched/sched.h:1842:54: warning: 'struct cgroup_taskset' declared inside parameter list will not be visible outside of this definition or declaration
+    1842 | static inline void sched_core_identity_attach(struct cgroup_taskset *tset) { }
+         |                                                      ^~~~~~~~~~~~~~
 
 
-vim +/drop_cow_context +738 kernel/fork.c
+vim +1842 kernel/sched/sched.h
 
-   714	
-   715	/*
-   716	 * Called when the last reference to the mm
-   717	 * is dropped: either by a lazy thread or by
-   718	 * mmput. Free the page directory and the mm.
-   719	 */
-   720	void __mmdrop(struct mm_struct *mm)
-   721	{
-   722		BUG_ON(mm == &init_mm);
-   723		WARN_ON_ONCE(mm == current->mm);
-   724	
-   725		/* Ensure no CPUs are using this as their lazy tlb mm */
-   726		cleanup_lazy_tlbs(mm);
-   727	
-   728		WARN_ON_ONCE(mm == current->active_mm);
-   729		mm_free_pgd(mm);
-   730		mm_free_id(mm);
-   731		destroy_context(mm);
-   732		mmu_notifier_subscriptions_destroy(mm);
-   733		check_mm(mm);
-   734		put_user_ns(mm->user_ns);
-   735		mm_pasid_drop(mm);
-   736		mm_destroy_cid(mm);
-   737		percpu_counter_destroy_many(mm->rss_stat, NR_MM_COUNTERS);
- > 738		drop_cow_context(mm);
-   739	
-   740		free_mm(mm);
-   741	}
-   742	EXPORT_SYMBOL_GPL(__mmdrop);
-   743	
+  1835	
+  1836	static inline bool sched_group_cookie_match(struct rq *rq,
+  1837						    struct task_struct *p,
+  1838						    struct sched_group *group)
+  1839	{
+  1840		return true;
+  1841	}
+> 1842	static inline void sched_core_identity_attach(struct cgroup_taskset *tset) { }
+  1843	#endif /* CONFIG_SCHED_CORE */
+  1844	
 
 -- 
 0-DAY CI Kernel Test Service
