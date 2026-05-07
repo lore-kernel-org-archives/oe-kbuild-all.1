@@ -1,121 +1,125 @@
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ED063E95A9
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 May 2026 10:35:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B031239C631;
+	Thu,  7 May 2026 10:43:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778150119; cv=none; b=LQe9jopB6khaMUySYwJL0iL6voaAtbvRY3QLFG62/y+wGOzcxC2Np+45HeRQ5C9Hk1gqYmYguKCqNtcoBAI2PuGQ2e66b3ENs1+BNqzAOtNvyBRfgz0DB2O4XqpEbH+xZNgKWz42Xoac9uZxBPoqGUWLqIySABlG4OZ03Ne+B0E=
+	t=1778150592; cv=none; b=oNAUqsRtNC7FOODVCP6qsZBcCTfil/mJDwyUXhyyEekQlIjnCvS+jKbplgNyeE6hNXI2IHcXm7TBYZFoNXoBuOi/PqXVtLnCEGlgLmF1Ku4tWvbEh9k2BxkrlanxWtztxVA00EEppBnBtAef4PwLBNdJHUE5gGuLOnxMyNMzQXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778150119; c=relaxed/simple;
-	bh=NvWjKGEH5AexCh1wgfM/i3jDoFq2EoAZy1t+xwdmTeM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=djYy09XMO3YS4iZ2UgzswSEY307UQ37I4PQapajRVtJ58i9mfCpV9rpWnarnmWl8ux+xwHyS8gUzio1wkOmIbzd0lZVaZppfzU1F0kVxENGtqiUmOoJr0MXcedhjZtTSkKknqvtouPoZ16OJQC2dUkY+lqu/ersZlIlC6U8lad0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WxhKIX+e; arc=none smtp.client-ip=209.85.167.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778150592; c=relaxed/simple;
+	bh=mKTCEYj8j65FjZvQC8rApCqQNvkpRKdJ/QeLDCo821c=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=qljjU7odpjp7WqX/gfv75rV7XHE/AGbnWoUw7d+DLODbZOT6nZZKW+VRTCTzSurUn6ew08KCW/owSP9Iely8wgHBdCws1EsNwwBp9b4JQ3OXJE5tX9o27ZXCtISevg6vl5aNpTOXk1L0Sp6H0Mu3qvwD+pZr/xh0MiFSIc23dac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IqsQl07f; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WxhKIX+e"
-Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-47c7b282d73so383913b6e.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 07 May 2026 03:35:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778150117; x=1778754917; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=N8K3OIHFb9yqqZ050RJZMLwdoBWgFfUeLBVGnuqXPek=;
-        b=WxhKIX+eN8pd159Pe9NdCLRz+Y06CFy7dHTlxyzrh+jGwke6PkJeEBjtr/73RrE/B1
-         yAUcDZ+l+kfq+ZXlUj7/p23R9Arbk/eBSFf9fLIaKQHaO2n+O7VFtob9NnX736Ts2rd9
-         LpnnX8sQiFQ4Hq9A1pkoodClLaBNA+3g10Ce8/msFjOJAhx1ho4+17ua16GWfzjofw8q
-         /KD2RK4wTM9MSEzvKpO8ssQYM7qNtiF+bDU7+ezLO/cqXubLFof2PyclcstKQPzw5CEH
-         Li4QUyC6NTTDVv7ZPKY39sBWINwmSK2u6lfN6WmzaFuDUumeUWfOYYem+Y617GVcreEE
-         KSdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778150117; x=1778754917;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=N8K3OIHFb9yqqZ050RJZMLwdoBWgFfUeLBVGnuqXPek=;
-        b=gx5YKNFfxuJM20kMlp2J9ccVG2KHNMT7J4f2uT7VMwgB0+hS3NLnxnGjZHkJ3Ju5Sd
-         l4lli9MDZo2NuKWcg2iPX02U8e/OsETwClgBbXLuB8bVXSWkfgdhprSacCpQWVT0Bxiq
-         Pvc6wStPntRk23mvFrsjjy97Z3c1snEOmJtS/L/kuO28afLYKqkL5+OGFdjmHTkw9fVn
-         DI0fTLRPptkaUGJlg4zBEmTrfzXaGhNSdhnx0Haz5NRT2MF3FFZehnYpLu8hiDCurkP6
-         qhC0OrXk0DlZbi746TEgU8Tyjl1lnxScf81iN0ehxCgC30S26SJFZH8QCQ3P/HIpQX0W
-         E0oQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+BYVFo1YIQU5biF+/whvqh9bbU7cJvCRrmhIGkhCVL0lpDWJuwxh4bxeGq/c8COYZ4ynIP238DaQrckmv/@lists.linux.dev
-X-Gm-Message-State: AOJu0YzbMsaLyGTBcOPagMxWVYVB1u6OGcQ0WZH9Vs4V3a6tE+XLD8fz
-	NGhSeh7akm4lJgw9F+PtmQw5hmLoSYx4SVy9FmazCoAtfBwYB2vYm/SA
-X-Gm-Gg: AeBDievQRFxCmSb7NgTOqW15nJwTbIFLi8AVtUXhevR+cgFXi0BZ8OX0Bo1RsvSUVzR
-	hW6YxjDF9B0BKT4vcyg1fyluXU/z5oHrLTgs3tusG8I7zDin+MLNkxTgFG+5TadvfP8zrKEBtGR
-	ZPBZIJpNW2KWAyDHkCz8rfc+AWIpDV2Y3jY62GxovExiQ0vx/WfcWBxtTcVve83HkyOUndsLPJK
-	f1v5a1l4xYmq2SLH/SLfANJATMidg25QJ9pGFqJT5BTqaBbWJ+lfxBZEU4s6sde5As/B/MaQ14l
-	g2vCQp7XvpR9v8nu6Qw3Lqsrq/+hMOFtCqJo+N2aUDHToHgUgaoTxhYsx2tz19btRabMLlEYUd5
-	TCxyHqyN0SLuN8TNKJ/ZhSG9QDM6HwWQZG+uMEqzFUDoLWU5F1xJoLI5Lhx4A1KcU4Yic3GfJCu
-	KdFm2z8l+0iOA8H43DZ/mP00SUVeIJfw==
-X-Received: by 2002:a05:6808:1481:b0:479:646c:f701 with SMTP id 5614622812f47-4804253d27fmr4138047b6e.41.1778150116861;
-        Thu, 07 May 2026 03:35:16 -0700 (PDT)
-Received: from localhost ([206.212.255.140])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-47c763b33c1sm12358484b6e.1.2026.05.07.03.35.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2026 03:35:15 -0700 (PDT)
-Date: Thu, 7 May 2026 13:35:08 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Lorenzo Stoakes <ljs@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [ljs:project/cow-context 4/18] mm/cow_context.c:102 __dynarray_dup()
- warn: variable dereferenced before check 'arr' (see line 91)
-Message-ID: <202605071712.tNPizmiC-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IqsQl07f"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778150590; x=1809686590;
+  h=date:from:to:cc:subject:message-id;
+  bh=mKTCEYj8j65FjZvQC8rApCqQNvkpRKdJ/QeLDCo821c=;
+  b=IqsQl07fogJrH+QkZDs8hbwOBEaa90y57wkL4WR/8rJlgWRNngevMfCa
+   Qe8rte0jQmIafO8X5acSx9bgFf8PqejYk8HjEDGHTTjeHKHg4Cc2945Se
+   +ycci3irmDWmeqJI4sMwiZiDUOdHn2zd4fAeQ9G/2m8kkVP4Hyh6w0sXr
+   fyagRK7qtvb0DVr4jL83XobXqzvMfNj9Si4WJnDdUADTo7Dflt72TVpR4
+   d7zmnuPoJ7YJ8LiYoYVNAIZEIprwjrPTWEAW1JHHoRX4k45wAr2kPxEFd
+   3ILyaVPLGulPTa3C5L2DCcx2yJ9Sr1h7zCuj+O4ODN7d+CCSEyq7EnLIx
+   g==;
+X-CSE-ConnectionGUID: 1x+xhK/5SYKWcbZOWPCGWw==
+X-CSE-MsgGUID: 1A6Mk1skREuloXSFMzFtMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11778"; a="78948277"
+X-IronPort-AV: E=Sophos;i="6.23,221,1770624000"; 
+   d="scan'208";a="78948277"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2026 03:43:09 -0700
+X-CSE-ConnectionGUID: QZ2ksAdgRaG/BnUYUOvrjA==
+X-CSE-MsgGUID: M/7SF9gJSgeucn37n36/wA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,221,1770624000"; 
+   d="scan'208";a="241413805"
+Received: from lkp-server01.sh.intel.com (HELO 8365ac1094ea) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 07 May 2026 03:43:08 -0700
+Received: from kbuild by 8365ac1094ea with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wKwC9-000000000BR-10Mm;
+	Thu, 07 May 2026 10:43:05 +0000
+Date: Thu, 07 May 2026 18:42:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [ljs:project/cow-context 1/18] kernel/fork.c:738:2: error:
+ call to undeclared function 'drop_cow_context'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202605071818.oG5849si-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ljs/linux.git project/cow-context
 head:   e02aa02fef8128743869032cb20d26f752cd9154
-commit: 86c4a37b876ec7ed8a5b42d5c3f7b3c4b0bd5c03 [4/18] mm: add simple dynamic array implementation
-config: arc-randconfig-r072-20260507 (https://download.01.org/0day-ci/archive/20260507/202605071712.tNPizmiC-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 14.3.0
-smatch: v0.5.0-9065-ge9cc34fd
+commit: 1be9d553f4be97b754471cc04735f215e75c4bf2 [1/18] mm/rmap: add cow_context data structure and assign to mm
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20260507/202605071818.oG5849si-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260507/202605071818.oG5849si-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605071712.tNPizmiC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605071818.oG5849si-lkp@intel.com/
 
-smatch warnings:
-mm/cow_context.c:102 __dynarray_dup() warn: variable dereferenced before check 'arr' (see line 91)
+All errors (new ones prefixed by >>):
 
-vim +/arr +102 mm/cow_context.c
+>> kernel/fork.c:738:2: error: call to undeclared function 'drop_cow_context'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     738 |         drop_cow_context(mm);
+         |         ^
+>> kernel/fork.c:1097:2: error: call to undeclared function 'mm_init_cow_context'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1097 |         mm_init_cow_context(mm);
+         |         ^
+   kernel/fork.c:1097:2: note: did you mean 'init_new_context'?
+   include/asm-generic/mmu_context.h:34:19: note: 'init_new_context' declared here
+      34 | static inline int init_new_context(struct task_struct *tsk,
+         |                   ^
+   2 errors generated.
 
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01   89  static struct dynarray *__dynarray_dup(struct dynarray *arr, int cap, gfp_t gfp)
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01   90  {
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01  @91  	const int nr = __dynarray_nr(arr);
-                                                                                     ^^^
-Dereference
 
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01   92  	struct dynarray *ret;
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01   93  
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01   94  	ret = kmalloc_flex(*arr, contents, cap, gfp);
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01   95  	if (!ret)
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01   96  		return NULL;
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01   97  
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01   98  	/* Just allocated, safe to assign. */
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01   99  	ret->nr = nr;
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01  100  	ret->cap = cap;
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01  101  
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01 @102  	if (arr)
-                                                            ^^^
-Checked too late.
+vim +/drop_cow_context +738 kernel/fork.c
 
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01  103  		memcpy(ret->contents, arr->contents, sizeof(void *) * nr);
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01  104  	return ret;
-86c4a37b876ec7e Lorenzo Stoakes 2026-05-01  105  }
+   714	
+   715	/*
+   716	 * Called when the last reference to the mm
+   717	 * is dropped: either by a lazy thread or by
+   718	 * mmput. Free the page directory and the mm.
+   719	 */
+   720	void __mmdrop(struct mm_struct *mm)
+   721	{
+   722		BUG_ON(mm == &init_mm);
+   723		WARN_ON_ONCE(mm == current->mm);
+   724	
+   725		/* Ensure no CPUs are using this as their lazy tlb mm */
+   726		cleanup_lazy_tlbs(mm);
+   727	
+   728		WARN_ON_ONCE(mm == current->active_mm);
+   729		mm_free_pgd(mm);
+   730		mm_free_id(mm);
+   731		destroy_context(mm);
+   732		mmu_notifier_subscriptions_destroy(mm);
+   733		check_mm(mm);
+   734		put_user_ns(mm->user_ns);
+   735		mm_pasid_drop(mm);
+   736		mm_destroy_cid(mm);
+   737		percpu_counter_destroy_many(mm->rss_stat, NR_MM_COUNTERS);
+ > 738		drop_cow_context(mm);
+   739	
+   740		free_mm(mm);
+   741	}
+   742	EXPORT_SYMBOL_GPL(__mmdrop);
+   743	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
