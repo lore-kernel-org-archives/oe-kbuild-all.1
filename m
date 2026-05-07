@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E48083624B0
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 May 2026 07:37:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EE7D2DFA2F
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 May 2026 08:21:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778139477; cv=none; b=A0Oc4DbTuVTRpTJdc2U3PMFDWYpMjmogBuPadHdBl/1jkzOJVQl5cFY+ucMf/FkY2goVqvwnpMvCjsLSOe3QfmPJI4A/vRxbPKn3+dvdrUr+e5NCAX9PKjPP2fhYwbhRYcS5phtQqY4htlytU2GrOIvluExqWi/EF5nma9TSAA4=
+	t=1778142117; cv=none; b=K9a+GkW7kR82TSbn6/z1DzQJETBIS9p6MplQM0MlG3wWXZF5R1H4zhAgF7D4dkUHZdO1kDNpl/JEBmOcT2Xi7BR63dKgmTEMbMlr+MDUdAYIencWZUQWU5Hceg0/xRaFM9x2PNKSXy+UbyTRsH5orG3YKAIC8bp2LTKGpWKuay4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778139477; c=relaxed/simple;
-	bh=J7tKVXhyeb9RcsHBpYq1nAoPBgChL6krqFpt5UUcemE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=BoQHCw24Pa5i5U+ccJ8+q7RlvxgucBcNRVqIN0vTXOQIqmiRBD2mA1sANKah8dRKxE6tYlh1buEw+heWG9ZIlGG3TawzOlvv5F02Hf6Wtej66TKMeD/ZI5nfQInxp3itQb2ZKp3MC1sP1TrbGAttqigfAa6j3wRRtSOgBpOLClU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d2yTKyNH; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1778142117; c=relaxed/simple;
+	bh=jf9tPC/B1/Q7GF1atBHyPaWE932zA/QAY9+cliSKWZA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Fk+I+4if4xARS5SzPl0ehlzWn0EneTVKxjUQPKiCCPdfmbkHs+CSiulZnEgrBeqi76jtf2b5AasmYgs0vMt0+/nqq5koH4Gp8NWDTNy7hQM6hXjegUifY550/giIWF9O3ansLf0BMGc7lhE+29RKtHqRp6vopnBlhL2+hCqjXqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dfcbVxcP; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d2yTKyNH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dfcbVxcP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778139475; x=1809675475;
+  t=1778142115; x=1809678115;
   h=date:from:to:cc:subject:message-id;
-  bh=J7tKVXhyeb9RcsHBpYq1nAoPBgChL6krqFpt5UUcemE=;
-  b=d2yTKyNHpvCGBjtiihBR7kFysXukgaH1/oueANb3gl6E6UOEp4bvF9tG
-   7DLQsqd0b0VQPtipiMI4X0QAXGu2EsN8LUo5sbGTfob4wIzc2N25CtFbY
-   v3ueGf/PXpX3UIz3Hda8RdY7Bb2K4vIuQZOwevIUrvhLhyKwigDtRf/pB
-   D5kpDY3sVY78daE5lfQCL0gVDNJxbGzKw0gcf4IwhPpvobN4X6LbWXObz
-   h8ETKSGouztvDdmz4ayHk7zKCkNT/XodNOfcC+EUhTffJgn54GNPsQ0/N
-   KyW1NhWf3Hb500MwfWXgnnLDxz6hbsX8BS4VLwtzSAHt9otgJTdy+jCG9
-   Q==;
-X-CSE-ConnectionGUID: +MvxptYSRV670TFbHPOaCA==
-X-CSE-MsgGUID: qoKPt+gCS3yIBY281gdDPQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11778"; a="79191527"
+  bh=jf9tPC/B1/Q7GF1atBHyPaWE932zA/QAY9+cliSKWZA=;
+  b=dfcbVxcP+FtdYDa/ZZxTJtgQ5mhQrQLM9gnS5y7pNZWJs+CDvIhojMvF
+   kBiqk5t0TYG8SYXPBgHLyPT3b+dx3NHPmHzNyo256eTq/yaL1d6qXFt2e
+   IhpgwgENpR1DHj6KPoPnONN1bV3n6SEpw4lefkUNepwpCoQUncNoMENAo
+   TkPbCrDZOuBgq0Cjn48YPhCyC+yHeZ17qEGZtTMXY1iFIfpFoHhnEfBv3
+   NhpCXImh7bkUR5AkAF5dShrhXGaduKvnEd2Uu769T8ctI+ixEp1R4fB66
+   MrRnS/nKx2z5LjFJf2+LGJZoT5zT3siLSAhy17xq2sG07nwAF21eCUNGm
+   g==;
+X-CSE-ConnectionGUID: pvx1FgetQNSXDxMLdzA7LQ==
+X-CSE-MsgGUID: NVIDnCwPSZm/XLP3/4ehtQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11778"; a="96516431"
 X-IronPort-AV: E=Sophos;i="6.23,221,1770624000"; 
-   d="scan'208";a="79191527"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2026 00:37:54 -0700
-X-CSE-ConnectionGUID: WX3ftoUNTPeF5gggLvBc0Q==
-X-CSE-MsgGUID: qYGWrH5CSRK08OAX7ucrpA==
+   d="scan'208";a="96516431"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2026 01:21:55 -0700
+X-CSE-ConnectionGUID: jDsLhH3ATIy0Iol6W1ffuA==
+X-CSE-MsgGUID: gvdaYtC5QD6XWtLrC+Q8Zw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,221,1770624000"; 
-   d="scan'208";a="235537655"
+   d="scan'208";a="232029042"
 Received: from lkp-server01.sh.intel.com (HELO 8365ac1094ea) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 07 May 2026 00:37:52 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 07 May 2026 01:21:53 -0700
 Received: from kbuild by 8365ac1094ea with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wKtIs-0000000006R-2QPk;
-	Thu, 07 May 2026 07:37:50 +0000
-Date: Thu, 07 May 2026 15:37:14 +0800
+	id 1wKtzT-0000000007V-1qgs;
+	Thu, 07 May 2026 08:21:51 +0000
+Date: Thu, 07 May 2026 16:21:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:7.1-rc 156/157]
- drivers/phy/mediatek/phy-mtk-xfi-tphy.c:75:6: warning: no previous prototype
- for function 'mtk_xfi_tphy_valid_ctle'
-Message-ID: <202605071519.bwOOXfLz-lkp@intel.com>
+Subject: [android-common:android17-6.18 2/2]
+ drivers/irqchip/irq-aspeed-scu-ic.c:107:27: warning: variable 'mask' set but
+ not used
+Message-ID: <202605071647.njqdwoi5-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,50 +60,61 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.1-rc
-head:   ce3735b05f8971cb2a88ba66c5df025751f12b10
-commit: 062d4ec22c7baf7ffd88056f69a1bcdf27cb27da [156/157] phy: mtk-xfi: add mtk_xfi_tphy_valid_ctle for use in usxgmii driver
-config: powerpc64-randconfig-001-20260507 (https://download.01.org/0day-ci/archive/20260507/202605071519.bwOOXfLz-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260507/202605071519.bwOOXfLz-lkp@intel.com/reproduce)
+Hi Ryan,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   45943b04c976bbe025ab4de8b416e589ae35b2e2
+commit: b2a0c13f8b4fc3f6c8b279fdc4395a5fa57dda5d [2/2] irqchip/aspeed-scu-ic: Add support for AST2700 SCU interrupt controllers
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260507/202605071647.njqdwoi5-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260507/202605071647.njqdwoi5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: b2a0c13f8b4f ("irqchip/aspeed-scu-ic: Add support for AST2700 SCU interrupt controllers")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605071519.bwOOXfLz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605071647.njqdwoi5-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/phy/mediatek/phy-mtk-xfi-tphy.c:75:6: warning: no previous prototype for function 'mtk_xfi_tphy_valid_ctle' [-Wmissing-prototypes]
-      75 | bool mtk_xfi_tphy_valid_ctle(struct phy *phy)
-         |      ^
-   drivers/phy/mediatek/phy-mtk-xfi-tphy.c:75:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      75 | bool mtk_xfi_tphy_valid_ctle(struct phy *phy)
-         | ^
-         | static 
-   1 warning generated.
+   drivers/irqchip/irq-aspeed-scu-ic.c: In function 'aspeed_scu_ic_irq_handler_split':
+>> drivers/irqchip/irq-aspeed-scu-ic.c:107:27: warning: variable 'mask' set but not used [-Wunused-but-set-variable]
+     107 |         unsigned int sts, mask;
+         |                           ^~~~
 
 
-vim +/mtk_xfi_tphy_valid_ctle +75 drivers/phy/mediatek/phy-mtk-xfi-tphy.c
+vim +/mask +107 drivers/irqchip/irq-aspeed-scu-ic.c
 
-    74	
-  > 75	bool mtk_xfi_tphy_valid_ctle(struct phy *phy)
-    76	{
-    77		struct mtk_xfi_tphy *xfi_tphy = phy_get_drvdata(phy);
-    78		unsigned int val, ctle;
-    79	
-    80		writel(0x00000404, xfi_tphy->base + 0x00);
-    81		writel(0x00d600d5, xfi_tphy->base + 0x10);
-    82	
-    83		val = readl(xfi_tphy->base + 0xd0);
-    84	
-    85		ctle = FIELD_GET(GENMASK(12, 8), val);
-    86		if (ctle > 10)
-    87		       return false;
-    88	
-    89		return true;
-    90	}
-    91	
+   101	
+   102	static void aspeed_scu_ic_irq_handler_split(struct irq_desc *desc)
+   103	{
+   104		struct aspeed_scu_ic *scu_ic = irq_desc_get_handler_data(desc);
+   105		struct irq_chip *chip = irq_desc_get_chip(desc);
+   106		unsigned long bit, enabled, max, status;
+ > 107		unsigned int sts, mask;
+   108	
+   109		chained_irq_enter(chip, desc);
+   110	
+   111		mask = scu_ic->irq_enable;
+   112		sts = readl(scu_ic->base + scu_ic->isr);
+   113		enabled = sts & scu_ic->irq_enable;
+   114		sts = readl(scu_ic->base + scu_ic->isr);
+   115		status = sts & enabled;
+   116	
+   117		bit = scu_ic->irq_shift;
+   118		max = scu_ic->num_irqs + bit;
+   119	
+   120		for_each_set_bit_from(bit, &status, max) {
+   121			generic_handle_domain_irq(scu_ic->irq_domain, bit - scu_ic->irq_shift);
+   122			/* Clear interrupt */
+   123			writel(BIT(bit), scu_ic->base + scu_ic->isr);
+   124		}
+   125	
+   126		chained_irq_exit(chip, desc);
+   127	}
+   128	
 
 -- 
 0-DAY CI Kernel Test Service
