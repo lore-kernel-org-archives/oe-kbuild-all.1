@@ -1,59 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A244397E81
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 May 2026 22:22:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59AFD3DA5B7
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 May 2026 22:50:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778192568; cv=none; b=OX5WnImDxiUewqgj+FE+IMMlIrhXm3cF7Q+8ycoiaq/g2qBvIZ4KDVI8NqMCISjrAAmAj0iEh0voWlMZkyt/k0LkK5WXQCOowpQfrKgIjsRxYC5NeO9N4p/HyAjtIQUi9eFgctlz87KTyhjlCW+tVdRUT+BO8oP45q8H2p3Fr/U=
+	t=1778194248; cv=none; b=k9cxmzjUv12QhklFuqQm2zE5oCO5yWUkeOs33N64olYK1G2xoznuDNzFbb5UZRaXLDsjvyfA59qHcMEkMMuyzAmEbya90hkNUZz60vXRU+6vbbJxTFKwTJ48UwdXFdGllFZ9GATH1JQhpP0OuXlMjANkd42hMgg86E/SEhRrc04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778192568; c=relaxed/simple;
-	bh=c92rYm+JUAYlt1T3bBf1Xi2vyEnYZtr6axQLo/Z9BNA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=HzxS0kBjEGB9q7Aw5WL50QguXh9k0lc89KzoqJAKu9GKflhLS+Ph+v57HawQqwdE9xNdg7cMa3y2kf6mi2qY/3NkCsJjk4WCIv8DR/Syo1QaQlwP2HWWMcAprCvcswu53C+lUTkEoUcJiSVOTpXa9F+Y3SbOROaRBYxQSj+nQlk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MrPt03mC; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1778194248; c=relaxed/simple;
+	bh=7vK8gEsW0OemdKagQZxURht+YtE65Q1o+Z5R4br8/gg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=aNvSLttqm9bY/2qFr2u0k86SJE3zXpTQjmvL+064JrS4hdO3/mcU9hDPyML1YxffLyr51yDKIUD1GsPr7BzgD0h/Sb/U1cbaeP3GHtWZXrIaDfRpSpUMvC/32yxvNz5QpQbRWIfGHuFrALxZjwMUqOVH4LQFsLlQSwN8bDCxtro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MvCnGiij; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MrPt03mC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MvCnGiij"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778192567; x=1809728567;
+  t=1778194246; x=1809730246;
   h=date:from:to:cc:subject:message-id;
-  bh=c92rYm+JUAYlt1T3bBf1Xi2vyEnYZtr6axQLo/Z9BNA=;
-  b=MrPt03mC8iPrdSgfkDmKrlvYOpG9fW7SJXdSLitqGYX5lvwcfeUZY4YL
-   OXdgBrwMgH/14v9IFQ9/r2bCMuBPyZxg1LcvKIEalnDQLQfHpfXbaN/Vb
-   /deKJ+6SW5wOVBNyiJuTbbTnMLSHLfLL7MjpS2U+BlNKZ0XrrpgZCQXch
-   yKiEjNOoUQk/bmj0wWYBZsVCjcjSuUd48kxh12pf0R/1MmGmwa6wO8NQL
-   gak7Giz3GSAZZGWq1jQ1Nni2kCRwQ/VXhrH7yxul6VdgR+WdejB3vBetF
-   NQOXuBYdi5BpTLj+we/HqdO/OU0LY9p6MWmXDsM0nn7bk7fQQcBXq81rK
+  bh=7vK8gEsW0OemdKagQZxURht+YtE65Q1o+Z5R4br8/gg=;
+  b=MvCnGiijlhjCIVRt1tEGbVtptiq8/A6YUhs82vg8IH4ChBWxSSjIWjJR
+   ixyTc5aCwaSpHvRjJxU5HlQOwP6iNUt97NXvcP6iwF0vg45oKaSswRTvO
+   X1o/qfv/8dFfKqlrrKDvGGE2yVqpC0gNxbc8nrOi4UDZhDW1zSfEUE31O
+   5AVTymkqwUWuz/Z3c079PwNAfe/+P56witOss+1+bMrUaVBlydCDHD8kt
+   GKz2bt4qwyyzgokTGkO9Jd2452rgJsKnmeUYrhgW07wE39rKzM+jiqBOm
+   BD2CuTd8whS6cPczopb6jTJM2BR8s1pIinr+M1gHPibwge7kZyR4BCaN9
    A==;
-X-CSE-ConnectionGUID: OgqRCBjTQbexhrpfJ3Ol0A==
-X-CSE-MsgGUID: qrmEKlF4QuatfGa6OiCz0w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11779"; a="79059608"
+X-CSE-ConnectionGUID: I1wfYtSiTvC/Aler9l05rw==
+X-CSE-MsgGUID: 08GN9hwfQA+TQjijq/XSsw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11779"; a="90620054"
 X-IronPort-AV: E=Sophos;i="6.23,222,1770624000"; 
-   d="scan'208";a="79059608"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2026 15:22:46 -0700
-X-CSE-ConnectionGUID: yte2/ixOSo2Y382GbJOQaQ==
-X-CSE-MsgGUID: T75K5BPETfCVK4+cpopHlA==
+   d="scan'208";a="90620054"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2026 15:50:45 -0700
+X-CSE-ConnectionGUID: bjXDYvMKSxazMVYvcSU+Jg==
+X-CSE-MsgGUID: cjhaNCd8SVqizInZ6TWilg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,222,1770624000"; 
-   d="scan'208";a="260033296"
-Received: from lkp-server01.sh.intel.com (HELO d6e19f2f5857) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 07 May 2026 15:22:44 -0700
-Received: from kbuild by d6e19f2f5857 with local (Exim 4.98.2)
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 07 May 2026 15:50:44 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wL77B-000000000WZ-2MWA;
-	Thu, 07 May 2026 22:22:41 +0000
-Date: Fri, 08 May 2026 06:22:12 +0800
+	id 1wL7YH-000000006yj-2XXy;
+	Thu, 07 May 2026 22:50:41 +0000
+Date: Fri, 08 May 2026 00:50:27 +0200
 From: kernel test robot <lkp@intel.com>
-To: Eric Biggers <ebiggers@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mikulas Patocka <mpatocka@redhat.com>,
- Linlin Zhang <linlin.zhang@oss.qualcomm.com>
-Subject: [linux-next:master 3785/4176]
- drivers/md/dm-inlinecrypt.c:329 inlinecrypt_ctr() warn: unsigned
- 'ctx->key_size' is never less than zero.
-Message-ID: <202605080638.NXLkvBwM-lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-6.6 1/1] versioncheck:
+ ./drivers/crypto/ccp/hygon/ccp-mdev.c: 12 linux/version.h not needed.
+Message-ID: <202605080038.jFWAzTsF-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,154 +57,61 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   17c7841d09ee7d33557fd075562d9289b6018c90
-commit: 753450f716417f53759c91b5bb7b96563379a719 [3785/4176] dm-inlinecrypt: add target for inline block device encryption
-config: hexagon-randconfig-r073-20260508 (https://download.01.org/0day-ci/archive/20260508/202605080638.NXLkvBwM-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-smatch: v0.5.0-9065-ge9cc34fd
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   f0a12e26dc4310db527f5b389e8613759387748b
+commit: 12a5b4fb5dc94317ff37f389fd2965cc7f7cafe4 [1/1] anolis: crypto: ccp: add ccp-mdev functionality to the ccp module.
+reproduce: (https://download.01.org/0day-ci/archive/20260508/202605080038.jFWAzTsF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605080638.NXLkvBwM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605080038.jFWAzTsF-lkp@intel.com/
 
-smatch warnings:
-drivers/md/dm-inlinecrypt.c:329 inlinecrypt_ctr() warn: unsigned 'ctx->key_size' is never less than zero.
-drivers/md/dm-inlinecrypt.c:329 inlinecrypt_ctr() warn: error code type promoted to positive: 'ctx->key_size'
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS=\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j384 ARCH=x86_64 versioncheck 
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+   ./drivers/char/ipmi/ipmi_si_ls2k500.c: 19 linux/version.h not needed.
+>> ./drivers/crypto/ccp/hygon/ccp-mdev.c: 12 linux/version.h not needed.
+   ./drivers/crypto/ccp/hygon/hct.c: 6 linux/version.h not needed.
+   ./drivers/crypto/ccp/hygon/tdm-dev.h: 29 linux/version.h not needed.
+   ./drivers/crypto/montage/tsse/tsse_vuart.c: 21 linux/version.h not needed.
+   ./drivers/gpu/drm/phytium/phytium_gem.c: 9 linux/version.h not needed.
+   ./drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_drv.h: 6 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-zhaoxin.c: 18 linux/version.h not needed.
+   ./drivers/net/ethernet/linkdata/sxe/base/compat/sxe_compat.h: 16 linux/version.h not needed.
+   ./drivers/net/ethernet/linkdata/sxevf/base/compat/sxe_compat.h: 16 linux/version.h not needed.
+   ./drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-ethtool.c: 1114: need linux/version.h
+   ./drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-hw.c: 6256: need linux/version.h
+   ./drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-net.c: 2329: need linux/version.h
+   ./drivers/net/ethernet/motorcomm/yt6801/fuxi-os.h: 27 linux/version.h not needed.
+   ./drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h: 26 linux/version.h not needed.
+   ./drivers/scsi/linkdata/ps3stor/linux/ps3_base.c: 11 linux/version.h not needed.
+   ./drivers/scsi/linkdata/ps3stor/linux/ps3_cli.c: 14 linux/version.h not needed.
+   ./drivers/scsi/linkdata/ps3stor/linux/ps3_driver_log.c: 3 linux/version.h not needed.
+   ./drivers/scsi/linkdata/ps3stor/ps3_device_manager.h: 9 linux/version.h not needed.
+   ./drivers/scsi/linkdata/ps3stor/ps3_device_manager_sas.h: 6 linux/version.h not needed.
+   ./drivers/scsi/linkdata/ps3stor/ps3_qos.c: 6 linux/version.h not needed.
+   ./drivers/scsi/linkdata/ps3stor/ps3_rb_tree.h: 7 linux/version.h not needed.
+   ./drivers/scsi/linkdata/ps3stor/ps3_sas_transport.h: 9 linux/version.h not needed.
+   ./drivers/scsi/linkdata/ps3stor/ps3_scsi_cmd_err.c: 9 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 402: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
-vim +329 drivers/md/dm-inlinecrypt.c
-
-   283	
-   284	/*
-   285	 * Construct an inlinecrypt mapping:
-   286	 * <cipher> [<key>|:<key_size>:<logon>:<key_description>] <iv_offset> <dev_path> <start>
-   287	 *
-   288	 * This syntax matches dm-crypt's, but the set of supported functionality has
-   289	 * been stripped down.
-   290	 */
-   291	static int inlinecrypt_ctr(struct dm_target *ti, unsigned int argc, char **argv)
-   292	{
-   293		struct inlinecrypt_ctx *ctx;
-   294		const struct dm_inlinecrypt_cipher *cipher;
-   295		u8 raw_key[BLK_CRYPTO_MAX_ANY_KEY_SIZE];
-   296		unsigned int dun_bytes;
-   297		unsigned long long tmpll;
-   298		char dummy;
-   299		int err;
-   300	
-   301		if (argc < 5) {
-   302			ti->error = "Not enough arguments";
-   303			return -EINVAL;
-   304		}
-   305	
-   306		ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
-   307		if (!ctx) {
-   308			ti->error = "Out of memory";
-   309			return -ENOMEM;
-   310		}
-   311		ti->private = ctx;
-   312	
-   313		/* <cipher> */
-   314		ctx->cipher_string = kstrdup(argv[0], GFP_KERNEL);
-   315		if (!ctx->cipher_string) {
-   316			ti->error = "Out of memory";
-   317			err = -ENOMEM;
-   318			goto bad;
-   319		}
-   320		cipher = lookup_cipher(ctx->cipher_string);
-   321		if (!cipher) {
-   322			ti->error = "Unsupported cipher";
-   323			err = -EINVAL;
-   324			goto bad;
-   325		}
-   326	
-   327		/* <key> */
-   328		ctx->key_size = get_key_size(&argv[1]);
- > 329		if (ctx->key_size < 0) {
-   330			ti->error = "Cannot parse key size";
-   331			return -EINVAL;
-   332		}
-   333		err = inlinecrypt_get_key(argv[1], raw_key, ctx->key_size);
-   334		if (err) {
-   335			ti->error = "Malformed key string";
-   336			goto bad;
-   337		}
-   338	
-   339		/* <iv_offset> */
-   340		if (sscanf(argv[2], "%llu%c", &ctx->iv_offset, &dummy) != 1) {
-   341			ti->error = "Invalid iv_offset sector";
-   342			err = -EINVAL;
-   343			goto bad;
-   344		}
-   345	
-   346		/* <dev_path> */
-   347		err = dm_get_device(ti, argv[3], dm_table_get_mode(ti->table),
-   348				    &ctx->dev);
-   349		if (err) {
-   350			ti->error = "Device lookup failed";
-   351			goto bad;
-   352		}
-   353	
-   354		/* <start> */
-   355		if (sscanf(argv[4], "%llu%c", &tmpll, &dummy) != 1 ||
-   356		    tmpll != (sector_t)tmpll) {
-   357			ti->error = "Invalid start sector";
-   358			err = -EINVAL;
-   359			goto bad;
-   360		}
-   361		ctx->start = tmpll;
-   362	
-   363		/* optional arguments */
-   364		ctx->sector_size = SECTOR_SIZE;
-   365		if (argc > 5) {
-   366			err = inlinecrypt_ctr_optional(ti, argc - 5, &argv[5]);
-   367			if (err)
-   368				goto bad;
-   369		}
-   370		ctx->sector_bits = ilog2(ctx->sector_size);
-   371		if (ti->len & ((ctx->sector_size >> SECTOR_SHIFT) - 1)) {
-   372			ti->error = "Device size is not a multiple of sector_size";
-   373			err = -EINVAL;
-   374			goto bad;
-   375		}
-   376		if (ctx->iv_offset & ((ctx->sector_size >> SECTOR_SHIFT) - 1)) {
-   377			ti->error = "Wrong alignment of iv_offset sector";
-   378			err = -EINVAL;
-   379		}
-   380	
-   381		ctx->max_dun = (ctx->iv_offset + ti->len - 1) >>
-   382			       (ctx->sector_bits - SECTOR_SHIFT);
-   383		dun_bytes = DIV_ROUND_UP(fls64(ctx->max_dun), 8);
-   384	
-   385		err = blk_crypto_init_key(&ctx->key, raw_key, ctx->key_size,
-   386					  BLK_CRYPTO_KEY_TYPE_RAW,
-   387					  cipher->mode_num, dun_bytes,
-   388					  ctx->sector_size);
-   389		if (err) {
-   390			ti->error = "Error initializing blk-crypto key";
-   391			goto bad;
-   392		}
-   393	
-   394		err = blk_crypto_start_using_key(ctx->dev->bdev, &ctx->key);
-   395		if (err) {
-   396			ti->error = "Error starting to use blk-crypto";
-   397			goto bad;
-   398		}
-   399	
-   400		ti->num_flush_bios = 1;
-   401	
-   402		err = 0;
-   403		goto out;
-   404	
-   405	bad:
-   406		inlinecrypt_dtr(ti);
-   407	out:
-   408		memzero_explicit(raw_key, sizeof(raw_key));
-   409		return err;
-   410	}
-   411	
-
--- 
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
