@@ -1,258 +1,278 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914F637BE9A
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 May 2026 07:16:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB80036E49B
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 May 2026 07:44:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778224581; cv=none; b=ErwJh0I6E7SKEnw8k3beCD6rE12J3RCXgerxWZd+x0dVJMV+CeqEeNs1E+NlDQALNDhUPn5aLxt+4aB5dKYmhlUuhtmtnzHfCWOYSMuMtF/oLCRINmHCYRowwKzKDDVvHIVk2qRG+ODDQnB/sYEzAVVXlGa6twMQA3jHahRiXMU=
+	t=1778226272; cv=none; b=QNOSZymHqwfpeDq2VUzf+C2Is4Bp3MWFPkHQo/Otg1bnIh9OWmzCXGpvm9y1R02RonnJFF98R4OiFmsiykDwGOYRzU9f8U1fjXaVmLm/+tvBvgh3aldRlZId+zgoC4/DWsT5piqQX4aK+CvDjr/3dfnjWYAQg1dOHvAMJ4hHI+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778224581; c=relaxed/simple;
-	bh=xfIkiiy0rB3TwNZCY5k6PHYEUJoWBmnF+Y1RXiR1KK0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NzFD0dShPubtiqifj6ZeOaberIcQyKo/TgKAq/fTXIxyambRfwVzAQMwUoZtDZMQErPM0/5EuuCPeRH6M3S/a1R7K9NGlUDsekwN2b2YHqrFakQJLdvVm5ZCz+1s1rupPcpkN+d6TQbC6dsGwJlzwq33FKF0zaN45zOk9EZL7tQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GAJL+1fs; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1778226272; c=relaxed/simple;
+	bh=GBP38pU77D3EK1fr98OK5OgzkQd2yqGwCWuA8muafzs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=pkARq1iwAfXuQ/g+XPYrMlNvzXxmyba1NhVjW7utgu4khy23gSjTFOAICkyhPY/MT2VR+hOe3Bpa8cNgrAOgWLxdY2t26+T53N6LLzSQMg1bZ6LqaOOZKTI3cpfV+AA2zyHtnAruLqOokpfnzyyp0mzOzWPKaM6SD0M+AlVNjqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BIDplLmC; arc=none smtp.client-ip=209.85.222.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GAJL+1fs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778224575; x=1809760575;
-  h=date:from:to:cc:subject:message-id;
-  bh=xfIkiiy0rB3TwNZCY5k6PHYEUJoWBmnF+Y1RXiR1KK0=;
-  b=GAJL+1fs70BQfwBVYP3my62sdNovfu7nnZ2hm2cWCrGwZ71vsm10lA4i
-   oFTXxrmjEv+XuAKxystWHy3O5AM0U+GjHm/Lj9ngZkkcl4aK9zdpN250t
-   hEKeKTAS8+hQYLChJ/Ws/ifYwNq4x+B73d5g1M7ILeecDxfFJ4za25YLS
-   vxSzW+8Mxe5DDObnSf5STJzbzyHyjQ2Pb1vRrcACCEr8hwHl8HPeXhlE1
-   gJLiPhcsahyv9XT35SLAvFLd7mWY+VdzwyHFQ6E3gTuwgQrXNtfULshn7
-   6nDRrCyPBuFTySe1nRwOx+s5vTwSMThVaVZHLSPAmLL2yS/4SJruvjvuR
-   w==;
-X-CSE-ConnectionGUID: OLjL87mvTrSb32TfspHPng==
-X-CSE-MsgGUID: pZM+q9hGRZSis3HBZe2z9Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11779"; a="78912439"
-X-IronPort-AV: E=Sophos;i="6.23,223,1770624000"; 
-   d="scan'208";a="78912439"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 00:16:14 -0700
-X-CSE-ConnectionGUID: nxFjbpWiRcazwvd7oKntHQ==
-X-CSE-MsgGUID: plqLuvg4SEeRDOnOJrWbsA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,223,1770624000"; 
-   d="scan'208";a="234032310"
-Received: from lkp-server01.sh.intel.com (HELO d6e19f2f5857) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 08 May 2026 00:16:12 -0700
-Received: from kbuild by d6e19f2f5857 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wLFRR-000000000pB-2YzA;
-	Fri, 08 May 2026 07:16:09 +0000
-Date: Fri, 08 May 2026 15:15:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:7.1-rc 152/157]
- drivers/net/phy/as21xx_1.9.1/as21xxx.c:664:40: sparse: sparse: cast to
- restricted __le16
-Message-ID: <202605081533.vFKrzpyq-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BIDplLmC"
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-8d4f78fc9f6so178237385a.3
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 08 May 2026 00:44:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778226270; x=1778831070; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NCbzFtLhK79n7a7ASsYq9r38KBq2w1GQvvmpskHJAks=;
+        b=BIDplLmCwM01yIh4uPQ9BfYELc5WXNNSmmPOk62w4Zk+fAElnIVVs5NEFe9eto7i5h
+         NRtPK5DdP/6yHMFtyrcJFnR62XMj8+hV+prm66o+Jj7If3X7cZi0XEYE1tueD9WCpzca
+         ipm3MPXyGWMUBmvN+JaFjasW7Rqngp7aqLriXMU1Jd9jgzDnUPA3dhaljTBBDiode6h4
+         Y4qjVJkigpFiPcNHoFvC422YN1s8UrG7D2Z4RmRpcqgvSagfdV+xPn+2OTEinExxceDW
+         Ib7fUBDZSBRl4IXgAUNxlt2vo/D1GYRON1a4ZN/65HLuEQKzA9kt5aftMiT6TUPzrNXo
+         kSxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778226270; x=1778831070;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NCbzFtLhK79n7a7ASsYq9r38KBq2w1GQvvmpskHJAks=;
+        b=en4yEvCyi2tU/4H3zwDXJ1T8/zGhdV2TZgVpinQxgAe4bGprgzdOZTyF51aWGdEPk4
+         GlrLHTM/ZY0ZToRhd6H2EiRsMtPGgUxceLZcRJWIE28fgxZ1K5XSDyywVQPxcNjYSLbF
+         5vZ9ueaGHYAaJ0rlF8EHJAZ4etB9V07t+44I4ZZxT5JX+Jkcipjr5Tv5zYOjPU3iJIBG
+         LUEmADsdXyYhmzXKtD/+DG0fJrJoZ3S4d2eeh8rV6vPf43Bbktzn+cwOxeg1BqQ3Krhb
+         GlDm2mVbbULMf3+gtL6AvMIHcc+Hc+jMKWQ4bb8NB0XXdpjTHIzYxdPCh94BRzFNDaOs
+         ExEQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/rcIXKjxMs8+KTTMcmt2CCf8sTB7WnMRteLt/FiYsxFRlMwSz8IZx4T7TeW5KVj/wRPxU/Hc9dbhGfW5FE@lists.linux.dev
+X-Gm-Message-State: AOJu0YwuSI97Tii7zM+zhmF8UfyW2KaqH0WFNGzcvD2xBdi/vVhxTtUk
+	F5+nsgSrmXCEfTTNprlRyIvDqqWX6of00mPh7lLmu7TC3+RKYaCeMBXt
+X-Gm-Gg: AeBDiesPuAAdD0PTMjEFsRgugyukXjzuBREfnxN3m3c5Y47Yhf4L2Vzo7pV5II0r50m
+	i81F9y2vYsCVyxw6W5T1EEKoqKdNMsnZStBU+khcKbuL37B/39Jrg2ZEsaZCcphdTxkEoxjaT2D
+	5EazmWs3TaXrCWlI043RHlZO2Ei8uDWWxtOkDhrOac8oxp22kh44cIIuD3xHKadSLsJmDgI+3X9
+	bXHAk8rCMfaBmub30ACXZ4yxznq7P0MKyj10MmKNywyDhhcZr6nql/fV2gyPuH4JVsnbtK6x2SI
+	SQ7PIJ0qvxyKvStSiDLWTVATavZzOES24j3aN5SJ6fWMg7A2mtu0fMMQOi2Ck9tAZnopN3dtZDp
+	ZYIP/RmtgeMt80yIs3ZQu4BXaQSB5cdEx1WIEUGt2effv4NGWcD8FEr1RPyoQBYem+15hmqxSfp
+	w/NG9JgToYjmNzrCcWj1Xr4zALUvbn
+X-Received: by 2002:a05:620a:280e:b0:8cd:b626:cdf1 with SMTP id af79cd13be357-904d69d9de7mr1740136085a.46.1778226269415;
+        Fri, 08 May 2026 00:44:29 -0700 (PDT)
+Received: from localhost ([185.141.119.51])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8bf3aed2920sm11188176d6.7.2026.05.08.00.44.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 May 2026 00:44:27 -0700 (PDT)
+Date: Fri, 8 May 2026 10:44:22 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Sean Wang <sean.wang@mediatek.com>,
+	Madhur Kumar <madhurkumar004@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Felix Fietkau <nbd@nbd.name>
+Subject: drivers/net/wireless/mediatek/mt76/mt7921/pci.c:323
+ mt7921_pci_probe() warn: missing unwind goto?
+Message-ID: <202605080828.1bWBCNfb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.1-rc
-head:   ce3735b05f8971cb2a88ba66c5df025751f12b10
-commit: 3b3c9c1c9610d3d9dc993bcdd5e1228369cdb213 [152/157] net: phy: rename as21xx v1.9.1 like it's done for 1.9.2
-config: mips-randconfig-r131-20260507 (https://download.01.org/0day-ci/archive/20260508/202605081533.vFKrzpyq-lkp@intel.com/config)
-compiler: mips64-linux-gcc (GCC) 12.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260508/202605081533.vFKrzpyq-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8ab992f815d6736b5c7a6f5fd7bfe7bc106bb3dc
+commit: ee5bb35d2b83fadc6920aa2478326fb50ea653a9 wifi: mt76: mt7921: Replace deprecated PCI function
+config: mips-randconfig-r071-20260506 (https://download.01.org/0day-ci/archive/20260508/202605080828.1bWBCNfb-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+smatch: v0.5.0-9065-ge9cc34fd
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: ee5bb35d2b83 ("wifi: mt76: mt7921: Replace deprecated PCI function")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605081533.vFKrzpyq-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202605080828.1bWBCNfb-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/phy/as21xx_1.9.1/as21xxx.c:664:40: sparse: sparse: cast to restricted __le16
-   drivers/net/phy/as21xx_1.9.1/as21xxx.c:665:40: sparse: sparse: cast to restricted __le16
-   drivers/net/phy/as21xx_1.9.1/as21xxx.c:674:48: sparse: sparse: cast to restricted __le16
-   drivers/net/phy/as21xx_1.9.1/as21xxx.c:675:48: sparse: sparse: cast to restricted __le16
->> drivers/net/phy/as21xx_1.9.1/as21xxx.c:779:15: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/net/phy/as21xx_1.9.1/as21xxx.c:779:15: sparse: signed value source
-   drivers/net/phy/as21xx_1.9.1/as21xxx.c:787:19: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/net/phy/as21xx_1.9.1/as21xxx.c:779:15: sparse: signed value source
+smatch warnings:
+drivers/net/wireless/mediatek/mt76/mt7921/pci.c:323 mt7921_pci_probe() warn: missing unwind goto?
 
-vim +664 drivers/net/phy/as21xx_1.9.1/as21xxx.c
+vim +323 drivers/net/wireless/mediatek/mt76/mt7921/pci.c
 
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  637  
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  638  static int aeon_set_default_value(struct phy_device *phydev)
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  639  {
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  640  	static const unsigned char base_data[] = {0x32, 0x30, 0x32, 0x33, 0x30, 0x37, 0x31, 0x34};
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  641  	unsigned char bytebuf[16];
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  642  	unsigned short *wdata;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  643  	unsigned int mask;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  644  	int byte_count, wdata_count = 0;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  645  	int pos = 0, val, ret = 0, remaining;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  646  	unsigned char padded_bytes[MEM_WORD_SIZE] = {0};
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  647  
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  648  	mask = param1 | 14;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  649  	memcpy(bytebuf, base_data, sizeof(base_data));
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  650  	bytebuf[8] = mask & 0xff;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  651  	bytebuf[9] = (mask >> 8) & 0xff;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  652  	byte_count = 10;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  653  
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  654  	wdata = kmalloc(MAX_WDATA_SIZE * sizeof(unsigned short), GFP_KERNEL);
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  655  	if (!wdata)
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  656  		return -ENOMEM;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  657  
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  658  	while (pos + MEM_WORD_SIZE <= byte_count) {
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  659  		if (wdata_count + 2 > MAX_WDATA_SIZE) {
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  660  			pr_err("wdata array overflow\n");
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  661  			ret = -ENOSPC;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  662  			goto cleanup;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  663  		}
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07 @664  		wdata[wdata_count++] = le16_to_cpu(*(unsigned short *)&bytebuf[pos]);
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  665  		wdata[wdata_count++] = le16_to_cpu(*(unsigned short *)&bytebuf[pos + 2]);
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  666  		pos += MEM_WORD_SIZE;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  667  	}
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  668  
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  669  	remaining = byte_count - pos;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  670  	if (remaining > 0) {
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  671  		if (wdata_count + 2 <= MAX_WDATA_SIZE) {
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  672  			// Here we just need padded_bytes once, otherwise we need to read from mem
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  673  			memcpy(padded_bytes, &bytebuf[pos], remaining);
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  674  			wdata[wdata_count++] = le16_to_cpu(*(unsigned short *)&padded_bytes[0]);
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  675  			wdata[wdata_count++] = le16_to_cpu(*(unsigned short *)&padded_bytes[2]);
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  676  		}
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  677  	}
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  678  
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  679  	val = phy_read_mmd(phydev, MDIO_MMD_VEND1, VEND1_GLB_REG_CPU_CTRL); //GLB_REG_CPU_CTRL
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  680  	val |= 0x12;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  681  	phy_write_mmd(phydev, MDIO_MMD_VEND1, VEND1_GLB_REG_CPU_CTRL, val);
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  682  	phy_write_mmd(phydev, MDIO_MMD_VEND1, VEND1_FW_START_ADDR,
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  683  			(u16)(AEON_MEM_DEFAULT_ADDR & 0xFFFF));
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  684  	phy_modify_mmd(phydev, MDIO_MMD_VEND1,
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  685  			VEND1_GLB_REG_MDIO_INDIRECT_ADDRCMD,
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  686  			0x3ffc, 0xc000);
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  687  	aeon_cl45_write_burst(phydev, MDIO_MMD_VEND1, VEND1_GLB_REG_MDIO_INDIRECT_LOAD,
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  688  			(unsigned char *)wdata, wdata_count*2);
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  689  	val = phy_read_mmd(phydev, MDIO_MMD_VEND1,
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  690  			VEND1_GLB_REG_MDIO_INDIRECT_ADDRCMD); //GLB_REG_MDIO_INDIRECT_ADDRCMD
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  691  	val &= 0x3FFF;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  692  	phy_write_mmd(phydev, MDIO_MMD_VEND1, VEND1_GLB_REG_MDIO_INDIRECT_ADDRCMD, val);
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  693  	val = phy_read_mmd(phydev, MDIO_MMD_VEND1, VEND1_GLB_REG_CPU_CTRL); //GLB_REG_CPU_CTRL
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  694  	val &= 0xFFED;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  695  	phy_write_mmd(phydev, MDIO_MMD_VEND1, VEND1_GLB_REG_CPU_CTRL, val);
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  696  
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  697  cleanup:
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  698  	kfree(wdata);
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  699  	return 0;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  700  }
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  701  
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  702  static void aeon_set_fast_mdc_timing(struct phy_device *phydev)
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  703  {
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  704  	if (param1) {
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  705  		phy_write_mmd(phydev, MDIO_MMD_VEND1, 0x53, 0xFFFF);
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  706  		phy_write_mmd(phydev, MDIO_MMD_VEND1, 0x54, 0xFFFF);
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  707  		phy_write_mmd(phydev, MDIO_MMD_VEND1, 0x55, 0xFFFF);
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  708  	} else {
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  709  		phy_write_mmd(phydev, MDIO_MMD_VEND1, 0x53, 0);
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  710  		phy_write_mmd(phydev, MDIO_MMD_VEND1, 0x54, 0);
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  711  		phy_write_mmd(phydev, MDIO_MMD_VEND1, 0x55, 0);
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  712  	}
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  713  }
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  714  
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  715  static int aeon_firmware_load(struct phy_device *phydev)
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  716  {
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  717  	struct device *dev = &phydev->mdio.dev;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  718  	const struct firmware *fw;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  719  	const char *fw_name;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  720  	int ret;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  721  
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  722  	ret = of_property_read_string(dev->of_node, "firmware-name",
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  723  				      &fw_name);
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  724  	if (ret) {
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  725  		phydev_err(phydev, "missing DT property 'firmware-name' (%d)\n",
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  726  			   ret);
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  727  		return ret;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  728  	}
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  729  
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  730  	ret = request_firmware(&fw, fw_name, dev);
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  731  	if (ret) {
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  732  		phydev_err(phydev, "failed to find FW file %s (%d)\n",
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  733  			   fw_name, ret);
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  734  		return ret;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  735  	}
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  736  
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  737  	ret = aeon_firmware_boot(phydev, fw->data, fw->size);
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  738  	release_firmware(fw);
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  739  	if (ret)
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  740  		phydev_err(phydev, "firmware boot failed for %s (%d)\n",
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  741  			   fw_name, ret);
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  742  
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  743  	return ret;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  744  }
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  745  
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  746  static int aeon_ipc_send_cmd(struct phy_device *phydev,
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  747  			     struct as21xxx_priv *priv,
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  748  			     u16 cmd, u16 *ret_sts)
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  749  {
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  750  	bool curr_parity;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  751  	int ret;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  752  	unsigned int val;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  753  
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  754  	/* The IPC sync by using a single parity bit.
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  755  	 * Each CMD have alternately this bit set or clear
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  756  	 * to understand correct flow and packet order.
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  757  	 */
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  758  	curr_parity = priv->parity_status;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  759  	if (priv->parity_status)
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  760  		cmd |= AEON_IPC_CMD_PARITY;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  761  	/* Always update parity for next packet */
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  762  	priv->parity_status = !priv->parity_status;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  763  
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  764  	ret = phy_write_mmd(phydev, MDIO_MMD_VEND1, VEND1_IPC_CMD, cmd);
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  765  	if (ret)
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  766  		return ret;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  767  
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  768  	/* Wait for packet to be processed */
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  769  	usleep_range(AEON_IPC_DELAY, AEON_IPC_DELAY + 5000);
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  770  	/* With no ret_sts, ignore waiting for packet completion
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  771  	 * (ipc parity bit sync)
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  772  	 */
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  773  	if (!ret_sts)
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  774  		return 0;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  775  	/* Exit condition logic:
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  776  	 * - Wait for parity bit equal
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  777  	 * - Wait for status success, error OR ready
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  778  	 */
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07 @779  	ret = read_poll_timeout(phy_read_mmd, val,
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  780  				(FIELD_GET(AEON_IPC_STS_PARITY, val) == curr_parity &&
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  781  				(val & AEON_IPC_STS_STATUS) != AEON_IPC_STS_STATUS_RCVD &&
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  782  				(val & AEON_IPC_STS_STATUS) != AEON_IPC_STS_STATUS_PROCESS &&
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  783  				(val & AEON_IPC_STS_STATUS) != AEON_IPC_STS_STATUS_BUSY) ||
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  784  				(val < 0),
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  785  				10000, 2000000, false,
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  786  				phydev, MDIO_MMD_VEND1, VEND1_IPC_STS);
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  787  	if (val < 0)
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  788  		ret = val;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  789  	if (ret)
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  790  		phydev_err(phydev, "%s fail to polling status failed: %d\n", __func__, ret);
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  791  	*ret_sts = val;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  792  	if ((val & AEON_IPC_STS_STATUS) != AEON_IPC_STS_STATUS_SUCCESS)
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  793  		return -EINVAL;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  794  
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  795  	return 0;
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  796  }
-ef9b1544f8f1e1a drivers/net/phy/as21xxx/as21xxx.c Frank Wunderlich 2026-03-07  797  
+5c14a5f944b913 Sean Wang          2021-01-28  233  static int mt7921_pci_probe(struct pci_dev *pdev,
+5c14a5f944b913 Sean Wang          2021-01-28  234  			    const struct pci_device_id *id)
+5c14a5f944b913 Sean Wang          2021-01-28  235  {
+5c14a5f944b913 Sean Wang          2021-01-28  236  	static const struct mt76_driver_ops drv_ops = {
+5c14a5f944b913 Sean Wang          2021-01-28  237  		/* txwi_size = txd size + txp size */
+4cb4da17fe2f3c Lorenzo Bianconi   2022-06-19  238  		.txwi_size = MT_TXD_SIZE + sizeof(struct mt76_connac_hw_txp),
+5b0fb852237622 Ben Greear         2022-10-01  239  		.drv_flags = MT_DRV_TXWI_NO_FREE | MT_DRV_HW_MGMT_TXQ |
+5b0fb852237622 Ben Greear         2022-10-01  240  			     MT_DRV_AMSDU_OFFLOAD,
+5c14a5f944b913 Sean Wang          2021-01-28  241  		.survey_flags = SURVEY_INFO_TIME_TX |
+5c14a5f944b913 Sean Wang          2021-01-28  242  				SURVEY_INFO_TIME_RX |
+5c14a5f944b913 Sean Wang          2021-01-28  243  				SURVEY_INFO_TIME_BSS_RX,
+d089692bc7938a Lorenzo Bianconi   2021-04-20  244  		.token_size = MT7921_TOKEN_SIZE,
+576b4484f3a8f4 Sean Wang          2021-10-19  245  		.tx_prepare_skb = mt7921e_tx_prepare_skb,
+0a178a6084d6b6 Lorenzo Bianconi   2022-06-19  246  		.tx_complete_skb = mt76_connac_tx_complete_skb,
+0af1ad955919a7 Lorenzo Bianconi   2022-07-21  247  		.rx_check = mt7921_rx_check,
+0af1ad955919a7 Lorenzo Bianconi   2022-07-21  248  		.rx_skb = mt7921_queue_rx_skb,
+ff6551740000ea Lorenzo Bianconi   2023-06-28  249  		.rx_poll_complete = mt792x_rx_poll_complete,
+5c14a5f944b913 Sean Wang          2021-01-28  250  		.sta_add = mt7921_mac_sta_add,
+17b0f68a72ae1a Felix Fietkau      2024-08-27  251  		.sta_event = mt7921_mac_sta_event,
+5c14a5f944b913 Sean Wang          2021-01-28  252  		.sta_remove = mt7921_mac_sta_remove,
+311f121c240967 Lorenzo Bianconi   2023-06-28  253  		.update_survey = mt792x_update_channel,
+f4fdd7716290a2 Felix Fietkau      2024-08-28  254  		.set_channel = mt7921_set_channel,
+5c14a5f944b913 Sean Wang          2021-01-28  255  	};
+838cc667973358 Lorenzo Bianconi   2023-06-28  256  	static const struct mt792x_hif_ops mt7921_pcie_ops = {
+033ae79b383020 Sean Wang          2021-10-19  257  		.init_reset = mt7921e_init_reset,
+576b4484f3a8f4 Sean Wang          2021-10-19  258  		.reset = mt7921e_mac_reset,
+dfc7743de1ebb5 Sean Wang          2021-10-19  259  		.mcu_init = mt7921e_mcu_init,
+1c0254967d94bf Lorenzo Bianconi   2023-06-28  260  		.drv_own = mt792xe_mcu_drv_pmctrl,
+1c0254967d94bf Lorenzo Bianconi   2023-06-28  261  		.fw_own = mt792xe_mcu_fw_pmctrl,
+576b4484f3a8f4 Sean Wang          2021-10-19  262  	};
+c9072f112fcf7b Lorenzo Bianconi   2023-06-28  263  	static const struct mt792x_irq_map irq_map = {
+c9072f112fcf7b Lorenzo Bianconi   2023-06-28  264  		.host_irq_enable = MT_WFDMA0_HOST_INT_ENA,
+c9072f112fcf7b Lorenzo Bianconi   2023-06-28  265  		.tx = {
+c9072f112fcf7b Lorenzo Bianconi   2023-06-28  266  			.all_complete_mask = MT_INT_TX_DONE_ALL,
+c9072f112fcf7b Lorenzo Bianconi   2023-06-28  267  			.mcu_complete_mask = MT_INT_TX_DONE_MCU,
+c9072f112fcf7b Lorenzo Bianconi   2023-06-28  268  		},
+c9072f112fcf7b Lorenzo Bianconi   2023-06-28  269  		.rx = {
+c9072f112fcf7b Lorenzo Bianconi   2023-06-28  270  			.data_complete_mask = MT_INT_RX_DONE_DATA,
+c9072f112fcf7b Lorenzo Bianconi   2023-06-28  271  			.wm_complete_mask = MT_INT_RX_DONE_WM,
+c9072f112fcf7b Lorenzo Bianconi   2023-06-28  272  			.wm2_complete_mask = MT_INT_RX_DONE_WM2,
+c9072f112fcf7b Lorenzo Bianconi   2023-06-28  273  		},
+c9072f112fcf7b Lorenzo Bianconi   2023-06-28  274  	};
+034ae28b56f13d Sean Wang          2022-11-15  275  	struct ieee80211_ops *ops;
+602cc0c9618a81 Sean Wang          2022-01-07  276  	struct mt76_bus_ops *bus_ops;
+975e122ddb7cd6 Lorenzo Bianconi   2023-06-28  277  	struct mt792x_dev *dev;
+5c14a5f944b913 Sean Wang          2021-01-28  278  	struct mt76_dev *mdev;
+ee5bb35d2b83fa Madhur Kumar       2025-12-08  279  	void __iomem *regs;
+4a40fcbfe3ab48 Deren Wu           2024-03-06  280  	u16 cmd, chipid;
+034ae28b56f13d Sean Wang          2022-11-15  281  	u8 features;
+5c14a5f944b913 Sean Wang          2021-01-28  282  	int ret;
+5c14a5f944b913 Sean Wang          2021-01-28  283  
+5c14a5f944b913 Sean Wang          2021-01-28  284  	ret = pcim_enable_device(pdev);
+5c14a5f944b913 Sean Wang          2021-01-28  285  	if (ret)
+5c14a5f944b913 Sean Wang          2021-01-28  286  		return ret;
+5c14a5f944b913 Sean Wang          2021-01-28  287  
+09d4d6da1b65d0 Mario Limonciello  2023-03-29  288  	pci_read_config_word(pdev, PCI_COMMAND, &cmd);
+09d4d6da1b65d0 Mario Limonciello  2023-03-29  289  	if (!(cmd & PCI_COMMAND_MEMORY)) {
+09d4d6da1b65d0 Mario Limonciello  2023-03-29  290  		cmd |= PCI_COMMAND_MEMORY;
+09d4d6da1b65d0 Mario Limonciello  2023-03-29  291  		pci_write_config_word(pdev, PCI_COMMAND, cmd);
+09d4d6da1b65d0 Mario Limonciello  2023-03-29  292  	}
+5c14a5f944b913 Sean Wang          2021-01-28  293  	pci_set_master(pdev);
+5c14a5f944b913 Sean Wang          2021-01-28  294  
+eaafabd2850d78 Lorenzo Bianconi   2021-01-28  295  	ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_ALL_TYPES);
+5c14a5f944b913 Sean Wang          2021-01-28  296  	if (ret < 0)
+5c14a5f944b913 Sean Wang          2021-01-28  297  		return ret;
+5c14a5f944b913 Sean Wang          2021-01-28  298  
+a2e759612e5ff3 Christophe JAILLET 2021-08-22  299  	ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
+5c14a5f944b913 Sean Wang          2021-01-28  300  	if (ret)
+5c14a5f944b913 Sean Wang          2021-01-28  301  		goto err_free_pci_vec;
+5c14a5f944b913 Sean Wang          2021-01-28  302  
+bf3747ae2e25dd Sean Wang          2021-06-20  303  	if (mt7921_disable_aspm)
+5c14a5f944b913 Sean Wang          2021-01-28  304  		mt76_pci_disable_aspm(pdev);
+5c14a5f944b913 Sean Wang          2021-01-28  305  
+e8a264ccd2de0d Lorenzo Bianconi   2023-06-28  306  	ops = mt792x_get_mac80211_ops(&pdev->dev, &mt7921_ops,
+e8a264ccd2de0d Lorenzo Bianconi   2023-06-28  307  				      (void *)id->driver_data, &features);
+034ae28b56f13d Sean Wang          2022-11-15  308  	if (!ops) {
+034ae28b56f13d Sean Wang          2022-11-15  309  		ret = -ENOMEM;
+034ae28b56f13d Sean Wang          2022-11-15  310  		goto err_free_pci_vec;
+034ae28b56f13d Sean Wang          2022-11-15  311  	}
+034ae28b56f13d Sean Wang          2022-11-15  312  
+034ae28b56f13d Sean Wang          2022-11-15  313  	mdev = mt76_alloc_device(&pdev->dev, sizeof(*dev), ops, &drv_ops);
+5c14a5f944b913 Sean Wang          2021-01-28  314  	if (!mdev) {
+5c14a5f944b913 Sean Wang          2021-01-28  315  		ret = -ENOMEM;
+5c14a5f944b913 Sean Wang          2021-01-28  316  		goto err_free_pci_vec;
+5c14a5f944b913 Sean Wang          2021-01-28  317  	}
+5c14a5f944b913 Sean Wang          2021-01-28  318  
+b5a62d612b7baf Deren Wu           2022-09-06  319  	pci_set_drvdata(pdev, mdev);
+b5a62d612b7baf Deren Wu           2022-09-06  320  
+ee5bb35d2b83fa Madhur Kumar       2025-12-08  321  	regs =  pcim_iomap_region(pdev, 0, pci_name(pdev));
+ee5bb35d2b83fa Madhur Kumar       2025-12-08  322  	if (IS_ERR(regs))
+ee5bb35d2b83fa Madhur Kumar       2025-12-08 @323  		return PTR_ERR(regs);
 
-:::::: The code at line 664 was first introduced by commit
-:::::: ef9b1544f8f1e1ac322564fb4931af5e5dd9aa70 net: phy: add as21xx downstream driver from 6.19 (1.9.1)
 
-:::::: TO: Frank Wunderlich <frank-w@public-files.de>
-:::::: CC: Frank Wunderlich <frank-w@public-files.de>
+All the other error paths use a goto to clean up but this one just
+returns directly.
+
+Commit 222606f43b58 ("wifi: mt76: mt7921: handle MT7902 irq_map quirk
+with mutable copy") adds another error path with no cleanup.  Let me
+add Sean to the CC list.
+
+ee5bb35d2b83fa Madhur Kumar       2025-12-08  324  
+975e122ddb7cd6 Lorenzo Bianconi   2023-06-28  325  	dev = container_of(mdev, struct mt792x_dev, mt76);
+034ae28b56f13d Sean Wang          2022-11-15  326  	dev->fw_features = features;
+576b4484f3a8f4 Sean Wang          2021-10-19  327  	dev->hif_ops = &mt7921_pcie_ops;
+c9072f112fcf7b Lorenzo Bianconi   2023-06-28  328  	dev->irq_map = &irq_map;
+ee5bb35d2b83fa Madhur Kumar       2025-12-08  329  	mt76_mmio_init(&dev->mt76, regs);
+ff6551740000ea Lorenzo Bianconi   2023-06-28  330  	tasklet_init(&mdev->irq_tasklet, mt792x_irq_tasklet, (unsigned long)dev);
+602cc0c9618a81 Sean Wang          2022-01-07  331  
+602cc0c9618a81 Sean Wang          2022-01-07  332  	dev->phy.dev = dev;
+602cc0c9618a81 Sean Wang          2022-01-07  333  	dev->phy.mt76 = &dev->mt76.phy;
+602cc0c9618a81 Sean Wang          2022-01-07  334  	dev->mt76.phy.priv = &dev->phy;
+602cc0c9618a81 Sean Wang          2022-01-07  335  	dev->bus_ops = dev->mt76.bus;
+602cc0c9618a81 Sean Wang          2022-01-07  336  	bus_ops = devm_kmemdup(dev->mt76.dev, dev->bus_ops, sizeof(*bus_ops),
+602cc0c9618a81 Sean Wang          2022-01-07  337  			       GFP_KERNEL);
+4e90db5e21eb3b Christophe JAILLET 2022-04-03  338  	if (!bus_ops) {
+4e90db5e21eb3b Christophe JAILLET 2022-04-03  339  		ret = -ENOMEM;
+4e90db5e21eb3b Christophe JAILLET 2022-04-03  340  		goto err_free_dev;
+4e90db5e21eb3b Christophe JAILLET 2022-04-03  341  	}
+602cc0c9618a81 Sean Wang          2022-01-07  342  
+602cc0c9618a81 Sean Wang          2022-01-07  343  	bus_ops->rr = mt7921_rr;
+602cc0c9618a81 Sean Wang          2022-01-07  344  	bus_ops->wr = mt7921_wr;
+602cc0c9618a81 Sean Wang          2022-01-07  345  	bus_ops->rmw = mt7921_rmw;
+602cc0c9618a81 Sean Wang          2022-01-07  346  	dev->mt76.bus = bus_ops;
+602cc0c9618a81 Sean Wang          2022-01-07  347  
+d53ab629cff57e Michael Lo         2024-05-23  348  	if (!mt7921_disable_aspm && mt76_pci_aspm_supported(pdev))
+d53ab629cff57e Michael Lo         2024-05-23  349  		dev->aspm_supported = true;
+d53ab629cff57e Michael Lo         2024-05-23  350  
+1c0254967d94bf Lorenzo Bianconi   2023-06-28  351  	ret = mt792xe_mcu_fw_pmctrl(dev);
+525c469e5de9bf Quan Zhou          2023-07-05  352  	if (ret)
+525c469e5de9bf Quan Zhou          2023-07-05  353  		goto err_free_dev;
+525c469e5de9bf Quan Zhou          2023-07-05  354  
+1c0254967d94bf Lorenzo Bianconi   2023-06-28  355  	ret = __mt792xe_mcu_drv_pmctrl(dev);
+602cc0c9618a81 Sean Wang          2022-01-07  356  	if (ret)
+4e90db5e21eb3b Christophe JAILLET 2022-04-03  357  		goto err_free_dev;
+602cc0c9618a81 Sean Wang          2022-01-07  358  
+4a40fcbfe3ab48 Deren Wu           2024-03-06  359  	chipid = mt7921_l1_rr(dev, MT_HW_CHIPID);
+4a40fcbfe3ab48 Deren Wu           2024-03-06  360  	if (chipid == 0x7961 && (mt7921_l1_rr(dev, MT_HW_BOUND) & BIT(7)))
+4a40fcbfe3ab48 Deren Wu           2024-03-06  361  		chipid = 0x7920;
+4a40fcbfe3ab48 Deren Wu           2024-03-06  362  	mdev->rev = (chipid << 16) |
+5c14a5f944b913 Sean Wang          2021-01-28  363  		    (mt7921_l1_rr(dev, MT_HW_REV) & 0xff);
+81a88b1e75bdb6 Tzung-Bi Shih      2021-12-10  364  	dev_info(mdev->dev, "ASIC revision: %04x\n", mdev->rev);
+5c14a5f944b913 Sean Wang          2021-01-28  365  
+ff6551740000ea Lorenzo Bianconi   2023-06-28  366  	ret = mt792x_wfsys_reset(dev);
+525c469e5de9bf Quan Zhou          2023-07-05  367  	if (ret)
+525c469e5de9bf Quan Zhou          2023-07-05  368  		goto err_free_dev;
+525c469e5de9bf Quan Zhou          2023-07-05  369  
+c9072f112fcf7b Lorenzo Bianconi   2023-06-28  370  	mt76_wr(dev, irq_map.host_irq_enable, 0);
+5c14a5f944b913 Sean Wang          2021-01-28  371  
+23c1d2dc9ed5be Sean Wang          2021-02-26  372  	mt76_wr(dev, MT_PCIE_MAC_INT_ENABLE, 0xff);
+5c14a5f944b913 Sean Wang          2021-01-28  373  
+ff6551740000ea Lorenzo Bianconi   2023-06-28  374  	ret = devm_request_irq(mdev->dev, pdev->irq, mt792x_irq_handler,
+5c14a5f944b913 Sean Wang          2021-01-28  375  			       IRQF_SHARED, KBUILD_MODNAME, dev);
+5c14a5f944b913 Sean Wang          2021-01-28  376  	if (ret)
+5c14a5f944b913 Sean Wang          2021-01-28  377  		goto err_free_dev;
+5c14a5f944b913 Sean Wang          2021-01-28  378  
+033ae79b383020 Sean Wang          2021-10-19  379  	ret = mt7921_dma_init(dev);
+033ae79b383020 Sean Wang          2021-10-19  380  	if (ret)
+033ae79b383020 Sean Wang          2021-10-19  381  		goto err_free_irq;
+033ae79b383020 Sean Wang          2021-10-19  382  
+5c14a5f944b913 Sean Wang          2021-01-28  383  	ret = mt7921_register_device(dev);
+5c14a5f944b913 Sean Wang          2021-01-28  384  	if (ret)
+e230f0c44f011f Sean Wang          2021-04-06  385  		goto err_free_irq;
+5c14a5f944b913 Sean Wang          2021-01-28  386  
+8cd725742eafa9 Michael Lo         2024-02-07  387  	if (of_property_read_bool(dev->mt76.dev->of_node, "wakeup-source"))
+8cd725742eafa9 Michael Lo         2024-02-07  388  		device_init_wakeup(dev->mt76.dev, true);
+8cd725742eafa9 Michael Lo         2024-02-07  389  
+5c14a5f944b913 Sean Wang          2021-01-28  390  	return 0;
+5c14a5f944b913 Sean Wang          2021-01-28  391  
+e230f0c44f011f Sean Wang          2021-04-06  392  err_free_irq:
+e230f0c44f011f Sean Wang          2021-04-06  393  	devm_free_irq(&pdev->dev, pdev->irq, dev);
+5c14a5f944b913 Sean Wang          2021-01-28  394  err_free_dev:
+5c14a5f944b913 Sean Wang          2021-01-28  395  	mt76_free_device(&dev->mt76);
+5c14a5f944b913 Sean Wang          2021-01-28  396  err_free_pci_vec:
+5c14a5f944b913 Sean Wang          2021-01-28  397  	pci_free_irq_vectors(pdev);
+5c14a5f944b913 Sean Wang          2021-01-28  398  
+5c14a5f944b913 Sean Wang          2021-01-28  399  	return ret;
+5c14a5f944b913 Sean Wang          2021-01-28  400  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
