@@ -1,62 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306832C027F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0068A37C902
 	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 May 2026 08:09:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778227764; cv=none; b=rRn6U/crTU8190u+LvaWJtGXvNwT7ivaD3nWgL4sixBI/9oJjFSGNJAyS7fGJQ6987BqMeTROUAW1LUIzJbrAmDASPgpgtTFKqv6g5PlVYXgDItBd5wiUICHpEg5MF1Cg5Su6T2s82aqRqs2doCYE94M6rriDY+Q37lmoRzgOzY=
+	t=1778227766; cv=none; b=l8nxfIE0YFjEDiLzlY37PyO4eshEgczTg26m6epx6/XT/4NJEepqMjYtVzaSOtqU/ylS0P48bpmoLBw8kQ2uYfx2SjAiQPqAMzpjtqCOtyjYiD4fTDxguN0oANZElfHlys7bUEN1swhlS3x6DDrnaPBSS6QytGGS1Us+QcXf5J0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778227764; c=relaxed/simple;
-	bh=6liX+uRsgrSH9ff7KVYihK6VTCHjdtDNu6cxcUZ7Tfk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gViW7Q6N+7QayX8ChAb6hv5Vl6IpepKEY3ui0XRnI1Y9B1Xo+PTQuMmGUQibCxFN4Lt6HQCy2kfRoBNtgbG0EX9nDFv6FXqWhzHfjcngT66v7ALEhYw1lXsFM5wzE7gVBnDpcx8ycxfgI0NqSTNmkzM5O7wVQt6QY4rXuF+Y/ow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OidZgQFu; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1778227766; c=relaxed/simple;
+	bh=Y5PF5V+zGcQo4Wj8jNlVPBNRjEZwE8LdfmkTlaRk1W4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=kT9B4EnHx7sgUBC+7J8Ogqt05Qicr1erFX+2Y+MA1GOGbgdsaj7eYiWypYwdPxPxFBsVZ1fxHT0RRYFevu4lu7K9QyD4qsuLkBEAXjMhkJHbVCkl7AErPw2DRdPLw06cp7jxoBuY2kGwzX3z40DDbaDWqPWqH2IlAuzzfqxumCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BnWIHJ61; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OidZgQFu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BnWIHJ61"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778227763; x=1809763763;
+  t=1778227764; x=1809763764;
   h=date:from:to:cc:subject:message-id;
-  bh=6liX+uRsgrSH9ff7KVYihK6VTCHjdtDNu6cxcUZ7Tfk=;
-  b=OidZgQFulPdIzb/GVDJhCy1+4z2BQoMdJ4uSWNXiINy2EiNbeiP9tN2V
-   eUzrrmV4K3R4L8Yip53rw+bda5rEnb18ETim9kaXTLF9jNrwLKRIQ9UyB
-   gTB8MtPma5fnSXA72yzz/LjmJf2XVCFNJFtGcvf4McBIwLRNuP1rY+iua
-   4Xfogx0i8pYPZyPV970gxTVpjbw5UoF5PMFxOYPNE1bblYDC5/zs3YxCc
-   L7PMnYCU1p7FLWeUemsdv+NZsnyIKzVByZZtBYBmqmQ1hMDdCAEMV92Uf
-   +NSAxeVzg0XnCcKNpc8YRxfL7t9ExLiTcP3xl8AyfNgAwJSKhJKPGzWTi
+  bh=Y5PF5V+zGcQo4Wj8jNlVPBNRjEZwE8LdfmkTlaRk1W4=;
+  b=BnWIHJ61zi02fcRh6oBwzR3T0H0gOzfr+mNA1e9Il8qOlYuO9Vug9ISF
+   LlXZF9msunYC2bZeDkdekuzXgkvPG24qNZLNkSILjYDovxEZR24iy4ZFE
+   0bmRuMBAUVtcJAryxk64TwzWTPjEXSaBpYqgtdHtUDfrimshnn6+v/wLq
+   xOqvyGm919JuAxXGivHnlU1aghoPFdlGUNskBtvs58ut4ecufFNdfbtmN
+   aDRmZIrElDaF4q59QBdzvItM+Q+IEbYBky9vO0/9NS0dgxJcToxZ6wSiN
+   SwbWmCgkMZl8nv1vWJsRZ0r3Len7yoz1KkrAq4UAUy2rc3YLhNCcXM5fe
    g==;
-X-CSE-ConnectionGUID: NRzHVu2zTKuZM97eODlvRg==
-X-CSE-MsgGUID: 1SaCtmmCT3a/4yH5rt4yCQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11779"; a="89500226"
+X-CSE-ConnectionGUID: sNFyhHxTRjWv/x3X6bT+uA==
+X-CSE-MsgGUID: zbl6uR8wTVaxPK6kOWWDGw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11779"; a="89500228"
 X-IronPort-AV: E=Sophos;i="6.23,223,1770624000"; 
-   d="scan'208";a="89500226"
+   d="scan'208";a="89500228"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
   by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 01:09:19 -0700
-X-CSE-ConnectionGUID: uqKDSRAnTwqZ3FD6Xxap5w==
-X-CSE-MsgGUID: VFMCxRWARqGZxT6AXyT2Rw==
+X-CSE-ConnectionGUID: afDDWwVfQWmv+tP+oUQxnA==
+X-CSE-MsgGUID: m8GU+v2RTgioulIekDCGmA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,223,1770624000"; 
-   d="scan'208";a="236639804"
+   d="scan'208";a="236639797"
 Received: from lkp-server01.sh.intel.com (HELO d6e19f2f5857) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 08 May 2026 01:09:16 -0700
+  by orviesa008.jf.intel.com with ESMTP; 08 May 2026 01:09:15 -0700
 Received: from kbuild by d6e19f2f5857 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wLGGk-000000000qT-3QT6;
+	id 1wLGGk-000000000qP-3CL9;
 	Fri, 08 May 2026 08:09:10 +0000
-Date: Fri, 08 May 2026 16:08:15 +0800
+Date: Fri, 08 May 2026 16:08:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tejun Heo <tj@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
- "Cheng-Yang Chou" <yphbchou0911@gmail.com>,
- Changwoo Min <changwoo@igalia.com>, Andrea Righi <arighi@nvidia.com>
-Subject: [linux-next:master 1779/4176]
- include/linux/compiler_types.h:699:45: error: call to
- '__compiletime_assert_1479' declared with attribute error: BUILD_BUG_ON
- failed: sizeof(struct sched_ext_ops_cid) != offsetofend(struct sched_ext_ops,
- priv)
-Message-ID: <202605081637.DbH4SZ1E-lkp@intel.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [axboe:io_uring-io-slots 7/13] io_uring/slot.c:133:16:
+ sparse: sparse: cast to restricted blk_opf_t
+Message-ID: <202605081554.p3Jo9cBs-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -64,83 +59,132 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   17c7841d09ee7d33557fd075562d9289b6018c90
-commit: 7e655ed7b953d194265837978ca21bb17985d4aa [1779/4176] sched_ext: Add bpf_sched_ext_ops_cid struct_ops type
-config: powerpc-randconfig-001-20260508 (https://download.01.org/0day-ci/archive/20260508/202605081637.DbH4SZ1E-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260508/202605081637.DbH4SZ1E-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git io_uring-io-slots
+head:   8cda41fe2d37340341d2ae4bf15368f88b4bd5a2
+commit: 61d56c943173f9e6820ff6162d25e8fce26059dc [7/13] io_uring: add IORING_OP_SLOT_RW and wire up slot completion
+config: powerpc-randconfig-r122-20260508 (https://download.01.org/0day-ci/archive/20260508/202605081554.p3Jo9cBs-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 8.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260508/202605081554.p3Jo9cBs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605081637.DbH4SZ1E-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605081554.p3Jo9cBs-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> io_uring/slot.c:133:16: sparse: sparse: cast to restricted blk_opf_t
+>> io_uring/slot.c:187:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] op @@     got restricted blk_opf_t @@
+   io_uring/slot.c:187:24: sparse:     expected unsigned char [usertype] op
+   io_uring/slot.c:187:24: sparse:     got restricted blk_opf_t
+   io_uring/slot.c:189:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] op @@     got restricted blk_opf_t @@
+   io_uring/slot.c:189:24: sparse:     expected unsigned char [usertype] op
+   io_uring/slot.c:189:24: sparse:     got restricted blk_opf_t
 
-   In file included from kernel/sched/build_policy.c:66:
-   kernel/sched/ext.c: In function 'scx_vexit':
-   kernel/sched/ext.c:6534:9: warning: function 'scx_vexit' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    6534 |         vscnprintf(ei->msg, SCX_EXIT_MSG_LEN, fmt, args);
-         |         ^~~~~~~~~~
-   kernel/sched/ext.c: In function 'scx_alloc_and_add_sched':
-   kernel/sched/ext.c:6778:1: warning: label 'err_free_lb_resched' defined but not used [-Wunused-label]
-    6778 | err_free_lb_resched:
-         | ^~~~~~~~~~~~~~~~~~~
-   kernel/sched/ext.c: At top level:
-   kernel/sched/ext.c:328:26: warning: 'scx_find_sub_sched' defined but not used [-Wunused-function]
-     328 | static struct scx_sched *scx_find_sub_sched(u64 cgroup_id) { return NULL; }
-         |                          ^~~~~~~~~~~~~~~~~~
-   In file included from kernel/sched/build_policy.c:52:
-   kernel/sched/rt.c:12:18: warning: 'max_rt_runtime' defined but not used [-Wunused-const-variable=]
-      12 | static const u64 max_rt_runtime = MAX_BW;
-         |                  ^~~~~~~~~~~~~~
-   In file included from <command-line>:
-   kernel/sched/ext.c: In function 'scx_init':
->> include/linux/compiler_types.h:699:45: error: call to '__compiletime_assert_1479' declared with attribute error: BUILD_BUG_ON failed: sizeof(struct sched_ext_ops_cid) != offsetofend(struct sched_ext_ops, priv)
-     699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:680:25: note: in definition of macro '__compiletime_assert'
-     680 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:699:9: note: in expansion of macro '_compiletime_assert'
-     699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:40:37: note: in expansion of macro 'compiletime_assert'
-      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:51:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      51 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   kernel/sched/ext.c:10314:9: note: in expansion of macro 'BUILD_BUG_ON'
-   10314 |         BUILD_BUG_ON(sizeof(struct sched_ext_ops_cid) !=
-         |         ^~~~~~~~~~~~
+vim +133 io_uring/slot.c
 
-
-vim +/__compiletime_assert_1479 +699 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  685  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  686  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  687  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  688  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  689  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  690   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  691   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  692   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  693   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  694   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  695   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  696   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  697   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  698  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @699  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  700  
-
-:::::: The code at line 699 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+    91	
+    92	static int io_slot_submit(struct io_ring_ctx *ctx, struct io_kiocb *req,
+    93				  struct io_slot_rw *rw, unsigned int issue_flags)
+    94	{
+    95		struct io_mapped_ubuf *imu;
+    96		struct io_slot *slot;
+    97		struct bio *bio;
+    98		blk_opf_t opf;
+    99		const struct bio_vec *bvec;
+   100		size_t walk;
+   101	
+   102		/*
+   103		 * Hold uring_lock across lookup, validation, and the bit that pins
+   104		 * the slot, so an io-wq worker (IO_URING_F_UNLOCKED) is serialised
+   105		 * against io_unregister_io_slot(); drop it as soon as INFLIGHT is
+   106		 * set so the bio setup doesn't run under the mutex.
+   107		 */
+   108		io_ring_submit_lock(ctx, issue_flags);
+   109	
+   110		slot = xa_load(&ctx->slot_table, rw->slot_id);
+   111		if (!slot)
+   112			goto err;
+   113	
+   114		imu = slot->buf_node->buf;
+   115		if (rw->buf_off + rw->nbytes > imu->len)
+   116			goto err;
+   117	
+   118		walk = rw->buf_off;
+   119		bvec = io_imu_offset_to_bvec(imu, &walk);
+   120	
+   121		if (test_and_set_bit(IO_SLOT_F_INFLIGHT, &slot->state)) {
+   122			io_ring_submit_unlock(ctx, issue_flags);
+   123			req_set_fail(req);
+   124			return -EBUSY;
+   125		}
+   126	
+   127		/* Slot pinned by INFLIGHT, drop the lock. */
+   128		io_ring_submit_unlock(ctx, issue_flags);
+   129	
+   130		bio = &slot->bio;
+   131		slot->req = req;
+   132	
+ > 133		opf = (blk_opf_t)rw->op;
+   134		if (req->flags & REQ_F_IOPOLL)
+   135			opf |= REQ_POLLED;
+   136		bio->bi_opf = opf | REQ_NOMERGE;
+   137	
+   138		bio->bi_iter.bi_sector = rw->offset >> SECTOR_SHIFT;
+   139		bio->bi_iter.bi_size = rw->nbytes;
+   140		bio->bi_iter.bi_idx = bvec - imu->bvec;
+   141		bio->bi_iter.bi_bvec_done = walk;
+   142		bio->bi_private = NULL;
+   143	
+   144		rw->slot = slot;
+   145		rw->bio = bio;
+   146	
+   147		submit_bio_noacct_fast(bio);
+   148		return 0;
+   149	err:
+   150		io_ring_submit_unlock(ctx, issue_flags);
+   151		req_set_fail(req);
+   152		return -EINVAL;
+   153	}
+   154	
+   155	int io_slot_rw_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
+   156	{
+   157		struct io_slot_rw *rw = io_kiocb_to_cmd(req, struct io_slot_rw);
+   158		u32 rw_flags;
+   159	
+   160		/*
+   161		 * Using slot read/write with IOSQE_ASYNC is inefficient and hence a
+   162		 * terrible idea, better make that explicit.
+   163		 */
+   164		if (req->flags & REQ_F_FORCE_ASYNC)
+   165			return -EINVAL;
+   166	
+   167		if (sqe->file_index || sqe->addr3)
+   168			return -EINVAL;
+   169	
+   170		rw_flags = READ_ONCE(sqe->rw_flags);
+   171		if (rw_flags & ~IORING_SLOT_RW_WRITE)
+   172			return -EINVAL;
+   173	
+   174		rw->offset = READ_ONCE(sqe->off);
+   175		if (rw->offset & ((1ULL << SECTOR_SHIFT) - 1))
+   176			return -EINVAL;
+   177		rw->buf_off = READ_ONCE(sqe->addr);
+   178		if (rw->buf_off & ((1ULL << SECTOR_SHIFT) - 1))
+   179			return -EINVAL;
+   180	
+   181		rw->slot_id = READ_ONCE(sqe->buf_index);
+   182		rw->nbytes = READ_ONCE(sqe->len);
+   183		if (!rw->nbytes)
+   184			return -EINVAL;
+   185	
+   186		if (rw_flags & IORING_SLOT_RW_WRITE)
+ > 187			rw->op = REQ_OP_WRITE;
+   188		else
+   189			rw->op = REQ_OP_READ;
+   190		return 0;
+   191	}
+   192	
 
 -- 
 0-DAY CI Kernel Test Service
