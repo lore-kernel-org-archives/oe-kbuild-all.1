@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E27453101A7
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 May 2026 20:19:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAF532EDD7D
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 May 2026 20:29:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778271545; cv=none; b=IPlQI3TiCVoxCuB795E34TTgaM7XONL3Vn0RhGw0My9Z16wy/p4SBz3SEqDO0DEVydtj0h3oEIrYJ0VEYefbOy2RYR9qSNwQRH9Xv80bG/qB+Bklx8Ii/h5RhzsPJKmiPz7hRoWJzvyAYqgrzbxQisea8e38Quhn9QS2sZt61to=
+	t=1778272172; cv=none; b=MGpX0fTO2mPQSYuD50v/DSgsrZfFcT5AEXPtvhM4kbzQ22FFaxQ2hVO1jZ+MDNAZhsG1ipZHGlJMLKhqoBpSAgY14ZSvQ3UH7WA8WxORLJYtQi2LDX2T9kQDwr12NT2LLbVCZDjam9Y0tCVBQvX6ziXBXj2gGhSaSoP1WgjGVSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778271545; c=relaxed/simple;
-	bh=hZcCx0DYN4PPjbGgXjiXUOc+N91oiwasAUFsfsmTOOA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=l1gUU6G8ocX7P5d7oxhp0kwD1OnBEQSjnVgXRa17UR3m6HVoDRnSU46g2ghK4ygsVZUJ43T0lFmQvp5TvbAFsBp+BlsfQu6eZL0GcbXAyy9RZ4TvS5j2sAm5NPD+dR+vYB0NYm1ulJ6hPmxOJv2RCxwGlAmuT9dCEimoc6MnxJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ObLb+vL4; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1778272172; c=relaxed/simple;
+	bh=hJDZ9VU7zZW3ClDIqJVJg20PL/lrc8SseovSZDfIeeI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QgNHDqFhIBxw2ebj7/Nx2tBivCBpqzQswG9zyKiQAQ507jNihUzfd/eD+2HKZ0h2sBonFilR2TW+mBPXDjdrcjr23Coegw4hljAzhP68nz+rO1hBc3XiIiz2GAUUKyfTycQOi3nb98NbrXyEcRHVORoJceR12Ib+XIbzU+5nX8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W2LXrupn; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ObLb+vL4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W2LXrupn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778271543; x=1809807543;
+  t=1778272171; x=1809808171;
   h=date:from:to:cc:subject:message-id;
-  bh=hZcCx0DYN4PPjbGgXjiXUOc+N91oiwasAUFsfsmTOOA=;
-  b=ObLb+vL4b2yP2AGIyV3QA1boQnvR75WPgrwWwXlqVJgdkpGgSIGSWllT
-   /PxjbR8h/Pa7ah31/Kv2IDiUY9PT4mY+B8uDh8RnpfEITyE3kRelmgSCr
-   D5joPNKeqJ3OF69rMj7+m80P/1PoqzM1Erx03ab9IZNRUjnFBQga7j+48
-   s4KxhoYygLvRzZnwZ/vGjXR47ZrIwYlBKiO6hZaGCS1GJ8ofb5ZVNvtFB
-   jRgyCnan8TAfKfzSDNyGnBWHGC08FmiqKZqUJ1CNLtXt3SYB5zyQw9Q62
-   1IyCBE23KJIhEJUcIzmq2XNlH3mjwIl3Mkz/oQb6z5/sJDVy5rnu457+F
-   Q==;
-X-CSE-ConnectionGUID: 1sikwsJKTvCm3HhZHe6k2Q==
-X-CSE-MsgGUID: A507I7wPTIC+dSD59xekuA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11780"; a="79106089"
+  bh=hJDZ9VU7zZW3ClDIqJVJg20PL/lrc8SseovSZDfIeeI=;
+  b=W2LXrupnfmo+K2NOFGv+ri9JFeoqHOYJMQYruGJnKnGREPNqpXJIe79m
+   tgRmhi+JVZU+9Uf7UEsPFK93C8AtxTrtDz67cq6O8PUQTmj/2DcDV41/q
+   NIcMxloqFRrkLAOXO4aPF+ypAah9TggO9PN9Mz+NN8LFe2e+JHZDpL6ho
+   5V+kTvuMXs0xThNMjdmbgr4P07aZdlJlsU1KsTOD/i9y4S+TolHljEx18
+   NBBj7bqv+OyvdORFfNIzfgC81cPqJk9d+uImCryuRhH6n/B8Vqvh6xN2A
+   6+ZYXuOaPeFWQs8W6xaHAjJPhAh8AUiL6M+XUbDbDDm9RO2Go2+8mJx/v
+   w==;
+X-CSE-ConnectionGUID: Uu/XvFmvR7mwWHzJlf4p9w==
+X-CSE-MsgGUID: imft3cfnSXC7PrWrKKVXig==
+X-IronPort-AV: E=McAfee;i="6800,10657,11780"; a="90631866"
 X-IronPort-AV: E=Sophos;i="6.23,224,1770624000"; 
-   d="scan'208";a="79106089"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 13:19:02 -0700
-X-CSE-ConnectionGUID: FRKicpXXQTuiste9qb1TSw==
-X-CSE-MsgGUID: KOXPQHhpRuulnTE8t5pg9Q==
+   d="scan'208";a="90631866"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 13:29:30 -0700
+X-CSE-ConnectionGUID: IJ8io+hjTWi+hWLW4byS3A==
+X-CSE-MsgGUID: epw6m0CiTFOHAXbBHIBLuA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,224,1770624000"; 
-   d="scan'208";a="232351050"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 08 May 2026 13:19:00 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="236799798"
+Received: from lkp-server01.sh.intel.com (HELO 82327192134e) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 08 May 2026 13:29:27 -0700
+Received: from kbuild by 82327192134e with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wLRf0-000000007Gb-0V0r;
-	Fri, 08 May 2026 20:18:58 +0000
-Date: Fri, 08 May 2026 22:18:36 +0200
+	id 1wLRp6-000000000Px-3kQs;
+	Fri, 08 May 2026 20:29:24 +0000
+Date: Sat, 09 May 2026 04:28:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Bjorn Andersson <andersson@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Abel Vesa <abel.vesa@oss.qualcomm.com>,
- Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: [linux-next:master 1373/4394]
- arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: bluetooth (qcom,wcn6855-bt):
- 'vddrfa1p7-supply' is a required property
-Message-ID: <202605082254.bXy9QgFf-lkp@intel.com>
+To: Pankaj Gupta <pankaj.gupta@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, Frank Li <Frank.Li@nxp.com>
+Subject: [frank-li:imx/firmware-ele 5/5]
+ drivers/firmware/imx/se_ctrl.c:476:2-7: WARNING: invalid free of devm_
+ allocated data
+Message-ID: <202605090441.GzJS1R6y-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -64,61 +60,63 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e98d21c170b01ddef366f023bbfcf6b31509fa83
-commit: 63b35a29d7ad2cafb0076f8b002b30fb74df053a [1373/4394] dt-bindings: net: bluetooth: qualcomm: Fix WCN6855 regulator names
-config: arm64-randconfig-2055-20260508 (https://download.01.org/0day-ci/archive/20260508/202605082254.bXy9QgFf-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.3.0
-dtschema: 2026.5.dev4+g4ccc1997d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260508/202605082254.bXy9QgFf-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frank.li/linux.git imx/firmware-ele
+head:   63536a73a3bbf69d097e45c4f3d419ee32533f20
+commit: 63536a73a3bbf69d097e45c4f3d419ee32533f20 [5/5] firmware: drivers: imx: adds miscdev
+config: arm-randconfig-r054-20260509 (https://download.01.org/0day-ci/archive/20260509/202605090441.GzJS1R6y-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605082254.bXy9QgFf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605090441.GzJS1R6y-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/monaco.dtsi:5846.27-5915.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/qcom/monaco.dtsi:2326.4-2329.30: Warning (interrupt_map): /soc@0/pci@1c00000:interrupt-map: Missing property '#address-cells' in node /soc@0/interrupt-controller@17a00000, using 0 as fallback
-   arch/arm64/boot/dts/qcom/monaco.dtsi:2326.4-2329.30: Warning (interrupt_map): /soc@0/pci@1c00000:interrupt-map: Missing property '#address-cells' in node /soc@0/interrupt-controller@17a00000, using 0 as fallback
-   arch/arm64/boot/dts/qcom/monaco.dtsi:2326.4-2329.30: Warning (interrupt_map): /soc@0/pci@1c00000:interrupt-map: Missing property '#address-cells' in node /soc@0/interrupt-controller@17a00000, using 0 as fallback
-   arch/arm64/boot/dts/qcom/monaco.dtsi:2326.4-2329.30: Warning (interrupt_map): /soc@0/pci@1c00000:interrupt-map: Missing property '#address-cells' in node /soc@0/interrupt-controller@17a00000, using 0 as fallback
-   arch/arm64/boot/dts/qcom/monaco.dtsi:2504.4-2507.30: Warning (interrupt_map): /soc@0/pci@1c10000:interrupt-map: Missing property '#address-cells' in node /soc@0/interrupt-controller@17a00000, using 0 as fallback
-   arch/arm64/boot/dts/qcom/monaco.dtsi:2504.4-2507.30: Warning (interrupt_map): /soc@0/pci@1c10000:interrupt-map: Missing property '#address-cells' in node /soc@0/interrupt-controller@17a00000, using 0 as fallback
-   arch/arm64/boot/dts/qcom/monaco.dtsi:2504.4-2507.30: Warning (interrupt_map): /soc@0/pci@1c10000:interrupt-map: Missing property '#address-cells' in node /soc@0/interrupt-controller@17a00000, using 0 as fallback
-   arch/arm64/boot/dts/qcom/monaco.dtsi:2504.4-2507.30: Warning (interrupt_map): /soc@0/pci@1c10000:interrupt-map: Missing property '#address-cells' in node /soc@0/interrupt-controller@17a00000, using 0 as fallback
->> arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p7-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qcom,wcn6855-bt.yaml
->> arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: bluetooth (qcom,wcn6855-bt): Unevaluated properties are not allowed ('vddrfa1p8-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qcom,wcn6855-bt.yaml
+cocci warnings: (new ones prefixed by >>)
+>> drivers/firmware/imx/se_ctrl.c:476:2-7: WARNING: invalid free of devm_ allocated data
+   drivers/firmware/imx/se_ctrl.c:487:2-7: WARNING: invalid free of devm_ allocated data
 --
-   arch/arm64/boot/dts/qcom/talos.dtsi:1958.20-1993.5: Warning (simple_bus_reg): /soc@0/gmu@506a000: simple-bus unit address format error, expected "506d000"
-   arch/arm64/boot/dts/qcom/talos.dtsi:4427.27-4490.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
->> arch/arm64/boot/dts/qcom/talos-evk.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p7-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qcom,wcn6855-bt.yaml
->> arch/arm64/boot/dts/qcom/talos-evk.dtb: bluetooth (qcom,wcn6855-bt): Unevaluated properties are not allowed ('vddrfa1p8-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qcom,wcn6855-bt.yaml
---
->> arch/arm64/boot/dts/qcom/qcs8300-ride-el2.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p7-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qcom,wcn6855-bt.yaml
->> arch/arm64/boot/dts/qcom/qcs8300-ride-el2.dtb: bluetooth (qcom,wcn6855-bt): Unevaluated properties are not allowed ('vddrfa1p8-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qcom,wcn6855-bt.yaml
---
->> arch/arm64/boot/dts/qcom/talos-evk-usb1-peripheral.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p7-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qcom,wcn6855-bt.yaml
->> arch/arm64/boot/dts/qcom/talos-evk-usb1-peripheral.dtb: bluetooth (qcom,wcn6855-bt): Unevaluated properties are not allowed ('vddrfa1p8-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qcom,wcn6855-bt.yaml
---
->> arch/arm64/boot/dts/qcom/talos-evk-camera-imx577.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p7-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qcom,wcn6855-bt.yaml
->> arch/arm64/boot/dts/qcom/talos-evk-camera-imx577.dtb: bluetooth (qcom,wcn6855-bt): Unevaluated properties are not allowed ('vddrfa1p8-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qcom,wcn6855-bt.yaml
---
->> arch/arm64/boot/dts/qcom/talos-evk-lvds-auo,g133han01.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p7-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qcom,wcn6855-bt.yaml
->> arch/arm64/boot/dts/qcom/talos-evk-lvds-auo,g133han01.dtb: bluetooth (qcom,wcn6855-bt): Unevaluated properties are not allowed ('vddrfa1p8-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qcom,wcn6855-bt.yaml
+>> drivers/firmware/imx/se_ctrl.c:491:16-23: ERROR: reference preceded by free on line 487
 
---
+vim +476 drivers/firmware/imx/se_ctrl.c
+
+   460	
+   461	static int init_device_context(struct se_if_priv *priv, int ch_id,
+   462				       struct se_if_device_ctx **new_dev_ctx)
+   463	{
+   464		struct se_if_device_ctx *dev_ctx;
+   465		int ret = 0;
+   466	
+   467		dev_ctx = kzalloc_obj(*dev_ctx, GFP_KERNEL);
+   468	
+   469		if (!dev_ctx)
+   470			return -ENOMEM;
+   471	
+   472		dev_ctx->devname = kasprintf(GFP_KERNEL, "%s0_ch%d",
+   473					     get_se_if_name(priv->if_defs->se_if_type),
+   474					     ch_id);
+   475		if (!dev_ctx->devname) {
+ > 476			kfree(dev_ctx);
+   477			return -ENOMEM;
+   478		}
+   479	
+   480		mutex_init(&dev_ctx->fops_lock);
+   481		dev_ctx->priv = priv;
+   482		*new_dev_ctx = dev_ctx;
+   483	
+   484		ret = init_se_shared_mem(dev_ctx);
+   485		if (ret < 0) {
+   486			kfree(dev_ctx->devname);
+ > 487			kfree(dev_ctx);
+   488			*new_dev_ctx = NULL;
+   489		}
+   490	
+ > 491		list_add_tail(&dev_ctx->link, &priv->dev_ctx_list);
+   492		priv->active_devctx_count++;
+   493	
+   494		return ret;
+   495	}
+   496	
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
