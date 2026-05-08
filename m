@@ -1,193 +1,98 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 520CA26FD9B
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 May 2026 17:03:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0BA82EDD7D
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 May 2026 17:36:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778259800; cv=none; b=bzgD2UPIgdg/A6xipZhgAE/nqZVRNWltu7FfJepBD27wDKggBivzvBCMMMdSWkEgVWeEAj7u5Y4vDmAFRBCvzU/9jEFdreD7FBoFHk0Mb7OiBdEGK6GjNZxQ3pkRg9pIjeFnAMywXNgV3oNvfF5+2S4GliGzFO0dkWnbvFGJQQI=
+	t=1778261762; cv=none; b=D7R4qnyj3zgohRYie15xDy3jHtmDQ4Fgyz+y06kKfnM8pqNtqoyMJxHyCG0n7+pzpl8TmLadHngsePvrxgJIcDJ+lGm3Es+7y0D20c6+7imrlt5+mRtVgjqLzC3Bb6Xb7enbeqn07Z6GWqTOs2IZzZF4OdSemlIbxJjW8fcydys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778259800; c=relaxed/simple;
-	bh=jV2Z85Gx8PIxINk8EyXNE2sZ6IRlZxUp+y25lh+wLMw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tXwztAOyHFImVjcKJcOuINwiiYzxlq4BvGRP4oE0G+igiMOiK+ECItY1Y8+5D1djFJWTRl+xftT2Nhd48oGiReJA20bXIn9DTG6txd9KzaMU7ZtzfpVTOM+ZmMH9wBq3IFYiKXYo8F3mz2lUWpX2VF5CwI0YK96g208dQJpAQYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D8anaEvq; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1778261762; c=relaxed/simple;
+	bh=ijm/rsPlcX4PvWianLXOH2Az+wEueWyxinsO8xPNG08=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=SHaOju1m1la3b+NV9Q/RDLfytVuPz2DvQI7FuHy9JKvElcf0vqtCfuEenknUsDP2Mn35PmuEzgH7fCs+qUOKWOj4447xP248lLUf+fFx42CqDZ18lcnCVDnY5rO6Rl0J4rCCM+Ou89fMWrpSm1x0FlgTWVRDithLr7zkOsnlYFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QKly7gy5; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D8anaEvq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QKly7gy5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778259798; x=1809795798;
-  h=date:from:to:cc:subject:message-id;
-  bh=jV2Z85Gx8PIxINk8EyXNE2sZ6IRlZxUp+y25lh+wLMw=;
-  b=D8anaEvqbnsuaa0nKOgUIIDU9Bu/MGOC7KHcit84JOevLvsJJO42pODA
-   x44nYA0R+OjGZo4Dg0TV5uv7bjWL3LFMXG8jb4nbPgNrPcJwHXpDCeIdR
-   NWWQbUHNXPVsdAHJ/JtgZ9bgkHvAm2cF+5wjNm13za1Zp8pRzRHzBu9ja
-   brBn27bK9in0XCHTZmaW99UyIcTQ920QazkQ4Jr1cUhX8BWjSXSNmHg3L
-   frPVqs+cVIRggOaEbjbdEAYM66TGuqcGHeYc1cLUQNv+sdP3TaWPAWdLt
-   3UTIQlZWMk9RW/QIw/VGwixIdwWe9hWNC5f0yc3z5v3btk2w73TzkI18E
-   A==;
-X-CSE-ConnectionGUID: pZ0L8zbHQbaZNOZJiPhXVw==
-X-CSE-MsgGUID: rqzg9qE1QDa+8oe32beE8w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11780"; a="78375253"
+  t=1778261761; x=1809797761;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ijm/rsPlcX4PvWianLXOH2Az+wEueWyxinsO8xPNG08=;
+  b=QKly7gy5/t9pd88eClinVGOhCkGjYCu3fEfhsCYy1jS6/Mq3kFZ7bygu
+   calQ2DP6on2jueULYktUgJ4nVcUCFe5u2J+pKfsGzBGnyqo0vnzy4aVA+
+   Fnfq8ITyenTSkKYdVHBbjU0XWssOJvT1HqQ6p23A2d2HTPN1cXKvS3/ok
+   uqWGDLUOGrNP6DPq2C4QBkNif15P07hmFLU3xg6trTOW3WGtI90nuxrzE
+   fNSGOL//ak4ZPMlfyG3ghmtZrci5iFRVGcON8z/Ve3FArHW+Bv6Ao69ta
+   du7EcST3r6/3bX/otbRCSZhvZEqAdCKCBNqArAG8xxn8VWd/2bO8FanCp
+   w==;
+X-CSE-ConnectionGUID: Ce3Q5v6KQUGvT6GzrSAGFA==
+X-CSE-MsgGUID: Zrf+5FECQvqx/E58V3UINA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11780"; a="104697005"
 X-IronPort-AV: E=Sophos;i="6.23,223,1770624000"; 
-   d="scan'208";a="78375253"
+   d="scan'208";a="104697005"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 10:03:18 -0700
-X-CSE-ConnectionGUID: MNNGOZLNR0y1zhapJM6x1w==
-X-CSE-MsgGUID: HKL+FJaaSmqu8mxUHPNTnQ==
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 10:36:01 -0700
+X-CSE-ConnectionGUID: K+HMXVXfQW2auFtwdXH55w==
+X-CSE-MsgGUID: XYrs2Qz+TEy1pPEhG4WQhg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,223,1770624000"; 
-   d="scan'208";a="236937472"
-Received: from lkp-server01.sh.intel.com (HELO 82327192134e) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 08 May 2026 10:03:16 -0700
-Received: from kbuild by 82327192134e with local (Exim 4.98.2)
+   d="scan'208";a="236948617"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 08 May 2026 10:35:58 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wLObZ-000000000Ij-2sh1;
-	Fri, 08 May 2026 17:03:13 +0000
-Date: Sat, 09 May 2026 01:03:09 +0800
+	id 1wLP7E-000000007EL-0RHm;
+	Fri, 08 May 2026 17:35:56 +0000
+Date: Fri, 08 May 2026 19:35:35 +0200
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline 0/8]
- drivers/pci/pci.c:426:9: warning: indirection of non-volatile null pointer
- will be deleted, not trap
-Message-ID: <202605090035.9SokTzZD-lkp@intel.com>
+To: Yedaya Katsman <yedaya.ka@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Bjorn Andersson <andersson@kernel.org>,
+ "Kamil =?utf-8?Q?Go=C5=82da"?= <kamil.golda@protonmail.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: [linux-next:master 1385/4394]
+ arch/arm64/boot/dts/qcom/sm6125-xiaomi-laurel-sprout.dtb:
+ /soc@0/display-subsystem@5e00000/dsi@5e94000/panel@0: failed to match any
+ schema with compatible: ['samsung,s6e8fco-m1906f9']
+Message-ID: <202605081900.JGie5d6r-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-tree:   https://android.googlesource.com/kernel/common android-mainline
-head:   c2ee10323ef996776e88e8588ecacbbad18991f9
-commit: e2f7a805a3cbfa7a546334d3409745e0b2037524 [0/8] Merge 1c2b4a4c2bcb ("Merge tag 'pci-v7.0-changes' of git://git.kernel.org/pub/scm/linux/kernel/git/pci/pci") into android-mainline
-config: i386-randconfig-003-20260508 (https://download.01.org/0day-ci/archive/20260509/202605090035.9SokTzZD-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260509/202605090035.9SokTzZD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e98d21c170b01ddef366f023bbfcf6b31509fa83
+commit: 493cb869874cd301c370adf9a3f9577942c4f0f1 [1385/4394] arm64: dts: qcom: sm6125-xiaomi-laurel-sprout: Enable MDSS and add panel
+config: arm64-randconfig-2055-20260508 (https://download.01.org/0day-ci/archive/20260508/202605081900.JGie5d6r-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.3.0
+dtschema: 2026.5.dev4+g4ccc1997d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260508/202605081900.JGie5d6r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605090035.9SokTzZD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605081900.JGie5d6r-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/sm6125-xiaomi-laurel-sprout.dtb: geniqup@4ac0000 (qcom,geni-se-qup): #address-cells: 2 was expected
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,geni-se.yaml
+   arch/arm64/boot/dts/qcom/sm6125-xiaomi-laurel-sprout.dtb: geniqup@4ac0000 (qcom,geni-se-qup): #size-cells: 2 was expected
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,geni-se.yaml
+   arch/arm64/boot/dts/qcom/sm6125-xiaomi-laurel-sprout.dtb: geniqup@4cc0000 (qcom,geni-se-qup): #address-cells: 2 was expected
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,geni-se.yaml
+   arch/arm64/boot/dts/qcom/sm6125-xiaomi-laurel-sprout.dtb: geniqup@4cc0000 (qcom,geni-se-qup): #size-cells: 2 was expected
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,geni-se.yaml
+>> arch/arm64/boot/dts/qcom/sm6125-xiaomi-laurel-sprout.dtb: /soc@0/display-subsystem@5e00000/dsi@5e94000/panel@0: failed to match any schema with compatible: ['samsung,s6e8fco-m1906f9']
+   arch/arm64/boot/dts/qcom/sm6125-xiaomi-laurel-sprout.dtb: clock-controller@5f00000 (qcom,sm6125-dispcc): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,dispcc-sm6125.yaml
 
-   In file included from drivers/pci/pci.c:16:
-   include/linux/iommu.h:1627:17: error: incomplete definition of type 'struct iommu_mm_data'
-    1627 |         return iommu_mm->pasid;
-         |                ~~~~~~~~^
-   include/linux/mm_types.h:1074:8: note: forward declaration of 'struct iommu_mm_data'
-    1074 | struct iommu_mm_data;
-         |        ^
->> drivers/pci/pci.c:426:9: warning: indirection of non-volatile null pointer will be deleted, not trap [-Wnull-dereference]
-     426 |         return PCI_FIND_NEXT_CAP(pci_bus_read_config, pos, cap, NULL, bus, devfn);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/pci.h:159:5: note: expanded from macro 'PCI_FIND_NEXT_CAP'
-     159 |                                 *(u8 *)prev_ptr = __prev_pos;           \
-         |                                 ^~~~~~~~~~~~~~~
-   drivers/pci/pci.c:426:9: note: consider using __builtin_trap() or qualifying pointer with 'volatile'
-   drivers/pci/pci.h:159:5: note: expanded from macro 'PCI_FIND_NEXT_CAP'
-     159 |                                 *(u8 *)prev_ptr = __prev_pos;           \
-         |                                 ^
-   drivers/pci/pci.c:530:9: warning: indirection of non-volatile null pointer will be deleted, not trap [-Wnull-dereference]
-     530 |         return PCI_FIND_NEXT_EXT_CAP(pci_bus_read_config, start, cap,
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     531 |                                      NULL, dev->bus, dev->devfn);
-         |                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/pci.h:207:5: note: expanded from macro 'PCI_FIND_NEXT_EXT_CAP'
-     207 |                                 *(u16 *)prev_ptr = __prev_pos;          \
-         |                                 ^~~~~~~~~~~~~~~~
-   drivers/pci/pci.c:530:9: note: consider using __builtin_trap() or qualifying pointer with 'volatile'
-   drivers/pci/pci.h:207:5: note: expanded from macro 'PCI_FIND_NEXT_EXT_CAP'
-     207 |                                 *(u16 *)prev_ptr = __prev_pos;          \
-         |                                 ^
-   drivers/pci/pci.c:599:8: warning: indirection of non-volatile null pointer will be deleted, not trap [-Wnull-dereference]
-     599 |         pos = PCI_FIND_NEXT_CAP(pci_bus_read_config, pos,
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     600 |                                 PCI_CAP_ID_HT, NULL, dev->bus, dev->devfn);
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/pci.h:159:5: note: expanded from macro 'PCI_FIND_NEXT_CAP'
-     159 |                                 *(u8 *)prev_ptr = __prev_pos;           \
-         |                                 ^~~~~~~~~~~~~~~
-   drivers/pci/pci.c:599:8: note: consider using __builtin_trap() or qualifying pointer with 'volatile'
-   drivers/pci/pci.h:159:5: note: expanded from macro 'PCI_FIND_NEXT_CAP'
-     159 |                                 *(u8 *)prev_ptr = __prev_pos;           \
-         |                                 ^
-   drivers/pci/pci.c:609:9: warning: indirection of non-volatile null pointer will be deleted, not trap [-Wnull-dereference]
-     609 |                 pos = PCI_FIND_NEXT_CAP(pci_bus_read_config,
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     610 |                                         pos + PCI_CAP_LIST_NEXT,
-         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~
-     611 |                                         PCI_CAP_ID_HT, NULL, dev->bus,
-         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     612 |                                         dev->devfn);
-         |                                         ~~~~~~~~~~~
-   drivers/pci/pci.h:159:5: note: expanded from macro 'PCI_FIND_NEXT_CAP'
-     159 |                                 *(u8 *)prev_ptr = __prev_pos;           \
-         |                                 ^~~~~~~~~~~~~~~
-   drivers/pci/pci.c:609:9: note: consider using __builtin_trap() or qualifying pointer with 'volatile'
-   drivers/pci/pci.h:159:5: note: expanded from macro 'PCI_FIND_NEXT_CAP'
-     159 |                                 *(u8 *)prev_ptr = __prev_pos;           \
-         |                                 ^
-   4 warnings and 1 error generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for IOMMU_SVA
-   Depends on [n]: IOMMU_SUPPORT [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_IOMMU_CONFIGS [=y] && (ARM64 || X86 [=y])
-   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=y] && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-
-
-vim +426 drivers/pci/pci.c
-
-687d5fe3dc3379 Michael Ellerman 2006-11-22  422  
-f646c2a0a6685a Puranjay Mohan   2020-11-29  423  static u8 __pci_find_next_cap(struct pci_bus *bus, unsigned int devfn,
-687d5fe3dc3379 Michael Ellerman 2006-11-22  424  			      u8 pos, int cap)
-687d5fe3dc3379 Michael Ellerman 2006-11-22  425  {
-a2582e05e39adf Qiang Yu         2025-11-09 @426  	return PCI_FIND_NEXT_CAP(pci_bus_read_config, pos, cap, NULL, bus, devfn);
-687d5fe3dc3379 Michael Ellerman 2006-11-22  427  }
-687d5fe3dc3379 Michael Ellerman 2006-11-22  428  
-
-:::::: The code at line 426 was first introduced by commit
-:::::: a2582e05e39adf9ab82a02561cd6f70738540ae0 PCI: Add preceding capability position support in PCI_FIND_NEXT_*_CAP macros
-
-:::::: TO: Qiang Yu <qiang.yu@oss.qualcomm.com>
-:::::: CC: Manivannan Sadhasivam <mani@kernel.org>
-
--- 
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
