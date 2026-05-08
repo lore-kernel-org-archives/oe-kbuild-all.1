@@ -1,117 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0FB21A453
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 May 2026 03:23:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FBE2314B72
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 May 2026 06:09:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778210589; cv=none; b=vBiouGz7cTUtalQk+eaOPKdL+iLIM0LaziZmpZ3jYgfRnvwai2bHYSQ4J8ItqTIA0jf5JN1grCsCWP5UqZMdwUa3AwcfuExU7gycWbFkko8FKFu7ZbAUl/sDGxIA3/J/8dJChnH12BpJUBgua8erEKD1MGr89xY3DYy/UDb5k8E=
+	t=1778220567; cv=none; b=u5kE9k+hV6eWdoeCYj+qaQtagxWgrefZXjv1mb5ELwuXXD4Vvv5EPc69eQFs8fgxITaKubJA1QH4Zg2nCDu9qq4/ahgK9Hi8+LpA19oX48Xp/7b6ngod16tqU+TFn6kldnLwrY4WYp3svRdXSXv43oFZLabCydfuxYNWsDxsLQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778210589; c=relaxed/simple;
-	bh=77p3rkE7c7qYHD61UUWE0ECZi2sAo2gpK00bnfuGkSk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=K66jUzCWp970Qt2dCKjIJR4UM9EJ4xAdrI5IAt3dA/46FXWf+8TSTHh8tOupXjMs+99+4qstW5l0rgpHdSDwdeM7iE+xWhGsyYE5lSaZx7ZO0HA/9Lid3APplZR5dE45FRRvWuj/WVv/cmVWtjpJfSVOHkOIh4pDNbQiHW72ZgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hd7kB73/; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1778220567; c=relaxed/simple;
+	bh=K5xtDAuyrMvBSiVkIb+d9ftD5LvUthW6cMj49rrgJho=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=uPeShHFg2xnsAvIaJRZjZpnPnVugO23kdoJgznDZuH0VF12iadQ1r1fNZCV9HTG+/E7mHEtHQ99Q3E8f/XbHKDIjvzPWCUh+REkIvitWFhPTI+oVoEaI8MXUQlRtMG1zt8A5iQXtXSLyM/cPqKiiIGdQu9qME5hVsHpue+8aveA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hRUlesgA; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hd7kB73/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778210588; x=1809746588;
-  h=date:from:to:cc:subject:message-id;
-  bh=77p3rkE7c7qYHD61UUWE0ECZi2sAo2gpK00bnfuGkSk=;
-  b=Hd7kB73/TwZ9dQt+rX8/Ud3CgSarvgIALhthM23m63qTrVxVsvxA6sOf
-   lNRlgzD1IQUtqgYE0G969KJkDP/o7JbsupRylA/lqM1iiQsY2PcDXbPtT
-   9xVdPLbA4p6H8NXzNkYzEj1Yl8rrCCgI9+edPw7sM0mOdralYwCFyhpGF
-   cFEeP8IAND4KwGBO20c9GalQLovdnIZmV31Zi2nEK6n6XWIESXqbm49Uf
-   fjT9Fr+9y0zfCAoKg28X78cLGTYbeS4lq88jLtsK1+rLDmPubc/YoE834
-   Lj4ZOr954Sotx+L9Ll8lntFlsSTDt0BvchhGxlLPLLlBABVOhlhZi0DqR
-   Q==;
-X-CSE-ConnectionGUID: rKIQ6OkuRZmavwaFCgXM6Q==
-X-CSE-MsgGUID: e/bQU24XSWqx4zQJs3XqMw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11779"; a="89765586"
-X-IronPort-AV: E=Sophos;i="6.23,222,1770624000"; 
-   d="scan'208";a="89765586"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2026 20:23:08 -0700
-X-CSE-ConnectionGUID: v6qRHdMdRoKb7uNgDN4lTA==
-X-CSE-MsgGUID: vgJLddjFQlWHD+IRAAymtA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,222,1770624000"; 
-   d="scan'208";a="230255346"
-Received: from lkp-server01.sh.intel.com (HELO d6e19f2f5857) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 07 May 2026 20:23:06 -0700
-Received: from kbuild by d6e19f2f5857 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wLBnr-000000000kT-1FXP;
-	Fri, 08 May 2026 03:23:03 +0000
-Date: Fri, 08 May 2026 11:22:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Joerg Roedel <joerg.roedel@amd.com>,
- Tomasz Jeznach <tjeznach@rivosinc.com>
-Subject: include/linux/bitops.h:273:19: sparse: sparse: cast
- truncates bits from constant value (fffffffffff000 becomes fffff000)
-Message-ID: <202605081142.GCqeAhEx-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hRUlesgA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1778220558;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GeECdFhE1e2rNXT3Sj2OPEv03eYYs8feiSdikU8nZxQ=;
+	b=hRUlesgAN+BcZ4rQpKV3f8qsSalfdk3LALPD7oqWo80omQlfKU7+ISMeVdXGev8ixIFGLx
+	iPdkzPYTLcgRyfyAuxpSu1rYU2LuPhWJ9MaftCb9JteAHLTL0sgT3CVffLK9SzjzJZyowO
+	4D1tsk+Z47bk4VFnNoHyZdR1E5HiPdY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-564-YNqWG16mODaQF09yWc-n_A-1; Fri, 08 May 2026 02:09:16 -0400
+X-MC-Unique: YNqWG16mODaQF09yWc-n_A-1
+X-Mimecast-MFC-AGG-ID: YNqWG16mODaQF09yWc-n_A_1778220555
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-48e5df296aeso9689025e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 07 May 2026 23:09:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778220555; x=1778825355;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GeECdFhE1e2rNXT3Sj2OPEv03eYYs8feiSdikU8nZxQ=;
+        b=UmuzNxI6yR1de2EewZDTqvu/HQVNgN4aXE/ukEnlCTSimsxeSHyWEJVsmLTosUk9yM
+         41kTMs/19Kk+Bo3TQgpKEQYO90aoCelO5OgxzcvPUdUJZNsIvlsqrlREhEgRoWhJsbbb
+         /pL6/POPFKOs9EhZtRCUz4SjWWi9gwo2uPd/ChH/QOLDv2r8PPPw0gUaLpk1yCAXUfom
+         ljubozUv8uFLRZuPKKx3/knPy6Zk/vVBRvRO1146xJf+O9Y4XEk7p8+x/Akmzytly4Ks
+         9tHume0E7NEVNh6En/TmBVQ9Ehm3BlyTcLJWV9JBI/IPipDmWnYAzKPG018/JVykM36J
+         j/4g==
+X-Gm-Message-State: AOJu0YwfjZEpDWJMVgRrCRIOT0HWrcq1dS6jsQR5KRqY9ohdOYheADFi
+	iN2oTPcdsa6rDrKjLO0nLxqvYFRhAj842GW4FT0N2wUS4FUENvo6wha6VJEIFup1aJ9gM4aSfXx
+	nPDV9ycuHA+0bZqAAX8gIK9aXslQjdMFUtXexOkHg1e6TvvmQc6vWPzPgfS5go5s9dyE=
+X-Gm-Gg: AeBDieuqzdkbh92ZAJJgkTTREP+koVZ0yjL96ja9YJCzl7DqzYhfjH6ZFcugTHCdlE/
+	qp6GqjC80zOQ6XR7jVB6M5MMJhPSDZRHilmfJZRp2XB+xMsT5MtfadpR3t5+iOzKbVGMy6eHj08
+	8MtMro5HG5TqDOmkOF8K08mgrgHqyniNj40bnGv1GsFIKoMNrl9Wlas4al6oBlk/AldUx15pPSz
+	926LVoaaeMMeO04Z+8KM/tlilZ2Y1hCULaC3MQD2X83Wivt16HZrsjc2+TRHA19+kdJhOJJar9w
+	TghnaohrSxARuELpk/sJQdz7DOO6f603Q1EX979U9NxY9DoCH41qlVzAX5o57ci1jljvoFu0O+g
+	OoLFW1opQhtK10d7D6PH9qe9zIWYVQyhSx8z8TD30
+X-Received: by 2002:a05:600c:444f:b0:489:32b:ac0b with SMTP id 5b1f17b1804b1-48e5dfd6a6amr83500495e9.6.1778220555284;
+        Thu, 07 May 2026 23:09:15 -0700 (PDT)
+X-Received: by 2002:a05:600c:444f:b0:489:32b:ac0b with SMTP id 5b1f17b1804b1-48e5dfd6a6amr83499615e9.6.1778220554672;
+        Thu, 07 May 2026 23:09:14 -0700 (PDT)
+Received: from redhat.com (IGLD-80-230-48-7.inter.net.il. [80.230.48.7])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e68f45d72sm13235625e9.9.2026.05.07.23.09.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 May 2026 23:09:14 -0700 (PDT)
+Date: Fri, 8 May 2026 02:09:11 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
+	virtualization@lists.linux-foundation.org, netdev@vger.kernel.org
+Subject: Re: [mst-vhost:balloon 6/30] Warning: mm/mempolicy.c:2444 function
+ parameter 'user_addr' not described in '__alloc_pages_mpol'
+Message-ID: <20260508020425-mutt-send-email-mst@kernel.org>
+References: <202605080515.6jRN5wN7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+In-Reply-To: <202605080515.6jRN5wN7-lkp@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: NgB5p99dCQaMvEz2_WhezVAlqJuHG86mv5H_DDUW8IM_1778220555
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   917719c412c48687d4a176965d1fa35320ec457c
-commit: e71e00127110dedc6a9e746178282b4dac97ed96 iommupt: Add the RISC-V page table format
-date:   7 weeks ago
-config: arc-randconfig-r112-20260508 (https://download.01.org/0day-ci/archive/20260508/202605081142.GCqeAhEx-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 9.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260508/202605081142.GCqeAhEx-lkp@intel.com/reproduce)
+On Fri, May 08, 2026 at 05:26:30AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git balloon
+> head:   9f56ee36fbf6a6d336dc6a9eaeb4f8a67cb42a31
+> commit: c4289f5a4e563611a468b4b5379025a4aa4a7c12 [6/30] mm: thread user_addr through page allocator for cache-friendly zeroing
+> config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260508/202605080515.6jRN5wN7-lkp@intel.com/config)
+> compiler: powerpc64-linux-gcc (GCC) 15.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260508/202605080515.6jRN5wN7-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202605080515.6jRN5wN7-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> Warning: mm/mempolicy.c:2444 function parameter 'user_addr' not described in '__alloc_pages_mpol'
+> >> Warning: mm/mempolicy.c:2444 expecting prototype for alloc_pages_mpol(). Prototype was for __alloc_pages_mpol() instead
+>    Warning: mm/mempolicy.c:2547 expecting prototype for vma_alloc_folio(). Prototype was for alloc_frozen_pages() instead
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Fixes: e71e00127110 ("iommupt: Add the RISC-V page table format")
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605081142.GCqeAhEx-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/iommu/generic_pt/fmt/iommu_riscv64.c: note: in included file (through drivers/iommu/generic_pt/fmt/../pt_log2.h, drivers/iommu/generic_pt/fmt/../pt_defs.h, drivers/iommu/generic_pt/fmt/iommu_template.h):
->> include/linux/bitops.h:273:19: sparse: sparse: cast truncates bits from constant value (fffffffffff000 becomes fffff000)
-   include/linux/bitops.h:278:37: sparse: sparse: cast truncates bits from constant value (fffffffffff000 becomes fffff000)
->> include/linux/bitops.h:273:19: sparse: sparse: cast truncates bits from constant value (fffffffffff000 becomes fffff000)
-   include/linux/bitops.h:278:37: sparse: sparse: cast truncates bits from constant value (fffffffffff000 becomes fffff000)
+kerneldoc messed up with a rebase. will fix in v6.
 
-vim +273 include/linux/bitops.h
-
-c320592f3f2a1e6 Wolfram Sang       2025-01-07  261  
-952043ac12a117d Steven Whitehouse  2009-04-23  262  /**
-952043ac12a117d Steven Whitehouse  2009-04-23  263   * __ffs64 - find first set bit in a 64 bit word
-952043ac12a117d Steven Whitehouse  2009-04-23  264   * @word: The 64 bit word
-952043ac12a117d Steven Whitehouse  2009-04-23  265   *
-4945cca232ce8bc Geert Uytterhoeven 2021-02-25  266   * On 64 bit arches this is a synonym for __ffs
-952043ac12a117d Steven Whitehouse  2009-04-23  267   * The result is not defined if no bits are set, so check that @word
-952043ac12a117d Steven Whitehouse  2009-04-23  268   * is non-zero before calling this.
-952043ac12a117d Steven Whitehouse  2009-04-23  269   */
-6606c8c7e818865 Kees Cook          2025-08-04  270  static inline __attribute_const__ unsigned int __ffs64(u64 word)
-952043ac12a117d Steven Whitehouse  2009-04-23  271  {
-952043ac12a117d Steven Whitehouse  2009-04-23  272  #if BITS_PER_LONG == 32
-952043ac12a117d Steven Whitehouse  2009-04-23 @273  	if (((u32)word) == 0UL)
-952043ac12a117d Steven Whitehouse  2009-04-23  274  		return __ffs((u32)(word >> 32)) + 32;
-952043ac12a117d Steven Whitehouse  2009-04-23  275  #elif BITS_PER_LONG != 64
-952043ac12a117d Steven Whitehouse  2009-04-23  276  #error BITS_PER_LONG not 32 or 64
-952043ac12a117d Steven Whitehouse  2009-04-23  277  #endif
-952043ac12a117d Steven Whitehouse  2009-04-23  278  	return __ffs((unsigned long)word);
-952043ac12a117d Steven Whitehouse  2009-04-23  279  }
-952043ac12a117d Steven Whitehouse  2009-04-23  280  
-
-:::::: The code at line 273 was first introduced by commit
-:::::: 952043ac12a117d8e94bddd9088338d7ad20ca7d bitops: Add __ffs64 bitop
-
-:::::: TO: Steven Whitehouse <swhiteho@redhat.com>
-:::::: CC: Steven Whitehouse <swhiteho@redhat.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
