@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47CE13E4C81
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 May 2026 13:23:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECB183E5569;
+	Fri,  8 May 2026 14:36:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778246589; cv=none; b=ajv+hdThE2Iu7hItkW4hVtQznRy4HetcGu7lNvo0ghmlYkSOx+b2Wa4LjBg4syGjj6VAH0OHcT6w+cfp2qhD2KIjw0ZqVp/e4yn0/ax94PU7eHFa7+yuZ/Y9w0O/gz+LgN2k5yLDxudiCf4+Hp7ML5T6i/b/w74UIpm3iadlcGg=
+	t=1778250971; cv=none; b=qkexfXKg9pHSQfT9FQLSpv4DZPHXU4vGfS9g9Xj3HdHWK82GajD6tFc9/x8dnoR0uP6uF+xQyv1QuQ0HYADNb6eYBYXxlBbdMb/+ePwoc+aJDAQbFAg1wAZV5dY+lJ+sVfGjJry4sEk98cjDXCFn6p+1yO/OJjDELDVyMF3QIoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778246589; c=relaxed/simple;
-	bh=8zMjjTIh7afG5oiqfdU+MK/5b/VMbZNu+SysEbxRI8U=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=fL+mrS3Ywg8qLxJ0Q+2d+cmTomQlw3W7G2zAvEAiYHVT2Vg97+oQPmeiPcEbpVX9KjxM3yeptIgKsgPudKsPYsz1pltLfCltl1U5mnzN7S0aKm3r4mKBSYfLt7WmZl1yYgd3IXimu9I2/3qFiHJ7IqSV0NFWvcCDYDiblN1wmyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HQMAEbJY; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1778250971; c=relaxed/simple;
+	bh=TqJsRyxrl4vmszK7gaA6wrhm0bAp3WRwUqZqdfv5GfI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=kEMkoOOoQUckmR5NpyzH54ubhzAVnDuHQkssYmmkvrPvWsYLdNzCfMrEXZixZndbx7/XqQYl0xr8lShTV2VnnDEjWq0ObM1uafOPzbQ2D2DrD6Q5tt93T/s9YIPCejfAEDKmkNyIvrTCQzR//O99GA3l6l5M75toMncH4u4N+3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YSaAXYdl; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HQMAEbJY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YSaAXYdl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778246587; x=1809782587;
+  t=1778250971; x=1809786971;
   h=date:from:to:cc:subject:message-id;
-  bh=8zMjjTIh7afG5oiqfdU+MK/5b/VMbZNu+SysEbxRI8U=;
-  b=HQMAEbJY9oNZfNLwIMsccQ6rUtUJfBd95Kc4BSMpJekDNhSIMR9Y8OGr
-   hEYs8Nwjg135tyk7c2a4S2fe3UfXpVSPif6hcSWAt2Z5JZCaQ86wMa6Jv
-   9qhT+tuzrWSW4tQIhhfy4uPfY3eB+nGC3EOBy2UPSGtkGcoDTU/J8Us95
-   v5Ty8htZxNrEJQLi96EIbP6F6tDypAIXlLIuJ8QXWRTEv9G4wz4g8cq6A
-   ImeoG/PS9bVKoNsi549rG0AqRupN+zfbjCevmxabzNLUE+UswAw5EbghT
-   7tFsYotwDqgfXPSTP3oHTK1UkoG+sZypijDpucmB2SyV7Vw1yGIEBZ0kb
+  bh=TqJsRyxrl4vmszK7gaA6wrhm0bAp3WRwUqZqdfv5GfI=;
+  b=YSaAXYdlRPnMoiQ4i8Qt05dOu3Vr+EjmjpTyXh7DleV4mObTh+Vmp+Xj
+   RtOBGwpSaaD6/1VdqL63p/xdUxhBH3bRpFoEBrse3VeFOPfhCzkIjsvs8
+   9PHY50w41X4r8W8dhTGh2o/F77d4ijgp7NgowLVWhsBCfp2WuQqEFwIr7
+   jMLcf2dqrR9yWe6GZ7Vm4JJHWnz11wt1YrEAsQ0ZmYN2ISFSjKaoqMtqq
+   285QshgPeTlzpzo7yhudpJg/c3VBzOw0FmKlXV/GfzEh+zaHBGuG4bZ3M
+   /RwtM/fnU9EZjjmq1wwlrRlUfbYBt2MdC4tmaWrlK626uIJKwbgmCLqGP
    A==;
-X-CSE-ConnectionGUID: 8axub/VZTJqqhoKUPnU5WA==
-X-CSE-MsgGUID: CMEzSZD/QRmLiZ4zWo85jA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11780"; a="90315814"
+X-CSE-ConnectionGUID: odkMm6cMQm2/ufhPTR5jRA==
+X-CSE-MsgGUID: B8voSwBOTpmR6K74NZTtLg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11780"; a="79119018"
 X-IronPort-AV: E=Sophos;i="6.23,223,1770624000"; 
-   d="scan'208";a="90315814"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 06:23:07 -0700
-X-CSE-ConnectionGUID: boroxfoKTnyeTIQjTpmoBw==
-X-CSE-MsgGUID: Ri/LZIw+SkWlwycZ3C3Mow==
+   d="scan'208";a="79119018"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 07:36:10 -0700
+X-CSE-ConnectionGUID: 5/R4OVoQSYa3n73QoUcsSQ==
+X-CSE-MsgGUID: mmDe3HDnRlqqPH3HVa3qNA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,223,1770624000"; 
-   d="scan'208";a="236698169"
+   d="scan'208";a="232253508"
 Received: from lkp-server01.sh.intel.com (HELO 82327192134e) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 08 May 2026 06:23:05 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 08 May 2026 07:36:08 -0700
 Received: from kbuild by 82327192134e with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wLLAV-0000000009p-0n08;
-	Fri, 08 May 2026 13:23:03 +0000
-Date: Fri, 08 May 2026 21:22:44 +0800
+	id 1wLMJB-000000000CL-2QiN;
+	Fri, 08 May 2026 14:36:05 +0000
+Date: Fri, 08 May 2026 22:36:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steffen Eiden <seiden@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-s390@vger.kernel.org
-Subject: [kvms390:sae 53/55] arch/s390/kvm/arm64/arm.c:232:13:
- warning: variable 'ret' set but not used
-Message-ID: <202605082137.4rqrVNVY-lkp@intel.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [bvanassche:thread-safety 82/82] ld.lld: error: unknown
+ --orphan-handling mode:
+Message-ID: <202605082205.mrlgmNjC-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,52 +59,29 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kvms390/linux.git sae
-head:   23885833f845ad11c99c4f458692250fc75908c5
-commit: f41388cd69dc147f0e8f0aeeebc40eb8d19b6745 [53/55] KVM; s390: arm64: Implement sysreg handling
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20260508/202605082137.4rqrVNVY-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260508/202605082137.4rqrVNVY-lkp@intel.com/reproduce)
+tree:   https://github.com/bvanassche/linux thread-safety
+head:   ac4ab1dad6eae4a7b93acb1277d3507a5d07b7ef
+commit: ac4ab1dad6eae4a7b93acb1277d3507a5d07b7ef [82/82] treewide: Suppress randconfig failures [ won't be sent upstream ]
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260508/202605082205.mrlgmNjC-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260508/202605082205.mrlgmNjC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605082137.4rqrVNVY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605082205.mrlgmNjC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/s390/kvm/arm64/arm.c: In function 'kvm_arch_vcpu_run_pid_change':
->> arch/s390/kvm/arm64/arm.c:232:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-     232 |         int ret;
-         |             ^~~
-
-
-vim +/ret +232 arch/s390/kvm/arm64/arm.c
-
-   228	
-   229	int kvm_arch_vcpu_run_pid_change(struct kvm_vcpu *vcpu)
-   230	{
-   231		struct kvm *kvm = vcpu->kvm;
- > 232		int ret;
-   233	
-   234		if (!kvm_vcpu_initialized(vcpu))
-   235			return -ENOEXEC;
-   236	
-   237		if (!kvm_arm_vcpu_is_finalized(vcpu))
-   238			return -EPERM;
-   239	
-   240		if (likely(READ_ONCE(vcpu->pid)))
-   241			return 0;
-   242	
-   243		ret = kvm_finalize_sys_regs(vcpu);
-   244	
-   245		mutex_lock(&kvm->arch.config_lock);
-   246		set_bit(KVM_ARCH_FLAG_HAS_RAN_ONCE, &kvm->arch.flags);
-   247		mutex_unlock(&kvm->arch.config_lock);
-   248	
-   249		return 0;
-   250	}
-   251	
+>> ld.lld: error: unknown --orphan-handling mode: 
+   make[3]: *** [arch/arm64/kernel/vdso32/Makefile:128: arch/arm64/kernel/vdso32/vdso.so.raw] Error 1
+   make[3]: Target 'arch/arm64/kernel/vdso32/vdso.so' not remade because of errors.
+   make[2]: *** [arch/arm64/Makefile:208: vdso_prepare] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
