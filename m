@@ -1,71 +1,62 @@
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9684335AC2F
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 May 2026 13:37:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D459DDCD
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 May 2026 13:48:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778333845; cv=none; b=SKAzaNxGwb6dgRdXGlVjg6BvCG2u40CB5OckvUD3+2LZ2hN24rUMb2VAsmSgWM4o7VP3wA7RSjnVSD3ihQVGa+czAd/h2n4OkmaRSgFCz+mozDWZEOOvWNq5Xkyg6AexBxF7P9D0V1wi8iOpUAuFhHO5+FVA6pcw1cmAi3H7iho=
+	t=1778334499; cv=none; b=pwjYS/RlPCG7ziQDHO2bxXA1kk4FPICIZqfW6gG8kzniqsaKf7n3MJhww9U2dH5C6LVtMd5rstTipJAwYRTuu2a9z95v/jHTFo17Vr3xvzel+Kmj6td8dQUFqwZgS6DYgGYpmJIymcf//kikPuHTTLsc1XTNV/u2lJq7oN3SIcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778333845; c=relaxed/simple;
-	bh=OX92iFowgg0FF+w6+u2F9KbtP/NGPO0PE4kr+VGE/cg=;
+	s=arc-20240116; t=1778334499; c=relaxed/simple;
+	bh=soNz212u4CcfEPnTP+dW9qPZsQ9u0EEJad/ejiOqvv4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mZ/DeotPttFZT4BtTCtxjCnqO8DlvEWgk47at9CsuzIfF0bP12hA5v3iLR0Sd9Mj+Uf4h8vf18C1fGQT1MQM7Leh43fHQjgYJj+nScd92yKsuEQQuJrakLuvEoeLDRcs5QEjS95eHgnL4edBMXcvIsPRyhKrZpR5YCW3ejs6+/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p3QbfDZb; arc=none smtp.client-ip=209.85.222.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=SB9Iy+GCjwtYjCUSjAtMu9c4jGu7zY9pvz/AEKA2+fOqBgdO+TNUY/AMTkgYw286W4ugnMr006FLmGmvXZfKR/rT98d3Y2rPvQFwYZVyALthMJFUTazMBiQXR6UzJIiAdaQhHuSTI6Y6lJM9FMltAms1oYfjnAHD8/Zk0g8011k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SPo8hZJT; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p3QbfDZb"
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-8ec37d52c0dso421209785a.0
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 09 May 2026 06:37:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778333843; x=1778938643; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XVhGQd+1Hu3FoYgscNuPJ/UD58WW9Gt9dwsArDghjfQ=;
-        b=p3QbfDZb+SdBPyenvyJDNo+bj6cJBbkAMUV9Tf6Rk9EGZrQfJdBEPQuBKiejJM6Xx2
-         DeFigQgUvU3YJqrkbWnzxFyUIh4e4XIjNlQ4OKyAF9JBdqkH6v+PP58s8IA3kJOSLYKF
-         bNAnEtyB0FoJtdIJWp6q7g+HJ4oAQp2ovBTWWf/R/Sq2MpgTPGy7RQkYyOu+19lmxTPT
-         LVTBqNoxtOLl5PnspRCxNH5QRINBCMR84D818njtoRklkVkmFhpGnlq7wMnGHdHMq9My
-         je11xCThFGcVG5TUfwOeCY58io0IWtoeNGtS8/Qnahvqr3OZHQ2laWuT2YGAVdVSGw06
-         bS4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778333843; x=1778938643;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XVhGQd+1Hu3FoYgscNuPJ/UD58WW9Gt9dwsArDghjfQ=;
-        b=gYMXOYrjwDMnt+YnQUVqKIXzgg7huc357DXiSBHfuUjapNzLrzRSeRaUNxhiTSFwYk
-         CWOeg9VOVhUYZT9YMF0xz/9NJW/8hSkawZEnkS4TwBe5jnK33c+/lq90LMnFi87KGB6j
-         +VnCSGeijCE2TFFxkD4adDSK46jzbjSK4VeNlze2dFiZY4HML/+bGfx4bAE9Mv/oKYzm
-         MRTq9X3NjcuJJXsfWfmIb+el9DOZYItnnpryOJbcMEPQxwCserZrCsk9Nv3IPPVE7a86
-         KpQHF9j+zOQNakyTawryochFEnkNYWpsadjG9xzRCWvtE7qbjcEbUKADSV2Ggwryi0GE
-         8DiQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9ECSvdyvlELSJvqR7TmNPom0LnHrDtrYZxvy+s229gy085ZETltY9ISb6g0q1grfVZIVl5ra4tYF1PZ3er@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzp8i8bFS+vDe0BW9+Weh9BIiXC2W4RnsM7fSD20gfQaG7SKVkM
-	HQuF7TPgG4ywrqHsqKlCMH++OqJICjjOX+lri7J5+MP0vy7ExOxV3Kuh
-X-Gm-Gg: Acq92OFIs0QmwrI3cKBmFb34pQ+ocnZd5+4V6BScGpZznqUlVBGqxE3n2TkL3jd8Nde
-	NuEH+927Whb4McMcSNiRKRQpIltZX3OlQ+noJlhdvJbKAHsWmhJq/C+ijejFI/bYeZAnFQeTvY7
-	+3ujFodICuMoHiFKM1wt5avhVDg0lwkR7HgQeR5+VVxbvtdSGCugDPXphBUeuN6F81seBdAJeJ2
-	MAB0HFvftMk5K6rGykIg+YnhM+HW+OU92OpUifjnzmx34YpzmZcVccNuPtfMpTcUN2UbQIfqAwd
-	XiXGg1/OrLSjbJ0Yuz9W732qwDKpO1Zj4pd6KVgDBRI//Q608KOr9hO2/MqLSAxoe6iJ2zDHQWU
-	9+wdPoDxjwC8gbaxf+cyUBAN9BWF+Z/mLb2P7sgPuDGWbx+iObLZNRPKjnl8oM1+duq4LlBdXt3
-	o1vz9g3eRz6CPJTT/kW23V84TM5DMV
-X-Received: by 2002:a05:620a:7017:b0:8cd:b44d:b1c0 with SMTP id af79cd13be357-904d70c350amr2457032185a.53.1778333843510;
-        Sat, 09 May 2026 06:37:23 -0700 (PDT)
-Received: from localhost ([185.141.119.51])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-907b87c415fsm538354985a.28.2026.05.09.06.37.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 May 2026 06:37:22 -0700 (PDT)
-Date: Sat, 9 May 2026 16:37:17 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [linux-next:master 4172/4394] drivers/block/loop.c:413
- lo_rw_aio() error: we previously assumed 'file' could be null (see line 400)
-Message-ID: <af84jZRI5Z6-sMdG@stanley.mountain>
-References: <202605092030.FAH71Jou-lkp@intel.com>
- <89472180-8c8e-4fd8-87bc-7122d93e6c2c@I-love.SAKURA.ne.jp>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SPo8hZJT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778334497; x=1809870497;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=soNz212u4CcfEPnTP+dW9qPZsQ9u0EEJad/ejiOqvv4=;
+  b=SPo8hZJTsuR/NV+/keI1hnYohgLaDxyW+OD1jLruJtdaUI4odTrFO4ZN
+   i71fAEmD0kfoyrOGkcuJUP7gZEMYdZ5ncjTNpFiSE++LinQrCU4FIlxWB
+   9g3tgZW2/UgNnLke++SiX4HwKLEL3P6WHTYHzJcR30Z/SW4y4VosOVOjD
+   8vVUMQ6LHcLOLvvNd6yY7/6YQ6xwPvNs5nvIMW2DQQbO9cU6WTGsIl0Yy
+   gBItMEoH2Idn29S2lH3tt9B0wVRBijds4fq2Z1woIhvsraboqh5rOS/Dg
+   zpEdIkP3HyNlffIgYudQHsHTRaJQBaucONTGgSvukC0C/eAp/RaDXetQl
+   g==;
+X-CSE-ConnectionGUID: 0z7MoZWYSNq6xgtgAOuK8w==
+X-CSE-MsgGUID: zCbJ7te6SDqQclFRgx8Gdw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11781"; a="79231660"
+X-IronPort-AV: E=Sophos;i="6.23,225,1770624000"; 
+   d="scan'208";a="79231660"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2026 06:48:17 -0700
+X-CSE-ConnectionGUID: kyWiMhtHTlmOxQdy8eRI0g==
+X-CSE-MsgGUID: SWwFQkSISw++Jv7OJI303A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,225,1770624000"; 
+   d="scan'208";a="238827957"
+Received: from lkp-server01.sh.intel.com (HELO 82327192134e) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 09 May 2026 06:48:15 -0700
+Received: from kbuild by 82327192134e with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wLi2O-0000000011p-2Tjf;
+	Sat, 09 May 2026 13:48:12 +0000
+Date: Sat, 9 May 2026 21:47:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Moritz Fischer <mdf@kernel.org>,
+	Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>
+Subject: Re: [PATCH v1 1/1] fpga: lattice-sysconfig-spi: simplify with
+ spi_get_device_match_data()
+Message-ID: <202605092148.6MdLTolJ-lkp@intel.com>
+References: <20260508080650.1144588-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,37 +65,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <89472180-8c8e-4fd8-87bc-7122d93e6c2c@I-love.SAKURA.ne.jp>
+In-Reply-To: <20260508080650.1144588-1-andriy.shevchenko@linux.intel.com>
 
-On Sat, May 09, 2026 at 10:32:06PM +0900, Tetsuo Handa wrote:
-> On 2026/05/09 22:19, Dan Carpenter wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> > head:   e98d21c170b01ddef366f023bbfcf6b31509fa83
-> > commit: 1a83d226268cfb9ea546febe6515f39584df8fd2 [4172/4394] loop: check refcount in __loop_clr_fd() and lo_rw_aio()
-> > config: m68k-randconfig-r073-20260509 (https://download.01.org/0day-ci/archive/20260509/202605092030.FAH71Jou-lkp@intel.com/config)
-> > compiler: m68k-linux-gcc (GCC) 12.5.0
-> > smatch: v0.5.0-9065-ge9cc34fd
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <error27@gmail.com>
-> > | Closes: https://lore.kernel.org/r/202605092030.FAH71Jou-lkp@intel.com/
-> > 
-> > New smatch warnings:
-> > drivers/block/loop.c:413 lo_rw_aio() error: we previously assumed 'file' could be null (see line 400)
-> 
-> Thanks, but this is intentional in order to get reported
-> at https://syzkaller.appspot.com/bug?extid=cd8a9a308e879a4e2c28
-> after printing debug information.
+Hi Andy,
 
-With these zero day bots, I just have access to the email which you see,
-not the commit itself.  Maybe one idea is we add a comment when we're
-adding linux-next only debug code?
+kernel test robot noticed the following build errors:
 
-On the other hand, reviewing and sending these emails is very fast and
-costs me no time at all so I don't mind either way.
+[auto build test ERROR on linus/master]
+[also build test ERROR on v7.1-rc2 next-20260508]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-regards,
-dan carpenter
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/fpga-lattice-sysconfig-spi-simplify-with-spi_get_device_match_data/20260509-133025
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260508080650.1144588-1-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v1 1/1] fpga: lattice-sysconfig-spi: simplify with spi_get_device_match_data()
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20260509/202605092148.6MdLTolJ-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260509/202605092148.6MdLTolJ-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605092148.6MdLTolJ-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/fpga/lattice-sysconfig-spi.c: In function 'sysconfig_spi_probe':
+>> drivers/fpga/lattice-sysconfig-spi.c:96:51: error: passing argument 1 of 'spi_get_device_match_data' from incompatible pointer type [-Wincompatible-pointer-types]
+      96 |         spi_max_speed = spi_get_device_match_data(dev);
+         |                                                   ^~~
+         |                                                   |
+         |                                                   struct device *
+   In file included from drivers/fpga/lattice-sysconfig-spi.c:7:
+   include/linux/spi/spi.h:1757:52: note: expected 'const struct spi_device *' but argument is of type 'struct device *'
+    1757 | spi_get_device_match_data(const struct spi_device *sdev);
+         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+
+
+vim +/spi_get_device_match_data +96 drivers/fpga/lattice-sysconfig-spi.c
+
+    85	
+    86	static int sysconfig_spi_probe(struct spi_device *spi)
+    87	{
+    88		struct device *dev = &spi->dev;
+    89		struct sysconfig_priv *priv;
+    90		const u32 *spi_max_speed;
+    91	
+    92		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+    93		if (!priv)
+    94			return -ENOMEM;
+    95	
+  > 96		spi_max_speed = spi_get_device_match_data(dev);
+    97		if (!spi_max_speed)
+    98			return -EINVAL;
+    99	
+   100		if (spi->max_speed_hz > *spi_max_speed) {
+   101			dev_err(dev, "SPI speed %u is too high, maximum speed is %u\n",
+   102				spi->max_speed_hz, *spi_max_speed);
+   103			return -EINVAL;
+   104		}
+   105	
+   106		priv->dev = dev;
+   107		priv->command_transfer = sysconfig_spi_cmd_transfer;
+   108		priv->bitstream_burst_write_init = sysconfig_spi_bitstream_burst_init;
+   109		priv->bitstream_burst_write = sysconfig_spi_bitstream_burst_write;
+   110		priv->bitstream_burst_write_complete = sysconfig_spi_bitstream_burst_complete;
+   111	
+   112		return sysconfig_probe(priv);
+   113	}
+   114	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
