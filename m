@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5AE30B517
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 May 2026 04:27:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E0EB276049
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 May 2026 07:59:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778300846; cv=none; b=t15161xLMQtaXnmxvgOYzSez0WUr5iYt1jtQq8K9Ocv+H2zw8T088ETD1oj/dr67UeQ7Ea3T3rvoIWklSj+/5y1xNKlD6F6JjxAcr4wlhEY/wL2QHxnUaHJ0sI4d4L2vs+0Fr1J6PQ6x5hf3N8fhPSeHQn8O5jMsV+JRR2aSn3M=
+	t=1778313563; cv=none; b=PFUK3QMIsIdQ9s72JPfcQQjd8+Fq3gXVNMckyA4nlWFWMKoxpRH1oJTEaExR1PnfzlaxuzckOfnX5MzS+F89NeZlWii3oDcbbzdtXwyfUXP+B61dhDiJXW7mi4qllIS8JUXOoHyrry7uaqt6ZUdz2gzXhDpsT0Uiy7rHT04MWX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778300846; c=relaxed/simple;
-	bh=1XBkiyjVTlZbdvefieHAmSawseEvwG5nv2qM7L0rFLw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=q3i0ZUJhCWa1Beu8iRFo5TSQpDS4+PU/jwRtNxJstE8hnjZzEXn/psbS4yYFzTqfVRHo/Zl486aXrozLt5m7o0QEIEvqq87UOp67tGV2E5w993e7zzHCIb/LPRh4rFKVaTIsN+XZ4Vi9trBZS4bfnMaK5pVkJ2gIGX/51NJ0qFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=elPneN7J; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1778313563; c=relaxed/simple;
+	bh=3q/f4hV944HTsHLpWjvAeOatcM9Ss2OhbFyxCVHM4OE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ubbgoOSNau1i/wrIxiZyv5lv/FuTPMa0Dt5c8xKGoAh8V/Aq0/lOABF3f++h18xRiHb/ZviRjkAey+/yM+08sUTurNkqLoZsIH6V2EmNBfXlHiqWG0MzsQDz9PkOhVAUtGq3nyU1Q678+29/iyAdzpy0HoZVhjGJ1xfehmw/CiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nqg0lbpM; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="elPneN7J"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nqg0lbpM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778300845; x=1809836845;
+  t=1778313562; x=1809849562;
   h=date:from:to:cc:subject:message-id;
-  bh=1XBkiyjVTlZbdvefieHAmSawseEvwG5nv2qM7L0rFLw=;
-  b=elPneN7JL2pftu1JWC+R6Nf7ioGyRjYt6kMUyBo81cjfi15mLZqS3yo3
-   s4s3G5QoJJWLJ1WEbsCxWzjpxzE5z68CDiGbBHGHYUEGls0E2vVlXpkiT
-   ngIS/7huSRL/41D44iUT7sJxVz56QNCWdBObdsDplSoubLWYFMX8a6WHH
-   imVW/7C7wj/X2Iq5VobjFRsYvo2NR1GUV4JXGv4BZzNh7YskbZAbfl8XG
-   5QaxQEN25s7Ju9EAUQxaCk2RZE20HncvfR5uMbHd6VmIjCrpv3ltZGAxM
-   RQScWSl5Ls7ZUDHOgUqKXccC6uTznOQoyaNVkrNKNaYATgro9XWvZbWQf
-   Q==;
-X-CSE-ConnectionGUID: u90qmNeaTIGSavo4aSQF+w==
-X-CSE-MsgGUID: G5It50dgTAudohrqH/jt7w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11780"; a="83146822"
-X-IronPort-AV: E=Sophos;i="6.23,224,1770624000"; 
-   d="scan'208";a="83146822"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 21:27:22 -0700
-X-CSE-ConnectionGUID: izz/7miWRlWIojnkqCzLvA==
-X-CSE-MsgGUID: emGRVVGsQ+Wuk+sXXSDR7g==
+  bh=3q/f4hV944HTsHLpWjvAeOatcM9Ss2OhbFyxCVHM4OE=;
+  b=Nqg0lbpML3kWBVWE64tNx1I7Ycx91qz30GrjlWV1iBGABjdP5flaz9U2
+   9kS//u2dbU+21ea1DUJ569IkAc/KSSti2XMxjGNr7O6xBi04iXeO/1oHC
+   jCJpUBvYZhow5t2hZuyUbPrjacJWVJdfZxs7elLhjNrJ0Kx7/6uMo9/1M
+   MFAXEPgFdvMWqgiQU0xl+1+ETzul5wfSqi4jOvxXqTlTTWw3OTjDRFdh1
+   miK0+ZeDob64jpSFMijT5As1b5itxZj1wJNoUjj0Fl2owXmSw2WRrZQms
+   uMi+PZOqs7ftV/IDG4lehbvfwczz4l0lPtFCBH/tFAgu4O3qPaFqnL2fy
+   w==;
+X-CSE-ConnectionGUID: QdgTj3m3QoKxinhZhhqroA==
+X-CSE-MsgGUID: 7MrDg5SwRsOmNbQMUBB/4Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11780"; a="79384771"
+X-IronPort-AV: E=Sophos;i="6.23,225,1770624000"; 
+   d="scan'208";a="79384771"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2026 00:59:21 -0700
+X-CSE-ConnectionGUID: R64Mc5ZwSHCDxzE1o9XQow==
+X-CSE-MsgGUID: nbqwuQs0RP2fO3T60enF6g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,224,1770624000"; 
-   d="scan'208";a="260669896"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 08 May 2026 21:27:21 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.23,225,1770624000"; 
+   d="scan'208";a="234310359"
+Received: from lkp-server01.sh.intel.com (HELO 82327192134e) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 09 May 2026 00:59:19 -0700
+Received: from kbuild by 82327192134e with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wLZHb-000000007MH-0den;
-	Sat, 09 May 2026 04:27:19 +0000
-Date: Sat, 09 May 2026 06:26:48 +0200
+	id 1wLcai-000000000nB-38De;
+	Sat, 09 May 2026 07:59:16 +0000
+Date: Sat, 09 May 2026 15:59:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jfern:nova/mm 37/38] Diff in
- drivers/gpu/nova-core/mm.rs:52:
-Message-ID: <202605090622.qjKMZdGT-lkp@intel.com>
+To: Alexander Usyskin <alexander.usyskin@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Badal Nilawar <badal.nilawar@intel.com>
+Subject: drivers/misc/mei/mei_lb.c:284:32: sparse: sparse: restricted
+ __le32 degrades to integer
+Message-ID: <202605091533.79Zcv3CX-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,190 +61,130 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova/mm
-head:   cdd1dd1e5a530d8f45f833cb477103783f85caec
-commit: 699c2aa9545a6e983989cb5306bf1c65415fc3c1 [37/38] fixup! gpu: nova-core: mm: Add support to use PRAMIN windows to write to VRAM
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260509/202605090622.qjKMZdGT-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260509/202605090622.qjKMZdGT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   70390501d1944d4e5b8f7352be180fceb3a44132
+commit: 773a43b8627f54dca56d08949497014b4ee8878a mei: lb: add late binding version 2
+date:   5 weeks ago
+config: mips-randconfig-r134-20260508 (https://download.01.org/0day-ci/archive/20260509/202605091533.79Zcv3CX-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 8.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260509/202605091533.79Zcv3CX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 773a43b8627f ("mei: lb: add late binding version 2")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605090622.qjKMZdGT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605091533.79Zcv3CX-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/misc/mei/mei_lb.c:284:32: sparse: sparse: restricted __le32 degrades to integer
+>> drivers/misc/mei/mei_lb.c:330:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] command_id @@     got int @@
+   drivers/misc/mei/mei_lb.c:330:40: sparse:     expected restricted __le32 [usertype] command_id
+   drivers/misc/mei/mei_lb.c:330:40: sparse:     got int
 
-   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS=\ -fno-crash-diagnostics\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 W=1 --keep-going LLVM=1 -j384 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck 
-   make: Entering directory '/kbuild/src'
-   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   Diff in drivers/gpu/nova-core/mm/pagetable/map.rs:340:
-        ) -> Result {
-            pt_map_dispatch!(
-                self,
-   -            install_mappings(dev, mm, pt_pages, page_table_allocs, vfn_start, pfns, writable)
-   +            install_mappings(
-   +                dev,
-   +                mm,
-   +                pt_pages,
-   +                page_table_allocs,
-   +                vfn_start,
-   +                pfns,
-   +                writable
-   +            )
-            )
-        }
-    
-   Diff in drivers/gpu/nova-core/mm/pramin.rs:299:
-        define_pramin_write!(try_write64, u64);
-    }
-    
-   -
-    /// Offset within the VRAM region to use as the self-test area.
-    #[cfg(CONFIG_NOVA_MM_SELFTESTS)]
-    const SELFTEST_REGION_OFFSET: u64 = 0x1000;
-   Diff in drivers/gpu/nova-core/mm/vmm.rs:170:
-        }
-    
-        /// Allocate a contiguous virtual frame number range.
-   -    fn alloc_vfn_range(
-   -        &self,
-   -        num_pages: usize,
-   -        va_range: Option<Range<u64>>,
-   -    ) -> Result<Vfn> {
-   +    fn alloc_vfn_range(&self, num_pages: usize, va_range: Option<Range<u64>>) -> Result<Vfn> {
-            let page_size: u64 = PAGE_SIZE.into_safe_cast();
-    
-            let start_vfn = match va_range {
->> Diff in drivers/gpu/nova-core/mm.rs:52:
-        sync::Arc, //
-    };
-    
-   -use crate::{
-   -    driver::Bar0,
-   -    gpu::Chipset,
-   -};
-   +use crate::{driver::Bar0, gpu::Chipset};
-    
-    pub(crate) use tlb::Tlb;
-    
-   Diff in drivers/gpu/nova-core/mm/vmm.rs:170:
-        }
-    
-        /// Allocate a contiguous virtual frame number range.
-   -    fn alloc_vfn_range(
-   -        &self,
-   -        num_pages: usize,
-   -        va_range: Option<Range<u64>>,
-   -    ) -> Result<Vfn> {
-   +    fn alloc_vfn_range(&self, num_pages: usize, va_range: Option<Range<u64>>) -> Result<Vfn> {
-            let page_size: u64 = PAGE_SIZE.into_safe_cast();
-    
-            let start_vfn = match va_range {
-   Diff in drivers/gpu/nova-core/mm/pagetable/map.rs:340:
-        ) -> Result {
-            pt_map_dispatch!(
-                self,
-   -            install_mappings(dev, mm, pt_pages, page_table_allocs, vfn_start, pfns, writable)
-   +            install_mappings(
-   +                dev,
-   +                mm,
-   +                pt_pages,
-   +                page_table_allocs,
-   +                vfn_start,
-   +                pfns,
-   +                writable
-   +            )
-            )
-        }
-    
-   Diff in drivers/gpu/nova-core/mm/pagetable/map.rs:340:
-        ) -> Result {
-            pt_map_dispatch!(
-                self,
-   -            install_mappings(dev, mm, pt_pages, page_table_allocs, vfn_start, pfns, writable)
-   +            install_mappings(
-   +                dev,
-   +                mm,
-   +                pt_pages,
-   +                page_table_allocs,
-   +                vfn_start,
-   +                pfns,
-   +                writable
-   +            )
-            )
-        }
-    
-   Diff in drivers/gpu/nova-core/mm/pramin.rs:299:
-        define_pramin_write!(try_write64, u64);
-    }
-    
-   -
-    /// Offset within the VRAM region to use as the self-test area.
-    #[cfg(CONFIG_NOVA_MM_SELFTESTS)]
-    const SELFTEST_REGION_OFFSET: u64 = 0x1000;
-   Diff in drivers/gpu/nova-core/mm/pagetable/map.rs:340:
-        ) -> Result {
-            pt_map_dispatch!(
-                self,
-   -            install_mappings(dev, mm, pt_pages, page_table_allocs, vfn_start, pfns, writable)
-   +            install_mappings(
-   +                dev,
-   +                mm,
-   +                pt_pages,
-   +                page_table_allocs,
-   +                vfn_start,
-   +                pfns,
-   +                writable
-   +            )
-            )
-        }
-    
-   Diff in drivers/gpu/nova-core/mm/pramin.rs:299:
-        define_pramin_write!(try_write64, u64);
-    }
-    
-   -
-    /// Offset within the VRAM region to use as the self-test area.
-    #[cfg(CONFIG_NOVA_MM_SELFTESTS)]
-    const SELFTEST_REGION_OFFSET: u64 = 0x1000;
-   Diff in drivers/gpu/nova-core/mm/vmm.rs:170:
-        }
-    
-        /// Allocate a contiguous virtual frame number range.
-   -    fn alloc_vfn_range(
-   -        &self,
-   -        num_pages: usize,
-   -        va_range: Option<Range<u64>>,
-   -    ) -> Result<Vfn> {
-   +    fn alloc_vfn_range(&self, num_pages: usize, va_range: Option<Range<u64>>) -> Result<Vfn> {
-            let page_size: u64 = PAGE_SIZE.into_safe_cast();
-    
-            let start_vfn = match va_range {
->> Diff in drivers/gpu/nova-core/mm.rs:52:
-        sync::Arc, //
-    };
-    
-   -use crate::{
-   -    driver::Bar0,
-   -    gpu::Chipset,
-   -};
-   +use crate::{driver::Bar0, gpu::Chipset};
-    
-    pub(crate) use tlb::Tlb;
-    
-   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   make[2]: *** [Makefile:1916: rustfmt] Error 123
-   make[2]: Target 'rustfmtcheck' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'rustfmtcheck' not remade because of errors.
-   make[1]: Target 'rustfmtcheck' not remade because of errors.
-   make: Leaving directory '/kbuild/src'
+vim +284 drivers/misc/mei/mei_lb.c
 
---
+   269	
+   270	static int mei_lb_check_response_v2(const struct device *dev, ssize_t bytes,
+   271					    struct mei_lb2_rsp *rsp)
+   272	{
+   273		/*
+   274		 * Received message size may be smaller than the full message size when
+   275		 * reply contains only header with status field set to the error code.
+   276		 * Check the header size and content first to output exact error, if needed,
+   277		 * and then process to the whole message.
+   278		 */
+   279		if (bytes < sizeof(rsp->rheader)) {
+   280			dev_err(dev, "Received less than header size from the firmware: %zd < %zu\n",
+   281				bytes, sizeof(rsp->rheader));
+   282			return -ENOMSG;
+   283		}
+ > 284		if (rsp->rheader.header.command_id != MEI_LB2_CMD) {
+   285			dev_err(dev, "Mismatch command: 0x%x instead of 0x%x\n",
+   286				rsp->rheader.header.command_id, MEI_LB2_CMD);
+   287			return -EPROTO;
+   288		}
+   289		if (!(rsp->rheader.header.flags & MEI_LB2_HDR_FLAG_RSP)) {
+   290			dev_err(dev, "Not a response: 0x%x\n", rsp->rheader.header.flags);
+   291			return -EBADMSG;
+   292		}
+   293		if (rsp->rheader.status) {
+   294			dev_err(dev, "Error in result: 0x%x\n", rsp->rheader.status);
+   295			return (int)le32_to_cpu(rsp->rheader.status);
+   296		}
+   297		if (bytes < sizeof(*rsp)) {
+   298			dev_err(dev, "Received less than message size from the firmware: %zd < %zu\n",
+   299				bytes, sizeof(*rsp));
+   300			return -ENODATA;
+   301		}
+   302	
+   303		return 0;
+   304	}
+   305	
+   306	static int mei_lb_push_payload_v2(struct device *dev, struct mei_cl_device *cldev,
+   307					  u32 type, u32 flags, const void *payload, size_t payload_size)
+   308	{
+   309		u32 first_chunk, last_chunk;
+   310		struct mei_lb2_rsp rsp;
+   311		size_t sent_data = 0;
+   312		size_t chunk_size;
+   313		size_t req_size;
+   314		ssize_t bytes;
+   315		int ret;
+   316	
+   317		struct mei_lb2_req *req __free(kfree) = kzalloc(mei_cldev_mtu(cldev), GFP_KERNEL);
+   318		if (!req)
+   319			return -ENOMEM;
+   320	
+   321		first_chunk = MEI_LB2_FLAG_FST_CHUNK;
+   322		last_chunk = 0;
+   323		do {
+   324			chunk_size = min(payload_size - sent_data, mei_cldev_mtu(cldev) - sizeof(*req));
+   325	
+   326			req_size = struct_size(req, payload, chunk_size);
+   327			if (sent_data + chunk_size == payload_size)
+   328				last_chunk = MEI_LB2_FLAG_LST_CHUNK;
+   329	
+ > 330			req->header.command_id = MEI_LB2_CMD;
+   331			req->type = cpu_to_le32(type);
+   332			req->flags = cpu_to_le32(flags | first_chunk | last_chunk);
+   333			req->reserved = 0;
+   334			req->total_payload_size = cpu_to_le32(payload_size);
+   335			req->payload_size = cpu_to_le32(chunk_size);
+   336			memcpy(req->payload, payload + sent_data, chunk_size);
+   337	
+   338			dev_dbg(dev, "Sending %zu bytes from offset %zu of %zu%s%s\n",
+   339				chunk_size, sent_data, payload_size,
+   340				first_chunk ? " first" : "", last_chunk ? " last" : "");
+   341	
+   342			bytes = mei_cldev_send_timeout(cldev, (u8 *)req, req_size,
+   343						       INTEL_LB_SEND_TIMEOUT_MSEC);
+   344			if (bytes < 0) {
+   345				dev_err(dev, "Failed to send late binding request to firmware. %zd\n",
+   346					bytes);
+   347				return bytes;
+   348			}
+   349	
+   350			bytes = mei_cldev_recv_timeout(cldev, (u8 *)&rsp, sizeof(rsp),
+   351						       INTEL_LB_RECV_TIMEOUT_MSEC);
+   352			if (bytes < 0) {
+   353				dev_err(dev, "Failed to receive late binding reply from firmware. %zd\n",
+   354					bytes);
+   355				return bytes;
+   356			}
+   357			ret = mei_lb_check_response_v2(dev, bytes, &rsp);
+   358			if (ret)
+   359				return ret;
+   360	
+   361			/* prepare for the next chunk */
+   362			sent_data += chunk_size;
+   363			first_chunk = 0;
+   364		} while (!last_chunk);
+   365	
+   366		return 0;
+   367	}
+   368	
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
