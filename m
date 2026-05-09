@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25E6936E466
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 May 2026 12:05:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30BD53191BD;
+	Sat,  9 May 2026 12:14:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778328328; cv=none; b=bEASbHa3RbYpe03ezFcAOeCTRJrq1WNJpJUW+Ou/qIvw5BHRGc6dsteaPT226Wgmp1O/JFOSlt2fmxo8H8IryHBJc7cCdTiwqVDr1xeZLowIwmwRBuQa6InbC4nY+r4FerBCETP7ozxygpU6UT5QJuh8TjvmC35veZs8Jlk5F8M=
+	t=1778328843; cv=none; b=r9aOK7nQ8Srj3/BoysO/qm456lPPVX+woGFpxL5EgYTMlw4oO5AC4Iuw+io5pfQZEU73QRtrx6K5oH0baSGohdWlzNA6WWMa2kHr49ldRDDD4ZE3aNeypYtw1PFhgtYMg/FiUC+AKayNCFLYf/uR3+a1M3XMqyXSIPP3XFpcD4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778328328; c=relaxed/simple;
-	bh=7DKnbXgIAcWl1rf2TaQnRZw8/AwhJkBcRqsQaUPSU9U=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=opDp8357EXBFPamBm2EHpchTzJbOa2t1zkVyPDAODLcpFhXYdc9/dq6R2xF+CezBJwGjBcrax1s6lE7g9rOOY4N2U61qq4xj+g6lZOOTVonGfL6YdgIQy6WMuKhZ+HMx2TCCM/F57jPvVoYCOoUNQorSSIWNf9FrNhzc2vgz0XE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RLNUjFuf; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1778328843; c=relaxed/simple;
+	bh=2tN6UEJkbcem4o0nYRz4SUv0ieueob9T8aXMOvCAitc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QW/BHTZgLwuspENTBqaa6vaMKq0k5oxvQly0d4evZyo3Okdvc0yc/o7aAzAowgfLW8RAfX7X1F1RzJ0GjZBj555r57g6mGtLwqLYr/PN4mTA140rgauvCE4/WpAoGO7XClaPUqEk+/Eyp39fYrhREx8uzdF2iCtwetjDJSkZxMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fcJntn1R; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RLNUjFuf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fcJntn1R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778328327; x=1809864327;
+  t=1778328842; x=1809864842;
   h=date:from:to:cc:subject:message-id;
-  bh=7DKnbXgIAcWl1rf2TaQnRZw8/AwhJkBcRqsQaUPSU9U=;
-  b=RLNUjFufYoVL8IR1fcbgl+SGx6gNIkGyWbwHkAlzmoLsAeMQXgCD7LCZ
-   hYOJq9dXkNlyGZooAbBvZ51gDyjZchV+ACw7VHdMrxEqwB5sy1A79Frl5
-   13DPEOuAvMCMYCXetF77+9rTudBHr2a15CY/wB/LBLPI36XrIUfBILkyc
-   ucqDxzhXYV+aG6s5kePPzUd2OTLDTkCeGvnUrbFdH2yLCOvP7Et2qlk3B
-   LKHU+W4JbDdLgOohdo+YsLdG0Ym5o5B3FDRhf3cTQ4mwgAufk0bP5kGYd
-   y+dK2C4EP8VWOvmZI0PJEnf+WfH1+ZxZfUQH9DOg5ZyKkhO8LAS6h2aq5
-   Q==;
-X-CSE-ConnectionGUID: SgGZ6Jr8Rx6zkjcJ4xud6A==
-X-CSE-MsgGUID: xZDn404ZTJWKpZFxoG7qrw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11780"; a="78426961"
+  bh=2tN6UEJkbcem4o0nYRz4SUv0ieueob9T8aXMOvCAitc=;
+  b=fcJntn1R2GrZIhenunJjPLSq1ElBU83S7eCV+6duZdLva33QTXXwlvyJ
+   f8vrEwLuZComlLCeLyCsRLgo9CiN6UQCtqeHzcCv/TqKy/b3gtd9JcJoU
+   nZQ45kA1DvGPXIKW108QUn1hC65pleePS6MiT3GAvHOXasZdTWq7r5zWV
+   RuvTaqzw5LfMqQ7UHmZ9z6CYFewHM5cAsZ8j4BrPEX60tQdTKHd8AS0s/
+   GZ+qkCAS+T/gClBS8oakSly47X47kEHkGuk4SG5Hfz7JifGRbUT1wLyc5
+   HLxMPcpQefyslMS/Qa5VRLldu5aIinnLG5gtaP8vDEV0S7OXDxpFbe1TZ
+   w==;
+X-CSE-ConnectionGUID: Q/wBoFsQRXi0DY1yiwLKmQ==
+X-CSE-MsgGUID: BOb01H4MTWuWqsB9x46ICg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11780"; a="81856293"
 X-IronPort-AV: E=Sophos;i="6.23,225,1770624000"; 
-   d="scan'208";a="78426961"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2026 05:05:27 -0700
-X-CSE-ConnectionGUID: KVXdWGAeRviUmM7RybwPFQ==
-X-CSE-MsgGUID: 4FH5/73nQKKcbcxDPpMPtg==
+   d="scan'208";a="81856293"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2026 05:14:01 -0700
+X-CSE-ConnectionGUID: cDiDlU7+TEqLyRhiBqp2dQ==
+X-CSE-MsgGUID: pmhny7MYTyWlssgQXf75NA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,225,1770624000"; 
-   d="scan'208";a="275127381"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 09 May 2026 05:05:25 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="236036411"
+Received: from lkp-server01.sh.intel.com (HELO 82327192134e) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 09 May 2026 05:14:00 -0700
+Received: from kbuild by 82327192134e with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wLgQs-000000007QD-3ju4;
-	Sat, 09 May 2026 12:05:22 +0000
-Date: Sat, 09 May 2026 14:04:35 +0200
+	id 1wLgZB-000000000x3-2oVR;
+	Sat, 09 May 2026 12:13:57 +0000
+Date: Sat, 09 May 2026 20:13:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Asahi Lina <lina@asahilina.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:bits/240-isp 25/53] checkpatch:
- WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-Message-ID: <202605091423.quPX1WV2-lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [sean-jc:x86/kvmclock_vs_tsc 28/39] WARNING: modpost:
+ vmlinux: section mismatch in reference: kvm_sched_clock_init+0x2b (section:
+ .text.unlikely.kvm_sched_clock_init) -> __paravirt_set_sched_clock (section:
+ .init.text)
+Message-ID: <202605092013.KVK0hiIo-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,18 +61,32 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/AsahiLinux/linux bits/240-isp
-head:   50d4a0c32a10908320be6a9f3971221f726d4a20
-commit: 46d44c1ff38b67c7b5140c238ed82f9ad6b62642 [25/53] media: apple: isp: Remove ioread/iowrite and stop doing raw address translation
-reproduce: (https://download.01.org/0day-ci/archive/20260509/202605091423.quPX1WV2-lkp@intel.com/reproduce)
+Hi Sean,
 
-# many are suggestions rather than must-fix
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-#487: FILE: drivers/media/platform/apple/isp/isp-ipc.c:252:
-+		/* Only enabled in debug builds so it shouldn't matter, but
-+		* the LOG surface is always the first surface requested.
+tree:   https://github.com/sean-jc/linux x86/kvmclock_vs_tsc
+head:   77ab3f9cc9d7ef1fb096d81eba39527c542f005f
+commit: 4607bcbe328bd73372f72f7537da79a34fdfc777 [28/39] x86/paravirt: Mark __paravirt_set_sched_clock() as __init
+config: x86_64-buildonly-randconfig-001-20260509 (https://download.01.org/0day-ci/archive/20260509/202605092013.KVK0hiIo-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260509/202605092013.KVK0hiIo-lkp@intel.com/reproduce)
 
---
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605092013.KVK0hiIo-lkp@intel.com/
+
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
+
+>> WARNING: modpost: vmlinux: section mismatch in reference: kvm_sched_clock_init+0x2b (section: .text.unlikely.kvm_sched_clock_init) -> __paravirt_set_sched_clock (section: .init.text)
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for MFD_STMFX
+   Depends on [n]: HAS_IOMEM [=y] && I2C [=y] && OF [=n]
+   Selected by [y]:
+   - PINCTRL_STMFX [=y] && PINCTRL [=y] && I2C [=y] && HAS_IOMEM [=y]
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
