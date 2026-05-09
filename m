@@ -1,131 +1,121 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF35039E18F
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 May 2026 22:11:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F811364931
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 May 2026 22:42:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778364693; cv=none; b=oMAOdY1sYL9vu+Vom7jIaD1lznU+gV/3FK0eIoCY5gIMA/dXpqClAOmEteoKiZd2S5nUSJUx45Dv4r8S4Hbocv0vRp4ww0tLw31otViydvOISF15ARA64kKFJ+xeK8rmSgfuoZZmo8UH4kkq7EbRENm+FAaj6bzLsLQHovevhVw=
+	t=1778366557; cv=none; b=ElzrKQ6DQy8tGQLy4caEavSTx2WxbF/oBEOA43pa1UMDgZ7/MDAKd7SstxuaoCBA0jtV0zf6awE8NnXqeWK/W3UyJ5neufYSEIOR7LkkVcC5LiY3JtLoYnDS7GkojpthpW3EFjiiR5QaE0RjQARRU6GnYwmcajpeTgjqvLoM0mM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778364693; c=relaxed/simple;
-	bh=yxszzpe2QGwhsE6ort+Gic5bpP3tkUa7xb2H5vrNOTY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=UyX99kbMSONP76vgt25UL1wfdxnc0xgmPbOPibjPDE12EuNGBwvFaV9LYORTFaPqf+7eYRbIPgIOoie+Lh4seAW+jHNUA16Ny9zupcUC8vowXnmqyJHxAYu0lN1k3NdnwVemdRZdrkwQn7fj4PLDQva2GwNpbbkTgBS3W95F/ZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jN7Ocss/; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1778366557; c=relaxed/simple;
+	bh=k45s27QwKqOH9aRtchBoIv+YFEzqpqu9Cn4SUhPysC8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=NVSgvN2feY/Y/yvnoClO+s0ktMBxqUeragCrI7xVKUUk82vPSms3/vb8Ys2BAwNpJqzSGrGZ1FMuLeqXGXo60qzLe3cfVmr48096/M5Rg0a2VYjMcX+yLLcP/b3sTePkfz1MDmS9jdgQYwNm0D6riQk0i2R+dwzAEBLF0zn4eYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jg6+nvJt; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jN7Ocss/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jg6+nvJt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778364692; x=1809900692;
-  h=date:from:to:cc:subject:message-id;
-  bh=yxszzpe2QGwhsE6ort+Gic5bpP3tkUa7xb2H5vrNOTY=;
-  b=jN7Ocss/9Pcsk7YAgnSYijd8Qkg3EoQLUUETUPz6XKS06nWWyx9EHEtx
-   YFhCv1Y6fhqQK7biXT6holWhSIm0up/Yv5vdOelopHGnqta2gdhieUQBr
-   KnYVCM7/JvKtHXH/oSCMAZ4kGgWIvkhzW6hf39+uML3MRBj0y+YBIsdQG
-   IFLWuIxYQeqlBzAMFfIjcYzMwU0CEZol3gUKSVVrwIeOTsZFd90FBhfMQ
-   4tkHqAaOtGCz/yG6IP1D1pnW/ddHm4ET0fBIj95K/+9pDpMfruLqoD+th
-   LnOf+7Lgv2cTnK0whAxnc1fjl3ymJbhGnDByi/Il4DQ3rbIQad53/lxTe
-   A==;
-X-CSE-ConnectionGUID: IEenSpp/Sw2+dq4pZ+LE7A==
-X-CSE-MsgGUID: r3Bi+4fCSk6aW34tQ/0piQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11781"; a="79155787"
+  t=1778366555; x=1809902555;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=k45s27QwKqOH9aRtchBoIv+YFEzqpqu9Cn4SUhPysC8=;
+  b=jg6+nvJtUMgaFHA73IQ0XI9IzA1Zw2zNTEcPdiwBuZEjDhWSWyh3/xvO
+   vHKoj4bnZW2PoV9CoAxdvZAbzuy1mokhdMPMAFqsbUwDa+K/NpRovgfyG
+   xcxzikwZa1sU/MNOLuLx+O2qMNaUf1HV175q1NtmolfPBSFCE+LKSVcar
+   oUG7TS4vGxt9vDje+1IbSQoM2/wx/Qu1CmeZdH4GEd6UKVn7RlkpBceJS
+   vHyuR75yCoPLKPHfGv+LsM+Rr8hgT8aMyh8xUpKzAqyC64MjiBtrh94Jg
+   BjjqYySgV1+9HZz0RPtgiE4rzzA2WbgYkA6/ntL4kcSAPsTYBAZT4ks+w
+   g==;
+X-CSE-ConnectionGUID: 5eVQzOzmQOmf7hIzFiyPDA==
+X-CSE-MsgGUID: xCvvv07rRnK1dDo8QCAI8g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11781"; a="79407611"
 X-IronPort-AV: E=Sophos;i="6.23,225,1770624000"; 
-   d="scan'208";a="79155787"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2026 15:11:31 -0700
-X-CSE-ConnectionGUID: AiFyyVjJSD+g73jIJ5mIzw==
-X-CSE-MsgGUID: S9mVEYR/RoCmj8ykD/e3PQ==
+   d="scan'208";a="79407611"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2026 15:42:34 -0700
+X-CSE-ConnectionGUID: TrVAVcdyTCuEcnV9HimY5Q==
+X-CSE-MsgGUID: LNEyIgSNSVSJBZOqEgrPrg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,225,1770624000"; 
-   d="scan'208";a="242085608"
+   d="scan'208";a="242049605"
 Received: from lkp-server01.sh.intel.com (HELO 82327192134e) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 09 May 2026 15:11:30 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 09 May 2026 15:42:33 -0700
 Received: from kbuild by 82327192134e with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wLptP-000000001ST-2YLL;
-	Sat, 09 May 2026 22:11:27 +0000
-Date: Sun, 10 May 2026 06:10:56 +0800
+	id 1wLqNT-000000001UN-045E;
+	Sat, 09 May 2026 22:42:31 +0000
+Date: Sun, 10 May 2026 06:42:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-misc:lib-raid6 3/17]
- lib/raid/raid6/powerpc/vpermxor8.c:88:30: error: invalid output constraint
- '=v' in asm
-Message-ID: <202605100615.UXloU9P9-lkp@intel.com>
+To: "Martin =?utf-8?Q?Povi=C5=A1er"?= <povik+lin@cutebit.org>
+Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/070-audio 4/82] sound/soc/soc-ops.c:621:1:
+ warning: the frame size of 1296 bytes is larger than 1280 bytes
+Message-ID: <202605100621.WoY9lXyO-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-tree:   git://git.infradead.org/users/hch/misc.git lib-raid6
-head:   4904674049bc3b70c509754b53cbe708e49f03ee
-commit: 04f46cf399047f3e3a537e26bdfa3e17bf2400e5 [3/17] raid6: move to lib/raid/
-config: powerpc64-randconfig-002-20260510 (https://download.01.org/0day-ci/archive/20260510/202605100615.UXloU9P9-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260510/202605100615.UXloU9P9-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/070-audio
+head:   c3a3c710ac278eaea0704b5ad1e1793212652919
+commit: e6ee1a585ceadf0d5d908738f8989115e65d6a1c [4/82] ASoC: ops: Introduce 'soc_set_enum_kctl'
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260510/202605100621.WoY9lXyO-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260510/202605100621.WoY9lXyO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605100615.UXloU9P9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605100621.WoY9lXyO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> lib/raid/raid6/powerpc/vpermxor8.c:88:30: error: invalid output constraint '=v' in asm
-                           asm(VPERMXOR(%0,%1,%2,%3):"=v"(wq0):"v"(gf_high), "v"(gf_low), "v"(wq0));
-                                                     ^
-   lib/raid/raid6/powerpc/vpermxor8.c:89:30: error: invalid output constraint '=v' in asm
-                           asm(VPERMXOR(%0,%1,%2,%3):"=v"(wq1):"v"(gf_high), "v"(gf_low), "v"(wq1));
-                                                     ^
-   lib/raid/raid6/powerpc/vpermxor8.c:90:30: error: invalid output constraint '=v' in asm
-                           asm(VPERMXOR(%0,%1,%2,%3):"=v"(wq2):"v"(gf_high), "v"(gf_low), "v"(wq2));
-                                                     ^
-   lib/raid/raid6/powerpc/vpermxor8.c:91:30: error: invalid output constraint '=v' in asm
-                           asm(VPERMXOR(%0,%1,%2,%3):"=v"(wq3):"v"(gf_high), "v"(gf_low), "v"(wq3));
-                                                     ^
-   lib/raid/raid6/powerpc/vpermxor8.c:92:30: error: invalid output constraint '=v' in asm
-                           asm(VPERMXOR(%0,%1,%2,%3):"=v"(wq4):"v"(gf_high), "v"(gf_low), "v"(wq4));
-                                                     ^
-   lib/raid/raid6/powerpc/vpermxor8.c:93:30: error: invalid output constraint '=v' in asm
-                           asm(VPERMXOR(%0,%1,%2,%3):"=v"(wq5):"v"(gf_high), "v"(gf_low), "v"(wq5));
-                                                     ^
-   lib/raid/raid6/powerpc/vpermxor8.c:94:30: error: invalid output constraint '=v' in asm
-                           asm(VPERMXOR(%0,%1,%2,%3):"=v"(wq6):"v"(gf_high), "v"(gf_low), "v"(wq6));
-                                                     ^
-   lib/raid/raid6/powerpc/vpermxor8.c:95:30: error: invalid output constraint '=v' in asm
-                           asm(VPERMXOR(%0,%1,%2,%3):"=v"(wq7):"v"(gf_high), "v"(gf_low), "v"(wq7));
-                                                     ^
-   8 errors generated.
---
->> lib/raid/raid6/powerpc/vpermxor2.c:64:30: error: invalid output constraint '=v' in asm
-                           asm(VPERMXOR(%0,%1,%2,%3):"=v"(wq0):"v"(gf_high), "v"(gf_low), "v"(wq0));
-                                                     ^
-   lib/raid/raid6/powerpc/vpermxor2.c:65:30: error: invalid output constraint '=v' in asm
-                           asm(VPERMXOR(%0,%1,%2,%3):"=v"(wq1):"v"(gf_high), "v"(gf_low), "v"(wq1));
-                                                     ^
-   2 errors generated.
---
->> lib/raid/raid6/powerpc/vpermxor1.c:60:30: error: invalid output constraint '=v' in asm
-                           asm(VPERMXOR(%0,%1,%2,%3):"=v"(wq0):"v"(gf_high), "v"(gf_low), "v"(wq0));
-                                                     ^
-   1 error generated.
---
->> lib/raid/raid6/powerpc/vpermxor4.c:72:30: error: invalid output constraint '=v' in asm
-                           asm(VPERMXOR(%0,%1,%2,%3):"=v"(wq0):"v"(gf_high), "v"(gf_low), "v"(wq0));
-                                                     ^
-   lib/raid/raid6/powerpc/vpermxor4.c:73:30: error: invalid output constraint '=v' in asm
-                           asm(VPERMXOR(%0,%1,%2,%3):"=v"(wq1):"v"(gf_high), "v"(gf_low), "v"(wq1));
-                                                     ^
-   lib/raid/raid6/powerpc/vpermxor4.c:74:30: error: invalid output constraint '=v' in asm
-                           asm(VPERMXOR(%0,%1,%2,%3):"=v"(wq2):"v"(gf_high), "v"(gf_low), "v"(wq2));
-                                                     ^
-   lib/raid/raid6/powerpc/vpermxor4.c:75:30: error: invalid output constraint '=v' in asm
-                           asm(VPERMXOR(%0,%1,%2,%3):"=v"(wq3):"v"(gf_high), "v"(gf_low), "v"(wq3));
-                                                     ^
-   4 errors generated.
+   sound/soc/soc-ops.c: In function 'soc_set_enum_kctl':
+>> sound/soc/soc-ops.c:621:1: warning: the frame size of 1296 bytes is larger than 1280 bytes [-Wframe-larger-than=]
+     621 | }
+         | ^
+
+
+vim +621 sound/soc/soc-ops.c
+
+   590	
+   591	static int soc_set_enum_kctl(struct snd_kcontrol *kctl, const char *strval)
+   592	{
+   593		struct snd_ctl_elem_value value;
+   594		struct snd_ctl_elem_info info;
+   595		int sel, i, ret;
+   596	
+   597		ret = kctl->info(kctl, &info);
+   598		if (ret < 0)
+   599			return ret;
+   600	
+   601		if (info.type != SNDRV_CTL_ELEM_TYPE_ENUMERATED)
+   602			return -EINVAL;
+   603	
+   604		for (sel = 0; sel < info.value.enumerated.items; sel++) {
+   605			info.value.enumerated.item = sel;
+   606			ret = kctl->info(kctl, &info);
+   607			if (ret < 0)
+   608				return ret;
+   609	
+   610			if (!strcmp(strval, info.value.enumerated.name))
+   611				break;
+   612		}
+   613	
+   614		if (sel == info.value.enumerated.items)
+   615			return -EINVAL;
+   616	
+   617		for (i = 0; i < info.count; i++)
+   618			value.value.enumerated.item[i] = sel;
+   619	
+   620		return kctl->put(kctl, &value);
+ > 621	}
+   622	
 
 -- 
 0-DAY CI Kernel Test Service
