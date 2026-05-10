@@ -1,64 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6A9033F580
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 May 2026 10:09:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDCFD21CFE0
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 May 2026 10:13:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778407786; cv=none; b=nre1Tohw8USMBiR8w17ws7Pp+4Wx5Yjkg0DP6NHh/UbhUhU0gxmv/bnfmHGci+/WJEztLMFMHYvyVGEICsKyfj5+6Q3ktn1BUF6pJsu0nS5w3gmpUTxLyFO6on41rU5BTVREwTv4+5RHIXYd0f4fpcgxUKNlIarK4IIh/VPGHqk=
+	t=1778408040; cv=none; b=CBepyGvp34RaZPvNi4UCyXkGN6UI4BDvdiVJRKD9VmaVoAn/zjEERR1pv4du63fJpbiZDqGK59PSZSrBYUardqkSybzKnGc24rk904wFpC52w3gB8QLTrcyNClYfE61scyGlrKXE49Yb56DziP/UNfGmPRWPENhQfNflAVOhVT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778407786; c=relaxed/simple;
-	bh=uqlxDGtXqYV/zVFSgS1Lzvi3cG2PZDyfoNyh9tfMy5U=;
+	s=arc-20240116; t=1778408040; c=relaxed/simple;
+	bh=piCklurj+akVtcMessxuIeNUW8Rb9Fh8PUv+o4/wtqo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=He5uanVLmTd/ndXQa90DZGWt/4R7wXiy7IUgRwalDaw0VlcNjUTTvGu+J8gw2BSoyZVxufRITS4FzkXftzchFysBvtzL6rZNrzQ1Phq0ujSvadCzmbPCvkamro+jIeE/X+sTx/5TWdUGidr/1NEjyxHP7Mqy7oFY5uHZ8+gttt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z+/QpCVe; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=WTf7QZyI/LfjuNuVRt3YP9gVUbnLlLWl27ZTYWu2+ShpH47+ryPgAq6D9jfLkbDrEJqRBYypexnukWETKuP1vAo7kYe7n1uhodg25ZZgy0m7A5hYMtdzMlYPELmIUcYfe4aVXZdVd109q/4HnQ62Cdt8zyWBWvSga2QpjoomPPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dJ60CvmV; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z+/QpCVe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dJ60CvmV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778407783; x=1809943783;
+  t=1778408038; x=1809944038;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=uqlxDGtXqYV/zVFSgS1Lzvi3cG2PZDyfoNyh9tfMy5U=;
-  b=Z+/QpCVeDCkVwLF+NxyH6fuNpIL6QtJhMj8jZ5qOn3LhPNWBI7abJcjh
-   83s3vk2xXuhdsFZY0ho1GqyBBeG9OtmTjr1ee/5SGCzBqofNTSbUFLUdR
-   7quuMFZks1RlAw2cRRCeSV5nOzm9UHn2sWH7YWoI+c3n7WjQw7EQ8BEu1
-   I4cKbybAF5tecv5mxOpCsi64nO2Ldre25k1g0tZvzhTF5lcdsIBDOhnsz
-   jiDcnvpDS+2Vhf0b4JugFd9vetj64m22c36UD1GlTwovhlFFKKRGxO8xm
-   7dKgOvb6yzXuu2LBdxof/bpBa2B4dli0PF7bHtFweb0P48devIr/mJSga
-   A==;
-X-CSE-ConnectionGUID: u6DNtKYCTrCKiZV/5iUyEw==
-X-CSE-MsgGUID: KKjBHlFbQb634UEHf+bk3g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11781"; a="83192993"
+  bh=piCklurj+akVtcMessxuIeNUW8Rb9Fh8PUv+o4/wtqo=;
+  b=dJ60CvmVectbbw2F3YL47SpBGEuerzJjutGP+dmAFh9Vy4+k2/rDnDHj
+   MaTQVdj6jHfOfYvwIQ03q/BAIeLpP1ho/U/KZSXmyl7zvQJhzSoTUoAwE
+   rYOYyu4BXtD8NQsnYX5X0lNgTiZ4Pr7nYMGBhNI/p8DsgspS9eaOJfsv6
+   peETKesYYSWwwciqx7b49cYgYgn95NLmmprT1QBUWvJUdLJnlqvUYduP8
+   1EiqNpacdMxwOvF7GXnobJRdAGfbOP30qk9zp62x4TPRgh/cODtLQOcKY
+   5iViPd6dZLYR3RVn8npQN1vSpEUQiXfEHi3ZWu7l2Eq5KkgbfXFgAMD+p
+   g==;
+X-CSE-ConnectionGUID: p10H+tTdSlO2N5a+0GMxmg==
+X-CSE-MsgGUID: r+O8NVqSS0K/iPLfpwLEaA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11781"; a="90425652"
 X-IronPort-AV: E=Sophos;i="6.23,227,1770624000"; 
-   d="scan'208";a="83192993"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2026 03:09:43 -0700
-X-CSE-ConnectionGUID: CB3zKpjIQi65C+iinvZdTA==
-X-CSE-MsgGUID: S8kPmL23T8CZPFjhJ5BAzw==
+   d="scan'208";a="90425652"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2026 03:13:58 -0700
+X-CSE-ConnectionGUID: 6VagtG2eRoC6N+gyO5sXvw==
+X-CSE-MsgGUID: gB8mEGxjTReekloEPs5JyA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,227,1770624000"; 
-   d="scan'208";a="275327717"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 10 May 2026 03:09:41 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wM16Q-000000007h3-1gJW;
-	Sun, 10 May 2026 10:09:38 +0000
-Date: Sun, 10 May 2026 12:08:58 +0200
-From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Andrew Lunn <andrew+netdev@lunn.ch>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>
-Subject: Re: [PATCH net-next v1 5/5] net: mdiobus: Hide acpi_mdio.h
-Message-ID: <202605101210.Y9D9eQWJ-lkp@intel.com>
-References: <20260504074610.40799-6-andriy.shevchenko@linux.intel.com>
+   d="scan'208";a="232718285"
+Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.244.171])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2026 03:13:56 -0700
+Date: Sun, 10 May 2026 13:13:54 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Alexander Usyskin <alexander.usyskin@intel.com>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Badal Nilawar <badal.nilawar@intel.com>
+Subject: Re: drivers/misc/mei/mei_lb.c:284:32: sparse: sparse: restricted
+ __le32 degrades to integer
+Message-ID: <agBaYu8eN_wnRmL7@ashevche-desk.local>
+References: <202605091533.79Zcv3CX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,45 +61,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260504074610.40799-6-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <202605091533.79Zcv3CX-lkp@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi Andy,
+On Sat, May 09, 2026 at 03:59:00PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   70390501d1944d4e5b8f7352be180fceb3a44132
+> commit: 773a43b8627f54dca56d08949497014b4ee8878a mei: lb: add late binding version 2
+> date:   5 weeks ago
+> config: mips-randconfig-r134-20260508 (https://download.01.org/0day-ci/archive/20260509/202605091533.79Zcv3CX-lkp@intel.com/config)
+> compiler: mips-linux-gcc (GCC) 8.5.0
+> sparse: v0.6.5-rc1
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260509/202605091533.79Zcv3CX-lkp@intel.com/reproduce)
 
-kernel test robot noticed the following build errors:
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Fixes: 773a43b8627f ("mei: lb: add late binding version 2")
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202605091533.79Zcv3CX-lkp@intel.com/
 
-[auto build test ERROR on net-next/main]
+> sparse warnings: (new ones prefixed by >>)
+> >> drivers/misc/mei/mei_lb.c:284:32: sparse: sparse: restricted __le32 degrades to integer
+> >> drivers/misc/mei/mei_lb.c:330:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] command_id @@     got int @@
+>    drivers/misc/mei/mei_lb.c:330:40: sparse:     expected restricted __le32 [usertype] command_id
+>    drivers/misc/mei/mei_lb.c:330:40: sparse:     got int
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/net-mdiobus-Provide-fwnode_mdiobus_register/20260510-124038
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260504074610.40799-6-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH net-next v1 5/5] net: mdiobus: Hide acpi_mdio.h
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260510/202605101210.Y9D9eQWJ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260510/202605101210.Y9D9eQWJ-lkp@intel.com/reproduce)
+Alexander, in case you are going to address this, address them all at once. You
+can run sparse locally to get all this.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605101210.Y9D9eQWJ-lkp@intel.com/
+	make W=1 C=1 CF=-D__CHECK_ENDIAN__ ...
 
-All errors (new ones prefixed by >>):
+is my regular `make` command for building Linux kernel with `sparse` checks.
 
-   drivers/net/mdio/fwnode_mdio.c: In function '__fwnode_mdiobus_register':
->> drivers/net/mdio/fwnode_mdio.c:197:24: error: implicit declaration of function '__of_mdiobus_register'; did you mean 'of_mdiobus_register'? [-Wimplicit-function-declaration]
-     197 |                 return __of_mdiobus_register(mdio, to_of_node(fwnode), owner);
-         |                        ^~~~~~~~~~~~~~~~~~~~~
-         |                        of_mdiobus_register
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-vim +197 drivers/net/mdio/fwnode_mdio.c
-
-   192	
-   193	int __fwnode_mdiobus_register(struct mii_bus *mdio, struct fwnode_handle *fwnode,
-   194				      struct module *owner)
-   195	{
-   196		if (is_of_node(fwnode))
- > 197			return __of_mdiobus_register(mdio, to_of_node(fwnode), owner);
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
