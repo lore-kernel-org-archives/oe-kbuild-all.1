@@ -1,95 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36F5F4502A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 May 2026 04:34:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33C303115A2;
+	Sun, 10 May 2026 05:19:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778387681; cv=none; b=X2h53yH4/gEKM3hQXt3zvsSaNuZLnP5ubI9VkmYVg0997VCnlSnrDDfxKsdPIULFAGNGfYqw7A/fzZj6xy6qs3t+T47dehWpv9mV/2wsBcG4fG2o0WDGUutmyIUw743ltyLyC4OJm0GWPrRURM1A10GORjzsQjT670EHatN+jT4=
+	t=1778390375; cv=none; b=EOd1B6PBvvfhuhtfmQX2cFoT1J/VGEKZVeNV+z5zkSNYo1JibBBBiHawcj7qbsdE9Qk+4id0unEByAgDB6PoDQs3GaDVDkhiWLSR+ZCQyrF0AH4xipg8vtg4R6lnAQht1da4J0gteHVvuqklMGHzTd2WefmtrG1zXdMoWxGDUB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778387681; c=relaxed/simple;
-	bh=jxXqABV6lXWAu2LgwW96i/+UvbJlYnQaiJhD3Cn+AgM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=B1h9zFEmShy2zE9xTr9S3nbbmjIxPsGQpy6sR4H72205/BF5HAArswk7mvgMj1vG86La8EWMayvpcyBJPZxjpyajgnE+ymYjYn418UujoV/DwFPAtgkSfU8m92l+jlC9NdodemK2MXWbfXMB2/JXD/DHtduwHCuc2kLvm7a+V34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kQjKcuzf; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1778390375; c=relaxed/simple;
+	bh=Tb2Fcl07lDQV2lJ3devouZ78CtC47C98TLMHnEnOots=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qky2oIE/2UfirclcCFjaz4gd0lxMbjkzTCnrCkNlhIXkTOMaIwkUau3zqzHvoRHhv/VL7CoeMLmVtgir+ue22/OXQAdC50haxQ9gNZMqYueg1CW5soyeFwvryJxhUQTIDuVqTc6KauyqM7tlAEYERllnhVDhXwXdExC+J8oZjFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QfgI33Nm; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kQjKcuzf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QfgI33Nm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778387680; x=1809923680;
-  h=date:from:to:cc:subject:message-id;
-  bh=jxXqABV6lXWAu2LgwW96i/+UvbJlYnQaiJhD3Cn+AgM=;
-  b=kQjKcuzfudWXUU5B8pmStXGbApHBQJbSudREcLoLLN8F64I6Dc5yRpeD
-   vs4VvcEay+OX6RdxxtReJ68iPC04Yvsr28b+h52nwGJXk+q1JetVLGt/V
-   P255Phvk7wvOMb5FqVtwE2AmhuFdBy18EQMk0y8zGE9LnJoVq30c+vaVb
-   QDH5LY858MRG/Ps+VOKHA3/RRw0rw+2Uw6ZHHV8G7w3znKOkEgVu0eKZ3
-   p5KlT6vShF2hVziu95x3aHL//KKuiN7YZCGngMCVAeqdEAuoThRLkFPMx
-   N9tIghkMyN5s1DUnmtATuuQY1nSpBKT9dg0C8+sPIZIGJohmz/8iRukdQ
-   Q==;
-X-CSE-ConnectionGUID: ZiJ/rsrqQiW9EjxybzODAg==
-X-CSE-MsgGUID: IcZQIBAYT8eMtmtkUjTT7A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11781"; a="96879456"
-X-IronPort-AV: E=Sophos;i="6.23,225,1770624000"; 
-   d="scan'208";a="96879456"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2026 21:34:38 -0700
-X-CSE-ConnectionGUID: PZKtFAhvRgWT5i0gFJwd9Q==
-X-CSE-MsgGUID: eKoXEf1iS7WhFzzpUoUGyQ==
+  t=1778390372; x=1809926372;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Tb2Fcl07lDQV2lJ3devouZ78CtC47C98TLMHnEnOots=;
+  b=QfgI33NmWMWF4sl3wz1EIbU9areyzcxDRp5+Iy+NCJtqepoRzExy9fpM
+   rKF4bATd7xY7eJdzRmrzeRwm8lcCBiUYMg/PdQjnLlJ/mKQ0kObb53y4W
+   6GR3P3ifDDThEvj2+p+a1UHxdw/BAXTpyvZKShwqhoeg1cQiD+/mmpE92
+   A3/a6DT5ay0oTimQzITWNso1HIaRBX1O2mLyiYzHspN+gZJhfQoxFA0BD
+   ecjPOH0/7JeTF+nJdX3QKXRB0KcdZ4vpcsJXoLJINlJKnwDaKfLMlQRjB
+   GzHnh5dU0dyWoDFwrThBwO66kJSSM1l5uw+xwoszfjRHBoYlbaAoF55u4
+   w==;
+X-CSE-ConnectionGUID: pO2cSURjR8KFP5dNPG7v8A==
+X-CSE-MsgGUID: 3xO/14WPQm2cxJy7aave8A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11781"; a="89901693"
+X-IronPort-AV: E=Sophos;i="6.23,227,1770624000"; 
+   d="scan'208";a="89901693"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2026 22:19:31 -0700
+X-CSE-ConnectionGUID: WbuzXBsTQSGONjZWXM1spQ==
+X-CSE-MsgGUID: MrIXDTyNTtO4bnYNKCVZNA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,227,1770624000"; 
-   d="scan'208";a="260600177"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 09 May 2026 21:34:37 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="237083204"
+Received: from lkp-server01.sh.intel.com (HELO 82327192134e) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 09 May 2026 22:19:30 -0700
+Received: from kbuild by 82327192134e with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wLvsA-000000007dd-3dCH;
-	Sun, 10 May 2026 04:34:34 +0000
-Date: Sun, 10 May 2026 06:33:47 +0200
+	id 1wLwZa-000000001mL-1pCr;
+	Sun, 10 May 2026 05:19:26 +0000
+Date: Sun, 10 May 2026 13:18:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiakai Xu <xujiakai24@mails.ucas.ac.cn>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: drivers/net/netdevsim/bus.c:192:17: error: implicit
- declaration of function 'nsim_bus_dev_del'; did you mean 'nsim_bus_dev_new'?
-Message-ID: <202605100648.HM7DHKhd-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Jiakai Xu <xujiakai24@mails.ucas.ac.cn>, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jiakai Xu <xujiakai24@mails.ucas.ac.cn>
+Subject: Re: [PATCH] netdevsim: Fix task hung by releasing bus lock before
+ device ops
+Message-ID: <202605101358.RCmpCsFR-lkp@intel.com>
+References: <20260509092837.3432281-1-xujiakai24@mails.ucas.ac.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260509092837.3432281-1-xujiakai24@mails.ucas.ac.cn>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Jiakai-Xu/netdevsim-Fix-task-hung-by-releasing-bus-lock-before-device-ops/20260510-070550
-head:   93a12a4523b770bda0f952a4d3a44cbee0775bb4
-commit: 93a12a4523b770bda0f952a4d3a44cbee0775bb4 netdevsim: Fix task hung by releasing bus lock before device ops
-date:   5 hours ago
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260510/202605100648.HM7DHKhd-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260510/202605100648.HM7DHKhd-lkp@intel.com/reproduce)
+Hi Jiakai,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v7.1-rc2 next-20260508]
+[cannot apply to horms-ipvs/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiakai-Xu/netdevsim-Fix-task-hung-by-releasing-bus-lock-before-device-ops/20260510-070550
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260509092837.3432281-1-xujiakai24%40mails.ucas.ac.cn
+patch subject: [PATCH] netdevsim: Fix task hung by releasing bus lock before device ops
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260510/202605101358.RCmpCsFR-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260510/202605101358.RCmpCsFR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605100648.HM7DHKhd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605101358.RCmpCsFR-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/netdevsim/bus.c: In function 'new_device_store':
->> drivers/net/netdevsim/bus.c:192:17: error: implicit declaration of function 'nsim_bus_dev_del'; did you mean 'nsim_bus_dev_new'? [-Wimplicit-function-declaration]
+>> drivers/net/netdevsim/bus.c:192:3: error: call to undeclared function 'nsim_bus_dev_del'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      192 |                 nsim_bus_dev_del(nsim_bus_dev);
-         |                 ^~~~~~~~~~~~~~~~
-         |                 nsim_bus_dev_new
-   drivers/net/netdevsim/bus.c: At top level:
->> drivers/net/netdevsim/bus.c:206:13: warning: conflicting types for 'nsim_bus_dev_del'; have 'void(struct nsim_bus_dev *)'
+         |                 ^
+   drivers/net/netdevsim/bus.c:192:3: note: did you mean 'nsim_bus_dev_new'?
+   drivers/net/netdevsim/bus.c:156:1: note: 'nsim_bus_dev_new' declared here
+     156 | nsim_bus_dev_new(unsigned int id, unsigned int port_count, unsigned int num_queues);
+         | ^
+>> drivers/net/netdevsim/bus.c:206:13: error: conflicting types for 'nsim_bus_dev_del'
      206 | static void nsim_bus_dev_del(struct nsim_bus_dev *nsim_bus_dev);
-         |             ^~~~~~~~~~~~~~~~
->> drivers/net/netdevsim/bus.c:206:13: error: static declaration of 'nsim_bus_dev_del' follows non-static declaration
-   drivers/net/netdevsim/bus.c:192:17: note: previous implicit declaration of 'nsim_bus_dev_del' with type 'void(struct nsim_bus_dev *)'
+         |             ^
+   drivers/net/netdevsim/bus.c:192:3: note: previous implicit declaration is here
      192 |                 nsim_bus_dev_del(nsim_bus_dev);
-         |                 ^~~~~~~~~~~~~~~~
+         |                 ^
+   2 errors generated.
 
 
-vim +192 drivers/net/netdevsim/bus.c
+vim +/nsim_bus_dev_del +192 drivers/net/netdevsim/bus.c
 
    157	
    158	static ssize_t
@@ -143,6 +166,6 @@ vim +192 drivers/net/netdevsim/bus.c
  > 206	static void nsim_bus_dev_del(struct nsim_bus_dev *nsim_bus_dev);
    207	
 
---
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
