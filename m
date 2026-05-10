@@ -1,120 +1,243 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53EFA2571C7
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 May 2026 03:53:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42004286D5E;
+	Sun, 10 May 2026 04:28:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778385222; cv=none; b=lOsV4/h7kkfUYlAYVGt1Q/sP8J3n1gAiY+cLFajEdKmHzuGmGrgU0pzji9ZdWl1A56GoAWjmdLyx2lcP5dUjeLmGOgThwIqFbDD3ezXV8fntFsWv7aDc4oaLOQgc0C1XtdcEd+iV2oKGXCMQ3waIZBA7RxSWWu7iVvbSV10hVxo=
+	t=1778387313; cv=none; b=ak2YmuFZiEQoAn+lfJCQQCyATx/zrr+0PgZJId/h+fp+WxxN0gVMoDdMp5FxslYWAe3eL5Rc/TyzJZSCPN4NoxAq03nYylN+omAlKMQSJyE2QwlQardqtCaCQn3Bz235tMLKxGj0qHmhqbRs+bgmpkRoR3JSquD1qNMTGK3btak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778385222; c=relaxed/simple;
-	bh=syII6QQB2D4P3L0zYfjSGWIg4x0carBQgds2Q5m1Vo8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=CZjnYatcfh+vJsS3iABGNmh/GHaJEOuTvpT/YxHd29UBRM0QfXklUyEWKfb4o32xA0JMfq2DD58hF12KHo70sK/cMM5oF8ZRk7sNycc3syPqbo1ijhRe/rHIq2L3scEujLeuSOQ0jEfVUxiTaxay+CVTKFVKrM65wnCdx66ZGDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KC1Ib8Xo; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1778387313; c=relaxed/simple;
+	bh=F3MNDuEK6GtD9RA2zIwzJbgXtS044Irg0BEkL9UVy7g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ogt5ddFWCjGIIKnjOUUDOkyqYn6vMIDd6Fn2bSpFaKghbwQGsUbbG0w2pnttET2ek/HsiXPmJt+IRlD23oENuCKBnJ+1gs215bHC3fNa8kl9VRvw6cU19W/4qNJlpGka40CrxruqtkS/Yi9PTiJaN60Ev/nzPGamBA4D1LnVFpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ia1rn6y2; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KC1Ib8Xo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ia1rn6y2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778385222; x=1809921222;
-  h=date:from:to:cc:subject:message-id;
-  bh=syII6QQB2D4P3L0zYfjSGWIg4x0carBQgds2Q5m1Vo8=;
-  b=KC1Ib8Xox8rbDZHZrTDUGz58OsLn+i1rymV7PIXSzQqvOx9JiHcLaW45
-   kMdSX+RuCTexcBLkxEkGaf+ShN2D5FN/UtyXcALpzcAAh+w6RCl4DVFTK
-   yTrE7vjzrM6rz5WB9RmdZ9KQzh7Q85uT5K397TntFGKelPaxzOLKLvQ2p
-   FG4zoTKqs28mpC5d3iAXVVk1vU3OKKI2uIpKzfwV35rs4y3bzyZSuWEb5
-   YWTiipgsC66mak8hXtNDXJgIpFMs2rCZ/smEopomt0aoGP9Jsiznhth1R
-   6SITJIeE4v04j+I5FijHsSDG4GS4QPrmcCbNzkRMf0HRcu47CXcfcKmRq
-   w==;
-X-CSE-ConnectionGUID: I3psxzFIT6e/CHfoMzBWTQ==
-X-CSE-MsgGUID: 27TjAXGpRWqHZkZ7e6ZzLg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11781"; a="82928123"
+  t=1778387311; x=1809923311;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=F3MNDuEK6GtD9RA2zIwzJbgXtS044Irg0BEkL9UVy7g=;
+  b=ia1rn6y2MYbK/Q/e3VkOyUTXbFreaTT1bZjcbRU5ypS9VdHR2PDAlYiY
+   clW9WhrRqkYQjvZYSZQ5AReNULMDftb5/rpx0sCmM2TD/kQL2nd6aMcLR
+   jr886GtxTo8pIdNi5xjWJNWBKfBJHK/a+oPyl+U9hPglwBgUlzzeVb4qZ
+   DMYqI27LM7iJF8V+7t8WJMcayhZdF1wfuYX0PNdlOuTzaBOr6LJq1+a9f
+   GtN1gupi7wGa61yP5l8f7yejQaz5AMXBsUpxsEpXuymzJin7AaxQlCgkL
+   vS0RHgid+PdDJBcpkoxS3doE0D6wImoADh4BvJ/FDuilA2ykHJ+WRDroV
+   Q==;
+X-CSE-ConnectionGUID: PoIanBBSQ7qdyNxlz4fuFg==
+X-CSE-MsgGUID: gjDnECdCQYyXikCg6vmtJA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11781"; a="90014784"
 X-IronPort-AV: E=Sophos;i="6.23,225,1770624000"; 
-   d="scan'208";a="82928123"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2026 20:53:39 -0700
-X-CSE-ConnectionGUID: fh6B35xBSdudI2juNjITgw==
-X-CSE-MsgGUID: iOoIFIB2TTaFaMf53qVIgA==
+   d="scan'208";a="90014784"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2026 21:28:31 -0700
+X-CSE-ConnectionGUID: Ci0xQtijS7CTwkKnXNGi5Q==
+X-CSE-MsgGUID: kvlecBzQThiXFz7WRq2gcg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,225,1770624000"; 
-   d="scan'208";a="237234964"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 09 May 2026 20:53:37 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="232660193"
+Received: from lkp-server01.sh.intel.com (HELO 82327192134e) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 09 May 2026 21:28:27 -0700
+Received: from kbuild by 82327192134e with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wLvEU-000000007dN-2Msi;
-	Sun, 10 May 2026 03:53:34 +0000
-Date: Sun, 10 May 2026 05:52:43 +0200
+	id 1wLvmC-000000001kP-2IfW;
+	Sun, 10 May 2026 04:28:24 +0000
+Date: Sun, 10 May 2026 12:27:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Conor Dooley <conor.dooley@microchip.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Linus Walleij <linusw@kernel.org>
-Subject: arch/arm64/boot/dts/qcom/msm8976-longcheer-l9360.dtb:
- pinctrl@1000000 (qcom,msm8976-pinctrl): ts-int-state: 'oneOf' conditional
- failed, one must be fixed:
-Message-ID: <202605100557.rKJrPheQ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Tony Luck <tony.luck@intel.com>, Fenghua Yu <fenghuay@nvidia.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>,
+	Peter Newman <peternewman@google.com>,
+	James Morse <james.morse@arm.com>, Babu Moger <babu.moger@amd.com>,
+	Drew Fustini <dfustini@baylibre.com>,
+	Dave Martin <Dave.Martin@arm.com>, Chen Yu <yu.c.chen@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Borislav Petkov <bp@alien8.de>,
+	x86@kernel.org, linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev, Tony Luck <tony.luck@intel.com>
+Subject: Re: [PATCH] fs/resctrl: Free mon_data structures on rdt_get_tree()
+ failure
+Message-ID: <202605101202.R93VjWIJ-lkp@intel.com>
+References: <20260507201730.16509-1-tony.luck@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260507201730.16509-1-tony.luck@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1bfaee9d3351b9b32a99766bbfb1f5baed60ddef
-commit: a901e8705f89f3616fad3bb6aeddba33be86b08a dt-bindings: pinctrl: pincfg-node: add restrictions on conflicting properties
-date:   2 months ago
-config: arm64-randconfig-2052-20260429 (https://download.01.org/0day-ci/archive/20260510/202605100557.rKJrPheQ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema: 2026.5.dev4+g4ccc1997d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260510/202605100557.rKJrPheQ-lkp@intel.com/reproduce)
+Hi Tony,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on v7.1-rc2]
+[also build test ERROR on linus/master next-20260508]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tony-Luck/fs-resctrl-Free-mon_data-structures-on-rdt_get_tree-failure/20260509-184342
+base:   v7.1-rc2
+patch link:    https://lore.kernel.org/r/20260507201730.16509-1-tony.luck%40intel.com
+patch subject: [PATCH] fs/resctrl: Free mon_data structures on rdt_get_tree() failure
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260510/202605101202.R93VjWIJ-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260510/202605101202.R93VjWIJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: a901e8705f89 ("dt-bindings: pinctrl: pincfg-node: add restrictions on conflicting properties")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605100557.rKJrPheQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605101202.R93VjWIJ-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/msm8976.dtsi:1063.27-1118.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/qcom/pm8004.dtsi:14.23-23.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@200f000/pmic@5: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/qcom/pm8950.dtsi:176.9-185.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@200f000/pmic@1: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/qcom/msm8976-longcheer-l9360.dts:111.20-139.4: Warning (avoid_unnecessary_addr_size): /soc@0/i2c@78b6000/led-controller@30: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/qcom/msm8976.dtsi:510.27-513.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@a4000/s0-p1@219: duplicate unit-address (also used in node /soc@0/qfprom@a4000/s0-p2@219)
-   arch/arm64/boot/dts/qcom/msm8976.dtsi:530.27-533.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@a4000/s2-p1@21c: duplicate unit-address (also used in node /soc@0/qfprom@a4000/s2-p2@21c)
-   arch/arm64/boot/dts/qcom/msm8976.dtsi:555.27-558.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@a4000/s4-p1@221: duplicate unit-address (also used in node /soc@0/qfprom@a4000/s4-p2@221)
-   arch/arm64/boot/dts/qcom/msm8976.dtsi:575.27-578.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@a4000/s6-p1@224: duplicate unit-address (also used in node /soc@0/qfprom@a4000/s6-p2@224)
-   arch/arm64/boot/dts/qcom/msm8976.dtsi:595.25-598.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@a4000/mode@228: duplicate unit-address (also used in node /soc@0/qfprom@a4000/s8-p1@228)
-   arch/arm64/boot/dts/qcom/msm8976.dtsi:605.27-608.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@a4000/s8-p2@229: duplicate unit-address (also used in node /soc@0/qfprom@a4000/s9-p1@229)
->> arch/arm64/boot/dts/qcom/msm8976-longcheer-l9360.dtb: pinctrl@1000000 (qcom,msm8976-pinctrl): ts-int-state: 'oneOf' conditional failed, one must be fixed:
-   	'bias-pull-down', 'bias-pull-up', 'drive-strength', 'function', 'pins' do not match any of the regexes: '-pins$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,msm8976-pinctrl.yaml
---
-   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@800f000/pmic@5: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/qcom/pmi8998.dtsi:71.20-79.5: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@800f000/pmic@3/pwm: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/qcom/msm8998.dtsi:2930.27-2985.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c994000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/qcom/msm8998.dtsi:3006.27-3061.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c996000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
->> arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-lilac.dtb: pinctrl@3400000 (qcom,msm8998-pinctrl): blsp1-i2c5-sleep-state: 'oneOf' conditional failed, one must be fixed:
-   	'bias-disable', 'bias-pull-up', 'drive-strength', 'function', 'pins' do not match any of the regexes: '-pins$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,msm8998-pinctrl.yaml
---
-   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@800f000/pmic@5: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/qcom/pmi8998.dtsi:71.20-79.5: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@800f000/pmic@3/pwm: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/qcom/msm8998.dtsi:2930.27-2985.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c994000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/qcom/msm8998.dtsi:3006.27-3061.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c996000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
->> arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dtb: pinctrl@3400000 (qcom,msm8998-pinctrl): blsp1-i2c5-sleep-state: 'oneOf' conditional failed, one must be fixed:
-   	'bias-disable', 'bias-pull-up', 'drive-strength', 'function', 'pins' do not match any of the regexes: '-pins$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,msm8998-pinctrl.yaml
---
-   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@800f000/pmic@5: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/qcom/pmi8998.dtsi:71.20-79.5: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@800f000/pmic@3/pwm: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/qcom/msm8998.dtsi:2930.27-2985.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c994000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/qcom/msm8998.dtsi:3006.27-3061.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@c900000/dsi@c996000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
->> arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-poplar.dtb: pinctrl@3400000 (qcom,msm8998-pinctrl): blsp1-i2c5-sleep-state: 'oneOf' conditional failed, one must be fixed:
-   	'bias-disable', 'bias-pull-up', 'drive-strength', 'function', 'pins' do not match any of the regexes: '-pins$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,msm8998-pinctrl.yaml
+All errors (new ones prefixed by >>):
 
---
+   fs/resctrl/rdtgroup.c: In function 'rdt_get_tree':
+>> fs/resctrl/rdtgroup.c:2883:17: error: implicit declaration of function 'mon_put_kn_priv' [-Wimplicit-function-declaration]
+    2883 |                 mon_put_kn_priv();
+         |                 ^~~~~~~~~~~~~~~
+   fs/resctrl/rdtgroup.c: At top level:
+   fs/resctrl/rdtgroup.c:3144:13: warning: conflicting types for 'mon_put_kn_priv'; have 'void(void)'
+    3144 | static void mon_put_kn_priv(void)
+         |             ^~~~~~~~~~~~~~~
+>> fs/resctrl/rdtgroup.c:3144:13: error: static declaration of 'mon_put_kn_priv' follows non-static declaration
+   fs/resctrl/rdtgroup.c:2883:17: note: previous implicit declaration of 'mon_put_kn_priv' with type 'void(void)'
+    2883 |                 mon_put_kn_priv();
+         |                 ^~~~~~~~~~~~~~~
+
+
+vim +/mon_put_kn_priv +2883 fs/resctrl/rdtgroup.c
+
+  2784	
+  2785	static int rdt_get_tree(struct fs_context *fc)
+  2786	{
+  2787		struct rdt_fs_context *ctx = rdt_fc2context(fc);
+  2788		unsigned long flags = RFTYPE_CTRL_BASE;
+  2789		struct rdt_l3_mon_domain *dom;
+  2790		struct rdt_resource *r;
+  2791		int ret;
+  2792	
+  2793		DO_ONCE_SLEEPABLE(resctrl_arch_pre_mount);
+  2794	
+  2795		cpus_read_lock();
+  2796		mutex_lock(&rdtgroup_mutex);
+  2797		/*
+  2798		 * resctrl file system can only be mounted once.
+  2799		 */
+  2800		if (resctrl_mounted) {
+  2801			ret = -EBUSY;
+  2802			goto out;
+  2803		}
+  2804	
+  2805		ret = setup_rmid_lru_list();
+  2806		if (ret)
+  2807			goto out;
+  2808	
+  2809		ret = rdtgroup_setup_root(ctx);
+  2810		if (ret)
+  2811			goto out;
+  2812	
+  2813		ret = rdt_enable_ctx(ctx);
+  2814		if (ret)
+  2815			goto out_root;
+  2816	
+  2817		ret = schemata_list_create();
+  2818		if (ret)
+  2819			goto out_schemata_free;
+  2820	
+  2821		ret = closid_init();
+  2822		if (ret)
+  2823			goto out_schemata_free;
+  2824	
+  2825		if (resctrl_arch_mon_capable())
+  2826			flags |= RFTYPE_MON;
+  2827	
+  2828		ret = rdtgroup_add_files(rdtgroup_default.kn, flags);
+  2829		if (ret)
+  2830			goto out_closid_exit;
+  2831	
+  2832		kernfs_activate(rdtgroup_default.kn);
+  2833	
+  2834		ret = rdtgroup_create_info_dir(rdtgroup_default.kn);
+  2835		if (ret < 0)
+  2836			goto out_closid_exit;
+  2837	
+  2838		if (resctrl_arch_mon_capable()) {
+  2839			ret = mongroup_create_dir(rdtgroup_default.kn,
+  2840						  &rdtgroup_default, "mon_groups",
+  2841						  &kn_mongrp);
+  2842			if (ret < 0)
+  2843				goto out_info;
+  2844	
+  2845			rdtgroup_assign_cntrs(&rdtgroup_default);
+  2846	
+  2847			ret = mkdir_mondata_all(rdtgroup_default.kn,
+  2848						&rdtgroup_default, &kn_mondata);
+  2849			if (ret < 0)
+  2850				goto out_mongrp;
+  2851			rdtgroup_default.mon.mon_data_kn = kn_mondata;
+  2852		}
+  2853	
+  2854		ret = rdt_pseudo_lock_init();
+  2855		if (ret)
+  2856			goto out_mondata;
+  2857	
+  2858		ret = kernfs_get_tree(fc);
+  2859		if (ret < 0)
+  2860			goto out_psl;
+  2861	
+  2862		if (resctrl_arch_alloc_capable())
+  2863			resctrl_arch_enable_alloc();
+  2864		if (resctrl_arch_mon_capable())
+  2865			resctrl_arch_enable_mon();
+  2866	
+  2867		if (resctrl_arch_alloc_capable() || resctrl_arch_mon_capable())
+  2868			resctrl_mounted = true;
+  2869	
+  2870		if (resctrl_is_mbm_enabled()) {
+  2871			r = resctrl_arch_get_resource(RDT_RESOURCE_L3);
+  2872			list_for_each_entry(dom, &r->mon_domains, hdr.list)
+  2873				mbm_setup_overflow_handler(dom, MBM_OVERFLOW_INTERVAL,
+  2874							   RESCTRL_PICK_ANY_CPU);
+  2875		}
+  2876	
+  2877		goto out;
+  2878	
+  2879	out_psl:
+  2880		rdt_pseudo_lock_release();
+  2881	out_mondata:
+  2882		if (resctrl_arch_mon_capable()) {
+> 2883			mon_put_kn_priv();
+  2884			kernfs_remove(kn_mondata);
+  2885		}
+  2886	out_mongrp:
+  2887		if (resctrl_arch_mon_capable()) {
+  2888			rdtgroup_unassign_cntrs(&rdtgroup_default);
+  2889			kernfs_remove(kn_mongrp);
+  2890		}
+  2891	out_info:
+  2892		kernfs_remove(kn_info);
+  2893	out_closid_exit:
+  2894		closid_exit();
+  2895	out_schemata_free:
+  2896		schemata_list_destroy();
+  2897		rdt_disable_ctx();
+  2898	out_root:
+  2899		rdtgroup_destroy_root();
+  2900	out:
+  2901		rdt_last_cmd_clear();
+  2902		mutex_unlock(&rdtgroup_mutex);
+  2903		cpus_read_unlock();
+  2904		return ret;
+  2905	}
+  2906	
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
