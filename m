@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9FC733F5A8
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 May 2026 05:30:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E24E35504D;
+	Sun, 10 May 2026 05:41:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778391033; cv=none; b=q4BVvTsyb6MxDezVT14zgPCN/zyfx+RFje7d7QABLd0HJCmEABe/aCe8CD5k0XL464jsqBMzYRjWwdjRfafmylT3GV4oAthvqr2Mt3gz6URjMxdaCraAEfy0RNQVhwl6TYpnUZozkX3m1dFcmIieAWbD4/aQcfX7HRjeI01m+EY=
+	t=1778391696; cv=none; b=oQP+ca+sz73YlpGQlyJ6i2fkcUnrv4aai+RSNTuaOCiYRR1CXIi01yGpHymgTc6b/Tq9TWJHhKo7tI4zdq3rWlsr4SyxtRn/7kVwUAJzucYmZnCfOK4C72HMHoq5V95a1K1LK4iGUbK8e0O8VAoYLJAftPmmkYiuq1nD2BLU120=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778391033; c=relaxed/simple;
-	bh=K00OG1SG2u2LSvZSbPzFzdnqjTDxB6s3DXAJFeT/KwA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lE0ZvAXHxojPT4PPFoZd3sf+sWtTu6gtwXnNlrDhrFdN+zKS3ll0Mw08DWOspc31S7eekw6svgJYlzo0lf8VP9izlrM0Ifigf/rqawJ2uWHwKfnsWVUTuvj47+tCC8a275J/yCvMfGtSTWhbLF0RJEIiH+ARQzZbF5m56OOlzu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=buuso/t7; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1778391696; c=relaxed/simple;
+	bh=FaSFBF1RN1ZsvA/4UwfdV6WVzjUxu01Algt9IxV1aLc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=BIAcYGOVUXbQ1daIZbyHn5qZhn/tPE5xX5Rwm7P0HY+dQ29oCqpmKJfviwzw0Gpr6+VxetFJ5i2Oq3ZvXWgSzvOvIL2Y6bbFSVdBxMaCdoxIJFfJ/XWhyqCLb86c7ejl8EuaTCLpEpbXJDbBY9DtOf3tCBGnkQ2RqFxVRMHZeFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fETNcViA; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="buuso/t7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fETNcViA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778391032; x=1809927032;
+  t=1778391694; x=1809927694;
   h=date:from:to:cc:subject:message-id;
-  bh=K00OG1SG2u2LSvZSbPzFzdnqjTDxB6s3DXAJFeT/KwA=;
-  b=buuso/t7fLTrwsMXyaJ4QOTT35Vz74fIcVy8L7QvhQkevtb8XlAwvckP
-   Q/VJyOeKa8mlzx0LGcdNq0ZIpWZOgVZ04vw5QwafZMrwfaLK8kdJLKWJ5
-   ad44Emk9TIsB3jFA0r4dtb5IYGh6vj//9OlcV9Dytib89Yq87VpiXsloB
-   GUwAN4NTR31rfTLLS19SfRazJfiLaYvnJV5hVfFYyhROMEzcj44H5zIkA
-   vtsM3MGysPV+LpiAG2EYeARsQ3kTxRlZkKRGgCF3MYlMM5lLd0AZhdyt9
-   IWi2C54moFLEv4MvbV2ePUJt+qCOiMmcpOgISfWtRWaK94LXbHRC6yESz
-   g==;
-X-CSE-ConnectionGUID: oxWS/kEeRW+lRpre7HYyuw==
-X-CSE-MsgGUID: BfMANsCQSJqcB5pUITjzhw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11781"; a="82930280"
+  bh=FaSFBF1RN1ZsvA/4UwfdV6WVzjUxu01Algt9IxV1aLc=;
+  b=fETNcViAC5s7yauFtZoRaeEL1sdzamzG1X2r37gMNhDb88NwsL9+J2Bd
+   iPWDajQyLCcSOdpx8m46DvA4KKU6tcEmAcdmeb6HwbZBvhqXlqFHfZ0fc
+   Tp5St/3Jmp3AJDZHaMe9qFWXfpmRvb1Ia6ggZqC8ElhuLMmz0PouVbu+8
+   miGKNIjYbO7CHFaFrzHe9nUccArD14JP7beFkB8//nqeeXlNbnmHRnOYC
+   juKpWI3WYp7imWA3svG1VNeQvB9nU+lalTXkPNxWc7qvBP/Z+N085dC4O
+   POujbTjJ9FZ/kJcIydZWXEsCSQ3KFioOuR5T1eMtG/+GHrclaJFf+pAKi
+   w==;
+X-CSE-ConnectionGUID: ngH/pAOMSPGfZoEH/erR0A==
+X-CSE-MsgGUID: 7SUftu4NS2iQDRquXDW60w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11781"; a="82930675"
 X-IronPort-AV: E=Sophos;i="6.23,227,1770624000"; 
-   d="scan'208";a="82930280"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2026 22:30:31 -0700
-X-CSE-ConnectionGUID: ZFA+00CxQXuBwlQ9G4sphg==
-X-CSE-MsgGUID: 6JOEDoWVRRyrjUUO6loxQg==
+   d="scan'208";a="82930675"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2026 22:41:33 -0700
+X-CSE-ConnectionGUID: tvTUKEaGSlGS6YZgwkRb1w==
+X-CSE-MsgGUID: T7z2icqFSn6UJEPbFT459Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,227,1770624000"; 
-   d="scan'208";a="242115037"
+   d="scan'208";a="237247199"
 Received: from lkp-server01.sh.intel.com (HELO 82327192134e) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 09 May 2026 22:30:30 -0700
+  by orviesa009.jf.intel.com with ESMTP; 09 May 2026 22:41:31 -0700
 Received: from kbuild by 82327192134e with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wLwkF-000000001mn-3Ej5;
-	Sun, 10 May 2026 05:30:27 +0000
-Date: Sun, 10 May 2026 13:29:53 +0800
+	id 1wLwuu-000000001nX-3cHU;
+	Sun, 10 May 2026 05:41:28 +0000
+Date: Sun, 10 May 2026 13:41:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:7.1-rc 142/162]
- drivers/net/ethernet/mediatek/mtk_eth_dbg.c:435:31: sparse: sparse: Using
- plain integer as NULL pointer
-Message-ID: <202605101350.3xRKu2Xl-lkp@intel.com>
+To: Lyude Paul <lyude@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/250-aop 31/54] error[E0277]: `T` doesn't
+ implement `Debug`
+Message-ID: <202605101342.P4GWbBZn-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,77 +60,32 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Frank,
-
-First bad commit (maybe != root cause):
-
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.1-rc
-head:   12aaea139e45ed0d826a63a866c1ce03d352fea6
-commit: 50fc35bec984b372f0d6e9253a7f4104edbef12d [142/162] lro-debugfs: some fixes
-config: sparc-randconfig-r123-20260509 (https://download.01.org/0day-ci/archive/20260510/202605101350.3xRKu2Xl-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 8.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260510/202605101350.3xRKu2Xl-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/250-aop
+head:   571e5d3c9fc1383a0f7a0a52d30fb5ad9f74bef4
+commit: 4af9e85767726a5767b07a6c51479a842b4a896a [31/54] rust: Introduce iosys_map bindings
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260510/202605101342.P4GWbBZn-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260510/202605101342.P4GWbBZn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605101350.3xRKu2Xl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605101342.P4GWbBZn-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:33:5: sparse: sparse: symbol 'hw_lro_agg_num_cnt' was not declared. Should it be static?
-   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:34:5: sparse: sparse: symbol 'hw_lro_agg_size_cnt' was not declared. Should it be static?
-   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:35:5: sparse: sparse: symbol 'hw_lro_tot_agg_cnt' was not declared. Should it be static?
-   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:36:5: sparse: sparse: symbol 'hw_lro_tot_flush_cnt' was not declared. Should it be static?
-   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:37:5: sparse: sparse: symbol 'hw_lro_agg_flush_cnt' was not declared. Should it be static?
-   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:38:5: sparse: sparse: symbol 'hw_lro_age_flush_cnt' was not declared. Should it be static?
-   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:39:5: sparse: sparse: symbol 'hw_lro_seq_flush_cnt' was not declared. Should it be static?
-   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:40:5: sparse: sparse: symbol 'hw_lro_timestamp_flush_cnt' was not declared. Should it be static?
-   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:41:5: sparse: sparse: symbol 'hw_lro_norule_flush_cnt' was not declared. Should it be static?
-   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:42:5: sparse: sparse: symbol 'mtk_hwlro_stats_ebl' was not declared. Should it be static?
-   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:43:5: sparse: sparse: symbol 'dbg_show_level' was not declared. Should it be static?
-   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:54:16: sparse: sparse: symbol 'g_eth' was not declared. Should it be static?
->> drivers/net/ethernet/mediatek/mtk_eth_dbg.c:435:31: sparse: sparse: Using plain integer as NULL pointer
-   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1075:48: sparse: sparse: Using plain integer as NULL pointer
-   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1132:48: sparse: sparse: Using plain integer as NULL pointer
-   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1420:49: sparse: sparse: Using plain integer as NULL pointer
-   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:2047:23: sparse: sparse: symbol 'proc_reg_dir' was not declared. Should it be static?
-   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:2130:48: sparse: sparse: Using plain integer as NULL pointer
+All errors (new ones prefixed by >>):
 
-vim +435 drivers/net/ethernet/mediatek/mtk_eth_dbg.c
-
-3d7587812f1f0f Frank Wunderlich 2025-01-15  431  
-3d7587812f1f0f Frank Wunderlich 2025-01-15  432  static int mtketh_debug_show(struct seq_file *m, void *private)
-3d7587812f1f0f Frank Wunderlich 2025-01-15  433  {
-3d7587812f1f0f Frank Wunderlich 2025-01-15  434  	struct mtk_eth *eth = m->private;
-3d7587812f1f0f Frank Wunderlich 2025-01-15 @435  	struct mtk_mac *mac = 0;
-3d7587812f1f0f Frank Wunderlich 2025-01-15  436  	int  i = 0;
-3d7587812f1f0f Frank Wunderlich 2025-01-15  437  
-3d7587812f1f0f Frank Wunderlich 2025-01-15  438  	for (i = 0 ; i < MTK_MAX_DEVS ; i++) {
-3d7587812f1f0f Frank Wunderlich 2025-01-15  439  		if (!eth->mac[i] ||
-3d7587812f1f0f Frank Wunderlich 2025-01-15  440  		    of_phy_is_fixed_link(eth->mac[i]->of_node))
-3d7587812f1f0f Frank Wunderlich 2025-01-15  441  			continue;
-3d7587812f1f0f Frank Wunderlich 2025-01-15  442  		mac = eth->mac[i];
-3d7587812f1f0f Frank Wunderlich 2025-01-15  443  /* FIXME */
-3d7587812f1f0f Frank Wunderlich 2025-01-15  444  /*
-3d7587812f1f0f Frank Wunderlich 2025-01-15  445  		while (j < 30) {
-3d7587812f1f0f Frank Wunderlich 2025-01-15  446  			d =  _mtk_mdio_read_c22(eth, mac->phy_dev->addr, j);
-3d7587812f1f0f Frank Wunderlich 2025-01-15  447  
-3d7587812f1f0f Frank Wunderlich 2025-01-15  448  			seq_printf(m, "phy=%d, reg=0x%08x, data=0x%08x\n",
-3d7587812f1f0f Frank Wunderlich 2025-01-15  449  				   mac->phy_dev->addr, j, d);
-3d7587812f1f0f Frank Wunderlich 2025-01-15  450  			j++;
-3d7587812f1f0f Frank Wunderlich 2025-01-15  451  		}
-3d7587812f1f0f Frank Wunderlich 2025-01-15  452  */
-3d7587812f1f0f Frank Wunderlich 2025-01-15  453  	}
-3d7587812f1f0f Frank Wunderlich 2025-01-15  454  	return 0;
-3d7587812f1f0f Frank Wunderlich 2025-01-15  455  }
-3d7587812f1f0f Frank Wunderlich 2025-01-15  456  
-
-:::::: The code at line 435 was first introduced by commit
-:::::: 3d7587812f1f0f35408e7efbf4bf78cbe5b07ec3 net: mediatek: add proprietary debugfs
-
-:::::: TO: Frank Wunderlich <frank-w@public-files.de>
-:::::: CC: Frank Wunderlich <frank-w@public-files.de>
+>> error[E0277]: `T` doesn't implement `Debug`
+   --> rust/kernel/iosys_map.rs:516:13
+   |
+   516 |             assert_eq!(*self.vec.as_ref(), *src)
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `T` cannot be formatted using `{:?}` because it doesn't implement `Debug`
+   |
+   = note: this error originates in the macro `assert_eq` (in Nightly builds, run with -Z macro-backtrace for more info)
+   help: consider further restricting type parameter `T` with trait `Debug`
+   |
+   489 |     impl<T: AsBytes + FromBytes + Clone + PartialEq + core::fmt::Debug> VecIoSysMap<T> {
+   |                                                     ++++++++++++++++++
 
 -- 
 0-DAY CI Kernel Test Service
