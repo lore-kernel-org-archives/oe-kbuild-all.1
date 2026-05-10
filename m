@@ -1,145 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4161E253B42
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 May 2026 17:08:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2666533507C
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 May 2026 20:49:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778432931; cv=none; b=I+0RFwztWb/5Kd0UrsUvjbTx33q0DgYPcnxMP4K4TcNSsJcHruWoYc3a9VNo2nP/rM/jyL5PYzSP8kcamsCXryD2tcRsKX21AJvknx1vW6Jbi2VbPWwSp+UEq9AeoQHZhlO7QaCE3TEyDNUFd2je554u/Jrf6KLDNRsBuzIBZVc=
+	t=1778446193; cv=none; b=hDGIPHD8FHHwia9zxOXTeUxRQmd3fuF0aXkLWV8a8t4DpEpvUi4PAphWn8LM4HQ9W+dnHr/GQtc8o2Xi7PNca6xIdIEqG4w9t153XjCnTHx9RgT20i1FS/CCjGGsI1OQP8sXv5RP3tV9PEr0i1Kqz3dlf+n5T0zNeeTcK5NXF/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778432931; c=relaxed/simple;
-	bh=qRNzFoTiVCuTfnV1dvVwuxpnSZC4N4oqVoZPWCtyFWo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rcdRa7L9vTDmQmnU0uN4opYJtgrlA9BrWpuoEt1G8wLtnnyNFbKzeIDEFcHjS7iA6z1GDTCFDxLF2/VDGkkMdal8KoqRz4+YiYpgLk/0jr1FyTM9zOaKemvHE+KUv1taW9LXaiA4TUCgH+YAg+3u+aODHJhKS4JgCrUOURUuFBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dYAQfX9D; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1778446193; c=relaxed/simple;
+	bh=ZA03UF8t0Zknwe0KDjJAn3645XnyMtfaeNKcMOwmFuo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=OVmPIIfah2ITBPDcMUTckVi5RneyJbCnDIPNljt8YlvvosPq1fSONy6JDze6+VMdEQfPU/4KzQ2s0aMY33SzHjRBUO4xhri42TbE9USkA9U5qEDB1QwYmEksaPL6X0dGcJnGQUClhxWYX5HCHuYAYzeMw+yXkIeYCLCY4lPZaN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WQgvWDsN; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dYAQfX9D"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WQgvWDsN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778432930; x=1809968930;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qRNzFoTiVCuTfnV1dvVwuxpnSZC4N4oqVoZPWCtyFWo=;
-  b=dYAQfX9DuKb+NYyzkizaO/3xxAtiEOHlGg2fEm+2RRaeelWsHhvVjT/X
-   WR1xywTb6XMiELZd8VrDN/Ku6GHQMn3Q0T45ZPV4IJIfyeaR1SmXwF2Cr
-   bF8DClMyjKAHRQDp8kLxFereU2IWeGcpJmbgypBOBHU8MpiSP/WUzHSZF
-   rkUUKza+Eikg0NBF0sLgohQy+S9BQpC1Ir0BCv9gjjalNfqZPoaOSalb2
-   8+8qWnh9/vianoH6U+yPhtCyj0jqeDnx3lTegPfNkakvHsYo8b83+VOMh
-   NJtnTlwQC0Y5EGpmf7cFSRXNKPHIYsexRfE/0CQ3ERR8NwNdlbndikpjd
-   g==;
-X-CSE-ConnectionGUID: wGSiWxxTTWG7EyXjOwxt9w==
-X-CSE-MsgGUID: e4SBuAaETtmplCM2TW3z6A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11782"; a="89919902"
+  t=1778446192; x=1809982192;
+  h=date:from:to:cc:subject:message-id;
+  bh=ZA03UF8t0Zknwe0KDjJAn3645XnyMtfaeNKcMOwmFuo=;
+  b=WQgvWDsN1DgdPhL+vTn8RfQfH1GVaFjn44lmm+Y2VRgC4N2caChigl2b
+   7bmZGERx/PsIRM0X/kywSvxrD086Tx066F4dBVDctxYwX5Y/6T/DJw7mw
+   SxXEnndwx93hVLqtOwDu4K5x1KFJdcY+Fm3ioLwuxFADNqfH7TvnaL2Ss
+   PBdIqcxLOEwq9TAeJX11ePcF7ZdtW0sQadL0vvy7azOmnYcNVvhU4fsW0
+   1ZyjwrpSObZG9TaOb8vK/P+5QYDZ5Oq30QMyxQPl3erVGDIBp+vGE6QKo
+   j9faSOkKZO9kG3mIqkoexsIUlRd3qnhWAuhvefelegt4Fb3oIszkmm46n
+   w==;
+X-CSE-ConnectionGUID: ImuTsApIR963NyxK4F4/iQ==
+X-CSE-MsgGUID: IEFYrEW4Q4CPLeRI1lNf+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11782"; a="79064708"
 X-IronPort-AV: E=Sophos;i="6.23,227,1770624000"; 
-   d="scan'208";a="89919902"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2026 10:08:49 -0700
-X-CSE-ConnectionGUID: 4da33C/STDqvjN1LR2bH1A==
-X-CSE-MsgGUID: HgtiYq5bTaueCMH+NREZeA==
+   d="scan'208";a="79064708"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2026 13:49:49 -0700
+X-CSE-ConnectionGUID: nG3GUyVaTQ6qwNNADGKmFg==
+X-CSE-MsgGUID: g9qc7e8FSKiZWc6KvwKPWQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,227,1770624000"; 
-   d="scan'208";a="234589511"
-Received: from lkp-server01.sh.intel.com (HELO 82327192134e) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 10 May 2026 10:08:46 -0700
-Received: from kbuild by 82327192134e with local (Exim 4.98.2)
+   d="scan'208";a="242250777"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 10 May 2026 13:49:48 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wM7dz-000000002S1-0RmW;
-	Sun, 10 May 2026 17:08:43 +0000
-Date: Mon, 11 May 2026 01:08:02 +0800
+	id 1wMB5t-000000007mD-3R89;
+	Sun, 10 May 2026 20:49:45 +0000
+Date: Sun, 10 May 2026 22:49:24 +0200
 From: kernel test robot <lkp@intel.com>
-To: Daniel J Blueman <daniel@quora.org>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Antonino Maniscalco <antomani103@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Daniel J Blueman <daniel@quora.org>,
-	linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] drm/msm: Fix shrinker deadlock
-Message-ID: <202605110127.kDfyU1Oh-lkp@intel.com>
-References: <20260508065722.18785-1-daniel@quora.org>
+To: Boris Brezillon <bbrezillon@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: Warning: drivers/gpu/drm/drm_gem.c:1630 function parameter
+ 'dev' not described in 'drm_gem_lru_scan'
+Message-ID: <202605102247.HMBfc0Vu-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260508065722.18785-1-daniel@quora.org>
 
-Hi Daniel,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v7.1-rc2 next-20260508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-J-Blueman/drm-msm-Fix-shrinker-deadlock/20260510-132942
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20260508065722.18785-1-daniel%40quora.org
-patch subject: [PATCH] drm/msm: Fix shrinker deadlock
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20260511/202605110127.kDfyU1Oh-lkp@intel.com/config)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Boris-Brezillon/drm-panthor-Don-t-use-the-racy-drm_gem_lru_remove-helper/20260510-224314
+head:   1420cf2a3703ad635e3b61cc82035cc312dcd6f9
+commit: 1420cf2a3703ad635e3b61cc82035cc312dcd6f9 drm/gem: Make the GEM LRU lock part of drm_device
+date:   6 hours ago
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260510/202605102247.HMBfc0Vu-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260511/202605110127.kDfyU1Oh-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260510/202605102247.HMBfc0Vu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605110127.kDfyU1Oh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605102247.HMBfc0Vu-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/msm/msm_gem_shrinker.c: In function 'evict':
->> drivers/gpu/drm/msm/msm_gem_shrinker.c:125:30: error: passing argument 1 of 'with_vm_locks' from incompatible pointer type [-Wincompatible-pointer-types]
-     125 |         return with_vm_locks(ticket, msm_gem_evict, obj);
-         |                              ^~~~~~
-         |                              |
-         |                              struct ww_acquire_ctx *
-   drivers/gpu/drm/msm/msm_gem_shrinker.c:46:22: note: expected 'void (*)(struct drm_gem_object *)' but argument is of type 'struct ww_acquire_ctx *'
-      46 | with_vm_locks(void (*fn)(struct drm_gem_object *obj),
-         |               ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/msm_gem_shrinker.c:125:38: error: passing argument 2 of 'with_vm_locks' from incompatible pointer type [-Wincompatible-pointer-types]
-     125 |         return with_vm_locks(ticket, msm_gem_evict, obj);
-         |                                      ^~~~~~~~~~~~~
-         |                                      |
-         |                                      void (*)(struct drm_gem_object *)
-   drivers/gpu/drm/msm/msm_gem_shrinker.c:47:38: note: expected 'struct drm_gem_object *' but argument is of type 'void (*)(struct drm_gem_object *)'
-      47 |               struct drm_gem_object *obj)
-         |               ~~~~~~~~~~~~~~~~~~~~~~~^~~
->> drivers/gpu/drm/msm/msm_gem_shrinker.c:125:16: error: too many arguments to function 'with_vm_locks'
-     125 |         return with_vm_locks(ticket, msm_gem_evict, obj);
-         |                ^~~~~~~~~~~~~
-   drivers/gpu/drm/msm/msm_gem_shrinker.c:46:1: note: declared here
-      46 | with_vm_locks(void (*fn)(struct drm_gem_object *obj),
-         | ^~~~~~~~~~~~~
+>> Warning: drivers/gpu/drm/drm_gem.c:1630 function parameter 'dev' not described in 'drm_gem_lru_scan'
+>> Warning: drivers/gpu/drm/drm_gem.c:1630 function parameter 'dev' not described in 'drm_gem_lru_scan'
 
-
-vim +/with_vm_locks +125 drivers/gpu/drm/msm/msm_gem_shrinker.c
-
-6afb0750dba05c Rob Clark 2021-04-05  115  
-63f17ef834284d Rob Clark 2021-04-05  116  static bool
-02070f04987524 Rob Clark 2025-06-29  117  evict(struct drm_gem_object *obj, struct ww_acquire_ctx *ticket)
-63f17ef834284d Rob Clark 2021-04-05  118  {
-b352ba54a82072 Rob Clark 2022-08-02  119  	if (is_unevictable(to_msm_bo(obj)))
-63f17ef834284d Rob Clark 2021-04-05  120  		return false;
-63f17ef834284d Rob Clark 2021-04-05  121  
-b352ba54a82072 Rob Clark 2022-08-02  122  	if (msm_gem_active(obj))
-01780d02634a3a Rob Clark 2022-08-02  123  		return false;
-01780d02634a3a Rob Clark 2022-08-02  124  
-fe4952b5f27cca Rob Clark 2025-06-29 @125  	return with_vm_locks(ticket, msm_gem_evict, obj);
-63f17ef834284d Rob Clark 2021-04-05  126  }
-63f17ef834284d Rob Clark 2021-04-05  127  
-
--- 
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
