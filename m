@@ -1,62 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBB8622A817
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 May 2026 23:26:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F2E21773D
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 May 2026 23:58:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778455611; cv=none; b=XHvNCekSJ8R4z4StuPxZCbCuLQlXqBq0iXPZkESZL/MqYyyy4qq+NmUnm2PdTGjV38GwVBv2fKo3v/R+yI+EAsH0/9FMABEJF4J6SuPengYPwWzeBoi/JAZ57tJ1Vf5rbMKQmcmsJjRP/Bv/VihKw7ZIlURnqg2p8gbY6jlueRM=
+	t=1778457487; cv=none; b=hYdjz0wC5M7uPk40py6tg3AtpAz3fPBT9DxYI1h4H6AEur3ukTiLXJwbXK28svNwfhM0GfoaghG6YXnKAzK2sY9OcOC0oMdLSyh/sSkJsgEtqxW3mKtEX4x84y3cArhIaE6EJ6qYk32N4Uz2//1w+1Mediy4Z8A3slUoDqAjRds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778455611; c=relaxed/simple;
-	bh=cFUX4gT/loTTyQHa2YUEDG2zNnFyH/idtZCKMeSLQTo=;
+	s=arc-20240116; t=1778457487; c=relaxed/simple;
+	bh=sTUoYAocc1hSUPmnf0sXlahfRKGlMT0CWJiBdIVm5QI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Db29OGkCCtNDbx57N3ioi4fRRjpb3c3t8dICwHfnfQ+yXJsumiHr0DtmjE2vP1ZuxJG8QsK1r/36WHeBkZMNx7CvAOW9Qx5gxcr9bgBF41NK/sR5YTFiwRndDSQJvHkfEVdpJG3YYlbOuNYrcfbC70eKZuH/kxROJEC7ASw6RPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NHahIQrp; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=t0EPaN9CUKEMuc5PXhz7ajPYzoDT/rtd+9kLAx20ruIMVUuKyyMs8J/6UZ2dmrQpuUFvpah1tcfEFaq5sFsW6DFBzoG7G/tz1QbmuyapWoXh8zOsB+sB/FQnAW3nRMEY4aXsPfemLWAL8Ug5ibAOJ9y2WlSSG4+RJeGdaXjLqy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XATxi6iJ; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NHahIQrp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XATxi6iJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778455609; x=1809991609;
+  t=1778457485; x=1809993485;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=cFUX4gT/loTTyQHa2YUEDG2zNnFyH/idtZCKMeSLQTo=;
-  b=NHahIQrpseYUvMZL3CRMIfgcr4VJ0IXnunrKyMNKK7xoMRaBcKYQI7t7
-   wWIdQiVX7yC/lIHc5kXXH1DmOt3oQ407glSXDuLYiqjVMos4VVJ2LOCIe
-   v9Z4TzYs4Br8e0uFMyAm+XE6f7CEiakSNWSyo4lScAbx1mk+RL2qDZThB
-   864Yh6lI/sjUz14J35nLJBhWiC/fg4yegWQsyIy+lJQSaqguuUg6hi+bc
-   oYat0frkp7Wniyhrkd6plTb6A3AeK+josp+znd6OhPAIin/yzVZLxRzTs
-   0rTroE6udibeae+azjOakn2pxPctKo5WoJxPlM0p9J27+HEQK715l1nbb
+  bh=sTUoYAocc1hSUPmnf0sXlahfRKGlMT0CWJiBdIVm5QI=;
+  b=XATxi6iJXJDfVNRjMmn/sfeNwZ4qxdZTvi/at8iXb+qV5hLAYayCVFga
+   Z2oDdqMZ3QWt+IBSuoCGvFyxogUJiVGAxOo/C2E/vRwfZohyAtCUVx50D
+   TQ6weqLSj9dEM6trF8KCU0dqhTgdsXbwXmIz2xgB8lSgBU2w1BzWU5aIm
+   Z4oQ5/lYbVmvgrFOUYrWEqBBl8V7v7F46BTpx36dbeYUBH+5XxmCycHsn
+   qWxMYV0lEGQWHFMdtwlWWBjH/oQnSpnDr2rzwlZqSHSGaOCS5NdWrpKC5
+   d2xbNLyCWMo4LqYqE3EIhHZAAyc/D221RHUhgZzY2DaEi5wwaVSLxMd3T
    Q==;
-X-CSE-ConnectionGUID: ukL9g0ElTnKkO+KFcag6WQ==
-X-CSE-MsgGUID: m2gXTlKnSpmSzGA3kzeiZA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11782"; a="96909265"
+X-CSE-ConnectionGUID: +Y8llY4zTZCYrqq4s5V11g==
+X-CSE-MsgGUID: o3e3auTCQFub3WZdeZ4hZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11782"; a="96767450"
 X-IronPort-AV: E=Sophos;i="6.23,228,1770624000"; 
-   d="scan'208";a="96909265"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2026 16:26:48 -0700
-X-CSE-ConnectionGUID: JiJSE8vDSqS7EaHJnTn9sw==
-X-CSE-MsgGUID: 4Rg3/cEATbGG1Qb2fGx6pw==
+   d="scan'208";a="96767450"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2026 16:58:05 -0700
+X-CSE-ConnectionGUID: Ky0MhVERSaK+M2CAPMIO9g==
+X-CSE-MsgGUID: Zmip715SRZukh0qSjuCgNA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,228,1770624000"; 
-   d="scan'208";a="237245600"
+   d="scan'208";a="241270570"
 Received: from lkp-server01.sh.intel.com (HELO 82327192134e) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 10 May 2026 16:26:46 -0700
+  by orviesa003.jf.intel.com with ESMTP; 10 May 2026 16:58:01 -0700
 Received: from kbuild by 82327192134e with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wMDXj-000000002gD-3rwh;
-	Sun, 10 May 2026 23:26:40 +0000
-Date: Mon, 11 May 2026 07:26:20 +0800
+	id 1wME1y-000000002hh-0fsW;
+	Sun, 10 May 2026 23:57:56 +0000
+Date: Mon, 11 May 2026 07:57:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lucas Poupeau <lucasp.linux@gmail.com>, jpoimboe@kernel.org,
-	pmladek@suse.com
-Cc: oe-kbuild-all@lists.linux.dev, m32285159@gmail.com,
+To: Lucas Poupeau <lucasp.linux@gmail.com>, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, horms@kernel.org, netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Lucas Poupeau <lucasp.linux@gmail.com>
-Subject: Re: [PATCH] tools: include: add proper strscpy() declaration
-Message-ID: <202605110734.1Vga6ipo-lkp@intel.com>
-References: <20260504212301.63750-1-lucasp.linux@gmail.com>
+Subject: Re: [PATCH] llc: fix coding style and memory barrier documentation
+Message-ID: <202605110726.4BFheodB-lkp@intel.com>
+References: <20260505192549.74382-1-lucasp.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,100 +65,126 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260504212301.63750-1-lucasp.linux@gmail.com>
+In-Reply-To: <20260505192549.74382-1-lucasp.linux@gmail.com>
 
 Hi Lucas,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v7.1-rc2 next-20260508]
+[auto build test ERROR on net-next/main]
+[also build test ERROR on net/main linus/master horms-ipvs/master v7.1-rc2 next-20260508]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lucas-Poupeau/tools-include-add-proper-strscpy-declaration/20260511-022707
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260504212301.63750-1-lucasp.linux%40gmail.com
-patch subject: [PATCH] tools: include: add proper strscpy() declaration
-config: x86_64-randconfig-012-20260511 (https://download.01.org/0day-ci/archive/20260511/202605110734.1Vga6ipo-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260511/202605110734.1Vga6ipo-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Lucas-Poupeau/llc-fix-coding-style-and-memory-barrier-documentation/20260510-102311
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260505192549.74382-1-lucasp.linux%40gmail.com
+patch subject: [PATCH] llc: fix coding style and memory barrier documentation
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260511/202605110726.4BFheodB-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260511/202605110726.4BFheodB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605110734.1Vga6ipo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605110726.4BFheodB-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from parse-options.c:3:
->> tools/include/linux/string.h:32:8: error: unknown type name 'ssize_t'; did you mean 'size_t'?
-      32 | extern ssize_t strscpy(char *dest, const char *src, size_t count);
-         |        ^~~~~~~
-         |        size_t
->> tools/include/linux/string.h:36:7: error: redundant redeclaration of 'str_error_r' [-Werror=redundant-decls]
-      36 | char *str_error_r(int errnum, char *buf, size_t buflen);
-         |       ^~~~~~~~~~~
-   tools/include/linux/string.h:34:7: note: previous declaration of 'str_error_r' with type 'char *(int,  char *, size_t)' {aka 'char *(int,  char *, long unsigned int)'}
-      34 | char *str_error_r(int errnum, char *buf, size_t buflen);
-         |       ^~~~~~~~~~~
-   In file included from exec-cmd.c:3:
->> tools/include/linux/string.h:32:8: error: unknown type name 'ssize_t'; did you mean 'size_t'?
-      32 | extern ssize_t strscpy(char *dest, const char *src, size_t count);
-         |        ^~~~~~~
-         |        size_t
->> tools/include/linux/string.h:36:7: error: redundant redeclaration of 'str_error_r' [-Werror=redundant-decls]
-      36 | char *str_error_r(int errnum, char *buf, size_t buflen);
-         |       ^~~~~~~~~~~
-   tools/include/linux/string.h:34:7: note: previous declaration of 'str_error_r' with type 'char *(int,  char *, size_t)' {aka 'char *(int,  char *, long unsigned int)'}
-      34 | char *str_error_r(int errnum, char *buf, size_t buflen);
-         |       ^~~~~~~~~~~
-   In file included from run-command.c:9:
->> tools/include/linux/string.h:36:7: error: redundant redeclaration of 'str_error_r' [-Werror=redundant-decls]
-      36 | char *str_error_r(int errnum, char *buf, size_t buflen);
-         |       ^~~~~~~~~~~
-   tools/include/linux/string.h:34:7: note: previous declaration of 'str_error_r' with type 'char *(int,  char *, size_t)' {aka 'char *(int,  char *, long unsigned int)'}
-      34 | char *str_error_r(int errnum, char *buf, size_t buflen);
-         |       ^~~~~~~~~~~
-   In file included from help.c:5:
->> tools/include/linux/string.h:36:7: error: redundant redeclaration of 'str_error_r' [-Werror=redundant-decls]
-      36 | char *str_error_r(int errnum, char *buf, size_t buflen);
-         |       ^~~~~~~~~~~
-   tools/include/linux/string.h:34:7: note: previous declaration of 'str_error_r' with type 'char *(int,  char *, size_t)' {aka 'char *(int,  char *, long unsigned int)'}
-      34 | char *str_error_r(int errnum, char *buf, size_t buflen);
-         |       ^~~~~~~~~~~
-   cc1: all warnings being treated as errors
-   cc1: all warnings being treated as errors
-   make[6]: *** [tools/build/Makefile.build:95: tools/objtool/libsubcmd/exec-cmd.o] Error 1 shuffle=2681766322
-   make[6]: *** [tools/build/Makefile.build:95: tools/objtool/libsubcmd/parse-options.o] Error 1 shuffle=2681766322
-   cc1: all warnings being treated as errors
-   make[6]: *** [tools/build/Makefile.build:95: tools/objtool/libsubcmd/run-command.o] Error 1 shuffle=2681766322
-   cc1: all warnings being treated as errors
-   make[6]: *** [tools/build/Makefile.build:95: tools/objtool/libsubcmd/help.o] Error 1 shuffle=2681766322
-   make[6]: Target '__build' not remade because of errors.
-   make[5]: *** [Makefile:78: tools/objtool/libsubcmd/libsubcmd-in.o] Error 2 shuffle=2681766322
-   make[5]: Target 'tools/objtool/libsubcmd/libsubcmd.a' not remade because of errors.
-   make[4]: *** [Makefile:135: tools/objtool/libsubcmd/libsubcmd.a] Error 2 shuffle=2681766322
-   make[4]: Target 'all' not remade because of errors.
-   make[3]: *** [Makefile:74: objtool] Error 2 shuffle=2681766322
-   make[2]: *** [Makefile:1557: tools/objtool] Error 2 shuffle=2681766322
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=2681766322
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=2681766322
-   make: Target 'prepare' not remade because of errors.
+   net/llc/llc_input.c: In function 'llc_rcv':
+>> net/llc/llc_input.c:181:17: error: implicit declaration of function 'dprintk'; did you mean '_printk'? [-Werror=implicit-function-declaration]
+     181 |                 dprintk("%s: PACKET_OTHERHOST\n", __func__);
+         |                 ^~~~~~~
+         |                 _printk
+   cc1: some warnings being treated as errors
 
 
-vim +32 tools/include/linux/string.h
+vim +181 net/llc/llc_input.c
 
-    31	
-  > 32	extern ssize_t strscpy(char *dest, const char *src, size_t count);
-    33	
-    34	char *str_error_r(int errnum, char *buf, size_t buflen);
-    35	
-  > 36	char *str_error_r(int errnum, char *buf, size_t buflen);
-    37	
+^1da177e4c3f41 Linus Torvalds           2005-04-16  151  
+^1da177e4c3f41 Linus Torvalds           2005-04-16  152  /**
+^1da177e4c3f41 Linus Torvalds           2005-04-16  153   *	llc_rcv - 802.2 entry point from net lower layers
+^1da177e4c3f41 Linus Torvalds           2005-04-16  154   *	@skb: received pdu
+^1da177e4c3f41 Linus Torvalds           2005-04-16  155   *	@dev: device that receive pdu
+^1da177e4c3f41 Linus Torvalds           2005-04-16  156   *	@pt: packet type
+74c950c966c180 Andrew Lunn              2020-07-13  157   *	@orig_dev: the original receive net device
+^1da177e4c3f41 Linus Torvalds           2005-04-16  158   *
+^1da177e4c3f41 Linus Torvalds           2005-04-16  159   *	When the system receives a 802.2 frame this function is called. It
+^1da177e4c3f41 Linus Torvalds           2005-04-16  160   *	checks SAP and connection of received pdu and passes frame to
+^1da177e4c3f41 Linus Torvalds           2005-04-16  161   *	llc_{station,sap,conn}_rcv for sending to proper state machine. If
+^1da177e4c3f41 Linus Torvalds           2005-04-16  162   *	the frame is related to a busy connection (a connection is sending
+^1da177e4c3f41 Linus Torvalds           2005-04-16  163   *	data now), it queues this frame in the connection's backlog.
+^1da177e4c3f41 Linus Torvalds           2005-04-16  164   */
+^1da177e4c3f41 Linus Torvalds           2005-04-16  165  int llc_rcv(struct sk_buff *skb, struct net_device *dev,
+f2ccd8fa06c8e3 David S. Miller          2005-08-09  166  	    struct packet_type *pt, struct net_device *orig_dev)
+^1da177e4c3f41 Linus Torvalds           2005-04-16  167  {
+^1da177e4c3f41 Linus Torvalds           2005-04-16  168  	struct llc_sap *sap;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  169  	struct llc_pdu_sn *pdu;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  170  	int dest;
+846d7f9be89210 Lucas Poupeau            2026-05-05  171  	int (*rcv)(struct sk_buff *skb, struct net_device *dev,
+846d7f9be89210 Lucas Poupeau            2026-05-05  172  		   struct packet_type *pt, struct net_device *orig_dev);
+aadf31de16a7b2 Ben Hutchings            2012-08-13  173  	void (*sta_handler)(struct sk_buff *skb);
+aadf31de16a7b2 Ben Hutchings            2012-08-13  174  	void (*sap_handler)(struct llc_sap *sap, struct sk_buff *skb);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  175  
+^1da177e4c3f41 Linus Torvalds           2005-04-16  176  	/*
+^1da177e4c3f41 Linus Torvalds           2005-04-16  177  	 * When the interface is in promisc. mode, drop all the crap that it
+^1da177e4c3f41 Linus Torvalds           2005-04-16  178  	 * receives, do not try to analyse it.
+^1da177e4c3f41 Linus Torvalds           2005-04-16  179  	 */
+^1da177e4c3f41 Linus Torvalds           2005-04-16  180  	if (unlikely(skb->pkt_type == PACKET_OTHERHOST)) {
+0dc47877a3de00 Harvey Harrison          2008-03-05 @181  		dprintk("%s: PACKET_OTHERHOST\n", __func__);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  182  		goto drop;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  183  	}
+^1da177e4c3f41 Linus Torvalds           2005-04-16  184  	skb = skb_share_check(skb, GFP_ATOMIC);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  185  	if (unlikely(!skb))
+^1da177e4c3f41 Linus Torvalds           2005-04-16  186  		goto out;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  187  	if (unlikely(!llc_fixup_skb(skb)))
+^1da177e4c3f41 Linus Torvalds           2005-04-16  188  		goto drop;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  189  	pdu = llc_pdu_sn_hdr(skb);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  190  	if (unlikely(!pdu->dsap)) /* NULL DSAP, refer to station */
+^1da177e4c3f41 Linus Torvalds           2005-04-16  191  	       goto handle_station;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  192  	sap = llc_sap_find(pdu->dsap);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  193  	if (unlikely(!sap)) {/* unknown SAP */
+0dc47877a3de00 Harvey Harrison          2008-03-05  194  		dprintk("%s: llc_sap_find(%02X) failed!\n", __func__,
+^1da177e4c3f41 Linus Torvalds           2005-04-16  195  			pdu->dsap);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  196  		goto drop;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  197  	}
+^1da177e4c3f41 Linus Torvalds           2005-04-16  198  	/*
+^1da177e4c3f41 Linus Torvalds           2005-04-16  199  	 * First the upper layer protocols that don't need the full
+^1da177e4c3f41 Linus Torvalds           2005-04-16  200  	 * LLC functionality
+^1da177e4c3f41 Linus Torvalds           2005-04-16  201  	 */
+23dbe7912dad6b Stephen Hemminger        2006-05-25  202  	rcv = rcu_dereference(sap->rcv_func);
+696ea472e19c6d Changli Gao              2011-02-22  203  	dest = llc_pdu_type(skb);
+6aa7de059173a9 Mark Rutland             2017-10-23  204  	sap_handler = dest ? READ_ONCE(llc_type_handlers[dest - 1]) : NULL;
+aadf31de16a7b2 Ben Hutchings            2012-08-13  205  	if (unlikely(!sap_handler)) {
+696ea472e19c6d Changli Gao              2011-02-22  206  		if (rcv)
+696ea472e19c6d Changli Gao              2011-02-22  207  			rcv(skb, dev, pt, orig_dev);
+696ea472e19c6d Changli Gao              2011-02-22  208  		else
+696ea472e19c6d Changli Gao              2011-02-22  209  			kfree_skb(skb);
+696ea472e19c6d Changli Gao              2011-02-22  210  	} else {
+23dbe7912dad6b Stephen Hemminger        2006-05-25  211  		if (rcv) {
+8f182b494f8779 Stephen Hemminger        2006-05-25  212  			struct sk_buff *cskb = skb_clone(skb, GFP_ATOMIC);
+846d7f9be89210 Lucas Poupeau            2026-05-05  213  
+8f182b494f8779 Stephen Hemminger        2006-05-25  214  			if (cskb)
+8f182b494f8779 Stephen Hemminger        2006-05-25  215  				rcv(cskb, dev, pt, orig_dev);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  216  		}
+aadf31de16a7b2 Ben Hutchings            2012-08-13  217  		sap_handler(sap, skb);
+696ea472e19c6d Changli Gao              2011-02-22  218  	}
+6e2144b76840be Arnaldo Carvalho de Melo 2005-09-22  219  	llc_sap_put(sap);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  220  out:
+^1da177e4c3f41 Linus Torvalds           2005-04-16  221  	return 0;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  222  drop:
+^1da177e4c3f41 Linus Torvalds           2005-04-16  223  	kfree_skb(skb);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  224  	goto out;
+846d7f9be89210 Lucas Poupeau            2026-05-05  225  
+^1da177e4c3f41 Linus Torvalds           2005-04-16  226  handle_station:
+6aa7de059173a9 Mark Rutland             2017-10-23  227  	sta_handler = READ_ONCE(llc_station_handler);
+aadf31de16a7b2 Ben Hutchings            2012-08-13  228  	if (!sta_handler)
+^1da177e4c3f41 Linus Torvalds           2005-04-16  229  		goto drop;
+aadf31de16a7b2 Ben Hutchings            2012-08-13  230  	sta_handler(skb);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  231  	goto out;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  232  }
+^1da177e4c3f41 Linus Torvalds           2005-04-16  233  
 
 -- 
 0-DAY CI Kernel Test Service
