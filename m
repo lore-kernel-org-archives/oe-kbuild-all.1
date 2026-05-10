@@ -1,293 +1,183 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BB1D37F8B3
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 May 2026 11:08:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B72A1607A4;
+	Sun, 10 May 2026 11:30:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778411325; cv=none; b=LD+IyyZwEjezaea209YUIq4tzJohoLfMhuXsM6pNUixV894lS07BSR+p1ch884JnOxhPi7uHWr9zHEv8/btiUTy5fDq6CUHfmSTl80uo+2G9Bvgxuif7Ty6LE3LZKztrIazjXpXrRlBZ9Rs6UvBUSjguJgFxDljoFF5zu+h4B9Y=
+	t=1778412646; cv=none; b=j1Cq6Q9pBlO2bptPPG1IuoEW5ewNe/5jNOPavBoy0ZdlWBhR/AFo0+hHjYA58avGGTCKN0cnBv7tnd7bv5ZllNMp1AKxmQCZ3RspX686/NsM08Yt3pendMioLajsLR9k1NcCE1AJsAyFVyPS68Sgo0ssZ9OOwGo32pF92KBuoJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778411325; c=relaxed/simple;
-	bh=8mi75fPhsaQvw1HU20UCrojZo7Ec5xue0QGTcQ2utCo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N9lt4b50//xIAFBH7QA35IJ5fg99eZKd/SrTUuDckUqzFxPTy0QIBwhggbYl7+PoSACepsr0DTHDOwsMYfhe+0LoLRYXosRZqwH6rR2U7hNlsD34/AXnAACU5+sF452TNBRXpw6qB37zBH1KaPVnJmVIhTVW3wOgt6qk/xefL3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wj5f8A96; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1778412646; c=relaxed/simple;
+	bh=K66Nolotuqz6YCr8C8gahsfBITEtXg/36b0zt/1hY+0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=b0mQyHVobmlSG3FDGLmz2lxq4i/rLL5R1XZQcLbwJOD6bYWlC/5W8uo8bo19COJaTA3jN6r4MEKgbyZm6Z0SczrGeL6WsW39CH33+I4GBy/WyxOt/4C8ygNHAAvYywGxIrjBpZdlumXwl+HIAG2dBFF/4FG11zDHvh0iOY5EjL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ThDqRVmA; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wj5f8A96"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ThDqRVmA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778411323; x=1809947323;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8mi75fPhsaQvw1HU20UCrojZo7Ec5xue0QGTcQ2utCo=;
-  b=Wj5f8A96/9USy7Av8PKwbstxS9cpzAVGEOg4qUhX6+seseA9eAlirqbn
-   twT1xTtFzE8XIDqQZYKL3c3aHBpHZFqmx+IFTcOYk83ihxgANjUKB5zbx
-   tjZrX/bMMcfHzvHHz8WcRJ44jaZ/jWR2ZJs8uHYtYfdQRDmZcrvTwsPxg
-   eE39pw7lSWI8M34KAe4d6pqNorjXrAvc0Pmyc/THNYp4HBkrb7/A+xwF+
-   MbrqMVpxkInDs8g5v4s1gp1fQnXJffgCinyKxx9wvwg0fT9J+V8FI0VYp
-   xf1wQWnmBpZn+rmvkR8pGpsFFv7+sHMgOQ+p4B3b1/tC/uLvU5S0lqhDJ
-   w==;
-X-CSE-ConnectionGUID: gYSYKW78RDy76kyZvjkOGw==
-X-CSE-MsgGUID: iNApoiR0ROGrN2YqkdgCYg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11781"; a="79424369"
+  t=1778412643; x=1809948643;
+  h=date:from:to:cc:subject:message-id;
+  bh=K66Nolotuqz6YCr8C8gahsfBITEtXg/36b0zt/1hY+0=;
+  b=ThDqRVmAFHh5djhOWIkAG0zw/LPIctiE0VMqduNK5pKYNdBkEuIDMf2F
+   InmWWTjIhsEZQYQ7P8cN7tlWI2Rh3KaE8T9J6BCUVSS8Enhnfg39UxMUg
+   jJ0fK3JsEONE/YeWqYN6+Gr+exO6z5P4ulqC4jU5G7XgJNLbHVnZn/vdb
+   4didZ+pt1oi7/9N1S7P7SmsBMY7V7WkoWMwv/95Puzm0YRoEhZ/4jo5Fs
+   cFg7hL433oThvaONIMyuSko6LHGmV/CiMBt8bBRuDOEaeJIN3uBye/YlV
+   SDSl2intzeqg2r8hF6xK5cQof91wYY+rBExvEA+E49dbljyRhkJYotNZC
+   A==;
+X-CSE-ConnectionGUID: mnlZkCtsSM6KvWx3KpOPqQ==
+X-CSE-MsgGUID: voyEosgjQWudedQX68re1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11781"; a="89629966"
 X-IronPort-AV: E=Sophos;i="6.23,227,1770624000"; 
-   d="scan'208";a="79424369"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2026 04:08:42 -0700
-X-CSE-ConnectionGUID: wozOUDh1TdKH6zr0whv3+Q==
-X-CSE-MsgGUID: cA71tP/4SiqTcQ1+46CSKw==
+   d="scan'208";a="89629966"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2026 04:30:43 -0700
+X-CSE-ConnectionGUID: StMdg9xPQL6LiCGCymqr+A==
+X-CSE-MsgGUID: 40RE1RZQQJ+mBYoxxHao8g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,227,1770624000"; 
-   d="scan'208";a="242192373"
-Received: from lkp-server01.sh.intel.com (HELO 82327192134e) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 10 May 2026 04:08:39 -0700
-Received: from kbuild by 82327192134e with local (Exim 4.98.2)
+   d="scan'208";a="230811324"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa009.fm.intel.com with ESMTP; 10 May 2026 04:30:41 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wM21U-0000000024j-0uQH;
-	Sun, 10 May 2026 11:08:36 +0000
-Date: Sun, 10 May 2026 19:07:37 +0800
+	id 1wM2Mp-000000007hp-0HSB;
+	Sun, 10 May 2026 11:30:39 +0000
+Date: Sun, 10 May 2026 13:30:04 +0200
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Alex Lanzano <lanzano.alex@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v1 1/1] drm/repaper: simplify with
- spi_get_device_match_data()
-Message-ID: <202605101800.3kkXjmOf-lkp@intel.com>
-References: <20260508080243.1144046-1-andriy.shevchenko@linux.intel.com>
+To: Kuniyuki Iwashima <kuniyu@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ 0day robot <lkp@intel.com>
+Subject: net/ipv4/tcp.c:1606:2: error: call to undeclared function
+ 'tcp_bpf_rcvlowat'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202605101359.dgJxhzI7-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260508080243.1144046-1-andriy.shevchenko@linux.intel.com>
 
-Hi Andy,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on daeinki-drm-exynos/exynos-drm-next drm/drm-next drm-i915/for-linux-next drm-i915/for-linux-next-fixes drm-tip/drm-tip linus/master v7.1-rc2 next-20260508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/drm-repaper-simplify-with-spi_get_device_match_data/20260510-091051
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20260508080243.1144046-1-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH v1 1/1] drm/repaper: simplify with spi_get_device_match_data()
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20260510/202605101800.3kkXjmOf-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260510/202605101800.3kkXjmOf-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/selftest-bpf-Use-BPF_SOCK_OPS_ALL_CB_FLAGS-1-for-bad_cb_test_rv/20260510-125645
+head:   8387600c3c2126ca1ff6d5718eb17e7840afd157
+commit: ffaa25dad7353701805e9dae4e5d985b7ecebcc3 bpf: tcp: Add SOCK_OPS rcvlowat hook.
+date:   6 hours ago
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260510/202605101359.dgJxhzI7-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260510/202605101359.dgJxhzI7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605101800.3kkXjmOf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605101359.dgJxhzI7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/tiny/repaper.c: In function 'repaper_probe':
->> drivers/gpu/drm/tiny/repaper.c:1016:74: error: passing argument 1 of 'spi_get_device_match_data' from incompatible pointer type [-Wincompatible-pointer-types]
-    1016 |         model = (enum repaper_model)(uintptr_t)spi_get_device_match_data(dev);
-         |                                                                          ^~~
-         |                                                                          |
-         |                                                                          struct device *
-   In file included from drivers/gpu/drm/tiny/repaper.c:21:
-   include/linux/spi/spi.h:1757:52: note: expected 'const struct spi_device *' but argument is of type 'struct device *'
-    1757 | spi_get_device_match_data(const struct spi_device *sdev);
-         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+>> net/ipv4/tcp.c:1606:2: error: call to undeclared function 'tcp_bpf_rcvlowat'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1606 |         tcp_bpf_rcvlowat(sk, NULL);
+         |         ^
+   net/ipv4/tcp.c:1606:2: note: did you mean 'tcp_set_rcvlowat'?
+   include/net/tcp.h:519:5: note: 'tcp_set_rcvlowat' declared here
+     519 | int tcp_set_rcvlowat(struct sock *sk, int val);
+         |     ^
+   1 error generated.
+--
+>> net/ipv4/tcp_input.c:208:6: warning: no previous prototype for function 'bpf_skops_rcvlowat' [-Wmissing-prototypes]
+     208 | void bpf_skops_rcvlowat(struct sock *sk, struct sk_buff *skb)
+         |      ^
+   net/ipv4/tcp_input.c:208:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     208 | void bpf_skops_rcvlowat(struct sock *sk, struct sk_buff *skb)
+         | ^
+         | static 
+>> net/ipv4/tcp_input.c:5309:3: error: call to undeclared function 'tcp_bpf_rcvlowat'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    5309 |                 tcp_bpf_rcvlowat(sk, skb);
+         |                 ^
+   net/ipv4/tcp_input.c:5309:3: note: did you mean 'tcp_set_rcvlowat'?
+   include/net/tcp.h:519:5: note: 'tcp_set_rcvlowat' declared here
+     519 | int tcp_set_rcvlowat(struct sock *sk, int val);
+         |     ^
+   net/ipv4/tcp_input.c:5514:2: error: call to undeclared function 'tcp_bpf_rcvlowat'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    5514 |         tcp_bpf_rcvlowat(sk, skb);
+         |         ^
+   1 warning and 2 errors generated.
+--
+>> net/ipv4/tcp_fastopen.c:284:2: error: call to undeclared function 'tcp_bpf_rcvlowat'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     284 |         tcp_bpf_rcvlowat(sk, skb);
+         |         ^
+   net/ipv4/tcp_fastopen.c:284:2: note: did you mean 'tcp_set_rcvlowat'?
+   include/net/tcp.h:519:5: note: 'tcp_set_rcvlowat' declared here
+     519 | int tcp_set_rcvlowat(struct sock *sk, int val);
+         |     ^
+   1 error generated.
 
 
-vim +/spi_get_device_match_data +1016 drivers/gpu/drm/tiny/repaper.c
+vim +/tcp_bpf_rcvlowat +1606 net/ipv4/tcp.c
 
-   940	
-   941	static int repaper_probe(struct spi_device *spi)
-   942	{
-   943		const struct drm_display_mode *mode;
-   944		struct device *dev = &spi->dev;
-   945		enum repaper_model model;
-   946		const char *thermal_zone;
-   947		struct repaper_epd *epd;
-   948		size_t line_buffer_size;
-   949		struct drm_device *drm;
-   950		int ret;
-   951	
-   952		/* The SPI device is used to allocate dma memory */
-   953		if (!dev->coherent_dma_mask) {
-   954			ret = dma_coerce_mask_and_coherent(dev, DMA_BIT_MASK(32));
-   955			if (ret) {
-   956				dev_warn(dev, "Failed to set dma mask %d\n", ret);
-   957				return ret;
-   958			}
-   959		}
-   960	
-   961		epd = devm_drm_dev_alloc(dev, &repaper_driver,
-   962					 struct repaper_epd, drm);
-   963		if (IS_ERR(epd))
-   964			return PTR_ERR(epd);
-   965	
-   966		drm = &epd->drm;
-   967	
-   968		ret = drmm_mode_config_init(drm);
-   969		if (ret)
-   970			return ret;
-   971		drm->mode_config.funcs = &repaper_mode_config_funcs;
-   972	
-   973		epd->spi = spi;
-   974	
-   975		epd->panel_on = devm_gpiod_get(dev, "panel-on", GPIOD_OUT_LOW);
-   976		if (IS_ERR(epd->panel_on)) {
-   977			ret = PTR_ERR(epd->panel_on);
-   978			if (ret != -EPROBE_DEFER)
-   979				DRM_DEV_ERROR(dev, "Failed to get gpio 'panel-on'\n");
-   980			return ret;
-   981		}
-   982	
-   983		epd->discharge = devm_gpiod_get(dev, "discharge", GPIOD_OUT_LOW);
-   984		if (IS_ERR(epd->discharge)) {
-   985			ret = PTR_ERR(epd->discharge);
-   986			if (ret != -EPROBE_DEFER)
-   987				DRM_DEV_ERROR(dev, "Failed to get gpio 'discharge'\n");
-   988			return ret;
-   989		}
-   990	
-   991		epd->reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
-   992		if (IS_ERR(epd->reset)) {
-   993			ret = PTR_ERR(epd->reset);
-   994			if (ret != -EPROBE_DEFER)
-   995				DRM_DEV_ERROR(dev, "Failed to get gpio 'reset'\n");
-   996			return ret;
-   997		}
-   998	
-   999		epd->busy = devm_gpiod_get(dev, "busy", GPIOD_IN);
-  1000		if (IS_ERR(epd->busy)) {
-  1001			ret = PTR_ERR(epd->busy);
-  1002			if (ret != -EPROBE_DEFER)
-  1003				DRM_DEV_ERROR(dev, "Failed to get gpio 'busy'\n");
-  1004			return ret;
-  1005		}
-  1006	
-  1007		if (!device_property_read_string(dev, "pervasive,thermal-zone",
-  1008						 &thermal_zone)) {
-  1009			epd->thermal = thermal_zone_get_zone_by_name(thermal_zone);
-  1010			if (IS_ERR(epd->thermal)) {
-  1011				DRM_DEV_ERROR(dev, "Failed to get thermal zone: %s\n", thermal_zone);
-  1012				return PTR_ERR(epd->thermal);
-  1013			}
-  1014		}
-  1015	
-> 1016		model = (enum repaper_model)(uintptr_t)spi_get_device_match_data(dev);
-  1017		switch (model) {
-  1018		case E1144CS021:
-  1019			mode = &repaper_e1144cs021_mode;
-  1020			epd->channel_select = repaper_e1144cs021_cs;
-  1021			epd->stage_time = 480;
-  1022			epd->bytes_per_scan = 96 / 4;
-  1023			epd->middle_scan = true; /* data-scan-data */
-  1024			epd->pre_border_byte = false;
-  1025			epd->border_byte = REPAPER_BORDER_BYTE_ZERO;
-  1026			break;
-  1027	
-  1028		case E1190CS021:
-  1029			mode = &repaper_e1190cs021_mode;
-  1030			epd->channel_select = repaper_e1190cs021_cs;
-  1031			epd->stage_time = 480;
-  1032			epd->bytes_per_scan = 128 / 4 / 2;
-  1033			epd->middle_scan = false; /* scan-data-scan */
-  1034			epd->pre_border_byte = false;
-  1035			epd->border_byte = REPAPER_BORDER_BYTE_SET;
-  1036			break;
-  1037	
-  1038		case E2200CS021:
-  1039			mode = &repaper_e2200cs021_mode;
-  1040			epd->channel_select = repaper_e2200cs021_cs;
-  1041			epd->stage_time = 480;
-  1042			epd->bytes_per_scan = 96 / 4;
-  1043			epd->middle_scan = true; /* data-scan-data */
-  1044			epd->pre_border_byte = true;
-  1045			epd->border_byte = REPAPER_BORDER_BYTE_NONE;
-  1046			break;
-  1047	
-  1048		case E2271CS021:
-  1049			epd->border = devm_gpiod_get(dev, "border", GPIOD_OUT_LOW);
-  1050			if (IS_ERR(epd->border)) {
-  1051				ret = PTR_ERR(epd->border);
-  1052				if (ret != -EPROBE_DEFER)
-  1053					DRM_DEV_ERROR(dev, "Failed to get gpio 'border'\n");
-  1054				return ret;
-  1055			}
-  1056	
-  1057			mode = &repaper_e2271cs021_mode;
-  1058			epd->channel_select = repaper_e2271cs021_cs;
-  1059			epd->stage_time = 630;
-  1060			epd->bytes_per_scan = 176 / 4;
-  1061			epd->middle_scan = true; /* data-scan-data */
-  1062			epd->pre_border_byte = true;
-  1063			epd->border_byte = REPAPER_BORDER_BYTE_NONE;
-  1064			break;
-  1065	
-  1066		default:
-  1067			return -ENODEV;
-  1068		}
-  1069	
-  1070		epd->mode = mode;
-  1071		epd->width = mode->hdisplay;
-  1072		epd->height = mode->vdisplay;
-  1073		epd->factored_stage_time = epd->stage_time;
-  1074	
-  1075		line_buffer_size = 2 * epd->width / 8 + epd->bytes_per_scan + 2;
-  1076		epd->line_buffer = devm_kzalloc(dev, line_buffer_size, GFP_KERNEL);
-  1077		if (!epd->line_buffer)
-  1078			return -ENOMEM;
-  1079	
-  1080		epd->current_frame = devm_kzalloc(dev, epd->width * epd->height / 8,
-  1081						  GFP_KERNEL);
-  1082		if (!epd->current_frame)
-  1083			return -ENOMEM;
-  1084	
-  1085		drm->mode_config.min_width = mode->hdisplay;
-  1086		drm->mode_config.max_width = mode->hdisplay;
-  1087		drm->mode_config.min_height = mode->vdisplay;
-  1088		drm->mode_config.max_height = mode->vdisplay;
-  1089	
-  1090		drm_connector_helper_add(&epd->connector, &repaper_connector_hfuncs);
-  1091		ret = drm_connector_init(drm, &epd->connector, &repaper_connector_funcs,
-  1092					 DRM_MODE_CONNECTOR_SPI);
-  1093		if (ret)
-  1094			return ret;
-  1095	
-  1096		ret = drm_simple_display_pipe_init(drm, &epd->pipe, &repaper_pipe_funcs,
-  1097						   repaper_formats, ARRAY_SIZE(repaper_formats),
-  1098						   NULL, &epd->connector);
-  1099		if (ret)
-  1100			return ret;
-  1101	
-  1102		drm_mode_config_reset(drm);
-  1103	
-  1104		ret = drm_dev_register(drm, 0);
-  1105		if (ret)
-  1106			return ret;
-  1107	
-  1108		spi_set_drvdata(spi, drm);
-  1109	
-  1110		DRM_DEBUG_DRIVER("SPI speed: %uMHz\n", spi->max_speed_hz / 1000000);
-  1111	
-  1112		drm_client_setup(drm, NULL);
-  1113	
-  1114		return 0;
-  1115	}
-  1116	
+  1548	
+  1549	/* Clean up the receive buffer for full frames taken by the user,
+  1550	 * then send an ACK if necessary.  COPIED is the number of bytes
+  1551	 * tcp_recvmsg has given to the user so far, it speeds up the
+  1552	 * calculation of whether or not we must ACK for the sake of
+  1553	 * a window update.
+  1554	 */
+  1555	void __tcp_cleanup_rbuf(struct sock *sk, int copied)
+  1556	{
+  1557		struct tcp_sock *tp = tcp_sk(sk);
+  1558		bool time_to_ack = false;
+  1559	
+  1560		if (inet_csk_ack_scheduled(sk)) {
+  1561			const struct inet_connection_sock *icsk = inet_csk(sk);
+  1562	
+  1563			if (/* Once-per-two-segments ACK was not sent by tcp_input.c */
+  1564			    tp->rcv_nxt - tp->rcv_wup > icsk->icsk_ack.rcv_mss ||
+  1565			    /*
+  1566			     * If this read emptied read buffer, we send ACK, if
+  1567			     * connection is not bidirectional, user drained
+  1568			     * receive buffer and there was a small segment
+  1569			     * in queue.
+  1570			     */
+  1571			    (copied > 0 &&
+  1572			     ((icsk->icsk_ack.pending & ICSK_ACK_PUSHED2) ||
+  1573			      ((icsk->icsk_ack.pending & ICSK_ACK_PUSHED) &&
+  1574			       !inet_csk_in_pingpong_mode(sk))) &&
+  1575			      !atomic_read(&sk->sk_rmem_alloc)))
+  1576				time_to_ack = true;
+  1577		}
+  1578	
+  1579		/* We send an ACK if we can now advertise a non-zero window
+  1580		 * which has been raised "significantly".
+  1581		 *
+  1582		 * Even if window raised up to infinity, do not send window open ACK
+  1583		 * in states, where we will not receive more. It is useless.
+  1584		 */
+  1585		if (copied > 0 && !time_to_ack && !(sk->sk_shutdown & RCV_SHUTDOWN)) {
+  1586			__u32 rcv_window_now = tcp_receive_window(tp);
+  1587	
+  1588			/* Optimize, __tcp_select_window() is not cheap. */
+  1589			if (2*rcv_window_now <= tp->window_clamp) {
+  1590				__u32 new_window = __tcp_select_window(sk);
+  1591	
+  1592				/* Send ACK now, if this read freed lots of space
+  1593				 * in our buffer. Certainly, new_window is new window.
+  1594				 * We can advertise it now, if it is not less than current one.
+  1595				 * "Lots" means "at least twice" here.
+  1596				 */
+  1597				if (new_window && new_window >= 2 * rcv_window_now)
+  1598					time_to_ack = true;
+  1599			}
+  1600		}
+  1601		if (time_to_ack) {
+  1602			tcp_mstamp_refresh(tp);
+  1603			tcp_send_ack(sk);
+  1604		}
+  1605	
+> 1606		tcp_bpf_rcvlowat(sk, NULL);
+  1607	}
+  1608	
 
--- 
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
