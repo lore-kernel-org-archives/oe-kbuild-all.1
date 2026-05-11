@@ -1,110 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97EC2364029
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 May 2026 23:42:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C28D2FE04E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 May 2026 23:46:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778542940; cv=none; b=AnOduxT9+OOjdbbz5nTIOWtpdCrn3aDAPWm4ONptpKfEi+kM6HxblqxMlGJH9xgjLHiOys6zcxpKimfZr7aGOdcpiuLJIfB1iJCd+khrHxDu3dwwZ3VN+3R71nkt7XKCtO+wY84lhsGo5Y1jMZ2kKFT8wiv8jC6RKwGQXUaXl/g=
+	t=1778543184; cv=none; b=Oe82Ah7WKHAm/Nq8WWY7q1+pRLpajyPG4nYRXqAWavlmWUk8wLRP3o84L0098JYLFsEOaU8OVK1SKmj1MKuJkGzP3+M20NoOsqbBn+t7oIq335mncZAFIN1l3K6BZavisly2DlgWQOkvkGfICJhCwOz/myh99AWQZkvpKRmb3yk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778542940; c=relaxed/simple;
-	bh=laBEYaNKfM7jgcWqjWGUNtWf8onOxjtzyhlXSvrloco=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GcnR+cMIpSokCiQz+vBCPH8LKBMW+rMyjpTiKcciJYMAWBJ2Tyw/PRS7L6edA9300GWYHxOFBK5ORfLRXDm98OqZA4iXtl/+h83v1rbX8G+EwafD0c+MGoKUyDt3YVTF9EatMAgVZTNkRDUv4rKEd+23xWdMkzKpcVoUt8GLkgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b9EBkTTl; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1778543184; c=relaxed/simple;
+	bh=6QfFvd4hNVT/OFFEu3ETLdr8tjWKn7fheHATzoQOkbM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=HifWaRh/2mMZtB8rdH/Y0jo0XsHLy3sIGwZVIU9UnX1blJSwAgpGiQKOrtGZ9/N2akUolbl8b9GgaNmoR8nokSbtIMJKTUqNbrPEaYTvCA5G3zo7j98DvoEcSMDDBx6XhVQs1jLyhhQUTAl7Kw/Eb+lT3eXh/ReG7pSnf7GYuY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SFE9B5MN; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b9EBkTTl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SFE9B5MN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778542939; x=1810078939;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=laBEYaNKfM7jgcWqjWGUNtWf8onOxjtzyhlXSvrloco=;
-  b=b9EBkTTlLbAt89kFsEvLgh4Br1tMAG+KAalsmreC6daDEW7JFtpiP4nW
-   WGhHQZE50pZd0PMoj84vY4/eQhPpdtNFAV6xvdNqo25gksoV6/NHVXOSW
-   Y0NlFdPbQH8W6EAFONgzCXRQqhJoGkqm4Rmp+H+EnOpN4OBRJ6rXKf7Ap
-   eh74xFMeltIL5V4ALq2KRbG6kkN+APmVhmTRcyYL/BegNbmOBzNs7t2La
-   bgNDEh3KCiRq0fupO1AUNbpou8y0dIwaFvJiUyH03dYC31wRB/iPAT7/J
-   TYS8D+t4SdiWjnS4bzqh2hWqBDgtqt6jdoaihaLCwnFH9w1rgRhj+xjZn
-   g==;
-X-CSE-ConnectionGUID: gxbK+SHoSpOkochMyDvPBA==
-X-CSE-MsgGUID: Z3H+LsSqSMubb+yaee9VVw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="83314827"
+  t=1778543184; x=1810079184;
+  h=date:from:to:cc:subject:message-id;
+  bh=6QfFvd4hNVT/OFFEu3ETLdr8tjWKn7fheHATzoQOkbM=;
+  b=SFE9B5MNwYlrKrd4oMk5Rq+44wtYHzb/E3A6UDO06ReKtqJ0Re/Zse/v
+   wv3jMa86dtMgYfkovY26mJn8Ys/QVdSCreLkTb15Mef1XKOjAD6TFs16G
+   y1Ndf4r2Tz/2Zr3/UmXGJPLpzXwBUOVVuIUq+Zbx1ZQelqiSHew4+uQDv
+   DaulGFecQoqQme6TvjFIkRjuJRvdXi24z6i+7mtropaZxsPKpvjsg4gvA
+   OV5afgQupVUWijktLAAB/DrwObto29MqtMuM3aZ0Q74wNkNx/LMXHhhz5
+   fmwBrcJfba0PAh/XVHUG1cKt7jt5L2v32UubHu61R0AY2krHIegDLWI9z
+   Q==;
+X-CSE-ConnectionGUID: C27GFiUqTq2kaDRWWyfijQ==
+X-CSE-MsgGUID: elefQ8UKS1eh+35rar8Ljg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="83060044"
 X-IronPort-AV: E=Sophos;i="6.23,229,1770624000"; 
-   d="scan'208";a="83314827"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 16:42:18 -0700
-X-CSE-ConnectionGUID: UWL9er0pR9Sy4KW+D1NhHQ==
-X-CSE-MsgGUID: rYl2DJKyTL2duLg31f8TVg==
+   d="scan'208";a="83060044"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 16:46:22 -0700
+X-CSE-ConnectionGUID: T+9EwNZ2QTi+xnxxrtL80w==
+X-CSE-MsgGUID: lAeCT29pSKmyy1Ew4iQpWA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,229,1770624000"; 
-   d="scan'208";a="233278432"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 11 May 2026 16:42:16 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="242571688"
+Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 11 May 2026 16:46:21 -0700
+Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wMaGM-0000000085Z-02oO;
-	Mon, 11 May 2026 23:42:14 +0000
-Date: Tue, 12 May 2026 01:42:09 +0200
+	id 1wMaKI-000000001IL-13Qt;
+	Mon, 11 May 2026 23:46:18 +0000
+Date: Tue, 12 May 2026 07:45:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chaitanya Sabnis <chaitanya.msabnis@gmail.com>, andi.shyti@kernel.org,
-	wsa@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, linux-i2c@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Chaitanya Sabnis <chaitanya.msabnis@gmail.com>
-Subject: Re: [PATCH] dt-bindings: i2c: convert davinci i2c to dt-schema
-Message-ID: <202605120133.lQ1F3qlY-lkp@intel.com>
-References: <20260505102626.5726-1-chaitanya.msabnis@gmail.com>
+To: Hannes Reinecke <hare@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hare-scsi-devel:configfs-ns.v1 1/8]
+ drivers/nvme/target/bpf_ops.c:108:33: sparse: sparse: restricted __le16
+ degrades to integer
+Message-ID: <202605120742.TeFoKFDS-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260505102626.5726-1-chaitanya.msabnis@gmail.com>
 
-Hi Chaitanya,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on andi-shyti/i2c/i2c-host]
-[also build test WARNING on brgl/gpio/for-next robh/for-next linus/master v7.1-rc3 next-20260508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chaitanya-Sabnis/dt-bindings-i2c-convert-davinci-i2c-to-dt-schema/20260511-231255
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
-patch link:    https://lore.kernel.org/r/20260505102626.5726-1-chaitanya.msabnis%40gmail.com
-patch subject: [PATCH] dt-bindings: i2c: convert davinci i2c to dt-schema
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260512/202605120133.lQ1F3qlY-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel.git configfs-ns.v1
+head:   c924e1daab3eb4efc26275918155673d5e90c6ba
+commit: 95eeb6714114cd17d9c4c494a28cc11d86059eef [1/8] nvmet-bpf: eBPF struct_ops support for log pages
+config: sparc64-randconfig-r132-20260512 (https://download.01.org/0day-ci/archive/20260512/202605120742.TeFoKFDS-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260512/202605120742.TeFoKFDS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605120133.lQ1F3qlY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605120742.TeFoKFDS-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/nvme/target/bpf_ops.c:108:33: sparse: sparse: restricted __le16 degrades to integer
 
-   Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/xxx/xxx.rst
-   Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst references a file that doesn't exist: Documentation/networking/xfrm_proc.rst
-   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/i2c/i2c-davinci.txt
-   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
-   Warning: drivers/net/ethernet/smsc/Kconfig references a file that doesn't exist: file:Documentation/networking/device_drivers/ethernet/smsc/smc9.rst
-   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/virtual/lguest/lguest.c
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,\b(\S*)(Documentation/[A-Za-z0-9
+vim +108 drivers/nvme/target/bpf_ops.c
 
---
+    97	
+    98	static int nvmet_bpf_reg(void *kdata, struct bpf_link *link)
+    99	{
+   100		struct nvmet_bpf_ops *ops = kdata;
+   101		struct nvmet_port *p, *port = NULL;
+   102		struct nvmet_subsys_link *s;
+   103	
+   104		pr_debug("%s: register %s port id %d\n",
+   105			 __func__, ops->subsysnqn, ops->portid);
+   106	
+   107		list_for_each_entry(p, nvmet_ports, global_entry) {
+ > 108			if (p->disc_addr.portid == ops->portid) {
+   109				port = p;
+   110				break;
+   111			}
+   112		}
+   113		if (!port)
+   114			return -EINVAL;
+   115	
+   116		down_write(&nvmet_config_sem);
+   117		list_for_each_entry(s, &port->subsystems, entry) {
+   118			if (!strncmp(s->subsys->subsysnqn, ops->subsysnqn,
+   119				     NVMF_NQN_SIZE)) {
+   120				s->bpf_ops = ops;
+   121				ops->subsys_link = s;
+   122				break;
+   123			}
+   124		}
+   125		up_write(&nvmet_config_sem);
+   126		if (ops->subsys_link) {
+   127			pr_debug("%s: attached %pUb to %s\n",
+   128				 __func__, &ops->uuid,
+   129				 ops->subsys_link->subsys->serial);
+   130			/* Raise a discovery log page changed AEN if log page is present */
+   131			if (ops->log_page_supported(ops, NVME_LOG_DISC))
+   132				nvmet_port_disc_changed(port, ops->subsys_link->subsys);
+   133		}
+   134		return ops->subsys_link ? 0 : -EINVAL;
+   135	}
+   136	
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
