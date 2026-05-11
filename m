@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3942FFFA5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 May 2026 12:00:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 942B737B028
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 May 2026 12:22:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778500859; cv=none; b=lqCeBZ5e4u7zqUEMofr7n2XVy49xN6phnmK7dFJGhVhne0fv/bplrIBQgDZgfetOQwu6c8NDq/UPOfrmIhaekdR6GIWpJrILNml2wtXeA3Eb1vI1/EjZgeiQ40Gu9VaY6FxGPDRwx3az/mBDySBTiMEh1OG4kic+LXlOEJD1k9I=
+	t=1778502179; cv=none; b=YmV9bX9Pq+e2hv8MaHz4KStLLV/0l22Dp3rA4eM9c6F0UsHRVGBG8wmVd+hzD2p7zSegBShsBA9K5Z6MgQIeB1+z4p5z9zfv7DdXmLudGf5Xn+xY4gJzyay/o2lCJcIYuDQwV2A6hd6njeP6fMj4w2cN5Bxm7qnN+YZU0bMdKuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778500859; c=relaxed/simple;
-	bh=97CRcz4rdZO2op/ZW0zwvEZExxEdLAi5tblorCq2l9g=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=t0AVinjdVZ/5QvMwGEZudxmmWmQAHb5GGoKmb1HKHCLRHnQodjDeotZSXCzG99JRy3Rzd7taBL+CNKb+xOW2cV3W8//HO4cLpxMYltNnRtVchlCPU6FO9D1WgVa51u2BsHN68h5WTR9JMJ6WpYvmhKLEZ7TV5ReE+tij4b1weoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IFvCg8Qw; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1778502179; c=relaxed/simple;
+	bh=nAKeVmF/mT3Ra9EAYkL+J/p849y8toTc9YIjxbSA43Q=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=czv5gZrQqSvyJ+kx3oHn/4+4Otc7aKZC1rzqhAnvMMDA9lycjheUKkk/cbbxfFAqVkErEPZBjzuclf0p/CN4gIRPUM4/Dw7PSA0bEDZhVi5PktoheqwVrW0dhRRJiQb8SDlwOAM0aKxdj42qbPdJW8ysfsNIlNWuO9EYPuMHlXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XENxEMl4; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IFvCg8Qw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XENxEMl4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778500858; x=1810036858;
+  t=1778502178; x=1810038178;
   h=date:from:to:cc:subject:message-id;
-  bh=97CRcz4rdZO2op/ZW0zwvEZExxEdLAi5tblorCq2l9g=;
-  b=IFvCg8QwlT0cuzncOsM6Dh5gxnUoFxXvhAzpycN4jsIY/OZda2O/1/1l
-   KAmgsXX0l44fUcJNJluJq5VVzfsHyTI8ULjUYIH5Vf6RzgpuJFmY/QUk8
-   v7KZQU0Li+eESf4Vw5estMALeDxsgpN+kN3pseseek8Rh+zKFpHOb+z2c
-   d6vl8xrhdjyTarvXPwOLmHIAjm+nmjql/3iRIBJxfhwbbOTz7DUDcPX3j
-   bzpmemILVzCyNaveO725prBtq+NCLi2gICHu913FqtyCITda15xTla8VY
-   DyDH/h0201odViuwFJwUadaSBf9blo/ZoPPTc5d8lxC+mT14wUBb+Age+
+  bh=nAKeVmF/mT3Ra9EAYkL+J/p849y8toTc9YIjxbSA43Q=;
+  b=XENxEMl4Q8u53K2zgUyWn21mdQYRPZlkhvP0Hqtuk4YSoIvlZgPeHQ9F
+   gMl8kyo44haKuGB5ayAftFKtivB0Be4Ti4Dt52SaxO6XeWQND7jqSNMd4
+   kHlOd5rNLL4Wr/geYtEAjPjzTH1mmElRQ5dhOuFe/XsuGO0cAcp71+CTl
+   PDnnAc+2/laFuLXZG7UhOJZpRVjI2OQEviJ7qhjqdDP/Siw0GCBAt22ks
+   rXHRc+Wo7zP94trKZ2XtoYqvZINjfO6V3xe8loHN5nB2/Fim497svxu/P
+   9zRLGlqdxV9pql9pFOfp7zeQaPVtMwRIiVOSWsKr7ZZkBxmqv35/0hFJ5
    Q==;
-X-CSE-ConnectionGUID: rCGQVzruQzmBxYYQF/DzdQ==
-X-CSE-MsgGUID: Axo1/4tzSH+GR09+yKytaA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11782"; a="102048076"
+X-CSE-ConnectionGUID: jz1Ou0WoSj6ILQclzkG3Ig==
+X-CSE-MsgGUID: uwGm0P4ZQyuTgOtCQbK7bw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11782"; a="79370475"
 X-IronPort-AV: E=Sophos;i="6.23,228,1770624000"; 
-   d="scan'208";a="102048076"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 05:00:58 -0700
-X-CSE-ConnectionGUID: 3lJ9ZF3wTfmAX1oSpZ70Qw==
-X-CSE-MsgGUID: WBDSXqMYTXGmf5Vx6+YcZQ==
+   d="scan'208";a="79370475"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 05:22:58 -0700
+X-CSE-ConnectionGUID: yEI2oYNjRkOamyqybUgMAw==
+X-CSE-MsgGUID: 6L0dwDULRku+EqhKrOq4KA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,228,1770624000"; 
-   d="scan'208";a="241406771"
+   d="scan'208";a="236466448"
 Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 11 May 2026 05:00:55 -0700
+  by orviesa006.jf.intel.com with ESMTP; 11 May 2026 05:22:57 -0700
 Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wMPJd-000000000W1-1Goc;
-	Mon, 11 May 2026 12:00:53 +0000
-Date: Mon, 11 May 2026 19:59:53 +0800
+	id 1wMPew-000000000XT-2x1u;
+	Mon, 11 May 2026 12:22:54 +0000
+Date: Mon, 11 May 2026 20:22:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Woodhouse <dwmw@amazon.co.uk>
+To: Hannes Reinecke <hare@suse.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dwmw2:kvmclock4 16/33] arch/x86/kvm/x86.c:3388:22: error:
- implicit declaration of function 'kvm_get_time_and_clockread'; did you mean
- 'kvm_get_monotonic_and_clockread'?
-Message-ID: <202605111940.zLRfvQzJ-lkp@intel.com>
+Subject: [hare-scsi-devel:configfs-ns.v1 8/8]
+ fs/configfs/mount.c:206:8: warning: assignment to 'struct configfs_root_info
+ *' from 'int' makes pointer from integer without a cast
+Message-ID: <202605112050.SsF8yL12-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,166 +60,112 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   git://git.infradead.org/users/dwmw2/linux kvmclock4
-head:   d6673491163f4987d73e4644987c605f22cbf706
-commit: d216b965d38e8dc9aeccd8eea855a1187f997199 [16/33] KVM: x86: Restructure kvm_guest_time_update() for TSC upscaling
-config: i386-buildonly-randconfig-006 (https://download.01.org/0day-ci/archive/20260511/202605111940.zLRfvQzJ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260511/202605111940.zLRfvQzJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel.git configfs-ns.v1
+head:   c924e1daab3eb4efc26275918155673d5e90c6ba
+commit: c924e1daab3eb4efc26275918155673d5e90c6ba [8/8] configfs: configfs_create_root()
+config: parisc-randconfig-002-20260511 (https://download.01.org/0day-ci/archive/20260511/202605112050.SsF8yL12-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260511/202605112050.SsF8yL12-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605111940.zLRfvQzJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605112050.SsF8yL12-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/x86/kvm/x86.c: In function 'kvm_guest_time_update':
->> arch/x86/kvm/x86.c:3388:22: error: implicit declaration of function 'kvm_get_time_and_clockread'; did you mean 'kvm_get_monotonic_and_clockread'? [-Wimplicit-function-declaration]
-    3388 |                     !kvm_get_time_and_clockread(&kernel_ns, &host_tsc) &&
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                      kvm_get_monotonic_and_clockread
-   arch/x86/kvm/x86.c:3359:23: warning: unused variable 'flags' [-Wunused-variable]
-    3359 |         unsigned long flags;
-         |                       ^~~~~
+   fs/configfs/mount.c: In function 'configfs_test_super':
+   fs/configfs/mount.c:70:16: error: dereferencing pointer to incomplete type 'struct configfs_super_info'
+     return sb_info->root == info->root && sb_info->ns == info->ns;
+                   ^~
+   In file included from include/linux/fs.h:45,
+                    from fs/configfs/mount.c:11:
+   fs/configfs/mount.c: In function 'configfs_fill_super':
+   fs/configfs/mount.c:80:21: error: dereferencing pointer to incomplete type 'struct configfs_super_info'
+     info = kzalloc_obj(*info);
+                        ^~~~~
+   include/linux/slab.h:973:44: note: in definition of macro '__alloc_objs'
+     const size_t __obj_size = size_mul(sizeof(TYPE), COUNT); \
+                                               ^~~~
+   fs/configfs/mount.c:80:9: note: in expansion of macro 'kzalloc_obj'
+     info = kzalloc_obj(*info);
+            ^~~~~~~~~~~
+   fs/configfs/mount.c: In function 'configfs_get_tree':
+   fs/configfs/mount.c:126:9: error: implicit declaration of function 'vfs_get_super'; did you mean 'vfs_get_tree'? [-Werror=implicit-function-declaration]
+     return vfs_get_super(fc, configfs_test_super, configfs_fill_super);
+            ^~~~~~~~~~~~~
+            vfs_get_tree
+   fs/configfs/mount.c: At top level:
+   fs/configfs/mount.c:181:28: warning: no previous prototype for 'configfs_get_root' [-Wmissing-prototypes]
+    struct configfs_root_info *configfs_get_root(struct ns_common *ns)
+                               ^~~~~~~~~~~~~~~~~
+   fs/configfs/mount.c: In function 'configfs_get_root':
+   fs/configfs/mount.c:188:2: error: 'err' undeclared (first use in this function)
+     err = idr_alloc(&configfs_mount, root, ns->ns_id,
+     ^~~
+   fs/configfs/mount.c:188:2: note: each undeclared identifier is reported only once for each function it appears in
+   fs/configfs/mount.c: In function 'configfs_pin_fs':
+   fs/configfs/mount.c:206:10: error: implicit declaration of function 'configfs_create_root'; did you mean 'configfs_get_root'? [-Werror=implicit-function-declaration]
+      root = configfs_create_root(ns);
+             ^~~~~~~~~~~~~~~~~~~~
+             configfs_get_root
+>> fs/configfs/mount.c:206:8: warning: assignment to 'struct configfs_root_info *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      root = configfs_create_root(ns);
+           ^
+   fs/configfs/mount.c: In function 'configfs_init':
+   fs/configfs/mount.c:246:2: error: 'configfs_root' undeclared (first use in this function); did you mean 'configfs_init'?
+     configfs_root = configfs_create_root(
+     ^~~~~~~~~~~~~
+     configfs_init
+   fs/configfs/mount.c:247:55: error: expected ')' before ';' token
+     err = sysfs_create_mount_point(kernel_kobj, "config");
+                                                          ^
+                                                          )
+   fs/configfs/mount.c:263:13: error: expected ';' before '}' token
+     return err;
+                ^
+                ;
+    }
+    ~            
+   fs/configfs/mount.c:244:3: error: label 'out' used but not defined
+      goto out;
+      ^~~~
+   fs/configfs/mount.c:264:1: warning: no return statement in function returning non-void [-Wreturn-type]
+    }
+    ^
+   fs/configfs/mount.c: In function 'configfs_test_super':
+   fs/configfs/mount.c:71:1: warning: control reaches end of non-void function [-Wreturn-type]
+    }
+    ^
+   cc1: some warnings being treated as errors
 
 
-vim +3388 arch/x86/kvm/x86.c
+vim +206 fs/configfs/mount.c
 
-  3355	
-  3356	int kvm_guest_time_update(struct kvm_vcpu *v)
-  3357	{
-  3358		struct pvclock_vcpu_time_info hv_clock = {};
-  3359		unsigned long flags;
-  3360		u64 tgt_tsc_hz;
-  3361		unsigned seq;
-  3362		struct kvm_vcpu_arch *vcpu = &v->arch;
-  3363		struct kvm_arch *ka = &v->kvm->arch;
-  3364		s64 kernel_ns;
-  3365		u64 tsc_timestamp, host_tsc;
-  3366		u64 master_host_tsc = 0;
-  3367		s64 master_kernel_ns = 0;
-  3368		bool use_master_clock;
-  3369	
-  3370		/*
-  3371		 * If the host uses TSC clock, then passthrough TSC as stable
-  3372		 * to the guest.
-  3373		 */
-  3374		do {
-  3375			seq = read_seqcount_begin(&ka->pvclock_sc);
-  3376	
-  3377			use_master_clock = ka->use_master_clock;
-  3378	
-  3379			/*
-  3380			 * The TSC read and the call to get_cpu_tsc_khz() must happen
-  3381			 * on the same CPU.
-  3382			 */
-  3383			get_cpu();
-  3384	
-  3385			tgt_tsc_hz = (u64)get_cpu_tsc_khz() * 1000;
-  3386	
-  3387			if (use_master_clock &&
-> 3388			    !kvm_get_time_and_clockread(&kernel_ns, &host_tsc) &&
-  3389			    WARN_ON_ONCE(!read_seqcount_retry(&ka->pvclock_sc, seq)))
-  3390				use_master_clock = false;
-  3391	
-  3392			put_cpu();
-  3393	
-  3394			if (!use_master_clock)
-  3395				break;
-  3396	
-  3397			master_host_tsc = ka->master_cycle_now;
-  3398			master_kernel_ns = ka->master_kernel_ns;
-  3399		} while (read_seqcount_retry(&ka->pvclock_sc, seq));
-  3400	
-  3401		if (unlikely(tgt_tsc_hz == 0)) {
-  3402			kvm_make_request(KVM_REQ_CLOCK_UPDATE, v);
-  3403			return 1;
-  3404		}
-  3405	
-  3406		if (!use_master_clock) {
-  3407			host_tsc = rdtsc();
-  3408			kernel_ns = get_kvmclock_base_ns();
-  3409		}
-  3410	
-  3411		/*
-  3412		 * We may have to catch up the TSC to match elapsed wall clock
-  3413		 * time for two reasons, even if kvmclock is used.
-  3414		 *   1) CPU could have been running below the maximum TSC rate
-  3415		 *   2) Broken TSC compensation resets the base at each VCPU
-  3416		 *      entry to avoid unknown leaps of TSC even when running
-  3417		 *      again on the same CPU.  This may cause apparent elapsed
-  3418		 *      time to disappear, and the guest to stand still or run
-  3419		 *      very slowly.
-  3420		 */
-  3421		if (vcpu->tsc_catchup) {
-  3422			s64 adjustment;
-  3423	
-  3424			/*
-  3425			 * Calculate the delta between what the guest TSC *should* be
-  3426			 * and what it actually is according to kvm_read_l1_tsc().
-  3427			 */
-  3428			adjustment = compute_guest_tsc(v, kernel_ns) -
-  3429				     kvm_read_l1_tsc(v, host_tsc);
-  3430			if (adjustment > 0)
-  3431				adjust_tsc_offset_guest(v, adjustment);
-  3432		}
-  3433	
-  3434		/*
-  3435		 * Now that TSC upscaling is out of the way, the remaining calculations
-  3436		 * are all relative to the reference time that's placed in hv_clock.
-  3437		 * If the master clock is NOT in use, the reference time is "now".  If
-  3438		 * master clock is in use, the reference time comes from there.
-  3439		 */
-  3440		if (use_master_clock) {
-  3441			host_tsc = master_host_tsc;
-  3442			kernel_ns = master_kernel_ns;
-  3443		}
-  3444		tsc_timestamp = kvm_read_l1_tsc(v, host_tsc);
-  3445	
-  3446		/* With all the info we got, fill in the values */
-  3447	
-  3448		if (kvm_caps.has_tsc_control) {
-  3449			tgt_tsc_hz = kvm_scale_tsc(tgt_tsc_hz,
-  3450						    v->arch.l1_tsc_scaling_ratio);
-  3451			tgt_tsc_hz = tgt_tsc_hz ? : 1;
-  3452		}
-  3453	
-  3454		if (unlikely(vcpu->hw_tsc_hz != tgt_tsc_hz)) {
-  3455			kvm_get_time_scale(NSEC_PER_SEC, tgt_tsc_hz,
-  3456					   &vcpu->pvclock_tsc_shift,
-  3457					   &vcpu->pvclock_tsc_mul);
-  3458			vcpu->hw_tsc_hz = tgt_tsc_hz;
-  3459		}
-  3460	
-  3461		hv_clock.tsc_shift = vcpu->pvclock_tsc_shift;
-  3462		hv_clock.tsc_to_system_mul = vcpu->pvclock_tsc_mul;
-  3463		hv_clock.tsc_timestamp = tsc_timestamp;
-  3464		hv_clock.system_time = kernel_ns + v->kvm->arch.kvmclock_offset;
-  3465		vcpu->last_guest_tsc = tsc_timestamp;
-  3466	
-  3467		/* If the host uses TSC clocksource, then it is stable */
-  3468		hv_clock.flags = 0;
-  3469		if (use_master_clock)
-  3470			hv_clock.flags |= PVCLOCK_TSC_STABLE_BIT;
-  3471	
-  3472		if (vcpu->pv_time.active) {
-  3473			/*
-  3474			 * GUEST_STOPPED is only supported by kvmclock, and KVM's
-  3475			 * historic behavior is to only process the request if kvmclock
-  3476			 * is active/enabled.
-  3477			 */
-  3478			if (vcpu->pvclock_set_guest_stopped_request) {
-  3479				hv_clock.flags |= PVCLOCK_GUEST_STOPPED;
-  3480				vcpu->pvclock_set_guest_stopped_request = false;
-  3481			}
-  3482			kvm_setup_guest_pvclock(&hv_clock, v, &vcpu->pv_time, 0);
-  3483	
-  3484			hv_clock.flags &= ~PVCLOCK_GUEST_STOPPED;
-  3485		}
-  3486	
-  3487		kvm_hv_setup_tsc_page(v->kvm, &hv_clock);
-  3488	
+   197	
+   198	struct dentry *configfs_pin_fs(void)
+   199	{
+   200		struct ns_common *ns = from_mnt_ns(current->nsproxy->mnt_ns);
+   201		struct configfs_root_info *root = idr_find(&configfs_mount,
+   202							   ns->ns_id);
+   203		int err;
+   204	
+   205		if (!root) {
+ > 206			root = configfs_create_root(ns);
+   207			if (IS_ERR(root))
+   208				return ERR_CAST(root);
+   209		}
+   210		err = simple_pin_fs(&configfs_fs_type, &root->mnt,
+   211				    &root->count);
+   212		if (err) {
+   213			idr_remove(&configfs_mount, ns->ns_id);
+   214			kfree(root);
+   215			return ERR_PTR(err);
+   216		}
+   217		pr_debug("%s: pin ns %llu\n", __func__, ns->ns_id);
+   218		return root->mnt->mnt_root;
+   219	}
+   220	
 
 -- 
 0-DAY CI Kernel Test Service
