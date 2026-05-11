@@ -1,185 +1,223 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AFF02F0C45
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 May 2026 12:55:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D04F374E7F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 May 2026 12:55:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778504103; cv=none; b=mMuhp8U6w/aUEKzlHPTurQLkaOCiqgOMWgDEtzqWD70mh9PQqJEgHXvbYh+KBcYscsKY9ZfRbLYAxyvZVTkpvW161Tg42iSN8O1o/X83QrvAxAvXHt9PjKA0F3+NU6BqMGxZEBf/Q5pekoqy3KAnerwAPC62Z94adLoz0XPjTkY=
+	t=1778504105; cv=none; b=Zbmfga6qrLJvC6g+PKYlRYn+uQ2KfpoJNkRaIxCbsLLtk2UydW9UXvyEjERGxXKwkFqQIjwy17D3xu+siZFeeVDtulf4Iier/U2wBJ0UihA2u2RcU+7kxIvdS2YEKo5iT0dPKFNzV3GEZV2fsnbRpHk4Byk+K+VV7XpaU1Sj/p8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778504103; c=relaxed/simple;
-	bh=gX/DUBjAhvt8Zc+9/1yZ66tH35Uy9+nqwc/oBWP7t5Y=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bhBsLBX9cuvxrprrqI/5+kVI/JHSLGRsQSFgOyfjLw9FKXD0MTVChRvKQw3quxO9XeE+rInMeG61S23DmtrAr9nzAkVUdUkYXolCE4i1otAw/HqxY8piEw27VUw/JF9NGPeQDf5Ade5boRCHXw96vWMFUJBGLMndYPCiVOpa7RM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V7IcLIJS; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1778504105; c=relaxed/simple;
+	bh=5n7lTpy63mOyE1afSibKO8kjel4xtgAxRtlNfLPvj2Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mlktm7aRWxfolGtQ1duj3CcywLCn/xCusvgqDohqq5BHTS344pca2opfS7cwmcOD54MhqnHQjkfBiuGcqCUa+UBe7U8lx+uX2Y09E037Ony+nVRCMdCN7Zo2B3dk/x3XINuv313tYoDUU7bFLxbJpTHWvbrdkKrbTCItGYua8Q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fZSfEAoY; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V7IcLIJS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fZSfEAoY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778504102; x=1810040102;
-  h=date:from:to:cc:subject:message-id;
-  bh=gX/DUBjAhvt8Zc+9/1yZ66tH35Uy9+nqwc/oBWP7t5Y=;
-  b=V7IcLIJS54i0ldyDJJ8bqrobqZgTWku+aCb8Te5YJJYE0pCOLfNqqz1C
-   fd44D+LnrPT7duYhY4bLE5j1Q4dEHVISazjvILLAEYEF87Jyj+AXS24rt
-   6CyE2kXtmb1FK5rvZt2XXKsSSmOtTHYQbRHk0892C2xtZfTcwhTp1nfiQ
-   pH8rTnRhVmd1EDktjk2pji8Wy1dVvwGA6ViRCDOKRH0l9OZi5DgMLgpUx
-   iZrMpYfyZ1cfIgk+WIgR/M5IFq8g49LYFDkpvlK1kh2LyAHXcRgZjkrzI
-   XDpCRPbSKjtjnxLOk2vY7kq+KjgSc4gvhtMhViMZdP6kElbASLBg1B0la
-   g==;
-X-CSE-ConnectionGUID: iN9KgheYTXaLOa7PWt2rVw==
-X-CSE-MsgGUID: tOpJ5esWQlKvKIk5bjRMPA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="89972867"
+  t=1778504104; x=1810040104;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=5n7lTpy63mOyE1afSibKO8kjel4xtgAxRtlNfLPvj2Q=;
+  b=fZSfEAoYg43iY3R3l5WetJkCJMTBKyvq1H/F/EnrGZ0GmWdK7d52llD/
+   4kjaI6FuLhdmwgOfx2555pVdg9p4xL8Be/MzZXvidklYaY2WlYc7r/jm/
+   Yatg0YxrBmq8oc86lCUvO46QrG7EIViGhRgQ/LUYJvIu6hgBwIHBcqtlw
+   w+RS1W0peLdNpEgNn0kgJakdQVjzsoQpKNkIvANJTw/TMFVRnro4nCwlc
+   CtynVfhRDAL1kpU68q2JNpLidmZeFRGA2E5pkKgSsagZoPR3143slqLR6
+   JIJC7W3g8ApeLCEFytPnAxa6yESZxsPb+CRCgq9WfYqA1w5tJA8WPk+wc
+   A==;
+X-CSE-ConnectionGUID: bke+cqlrQg++eC4P7Dwu9g==
+X-CSE-MsgGUID: h+KABv37QMiKA2fDUOVowg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="89972868"
 X-IronPort-AV: E=Sophos;i="6.23,228,1770624000"; 
-   d="scan'208";a="89972867"
+   d="scan'208";a="89972868"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 05:55:01 -0700
-X-CSE-ConnectionGUID: h1ku9f4yRrKPbOyR+91Ijw==
-X-CSE-MsgGUID: BnN6gfuhTD2D8nc8txPzAA==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 05:55:02 -0700
+X-CSE-ConnectionGUID: mHJcfbe4QpukErAPBgh9SA==
+X-CSE-MsgGUID: tQ1ImuS1RvqpoJnLZ7i5Og==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,228,1770624000"; 
-   d="scan'208";a="241419792"
+   d="scan'208";a="241419790"
 Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
   by orviesa003.jf.intel.com with ESMTP; 11 May 2026 05:54:59 -0700
 Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wMQ9x-000000000ad-2IQg;
+	id 1wMQ9x-000000000ab-28PE;
 	Mon, 11 May 2026 12:54:57 +0000
-Date: Mon, 11 May 2026 20:54:11 +0800
+Date: Mon, 11 May 2026 20:54:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:mirror-chromeos-5.10-arcvm 0/1]
- fs/erofs/decompressor_lzma.c:136:29: warning: assignment to 'struct
- xz_dec_microlzma *' from 'int' makes pointer from integer without a cast
-Message-ID: <202605112049.I9ef1cyD-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v1 1/1] serial: 8250_fsl: Export fsl8250_handle_irq()
+ conditionally
+Message-ID: <202605112003.uLqRrYzE-lkp@intel.com>
+References: <20260504151259.483924-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260504151259.483924-1-andriy.shevchenko@linux.intel.com>
 
-Hi Gao,
+Hi Andy,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
-head:   80e99694479e5e9fe7c6230aad1327bbb9c655be
-commit: ede603374aab4bb8a612fd3c1c84ceef11435fa1 [0/1] FROMGIT: erofs: lzma compression support
-config: i386-buildonly-randconfig-001-20260511 (https://download.01.org/0day-ci/archive/20260511/202605112049.I9ef1cyD-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260511/202605112049.I9ef1cyD-lkp@intel.com/reproduce)
+[auto build test ERROR on tty/tty-testing]
+[also build test ERROR on tty/tty-next tty/tty-linus linus/master v7.1-rc3 next-20260508]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/serial-8250_fsl-Export-fsl8250_handle_irq-conditionally/20260511-115924
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20260504151259.483924-1-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v1 1/1] serial: 8250_fsl: Export fsl8250_handle_irq() conditionally
+config: microblaze-defconfig (https://download.01.org/0day-ci/archive/20260511/202605112003.uLqRrYzE-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260511/202605112003.uLqRrYzE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605112049.I9ef1cyD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605112003.uLqRrYzE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/erofs/decompressor_lzma.c: In function 'z_erofs_lzma_exit':
-   fs/erofs/decompressor_lzma.c:42:33: error: implicit declaration of function 'xz_dec_microlzma_end' [-Werror=implicit-function-declaration]
-      42 |                                 xz_dec_microlzma_end(strm->state);
-         |                                 ^~~~~~~~~~~~~~~~~~~~
-   fs/erofs/decompressor_lzma.c: In function 'z_erofs_load_lzma_config':
-   fs/erofs/decompressor_lzma.c:136:31: error: implicit declaration of function 'xz_dec_microlzma_alloc' [-Werror=implicit-function-declaration]
-     136 |                 strm->state = xz_dec_microlzma_alloc(XZ_PREALLOC, dict_size);
-         |                               ^~~~~~~~~~~~~~~~~~~~~~
->> fs/erofs/decompressor_lzma.c:136:29: warning: assignment to 'struct xz_dec_microlzma *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     136 |                 strm->state = xz_dec_microlzma_alloc(XZ_PREALLOC, dict_size);
-         |                             ^
-   fs/erofs/decompressor_lzma.c: In function 'z_erofs_lzma_decompress':
-   fs/erofs/decompressor_lzma.c:193:9: error: implicit declaration of function 'xz_dec_microlzma_reset' [-Werror=implicit-function-declaration]
-     193 |         xz_dec_microlzma_reset(strm->state, inlen, outlen,
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   fs/erofs/decompressor_lzma.c:266:26: error: implicit declaration of function 'xz_dec_microlzma_run' [-Werror=implicit-function-declaration]
-     266 |                 xz_err = xz_dec_microlzma_run(strm->state, &strm->buf);
-         |                          ^~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   drivers/tty/serial/8250/8250_of.c: In function 'of_platform_serial_setup':
+>> drivers/tty/serial/8250/8250_of.c:187:36: error: 'fsl8250_handle_irq' undeclared (first use in this function); did you mean 'serial8250_handle_irq'?
+     187 |                 port->handle_irq = fsl8250_handle_irq;
+         |                                    ^~~~~~~~~~~~~~~~~~
+         |                                    serial8250_handle_irq
+   drivers/tty/serial/8250/8250_of.c:187:36: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +136 fs/erofs/decompressor_lzma.c
+vim +187 drivers/tty/serial/8250/8250_of.c
 
-    73	
-    74	int z_erofs_load_lzma_config(struct super_block *sb,
-    75				     struct erofs_super_block *dsb,
-    76				     struct z_erofs_lzma_cfgs *lzma, int size)
-    77	{
-    78		static DEFINE_MUTEX(lzma_resize_mutex);
-    79		unsigned int dict_size, i;
-    80		struct z_erofs_lzma *strm, *head = NULL;
-    81		int err;
-    82	
-    83		if (!lzma || size < sizeof(struct z_erofs_lzma_cfgs)) {
-    84			erofs_err(sb, "invalid lzma cfgs, size=%u", size);
-    85			return -EINVAL;
-    86		}
-    87		if (lzma->format) {
-    88			erofs_err(sb, "unidentified lzma format %x, please check kernel version",
-    89				  le16_to_cpu(lzma->format));
-    90			return -EINVAL;
-    91		}
-    92		dict_size = le32_to_cpu(lzma->dict_size);
-    93		if (dict_size > Z_EROFS_LZMA_MAX_DICT_SIZE || dict_size < 4096) {
-    94			erofs_err(sb, "unsupported lzma dictionary size %u",
-    95				  dict_size);
-    96			return -EINVAL;
-    97		}
-    98	
-    99		erofs_info(sb, "EXPERIMENTAL MicroLZMA in use. Use at your own risk!");
-   100	
-   101		/* in case 2 z_erofs_load_lzma_config() race to avoid deadlock */
-   102		mutex_lock(&lzma_resize_mutex);
-   103	
-   104		if (z_erofs_lzma_max_dictsize >= dict_size) {
-   105			mutex_unlock(&lzma_resize_mutex);
-   106			return 0;
-   107		}
-   108	
-   109		/* 1. collect/isolate all streams for the following check */
-   110		for (i = 0; i < z_erofs_lzma_avail_strms; ++i) {
-   111			struct z_erofs_lzma *last;
-   112	
-   113	again:
-   114			spin_lock(&z_erofs_lzma_lock);
-   115			strm = z_erofs_lzma_head;
-   116			if (!strm) {
-   117				spin_unlock(&z_erofs_lzma_lock);
-   118				wait_event(z_erofs_lzma_wq,
-   119					   READ_ONCE(z_erofs_lzma_head));
-   120				goto again;
-   121			}
-   122			z_erofs_lzma_head = NULL;
-   123			spin_unlock(&z_erofs_lzma_lock);
-   124	
-   125			for (last = strm; last->next; last = last->next)
-   126				++i;
-   127			last->next = head;
-   128			head = strm;
-   129		}
-   130	
-   131		err = 0;
-   132		/* 2. walk each isolated stream and grow max dict_size if needed */
-   133		for (strm = head; strm; strm = strm->next) {
-   134			if (strm->state)
-   135				xz_dec_microlzma_end(strm->state);
- > 136			strm->state = xz_dec_microlzma_alloc(XZ_PREALLOC, dict_size);
-   137			if (!strm->state)
-   138				err = -ENOMEM;
-   139		}
-   140	
-   141		/* 3. push back all to the global list and update max dict_size */
-   142		spin_lock(&z_erofs_lzma_lock);
-   143		DBG_BUGON(z_erofs_lzma_head);
-   144		z_erofs_lzma_head = head;
-   145		spin_unlock(&z_erofs_lzma_lock);
-   146	
-   147		z_erofs_lzma_max_dictsize = dict_size;
-   148		mutex_unlock(&lzma_resize_mutex);
-   149		return err;
-   150	}
-   151	
+32f6ec282fb0ddb drivers/tty/serial/8250/8250_of.c Bastien Curutchet    2024-04-05   83  
+8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13   84  /*
+8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13   85   * Fill a struct uart_port for a given device node
+8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13   86   */
+9671f09921d93e7 drivers/tty/serial/of_serial.c    Bill Pemberton       2012-11-19   87  static int of_platform_serial_setup(struct platform_device *ofdev,
+058bc104f7ca5c8 drivers/tty/serial/8250/8250_of.c Lukas Wunner         2020-02-28   88  			int type, struct uart_8250_port *up,
+0bbeb3c3e84bc96 drivers/tty/serial/of_serial.c    Murali Karicheri     2012-10-22   89  			struct of_serial_info *info)
+8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13   90  {
+8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13   91  	struct resource resource;
+4678de73932f8f3 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2023-09-12   92  	struct device *dev = &ofdev->dev;
+4678de73932f8f3 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2023-09-12   93  	struct device_node *np = dev->of_node;
+058bc104f7ca5c8 drivers/tty/serial/8250/8250_of.c Lukas Wunner         2020-02-28   94  	struct uart_port *port = &up->port;
+1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04   95  	u32 spd;
+1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04   96  	int ret;
+8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13   97  
+d3210c8e88ee413 drivers/tty/serial/8250/8250_of.c jempty.liang         2025-11-17   98  	memset(port, 0, sizeof(*port));
+a2d23edaef9e022 drivers/tty/serial/8250/8250_of.c Franklin S Cooper Jr 2017-08-16   99  
+a2d23edaef9e022 drivers/tty/serial/8250/8250_of.c Franklin S Cooper Jr 2017-08-16  100  	pm_runtime_enable(&ofdev->dev);
+a2d23edaef9e022 drivers/tty/serial/8250/8250_of.c Franklin S Cooper Jr 2017-08-16  101  	pm_runtime_get_sync(&ofdev->dev);
+a2d23edaef9e022 drivers/tty/serial/8250/8250_of.c Franklin S Cooper Jr 2017-08-16  102  
+8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13  103  	ret = of_address_to_resource(np, 0, &resource);
+8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13  104  	if (ret) {
+4678de73932f8f3 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2023-09-12  105  		dev_err_probe(dev, ret, "invalid address\n");
+aef6b8631f9ddf2 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2023-09-19  106  		goto err_pmruntime;
+8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13  107  	}
+8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13  108  
+1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04  109  	port->dev = &ofdev->dev;
+1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04  110  	port->flags = UPF_BOOT_AUTOCONF | UPF_FIXED_PORT | UPF_FIXED_TYPE;
+8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13  111  	spin_lock_init(&port->lock);
+aa95947400edb57 drivers/tty/serial/8250/8250_of.c John Garry           2018-04-27  112  
+aa95947400edb57 drivers/tty/serial/8250/8250_of.c John Garry           2018-04-27  113  	if (resource_type(&resource) == IORESOURCE_IO) {
+aa95947400edb57 drivers/tty/serial/8250/8250_of.c John Garry           2018-04-27  114  		port->iobase = resource.start;
+aa95947400edb57 drivers/tty/serial/8250/8250_of.c John Garry           2018-04-27  115  	} else {
+8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13  116  		port->mapbase = resource.start;
+0787691230d88af drivers/tty/serial/of_serial.c    Mans Rullgard        2015-03-08  117  		port->mapsize = resource_size(&resource);
+1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04  118  		port->flags |= UPF_IOREMAP;
+d06b1cf28297e27 drivers/tty/serial/8250/8250_of.c Robert Hancock       2022-01-12  119  	}
+d06b1cf28297e27 drivers/tty/serial/8250/8250_of.c Robert Hancock       2022-01-12  120  
+1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04  121  	ret = uart_read_and_validate_port_properties(port);
+1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04  122  	if (ret)
+1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04  123  		goto err_pmruntime;
+b912b5e2cfb35c0 drivers/serial/of_serial.c        John Linn            2008-04-03  124  
+1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04  125  	/* Get clk rate through clk driver if present */
+1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04  126  	if (!port->uartclk) {
+81e4de4ba298d73 drivers/tty/serial/8250/8250_of.c Alex Elder           2025-04-09  127  		struct clk *bus_clk;
+81e4de4ba298d73 drivers/tty/serial/8250/8250_of.c Alex Elder           2025-04-09  128  
+81e4de4ba298d73 drivers/tty/serial/8250/8250_of.c Alex Elder           2025-04-09  129  		bus_clk = devm_clk_get_optional_enabled(dev, "bus");
+81e4de4ba298d73 drivers/tty/serial/8250/8250_of.c Alex Elder           2025-04-09  130  		if (IS_ERR(bus_clk)) {
+81e4de4ba298d73 drivers/tty/serial/8250/8250_of.c Alex Elder           2025-04-09  131  			ret = dev_err_probe(dev, PTR_ERR(bus_clk), "failed to get bus clock\n");
+81e4de4ba298d73 drivers/tty/serial/8250/8250_of.c Alex Elder           2025-04-09  132  			goto err_pmruntime;
+81e4de4ba298d73 drivers/tty/serial/8250/8250_of.c Alex Elder           2025-04-09  133  		}
+81e4de4ba298d73 drivers/tty/serial/8250/8250_of.c Alex Elder           2025-04-09  134  
+81e4de4ba298d73 drivers/tty/serial/8250/8250_of.c Alex Elder           2025-04-09  135  		/* If the bus clock is required, core clock must be named */
+81e4de4ba298d73 drivers/tty/serial/8250/8250_of.c Alex Elder           2025-04-09  136  		info->clk = devm_clk_get_enabled(dev, bus_clk ? "core" : NULL);
+1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04  137  		if (IS_ERR(info->clk)) {
+1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04  138  			ret = dev_err_probe(dev, PTR_ERR(info->clk), "failed to get clock\n");
+aef6b8631f9ddf2 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2023-09-19  139  			goto err_pmruntime;
+7423734e19e7e0a drivers/tty/serial/of_serial.c    Jamie Iles           2011-06-27  140  		}
+1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04  141  
+926040da6064233 drivers/tty/serial/8250/8250_of.c Alex Elder           2025-04-11  142  		info->bus_clk = bus_clk;
+1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04  143  		port->uartclk = clk_get_rate(info->clk);
+7423734e19e7e0a drivers/tty/serial/of_serial.c    Jamie Iles           2011-06-27  144  	}
+1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04  145  	/* If current-speed was set, then try not to change it. */
+1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04  146  	if (of_property_read_u32(np, "current-speed", &spd) == 0)
+1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04  147  		port->custom_divisor = port->uartclk / (16 * spd);
+aa95947400edb57 drivers/tty/serial/8250/8250_of.c John Garry           2018-04-27  148  
+f4817843e39ce78 drivers/tty/serial/8250/8250_of.c Lubomir Rintel       2019-02-24  149  	/* Compatibility with the deprecated pxa driver and 8250_pxa drivers. */
+f4817843e39ce78 drivers/tty/serial/8250/8250_of.c Lubomir Rintel       2019-02-24  150  	if (of_device_is_compatible(np, "mrvl,mmp-uart"))
+f4817843e39ce78 drivers/tty/serial/8250/8250_of.c Lubomir Rintel       2019-02-24  151  		port->regshift = 2;
+f4817843e39ce78 drivers/tty/serial/8250/8250_of.c Lubomir Rintel       2019-02-24  152  
+e2860e1f62f2e87 drivers/tty/serial/8250/8250_of.c Joel Stanley         2017-05-29  153  	info->rst = devm_reset_control_get_optional_shared(&ofdev->dev, NULL);
+b9820a31691b771 drivers/tty/serial/8250/8250_of.c Masahiro Yamada      2017-12-27  154  	if (IS_ERR(info->rst)) {
+b9820a31691b771 drivers/tty/serial/8250/8250_of.c Masahiro Yamada      2017-12-27  155  		ret = PTR_ERR(info->rst);
+aef6b8631f9ddf2 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2023-09-19  156  		goto err_pmruntime;
+b9820a31691b771 drivers/tty/serial/8250/8250_of.c Masahiro Yamada      2017-12-27  157  	}
+b9820a31691b771 drivers/tty/serial/8250/8250_of.c Masahiro Yamada      2017-12-27  158  
+e2860e1f62f2e87 drivers/tty/serial/8250/8250_of.c Joel Stanley         2017-05-29  159  	ret = reset_control_deassert(info->rst);
+e2860e1f62f2e87 drivers/tty/serial/8250/8250_of.c Joel Stanley         2017-05-29  160  	if (ret)
+aef6b8631f9ddf2 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2023-09-19  161  		goto err_pmruntime;
+e2860e1f62f2e87 drivers/tty/serial/8250/8250_of.c Joel Stanley         2017-05-29  162  
+8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13  163  	port->type = type;
+283e096ffb7077c drivers/tty/serial/8250/8250_of.c Lukas Wunner         2020-02-28  164  	port->rs485_config = serial8250_em485_config;
+0139da50dc53f0c drivers/tty/serial/8250/8250_of.c Ilpo Järvinen        2022-07-04  165  	port->rs485_supported = serial8250_em485_supported;
+058bc104f7ca5c8 drivers/tty/serial/8250/8250_of.c Lukas Wunner         2020-02-28  166  	up->rs485_start_tx = serial8250_em485_start_tx;
+058bc104f7ca5c8 drivers/tty/serial/8250/8250_of.c Lukas Wunner         2020-02-28  167  	up->rs485_stop_tx = serial8250_em485_stop_tx;
+8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13  168  
+9b8777e3473e31b drivers/tty/serial/of_serial.c    John Crispin         2014-10-16  169  	switch (type) {
+9b8777e3473e31b drivers/tty/serial/of_serial.c    John Crispin         2014-10-16  170  	case PORT_RT2880:
+b334214ea08d941 drivers/tty/serial/8250/8250_of.c Ilpo Järvinen        2023-05-11  171  		ret = rt288x_setup(port);
+cd0eb354d441488 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-02-15  172  		break;
+cd0eb354d441488 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-02-15  173  	case PORT_NPCM:
+cd0eb354d441488 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-02-15  174  		ret = npcm_setup(port);
+cd0eb354d441488 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-02-15  175  		break;
+cd0eb354d441488 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-02-15  176  	default:
+cd0eb354d441488 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-02-15  177  		/* Nothing to do */
+cd0eb354d441488 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-02-15  178  		ret = 0;
+9b8777e3473e31b drivers/tty/serial/of_serial.c    John Crispin         2014-10-16  179  		break;
+9b8777e3473e31b drivers/tty/serial/of_serial.c    John Crispin         2014-10-16  180  	}
+cd0eb354d441488 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-02-15  181  	if (ret)
+cd0eb354d441488 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-02-15  182  		goto err_pmruntime;
+bf03f65b7967df5 drivers/tty/serial/of_serial.c    Dan Williams         2012-04-10  183  
+d9f59caf94a92f7 drivers/tty/serial/8250/8250_of.c Uwe Kleine-König     2023-06-09  184  	if (IS_REACHABLE(CONFIG_SERIAL_8250_FSL) &&
+d43b54d269d27bd drivers/tty/serial/of_serial.c    Scott Wood           2015-10-07  185  	    (of_device_is_compatible(np, "fsl,ns16550") ||
+d68fefdd5b5f107 drivers/tty/serial/8250/8250_of.c Dmitry Safonov       2019-12-13  186  	     of_device_is_compatible(np, "fsl,16550-FIFO64"))) {
+d43b54d269d27bd drivers/tty/serial/of_serial.c    Scott Wood           2015-10-07 @187  		port->handle_irq = fsl8250_handle_irq;
+d68fefdd5b5f107 drivers/tty/serial/8250/8250_of.c Dmitry Safonov       2019-12-13  188  		port->has_sysrq = IS_ENABLED(CONFIG_SERIAL_8250_CONSOLE);
+d68fefdd5b5f107 drivers/tty/serial/8250/8250_of.c Dmitry Safonov       2019-12-13  189  	}
+d43b54d269d27bd drivers/tty/serial/of_serial.c    Scott Wood           2015-10-07  190  
+8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13  191  	return 0;
+a2d23edaef9e022 drivers/tty/serial/8250/8250_of.c Franklin S Cooper Jr 2017-08-16  192  err_pmruntime:
+a2d23edaef9e022 drivers/tty/serial/8250/8250_of.c Franklin S Cooper Jr 2017-08-16  193  	pm_runtime_put_sync(&ofdev->dev);
+a2d23edaef9e022 drivers/tty/serial/8250/8250_of.c Franklin S Cooper Jr 2017-08-16  194  	pm_runtime_disable(&ofdev->dev);
+0bbeb3c3e84bc96 drivers/tty/serial/of_serial.c    Murali Karicheri     2012-10-22  195  	return ret;
+8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13  196  }
+8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13  197  
 
 -- 
 0-DAY CI Kernel Test Service
