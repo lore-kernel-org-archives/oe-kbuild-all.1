@@ -1,171 +1,148 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 942B737B028
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 May 2026 12:22:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FEC73358D6;
+	Mon, 11 May 2026 12:23:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778502179; cv=none; b=YmV9bX9Pq+e2hv8MaHz4KStLLV/0l22Dp3rA4eM9c6F0UsHRVGBG8wmVd+hzD2p7zSegBShsBA9K5Z6MgQIeB1+z4p5z9zfv7DdXmLudGf5Xn+xY4gJzyay/o2lCJcIYuDQwV2A6hd6njeP6fMj4w2cN5Bxm7qnN+YZU0bMdKuM=
+	t=1778502182; cv=none; b=m4RxBXnS/o0VL1QkX0SVdLbdJDP8HWqMA6vv8B1nLNQUCXOYIITIMB+LqhrlUbI4YIdXV/uc1oJdxbkWfRnEUGvPwJo59AsfNsxxs2nDF64672AbgDplYEcRItWTUKImef42ArKH22QbaTmfs7u//UNzgq58C6mYe7uGyOL3sK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778502179; c=relaxed/simple;
-	bh=nAKeVmF/mT3Ra9EAYkL+J/p849y8toTc9YIjxbSA43Q=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=czv5gZrQqSvyJ+kx3oHn/4+4Otc7aKZC1rzqhAnvMMDA9lycjheUKkk/cbbxfFAqVkErEPZBjzuclf0p/CN4gIRPUM4/Dw7PSA0bEDZhVi5PktoheqwVrW0dhRRJiQb8SDlwOAM0aKxdj42qbPdJW8ysfsNIlNWuO9EYPuMHlXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XENxEMl4; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1778502182; c=relaxed/simple;
+	bh=P+ENBJPOk9zcHL20zVJrjU7DVRp3gZ5frQbrs7usO0c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TrdoQM8P1fcnGdy/yJl/naSjaqp8TF5J5jx0XJGgFHrWTqkrcLSQNeHhgtw4V3XTqQnucdnD3Ej4W+dKTScD4ghX0UJmATsQ2BSIoM1ygy9dSEFoXC0DRIv3KICzFN4/Nt7d3BcbeBPEsBqRbxDKxCjRa4yvMRaBJwrs1qj4Y1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jwo0gzmx; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XENxEMl4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jwo0gzmx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778502178; x=1810038178;
-  h=date:from:to:cc:subject:message-id;
-  bh=nAKeVmF/mT3Ra9EAYkL+J/p849y8toTc9YIjxbSA43Q=;
-  b=XENxEMl4Q8u53K2zgUyWn21mdQYRPZlkhvP0Hqtuk4YSoIvlZgPeHQ9F
-   gMl8kyo44haKuGB5ayAftFKtivB0Be4Ti4Dt52SaxO6XeWQND7jqSNMd4
-   kHlOd5rNLL4Wr/geYtEAjPjzTH1mmElRQ5dhOuFe/XsuGO0cAcp71+CTl
-   PDnnAc+2/laFuLXZG7UhOJZpRVjI2OQEviJ7qhjqdDP/Siw0GCBAt22ks
-   rXHRc+Wo7zP94trKZ2XtoYqvZINjfO6V3xe8loHN5nB2/Fim497svxu/P
-   9zRLGlqdxV9pql9pFOfp7zeQaPVtMwRIiVOSWsKr7ZZkBxmqv35/0hFJ5
+  t=1778502180; x=1810038180;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=P+ENBJPOk9zcHL20zVJrjU7DVRp3gZ5frQbrs7usO0c=;
+  b=jwo0gzmxhcF1ylIzPsPiooS2V/0HUkRPgA3aJIngxhcY2iQTCKoUOlAm
+   Ipv3kGG6yZqgmAxrvr8o4VhXdsDLYdKkc0Cu4vRLkTBKTJaxgcZPF0ucG
+   IkW/sJ47IW86EQah1Y//3c20h9dKC15OxBMC2Fkdqy81P5n+zaWBA0Ps/
+   IwXpCq8czLDRxFEsTzXI8MnQc0xZO008V+NSd/1UrYP8k85ruEQEenlUM
+   w4aruL79zHL89EAXhYLQzyvoFnty5Rh30TgEVcJKUIJdL+kO5Uo0scMP/
+   U3Ha31JLTMNazmdq0J/PQlSZ4/aY9vrQ91ZudmuBQI8Iqsy6dFmI6o+9S
    Q==;
-X-CSE-ConnectionGUID: jz1Ou0WoSj6ILQclzkG3Ig==
-X-CSE-MsgGUID: uwGm0P4ZQyuTgOtCQbK7bw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11782"; a="79370475"
+X-CSE-ConnectionGUID: AaWYB1/8SrmQy4MQ42CUhg==
+X-CSE-MsgGUID: 4I5Zknk/QSq3m2hyGvaiDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11782"; a="79370476"
 X-IronPort-AV: E=Sophos;i="6.23,228,1770624000"; 
-   d="scan'208";a="79370475"
+   d="scan'208";a="79370476"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 05:22:58 -0700
-X-CSE-ConnectionGUID: yEI2oYNjRkOamyqybUgMAw==
-X-CSE-MsgGUID: 6L0dwDULRku+EqhKrOq4KA==
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 05:23:00 -0700
+X-CSE-ConnectionGUID: nqQPeyu6QXuD0+Xno0Pz3w==
+X-CSE-MsgGUID: s40PKmb0Rb6zbksyyeuBBA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,228,1770624000"; 
-   d="scan'208";a="236466448"
+   d="scan'208";a="236466454"
 Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
   by orviesa006.jf.intel.com with ESMTP; 11 May 2026 05:22:57 -0700
 Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wMPew-000000000XT-2x1u;
+	id 1wMPew-000000000XR-2r3L;
 	Mon, 11 May 2026 12:22:54 +0000
-Date: Mon, 11 May 2026 20:22:35 +0800
+Date: Mon, 11 May 2026 20:22:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hannes Reinecke <hare@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hare-scsi-devel:configfs-ns.v1 8/8]
- fs/configfs/mount.c:206:8: warning: assignment to 'struct configfs_root_info
- *' from 'int' makes pointer from integer without a cast
-Message-ID: <202605112050.SsF8yL12-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: w15303746062@163.com, giovanni.cabiddu@intel.com,
+	herbert@gondor.apana.org.au, davem@davemloft.net
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	thorsten.blum@linux.dev, kees@kernel.org, qat-linux@intel.com,
+	linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Mingyu Wang <25181214217@stu.xidian.edu.cn>
+Subject: Re: [PATCH] crypto: qat - fix Use-After-Free in
+ adf_ctl_ioctl_dev_start()
+Message-ID: <202605112040.jcfTlYZH-lkp@intel.com>
+References: <20260508023542.256299-1-w15303746062@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260508023542.256299-1-w15303746062@163.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel.git configfs-ns.v1
-head:   c924e1daab3eb4efc26275918155673d5e90c6ba
-commit: c924e1daab3eb4efc26275918155673d5e90c6ba [8/8] configfs: configfs_create_root()
-config: parisc-randconfig-002-20260511 (https://download.01.org/0day-ci/archive/20260511/202605112050.SsF8yL12-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260511/202605112050.SsF8yL12-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on herbert-cryptodev-2.6/master]
+[also build test ERROR on herbert-crypto-2.6/master linus/master v7.1-rc3 next-20260508]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/w15303746062-163-com/crypto-qat-fix-Use-After-Free-in-adf_ctl_ioctl_dev_start/20260510-110441
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/20260508023542.256299-1-w15303746062%40163.com
+patch subject: [PATCH] crypto: qat - fix Use-After-Free in adf_ctl_ioctl_dev_start()
+config: loongarch-randconfig-001-20260510 (https://download.01.org/0day-ci/archive/20260511/202605112040.jcfTlYZH-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260511/202605112040.jcfTlYZH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605112050.SsF8yL12-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605112040.jcfTlYZH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/configfs/mount.c: In function 'configfs_test_super':
-   fs/configfs/mount.c:70:16: error: dereferencing pointer to incomplete type 'struct configfs_super_info'
-     return sb_info->root == info->root && sb_info->ns == info->ns;
-                   ^~
-   In file included from include/linux/fs.h:45,
-                    from fs/configfs/mount.c:11:
-   fs/configfs/mount.c: In function 'configfs_fill_super':
-   fs/configfs/mount.c:80:21: error: dereferencing pointer to incomplete type 'struct configfs_super_info'
-     info = kzalloc_obj(*info);
-                        ^~~~~
-   include/linux/slab.h:973:44: note: in definition of macro '__alloc_objs'
-     const size_t __obj_size = size_mul(sizeof(TYPE), COUNT); \
-                                               ^~~~
-   fs/configfs/mount.c:80:9: note: in expansion of macro 'kzalloc_obj'
-     info = kzalloc_obj(*info);
-            ^~~~~~~~~~~
-   fs/configfs/mount.c: In function 'configfs_get_tree':
-   fs/configfs/mount.c:126:9: error: implicit declaration of function 'vfs_get_super'; did you mean 'vfs_get_tree'? [-Werror=implicit-function-declaration]
-     return vfs_get_super(fc, configfs_test_super, configfs_fill_super);
-            ^~~~~~~~~~~~~
-            vfs_get_tree
-   fs/configfs/mount.c: At top level:
-   fs/configfs/mount.c:181:28: warning: no previous prototype for 'configfs_get_root' [-Wmissing-prototypes]
-    struct configfs_root_info *configfs_get_root(struct ns_common *ns)
-                               ^~~~~~~~~~~~~~~~~
-   fs/configfs/mount.c: In function 'configfs_get_root':
-   fs/configfs/mount.c:188:2: error: 'err' undeclared (first use in this function)
-     err = idr_alloc(&configfs_mount, root, ns->ns_id,
-     ^~~
-   fs/configfs/mount.c:188:2: note: each undeclared identifier is reported only once for each function it appears in
-   fs/configfs/mount.c: In function 'configfs_pin_fs':
-   fs/configfs/mount.c:206:10: error: implicit declaration of function 'configfs_create_root'; did you mean 'configfs_get_root'? [-Werror=implicit-function-declaration]
-      root = configfs_create_root(ns);
-             ^~~~~~~~~~~~~~~~~~~~
-             configfs_get_root
->> fs/configfs/mount.c:206:8: warning: assignment to 'struct configfs_root_info *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      root = configfs_create_root(ns);
-           ^
-   fs/configfs/mount.c: In function 'configfs_init':
-   fs/configfs/mount.c:246:2: error: 'configfs_root' undeclared (first use in this function); did you mean 'configfs_init'?
-     configfs_root = configfs_create_root(
-     ^~~~~~~~~~~~~
-     configfs_init
-   fs/configfs/mount.c:247:55: error: expected ')' before ';' token
-     err = sysfs_create_mount_point(kernel_kobj, "config");
-                                                          ^
-                                                          )
-   fs/configfs/mount.c:263:13: error: expected ';' before '}' token
-     return err;
-                ^
-                ;
-    }
-    ~            
-   fs/configfs/mount.c:244:3: error: label 'out' used but not defined
-      goto out;
-      ^~~~
-   fs/configfs/mount.c:264:1: warning: no return statement in function returning non-void [-Wreturn-type]
-    }
-    ^
-   fs/configfs/mount.c: In function 'configfs_test_super':
-   fs/configfs/mount.c:71:1: warning: control reaches end of non-void function [-Wreturn-type]
-    }
-    ^
-   cc1: some warnings being treated as errors
+>> drivers/crypto/intel/qat/qat_common/adf_ctl_drv.c:286:6: error: use of undeclared identifier 'accel_dev'
+     286 |         if (accel_dev)
+         |             ^~~~~~~~~
+   drivers/crypto/intel/qat/qat_common/adf_ctl_drv.c:287:15: error: use of undeclared identifier 'accel_dev'
+     287 |                 adf_dev_put(accel_dev);
+         |                             ^~~~~~~~~
+   2 errors generated.
 
 
-vim +206 fs/configfs/mount.c
+vim +/accel_dev +286 drivers/crypto/intel/qat/qat_common/adf_ctl_drv.c
 
-   197	
-   198	struct dentry *configfs_pin_fs(void)
-   199	{
-   200		struct ns_common *ns = from_mnt_ns(current->nsproxy->mnt_ns);
-   201		struct configfs_root_info *root = idr_find(&configfs_mount,
-   202							   ns->ns_id);
-   203		int err;
-   204	
-   205		if (!root) {
- > 206			root = configfs_create_root(ns);
-   207			if (IS_ERR(root))
-   208				return ERR_CAST(root);
-   209		}
-   210		err = simple_pin_fs(&configfs_fs_type, &root->mnt,
-   211				    &root->count);
-   212		if (err) {
-   213			idr_remove(&configfs_mount, ns->ns_id);
-   214			kfree(root);
-   215			return ERR_PTR(err);
-   216		}
-   217		pr_debug("%s: pin ns %llu\n", __func__, ns->ns_id);
-   218		return root->mnt->mnt_root;
-   219	}
-   220	
+   255	
+   256	static int adf_ctl_ioctl_dev_stop(struct file *fp, unsigned int cmd,
+   257					  unsigned long arg)
+   258	{
+   259		int ret;
+   260		struct adf_user_cfg_ctl_data *ctl_data;
+   261	
+   262		ctl_data = adf_ctl_alloc_resources(arg);
+   263		if (IS_ERR(ctl_data))
+   264			return PTR_ERR(ctl_data);
+   265	
+   266		if (adf_devmgr_verify_id(ctl_data->device_id)) {
+   267			pr_err("QAT: Device %d not found\n", ctl_data->device_id);
+   268			ret = -ENODEV;
+   269			goto out;
+   270		}
+   271	
+   272		ret = adf_ctl_is_device_in_use(ctl_data->device_id);
+   273		if (ret)
+   274			goto out;
+   275	
+   276		if (ctl_data->device_id == ADF_CFG_ALL_DEVICES)
+   277			pr_info("QAT: Stopping all acceleration devices.\n");
+   278		else
+   279			pr_info("QAT: Stopping acceleration device qat_dev%d.\n",
+   280				ctl_data->device_id);
+   281	
+   282		adf_ctl_stop_devices(ctl_data->device_id);
+   283	
+   284	out:
+   285		/* Release the reference acquired by adf_devmgr_get_dev_by_id() */
+ > 286		if (accel_dev)
+   287			adf_dev_put(accel_dev);
+   288	
+   289		kfree(ctl_data);
+   290		return ret;
+   291	}
+   292	
 
 -- 
 0-DAY CI Kernel Test Service
