@@ -1,174 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095142E22BD;
-	Mon, 11 May 2026 20:54:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 923DE496904
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 May 2026 21:00:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778532845; cv=none; b=MC1u2A1TqX0Ke0GqM6dMd1hlRc1Sdwz+LyydL2EYRiXvu0XWxCsFLMCH3alsCrs3bUeBcozY1Hbg8qVt89eD+vREjMlko/MAzuoi9DaTiZ4bl26gcoWRofU4mBbbYyq3mRjp8Bic1JISR9hqHNWcYJjUnjKSpBxYLTCR5AhzGdY=
+	t=1778533219; cv=none; b=HUahBQEOkT1OEErWi1ILEitw5f+HQwP/uYOudc9GATvfLJT4GUsmbsQno7kZsOYMSDS4P/55ws6MMudk2VKESzIVwSjBqKLpt8FiPT5uOo+cvv0J1jmOxs3wxS05MbSHIti6fCWYD2aeD6JfdmOkjJ843s6w+FnvYB5NbG460VA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778532845; c=relaxed/simple;
-	bh=2VRPm5fw61j84GP+C3qHLbnWm0l1/Wr/Ffw57Unfgt8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=njcN1aXTlok26Pr7gQEaie6bBYyHmgfR6tCdbXNb06zWfWK/hq6Vqoq3ypQlKtR2bA5HHnUaCsjwUn6QZacExYphZASPGSs1ET5AxMW/SMZIlk68I27FAd9Z4F6OAlSSoovU5IHRTGu+jyzH94K4HJvMkMInjP4uvyW5iCTvfU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mo6c2KOU; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1778533219; c=relaxed/simple;
+	bh=yS7ruAQxbGeCMVhGAp45xrL+3L/lSXnmz9oOCXUHpT0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=BEbLSzS6c/vO6Rdqgvem7Oszx3A8MNlESQ02+Cx1Uc5k3R4VWDCxJIadHsNhhxDrP5vyGhnRwWAtFb37gpRP2K0g3+EsfWqeYersIBX2YxozS8i/Ot4ztjFUI1NbjCJ4WtLSHUqElW8Sot2BIUuU1h8e/VzqDkZAFdgf5POliEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=myFTBniO; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mo6c2KOU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="myFTBniO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778532843; x=1810068843;
-  h=date:from:to:cc:subject:message-id;
-  bh=2VRPm5fw61j84GP+C3qHLbnWm0l1/Wr/Ffw57Unfgt8=;
-  b=Mo6c2KOUvR7zKVwl1AAhuEXW1gyhCPf8Aco3wKVtuAHUxqTmaaO1Jqsa
-   IcwSBt8tInBE9uK4cb9932FS+9bSlr8lntpsyfFskhcI+JkORoQ+Vkm5H
-   CZIWs4SpRoE+OsrIIutHu/ml7CN86PJ25yfG9D59laqdtbJidk/ph7+9q
-   miud6uLBIlC8o9gCRKdlVkFWiUZHJWR+zju22ctb7+6p1gtwLD5Je65Vr
-   vSQmHqtFvW2AsRpR0rSDyJ/wDqR8LicWXhQ7oCjBdzL4e9X5UNcgMOs/a
-   QZXPAr3gUhMYxUujDOtPGb+YAOz5JtWfgHIHzMxrqHOwsIU+L4ETYKnf2
-   g==;
-X-CSE-ConnectionGUID: pQbNssiaQnmRCyivoZeGTg==
-X-CSE-MsgGUID: UJV/QGqPQQyAGoapawgyDw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="83282541"
+  t=1778533217; x=1810069217;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yS7ruAQxbGeCMVhGAp45xrL+3L/lSXnmz9oOCXUHpT0=;
+  b=myFTBniOJxw8glBEDuQbULU71vG2e+6x/ASKortJNDEPEkvvqUdA4qZK
+   wIYgo6MMRZmmfjw5T1/3A5U9yAlG8+093luXgeYGGC9i0cHGz8DD5Nbmw
+   gzelpsqkthx3Advjv1RIq8rCeZmjfRlh/nHdzFvCdwQZ+ukAHwDpK7HqX
+   I85CF/5h323B6IFHxaYvXn5umSVjbvBAG9pH4KF/cT+X06kE52/IZLldr
+   jxwcx6DKyhiq7TxjnTQCSPGcDhrcPlfhglOhGtDN+8vANHsVFPttH9Hog
+   DpgoR4AyW57pZQ3i1XUZebNWJYt/mkZsilv1ys4IzulJgOvTMNPfCRNiG
+   A==;
+X-CSE-ConnectionGUID: u7GDA8HeR9C64uyUkgjtjg==
+X-CSE-MsgGUID: 9R4IDlf2TJG5qX6E2A43ZA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="83305959"
 X-IronPort-AV: E=Sophos;i="6.23,229,1770624000"; 
-   d="scan'208";a="83282541"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 13:54:03 -0700
-X-CSE-ConnectionGUID: w57a1EgjQxyef/tpNnYIow==
-X-CSE-MsgGUID: H6Wja+D3T4qnocwsah/low==
+   d="scan'208";a="83305959"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 14:00:17 -0700
+X-CSE-ConnectionGUID: z/quadhvTmmd9FwlEwkfTA==
+X-CSE-MsgGUID: ij7X6pkDTNmEkrYQ95o9lg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,229,1770624000"; 
-   d="scan'208";a="236584527"
-Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 11 May 2026 13:54:01 -0700
-Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
+   d="scan'208";a="261058715"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa002.fm.intel.com with ESMTP; 11 May 2026 14:00:13 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wMXdW-0000000019h-1eJm;
-	Mon, 11 May 2026 20:53:58 +0000
-Date: Tue, 12 May 2026 04:53:15 +0800
+	id 1wMXjX-0000000082f-2drQ;
+	Mon, 11 May 2026 21:00:11 +0000
+Date: Mon, 11 May 2026 22:59:27 +0200
 From: kernel test robot <lkp@intel.com>
-To: Chao Yu <chao@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [chao:bugfix/common 6/12]
- include/trace/events/f2fs.h:2669:3: warning: format specifies type 'unsigned
- long' but the argument has type 'unsigned long long'
-Message-ID: <202605120431.QFUGn9jp-lkp@intel.com>
+To: Sibi Sankar <sibi.sankar@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ "Ilpo =?utf-8?Q?J=C3=A4rvinen"?= <ilpo.jarvinen@linux.intel.com>,
+ Maya Matuszczyk <maccraft123mc@gmail.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Anvesh Jain P <anvesh.p@oss.qualcomm.com>, linux-doc@vger.kernel.org
+Subject: [pdx86-platform-drivers-x86:review-ilpo-next 21/30]
+ htmldocs: Warning: MAINTAINERS references a file that doesn't exist:
+ Documentation/devicetree/bindings/embedded-controller/qcom,hamoa-crd-ec.yaml
+Message-ID: <202605112207.TL7dR71j-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git bugfix/common
-head:   3fc276f79bae89d43863f797bc4ca48965917be8
-commit: ca5a91e342cd920d4857741392251ebfb4f235b6 [6/12] f2fs: introduce trace_f2fs_map_lock()
-config: i386-buildonly-randconfig-004-20260511 (https://download.01.org/0day-ci/archive/20260512/202605120431.QFUGn9jp-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git review-ilpo-next
+head:   165e81354eefd5551358112773f24027aac59d5a
+commit: 5c44f48e91deefdd42e567a2779d331937c97cd0 [21/30] platform: arm64: Add driver for EC found on Qualcomm reference devices
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260512/202605120431.QFUGn9jp-lkp@intel.com/reproduce)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260511/202605112207.TL7dR71j-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605120431.QFUGn9jp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605112207.TL7dR71j-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from fs/f2fs/super.c:42:
-   In file included from include/trace/events/f2fs.h:2678:
-   In file included from include/trace/define_trace.h:132:
-   In file included from include/trace/trace_events.h:256:
->> include/trace/events/f2fs.h:2669:3: warning: format specifies type 'unsigned long' but the argument has type 'unsigned long long' [-Wformat]
-    2646 |         ),
-         |         ~~
-    2647 | 
-    2648 |         TP_fast_assign(
-         |         ~~~~~~~~~~~~~~~
-    2649 |                 __entry->dev            = inode->i_sb->s_dev;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2650 |                 __entry->ino            = inode->i_ino;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2651 |                 __entry->index          = index;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2652 |                 __entry->flag           = flag;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2653 |                 __entry->string         = string;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2654 |         ),
-         |         ~~
-    2655 | 
-    2656 |         TP_printk("dev = (%d,%d), ino = %lu, index = %ld, flag = %d, %s",
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                         %llu
-    2657 |                 show_dev_ino(__entry),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~
-    2658 |                 __entry->index,
-         |                 ~~~~~~~~~~~~~~~
-    2659 |                 __entry->flag,
-         |                 ~~~~~~~~~~~~~~
-    2660 |                 __entry->string)
-         |                 ~~~~~~~~~~~~~~~~
-    2661 | );
-         | ~
-   include/trace/events/f2fs.h:12:51: note: expanded from macro 'show_dev_ino'
-      12 | #define show_dev_ino(entry)     show_dev(entry->dev), (unsigned long long)entry->ino
-         |                                                       ^
-   include/trace/stages/stage3_trace_output.h:9:43: note: expanded from macro 'TP_printk'
-       9 | #define TP_printk(fmt, args...) fmt "\n", args
-         |                                 ~~~       ^
-   include/trace/trace_events.h:45:16: note: expanded from macro 'TRACE_EVENT'
-      40 |         DECLARE_EVENT_CLASS(name,                              \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      41 |                              PARAMS(proto),                    \
-         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      42 |                              PARAMS(args),                     \
-         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      43 |                              PARAMS(tstruct),                  \
-         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      44 |                              PARAMS(assign),                   \
-         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      45 |                              PARAMS(print));                   \
-         |                              ~~~~~~~^~~~~~~
-   include/linux/tracepoint.h:160:25: note: expanded from macro 'PARAMS'
-     160 | #define PARAMS(args...) args
-         |                         ^~~~
-   include/trace/trace_events.h:219:27: note: expanded from macro 'DECLARE_EVENT_CLASS'
-     219 |         trace_event_printf(iter, print);                                \
-         |                                  ^~~~~
-   1 warning generated.
+   Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/xxx/xxx.rst
+   Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst references a file that doesn't exist: Documentation/networking/xfrm_proc.rst
+   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/embedded-controller/qcom,hamoa-crd-ec.yaml
+   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
+   Warning: drivers/net/ethernet/smsc/Kconfig references a file that doesn't exist: file:Documentation/networking/device_drivers/ethernet/smsc/smc9.rst
+   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/virtual/lguest/lguest.c
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,\b(\S*)(Documentation/[A-Za-z0-9
 
-
-vim +2669 include/trace/events/f2fs.h
-
-  2647	
-  2648		TP_PROTO(struct inode *inode, pgoff_t index, int flag, char *string),
-  2649	
-  2650		TP_ARGS(inode, index, flag, string),
-  2651	
-  2652		TP_STRUCT__entry(
-  2653			__field(dev_t, dev)
-  2654			__field(ino_t, ino)
-  2655			__field(pgoff_t, index)
-  2656			__field(int, flag)
-  2657			__field(char *, string)
-  2658		),
-  2659	
-  2660		TP_fast_assign(
-  2661			__entry->dev		= inode->i_sb->s_dev;
-  2662			__entry->ino		= inode->i_ino;
-  2663			__entry->index		= index;
-  2664			__entry->flag		= flag;
-  2665			__entry->string		= string;
-  2666		),
-  2667	
-  2668		TP_printk("dev = (%d,%d), ino = %lu, index = %ld, flag = %d, %s",
-> 2669			show_dev_ino(__entry),
-  2670			__entry->index,
-  2671			__entry->flag,
-  2672			__entry->string)
-  2673	);
-  2674	
-
--- 
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
