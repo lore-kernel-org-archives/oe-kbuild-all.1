@@ -1,223 +1,170 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D04F374E7F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 May 2026 12:55:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF3713A4F49
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 May 2026 13:07:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778504105; cv=none; b=Zbmfga6qrLJvC6g+PKYlRYn+uQ2KfpoJNkRaIxCbsLLtk2UydW9UXvyEjERGxXKwkFqQIjwy17D3xu+siZFeeVDtulf4Iier/U2wBJ0UihA2u2RcU+7kxIvdS2YEKo5iT0dPKFNzV3GEZV2fsnbRpHk4Byk+K+VV7XpaU1Sj/p8=
+	t=1778504826; cv=none; b=lTWSWyRaTN6uwK1Ldn952vfilNPQUlsLECrp/L71yddWinL1v97nq1MePcA/YNgz7f9zheiQwrL67ZWS9g/DbLwVEF2LoyOYpvhAm+OviUecr5zI0+uzdFhB+AOfqSSO3zaht8nDsERRvxQwwK4dnOGt37ZqxduXsQUTRomSxhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778504105; c=relaxed/simple;
-	bh=5n7lTpy63mOyE1afSibKO8kjel4xtgAxRtlNfLPvj2Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mlktm7aRWxfolGtQ1duj3CcywLCn/xCusvgqDohqq5BHTS344pca2opfS7cwmcOD54MhqnHQjkfBiuGcqCUa+UBe7U8lx+uX2Y09E037Ony+nVRCMdCN7Zo2B3dk/x3XINuv313tYoDUU7bFLxbJpTHWvbrdkKrbTCItGYua8Q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fZSfEAoY; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1778504826; c=relaxed/simple;
+	bh=t+yh3TJ4nHrVmONoDj9UD0t3GOKAAE97sXogoBiwYas=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=au2AAu6Qte5awr3qJYz6R1Kytul8mBON3OFcgbAo/kCgWooS/vEzi6aZvqrYp1Gd9/R/sJwzbtrPNXH1JVBB0sPmXe+WGf/rmptWoOOqm/nLXZAUU4GK5DU78t97PtXlsaHpsTJVL61MQ+IHFjlCU/qAPHRl0E28ArqVbvT9xtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xvhi37E7; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fZSfEAoY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xvhi37E7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778504104; x=1810040104;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=5n7lTpy63mOyE1afSibKO8kjel4xtgAxRtlNfLPvj2Q=;
-  b=fZSfEAoYg43iY3R3l5WetJkCJMTBKyvq1H/F/EnrGZ0GmWdK7d52llD/
-   4kjaI6FuLhdmwgOfx2555pVdg9p4xL8Be/MzZXvidklYaY2WlYc7r/jm/
-   Yatg0YxrBmq8oc86lCUvO46QrG7EIViGhRgQ/LUYJvIu6hgBwIHBcqtlw
-   w+RS1W0peLdNpEgNn0kgJakdQVjzsoQpKNkIvANJTw/TMFVRnro4nCwlc
-   CtynVfhRDAL1kpU68q2JNpLidmZeFRGA2E5pkKgSsagZoPR3143slqLR6
-   JIJC7W3g8ApeLCEFytPnAxa6yESZxsPb+CRCgq9WfYqA1w5tJA8WPk+wc
-   A==;
-X-CSE-ConnectionGUID: bke+cqlrQg++eC4P7Dwu9g==
-X-CSE-MsgGUID: h+KABv37QMiKA2fDUOVowg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="89972868"
+  t=1778504824; x=1810040824;
+  h=date:from:to:cc:subject:message-id;
+  bh=t+yh3TJ4nHrVmONoDj9UD0t3GOKAAE97sXogoBiwYas=;
+  b=Xvhi37E7Xr2TB1cvIgtDI4oZjj+rDhm/zBnWhxYnJIK4FXDrdWNZCdcc
+   0mbOI04KM1uWa9omY7hwhT7dKHdaLEUHofxSeNkC4FVRdyvt4pdS15brS
+   y6n7YG0d4thol0imMjf2epB2UcNI4EVW+VgfP/aHwdwudymNzrToyD9TP
+   4DlQkhKeHrXO0K0OwmtKCf9gR59AAeusHsx1rNqErlZBpE6UI5rLv9cNU
+   E8tDFMvHclxWj/l+REAC2X07kcK0nWgEdZFbkf5yM6jaeZEyB8AMMi9ck
+   QAPhGqKoskq7rvUBxJOIXISM3lDh83mBFArsgg5ZvfNAbv5UmbAuNbTbY
+   Q==;
+X-CSE-ConnectionGUID: dlMGZJliRdK/WF6HXzWVuQ==
+X-CSE-MsgGUID: O3AqU0TzR9qCL+GLBA8qDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="89693259"
 X-IronPort-AV: E=Sophos;i="6.23,228,1770624000"; 
-   d="scan'208";a="89972868"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 05:55:02 -0700
-X-CSE-ConnectionGUID: mHJcfbe4QpukErAPBgh9SA==
-X-CSE-MsgGUID: tQ1ImuS1RvqpoJnLZ7i5Og==
+   d="scan'208";a="89693259"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 06:07:04 -0700
+X-CSE-ConnectionGUID: SCczSxZaSDqfvz8DUS90RQ==
+X-CSE-MsgGUID: 2XVoreY0Ti2/uB41l7bxxQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,228,1770624000"; 
-   d="scan'208";a="241419790"
+   d="scan'208";a="233121528"
 Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 11 May 2026 05:54:59 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 11 May 2026 06:07:03 -0700
 Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wMQ9x-000000000ab-28PE;
-	Mon, 11 May 2026 12:54:57 +0000
-Date: Mon, 11 May 2026 20:54:12 +0800
+	id 1wMQLc-000000000bz-3J7M;
+	Mon, 11 May 2026 13:07:00 +0000
+Date: Mon, 11 May 2026 21:06:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v1 1/1] serial: 8250_fsl: Export fsl8250_handle_irq()
- conditionally
-Message-ID: <202605112003.uLqRrYzE-lkp@intel.com>
-References: <20260504151259.483924-1-andriy.shevchenko@linux.intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:mirror-chromeos-5.10-arcvm 0/1]
+ kernel/sched/rt.c:982:43: warning: format specifies type 'long' but the
+ argument has type 'u64' (aka 'unsigned long long')
+Message-ID: <202605112020.BtloUwDV-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260504151259.483924-1-andriy.shevchenko@linux.intel.com>
 
-Hi Andy,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tty/tty-testing]
-[also build test ERROR on tty/tty-next tty/tty-linus linus/master v7.1-rc3 next-20260508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/serial-8250_fsl-Export-fsl8250_handle_irq-conditionally/20260511-115924
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20260504151259.483924-1-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH v1 1/1] serial: 8250_fsl: Export fsl8250_handle_irq() conditionally
-config: microblaze-defconfig (https://download.01.org/0day-ci/archive/20260511/202605112003.uLqRrYzE-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260511/202605112003.uLqRrYzE-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
+head:   80e99694479e5e9fe7c6230aad1327bbb9c655be
+commit: 60159db699f14e547ce5ede2a7bad9b99e24cd3f [0/1] CHROMIUM: x86: rt: Avoid throttling over host suspend.
+config: i386-buildonly-randconfig-002-20260511 (https://download.01.org/0day-ci/archive/20260511/202605112020.BtloUwDV-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260511/202605112020.BtloUwDV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605112003.uLqRrYzE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605112020.BtloUwDV-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/tty/serial/8250/8250_of.c: In function 'of_platform_serial_setup':
->> drivers/tty/serial/8250/8250_of.c:187:36: error: 'fsl8250_handle_irq' undeclared (first use in this function); did you mean 'serial8250_handle_irq'?
-     187 |                 port->handle_irq = fsl8250_handle_irq;
-         |                                    ^~~~~~~~~~~~~~~~~~
-         |                                    serial8250_handle_irq
-   drivers/tty/serial/8250/8250_of.c:187:36: note: each undeclared identifier is reported only once for each function it appears in
+   kernel/sched/rt.c:675:6: warning: no previous prototype for function 'sched_rt_bandwidth_account' [-Wmissing-prototypes]
+     675 | bool sched_rt_bandwidth_account(struct rt_rq *rt_rq)
+         |      ^
+   kernel/sched/rt.c:675:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     675 | bool sched_rt_bandwidth_account(struct rt_rq *rt_rq)
+         | ^
+         | static 
+>> kernel/sched/rt.c:982:43: warning: format specifies type 'long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     982 |                     "(%ld)\n", rq_of_rt_rq(rt_rq)->cpu, rt_rq->rt_time);
+         |                       ~~~                               ^~~~~~~~~~~~~~
+         |                       %llu
+   include/linux/printk.h:460:26: note: expanded from macro 'printk_deferred_once'
+     460 |                 printk_deferred(fmt, ##__VA_ARGS__);            \
+         |                                 ~~~    ^~~~~~~~~~~
+   2 warnings generated.
 
 
-vim +187 drivers/tty/serial/8250/8250_of.c
+vim +982 kernel/sched/rt.c
 
-32f6ec282fb0ddb drivers/tty/serial/8250/8250_of.c Bastien Curutchet    2024-04-05   83  
-8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13   84  /*
-8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13   85   * Fill a struct uart_port for a given device node
-8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13   86   */
-9671f09921d93e7 drivers/tty/serial/of_serial.c    Bill Pemberton       2012-11-19   87  static int of_platform_serial_setup(struct platform_device *ofdev,
-058bc104f7ca5c8 drivers/tty/serial/8250/8250_of.c Lukas Wunner         2020-02-28   88  			int type, struct uart_8250_port *up,
-0bbeb3c3e84bc96 drivers/tty/serial/of_serial.c    Murali Karicheri     2012-10-22   89  			struct of_serial_info *info)
-8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13   90  {
-8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13   91  	struct resource resource;
-4678de73932f8f3 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2023-09-12   92  	struct device *dev = &ofdev->dev;
-4678de73932f8f3 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2023-09-12   93  	struct device_node *np = dev->of_node;
-058bc104f7ca5c8 drivers/tty/serial/8250/8250_of.c Lukas Wunner         2020-02-28   94  	struct uart_port *port = &up->port;
-1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04   95  	u32 spd;
-1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04   96  	int ret;
-8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13   97  
-d3210c8e88ee413 drivers/tty/serial/8250/8250_of.c jempty.liang         2025-11-17   98  	memset(port, 0, sizeof(*port));
-a2d23edaef9e022 drivers/tty/serial/8250/8250_of.c Franklin S Cooper Jr 2017-08-16   99  
-a2d23edaef9e022 drivers/tty/serial/8250/8250_of.c Franklin S Cooper Jr 2017-08-16  100  	pm_runtime_enable(&ofdev->dev);
-a2d23edaef9e022 drivers/tty/serial/8250/8250_of.c Franklin S Cooper Jr 2017-08-16  101  	pm_runtime_get_sync(&ofdev->dev);
-a2d23edaef9e022 drivers/tty/serial/8250/8250_of.c Franklin S Cooper Jr 2017-08-16  102  
-8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13  103  	ret = of_address_to_resource(np, 0, &resource);
-8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13  104  	if (ret) {
-4678de73932f8f3 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2023-09-12  105  		dev_err_probe(dev, ret, "invalid address\n");
-aef6b8631f9ddf2 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2023-09-19  106  		goto err_pmruntime;
-8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13  107  	}
-8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13  108  
-1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04  109  	port->dev = &ofdev->dev;
-1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04  110  	port->flags = UPF_BOOT_AUTOCONF | UPF_FIXED_PORT | UPF_FIXED_TYPE;
-8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13  111  	spin_lock_init(&port->lock);
-aa95947400edb57 drivers/tty/serial/8250/8250_of.c John Garry           2018-04-27  112  
-aa95947400edb57 drivers/tty/serial/8250/8250_of.c John Garry           2018-04-27  113  	if (resource_type(&resource) == IORESOURCE_IO) {
-aa95947400edb57 drivers/tty/serial/8250/8250_of.c John Garry           2018-04-27  114  		port->iobase = resource.start;
-aa95947400edb57 drivers/tty/serial/8250/8250_of.c John Garry           2018-04-27  115  	} else {
-8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13  116  		port->mapbase = resource.start;
-0787691230d88af drivers/tty/serial/of_serial.c    Mans Rullgard        2015-03-08  117  		port->mapsize = resource_size(&resource);
-1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04  118  		port->flags |= UPF_IOREMAP;
-d06b1cf28297e27 drivers/tty/serial/8250/8250_of.c Robert Hancock       2022-01-12  119  	}
-d06b1cf28297e27 drivers/tty/serial/8250/8250_of.c Robert Hancock       2022-01-12  120  
-1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04  121  	ret = uart_read_and_validate_port_properties(port);
-1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04  122  	if (ret)
-1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04  123  		goto err_pmruntime;
-b912b5e2cfb35c0 drivers/serial/of_serial.c        John Linn            2008-04-03  124  
-1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04  125  	/* Get clk rate through clk driver if present */
-1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04  126  	if (!port->uartclk) {
-81e4de4ba298d73 drivers/tty/serial/8250/8250_of.c Alex Elder           2025-04-09  127  		struct clk *bus_clk;
-81e4de4ba298d73 drivers/tty/serial/8250/8250_of.c Alex Elder           2025-04-09  128  
-81e4de4ba298d73 drivers/tty/serial/8250/8250_of.c Alex Elder           2025-04-09  129  		bus_clk = devm_clk_get_optional_enabled(dev, "bus");
-81e4de4ba298d73 drivers/tty/serial/8250/8250_of.c Alex Elder           2025-04-09  130  		if (IS_ERR(bus_clk)) {
-81e4de4ba298d73 drivers/tty/serial/8250/8250_of.c Alex Elder           2025-04-09  131  			ret = dev_err_probe(dev, PTR_ERR(bus_clk), "failed to get bus clock\n");
-81e4de4ba298d73 drivers/tty/serial/8250/8250_of.c Alex Elder           2025-04-09  132  			goto err_pmruntime;
-81e4de4ba298d73 drivers/tty/serial/8250/8250_of.c Alex Elder           2025-04-09  133  		}
-81e4de4ba298d73 drivers/tty/serial/8250/8250_of.c Alex Elder           2025-04-09  134  
-81e4de4ba298d73 drivers/tty/serial/8250/8250_of.c Alex Elder           2025-04-09  135  		/* If the bus clock is required, core clock must be named */
-81e4de4ba298d73 drivers/tty/serial/8250/8250_of.c Alex Elder           2025-04-09  136  		info->clk = devm_clk_get_enabled(dev, bus_clk ? "core" : NULL);
-1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04  137  		if (IS_ERR(info->clk)) {
-1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04  138  			ret = dev_err_probe(dev, PTR_ERR(info->clk), "failed to get clock\n");
-aef6b8631f9ddf2 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2023-09-19  139  			goto err_pmruntime;
-7423734e19e7e0a drivers/tty/serial/of_serial.c    Jamie Iles           2011-06-27  140  		}
-1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04  141  
-926040da6064233 drivers/tty/serial/8250/8250_of.c Alex Elder           2025-04-11  142  		info->bus_clk = bus_clk;
-1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04  143  		port->uartclk = clk_get_rate(info->clk);
-7423734e19e7e0a drivers/tty/serial/of_serial.c    Jamie Iles           2011-06-27  144  	}
-1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04  145  	/* If current-speed was set, then try not to change it. */
-1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04  146  	if (of_property_read_u32(np, "current-speed", &spd) == 0)
-1117a6fdc7c14d6 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-03-04  147  		port->custom_divisor = port->uartclk / (16 * spd);
-aa95947400edb57 drivers/tty/serial/8250/8250_of.c John Garry           2018-04-27  148  
-f4817843e39ce78 drivers/tty/serial/8250/8250_of.c Lubomir Rintel       2019-02-24  149  	/* Compatibility with the deprecated pxa driver and 8250_pxa drivers. */
-f4817843e39ce78 drivers/tty/serial/8250/8250_of.c Lubomir Rintel       2019-02-24  150  	if (of_device_is_compatible(np, "mrvl,mmp-uart"))
-f4817843e39ce78 drivers/tty/serial/8250/8250_of.c Lubomir Rintel       2019-02-24  151  		port->regshift = 2;
-f4817843e39ce78 drivers/tty/serial/8250/8250_of.c Lubomir Rintel       2019-02-24  152  
-e2860e1f62f2e87 drivers/tty/serial/8250/8250_of.c Joel Stanley         2017-05-29  153  	info->rst = devm_reset_control_get_optional_shared(&ofdev->dev, NULL);
-b9820a31691b771 drivers/tty/serial/8250/8250_of.c Masahiro Yamada      2017-12-27  154  	if (IS_ERR(info->rst)) {
-b9820a31691b771 drivers/tty/serial/8250/8250_of.c Masahiro Yamada      2017-12-27  155  		ret = PTR_ERR(info->rst);
-aef6b8631f9ddf2 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2023-09-19  156  		goto err_pmruntime;
-b9820a31691b771 drivers/tty/serial/8250/8250_of.c Masahiro Yamada      2017-12-27  157  	}
-b9820a31691b771 drivers/tty/serial/8250/8250_of.c Masahiro Yamada      2017-12-27  158  
-e2860e1f62f2e87 drivers/tty/serial/8250/8250_of.c Joel Stanley         2017-05-29  159  	ret = reset_control_deassert(info->rst);
-e2860e1f62f2e87 drivers/tty/serial/8250/8250_of.c Joel Stanley         2017-05-29  160  	if (ret)
-aef6b8631f9ddf2 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2023-09-19  161  		goto err_pmruntime;
-e2860e1f62f2e87 drivers/tty/serial/8250/8250_of.c Joel Stanley         2017-05-29  162  
-8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13  163  	port->type = type;
-283e096ffb7077c drivers/tty/serial/8250/8250_of.c Lukas Wunner         2020-02-28  164  	port->rs485_config = serial8250_em485_config;
-0139da50dc53f0c drivers/tty/serial/8250/8250_of.c Ilpo Järvinen        2022-07-04  165  	port->rs485_supported = serial8250_em485_supported;
-058bc104f7ca5c8 drivers/tty/serial/8250/8250_of.c Lukas Wunner         2020-02-28  166  	up->rs485_start_tx = serial8250_em485_start_tx;
-058bc104f7ca5c8 drivers/tty/serial/8250/8250_of.c Lukas Wunner         2020-02-28  167  	up->rs485_stop_tx = serial8250_em485_stop_tx;
-8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13  168  
-9b8777e3473e31b drivers/tty/serial/of_serial.c    John Crispin         2014-10-16  169  	switch (type) {
-9b8777e3473e31b drivers/tty/serial/of_serial.c    John Crispin         2014-10-16  170  	case PORT_RT2880:
-b334214ea08d941 drivers/tty/serial/8250/8250_of.c Ilpo Järvinen        2023-05-11  171  		ret = rt288x_setup(port);
-cd0eb354d441488 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-02-15  172  		break;
-cd0eb354d441488 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-02-15  173  	case PORT_NPCM:
-cd0eb354d441488 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-02-15  174  		ret = npcm_setup(port);
-cd0eb354d441488 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-02-15  175  		break;
-cd0eb354d441488 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-02-15  176  	default:
-cd0eb354d441488 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-02-15  177  		/* Nothing to do */
-cd0eb354d441488 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-02-15  178  		ret = 0;
-9b8777e3473e31b drivers/tty/serial/of_serial.c    John Crispin         2014-10-16  179  		break;
-9b8777e3473e31b drivers/tty/serial/of_serial.c    John Crispin         2014-10-16  180  	}
-cd0eb354d441488 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-02-15  181  	if (ret)
-cd0eb354d441488 drivers/tty/serial/8250/8250_of.c Andy Shevchenko      2024-02-15  182  		goto err_pmruntime;
-bf03f65b7967df5 drivers/tty/serial/of_serial.c    Dan Williams         2012-04-10  183  
-d9f59caf94a92f7 drivers/tty/serial/8250/8250_of.c Uwe Kleine-König     2023-06-09  184  	if (IS_REACHABLE(CONFIG_SERIAL_8250_FSL) &&
-d43b54d269d27bd drivers/tty/serial/of_serial.c    Scott Wood           2015-10-07  185  	    (of_device_is_compatible(np, "fsl,ns16550") ||
-d68fefdd5b5f107 drivers/tty/serial/8250/8250_of.c Dmitry Safonov       2019-12-13  186  	     of_device_is_compatible(np, "fsl,16550-FIFO64"))) {
-d43b54d269d27bd drivers/tty/serial/of_serial.c    Scott Wood           2015-10-07 @187  		port->handle_irq = fsl8250_handle_irq;
-d68fefdd5b5f107 drivers/tty/serial/8250/8250_of.c Dmitry Safonov       2019-12-13  188  		port->has_sysrq = IS_ENABLED(CONFIG_SERIAL_8250_CONSOLE);
-d68fefdd5b5f107 drivers/tty/serial/8250/8250_of.c Dmitry Safonov       2019-12-13  189  	}
-d43b54d269d27bd drivers/tty/serial/of_serial.c    Scott Wood           2015-10-07  190  
-8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13  191  	return 0;
-a2d23edaef9e022 drivers/tty/serial/8250/8250_of.c Franklin S Cooper Jr 2017-08-16  192  err_pmruntime:
-a2d23edaef9e022 drivers/tty/serial/8250/8250_of.c Franklin S Cooper Jr 2017-08-16  193  	pm_runtime_put_sync(&ofdev->dev);
-a2d23edaef9e022 drivers/tty/serial/8250/8250_of.c Franklin S Cooper Jr 2017-08-16  194  	pm_runtime_disable(&ofdev->dev);
-0bbeb3c3e84bc96 drivers/tty/serial/of_serial.c    Murali Karicheri     2012-10-22  195  	return ret;
-8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13  196  }
-8d38a5b2fab1397 drivers/serial/of_serial.c        Arnd Bergmann        2007-02-13  197  
+6f505b16425a512 kernel/sched_rt.c Peter Zijlstra       2008-01-25   955  
+9f0c1e560c43327 kernel/sched_rt.c Peter Zijlstra       2008-02-13   956  static int sched_rt_runtime_exceeded(struct rt_rq *rt_rq)
+6f505b16425a512 kernel/sched_rt.c Peter Zijlstra       2008-01-25   957  {
+9f0c1e560c43327 kernel/sched_rt.c Peter Zijlstra       2008-02-13   958  	u64 runtime = sched_rt_runtime(rt_rq);
+fa85ae2418e6843 kernel/sched_rt.c Peter Zijlstra       2008-01-25   959  
+fa85ae2418e6843 kernel/sched_rt.c Peter Zijlstra       2008-01-25   960  	if (rt_rq->rt_throttled)
+23b0fdfc9299b13 kernel/sched_rt.c Peter Zijlstra       2008-02-13   961  		return rt_rq_throttled(rt_rq);
+fa85ae2418e6843 kernel/sched_rt.c Peter Zijlstra       2008-01-25   962  
+5b680fd61388abb kernel/sched/rt.c Shan Hai             2011-11-29   963  	if (runtime >= sched_rt_period(rt_rq))
+ac086bc22997a2b kernel/sched_rt.c Peter Zijlstra       2008-04-19   964  		return 0;
+ac086bc22997a2b kernel/sched_rt.c Peter Zijlstra       2008-04-19   965  
+7def2be1dc67998 kernel/sched_rt.c Peter Zijlstra       2008-06-05   966  	balance_runtime(rt_rq);
+ac086bc22997a2b kernel/sched_rt.c Peter Zijlstra       2008-04-19   967  	runtime = sched_rt_runtime(rt_rq);
+7def2be1dc67998 kernel/sched_rt.c Peter Zijlstra       2008-06-05   968  	if (runtime == RUNTIME_INF)
+7def2be1dc67998 kernel/sched_rt.c Peter Zijlstra       2008-06-05   969  		return 0;
+ac086bc22997a2b kernel/sched_rt.c Peter Zijlstra       2008-04-19   970  
+4f653d6975381f9 kernel/sched/rt.c Suleiman Souhlal     2024-03-16   971  	/*
+60159db699f14e5 kernel/sched/rt.c Suleiman Souhlal     2024-05-07   972  	 * XXX Temporary workaround for b/307775867 and b/336912980.
+4f653d6975381f9 kernel/sched/rt.c Suleiman Souhlal     2024-03-16   973  	 * We think we ran for this long because the host suspended while we
+4f653d6975381f9 kernel/sched/rt.c Suleiman Souhlal     2024-03-16   974  	 * were running, so just pretend we didn't run instead of throttling
+4f653d6975381f9 kernel/sched/rt.c Suleiman Souhlal     2024-03-16   975  	 * for a long time.
+4f653d6975381f9 kernel/sched/rt.c Suleiman Souhlal     2024-03-16   976  	 * The "5" was chosen so that it would be highly unlikely for this to
+4f653d6975381f9 kernel/sched/rt.c Suleiman Souhlal     2024-03-16   977  	 * happen in normal operation, while being small enough to be able to
+4f653d6975381f9 kernel/sched/rt.c Suleiman Souhlal     2024-03-16   978  	 * mitigate issues for shorter suspends.
+4f653d6975381f9 kernel/sched/rt.c Suleiman Souhlal     2024-03-16   979  	 */
+4f653d6975381f9 kernel/sched/rt.c Suleiman Souhlal     2024-03-16   980  	if (unlikely(runtime > 0 && rt_rq->rt_time >= 5 * runtime)) {
+4f653d6975381f9 kernel/sched/rt.c Suleiman Souhlal     2024-03-16   981  		printk_deferred_once("suspected host suspend. cpu %d rt_time "
+4f653d6975381f9 kernel/sched/rt.c Suleiman Souhlal     2024-03-16  @982  		    "(%ld)\n", rq_of_rt_rq(rt_rq)->cpu, rt_rq->rt_time);
+4f653d6975381f9 kernel/sched/rt.c Suleiman Souhlal     2024-03-16   983  		rt_rq->rt_time = 0;
+4f653d6975381f9 kernel/sched/rt.c Suleiman Souhlal     2024-03-16   984  	}
+4f653d6975381f9 kernel/sched/rt.c Suleiman Souhlal     2024-03-16   985  
+9f0c1e560c43327 kernel/sched_rt.c Peter Zijlstra       2008-02-13   986  	if (rt_rq->rt_time > runtime) {
+7abc63b1bd412f7 kernel/sched/rt.c Peter Zijlstra       2011-10-18   987  		struct rt_bandwidth *rt_b = sched_rt_bandwidth(rt_rq);
+7abc63b1bd412f7 kernel/sched/rt.c Peter Zijlstra       2011-10-18   988  
+7abc63b1bd412f7 kernel/sched/rt.c Peter Zijlstra       2011-10-18   989  		/*
+7abc63b1bd412f7 kernel/sched/rt.c Peter Zijlstra       2011-10-18   990  		 * Don't actually throttle groups that have no runtime assigned
+7abc63b1bd412f7 kernel/sched/rt.c Peter Zijlstra       2011-10-18   991  		 * but accrue some time due to boosting.
+7abc63b1bd412f7 kernel/sched/rt.c Peter Zijlstra       2011-10-18   992  		 */
+7abc63b1bd412f7 kernel/sched/rt.c Peter Zijlstra       2011-10-18   993  		if (likely(rt_b->rt_runtime)) {
+6f505b16425a512 kernel/sched_rt.c Peter Zijlstra       2008-01-25   994  			rt_rq->rt_throttled = 1;
+c224815dac9c739 kernel/sched/rt.c John Stultz          2014-06-04   995  			printk_deferred_once("sched: RT throttling activated\n");
+bf3d991a7daad26 kernel/sched/rt.c Sai Harshini Nimmala 2020-11-02   996  
+bf3d991a7daad26 kernel/sched/rt.c Sai Harshini Nimmala 2020-11-02   997  			trace_android_vh_dump_throttled_rt_tasks(
+bf3d991a7daad26 kernel/sched/rt.c Sai Harshini Nimmala 2020-11-02   998  				raw_smp_processor_id(),
+bf3d991a7daad26 kernel/sched/rt.c Sai Harshini Nimmala 2020-11-02   999  				rq_clock(rq_of_rt_rq(rt_rq)),
+bf3d991a7daad26 kernel/sched/rt.c Sai Harshini Nimmala 2020-11-02  1000  				sched_rt_period(rt_rq),
+bf3d991a7daad26 kernel/sched/rt.c Sai Harshini Nimmala 2020-11-02  1001  				runtime,
+bf3d991a7daad26 kernel/sched/rt.c Sai Harshini Nimmala 2020-11-02  1002  				hrtimer_get_expires_ns(&rt_b->rt_period_timer));
+7abc63b1bd412f7 kernel/sched/rt.c Peter Zijlstra       2011-10-18  1003  		} else {
+7abc63b1bd412f7 kernel/sched/rt.c Peter Zijlstra       2011-10-18  1004  			/*
+7abc63b1bd412f7 kernel/sched/rt.c Peter Zijlstra       2011-10-18  1005  			 * In case we did anyway, make it go away,
+7abc63b1bd412f7 kernel/sched/rt.c Peter Zijlstra       2011-10-18  1006  			 * replenishment is a joke, since it will replenish us
+7abc63b1bd412f7 kernel/sched/rt.c Peter Zijlstra       2011-10-18  1007  			 * with exactly 0 ns.
+7abc63b1bd412f7 kernel/sched/rt.c Peter Zijlstra       2011-10-18  1008  			 */
+7abc63b1bd412f7 kernel/sched/rt.c Peter Zijlstra       2011-10-18  1009  			rt_rq->rt_time = 0;
+7abc63b1bd412f7 kernel/sched/rt.c Peter Zijlstra       2011-10-18  1010  		}
+7abc63b1bd412f7 kernel/sched/rt.c Peter Zijlstra       2011-10-18  1011  
+23b0fdfc9299b13 kernel/sched_rt.c Peter Zijlstra       2008-02-13  1012  		if (rt_rq_throttled(rt_rq)) {
+9f0c1e560c43327 kernel/sched_rt.c Peter Zijlstra       2008-02-13  1013  			sched_rt_rq_dequeue(rt_rq);
+fa85ae2418e6843 kernel/sched_rt.c Peter Zijlstra       2008-01-25  1014  			return 1;
+fa85ae2418e6843 kernel/sched_rt.c Peter Zijlstra       2008-01-25  1015  		}
+23b0fdfc9299b13 kernel/sched_rt.c Peter Zijlstra       2008-02-13  1016  	}
+fa85ae2418e6843 kernel/sched_rt.c Peter Zijlstra       2008-01-25  1017  
+fa85ae2418e6843 kernel/sched_rt.c Peter Zijlstra       2008-01-25  1018  	return 0;
+fa85ae2418e6843 kernel/sched_rt.c Peter Zijlstra       2008-01-25  1019  }
+fa85ae2418e6843 kernel/sched_rt.c Peter Zijlstra       2008-01-25  1020  
+
+:::::: The code at line 982 was first introduced by commit
+:::::: 4f653d6975381f93075754c0d2b1ec8bc37b0df8 CHROMIUM: arm64: rt: Avoid throttling over host suspend.
+
+:::::: TO: Suleiman Souhlal <suleiman@google.com>
+:::::: CC: Chromeos LUCI <chromeos-scoped@luci-project-accounts.iam.gserviceaccount.com>
 
 -- 
 0-DAY CI Kernel Test Service
