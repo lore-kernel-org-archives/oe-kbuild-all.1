@@ -1,136 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D8AF3E3D98;
-	Tue, 12 May 2026 05:43:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E1DB3FA5C4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 May 2026 05:54:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778564646; cv=none; b=fsFl0sYFsKjme/fMRzJxenM9rpWB4jpgKVt5qgsIS2Vfq8QNa/QGrHRlusw9fzMEg+QDo/k4XrhB/8SRgSCM03mY/7kbHmqEpJGrrrw+k/zWAfmOYJ1nU2JhAGqRdFcx4el6UBnCDApwE3nfv49T1ZaMuHeAt67xXuUY1kBP4SU=
+	t=1778565306; cv=none; b=YxMZdY87rlSxKDtw+pGofym5zDnWZJ9l0DSW9JDGZRf0780fbCwzbuib4aLAZOsPuUgSO/H4oRU2kcq51HED1yplw1nmfj4iJLJwAY2YEdIl2FIQAsB3xnL4g/Zz4RZ32g4sY45LbyNu1tPWBNzFTnQC5C+jUyQtKI5pKBMT3y8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778564646; c=relaxed/simple;
-	bh=ZoE7384it269htn0b+KDZdQY37BAyNlYlcmt+DIxG1g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ltwLXJWN3hkzlqxSLEWDbnFbyL9SqS8Ozh+hpPu83VVuqqgBT8q2FEGCQ/O4WIdFop0Lbg5ZzHCIBzBcSzouEQZ2ur+PtuDnyqi3i/2qzfk5AyXakR5H0ayUa1H9tECHBQYEqTs6Vuu/17a7m5c0wZid2H3yIzG5f5gKJLWJWpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kw15HBKE; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1778565306; c=relaxed/simple;
+	bh=nQ6d0snrpe1BH5uQxSgaQi2//PC+zImUm4NiFZupnAo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=M8xKjfd85O3Sf8VXdefYREZFW52yF4VIYMLVdAFJAr1JkDZYoolFIgHPhnfy90JMe1gRl9/0bjZx6dtFVI955RY1g2igrB1Kld96g5+FCnhNMIJgAnOHBDcymuseEODr0X4wZfb6PuSSclVQpaCz4OsrSvAxo5PfVZLSKbnPD2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q3u9XRqe; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kw15HBKE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q3u9XRqe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778564637; x=1810100637;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZoE7384it269htn0b+KDZdQY37BAyNlYlcmt+DIxG1g=;
-  b=kw15HBKEuCIosFo9qDAEvmBgClM2fztQSb62x6Ka8vX/xYryhPGW52eX
-   7t35ADmwJxAJHBxRix4ZSy5Gc1cSEz4zUhKrUNNvflSGDAEgn6mi/LUUF
-   HOKuIbT2qPGKB81H9wXx23KTkDhKgSWI+BhdLqocc1A4eA00F94s8xNdK
-   CxW+5bLYWMl+4JkcpP+qHxUY9b8NWsdv33kSq+D/dYjftUDJEeBx2nKfZ
-   XXR+9AGM0aW+NsaELPq+BhJS0goQbL+3sWOrWJoM2vfwRAbwT/G0H7Gh1
-   Mx4uyIx1SWgqQqr+aEiS1jiKKiwRt7kaQLAiBz4xW5JMIRWwOc/7RySZj
-   Q==;
-X-CSE-ConnectionGUID: tjha2SpETMecbLSb28n9Wg==
-X-CSE-MsgGUID: tNF88j2vTZCvIidB2bHEIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="82030809"
+  t=1778565295; x=1810101295;
+  h=date:from:to:cc:subject:message-id;
+  bh=nQ6d0snrpe1BH5uQxSgaQi2//PC+zImUm4NiFZupnAo=;
+  b=Q3u9XRqeAgkqlRd2kOdErXUcNJIC1Zn7by02HImUbASnY1L79rZ+pFJq
+   log6MGUiLn9auvq8K7k6Wji/i3k4vXyN8BoOmJvPby105ON4/VjGn0xDW
+   oJSZL+oMWPQ13bk0RbXCK5uc30dXHKEtyPTfAoj3PyqkSjZxk9E7vRB5j
+   YJRS5UYtgmU7IfXw1D429nYwpAxSIVEZ3HfZwkHDRBx6jiYG6dQ3Uae2Z
+   LEvearFxNHV66CVJIeulodn6E4ccePjJ4xDl9qbJoGXcxK10wwgy3HNMQ
+   TBlqKKci+hM+FFIU0tk2XlgP25ggKH0SNDnd0EDUOMq5ChprUMXFGGMOJ
+   A==;
+X-CSE-ConnectionGUID: q/XJfW58Q/q/Y6Np+yN6Rg==
+X-CSE-MsgGUID: KqfeSpkdSfuU+e4rFGv0Rw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="102130323"
 X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
-   d="scan'208";a="82030809"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 22:43:51 -0700
-X-CSE-ConnectionGUID: lhCniQ8jShSB+CKNYqq58Q==
-X-CSE-MsgGUID: W26M/UnMTr+ZE0KRXyzpfA==
+   d="scan'208";a="102130323"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 22:54:49 -0700
+X-CSE-ConnectionGUID: LTLLjgDwRHGqG6D95NfRMw==
+X-CSE-MsgGUID: ZvHq0RHdSuy/a/XM7UMRzg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
-   d="scan'208";a="231262144"
 Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 11 May 2026 22:43:47 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 11 May 2026 22:54:48 -0700
 Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wMfuC-000000001ej-2gVp;
-	Tue, 12 May 2026 05:43:44 +0000
-Date: Tue, 12 May 2026 13:42:56 +0800
+	id 1wMg4r-000000001fT-0imW;
+	Tue, 12 May 2026 05:54:45 +0000
+Date: Tue, 12 May 2026 13:53:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maoyi Xie <maoyixie.tju@gmail.com>, Simon Horman <horms@kernel.org>,
-	Allison Henderson <achender@kernel.org>, netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	linux-rdma@vger.kernel.org, rds-devel@oss.oracle.com,
-	linux-kernel@vger.kernel.org,
-	Praveen Kakkolangara <praveen.kakkolangara@aumovio.com>,
-	Maoyi Xie <maoyi.xie@ntu.edu.sg>
-Subject: Re: [PATCH net v3] rds: filter RDS_INFO_* getsockopt by caller's
- netns
-Message-ID: <202605121353.896RQym5-lkp@intel.com>
-References: <20260511070211.1033178-1-maoyi.xie@ntu.edu.sg>
+To: David Woodhouse <dwmw@amazon.co.uk>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dwmw2:kvmclock5 27/33] arch/x86/kvm/x86.c:6137:undefined
+ reference to `__udivdi3'
+Message-ID: <202605121356.yoKOoS3Z-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260511070211.1033178-1-maoyi.xie@ntu.edu.sg>
 
-Hi Maoyi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on b266bacba796ff5c4dcd2ae2fc08aacf7ab39153]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Maoyi-Xie/rds-filter-RDS_INFO_-getsockopt-by-caller-s-netns/20260512-045249
-base:   b266bacba796ff5c4dcd2ae2fc08aacf7ab39153
-patch link:    https://lore.kernel.org/r/20260511070211.1033178-1-maoyi.xie%40ntu.edu.sg
-patch subject: [PATCH net v3] rds: filter RDS_INFO_* getsockopt by caller's netns
-config: arm-randconfig-001-20260512 (https://download.01.org/0day-ci/archive/20260512/202605121353.896RQym5-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260512/202605121353.896RQym5-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/dwmw2/linux kvmclock5
+head:   da1d4eeab5b7f46a172ed30db198073e1aa00bf3
+commit: f999007141f30149770e5732866ac43732b0e4da [27/33] KVM: x86: Add KVM_VCPU_TSC_EFFECTIVE_FREQ attribute
+config: i386-buildonly-randconfig-001-20260512 (https://download.01.org/0day-ci/archive/20260512/202605121356.yoKOoS3Z-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260512/202605121356.yoKOoS3Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605121353.896RQym5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605121356.yoKOoS3Z-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from net/rds/tcp.c:42:
-   In file included from net/rds/rds.h:10:
-   include/uapi/linux/rds.h:233:18: warning: field peer_addr within 'struct rds6_info_tcp_socket' is less aligned than 'struct in6_addr' and is usually due to 'struct rds6_info_tcp_socket' being packed, which can lead to unaligned accesses [-Wunaligned-access]
-     233 |         struct in6_addr peer_addr;
-         |                         ^
->> net/rds/tcp.c:52:21: warning: variable 'rds_tcp_tc_count' set but not used [-Wunused-but-set-global]
-      52 | static unsigned int rds_tcp_tc_count;
-         |                     ^
->> net/rds/tcp.c:54:21: warning: variable 'rds6_tcp_tc_count' set but not used [-Wunused-but-set-global]
-      54 | static unsigned int rds6_tcp_tc_count;
-         |                     ^
-   3 warnings generated.
---
->> net/rds/af_rds.c:46:22: warning: variable 'rds_sock_count' set but not used [-Wunused-but-set-global]
-      46 | static unsigned long rds_sock_count;
-         |                      ^
-   1 warning generated.
+   ld: arch/x86/kvm/x86.o: in function `kvm_arch_tsc_get_attr':
+>> arch/x86/kvm/x86.c:6137:(.text+0x20866): undefined reference to `__udivdi3'
 
 
-vim +/rds_tcp_tc_count +52 net/rds/tcp.c
+vim +6137 arch/x86/kvm/x86.c
 
-70041088e3b9766 Andy Grover       2009-08-21  41  
-70041088e3b9766 Andy Grover       2009-08-21 @42  #include "rds.h"
-70041088e3b9766 Andy Grover       2009-08-21  43  #include "tcp.h"
-70041088e3b9766 Andy Grover       2009-08-21  44  
-70041088e3b9766 Andy Grover       2009-08-21  45  /* only for info exporting */
-70041088e3b9766 Andy Grover       2009-08-21  46  static DEFINE_SPINLOCK(rds_tcp_tc_list_lock);
-70041088e3b9766 Andy Grover       2009-08-21  47  static LIST_HEAD(rds_tcp_tc_list);
-1e2b44e78eead7b Ka-Cheong Poon    2018-07-23  48  
-1e2b44e78eead7b Ka-Cheong Poon    2018-07-23  49  /* rds_tcp_tc_count counts only IPv4 connections.
-1e2b44e78eead7b Ka-Cheong Poon    2018-07-23  50   * rds6_tcp_tc_count counts both IPv4 and IPv6 connections.
-1e2b44e78eead7b Ka-Cheong Poon    2018-07-23  51   */
-ff51bf841587c75 stephen hemminger 2010-10-19 @52  static unsigned int rds_tcp_tc_count;
-e65d4d96334e3ff Ka-Cheong Poon    2018-07-30  53  #if IS_ENABLED(CONFIG_IPV6)
-1e2b44e78eead7b Ka-Cheong Poon    2018-07-23 @54  static unsigned int rds6_tcp_tc_count;
-e65d4d96334e3ff Ka-Cheong Poon    2018-07-30  55  #endif
-70041088e3b9766 Andy Grover       2009-08-21  56  
+  6095	
+  6096	static int kvm_arch_tsc_get_attr(struct kvm_vcpu *vcpu,
+  6097					 struct kvm_device_attr *attr)
+  6098	{
+  6099		u64 __user *uaddr = u64_to_user_ptr(attr->addr);
+  6100		int r;
+  6101	
+  6102		switch (attr->attr) {
+  6103		case KVM_VCPU_TSC_OFFSET:
+  6104			r = -EFAULT;
+  6105			if (put_user(vcpu->arch.l1_tsc_offset, uaddr))
+  6106				break;
+  6107			r = 0;
+  6108			break;
+  6109		case KVM_VCPU_TSC_SCALE: {
+  6110			struct kvm_vcpu_tsc_scale scale;
+  6111	
+  6112			if (!kvm_caps.has_tsc_control) {
+  6113				r = -ENXIO;
+  6114				break;
+  6115			}
+  6116	
+  6117			scale.tsc_ratio = vcpu->arch.l1_tsc_scaling_ratio;
+  6118			scale.tsc_frac_bits = kvm_caps.tsc_scaling_ratio_frac_bits;
+  6119			r = -EFAULT;
+  6120			if (copy_to_user(uaddr, &scale, sizeof(scale)))
+  6121				break;
+  6122			r = 0;
+  6123			break;
+  6124		}
+  6125		case KVM_VCPU_TSC_EFFECTIVE_FREQ: {
+  6126			struct kvm_vcpu_tsc_effective_freq freq;
+  6127	
+  6128			if (!boot_cpu_has(X86_FEATURE_CONSTANT_TSC)) {
+  6129				r = -ENXIO;
+  6130				break;
+  6131			}
+  6132	
+  6133			if (kvm_check_request(KVM_REQ_CLOCK_UPDATE, vcpu))
+  6134				kvm_guest_time_update(vcpu);
+  6135	
+  6136			freq.tsc_khz = div_u64(vcpu->arch.hw_tsc_hz, 1000);
+> 6137			freq.bus_khz = 1000000 / vcpu->kvm->arch.apic_bus_cycle_ns;
+  6138			r = -EFAULT;
+  6139			if (copy_to_user(uaddr, &freq, sizeof(freq)))
+  6140				break;
+  6141			r = 0;
+  6142			break;
+  6143		}
+  6144		default:
+  6145			r = -ENXIO;
+  6146		}
+  6147	
+  6148		return r;
+  6149	}
+  6150	
 
 -- 
 0-DAY CI Kernel Test Service
