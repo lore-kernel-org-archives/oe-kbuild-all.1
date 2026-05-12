@@ -1,67 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F53838BF68
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 May 2026 05:32:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D8AF3E3D98;
+	Tue, 12 May 2026 05:43:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778563973; cv=none; b=AcFcThNc60zNt3xkE99kcZkq6Jk5Q9vM1Vxf75eXvHpvMzMNLg/o0UJh6/Xa9bWgCMwKkVCemHkJjEe28ez6Juc5ynHFhzH91gT8wZpuHis8+CpOg1crW7lASpYxdkqdcnsYg0AVIHPw4fv7pZ9iHaP8h04A4F/Qvxt9eaarM/E=
+	t=1778564646; cv=none; b=fsFl0sYFsKjme/fMRzJxenM9rpWB4jpgKVt5qgsIS2Vfq8QNa/QGrHRlusw9fzMEg+QDo/k4XrhB/8SRgSCM03mY/7kbHmqEpJGrrrw+k/zWAfmOYJ1nU2JhAGqRdFcx4el6UBnCDApwE3nfv49T1ZaMuHeAt67xXuUY1kBP4SU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778563973; c=relaxed/simple;
-	bh=lx+K+0YCP54PiWyu/GiEJIZl64mAgPzGpZSUAIt8dOU=;
+	s=arc-20240116; t=1778564646; c=relaxed/simple;
+	bh=ZoE7384it269htn0b+KDZdQY37BAyNlYlcmt+DIxG1g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U1I6Dj6lxDvhTGb9zInh5qnJQLdxMnJzhmqV5tQYMKTQCSZIC0G/1w25VVr19OeFhdCxodHkgvkWc87gVdXIVZkO4ITHU9NFGJB7h1y8WyG/vyl2MscNH7+PZ9ULRKnUCHRzaxYeP9Pmzs3nQl/05xgiD7YyBAhm/rXl2RNrIYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pvum05ck; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=ltwLXJWN3hkzlqxSLEWDbnFbyL9SqS8Ozh+hpPu83VVuqqgBT8q2FEGCQ/O4WIdFop0Lbg5ZzHCIBzBcSzouEQZ2ur+PtuDnyqi3i/2qzfk5AyXakR5H0ayUa1H9tECHBQYEqTs6Vuu/17a7m5c0wZid2H3yIzG5f5gKJLWJWpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kw15HBKE; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pvum05ck"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kw15HBKE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778563971; x=1810099971;
+  t=1778564637; x=1810100637;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=lx+K+0YCP54PiWyu/GiEJIZl64mAgPzGpZSUAIt8dOU=;
-  b=Pvum05ckXCRMF9elfGwK0jAschaT9KuZaYs713pw5b6sNEnyAFdZpZSN
-   mteqLnx6lpd5csKw0gxQrwIzKMpaqhCXLTVxPrz6R3xMKlvauoss3A1zj
-   C8++EqsI4/Pgv9BhVmvZgOX2MEJW0FgUcPCUm615AS1RV6hS9WF0oOZQr
-   kOe7TPEBJvtZPb+2xFN5kJ+U9FPWZ88n7zWSdlcVLdv9cAONqKMFwTp24
-   5XU3w+Kvyj/Toa8JQe63eTVNDdA2SCGRu2WIu1QQp58tp5xavOrXOfcST
-   27R8Xmzxm+Yo1CErqqn9TTir+zahw9CdVDgDOQQqz5Fh6I4EC9QWtvqax
-   w==;
-X-CSE-ConnectionGUID: tWswRfuxRqGJyBPJoIilvA==
-X-CSE-MsgGUID: 1oayK8bxTb+qNcJEvfH9fA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="89766950"
+  bh=ZoE7384it269htn0b+KDZdQY37BAyNlYlcmt+DIxG1g=;
+  b=kw15HBKEuCIosFo9qDAEvmBgClM2fztQSb62x6Ka8vX/xYryhPGW52eX
+   7t35ADmwJxAJHBxRix4ZSy5Gc1cSEz4zUhKrUNNvflSGDAEgn6mi/LUUF
+   HOKuIbT2qPGKB81H9wXx23KTkDhKgSWI+BhdLqocc1A4eA00F94s8xNdK
+   CxW+5bLYWMl+4JkcpP+qHxUY9b8NWsdv33kSq+D/dYjftUDJEeBx2nKfZ
+   XXR+9AGM0aW+NsaELPq+BhJS0goQbL+3sWOrWJoM2vfwRAbwT/G0H7Gh1
+   Mx4uyIx1SWgqQqr+aEiS1jiKKiwRt7kaQLAiBz4xW5JMIRWwOc/7RySZj
+   Q==;
+X-CSE-ConnectionGUID: tjha2SpETMecbLSb28n9Wg==
+X-CSE-MsgGUID: tNF88j2vTZCvIidB2bHEIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="82030809"
 X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
-   d="scan'208";a="89766950"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 22:32:50 -0700
-X-CSE-ConnectionGUID: 6djvsQSsRwSmwlARv6CcJg==
-X-CSE-MsgGUID: KttygPD5QRSCpD2Dw972PA==
+   d="scan'208";a="82030809"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 22:43:51 -0700
+X-CSE-ConnectionGUID: lhCniQ8jShSB+CKNYqq58Q==
+X-CSE-MsgGUID: W26M/UnMTr+ZE0KRXyzpfA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
-   d="scan'208";a="233352080"
+   d="scan'208";a="231262144"
 Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 11 May 2026 22:32:47 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 11 May 2026 22:43:47 -0700
 Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wMfjY-000000001dp-0Y1a;
-	Tue, 12 May 2026 05:32:44 +0000
-Date: Tue, 12 May 2026 13:32:29 +0800
+	id 1wMfuC-000000001ej-2gVp;
+	Tue, 12 May 2026 05:43:44 +0000
+Date: Tue, 12 May 2026 13:42:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Jakub Kicinski <kuba@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Subject: Re: [PATCH net v2] ptp: ocp: fix resource freeing order
-Message-ID: <202605121304.5VA5PtAi-lkp@intel.com>
-References: <20260511161838.1413499-1-vadim.fedorenko@linux.dev>
+To: Maoyi Xie <maoyixie.tju@gmail.com>, Simon Horman <horms@kernel.org>,
+	Allison Henderson <achender@kernel.org>, netdev@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	linux-rdma@vger.kernel.org, rds-devel@oss.oracle.com,
+	linux-kernel@vger.kernel.org,
+	Praveen Kakkolangara <praveen.kakkolangara@aumovio.com>,
+	Maoyi Xie <maoyi.xie@ntu.edu.sg>
+Subject: Re: [PATCH net v3] rds: filter RDS_INFO_* getsockopt by caller's
+ netns
+Message-ID: <202605121353.896RQym5-lkp@intel.com>
+References: <20260511070211.1033178-1-maoyi.xie@ntu.edu.sg>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,82 +71,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260511161838.1413499-1-vadim.fedorenko@linux.dev>
+In-Reply-To: <20260511070211.1033178-1-maoyi.xie@ntu.edu.sg>
 
-Hi Vadim,
+Hi Maoyi,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on net/main]
+[auto build test WARNING on b266bacba796ff5c4dcd2ae2fc08aacf7ab39153]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/ptp-ocp-fix-resource-freeing-order/20260512-061754
-base:   net/main
-patch link:    https://lore.kernel.org/r/20260511161838.1413499-1-vadim.fedorenko%40linux.dev
-patch subject: [PATCH net v2] ptp: ocp: fix resource freeing order
-config: sparc64-randconfig-002-20260512 (https://download.01.org/0day-ci/archive/20260512/202605121304.5VA5PtAi-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260512/202605121304.5VA5PtAi-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Maoyi-Xie/rds-filter-RDS_INFO_-getsockopt-by-caller-s-netns/20260512-045249
+base:   b266bacba796ff5c4dcd2ae2fc08aacf7ab39153
+patch link:    https://lore.kernel.org/r/20260511070211.1033178-1-maoyi.xie%40ntu.edu.sg
+patch subject: [PATCH net v3] rds: filter RDS_INFO_* getsockopt by caller's netns
+config: arm-randconfig-001-20260512 (https://download.01.org/0day-ci/archive/20260512/202605121353.896RQym5-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260512/202605121353.896RQym5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605121304.5VA5PtAi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605121353.896RQym5-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/ptp/ptp_ocp.c: In function 'ptp_ocp_detach':
->> drivers/ptp/ptp_ocp.c:4872:39: error: expected ';' before 'if'
-      ptp_ocp_ts_enable(bp->ts1, 0, false)
-                                          ^
-                                          ;
-     if (bp->ts2)
-     ~~                                    
+   In file included from net/rds/tcp.c:42:
+   In file included from net/rds/rds.h:10:
+   include/uapi/linux/rds.h:233:18: warning: field peer_addr within 'struct rds6_info_tcp_socket' is less aligned than 'struct in6_addr' and is usually due to 'struct rds6_info_tcp_socket' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+     233 |         struct in6_addr peer_addr;
+         |                         ^
+>> net/rds/tcp.c:52:21: warning: variable 'rds_tcp_tc_count' set but not used [-Wunused-but-set-global]
+      52 | static unsigned int rds_tcp_tc_count;
+         |                     ^
+>> net/rds/tcp.c:54:21: warning: variable 'rds6_tcp_tc_count' set but not used [-Wunused-but-set-global]
+      54 | static unsigned int rds6_tcp_tc_count;
+         |                     ^
+   3 warnings generated.
+--
+>> net/rds/af_rds.c:46:22: warning: variable 'rds_sock_count' set but not used [-Wunused-but-set-global]
+      46 | static unsigned long rds_sock_count;
+         |                      ^
+   1 warning generated.
 
 
-vim +4872 drivers/ptp/ptp_ocp.c
+vim +/rds_tcp_tc_count +52 net/rds/tcp.c
 
-  4860	
-  4861	static void
-  4862	ptp_ocp_detach(struct ptp_ocp *bp)
-  4863	{
-  4864		int i;
-  4865	
-  4866		ptp_ocp_debugfs_remove_device(bp);
-  4867		ptp_ocp_detach_sysfs(bp);
-  4868		ptp_ocp_attr_group_del(bp);
-  4869		timer_delete_sync(&bp->watchdog);
-  4870		/* Disable interrupts on all timestampers */
-  4871		if (bp->ts1)
-> 4872			ptp_ocp_ts_enable(bp->ts1, 0, false)
-  4873		if (bp->ts2)
-  4874			ptp_ocp_ts_enable(bp->ts2, 0, false)
-  4875		if (bp->ts3)
-  4876			ptp_ocp_ts_enable(bp->ts3, 0, false)
-  4877		if (bp->ts4)
-  4878			ptp_ocp_ts_enable(bp->ts4, 0, false)
-  4879		if (bp->ptp)
-  4880			ptp_clock_unregister(bp->ptp);
-  4881		kfree(bp->ptp_info.pin_config);
-  4882		ptp_ocp_unregister_ext(bp->ts0);
-  4883		ptp_ocp_unregister_ext(bp->ts1);
-  4884		ptp_ocp_unregister_ext(bp->ts2);
-  4885		ptp_ocp_unregister_ext(bp->ts3);
-  4886		ptp_ocp_unregister_ext(bp->ts4);
-  4887		ptp_ocp_unregister_ext(bp->pps);
-  4888		for (i = 0; i < 4; i++)
-  4889			ptp_ocp_unregister_ext(bp->signal_out[i]);
-  4890		for (i = 0; i < __PORT_COUNT; i++)
-  4891			if (bp->port[i].line != -1)
-  4892				serial8250_unregister_port(bp->port[i].line);
-  4893		platform_device_unregister(bp->spi_flash);
-  4894		platform_device_unregister(bp->i2c_ctrl);
-  4895		if (bp->i2c_clk)
-  4896			clk_hw_unregister_fixed_rate(bp->i2c_clk);
-  4897		if (bp->n_irqs)
-  4898			pci_free_irq_vectors(bp->pdev);
-  4899		device_unregister(&bp->dev);
-  4900	}
-  4901	
+70041088e3b9766 Andy Grover       2009-08-21  41  
+70041088e3b9766 Andy Grover       2009-08-21 @42  #include "rds.h"
+70041088e3b9766 Andy Grover       2009-08-21  43  #include "tcp.h"
+70041088e3b9766 Andy Grover       2009-08-21  44  
+70041088e3b9766 Andy Grover       2009-08-21  45  /* only for info exporting */
+70041088e3b9766 Andy Grover       2009-08-21  46  static DEFINE_SPINLOCK(rds_tcp_tc_list_lock);
+70041088e3b9766 Andy Grover       2009-08-21  47  static LIST_HEAD(rds_tcp_tc_list);
+1e2b44e78eead7b Ka-Cheong Poon    2018-07-23  48  
+1e2b44e78eead7b Ka-Cheong Poon    2018-07-23  49  /* rds_tcp_tc_count counts only IPv4 connections.
+1e2b44e78eead7b Ka-Cheong Poon    2018-07-23  50   * rds6_tcp_tc_count counts both IPv4 and IPv6 connections.
+1e2b44e78eead7b Ka-Cheong Poon    2018-07-23  51   */
+ff51bf841587c75 stephen hemminger 2010-10-19 @52  static unsigned int rds_tcp_tc_count;
+e65d4d96334e3ff Ka-Cheong Poon    2018-07-30  53  #if IS_ENABLED(CONFIG_IPV6)
+1e2b44e78eead7b Ka-Cheong Poon    2018-07-23 @54  static unsigned int rds6_tcp_tc_count;
+e65d4d96334e3ff Ka-Cheong Poon    2018-07-30  55  #endif
+70041088e3b9766 Andy Grover       2009-08-21  56  
 
 -- 
 0-DAY CI Kernel Test Service
