@@ -1,230 +1,217 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73AA725B0AA
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A43F339AD45
 	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 May 2026 12:58:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778590705; cv=none; b=Ofc8KhqdDYjQjRjH7WfUkPVLTiaBG4JyHwcNO4SipJo0hcwYvIAyeliUFXOOi2mrPUcNyew4pswwYrzqZb6Oci6UjWrzhtXdDEI/lEU6uyQSp5/ontZEfy0fTDtVXxOcRRKD/fFkWopx41O/rJeBVOf/4lBNFKag8CaR2IT+6Kg=
+	t=1778590705; cv=none; b=UhqRbDCAurpm07SaHS3yDGrbCb7pHsXbPp/ffOb8kIqWcfrBom6RV8ejMqwnR9FsrEWLs5rms5dlg0ckTYlgiHErLIhtDo7Ex4E066M7YlzzKKG8VnuyznqoKx4o00vQQ7Qicsw52+WwpRXxDxJZLvBza/zeXtuaTFlIkFbKuzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1778590705; c=relaxed/simple;
-	bh=Ojg0JUe3U4CWuJEPJ1Lo3YpdT0whJZa0k6jTL8QeH6s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dBg3A/yF2Fx4wxoV1DKVeRV8gVcpJU2GLkTCyPTyxBHXmsapqNblN19fRQkl4F6MrQ8aEn6g8s+P95O/nKY1XPyWLBrBCOIS6LgDcPp1dVQZ/gnoUZoxvzE+RmmaYsfo0hHEyub/nywqw1oQ94BgxGVtqw7mVcsV8JBj4AnwUUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=foP1jezq; arc=none smtp.client-ip=192.198.163.7
+	bh=AexXx+WDSYlSJCaqIYRiCG8+rzCVIn66VYP5po4Sa4c=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=PlgycmHO2NrLAkFuOZ2yA7ntWgLsPNNFU/yM0wEUdXqyrXZSK/VA6YC70qKIdPKu7kG/EXbu/7C+CjypLMeftuNjROlWYIROF/bjj0niO93T5ZyrfZBgu9y+NUCw6yFmlrNu+yBeZOPyHylJbhnWCo79DPr6QmXFz67lrxDg1+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i8FLnThA; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="foP1jezq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i8FLnThA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778590703; x=1810126703;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ojg0JUe3U4CWuJEPJ1Lo3YpdT0whJZa0k6jTL8QeH6s=;
-  b=foP1jezqp6NYspEQLMzuA2ZOplwHHYoJnSa0SfS85CdJczq+zvR+QVYM
-   1Y0ItD4dyc80Ok1d925vdYmJR+xpK0d7/HzooSiZ4yP7Af5Kcqfn7gE46
-   wU6NuflT7074lg/22WzKhjmOHJLDveChCijTEAWvSUbXMmPQQ6FVTSjnr
-   t4J4vHM5jKbR/53dQDliFxUD6jISbsekJOUJ8NGCvRwa9zHdJNmrNyxkT
-   vcdpNaLCWtwhCv2RcXPkJR5VEzxfc/FJUy1bTPnDm4ds8krhPCWtRXGcJ
-   cWpZhNvUjdvg8Q0yq/FIe6c6RA3kYenQpAGmpS/nL4NkEa+FYcHHORLDr
-   Q==;
-X-CSE-ConnectionGUID: 7+zjesyzSxWPU5ldy+lHyg==
-X-CSE-MsgGUID: O2L6K4drQGu0KCxWAd37xg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="104952450"
+  t=1778590704; x=1810126704;
+  h=date:from:to:cc:subject:message-id;
+  bh=AexXx+WDSYlSJCaqIYRiCG8+rzCVIn66VYP5po4Sa4c=;
+  b=i8FLnThAf3YOOO2spYCmH1Wmti70ciDIMKAR3LxdHvyN31OZNiPZ/skf
+   MdUlV+HrwGTEOkV0SP0roDh8JQK2NKlUSsKuGQcrRyEzd6fgthQptvGwB
+   YSzjmG1j0H4RCoHgJnxX06W7LK0ygBEgjQLSDCHQ2KqDpVOKygCwdYXYa
+   Mkg4/pIWeJizBP/QkLpHOJwjhRWBUzTH3jPltj8mEEm6BpDvHYN/oLVLL
+   A/wm7Plm33Vk5UhTTZZx5LxgTUVjSat5uS9Rn0YyQsOaodhSqUocKHwc8
+   IWQ6UL+7xY8GoVq5Nc7HT+1L5AaKUYm8QOgeJ93Oo9M1zpJGI+uahK5hB
+   A==;
+X-CSE-ConnectionGUID: 51ZK3oH7Tq6Cwh7ILxe+AQ==
+X-CSE-MsgGUID: +H7b9BUERnyxdolNOlRGRA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="78526831"
 X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
-   d="scan'208";a="104952450"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 05:58:23 -0700
-X-CSE-ConnectionGUID: yu939hEYQuGR+qLIW1iszA==
-X-CSE-MsgGUID: TlkaL+KjTzahI3hkEcCwGg==
+   d="scan'208";a="78526831"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 05:58:21 -0700
+X-CSE-ConnectionGUID: 228OFFozQJWighgi64qaDw==
+X-CSE-MsgGUID: wUq+xCLxT3W5kmMa2dkPdQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
-   d="scan'208";a="241761415"
+   d="scan'208";a="235097890"
 Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 12 May 2026 05:58:20 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 12 May 2026 05:58:19 -0700
 Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wMmgi-000000002AR-3xsm;
+	id 1wMmgi-000000002AV-49P1;
 	Tue, 12 May 2026 12:58:16 +0000
-Date: Tue, 12 May 2026 20:57:39 +0800
+Date: Tue, 12 May 2026 20:57:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, David Lechner <david@lechnology.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v1 1/1] drm/st7735r: simplify with
- spi_get_device_match_data()
-Message-ID: <202605122048.M7XSteng-lkp@intel.com>
-References: <20260508080004.1143774-1-andriy.shevchenko@linux.intel.com>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
+ Linus Walleij <linusw@kernel.org>
+Subject: [linusw-pinctrl:ib-mux-pinctrl 5/6]
+ drivers/pinctrl/pinctrl-generic.c:20:5: error: conflicting types for
+ 'pinctrl_generic_to_map'
+Message-ID: <202605122043.UepkxK9V-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260508080004.1143774-1-andriy.shevchenko@linux.intel.com>
 
-Hi Andy,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on daeinki-drm-exynos/exynos-drm-next drm/drm-next drm-i915/for-linux-next drm-i915/for-linux-next-fixes drm-tip/drm-tip linus/master v7.1-rc3 next-20260508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/drm-st7735r-simplify-with-spi_get_device_match_data/20260512-161814
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20260508080004.1143774-1-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH v1 1/1] drm/st7735r: simplify with spi_get_device_match_data()
-config: nios2-randconfig-002-20260512 (https://download.01.org/0day-ci/archive/20260512/202605122048.M7XSteng-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260512/202605122048.M7XSteng-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git ib-mux-pinctrl
+head:   d8074fd57a0231457e580c1f6cd33f089f09fd12
+commit: 34acc5a8adfb76f2de63c8b8317397fb72b0aec8 [5/6] pinctrl: add generic board-level pinctrl driver using mux framework
+config: m68k-randconfig-r073-20260512 (https://download.01.org/0day-ci/archive/20260512/202605122043.UepkxK9V-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 8.5.0
+smatch: v0.5.0-9065-ge9cc34fd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260512/202605122043.UepkxK9V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605122048.M7XSteng-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605122043.UepkxK9V-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/sitronix/st7735r.c: In function 'st7735r_probe':
->> drivers/gpu/drm/sitronix/st7735r.c:255:34: error: passing argument 1 of 'spi_get_device_match_data' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     255 |  cfg = spi_get_device_match_data(&spi->dev);
-         |                                  ^~~~~~~~~
-         |                                  |
-         |                                  struct device *
-   In file included from drivers/gpu/drm/sitronix/st7735r.c:16:
-   include/linux/spi/spi.h:1757:52: note: expected 'const struct spi_device *' but argument is of type 'struct device *'
-    1757 | spi_get_device_match_data(const struct spi_device *sdev);
-         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-   cc1: some warnings being treated as errors
+>> drivers/pinctrl/pinctrl-generic.c:20:5: error: conflicting types for 'pinctrl_generic_to_map'
+    int pinctrl_generic_to_map(struct pinctrl_dev *pctldev, struct device_node *parent,
+        ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/pinctrl/pinctrl-generic.c:16:
+   drivers/pinctrl/pinconf.h:193:1: note: previous definition of 'pinctrl_generic_to_map' was here
+    pinctrl_generic_to_map(struct pinctrl_dev *pctldev, struct device_node *parent,
+    ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/pinctrl-generic.c:130:5: error: redefinition of 'pinctrl_generic_pins_function_dt_node_to_map'
+    int pinctrl_generic_pins_function_dt_node_to_map(struct pinctrl_dev *pctldev,
+        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/pinctrl/pinctrl-generic.c:16:
+   drivers/pinctrl/pinconf.h:184:1: note: previous definition of 'pinctrl_generic_pins_function_dt_node_to_map' was here
+    pinctrl_generic_pins_function_dt_node_to_map(struct pinctrl_dev *pctldev,
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/spi_get_device_match_data +255 drivers/gpu/drm/sitronix/st7735r.c
+vim +/pinctrl_generic_to_map +20 drivers/pinctrl/pinctrl-generic.c
 
-   234	
-   235	static int st7735r_probe(struct spi_device *spi)
-   236	{
-   237		struct device *dev = &spi->dev;
-   238		const struct st7735r_cfg *cfg;
-   239		struct mipi_dbi_dev *dbidev;
-   240		struct st7735r_device *st7735r;
-   241		struct drm_device *drm;
-   242		struct mipi_dbi *dbi;
-   243		struct gpio_desc *dc;
-   244		struct drm_plane *plane;
-   245		struct drm_crtc *crtc;
-   246		struct drm_encoder *encoder;
-   247		struct drm_connector *connector;
-   248		u32 rotation = 0;
-   249		int ret;
-   250	
-   251		st7735r = devm_drm_dev_alloc(dev, &st7735r_driver, struct st7735r_device, dbidev.drm);
-   252		if (IS_ERR(st7735r))
-   253			return PTR_ERR(st7735r);
-   254	
- > 255		cfg = spi_get_device_match_data(&spi->dev);
-   256		st7735r->cfg = cfg;
-   257	
-   258		dbidev = &st7735r->dbidev;
-   259		dbi = &dbidev->dbi;
-   260		drm = &dbidev->drm;
-   261	
-   262		dbi->reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-   263		if (IS_ERR(dbi->reset))
-   264			return dev_err_probe(dev, PTR_ERR(dbi->reset), "Failed to get GPIO 'reset'\n");
-   265	
-   266		dc = devm_gpiod_get(dev, "dc", GPIOD_OUT_LOW);
-   267		if (IS_ERR(dc))
-   268			return dev_err_probe(dev, PTR_ERR(dc), "Failed to get GPIO 'dc'\n");
-   269	
-   270		dbidev->backlight = devm_of_find_backlight(dev);
-   271		if (IS_ERR(dbidev->backlight))
-   272			return PTR_ERR(dbidev->backlight);
-   273	
-   274		device_property_read_u32(dev, "rotation", &rotation);
-   275	
-   276		ret = mipi_dbi_spi_init(spi, dbi, dc);
-   277		if (ret)
-   278			return ret;
-   279	
-   280		if (cfg->write_only)
-   281			dbi->read_commands = NULL;
-   282	
-   283		dbidev->left_offset = cfg->left_offset;
-   284		dbidev->top_offset = cfg->top_offset;
-   285	
-   286		ret = drm_mipi_dbi_dev_init(dbidev, &cfg->mode, st7735r_plane_formats[0], rotation, 0);
-   287		if (ret)
-   288			return ret;
-   289	
-   290		ret = drmm_mode_config_init(drm);
-   291		if (ret)
-   292			return ret;
-   293	
-   294		drm->mode_config.min_width = dbidev->mode.hdisplay;
-   295		drm->mode_config.max_width = dbidev->mode.hdisplay;
-   296		drm->mode_config.min_height = dbidev->mode.vdisplay;
-   297		drm->mode_config.max_height = dbidev->mode.vdisplay;
-   298		drm->mode_config.funcs = &st7735r_mode_config_funcs;
-   299		drm->mode_config.preferred_depth = 16;
-   300		drm->mode_config.helper_private = &st7735r_mode_config_helper_funcs;
-   301	
-   302		plane = &st7735r->plane;
-   303		ret = drm_universal_plane_init(drm, plane, 0, &st7735r_plane_funcs,
-   304					       st7735r_plane_formats, ARRAY_SIZE(st7735r_plane_formats),
-   305					       st7735r_plane_format_modifiers,
-   306					       DRM_PLANE_TYPE_PRIMARY, NULL);
-   307		if (ret)
-   308			return ret;
-   309		drm_plane_helper_add(plane, &st7735r_plane_helper_funcs);
-   310		drm_plane_enable_fb_damage_clips(plane);
-   311	
-   312		crtc = &st7735r->crtc;
-   313		ret = drm_crtc_init_with_planes(drm, crtc, plane, NULL, &st7735r_crtc_funcs, NULL);
-   314		if (ret)
-   315			return ret;
-   316		drm_crtc_helper_add(crtc, &st7735r_crtc_helper_funcs);
-   317	
-   318		encoder = &st7735r->encoder;
-   319		ret = drm_encoder_init(drm, encoder, &st7735r_encoder_funcs, DRM_MODE_ENCODER_NONE, NULL);
-   320		if (ret)
-   321			return ret;
-   322		encoder->possible_crtcs = drm_crtc_mask(crtc);
-   323	
-   324		connector = &st7735r->connector;
-   325		ret = drm_connector_init(drm, connector, &st7735r_connector_funcs,
-   326					 DRM_MODE_CONNECTOR_SPI);
-   327		if (ret)
-   328			return ret;
-   329		drm_connector_helper_add(connector, &st7735r_connector_helper_funcs);
-   330	
-   331		ret = drm_connector_attach_encoder(connector, encoder);
-   332		if (ret)
-   333			return ret;
-   334	
-   335		drm_mode_config_reset(drm);
-   336	
-   337		ret = drm_dev_register(drm, 0);
-   338		if (ret)
-   339			return ret;
-   340	
-   341		spi_set_drvdata(spi, drm);
-   342	
-   343		drm_client_setup(drm, NULL);
-   344	
-   345		return 0;
-   346	}
-   347	
+43722575e5cdcc Conor Dooley 2026-01-20   19  
+aaaf31be042603 Frank Li     2026-05-04  @20  int pinctrl_generic_to_map(struct pinctrl_dev *pctldev, struct device_node *parent,
+aaaf31be042603 Frank Li     2026-05-04   21  			   struct device_node *np, struct pinctrl_map **maps,
+aaaf31be042603 Frank Li     2026-05-04   22  			   unsigned int *num_maps, unsigned int *num_reserved_maps,
+aaaf31be042603 Frank Li     2026-05-04   23  			   const char **group_names, unsigned int ngroups,
+aaaf31be042603 Frank Li     2026-05-04   24  			   const char **functions, unsigned int *pins,
+aaaf31be042603 Frank Li     2026-05-04   25  			   unsigned int npins)
+43722575e5cdcc Conor Dooley 2026-01-20   26  {
+43722575e5cdcc Conor Dooley 2026-01-20   27  	struct device *dev = pctldev->dev;
+aaaf31be042603 Frank Li     2026-05-04   28  	unsigned int num_configs;
+43722575e5cdcc Conor Dooley 2026-01-20   29  	const char *group_name;
+43722575e5cdcc Conor Dooley 2026-01-20   30  	unsigned long *configs;
+aaaf31be042603 Frank Li     2026-05-04   31  	int ret, reserve = 1;
+43722575e5cdcc Conor Dooley 2026-01-20   32  
+43722575e5cdcc Conor Dooley 2026-01-20   33  	group_name = devm_kasprintf(dev, GFP_KERNEL, "%pOFn.%pOFn", parent, np);
+43722575e5cdcc Conor Dooley 2026-01-20   34  	if (!group_name)
+43722575e5cdcc Conor Dooley 2026-01-20   35  		return -ENOMEM;
+43722575e5cdcc Conor Dooley 2026-01-20   36  
+43722575e5cdcc Conor Dooley 2026-01-20   37  	group_names[ngroups] = group_name;
+43722575e5cdcc Conor Dooley 2026-01-20   38  
+43722575e5cdcc Conor Dooley 2026-01-20   39  	ret = pinctrl_utils_reserve_map(pctldev, maps, num_reserved_maps, num_maps, reserve);
+43722575e5cdcc Conor Dooley 2026-01-20   40  	if (ret)
+43722575e5cdcc Conor Dooley 2026-01-20   41  		return ret;
+43722575e5cdcc Conor Dooley 2026-01-20   42  
+43722575e5cdcc Conor Dooley 2026-01-20   43  	ret = pinctrl_utils_add_map_mux(pctldev, maps, num_reserved_maps, num_maps, group_name,
+43722575e5cdcc Conor Dooley 2026-01-20   44  					parent->name);
+43722575e5cdcc Conor Dooley 2026-01-20   45  	if (ret < 0)
+43722575e5cdcc Conor Dooley 2026-01-20   46  		return ret;
+43722575e5cdcc Conor Dooley 2026-01-20   47  
+43722575e5cdcc Conor Dooley 2026-01-20   48  	ret = pinctrl_generic_add_group(pctldev, group_name, pins, npins, functions);
+43722575e5cdcc Conor Dooley 2026-01-20   49  	if (ret < 0)
+43722575e5cdcc Conor Dooley 2026-01-20   50  		return dev_err_probe(dev, ret, "failed to add group %s: %d\n",
+43722575e5cdcc Conor Dooley 2026-01-20   51  				     group_name, ret);
+43722575e5cdcc Conor Dooley 2026-01-20   52  
+43722575e5cdcc Conor Dooley 2026-01-20   53  	ret = pinconf_generic_parse_dt_config(np, pctldev, &configs, &num_configs);
+43722575e5cdcc Conor Dooley 2026-01-20   54  	if (ret)
+43722575e5cdcc Conor Dooley 2026-01-20   55  		return dev_err_probe(dev, ret, "failed to parse pin config of group %s\n",
+43722575e5cdcc Conor Dooley 2026-01-20   56  			group_name);
+43722575e5cdcc Conor Dooley 2026-01-20   57  
+43722575e5cdcc Conor Dooley 2026-01-20   58  	if (num_configs == 0)
+43722575e5cdcc Conor Dooley 2026-01-20   59  		return 0;
+43722575e5cdcc Conor Dooley 2026-01-20   60  
+43722575e5cdcc Conor Dooley 2026-01-20   61  	ret = pinctrl_utils_reserve_map(pctldev, maps, num_reserved_maps, num_maps, reserve);
+43722575e5cdcc Conor Dooley 2026-01-20   62  	if (ret)
+43722575e5cdcc Conor Dooley 2026-01-20   63  		return ret;
+43722575e5cdcc Conor Dooley 2026-01-20   64  
+43722575e5cdcc Conor Dooley 2026-01-20   65  	ret = pinctrl_utils_add_map_configs(pctldev, maps, num_reserved_maps, num_maps, group_name,
+43722575e5cdcc Conor Dooley 2026-01-20   66  					    configs,
+43722575e5cdcc Conor Dooley 2026-01-20   67  			num_configs, PIN_MAP_TYPE_CONFIGS_GROUP);
+43722575e5cdcc Conor Dooley 2026-01-20   68  	kfree(configs);
+43722575e5cdcc Conor Dooley 2026-01-20   69  	if (ret)
+43722575e5cdcc Conor Dooley 2026-01-20   70  		return ret;
+43722575e5cdcc Conor Dooley 2026-01-20   71  
+43722575e5cdcc Conor Dooley 2026-01-20   72  	return 0;
+43722575e5cdcc Conor Dooley 2026-01-20   73  };
+aaaf31be042603 Frank Li     2026-05-04   74  EXPORT_SYMBOL_GPL(pinctrl_generic_to_map);
+aaaf31be042603 Frank Li     2026-05-04   75  
+aaaf31be042603 Frank Li     2026-05-04   76  static int pinctrl_generic_pins_function_dt_subnode_to_map(struct pinctrl_dev *pctldev,
+aaaf31be042603 Frank Li     2026-05-04   77  							   struct device_node *parent,
+aaaf31be042603 Frank Li     2026-05-04   78  							   struct device_node *np,
+aaaf31be042603 Frank Li     2026-05-04   79  							   struct pinctrl_map **maps,
+aaaf31be042603 Frank Li     2026-05-04   80  							   unsigned int *num_maps,
+aaaf31be042603 Frank Li     2026-05-04   81  							   unsigned int *num_reserved_maps,
+aaaf31be042603 Frank Li     2026-05-04   82  							   const char **group_names,
+aaaf31be042603 Frank Li     2026-05-04   83  							   unsigned int ngroups)
+aaaf31be042603 Frank Li     2026-05-04   84  {
+aaaf31be042603 Frank Li     2026-05-04   85  	struct device *dev = pctldev->dev;
+aaaf31be042603 Frank Li     2026-05-04   86  	unsigned int pin, *pins;
+aaaf31be042603 Frank Li     2026-05-04   87  	const char **functions;
+aaaf31be042603 Frank Li     2026-05-04   88  	int npins, ret;
+aaaf31be042603 Frank Li     2026-05-04   89  
+aaaf31be042603 Frank Li     2026-05-04   90  	npins = of_property_count_u32_elems(np, "pins");
+aaaf31be042603 Frank Li     2026-05-04   91  
+aaaf31be042603 Frank Li     2026-05-04   92  	if (npins < 1) {
+aaaf31be042603 Frank Li     2026-05-04   93  		dev_err(dev, "invalid pinctrl group %pOFn.%pOFn %d\n",
+aaaf31be042603 Frank Li     2026-05-04   94  			parent, np, npins);
+aaaf31be042603 Frank Li     2026-05-04   95  		return npins;
+aaaf31be042603 Frank Li     2026-05-04   96  	}
+aaaf31be042603 Frank Li     2026-05-04   97  
+aaaf31be042603 Frank Li     2026-05-04   98  	pins = devm_kcalloc(dev, npins, sizeof(*pins), GFP_KERNEL);
+aaaf31be042603 Frank Li     2026-05-04   99  	if (!pins)
+aaaf31be042603 Frank Li     2026-05-04  100  		return -ENOMEM;
+aaaf31be042603 Frank Li     2026-05-04  101  
+aaaf31be042603 Frank Li     2026-05-04  102  	functions = devm_kcalloc(dev, npins, sizeof(*functions), GFP_KERNEL);
+aaaf31be042603 Frank Li     2026-05-04  103  	if (!functions)
+aaaf31be042603 Frank Li     2026-05-04  104  		return -ENOMEM;
+aaaf31be042603 Frank Li     2026-05-04  105  
+aaaf31be042603 Frank Li     2026-05-04  106  	for (int i = 0; i < npins; i++) {
+aaaf31be042603 Frank Li     2026-05-04  107  		ret = of_property_read_u32_index(np, "pins", i, &pin);
+aaaf31be042603 Frank Li     2026-05-04  108  		if (ret)
+aaaf31be042603 Frank Li     2026-05-04  109  			return ret;
+aaaf31be042603 Frank Li     2026-05-04  110  
+aaaf31be042603 Frank Li     2026-05-04  111  		pins[i] = pin;
+aaaf31be042603 Frank Li     2026-05-04  112  
+aaaf31be042603 Frank Li     2026-05-04  113  		ret = of_property_read_string(np, "function", &functions[i]);
+aaaf31be042603 Frank Li     2026-05-04  114  		if (ret)
+aaaf31be042603 Frank Li     2026-05-04  115  			return ret;
+aaaf31be042603 Frank Li     2026-05-04  116  	}
+aaaf31be042603 Frank Li     2026-05-04  117  
+aaaf31be042603 Frank Li     2026-05-04  118  	return pinctrl_generic_to_map(pctldev, parent, np, maps, num_maps,
+aaaf31be042603 Frank Li     2026-05-04  119  				      num_reserved_maps, group_names, ngroups,
+aaaf31be042603 Frank Li     2026-05-04  120  				      functions, pins, npins);
+aaaf31be042603 Frank Li     2026-05-04  121  }
+43722575e5cdcc Conor Dooley 2026-01-20  122  
+43722575e5cdcc Conor Dooley 2026-01-20  123  /*
+43722575e5cdcc Conor Dooley 2026-01-20  124   * For platforms that do not define groups or functions in the driver, but
+43722575e5cdcc Conor Dooley 2026-01-20  125   * instead use the devicetree to describe them. This function will, unlike
+43722575e5cdcc Conor Dooley 2026-01-20  126   * pinconf_generic_dt_node_to_map() etc which rely on driver defined groups
+43722575e5cdcc Conor Dooley 2026-01-20  127   * and functions, create them in addition to parsing pinconf properties and
+43722575e5cdcc Conor Dooley 2026-01-20  128   * adding mappings.
+43722575e5cdcc Conor Dooley 2026-01-20  129   */
+43722575e5cdcc Conor Dooley 2026-01-20 @130  int pinctrl_generic_pins_function_dt_node_to_map(struct pinctrl_dev *pctldev,
+
+:::::: The code at line 20 was first introduced by commit
+:::::: aaaf31be04260316036f50a05b7d015c0d36b55a pinctrl: extract pinctrl_generic_to_map() from pinctrl_generic_pins_function_dt_node_to_map()
+
+:::::: TO: Frank Li <Frank.Li@nxp.com>
+:::::: CC: Linus Walleij <linusw@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
