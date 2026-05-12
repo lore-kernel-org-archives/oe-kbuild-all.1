@@ -1,114 +1,109 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C70E339EB59
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 May 2026 15:07:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D443D388876
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 May 2026 15:26:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778598455; cv=none; b=jkM4VVI5E7xfcITL7Z9X3ok+6vuRDO1ZXJBiflEqto8ZXabD3qs41HsjxmfGXz8IHIvigjqAWWTiOd7k5QCC3BWgZpHXcpaX2RKPSsG6dQfx5uDLYRbVuA3GBcPViCoYwsXvC8h9VeOAyqY4wGaiD/dSNUYBPr31n7DQu2Vip5E=
+	t=1778599575; cv=none; b=OmlAPNkbj1lgyvVFhW2Jg2/YjSsV2W0P54LvitdvkNwI48qMHxZcU3eHg3Uad3n+aGhVZPJUolby1gKd6ijeUkS7UhPPwx0ZPgJNs90VS/jLoeXnVJdqI0C6X+1GIwbr1oRvWfxVhk+niQSIs2rNb2aixf8C3Ry6865e+9JkqIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778598455; c=relaxed/simple;
-	bh=ffDoXb0YC/0S9Oul7vmJPDt9KXYWWEH+LWQKnq5fZPg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=qOWLjFeiaqWocv9HbBe6dKHUcfaltHH2/1rxckd6HW2seceAyr0cldlBi2vkcz1NAuLAaE0l19VeLRtVENqvIF9cmchY20EpNTbLNnqfW2++L2fMBnTfeBai8lkcNBRwiHXoJTvrbt8+z3h1TMDgg3DF2+PscZXWD4wgpsMeh1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZMdZsndL; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1778599575; c=relaxed/simple;
+	bh=k61eFfUpNPZI2+RmqnwLXyI8eLFam8VRdLnuEW8C34o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lMRcFmsFrU7uS0uOdzYXYIl/Y56WBy8Ne9mE3sTyFy0b1KzLSaUyOlbnqqQBICcFZDCBTGfpg+S5lTPN/bOOQzph+jyYdZE/r8S3WRYNDYqdzWFyZeCK8RoaBmCgSJwo46wH5TQPDEynNAkMxDjkf5RsZGjuIamLmh4vujLkOQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=V06xrac3; arc=none smtp.client-ip=209.85.161.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZMdZsndL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778598454; x=1810134454;
-  h=date:from:to:cc:subject:message-id;
-  bh=ffDoXb0YC/0S9Oul7vmJPDt9KXYWWEH+LWQKnq5fZPg=;
-  b=ZMdZsndL76dLZWJweLUxXqlcrfTDwZ/sOvjW/8lSCSfeJ9KXz1/gIDyp
-   1mB3mR8wuHDW9LnBUeoSd/BKfrCPTvnJQicb7OGauQYGlpGtKQ99gI7q1
-   s1oCHKwN3gc5uQvoCKY7c3usysw1INi04zYInsc+h3daxR3yvgc1EZy+5
-   5VtPPlYd+/W3L5M93LPXsDkYoZHJjWSIhVvZNres1oiiy6CKA/c1egCPz
-   EJ3W5ku0sh0w2UvGwLbfDHH8Sha7l0ESF7rIMw1S71TfZImJkhIs2Ximp
-   IhUmb3d89YjHPQw9vJg2NCFJjyOJ0meyRKJU84TMqghew4MI5pwPQadTH
-   g==;
-X-CSE-ConnectionGUID: BIvJZ5T/TteDRpnAEBHtNQ==
-X-CSE-MsgGUID: uV3ApoSER6WOO8hDZDu/vQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="97076173"
-X-IronPort-AV: E=Sophos;i="6.23,231,1770624000"; 
-   d="scan'208";a="97076173"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 08:07:28 -0700
-X-CSE-ConnectionGUID: WN/TqzaCQu+llZXdqnEa8A==
-X-CSE-MsgGUID: 9AvIe12fS62EjpTHj3gnzQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,231,1770624000"; 
-   d="scan'208";a="236933504"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 12 May 2026 08:07:27 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wMohg-000000008I1-2XUB;
-	Tue, 12 May 2026 15:07:24 +0000
-Date: Tue, 12 May 2026 17:06:42 +0200
-From: kernel test robot <lkp@intel.com>
-To: Leon Hwang <leon.hwang@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: kernel/bpf/syscall.c:1655:1: warning: label 'free' defined
- but not used
-Message-ID: <202605121634.Ts7b4pvS-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="V06xrac3"
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-69489b43d66so1604317eaf.2
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 12 May 2026 08:26:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1778599573; x=1779204373; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6oa6p1Qpev/3fA0M0sLxiI9JuOC87QNT1WPoNcbjnCA=;
+        b=V06xrac3xUm6tVLJYP6///WsSh166+jJKwQgIsQ+xJvfDx1h42J84ZDSCBI6vGywq2
+         ZMXoJp05YGOShk2qaZw4LaE7JFqMrlHynnoticCk7yUEHrMSR4yG47q6eV4RYRAuSRCs
+         1pyqbbv2rzWq0W8dAe+xdy7DIXWDznTBninJgt5wKa6loLk1erani+WmP9NBNxVl2nfb
+         Y2Li9FpHEZz+YstAtngTaqaOJUa4FIqUFEU95pVkKHPmHcpLnSutkKan8jcNrBVpf+co
+         418NmzUUInSY0U6Vt8s6GNUh7VrS49IwGInkyx/MuJfdJWA56q7UfT7ByLj7Dr4hquM7
+         y/UQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778599573; x=1779204373;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6oa6p1Qpev/3fA0M0sLxiI9JuOC87QNT1WPoNcbjnCA=;
+        b=rcVBG5HKOEniixJpcUQiil7FH4t7VHmS24VVGSoZXGvrY0m30BAiiDYB4Vb+dhyKMZ
+         exH1Fg/CKhq6UIsLongOE43HULtVr+NB27AgTH4+rAYBe0Ait9M6qD9LWLzf0an+uGJa
+         4OLED9XuI3aQDlp43iwSII8g9nErVxUOGnmqn7szDmjN59ba4LEB0tChd4z5iwEkdvF/
+         csJ/nilm0ftFc8BbdD1tlT2kN3iJAyt+0JXOzZXpmqcMebl+366erufDdP2/dtRSKMd9
+         gK6LLOvYDDCbWQ7NQYqRQxkvdPQswBx4Q/AF2NaBL42tWsVNqVLfa0P0lV6l6+sttoLy
+         JYXw==
+X-Gm-Message-State: AOJu0Ywv3Ptq4rvXeNFqXZ7L2gP5KWQUUh25Guui7WyRyqQcKKFYOLKd
+	eEm2p1/Qa6Tfx05sSIVhymg5CjxCu7n4rr86LATCmB99VXFmakiHV8bpSUKhLazKFbY=
+X-Gm-Gg: Acq92OFGUpW4L+sPQiukOkjh3gToLQgnzjda0rcOaxH6D7CHVkey+AVBUI56n52mVvs
+	StRAJHRb3ZgGgeT5hrDy65Z+k6sq/BALkWOsPs4jVvRdT4DckPYcfsjS3GARHIU/OyK6zr5hJsv
+	scONU3LyPsuKtSjxG2zdrm8KQ1p6g5f/gfI4Eetu8q9t9XQzI4Y6uYJ0n+IpUzNDbVDMTKJ+KkG
+	zsdugNf9p2B99ltXvKAZe1jYFlDJK50kowzjVvb/VBD/1hIkV/GrbEbNMCtX6/jZqkWslzSncYF
+	ORg92pJcXazV2jx0ZhVN9s0ANOYYr+t3yt9vbN5VxDiquiJoeAycN94FaIX61q5qb+l9nrVrgc8
+	8actdHV8+0sLC4/wJLQoAn0wR4jGBcMQB7UTL740oK8/jmgWWagsc2CT+Uukm0tfRybdtRaSNd9
+	5TPnPLnaPsmpRdpSITOrULKjQGfYODaTTMNjyLkc7EOGSVdVdTHXol2V/PhP9a4uUrDNyynRH4W
+	bC7sD2Q
+X-Received: by 2002:a05:6820:4b0d:b0:69b:5696:e63f with SMTP id 006d021491bc7-69b69e08d56mr1556214eaf.24.1778599572707;
+        Tue, 12 May 2026 08:26:12 -0700 (PDT)
+Received: from [192.168.1.102] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-69b25c76cc4sm7890844eaf.6.2026.05.12.08.26.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 May 2026 08:26:12 -0700 (PDT)
+Message-ID: <d76cebb2-644c-472e-8b2d-af4f942bc900@kernel.dk>
+Date: Tue, 12 May 2026 09:26:11 -0600
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [axboe:for-7.2/block 1/2] ./usr/include/linux/drbd.h:18:10: fatal
+ error: sys/types.h: No such file or directory
+To: kernel test robot <lkp@intel.com>,
+ =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>
+Cc: oe-kbuild-all@lists.linux.dev
+References: <202605101346.V2wwJqv1-lkp@intel.com>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <202605101346.V2wwJqv1-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Leon-Hwang/bpf-Extend-BPF-syscall-with-common-attributes-support/20260512-141718
-head:   cf666930ba205510468d7879922c1237df7292c9
-commit: 7cab8e74b4f11d29c3c1bc065fbdfc54b04ac102 bpf: Add syscall common attributes support for map_create
-date:   9 hours ago
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260512/202605121634.Ts7b4pvS-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260512/202605121634.Ts7b4pvS-lkp@intel.com/reproduce)
+On 5/10/26 12:03 AM, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git for-7.2/block
+> head:   8098eeb693c4cc4e774c62fbd4875197cb5578ce
+> commit: a54f499838292c1768f6575ed1ec7cf35f1b6489 [1/2] drbd: move UAPI headers to include/uapi/linux/
+> config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260510/202605101346.V2wwJqv1-lkp@intel.com/config)
+> compiler: nios2-linux-gcc (GCC) 11.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260510/202605101346.V2wwJqv1-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202605101346.V2wwJqv1-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from <command-line>:
+>>> ./usr/include/linux/drbd.h:18:10: fatal error: sys/types.h: No such file or directory
+>       18 | #include <sys/types.h>
+>          |          ^~~~~~~~~~~~~
+>    compilation terminated.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605121634.Ts7b4pvS-lkp@intel.com/
+Christian, are you fixing these? I keep getting emails about this
+one and the one in patch 2 as well...
 
-All warnings (new ones prefixed by >>):
+-- 
+Jens Axboe
 
-   kernel/bpf/syscall.c: In function 'map_create':
->> kernel/bpf/syscall.c:1655:1: warning: label 'free' defined but not used [-Wunused-label]
-    1655 | free:
-         | ^~~~
-
-
-vim +/free +1655 kernel/bpf/syscall.c
-
-  1634	
-  1635	static int map_create(union bpf_attr *attr, bpfptr_t uattr, struct bpf_common_attr *attr_common,
-  1636			      bpfptr_t uattr_common, u32 size_common)
-  1637	{
-  1638		struct bpf_verifier_log *log;
-  1639		struct bpf_log_attr attr_log;
-  1640		int err, ret;
-  1641	
-  1642		log = bpf_log_attr_create_vlog(&attr_log, attr_common, uattr_common, size_common);
-  1643		if (IS_ERR(log))
-  1644			return PTR_ERR(log);
-  1645	
-  1646		err = __map_create(attr, uattr, log);
-  1647	
-  1648		ret = bpf_log_attr_finalize(&attr_log, log);
-  1649		if (ret) {
-  1650			if (err >= 0)
-  1651				close_fd(err);
-  1652			err = ret;
-  1653		}
-  1654	
-> 1655	free:
-  1656		kfree(log);
-  1657		return err;
-  1658	}
-  1659	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
