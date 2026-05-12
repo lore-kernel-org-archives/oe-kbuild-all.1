@@ -1,96 +1,89 @@
-Received: from omta038.useast.a.cloudfilter.net (omta038.useast.a.cloudfilter.net [44.202.169.37])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9B5D30C61F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 May 2026 17:25:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.202.169.37
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E9262DE6E3
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 May 2026 17:29:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778606742; cv=none; b=nTFy6tlGyeKIxVhGnzNCGRmdzuy8lcrW+0WxufoWrQl9kj7ZOlTjSqsHiaVcbJrGMsJ2FZqCvCSHFTP8eOnms/fLpIdQK3Xk1uxGa6zCegyp6J47OKrbJI29Zb7RALl6i6BQmurz9sCwHPmaOf+DV1juTJFfz8/JEkRowP8ApyQ=
+	t=1778606971; cv=none; b=M2AcX1CiEqrLhNlo+La3b932gWL/6sHK2h1tNyrYHFK9BEsWbL/q1UU708jDpOa9p/4ddd7PgdtFkjkhXYACojmZGVzJXH4fH0rC5o36zz4WabbKscJI+FiCpMFxnlC+spwq3sxf1uVLIU6XVifFLzdQK0xJUZSnTRPGkA/JwUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778606742; c=relaxed/simple;
-	bh=nFbluiIDW2FpuftLpz99EDK3jvV6ZNqTABiWKDgX1mQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MZgpPwCHNy4w1SnFlB7hvQnoeHkT2xPouKcaa5FKVMJYAIc3xPJTC/HOkeOHLtwrO3hCDTEoIBA+41jJZKo1CcaOMs3JsEPntBJpa/8T7Xwli4Hq7tOrahaWMetKoxTDmnBkviNtBeuVkimgTb0ZnVgEFDbnpE3JMEJc6z3/iy0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com; spf=pass smtp.mailfrom=embeddedor.com; dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b=tGE738nq; arc=none smtp.client-ip=44.202.169.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedor.com
+	s=arc-20240116; t=1778606971; c=relaxed/simple;
+	bh=9Bbac65Fe1mZYGiV9lddtfmQKTqfMsu+2ocmTxb0MUk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=hV2zEPVE4emewhmBt0hyHARsI2lYlaQM5/nKnCMNmM+e8rO25EI4ijDxTugK23PE/d7g83tj5669l9bj9oQQV8zlznu1Hopj1efoopZluL9eFLIr56IcXXiR0XzrgT77i2SXlgU9XfQBwtLoyaTmt+UDAOxS3hcoUhCNPw9w6EM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jqTIloJP; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="tGE738nq"
-Received: from eig-obgw-5006b.ext.cloudfilter.net ([10.0.29.217])
-	by cmsmtp with ESMTPS
-	id MPy7wBMn5uVXCMqrTwhyqU; Tue, 12 May 2026 17:25:39 +0000
-Received: from gator4166.hostgator.com ([108.167.190.91])
-	by cmsmtp with ESMTPS
-	id MqrTwjQc1wILMMqrTwx7pB; Tue, 12 May 2026 17:25:39 +0000
-X-Authority-Analysis: v=2.4 cv=F+RXdrhN c=1 sm=1 tr=0 ts=6a036293
- a=vY9Mjuda9oMEc2E4Cx1x2A==:117 a=vY9Mjuda9oMEc2E4Cx1x2A==:17
- a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=7T7KSl7uo7wA:10
- a=Gu3GiEoUUHqbJlZtdjIA:9 a=QEXdDO2ut3YA:10 a=2aFnImwKRvkU0tJ3nQRT:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=nFbluiIDW2FpuftLpz99EDK3jvV6ZNqTABiWKDgX1mQ=; b=tGE738nqgQ9tQlWze/NOGRpqvS
-	u7fPGckk4IqoR/e1Oa2/O3ejz/xE7jaPwDqOBdaiEFl8+U0V8u6mphyVuJ1yROeA918/PHHduAu44
-	yk+5ItM9M9WIwz2PV0c7pv5H8pLeLawuc7K/dVj8znMzP2rHHjnCkAp6UIO5djeTuPU4OVaSSibOd
-	/RucRgo02NXksiozpfNEwXnWZi+zceoOcni2VxoG8StQW/qSpSRyKSjm311NzQtrPPObircunHm/t
-	0Qbt0dCl87knFc/cTGV1ihnoOOT2HtziI0JHcox5A3jgv72aVDDLysWKOGRsIvgZDPt1UXDIq4qll
-	lNang7VQ==;
-Received: from [177.238.16.53] (port=44828 helo=[192.168.0.104])
-	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.99.2)
-	(envelope-from <gustavo@embeddedor.com>)
-	id 1wMqrR-00000000QSq-37cg;
-	Tue, 12 May 2026 12:25:38 -0500
-Message-ID: <45a51f6f-b4e5-4a73-9ec2-f736b5132a93@embeddedor.com>
-Date: Tue, 12 May 2026 11:24:33 -0600
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jqTIloJP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778606970; x=1810142970;
+  h=date:from:to:cc:subject:message-id;
+  bh=9Bbac65Fe1mZYGiV9lddtfmQKTqfMsu+2ocmTxb0MUk=;
+  b=jqTIloJPLP5nnc2U99kBlKZfqJc6YyLwZgCe0NlD9OngNMNp5zf+T8xo
+   PXvGU3wdO6SASy9GUmyYeOwEqg9iiO7oFP5PQE2bM/VDts9k0d7C74xPp
+   BjqrqHQdKntzhNlSHp4tLhLR6CEj3epV+TSgv/AbB2pASwOIK6W9dmNZw
+   eStQWascRarawI+at2vJPFjVG6C9X4IR/MT9ml6LYchZtVcskCuTWisFH
+   45S/KCZiEAMG9oZGBKqQ00zg0rL+S2Ka1Le1bq5GLb7LFUcW+4Ow4YAVl
+   YToVPdDw55lzVL2BMgUo2dgQPw2hGttCT8Xnw7xmPB2nOtskoFCa5TV/g
+   g==;
+X-CSE-ConnectionGUID: oqDZ8I/LSTOMVlurGIS/4A==
+X-CSE-MsgGUID: AXRO1utXTMyoGAULh9Vo9Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="89825942"
+X-IronPort-AV: E=Sophos;i="6.23,231,1770624000"; 
+   d="scan'208";a="89825942"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 10:29:30 -0700
+X-CSE-ConnectionGUID: k35GLjY8T0aVoM86YOXqCA==
+X-CSE-MsgGUID: c/DKlNqvSUqGSvL1lLI6Wg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,231,1770624000"; 
+   d="scan'208";a="236977499"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa010.jf.intel.com with ESMTP; 12 May 2026 10:29:29 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wMqv8-000000008JB-18WE;
+	Tue, 12 May 2026 17:29:26 +0000
+Date: Tue, 12 May 2026 19:28:44 +0200
+From: kernel test robot <lkp@intel.com>
+To: David Matlack <dmatlack@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
+ Vipin Sharma <vipinsh@google.com>, linux-doc@vger.kernel.org
+Subject: htmldocs: Documentation/driver-api/vfio_pci_liveupdate:7:
+ ./drivers/vfio/pci/vfio_pci_liveupdate.c:78: WARNING: unknown document:
+ '/PCI/liveupdate' [ref.doc]
+Message-ID: <202605121946.GDFPWf9X-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [kees:for-next/hardening 1/1] htmldocs:
- Documentation/driver-api/basics:127: ./include/linux/stddef.h:110: WARNING:
- Definition list ends without a blank line; unexpected unindent. [docutils]
-To: Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
- linux-doc@vger.kernel.org
-References: <202605120507.9iQRMgKR-lkp@intel.com>
- <202605120755.4A2AC441EB@keescook>
-Content-Language: en-US
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <202605120755.4A2AC441EB@keescook>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 177.238.16.53
-X-Source-L: No
-X-Exim-ID: 1wMqrR-00000000QSq-37cg
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.0.104]) [177.238.16.53]:44828
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 2
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfPCZwraHmiw2CUOL6cY+DjIDU0g6ETfW3JF/IXY1lPU51j0bhxWVae6lNizLRfIP0cRM9SfVG5stAXk58MmqN0q0FE5tDhqkUvReerCoylYbcFT6WETd
- 86YmWJ8W3Uy4N+zo2c63aZ2cMHjOrrPCI1kuI2+PDQ6Fk2FBWCOY6nFXEiibgXIVMAsVwd89tT8BJtmSRDjneNi8zeZgwKAMqwb/sBIzQEeO+LatA2sSs8/q
 
+tree:   https://github.com/intel-lab-lkp/linux/commits/Vipin-Sharma/vfio-pci-Register-a-file-handler-with-Live-Update-Orchestrator/20260512-152829
+head:   ebd50d810440364055692a3ed1d967cd7149d0dc
+commit: 4ab988bdf43079ff3eb58904f591ec464f289db5 docs: liveupdate: Add documentation for VFIO PCI
+date:   10 hours ago
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260512/202605121946.GDFPWf9X-lkp@intel.com/reproduce)
 
-> Oh, hrm, there are a lot of errors in stddef.h for the "htmldocs" make
-> target. Gustavo, can you see what's needed to fix these?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605121946.GDFPWf9X-lkp@intel.com/
 
-Sure thing. I saw that yesterday.
+All warnings (new ones prefixed by >>):
 
--Gustavo
+   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:45: ERROR: Unknown target name: "network flags". [docutils]
+   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:50: ERROR: Unknown target name: "scope flags". [docutils]
+   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:168: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:191: ERROR: Unknown target name: "network flags". [docutils]
+>> Documentation/driver-api/vfio_pci_liveupdate:7: ./drivers/vfio/pci/vfio_pci_liveupdate.c:78: WARNING: unknown document: '/PCI/liveupdate' [ref.doc]
+   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
