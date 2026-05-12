@@ -1,66 +1,50 @@
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out162-62-58-211.mail.qq.com (out162-62-58-211.mail.qq.com [162.62.58.211])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D443D388876
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 May 2026 15:26:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D691E3C5826
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 May 2026 15:46:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.58.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778599575; cv=none; b=OmlAPNkbj1lgyvVFhW2Jg2/YjSsV2W0P54LvitdvkNwI48qMHxZcU3eHg3Uad3n+aGhVZPJUolby1gKd6ijeUkS7UhPPwx0ZPgJNs90VS/jLoeXnVJdqI0C6X+1GIwbr1oRvWfxVhk+niQSIs2rNb2aixf8C3Ry6865e+9JkqIQ=
+	t=1778600797; cv=none; b=AtZ+jaqVJHA0Npe7cWqDTsa9CuwhQt1ILKg2O1NHX6ySLUBwaamPZq6wYJroga9OmQNiucLRH8xyI+WhVUoEW9Eyvb0DhOdj2I0yrlXNxROETrGe2GGvFWpqunc8el/qt4ra5zZkkFLZOc1QPFcVjXG6vBOhyJKxV8IuknCqJ18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778599575; c=relaxed/simple;
-	bh=k61eFfUpNPZI2+RmqnwLXyI8eLFam8VRdLnuEW8C34o=;
+	s=arc-20240116; t=1778600797; c=relaxed/simple;
+	bh=F3Zv0JOKesguZ6mhZPtk7Bxo1cTD1wvwqglFXShDibk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lMRcFmsFrU7uS0uOdzYXYIl/Y56WBy8Ne9mE3sTyFy0b1KzLSaUyOlbnqqQBICcFZDCBTGfpg+S5lTPN/bOOQzph+jyYdZE/r8S3WRYNDYqdzWFyZeCK8RoaBmCgSJwo46wH5TQPDEynNAkMxDjkf5RsZGjuIamLmh4vujLkOQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=V06xrac3; arc=none smtp.client-ip=209.85.161.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	 In-Reply-To:Content-Type; b=kVDoD4KKU9szeEIb7gTf/IP7R2GFU5OlmchrgQ5phVjGpELDNJGp1DU3tjLpnhjMydnWLpB+OsABVnPBMkLmcaVgZaLIdQBQ+PqZT1YINhfcr0A2n9Ybl28qUID24Q3DiQ3T63qEQM/jlVSShBfIkknCoAa8Ync8eW+B0b5bei8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=XbmfckGv; arc=none smtp.client-ip=162.62.58.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="V06xrac3"
-Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-69489b43d66so1604317eaf.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 12 May 2026 08:26:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1778599573; x=1779204373; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6oa6p1Qpev/3fA0M0sLxiI9JuOC87QNT1WPoNcbjnCA=;
-        b=V06xrac3xUm6tVLJYP6///WsSh166+jJKwQgIsQ+xJvfDx1h42J84ZDSCBI6vGywq2
-         ZMXoJp05YGOShk2qaZw4LaE7JFqMrlHynnoticCk7yUEHrMSR4yG47q6eV4RYRAuSRCs
-         1pyqbbv2rzWq0W8dAe+xdy7DIXWDznTBninJgt5wKa6loLk1erani+WmP9NBNxVl2nfb
-         Y2Li9FpHEZz+YstAtngTaqaOJUa4FIqUFEU95pVkKHPmHcpLnSutkKan8jcNrBVpf+co
-         418NmzUUInSY0U6Vt8s6GNUh7VrS49IwGInkyx/MuJfdJWA56q7UfT7ByLj7Dr4hquM7
-         y/UQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778599573; x=1779204373;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6oa6p1Qpev/3fA0M0sLxiI9JuOC87QNT1WPoNcbjnCA=;
-        b=rcVBG5HKOEniixJpcUQiil7FH4t7VHmS24VVGSoZXGvrY0m30BAiiDYB4Vb+dhyKMZ
-         exH1Fg/CKhq6UIsLongOE43HULtVr+NB27AgTH4+rAYBe0Ait9M6qD9LWLzf0an+uGJa
-         4OLED9XuI3aQDlp43iwSII8g9nErVxUOGnmqn7szDmjN59ba4LEB0tChd4z5iwEkdvF/
-         csJ/nilm0ftFc8BbdD1tlT2kN3iJAyt+0JXOzZXpmqcMebl+366erufDdP2/dtRSKMd9
-         gK6LLOvYDDCbWQ7NQYqRQxkvdPQswBx4Q/AF2NaBL42tWsVNqVLfa0P0lV6l6+sttoLy
-         JYXw==
-X-Gm-Message-State: AOJu0Ywv3Ptq4rvXeNFqXZ7L2gP5KWQUUh25Guui7WyRyqQcKKFYOLKd
-	eEm2p1/Qa6Tfx05sSIVhymg5CjxCu7n4rr86LATCmB99VXFmakiHV8bpSUKhLazKFbY=
-X-Gm-Gg: Acq92OFGUpW4L+sPQiukOkjh3gToLQgnzjda0rcOaxH6D7CHVkey+AVBUI56n52mVvs
-	StRAJHRb3ZgGgeT5hrDy65Z+k6sq/BALkWOsPs4jVvRdT4DckPYcfsjS3GARHIU/OyK6zr5hJsv
-	scONU3LyPsuKtSjxG2zdrm8KQ1p6g5f/gfI4Eetu8q9t9XQzI4Y6uYJ0n+IpUzNDbVDMTKJ+KkG
-	zsdugNf9p2B99ltXvKAZe1jYFlDJK50kowzjVvb/VBD/1hIkV/GrbEbNMCtX6/jZqkWslzSncYF
-	ORg92pJcXazV2jx0ZhVN9s0ANOYYr+t3yt9vbN5VxDiquiJoeAycN94FaIX61q5qb+l9nrVrgc8
-	8actdHV8+0sLC4/wJLQoAn0wR4jGBcMQB7UTL740oK8/jmgWWagsc2CT+Uukm0tfRybdtRaSNd9
-	5TPnPLnaPsmpRdpSITOrULKjQGfYODaTTMNjyLkc7EOGSVdVdTHXol2V/PhP9a4uUrDNyynRH4W
-	bC7sD2Q
-X-Received: by 2002:a05:6820:4b0d:b0:69b:5696:e63f with SMTP id 006d021491bc7-69b69e08d56mr1556214eaf.24.1778599572707;
-        Tue, 12 May 2026 08:26:12 -0700 (PDT)
-Received: from [192.168.1.102] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-69b25c76cc4sm7890844eaf.6.2026.05.12.08.26.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 May 2026 08:26:12 -0700 (PDT)
-Message-ID: <d76cebb2-644c-472e-8b2d-af4f942bc900@kernel.dk>
-Date: Tue, 12 May 2026 09:26:11 -0600
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="XbmfckGv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1778600789; bh=PaMGqz0yXQud2fUYhL55qTFHjZOzYISIsf1SBK7STfU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=XbmfckGvzcsHdU+UB0IlLBwYz9EScvSXrzGN/0+jG55hyHp3YWazy8SPFpGzRINqP
+	 csuiKCJg9oejnseq1zoIetvqJqY0abPbiwds1E7ogS973qQjlTZmzMF3/vtJX9bCvP
+	 xQCEQNbBRT54kVT4/dqyMhvTOUCOTLNd2sZu08uc=
+Received: from [192.168.1.9] ([163.125.219.25])
+	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
+	id B99B08E3; Tue, 12 May 2026 23:46:25 +0800
+X-QQ-mid: xmsmtpt1778600785tygo1jak2
+Message-ID: <tencent_A4DCA5C6722BCBE54EE188648C04E1EF9D05@qq.com>
+X-QQ-XMAILINFO: NmRjDopJZVxOTAKLsNw0LLOXTd45SkTyOnrqbQtvq0ZsHNUVyw2XOX82gpvEq7
+	 Z6P4y4uF/Qj6DS6cmYj2Lk1MxFmlg7IMR9ns/aUeG/LRVAD6QTNOCHhbu4IlK+IJUu/4mHOhlrjy
+	 f5CzBqFx825RSGmbXIrFwpIRPrs37b8BqDhuA3XXocb7qYLOwlx8sc37Vxupe5qhZVQeVEel0Qk/
+	 2f9iWLIetidIFTtahJ5n1rfan8N7osuXy2jFWG0kTqxIrO3O1TdGX3/s1lRFasA+5ONDLbMKy0ic
+	 FUKMs8NZcXzE3YbyGoO9/3YbVt7zB4l+ls8Y25iOSkgb3FSQyYhCmGDH6ZFeZPY5N9KB+wyOcrWZ
+	 X8vC0tQK41Mdk/IjH+9K74fKAR8vbppWdy0wKIITZKaoOuOgEgOrInd4BYMBCasrNtmKhruA0qjF
+	 q9OhQ+jbAvZeeWMwoHgSdzuSCK0cLzQNU8CaRMfWyVJ2ni3pNvSVGR0r3TS87mMlKaHi0RDMigOc
+	 MKT8niY7Xn8U0wzM3usktFMQ4DQSfKEXHxDRzEh+iw6VddstcC3FlJ0OtMm6jet+KMuMzfObhHAE
+	 pCSPi/HhwfCNOmkJoKYcRC90GCA2vLHVPw7RCNxaPr9jyT+JFwFfUC60FoBtURbwoIwSGFzyO5V9
+	 iFWs6N+d6iojl/lXuenlX3ITbsjtQZ0wptZJSjVvNV9N6LCK3ljP9OnwukIJu1Ss3BjjuTfWJT0y
+	 xoJ2Kow8Icb6g4z4lkXJ/dPDJunrHTno9fVRerkrEGz5dVE4JxfGPfaHSAJqvd6ltdIhE7+8VSsb
+	 V+GdlbBrDdoYuyg4vUIoBGlEoUbGWcuZKX0lzonxS4dlh/G+ntxXtiJb17xx9Msz+ktypOg2OKmr
+	 YXv1iUx5+9g89c7O1hzqjJGkudJbaUQbO/77udKQbQjv5fyKuRJHRy1Np51Y/UXp2IQYke4MN0Gy
+	 ZtDJCIukHKq5EqUIkE8UEij9jPTZ1PIuz6voVL/AD2xH1vjycAW9SaRB9uaveMmh4LI7UtN12Qn6
+	 sJ5SBrAAf+GRifoQNU9UUXgAlLJ1SL90Ztsmd3vj5A1e8TYorBWg9iw+o3nXDKKiG9cPFbIg==
+X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
+X-OQ-MSGID: <c0e09968-4c60-495a-b03a-0dde22b444a0@qq.com>
+Date: Tue, 12 May 2026 23:46:29 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,42 +52,83 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [axboe:for-7.2/block 1/2] ./usr/include/linux/drbd.h:18:10: fatal
- error: sys/types.h: No such file or directory
-To: kernel test robot <lkp@intel.com>,
- =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>
-Cc: oe-kbuild-all@lists.linux.dev
-References: <202605101346.V2wwJqv1-lkp@intel.com>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <202605101346.V2wwJqv1-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] docs/zh_CN: update admin-guide/index.rst translation
+To: kernel test robot <lkp@intel.com>, corbet@lwn.net, alexs@kernel.org,
+ si.yanteng@linux.dev, kees@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, skhan@linuxfoundation.org,
+ dzm91@hust.edu.cn, tony.luck@intel.com, gpiccoli@igalia.com,
+ frederic@kernel.org, jani.nikula@intel.com, longman@redhat.com,
+ mchehab+huawei@kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <tencent_7ADF2D1EBD8EAD2028BC93BA7858EA655D0A@qq.com>
+ <202605111009.hlpiVkT6-lkp@intel.com>
+From: Yan Zhu <zhuyan2015@qq.com>
+In-Reply-To: <202605111009.hlpiVkT6-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 5/10/26 12:03 AM, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git for-7.2/block
-> head:   8098eeb693c4cc4e774c62fbd4875197cb5578ce
-> commit: a54f499838292c1768f6575ed1ec7cf35f1b6489 [1/2] drbd: move UAPI headers to include/uapi/linux/
-> config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260510/202605101346.V2wwJqv1-lkp@intel.com/config)
-> compiler: nios2-linux-gcc (GCC) 11.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260510/202605101346.V2wwJqv1-lkp@intel.com/reproduce)
+Hi,
+
+On 5/11/2026 4:39 PM, kernel test robot wrote:
+> Hi Yan,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on lwn/docs-next]
+> [also build test WARNING on linus/master v7.1-rc3 next-20260508]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Yan-Zhu/docs-zh_CN-update-admin-guide-index-rst-translation/20260511-102406
+> base:   git://git.lwn.net/linux.git docs-next
+> patch link:    https://lore.kernel.org/r/tencent_7ADF2D1EBD8EAD2028BC93BA7858EA655D0A%40qq.com
+> patch subject: [PATCH] docs/zh_CN: update admin-guide/index.rst translation
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+> reproduce: (https://download.01.org/0day-ci/archive/20260511/202605111009.hlpiVkT6-lkp@intel.com/reproduce)
 > 
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202605101346.V2wwJqv1-lkp@intel.com/
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202605111009.hlpiVkT6-lkp@intel.com/
 > 
-> All errors (new ones prefixed by >>):
+> All warnings (new ones prefixed by >>):
 > 
->    In file included from <command-line>:
->>> ./usr/include/linux/drbd.h:18:10: fatal error: sys/types.h: No such file or directory
->       18 | #include <sys/types.h>
->          |          ^~~~~~~~~~~~~
->    compilation terminated.
+>     Checksumming on output with GSO
+>     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [docutils]
+>     MAINTAINERS:40: WARNING: Inline strong start-string without end-string. [docutils]
+>>> Documentation/translations/zh_CN/admin-guide/index.rst:114: WARNING: toctree contains reference to nonexisting document 'translations/zh_CN/admin-guide/module-signing' [toc.not_readable]
+>     Documentation/userspace-api/landlock:504: ./security/landlock/errata/abi-4.h:5: ERROR: Unexpected section title.
+> 
 
-Christian, are you fixing these? I keep getting emails about this
-one and the one in patch 2 as well...
+This is a false alarm. I generated a patch based on the following 
+warehouse. It exists in the module-signing document:
+base：git://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git 
+docs-next
+
+Thanks for your attention.
+Yan Zhu
+> 
+> vim +114 Documentation/translations/zh_CN/admin-guide/index.rst
+> 
+>     113	
+>   > 114	.. toctree::
+>     115	   :maxdepth: 1
+>     116	
+>     117	   cpu-load
+>     118	   mm/index
+>     119	   module-signing
+>     120	   numastat
+>     121	
+>     122	
+>     123	Todolist:
+>     124	
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
 -- 
-Jens Axboe
+Yan Zhu
 
