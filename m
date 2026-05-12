@@ -1,60 +1,67 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38FAB3876DE
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 May 2026 05:32:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F53838BF68
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 May 2026 05:32:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778563970; cv=none; b=Zg5MSvdCrh5UF+IR0ugEHNm7B4kdsD8ZVK4MwJ0NaTCw1bExsozWNYRvT+/wkuhA+z1ogAo0wzFV+t3YGA+TP5S0PfKq/i7A6jjuBg34Jj+VKYePnCBuH83/vyse1qq0UxOcSorpK3+Pm9smspqlH4xa+JGBV1IEqnAYh1C+GMg=
+	t=1778563973; cv=none; b=AcFcThNc60zNt3xkE99kcZkq6Jk5Q9vM1Vxf75eXvHpvMzMNLg/o0UJh6/Xa9bWgCMwKkVCemHkJjEe28ez6Juc5ynHFhzH91gT8wZpuHis8+CpOg1crW7lASpYxdkqdcnsYg0AVIHPw4fv7pZ9iHaP8h04A4F/Qvxt9eaarM/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778563970; c=relaxed/simple;
-	bh=9IcveBS9oOob0c0hrMKH4uuGApD+QgWC02heab40yPY=;
+	s=arc-20240116; t=1778563973; c=relaxed/simple;
+	bh=lx+K+0YCP54PiWyu/GiEJIZl64mAgPzGpZSUAIt8dOU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P0WBSb3Ha/A50HZDFJZxR/C8SnvgGEldsj9hs0gM5ifRpv4+/ct0frHT0a2JmU2Vs3vXncn9T+Y1Bx1WPvHLRwgi7D4ZFUS2BFz30+Fe27jEDIJC2y/ccmBpRQFpGC29tYSCukwTvYp0WUitBVGUb3XmWy93vX1TJPSHQ2UZGsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jjHn0qHs; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=U1I6Dj6lxDvhTGb9zInh5qnJQLdxMnJzhmqV5tQYMKTQCSZIC0G/1w25VVr19OeFhdCxodHkgvkWc87gVdXIVZkO4ITHU9NFGJB7h1y8WyG/vyl2MscNH7+PZ9ULRKnUCHRzaxYeP9Pmzs3nQl/05xgiD7YyBAhm/rXl2RNrIYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pvum05ck; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jjHn0qHs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pvum05ck"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778563968; x=1810099968;
+  t=1778563971; x=1810099971;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=9IcveBS9oOob0c0hrMKH4uuGApD+QgWC02heab40yPY=;
-  b=jjHn0qHs5tV2qq/qVaPkKGTKHrnHQZIqBkyrrZpEtRhg+9C0Ha1fYVON
-   aZc6AyQQz9uNZAazg8h6gQmlhKReAUa+o1S+GA4AnFj9AmB2moyCYobN8
-   kLc/GBqP+Wmd0fpsjB1hPpmPkh8B8TT7wh8XWy2UyT/GGPc1UpUD3N3lW
-   qkqw1DEg+nR2P/O/W3gTuzUuwWuSJA43AwBeA2aTYMg0/pQKXgcojGqUL
-   7ZaHE3ml0nJrFmfK9nyUD9cY83ek3VEZ5JoMHMm/OyiZmGLWpWDZaAE0O
-   G6fkH8YbV6LA57GNbTyvbS5X5ShgonJBLearMSeqPrFq4slJqQ069k3uy
+  bh=lx+K+0YCP54PiWyu/GiEJIZl64mAgPzGpZSUAIt8dOU=;
+  b=Pvum05ckXCRMF9elfGwK0jAschaT9KuZaYs713pw5b6sNEnyAFdZpZSN
+   mteqLnx6lpd5csKw0gxQrwIzKMpaqhCXLTVxPrz6R3xMKlvauoss3A1zj
+   C8++EqsI4/Pgv9BhVmvZgOX2MEJW0FgUcPCUm615AS1RV6hS9WF0oOZQr
+   kOe7TPEBJvtZPb+2xFN5kJ+U9FPWZ88n7zWSdlcVLdv9cAONqKMFwTp24
+   5XU3w+Kvyj/Toa8JQe63eTVNDdA2SCGRu2WIu1QQp58tp5xavOrXOfcST
+   27R8Xmzxm+Yo1CErqqn9TTir+zahw9CdVDgDOQQqz5Fh6I4EC9QWtvqax
    w==;
-X-CSE-ConnectionGUID: 1Klu9o3nRuiupmGo4fSb3w==
-X-CSE-MsgGUID: OeVmP93PSEWjU+TfQTkFCQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="89766947"
+X-CSE-ConnectionGUID: tWswRfuxRqGJyBPJoIilvA==
+X-CSE-MsgGUID: 1oayK8bxTb+qNcJEvfH9fA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="89766950"
 X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
-   d="scan'208";a="89766947"
+   d="scan'208";a="89766950"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 22:32:48 -0700
-X-CSE-ConnectionGUID: o/XC5a1zRyibkF9SwNBtaQ==
-X-CSE-MsgGUID: dD7W+HfmQXmN392E01uEpg==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 22:32:50 -0700
+X-CSE-ConnectionGUID: 6djvsQSsRwSmwlARv6CcJg==
+X-CSE-MsgGUID: KttygPD5QRSCpD2Dw972PA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
-   d="scan'208";a="233352082"
+   d="scan'208";a="233352080"
 Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 11 May 2026 22:32:46 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 11 May 2026 22:32:47 -0700
 Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wMfjY-000000001dr-0g0U;
+	id 1wMfjY-000000001dp-0Y1a;
 	Tue, 12 May 2026 05:32:44 +0000
-Date: Tue, 12 May 2026 13:32:28 +0800
+Date: Tue, 12 May 2026 13:32:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Badal Nilawar <badal.nilawar@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 1/1] xe/xe_mctp_mailbox: Add support for MCTP
- transport over mailbox
-Message-ID: <202605121305.VSeyI6c5-lkp@intel.com>
-References: <20260504193420.1232842-4-badal.nilawar@intel.com>
+To: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Jakub Kicinski <kuba@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>
+Subject: Re: [PATCH net v2] ptp: ocp: fix resource freeing order
+Message-ID: <202605121304.5VA5PtAi-lkp@intel.com>
+References: <20260511161838.1413499-1-vadim.fedorenko@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,96 +70,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260504193420.1232842-4-badal.nilawar@intel.com>
+In-Reply-To: <20260511161838.1413499-1-vadim.fedorenko@linux.dev>
 
-Hi Badal,
+Hi Vadim,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on drm-xe/drm-xe-next]
-[also build test ERROR on drm-misc/drm-misc-next drm-tip/drm-tip linus/master v7.1-rc3 next-20260508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on net/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Badal-Nilawar/xe-xe_mctp_mailbox-Add-support-for-MCTP-transport-over-mailbox/20260512-014830
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20260504193420.1232842-4-badal.nilawar%40intel.com
-patch subject: [RFC PATCH 1/1] xe/xe_mctp_mailbox: Add support for MCTP transport over mailbox
-config: i386-randconfig-017-20260512 (https://download.01.org/0day-ci/archive/20260512/202605121305.VSeyI6c5-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260512/202605121305.VSeyI6c5-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/ptp-ocp-fix-resource-freeing-order/20260512-061754
+base:   net/main
+patch link:    https://lore.kernel.org/r/20260511161838.1413499-1-vadim.fedorenko%40linux.dev
+patch subject: [PATCH net v2] ptp: ocp: fix resource freeing order
+config: sparc64-randconfig-002-20260512 (https://download.01.org/0day-ci/archive/20260512/202605121304.5VA5PtAi-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260512/202605121304.5VA5PtAi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605121305.VSeyI6c5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605121304.5VA5PtAi-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: drivers/gpu/drm/xe/xe_mctp_mailbox.o: in function `xe_mctp_mailbox_fini':
->> drivers/gpu/drm/xe/xe_mctp_mailbox.c:147:(.text+0x81): undefined reference to `mctp_unregister_netdev'
-   ld: drivers/gpu/drm/xe/xe_mctp_mailbox.o: in function `xe_mctp_mailbox_init':
->> drivers/gpu/drm/xe/xe_mctp_mailbox.c:166:(.text+0x2d0): undefined reference to `mctp_register_netdev'
->> ld: drivers/gpu/drm/xe/xe_mctp_mailbox.c:175:(.text+0x37c): undefined reference to `mctp_unregister_netdev'
+   drivers/ptp/ptp_ocp.c: In function 'ptp_ocp_detach':
+>> drivers/ptp/ptp_ocp.c:4872:39: error: expected ';' before 'if'
+      ptp_ocp_ts_enable(bp->ts1, 0, false)
+                                          ^
+                                          ;
+     if (bp->ts2)
+     ~~                                    
 
 
-vim +147 drivers/gpu/drm/xe/xe_mctp_mailbox.c
+vim +4872 drivers/ptp/ptp_ocp.c
 
-   123	
-   124	static void xe_mctp_mailbox_fini(void *arg)
-   125	{
-   126		struct xe_device *xe = arg;
-   127		struct xe_mctp_mailbox *mctp_mailbox = xe->mctp_mailbox;
-   128		struct net_device *netdev;
-   129	
-   130		if (!mctp_mailbox)
-   131			return;
-   132	
-   133		netdev = mctp_mailbox->netdev;
-   134		if (!netdev) {
-   135			xe->mctp_mailbox = NULL;
-   136			return;
-   137		}
-   138	
-   139		if (mctp_mailbox->wq) {
-   140			mctp_mailbox->running = false;
-   141			cancel_delayed_work_sync(&mctp_mailbox->work);
-   142			destroy_workqueue(mctp_mailbox->wq);
-   143			mctp_mailbox->wq = NULL;
-   144		}
-   145	
-   146		xe->mctp_mailbox = NULL;
- > 147		mctp_unregister_netdev(netdev);
-   148		free_netdev(netdev);
-   149	}
-   150	
-   151	int xe_mctp_mailbox_init(struct xe_device *xe)
-   152	{
-   153		struct xe_mctp_mailbox *mctp_mailbox;
-   154		struct net_device *netdev;
-   155		int ret, err;
-   156	
-   157		netdev = alloc_netdev(sizeof(*mctp_mailbox), "mctp_mailbox%d", NET_NAME_ENUM,
-   158				      mctp_mailbox_netdev_setup);
-   159		if (!netdev)
-   160			return -ENOMEM;
-   161	
-   162		SET_NETDEV_DEV(netdev, xe->drm.dev);
-   163		mctp_mailbox = netdev_priv(netdev);
-   164		mctp_mailbox->netdev = netdev;
-   165	
- > 166		ret = mctp_register_netdev(netdev, NULL, MCTP_PHYS_BINDING_VENDOR);
-   167		if (ret) {
-   168			free_netdev(netdev);
-   169			return ret;
-   170		}
-   171	
-   172		INIT_DELAYED_WORK(&mctp_mailbox->work, mctp_mailbox_rx_handler);
-   173		mctp_mailbox->wq = alloc_ordered_workqueue("mctp-mailbox-ordered-wq", 0);
-   174		if (!mctp_mailbox->wq) {
- > 175			mctp_unregister_netdev(netdev);
+  4860	
+  4861	static void
+  4862	ptp_ocp_detach(struct ptp_ocp *bp)
+  4863	{
+  4864		int i;
+  4865	
+  4866		ptp_ocp_debugfs_remove_device(bp);
+  4867		ptp_ocp_detach_sysfs(bp);
+  4868		ptp_ocp_attr_group_del(bp);
+  4869		timer_delete_sync(&bp->watchdog);
+  4870		/* Disable interrupts on all timestampers */
+  4871		if (bp->ts1)
+> 4872			ptp_ocp_ts_enable(bp->ts1, 0, false)
+  4873		if (bp->ts2)
+  4874			ptp_ocp_ts_enable(bp->ts2, 0, false)
+  4875		if (bp->ts3)
+  4876			ptp_ocp_ts_enable(bp->ts3, 0, false)
+  4877		if (bp->ts4)
+  4878			ptp_ocp_ts_enable(bp->ts4, 0, false)
+  4879		if (bp->ptp)
+  4880			ptp_clock_unregister(bp->ptp);
+  4881		kfree(bp->ptp_info.pin_config);
+  4882		ptp_ocp_unregister_ext(bp->ts0);
+  4883		ptp_ocp_unregister_ext(bp->ts1);
+  4884		ptp_ocp_unregister_ext(bp->ts2);
+  4885		ptp_ocp_unregister_ext(bp->ts3);
+  4886		ptp_ocp_unregister_ext(bp->ts4);
+  4887		ptp_ocp_unregister_ext(bp->pps);
+  4888		for (i = 0; i < 4; i++)
+  4889			ptp_ocp_unregister_ext(bp->signal_out[i]);
+  4890		for (i = 0; i < __PORT_COUNT; i++)
+  4891			if (bp->port[i].line != -1)
+  4892				serial8250_unregister_port(bp->port[i].line);
+  4893		platform_device_unregister(bp->spi_flash);
+  4894		platform_device_unregister(bp->i2c_ctrl);
+  4895		if (bp->i2c_clk)
+  4896			clk_hw_unregister_fixed_rate(bp->i2c_clk);
+  4897		if (bp->n_irqs)
+  4898			pci_free_irq_vectors(bp->pdev);
+  4899		device_unregister(&bp->dev);
+  4900	}
+  4901	
 
 -- 
 0-DAY CI Kernel Test Service
