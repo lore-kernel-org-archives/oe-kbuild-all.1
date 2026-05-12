@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A040360EC1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 May 2026 11:43:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5DB83839AF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 May 2026 11:53:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778586196; cv=none; b=en+fkYv8/rimVp49FX61n9tKmNRpsnXYWWgY4Z5wyyFMFSoRmX5vWuMOBeKeRDHGXG6QztkIJOtvNgy2qyBDIK4EG2linN0D1dV1quoGM5jwXlyf4Stn+baRURQX0G7lhuqQ5Scvtx9y+Gg7YvTlbYLZv7O5a3X5nAKUnvdXGSQ=
+	t=1778586798; cv=none; b=oB2Io5/u8ODYG16WnAhfjT+s5/1ORRPbeK51WJ+7kdyb24ivFVBUED6NPwr8Ot73LhOcbK/RiOmmKzP+hwG3hydi+PMLLRtAUPhDNfiE/6JzG425GbTVKVq2rvcSeaiekp32+1+nJIXOVEkmZykN/dHv10nqgfK6fDEHE5+62mk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778586196; c=relaxed/simple;
-	bh=tLSQnDBO+ob5pAd6B2FMEAmSz8B64btxkNr72D+aP9g=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Wf4egrc1tpERLdWdXDmzacHxSnisJDY43/E/zs86LIAJdvglBa7pGUeI+l70WYPwsP+LSb1soerEUA+7HOtEGaGCODLY2gEDKd5GrOYm/nXAC1hV4JzT/YSX2WBNPtoRL/VsxjRHbg+mbXvKMu7JBzkBmstK9Y32xwqqOTALa4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y92DB9bS; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1778586798; c=relaxed/simple;
+	bh=Ae0kvDEEdkoRInjRNHCCFi9CDJrwpt+SeKm9WveINIQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=OAfA/JHPCZcnqxqQQS0IEr+qQwW/T7gWBOor2RwCrVFiVco2T7RCYjFny7UnRriMaiHO88CvuRcxYxkzyvAUJSQjzWRblNctMDWLwxTqvE/a067rRby800DoaaSD5lQoavUWz0dAfzepmHFdIwm/Z95AZxNCGcMOXYN9U1rdpcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lc+9HEYQ; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y92DB9bS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lc+9HEYQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778586195; x=1810122195;
+  t=1778586797; x=1810122797;
   h=date:from:to:cc:subject:message-id;
-  bh=tLSQnDBO+ob5pAd6B2FMEAmSz8B64btxkNr72D+aP9g=;
-  b=Y92DB9bSMOH69QcWlTM4thVZ6gULduBaA/hf67BOHYIgW12DyArHqJEI
-   cnNKibrEqZtu7yQANANWZvqTc1o3YyFwebV/xtVAPqJk5nOlILDyjXTO3
-   hqYHtkH6Ffx14JemIVpaizHbOAdegVmeum8QpPThgh1Vdkb3rav5Ww6YH
-   T6i04zVvynzUaPthbesn35wjw1hHFA5N0ENf/8/bJnfPWbZIaZ8Tqt3/H
-   JBX/7HiuSk2tk75mMufehcBqe+x/12BeRansPql/Yv5PwDsvp4X6UI3/M
-   iBUySGa/oeMWf/2QnhZjW8gmWrfYp5vDydzcRq00OM6MQ/hMvE1Sds3qz
-   w==;
-X-CSE-ConnectionGUID: CTth9Zv5QeaRVXJcCOhdKQ==
-X-CSE-MsgGUID: bdkIrkdAQhWLsROdmhs8og==
-X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="97058494"
+  bh=Ae0kvDEEdkoRInjRNHCCFi9CDJrwpt+SeKm9WveINIQ=;
+  b=Lc+9HEYQmp1oDwXYCqIqslOHOxcO8WAwVDD2TYTBkXRyE6XUFUzGIBlo
+   gLurqlDvuy3LP82qzKZX9Ts6N66MUOMm/Tn8qk2VJjGHYOAHgTNEluvJl
+   TM3MK5ICEy9u2L6U2iWGkp7KmOYdcLFJSlUv99leHADCbZSYiQq6T1KQ5
+   dGIqIa1ugxkJnpqkD78UVJuoupgMjAaufFALVZdpyj9FHOTHMphRB4lz5
+   zu7crJvWpqDlGuFAsmjn7lcfEI2Jy/Zbj3UKuwIXfZzwWcpAp8e2JkxnT
+   EoU7fgKCcyfJ8eY0zc0SJ6EwFnRXLO3l8S+Cyzp5cOOXDMwQSoB5CS68f
+   g==;
+X-CSE-ConnectionGUID: OQynvOz8Tn292UCFBaeYQw==
+X-CSE-MsgGUID: rPErZH+9ROasPetUvQ95Sw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="79603174"
 X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
-   d="scan'208";a="97058494"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 04:43:14 -0700
-X-CSE-ConnectionGUID: cIdHbZq2SH2BBBMcBzDuFA==
-X-CSE-MsgGUID: dI1XOUbhQXCPkVNt+0J56Q==
+   d="scan'208";a="79603174"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 04:53:16 -0700
+X-CSE-ConnectionGUID: xKH5qLOIRn2/pXK579cwzw==
+X-CSE-MsgGUID: nU/i4E/wQJCk/rN7rQrK5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
-   d="scan'208";a="261496785"
+   d="scan'208";a="242742608"
 Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 12 May 2026 04:43:13 -0700
+  by orviesa005.jf.intel.com with ESMTP; 12 May 2026 04:53:15 -0700
 Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wMlW3-0000000024D-0E40;
-	Tue, 12 May 2026 11:43:11 +0000
-Date: Tue, 12 May 2026 19:42:27 +0800
+	id 1wMlfj-00000000255-2Sye;
+	Tue, 12 May 2026 11:53:11 +0000
+Date: Tue, 12 May 2026 19:52:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Dmitry Ilvokhin <d@ilvokhin.com>
-Subject: [tglx-devel:irq/proc 15/16] kernel/irq/proc.h:7:20: error:
- redefinition of 'irq_proc_calc_prec'
-Message-ID: <202605121956.gJxsylzw-lkp@intel.com>
+To: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-serial@vger.kernel.org,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Subject: [tty:tty-next 28/31] drivers/tty/serial/max310x.c:1727:25:
+ error: use of undeclared identifier 'max310x_spi_driver'; did you mean
+ 'max310x_i2c_driver'?
+Message-ID: <202605121900.SP8ZoaTw-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,49 +61,60 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git irq/proc
-head:   6aa40b910f0486df6146560b14fd0171437f9b9b
-commit: 673cacc04c88b5129d117c576d2e28c4125dfb34 [15/16] genirq/proc: Runtime size the chip name
-config: nios2-randconfig-002-20260512 (https://download.01.org/0day-ci/archive/20260512/202605121956.gJxsylzw-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260512/202605121956.gJxsylzw-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-next
+head:   16e95bfb79b5d9d01dc7651d98caf3c2ace331cd
+commit: 20ffe4b3330a8bde9e933e9ba2323d5e9386caa5 [28/31] serial: max310x: allow driver to be built with SPI or I2C
+config: sparc64-randconfig-r122-20260512 (https://download.01.org/0day-ci/archive/20260512/202605121900.SP8ZoaTw-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260512/202605121900.SP8ZoaTw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605121956.gJxsylzw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605121900.SP8ZoaTw-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from kernel/irq/internals.h:15,
-                    from kernel/irq/irqdomain.c:2087:
->> kernel/irq/proc.h:7:20: error: redefinition of 'irq_proc_calc_prec'
-       7 | static inline void irq_proc_calc_prec(void) { }
-         |                    ^~~~~~~~~~~~~~~~~~
-   In file included from kernel/irq/irqdomain.c:23:
-   kernel/irq/proc.h:7:20: note: previous definition of 'irq_proc_calc_prec' was here
-       7 | static inline void irq_proc_calc_prec(void) { }
-         |                    ^~~~~~~~~~~~~~~~~~
-   In file included from kernel/irq/internals.h:15,
-                    from kernel/irq/irqdomain.c:2087:
->> kernel/irq/proc.h:8:20: error: redefinition of 'irq_proc_update_chip'
-       8 | static inline void irq_proc_update_chip(const struct irq_chip *chip) { }
-         |                    ^~~~~~~~~~~~~~~~~~~~
-   In file included from kernel/irq/irqdomain.c:23:
-   kernel/irq/proc.h:8:20: note: previous definition of 'irq_proc_update_chip' was here
-       8 | static inline void irq_proc_update_chip(const struct irq_chip *chip) { }
-         |                    ^~~~~~~~~~~~~~~~~~~~
+>> drivers/tty/serial/max310x.c:1727:25: error: use of undeclared identifier 'max310x_spi_driver'; did you mean 'max310x_i2c_driver'?
+    1727 |         spi_unregister_driver(&max310x_spi_driver);
+         |                                ^~~~~~~~~~~~~~~~~~
+         |                                max310x_i2c_driver
+   drivers/tty/serial/max310x.c:1689:26: note: 'max310x_i2c_driver' declared here
+    1689 | static struct i2c_driver max310x_i2c_driver = {
+         |                          ^
+>> drivers/tty/serial/max310x.c:1727:24: error: incompatible pointer types passing 'struct i2c_driver *' to parameter of type 'struct spi_driver *' [-Wincompatible-pointer-types]
+    1727 |         spi_unregister_driver(&max310x_spi_driver);
+         |                               ^~~~~~~~~~~~~~~~~~~
+   include/linux/spi/spi.h:378:61: note: passing argument to parameter 'sdrv' here
+     378 | static inline void spi_unregister_driver(struct spi_driver *sdrv)
+         |                                                             ^
+   2 errors generated.
 
 
-vim +/irq_proc_calc_prec +7 kernel/irq/proc.h
+vim +1727 drivers/tty/serial/max310x.c
 
-     2	
-     3	#if defined(CONFIG_PROC_FS) && defined(CONFIG_GENERIC_IRQ_SHOW)
-     4	void irq_proc_calc_prec(void);
-     5	void irq_proc_update_chip(const struct irq_chip *chip);
-     6	#else
-   > 7	static inline void irq_proc_calc_prec(void) { }
-   > 8	static inline void irq_proc_update_chip(const struct irq_chip *chip) { }
+6286767ad3afc88 Alexander Shiyan 2016-06-07  1722  
+2e1f2d9a9bdbe12 Cosmin Tanislav  2022-06-05  1723  	return 0;
+2e1f2d9a9bdbe12 Cosmin Tanislav  2022-06-05  1724  
+2e1f2d9a9bdbe12 Cosmin Tanislav  2022-06-05  1725  #ifdef CONFIG_I2C
+2e1f2d9a9bdbe12 Cosmin Tanislav  2022-06-05  1726  err_i2c_register:
+2e1f2d9a9bdbe12 Cosmin Tanislav  2022-06-05 @1727  	spi_unregister_driver(&max310x_spi_driver);
+2e1f2d9a9bdbe12 Cosmin Tanislav  2022-06-05  1728  #endif
+2e1f2d9a9bdbe12 Cosmin Tanislav  2022-06-05  1729  
+2e1f2d9a9bdbe12 Cosmin Tanislav  2022-06-05  1730  err_spi_register:
+2e1f2d9a9bdbe12 Cosmin Tanislav  2022-06-05  1731  	uart_unregister_driver(&max310x_uart);
+2e1f2d9a9bdbe12 Cosmin Tanislav  2022-06-05  1732  
+51f689cc1133394 Kangjie Lu       2018-12-25  1733  	return ret;
+6286767ad3afc88 Alexander Shiyan 2016-06-07  1734  }
+6286767ad3afc88 Alexander Shiyan 2016-06-07  1735  module_init(max310x_uart_init);
+6286767ad3afc88 Alexander Shiyan 2016-06-07  1736  
+
+:::::: The code at line 1727 was first introduced by commit
+:::::: 2e1f2d9a9bdbe12ee475c82a45ac46a278e8049a serial: max310x: implement I2C support
+
+:::::: TO: Cosmin Tanislav <cosmin.tanislav@analog.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
