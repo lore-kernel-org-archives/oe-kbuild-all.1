@@ -1,84 +1,96 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from omta038.useast.a.cloudfilter.net (omta038.useast.a.cloudfilter.net [44.202.169.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26E4B3C98AE
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 May 2026 16:09:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9B5D30C61F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 May 2026 17:25:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.202.169.37
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778602188; cv=none; b=Ooxpqa1r2GVD5Q3ssZIZxm0M092EupM8ZwQeitdsu1Ttuyg09uy/EJF5+3rlO4JbxftPjpVUdJxH4f/MGRlRh9NXQTnh7NScwTdHtXXpO1fVNYZFrsBIuLk0m/AeBykd0870+dwg44gJ+jPlBf/9vH2LBZXTxgZUual55ak/EMc=
+	t=1778606742; cv=none; b=nTFy6tlGyeKIxVhGnzNCGRmdzuy8lcrW+0WxufoWrQl9kj7ZOlTjSqsHiaVcbJrGMsJ2FZqCvCSHFTP8eOnms/fLpIdQK3Xk1uxGa6zCegyp6J47OKrbJI29Zb7RALl6i6BQmurz9sCwHPmaOf+DV1juTJFfz8/JEkRowP8ApyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778602188; c=relaxed/simple;
-	bh=ZRipGXld3hQFLeMBnlEf6AAW/0FmNFpiPr0bAV1mg/g=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=OVR1zaDXCC1ZPw6VnRpRUiXcU9Js29iFSYSBlN9znoVJAwo5GpvaR3GDfJMwBlariIQW+1gNrQhGynbXbGKQNWVNIM5QLGQYlXYjF5jGr3rCHBriPO+fIHYit4uol9PrXV3iPvOvDuJbnIJqAc765Ao9LeUE9UHi8PeHN4RjE6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c/9fM+8N; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1778606742; c=relaxed/simple;
+	bh=nFbluiIDW2FpuftLpz99EDK3jvV6ZNqTABiWKDgX1mQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MZgpPwCHNy4w1SnFlB7hvQnoeHkT2xPouKcaa5FKVMJYAIc3xPJTC/HOkeOHLtwrO3hCDTEoIBA+41jJZKo1CcaOMs3JsEPntBJpa/8T7Xwli4Hq7tOrahaWMetKoxTDmnBkviNtBeuVkimgTb0ZnVgEFDbnpE3JMEJc6z3/iy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com; spf=pass smtp.mailfrom=embeddedor.com; dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b=tGE738nq; arc=none smtp.client-ip=44.202.169.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c/9fM+8N"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778602186; x=1810138186;
-  h=date:from:to:cc:subject:message-id;
-  bh=ZRipGXld3hQFLeMBnlEf6AAW/0FmNFpiPr0bAV1mg/g=;
-  b=c/9fM+8NVJtptaJMG18i4auRzboWmKMb0g6wOUDV+YL0KSx+bBmU3FFR
-   a01iBlSbS/WpNVYMruxRUtLNHRKbpMv8ZJBbPOnteIv6gcoxJnk7EMcOC
-   wg884QAWQ67Ei2vwPvsfv3LM7RNw7LUXTVz2Yuq3AifVa86dAsSTZ1ipJ
-   SfPj3smhItI9MFI6cdW/KigI7wzn6hDB7HmrKAybVpZd3PZ4cxJgUowEM
-   J/Wtk4n7Yoh9M35eeLpknTlSmSMCl9OV0gsDjlC6YyKCv8KCdxh2RNveS
-   i8txbioQuHCtUhp0VbdRXT1Uj3hRFSaR51fL12yQ0IqEzuoIe9pOe3OSz
-   w==;
-X-CSE-ConnectionGUID: fHy2ZCN+S/S5MG/WDXJAqQ==
-X-CSE-MsgGUID: HA6vutPyQAWXcNYhKPWH7A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="90095980"
-X-IronPort-AV: E=Sophos;i="6.23,231,1770624000"; 
-   d="scan'208";a="90095980"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 09:09:37 -0700
-X-CSE-ConnectionGUID: p/O0AjOCQwGY8YkLwVb/MA==
-X-CSE-MsgGUID: wYbLyzKjQuKPNqMMk+TE1w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,231,1770624000"; 
-   d="scan'208";a="275928290"
-Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 12 May 2026 09:09:35 -0700
-Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wMpfo-000000002NZ-3oo5;
-	Tue, 12 May 2026 16:09:32 +0000
-Date: Wed, 13 May 2026 00:08:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Aary Patil <aary.patil@mediatek.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Subject: [thesofproject:topic/sof-dev-rebase 15/72] ERROR: modpost:
- "sof_of_pm" [sound/soc/sof/mediatek/mt8365/snd-sof-mt8365.ko] undefined!
-Message-ID: <202605130012.N2t7A2oY-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="tGE738nq"
+Received: from eig-obgw-5006b.ext.cloudfilter.net ([10.0.29.217])
+	by cmsmtp with ESMTPS
+	id MPy7wBMn5uVXCMqrTwhyqU; Tue, 12 May 2026 17:25:39 +0000
+Received: from gator4166.hostgator.com ([108.167.190.91])
+	by cmsmtp with ESMTPS
+	id MqrTwjQc1wILMMqrTwx7pB; Tue, 12 May 2026 17:25:39 +0000
+X-Authority-Analysis: v=2.4 cv=F+RXdrhN c=1 sm=1 tr=0 ts=6a036293
+ a=vY9Mjuda9oMEc2E4Cx1x2A==:117 a=vY9Mjuda9oMEc2E4Cx1x2A==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=7T7KSl7uo7wA:10
+ a=Gu3GiEoUUHqbJlZtdjIA:9 a=QEXdDO2ut3YA:10 a=2aFnImwKRvkU0tJ3nQRT:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=nFbluiIDW2FpuftLpz99EDK3jvV6ZNqTABiWKDgX1mQ=; b=tGE738nqgQ9tQlWze/NOGRpqvS
+	u7fPGckk4IqoR/e1Oa2/O3ejz/xE7jaPwDqOBdaiEFl8+U0V8u6mphyVuJ1yROeA918/PHHduAu44
+	yk+5ItM9M9WIwz2PV0c7pv5H8pLeLawuc7K/dVj8znMzP2rHHjnCkAp6UIO5djeTuPU4OVaSSibOd
+	/RucRgo02NXksiozpfNEwXnWZi+zceoOcni2VxoG8StQW/qSpSRyKSjm311NzQtrPPObircunHm/t
+	0Qbt0dCl87knFc/cTGV1ihnoOOT2HtziI0JHcox5A3jgv72aVDDLysWKOGRsIvgZDPt1UXDIq4qll
+	lNang7VQ==;
+Received: from [177.238.16.53] (port=44828 helo=[192.168.0.104])
+	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.99.2)
+	(envelope-from <gustavo@embeddedor.com>)
+	id 1wMqrR-00000000QSq-37cg;
+	Tue, 12 May 2026 12:25:38 -0500
+Message-ID: <45a51f6f-b4e5-4a73-9ec2-f736b5132a93@embeddedor.com>
+Date: Tue, 12 May 2026 11:24:33 -0600
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [kees:for-next/hardening 1/1] htmldocs:
+ Documentation/driver-api/basics:127: ./include/linux/stddef.h:110: WARNING:
+ Definition list ends without a blank line; unexpected unindent. [docutils]
+To: Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+ linux-doc@vger.kernel.org
+References: <202605120507.9iQRMgKR-lkp@intel.com>
+ <202605120755.4A2AC441EB@keescook>
+Content-Language: en-US
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+In-Reply-To: <202605120755.4A2AC441EB@keescook>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 177.238.16.53
+X-Source-L: No
+X-Exim-ID: 1wMqrR-00000000QSq-37cg
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([192.168.0.104]) [177.238.16.53]:44828
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 2
+X-Org: HG=hgshared;ORG=hostgator;
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfPCZwraHmiw2CUOL6cY+DjIDU0g6ETfW3JF/IXY1lPU51j0bhxWVae6lNizLRfIP0cRM9SfVG5stAXk58MmqN0q0FE5tDhqkUvReerCoylYbcFT6WETd
+ 86YmWJ8W3Uy4N+zo2c63aZ2cMHjOrrPCI1kuI2+PDQ6Fk2FBWCOY6nFXEiibgXIVMAsVwd89tT8BJtmSRDjneNi8zeZgwKAMqwb/sBIzQEeO+LatA2sSs8/q
 
-tree:   https://github.com/thesofproject/linux topic/sof-dev-rebase
-head:   f0f2834ec142e66f2cd1e3aad558d7cb5adaf80d
-commit: 15c6ca6066957e936d2afd6a996dc40e0c0a825a [15/72] ASoC: SOF: mediatek: Add mt8365 support
-config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20260513/202605130012.N2t7A2oY-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260513/202605130012.N2t7A2oY-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605130012.N2t7A2oY-lkp@intel.com/
+> Oh, hrm, there are a lot of errors in stddef.h for the "htmldocs" make
+> target. Gustavo, can you see what's needed to fix these?
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+Sure thing. I saw that yesterday.
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mt8365/snd-sof-mt8365.o
->> ERROR: modpost: "sof_of_pm" [sound/soc/sof/mediatek/mt8365/snd-sof-mt8365.ko] undefined!
-ERROR: modpost: "__udivdi3" [sound/soc/tegra/snd-soc-tegra210-mixer.ko] undefined!
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-Gustavo
