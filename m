@@ -1,57 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0871F9D9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 May 2026 05:19:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D74333C192
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 May 2026 05:22:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778563164; cv=none; b=UgNFUj2YSt7osILY4qeei4L5W4UFzbYwZA/PWri2LAX3dMtthQXW/TwCWH5vKM+6bID+Qiowjm8vjSrF67bt69Pm7G580SBCrrkh9CwP7qtmaRrT9pGajHE8eEchiFEEKFE/reyFWITgcmUCwAxwEPNU/ZIJGZ3nXLpKt3dcNqM=
+	t=1778563371; cv=none; b=ie1LBNFjaIztwrxYGZYBeFJJNylD+VECnrheQqa6KcSsYN6vcgNbpE8lZgnuE/hX6Lrgr/GH4jFWywQ0GHzTLBxQ39+Savzlu5p9IUJaPNfGHT1GrXzLZXlfjnW1N1mDGeQr1CQRvA6pAVDL2sOi3Yua6ar8IbnthNhe8dyurR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778563164; c=relaxed/simple;
-	bh=b8u9gEdE5j6f72COzaq2Ffq29b6D5FQtaYvvCuRGGT0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=B2ZOrmBSEDslMXoLhUYGMIcrk5/3G84OTFQBSZzyPu7oq58bFmTpYMO+2bkdbkn3NnxDtWrM8o4hIjn4h2KbkfFCpZXMgLnzmYoeVIP51lpptP30S7WUl8FGvtoSjW+FuFYUx1hBHR54N9M8EEk+DpIdMAqoapr3Kx53mVHo/0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=csqcebIz; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1778563371; c=relaxed/simple;
+	bh=wj5hHICw5erPctwpyWKxfpDRLEeKyAa9rmoWIyUzeY8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mfjfPSIwDrzrNGFwX57oPu1NKuvLjAcQp7eHC3IlLuxjqm38kH7JY5ELsShD2QNkaylfSjYus+FuyhF8MMDkWm8ko2pYLHC0/okC78dlvtfxZSjKGEQHOtSFSN8BlYuPJm5wUI3mixf9nIA2f4oxSEV+b/p85NW39LvBPJFOn7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gPg1GxQF; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="csqcebIz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gPg1GxQF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778563162; x=1810099162;
+  t=1778563369; x=1810099369;
   h=date:from:to:cc:subject:message-id;
-  bh=b8u9gEdE5j6f72COzaq2Ffq29b6D5FQtaYvvCuRGGT0=;
-  b=csqcebIzK1CIlG2ro4bhOwKNmJ8TWfn7/T4M494BRU+lPHCn+1sy8osV
-   NFzWOz9oby4+saav9kcqnxxa7BGMjZ1eser7Nwr9TZYlo0yFOxfdTGg4A
-   XlF/PiBiXaat3EXknletTTht1JOIs9Ru9ZeyPw62onPBCXX1B/S8wfLkW
-   /AqGCyHvBWwoGvbx0Zic6SUfUcaWocO1M2s5jyEXP4KTg0wFdiO8Wy0D+
-   6FhAfiDLgfgzvz8kurQV/PoC1JrUSvuc5Ntd01JXQMH5NHXHlAPxlEhQE
-   /QLEDna6is7tl0y0UvFMBQaIWEp7iIoevDI6c2YUVmZsMmW/ejTi7YkKV
+  bh=wj5hHICw5erPctwpyWKxfpDRLEeKyAa9rmoWIyUzeY8=;
+  b=gPg1GxQFADSdYWO+it6xVdNBSrC0BaiiDU9NiBo9GhI/Epo6/5QNNmZ2
+   Tst0Rkqc980ouTOwu3jM74Aex6yc/purwQvBleVxxZy7ncIjcu8R8ufcf
+   yyK00hfB48vierDSeuWpE9vGZuZFI+A2CqtfPvxdri5iWJsoXu4Uh/qwW
+   DwtBxPRJv5+dvTwfdih0Rd51UtPF0u8L36BYhEoO4fZIWu8dFqc95NwQF
+   mia6R+HoUrbXNDlxEj6zITiSrJZeO3Semyep6BZvv4a6UNj0Rtlwv4c78
+   GoY5kBbAIuXm+L5BTA5Rk8dbNsFMNrysrqTt9nnB5baLL1P9vFwTowIZR
    w==;
-X-CSE-ConnectionGUID: k7PNy724ScC8/SaZxJL/gw==
-X-CSE-MsgGUID: SBbHO5P8SdqthfZvSW/jnA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="102128115"
+X-CSE-ConnectionGUID: A3DcTwxVRC28BvgrECsBig==
+X-CSE-MsgGUID: TvolTeasRGubY34o2Jv1HQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="89766074"
 X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
-   d="scan'208";a="102128115"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 22:19:21 -0700
-X-CSE-ConnectionGUID: LCBFzm5PQn6raoufzx+fpw==
-X-CSE-MsgGUID: 1a/QnhKNQf6SkkYoOGtQ9A==
+   d="scan'208";a="89766074"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 22:22:49 -0700
+X-CSE-ConnectionGUID: dxsxqQQZQk2dTsHf20lZtg==
+X-CSE-MsgGUID: g3DTN4eMQjOsMBDpYyf6fQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
-   d="scan'208";a="239486922"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 11 May 2026 22:19:20 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="233349091"
+Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 11 May 2026 22:22:46 -0700
+Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wMfWY-000000008AT-1kQC;
-	Tue, 12 May 2026 05:19:18 +0000
-Date: Tue, 12 May 2026 07:18:27 +0200
+	id 1wMfZr-000000001dN-3Xax;
+	Tue, 12 May 2026 05:22:43 +0000
+Date: Tue, 12 May 2026 13:21:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:irq/proc 12/16] arch/riscv/kernel/smp.c:229:39:
- warning: format '%s' expects a matching 'char *' argument
-Message-ID: <202605120757.GdtObTRl-lkp@intel.com>
+To: Fangyu Yu <fangyu.yu@linux.alibaba.com>
+Cc: oe-kbuild-all@lists.linux.dev, Joerg Roedel <joerg.roedel@amd.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, Anup Patel <anup@brainfault.org>,
+ Guo Ren <guoren@kernel.org>, Nutty Liu <nutty.liu@hotmail.com>,
+ Kevin Tian <kevin.tian@intel.com>
+Subject: [iommu:riscv 2/2] include/vdso/bits.h:7:40: warning: left
+ shift count >= width of type
+Message-ID: <202605121350.wZxB51k0-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,44 +62,51 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git irq/proc
-head:   00cf3fd6d149f99f29f489da2f3d68534e3b403a
-commit: 7c4d372b8a5fed635854007c55298a11508e8bed [12/16] genirq/proc: Increase default interrupt number precision to 4
-config: riscv-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260512/202605120757.GdtObTRl-lkp@intel.com/config)
-compiler: riscv64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260512/202605120757.GdtObTRl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iommu/linux.git riscv
+head:   6c21eb174c6c7aebdecaf5c39e3100e6beb35faa
+commit: 6c21eb174c6c7aebdecaf5c39e3100e6beb35faa [2/2] iommupt: Encode IOMMU_MMIO/IOMMU_CACHE via RISC-V Svpbmt bits
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20260512/202605121350.wZxB51k0-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260512/202605121350.wZxB51k0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605120757.GdtObTRl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605121350.wZxB51k0-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/riscv/kernel/smp.c: In function 'show_ipi_stats':
->> arch/riscv/kernel/smp.c:229:39: warning: format '%s' expects a matching 'char *' argument [-Wformat=]
-     229 |                 seq_printf(p, "%*s%u:%s", prec - 1, "IPI", i);
-         |                                      ~^
-         |                                       |
-         |                                       char *
+   In file included from include/linux/bits.h:5,
+                    from include/linux/generic_pt/common.h:10,
+                    from drivers/iommu/generic_pt/fmt/iommu_template.h:33,
+                    from drivers/iommu/generic_pt/fmt/iommu_riscv64.c:11:
+>> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   drivers/iommu/generic_pt/fmt/riscv.h:67:22: note: in expansion of macro 'BIT'
+      67 |         RISCVPT_NC = BIT(61),
+         |                      ^~~
+>> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   drivers/iommu/generic_pt/fmt/riscv.h:68:22: note: in expansion of macro 'BIT'
+      68 |         RISCVPT_IO = BIT(62),
+         |                      ^~~
 
 
-vim +229 arch/riscv/kernel/smp.c
+vim +7 include/vdso/bits.h
 
-   223	
-   224	void show_ipi_stats(struct seq_file *p, int prec)
-   225	{
-   226		unsigned int cpu, i;
-   227	
-   228		for (i = 0; i < IPI_MAX; i++) {
- > 229			seq_printf(p, "%*s%u:%s", prec - 1, "IPI", i);
-   230			for_each_online_cpu(cpu)
-   231				seq_printf(p, "%10u ", irq_desc_kstat_cpu(ipi_desc[i], cpu));
-   232			seq_printf(p, " %s\n", ipi_names[i]);
-   233		}
-   234	}
-   235	
+3945ff37d2f48d Vincenzo Frascino 2020-03-20  6  
+3945ff37d2f48d Vincenzo Frascino 2020-03-20 @7  #define BIT(nr)			(UL(1) << (nr))
+cbdb1f163af2bb Andy Shevchenko   2022-11-28  8  #define BIT_ULL(nr)		(ULL(1) << (nr))
+3945ff37d2f48d Vincenzo Frascino 2020-03-20  9  
 
---
+:::::: The code at line 7 was first introduced by commit
+:::::: 3945ff37d2f48d39fd1751d282c80176654049e4 linux/bits.h: Extract common header for vDSO
+
+:::::: TO: Vincenzo Frascino <vincenzo.frascino@arm.com>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
