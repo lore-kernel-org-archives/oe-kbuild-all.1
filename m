@@ -1,211 +1,141 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 592E338E126
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 May 2026 21:30:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC013CB2FC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 May 2026 22:13:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778707838; cv=none; b=rDr0MxBwIvmEbqNl/ZmGK7sQ4mt980GtO24kUjJr7QK5S+Tfk6fC5D1AGpYB/WAosGN2k8jqnzUOz3IqKNcd5exBzCZg5i5+dwCvR/2PGZfywEp+g1YWpJ6ehoQqGsdodUiv9FJDhHcCjf0SrK47aCI7QJFc4nkr5OQz6I3sdtw=
+	t=1778710440; cv=none; b=IZa5BbeMG6it2r8eGgRO+iTWHUgrP+iPHx6NzJiftCimGuLKElNACdYGBtrrZaLrWv3Ae42h5w8gUifzzvgy/VqqHDcq2lXqNqI4jYzWOJNVqpWVyEMVZF96YfBMZmwsJ6K4kUB6QbkTZ/o2SxCYgMz47mZSQmjizdQ4dCVoh40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778707838; c=relaxed/simple;
-	bh=g3wMfuEDUADeG/Bz9ZkpBAT2Wx94bpqi+QsWArtwE8s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iZLaDaox/klRTG7Q0WqX4rkHNT8YMPkbJ8V7qalezO6gGHYyHzYXPfRSXjTl/JklynVknKQjv7DDjllqt9PBbnJ3MUn6jYIVnE6lPP5cKV/6HoNgZ2W+rLfvdxrS/wzwWbBA2V/AcA5kTL2hvmbxtHUNWQLsD3+geSo/bG5B2fA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Suq6Cdcf; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1778710440; c=relaxed/simple;
+	bh=Pqo5cbConrbJdj6+m9EoI5YIhrFi8ixtcF7TJLbWotM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=uI87e5z9bg61Z3cvCwXbterktBS59dBiDcC0wGjCvhDYLE4XsH7T6nq/Uh3gs7EHr3W+mmyopo667warzj9dfSeNL1eGpbSZVR7jZT5MXqzjgW4zJAkWa1c6MJ5IZ/px1FpkgaknLbaSZicLvTaHdOXQo5dHOpYRXD/9YW0g1EI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dxkgq6Ge; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Suq6Cdcf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dxkgq6Ge"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778707837; x=1810243837;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=g3wMfuEDUADeG/Bz9ZkpBAT2Wx94bpqi+QsWArtwE8s=;
-  b=Suq6Cdcf7FxhNoUyexVeLQHDL2EMMgmp73ATjCTSFIySUP0TfRM5lwbN
-   TaE27JXhdhHnK1KYbVGRkv41m+/YJMUm/jUQH7/OK8eKSbhLSr0JhpRWU
-   Gi5GNrQFMWKad5zkHPcY0Eah5mQFhY5Dqk5zsdM8c4Nvvjj7QAZAfqr2h
-   rgtfmtyYVcOV7Nqv9TzfFaBVwKWcU4j3HxfeqL0Yxp1VIRvkkhjkS1nks
-   1Fh/GZze7Qh7bDAqwej77QXU2jYd7C+bwj34cauYNtD26RT0sVgrJLDP2
-   ELmKE8hq7XBj1iLL0aRRkLWn4XvnnmdZkHasJA2wcPkSEBO038v5A6v+c
-   g==;
-X-CSE-ConnectionGUID: +6aOlry3Tj+Ee24DQ2HX+A==
-X-CSE-MsgGUID: vfxZIDQdQTicICshtQBPPw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="79679784"
+  t=1778710421; x=1810246421;
+  h=date:from:to:cc:subject:message-id;
+  bh=Pqo5cbConrbJdj6+m9EoI5YIhrFi8ixtcF7TJLbWotM=;
+  b=Dxkgq6Ged5o2I0Si1FUn1TJuDkwOTpSyNJw4sLO3mIgk++PMk4UtCVBQ
+   WTL540ROG+WMqkG0wdNMhXFgjdVP/W8pMEW3/8yWv6mAsCJBTZjAarRtT
+   91eurDW8BB7HMwIvBpM5gSGzpQhiQe9Ce+LtczAIArKexEjVPMKndVQ74
+   c2wc4krIWdEgZk/9otpTA/HJn52/W2Pk+mbFe7JqurLN79lwELcEYEcxk
+   G6HdW812R/lMeD4EKtaG/MIs1GIbgSCLYKQIppNUY6ThGkvpJHtxII0s/
+   1i3O510tulQrB6F9lDaTC+s3Nhmt/za7lJlDyQ4kuLtD+YlixKStORSzb
+   w==;
+X-CSE-ConnectionGUID: bf3RgGXKSeuUOnBdTC5ixg==
+X-CSE-MsgGUID: h5GQBJ4JSz2Rx/JWxKrCJQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="105106387"
 X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
-   d="scan'208";a="79679784"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 14:30:35 -0700
-X-CSE-ConnectionGUID: nNPTa2otShGAdZpu7RZ+tw==
-X-CSE-MsgGUID: N9TK/gvNQouXUa3DubQDXw==
+   d="scan'208";a="105106387"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 15:13:38 -0700
+X-CSE-ConnectionGUID: Q8OMQa8QQ5iRlnRvn+Wk+w==
+X-CSE-MsgGUID: GwCZ/wY3QF2YWu4/lKaFKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
-   d="scan'208";a="276296913"
+   d="scan'208";a="233938130"
 Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 13 May 2026 14:30:34 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 13 May 2026 15:13:37 -0700
 Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wNH9z-0000000059X-0KIs;
-	Wed, 13 May 2026 21:30:31 +0000
-Date: Thu, 14 May 2026 05:30:09 +0800
+	id 1wNHpe-000000005DL-2Daa;
+	Wed, 13 May 2026 22:13:34 +0000
+Date: Thu, 14 May 2026 06:13:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: hangej <hangej@amazon.com>, bhelgaas@google.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dwmw2@infradead.org,
-	kexec@lists.infradead.org, hangej@amazon.com
-Subject: Re: [PATCH] pci_crash: capture PCI config space at panic time
-Message-ID: <202605140501.1tSG7lxR-lkp@intel.com>
-References: <20260512162402.1929687-1-hangej@amazon.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 2/2]
+ arch/arm/kernel/machine_kexec.c:62:23: sparse: sparse: incorrect type in
+ argument 1 (different address spaces)
+Message-ID: <202605140656.cUCHniuw-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260512162402.1929687-1-hangej@amazon.com>
 
-Hi hangej,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus linus/master v7.1-rc3 next-20260508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/hangej/pci_crash-capture-PCI-config-space-at-panic-time/20260514-000653
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20260512162402.1929687-1-hangej%40amazon.com
-patch subject: [PATCH] pci_crash: capture PCI config space at panic time
-config: i386-randconfig-r071-20260514 (https://download.01.org/0day-ci/archive/20260514/202605140501.1tSG7lxR-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9185-gbcc58b9c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605140501.1tSG7lxR-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   5346453405bf12d7ed6003f45dd47b71744fe1be
+commit: 37b561d55936d0fcebd199d22180e595bb72b784 [2/2] kexec: drop dependency on ARCH_SUPPORTS_KEXEC from CRASH_DUMP
+config: arm-randconfig-r123-20260514 (https://download.01.org/0day-ci/archive/20260514/202605140656.cUCHniuw-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605140656.cUCHniuw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605140501.1tSG7lxR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605140656.cUCHniuw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   arch/arm/kernel/machine_kexec.c:62:23: sparse: sparse: cast removes address space '__user' of expression
+   arch/arm/kernel/machine_kexec.c:62:23: sparse: sparse: cast removes address space '__user' of expression
+>> arch/arm/kernel/machine_kexec.c:62:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got restricted __be32 [usertype] * @@
+   arch/arm/kernel/machine_kexec.c:62:23: sparse:     expected void const volatile [noderef] __user *ptr
+   arch/arm/kernel/machine_kexec.c:62:23: sparse:     got restricted __be32 [usertype] *
+   arch/arm/kernel/machine_kexec.c:62:23: sparse: sparse: cast removes address space '__user' of expression
+   arch/arm/kernel/machine_kexec.c:62:23: sparse: sparse: cast removes address space '__user' of expression
+   arch/arm/kernel/machine_kexec.c:62:23: sparse: sparse: cast to restricted __be32
 
-   kernel/pci_crash.c: In function 'pci_crash_save':
->> kernel/pci_crash.c:661:53: error: 'struct pci_dev' has no member named 'aer_cap'; did you mean 'acs_cap'?
-     661 |                                 if (!pdev || !pdev->aer_cap)
-         |                                                     ^~~~~~~
-         |                                                     acs_cap
-   kernel/pci_crash.c:666:68: error: 'struct pci_dev' has no member named 'aer_cap'; did you mean 'acs_cap'?
-     666 |                                                              pdev->aer_cap + PCI_ERR_ROOT_STATUS,
-         |                                                                    ^~~~~~~
-         |                                                                    acs_cap
+vim +62 arch/arm/kernel/machine_kexec.c
 
+b23065313297e75 Per Fransson       2010-12-03  27  
+c587e4a6a4d808f Richard Purdie     2007-02-06  28  /*
+c587e4a6a4d808f Richard Purdie     2007-02-06  29   * Provide a dummy crash_notes definition while crash dump arrives to arm.
+c587e4a6a4d808f Richard Purdie     2007-02-06  30   * This prevents breakage of crash_notes attribute in kernel/ksysfs.c.
+c587e4a6a4d808f Richard Purdie     2007-02-06  31   */
+c587e4a6a4d808f Richard Purdie     2007-02-06  32  
+c587e4a6a4d808f Richard Purdie     2007-02-06  33  int machine_kexec_prepare(struct kimage *image)
+c587e4a6a4d808f Richard Purdie     2007-02-06  34  {
+4cabd1d9625c7d8 Matthew Leach      2012-09-21  35  	struct kexec_segment *current_segment;
+4cabd1d9625c7d8 Matthew Leach      2012-09-21  36  	__be32 header;
+4cabd1d9625c7d8 Matthew Leach      2012-09-21  37  	int i, err;
+4cabd1d9625c7d8 Matthew Leach      2012-09-21  38  
+0d70262a2d60886 Russell King       2017-07-19  39  	image->arch.kernel_r2 = image->start - KEXEC_ARM_ZIMAGE_OFFSET
+0d70262a2d60886 Russell King       2017-07-19  40  				     + KEXEC_ARM_ATAGS_OFFSET;
+0d70262a2d60886 Russell King       2017-07-19  41  
+2103f6cba61a8b8 Stephen Warren     2013-08-02  42  	/*
+2103f6cba61a8b8 Stephen Warren     2013-08-02  43  	 * Validate that if the current HW supports SMP, then the SW supports
+2103f6cba61a8b8 Stephen Warren     2013-08-02  44  	 * and implements CPU hotplug for the current HW. If not, we won't be
+2103f6cba61a8b8 Stephen Warren     2013-08-02  45  	 * able to kexec reliably, so fail the prepare operation.
+2103f6cba61a8b8 Stephen Warren     2013-08-02  46  	 */
+fee3fd4fd2ad136 Geert Uytterhoeven 2015-04-01  47  	if (num_possible_cpus() > 1 && platform_can_secondary_boot() &&
+fee3fd4fd2ad136 Geert Uytterhoeven 2015-04-01  48  	    !platform_can_cpu_hotplug())
+2103f6cba61a8b8 Stephen Warren     2013-08-02  49  		return -EINVAL;
+2103f6cba61a8b8 Stephen Warren     2013-08-02  50  
+4cabd1d9625c7d8 Matthew Leach      2012-09-21  51  	/*
+4cabd1d9625c7d8 Matthew Leach      2012-09-21  52  	 * No segment at default ATAGs address. try to locate
+4cabd1d9625c7d8 Matthew Leach      2012-09-21  53  	 * a dtb using magic.
+4cabd1d9625c7d8 Matthew Leach      2012-09-21  54  	 */
+4cabd1d9625c7d8 Matthew Leach      2012-09-21  55  	for (i = 0; i < image->nr_segments; i++) {
+4cabd1d9625c7d8 Matthew Leach      2012-09-21  56  		current_segment = &image->segment[i];
+4cabd1d9625c7d8 Matthew Leach      2012-09-21  57  
+0719392a61a9dbc Russell King       2016-08-02  58  		if (!memblock_is_region_memory(idmap_to_phys(current_segment->mem),
+2456f44dd7a9aaf Aaro Koskinen      2012-10-16  59  					       current_segment->memsz))
+c564df4db85aac8 Matthew Leach      2012-09-21  60  			return -EINVAL;
+c564df4db85aac8 Matthew Leach      2012-09-21  61  
+4cabd1d9625c7d8 Matthew Leach      2012-09-21 @62  		err = get_user(header, (__be32*)current_segment->buf);
+4cabd1d9625c7d8 Matthew Leach      2012-09-21  63  		if (err)
+4cabd1d9625c7d8 Matthew Leach      2012-09-21  64  			return err;
+4cabd1d9625c7d8 Matthew Leach      2012-09-21  65  
+0d70262a2d60886 Russell King       2017-07-19  66  		if (header == cpu_to_be32(OF_DT_HEADER))
+0d70262a2d60886 Russell King       2017-07-19  67  			image->arch.kernel_r2 = current_segment->mem;
+4cabd1d9625c7d8 Matthew Leach      2012-09-21  68  	}
+c587e4a6a4d808f Richard Purdie     2007-02-06  69  	return 0;
+c587e4a6a4d808f Richard Purdie     2007-02-06  70  }
+c587e4a6a4d808f Richard Purdie     2007-02-06  71  
 
-vim +661 kernel/pci_crash.c
+:::::: The code at line 62 was first introduced by commit
+:::::: 4cabd1d9625c7d88acd143f4021fbef75394f154 ARM: 7539/1: kexec: scan for dtb magic in segments
 
-   599	
-   600	/**
-   601	 * pci_crash_save() - Capture PCI config space at crash time
-   602	 *
-   603	 * Called from crash_save_vmcoreinfo() inside __crash_kexec(), which
-   604	 * runs before machine_kexec() boots the crash kernel.  This is the
-   605	 * only reliable capture point -- panic notifiers run AFTER kexec by
-   606	 * default (crash_kexec_post_notifiers=0).
-   607	 *
-   608	 * Capture check (capture param):
-   609	 *   always  -- capture unconditionally
-   610	 *   aer     -- quick-scan root port AER ROOT_STATUS for uncorrectable
-   611	 *             errors; skip if none found
-   612	 *
-   613	 * When capture=always, captures on every panic.
-   614	 * This is useful for cascading failures: a PCI link-down can cause
-   615	 * an MCE or NMI watchdog timeout before DPC/AER fires, so the crash
-   616	 * reason is UNKNOWN but AER registers may still hold error state.
-   617	 *
-   618	 * Reads config space fresh -- successful reads get current register
-   619	 * state, failed reads (offline devices) write 0xFFFFFFFF.
-   620	 *
-   621	 * Flushes both buffer and pagemap from CPU cache to RAM so data
-   622	 * survives kexec into crash kernel.
-   623	 */
-   624	void pci_crash_save(void)
-   625	{
-   626		struct pci_crash_pagemap *pm;
-   627		unsigned long cflags;
-   628		unsigned int num_devs;
-   629		size_t pm_size;
-   630		size_t buf_size;
-   631		void *buffer;
-   632	
-   633		num_devs = READ_ONCE(pci_crash_num_devs);
-   634		if (num_devs == 0)
-   635			return;
-   636	
-   637		/* Pairs with smp_wmb() in rebuild -- ensures buffer/pagemap visible */
-   638		smp_rmb();
-   639	
-   640		buffer = READ_ONCE(pci_crash_buffer);
-   641		buf_size = READ_ONCE(pci_crash_buffer_size);
-   642		pm = READ_ONCE(pci_crash_pagemap);
-   643		pm_size = READ_ONCE(pci_crash_pagemap_size);
-   644		if (!buffer || buf_size == 0)
-   645			return;
-   646	
-   647		cflags = READ_ONCE(capture_flags);
-   648		if (!(cflags & PCI_CRASH_CAPTURE_ALWAYS)) {
-   649			if (cflags & PCI_CRASH_CAPTURE_AER) {
-   650				struct pci_dev **devs = READ_ONCE(pci_crash_devs);
-   651				unsigned int i;
-   652				bool pci_error_found = false;
-   653	
-   654				if (!devs)
-   655					return;
-   656	
-   657				for (i = 0; i < num_devs; i++) {
-   658					struct pci_dev *pdev = devs[i];
-   659					u32 status;
-   660	
- > 661					if (!pdev || !pdev->aer_cap)
-   662						continue;
-   663	
-   664					if (pci_pcie_type(pdev) == PCI_EXP_TYPE_ROOT_PORT) {
-   665						pci_read_config_dword(pdev,
-   666								     pdev->aer_cap + PCI_ERR_ROOT_STATUS,
-   667								     &status);
-   668						if (status & PCI_ERR_ROOT_UNCOR_RCV) {
-   669							pci_error_found = true;
-   670							break;
-   671						}
-   672					}
-   673				}
-   674	
-   675				if (!pci_error_found) {
-   676					pr_emerg("no PCI errors detected, skipping capture\n");
-   677					return;
-   678				}
-   679			} else {
-   680				return;
-   681			}
-   682		}
-   683	
-   684		pci_crash_fill_buffer(buffer, num_devs);
-   685	
-   686		/*
-   687		 * Flush buffer and pagemap from CPU cache to RAM so the
-   688		 * crash kernel sees our writes after kexec.
-   689		 */
-   690		pci_crash_flush_dcache(buffer, buf_size);
-   691	
-   692		if (pm && pm_size > 0)
-   693			pci_crash_flush_dcache(pm, pm_size);
-   694	
-   695		pr_emerg("CAPTURE: %u devices, %zu bytes\n",
-   696			 num_devs, buf_size);
-   697	}
-   698	EXPORT_SYMBOL_GPL(pci_crash_save);
-   699	
+:::::: TO: Matthew Leach <matthew.leach@arm.com>
+:::::: CC: Russell King <rmk+kernel@arm.linux.org.uk>
 
 --
 0-DAY CI Kernel Test Service
