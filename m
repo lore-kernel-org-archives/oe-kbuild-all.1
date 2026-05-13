@@ -1,57 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 197731862;
-	Wed, 13 May 2026 10:24:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAF0537207C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 May 2026 10:24:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778667859; cv=none; b=ZJPr4Mm0qO7S4HDOCj99Hb3/rV3WRpYqaz45PWxMdOR2egv2bJ4qPUTEvRvImSnL+KvU8VwM7cblmo1gdFYfnpQUBiskKb0C5lzj6iSqi9WANyqGNCCOUPm9WDx+IgJrBFunyxK0b8WH9NzJw7wLHKyD7TvCu4mtbtGobq2Fwhc=
+	t=1778667860; cv=none; b=MtVrXT71EyA37p0c6+jxSUACpG8/4SO15Asr8v9QSp8oNKaL52fx9y49k+YBJ3qrujUGQWoO3FnKilmxv95Kza9MKIbr644uP2k+DayilGPLxtYx9V2Bn5Ik57MQJX7H2h3U2KEAHOKFuUCW2Sf28ENot8pJ9y/IuhtumIlZ6EY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778667859; c=relaxed/simple;
-	bh=RiS1JaO68M9vJmqLLkTOJhZNvoMHotalRBsPmysRJcg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=l7B2YR/o2QjpmtlcxJcJv1rxQlggbmfp2V08xlnsyuwjjvcOH5ejCmYb8D8J/KFHIU2BlrZhyjPPO+FbJAgQhCgs/h5QJCfZaWEfsB/jU5lJ/V/SUrZipoKlWPugkmme96Ocm1se2w57BFBat9fGtnF+goHbUctFnOJVY36OF34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fH6p35KO; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1778667860; c=relaxed/simple;
+	bh=KMiB7S+vpv8C2PKJ88pK8G5aUL9EpeuE9yVUJYHk60c=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=BwNXnArSVTnbqTrtMxqm4o0/be0ZT7ya+PF4jefiAziY3LEptspM1AMac4eyZmN/XuGn1fAEAcCg1ntOdNx8jsmGNan1pLn5v5uNxKmgxnlCI5NnH8auap/IReotlH5W/HWyVUUoAVQ77vx4mE/xbopx1Ibnfw6h1RgDhNXFlgM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iOn9X775; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fH6p35KO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iOn9X775"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778667858; x=1810203858;
+  t=1778667859; x=1810203859;
   h=date:from:to:cc:subject:message-id;
-  bh=RiS1JaO68M9vJmqLLkTOJhZNvoMHotalRBsPmysRJcg=;
-  b=fH6p35KOixSFXI2HkLqLoPs0WrbY5FXaCN9p6nAB0URp0I1m46GwCOHK
-   92rGyiQUqbviuZiqKr+UJzE30dwBrfV6XCJC6CBtaQkBi1UPkxEZAlJA0
-   /DMoOGlTtqZyD7tDuyZPHwarsl614tjyqww9BZPEMTPwnS+CP390vMPHQ
-   dxoj33rZOgzTA9Nu69JxulMhqr6ro63ao7iPCfl2HlHr/3ijzVfhxoX+j
-   r6vSKH1jX3lEdsNhUjcQUm6HpQfGgzujef2pQW+gN0H9NpErzjzAhCNZp
-   t2Qn7GeWYFEnMZ6SU58bcD52buoitJQenX5i8UjqyquNBtPrHYlkPtmRw
-   g==;
-X-CSE-ConnectionGUID: SgxxPaKfSRiWCvm8LbonpQ==
-X-CSE-MsgGUID: lzYXZU6aTJS7kcRrBhTJKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="102257676"
+  bh=KMiB7S+vpv8C2PKJ88pK8G5aUL9EpeuE9yVUJYHk60c=;
+  b=iOn9X775skrCwTlWhQloa1YupuaX1Eyd2tlgFheFQJ5445Y5jM3Vh6ft
+   v9lIRxQwaoKMhcnFcQasZBJKIRMQ9V/7uuxFfLmMWeeEMaZfOeHAJAgPE
+   NThN01GX0SxXYxjUFO+/qKuT8r7linWri3Y5HFpvR8Ri0Glgi2UN8C7hR
+   uUEWLOVNi9uW87CEnej3L8+uly0aB2aUuf1I6ZTa7zBZE7kdAF4Ig5GId
+   9Y4RVFc5mIxN7h3LFKj8xY5xNeq/Ed8UvlAftn2GA26p9n707dn+dO2d/
+   oP76WKIiSiHBFdzgfLo0U28GLJHl1ZHGDavBqMvxtsiNB/x+AlPEwCYmi
+   w==;
+X-CSE-ConnectionGUID: yaN0mb5QRNqFKTrWmgSeuQ==
+X-CSE-MsgGUID: LzIu5ixGTlWUss3CU6gWXQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="102257677"
 X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
-   d="scan'208";a="102257676"
+   d="scan'208";a="102257677"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 03:24:17 -0700
-X-CSE-ConnectionGUID: 5HS18eQfRIqI3gnFVdfnUw==
-X-CSE-MsgGUID: EZEiriG3R1ikEmtNJ30btA==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 03:24:18 -0700
+X-CSE-ConnectionGUID: eG60PmDaT/iuHYT53LaZ6Q==
+X-CSE-MsgGUID: ZuJkDmYdRFuFFpHKRiJ3FA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
-   d="scan'208";a="242056391"
+   d="scan'208";a="242056396"
 Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
   by orviesa003.jf.intel.com with ESMTP; 13 May 2026 03:24:16 -0700
 Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wN6lB-000000003vB-2TuA;
+	id 1wN6lB-000000003vH-36iP;
 	Wed, 13 May 2026 10:24:13 +0000
-Date: Wed, 13 May 2026 18:24:01 +0800
+Date: Wed, 13 May 2026 18:24:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Harry Yoo (Oracle)" <harry@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [harry:slab-allow-runtime-parameter-tuning-rfc-v1r1-wip 2/6]
- mm/slub.c:7791:39: error: use of undeclared identifier 'USHORT_MAX'
-Message-ID: <202605131848.ohpPqW3E-lkp@intel.com>
+To: Athira Rajeev <atrajeev@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Madhavan Srinivasan <maddy@linux.ibm.com>
+Subject: arch/powerpc/platforms/pseries/htmdump.c:246:25: sparse:
+ sparse: cast to restricted __be64
+Message-ID: <202605131836.vkonGeka-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,77 +60,68 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/harry/linux.git slab-allow-runtime-parameter-tuning-rfc-v1r1-wip
-head:   10c188407341817c6baf9dad9c788928f8387800
-commit: c31e168e0f0f0b695792c4c9a82bd77ab9d94d12 [2/6] mm/slab: store sheaf capacity for all sheaves
-config: um-allnoconfig (https://download.01.org/0day-ci/archive/20260513/202605131848.ohpPqW3E-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1d5dcaa3bd65f2e8c9baa14a393d3a2dc5db7524
+commit: 627cf584f4c36acb52230ffc47403cf9469ec9d0 powerpc/pseries/htmdump: Add htm status support to htmdump module
+date:   1 year ago
+config: powerpc64-randconfig-r122-20260512 (https://download.01.org/0day-ci/archive/20260513/202605131836.vkonGeka-lkp@intel.com/config)
 compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260513/202605131848.ohpPqW3E-lkp@intel.com/reproduce)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260513/202605131836.vkonGeka-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 627cf584f4c3 ("powerpc/pseries/htmdump: Add htm status support to htmdump module")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605131848.ohpPqW3E-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605131836.vkonGeka-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/powerpc/platforms/pseries/htmdump.c:246:25: sparse: sparse: cast to restricted __be64
 
->> mm/slub.c:7791:39: error: use of undeclared identifier 'USHORT_MAX'
-    7791 |         return max_t(unsigned int, capacity, USHORT_MAX);
-         |                                              ^~~~~~~~~~
-   1 error generated.
+vim +246 arch/powerpc/platforms/pseries/htmdump.c
 
-
-vim +/USHORT_MAX +7791 mm/slub.c
-
-  7745	
-  7746	static unsigned short calculate_sheaf_capacity(struct kmem_cache *s,
-  7747						       struct kmem_cache_args *args)
-  7748	
-  7749	{
-  7750		unsigned int capacity;
-  7751		size_t size;
-  7752	
-  7753	
-  7754		if (IS_ENABLED(CONFIG_SLUB_TINY) || s->flags & SLAB_DEBUG_FLAGS)
-  7755			return 0;
-  7756	
-  7757		/*
-  7758		 * Bootstrap caches can't have sheaves for now (SLAB_NO_OBJ_EXT).
-  7759		 * SLAB_NOLEAKTRACE caches (e.g., kmemleak's object_cache) must not
-  7760		 * have sheaves to avoid recursion when sheaf allocation triggers
-  7761		 * kmemleak tracking.
-  7762		 */
-  7763		if (s->flags & (SLAB_NO_OBJ_EXT | SLAB_NOLEAKTRACE))
-  7764			return 0;
-  7765	
-  7766		/*
-  7767		 * For now we use roughly similar formula (divided by two as there are
-  7768		 * two percpu sheaves) as what was used for percpu partial slabs, which
-  7769		 * should result in similar lock contention (barn or list_lock)
-  7770		 */
-  7771		if (s->size >= PAGE_SIZE)
-  7772			capacity = 4;
-  7773		else if (s->size >= 1024)
-  7774			capacity = 12;
-  7775		else if (s->size >= 256)
-  7776			capacity = 26;
-  7777		else
-  7778			capacity = 60;
-  7779	
-  7780		/* Increment capacity to make sheaf exactly a kmalloc size bucket */
-  7781		size = struct_size_t(struct slab_sheaf, objects, capacity);
-  7782		size = kmalloc_size_roundup(size);
-  7783		capacity = (size - struct_size_t(struct slab_sheaf, objects, 0)) / sizeof(void *);
-  7784	
-  7785		/*
-  7786		 * Respect an explicit request for capacity that's typically motivated by
-  7787		 * expected maximum size of kmem_cache_prefill_sheaf() to not end up
-  7788		 * using low-performance oversize sheaves
-  7789		 */
-  7790		capacity = max(capacity, args->sheaf_capacity);
-> 7791		return max_t(unsigned int, capacity, USHORT_MAX);
-  7792	}
-  7793	
+   208	
+   209	static ssize_t htmstatus_read(struct file *filp, char __user *ubuf,
+   210				     size_t count, loff_t *ppos)
+   211	{
+   212		void *htm_status_buf = filp->private_data;
+   213		long rc, ret;
+   214		u64 *num_entries;
+   215		u64 to_copy;
+   216		int htmstatus_flag;
+   217	
+   218		/*
+   219		 * Invoke H_HTM call with:
+   220		 * - operation as htm status (H_HTM_OP_STATUS)
+   221		 * - last three values as addr, size and offset
+   222		 */
+   223		rc = htm_hcall_wrapper(nodeindex, nodalchipindex, coreindexonchip,
+   224					   htmtype, H_HTM_OP_STATUS, virt_to_phys(htm_status_buf),
+   225					   PAGE_SIZE, 0);
+   226	
+   227		ret = htm_return_check(rc);
+   228		if (ret <= 0) {
+   229			pr_debug("H_HTM hcall failed for op: H_HTM_OP_STATUS, returning %ld\n", ret);
+   230			return ret;
+   231		}
+   232	
+   233		/*
+   234		 * HTM status buffer, start of buffer + 0x10 gives the
+   235		 * number of HTM entries in the buffer. Each nest htm status
+   236		 * entry is 0x6 bytes where each core htm status entry is
+   237		 * 0x8 bytes.
+   238		 * So total count to copy is:
+   239		 * 32 bytes (for first 7 fields) + (number of HTM entries * entry size)
+   240		 */
+   241		num_entries = htm_status_buf + 0x10;
+   242		if (htmtype == 0x2)
+   243			htmstatus_flag = 0x8;
+   244		else
+   245			htmstatus_flag = 0x6;
+ > 246		to_copy = 32 + (be64_to_cpu(*num_entries) * htmstatus_flag);
+   247		return simple_read_from_buffer(ubuf, count, ppos, htm_status_buf, to_copy);
+   248	}
+   249	
 
 --
 0-DAY CI Kernel Test Service
