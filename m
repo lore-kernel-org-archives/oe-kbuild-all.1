@@ -1,174 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E84C63A2E07;
-	Wed, 13 May 2026 17:27:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2324C3A2E28
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 May 2026 17:40:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778693233; cv=none; b=RhZNnlovKrXMAT2K6ogN05X66TvdTIWYvoMSRLnJSZMLgn9/gki2CO1goD/BHI6mxllm8AaTz+zTjKGgower32OI+fbCESWIZAQkQhEwwLhDckBalAX00EIgx208CkIv4Qb9L52Et77x4lcPuv+yxv/hCQ2UQNjQJuBKAIUazxA=
+	t=1778694010; cv=none; b=J1TD8VZ7GC03c3qKMsgr+Qjuz0n4T34pDsgKO8rU4DANgKMrGSJpPsjZRDwzr7+jMsflPqpG5dRcvPH6r8i1a6PohXiNBGUfVXMUndjDES18sg7v3U/PifapHX1Uew9eVzgoewm/WxrNqugqvIKaFfaALw0owfAJRcSYFODj7pc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778693233; c=relaxed/simple;
-	bh=xbNqFRfEPLDvfnXWBGOb0+DeiVRfeyxliAUWgIwEAjg=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=M7gF0RwEXou1baubtNL4PC80z9cHToLo8hvJNXTFUnfZVyazzz9KwfY+s/ZP7eaLJU+GsdaTlkwEkBJyvGjgCaBeoli++MLwnSrTgD4lSJXoyIDN6XjYICiLgCQXLZo4MITh/Lxpvo7zePNv2hrYxUc+47ZBj71a0nWFUU782w4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=eQE06z6g; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778694010; c=relaxed/simple;
+	bh=9bOYXFnksE5Xl497UDvhV1D5SBd5DAd2EIJ+Kjphf+Y=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=bafdgfbQb/0ldVkEe2C7zXU+R2DZgZt7kEIleAC6g8ZmUq8fs1FFri95/BFyTrzINIYHFQa4JhjzxSmyS294VPnDdmopf9hjatTehjovjl1EzdGi+XMzS5SzGkauSLE/ciQRNavPSVQqWbWWXe+M0zM/fwwv83E3/OElmS12Xw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IFZAgJ5d; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="eQE06z6g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7413DC2BCB7;
-	Wed, 13 May 2026 17:27:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1778693232;
-	bh=xbNqFRfEPLDvfnXWBGOb0+DeiVRfeyxliAUWgIwEAjg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=eQE06z6gjM3bpDzZDm5424CoAuAbjQ4g/r3MVc8E6oBphcGLkKpJkYplWwSeixdEv
-	 YAIVBz8nUCiLXEJu0wNFZATFBujKfKZUtt/AJSL6eZZcG08a5uEpQvxWUaWmzesVhJ
-	 dbdVPUleVowZaPXXcNEHPb+ZvoKfzKVQfcgHLG60=
-Date: Wed, 13 May 2026 10:27:11 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Minchan Kim <minchan@kernel.org>, oe-kbuild-all@lists.linux.dev, David
- Hildenbrand <david@kernel.org>, Linux Memory Management List
- <linux-mm@kvack.org>, mm-commits@vger.kernel.org, Suren Baghdasaryan
- <surenb@google.com>
-Subject: Re: [akpm-mm:mm-new 301/315] mm/oom_kill.c:922:12: warning:
- 'kill_all_shared_mm' defined but not used
-Message-Id: <20260513102711.323fed51b7dbb1dfe6217b44@linux-foundation.org>
-In-Reply-To: <202605131940.kEzvUaiR-lkp@intel.com>
-References: <202605131940.kEzvUaiR-lkp@intel.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IFZAgJ5d"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778694009; x=1810230009;
+  h=date:from:to:cc:subject:message-id;
+  bh=9bOYXFnksE5Xl497UDvhV1D5SBd5DAd2EIJ+Kjphf+Y=;
+  b=IFZAgJ5dLvYz+eDa5D491W5uZBcTC6Y2pqKRhp1U7z4d3qsdjx79AOdj
+   bAkzXoNVGEoo5BMnsh9bRQmfvs83YAQLnStlRtwP4hfGphjJS6ADM6cyk
+   5pMkwJZzniu29HEsoQEs1PFZhNIZ8o5eXuIcn20MyyrP78KDJxfCLGsBx
+   Fn58uD6qNzwyK2iNDYcMieahICnphZxkoC+c/W2MxGhJSmtEmMBZi5HjX
+   96QYIoxMDlzew+FzbOjXobMxdaziqHofQ37xO1PDccDNZyGYFKcKao+ts
+   R9mK+zHQzVtl5QvsD5UpeWAkUZGxfKXcPPBnCl4AT4VaKb+tsK9x6Hcbv
+   g==;
+X-CSE-ConnectionGUID: aA0XxZHZTw6Cj5RjrZQVSQ==
+X-CSE-MsgGUID: hmJ3qBhLRwGiN9usVgG6EA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="105086802"
+X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
+   d="scan'208";a="105086802"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 10:40:08 -0700
+X-CSE-ConnectionGUID: DJ0tWtA/SdajoXCRgCFGOg==
+X-CSE-MsgGUID: bpDBbm/qS4uXXA2Nk61aGA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
+   d="scan'208";a="237169662"
+Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 13 May 2026 10:40:07 -0700
+Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wNDYy-000000004mr-1Sg0;
+	Wed, 13 May 2026 17:40:04 +0000
+Date: Thu, 14 May 2026 01:39:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jeff Hsu <Jeff.Hsu@mediatek.com>
+Cc: oe-kbuild-all@lists.linux.dev, Sean Wang <sean.wang@kernel.org>
+Subject: [nbd168-wireless:pr/17 37/37]
+ drivers/net/wireless/mediatek/mt76/mt7925/pci.c:682:43: error: 'device'
+ undeclared
+Message-ID: <202605140159.DS89s5tn-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Wed, 13 May 2026 19:48:25 +0800 kernel test robot <lkp@intel.com> wrote:
+tree:   https://github.com/nbd168/wireless pr/17
+head:   b0f5b3976cca04fffdf61e07483536cef5baa39f
+commit: b0f5b3976cca04fffdf61e07483536cef5baa39f [37/37] wifi: mt76: mt7925: Add coredump callback in pci_driver
+config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20260514/202605140159.DS89s5tn-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605140159.DS89s5tn-lkp@intel.com/reproduce)
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-> head:   2c3f468717231305523ddcd94d91c0d5e4a72419
-> commit: def36547cd98fa3f7ecac1bf860479f500bc6b1e [301/315] mm: process_mrelease: introduce PROCESS_MRELEASE_REAP_KILL flag
-> config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20260513/202605131940.kEzvUaiR-lkp@intel.com/config)
-> compiler: sh4-linux-gcc (GCC) 15.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260513/202605131940.kEzvUaiR-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202605131940.kEzvUaiR-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> mm/oom_kill.c:922:12: warning: 'kill_all_shared_mm' defined but not used [-Wunused-function]
->      922 | static int kill_all_shared_mm(struct task_struct *victim, struct mm_struct *mm)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605140159.DS89s5tn-lkp@intel.com/
 
-Thanks. I  did this:
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/kernel.h:22,
+                    from drivers/net/wireless/mediatek/mt76/mt7925/pci.c:4:
+   drivers/net/wireless/mediatek/mt76/mt7925/pci.c: In function 'mt7925_coredump':
+>> drivers/net/wireless/mediatek/mt76/mt7925/pci.c:682:43: error: 'device' undeclared (first use in this function)
+     682 |         struct pci_dev *pdev = to_pci_dev(device);
+         |                                           ^~~~~~
+   include/linux/container_of.h:20:33: note: in definition of macro 'container_of'
+      20 |         void *__mptr = (void *)(ptr);                                   \
+         |                                 ^~~
+   drivers/net/wireless/mediatek/mt76/mt7925/pci.c:682:32: note: in expansion of macro 'to_pci_dev'
+     682 |         struct pci_dev *pdev = to_pci_dev(device);
+         |                                ^~~~~~~~~~
+   drivers/net/wireless/mediatek/mt76/mt7925/pci.c:682:43: note: each undeclared identifier is reported only once for each function it appears in
+     682 |         struct pci_dev *pdev = to_pci_dev(device);
+         |                                           ^~~~~~
+   include/linux/container_of.h:20:33: note: in definition of macro 'container_of'
+      20 |         void *__mptr = (void *)(ptr);                                   \
+         |                                 ^~~
+   drivers/net/wireless/mediatek/mt76/mt7925/pci.c:682:32: note: in expansion of macro 'to_pci_dev'
+     682 |         struct pci_dev *pdev = to_pci_dev(device);
+         |                                ^~~~~~~~~~
+   In file included from include/linux/container_of.h:5:
+   include/linux/compiler_types.h:610:27: error: expression in static assertion is not an integer
+     610 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:80:56: note: in definition of macro '__static_assert'
+      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/pci.h:609:23: note: in expansion of macro 'container_of'
+     609 | #define to_pci_dev(n) container_of(n, struct pci_dev, dev)
+         |                       ^~~~~~~~~~~~
+   drivers/net/wireless/mediatek/mt76/mt7925/pci.c:682:32: note: in expansion of macro 'to_pci_dev'
+     682 |         struct pci_dev *pdev = to_pci_dev(device);
+         |                                ^~~~~~~~~~
 
 
-From: Andrew Morton <akpm@linux-foundation.org>
-Subject: mm-process_mrelease-introduce-process_mrelease_reap_kill-flag-fix
-Date: Wed May 13 10:22:14 AM PDT 2026
+vim +/device +682 drivers/net/wireless/mediatek/mt76/mt7925/pci.c
 
-move kill_all_shared_mm() inside CONFIG_MMU
+   679	
+   680	static void mt7925_coredump(struct device *dev)
+   681	{
+ > 682		struct pci_dev *pdev = to_pci_dev(device);
+   683		struct mt76_dev *mdev = pci_get_drvdata(pdev);
+   684		struct mt792x_dev *dev_792x = container_of(mdev, struct mt792x_dev, mt76);
+   685	
+   686		mt792x_mutex_acquire(dev_792x);
+   687		mt7925_mcu_chip_config(dev_792x, "assert");
+   688		mt792x_mutex_release(dev_792x);
+   689	}
+   690	
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202605131940.kEzvUaiR-lkp@intel.com
-Cc: Christian Brauner <brauner@kernel.org>
-Cc: David Hildenbrand <david@kernel.org>
-Cc: Heiko Carstens <hca@linux.ibm.com>
-Cc: Michal Hocko <mhocko@suse.com>
-Cc: Minchan Kim <minchan@kernel.org>
-Cc: Suren Baghdasaryan <surenb@google.com>
-Cc: Tim Murray <timmurray@google.com>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
----
-
- mm/oom_kill.c |   66 ++++++++++++++++++++++++------------------------
- 1 file changed, 33 insertions(+), 33 deletions(-)
-
---- a/mm/oom_kill.c~mm-process_mrelease-introduce-process_mrelease_reap_kill-flag-fix
-+++ a/mm/oom_kill.c
-@@ -676,6 +676,39 @@ static void wake_oom_reaper(struct timer
- }
- 
- /*
-+ * kill_all_shared_mm - Deliver SIGKILL to all processes sharing the given address space.
-+ * @victim: the targeted OOM process group leader
-+ * @mm:     the virtual memory space being reaped
-+ *
-+ * Traverse all threads globally and signal any user processes sharing the
-+ * identical mm footprints, ensuring no concurrent users pin the memory. Skips
-+ * the system global init and kernel worker threads.
-+ */
-+static int kill_all_shared_mm(struct task_struct *victim, struct mm_struct *mm)
-+{
-+	struct task_struct *p;
-+	bool failed = false;
-+
-+	rcu_read_lock();
-+	for_each_process(p) {
-+		if (!process_shares_mm(p, mm))
-+			continue;
-+		if (is_global_init(p)) {
-+			failed = true;
-+			continue;
-+		}
-+		if (unlikely(p->flags & PF_KTHREAD))
-+			continue;
-+
-+		if (do_pidfd_send_signal_pidns(task_pid(p), SIGKILL, PIDTYPE_TGID, NULL, 0))
-+			failed = true;
-+	}
-+	rcu_read_unlock();
-+
-+	return failed ? -EBUSY : 0;
-+}
-+
-+/*
-  * Give the OOM victim time to exit naturally before invoking the oom_reaping.
-  * The timers timeout is arbitrary... the longer it is, the longer the worst
-  * case scenario for the OOM can take. If it is too small, the oom_reaper can
-@@ -910,39 +943,6 @@ static bool task_will_free_mem(struct ta
- 	return ret;
- }
- 
--/*
-- * kill_all_shared_mm - Deliver SIGKILL to all processes sharing the given address space.
-- * @victim: the targeted OOM process group leader
-- * @mm:     the virtual memory space being reaped
-- *
-- * Traverse all threads globally and signal any user processes sharing the identical
-- * mm footprints, ensuring no concurrent users pin the memory. Skips the system
-- * global init and kernel worker threads.
-- */
--static int kill_all_shared_mm(struct task_struct *victim, struct mm_struct *mm)
--{
--	struct task_struct *p;
--	bool failed = false;
--
--	rcu_read_lock();
--	for_each_process(p) {
--		if (!process_shares_mm(p, mm))
--			continue;
--		if (is_global_init(p)) {
--			failed = true;
--			continue;
--		}
--		if (unlikely(p->flags & PF_KTHREAD))
--			continue;
--
--		if (do_pidfd_send_signal_pidns(task_pid(p), SIGKILL, PIDTYPE_TGID, NULL, 0))
--			failed = true;
--	}
--	rcu_read_unlock();
--
--	return failed ? -EBUSY : 0;
--}
--
- static void __oom_kill_process(struct task_struct *victim, const char *message)
- {
- 	struct task_struct *p;
-_
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
