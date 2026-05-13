@@ -1,124 +1,174 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 062E819C553;
-	Wed, 13 May 2026 17:19:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E84C63A2E07;
+	Wed, 13 May 2026 17:27:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778692752; cv=none; b=iKfGG/5jbduibaDj+mOamx64vP2n2h1NMBXkjZJJOm6nQWR036S/V3QByNVHAS6NZ+scI1SQ2a+CN1IyYAGFY8+Fb+ljAJxXU5+tRYjpUwBniUhjIcPVDewJSiyFEmPQ2qgPZdE7jQ15ulC7ySpHkMAp8+BFhJdSYKwdvYoQusE=
+	t=1778693233; cv=none; b=RhZNnlovKrXMAT2K6ogN05X66TvdTIWYvoMSRLnJSZMLgn9/gki2CO1goD/BHI6mxllm8AaTz+zTjKGgower32OI+fbCESWIZAQkQhEwwLhDckBalAX00EIgx208CkIv4Qb9L52Et77x4lcPuv+yxv/hCQ2UQNjQJuBKAIUazxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778692752; c=relaxed/simple;
-	bh=OOxhacNuYWZrkMW4rs5admzePv3lY64uoOJPKRC39Sc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=WLDxlWPdiLCj4ebApg2DS2T0hBrDbPJ3NqjmxumBPAbPzCaecIEHpxJjd4avzpuSokBVF52G1cmf0EoXsS45kIc2YBzq4FjSCp1A5n0FMjNRnO5wB0Fv5plPKD50iaAIYhYfauO+H//M+FVkcujXTmWB9sP7HiVMvjIF2kaKXL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M5wEVaHH; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1778693233; c=relaxed/simple;
+	bh=xbNqFRfEPLDvfnXWBGOb0+DeiVRfeyxliAUWgIwEAjg=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=M7gF0RwEXou1baubtNL4PC80z9cHToLo8hvJNXTFUnfZVyazzz9KwfY+s/ZP7eaLJU+GsdaTlkwEkBJyvGjgCaBeoli++MLwnSrTgD4lSJXoyIDN6XjYICiLgCQXLZo4MITh/Lxpvo7zePNv2hrYxUc+47ZBj71a0nWFUU782w4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=eQE06z6g; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M5wEVaHH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778692747; x=1810228747;
-  h=date:from:to:cc:subject:message-id;
-  bh=OOxhacNuYWZrkMW4rs5admzePv3lY64uoOJPKRC39Sc=;
-  b=M5wEVaHHTIdAd4sM0UhPX9LfI+1KkNmLLflg8TG4CwUy0iJCHV8z+ZRj
-   fcrV6VwkLDHuFRWTy5n1QsprGdqsHSOybLoI6eGFwByt8UsLuQzDKBMZP
-   sMHQIibNka6TfDTn/499Mk+9WpoXO/I20Z57HbZKpzWE3rDbwI/SLdGP3
-   yyWq8EEU9gv8GRqNNBMeWe6PuQUCOw4PfIuWlOy2VTfBvmLVtA6gWCShE
-   V1Dtj9Q99PJw2mmIpLTeJZLbHWHdJBYhj3yEotRHacz+Ma/tiZFZI0nS7
-   7KFM5GAYR2GGkif3lqKsG2f7WGyb4UIcHkDNccFpXgkYRvZheGpA3tT6w
-   Q==;
-X-CSE-ConnectionGUID: 2sHvMfi/SsCqWOHzl3d2wA==
-X-CSE-MsgGUID: t6UTLBE+S/m4m+8QZiSpog==
-X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="91090223"
-X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
-   d="scan'208";a="91090223"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 10:19:04 -0700
-X-CSE-ConnectionGUID: RIDjoOBVSxu7EpsEZyHKiA==
-X-CSE-MsgGUID: y16ILieaQkOP++abQcRjaA==
-X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 13 May 2026 10:19:03 -0700
-Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wNDEa-000000004fb-2tQA;
-	Wed, 13 May 2026 17:19:00 +0000
-Date: Thu, 14 May 2026 01:18:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sunil V L <sunilvl@oss.qualcomm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Anup Patel <anup@brainfault.org>
-Subject: [avpatel:riscv_trace_acpi_support_v1 60/60]
- include/acpi/processor.h:224:2: error: unknown type name 'phys_cpuid_t'
-Message-ID: <202605140151.5X5VUqqn-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="eQE06z6g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7413DC2BCB7;
+	Wed, 13 May 2026 17:27:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1778693232;
+	bh=xbNqFRfEPLDvfnXWBGOb0+DeiVRfeyxliAUWgIwEAjg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=eQE06z6gjM3bpDzZDm5424CoAuAbjQ4g/r3MVc8E6oBphcGLkKpJkYplWwSeixdEv
+	 YAIVBz8nUCiLXEJu0wNFZATFBujKfKZUtt/AJSL6eZZcG08a5uEpQvxWUaWmzesVhJ
+	 dbdVPUleVowZaPXXcNEHPb+ZvoKfzKVQfcgHLG60=
+Date: Wed, 13 May 2026 10:27:11 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Minchan Kim <minchan@kernel.org>, oe-kbuild-all@lists.linux.dev, David
+ Hildenbrand <david@kernel.org>, Linux Memory Management List
+ <linux-mm@kvack.org>, mm-commits@vger.kernel.org, Suren Baghdasaryan
+ <surenb@google.com>
+Subject: Re: [akpm-mm:mm-new 301/315] mm/oom_kill.c:922:12: warning:
+ 'kill_all_shared_mm' defined but not used
+Message-Id: <20260513102711.323fed51b7dbb1dfe6217b44@linux-foundation.org>
+In-Reply-To: <202605131940.kEzvUaiR-lkp@intel.com>
+References: <202605131940.kEzvUaiR-lkp@intel.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://github.com/avpatel/linux.git riscv_trace_acpi_support_v1
-head:   893faf8dbff9fe0958fb1f32b778914af0fa1b45
-commit: 893faf8dbff9fe0958fb1f32b778914af0fa1b45 [60/60] rvtrace: Add ACPI support
-config: riscv-randconfig-001-20260513 (https://download.01.org/0day-ci/archive/20260514/202605140151.5X5VUqqn-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605140151.5X5VUqqn-lkp@intel.com/reproduce)
+On Wed, 13 May 2026 19:48:25 +0800 kernel test robot <lkp@intel.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605140151.5X5VUqqn-lkp@intel.com/
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+> head:   2c3f468717231305523ddcd94d91c0d5e4a72419
+> commit: def36547cd98fa3f7ecac1bf860479f500bc6b1e [301/315] mm: process_mrelease: introduce PROCESS_MRELEASE_REAP_KILL flag
+> config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20260513/202605131940.kEzvUaiR-lkp@intel.com/config)
+> compiler: sh4-linux-gcc (GCC) 15.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260513/202605131940.kEzvUaiR-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202605131940.kEzvUaiR-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> mm/oom_kill.c:922:12: warning: 'kill_all_shared_mm' defined but not used [-Wunused-function]
+>      922 | static int kill_all_shared_mm(struct task_struct *victim, struct mm_struct *mm)
 
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/hwtracing/rvtrace/rvtrace-platform.c:15:
->> include/acpi/processor.h:224:2: error: unknown type name 'phys_cpuid_t'
-     224 |         phys_cpuid_t phys_id;   /* CPU hardware ID such as APIC ID for x86 */
-         |         ^
-   include/acpi/processor.h:358:1: error: unknown type name 'phys_cpuid_t'
-     358 | phys_cpuid_t acpi_get_phys_id(acpi_handle, int type, u32 acpi_id);
-         | ^
-   include/acpi/processor.h:359:1: error: unknown type name 'phys_cpuid_t'
-     359 | phys_cpuid_t acpi_map_madt_entry(u32 acpi_id);
-         | ^
-   include/acpi/processor.h:360:20: error: unknown type name 'phys_cpuid_t'
-     360 | int acpi_map_cpuid(phys_cpuid_t phys_id, u32 acpi_id);
-         |                    ^
-   4 errors generated.
+Thanks. I  did this:
 
 
-vim +/phys_cpuid_t +224 include/acpi/processor.h
+From: Andrew Morton <akpm@linux-foundation.org>
+Subject: mm-process_mrelease-introduce-process_mrelease_reap_kill-flag-fix
+Date: Wed May 13 10:22:14 AM PDT 2026
 
-^1da177e4c3f41 Linus Torvalds    2005-04-16  220  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  221  struct acpi_processor {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  222  	acpi_handle handle;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  223  	u32 acpi_id;
-828aef376d7a12 Catalin Marinas   2015-03-24 @224  	phys_cpuid_t phys_id;	/* CPU hardware ID such as APIC ID for x86 */
-af8f3f514d193e Hanjun Guo        2015-01-04  225  	u32 id;		/* CPU logical ID allocated by OS */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  226  	u32 pblk;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  227  	int performance_platform_limit;
-01854e697a77a4 Luming Yu         2007-05-26  228  	int throttling_platform_limit;
-ff55a9cebab024 Len Brown         2007-06-02  229  	/* 0 - states 0..n-th state available */
-01854e697a77a4 Luming Yu         2007-05-26  230  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  231  	struct acpi_processor_flags flags;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  232  	struct acpi_processor_power power;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  233  	struct acpi_processor_performance *performance;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  234  	struct acpi_processor_throttling throttling;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  235  	struct acpi_processor_limit limit;
-d9460fd227ed2c Zhang Rui         2008-01-17  236  	struct thermal_cooling_device *cdev;
-ac212b6980d8d5 Rafael J. Wysocki 2013-05-03  237  	struct device *dev; /* Processor device. */
-3000ce3c52f8b8 Rafael J. Wysocki 2019-10-16  238  	struct freq_qos_request perflib_req;
-3000ce3c52f8b8 Rafael J. Wysocki 2019-10-16  239  	struct freq_qos_request thermal_req;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  240  };
-^1da177e4c3f41 Linus Torvalds    2005-04-16  241  
+move kill_all_shared_mm() inside CONFIG_MMU
 
-:::::: The code at line 224 was first introduced by commit
-:::::: 828aef376d7a129547bc4ebb949965040177e3da ACPI / processor: Introduce phys_cpuid_t for CPU hardware ID
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202605131940.kEzvUaiR-lkp@intel.com
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: David Hildenbrand <david@kernel.org>
+Cc: Heiko Carstens <hca@linux.ibm.com>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Minchan Kim <minchan@kernel.org>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Tim Murray <timmurray@google.com>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+---
 
-:::::: TO: Catalin Marinas <catalin.marinas@arm.com>
-:::::: CC: Will Deacon <will.deacon@arm.com>
+ mm/oom_kill.c |   66 ++++++++++++++++++++++++------------------------
+ 1 file changed, 33 insertions(+), 33 deletions(-)
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--- a/mm/oom_kill.c~mm-process_mrelease-introduce-process_mrelease_reap_kill-flag-fix
++++ a/mm/oom_kill.c
+@@ -676,6 +676,39 @@ static void wake_oom_reaper(struct timer
+ }
+ 
+ /*
++ * kill_all_shared_mm - Deliver SIGKILL to all processes sharing the given address space.
++ * @victim: the targeted OOM process group leader
++ * @mm:     the virtual memory space being reaped
++ *
++ * Traverse all threads globally and signal any user processes sharing the
++ * identical mm footprints, ensuring no concurrent users pin the memory. Skips
++ * the system global init and kernel worker threads.
++ */
++static int kill_all_shared_mm(struct task_struct *victim, struct mm_struct *mm)
++{
++	struct task_struct *p;
++	bool failed = false;
++
++	rcu_read_lock();
++	for_each_process(p) {
++		if (!process_shares_mm(p, mm))
++			continue;
++		if (is_global_init(p)) {
++			failed = true;
++			continue;
++		}
++		if (unlikely(p->flags & PF_KTHREAD))
++			continue;
++
++		if (do_pidfd_send_signal_pidns(task_pid(p), SIGKILL, PIDTYPE_TGID, NULL, 0))
++			failed = true;
++	}
++	rcu_read_unlock();
++
++	return failed ? -EBUSY : 0;
++}
++
++/*
+  * Give the OOM victim time to exit naturally before invoking the oom_reaping.
+  * The timers timeout is arbitrary... the longer it is, the longer the worst
+  * case scenario for the OOM can take. If it is too small, the oom_reaper can
+@@ -910,39 +943,6 @@ static bool task_will_free_mem(struct ta
+ 	return ret;
+ }
+ 
+-/*
+- * kill_all_shared_mm - Deliver SIGKILL to all processes sharing the given address space.
+- * @victim: the targeted OOM process group leader
+- * @mm:     the virtual memory space being reaped
+- *
+- * Traverse all threads globally and signal any user processes sharing the identical
+- * mm footprints, ensuring no concurrent users pin the memory. Skips the system
+- * global init and kernel worker threads.
+- */
+-static int kill_all_shared_mm(struct task_struct *victim, struct mm_struct *mm)
+-{
+-	struct task_struct *p;
+-	bool failed = false;
+-
+-	rcu_read_lock();
+-	for_each_process(p) {
+-		if (!process_shares_mm(p, mm))
+-			continue;
+-		if (is_global_init(p)) {
+-			failed = true;
+-			continue;
+-		}
+-		if (unlikely(p->flags & PF_KTHREAD))
+-			continue;
+-
+-		if (do_pidfd_send_signal_pidns(task_pid(p), SIGKILL, PIDTYPE_TGID, NULL, 0))
+-			failed = true;
+-	}
+-	rcu_read_unlock();
+-
+-	return failed ? -EBUSY : 0;
+-}
+-
+ static void __oom_kill_process(struct task_struct *victim, const char *message)
+ {
+ 	struct task_struct *p;
+_
+
