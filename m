@@ -1,82 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B733A9DA3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 May 2026 22:56:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C39E33CAA55;
+	Wed, 13 May 2026 23:07:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778713006; cv=none; b=Ul9HxKj9liDR2C5ppDMUM+iZVbTKb5LtMYGCSbSCy3vO6HEIl27iO0NXKNaM9K1jauBfKjdHfywLZO6gQKlQtxApFu+FWBVaE8A56Ji27deHNILp/URvkQLUYvRdt0XROVu7kF1uFYtoSOkionGJWalEnz+J6h7R8vCH2Fy0s1o=
+	t=1778713664; cv=none; b=VcIUwfvbgVbsyWr2kkb4uptAQvDAGy8EhJd4JSe9BmuziH5O1RG7D8l5dlUs7hcY5tcRoIg5L5C+fR/fiZ5cnaCAMcQvZ/9S+yCzbp67EwLVrB7YqdSqwLS6DKTuspQWAzECHsefJOXXPCoTdIhnrnqMu2woGmXMhd1DI5DFcC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778713006; c=relaxed/simple;
-	bh=QJNb4ZqKUMMZHskuyhOPRO95boyLz11GCq9xNhT4/nc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=dsLOYtd1TJZqo26fgMEXa1TwaP579aXs4iC5GqF/5QwK0bc/u7/khhRqBTGYd4Sv+T6VAS+mAvhhPVcUtixWP6JcK98uEhspK1Vc0JDvKP607ax3vGStH6D8e1vXfxU2RIXIV61F5RYpVUl2Uotqek4fR/FE6VJSofM2Ibm+9UE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DBgJHLWm; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1778713664; c=relaxed/simple;
+	bh=ALVwDDjok+OEdPpXRwF61S2YSUI5YuC2BZEzIYLQAj8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GS61Dy5XKSJYdjxNJIJQnhts2z8mtyfTgdbWY7GWrlqWsCYRjEAmp0OzJWzb1pbQQaQbOoDvlBW0CMqO0p2IKu4kALOK9hhvUkjQcNtfInDO2BxMLCjQ+jpNQwS50BrIEsPWfEwsM39Y1RAHSQyMWtkkEbcC0CJOTV8BdYDr/U4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C7GkXQNP; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DBgJHLWm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C7GkXQNP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778713004; x=1810249004;
-  h=date:from:to:cc:subject:message-id;
-  bh=QJNb4ZqKUMMZHskuyhOPRO95boyLz11GCq9xNhT4/nc=;
-  b=DBgJHLWmM53Lex7rN0vYh5j+QohJ4MxY6VzHINkbZZROiT+Rt5qJSrDE
-   4eZn3fUf/WLBnwU9COva4lHtIbTQwfMA1tLWqnhDGmrtibcnRj1JcmiFN
-   KG/KTcKRG58t3JRME3VZL+wqJE5VPZpN860NvEw3TSwtZgoPR2i4pFTBg
-   JzhrHcoif43miaaFTCKWhWfPJzVBXXp9U05eNqjAkg/NTiQwBHHcX0Vq/
-   89q0Pb8lkHdFmRojdkw1+EaJk+JErzuK8bHJ8qPoL6KR8xFGBVourLaWy
-   psaE3mWLGY/qhQT7/lBaAB0p9r3892AeDIvzGSOa6YfRs1+XCcph4l3gT
-   Q==;
-X-CSE-ConnectionGUID: HtN703y3QA+r8XeIBCGB9g==
-X-CSE-MsgGUID: W7vwYQ3zRUm5gweo3q+ELQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="78795718"
+  t=1778713663; x=1810249663;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ALVwDDjok+OEdPpXRwF61S2YSUI5YuC2BZEzIYLQAj8=;
+  b=C7GkXQNPweKd9hqZgEXshXeYq4JLqpZJM3pMe40LgivBPu+KBMkCCX4D
+   JuXBDjTumHJhUQAQedLQfejlARgivrUH0ChzKnzuXIGualz7LV65TdQhO
+   jxZuZHLa5ToYsE4XfRz2+5Lg+CGT+HPImjBbAIIegnnYavpJZ5RP/EfcX
+   0btJtkAg4mRqtm795W7UuKYB3mRThd3XHyYzcPQB0uwQBFA9HZVVEpa1A
+   cB4lpezcSanu+2vvRsG5v/swIOYpl7P9dBuh7QMTYG53cwQMyNC77FQfI
+   cB3KScUQWgdpPkdBNHtPnAtJKUqkvGtBPFCU4wXJ/f41TAjQ7MbP6yqIG
+   A==;
+X-CSE-ConnectionGUID: 3OBTynY+SAOyYgP9r/+5Ow==
+X-CSE-MsgGUID: YDxJqJ2JQFuX0RZPJiwA9w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="91037814"
 X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
-   d="scan'208";a="78795718"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 15:56:41 -0700
-X-CSE-ConnectionGUID: zUMqWoOKRHyAh9nEOkPOLg==
-X-CSE-MsgGUID: yNgFQ9BzR0ynOEwRZ8ZekQ==
+   d="scan'208";a="91037814"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 16:07:41 -0700
+X-CSE-ConnectionGUID: i0+kLsn+TGODubVr1B9qyw==
+X-CSE-MsgGUID: 7wtMRLYHQ6Ow3/zWIrgT2w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
-   d="scan'208";a="238104228"
+   d="scan'208";a="235557652"
 Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 13 May 2026 15:56:39 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 13 May 2026 16:07:40 -0700
 Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wNIVI-000000005GF-3EY8;
-	Wed, 13 May 2026 22:56:36 +0000
-Date: Thu, 14 May 2026 06:56:18 +0800
+	id 1wNIfx-000000005H1-21xG;
+	Wed, 13 May 2026 23:07:37 +0000
+Date: Thu, 14 May 2026 07:07:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josef Bacik <josef@toxicpanda.com>
-Cc: oe-kbuild-all@lists.linux.dev, David Sterba <dsterba@suse.com>,
- Daniel Vacek <neelx@suse.com>
-Subject: [kdave-btrfs-devel:ext/dv/fscrypt 1/43] Warning:
- fs/crypto/policy.c:821 expecting prototype for fscrypt_set_extent_context().
- Prototype was for fscrypt_context_for_new_extent() instead
-Message-ID: <202605140608.mGokLhCV-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: hangej <hangej@amazon.com>, bhelgaas@google.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dwmw2@infradead.org, kexec@lists.infradead.org, hangej@amazon.com
+Subject: Re: [PATCH] pci_crash: capture PCI config space at panic time
+Message-ID: <202605140714.yFl4KATZ-lkp@intel.com>
+References: <20260512162402.1929687-1-hangej@amazon.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260512162402.1929687-1-hangej@amazon.com>
 
-tree:   https://github.com/kdave/btrfs-devel.git ext/dv/fscrypt
-head:   4c05f02641d57f578a685f7e8d27b9cb18d17cc7
-commit: 519fbe9ff1a258b3c0e1ef231718f0394c7ab2ef [1/43] fscrypt: add per-extent encryption support
-config: nios2-randconfig-r073-20260514 (https://download.01.org/0day-ci/archive/20260514/202605140608.mGokLhCV-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 8.5.0
-smatch: v0.5.0-9185-gbcc58b9c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605140608.mGokLhCV-lkp@intel.com/reproduce)
+Hi hangej,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus linus/master v7.1-rc3 next-20260508]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/hangej/pci_crash-capture-PCI-config-space-at-panic-time/20260514-000653
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20260512162402.1929687-1-hangej%40amazon.com
+patch subject: [PATCH] pci_crash: capture PCI config space at panic time
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260514/202605140714.yFl4KATZ-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605140714.yFl4KATZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605140608.mGokLhCV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605140714.yFl4KATZ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: fs/crypto/policy.c:821 expecting prototype for fscrypt_set_extent_context(). Prototype was for fscrypt_context_for_new_extent() instead
+>> Warning: kernel/pci_crash.c:74 cannot understand function prototype: 'void *pci_crash_buffer;'
+>> Warning: kernel/pci_crash.c:80 cannot understand function prototype: 'size_t pci_crash_buffer_size;'
+>> Warning: kernel/pci_crash.c:90 cannot understand function prototype: 'phys_addr_t pci_crash_pagemap_phys;'
 
 --
 0-DAY CI Kernel Test Service
