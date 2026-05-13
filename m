@@ -1,65 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BEBA395AD5;
-	Wed, 13 May 2026 06:12:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A6D2C11E2
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 May 2026 06:12:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778652763; cv=none; b=ql+VyTcX/YoCnvcCt41CpefW3Odnvh8Ooo4AFPdF2If3C6/fDKu1GvuZAf9vfEx6YxFwAYmGtE5qIHcNCSlrmnr7qDlcHuDCZ+ZJ/ZBtISq+B1FhhhMx6n4pUyiuzR0POpVGQP7qM6HcGVr8MEXXhF2MuC8u8xKeTheAGU3fn6E=
+	t=1778652767; cv=none; b=oizS4APztpAQ4aNmmoPBzhaA38Gy+LCxZjlq6Qi8dt7AjXx1552SpfKHJ0FdRXr4VtegQenuhdjfLF05Jur5ruj1CG68AUoqeuSDqPT9iUJaMvHRe/9/hcZx8MnqF8+W0/s3BHSEl3M78Sbaqnhd/2vomvgayaPgRdoJy9Db1N4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778652763; c=relaxed/simple;
-	bh=OPkMkAq3Vt4D5HP6HHu2QZmLTQ2yNtGT2h/4iX1OVCk=;
+	s=arc-20240116; t=1778652767; c=relaxed/simple;
+	bh=8/g0tgr/8x4vCKR3FY6O1wuKpyVe59KewQCyaI/CkQQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KEwZ8BUyystNDohiAcPvbUyowSw4xFY04LbhSsBvJxhhnL0fZzC6uywBXin0P3Ezn+SZuQfT+CQUouRjpD/se2GDhlVEtnmxGN0NOUD6h8k9a/Db24Gt8aBfXjuq2mZ5+Pvq2IqqBiXLnTunZC/nLgk5rieT4tFmvDvWEhLqaok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ek3yxEEQ; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=nDnLeZQwW84qHrMpqCCJ6ktyvP+3BFgZC1oTXZN/hwRL+OH/RGa0a0ZAVUUnRoPnyiXgg3fKlvGSVMs7Gj4Hkaeec7/966XxAnRVN5qAWYcRu4Tgi4PloawSBueMN+gSZWPZhPDLslU69mR8xzlFMkcniJ+M2iZDryAZGk3Hrv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FEiIp6Qc; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ek3yxEEQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FEiIp6Qc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778652761; x=1810188761;
+  t=1778652765; x=1810188765;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=OPkMkAq3Vt4D5HP6HHu2QZmLTQ2yNtGT2h/4iX1OVCk=;
-  b=ek3yxEEQnK3We9hdYqHJA8+r4CRF7uxGMvGwoXUKudXqBK4zi9XbqR0H
-   bAHa0gBXBuJDjvJ5Q6EzDUlYgr1p4+ULkhiLnmyn5usPGGdgtUVv/iyky
-   YwuTFChuGo2pNzJbzcotfMgTjzYZ7FTW7u+JtcIugluJAH0uQGQ2utUkQ
-   Z+IHRX7Y5CkLrspqU+iNG9crHO6wEt5MB4rHaGuQoCUW7xaeq/zRNHJAn
-   L6tbg6J3J/ZKmdiMWxlQhsqyoy+kMK0HpaOPEekH3zGp8hlPNzVHRyFsC
-   4SuJsOVhOFuN0G96OPidxbU9fhNTJBIGvc0JSqa/SzCbo5qepIgVeP1yH
+  bh=8/g0tgr/8x4vCKR3FY6O1wuKpyVe59KewQCyaI/CkQQ=;
+  b=FEiIp6QcG8Mv8pahO24twFx7EZUxbuqrNagp49RZmrxkGEX/NXA+EYn/
+   hLpsWgr3uAoaLev27s+ABGwoUIxh+Gf9s6IcbjYaHLsgzzHWeALwi+sPH
+   732zFZzdlS5Zt2MhjnssP4+5lzyT5J1bYyi+JUbjPXCjJh4QTToCa0Elr
+   Yz5kYE0nyH3XMad1e2z38qHVJo6MJ1i6TKFa7oDnziIiToPRTsmhK3Eq1
+   s54sKECCeM9hrqj003WfZHQzFWtdpOXDevIqFxFxbk+iA5er04XDQo2+G
+   ktL77T1YTZ8wK2SfBC5mCMspp2tdz+1IYv+c3DalhiZ1h6X7KbeS2LQzT
    Q==;
-X-CSE-ConnectionGUID: M45sREXjTiyQSWO6g6hHeg==
-X-CSE-MsgGUID: iG1N4WT8SiuoxLd2T1v4yw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="82140624"
+X-CSE-ConnectionGUID: h0/dRlBmQ5ieCglN+cj53Q==
+X-CSE-MsgGUID: HVoElYVsSPyQZAeifMRiqA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="90955016"
 X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
-   d="scan'208";a="82140624"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 23:12:41 -0700
-X-CSE-ConnectionGUID: pqJwWXPsStqD1mkHu0/tWg==
-X-CSE-MsgGUID: /9iG0Hx1S6yY/5vviuDzhA==
+   d="scan'208";a="90955016"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 23:12:44 -0700
+X-CSE-ConnectionGUID: 2i93/dl6TbWCCX0UwefHBA==
+X-CSE-MsgGUID: phmejI5KRIS5n9pT4+TNMg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
-   d="scan'208";a="231599572"
+   d="scan'208";a="233713261"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 12 May 2026 23:12:38 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 12 May 2026 23:12:38 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wN2pg-000000008UD-29dc;
+	id 1wN2pg-000000008UF-2M6L;
 	Wed, 13 May 2026 06:12:36 +0000
-Date: Wed, 13 May 2026 08:12:04 +0200
+Date: Wed, 13 May 2026 08:12:05 +0200
 From: kernel test robot <lkp@intel.com>
-To: Andre Jun Hirata <andrejhirata@usp.br>, kenneth.feng@amd.com,
-	alexander.deucher@amd.com, christian.koenig@amd.com,
-	airlied@gmail.com, simona@ffwll.ch
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	gabriel.dimant@usp.br, guilhermesangabriel@usp.br,
-	Andre Jun Hirata <andrejhirata@usp.br>
-Subject: Re: [PATCH v5] drm/amd/pm: Use guard(mutex) instead of manual
- lock+unlock
-Message-ID: <202605130808.IJrao3wX-lkp@intel.com>
-References: <20260508230312.6108-1-andrejhirata@usp.br>
+To: Albert Esteve <aesteve@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+	dri-devel@lists.freedesktop.org, workflows@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org,
+	peterz@infradead.org, Guenter Roeck <linux@roeck-us.net>,
+	Linux Kernel Functional Testing <lkft@linaro.org>,
+	Dan Carpenter <error27@gmail.com>,
+	Alessandro Carminati <acarmina@redhat.com>
+Subject: Re: [PATCH v8 4/4] kunit: Add documentation for warning backtrace
+ suppression API
+Message-ID: <202605130826.e6Lyyytr-lkp@intel.com>
+References: <20260504-kunit_add_support-v8-4-3e5957cdd235@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,59 +83,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260508230312.6108-1-andrejhirata@usp.br>
+In-Reply-To: <20260504-kunit_add_support-v8-4-3e5957cdd235@redhat.com>
 
-Hi Andre,
+Hi Alessandro,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on next-20260508]
-[cannot apply to linus/master v6.16-rc1]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 80234b5ab240f52fa45d201e899e207b9265ef91]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andre-Jun-Hirata/drm-amd-pm-Use-guard-mutex-instead-of-manual-lock-unlock/20260513-040937
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20260508230312.6108-1-andrejhirata%40usp.br
-patch subject: [PATCH v5] drm/amd/pm: Use guard(mutex) instead of manual lock+unlock
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260513/202605130808.IJrao3wX-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260513/202605130808.IJrao3wX-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Albert-Esteve/bug-kunit-Core-support-for-suppressing-warning-backtraces/20260513-043807
+base:   80234b5ab240f52fa45d201e899e207b9265ef91
+patch link:    https://lore.kernel.org/r/20260504-kunit_add_support-v8-4-3e5957cdd235%40redhat.com
+patch subject: [PATCH v8 4/4] kunit: Add documentation for warning backtrace suppression API
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260513/202605130826.e6Lyyytr-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260513/202605130826.e6Lyyytr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605130808.IJrao3wX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605130826.e6Lyyytr-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/amd/amdgpu/../pm/amdgpu_dpm.c:247:40: error: expected ';' after return statement
-     247 |         return smu_mode1_reset_is_support(smu)
-         |                                               ^
-         |                                               ;
-   drivers/gpu/drm/amd/amdgpu/../pm/amdgpu_dpm.c:833:24: warning: unused variable 'vstate' [-Wunused-variable]
-     833 |         struct amd_vce_state *vstate = NULL;
-         |                               ^~~~~~
-   1 warning and 1 error generated.
+   In file included from drivers/gpu/drm/drm_buddy.c:6:
+>> include/kunit/test-bug.h:90:15: error: unknown type name 'bool'
+      90 | static inline bool kunit_is_suppressed_warning(bool count) { return false; }
+         |               ^~~~
+   include/kunit/test-bug.h:13:1: note: 'bool' is defined in header '<stdbool.h>'; this is probably fixable by adding '#include <stdbool.h>'
+      12 | #include <linux/stddef.h> /* for NULL */
+     +++ |+#include <stdbool.h>
+      13 | 
+   include/kunit/test-bug.h:90:48: error: unknown type name 'bool'
+      90 | static inline bool kunit_is_suppressed_warning(bool count) { return false; }
+         |                                                ^~~~
+   include/kunit/test-bug.h:90:48: note: 'bool' is defined in header '<stdbool.h>'; this is probably fixable by adding '#include <stdbool.h>'
 
 
-vim +247 drivers/gpu/drm/amd/amdgpu/../pm/amdgpu_dpm.c
+vim +/bool +90 include/kunit/test-bug.h
 
-   238	
-   239	bool amdgpu_dpm_is_mode1_reset_supported(struct amdgpu_device *adev)
-   240	{
-   241		struct smu_context *smu = adev->powerplay.pp_handle;
-   242	
-   243		if (!is_support_sw_smu(adev))
-   244			return false;
-   245	
-   246		guard(mutex)(&adev->pm.mutex);
- > 247		return smu_mode1_reset_is_support(smu)
-   248	}
-   249	
+    88	
+    89	static inline struct kunit *kunit_get_current_test(void) { return NULL; }
+  > 90	static inline bool kunit_is_suppressed_warning(bool count) { return false; }
+    91	
 
 --
 0-DAY CI Kernel Test Service
