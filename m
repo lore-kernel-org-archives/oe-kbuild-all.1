@@ -1,63 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2A8C3A7837
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 May 2026 07:43:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C841B36C9D0;
+	Wed, 13 May 2026 08:46:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778658187; cv=none; b=ccA/loh0pG68Yn59LUSBlnO0hwSJbnWnpTiER+iybiq3uVv8qV0sYZCyq6wbpaPVjtLiTsjZ4OuRfsMV5/5k/6l+vThS8UvH1pB8hzs8t3ik7vqfpBDFMhlMbh1PAyJPH5fTZ4+hnY/0NgWz9NLytfHvVqXPHwH7ddnKGJVW7FY=
+	t=1778661969; cv=none; b=QLPOokESd9NLMccKGXs3yoLcaao4MhM3MOVyXsliHYIKM4jB4QGr18fO4R4FnG99V1Uf5VGeI7p9ItOoGPVprTr97dLcyWz91dEb7JYqzOd2LoABuoETgjdxMHfheBJaIPNbSB7abHqbWcdfVnuZpXQXjwZKG6RPl1wJ917vHlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778658187; c=relaxed/simple;
-	bh=TKIRWVOLQGmRSLSxOp4ZdNKhRgrjTEEnbWY6atM2t+o=;
+	s=arc-20240116; t=1778661969; c=relaxed/simple;
+	bh=iX522XgGUZDLFdyN6Ukt+45QlmBrsPc9/sCvHn02tDc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DdZuPzj5iM+qcl/sO4gpO5qv+fkMMIbh5jOj6sw9FPccjQQEbb3UUY7NIT/dbkUdZDZpwKfR7FbZ1+kHRP/s4ZkIFOfILpKPP81CwYgYqxiDc7dkxd7TmjqDflKAvSrHKthqg5/e3xMgxzpGwr64GDBeVd6UoQ4rab1H5xlS1m0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B9t+S3Jh; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=XyjQG+w43gqUfA+MiXrNYHAguU3l5+Qtz268fojyc4kRLP11saTHQszz0G7HUlebVwcWormR1y7lBETSjqqSGL/JdOSvNUXmZEpyIdCjXB8lOnTK6IgV5CiuudF3P9pQoxZlJlyvm+nOFqtNLnE7LYDhVLL+mpXr9npq7jaEi0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JH0/J2Tv; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B9t+S3Jh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JH0/J2Tv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778658186; x=1810194186;
+  t=1778661968; x=1810197968;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=TKIRWVOLQGmRSLSxOp4ZdNKhRgrjTEEnbWY6atM2t+o=;
-  b=B9t+S3JhHslHJriB8P9jEZnv4bkjYjqia/SCjdWtXGhc+kjV0vb7Pl+f
-   LLpU6nKPoveOFRrSSlD1ZBy1wWpMJOvGacszkZv3tpBnaoTF/pNHUI+J5
-   fdaPSdlQkCICG253gmt4TFCtHQf5cg2Ib5fcMN+4uAPvHmF0B7A2YqAyF
-   55WU50BxCayc4/mx9iafPjmyIKJHpJzbdt0YLTCF2pNKxxUPUw0lno9mm
-   etOf5BYvPZtZreQgn3KRtm+exam6tpdrNBJQVGjqEnSgp7ZVSaSn4sXXB
-   oudLInQFTwcfWyIU3PyUf7O5/3ZgLavIwO35mjmi3WacgM9qz+YKnZQJW
+  bh=iX522XgGUZDLFdyN6Ukt+45QlmBrsPc9/sCvHn02tDc=;
+  b=JH0/J2TvLZNTJ0JFAzeGRWDTum+ftUJPvWzxFScK5vO+pPZQw2JTDVTm
+   5X/3l6w47+BKTM0S3kCEu8si3HVxRiLYF0xdMKXeEOs1RKC6msESkJUe3
+   tiscw9RUEiOGynBIZCpJHr7l8UUcvdLuHlBMVkBR3hRdOH91b7eXa+lbe
+   vXJW9dZLRclZRSU0aqVmIP8GpRNJB6ByFOmXGsptgHmbyEGOVKITiScQN
+   RLH5m6siVH7KgQ3fq8uCKCg3ikYOG8727rcWNfg/MuLlFW7HGTTwmYbUF
+   yvnr/Fl6OFHM/wHazIMUTFAOzVn1sgh1s7pkWs88yMIbapKmE7Jrr/fr5
    A==;
-X-CSE-ConnectionGUID: szBqgeDESDez0SfT0Mjxfg==
-X-CSE-MsgGUID: U+3OPaR7RlGBjAp7dwZdTQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="79434657"
+X-CSE-ConnectionGUID: 0mMb9ac0RaK0R33Ltvxdkw==
+X-CSE-MsgGUID: aKkj1yWWSKGxiSpaDosGKQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="67112020"
 X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
-   d="scan'208";a="79434657"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 00:43:04 -0700
-X-CSE-ConnectionGUID: etY6YsZNQ+2KOAxeE+d6UA==
-X-CSE-MsgGUID: OX9chYK2S6KzFnE7qhylLA==
+   d="scan'208";a="67112020"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 01:46:07 -0700
+X-CSE-ConnectionGUID: WF9ZL+iMQLCSzbl0P1+MSw==
+X-CSE-MsgGUID: V9lST02qR2avy3w1+OrHJw==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
+   d="scan'208";a="235354848"
 Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 13 May 2026 00:43:01 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 13 May 2026 01:46:05 -0700
 Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wN4F8-000000003gh-2C10;
-	Wed, 13 May 2026 07:42:58 +0000
-Date: Wed, 13 May 2026 15:41:58 +0800
+	id 1wN5EB-000000003lP-00zT;
+	Wed, 13 May 2026 08:46:03 +0000
+Date: Wed, 13 May 2026 16:45:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Melih Emik <melihemik@noirlang.tr>, Helge Deller <deller@gmx.de>,
-	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>,
-	Wei Liu <wei.liu@kernel.org>,
-	Prasanna Kumar T S M <ptsm@linux.microsoft.com>,
-	Zsolt Kajtar <soci@c64.rulez.org>,
-	Mukesh Rathor <mrathor@linux.microsoft.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] fbdev: make sh_mobile_lcdc independent of FB_DEVICE
-Message-ID: <202605131530.ZsNIZEco-lkp@intel.com>
-References: <20260509213041.BqkXfeyP@66089470-6549-4c3e-ae4b-211f3f79ee1e>
+To: Li kunyu <likunyu10@163.com>, axboe@kernel.dk, tj@kernel.org,
+	josef@toxicpanda.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Li kunyu <likunyu10@163.com>
+Subject: Re: [PATCH v2] block/blk-iolatency: Add the processing flow of the
+ chained bio in the QoS and define the related types to solve the problem of
+ incorrect inflight processing in the QoS. The usage of the done_split_bio
+ abstract function in the blk-iolatency project.
+Message-ID: <202605131650.wyKmtlTK-lkp@intel.com>
+References: <20260506024244.2741-1-likunyu10@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,98 +68,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260509213041.BqkXfeyP@66089470-6549-4c3e-ae4b-211f3f79ee1e>
+In-Reply-To: <20260506024244.2741-1-likunyu10@163.com>
 
-Hi Melih,
+Hi Li,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm-tip/drm-tip linus/master v7.1-rc3 next-20260508]
+[auto build test ERROR on axboe/for-next]
+[also build test ERROR on linus/master v7.1-rc3 next-20260508]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Melih-Emik/fbdev-make-sh_mobile_lcdc-independent-of-FB_DEVICE/20260512-235223
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20260509213041.BqkXfeyP%4066089470-6549-4c3e-ae4b-211f3f79ee1e
-patch subject: [PATCH] fbdev: make sh_mobile_lcdc independent of FB_DEVICE
-config: powerpc64-randconfig-r111-20260513 (https://download.01.org/0day-ci/archive/20260513/202605131530.ZsNIZEco-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 8.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260513/202605131530.ZsNIZEco-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Li-kunyu/block-blk-iolatency-Add-the-processing-flow-of-the-chained-bio-in-the-QoS-and-define-the-related-types-to-solve-the-prob/20260513-135008
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git for-next
+patch link:    https://lore.kernel.org/r/20260506024244.2741-1-likunyu10%40163.com
+patch subject: [PATCH v2] block/blk-iolatency: Add the processing flow of the chained bio in the QoS and define the related types to solve the problem of incorrect inflight processing in the QoS. The usage of the done_split_bio abstract function in the blk-iolatency project.
+config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20260513/202605131650.wyKmtlTK-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260513/202605131650.wyKmtlTK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605131530.ZsNIZEco-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605131650.wyKmtlTK-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/device.h:15,
-                    from include/linux/backlight.h:12,
-                    from drivers/video/fbdev/sh_mobile_lcdcfb.c:12:
-   drivers/video/fbdev/sh_mobile_lcdcfb.c: In function 'sh_mobile_lcdc_release':
->> drivers/video/fbdev/sh_mobile_lcdcfb.c:1787:14: error: 'struct fb_info' has no member named 'dev'
-     dev_dbg(info->dev, "%s(): %d users\n", __func__, ch->use_count);
-                 ^~
-   include/linux/dev_printk.h:139:23: note: in definition of macro 'dev_no_printk'
-       _dev_printk(level, dev, fmt, ##__VA_ARGS__); \
-                          ^~~
-   drivers/video/fbdev/sh_mobile_lcdcfb.c:1787:2: note: in expansion of macro 'dev_dbg'
-     dev_dbg(info->dev, "%s(): %d users\n", __func__, ch->use_count);
-     ^~~~~~~
-   drivers/video/fbdev/sh_mobile_lcdcfb.c: In function 'sh_mobile_lcdc_open':
-   drivers/video/fbdev/sh_mobile_lcdcfb.c:1810:14: error: 'struct fb_info' has no member named 'dev'
-     dev_dbg(info->dev, "%s(): %d users\n", __func__, ch->use_count);
-                 ^~
-   include/linux/dev_printk.h:139:23: note: in definition of macro 'dev_no_printk'
-       _dev_printk(level, dev, fmt, ##__VA_ARGS__); \
-                          ^~~
-   drivers/video/fbdev/sh_mobile_lcdcfb.c:1810:2: note: in expansion of macro 'dev_dbg'
-     dev_dbg(info->dev, "%s(): %d users\n", __func__, ch->use_count);
-     ^~~~~~~
-   drivers/video/fbdev/sh_mobile_lcdcfb.c: In function 'sh_mobile_lcdc_set_par':
-   drivers/video/fbdev/sh_mobile_lcdcfb.c:1894:15: error: 'struct fb_info' has no member named 'dev'
-      dev_err(info->dev, "%s: unable to restart LCDC\n", __func__);
-                  ^~
-   include/linux/dev_printk.h:110:11: note: in definition of macro 'dev_printk_index_wrap'
-      _p_func(dev, fmt, ##__VA_ARGS__);   \
-              ^~~
-   drivers/video/fbdev/sh_mobile_lcdcfb.c:1894:3: note: in expansion of macro 'dev_err'
-      dev_err(info->dev, "%s: unable to restart LCDC\n", __func__);
-      ^~~~~~~
+>> ld.lld: error: undefined symbol: __rq_qos_done_split_bio
+   >>> referenced by bio.c
+   >>>               block/bio.o:(bio_endio) in archive vmlinux.a
 
-
-vim +1787 drivers/video/fbdev/sh_mobile_lcdcfb.c
-
-dd210503b77ae0 drivers/video/sh_mobile_lcdcfb.c Guennadi Liakhovetski 2010-09-14  1777  
-dd210503b77ae0 drivers/video/sh_mobile_lcdcfb.c Guennadi Liakhovetski 2010-09-14  1778  /*
-dd210503b77ae0 drivers/video/sh_mobile_lcdcfb.c Guennadi Liakhovetski 2010-09-14  1779   * Locking: both .fb_release() and .fb_open() are called with info->lock held if
-dd210503b77ae0 drivers/video/sh_mobile_lcdcfb.c Guennadi Liakhovetski 2010-09-14  1780   * user == 1, or with console sem held, if user == 0.
-dd210503b77ae0 drivers/video/sh_mobile_lcdcfb.c Guennadi Liakhovetski 2010-09-14  1781   */
-d7ad3342186330 drivers/video/sh_mobile_lcdcfb.c Laurent Pinchart      2011-11-22  1782  static int sh_mobile_lcdc_release(struct fb_info *info, int user)
-dd210503b77ae0 drivers/video/sh_mobile_lcdcfb.c Guennadi Liakhovetski 2010-09-14  1783  {
-dd210503b77ae0 drivers/video/sh_mobile_lcdcfb.c Guennadi Liakhovetski 2010-09-14  1784  	struct sh_mobile_lcdc_chan *ch = info->par;
-dd210503b77ae0 drivers/video/sh_mobile_lcdcfb.c Guennadi Liakhovetski 2010-09-14  1785  
-dd210503b77ae0 drivers/video/sh_mobile_lcdcfb.c Guennadi Liakhovetski 2010-09-14  1786  	mutex_lock(&ch->open_lock);
-dd210503b77ae0 drivers/video/sh_mobile_lcdcfb.c Guennadi Liakhovetski 2010-09-14 @1787  	dev_dbg(info->dev, "%s(): %d users\n", __func__, ch->use_count);
-dd210503b77ae0 drivers/video/sh_mobile_lcdcfb.c Guennadi Liakhovetski 2010-09-14  1788  
-dd210503b77ae0 drivers/video/sh_mobile_lcdcfb.c Guennadi Liakhovetski 2010-09-14  1789  	ch->use_count--;
-dd210503b77ae0 drivers/video/sh_mobile_lcdcfb.c Guennadi Liakhovetski 2010-09-14  1790  
-dd210503b77ae0 drivers/video/sh_mobile_lcdcfb.c Guennadi Liakhovetski 2010-09-14  1791  	/* Nothing to reconfigure, when called from fbcon */
-dd210503b77ae0 drivers/video/sh_mobile_lcdcfb.c Guennadi Liakhovetski 2010-09-14  1792  	if (user) {
-ac751efa6a0d70 drivers/video/sh_mobile_lcdcfb.c Torben Hohn           2011-01-25  1793  		console_lock();
-dd210503b77ae0 drivers/video/sh_mobile_lcdcfb.c Guennadi Liakhovetski 2010-09-14  1794  		sh_mobile_fb_reconfig(info);
-ac751efa6a0d70 drivers/video/sh_mobile_lcdcfb.c Torben Hohn           2011-01-25  1795  		console_unlock();
-dd210503b77ae0 drivers/video/sh_mobile_lcdcfb.c Guennadi Liakhovetski 2010-09-14  1796  	}
-dd210503b77ae0 drivers/video/sh_mobile_lcdcfb.c Guennadi Liakhovetski 2010-09-14  1797  
-dd210503b77ae0 drivers/video/sh_mobile_lcdcfb.c Guennadi Liakhovetski 2010-09-14  1798  	mutex_unlock(&ch->open_lock);
-dd210503b77ae0 drivers/video/sh_mobile_lcdcfb.c Guennadi Liakhovetski 2010-09-14  1799  
-dd210503b77ae0 drivers/video/sh_mobile_lcdcfb.c Guennadi Liakhovetski 2010-09-14  1800  	return 0;
-dd210503b77ae0 drivers/video/sh_mobile_lcdcfb.c Guennadi Liakhovetski 2010-09-14  1801  }
-dd210503b77ae0 drivers/video/sh_mobile_lcdcfb.c Guennadi Liakhovetski 2010-09-14  1802  
-
--- 
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
