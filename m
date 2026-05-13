@@ -1,57 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 539EA54652;
-	Wed, 13 May 2026 11:49:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA503FF8B1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 May 2026 11:49:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778672966; cv=none; b=QwxIjF99V65hXB63qSz0f4QSLemR7rtsBswVf5ohqzL2/Ok87Oy3nAnX+CBJyMPAzjIJuKUhQGjr2ptP31vIOiFAA0ZTRQkqyTafk50Kc2PU0uLoLNe4CukvuGZTGztJx0V0AC9RjMG2pw6+OPh9itrIDaI2g9va1YTcEvYreV8=
+	t=1778672968; cv=none; b=PmmizYrozBPrxgfFyQxoi5cqAhW4kLwr651p5EWElVYC8f+2acCc8TLNju3rf8gg+ZlhLcbPy7f4kGMCd8zOCBD0EwLedfjBRp//7snvLdKJZa/CTjQk8UH/DMAH61ABTeP8aLLvy2SeiSJO+ttRCJ22iElqqAz1b0C1i/BXKfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778672966; c=relaxed/simple;
-	bh=1ApqgXVpPcYg4iAazO5rsunUMAaZBd6a1LNRuJJb/2s=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Jbg3Up0gBnFhzgZS/PVwP1yZtwraeAn3yIumPYAVUWo3B4oQ78gFgRaI6Vs+y+RRhRFiFKAkAATxmsmwT29lyAd1BoDu7B0nemC9f8XhIY3tpc1yi8zBQ9eNEEpeydxQB2keJMf3CHAGRzU0KQbqJgaX3i+5KxbCyiTyFmtugIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NWzcorpt; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1778672968; c=relaxed/simple;
+	bh=u7jv4jN6Lh/mir8HFqotaq2V3/BMrw/PzxsSJsaVNNc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=i89/idlUiT9V9g1x8QA3JlDulezNXxzQSr2bav1fepfko6smFmqEYgSgRoI5YqL2WhqlIPBOoSJ+ppR5pnABOSeHJ5mgQIrNu1xYc+K2/Tn3MY7WDyCvY1SqyZcW/nfa7lhd1K41JvM+VusdO8p1eYq/ZUUVa9EKsHxPPjmFEeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EoE12LyD; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NWzcorpt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EoE12LyD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778672965; x=1810208965;
+  t=1778672967; x=1810208967;
   h=date:from:to:cc:subject:message-id;
-  bh=1ApqgXVpPcYg4iAazO5rsunUMAaZBd6a1LNRuJJb/2s=;
-  b=NWzcorptSjfhT9O0mevmiDV7D3gkjLthkiXnrnWYrvrJMSZUkrPLGdWs
-   1thqHWSFybz0jdW3mmsVeCyPt6WyxQKLX4Uq0L8VcY24qEvUG6IzGhybJ
-   fKEZPSV+8stWMUIc511Ub96fIE+GVIsfv32C4V0Q43wjy8uALpPl/iEDk
-   anangvJ2w0DZVHLKC9wRlijtjgHV986EqmGRiRQb/Pm+3uxWjWQuk+Xfg
-   1TBuoG138MySSvHlygzBySi6c7xXotck1TcT7HiXiaFgk+/8B5epH+qPu
-   5pSGfuAnlslmQQ2Juj91Fo+4j1qpAlnuM8nAIGbRUt7fiUHZz5ayF1Bh7
-   A==;
-X-CSE-ConnectionGUID: NW1GT4QWSX26YJCAT7Ox5w==
-X-CSE-MsgGUID: ukzb4QpZTyuT6U8nnvF/Bw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="90176986"
+  bh=u7jv4jN6Lh/mir8HFqotaq2V3/BMrw/PzxsSJsaVNNc=;
+  b=EoE12LyDCCHgk8xgOs0pB3Sojh7Q6NCwc7y0ogRnJQ6judDACwWRy6Pd
+   V081Zzusx94M3cLqgdKf1Wa34WZjMdFOjp8IdoifkmtAx8cEpgdRInAbr
+   lf/dPyp+JujBBaNcT80i3ZV0ZjyiW9njdnF3vKN7YgEU8u8o6Us3RWcEZ
+   aVm1Tybzss5QCwhg+qjtuPzok5nX1WE5U7JCWnm3cIVpmDr3tdO2Cq2cB
+   kL9uv1FJCJh+z5VnqbNxweHgMQCMv3JkpZF3trSesT6mdSBj9mU47h1lB
+   M8PrFuqijjDjkkSiIFCRCe0bqzb0Fs84fZ27AFFMHo5+WykUMelertNX6
+   Q==;
+X-CSE-ConnectionGUID: DosoAw8tT2qCkkd+kBmRNg==
+X-CSE-MsgGUID: HotNqcCbS2ORYl5pdS5jFA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="90176987"
 X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
-   d="scan'208";a="90176986"
+   d="scan'208";a="90176987"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
   by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 04:49:24 -0700
-X-CSE-ConnectionGUID: VNbWhpKRTnmAHgYLjkiS/g==
-X-CSE-MsgGUID: cNEptgJ0RqWz3uO/peA4bA==
+X-CSE-ConnectionGUID: NLQtFxtQStqkjVPz3lc95g==
+X-CSE-MsgGUID: YO4mpxTHQaSHtjsav0r4xQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
-   d="scan'208";a="238309790"
+   d="scan'208";a="238309793"
 Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 13 May 2026 04:49:21 -0700
+  by orviesa007.jf.intel.com with ESMTP; 13 May 2026 04:49:22 -0700
 Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wN85X-0000000041F-1h65;
+	id 1wN85X-0000000041D-1TiE;
 	Wed, 13 May 2026 11:49:19 +0000
-Date: Wed, 13 May 2026 19:48:26 +0800
+Date: Wed, 13 May 2026 19:48:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Harry Yoo <harry@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [harry:slab-allow-runtime-parameter-tuning-rfc-v1r1-wip 6/6]
- mm/slub.c:3173:2: error: member reference type 'void' is not a pointer
-Message-ID: <202605131900.xMLYUDLG-lkp@intel.com>
+To: Minchan Kim <minchan@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ mm-commits@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>
+Subject: [akpm-mm:mm-new 301/315] mm/oom_kill.c:922:12: warning:
+ 'kill_all_shared_mm' defined but not used
+Message-ID: <202605131940.kEzvUaiR-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,212 +62,62 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/harry/linux.git slab-allow-runtime-parameter-tuning-rfc-v1r1-wip
-head:   10c188407341817c6baf9dad9c788928f8387800
-commit: 10c188407341817c6baf9dad9c788928f8387800 [6/6] mm/slab: allow changing sheaf_capacity at runtime
-config: arm64-randconfig-004-20260513 (https://download.01.org/0day-ci/archive/20260513/202605131900.xMLYUDLG-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260513/202605131900.xMLYUDLG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+head:   2c3f468717231305523ddcd94d91c0d5e4a72419
+commit: def36547cd98fa3f7ecac1bf860479f500bc6b1e [301/315] mm: process_mrelease: introduce PROCESS_MRELEASE_REAP_KILL flag
+config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20260513/202605131940.kEzvUaiR-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260513/202605131940.kEzvUaiR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605131900.xMLYUDLG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605131940.kEzvUaiR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   mm/slub.c:3173:44: error: no member named 'cache' in 'struct slab_sheaf'
-    3173 |         lockdep_assert_held(this_cpu_ptr(&(sheaf->cache)->cpu_sheaves->lock));
-         |                                            ~~~~~  ^
-   include/linux/percpu-defs.h:252:20: note: expanded from macro 'this_cpu_ptr'
-     252 |         __verify_pcpu_ptr(ptr);                                         \
-         |                           ^~~
-   include/linux/percpu-defs.h:221:47: note: expanded from macro '__verify_pcpu_ptr'
-     221 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                                      ^~~
-   include/linux/lockdep.h:285:38: note: expanded from macro 'lockdep_assert_held'
-     285 |         do { lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD); __assume_ctx_lock(l); } while (0)
-         |                                             ^
-   include/linux/lockdep.h:252:47: note: expanded from macro 'lockdep_is_held'
-     252 | #define lockdep_is_held(lock)           lock_is_held(&(lock)->dep_map)
-         |                                                        ^~~~
-   include/linux/lockdep.h:279:32: note: expanded from macro 'lockdep_assert'
-     279 |         do { WARN_ON(debug_locks && !(cond)); } while (0)
-         |                                       ^~~~
-   include/asm-generic/bug.h:205:25: note: expanded from macro 'WARN_ON'
-     205 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   mm/slub.c:3173:44: error: no member named 'cache' in 'struct slab_sheaf'
-    3173 |         lockdep_assert_held(this_cpu_ptr(&(sheaf->cache)->cpu_sheaves->lock));
-         |                                            ~~~~~  ^
-   include/linux/percpu-defs.h:253:19: note: expanded from macro 'this_cpu_ptr'
-     253 |         SHIFT_PERCPU_PTR(ptr, my_cpu_offset);                           \
-         |                          ^~~
-   include/linux/percpu-defs.h:235:24: note: expanded from macro 'SHIFT_PERCPU_PTR'
-     235 |         RELOC_HIDE(PERCPU_PTR(__p), (__offset))
-         |                               ^~~
-   include/linux/percpu-defs.h:226:19: note: expanded from macro 'PERCPU_PTR'
-     226 |         (TYPEOF_UNQUAL(*(__p)) __force __kernel *)((__force unsigned long)(__p))
-         |                          ^~~
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/lockdep.h:252:47: note: expanded from macro 'lockdep_is_held'
-     252 | #define lockdep_is_held(lock)           lock_is_held(&(lock)->dep_map)
-         |                                                        ^~~~
-   include/linux/lockdep.h:279:32: note: expanded from macro 'lockdep_assert'
-     279 |         do { WARN_ON(debug_locks && !(cond)); } while (0)
-         |                                       ^~~~
-   include/asm-generic/bug.h:205:25: note: expanded from macro 'WARN_ON'
-     205 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   mm/slub.c:3173:44: error: no member named 'cache' in 'struct slab_sheaf'
-    3173 |         lockdep_assert_held(this_cpu_ptr(&(sheaf->cache)->cpu_sheaves->lock));
-         |                                            ~~~~~  ^
-   include/linux/percpu-defs.h:253:19: note: expanded from macro 'this_cpu_ptr'
-     253 |         SHIFT_PERCPU_PTR(ptr, my_cpu_offset);                           \
-         |                          ^~~
-   include/linux/percpu-defs.h:235:24: note: expanded from macro 'SHIFT_PERCPU_PTR'
-     235 |         RELOC_HIDE(PERCPU_PTR(__p), (__offset))
-         |                               ^~~
-   include/linux/percpu-defs.h:226:69: note: expanded from macro 'PERCPU_PTR'
-     226 |         (TYPEOF_UNQUAL(*(__p)) __force __kernel *)((__force unsigned long)(__p))
-         |                                                                            ^~~
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/lockdep.h:252:47: note: expanded from macro 'lockdep_is_held'
-     252 | #define lockdep_is_held(lock)           lock_is_held(&(lock)->dep_map)
-         |                                                        ^~~~
-   include/linux/lockdep.h:279:32: note: expanded from macro 'lockdep_assert'
-     279 |         do { WARN_ON(debug_locks && !(cond)); } while (0)
-         |                                       ^~~~
-   include/asm-generic/bug.h:205:25: note: expanded from macro 'WARN_ON'
-     205 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
->> mm/slub.c:3173:2: error: member reference type 'void' is not a pointer
-    3173 |         lockdep_assert_held(this_cpu_ptr(&(sheaf->cache)->cpu_sheaves->lock));
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/lockdep.h:285:22: note: expanded from macro 'lockdep_assert_held'
-     285 |         do { lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD); __assume_ctx_lock(l); } while (0)
-         |              ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/lockdep.h:252:54: note: expanded from macro 'lockdep_is_held'
-     252 | #define lockdep_is_held(lock)           lock_is_held(&(lock)->dep_map)
-         |                                                               ^
-   include/linux/lockdep.h:279:32: note: expanded from macro 'lockdep_assert'
-     279 |         do { WARN_ON(debug_locks && !(cond)); } while (0)
-         |              ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
-   include/asm-generic/bug.h:205:25: note: expanded from macro 'WARN_ON'
-     205 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   mm/slub.c:3173:44: error: no member named 'cache' in 'struct slab_sheaf'
-    3173 |         lockdep_assert_held(this_cpu_ptr(&(sheaf->cache)->cpu_sheaves->lock));
-         |                                            ~~~~~  ^
-   include/linux/percpu-defs.h:252:20: note: expanded from macro 'this_cpu_ptr'
-     252 |         __verify_pcpu_ptr(ptr);                                         \
-         |                           ^~~
-   include/linux/percpu-defs.h:221:47: note: expanded from macro '__verify_pcpu_ptr'
-     221 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                                      ^~~
-   include/linux/lockdep.h:285:84: note: expanded from macro 'lockdep_assert_held'
-     285 |         do { lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD); __assume_ctx_lock(l); } while (0)
-         |                                                                                           ^
-   include/linux/compiler-context-analysis.h:172:47: note: expanded from macro '__assume_ctx_lock'
-     172 | # define __assume_ctx_lock(var)                 do { (void)(var); } while (0)
-         |                                                             ^~~
-   mm/slub.c:3173:44: error: no member named 'cache' in 'struct slab_sheaf'
-    3173 |         lockdep_assert_held(this_cpu_ptr(&(sheaf->cache)->cpu_sheaves->lock));
-         |                                            ~~~~~  ^
-   include/linux/percpu-defs.h:253:19: note: expanded from macro 'this_cpu_ptr'
-     253 |         SHIFT_PERCPU_PTR(ptr, my_cpu_offset);                           \
-         |                          ^~~
-   include/linux/percpu-defs.h:235:24: note: expanded from macro 'SHIFT_PERCPU_PTR'
-     235 |         RELOC_HIDE(PERCPU_PTR(__p), (__offset))
-         |                               ^~~
-   include/linux/percpu-defs.h:226:19: note: expanded from macro 'PERCPU_PTR'
-     226 |         (TYPEOF_UNQUAL(*(__p)) __force __kernel *)((__force unsigned long)(__p))
-         |                          ^~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler.h:152:40: note: expanded from macro 'RELOC_HIDE'
-     152 | # define RELOC_HIDE(ptr, off) ((typeof(ptr))((unsigned long)(ptr) + (off)))
-         |                                        ^~~
-   include/linux/lockdep.h:285:84: note: expanded from macro 'lockdep_assert_held'
-     285 |         do { lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD); __assume_ctx_lock(l); } while (0)
-         |                                                                                           ^
-   include/linux/compiler-context-analysis.h:172:47: note: expanded from macro '__assume_ctx_lock'
-     172 | # define __assume_ctx_lock(var)                 do { (void)(var); } while (0)
-         |                                                             ^~~
-   mm/slub.c:3173:44: error: no member named 'cache' in 'struct slab_sheaf'
-    3173 |         lockdep_assert_held(this_cpu_ptr(&(sheaf->cache)->cpu_sheaves->lock));
-         |                                            ~~~~~  ^
-   include/linux/percpu-defs.h:253:19: note: expanded from macro 'this_cpu_ptr'
-     253 |         SHIFT_PERCPU_PTR(ptr, my_cpu_offset);                           \
-         |                          ^~~
-   include/linux/percpu-defs.h:235:24: note: expanded from macro 'SHIFT_PERCPU_PTR'
-     235 |         RELOC_HIDE(PERCPU_PTR(__p), (__offset))
-         |                               ^~~
-   include/linux/percpu-defs.h:226:69: note: expanded from macro 'PERCPU_PTR'
-     226 |         (TYPEOF_UNQUAL(*(__p)) __force __kernel *)((__force unsigned long)(__p))
-         |                                                                            ^~~
-   include/linux/compiler.h:152:40: note: expanded from macro 'RELOC_HIDE'
-     152 | # define RELOC_HIDE(ptr, off) ((typeof(ptr))((unsigned long)(ptr) + (off)))
-         |                                        ^~~
-   include/linux/lockdep.h:285:84: note: expanded from macro 'lockdep_assert_held'
-     285 |         do { lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD); __assume_ctx_lock(l); } while (0)
-         |                                                                                           ^
-   include/linux/compiler-context-analysis.h:172:47: note: expanded from macro '__assume_ctx_lock'
-     172 | # define __assume_ctx_lock(var)                 do { (void)(var); } while (0)
-         |                                                             ^~~
-   mm/slub.c:3187:44: error: no member named 'cache' in 'struct slab_sheaf'
-    3187 |         lockdep_assert_held(this_cpu_ptr(&(sheaf->cache)->cpu_sheaves->lock));
-         |                                            ~~~~~  ^
-   include/linux/percpu-defs.h:252:20: note: expanded from macro 'this_cpu_ptr'
-     252 |         __verify_pcpu_ptr(ptr);                                         \
-         |                           ^~~
-   include/linux/percpu-defs.h:221:47: note: expanded from macro '__verify_pcpu_ptr'
-     221 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                                      ^~~
-   include/linux/lockdep.h:285:38: note: expanded from macro 'lockdep_assert_held'
-     285 |         do { lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD); __assume_ctx_lock(l); } while (0)
-         |                                             ^
-   include/linux/lockdep.h:252:47: note: expanded from macro 'lockdep_is_held'
-     252 | #define lockdep_is_held(lock)           lock_is_held(&(lock)->dep_map)
-         |                                                        ^~~~
-   include/linux/lockdep.h:279:32: note: expanded from macro 'lockdep_assert'
-     279 |         do { WARN_ON(debug_locks && !(cond)); } while (0)
-         |                                       ^~~~
-   include/asm-generic/bug.h:205:25: note: expanded from macro 'WARN_ON'
-     205 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   mm/slub.c:3187:44: error: no member named 'cache' in 'struct slab_sheaf'
-    3187 |         lockdep_assert_held(this_cpu_ptr(&(sheaf->cache)->cpu_sheaves->lock));
-         |                                            ~~~~~  ^
-   include/linux/percpu-defs.h:253:19: note: expanded from macro 'this_cpu_ptr'
-     253 |         SHIFT_PERCPU_PTR(ptr, my_cpu_offset);                           \
-         |                          ^~~
-   include/linux/percpu-defs.h:235:24: note: expanded from macro 'SHIFT_PERCPU_PTR'
+>> mm/oom_kill.c:922:12: warning: 'kill_all_shared_mm' defined but not used [-Wunused-function]
+     922 | static int kill_all_shared_mm(struct task_struct *victim, struct mm_struct *mm)
+         |            ^~~~~~~~~~~~~~~~~~
 
 
-vim +/void +3173 mm/slub.c
+vim +/kill_all_shared_mm +922 mm/oom_kill.c
 
-  3162	
-  3163	/*
-  3164	 * The following two functions are used mainly in cases where we have to undo an
-  3165	 * intended action due to a race or cpu migration. Thus they do not check the
-  3166	 * empty or full sheaf limits for simplicity.
-  3167	 */
-  3168	
-  3169	static void barn_put_empty_sheaf(struct node_barn *barn, struct slab_sheaf *sheaf)
-  3170	{
-  3171		unsigned long flags;
-  3172	
-> 3173		lockdep_assert_held(this_cpu_ptr(&(sheaf->cache)->cpu_sheaves->lock));
-  3174	
-  3175		spin_lock_irqsave(&barn->lock, flags);
-  3176	
-  3177		list_add(&sheaf->barn_list, &barn->sheaves_empty);
-  3178		barn->nr_empty++;
-  3179	
-  3180		spin_unlock_irqrestore(&barn->lock, flags);
-  3181	}
-  3182	
+   912	
+   913	/*
+   914	 * kill_all_shared_mm - Deliver SIGKILL to all processes sharing the given address space.
+   915	 * @victim: the targeted OOM process group leader
+   916	 * @mm:     the virtual memory space being reaped
+   917	 *
+   918	 * Traverse all threads globally and signal any user processes sharing the identical
+   919	 * mm footprints, ensuring no concurrent users pin the memory. Skips the system
+   920	 * global init and kernel worker threads.
+   921	 */
+ > 922	static int kill_all_shared_mm(struct task_struct *victim, struct mm_struct *mm)
+   923	{
+   924		struct task_struct *p;
+   925		bool failed = false;
+   926	
+   927		rcu_read_lock();
+   928		for_each_process(p) {
+   929			if (!process_shares_mm(p, mm))
+   930				continue;
+   931			if (is_global_init(p)) {
+   932				failed = true;
+   933				continue;
+   934			}
+   935			if (unlikely(p->flags & PF_KTHREAD))
+   936				continue;
+   937	
+   938			if (do_pidfd_send_signal_pidns(task_pid(p), SIGKILL, PIDTYPE_TGID, NULL, 0))
+   939				failed = true;
+   940		}
+   941		rcu_read_unlock();
+   942	
+   943		return failed ? -EBUSY : 0;
+   944	}
+   945	
 
--- 
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
