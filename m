@@ -1,229 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C137141323A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 May 2026 12:42:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0032047D95C;
+	Wed, 13 May 2026 12:54:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778676148; cv=none; b=nOI4kB00WDnbu2+psMwVkD1R+nmzrPjO/MwS6G+cpdMy3LrIX9mcuXJSKP36MksBLBD+zJC4689CKCCuZLGXf6c7UlKkowR1Detli3CkbjAQtHXNVJHIk99teiWK0ybaJgaBZmb5NtNOGerZOOGXMskrfmTD09jwCTcqShGWJJk=
+	t=1778676874; cv=none; b=RQQy7gNJ8FqnePpsbsQ/lrAP40UOr+NJ5DLo7QvEVRJ0roPauJSY9oM/NeJFPD8sjQmzhMAJClUzi9FQsQBmDouRRxTJPDBo/PnyVDP/wDdwAL/xTocdCzo5nuc03G07l2p10PV11rLyRXITqcPVvgeCjVO34WehRIfkoY7W358=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778676148; c=relaxed/simple;
-	bh=gDvLrBnzCzXqy1EEHKwlPu3OiSAbmpvxWv1DcsOeVLg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=T1vL1t8zwgQhC5Mh9c92agoi9l28gL/lJQEe9Vhv5E8kUnmAj3xAHawZx15MoF/7p9Eo5PCHU71jEvmdvPShWb6DhkVKMlbRQT8bQSx/8+JVCwJtXSmxym3qYHG4YZdbKH5XXitYaszkUO6Smp6yOApCpgCEBpfgUjtBAmBVyaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gC/QM40X; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1778676874; c=relaxed/simple;
+	bh=CHoEEWTlL/dVcJyq7sL/SMMTKJ2L2HLLtpbVlyUn0KE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LxumtyPbRQj0HQTVrrHvrZGk6IA/8AfBv/wCrZDjaqQklk+gbRWPUDDAVvbJAcB0hBHC4fwaA+jHOXdUQSJvQsHkAjiG9y2DhDrORZ0UiqnfltS1tiTIVGh7gFuuUKFtNqZZtmJ97B6JIMYgjpGyC7oSjwkhQEO41CuxDCwxqOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RN8hWMV7; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gC/QM40X"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RN8hWMV7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778676146; x=1810212146;
-  h=date:from:to:cc:subject:message-id;
-  bh=gDvLrBnzCzXqy1EEHKwlPu3OiSAbmpvxWv1DcsOeVLg=;
-  b=gC/QM40X4ffnMjJzn8VorgX+Mn2gkbGnXdJLHRMyoyzDs0kOMdY46wNm
-   2zzDdT4Bk5jH7GWW2kvKabOzmntlDNhLOMO1K6dwWcv6Zqx9zT1Po6c4i
-   gDUgQdwkTj9BC9qs9Et6Lb9D59MJyoHGKRN4opBbPnE9eLZEsZrz1+QQU
-   os5rK1riScayKXpa5N9l7DVe/F+yjVZed8B/IVXDtoBGiesjTgeHHE8PR
-   Ox4uMcr6HKVcVN4z1Tz5RONnnTF38lEB83sOla7Z9CsRkwh1tMIxHcfm3
-   NZ8YQWhEUOJ04olE0H+ajfdry1BIVHkPVtNukk2poT8cVRivVZutqvK3J
-   w==;
-X-CSE-ConnectionGUID: 1CkSq4hcQJKcBRL34vgpoA==
-X-CSE-MsgGUID: PSK5SMtrTxSGV9crJ4rJBQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="105061182"
+  t=1778676871; x=1810212871;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CHoEEWTlL/dVcJyq7sL/SMMTKJ2L2HLLtpbVlyUn0KE=;
+  b=RN8hWMV7C5SIAxO1ANACXgj/wRTgsVoIbTjFvtUUJNPOpSZcUy7E9Kle
+   2aEbPTPRlupQAauP7DR30LkbI/rqyGDPkkMK5TURydTUZW7cfwGEqffQU
+   V295j3mS2lNK9v509CjbcbZ7/MbTU91W86tW6lgTmYL92zUhid1Ogs5CF
+   W37iqVzdzNQgG2J8JcJlH9ISkBWQ11+DwJhH+Yzwlib+S9LdoNeepuLOI
+   5ovwCO0xnvrrX20KCcdANA0lYJY9YqqGfogg1y37k9/HvbOFkeMpvCULW
+   CtRwm+snAwmRaKVy/azAUeH3SMn7heAZhWnzLpiJM6U/kQeVMKgqckqQ+
+   A==;
+X-CSE-ConnectionGUID: m1kSxeerTzu3leS9E0q7IQ==
+X-CSE-MsgGUID: PbtylbbNSWqdGcomEFNPKA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="83217379"
 X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
-   d="scan'208";a="105061182"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 05:42:26 -0700
-X-CSE-ConnectionGUID: WE6S0tmVQVSkGJXvDA4HPA==
-X-CSE-MsgGUID: Ez0b7eBzSQ+xePMXG6svjQ==
+   d="scan'208";a="83217379"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 05:54:31 -0700
+X-CSE-ConnectionGUID: 54HrI0MMS660LvNFaK4QVQ==
+X-CSE-MsgGUID: B5P8kFPIRKuOAlJ3avJBuQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
-   d="scan'208";a="237975659"
+   d="scan'208";a="233807073"
 Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 13 May 2026 05:42:25 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 13 May 2026 05:54:26 -0700
 Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wN8us-0000000045b-105F;
-	Wed, 13 May 2026 12:42:22 +0000
-Date: Wed, 13 May 2026 20:42:16 +0800
+	id 1wN96V-0000000047L-3yLL;
+	Wed, 13 May 2026 12:54:23 +0000
+Date: Wed, 13 May 2026 20:53:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 94/94]
- drivers/usb/typec/mode_selection.c:38: warning: Excess struct member 'enter'
- description in 'mode_state'
-Message-ID: <202605132013.c0T1hj0h-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Arnav Sharma <arnav4324@gmail.com>, ojeda@kernel.org,
+	paul@paul-moore.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Arnav Sharma <arnav4324@gmail.com>,
+	Serge Hallyn <sergeh@kernel.org>, Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	linux-security-module@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] rust: cred: add safe abstractions for capable() and
+ ns_capable()
+Message-ID: <202605132018.249x1thF-lkp@intel.com>
+References: <20260506204913.26022-1-arnav4324@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260506204913.26022-1-arnav4324@gmail.com>
 
-Hi Andrei,
+Hi Arnav,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   20a1d6f1c48a1cdea99c1ffff1d7812dbbf3e0d1
-commit: f49f8d90b43e2a0aa7a011c88529f38c409fbf0b [94/94] ANDROID: usb: typec: Implement mode selection
-config: arm64-randconfig-001 (https://download.01.org/0day-ci/archive/20260513/202605132013.c0T1hj0h-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260513/202605132013.c0T1hj0h-lkp@intel.com/reproduce)
+[auto build test ERROR on rust/rust-next]
+[also build test ERROR on linus/master v7.1-rc3 next-20260508]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Arnav-Sharma/rust-cred-add-safe-abstractions-for-capable-and-ns_capable/20260513-154340
+base:   https://github.com/Rust-for-Linux/linux rust-next
+patch link:    https://lore.kernel.org/r/20260506204913.26022-1-arnav4324%40gmail.com
+patch subject: [PATCH] rust: cred: add safe abstractions for capable() and ns_capable()
+config: loongarch-randconfig-001 (https://download.01.org/0day-ci/archive/20260513/202605132018.249x1thF-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260513/202605132018.249x1thF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605132013.c0T1hj0h-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605132018.249x1thF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/usb/typec/mode_selection.c:38: warning: Excess struct member 'enter' description in 'mode_state'
->> drivers/usb/typec/mode_selection.c:143: warning: Function parameter or struct member 'error' not described in 'mode_selection_next'
->> drivers/usb/typec/mode_selection.c:285: warning: Function parameter or struct member 'delay' not described in 'typec_mode_selection_start'
->> drivers/usb/typec/mode_selection.c:285: warning: Function parameter or struct member 'timeout' not described in 'typec_mode_selection_start'
-
-
-vim +38 drivers/usb/typec/mode_selection.c
-
-    23	
-    24	/**
-    25	 * struct mode_state - State tracking for a specific Type-C mode
-    26	 * @altmode:
-    27	 * @priority: The mode priority. Lower values indicate a more preferred mode
-    28	 * @enter: Flag indicating if the driver is currently attempting to enter or
-    29	 * exit the mode
-    30	 * @state: The current mode selection state
-    31	 * @list: List head to link this mode state into a prioritized list
-    32	 */
-    33	struct mode_state {
-    34		struct typec_altmode *altmode;
-    35		u8 priority;
-    36		enum ms_state state;
-    37		struct list_head list;
-  > 38	};
-    39	
-    40	struct altmode_selection {
-    41		struct list_head mode_list;
-    42		struct mutex mode_list_lock;
-    43		struct delayed_work mode_selection_work;
-    44		struct typec_partner *partner;
-    45	
-    46		unsigned int timeout;
-    47		unsigned int delay;
-    48	};
-    49	
-    50	static int increment_duplicated_priority(struct device *dev, void *data)
-    51	{
-    52		if (is_typec_altmode(dev)) {
-    53			struct typec_altmode **alt_target = (struct typec_altmode **)data;
-    54			struct typec_altmode *alt = to_typec_altmode(dev);
-    55	
-    56			if (alt != *alt_target && alt->priority == (*alt_target)->priority) {
-    57				alt->priority++;
-    58				*alt_target = alt;
-    59				return 1;
-    60			}
-    61		}
-    62		return 0;
-    63	}
-    64	
-    65	static int find_duplicated_priority(struct device *dev, void *data)
-    66	{
-    67		if (is_typec_altmode(dev)) {
-    68			struct typec_altmode **alt_target = (struct typec_altmode **)data;
-    69			struct typec_altmode *alt = to_typec_altmode(dev);
-    70	
-    71			if (alt != *alt_target && alt->priority == (*alt_target)->priority)
-    72				return 1;
-    73		}
-    74		return 0;
-    75	}
-    76	
-    77	int typec_mode_set_priority(struct typec_altmode *alt, const u8 priority)
-    78	{
-    79		struct typec_port *port = to_typec_port(alt->dev.parent);
-    80		const u8 old_priority = alt->priority;
-    81		int res = 1;
-    82	
-    83		alt->priority = priority;
-    84		while (res) {
-    85			res = device_for_each_child(&port->dev, &alt, find_duplicated_priority);
-    86			if (res) {
-    87				alt->priority++;
-    88				if (alt->priority == 0) {
-    89					alt->priority = old_priority;
-    90					return -EOVERFLOW;
-    91				}
-    92			}
-    93		}
-    94	
-    95		res = 1;
-    96		alt->priority = priority;
-    97		while (res)
-    98			res = device_for_each_child(&port->dev, &alt,
-    99					increment_duplicated_priority);
-   100	
-   101		return 0;
-   102	}
-   103	
-   104	static void mode_list_clean(struct altmode_selection *sel)
-   105	{
-   106		struct mode_state *ms, *tmp;
-   107	
-   108		list_for_each_entry_safe(ms, tmp, &sel->mode_list, list) {
-   109			list_del(&ms->list);
-   110			kfree(ms);
-   111		}
-   112	}
-   113	
-   114	/**
-   115	 * mode_selection_next() - Process mode selection results and schedule next
-   116	 * action
-   117	 * @sel: pointer to the altmode_selection structure
-   118	 * @ms: pointer to active mode_state object that is on top in
-   119	 * mode_list.
-   120	 *
-   121	 * The mutex protecting mode_list must be held by the caller when invoking this
-   122	 * function.
-   123	 *
-   124	 * This function evaluates the outcome of the previous mode entry or exit
-   125	 * attempt. Based on this result, it determines the next mode to process and
-   126	 * schedules `mode_selection_work_fn()` if further actions are required.
-   127	 *
-   128	 * If the previous mode entry was successful, the mode selection sequence is
-   129	 * considered complete.
-   130	 *
-   131	 * If the previous mode entry failed, this function schedules
-   132	 * `mode_selection_work_fn()` to attempt exiting the mode that was partially
-   133	 * activated but not fully entered.
-   134	 *
-   135	 * If the previous operation was an exit (after a failed entry attempt),
-   136	 * the internal list of candidate modes is advanced to determine the next mode
-   137	 * to enter.
-   138	 */
-   139	static void mode_selection_next(struct altmode_selection *sel,
-   140		struct mode_state *ms, const int error)
-   141	
-   142		__must_hold(&sel->mode_list_lock)
- > 143	{
-   144		if (ms->state == MS_STATE_FAILED) {
-   145			list_del(&ms->list);
-   146			kfree(ms);
-   147		} else if (error) {
-   148			ms->state = MS_STATE_FAILED;
-   149			dev_dbg(&sel->partner->dev, "%s: entry error %pe\n",
-   150					ms->altmode->desc, ERR_PTR(error));
-   151		} else {
-   152			dev_dbg(&sel->partner->dev, "%s altmode is active\n", ms->altmode->desc);
-   153			mode_list_clean(sel);
-   154		}
-   155	
-   156		if (!list_empty(&sel->mode_list))
-   157			schedule_delayed_work(&sel->mode_selection_work,
-   158				msecs_to_jiffies(sel->delay));
-   159	}
-   160	
+>> error[E0425]: cannot find function `capable` in crate `bindings`
+   --> rust/kernel/cred.rs:133:24
+   |
+   133 |     unsafe { bindings::capable(cap as i32) }
+   |                        ^^^^^^^ not found in `bindings`
+--
+>> error[E0425]: cannot find function `ns_capable` in crate `bindings`
+   --> rust/kernel/cred.rs:169:24
+   |
+   169    |       unsafe { bindings::ns_capable(ns, cap as i32) }
+   |                          ^^^^^^^^^^ help: a function with a similar name exists: `cap_capable`
+   |
+   ::: rust/bindings/bindings_generated.rs:107518:5
+   |
+   107518 | /     pub fn cap_capable(
+   107519 | |         cred: *const cred,
+   107520 | |         ns: *mut user_namespace,
+   107521 | |         cap: ffi::c_int,
+   107522 | |         opts: ffi::c_uint,
+   107523 | |     ) -> ffi::c_int;
+   | |____________________- similarly named function `cap_capable` defined here
 
 --
 0-DAY CI Kernel Test Service
