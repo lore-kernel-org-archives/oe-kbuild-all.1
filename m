@@ -1,128 +1,144 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0032047D95C;
-	Wed, 13 May 2026 12:54:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEDB02D9796
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 May 2026 14:27:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778676874; cv=none; b=RQQy7gNJ8FqnePpsbsQ/lrAP40UOr+NJ5DLo7QvEVRJ0roPauJSY9oM/NeJFPD8sjQmzhMAJClUzi9FQsQBmDouRRxTJPDBo/PnyVDP/wDdwAL/xTocdCzo5nuc03G07l2p10PV11rLyRXITqcPVvgeCjVO34WehRIfkoY7W358=
+	t=1778682459; cv=none; b=tDm3CT6AHSp+kK6+xVg3kQZv1PmxYbUK7JS1UZbr000IXzG4TyHXxs/G1JGZuEB0xJLYFYPJIrvmbG5i79RIEpb5fgTB5iRgvJUXeaG16sSFs4SS0AZTOQ2ISTEKKfHswg9IIRWQhpthkkfa7KQ6caf7FizxV6bzwbNtyixZ5VU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778676874; c=relaxed/simple;
-	bh=CHoEEWTlL/dVcJyq7sL/SMMTKJ2L2HLLtpbVlyUn0KE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LxumtyPbRQj0HQTVrrHvrZGk6IA/8AfBv/wCrZDjaqQklk+gbRWPUDDAVvbJAcB0hBHC4fwaA+jHOXdUQSJvQsHkAjiG9y2DhDrORZ0UiqnfltS1tiTIVGh7gFuuUKFtNqZZtmJ97B6JIMYgjpGyC7oSjwkhQEO41CuxDCwxqOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RN8hWMV7; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1778682459; c=relaxed/simple;
+	bh=OYXhH4RoRAdACG16vn/UIm3LZ8be77b4Ff8eoTQpj9U=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Qp2o3uKhVBbck1vzHsXrFQpHe6ELRMgo2M0PnVcaHriZYfd3cAMut6IWeEPGszcWmFY1kVd5nNb1ybmC8FN8FxiOTtji+EyAWR6EIcqtxVaw5SA6HFUWOIhbUGZ+xMyT1Sdpbj8AFlSfKh8dymIZdhe/NhUsLg9WsXOS0iCxpGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iELgmLLK; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RN8hWMV7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iELgmLLK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778676871; x=1810212871;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CHoEEWTlL/dVcJyq7sL/SMMTKJ2L2HLLtpbVlyUn0KE=;
-  b=RN8hWMV7C5SIAxO1ANACXgj/wRTgsVoIbTjFvtUUJNPOpSZcUy7E9Kle
-   2aEbPTPRlupQAauP7DR30LkbI/rqyGDPkkMK5TURydTUZW7cfwGEqffQU
-   V295j3mS2lNK9v509CjbcbZ7/MbTU91W86tW6lgTmYL92zUhid1Ogs5CF
-   W37iqVzdzNQgG2J8JcJlH9ISkBWQ11+DwJhH+Yzwlib+S9LdoNeepuLOI
-   5ovwCO0xnvrrX20KCcdANA0lYJY9YqqGfogg1y37k9/HvbOFkeMpvCULW
-   CtRwm+snAwmRaKVy/azAUeH3SMn7heAZhWnzLpiJM6U/kQeVMKgqckqQ+
-   A==;
-X-CSE-ConnectionGUID: m1kSxeerTzu3leS9E0q7IQ==
-X-CSE-MsgGUID: PbtylbbNSWqdGcomEFNPKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="83217379"
+  t=1778682456; x=1810218456;
+  h=date:from:to:cc:subject:message-id;
+  bh=OYXhH4RoRAdACG16vn/UIm3LZ8be77b4Ff8eoTQpj9U=;
+  b=iELgmLLK1l0c5mcAHz4V20cocvwyTnqXcFsmrXqOMJb/5kqmSJlgoEeU
+   cvcTrNx5YCA7bOYvML+RgPMNEuvEQZEJNFIzjRnwsWSBcoEAdFk3Pcd2r
+   DpxBRAeo3YV9IjOiK8DZ4JJjaGFftW8Cu4xRE6TM5NkHkpFI8IpmZcdka
+   aKNrCmanmrTTiab5MtrpEvvTTrgSS3GVL6IPs7dlbEGg+m4S7QV+JaTMz
+   oHrAItV6P3Yj+lpr6aWy3+GKx8Yd1vrE658R/JjBznMP+pI45hVDOxzXU
+   mAXyXERzS3N+ShYsJtajN4ofU594gqINcnWK82emGnYCGgfCQWPQkzh0q
+   Q==;
+X-CSE-ConnectionGUID: WhRZNxQ5R32xqQtSlx68sg==
+X-CSE-MsgGUID: Ni9G3E+LR7iZE9OtWg20vg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="79562401"
 X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
-   d="scan'208";a="83217379"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 05:54:31 -0700
-X-CSE-ConnectionGUID: 54HrI0MMS660LvNFaK4QVQ==
-X-CSE-MsgGUID: B5P8kFPIRKuOAlJ3avJBuQ==
+   d="scan'208";a="79562401"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 07:27:35 -0700
+X-CSE-ConnectionGUID: /ugfXhVISd6uU54rC/Odpg==
+X-CSE-MsgGUID: wTokb0y3TuO48fOgDE3UWA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
-   d="scan'208";a="233807073"
+   d="scan'208";a="276206044"
 Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 13 May 2026 05:54:26 -0700
+  by orviesa001.jf.intel.com with ESMTP; 13 May 2026 07:27:33 -0700
 Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wN96V-0000000047L-3yLL;
-	Wed, 13 May 2026 12:54:23 +0000
-Date: Wed, 13 May 2026 20:53:39 +0800
+	id 1wNAYc-000000004FL-32xB;
+	Wed, 13 May 2026 14:27:30 +0000
+Date: Wed, 13 May 2026 22:27:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnav Sharma <arnav4324@gmail.com>, ojeda@kernel.org,
-	paul@paul-moore.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Arnav Sharma <arnav4324@gmail.com>,
-	Serge Hallyn <sergeh@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	linux-security-module@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] rust: cred: add safe abstractions for capable() and
- ns_capable()
-Message-ID: <202605132018.249x1thF-lkp@intel.com>
-References: <20260506204913.26022-1-arnav4324@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 94/94]
+ drivers/irqchip/irq-mtk-cirq.c:288:34: warning: 'mtk_cirq_of_match' defined
+ but not used
+Message-ID: <202605132236.4pMRDbtD-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260506204913.26022-1-arnav4324@gmail.com>
 
-Hi Arnav,
+Hi Zyta,
 
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on rust/rust-next]
-[also build test ERROR on linus/master v7.1-rc3 next-20260508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Arnav-Sharma/rust-cred-add-safe-abstractions-for-capable-and-ns_capable/20260513-154340
-base:   https://github.com/Rust-for-Linux/linux rust-next
-patch link:    https://lore.kernel.org/r/20260506204913.26022-1-arnav4324%40gmail.com
-patch subject: [PATCH] rust: cred: add safe abstractions for capable() and ns_capable()
-config: loongarch-randconfig-001 (https://download.01.org/0day-ci/archive/20260513/202605132018.249x1thF-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260513/202605132018.249x1thF-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   20a1d6f1c48a1cdea99c1ffff1d7812dbbf3e0d1
+commit: 3a6f5d8bb93a24a08c3bcf615b349a5d93e4a265 [94/94] ANDROID: kconfig: Allow the MTK_IRQ to be unset
+config: i386-randconfig-r122-20260513 (https://download.01.org/0day-ci/archive/20260513/202605132236.4pMRDbtD-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260513/202605132236.4pMRDbtD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605132018.249x1thF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605132236.4pMRDbtD-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> error[E0425]: cannot find function `capable` in crate `bindings`
-   --> rust/kernel/cred.rs:133:24
-   |
-   133 |     unsafe { bindings::capable(cap as i32) }
-   |                        ^^^^^^^ not found in `bindings`
---
->> error[E0425]: cannot find function `ns_capable` in crate `bindings`
-   --> rust/kernel/cred.rs:169:24
-   |
-   169    |       unsafe { bindings::ns_capable(ns, cap as i32) }
-   |                          ^^^^^^^^^^ help: a function with a similar name exists: `cap_capable`
-   |
-   ::: rust/bindings/bindings_generated.rs:107518:5
-   |
-   107518 | /     pub fn cap_capable(
-   107519 | |         cred: *const cred,
-   107520 | |         ns: *mut user_namespace,
-   107521 | |         cap: ffi::c_int,
-   107522 | |         opts: ffi::c_uint,
-   107523 | |     ) -> ffi::c_int;
-   | |____________________- similarly named function `cap_capable` defined here
+>> drivers/irqchip/irq-mtk-cirq.c:288:34: warning: 'mtk_cirq_of_match' defined but not used [-Wunused-const-variable=]
+     288 | static const struct of_device_id mtk_cirq_of_match[] = {
+         |                                  ^~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=m] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
+   Depends on [n]: SOUND [=m] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=m] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=m] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=m] && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
+   Depends on [n]: SOUND [=m] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=m] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+
+
+vim +/mtk_cirq_of_match +288 drivers/irqchip/irq-mtk-cirq.c
+
+9dbbbd33aafaf1f Youlin Pei                 2017-04-07  287  
+45ac01959edcecf AngeloGioacchino Del Regno 2022-11-28 @288  static const struct of_device_id mtk_cirq_of_match[] = {
+45ac01959edcecf AngeloGioacchino Del Regno 2022-11-28  289  	{ .compatible = "mediatek,mt2701-cirq", .data = &mtk_cirq_regoffs_v1 },
+45ac01959edcecf AngeloGioacchino Del Regno 2022-11-28  290  	{ .compatible = "mediatek,mt8135-cirq", .data = &mtk_cirq_regoffs_v1 },
+45ac01959edcecf AngeloGioacchino Del Regno 2022-11-28  291  	{ .compatible = "mediatek,mt8173-cirq", .data = &mtk_cirq_regoffs_v1 },
+5c4e0aac0b2a271 AngeloGioacchino Del Regno 2022-11-28  292  	{ .compatible = "mediatek,mt8192-cirq", .data = &mtk_cirq_regoffs_v2 },
+45ac01959edcecf AngeloGioacchino Del Regno 2022-11-28  293  	{ /* sentinel */ }
+45ac01959edcecf AngeloGioacchino Del Regno 2022-11-28  294  };
+45ac01959edcecf AngeloGioacchino Del Regno 2022-11-28  295  
+
+:::::: The code at line 288 was first introduced by commit
+:::::: 45ac01959edcecfa5d6652c2397d3866e55b0da8 irqchip/irq-mtk-cirq: Move register offsets to const array
+
+:::::: TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+:::::: CC: Marc Zyngier <maz@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
