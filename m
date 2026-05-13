@@ -1,187 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1739F37EFEB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 May 2026 10:14:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 197731862;
+	Wed, 13 May 2026 10:24:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778667262; cv=none; b=M6ZJoysEZ3Z9J7EVVKThDSm17GKyoJc3I+fmx9M7FpG+xLK0HbOO1ZbpAH17OnPt9S59S9qehF6kBM5MCMfQAOf5srEVZiHCC+PjYozaiQCCO9L8A8DZl9RuWonqUfA8bPublYGJ3PAT0VWYp0Aj2VIBqFbXKTeXJZn+QPn10NU=
+	t=1778667859; cv=none; b=ZJPr4Mm0qO7S4HDOCj99Hb3/rV3WRpYqaz45PWxMdOR2egv2bJ4qPUTEvRvImSnL+KvU8VwM7cblmo1gdFYfnpQUBiskKb0C5lzj6iSqi9WANyqGNCCOUPm9WDx+IgJrBFunyxK0b8WH9NzJw7wLHKyD7TvCu4mtbtGobq2Fwhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778667262; c=relaxed/simple;
-	bh=3HBbUw2VUe3eOJoNTb0vOVW3qGQ8wwSYVvdUqATMrwY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Gdqvp/ZzQhkxg9Tbnq9WcFWLJtzH8cbpJuB6IOl5jezl1CNFct/+gegYfs6iyhfq+jylv+bNNd1RBEWjjqW8rQfCWyPfI8yu1vA7cYiEws5/QeW0FTYYvOFFrhTcdbMqUUCQPsn4MLGrMKlv3MprkXsjdlOLzBF5QdImRITI3ac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KBQPK/na; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1778667859; c=relaxed/simple;
+	bh=RiS1JaO68M9vJmqLLkTOJhZNvoMHotalRBsPmysRJcg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=l7B2YR/o2QjpmtlcxJcJv1rxQlggbmfp2V08xlnsyuwjjvcOH5ejCmYb8D8J/KFHIU2BlrZhyjPPO+FbJAgQhCgs/h5QJCfZaWEfsB/jU5lJ/V/SUrZipoKlWPugkmme96Ocm1se2w57BFBat9fGtnF+goHbUctFnOJVY36OF34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fH6p35KO; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KBQPK/na"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fH6p35KO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778667259; x=1810203259;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3HBbUw2VUe3eOJoNTb0vOVW3qGQ8wwSYVvdUqATMrwY=;
-  b=KBQPK/naoX85n2hLaIRJmCDwhG7urQu7I4rPDOr8E5ncHC3yz6LRiidm
-   BaM/C4X4S34ZdIHV+NfpRqGbulrmTyAyWICiBUsXg2y3sB6UJ+XW3Ir7n
-   FepKFHBTBgG41w6dc1NjqdjTb5TTAql4RLAVgH5iKQE3z1FgHLib7Y28+
-   eTKdVwOhdva5mAS1FYtn494yghWWbrIEowaQa7eyWZM91MBerobN4YebZ
-   bB5UJ4YxhstWVGT1zqVAQ+HHMu6rUX80dAx4i+F5wdS2DxXjqb5camIUk
-   ni9ONf/5+H8t1bTmYP0RHRNzN0kViopu/E7BGn1ntqPPd15QbwCOmbDW4
-   w==;
-X-CSE-ConnectionGUID: +XkAmtkxSTytV5agcLhRMw==
-X-CSE-MsgGUID: cXqdZxLoR6afvcENofIvVQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="79620785"
+  t=1778667858; x=1810203858;
+  h=date:from:to:cc:subject:message-id;
+  bh=RiS1JaO68M9vJmqLLkTOJhZNvoMHotalRBsPmysRJcg=;
+  b=fH6p35KOixSFXI2HkLqLoPs0WrbY5FXaCN9p6nAB0URp0I1m46GwCOHK
+   92rGyiQUqbviuZiqKr+UJzE30dwBrfV6XCJC6CBtaQkBi1UPkxEZAlJA0
+   /DMoOGlTtqZyD7tDuyZPHwarsl614tjyqww9BZPEMTPwnS+CP390vMPHQ
+   dxoj33rZOgzTA9Nu69JxulMhqr6ro63ao7iPCfl2HlHr/3ijzVfhxoX+j
+   r6vSKH1jX3lEdsNhUjcQUm6HpQfGgzujef2pQW+gN0H9NpErzjzAhCNZp
+   t2Qn7GeWYFEnMZ6SU58bcD52buoitJQenX5i8UjqyquNBtPrHYlkPtmRw
+   g==;
+X-CSE-ConnectionGUID: SgxxPaKfSRiWCvm8LbonpQ==
+X-CSE-MsgGUID: lzYXZU6aTJS7kcRrBhTJKA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="102257676"
 X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
-   d="scan'208";a="79620785"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 03:14:17 -0700
-X-CSE-ConnectionGUID: OAOxY4jNSliEXYTGBBewPg==
-X-CSE-MsgGUID: ntnq6umBR56fNj8+gRulRA==
+   d="scan'208";a="102257676"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 03:24:17 -0700
+X-CSE-ConnectionGUID: 5HS18eQfRIqI3gnFVdfnUw==
+X-CSE-MsgGUID: EZEiriG3R1ikEmtNJ30btA==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
+   d="scan'208";a="242056391"
 Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 13 May 2026 03:14:15 -0700
+  by orviesa003.jf.intel.com with ESMTP; 13 May 2026 03:24:16 -0700
 Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wN6bV-000000003uN-0nKu;
-	Wed, 13 May 2026 10:14:13 +0000
-Date: Wed, 13 May 2026 18:13:27 +0800
+	id 1wN6lB-000000003vB-2TuA;
+	Wed, 13 May 2026 10:24:13 +0000
+Date: Wed, 13 May 2026 18:24:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mayur Kumar <kmayur809@gmail.com>, yilun.xu@intel.com, mdf@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, trix@redhat.com,
-	linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Mayur Kumar <kmayur809@gmail.com>
-Subject: Re: [PATCH] fpga: dfl: afu: use kzalloc_obj over kzalloc with sizeof
-Message-ID: <202605131843.wVRKksBi-lkp@intel.com>
-References: <20260511181240.223224-1-kmayur809@gmail.com>
+To: "Harry Yoo (Oracle)" <harry@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [harry:slab-allow-runtime-parameter-tuning-rfc-v1r1-wip 2/6]
+ mm/slub.c:7791:39: error: use of undeclared identifier 'USHORT_MAX'
+Message-ID: <202605131848.ohpPqW3E-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260511181240.223224-1-kmayur809@gmail.com>
 
-Hi Mayur,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v7.1-rc3 next-20260508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mayur-Kumar/fpga-dfl-afu-use-kzalloc_obj-over-kzalloc-with-sizeof/20260513-141558
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260511181240.223224-1-kmayur809%40gmail.com
-patch subject: [PATCH] fpga: dfl: afu: use kzalloc_obj over kzalloc with sizeof
-config: nios2-randconfig-002-20260513 (https://download.01.org/0day-ci/archive/20260513/202605131843.wVRKksBi-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260513/202605131843.wVRKksBi-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/harry/linux.git slab-allow-runtime-parameter-tuning-rfc-v1r1-wip
+head:   10c188407341817c6baf9dad9c788928f8387800
+commit: c31e168e0f0f0b695792c4c9a82bd77ab9d94d12 [2/6] mm/slab: store sheaf capacity for all sheaves
+config: um-allnoconfig (https://download.01.org/0day-ci/archive/20260513/202605131848.ohpPqW3E-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260513/202605131848.ohpPqW3E-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605131843.wVRKksBi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605131848.ohpPqW3E-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/fpga/dfl-afu-dma-region.c: In function 'afu_dma_map_region':
->> drivers/fpga/dfl-afu-dma-region.c:319:9: error: assignment to 'struct dfl_afu_dma_region *' from incompatible pointer type 'struct dfl_afu_dma_region **' [-Werror=incompatible-pointer-types]
-     region = kzalloc_obj(region, GFP_KERNEL);
-            ^
-   cc1: some warnings being treated as errors
+>> mm/slub.c:7791:39: error: use of undeclared identifier 'USHORT_MAX'
+    7791 |         return max_t(unsigned int, capacity, USHORT_MAX);
+         |                                              ^~~~~~~~~~
+   1 error generated.
 
 
-vim +319 drivers/fpga/dfl-afu-dma-region.c
+vim +/USHORT_MAX +7791 mm/slub.c
 
-   289	
-   290	/**
-   291	 * afu_dma_map_region - map memory region for dma
-   292	 * @fdata: feature dev data
-   293	 * @user_addr: address of the memory region
-   294	 * @length: size of the memory region
-   295	 * @iova: pointer of iova address
-   296	 *
-   297	 * Map memory region defined by @user_addr and @length, and return dma address
-   298	 * of the memory region via @iova.
-   299	 * Return 0 for success, otherwise error code.
-   300	 */
-   301	int afu_dma_map_region(struct dfl_feature_dev_data *fdata,
-   302			       u64 user_addr, u64 length, u64 *iova)
-   303	{
-   304		struct device *dev = &fdata->dev->dev;
-   305		struct dfl_afu_dma_region *region;
-   306		int ret;
-   307	
-   308		/*
-   309		 * Check Inputs, only accept page-aligned user memory region with
-   310		 * valid length.
-   311		 */
-   312		if (!PAGE_ALIGNED(user_addr) || !PAGE_ALIGNED(length) || !length)
-   313			return -EINVAL;
-   314	
-   315		/* Check overflow */
-   316		if (user_addr + length < user_addr)
-   317			return -EINVAL;
-   318	
- > 319		region = kzalloc_obj(region, GFP_KERNEL);
-   320		if (!region)
-   321			return -ENOMEM;
-   322	
-   323		region->user_addr = user_addr;
-   324		region->length = length;
-   325	
-   326		/* Pin the user memory region */
-   327		ret = afu_dma_pin_pages(fdata, region);
-   328		if (ret) {
-   329			dev_err(dev, "failed to pin memory region\n");
-   330			goto free_region;
-   331		}
-   332	
-   333		/* Only accept continuous pages, return error else */
-   334		if (!afu_dma_check_continuous_pages(region)) {
-   335			dev_err(dev, "pages are not continuous\n");
-   336			ret = -EINVAL;
-   337			goto unpin_pages;
-   338		}
-   339	
-   340		/* As pages are continuous then start to do DMA mapping */
-   341		region->iova = dma_map_page(dfl_fpga_fdata_to_parent(fdata),
-   342					    region->pages[0], 0,
-   343					    region->length,
-   344					    DMA_BIDIRECTIONAL);
-   345		if (dma_mapping_error(dfl_fpga_fdata_to_parent(fdata), region->iova)) {
-   346			dev_err(dev, "failed to map for dma\n");
-   347			ret = -EFAULT;
-   348			goto unpin_pages;
-   349		}
-   350	
-   351		*iova = region->iova;
-   352	
-   353		mutex_lock(&fdata->lock);
-   354		ret = afu_dma_region_add(fdata, region);
-   355		mutex_unlock(&fdata->lock);
-   356		if (ret) {
-   357			dev_err(dev, "failed to add dma region\n");
-   358			goto unmap_dma;
-   359		}
-   360	
-   361		return 0;
-   362	
-   363	unmap_dma:
-   364		dma_unmap_page(dfl_fpga_fdata_to_parent(fdata),
-   365			       region->iova, region->length, DMA_BIDIRECTIONAL);
-   366	unpin_pages:
-   367		afu_dma_unpin_pages(fdata, region);
-   368	free_region:
-   369		kfree(region);
-   370		return ret;
-   371	}
-   372	
+  7745	
+  7746	static unsigned short calculate_sheaf_capacity(struct kmem_cache *s,
+  7747						       struct kmem_cache_args *args)
+  7748	
+  7749	{
+  7750		unsigned int capacity;
+  7751		size_t size;
+  7752	
+  7753	
+  7754		if (IS_ENABLED(CONFIG_SLUB_TINY) || s->flags & SLAB_DEBUG_FLAGS)
+  7755			return 0;
+  7756	
+  7757		/*
+  7758		 * Bootstrap caches can't have sheaves for now (SLAB_NO_OBJ_EXT).
+  7759		 * SLAB_NOLEAKTRACE caches (e.g., kmemleak's object_cache) must not
+  7760		 * have sheaves to avoid recursion when sheaf allocation triggers
+  7761		 * kmemleak tracking.
+  7762		 */
+  7763		if (s->flags & (SLAB_NO_OBJ_EXT | SLAB_NOLEAKTRACE))
+  7764			return 0;
+  7765	
+  7766		/*
+  7767		 * For now we use roughly similar formula (divided by two as there are
+  7768		 * two percpu sheaves) as what was used for percpu partial slabs, which
+  7769		 * should result in similar lock contention (barn or list_lock)
+  7770		 */
+  7771		if (s->size >= PAGE_SIZE)
+  7772			capacity = 4;
+  7773		else if (s->size >= 1024)
+  7774			capacity = 12;
+  7775		else if (s->size >= 256)
+  7776			capacity = 26;
+  7777		else
+  7778			capacity = 60;
+  7779	
+  7780		/* Increment capacity to make sheaf exactly a kmalloc size bucket */
+  7781		size = struct_size_t(struct slab_sheaf, objects, capacity);
+  7782		size = kmalloc_size_roundup(size);
+  7783		capacity = (size - struct_size_t(struct slab_sheaf, objects, 0)) / sizeof(void *);
+  7784	
+  7785		/*
+  7786		 * Respect an explicit request for capacity that's typically motivated by
+  7787		 * expected maximum size of kmem_cache_prefill_sheaf() to not end up
+  7788		 * using low-performance oversize sheaves
+  7789		 */
+  7790		capacity = max(capacity, args->sheaf_capacity);
+> 7791		return max_t(unsigned int, capacity, USHORT_MAX);
+  7792	}
+  7793	
 
 --
 0-DAY CI Kernel Test Service
