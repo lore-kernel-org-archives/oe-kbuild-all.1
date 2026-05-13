@@ -1,143 +1,131 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66156145B11;
-	Wed, 13 May 2026 15:32:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC441357CF7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 May 2026 15:40:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778686361; cv=none; b=ZeiEifH5tsbCgdFsBPATHpJGJ9n1Cyj+jfW7CC5MeeVyI9KnbMfxh7vQI+n5nmjnH5eDuyoM++VNeceBq7nos49In9dbwqHtqYltIn4zDkgcfa8xkAPbhlGABlZxj7IxYGm0XkT6S0NKsZtg2sxCI/Yo0BVn2ncM0SdhIaNW4HA=
+	t=1778686849; cv=none; b=tobOR3UFw/BFWgkBdVmoMI4S+j0zTotNcB8MqVg4LegA2n5BEx7RIfOZrAM4EQtO6qOpz1JyymIA5nRPG0dN0G7X6O/U8wMukee4YYt+S/PyOIst5UmSkCXIlf0Aq4/kUm1KRMOrZ2St8vVI00sJs1cQSmm6AM1R/pfw376TtV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778686361; c=relaxed/simple;
-	bh=vfpMWq/u+iDnjqDgoPmABsgVru5Kptmi4H8MbvcH/IA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=hS5vMpjNSCb738tK17CzUV7rKwNoYz0lVczMMzC0490RN/8NttPTzXuggjHLAPalZXPJlPsZPOOoGKL4Bzcvg01G3uy9uRYX1GqOPYta7JdQ5mcey3suycPmQx177dgwL8m8Cx+W07HP171gn/R6kHOHxde0CR99cwaJN3KcoTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H4ZfFFZ8; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1778686849; c=relaxed/simple;
+	bh=wo5C+2xZzhw8VcUkpdZeDHv9USz6c+kDxkR+x31Bfzg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UN+e4Z5DK6XL4ka/OtcXc1LO4otDc6NWaxwi0DRdCXNgmipqrkUQUD0slZRPrBSyrIgY0jdyUuJ3BY3e9RWlWR9i6URVl7LG0Eb16og/2nTtT6EDJNWCamyBrJyCAEyEkA2yZN/10QSXXW2VFRYT8X7l428mS6DpDVG79erfRsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nk+pzxGg; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H4ZfFFZ8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nk+pzxGg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778686360; x=1810222360;
-  h=date:from:to:cc:subject:message-id;
-  bh=vfpMWq/u+iDnjqDgoPmABsgVru5Kptmi4H8MbvcH/IA=;
-  b=H4ZfFFZ8Y8HeJtZemK6UzPdfVDtIE3cq5eYbluDEE/v+qPjlthJ9UVrr
-   WcxBXatp/3fTdkdSH4sbTc7ZWgSiYbdcvV4ejL2epsP4lHOZVzPxbRwki
-   921Pnl4eUo40BFWBu7Q8K3/jtxVZlUi0q3nmKVFDEe6Ls4s0wirtENge9
-   GG177aszwz434Pcx3k6JNVom1jfI2ii+ZkvzoX0QHX4phZWrD1p3v19sK
-   H2Rb46mLNhaU8dQ5ULQHx+IvuHShXs4VR0g6E5eQL4BTKdXZUDKHeK7PK
-   g7xqDY2pM3JBdkkM0DVs8voeqyevXPa1ZzZGXdKJYI60t0MkFr56IEDde
+  t=1778686847; x=1810222847;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wo5C+2xZzhw8VcUkpdZeDHv9USz6c+kDxkR+x31Bfzg=;
+  b=Nk+pzxGgrjr49PxwwG0NnBuUQjYdhQzfR4ebqdQOc7xEqzAQVmE9eBdA
+   AYWENjBld5ERokqbFyZz5cbC/9MoKauRHlmEaPk51q+Ee3Sjdopllcv4p
+   3y1gbCmXv3zAZF0z+SyRnNkUE6bqenqoNcqWcofyC3E5BXS1ZfDW1DaiG
+   tCELwwsKK1Z0OTyf8mPDWZWbLtlNfMMlTl/brJk60zf++a8E4e4hspoXa
+   6kLomb9P1l5dnh2JkhIVp0vsETZLUGa49kTDfWmnD2YIuHtBUHX10sPLH
+   aJuksbkKL+RVeTjsQGOpuf0tLmc/DPMCA/PzD27x2FeCqlzgXILS8RevB
    g==;
-X-CSE-ConnectionGUID: 8+KhxO2xRjecfzX9qoACqg==
-X-CSE-MsgGUID: 2ztlpcZ0Q0m5jCwLkCr0kA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="90310765"
+X-CSE-ConnectionGUID: b4ov/qPtTEuA/fWJZPcduA==
+X-CSE-MsgGUID: mPRwM2JJSrOj7nFSz3RLkQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="83231337"
 X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
-   d="scan'208";a="90310765"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 08:32:39 -0700
-X-CSE-ConnectionGUID: blVsVntXQsK5Y3UJMW1ijQ==
-X-CSE-MsgGUID: ich/W68aTHytQV5CGryyHQ==
+   d="scan'208";a="83231337"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 08:40:47 -0700
+X-CSE-ConnectionGUID: PmjlhOTpT5ePkzrqqjg1tw==
+X-CSE-MsgGUID: pDAHxIbmQtSwxFJbIiGiKA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
-   d="scan'208";a="261859268"
-Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 13 May 2026 08:32:37 -0700
-Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
+   d="scan'208";a="242122923"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 13 May 2026 08:40:44 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wNBZa-000000004KJ-3edD;
-	Wed, 13 May 2026 15:32:34 +0000
-Date: Wed, 13 May 2026 23:32:14 +0800
+	id 1wNBhR-000000008Zd-3Fow;
+	Wed, 13 May 2026 15:40:41 +0000
+Date: Wed, 13 May 2026 17:39:41 +0200
 From: kernel test robot <lkp@intel.com>
-To: Andrew Jones <andrew.jones@oss.qualcomm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Anup Patel <anup@brainfault.org>
-Subject: [avpatel:riscv_trace_acpi_support_v1 7/60]
- drivers/iommu/riscv/iommu.c:1181:15: error: call to undeclared function
- 'virt_to_pfn'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202605132339.J4ujGoJH-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Arnav Sharma <arnav4324@gmail.com>, ojeda@kernel.org,
+	paul@paul-moore.com
+Cc: oe-kbuild-all@lists.linux.dev, Arnav Sharma <arnav4324@gmail.com>,
+	Serge Hallyn <sergeh@kernel.org>, Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	linux-security-module@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] rust: cred: add safe abstractions for capable() and
+ ns_capable()
+Message-ID: <202605131729.NXF18q0f-lkp@intel.com>
+References: <20260506204913.26022-1-arnav4324@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260506204913.26022-1-arnav4324@gmail.com>
 
-tree:   https://github.com/avpatel/linux.git riscv_trace_acpi_support_v1
-head:   893faf8dbff9fe0958fb1f32b778914af0fa1b45
-commit: 636d6f4d6f412057412d72bfa4751cf2e760b0ad [7/60] iommu/riscv: Add IRQ domain for interrupt remapping
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20260513/202605132339.J4ujGoJH-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260513/202605132339.J4ujGoJH-lkp@intel.com/reproduce)
+Hi Arnav,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on rust/rust-next]
+[also build test ERROR on linus/master v7.1-rc3 next-20260508]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Arnav-Sharma/rust-cred-add-safe-abstractions-for-capable-and-ns_capable/20260513-154340
+base:   https://github.com/Rust-for-Linux/linux rust-next
+patch link:    https://lore.kernel.org/r/20260506204913.26022-1-arnav4324%40gmail.com
+patch subject: [PATCH] rust: cred: add safe abstractions for capable() and ns_capable()
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260513/202605131729.NXF18q0f-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260513/202605131729.NXF18q0f-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605132339.J4ujGoJH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605131729.NXF18q0f-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/iommu/riscv/iommu.c:18:
-   In file included from include/linux/crash_dump.h:5:
-   In file included from include/linux/kexec.h:20:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
->> drivers/iommu/riscv/iommu.c:1181:15: error: call to undeclared function 'virt_to_pfn'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1181 |                 dc.msiptp = virt_to_pfn(domain->msi_root) |
-         |                             ^
-   drivers/iommu/riscv/iommu.c:1181:15: note: did you mean 'virt_to_pte'?
-   arch/um/include/asm/pgtable.h:284:15: note: 'virt_to_pte' declared here
-     284 | extern pte_t *virt_to_pte(struct mm_struct *mm, unsigned long addr);
-         |               ^
-   1 warning and 1 error generated.
-
-
-vim +/virt_to_pfn +1181 drivers/iommu/riscv/iommu.c
-
-  1155	
-  1156	static int riscv_iommu_attach_paging_domain(struct iommu_domain *iommu_domain,
-  1157						    struct device *dev,
-  1158						    struct iommu_domain *old)
-  1159	{
-  1160		struct riscv_iommu_domain *domain = iommu_domain_to_riscv(iommu_domain);
-  1161		struct riscv_iommu_device *iommu = dev_to_iommu(dev);
-  1162		struct riscv_iommu_info *info = dev_iommu_priv_get(dev);
-  1163		struct pt_iommu_riscv_64_hw_info pt_info;
-  1164		struct riscv_iommu_dc dc = {0};
-  1165		int ret;
-  1166	
-  1167		pt_iommu_riscv_64_hw_info(&domain->riscvpt, &pt_info);
-  1168	
-  1169		if (!riscv_iommu_pt_supported(iommu, pt_info.fsc_iosatp_mode))
-  1170			return -ENODEV;
-  1171	
-  1172		ret = riscv_iommu_ir_attach_paging_domain(domain, dev);
-  1173		if (ret)
-  1174			return ret;
-  1175	
-  1176		dc.fsc = FIELD_PREP(RISCV_IOMMU_PC_FSC_MODE, pt_info.fsc_iosatp_mode) |
-  1177			 FIELD_PREP(RISCV_IOMMU_PC_FSC_PPN, pt_info.ppn);
-  1178		dc.ta = FIELD_PREP(RISCV_IOMMU_PC_TA_PSCID, domain->pscid) | RISCV_IOMMU_PC_TA_V;
-  1179	
-  1180		if (domain->msi_root) {
-> 1181			dc.msiptp = virt_to_pfn(domain->msi_root) |
-  1182				    FIELD_PREP(RISCV_IOMMU_DC_MSIPTP_MODE,
-  1183					       RISCV_IOMMU_DC_MSIPTP_MODE_FLAT);
-  1184			dc.msi_addr_mask = domain->msi_addr_mask;
-  1185			dc.msi_addr_pattern = domain->msi_addr_pattern;
-  1186		}
-  1187	
-  1188		if (riscv_iommu_bond_link(domain, dev))
-  1189			return -ENOMEM;
-  1190	
-  1191		riscv_iommu_iodir_update(iommu, dev, &dc);
-  1192		riscv_iommu_bond_unlink(info->domain, dev);
-  1193		info->domain = domain;
-  1194	
-  1195		return 0;
-  1196	}
-  1197	
+   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS=\ -fno-crash-diagnostics\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 W=1 --keep-going LLVM=1 -j384 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck 
+   make: Entering directory '/kbuild/src'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in rust/kernel/cred.rs:168:
+        // the specified capability is granted.
+        unsafe { bindings::ns_capable(ns, cap as i32) }
+    }
+   -
+    
+>> Diff in rust/kernel/cred.rs:168:
+        // the specified capability is granted.
+        unsafe { bindings::ns_capable(ns, cap as i32) }
+    }
+   -
+    
+   make[2]: *** [Makefile:1954: rustfmt] Error 123
+   make[2]: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'rustfmtcheck' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'rustfmtcheck' not remade because of errors.
+   make: Leaving directory '/kbuild/src'
 
 --
 0-DAY CI Kernel Test Service
