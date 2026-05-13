@@ -1,99 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C39E33CAA55;
-	Wed, 13 May 2026 23:07:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21F57242D88
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 May 2026 23:28:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778713664; cv=none; b=VcIUwfvbgVbsyWr2kkb4uptAQvDAGy8EhJd4JSe9BmuziH5O1RG7D8l5dlUs7hcY5tcRoIg5L5C+fR/fiZ5cnaCAMcQvZ/9S+yCzbp67EwLVrB7YqdSqwLS6DKTuspQWAzECHsefJOXXPCoTdIhnrnqMu2woGmXMhd1DI5DFcC0=
+	t=1778714925; cv=none; b=S0zJjKM1VO2UuOBuwfis/ZAYT+TQm8qToVajF+R/RoysIT/dkMancDVuAN8LKncbR9muAtF2Mml2gR8qo3NRhTUIizbfc2a/8PeZPyuLcFt5A95+shcpkkXhFrSBZiXcfFY00uTfvBBKzHgCXNeGL3s1lBnc0iCnlP3zvSJ7BGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778713664; c=relaxed/simple;
-	bh=ALVwDDjok+OEdPpXRwF61S2YSUI5YuC2BZEzIYLQAj8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GS61Dy5XKSJYdjxNJIJQnhts2z8mtyfTgdbWY7GWrlqWsCYRjEAmp0OzJWzb1pbQQaQbOoDvlBW0CMqO0p2IKu4kALOK9hhvUkjQcNtfInDO2BxMLCjQ+jpNQwS50BrIEsPWfEwsM39Y1RAHSQyMWtkkEbcC0CJOTV8BdYDr/U4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C7GkXQNP; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1778714925; c=relaxed/simple;
+	bh=MTVZT7OPd6cpZpeKVgU0Me0dTdPoFySGDwJNCikvHIY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=X5P5Jexo4E7IvqS1EQEPbdu8z5SKPwJSn0d0aSmH/AHFCCFIPw2yWAIQt1g6ccJjXaJX2aCb7bfPk7/J/+RUj/JKv47o+sIEyax6z8b/CFIoJGLu2QNwA+TwQNkTxjaRG/dCM64s7HTyU22kI9E/5OJiiU7KIMl6Cr28d+N/nXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NyD7p4VD; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C7GkXQNP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NyD7p4VD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778713663; x=1810249663;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ALVwDDjok+OEdPpXRwF61S2YSUI5YuC2BZEzIYLQAj8=;
-  b=C7GkXQNPweKd9hqZgEXshXeYq4JLqpZJM3pMe40LgivBPu+KBMkCCX4D
-   JuXBDjTumHJhUQAQedLQfejlARgivrUH0ChzKnzuXIGualz7LV65TdQhO
-   jxZuZHLa5ToYsE4XfRz2+5Lg+CGT+HPImjBbAIIegnnYavpJZ5RP/EfcX
-   0btJtkAg4mRqtm795W7UuKYB3mRThd3XHyYzcPQB0uwQBFA9HZVVEpa1A
-   cB4lpezcSanu+2vvRsG5v/swIOYpl7P9dBuh7QMTYG53cwQMyNC77FQfI
-   cB3KScUQWgdpPkdBNHtPnAtJKUqkvGtBPFCU4wXJ/f41TAjQ7MbP6yqIG
-   A==;
-X-CSE-ConnectionGUID: 3OBTynY+SAOyYgP9r/+5Ow==
-X-CSE-MsgGUID: YDxJqJ2JQFuX0RZPJiwA9w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="91037814"
+  t=1778714923; x=1810250923;
+  h=date:from:to:cc:subject:message-id;
+  bh=MTVZT7OPd6cpZpeKVgU0Me0dTdPoFySGDwJNCikvHIY=;
+  b=NyD7p4VDkQiltceqjWsTXMuwcsxssY/7UfxBV7etVzaym6/T+LDW3UrX
+   iGQZ+CJhAqLfeXdEysaFKcxFvDuVxtejgU1Fw3U1nMbXH7S2fLLJT1T0c
+   3IyAg+FxKHsDgB3RaQJCLCym6I9GJq6/IzIwRx/z0jWyjqVsaGF2E0Gby
+   sKwSkO5u9dnBcuFQ9ICijFRM0IUnKVPleD12T1+pgFOL+jZameDNx89sr
+   dRGZPVTeXIhxNcEpQGp2zPogWdpOqhqnxK95Wd8Pr7WdOXNjDihfFNU7S
+   hiMi23eWOuqELwIm2qXZPslN8M6gllboGAmkszqpEQgFcbc90l0ACHkKn
+   g==;
+X-CSE-ConnectionGUID: z400QZG3Tb6rLa/MYlT/mg==
+X-CSE-MsgGUID: M49dkd1PQVW89oC0cFZ3cg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="79367559"
 X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
-   d="scan'208";a="91037814"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 16:07:41 -0700
-X-CSE-ConnectionGUID: i0+kLsn+TGODubVr1B9qyw==
-X-CSE-MsgGUID: 7wtMRLYHQ6Ow3/zWIrgT2w==
+   d="scan'208";a="79367559"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 16:28:43 -0700
+X-CSE-ConnectionGUID: EowOrGwuQ+6eo7j9gATCaQ==
+X-CSE-MsgGUID: b1TYd2XlRgO43NxeOgnoyg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
-   d="scan'208";a="235557652"
+   d="scan'208";a="276315688"
 Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 13 May 2026 16:07:40 -0700
+  by orviesa001.jf.intel.com with ESMTP; 13 May 2026 16:28:42 -0700
 Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wNIfx-000000005H1-21xG;
-	Wed, 13 May 2026 23:07:37 +0000
-Date: Thu, 14 May 2026 07:07:16 +0800
+	id 1wNJ0J-000000005IF-0JOx;
+	Wed, 13 May 2026 23:28:39 +0000
+Date: Thu, 14 May 2026 07:27:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: hangej <hangej@amazon.com>, bhelgaas@google.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dwmw2@infradead.org, kexec@lists.infradead.org, hangej@amazon.com
-Subject: Re: [PATCH] pci_crash: capture PCI config space at panic time
-Message-ID: <202605140714.yFl4KATZ-lkp@intel.com>
-References: <20260512162402.1929687-1-hangej@amazon.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 2/2]
+ arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:55:5: sparse: sparse: symbol
+ 'kvm_iommu_refill' was not declared. Should it be static?
+Message-ID: <202605140712.RAcxOZDr-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260512162402.1929687-1-hangej@amazon.com>
 
-Hi hangej,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus linus/master v7.1-rc3 next-20260508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/hangej/pci_crash-capture-PCI-config-space-at-panic-time/20260514-000653
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20260512162402.1929687-1-hangej%40amazon.com
-patch subject: [PATCH] pci_crash: capture PCI config space at panic time
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260514/202605140714.yFl4KATZ-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605140714.yFl4KATZ-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   5346453405bf12d7ed6003f45dd47b71744fe1be
+commit: be3195fe7b08b042aca453d795a8d0afede4d2a4 [2/2] ANDROID: KVM: arm64: iommu: Use unified allocator interface
+config: arm64-randconfig-r122-20260514 (https://download.01.org/0day-ci/archive/20260514/202605140712.RAcxOZDr-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605140712.RAcxOZDr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605140714.yFl4KATZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605140712.RAcxOZDr-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:55:5: sparse: sparse: symbol 'kvm_iommu_refill' was not declared. Should it be static?
+>> arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:60:6: sparse: sparse: symbol 'kvm_iommu_reclaim' was not declared. Should it be static?
+>> arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:65:5: sparse: sparse: symbol 'kvm_iommu_reclaimable' was not declared. Should it be static?
+   arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:99:21: sparse: sparse: Using plain integer as NULL pointer
 
->> Warning: kernel/pci_crash.c:74 cannot understand function prototype: 'void *pci_crash_buffer;'
->> Warning: kernel/pci_crash.c:80 cannot understand function prototype: 'size_t pci_crash_buffer_size;'
->> Warning: kernel/pci_crash.c:90 cannot understand function prototype: 'phys_addr_t pci_crash_pagemap_phys;'
+vim +/kvm_iommu_refill +55 arch/arm64/kvm/hyp/nvhe/iommu/iommu.c
+
+    54	
+  > 55	int kvm_iommu_refill(struct kvm_hyp_memcache *host_mc)
+    56	{
+    57		return refill_hyp_pool(&iommu_host_pool, host_mc);
+    58	}
+    59	
+  > 60	void kvm_iommu_reclaim(struct kvm_hyp_memcache *host_mc, int target)
+    61	{
+    62		reclaim_hyp_pool(&iommu_host_pool, host_mc, target);
+    63	}
+    64	
+  > 65	int kvm_iommu_reclaimable(void)
+    66	{
+    67		return hyp_pool_free_pages(&iommu_host_pool);
+    68	}
+    69	
 
 --
 0-DAY CI Kernel Test Service
