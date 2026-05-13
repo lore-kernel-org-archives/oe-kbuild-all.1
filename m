@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A10E2392C57
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 May 2026 10:45:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D5A73E51C6
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 May 2026 11:07:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778669123; cv=none; b=WPaUlppl8gEsgSOja0BX72xUl8DvkOWwyY3IqdAhCYVpt5E+SSk7HOzWWzEX/wJ7Gv5VoNFNqWEDe9Pi5WkEGqb2/oSQoTzX2CDrU6jDZbbV0bh9/bunECBOnj6UISEdeEwSbQO9VWA9JP6nxt7sWVuWKcpRdg7C9+MYJctRoYw=
+	t=1778670441; cv=none; b=rpnvhMvkyk8HpFVhn2r6Xy98x+yPPlVZTwx3TsVmLQ5i7UJV1W2JQHxXn7oUHM67LA0Fk5Y0kmi7NxpH9LQwXiQVZaK2iwGp86yM+zznijL0CwdZfAg4RYBEiT4tN51QtCpRQukB8JHxhdav1o3UMeMhRyFWgmIGFmDlKHegpGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778669123; c=relaxed/simple;
-	bh=2gmXOYlU4Gt5e0SMm4amUj6D62KvasjSAHgA7Ux4vcQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=OdhUHBviUpVIYmWsO3jHoHYffP8wkEtFg2Ha792qkLHXjuP41dhhxQnQkwc+9l4+3obtUjvQRxDFtYNCGoHImLDglOPbf+PmiQwAGAnadvQvAiGy46XCEQYeOh1EA5v/Jaur7nUYsXl1Ptjcb1+zs7VWfX0hQAzNv7Ti7Z0he28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OyRylTVV; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1778670441; c=relaxed/simple;
+	bh=272QfoZZFwS0hIKzplzrdAUas+YGHlhxCT++korjRLM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=T3bnzxRWRzWkHlGX40ctw1YeBRtv1dy1JtnUVCHDPU3ldj5b80TC62Rc48BJ5OuzNeJLXHoyo7E3kF/w7s0hGv9mCH+kwUYXswhlfsfqY43rZB8vSCc0iP1Am7oPJ5dHUQAWTqnkZ6/HE8pqxIKGVEjHPcWs2gGEHMokHRGD8qc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U7AY6ySr; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OyRylTVV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U7AY6ySr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778669121; x=1810205121;
+  t=1778670440; x=1810206440;
   h=date:from:to:cc:subject:message-id;
-  bh=2gmXOYlU4Gt5e0SMm4amUj6D62KvasjSAHgA7Ux4vcQ=;
-  b=OyRylTVV/1NZe7OgKPftXC2s9C4IZJ85X//ziXzy38E078g+Ca+lfFQ0
-   /2zM70rGTjSTAUfgKsp4JIiJ6DCdKCLyQIb2Yh3pX9KE9Gt+xNkaAbgJ+
-   WabdoMj9/3ajjV8MUZ7e8+AB5Rh+VfGNpIL5qk2o08dvNZXyVcG1u/wUh
-   hiRwlB6SI3/nYkhq/YyeMeE+B2BpHMnCtqYJu1UkI+bGvGtxwQh2Kcrfd
-   X8jbAStEytdFzNlBjJ2ZAS+HCwA1EMhzcXwdOFQwa+Ddm0uaptyf/srpk
-   5B86zWnoplaL1yabylnPKu82677KhkM1aXiAfVUYxglqxcQxhfsFL3my1
+  bh=272QfoZZFwS0hIKzplzrdAUas+YGHlhxCT++korjRLM=;
+  b=U7AY6ySrAXCghVk2uBchsHlbDDZv+fhlU6VvXstvZhixwWj3nYKScQsJ
+   xS5OtkFg4U8zZeTmLudKJrJwr3uwgaex+tL3rXu8fBeJMw8vkL18h8QOL
+   tz4n8Ii5+EMYjGRNL7kghYCI8oyXkMadknp5pPGRAfzqr3tSlADjY5jpe
+   hwEf01hBinbxGYRPdQgQq9HahhBEn/YLfzyu8hQDKN/8Q/ag/P2SUFTFT
+   1fXjbUu8H9zTcRG6hVrmMyH8udpe7EIyCxUGHmM4kIZSOo0LfYRsm8nsj
+   RHces9ukkl96rYT8TjOtMkpscsOCwqRuLgYE3A+is2dZ5bqlcjfHmkCRq
    g==;
-X-CSE-ConnectionGUID: Zrd0LnMtQIuxyseXmAz02w==
-X-CSE-MsgGUID: ZCJo7/ZiSqOWVlS57pd/bg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="79705848"
+X-CSE-ConnectionGUID: Z8ixQYuGR32Smda/5bMLXA==
+X-CSE-MsgGUID: SAeGU5hhTfOxHFIGrjK+7w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="89899243"
 X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
-   d="scan'208";a="79705848"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 03:45:20 -0700
-X-CSE-ConnectionGUID: DyL2LxycT+6dnDQCVEb3rQ==
-X-CSE-MsgGUID: /tJLvQ2sRBeFJ1J9qaLAiw==
+   d="scan'208";a="89899243"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 04:07:19 -0700
+X-CSE-ConnectionGUID: c0kCPXiXQxiBUHsJ1DLXwA==
+X-CSE-MsgGUID: gMMSNVgTQMGaRHoh8OyJ0w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
-   d="scan'208";a="243039823"
+   d="scan'208";a="233783568"
 Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 13 May 2026 03:45:18 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 13 May 2026 04:07:18 -0700
 Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wN75X-000000003wr-11cN;
-	Wed, 13 May 2026 10:45:15 +0000
-Date: Wed, 13 May 2026 18:45:02 +0800
+	id 1wN7Qq-000000003yH-0Ysj;
+	Wed, 13 May 2026 11:07:16 +0000
+Date: Wed, 13 May 2026 19:07:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Justin Lai <justinlai0215@realtek.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Jakub Kicinski <kuba@kernel.org>, Joe Damato <jdamato@fastly.com>
-Subject: drivers/net/ethernet/realtek/rtase/rtase_main.c:1117:52:
- warning: '%u' directive output may be truncated writing between 1 and 10
- bytes into a region of size between 7 and 22
-Message-ID: <202605131825.WUeRwNdl-lkp@intel.com>
+To: David Woodhouse <dwmw@amazon.co.uk>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dwmw2:vmtk 36/37] kernel/time/timekeeping.c:2359:51:
+ warning: right shift count >= width of type
+Message-ID: <202605131921.1b4E6qKj-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,110 +59,132 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Justin,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1d5dcaa3bd65f2e8c9baa14a393d3a2dc5db7524
-commit: ef7d33e174564d6294edd00ca797e2b0aac76259 rtase: Modify the format specifier in snprintf to %u
-date:   1 year ago
-config: microblaze-randconfig-r123-20260513 (https://download.01.org/0day-ci/archive/20260513/202605131825.WUeRwNdl-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 8.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260513/202605131825.WUeRwNdl-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/dwmw2/linux vmtk
+head:   f3b2e27904ff7b3ad3551c83fcd234281b5b8142
+commit: 4b13ac5bbca55428330930343b92cdecd6a601f4 [36/37] timekeeping: Add absolute reference for feed-forward clock discipline
+config: powerpc-mpc832x_rdb_defconfig (https://download.01.org/0day-ci/archive/20260513/202605131921.1b4E6qKj-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260513/202605131921.1b4E6qKj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: ef7d33e17456 ("rtase: Modify the format specifier in snprintf to %u")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605131825.WUeRwNdl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605131921.1b4E6qKj-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/realtek/rtase/rtase_main.c: In function 'rtase_open':
->> drivers/net/ethernet/realtek/rtase/rtase_main.c:1117:52: warning: '%u' directive output may be truncated writing between 1 and 10 bytes into a region of size between 7 and 22 [-Wformat-truncation=]
-       snprintf(ivec->name, sizeof(ivec->name), "%s_int%u",
-                                                       ^~
-   drivers/net/ethernet/realtek/rtase/rtase_main.c:1117:45: note: directive argument in the range [0, 2147483647]
-       snprintf(ivec->name, sizeof(ivec->name), "%s_int%u",
-                                                ^~~~~~~~~~
-   drivers/net/ethernet/realtek/rtase/rtase_main.c:1117:4: note: 'snprintf' output between 6 and 30 bytes into a destination of size 26
-       snprintf(ivec->name, sizeof(ivec->name), "%s_int%u",
-       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         tp->dev->name, i);
-         ~~~~~~~~~~~~~~~~~
+   kernel/time/timekeeping.c: In function 'timekeeping_ref_ahead':
+   kernel/time/timekeeping.c:2351:9: error: unknown type name '__uint128_t'; did you mean '__int128__'?
+    2351 |         __uint128_t product;
+         |         ^~~~~~~~~~~
+         |         __int128__
+   kernel/time/timekeeping.c:2356:20: error: '__uint128_t' undeclared (first use in this function); did you mean '__int128__'?
+    2356 |         product = (__uint128_t)delta * tk_ref.period_frac_sec;
+         |                    ^~~~~~~~~~~
+         |                    __int128__
+   kernel/time/timekeeping.c:2356:20: note: each undeclared identifier is reported only once for each function it appears in
+   kernel/time/timekeeping.c:2356:32: error: expected ';' before 'delta'
+    2356 |         product = (__uint128_t)delta * tk_ref.period_frac_sec;
+         |                                ^~~~~
+         |                                ;
+>> kernel/time/timekeeping.c:2359:51: warning: right shift count >= width of type [-Wshift-count-overflow]
+    2359 |         ref_sec = tk_ref.time_sec + (u64)(product >> 64);
+         |                                                   ^~
+>> kernel/time/timekeeping.c:2350:13: warning: variable 'delta' set but not used [-Wunused-but-set-variable]
+    2350 |         u64 delta, ref_frac, ref_sec, ref_shifted_ns;
+         |             ^~~~~
 
 
-vim +1117 drivers/net/ethernet/realtek/rtase/rtase_main.c
+vim +2359 kernel/time/timekeeping.c
 
-  1086	
-  1087	static int rtase_open(struct net_device *dev)
-  1088	{
-  1089		struct rtase_private *tp = netdev_priv(dev);
-  1090		const struct pci_dev *pdev = tp->pdev;
-  1091		struct rtase_int_vector *ivec;
-  1092		u16 i = 0, j;
-  1093		int ret;
-  1094	
-  1095		ivec = &tp->int_vector[0];
-  1096		tp->rx_buf_sz = RTASE_RX_BUF_SIZE;
-  1097	
-  1098		ret = rtase_alloc_desc(tp);
-  1099		if (ret)
-  1100			return ret;
-  1101	
-  1102		ret = rtase_init_ring(dev);
-  1103		if (ret)
-  1104			goto err_free_all_allocated_mem;
-  1105	
-  1106		rtase_hw_config(dev);
-  1107	
-  1108		if (tp->sw_flag & RTASE_SWF_MSIX_ENABLED) {
-  1109			ret = request_irq(ivec->irq, rtase_interrupt, 0,
-  1110					  dev->name, ivec);
-  1111			if (ret)
-  1112				goto err_free_all_allocated_irq;
-  1113	
-  1114			/* request other interrupts to handle multiqueue */
-  1115			for (i = 1; i < tp->int_nums; i++) {
-  1116				ivec = &tp->int_vector[i];
-> 1117				snprintf(ivec->name, sizeof(ivec->name), "%s_int%u",
-  1118					 tp->dev->name, i);
-  1119				ret = request_irq(ivec->irq, rtase_q_interrupt, 0,
-  1120						  ivec->name, ivec);
-  1121				if (ret)
-  1122					goto err_free_all_allocated_irq;
-  1123			}
-  1124		} else {
-  1125			ret = request_irq(pdev->irq, rtase_interrupt, 0, dev->name,
-  1126					  ivec);
-  1127			if (ret)
-  1128				goto err_free_all_allocated_mem;
-  1129		}
-  1130	
-  1131		rtase_hw_start(dev);
-  1132	
-  1133		for (i = 0; i < tp->int_nums; i++) {
-  1134			ivec = &tp->int_vector[i];
-  1135			napi_enable(&ivec->napi);
-  1136		}
-  1137	
-  1138		netif_carrier_on(dev);
-  1139		netif_wake_queue(dev);
-  1140	
-  1141		return 0;
-  1142	
-  1143	err_free_all_allocated_irq:
-  1144		for (j = 0; j < i; j++)
-  1145			free_irq(tp->int_vector[j].irq, &tp->int_vector[j]);
-  1146	
-  1147	err_free_all_allocated_mem:
-  1148		rtase_free_desc(tp);
-  1149	
-  1150		return ret;
-  1151	}
-  1152	
+  2347	
+  2348	bool timekeeping_ref_ahead(struct timekeeper *tk)
+  2349	{
+> 2350		u64 delta, ref_frac, ref_sec, ref_shifted_ns;
+  2351		__uint128_t product;
+  2352	
+  2353		if (tk->cs_id != tk_ref.cs_id)
+  2354			return false;
+  2355		delta = tk->tkr_mono.cycle_last - tk_ref.counter_value;
+> 2356		product = (__uint128_t)delta * tk_ref.period_frac_sec;
+  2357		product >>= tk_ref.period_shift;
+  2358		product += tk_ref.time_frac_sec;
+> 2359		ref_sec = tk_ref.time_sec + (u64)(product >> 64);
+  2360		ref_frac = (u64)product;
+  2361		ref_shifted_ns = mul_u64_u64_shr(ref_frac,
+  2362					(u64)NSEC_PER_SEC << tk->tkr_mono.shift, 64);
+  2363		if (tk->xtime_sec > ref_sec)
+  2364			return true;
+  2365		if (tk->xtime_sec == ref_sec &&
+  2366		    tk->tkr_mono.xtime_nsec > ref_shifted_ns)
+  2367			return true;
+  2368		return false;
+  2369	}
+  2370	/*
+  2371	 * Adjust the timekeeper's multiplier to the correct frequency
+  2372	 * and also to reduce the accumulated error value.
+  2373	
+  2374	 */
+  2375	static void timekeeping_adjust(struct timekeeper *tk, s64 offset)
+  2376	{
+  2377		u64 ntp_tl = ntp_tick_length(tk->id);
+  2378		u32 mult;
+  2379	
+  2380		/*
+  2381		 * Determine the multiplier from the current NTP tick length.
+  2382		 * Avoid expensive division when the tick length doesn't change.
+  2383		 */
+  2384		if (likely(tk->ntp_tick == ntp_tl)) {
+  2385			mult = tk->tkr_mono.mult - tk->ntp_err_mult;
+  2386		} else {
+  2387			tk->ntp_tick = ntp_tl;
+  2388			mult = div64_u64((tk->ntp_tick >> tk->ntp_error_shift) -
+  2389					 tk->xtime_remainder, tk->cycle_interval);
+  2390		}
+  2391	
+  2392		vmclock_host_update(tk);
+  2393	
+  2394		/*
+  2395		 * If the clock is behind the NTP time, increase the multiplier by 1
+  2396		 * to catch up with it. If it's ahead and there was a remainder in the
+  2397		 * tick division, the clock will slow down. Otherwise it will stay
+  2398		 * ahead until the tick length changes to a non-divisible value.
+  2399		 */
+  2400		if (timekeeping_has_reference())
+  2401			tk->ntp_err_mult = timekeeping_ref_ahead(tk) ? 0 : 1;
+  2402		else
+  2403			tk->ntp_err_mult = tk->ntp_error > 0 ? 1 : 0;
+  2404		mult += tk->ntp_err_mult;
+  2405	
+  2406		timekeeping_apply_adjustment(tk, offset, mult - tk->tkr_mono.mult);
+  2407	
+  2408		if (unlikely(tk->tkr_mono.clock->maxadj &&
+  2409			(abs(tk->tkr_mono.mult - tk->tkr_mono.clock->mult)
+  2410				> tk->tkr_mono.clock->maxadj))) {
+  2411			printk_once(KERN_WARNING
+  2412				"Adjusting %s more than 11%% (%ld vs %ld)\n",
+  2413				tk->tkr_mono.clock->name, (long)tk->tkr_mono.mult,
+  2414				(long)tk->tkr_mono.clock->mult + tk->tkr_mono.clock->maxadj);
+  2415		}
+  2416	
+  2417		/*
+  2418		 * It may be possible that when we entered this function, xtime_nsec
+  2419		 * was very small.  Further, if we're slightly speeding the clocksource
+  2420		 * in the code above, its possible the required corrective factor to
+  2421		 * xtime_nsec could cause it to underflow.
+  2422		 *
+  2423		 * Now, since we have already accumulated the second and the NTP
+  2424		 * subsystem has been notified via second_overflow(), we need to skip
+  2425		 * the next update.
+  2426		 */
+  2427		if (unlikely((s64)tk->tkr_mono.xtime_nsec < 0)) {
+  2428			tk->tkr_mono.xtime_nsec += (u64)NSEC_PER_SEC <<
+  2429								tk->tkr_mono.shift;
+  2430			tk->xtime_sec--;
+  2431			tk->skip_second_overflow = 1;
+  2432		}
+  2433	}
+  2434	
 
 --
 0-DAY CI Kernel Test Service
