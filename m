@@ -1,124 +1,151 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE3EF3D669C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 May 2026 08:50:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C6FF3DD878
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 May 2026 08:56:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778748605; cv=none; b=EJ/KjA1Q266y2Zd4zz7HKHugRmqNFWHCiDDRFcdD+NOEULra7zQquiNiYshloTUjM/ckjECnXDDdLpejwqcOJ4GwD5YmAjPlVlnzCuebZ9u06yd/cNXVJRa8ZbGbPnxBy27e5Hw3xUQCNsmK+YQcwFf0cH2GOXeXbleeYQM9Niw=
+	t=1778749020; cv=none; b=ry0fcpsnA1sQPpRMbT7hGtimRyO/+E3jd3H+gEBMksv4818afUL7NCNy8G83f4keFpLSNuVnfSM0ADlkaJS0L0JEbTyEsI4qpUMqtWJ9/aXcNG5NcOegFcFIrFWuVRGP91NfHEmJPrMdtB3gEAyH73lk17785Y8fJ0mHqzObh5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778748605; c=relaxed/simple;
-	bh=3rHo5cNyMQL5Uj5fPosd5stKXiXhdcMKRGLn9HNKQuk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=qbEf6tF7jy625HFkTfN1WHOlXXKV982MBLgI9TgbP0DueUDMIbxu/+JL1/tAs4YiRtkI0+UyrWgbpXbKrihc8T47TGADiQ+RoPgdDmLQ1x+ojZ3n6EawYHZQVGnmkPsYcxeWouSJ34Pq2EjbHZANcKvHoNUl8gMJoC/ffiovs8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DBpcPQWq; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1778749020; c=relaxed/simple;
+	bh=YgRL1GywJcCBZNxLUUxmDQa4lLwd7oLpk46l3XB2q1g=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Fyj8aTovnjN+SsFZwdzAdK1DqEa2Ssi+K8CR13IFC7342xhtqoFBCYvjOB1p8/anXDnNESPKK2cHNTYnS5YzCjpYErqSaUuFRLVJAg4z7/wy0xtl7Lga23U3wuiksaVvkdhcNt+KPWPBydV2RgJGJjRDOjaexKEE91JakbIUv1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KZ0IG394; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DBpcPQWq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KZ0IG394"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778748605; x=1810284605;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3rHo5cNyMQL5Uj5fPosd5stKXiXhdcMKRGLn9HNKQuk=;
-  b=DBpcPQWq94l3MTHyjqqLGo4ffiLNMyhkU8lbThgkpoviDllQ/Ki0qpJw
-   vQ8v/ly/elY8koZqRnlJ2ww0/UTd9lkzO0/8SlGQHp6us2XXgqgdDm+xA
-   Ewn/I9gBOHp6Dn0OWDo0puG61lF6k4LzVd2+JdCXIJq30yWcWGg5Eqcqj
-   niaXM9PEYvUKqe4ND7pY1AlxJrevLRutVgbiKO+Qdabq8Se/uQPSiEbHx
-   4nadBHyYaesD7es02X6m6PMze4++UsAHGGvoVeY8ZbJP8NNwU+w0OONKu
-   QNtC3ygAbuHmZ18IqxBRNq2Bq5i3MAWt74RWi2QMFyYH7Q9WxcGiYwFgM
-   A==;
-X-CSE-ConnectionGUID: eDK8UHOsSUyGikHmuhpWBw==
-X-CSE-MsgGUID: X/etqv/sRriwuDv7d0vOlA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="102356862"
+  t=1778749018; x=1810285018;
+  h=date:from:to:cc:subject:message-id;
+  bh=YgRL1GywJcCBZNxLUUxmDQa4lLwd7oLpk46l3XB2q1g=;
+  b=KZ0IG394IHOr7ejqVglveN/CLbrYGMjPLLROv3FyUiLgizf3TPGizI4x
+   a1W3UXSsYo0JhR2vNiOTbl5Mj4HnDE/32KmMcjk05tjb72ZppeSxxh+G6
+   dM4DWpYCEQXCZjB7pAi/fv47SzL602ybAr4S+EavxCaWFd3sd8qxf/3BY
+   NkUtm/lhjUoB8np4/zCR9iOAa82yOtBp8gxLmTB0Xkcm46iyaV8rbTG9a
+   +zT+FijaAURja6lhR1uZKWyQjd2arixMwh9kz+RUJuCaN1H+dxw6eALmA
+   eKMmIgb8S2fFCeJaeaZuN6sPWl18rVGNxhNZInxRFR3J/d/AI08UfsePa
+   Q==;
+X-CSE-ConnectionGUID: 9hpurCfNTZCfUL2ZE9zLKg==
+X-CSE-MsgGUID: HVSr/kc2S7SwtpR0ajsO2w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="78711277"
 X-IronPort-AV: E=Sophos;i="6.23,234,1770624000"; 
-   d="scan'208";a="102356862"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 01:50:05 -0700
-X-CSE-ConnectionGUID: 8HO3vyQtT96tisvOrxaPgw==
-X-CSE-MsgGUID: JHQY9a0mQYCUq2qhEAjG9A==
+   d="scan'208";a="78711277"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 01:56:58 -0700
+X-CSE-ConnectionGUID: 0sjy7VVISE2wNP2+5Sb2wQ==
+X-CSE-MsgGUID: kmpbQBIpSfe3pDFmw2SgMQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,234,1770624000"; 
-   d="scan'208";a="235273192"
-Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 14 May 2026 01:50:02 -0700
-Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
+   d="scan'208";a="238444267"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 14 May 2026 01:56:55 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wNRlX-000000006ER-2Y03;
-	Thu, 14 May 2026 08:49:59 +0000
-Date: Thu, 14 May 2026 16:49:23 +0800
+	id 1wNRsD-000000008mf-1U2c;
+	Thu, 14 May 2026 08:56:53 +0000
+Date: Thu, 14 May 2026 10:56:07 +0200
 From: kernel test robot <lkp@intel.com>
-To: Eric Dumazet <edumazet@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
- Jakub Kicinski <kuba@kernel.org>,
- "Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen"?= <toke@toke.dk>
-Subject: [net-next:main 114/116] net/core/sock.c:2760:64: error:
- 'tcp_wfree' undeclared; did you mean 'sock_wfree'?
-Message-ID: <202605141607.mDXnYFKY-lkp@intel.com>
+To: Kendall Willis <k-willis@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Vignesh Raghavendra <vigneshr@ti.com>,
+ "Markus Schneider-Pargmann" <msp@baylibre.com>,
+ Dhruva Gole <d-gole@ti.com>, Kevin Hilman <khilman@baylibre.com>
+Subject: arch/arm64/boot/dts/ti/k3-am625-sk.dtb: serial@2800000
+ (ti,am64-uart): wakeup-source: 'oneOf' conditional failed, one must be fixed:
+Message-ID: <202605141038.l4RqroLG-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git main
-head:   18dc8e6d15d7a30888beec46a1e01ca0f98508fa
-commit: f0de88303d5e7e04a1224bc7a00512b5a1c4fe7a [114/116] net: make is_skb_wmem() available to modules
-config: parisc-randconfig-002-20260514 (https://download.01.org/0day-ci/archive/20260514/202605141607.mDXnYFKY-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605141607.mDXnYFKY-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e1914add2799225a87502051415fc5c32aeb02ae
+commit: 6b0b73c9fecf343ad95f761b3f781c6064eb31fb arm64: dts: ti: k3-am62x-sk-common: Enable Main UART wakeup
+date:   7 weeks ago
+config: arm64-randconfig-2052-20260513 (https://download.01.org/0day-ci/archive/20260514/202605141038.l4RqroLG-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+dtschema: 2026.5.dev9+gdf9ad30c5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605141038.l4RqroLG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 6b0b73c9fecf ("arm64: dts: ti: k3-am62x-sk-common: Enable Main UART wakeup")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605141607.mDXnYFKY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605141038.l4RqroLG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from include/net/inet_sock.h:23,
-                    from include/net/ip.h:29,
-                    from include/linux/errqueue.h:6,
-                    from net/core/sock.c:91:
-   include/net/sock.h: In function 'is_skb_wmem':
-   include/net/sock.h:1861:63: error: '__sock_wfree' undeclared (first use in this function); did you mean 'sock_wfree'?
-    1861 |                (IS_ENABLED(CONFIG_INET) && skb->destructor == __sock_wfree) ||
-         |                                                               ^~~~~~~~~~~~
-         |                                                               sock_wfree
-   include/net/sock.h:1861:63: note: each undeclared identifier is reported only once for each function it appears in
-   include/net/sock.h:1862:63: error: 'tcp_wfree' undeclared (first use in this function); did you mean 'sock_wfree'?
-    1862 |                (IS_ENABLED(CONFIG_INET) && skb->destructor == tcp_wfree);
-         |                                                               ^~~~~~~~~
-         |                                                               sock_wfree
-   net/core/sock.c: In function 'can_skb_orphan_partial':
->> net/core/sock.c:2760:64: error: 'tcp_wfree' undeclared (first use in this function); did you mean 'sock_wfree'?
-    2760 |                 (IS_ENABLED(CONFIG_INET) && skb->destructor == tcp_wfree));
-         |                                                                ^~~~~~~~~
-         |                                                                sock_wfree
-
-
-vim +2760 net/core/sock.c
-
-9e17f8a475fca81 Eric Dumazet   2015-11-01  2750  
-414776621d1006e Jakub Kicinski 2019-08-07  2751  static bool can_skb_orphan_partial(const struct sk_buff *skb)
-414776621d1006e Jakub Kicinski 2019-08-07  2752  {
-414776621d1006e Jakub Kicinski 2019-08-07  2753  	/* Drivers depend on in-order delivery for crypto offload,
-414776621d1006e Jakub Kicinski 2019-08-07  2754  	 * partial orphan breaks out-of-order-OK logic.
-414776621d1006e Jakub Kicinski 2019-08-07  2755  	 */
-9f06f87fef689d2 Jakub Kicinski 2024-04-03  2756  	if (skb_is_decrypted(skb))
-414776621d1006e Jakub Kicinski 2019-08-07  2757  		return false;
-9f06f87fef689d2 Jakub Kicinski 2024-04-03  2758  
-414776621d1006e Jakub Kicinski 2019-08-07  2759  	return (skb->destructor == sock_wfree ||
-414776621d1006e Jakub Kicinski 2019-08-07 @2760  		(IS_ENABLED(CONFIG_INET) && skb->destructor == tcp_wfree));
-414776621d1006e Jakub Kicinski 2019-08-07  2761  }
-414776621d1006e Jakub Kicinski 2019-08-07  2762  
-
-:::::: The code at line 2760 was first introduced by commit
-:::::: 414776621d1006e57e80e6db7fdc3837897aaa64 net/tls: prevent skb_orphan() from leaking TLS plain text with offload
-
-:::::: TO: Jakub Kicinski <jakub.kicinski@netronome.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/ti/k3-am625-sk.dtb: serial@2800000 (ti,am64-uart): wakeup-source: 'oneOf' conditional failed, one must be fixed:
+   	[[21, 22, 23]] is not of type 'boolean'
+   	[21, 22, 23] is too long
+   	from schema $id: http://devicetree.org/schemas/wakeup-source.yaml
+--
+   arch/arm64/boot/dts/ti/k3-am62-lp-sk.dtb: can@4e08000 (bosch,m_can): wakeup-source: 'oneOf' conditional failed, one must be fixed:
+   	[[9, 10, 11, 12]] is not of type 'boolean'
+   	[9, 10, 11, 12] is too long
+   	from schema $id: http://devicetree.org/schemas/wakeup-source.yaml
+   arch/arm64/boot/dts/ti/k3-am62-lp-sk.dtb: can@4e18000 (bosch,m_can): wakeup-source: 'oneOf' conditional failed, one must be fixed:
+   	[[9, 10, 11, 12]] is not of type 'boolean'
+   	[9, 10, 11, 12] is too long
+   	from schema $id: http://devicetree.org/schemas/wakeup-source.yaml
+>> arch/arm64/boot/dts/ti/k3-am62-lp-sk.dtb: serial@2800000 (ti,am64-uart): wakeup-source: 'oneOf' conditional failed, one must be fixed:
+   	[[10, 11, 12]] is not of type 'boolean'
+   	[10, 11, 12] is too long
+   	from schema $id: http://devicetree.org/schemas/wakeup-source.yaml
+--
+>> arch/arm64/boot/dts/ti/k3-am6254atl-sk.dtb: serial@2800000 (ti,am64-uart): wakeup-source: 'oneOf' conditional failed, one must be fixed:
+   	[[21, 22, 23]] is not of type 'boolean'
+   	[21, 22, 23] is too long
+   	from schema $id: http://devicetree.org/schemas/wakeup-source.yaml
+--
+>> arch/arm64/boot/dts/ti/k3-am625-sk-csi2-imx219.dtb: serial@2800000 (ti,am64-uart): wakeup-source: 'oneOf' conditional failed, one must be fixed:
+   	[[21, 22, 23]] is not of type 'boolean'
+   	[21, 22, 23] is too long
+   	from schema $id: http://devicetree.org/schemas/wakeup-source.yaml
+--
+>> arch/arm64/boot/dts/ti/k3-am625-sk-csi2-ov5640.dtb: serial@2800000 (ti,am64-uart): wakeup-source: 'oneOf' conditional failed, one must be fixed:
+   	[[21, 22, 23]] is not of type 'boolean'
+   	[21, 22, 23] is too long
+   	from schema $id: http://devicetree.org/schemas/wakeup-source.yaml
+--
+>> arch/arm64/boot/dts/ti/k3-am625-sk-csi2-tevi-ov5640.dtb: serial@2800000 (ti,am64-uart): wakeup-source: 'oneOf' conditional failed, one must be fixed:
+   	[[21, 22, 23]] is not of type 'boolean'
+   	[21, 22, 23] is too long
+   	from schema $id: http://devicetree.org/schemas/wakeup-source.yaml
+--
+>> arch/arm64/boot/dts/ti/k3-am625-sk-hdmi-audio.dtb: serial@2800000 (ti,am64-uart): wakeup-source: 'oneOf' conditional failed, one must be fixed:
+   	[[21, 22, 23]] is not of type 'boolean'
+   	[21, 22, 23] is too long
+   	from schema $id: http://devicetree.org/schemas/wakeup-source.yaml
+--
+   arch/arm64/boot/dts/ti/k3-am62-lp-sk-hdmi-audio.dtb: can@4e08000 (bosch,m_can): wakeup-source: 'oneOf' conditional failed, one must be fixed:
+   	[[9, 10, 11, 12]] is not of type 'boolean'
+   	[9, 10, 11, 12] is too long
+   	from schema $id: http://devicetree.org/schemas/wakeup-source.yaml
+   arch/arm64/boot/dts/ti/k3-am62-lp-sk-hdmi-audio.dtb: can@4e18000 (bosch,m_can): wakeup-source: 'oneOf' conditional failed, one must be fixed:
+   	[[9, 10, 11, 12]] is not of type 'boolean'
+   	[9, 10, 11, 12] is too long
+   	from schema $id: http://devicetree.org/schemas/wakeup-source.yaml
+>> arch/arm64/boot/dts/ti/k3-am62-lp-sk-hdmi-audio.dtb: serial@2800000 (ti,am64-uart): wakeup-source: 'oneOf' conditional failed, one must be fixed:
+   	[[10, 11, 12]] is not of type 'boolean'
+   	[10, 11, 12] is too long
+   	from schema $id: http://devicetree.org/schemas/wakeup-source.yaml
+--
+   arch/arm64/boot/dts/ti/k3-am62-lp-sk-nand.dtb: can@4e08000 (bosch,m_can): wakeup-source: 'oneOf' conditional failed, one must be fixed:
+   	[[9, 10, 11, 12]] is not of type 'boolean'
+   	[9, 10, 11, 12] is too long
+   	from schema $id: http://devicetree.org/schemas/wakeup-source.yaml
+   arch/arm64/boot/dts/ti/k3-am62-lp-sk-nand.dtb: can@4e18000 (bosch,m_can): wakeup-source: 'oneOf' conditional failed, one must be fixed:
+   	[[9, 10, 11, 12]] is not of type 'boolean'
+   	[9, 10, 11, 12] is too long
+   	from schema $id: http://devicetree.org/schemas/wakeup-source.yaml
+>> arch/arm64/boot/dts/ti/k3-am62-lp-sk-nand.dtb: serial@2800000 (ti,am64-uart): wakeup-source: 'oneOf' conditional failed, one must be fixed:
+   	[[10, 11, 12]] is not of type 'boolean'
+   	[10, 11, 12] is too long
+   	from schema $id: http://devicetree.org/schemas/wakeup-source.yaml
 
 --
 0-DAY CI Kernel Test Service
