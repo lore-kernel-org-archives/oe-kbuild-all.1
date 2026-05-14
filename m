@@ -1,83 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22FFC3BF66E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 May 2026 19:51:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AEB133689B;
+	Thu, 14 May 2026 20:29:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778788290; cv=none; b=NndiU51j3aR7AZt1AIM8TfJqnRn+PGyzz+uD3cG/4d4ADKyMjA30O7wLA8D8lbUcPXRd6gjZKZOF/jSWTq2yjaYBqWDoUhuewRW91zcARiCT8OBE4Ybz+ApCxV51LthdcxLY3db3RZdUFaBEvZ3AdZJ71nXoJsouYOXk9TBHPUc=
+	t=1778790548; cv=none; b=YoriRU9QfjBrZKV1MYE9GEwh9EgKey9sBSmIihX3DuEMAk9Al49oV3wkEwgPeRjiGJUvkjzZOsngiaBRYXqJu1mqa6hGFhumaO6oTIG9JQBvdhG33UX/lWUOxsZqdBU+98dB8SJPSjrexxsRY8OOSYwWgYfteZtcpLRyYiKy5Dc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778788290; c=relaxed/simple;
-	bh=70BheNyJT8125WCTR3NpAzIYdFP4p9MJvVfyHXhl0c8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=k2r15uHVHwuzfhJZUY2u29xfgo16sekL6858fgX6iOm/QTm9OUNNXhAaHbrld9nAnHV+ilyLxudNJ2ttpKKD6oLn/zkP31xNxiAJpd09x/iFd0XxX4BeK0W30Y8Y/EP99Ma2l4dTa3DIzl/favckV35NBB0zOJCcGxUMdjwk2aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zi9UxM77; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1778790548; c=relaxed/simple;
+	bh=WYEZ+dPObHt5hmrhhbH7GFqUbFObKwL+IZ1qBKpCbqE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=STJe+EIgOi5ROY+7Ogi9HtNP6hoF+j81Ru9RAhmxR5kt895nZCjrJnDYcyEx+ONHPLQBCkkbPSQqrohHX3ur2ZyB8hOiRNKayIp7aXveJb3QTq2DjfoIl1ZLZGRDZK86BQ3qtkhtfMAQVBP0FXtYnSwmGRVFg6+8QyCfitmlXLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MfVLs6PB; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zi9UxM77"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MfVLs6PB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778788289; x=1810324289;
-  h=date:from:to:cc:subject:message-id;
-  bh=70BheNyJT8125WCTR3NpAzIYdFP4p9MJvVfyHXhl0c8=;
-  b=Zi9UxM778kdJ0Fn5q12+JS0onEf5IZ7SD6/OaXjqlB+xJbD+o6xBQckL
-   gdAl/kPXEQ5mtH9HcdyUBITDZLjVQuo/06/t7tSo8p3vQHoz1QWYiwdh3
-   bo0QkPCNt4VTHP2w1kN5C403daf/oTiXHjv5smb3Yu7lea6XO991EoaeL
-   GDKYKUD50RPIXiAqAS/uqqn16zl9wGyVpLom9dxpDTGbYJJQPNC4JdoiB
-   CceN7vgDK4rV8QLTH4MaS40qQw+GgAoNS3e8vHxbaJ65wOCOiThpo+q06
-   JP+Lh3iwDmoeXQrvnbPqzaRv/pa66zMXW2J042ppi2ePJx2AyfQBKsc2D
-   Q==;
-X-CSE-ConnectionGUID: /FAMqLFYRKWC9J2JTqGdtw==
-X-CSE-MsgGUID: mqoTvFCfTDawaGXnh6poyQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="78877760"
+  t=1778790545; x=1810326545;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WYEZ+dPObHt5hmrhhbH7GFqUbFObKwL+IZ1qBKpCbqE=;
+  b=MfVLs6PBU5eOxjpIg8VoRaNFQqUS60n9Du4fcWFiXkqoksa70eTmP+GS
+   NE3MRBALeYPl30mM/ov3MCiKiSThlx4UUz9fa1zg7eL4DJoPHT5jCJyMR
+   bvlxGeHD4mSywQd6ryC0xKQeiV3v+ndrDtvaKvVzX6tnUWdm3MFHMucvx
+   vH8FqxDaIs36gXssJLBWqijF6SufLrjebshZzPRLqUsy4L55oJMk3/fZx
+   o/iI2sUVx+deaKTYDS/sPz3muiWBGfuOWYucQ5Np1wO46cji+kHHRa6sQ
+   +uDCSFzIUtMVLIr5fn2BBSM6bWtzNYNXoGt2k14qSbUBNSqJaZmDtC9YA
+   g==;
+X-CSE-ConnectionGUID: k0Cf3KpXS1yl3KfU3YtULA==
+X-CSE-MsgGUID: IzEPoCKcSUKh75kJ817WlA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="83355264"
 X-IronPort-AV: E=Sophos;i="6.23,235,1770624000"; 
-   d="scan'208";a="78877760"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 12:51:27 -0700
-X-CSE-ConnectionGUID: A/9yQ/bHTw6W5fWFoxCo2Q==
-X-CSE-MsgGUID: 3dyi6w76TweMAGpUzXiddA==
+   d="scan'208";a="83355264"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 13:29:05 -0700
+X-CSE-ConnectionGUID: G6h6ELAETkesj8PpJAy8FQ==
+X-CSE-MsgGUID: To/4DETzS4GEq19uZxuA5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,235,1770624000"; 
-   d="scan'208";a="238740671"
-Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 14 May 2026 12:51:25 -0700
-Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
+   d="scan'208";a="232092652"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa009.fm.intel.com with ESMTP; 14 May 2026 13:29:01 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wNc5a-0000000072p-24ex;
-	Thu, 14 May 2026 19:51:22 +0000
-Date: Fri, 15 May 2026 03:50:42 +0800
+	id 1wNcfz-000000008rh-0Xcq;
+	Thu, 14 May 2026 20:28:59 +0000
+Date: Thu, 14 May 2026 22:28:54 +0200
 From: kernel test robot <lkp@intel.com>
-To: Jonas Karlman <jonas@kwiboo.se>
-Cc: oe-kbuild-all@lists.linux.dev, Vinod Koul <vkoul@kernel.org>,
- Kishon <kishon@ti.com>, Heiko Stuebner <heiko@sntech.de>,
- Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [phy:next 47/52] Warning:
- drivers/phy/rockchip/phy-rockchip-inno-usb2.c:184 struct member
- 'clkout_ctl_phy' not described in 'rockchip_usb2phy_cfg'
-Message-ID: <202605150315.MyBNQOPB-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Frank Li <Frank.Li@nxp.com>, Andrew Lunn <andrew@lunn.ch>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	"open list:NETWORKING DRIVERS" <netdev@vger.kernel.org>,
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	imx@lists.linux.dev
+Subject: Re: [PATCH 1/1] dt-bindings: net: dsa: Convert lan9303.txt to yaml
+ format
+Message-ID: <202605142234.F1IZjPJb-lkp@intel.com>
+References: <20260512214704.1084890-1-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260512214704.1084890-1-Frank.Li@nxp.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git next
-head:   fd6cd05ceabdf67635a4cef5145f79d1217bf11b
-commit: 2775541de0580ab1cd077dfef710e6316563d567 [47/52] phy: rockchip: inno-usb2: Add clkout_ctl_phy support
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20260515/202605150315.MyBNQOPB-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260515/202605150315.MyBNQOPB-lkp@intel.com/reproduce)
+Hi Frank,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v7.1-rc3 next-20260508]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/dt-bindings-net-dsa-Convert-lan9303-txt-to-yaml-format/20260514-202017
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20260512214704.1084890-1-Frank.Li%40nxp.com
+patch subject: [PATCH 1/1] dt-bindings: net: dsa: Convert lan9303.txt to yaml format
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260514/202605142234.F1IZjPJb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605150315.MyBNQOPB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605142234.F1IZjPJb-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: drivers/phy/rockchip/phy-rockchip-inno-usb2.c:184 struct member 'clkout_ctl_phy' not described in 'rockchip_usb2phy_cfg'
->> Warning: drivers/phy/rockchip/phy-rockchip-inno-usb2.c:184 struct member 'clkout_ctl_phy' not described in 'rockchip_usb2phy_cfg'
+   Warning: Documentation/devicetree/bindings/regulator/motorola,cpcap-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/devicetree/bindings/rtc/motorola,cpcap-rtc.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
+   Warning: Documentation/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
+   Warning: Documentation/leds/leds-lp5812.rst references a file that doesn't exist: Documentation/ABI/testing/sysfs-class-led-multicolor.rst
+>> Warning: Documentation/networking/dsa/lan9303.rst references a file that doesn't exist: Documentation/devicetree/bindings/net/dsa/lan9303.txt
+   Warning: Documentation/translations/it_IT/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
+   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
+   Warning: Documentation/translations/ja_JP/process/submit-checklist.rst references a file that doesn't exist: Documentation/translations/ja_JP/SubmitChecklist
+   Warning: Documentation/translations/zh_CN/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
+   Warning: Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst references a file that doesn't exist: Documentation/filesystems/gfs2-glocks.rst
 
 --
 0-DAY CI Kernel Test Service
