@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88928336ED2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 May 2026 03:21:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E8EC345740
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 May 2026 03:21:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778728880; cv=none; b=IhkBZtkEODU8JaQDI5mMg/ctgKAvkoXU4qzIuDc4cy5zyvRx/+1o8akT6iWIgKLXDmh8OjHgO5ZA9iRRkgswQopucsURfMS6SOlz3V0ydC6eRPB5LExmYmz1/B9aefLAVIUB6KpZNkAtKPwtGXXxo/QpJ347stosr5akroqWxR8=
+	t=1778728905; cv=none; b=XbxXdtEgoyik3VMNGWAOVqEx7OFhUi/y94Zz/qWV07oarAIZqjvtjjCU17DyRKjIoVtZllPHfldn/VQHo6rRcR9JNLbQFaWSCS8fvVcXxn/AGGp2LKbmc1d2ktkarX7eTUkJpyWsjPs9urtYGgTFhw1o/GA8B1ZS5WjR8GqY0nk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778728880; c=relaxed/simple;
-	bh=LCsQY6vAaPUN4WkwgYCCucmJrVGtV9lq8lARSXzCzvU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=plbfl8CIxsikFAsKpx1pFIJqvGqpBAJcY5OfAqA8ZIYxLPk9IumN7LMYOPh6QIgg6Zj87/zcz5umxqwvaAyN4DChRknaZMWsYU/t9vzuh95OYev5Kruo1lDpnKZPPaSf2Mi3JG841LacD8N7JZzZMQyZGgartOjfgxiPAJb+ONE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R71r3yxb; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1778728905; c=relaxed/simple;
+	bh=5R0g6qUZdqeJscnktqaMOsyNf0Z8uBUSj0nQCR+jgV0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=KpdOfZAbfXyt/RRESF3v3KNf5fqGzYToMTuPYqCvoo2bv5/K5WikgIiq5eveXTx/+cQzRKO3ktoUbQ8O2Qt37ORcT3eVtIEJ0b81WZLb4HXdwKDRJVV31Z+e4gydeTF145zUIZ9yvSTe+0xFVDLaXzp28hX26ebAj18DFymAj5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KamiG4h+; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R71r3yxb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KamiG4h+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778728871; x=1810264871;
+  t=1778728894; x=1810264894;
   h=date:from:to:cc:subject:message-id;
-  bh=LCsQY6vAaPUN4WkwgYCCucmJrVGtV9lq8lARSXzCzvU=;
-  b=R71r3yxbeG4S485MOqiKp2MjoZz5jYUzm4FBQ082JYWRa8S491eHkM02
-   zxmJdt0cET9dlHCo2/321wUO7Muu5M8p6TI2ywMZjkeCgm8xSYPjaPavU
-   jQ6+YCBBNzJnsJMtHUYD5ToMc9rj9QEXqzeQnlMLWYZYOcSb8wciN8dYa
-   pSxxYcwU8MPSH2Zcl3RsyyVQE0CP6H2DwmN7nwW67KREH1veJ8CAHngWs
-   9CslgbwBLVXHoDeuJYGyDDGNnoCwxkXfArxm5UjwllibIVA5ZD7KKmSFU
-   NvUe1C/Wp9GoxNFZLGu00iea6uEqndquGXsHUSwW2funNy+hh8388Lzoc
+  bh=5R0g6qUZdqeJscnktqaMOsyNf0Z8uBUSj0nQCR+jgV0=;
+  b=KamiG4h+fae1j1lvZQWcOcA3UlXpl5FHhWyHhdQzAfriFb1owGSzj3Ug
+   GPsJJYFtCZYRXvB3kCwrM3RCf/C6LLGCsxjtceSzRlQGhx97biD37VpBB
+   GJvSVYtTwB4P9l1xzlt8cjehEFRnKRRoDHHOHJZzLv4TzuZ0DLcKdZOgl
+   hUWZxfZG2ADiIkNnkAip7ICDSG+9tsDqKXHdQE+GPhpuzMCSXpytJjizc
+   1sZGJ97LkJ3B9nIIZM5IPLPKYaI3XuBnGveieVJZywW1whoFH69UQhmNg
+   bgW9VJIt1b1gj/h9Poj470cQBsSDzhwChUGgkvQXRilt4lNoKmDFbXXiQ
    Q==;
-X-CSE-ConnectionGUID: Mli8kVtfSaeZsuTe3rKHnQ==
-X-CSE-MsgGUID: kPzT0oSsSyGg7oZsSW4hgQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="105124466"
-X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
-   d="scan'208";a="105124466"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 20:20:55 -0700
-X-CSE-ConnectionGUID: 0b/8NfGhTGmnptOypQxYwA==
-X-CSE-MsgGUID: oV/PwxjqQN2XM97tg9gIPQ==
+X-CSE-ConnectionGUID: KNMN1LfjRtCCfL3GWG9u/Q==
+X-CSE-MsgGUID: E3fJtC3/RnyK5yQNW3SnVw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="79380545"
+X-IronPort-AV: E=Sophos;i="6.23,234,1770624000"; 
+   d="scan'208";a="79380545"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 20:21:30 -0700
+X-CSE-ConnectionGUID: GaT/K6goTv6lMvgXjY+16A==
+X-CSE-MsgGUID: V7nlbkClRcqMklO9B+2a9g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
-   d="scan'208";a="243245991"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 13 May 2026 20:20:53 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="237284359"
+Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 13 May 2026 20:21:27 -0700
+Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wNMd1-000000008jz-072x;
-	Thu, 14 May 2026 03:20:51 +0000
-Date: Thu, 14 May 2026 05:19:53 +0200
+	id 1wNMdY-000000005jv-37ad;
+	Thu, 14 May 2026 03:21:24 +0000
+Date: Thu, 14 May 2026 11:20:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [groeck-staging:hwmon-next 26/29]
- ./include/linux/hwmon.h:498:25: error: expected ')' before 'struct'
-Message-ID: <202605140525.qZcK92K2-lkp@intel.com>
+To: "Chang S. Bae" <chang.seok.bae@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
+ Farrah Chen <farrah.chen@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [kvm:queue 4/24] arch/x86/kvm/vmx/vmenter.S:98: Error:
+ invalid operands (*UND* and *ABS* sections) for `*'
+Message-ID: <202605141102.53Vk824r-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,32 +61,88 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-head:   7fb80897aad0a4da2e8ce77ac54af988605aae39
-commit: aa3ec1484bdd619e8fa2ce569ec653d35fbf3615 [26/29] hwmon: Support guard() and scoped_guard for subsystem locks
-config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260514/202605140525.qZcK92K2-lkp@intel.com/config)
-compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605140525.qZcK92K2-lkp@intel.com/reproduce)
+Hi Chang,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+head:   2b5e4245e1d31fd0858bb7abbd82af85a6457c33
+commit: d1d1534a7ef4694a6a7b079c80e661dd66d04e9c [4/24] KVM: VMX: Macrofy GPR swapping in __vmx_vcpu_run()
+config: i386-buildonly-randconfig-001-20260514 (https://download.01.org/0day-ci/archive/20260514/202605141102.53Vk824r-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605141102.53Vk824r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605140525.qZcK92K2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605141102.53Vk824r-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/power/supply/power_supply_hwmon.c:7:
->> ./include/linux/hwmon.h:498:25: error: expected ')' before 'struct'
-     498 | DEFINE_GUARD(hwmon_lock, struct device *, hwmon_lock(_T), hwmon_unlock(_T))
-         |                         ^~~~~~~
-         |                         )
+   arch/x86/kvm/vmx/vmenter.S: Assembler messages:
+>> arch/x86/kvm/vmx/vmenter.S:98: Error: invalid operands (*UND* and *ABS* sections) for `*'
+>> arch/x86/kvm/vmx/vmenter.S:98: Error: invalid operands (*UND* and *ABS* sections) for `*'
+>> arch/x86/kvm/vmx/vmenter.S:98: Error: invalid operands (*UND* and *ABS* sections) for `*'
+>> arch/x86/kvm/vmx/vmenter.S:98: Error: invalid operands (*UND* and *ABS* sections) for `*'
+>> arch/x86/kvm/vmx/vmenter.S:98: Error: invalid operands (*UND* and *ABS* sections) for `*'
+>> arch/x86/kvm/vmx/vmenter.S:98: Error: invalid operands (*UND* and *ABS* sections) for `*'
+   arch/x86/kvm/vmx/vmenter.S:105: Error: invalid operands (*UND* and *ABS* sections) for `*'
+   arch/x86/kvm/vmx/vmenter.S:164: Error: invalid operands (*UND* and *ABS* sections) for `*'
+   arch/x86/kvm/vmx/vmenter.S:164: Error: invalid operands (*UND* and *ABS* sections) for `*'
+   arch/x86/kvm/vmx/vmenter.S:164: Error: invalid operands (*UND* and *ABS* sections) for `*'
+   arch/x86/kvm/vmx/vmenter.S:164: Error: invalid operands (*UND* and *ABS* sections) for `*'
+   arch/x86/kvm/vmx/vmenter.S:164: Error: invalid operands (*UND* and *ABS* sections) for `*'
+   arch/x86/kvm/vmx/vmenter.S:164: Error: invalid operands (*UND* and *ABS* sections) for `*'
+   arch/x86/kvm/vmx/vmenter.S:166: Error: invalid operands (*UND* and *ABS* sections) for `*'
 
 
-vim +498 ./include/linux/hwmon.h
+vim +98 arch/x86/kvm/vmx/vmenter.S
 
-   497	
- > 498	DEFINE_GUARD(hwmon_lock, struct device *, hwmon_lock(_T), hwmon_unlock(_T))
-   499	
+    88	
+    89		/*
+    90		 * Since vmentry is serializing on affected CPUs, there's no need for
+    91		 * an LFENCE to stop speculation from skipping the wrmsr.
+    92		 */
+    93	
+    94		/*
+    95		 * Load guest registers.  Don't clobber flags. Intentionally omit
+    96		 * %_ASM_SP as it's context switched by hardware
+    97		 */
+  > 98		LOAD_REGS %_ASM_DI, VMX_vcpu_arch_regs, \
+    99			  %_ASM_AX, %_ASM_CX, %_ASM_DX, %_ASM_BX, %_ASM_BP, %_ASM_SI
+   100	#ifdef CONFIG_X86_64
+   101		LOAD_REGS %_ASM_DI, VMX_vcpu_arch_regs, \
+   102			  %r8, %r9, %r10, %r11, %r12, %r13, %r14, %r15
+   103	#endif
+   104		/* Load guest RDI.  This kills the @vmx pointer! */
+   105		LOAD_REGS %_ASM_DI, VMX_vcpu_arch_regs, %_ASM_DI
+   106	
+   107		/*
+   108		 * Note, ALTERNATIVE_2 works in reverse order.  If CLEAR_CPU_BUF_VM is
+   109		 * enabled, do VERW unconditionally.  If CPU_BUF_VM_MMIO is enabled,
+   110		 * check @flags to see if the vCPU has access to host MMIO, and if so,
+   111		 * do VERW.  Else, do nothing (no mitigations needed/enabled).
+   112		 */
+   113		ALTERNATIVE_2 "",									  \
+   114			      __stringify(testl $KVM_ENTER_CLEAR_CPU_BUFFERS_FOR_MMIO, (%_ASM_SP);	  \
+   115					  jz .Lskip_mmio_verw;						  \
+   116					  VERW;								  \
+   117					  .Lskip_mmio_verw:),					  	  \
+   118			      X86_FEATURE_CLEAR_CPU_BUF_VM_MMIO,					  \
+   119			      __stringify(VERW), X86_FEATURE_CLEAR_CPU_BUF_VM
+   120	
+   121		/* Check @flags to see if VMLAUNCH or VMRESUME is needed. */
+   122		testl $KVM_ENTER_VMRESUME, (%_ASM_SP)
+   123		jz .Lvmlaunch
+   124	
+   125		/*
+   126		 * After a successful VMRESUME/VMLAUNCH, control flow "magically"
+   127		 * resumes below at 'vmx_vmexit' due to the VMCS HOST_RIP setting.
+   128		 * So this isn't a typical function and objtool needs to be told to
+   129		 * save the unwind state here and restore it below.
+   130		 */
+   131		UNWIND_HINT_SAVE
+   132	
 
 --
 0-DAY CI Kernel Test Service
