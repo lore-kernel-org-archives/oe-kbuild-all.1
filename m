@@ -1,60 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E69B834251D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 May 2026 16:40:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A1363890E0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 May 2026 17:13:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778776812; cv=none; b=GVwCGpLtqf2YeQqPgt6oHQ6H++qVBItRwq2gEhKCtKseDSnuiZjA81/B94ZwzyGFwCvMbuSEbM41vs8yu/PHze9LxnzORnD1Cst/fO7lTSSYAGaxBPM1fI+0nA3NHGiiQ851jkloXI4vglLM6st65Nju0IcifsN79A+oh1H/BOE=
+	t=1778778795; cv=none; b=Ofsc5BTUuKekp7lQCVZrgdpf65V8U2ZmBRit48dmTBSDFzbenfPC092RlTstvP1wtuK/xzoDfxQD9yBkYyKcjmK85I6XoAOheud6YQISR8FUtXw1cTS3+nsiMvWQH5djEpfRYA1cppH+iqEy9DFY0sn8lIyQfiJvMH6rs3IkwlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778776812; c=relaxed/simple;
-	bh=rJdgJ1OFCQpo/ushgHRlnzGxSRqr/Cop7cNY+Q930EE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=tUqrIIPaMarjToQ0UAqEBFoZShkqUkJm46YGc0W4wkJ4j8QQjl/iVuazEyPpplnegmwezv02n5bMYPcS9rJzqqqsu/bp/yKRru1tlfkNczWja/iGCAUf+jUs8v8y/6tyL3d1YwOdfw4K2jWrZ+e92/UkbOXi/vpdfDDmnOk5ugA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TyqqgTZ5; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1778778795; c=relaxed/simple;
+	bh=/1pplkGFJvD/CxnKzV0sXrRhH2siesGL5c3CytScgvM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Vsmln0oC0RYCuGzTs1Q/+Zcb8G/oXjUDiCmYwcADWzW0Lp7c9+C8ZoEcyWy8fcTPWFVCy7oK23eIxL8/1BZWylCADjpXOo0ql3juSeVmryWIMZbTwFub+h6UklrGQM9ZuzEmB9UMzDmKL+GZ53fZI3zAjx1AX5RYHORG2AWYPGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jbTPgzWS; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TyqqgTZ5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jbTPgzWS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778776811; x=1810312811;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rJdgJ1OFCQpo/ushgHRlnzGxSRqr/Cop7cNY+Q930EE=;
-  b=TyqqgTZ5wiAsq88SLcSyMS5ab5DEUhAT0bRE1AXyDL/0/g5E/Xm2WOoI
-   Ov9sjPkO+ZdHpYr9d4fOSgF6QQuV1Z5Kw9phtTFoll3QwTL4RKbOI/4g2
-   kSDoepKGCE/OFdwsS+1KIofCdquf7c1RXS/8bg6HeK4O6GKr6YKvmYaD7
-   KXoIQXKKGNlOtO2I7hG/YUMG1kbgqYy3idgLbQzJQlO9iypLigwerekPE
-   yix0zEtzQAavTiSGDyDJsdSGEuIGWrEKcqwvaVU1khWO82UUTvWquI8Pa
-   k3YBMIDykAFR6YRUe9hInu8owYIBTIjE6T1weVOaxRM5k1IYRV2fkwYuZ
+  t=1778778794; x=1810314794;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/1pplkGFJvD/CxnKzV0sXrRhH2siesGL5c3CytScgvM=;
+  b=jbTPgzWSu/ZHbuP26so4FQXw3cDXaHffOaBf57bdbQTeW8v5bmmkFtja
+   jU5z1qSoWLaDsHyNTfNEwtRbot1ik3UWPmi9tSUMOZA5HsCSHXCUvWiEK
+   22vvBFlSPvQP6jc806YvdPB+6HJ/WSEa+ACvaLJT32VdH6NjvxkZva8C/
+   01BDuGIaUEGwiS6ByYwuDRi34ccAUl93fuV0gzUe+f6+re1tTkC9ThUGk
+   kkZdQJrwSIE4sQkkIMoV5dwktBbmcuRBkz7/hoRqB/XCTCHZ+eAD0U/h2
+   IQuCdXgFOAZjkqGRY9dF5Npw/FqryYeBUiK1QfFhTRd28N6zUHVwP8ZCb
    Q==;
-X-CSE-ConnectionGUID: Dc4GkynLRASFRjsgTZpihQ==
-X-CSE-MsgGUID: fe4kQZuBTjqnsIzKbtB6mw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="90417428"
-X-IronPort-AV: E=Sophos;i="6.23,234,1770624000"; 
-   d="scan'208";a="90417428"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 09:40:08 -0700
-X-CSE-ConnectionGUID: LRVKXak2SA6cvK/7udCKpA==
-X-CSE-MsgGUID: 19PQgLzZQ8SMWEfvUwvFdw==
+X-CSE-ConnectionGUID: ZYVjiwlBRNWtaXLcNZaHjw==
+X-CSE-MsgGUID: qDvGQrz0QjiUn9vH+/6lhQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="90036254"
+X-IronPort-AV: E=Sophos;i="6.23,235,1770624000"; 
+   d="scan'208";a="90036254"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 10:13:14 -0700
+X-CSE-ConnectionGUID: +TUi61o2SbKoP/93OHwWnQ==
+X-CSE-MsgGUID: Wqt133HsRyy4JR9tvGeliQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,234,1770624000"; 
-   d="scan'208";a="238534961"
+X-IronPort-AV: E=Sophos;i="6.23,235,1770624000"; 
+   d="scan'208";a="242444557"
 Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 14 May 2026 09:40:05 -0700
+  by orviesa003.jf.intel.com with ESMTP; 14 May 2026 10:13:11 -0700
 Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wNZ6Q-000000006mt-3yn8;
-	Thu, 14 May 2026 16:40:02 +0000
-Date: Fri, 15 May 2026 00:39:49 +0800
+	id 1wNZcS-000000006q7-1jkF;
+	Thu, 14 May 2026 17:13:08 +0000
+Date: Fri, 15 May 2026 01:12:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Dumazet <edumazet@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
- Jakub Kicinski <kuba@kernel.org>,
- "Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen"?= <toke@toke.dk>
-Subject: [net-next:main 114/116] net/core/sock.c:2761:1: warning:
- control reaches end of non-void function
-Message-ID: <202605150027.0UCMop1l-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Priyansh Jain <priyansh.jain@oss.qualcomm.com>,
+	Amit Kucheria <amitk@kernel.org>,
+	Thara Gopinath <thara.gopinath@gmail.com>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	manaf.pallikunhi@oss.qualcomm.com,
+	Priyansh Jain <priyansh.jain@oss.qualcomm.com>
+Subject: Re: [PATCH v2 2/2] thermal: qcom: tsens: widen temperature limits to
+ match hardware range
+Message-ID: <202605150118.EgOsiHWm-lkp@intel.com>
+References: <20260508100700.772985-3-priyansh.jain@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,82 +70,61 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260508100700.772985-3-priyansh.jain@oss.qualcomm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git main
-head:   f3f7760afe65292e83f182696130efb983278d04
-commit: f0de88303d5e7e04a1224bc7a00512b5a1c4fe7a [114/116] net: make is_skb_wmem() available to modules
-config: powerpc64-randconfig-002-20260514 (https://download.01.org/0day-ci/archive/20260515/202605150027.0UCMop1l-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260515/202605150027.0UCMop1l-lkp@intel.com/reproduce)
+Hi Priyansh,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on rafael-pm/thermal]
+[also build test WARNING on linus/master v7.1-rc3 next-20260508]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Priyansh-Jain/thermal-qcom-tsens-atomic-temperature-read-with-hardware-guided-retries/20260514-191243
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
+patch link:    https://lore.kernel.org/r/20260508100700.772985-3-priyansh.jain%40oss.qualcomm.com
+patch subject: [PATCH v2 2/2] thermal: qcom: tsens: widen temperature limits to match hardware range
+config: sparc-randconfig-r072-20260514 (https://download.01.org/0day-ci/archive/20260515/202605150118.EgOsiHWm-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 15.2.0
+smatch: v0.5.0-9185-gbcc58b9c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260515/202605150118.EgOsiHWm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605150027.0UCMop1l-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605150118.EgOsiHWm-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/net/inet_sock.h:23,
-                    from include/net/ip.h:29,
-                    from include/linux/errqueue.h:6,
-                    from net/core/sock.c:91:
-   include/net/sock.h: In function 'is_skb_wmem':
-   include/net/sock.h:1861:56: error: '__sock_wfree' undeclared (first use in this function); did you mean 'sock_wfree'?
-            (IS_ENABLED(CONFIG_INET) && skb->destructor == __sock_wfree) ||
-                                                           ^~~~~~~~~~~~
-                                                           sock_wfree
-   include/net/sock.h:1861:56: note: each undeclared identifier is reported only once for each function it appears in
-   include/net/sock.h:1862:56: error: 'tcp_wfree' undeclared (first use in this function); did you mean 'sock_wfree'?
-            (IS_ENABLED(CONFIG_INET) && skb->destructor == tcp_wfree);
-                                                           ^~~~~~~~~
-                                                           sock_wfree
-   net/core/sock.c: In function 'can_skb_orphan_partial':
-   net/core/sock.c:2760:50: error: 'tcp_wfree' undeclared (first use in this function); did you mean 'sock_wfree'?
-      (IS_ENABLED(CONFIG_INET) && skb->destructor == tcp_wfree));
-                                                     ^~~~~~~~~
-                                                     sock_wfree
->> net/core/sock.c:2761:1: warning: control reaches end of non-void function [-Wreturn-type]
-    }
-    ^
---
-   In file included from include/linux/tcp.h:19,
-                    from net/core/skbuff.c:45:
-   include/net/sock.h: In function 'is_skb_wmem':
-   include/net/sock.h:1861:56: error: '__sock_wfree' undeclared (first use in this function); did you mean 'sock_wfree'?
-            (IS_ENABLED(CONFIG_INET) && skb->destructor == __sock_wfree) ||
-                                                           ^~~~~~~~~~~~
-                                                           sock_wfree
-   include/net/sock.h:1861:56: note: each undeclared identifier is reported only once for each function it appears in
-   include/net/sock.h:1862:56: error: 'tcp_wfree' undeclared (first use in this function); did you mean 'sock_wfree'?
-            (IS_ENABLED(CONFIG_INET) && skb->destructor == tcp_wfree);
-                                                           ^~~~~~~~~
-                                                           sock_wfree
->> include/net/sock.h:1863:1: warning: control reaches end of non-void function [-Wreturn-type]
-    }
-    ^
+   drivers/thermal/qcom/tsens.c: In function 'get_temp_tsens_valid':
+>> drivers/thermal/qcom/tsens.c:815:9: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
+     815 |         if (!ret)
+         |         ^~
+   drivers/thermal/qcom/tsens.c:818:17: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
+     818 |                 return ret;
+         |                 ^~~~~~
 
 
-vim +2761 net/core/sock.c
+vim +/if +815 drivers/thermal/qcom/tsens.c
 
-9e17f8a475fca81 Eric Dumazet   2015-11-01  2750  
-414776621d1006e Jakub Kicinski 2019-08-07  2751  static bool can_skb_orphan_partial(const struct sk_buff *skb)
-414776621d1006e Jakub Kicinski 2019-08-07  2752  {
-414776621d1006e Jakub Kicinski 2019-08-07  2753  	/* Drivers depend on in-order delivery for crypto offload,
-414776621d1006e Jakub Kicinski 2019-08-07  2754  	 * partial orphan breaks out-of-order-OK logic.
-414776621d1006e Jakub Kicinski 2019-08-07  2755  	 */
-9f06f87fef689d2 Jakub Kicinski 2024-04-03  2756  	if (skb_is_decrypted(skb))
-414776621d1006e Jakub Kicinski 2019-08-07  2757  		return false;
-9f06f87fef689d2 Jakub Kicinski 2024-04-03  2758  
-414776621d1006e Jakub Kicinski 2019-08-07  2759  	return (skb->destructor == sock_wfree ||
-414776621d1006e Jakub Kicinski 2019-08-07 @2760  		(IS_ENABLED(CONFIG_INET) && skb->destructor == tcp_wfree));
-414776621d1006e Jakub Kicinski 2019-08-07 @2761  }
-414776621d1006e Jakub Kicinski 2019-08-07  2762  
-
-:::::: The code at line 2761 was first introduced by commit
-:::::: 414776621d1006e57e80e6db7fdc3837897aaa64 net/tls: prevent skb_orphan() from leaking TLS plain text with offload
-
-:::::: TO: Jakub Kicinski <jakub.kicinski@netronome.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+   806	
+   807	int get_temp_tsens_valid(const struct tsens_sensor *s, int *temp)
+   808	{
+   809		int ret;
+   810		int hw_id = s->hw_id;
+   811		u32 temp_idx = LAST_TEMP_0 + hw_id;
+   812	
+   813		ret = tsens_read_temp(s, temp_idx, temp);
+   814	
+ > 815		if (!ret)
+   816			*temp = tsens_hw_to_mC(s, *temp);
+   817	
+   818			return ret;
+   819	}
+   820	
 
 --
 0-DAY CI Kernel Test Service
