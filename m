@@ -1,299 +1,347 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27ABA3D1AB1;
-	Thu, 14 May 2026 21:52:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD3A53A9D9B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 May 2026 22:12:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778795538; cv=none; b=glBRych1F1JSKZBOsMBydWX7OlertTYcest/Zi8qTS6Z0LkUJhSxyS9EPI6T0tvSAmD0JQFa3QUPDDEklUoefNtmCN9Pbw1+SL+3+ZE7hTpZJVnfwY+J5Nn9tEoGjsz3Ki/upN0Ow+wPim8UFKhl04cNtVq9Pzh6SnXxby5OIAE=
+	t=1778796774; cv=none; b=O4vsDHglnTpyA9NIOUpervvOgmZugK0k3AofpM7Wt6XpbJWyZnoK3ShYIU4Wr5K1Xhb1GOhBNGXmvstOGZrTH9ll3YcGBn4Nr8HgFc+pV17uTVC+UBKssr6VrOKN6842VpYOOrYKcq57oDHLmAefh5dKfeEpvHo9Dhw2ElTWhEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778795538; c=relaxed/simple;
-	bh=Bm0nDlu4IhiMwbVn1KAYrKNxUZQB/GB5MlbknQ0+/xQ=;
+	s=arc-20240116; t=1778796774; c=relaxed/simple;
+	bh=C83HVAA5whDxjfDzoG0SwSDvI+bkZ1aQI11I2de9+a8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rFMreuUJwYF9zCUcb+07xqV8s4D0cQtWnNRRuOxgBHXbVUG4TtSHxGciyHM5d/NwpCbmDLBw7WvDOwMlzR435PJx8mVkdYPinme8GFiKOdYiSCV1L5moKtlxsUTo3Kz4RigmHTaIAkBJJoT0Rjwmb/rM9Rn2jgyLlxlvmR4AWYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ENEaOohK; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=Vtg7GLJGuBXL+iRcMvvxnbino4Gdxe7bqQpubIV4+BwLO3tfmImtZlmXINnOwZFyhA3ZNEh2aWkoISkoTc82OxUyC0IJ/BkitDJfHAARgeoNzZKeQTsMZSxgTuIwKlt4zFgjdoOIlYkkA/ijA2410oiAIlVQqgLTHH9vL6HvRx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aL0o5DOR; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ENEaOohK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aL0o5DOR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778795537; x=1810331537;
+  t=1778796769; x=1810332769;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Bm0nDlu4IhiMwbVn1KAYrKNxUZQB/GB5MlbknQ0+/xQ=;
-  b=ENEaOohKNgyVJ2dWnIG5SFLeF78P8qC19ZGjXW6WrI4tJ8LlT+jneuiz
-   hNMzyOieraCBt8RaBdw4UWWCp0DP7Dr8qnj2QLn7dtO2D9KU9n6qNXeGj
-   4JTmRmgGyDmZzeUvbrOIec5gKsswc4hy8Ejw3uRolEiJFez7+3GhOJmjf
-   AkAfhmKu1hXsO0My2N5/n/fFCJVVmQ6yiMMZwIwpxWZXVELhbSrjWOzbU
-   dRx099g9/Bb2vSYijDGHcKTO0MNRAijmIw0CViMINCzEkwn3xJrUHwFl0
-   nL9xOsZc8g0w2tyTxqpQInE/PdaF37EBqt0lgMPNwo2w48dUQqv7wiu9+
+   mime-version:in-reply-to;
+  bh=C83HVAA5whDxjfDzoG0SwSDvI+bkZ1aQI11I2de9+a8=;
+  b=aL0o5DORvMHdttMgG4TKflkYNF50Ag/7CQoodBC6tAN8fK5paLXtQID1
+   T6/m1uHH9vtrXmbghXj6mGS5ZRcJ/afYSd9Mw06wZ7AM0LJBvkDKgU6qO
+   6LakgP6oKwnsWd21bHqzo23jdyM6GeVKJnVqZYG7UNCvpgaO8oRzmMRQw
+   VF1OAa5u0OiJ/kkxLTCo1ulOXbwem8SvDOB+aSdgiY/ecWv0VwGoB5B/k
+   lglXw0C95frh0ck2LhI8yaKMNrbLAU/l+F/SbvQzHs1bBiAd+iNfRzjas
+   OA1S/1b2WHgC5xlLj1nq6KEyNogSrbAfUY+c0lCiDFqXmLRW5iUtFiVXK
    A==;
-X-CSE-ConnectionGUID: BEtSLfc6ROmSE82RqZ5QxA==
-X-CSE-MsgGUID: CzvvjyagSIipo9SZhFbdsQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="90849589"
+X-CSE-ConnectionGUID: SHrxXK6IQ9SMtK0xreKSCw==
+X-CSE-MsgGUID: oUHn60hLSL2UVMPp9BFmDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="83364351"
 X-IronPort-AV: E=Sophos;i="6.23,235,1770624000"; 
-   d="scan'208";a="90849589"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 14:52:16 -0700
-X-CSE-ConnectionGUID: vjZvq132SEy2lcr2NOS4Ew==
-X-CSE-MsgGUID: yE3h3VqwQZ+WPSKbD6QJpQ==
+   d="scan'208";a="83364351"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 15:12:49 -0700
+X-CSE-ConnectionGUID: mOgdFv+TRTKLwRw16rkfhA==
+X-CSE-MsgGUID: vUDgimDYQvW81FHF4oeGdA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,235,1770624000"; 
-   d="scan'208";a="242502620"
+   d="scan'208";a="243481817"
 Received: from lkp-server02.sh.intel.com (HELO 7a33ad3e7d27) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 14 May 2026 14:52:13 -0700
+  by orviesa005.jf.intel.com with ESMTP; 14 May 2026 15:12:45 -0700
 Received: from kbuild by 7a33ad3e7d27 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wNdyB-000000000BT-3AL8;
-	Thu, 14 May 2026 21:52:00 +0000
-Date: Fri, 15 May 2026 05:48:12 +0800
+	id 1wNeHX-000000000E5-0ELY;
+	Thu, 14 May 2026 22:12:22 +0000
+Date: Fri, 15 May 2026 06:11:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Moksh Panicker <mokshpanicker.7@gmail.com>, gregkh@linuxfoundation.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Moksh Panicker <mokshpanicker.7@gmail.com>
-Subject: Re: [PATCH] staging: rtl8723bs: fix coding style in rtw_efuse.c
-Message-ID: <202605150500.7TJ6yTim-lkp@intel.com>
-References: <20260510063314.34066-1-mokshpanicker.7@gmail.com>
+To: Yizhou Zhao <zhaoyz24@mails.tsinghua.edu.cn>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Yizhou Zhao <zhaoyz24@mails.tsinghua.edu.cn>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Stanislav Fomichev <sdf.kernel@gmail.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Hangbin Liu <liuhangbin@gmail.com>,
+	Krishna Kumar <krikku@gmail.com>,
+	Yuxiang Yang <yangyx22@mails.tsinghua.edu.cn>,
+	Xuewei Feng <fengxw06@126.com>, Qi Li <qli01@tsinghua.edu.cn>,
+	Ke Xu <xuke@tsinghua.edu.cn>, stable@vger.kernel.org
+Subject: Re: [PATCH v2 net] net: core: dev: add reprocess depth limit for
+ another_round in __netif_receive_skb_core
+Message-ID: <202605150631.QDJOt3V7-lkp@intel.com>
+References: <20260512022127.7818-1-zhaoyz24@mails.tsinghua.edu.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260510063314.34066-1-mokshpanicker.7@gmail.com>
+In-Reply-To: <20260512022127.7818-1-zhaoyz24@mails.tsinghua.edu.cn>
 
-Hi Moksh,
+Hi Yizhou,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on staging/staging-testing]
+[auto build test WARNING on net/main]
+[also build test WARNING on net-next/main linus/master horms-ipvs/master v7.1-rc3 next-20260508]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Moksh-Panicker/staging-rtl8723bs-fix-coding-style-in-rtw_efuse-c/20260514-222556
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260510063314.34066-1-mokshpanicker.7%40gmail.com
-patch subject: [PATCH] staging: rtl8723bs: fix coding style in rtw_efuse.c
-config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260515/202605150500.7TJ6yTim-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260515/202605150500.7TJ6yTim-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Yizhou-Zhao/net-core-dev-add-reprocess-depth-limit-for-another_round-in-__netif_receive_skb_core/20260514-205938
+base:   net/main
+patch link:    https://lore.kernel.org/r/20260512022127.7818-1-zhaoyz24%40mails.tsinghua.edu.cn
+patch subject: [PATCH v2 net] net: core: dev: add reprocess depth limit for another_round in __netif_receive_skb_core
+config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20260515/202605150631.QDJOt3V7-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260515/202605150631.QDJOt3V7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605150500.7TJ6yTim-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605150631.QDJOt3V7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/staging/rtl8723bs/core/rtw_efuse.c:83:1: error: function definition is not allowed here
-      83 | {
-         | ^
-   drivers/staging/rtl8723bs/core/rtw_efuse.c:136:1: error: function definition is not allowed here
-     136 | {
-         | ^
-   drivers/staging/rtl8723bs/core/rtw_efuse.c:167:1: error: function definition is not allowed here
-     167 | {
-         | ^
-   drivers/staging/rtl8723bs/core/rtw_efuse.c:176:1: error: function definition is not allowed here
-     176 | {
-         | ^
-   drivers/staging/rtl8723bs/core/rtw_efuse.c:186:1: error: function definition is not allowed here
-     186 | {
-         | ^
-   drivers/staging/rtl8723bs/core/rtw_efuse.c:213:1: error: function definition is not allowed here
-     213 | {
-         | ^
-   drivers/staging/rtl8723bs/core/rtw_efuse.c:245:1: error: function definition is not allowed here
-     245 | {
-         | ^
->> drivers/staging/rtl8723bs/core/rtw_efuse.c:253:29: error: expected '}'
-     253 | } /* rtw_efuse_shadow_read*/
-         |                             ^
-   drivers/staging/rtl8723bs/core/rtw_efuse.c:45:1: note: to match this '{'
-      45 | {
-         | ^
-   8 errors generated.
+   net/core/dev.c: In function '__netif_receive_skb_core':
+>> net/core/dev.c:5982:13: warning: unused variable 'redirect_depth' [-Wunused-variable]
+    5982 |         int redirect_depth = 0;
+         |             ^~~~~~~~~~~~~~
 
 
-vim +83 drivers/staging/rtl8723bs/core/rtw_efuse.c
+vim +/redirect_depth +5982 net/core/dev.c
 
-554c0a3abf216c Hans de Goede        2017-03-29   80  
-554c0a3abf216c Hans de Goede        2017-03-29   81  /*  11/16/2008 MH Read one byte from real Efuse. */
-ceeea324fb96ba Moksh Panicker       2026-05-10   82  u8 rtw_efuse_one_byte_read(struct adapter *padapter, u16   addr, u8	*data)
-554c0a3abf216c Hans de Goede        2017-03-29  @83  {
-554c0a3abf216c Hans de Goede        2017-03-29   84  	u32 tmpidx = 0;
-554c0a3abf216c Hans de Goede        2017-03-29   85  	u8 bResult;
-554c0a3abf216c Hans de Goede        2017-03-29   86  	u8 readbyte;
-554c0a3abf216c Hans de Goede        2017-03-29   87  
-554c0a3abf216c Hans de Goede        2017-03-29   88  	/*  <20130121, Kordan> For SMIC EFUSE specificatoin. */
-554c0a3abf216c Hans de Goede        2017-03-29   89  	/* 0x34[11]: SW force PGMEN input of efuse to high. (for the bank selected by 0x34[9:8]) */
-554c0a3abf216c Hans de Goede        2017-03-29   90  	/* PHY_SetMacReg(padapter, 0x34, BIT11, 0); */
-6a620bb2f4c1b4 Michael Steinmötzger 2026-05-09   91  	rtw_write16(padapter, 0x34, rtw_read16(padapter, 0x34) & (~BIT(11)));
-554c0a3abf216c Hans de Goede        2017-03-29   92  
-554c0a3abf216c Hans de Goede        2017-03-29   93  	/*  -----------------e-fuse reg ctrl --------------------------------- */
-554c0a3abf216c Hans de Goede        2017-03-29   94  	/* address */
-554c0a3abf216c Hans de Goede        2017-03-29   95  	rtw_write8(padapter, EFUSE_CTRL + 1, (u8)(addr & 0xff));
-554c0a3abf216c Hans de Goede        2017-03-29   96  	rtw_write8(padapter, EFUSE_CTRL + 2, ((u8)((addr >> 8) & 0x03)) |
-554c0a3abf216c Hans de Goede        2017-03-29   97  	(rtw_read8(padapter, EFUSE_CTRL + 2) & 0xFC));
-554c0a3abf216c Hans de Goede        2017-03-29   98  
-554c0a3abf216c Hans de Goede        2017-03-29   99  	/* rtw_write8(padapter, EFUSE_CTRL+3,  0x72); read cmd */
-554c0a3abf216c Hans de Goede        2017-03-29  100  	/* Write bit 32 0 */
-554c0a3abf216c Hans de Goede        2017-03-29  101  	readbyte = rtw_read8(padapter, EFUSE_CTRL + 3);
-554c0a3abf216c Hans de Goede        2017-03-29  102  	rtw_write8(padapter, EFUSE_CTRL + 3, (readbyte & 0x7f));
-554c0a3abf216c Hans de Goede        2017-03-29  103  
-554c0a3abf216c Hans de Goede        2017-03-29  104  	while (!(0x80 & rtw_read8(padapter, EFUSE_CTRL + 3)) && (tmpidx < 1000)) {
-554c0a3abf216c Hans de Goede        2017-03-29  105  		mdelay(1);
-554c0a3abf216c Hans de Goede        2017-03-29  106  		tmpidx++;
-554c0a3abf216c Hans de Goede        2017-03-29  107  	}
-554c0a3abf216c Hans de Goede        2017-03-29  108  	if (tmpidx < 100) {
-554c0a3abf216c Hans de Goede        2017-03-29  109  		*data = rtw_read8(padapter, EFUSE_CTRL);
-554c0a3abf216c Hans de Goede        2017-03-29  110  		bResult = true;
-554c0a3abf216c Hans de Goede        2017-03-29  111  	} else {
-554c0a3abf216c Hans de Goede        2017-03-29  112  		*data = 0xff;
-554c0a3abf216c Hans de Goede        2017-03-29  113  		bResult = false;
-554c0a3abf216c Hans de Goede        2017-03-29  114  	}
-554c0a3abf216c Hans de Goede        2017-03-29  115  
-554c0a3abf216c Hans de Goede        2017-03-29  116  	return bResult;
-554c0a3abf216c Hans de Goede        2017-03-29  117  }
-554c0a3abf216c Hans de Goede        2017-03-29  118  
-554c0a3abf216c Hans de Goede        2017-03-29  119  /*-----------------------------------------------------------------------------
-554c0a3abf216c Hans de Goede        2017-03-29  120   * Function:	Efuse_ReadAllMap
-554c0a3abf216c Hans de Goede        2017-03-29  121   *
-554c0a3abf216c Hans de Goede        2017-03-29  122   * Overview:	Read All Efuse content
-554c0a3abf216c Hans de Goede        2017-03-29  123   *
-554c0a3abf216c Hans de Goede        2017-03-29  124   * Input:       NONE
-554c0a3abf216c Hans de Goede        2017-03-29  125   *
-554c0a3abf216c Hans de Goede        2017-03-29  126   * Output:      NONE
-554c0a3abf216c Hans de Goede        2017-03-29  127   *
-554c0a3abf216c Hans de Goede        2017-03-29  128   * Return:      NONE
-554c0a3abf216c Hans de Goede        2017-03-29  129   *
-554c0a3abf216c Hans de Goede        2017-03-29  130   * Revised History:
-554c0a3abf216c Hans de Goede        2017-03-29  131   * When			Who		Remark
-554c0a3abf216c Hans de Goede        2017-03-29  132   * 11/11/2008	MHC		Create Version 0.
-554c0a3abf216c Hans de Goede        2017-03-29  133   *
-35b79fd9fbdce9 Ignacio Pena         2025-07-16  134   */
-e8605159aec9bc Michael Straube      2025-08-23  135  static void Efuse_ReadAllMap(struct adapter *padapter, u8 efuseType, u8 *Efuse)
-554c0a3abf216c Hans de Goede        2017-03-29  136  {
-554c0a3abf216c Hans de Goede        2017-03-29  137  	u16 mapLen = 0;
-554c0a3abf216c Hans de Goede        2017-03-29  138  
-236faa3b92d336 Michael Straube      2025-08-24  139  	Hal_EfusePowerSwitch(padapter, true);
-554c0a3abf216c Hans de Goede        2017-03-29  140  
-fd865573df743e Siwanan Bungtong     2026-02-10  141  	Hal_GetEfuseDefinition(padapter, efuseType, TYPE_EFUSE_MAP_LEN, &mapLen);
-554c0a3abf216c Hans de Goede        2017-03-29  142  
-0124378e9ed4fd Michael Straube      2025-08-23  143  	Hal_ReadEFuse(padapter, efuseType, 0, mapLen, Efuse);
-554c0a3abf216c Hans de Goede        2017-03-29  144  
-236faa3b92d336 Michael Straube      2025-08-24  145  	Hal_EfusePowerSwitch(padapter, false);
-554c0a3abf216c Hans de Goede        2017-03-29  146  }
-554c0a3abf216c Hans de Goede        2017-03-29  147  
-554c0a3abf216c Hans de Goede        2017-03-29  148  /*-----------------------------------------------------------------------------
-554c0a3abf216c Hans de Goede        2017-03-29  149   * Function:	efuse_ShadowRead1Byte
-554c0a3abf216c Hans de Goede        2017-03-29  150   *		efuse_ShadowRead2Byte
-554c0a3abf216c Hans de Goede        2017-03-29  151   *		efuse_ShadowRead4Byte
-554c0a3abf216c Hans de Goede        2017-03-29  152   *
-554c0a3abf216c Hans de Goede        2017-03-29  153   * Overview:	Read from efuse init map by one/two/four bytes !!!!!
-554c0a3abf216c Hans de Goede        2017-03-29  154   *
-554c0a3abf216c Hans de Goede        2017-03-29  155   * Input:       NONE
-554c0a3abf216c Hans de Goede        2017-03-29  156   *
-554c0a3abf216c Hans de Goede        2017-03-29  157   * Output:      NONE
-554c0a3abf216c Hans de Goede        2017-03-29  158   *
-554c0a3abf216c Hans de Goede        2017-03-29  159   * Return:      NONE
-554c0a3abf216c Hans de Goede        2017-03-29  160   *
-554c0a3abf216c Hans de Goede        2017-03-29  161   * Revised History:
-554c0a3abf216c Hans de Goede        2017-03-29  162   * When			Who		Remark
-554c0a3abf216c Hans de Goede        2017-03-29  163   * 11/12/2008	MHC		Create Version 0.
-554c0a3abf216c Hans de Goede        2017-03-29  164   *
-35b79fd9fbdce9 Ignacio Pena         2025-07-16  165   */
-5641eeec0f5835 Ross Schmidt         2020-11-09  166  static void efuse_ShadowRead1Byte(struct adapter *padapter, u16 Offset, u8 *Value)
-554c0a3abf216c Hans de Goede        2017-03-29  167  {
-554c0a3abf216c Hans de Goede        2017-03-29  168  	struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
-554c0a3abf216c Hans de Goede        2017-03-29  169  
-554c0a3abf216c Hans de Goede        2017-03-29  170  	*Value = pEEPROM->efuse_eeprom_data[Offset];
-554c0a3abf216c Hans de Goede        2017-03-29  171  
-554c0a3abf216c Hans de Goede        2017-03-29  172  }	/*  EFUSE_ShadowRead1Byte */
-554c0a3abf216c Hans de Goede        2017-03-29  173  
-554c0a3abf216c Hans de Goede        2017-03-29  174  /* Read Two Bytes */
-5641eeec0f5835 Ross Schmidt         2020-11-09  175  static void efuse_ShadowRead2Byte(struct adapter *padapter, u16 Offset, u16 *Value)
-554c0a3abf216c Hans de Goede        2017-03-29  176  {
-554c0a3abf216c Hans de Goede        2017-03-29  177  	struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
-554c0a3abf216c Hans de Goede        2017-03-29  178  
-554c0a3abf216c Hans de Goede        2017-03-29  179  	*Value = pEEPROM->efuse_eeprom_data[Offset];
-554c0a3abf216c Hans de Goede        2017-03-29  180  	*Value |= pEEPROM->efuse_eeprom_data[Offset + 1] << 8;
-554c0a3abf216c Hans de Goede        2017-03-29  181  
-554c0a3abf216c Hans de Goede        2017-03-29  182  }	/*  EFUSE_ShadowRead2Byte */
-554c0a3abf216c Hans de Goede        2017-03-29  183  
-554c0a3abf216c Hans de Goede        2017-03-29  184  /* Read Four Bytes */
-5641eeec0f5835 Ross Schmidt         2020-11-09  185  static void efuse_ShadowRead4Byte(struct adapter *padapter, u16 Offset, u32 *Value)
-554c0a3abf216c Hans de Goede        2017-03-29  186  {
-554c0a3abf216c Hans de Goede        2017-03-29  187  	struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
-554c0a3abf216c Hans de Goede        2017-03-29  188  
-554c0a3abf216c Hans de Goede        2017-03-29  189  	*Value = pEEPROM->efuse_eeprom_data[Offset];
-554c0a3abf216c Hans de Goede        2017-03-29  190  	*Value |= pEEPROM->efuse_eeprom_data[Offset + 1] << 8;
-554c0a3abf216c Hans de Goede        2017-03-29  191  	*Value |= pEEPROM->efuse_eeprom_data[Offset + 2] << 16;
-554c0a3abf216c Hans de Goede        2017-03-29  192  	*Value |= pEEPROM->efuse_eeprom_data[Offset + 3] << 24;
-554c0a3abf216c Hans de Goede        2017-03-29  193  
-554c0a3abf216c Hans de Goede        2017-03-29  194  }	/*  efuse_ShadowRead4Byte */
-554c0a3abf216c Hans de Goede        2017-03-29  195  
-554c0a3abf216c Hans de Goede        2017-03-29  196  /*-----------------------------------------------------------------------------
-3f188a336f9582 Linus Probert        2026-04-04  197   * Function:	rtw_efuse_shadow_map_update
-554c0a3abf216c Hans de Goede        2017-03-29  198   *
-554c0a3abf216c Hans de Goede        2017-03-29  199   * Overview:	Transfer current EFUSE content to shadow init and modify map.
-554c0a3abf216c Hans de Goede        2017-03-29  200   *
-554c0a3abf216c Hans de Goede        2017-03-29  201   * Input:       NONE
-554c0a3abf216c Hans de Goede        2017-03-29  202   *
-554c0a3abf216c Hans de Goede        2017-03-29  203   * Output:      NONE
-554c0a3abf216c Hans de Goede        2017-03-29  204   *
-554c0a3abf216c Hans de Goede        2017-03-29  205   * Return:      NONE
-554c0a3abf216c Hans de Goede        2017-03-29  206   *
-554c0a3abf216c Hans de Goede        2017-03-29  207   * Revised History:
-554c0a3abf216c Hans de Goede        2017-03-29  208   * When			Who		Remark
-554c0a3abf216c Hans de Goede        2017-03-29  209   * 11/13/2008	MHC		Create Version 0.
-554c0a3abf216c Hans de Goede        2017-03-29  210   *
-35b79fd9fbdce9 Ignacio Pena         2025-07-16  211   */
-3f188a336f9582 Linus Probert        2026-04-04  212  void rtw_efuse_shadow_map_update(struct adapter *padapter, u8 efuseType)
-554c0a3abf216c Hans de Goede        2017-03-29  213  {
-554c0a3abf216c Hans de Goede        2017-03-29  214  	struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
-554c0a3abf216c Hans de Goede        2017-03-29  215  	u16 mapLen = 0;
-554c0a3abf216c Hans de Goede        2017-03-29  216  
-fd865573df743e Siwanan Bungtong     2026-02-10  217  	Hal_GetEfuseDefinition(padapter, efuseType, TYPE_EFUSE_MAP_LEN, &mapLen);
-554c0a3abf216c Hans de Goede        2017-03-29  218  
-d2ab9916f0122c Michael Straube      2018-06-30  219  	if (pEEPROM->bautoload_fail_flag)
-554c0a3abf216c Hans de Goede        2017-03-29  220  		memset(pEEPROM->efuse_eeprom_data, 0xFF, mapLen);
-d2ab9916f0122c Michael Straube      2018-06-30  221  	else
-e8605159aec9bc Michael Straube      2025-08-23  222  		Efuse_ReadAllMap(padapter, efuseType, pEEPROM->efuse_eeprom_data);
-554c0a3abf216c Hans de Goede        2017-03-29  223  
-554c0a3abf216c Hans de Goede        2017-03-29  224  	/* PlatformMoveMemory((void *)&pHalData->EfuseMap[EFUSE_MODIFY_MAP][0], */
-554c0a3abf216c Hans de Goede        2017-03-29  225  	/* void *)&pHalData->EfuseMap[EFUSE_INIT_MAP][0], mapLen); */
-3f188a336f9582 Linus Probert        2026-04-04  226  } /*  rtw_efuse_shadow_map_update */
-554c0a3abf216c Hans de Goede        2017-03-29  227  
-554c0a3abf216c Hans de Goede        2017-03-29  228  /*-----------------------------------------------------------------------------
-7a590f2660887a Linus Probert        2026-04-04  229   * Function:	rtw_efuse_shadow_read
-554c0a3abf216c Hans de Goede        2017-03-29  230   *
-554c0a3abf216c Hans de Goede        2017-03-29  231   * Overview:	Read from efuse init map !!!!!
-554c0a3abf216c Hans de Goede        2017-03-29  232   *
-554c0a3abf216c Hans de Goede        2017-03-29  233   * Input:       NONE
-554c0a3abf216c Hans de Goede        2017-03-29  234   *
-554c0a3abf216c Hans de Goede        2017-03-29  235   * Output:      NONE
-554c0a3abf216c Hans de Goede        2017-03-29  236   *
-554c0a3abf216c Hans de Goede        2017-03-29  237   * Return:      NONE
-554c0a3abf216c Hans de Goede        2017-03-29  238   *
-554c0a3abf216c Hans de Goede        2017-03-29  239   * Revised History:
-554c0a3abf216c Hans de Goede        2017-03-29  240   * When			Who		Remark
-554c0a3abf216c Hans de Goede        2017-03-29  241   * 11/12/2008	MHC		Create Version 0.
-554c0a3abf216c Hans de Goede        2017-03-29  242   *
-35b79fd9fbdce9 Ignacio Pena         2025-07-16  243   */
-7a590f2660887a Linus Probert        2026-04-04  244  void rtw_efuse_shadow_read(struct adapter *padapter, u8 Type, u16 Offset, u32 *Value)
-554c0a3abf216c Hans de Goede        2017-03-29  245  {
-554c0a3abf216c Hans de Goede        2017-03-29  246  	if (Type == 1)
-554c0a3abf216c Hans de Goede        2017-03-29  247  		efuse_ShadowRead1Byte(padapter, Offset, (u8 *)Value);
-554c0a3abf216c Hans de Goede        2017-03-29  248  	else if (Type == 2)
-554c0a3abf216c Hans de Goede        2017-03-29  249  		efuse_ShadowRead2Byte(padapter, Offset, (u16 *)Value);
-554c0a3abf216c Hans de Goede        2017-03-29  250  	else if (Type == 4)
-554c0a3abf216c Hans de Goede        2017-03-29  251  		efuse_ShadowRead4Byte(padapter, Offset, (u32 *)Value);
-554c0a3abf216c Hans de Goede        2017-03-29  252  
-7a590f2660887a Linus Probert        2026-04-04 @253  } /* rtw_efuse_shadow_read*/
+  5971	
+  5972	static int __netif_receive_skb_core(struct sk_buff **pskb, bool pfmemalloc,
+  5973					    struct packet_type **ppt_prev)
+  5974	{
+  5975		enum skb_drop_reason drop_reason = SKB_DROP_REASON_UNHANDLED_PROTO;
+  5976		struct packet_type *ptype, *pt_prev;
+  5977		rx_handler_func_t *rx_handler;
+  5978		struct sk_buff *skb = *pskb;
+  5979		struct net_device *orig_dev;
+  5980		bool deliver_exact = false;
+  5981		int ret = NET_RX_DROP;
+> 5982		int redirect_depth = 0;
+  5983		__be16 type;
+  5984	
+  5985		net_timestamp_check(!READ_ONCE(net_hotdata.tstamp_prequeue), skb);
+  5986	
+  5987		trace_netif_receive_skb(skb);
+  5988	
+  5989		orig_dev = skb->dev;
+  5990	
+  5991		skb_reset_network_header(skb);
+  5992	#if !defined(CONFIG_DEBUG_NET)
+  5993		/* We plan to no longer reset the transport header here.
+  5994		 * Give some time to fuzzers and dev build to catch bugs
+  5995		 * in network stacks.
+  5996		 */
+  5997		if (!skb_transport_header_was_set(skb))
+  5998			skb_reset_transport_header(skb);
+  5999	#endif
+  6000		skb_reset_mac_len(skb);
+  6001	
+  6002		pt_prev = NULL;
+  6003	
+  6004	another_round:
+  6005		skb->skb_iif = skb->dev->ifindex;
+  6006	
+  6007		__this_cpu_inc(softnet_data.processed);
+  6008	
+  6009		if (static_branch_unlikely(&generic_xdp_needed_key)) {
+  6010			int ret2;
+  6011	
+  6012			migrate_disable();
+  6013			ret2 = do_xdp_generic(rcu_dereference(skb->dev->xdp_prog),
+  6014					      &skb);
+  6015			migrate_enable();
+  6016	
+  6017			if (ret2 != XDP_PASS) {
+  6018				ret = NET_RX_DROP;
+  6019				goto out;
+  6020			}
+  6021		}
+  6022	
+  6023		if (eth_type_vlan(skb->protocol)) {
+  6024			skb = skb_vlan_untag(skb);
+  6025			if (unlikely(!skb))
+  6026				goto out;
+  6027		}
+  6028	
+  6029		if (skb_skip_tc_classify(skb))
+  6030			goto skip_classify;
+  6031	
+  6032		if (pfmemalloc)
+  6033			goto skip_taps;
+  6034	
+  6035		list_for_each_entry_rcu(ptype, &dev_net_rcu(skb->dev)->ptype_all,
+  6036					list) {
+  6037			if (unlikely(pt_prev))
+  6038				ret = deliver_skb(skb, pt_prev, orig_dev);
+  6039			pt_prev = ptype;
+  6040		}
+  6041	
+  6042		list_for_each_entry_rcu(ptype, &skb->dev->ptype_all, list) {
+  6043			if (unlikely(pt_prev))
+  6044				ret = deliver_skb(skb, pt_prev, orig_dev);
+  6045			pt_prev = ptype;
+  6046		}
+  6047	
+  6048	skip_taps:
+  6049	#ifdef CONFIG_NET_INGRESS
+  6050		if (static_branch_unlikely(&ingress_needed_key)) {
+  6051			bool another = false;
+  6052	
+  6053			nf_skip_egress(skb, true);
+  6054			skb = sch_handle_ingress(skb, &pt_prev, &ret, orig_dev,
+  6055						 &another);
+  6056			if (another) {
+  6057				if (unlikely(++redirect_depth > XMIT_RECURSION_LIMIT)) {
+  6058					net_warn_ratelimited(
+  6059						"%s: redirect loop limit reached, dropping (dev=%s)\n",
+  6060						__func__, skb->dev->name);
+  6061					drop_reason = SKB_DROP_REASON_TC_RECLASSIFY_LOOP;
+  6062					goto drop;
+  6063				}
+  6064				goto another_round;
+  6065			}
+  6066			if (!skb)
+  6067				goto out;
+  6068	
+  6069			nf_skip_egress(skb, false);
+  6070			if (nf_ingress(skb, &pt_prev, &ret, orig_dev) < 0)
+  6071				goto out;
+  6072		}
+  6073	#endif
+  6074		skb_reset_redirect(skb);
+  6075	skip_classify:
+  6076		if (pfmemalloc && !skb_pfmemalloc_protocol(skb)) {
+  6077			drop_reason = SKB_DROP_REASON_PFMEMALLOC;
+  6078			goto drop;
+  6079		}
+  6080	
+  6081		if (skb_vlan_tag_present(skb)) {
+  6082			if (unlikely(pt_prev)) {
+  6083				ret = deliver_skb(skb, pt_prev, orig_dev);
+  6084				pt_prev = NULL;
+  6085			}
+  6086			if (vlan_do_receive(&skb))
+  6087				goto another_round;
+  6088			else if (unlikely(!skb))
+  6089				goto out;
+  6090		}
+  6091	
+  6092		rx_handler = rcu_dereference(skb->dev->rx_handler);
+  6093		if (rx_handler) {
+  6094			if (unlikely(pt_prev)) {
+  6095				ret = deliver_skb(skb, pt_prev, orig_dev);
+  6096				pt_prev = NULL;
+  6097			}
+  6098			switch (rx_handler(&skb)) {
+  6099			case RX_HANDLER_CONSUMED:
+  6100				ret = NET_RX_SUCCESS;
+  6101				goto out;
+  6102			case RX_HANDLER_ANOTHER:
+  6103				goto another_round;
+  6104			case RX_HANDLER_EXACT:
+  6105				deliver_exact = true;
+  6106				break;
+  6107			case RX_HANDLER_PASS:
+  6108				break;
+  6109			default:
+  6110				BUG();
+  6111			}
+  6112		}
+  6113	
+  6114		if (unlikely(skb_vlan_tag_present(skb)) && !netdev_uses_dsa(skb->dev)) {
+  6115	check_vlan_id:
+  6116			if (skb_vlan_tag_get_id(skb)) {
+  6117				/* Vlan id is non 0 and vlan_do_receive() above couldn't
+  6118				 * find vlan device.
+  6119				 */
+  6120				skb->pkt_type = PACKET_OTHERHOST;
+  6121			} else if (eth_type_vlan(skb->protocol)) {
+  6122				/* Outer header is 802.1P with vlan 0, inner header is
+  6123				 * 802.1Q or 802.1AD and vlan_do_receive() above could
+  6124				 * not find vlan dev for vlan id 0.
+  6125				 */
+  6126				__vlan_hwaccel_clear_tag(skb);
+  6127				skb = skb_vlan_untag(skb);
+  6128				if (unlikely(!skb))
+  6129					goto out;
+  6130				if (vlan_do_receive(&skb))
+  6131					/* After stripping off 802.1P header with vlan 0
+  6132					 * vlan dev is found for inner header.
+  6133					 */
+  6134					goto another_round;
+  6135				else if (unlikely(!skb))
+  6136					goto out;
+  6137				else
+  6138					/* We have stripped outer 802.1P vlan 0 header.
+  6139					 * But could not find vlan dev.
+  6140					 * check again for vlan id to set OTHERHOST.
+  6141					 */
+  6142					goto check_vlan_id;
+  6143			}
+  6144			/* Note: we might in the future use prio bits
+  6145			 * and set skb->priority like in vlan_do_receive()
+  6146			 * For the time being, just ignore Priority Code Point
+  6147			 */
+  6148			__vlan_hwaccel_clear_tag(skb);
+  6149		}
+  6150	
+  6151		type = skb->protocol;
+  6152	
+  6153		/* deliver only exact match when indicated */
+  6154		if (likely(!deliver_exact)) {
+  6155			deliver_ptype_list_skb(skb, &pt_prev, orig_dev, type,
+  6156					       &ptype_base[ntohs(type) &
+  6157							   PTYPE_HASH_MASK]);
+  6158	
+  6159			/* orig_dev and skb->dev could belong to different netns;
+  6160			 * Even in such case we need to traverse only the list
+  6161			 * coming from skb->dev, as the ptype owner (packet socket)
+  6162			 * will use dev_net(skb->dev) to do namespace filtering.
+  6163			 */
+  6164			deliver_ptype_list_skb(skb, &pt_prev, orig_dev, type,
+  6165					       &dev_net_rcu(skb->dev)->ptype_specific);
+  6166		}
+  6167	
+  6168		deliver_ptype_list_skb(skb, &pt_prev, orig_dev, type,
+  6169				       &orig_dev->ptype_specific);
+  6170	
+  6171		if (unlikely(skb->dev != orig_dev)) {
+  6172			deliver_ptype_list_skb(skb, &pt_prev, orig_dev, type,
+  6173					       &skb->dev->ptype_specific);
+  6174		}
+  6175	
+  6176		if (pt_prev) {
+  6177			*ppt_prev = pt_prev;
+  6178		} else {
+  6179	drop:
+  6180			if (!deliver_exact)
+  6181				dev_core_stats_rx_dropped_inc(skb->dev);
+  6182			else
+  6183				dev_core_stats_rx_nohandler_inc(skb->dev);
+  6184	
+  6185			kfree_skb_reason(skb, drop_reason);
+  6186			/* Jamal, now you will not able to escape explaining
+  6187			 * me how you were going to use this. :-)
+  6188			 */
+  6189			ret = NET_RX_DROP;
+  6190		}
+  6191	
+  6192	out:
+  6193		/* The invariant here is that if *ppt_prev is not NULL
+  6194		 * then skb should also be non-NULL.
+  6195		 *
+  6196		 * Apparently *ppt_prev assignment above holds this invariant due to
+  6197		 * skb dereferencing near it.
+  6198		 */
+  6199		*pskb = skb;
+  6200		return ret;
+  6201	}
+  6202	
 
 --
 0-DAY CI Kernel Test Service
