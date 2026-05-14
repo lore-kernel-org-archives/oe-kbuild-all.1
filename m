@@ -1,129 +1,149 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6FD931ED7C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 May 2026 15:27:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0ED3FA5D6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 May 2026 15:34:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.54
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778772471; cv=pass; b=CGtcdqd8bspJCD4q+U06drfOvcvob0yA2LF6OF4uBVIQdVw7zGrrqGkghIxyUfBoZRbcvWfwN/gsXMyIkI/0Yg5CYuQhcFuqyOGE7kvLgP5KyK0nuBNhipCwoIqPjgZseIKYJd1T64zzHAOz4LqaQFgkF2sQ7Sbk9HqAmZJlngU=
+	t=1778772875; cv=pass; b=Of9IQ7Amf18ide8puHcXcVqp0fdAXrHuBHjcI5kpFYjWhLnVjyq5DOG4EA9S9sjxI5lukj0k3ePSRaL3JQ44rir2st3gh7xPthTetFBv0yI32NOj041b2Rlww95a3tX0bTJANmSACjCwjQyP5EJ/F6EbpwJrV8yWuBquJsiUW04=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778772471; c=relaxed/simple;
-	bh=D0A03NDZMYNz1zEDqv8Q0yQGRLr23OJdWSF0MpG81ec=;
+	s=arc-20240116; t=1778772875; c=relaxed/simple;
+	bh=KfuOoLHBlecMG5jWytudA3QypY0etoDmvNo+cj7c09I=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MUYNE65GnrnkI8pg/BJ8Gfm1UgT2sXMVXMG6gBQA/Gn46ufsbxE528E4CHN51jrDFaioAuoZmYAz0PGLaDRzhDelHHTRRe27BCkbrydGbRPbzBnKIZ1Whgq0VPK/wALB4NhZsR38cAsTFqQsPx4uSpCQC5pGKqLgES2bK0Cb4dM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=UNTy0YnK; arc=pass smtp.client-ip=209.85.221.45
+	 To:Cc:Content-Type; b=V8sfXdge6qzYCIKGSaj6ucOekxYJNYi7uUj05taCgPgnuyzShC8axRzy+V9NHd5OV3Hx7uz+8E2GVwxRU3KF3cNvjfZfz3n2WIbKFC/DapAqA7LEGszlN32hXHxkFScxFvjCTjn2F0Y0BXFiK2rBJyMjqfqL0NPMqJsHtqWKVVE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=cmhLRWlU; arc=pass smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="UNTy0YnK"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-444826c16ffso6802370f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 14 May 2026 08:27:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778772468; cv=none;
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="cmhLRWlU"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-44a74032ff8so6061104f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 14 May 2026 08:34:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778772872; cv=none;
         d=google.com; s=arc-20240605;
-        b=OWAZlw4Hui9AenSECPIHdh1PRBSFakJ4Aud740nIKnzotyVfaA8qDGcAgoFsxD/Ygw
-         9AsuMbm/S+Ugf4V9flblgMuLpShsVStyi6C4FTRVZNwkeHrCWpu/qFh9JCqPDLIh13VW
-         ewmafhOp/FtiuoSLX9WnYXhxJWSg684ueL6eoEvUtAbWbiBVy/P9w8Njy2d+F5hE4HOO
-         6P6+2BYSoRnOyNCvS3v/6cOwT2iiXk00UWCjW4S2kizKCPYSMzgfxXiKEuIsO9znU7hB
-         OZEtpb/1kleSoxtS0wM7XdvqqYzJcse+sgQctsDRBAY9qCyeLLxRX037pUaP80CaZFAU
-         DxUg==
+        b=bamKl99GyZlFCVXRiCMbUQKzMZr8ChBdZjAtuEr+3WQShLOruNIVDAcOnuBhVlgX2L
+         6WEqffRpsQJXQQgwIt08BUbmeKOD9gtVMPqLYWIM5jAlp+CAIryNRJ+RR1J2Kq4fY2yT
+         9EsWVMQiUJNp1OrMXcbcKkd41IfnFMGzF/w+PfzzXzhxrHcilwn81/JE1oVNdpzQGPOj
+         /vAtYnl+Vdr5v2P/1Mr99d0S1lHSGdG6Figx18mGKqvMDfRDus8VfBLHPfEW9lT/HQ3B
+         GnLGreZlikiFRa5qAmdr9ODhTTd8+3O+XUucKqoS3UYCTatZ2mjDMdp7LNpGWp2nWTvQ
+         FHRQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=dPa1oSKWvMS+1Mg9OBW/zj4k3ja6tcr1KUdvByN3MaQ=;
-        fh=iyog05H9XO8mdHEsfK/CIT+okeKGr5R3W1VS6s1OChI=;
-        b=a1AVHGdvNlZjXWMykmYFbksa3iKmxHBYXZHVKRNuNuHJ+n1XH4g5qsITcZh7FVhYzR
-         N/Hj1djwjyu2IrztL2o2HSm+d1YKGTzri2dBlKFkVvk5wHPdVa+ZvRcmD5lKSL/lsLhT
-         0JUWEdw2jkFtits9D9ucsqu6y2MOUxM+voRQvifxIWPTNQKJrqIQMG7JyOEws2UsA5Bs
-         uCpxIyUnMIVDuzQsiPKsqug+Wjnx/gi2A8KD2O1VyXZMfOePZH0EdQnL+DT7pWpnJWPt
-         Q4sLLjfUHy2vvoOzD1FmNeo1lZRhVtjcf//S/E/RROMVaLVOb0OPM3/c1G1KNic2m6rL
-         V9cg==;
+        bh=pf+h8+h8JIUbkD3+bX/Cdm5rMg+pNvi9MUB7PeSBqT0=;
+        fh=NAeCQ0Sqexf8kDLYNBWFJbKd9JKy08O9zrDRgJXslS4=;
+        b=R5pn5SnnnCrbbhxj3dCBf9l4dUc8AUXd1pAlG5GzC8cReKUljuA+9F9mDGx4mueqW+
+         ZHxY3/UPknKafe+UE0gOzem7Ed6Eab5NxBm/klWT5z8I+eMj0u24l4LMiItYaKqqCTGN
+         lKoR31+zEziTqUkI0baJgjK3HFK1o8GlYyouVmoXYH2V1Xc8P6MyYEmLcG4UfN/Dl/iW
+         QrlPaxHV3E1vRsa6pPO7/9w+o5yzY03zXuWwWGxTrZ2vAvZ60a3fUvaHIfUxMCMi2/k9
+         RXeM96dTkcP+c/GmAVmt0gztWku/BYvMM2xmACTdPvI3FZq7UFmppIk9GMs74P0F9PuR
+         ukqg==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1778772468; x=1779377268; darn=lists.linux.dev;
+        d=suse.com; s=google; t=1778772872; x=1779377672; darn=lists.linux.dev;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=dPa1oSKWvMS+1Mg9OBW/zj4k3ja6tcr1KUdvByN3MaQ=;
-        b=UNTy0YnKtrlm2isz3PYbit8bWZNtNB1zMHp1KEVfeTpx83NIa1l54EeqUpUO1rIXOe
-         OK0+5pjBDNoD/+IgqAnEr0qCvVu3V5daDwBMp+hk5z1MlKqXRVHBCrYFd6yI9kt/BIeu
-         cb+V3169+1t8OXYLc4TYYPpO3dPXGF2VeCafhM4OC9XKef6PCg8PbyuKA4L/5ISLnxO1
-         CjwWCzKd+4zGD3XbmscxsEdjQjnOh/Kx8JSxnUYwwsVritzG+TeKucWrN1brrk6V4H3Q
-         4DNm4qeHCmYyBEXqq9pR0cKG1OjDWrU4ovFTLvVXtyj5n4ZO7e12t05fEqCsYHEjg1ER
-         9iNA==
+        bh=pf+h8+h8JIUbkD3+bX/Cdm5rMg+pNvi9MUB7PeSBqT0=;
+        b=cmhLRWlUjsM45Q+Ey0E0ISCla8kdp6F/5FhRdlss/LoNZJXzYbuYyb0cGJBHhh1YVy
+         AlEdpQZHor/RfLP98HhzSYdboHMKAALGbVag2VR2OtV9tlVh3Vy1ZcayPhBKCp8vqvYL
+         4JxrsthtOwsCpVeiTMcrjjqBbaSIhTNRTH7pKET+YeThSbVIp0c+snR+FWiH4wOjjcO2
+         fnuMkkbVtT9wdvlsqmVYaBsf54AKBNuf/mKZ/bMHHyNPDjGTkVyPHyar+HeUmObp03UZ
+         4gHEoAjVYPzyhSnwK7r+l6CGcj++tPeol1IhHAR1i4DZaUw/1PUXHV1CKHn83ueBjKbh
+         cLng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778772468; x=1779377268;
+        d=1e100.net; s=20251104; t=1778772872; x=1779377672;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dPa1oSKWvMS+1Mg9OBW/zj4k3ja6tcr1KUdvByN3MaQ=;
-        b=Gqbj0kjypk1iANrZVreFolDUn14m8plha4vxqmbmabfHc6Up7ehj9RzO+3quFqgN+X
-         r3B+FRl1h80yXjY0mc0MJ+wutrTrLZ517PBCiyyIwQ1ynsCVyaIPnOZWRwXlSlGxqq2Z
-         GaWqM0STpAHgCa2pXaZN/dqAUXGlAdMkRDvSUVKTwnHEUVq8K08+RtarKgvKLdbGtVKS
-         AyTC2/1uTEM0QJY8En7HXUDYEQ9UNwL0hekCXct4sSNeMobs/IYZVmmhtnoli8dQt8bd
-         zAomoUF6XAUYEu7+chc3teq1Vu65sGS2Ov1zYEpe15Se66tf7fyGVvLr/dMeu6xDn5a6
-         tngQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9sP1ePYmuWuUhs08Twe3lbUWgaAFlBoyavsrTDNP7Y4mk8M6CzJwXvWYnX7ZtXiu+z4NrTq6BDEUn+1KIl@lists.linux.dev
-X-Gm-Message-State: AOJu0YxN7aoaH4OegJRKY1jQiQrh+E7+9tFPKQ1qMyyj/iyxfbsENs+W
-	WlfCUJp7IXaBIjo9tG6oFDNbKoGVVVQStOGct+dHYNqYLihUsAi+kNZoH4ievSivLrqPQT+rVA+
-	a8HzfK6+C0fyOE8JsIm3GtEm9+B9Nmhf9CYfPd8bV7rcEik2jsukY6sXdhQ==
-X-Gm-Gg: Acq92OEj4/MOGgxw9UZlfmrvDke3RDqcL2LnOF38r1VU5cWJC4XTvxaNf/BjbJzcpmC
-	AnECRVyvQuVX3t/nHJAZ6WgZAlKaFjUw82M+5j06moHvyu3Tw6An9tgXBDNIXYpbUaZfl+m+1Sf
-	dvu5JoAf93+5hU9RXnaGFEnqTppjJvEyjAmMSVeDE8zrE1sXN+RQLsWnP6SwhR90T7Bsg74HVy5
-	R5EsT2eI5Z6272kAlT452lQqiZHW/8eJZYUttNQU7JapuQkpvsRKhyaDoUGVxbp79iM5tMTslmT
-	ozXc96sXs0R1ZcGoGcwZjnSQ1p3A5M4aTLg42rD4vrY/Z3w77iyDx8WjK6rtEawSTt9gtHfTY5W
-	tDaJm
-X-Received: by 2002:a05:6000:1a8e:b0:43d:6a0c:9571 with SMTP id
- ffacd0b85a97d-45c58a70a74mr12483069f8f.11.1778772467045; Thu, 14 May 2026
- 08:27:47 -0700 (PDT)
+        bh=pf+h8+h8JIUbkD3+bX/Cdm5rMg+pNvi9MUB7PeSBqT0=;
+        b=B6WmwCnrNSTsIDosZc4z6OX7I4NYJmx9mHJZ8x6YFeTFt30qTUnG/Lr01B6xo0TaGg
+         eTZ9Jyf459dccrRpLc0uGqx99UjWrijbxpUaKPk+1YALZrxefg36gYngD25IS9Mhw576
+         HVXOU9O08rmRwvqadHKe/IMFamD5MUgOeu35dK84va0qyji0sq0dbPbv//gr7Pfmi0eT
+         38wyX1sAD8kpmEc+4fCP2kmlnd9JH0l3tWDw0nYWPBWqK90VAz5MCBIWwIvXRjjU67AA
+         Ng0/rMVM6Kk6ts89voY+sWfTumguSpu4q6BlTcHT+M4djDGcx85Mam18nr9MpA+zMhxT
+         +0fQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+yMWphgrWfEixk4+3x8/edWzUQmXkVqqPNXr0N0HeJ6ZqwELiRlof9p3ZJrCVjwojhtJVkhznhGh0SQcGU@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxr49AIhftgvoulbnrYdFSgaMcg9ecnFrN4so+B2D8GcPAv4gNe
+	MFkHTQsoa64gMFWktYWEOtbGldAtmma4JWZFQGwtrkQA8mvtVmfWVUurVItaHWTiK9UqY5ksQJG
+	EqcsUnJAyamjojP+ORfSQI5L5rCcH4Hw56YfbXoO8lQ==
+X-Gm-Gg: Acq92OHnpEdLMlUXH17VKrIw4DIbyovWsSVFMpMCmG8axUsFZITYVrGMa53eXrv4Kil
+	Bd5v9uhZ++vHrj5EF6FQWh2lzuml90p0D8/g1GH7XAYfDtF2cGwN+IjMmG9A+kfst0gUC7O3ZdD
+	331vLPEzHxpOGETPWbdExhY5LmlINpdeK+BYCDcdlyY97zXagD26X6CyfaT/uYjseFGU4XMUlPo
+	ZciYkoKbV3w5yJ9BjDAdPE18DIPk+4P2Ntyu9/1cwIx9fVo7vkpWi1334ML/ngrvWZzJCQry3s/
+	Xm6VLgkXgSlQrtnnPiwIzHLfWFgo0AykXhEC0xjXDzkXoZHOeyK0Txgtr/BwDv2NlhK/KaMrN5e
+	xvilxlKIMiUjLiBdh5d1Z7NSYYQ==
+X-Received: by 2002:a05:6000:1865:b0:43d:740:fb37 with SMTP id
+ ffacd0b85a97d-45c7aea1a60mr12997807f8f.24.1778772871718; Thu, 14 May 2026
+ 08:34:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202605140749.ueq3q2k7-lkp@intel.com>
-In-Reply-To: <202605140749.ueq3q2k7-lkp@intel.com>
+References: <202605140955.Dr60lOTF-lkp@intel.com>
+In-Reply-To: <202605140955.Dr60lOTF-lkp@intel.com>
 From: Daniel Vacek <neelx@suse.com>
-Date: Thu, 14 May 2026 17:27:36 +0200
-X-Gm-Features: AVHnY4IjGVdnv8R-41gEbVTIfF1183eSMSIjs481wkeYBM_gmj-ted2Rc_axS5Y
-Message-ID: <CAPjX3FchC22U0n8Z97p2BNxeYnf7AQXp41VQUot5ZXsSSWy1Vg@mail.gmail.com>
+Date: Thu, 14 May 2026 17:34:20 +0200
+X-Gm-Features: AVHnY4J1cV_3hREaQN3v7TGFi2SHCasp71zI4aR53a-eiMxwbyJV4IW9ZjY0pVQ
+Message-ID: <CAPjX3Ffy5eThg4tDhvLYh-Vb3gzbSMzhkL8pJfDgtt-YD6CTTA@mail.gmail.com>
 Subject: Re: [kdave-btrfs-devel:ext/dv/fscrypt 34/43] fs/btrfs/super.c:659:3:
- warning: label followed by a declaration is a C23 extension
-To: kernel test robot <lkp@intel.com>, David Sterba <dsterba@suse.com>
-Cc: Josef Bacik <josef@toxicpanda.com>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev
+ error: a label can only be part of a statement and a declaration is not a statement
+To: kernel test robot <lkp@intel.com>
+Cc: Josef Bacik <josef@toxicpanda.com>, oe-kbuild-all@lists.linux.dev, 
+	David Sterba <dsterba@suse.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 14 May 2026 at 02:02, kernel test robot <lkp@intel.com> wrote:
+On Thu, 14 May 2026 at 03:28, kernel test robot <lkp@intel.com> wrote:
 >
 > tree:   https://github.com/kdave/btrfs-devel.git ext/dv/fscrypt
 > head:   4c05f02641d57f578a685f7e8d27b9cb18d17cc7
 > commit: 69bb73593025c83c008129a68acd562e97870998 [34/43] btrfs: add test_dummy_encryption support
-> config: hexagon-randconfig-002-20260514 (https://download.01.org/0day-ci/archive/20260514/202605140749.ueq3q2k7-lkp@intel.com/config)
-> compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605140749.ueq3q2k7-lkp@intel.com/reproduce)
+> config: nios2-randconfig-r073-20260514 (https://download.01.org/0day-ci/archive/20260514/202605140955.Dr60lOTF-lkp@intel.com/config)
+> compiler: nios2-linux-gcc (GCC) 8.5.0
+> smatch: v0.5.0-9185-gbcc58b9c
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605140955.Dr60lOTF-lkp@intel.com/reproduce)
 >
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202605140749.ueq3q2k7-lkp@intel.com/
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202605140955.Dr60lOTF-lkp@intel.com/
 >
-> All warnings (new ones prefixed by >>):
+> All errors (new ones prefixed by >>):
 >
-> >> fs/btrfs/super.c:659:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
->      659 |                 int ret;
->          |                 ^
->    1 warning generated.
+>    fs/btrfs/super.c: In function 'btrfs_parse_param':
+> >> fs/btrfs/super.c:659:3: error: a label can only be part of a statement and a declaration is not a statement
+>       int ret;
+>       ^~~
 
-This only happens with CONFIG_BTRFS_DEBUG and a clang compiler. I'm
-getting no error with gcc.
+And here we are. Old gcc also complains. Though it is less clear :-/
+So this?:
 
-The variable is only used in that single switch case. If we declare it
-at the beginning of the function then without CONFIG_BTRFS_DEBUG it
-would complain about an unused variable.
+--- a/fs/btrfs/super.c
++++ b/fs/btrfs/super.c
+@@ -347,6 +347,9 @@ static int btrfs_parse_param(struct fs_context
+*fc, struct fs_parameter *param)
+     struct btrfs_fs_context *ctx = fc->fs_private;
+     struct fs_parse_result result;
+     int opt;
++#ifdef CONFIG_BTRFS_DEBUG
++    int ret;
++#endif
 
-What are your thoughts? Do we want to introduce an extra block or just
-keep it this way?
+     opt = fs_parse(fc, btrfs_fs_parameters, param, &result);
+     if (opt < 0)
+@@ -656,8 +659,6 @@ static int btrfs_parse_param(struct fs_context
+*fc, struct fs_parameter *param)
+         btrfs_set_opt(ctx->mount_opt, REF_TRACKER);
+         break;
+     case Opt_test_dummy_encryption:
+-        int ret;
+-
+         /*
+          * We only support v2, so reject any v1 policies.
+          */
+
+Not exactly nice but it works.
 
 --nX
 
