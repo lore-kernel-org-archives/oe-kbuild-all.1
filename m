@@ -1,73 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8C7346E4A;
-	Thu, 14 May 2026 21:43:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76EA43CF68B;
+	Thu, 14 May 2026 21:51:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778795031; cv=none; b=IQaWMsp5q5+wn6EvScZyYOyNdiseghjRLKJmL3VWy3Yb7drOAq+LZW7GboO1K9XgnX38jyGr5ZBHIHb35TGk5xjaRzNr6rhk4/Xw7Gx4ZKRKrugG+FWcgFWVtmjVP6iwE9dZs75/uNqhPumvMH6XFVdRD9QuUh5gnWX32OYV0po=
+	t=1778795525; cv=none; b=WktZWIWK3aXt40C/UBOwbGlrKjL5ecaW6AYHh26LuN3LH0rY3l2Uu0jCpRPD9+XFYJfjb3hGvkfcYf6lHFn4MtrKCwErI4UzfvMlh744ep6AYDN2DcokBehJyJ3/Kx2OmX6mp3gaKJ+InM+1AV4hOTOKxxIfgEgP+bvCrA8K96k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778795031; c=relaxed/simple;
-	bh=205Dg9+b13DcjQTMV0rTW+w1f2xOl+JJOBtYTKjYa6A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RIb3IsVe4Uku6Nd//sdjQnOg2J+8+rMGAi2+A8VIZVOtCLDmoYFHR8y+MwsrTAGbRbxnJs/BmdROW2zDJGpsFtKdbL9W/QpLX7p1QmRunS46+7yguF6NeOcrnNlmkpuw1epepAkXj3WOiOKyBN2J5F1z1R4f8UggIG16Z6ifrx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JFC7SNiE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778795525; c=relaxed/simple;
+	bh=UkTKrranTj/SzaOtR72Qivb3hU7dwNUfnPge/jg73gY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=FYuF311HX3JIxYWWn/1hyBEUaJ4BLBA7ZJyWaUADQzqtlTXklUSzrwCAGA1O1pnM+F2GcIeFTijr68x6rbg9K8VuSLHUNpBNtoIxDlZoNt08sIWYUCFtNTuZhxlFdmVdWGZUXgyWqhQEUqOe1EldbNFhWI9WXBDEsyV/hr5rwT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e7fQGPfJ; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JFC7SNiE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DF56C2BCB3;
-	Thu, 14 May 2026 21:43:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778795031;
-	bh=205Dg9+b13DcjQTMV0rTW+w1f2xOl+JJOBtYTKjYa6A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JFC7SNiE8UhhRnsLS0Ce0FMQV24ymQdI8Gk1BQHRRbrozaDAVLrUNELRnFM2BWeix
-	 gkD8A83rg3AXWBFpGAUJEKxYBwnKNUKHNfbDKI5VavH62uRdJPizbxGXO/FlNy5p8G
-	 4vHda2u9el0P5PPAxyZCjSsP03mTK5mxQVHn3nwWzhpSRQArsKJnXHIRiDjPbCJy7J
-	 Y8cSmyhy5lMfP6jhowY1TOr5Si/M+RhKyaGSngXjafGeAp8fUe9RHgcTW0D4dklO0R
-	 F8zkmRJXjvvC46DkDAkfaKHIUP1DPqmB0ko6y8w4j6efDbyWJ/1gHLIdHbipc7aCXF
-	 8qTUZW0sN98Tg==
-Date: Thu, 14 May 2026 14:43:50 -0700
-From: Minchan Kim <minchan@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	David Hildenbrand <david@kernel.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	mm-commits@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>
-Subject: Re: [akpm-mm:mm-new 301/315] mm/oom_kill.c:922:12: warning:
- 'kill_all_shared_mm' defined but not used
-Message-ID: <agZCFll-lFLqabbJ@google.com>
-References: <202605131940.kEzvUaiR-lkp@intel.com>
- <20260513102711.323fed51b7dbb1dfe6217b44@linux-foundation.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e7fQGPfJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778795520; x=1810331520;
+  h=date:from:to:cc:subject:message-id;
+  bh=UkTKrranTj/SzaOtR72Qivb3hU7dwNUfnPge/jg73gY=;
+  b=e7fQGPfJ2gMjsK4LeEp327k7Yp/vi3LCktrSKM1hGqy5V9JwRxpvS2LL
+   qFZvqnH1/Sbu6+D1YdMWtr00rOrSfcFoxQT0NkBQQOVFrdlF1SgNFyJ8D
+   w9yo1+niHTRMKKyey5CSuF5GJj6RM93+cZCARZDyu+ocRyUaBfe1DVvsN
+   pTRi/y6n6NdyFXlDMV1XO59oi+4nF4tIqBAGlFh1zYBNRVfmBBSol80Wq
+   RTJhHaaVBVWjQH+MtIO8+r1un0iYLXWPeYEgsnv89sL2D1dQERoHRMa/C
+   2fAjmrYeHzJTVa9z5MU0zdtG6/bqgOLjt/634+oQzrR8uqVPdLi5wue0o
+   Q==;
+X-CSE-ConnectionGUID: 70nfixdYRV+2Gk0RS2pD8w==
+X-CSE-MsgGUID: jPnP4bxtSS6OGzTlXH3SEQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="102422588"
+X-IronPort-AV: E=Sophos;i="6.23,235,1770624000"; 
+   d="scan'208";a="102422588"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 14:51:56 -0700
+X-CSE-ConnectionGUID: R/hyXSnYRZ+ULFRT5Wm2ag==
+X-CSE-MsgGUID: GZxKTJIjTmG6eVjloffLEg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,235,1770624000"; 
+   d="scan'208";a="268850939"
+Received: from lkp-server02.sh.intel.com (HELO 7a33ad3e7d27) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 14 May 2026 14:51:54 -0700
+Received: from kbuild by 7a33ad3e7d27 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wNdwq-000000000BR-2O89;
+	Thu, 14 May 2026 21:50:52 +0000
+Date: Fri, 15 May 2026 05:48:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ratheesh Kannoth <rkannoth@marvell.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>
+Subject: 
+ drivers/net/ethernet/marvell/octeontx2/af/cn20k/debugfs.c:25:32: error: no
+ member named 'rvu_dbg' in 'struct rvu'
+Message-ID: <202605150512.NzlWSdCm-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260513102711.323fed51b7dbb1dfe6217b44@linux-foundation.org>
 
-On Wed, May 13, 2026 at 10:27:11AM -0700, Andrew Morton wrote:
-> On Wed, 13 May 2026 19:48:25 +0800 kernel test robot <lkp@intel.com> wrote:
-> 
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-> > head:   2c3f468717231305523ddcd94d91c0d5e4a72419
-> > commit: def36547cd98fa3f7ecac1bf860479f500bc6b1e [301/315] mm: process_mrelease: introduce PROCESS_MRELEASE_REAP_KILL flag
-> > config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20260513/202605131940.kEzvUaiR-lkp@intel.com/config)
-> > compiler: sh4-linux-gcc (GCC) 15.2.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260513/202605131940.kEzvUaiR-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202605131940.kEzvUaiR-lkp@intel.com/
-> > 
-> > All warnings (new ones prefixed by >>):
-> > 
-> > >> mm/oom_kill.c:922:12: warning: 'kill_all_shared_mm' defined but not used [-Wunused-function]
-> >      922 | static int kill_all_shared_mm(struct task_struct *victim, struct mm_struct *mm)
-> 
-> Thanks. I  did this:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   66182ca873a4e87b3496eca79d57f86b76d7f52d
+commit: 1396771b0b7741d517d591cfb63333d3f97a8f6d octeontx2-af: npc: cn20k: Index management
+date:   3 months ago
+config: sparc64-randconfig-001-20260515 (https://download.01.org/0day-ci/archive/20260515/202605150512.NzlWSdCm-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260515/202605150512.NzlWSdCm-lkp@intel.com/reproduce)
 
-Thank you, Andrew.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Fixes: 1396771b0b77 ("octeontx2-af: npc: cn20k: Index management")
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605150512.NzlWSdCm-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/net/ethernet/marvell/octeontx2/af/cn20k/debugfs.c:25:32: error: no member named 'rvu_dbg' in 'struct rvu'
+      25 |         debugfs_remove_recursive(rvu->rvu_dbg.npc);
+         |                                  ~~~  ^
+   1 error generated.
+
+
+vim +25 drivers/net/ethernet/marvell/octeontx2/af/cn20k/debugfs.c
+
+    22	
+    23	void npc_cn20k_debugfs_deinit(struct rvu *rvu)
+    24	{
+  > 25		debugfs_remove_recursive(rvu->rvu_dbg.npc);
+    26	}
+    27	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
