@@ -1,129 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03933389DF0;
-	Thu, 14 May 2026 19:16:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37F7A336897
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 May 2026 19:27:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778786187; cv=none; b=IUtPoMpgPeEV7AkVgxJTdLE3GhxyDDE/abxsDO/jMTuLBeZtcDXtd6LcYMVEBPI6H79I+N1cWST5MRxj7vTwBbGzdzf8DHAognDdscBVF/24vTpxDR2PRApwTEkDw3Ie3HoFhkWzrv84+YpwCiTnjXf1F6zlC8bwYEqlQOJVj88=
+	t=1778786846; cv=none; b=UEsvk1KikUDK9s2rOPzyZs0peojUSd7spPi4pZYC1b3HlFEESX+a+bDnerzAbD1rOLjxf3Do/lKpY67iTNMRF4ipK8lewzlsZkewMGjdqE6Q95qChHizWCqCWQJAVK4J6TG8CjWvZ6fRQwvJSEH6x70yi+8eDsr0AYlCre/+lL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778786187; c=relaxed/simple;
-	bh=t9cwAHn8rJJH/1O/Acar7KnHiWsja45qkG8SRmmtfgo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EgNcOOsgwXFsQRHi8e1q6M8Z56094SSU/f+MT0lg7hPAub0HcvIUyKjcIbOnG3FBgJY9XvpaGPrTl0C1Vy4Gi+9mHxjNJOOs9hdbTl6IzCbG/XtirH0vv4iC73Yaw/CHV/XaRyHXqhaa5oXaEj07XtzhvLs7ARI2NP8ct7cAfss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lbH0Q5BE; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1778786846; c=relaxed/simple;
+	bh=rzNfHYA4LArVErzBILDBMgTMQsNF879xmqYRmA2W8Jw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=BlypVFFX3zkgyBXDpT88AeoPlvcYqrr8R6iPts3bXsN1HUtl7itr6Ss5zVZf3C0Ft7FKdmowWkUpzpX7P8hfxZNdaCehaVzjjNdDGVore/tBmIuZk3vUYY5hApYi9lbS0hr6w/nq3R5+unySo2I2+2q4N00BMYQEQ1/Bg5PBrCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lEkQZTlb; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lbH0Q5BE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lEkQZTlb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778786186; x=1810322186;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=t9cwAHn8rJJH/1O/Acar7KnHiWsja45qkG8SRmmtfgo=;
-  b=lbH0Q5BEyWo53Oy6RiYezKCrC6ftYvIt3b9DvsFJRYP/wI2MU/x7a/yx
-   2baBfKLpoKE70j7hKF7ImUCWViDk5y0ARTQ/V2RckWwm1k/KqV4eRtGz3
-   GNWgoH0ckxlvXad5d/wD0qRR9PRGUjdGEPP6U61mGSfxEyM7HYeqC7xSY
-   K9EiAy+777ulRrzfzVBRTNx0mF12o2v5V4KCBwZr8yMWH3tYF614MyjPP
-   NvWpz25EAeolKrhLAWgm7O4VPq+KQBbvyO+ETHzvbikklG9443eK9reaL
-   gK/VDdg2vKjUaI/BFG6HiUvXxpqCbufi2wfOd5SgLxBdYUzEm09h2Tva4
+  t=1778786845; x=1810322845;
+  h=date:from:to:cc:subject:message-id;
+  bh=rzNfHYA4LArVErzBILDBMgTMQsNF879xmqYRmA2W8Jw=;
+  b=lEkQZTlbxyn8mdnLEd9bX+kwkI92t1EvC9M53UVaurfpqX6lEzYQJ1Wy
+   hEbXFzR5Qm3V6cKWf6ckV8dKE56h1xzvF+5bxkWN5/bnRq0nY6k4T7r0T
+   BMsVe8yynySDZxJHSYk+dnfiQf3dcXqXODvG68uODf80TlTix26+J/0+J
+   9uNUYeVMVq+h5PgcLgByBX4EUSwfmjjRHdy3hF1xUyIHi8NdaD5IcLzjo
+   jqlXkI1QDw02kauBnvRk6isTTANfgkfswxEL2XZ+w/IufXKQwImb7DM8p
+   sTxY2TOIXZIYJNmqcnhD6rYlLvzDmzZk/74AIQrch6+IcssZhnXybym9g
    g==;
-X-CSE-ConnectionGUID: X6CjoXEXQZenNoqa0mgEUA==
-X-CSE-MsgGUID: Eoc+ZQJ6Rmi2qtZ5DcqioA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="79776988"
+X-CSE-ConnectionGUID: KH0HfrzATC+J10lSi6PLCA==
+X-CSE-MsgGUID: 5GG2XNQ1RoWDwolrrd8afg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="91124355"
 X-IronPort-AV: E=Sophos;i="6.23,235,1770624000"; 
-   d="scan'208";a="79776988"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 12:16:25 -0700
-X-CSE-ConnectionGUID: OzW6UiskS++VygQqDYGr3w==
-X-CSE-MsgGUID: LMcBnMz3Ro6JIS8urW/OHQ==
+   d="scan'208";a="91124355"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 12:27:24 -0700
+X-CSE-ConnectionGUID: BIc3UMOKTcu9xTlWUrf/QA==
+X-CSE-MsgGUID: 98Gn7zAWSE6SBn6qWglJBA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,235,1770624000"; 
-   d="scan'208";a="242471872"
+   d="scan'208";a="238352915"
 Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 14 May 2026 12:16:23 -0700
+  by orviesa008.jf.intel.com with ESMTP; 14 May 2026 12:27:23 -0700
 Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wNbXg-000000006zH-0Dlo;
-	Thu, 14 May 2026 19:16:20 +0000
-Date: Fri, 15 May 2026 03:15:56 +0800
+	id 1wNbiK-000000006zv-21yD;
+	Thu, 14 May 2026 19:27:20 +0000
+Date: Fri, 15 May 2026 03:26:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Priyansh Jain <priyansh.jain@oss.qualcomm.com>,
-	Amit Kucheria <amitk@kernel.org>,
-	Thara Gopinath <thara.gopinath@gmail.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, manaf.pallikunhi@oss.qualcomm.com,
-	Priyansh Jain <priyansh.jain@oss.qualcomm.com>
-Subject: Re: [PATCH v2 2/2] thermal: qcom: tsens: widen temperature limits to
- match hardware range
-Message-ID: <202605150330.xjoMIJFw-lkp@intel.com>
-References: <20260508100700.772985-3-priyansh.jain@oss.qualcomm.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-mainline 0/2] shmem.c:undefined
+ reference to `ashmem_memfd_ioctl'
+Message-ID: <202605150358.QHwayoXv-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260508100700.772985-3-priyansh.jain@oss.qualcomm.com>
 
-Hi Priyansh,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rafael-pm/thermal]
-[also build test WARNING on linus/master v7.1-rc3 next-20260508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Priyansh-Jain/thermal-qcom-tsens-atomic-temperature-read-with-hardware-guided-retries/20260514-191243
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
-patch link:    https://lore.kernel.org/r/20260508100700.772985-3-priyansh.jain%40oss.qualcomm.com
-patch subject: [PATCH v2 2/2] thermal: qcom: tsens: widen temperature limits to match hardware range
-config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260515/202605150330.xjoMIJFw-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260515/202605150330.xjoMIJFw-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android-mainline
+head:   b74b1013078afa4a35948e15087a1e42f57fd168
+commit: 3f06e745a13c92ac95fda0fde0266cda407f73ae [0/2] ANDROID: ashmem: ensure that tmpfs file is memfd in ioctl
+config: i386-buildonly-randconfig-001 (https://download.01.org/0day-ci/archive/20260515/202605150358.QHwayoXv-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260515/202605150358.QHwayoXv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605150330.xjoMIJFw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605150358.QHwayoXv-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/thermal/qcom/tsens.c:818:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-     818 |                 return ret;
-         |                 ^
-   drivers/thermal/qcom/tsens.c:815:2: note: previous statement is here
-     815 |         if (!ret)
-         |         ^
-   1 warning generated.
-
-
-vim +/if +818 drivers/thermal/qcom/tsens.c
-
-   806	
-   807	int get_temp_tsens_valid(const struct tsens_sensor *s, int *temp)
-   808	{
-   809		int ret;
-   810		int hw_id = s->hw_id;
-   811		u32 temp_idx = LAST_TEMP_0 + hw_id;
-   812	
-   813		ret = tsens_read_temp(s, temp_idx, temp);
-   814	
-   815		if (!ret)
-   816			*temp = tsens_hw_to_mC(s, *temp);
-   817	
- > 818			return ret;
-   819	}
-   820	
+   ld: mm/shmem.o: in function `shmem_ashmem_ioctl':
+>> shmem.c:(.text+0x4d3): undefined reference to `ashmem_memfd_ioctl'
 
 --
 0-DAY CI Kernel Test Service
