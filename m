@@ -1,172 +1,429 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EE9939BFEF
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 May 2026 23:59:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778716763; cv=pass; b=BiTV3u32YE+3bee4XLR5/rkNrSvnzQdgm5c9JlkXFSEX/RZrHM6vJpD458zPOysnT3i1olD6c6TWp42hF2DQNUvIAOE5jHeMjelrCZQl2gL87YSZ/CDQ2/Opwo5q357Rr0kgGF990kiN9UkY5r5+7gnxtnJVldLvz5C0FNGp3Yg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778716763; c=relaxed/simple;
-	bh=Jsxm2gCFMqKSnYz9EupWvxwKz9PVoKEs1xVZVnq9Z6w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=D8vy/8DryJwFCkjHzoGwlftOXaS4TTOVNNqsKwxp1b/Ed8rQWp6sPrOu5JLXxhdrDFfqf/OKnz8E8snLmRWztxWGohY8mhoIqGMUgMgDu1YpBpNf+0q792QuNu/zyWYf42bqYYi3jlP+WEo/LAwseOU1Lmi4d47B30vKYPwLBUM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=MSth/hZ/; arc=pass smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E8B63B7A8;
+	Thu, 14 May 2026 00:02:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778716970; cv=none; b=uFw/f5LuUNNwpfi4c+oSu9HoWkta7w/i5KXQBIR/PvMf/7pw/cB/d280yC/YS6lNZeuYMq18s9XvbHQfl6ItbVHZhGu5mvYIz2T2vpGoAok0QRg96uHjsNg6fFcnLtHXU8JfPtHUEdwhN8E9J660EgTws8RF6x/99WjBpaYsgPQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778716970; c=relaxed/simple;
+	bh=YTXR/bSiGMQxo/q9RzpIINg5zXXU2HnwJCEO8QCgM8Y=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=snSUVEXKnG8f6WIRuO57KtdIOu7cJBZ0SzOV7VHdE8mZ5teVIoYCW80Sk7iKpPcxbPRijin/oWZANoIuUJYuPPFUxZCUHxLPttO+jK7J+25mkHndNu57uYdkb+hOYYpMT/7YA++vaj1InFzsLcJ4rooQQwdjozZtP28NIVBUJ0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PLqNT5Ls; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="MSth/hZ/"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-82fa8d6425bso3680338b3a.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 13 May 2026 16:59:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778716761; cv=none;
-        d=google.com; s=arc-20240605;
-        b=a+Yn2cULNFxHMduF9vc35B1aDS/JEQGcWVkeHIfn5CTQSn69RegEcwsICBAMaXHcEt
-         LMwMcVRRrZNYqst3qkGAoN8teoa91OvZYEH77MMBfox5WON7zg/aiQkvVcTl9ZqjQ3P7
-         wJ0WIsAEE2OiFQM7Df8RFjmGhggWbLrYnBRlP1vxxwfjq34sn7g9wFAZprpZHQUo3xfp
-         07OFRjSluLzg1fw5NcLc0GgnJRgV1V7bsw7dBZXmupG9wwQo/wQlErPzAwxtoKYOIyp1
-         CWcPwDBo4NqBc8iOtaCYlleswGMRhqQGr5TEqx8W+Q0XXzZGBxPoc5BqJRdR5W4PwBFe
-         i0bQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=wa0DzZxPVuSSic9zPDFbA0mGeqsYCaysQLsixjl/QpY=;
-        fh=ZX0PywdoQ6pqkB2JOGh5KctM9wr1S6qePJ6Hg0lzFAM=;
-        b=WwMqJ62fcPlQD35NfnDg5IBxAjPidVrHgu1K5HXuuHRSfpAC8Y4/Nv1SyOeUf+Cwgt
-         tageteEGF0UypIEVnscE6QWLme490kkI6Lh8KJ10IsQtuEvMzjPaK0YBQjBeIKde9EDj
-         H3zjk56hdY43FfdpGgxHH4c1txwKb7QFhGvOSlklmgFpvFgsZIlcMamKWeHmKqH9gFIx
-         4FVKkhN43H+lbuoKFXAB6vwOiXGEgcELumFx0jPCunJ0/hHOARYaFkYQbEyiI38QzsU9
-         BN2gMQnh+KCYchiHp8r7C/4bd6/40ZWoTgkeEXKmJG/JWI9ow0wZsRei1CsCcFU1oVWl
-         Jhvw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1778716761; x=1779321561; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=wa0DzZxPVuSSic9zPDFbA0mGeqsYCaysQLsixjl/QpY=;
-        b=MSth/hZ/IzEFXOEOQxb4nA1cx04et+LDaLGcHjNpZ5llXLx89oYMMJOXHVcm/P5nxA
-         lHasFJDJeQb5yifgj3u52WclwhIsizhltLTYCqNcXcIk+o8YfS1fEn+RJXi6PVjp4PyX
-         CiUaNWusCpNhWXUQwMwxtXiF9GPotKiZv2+jV5wgU0V/Kb7fDvMfBlGH5vba8qEGufMQ
-         HmyhBCRMO10AnNjCs2HCEc+lpUI5QSSAlW1xsBv3tJTR0fVC8z2gqk2+RSie/r6KBdvC
-         fVtQtcTXDzyETmCHBDw7JlKVWhcDLJoQZ7EUIJ7qzf526Dcbv4T8g/9RsJGWvfLTDgZK
-         UWLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778716761; x=1779321561;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wa0DzZxPVuSSic9zPDFbA0mGeqsYCaysQLsixjl/QpY=;
-        b=kvb9aFseLALhmcLgM4In044EqEnzprfTtXQvvQ3OYLKTUGgYeKeGMElLCTl3QS7HNP
-         /aJ0cNMwLOuW89/S5R0dB4R8NfPwtzcP3J/oS1CfbK7jxBnFgUebiJ6Sy2X3x8vMKkfB
-         rxytQaoea9Rlnpas7SEFLlsUUFJ0ZKE/cKKs19N4LHhj88J35vg4zgaolth8BU2mgEHK
-         smPFQ3c6vyTjwk1yMUdR6TeiIJBWtQySSsE8ev0x3noK7xo5ythrlpxbdiKu2CYbY7zj
-         boI33NIWLmj4U6ODBbxRz+bO2pxOfs9yGyAb5ihv84oz9adAgNi4uN7bwtw3oLFfVRCV
-         Ceyg==
-X-Forwarded-Encrypted: i=1; AFNElJ/LrmJZ4DB9/6x0lKgCj2E/gX1aNcS+goRqnOsEatZnw/NKIux3xl8tBUHUm/TI3T19Aule9mHvJSrhwm5X@lists.linux.dev
-X-Gm-Message-State: AOJu0YwvZ2lT2aUZNMrtfLUmqCVaPgjUlWzbEK0+fWDAin39cwsm/+Rr
-	T9UlW5W3WrC9fGBGYATNjTNLdl1q5OLznLl9cnQqOTQgAMuFIqagyVrLukopP8HKbYk8dlwAxNB
-	hfXS+yK0vvlMY2fweIMyol9FCg1J/dfJMOKKfIw1D
-X-Gm-Gg: Acq92OF7fEQN2hVc/sSXVZwcJvYhKBXJHiRq67gm/nIwgzYr24T5cdqA64LRKqmWD/8
-	XbVqgTJnBwlLQIknqfoyg64RvpZ5l87kryfbKgOrU5zF8/VYayqOhr91NBUykd+9eATpFfakAYE
-	cMdHQSRKhF9RMP5swTm4RsfW9TfD1JnM3lcfoPLT1fP9ahJ7DwDlkLyNZdJHNCHpqoXgWGnBLDR
-	zLFr55/I+tsg28ocunlGpeSWdj6hQWdZ1ZCn0UYseT5l7hnxc/zvfCcpi8jvSz7665GXSuN2u3X
-	WW890K5kwev9XetMCNYCo67GZknn
-X-Received: by 2002:a05:6a00:2296:b0:82c:e60c:f36d with SMTP id
- d2e1a72fcca58-83f04308a1dmr5748031b3a.48.1778716760685; Wed, 13 May 2026
- 16:59:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PLqNT5Ls"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778716969; x=1810252969;
+  h=date:from:to:cc:subject:message-id;
+  bh=YTXR/bSiGMQxo/q9RzpIINg5zXXU2HnwJCEO8QCgM8Y=;
+  b=PLqNT5Ls8p7yutMhMKkExoMJUQtNz96FnDq6pMFuXIrkrS0vtLfWGovD
+   ouEglFhuQF2t4joIqS+nUq4h8LUhbVt9TN9ktTtTulJ7ah7zbb1kWeaM8
+   VFRO+PmUGIzxdnB1mhGuopFPpCPZLZ9IFaKJDsjXc5x/i+OySFe5+Nl08
+   jkibYPduDbL4oaGGh56QKqn6ZNJQsrCByyfjBxYPIraf1+92+59YG5/WW
+   Pvzza8lxG+SzfOG4DubcLkzs/ukqlXWJWiZsI++9E7voG0MrdzwprYw3R
+   6/fyOsRt9+9SW2nB3sMUHsO1OHaDKJx/b6Ow3PeiLb7sJnpwAciSFVdeV
+   A==;
+X-CSE-ConnectionGUID: 2NSMv/H7RWKBRrO3KGntMg==
+X-CSE-MsgGUID: pwV8ltsIRiCdBPWkSLQ9/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="79635645"
+X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
+   d="scan'208";a="79635645"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 17:02:48 -0700
+X-CSE-ConnectionGUID: g+JuOSKNRw6XU9gH3ADY0w==
+X-CSE-MsgGUID: pMM+6m+6RHGIK9Dg+bv9xw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
+   d="scan'208";a="242229659"
+Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 13 May 2026 17:02:45 -0700
+Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wNJXG-000000005LN-3Urt;
+	Thu, 14 May 2026 00:02:42 +0000
+Date: Thu, 14 May 2026 08:02:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Josef Bacik <josef@toxicpanda.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ David Sterba <dsterba@suse.com>, Daniel Vacek <neelx@suse.com>
+Subject: [kdave-btrfs-devel:ext/dv/fscrypt 34/43]
+ fs/btrfs/super.c:659:3: warning: label followed by a declaration is a C23
+ extension
+Message-ID: <202605140749.ueq3q2k7-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <202605140655.YX9jzufG-lkp@intel.com>
-In-Reply-To: <202605140655.YX9jzufG-lkp@intel.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Wed, 13 May 2026 19:59:09 -0400
-X-Gm-Features: AVHnY4IOBDED2g31VvqS9J-rsm0Aa6WZ1IIlsZV22-q0JILMdkv7i5SYft1wO7Q
-Message-ID: <CAHC9VhQtDd3OhZaimXXY22f7o=xgHn_WnLKB9pzN3DfNtyLtCQ@mail.gmail.com>
-Subject: Re: [linuxsecuritymodule:next 7/11] security/hornet/hornet_lsm.c:51:25:
- error: 'struct bpf_prog_aux' has no member named 'security'
-To: kernel test robot <lkp@intel.com>
-Cc: Blaise Boscaccy <bboscaccy@linux.microsoft.com>, oe-kbuild-all@lists.linux.dev
-Content-Type: multipart/mixed; boundary="000000000000ad650f0651bbc43f"
 
---000000000000ad650f0651bbc43f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+tree:   https://github.com/kdave/btrfs-devel.git ext/dv/fscrypt
+head:   4c05f02641d57f578a685f7e8d27b9cb18d17cc7
+commit: 69bb73593025c83c008129a68acd562e97870998 [34/43] btrfs: add test_dummy_encryption support
+config: hexagon-randconfig-002-20260514 (https://download.01.org/0day-ci/archive/20260514/202605140749.ueq3q2k7-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605140749.ueq3q2k7-lkp@intel.com/reproduce)
 
-On Wed, May 13, 2026 at 6:56=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree:   https://github.com/LinuxSecurityModule/kernel next
-> head:   7cd0da3c29d22e2a8dcbc995b12199bc3d2704a8
-> commit: c62310df81899f7e14d632271aba08d0a55e2318 [7/11] lsm: introduce th=
-e Hornet LSM
-> config: csky-randconfig-r071-20260514 (https://download.01.org/0day-ci/ar=
-chive/20260514/202605140655.YX9jzufG-lkp@intel.com/config)
-> compiler: csky-linux-gcc (GCC) 15.2.0
-> smatch: v0.5.0-9185-gbcc58b9c
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20260514/202605140655.YX9jzufG-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202605140655.YX9jzufG-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    security/hornet/hornet_lsm.c: In function 'hornet_bpf_prog_security':
-> >> security/hornet/hornet_lsm.c:51:25: error: 'struct bpf_prog_aux' has n=
-o member named 'security'
->       51 |         return prog->aux->security + hornet_blob_sizes.lbs_bpf=
-_prog;
->          |                         ^~
->
->
-> vim +51 security/hornet/hornet_lsm.c
->
->     47
->     48  static inline struct hornet_prog_security_struct *
->     49  hornet_bpf_prog_security(struct bpf_prog *prog)
->     50  {
->   > 51          return prog->aux->security + hornet_blob_sizes.lbs_bpf_pr=
-og;
->     52  }
->     53
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605140749.ueq3q2k7-lkp@intel.com/
 
-I believe this Kconfig one-liner should fix this, and if I recall
-correctly the kernel test robot should be able to test the applied
-patch, let's see ...
+All warnings (new ones prefixed by >>):
 
---=20
-paul-moore.com
+>> fs/btrfs/super.c:659:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+     659 |                 int ret;
+         |                 ^
+   1 warning generated.
 
---000000000000ad650f0651bbc43f
-Content-Type: text/x-patch; charset="US-ASCII"; name="12-XXX-hornet-kconfig_fixes.patch"
-Content-Disposition: attachment; 
-	filename="12-XXX-hornet-kconfig_fixes.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_mp4pzs110>
-X-Attachment-Id: f_mp4pzs110
 
-aG9ybmV0OiBkZXBlbmQgb24gQ09ORklHX1NFQ1VSSVRZIGFuZCBDT05GSUdfQlBGX1NZU0NBTEwK
-CkZyb206IFBhdWwgTW9vcmUgPHBhdWxAcGF1bC1tb29yZS5jb20+CgpIb3JuZXQgb25seSBtYWtl
-cyBzZW5zZSBhcyBhIExTTSBpZiB0aGUgTFNNIGZyYW1ld29yayBpcyBlbmFibGVkCnZpYSBDT05G
-SUdfU0VDVVJJVFkgYW5kIGVCUEYgaXMgZW5hYmxlZCB2aWEgQ09ORklHX0JQRl9TWVNDQUxMLgoK
-UmVwb3J0ZWQtYnk6IGtlcm5lbCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPgpDbG9zZXM6IGh0
-dHBzOi8vbG9yZS5rZXJuZWwub3JnL29lLWtidWlsZC1hbGwvMjAyNjA1MTQwNjU1LllYOWp6dWZH
-LWxrcEBpbnRlbC5jb20vClNpZ25lZC1vZmYtYnk6IFBhdWwgTW9vcmUgPHBhdWxAcGF1bC1tb29y
-ZS5jb20+Ci0tLQogc2VjdXJpdHkvaG9ybmV0L0tjb25maWcgfCAgICAxICsKIDEgZmlsZSBjaGFu
-Z2VkLCAxIGluc2VydGlvbigrKQoKZGlmZiAtLWdpdCBhL3NlY3VyaXR5L2hvcm5ldC9LY29uZmln
-IGIvc2VjdXJpdHkvaG9ybmV0L0tjb25maWcKaW5kZXggNWJlNzFkOTdkYWVlLi41MzdhZDAxNTk1
-OGMgMTAwNjQ0Ci0tLSBhL3NlY3VyaXR5L2hvcm5ldC9LY29uZmlnCisrKyBiL3NlY3VyaXR5L2hv
-cm5ldC9LY29uZmlnCkBAIC0xLDYgKzEsNyBAQAogIyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjog
-R1BMLTIuMC1vbmx5CiBjb25maWcgU0VDVVJJVFlfSE9STkVUCiAJYm9vbCAiSG9ybmV0IHN1cHBv
-cnQiCisJZGVwZW5kcyBvbiBTRUNVUklUWSAmJiBCUEZfU1lTQ0FMTAogCXNlbGVjdCBDUllQVE9f
-TElCX1NIQTI1NgogCXNlbGVjdCBQS0NTN19NRVNTQUdFX1BBUlNFUgogCXNlbGVjdCBTWVNURU1f
-REFUQV9WRVJJRklDQVRJT04K
---000000000000ad650f0651bbc43f--
+vim +659 fs/btrfs/super.c
+
+   344	
+   345	static int btrfs_parse_param(struct fs_context *fc, struct fs_parameter *param)
+   346	{
+   347		struct btrfs_fs_context *ctx = fc->fs_private;
+   348		struct fs_parse_result result;
+   349		int opt;
+   350	
+   351		opt = fs_parse(fc, btrfs_fs_parameters, param, &result);
+   352		if (opt < 0)
+   353			return opt;
+   354	
+   355		switch (opt) {
+   356		case Opt_degraded:
+   357			btrfs_set_opt(ctx->mount_opt, DEGRADED);
+   358			break;
+   359		case Opt_subvol_empty:
+   360			/*
+   361			 * This exists because we used to allow it on accident, so we're
+   362			 * keeping it to maintain ABI.  See 37becec95ac3 ("Btrfs: allow
+   363			 * empty subvol= again").
+   364			 */
+   365			break;
+   366		case Opt_subvol:
+   367			kfree(ctx->subvol_name);
+   368			ctx->subvol_name = kstrdup(param->string, GFP_KERNEL);
+   369			if (!ctx->subvol_name)
+   370				return -ENOMEM;
+   371			break;
+   372		case Opt_subvolid:
+   373			ctx->subvol_objectid = result.uint_64;
+   374	
+   375			/* subvolid=0 means give me the original fs_tree. */
+   376			if (!ctx->subvol_objectid)
+   377				ctx->subvol_objectid = BTRFS_FS_TREE_OBJECTID;
+   378			break;
+   379		case Opt_device: {
+   380			struct btrfs_device *device;
+   381	
+   382			mutex_lock(&uuid_mutex);
+   383			device = btrfs_scan_one_device(param->string, false);
+   384			mutex_unlock(&uuid_mutex);
+   385			if (IS_ERR(device))
+   386				return PTR_ERR(device);
+   387			break;
+   388		}
+   389		case Opt_datasum:
+   390			if (result.negated) {
+   391				btrfs_set_opt(ctx->mount_opt, NODATASUM);
+   392			} else {
+   393				btrfs_clear_opt(ctx->mount_opt, NODATACOW);
+   394				btrfs_clear_opt(ctx->mount_opt, NODATASUM);
+   395			}
+   396			break;
+   397		case Opt_datacow:
+   398			if (result.negated) {
+   399				btrfs_clear_opt(ctx->mount_opt, COMPRESS);
+   400				btrfs_clear_opt(ctx->mount_opt, FORCE_COMPRESS);
+   401				btrfs_set_opt(ctx->mount_opt, NODATACOW);
+   402				btrfs_set_opt(ctx->mount_opt, NODATASUM);
+   403			} else {
+   404				btrfs_clear_opt(ctx->mount_opt, NODATACOW);
+   405			}
+   406			break;
+   407		case Opt_compress_force:
+   408		case Opt_compress_force_type:
+   409			btrfs_set_opt(ctx->mount_opt, FORCE_COMPRESS);
+   410			fallthrough;
+   411		case Opt_compress:
+   412		case Opt_compress_type:
+   413			if (btrfs_parse_compress(ctx, param, opt))
+   414				return -EINVAL;
+   415			break;
+   416		case Opt_ssd:
+   417			if (result.negated) {
+   418				btrfs_set_opt(ctx->mount_opt, NOSSD);
+   419				btrfs_clear_opt(ctx->mount_opt, SSD);
+   420				btrfs_clear_opt(ctx->mount_opt, SSD_SPREAD);
+   421			} else {
+   422				btrfs_set_opt(ctx->mount_opt, SSD);
+   423				btrfs_clear_opt(ctx->mount_opt, NOSSD);
+   424			}
+   425			break;
+   426		case Opt_ssd_spread:
+   427			if (result.negated) {
+   428				btrfs_clear_opt(ctx->mount_opt, SSD_SPREAD);
+   429			} else {
+   430				btrfs_set_opt(ctx->mount_opt, SSD);
+   431				btrfs_set_opt(ctx->mount_opt, SSD_SPREAD);
+   432				btrfs_clear_opt(ctx->mount_opt, NOSSD);
+   433			}
+   434			break;
+   435		case Opt_barrier:
+   436			if (result.negated)
+   437				btrfs_set_opt(ctx->mount_opt, NOBARRIER);
+   438			else
+   439				btrfs_clear_opt(ctx->mount_opt, NOBARRIER);
+   440			break;
+   441		case Opt_thread_pool:
+   442			if (result.uint_32 == 0) {
+   443				btrfs_err(NULL, "invalid value 0 for thread_pool");
+   444				return -EINVAL;
+   445			}
+   446			ctx->thread_pool_size = result.uint_32;
+   447			break;
+   448		case Opt_max_inline:
+   449			ctx->max_inline = memparse(param->string, NULL);
+   450			break;
+   451		case Opt_acl:
+   452			if (result.negated) {
+   453				fc->sb_flags &= ~SB_POSIXACL;
+   454			} else {
+   455	#ifdef CONFIG_BTRFS_FS_POSIX_ACL
+   456				fc->sb_flags |= SB_POSIXACL;
+   457	#else
+   458				btrfs_err(NULL, "support for ACL not compiled in");
+   459				return -EINVAL;
+   460	#endif
+   461			}
+   462			/*
+   463			 * VFS limits the ability to toggle ACL on and off via remount,
+   464			 * despite every file system allowing this.  This seems to be
+   465			 * an oversight since we all do, but it'll fail if we're
+   466			 * remounting.  So don't set the mask here, we'll check it in
+   467			 * btrfs_reconfigure and do the toggling ourselves.
+   468			 */
+   469			if (fc->purpose != FS_CONTEXT_FOR_RECONFIGURE)
+   470				fc->sb_flags_mask |= SB_POSIXACL;
+   471			break;
+   472		case Opt_treelog:
+   473			if (result.negated)
+   474				btrfs_set_opt(ctx->mount_opt, NOTREELOG);
+   475			else
+   476				btrfs_clear_opt(ctx->mount_opt, NOTREELOG);
+   477			break;
+   478		case Opt_norecovery:
+   479			btrfs_info(NULL,
+   480	"'norecovery' is for compatibility only, recommended to use 'rescue=nologreplay'");
+   481			btrfs_set_opt(ctx->mount_opt, NOLOGREPLAY);
+   482			break;
+   483		case Opt_flushoncommit:
+   484			if (result.negated)
+   485				btrfs_clear_opt(ctx->mount_opt, FLUSHONCOMMIT);
+   486			else
+   487				btrfs_set_opt(ctx->mount_opt, FLUSHONCOMMIT);
+   488			break;
+   489		case Opt_ratio:
+   490			ctx->metadata_ratio = result.uint_32;
+   491			break;
+   492		case Opt_discard:
+   493			if (result.negated) {
+   494				btrfs_clear_opt(ctx->mount_opt, DISCARD_SYNC);
+   495				btrfs_clear_opt(ctx->mount_opt, DISCARD_ASYNC);
+   496				btrfs_set_opt(ctx->mount_opt, NODISCARD);
+   497			} else {
+   498				btrfs_set_opt(ctx->mount_opt, DISCARD_SYNC);
+   499				btrfs_clear_opt(ctx->mount_opt, DISCARD_ASYNC);
+   500			}
+   501			break;
+   502		case Opt_discard_mode:
+   503			switch (result.uint_32) {
+   504			case Opt_discard_sync:
+   505				btrfs_clear_opt(ctx->mount_opt, DISCARD_ASYNC);
+   506				btrfs_set_opt(ctx->mount_opt, DISCARD_SYNC);
+   507				break;
+   508			case Opt_discard_async:
+   509				btrfs_clear_opt(ctx->mount_opt, DISCARD_SYNC);
+   510				btrfs_set_opt(ctx->mount_opt, DISCARD_ASYNC);
+   511				break;
+   512			default:
+   513				btrfs_err(NULL, "unrecognized discard mode value %s",
+   514					  param->key);
+   515				return -EINVAL;
+   516			}
+   517			btrfs_clear_opt(ctx->mount_opt, NODISCARD);
+   518			break;
+   519		case Opt_space_cache:
+   520			if (result.negated) {
+   521				btrfs_set_opt(ctx->mount_opt, NOSPACECACHE);
+   522				btrfs_clear_opt(ctx->mount_opt, SPACE_CACHE);
+   523				btrfs_clear_opt(ctx->mount_opt, FREE_SPACE_TREE);
+   524			} else {
+   525				btrfs_clear_opt(ctx->mount_opt, FREE_SPACE_TREE);
+   526				btrfs_set_opt(ctx->mount_opt, SPACE_CACHE);
+   527			}
+   528			break;
+   529		case Opt_space_cache_version:
+   530			switch (result.uint_32) {
+   531			case Opt_space_cache_v1:
+   532				btrfs_set_opt(ctx->mount_opt, SPACE_CACHE);
+   533				btrfs_clear_opt(ctx->mount_opt, FREE_SPACE_TREE);
+   534				break;
+   535			case Opt_space_cache_v2:
+   536				btrfs_clear_opt(ctx->mount_opt, SPACE_CACHE);
+   537				btrfs_set_opt(ctx->mount_opt, FREE_SPACE_TREE);
+   538				break;
+   539			default:
+   540				btrfs_err(NULL, "unrecognized space_cache value %s",
+   541					  param->key);
+   542				return -EINVAL;
+   543			}
+   544			break;
+   545		case Opt_rescan_uuid_tree:
+   546			btrfs_set_opt(ctx->mount_opt, RESCAN_UUID_TREE);
+   547			break;
+   548		case Opt_clear_cache:
+   549			btrfs_set_opt(ctx->mount_opt, CLEAR_CACHE);
+   550			break;
+   551		case Opt_user_subvol_rm_allowed:
+   552			btrfs_set_opt(ctx->mount_opt, USER_SUBVOL_RM_ALLOWED);
+   553			break;
+   554		case Opt_enospc_debug:
+   555			if (result.negated)
+   556				btrfs_clear_opt(ctx->mount_opt, ENOSPC_DEBUG);
+   557			else
+   558				btrfs_set_opt(ctx->mount_opt, ENOSPC_DEBUG);
+   559			break;
+   560		case Opt_defrag:
+   561			if (result.negated)
+   562				btrfs_clear_opt(ctx->mount_opt, AUTO_DEFRAG);
+   563			else
+   564				btrfs_set_opt(ctx->mount_opt, AUTO_DEFRAG);
+   565			break;
+   566		case Opt_usebackuproot:
+   567			btrfs_warn(NULL,
+   568				   "'usebackuproot' is deprecated, use 'rescue=usebackuproot' instead");
+   569			btrfs_set_opt(ctx->mount_opt, USEBACKUPROOT);
+   570	
+   571			/* If we're loading the backup roots we can't trust the space cache. */
+   572			btrfs_set_opt(ctx->mount_opt, CLEAR_CACHE);
+   573			break;
+   574		case Opt_skip_balance:
+   575			btrfs_set_opt(ctx->mount_opt, SKIP_BALANCE);
+   576			break;
+   577		case Opt_fatal_errors:
+   578			switch (result.uint_32) {
+   579			case Opt_fatal_errors_panic:
+   580				btrfs_set_opt(ctx->mount_opt, PANIC_ON_FATAL_ERROR);
+   581				break;
+   582			case Opt_fatal_errors_bug:
+   583				btrfs_clear_opt(ctx->mount_opt, PANIC_ON_FATAL_ERROR);
+   584				break;
+   585			default:
+   586				btrfs_err(NULL, "unrecognized fatal_errors value %s",
+   587					  param->key);
+   588				return -EINVAL;
+   589			}
+   590			break;
+   591		case Opt_commit_interval:
+   592			ctx->commit_interval = result.uint_32;
+   593			if (ctx->commit_interval > BTRFS_WARNING_COMMIT_INTERVAL) {
+   594				btrfs_warn(NULL, "excessive commit interval %u, use with care",
+   595					   ctx->commit_interval);
+   596			}
+   597			if (ctx->commit_interval == 0)
+   598				ctx->commit_interval = BTRFS_DEFAULT_COMMIT_INTERVAL;
+   599			break;
+   600		case Opt_rescue:
+   601			switch (result.uint_32) {
+   602			case Opt_rescue_usebackuproot:
+   603				btrfs_set_opt(ctx->mount_opt, USEBACKUPROOT);
+   604				break;
+   605			case Opt_rescue_nologreplay:
+   606				btrfs_set_opt(ctx->mount_opt, NOLOGREPLAY);
+   607				break;
+   608			case Opt_rescue_ignorebadroots:
+   609				btrfs_set_opt(ctx->mount_opt, IGNOREBADROOTS);
+   610				break;
+   611			case Opt_rescue_ignoredatacsums:
+   612				btrfs_set_opt(ctx->mount_opt, IGNOREDATACSUMS);
+   613				break;
+   614			case Opt_rescue_ignoremetacsums:
+   615				btrfs_set_opt(ctx->mount_opt, IGNOREMETACSUMS);
+   616				break;
+   617			case Opt_rescue_ignoresuperflags:
+   618				btrfs_set_opt(ctx->mount_opt, IGNORESUPERFLAGS);
+   619				break;
+   620			case Opt_rescue_parameter_all:
+   621				btrfs_set_opt(ctx->mount_opt, IGNOREDATACSUMS);
+   622				btrfs_set_opt(ctx->mount_opt, IGNOREMETACSUMS);
+   623				btrfs_set_opt(ctx->mount_opt, IGNORESUPERFLAGS);
+   624				btrfs_set_opt(ctx->mount_opt, IGNOREBADROOTS);
+   625				btrfs_set_opt(ctx->mount_opt, NOLOGREPLAY);
+   626				break;
+   627			default:
+   628				btrfs_info(NULL, "unrecognized rescue option '%s'",
+   629					   param->key);
+   630				return -EINVAL;
+   631			}
+   632			break;
+   633	#ifdef CONFIG_BTRFS_DEBUG
+   634		case Opt_fragment:
+   635			switch (result.uint_32) {
+   636			case Opt_fragment_parameter_all:
+   637				btrfs_set_opt(ctx->mount_opt, FRAGMENT_DATA);
+   638				btrfs_set_opt(ctx->mount_opt, FRAGMENT_METADATA);
+   639				break;
+   640			case Opt_fragment_parameter_metadata:
+   641				btrfs_set_opt(ctx->mount_opt, FRAGMENT_METADATA);
+   642				break;
+   643			case Opt_fragment_parameter_data:
+   644				btrfs_set_opt(ctx->mount_opt, FRAGMENT_DATA);
+   645				break;
+   646			default:
+   647				btrfs_info(NULL, "unrecognized fragment option '%s'",
+   648					   param->key);
+   649				return -EINVAL;
+   650			}
+   651			break;
+   652		case Opt_ref_verify:
+   653			btrfs_set_opt(ctx->mount_opt, REF_VERIFY);
+   654			break;
+   655		case Opt_ref_tracker:
+   656			btrfs_set_opt(ctx->mount_opt, REF_TRACKER);
+   657			break;
+   658		case Opt_test_dummy_encryption:
+ > 659			int ret;
+   660	
+   661			/*
+   662			 * We only support v2, so reject any v1 policies.
+   663			 */
+   664			if (param->type == fs_value_is_string && *param->string &&
+   665			    !strcmp(param->string, "v1")) {
+   666				btrfs_info(NULL, "v1 encryption isn't supported");
+   667				return -EINVAL;
+   668			}
+   669	
+   670			btrfs_set_opt(ctx->mount_opt, TEST_DUMMY_ENCRYPTION);
+   671			ret = fscrypt_parse_test_dummy_encryption(param, &ctx->dummy_enc_policy);
+   672			if (ret)
+   673				return ret;
+   674			break;
+   675	#endif
+   676		default:
+   677			btrfs_err(NULL, "unrecognized mount option '%s'", param->key);
+   678			return -EINVAL;
+   679		}
+   680	
+   681		return 0;
+   682	}
+   683	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
