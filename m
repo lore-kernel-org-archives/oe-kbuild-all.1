@@ -1,160 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADFF03ABD8D;
-	Thu, 14 May 2026 08:38:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B822E3DD510
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 May 2026 08:39:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778747886; cv=none; b=gqGVT+Cc1v/GAMwH/yDDa+SBAU9z7Wdia9Gg8JUW3BSZJ5nhlMpCk/U3MsEJXkCxz59kX8ggyxOnnxY2sVVvXHoNr3NYKqYjRudjIVk5QVSLWybDBS69iNwtEuz4PndMiMl88FFPmlPy4AIN34RQBq68xkL8idYAjVT7kZLgXnM=
+	t=1778747968; cv=none; b=adKlMvGpxmljeZ8n2crxHeSB8v+ljaxQfmO6mim9W+EEm1FYbdXNubJe743tpmt8M4wiWtpxvwov4k+Sr4y7Y/3xPwwJSVdB+yfu0fUSiHAX5J7XXETUtbwwG+uWs7UVAmbu9RnxdbxyqpJ/7nu5H8mT8N9IrlRkPS6nFsR8m6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778747886; c=relaxed/simple;
-	bh=j0ThepAaKJ3WjfvHf/k3t/FE1agot5fafmNfA332LhU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=svlJtImSPU+IVg83CfiVIQsPGEr1h3vZ0o63yT4Dy7w1U1qIyuhPbDsdePnYKAgkripD9tuXf/EC2gO4tJnWOzp58vNeN8zQNPQciIxCQT2MjIM5StTTmY3s+zDDJtpFetDkjDoZeVTGiGNlrkECqdqOtCPvCZXVA0bHsN5VdGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cx89NjeD; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1778747968; c=relaxed/simple;
+	bh=WzcHQhZ4qPOOkIY3YB3an4/1zKli9DU0z1U/FoTmmIo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gAm1XhhKPD3zaG9sLtcRoW0vAz3dQzr5+I0u+bncV4A4RKpvZ7PombyR57gSvDmncOm2ErgcfHj8RW/a72otZNNiMWYCjJxVii2cwWgvayTmk5KbwoqWiel9hKyUuGLGACWbRozKtm6sg/1EQDN+6zLTeZP45ozJ7JgDKYIT4P4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LC16mab3; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cx89NjeD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778747885; x=1810283885;
-  h=date:from:to:cc:subject:message-id;
-  bh=j0ThepAaKJ3WjfvHf/k3t/FE1agot5fafmNfA332LhU=;
-  b=cx89NjeDCvQ92QBgrN9tnkOzvRKq/ltz1p5qxLvwT1RJKZPPG2IlWvsc
-   fGioC4BGEp6rHRtggzzz8yeFsgM5ABnQT717wWypdvr+msUAO66dFNCln
-   2pCe6q0mW0YmhUv62QCifv+C8c0Fty1h85jeoyO/Y94SxFE8eLS9PGhU8
-   cUxA0/cfs2yXeP7USCgvade5rfWXhoXrwr8M903rSMgP9YbGZOktK5LEg
-   7pong9HPVtH/3dBBmiZF1nZxRk8KbvJmw9oxk3OjoYxP9THjlXeuSPu+r
-   0yM3uLQPehMNHL0r+G0iSGomQr1oFn7SmI6OuSW/sGeh/D+E/eXiIXoMj
-   g==;
-X-CSE-ConnectionGUID: EeX1ShtASo+l4UsvRRVcXg==
-X-CSE-MsgGUID: 0tfaDrqPQzCofafnBNvKoQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="79400264"
-X-IronPort-AV: E=Sophos;i="6.23,234,1770624000"; 
-   d="scan'208";a="79400264"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 01:38:05 -0700
-X-CSE-ConnectionGUID: Vp5QtY92QSeMGVT0OGly0A==
-X-CSE-MsgGUID: IGAwUXu7QDS+Udf9/WSFEw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,234,1770624000"; 
-   d="scan'208";a="276411331"
-Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 14 May 2026 01:38:02 -0700
-Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wNRZv-000000006Db-0EA2;
-	Thu, 14 May 2026 08:37:59 +0000
-Date: Thu, 14 May 2026 16:37:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- David Hildenbrand <david@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- mm-commits@vger.kernel.org
-Subject: [akpm-mm:mm-unstable 25/274] mm/hugetlb.c:7281:3: error:
- call to undeclared function '__huge_pmd_unshare'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202605141638.b5ZBd6IF-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LC16mab3"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-48a563e4ef7so69845455e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 14 May 2026 01:39:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778747965; x=1779352765; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TeqjFZTQmr6abOMDAj1gaaHoZNhaam6+6qaoXrnLQDE=;
+        b=LC16mab3CLsQFbBOdGUeXF+EMw/G7lT7BQYtamnzQGa7Q7Csld9E9wCTKDWn2FK6xM
+         0Lzlj7D8wYqH4qfFVkuoAaphqoxX3NY8bp+Y9ErCO8ODw8kfR+NIqErnhGJlD4HQiHMA
+         NzS+WFgwB5goFPWs5NVymAo/k6xiM5XDGOA2Hv9qxsjdj8DrH7vES9/xnlyqdxxXJyMV
+         /3PNsDIVH2QA7Rrwa5d8uRVLJGnY5+EqRt9Lc1AZdcg/amBkWlytPl7Wv8mtpHwfxj86
+         jF5/sTc8ezaagPD0GFmqQIrKpW45o5H9PltPAoRWiPkaCO7+Cd9QozVrI50aexoiz/49
+         Q4bQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778747965; x=1779352765;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TeqjFZTQmr6abOMDAj1gaaHoZNhaam6+6qaoXrnLQDE=;
+        b=EoEZJWmqsH09nxkNKVpBiEDzhIThD71SVdTvELH6pBMi3ct0hULA9dKqYPZtW8OOfb
+         iBExx3zxZ6F8Ly5h7twvZbo0SljvpcjhmL0mCeNfzVqR4MRM+wRbRJ+hXXBE+vcaUp2x
+         fXN/YFteJLmPSoY+ucazAPagTc3bJwk78Ja8N1HjXBmDdC6W5UKMJ3RqAmVE3KO8uZYQ
+         Lk44mTFXwpwShK/udcooU07LK5aXYDfIL8qtDX+6VtENjFXxsqcnDCEduQdPlWd9zYSY
+         RVV/S1Qpa+wx2a5/SdnOAmotxDM2Wsjegqyjt0kPyaWMw3i2agmHx85/togw5tPSjheb
+         AfMA==
+X-Forwarded-Encrypted: i=1; AFNElJ/X6XRVYu3Rr1SZPfNn/rqnsjMETOeFAp4+PNXhbua4gkcLagycXZcohlcsVpbWeOIoFRIH7hrz3Z7WXjbd@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyw0IZlQKrxhobVW9uDI2rjBvDSrLMysc3UevAVEYQFJVWi5Kxi
+	1yFnQixZ/ECAaWOEBJc6UA0xJLjMwKG9hX4NaUKcz+ilGGeec6WXYiDz
+X-Gm-Gg: Acq92OFjifsBCoKTlsPhO0JmBXtU970g8DO5QqEMKkhJhna7PKOoTiqA3wrvL3Wa7PJ
+	oGpdOZA3n6FvKOJtwggw1IxfQEdyz+JQH/CXT2fh3b8uL3Rm7KOB24Q4Lt4v6YX4x5jY+O4wtwk
+	fL0/qftOhGZGS7JEM4CP5C7IqXtzZeJZH4WKARjeldSxrgzJw7EImmoUXIwjbJLLjtC3vAOzjoW
+	l7mLzEVSRVjAc+ivpFh0XAZvJgUTdmr/tjfvKBjafCsNIi45NhrnykDFPeKuegmpM+5a/xSQcwj
+	RMhujjIo1V+jqj+i+NkVzhS4ERQyI294T8LMNs5hbpUHai80Pshiqz+g+IElG+yt/Pv1w7XOtHX
+	Wdz9WwpwLaBNzXidxfxXvjHbgHINBZFA6oKRE7GXd38XjkublvVEVTSLKNR/w77+biCNZsAs9Vf
+	Xm53WEsL0Chfv9Sb2DQZdnn/Vx4MHWRw==
+X-Received: by 2002:a05:600c:8887:b0:48f:e230:8cad with SMTP id 5b1f17b1804b1-48fe2308d62mr1142355e9.33.1778747965007;
+        Thu, 14 May 2026 01:39:25 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fd648a7e5sm49603305e9.3.2026.05.14.01.39.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 May 2026 01:39:24 -0700 (PDT)
+Date: Thu, 14 May 2026 11:39:21 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Kent Overstreet <kent.overstreet@linux.dev>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [koverstreet-bcachefs:bcachefs-rebalance_v2 481/799]
+ fs/bcachefs/init/chardev.c:578 bch2_ioctl_query_accounting() warn: potential
+ user controlled sizeof overflow 'arg.accounting_u64s * 8' '0-u32max * 8'
+Message-ID: <202605141559.kX6o5Q6d-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-head:   444fc9435e57157fcf30fc99aee44997f3458641
-commit: 2bb8fe16f7bf4487248c9ff847fcf189c45b9508 [25/274] mm/hugetlb: avoid false positive lockdep assertion
-config: powerpc64-randconfig-001-20260514 (https://download.01.org/0day-ci/archive/20260514/202605141638.b5ZBd6IF-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605141638.b5ZBd6IF-lkp@intel.com/reproduce)
+tree:   https://github.com/koverstreet/bcachefs bcachefs-rebalance_v2
+head:   d4b3d00447faf8d4d95db47e3902e4ca4db8fbdc
+commit: 29e05f82d6bdd4efef504f6f68922db28e2e4917 [481/799] bcachefs: bit more reorg
+config: i386-randconfig-141-20260514 (https://download.01.org/0day-ci/archive/20260514/202605141559.kX6o5Q6d-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605141638.b5ZBd6IF-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202605141559.kX6o5Q6d-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+fs/bcachefs/init/chardev.c:578 bch2_ioctl_query_accounting() warn: potential user controlled sizeof overflow 'arg.accounting_u64s * 8' '0-u32max * 8'
 
->> mm/hugetlb.c:7281:3: error: call to undeclared function '__huge_pmd_unshare'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    7281 |                 __huge_pmd_unshare(&tlb, vma, address, ptep, take_locks);
-         |                 ^
-   mm/hugetlb.c:7281:3: note: did you mean 'huge_pmd_unshare'?
-   mm/hugetlb.c:6973:5: note: 'huge_pmd_unshare' declared here
-    6973 | int huge_pmd_unshare(struct mmu_gather *tlb, struct vm_area_struct *vma,
-         |     ^
-   1 error generated.
+vim +578 fs/bcachefs/init/chardev.c
 
+8863d1e092005d5 fs/bcachefs/chardev.c Kent Overstreet 2024-03-01  567  static long bch2_ioctl_query_accounting(struct bch_fs *c,
+8863d1e092005d5 fs/bcachefs/chardev.c Kent Overstreet 2024-03-01  568  			struct bch_ioctl_query_accounting __user *user_arg)
+8863d1e092005d5 fs/bcachefs/chardev.c Kent Overstreet 2024-03-01  569  {
+8863d1e092005d5 fs/bcachefs/chardev.c Kent Overstreet 2024-03-01  570  	struct bch_ioctl_query_accounting arg;
+635c5791582a65e fs/bcachefs/chardev.c Kent Overstreet 2025-07-14  571  	CLASS(darray_char, accounting)();
+8863d1e092005d5 fs/bcachefs/chardev.c Kent Overstreet 2024-03-01  572  
+8863d1e092005d5 fs/bcachefs/chardev.c Kent Overstreet 2024-03-01  573  	if (!test_bit(BCH_FS_started, &c->flags))
+8863d1e092005d5 fs/bcachefs/chardev.c Kent Overstreet 2024-03-01  574  		return -EINVAL;
+8863d1e092005d5 fs/bcachefs/chardev.c Kent Overstreet 2024-03-01  575  
+635c5791582a65e fs/bcachefs/chardev.c Kent Overstreet 2025-07-14  576  	int ret = copy_from_user_errcode(&arg, user_arg, sizeof(arg)) ?:
+8863d1e092005d5 fs/bcachefs/chardev.c Kent Overstreet 2024-03-01  577  		bch2_fs_accounting_read(c, &accounting, arg.accounting_types_mask) ?:
+8863d1e092005d5 fs/bcachefs/chardev.c Kent Overstreet 2024-03-01 @578  		(arg.accounting_u64s * sizeof(u64) < accounting.nr ? -ERANGE : 0) ?:
+                                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+This can have an integer overflow on i386.
 
-vim +/__huge_pmd_unshare +7281 mm/hugetlb.c
-
-  7233	
-  7234	/*
-  7235	 * If @take_locks is false, the caller must ensure that no concurrent page table
-  7236	 * access can happen (except for gup_fast() and hardware page walks).
-  7237	 * If @take_locks is true, we take the hugetlb VMA lock (to lock out things like
-  7238	 * concurrent page fault handling) and the file rmap lock.
-  7239	 */
-  7240	static void hugetlb_unshare_pmds(struct vm_area_struct *vma,
-  7241					   unsigned long start,
-  7242					   unsigned long end,
-  7243					   bool take_locks)
-  7244	{
-  7245		struct hstate *h = hstate_vma(vma);
-  7246		unsigned long sz = huge_page_size(h);
-  7247		struct mm_struct *mm = vma->vm_mm;
-  7248		struct mmu_notifier_range range;
-  7249		struct mmu_gather tlb;
-  7250		unsigned long address;
-  7251		spinlock_t *ptl;
-  7252		pte_t *ptep;
-  7253	
-  7254		if (!(vma->vm_flags & VM_MAYSHARE))
-  7255			return;
-  7256	
-  7257		if (start >= end)
-  7258			return;
-  7259	
-  7260		flush_cache_range(vma, start, end);
-  7261		tlb_gather_mmu_vma(&tlb, vma);
-  7262	
-  7263		/*
-  7264		 * No need to call adjust_range_if_pmd_sharing_possible(), because
-  7265		 * we have already done the PUD_SIZE alignment.
-  7266		 */
-  7267		mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, mm,
-  7268					start, end);
-  7269		mmu_notifier_invalidate_range_start(&range);
-  7270		if (take_locks) {
-  7271			hugetlb_vma_lock_write(vma);
-  7272			i_mmap_lock_write(vma->vm_file->f_mapping);
-  7273		} else {
-  7274			i_mmap_assert_write_locked(vma->vm_file->f_mapping);
-  7275		}
-  7276		for (address = start; address < end; address += PUD_SIZE) {
-  7277			ptep = hugetlb_walk(vma, address, sz);
-  7278			if (!ptep)
-  7279				continue;
-  7280			ptl = huge_pte_lock(h, mm, ptep);
-> 7281			__huge_pmd_unshare(&tlb, vma, address, ptep, take_locks);
-  7282			spin_unlock(ptl);
-  7283		}
-  7284		huge_pmd_unshare_flush(&tlb, vma);
-  7285		if (take_locks) {
-  7286			i_mmap_unlock_write(vma->vm_file->f_mapping);
-  7287			hugetlb_vma_unlock_write(vma);
-  7288		}
-  7289		/*
-  7290		 * No need to call mmu_notifier_arch_invalidate_secondary_tlbs(), see
-  7291		 * Documentation/mm/mmu_notifier.rst.
-  7292		 */
-  7293		mmu_notifier_invalidate_range_end(&range);
-  7294		tlb_finish_mmu(&tlb);
-  7295	}
-  7296	
+8863d1e092005d5 fs/bcachefs/chardev.c Kent Overstreet 2024-03-01  579  		copy_to_user_errcode(&user_arg->accounting, accounting.data, accounting.nr);
+8863d1e092005d5 fs/bcachefs/chardev.c Kent Overstreet 2024-03-01  580  	if (ret)
+635c5791582a65e fs/bcachefs/chardev.c Kent Overstreet 2025-07-14  581  		return ret;
+8863d1e092005d5 fs/bcachefs/chardev.c Kent Overstreet 2024-03-01  582  
+8863d1e092005d5 fs/bcachefs/chardev.c Kent Overstreet 2024-03-01  583  	arg.capacity		= c->capacity;
+8863d1e092005d5 fs/bcachefs/chardev.c Kent Overstreet 2024-03-01  584  	arg.used		= bch2_fs_usage_read_short(c).used;
+8863d1e092005d5 fs/bcachefs/chardev.c Kent Overstreet 2024-03-01  585  	arg.online_reserved	= percpu_u64_get(c->online_reserved);
+8863d1e092005d5 fs/bcachefs/chardev.c Kent Overstreet 2024-03-01  586  	arg.accounting_u64s	= accounting.nr / sizeof(u64);
+8863d1e092005d5 fs/bcachefs/chardev.c Kent Overstreet 2024-03-01  587  
+635c5791582a65e fs/bcachefs/chardev.c Kent Overstreet 2025-07-14  588  	return copy_to_user_errcode(user_arg, &arg, sizeof(arg));
+8863d1e092005d5 fs/bcachefs/chardev.c Kent Overstreet 2024-03-01  589  }
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
