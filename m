@@ -1,112 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A12E389E07
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 May 2026 18:09:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A53A6388E6E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 May 2026 18:53:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778782162; cv=none; b=VOfLoEcmTofJmqhAxlbkIG+U1eQX5ccjSiAm7/syfMWI73EZieltVq62pPY4xMQuzTSggPaIClWQnSCadV1cGM9Be5ogklTtDQul0kAFuM+YzuoI0znXVzIPk0VYS6tybkbz7LtIm1kQwOQ8o+RQvRseWtvUu0oUR6du+7qVdLA=
+	t=1778784802; cv=none; b=mF05KSPz5NxXzN3pKjJUG01gBVsTMHZ/Yq8Pte6rQBVEeTrUTM8cMv4eCgCLoN1VjbBKw6QGVxWj3SPaemMCL0grniGHscW/r0KB+mPHndnEqvYGFmGzsRZL8g+Vwit6i28GlaG2jj3QCyIfHRFuLVUXgn4/d9j/N+RN489aQG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778782162; c=relaxed/simple;
-	bh=rbSKM37u0zRXPYi5/fg/r5zklwf9wbrLlHx97TTSgGo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pe7rggpge7Lr/kgGHvfGEWPW54P9yHfLRBA09MHxw0YN3TBDwbVo6neUKs3w+IW73YceBmqeyM8mRp1cZWt95tc5T5LU+IQfKdTp9N4DOnUz+gCeA92pHlpctXDDCVmlZqs0ypLd7U/0p7UoJi6OERgcq2TM216uvNucj9eb6ZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kAVvHtBL; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1778784802; c=relaxed/simple;
+	bh=Ja3DFxFuB21esx6e5OEmK+ngFY6W5ymCAwcAME1jX4k=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=gKC9lBKjkobs3xLUxQw1AQSSGe+fygmitTFlWj47wu1kuUZy10jmey98XzMNoHRPjkNHyR1g2Ff+JKGXtr6hshHMEbGCeuJqKX9KVlbAmhFrDclMtfbK/e4UpjMIjFNo8T0tCaaLJ1l/d7qhGvhiErWgvw5rJ5J64Ui6Vds71xw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gXvjKRn9; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kAVvHtBL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gXvjKRn9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778782160; x=1810318160;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rbSKM37u0zRXPYi5/fg/r5zklwf9wbrLlHx97TTSgGo=;
-  b=kAVvHtBLh56x423O+2Zl7qT//GOaJdSQfQAvbaQydm6w1LCEIHZfXEl8
-   3XmLjiNSVur/c+ISlFoSaycCyr0wtBchh0EjD1JN1KlBRj4BJcS6UgkTm
-   ULhs6c3o2x9APJAlOsl963uPk31LgcMnS5lsHHRd+q+AbOwx/HUuLr3Tw
-   x1s7I3lqt4AW71Wo9pK2x1TqbL8i/SHLgHmrc1EZN/J72RbrGMKXJPoiT
-   VSihOVwxI+OnbAr0ZQaBP/pcc6Ru06kvG16mARLf4VXoQs2QqcTQfLesl
-   AKwn4MCzC5UnSb540ZSFeqJFpMt2ZcEKGzM6CIEPCuwu9g1C4OuWrHAcQ
-   w==;
-X-CSE-ConnectionGUID: qAVNfRHETo66mIX8LQAeKQ==
-X-CSE-MsgGUID: ML9g73xwRLuOZiFdx40rPA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="79905523"
+  t=1778784801; x=1810320801;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Ja3DFxFuB21esx6e5OEmK+ngFY6W5ymCAwcAME1jX4k=;
+  b=gXvjKRn9xcHWHYQ6K93xGobuQyq7XWHPAupo97NC+v8e8SJsycOrdzCK
+   yrefM2U55BeZD5A93r783WkuImCuR5/Jes8rKiBfuWPCIawd3xDJtN5SS
+   FcATklbMjaU+zr1xNr5cgHXyT17p2e4LLKjnx783RmmgfsX4Z803ADrVq
+   9UaaAXNmEL9ablOp0s1nzwuF3t3JWmdOwWmcde8t4TmHzvnwYiLp6o1cv
+   3fNjQSTzL6xmMa3KEmA6x/gVrr80dZjbbgtG05MPHXGjrg5EIDVdU4ZHA
+   213hFZhwZvXWfB7JxCMH7uECaxw03RcUw1EA6Qi+tp75LcqOjiDOsGGB9
+   A==;
+X-CSE-ConnectionGUID: XXBt0/x0SgWCYWIcMrAqEg==
+X-CSE-MsgGUID: MWcTDIx/TZuwPy+CSPXk6g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="83604849"
 X-IronPort-AV: E=Sophos;i="6.23,235,1770624000"; 
-   d="scan'208";a="79905523"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 11:09:20 -0700
-X-CSE-ConnectionGUID: WSdGSAIwQk6nUDuFec/zdg==
-X-CSE-MsgGUID: quE3Cu9yTUqFddmt8EaDnQ==
+   d="scan'208";a="83604849"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 11:53:21 -0700
+X-CSE-ConnectionGUID: tnstvXrQRImFKJLC7MUzOw==
+X-CSE-MsgGUID: rbORKmYNQoexvXGNDye2Uw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,235,1770624000"; 
-   d="scan'208";a="261979420"
+   d="scan'208";a="242466896"
 Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 14 May 2026 11:09:17 -0700
+  by orviesa003.jf.intel.com with ESMTP; 14 May 2026 11:53:19 -0700
 Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wNaUk-000000006uB-2Qcf;
-	Thu, 14 May 2026 18:09:14 +0000
-Date: Fri, 15 May 2026 02:09:03 +0800
+	id 1wNbBM-000000006wl-3SlX;
+	Thu, 14 May 2026 18:53:16 +0000
+Date: Fri, 15 May 2026 02:52:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rik van Riel <riel@surriel.com>, Thomas Gleixner <tglx@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>, x86@kernel.org,
-	linux-kernel@vger.kernel.org, kernel-team@meta.com,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Andy Lutomirski <luto@kernel.org>, Xin Li <xin@zytor.com>
-Subject: Re: [PATCH] x86/entry: Read CR2 in asm entry stub to redcue NMI
- clobbering window
-Message-ID: <202605150207.pvBEOHK3-lkp@intel.com>
-References: <20260513121259.0aae7adc@fangorn>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:intel-6.6-DMR-ISA-ANBZ35251 7/7]
+ mm/page_alloc.c:297:20: warning: 'add_to_free_list' declared 'static' but
+ never defined
+Message-ID: <202605150216.uSLaJApy-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260513121259.0aae7adc@fangorn>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Rik,
+Hi Johannes,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on tip/master]
-[also build test ERROR on tip/x86/asm tip/x86/core linus/master v7.1-rc3 next-20260508]
-[cannot apply to tip/auto-latest]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-DMR-ISA-A=
+NBZ35251
+head:   1b8b6044ea621040ede1783279f18a666da924a8
+commit: dce9170c150f27ea23a2a52e539cc02b6957b595 [7/7] mm: page_alloc: batc=
+h vmstat updates in expand()
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/2026051=
+5/202605150216.uSLaJApy-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260515/202605150216.uSLaJApy-lkp@intel.com/reproduce)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rik-van-Riel/x86-entry-Read-CR2-in-asm-entry-stub-to-redcue-NMI-clobbering-window/20260514-162554
-base:   tip/master
-patch link:    https://lore.kernel.org/r/20260513121259.0aae7adc%40fangorn
-patch subject: [PATCH] x86/entry: Read CR2 in asm entry stub to redcue NMI clobbering window
-config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20260515/202605150207.pvBEOHK3-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260515/202605150207.pvBEOHK3-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605150207.pvBEOHK3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605150216.uSLaJApy-lkp@i=
+ntel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/x86/include/asm/idtentry.h: Assembler messages:
->> arch/x86/include/asm/idtentry.h:627: Error: no such instruction: `idtentry_pf 14 asm_exc_page_fault exc_page_fault'
+>> mm/page_alloc.c:297:20: warning: 'add_to_free_list' declared 'static' bu=
+t never defined [-Wunused-function]
+     297 | static inline void add_to_free_list(struct page *page, struct zo=
+ne *zone,
+         |                    ^~~~~~~~~~~~~~~~
 
 
-vim +627 arch/x86/include/asm/idtentry.h
+vim +297 mm/page_alloc.c
 
-   623	
-   624	/* Raw exception entries which need extra work */
-   625	DECLARE_IDTENTRY_RAW(X86_TRAP_UD,		exc_invalid_op);
-   626	DECLARE_IDTENTRY_RAW(X86_TRAP_BP,		exc_int3);
- > 627	DECLARE_IDTENTRY_PF(X86_TRAP_PF,	exc_page_fault);
-   628	
+418508c13222ddb Miklos Szeredi     2007-05-23  292 =20
+dcdfdd40fa82b67 Kirill A. Shutemov 2023-06-06  293  static bool page_contai=
+ns_unaccepted(struct page *page, unsigned int order);
+dcdfdd40fa82b67 Kirill A. Shutemov 2023-06-06  294  static void accept_page=
+(struct page *page, unsigned int order);
+b77471c6760a22d Kirill A. Shutemov 2024-08-09  295  static bool cond_accept=
+_memory(struct zone *zone, unsigned int order);
+dcdfdd40fa82b67 Kirill A. Shutemov 2023-06-06  296  static bool __free_unac=
+cepted(struct page *page);
+8c8774fcbaf4763 Johannes Weiner    2024-03-20 @297  static inline void add_=
+to_free_list(struct page *page, struct zone *zone,
+8c8774fcbaf4763 Johannes Weiner    2024-03-20  298                         =
+             unsigned int order, int migratetype,
+8c8774fcbaf4763 Johannes Weiner    2024-03-20  299                         =
+             bool tail);
+dcdfdd40fa82b67 Kirill A. Shutemov 2023-06-06  300 =20
+
+:::::: The code at line 297 was first introduced by commit
+:::::: 8c8774fcbaf47634f07ee957e9cd9403f5e0ce2c mm: page_alloc: consolidate=
+ free page accounting
+
+:::::: TO: Johannes Weiner <hannes@cmpxchg.org>
+:::::: CC: =E5=B0=8F=E9=BE=99 <wenqing.ly@alibaba-inc.com>
 
 --
 0-DAY CI Kernel Test Service
