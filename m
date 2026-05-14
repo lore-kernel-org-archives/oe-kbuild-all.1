@@ -1,114 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 257E4346E4A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 May 2026 21:37:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8C7346E4A;
+	Thu, 14 May 2026 21:43:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778794673; cv=none; b=JjU0bp5/1PNb+tM2QroVy837tsqefxmDFTaS5WsyhssIe4WvwiQjNz7B5ZBeN/TJrrVgjd1ct/xiBfFbvULOwFbWlpn6hvzIYR4IQXPwSdjqD9DaVe4qdM9z7rQbph/I+js6ndn1gnoEFoAClIamxIA6TkM4ZpK+q1z55ynGtE4=
+	t=1778795031; cv=none; b=IQaWMsp5q5+wn6EvScZyYOyNdiseghjRLKJmL3VWy3Yb7drOAq+LZW7GboO1K9XgnX38jyGr5ZBHIHb35TGk5xjaRzNr6rhk4/Xw7Gx4ZKRKrugG+FWcgFWVtmjVP6iwE9dZs75/uNqhPumvMH6XFVdRD9QuUh5gnWX32OYV0po=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778794673; c=relaxed/simple;
-	bh=w1hhzXE+DD74DIYF+ubNIkcYEHesCf3LS4X+NZRyKlo=;
-	h=Date:From:Cc:Subject:Message-ID; b=rmq3AVPU/5aH5SBq9FO1TZK3nhgClT6n30kUJ6wHsYLV7PRxh6I7IzhoFkcoTHn20YwxKpFTWu6FPGFqT7DPG3DKM7GGIQNKhMKIG5OBYcDmbWzvOXJ3HT1fLRD/b/BA/gubLVjKJgyxfj/4Vw2PRngxpIUuZ00oOBcnFbmBSlM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DW2m8vwD; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1778795031; c=relaxed/simple;
+	bh=205Dg9+b13DcjQTMV0rTW+w1f2xOl+JJOBtYTKjYa6A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RIb3IsVe4Uku6Nd//sdjQnOg2J+8+rMGAi2+A8VIZVOtCLDmoYFHR8y+MwsrTAGbRbxnJs/BmdROW2zDJGpsFtKdbL9W/QpLX7p1QmRunS46+7yguF6NeOcrnNlmkpuw1epepAkXj3WOiOKyBN2J5F1z1R4f8UggIG16Z6ifrx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JFC7SNiE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DW2m8vwD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778794672; x=1810330672;
-  h=date:from:cc:subject:message-id;
-  bh=w1hhzXE+DD74DIYF+ubNIkcYEHesCf3LS4X+NZRyKlo=;
-  b=DW2m8vwDOBrbWnEtRIEUXjzqeai04ya4POrxbI4iSFGj0dEoU0juskr9
-   xm0INyf+YKr8xS7EgkRGaivWVZO+7jlenyJOrdoJ5ZOZJDrJMMpdHaygT
-   bsisH2shh0Q96Di8ZqhlZD4WQG7xtVpxab4XVM3nKD6BH/CjpDxl4Ot+7
-   EkkhNjzztblvYK4sMx2UzSsg8Srdq5Yv69lJfWS5YPUnIYPRbhGOPmvCG
-   841w0PTGqNk14PSc/hk85EZknBkUJa3WAtsptLqwOh1XJLl4aH0cODUAt
-   QbjwDkl0ZHVjUg7xX3CF0pciIHBuUKGULu+F4ZdXHOOEv/q6/9QMfYwwh
-   w==;
-X-CSE-ConnectionGUID: aN9OF7m2SByiNU7myu7eXA==
-X-CSE-MsgGUID: SUw/WfAAQg2rrKMav9m95g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="90055550"
-X-IronPort-AV: E=Sophos;i="6.23,235,1770624000"; 
-   d="scan'208";a="90055550"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 14:37:52 -0700
-X-CSE-ConnectionGUID: RkbkFnzaR6C4XsJAUfgmEw==
-X-CSE-MsgGUID: pFb01DlFRPG2odFL7dt+mg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,235,1770624000"; 
-   d="scan'208";a="262254229"
-Received: from lkp-server02.sh.intel.com (HELO 7a33ad3e7d27) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 14 May 2026 14:37:50 -0700
-Received: from kbuild by 7a33ad3e7d27 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wNdka-000000000Ab-0Kb5;
-	Thu, 14 May 2026 21:37:48 +0000
-Date: Fri, 15 May 2026 05:25:11 +0800
-From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/usb/dwc3/core.c:796:45: sparse: sparse: incorrect
- type in argument 1 (different address spaces)
-Message-ID: <202605150540.X43iAYqH-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JFC7SNiE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DF56C2BCB3;
+	Thu, 14 May 2026 21:43:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778795031;
+	bh=205Dg9+b13DcjQTMV0rTW+w1f2xOl+JJOBtYTKjYa6A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JFC7SNiE8UhhRnsLS0Ce0FMQV24ymQdI8Gk1BQHRRbrozaDAVLrUNELRnFM2BWeix
+	 gkD8A83rg3AXWBFpGAUJEKxYBwnKNUKHNfbDKI5VavH62uRdJPizbxGXO/FlNy5p8G
+	 4vHda2u9el0P5PPAxyZCjSsP03mTK5mxQVHn3nwWzhpSRQArsKJnXHIRiDjPbCJy7J
+	 Y8cSmyhy5lMfP6jhowY1TOr5Si/M+RhKyaGSngXjafGeAp8fUe9RHgcTW0D4dklO0R
+	 F8zkmRJXjvvC46DkDAkfaKHIUP1DPqmB0ko6y8w4j6efDbyWJ/1gHLIdHbipc7aCXF
+	 8qTUZW0sN98Tg==
+Date: Thu, 14 May 2026 14:43:50 -0700
+From: Minchan Kim <minchan@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	David Hildenbrand <david@kernel.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	mm-commits@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>
+Subject: Re: [akpm-mm:mm-new 301/315] mm/oom_kill.c:922:12: warning:
+ 'kill_all_shared_mm' defined but not used
+Message-ID: <agZCFll-lFLqabbJ@google.com>
+References: <202605131940.kEzvUaiR-lkp@intel.com>
+ <20260513102711.323fed51b7dbb1dfe6217b44@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260513102711.323fed51b7dbb1dfe6217b44@linux-foundation.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   66182ca873a4e87b3496eca79d57f86b76d7f52d
-commit: de6c925db978004703944585e9dd57d58aba0fac Merge 7.0-rc4 into usb-next
-date:   8 weeks ago
-config: i386-randconfig-063 (https://download.01.org/0day-ci/archive/20260515/202605150540.X43iAYqH-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260515/202605150540.X43iAYqH-lkp@intel.com/reproduce)
+On Wed, May 13, 2026 at 10:27:11AM -0700, Andrew Morton wrote:
+> On Wed, 13 May 2026 19:48:25 +0800 kernel test robot <lkp@intel.com> wrote:
+> 
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+> > head:   2c3f468717231305523ddcd94d91c0d5e4a72419
+> > commit: def36547cd98fa3f7ecac1bf860479f500bc6b1e [301/315] mm: process_mrelease: introduce PROCESS_MRELEASE_REAP_KILL flag
+> > config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20260513/202605131940.kEzvUaiR-lkp@intel.com/config)
+> > compiler: sh4-linux-gcc (GCC) 15.2.0
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260513/202605131940.kEzvUaiR-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202605131940.kEzvUaiR-lkp@intel.com/
+> > 
+> > All warnings (new ones prefixed by >>):
+> > 
+> > >> mm/oom_kill.c:922:12: warning: 'kill_all_shared_mm' defined but not used [-Wunused-function]
+> >      922 | static int kill_all_shared_mm(struct task_struct *victim, struct mm_struct *mm)
+> 
+> Thanks. I  did this:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Fixes: de6c925db978 ("Merge 7.0-rc4 into usb-next")
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605150540.X43iAYqH-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/usb/dwc3/core.c:796:45: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct dwc3 *dwc @@     got void [noderef] __iomem *regs @@
-   drivers/usb/dwc3/core.c:796:45: sparse:     expected struct dwc3 *dwc
-   drivers/usb/dwc3/core.c:796:45: sparse:     got void [noderef] __iomem *regs
-   drivers/usb/dwc3/core.c:798:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct dwc3 *dwc @@     got void [noderef] __iomem *regs @@
-   drivers/usb/dwc3/core.c:798:40: sparse:     expected struct dwc3 *dwc
-   drivers/usb/dwc3/core.c:798:40: sparse:     got void [noderef] __iomem *regs
-
-vim +796 drivers/usb/dwc3/core.c
-
-30a46746ca5a1ef Krishna Kurapati 2024-04-20  784  
-a28de6335657561 Ingo Rohloff     2026-03-05  785  static void dwc3_ulpi_setup(struct dwc3 *dwc)
-a28de6335657561 Ingo Rohloff     2026-03-05  786  {
-a28de6335657561 Ingo Rohloff     2026-03-05  787  	int index;
-a28de6335657561 Ingo Rohloff     2026-03-05  788  	u32 reg;
-a28de6335657561 Ingo Rohloff     2026-03-05  789  
-a28de6335657561 Ingo Rohloff     2026-03-05  790  	/* Don't do anything if there is no ULPI PHY */
-a28de6335657561 Ingo Rohloff     2026-03-05  791  	if (!dwc->ulpi)
-a28de6335657561 Ingo Rohloff     2026-03-05  792  		return;
-a28de6335657561 Ingo Rohloff     2026-03-05  793  
-a28de6335657561 Ingo Rohloff     2026-03-05  794  	if (dwc->enable_usb2_transceiver_delay) {
-a28de6335657561 Ingo Rohloff     2026-03-05  795  		for (index = 0; index < dwc->num_usb2_ports; index++) {
-a28de6335657561 Ingo Rohloff     2026-03-05 @796  			reg = dwc3_readl(dwc->regs, DWC3_GUSB2PHYCFG(index));
-a28de6335657561 Ingo Rohloff     2026-03-05  797  			reg |= DWC3_GUSB2PHYCFG_XCVRDLY;
-a28de6335657561 Ingo Rohloff     2026-03-05  798  			dwc3_writel(dwc->regs, DWC3_GUSB2PHYCFG(index), reg);
-a28de6335657561 Ingo Rohloff     2026-03-05  799  		}
-a28de6335657561 Ingo Rohloff     2026-03-05  800  	}
-a28de6335657561 Ingo Rohloff     2026-03-05  801  }
-a28de6335657561 Ingo Rohloff     2026-03-05  802  
-
-:::::: The code at line 796 was first introduced by commit
-:::::: a28de63356575612954d4e5d5f48a2488f50e16d usb: dwc3: Support USB3340x ULPI PHY high-speed negotiation.
-
-:::::: TO: Ingo Rohloff <ingo.rohloff@lauterbach.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thank you, Andrew.
