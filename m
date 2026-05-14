@@ -1,182 +1,122 @@
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A947133F5BF
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 May 2026 17:17:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C2738D01E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 May 2026 17:26:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778779056; cv=none; b=ImTiaklvm4WRlwuuxQ4d4GW5A5/bC0t5WZ/tZ3x4cDkrJ9SRYheZU2UeOJXNv6N4rRODYMUKZ93CMq43Ts3VffNQp9LaLEjvp8h9YkkDWNQBxROtVx9AmWorM/vY781AxMR4DF4LtZHMR3xtQZQhGiLl7ay0iw5tjX4dLWF3B3U=
+	t=1778779574; cv=none; b=TOmrGS5CjDAMwzA5MfTvTGRUUOsyTbGc3ED8sn+HknImCtQiC+mpkijeJfH3X70is9VWnulfd6jzSYs2Hz3JUBUA7Cev7oTheHrm4bo28IGHni31SiHXtQ+uMqEDtHjfdJGVg+VvN1XRxwX5MOJc7Jdo3o2Q0E1Q63bXdlFnKNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778779056; c=relaxed/simple;
-	bh=oRhC9ap/DPR+LRmOACS5BSfZvO0w8NpryTqtekTnKcg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=G3xhuq3LNwDRw1LiY/5skg4Fn9yeMbNUwLNAN4TZieCUQF6pODun+G3+JWsq0t1lUS9c3/WMDJXIsK+pvG1piMLdYKrx2mnO7pqIZ6YS9rXJv3RDzhxdHd924yolrY8rcaahEgaEAdURn4pnR3kDAo+LVUtzy00hT594A0EvzzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org; spf=pass smtp.mailfrom=shazbot.org; dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b=URyjX9Cb; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=TdIuaa6r; arc=none smtp.client-ip=103.168.172.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
+	s=arc-20240116; t=1778779574; c=relaxed/simple;
+	bh=GRrdsThfzQ6VffSH40Q1IYhiRHz1Rieb3eOWiroEqHI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=MCaZEqj20eJtH3DjOxLUM4AzQSP6DedtB4ff10rVSIaAcPzK7XfarstReIJAaRSvGgHusdzWMJI3EueigsoOeZwV6Qzf6UJo55PXWmgEffbVha8MjWaY5XkeAVWasmaxVcUzU8gKiSnUUUQZcls2oGVHXGO1FvngRKYPLd562uw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ab9xCMZY; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b="URyjX9Cb";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="TdIuaa6r"
-Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 04C871400126;
-	Thu, 14 May 2026 13:17:34 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-11.internal (MEProxy); Thu, 14 May 2026 13:17:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1778779054;
-	 x=1778865454; bh=PO56KD/Hrd384ZARZTR9tTuUmx9BraACvzCmjYWDAoE=; b=
-	URyjX9CbOXF3dH5H1BMyNctpglO9ILQ9pJT7wV8CCffrCa+y+lS040Kj+K2bkFdi
-	k7va9Uo8Lq/duhQKjwdgZt7IEonKk0+K1+E+8gEmXYQ2KrCXmPE0Z1F6BR3qYew3
-	YOmvl9nD2BfnreITpzn/2VPAlZeK60V0f+adYUUDN74pXue4ei4K8FMmIb1zr9sw
-	qf/RM9FUEcYntvJAfWSu3DwzY+GoOXRzBCNJmKgfxrOALma//mEeLEQ7E2vrsaJq
-	v0gzRes55MLihObG7S0u7mS/r6ccuu1xfXBlBYBpheybMfcOJaolIKoHMS32Zav+
-	x1WRWcdoPC1ufpNqzI/9Gg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778779054; x=
-	1778865454; bh=PO56KD/Hrd384ZARZTR9tTuUmx9BraACvzCmjYWDAoE=; b=T
-	dIuaa6rCGV+BgQ86sfPqUvs37OZv3VLY/xkpwTlpMUh0l0sCxJCuKguUxczxnXsu
-	bsHxFitwdrqyQpk93OnMrZC8cQtIwMd6IhL1TpeqePVXte+uUhKj0WqHRoyaBG08
-	8dWjbPD1OG6stu6DRTsy3B78rNlR8BOAnPIFoZYOKf5fErGR2Fud4HmzSlDq/A9+
-	O+hdKW5dsBNnoHpCgbJBGdLXSnLWZwSQFrfuwTc+7DTVp2b3aXrGhimnRtTzKd3L
-	vJLYeXCvx+r7VzV0+XWukZz1xCT0OWcLUDYvI5WWwQ7Yg6nawUcp5SAnX3wxj0+6
-	n6T19N8nFhxZ5C3x5IlBQ==
-X-ME-Sender: <xms:rQMGakIOhm3NtYkf3Z2ZrYKNYdjToKoenvEZzI5nEzumm-5TAPuQNQ>
-    <xme:rQMGalqIXPkjpHuJvFPrjNv5nOhZL3p1RWJ9lhyZzjl3xf1RakDQFowQ4hbBqWO1U
-    GXE2K-byvNhemp5XyuM3ycPPX-ftJGcM1zR-RovBOQcV5vSrAOpC58>
-X-ME-Received: <xmr:rQMGakyn9EKOJGWSp9u-edG42j0OTNuCD2wrNeUMVXQbRKtvR0DBa6jiYkI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduvdekuddtucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkjghfofggtgfgsehtjeertdertddvnecuhfhrohhmpeetlhgvgicu
-    hghilhhlihgrmhhsohhnuceorghlvgigsehshhgriigsohhtrdhorhhgqeenucggtffrrg
-    htthgvrhhnpeettdehhefguedtkedthfehvddtgeejffevvdeuvdeileffkeefffevhefh
-    tdejteenucffohhmrghinhepghhithhhuhgsrdgtohhmpddtuddrohhrghdpkhgvrhhnvg
-    hlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
-    mheprghlvgigsehshhgriigsohhtrdhorhhgpdhnsggprhgtphhtthhopeehpdhmohguvg
-    epshhmthhpohhuthdprhgtphhtthhopehlkhhpsehinhhtvghlrdgtohhmpdhrtghpthht
-    ohepmhgrthhtvghvsehmvghtrgdrtghomhdprhgtphhtthhopehovgdqkhgsuhhilhguqd
-    grlhhlsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepkhhvmhesvhhgvghr
-    rdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegrlhgvgiesshhhrgiisghothdrohhrgh
-X-ME-Proxy: <xmx:rQMGahPdhXYp4YgXE-ADBUnEojpOWqq48zHXO6HJXAnkLSlG77nJug>
-    <xmx:rQMGah57W1kJDKX3yB-lvtSle41j5QwZchLsenb1gHXfcxu2BwX3hQ>
-    <xmx:rQMGaimhqbcUyrJzzVblpcnDiUDYyvj2d1BSXwdIfs-rUWuIJLUieQ>
-    <xmx:rQMGaiTPkwKpng16eXFAs77jMXVkHGU9KMNfPeqwV0yHLCkvS3QkWQ>
-    <xmx:rgMGamWzF-9R7po88eAlzGoQ15DD15LwVlyf6b5inCClY0DCWOEQzZQ1>
-Feedback-ID: i03f14258:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 14 May 2026 13:17:32 -0400 (EDT)
-Date: Thu, 14 May 2026 11:17:31 -0600
-From: Alex Williamson <alex@shazbot.org>
-To: Matt Evans <mattev@meta.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
- kvm@vger.kernel.org, alex@shazbot.org
-Subject: Re: [awilliam-vfio:for-linus 3/4]
- drivers/vfio/pci/vfio_pci_core.c:499:35: sparse: sparse: incorrect type in
- assignment (different address spaces)
-Message-ID: <20260514111731.5ef8faa4@shazbot.org>
-In-Reply-To: <202605150023.lXFibOM0-lkp@intel.com>
-References: <202605150023.lXFibOM0-lkp@intel.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ab9xCMZY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778779573; x=1810315573;
+  h=date:from:to:cc:subject:message-id;
+  bh=GRrdsThfzQ6VffSH40Q1IYhiRHz1Rieb3eOWiroEqHI=;
+  b=Ab9xCMZYXSeOSOxT5aZI7LSnxvwINRyC00zOgDIllJpuICYSwsSL290K
+   aOpzvaYfSXT2LCYDVW3zUjagIQ29RkSzdDCwdNicPchQaN1zjX7Qnpx/Y
+   qaXyD/w5PorqqBtfwSStEhmz99ZQXZh3FNiR0VX9S0luN9Xr7stNdH2jk
+   SUixYS9oVR9w2Nbn75/zvb21xliPQdBfAK0IG3omTdxoHwJrmpce2wkMs
+   7b93N61kIDVfkoKK8N9xbw95ri5brdcZSgh7yuqbjfR3a+GukfsPNrJwd
+   RAw02b8bIW+MFo33eafpETN4KkxamtmsLTbZSR0dn5ZQn2BLvJHYr0Maf
+   A==;
+X-CSE-ConnectionGUID: egK1KKb9QZyBHA/rDCSWcA==
+X-CSE-MsgGUID: rCUx3Ip/Q4CaEudiERq8Fw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="97156666"
+X-IronPort-AV: E=Sophos;i="6.23,235,1770624000"; 
+   d="scan'208";a="97156666"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 10:26:12 -0700
+X-CSE-ConnectionGUID: W7taK1YpQ9SWIQLoyhY9Eg==
+X-CSE-MsgGUID: /ztQQzCkSpqJoWOBoP9vcg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,235,1770624000"; 
+   d="scan'208";a="262195356"
+Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 14 May 2026 10:26:11 -0700
+Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wNZp3-000000006qZ-0CIv;
+	Thu, 14 May 2026 17:26:09 +0000
+Date: Fri, 15 May 2026 01:25:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:7.1-rc 24/154]
+ drivers/net/pcs/pcs-airoha.c:2581:2: warning: unannotated fall-through
+ between switch labels
+Message-ID: <202605150118.EvBKjvNb-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Fri, 15 May 2026 00:39:50 +0800
-kernel test robot <lkp@intel.com> wrote:
+tree:   https://github.com/frank-w/BPI-R2-4.14 7.1-rc
+head:   767536110bfe28c94ae2e150c083d29f827655cf
+commit: 94c584377495cc10276b1eab98802d2ba437099b [24/154] net: pcs: airoha: add PCS driver for Airoha SoC
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260515/202605150118.EvBKjvNb-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260515/202605150118.EvBKjvNb-lkp@intel.com/reproduce)
 
-> tree:   https://github.com/awilliam/linux-vfio.git for-linus
-> head:   a8a3ce989a94db08f77968a4e75b34eaa6d40c9a
-> commit: a975fd177726e110f30b561dd0707b78f21ffe66 [3/4] vfio/pci: Set up BAR resources and maps in vfio_pci_core_enable()
-> config: parisc-randconfig-r134-20260514 (https://download.01.org/0day-ci/archive/20260515/202605150023.lXFibOM0-lkp@intel.com/config)
-> compiler: hppa-linux-gcc (GCC) 8.5.0
-> sparse: v0.6.5-rc1
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260515/202605150023.lXFibOM0-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202605150023.lXFibOM0-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
->    drivers/vfio/pci/vfio_pci_core.c:274:33: sparse: sparse: restricted pci_power_t degrades to integer
->    drivers/vfio/pci/vfio_pci_core.c:274:41: sparse: sparse: restricted pci_power_t degrades to integer
->    drivers/vfio/pci/vfio_pci_core.c:278:25: sparse: sparse: restricted pci_power_t degrades to integer
->    drivers/vfio/pci/vfio_pci_core.c:278:43: sparse: sparse: restricted pci_power_t degrades to integer
->    drivers/vfio/pci/vfio_pci_core.c:278:56: sparse: sparse: restricted pci_power_t degrades to integer
->    drivers/vfio/pci/vfio_pci_core.c:278:65: sparse: sparse: restricted pci_power_t degrades to integer
->    drivers/vfio/pci/vfio_pci_core.c:283:25: sparse: sparse: restricted pci_power_t degrades to integer
->    drivers/vfio/pci/vfio_pci_core.c:283:44: sparse: sparse: restricted pci_power_t degrades to integer
->    drivers/vfio/pci/vfio_pci_core.c:283:57: sparse: sparse: restricted pci_power_t degrades to integer
->    drivers/vfio/pci/vfio_pci_core.c:283:66: sparse: sparse: restricted pci_power_t degrades to integer
->    drivers/vfio/pci/vfio_pci_core.c:291:39: sparse: sparse: restricted pci_power_t degrades to integer
->    drivers/vfio/pci/vfio_pci_core.c:291:58: sparse: sparse: restricted pci_power_t degrades to integer
-> >> drivers/vfio/pci/vfio_pci_core.c:499:35: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@  
->    drivers/vfio/pci/vfio_pci_core.c:499:35: sparse:     expected void [noderef] __iomem *
->    drivers/vfio/pci/vfio_pci_core.c:499:35: sparse:     got void *
->    drivers/vfio/pci/vfio_pci_core.c:506:43: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
->    drivers/vfio/pci/vfio_pci_core.c:506:43: sparse:     expected void [noderef] __iomem *
->    drivers/vfio/pci/vfio_pci_core.c:506:43: sparse:     got void *
->    drivers/vfio/pci/vfio_pci_core.c:514:43: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
->    drivers/vfio/pci/vfio_pci_core.c:514:43: sparse:     expected void [noderef] __iomem *
->    drivers/vfio/pci/vfio_pci_core.c:514:43: sparse:     got void *
->    drivers/vfio/pci/vfio_pci_core.c:1736:9: sparse: sparse: cast from restricted vm_fault_t
-> 
-> vim +499 drivers/vfio/pci/vfio_pci_core.c
-> 
->    484	
->    485	/*
->    486	 * Eager-request BAR resources, and iomap them.  Soft failures are
->    487	 * allowed, and consumers must check the barmap before use in order to
->    488	 * give compatible user-visible behaviour with the previous on-demand
->    489	 * allocation method.
->    490	 */
->    491	static void vfio_pci_core_map_bars(struct vfio_pci_core_device *vdev)
->    492	{
->    493		struct pci_dev *pdev = vdev->pdev;
->    494		int i;
->    495	
->    496		for (i = 0; i < PCI_STD_NUM_BARS; i++) {
->    497			int bar = i + PCI_STD_RESOURCES;
->    498	
->  > 499			vdev->barmap[bar] = ERR_PTR(-ENODEV);  
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605150118.EvBKjvNb-lkp@intel.com/
 
-I think we just need to convert these three ERR_PTR()s to
-IOMEM_ERR_PTR().  Agree?  I can fix it in the branch.  Thanks,
+All warnings (new ones prefixed by >>):
 
-Alex
+>> drivers/net/pcs/pcs-airoha.c:2581:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+    2581 |         default:
+         |         ^
+   drivers/net/pcs/pcs-airoha.c:2581:2: note: insert '__attribute__((fallthrough));' to silence this warning
+    2581 |         default:
+         |         ^
+         |         __attribute__((fallthrough)); 
+   drivers/net/pcs/pcs-airoha.c:2581:2: note: insert 'break;' to avoid fall-through
+    2581 |         default:
+         |         ^
+         |         break; 
+   1 warning generated.
 
->    500	
->    501			if (!pci_resource_len(pdev, i))
->    502				continue;
->    503	
->    504			if (pci_request_selected_regions(pdev, 1 << bar, "vfio")) {
->    505				pci_dbg(pdev, "Failed to reserve region %d\n", bar);
->    506				vdev->barmap[bar] = ERR_PTR(-EBUSY);
->    507				continue;
->    508			}
->    509	
->    510			vdev->barmap[bar] = pci_iomap(pdev, bar, 0);
->    511			if (!vdev->barmap[bar]) {
->    512				pci_dbg(pdev, "Failed to iomap region %d\n", bar);
->    513				pci_release_selected_regions(pdev, 1 << bar);
->    514				vdev->barmap[bar] = ERR_PTR(-ENOMEM);
->    515			}
->    516		}
->    517	}
->    518	
-> 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
 
+vim +2581 drivers/net/pcs/pcs-airoha.c
+
+  2560	
+  2561	static void airoha_pcs_an_restart(struct phylink_pcs *pcs)
+  2562	{
+  2563		struct airoha_pcs_priv *priv = phylink_pcs_to_airoha_pcs_port(pcs);
+  2564	
+  2565		switch (priv->interface) {
+  2566		case PHY_INTERFACE_MODE_SGMII:
+  2567		case PHY_INTERFACE_MODE_1000BASEX:
+  2568		case PHY_INTERFACE_MODE_2500BASEX:
+  2569			regmap_set_bits(priv->hsgmii_an, AIROHA_PCS_HSGMII_AN_SGMII_REG_AN_0,
+  2570					AIROHA_PCS_HSGMII_AN_SGMII_AN_RESTART);
+  2571			udelay(3);
+  2572			regmap_clear_bits(priv->hsgmii_an, AIROHA_PCS_HSGMII_AN_SGMII_REG_AN_0,
+  2573					  AIROHA_PCS_HSGMII_AN_SGMII_AN_RESTART);
+  2574			break;
+  2575		case PHY_INTERFACE_MODE_USXGMII:
+  2576			regmap_set_bits(priv->usxgmii_pcs, AIROHA_PCS_USXGMII_PCS_AN_CONTROL_0,
+  2577					AIROHA_PCS_USXGMII_AN_RESTART);
+  2578			udelay(3);
+  2579			regmap_clear_bits(priv->usxgmii_pcs, AIROHA_PCS_USXGMII_PCS_AN_CONTROL_0,
+  2580					  AIROHA_PCS_USXGMII_AN_RESTART);
+> 2581		default:
+  2582			return;
+  2583		}
+  2584	}
+  2585	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
