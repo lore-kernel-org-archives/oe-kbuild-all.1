@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF113C2782;
-	Thu, 14 May 2026 12:41:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0DE3296BCC
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 May 2026 12:51:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778762508; cv=none; b=f6NRZAi+yL+nTK0YI5URWIBCKJXke6NT96Ehls2+ortbAXKT0sjfE40U5fcg/jx9VtavQ21UNitbXxX559AaqBTq11PEVEp1Ze68Dh5BpcGymBtK5TAA1Uc9MpqQ68niOddu+WuTCeU9o5wlI5H4qJkySPROwlwx7Nu+wuz2n8k=
+	t=1778763065; cv=none; b=oJUG2qpx5KM4mwYC++EXEIMHYCtpDCiUIAxRxSpa0oRNLbQgUfisluwIV68OgbnFSg/IhszxMojkk/ek2S0QhGam5PNk8Ogzc1AabvU9PweGwYO5TEEDVCQwpEtaeSzXC9InKtOCrNJ2eemg9JRNtNyFu7ZdiGWCg0CyhbvcVMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778762508; c=relaxed/simple;
-	bh=25NpyjhihkjnjfBEZ4UrFPPenXKS+aRuqNSYcNUwzzc=;
+	s=arc-20240116; t=1778763065; c=relaxed/simple;
+	bh=T6e1Sy8/8NgyzN/WXbmfEYNcRDAnhEjQBXWZGy3LDwE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eWBAo8eRpFvq/lCXU8YVhCdKfvoKs8305ElMlGz7uQ3t7YrbziW7aHzVd04WqJFjWgeSPkeYQwb9yYKzE1ylug24OsIfW4+ApoF0CBuSEql+yAu1VzVo8f2UAdTVCF9sLllfsB+KniYlf6JVKxPw4gJndxUKADD2sdmp65Gd7Yc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iJyIG+xa; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=WlTA3mwxoFlsOdY5fY+KgcFLFFUpumH6MZxOd08d4jI0eavrIrwSQwfLJdO7lZRzIMFvvKxomOtYZEfSFW6Jhl5L2va5ruA5Qbq/xm/pGdOXTUGtwSUSMIT5BDn4jxqQ6swgSor1AZgbdaVP9Pf8lLqYB0P2/uxiWsZl8FLKR1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j45x8lE0; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iJyIG+xa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j45x8lE0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778762507; x=1810298507;
+  t=1778763064; x=1810299064;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=25NpyjhihkjnjfBEZ4UrFPPenXKS+aRuqNSYcNUwzzc=;
-  b=iJyIG+xa3goTsdzPqWayhC/rrol3P7mjYLm9QFvIrc++YkHg8fInEzV8
-   sBwllCAAF97TUXzikeaf27bl/MR1YnaSo+wOGkvMwdmcaDt1FxIpVVSdP
-   +q3iqk/G7w4rgtMLOIIYEpWKF0P/55oz2X6jTV/guoDSnOC4gGXn7or7o
-   5s64vUPpBMypMznzK3WCVo8/50Ao+AX4ARHb/UXtibLOJwS4mWKtc2EO7
-   SCV/1iHxXI9QjjOZO5j0LJ4p3XugqgB7M3qFps2GmxEqIVrzzvF9Mm32/
-   EvQ9ba8MKlJnfwc943taZMxDv/z7Ld9m47t96qnywyA4+j8NQdE4rrWUw
-   Q==;
-X-CSE-ConnectionGUID: hqhkXGZPQhuY5QuJuNGeIQ==
-X-CSE-MsgGUID: 8I6vkYRPRGKba83h6gspbg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="79739288"
+  bh=T6e1Sy8/8NgyzN/WXbmfEYNcRDAnhEjQBXWZGy3LDwE=;
+  b=j45x8lE0t8GVbQZrlylp2KdE47FG4oTEmrXKxuRCdCvCEdFnPwz0+ITd
+   bEj8YCyxn1T+sOHNY1NihIjW7f92iFVN7BnCxqxxLAl320FvM42HXbKJd
+   A2GzdHTMPAP2hSLuhrYAAgBGUAz5z+k/nuTsZ+Wvokv9JmCIhPGHCiUJ6
+   AfZ3VCrzzzsPHS8fSShuB94zN+1M+iou0RVGyr28FjuQrxOtPT+Xp86dp
+   9WRHt2YsrBOuxTeGSfwT9xV3+1/2bsGONN9FjvFPLuzbxl4XVpYp2gPLX
+   kL7z1WMEsNa34YZ/4nPqiOC1nFlWvbvwrfZQxgMD5JYiwilVS5WcmDbKx
+   A==;
+X-CSE-ConnectionGUID: ggjnzEyuTBSCmO11rcvLDg==
+X-CSE-MsgGUID: QJbEcbEKQp6x9vxfEJI8eQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="90806963"
 X-IronPort-AV: E=Sophos;i="6.23,234,1770624000"; 
-   d="scan'208";a="79739288"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 05:41:46 -0700
-X-CSE-ConnectionGUID: Xs8nQIwQQYySesratsHSfQ==
-X-CSE-MsgGUID: Mzvk1JA+QeW9+EPrCo23FQ==
+   d="scan'208";a="90806963"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 05:51:03 -0700
+X-CSE-ConnectionGUID: OoEm0waPTuODUxq408AFCA==
+X-CSE-MsgGUID: pz6o/H9EThWOPESAHnbf6A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,234,1770624000"; 
-   d="scan'208";a="238625133"
-Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 14 May 2026 05:41:44 -0700
-Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 14 May 2026 05:50:58 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wNVNm-000000006YN-0yIZ;
-	Thu, 14 May 2026 12:41:42 +0000
-Date: Thu, 14 May 2026 20:41:27 +0800
+	id 1wNVWi-000000008ob-0WmY;
+	Thu, 14 May 2026 12:50:56 +0000
+Date: Thu, 14 May 2026 14:50:17 +0200
 From: kernel test robot <lkp@intel.com>
-To: Andrew Murray <amurray@thegoodpenguin.co.uk>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC] printk: remove BOOT_PRINTK_DELAY
-Message-ID: <202605142053.5rExqXop-lkp@intel.com>
-References: <20260505-printk_delay-v1-1-5dba51d7f17c@thegoodpenguin.co.uk>
+To: Hans Zhang <18255117159@163.com>, bhelgaas@google.com,
+	lpieralisi@kernel.org, kwilczynski@kernel.org, mani@kernel.org,
+	vigneshr@ti.com, jingoohan1@gmail.com, thomas.petazzoni@bootlin.com,
+	pali@kernel.org, ryder.lee@mediatek.com, jianjun.wang@mediatek.com,
+	claudiu.beznea.uj@bp.renesas.com, mpillai@cadence.com
+Cc: oe-kbuild-all@lists.linux.dev, robh@kernel.org, s-vadapalli@ti.com,
+	linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Hans Zhang <18255117159@163.com>
+Subject: Re: [PATCH v2 8/8] PCI: rzg3s-host: Add 100 ms delay after link
+ training
+Message-ID: <202605141445.2Ag4i8fZ-lkp@intel.com>
+References: <20260506152346.166056-9-18255117159@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,41 +69,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260505-printk_delay-v1-1-5dba51d7f17c@thegoodpenguin.co.uk>
+In-Reply-To: <20260506152346.166056-9-18255117159@163.com>
 
-Hi Andrew,
+Hi Hans,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 7fd2df204f342fc17d1a0bfcd474b24232fb0f32]
+[auto build test WARNING on a293ec25d59dd96309058c70df5a4dd0f889a1e4]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrew-Murray/printk-remove-BOOT_PRINTK_DELAY/20260514-132813
-base:   7fd2df204f342fc17d1a0bfcd474b24232fb0f32
-patch link:    https://lore.kernel.org/r/20260505-printk_delay-v1-1-5dba51d7f17c%40thegoodpenguin.co.uk
-patch subject: [PATCH RFC] printk: remove BOOT_PRINTK_DELAY
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20260514/202605142053.5rExqXop-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605142053.5rExqXop-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Hans-Zhang/PCI-Add-pcie_wait_after_link_train-helper/20260514-132815
+base:   a293ec25d59dd96309058c70df5a4dd0f889a1e4
+patch link:    https://lore.kernel.org/r/20260506152346.166056-9-18255117159%40163.com
+patch subject: [PATCH v2 8/8] PCI: rzg3s-host: Add 100 ms delay after link training
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260514/202605141445.2Ag4i8fZ-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605141445.2Ag4i8fZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605142053.5rExqXop-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605141445.2Ag4i8fZ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/printk/sysctl.c:11:18: warning: unused variable 'ten_thousand' [-Wunused-const-variable]
-      11 | static const int ten_thousand = 10000;
-         |                  ^~~~~~~~~~~~
-   1 warning generated.
+   In file included from drivers/pci/hotplug/pciehp_ctrl.c:24:
+   drivers/pci/hotplug/../pci.h: In function 'pcie_wait_after_link_train':
+   drivers/pci/hotplug/../pci.h:73:17: error: implicit declaration of function 'msleep' [-Wimplicit-function-declaration]
+      73 |                 msleep(PCIE_RESET_CONFIG_WAIT_MS);
+         |                 ^~~~~~
+   In file included from drivers/pci/hotplug/pciehp.h:21,
+                    from drivers/pci/hotplug/pciehp_ctrl.c:25:
+   include/linux/delay.h: At top level:
+>> include/linux/delay.h:61:6: warning: conflicting types for 'msleep'; have 'void(unsigned int)'
+      61 | void msleep(unsigned int msecs);
+         |      ^~~~~~
+   drivers/pci/hotplug/../pci.h:73:17: note: previous implicit declaration of 'msleep' with type 'void(unsigned int)'
+      73 |                 msleep(PCIE_RESET_CONFIG_WAIT_MS);
+         |                 ^~~~~~
 
 
-vim +/ten_thousand +11 kernel/printk/sysctl.c
+vim +61 include/linux/delay.h
 
-faaa357a55e034 Xiaoming Ni 2022-01-21  10  
-faaa357a55e034 Xiaoming Ni 2022-01-21 @11  static const int ten_thousand = 10000;
-faaa357a55e034 Xiaoming Ni 2022-01-21  12  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  56  
+f3f3149f35b919 Alok Kataria     2008-06-23  57  extern unsigned long lpj_fine;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  58  void calibrate_delay(void);
+ad1a48301f659a Arnd Bergmann    2023-05-17  59  unsigned long calibrate_delay_is_known(void);
+8496ecd0bed4c7 Valdis Kletnieks 2019-03-07  60  void __attribute__((weak)) calibration_delay_done(void);
+^1da177e4c3f41 Linus Torvalds   2005-04-16 @61  void msleep(unsigned int msecs);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  62  unsigned long msleep_interruptible(unsigned int msecs);
+e4779015fd5d2f SeongJae Park    2021-12-10  63  void usleep_range_state(unsigned long min, unsigned long max,
+e4779015fd5d2f SeongJae Park    2021-12-10  64  			unsigned int state);
+e4779015fd5d2f SeongJae Park    2021-12-10  65  
 
 --
 0-DAY CI Kernel Test Service
