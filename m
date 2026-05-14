@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E8EC345740
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 May 2026 03:21:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44AFD3A3E81
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 May 2026 03:34:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778728905; cv=none; b=XbxXdtEgoyik3VMNGWAOVqEx7OFhUi/y94Zz/qWV07oarAIZqjvtjjCU17DyRKjIoVtZllPHfldn/VQHo6rRcR9JNLbQFaWSCS8fvVcXxn/AGGp2LKbmc1d2ktkarX7eTUkJpyWsjPs9urtYGgTFhw1o/GA8B1ZS5WjR8GqY0nk=
+	t=1778729675; cv=none; b=G0dierO269gL74oHH9IWGrpdNmhssS196BAIb9t681w+uzJVkLwlqVAwYHnQVeEWMuQ2hS+p2zoUmCPAEhGYIwtZXL2v6q3KuVAy0PlOPI39aYdTXuQGEE0F0Hc9m3DA1nbWUAqgAl+QYJYJqk7txQVTTjbtC4ZQfP0bKYo82mQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778728905; c=relaxed/simple;
-	bh=5R0g6qUZdqeJscnktqaMOsyNf0Z8uBUSj0nQCR+jgV0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KpdOfZAbfXyt/RRESF3v3KNf5fqGzYToMTuPYqCvoo2bv5/K5WikgIiq5eveXTx/+cQzRKO3ktoUbQ8O2Qt37ORcT3eVtIEJ0b81WZLb4HXdwKDRJVV31Z+e4gydeTF145zUIZ9yvSTe+0xFVDLaXzp28hX26ebAj18DFymAj5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KamiG4h+; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1778729675; c=relaxed/simple;
+	bh=UiDDyluWsv8L9ropL6Th68YBLwMOyqud9D5hGTqIus8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sm35if0qMoGNbi3i9kFfs0JpqRZqZMO/5QYf8kINut9xXSKdIuuZXD4dCJ0i+Vr0jExpu2v0vsL91pjmcvfig3aJh0Z5Xlj6jW5ldVjH5VzAVt4PFj6TF/3HBMPZPig6vQuaGgJRlGyZkTyz7qBkZ4a0t3JZFUqOp6eEVPiBoV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dij+up+y; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KamiG4h+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dij+up+y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778728894; x=1810264894;
+  t=1778729673; x=1810265673;
   h=date:from:to:cc:subject:message-id;
-  bh=5R0g6qUZdqeJscnktqaMOsyNf0Z8uBUSj0nQCR+jgV0=;
-  b=KamiG4h+fae1j1lvZQWcOcA3UlXpl5FHhWyHhdQzAfriFb1owGSzj3Ug
-   GPsJJYFtCZYRXvB3kCwrM3RCf/C6LLGCsxjtceSzRlQGhx97biD37VpBB
-   GJvSVYtTwB4P9l1xzlt8cjehEFRnKRRoDHHOHJZzLv4TzuZ0DLcKdZOgl
-   hUWZxfZG2ADiIkNnkAip7ICDSG+9tsDqKXHdQE+GPhpuzMCSXpytJjizc
-   1sZGJ97LkJ3B9nIIZM5IPLPKYaI3XuBnGveieVJZywW1whoFH69UQhmNg
-   bgW9VJIt1b1gj/h9Poj470cQBsSDzhwChUGgkvQXRilt4lNoKmDFbXXiQ
-   Q==;
-X-CSE-ConnectionGUID: KNMN1LfjRtCCfL3GWG9u/Q==
-X-CSE-MsgGUID: E3fJtC3/RnyK5yQNW3SnVw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="79380545"
+  bh=UiDDyluWsv8L9ropL6Th68YBLwMOyqud9D5hGTqIus8=;
+  b=dij+up+ya2b4RW6MzyuDPX+EaTgbavV/5qxYHCFo2RDmwKrukotyCYBy
+   mI66JnZfzZXpdxKvoa8EI/Q42qHJxKimPm4FoDMKui9lenpfAv7009KKa
+   Nl4maevPi+S+k3hP5COdNAmccdglAeWyGN+i2kaRTzzUpc3wfi94dqT95
+   AZw5JUr62O9oko9jo2y7LZxLkCMB9v6QDCYJErEdBePBE0FbFShPqyYHf
+   40vD/UExERQmYyrhrmtmfJWxOLDmNZ0IlVOXoWBhkHt2TxyjwgjolJiFx
+   8TGNp/vrwAmkXAQmPfy+q/v0pOwq+Mlao0onnsgVYJQ8544J/Sw1UjErX
+   w==;
+X-CSE-ConnectionGUID: gxHkbU9RQvScGzfgqj2n4Q==
+X-CSE-MsgGUID: JUz1Xa1BTyCr2EcLE3TiQQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="79648527"
 X-IronPort-AV: E=Sophos;i="6.23,234,1770624000"; 
-   d="scan'208";a="79380545"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 20:21:30 -0700
-X-CSE-ConnectionGUID: GaT/K6goTv6lMvgXjY+16A==
-X-CSE-MsgGUID: V7nlbkClRcqMklO9B+2a9g==
+   d="scan'208";a="79648527"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 20:34:33 -0700
+X-CSE-ConnectionGUID: NDlHr+POT6qR+9VGNXaBDQ==
+X-CSE-MsgGUID: 4Xrx/4ioSOe1u0JfX8WYXA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
-   d="scan'208";a="237284359"
+X-IronPort-AV: E=Sophos;i="6.23,234,1770624000"; 
+   d="scan'208";a="242598644"
 Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 13 May 2026 20:21:27 -0700
+  by orviesa004.jf.intel.com with ESMTP; 13 May 2026 20:34:31 -0700
 Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wNMdY-000000005jv-37ad;
-	Thu, 14 May 2026 03:21:24 +0000
-Date: Thu, 14 May 2026 11:20:40 +0800
+	id 1wNMqC-000000005kj-1rg2;
+	Thu, 14 May 2026 03:34:28 +0000
+Date: Thu, 14 May 2026 11:33:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Chang S. Bae" <chang.seok.bae@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
- Farrah Chen <farrah.chen@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: [kvm:queue 4/24] arch/x86/kvm/vmx/vmenter.S:98: Error:
- invalid operands (*UND* and *ABS* sections) for `*'
-Message-ID: <202605141102.53Vk824r-lkp@intel.com>
+To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev, Paul Moore <paul@paul-moore.com>
+Subject: [linuxsecuritymodule:next 7/11]
+ security/hornet/hornet_lsm.c:78:33: warning: comparison of distinct pointer
+ types ('const struct file_operations *' and 'void (*)(struct bpf_map *)')
+Message-ID: <202605141142.p1dckBny-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,88 +60,125 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Chang,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-head:   2b5e4245e1d31fd0858bb7abbd82af85a6457c33
-commit: d1d1534a7ef4694a6a7b079c80e661dd66d04e9c [4/24] KVM: VMX: Macrofy GPR swapping in __vmx_vcpu_run()
-config: i386-buildonly-randconfig-001-20260514 (https://download.01.org/0day-ci/archive/20260514/202605141102.53Vk824r-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605141102.53Vk824r-lkp@intel.com/reproduce)
+tree:   https://github.com/LinuxSecurityModule/kernel next
+head:   7cd0da3c29d22e2a8dcbc995b12199bc3d2704a8
+commit: c62310df81899f7e14d632271aba08d0a55e2318 [7/11] lsm: introduce the Hornet LSM
+config: riscv-randconfig-r133-20260514 (https://download.01.org/0day-ci/archive/20260514/202605141142.p1dckBny-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605141142.p1dckBny-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605141102.53Vk824r-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605141142.p1dckBny-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/x86/kvm/vmx/vmenter.S: Assembler messages:
->> arch/x86/kvm/vmx/vmenter.S:98: Error: invalid operands (*UND* and *ABS* sections) for `*'
->> arch/x86/kvm/vmx/vmenter.S:98: Error: invalid operands (*UND* and *ABS* sections) for `*'
->> arch/x86/kvm/vmx/vmenter.S:98: Error: invalid operands (*UND* and *ABS* sections) for `*'
->> arch/x86/kvm/vmx/vmenter.S:98: Error: invalid operands (*UND* and *ABS* sections) for `*'
->> arch/x86/kvm/vmx/vmenter.S:98: Error: invalid operands (*UND* and *ABS* sections) for `*'
->> arch/x86/kvm/vmx/vmenter.S:98: Error: invalid operands (*UND* and *ABS* sections) for `*'
-   arch/x86/kvm/vmx/vmenter.S:105: Error: invalid operands (*UND* and *ABS* sections) for `*'
-   arch/x86/kvm/vmx/vmenter.S:164: Error: invalid operands (*UND* and *ABS* sections) for `*'
-   arch/x86/kvm/vmx/vmenter.S:164: Error: invalid operands (*UND* and *ABS* sections) for `*'
-   arch/x86/kvm/vmx/vmenter.S:164: Error: invalid operands (*UND* and *ABS* sections) for `*'
-   arch/x86/kvm/vmx/vmenter.S:164: Error: invalid operands (*UND* and *ABS* sections) for `*'
-   arch/x86/kvm/vmx/vmenter.S:164: Error: invalid operands (*UND* and *ABS* sections) for `*'
-   arch/x86/kvm/vmx/vmenter.S:164: Error: invalid operands (*UND* and *ABS* sections) for `*'
-   arch/x86/kvm/vmx/vmenter.S:166: Error: invalid operands (*UND* and *ABS* sections) for `*'
+   security/hornet/hornet_lsm.c:78:37: error: use of undeclared identifier 'bpf_map_fops'; did you mean 'bpf_map_put'?
+      78 |                 if (unlikely(fd_file(f)->f_op != &bpf_map_fops))
+         |                                                   ^~~~~~~~~~~~
+         |                                                   bpf_map_put
+   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/bpf.h:3291:20: note: 'bpf_map_put' declared here
+    3291 | static inline void bpf_map_put(struct bpf_map *map)
+         |                    ^
+>> security/hornet/hornet_lsm.c:78:33: warning: comparison of distinct pointer types ('const struct file_operations *' and 'void (*)(struct bpf_map *)') [-Wcompare-distinct-pointer-types]
+      78 |                 if (unlikely(fd_file(f)->f_op != &bpf_map_fops))
+         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   security/hornet/hornet_lsm.c:256:9: error: call to undeclared function 'security_bpf_prog_load_post_integrity'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     256 |         return security_bpf_prog_load_post_integrity(prog, attr, token, is_kernel,
+         |                ^
+   security/hornet/hornet_lsm.c:256:9: note: did you mean 'hornet_bpf_prog_load_integrity'?
+   security/hornet/hornet_lsm.c:247:12: note: 'hornet_bpf_prog_load_integrity' declared here
+     247 | static int hornet_bpf_prog_load_integrity(struct bpf_prog *prog, union bpf_attr *attr,
+         |            ^
+     248 |                                           struct bpf_token *token, bool is_kernel)
+     249 | {
+     250 |         enum lsm_integrity_verdict verdict;
+     251 |         int result = hornet_check_program(prog, attr, token, is_kernel, &verdict);
+     252 | 
+     253 |         if (result < 0)
+     254 |                 return result;
+     255 | 
+     256 |         return security_bpf_prog_load_post_integrity(prog, attr, token, is_kernel,
+         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                hornet_bpf_prog_load_integrity
+   security/hornet/hornet_lsm.c:273:27: error: use of undeclared identifier 'bpf_prog_fops'
+     273 |         if (fd_file(f)->f_op != &bpf_prog_fops)
+         |                                  ^~~~~~~~~~~~~
+   security/hornet/hornet_lsm.c:337:16: error: no member named 'bpf_prog_load_integrity' in 'struct lsm_static_calls_table'
+     337 |         LSM_HOOK_INIT(bpf_prog_load_integrity, hornet_bpf_prog_load_integrity),
+         |         ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lsm_hooks.h:139:32: note: expanded from macro 'LSM_HOOK_INIT'
+     139 |                 .scalls = static_calls_table.NAME,      \
+         |                           ~~~~~~~~~~~~~~~~~~ ^
+   security/hornet/hornet_lsm.c:338:16: error: no member named 'bpf' in 'struct lsm_static_calls_table'
+     338 |         LSM_HOOK_INIT(bpf, hornet_bpf),
+         |         ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+   include/linux/lsm_hooks.h:139:32: note: expanded from macro 'LSM_HOOK_INIT'
+     139 |                 .scalls = static_calls_table.NAME,      \
+         |                           ~~~~~~~~~~~~~~~~~~ ^
+   1 warning and 5 errors generated.
 
 
-vim +98 arch/x86/kvm/vmx/vmenter.S
+vim +78 security/hornet/hornet_lsm.c
 
-    88	
-    89		/*
-    90		 * Since vmentry is serializing on affected CPUs, there's no need for
-    91		 * an LFENCE to stop speculation from skipping the wrmsr.
-    92		 */
-    93	
-    94		/*
-    95		 * Load guest registers.  Don't clobber flags. Intentionally omit
-    96		 * %_ASM_SP as it's context switched by hardware
-    97		 */
-  > 98		LOAD_REGS %_ASM_DI, VMX_vcpu_arch_regs, \
-    99			  %_ASM_AX, %_ASM_CX, %_ASM_DX, %_ASM_BX, %_ASM_BP, %_ASM_SI
-   100	#ifdef CONFIG_X86_64
-   101		LOAD_REGS %_ASM_DI, VMX_vcpu_arch_regs, \
-   102			  %r8, %r9, %r10, %r11, %r12, %r13, %r14, %r15
-   103	#endif
-   104		/* Load guest RDI.  This kills the @vmx pointer! */
-   105		LOAD_REGS %_ASM_DI, VMX_vcpu_arch_regs, %_ASM_DI
-   106	
-   107		/*
-   108		 * Note, ALTERNATIVE_2 works in reverse order.  If CLEAR_CPU_BUF_VM is
-   109		 * enabled, do VERW unconditionally.  If CPU_BUF_VM_MMIO is enabled,
-   110		 * check @flags to see if the vCPU has access to host MMIO, and if so,
-   111		 * do VERW.  Else, do nothing (no mitigations needed/enabled).
-   112		 */
-   113		ALTERNATIVE_2 "",									  \
-   114			      __stringify(testl $KVM_ENTER_CLEAR_CPU_BUFFERS_FOR_MMIO, (%_ASM_SP);	  \
-   115					  jz .Lskip_mmio_verw;						  \
-   116					  VERW;								  \
-   117					  .Lskip_mmio_verw:),					  	  \
-   118			      X86_FEATURE_CLEAR_CPU_BUF_VM_MMIO,					  \
-   119			      __stringify(VERW), X86_FEATURE_CLEAR_CPU_BUF_VM
-   120	
-   121		/* Check @flags to see if VMLAUNCH or VMRESUME is needed. */
-   122		testl $KVM_ENTER_VMRESUME, (%_ASM_SP)
-   123		jz .Lvmlaunch
-   124	
-   125		/*
-   126		 * After a successful VMRESUME/VMLAUNCH, control flow "magically"
-   127		 * resumes below at 'vmx_vmexit' due to the VMCS HOST_RIP setting.
-   128		 * So this isn't a typical function and objtool needs to be told to
-   129		 * save the unwind state here and restore it below.
-   130		 */
-   131		UNWIND_HINT_SAVE
-   132	
+    53	
+    54	static int hornet_verify_hashes(struct hornet_maps *maps,
+    55					struct hornet_parse_context *ctx,
+    56					struct bpf_prog *prog)
+    57	{
+    58		int map_fd;
+    59		u32 i;
+    60		struct bpf_map *map;
+    61		int err = 0;
+    62		unsigned char hash[SHA256_DIGEST_SIZE];
+    63		struct hornet_prog_security_struct *security = hornet_bpf_prog_security(prog);
+    64	
+    65		for (i = 0; i < ctx->hash_count; i++) {
+    66			if (ctx->skips[i])
+    67				continue;
+    68	
+    69			err = copy_from_bpfptr_offset(&map_fd, maps->fd_array,
+    70						      ctx->indexes[i] * sizeof(map_fd),
+    71						      sizeof(map_fd));
+    72			if (err != 0)
+    73				return LSM_INT_VERDICT_FAULT;
+    74	
+    75			CLASS(fd, f)(map_fd);
+    76			if (fd_empty(f))
+    77				return LSM_INT_VERDICT_FAULT;
+  > 78			if (unlikely(fd_file(f)->f_op != &bpf_map_fops))
+    79				return LSM_INT_VERDICT_FAULT;
+    80	
+    81			map = fd_file(f)->private_data;
+    82			if (!READ_ONCE(map->frozen))
+    83				return LSM_INT_VERDICT_FAULT;
+    84	
+    85			if (!map->ops->map_get_hash)
+    86				return LSM_INT_VERDICT_FAULT;
+    87	
+    88			if (map->ops->map_get_hash(map, SHA256_DIGEST_SIZE, hash))
+    89				return LSM_INT_VERDICT_FAULT;
+    90	
+    91			err = memcmp(hash, &ctx->hashes[i * SHA256_DIGEST_SIZE],
+    92				      SHA256_DIGEST_SIZE);
+    93			if (err)
+    94				return LSM_INT_VERDICT_UNEXPECTED;
+    95	
+    96			memcpy(&security->signed_hashes[security->signed_hash_count * SHA256_DIGEST_SIZE],
+    97			       &ctx->hashes[i * SHA256_DIGEST_SIZE], SHA256_DIGEST_SIZE);
+    98			security->signed_hash_count++;
+    99		}
+   100		return LSM_INT_VERDICT_OK;
+   101	}
+   102	
 
 --
 0-DAY CI Kernel Test Service
