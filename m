@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE4D1F03D9;
-	Thu, 14 May 2026 01:58:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 948C1202963
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 May 2026 02:25:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778723935; cv=none; b=B4Y6aCzJzJPq0blZcPs1EgdKFQ0SLWMdvN8pWX6tC0PthTqE8xLtPn6bNSDXE6GOFks8QkBHy9cYHAL+ZLMmqOn3t+O6VC1gGijDDLKPjJUC3m8oiPdc+iTP0UGm0/zNOwjWHkqkSK5sf02j7+JPJlymHG7LwZLxTBRzZDQ2oQA=
+	t=1778725523; cv=none; b=IWY9OrdsC6QYccoR7KoDYar7NhXarSAFnzwq4bspu40e7JEzuy6tKMVsEqkMtQlRL+pSv/NxelnjnhOq5q8tzbtNan+/kYUWRlpjlMc6LpoNMpQw2sGRr27YP9vF3foqvv6PqzObLa2zo8RjEDvVMJ/uslyF1n5ff1EKLtZbqRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778723935; c=relaxed/simple;
-	bh=B2DScK+iOpbCC0mL6eoPg2zHuEaTeT2CBT7qCiWfrEs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=FNJgpC1rSDV/Z4BOK+S9Xbs8nH22NDr5Gf6xqLff3dvW9cdIVzR+PsB1sJ+VyK/NDj976ZjTZuMwaQIGlKKxscZ4gEvyHovFbICfy6Fxh/31CX/ZQGluVHwXKdT1nj5MJo2MAlanj6mVGBif1o3k+VwqtUQvTaunlcUcxMHcUyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SpynfqFQ; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1778725523; c=relaxed/simple;
+	bh=fBTtNBNnhjnKg3JyxU/qupnIYkb9ochle2fgoJsNjhs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=u++n03ttdh39whBf0NEDxKQubHG4dOLzakik7Bh5yoHsbAA88LQYIGSLqfw2XKkAZjpzLNl8Tl6TXXcVDMAM5zY+z6aagUwqidCL2zif2XEWuxMZKSQi6EnxQsBqYppwH3bNfeJ/ZQ1gzh8mjHcaibx+rSg26+E8qDcxcKyXMpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iRRXiCl7; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SpynfqFQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iRRXiCl7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778723935; x=1810259935;
+  t=1778725521; x=1810261521;
   h=date:from:to:cc:subject:message-id;
-  bh=B2DScK+iOpbCC0mL6eoPg2zHuEaTeT2CBT7qCiWfrEs=;
-  b=SpynfqFQtFYcJLO8gp9J1aCrbYg1r8d30RdnsOmdzbowCLr5BD9UTJVY
-   CcPERV8zfRA+7C2bPn+JkCAgezXyuoGu9r72JnGBcIoJToQqC5nBfb4XF
-   yRVocqHZSwfYEeOg9JVkiFJLYKSMWqmqHh5sgdN8h/mkABdJQlwGgG4W/
-   3bXPLlfbsDzJlgJJKb2rmqMEBtZexjiCuI4NDR4bFl/G4L4L2wGcmmgQr
-   Yl7uJO04jHUyksLW8QP9cgokdCi/QTbQJARpi4Z9vfqmYzx0UQiZRjAFH
-   ZYtjiKVLT063gU0oEZe6KzrHYUn0anH5ab6oe+FrFzWcDl7ZEDXUWdyrY
-   A==;
-X-CSE-ConnectionGUID: Un5CQ30+QIiCK1vN4sWZ2g==
-X-CSE-MsgGUID: NI2V5IYTTImhxRZ8V5Hv3w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="79375515"
+  bh=fBTtNBNnhjnKg3JyxU/qupnIYkb9ochle2fgoJsNjhs=;
+  b=iRRXiCl7jYr0uPRlwBgoQYCo8v/H8l+dJrsNy0QL9giMLgAMFMs36bB9
+   QAuJKNnATo66h7dT/BJwXtgpLAE7f9xW3Ute5zrqwKCGA/Z24GHqlKzn1
+   pbmDcfZ+zQj9KXOQ1lvfuJcNoq6KQiGQxA5UaTxVDYZ2OM9Q97mFYmUcA
+   bAGlbtYDb6zsthNBNh5ss9KYE/tEXvmhRjkcg9CpexIEeU/g2CAKcftUv
+   mpUlIwnbKsMImGryQJdCngEu1AM2IXDgzSL+dXBSp1B6BtJWUuXl6Lq/P
+   ErAROZWyUIHxv0DnE2lOim7pnNFPldMKc6t9am0Pr24Vt2V2UJOs/uI7W
+   g==;
+X-CSE-ConnectionGUID: Mc3ztRUGR22dAsKdeQOCeQ==
+X-CSE-MsgGUID: vnUAHNpYTf6uL6EUoKoFSA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="79781476"
 X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
-   d="scan'208";a="79375515"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 18:58:54 -0700
-X-CSE-ConnectionGUID: f6jEYOI7RzahMhB/j0UEag==
-X-CSE-MsgGUID: sZZ+KEbtT7etGhF5in6KAw==
+   d="scan'208";a="79781476"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 19:25:21 -0700
+X-CSE-ConnectionGUID: 3PA/1QYJRaqADLBVI0Gn2w==
+X-CSE-MsgGUID: PD+zKVxrS+aUkaEoe3Ch7Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
-   d="scan'208";a="237267496"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 13 May 2026 18:58:52 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="243217554"
+Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 13 May 2026 19:25:19 -0700
+Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wNLLd-000000008ib-2tbe;
-	Thu, 14 May 2026 01:58:49 +0000
-Date: Thu, 14 May 2026 03:58:38 +0200
+	id 1wNLlF-000000005fT-036N;
+	Thu, 14 May 2026 02:25:17 +0000
+Date: Thu, 14 May 2026 10:25:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [groeck-staging:hwmon-next 26/29]
- include/linux/hwmon.h:498:26: error: expected identifier
-Message-ID: <202605140350.0bONp1Mf-lkp@intel.com>
+To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev, Paul Moore <paul@paul-moore.com>
+Subject: [linuxsecuritymodule:next 11/11] Warning:
+ security/ipe/eval.c:334 Cannot find identifier on line:
+Message-ID: <202605141037.VVorBhvP-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,44 +59,28 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-head:   7fb80897aad0a4da2e8ce77ac54af988605aae39
-commit: aa3ec1484bdd619e8fa2ce569ec653d35fbf3615 [26/29] hwmon: Support guard() and scoped_guard for subsystem locks
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260514/202605140350.0bONp1Mf-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605140350.0bONp1Mf-lkp@intel.com/reproduce)
+tree:   https://github.com/LinuxSecurityModule/kernel next
+head:   7cd0da3c29d22e2a8dcbc995b12199bc3d2704a8
+commit: 7cd0da3c29d22e2a8dcbc995b12199bc3d2704a8 [11/11] ipe: Add BPF program load policy enforcement via Hornet integration
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260514/202605141037.VVorBhvP-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605141037.VVorBhvP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605140350.0bONp1Mf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605141037.VVorBhvP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/thermal/thermal_hwmon.c:15:
->> include/linux/hwmon.h:498:26: error: expected identifier
-     498 | DEFINE_GUARD(hwmon_lock, struct device *, hwmon_lock(_T), hwmon_unlock(_T))
-         |                          ^
->> include/linux/hwmon.h:498:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-     498 | DEFINE_GUARD(hwmon_lock, struct device *, hwmon_lock(_T), hwmon_unlock(_T))
-         | ^
-         | int
->> include/linux/hwmon.h:498:13: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
-     498 | DEFINE_GUARD(hwmon_lock, struct device *, hwmon_lock(_T), hwmon_unlock(_T))
-         |             ^                                                             
-         |                                                                           void
->> include/linux/hwmon.h:498:76: error: expected ';' after top level declarator
-     498 | DEFINE_GUARD(hwmon_lock, struct device *, hwmon_lock(_T), hwmon_unlock(_T))
-         |                                                                            ^
-         |                                                                            ;
-   4 errors generated.
-
-
-vim +498 include/linux/hwmon.h
-
-   497	
- > 498	DEFINE_GUARD(hwmon_lock, struct device *, hwmon_lock(_T), hwmon_unlock(_T))
-   499	
+>> Warning: security/ipe/eval.c:334 Cannot find identifier on line:
+    * @ctx: Supplies a pointer to the context to be evaluated.
+   Warning: security/ipe/eval.c:335 Cannot find identifier on line:
+    * @p: Supplies a pointer to the property to be evaluated.
+   Warning: security/ipe/eval.c:336 Cannot find identifier on line:
+    *
+>> Warning: security/ipe/eval.c:337 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * This function Determines whether the specified @ctx
 
 --
 0-DAY CI Kernel Test Service
