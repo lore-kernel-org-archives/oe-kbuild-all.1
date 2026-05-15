@@ -1,60 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B57633EEACF
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7A083EF66B
 	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 May 2026 22:23:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778883834; cv=none; b=qn9lD/brUKrFQ4B1SGgo8ErqNoZJ4P2XOTL3QjA7xKfQA0yGXVDodD7jdzKoZyImtN2zaBMp12wCCYYdc41hppkH8GEw513MForCrHOPulSHdCEJgRF6xMTzF6RWtrHtgEOHvNz0WNVOFLHh57kpzronb1zUAHcT9sN/yf5uBIk=
+	t=1778883835; cv=none; b=Qc3cYJgvS/pnDUWiGgYTuYDJUWrpndgArus6JY+MMAd4gjySO6TGTc8qI/KXPHXlQLY97YNjhcmw1Gz3/UcJQEYyfUZzBqJ49T464ZTMi4mkLk5C6Kg8xCmAzRyLWmoaurDce9KkJwtdWNdL0vo8XEXq/wlbpZjfNta4l7+WLc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778883834; c=relaxed/simple;
-	bh=xBJS6KsO6ufvDaGXp48UK16rDCQHX1HIGv0SJor/9Ho=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KMFzmbxaaJ8NM2p4lPhOry7Js2PjMIznUh9QCaP91i/brGhKyPv9fDqNIZylE6l7QoftOF71naoqgONldl9Gy7R2rFOuM3AMOKN5ErauNk0nm99DpTVXl9AeucZ/W7v+6O71W6QsipI+ToXh3SVhJFfP40rKKgHDHlP2ir8BpTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eY9KE1Wx; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1778883835; c=relaxed/simple;
+	bh=dW+1G7Hhxyv+6WnD3BeDyN8NgKyH2/SEdKg4Krwg0zM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=eT971MYnSLg70tlwGna98B9XbOZk8RODvrcm0Y4KaqkuMReI6jAoB4tJ4wr7VtreCWLaHq5Qc/Y1d9xWr+v+kuoMgI5v04VxIq2ZXgiv6P+7ppsNkJ5zyAv/jGMkw4hrk568l8pVpsQbO57iOUnQlwC1Z/gx+46ObiNphGHFQxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Os/IW7A8; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eY9KE1Wx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Os/IW7A8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778883834; x=1810419834;
+  t=1778883833; x=1810419833;
   h=date:from:to:cc:subject:message-id;
-  bh=xBJS6KsO6ufvDaGXp48UK16rDCQHX1HIGv0SJor/9Ho=;
-  b=eY9KE1Wx9iX7q+ycy+/Xg3bPL1GhkHmJNQ6EhqWkxuq2JPSa8ztz/Uzn
-   EJoqTOkKWE3IXvJFkILGprpFkK2RgU056CBblIXbV+Mg7JBuBFFawRFJ+
-   2kMc/AL+KHJQIMCQALiAlRBrkBJtj7ip6QwjEUMw1tS1E5uocJ2VktA2x
-   T42UUVb4pd1mJxgsBmZ4RyG0fwG5BR6OEr3naxPT3mBwJ5GOdk9zjbZvO
-   sna6VFj53qx7t/ihpWGQElGCcZ4YWDrTjBMctE0DRHaGm6RA26zf/+AEz
-   ewYJmOqBFpVN+ZCyZhLugwPoSg+HyZ4m/Z8lxNjor2vVQu2ljxW1BLh8r
-   A==;
-X-CSE-ConnectionGUID: AHi9JFjPT1W5l+YXV9EQzw==
-X-CSE-MsgGUID: KGlaXuU4Q7u9p7pQcQNeHA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="79737290"
+  bh=dW+1G7Hhxyv+6WnD3BeDyN8NgKyH2/SEdKg4Krwg0zM=;
+  b=Os/IW7A8Nqx4SY6XkSv927y5OU4TApT84zow5HQ1kt4MBdSjZOKs3WTV
+   DaZTUm0wAVQXaSIFjvX4wkaoqKltZudBRZE7fGYW+kO2VE8hQy6zHxn/t
+   CcqMRMEX77O0wpD9heSszwkRxud/L7hOTgJP+U6qm2zCckwPBQ2s1Ig4n
+   gQQq6q98l5HogKJwxGhXCxqbYwa+VHP5XoeQnZBxvmUbEcmWeRXhiSvdH
+   soetIWPHRFSa9zKraGAp4+zqFgi7SegcxoF2iTyXivspahB+veg3Yvt3d
+   QF1wBD7aWvDG6AikLjSrqPG6PPLo3QaHA9pLpLTOm/8h+Ptzo2+tWj/BL
+   w==;
+X-CSE-ConnectionGUID: OVH/dFbpSCmJm7rrW5eIQQ==
+X-CSE-MsgGUID: Bl3ohw7bTRaoxN/306upwQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="83459628"
 X-IronPort-AV: E=Sophos;i="6.23,237,1770624000"; 
-   d="scan'208";a="79737290"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 15:23:53 -0700
-X-CSE-ConnectionGUID: YWRo7NR0THCotbSq8owERQ==
-X-CSE-MsgGUID: T6y9YE+ERpaIHok8I0vgCw==
+   d="scan'208";a="83459628"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 15:23:51 -0700
+X-CSE-ConnectionGUID: otq5iO6OSDq5ihGPR5rrlA==
+X-CSE-MsgGUID: kmquwie6S3+7ecYWUtNflQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,237,1770624000"; 
-   d="scan'208";a="243787357"
+   d="scan'208";a="238934018"
 Received: from lkp-server01.sh.intel.com (HELO d94e5e629b2d) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 15 May 2026 15:23:51 -0700
+  by orviesa009.jf.intel.com with ESMTP; 15 May 2026 15:23:51 -0700
 Received: from kbuild by d94e5e629b2d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wO0we-000000000A9-2XYO;
+	id 1wO0we-000000000A1-28TV;
 	Fri, 15 May 2026 22:23:48 +0000
-Date: Sat, 16 May 2026 06:23:23 +0800
+Date: Sat, 16 May 2026 06:23:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- "Chun-Kuang Hu" <chunkuang.hu@kernel.org>, CK Hu <ck.hu@mediatek.com>,
- "Louis-Alexis Eyraud" <louisalexis.eyraud@collabora.com>
-Subject: drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:384:24: sparse:
- sparse: symbol 'mtk_hdmi_ddc_v2_driver' was not declared. Should it be
- static?
-Message-ID: <202605160625.YbQZbGyz-lkp@intel.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jlayton:kdevops 6/7] fs/nfsd/nfsctl.c:2469:1: warning:
+ label 'out' defined but not used
+Message-ID: <202605160606.osC9p2ZA-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,38 +59,38 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d458a240344c4369bf6f3da203f2779515177738
-commit: 8d0f798862731c62b09e7138a9032964d70566c2 drm/mediatek: Introduce HDMI/DDC v2 for MT8195/MT8188
-date:   6 months ago
-config: openrisc-randconfig-r132-20260516 (https://download.01.org/0day-ci/archive/20260516/202605160625.YbQZbGyz-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.4.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260516/202605160625.YbQZbGyz-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git kdevops
+head:   32078d4509258ed0a8083fd51e4da9525663c611
+commit: 97de12fd081f4f4883c2b529338d815425bda778 [6/7] nfsd: implement server-stats-get netlink handler
+config: parisc-defconfig (https://download.01.org/0day-ci/archive/20260516/202605160606.osC9p2ZA-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260516/202605160606.osC9p2ZA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 8d0f79886273 ("drm/mediatek: Introduce HDMI/DDC v2 for MT8195/MT8188")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605160625.YbQZbGyz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605160606.osC9p2ZA-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:384:24: sparse: sparse: symbol 'mtk_hdmi_ddc_v2_driver' was not declared. Should it be static?
---
->> drivers/gpu/drm/mediatek/mtk_hdmi_v2.c:53:12: sparse: sparse: symbol 'mtk_hdmi_v2_clk_names' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/mtk_hdmi_ddc_v2_driver +384 drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c
+   fs/nfsd/nfsctl.c: In function 'nfsd_nl_server_stats_get_dumpit':
+>> fs/nfsd/nfsctl.c:2469:1: warning: label 'out' defined but not used [-Wunused-label]
+    2469 | out:
+         | ^~~
 
-   383	
- > 384	struct platform_driver mtk_hdmi_ddc_v2_driver = {
-   385		.probe = mtk_hdmi_ddc_v2_probe,
-   386		.driver = {
-   387			.name = "mediatek-hdmi-ddc-v2",
-   388			.of_match_table = mtk_hdmi_ddc_v2_match,
-   389		},
-   390	};
-   391	module_platform_driver(mtk_hdmi_ddc_v2_driver);
-   392	
+
+vim +/out +2469 fs/nfsd/nfsctl.c
+
+  2467	
+  2468		cb->args[0] = -1;
+> 2469	out:
+  2470		return skb->len;
+  2471	
+  2472	err_cancel:
+  2473		genlmsg_cancel(skb, hdr);
+  2474		return ret;
+  2475	}
+  2476	
 
 --
 0-DAY CI Kernel Test Service
