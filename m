@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09FBD1DF261;
-	Fri, 15 May 2026 22:23:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F9E139E184
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 May 2026 22:23:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778883800; cv=none; b=UjkNtA0dc8Op+vxegwUqRK5HHpXea89+wOHaHKg7RGhKZyYaHNXjXDAVyf5wqAIkcJTzX7uKpZBg1VF4bIFWuWzuRp6ve8jAjJz7geLcvRlnogU27Ol1mXxXhZfNuhIaO3MeYheS/PxLchm655V/phY3wXIUqr0WFcr1lnKGOg4=
+	t=1778883833; cv=none; b=Dk0/BPrS3R66cwOmuUo+bfpESb+jGDX5Cg7vybjfm3lBD8t3FBjY34taryJJdcJD9zccSt6D1EPSUmOTLuk9Xk2as+V65qi4p/0FsYCZ4opVvL4OH4dXWXQNK6FFEqHZWIVfbiBxpSwtWqrMJcBVuhCd/E5NA2gpNK+f4KI2d2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778883800; c=relaxed/simple;
-	bh=kjbm9EC+Bbml0P4CtRJRFEaot9e4ulFhOYbjW5PG5Jw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=E1cvc1EvW7LBMOMmef6URGgpPJOz0niFBHo3huM1u3YVaB4EXGtdPwc1hEAjdogachhYNWVONCI0zFiYECsgwkQRcaGhfROzVosJnpPz5CdBbJtF7dQrn3vZPLlWXeVdTn4U0QnNgCOphI2eiBJ4ylGgcpS5VPszxekkotIb7/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hEnpt/Tl; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1778883833; c=relaxed/simple;
+	bh=Qvvt1a/t6+yE6sqcjWcnv/liUDb36quZg/ZHIGqVsX8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=pZ9mBeUl9xjBcBJkVEnqt23Kt1jmf076UDtLP+x25MGRCGximPRda0dKSk/ksUn8K1OvwJieyxa579EgWCMEf1bB+Y3jsWSroC5EvGpYC6gQmC/urWVmiCP9hMftGp+PnzVRsmQmbWB9lAhRXqaFVd/G4VWhO4UYim6nVxiP/7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UIb2+wwh; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hEnpt/Tl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UIb2+wwh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778883799; x=1810419799;
+  t=1778883833; x=1810419833;
   h=date:from:to:cc:subject:message-id;
-  bh=kjbm9EC+Bbml0P4CtRJRFEaot9e4ulFhOYbjW5PG5Jw=;
-  b=hEnpt/Tl3NkZU5en1zuu9FQ9Mns2b6QU7BJ9SmhfNa4MWa4g0dCIzxBF
-   ywwn4JP7BdnuFChAWH2ULeMxj+9AxVEhM97AOQdKnkHgF6kA1P8kdnuaq
-   bhXxHfvYNHd2oqas9JnCBYAZUU9GJzHfrLur7V8N/kXBXflB2S4SVtiQQ
-   xboLbBHx7Sb0raq3AEtZ9mseMUQqLCcu6rJ785vuhhk62D2lHIZjzMXOo
-   xtWSYpCf4g+GFa+d8y/Ch3AdrM95yBtQiGK3XbsvatMFOhzBqe6hfvuff
-   E26lHD5YyUS3QtBLHfT8x2HwzK73XZgSAgiEusJbVZvLG7+SA0vVZJZjB
-   w==;
-X-CSE-ConnectionGUID: yqPqcOfESt6bT0tHheX/zA==
-X-CSE-MsgGUID: 0dekBK98SweP2Sy1HVBEew==
-X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="78981463"
+  bh=Qvvt1a/t6+yE6sqcjWcnv/liUDb36quZg/ZHIGqVsX8=;
+  b=UIb2+wwhKjbnrymKvriORYfE6l3Ts+n2ZetUZMepHGldgRG2Y8ay6ZUb
+   7eoC3vYe9nN0S2M2zniJ8KAg4/VpaPJPjvR3QxQLC1NRHI2WCyU8YKa1p
+   BlcPpfrWNEm20ZVA+zVW883uPJ3vqPN5uloyPBZ3W3BxT4YeW4mXUl2ZD
+   9Jx3tB1yvBRfqP+b8PDmNSV10Pu52HiSgTXUPKwQEmxLtis5RKcx6P5n2
+   QKFfVWSgRY6NDaalkTuorCjluszXxOMra81wRhiIEk7w5Ks4h/niODYUk
+   PHJuSEXeUllwmBz4aq4j8FQ2f5Q+GK7sUJoCOTFfDHzMOqNJ2kAzZYAV3
+   g==;
+X-CSE-ConnectionGUID: UEyHMpLPR1ulWewfaHv9lA==
+X-CSE-MsgGUID: 81YsAF+qQ1GCv00YRg6TZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="79737288"
 X-IronPort-AV: E=Sophos;i="6.23,237,1770624000"; 
-   d="scan'208";a="78981463"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 15:23:18 -0700
-X-CSE-ConnectionGUID: n1Bwb9TnStmLx3W64ywznQ==
-X-CSE-MsgGUID: 91nG32HDSWOcEtbY7T4E5g==
+   d="scan'208";a="79737288"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 15:23:52 -0700
+X-CSE-ConnectionGUID: 0hdIDMh7RvyWqrMB5LaLIg==
+X-CSE-MsgGUID: s83fqd8LQsOL/jI/2Me6qw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,237,1770624000"; 
-   d="scan'208";a="262573054"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 15 May 2026 15:23:16 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="243787354"
+Received: from lkp-server01.sh.intel.com (HELO d94e5e629b2d) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 15 May 2026 15:23:51 -0700
+Received: from kbuild by d94e5e629b2d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wO0w6-0000000097B-2uzP;
-	Fri, 15 May 2026 22:23:14 +0000
-Date: Sat, 16 May 2026 00:22:23 +0200
+	id 1wO0we-0000000009z-20sf;
+	Fri, 15 May 2026 22:23:48 +0000
+Date: Sat, 16 May 2026 06:23:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kairui Song <kasong@tencent.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- 0day robot <lkp@intel.com>, Youngjun Park <youngjun.park@lge.com>
-Subject: mm/swapfile.c:453:6: warning: unused variable 'ret'
-Message-ID: <202605160059.RigLlGEw-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-sp 1/1]
+ kernel/trace/trace_events.c:2807:6: warning: no previous prototype for
+ 'remove_event_from_tracers'
+Message-ID: <202605160607.pSTEcSVp-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,53 +60,52 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Kairui-Song-via-B4-Relay/mm-swap-simplify-swap-cache-allocation-helper/20260515-182232
-head:   0c9b851d54d8858aefdd082f59e488eeaa4c6f6f
-commit: 0c9b851d54d8858aefdd082f59e488eeaa4c6f6f mm, swap: merge zeromap into swap table
-date:   12 hours ago
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260516/202605160059.RigLlGEw-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260516/202605160059.RigLlGEw-lkp@intel.com/reproduce)
+Hi Alice,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12-sp
+head:   f815f5cffc922b8894200a0522dcb04211c469ec
+commit: 43c26111cafa87d81570c63d96c497e13ec883da [1/1] ANDROID: binder: unload C Binder trace events
+config: arm64-randconfig-003-20260516 (https://download.01.org/0day-ci/archive/20260516/202605160607.pSTEcSVp-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260516/202605160607.pSTEcSVp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605160059.RigLlGEw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605160607.pSTEcSVp-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/swapfile.c:453:6: warning: unused variable 'ret' [-Wunused-variable]
-     453 |         int ret = 0;
-         |             ^~~
-   1 warning generated.
+>> kernel/trace/trace_events.c:2807:6: warning: no previous prototype for 'remove_event_from_tracers' [-Wmissing-prototypes]
+    2807 | void remove_event_from_tracers(struct trace_event_call *call)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/ret +453 mm/swapfile.c
+vim +/remove_event_from_tracers +2807 kernel/trace/trace_events.c
 
-16dc0672038592 Kairui Song 2026-05-15  448  
-16dc0672038592 Kairui Song 2026-05-15  449  static int swap_cluster_alloc_table(struct swap_cluster_info *ci, gfp_t gfp)
-16dc0672038592 Kairui Song 2026-05-15  450  {
-16dc0672038592 Kairui Song 2026-05-15  451  	struct swap_table *table = NULL;
-16dc0672038592 Kairui Song 2026-05-15  452  	struct folio *folio;
-d029b4aa29fcfc Kairui Song 2026-05-15 @453  	int ret = 0;
-16dc0672038592 Kairui Song 2026-05-15  454  
-16dc0672038592 Kairui Song 2026-05-15  455  	/* The cluster must be empty and not on any list during allocation. */
-16dc0672038592 Kairui Song 2026-05-15  456  	VM_WARN_ON_ONCE(ci->flags || !cluster_is_empty(ci));
-16dc0672038592 Kairui Song 2026-05-15  457  	if (rcu_access_pointer(ci->table))
-16dc0672038592 Kairui Song 2026-05-15  458  		return 0;
-16dc0672038592 Kairui Song 2026-05-15  459  
-16dc0672038592 Kairui Song 2026-05-15  460  	if (SWP_TABLE_USE_PAGE) {
-16dc0672038592 Kairui Song 2026-05-15  461  		folio = folio_alloc(gfp | __GFP_ZERO, 0);
-16dc0672038592 Kairui Song 2026-05-15  462  		if (folio)
-16dc0672038592 Kairui Song 2026-05-15  463  			table = folio_address(folio);
-16dc0672038592 Kairui Song 2026-05-15  464  	} else {
-16dc0672038592 Kairui Song 2026-05-15  465  		table = kmem_cache_zalloc(swap_table_cachep, gfp);
-16dc0672038592 Kairui Song 2026-05-15  466  	}
-16dc0672038592 Kairui Song 2026-05-15  467  	if (!table)
-16dc0672038592 Kairui Song 2026-05-15  468  		return -ENOMEM;
-16dc0672038592 Kairui Song 2026-05-15  469  
-16dc0672038592 Kairui Song 2026-05-15  470  	rcu_assign_pointer(ci->table, table);
-d029b4aa29fcfc Kairui Song 2026-05-15  471  
+  2806	
+> 2807	void remove_event_from_tracers(struct trace_event_call *call)
+  2808	{
+  2809		struct trace_event_file *file;
+  2810		struct trace_array *tr;
+  2811	
+  2812		do_for_each_event_file_safe(tr, file) {
+  2813			if (file->event_call != call)
+  2814				continue;
+  2815	
+  2816			remove_event_file_dir(file);
+  2817			/*
+  2818			 * The do_for_each_event_file_safe() is
+  2819			 * a double loop. After finding the call for this
+  2820			 * trace_array, we use break to jump to the next
+  2821			 * trace_array.
+  2822			 */
+  2823			break;
+  2824		} while_for_each_event_file();
+  2825	}
+  2826	
 
 --
 0-DAY CI Kernel Test Service
