@@ -1,163 +1,177 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B7126ED3E;
-	Fri, 15 May 2026 01:11:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF9E2D877D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 May 2026 01:15:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778807504; cv=none; b=D1p6kmwKrXLK3HInAI7YkN7RNM1IRbKqHPqu2d9nDusUoA5MAR48Cz4oxrLS6PPnHB+5KiavlwJHwqhLEArMBahaXn4/KIWvneupDSk6Swth3XzoeiTTYU4pBlRzxVCXU25vwCIqgFx1fZcsziLWx7eqi4TFgVOvK3n0l15R8uk=
+	t=1778807712; cv=none; b=EZEMYGY0jecrX/o/Rb4ozFKg+CY5evhKnbN3L4+UDm/QiDUFevYGOKxaR1m4PTgaInF6dp9XZX2ZSiqGnc835F+JiAh3jHkfihNwuPrXkvVwsdUTL2hTuuuRgVo8t/K5OPm4S6Spp97Gz0TjfIR+9khoqs/cu6WeC7hWRYp/8Ew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778807504; c=relaxed/simple;
-	bh=2Ep3W60mHhmYSuhahrCqVqoyCeU7AD4+P5ivdqcV0s8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZGoqBPRvr5b0OkWUm4H5x2KTqEOEEuxk9ytJHYNcY5Gz7MrfChMpqoYYPdRPd+/JNAqBhl1kJPjiKN/8CoY2c8D4zVIrUk3IRMhD9yDbNgsJbwsVZjY4l/oB21T0+aCKwVJttCCYJjN2XYJa/4UMfJtgJJ1NP0xYnbr0gJVD5Vk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mfEXqONT; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1778807712; c=relaxed/simple;
+	bh=tMACmWoLq8u58uvkrIGeCRYJ0Wezh8rxawQ7QmEw7bM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=BYkPcro2RgO9BX2YfyN8wPdJCiHxLFJWG+RqIwlBu4svRS6/ErV8JIz9pDAb04A9Kwvp4KTjyNly9u6LJ/wsB7adLFAuvMEvZK/vGRtYU8xk47a3643V553JPFiaGg7QLYRNbaQvHSOG2idNdZiObK1qUKcNAvCOWv87qCikYeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QCZjFuTi; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mfEXqONT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QCZjFuTi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778807503; x=1810343503;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2Ep3W60mHhmYSuhahrCqVqoyCeU7AD4+P5ivdqcV0s8=;
-  b=mfEXqONTFBcXsPetmvh884g6U74bbp8Ug002nV4wZmyHEVXAT7JV46ot
-   QCp4f8Iox594tcks2hyEF6D0Iz1F3IH6KcUnfz55dkH2IdQ9W4kQqS7D0
-   0yKBiBZYSme5wfg23ZB4ccuiFATG4a1+RBa/2nYofZBqbPQkrKKPw18B0
-   bgw+jto/QyT535VaWBorxM3h2P8F003/ghgMzwaTgQ6Hpr4e16pHh+wZq
-   4ZgMHYpF7qPvjzs5JEaUiGJdD4oBdjljpR6YBbxZ6l5Y+02kOX0jwdmno
-   fe317hl5/ZRwgF+1TeEOVBUS7ZeYky23YWTBCnaYF0iucRCx9sMFc8lNP
+  t=1778807711; x=1810343711;
+  h=date:from:to:cc:subject:message-id;
+  bh=tMACmWoLq8u58uvkrIGeCRYJ0Wezh8rxawQ7QmEw7bM=;
+  b=QCZjFuTinluGn9V64RrjR6dw2tVO3491ILa1NrobP+pj9D63ZgrHn9Ao
+   oL2+CNxTfJiUXMsyrTbL6tEi/r727iXZHHM8mHVFlueYeJmDPNs5rKzO6
+   sB93XNMi6ysWBxWUd8V8Z0WtnZ262rV9gRtZYKyaLJD4BZQnhXPXQkIGH
+   K0OSKorKobZM2pcB1Pg5ztqqjiqcNJgXSgWhaJghfEGELnnSd/JV1K/wS
+   jIYPxUfZGzsBgNXuhBLgSy5+2ucKQuwNNgy/HKNrdL40KuNXQfGoTU6x/
+   uSQPeUAd1HufZdf9MfrD+tb7MXLklWcyYbiwVi8Ugfd7sjoGF0/2Uda5k
    w==;
-X-CSE-ConnectionGUID: NEhwfuGqSkK8PQWLkaemIQ==
-X-CSE-MsgGUID: bZsoflgLQUO2wOdb9z2zRg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="79717710"
+X-CSE-ConnectionGUID: 9wlA59OmRr+5QWXIdrjAEw==
+X-CSE-MsgGUID: vzo/Fix3Seqr8N6W0BiUeA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="90341724"
 X-IronPort-AV: E=Sophos;i="6.23,235,1770624000"; 
-   d="scan'208";a="79717710"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 18:11:43 -0700
-X-CSE-ConnectionGUID: pkO8VmqkTLynUmFPRZYBWQ==
-X-CSE-MsgGUID: /YqF+AY4QaeVXnmt7X2mKQ==
+   d="scan'208";a="90341724"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 18:15:06 -0700
+X-CSE-ConnectionGUID: bdZ7iejDQgGMzqdJfoTsCg==
+X-CSE-MsgGUID: ahMG5PbpQ3Oj0N+MLSPfTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,235,1770624000"; 
-   d="scan'208";a="268892620"
-Received: from lkp-server02.sh.intel.com (HELO 7a33ad3e7d27) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 14 May 2026 18:11:41 -0700
-Received: from kbuild by 7a33ad3e7d27 with local (Exim 4.98.2)
+   d="scan'208";a="276635497"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 14 May 2026 18:15:05 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wNh5V-000000000WT-3vRQ;
-	Fri, 15 May 2026 01:11:37 +0000
-Date: Fri, 15 May 2026 09:08:38 +0800
+	id 1wNh8o-000000008v3-2rPf;
+	Fri, 15 May 2026 01:15:02 +0000
+Date: Fri, 15 May 2026 03:14:30 +0200
 From: kernel test robot <lkp@intel.com>
-To: w15303746062@163.com, jdelvare@suse.com, andi.shyti@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Mingyu Wang <25181214217@stu.xidian.edu.cn>
-Subject: Re: [PATCH] i2c: i801: fix hardware state machine corruption in
- error path
-Message-ID: <202605150921.HPErQGU3-lkp@intel.com>
-References: <20260507114356.247525-1-w15303746062@163.com>
+To: Joonwon Kang <joonwonkang@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: mm/percpu-stats.c:125:9: error: aggregate value used where
+ an integer was expected
+Message-ID: <202605150328.mn2hv1fZ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260507114356.247525-1-w15303746062@163.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on andi-shyti/i2c/i2c-host]
-[also build test WARNING on linus/master v7.1-rc3 next-20260508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/w15303746062-163-com/i2c-i801-fix-hardware-state-machine-corruption-in-error-path/20260514-165009
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
-patch link:    https://lore.kernel.org/r/20260507114356.247525-1-w15303746062%40163.com
-patch subject: [PATCH] i2c: i801: fix hardware state machine corruption in error path
-config: loongarch-randconfig-002-20260514 (https://download.01.org/0day-ci/archive/20260515/202605150921.HPErQGU3-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260515/202605150921.HPErQGU3-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Joonwon-Kang/percpu-Do-not-trust-hint-starts-when-they-are-not-set/20260513-070153
+head:   53a3f421840a59abecd38cc1be7c4f1d4516c3f1
+commit: 27e83e031c0de38ffad3fe513474bff375c2a896 percpu: Introduce struct pcpu_region
+date:   2 days ago
+config: x86_64-randconfig-2005-20250721 (https://download.01.org/0day-ci/archive/20260515/202605150328.mn2hv1fZ-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260515/202605150328.mn2hv1fZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605150921.HPErQGU3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605150328.mn2hv1fZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/i2c/busses/i2c-i801.c:934:1: warning: unused label 'out' [-Wunused-label]
-     934 | out:
-         | ^~~~
-   1 warning generated.
+   mm/percpu-stats.c: In function 'chunk_map_stats':
+>> mm/percpu-stats.c:125:9: error: aggregate value used where an integer was expected
+     125 |         P("contig_bytes", chunk_md->contig_hint * PCPU_MIN_ALLOC_SIZE);
+         |         ^
 
 
-vim +/out +934 drivers/i2c/busses/i2c-i801.c
+vim +125 mm/percpu-stats.c
 
-^1da177e4c3f415 Linus Torvalds    2005-04-16  889  
-97140342e69d479 David Brownell    2008-07-14  890  /* Return negative errno on error. */
-^1da177e4c3f415 Linus Torvalds    2005-04-16  891  static s32 i801_access(struct i2c_adapter *adap, u16 addr,
-^1da177e4c3f415 Linus Torvalds    2005-04-16  892  		       unsigned short flags, char read_write, u8 command,
-^1da177e4c3f415 Linus Torvalds    2005-04-16  893  		       int size, union i2c_smbus_data *data)
-^1da177e4c3f415 Linus Torvalds    2005-04-16  894  {
-a3989dc0b059a51 Heiner Kallweit   2023-02-16  895  	int hwpec, ret;
-0cd96eb0a74791c David Woodhouse   2010-10-31  896  	struct i801_priv *priv = i2c_get_adapdata(adap);
-^1da177e4c3f415 Linus Torvalds    2005-04-16  897  
-cfc69c2e6c699c9 Charles Haithcock 2026-02-27  898  	mutex_lock(&priv->acpi_lock);
-cfc69c2e6c699c9 Charles Haithcock 2026-02-27  899  	if (priv->acpi_reserved) {
-cfc69c2e6c699c9 Charles Haithcock 2026-02-27  900  		mutex_unlock(&priv->acpi_lock);
-a7ae81952cdab56 Mika Westerberg   2016-06-09  901  		return -EBUSY;
-cfc69c2e6c699c9 Charles Haithcock 2026-02-27  902  	}
-a7ae81952cdab56 Mika Westerberg   2016-06-09  903  
-a7401ca5596e246 Jarkko Nikula     2016-03-10  904  	pm_runtime_get_sync(&priv->pci_dev->dev);
-a7401ca5596e246 Jarkko Nikula     2016-03-10  905  
-1f760b87e54cf56 Heiner Kallweit   2023-02-16  906  	ret = i801_check_pre(priv);
-1f760b87e54cf56 Heiner Kallweit   2023-02-16  907  	if (ret)
-e67d702846114f6 Mingyu Wang       2026-05-07  908  		goto out_err;
-1f760b87e54cf56 Heiner Kallweit   2023-02-16  909  
-0cd96eb0a74791c David Woodhouse   2010-10-31  910  	hwpec = (priv->features & FEATURE_SMBUS_PEC) && (flags & I2C_CLIENT_PEC)
-e8aac4a9b417643 Jean Delvare      2005-10-26  911  		&& size != I2C_SMBUS_QUICK
-e8aac4a9b417643 Jean Delvare      2005-10-26  912  		&& size != I2C_SMBUS_I2C_BLOCK_DATA;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  913  
-ca8b9e32a11a7cb Oleg Ryjkov       2007-07-12  914  	if (hwpec)	/* enable/disable hardware PEC */
-4a3f77ea77013d8 Heiner Kallweit   2025-03-12  915  		iowrite8(ioread8(SMBAUXCTL(priv)) | SMBAUXCTL_CRC, SMBAUXCTL(priv));
-ca8b9e32a11a7cb Oleg Ryjkov       2007-07-12  916  	else
-4a3f77ea77013d8 Heiner Kallweit   2025-03-12  917  		iowrite8(ioread8(SMBAUXCTL(priv)) & (~SMBAUXCTL_CRC),
-0cd96eb0a74791c David Woodhouse   2010-10-31  918  		       SMBAUXCTL(priv));
-e8aac4a9b417643 Jean Delvare      2005-10-26  919  
-6ff9d46cd36fbd0 Heiner Kallweit   2024-02-02  920  	if (size == I2C_SMBUS_BLOCK_DATA || size == I2C_SMBUS_BLOCK_PROC_CALL)
-6ff9d46cd36fbd0 Heiner Kallweit   2024-02-02  921  		ret = i801_smbus_block_transaction(priv, data, addr, command, read_write, size);
-6ff9d46cd36fbd0 Heiner Kallweit   2024-02-02  922  	else if (size == I2C_SMBUS_I2C_BLOCK_DATA)
-6ff9d46cd36fbd0 Heiner Kallweit   2024-02-02  923  		ret = i801_i2c_block_transaction(priv, data, addr, command, read_write, size);
-7edcb9abb594a8f Oleg Ryjkov       2007-07-12  924  	else
-24592482d235107 Heiner Kallweit   2023-02-16  925  		ret = i801_simple_transaction(priv, data, addr, command, read_write, size);
-^1da177e4c3f415 Linus Torvalds    2005-04-16  926  
-de461a2607c69c4 Heiner Kallweit   2023-02-16  927  	ret = i801_check_post(priv, ret);
-de461a2607c69c4 Heiner Kallweit   2023-02-16  928  
-c79cfbaccac0ef8 Jean Delvare      2006-04-20  929  	/* Some BIOSes don't like it when PEC is enabled at reboot or resume
-63fd342fd121c3e Heiner Kallweit   2023-02-16  930  	 * time, so we forcibly disable it after every transaction.
-63fd342fd121c3e Heiner Kallweit   2023-02-16  931  	 */
-63fd342fd121c3e Heiner Kallweit   2023-02-16  932  	if (hwpec)
-4a3f77ea77013d8 Heiner Kallweit   2025-03-12  933  		iowrite8(ioread8(SMBAUXCTL(priv)) & ~SMBAUXCTL_CRC, SMBAUXCTL(priv));
-1f760b87e54cf56 Heiner Kallweit   2023-02-16 @934  out:
-4f7275fc7e570df Heiner Kallweit   2021-12-04  935  	/*
-4f7275fc7e570df Heiner Kallweit   2021-12-04  936  	 * Unlock the SMBus device for use by BIOS/ACPI,
-4f7275fc7e570df Heiner Kallweit   2021-12-04  937  	 * and clear status flags if not done already.
-4f7275fc7e570df Heiner Kallweit   2021-12-04  938  	 */
-4a3f77ea77013d8 Heiner Kallweit   2025-03-12  939  	iowrite8(SMBHSTSTS_INUSE_STS | STATUS_FLAGS, SMBHSTSTS(priv));
-065b6211a87746e Heiner Kallweit   2021-06-06  940  
-e67d702846114f6 Mingyu Wang       2026-05-07  941  out_err:
-a7401ca5596e246 Jarkko Nikula     2016-03-10  942  	pm_runtime_put_autosuspend(&priv->pci_dev->dev);
-cfc69c2e6c699c9 Charles Haithcock 2026-02-27  943  	mutex_unlock(&priv->acpi_lock);
-a7401ca5596e246 Jarkko Nikula     2016-03-10  944  	return ret;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  945  }
-^1da177e4c3f415 Linus Torvalds    2005-04-16  946  
+30a5b5367ef9d5 Dennis Zhou            2017-06-19   44  
+30a5b5367ef9d5 Dennis Zhou            2017-06-19   45  /*
+30a5b5367ef9d5 Dennis Zhou            2017-06-19   46   * Prints out chunk state. Fragmentation is considered between
+30a5b5367ef9d5 Dennis Zhou            2017-06-19   47   * the beginning of the chunk to the last allocation.
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   48)  *
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   49)  * All statistics are in bytes unless stated otherwise.
+30a5b5367ef9d5 Dennis Zhou            2017-06-19   50   */
+30a5b5367ef9d5 Dennis Zhou            2017-06-19   51  static void chunk_map_stats(struct seq_file *m, struct pcpu_chunk *chunk,
+cd6a884d095580 Dennis Zhou (Facebook  2017-07-15   52) 			    int *buffer)
+30a5b5367ef9d5 Dennis Zhou            2017-06-19   53  {
+92c14cab432674 Dennis Zhou            2019-02-26   54  	struct pcpu_block_md *chunk_md = &chunk->chunk_md;
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   55) 	int i, last_alloc, as_len, start, end;
+30a5b5367ef9d5 Dennis Zhou            2017-06-19   56  	int *alloc_sizes, *p;
+30a5b5367ef9d5 Dennis Zhou            2017-06-19   57  	/* statistics */
+30a5b5367ef9d5 Dennis Zhou            2017-06-19   58  	int sum_frag = 0, max_frag = 0;
+30a5b5367ef9d5 Dennis Zhou            2017-06-19   59  	int cur_min_alloc = 0, cur_med_alloc = 0, cur_max_alloc = 0;
+30a5b5367ef9d5 Dennis Zhou            2017-06-19   60  
+30a5b5367ef9d5 Dennis Zhou            2017-06-19   61  	alloc_sizes = buffer;
+30a5b5367ef9d5 Dennis Zhou            2017-06-19   62  
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   63) 	/*
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   64) 	 * find_last_bit returns the start value if nothing found.
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   65) 	 * Therefore, we must determine if it is a failure of find_last_bit
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   66) 	 * and set the appropriate value.
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   67) 	 */
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   68) 	last_alloc = find_last_bit(chunk->alloc_map,
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   69) 				   pcpu_chunk_map_bits(chunk) -
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   70) 				   chunk->end_offset / PCPU_MIN_ALLOC_SIZE - 1);
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   71) 	last_alloc = test_bit(last_alloc, chunk->alloc_map) ?
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   72) 		     last_alloc + 1 : 0;
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   73) 
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   74) 	as_len = 0;
+2e08d20d777e99 Dennis Zhou            2017-09-27   75  	start = chunk->start_offset / PCPU_MIN_ALLOC_SIZE;
+30a5b5367ef9d5 Dennis Zhou            2017-06-19   76  
+30a5b5367ef9d5 Dennis Zhou            2017-06-19   77  	/*
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   78) 	 * If a bit is set in the allocation map, the bound_map identifies
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   79) 	 * where the allocation ends.  If the allocation is not set, the
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   80) 	 * bound_map does not identify free areas as it is only kept accurate
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   81) 	 * on allocation, not free.
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   82) 	 *
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   83) 	 * Positive values are allocations and negative values are free
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   84) 	 * fragments.
+30a5b5367ef9d5 Dennis Zhou            2017-06-19   85  	 */
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   86) 	while (start < last_alloc) {
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   87) 		if (test_bit(start, chunk->alloc_map)) {
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   88) 			end = find_next_bit(chunk->bound_map, last_alloc,
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   89) 					    start + 1);
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   90) 			alloc_sizes[as_len] = 1;
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   91) 		} else {
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   92) 			end = find_next_bit(chunk->alloc_map, last_alloc,
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   93) 					    start + 1);
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   94) 			alloc_sizes[as_len] = -1;
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   95) 		}
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   96) 
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   97) 		alloc_sizes[as_len++] *= (end - start) * PCPU_MIN_ALLOC_SIZE;
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   98) 
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12   99) 		start = end;
+30a5b5367ef9d5 Dennis Zhou            2017-06-19  100  	}
+30a5b5367ef9d5 Dennis Zhou            2017-06-19  101  
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12  102) 	/*
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12  103) 	 * The negative values are free fragments and thus sorting gives the
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12  104) 	 * free fragments at the beginning in largest first order.
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12  105) 	 */
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12  106) 	if (as_len > 0) {
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12  107) 		sort(alloc_sizes, as_len, sizeof(int), cmpint, NULL);
+30a5b5367ef9d5 Dennis Zhou            2017-06-19  108  
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12  109) 		/* iterate through the unallocated fragments */
+30a5b5367ef9d5 Dennis Zhou            2017-06-19  110  		for (i = 0, p = alloc_sizes; *p < 0 && i < as_len; i++, p++) {
+30a5b5367ef9d5 Dennis Zhou            2017-06-19  111  			sum_frag -= *p;
+30a5b5367ef9d5 Dennis Zhou            2017-06-19  112  			max_frag = max(max_frag, -1 * (*p));
+30a5b5367ef9d5 Dennis Zhou            2017-06-19  113  		}
+30a5b5367ef9d5 Dennis Zhou            2017-06-19  114  
+30a5b5367ef9d5 Dennis Zhou            2017-06-19  115  		cur_min_alloc = alloc_sizes[i];
+30a5b5367ef9d5 Dennis Zhou            2017-06-19  116  		cur_med_alloc = alloc_sizes[(i + as_len - 1) / 2];
+30a5b5367ef9d5 Dennis Zhou            2017-06-19  117  		cur_max_alloc = alloc_sizes[as_len - 1];
+30a5b5367ef9d5 Dennis Zhou            2017-06-19  118  	}
+30a5b5367ef9d5 Dennis Zhou            2017-06-19  119  
+30a5b5367ef9d5 Dennis Zhou            2017-06-19  120  	P("nr_alloc", chunk->nr_alloc);
+30a5b5367ef9d5 Dennis Zhou            2017-06-19  121  	P("max_alloc_size", chunk->max_alloc_size);
+0cecf50cf00fbe Dennis Zhou (Facebook  2017-07-24  122) 	P("empty_pop_pages", chunk->nr_empty_pop_pages);
+92c14cab432674 Dennis Zhou            2019-02-26  123  	P("first_bit", chunk_md->first_free);
+40064aeca35c5c Dennis Zhou (Facebook  2017-07-12  124) 	P("free_bytes", chunk->free_bytes);
+92c14cab432674 Dennis Zhou            2019-02-26 @125  	P("contig_bytes", chunk_md->contig_hint * PCPU_MIN_ALLOC_SIZE);
+30a5b5367ef9d5 Dennis Zhou            2017-06-19  126  	P("sum_frag", sum_frag);
+30a5b5367ef9d5 Dennis Zhou            2017-06-19  127  	P("max_frag", max_frag);
+30a5b5367ef9d5 Dennis Zhou            2017-06-19  128  	P("cur_min_alloc", cur_min_alloc);
+30a5b5367ef9d5 Dennis Zhou            2017-06-19  129  	P("cur_med_alloc", cur_med_alloc);
+30a5b5367ef9d5 Dennis Zhou            2017-06-19  130  	P("cur_max_alloc", cur_max_alloc);
+30a5b5367ef9d5 Dennis Zhou            2017-06-19  131  	seq_putc(m, '\n');
+30a5b5367ef9d5 Dennis Zhou            2017-06-19  132  }
+30a5b5367ef9d5 Dennis Zhou            2017-06-19  133  
 
 --
 0-DAY CI Kernel Test Service
