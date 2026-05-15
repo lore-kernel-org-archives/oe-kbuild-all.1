@@ -1,171 +1,172 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98A303CBE70;
-	Fri, 15 May 2026 03:11:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B41543955E8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 May 2026 03:12:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778814721; cv=none; b=orM+jx0FPj3I82FnAL8GXt8VFaBYOPnNbQq5rMPeQz8xvUEZ+cF2ls0ezbV9T55Kqdj8Q3Q0slH9+LlaK3b3DdF95c4rPxwcgypePKF6tGA5Dq5dY47CPYsQpcYzYqI10zsQY1md11WN9GF8sv1BEyxQEF5l6jAK1puLv+BQa5E=
+	t=1778814775; cv=none; b=qPlaH0yUpjz/M7UHYxYCB+zC+wNPLa8GVRTU/F+Ms522Lrs1HVLAJGm347Wg2dvrGpHznu+VKeV2w61eOWrd1Dh3L4zdPjtT4a39ZqYLRXndxPpkmFowtvSWdXxNB8mZYIE4k0Pu+rr4odB1vwCCcnDwcz3sDyZf+2vjRA6gTvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778814721; c=relaxed/simple;
-	bh=ZAmE1TlWVSf8earAcSnNud/qyU3STr7upmmNnk1CFZs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HuYkLgn1yDGydritV/rjkI1O4I3PgkrOhaJ99pbHwfkkXDktUZ/7u0xKWW0qfB+qVr37j1dc66gC06Lz+41WXq1sX8CrkkhoUt65yTI2zPxtnRWDeeG/HrsL2EnaaMo7/xuiEnuvVNW9id0+dMn3F0WBIW1AbqtUepdvNslGIfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ji6+mBKg; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1778814775; c=relaxed/simple;
+	bh=ZaTLekDTtvIxdcbRm56u3Kh491qNXoT3bA1ULZxlAu8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Af9pfP38DMN3wNJ4mCx95Y6/EvoBEF7byREMLriavftfA0B5leROAxhgpLbWa+9uXOe1M3NHRxLaOO7cFcfgK9ZwaCZguk9kiKEn5xPekqVbuqCVrREQMXdMvHeaobca1xIwvIWQEGNBEY8xe0K/nb7BPVpCAVMq8zRkzsnBIOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b2gWwJ5m; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ji6+mBKg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b2gWwJ5m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778814718; x=1810350718;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZAmE1TlWVSf8earAcSnNud/qyU3STr7upmmNnk1CFZs=;
-  b=ji6+mBKgqCe7UrdYG/DupSN14bk/CEbCNqls9O858EEvvqmpmXb4GaDb
-   T9OzB4vQ/OqZRkMxCPHlEfZON4GZuUXUGkAPEs0b5775SbixvkVJCo8pc
-   hbPMhsWpC5q9zdTh97+HAvFASRwT8VrIu42NF2K4OdvzF177pjwpLG6Tv
-   sxrxPcIBdNj792hWiyMXiQkbTIL5KISb5Ze6UyHU/YtgVNZZMo5LimVT7
-   0Kgy7IDs88x+DXn4S/5+bil50xfeGFAtBVBn0jtI+caeaR0nq6bDrUEgE
-   C/KoKtc/cPweXaychCDGBN3CoAgnyKWevSpijSlShmrhphhg2OQaQAo03
+  t=1778814773; x=1810350773;
+  h=date:from:to:cc:subject:message-id;
+  bh=ZaTLekDTtvIxdcbRm56u3Kh491qNXoT3bA1ULZxlAu8=;
+  b=b2gWwJ5mUbFHKSedo2L4ZDZLW1N25AAPDwcT52QfucrKbwP517NeKC0j
+   JEv+yiyLVEGmXRLGUpV/taeH881NJngus0SfM+BFcd7S3/U4Q85WBAUjL
+   LwKJX8BMYX+YhjYZenLUqqRxfRg9UKGjXepG4cDcXH6mqbsdGX7eZCr3v
+   HNdnnmHtIbd/i2D1Wg0Ltd6kHymVDn4sP6/k0Ro4SoVQW156Pa4QMB3HS
+   MdVWbxK52nZR0OFLANPEF7Merg5eyZeosSmxTM7gNe8l3S1HhdXQFgQDh
+   iBPDaYCVDDaVtb7Ws5R4Ve0epfl1QqEB4N9wRxeBX+1CPDKfqUsEnKL4I
    w==;
-X-CSE-ConnectionGUID: nTt3Ma5iQ5KXoQ5Z8lr0RQ==
-X-CSE-MsgGUID: sbTJzL9vRZSzVl/W9rkq7A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="91150213"
+X-CSE-ConnectionGUID: HkDM/CxfTS60oLueuy3mdQ==
+X-CSE-MsgGUID: Htbpe4/JSFG+JnyhUWW7VQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="82334559"
 X-IronPort-AV: E=Sophos;i="6.23,235,1770624000"; 
-   d="scan'208";a="91150213"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 20:11:58 -0700
-X-CSE-ConnectionGUID: cG7x5w9FRku+pLtuvvhHmA==
-X-CSE-MsgGUID: jfwwuftCS1aH47xxQssZLg==
+   d="scan'208";a="82334559"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 20:12:53 -0700
+X-CSE-ConnectionGUID: 1tOlb+whQcyzZKd5L/9bVQ==
+X-CSE-MsgGUID: mNwYLrGtR12+plDjlRK6IQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,235,1770624000"; 
-   d="scan'208";a="238446336"
+   d="scan'208";a="268916174"
 Received: from lkp-server02.sh.intel.com (HELO 7a33ad3e7d27) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 14 May 2026 20:11:56 -0700
+  by orviesa002.jf.intel.com with ESMTP; 14 May 2026 20:12:52 -0700
 Received: from kbuild by 7a33ad3e7d27 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wNiwq-000000000hR-2aAG;
-	Fri, 15 May 2026 03:11:04 +0000
-Date: Fri, 15 May 2026 11:05:07 +0800
+	id 1wNiyn-000000000i4-0Ups;
+	Fri, 15 May 2026 03:12:49 +0000
+Date: Fri, 15 May 2026 11:05:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Holger Brunck <holger.brunck@hitachienergy.com>, netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linuxppc-dev@lists.ozlabs.org, andrew+netdev@lunn.ch,
-	chleroy@kernel.org, qiang.zhao@nxp.com, horms@kernel.org,
-	Holger Brunck <holger.brunck@hitachienergy.com>
-Subject: Re: [PATCH net] net: wan: fsl_ucc_hdlc: free tx_skbuff in
- uhdlc_memclean
-Message-ID: <202605151029.MIApM8zq-lkp@intel.com>
-References: <20260504161145.2217950-1-holger.brunck@hitachienergy.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [sailus-media-tree:frame-desc 13/17]
+ drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:109:25: warning: format
+ '%d' expects argument of type 'int', but argument 5 has type 'long int'
+Message-ID: <202605151137.DEgSW7Zb-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260504161145.2217950-1-holger.brunck@hitachienergy.com>
 
-Hi Holger,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-[also build test ERROR on v7.1-rc3 next-20260508]
-[cannot apply to net/main linus/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Holger-Brunck/net-wan-fsl_ucc_hdlc-free-tx_skbuff-in-uhdlc_memclean/20260514-055007
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260504161145.2217950-1-holger.brunck%40hitachienergy.com
-patch subject: [PATCH net] net: wan: fsl_ucc_hdlc: free tx_skbuff in uhdlc_memclean
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260515/202605151029.MIApM8zq-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260515/202605151029.MIApM8zq-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/sailus/media_tree.git frame-desc
+head:   a0e9f7cf4fcd819e3c994fd629a63789748d81c5
+commit: 0cf56292ac3200bd6a515db66aa9ed69fa60b091 [13/17] media: rkisp1: Use v4l2_subdev_get_frame_desc()
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260515/202605151137.DEgSW7Zb-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260515/202605151137.DEgSW7Zb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605151029.MIApM8zq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605151137.DEgSW7Zb-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/net/wan/fsl_ucc_hdlc.c:775:32: error: expected ';' in 'for' statement specifier
-     775 |         for (i = 0; i < TX_BD_RING_LEN) {
-         |                                       ^
->> drivers/net/wan/fsl_ucc_hdlc.c:775:14: warning: variable 'i' used in loop condition not modified in loop body [-Wfor-loop-analysis]
-     775 |         for (i = 0; i < TX_BD_RING_LEN) {
-         |                     ^
-   1 warning and 1 error generated.
+   In file included from include/linux/device.h:15,
+                    from include/linux/pm_runtime.h:11,
+                    from drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:13:
+   drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c: In function 'rkisp1_gasket_enable':
+>> drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:109:25: warning: format '%d' expects argument of type 'int', but argument 5 has type 'long int' [-Wformat=]
+     109 |                         "failed to get frame descriptor from '%s':%u: %d\n",
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:108:17: note: in expansion of macro 'dev_err'
+     108 |                 dev_err(rkisp1->dev,
+         |                 ^~~~~~~
+   drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:109:72: note: format string is defined here
+     109 |                         "failed to get frame descriptor from '%s':%u: %d\n",
+         |                                                                       ~^
+         |                                                                        |
+         |                                                                        int
+         |                                                                       %ld
 
 
-vim +775 drivers/net/wan/fsl_ucc_hdlc.c
+vim +109 drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
 
-   740	
-   741	static void uhdlc_memclean(struct ucc_hdlc_private *priv)
-   742	{
-   743		int i;
-   744	
-   745		qe_muram_free(ioread16be(&priv->ucc_pram->riptr));
-   746		qe_muram_free(ioread16be(&priv->ucc_pram->tiptr));
-   747	
-   748		if (priv->rx_bd_base) {
-   749			dma_free_coherent(priv->dev,
-   750					  RX_BD_RING_LEN * sizeof(struct qe_bd),
-   751					  priv->rx_bd_base, priv->dma_rx_bd);
-   752	
-   753			priv->rx_bd_base = NULL;
-   754			priv->dma_rx_bd = 0;
-   755		}
-   756	
-   757		if (priv->tx_bd_base) {
-   758			dma_free_coherent(priv->dev,
-   759					  TX_BD_RING_LEN * sizeof(struct qe_bd),
-   760					  priv->tx_bd_base, priv->dma_tx_bd);
-   761	
-   762			priv->tx_bd_base = NULL;
-   763			priv->dma_tx_bd = 0;
-   764		}
-   765	
-   766		if (priv->ucc_pram) {
-   767			qe_muram_free(priv->ucc_pram_offset);
-   768			priv->ucc_pram = NULL;
-   769			priv->ucc_pram_offset = 0;
-   770		 }
-   771	
-   772		kfree(priv->rx_skbuff);
-   773		priv->rx_skbuff = NULL;
-   774	
- > 775		for (i = 0; i < TX_BD_RING_LEN) {
-   776			kfree(priv->tx_skbuff[i]);
-   777			priv->tx_skbuff[i] = NULL;
-   778		}
-   779	
-   780		kfree(priv->tx_skbuff);
-   781		priv->tx_skbuff = NULL;
-   782	
-   783		if (priv->uccf) {
-   784			ucc_fast_free(priv->uccf);
-   785			priv->uccf = NULL;
-   786		}
-   787	
-   788		if (priv->rx_buffer) {
-   789			dma_free_coherent(priv->dev,
-   790					  (RX_BD_RING_LEN + TX_BD_RING_LEN) * MAX_RX_BUF_LENGTH,
-   791					  priv->rx_buffer, priv->dma_rx_addr);
-   792			priv->rx_buffer = NULL;
-   793			priv->dma_rx_addr = 0;
-   794	
-   795			priv->tx_buffer = NULL;
-   796			priv->dma_tx_addr = 0;
-   797	
-   798		}
-   799	}
-   800	
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16   86  
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16   87  static int rkisp1_gasket_enable(struct rkisp1_device *rkisp1,
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16   88  				struct media_pad *source)
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16   89  {
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16   90  	struct v4l2_subdev *source_sd;
+0cf56292ac3200 Sakari Ailus     2026-05-12   91  	struct v4l2_mbus_frame_desc *fd __free(v4l2_subdev_free_frame_desc) =
+0cf56292ac3200 Sakari Ailus     2026-05-12   92  		NULL;
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16   93  	unsigned int dt;
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16   94  	u32 mask;
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16   95  	u32 val;
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16   96  
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16   97  	/*
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16   98  	 * Configure and enable the gasket with the CSI-2 data type. Set the
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16   99  	 * vsync polarity as active high, as that is what the ISP is configured
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  100  	 * to expect in ISP_ACQ_PROP. Enable left justification, as the i.MX8MP
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  101  	 * ISP has a 16-bit wide input and expects data to be left-aligned.
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  102  	 */
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  103  
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  104  	source_sd = media_entity_to_v4l2_subdev(source->entity);
+0cf56292ac3200 Sakari Ailus     2026-05-12  105  	fd = v4l2_subdev_get_frame_desc(source_sd, source->index,
+0cf56292ac3200 Sakari Ailus     2026-05-12  106  					V4L2_MBUS_FRAME_DESC_TYPE_CSI2);
+0cf56292ac3200 Sakari Ailus     2026-05-12  107  	if (IS_ERR(fd)) {
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  108  		dev_err(rkisp1->dev,
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16 @109  			"failed to get frame descriptor from '%s':%u: %d\n",
+0cf56292ac3200 Sakari Ailus     2026-05-12  110  			source_sd->name, 0, PTR_ERR(fd));
+0cf56292ac3200 Sakari Ailus     2026-05-12  111  		return PTR_ERR(fd);
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  112  	}
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  113  
+0cf56292ac3200 Sakari Ailus     2026-05-12  114  	if (fd->num_entries != 1) {
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  115  		dev_err(rkisp1->dev, "invalid frame descriptor for '%s':%u\n",
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  116  			source_sd->name, 0);
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  117  		return -EINVAL;
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  118  	}
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  119  
+0cf56292ac3200 Sakari Ailus     2026-05-12  120  	dt = fd->entry[0].bus.csi2.dt;
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  121  
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  122  	if (rkisp1->gasket_id == 0) {
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  123  		mask = ISP_DEWARP_CONTROL_MIPI_CSI1_HS_POLARITY
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  124  		     | ISP_DEWARP_CONTROL_MIPI_CSI1_VS_SEL_MASK
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  125  		     | ISP_DEWARP_CONTROL_MIPI_ISP1_LEFT_JUST_MODE
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  126  		     | ISP_DEWARP_CONTROL_MIPI_ISP1_DATA_TYPE_MASK
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  127  		     | ISP_DEWARP_CONTROL_GPR_ISP_0_DISABLE;
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  128  		val = ISP_DEWARP_CONTROL_MIPI_CSI1_VS_SEL_POSITIVE
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  129  		    | ISP_DEWARP_CONTROL_MIPI_ISP1_LEFT_JUST_MODE
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  130  		    | ISP_DEWARP_CONTROL_MIPI_ISP1_DATA_TYPE(dt);
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  131  	} else {
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  132  		mask = ISP_DEWARP_CONTROL_MIPI_CSI2_HS_POLARITY
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  133  		     | ISP_DEWARP_CONTROL_MIPI_CSI2_VS_SEL_MASK
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  134  		     | ISP_DEWARP_CONTROL_MIPI_ISP2_LEFT_JUST_MODE
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  135  		     | ISP_DEWARP_CONTROL_MIPI_ISP2_DATA_TYPE_MASK
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  136  		     | ISP_DEWARP_CONTROL_GPR_ISP_1_DISABLE;
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  137  		val = ISP_DEWARP_CONTROL_MIPI_CSI2_VS_SEL_POSITIVE
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  138  		    | ISP_DEWARP_CONTROL_MIPI_ISP2_LEFT_JUST_MODE
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  139  		    | ISP_DEWARP_CONTROL_MIPI_ISP2_DATA_TYPE(dt);
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  140  	}
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  141  
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  142  	regmap_update_bits(rkisp1->gasket, ISP_DEWARP_CONTROL, mask, val);
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  143  
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  144  	return 0;
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  145  }
+fdac4ce9f4fd21 Laurent Pinchart 2024-02-16  146  
+
+:::::: The code at line 109 was first introduced by commit
+:::::: fdac4ce9f4fd2120b439d29607f922665ffe31f6 media: rkisp1: Configure gasket on i.MX8MP
+
+:::::: TO: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+:::::: CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 --
 0-DAY CI Kernel Test Service
