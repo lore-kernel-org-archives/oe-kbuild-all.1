@@ -1,126 +1,142 @@
-Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1729C38736C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 May 2026 19:07:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778872065; cv=pass; b=P5FHBZnLx5mMn3OfdWtvDagig/2MY6cDRbpL5WQ88RPPUnoj/IIif3iYRGvvpwS6sdEL4ZWuGv2j+MTCYGzqXuAKYtk1FIBtJMdTEuAtVsMArNeJdVvFvjJs9u9NDJq1Xsq/ubW6aYkrAmW3kG4cfMP/kjtXowrSTfcbZfmJtNc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778872065; c=relaxed/simple;
-	bh=mb1275eXwJqneXc4dEDy2KyI4gv+gxxbGFakf7VbqpA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Gl+3DFluZmCMNE6l65rUnEXHWp53dmmjxIgZZbVmlvpqV7kmGzs2d4FP3kcnFyVNQN1Lj/pdCuWmvf0YkTKCW2Icyql5I+4867zjUUXx8ydVc2MSY0JzTONjT/Yk+REXQQl14J0Uvw7UFpRDQ4US9WZmrvtomObgcLwh0+N1evo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VaenJaKF; arc=pass smtp.client-ip=74.125.82.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD65E35E1BA
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 May 2026 19:50:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778874626; cv=none; b=LWcyeK8HKJ1vFxdaBthp9Trp41cVD/aYIsHWpPa/bBTyN7tR7iYbRpg83L4Om7lXPgSb0qz1oN+agipwj4hOERGU/zlioShwdLVTaWgEaLn+yeqBqhR1NElQNtC8JXuLW4fyP4aNwTABurCxgGNdGquCYZc87+nvcDuT90jYegM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778874626; c=relaxed/simple;
+	bh=k15qqqgCP9nWa36ZDnfAEeB9gW0FiZxgQpiUzUfjm8w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YIoREFdHV+F6VnICwkiTUYatmEnSLOKKiMcf+tv9bACVhk7Pf4uRbIPk/iVxHKzBn5mRDRUnH+aximH6dMx/zfeoa5sWxzp8p7oLQ8vDxZxGlq6slfVVIBDBFM0ISPOXE/S9HmwrHfOwt9ziiDNfY+kbAJjOA1/NnMrttB6rAlU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ih3a2ACk; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VaenJaKF"
-Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-130a1776581so12710c88.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 15 May 2026 12:07:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778872063; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Pe2FJWZFCBtQHyWU5TEp7BQ/k2Djskdry6TQZZsZIpZqir3rnOuJYCFMgzR1uT6ph7
-         s3f2y+pdVChrktOoJGfM4pEcJOJpqB9oEZcwqjKsS974INSQ/Z8AWTdQuHq5pkdKrIxM
-         8g8ew84LjeUashUg3rs54yuxa2cEdaDS6syS3u9IQwYbykwrtidvPmLOsqhPOYX2QKbZ
-         7AMbUwY3SSPl6s2w7atwZCMJ0QPV+z8GHzf2ZgcBunJcFeiH3NumTeJTn4EmcawB8MIV
-         LRSDCJTCcHLF7+v2miK61Bb5llsHJGjd40Xq2zQQb4xVmFRvfk42ed7bZIIb6s2Yr29q
-         eh+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=mb1275eXwJqneXc4dEDy2KyI4gv+gxxbGFakf7VbqpA=;
-        fh=N7KStN2g/vrzMlsZ5eaQmXpGXtUdCqsFnS7AvKNlQTY=;
-        b=SOTXzt7+Ek1Ly/NKuOptF0NzXSTfIchNDuffFPYWMHj6Sb4ZJI0u2DS2s+PW+RgP5S
-         lOaM7sKWry+txMQHZ6cIei5qR6bo0io8kPuf343mjmRJsPv5SSplnjvmcT6RXopqoMBX
-         +15zV5tSyhH5XetttgDY+vWWmAmNTMEeVYxVXKnNOcHJFpHGRXLBD1gtd16SZVoeBE99
-         9eSlpK/Ma6BMinlC2Rhd9zv1WJ3jbAXioRJUEfdl+JbPryE1zUQGdQucB3cmSjnTXH0n
-         ix9QHx5nZWX9qqFBplvoQfwBFJjKEtgrEAqesueqrmEmVxWwvn4w8Om96KmN1QcZIV8N
-         ZF+w==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778872063; x=1779476863; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mb1275eXwJqneXc4dEDy2KyI4gv+gxxbGFakf7VbqpA=;
-        b=VaenJaKFz1i/wII0apK2cUpp62sTj87dmUncFzUrIkzqQTp5MBy5YaqUB98VUKI3Iv
-         LOHnNXmQEZCFBUIxoHPPojlHYQ06zEZzhVOmw/6xP4M+TlE0p8nJ8ku4rppgV1P/fJ9x
-         ipueVV84xDCRcfe1uIXH56Fr5TiyURKqksXQtP787/9gXf/EsG7GP+VF3ZPXA2wIADre
-         cyM+N/SLofRadZzMTNSGZjhH6XETbKNU4OFEPmVoeXb/pXfJYd8ZVRqu+WGc6jN3lwc5
-         ylnPfvxOSZvuWniKrG6bpsBilX1q83sbJG8JB1QGt3DxbFGUEP1yFRomC1efcbwZCvFT
-         6Gyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778872063; x=1779476863;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=mb1275eXwJqneXc4dEDy2KyI4gv+gxxbGFakf7VbqpA=;
-        b=FFfOm4B1fdYtNy5HYLDPJZbbmz8ORoIElN/NU4qRxMrF9Q7amZm/ruLONbWxkfxg/M
-         UjNlQ+FOzeKx+R2TizHrQGG2K+DCcjRCcBISAj8430bOa2Lt9RE3pjWR0aaOY7DYF3x7
-         scex9q5HhOvdJYztr4XrEl3Af9sKzmcU45K9Ey1mpWmWAJGwb3DHyTC0j52SfS+NsXNq
-         PxbU7rgszej40g4/3vjJxyVL9BAla6Ot+UFLkYuMMAqPsIFGoiiy18pGXVRku5Ijdyhy
-         0+kS0AunJJ77/TEquuIL669cq2swIzqTLc1HNW6XpvHlkO8tNwmpXl7L4nuAhjYESfWT
-         uVNw==
-X-Forwarded-Encrypted: i=1; AFNElJ8KcMbJv5XrfwDzKaNYXFS3ixhrRbwYAkQ6mCqwQ3ucvgtIFR9Y2YnGO7rO7ETrbsVV4T0MtJ7bvZisfBRq@lists.linux.dev
-X-Gm-Message-State: AOJu0YyTa5rY3Zl1/zBhqaoMUoDEx36xPxNLz+uf44/VxPgukMrbeBY5
-	8at2nFs7T3ADR2NBYbemxqz+xZ3t5lJiy6bS7pUG7p6px0LHLcgcGmPAyzadzaDGWHeFtebQaLq
-	VfOSx/+7yTdUtdKnAyVOavzxIwegl2rM=
-X-Gm-Gg: Acq92OFf8/SRNFX+LpY0h41lDrSlAiVBSenWU/S0Tk8hSgwRxQHpy0YhAfnVaYOVB9+
-	jQJ/Z4J7HRlITXyo58JckbSuTIE8LCV06JPdX/C7itn6aB84tYq/hPymHy3NSuF1yue/04pRIBo
-	NysUOhF+uyMxkE0TFDm1NvhjN9TlUW9pjdUVhwbYjKODx2DU14ppS6ReNE4N47JSN8OzimkweQG
-	+LcZ7n47DA010jUlCNguYYOts3idVvw039nNlV7BikO9W/6+ruOXLduQgF8i0s/oMcjN9Zn3Vth
-	vRHpvqqRNLEh1kn62b2pC8lJA4b8hhxgTMA0ZySpL1AzyZW5UvFfZfW6VVY0N45PnP0qignqhU6
-	U566vywUNqcA1rYtriC2nlaw=
-X-Received: by 2002:a05:7301:6785:b0:2ea:5057:a320 with SMTP id
- 5a478bee46e88-30398176f35mr1270947eec.2.1778872063122; Fri, 15 May 2026
- 12:07:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ih3a2ACk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778874623; x=1810410623;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=k15qqqgCP9nWa36ZDnfAEeB9gW0FiZxgQpiUzUfjm8w=;
+  b=Ih3a2ACkEbzkR75o+yxGB/22q2hfmgKNYt6ChvTrJTSQr0uamRO53Jg8
+   X6I9TtkwFoSbNcflrX1LuAl12rO3fGQfP3bLm9YjEePF1a1Utt60stj8r
+   Q1DgLUzLIttOecMhjD8V6N8t/l42A8tIIGdHp907CzHVHjgXgKdWKmuBJ
+   rk7uXGXpMRVXHoL7yLaWRoB74mcJuREOtPfae+DKvE8OpmT+Kr6xPFxK1
+   NB7fl6qE1MTfLdb9RzstMgZLZ9OtGBQypNqXxQDNZV4CYpGqmmB3AnXjM
+   VuiY4LWM/TVJN2Ne61cNRrWrzUBDAY09ZQqCDjUoYMBbHZORvQWE4i80z
+   w==;
+X-CSE-ConnectionGUID: eq3UO1CBRSqN58K/6Pj0rA==
+X-CSE-MsgGUID: fatCumVHQwCHiNkLHwa16Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="79800906"
+X-IronPort-AV: E=Sophos;i="6.23,236,1770624000"; 
+   d="scan'208";a="79800906"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 12:50:22 -0700
+X-CSE-ConnectionGUID: CfccELJcRdeEPUtj/tnFVQ==
+X-CSE-MsgGUID: qNQWcAw2QoiEi+M2ptL57g==
+X-ExtLoop1: 1
+Received: from lkp-server02.sh.intel.com (HELO 7a33ad3e7d27) ([10.239.97.151])
+  by fmviesa003.fm.intel.com with ESMTP; 15 May 2026 12:50:20 -0700
+Received: from kbuild by 7a33ad3e7d27 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wNyXs-000000002dR-15c8;
+	Fri, 15 May 2026 19:50:08 +0000
+Date: Sat, 16 May 2026 03:49:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: jack.yu@realtek.com, broonie@kernel.org, lgirdwood@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org,
+	lars@metafoo.de, flove@realtek.com, oder_chiou@realtek.com,
+	shumingf@realtek.com, derek.fang@realtek.com,
+	Jack Yu <jack.yu@realtek.com>
+Subject: Re: [PATCH] ASoC: rt722-sdca: Add a control to support CAE firmware
+ update
+Message-ID: <202605160321.U3aaymLP-lkp@intel.com>
+References: <20260515091643.3038701-1-jack.yu@realtek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CACeWta-RVTqcmLVmLTJ7yLrStjrLEyL_oYpG8QLAcy7sEyKmCA@mail.gmail.com>
-In-Reply-To: <CACeWta-RVTqcmLVmLTJ7yLrStjrLEyL_oYpG8QLAcy7sEyKmCA@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 15 May 2026 21:07:30 +0200
-X-Gm-Features: AVHnY4LEIX3vOzKlV2ckoEdFUoIObrLviqRMWlwHLjWbRjHNlz5QC0VlkWAildI
-Message-ID: <CANiq72kVzYdu+74M-VNSRgq53n201qjoOaua1K5S4abDqrsn=w@mail.gmail.com>
-Subject: Re: [PATCH] rust: cred: add safe abstractions for capable() and ns_capable()
-To: Arnav Sharma <arnav4324@gmail.com>
-Cc: lkp@intel.com, Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Boqun Feng <boqun@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	Benno Lossin <lossin@kernel.org>, oe-kbuild-all@lists.linux.dev, ojeda@kernel.org, 
-	paul@paul-moore.com, rust-for-linux@vger.kernel.org, 
-	Serge Hallyn <sergeh@kernel.org>, Trevor Gross <tmgross@umich.edu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260515091643.3038701-1-jack.yu@realtek.com>
 
-On Fri, May 15, 2026 at 7:13=E2=80=AFPM Arnav Sharma <arnav4324@gmail.com> =
-wrote:
->
-> I don't have an immediate in-tree use case for this. I'm fairly new to ke=
-rnel development and was going through the existing Rust-for-Linux abstract=
-ions. I noticed that capable() and ns_capable() had no safe Rust wrappers a=
-nd attempted to fill that gap =E2=80=94 I was approaching it more from a "H=
-mm.. this seems missing" angle rather than "Do we even need it". I understa=
-nd now that abstractions need concrete users to justify their inclusion, an=
-d I'll keep that in mind going forward.
+Hi,
 
-Yeah, in general, all kernel code needs a user, i.e. a justification
-for it to be added (i.e. it is a general rule, not just for Rust
-abstractions).
+kernel test robot noticed the following build errors:
 
-Please see https://rust-for-linux.com/contributing#submitting-new-abstracti=
-ons-and-modules
-for some more details.
+[auto build test ERROR on broonie-sound/for-next]
+[also build test ERROR on linus/master v7.1-rc3 next-20260508]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-(By the way, your email uses HTML, so it may not reach the mailing
-list. Please use plain text instead.)
+url:    https://github.com/intel-lab-lkp/linux/commits/jack-yu-realtek-com/ASoC-rt722-sdca-Add-a-control-to-support-CAE-firmware-update/20260515-191729
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20260515091643.3038701-1-jack.yu%40realtek.com
+patch subject: [PATCH] ASoC: rt722-sdca: Add a control to support CAE firmware update
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260516/202605160321.U3aaymLP-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260516/202605160321.U3aaymLP-lkp@intel.com/reproduce)
 
-Cheers,
-Miguel
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605160321.U3aaymLP-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   sound/soc/codecs/rt722-sdca.c: In function 'rt722_cae_update_put':
+>> sound/soc/codecs/rt722-sdca.c:571:21: error: implicit declaration of function 'snd_soc_component_get_bias_level'; did you mean 'snd_soc_component_set_bias_level'? [-Wimplicit-function-declaration]
+     571 |                 if (snd_soc_component_get_bias_level(component) == SND_SOC_BIAS_OFF) {
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                     snd_soc_component_set_bias_level
+
+
+vim +571 sound/soc/codecs/rt722-sdca.c
+
+   555	
+   556	static int rt722_cae_update_put(struct snd_kcontrol *kcontrol,
+   557					 struct snd_ctl_elem_value *ucontrol)
+   558	{
+   559		struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+   560		struct rt722_sdca_priv *rt722 = snd_soc_component_get_drvdata(component);
+   561		int ret, changed = 0;
+   562	
+   563		if (!rt722->hw_init)
+   564			return 0;
+   565	
+   566		ret = pm_runtime_resume_and_get(component->dev);
+   567		if (ret < 0 && ret != -EACCES)
+   568			return ret;
+   569	
+   570		if (ucontrol->value.integer.value[0]) {
+ > 571			if (snd_soc_component_get_bias_level(component) == SND_SOC_BIAS_OFF) {
+   572				ret = rt722_cae_load(rt722);
+   573				if (ret)
+   574					dev_err(component->dev, "CAE load failed: %d\n", ret);
+   575				else
+   576					changed = 1;
+   577			}
+   578		} else {
+   579			if (rt722->cae_update_done) {
+   580				rt722->cae_update_done = 0;
+   581				changed = 1;
+   582			}
+   583		}
+   584	
+   585		pm_runtime_mark_last_busy(component->dev);
+   586		pm_runtime_put_autosuspend(component->dev);
+   587	
+   588		return changed;
+   589	}
+   590	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
