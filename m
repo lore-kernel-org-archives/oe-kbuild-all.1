@@ -1,107 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCA333FDC14
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 May 2026 18:19:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBE293EEAE4;
+	Fri, 15 May 2026 18:25:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778869158; cv=none; b=lk/DsrkcNL8naV388oHKTZwDDOoK6wIJkjtyL7WC6zVmPqsJ1yBLLFS7BQy5RO8Z2KZlC2Fi5NRHb+10BThXDGRbLVoh7Ky9VsMczKa8bZiBST2R6AGWPxiKH08xI2qoNfY7q1dlJ1O4j1kGFpB/T95PR0eS88dliJ8O8Ork2WM=
+	t=1778869509; cv=none; b=cNoamqcR5buNr1ahLYWkO2ckV8bj4BbOhUzejUp8esj59i+eOyNqVUeJwAxojrYpnkUkuzrBSu0ZpmVlg+21AFPDE2arpjO16pbAszsGFCIoGAsRGPrBkuGOR8pJh+O+nROxXlbncxxCp1z5+M73vRlkPj8bKab3gd7IkdKYyBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778869158; c=relaxed/simple;
-	bh=UYr/I6qjn4wSH0n1COVWBH6/TMZqwbY9NtoG0+z0hIk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=SSeBvaosmpch12Q5DdKIYTjId2wWIxM/oVVpkubpMTUFcDa/67qkmw6LYYh8P8JgccKj47ZyXq77q1g3wECPgbf6gCol83sFIWdJVmvNIuTIhxISA0tusiuTlUpw5HRy250altypFULrHJRSF6/N0+baaI3svIBkHLz/JGRnyls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GqobJYan; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1778869509; c=relaxed/simple;
+	bh=zEvMci9pxnTIa7WoY+kD0AnU5pBy99MDwm1K5SsIF78=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Vol1yCRLQnShm+EKC/mByKMwLcprduqJslbrO1i49auuiggrFntHCJSgI56Htl0I6zcFYnj2s3/KZmfyH30Yoa9xWlpGuaTJdBU3Vrkyu5nD1qLt+CFzVusf+HE4HXJ++E5KwGOhyrqVBn6BQj5ABlP5aJ2IwWH0uzDiaEt0Sw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k9Mq9SYL; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GqobJYan"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k9Mq9SYL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778869156; x=1810405156;
-  h=date:from:to:cc:subject:message-id;
-  bh=UYr/I6qjn4wSH0n1COVWBH6/TMZqwbY9NtoG0+z0hIk=;
-  b=GqobJYani40ElTX55IYqIimY7CTSl/HXzlr8zXLltAdahmB6hJKQ420d
-   g0EuDCIUxV0NjpJwZxQJBwjqhKUQNVA3+77qgEh+O+hy3Y7pEfw5Zmurt
-   0+/ELVd4vW6oDRZIAUuP9r8I8wR6TLFakjX9g617oYyA/DP6+JOIROxkw
-   EzUnxFuqK6YTQB2BAO4w+NGsL81IfMh+XxrYIvb6gEc1FCeb4yB8A/gmO
-   Tv/osyM8S61GjryxVdi4xyNl9rjA/InOyZ8oyr3pWThAEXtQGZe9mGsP2
-   v6j+81TuJCWVqWTX9AIwcpp2gnBKtQXYP6ySQLu5DQL7CwDusB+ltoBnD
-   g==;
-X-CSE-ConnectionGUID: FRO1M6V0RL22+BBEcu0A4g==
-X-CSE-MsgGUID: aL5OjEoAT1SqgjEDtGQYcw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="83445020"
+  t=1778869508; x=1810405508;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zEvMci9pxnTIa7WoY+kD0AnU5pBy99MDwm1K5SsIF78=;
+  b=k9Mq9SYLl2KV2sz6il+Y9+sVmGnK4YDIqkp0eC3cV8UIZWXN8VqBKn2g
+   pyt2+6CqhI5wa6xlW+UMFTOdJktND0Be/tVxJ3b0BF3KVwane5R5vjsoo
+   ciaEIEIUa+6x8pzRKORp1AzxHG0ycODzcdV6FgtIrT3VRxoH7S+9yWo9R
+   5a65OyJGOBP6DIWw9f61bV9ClY5u0LtwYS4J/qFyTI4TZ3ra0zOUq6ak+
+   u+fDWjNV8qK5X11j2EMAxKQ2lrfTS58tUUHMWu75/F7M304daq2LRv+A1
+   cNXpl+KqCagUKTPi7iqOQhbWwpvBBj8omFL1QLuMZrtiJIOWmtLmuxFOo
+   w==;
+X-CSE-ConnectionGUID: mpYj5scPSGu/4sEoRTwzqw==
+X-CSE-MsgGUID: 9iK3+9eZSzKgR2ZYf1s/Iw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="90525235"
 X-IronPort-AV: E=Sophos;i="6.23,236,1770624000"; 
-   d="scan'208";a="83445020"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 11:19:16 -0700
-X-CSE-ConnectionGUID: iz3xfg3LTFSfDGy9aJn4CA==
-X-CSE-MsgGUID: q7ad3C2KQyq1igP43CHPHA==
+   d="scan'208";a="90525235"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 11:25:07 -0700
+X-CSE-ConnectionGUID: RL+DVIDDRHy+sE4xVGPatw==
+X-CSE-MsgGUID: 9V3VLIdnQ5mRy8Bcq/vpWw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,236,1770624000"; 
-   d="scan'208";a="262520381"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 15 May 2026 11:19:15 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="242757890"
+Received: from lkp-server02.sh.intel.com (HELO 7a33ad3e7d27) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 15 May 2026 11:25:06 -0700
+Received: from kbuild by 7a33ad3e7d27 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wNx7w-0000000094n-2V0g;
-	Fri, 15 May 2026 18:19:12 +0000
-Date: Fri, 15 May 2026 20:18:41 +0200
+	id 1wNxD2-000000002X3-40Le;
+	Fri, 15 May 2026 18:24:36 +0000
+Date: Sat, 16 May 2026 02:23:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bharata B Rao <bharata@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
- linux-doc@vger.kernel.org
-Subject: htmldocs: Documentation/admin-guide/mm/pghot.rst:25:
- WARNING: Block quote ends without a blank line; unexpected unindent.
- [docutils]
-Message-ID: <202605152034.dMAW8M0F-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Jason Gunthorpe <jgg@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
+	linux-rdma@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jiri Pirko <jiri@resnulli.us>,
+	patches@lists.linux.dev,
+	Sriharsha Basavapatna <sriharsha.basavapatna@broadcom.com>
+Subject: Re: [PATCH 6/6] RDMA/core: Move flow related functions to
+ ib_uverbs_support.ko
+Message-ID: <202605160258.313mCXe3-lkp@intel.com>
+References: <6-v1-045258567bd6+9fe-ib_uverbs_support_ko_jgg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6-v1-045258567bd6+9fe-ib_uverbs_support_ko_jgg@nvidia.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Bharata-B-Rao/mm-migrate-Allow-misplaced-migration-without-VMA/20260515-143252
-head:   1d6b2275629c24d5b061e08617e75603cb245c50
-commit: 973f77abc41ebd632577220150f11b8f803f8987 mm: Hot page tracking and promotion - pghot
-date:   12 hours ago
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260515/202605152034.dMAW8M0F-lkp@intel.com/reproduce)
+Hi Jason,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 254f49634ee16a731174d2ae34bc50bd5f45e731]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Gunthorpe/RDMA-core-Move-the-_ib_copy_validate_udata-functions-to-ib_core_uverbs/20260515-124950
+base:   254f49634ee16a731174d2ae34bc50bd5f45e731
+patch link:    https://lore.kernel.org/r/6-v1-045258567bd6%2B9fe-ib_uverbs_support_ko_jgg%40nvidia.com
+patch subject: [PATCH 6/6] RDMA/core: Move flow related functions to ib_uverbs_support.ko
+config: x86_64-randconfig-123 (https://download.01.org/0day-ci/archive/20260516/202605160258.313mCXe3-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260516/202605160258.313mCXe3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605152034.dMAW8M0F-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605160258.313mCXe3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/infiniband/core/ib_core_uverbs.c:429:16: sparse: sparse: incorrect type in return expression (different modifiers) @@     expected int ( * )( ... ) @@     got int ( [noderef] *__v )( ... ) @@
+   drivers/infiniband/core/ib_core_uverbs.c:429:16: sparse:     expected int ( * )( ... )
+   drivers/infiniband/core/ib_core_uverbs.c:429:16: sparse:     got int ( [noderef] *__v )( ... )
 
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:364; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:234
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
-   Documentation/admin-guide/mm/pghot.rst:23: ERROR: Unexpected indentation. [docutils]
->> Documentation/admin-guide/mm/pghot.rst:25: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/admin-guide/mm/pghot.rst:32: ERROR: Unexpected indentation. [docutils]
-   Documentation/admin-guide/mm/pghot.rst:34: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/admin-guide/mm/pghot.rst:43: ERROR: Unexpected indentation. [docutils]
-   Documentation/admin-guide/mm/pghot.rst:77: ERROR: Unexpected indentation. [docutils]
-   Documentation/arch/riscv/zicfilp.rst:79: WARNING: Inline literal start-string without end-string. [docutils]
+vim +429 drivers/infiniband/core/ib_core_uverbs.c
 
-
-vim +25 Documentation/admin-guide/mm/pghot.rst
-
-    19	
-    20	1. **enabled_sources**
-    21	   - Bitmask to enable/disable hotness sources.
-    22	   - Bits:
-    23	     - 0: Hint faults (value 0x1)
-    24	     - 1: Hardware hints (value 0x2)
-  > 25	   - Default: 0 (disabled)
-    26	   - Example:
-    27	     # echo 0x3 > /sys/kernel/debug/pghot/enabled_sources
-    28	     Enables all sources.
-    29	
+   419	
+   420	uverbs_api_ioctl_handler_fn uverbs_get_handler_fn(struct ib_udata *udata)
+   421	{
+   422		struct uverbs_attr_bundle *bundle =
+   423			rdma_udata_to_uverbs_attr_bundle(udata);
+   424		struct bundle_priv *pbundle =
+   425			container_of(&bundle->hdr, struct bundle_priv, bundle);
+   426	
+   427		lockdep_assert_held(&bundle->ufile->device->disassociate_srcu);
+   428	
+ > 429		return srcu_dereference(pbundle->method_elm->handler,
+   430					&bundle->ufile->device->disassociate_srcu);
+   431	}
+   432	
 
 --
 0-DAY CI Kernel Test Service
