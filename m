@@ -1,159 +1,176 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D76F33E3C79
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 May 2026 10:08:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FFAA43E9F6
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 May 2026 10:09:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778839720; cv=none; b=HXJ6EwHT7ILRv1+q8UEiURRxm2Lng47vg6r4agvCo4u/zI2FaA7nwBBDEZBNcUI3iPqiX58ZBXGCUM4d4ACZXShQcizg4sKhTRRMgPXysQ0CWqfUMSPWOimUqB2SejQ0QZeXHrHzl23a2xVp1MIwYQQ+mZJc+8AnHYx3AMf78Ls=
+	t=1778839755; cv=none; b=RO9VmCKiT0ciGTlBMenwRj0RFThqkcXlKE3p83F/yPg/0VQaeYF3IjW8BExfUTJr9Uh03tp6piYT5o325zjnzs7ph/pOUBn+rpacN24i7K3cjky4/clsD5yatoh0MoDaGJJTx4Lw9LEs2x32mv8oscsCMEnFq9mdxyTVbTPsKS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778839720; c=relaxed/simple;
-	bh=1YLOyFQQ1NHE/dmBz7KABmdOsQxi/3q5GiiuBqty/6A=;
+	s=arc-20240116; t=1778839755; c=relaxed/simple;
+	bh=i6YFF1i3pMGju9ciPXiva6Il9wQ3uoNXpWZF28Ki2+Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fQHSL7BgFekgQ6wgciqhGBT/ZlYoMuAP5uXTuZGEMbj2KYmACHg4dotA9YOXcsAuva5NF0DJK1RZx0rdcsQ0+RTbUZ2NEMVvzIsxaR1Rr+PGsPsgolhpXFWS942QeLoUHPFICNcYdJL35o+x3NLNO7NzUPj3P5XmK4gis9vf0b0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JmngAeKM; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=g3MaSGx8bgeBm+OGhVf/nKE234Ev/n/bxbQXQrcH+vZHY+TYTsimVz5CzVxC6NBIn9A8FUw0zImamsQxEtaUYhZKsBN/WkS8re/vR5JBMZyNEPfNE2s0HFIKToowBhjixyi98MQ0O5blm7prPXoBk1oUZWOPSjXS2yREit+Hq3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QHmmwWxv; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JmngAeKM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QHmmwWxv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778839718; x=1810375718;
+  t=1778839754; x=1810375754;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1YLOyFQQ1NHE/dmBz7KABmdOsQxi/3q5GiiuBqty/6A=;
-  b=JmngAeKMmMDhv25izwYw+uVic+6Fm4ptaddFm1sYxbllJXR/JO7N6VUM
-   AQdcWTq2yX1RDm3D39TMYmh4FZa51m+WMxKZZwDwUNpIUTzA8+yk2GAJV
-   g3Le5WVJQ7UBjc89YPurdq7rKQObUJuP16+lqE3vamGHA6OoeaSYz+i8u
-   HBU+Sww7c7LXiUASR8vCs44dE2KIgNZ+une+W8YyH93a3Ousikc4/gLxd
-   EfxgCQeoqLvD7vDNVdkh+ssywq3L0DIqdNR5EqppkjGrGTV2pAAxZbsJi
-   CUhEDYofZB7ozn9VqBrVRL1FHKBFGMbNenkNJm92WoufLOilkoCJJmEyp
-   A==;
-X-CSE-ConnectionGUID: KlLja0n8TsmR8N5MZFRoDg==
-X-CSE-MsgGUID: hdnGe13gRcin0ILIw1fIyA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="78931205"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=i6YFF1i3pMGju9ciPXiva6Il9wQ3uoNXpWZF28Ki2+Y=;
+  b=QHmmwWxvvyaUUr7WVr5uQ8KWDdBUfB0Pu4UxA5wSOazBtEZygS9Yqfp2
+   oSNq6p4Jz2L0/4B99lP0aVrx2VpVJoA9jWPe/J8lGqExYP5hXFcc/3Mm1
+   o6hTokqHDdCNB4GFiX76/q03f3KV4RgvyqRi0Eg9H39U3+MMDuRSYI2xg
+   QMDTc8ncoXEZIyUyxme+RPLCoKhatdZK+mxMUWMtkBIPX0HEnJ0mgxjbU
+   P6UxVOzlk2CtHd0kPzNGLAOzTrM6isBAA1/Lt91x1tyCnvmvwU86y6B87
+   4s/9ncvSmp7GOfJSLxcerAr+qh2tW1MWZfkRKs3b/jY+e92z66rzyPWKl
+   w==;
+X-CSE-ConnectionGUID: HRbmG0EbRl+ASq3WumQeEQ==
+X-CSE-MsgGUID: MED4+ziATnCs7WSULcpPeA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="83408534"
 X-IronPort-AV: E=Sophos;i="6.23,236,1770624000"; 
-   d="scan'208";a="78931205"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 03:08:37 -0700
-X-CSE-ConnectionGUID: qmIvePQiT5m+kxLiJRAq3Q==
-X-CSE-MsgGUID: xAxR79o/Q0C4W8zhrEqoDg==
+   d="scan'208";a="83408534"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 03:09:14 -0700
+X-CSE-ConnectionGUID: C0SvFc0USAaAUHzX0vh+6g==
+X-CSE-MsgGUID: 6P7Dvx8vQmq1oSZitC6THQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,236,1770624000"; 
-   d="scan'208";a="269004615"
+   d="scan'208";a="238536691"
 Received: from lkp-server02.sh.intel.com (HELO 7a33ad3e7d27) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 15 May 2026 03:08:35 -0700
+  by orviesa008.jf.intel.com with ESMTP; 15 May 2026 03:09:12 -0700
 Received: from kbuild by 7a33ad3e7d27 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wNpSf-000000001Jp-0pFy;
-	Fri, 15 May 2026 10:08:16 +0000
-Date: Fri, 15 May 2026 18:05:30 +0800
+	id 1wNpT1-000000001Jr-2EAO;
+	Fri, 15 May 2026 10:08:39 +0000
+Date: Fri, 15 May 2026 18:05:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Bohner <peter@bohner.me>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	Jean Delvare <jdelvare@suse.com>, linux-i2c@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Peter Bohner <peter@bohner.me>
-Subject: Re: [PATCH] i2c: i2c-stub: support for I2C_FUNC_I2C
-Message-ID: <202605151823.UX1Nue5m-lkp@intel.com>
-References: <20260514081100.381043-1-peter@bohner.me>
+To: Hugo Villeneuve <hugo@hugovil.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Hugo Villeneuve <hvilleneuve@dimonoff.com>
+Cc: oe-kbuild-all@lists.linux.dev, hugo@hugovil.com,
+	linux-serial@vger.kernel.org, kernel test robot <lkp@intel.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] serial: max310x: fix compile errors if CONFIG_SPI_MASTER
+ is disabled
+Message-ID: <202605151854.fLunCPPN-lkp@intel.com>
+References: <20260512152749.1767622-1-hugo@hugovil.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260514081100.381043-1-peter@bohner.me>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260512152749.1767622-1-hugo@hugovil.com>
 
-Hi Peter,
+Hi Hugo,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on wsa/i2c/for-next]
-[also build test ERROR on linus/master v7.1-rc3 next-20260508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 16e95bfb79b5d9d01dc7651d98caf3c2ace331cd]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Peter-Bohner/i2c-i2c-stub-support-for-I2C_FUNC_I2C/20260515-113705
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/for-next
-patch link:    https://lore.kernel.org/r/20260514081100.381043-1-peter%40bohner.me
-patch subject: [PATCH] i2c: i2c-stub: support for I2C_FUNC_I2C
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260515/202605151823.UX1Nue5m-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260515/202605151823.UX1Nue5m-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Hugo-Villeneuve/serial-max310x-fix-compile-errors-if-CONFIG_SPI_MASTER-is-disabled/20260515-014130
+base:   16e95bfb79b5d9d01dc7651d98caf3c2ace331cd
+patch link:    https://lore.kernel.org/r/20260512152749.1767622-1-hugo%40hugovil.com
+patch subject: [PATCH] serial: max310x: fix compile errors if CONFIG_SPI_MASTER is disabled
+config: alpha-randconfig-r063-20260515 (https://download.01.org/0day-ci/archive/20260515/202605151854.fLunCPPN-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260515/202605151854.fLunCPPN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605151823.UX1Nue5m-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605151854.fLunCPPN-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/i2c/i2c-stub.c: In function 'stub_xfer':
-   drivers/i2c/i2c-stub.c:157:33: error: implicit declaration of function 'krelloc_array'; did you mean 'krealloc_array'? [-Wimplicit-function-declaration]
-     157 |                                 krelloc_array(chip->i2c_rw_data, msg->len, 1,
-         |                                 ^~~~~~~~~~~~~
-         |                                 krealloc_array
->> drivers/i2c/i2c-stub.c:156:36: error: assignment to 'u8 *' {aka 'unsigned char *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     156 |                         new_rw_mem =
-         |                                    ^
+   drivers/tty/serial/max310x.c:1510:20: warning: 'max310x_regmap_name' defined but not used [-Wunused-function]
+    1510 | static const char *max310x_regmap_name(u8 port_id)
+         |                    ^~~~~~~~~~~~~~~~~~~
+   drivers/tty/serial/max310x.c:1482:13: warning: 'max310x_remove' defined but not used [-Wunused-function]
+    1482 | static void max310x_remove(struct device *dev)
+         |             ^~~~~~~~~~~~~~
+   drivers/tty/serial/max310x.c:1298:12: warning: 'max310x_probe' defined but not used [-Wunused-function]
+    1298 | static int max310x_probe(struct device *dev, const struct max310x_devtype *devtype,
+         |            ^~~~~~~~~~~~~
+>> drivers/tty/serial/max310x.c:515:13: warning: 'max310x_reg_noinc' defined but not used [-Wunused-function]
+     515 | static bool max310x_reg_noinc(struct device *dev, unsigned int reg)
+         |             ^~~~~~~~~~~~~~~~~
+>> drivers/tty/serial/max310x.c:502:13: warning: 'max310x_reg_precious' defined but not used [-Wunused-function]
+     502 | static bool max310x_reg_precious(struct device *dev, unsigned int reg)
+         |             ^~~~~~~~~~~~~~~~~~~~
+>> drivers/tty/serial/max310x.c:482:13: warning: 'max310x_reg_volatile' defined but not used [-Wunused-function]
+     482 | static bool max310x_reg_volatile(struct device *dev, unsigned int reg)
+         |             ^~~~~~~~~~~~~~~~~~~~
+>> drivers/tty/serial/max310x.c:467:13: warning: 'max310x_reg_writeable' defined but not used [-Wunused-function]
+     467 | static bool max310x_reg_writeable(struct device *dev, unsigned int reg)
+         |             ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +156 drivers/i2c/i2c-stub.c
+vim +/max310x_reg_noinc +515 drivers/tty/serial/max310x.c
 
-   140	
-   141	static s32 stub_xfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num)
-   142	{
-   143		int i;
-   144		u8 *new_rw_mem;
-   145		struct stub_chip *chip = NULL;
-   146		struct i2c_msg *msg;
-   147	
-   148		for (i = 0; i < num; i++) {
-   149			msg = msgs + i;
-   150			chip = stub_addr_to_chip(msg->addr);
-   151			if (!chip)
-   152				return -ENODEV;
-   153	
-   154			/* len is guaranteed to be <= 8192 by i2cdev_ioctl_rdwr */
-   155			if (chip->i2c_rw_size < msg->len) {
- > 156				new_rw_mem =
-   157					krelloc_array(chip->i2c_rw_data, msg->len, 1,
-   158						      GFP_KERNEL | __GFP_ZERO);
-   159				if (!new_rw_mem)
-   160					return -ENOMEM;
-   161				chip->i2c_rw_data = new_rw_mem;
-   162				chip->i2c_rw_size = msg->len;
-   163			}
-   164	
-   165			/* read, size determined by slave */
-   166			if ((msg->flags & I2C_M_RD) && (msg->flags & I2C_M_RECV_LEN)) {
-   167				/* i2cdev_ioctl_rdwr expects this as a maximum, even
-   168				 * though 0xff would be the theoretically possible
-   169				 */
-   170				msg->len = min(chip->i2c_rw_size, I2C_SMBUS_BLOCK_MAX);
-   171				msg->buf[0] = msg->len - 1;
-   172				dev_dbg(&adap->dev,
-   173					"i2c read with RECV_LEN - addr 0x%02x, read %u bytes\n",
-   174					msg->addr, msg->len);
-   175				memcpy(msg->buf + 1, chip->i2c_rw_data, msg->len - 1);
-   176			} else if (msg->flags & I2C_M_RD) {
-   177				dev_dbg(&adap->dev,
-   178					"i2c read - addr 0x%02x, read %u bytes\n",
-   179					msg->addr, msg->len);
-   180				memcpy(msg->buf, chip->i2c_rw_data, msg->len);
-   181			} else {
-   182				dev_dbg(&adap->dev,
-   183					"i2c write - addr 0x%02x, wrote %u bytes\n",
-   184					msg->addr, msg->len);
-   185				memcpy(chip->i2c_rw_data, msg->buf, msg->len);
-   186			}
-   187		}
-   188		return num;
-   189	}
-   190	
+003236d9ac4d027 Alexander Shiyan 2013-06-29  466  
+10d8b34a421716d Alexander Shiyan 2013-06-29 @467  static bool max310x_reg_writeable(struct device *dev, unsigned int reg)
+f65444187a66bf5 Alexander Shiyan 2012-08-06  468  {
+6ef281daf020592 Cosmin Tanislav  2022-06-05  469  	switch (reg) {
+f65444187a66bf5 Alexander Shiyan 2012-08-06  470  	case MAX310X_IRQSTS_REG:
+f65444187a66bf5 Alexander Shiyan 2012-08-06  471  	case MAX310X_LSR_IRQSTS_REG:
+f65444187a66bf5 Alexander Shiyan 2012-08-06  472  	case MAX310X_SPCHR_IRQSTS_REG:
+f65444187a66bf5 Alexander Shiyan 2012-08-06  473  	case MAX310X_STS_IRQSTS_REG:
+f65444187a66bf5 Alexander Shiyan 2012-08-06  474  	case MAX310X_TXFIFOLVL_REG:
+f65444187a66bf5 Alexander Shiyan 2012-08-06  475  	case MAX310X_RXFIFOLVL_REG:
+f65444187a66bf5 Alexander Shiyan 2012-08-06  476  		return false;
+f65444187a66bf5 Alexander Shiyan 2012-08-06  477  	default:
+f65444187a66bf5 Alexander Shiyan 2012-08-06  478  		return true;
+f65444187a66bf5 Alexander Shiyan 2012-08-06  479  	}
+d5dd265cda8083c Hugo Villeneuve  2024-01-18  480  }
+f65444187a66bf5 Alexander Shiyan 2012-08-06  481  
+f65444187a66bf5 Alexander Shiyan 2012-08-06 @482  static bool max310x_reg_volatile(struct device *dev, unsigned int reg)
+f65444187a66bf5 Alexander Shiyan 2012-08-06  483  {
+6ef281daf020592 Cosmin Tanislav  2022-06-05  484  	switch (reg) {
+f65444187a66bf5 Alexander Shiyan 2012-08-06  485  	case MAX310X_RHR_REG:
+f65444187a66bf5 Alexander Shiyan 2012-08-06  486  	case MAX310X_IRQSTS_REG:
+f65444187a66bf5 Alexander Shiyan 2012-08-06  487  	case MAX310X_LSR_IRQSTS_REG:
+f65444187a66bf5 Alexander Shiyan 2012-08-06  488  	case MAX310X_SPCHR_IRQSTS_REG:
+f65444187a66bf5 Alexander Shiyan 2012-08-06  489  	case MAX310X_STS_IRQSTS_REG:
+f65444187a66bf5 Alexander Shiyan 2012-08-06  490  	case MAX310X_TXFIFOLVL_REG:
+f65444187a66bf5 Alexander Shiyan 2012-08-06  491  	case MAX310X_RXFIFOLVL_REG:
+f65444187a66bf5 Alexander Shiyan 2012-08-06  492  	case MAX310X_GPIODATA_REG:
+10d8b34a421716d Alexander Shiyan 2013-06-29  493  	case MAX310X_BRGDIVLSB_REG:
+10d8b34a421716d Alexander Shiyan 2013-06-29  494  	case MAX310X_REG_05:
+10d8b34a421716d Alexander Shiyan 2013-06-29  495  	case MAX310X_REG_1F:
+f65444187a66bf5 Alexander Shiyan 2012-08-06  496  		return true;
+f65444187a66bf5 Alexander Shiyan 2012-08-06  497  	default:
+f65444187a66bf5 Alexander Shiyan 2012-08-06  498  		return false;
+f65444187a66bf5 Alexander Shiyan 2012-08-06  499  	}
+d5dd265cda8083c Hugo Villeneuve  2024-01-18  500  }
+f65444187a66bf5 Alexander Shiyan 2012-08-06  501  
+f65444187a66bf5 Alexander Shiyan 2012-08-06 @502  static bool max310x_reg_precious(struct device *dev, unsigned int reg)
+f65444187a66bf5 Alexander Shiyan 2012-08-06  503  {
+6ef281daf020592 Cosmin Tanislav  2022-06-05  504  	switch (reg) {
+f65444187a66bf5 Alexander Shiyan 2012-08-06  505  	case MAX310X_RHR_REG:
+f65444187a66bf5 Alexander Shiyan 2012-08-06  506  	case MAX310X_IRQSTS_REG:
+f65444187a66bf5 Alexander Shiyan 2012-08-06  507  	case MAX310X_SPCHR_IRQSTS_REG:
+f65444187a66bf5 Alexander Shiyan 2012-08-06  508  	case MAX310X_STS_IRQSTS_REG:
+f65444187a66bf5 Alexander Shiyan 2012-08-06  509  		return true;
+f65444187a66bf5 Alexander Shiyan 2012-08-06  510  	default:
+f65444187a66bf5 Alexander Shiyan 2012-08-06  511  		return false;
+f65444187a66bf5 Alexander Shiyan 2012-08-06  512  	}
+d5dd265cda8083c Hugo Villeneuve  2024-01-18  513  }
+f65444187a66bf5 Alexander Shiyan 2012-08-06  514  
+3f42b142ea11719 Jan Kundrát      2023-04-05 @515  static bool max310x_reg_noinc(struct device *dev, unsigned int reg)
+3f42b142ea11719 Jan Kundrát      2023-04-05  516  {
+3f42b142ea11719 Jan Kundrát      2023-04-05  517  	return reg == MAX310X_RHR_REG;
+3f42b142ea11719 Jan Kundrát      2023-04-05  518  }
+3f42b142ea11719 Jan Kundrát      2023-04-05  519  
 
 --
 0-DAY CI Kernel Test Service
