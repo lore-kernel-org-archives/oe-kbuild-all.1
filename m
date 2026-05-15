@@ -1,104 +1,164 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 984C83264CA
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 May 2026 14:59:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D02453C4546
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 May 2026 15:01:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778857167; cv=none; b=ggxjzfEzdN+gIZQd/wysOEFg+m0/lH2OpD0SCU1Iv98ZWrrsxHTwhFphkxGJwtRP6z8SgIUuqWc6YQoxSt7GGr2ng/fwKHtuhgblNbZPtD+xn25BbEtMhVOBfLLFXHs/0eXrBQfa//gNE+WfyB7KFg0TMYud561UGd5SUZbMo4Q=
+	t=1778857291; cv=none; b=JJNG9IjGpX5S5bnTOERLsUScehOFt1FG5u9Lr6pobS3qoHgqyrRpd9Z7VkGjm/hnwkKCB38qjh70zcS6nilFBnxZkeQkIxf29Py/iBIa8vQutOBYJuf52a8OOrPYoTH4GGTWB1f0EGnLCgOoEKbvNa4ezaoPIeEZesdIy7wiIvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778857167; c=relaxed/simple;
-	bh=zXB1zNsqjwMeh1a0Mp9NLixidMXNr2SkgxfpAxsrN2k=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bkXoPwhHMFWMjQqfRgQ24zMYRLtINF73Tt5PiO3UtSOgR56tZPzSx+lsCk7TPN2KKFWM5oV+JKkVvyNOcjnVNDgfaMMY01wRUsbpvL/7VyqHi2gzi0DyeZblJ3GWJz4qFXaVW/2ULJpU4JTg4GwHsoeFYCvCya0vn/wqUAqW5M0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lG0pULD5; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1778857291; c=relaxed/simple;
+	bh=uiaKR9sLWFTYJwAowj+0O5FDXArQGlMC/p5UVdWMM3Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=klPe0TvMGzfqCCOnSN9WuIlorzQPDeXy83RcqNrFc+zGuij0l2YQ07Sa5XOWeOa8aW/6BmdqSX0bfUwVuRDhVq0qRRMqO/TmJML5A+CRXJYVIS99lCHEzg6zAuFQPUkFnlSj0TWgzHvCaFZywA3mTVSiL4QKGiVy8O0vv0Nl+sI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=VoeTC1AL; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=pKZGwYmN; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=uhcawfJZ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=waKOJMGo; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lG0pULD5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778857165; x=1810393165;
-  h=date:from:to:cc:subject:message-id;
-  bh=zXB1zNsqjwMeh1a0Mp9NLixidMXNr2SkgxfpAxsrN2k=;
-  b=lG0pULD5I19wbiN09OgPgyjakwLH7GUrF1kujd5/UpeO8l2Wx+WmXBry
-   +X6Yxkk6SW/If9IXEOPZ1Gj8WHEF2Cd8Gz15b1lJjByA6raw0pv1R+NVz
-   Ae5sIbhT0BDRoB8Sx6X/fehQa67CY45aRhm3tFp2kDoktCa63/eqzR/z5
-   /FdpfSFIWbb3HtuvlHTHIXRsFt4qcbq2gERW0L2/KTioZ7tm3czP/X+Qa
-   4Qu+aOQbOD6gs3tPmnjcbTHA8HD5pZgcUr9R5XPfMtmrebC9LEO/GeVjj
-   oCg+FhUd2y1NA6yXTLT8Ce5nr5dhHkOOyLWoivzsVDTnTFLfRdYQpkkfJ
-   w==;
-X-CSE-ConnectionGUID: ckTJ7TZGSVqdMVJQZMimTg==
-X-CSE-MsgGUID: HgrhsLc0TFiI33wTyuGb3w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="79706987"
-X-IronPort-AV: E=Sophos;i="6.23,236,1770624000"; 
-   d="scan'208";a="79706987"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 07:59:25 -0700
-X-CSE-ConnectionGUID: S7A6ypWTQ/CqNhV11vBDZQ==
-X-CSE-MsgGUID: WBaptZCgQA6ZLp2Qv9nPxQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,236,1770624000"; 
-   d="scan'208";a="242705500"
-Received: from lkp-server02.sh.intel.com (HELO 7a33ad3e7d27) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 15 May 2026 07:59:23 -0700
-Received: from kbuild by 7a33ad3e7d27 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wNu0X-000000001zQ-136z;
-	Fri, 15 May 2026 14:59:21 +0000
-Date: Fri, 15 May 2026 22:57:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-rebalance_v2 462/799]
- fs/bcachefs/sb/io.c:582:19: sparse: sparse: cast to restricted __le32
-Message-ID: <202605152228.u1BQ6eYX-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="VoeTC1AL";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="pKZGwYmN";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="uhcawfJZ";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="waKOJMGo"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0AE606AF02;
+	Fri, 15 May 2026 15:01:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1778857283;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=W1xXYp7X5h3xx2goTvxVSRBGl/WUwI8ZZW7aqHTMb+Y=;
+	b=VoeTC1AL6NH4NJ7J/5sO9f47rA8jHtR7DYI+V4m5dbPAPrPtdO+sIsfZgx5cJHFouOleZu
+	YGsHHSegfUuPOjt7vlD/pO/TpbZwtW5OhXEnuHin+t+X9mfGuIuP7n4a3jWb+DSU/60mw+
+	f7WP9FX3Gp31dPv0GqnczVf9j/G5pJE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1778857283;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=W1xXYp7X5h3xx2goTvxVSRBGl/WUwI8ZZW7aqHTMb+Y=;
+	b=pKZGwYmNnRMu4lN1AdWgudEF3wiV+cTIuHgk3U3u7CJDyjWhaMXhSuNiWtGSmJ7tE5UvR7
+	ttJznnlgxqigATAg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1778857278;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=W1xXYp7X5h3xx2goTvxVSRBGl/WUwI8ZZW7aqHTMb+Y=;
+	b=uhcawfJZkmZRn7JXHrMANDpK82PEj1Jw963iCkiHUsUiF/jCgQPYXZFduMouLrojCPhunD
+	iBjaHY3mtr/wNf477OZHsnVaiwBNeQclSdx0pHdkMs84vZs13iD6hQ6yBLpWOPVon/ysaj
+	8/o1EsH8tl86uQbZbyNGUWf4dBkRM54=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1778857278;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=W1xXYp7X5h3xx2goTvxVSRBGl/WUwI8ZZW7aqHTMb+Y=;
+	b=waKOJMGoJrSczavuIwFM0xMTTQEmOZ0nDHBtHA8TayIlKY+CQzXRkIGHlQpuZ2RyjawQcw
+	po/okFlyOpV3f7Bg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E4790593A9;
+	Fri, 15 May 2026 15:01:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id VlyPNz01B2oARwAAD6G6ig
+	(envelope-from <dsterba@suse.cz>); Fri, 15 May 2026 15:01:17 +0000
+Date: Fri, 15 May 2026 17:01:16 +0200
+From: David Sterba <dsterba@suse.cz>
+To: Daniel Vacek <neelx@suse.com>
+Cc: kernel test robot <lkp@intel.com>, David Sterba <dsterba@suse.com>,
+	Josef Bacik <josef@toxicpanda.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [kdave-btrfs-devel:ext/dv/fscrypt 34/43] fs/btrfs/super.c:659:3:
+ warning: label followed by a declaration is a C23 extension
+Message-ID: <20260515150116.GQ2558453@suse.cz>
+Reply-To: dsterba@suse.cz
+References: <202605140749.ueq3q2k7-lkp@intel.com>
+ <CAPjX3FchC22U0n8Z97p2BNxeYnf7AQXp41VQUot5ZXsSSWy1Vg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPjX3FchC22U0n8Z97p2BNxeYnf7AQXp41VQUot5ZXsSSWy1Vg@mail.gmail.com>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+X-Spam-Flag: NO
+X-Spam-Score: -4.00
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	HAS_REPLYTO(0.30)[dsterba@suse.cz];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RSPAMD_URIBL_FAIL(0.00)[01.org:query timed out];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:mid,suse.cz:replyto,01.org:url];
+	RCVD_COUNT_TWO(0.00)[2];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[]
+X-Spam-Level: 
 
-Hi Kent,
+On Thu, May 14, 2026 at 05:27:36PM +0200, Daniel Vacek wrote:
+> On Thu, 14 May 2026 at 02:02, kernel test robot <lkp@intel.com> wrote:
+> >
+> > tree:   https://github.com/kdave/btrfs-devel.git ext/dv/fscrypt
+> > head:   4c05f02641d57f578a685f7e8d27b9cb18d17cc7
+> > commit: 69bb73593025c83c008129a68acd562e97870998 [34/43] btrfs: add test_dummy_encryption support
+> > config: hexagon-randconfig-002-20260514 (https://download.01.org/0day-ci/archive/20260514/202605140749.ueq3q2k7-lkp@intel.com/config)
+> > compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605140749.ueq3q2k7-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202605140749.ueq3q2k7-lkp@intel.com/
+> >
+> > All warnings (new ones prefixed by >>):
+> >
+> > >> fs/btrfs/super.c:659:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+> >      659 |                 int ret;
+> >          |                 ^
+> >    1 warning generated.
+> 
+> This only happens with CONFIG_BTRFS_DEBUG and a clang compiler. I'm
+> getting no error with gcc.
+> 
+> The variable is only used in that single switch case. If we declare it
+> at the beginning of the function then without CONFIG_BTRFS_DEBUG it
+> would complain about an unused variable.
+> 
+> What are your thoughts? Do we want to introduce an extra block or just
+> keep it this way?
 
-First bad commit (maybe != root cause):
+Yes add the block to case branch please, we've done it elsewhere too:
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-rebalance_v2
-head:   d4b3d00447faf8d4d95db47e3902e4ca4db8fbdc
-commit: 30f7c327a5b2201012ff856bc95040e2ec3fad6b [462/799] bcachefs: move sb code to subdir
-config: sh-randconfig-r123-20260514 (https://download.01.org/0day-ci/archive/20260515/202605152228.u1BQ6eYX-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 11.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260515/202605152228.u1BQ6eYX-lkp@intel.com/reproduce)
+	switch (...) {
+	case: {
+		int ret;
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605152228.u1BQ6eYX-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
-   fs/bcachefs/sb/io.c: note: in included file (through fs/bcachefs/bcachefs_format.h, fs/bcachefs/bcachefs.h):
-   fs/bcachefs/sb/downgrade_format.h:14:52: sparse: sparse: array of flexible structures
->> fs/bcachefs/sb/io.c:582:19: sparse: sparse: cast to restricted __le32
->> fs/bcachefs/sb/io.c:581:19: sparse: sparse: cast to restricted __le64
-
-vim +582 fs/bcachefs/sb/io.c
-
-1c6fdbd8f2465d fs/bcachefs/super-io.c Kent Overstreet 2017-03-16  577  
-8b16413cda7c46 fs/bcachefs/super-io.c Kent Overstreet 2023-12-29  578  static unsigned long le_ulong_to_cpu(unsigned long v)
-8b16413cda7c46 fs/bcachefs/super-io.c Kent Overstreet 2023-12-29  579  {
-8b16413cda7c46 fs/bcachefs/super-io.c Kent Overstreet 2023-12-29  580  	return sizeof(unsigned long) == 8
-8b16413cda7c46 fs/bcachefs/super-io.c Kent Overstreet 2023-12-29 @581  		? le64_to_cpu(v)
-8b16413cda7c46 fs/bcachefs/super-io.c Kent Overstreet 2023-12-29 @582  		: le32_to_cpu(v);
-8b16413cda7c46 fs/bcachefs/super-io.c Kent Overstreet 2023-12-29  583  }
-8b16413cda7c46 fs/bcachefs/super-io.c Kent Overstreet 2023-12-29  584  
-
-:::::: The code at line 582 was first introduced by commit
-:::::: 8b16413cda7c46d47f8071165b3071f8a9369199 bcachefs: bch_sb.recovery_passes_required
-
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+		ret = ...
+		break;
+	}
+	case:
