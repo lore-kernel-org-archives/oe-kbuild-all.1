@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97DF43F0AA7
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 May 2026 08:01:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9272C378830
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 May 2026 08:02:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778832097; cv=none; b=NYxhqoMdYbvwWT0DWIGQdu7sKrTZGWU4l9fRM8EmpqYSd/kp5N5eYp2JINdmiLM5XUcrms4kSOv/0AC5M2mOqA51rf4JGvG0WtyA0ZDSRumuD801oYkLaUf83maaLxwta9j7yFxopmLkFOF7rqoWKA+rtp9etnMm+zDSZRp+BRM=
+	t=1778832181; cv=none; b=KMKi+25KaDMFKbscVYQyJDtlW/eNU9yP/8oc101oYZ1pvdjcC5c63G/BkEOKSmoJznA6OVB77KY4VyI16DyfdqWGpQUgDvEfZ/qZztIXLCJAKK8uBJCzLvk+lj2xOEhvFZXNDXPTS7+QW4Xl3+2SY/z/tccCQKVOBY3Ly/ZdRr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778832097; c=relaxed/simple;
-	bh=uQz9qOuAJh7oNxwhQryppathOy8lCKLlSzcTl7cWXoI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=kMURwSGk3qgB43YhRCe21XSai1SU2SWg414w5PNIN/PQUYj7u/eN1+oAnK3znQgqXh5lYFcrBNCmaU7ohMBViTXSKWUcsvk0O9tAiNjYCRqJOKfJlJZsF2Odzfr8yT61LQh7nw63nGD0SOIqM6rvhle47SNdGwJaNOWTn6NCOvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bf68bUOP; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1778832181; c=relaxed/simple;
+	bh=iZJ+vUX1WUJI3RnIGb461Yh13ovA68q5BPSZdELwCz4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=JainHeCFllqdo2PpOccFfkaBLF04emogSmTDBTNvtYrOzlk8QiDrg9RauMRfj857ugbDZMGOUR1mSfoviplMNun5gDAN8GCbfR7EUMoJBwzepYYN+Y+CBiq5nF09PZdoKpYyxa6D/MR+ffta5hkIIKZSrDsn0QUNLmfb8+xG5dI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ku/WA7lh; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bf68bUOP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ku/WA7lh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778832094; x=1810368094;
+  t=1778832179; x=1810368179;
   h=date:from:to:cc:subject:message-id;
-  bh=uQz9qOuAJh7oNxwhQryppathOy8lCKLlSzcTl7cWXoI=;
-  b=bf68bUOPkBLrAI+AzZ+QtG8aKvKDvApQZnPKwibU7LHkE3guyR5hESbK
-   a+Ww8N8jcc2WJWrtWznv6yqvyF2YvQqHN9YdIo5A7NM2RwsBCtlsrcUNC
-   KmgRInelmn/64eOFl65MliduBkPyOQM4Nx9t4VaIRLOBQNSmApxclEAJQ
-   hyrs3H7JyvMXNdLtvakHTrsw93/5kS299EpR1m/CKdJptkcQo8Kqnpubw
-   JqCnrOM46dp2JPrsxp+jTD5rQLcJge4moOTd090MRND1ZSaZbatqjTinp
-   PYoCm4e6rr9nKSEK95aDkUtt2i0Cu1m9h592v9Gyr5U/fMjeF7MlqN99g
-   A==;
-X-CSE-ConnectionGUID: y1nzRS52RxGIAdrzqTmAOw==
-X-CSE-MsgGUID: WVJVasadRg+ZKjpPnu46MQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="79827207"
+  bh=iZJ+vUX1WUJI3RnIGb461Yh13ovA68q5BPSZdELwCz4=;
+  b=ku/WA7lhIqwL589SDsKViV0yVagkZwxK+I908etDG5bttHOTkmmGojwM
+   ufwZIpCT9bq+w7ZmtOnEZfq34HKS8VrVlPs/C7Lg4wAL7ZU+Ccsr/zS33
+   niLMWqhjvmPUfn8E2Q4wEnb1crbUqj8F7SKelawhJheXX/wWCxYT/igo6
+   JXQxniBVjQXV8PrEFvRmb111lyOaVGbckq4U+YstC61OqhZwQlgzgBA+7
+   xhDRgoxgkmRwsuymBkBdGKFYMBLcpG2uCUYKgh8ujzm2XeUqgej3RgEwv
+   AaMyBvkSjxLmKmu6h3ZvdtTatH/tl8zKp9YLfC0om1Gusk7hpV6PXaavR
+   g==;
+X-CSE-ConnectionGUID: XdDnKs20SL+LIYO+yKP5HA==
+X-CSE-MsgGUID: Nt/y/e40SnW1SCP2j2txIg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="97358554"
 X-IronPort-AV: E=Sophos;i="6.23,236,1770624000"; 
-   d="scan'208";a="79827207"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 01:01:34 -0700
-X-CSE-ConnectionGUID: uFBE7U+WT1qNgsx4IIoAZA==
-X-CSE-MsgGUID: iVceDa39T9i/V2jOFg1RfQ==
+   d="scan'208";a="97358554"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 01:02:59 -0700
+X-CSE-ConnectionGUID: GLAshYDMTq+/yIFvmo7/bA==
+X-CSE-MsgGUID: rcvH0c1bSF2Bxc/L++VuHA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,236,1770624000"; 
-   d="scan'208";a="262385721"
+   d="scan'208";a="234375832"
 Received: from lkp-server02.sh.intel.com (HELO 7a33ad3e7d27) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 15 May 2026 01:01:29 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 15 May 2026 01:02:57 -0700
 Received: from kbuild by 7a33ad3e7d27 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wNnTP-00000000193-2kB9;
-	Fri, 15 May 2026 08:00:55 +0000
-Date: Fri, 15 May 2026 16:00:01 +0800
+	id 1wNnU4-00000000195-2Z5K;
+	Fri, 15 May 2026 08:01:42 +0000
+Date: Fri, 15 May 2026 15:59:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
+To: Kent Overstreet <kent.overstreet@linux.dev>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:7.1-rc 147/154]
- as21xxx.c:(.text+0x1f8): multiple definition of `aeon_cl45_read';
- drivers/net/phy/as21xx_1.9.1/as21xxx.o:as21xxx.c:(.text+0x1f8): first defined
- here
-Message-ID: <202605151630.IoVSnfkV-lkp@intel.com>
+Subject: [koverstreet-bcachefs:bcachefs-rebalance_v2 458/799]
+ fs/bcachefs/btree/locking.c:328:36: sparse: sparse: incompatible types in
+ comparison expression (different address spaces):
+Message-ID: <202605151533.0ksfLAM8-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,144 +60,183 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.1-rc
-head:   767536110bfe28c94ae2e150c083d29f827655cf
-commit: 1a140ff79b8bf1a9f5ddb079b6e2b404929f0a36 [147/154] net: phy: rename as21xx v1.9.1 like it's done for 1.9.2
-config: powerpc64-randconfig-001-20260515 (https://download.01.org/0day-ci/archive/20260515/202605151630.IoVSnfkV-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260515/202605151630.IoVSnfkV-lkp@intel.com/reproduce)
+Hi Kent,
+
+First bad commit (maybe != root cause):
+
+tree:   https://github.com/koverstreet/bcachefs bcachefs-rebalance_v2
+head:   d4b3d00447faf8d4d95db47e3902e4ca4db8fbdc
+commit: caf90d22262c52f7c29c4b08bd50f2a27d3dbe25 [458/799] bcachefs: move btree files to subdir
+config: sh-randconfig-r123-20260514 (https://download.01.org/0day-ci/archive/20260515/202605151533.0ksfLAM8-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 11.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260515/202605151533.0ksfLAM8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605151630.IoVSnfkV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605151533.0ksfLAM8-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/bcachefs/btree/locking.c:328:36: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/bcachefs/btree/locking.c:328:36: sparse:    struct btree_path [noderef] __rcu *
+   fs/bcachefs/btree/locking.c:328:36: sparse:    struct btree_path *
+--
+>> fs/bcachefs/btree/interior.c:1191:18: sparse: sparse: mixing different enum types:
+   fs/bcachefs/btree/interior.c:1191:18: sparse:    unsigned int enum bch_trans_commit_flags
+   fs/bcachefs/btree/interior.c:1191:18: sparse:    unsigned int enum bch_watermark
+--
+>> fs/bcachefs/btree/iter.c:1713:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/bcachefs/btree/iter.c:1713:9: sparse:    unsigned long [noderef] __rcu *
+   fs/bcachefs/btree/iter.c:1713:9: sparse:    unsigned long *
+   fs/bcachefs/btree/iter.c:1714:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/bcachefs/btree/iter.c:1714:9: sparse:    struct btree_path [noderef] __rcu *
+   fs/bcachefs/btree/iter.c:1714:9: sparse:    struct btree_path *
+   fs/bcachefs/btree/iter.c:1715:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/bcachefs/btree/iter.c:1715:9: sparse:    unsigned short [noderef] __rcu *
+   fs/bcachefs/btree/iter.c:1715:9: sparse:    unsigned short [usertype] *
+   fs/bcachefs/btree/iter.c:1716:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/bcachefs/btree/iter.c:1716:9: sparse:    struct btree_insert_entry [noderef] __rcu *
+   fs/bcachefs/btree/iter.c:1716:9: sparse:    struct btree_insert_entry *
+   fs/bcachefs/btree/iter.c:3735:36: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/bcachefs/btree/iter.c:3735:36: sparse:    struct btree_path [noderef] __rcu *
+   fs/bcachefs/btree/iter.c:3735:36: sparse:    struct btree_path *
+   fs/bcachefs/btree/iter.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
+   include/linux/srcu.h:373:9: sparse: sparse: context imbalance in 'bch2_trans_srcu_unlock' - unexpected unlock
+   fs/bcachefs/btree/iter.c:3355:9: sparse: sparse: context imbalance in 'bch2_trans_srcu_lock' - different lock contexts for basic block
+   fs/bcachefs/btree/iter.c:3633:9: sparse: sparse: context imbalance in 'bch2_trans_put' - different lock contexts for basic block
 
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xxx.o:(.data+0x0): multiple definition of `custome_cfg'; drivers/net/phy/as21xx_1.9.1/as21xxx.o:(.data+0x0): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xxx.o: in function `aeon_cl45_read':
->> as21xxx.c:(.text+0x1f8): multiple definition of `aeon_cl45_read'; drivers/net/phy/as21xx_1.9.1/as21xxx.o:as21xxx.c:(.text+0x1f8): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xxx.o: in function `aeon_cl45_write':
->> as21xxx.c:(.text+0x33c): multiple definition of `aeon_cl45_write'; drivers/net/phy/as21xx_1.9.1/as21xxx.o:as21xxx.c:(.text+0x374): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_debugfs.o: in function `as21xxx_debugfs_init':
->> as21xx_debugfs.c:(.text+0x5128): multiple definition of `as21xxx_debugfs_init'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_debugfs.o:as21xx_debugfs.c:(.text+0x3a78): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_debugfs.o: in function `as21xxx_debugfs_remove':
->> as21xx_debugfs.c:(.text+0x5898): multiple definition of `as21xxx_debugfs_remove'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_debugfs.o:as21xx_debugfs.c:(.text+0x40e8): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_debugfs.o:(.data+0x0): multiple definition of `IMP_TYPE_STR'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_debugfs.o:(.data+0x0): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_ipc_cfg_param_direct':
->> as21xx_api.c:(.text+0x580): multiple definition of `aeon_ipc_cfg_param_direct'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0xa7c): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_pkt_chk_cfg':
->> as21xx_api.c:(.text+0x620): multiple definition of `aeon_pkt_chk_cfg'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0xf44): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_auto_eee_cfg':
->> as21xx_api.c:(.text+0x66c): multiple definition of `aeon_auto_eee_cfg'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0xf90): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_sds_wait_eth_cfg':
->> as21xx_api.c:(.text+0x6b8): multiple definition of `aeon_sds_wait_eth_cfg'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0xfdc): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_sds_restart_an':
->> as21xx_api.c:(.text+0x708): multiple definition of `aeon_sds_restart_an'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x102c): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_sds2nd_enable':
->> as21xx_api.c:(.text+0x744): multiple definition of `aeon_sds2nd_enable'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x10c0): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_sds2nd_eq_cfg':
->> as21xx_api.c:(.text+0x788): multiple definition of `aeon_sds2nd_eq_cfg'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x1104): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_sds2nd_mode_cfg':
->> as21xx_api.c:(.text+0x7d8): multiple definition of `aeon_sds2nd_mode_cfg'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x1154): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_ipc_sync_parity':
->> as21xx_api.c:(.text+0x944): multiple definition of `aeon_ipc_sync_parity'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x51c): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_sds_pcs_set_cfg':
->> as21xx_api.c:(.text+0xfe4): multiple definition of `aeon_sds_pcs_set_cfg'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0xdac): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_ipc_sds_txfir':
->> as21xx_api.c:(.text+0x1068): multiple definition of `aeon_ipc_sds_txfir'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x12f0): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_ipc_auto_link_cfg':
->> as21xx_api.c:(.text+0x10f0): multiple definition of `aeon_ipc_auto_link_cfg'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x1274): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_ipc_auto_link_ena':
->> as21xx_api.c:(.text+0x116c): multiple definition of `aeon_ipc_auto_link_ena'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x11f8): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_normal_retrain_cfg':
->> as21xx_api.c:(.text+0x11e8): multiple definition of `aeon_normal_retrain_cfg'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x11a0): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_ipc_set_tx_power_lvl':
->> as21xx_api.c:(.text+0x1240): multiple definition of `aeon_ipc_set_tx_power_lvl'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x1068): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_ipc_get_fw_version':
->> as21xx_api.c:(.text+0x1298): multiple definition of `aeon_ipc_get_fw_version'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x8cc): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_cu_an_set_top_spd':
-   as21xx_api.c:(.text+0x1334): multiple definition of `aeon_cu_an_set_top_spd'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0xb20): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_cu_an_restart':
-   as21xx_api.c:(.text+0x1378): multiple definition of `aeon_cu_an_restart'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0xb64): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_cu_an_set_eee_spd':
-   as21xx_api.c:(.text+0x13b8): multiple definition of `aeon_cu_an_set_eee_spd'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0xba4): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_cu_an_set_trd_swap':
-   as21xx_api.c:(.text+0x13fc): multiple definition of `aeon_cu_an_set_trd_swap'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0xbe8): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_cu_an_set_ms_cfg':
-   as21xx_api.c:(.text+0x1440): multiple definition of `aeon_cu_an_set_ms_cfg'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0xc2c): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_cu_an_get_ms_cfg':
-   as21xx_api.c:(.text+0x148c): multiple definition of `aeon_cu_an_get_ms_cfg'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0xc78): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_cu_an_set_cfr':
-   as21xx_api.c:(.text+0x14f0): multiple definition of `aeon_cu_an_set_cfr'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0xcdc): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_cu_an_set_fast_retrain':
-   as21xx_api.c:(.text+0x1534): multiple definition of `aeon_cu_an_set_fast_retrain'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0xd20): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_cu_an_enable_downshift':
-   as21xx_api.c:(.text+0x157c): multiple definition of `aeon_cu_an_enable_downshift'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0xd68): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_sds_pma_set_cfg':
-   as21xx_api.c:(.text+0x15c0): multiple definition of `aeon_sds_pma_set_cfg'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0xe2c): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_cu_an_enable_aeon_oui':
-   as21xx_api.c:(.text+0x1610): multiple definition of `aeon_cu_an_enable_aeon_oui'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0xe7c): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_ipc_eye_scan':
-   as21xx_api.c:(.text+0x1654): multiple definition of `aeon_ipc_eye_scan'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0xec0): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_ipc_temp_monitor':
-   as21xx_api.c:(.text+0x1870): multiple definition of `aeon_ipc_temp_monitor'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x1378): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_ipc_set_led_cfg':
-   as21xx_api.c:(.text+0x18e8): multiple definition of `aeon_ipc_set_led_cfg'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x142c): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_read_status':
-   as21xx_api.c:(.text+0x196c): multiple definition of `aeon_read_status'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x14b4): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_ipc_set_sys_reboot':
-   as21xx_api.c:(.text+0x1a8c): multiple definition of `aeon_ipc_set_sys_reboot'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x15d4): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_ipc_phy_enable_mode':
-   as21xx_api.c:(.text+0x1acc): multiple definition of `aeon_ipc_phy_enable_mode'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x1614): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_ipc_ng_test_mode':
-   as21xx_api.c:(.text+0x1b40): multiple definition of `aeon_ipc_ng_test_mode'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x168c): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_cu_an_enable':
-   as21xx_api.c:(.text+0x1b84): multiple definition of `aeon_cu_an_enable'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x16d0): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_set_man_mdi':
-   as21xx_api.c:(.text+0x1c00): multiple definition of `aeon_set_man_mdi'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x1714): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_set_man_mdix':
-   as21xx_api.c:(.text+0x1c48): multiple definition of `aeon_set_man_mdix'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x175c): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_set_man_duplex':
-   as21xx_api.c:(.text+0x1c8c): multiple definition of `aeon_set_man_duplex'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x17a0): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_ng_test_mode':
-   as21xx_api.c:(.text+0x1cd8): multiple definition of `aeon_ng_test_mode'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x17ec): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_1g_test_mode':
-   as21xx_api.c:(.text+0x1e04): multiple definition of `aeon_1g_test_mode'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x1918): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_100m_test_mode':
-   as21xx_api.c:(.text+0x1ec8): multiple definition of `aeon_100m_test_mode'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x1c40): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_ipc_set_wol':
-   as21xx_api.c:(.text+0x1f40): multiple definition of `aeon_ipc_set_wol'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x1d24): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_ipc_smi_command':
-   as21xx_api.c:(.text+0x1f8c): multiple definition of `aeon_ipc_smi_command'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x1d70): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_ipc_irq_en':
-   as21xx_api.c:(.text+0x1fd0): multiple definition of `aeon_ipc_irq_en'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x1db4): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_ipc_irq_clr':
-   as21xx_api.c:(.text+0x204c): multiple definition of `aeon_ipc_irq_clr'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x1e34): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_ipc_irq_query':
-   as21xx_api.c:(.text+0x20c0): multiple definition of `aeon_ipc_irq_query'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x1eac): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_ipc_set_tx_fullscale_delta':
-   as21xx_api.c:(.text+0x215c): multiple definition of `aeon_ipc_set_tx_fullscale_delta'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x1cc0): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_ipc_get_tx_fullscale_delta':
-   as21xx_api.c:(.text+0x21c0): multiple definition of `aeon_ipc_get_tx_fullscale_delta'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x1f4c): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_ipc_set_wdt':
-   as21xx_api.c:(.text+0x2224): multiple definition of `aeon_ipc_set_wdt'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x2020): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_ipc_read_mem':
-   as21xx_api.c:(.text+0x2264): multiple definition of `aeon_ipc_read_mem'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x2060): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_ipc_set_mac_cnt':
-   as21xx_api.c:(.text+0x2304): multiple definition of `aeon_ipc_set_mac_cnt'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x2104): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_ipc_cable_diag':
-   as21xx_api.c:(.text+0x23a0): multiple definition of `aeon_ipc_cable_diag'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x21a0): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_synce_enable_cfg':
-   as21xx_api.c:(.text+0x2434): multiple definition of `aeon_synce_enable_cfg'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x2218): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_synce_mode_cfg':
-   as21xx_api.c:(.text+0x24b0): multiple definition of `aeon_synce_mode_cfg'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x2294): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_synce_user_bw':
-   as21xx_api.c:(.text+0x252c): multiple definition of `aeon_synce_user_bw'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x2310): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_synce_slave_output_ctrl_cfg':
-   as21xx_api.c:(.text+0x2584): multiple definition of `aeon_synce_slave_output_ctrl_cfg'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x2368): first defined here
-   powerpc64-linux-ld: drivers/net/phy/as21xx_1.9.2/as21xx_bbu_api/as21xx_api.o: in function `aeon_parallel_det':
-   as21xx_api.c:(.text+0x25dc): multiple definition of `aeon_parallel_det'; drivers/net/phy/as21xx_1.9.1/as21xx_bbu_api/as21xx_api.o:as21xx_api.c:(.text+0x23c0): first defined here
+vim +328 fs/bcachefs/btree/locking.c
+
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  297  
+96d994b37cfcf4 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  298  int bch2_check_for_deadlock(struct btree_trans *trans, struct printbuf *cycle)
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  299  {
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  300  	struct lock_graph g;
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  301  	struct trans_waiting_for_lock *top;
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  302  	struct btree_bkey_cached_common *b;
+fea153a84557c9 fs/bcachefs/btree_locking.c Kent Overstreet 2023-12-12  303  	btree_path_idx_t path_idx;
+fea153a84557c9 fs/bcachefs/btree_locking.c Kent Overstreet 2023-12-12  304  	int ret = 0;
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  305  
+3398124444b900 fs/bcachefs/btree_locking.c Kent Overstreet 2023-05-26  306  	g.nr = 0;
+3398124444b900 fs/bcachefs/btree_locking.c Kent Overstreet 2023-05-26  307  
+0ef9ab34f442f7 fs/bcachefs/btree_locking.c Alan Huang      2024-10-10  308  	if (trans->lock_must_abort && !trans->lock_may_not_fail) {
+40405557b92dfe fs/bcachefs/btree_locking.c Kent Overstreet 2023-01-20  309  		if (cycle)
+40405557b92dfe fs/bcachefs/btree_locking.c Kent Overstreet 2023-01-20  310  			return -1;
+40405557b92dfe fs/bcachefs/btree_locking.c Kent Overstreet 2023-01-20  311  
+c13fbb7de2fc4f fs/bcachefs/btree_locking.c Kent Overstreet 2024-01-04  312  		trace_would_deadlock(&g, trans);
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  313  		return btree_trans_restart(trans, BCH_ERR_transaction_restart_would_deadlock);
+0d7009d7ca99ad fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  314  	}
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  315  
+896f1b316f8e8f fs/bcachefs/btree_locking.c Kent Overstreet 2022-10-12  316  	lock_graph_down(&g, trans);
+fea153a84557c9 fs/bcachefs/btree_locking.c Kent Overstreet 2023-12-12  317  
+fea153a84557c9 fs/bcachefs/btree_locking.c Kent Overstreet 2023-12-12  318  	/* trans->paths is rcu protected vs. freeing */
+18dad454cd16cb fs/bcachefs/btree_locking.c Kent Overstreet 2025-05-24  319  	guard(rcu)();
+fea153a84557c9 fs/bcachefs/btree_locking.c Kent Overstreet 2023-12-12  320  	if (cycle)
+fea153a84557c9 fs/bcachefs/btree_locking.c Kent Overstreet 2023-12-12  321  		cycle->atomic++;
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  322  next:
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  323  	if (!g.nr)
+fea153a84557c9 fs/bcachefs/btree_locking.c Kent Overstreet 2023-12-12  324  		goto out;
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  325  
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  326  	top = &g.g[g.nr - 1];
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  327  
+fea153a84557c9 fs/bcachefs/btree_locking.c Kent Overstreet 2023-12-12 @328  	struct btree_path *paths = rcu_dereference(top->trans->paths);
+fea153a84557c9 fs/bcachefs/btree_locking.c Kent Overstreet 2023-12-12  329  	if (!paths)
+fea153a84557c9 fs/bcachefs/btree_locking.c Kent Overstreet 2023-12-12  330  		goto up;
+fea153a84557c9 fs/bcachefs/btree_locking.c Kent Overstreet 2023-12-12  331  
+fea153a84557c9 fs/bcachefs/btree_locking.c Kent Overstreet 2023-12-12  332  	unsigned long *paths_allocated = trans_paths_allocated(paths);
+fea153a84557c9 fs/bcachefs/btree_locking.c Kent Overstreet 2023-12-12  333  
+fea153a84557c9 fs/bcachefs/btree_locking.c Kent Overstreet 2023-12-12  334  	trans_for_each_path_idx_from(paths_allocated, *trans_paths_nr(paths),
+fea153a84557c9 fs/bcachefs/btree_locking.c Kent Overstreet 2023-12-12  335  				     path_idx, top->path_idx) {
+fea153a84557c9 fs/bcachefs/btree_locking.c Kent Overstreet 2023-12-12  336  		struct btree_path *path = paths + path_idx;
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  337  		if (!path->nodes_locked)
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  338  			continue;
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  339  
+f154c3eb429a34 fs/bcachefs/btree_locking.c Kent Overstreet 2023-05-27  340  		if (path_idx != top->path_idx) {
+f154c3eb429a34 fs/bcachefs/btree_locking.c Kent Overstreet 2023-05-27  341  			top->path_idx		= path_idx;
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  342  			top->level		= 0;
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  343  			top->lock_start_time	= 0;
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  344  		}
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  345  
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  346  		for (;
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  347  		     top->level < BTREE_MAX_DEPTH;
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  348  		     top->level++, top->lock_start_time = 0) {
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  349  			int lock_held = btree_node_locked_type(path, top->level);
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  350  
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  351  			if (lock_held == BTREE_NODE_UNLOCKED)
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  352  				continue;
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  353  
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  354  			b = &READ_ONCE(path->l[top->level].b)->c;
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  355  
+80df5b8cacceb2 fs/bcachefs/btree_locking.c Kent Overstreet 2023-01-20  356  			if (IS_ERR_OR_NULL(b)) {
+80df5b8cacceb2 fs/bcachefs/btree_locking.c Kent Overstreet 2023-01-20  357  				/*
+80df5b8cacceb2 fs/bcachefs/btree_locking.c Kent Overstreet 2023-01-20  358  				 * If we get here, it means we raced with the
+80df5b8cacceb2 fs/bcachefs/btree_locking.c Kent Overstreet 2023-01-20  359  				 * other thread updating its btree_path
+80df5b8cacceb2 fs/bcachefs/btree_locking.c Kent Overstreet 2023-01-20  360  				 * structures - which means it can't be blocked
+80df5b8cacceb2 fs/bcachefs/btree_locking.c Kent Overstreet 2023-01-20  361  				 * waiting on a lock:
+80df5b8cacceb2 fs/bcachefs/btree_locking.c Kent Overstreet 2023-01-20  362  				 */
+b169138d482980 fs/bcachefs/btree_locking.c Alan Huang      2024-10-03  363  				if (!lock_graph_remove_non_waiters(&g, g.g)) {
+80df5b8cacceb2 fs/bcachefs/btree_locking.c Kent Overstreet 2023-01-20  364  					/*
+80df5b8cacceb2 fs/bcachefs/btree_locking.c Kent Overstreet 2023-01-20  365  					 * If lock_graph_remove_non_waiters()
+80df5b8cacceb2 fs/bcachefs/btree_locking.c Kent Overstreet 2023-01-20  366  					 * didn't do anything, it must be
+80df5b8cacceb2 fs/bcachefs/btree_locking.c Kent Overstreet 2023-01-20  367  					 * because we're being called by debugfs
+80df5b8cacceb2 fs/bcachefs/btree_locking.c Kent Overstreet 2023-01-20  368  					 * checking for lock cycles, which
+80df5b8cacceb2 fs/bcachefs/btree_locking.c Kent Overstreet 2023-01-20  369  					 * invokes us on btree_transactions that
+80df5b8cacceb2 fs/bcachefs/btree_locking.c Kent Overstreet 2023-01-20  370  					 * aren't actually waiting on anything.
+80df5b8cacceb2 fs/bcachefs/btree_locking.c Kent Overstreet 2023-01-20  371  					 * Just bail out:
+80df5b8cacceb2 fs/bcachefs/btree_locking.c Kent Overstreet 2023-01-20  372  					 */
+80df5b8cacceb2 fs/bcachefs/btree_locking.c Kent Overstreet 2023-01-20  373  					lock_graph_pop_all(&g);
+80df5b8cacceb2 fs/bcachefs/btree_locking.c Kent Overstreet 2023-01-20  374  				}
+80df5b8cacceb2 fs/bcachefs/btree_locking.c Kent Overstreet 2023-01-20  375  
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  376  				goto next;
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  377  			}
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  378  
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  379  			if (list_empty_careful(&b->lock.wait_list))
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  380  				continue;
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  381  
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  382  			raw_spin_lock(&b->lock.wait_lock);
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  383  			list_for_each_entry(trans, &b->lock.wait_list, locking_wait.list) {
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  384  				BUG_ON(b != trans->locking);
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  385  
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  386  				if (top->lock_start_time &&
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  387  				    time_after_eq64(top->lock_start_time, trans->locking_wait.start_time))
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  388  					continue;
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  389  
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  390  				top->lock_start_time = trans->locking_wait.start_time;
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  391  
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  392  				/* Don't check for self deadlock: */
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  393  				if (trans == top->trans ||
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  394  				    !lock_type_conflicts(lock_held, trans->locking_wait.lock_want))
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  395  					continue;
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  396  
+6547ebabdaac44 fs/bcachefs/btree_locking.c Kent Overstreet 2023-06-19  397  				closure_get(&trans->ref);
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  398  				raw_spin_unlock(&b->lock.wait_lock);
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  399  
+6547ebabdaac44 fs/bcachefs/btree_locking.c Kent Overstreet 2023-06-19  400  				ret = lock_graph_descend(&g, trans, cycle);
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  401  				if (ret)
+fea153a84557c9 fs/bcachefs/btree_locking.c Kent Overstreet 2023-12-12  402  					goto out;
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  403  				goto next;
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  404  
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  405  			}
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  406  			raw_spin_unlock(&b->lock.wait_lock);
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  407  		}
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  408  	}
+fea153a84557c9 fs/bcachefs/btree_locking.c Kent Overstreet 2023-12-12  409  up:
+97940308bbe3f8 fs/bcachefs/btree_locking.c Kent Overstreet 2025-09-08  410  	if (cycle)
+40a44873a5ca98 fs/bcachefs/btree_locking.c Kent Overstreet 2022-10-02  411  		print_chain(cycle, &g);
+896f1b316f8e8f fs/bcachefs/btree_locking.c Kent Overstreet 2022-10-12  412  	lock_graph_up(&g);
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  413  	goto next;
+fea153a84557c9 fs/bcachefs/btree_locking.c Kent Overstreet 2023-12-12  414  out:
+fea153a84557c9 fs/bcachefs/btree_locking.c Kent Overstreet 2023-12-12  415  	if (cycle)
+fea153a84557c9 fs/bcachefs/btree_locking.c Kent Overstreet 2023-12-12  416  		--cycle->atomic;
+fea153a84557c9 fs/bcachefs/btree_locking.c Kent Overstreet 2023-12-12  417  	return ret;
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  418  }
+33bd5d068603f9 fs/bcachefs/btree_locking.c Kent Overstreet 2022-08-22  419  
+
+:::::: The code at line 328 was first introduced by commit
+:::::: fea153a84557c982542527143950dbef434731c2 bcachefs: rcu protect trans->paths
+
+:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 --
 0-DAY CI Kernel Test Service
