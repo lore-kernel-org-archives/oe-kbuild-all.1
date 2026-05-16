@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EE2F3E3159
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 May 2026 15:10:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B487356764;
+	Sat, 16 May 2026 15:51:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778944238; cv=none; b=hQgxlYHy7CH1d2/7dMhLTZp3e5PfhSkg9KWikNiqCyy500mTlLhfYrj5jZPi8O8AmXf95XoayFhgltvUhHpJ7p5Ikr7e93rpjFaQEWtPtZeKTYMNExhxDc6Ia1I+B89E0uU4snET3UpGAI39JZsPCeVYGLLvXl4nTZ02FCR9Mxc=
+	t=1778946694; cv=none; b=VpYtZkcP4ixRKWtHOMdXJHdwiRtRIDtncGOLhQCwW7XGIZH0bQm21yQHNvxKDd1+Oed4Ter5pkquPYm60nuZpoBMvAghhdzBNbKfoGnZ/jqDo/6YpyRXh+rOVoui9e3f+t/XaltyaYixcjw+guJCChHgw2xkRA+a0EJQjLMJilc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778944238; c=relaxed/simple;
-	bh=5tTm+tJaVwUI2B0Elwxx5Y9IUHHOj7VrIE6hvYMl8TQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=hNbV3pky3aZD+V403TG1EyHPoSM48IzAlji4T5DWax2TDfZbM4F84lUoho+amOV1uKWVZH0B25+GSU+Vto1QKVlYQ1N5JZOcrs8MoKSGFOyHOllUIsaqN7xtNuXZXm3GgmNqiLKK6dc0JnglzPRqp9T1o2NIYWJ/gl3FYN1Hffw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FTQZrP1r; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1778946694; c=relaxed/simple;
+	bh=kC0HBT9SarchGoqwLfiVYhk8mE+purbVYzNJ74o83Fk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=N1hwsT5W3Ekn0k3tBBKt4KNPmuQ4ESXPo1Qw6KBBB56vjG43OIqu/il7vvBDZowrCOvUhZh+SoQ88LWo5hi3+s6QrQFOEa4USZXAucUFbWFu8hPqeW6x+N//lSZWXJUY8Gdzjgaw17OOpypJnOvib8fXrI95W3u2nTjK04hT4EQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TNpgYvGQ; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FTQZrP1r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TNpgYvGQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778944233; x=1810480233;
+  t=1778946692; x=1810482692;
   h=date:from:to:cc:subject:message-id;
-  bh=5tTm+tJaVwUI2B0Elwxx5Y9IUHHOj7VrIE6hvYMl8TQ=;
-  b=FTQZrP1rnCgC1hzP8xmVFNWQurNG9uEOt2rEmZbJKbWnXdYG3kWQ29M4
-   LPbZ1d0zOJeLSd5aD7e5HBvTEe0KhecyOJMTgIyW6oJgghihQLknloYeo
-   vnN7mMX8xVMJgND1xU7iVXJsrG5otbi1qCVs3kYmQNw2vkrDjwtTAq0Qi
-   y469yyVXPpsArdRbmc7GA6r6F+NxLiZipyjmDgAEtSS6LgQ93KsjIO+XO
-   HVejIK/cJYoLB+sEsLrg0DA6ff6eCwr1sjcdhB3ZA5SWNTgRaz6Te26CD
-   fNG8GmUZcTZOboUmVz+uXMOzU3G2a41wy4aCTJcHjn22c4r2vbpQvG5fw
+  bh=kC0HBT9SarchGoqwLfiVYhk8mE+purbVYzNJ74o83Fk=;
+  b=TNpgYvGQYm5E3JPZPuy4P8VOpCkHDHbETZc6RI26qnt1tRk7jCFDqj92
+   ivW9l/cusG7DXpUbaVyg56X0aECMCv1jsFX++4hyqrQPlctj9OeBaukMB
+   bSVjD/WmG1Fokl8V69p36a4OehDOfchHEq8XYXZSIuLHfZ9Rx1Ml+sJDr
+   sTOZBKHpXpYv26psDAcoXh0m8yxYBXMSZ3Q/GsIBmBqTD36+BGvQgG1Fl
+   5BhE2sneG1qTQ8VvSGpYtalD2fT8GlTllwrdtZsgCID2kadFCYC3Pdcbg
+   8LqyQK4O1Lasa5roGx4uRetVp4QT0L8CiTmFq/2ruWP8JIPxDQZSkr1/x
    g==;
-X-CSE-ConnectionGUID: jUFcYL/qTO+tcLOh060NVw==
-X-CSE-MsgGUID: Jt2wTPEAQzy8x80U+ckWSA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11788"; a="79902083"
+X-CSE-ConnectionGUID: SSbwLFvkSoiUW8HW/NE+gQ==
+X-CSE-MsgGUID: CSoKzJ67Su+G8Ns7uyvg0g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11788"; a="83488964"
 X-IronPort-AV: E=Sophos;i="6.23,238,1770624000"; 
-   d="scan'208";a="79902083"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2026 08:10:31 -0700
-X-CSE-ConnectionGUID: xMHtnn9RSpOoYx1Y0HcMUQ==
-X-CSE-MsgGUID: Awi7jj3WT3GYFyk31iS5ew==
+   d="scan'208";a="83488964"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2026 08:51:32 -0700
+X-CSE-ConnectionGUID: ooCSnYcyR3yZrAJJcpRZCg==
+X-CSE-MsgGUID: JAmnlCUMR0WASAvd7s6IOw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,238,1770624000"; 
-   d="scan'208";a="234533176"
+   d="scan'208";a="238116238"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 16 May 2026 08:10:29 -0700
+  by orviesa010.jf.intel.com with ESMTP; 16 May 2026 08:51:30 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wOGep-000000009LR-36rJ;
-	Sat, 16 May 2026 15:10:27 +0000
-Date: Sat, 16 May 2026 17:10:23 +0200
+	id 1wOHIW-000000009Lx-0qAH;
+	Sat, 16 May 2026 15:51:28 +0000
+Date: Sat, 16 May 2026 17:51:08 +0200
 From: kernel test robot <lkp@intel.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>,
- "Rob Herring (Arm)" <robh@kernel.org>
-Subject: [linux-next:master 2642/4394]
- arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: memory-controller@70019000
- (nvidia,tegra114-mc): '#interconnect-cells' is a required property
-Message-ID: <202605161703.K4NC7zn5-lkp@intel.com>
+To: Manos Pitsidianakis <manos@pitsidianak.is>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ 0day robot <lkp@intel.com>
+Subject: warning: variable does not need to be mutable
+Message-ID: <202605161734.3uEaaFFK-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,101 +59,45 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e98d21c170b01ddef366f023bbfcf6b31509fa83
-commit: b0822a883408f32d494ce9cdc26f4266774cf3f1 [2642/4394] dt-bindings: memory: Document Tegra114 Memory Controller
-config: arm-randconfig-2051-20260515 (https://download.01.org/0day-ci/archive/20260516/202605161703.K4NC7zn5-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.4.0
-dtschema: 2026.5.dev9+gdf9ad30c5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260516/202605161703.K4NC7zn5-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Manos-Pitsidianakis/rust-bindings-generate-virtio-bindings/20260513-065912
+head:   dcbb217532e1f25cb932bf8b1019d1085373a6df
+commit: dcbb217532e1f25cb932bf8b1019d1085373a6df samples/rust: Add sample virtio-rtc driver [WIP]
+date:   4 days ago
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260516/202605161734.3uEaaFFK-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260516/202605161734.3uEaaFFK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605161703.K4NC7zn5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605161734.3uEaaFFK-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5640.yaml
-   arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: /i2c@7000d000/pmic@58: failed to match any schema with compatible: ['ti,tps65913', 'ti,palmas']
-   arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: /i2c@7000d000/pmic@58: failed to match any schema with compatible: ['ti,tps65913', 'ti,palmas']
-   arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: /i2c@7000d000/pmic@58/extcon: failed to match any schema with compatible: ['ti,palmas-usb-vid']
-   arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: /i2c@7000d000/pmic@58/palmas_clk32kg@0: failed to match any schema with compatible: ['ti,palmas-clk32kg']
-   arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: /i2c@7000d000/pmic@58/pinmux: failed to match any schema with compatible: ['ti,tps65913-pinctrl']
-   arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: /i2c@7000d000/pmic@58/pmic: failed to match any schema with compatible: ['ti,tps65913-pmic', 'ti,palmas-pmic']
-   arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: /i2c@7000d000/pmic@58/pmic: failed to match any schema with compatible: ['ti,tps65913-pmic', 'ti,palmas-pmic']
-   arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: /i2c@7000d000/pmic@58/rtc: failed to match any schema with compatible: ['ti,palmas-rtc']
-   arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra114-kbc']
->> arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: memory-controller@70019000 (nvidia,tegra114-mc): '#interconnect-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/nvidia,tegra124-mc.yaml
-   arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: /external-memory-controller@7001b000: failed to match any schema with compatible: ['nvidia,tegra114-emc']
-   arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: /ahub@70080000: failed to match any schema with compatible: ['nvidia,tegra114-ahub']
-   arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: /clock@70110000: failed to match any schema with compatible: ['nvidia,tegra114-dfll']
-   arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: cpu@0 (arm,cortex-a15): 'operating-points' is a dependency of 'clock-latency'
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml
-   arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: cpu@0 (arm,cortex-a15): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml
-   arch/arm/boot/dts/nvidia/tegra114-asus-tf701t.dtb: sound (asus,tegra-audio-rt5639-tf701t): nvidia,audio-routing:14: 'IN1N' is not one of ['Headphones', 'Speakers', 'Mic Jack', 'DMIC1', 'DMIC2', 'MICBIAS1', 'IN1P', 'IN1R', 'IN2P', 'IN2R', 'HPOL', 'HPOR', 'LOUTL', 'LOUTR', 'MONOP', 'MONON', 'SPOLP', 'SPOLN', 'SPORP', 'SPORN']
-   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra-audio-rt5640.yaml
+All warnings (new ones prefixed by >>):
+
+>> warning: variable does not need to be mutable
+   --> samples/rust/rust_virtio_rtc.rs:338:17
+   |
+   338 |             let mut is_exposed = false;
+   |                 ----^^^^^^^^^^
+   |                 |
+   |                 help: remove this `mut`
+   |
+   = note: `#[warn(unused_mut)]` on by default
 --
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5640.yaml
-   arch/arm/boot/dts/nvidia/tegra114-dalmore.dtb: /i2c@7000d000/tps51632@43: failed to match any schema with compatible: ['ti,tps51632']
-   arch/arm/boot/dts/nvidia/tegra114-dalmore.dtb: /i2c@7000d000/tps65090@48: failed to match any schema with compatible: ['ti,tps65090']
-   arch/arm/boot/dts/nvidia/tegra114-dalmore.dtb: /i2c@7000d000/tps65913@58: failed to match any schema with compatible: ['ti,tps65913', 'ti,palmas']
-   arch/arm/boot/dts/nvidia/tegra114-dalmore.dtb: /i2c@7000d000/tps65913@58: failed to match any schema with compatible: ['ti,tps65913', 'ti,palmas']
-   arch/arm/boot/dts/nvidia/tegra114-dalmore.dtb: /i2c@7000d000/tps65913@58/pinmux: failed to match any schema with compatible: ['ti,tps65913-pinctrl']
-   arch/arm/boot/dts/nvidia/tegra114-dalmore.dtb: /i2c@7000d000/tps65913@58/pmic: failed to match any schema with compatible: ['ti,tps65913-pmic', 'ti,palmas-pmic']
-   arch/arm/boot/dts/nvidia/tegra114-dalmore.dtb: /i2c@7000d000/tps65913@58/pmic: failed to match any schema with compatible: ['ti,tps65913-pmic', 'ti,palmas-pmic']
-   arch/arm/boot/dts/nvidia/tegra114-dalmore.dtb: /i2c@7000d000/tps65913@58/rtc: failed to match any schema with compatible: ['ti,palmas-rtc']
-   arch/arm/boot/dts/nvidia/tegra114-dalmore.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra114-kbc']
->> arch/arm/boot/dts/nvidia/tegra114-dalmore.dtb: memory-controller@70019000 (nvidia,tegra114-mc): '#interconnect-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/nvidia,tegra124-mc.yaml
-   arch/arm/boot/dts/nvidia/tegra114-dalmore.dtb: /external-memory-controller@7001b000: failed to match any schema with compatible: ['nvidia,tegra114-emc']
-   arch/arm/boot/dts/nvidia/tegra114-dalmore.dtb: /ahub@70080000: failed to match any schema with compatible: ['nvidia,tegra114-ahub']
-   arch/arm/boot/dts/nvidia/tegra114-dalmore.dtb: /clock@70110000: failed to match any schema with compatible: ['nvidia,tegra114-dfll']
-   arch/arm/boot/dts/nvidia/tegra114-dalmore.dtb: cpu@0 (arm,cortex-a15): 'operating-points' is a dependency of 'clock-latency'
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml
-   arch/arm/boot/dts/nvidia/tegra114-dalmore.dtb: cpu@0 (arm,cortex-a15): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml
---
-   	from schema $id: http://devicetree.org/schemas/devfreq/nvidia,tegra30-actmon.yaml
-   arch/arm/boot/dts/nvidia/tegra114-roth.dtb: actmon@6000c800 (nvidia,tegra114-actmon): 'operating-points-v2' is a required property
-   	from schema $id: http://devicetree.org/schemas/devfreq/nvidia,tegra30-actmon.yaml
-   arch/arm/boot/dts/nvidia/tegra114-roth.dtb: /i2c@7000d000/regulator@43: failed to match any schema with compatible: ['ti,tps51632']
-   arch/arm/boot/dts/nvidia/tegra114-roth.dtb: /i2c@7000d000/pmic@58: failed to match any schema with compatible: ['ti,tps65913', 'ti,palmas']
-   arch/arm/boot/dts/nvidia/tegra114-roth.dtb: /i2c@7000d000/pmic@58: failed to match any schema with compatible: ['ti,tps65913', 'ti,palmas']
-   arch/arm/boot/dts/nvidia/tegra114-roth.dtb: /i2c@7000d000/pmic@58/pmic: failed to match any schema with compatible: ['ti,tps65913-pmic', 'ti,palmas-pmic']
-   arch/arm/boot/dts/nvidia/tegra114-roth.dtb: /i2c@7000d000/pmic@58/pmic: failed to match any schema with compatible: ['ti,tps65913-pmic', 'ti,palmas-pmic']
-   arch/arm/boot/dts/nvidia/tegra114-roth.dtb: /i2c@7000d000/pmic@58/rtc: failed to match any schema with compatible: ['ti,palmas-rtc']
-   arch/arm/boot/dts/nvidia/tegra114-roth.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra114-kbc']
->> arch/arm/boot/dts/nvidia/tegra114-roth.dtb: memory-controller@70019000 (nvidia,tegra114-mc): '#interconnect-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/nvidia,tegra124-mc.yaml
-   arch/arm/boot/dts/nvidia/tegra114-roth.dtb: /external-memory-controller@7001b000: failed to match any schema with compatible: ['nvidia,tegra114-emc']
-   arch/arm/boot/dts/nvidia/tegra114-roth.dtb: /ahub@70080000: failed to match any schema with compatible: ['nvidia,tegra114-ahub']
-   arch/arm/boot/dts/nvidia/tegra114-roth.dtb: /clock@70110000: failed to match any schema with compatible: ['nvidia,tegra114-dfll']
-   arch/arm/boot/dts/nvidia/tegra114-roth.dtb: cpu@0 (arm,cortex-a15): 'operating-points' is a dependency of 'clock-latency'
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml
-   arch/arm/boot/dts/nvidia/tegra114-roth.dtb: cpu@0 (arm,cortex-a15): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml
---
-   arch/arm/boot/dts/nvidia/tegra114-tn7.dtb: actmon@6000c800 (nvidia,tegra114-actmon): 'interconnect-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/devfreq/nvidia,tegra30-actmon.yaml
-   arch/arm/boot/dts/nvidia/tegra114-tn7.dtb: actmon@6000c800 (nvidia,tegra114-actmon): 'operating-points-v2' is a required property
-   	from schema $id: http://devicetree.org/schemas/devfreq/nvidia,tegra30-actmon.yaml
-   arch/arm/boot/dts/nvidia/tegra114-tn7.dtb: /i2c@7000d000/pmic@58: failed to match any schema with compatible: ['ti,tps65913', 'ti,palmas']
-   arch/arm/boot/dts/nvidia/tegra114-tn7.dtb: /i2c@7000d000/pmic@58: failed to match any schema with compatible: ['ti,tps65913', 'ti,palmas']
-   arch/arm/boot/dts/nvidia/tegra114-tn7.dtb: /i2c@7000d000/pmic@58/pmic: failed to match any schema with compatible: ['ti,tps65913-pmic', 'ti,palmas-pmic']
-   arch/arm/boot/dts/nvidia/tegra114-tn7.dtb: /i2c@7000d000/pmic@58/pmic: failed to match any schema with compatible: ['ti,tps65913-pmic', 'ti,palmas-pmic']
-   arch/arm/boot/dts/nvidia/tegra114-tn7.dtb: /i2c@7000d000/pmic@58/rtc: failed to match any schema with compatible: ['ti,palmas-rtc']
-   arch/arm/boot/dts/nvidia/tegra114-tn7.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra114-kbc']
->> arch/arm/boot/dts/nvidia/tegra114-tn7.dtb: memory-controller@70019000 (nvidia,tegra114-mc): '#interconnect-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/nvidia,tegra124-mc.yaml
-   arch/arm/boot/dts/nvidia/tegra114-tn7.dtb: /external-memory-controller@7001b000: failed to match any schema with compatible: ['nvidia,tegra114-emc']
-   arch/arm/boot/dts/nvidia/tegra114-tn7.dtb: /ahub@70080000: failed to match any schema with compatible: ['nvidia,tegra114-ahub']
-   arch/arm/boot/dts/nvidia/tegra114-tn7.dtb: /clock@70110000: failed to match any schema with compatible: ['nvidia,tegra114-dfll']
-   arch/arm/boot/dts/nvidia/tegra114-tn7.dtb: cpu@0 (arm,cortex-a15): 'operating-points' is a dependency of 'clock-latency'
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml
-   arch/arm/boot/dts/nvidia/tegra114-tn7.dtb: cpu@0 (arm,cortex-a15): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml
+>> warning: variants `Tai` and `Monotonic` are never constructed
+   --> samples/rust/rust_virtio_rtc.rs:113:5
+   |
+   109 | enum ClockType {
+   |      --------- variants in this enum
+   ...
+   113 |     Tai = 1,
+   |     ^^^
+   114 |     #[doc(alias = "VIRTIO_RTC_CLOCK_MONOTONIC")]
+   115 |     Monotonic = 2,
+   |     ^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
 
 --
 0-DAY CI Kernel Test Service
