@@ -1,57 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40AB3242D6B;
-	Sat, 16 May 2026 04:26:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BF232D3A60
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 May 2026 04:26:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778905579; cv=none; b=CAQC8ut2WjLWDc/r1Ho0DcsC7ivRMB8BXmELlrn6lmtDD/Kcy2GXhEIoNZSFxoBTVun2+YeeEATINXfAXYNDk+vKYUSGeFHyNYXpzF9ZLYVsIV/IlFNXlA6q8Z8iaVsC8y0hknqfkr5DdJSvzjrYjtM2068HU8LaH5NQdLZaGNA=
+	t=1778905580; cv=none; b=m3M5MNJavCD+6Le94uFsLhAMX3aIM+p2UVoocC8H3T399mp4axp51O6vTL/M6AThSwL0o04joXJeibvBAe71dlSR9tb2p8DkUIbHrgQrTJXXJbvjGUKaXXIxh+OMXxWM/+1/gtVuNrHuxbMt+N4S1976/sB4SFT17ks4RLAhorw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778905579; c=relaxed/simple;
-	bh=TNHWdNq0jaQHgemNCzPm65DCtvcanMoxHJzUvRR4cXA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=P0ZotIlV40OgkBeZVQ0nwgE/jFe0wqDtGSPCRWwmT+BhrTrUhoS5qR46lCm9zS08YuhYyQha4bWLuKY4MT1m2ToFBqwdCnBE2gMxHV7LwZicNvr7n4IdeBizLaRXWMMrDC9jEjY2OcP1Ja9pjuT+bbThoUA8JtrkB65mjfAZNlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lXaGM5e+; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1778905580; c=relaxed/simple;
+	bh=qMJi6v37aK/OO0QRNAzlJodrsIikX+9b/6TiOy0sAJw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Z2bvP08bek5HyeFwixtNDTzP4r9OLk808aTel44S3s+4T9jj3T0/wMRhZkIVnV8MF029rXFl8jdgekxXjwRtjeLgf9xPgmz3uTlKM6Ftp+OlxoeTSPMZ6EKwzd3zqaGK5Pi1UmD8f6jUbhMls1lDo+mCUHNbKTdz9Z9ZyQCUlXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VQeBfkGb; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lXaGM5e+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VQeBfkGb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778905577; x=1810441577;
+  t=1778905579; x=1810441579;
   h=date:from:to:cc:subject:message-id;
-  bh=TNHWdNq0jaQHgemNCzPm65DCtvcanMoxHJzUvRR4cXA=;
-  b=lXaGM5e+7IyYXPakK0Pdi3Va2bfd4tN1KjAeGbo1okMWWzLBsBPZiXls
-   leoufc5d3ffNpU0M+nlNi2IHFx/ipO7DVZRCCaaA3RxV9o+mMMwMR8/aV
-   AvTjUP+IGihZK54aN8wIDVJnMJQmNtPVPGHo2rmmnyDJNt+xyhlX378gl
-   A4jlf2NZXpF9txkbrpWe3iD74KgGUv4KHD3o4H9R1/Vx8OSM/7hkT3+F5
-   jGWLG3HrgZxkDXvu+wPEGGFEHOU0cWWATUdfXB7FgLN+Cjn0oYGt9uyc6
-   XkrMOmDdbb7oOiK3MwhMNjb883t1qMbDZ5SkLqXkQPIqkAMdf47YPE+eQ
-   g==;
-X-CSE-ConnectionGUID: E5nfTt4rSEqKanGGJnzx8Q==
-X-CSE-MsgGUID: TXtN9LXfTJe4zXc7hXIong==
-X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="78993519"
+  bh=qMJi6v37aK/OO0QRNAzlJodrsIikX+9b/6TiOy0sAJw=;
+  b=VQeBfkGbCVtQRKinSzqR8kyCg4LHYOSf0p17aG8xdFlSNXE1Zo/QopDh
+   iL2mJTyHRCCg5Sjd3oZf9UE5BBj6vKCkY2uFlj6kBCJJXBzA3MjFz5vW5
+   oQBqjhz66rXLS+n/x6oNVpu2wKOLVvigNhskwijUaZhFTFSx/xiiWyfUk
+   R0+qneju8hBiDJv/4MbeCP60OtMeTW0/fqkqAijIiLtFvmUmlFRbzQv0q
+   0YJCZPoFfL0OM2dg3uKqiOIHrG77JrchHqDeauFc2YK1dg9QYjUTrdek2
+   9Az6+9ejK82+6IlhXyNX4v3nsPOT9VOYUcEiwfCxl37r1slGJOeZ2KXJ4
+   Q==;
+X-CSE-ConnectionGUID: qmJyzjeCSXyE43CmAunXQQ==
+X-CSE-MsgGUID: CAgjs0T9SMqvhHYABqL5gw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="78993521"
 X-IronPort-AV: E=Sophos;i="6.23,237,1770624000"; 
-   d="scan'208";a="78993519"
+   d="scan'208";a="78993521"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 21:26:16 -0700
-X-CSE-ConnectionGUID: 8x1Odts1TpSwNiz+MpkdDA==
-X-CSE-MsgGUID: NU/aB43JSq6ObeUQOCDxNg==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 21:26:17 -0700
+X-CSE-ConnectionGUID: WE6vCy1ASbms2Ux26ERpTw==
+X-CSE-MsgGUID: KgOCFBY4Qratm65j557zlQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,237,1770624000"; 
-   d="scan'208";a="232499700"
+   d="scan'208";a="232499702"
 Received: from lkp-server01.sh.intel.com (HELO d94e5e629b2d) ([10.239.97.150])
   by fmviesa009.fm.intel.com with ESMTP; 15 May 2026 21:26:15 -0700
 Received: from kbuild by d94e5e629b2d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wO6bM-000000000TB-3lBp;
+	id 1wO6bM-000000000TD-40H6;
 	Sat, 16 May 2026 04:26:12 +0000
-Date: Sat, 16 May 2026 12:25:58 +0800
+Date: Sat, 16 May 2026 12:25:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:kdevops 6/7] fs/nfsd/nfsctl.c:2469:1: warning:
- unused label 'out'
-Message-ID: <202605161220.GVDLfyL6-lkp@intel.com>
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>
+Subject: mm/mprotect.c:700:43: sparse: sparse: cast to non-scalar
+Message-ID: <202605161217.1mPJ49Gv-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,44 +60,159 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git kdevops
-head:   32078d4509258ed0a8083fd51e4da9525663c611
-commit: 97de12fd081f4f4883c2b529338d815425bda778 [6/7] nfsd: implement server-stats-get netlink handler
-config: hexagon-randconfig-002-20260516 (https://download.01.org/0day-ci/archive/20260516/202605161220.GVDLfyL6-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260516/202605161220.GVDLfyL6-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d458a240344c4369bf6f3da203f2779515177738
+commit: 3a6455d56bd7c4cfb1ea35ddae052943065e338e mm: convert do_brk_flags() to use vma_flags_t
+date:   6 weeks ago
+config: alpha-randconfig-r121-20260516 (https://download.01.org/0day-ci/archive/20260516/202605161217.1mPJ49Gv-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260516/202605161217.1mPJ49Gv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 3a6455d56bd7 ("mm: convert do_brk_flags() to use vma_flags_t")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605161220.GVDLfyL6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605161217.1mPJ49Gv-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> mm/mprotect.c:700:43: sparse: sparse: cast to non-scalar
+>> mm/mprotect.c:700:43: sparse: sparse: cast from non-scalar
+   mm/mprotect.c: note: in included file (through include/linux/mm.h, include/linux/pagewalk.h):
+   include/linux/pgtable.h:461:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:461:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:461:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:461:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:461:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:461:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:461:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:461:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:475:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:475:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:468:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:468:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:461:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:461:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:461:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:461:16: sparse: sparse: cast from non-scalar
 
->> fs/nfsd/nfsctl.c:2469:1: warning: unused label 'out' [-Wunused-label]
-   out:
-   ^~~~
-   1 warning generated.
+vim +700 mm/mprotect.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MFD_STMFX
-   Depends on [n]: HAS_IOMEM [=y] && I2C [=y] && OF [=n]
-   Selected by [y]:
-   - PINCTRL_STMFX [=y] && PINCTRL [=y] && I2C [=y] && HAS_IOMEM [=y]
-
-
-vim +/out +2469 fs/nfsd/nfsctl.c
-
-  2467	
-  2468		cb->args[0] = -1;
-> 2469	out:
-  2470		return skb->len;
-  2471	
-  2472	err_cancel:
-  2473		genlmsg_cancel(skb, hdr);
-  2474		return ret;
-  2475	}
-  2476	
+   693	
+   694	int
+   695	mprotect_fixup(struct vma_iterator *vmi, struct mmu_gather *tlb,
+   696		       struct vm_area_struct *vma, struct vm_area_struct **pprev,
+   697		       unsigned long start, unsigned long end, vm_flags_t newflags)
+   698	{
+   699		struct mm_struct *mm = vma->vm_mm;
+ > 700		const vma_flags_t old_vma_flags = READ_ONCE(vma->flags);
+   701		vma_flags_t new_vma_flags = legacy_to_vma_flags(newflags);
+   702		long nrpages = (end - start) >> PAGE_SHIFT;
+   703		unsigned int mm_cp_flags = 0;
+   704		unsigned long charged = 0;
+   705		int error;
+   706	
+   707		if (vma_is_sealed(vma))
+   708			return -EPERM;
+   709	
+   710		if (vma_flags_same_pair(&old_vma_flags, &new_vma_flags)) {
+   711			*pprev = vma;
+   712			return 0;
+   713		}
+   714	
+   715		/*
+   716		 * Do PROT_NONE PFN permission checks here when we can still
+   717		 * bail out without undoing a lot of state. This is a rather
+   718		 * uncommon case, so doesn't need to be very optimized.
+   719		 */
+   720		if (arch_has_pfn_modify_check() &&
+   721		    vma_flags_test_any(&old_vma_flags, VMA_PFNMAP_BIT,
+   722				       VMA_MIXEDMAP_BIT) &&
+   723		    !vma_flags_test_any_mask(&new_vma_flags, VMA_ACCESS_FLAGS)) {
+   724			pgprot_t new_pgprot = vm_get_page_prot(newflags);
+   725	
+   726			error = walk_page_range(current->mm, start, end,
+   727					&prot_none_walk_ops, &new_pgprot);
+   728			if (error)
+   729				return error;
+   730		}
+   731	
+   732		/*
+   733		 * If we make a private mapping writable we increase our commit;
+   734		 * but (without finer accounting) cannot reduce our commit if we
+   735		 * make it unwritable again except in the anonymous case where no
+   736		 * anon_vma has yet to be assigned.
+   737		 *
+   738		 * hugetlb mapping were accounted for even if read-only so there is
+   739		 * no need to account for them here.
+   740		 */
+   741		if (vma_flags_test(&new_vma_flags, VMA_WRITE_BIT)) {
+   742			/* Check space limits when area turns into data. */
+   743			if (!may_expand_vm(mm, &new_vma_flags, nrpages) &&
+   744			    may_expand_vm(mm, &old_vma_flags, nrpages))
+   745				return -ENOMEM;
+   746			if (!vma_flags_test_any(&old_vma_flags,
+   747					VMA_ACCOUNT_BIT, VMA_WRITE_BIT, VMA_HUGETLB_BIT,
+   748					VMA_SHARED_BIT, VMA_NORESERVE_BIT)) {
+   749				charged = nrpages;
+   750				if (security_vm_enough_memory_mm(mm, charged))
+   751					return -ENOMEM;
+   752				vma_flags_set(&new_vma_flags, VMA_ACCOUNT_BIT);
+   753			}
+   754		} else if (vma_flags_test(&old_vma_flags, VMA_ACCOUNT_BIT) &&
+   755			   vma_is_anonymous(vma) && !vma->anon_vma) {
+   756			vma_flags_clear(&new_vma_flags, VMA_ACCOUNT_BIT);
+   757		}
+   758	
+   759		newflags = vma_flags_to_legacy(new_vma_flags);
+   760		vma = vma_modify_flags(vmi, *pprev, vma, start, end, &newflags);
+   761		if (IS_ERR(vma)) {
+   762			error = PTR_ERR(vma);
+   763			goto fail;
+   764		}
+   765		new_vma_flags = legacy_to_vma_flags(newflags);
+   766	
+   767		*pprev = vma;
+   768	
+   769		/*
+   770		 * vm_flags and vm_page_prot are protected by the mmap_lock
+   771		 * held in write mode.
+   772		 */
+   773		vma_start_write(vma);
+   774		vm_flags_reset_once(vma, newflags);
+   775		if (vma_wants_manual_pte_write_upgrade(vma))
+   776			mm_cp_flags |= MM_CP_TRY_CHANGE_WRITABLE;
+   777		vma_set_page_prot(vma);
+   778	
+   779		change_protection(tlb, vma, start, end, mm_cp_flags);
+   780	
+   781		if (vma_flags_test(&old_vma_flags, VMA_ACCOUNT_BIT) &&
+   782		    !vma_flags_test(&new_vma_flags, VMA_ACCOUNT_BIT))
+   783			vm_unacct_memory(nrpages);
+   784	
+   785		/*
+   786		 * Private VM_LOCKED VMA becoming writable: trigger COW to avoid major
+   787		 * fault on access.
+   788		 */
+   789		if (vma_flags_test(&new_vma_flags, VMA_WRITE_BIT)) {
+   790			const vma_flags_t mask =
+   791				vma_flags_and(&old_vma_flags, VMA_WRITE_BIT,
+   792					      VMA_SHARED_BIT, VMA_LOCKED_BIT);
+   793	
+   794			if (vma_flags_same(&mask, VMA_LOCKED_BIT))
+   795				populate_vma_page_range(vma, start, end, NULL);
+   796		}
+   797	
+   798		vm_stat_account(mm, vma_flags_to_legacy(old_vma_flags), -nrpages);
+   799		vm_stat_account(mm, newflags, nrpages);
+   800		perf_event_mmap(vma);
+   801		return 0;
+   802	
+   803	fail:
+   804		vm_unacct_memory(charged);
+   805		return error;
+   806	}
+   807	
 
 --
 0-DAY CI Kernel Test Service
