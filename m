@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BF232D3A60
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 May 2026 04:26:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D7FD405C4F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 May 2026 04:49:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778905580; cv=none; b=m3M5MNJavCD+6Le94uFsLhAMX3aIM+p2UVoocC8H3T399mp4axp51O6vTL/M6AThSwL0o04joXJeibvBAe71dlSR9tb2p8DkUIbHrgQrTJXXJbvjGUKaXXIxh+OMXxWM/+1/gtVuNrHuxbMt+N4S1976/sB4SFT17ks4RLAhorw=
+	t=1778906960; cv=none; b=kuXBrp8loHds2z0OPoMe1s0+MzTxoQEgtcWqYpnKY1KiZBjeOQ00TyLLJ2sDppqX17c4pk+aetl/xFYMLcVbQJB1JMUnLtgkTYnE6VlFsXO8XeJF8FNueFIo0rrCMR9EIFZP+tQgLY+5Aa3Dm/pQblVW+NobYBG+5zWTPRlJXOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778905580; c=relaxed/simple;
-	bh=qMJi6v37aK/OO0QRNAzlJodrsIikX+9b/6TiOy0sAJw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Z2bvP08bek5HyeFwixtNDTzP4r9OLk808aTel44S3s+4T9jj3T0/wMRhZkIVnV8MF029rXFl8jdgekxXjwRtjeLgf9xPgmz3uTlKM6Ftp+OlxoeTSPMZ6EKwzd3zqaGK5Pi1UmD8f6jUbhMls1lDo+mCUHNbKTdz9Z9ZyQCUlXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VQeBfkGb; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1778906960; c=relaxed/simple;
+	bh=3Te49s6D8s2wWdpO5JBeDEEcRXmqEtoiJ6pKKm37x38=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=IZw2HeI3rat8sWGhoe1O7AoGf/mhEeahuDOFLSbEY1o1dOGb+naVajDqAdnLz8yoiQniv1G4iIQz3cdmruDDhILJeh2VJpmnVVTSsdsxQc331hC+QsX9XI0VgUK2HqPe0s8ojOn60OPY02CpPeyhS9pGLfBdZEHShrLYgixEtRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A89luTJb; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VQeBfkGb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A89luTJb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778905579; x=1810441579;
+  t=1778906959; x=1810442959;
   h=date:from:to:cc:subject:message-id;
-  bh=qMJi6v37aK/OO0QRNAzlJodrsIikX+9b/6TiOy0sAJw=;
-  b=VQeBfkGbCVtQRKinSzqR8kyCg4LHYOSf0p17aG8xdFlSNXE1Zo/QopDh
-   iL2mJTyHRCCg5Sjd3oZf9UE5BBj6vKCkY2uFlj6kBCJJXBzA3MjFz5vW5
-   oQBqjhz66rXLS+n/x6oNVpu2wKOLVvigNhskwijUaZhFTFSx/xiiWyfUk
-   R0+qneju8hBiDJv/4MbeCP60OtMeTW0/fqkqAijIiLtFvmUmlFRbzQv0q
-   0YJCZPoFfL0OM2dg3uKqiOIHrG77JrchHqDeauFc2YK1dg9QYjUTrdek2
-   9Az6+9ejK82+6IlhXyNX4v3nsPOT9VOYUcEiwfCxl37r1slGJOeZ2KXJ4
-   Q==;
-X-CSE-ConnectionGUID: qmJyzjeCSXyE43CmAunXQQ==
-X-CSE-MsgGUID: CAgjs0T9SMqvhHYABqL5gw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="78993521"
+  bh=3Te49s6D8s2wWdpO5JBeDEEcRXmqEtoiJ6pKKm37x38=;
+  b=A89luTJbmGcRRxlEUfU8WtTa2f4qVvABQ/w8OCPTTtczyepsMCF9gXen
+   AAskygeyLVWnaVAENXnlHLqI58zB9rf1OpTqEa4G+O7y0y+RSxtjfZo+d
+   yPk+xUGyW5288QCG61Xs+1KgJqxlqBZHFrtvKEyuP++ql9noDQfmY9hpu
+   AUoe8gnNwY0Q3P4CjJFCzeKJ9AEui6iBsiXLBK8r7HTQFWyMm7Wyumza9
+   cW35vqQltP/eGIagyjiAcrp8Fqcth135V78rG7r0QkdUxeZDf23b0Bej2
+   ymASJFhS15uZ3eECjyzYg0l/gsLbVBZ8JV9tgaDVz+WjtBDYTtMAcTsvy
+   w==;
+X-CSE-ConnectionGUID: jib6eSDOQHWaWv2f7OxFww==
+X-CSE-MsgGUID: VX92DxlmTKybZ8InUZTF1g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="90554785"
 X-IronPort-AV: E=Sophos;i="6.23,237,1770624000"; 
-   d="scan'208";a="78993521"
+   d="scan'208";a="90554785"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 21:26:17 -0700
-X-CSE-ConnectionGUID: WE6vCy1ASbms2Ux26ERpTw==
-X-CSE-MsgGUID: KgOCFBY4Qratm65j557zlQ==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 21:49:18 -0700
+X-CSE-ConnectionGUID: SrF63CKmTVmb0lF5X2nvbQ==
+X-CSE-MsgGUID: 7USTRMwcQOqCnX4vD/8KQw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,237,1770624000"; 
-   d="scan'208";a="232499702"
+   d="scan'208";a="232502720"
 Received: from lkp-server01.sh.intel.com (HELO d94e5e629b2d) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 15 May 2026 21:26:15 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 15 May 2026 21:49:17 -0700
 Received: from kbuild by d94e5e629b2d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wO6bM-000000000TD-40H6;
-	Sat, 16 May 2026 04:26:12 +0000
-Date: Sat, 16 May 2026 12:25:57 +0800
+	id 1wO6xe-000000000VV-2Cr2;
+	Sat, 16 May 2026 04:49:14 +0000
+Date: Sat, 16 May 2026 12:48:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>
-Subject: mm/mprotect.c:700:43: sparse: sparse: cast to non-scalar
-Message-ID: <202605161217.1mPJ49Gv-lkp@intel.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Christian Brauner <christianvanbrauner@gmail.com>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Subject: [brauner-github:vfs-7.2.directory.delegations 2/8]
+ fs/namei.c:4201:38: error: 'LEASE_BREAK_DIR_CREATE' undeclared
+Message-ID: <202605161232.1lY6pZoM-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,159 +61,110 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d458a240344c4369bf6f3da203f2779515177738
-commit: 3a6455d56bd7c4cfb1ea35ddae052943065e338e mm: convert do_brk_flags() to use vma_flags_t
-date:   6 weeks ago
-config: alpha-randconfig-r121-20260516 (https://download.01.org/0day-ci/archive/20260516/202605161217.1mPJ49Gv-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260516/202605161217.1mPJ49Gv-lkp@intel.com/reproduce)
+tree:   https://github.com/brauner/linux.git vfs-7.2.directory.delegations
+head:   1e325f7debec9bb22c71bc7336135bf8f87b730a
+commit: 24cbf43337f46329ddda5983bc3c585174a020ee [2/8] filelock: add support for ignoring deleg breaks for dir change events
+config: x86_64-buildonly-randconfig-004-20260516 (https://download.01.org/0day-ci/archive/20260516/202605161232.1lY6pZoM-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260516/202605161232.1lY6pZoM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 3a6455d56bd7 ("mm: convert do_brk_flags() to use vma_flags_t")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605161217.1mPJ49Gv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605161232.1lY6pZoM-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/mprotect.c:700:43: sparse: sparse: cast to non-scalar
->> mm/mprotect.c:700:43: sparse: sparse: cast from non-scalar
-   mm/mprotect.c: note: in included file (through include/linux/mm.h, include/linux/pagewalk.h):
-   include/linux/pgtable.h:461:16: sparse: sparse: cast to non-scalar
-   include/linux/pgtable.h:461:16: sparse: sparse: cast from non-scalar
-   include/linux/pgtable.h:461:16: sparse: sparse: cast to non-scalar
-   include/linux/pgtable.h:461:16: sparse: sparse: cast from non-scalar
-   include/linux/pgtable.h:461:16: sparse: sparse: cast to non-scalar
-   include/linux/pgtable.h:461:16: sparse: sparse: cast from non-scalar
-   include/linux/pgtable.h:461:16: sparse: sparse: cast to non-scalar
-   include/linux/pgtable.h:461:16: sparse: sparse: cast from non-scalar
-   include/linux/pgtable.h:475:16: sparse: sparse: cast to non-scalar
-   include/linux/pgtable.h:475:16: sparse: sparse: cast from non-scalar
-   include/linux/pgtable.h:468:16: sparse: sparse: cast to non-scalar
-   include/linux/pgtable.h:468:16: sparse: sparse: cast from non-scalar
-   include/linux/pgtable.h:461:16: sparse: sparse: cast to non-scalar
-   include/linux/pgtable.h:461:16: sparse: sparse: cast from non-scalar
-   include/linux/pgtable.h:461:16: sparse: sparse: cast to non-scalar
-   include/linux/pgtable.h:461:16: sparse: sparse: cast from non-scalar
+All errors (new ones prefixed by >>):
 
-vim +700 mm/mprotect.c
+   fs/namei.c: In function 'vfs_create':
+>> fs/namei.c:4201:38: error: 'LEASE_BREAK_DIR_CREATE' undeclared (first use in this function)
+    4201 |         error = try_break_deleg(dir, LEASE_BREAK_DIR_CREATE, di);
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~
+   fs/namei.c:4201:38: note: each undeclared identifier is reported only once for each function it appears in
+   fs/namei.c: In function 'lookup_open':
+   fs/namei.c:4500:52: error: 'LEASE_BREAK_DIR_CREATE' undeclared (first use in this function)
+    4500 |                 error = try_break_deleg(dir_inode, LEASE_BREAK_DIR_CREATE, delegated_inode);
+         |                                                    ^~~~~~~~~~~~~~~~~~~~~~
+   fs/namei.c: In function 'vfs_mknod':
+   fs/namei.c:5116:38: error: 'LEASE_BREAK_DIR_CREATE' undeclared (first use in this function)
+    5116 |         error = try_break_deleg(dir, LEASE_BREAK_DIR_CREATE, delegated_inode);
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~
+   fs/namei.c: In function 'vfs_mkdir':
+   fs/namei.c:5257:38: error: 'LEASE_BREAK_DIR_CREATE' undeclared (first use in this function)
+    5257 |         error = try_break_deleg(dir, LEASE_BREAK_DIR_CREATE, delegated_inode);
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~
+   fs/namei.c: In function 'vfs_rmdir':
+>> fs/namei.c:5362:38: error: 'LEASE_BREAK_DIR_DELETE' undeclared (first use in this function)
+    5362 |         error = try_break_deleg(dir, LEASE_BREAK_DIR_DELETE, delegated_inode);
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~
+   fs/namei.c: In function 'vfs_unlink':
+   fs/namei.c:5492:54: error: 'LEASE_BREAK_DIR_DELETE' undeclared (first use in this function)
+    5492 |                         error = try_break_deleg(dir, LEASE_BREAK_DIR_DELETE, delegated_inode);
+         |                                                      ^~~~~~~~~~~~~~~~~~~~~~
+   fs/namei.c: In function 'vfs_symlink':
+   fs/namei.c:5639:38: error: 'LEASE_BREAK_DIR_CREATE' undeclared (first use in this function)
+    5639 |         error = try_break_deleg(dir, LEASE_BREAK_DIR_CREATE, delegated_inode);
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~
+   fs/namei.c: In function 'vfs_link':
+   fs/namei.c:5770:46: error: 'LEASE_BREAK_DIR_CREATE' undeclared (first use in this function)
+    5770 |                 error = try_break_deleg(dir, LEASE_BREAK_DIR_CREATE, delegated_inode);
+         |                                              ^~~~~~~~~~~~~~~~~~~~~~
+   fs/namei.c: In function 'vfs_rename':
+>> fs/namei.c:6037:54: error: 'LEASE_BREAK_DIR_RENAME' undeclared (first use in this function)
+    6037 |                                 old_dir == new_dir ? LEASE_BREAK_DIR_RENAME :
+         |                                                      ^~~~~~~~~~~~~~~~~~~~~~
+   fs/namei.c:6038:54: error: 'LEASE_BREAK_DIR_DELETE' undeclared (first use in this function)
+    6038 |                                                      LEASE_BREAK_DIR_DELETE,
+         |                                                      ^~~~~~~~~~~~~~~~~~~~~~
+   fs/namei.c:6043:50: error: 'LEASE_BREAK_DIR_CREATE' undeclared (first use in this function)
+    6043 |                 error = try_break_deleg(new_dir, LEASE_BREAK_DIR_CREATE, delegated_inode);
+         |                                                  ^~~~~~~~~~~~~~~~~~~~~~
 
-   693	
-   694	int
-   695	mprotect_fixup(struct vma_iterator *vmi, struct mmu_gather *tlb,
-   696		       struct vm_area_struct *vma, struct vm_area_struct **pprev,
-   697		       unsigned long start, unsigned long end, vm_flags_t newflags)
-   698	{
-   699		struct mm_struct *mm = vma->vm_mm;
- > 700		const vma_flags_t old_vma_flags = READ_ONCE(vma->flags);
-   701		vma_flags_t new_vma_flags = legacy_to_vma_flags(newflags);
-   702		long nrpages = (end - start) >> PAGE_SHIFT;
-   703		unsigned int mm_cp_flags = 0;
-   704		unsigned long charged = 0;
-   705		int error;
-   706	
-   707		if (vma_is_sealed(vma))
-   708			return -EPERM;
-   709	
-   710		if (vma_flags_same_pair(&old_vma_flags, &new_vma_flags)) {
-   711			*pprev = vma;
-   712			return 0;
-   713		}
-   714	
-   715		/*
-   716		 * Do PROT_NONE PFN permission checks here when we can still
-   717		 * bail out without undoing a lot of state. This is a rather
-   718		 * uncommon case, so doesn't need to be very optimized.
-   719		 */
-   720		if (arch_has_pfn_modify_check() &&
-   721		    vma_flags_test_any(&old_vma_flags, VMA_PFNMAP_BIT,
-   722				       VMA_MIXEDMAP_BIT) &&
-   723		    !vma_flags_test_any_mask(&new_vma_flags, VMA_ACCESS_FLAGS)) {
-   724			pgprot_t new_pgprot = vm_get_page_prot(newflags);
-   725	
-   726			error = walk_page_range(current->mm, start, end,
-   727					&prot_none_walk_ops, &new_pgprot);
-   728			if (error)
-   729				return error;
-   730		}
-   731	
-   732		/*
-   733		 * If we make a private mapping writable we increase our commit;
-   734		 * but (without finer accounting) cannot reduce our commit if we
-   735		 * make it unwritable again except in the anonymous case where no
-   736		 * anon_vma has yet to be assigned.
-   737		 *
-   738		 * hugetlb mapping were accounted for even if read-only so there is
-   739		 * no need to account for them here.
-   740		 */
-   741		if (vma_flags_test(&new_vma_flags, VMA_WRITE_BIT)) {
-   742			/* Check space limits when area turns into data. */
-   743			if (!may_expand_vm(mm, &new_vma_flags, nrpages) &&
-   744			    may_expand_vm(mm, &old_vma_flags, nrpages))
-   745				return -ENOMEM;
-   746			if (!vma_flags_test_any(&old_vma_flags,
-   747					VMA_ACCOUNT_BIT, VMA_WRITE_BIT, VMA_HUGETLB_BIT,
-   748					VMA_SHARED_BIT, VMA_NORESERVE_BIT)) {
-   749				charged = nrpages;
-   750				if (security_vm_enough_memory_mm(mm, charged))
-   751					return -ENOMEM;
-   752				vma_flags_set(&new_vma_flags, VMA_ACCOUNT_BIT);
-   753			}
-   754		} else if (vma_flags_test(&old_vma_flags, VMA_ACCOUNT_BIT) &&
-   755			   vma_is_anonymous(vma) && !vma->anon_vma) {
-   756			vma_flags_clear(&new_vma_flags, VMA_ACCOUNT_BIT);
-   757		}
-   758	
-   759		newflags = vma_flags_to_legacy(new_vma_flags);
-   760		vma = vma_modify_flags(vmi, *pprev, vma, start, end, &newflags);
-   761		if (IS_ERR(vma)) {
-   762			error = PTR_ERR(vma);
-   763			goto fail;
-   764		}
-   765		new_vma_flags = legacy_to_vma_flags(newflags);
-   766	
-   767		*pprev = vma;
-   768	
-   769		/*
-   770		 * vm_flags and vm_page_prot are protected by the mmap_lock
-   771		 * held in write mode.
-   772		 */
-   773		vma_start_write(vma);
-   774		vm_flags_reset_once(vma, newflags);
-   775		if (vma_wants_manual_pte_write_upgrade(vma))
-   776			mm_cp_flags |= MM_CP_TRY_CHANGE_WRITABLE;
-   777		vma_set_page_prot(vma);
-   778	
-   779		change_protection(tlb, vma, start, end, mm_cp_flags);
-   780	
-   781		if (vma_flags_test(&old_vma_flags, VMA_ACCOUNT_BIT) &&
-   782		    !vma_flags_test(&new_vma_flags, VMA_ACCOUNT_BIT))
-   783			vm_unacct_memory(nrpages);
-   784	
-   785		/*
-   786		 * Private VM_LOCKED VMA becoming writable: trigger COW to avoid major
-   787		 * fault on access.
-   788		 */
-   789		if (vma_flags_test(&new_vma_flags, VMA_WRITE_BIT)) {
-   790			const vma_flags_t mask =
-   791				vma_flags_and(&old_vma_flags, VMA_WRITE_BIT,
-   792					      VMA_SHARED_BIT, VMA_LOCKED_BIT);
-   793	
-   794			if (vma_flags_same(&mask, VMA_LOCKED_BIT))
-   795				populate_vma_page_range(vma, start, end, NULL);
-   796		}
-   797	
-   798		vm_stat_account(mm, vma_flags_to_legacy(old_vma_flags), -nrpages);
-   799		vm_stat_account(mm, newflags, nrpages);
-   800		perf_event_mmap(vma);
-   801		return 0;
-   802	
-   803	fail:
-   804		vm_unacct_memory(charged);
-   805		return error;
-   806	}
-   807	
+
+vim +/LEASE_BREAK_DIR_CREATE +4201 fs/namei.c
+
+  4168	
+  4169	/**
+  4170	 * vfs_create - create new file
+  4171	 * @idmap:	idmap of the mount the inode was found from
+  4172	 * @dentry:	dentry of the child file
+  4173	 * @mode:	mode of the child file
+  4174	 * @di:		returns parent inode, if the inode is delegated.
+  4175	 *
+  4176	 * Create a new file.
+  4177	 *
+  4178	 * If the inode has been found through an idmapped mount the idmap of
+  4179	 * the vfsmount must be passed through @idmap. This function will then take
+  4180	 * care to map the inode according to @idmap before checking permissions.
+  4181	 * On non-idmapped mounts or if permission checking is to be performed on the
+  4182	 * raw inode simply pass @nop_mnt_idmap.
+  4183	 */
+  4184	int vfs_create(struct mnt_idmap *idmap, struct dentry *dentry, umode_t mode,
+  4185		       struct delegated_inode *di)
+  4186	{
+  4187		struct inode *dir = d_inode(dentry->d_parent);
+  4188		int error;
+  4189	
+  4190		error = may_create_dentry(idmap, dir, dentry);
+  4191		if (error)
+  4192			return error;
+  4193	
+  4194		if (!dir->i_op->create)
+  4195			return -EACCES;	/* shouldn't it be ENOSYS? */
+  4196	
+  4197		mode = vfs_prepare_mode(idmap, dir, mode, S_IALLUGO, S_IFREG);
+  4198		error = security_inode_create(dir, dentry, mode);
+  4199		if (error)
+  4200			return error;
+> 4201		error = try_break_deleg(dir, LEASE_BREAK_DIR_CREATE, di);
+  4202		if (error)
+  4203			return error;
+  4204		error = dir->i_op->create(idmap, dir, dentry, mode, true);
+  4205		if (!error)
+  4206			fsnotify_create(dir, dentry);
+  4207		return error;
+  4208	}
+  4209	EXPORT_SYMBOL(vfs_create);
+  4210	
 
 --
 0-DAY CI Kernel Test Service
