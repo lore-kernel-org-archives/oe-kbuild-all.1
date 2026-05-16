@@ -1,152 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398E33D5227;
-	Sat, 16 May 2026 11:58:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 851E93D646A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 May 2026 12:08:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778932719; cv=none; b=Dhf0FsuX02gE1wS+TsAeITV5Eq+9cy3AZqD9xEw26H6/pzcvrBuanrerj73NjaH4LSAVw9YO8Jsen3g8qF1nK8U3BPKTT+hzpJ9Uha/AstJg6qGiBLBCwCcQoZGZm3J/mi2ayx19/UZcH3/3p13KH8QiXAn1NIx4v940P6fXzOE=
+	t=1778933323; cv=none; b=YDUPXe4m4vOF3FuDg4BXjCX92f/fk4ogQj8bPOJXU1bVertW0o9Vvkd+Ifd6xbtmnJ/1I7Xfw493I3wdMwpI6d9kbgJpjXuynrZmTlL8f8qHRjm3t27WlxBegdxvRiEO+pvEmsCQKwXqZUyb52TBHjs6dTrhLygb+K8UW+F5buY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778932719; c=relaxed/simple;
-	bh=2ERxoGHUEDIbm4cUjWfDJXF6FslLg8f6JAKyxzGXA2A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VvVBYP7qKQIpWQonWOD+48zABDgraqyfSijOuuPDDm8GSKNWdSNTtJNRK8AocO9KdTVRpfAEAhtr1zbAYr8XI3YMOHM+z+2DGYr9r4gwPvN9JMBBWhUGWcCoSBRQG7VrNB+UXwHBJkbE92LlTzAeGE1fTBpakclubB8HufmIk6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cZzsCx/V; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1778933323; c=relaxed/simple;
+	bh=ZGw2qyHgvTGPqSHTOfSXGjk6hvc9XKf2wHL2HVo7b54=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=udslpiXSuAl1CZ2NME1FyCrWm1yBlp35O/mPHulO08YnqNZOI/do1sJtHbLacSQyjngJ5eGLQrsRhvNLErsds4KfGi8qT3o67Vt9G52z2iAUqABB4/Ous0siCXHKfPYxKVnI+29gRZmWC9x1x5IXZJK7hjcjaxlGo3nq3d6+0kk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CTlRD33C; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cZzsCx/V"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CTlRD33C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778932718; x=1810468718;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2ERxoGHUEDIbm4cUjWfDJXF6FslLg8f6JAKyxzGXA2A=;
-  b=cZzsCx/V5iQmXTtHQFTNJDDRfGNySWMFg4Ela+s9WDXD+YljgDb0Nwjw
-   Ju8Vh1RELZduvdc8KIf4l9cosr6J49D6v4R++qqr7mgID1DTX4IrjG4To
-   rpcYe+ZGngyW/Uatz8l+LpHhwwEjbIfeTZ575ZYFREzKTHMIOjun2hXVK
-   xNXKtNMT6PczgBAxUO0xjv7iwzRiZLyXQcQX6Xalo9sSntOx/jYw6O9PL
-   Qp+EAjZ9eBL4ASV9YeiPy+cLXOVhuACdMypcAzlx/cT3m+NPJNDKTy7Ba
-   VRAn+tNlzZUtka/vN/RtFNQ7YHD+h1DTrK74LVAPrfZ321A4Wi90xttxR
+  t=1778933321; x=1810469321;
+  h=date:from:to:cc:subject:message-id;
+  bh=ZGw2qyHgvTGPqSHTOfSXGjk6hvc9XKf2wHL2HVo7b54=;
+  b=CTlRD33C5N0u9h3HrlFcwlKR/hT99I7M4FcJ1K4odw5d/gQaFvZJooYA
+   fGUJcQKzr1TPNX7FRYrMYZNxzxTGAsy2XDB1tueWeCpAUEJpy8oy6H0jB
+   xQUJ/nE+phrTPMo4xvmHa3zRB8Li2DnGS2S+1OrouHWfSFxwmpP6YUX8d
+   zr6tqk/bpWT+ozs2EhUnjOey6tQnVKyyDahRSDfafvOCor6bHUjRwheJD
+   ZaYxbRiyJ9kJd4u9vP1v8oOjuOXwYLwXxTeLLoqX+JP3P2Btkwn9Q2SKQ
+   5wk0SapzGk5P4c1PnzW6ql6cUZx4JX5h+7W9vCBRwhzWR8AmV1EKnZlCl
    Q==;
-X-CSE-ConnectionGUID: +CslRfruQh6bZj8csLMYCQ==
-X-CSE-MsgGUID: FogQY/GCTt63Fzz5godeYA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="90969891"
+X-CSE-ConnectionGUID: 1KCHv48rSi6evFyEJlB+GA==
+X-CSE-MsgGUID: igTFqAzTSACgP5PY9ugk/A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="90177039"
 X-IronPort-AV: E=Sophos;i="6.23,238,1770624000"; 
-   d="scan'208";a="90969891"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2026 04:58:37 -0700
-X-CSE-ConnectionGUID: R/nW/oNiQS+8gVQcrrVVDw==
-X-CSE-MsgGUID: +GvjioT3RDWXKyFrDqTMcA==
+   d="scan'208";a="90177039"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2026 05:08:38 -0700
+X-CSE-ConnectionGUID: BrDLOovxSAiJ/MRTcFdgEg==
+X-CSE-MsgGUID: YRMiEJj8TaW4zyJ3o2lPzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,238,1770624000"; 
-   d="scan'208";a="238829935"
+   d="scan'208";a="239064559"
 Received: from lkp-server01.sh.intel.com (HELO d94e5e629b2d) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 16 May 2026 04:58:36 -0700
+  by orviesa009.jf.intel.com with ESMTP; 16 May 2026 05:08:37 -0700
 Received: from kbuild by d94e5e629b2d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wODf7-000000000n4-0N9M;
-	Sat, 16 May 2026 11:58:33 +0000
-Date: Sat, 16 May 2026 19:58:03 +0800
+	id 1wODon-000000000no-46Y8;
+	Sat, 16 May 2026 12:08:33 +0000
+Date: Sat, 16 May 2026 20:08:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Markus Stockhausen <markus.stockhausen@gmx.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH] i2c: i2c-gpio Enhance driver for buses with shared
- SCL
-Message-ID: <202605161950.P3hdEfkq-lkp@intel.com>
-References: <20260514092042.3265986-1-markus.stockhausen@gmx.de>
+To: Martin KaFai Lau <martin.lau@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Martin KaFai Lau <martin.lau@linux.dev>
+Subject: [martin-lau-bpf-next:cgrp.struct_ops.v8 9/12]
+ kernel/bpf/cgroup.c:31:6: warning: conflicting types for
+ 'bpf_cgroup_struct_ops_register' due to enum/integer mismatch; have
+ 'void(enum cgroup_bpf_attach_type,  u32,  void *, bool)' {aka 'void(enum
+ cgroup_bpf_attach_type,  unsigned int,  void *, _Bool)'}
+Message-ID: <202605162022.KKnVwAAL-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260514092042.3265986-1-markus.stockhausen@gmx.de>
 
-Hi Markus,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on andi-shyti/i2c/i2c-host]
-[also build test ERROR on linus/master v7.1-rc3 next-20260508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Stockhausen/i2c-i2c-gpio-Enhance-driver-for-buses-with-shared-SCL/20260514-233812
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
-patch link:    https://lore.kernel.org/r/20260514092042.3265986-1-markus.stockhausen%40gmx.de
-patch subject: [RFC PATCH] i2c: i2c-gpio Enhance driver for buses with shared SCL
-config: arm64-randconfig-004-20260516 (https://download.01.org/0day-ci/archive/20260516/202605161950.P3hdEfkq-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260516/202605161950.P3hdEfkq-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/martin.lau/bpf-next.git cgrp.struct_ops.v8
+head:   1ae5eccb04d5d8c62c310b206b5e5dc4ff1d9c71
+commit: 32e27daf9a1563276f88eb17d076f61f8cc8b502 [9/12] bpf: Add infrastructure to support attaching struct_ops to cgroups
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260516/202605162022.KKnVwAAL-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260516/202605162022.KKnVwAAL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605161950.P3hdEfkq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605162022.KKnVwAAL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/i2c/busses/i2c-gpio.c:197:30: error: incompatible pointer types passing 'struct i2c_gpio_scl_data *' to parameter of type 'const struct gpio_desc *' [-Wincompatible-pointer-types]
-     197 |         int ret, irq = gpiod_to_irq(priv->scl);
-         |                                     ^~~~~~~~~
-   include/linux/gpio/consumer.h:169:42: note: passing argument to parameter 'desc' here
-     169 | int gpiod_to_irq(const struct gpio_desc *desc);
-         |                                          ^
->> drivers/i2c/busses/i2c-gpio.c:204:30: error: incompatible pointer types passing 'struct i2c_gpio_scl_data *' to parameter of type 'struct gpio_desc *' [-Wincompatible-pointer-types]
-     204 |         ret = gpiod_direction_input(priv->scl);
-         |                                     ^~~~~~~~~
-   include/linux/gpio/consumer.h:114:45: note: passing argument to parameter 'desc' here
-     114 | int gpiod_direction_input(struct gpio_desc *desc);
-         |                                             ^
-   drivers/i2c/busses/i2c-gpio.c:219:31: error: incompatible pointer types passing 'struct i2c_gpio_scl_data *' to parameter of type 'struct gpio_desc *' [-Wincompatible-pointer-types]
-     219 |         ret = gpiod_direction_output(priv->scl, 1) ?: ret;
-         |                                      ^~~~~~~~~
-   include/linux/gpio/consumer.h:115:46: note: passing argument to parameter 'desc' here
-     115 | int gpiod_direction_output(struct gpio_desc *desc, int value);
-         |                                              ^
-   3 errors generated.
+>> kernel/bpf/cgroup.c:31:6: warning: conflicting types for 'bpf_cgroup_struct_ops_register' due to enum/integer mismatch; have 'void(enum cgroup_bpf_attach_type,  u32,  void *, bool)' {aka 'void(enum cgroup_bpf_attach_type,  unsigned int,  void *, _Bool)'} [-Wenum-int-mismatch]
+      31 | void bpf_cgroup_struct_ops_register(enum cgroup_bpf_attach_type atype, u32 type_id,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from kernel/bpf/cgroup.c:16:
+   include/linux/bpf-cgroup.h:115:6: note: previous declaration of 'bpf_cgroup_struct_ops_register' with type 'void(int,  u32,  void *, bool)' {aka 'void(int,  unsigned int,  void *, _Bool)'}
+     115 | void bpf_cgroup_struct_ops_register(int atype, u32 type_id, void *cfi_stubs, bool tasks_trace);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +197 drivers/i2c/busses/i2c-gpio.c
+vim +31 kernel/bpf/cgroup.c
 
-bbe899700a44af Wolfram Sang 2018-06-29  193  
-63e57b6f191db9 Wolfram Sang 2019-02-19  194  static int i2c_gpio_fi_act_on_scl_irq(struct i2c_gpio_private_data *priv,
-63e57b6f191db9 Wolfram Sang 2019-02-19  195  				       irqreturn_t handler(int, void*))
-63e57b6f191db9 Wolfram Sang 2019-02-19  196  {
-63e57b6f191db9 Wolfram Sang 2019-02-19 @197  	int ret, irq = gpiod_to_irq(priv->scl);
-63e57b6f191db9 Wolfram Sang 2019-02-19  198  
-63e57b6f191db9 Wolfram Sang 2019-02-19  199  	if (irq < 0)
-63e57b6f191db9 Wolfram Sang 2019-02-19  200  		return irq;
-63e57b6f191db9 Wolfram Sang 2019-02-19  201  
-63e57b6f191db9 Wolfram Sang 2019-02-19  202  	i2c_lock_bus(&priv->adap, I2C_LOCK_ROOT_ADAPTER);
-63e57b6f191db9 Wolfram Sang 2019-02-19  203  
-63e57b6f191db9 Wolfram Sang 2019-02-19 @204  	ret = gpiod_direction_input(priv->scl);
-63e57b6f191db9 Wolfram Sang 2019-02-19  205  	if (ret)
-63e57b6f191db9 Wolfram Sang 2019-02-19  206  		goto unlock;
-63e57b6f191db9 Wolfram Sang 2019-02-19  207  
-63e57b6f191db9 Wolfram Sang 2019-02-19  208  	reinit_completion(&priv->scl_irq_completion);
-63e57b6f191db9 Wolfram Sang 2019-02-19  209  
-63e57b6f191db9 Wolfram Sang 2019-02-19  210  	ret = request_irq(irq, handler, IRQF_TRIGGER_FALLING,
-63e57b6f191db9 Wolfram Sang 2019-02-19  211  			  "i2c_gpio_fault_injector_scl_irq", priv);
-63e57b6f191db9 Wolfram Sang 2019-02-19  212  	if (ret)
-63e57b6f191db9 Wolfram Sang 2019-02-19  213  		goto output;
-63e57b6f191db9 Wolfram Sang 2019-02-19  214  
-63e57b6f191db9 Wolfram Sang 2019-02-19  215  	wait_for_completion_interruptible(&priv->scl_irq_completion);
-63e57b6f191db9 Wolfram Sang 2019-02-19  216  
-63e57b6f191db9 Wolfram Sang 2019-02-19  217  	free_irq(irq, priv);
-63e57b6f191db9 Wolfram Sang 2019-02-19  218   output:
-63e57b6f191db9 Wolfram Sang 2019-02-19  219  	ret = gpiod_direction_output(priv->scl, 1) ?: ret;
-63e57b6f191db9 Wolfram Sang 2019-02-19  220   unlock:
-63e57b6f191db9 Wolfram Sang 2019-02-19  221  	i2c_unlock_bus(&priv->adap, I2C_LOCK_ROOT_ADAPTER);
-63e57b6f191db9 Wolfram Sang 2019-02-19  222  
-63e57b6f191db9 Wolfram Sang 2019-02-19  223  	return ret;
-63e57b6f191db9 Wolfram Sang 2019-02-19  224  }
-63e57b6f191db9 Wolfram Sang 2019-02-19  225  
+    30	
+  > 31	void bpf_cgroup_struct_ops_register(enum cgroup_bpf_attach_type atype, u32 type_id,
+    32					    void *cfi_stubs, bool mult_rcu)
+    33	{
+    34		struct_ops_type_id[atype] = type_id;
+    35		struct_ops_cfi_stubs[atype] = cfi_stubs;
+    36		struct_ops_mult_rcu[atype] = mult_rcu;
+    37	}
+    38	
 
 --
 0-DAY CI Kernel Test Service
