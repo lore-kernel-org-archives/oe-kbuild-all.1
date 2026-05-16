@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5516D3EE1C0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 May 2026 23:59:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16FB92236E3
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 May 2026 00:45:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778889600; cv=none; b=d+7wZyaYpKChuqcV9uvINeqI+P2/2jxThQjJ3VJletfogi7Ur3FhxCHLe+WcQr0QdE5DcSfnWm8GtEwVlMqDg1fNUrQQ0OVEzVtLfVQn0lxi13g1DH+apxCqMozkjhWai/IZsUZPxWBwboO4az0jmVsLn0EgHraXvleiaDybHe8=
+	t=1778892324; cv=none; b=TK1G3IxeQ0nelW6IGna41XcsnLINR/NbV3px5Su7h1cpCn7xwrmQsvZoAX3yFmtDpgHeRpZDHgI5m/NXgQuF+eL8DY0wjLBNpXp8UK/ltDzfNA7K08sEzJo8wE8YKxsZfviai/mOQYOysWGtss7cuaU4ZjAPBc9sKzpwvJpakCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778889600; c=relaxed/simple;
-	bh=JGC+HpUmb1kJNU5/9gyRaTEWISKzdV3VKQjwNTl9saI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=aquRpa/ikOINl1xsGlZuZsnqWO/5GRJkwd8IzblCGn2SOqDf5ZZj0HTJjGHXgAuEyR4z3py+Sc8+D83H9D8CnQ44CZe03lBQkIbgQc8HTvkKdLUV2ccC0Z2INaUbeRXSR/F8OVhsxN2aDUvnBZgI5K5iUxk1jqqhxb6NuZyVfyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NMRh9toj; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1778892324; c=relaxed/simple;
+	bh=IRYM6gs/k4e5g+DZLKyq3LupHwMmC4tfpYyQusz73Uc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=GhJx2UuFhfnrnTj/7DCAKZ8WjNddJT/TCvqgOPS2MWY/mP72d2+2Pci+zdWQqyW75kxcxV1+60YyQF0JsKvVjipblucUfGzDxdaVH7xbFB4cAgG9FtTASqh3niEvQtgGkcrm4igPv0wNMSIBS4PyI/ZqujPdiCY7mcbE1/B0z3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EyH0B2cF; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NMRh9toj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EyH0B2cF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778889598; x=1810425598;
+  t=1778892322; x=1810428322;
   h=date:from:to:cc:subject:message-id;
-  bh=JGC+HpUmb1kJNU5/9gyRaTEWISKzdV3VKQjwNTl9saI=;
-  b=NMRh9tojq4ujocTMCYA+Rf3USIkV1tHY2S5SGRnL0Ni8tmULcWOl2W1l
-   TcDlMFxBEEQAPJj84bORZuPy8zIVoHVj8qFTxYZGoXtINpCOs8xoBHlnT
-   YDpBopl5F7iTY+kDLVURioFE4uCA8AAymdR1jbyOmGQZfeWmrjHEdFw5B
-   L8Dsp7agcP+LiY1CSSEzuFElTWSFk8tigAeBRMD4SoH3gV90cwAy2HjJs
-   UnZUzK72TFb2pMysNja4XBtbtxt8wLsi0usfVFSAz3pHbC0g9csidxpxP
-   6uFso1v5sErVN2zQadN84TK/oS893a5eXTAGeYKfRwPowxGZeMHPXUN6O
-   A==;
-X-CSE-ConnectionGUID: fHb2ryDSR7+Hl2f+DgxCsQ==
-X-CSE-MsgGUID: Uky/mfhxTsOtXY5f4hF3lQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="90546432"
+  bh=IRYM6gs/k4e5g+DZLKyq3LupHwMmC4tfpYyQusz73Uc=;
+  b=EyH0B2cFMxG52CPViqMuYMtCoYCrPz+/WK4oBw0c71vNqBBQD7qPoW4H
+   R5iJXiAa5iBLG3uOxED+EKMlGTqhSkGuDC1AQRK10N0siGMIgIaGIdpCz
+   3GDcUKTK4nDnsdjogS896GEusFmuUB8VmyjjJ8f527ajVVe4Sg1NTSNIi
+   nyuSIlx/dHj06akHmXjGj1KJJ7xjB5gt+YF8ewYnPiQlaodAsEdYHGhqV
+   VbEa0Om6rqAGZWeg/Epkz4VMm7de9GH8qDYEpDM5eiSpM06cD5zaK9+jK
+   k7pIr4YK2zYYFcRp2Y0nl9S29+eglPefmavEwWBqHu7Jw4YbwSHMfvb5I
+   w==;
+X-CSE-ConnectionGUID: pPkZfD46ST+qUwlbWOB0ww==
+X-CSE-MsgGUID: 1gfh6m4hSv6REVdtCYciSQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="97422719"
 X-IronPort-AV: E=Sophos;i="6.23,237,1770624000"; 
-   d="scan'208";a="90546432"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 16:59:58 -0700
-X-CSE-ConnectionGUID: k7kyKCzSQYOmeJK+58Tkhw==
-X-CSE-MsgGUID: PvKIcw1zT6SWRmX8cDsSrg==
+   d="scan'208";a="97422719"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 17:45:21 -0700
+X-CSE-ConnectionGUID: hJnIiaAtQSy8UsMMAl3GMQ==
+X-CSE-MsgGUID: 2GNll55ORfWqnnuBE0hpVg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,237,1770624000"; 
-   d="scan'208";a="232442136"
-Received: from lkp-server01.sh.intel.com (HELO d94e5e629b2d) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 15 May 2026 16:59:56 -0700
-Received: from kbuild by d94e5e629b2d with local (Exim 4.98.2)
+   d="scan'208";a="262374177"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa002.fm.intel.com with ESMTP; 15 May 2026 17:45:19 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wO2Re-000000000Fv-0ozz;
-	Fri, 15 May 2026 23:59:54 +0000
-Date: Sat, 16 May 2026 07:59:13 +0800
+	id 1wO39Z-0000000099V-0dCk;
+	Sat, 16 May 2026 00:45:17 +0000
+Date: Sat, 16 May 2026 02:44:50 +0200
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-testing 11/101]
- fs/bcachefs/vfs/ioctl.c:907:27: sparse: sparse: cast to non-scalar
-Message-ID: <202605160707.JD8cgCci-lkp@intel.com>
+To: Linlin Zhang <linlin.zhang@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mikulas Patocka <mpatocka@redhat.com>,
+ linux-doc@vger.kernel.org
+Subject: [linux-next:master 3552/4394] htmldocs:
+ Documentation/admin-guide/device-mapper/dm-inlinecrypt.rst:1: WARNING: Title
+ overline too short.
+Message-ID: <202605160214.wOV5aa0q-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,79 +61,42 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
-head:   ca944a61e079450f82be88c91e349638c75cf4b6
-commit: 39fe245ff806f1dcf1d02b034d35df86b8944ec2 [11/101] bcachefs: wire up error reporting in pread_raw ioctl
-config: sh-randconfig-r123-20260514 (https://download.01.org/0day-ci/archive/20260516/202605160707.JD8cgCci-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 11.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260516/202605160707.JD8cgCci-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e98d21c170b01ddef366f023bbfcf6b31509fa83
+commit: b4a0774bd7fd859c1d243be0919c8df39eac20c0 [3552/4394] dm: add documentation for dm-inlinecrypt target
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260516/202605160214.wOV5aa0q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605160707.JD8cgCci-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605160214.wOV5aa0q-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/bcachefs/vfs/ioctl.c:907:27: sparse: sparse: cast to non-scalar
->> fs/bcachefs/vfs/ioctl.c:907:27: sparse: sparse: cast from non-scalar
+All warnings (new ones prefixed by >>):
 
-vim +907 fs/bcachefs/vfs/ioctl.c
+   WARNING: Documentation/ABI/testing/sysfs-class-reboot-mode-reboot_modes:36: abi_sys_class_reboot_mode_driver_reboot_modes doesn't have a description
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:364; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:234
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
+>> Documentation/admin-guide/device-mapper/dm-inlinecrypt.rst:1: WARNING: Title overline too short.
+--
+   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:45: ERROR: Unknown target name: "network flags". [docutils]
+   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:50: ERROR: Unknown target name: "scope flags". [docutils]
+   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:168: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:191: ERROR: Unknown target name: "network flags". [docutils]
+>> Documentation/admin-guide/device-mapper/dm-inlinecrypt.rst: WARNING: document isn't included in any toctree [toc.not_included]
+   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
 
-   868	
-   869	static long bch2_ioc_pread_raw(struct file *file,
-   870				       struct bch_inode_info *inode,
-   871				       struct bch_ioctl_pread_raw __user *uarg)
-   872	{
-   873		struct bch_ioctl_pread_raw arg;
-   874	
-   875		if (copy_from_user(&arg, uarg, sizeof(arg)))
-   876			return -EFAULT;
-   877		if (arg.flags & ~BCH_PREAD_RAW_no_poison_check)
-   878			return -EINVAL;
-   879		if (arg.err.pad)
-   880			return -EINVAL;
-   881		if (!arg.len)
-   882			return 0;
-   883		if (!(file->f_flags & O_DIRECT))
-   884			return -EINVAL;
-   885		if (!inode_owner_or_capable(file_mnt_idmap(file), &inode->v))
-   886			return -EPERM;
-   887	
-   888		loff_t pos = arg.offset;
-   889		int ret = rw_verify_area(READ, file, &pos, arg.len);
-   890		if (ret)
-   891			return ret;
-   892	
-   893		struct iov_iter iter;
-   894		import_ubuf(ITER_DEST, (void __user *)(unsigned long)arg.buf, arg.len, &iter);
-   895	
-   896		struct kiocb kiocb;
-   897		init_sync_kiocb(&kiocb, file);
-   898		kiocb.ki_pos = arg.offset;
-   899	
-   900		enum bch_read_flags read_flags = 0;
-   901		if (arg.flags & BCH_PREAD_RAW_no_poison_check)
-   902			read_flags |= BCH_READ_no_poison_check;
-   903	
-   904		struct bch_read_err_report err_report;
-   905		mutex_init(&err_report.lock);
-   906		err_report.errors = 0;
- > 907		err_report.msg = (struct printbuf) PRINTBUF;
-   908	
-   909		ret = bch2_direct_IO_read(&kiocb, &iter, read_flags, &err_report);
-   910	
-   911		if (copy_to_user(&uarg->errors, &err_report.errors, sizeof(err_report.errors)))
-   912			ret = -EFAULT;
-   913	
-   914		int err = bch2_copy_ioctl_err_msg(&arg.err, &err_report.msg, ret < 0 ? ret : 0);
-   915		if (err && !ret)
-   916			ret = err;
-   917	
-   918		printbuf_exit(&err_report.msg);
-   919		return ret;
-   920	}
-   921	
+
+vim +1 Documentation/admin-guide/device-mapper/dm-inlinecrypt.rst
+
+   > 1	========
+     2	dm-inlinecrypt
+     3	========
+     4	
 
 --
 0-DAY CI Kernel Test Service
