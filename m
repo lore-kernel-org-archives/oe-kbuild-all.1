@@ -1,88 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3C4A33F58D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 May 2026 11:25:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D14293DA5B0;
+	Sat, 16 May 2026 11:46:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778930737; cv=none; b=OyomiwKD2jPIZ7rCDro5JJQALiVbBRO792glBtAO0y3BWxhKZiDnLIG7RbiAYpqUI9W+Avx0qiOrbl/XHVQT8iAUJjkvLMVRZgnT6BtoN2Db9IGjCApE7rNvXsvd4Ddmdw8vPRlyyKuiljUp9af4KcBpH47jkwZ8Nj0OHlfBmVM=
+	t=1778932002; cv=none; b=T7/bE6hA/UpJB+BFVXF7DWQwaMxHWtgR1OsuE7Pzk6tpR8ajtU3ksDiuP6DNPtlsH6AG7+ULlW0SiRiPFP3cldnr/s9WS/Vd8tQ/r0QfCLPzt8UJixyTlxMN50MLWT7osnXF05aQM6MfmA39iACVxREEAc1Zbt/SUdAa+KgCBig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778930737; c=relaxed/simple;
-	bh=vviPTRrVHHFpI6amk6cRTLkvpVCi3Mz8Yl3/xnqm8dg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=FXfuB6/x5FGzXsJl0BW0VT7g+7I1t+XMkaYsWkeshBfoJCgVnG3m2puPwuP/05QLmSSpVsFNvT4w9tgEZkZFsTcUyFDp7RnoH3VIDMuNpE4jTjl/FBRBVyTLIozm5zT59UXH490XGbJ8ZLeod5u/yZHgTXE0PriCO8rgXI+7rGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ckEifcO4; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1778932002; c=relaxed/simple;
+	bh=t6HOHufvECaSv8A+/IS5zrPHSBmzIcTD6wF0m1l3K18=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pVXUTkCVAL+klnyu8umKRpRdARjG4yfcwE79pL+cLRPldlva0BF7G13foLaHTFx+T285nlodRmM/YI6TuXIDn8tONXlmubD1SDGy9RdBphI6DlmdpimQ4kgBRAfGtassbBE8ybxo5ZP3Lqj6z/sKO0wxmTDY+Nhkp843kf6dVvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lOWDf2lO; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ckEifcO4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lOWDf2lO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778930736; x=1810466736;
-  h=date:from:to:cc:subject:message-id;
-  bh=vviPTRrVHHFpI6amk6cRTLkvpVCi3Mz8Yl3/xnqm8dg=;
-  b=ckEifcO4WINazK2ujjlMBaQrqk9JaiiqXzR4PQETyFMEqfCkOmwblmGU
-   8QO8z5Q5pAUIk2Vh3R+ZFPjtKQKOSgAj/yPQmciko4eykdP2Atnuh6OLq
-   stmCcqonj5agyhC8I62/ouRJQe0fYoVBf+Ju+fXr+35Pxqr21gwuu+qny
-   hUgr8O2T6r+oxuNvlSkeM5Zgu2dGDeaZRvrTu8HaMeKO0ujy44Sa5CgTl
-   KtwLBwwLk5wkDhUNMPgxcZiiRRrGUuNB8jaOeI9JJq9zl53Fvk7pKkfQC
-   GnS/G6AvR/cvju3UWDdFS9vtyVZSGcjfe0GlaOFoDGWnBXAMHVKG9Voce
-   g==;
-X-CSE-ConnectionGUID: IpzBbV6uTCC5BNlFe3C2fQ==
-X-CSE-MsgGUID: rQzl5LHaSOeLviGM60qpWw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="79762089"
+  t=1778932000; x=1810468000;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=t6HOHufvECaSv8A+/IS5zrPHSBmzIcTD6wF0m1l3K18=;
+  b=lOWDf2lOB5cnyI8YDL77u24XMaosgPNfqYjQiwUqYaltR0sKObRDBlqq
+   chx4UXhkgd4lVQfX9QX3JmZAVD1/v+SQIKH647NKh9E5pzpgoNayAmTG4
+   Tq5ik/pktlPqzzuDCsJ2ZLZ6Ig6oTAGkP6sbUJpvoRzrzYrUH7mH13S+M
+   KhyUXlmT+Wz22+uTStYpDXmm0ezBEubhIrcL0ySDRXhvbbvJqqiPMd8U3
+   Xh/KTlUCCmjpNpfHCSkPtjBVaqsCD1SA+TPAtVrebG54nf6ytHSyNIVmy
+   g7NVJYglfafxPyVYQIV2veo3LLWQpHRVa5rdHb+00EBqicv4aMPzJvie3
+   w==;
+X-CSE-ConnectionGUID: miWWAWhQTYy9hWQ04ljTCw==
+X-CSE-MsgGUID: OHRUbtT+STGoy15qtJ8i/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="67394075"
 X-IronPort-AV: E=Sophos;i="6.23,238,1770624000"; 
-   d="scan'208";a="79762089"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2026 04:25:36 -0700
-X-CSE-ConnectionGUID: CYMC4mc1TzuKBrDEn0kDzg==
-X-CSE-MsgGUID: TwSXQnd9TL2YyJBqlXuDcg==
+   d="scan'208";a="67394075"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2026 04:46:38 -0700
+X-CSE-ConnectionGUID: hJpzaZZfTWmrLT6MXSu4fQ==
+X-CSE-MsgGUID: YhgtzyK4Q/Ow3t45XSUfpg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,238,1770624000"; 
-   d="scan'208";a="277054030"
+   d="scan'208";a="238084381"
 Received: from lkp-server01.sh.intel.com (HELO d94e5e629b2d) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 16 May 2026 04:25:35 -0700
+  by orviesa010.jf.intel.com with ESMTP; 16 May 2026 04:46:35 -0700
 Received: from kbuild by d94e5e629b2d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wOD99-000000000lC-2f6f;
-	Sat, 16 May 2026 11:25:31 +0000
-Date: Sat, 16 May 2026 19:25:25 +0800
+	id 1wODTU-000000000mM-2NxV;
+	Sat, 16 May 2026 11:46:32 +0000
+Date: Sat, 16 May 2026 19:46:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Janne Grunau <j@jannau.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:bits/200-dcp 105/180] Warning:
- drivers/gpu/drm/apple/dcp.c:100 function parameter 'crtc' not described in
- 'dcp_crtc_send_page_flip_event'
-Message-ID: <202605161959.6BuedvFt-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Feng Tang <feng.tang@linux.alibaba.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rafael@kernel.org,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, David Hildenbrand <david@kernel.org>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	Feng Tang <feng.tang@linux.alibaba.com>
+Subject: Re: [PATCH v1] arch_topology: Introduce nr_possible_packages
+Message-ID: <202605161935.1SnObrFu-lkp@intel.com>
+References: <20260515144435.93035-1-feng.tang@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260515144435.93035-1-feng.tang@linux.alibaba.com>
 
-tree:   https://github.com/AsahiLinux/linux bits/200-dcp
-head:   6ef0960d4e4ddc8a883852c07fb4cafc2c68c042
-commit: a4410dd6e5591be03fbe4c8e485565a4900a8235 [105/180] drm: apple: Override drm_vblank's page flip event handling [HACK]
-config: arm64-randconfig-r071-20260516 (https://download.01.org/0day-ci/archive/20260516/202605161959.6BuedvFt-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.3.0
-smatch: v0.5.0-9185-gbcc58b9c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260516/202605161959.6BuedvFt-lkp@intel.com/reproduce)
+Hi Feng,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on driver-core/driver-core-testing]
+[also build test WARNING on driver-core/driver-core-next driver-core/driver-core-linus linus/master v7.1-rc3 next-20260508]
+[cannot apply to linux-review/Feng-Tang/arch_topology-Introduce-nr_possible_packages/20260514-094659]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Feng-Tang/arch_topology-Introduce-nr_possible_packages/20260515-230156
+base:   driver-core/driver-core-testing
+patch link:    https://lore.kernel.org/r/20260515144435.93035-1-feng.tang%40linux.alibaba.com
+patch subject: [PATCH v1] arch_topology: Introduce nr_possible_packages
+config: parisc-randconfig-r122-20260516 (https://download.01.org/0day-ci/archive/20260516/202605161935.1SnObrFu-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.4.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260516/202605161935.1SnObrFu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605161959.6BuedvFt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605161935.1SnObrFu-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/base/arch_topology.c:841:1: sparse: sparse: symbol 'package_id_mask' was not declared. Should it be static?
 
->> Warning: drivers/gpu/drm/apple/dcp.c:100 function parameter 'crtc' not described in 'dcp_crtc_send_page_flip_event'
->> Warning: drivers/gpu/drm/apple/dcp.c:100 function parameter 'e' not described in 'dcp_crtc_send_page_flip_event'
->> Warning: drivers/gpu/drm/apple/dcp.c:100 function parameter 'now' not described in 'dcp_crtc_send_page_flip_event'
->> Warning: drivers/gpu/drm/apple/dcp.c:100 function parameter 'start' not described in 'dcp_crtc_send_page_flip_event'
->> Warning: drivers/gpu/drm/apple/dcp.c:100 function parameter 'crtc' not described in 'dcp_crtc_send_page_flip_event'
->> Warning: drivers/gpu/drm/apple/dcp.c:100 function parameter 'e' not described in 'dcp_crtc_send_page_flip_event'
->> Warning: drivers/gpu/drm/apple/dcp.c:100 function parameter 'now' not described in 'dcp_crtc_send_page_flip_event'
->> Warning: drivers/gpu/drm/apple/dcp.c:100 function parameter 'start' not described in 'dcp_crtc_send_page_flip_event'
+vim +/package_id_mask +841 drivers/base/arch_topology.c
+
+   835	
+   836	/*
+   837	 * Assuming silicon has a sane package ID decoding method to not have
+   838	 * an ID bigger than 2047
+   839	 */
+   840	#define MAX_PACKAGE_ID	2047
+ > 841	DECLARE_BITMAP(package_id_mask, MAX_PACKAGE_ID + 1);
+   842	
 
 --
 0-DAY CI Kernel Test Service
