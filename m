@@ -1,189 +1,160 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D26335A397;
-	Sat, 16 May 2026 10:05:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 661AC3CF694
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 May 2026 10:11:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778925931; cv=none; b=bfwFc2UUgUtBDpL8vzofmAUW2FlpEzh56RNgkAAsN9OJH7r+hdNk1Sx8qhSxPHL4JK/d4EXkR2Swi5CDhobI/2+qp7XR+2jCmY/uzy/xEgc0alWyfsEosAf/CePoNkrj9a7keJGbxAmMjxrGAQUPholXYU8Oi9WH1TQEZAohq3I=
+	t=1778926292; cv=none; b=g9b2JGYNbGF4zuUwEeWhwh8N++kn7OxzzK8AXpqncra0IynSMWEnMzotL5gWpYo72NrMX7YB70JmZIRCj3WxglhembtvJI6mx320vNFgv8LcwTWtBgsldP5F30iDohh21gGT9+f/JsWSNyyQhialm7uZtl1ACYHhfJ86v2W31z8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778925931; c=relaxed/simple;
-	bh=ie3m7R7zX+KpxThk4xsby+Xqu83khKq1r4C3czLKPaQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=nckEFgZ84GTEbqfPFg+epX5guGA1OysWy/wnGCyqNKdAZlgfuQTkSZls/h0N/X5Jq5qCPXkrPpFnRfZx12/3/cg/IhwjDrUxtRV1gZBnvzW4LhUB8tusrQD+g9MjSyhq+3981ZZ754PlG2pKcu3TzC5JWEZle9FLrvQ2olRY7tU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LJxU0ztJ; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1778926292; c=relaxed/simple;
+	bh=m0DQ9mV6AjFu0/dbI88RWhdc1DYkzGF2vKrEOsoaPgE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o6o7vEKDGwrDS6GNNfuOtWPo4/W2NMmCDcYAnMN3aofuqPAFCxodCJFcRgz2TqF8IufkOi70gieb7dhZrIfU9YSFUzOXO4pJfD4XP9XKasHJkJ5V8h3rH3pya8kiWFStD+BAa8H3vlPbBSfOAQVR1EL6oQIj0lolmCHeurz+pKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m9RjS7uz; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LJxU0ztJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m9RjS7uz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778925931; x=1810461931;
-  h=date:from:to:cc:subject:message-id;
-  bh=ie3m7R7zX+KpxThk4xsby+Xqu83khKq1r4C3czLKPaQ=;
-  b=LJxU0ztJpn1Sexy5882vDywVQ1fM0gEZgmkfV8BmqLUodtPCMfth77+R
-   lsgsYU/S1jnIQA9uz1+XeUYYT+V523mb9chqLHgpAEu+KWuJzTXzlsb0q
-   WEt5TVxjOx4c1/QeKUOLWp/XRnfGaPTdq8N0cH7RLvkifPDK4Vl3amMRp
-   CI627gmt7vF9DkDLkTI2wWxb/hYSpyCN/Lp4i4nm6OVElxyd9ctqmdFem
-   AcQqGEvbxzOJmJWKXv8r9E2uqcwjGlc0tTutOFgwI/BImGBfxNMP6v3up
-   SyDaOJTQdIaRVVL93HMocO8t9wfW+Vu2U0vb1R0YGioju1vUvrFOcUNIg
-   Q==;
-X-CSE-ConnectionGUID: OjDPwJI9R3a6o+RU+ptBkg==
-X-CSE-MsgGUID: 9nkoZaOxTi2E1AnmFhRD2Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="90967182"
+  t=1778926291; x=1810462291;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=m0DQ9mV6AjFu0/dbI88RWhdc1DYkzGF2vKrEOsoaPgE=;
+  b=m9RjS7uzH4y1G85hQ4jDxDqTLmNkKV2wokYtBcpeT69Wuctuxvg7h7mF
+   mQWv2GukYsolaFNUTyC9+wT9M2g0Ow3Jyacr2uacOC0z2ihhcD/VEju0q
+   9JRnTaFGbU6hCIpqaxHFEd2ImH9UpJ83RApfkA2JXDsBO0nYimD6nCBIc
+   DAnytuZvwEoSH2BG0VI7mol0enVLpZZju3awy27Yz6+sUCX9QcXsduK1c
+   jRFvSnpUE/Jgrqy0lxGcKi1nbtDHpe/AjSHxpX2lyf/XfBteoVbZCkr0s
+   /BT9CiWnvzofph1ZXIXyI2HhyNrlBgzEYRzkam61RVnPepqsR7HAZWKSt
+   w==;
+X-CSE-ConnectionGUID: SKu6hAOjRxWvjnI1CtfbBg==
+X-CSE-MsgGUID: K6GfrCNiR6W/onlbnordzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="79001172"
 X-IronPort-AV: E=Sophos;i="6.23,238,1770624000"; 
-   d="scan'208";a="90967182"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2026 03:05:30 -0700
-X-CSE-ConnectionGUID: 7peTrEp+SSCX8txtCZIgRw==
-X-CSE-MsgGUID: XsGQr21MSI+1R5OCZtUvrw==
+   d="scan'208";a="79001172"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2026 03:11:30 -0700
+X-CSE-ConnectionGUID: rb0ZqTdVQeakYpSiam6GBg==
+X-CSE-MsgGUID: C0aKR/qRQ1qDof3zPd2nAA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,238,1770624000"; 
-   d="scan'208";a="238816279"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 16 May 2026 03:05:28 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="269291637"
+Received: from lkp-server01.sh.intel.com (HELO d94e5e629b2d) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 16 May 2026 03:11:29 -0700
+Received: from kbuild by d94e5e629b2d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wOBtd-000000009J7-1gNF;
-	Sat, 16 May 2026 10:05:25 +0000
-Date: Sat, 16 May 2026 12:05:20 +0200
+	id 1wOBzS-000000000iH-013q;
+	Sat, 16 May 2026 10:11:26 +0000
+Date: Sat, 16 May 2026 18:11:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- 0day robot <lkp@intel.com>
-Subject: mm/zswap.c:1057:19: error: incompatible pointer types
- passing 'struct folio *' to parameter of type 'struct swap_io_ctx *'
-Message-ID: <202605161230.hcgFZncA-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Markus Stockhausen <markus.stockhausen@gmx.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH] i2c: i2c-gpio Enhance driver for buses with shared
+ SCL
+Message-ID: <202605161836.Pd84kaCN-lkp@intel.com>
+References: <20260514092042.3265986-1-markus.stockhausen@gmx.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260514092042.3265986-1-markus.stockhausen@gmx.de>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Christoph-Hellwig/mm-merge-writeout-into-pageout/20260516-003650
-head:   dfa0de1c1f86f5c4e96d214b3549d4c5d3be0068
-commit: b44db93170f358db8179510ea15bb73b2194941c mm/swap: intoduce struct swap_io_ctx
-date:   17 hours ago
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260516/202605161230.hcgFZncA-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260516/202605161230.hcgFZncA-lkp@intel.com/reproduce)
+Hi Markus,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on andi-shyti/i2c/i2c-host]
+[also build test ERROR on linus/master v7.1-rc3 next-20260508]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Stockhausen/i2c-i2c-gpio-Enhance-driver-for-buses-with-shared-SCL/20260514-233812
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+patch link:    https://lore.kernel.org/r/20260514092042.3265986-1-markus.stockhausen%40gmx.de
+patch subject: [RFC PATCH] i2c: i2c-gpio Enhance driver for buses with shared SCL
+config: um-randconfig-r073-20260516 (https://download.01.org/0day-ci/archive/20260516/202605161836.Pd84kaCN-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9185-gbcc58b9c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260516/202605161836.Pd84kaCN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605161230.hcgFZncA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605161836.Pd84kaCN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> mm/zswap.c:1057:19: error: incompatible pointer types passing 'struct folio *' to parameter of type 'struct swap_io_ctx *' [-Werror,-Wincompatible-pointer-types]
-    1057 |         __swap_writepage(folio, NULL);
-         |                          ^~~~~
-   mm/swap.h:226:43: note: passing argument to parameter 'ctx' here
-     226 | void __swap_writepage(struct swap_io_ctx *ctx, struct folio *folio);
-         |                                           ^
-   1 error generated.
+   drivers/i2c/busses/i2c-gpio.c: In function 'i2c_gpio_fi_act_on_scl_irq':
+>> drivers/i2c/busses/i2c-gpio.c:197:41: error: passing argument 1 of 'gpiod_to_irq' from incompatible pointer type [-Wincompatible-pointer-types]
+     197 |         int ret, irq = gpiod_to_irq(priv->scl);
+         |                                     ~~~~^~~~~
+         |                                         |
+         |                                         struct i2c_gpio_scl_data *
+   In file included from drivers/i2c/busses/i2c-gpio.c:10:
+   include/linux/gpio/consumer.h:169:42: note: expected 'const struct gpio_desc *' but argument is of type 'struct i2c_gpio_scl_data *'
+     169 | int gpiod_to_irq(const struct gpio_desc *desc);
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+>> drivers/i2c/busses/i2c-gpio.c:204:41: error: passing argument 1 of 'gpiod_direction_input' from incompatible pointer type [-Wincompatible-pointer-types]
+     204 |         ret = gpiod_direction_input(priv->scl);
+         |                                     ~~~~^~~~~
+         |                                         |
+         |                                         struct i2c_gpio_scl_data *
+   include/linux/gpio/consumer.h:114:45: note: expected 'struct gpio_desc *' but argument is of type 'struct i2c_gpio_scl_data *'
+     114 | int gpiod_direction_input(struct gpio_desc *desc);
+         |                           ~~~~~~~~~~~~~~~~~~^~~~
+>> drivers/i2c/busses/i2c-gpio.c:219:42: error: passing argument 1 of 'gpiod_direction_output' from incompatible pointer type [-Wincompatible-pointer-types]
+     219 |         ret = gpiod_direction_output(priv->scl, 1) ?: ret;
+         |                                      ~~~~^~~~~
+         |                                          |
+         |                                          struct i2c_gpio_scl_data *
+   include/linux/gpio/consumer.h:115:46: note: expected 'struct gpio_desc *' but argument is of type 'struct i2c_gpio_scl_data *'
+     115 | int gpiod_direction_output(struct gpio_desc *desc, int value);
+         |                            ~~~~~~~~~~~~~~~~~~^~~~
 
 
-vim +1057 mm/zswap.c
+vim +/gpiod_to_irq +197 drivers/i2c/busses/i2c-gpio.c
 
-f91e81d31c1ef75 Johannes Weiner   2024-01-29   971  
-9986d35d4ceb539 Johannes Weiner   2024-01-29   972  /*********************************
-9986d35d4ceb539 Johannes Weiner   2024-01-29   973  * writeback code
-9986d35d4ceb539 Johannes Weiner   2024-01-29   974  **********************************/
-9986d35d4ceb539 Johannes Weiner   2024-01-29   975  /*
-9986d35d4ceb539 Johannes Weiner   2024-01-29   976   * Attempts to free an entry by adding a folio to the swap cache,
-9986d35d4ceb539 Johannes Weiner   2024-01-29   977   * decompressing the entry data into the folio, and issuing a
-9986d35d4ceb539 Johannes Weiner   2024-01-29   978   * bio write to write the folio back to the swap device.
-9986d35d4ceb539 Johannes Weiner   2024-01-29   979   *
-9986d35d4ceb539 Johannes Weiner   2024-01-29   980   * This can be thought of as a "resumed writeback" of the folio
-9986d35d4ceb539 Johannes Weiner   2024-01-29   981   * to the swap device.  We are basically resuming the same swap
-9986d35d4ceb539 Johannes Weiner   2024-01-29   982   * writeback path that was intercepted with the zswap_store()
-9986d35d4ceb539 Johannes Weiner   2024-01-29   983   * in the first place.  After the folio has been decompressed into
-9986d35d4ceb539 Johannes Weiner   2024-01-29   984   * the swap cache, the compressed version stored by zswap can be
-9986d35d4ceb539 Johannes Weiner   2024-01-29   985   * freed.
-9986d35d4ceb539 Johannes Weiner   2024-01-29   986   */
-9986d35d4ceb539 Johannes Weiner   2024-01-29   987  static int zswap_writeback_entry(struct zswap_entry *entry,
-9986d35d4ceb539 Johannes Weiner   2024-01-29   988  				 swp_entry_t swpentry)
-9986d35d4ceb539 Johannes Weiner   2024-01-29   989  {
-796c2c23e14e754 Chris Li          2024-03-26   990  	struct xarray *tree;
-796c2c23e14e754 Chris Li          2024-03-26   991  	pgoff_t offset = swp_offset(swpentry);
-9986d35d4ceb539 Johannes Weiner   2024-01-29   992  	struct folio *folio;
-9986d35d4ceb539 Johannes Weiner   2024-01-29   993  	struct mempolicy *mpol;
-9986d35d4ceb539 Johannes Weiner   2024-01-29   994  	bool folio_was_allocated;
-78524b05f1a3e16 Kairui Song       2025-03-14   995  	struct swap_info_struct *si;
-ff22f9299d7b2c7 Nhat Pham         2025-03-06   996  	int ret = 0;
-9986d35d4ceb539 Johannes Weiner   2024-01-29   997  
-9986d35d4ceb539 Johannes Weiner   2024-01-29   998  	/* try to allocate swap cache folio */
-78524b05f1a3e16 Kairui Song       2025-03-14   999  	si = get_swap_device(swpentry);
-78524b05f1a3e16 Kairui Song       2025-03-14  1000  	if (!si)
-78524b05f1a3e16 Kairui Song       2025-03-14  1001  		return -EEXIST;
-78524b05f1a3e16 Kairui Song       2025-03-14  1002  
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1003  	mpol = get_task_policy(current);
-d7cf0d54f21087d Kairui Song       2025-12-20  1004  	folio = swap_cache_alloc_folio(swpentry, GFP_KERNEL, mpol,
-de85024b34839e9 Kairui Song       2025-12-20  1005  				       NO_INTERLEAVE_INDEX, &folio_was_allocated);
-78524b05f1a3e16 Kairui Song       2025-03-14  1006  	put_swap_device(si);
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1007  	if (!folio)
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1008  		return -ENOMEM;
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1009  
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1010  	/*
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1011  	 * Found an existing folio, we raced with swapin or concurrent
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1012  	 * shrinker. We generally writeback cold folios from zswap, and
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1013  	 * swapin means the folio just became hot, so skip this folio.
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1014  	 * For unlikely concurrent shrinker case, it will be unlinked
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1015  	 * and freed when invalidated by the concurrent shrinker anyway.
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1016  	 */
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1017  	if (!folio_was_allocated) {
-ff22f9299d7b2c7 Nhat Pham         2025-03-06  1018  		ret = -EEXIST;
-ff22f9299d7b2c7 Nhat Pham         2025-03-06  1019  		goto out;
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1020  	}
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1021  
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1022  	/*
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1023  	 * folio is locked, and the swapcache is now secured against
-f9c0f1c32cb568e Chengming Zhou    2024-02-04  1024  	 * concurrent swapping to and from the slot, and concurrent
-f9c0f1c32cb568e Chengming Zhou    2024-02-04  1025  	 * swapoff so we can safely dereference the zswap tree here.
-f9c0f1c32cb568e Chengming Zhou    2024-02-04  1026  	 * Verify that the swap entry hasn't been invalidated and recycled
-f9c0f1c32cb568e Chengming Zhou    2024-02-04  1027  	 * behind our backs, to avoid overwriting a new swap folio with
-f9c0f1c32cb568e Chengming Zhou    2024-02-04  1028  	 * old compressed data. Only when this is successful can the entry
-f9c0f1c32cb568e Chengming Zhou    2024-02-04  1029  	 * be dereferenced.
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1030  	 */
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1031  	tree = swap_zswap_tree(swpentry);
-ff22f9299d7b2c7 Nhat Pham         2025-03-06  1032  	if (entry != xa_load(tree, offset)) {
-ff22f9299d7b2c7 Nhat Pham         2025-03-06  1033  		ret = -ENOMEM;
-ff22f9299d7b2c7 Nhat Pham         2025-03-06  1034  		goto out;
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1035  	}
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1036  
-ff22f9299d7b2c7 Nhat Pham         2025-03-06  1037  	if (!zswap_decompress(entry, folio)) {
-ff22f9299d7b2c7 Nhat Pham         2025-03-06  1038  		ret = -EIO;
-ff22f9299d7b2c7 Nhat Pham         2025-03-06  1039  		goto out;
-ff22f9299d7b2c7 Nhat Pham         2025-03-06  1040  	}
-ff22f9299d7b2c7 Nhat Pham         2025-03-06  1041  
-ff22f9299d7b2c7 Nhat Pham         2025-03-06  1042  	xa_erase(tree, offset);
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1043  
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1044  	count_vm_event(ZSWPWB);
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1045  	if (entry->objcg)
-e7ac4daeed91a25 Barry Song        2024-11-07  1046  		count_objcg_events(entry->objcg, ZSWPWB, 1);
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1047  
-a230c20e63efef3 Chengming Zhou    2024-02-04  1048  	zswap_entry_free(entry);
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1049  
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1050  	/* folio is up to date */
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1051  	folio_mark_uptodate(folio);
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1052  
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1053  	/* move it to the tail of the inactive list after end_writeback */
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1054  	folio_set_reclaim(folio);
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1055  
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1056  	/* start writeback */
-2ba8ffcefe81241 Christoph Hellwig 2025-06-10 @1057  	__swap_writepage(folio, NULL);
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1058  
-ff22f9299d7b2c7 Nhat Pham         2025-03-06  1059  out:
-ff22f9299d7b2c7 Nhat Pham         2025-03-06  1060  	if (ret && ret != -EEXIST) {
-fd8d4f862f8c278 Kairui Song       2025-09-17  1061  		swap_cache_del_folio(folio);
-ff22f9299d7b2c7 Nhat Pham         2025-03-06  1062  		folio_unlock(folio);
-ff22f9299d7b2c7 Nhat Pham         2025-03-06  1063  	}
-ff22f9299d7b2c7 Nhat Pham         2025-03-06  1064  	folio_put(folio);
-ff22f9299d7b2c7 Nhat Pham         2025-03-06  1065  	return ret;
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1066  }
-9986d35d4ceb539 Johannes Weiner   2024-01-29  1067  
+bbe899700a44af Wolfram Sang 2018-06-29  193  
+63e57b6f191db9 Wolfram Sang 2019-02-19  194  static int i2c_gpio_fi_act_on_scl_irq(struct i2c_gpio_private_data *priv,
+63e57b6f191db9 Wolfram Sang 2019-02-19  195  				       irqreturn_t handler(int, void*))
+63e57b6f191db9 Wolfram Sang 2019-02-19  196  {
+63e57b6f191db9 Wolfram Sang 2019-02-19 @197  	int ret, irq = gpiod_to_irq(priv->scl);
+63e57b6f191db9 Wolfram Sang 2019-02-19  198  
+63e57b6f191db9 Wolfram Sang 2019-02-19  199  	if (irq < 0)
+63e57b6f191db9 Wolfram Sang 2019-02-19  200  		return irq;
+63e57b6f191db9 Wolfram Sang 2019-02-19  201  
+63e57b6f191db9 Wolfram Sang 2019-02-19  202  	i2c_lock_bus(&priv->adap, I2C_LOCK_ROOT_ADAPTER);
+63e57b6f191db9 Wolfram Sang 2019-02-19  203  
+63e57b6f191db9 Wolfram Sang 2019-02-19 @204  	ret = gpiod_direction_input(priv->scl);
+63e57b6f191db9 Wolfram Sang 2019-02-19  205  	if (ret)
+63e57b6f191db9 Wolfram Sang 2019-02-19  206  		goto unlock;
+63e57b6f191db9 Wolfram Sang 2019-02-19  207  
+63e57b6f191db9 Wolfram Sang 2019-02-19  208  	reinit_completion(&priv->scl_irq_completion);
+63e57b6f191db9 Wolfram Sang 2019-02-19  209  
+63e57b6f191db9 Wolfram Sang 2019-02-19  210  	ret = request_irq(irq, handler, IRQF_TRIGGER_FALLING,
+63e57b6f191db9 Wolfram Sang 2019-02-19  211  			  "i2c_gpio_fault_injector_scl_irq", priv);
+63e57b6f191db9 Wolfram Sang 2019-02-19  212  	if (ret)
+63e57b6f191db9 Wolfram Sang 2019-02-19  213  		goto output;
+63e57b6f191db9 Wolfram Sang 2019-02-19  214  
+63e57b6f191db9 Wolfram Sang 2019-02-19  215  	wait_for_completion_interruptible(&priv->scl_irq_completion);
+63e57b6f191db9 Wolfram Sang 2019-02-19  216  
+63e57b6f191db9 Wolfram Sang 2019-02-19  217  	free_irq(irq, priv);
+63e57b6f191db9 Wolfram Sang 2019-02-19  218   output:
+63e57b6f191db9 Wolfram Sang 2019-02-19 @219  	ret = gpiod_direction_output(priv->scl, 1) ?: ret;
+63e57b6f191db9 Wolfram Sang 2019-02-19  220   unlock:
+63e57b6f191db9 Wolfram Sang 2019-02-19  221  	i2c_unlock_bus(&priv->adap, I2C_LOCK_ROOT_ADAPTER);
+63e57b6f191db9 Wolfram Sang 2019-02-19  222  
+63e57b6f191db9 Wolfram Sang 2019-02-19  223  	return ret;
+63e57b6f191db9 Wolfram Sang 2019-02-19  224  }
+63e57b6f191db9 Wolfram Sang 2019-02-19  225  
 
 --
 0-DAY CI Kernel Test Service
