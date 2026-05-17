@@ -1,150 +1,170 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B6835838B;
-	Sun, 17 May 2026 10:03:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779012225; cv=none; b=n3tzgwo/ebO/Z+D0c6eUaGdC8RVXIQz4buxxRSBr5s9QYRqSTV3iC+mWVmR9fyjYacGCNAwdFKMp3gYNtqTRalJsNvdZG8zlO3224vGdXpLQsVdzxDsk3rp3NfYF7+nsb5bekNbUslm9NCkBdZ765yjPUvGLPOXfohg35Po3Y3k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779012225; c=relaxed/simple;
-	bh=cOlF77r6doQzYS1S9ajGmwgicqBkIv3GzekHFbjsmF8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NNj57sWI1lwEqwMfwr5SJs9J+71K7rCtyvyzPaUScNAJ9l3qSE7XmoqK2omOqM6d69A/6l63Nvv/WUggEEPOoeJ4EPC22jBu3kpoPpLigYa8jkJ/U/yXNrg0/uKrmebRiUB/WMqqoglUAzkuCpProjXjmmVF4JuSIah6owSg0m4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VmcfBbDW; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B721D317144
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 May 2026 10:43:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779014585; cv=fail; b=hARgUYlPnWO9zmDQ7JYzp9r1SCpm3jKS2hSL7SWgeYPBN1xsZKRT0bO3bYQnqPay5MzzVwYSlmZMeRiQXUosk7tkzJ5l+3MkBI0K3SpZT+u6YwIBQdoH0p5AloayLDXY/4ZUlnvnaLE/ape1bIA6yaJlVyARuVrgZQ2/pNrW69M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779014585; c=relaxed/simple;
+	bh=EJJ7GctLSQUsyVkskEOIyCYebOskslR7TYEN6PXXM4s=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=NkmtHpegoSDrLIR4A79IXAk8Yx5kYr7oMeQaQcXOp6WU8YiuYlZapNMBrge1B8FjHmVbrmq/+rPf1Tckekr67J7UZvzvCks7LhDuPrqRbyf5tAjp9M54ERSJwOcB79+ZmK3XFBxWlibQtXI7b37BxgaDjUggnrrhTdwNeVRKGQQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UhSz262j; arc=fail smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VmcfBbDW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UhSz262j"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779012223; x=1810548223;
-  h=date:from:to:cc:subject:message-id;
-  bh=cOlF77r6doQzYS1S9ajGmwgicqBkIv3GzekHFbjsmF8=;
-  b=VmcfBbDWMJGR6/Te8sgv9DapNW4/lUFMwAmeg/xJ1aj9ICNnhuxdWTbn
-   hjHOwfZx3YGdtAQb33vU+uWzdgrYCGtTelJ8c2VJ3iT2GryTZfhiBoAg9
-   TWgJSfCONmcnXLIwPvd/I2In9wZGuBvHkY6OPsOfcxTZxsxVNebnY6mPA
-   ffBQois4ZjaWlWfd9xnJ4p02OTQYaKk4102NOaCD4qcR30NUA/LddT0i6
-   nshGxpthm7RGo41VmMUX3btC51S+7W5E6nrdz6xEUJfmwr2Tn2QnD/ziN
-   3/DFJvkxn6MWQDiDGfpFEkRIQMKK9KzG3dI30ezgBn+85N5K27QyBBdu4
-   w==;
-X-CSE-ConnectionGUID: y1013xffTCeY8Uto05xX7A==
-X-CSE-MsgGUID: Vv2DmASrQ6ilir+aVNpFMw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11788"; a="105352764"
+  t=1779014584; x=1810550584;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=EJJ7GctLSQUsyVkskEOIyCYebOskslR7TYEN6PXXM4s=;
+  b=UhSz262jACGB6k076941iBB0n/vmnZPNEQiSxal+PyFifSXF7Ba+WlKU
+   6f+3vl7mK+jj90hqUYM7dkMTp0fr5EqTqqBxNTWweflOIieXHf8WjfNqT
+   uS1rAYCp4aFy2qdlf1nA6T93Di1+4I3tR/CLkYaQ+uJ0WsN76wbhT1aVh
+   mwcbzYg1oqpKj0kEjV+OZoqIO/f3QgolBYslnLecROdEBYB6ikziP5PYl
+   16yWDK3xFwLbiEMSD9Pn6WY/BJmAAO5HyOFwrDwFBX0jkMkhHX50IPjR2
+   zz+ODv30+HbIjpDmZ7WwHYhvYOHTbiIk26Ps0WRShCjnB84vv+ji7CI3Z
+   A==;
+X-CSE-ConnectionGUID: WuMBuZKWS/uSv6kqSan3nQ==
+X-CSE-MsgGUID: 7S2spfvpRCCLNnyn2xd4xg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11788"; a="67422379"
 X-IronPort-AV: E=Sophos;i="6.23,239,1770624000"; 
-   d="scan'208";a="105352764"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2026 03:03:41 -0700
-X-CSE-ConnectionGUID: iXgWFuk5Qq2kjWNQ9ogfOA==
-X-CSE-MsgGUID: tdv/tAceTGyYWCSaV1sNLg==
+   d="scan'208";a="67422379"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2026 03:42:58 -0700
+X-CSE-ConnectionGUID: ONT1/4DPTnauZdfoN7ajKg==
+X-CSE-MsgGUID: vW5SigpdTcih7ipaW9hS0Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,239,1770624000"; 
-   d="scan'208";a="244106739"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 17 May 2026 03:03:39 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wOYLR-000000009VT-21Oe;
-	Sun, 17 May 2026 10:03:37 +0000
-Date: Sun, 17 May 2026 12:03:02 +0200
+   d="scan'208";a="239016476"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2026 03:42:58 -0700
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Sun, 17 May 2026 03:42:57 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Sun, 17 May 2026 03:42:57 -0700
+Received: from MW6PR02CU001.outbound.protection.outlook.com (52.101.48.23) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Sun, 17 May 2026 03:42:54 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fGBHnHJDszD5aKo9Xpo4nedepkFHZj43Ej89gMe2vP9oWo6Tbb+HxZ1phPZQ3H8B8COzZAAYaU0QuAelK6VpgGsTwSlS3w/yFiiqq8HAKqe955O4xzaW9PCXtmMsmqm//KXwg3EQzeJx5DiLioyldOeNGrlgU8Rq0YhV8An9vxJbsqHotszwkuss3J4FpuQcgFMG6QNz3JOmXExaHPp489uV7tNFSHnFtEyCNZXjErI2agPPsFZ8TyKBLseeOPj0whyES7jSQGMhGLTEm15krOFrXbtfNfSHQsQigvJk4+bIV/06j/bsD+lU0wAwXtAzxnIyy/Aa0md0DgOKQ0kIbw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vcChSBI3yuywMyFVNxlYuOKYDWGpKO5Xki9TtHMMh04=;
+ b=Px/9GIWpf4CCLAQaJzv+eXTCojH7loUhod5N2M60+toDpo2t3XpAMWnfMF4upBbOqxj+frYmoDjYkZmlGgh4oM/LaiU8V5VcQhJM0T1yVTtCZDxO18ysHHXnsNZ3p3imFahHY5Td4XlH23jzyYYgegyZukP1KihEh/xsd6PMTTggN4NczcIAS7Gp7vyt22vPHCiMoy2fnJG1YBQIAxwsIko5xDrw30DJpU6HpJm4+Ml/F2nVClN4JhsS8RCM92mYPuXDaswd4TAUIbwTQbue882Kz+SIxVA1haSYabQB4+I4WDJ1okAlgPyzCd3L1iXwAljaZtxxY13l0DO9x/g1Sw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CH0PR11MB5428.namprd11.prod.outlook.com (2603:10b6:610:d3::19)
+ by SJ0PR11MB6695.namprd11.prod.outlook.com (2603:10b6:a03:44e::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.21; Sun, 17 May
+ 2026 10:42:51 +0000
+Received: from CH0PR11MB5428.namprd11.prod.outlook.com
+ ([fe80::b8c4:d29:c56:a2da]) by CH0PR11MB5428.namprd11.prod.outlook.com
+ ([fe80::b8c4:d29:c56:a2da%4]) with mapi id 15.21.0025.020; Sun, 17 May 2026
+ 10:42:51 +0000
+Date: Sun, 17 May 2026 18:42:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chao Yu <chao@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [chao:bugfix/syzbot 1/2] fs/f2fs/node.c:1554:2: warning:
- unannotated fall-through between switch labels
-Message-ID: <202605171101.RSk82fQf-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Michal Simek <monstr@monstr.eu>
+CC: <oe-kbuild-all@lists.linux.dev>, <git@amd.com>
+Subject: [xilinx-xlnx:xlnx_rebase_v6.18 765/871]
+ mtd_virt_concat.c:(.exit.text+0x0): multiple definition of `cleanup_module';
+ drivers/mtd/mtdcore.o:mtdcore.c:(.exit.text+0x0): first defined here
+Message-ID: <agmbok76P4wsI9Wk@rli9-mobl>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: TP0P295CA0017.TWNP295.PROD.OUTLOOK.COM
+ (2603:1096:910:5::11) To CH0PR11MB5428.namprd11.prod.outlook.com
+ (2603:10b6:610:d3::19)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH0PR11MB5428:EE_|SJ0PR11MB6695:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4e4376b4-3bc6-4a18-490e-08deb4010af5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|56012099003|18002099003|11063799003;
+X-Microsoft-Antispam-Message-Info: indL5+FyC3+fzsY3igQuWB4RpBRQskoaYQPstrFf5o2vuD+RKQqLNJXCLeVlAkl+LARohfu1XTThrmZ0L2IoGef8n5yJx/7Hk8he0DdDX4PlslQVBXVKxtIXTa8PUsSzuVJLHbbcwbtfsrLMZK48OoleKS7qCWqYyUsg1V62blZ5U7ILOEn/KbOc+dR1tAEhVs/2A8OUW+zsAIicOgq5k4gDh3mBE8rD4MXzpRR3cn3q69L7hWNzThQO2GGV879+9+hVjTmrwVeK0wGUmwrMYr332UCx9R+OBdXHTx/Hj46Onqu6cQNWTQQuLS63bCys14KljJCj+whHdAK5tRHAre5EVZfrHm11a/UPEbFhswczA1EV6MZBJiWVLvxOCBux833Fkn27S93lBVPN6DiL5MA5TzoqQvH9EE85HRp5uGvp/5FY2jX600fOP5Wk/HL1p/RnAjgrIOIGdLiwQSM/plZmpefDSuflSSBuPAsDMwTWke8r13m8frVVqdYuqbwWd6LBQaSXSwXrABQu+AMv5PIvpbSTlFRcW9a48RDgwVWDNBQFTMiUByXt2exrHIaNyHDdexk4EUkgkncOsSJdyH/7mO4QExwG+0LlJe/M5z/pu/sUFK+J4oXP0IhJKbfR+MmVGmiqT44GurMIpiVW1A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR11MB5428.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(56012099003)(18002099003)(11063799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?RpucYV2U0xkhyPdzd5MD5NnuZTb9UrxnetkVBWRy0nq93sP0ixX//pxWzY/d?=
+ =?us-ascii?Q?mRbcquR0S2a51JmDNegE1kLDbXr2c/KQKmKTK2WruZYSCqMfd9nQX6Ew/yCd?=
+ =?us-ascii?Q?UBnSQ8l4cr8p25ZkbYn3/9y/vvKebEjrKV2tB6ark5FcWZyPFVo3LRSkrURK?=
+ =?us-ascii?Q?faAJLaqqo9y5SACU2qbxb+dLUwuEZ1CPYVned/bi3p3yP7RRITycfkk/fqks?=
+ =?us-ascii?Q?TCa+htfTDBCRLoTtgwNVr9DCww0EAAi73qG/fE/i/56daUyD7++dy7XUC2u/?=
+ =?us-ascii?Q?cPUdmz2LyfNkev5T0XEH89UJOsDu3nzU8/qxVfkdTWetx54+VkRU9volVgru?=
+ =?us-ascii?Q?VCPzvZvYK3Ropjy7uJXOgGh61XnbXDdM4qlR6Ah3j+Xhnm6Jwgngju2nEqXk?=
+ =?us-ascii?Q?my4rlS6ukq1dyW79LyQts/DQMWav+Rq0sqbB95zsjqE7laBJv8IKVX+tEHI2?=
+ =?us-ascii?Q?QFG5C4Fw9pjtPxYWTKS5pgH7E40xR+DUxwmcXIPJjPJ3EXvJNSTb0hYRZ6Aw?=
+ =?us-ascii?Q?6P16sr3L50Re+PwH6eVbs0H4trtYQCt5HN49spZzjC5+egUKj9xkyOBd1WvV?=
+ =?us-ascii?Q?ui8QfEvquapjcoz274YFPHgIXSv3xBk+le5auQySJEu11l00Gg9mAh1AH/3B?=
+ =?us-ascii?Q?RRMsWK6lrqcfByjiUsRU0SvuRCBRU88mTrr12KWD4WMDm8jRBaxjNTdF2STC?=
+ =?us-ascii?Q?RmQ+r22Sdz2o5HDDW9InxzvNymLI1sgg4YDfleewh3yZKASgtkK6NKwTXzkH?=
+ =?us-ascii?Q?GqK5+8ZzEAtnCFK8iW96+9nY7b1pn9uJaSKZGVWY56lP12YvIDfxDvD3WXlF?=
+ =?us-ascii?Q?LPq4I8ZhWCrK6ViWlqRMNAE0Xh2ne0AskwWzr0cJLInfIVUB7wQu7ak3k0m3?=
+ =?us-ascii?Q?g9chFwl4Os5FLjCmTfJZkzlrPZEJGGJgx+NTkryPgzIt/8z5PQUjNQtQltp3?=
+ =?us-ascii?Q?jXYXSClN/zWjr4uYQ+lPy27jQ0pN7BSLsPYHOSY+wshyOKLGr7MzClteZOvF?=
+ =?us-ascii?Q?VDVV2AIrWBTOPmIpl0xw5+4xxYTSnzRRKtiI1ie6s4tumWf9F1gQl/EOYqu2?=
+ =?us-ascii?Q?sWLaMxBqeecT98U+GQgy9/juzW/dBT4q5jwmglbymZ4VuCi1KoN+uvhJO89T?=
+ =?us-ascii?Q?6gnNf6NKS6qFt2Z25vdnYwpgUUeXAETybspg4dKi9DWrY6+6dTKibshWIJWv?=
+ =?us-ascii?Q?lxyyRRQ7czmtn2u4SdiwK1UTqmsjC2rpO2rUaVBqclW2wCTKyqD2pS0y7r4Y?=
+ =?us-ascii?Q?S58afuScEdKOv4XnoHjTOQRiWUaOB/pqHXJ/YyfuyFpx1iedb4KTa0znmEOY?=
+ =?us-ascii?Q?2PB4TSgwkqJ39auNfr9al/2PLtGQyPlJbk66yarAn4IQbfXya2j8rIEFD4Qp?=
+ =?us-ascii?Q?G17eXZ1EgWARfLNVqpVV2Oq9SLczN0edX2hZFJySfoxeLCTVUA8b/SsGfCXS?=
+ =?us-ascii?Q?nRRKuTufw66CP+fAynhaJFLZFL3Gyr4p6vUDj0Ra9oXZxqwlhWZDcZT2SZJC?=
+ =?us-ascii?Q?hRnXKgbIHOSfxiupib8B7CKX3CzGSNEJkjXKcFRnndCSHbRUfL5r/HQSXcev?=
+ =?us-ascii?Q?9jLfZ89c02rfnRw7Igo/5eoeBvQtP3eFHeYKLiBN5j9H9kno2UKEmtmuMDCS?=
+ =?us-ascii?Q?rakCFGgzhyRqk1C4lamo98FUHUHq6SDJPTLfsLeOV5R1L4I2QMMShfVwtENf?=
+ =?us-ascii?Q?xRYzymrLlR7MZnkiqWfBD83KpQuegIwIeIWQczHkE/eJVJjhy6fflYEV1jRw?=
+ =?us-ascii?Q?9vUaXl2ZVQ=3D=3D?=
+X-Exchange-RoutingPolicyChecked: xdcxN9DFvT93UoroW5WbTDKNezm0sbTUyKu+AKTjJzmXsz8DMrVnoBIh8tnSYLqoZxN4LoXJwsqsMN1/QTQkKNfZ66PamFRkf8fslx7MnSJ+XbgDXeleO9zpuystm+mFOn8dpeiTZojxrj9azQ82fylldJWhT9mLk6YIdE5HBeFwmJApwwMPJ9ywTIDg8g0b2cbJ0B67UGeGExBwhxUlvq9k8bni8QyUWmViofZR5eM/aTbzJN9d7qiYLSci5Pg7sXCTh3GWZDYkZHk8dg+85nRrPxO3ixFYmPp9gcVQHHP7vKNQpY50FZehpG8UibG2aZ+H+6Bkxia/xrOifSyiww==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4e4376b4-3bc6-4a18-490e-08deb4010af5
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB5428.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2026 10:42:51.2183
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dWDz3S7iGPsj8gEMrwq1btTPUPVAkYW8cKF6pNWa5M+Ek8/ncwK84Fd55kvx2xCoqvD6ZKjBXTnTwGJBucqw0Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB6695
+X-OriginatorOrg: intel.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git bugfix/syzbot
-head:   8ea0fd81d16fb7f605195f3c609ece5101673fa2
-commit: c855d0659f2c0f6ad59d0d211a09e02a4462b8d5 [1/2] f2fs: fix to do sanity check on f2fs_get_node_folio_ra()
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260517/202605171101.RSk82fQf-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260517/202605171101.RSk82fQf-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.18
+head:   8ad23fcb26beeb807a7f0f3341137ec98e93f390
+commit: 57335cb7376d59e7c4946a731db22867c7809203 [765/871] mtd: fix modpost errors for mtd_virt_concat symbols
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260516/202605162231.dvgcqSjR-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260516/202605162231.dvgcqSjR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605171101.RSk82fQf-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605162231.dvgcqSjR-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/f2fs/node.c:1554:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-    1554 |         default:
-         |         ^
-   fs/f2fs/node.c:1554:2: note: insert 'break;' to avoid fall-through
-    1554 |         default:
-         |         ^
-         |         break; 
-   1 warning generated.
-
-
-vim +1554 fs/f2fs/node.c
-
-e05df3b115e730 Jaegeuk Kim             2012-11-02  1521  
-50ac3ecd8e05b6 Chao Yu                 2026-01-12  1522  int f2fs_sanity_check_node_footer(struct f2fs_sb_info *sbi,
-f24f7f8cd6e8ff Matthew Wilcox (Oracle  2025-03-31  1523) 					struct folio *folio, pgoff_t nid,
-50ac3ecd8e05b6 Chao Yu                 2026-01-12  1524  					enum node_type ntype, bool in_irq)
-1cf6b5670af1f4 Chao Yu                 2025-03-05  1525  {
-93ffb6c28ff180 Chao Yu                 2026-01-12  1526  	bool is_inode, is_xnode;
-93ffb6c28ff180 Chao Yu                 2026-01-12  1527  
-c18ecd99e0c707 Chao Yu                 2025-08-23  1528  	if (unlikely(nid != nid_of_node(folio)))
-c18ecd99e0c707 Chao Yu                 2025-08-23  1529  		goto out_err;
-c18ecd99e0c707 Chao Yu                 2025-08-23  1530  
-93ffb6c28ff180 Chao Yu                 2026-01-12  1531  	is_inode = IS_INODE(folio);
-93ffb6c28ff180 Chao Yu                 2026-01-12  1532  	is_xnode = f2fs_has_xattr_block(ofs_of_node(folio));
-93ffb6c28ff180 Chao Yu                 2026-01-12  1533  
-c18ecd99e0c707 Chao Yu                 2025-08-23  1534  	switch (ntype) {
-93ffb6c28ff180 Chao Yu                 2026-01-12  1535  	case NODE_TYPE_REGULAR:
-93ffb6c28ff180 Chao Yu                 2026-01-12  1536  		if (is_inode && is_xnode)
-93ffb6c28ff180 Chao Yu                 2026-01-12  1537  			goto out_err;
-93ffb6c28ff180 Chao Yu                 2026-01-12  1538  		break;
-c18ecd99e0c707 Chao Yu                 2025-08-23  1539  	case NODE_TYPE_INODE:
-93ffb6c28ff180 Chao Yu                 2026-01-12  1540  		if (!is_inode || is_xnode)
-c18ecd99e0c707 Chao Yu                 2025-08-23  1541  			goto out_err;
-c18ecd99e0c707 Chao Yu                 2025-08-23  1542  		break;
-c18ecd99e0c707 Chao Yu                 2025-08-23  1543  	case NODE_TYPE_XATTR:
-93ffb6c28ff180 Chao Yu                 2026-01-12  1544  		if (is_inode || !is_xnode)
-c18ecd99e0c707 Chao Yu                 2025-08-23  1545  			goto out_err;
-c18ecd99e0c707 Chao Yu                 2025-08-23  1546  		break;
-c18ecd99e0c707 Chao Yu                 2025-08-23  1547  	case NODE_TYPE_NON_INODE:
-93ffb6c28ff180 Chao Yu                 2026-01-12  1548  		if (is_inode)
-c18ecd99e0c707 Chao Yu                 2025-08-23  1549  			goto out_err;
-c18ecd99e0c707 Chao Yu                 2025-08-23  1550  		break;
-c855d0659f2c0f Chao Yu                 2026-05-10  1551  	case NODE_TYPE_NON_IXNODE:
-c855d0659f2c0f Chao Yu                 2026-05-10  1552  		if (is_inode || is_xnode)
-c855d0659f2c0f Chao Yu                 2026-05-10  1553  			goto out_err;
-c18ecd99e0c707 Chao Yu                 2025-08-23 @1554  	default:
-c18ecd99e0c707 Chao Yu                 2025-08-23  1555  		break;
-c18ecd99e0c707 Chao Yu                 2025-08-23  1556  	}
-c18ecd99e0c707 Chao Yu                 2025-08-23  1557  	if (time_to_inject(sbi, FAULT_INCONSISTENT_FOOTER))
-c18ecd99e0c707 Chao Yu                 2025-08-23  1558  		goto out_err;
-c18ecd99e0c707 Chao Yu                 2025-08-23  1559  	return 0;
-c18ecd99e0c707 Chao Yu                 2025-08-23  1560  out_err:
-50ac3ecd8e05b6 Chao Yu                 2026-01-12  1561  	set_sbi_flag(sbi, SBI_NEED_FSCK);
-50ac3ecd8e05b6 Chao Yu                 2026-01-12  1562  	f2fs_warn_ratelimited(sbi, "inconsistent node block, node_type:%d, nid:%lu, "
-1cf6b5670af1f4 Chao Yu                 2025-03-05  1563  		"node_footer[nid:%u,ino:%u,ofs:%u,cpver:%llu,blkaddr:%u]",
-a63f2de2dd950a Matthew Wilcox (Oracle  2025-07-08  1564) 		ntype, nid, nid_of_node(folio), ino_of_node(folio),
-6d3a7f6589fec2 Matthew Wilcox (Oracle  2025-07-08  1565) 		ofs_of_node(folio), cpver_of_node(folio),
-f24f7f8cd6e8ff Matthew Wilcox (Oracle  2025-03-31  1566) 		next_blkaddr_of_node(folio));
-50ac3ecd8e05b6 Chao Yu                 2026-01-12  1567  
-1cf6b5670af1f4 Chao Yu                 2025-03-05  1568  	f2fs_handle_error(sbi, ERROR_INCONSISTENT_FOOTER);
-50faed607d3250 Chao Yu                 2026-03-28  1569  	fserror_report_file_metadata(folio->mapping->host,
-50faed607d3250 Chao Yu                 2026-03-28  1570  			-EFSCORRUPTED, in_irq ? GFP_NOWAIT : GFP_NOFS);
-1cf6b5670af1f4 Chao Yu                 2025-03-05  1571  	return -EFSCORRUPTED;
-1cf6b5670af1f4 Chao Yu                 2025-03-05  1572  }
-1cf6b5670af1f4 Chao Yu                 2025-03-05  1573  
-
-:::::: The code at line 1554 was first introduced by commit
-:::::: c18ecd99e0c707ef8f83cace861cbc3162f4fdf1 f2fs: fix to do sanity check on node footer for non inode dnode
-
-:::::: TO: Chao Yu <chao@kernel.org>
-:::::: CC: Jaegeuk Kim <jaegeuk@kernel.org>
+   m68k-linux-ld: drivers/mtd/mtd_virt_concat.o: in function `mtd_virt_concat_exit':
+>> mtd_virt_concat.c:(.exit.text+0x0): multiple definition of `cleanup_module'; drivers/mtd/mtdcore.o:mtdcore.c:(.exit.text+0x0): first defined here
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
