@@ -1,138 +1,102 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB74833CEA9
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 May 2026 23:00:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19FD3271A6D
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 May 2026 23:22:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779058803; cv=none; b=EOqc14dOh1/FWOXhwwh4azzc/EbHKF2b0TFbxlyoRSzOVuegAgfJ8dOEh/sD/yoTH3Mu6xPSmU6N+nU2wKXs8hjXpv6w4JwdLqTFOY3Bz83KQrnquF5p2YKTW6kSiwbzlRXq28490maboNCGilqrDkMjcceCHtV63OB+AJ6MDaI=
+	t=1779060125; cv=none; b=U+bRgQLbgV1WvM4c5jt/U7t5hM4q1a2Hh1/dYJAK7mXkPZCR2B5ty6i0xePYG8e6cY9S3GZUy9iOftH7GuHORBgL020W7kco8rGef51fcy29i+zoHoLqP6Mjzp5VVpNOZWNHrBHFnovhEacNQeY1qgHgglyGX47z3zU5F98ZNXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779058803; c=relaxed/simple;
-	bh=iNG65YFo02bfAtMK1VkZmM7GgFu2dw36HnUeimLv8QY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=FXPGdhhQUb29tJwyvpHX/DRHLCLDLg8v0apsDXmzQ0XnRQ2qL/spydrHnXKIK0DYL3Y3SsiEXz6TsyRQQMizqepmKuGRTyskNZ9tIysw9/aeVI09lJZn3wkD5H4jMow/3P7xSF5SYjlrCFOIWy0keJlT8VTPPIWq7EZ9//F8OK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l7WEsZqe; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1779060125; c=relaxed/simple;
+	bh=XTTUu36IkKDT2cQyEFhhTBrTLLdnkWj6U11o5pAlPp8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Lnkrjy5ODzx1ULTk+ju72U1qPg1Q/A3tXut1SwQ5/iT5X0tLPMEdRgLWES1wnTd5WHTncsfi8a2pXsgzfeQsefQQeSL7dAmHHlR4KbSiAhJyADNYtXNQPsX2HUeo/JWOptpG5fULKvKNL/9PdbcbyLm5EgV0kmyAS+xyOiPTgZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dNNA69PX; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l7WEsZqe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dNNA69PX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779058801; x=1810594801;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iNG65YFo02bfAtMK1VkZmM7GgFu2dw36HnUeimLv8QY=;
-  b=l7WEsZqekONsuZTonx5nqqyRj/qH0CxS/sA7Fq6Iqyo8wn62RVAC3GWd
-   A1F63d33ZVGfplrCQYucjiCC1aOrXD1OR0HKqh73bX5ecRdBjVWeWlbn6
-   zRZzcsdaw5vJC6jljYrG2evPGwL0ZwK8/M4XXTu9Y5bTPEd71fTmkB5rw
-   MWf86hdln0djgIUpxyl3u7Gny0G1faey13sSb3AC03+ij7hUuulI7zqD9
-   bi1UixpdxwK6grGxPdMOIhDLYhHhd9UeAQNg7F1pGbMOrCHBqhpPjx8cD
-   ecio+Z74ZpuyQ5HFJs6up1rf1psBCH4NOvy93SiQ5nmqIcjK23G6HcgaA
-   A==;
-X-CSE-ConnectionGUID: q84JQGxyQA2O+deFvMBKNw==
-X-CSE-MsgGUID: mpjarnUcQ6qmWLg70wBAOA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11789"; a="90611730"
+  t=1779060123; x=1810596123;
+  h=date:from:to:cc:subject:message-id;
+  bh=XTTUu36IkKDT2cQyEFhhTBrTLLdnkWj6U11o5pAlPp8=;
+  b=dNNA69PXnqJZykayEjjqh51qoYFpgHiLTiMbz0CTlgA2D4doHpFJxzQw
+   kjBRC/tpFuhZwEEuc9c8yMZ8CXBuafmoIKDb4r4jQnu6QPQSXVvvZVdok
+   VVeBKbHeXSVYRmR6RcUZyjWMBHdLP4iYx8d+4BWj5eDBpPG144xN6+1HI
+   0eb9/t33X2mv9N9FsUuPkqqur8C09mdphjW9m353h1Y5rf9Y14z/m1m3R
+   pKtPyYbcvPWwFSA0htuyN+2B+fUXQd1RZYXh2OZKuSn08CoSWOSZr1AUo
+   LIVXsc2n9PY6rqs1teqY53tui84TC+B1iC7jnbIvSl8jw+Yf1y5wR+HC1
+   g==;
+X-CSE-ConnectionGUID: hRNL1W/GRGGl8SbNy+KcCg==
+X-CSE-MsgGUID: hQL02yGhQhq3hpPxgmzUhA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11789"; a="90612238"
 X-IronPort-AV: E=Sophos;i="6.23,240,1770624000"; 
-   d="scan'208";a="90611730"
+   d="scan'208";a="90612238"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2026 16:00:00 -0700
-X-CSE-ConnectionGUID: 1gem5MOJRTS6e25yWywFiQ==
-X-CSE-MsgGUID: 548P3J0rTNyj/ZFgh+h4ag==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2026 16:22:02 -0700
+X-CSE-ConnectionGUID: wYbhJCOUQP+Ij3brAvzZvQ==
+X-CSE-MsgGUID: lgLlKjZBST64Fthh76/uvw==
 X-ExtLoop1: 1
 Received: from lkp-server01.sh.intel.com (HELO d94e5e629b2d) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 17 May 2026 15:59:58 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 17 May 2026 16:22:01 -0700
 Received: from kbuild by d94e5e629b2d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wOkSi-0000000020y-1SBH;
-	Sun, 17 May 2026 22:59:56 +0000
-Date: Mon, 18 May 2026 06:58:57 +0800
+	id 1wOko2-0000000023G-3bEh;
+	Sun, 17 May 2026 23:21:58 +0000
+Date: Mon, 18 May 2026 07:21:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>,
- =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:dd-shrink-go 21/52] lib/dynamic_debug.c:672:8:
- warning: unused variable 'nl'
-Message-ID: <202605180645.JpPYShIf-lkp@intel.com>
+To: Daniel J Blueman <daniel@quora.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Rob Clark <robin.clark@oss.qualcomm.com>
+Subject: [drm-msm:msm-next 9/11]
+ drivers/gpu/drm/msm/msm_gem_shrinker.c:105:35: error: parameter name omitted
+Message-ID: <202605180748.O1a168W1-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://github.com/jimc/linux.git dd-shrink-go
-head:   270053dc597e59c9ffc0b5f17c8863076b56c7cf
-commit: 3396a18f65a16d0586c4d59987dfb23a01ddbd06 [21/52] dyndbg-API: remove DD_CLASS_TYPE_(DISJOINT|LEVEL)_NAMES and code
-config: arm-randconfig-002-20260518 (https://download.01.org/0day-ci/archive/20260518/202605180645.JpPYShIf-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260518/202605180645.JpPYShIf-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/drm/msm.git msm-next
+head:   db339b6bc9f234b4883eb02946ea01d8d9faa11c
+commit: 3392291fc509d8ad6e4ad90f15b0a193f721cbc9 [9/11] drm/msm: Fix shrinker deadlock
+config: arm64-randconfig-002-20260518 (https://download.01.org/0day-ci/archive/20260518/202605180748.O1a168W1-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260518/202605180748.O1a168W1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605180645.JpPYShIf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605180748.O1a168W1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   lib/dynamic_debug.c: In function 'param_set_dyndbg_module_classes':
->> lib/dynamic_debug.c:672:8: warning: unused variable 'nl' [-Wunused-variable]
-     char *nl;
-           ^~
+   drivers/gpu/drm/msm/msm_gem_shrinker.c: In function 'purge':
+>> drivers/gpu/drm/msm/msm_gem_shrinker.c:105:35: error: parameter name omitted
+    purge(struct drm_gem_object *obj, struct ww_acquire_ctx *)
+                                      ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/msm/msm_gem_shrinker.c: In function 'evict':
+   drivers/gpu/drm/msm/msm_gem_shrinker.c:117:35: error: parameter name omitted
+    evict(struct drm_gem_object *obj, struct ww_acquire_ctx *)
+                                      ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/nl +672 lib/dynamic_debug.c
+vim +105 drivers/gpu/drm/msm/msm_gem_shrinker.c
 
-   663	
-   664	static int param_set_dyndbg_module_classes(const char *instr,
-   665						   const struct kernel_param *kp,
-   666						   const char *mod_name)
-   667	{
-   668		const struct _ddebug_class_param *dcp = kp->arg;
-   669		const struct _ddebug_class_map *map = dcp->map;
-   670		unsigned long inrep, new_bits, old_bits;
-   671		int rc, totct = 0;
- > 672		char *nl;
-   673	
-   674		rc = kstrtoul(instr, 0, &inrep);
-   675		if (rc) {
-   676			int len = strcspn(instr, "\n"); /* Finds length up to \n or \0 */
-   677			pr_err("expecting numeric input, not: %.*s > %s\n", len, instr, KP_NAME(kp));
-   678			return -EINVAL;
-   679		}
-   680	
-   681		switch (map->map_type) {
-   682		case DD_CLASS_TYPE_DISJOINT_BITS:
-   683			/* expect bits. mask and warn if too many */
-   684			if (inrep & ~CLASSMAP_BITMASK(map->length)) {
-   685				pr_warn("%s: input: 0x%lx exceeds mask: 0x%lx, masking\n",
-   686					KP_NAME(kp), inrep, CLASSMAP_BITMASK(map->length));
-   687				inrep &= CLASSMAP_BITMASK(map->length);
-   688			}
-   689			v2pr_info("bits:0x%lx > %s.%s\n", inrep, mod_name ?: "*", KP_NAME(kp));
-   690			totct += ddebug_apply_class_bitmap(dcp, &inrep, *dcp->bits, mod_name);
-   691			*dcp->bits = inrep;
-   692			break;
-   693		case DD_CLASS_TYPE_LEVEL_NUM:
-   694			/* input is bitpos, of highest verbosity to be enabled */
-   695			if (inrep > map->length) {
-   696				pr_warn("%s: level:%lu exceeds max:%d, clamping\n",
-   697					KP_NAME(kp), inrep, map->length);
-   698				inrep = map->length;
-   699			}
-   700			old_bits = CLASSMAP_BITMASK(*dcp->lvl);
-   701			new_bits = CLASSMAP_BITMASK(inrep);
-   702			v2pr_info("lvl:%ld bits:0x%lx > %s\n", inrep, new_bits, KP_NAME(kp));
-   703			totct += ddebug_apply_class_bitmap(dcp, &new_bits, old_bits, mod_name);
-   704			*dcp->lvl = inrep;
-   705			break;
-   706		default:
-   707			pr_warn("%s: bad map type: %d\n", KP_NAME(kp), map->map_type);
-   708			return -EINVAL;
-   709		}
-   710		vpr_info("%s: total matches: %d\n", KP_NAME(kp), totct);
-   711		return 0;
-   712	}
-   713	
+   103	
+   104	static bool
+ > 105	purge(struct drm_gem_object *obj, struct ww_acquire_ctx *)
+   106	{
+   107		if (!is_purgeable(to_msm_bo(obj)))
+   108			return false;
+   109	
+   110		if (msm_gem_active(obj))
+   111			return false;
+   112	
+   113		return with_vm_locks(msm_gem_purge, obj);
+   114	}
+   115	
 
 --
 0-DAY CI Kernel Test Service
