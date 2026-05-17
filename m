@@ -1,199 +1,173 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8E171DFDE
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 May 2026 04:01:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A37415665C;
+	Sun, 17 May 2026 04:01:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778990477; cv=none; b=H66yhI+FRLV3OHUz8o9J+JRCk5R+QQsd4o20EjXseYgfdr7tgaLxFWcoLfThOtr7FqZUj0+KhZRB6KZyuiZjyRrp4Qj0xfuf8iXVGTH5+MARusBd9ak93ZThUvxJFE8gvJYB4LMlPkRxnyZVUDgGLxSiG7KUkmBGIYaD47jo7OI=
+	t=1778990477; cv=none; b=GxVcjE29/ItttpHuMM98gM7V7Z7iKILHc6GMS+5fCBkfGsB3r+8FQ1ro7iy7Zyf9meYIL8XQz9owQiPeVyoyZp9Q/5pFDeYCeS0F5lY1xuIAyEoOePcN/4A3QcbcRODAVeMd2PZJuxS7NeobE5uuV2GibNL7Pnpg3KOcUamLAIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1778990477; c=relaxed/simple;
-	bh=u+ToPrQDDWweEZZuheBxI4rRRzxjA04QShUdsUFbw8w=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=t40V7aTpQr5SZSgDNAth2D6ODI5ozc68Egzhy40K5dEQ7B011H6y2bsTfQhVrxH83y19NV+H1J5Z9gWGPtZzNtnDQ9v6mWOFGpo5x5QpKAekT+A1r0Q3soyL65AlFik75riX7z7wZUldBcyF0iAkPNDC29tO089wIGLB+Ww56x4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jT9j7EDv; arc=none smtp.client-ip=198.175.65.9
+	bh=G6qsVHppJitjTZV3PTAeKP3jKrpAIbi1PhTPv8klNY8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HSSPPuuvYpbOlq1l64AzOOEsNHWbsV56lr4UPGLX28APSn6M/pRsqw8pa3L3OT/SZBVR0BmLDWMfrgzXlv0yRKE+hhvkEGBdcnWIqbhr0EAndN4nYKyTGyhx9Ho7FhtkSUA3YHwYpd5Hf3LwMyorLsJFez/y/JsRWEaWR+SKOEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tqoqs4Bl; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jT9j7EDv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tqoqs4Bl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778990475; x=1810526475;
-  h=date:from:to:cc:subject:message-id;
-  bh=u+ToPrQDDWweEZZuheBxI4rRRzxjA04QShUdsUFbw8w=;
-  b=jT9j7EDv+nvW9/zOUkLbcMKIWTg254u3u2p8S4uoDh7keJ7DoG42f1ib
-   Yfvh8twpS9qj1Vl1+5hT5iGIRC51gJk9FDPwrAMHvdNZwAqmn50KWvyZj
-   7yafgn6WhB6O7oJucp/ZHSVU1PvQiLKiQqFi5bl7VnvJNnzu8Kr7x6Pf/
-   NZWDTzIDrBqOlKQfd2ZoTLjYArAcqP/Ed1YaHjV+Y+9cMTSVF+BTLXaLC
-   5yDr4e3lTAZYjy9I3gj2sSMUGZehIeIpgXhA7TWlDRlga00ZXxfYDmdCc
-   OHfNL+4vQT4Mopt0w63PzVoWo6y4bkbfLbPNPwwSgiO1nITfS3lKSVzBW
-   A==;
-X-CSE-ConnectionGUID: ULDPaOlWRY61W2GvEMpQ4A==
-X-CSE-MsgGUID: vXUK6qJmRVKREn/QXRp94w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11788"; a="102560550"
+  t=1778990476; x=1810526476;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=G6qsVHppJitjTZV3PTAeKP3jKrpAIbi1PhTPv8klNY8=;
+  b=Tqoqs4BlTrf+0OlBNQEdYinAexY5EtdfQ77NYkuy6b+pZ4vppxsr0D45
+   yQUuEc2MWPlYyCE2nSZuAH/oLmHuI27mMvfcTY0IO+wRjXLWJl+oAM6Oo
+   cIJuu4aauffgauH0SrXBjm60SK23McDmuZ1Vw3M1Xo5DcL3oSYMyzRw/1
+   gcODPSpUpoNywP7lT/wWBjyqRkUQGs1GSxOIsS5v33mAVt2Kjf43+7CY3
+   1dHUEdbss0FpwjFGMfOR7lX/LC8Nj+AK4XHXZjCJXuOnh74pnHrT84cVj
+   28wbZYQxRxnl+9jlct6KC92NDiIxMKpjry6h7Wjw6c/2btLz7SS92ytxf
+   w==;
+X-CSE-ConnectionGUID: fiMie4hLSOG2Cq9PMfpixQ==
+X-CSE-MsgGUID: 0qpSUOE1QeOAmGrLZH0sFg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11788"; a="102560551"
 X-IronPort-AV: E=Sophos;i="6.23,239,1770624000"; 
-   d="scan'208";a="102560550"
+   d="scan'208";a="102560551"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2026 21:01:15 -0700
-X-CSE-ConnectionGUID: zFvgNOq/QtKgW7b2C+BTDA==
-X-CSE-MsgGUID: t6XJ2xynTiGYaJ9wtNAGsg==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2026 21:01:16 -0700
+X-CSE-ConnectionGUID: zS2ZAFVyTjWmSqRsC4uscQ==
+X-CSE-MsgGUID: WBAhgQTRSf+tp6+Fc/8S2g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,239,1770624000"; 
-   d="scan'208";a="232698967"
+   d="scan'208";a="232698962"
 Received: from lkp-server01.sh.intel.com (HELO d94e5e629b2d) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 16 May 2026 21:01:12 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 16 May 2026 21:01:13 -0700
 Received: from kbuild by d94e5e629b2d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wOSgg-000000001L6-2bvA;
+	id 1wOSgg-000000001L4-2UVE;
 	Sun, 17 May 2026 04:01:10 +0000
-Date: Sun, 17 May 2026 12:00:40 +0800
+Date: Sun, 17 May 2026 12:00:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [cbeznea:at91-next 6/8] drivers/clk/at91/sama5d3.c:28:19:
- error: initialization of 'long unsigned int' from 'const struct clk_range *'
- makes integer from pointer without a cast
-Message-ID: <202605171114.NFw4IZRg-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Emmanuel Arias <eamanu@riseup.net>, sudipm.mukherjee@gmail.com,
+	teddy.wang@siliconmotion.com, gregkh@linuxfoundation.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Emmanuel Arias <eamanu@riseup.net>
+Subject: Re: [PATCH] staging: sm750fb: fix CamelCase variables name in sm750
+Message-ID: <202605171120.K414qtus-lkp@intel.com>
+References: <20260516222613.1178800-1-eamanu@riseup.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260516222613.1178800-1-eamanu@riseup.net>
 
-tree:   https://github.com/claudiubeznea/linux.git at91-next
-head:   f52da2147731872899626a0e61faa2b951049cc9
-commit: 1d2563715880d5e865190b68f29fd98f93da717b [6/8] clk: at91: use kzalloc_flex
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260517/202605171114.NFw4IZRg-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260517/202605171114.NFw4IZRg-lkp@intel.com/reproduce)
+Hi Emmanuel,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Emmanuel-Arias/staging-sm750fb-fix-CamelCase-variables-name-in-sm750/20260517-062807
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20260516222613.1178800-1-eamanu%40riseup.net
+patch subject: [PATCH] staging: sm750fb: fix CamelCase variables name in sm750
+config: riscv-randconfig-001-20260517 (https://download.01.org/0day-ci/archive/20260517/202605171120.K414qtus-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260517/202605171120.K414qtus-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605171114.NFw4IZRg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605171120.K414qtus-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/clk/at91/sama5d3.c:28:19: error: initialization of 'long unsigned int' from 'const struct clk_range *' makes integer from pointer without a cast [-Wint-conversion]
-      28 |         .output = plla_outputs,
-         |                   ^~~~~~~~~~~~
-   drivers/clk/at91/sama5d3.c:28:19: note: (near initialization for 'plla_characteristics.output[0].min')
-   drivers/clk/at91/sama5d3.c:25:68: warning: missing braces around initializer [-Wmissing-braces]
-      25 | static const struct clk_pll_characteristics plla_characteristics = {
-         |                                                                    ^
-   ......
-      28 |         .output = plla_outputs,
-         |                   {{          }}
---
-   drivers/clk/at91/dt-compat.c: In function 'of_at91_clk_pll_get_characteristics':
->> drivers/clk/at91/dt-compat.c:594:17: error: 'charecteristics' undeclared (first use in this function); did you mean 'characteristics'?
-     594 |                 charecteristics->output[i].min = tmp;
-         |                 ^~~~~~~~~~~~~~~
-         |                 characteristics
-   drivers/clk/at91/dt-compat.c:594:17: note: each undeclared identifier is reported only once for each function it appears in
---
->> drivers/clk/at91/sama5d4.c:28:19: error: initialization of 'long unsigned int' from 'const struct clk_range *' makes integer from pointer without a cast [-Wint-conversion]
-      28 |         .output = plla_outputs,
-         |                   ^~~~~~~~~~~~
-   drivers/clk/at91/sama5d4.c:28:19: note: (near initialization for 'plla_characteristics.output[0].min')
-   drivers/clk/at91/sama5d4.c:25:68: warning: missing braces around initializer [-Wmissing-braces]
-      25 | static const struct clk_pll_characteristics plla_characteristics = {
-         |                                                                    ^
-   ......
-      28 |         .output = plla_outputs,
-         |                   {{          }}
---
->> drivers/clk/at91/sama5d2.c:28:19: error: initialization of 'long unsigned int' from 'const struct clk_range *' makes integer from pointer without a cast [-Wint-conversion]
-      28 |         .output = plla_outputs,
-         |                   ^~~~~~~~~~~~
-   drivers/clk/at91/sama5d2.c:28:19: note: (near initialization for 'plla_characteristics.output[0].min')
-   drivers/clk/at91/sama5d2.c:25:68: warning: missing braces around initializer [-Wmissing-braces]
-      25 | static const struct clk_pll_characteristics plla_characteristics = {
-         |                                                                    ^
-   ......
-      28 |         .output = plla_outputs,
-         |                   {{          }}
---
->> drivers/clk/at91/sama7d65.c:139:19: error: initialization of 'long unsigned int' from 'const struct clk_range *' makes integer from pointer without a cast [-Wint-conversion]
-     139 |         .output = cpu_pll_outputs,
-         |                   ^~~~~~~~~~~~~~~
-   drivers/clk/at91/sama7d65.c:139:19: note: (near initialization for 'cpu_pll_characteristics.output[0].min')
-   drivers/clk/at91/sama7d65.c:136:71: warning: missing braces around initializer [-Wmissing-braces]
-     136 | static const struct clk_pll_characteristics cpu_pll_characteristics = {
-         |                                                                       ^
-   ......
-     139 |         .output = cpu_pll_outputs,
-         |                   {{             }}
-   drivers/clk/at91/sama7d65.c:148:19: error: initialization of 'long unsigned int' from 'const struct clk_range *' makes integer from pointer without a cast [-Wint-conversion]
-     148 |         .output = pll_outputs,
-         |                   ^~~~~~~~~~~
-   drivers/clk/at91/sama7d65.c:148:19: note: (near initialization for 'pll_characteristics.output[0].min')
-   drivers/clk/at91/sama7d65.c:145:67: warning: missing braces around initializer [-Wmissing-braces]
-     145 | static const struct clk_pll_characteristics pll_characteristics = {
-         |                                                                   ^
-   ......
-     148 |         .output = pll_outputs,
-         |                   {{         }}
-   drivers/clk/at91/sama7d65.c:156:19: error: initialization of 'long unsigned int' from 'const struct clk_range *' makes integer from pointer without a cast [-Wint-conversion]
-     156 |         .output = lvdspll_outputs,
-         |                   ^~~~~~~~~~~~~~~
-   drivers/clk/at91/sama7d65.c:156:19: note: (near initialization for 'lvdspll_characteristics.output[0].min')
-   drivers/clk/at91/sama7d65.c:153:71: warning: missing braces around initializer [-Wmissing-braces]
-     153 | static const struct clk_pll_characteristics lvdspll_characteristics = {
-         |                                                                       ^
-   ......
-     156 |         .output = lvdspll_outputs,
-         |                   {{             }}
-   drivers/clk/at91/sama7d65.c:164:19: error: initialization of 'long unsigned int' from 'const struct clk_range *' makes integer from pointer without a cast [-Wint-conversion]
-     164 |         .output = upll_outputs,
-         |                   ^~~~~~~~~~~~
-   drivers/clk/at91/sama7d65.c:164:19: note: (near initialization for 'upll_characteristics.output[0].min')
-   drivers/clk/at91/sama7d65.c:161:68: warning: missing braces around initializer [-Wmissing-braces]
-     161 | static const struct clk_pll_characteristics upll_characteristics = {
-         |                                                                    ^
-   ......
-     164 |         .output = upll_outputs,
-         |                   {{          }}
---
->> drivers/clk/at91/sama7g5.c:114:19: error: initialization of 'long unsigned int' from 'const struct clk_range *' makes integer from pointer without a cast [-Wint-conversion]
-     114 |         .output = cpu_pll_outputs,
-         |                   ^~~~~~~~~~~~~~~
-   drivers/clk/at91/sama7g5.c:114:19: note: (near initialization for 'cpu_pll_characteristics.output[0].min')
-   drivers/clk/at91/sama7g5.c:111:71: warning: missing braces around initializer [-Wmissing-braces]
-     111 | static const struct clk_pll_characteristics cpu_pll_characteristics = {
-         |                                                                       ^
-   ......
-     114 |         .output = cpu_pll_outputs,
-         |                   {{             }}
-   drivers/clk/at91/sama7g5.c:123:19: error: initialization of 'long unsigned int' from 'const struct clk_range *' makes integer from pointer without a cast [-Wint-conversion]
-     123 |         .output = pll_outputs,
-         |                   ^~~~~~~~~~~
-   drivers/clk/at91/sama7g5.c:123:19: note: (near initialization for 'pll_characteristics.output[0].min')
-   drivers/clk/at91/sama7g5.c:120:67: warning: missing braces around initializer [-Wmissing-braces]
-     120 | static const struct clk_pll_characteristics pll_characteristics = {
-         |                                                                   ^
-   ......
-     123 |         .output = pll_outputs,
-         |                   {{         }}
+>> drivers/staging/sm750fb/sm750_hw.c:43:13: error: no member named 'pvReg' in 'struct sm750_dev'
+      43 |         sm750_dev->pvReg =
+         |         ~~~~~~~~~  ^
+   drivers/staging/sm750fb/sm750_hw.c:45:18: error: no member named 'pvReg' in 'struct sm750_dev'
+      45 |         if (!sm750_dev->pvReg) {
+         |              ~~~~~~~~~  ^
+   drivers/staging/sm750fb/sm750_hw.c:51:41: error: no member named 'pvReg' in 'struct sm750_dev'
+      51 |         sm750_dev->accel.dpr_base = sm750_dev->pvReg + DE_BASE_ADDR_TYPE1;
+         |                                     ~~~~~~~~~  ^
+   drivers/staging/sm750fb/sm750_hw.c:52:45: error: no member named 'pvReg' in 'struct sm750_dev'
+      52 |         sm750_dev->accel.dp_port_base = sm750_dev->pvReg + DE_PORT_ADDR_TYPE1;
+         |                                         ~~~~~~~~~  ^
+   drivers/staging/sm750fb/sm750_hw.c:54:23: error: no member named 'pvReg' in 'struct sm750_dev'
+      54 |         mmio750 = sm750_dev->pvReg;
+         |                   ~~~~~~~~~  ^
+   drivers/staging/sm750fb/sm750_hw.c:78:21: error: no member named 'pvReg' in 'struct sm750_dev'
+      78 |         iounmap(sm750_dev->pvReg);
+         |                 ~~~~~~~~~  ^
+   6 errors generated.
 
 
-vim +28 drivers/clk/at91/sama5d3.c
+vim +43 drivers/staging/sm750fb/sm750_hw.c
 
-0969b242f7b8e5 Alexandre Belloni 2020-01-10  24  
-0969b242f7b8e5 Alexandre Belloni 2020-01-10  25  static const struct clk_pll_characteristics plla_characteristics = {
-0969b242f7b8e5 Alexandre Belloni 2020-01-10  26  	.input = { .min = 8000000, .max = 50000000 },
-0969b242f7b8e5 Alexandre Belloni 2020-01-10  27  	.num_output = ARRAY_SIZE(plla_outputs),
-0969b242f7b8e5 Alexandre Belloni 2020-01-10 @28  	.output = plla_outputs,
-0969b242f7b8e5 Alexandre Belloni 2020-01-10  29  	.icpll = plla_icpll,
-0969b242f7b8e5 Alexandre Belloni 2020-01-10  30  	.out = plla_out,
-0969b242f7b8e5 Alexandre Belloni 2020-01-10  31  };
-0969b242f7b8e5 Alexandre Belloni 2020-01-10  32  
-
-:::::: The code at line 28 was first introduced by commit
-:::::: 0969b242f7b8e5de0a1c28f81d8558fd678c066d clk: at91: add sama5d3 pmc driver
-
-:::::: TO: Alexandre Belloni <alexandre.belloni@bootlin.com>
-:::::: CC: Stephen Boyd <sboyd@kernel.org>
+efe9bc08bf479b Elise Lennion    2016-10-11  27  
+700591a9adc8b1 Mike Rapoport    2015-10-26  28  int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
+81dee67e215b23 Sudip Mukherjee  2015-03-03  29  {
+81dee67e215b23 Sudip Mukherjee  2015-03-03  30  	int ret;
+81dee67e215b23 Sudip Mukherjee  2015-03-03  31  
+e359b6a863e19f Mike Rapoport    2015-10-26  32  	sm750_dev->vidreg_start = pci_resource_start(pdev, 1);
+e359b6a863e19f Mike Rapoport    2015-10-26  33  	sm750_dev->vidreg_size = SZ_2M;
+81dee67e215b23 Sudip Mukherjee  2015-03-03  34  
+8225489ddb9006 Artem Lytkin     2026-02-16  35  	/* reserve the vidreg space of smi adaptor */
+9a52ae2dd8c24a Anatoly Stepanov 2015-06-29  36  	ret = pci_request_region(pdev, 1, "sm750fb");
+9a52ae2dd8c24a Anatoly Stepanov 2015-06-29  37  	if (ret) {
+e5448f8d2ec5b4 Artem Lytkin     2026-02-23  38  		dev_err(&pdev->dev, "Can not request PCI regions.\n");
+8225489ddb9006 Artem Lytkin     2026-02-16  39  		return ret;
+81dee67e215b23 Sudip Mukherjee  2015-03-03  40  	}
+81dee67e215b23 Sudip Mukherjee  2015-03-03  41  
+81dee67e215b23 Sudip Mukherjee  2015-03-03  42  	/* now map mmio and vidmem */
+fdc234d85210d9 Benjamin Philip  2021-07-28 @43  	sm750_dev->pvReg =
+fdc234d85210d9 Benjamin Philip  2021-07-28  44  		ioremap(sm750_dev->vidreg_start, sm750_dev->vidreg_size);
+e359b6a863e19f Mike Rapoport    2015-10-26  45  	if (!sm750_dev->pvReg) {
+e5448f8d2ec5b4 Artem Lytkin     2026-02-23  46  		dev_err(&pdev->dev, "mmio failed\n");
+81dee67e215b23 Sudip Mukherjee  2015-03-03  47  		ret = -EFAULT;
+8225489ddb9006 Artem Lytkin     2026-02-16  48  		goto err_release_region;
+81dee67e215b23 Sudip Mukherjee  2015-03-03  49  	}
+81dee67e215b23 Sudip Mukherjee  2015-03-03  50  
+5865a858dbc9cb Yiming Qian      2025-09-09  51  	sm750_dev->accel.dpr_base = sm750_dev->pvReg + DE_BASE_ADDR_TYPE1;
+5865a858dbc9cb Yiming Qian      2025-09-09  52  	sm750_dev->accel.dp_port_base = sm750_dev->pvReg + DE_PORT_ADDR_TYPE1;
+81dee67e215b23 Sudip Mukherjee  2015-03-03  53  
+efe9bc08bf479b Elise Lennion    2016-10-11  54  	mmio750 = sm750_dev->pvReg;
+efe9bc08bf479b Elise Lennion    2016-10-11  55  	sm750_set_chip_type(sm750_dev->devid, sm750_dev->revid);
+81dee67e215b23 Sudip Mukherjee  2015-03-03  56  
+e359b6a863e19f Mike Rapoport    2015-10-26  57  	sm750_dev->vidmem_start = pci_resource_start(pdev, 0);
+f5016082f63d42 Eric S. Stone    2016-10-22  58  	/*
+f5016082f63d42 Eric S. Stone    2016-10-22  59  	 * don't use pdev_resource[x].end - resource[x].start to
+878336c3362d09 Stefan Wolz      2016-06-23  60  	 * calculate the resource size, it's only the maximum available
+878336c3362d09 Stefan Wolz      2016-06-23  61  	 * size but not the actual size, using
+3fcb465f1e74ef Elise Lennion    2016-10-13  62  	 * @ddk750_get_vm_size function can be safe.
+878336c3362d09 Stefan Wolz      2016-06-23  63  	 */
+3fcb465f1e74ef Elise Lennion    2016-10-13  64  	sm750_dev->vidmem_size = ddk750_get_vm_size();
+81dee67e215b23 Sudip Mukherjee  2015-03-03  65  
+81dee67e215b23 Sudip Mukherjee  2015-03-03  66  	/* reserve the vidmem space of smi adaptor */
+f50b4602fea62f Jennifer Guo     2026-05-09  67  	sm750_dev->vmem =
+fdc234d85210d9 Benjamin Philip  2021-07-28  68  		ioremap_wc(sm750_dev->vidmem_start, sm750_dev->vidmem_size);
+f50b4602fea62f Jennifer Guo     2026-05-09  69  	if (!sm750_dev->vmem) {
+e5448f8d2ec5b4 Artem Lytkin     2026-02-23  70  		dev_err(&pdev->dev, "Map video memory failed\n");
+81dee67e215b23 Sudip Mukherjee  2015-03-03  71  		ret = -EFAULT;
+8225489ddb9006 Artem Lytkin     2026-02-16  72  		goto err_unmap_reg;
+81dee67e215b23 Sudip Mukherjee  2015-03-03  73  	}
+8225489ddb9006 Artem Lytkin     2026-02-16  74  
+8225489ddb9006 Artem Lytkin     2026-02-16  75  	return 0;
+8225489ddb9006 Artem Lytkin     2026-02-16  76  
+8225489ddb9006 Artem Lytkin     2026-02-16  77  err_unmap_reg:
+8225489ddb9006 Artem Lytkin     2026-02-16  78  	iounmap(sm750_dev->pvReg);
+8225489ddb9006 Artem Lytkin     2026-02-16  79  err_release_region:
+8225489ddb9006 Artem Lytkin     2026-02-16  80  	pci_release_region(pdev, 1);
+81dee67e215b23 Sudip Mukherjee  2015-03-03  81  	return ret;
+81dee67e215b23 Sudip Mukherjee  2015-03-03  82  }
+81dee67e215b23 Sudip Mukherjee  2015-03-03  83  
 
 --
 0-DAY CI Kernel Test Service
