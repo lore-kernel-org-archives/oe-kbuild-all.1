@@ -1,228 +1,149 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62E412EC0A6
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 May 2026 08:49:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B6835838B;
+	Sun, 17 May 2026 10:03:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779007767; cv=none; b=RLMdTkKMj0ITzvkjhf+gz2pJG3p3XS6MiywkoserMBHxl3NndbPMh8hNbbE0Ln2L4RIBAM6guPkqUrLKxsLEvfP24aClxR38Y8jkbKDS6cyKY7x0AtlW7Cy4gc9RiQMTdIIPh4esofqUtxtP4ETvNrpdEwa9GCAx96/q+GE6A9k=
+	t=1779012225; cv=none; b=n3tzgwo/ebO/Z+D0c6eUaGdC8RVXIQz4buxxRSBr5s9QYRqSTV3iC+mWVmR9fyjYacGCNAwdFKMp3gYNtqTRalJsNvdZG8zlO3224vGdXpLQsVdzxDsk3rp3NfYF7+nsb5bekNbUslm9NCkBdZ765yjPUvGLPOXfohg35Po3Y3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779007767; c=relaxed/simple;
-	bh=cp+FwyFBIU3kdiGmJ34qT2ZSASnZIGKPmSJNeHLibwM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=OKTJIaFdILeRtnjBa18+/g7GcC93Ci2TjHsMaPlBXBBA0fkL4crOX3EnhxiE8WpHDXSplkkgu6/NzMBwwOCquOoPQ70VSZw7EJ0dho9LVjh4IZWxuLrzWepcjXj3e7jkmKPE8BNpV8BS95dq2z+oG/AwOOCfOkKelpjorn4dwH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iQ290ln7; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1779012225; c=relaxed/simple;
+	bh=cOlF77r6doQzYS1S9ajGmwgicqBkIv3GzekHFbjsmF8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=NNj57sWI1lwEqwMfwr5SJs9J+71K7rCtyvyzPaUScNAJ9l3qSE7XmoqK2omOqM6d69A/6l63Nvv/WUggEEPOoeJ4EPC22jBu3kpoPpLigYa8jkJ/U/yXNrg0/uKrmebRiUB/WMqqoglUAzkuCpProjXjmmVF4JuSIah6owSg0m4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VmcfBbDW; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iQ290ln7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VmcfBbDW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779007765; x=1810543765;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=cp+FwyFBIU3kdiGmJ34qT2ZSASnZIGKPmSJNeHLibwM=;
-  b=iQ290ln7gJ3fnBOmtVzKSWSi/RPyfVWAWr2BccOa53XfwRhaNAq8M+Td
-   q/D3PvKszQlGVKv4iYYGraP4UIi5Usph188Wc3IGL5OYA2RFEfqhFljav
-   +5R05hUYOHYZwGKeCsxr2JFJShOINytYr2MFSRAMlR3lM4yqlKMB+Zm+0
-   pXa2OesXJxvMZBTJArgDEKkRMkyAvJXnux5yHUMJeKrtLctKzYrXTjnTO
-   q8/DF1Qz6OV5r9j7UMIRlXi7sKf8pEn0F5wkWph0kDJdT+N/LhwlLcBzS
-   MPIu/EwWZxZGo5CFnGQSC/EDuJRw6l6zbSVsmWS9U0b6+K8Q5Nevntl3m
-   g==;
-X-CSE-ConnectionGUID: RTQwy9URSMW8Pin9sM65Qg==
-X-CSE-MsgGUID: KhfqYDxiQYKczABF5fa4/w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11788"; a="79936211"
+  t=1779012223; x=1810548223;
+  h=date:from:to:cc:subject:message-id;
+  bh=cOlF77r6doQzYS1S9ajGmwgicqBkIv3GzekHFbjsmF8=;
+  b=VmcfBbDWMJGR6/Te8sgv9DapNW4/lUFMwAmeg/xJ1aj9ICNnhuxdWTbn
+   hjHOwfZx3YGdtAQb33vU+uWzdgrYCGtTelJ8c2VJ3iT2GryTZfhiBoAg9
+   TWgJSfCONmcnXLIwPvd/I2In9wZGuBvHkY6OPsOfcxTZxsxVNebnY6mPA
+   ffBQois4ZjaWlWfd9xnJ4p02OTQYaKk4102NOaCD4qcR30NUA/LddT0i6
+   nshGxpthm7RGo41VmMUX3btC51S+7W5E6nrdz6xEUJfmwr2Tn2QnD/ziN
+   3/DFJvkxn6MWQDiDGfpFEkRIQMKK9KzG3dI30ezgBn+85N5K27QyBBdu4
+   w==;
+X-CSE-ConnectionGUID: y1013xffTCeY8Uto05xX7A==
+X-CSE-MsgGUID: Vv2DmASrQ6ilir+aVNpFMw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11788"; a="105352764"
 X-IronPort-AV: E=Sophos;i="6.23,239,1770624000"; 
-   d="scan'208";a="79936211"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2026 01:49:24 -0700
-X-CSE-ConnectionGUID: x31Z+/7gQYO6KGDaSQuYBA==
-X-CSE-MsgGUID: FSiqrSZWSxKt+Epbed1LCA==
+   d="scan'208";a="105352764"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2026 03:03:41 -0700
+X-CSE-ConnectionGUID: iXgWFuk5Qq2kjWNQ9ogfOA==
+X-CSE-MsgGUID: tdv/tAceTGyYWCSaV1sNLg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,239,1770624000"; 
-   d="scan'208";a="239373703"
-Received: from lkp-server01.sh.intel.com (HELO d94e5e629b2d) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 17 May 2026 01:49:22 -0700
-Received: from kbuild by d94e5e629b2d with local (Exim 4.98.2)
+   d="scan'208";a="244106739"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 17 May 2026 03:03:39 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wOXBX-000000001T0-3L5R;
-	Sun, 17 May 2026 08:49:19 +0000
-Date: Sun, 17 May 2026 16:49:08 +0800
+	id 1wOYLR-000000009VT-21Oe;
+	Sun, 17 May 2026 10:03:37 +0000
+Date: Sun, 17 May 2026 12:03:02 +0200
 From: kernel test robot <lkp@intel.com>
-To: David Woodhouse <dwmw@amazon.co.uk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dwmw2:ffclock 39/39] kernel/time/timekeeping.c:2377
- timekeeping_adjust() warn: inconsistent indenting
-Message-ID: <202605171633.0VVgWaBD-lkp@intel.com>
+To: Chao Yu <chao@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [chao:bugfix/syzbot 1/2] fs/f2fs/node.c:1554:2: warning:
+ unannotated fall-through between switch labels
+Message-ID: <202605171101.RSk82fQf-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-tree:   git://git.infradead.org/users/dwmw2/linux ffclock
-head:   72f314e9b0f01e7dcdde02534c4dcfe782c3fa62
-commit: 72f314e9b0f01e7dcdde02534c4dcfe782c3fa62 [39/39] timekeeping: Drive=
- time_offset skew via mult override
-config: um-randconfig-r071-20260517 (https://download.01.org/0day-ci/archiv=
-e/20260517/202605171633.0VVgWaBD-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9185-gbcc58b9c
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git bugfix/syzbot
+head:   8ea0fd81d16fb7f605195f3c609ece5101673fa2
+commit: c855d0659f2c0f6ad59d0d211a09e02a4462b8d5 [1/2] f2fs: fix to do sanity check on f2fs_get_node_folio_ra()
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260517/202605171101.RSk82fQf-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260517/202605171101.RSk82fQf-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605171633.0VVgWaBD-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605171101.RSk82fQf-lkp@intel.com/
 
-smatch warnings:
-kernel/time/timekeeping.c:2377 timekeeping_adjust() warn: inconsistent inde=
-nting
+All warnings (new ones prefixed by >>):
 
-vim +2377 kernel/time/timekeeping.c
+>> fs/f2fs/node.c:1554:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+    1554 |         default:
+         |         ^
+   fs/f2fs/node.c:1554:2: note: insert 'break;' to avoid fall-through
+    1554 |         default:
+         |         ^
+         |         break; 
+   1 warning generated.
 
-69d60b32e76db4c David Woodhouse  2026-05-15  2353 =20
-78b98e3c5a66d56 Miroslav Lichvar 2018-03-09  2354  static void timekeeping_=
-adjust(struct timekeeper *tk, s64 offset)
-dc491596f639438 John Stultz      2013-12-06  2355  {
-5ffa25f573cf524 Thomas Gleixner  2025-05-19  2356  	u64 ntp_tl =3D ntp_tick=
-_length(tk->id);
-78b98e3c5a66d56 Miroslav Lichvar 2018-03-09  2357  	u32 mult;
-dc491596f639438 John Stultz      2013-12-06  2358 =20
-ec02b076ceab63f John Stultz      2015-12-03  2359  	/*
-72f314e9b0f01e7 David Woodhouse  2026-05-16  2360  	 * Determine the multip=
-lier from the current NTP tick length plus
-72f314e9b0f01e7 David Woodhouse  2026-05-16  2361  	 * skew_delta. The skew=
- biases mult so that =C2=B11 dithering can deliver
-72f314e9b0f01e7 David Woodhouse  2026-05-16  2362  	 * the time_offset slew=
- rate. Recompute when either changes.
-ec02b076ceab63f John Stultz      2015-12-03  2363  	 */
-72f314e9b0f01e7 David Woodhouse  2026-05-16  2364  	{
-72f314e9b0f01e7 David Woodhouse  2026-05-16  2365  		s64 skew =3D ntp_get_s=
-kew_delta(tk->id);
-72f314e9b0f01e7 David Woodhouse  2026-05-16  2366 =20
-72f314e9b0f01e7 David Woodhouse  2026-05-16  2367  		if (likely(tk->ntp_tic=
-k =3D=3D ntp_tl && tk->skew_delta =3D=3D skew)) {
-78b98e3c5a66d56 Miroslav Lichvar 2018-03-09  2368  			mult =3D tk->tkr_mono=
-.mult - tk->ntp_err_mult;
-78b98e3c5a66d56 Miroslav Lichvar 2018-03-09  2369  		} else {
-14f1e3b3dfc7fc8 Thomas Gleixner  2024-10-09  2370  			tk->ntp_tick =3D ntp_=
-tl;
-72f314e9b0f01e7 David Woodhouse  2026-05-16  2371  			tk->skew_delta =3D sk=
-ew;
-72f314e9b0f01e7 David Woodhouse  2026-05-16  2372  			mult =3D tk->cycle_in=
-terval ?
-72f314e9b0f01e7 David Woodhouse  2026-05-16  2373  				div64_u64((tk->ntp_t=
-ick + skew) >>
-72f314e9b0f01e7 David Woodhouse  2026-05-16  2374  					  tk->ntp_error_shi=
-ft,
-72f314e9b0f01e7 David Woodhouse  2026-05-16  2375  					  tk->cycle_interva=
-l) :
-72f314e9b0f01e7 David Woodhouse  2026-05-16  2376  				tk->tkr_mono.mult;
-69d60b32e76db4c David Woodhouse  2026-05-15 @2377  		if (tk_ref_pending && =
-tk->cs_id =3D=3D tk_ref.cs_id) {
-69d60b32e76db4c David Woodhouse  2026-05-15  2378  			u64 d =3D tk->tkr_mon=
-o.cycle_last - tk_ref.counter_value;
-69d60b32e76db4c David Woodhouse  2026-05-15  2379  			__uint128_t p =3D (__=
-uint128_t)d * tk_ref.period_frac_sec;
-69d60b32e76db4c David Woodhouse  2026-05-15  2380  			u64 rf;
-69d60b32e76db4c David Woodhouse  2026-05-15  2381  			s64 ref_err;
-69d60b32e76db4c David Woodhouse  2026-05-15  2382 =20
-69d60b32e76db4c David Woodhouse  2026-05-15  2383  			p >>=3D tk_ref.period=
-_shift;
-69d60b32e76db4c David Woodhouse  2026-05-15  2384  			p +=3D tk_ref.time_fr=
-ac_sec;
-69d60b32e76db4c David Woodhouse  2026-05-15  2385  			rf =3D (u64)p;
-69d60b32e76db4c David Woodhouse  2026-05-15  2386  			ref_err =3D (s64)mul_=
-u64_u64_shr(rf,
-69d60b32e76db4c David Woodhouse  2026-05-15  2387  				(u64)NSEC_PER_SEC <<=
- tk->tkr_mono.shift, 64) -
-69d60b32e76db4c David Woodhouse  2026-05-15  2388  				(s64)tk->tkr_mono.xt=
-ime_nsec;
-69d60b32e76db4c David Woodhouse  2026-05-15  2389  			ntp_set_time_offset(t=
-k->id,
-69d60b32e76db4c David Woodhouse  2026-05-15  2390  				ref_err >> tk->tkr_m=
-ono.shift);
-69d60b32e76db4c David Woodhouse  2026-05-15  2391  			tk->ntp_error =3D 0;
-69d60b32e76db4c David Woodhouse  2026-05-15  2392  			tk_ref_pending =3D fa=
-lse;
-69d60b32e76db4c David Woodhouse  2026-05-15  2393  		}
-dc491596f639438 John Stultz      2013-12-06  2394  		}
-72f314e9b0f01e7 David Woodhouse  2026-05-16  2395  	}
-dc491596f639438 John Stultz      2013-12-06  2396 =20
-dc491596f639438 John Stultz      2013-12-06  2397  	/*
-78b98e3c5a66d56 Miroslav Lichvar 2018-03-09  2398  	 * If the clock is behi=
-nd the NTP time, increase the multiplier by 1
-78b98e3c5a66d56 Miroslav Lichvar 2018-03-09  2399  	 * to catch up with it.=
- If it's ahead and there was a remainder in the
-78b98e3c5a66d56 Miroslav Lichvar 2018-03-09  2400  	 * tick division, the c=
-lock will slow down. Otherwise it will stay
-78b98e3c5a66d56 Miroslav Lichvar 2018-03-09  2401  	 * ahead until the tick=
- length changes to a non-divisible value.
-dc491596f639438 John Stultz      2013-12-06  2402  	 */
-78b98e3c5a66d56 Miroslav Lichvar 2018-03-09  2403  	tk->ntp_err_mult =3D tk=
-->ntp_error > 0 ? 1 : 0;
-78b98e3c5a66d56 Miroslav Lichvar 2018-03-09  2404  	mult +=3D tk->ntp_err_m=
-ult;
-dc491596f639438 John Stultz      2013-12-06  2405 =20
-78b98e3c5a66d56 Miroslav Lichvar 2018-03-09  2406  	timekeeping_apply_adjus=
-tment(tk, offset, mult - tk->tkr_mono.mult);
-dc491596f639438 John Stultz      2013-12-06  2407 =20
-876e78818def298 Peter Zijlstra   2015-03-19  2408  	if (unlikely(tk->tkr_mo=
-no.clock->maxadj &&
-876e78818def298 Peter Zijlstra   2015-03-19  2409  		(abs(tk->tkr_mono.mult=
- - tk->tkr_mono.clock->mult)
-876e78818def298 Peter Zijlstra   2015-03-19  2410  			> tk->tkr_mono.clock-=
->maxadj))) {
-dc491596f639438 John Stultz      2013-12-06  2411  		printk_once(KERN_WARNI=
-NG
-dc491596f639438 John Stultz      2013-12-06  2412  			"Adjusting %s more th=
-an 11%% (%ld vs %ld)\n",
-876e78818def298 Peter Zijlstra   2015-03-19  2413  			tk->tkr_mono.clock->n=
-ame, (long)tk->tkr_mono.mult,
-876e78818def298 Peter Zijlstra   2015-03-19  2414  			(long)tk->tkr_mono.cl=
-ock->mult + tk->tkr_mono.clock->maxadj);
-dc491596f639438 John Stultz      2013-12-06  2415  	}
-2a8c0883c3cfffc John Stultz      2012-07-13  2416 =20
-2a8c0883c3cfffc John Stultz      2012-07-13  2417  	/*
-2a8c0883c3cfffc John Stultz      2012-07-13  2418  	 * It may be possible t=
-hat when we entered this function, xtime_nsec
-2a8c0883c3cfffc John Stultz      2012-07-13  2419  	 * was very small.  Fur=
-ther, if we're slightly speeding the clocksource
-2a8c0883c3cfffc John Stultz      2012-07-13  2420  	 * in the code above, i=
-ts possible the required corrective factor to
-2a8c0883c3cfffc John Stultz      2012-07-13  2421  	 * xtime_nsec could cau=
-se it to underflow.
-2a8c0883c3cfffc John Stultz      2012-07-13  2422  	 *
-78b98e3c5a66d56 Miroslav Lichvar 2018-03-09  2423  	 * Now, since we have a=
-lready accumulated the second and the NTP
-78b98e3c5a66d56 Miroslav Lichvar 2018-03-09  2424  	 * subsystem has been n=
-otified via second_overflow(), we need to skip
-78b98e3c5a66d56 Miroslav Lichvar 2018-03-09  2425  	 * the next update.
-2a8c0883c3cfffc John Stultz      2012-07-13  2426  	 */
-876e78818def298 Peter Zijlstra   2015-03-19  2427  	if (unlikely((s64)tk->t=
-kr_mono.xtime_nsec < 0)) {
-78b98e3c5a66d56 Miroslav Lichvar 2018-03-09  2428  		tk->tkr_mono.xtime_nse=
-c +=3D (u64)NSEC_PER_SEC <<
-78b98e3c5a66d56 Miroslav Lichvar 2018-03-09  2429  							tk->tkr_mono.shif=
-t;
-78b98e3c5a66d56 Miroslav Lichvar 2018-03-09  2430  		tk->xtime_sec--;
-78b98e3c5a66d56 Miroslav Lichvar 2018-03-09  2431  		tk->skip_second_overfl=
-ow =3D 1;
-2a8c0883c3cfffc John Stultz      2012-07-13  2432  	}
-8524070b7982d76 John Stultz      2007-05-08  2433  }
-8524070b7982d76 John Stultz      2007-05-08  2434 =20
 
-:::::: The code at line 2377 was first introduced by commit
-:::::: 69d60b32e76db4c6af56882b7b3fffc843262427 timekeeping: Add absolute r=
-eference for feed-forward clock discipline
+vim +1554 fs/f2fs/node.c
 
-:::::: TO: David Woodhouse <dwmw@amazon.co.uk>
-:::::: CC: David Woodhouse <dwmw@amazon.co.uk>
+e05df3b115e730 Jaegeuk Kim             2012-11-02  1521  
+50ac3ecd8e05b6 Chao Yu                 2026-01-12  1522  int f2fs_sanity_check_node_footer(struct f2fs_sb_info *sbi,
+f24f7f8cd6e8ff Matthew Wilcox (Oracle  2025-03-31  1523) 					struct folio *folio, pgoff_t nid,
+50ac3ecd8e05b6 Chao Yu                 2026-01-12  1524  					enum node_type ntype, bool in_irq)
+1cf6b5670af1f4 Chao Yu                 2025-03-05  1525  {
+93ffb6c28ff180 Chao Yu                 2026-01-12  1526  	bool is_inode, is_xnode;
+93ffb6c28ff180 Chao Yu                 2026-01-12  1527  
+c18ecd99e0c707 Chao Yu                 2025-08-23  1528  	if (unlikely(nid != nid_of_node(folio)))
+c18ecd99e0c707 Chao Yu                 2025-08-23  1529  		goto out_err;
+c18ecd99e0c707 Chao Yu                 2025-08-23  1530  
+93ffb6c28ff180 Chao Yu                 2026-01-12  1531  	is_inode = IS_INODE(folio);
+93ffb6c28ff180 Chao Yu                 2026-01-12  1532  	is_xnode = f2fs_has_xattr_block(ofs_of_node(folio));
+93ffb6c28ff180 Chao Yu                 2026-01-12  1533  
+c18ecd99e0c707 Chao Yu                 2025-08-23  1534  	switch (ntype) {
+93ffb6c28ff180 Chao Yu                 2026-01-12  1535  	case NODE_TYPE_REGULAR:
+93ffb6c28ff180 Chao Yu                 2026-01-12  1536  		if (is_inode && is_xnode)
+93ffb6c28ff180 Chao Yu                 2026-01-12  1537  			goto out_err;
+93ffb6c28ff180 Chao Yu                 2026-01-12  1538  		break;
+c18ecd99e0c707 Chao Yu                 2025-08-23  1539  	case NODE_TYPE_INODE:
+93ffb6c28ff180 Chao Yu                 2026-01-12  1540  		if (!is_inode || is_xnode)
+c18ecd99e0c707 Chao Yu                 2025-08-23  1541  			goto out_err;
+c18ecd99e0c707 Chao Yu                 2025-08-23  1542  		break;
+c18ecd99e0c707 Chao Yu                 2025-08-23  1543  	case NODE_TYPE_XATTR:
+93ffb6c28ff180 Chao Yu                 2026-01-12  1544  		if (is_inode || !is_xnode)
+c18ecd99e0c707 Chao Yu                 2025-08-23  1545  			goto out_err;
+c18ecd99e0c707 Chao Yu                 2025-08-23  1546  		break;
+c18ecd99e0c707 Chao Yu                 2025-08-23  1547  	case NODE_TYPE_NON_INODE:
+93ffb6c28ff180 Chao Yu                 2026-01-12  1548  		if (is_inode)
+c18ecd99e0c707 Chao Yu                 2025-08-23  1549  			goto out_err;
+c18ecd99e0c707 Chao Yu                 2025-08-23  1550  		break;
+c855d0659f2c0f Chao Yu                 2026-05-10  1551  	case NODE_TYPE_NON_IXNODE:
+c855d0659f2c0f Chao Yu                 2026-05-10  1552  		if (is_inode || is_xnode)
+c855d0659f2c0f Chao Yu                 2026-05-10  1553  			goto out_err;
+c18ecd99e0c707 Chao Yu                 2025-08-23 @1554  	default:
+c18ecd99e0c707 Chao Yu                 2025-08-23  1555  		break;
+c18ecd99e0c707 Chao Yu                 2025-08-23  1556  	}
+c18ecd99e0c707 Chao Yu                 2025-08-23  1557  	if (time_to_inject(sbi, FAULT_INCONSISTENT_FOOTER))
+c18ecd99e0c707 Chao Yu                 2025-08-23  1558  		goto out_err;
+c18ecd99e0c707 Chao Yu                 2025-08-23  1559  	return 0;
+c18ecd99e0c707 Chao Yu                 2025-08-23  1560  out_err:
+50ac3ecd8e05b6 Chao Yu                 2026-01-12  1561  	set_sbi_flag(sbi, SBI_NEED_FSCK);
+50ac3ecd8e05b6 Chao Yu                 2026-01-12  1562  	f2fs_warn_ratelimited(sbi, "inconsistent node block, node_type:%d, nid:%lu, "
+1cf6b5670af1f4 Chao Yu                 2025-03-05  1563  		"node_footer[nid:%u,ino:%u,ofs:%u,cpver:%llu,blkaddr:%u]",
+a63f2de2dd950a Matthew Wilcox (Oracle  2025-07-08  1564) 		ntype, nid, nid_of_node(folio), ino_of_node(folio),
+6d3a7f6589fec2 Matthew Wilcox (Oracle  2025-07-08  1565) 		ofs_of_node(folio), cpver_of_node(folio),
+f24f7f8cd6e8ff Matthew Wilcox (Oracle  2025-03-31  1566) 		next_blkaddr_of_node(folio));
+50ac3ecd8e05b6 Chao Yu                 2026-01-12  1567  
+1cf6b5670af1f4 Chao Yu                 2025-03-05  1568  	f2fs_handle_error(sbi, ERROR_INCONSISTENT_FOOTER);
+50faed607d3250 Chao Yu                 2026-03-28  1569  	fserror_report_file_metadata(folio->mapping->host,
+50faed607d3250 Chao Yu                 2026-03-28  1570  			-EFSCORRUPTED, in_irq ? GFP_NOWAIT : GFP_NOFS);
+1cf6b5670af1f4 Chao Yu                 2025-03-05  1571  	return -EFSCORRUPTED;
+1cf6b5670af1f4 Chao Yu                 2025-03-05  1572  }
+1cf6b5670af1f4 Chao Yu                 2025-03-05  1573  
+
+:::::: The code at line 1554 was first introduced by commit
+:::::: c18ecd99e0c707ef8f83cace861cbc3162f4fdf1 f2fs: fix to do sanity check on node footer for non inode dnode
+
+:::::: TO: Chao Yu <chao@kernel.org>
+:::::: CC: Jaegeuk Kim <jaegeuk@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
