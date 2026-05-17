@@ -1,115 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA36341050
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 May 2026 23:22:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDAC5274670;
+	Sun, 17 May 2026 23:34:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779060127; cv=none; b=ARO9CO1oHYcm+QPWmmYJ6Pkesx5IsDu2gR0+qw1udT52kv/th3L7pl6RFnQNse9dJ5MfwRmtFJWenc+dMJuiROQZSzSGkyjeAL6JVbVxuJkQcawhjbsSmZryIURWtQwpvZf3U3uCpsLzv2atKIxPZsMsU2qRow+CBdQGHYGsDPg=
+	t=1779060845; cv=none; b=rtB04rICg/RdZ3HDndJzFdASa1zxa7NBiHku4FHivbpLJiNFeFzWoJ8FOKcHSeixeesA7KgwTNrU3eRZlomx2hAaW05+BEAZUXbgaFL1Y0h1y+MOf3NEqXEBPp2yiF+c1VA/YdRF52VVCqN6Nu2E8L4dm5EeCaP9bAZX/SnRVPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779060127; c=relaxed/simple;
-	bh=7FGe5cPFIFWXib2CeDQYGwYiwdrFJ15umuAkmyP52Ow=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=KZ8EmhRQYwac9tS2cG+VPOWlhKXIHDyv3aEKhm8nbIoNsfsyh9l21bAdd6nJ3m+0XntQ2g83wj29syQg4BUL8+i4y/IcFoB4wfESbKo35Pq3O72xgfy1Y7llPE/RGjr/lQVGSMd4sGiEvZ7xLRMsaYVWuTQpm8mklYgcmpAqCuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m0Ziw+WI; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1779060845; c=relaxed/simple;
+	bh=1PcqiwUilHYtX7qin6U5knoA2Fs5wCdes+k1MpRgpqY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=m5sWZTyhQT/dA59NNmvWOazOz8BmNbWnh0DSxBR2Ah2YDQJKfIHlxAimXCZmZuqiPPqq6qR8iM7trZyuUfTxa3EaW2FsBXY6IOHu9CoXGcie8wySGfACv2aw61f1BZrIH3nlWg6A8+o7pTHMZIOLuxm+StC7Ke0Y1936iIpa1mA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iqvK8Uo7; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m0Ziw+WI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iqvK8Uo7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779060126; x=1810596126;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7FGe5cPFIFWXib2CeDQYGwYiwdrFJ15umuAkmyP52Ow=;
-  b=m0Ziw+WIqBSRdwiKAPQ06o/W48+PJBQLNnFZFoLkMgyGGhObGgVbLWqX
-   GKngHX9Pmtxfiq+kheU1+ZQ2QRkTZgc0+utWy/31VUUSUkugc45btkAZU
-   HVDim9WzJWp3ROYAfQZcGEDp9k2pmyywo8psSF4q3ph/PMNCbYlMYDTjb
-   3t1SqGrghokNGsdM0yEtS4YqZcVarEarJeLTb0rTco9Upr1ZuMl0pmRZW
-   P32wJccDCjERto5k+aGlUtWwZrKNMGIsFfQs6FjDt0maGFjywMtyzwPYR
-   okUepi0nzJLZIxHb05+Cbmic6NtL2mSZfSvRB1EXv1dddpf1L/+/MCrn7
+  t=1779060844; x=1810596844;
+  h=date:from:to:cc:subject:message-id;
+  bh=1PcqiwUilHYtX7qin6U5knoA2Fs5wCdes+k1MpRgpqY=;
+  b=iqvK8Uo7ymO2D8/LR+6ReJQj0EVC/JaWeR63iklGL1R5qGboEktQmesH
+   zEE7B0ewWYjIf5mS3rrlDiBatiX4NkNP451c3rBDINRxbknbv15TcbaXn
+   PjomyH/jm/fmTzAbenQyQ9Y9NSGvdTIL1Hl2jB0N92OlbUe9j/b5N8b7x
+   rhuO8pcyzJi56hzFFtu/ZrnKqoIFpsS7Cxcplbnv5j5ufssNuW9H1HDLE
+   DvJV8PQkGoAplW8Fzb0DyfzgL15WK+IXVLxgLfEmNH55uoth0LM6zfC5V
+   xYk255XqL17YRj/9mVW6pmNmjxyXsLVNVAcd5EfTX8aYcbSKs1FFl/t6Y
    g==;
-X-CSE-ConnectionGUID: n9bn4O/LRYuPYoKt19hEPw==
-X-CSE-MsgGUID: 7NWm961oSfuS0sCWGyzIaQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11789"; a="90612234"
+X-CSE-ConnectionGUID: dUbPL2EfQ2Cw3jhN9jJFSg==
+X-CSE-MsgGUID: KBzxlN/+SVCqbtZl2ef7Ng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11789"; a="83531049"
 X-IronPort-AV: E=Sophos;i="6.23,240,1770624000"; 
-   d="scan'208";a="90612234"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2026 16:22:02 -0700
-X-CSE-ConnectionGUID: 7JXhvldVSEm4Wc/5zrQYZg==
-X-CSE-MsgGUID: kIHEYv4zRP6T+pRREtsZKw==
+   d="scan'208";a="83531049"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2026 16:34:03 -0700
+X-CSE-ConnectionGUID: U3BjRilITdSvBPOT3OjX1Q==
+X-CSE-MsgGUID: iPBtQ2DoTAyqCUvJGTg5mg==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,240,1770624000"; 
+   d="scan'208";a="232863269"
 Received: from lkp-server01.sh.intel.com (HELO d94e5e629b2d) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 17 May 2026 16:22:01 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 17 May 2026 16:34:01 -0700
 Received: from kbuild by d94e5e629b2d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wOko2-0000000023I-3iPC;
-	Sun, 17 May 2026 23:21:58 +0000
-Date: Mon, 18 May 2026 07:21:48 +0800
+	id 1wOkzf-0000000023o-1kzg;
+	Sun, 17 May 2026 23:33:59 +0000
+Date: Mon, 18 May 2026 07:33:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>,
- =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:dd-shrink-go 23/52]
- include/linux/dynamic_debug.h:331:1: error: expected identifier or '(' before
- '}' token
-Message-ID: <202605180759.sIP1FY5A-lkp@intel.com>
+To: Daniel J Blueman <daniel@quora.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Rob Clark <robin.clark@oss.qualcomm.com>
+Subject: [drm-msm:msm-next 9/11]
+ drivers/gpu/drm/msm/msm_gem_shrinker.c:105:58: warning: omitting the
+ parameter name in a function definition is a C2x extension
+Message-ID: <202605180736.rtcSO0ls-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://github.com/jimc/linux.git dd-shrink-go
-head:   270053dc597e59c9ffc0b5f17c8863076b56c7cf
-commit: a3f35a330ec694a21578ef9d439e502c80e3e227 [23/52] dyndbg: change __dynamic_func_call_cls* macros into expressions
-config: x86_64-randconfig-071-20260518 (https://download.01.org/0day-ci/archive/20260518/202605180759.sIP1FY5A-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260518/202605180759.sIP1FY5A-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/drm/msm.git msm-next
+head:   db339b6bc9f234b4883eb02946ea01d8d9faa11c
+commit: 3392291fc509d8ad6e4ad90f15b0a193f721cbc9 [9/11] drm/msm: Fix shrinker deadlock
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260518/202605180736.rtcSO0ls-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260518/202605180736.rtcSO0ls-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605180759.sIP1FY5A-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605180736.rtcSO0ls-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/module.h:31,
-                    from include/crypto/aria.h:22,
-                    from arch/x86/kernel/asm-offsets.c:10:
->> include/linux/dynamic_debug.h:331:1: error: expected identifier or '(' before '}' token
-     331 | })
-         | ^
->> include/linux/dynamic_debug.h:331:2: error: expected identifier or '(' before ')' token
-     331 | })
-         |  ^
-   make[3]: *** [scripts/Makefile.build:184: arch/x86/kernel/asm-offsets.s] Error 1 shuffle=3800408951
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1375: prepare0] Error 2 shuffle=3800408951
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=3800408951
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=3800408951
-   make: Target 'prepare' not remade because of errors.
+>> drivers/gpu/drm/msm/msm_gem_shrinker.c:105:58: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
+   purge(struct drm_gem_object *obj, struct ww_acquire_ctx *)
+                                                            ^
+   drivers/gpu/drm/msm/msm_gem_shrinker.c:117:58: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
+   evict(struct drm_gem_object *obj, struct ww_acquire_ctx *)
+                                                            ^
+   2 warnings generated.
 
 
-vim +331 include/linux/dynamic_debug.h
+vim +105 drivers/gpu/drm/msm/msm_gem_shrinker.c
 
-   319	
-   320	#define dynamic_pr_debug(fmt, ...)					\
-   321		no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-   322	#define dynamic_dev_dbg(dev, fmt, ...)					\
-   323		dev_no_printk(KERN_DEBUG, dev, fmt, ##__VA_ARGS__)
-   324	#define dynamic_hex_dump(prefix_str, prefix_type, rowsize,		\
-   325				 groupsize, buf, len, ascii)			\
-   326	({									\
-   327		if (0)								\
-   328			print_hex_dump(KERN_DEBUG, prefix_str, prefix_type,	\
-   329				       rowsize, groupsize, buf, len, ascii);	\
-   330		0;
- > 331	})
-   332	
+   103	
+   104	static bool
+ > 105	purge(struct drm_gem_object *obj, struct ww_acquire_ctx *)
+   106	{
+   107		if (!is_purgeable(to_msm_bo(obj)))
+   108			return false;
+   109	
+   110		if (msm_gem_active(obj))
+   111			return false;
+   112	
+   113		return with_vm_locks(msm_gem_purge, obj);
+   114	}
+   115	
 
 --
 0-DAY CI Kernel Test Service
