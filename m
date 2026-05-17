@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7343E10F2
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 May 2026 00:23:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 372FE148850
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 May 2026 01:34:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778977391; cv=none; b=b3mwkELLIeWhFkM+hD6hVku0ilYK+LFHhOcaG/B+D//EG6OH9WHWm27eOylJoRoEzO2ypSzGD4DRkSHx4/l6LkuFm584aMujzHF95KR97dGr2OXIAVxh7CQxSXYIPM3JRYXDywHyIYKwX3jTpn0YPqIGbIap9/20dHAmyhXOv4A=
+	t=1778981652; cv=none; b=qCez/PoXnGWR3YI00LUjFiQDQkxieR789K1owBDmxpnqAY6JwGjXEPc8xx7plXyDay/WyCBhojmGN8tpvgPAheBGXVzwDqdLCAfufjACAc+y5GOmwDF7zD5XDMZOpkHc5ho9weaLXzSD0sG4YPpRLMRjEjy2dWA49sQQXPePcNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778977391; c=relaxed/simple;
-	bh=Iv3Gkt6t/PRrmNON55qGwdk4dO+YMyl0miYtUvsCXkM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=UlSO5uf5LJh1kqNUE9XpWzSr7BLuJeAd9oBDjZM+2bHInsB8Sv3MGzaeEUBSBLBEpT1VyAXCRknV+sQ+7MX2aZ0phRa3wj1zWKE4tf/8WwHVIXRgIHmmWy+pxu2sDkYl3SzMg624jeKb3DmrJkbSuKspAJTwSJvYcn86GoRhM1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l0Feor6K; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1778981652; c=relaxed/simple;
+	bh=WOP/ZzLM4WAGHHl1Gf1kpFpNtK58haWPSN5IUqU1bEA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=m5/6DscH49IEN8oKrbLz56LnwnbvbQAnfJ+/YAgZWH3KvIezTLYAaPNpGQI5Fqb51KO75k2TnYP9k8MCRm5iBzQe2LyHf2BMLLS5sAS+6QKbWxrt22CVXpoTVCstO90H+s0LxQFO9D+g7wstf95F2RLWeOryF95E1T5PRmkwuCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KfV8B+Ky; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l0Feor6K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KfV8B+Ky"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778977388; x=1810513388;
+  t=1778981650; x=1810517650;
   h=date:from:to:cc:subject:message-id;
-  bh=Iv3Gkt6t/PRrmNON55qGwdk4dO+YMyl0miYtUvsCXkM=;
-  b=l0Feor6K9MZRP23FA9uK6145XS87boartTwiAq80CHNDPY/U00HK05nT
-   BxEgJ/lQsig7gZCm1pjppAnKMk0uSWDf7r2Ep8nLp8hGfk8IAyLNhfrk0
-   k2d608BHGuo0++YA0YcCL4z8ezm2j1G8Pl2/FoLuZ69jUU88zvD0w2kzL
-   u2D85roxatLnM59GLeRoWA8uAs6k1xsnFiKkjVzenhiWoVRtVhq/yGfgI
-   jh8SEvkoWUpJbNndB4taKDjMKE7+kFqZ32ZWXBq+ATchDJI89k+VkHBxu
-   l9t1qO+ts9l9G7fpZtt9bgqy5rBcHNIPbI7Ja+BdyyO5TGd3esQgYrnlT
+  bh=WOP/ZzLM4WAGHHl1Gf1kpFpNtK58haWPSN5IUqU1bEA=;
+  b=KfV8B+KytHFQZ2cvHFuUe0dh7RAaf3D4tHxVzdrcMhDyxCC7HWjyGe/r
+   SC5cHNyFZfxkfuTJb+oxxEgZUkhQ43OGnJUk61HczWZnwpN1ZRG6FV8qW
+   gFIgB0//FebjDae5Lr77jB2h26uH1XZ50NwrJHSVsiIcbUDP5sQFlx8tD
+   hE1ZexXBmxzj0GlG6F7cmsyUNm34p2F9EPuPiUYDXBHE0KFn3pBD4HTQT
+   35YiyGzQz+pDVWRB/pnWtUYtUMj7sEgaXDyw3nSnhPUMVevTqphejoO97
+   aSrsRWY+m6FbHXKNYFpq0iE7cyPjM6SUph9ClkaFCsndn0M5WkYibBgMD
    A==;
-X-CSE-ConnectionGUID: ZUWCweXgTcqVZ3yOK+MfSQ==
-X-CSE-MsgGUID: KX3qYezUTaSZpSkQdpWQrA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11788"; a="80053543"
+X-CSE-ConnectionGUID: +v7AYTPvRP+ULC84tU9W4w==
+X-CSE-MsgGUID: XP1W/vtGTWaZhjmsHvjz7w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11788"; a="79599827"
 X-IronPort-AV: E=Sophos;i="6.23,239,1770624000"; 
-   d="scan'208";a="80053543"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2026 17:23:08 -0700
-X-CSE-ConnectionGUID: rdGiXO7tSjeVmiv8oFltJw==
-X-CSE-MsgGUID: S0ZEuwFgSSSVdhI98bVBrg==
+   d="scan'208";a="79599827"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2026 18:34:10 -0700
+X-CSE-ConnectionGUID: wkbuQPgtRyu/Z+mL8PxfDg==
+X-CSE-MsgGUID: kmMSqtL4Q/q2/hFsjnXJNg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,239,1770624000"; 
-   d="scan'208";a="269407321"
+   d="scan'208";a="243383339"
 Received: from lkp-server01.sh.intel.com (HELO d94e5e629b2d) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 16 May 2026 17:23:07 -0700
+  by orviesa004.jf.intel.com with ESMTP; 16 May 2026 18:34:08 -0700
 Received: from kbuild by d94e5e629b2d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wOPHc-000000001FC-0WT5;
-	Sun, 17 May 2026 00:23:04 +0000
-Date: Sun, 17 May 2026 08:22:36 +0800
+	id 1wOQOL-000000001Gs-330x;
+	Sun, 17 May 2026 01:34:05 +0000
+Date: Sun, 17 May 2026 09:33:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [cbeznea:at91-next 6/8] drivers/clk/at91/dt-compat.c:594:3:
- error: use of undeclared identifier 'charecteristics'; did you mean
- 'characteristics'?
-Message-ID: <202605170820.tDwQCBtM-lkp@intel.com>
+To: Johannes Berg <johannes.berg@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Miri Korenblit <miriam.rachel.korenblit@intel.com>
+Subject: [iwlwifi-next:next 6/93]
+ drivers/net/wireless/intel/iwlwifi/mld/tlc.c:454 iwl_mld_fill_supp_rates()
+ warn: inconsistent indenting
+Message-ID: <202605170928.yPTN7kOn-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,208 +61,66 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/claudiubeznea/linux.git at91-next
-head:   f52da2147731872899626a0e61faa2b951049cc9
-commit: 1d2563715880d5e865190b68f29fd98f93da717b [6/8] clk: at91: use kzalloc_flex
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20260517/202605170820.tDwQCBtM-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260517/202605170820.tDwQCBtM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/iwlwifi-next.git next
+head:   ce2b645bb3099ef4d96759335271e25875202ce9
+commit: a76591f3eb9ffe425f68d5732c23340342cb1c1b [6/93] wifi: iwlwifi: mld: tlc: separate from link STA
+config: i386-randconfig-141-20260517 (https://download.01.org/0day-ci/archive/20260517/202605170928.yPTN7kOn-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605170820.tDwQCBtM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605170928.yPTN7kOn-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/net/wireless/intel/iwlwifi/mld/tlc.c:454 iwl_mld_fill_supp_rates() warn: inconsistent indenting
 
->> drivers/clk/at91/sama5d3.c:28:12: error: flexible array requires brace-enclosed initializer
-      28 |         .output = plla_outputs,
-         |                   ^~~~~~~~~~~~
-   drivers/clk/at91/pmc.h:83:19: note: initialized flexible array member 'output' is here
-      83 |         struct clk_range output[] __counted_by(num_output);
-         |                          ^
-   1 error generated.
---
->> drivers/clk/at91/dt-compat.c:594:3: error: use of undeclared identifier 'charecteristics'; did you mean 'characteristics'?
-     594 |                 charecteristics->output[i].min = tmp;
-         |                 ^~~~~~~~~~~~~~~
-         |                 characteristics
-   drivers/clk/at91/dt-compat.c:553:34: note: 'characteristics' declared here
-     553 |         struct clk_pll_characteristics *characteristics;
-         |                                         ^
-   drivers/clk/at91/dt-compat.c:599:3: error: use of undeclared identifier 'charecteristics'; did you mean 'characteristics'?
-     599 |                 charecteristics->output[i].max = tmp;
-         |                 ^~~~~~~~~~~~~~~
-         |                 characteristics
-   drivers/clk/at91/dt-compat.c:553:34: note: 'characteristics' declared here
-     553 |         struct clk_pll_characteristics *characteristics;
-         |                                         ^
-   2 errors generated.
---
->> drivers/clk/at91/sama5d4.c:28:12: error: flexible array requires brace-enclosed initializer
-      28 |         .output = plla_outputs,
-         |                   ^~~~~~~~~~~~
-   drivers/clk/at91/pmc.h:83:19: note: initialized flexible array member 'output' is here
-      83 |         struct clk_range output[] __counted_by(num_output);
-         |                          ^
-   1 error generated.
---
->> drivers/clk/at91/sama5d2.c:28:12: error: flexible array requires brace-enclosed initializer
-      28 |         .output = plla_outputs,
-         |                   ^~~~~~~~~~~~
-   drivers/clk/at91/pmc.h:83:19: note: initialized flexible array member 'output' is here
-      83 |         struct clk_range output[] __counted_by(num_output);
-         |                          ^
-   1 error generated.
---
->> drivers/clk/at91/sama7d65.c:139:12: error: flexible array requires brace-enclosed initializer
-     139 |         .output = cpu_pll_outputs,
-         |                   ^~~~~~~~~~~~~~~
-   drivers/clk/at91/pmc.h:83:19: note: initialized flexible array member 'output' is here
-      83 |         struct clk_range output[] __counted_by(num_output);
-         |                          ^
-   drivers/clk/at91/sama7d65.c:148:12: error: flexible array requires brace-enclosed initializer
-     148 |         .output = pll_outputs,
-         |                   ^~~~~~~~~~~
-   drivers/clk/at91/pmc.h:83:19: note: initialized flexible array member 'output' is here
-      83 |         struct clk_range output[] __counted_by(num_output);
-         |                          ^
-   drivers/clk/at91/sama7d65.c:156:12: error: flexible array requires brace-enclosed initializer
-     156 |         .output = lvdspll_outputs,
-         |                   ^~~~~~~~~~~~~~~
-   drivers/clk/at91/pmc.h:83:19: note: initialized flexible array member 'output' is here
-      83 |         struct clk_range output[] __counted_by(num_output);
-         |                          ^
-   drivers/clk/at91/sama7d65.c:164:12: error: flexible array requires brace-enclosed initializer
-     164 |         .output = upll_outputs,
-         |                   ^~~~~~~~~~~~
-   drivers/clk/at91/pmc.h:83:19: note: initialized flexible array member 'output' is here
-      83 |         struct clk_range output[] __counted_by(num_output);
-         |                          ^
-   4 errors generated.
---
->> drivers/clk/at91/sama7g5.c:114:12: error: flexible array requires brace-enclosed initializer
-     114 |         .output = cpu_pll_outputs,
-         |                   ^~~~~~~~~~~~~~~
-   drivers/clk/at91/pmc.h:83:19: note: initialized flexible array member 'output' is here
-      83 |         struct clk_range output[] __counted_by(num_output);
-         |                          ^
-   drivers/clk/at91/sama7g5.c:123:12: error: flexible array requires brace-enclosed initializer
-     123 |         .output = pll_outputs,
-         |                   ^~~~~~~~~~~
-   drivers/clk/at91/pmc.h:83:19: note: initialized flexible array member 'output' is here
-      83 |         struct clk_range output[] __counted_by(num_output);
-         |                          ^
-   2 errors generated.
+vim +454 drivers/net/wireless/intel/iwlwifi/mld/tlc.c
 
-
-vim +594 drivers/clk/at91/dt-compat.c
-
-   527	
-   528	static void __init of_at91rm9200_clk_periph_setup(struct device_node *np)
-   529	{
-   530		of_at91_clk_periph_setup(np, PERIPHERAL_AT91RM9200);
-   531	}
-   532	CLK_OF_DECLARE(at91rm9200_clk_periph, "atmel,at91rm9200-clk-peripheral",
-   533		       of_at91rm9200_clk_periph_setup);
-   534	
-   535	static void __init of_at91sam9x5_clk_periph_setup(struct device_node *np)
-   536	{
-   537		of_at91_clk_periph_setup(np, PERIPHERAL_AT91SAM9X5);
-   538	}
-   539	CLK_OF_DECLARE(at91sam9x5_clk_periph, "atmel,at91sam9x5-clk-peripheral",
-   540		       of_at91sam9x5_clk_periph_setup);
-   541	
-   542	static struct clk_pll_characteristics * __init
-   543	of_at91_clk_pll_get_characteristics(struct device_node *np)
-   544	{
-   545		int i;
-   546		int offset;
-   547		u32 tmp;
-   548		int num_output;
-   549		u32 num_cells;
-   550		struct clk_range input;
-   551		u8 *out = NULL;
-   552		u16 *icpll = NULL;
-   553		struct clk_pll_characteristics *characteristics;
-   554	
-   555		if (of_at91_get_clk_range(np, "atmel,clk-input-range", &input))
-   556			return NULL;
-   557	
-   558		if (of_property_read_u32(np, "#atmel,pll-clk-output-range-cells",
-   559					 &num_cells))
-   560			return NULL;
-   561	
-   562		if (num_cells < 2 || num_cells > 4)
-   563			return NULL;
-   564	
-   565		num_output = of_property_count_u32_elems(np, "atmel,pll-clk-output-ranges");
-   566		if (num_output <= 0)
-   567			return NULL;
-   568		num_output /= num_cells;
-   569	
-   570		characteristics = kzalloc_flex(*characteristics, output, num_output);
-   571		if (!characteristics)
-   572			return NULL;
-   573	
-   574		characteristics->num_output = num_output;
-   575	
-   576		if (num_cells > 2) {
-   577			out = kcalloc(num_output, sizeof(*out), GFP_KERNEL);
-   578			if (!out)
-   579				goto out_free_output;
-   580		}
-   581	
-   582		if (num_cells > 3) {
-   583			icpll = kcalloc(num_output, sizeof(*icpll), GFP_KERNEL);
-   584			if (!icpll)
-   585				goto out_free_output;
-   586		}
-   587	
-   588		for (i = 0; i < num_output; i++) {
-   589			offset = i * num_cells;
-   590			if (of_property_read_u32_index(np,
-   591						       "atmel,pll-clk-output-ranges",
-   592						       offset, &tmp))
-   593				goto out_free_output;
- > 594			charecteristics->output[i].min = tmp;
-   595			if (of_property_read_u32_index(np,
-   596						       "atmel,pll-clk-output-ranges",
-   597						       offset + 1, &tmp))
-   598				goto out_free_output;
-   599			charecteristics->output[i].max = tmp;
-   600	
-   601			if (num_cells == 2)
-   602				continue;
-   603	
-   604			if (of_property_read_u32_index(np,
-   605						       "atmel,pll-clk-output-ranges",
-   606						       offset + 2, &tmp))
-   607				goto out_free_output;
-   608			out[i] = tmp;
-   609	
-   610			if (num_cells == 3)
-   611				continue;
-   612	
-   613			if (of_property_read_u32_index(np,
-   614						       "atmel,pll-clk-output-ranges",
-   615						       offset + 3, &tmp))
-   616				goto out_free_output;
-   617			icpll[i] = tmp;
-   618		}
-   619	
-   620		characteristics->input = input;
-   621		characteristics->out = out;
-   622		characteristics->icpll = icpll;
-   623		return characteristics;
-   624	
-   625	out_free_output:
-   626		kfree(icpll);
-   627		kfree(out);
-   628		kfree(characteristics);
-   629		return NULL;
-   630	}
-   631	
+   427	
+   428	static void
+   429	iwl_mld_fill_supp_rates(struct iwl_mld *mld,
+   430				struct ieee80211_vif *vif,
+   431				struct iwl_mld_tlc_sta_capa *capa,
+   432				struct iwl_tlc_config_cmd *cmd)
+   433	{
+   434		cmd->non_ht_rates = cpu_to_le16(capa->non_ht_rates);
+   435		cmd->mode = IWL_TLC_MNG_MODE_NON_HT;
+   436	
+   437		if (capa->uhr_cap && capa->uhr_cap->has_uhr && capa->own_uhr_cap) {
+   438			cmd->mode = IWL_TLC_MNG_MODE_UHR;
+   439			/*
+   440			 * FIXME: spec currently inherits from EHT but has no
+   441			 * finer MCS bits. Once that's there, need to add them
+   442			 * to the bitmaps (and maybe copy this to UHR, or so.)
+   443			 */
+   444			iwl_mld_fill_eht_rates(vif, capa, cmd);
+   445		} else if (capa->eht_cap && capa->eht_cap->has_eht &&
+   446			   capa->own_he_cap && capa->own_eht_cap) {
+   447			cmd->mode = IWL_TLC_MNG_MODE_EHT;
+   448			iwl_mld_fill_eht_rates(vif, capa, cmd);
+   449		} else if (capa->he_cap && capa->he_cap->has_he && capa->own_he_cap) {
+   450			cmd->mode = IWL_TLC_MNG_MODE_HE;
+   451			iwl_mld_fill_he_rates(capa, cmd);
+   452		} else if (capa->vht_cap && capa->vht_cap->vht_supported) {
+   453			cmd->mode = IWL_TLC_MNG_MODE_VHT;
+ > 454				iwl_mld_fill_vht_rates(capa, cmd);
+   455		} else if (capa->ht_cap && capa->ht_cap->ht_supported) {
+   456			cmd->mode = IWL_TLC_MNG_MODE_HT;
+   457			cmd->ht_rates[IWL_TLC_NSS_1][IWL_TLC_MCS_PER_BW_80] =
+   458				cpu_to_le32(capa->ht_cap->mcs.rx_mask[0]);
+   459	
+   460			/* the station support only a single receive chain */
+   461			if (capa->smps_mode == IEEE80211_SMPS_STATIC)
+   462				cmd->ht_rates[IWL_TLC_NSS_2][IWL_TLC_MCS_PER_BW_80] =
+   463					0;
+   464			else
+   465				cmd->ht_rates[IWL_TLC_NSS_2][IWL_TLC_MCS_PER_BW_80] =
+   466					cpu_to_le32(capa->ht_cap->mcs.rx_mask[1]);
+   467		}
+   468	}
+   469	
 
 --
 0-DAY CI Kernel Test Service
