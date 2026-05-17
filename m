@@ -1,156 +1,199 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21F3F3161A2;
-	Sun, 17 May 2026 03:29:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8E171DFDE
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 May 2026 04:01:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778988559; cv=none; b=m7S6n1ZsiH5FK9LW6iqibtLwFbuLgfTYOLvpM9j+SPioY3VEb9plSTsZDqdGtUDjtoYj0wxflvMJMeicJb4NVnzQJJbN86lRCgmozmKtMiFM3Lpy0cK6yEq5eqxHfYFr0pf0shb2ob85tBzVYNHyqSrHj8SL65Uh+O+FhtAFwFw=
+	t=1778990477; cv=none; b=H66yhI+FRLV3OHUz8o9J+JRCk5R+QQsd4o20EjXseYgfdr7tgaLxFWcoLfThOtr7FqZUj0+KhZRB6KZyuiZjyRrp4Qj0xfuf8iXVGTH5+MARusBd9ak93ZThUvxJFE8gvJYB4LMlPkRxnyZVUDgGLxSiG7KUkmBGIYaD47jo7OI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778988559; c=relaxed/simple;
-	bh=W3hxyvPQIHp6N/EcjsueATTuNczPa4vrB3d34Qz9f4g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D07jEnGPDAWLAhjUSyiqbEwfNvCEbu+k8GWZQfKm4qZ+H6WbB10X+NH3jvlz5BY5RXohppG1GLBo8dh65GVVZr+EL07HwnpJjPNv/vBP2k1sJbcURsmatmRVr6Jpnd3UL7kY2OQgmePcYPMDvWyQYce18r294C5o9+1oauhQBqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CQQV2+PA; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1778990477; c=relaxed/simple;
+	bh=u+ToPrQDDWweEZZuheBxI4rRRzxjA04QShUdsUFbw8w=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=t40V7aTpQr5SZSgDNAth2D6ODI5ozc68Egzhy40K5dEQ7B011H6y2bsTfQhVrxH83y19NV+H1J5Z9gWGPtZzNtnDQ9v6mWOFGpo5x5QpKAekT+A1r0Q3soyL65AlFik75riX7z7wZUldBcyF0iAkPNDC29tO089wIGLB+Ww56x4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jT9j7EDv; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CQQV2+PA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jT9j7EDv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778988557; x=1810524557;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=W3hxyvPQIHp6N/EcjsueATTuNczPa4vrB3d34Qz9f4g=;
-  b=CQQV2+PA2Ldx8AV/38ats4JV/kAxm6KcBP6OG4iqZr4oNGl+/wn0CHei
-   xIPWoOaAUJvSssRLDLcCBVRYSCdkdifQU+zUvGLI2e8U5FBVe6rjscR20
-   yiBRvKdfC31NBt4xwTrFR8sLFT78rxzWPNj7+JPulLUaXLzYXQnNY75d9
-   7HJLAqH6EFBslI4Ei4qxaDPzZCXDj+PyzRj0OeiU8nQcWO1soghUKcfKM
-   vGELglZntIjx1dnwjL1lBkxP1RoOtVp9V9TZkwwLMxQP5OuVYQvG9jAyI
-   xsYGcQhaTrKInxttYppLxtv3Bjb3r0s0maST54yg/GJOwN3fz1R49uoVW
-   Q==;
-X-CSE-ConnectionGUID: XASoxHkqRiGFJQ28kG8QdA==
-X-CSE-MsgGUID: yWmpyCBLRruk3YXmxCjx5A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11788"; a="90583156"
+  t=1778990475; x=1810526475;
+  h=date:from:to:cc:subject:message-id;
+  bh=u+ToPrQDDWweEZZuheBxI4rRRzxjA04QShUdsUFbw8w=;
+  b=jT9j7EDv+nvW9/zOUkLbcMKIWTg254u3u2p8S4uoDh7keJ7DoG42f1ib
+   Yfvh8twpS9qj1Vl1+5hT5iGIRC51gJk9FDPwrAMHvdNZwAqmn50KWvyZj
+   7yafgn6WhB6O7oJucp/ZHSVU1PvQiLKiQqFi5bl7VnvJNnzu8Kr7x6Pf/
+   NZWDTzIDrBqOlKQfd2ZoTLjYArAcqP/Ed1YaHjV+Y+9cMTSVF+BTLXaLC
+   5yDr4e3lTAZYjy9I3gj2sSMUGZehIeIpgXhA7TWlDRlga00ZXxfYDmdCc
+   OHfNL+4vQT4Mopt0w63PzVoWo6y4bkbfLbPNPwwSgiO1nITfS3lKSVzBW
+   A==;
+X-CSE-ConnectionGUID: ULDPaOlWRY61W2GvEMpQ4A==
+X-CSE-MsgGUID: vXUK6qJmRVKREn/QXRp94w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11788"; a="102560550"
 X-IronPort-AV: E=Sophos;i="6.23,239,1770624000"; 
-   d="scan'208";a="90583156"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2026 20:29:14 -0700
-X-CSE-ConnectionGUID: hI1MqPDSRMqXqMwfZi0H0A==
-X-CSE-MsgGUID: 4UbGB/DXS5WdSw+SZJgpWg==
+   d="scan'208";a="102560550"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2026 21:01:15 -0700
+X-CSE-ConnectionGUID: zFvgNOq/QtKgW7b2C+BTDA==
+X-CSE-MsgGUID: t6XJ2xynTiGYaJ9wtNAGsg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,239,1770624000"; 
-   d="scan'208";a="243075114"
+   d="scan'208";a="232698967"
 Received: from lkp-server01.sh.intel.com (HELO d94e5e629b2d) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 16 May 2026 20:29:13 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 16 May 2026 21:01:12 -0700
 Received: from kbuild by d94e5e629b2d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wOSBh-000000001KU-4664;
-	Sun, 17 May 2026 03:29:09 +0000
-Date: Sun, 17 May 2026 11:28:56 +0800
+	id 1wOSgg-000000001L6-2bvA;
+	Sun, 17 May 2026 04:01:10 +0000
+Date: Sun, 17 May 2026 12:00:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gilles Risch <gilles.risch@gmail.com>, alexander.deucher@amd.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	Gilles Risch <gilles.risch@gmail.com>
-Subject: Re: [PATCH] drm/radeon: fix eDP resume from suspend on iMac11, 1 /
- DCE3.1 systems
-Message-ID: <202605171126.1g7CRkTZ-lkp@intel.com>
-References: <20260516185226.3005-1-gilles.risch@gmail.com>
+To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [cbeznea:at91-next 6/8] drivers/clk/at91/sama5d3.c:28:19:
+ error: initialization of 'long unsigned int' from 'const struct clk_range *'
+ makes integer from pointer without a cast
+Message-ID: <202605171114.NFw4IZRg-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260516185226.3005-1-gilles.risch@gmail.com>
 
-Hi Gilles,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v7.1-rc3 next-20260508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gilles-Risch/drm-radeon-fix-eDP-resume-from-suspend-on-iMac11-1-DCE3-1-systems/20260517-025343
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20260516185226.3005-1-gilles.risch%40gmail.com
-patch subject: [PATCH] drm/radeon: fix eDP resume from suspend on iMac11, 1 / DCE3.1 systems
-config: riscv-randconfig-001-20260517 (https://download.01.org/0day-ci/archive/20260517/202605171126.1g7CRkTZ-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260517/202605171126.1g7CRkTZ-lkp@intel.com/reproduce)
+tree:   https://github.com/claudiubeznea/linux.git at91-next
+head:   f52da2147731872899626a0e61faa2b951049cc9
+commit: 1d2563715880d5e865190b68f29fd98f93da717b [6/8] clk: at91: use kzalloc_flex
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260517/202605171114.NFw4IZRg-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260517/202605171114.NFw4IZRg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605171126.1g7CRkTZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605171114.NFw4IZRg-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/radeon/atombios_encoders.c:1386:7: error: call to undeclared function 'ASIC_IS_DCE31'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1386 |         if (!ASIC_IS_DCE31(rdev))
-         |              ^
-   drivers/gpu/drm/radeon/atombios_encoders.c:1710:30: error: call to undeclared function 'ASIC_IS_DCE31'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1710 |                         if (ASIC_IS_DCE4(rdev) || ASIC_IS_DCE31(rdev))
-         |                                                   ^
-   drivers/gpu/drm/radeon/atombios_encoders.c:1727:29: error: call to undeclared function 'ASIC_IS_DCE31'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1727 |                 if (ASIC_IS_DCE4(rdev) || ASIC_IS_DCE31(rdev)) {
-         |                                           ^
-   3 errors generated.
+>> drivers/clk/at91/sama5d3.c:28:19: error: initialization of 'long unsigned int' from 'const struct clk_range *' makes integer from pointer without a cast [-Wint-conversion]
+      28 |         .output = plla_outputs,
+         |                   ^~~~~~~~~~~~
+   drivers/clk/at91/sama5d3.c:28:19: note: (near initialization for 'plla_characteristics.output[0].min')
+   drivers/clk/at91/sama5d3.c:25:68: warning: missing braces around initializer [-Wmissing-braces]
+      25 | static const struct clk_pll_characteristics plla_characteristics = {
+         |                                                                    ^
+   ......
+      28 |         .output = plla_outputs,
+         |                   {{          }}
+--
+   drivers/clk/at91/dt-compat.c: In function 'of_at91_clk_pll_get_characteristics':
+>> drivers/clk/at91/dt-compat.c:594:17: error: 'charecteristics' undeclared (first use in this function); did you mean 'characteristics'?
+     594 |                 charecteristics->output[i].min = tmp;
+         |                 ^~~~~~~~~~~~~~~
+         |                 characteristics
+   drivers/clk/at91/dt-compat.c:594:17: note: each undeclared identifier is reported only once for each function it appears in
+--
+>> drivers/clk/at91/sama5d4.c:28:19: error: initialization of 'long unsigned int' from 'const struct clk_range *' makes integer from pointer without a cast [-Wint-conversion]
+      28 |         .output = plla_outputs,
+         |                   ^~~~~~~~~~~~
+   drivers/clk/at91/sama5d4.c:28:19: note: (near initialization for 'plla_characteristics.output[0].min')
+   drivers/clk/at91/sama5d4.c:25:68: warning: missing braces around initializer [-Wmissing-braces]
+      25 | static const struct clk_pll_characteristics plla_characteristics = {
+         |                                                                    ^
+   ......
+      28 |         .output = plla_outputs,
+         |                   {{          }}
+--
+>> drivers/clk/at91/sama5d2.c:28:19: error: initialization of 'long unsigned int' from 'const struct clk_range *' makes integer from pointer without a cast [-Wint-conversion]
+      28 |         .output = plla_outputs,
+         |                   ^~~~~~~~~~~~
+   drivers/clk/at91/sama5d2.c:28:19: note: (near initialization for 'plla_characteristics.output[0].min')
+   drivers/clk/at91/sama5d2.c:25:68: warning: missing braces around initializer [-Wmissing-braces]
+      25 | static const struct clk_pll_characteristics plla_characteristics = {
+         |                                                                    ^
+   ......
+      28 |         .output = plla_outputs,
+         |                   {{          }}
+--
+>> drivers/clk/at91/sama7d65.c:139:19: error: initialization of 'long unsigned int' from 'const struct clk_range *' makes integer from pointer without a cast [-Wint-conversion]
+     139 |         .output = cpu_pll_outputs,
+         |                   ^~~~~~~~~~~~~~~
+   drivers/clk/at91/sama7d65.c:139:19: note: (near initialization for 'cpu_pll_characteristics.output[0].min')
+   drivers/clk/at91/sama7d65.c:136:71: warning: missing braces around initializer [-Wmissing-braces]
+     136 | static const struct clk_pll_characteristics cpu_pll_characteristics = {
+         |                                                                       ^
+   ......
+     139 |         .output = cpu_pll_outputs,
+         |                   {{             }}
+   drivers/clk/at91/sama7d65.c:148:19: error: initialization of 'long unsigned int' from 'const struct clk_range *' makes integer from pointer without a cast [-Wint-conversion]
+     148 |         .output = pll_outputs,
+         |                   ^~~~~~~~~~~
+   drivers/clk/at91/sama7d65.c:148:19: note: (near initialization for 'pll_characteristics.output[0].min')
+   drivers/clk/at91/sama7d65.c:145:67: warning: missing braces around initializer [-Wmissing-braces]
+     145 | static const struct clk_pll_characteristics pll_characteristics = {
+         |                                                                   ^
+   ......
+     148 |         .output = pll_outputs,
+         |                   {{         }}
+   drivers/clk/at91/sama7d65.c:156:19: error: initialization of 'long unsigned int' from 'const struct clk_range *' makes integer from pointer without a cast [-Wint-conversion]
+     156 |         .output = lvdspll_outputs,
+         |                   ^~~~~~~~~~~~~~~
+   drivers/clk/at91/sama7d65.c:156:19: note: (near initialization for 'lvdspll_characteristics.output[0].min')
+   drivers/clk/at91/sama7d65.c:153:71: warning: missing braces around initializer [-Wmissing-braces]
+     153 | static const struct clk_pll_characteristics lvdspll_characteristics = {
+         |                                                                       ^
+   ......
+     156 |         .output = lvdspll_outputs,
+         |                   {{             }}
+   drivers/clk/at91/sama7d65.c:164:19: error: initialization of 'long unsigned int' from 'const struct clk_range *' makes integer from pointer without a cast [-Wint-conversion]
+     164 |         .output = upll_outputs,
+         |                   ^~~~~~~~~~~~
+   drivers/clk/at91/sama7d65.c:164:19: note: (near initialization for 'upll_characteristics.output[0].min')
+   drivers/clk/at91/sama7d65.c:161:68: warning: missing braces around initializer [-Wmissing-braces]
+     161 | static const struct clk_pll_characteristics upll_characteristics = {
+         |                                                                    ^
+   ......
+     164 |         .output = upll_outputs,
+         |                   {{          }}
+--
+>> drivers/clk/at91/sama7g5.c:114:19: error: initialization of 'long unsigned int' from 'const struct clk_range *' makes integer from pointer without a cast [-Wint-conversion]
+     114 |         .output = cpu_pll_outputs,
+         |                   ^~~~~~~~~~~~~~~
+   drivers/clk/at91/sama7g5.c:114:19: note: (near initialization for 'cpu_pll_characteristics.output[0].min')
+   drivers/clk/at91/sama7g5.c:111:71: warning: missing braces around initializer [-Wmissing-braces]
+     111 | static const struct clk_pll_characteristics cpu_pll_characteristics = {
+         |                                                                       ^
+   ......
+     114 |         .output = cpu_pll_outputs,
+         |                   {{             }}
+   drivers/clk/at91/sama7g5.c:123:19: error: initialization of 'long unsigned int' from 'const struct clk_range *' makes integer from pointer without a cast [-Wint-conversion]
+     123 |         .output = pll_outputs,
+         |                   ^~~~~~~~~~~
+   drivers/clk/at91/sama7g5.c:123:19: note: (near initialization for 'pll_characteristics.output[0].min')
+   drivers/clk/at91/sama7g5.c:120:67: warning: missing braces around initializer [-Wmissing-braces]
+     120 | static const struct clk_pll_characteristics pll_characteristics = {
+         |                                                                   ^
+   ......
+     123 |         .output = pll_outputs,
+         |                   {{         }}
 
 
-vim +/ASIC_IS_DCE31 +1386 drivers/gpu/drm/radeon/atombios_encoders.c
+vim +28 drivers/clk/at91/sama5d3.c
 
-  1372	
-  1373	bool
-  1374	atombios_set_edp_panel_power(struct drm_connector *connector, int action)
-  1375	{
-  1376		struct radeon_connector *radeon_connector = to_radeon_connector(connector);
-  1377		struct drm_device *dev = radeon_connector->base.dev;
-  1378		struct radeon_device *rdev = dev->dev_private;
-  1379		union dig_transmitter_control args;
-  1380		int index = GetIndexIntoMasterTable(COMMAND, UNIPHYTransmitterControl);
-  1381		uint8_t frev, crev;
-  1382	
-  1383		if (connector->connector_type != DRM_MODE_CONNECTOR_eDP)
-  1384			goto done;
-  1385	
-> 1386		if (!ASIC_IS_DCE31(rdev))
-  1387			goto done;
-  1388	
-  1389		if ((action != ATOM_TRANSMITTER_ACTION_POWER_ON) &&
-  1390		    (action != ATOM_TRANSMITTER_ACTION_POWER_OFF))
-  1391			goto done;
-  1392	
-  1393		if (!atom_parse_cmd_header(rdev->mode_info.atom_context, index, &frev, &crev))
-  1394			goto done;
-  1395	
-  1396		memset(&args, 0, sizeof(args));
-  1397	
-  1398		args.v1.ucAction = action;
-  1399	
-  1400		atom_execute_table(rdev->mode_info.atom_context, index, (uint32_t *)&args, sizeof(args));
-  1401	
-  1402		/* wait for the panel to power up */
-  1403		if (action == ATOM_TRANSMITTER_ACTION_POWER_ON) {
-  1404			int i;
-  1405	
-  1406			for (i = 0; i < 300; i++) {
-  1407				if (radeon_hpd_sense(rdev, radeon_connector->hpd.hpd))
-  1408					return true;
-  1409				mdelay(1);
-  1410			}
-  1411			return false;
-  1412		}
-  1413	done:
-  1414		return true;
-  1415	}
-  1416	
+0969b242f7b8e5 Alexandre Belloni 2020-01-10  24  
+0969b242f7b8e5 Alexandre Belloni 2020-01-10  25  static const struct clk_pll_characteristics plla_characteristics = {
+0969b242f7b8e5 Alexandre Belloni 2020-01-10  26  	.input = { .min = 8000000, .max = 50000000 },
+0969b242f7b8e5 Alexandre Belloni 2020-01-10  27  	.num_output = ARRAY_SIZE(plla_outputs),
+0969b242f7b8e5 Alexandre Belloni 2020-01-10 @28  	.output = plla_outputs,
+0969b242f7b8e5 Alexandre Belloni 2020-01-10  29  	.icpll = plla_icpll,
+0969b242f7b8e5 Alexandre Belloni 2020-01-10  30  	.out = plla_out,
+0969b242f7b8e5 Alexandre Belloni 2020-01-10  31  };
+0969b242f7b8e5 Alexandre Belloni 2020-01-10  32  
+
+:::::: The code at line 28 was first introduced by commit
+:::::: 0969b242f7b8e5de0a1c28f81d8558fd678c066d clk: at91: add sama5d3 pmc driver
+
+:::::: TO: Alexandre Belloni <alexandre.belloni@bootlin.com>
+:::::: CC: Stephen Boyd <sboyd@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
