@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8040F1F4176;
-	Sun, 17 May 2026 21:45:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A5782F7F19
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 May 2026 22:38:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779054357; cv=none; b=rxmSfooVtfCxlAH56KR4Al4G0V5RU0YrhyxBfJOg5y58rktR/Nqklr/9GlvaqOU5bysOm/rPvYuBb32YrMjmUgukjqkUXdNzfcVxgqhCZ59/ieU2r+XVS6c/8OkKMKfgdcLc4SKozcZN1Qs3GwDlRRZIHKsf3h/P6odoC8E5ENs=
+	t=1779057542; cv=none; b=F4PfRdFgQ+b1TZvN4LuEEC4MaJydpBnxu2gI5pKSuYuRj4OMPJ8ES/2Cy4jDZ92d4k9SIgAqjQYkqwVI70GWze7YGsTdSq6tTyVgbJcSQ9ftg02C/+IgyqCe0IVELxLtqK+hGRJLf9mg3w3cpLku1LGpI45i08tKSpKwbcfiMrw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779054357; c=relaxed/simple;
-	bh=HcHkVQED+BUDIbbFFoaWvhuqZicKw1PktcSgrTy4mSs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JJLO/78xX5VdljNd6+UPHHTdt4lUD1gOYeJw2vlaXyA42gWBeqI5H84hAoNT8tKvFpFDlepFSRq5nvuDQOsafg7W/VrEid+5yDUYPpHrNHIsLdM83Tj0mpZ6s8Exs1drhf3b4xVR//Dy6tUvyTdgfsrw+w1wQKC3PqHH2Z0iMcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hJkBqqkC; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1779057542; c=relaxed/simple;
+	bh=ewcuO+Rcoq6gvXxlWa4FM/RnGAgQdtxnO03wwmgQDqI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=C98udelaK4+mEGYuXizbm3n818dhvX9wq4/WPuR1srA9V8J0mz39Cna85ydOjHUNPeGUcItpa9+iK7hC8FQCErwwEvgvd+Wss23nUn2GKydcagK6JRCcM7RX17yggFGOAgZb6qx/7O0haYzPcewolnKvv/4hKBUboNEZ8f/S7RQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e/x5h7VV; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hJkBqqkC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e/x5h7VV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779054356; x=1810590356;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HcHkVQED+BUDIbbFFoaWvhuqZicKw1PktcSgrTy4mSs=;
-  b=hJkBqqkCNvLaL+/dBNqyC5Tk5l94U5XLfiOjdyT7oGyo2aQd72XCc+Sj
-   C8n+S/E9KK+Q8OUWEXnoQz7VRANRJJXwjWXM/Oy3ygfj/Um6WUqgGOG/d
-   F+q1/s5odLs8t7520Daq/2NRTVVJMoCHJcP09UVESRvty/NHdpY/Vc34D
-   lzKsSa0x2M4u5aPHj1CvpW8ypQ98tQuStEDNPfZrf3C+7WMpPBFZRCbpS
-   CX1bRR4BHUESXTExngqvIdGTEzU6trw3NqkCpx/f8fTQxrFPkYDI4iKjH
-   EZeY0HJM8dtK1Ylh97Zgo4sVvvIAvPuzyNKrKcarg9IbgB94PM6Q5s3C9
-   w==;
-X-CSE-ConnectionGUID: pjOGuJ0dSeOwgMpkiqeSVg==
-X-CSE-MsgGUID: iYi4pUeUQpOrp/4gQDQNWw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11789"; a="90493036"
+  t=1779057540; x=1810593540;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ewcuO+Rcoq6gvXxlWa4FM/RnGAgQdtxnO03wwmgQDqI=;
+  b=e/x5h7VV8bhlMDX9gyCtvUyG/ZXYL2fK4voFRpQkXtA4a+SBfH8SEuqQ
+   TjnGLZf7mODeI8BDuuLqrimHvW4SNnmnKVv+v8v7KAjPHFl4oFpmS3/Ih
+   4VoQpaH3d6KqwklxgepsmxUbPH5ltMfSAdWIlMovxofSHVqwLpnosZV7q
+   X0LIeBYXW1Gq42msamY57aDwSwN2WAGYjMalW49igdwF2v1GPWfTnjHYi
+   MyDBfd4D562NVJuCg0BJwVsJihOonEgOIZK6VwhoEfRqCvO1RXihXeXJv
+   Xrtaf1GEdUOivwIUImhtqOnQOCdxECP10gKWtPiTYwqosR3xx7T6EhCH6
+   A==;
+X-CSE-ConnectionGUID: GK/wqoGARbiwCGfS1o/XOw==
+X-CSE-MsgGUID: s+MfWjDoTn6wJ5rWZMUCgw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11789"; a="79958291"
 X-IronPort-AV: E=Sophos;i="6.23,240,1770624000"; 
-   d="scan'208";a="90493036"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2026 14:45:55 -0700
-X-CSE-ConnectionGUID: 81Lj7rBnS2qvPMLM4gtjwA==
-X-CSE-MsgGUID: QrWDyaHwRx+3Y9FWD6pstw==
+   d="scan'208";a="79958291"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2026 15:39:00 -0700
+X-CSE-ConnectionGUID: bkqxhPKhTeaUvehAVYtxiw==
+X-CSE-MsgGUID: ds67dtroR1OykSYpxY76QA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,240,1770624000"; 
-   d="scan'208";a="243549847"
+   d="scan'208";a="277357311"
 Received: from lkp-server01.sh.intel.com (HELO d94e5e629b2d) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 17 May 2026 14:45:54 -0700
+  by orviesa001.jf.intel.com with ESMTP; 17 May 2026 15:38:59 -0700
 Received: from kbuild by d94e5e629b2d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wOjJ0-000000001xi-3CWM;
-	Sun, 17 May 2026 21:45:50 +0000
-Date: Mon, 18 May 2026 05:45:24 +0800
+	id 1wOk8N-0000000020A-2Kfj;
+	Sun, 17 May 2026 22:38:55 +0000
+Date: Mon, 18 May 2026 06:38:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: shayderrr <darknessshayder@gmail.com>, gregkh@linuxfoundation.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Pranav Bajjuri <darknessshayder@gmail.com>
-Subject: Re: [PATCH] net: octeon: fix carrier state, null guard, and
- modernize phy ioctl
-Message-ID: <202605180508.53ptUezJ-lkp@intel.com>
-References: <20260517141955.79666-1-darknessshayder@gmail.com>
+To: Jim Cromie <jim.cromie@gmail.com>,
+ =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dd-shrink-go 23/52]
+ include/linux/dynamic_debug.h:331:1: error: extraneous closing brace ('}')
+Message-ID: <202605180650.LyuPI51F-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,75 +61,57 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260517141955.79666-1-darknessshayder@gmail.com>
 
-Hi shayderrr,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on staging/staging-testing]
-[also build test ERROR on staging/staging-next staging/staging-linus linus/master v7.1-rc3 next-20260508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/shayderrr/net-octeon-fix-carrier-state-null-guard-and-modernize-phy-ioctl/20260517-222121
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260517141955.79666-1-darknessshayder%40gmail.com
-patch subject: [PATCH] net: octeon: fix carrier state, null guard, and modernize phy ioctl
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260518/202605180508.53ptUezJ-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260518/202605180508.53ptUezJ-lkp@intel.com/reproduce)
+tree:   https://github.com/jimc/linux.git dd-shrink-go
+head:   270053dc597e59c9ffc0b5f17c8863076b56c7cf
+commit: a3f35a330ec694a21578ef9d439e502c80e3e227 [23/52] dyndbg: change __dynamic_func_call_cls* macros into expressions
+config: x86_64-randconfig-076-20260518 (https://download.01.org/0day-ci/archive/20260518/202605180650.LyuPI51F-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260518/202605180650.LyuPI51F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605180508.53ptUezJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605180650.LyuPI51F-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/staging/octeon/ethernet-mdio.c:91:6: error: conflicting types for 'cvm_oct_common_stop'
-      91 | void cvm_oct_common_stop(struct net_device *dev)
-         |      ^
-   drivers/staging/octeon/octeon-ethernet.h:90:5: note: previous declaration is here
-      90 | int cvm_oct_common_stop(struct net_device *dev);
-         |     ^
-   1 error generated.
+   In file included from arch/x86/kernel/asm-offsets.c:10:
+   In file included from include/crypto/aria.h:22:
+   In file included from include/linux/module.h:31:
+>> include/linux/dynamic_debug.h:331:1: error: extraneous closing brace ('}')
+     331 | })
+         | ^
+>> include/linux/dynamic_debug.h:331:2: error: expected identifier or '('
+     331 | })
+         |  ^
+   2 errors generated.
+   make[3]: *** [scripts/Makefile.build:184: arch/x86/kernel/asm-offsets.s] Error 1 shuffle=4114942565
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1375: prepare0] Error 2 shuffle=4114942565
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=4114942565
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=4114942565
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +/cvm_oct_common_stop +91 drivers/staging/octeon/ethernet-mdio.c
+vim +331 include/linux/dynamic_debug.h
 
-    90	
-  > 91	void cvm_oct_common_stop(struct net_device *dev)
-    92	{
-    93		struct octeon_ethernet *priv = netdev_priv(dev);
-    94		int interface = INTERFACE(priv->port);
-    95		int index = INDEX(priv->port);
-    96		union cvmx_helper_link_info link_info;
-    97		union cvmx_gmxx_prtx_cfg gmx_cfg;
-    98	
-    99		gmx_cfg.u64 = cvmx_read_csr(CVMX_GMXX_PRTX_CFG(index, interface));
-   100		gmx_cfg.s.en = 0;
-   101		cvmx_write_csr(CVMX_GMXX_PRTX_CFG(index, interface), gmx_cfg.u64);
-   102	
-   103		priv->poll = NULL;
-   104	
-   105		netif_carrier_off(dev);
-   106	
-   107		if (dev->phydev)
-   108			phy_disconnect(dev->phydev);
-   109	
-   110		if (priv->last_link) {
-   111			link_info.u64	= 0;
-   112			priv->link_info	= 0;
-   113			priv->last_link	= 0;
-   114	
-   115			cvmx_helper_link_set(priv->port, link_info);
-   116			cvm_oct_note_carrier(priv, link_info);
-   117		}
-   118	}
-   119	
+   319	
+   320	#define dynamic_pr_debug(fmt, ...)					\
+   321		no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+   322	#define dynamic_dev_dbg(dev, fmt, ...)					\
+   323		dev_no_printk(KERN_DEBUG, dev, fmt, ##__VA_ARGS__)
+   324	#define dynamic_hex_dump(prefix_str, prefix_type, rowsize,		\
+   325				 groupsize, buf, len, ascii)			\
+   326	({									\
+   327		if (0)								\
+   328			print_hex_dump(KERN_DEBUG, prefix_str, prefix_type,	\
+   329				       rowsize, groupsize, buf, len, ascii);	\
+   330		0;
+ > 331	})
+   332	
 
 --
 0-DAY CI Kernel Test Service
