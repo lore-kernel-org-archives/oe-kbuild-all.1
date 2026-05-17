@@ -1,138 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA7601C84BC;
-	Sun, 17 May 2026 19:00:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51438312837
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 May 2026 21:04:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779044452; cv=none; b=rQNcGFIeVafuePV/01iDdueH1v4NBN4f4P1OLIBZCqrm+8TWwH78DkrpYiJddLA+Q8fldv81JqaAEMK0f/XG9iboMwn7b7QdCcJiB4ZfG1V3U8W7SNB/4D10RHzfMmlq8MCeF+eglA2zlA8t/nOzNWKLN0wfPu71U8qmOd17KrY=
+	t=1779051897; cv=none; b=bQaednpoZDYIluPquekPLni8XWDtfVCJxt39og0nQMXtmdM2TjH/yB+yee8hcXuBmTzxxAqF5VPbE2BpP397TMP5suCqkdsecyBJZu/n4mQS0ITCBA50kWIZ1Hg56Jj5fRd00po+qbbSNW19/Sa9x2fYgJbbHycTl4ZMUOCqkhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779044452; c=relaxed/simple;
-	bh=STObEROyoT4+wLR/jIvqjJqwLhTr0Y6ltjsbAQ6M4Y4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HAmOxWARCQ2BqYOM/iIIHv8QWiKR3SfjQTOuhQ4EjY/tLsnX8WGsfJlMxmXW3au1A/mKqSsOA8ICMOxwvTzo3UU/ISLZoXdjPq9ehom7yY2FjJ8lZkHfVL9EmXy3vo5dCmCv4Mp1YjpjtTAFKQRJuYn+CVRbD47i/ZOjNG69eLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lbrhUKmg; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1779051897; c=relaxed/simple;
+	bh=7J/Q8z0p6z/ZaMeFT9hzqiMVl4XH6nAoe47w5IyX6FE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cFz6HScsf1csn48A9h3m+GrSZQXYyIe+57hlo65rMg7/u9i2ZHPQRpJwy2zLX+npyfU4fTPA5wXwBBqQTt/kyqe0840nw69BiErwM2nNkqzmOZogGUluJg4s2IHji/1RRlRqIMjozdNnLPdyM++kx/IHJjCH/UQDRqJIUIgauL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OQyt9j/7; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lbrhUKmg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OQyt9j/7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779044451; x=1810580451;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=STObEROyoT4+wLR/jIvqjJqwLhTr0Y6ltjsbAQ6M4Y4=;
-  b=lbrhUKmgUlAZ8vvQuXigzXuK7MQnLw880BQaTVqSFtzpudj3o8eXuIPj
-   D05W41NNGJMiX93q8EFydf44/dxbXH6wr8kg2gaSPIYComosYximtR6FG
-   EG2mwxqdWU+HNNQqFL3Sb6wOAdlZe6oS7OjXD5dlV7IkXskjNwU8GJCbO
-   R7c5Pt6TGtXQEwzL1oE7QLuXomSvJFDYF3HHpIVZ4x170D0KH2tPOZoWC
-   Kl8pf7N7Vxt9OAuaWqbl7bRtdrLEOOFJQzHBSqO6lXhtFWKXCJDG5z/k0
-   zUYowDH8oGgAo43Y+AcGLE5NT/o2YSe5ybgB2tju5tTmzBMIRZwIMmLy8
+  t=1779051896; x=1810587896;
+  h=date:from:to:cc:subject:message-id;
+  bh=7J/Q8z0p6z/ZaMeFT9hzqiMVl4XH6nAoe47w5IyX6FE=;
+  b=OQyt9j/7QZpe/Ct1dQaONBXKQYEXVwJHQcxvj3HLEXd6fC1wyHM+ts4d
+   7hT9Gb6vwAaHat7pWacP39R2Uw7U/oCNIdPkhfkL6zhUFtX/qkgQOlP83
+   Ta6BbgM2JW7dmTVrOYmbWPjO4MiEhqAExiorLd4t9xNqITPtBDx+ZKO+Y
+   2xC1jjps0yv64auPspKpuSzA6v7GgcbgF6uhe7nAI8jr7j9LQ/zgCMgHt
+   Hf+Kt6MFPpK3eqlwdZvnCCeQqA6NZeII7SizGyHDK4EEagnEFAGVxghX9
+   M4KB63rI4dJZ4ueBATDVTkknnovcjEGVtjkcuq0cSh/xrhKUhku9AyOy6
    A==;
-X-CSE-ConnectionGUID: b29nRKuDTnKSmEZflvkPLQ==
-X-CSE-MsgGUID: wikDFAnWRm+wLXFZvNQVkw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11789"; a="80031736"
+X-CSE-ConnectionGUID: ABZs0StjTVmUSBSvFaqpdA==
+X-CSE-MsgGUID: lVQ+o1tKRXqEcRMcwKQh3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11789"; a="97341850"
 X-IronPort-AV: E=Sophos;i="6.23,240,1770624000"; 
-   d="scan'208";a="80031736"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2026 12:00:50 -0700
-X-CSE-ConnectionGUID: DD4UPBvLQ5C+z/MRBdp93Q==
-X-CSE-MsgGUID: 1YK5O1uuTRCsKQeoD2Umfw==
+   d="scan'208";a="97341850"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2026 14:04:56 -0700
+X-CSE-ConnectionGUID: HLGeySCuTKeGSqdZtvJsaQ==
+X-CSE-MsgGUID: wLNt4rwPQVeCu850RGFgRw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,240,1770624000"; 
-   d="scan'208";a="238229279"
+   d="scan'208";a="238365836"
 Received: from lkp-server01.sh.intel.com (HELO d94e5e629b2d) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 17 May 2026 12:00:49 -0700
+  by orviesa010.jf.intel.com with ESMTP; 17 May 2026 14:04:52 -0700
 Received: from kbuild by d94e5e629b2d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wOgjF-000000001tK-498a;
-	Sun, 17 May 2026 19:00:45 +0000
-Date: Mon, 18 May 2026 03:00:22 +0800
+	id 1wOifJ-000000001wo-2dns;
+	Sun, 17 May 2026 21:04:49 +0000
+Date: Mon, 18 May 2026 05:04:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: shayderrr <darknessshayder@gmail.com>, gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Pranav Bajjuri <darknessshayder@gmail.com>
-Subject: Re: [PATCH] net: octeon: fix carrier state, null guard, and
- modernize phy ioctl
-Message-ID: <202605180212.LjnBydnh-lkp@intel.com>
-References: <20260517141955.79666-1-darknessshayder@gmail.com>
+To: "Chin-Ting Kuo" <chin-ting_kuo@aspeedtech.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-spi@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>
+Subject: [broonie-spi:for-6.20 2/42]
+ drivers/spi/spi-aspeed-smc.c:909:17: sparse: sparse: incorrect type in
+ argument 1 (different address spaces)
+Message-ID: <202605180441.uD3toFRJ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260517141955.79666-1-darknessshayder@gmail.com>
 
-Hi shayderrr,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on staging/staging-testing]
-[also build test ERROR on staging/staging-next staging/staging-linus linus/master v7.1-rc3 next-20260508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/shayderrr/net-octeon-fix-carrier-state-null-guard-and-modernize-phy-ioctl/20260517-222121
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260517141955.79666-1-darknessshayder%40gmail.com
-patch subject: [PATCH] net: octeon: fix carrier state, null guard, and modernize phy ioctl
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260518/202605180212.LjnBydnh-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260518/202605180212.LjnBydnh-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-6.20
+head:   40534d19ed2afb880ecf202dab26a8e7a5808d16
+commit: 04f7516ab70f7b82aae1d2830af2ee6f17f3fe98 [2/42] spi: aspeed: Add support for non-spi-mem devices
+config: sh-randconfig-r132-20260518 (https://download.01.org/0day-ci/archive/20260518/202605180441.uD3toFRJ-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 10.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260518/202605180441.uD3toFRJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605180212.LjnBydnh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605180441.uD3toFRJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/spi/spi-aspeed-smc.c:909:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got void *dst @@
+   drivers/spi/spi-aspeed-smc.c:909:17: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/spi/spi-aspeed-smc.c:909:17: sparse:     got void *dst
+   drivers/spi/spi-aspeed-smc.c:939:46: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/spi/spi-aspeed-smc.c:1469:61: sparse: sparse: undefined identifier 'cols'
+   drivers/spi/spi-aspeed-smc.c:1469:61: sparse: sparse: bad constant expression type
+   drivers/spi/spi-aspeed-smc.c:1469:55: sparse: sparse: undefined identifier 'rows'
+   drivers/spi/spi-aspeed-smc.c:1469:55: sparse: sparse: bad constant expression type
 
->> drivers/staging/octeon/ethernet-mdio.c:91:6: error: conflicting types for 'cvm_oct_common_stop'; have 'void(struct net_device *)'
-      91 | void cvm_oct_common_stop(struct net_device *dev)
-         |      ^~~~~~~~~~~~~~~~~~~
-   In file included from drivers/staging/octeon/ethernet-mdio.c:15:
-   drivers/staging/octeon/octeon-ethernet.h:90:5: note: previous declaration of 'cvm_oct_common_stop' with type 'int(struct net_device *)'
-      90 | int cvm_oct_common_stop(struct net_device *dev);
-         |     ^~~~~~~~~~~~~~~~~~~
+vim +909 drivers/spi/spi-aspeed-smc.c
 
-
-vim +91 drivers/staging/octeon/ethernet-mdio.c
-
-    90	
-  > 91	void cvm_oct_common_stop(struct net_device *dev)
-    92	{
-    93		struct octeon_ethernet *priv = netdev_priv(dev);
-    94		int interface = INTERFACE(priv->port);
-    95		int index = INDEX(priv->port);
-    96		union cvmx_helper_link_info link_info;
-    97		union cvmx_gmxx_prtx_cfg gmx_cfg;
-    98	
-    99		gmx_cfg.u64 = cvmx_read_csr(CVMX_GMXX_PRTX_CFG(index, interface));
-   100		gmx_cfg.s.en = 0;
-   101		cvmx_write_csr(CVMX_GMXX_PRTX_CFG(index, interface), gmx_cfg.u64);
-   102	
-   103		priv->poll = NULL;
-   104	
-   105		netif_carrier_off(dev);
-   106	
-   107		if (dev->phydev)
-   108			phy_disconnect(dev->phydev);
-   109	
-   110		if (priv->last_link) {
-   111			link_info.u64	= 0;
-   112			priv->link_info	= 0;
-   113			priv->last_link	= 0;
-   114	
-   115			cvmx_helper_link_set(priv->port, link_info);
-   116			cvm_oct_note_carrier(priv, link_info);
-   117		}
-   118	}
-   119	
+   890	
+   891	static void aspeed_spi_user_transfer_tx(struct aspeed_spi *aspi,
+   892						struct spi_device *spi,
+   893						const u8 *tx_buf, u8 *rx_buf,
+   894						void *dst, u32 len)
+   895	{
+   896		const struct aspeed_spi_data *data = aspi->data;
+   897		bool full_duplex_transfer = data->full_duplex && tx_buf == rx_buf;
+   898		u32 i;
+   899	
+   900		if (full_duplex_transfer &&
+   901		    !!(spi->mode & (SPI_TX_DUAL | SPI_TX_QUAD |
+   902				    SPI_RX_DUAL | SPI_RX_QUAD))) {
+   903			dev_err(aspi->dev,
+   904				"full duplex is only supported for single IO mode\n");
+   905			return;
+   906		}
+   907	
+   908		for (i = 0; i < len; i++) {
+ > 909			writeb(tx_buf[i], dst);
+   910			if (full_duplex_transfer)
+   911				rx_buf[i] = readb(aspi->regs + FULL_DUPLEX_RX_DATA);
+   912		}
+   913	}
+   914	
 
 --
 0-DAY CI Kernel Test Service
