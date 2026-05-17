@@ -1,121 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C7FC2E6CC0
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 May 2026 06:56:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E152853F8
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 May 2026 07:01:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779000989; cv=none; b=FlTkuknOAe9WWXsFt+s70M4yHQ8em1oD5sFCqtLelDky14uNR3dCN3n+T/dYL+zlpmTYiNIv786o9pe6IJLqRBNeRcPt/8TVcroSPR+95ji9I1KBR62hLWxs2xGkYlpLxqvUHlwMt0nC4Wgd0oci10Iep1bZesXoEWI6x/AHbLw=
+	t=1779001301; cv=none; b=bvaXhcrnZ3PEVMAnG9omAieiwDQI+NREPFTn4OFrBKggKWyY6fihxwgAN5ZsP1hWSOecH1KOariuI40ID91IL2Ug4dXyzRpKvPCpxY86ezaKLLA8r4x6Q+bQ6R1dqIXwyYjUPix/E0Ci5NdgVYTyEwFSFJP+JCm/NIwF851ZCzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779000989; c=relaxed/simple;
-	bh=fGT5I6ToH7UCt6pHUBQr+TnBqyhXcXF5apg8Jg9Ghow=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vmx9QrrUDh5ilbvMC3GWlCoUYlLpxX81oheVCmK7krEMWJd9RGJUb98eOFpCfoB9FVnQItp0HGLLbolBU6dsAMpthNM7Vxmhpn80EUXx0n0v6bugPbBoe7Ex9Wxq3BtvIlztvr+9aEe2edONkL3dt7mRpZR1xGkiDjWw58R5Tr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PcwiXO/s; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1779001301; c=relaxed/simple;
+	bh=UF+N1nQg70cM124pIz0P6NXBxuTqU5Xap2/GQrSUJsQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=aKrepoZBeGqnwuRV29JDiPhUy9fMjlke4OBZnsnpBVOOLBJfjLaY3V7kspF2FeUv8LBg/nrmsrR380jyD9hD4hcVAockBUaT3KppV/1DJ6U3k1VIBqcwYYbv4Bnj2pLoyHYb3z6jdna6n9s30ZCrOse8N+Gsx4aP4q0sE7iC7bc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lc/jx4zX; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PcwiXO/s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lc/jx4zX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779000985; x=1810536985;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fGT5I6ToH7UCt6pHUBQr+TnBqyhXcXF5apg8Jg9Ghow=;
-  b=PcwiXO/sp9OUIqeoP8gW6u/380SgjI8T2NtQaDrLrXAIP/5Mtjld7rxP
-   91iPgV2PICb/F2XuKTfAiqHTIzrW7lX0M23yPjEySQipOZoWlFWNTKXpr
-   MLqvh94oEp7DO5yESX3YEwem/VTXXbxX3yfSbVlPUoeKN8AXSTmmPJZhg
-   Cl6RGfSi2ACoGut7iJt+Ax8lJwMx1lqwds1voJviQvZvxhph33MY0O03L
-   kg42cRwYNrlLthCDr5oKcRyTz8JBgn6wqr/szRzMgMwvEuh192IpkLHak
-   zomhlUNPU+rzHvDiRcz8AN8c0xVhtbpCA7awSgwQGB7x3itp0fW+9NM2f
-   A==;
-X-CSE-ConnectionGUID: +KiqNvj/T26AQNvDrAFrYw==
-X-CSE-MsgGUID: KbbEf+ScRFC+6bG2fQbmdQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11788"; a="83760054"
+  t=1779001300; x=1810537300;
+  h=date:from:to:cc:subject:message-id;
+  bh=UF+N1nQg70cM124pIz0P6NXBxuTqU5Xap2/GQrSUJsQ=;
+  b=lc/jx4zXyeiUhouajclzG3eGXOQVW+6i+0V4JhB18lTzIK5H4ddAHuHY
+   lhPYAaIUG9ZaSax2fmxPVsd4x+s2J+GT2QodEhJYo4TH+w4uQvOg47Wvk
+   LD7mpN9E7mtETGVCX52iVAZxOI65utC0v+jZh3CuzTzk7Pp1kc8HsDbio
+   bpme3QtxSns7CPH+Jo9GaSC448sc5MaX9JHiZaA2Xm1MaxD5fbzEp4Ub0
+   TqE5KXlMAKVBhzjBB9oCI5FBwQRH1xsUguHTWjmaVtOfX+kxApbABybwx
+   y/mFCphvqtTDdsvEQZp8UGEW9VnCKH/sl1JcDP0PW9hc/LcISZc4OAcJ5
+   w==;
+X-CSE-ConnectionGUID: CPsTNZu/Qraxe26BvwGaWA==
+X-CSE-MsgGUID: h5zwKpX+TFynZNp5eTHJqQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11788"; a="90587469"
 X-IronPort-AV: E=Sophos;i="6.23,239,1770624000"; 
-   d="scan'208";a="83760054"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2026 23:56:22 -0700
-X-CSE-ConnectionGUID: r6Sw8oi6S1+ePIGN0LFVzQ==
-X-CSE-MsgGUID: iI4sUX0jQWGG/BIglWLPnQ==
+   d="scan'208";a="90587469"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2026 00:01:39 -0700
+X-CSE-ConnectionGUID: XhjcK8dCQNCV4Mafl907Kw==
+X-CSE-MsgGUID: YtwlcrzmT/S3qyCx1d8h2A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,239,1770624000"; 
-   d="scan'208";a="262870834"
-Received: from lkp-server01.sh.intel.com (HELO d94e5e629b2d) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 16 May 2026 23:56:20 -0700
-Received: from kbuild by d94e5e629b2d with local (Exim 4.98.2)
+   d="scan'208";a="234657195"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 17 May 2026 00:01:38 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wOVQ9-000000001QQ-3fum;
-	Sun, 17 May 2026 06:56:17 +0000
-Date: Sun, 17 May 2026 14:56:13 +0800
+	id 1wOVVI-000000009UD-0l6h;
+	Sun, 17 May 2026 07:01:36 +0000
+Date: Sun, 17 May 2026 09:00:54 +0200
 From: kernel test robot <lkp@intel.com>
-To: Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	Russell King <linux@armlinux.org.uk>
-Subject: Re: [PATCH] ARM: remove unnecessary architecture-specific
- <asm/asm-offsets.h>
-Message-ID: <202605171438.l6sZ9CCp-lkp@intel.com>
-References: <20260517030408.100043-1-enelsonmoore@gmail.com>
+To: Chris Morgan <macromorgan@hotmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: make[4]: *** No rule to make target
+ 'arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova-tower.dtb', needed by
+ 'arch/arm64/boot/dts/rockchip/'.
+Message-ID: <202605170808.5wiFjCfi-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260517030408.100043-1-enelsonmoore@gmail.com>
 
-Hi Ethan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on arm/for-next]
-[also build test ERROR on arm/fixes arm64/for-next/core clk/clk-next kvmarm/next rockchip/for-next soc/for-next linus/master nferre-at91/at91-next shawnguo/for-next v7.1-rc3 next-20260508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ethan-Nelson-Moore/ARM-remove-unnecessary-architecture-specific-asm-asm-offsets-h/20260517-110530
-base:   git://git.armlinux.org.uk/~rmk/linux-arm.git for-next
-patch link:    https://lore.kernel.org/r/20260517030408.100043-1-enelsonmoore%40gmail.com
-patch subject: [PATCH] ARM: remove unnecessary architecture-specific <asm/asm-offsets.h>
-config: arm-ixp4xx_defconfig (https://download.01.org/0day-ci/archive/20260517/202605171438.l6sZ9CCp-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260517/202605171438.l6sZ9CCp-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Chris-Morgan/dt-bindings-power-supply-sgm41542-document-sgm41542/20260516-062341
+head:   0944fbd26e870f0a45af3d3ce6c9c569fed08ea6
+commit: 0944fbd26e870f0a45af3d3ce6c9c569fed08ea6 arm64: dts: rockchip: Add Anbernic RG Vita-Pro
+date:   33 hours ago
+config: arm64-randconfig-2055-20260516 (https://download.01.org/0day-ci/archive/20260517/202605170808.5wiFjCfi-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+dtschema: 2026.5.dev9+gdf9ad30c5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260517/202605170808.5wiFjCfi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605171438.l6sZ9CCp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605170808.5wiFjCfi-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/arm/lib/ashldi3.S:30:
->> arch/arm/include/asm/assembler.h:22:10: fatal error: asm/asm-offsets.h: No such file or directory
-      22 | #include <asm/asm-offsets.h>
-         |          ^~~~~~~~~~~~~~~~~~~
-   compilation terminated.
---
->> arch/arm/kernel/sleep.S:4:10: fatal error: asm/asm-offsets.h: No such file or directory
-       4 | #include <asm/asm-offsets.h>
-         |          ^~~~~~~~~~~~~~~~~~~
-   compilation terminated.
-
-
-vim +22 arch/arm/include/asm/assembler.h
-
-^1da177e4c3f41 include/asm-arm/assembler.h      Linus Torvalds  2005-04-16  19  
-^1da177e4c3f41 include/asm-arm/assembler.h      Linus Torvalds  2005-04-16  20  #include <asm/ptrace.h>
-80c59dafb1a9a8 arch/arm/include/asm/assembler.h Dave Martin     2012-02-09  21  #include <asm/opcodes-virt.h>
-0b1f68e836bcf1 arch/arm/include/asm/assembler.h Catalin Marinas 2014-04-02 @22  #include <asm/asm-offsets.h>
-9a2b51b6ca93fc arch/arm/include/asm/assembler.h Andrey Ryabinin 2014-06-18  23  #include <asm/page.h>
-7af5b901e84743 arch/arm/include/asm/assembler.h Linus Walleij   2024-03-25  24  #include <asm/pgtable.h>
-9a2b51b6ca93fc arch/arm/include/asm/assembler.h Andrey Ryabinin 2014-06-18  25  #include <asm/thread_info.h>
-747ffc2fcf969e arch/arm/include/asm/assembler.h Russell King    2020-05-03  26  #include <asm/uaccess-asm.h>
-^1da177e4c3f41 include/asm-arm/assembler.h      Linus Torvalds  2005-04-16  27  
+>> make[4]: *** No rule to make target 'arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova-tower.dtb', needed by 'arch/arm64/boot/dts/rockchip/'.
+>> make[4]: *** No rule to make target 'arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova-test.dtb', needed by 'arch/arm64/boot/dts/rockchip/'.
+   make[4]: Target 'arch/arm64/boot/dts/rockchip/' not remade because of errors.
 
 --
 0-DAY CI Kernel Test Service
