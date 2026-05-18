@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8BEE3A2556
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 May 2026 22:11:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B73F301493;
+	Mon, 18 May 2026 22:42:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779142268; cv=none; b=uIXgCk3i7x40272bCLCkebpTdffZL3qBxjoByPwUq+uvKF/3rg4U/Ylf3JP9gbXn7RZRm/dzM3Mc1QNyo7VV19L9uiuCrElq7VDrVQKohevjBw0IxorY2g+NQsXxScbMje5p05Sj7YkW7etZDexeLIJF5JPkP0PawXlh+4l8eoQ=
+	t=1779144129; cv=none; b=I6QBpbA4o1qqb+zo7lrNRqtJ1yR9W/7gY9QgEyWPnw+7nZL3wUP5k9PGC1bRMCtq9LRJZMTz/v2Dg3WDPKX6ZuIfjjENkln3XDH4RE5Aqj09FOayN1D30PNI4JC7wZP4+5Z49YVsn9oa5OG1ykhSFimswroPvzG8UROFNhe7+kM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779142268; c=relaxed/simple;
-	bh=eo35sQOjt5T33LMjtJ21dZ0di3M2QHMydDd7gAD24zg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KAOyfJUiNQTADOKsGzP6K1yDDLzXe6qDfR6Cuh7utdAC4OvYE8JRYsN1OXYDcmrbnp1b/zEx08ckOB1beEZHzHj7HY0lNuq8y+Yj6DSdovsQXHM1eQ7s9b94RWp8hV9KNjHnW67aN81dMVJDiCP+DZNnadln+YupubUlbD2AP2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PjBevffx; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1779144129; c=relaxed/simple;
+	bh=QUF3qlbovQZFCQJ4/y8rs4c5u/HMKog2D6YBkY63KjI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QmEfV+31uzFvE1SE5iS8z/5Cs1drIkc27Omr086F/lS4GLw4OuhN9WECPINWcxiEidtDe2hW5rN4puwghdBnNpqiDG5QakEVtN3NYbwq5KcRmSnQk9iblu/TDSSQ2dFJW52IWoO3fmZesssgpi27amGUHLFcuMaruNZrNIqSvCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FGbbeiga; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PjBevffx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FGbbeiga"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779142266; x=1810678266;
+  t=1779144128; x=1810680128;
   h=date:from:to:cc:subject:message-id;
-  bh=eo35sQOjt5T33LMjtJ21dZ0di3M2QHMydDd7gAD24zg=;
-  b=PjBevffxmtMT/6Pb/TsPsJNzTU6IylWCQjH3LdvYIcazkBz+hvlPENoy
-   fm6nXNVRAoXYF7+rY3ea4e1iXt2lO9QhESMewvPTpPqTwB7M7rjXRhZyR
-   t3GER8cgd+4/vETsds2wMi2JYHvcZkNFjX0D8vRKTqTVkT73CeyMCQz1s
-   YfLEJ+yexEQoLPlwHXk9+yGA/5JE024TxwqzNE25kI0LJ/n6P07rfX65A
-   +gIp2SdgAwflOwx48T10WSzk+coeH8Gq4nNq61AWMtXZdUx84xz4wiTlV
-   n8KO8xBj7GMvx6mvkD5ZsYR0oKUf4Cxi47J5EmgLcfgp/DHct4YxdSJK/
-   Q==;
-X-CSE-ConnectionGUID: jPAQFJ4lTVOsYTivlJJGog==
-X-CSE-MsgGUID: aHnsvlrrReSsDNasH135Bg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="80128705"
+  bh=QUF3qlbovQZFCQJ4/y8rs4c5u/HMKog2D6YBkY63KjI=;
+  b=FGbbeiga9o8gsxRl49qJeTkqKuygC5P7R4fCUWVO5TqYQo5d6TTpx+nh
+   lwfpFRwl9yS/r46/5/9wklFR9rzWevnQ/iOc92TMIK+v3Z16txdS5PNGN
+   n0VrvaxzRf0b/gvtZzYLyrNd38CIOqXHnMj1OB/NpVULKjzdeeV0V10VY
+   BHr61SaOHVO4w/aheDN17ohlbiqAt3LCFi56AF9HG4XIdJwFftUE+0vSf
+   mGBZ1RTmFvw+tPRuDSWvjy/CNjczmFfArzn3ILiVhdWrOmf700aGtlUDW
+   STbr+WEhd0hCWhzThGXU/2HHyu4Pr/KfoJh1fS3FjA9ALKvbmP++7+DKe
+   A==;
+X-CSE-ConnectionGUID: pEv2jYgySg+cwX4ak/1teg==
+X-CSE-MsgGUID: sCsRS+9OTBaTLr0P1ezbxQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="90319584"
 X-IronPort-AV: E=Sophos;i="6.23,242,1770624000"; 
-   d="scan'208";a="80128705"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 15:11:05 -0700
-X-CSE-ConnectionGUID: cngJ0tUVRKO3OMxIwpB70g==
-X-CSE-MsgGUID: jtG7bm+/TtOkTjOZGIZAUA==
+   d="scan'208";a="90319584"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 15:42:07 -0700
+X-CSE-ConnectionGUID: mciIrCEbS1K2ZZ8Lw6qQuw==
+X-CSE-MsgGUID: Np2Iro2XRE6hkXix7PSSsQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,242,1770624000"; 
-   d="scan'208";a="235321424"
+   d="scan'208";a="238743944"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 18 May 2026 15:11:04 -0700
+  by orviesa010.jf.intel.com with ESMTP; 18 May 2026 15:42:05 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wP6Aw-000000009y9-3fHh;
-	Mon, 18 May 2026 22:11:02 +0000
-Date: Tue, 19 May 2026 00:10:56 +0200
+	id 1wP6ex-000000009yx-2JKf;
+	Mon, 18 May 2026 22:42:03 +0000
+Date: Tue, 19 May 2026 00:41:36 +0200
 From: kernel test robot <lkp@intel.com>
 To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rppt:gfp-to-kmalloc/v0.1 76/238]
- arch/x86/kvm/vmx/sgx.c:4:9: warning: "pr_fmt" redefined
-Message-ID: <202605190023.pM7weHSv-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [rppt:gfp-to-kmalloc/v0.1 22/238]
+ drivers/cpufreq/amd-pstate-ut.c:46:1: error: unterminated function-like macro
+ invocation
+Message-ID: <202605190039.7ffnGQhe-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,41 +62,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git gfp-to-kmalloc/v0.1
 head:   cf8f69ff9142effba4d8d9a70a1a4f275044376c
-commit: 9f39e5e1674188b92a32f709a9c3225553110dc0 [76/238] KVM: VMX: replace __get_free_page() with kmalloc()
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260519/202605190023.pM7weHSv-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260519/202605190023.pM7weHSv-lkp@intel.com/reproduce)
+commit: 378df8f85b52efc8ab80beabeb3d4a7d8290840c [22/238] cpufreq/amd-pstate-ut: replace __get_free_page() with kmalloc()
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260519/202605190039.7ffnGQhe-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260519/202605190039.7ffnGQhe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605190023.pM7weHSv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605190039.7ffnGQhe-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/x86/kvm/vmx/sgx.c:4:9: warning: "pr_fmt" redefined
-       4 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-         |         ^~~~~~
-   In file included from include/asm-generic/bug.h:31,
-                    from arch/x86/include/asm/bug.h:193,
-                    from include/linux/bug.h:5,
-                    from include/linux/slab.h:15,
-                    from arch/x86/kvm/vmx/sgx.c:1:
-   include/linux/printk.h:401:9: note: this is the location of the previous definition
-     401 | #define pr_fmt(fmt) fmt
-         |         ^~~~~~
+>> drivers/cpufreq/amd-pstate-ut.c:46:1: error: unterminated function-like macro invocation
+      46 | DEFINE_FREE(cleanup_page, void *, if (_T) kfree((void *)(unsigned long)_T)
+         | ^
+   include/linux/cleanup.h:210:9: note: macro 'DEFINE_FREE' defined here
+     210 | #define DEFINE_FREE(_name, _type, _free) \
+         |         ^
+   1 error generated.
 
 
-vim +/pr_fmt +4 arch/x86/kvm/vmx/sgx.c
+vim +46 drivers/cpufreq/amd-pstate-ut.c
 
-8d20bd63816703 Sean Christopherson 2022-11-30 @4  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-9798adbc04cf1b Sean Christopherson 2021-04-12  5  
-
-:::::: The code at line 4 was first introduced by commit
-:::::: 8d20bd6381670382669d9bb39b5fd566a84cdbef KVM: x86: Unify pr_fmt to use module name for all KVM modules
-
-:::::: TO: Sean Christopherson <seanjc@google.com>
-:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
+    41	
+    42	static char *test_list;
+    43	module_param(test_list, charp, 0444);
+    44	MODULE_PARM_DESC(test_list,
+    45		"Comma-delimited list of tests to run (empty means run all tests)");
+  > 46	DEFINE_FREE(cleanup_page, void *, if (_T) kfree((void *)(unsigned long)_T)
+    47	
 
 --
 0-DAY CI Kernel Test Service
