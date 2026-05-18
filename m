@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6431397E91
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 May 2026 21:35:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8BEE3A2556
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 May 2026 22:11:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779140153; cv=none; b=P9g1xkfrsfiXN19Tfsx1WicqzHDPpAFnOwbsokCpDxWkZxa8HpIjrB+kKi0YoAOFiFbaG8opuTh1LrVCr6mUaT0p5EP/qlVtD8wUmQmKFzn+WjhfIsAe/stYdQxpIetJWgv3/0oIA1ZsMJ9bywxYRau+pgzyv9CtKXd4PhziP+c=
+	t=1779142268; cv=none; b=uIXgCk3i7x40272bCLCkebpTdffZL3qBxjoByPwUq+uvKF/3rg4U/Ylf3JP9gbXn7RZRm/dzM3Mc1QNyo7VV19L9uiuCrElq7VDrVQKohevjBw0IxorY2g+NQsXxScbMje5p05Sj7YkW7etZDexeLIJF5JPkP0PawXlh+4l8eoQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779140153; c=relaxed/simple;
-	bh=7QoMriMl4uCE5MJK33+dAid/RJz+3ueLisF2jiEEXII=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=hGp3Opitd+Dk/0ynnts/5JzyTtfaCgr1Z4wcQVlMmLCejQWy35pOe17rGoVTet1OucXf1UALGSKvpZOgOPeXanS5Ch9LQvvAU7KvltKK+RcOhIdlltd76EXtJlVynsgJwYpj5syEahyZrYa/TI6EQSJFHeVA1ckTOqfXH2uLm7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LxFDqtwU; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1779142268; c=relaxed/simple;
+	bh=eo35sQOjt5T33LMjtJ21dZ0di3M2QHMydDd7gAD24zg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=KAOyfJUiNQTADOKsGzP6K1yDDLzXe6qDfR6Cuh7utdAC4OvYE8JRYsN1OXYDcmrbnp1b/zEx08ckOB1beEZHzHj7HY0lNuq8y+Yj6DSdovsQXHM1eQ7s9b94RWp8hV9KNjHnW67aN81dMVJDiCP+DZNnadln+YupubUlbD2AP2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PjBevffx; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LxFDqtwU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PjBevffx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779140152; x=1810676152;
+  t=1779142266; x=1810678266;
   h=date:from:to:cc:subject:message-id;
-  bh=7QoMriMl4uCE5MJK33+dAid/RJz+3ueLisF2jiEEXII=;
-  b=LxFDqtwUD4k+mMbllLb6uxX3N2vy22k9asI/wCkigpu4VxI9MGP6HLMy
-   rYmcD1IE/rc2mINnpAlBguj9JnfaNl4daaysema0x0f0xf/m5XLNJ6jvc
-   nRCQXeNcdklRhG0BrhnEFLGj84B7HEaEpK1KgCD5SZTsFP/aCKSwMxPyH
-   bGUEvh/LNxkh7UKTPwC+4izUAnb0OlpiF8Fxlk7jvcn9WGMmWrJatJ14T
-   ywmdro/sLbA1qqDL5ZzUf0rxPPu4Kra3RRPSBEkoR6BFAKkSKa3M5pQmC
-   Cf3zz29qR9Yu6r1DjwmCW630W9amuP9VqDQKZdBwXEkDa/Qy94vU0/ZED
+  bh=eo35sQOjt5T33LMjtJ21dZ0di3M2QHMydDd7gAD24zg=;
+  b=PjBevffxmtMT/6Pb/TsPsJNzTU6IylWCQjH3LdvYIcazkBz+hvlPENoy
+   fm6nXNVRAoXYF7+rY3ea4e1iXt2lO9QhESMewvPTpPqTwB7M7rjXRhZyR
+   t3GER8cgd+4/vETsds2wMi2JYHvcZkNFjX0D8vRKTqTVkT73CeyMCQz1s
+   YfLEJ+yexEQoLPlwHXk9+yGA/5JE024TxwqzNE25kI0LJ/n6P07rfX65A
+   +gIp2SdgAwflOwx48T10WSzk+coeH8Gq4nNq61AWMtXZdUx84xz4wiTlV
+   n8KO8xBj7GMvx6mvkD5ZsYR0oKUf4Cxi47J5EmgLcfgp/DHct4YxdSJK/
    Q==;
-X-CSE-ConnectionGUID: j/1eziSATFWAHFIWje+obw==
-X-CSE-MsgGUID: AEi8MnFgRC6e0buLRtaSAg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="102681778"
+X-CSE-ConnectionGUID: jPAQFJ4lTVOsYTivlJJGog==
+X-CSE-MsgGUID: aHnsvlrrReSsDNasH135Bg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="80128705"
 X-IronPort-AV: E=Sophos;i="6.23,242,1770624000"; 
-   d="scan'208";a="102681778"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 14:35:51 -0700
-X-CSE-ConnectionGUID: C+QXCDI1SEG8xb5//1dK6A==
-X-CSE-MsgGUID: 1rxznwOLT/mdRkA9IWuwsg==
+   d="scan'208";a="80128705"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 15:11:05 -0700
+X-CSE-ConnectionGUID: cngJ0tUVRKO3OMxIwpB70g==
+X-CSE-MsgGUID: jtG7bm+/TtOkTjOZGIZAUA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,242,1770624000"; 
-   d="scan'208";a="243538232"
-Received: from lkp-server01.sh.intel.com (HELO d94e5e629b2d) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 18 May 2026 14:35:50 -0700
-Received: from kbuild by d94e5e629b2d with local (Exim 4.98.2)
+   d="scan'208";a="235321424"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa010.fm.intel.com with ESMTP; 18 May 2026 15:11:04 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wP5co-000000003Qo-444V;
-	Mon, 18 May 2026 21:35:46 +0000
-Date: Tue, 19 May 2026 05:35:17 +0800
+	id 1wP6Aw-000000009y9-3fHh;
+	Mon, 18 May 2026 22:11:02 +0000
+Date: Tue, 19 May 2026 00:10:56 +0200
 From: kernel test robot <lkp@intel.com>
-To: Greg Ungerer <gerg@uclinux.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
- uclinux-dev@uclinux.org
-Subject: [gerg-m68knommu:armnommu 3/3]
- arch/arm/mm/alignment.c:776:25: sparse: sparse: incorrect type in argument 1
- (different address spaces)
-Message-ID: <202605190531.Z12vJFb7-lkp@intel.com>
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [rppt:gfp-to-kmalloc/v0.1 76/238]
+ arch/x86/kvm/vmx/sgx.c:4:9: warning: "pr_fmt" redefined
+Message-ID: <202605190023.pM7weHSv-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,66 +59,43 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git armnommu
-head:   b9d1c6c54795dbb93bb9f68f60a4da071e2ad418
-commit: b9d1c6c54795dbb93bb9f68f60a4da071e2ad418 [3/3] ARM: versatile: support configuring versatile machine for no-MMU
-config: arm-randconfig-r132-20260519 (https://download.01.org/0day-ci/archive/20260519/202605190531.Z12vJFb7-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260519/202605190531.Z12vJFb7-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git gfp-to-kmalloc/v0.1
+head:   cf8f69ff9142effba4d8d9a70a1a4f275044376c
+commit: 9f39e5e1674188b92a32f709a9c3225553110dc0 [76/238] KVM: VMX: replace __get_free_page() with kmalloc()
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260519/202605190023.pM7weHSv-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260519/202605190023.pM7weHSv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605190531.Z12vJFb7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605190023.pM7weHSv-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm/mm/alignment.c:776:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned int [usertype] *ip @@
-   arch/arm/mm/alignment.c:776:25: sparse:     expected void const volatile [noderef] __user *ptr
-   arch/arm/mm/alignment.c:776:25: sparse:     got unsigned int [usertype] *ip
->> arch/arm/mm/alignment.c:791:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned short [usertype] *ip @@
-   arch/arm/mm/alignment.c:791:25: sparse:     expected void const volatile [noderef] __user *ptr
-   arch/arm/mm/alignment.c:791:25: sparse:     got unsigned short [usertype] *ip
+All warnings (new ones prefixed by >>):
 
-vim +776 arch/arm/mm/alignment.c
+>> arch/x86/kvm/vmx/sgx.c:4:9: warning: "pr_fmt" redefined
+       4 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+         |         ^~~~~~
+   In file included from include/asm-generic/bug.h:31,
+                    from arch/x86/include/asm/bug.h:193,
+                    from include/linux/bug.h:5,
+                    from include/linux/slab.h:15,
+                    from arch/x86/kvm/vmx/sgx.c:1:
+   include/linux/printk.h:401:9: note: this is the location of the previous definition
+     401 | #define pr_fmt(fmt) fmt
+         |         ^~~~~~
 
-c2860d43f5dfab59 George G. Davis   2009-06-04  769  
-1bb9fb0a147f9db1 Russell King      2019-09-06  770  static int alignment_get_arm(struct pt_regs *regs, u32 *ip, u32 *inst)
-67e15fa5b487adb9 Russell King      2019-08-31  771  {
-67e15fa5b487adb9 Russell King      2019-08-31  772  	u32 instr = 0;
-67e15fa5b487adb9 Russell King      2019-08-31  773  	int fault;
-67e15fa5b487adb9 Russell King      2019-08-31  774  
-67e15fa5b487adb9 Russell King      2019-08-31  775  	if (user_mode(regs))
-67e15fa5b487adb9 Russell King      2019-08-31 @776  		fault = get_user(instr, ip);
-67e15fa5b487adb9 Russell King      2019-08-31  777  	else
-25f12ae45fc1931a Christoph Hellwig 2020-06-17  778  		fault = get_kernel_nofault(instr, ip);
-67e15fa5b487adb9 Russell King      2019-08-31  779  
-67e15fa5b487adb9 Russell King      2019-08-31  780  	*inst = __mem_to_opcode_arm(instr);
-67e15fa5b487adb9 Russell King      2019-08-31  781  
-67e15fa5b487adb9 Russell King      2019-08-31  782  	return fault;
-67e15fa5b487adb9 Russell King      2019-08-31  783  }
-67e15fa5b487adb9 Russell King      2019-08-31  784  
-67e15fa5b487adb9 Russell King      2019-08-31  785  static int alignment_get_thumb(struct pt_regs *regs, u16 *ip, u16 *inst)
-67e15fa5b487adb9 Russell King      2019-08-31  786  {
-67e15fa5b487adb9 Russell King      2019-08-31  787  	u16 instr = 0;
-67e15fa5b487adb9 Russell King      2019-08-31  788  	int fault;
-67e15fa5b487adb9 Russell King      2019-08-31  789  
-67e15fa5b487adb9 Russell King      2019-08-31  790  	if (user_mode(regs))
-67e15fa5b487adb9 Russell King      2019-08-31 @791  		fault = get_user(instr, ip);
-67e15fa5b487adb9 Russell King      2019-08-31  792  	else
-25f12ae45fc1931a Christoph Hellwig 2020-06-17  793  		fault = get_kernel_nofault(instr, ip);
-67e15fa5b487adb9 Russell King      2019-08-31  794  
-67e15fa5b487adb9 Russell King      2019-08-31  795  	*inst = __mem_to_opcode_thumb16(instr);
-67e15fa5b487adb9 Russell King      2019-08-31  796  
-67e15fa5b487adb9 Russell King      2019-08-31  797  	return fault;
-67e15fa5b487adb9 Russell King      2019-08-31  798  }
-67e15fa5b487adb9 Russell King      2019-08-31  799  
 
-:::::: The code at line 776 was first introduced by commit
-:::::: 67e15fa5b487adb9b78a92789eeff2d6ec8f5cee ARM: mm: fix alignment handler faults under memory pressure
+vim +/pr_fmt +4 arch/x86/kvm/vmx/sgx.c
 
-:::::: TO: Russell King <rmk+kernel@armlinux.org.uk>
-:::::: CC: Russell King <rmk+kernel@armlinux.org.uk>
+8d20bd63816703 Sean Christopherson 2022-11-30 @4  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+9798adbc04cf1b Sean Christopherson 2021-04-12  5  
+
+:::::: The code at line 4 was first introduced by commit
+:::::: 8d20bd6381670382669d9bb39b5fd566a84cdbef KVM: x86: Unify pr_fmt to use module name for all KVM modules
+
+:::::: TO: Sean Christopherson <seanjc@google.com>
+:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
 
 --
 0-DAY CI Kernel Test Service
