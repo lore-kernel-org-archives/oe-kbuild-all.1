@@ -1,109 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 809E238F629;
-	Mon, 18 May 2026 19:46:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC4293914FD
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 May 2026 19:57:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779133608; cv=none; b=EvUQNYgOcpC5npBl6RiWvAwS90u+CioZ0DusE2W1wCLjt4Vd0Ne0hyVkmEJ0faSnUfyOJerJ1B9iOsSxECWM2tQKnb11AFJxemOxbgq0LaDyswZqFY7ZigUSZUkGSm4nhTDuHoAXnxE7FiBEWPvBAi3exDoYQFws+wynAjkg7MM=
+	t=1779134269; cv=none; b=VlgW5pfaejnoiIs/sykHa2e4RL9m76jUxghQHvtHVgVe6qis2RabFNFD71dGduMqMZldFXhKqGymleDpNS3k74UdbsD/W7wp6QgQ/PZyZETKpwsHw4+436JyiO5TNQgUDRKgV1qFZh91yBHz/1iDKAmqPgdWvJIf2qm28WIEQe4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779133608; c=relaxed/simple;
-	bh=Gx17lI2F37+5Bk4iWbk3TC/6gNBWrspj35k7blJsnFg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GTm1WmFl1o1CXABuLZamR5ZQREM9OKuci5BcCNbMgg1g+EtTc+YVRMBPZIy0NYL/aSitp/O4/DImWv1hvCDgretiufsG94Nhknr2WhRMJhvV/txuxPQNSwOJzkSvAm6duHa+1pjgnDs7GSrlpU2hHQRv9dTWIv1FxMW2hBZg3Dg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eh3qLA/b; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1779134269; c=relaxed/simple;
+	bh=gTnxNN3x5exuR/gV1cWfRrhaps51EG1ICwprjaPS28M=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=XhTOtEB4NPdgAY+h5fc93+hOINpkMs8wl2aMsdciRXbVPjbWHI2Wg/BT0ddXWgWoe+vHZMzxR1Nnqw+Db6JJNoHCSI+gYAbjut1MBBLRxxSbMQ2cQqTkgInRwDG7xswk/d2M+TPo7sLj4ores0q11ISDHopPW7FNeRGTeIksrO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HL9FyRGb; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eh3qLA/b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HL9FyRGb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779133606; x=1810669606;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Gx17lI2F37+5Bk4iWbk3TC/6gNBWrspj35k7blJsnFg=;
-  b=eh3qLA/bSuazQO5wilBel2QY4EE/ZkF/v0FOKBbX2UU/Lo/mdd2vfK4E
-   EJyJs6ILVps859SQb9yyOkDnRkqyxApKcaVLjwRWFVKws6azqteYa0pC6
-   ggWkhfKtwoBTOaOUEEl9gFWN3C3Bw2K61BNPEoh2S5IFhKy0BxQpNUQlo
-   /xut7tzKdG0Y3EbQBVW36TDihHuVE55SxmJkzwvJZHAXiBDlYJzuYhnSl
-   +nuQBbu/0MZxVrVDMLd4kzIE2KEp2rpYtP5MrgYOQJLcLWhK0+ldyOe3O
-   qk9t6/eY0DoVEwlAn07uPy+iWYqWoaG7uipTYffIhDNL0WYhwbImzoAZj
-   w==;
-X-CSE-ConnectionGUID: 9Z/257S0Qtug+P70/UtIHQ==
-X-CSE-MsgGUID: 1TUho0ujRgGIWAOJZgJi+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="79964581"
+  t=1779134268; x=1810670268;
+  h=date:from:to:cc:subject:message-id;
+  bh=gTnxNN3x5exuR/gV1cWfRrhaps51EG1ICwprjaPS28M=;
+  b=HL9FyRGbtFXgSHm0NjMsnnQY6TuxCbf1NhO0oeLOqnzviXc9MV45Ea/1
+   e/SXEdZY7cJ5jKeI82nxpiL/zt0IH38XIVN6zuTXf7DqCtYVKV+Mh+VRT
+   S5Y3ix1K8qqF6Z84BomQLVKLOM1lSMq3WeEXQTGq21hh1AtXczkz+q++y
+   S0wG8H1G3eSPQuaCTNCKwOl+u8RFyKqxzs78+/3W5gCyhYaHbbsj6gKPa
+   gFxPiLjNmAqAGUUhyk0EYTftG7rvDQHzx46U0k0tsIukrFVz12wayyKQt
+   b+DTbYxBXDpR9rzanj9qpDH9RkFNLT8QZarfJhBZ1lUm835SgRWikCupZ
+   g==;
+X-CSE-ConnectionGUID: 5733jyiSSrS600CMci7C4Q==
+X-CSE-MsgGUID: bzcuf0lXSR2RAhnuf0/G0g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="90696689"
 X-IronPort-AV: E=Sophos;i="6.23,242,1770624000"; 
-   d="scan'208";a="79964581"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 12:46:46 -0700
-X-CSE-ConnectionGUID: DeJB9y4VQQO9L+nsIFdd0A==
-X-CSE-MsgGUID: 0Fh/E2GSR/25ZgQXz8OzlA==
+   d="scan'208";a="90696689"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 12:57:47 -0700
+X-CSE-ConnectionGUID: qql8am8PT56NEwt+6i1Vhw==
+X-CSE-MsgGUID: KXrkt/PgQAWwmXPSOFhllw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,242,1770624000"; 
-   d="scan'208";a="235081981"
+   d="scan'208";a="244524589"
 Received: from lkp-server01.sh.intel.com (HELO d94e5e629b2d) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 18 May 2026 12:46:44 -0700
+  by orviesa005.jf.intel.com with ESMTP; 18 May 2026 12:57:46 -0700
 Received: from kbuild by d94e5e629b2d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wP3vF-000000003Kc-3GAk;
-	Mon, 18 May 2026 19:46:41 +0000
-Date: Tue, 19 May 2026 03:46:02 +0800
+	id 1wP45u-000000003LS-4Bws;
+	Mon, 18 May 2026 19:57:43 +0000
+Date: Tue, 19 May 2026 03:56:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Moayad Salloum <salloummoayad4@gmail.com>,
-	rust-for-linux@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, ojeda@kernel.org,
-	aliceryhl@google.com, lossin@kernel.org, a.hindborg@kernel.org,
-	Moayad Salloum <salloummoayad4@gmail.com>
-Subject: Re: [PATCH] rust: workqueue: add cancel_work for Arc<T>
-Message-ID: <202605190332.rlkguvbn-lkp@intel.com>
-References: <20260518042347.95213-1-salloummoayad4@gmail.com>
+To: Greg Ungerer <gerg@linux-m68k.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+ uclinux-dev@uclinux.org
+Subject: [gerg-m68knommu:dt 14/14] arch/m68k/coldfire/intc.c:173:34:
+ error: 'MCFINT_VECBASE' undeclared; did you mean 'MCFINTC2_VECBASE'?
+Message-ID: <202605190333.6rPEf5r5-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260518042347.95213-1-salloummoayad4@gmail.com>
 
-Hi Moayad,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rust/rust-next]
-[also build test WARNING on linus/master v7.1-rc4 next-20260518]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Moayad-Salloum/rust-workqueue-add-cancel_work-for-Arc-T/20260518-122747
-base:   https://github.com/Rust-for-Linux/linux rust-next
-patch link:    https://lore.kernel.org/r/20260518042347.95213-1-salloummoayad4%40gmail.com
-patch subject: [PATCH] rust: workqueue: add cancel_work for Arc<T>
-config: x86_64-randconfig-011-20260518 (https://download.01.org/0day-ci/archive/20260519/202605190332.rlkguvbn-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260519/202605190332.rlkguvbn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git dt
+head:   3173490642db7ab3c9f15b139b19a633a2ac2d5e
+commit: 3173490642db7ab3c9f15b139b19a633a2ac2d5e [14/14] m68k: coldfire: enable devicetree use
+config: m68k-m5249evb_defconfig (https://download.01.org/0day-ci/archive/20260519/202605190333.6rPEf5r5-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260519/202605190333.6rPEf5r5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605190332.rlkguvbn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605190333.6rPEf5r5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> warning: missing documentation for a function
-   --> rust/kernel/workqueue.rs:874:1
-   |
-   874 | / pub fn cancel_work<T, const ID: u64>(item: &Arc<T>) -> bool
-   875 | | where
-   876 | |     T: WorkItem<ID, Pointer = Arc<T>>,
-   877 | |     T: HasWork<T, ID>,
-   | |______________________^
-   |
-   = note: requested on the command line with `-W missing-docs`
+   arch/m68k/coldfire/intc.c: In function 'intc_of_init':
+>> arch/m68k/coldfire/intc.c:173:34: error: 'MCFINT_VECBASE' undeclared (first use in this function); did you mean 'MCFINTC2_VECBASE'?
+     173 |         const unsigned int num = MCFINT_VECBASE + 64;
+         |                                  ^~~~~~~~~~~~~~
+         |                                  MCFINTC2_VECBASE
+   arch/m68k/coldfire/intc.c:173:34: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +173 arch/m68k/coldfire/intc.c
+
+7db34a01c2d5eea arch/m68k/coldfire/intc.c               Greg Ungerer 2025-01-26  169  
+7db34a01c2d5eea arch/m68k/coldfire/intc.c               Greg Ungerer 2025-01-26  170  static int __init intc_of_init(struct device_node *np,
+7db34a01c2d5eea arch/m68k/coldfire/intc.c               Greg Ungerer 2025-01-26  171  			       struct device_node *parent)
+7db34a01c2d5eea arch/m68k/coldfire/intc.c               Greg Ungerer 2025-01-26  172  {
+7db34a01c2d5eea arch/m68k/coldfire/intc.c               Greg Ungerer 2025-01-26 @173  	const unsigned int num = MCFINT_VECBASE + 64;
+7db34a01c2d5eea arch/m68k/coldfire/intc.c               Greg Ungerer 2025-01-26  174  	struct irq_domain *domain;
+7db34a01c2d5eea arch/m68k/coldfire/intc.c               Greg Ungerer 2025-01-26  175  	int irq;
+7db34a01c2d5eea arch/m68k/coldfire/intc.c               Greg Ungerer 2025-01-26  176  
+7db34a01c2d5eea arch/m68k/coldfire/intc.c               Greg Ungerer 2025-01-26  177  	domain = irq_domain_add_linear(np, num, &intc_irqdomain_ops, NULL);
+7db34a01c2d5eea arch/m68k/coldfire/intc.c               Greg Ungerer 2025-01-26  178  
+7db34a01c2d5eea arch/m68k/coldfire/intc.c               Greg Ungerer 2025-01-26  179  	for (irq = MCFINT_VECBASE; irq < num; irq++)
+7db34a01c2d5eea arch/m68k/coldfire/intc.c               Greg Ungerer 2025-01-26  180  		irq_create_mapping(domain, irq);
+7db34a01c2d5eea arch/m68k/coldfire/intc.c               Greg Ungerer 2025-01-26  181  
+7db34a01c2d5eea arch/m68k/coldfire/intc.c               Greg Ungerer 2025-01-26  182  	return 0;
+33a21263bf74177 arch/m68knommu/platform/coldfire/intc.c Greg Ungerer 2009-04-30  183  }
+33a21263bf74177 arch/m68knommu/platform/coldfire/intc.c Greg Ungerer 2009-04-30  184  
+
+:::::: The code at line 173 was first introduced by commit
+:::::: 7db34a01c2d5eea204f9833f6bd031d24cf0558f m68k: coldfire: support devicetree binding for intc controller
+
+:::::: TO: Greg Ungerer <gerg@linux-m68k.org>
+:::::: CC: Greg Ungerer <gerg@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
