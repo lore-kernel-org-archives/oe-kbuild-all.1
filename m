@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF162390229;
-	Mon, 18 May 2026 19:57:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C23B1E511
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 May 2026 20:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779134271; cv=none; b=A1Juh4Rmc6pigytCR6jHyEtudLatnzen/VdcoDfhKOKYoFIalmeCqXobukH7vWVcB1OTkTDTjPi9y8OXILC32ccoGpsy66M3ZPGq07fIJCoiKwkEmznIdCrXDuFi7UTHPZD0D+h2lHwKD/TXDlEjplBtEsFhdztfqi3hwRe9wiw=
+	t=1779134869; cv=none; b=Ob9RUlri7byfiLheGNShuiMJE3weO+Ri2Ih10gCdtOS8eqFa1tZaZHGirhjLj7IL9eqwpv7i4/S+5ugi0efF5QNrTgjb0qIYEzOQTFNIAY39hFxMjs6As+xnIiNMmB0O/+z3dbyyAl1kxF03BPTLVAuNLP7G/0KLkXKyjNN6odE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779134271; c=relaxed/simple;
-	bh=9/ZaDDIERHf95V5MsWsPsSZpOoMh5BIpi/8l+mpuNfQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=a5nzIR+GnSXz9IYsWWCovrO+s1V7X/0GDh8QX09iD9a0JHwcQzpkQPlfRMBnAISjltBZWWrgIr/avWGcT/RanEw09x/40btZ6oigstz0z1E6wguPqGdhm5+VIZlFM/PxEB3cJdXSM8G8lXDrDUNfOo29icvbODUlq47lSiFLiDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D4/m+FUo; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1779134869; c=relaxed/simple;
+	bh=eFN5h+F4CaqeaAtkSL1URKR4+VkzXhMNcMCOkKUapxU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=CTH9KzFvzEuKwzc8gdh6N6xJm1jL3/RMmpX8QC1PbWncYed/bwIv4FC35B7zoMkpnIeeyvIYaLECpnTlAzlKYmZZeXuibFBZA3E1zXyVBK+aeMfNBhQ8srZg7fxSqQpH4/Z8dtcU1tDdFiGwnzhXKMFXwC/CNvdt1nIoy28ByMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VL5Lmk6X; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D4/m+FUo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VL5Lmk6X"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779134270; x=1810670270;
+  t=1779134867; x=1810670867;
   h=date:from:to:cc:subject:message-id;
-  bh=9/ZaDDIERHf95V5MsWsPsSZpOoMh5BIpi/8l+mpuNfQ=;
-  b=D4/m+FUoQeMxWnHTQBwF5XxCwph2WiXx1+mAToLBDEkYcaATgK7Ftuha
-   Q8IXDHnEXSCjboG+lCyl63GkcBoVdQTcLS7vQNesfFfoJ1ZkrBLBeZBWV
-   QPauQbiRtg4es2ca9tRysffQCm02jLlCWsx5ctetCeDo9qS6LmMiCry+N
-   0eOVBsK1p/Pd8Fmj3d8+mPOLyG4a+lY6KzE2LyXSb0TpBERIufTXXepyy
-   3xxGwqtedJme3lFcRoeSqPRJfA8E1WNMbn8XX7Ceeg3wr+8fXPx4APYCL
-   Ilz0LTQGKJCmZovNpINodQV83yML5uwJzhYTWahTKTNz+KeEqB1UDI9Ca
-   g==;
-X-CSE-ConnectionGUID: HVByrcJjQDK8GTE42qPA5g==
-X-CSE-MsgGUID: 1ji1vl1zQk66B73yYP2nrA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="102674731"
+  bh=eFN5h+F4CaqeaAtkSL1URKR4+VkzXhMNcMCOkKUapxU=;
+  b=VL5Lmk6X6S3LcTvsd67ornahuiMiYputLpovjPpLjFEA5afu1fP0ftql
+   VOttRzV6D5kNdzzkN9oTQfWcP0c19kjOuNbd7zFNLPVI36Q4wFneALoQj
+   olhue90j9kVOsQOO4xoJYKh+HtIhKq+wBVhKICw8T2xqyQZFqEt9LTgbv
+   56sMFbMFtcMYnTq0fMOM9JTwIy6BPlnCz/fd01GhMsCXfd2o7EavIbfwV
+   0erjQPEqQ+HDJgINOzAfZom4eLoRe1ZXnICyOQmno6iXJ88y2dHSzSBTv
+   hrmh7bJq5VE1u5Y2AOW8P/qCVV0aRDmoyT3HMk57jENcAsQZjr9FzduWr
+   w==;
+X-CSE-ConnectionGUID: /VhPDiQQT4CLS1LzNTuUbg==
+X-CSE-MsgGUID: 3x3wEROdQ4mc27Va+FlZnQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="97569397"
 X-IronPort-AV: E=Sophos;i="6.23,242,1770624000"; 
-   d="scan'208";a="102674731"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 12:57:48 -0700
-X-CSE-ConnectionGUID: sZsEdYSmQTai9zzn+qSZlg==
-X-CSE-MsgGUID: 1SYeyffkT8yl9VKfX2C+PQ==
+   d="scan'208";a="97569397"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 13:07:47 -0700
+X-CSE-ConnectionGUID: 3VSjG4EMQSOtHeC7oIZV1w==
+X-CSE-MsgGUID: NRkiOOq9Sta4vpazu6RM6A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,242,1770624000"; 
-   d="scan'208";a="277642296"
+   d="scan'208";a="239604939"
 Received: from lkp-server01.sh.intel.com (HELO d94e5e629b2d) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 18 May 2026 12:57:45 -0700
+  by orviesa009.jf.intel.com with ESMTP; 18 May 2026 13:07:46 -0700
 Received: from kbuild by d94e5e629b2d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wP45v-000000003LY-0RH6;
-	Mon, 18 May 2026 19:57:43 +0000
-Date: Tue, 19 May 2026 03:56:47 +0800
+	id 1wP4Fb-000000003Ly-1HY3;
+	Mon, 18 May 2026 20:07:43 +0000
+Date: Tue, 19 May 2026 04:07:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [rppt:gfp-to-kmalloc/v0.1 14/238]
- drivers/md/bcache/bset.c:330:57: error: too many arguments to function call,
- expected single argument 'size', have 2 arguments
-Message-ID: <202605190333.0Sllgqcg-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [rppt:gfp-to-kmalloc/v0.1 27/238]
+ drivers/crypto/s5p-sss.c:447:13: warning: variable 'len' set but not used
+Message-ID: <202605190356.sVvd2wbs-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,92 +61,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git gfp-to-kmalloc/v0.1
 head:   cf8f69ff9142effba4d8d9a70a1a4f275044376c
-commit: 0481d1dfb6cc95e2c2f4df47869dd9dbf8003f49 [14/238] bcache: replace __get_free_pages() with kmalloc()
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20260519/202605190333.0Sllgqcg-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260519/202605190333.0Sllgqcg-lkp@intel.com/reproduce)
+commit: 56b35d1f3a968b9575b16ce644cfa827cf53fa02 [27/238] crypto: replace __get_free_pages() with kmalloc()
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260519/202605190356.sVvd2wbs-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260519/202605190356.sVvd2wbs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605190333.0Sllgqcg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605190356.sVvd2wbs-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/md/bcache/bset.c:330:57: error: too many arguments to function call, expected single argument 'size', have 2 arguments
-     330 |                 : kmalloc(PAGE_SIZE << (get_order(bset_tree_bytes(b), gfp)));
-         |                                         ~~~~~~~~~                     ^~~
-   include/asm-generic/getorder.h:29:48: note: 'get_order' declared here
-      29 | static __always_inline __attribute_const__ int get_order(unsigned long size)
-         |                                                ^         ~~~~~~~~~~~~~~~~~~
->> drivers/md/bcache/bset.c:330:57: error: too many arguments to function call, expected single argument 'size', have 2 arguments
-     330 |                 : kmalloc(PAGE_SIZE << (get_order(bset_tree_bytes(b), gfp)));
-         |                                         ~~~~~~~~~                     ^~~
-   include/asm-generic/getorder.h:29:48: note: 'get_order' declared here
-      29 | static __always_inline __attribute_const__ int get_order(unsigned long size)
-         |                                                ^         ~~~~~~~~~~~~~~~~~~
->> drivers/md/bcache/bset.c:330:57: error: too many arguments to function call, expected single argument 'size', have 2 arguments
-     330 |                 : kmalloc(PAGE_SIZE << (get_order(bset_tree_bytes(b), gfp)));
-         |                                         ~~~~~~~~~                     ^~~
-   include/asm-generic/getorder.h:29:48: note: 'get_order' declared here
-      29 | static __always_inline __attribute_const__ int get_order(unsigned long size)
-         |                                                ^         ~~~~~~~~~~~~~~~~~~
-   drivers/md/bcache/bset.c:336:57: error: too many arguments to function call, expected single argument 'size', have 2 arguments
-     336 |                 : kmalloc(PAGE_SIZE << (get_order(bset_prev_bytes(b), gfp)));
-         |                                         ~~~~~~~~~                     ^~~
-   include/asm-generic/getorder.h:29:48: note: 'get_order' declared here
-      29 | static __always_inline __attribute_const__ int get_order(unsigned long size)
-         |                                                ^         ~~~~~~~~~~~~~~~~~~
-   drivers/md/bcache/bset.c:336:57: error: too many arguments to function call, expected single argument 'size', have 2 arguments
-     336 |                 : kmalloc(PAGE_SIZE << (get_order(bset_prev_bytes(b), gfp)));
-         |                                         ~~~~~~~~~                     ^~~
-   include/asm-generic/getorder.h:29:48: note: 'get_order' declared here
-      29 | static __always_inline __attribute_const__ int get_order(unsigned long size)
-         |                                                ^         ~~~~~~~~~~~~~~~~~~
-   drivers/md/bcache/bset.c:336:57: error: too many arguments to function call, expected single argument 'size', have 2 arguments
-     336 |                 : kmalloc(PAGE_SIZE << (get_order(bset_prev_bytes(b), gfp)));
-         |                                         ~~~~~~~~~                     ^~~
-   include/asm-generic/getorder.h:29:48: note: 'get_order' declared here
-      29 | static __always_inline __attribute_const__ int get_order(unsigned long size)
-         |                                                ^         ~~~~~~~~~~~~~~~~~~
-   6 errors generated.
+   drivers/crypto/s5p-sss.c: In function 's5p_free_sg_cpy':
+>> drivers/crypto/s5p-sss.c:447:13: warning: variable 'len' set but not used [-Wunused-but-set-variable]
+     447 |         int len;
+         |             ^~~
 
 
-vim +/size +330 drivers/md/bcache/bset.c
+vim +/len +447 drivers/crypto/s5p-sss.c
 
-   313	
-   314	int bch_btree_keys_alloc(struct btree_keys *b,
-   315				 unsigned int page_order,
-   316				 gfp_t gfp)
-   317	{
-   318		struct bset_tree *t = b->set;
-   319	
-   320		BUG_ON(t->data);
-   321	
-   322		b->page_order = page_order;
-   323	
-   324		t->data = kmalloc(PAGE_SIZE << (b->page_order), __GFP_COMP|gfp);
-   325		if (!t->data)
-   326			goto err;
-   327	
-   328		t->tree = bset_tree_bytes(b) < PAGE_SIZE
-   329			? kmalloc(bset_tree_bytes(b), gfp)
- > 330			: kmalloc(PAGE_SIZE << (get_order(bset_tree_bytes(b), gfp)));
-   331		if (!t->tree)
-   332			goto err;
-   333	
-   334		t->prev = bset_prev_bytes(b) < PAGE_SIZE
-   335			? kmalloc(bset_prev_bytes(b), gfp)
-   336			: kmalloc(PAGE_SIZE << (get_order(bset_prev_bytes(b), gfp)));
-   337		if (!t->prev)
-   338			goto err;
-   339	
-   340		return 0;
-   341	err:
-   342		bch_btree_keys_free(b);
-   343		return -ENOMEM;
-   344	}
-   345	
+a49e490c7a8a5c6c Vladimir Zapolskiy        2011-04-08  444  
+9e4a1100a445671d Krzysztof Kozlowski       2016-03-22  445  static void s5p_free_sg_cpy(struct s5p_aes_dev *dev, struct scatterlist **sg)
+9e4a1100a445671d Krzysztof Kozlowski       2016-03-22  446  {
+9e4a1100a445671d Krzysztof Kozlowski       2016-03-22 @447  	int len;
+9e4a1100a445671d Krzysztof Kozlowski       2016-03-22  448  
+9e4a1100a445671d Krzysztof Kozlowski       2016-03-22  449  	if (!*sg)
+9e4a1100a445671d Krzysztof Kozlowski       2016-03-22  450  		return;
+9e4a1100a445671d Krzysztof Kozlowski       2016-03-22  451  
+e6b98ce6145a2c68 Ard Biesheuvel            2019-11-09  452  	len = ALIGN(dev->req->cryptlen, AES_BLOCK_SIZE);
+56b35d1f3a968b95 Mike Rapoport (Microsoft  2026-02-10  453) 	kfree((void *)(unsigned long)sg_virt(*sg));
+9e4a1100a445671d Krzysztof Kozlowski       2016-03-22  454  
+9e4a1100a445671d Krzysztof Kozlowski       2016-03-22  455  	kfree(*sg);
+9e4a1100a445671d Krzysztof Kozlowski       2016-03-22  456  	*sg = NULL;
+9e4a1100a445671d Krzysztof Kozlowski       2016-03-22  457  }
+9e4a1100a445671d Krzysztof Kozlowski       2016-03-22  458  
+
+:::::: The code at line 447 was first introduced by commit
+:::::: 9e4a1100a445671dd55ff74dce859221cc1464fa crypto: s5p-sss - Handle unaligned buffers
+
+:::::: TO: Krzysztof Kozlowski <krzk@kernel.org>
+:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
 
 --
 0-DAY CI Kernel Test Service
