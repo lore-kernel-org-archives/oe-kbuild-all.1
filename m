@@ -1,142 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92135388E6B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 May 2026 21:14:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1017399031
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 May 2026 21:30:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779138893; cv=none; b=UmqkQxvlzoWvrGLwOb3JMXPObvaQP852YWAg6dEQvwvDyyGbyrgRqqMuk0K88xBXRbJzWlM3NawufFuRDToweC/vDiQwpzawIvzREr5xqTLtkGU+i6amaUSz7fNRLN/o7Xi22kDZvbDEbveHrrzplxUXwMQIrrus4iGIxwSuNDc=
+	t=1779139807; cv=none; b=V4RAxIJ8tkJuq8L7f2HEVFmLNBbAleNxnsKWWDeEjxdHNekyja7VEObx7zkFdV55LCMFOB3sv7KmWKwMcWM2x2qxF5cxIScREkmyOn7gjR9e51hkN9ICGDssm3YWG7UTkmtRR6zngaMDNStjtAt/wgLFIIqN2XMbEPLSSqZbFJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779138893; c=relaxed/simple;
-	bh=0NTob/lmSZJbtlL/Sfc01Q1tUC/xdilTB1xZMP6pz/M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZPLGYdOuxeIe5uc+TASIlYVwWmLQFpEWlSgbEg7D1fuaNCI52KHrvo4CAbTKc1oE6yIWiK4rv2PkZMJmUmTV2VUtdgtJlPSfDtyp9JmFHwEcQnPFbgxERgtbHgqE61OUH1EKQOrgyjwdmAuisfq1rw4cKBoU99AJkGeiz8ZsXos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aa+cmDCI; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1779139807; c=relaxed/simple;
+	bh=C7IjxmNiYnyo1F+cGYH2YnOPIJmq4po2q/PpH2crlzY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=kg/960muuvYVhQU7BWCgrjI+J6RWML5nQlMUkjsecKb41/Lo2Lxp9eCDbayDZ9h7vIUtvz5HbmsR9eBhScY4D0hWGJERuUPrdJbrFKEI/PwBh7ifQoTZ2yfuwDi4yUvcCRNuKhdGZe2+LcvzHI6qRJMheBZSFqu1ez+I5oPqXCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OihY3jd7; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aa+cmDCI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OihY3jd7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779138892; x=1810674892;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0NTob/lmSZJbtlL/Sfc01Q1tUC/xdilTB1xZMP6pz/M=;
-  b=aa+cmDCIu2Y6Ed8AW+N+yn7x0lXFXAx0hkXvwxRcIIv1RJent1Zhq+WB
-   JTgYjJpydZG2gu8MfeW7wjorS/n1PAL1Oy/EvH22mZ9SG6TwRraxZ6jGI
-   YD5w+A/U3ZI//P8Dn0II41AnI1gWNj5LzoHVkAVbOYqsWFC6rzBrAZtjq
-   APvRfD7LRYHFb7MTfj46lfTFBDFT26h2mqbd/Mx0gce0gzMEnNf1HgANU
-   c8Eu/cIoqfW79++mzEgF0o186k/48me16ScAOccCqpIRVLlmhAps8lBCy
-   1RldhnoLtmCYhRH/WJkRsssTIVugi2qr8J80KmgycTx+8ENk0telUq5J7
-   w==;
-X-CSE-ConnectionGUID: edBFGH20QeikiGrMpAH6Zw==
-X-CSE-MsgGUID: YLmmtG60TfqWl5VGj7Knjw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="79855890"
+  t=1779139806; x=1810675806;
+  h=date:from:to:cc:subject:message-id;
+  bh=C7IjxmNiYnyo1F+cGYH2YnOPIJmq4po2q/PpH2crlzY=;
+  b=OihY3jd7/MjTmCDOULz760VQd0SeP6SoU//qjZUlp0OrWScHpQrBQpLd
+   L0GK8J6lJ/08ckL4tNDJ7O5c795owpWF05tzxCg8oA/6t7Kx8MwlQAIlC
+   boMV8O4uEaJOM6i1WsIGlAWqWjlrqXX2LgkZtpfAHN18lTNXx9o1EHP2w
+   97ZO2REe6dFiKagkEunzWFkwdjrdwIO2581TI6mM2R4EEGpVnPuOibBv0
+   JDrRPZjjLXgLVf/t3ok8dmIAHnOglU7+1641ecb8vpiTSD/dX45QNScQr
+   F9osWm6HZAgf2efnn9eLAW0HPHyQddn3CNt5aszVZWJbLZtRhbotY+a0D
+   g==;
+X-CSE-ConnectionGUID: yJ2CmEtMQgmcWyt3XsYd3Q==
+X-CSE-MsgGUID: cC5D7mTyQRWhmDHXRYZdRg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="97439988"
 X-IronPort-AV: E=Sophos;i="6.23,242,1770624000"; 
-   d="scan'208";a="79855890"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 14:14:51 -0700
-X-CSE-ConnectionGUID: gOI2WDYHTZOe4tQgDM2Wug==
-X-CSE-MsgGUID: 9yqvd5RKR5W2zGcF14wJAg==
+   d="scan'208";a="97439988"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 14:30:05 -0700
+X-CSE-ConnectionGUID: 7IAO4TobSNeE4oWSQIR60Q==
+X-CSE-MsgGUID: fmAonD+4SMynkKsxXXiYlA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,242,1770624000"; 
-   d="scan'208";a="238565917"
-Received: from lkp-server01.sh.intel.com (HELO d94e5e629b2d) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 18 May 2026 14:14:48 -0700
-Received: from kbuild by d94e5e629b2d with local (Exim 4.98.2)
+   d="scan'208";a="241393808"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa004.fm.intel.com with ESMTP; 18 May 2026 14:30:04 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wP5IU-000000003PK-04b1;
-	Mon, 18 May 2026 21:14:46 +0000
-Date: Tue, 19 May 2026 05:14:41 +0800
+	id 1wP5XF-000000009wH-27nK;
+	Mon, 18 May 2026 21:30:01 +0000
+Date: Mon, 18 May 2026 23:29:46 +0200
 From: kernel test robot <lkp@intel.com>
-To: Markus Stockhausen <markus.stockhausen@gmx.de>,
-	wsa+renesas@sang-engineering.com, andi.shyti@kernel.org,
-	linusw@kernel.org, brgl@kernel.org, linux-i2c@vger.kernel.org,
-	linux-gpio@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Markus Stockhausen <markus.stockhausen@gmx.de>
-Subject: Re: [PATCH v2] i2c: i2c-gpio: Enhance driver for buses with shared
- SCL
-Message-ID: <202605190550.05JVXXRd-lkp@intel.com>
-References: <20260518161013.900504-1-markus.stockhausen@gmx.de>
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [rppt:gfp-to-kmalloc/v0.1 132/238]
+ drivers/s390/cio/cmf.c:550:25: warning: variable 'size' set but not used
+Message-ID: <202605182340.isVRQEhf-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260518161013.900504-1-markus.stockhausen@gmx.de>
 
-Hi Markus,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linux-review/Markus-Stockhausen/dt-bindings-i2c-Add-i2c-shared-gpio/20260515-102710]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Stockhausen/i2c-i2c-gpio-Enhance-driver-for-buses-with-shared-SCL/20260519-005100
-base:   https://github.com/intel-lab-lkp/linux Markus-Stockhausen/dt-bindings-i2c-Add-i2c-shared-gpio/20260515-102710
-patch link:    https://lore.kernel.org/r/20260518161013.900504-1-markus.stockhausen%40gmx.de
-patch subject: [PATCH v2] i2c: i2c-gpio: Enhance driver for buses with shared SCL
-config: sparc-randconfig-r073-20260519 (https://download.01.org/0day-ci/archive/20260519/202605190550.05JVXXRd-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
-smatch: v0.5.0-9185-gbcc58b9c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260519/202605190550.05JVXXRd-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git gfp-to-kmalloc/v0.1
+head:   cf8f69ff9142effba4d8d9a70a1a4f275044376c
+commit: c2abb22c9f24b8570ba3fe1c115908b142514b99 [132/238] s390/cio: replace __get_free_pages() with kmalloc()
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260518/202605182340.isVRQEhf-lkp@intel.com/config)
+compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260518/202605182340.isVRQEhf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605190550.05JVXXRd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605182340.isVRQEhf-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/spinlock.h:63,
-                    from include/linux/swait.h:7,
-                    from include/linux/completion.h:12,
-                    from drivers/i2c/busses/i2c-gpio.c:7:
-   drivers/i2c/busses/i2c-gpio.c: In function 'i2c_gpio_create_scl':
->> include/linux/lockdep.h:158:31: error: 'struct rt_mutex_base' has no member named 'dep_map'
-     lockdep_init_map_type(&(lock)->dep_map, #key, key, 0, \
-                                  ^~
-   drivers/i2c/busses/i2c-gpio.c:426:2: note: in expansion of macro 'lockdep_set_class'
-     lockdep_set_class(&scl->lock.rtmutex, &i2c_gpio_scl_lock_key);
-     ^~~~~~~~~~~~~~~~~
-   include/linux/lockdep.h:159:16: error: 'struct rt_mutex_base' has no member named 'dep_map'
-             (lock)->dep_map.wait_type_inner, \
-                   ^~
-   drivers/i2c/busses/i2c-gpio.c:426:2: note: in expansion of macro 'lockdep_set_class'
-     lockdep_set_class(&scl->lock.rtmutex, &i2c_gpio_scl_lock_key);
-     ^~~~~~~~~~~~~~~~~
-   include/linux/lockdep.h:160:16: error: 'struct rt_mutex_base' has no member named 'dep_map'
-             (lock)->dep_map.wait_type_outer, \
-                   ^~
-   drivers/i2c/busses/i2c-gpio.c:426:2: note: in expansion of macro 'lockdep_set_class'
-     lockdep_set_class(&scl->lock.rtmutex, &i2c_gpio_scl_lock_key);
-     ^~~~~~~~~~~~~~~~~
-   include/linux/lockdep.h:161:16: error: 'struct rt_mutex_base' has no member named 'dep_map'
-             (lock)->dep_map.lock_type)
-                   ^~
-   drivers/i2c/busses/i2c-gpio.c:426:2: note: in expansion of macro 'lockdep_set_class'
-     lockdep_set_class(&scl->lock.rtmutex, &i2c_gpio_scl_lock_key);
-     ^~~~~~~~~~~~~~~~~
+   drivers/s390/cio/cmf.c: In function 'free_cmb':
+>> drivers/s390/cio/cmf.c:550:25: warning: variable 'size' set but not used [-Wunused-but-set-variable]
+     550 |                 ssize_t size;
+         |                         ^~~~
 
 
-vim +158 include/linux/lockdep.h
+vim +/size +550 drivers/s390/cio/cmf.c
 
-fbb9ce9530fd9b Ingo Molnar    2006-07-03  150  
-fbb9ce9530fd9b Ingo Molnar    2006-07-03  151  /*
-fbb9ce9530fd9b Ingo Molnar    2006-07-03  152   * Reinitialize a lock key - for cases where there is special locking or
-fbb9ce9530fd9b Ingo Molnar    2006-07-03  153   * special initialization of locks so that the validator gets the scope
-fbb9ce9530fd9b Ingo Molnar    2006-07-03  154   * of dependencies wrong: they are either too broad (they need a class-split)
-fbb9ce9530fd9b Ingo Molnar    2006-07-03  155   * or they are too narrow (they suffer from a false class-split):
-fbb9ce9530fd9b Ingo Molnar    2006-07-03  156   */
-fbb9ce9530fd9b Ingo Molnar    2006-07-03  157  #define lockdep_set_class(lock, key)				\
-eae6d58d67d973 Peter Zijlstra 2022-06-17 @158  	lockdep_init_map_type(&(lock)->dep_map, #key, key, 0,	\
-de8f5e4f2dc1f0 Peter Zijlstra 2020-03-21  159  			      (lock)->dep_map.wait_type_inner,	\
-eae6d58d67d973 Peter Zijlstra 2022-06-17  160  			      (lock)->dep_map.wait_type_outer,	\
-eae6d58d67d973 Peter Zijlstra 2022-06-17  161  			      (lock)->dep_map.lock_type)
-de8f5e4f2dc1f0 Peter Zijlstra 2020-03-21  162  
+^1da177e4c3f41 Linus Torvalds            2005-04-16  532  
+94bb063312d872 Cornelia Huck             2006-06-29  533  static void free_cmb(struct ccw_device *cdev)
+^1da177e4c3f41 Linus Torvalds            2005-04-16  534  {
+^1da177e4c3f41 Linus Torvalds            2005-04-16  535  	struct ccw_device_private *priv;
+94bb063312d872 Cornelia Huck             2006-06-29  536  	struct cmb_data *cmb_data;
+^1da177e4c3f41 Linus Torvalds            2005-04-16  537  
+^1da177e4c3f41 Linus Torvalds            2005-04-16  538  	spin_lock(&cmb_area.lock);
+^1da177e4c3f41 Linus Torvalds            2005-04-16  539  	spin_lock_irq(cdev->ccwlock);
+^1da177e4c3f41 Linus Torvalds            2005-04-16  540  
+94bb063312d872 Cornelia Huck             2006-06-29  541  	priv = cdev->private;
+94bb063312d872 Cornelia Huck             2006-06-29  542  	cmb_data = priv->cmb;
+^1da177e4c3f41 Linus Torvalds            2005-04-16  543  	priv->cmb = NULL;
+94bb063312d872 Cornelia Huck             2006-06-29  544  	if (cmb_data)
+94bb063312d872 Cornelia Huck             2006-06-29  545  		kfree(cmb_data->last_block);
+94bb063312d872 Cornelia Huck             2006-06-29  546  	kfree(cmb_data);
+^1da177e4c3f41 Linus Torvalds            2005-04-16  547  	list_del_init(&priv->cmb_list);
+^1da177e4c3f41 Linus Torvalds            2005-04-16  548  
+^1da177e4c3f41 Linus Torvalds            2005-04-16  549  	if (list_empty(&cmb_area.list)) {
+^1da177e4c3f41 Linus Torvalds            2005-04-16 @550  		ssize_t size;
+^1da177e4c3f41 Linus Torvalds            2005-04-16  551  		size = sizeof(struct cmb) * cmb_area.num_channels;
+7b4ff87cbf3d25 Heiko Carstens            2016-06-20  552  		cmf_activate(NULL, CMF_OFF);
+c2abb22c9f24b8 Mike Rapoport (Microsoft  2026-02-10  553) 		kfree((void *)(unsigned long)cmb_area.mem);
+^1da177e4c3f41 Linus Torvalds            2005-04-16  554  		cmb_area.mem = NULL;
+^1da177e4c3f41 Linus Torvalds            2005-04-16  555  	}
+^1da177e4c3f41 Linus Torvalds            2005-04-16  556  	spin_unlock_irq(cdev->ccwlock);
+^1da177e4c3f41 Linus Torvalds            2005-04-16  557  	spin_unlock(&cmb_area.lock);
+^1da177e4c3f41 Linus Torvalds            2005-04-16  558  }
+^1da177e4c3f41 Linus Torvalds            2005-04-16  559  
+
+:::::: The code at line 550 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 --
 0-DAY CI Kernel Test Service
