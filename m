@@ -1,146 +1,127 @@
-Received: from m16.mail.126.com (m16.mail.126.com [117.135.210.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77AC36E46C;
-	Mon, 18 May 2026 02:24:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C7D364949
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 May 2026 02:41:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779071106; cv=none; b=dCkvQw4JAdUOMxvd2dh1ZkGnWIlCHfB16oPmXqRF0Mte41XAFn1XZwFKxY24ueDqw9Hq03Ce5yNi+qAo9RQnXywWCZN1AFHr1NcLCOn66mtNXKNsnn1wkohXumKyRY8z6quqRLbNO1Sl+AZogS6KT0z4j5EI2rUAqYJ/wQL2M5M=
+	t=1779072077; cv=none; b=ANMgO+kSSRUQR204wajHZFnF+PobwYHgq7dBa+USE/SWqJ1NdG3HTXbn3Xpt6W8bGsLwfYTFgOmyT8EJf47XRJ3y3rg4610qDCu2fOv7XK3D5TP0f86/c9AFfIStVSqVag4HljhKJH353mKvs2AIzZAouyYqbZ4lLdgH5ywhhls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779071106; c=relaxed/simple;
-	bh=uLrYosaCencRRjU/Egw9fQ2hdzYvygoP3D/BvZR1Bls=;
-	h=Message-ID:Date:From:MIME-Version:To:CC:Subject:References:
-	 In-Reply-To:Content-Type; b=N3XmvPPiNu7o7AWxyUVLZf0ja/+IdLhBnEgGISCfZ9SpDP9W7iQkVK0xByKc86NkFOsigufNVVq19BZM+Cqb4zRaDnOQaBe73fRLFKZmBJVzrpg+P6xdLuT4+8TgWNMXhbHSb/A0aY2dDBbEMqyFCx9YUw/aUfI0lXmOHZsNyPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com; spf=pass smtp.mailfrom=126.com; dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b=C60Q3usr; arc=none smtp.client-ip=117.135.210.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=126.com
+	s=arc-20240116; t=1779072077; c=relaxed/simple;
+	bh=0ZYmBwn+bbrJnFaHPQ+HM8A3jYnJ5G90ltyAMTAFtfY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=PCNJc69xdsrMQVEq91zjOqJ8W0njlRTFBdqarvBr8PchQ5o7V7ev1+nM5VLvtADrX6B7RG9soy8/wCGdeZzpLyxOuSd+oJZhESE4y97i2dNmj4dbfgkFC1C8my3GAJgHlj0UfNONMSw2Eu4UiWup3G0kbFV4UDSBruD/3mz5W/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bK42VvED; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b="C60Q3usr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
-	s=s110527; h=Message-ID:Date:From:MIME-Version:To:Subject:
-	Content-Type; bh=k87A29HSt98l8xIv5aFvMIu8kygYFUCV7ws460UXUcg=;
-	b=C60Q3usr/9arhNyzeH831/Yw1D+zH2Ii8OyFibRw38/K1+QvCsG+cReiWwECLR
-	AOFJShTs6wNdr96WB9LnruUVcoGUBBwXIIaj3m7ev7bai1iRDz0NS+ej76qdpH8z
-	ngziZkH6lvF57qHT0pQRYrSf+LVKUwSqoTaTYINOtiGHQ=
-Received: from localhost.localdomain (unknown [])
-	by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id _____wD33zBdeApqpDIBBw--.7062S2;
-	Mon, 18 May 2026 10:24:30 +0800 (CST)
-Message-ID: <6A0A7869.6080007@126.com>
-Date: Mon, 18 May 2026 10:24:41 +0800
-From: Hongling Zeng <zhongling0719@126.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:31.0) Gecko/20100101 Thunderbird/31.2.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bK42VvED"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779072075; x=1810608075;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0ZYmBwn+bbrJnFaHPQ+HM8A3jYnJ5G90ltyAMTAFtfY=;
+  b=bK42VvEDD/hrX4zEPhfkiyz65ghkWuzRSaskWXonRSlNxXJvPvGQjgyV
+   8qJKCqT3RNcRZuxlcOR8NFnAGN7H1MtDHPsZAtrOvSLQQi3MieiJm4bNT
+   rZ3DH3NyLx23tgpIBfEpWmvqdVeEhhZgAj350nZoQmgkT1MDNg/mvYaQk
+   Uy180wl0LZfP9oLBgs9Eu+POvyDbLO565ARFDnVkbvZACnSRM+YdMnrHX
+   XF/w2JJLcUFIVQzYz5H6pZgwLn9BJ79AUVzbuuuna/Mj85/OHHTO+4ZLp
+   Jp8iXPeAs6ZVTCG7pMs3XQk0Nl9xjjgXaSPTjCF9S7S3Rlnx8FECjmiKW
+   A==;
+X-CSE-ConnectionGUID: 7OJ5PynuRAqmoleQUvruXA==
+X-CSE-MsgGUID: QTXpzjdzS8SsU82yG/ouNg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11789"; a="79951451"
+X-IronPort-AV: E=Sophos;i="6.23,241,1770624000"; 
+   d="scan'208";a="79951451"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2026 19:41:15 -0700
+X-CSE-ConnectionGUID: S9rZvIDJQyS6Bv3jDrq4AQ==
+X-CSE-MsgGUID: M9enlaC9Ss2M1eEIODTi6A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,241,1770624000"; 
+   d="scan'208";a="243588284"
+Received: from lkp-server01.sh.intel.com (HELO d94e5e629b2d) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 17 May 2026 19:41:13 -0700
+Received: from kbuild by d94e5e629b2d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wOnuo-000000002GO-1Ebt;
+	Mon, 18 May 2026 02:41:10 +0000
+Date: Mon, 18 May 2026 10:41:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>,
+ =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dd-shrink-go 39/52] drivers/gpu/drm/drm_print.c:72:34:
+ error: variable has incomplete type 'struct ddebug_class_param'
+Message-ID: <202605181047.p39H63eE-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-To: kernel test robot <lkp@intel.com>, 
- Hongling Zeng <zenghongling@kylinos.cn>,
- dpenkler@gmail.com, gregkh@linuxfoundation.org, 
- dominik.karol.piatkowski@protonmail.com, adam.quandour@gmail.com, 
- kees@kernel.org
-CC: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] gpib: cb7210: Fix region leak when request_irq fails
-References: <20260515073952.54359-1-zenghongling@kylinos.cn> <202605160620.ReBOadPX-lkp@intel.com>
-In-Reply-To: <202605160620.ReBOadPX-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD33zBdeApqpDIBBw--.7062S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxGFWDtry5Aw1Dtr45tF1rCrg_yoW5tw47pa
-	y8GFs8KryDXr1F939rCrW8ursYyws3K3y5Ww4jkr43ZFsIyFyDCr409r4av34DKFyDGr15
-	JrZYkr1rCw4DAaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j4oGPUUUUU=
-X-CM-SenderInfo: x2kr0wpolqwiqxrzqiyswou0bp/xtbBrh9SI2oKeF8OdgAA3-
+Content-Type: text/plain; charset=us-ascii
 
-   Hi,
+tree:   https://github.com/jimc/linux.git dd-shrink-go
+head:   270053dc597e59c9ffc0b5f17c8863076b56c7cf
+commit: 580adab5c59c094294a4326167b772a69257f466 [39/52] drm: mark DRM_USE_DYNAMIC_DEBUG unBROKEN
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260518/202605181047.p39H63eE-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260518/202605181047.p39H63eE-lkp@intel.com/reproduce)
 
-   Thanks for the report. The issue is a typo where I used 'ret' instead of
-   'retval'. I'll fix this in v2 and add the appropriate tags.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605181047.p39H63eE-lkp@intel.com/
 
-   Best regards,
-   Hongling
+All errors (new ones prefixed by >>):
 
-在 2026年05月16日 06:23, kernel test robot 写道:
-> Hi Hongling,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on linus/master]
-> [also build test ERROR on v7.1-rc3 next-20260508]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Hongling-Zeng/gpib-cb7210-Fix-region-leak-when-request_irq-fails/20260515-222229
-> base:   linus/master
-> patch link:    https://lore.kernel.org/r/20260515073952.54359-1-zenghongling%40kylinos.cn
-> patch subject: [PATCH] gpib: cb7210: Fix region leak when request_irq fails
-> config: x86_64-randconfig-076-20260516 (https://download.01.org/0day-ci/archive/20260516/202605160620.ReBOadPX-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260516/202605160620.ReBOadPX-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202605160620.ReBOadPX-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->>> drivers/gpib/cb7210/cb7210.c:1066:3: error: use of undeclared identifier 'ret'
->      1066 |                 ret = -EBUSY;
->           |                 ^
->     1 error generated.
->
->
-> vim +/ret +1066 drivers/gpib/cb7210/cb7210.c
->
->    1035	
->    1036	static int cb_isa_attach(struct gpib_board *board, const struct gpib_board_config *config)
->    1037	{
->    1038		int isr_flags = 0;
->    1039		struct cb7210_priv *cb_priv;
->    1040		struct nec7210_priv *nec_priv;
->    1041		unsigned int bits;
->    1042		int retval;
->    1043	
->    1044		retval = cb7210_generic_attach(board);
->    1045		if (retval)
->    1046			return retval;
->    1047		cb_priv = board->private_data;
->    1048		nec_priv = &cb_priv->nec7210_priv;
->    1049		if (!request_region(config->ibbase, cb7210_iosize, DRV_NAME)) {
->    1050			dev_err(board->gpib_dev, "ioports starting at 0x%x are already in use\n",
->    1051				config->ibbase);
->    1052			retval = -EBUSY;
->    1053			goto err_release_region;
->    1054		}
->    1055		nec_priv->iobase = config->ibbase;
->    1056		cb_priv->fifo_iobase = nec7210_iobase(cb_priv);
->    1057	
->    1058		bits = irq_bits(config->ibirq);
->    1059		if (bits == 0)
->    1060			dev_err(board->gpib_dev, "board incapable of using irq %i, try 2-5, 7, 10, or 11\n",
->    1061				config->ibirq);
->    1062	
->    1063		// install interrupt handler
->    1064		if (request_irq(config->ibirq, cb7210_interrupt, isr_flags, DRV_NAME, board)) {
->    1065			dev_err(board->gpib_dev, "failed to obtain IRQ %d\n", config->ibirq);
->> 1066			ret = -EBUSY;
->    1067			goto err_release_region;
->    1068		}
->    1069		cb_priv->irq = config->ibirq;
->    1070	
->    1071		return cb7210_init(cb_priv, board);
->    1072	
->    1073	err_release_region:
->    1074		release_region(nec7210_iobase(cb_priv), cb7210_iosize);
->    1075		return retval;
->    1076	}
->    1077	
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+>> drivers/gpu/drm/drm_print.c:72:34: error: variable has incomplete type 'struct ddebug_class_param'
+      72 | static struct ddebug_class_param drm_debug_bitmap = {
+         |                                  ^
+   drivers/gpu/drm/drm_print.c:72:15: note: forward declaration of 'struct ddebug_class_param'
+      72 | static struct ddebug_class_param drm_debug_bitmap = {
+         |               ^
+   drivers/gpu/drm/drm_print.c:219:26: warning: unused variable 'category' [-Wunused-variable]
+     219 |         enum drm_debug_category category = p->category;
+         |                                 ^~~~~~~~
+   1 warning and 1 error generated.
 
+
+vim +72 drivers/gpu/drm/drm_print.c
+
+f158936b60a7874 Jim Cromie  2022-09-11  55  
+f158936b60a7874 Jim Cromie  2022-09-11  56  #if !defined(CONFIG_DRM_USE_DYNAMIC_DEBUG)
+f158936b60a7874 Jim Cromie  2022-09-11  57  module_param_named(debug, __drm_debug, ulong, 0600);
+f158936b60a7874 Jim Cromie  2022-09-11  58  #else
+f158936b60a7874 Jim Cromie  2022-09-11  59  /* classnames must match vals of enum drm_debug_category */
+f158936b60a7874 Jim Cromie  2022-09-11  60  DECLARE_DYNDBG_CLASSMAP(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS, 0,
+f158936b60a7874 Jim Cromie  2022-09-11  61  			"DRM_UT_CORE",
+f158936b60a7874 Jim Cromie  2022-09-11  62  			"DRM_UT_DRIVER",
+f158936b60a7874 Jim Cromie  2022-09-11  63  			"DRM_UT_KMS",
+f158936b60a7874 Jim Cromie  2022-09-11  64  			"DRM_UT_PRIME",
+f158936b60a7874 Jim Cromie  2022-09-11  65  			"DRM_UT_ATOMIC",
+f158936b60a7874 Jim Cromie  2022-09-11  66  			"DRM_UT_VBL",
+f158936b60a7874 Jim Cromie  2022-09-11  67  			"DRM_UT_STATE",
+f158936b60a7874 Jim Cromie  2022-09-11  68  			"DRM_UT_LEASE",
+f158936b60a7874 Jim Cromie  2022-09-11  69  			"DRM_UT_DP",
+f158936b60a7874 Jim Cromie  2022-09-11  70  			"DRM_UT_DRMRES");
+f158936b60a7874 Jim Cromie  2022-09-11  71  
+f158936b60a7874 Jim Cromie  2022-09-11 @72  static struct ddebug_class_param drm_debug_bitmap = {
+f158936b60a7874 Jim Cromie  2022-09-11  73  	.bits = &__drm_debug,
+f158936b60a7874 Jim Cromie  2022-09-11  74  	.flags = "p",
+f158936b60a7874 Jim Cromie  2022-09-11  75  	.map = &drm_debug_classes,
+f158936b60a7874 Jim Cromie  2022-09-11  76  };
+f158936b60a7874 Jim Cromie  2022-09-11  77  module_param_cb(debug, &param_ops_dyndbg_classes, &drm_debug_bitmap, 0600);
+f158936b60a7874 Jim Cromie  2022-09-11  78  #endif
+959b077f26a16c6 Jani Nikula 2019-09-24  79  
+
+:::::: The code at line 72 was first introduced by commit
+:::::: f158936b60a7874f29cf8de8d83191ad69119c11 drm: POC drm on dyndbg - use in core, 2 helpers, 3 drivers.
+
+:::::: TO: Jim Cromie <jim.cromie@gmail.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
