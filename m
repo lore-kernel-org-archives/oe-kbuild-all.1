@@ -1,162 +1,142 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 358041FC10C;
-	Mon, 18 May 2026 06:28:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779085739; cv=none; b=QKv6+YcddPJ3UoRhIxXJyMYf3sbwzHhGlm2K7mYmXdTzYk5g/tJpPY2pcuMqM25dpE/sxlKeXYe9QK+XjnjQ8otL0k+FbLwJLS9SM63ZxbnQuSj9kfcFAt8TBK20miV2rVG7NcM1GsCZaWoqmetf0R2ZSCNT1dBpiRgj5kcb1Rg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779085739; c=relaxed/simple;
-	bh=crUwGqC4+pXxFLpkZawrYEO/q19NSUqZT8S7pasV7ag=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=n73UI1D2lbn6b+NgMs2aCCb2KwVaAKz6PUvFktXlETs9zmRy81oyIeLoArtvx4HG8ZXEzjxRsUlxMs69EcdVvlzPVz2P/GuTxF/yBy1DwqOWJ6Cee6BvjkeCQZ0JiENEDtwZKpOsuuvE1q/SanKOvuNePRnMDWxDI1tNH9tf7oE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lfZZoOI7; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 015E63DEFF3
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 May 2026 07:14:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779088457; cv=pass; b=IAN+0IdN3CH0Mxr2d8UKeGlUwCG5MDsyhddGehyUQ1uEOR97UgdIimFUD+5F+UjbXrrXt8+g7IHsJqUKfRIoKFnh+1G6aImSct2kM5g2WnsjsB9/GYJ3JtJ+SwNqiCDIMYOTB0ulgjvin0yaTkoX4B45WPZzOEx6EwIZDYLHksE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779088457; c=relaxed/simple;
+	bh=33DaKSiLeoHHZkKGgXIGQ/dZwzi1DB1eTuzhRZCbxgs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WR8mBDHHc43tBOy2C0nPlK6pLFX7yfv35e5NdDdVu0erSPxLq9VQey9i5n0KGh+5LHAvD8IzFQ/0kbudi6U/AZ3ygo2MTbqB6pq4/7aengoaszK7cbpRNZg1bp3ebyrzdV5yykAKPx8iRKYLPHvo43T9RvFFVeZJBC7RS03I4XE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=f2cAiytM; arc=pass smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lfZZoOI7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779085736; x=1810621736;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=crUwGqC4+pXxFLpkZawrYEO/q19NSUqZT8S7pasV7ag=;
-  b=lfZZoOI7bdLm2F4bVqM/tiBf93B5NMn4ewDlaFGzDn246JY4aCVREsCq
-   U9e827Y4OXebr7unafbn/1hjGqKnYFaTlFuUFPUxSXSAGNpAr7cL2zBSW
-   x3u9wtPTxa7Ep1Zzji28kYqk0jNa/KU2uxG9hSLDqD2PpfjwJzVGOT8X1
-   yrzph2v6RuQoR8tlyfbABIzCxo7RSUT3zGzge3DMzcxBO5FKikdwlkVvx
-   PNmbRKlpEit9gsXXH4A+7K1kub/Ny3MOtNTMfCTQzDD4Um6rFvd30ZQFQ
-   /HRS47/fh4ouJp8f94pZzmxLW+NLGwx95fBDEM/ePifLyew7kiavfOjqv
-   Q==;
-X-CSE-ConnectionGUID: qQrCFvnlSa+Jo5I28OgMRg==
-X-CSE-MsgGUID: CE+0A3ZKQvejgkalQrPhZQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11789"; a="67459012"
-X-IronPort-AV: E=Sophos;i="6.23,241,1770624000"; 
-   d="scan'208";a="67459012"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2026 23:28:55 -0700
-X-CSE-ConnectionGUID: Co4AYr1kRc6Mdz7ufac1pQ==
-X-CSE-MsgGUID: hTWK5M/GQE+t+bmAb9HBtQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,241,1770624000"; 
-   d="scan'208";a="244312882"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 17 May 2026 23:28:53 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wOrT8-000000009k9-41jr;
-	Mon, 18 May 2026 06:28:50 +0000
-Date: Mon, 18 May 2026 08:28:05 +0200
-From: kernel test robot <lkp@intel.com>
-To: =?utf-8?Q?"Andr=C3=A9?= Almeida" <andrealmeid@igalia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- 0day robot <lkp@intel.com>, Bhupesh <bhupesh@igalia.com>
-Subject: net/netfilter/nf_tables_api.c:9714:46: error: incompatible
- integer to pointer conversion passing 'ssize_t' (aka 'long') to parameter of
- type 'const char *'
-Message-ID: <202605180818.g37TDTit-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="f2cAiytM"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-44c350a5b87so965627f8f.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 18 May 2026 00:14:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779088454; cv=none;
+        d=google.com; s=arc-20240605;
+        b=agDesfdeHaJgFWfaM4psIZxYHbvjbkR6Gr23wrpC0EuGvkW4cR4oG2cJ2koop7M9Rr
+         Lb50uTAXzjp+rmduURNm0GYsGZQ1R75OuFgyanuCqNKCgn8CHV2Zb1VodXN4QdVlR4nG
+         M05jEB6XkZ2W6z01WBbVc1UTznO7sIuS5TypQW1ZC7bQ7vaspaf4a4jpx2HKiTLHupnE
+         hJzPqqn2Y4hmOsP3RZd0xv/lZcIT9mC4sdaELlVnN24Mnr+87mjENQ82W+pBXOpisbg4
+         qO60oUZeHZh+yzSEsJV2I2AZ1SHC4l2rWZpFe4Da4+bqu1kQC3oXFp7kaVf2/V4C7U4E
+         C3Bw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=O7Jv7YKg9B4IAJGkXHP6bs2Gud+eLQyTYJ9ABZ76kfs=;
+        fh=rlPIJo2Vlu4xb+UANhUt2eunZ/KjRErtm6GKqYIGpaU=;
+        b=QDV/60OiQoXUP6HmGkUvWX4tQf13eaPb1PRgaS1C8kTaTpKYzNuNyakvsjVmH+ldfd
+         bUGtI5ctHjPfdGFlYQ4FrXapYHhi616lVpCUC90lxV7NKxJEgeI2cufD01cjTSH/WEqj
+         yizKpvUOezMIDJ7HrVThAv1B/Z3VV0Ft8e79yC3rlzW4o40/juN/OIQW5N/p7jjpNo1d
+         TEJnmfcucE68EwA0RpKfLgIAgKfJVHfl0S7W9ixERFM8PTrLfcjcheB9882sZx6QAfFQ
+         e1ZpMDEoJhVS/f5syBC3bMibiUNOJa0GouvpiXq9BbqOk3BnLQCT84KZDYmZFBzqokIC
+         gBPw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1779088454; x=1779693254; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=O7Jv7YKg9B4IAJGkXHP6bs2Gud+eLQyTYJ9ABZ76kfs=;
+        b=f2cAiytMvAcAHjg+2Bq7D9Lp3j0rDk6+Mj+NhmTFXWZvfQh7fdDhBYC0m4nIbPqMEM
+         tN9iLIpDIBzYPU6GPNoKROMzYL/V1tOoulAFA7kcRGgVbz8moc3mODburofylD1X69EJ
+         I5xxUHblNOQkBXqYF1umYCQofP241hw0Y+ywxKQUMNdpmYtv9oQuerOswDDyHeq93UwJ
+         4t0gycbx0r9uVKMVLEsYV84swBPxwPhOY9sqy5L0aUlrg01KZ/siaQJXMXydtYYJoVl5
+         k/aqc91Bh/qrfQO7CRBGI99jhihZeqNuWtDAGFAAXluDfxK9XNQ7RieENpyP4K0Y4/pB
+         kUfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779088454; x=1779693254;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O7Jv7YKg9B4IAJGkXHP6bs2Gud+eLQyTYJ9ABZ76kfs=;
+        b=mcEG8HU87cKVO9NMXFclVqJ4hS1BC3GK3CHoY8budz9iU7huKUQpLpfjfaY9JTcYg1
+         cStJ/xDNxsZGKaX8Cw+xc7MeCj51wZusLjYoe8p0uKzAkWmOjgh34DpXYeM08ap7t9JM
+         Jh2GHT68hiCxKoLP+etQhEEAFr8+TU/mKxoY7TtAO5l7FjA5AtlWpjoU4HpoqWxLMy4N
+         cBshQ8nnVkVTBF3drkhW0a87QZbDriBkai6O28fvElEmepkofM/fxXZcrrmgJlFgQvFI
+         geV8LmWxZZLWWpKZ1Lm8DxpcRffsn6V0OqTOSvzncsGTri4sYNP9BIxIt+g6jF91dbkZ
+         Zvhg==
+X-Forwarded-Encrypted: i=1; AFNElJ/gCCfAAhmq3rBgPd+u5y6d2gbET1Bq1txq+Q4TpiOD+apFrxMvFFhoI2VW3u1F/BmwObkV3v7kI3gyz63a@lists.linux.dev
+X-Gm-Message-State: AOJu0YwjM63jYBERNEmzjDp+K8ze6JuYUfov43gJm9D1BKPkkwFu/ggg
+	zRBqJiiJUHxYS3yd8i/GDc1UzAsrPchUc7rd2ma4kKB4B+q5c53hPl/5rV1KBOKFQx61gnK6asc
+	EtBQInSS/i/i9giFDOFHmHTNI2u15wUa9kuAplsgMTw==
+X-Gm-Gg: Acq92OEVKs1RggzQsv3mSnAxCY7KoEPWP+bItzak/S/gvtm725OWvnp53yGXw/5MbPD
+	I9fG0UPQumfFcNHxSztAZJoE6eKLzg11ZjZmJzXWg2sMc0rDKXs4w+mX2qYzN4zRKjqX2agU+3J
+	U32eKZqabGG/iQM6Uo1ZbonAOUAbs+bqDsIqnJJOGidpzsn9nUaNyf56bhLIh7qkT5YFquD3hOu
+	t+69ywu5qGEPO5uZZB4zZtd+h8JKVyMDE/P+Dot1uNJ/ap8XDDYIm+0BcG46V1sYstkTQ0IzaCn
+	TvML/aURx2D4cE+ZDJ1UAEsryMv46hDNoPyBuNoSNWZ10UBn/K1YCkJ85fRz2XQH4ALNqLcW4oj
+	LD38XgK8=
+X-Received: by 2002:a5d:588f:0:b0:43d:733f:aee6 with SMTP id
+ ffacd0b85a97d-45e5c5aefe4mr20471223f8f.10.1779088454245; Mon, 18 May 2026
+ 00:14:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+References: <202605140955.Dr60lOTF-lkp@intel.com> <CAPjX3Ffy5eThg4tDhvLYh-Vb3gzbSMzhkL8pJfDgtt-YD6CTTA@mail.gmail.com>
+ <20260515150222.GR2558453@suse.cz>
+In-Reply-To: <20260515150222.GR2558453@suse.cz>
+From: Daniel Vacek <neelx@suse.com>
+Date: Mon, 18 May 2026 09:14:03 +0200
+X-Gm-Features: AVHnY4KJlXtZpmrbIITn4S2J76KjWqy2PpMkLMT7XgtFYcqHuVQ3rKPY-zrY3yI
+Message-ID: <CAPjX3FdLz5sRxw6ycvzoKo7JFPQiuwM6NoSdXbWJRBbHgF=9NQ@mail.gmail.com>
+Subject: Re: [kdave-btrfs-devel:ext/dv/fscrypt 34/43] fs/btrfs/super.c:659:3:
+ error: a label can only be part of a statement and a declaration is not a statement
+To: dsterba@suse.cz
+Cc: kernel test robot <lkp@intel.com>, Josef Bacik <josef@toxicpanda.com>, oe-kbuild-all@lists.linux.dev, 
+	David Sterba <dsterba@suse.com>
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/sched-Update-get_task_comm-comment/20260518-023906
-head:   1b9c135d84ae615e18ef6eeb3d7a0a37b52cd016
-commit: f07f318df7d38648966bfebdc5643ba0bcc531b5 treewide: Get rid of get_task_comm()
-date:   12 hours ago
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260518/202605180818.g37TDTit-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260518/202605180818.g37TDTit-lkp@intel.com/reproduce)
+On Fri, 15 May 2026 at 17:02, David Sterba <dsterba@suse.cz> wrote:
+>
+> On Thu, May 14, 2026 at 05:34:20PM +0200, Daniel Vacek wrote:
+> > On Thu, 14 May 2026 at 03:28, kernel test robot <lkp@intel.com> wrote:
+> > >
+> > > tree:   https://github.com/kdave/btrfs-devel.git ext/dv/fscrypt
+> > > head:   4c05f02641d57f578a685f7e8d27b9cb18d17cc7
+> > > commit: 69bb73593025c83c008129a68acd562e97870998 [34/43] btrfs: add test_dummy_encryption support
+> > > config: nios2-randconfig-r073-20260514 (https://download.01.org/0day-ci/archive/20260514/202605140955.Dr60lOTF-lkp@intel.com/config)
+> > > compiler: nios2-linux-gcc (GCC) 8.5.0
+> > > smatch: v0.5.0-9185-gbcc58b9c
+> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605140955.Dr60lOTF-lkp@intel.com/reproduce)
+> > >
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202605140955.Dr60lOTF-lkp@intel.com/
+> > >
+> > > All errors (new ones prefixed by >>):
+> > >
+> > >    fs/btrfs/super.c: In function 'btrfs_parse_param':
+> > > >> fs/btrfs/super.c:659:3: error: a label can only be part of a statement and a declaration is not a statement
+> > >       int ret;
+> > >       ^~~
+> >
+> > And here we are. Old gcc also complains. Though it is less clear :-/
+> > So this?:
+> >
+> > --- a/fs/btrfs/super.c
+> > +++ b/fs/btrfs/super.c
+> > @@ -347,6 +347,9 @@ static int btrfs_parse_param(struct fs_context
+> > *fc, struct fs_parameter *param)
+> >      struct btrfs_fs_context *ctx = fc->fs_private;
+> >      struct fs_parse_result result;
+> >      int opt;
+> > +#ifdef CONFIG_BTRFS_DEBUG
+> > +    int ret;
+> > +#endif
+>
+> Inline ifdefs are an anti-pattern and should be avoided if possible, so
+> the statement block in case is fine.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605180818.g37TDTit-lkp@intel.com/
+OK
 
-All errors (new ones prefixed by >>):
-
->> net/netfilter/nf_tables_api.c:9714:46: error: incompatible integer to pointer conversion passing 'ssize_t' (aka 'long') to parameter of type 'const char *' [-Wint-conversion]
-    9714 |             nla_put_string(skb, NFTA_GEN_PROC_NAME, strscpy_pad(buf, current->comm)))
-         |                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/string.h:149:2: note: expanded from macro 'strscpy_pad'
-     149 |         CONCATENATE(__strscpy_pad, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/args.h:26:27: note: expanded from macro 'CONCATENATE'
-      26 | #define CONCATENATE(a, b) __CONCAT(a, b)
-         |                           ^
-   include/linux/args.h:25:24: note: expanded from macro '__CONCAT'
-      25 | #define __CONCAT(a, b) a ## b
-         |                        ^
-   <scratch space>:19:1: note: expanded from here
-      19 | __strscpy_pad0
-         | ^
-   include/linux/string.h:86:2: note: expanded from macro '__strscpy_pad0'
-      86 |         sized_strscpy_pad(dst, src, sizeof(dst) + __must_be_array(dst) +        \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      87 |                                     __must_be_cstr(dst) + __must_be_cstr(src))
-         |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/string.h:116:45: note: expanded from macro 'sized_strscpy_pad'
-     116 | #define sized_strscpy_pad(dest, src, count)     ({                      \
-         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~
-     117 |         char *__dst = (dest);                                           \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     118 |         const char *__src = (src);                                      \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     119 |         const size_t __count = (count);                                 \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     120 |         ssize_t __wrote;                                                \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     121 |                                                                         \
-         |                                                                         ~
-     122 |         __wrote = sized_strscpy(__dst, __src, __count);                 \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     123 |         if (__wrote >= 0 && __wrote < __count)                          \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     124 |                 memset(__dst + __wrote + 1, 0, __count - __wrote - 1);  \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     125 |         __wrote;                                                        \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     126 | })
-         | ~~
-   include/net/netlink.h:1655:18: note: passing argument to parameter 'str' here
-    1655 |                                  const char *str)
-         |                                              ^
-   1 error generated.
-
-
-vim +9714 net/netfilter/nf_tables_api.c
-
-  9699	
-  9700	static int nf_tables_fill_gen_info(struct sk_buff *skb, struct net *net,
-  9701					   u32 portid, u32 seq)
-  9702	{
-  9703		struct nlmsghdr *nlh;
-  9704		char buf[TASK_COMM_LEN];
-  9705		int event = nfnl_msg_type(NFNL_SUBSYS_NFTABLES, NFT_MSG_NEWGEN);
-  9706	
-  9707		nlh = nfnl_msg_put(skb, portid, seq, event, 0, AF_UNSPEC,
-  9708				   NFNETLINK_V0, nft_base_seq_be16(net));
-  9709		if (!nlh)
-  9710			goto nla_put_failure;
-  9711	
-  9712		if (nla_put_be32(skb, NFTA_GEN_ID, htonl(nft_base_seq(net))) ||
-  9713		    nla_put_be32(skb, NFTA_GEN_PROC_PID, htonl(task_pid_nr(current))) ||
-> 9714		    nla_put_string(skb, NFTA_GEN_PROC_NAME, strscpy_pad(buf, current->comm)))
-  9715			goto nla_put_failure;
-  9716	
-  9717		nlmsg_end(skb, nlh);
-  9718		return 0;
-  9719	
-  9720	nla_put_failure:
-  9721		nlmsg_trim(skb, nlh);
-  9722		return -EMSGSIZE;
-  9723	}
-  9724	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--nX
