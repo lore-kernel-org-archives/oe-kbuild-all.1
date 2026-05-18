@@ -1,84 +1,168 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA682853E9;
-	Mon, 18 May 2026 20:31:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E1BF389E03
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 May 2026 20:31:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779136310; cv=none; b=SOtvS0FH9tmKDWC4iHhXud8b33iWR8Yb1lczUtLThIoyh5Fo99lKLxhZYBicfftMxo9XFCA8HvthP2LnpyoQPbXTtWYRt7E/KI0WNA4lwWhqcp1eDbwpi5SJzxHzNyyeIME1MwpDjLXQdzbiTN/tCql53qXbnXdSXW8jWeSllpM=
+	t=1779136311; cv=none; b=A/nMMXIvnFus3z1Lr5P7f+FVgEy8VjJHYb5aqAoPw8Wgv/+zdyZH/Ids7/B3fxq5e/GM3F5gUPgTYBoCW8WGtI0+sXHIOgkajZtKfi+qtLwhH5RnMzemcw1QkzL+QdtRMu/J9oB+ZstWCf1KlJnVMJPrVzTZxrQxOAUtkL4XKy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779136310; c=relaxed/simple;
-	bh=DIvO4rBxkhaYNj1+q+RYLt36JnM10uB+yw3lWC5HpDk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=oU7BAyMjmCpylUICBdzRr5RHOJxJN2WeLju04zlpNnHIQKLX434jNgnTwGvucwV03FFXuOlTahPqdrZzXXIOxIvBdOR204YeZictbYFILhYOdawg6V8awDVZ5v5lo7Q4TqpqND/byBNcYi9U+fG21jloXfW5MJv+Y30sQv23hgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FVk84O6d; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1779136311; c=relaxed/simple;
+	bh=ydXo2XIcnCDnuaeWYRtalIfepOWgfDw1EKpHwpkVH/8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H97hxxSkgCA9WdWt1v6vZ8p0ErZOvXFtulxlv7lMdbLIsWpjLdNvTUoaWuwUgO6OI8jEd3nlK9zy24Oq5SsIllZ8ZlI7U5U4Jaoy7FQwJVlxRcHq6suE8A6mOyHYv6PaQT6mNP8NF8buqglGQbEp6W3h+U/9cxDIj48W2qTTAho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H4c8eIEf; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FVk84O6d"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H4c8eIEf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779136309; x=1810672309;
-  h=date:from:to:cc:subject:message-id;
-  bh=DIvO4rBxkhaYNj1+q+RYLt36JnM10uB+yw3lWC5HpDk=;
-  b=FVk84O6dBoEzIFbjKp8SCISc3WpefSB7+5PSF3A8wxv1f1pZ4FAuk6K9
-   mH3bmH8OV6N4YDw+0efMQ8KYBlPzU180z17qJkAycP3iMA1k+7iXEqvXf
-   RMq7hTJugSuDfnHH4C9+XBKTD0JnzziAC65dXHs1wZxRbSEaksh4tjIU2
-   Wym4IV/5rbCsujZ/erVlZRCJWBcKSNuPHKJCEa/fPf7y+Hk0dANiUDwXi
-   6aDwYCk3jM2Buxb2KkWimeaFxVN1kM2Tkxuap6P583H0HBXV7MX3horvN
-   eQoTh4Ik61ioREGEHX7XLQGMtVJhek7yoshZFRfik/IVWPe4H84UIWzMs
+  t=1779136310; x=1810672310;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ydXo2XIcnCDnuaeWYRtalIfepOWgfDw1EKpHwpkVH/8=;
+  b=H4c8eIEflAj2zhiX7yVOa3e00Q3NTjOdcdSjyzLUR5q61/xg5cLhmDW9
+   FlLhOBTXtsSfIwuvgH4SvrQ+2+rljI8h4rDtszrWSGCjyQ/HxTsZDXGPg
+   0DVQ6Noo58KGUO6CQah83kASdXEb9ge4AjT3zIVuox918Vjog9OqpgK0c
+   DUmtzSKt3HAFRcJJWufA5fEJwMk0ngsBpetxEZTPkqeVraIwjkplUrF5X
+   j0jcbeG5Xhsku2mbVscwo2o4BXzU9ztv2Y7mPNvYL6zbAZ62I/33MSAYy
+   zK5OUn0DShG/vu8sGirvE5TFkwK2RGlk8fPyEI3iLrZa6W9BcPtPb51mS
    A==;
-X-CSE-ConnectionGUID: BU5FsDFlSYuTpCvSOqEYKA==
-X-CSE-MsgGUID: edruOQoJSIOvHi3vQcQi+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="80035055"
+X-CSE-ConnectionGUID: BYIqoWldSvuxgPlzBZkw/A==
+X-CSE-MsgGUID: u27ovzxjQtejzI0cc1iQ8g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="80035061"
 X-IronPort-AV: E=Sophos;i="6.23,242,1770624000"; 
-   d="scan'208";a="80035055"
+   d="scan'208";a="80035061"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 13:31:49 -0700
-X-CSE-ConnectionGUID: m7Evzo/OR2qezqoPs+OJqw==
-X-CSE-MsgGUID: dxVWT+zfRciP4mCJPci8Xw==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 13:31:50 -0700
+X-CSE-ConnectionGUID: d0m9t1lWTf6cVYdn+o0JBQ==
+X-CSE-MsgGUID: 13v+sl6tR2GHBYRSdDRZtw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,242,1770624000"; 
-   d="scan'208";a="233164459"
+   d="scan'208";a="233164454"
 Received: from lkp-server01.sh.intel.com (HELO d94e5e629b2d) ([10.239.97.150])
   by fmviesa009.fm.intel.com with ESMTP; 18 May 2026 13:31:47 -0700
 Received: from kbuild by d94e5e629b2d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wP4cq-000000003N8-1JVP;
+	id 1wP4cq-000000003N4-14ih;
 	Mon, 18 May 2026 20:31:44 +0000
-Date: Tue, 19 May 2026 04:30:52 +0800
+Date: Tue, 19 May 2026 04:30:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Samuel Page <sam@bynar.io>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
- Miklos Szeredi <mszeredi@redhat.com>
-Subject: fs/fuse/fuse.o: error: objtool: fuse_emit+0x7e6: unknown CFA
- base reg -1
-Message-ID: <202605190427.XnIczptZ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Guangshuo Li <lgs201920130244@gmail.com>,
+	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+	Houlong Wei <houlong.wei@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Hans Verkuil <hverkuil@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Guangshuo Li <lgs201920130244@gmail.com>
+Subject: Re: [PATCH] media: mediatek: mdp: avoid double free on video
+ register failure
+Message-ID: <202605190406.bMshG7YY-lkp@intel.com>
+References: <20260518125500.1000083-1-lgs201920130244@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260518125500.1000083-1-lgs201920130244@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4bf5d3da79c48e1df4bab82c9680c53adeff7820
-commit: 51a8de6c50bf947c8f534cd73da4c8f0a13e7bed fuse: reject oversized dirents in page cache
-date:   4 weeks ago
-config: x86_64-buildonly-randconfig-003-20260519 (https://download.01.org/0day-ci/archive/20260519/202605190427.XnIczptZ-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260519/202605190427.XnIczptZ-lkp@intel.com/reproduce)
+Hi Guangshuo,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linuxtv-media-pending/master]
+[also build test ERROR on media-tree/master linus/master v7.1-rc4 next-20260518]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Guangshuo-Li/media-mediatek-mdp-avoid-double-free-on-video-register-failure/20260518-211648
+base:   https://git.linuxtv.org/media-ci/media-pending.git master
+patch link:    https://lore.kernel.org/r/20260518125500.1000083-1-lgs201920130244%40gmail.com
+patch subject: [PATCH] media: mediatek: mdp: avoid double free on video register failure
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260519/202605190406.bMshG7YY-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260519/202605190406.bMshG7YY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 51a8de6c50bf ("fuse: reject oversized dirents in page cache")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605190427.XnIczptZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605190406.bMshG7YY-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/fuse/fuse.o: warning: objtool: fuse_emit+0x7ed: undefined stack state
->> fs/fuse/fuse.o: error: objtool: fuse_emit+0x7e6: unknown CFA base reg -1
+   drivers/media/platform/mediatek/mdp/mtk_mdp_m2m.c: In function 'mtk_mdp_register_m2m_device':
+>> drivers/media/platform/mediatek/mdp/mtk_mdp_m2m.c:1217:40: error: expected ';' before 'mdp'
+    1217 |         video_device_release(mdp->vdev)
+         |                                        ^
+         |                                        ;
+    1218 |         mdp->vdev = NULL;
+         |         ~~~                             
+
+
+vim +1217 drivers/media/platform/mediatek/mdp/mtk_mdp_m2m.c
+
+  1172	
+  1173	int mtk_mdp_register_m2m_device(struct mtk_mdp_dev *mdp)
+  1174	{
+  1175		struct device *dev = &mdp->pdev->dev;
+  1176		int ret;
+  1177	
+  1178		mdp->variant = &mtk_mdp_default_variant;
+  1179		mdp->vdev = video_device_alloc();
+  1180		if (!mdp->vdev) {
+  1181			dev_err(dev, "failed to allocate video device\n");
+  1182			ret = -ENOMEM;
+  1183			goto err_video_alloc;
+  1184		}
+  1185		mdp->vdev->device_caps = V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING;
+  1186		mdp->vdev->fops = &mtk_mdp_m2m_fops;
+  1187		mdp->vdev->ioctl_ops = &mtk_mdp_m2m_ioctl_ops;
+  1188		mdp->vdev->release = video_device_release_empty;
+  1189		mdp->vdev->lock = &mdp->lock;
+  1190		mdp->vdev->vfl_dir = VFL_DIR_M2M;
+  1191		mdp->vdev->v4l2_dev = &mdp->v4l2_dev;
+  1192		snprintf(mdp->vdev->name, sizeof(mdp->vdev->name), "%s:m2m",
+  1193			 MTK_MDP_MODULE_NAME);
+  1194		video_set_drvdata(mdp->vdev, mdp);
+  1195	
+  1196		mdp->m2m_dev = v4l2_m2m_init(&mtk_mdp_m2m_ops);
+  1197		if (IS_ERR(mdp->m2m_dev)) {
+  1198			dev_err(dev, "failed to initialize v4l2-m2m device\n");
+  1199			ret = PTR_ERR(mdp->m2m_dev);
+  1200			goto err_m2m_init;
+  1201		}
+  1202	
+  1203		ret = video_register_device(mdp->vdev, VFL_TYPE_VIDEO, 2);
+  1204		if (ret) {
+  1205			dev_err(dev, "failed to register video device\n");
+  1206			goto err_vdev_register;
+  1207		}
+  1208		mdp->vdev->release = video_device_release;
+  1209	
+  1210		v4l2_info(&mdp->v4l2_dev, "driver registered as /dev/video%d",
+  1211			  mdp->vdev->num);
+  1212		return 0;
+  1213	
+  1214	err_vdev_register:
+  1215		v4l2_m2m_release(mdp->m2m_dev);
+  1216	err_m2m_init:
+> 1217		video_device_release(mdp->vdev)
+  1218		mdp->vdev = NULL;
+  1219	err_video_alloc:
+  1220	
+  1221		return ret;
+  1222	}
+  1223	
 
 --
 0-DAY CI Kernel Test Service
