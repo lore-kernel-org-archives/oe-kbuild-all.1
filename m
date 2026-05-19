@@ -1,49 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD73235F8D2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 May 2026 19:25:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C223B0AC8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 May 2026 19:26:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779218724; cv=none; b=WKpQBdqMMnCMqwuQvei2bmQFB7H+ydD8Wymn3Sp9pPCheXhNMnS4sN66nHL4JQxM6fy86LZclizfZEvcMLA7PvVqCgHrEHrpLHG5UA2m2CLDbuPdL99dURiiMm5637K9PZqbsHS8+0eY0u8HVHfmhaEJXfbmgZeAJC9GhHbYOqg=
+	t=1779218764; cv=none; b=I+yfGx1QJlKsrgPC14+w5bWAGfUbUwbQhiEcbhrWZO9yN8VMX/P9NKprbD8y1DvaYGaDyV0ZViPg+MaztVEKR0wTR1Wc64Kst2VMHLjlWoduzhhD1ShrYiVP0H/qy6zP017ll39+mzl+UFiHqioE4KXkvKrhhaUlmptQ4viUsgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779218724; c=relaxed/simple;
-	bh=FF42nqgjyEosQhISHqhoXMl4+Wcxgxr3h8yPBGfi8Ik=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=om1aL8A+PKc2bLSlRYZo4A8RDm0/tXm5Yl1Z4P1Tb35bGyyRL/Bxu+2jePLfO9i2QTDECIoZHwpaqYxYYWrqMEB/xlNUgAXNDev8PSzHBSgY7s5Jk9/2dSv5w6mjuuKfZqcFlpqkRjL61qHe+F2r5dTMX6Cf+e2Wd62MUOnQCcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LKZZNGIQ; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1779218764; c=relaxed/simple;
+	bh=ZAj7V85at/VnPJGycKEIjGwgJ5LeHQoyqcSqugNUBXk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=XLUG1shLQY31gQ+zO13+b4Mi4vlGmbjg1DV1OHbqz4PzMyh30K+KzB4NAlHZs4uU+365sDUTNfIy2XAZz/V1o/Lmh9rlIXhSRV8vatU5g2DcCPzjdVB2Z8DgYzt20YZ0yI4AROWmR+oXE9mbJoG3e4r+yZbaTtSp31aiV3Q4NXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J3TJIA5/; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LKZZNGIQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J3TJIA5/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779218723; x=1810754723;
+  t=1779218762; x=1810754762;
   h=date:from:to:cc:subject:message-id;
-  bh=FF42nqgjyEosQhISHqhoXMl4+Wcxgxr3h8yPBGfi8Ik=;
-  b=LKZZNGIQooFbo3JGTHM6bbfWJ2i7TwLjGHe1STqDKRrhLdPJAHWIqw1C
-   OayGRz+HjvZp+CgGaEJXUL+UP4ZxKWoxjTxk2Ct63yzLoMtg/2FnhlKaV
-   Z65pRJQRvAV9/O7bKLAjs52xkFI8Il7xnNoaHZVP5toP6ggZaOYd5UQrg
-   QHS4DrlRZ7gUZMKSvWI2FsGJENlcV9+XhEuemxOyMr+9E3yc+56K9bZFc
-   ukbKrcjIF+jO2LU9Vy8DPrnD88A77MLO2FIWthUHi5qCg4lVmWGpXrJDo
-   8fX9v8h8ABsv1fc6ffDbBx2Iu5oqcpjG6SC+cua1ljxsELYazBOG+Txr/
-   Q==;
-X-CSE-ConnectionGUID: S0yCzRUHQCmjgrrE/d8Myw==
-X-CSE-MsgGUID: 7qHTMnb9SO6NCcPVP33r/Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="83992170"
+  bh=ZAj7V85at/VnPJGycKEIjGwgJ5LeHQoyqcSqugNUBXk=;
+  b=J3TJIA5/nWA4qwuVXpfXuft1Ht0a7adv10bKdV9hKCUf8tYCXhEokpC4
+   WaeCNZ4ja7sFHvXsR4c93Xn7uG7ZMyOPcVa5o3J1+mrWq4KQJhLHX2K3L
+   p7PW0QJJTe2E5ChIuRvJv97rwTlprui5m2VgpXYtDqvA4lIxO8EpbLBkG
+   aB6sjocmI9iRb3HbzcSTKK73jRvUprV769G77BUv5Of4uScBOEZH8+vzm
+   Celi+f8YvQZ9COIauOdHtZCsUrbZq1OT6vSkLFaJ3kuxTh8y7l1t5B0Eb
+   xfh53cuchuPqak2otykdzFfyFP4LorBEmPguCpRJn/LsFxCIswniIOIjb
+   w==;
+X-CSE-ConnectionGUID: BlpZbkoSQSm0rjSNk3CnDw==
+X-CSE-MsgGUID: eRcKHDINQbeiPukKYLHK8Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="79831803"
 X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="83992170"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 12:25:22 -0700
-X-CSE-ConnectionGUID: vdTpQSy+QJuD8FIXP6pjGQ==
-X-CSE-MsgGUID: CL2t8bT3RV6Lw4loej3tqw==
+   d="scan'208";a="79831803"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 12:26:02 -0700
+X-CSE-ConnectionGUID: +Bnvj5PqSfOTPxV8MNnAsg==
+X-CSE-MsgGUID: 223wFEosQlKaY4KwJTf5DA==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
+   d="scan'208";a="237257475"
 Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 19 May 2026 12:25:20 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 19 May 2026 12:25:59 -0700
 Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wPQ3M-000000001lJ-0YTv;
-	Tue, 19 May 2026 19:24:35 +0000
-Date: Wed, 20 May 2026 03:23:45 +0800
+	id 1wPQ41-000000001lL-0dDO;
+	Tue, 19 May 2026 19:25:28 +0000
+Date: Wed, 20 May 2026 03:23:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: Ard Biesheuvel <ardb@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev,
@@ -51,9 +53,9 @@ Cc: oe-kbuild-all@lists.linux.dev,
  Kevin Brodsky <kevin.brodsky@arm.com>, Jann Horn <jannh@google.com>,
  Feng Tang <feng.tang@linux.alibaba.com>
 Subject: [ardb:arm64-remap-linear-data-alias-v5 2/13]
- arch/sh/mm/init.c:335:30: warning: passing argument 1 of
- '__flush_wback_region' discards 'const' qualifier from pointer target type
-Message-ID: <202605200336.oeejBFJU-lkp@intel.com>
+ arch/powerpc/lib/code-patching.c:120:30: warning: passing argument 1 of
+ 'map_patch_area' discards 'const' qualifier from pointer target type
+Message-ID: <202605200314.KSKlZ4Cs-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -64,62 +66,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git arm64-remap-linear-data-alias-v5
 head:   d3ef1c7a7d081f762b2bb61c614d06af61ace42b
 commit: f8ca7ccc34aa79d6d288b0b2c2f7da546487afa4 [2/13] mm: Make empty_zero_page[] const
-config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20260520/202605200336.oeejBFJU-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605200336.oeejBFJU-lkp@intel.com/reproduce)
+config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20260520/202605200314.KSKlZ4Cs-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605200314.KSKlZ4Cs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605200336.oeejBFJU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605200314.KSKlZ4Cs-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/sh/mm/init.c: In function 'mem_init':
->> arch/sh/mm/init.c:335:30: warning: passing argument 1 of '__flush_wback_region' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     335 |         __flush_wback_region(empty_zero_page, PAGE_SIZE);
+   arch/powerpc/lib/code-patching.c: In function 'text_area_cpu_up':
+>> arch/powerpc/lib/code-patching.c:120:30: warning: passing argument 1 of 'map_patch_area' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+     120 |         err = map_patch_area(empty_zero_page, addr);
          |                              ^~~~~~~~~~~~~~~
-   arch/sh/mm/init.c:335:30: note: expected 'void *' but argument is of type 'const uint8_t *' {aka 'const unsigned char *'}
+   arch/powerpc/lib/code-patching.c:63:33: note: expected 'void *' but argument is of type 'const uint8_t *' {aka 'const unsigned char *'}
+      63 | static int map_patch_area(void *addr, unsigned long text_poke_addr);
+         |                           ~~~~~~^~~~
 
 
-vim +335 arch/sh/mm/init.c
+vim +120 arch/powerpc/lib/code-patching.c
 
-d9b9487af79955 Paul Mundt     2010-01-18  328  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  329  void __init mem_init(void)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  330  {
-37443ef3f0406e Paul Mundt     2009-08-15  331  	/* Set this up early, so we can take care of the zero page */
-37443ef3f0406e Paul Mundt     2009-08-15  332  	cpu_cache_init();
-37443ef3f0406e Paul Mundt     2009-08-15  333  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  334  	/* clear the zero-page */
-^1da177e4c3f41 Linus Torvalds 2005-04-16 @335  	__flush_wback_region(empty_zero_page, PAGE_SIZE);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  336  
-35f99c0da17beb Paul Mundt     2010-01-20  337  	vsyscall_init();
-35f99c0da17beb Paul Mundt     2010-01-20  338  
-da61efcfedabf1 Jiang Liu      2013-07-03  339  	pr_info("virtual kernel memory layout:\n"
-35f99c0da17beb Paul Mundt     2010-01-20  340  		"    fixmap  : 0x%08lx - 0x%08lx   (%4ld kB)\n"
-35f99c0da17beb Paul Mundt     2010-01-20  341  		"    vmalloc : 0x%08lx - 0x%08lx   (%4ld MB)\n"
-3125ee72dca25f Paul Mundt     2010-01-21  342  		"    lowmem  : 0x%08lx - 0x%08lx   (%4ld MB) (cached)\n"
-b0f3ae03aca0f3 Paul Mundt     2010-02-12  343  #ifdef CONFIG_UNCACHED_MAPPING
-3125ee72dca25f Paul Mundt     2010-01-21  344  		"            : 0x%08lx - 0x%08lx   (%4ld MB) (uncached)\n"
-b0f3ae03aca0f3 Paul Mundt     2010-02-12  345  #endif
-35f99c0da17beb Paul Mundt     2010-01-20  346  		"      .init : 0x%08lx - 0x%08lx   (%4ld kB)\n"
-35f99c0da17beb Paul Mundt     2010-01-20  347  		"      .data : 0x%08lx - 0x%08lx   (%4ld kB)\n"
-35f99c0da17beb Paul Mundt     2010-01-20  348  		"      .text : 0x%08lx - 0x%08lx   (%4ld kB)\n",
-35f99c0da17beb Paul Mundt     2010-01-20  349  		FIXADDR_START, FIXADDR_TOP,
-35f99c0da17beb Paul Mundt     2010-01-20  350  		(FIXADDR_TOP - FIXADDR_START) >> 10,
-35f99c0da17beb Paul Mundt     2010-01-20  351  
-35f99c0da17beb Paul Mundt     2010-01-20  352  		(unsigned long)VMALLOC_START, VMALLOC_END,
-35f99c0da17beb Paul Mundt     2010-01-20  353  		(VMALLOC_END - VMALLOC_START) >> 20,
-35f99c0da17beb Paul Mundt     2010-01-20  354  
-35f99c0da17beb Paul Mundt     2010-01-20  355  		(unsigned long)memory_start, (unsigned long)high_memory,
-35f99c0da17beb Paul Mundt     2010-01-20  356  		((unsigned long)high_memory - (unsigned long)memory_start) >> 20,
-35f99c0da17beb Paul Mundt     2010-01-20  357  
+c28c15b6d28a77 Christopher M. Riedl 2022-11-09  104  
+37bc3e5fd764fb Balbir Singh         2017-06-29  105  static int text_area_cpu_up(unsigned int cpu)
+37bc3e5fd764fb Balbir Singh         2017-06-29  106  {
+37bc3e5fd764fb Balbir Singh         2017-06-29  107  	struct vm_struct *area;
+591b4b268435f0 Michael Ellerman     2022-02-23  108  	unsigned long addr;
+591b4b268435f0 Michael Ellerman     2022-02-23  109  	int err;
+37bc3e5fd764fb Balbir Singh         2017-06-29  110  
+d262a192d38e52 Christophe Leroy     2025-02-12  111  	area = get_vm_area(PAGE_SIZE, 0);
+37bc3e5fd764fb Balbir Singh         2017-06-29  112  	if (!area) {
+37bc3e5fd764fb Balbir Singh         2017-06-29  113  		WARN_ONCE(1, "Failed to create text area for cpu %d\n",
+37bc3e5fd764fb Balbir Singh         2017-06-29  114  			cpu);
+37bc3e5fd764fb Balbir Singh         2017-06-29  115  		return -1;
+37bc3e5fd764fb Balbir Singh         2017-06-29  116  	}
+591b4b268435f0 Michael Ellerman     2022-02-23  117  
+591b4b268435f0 Michael Ellerman     2022-02-23  118  	// Map/unmap the area to ensure all page tables are pre-allocated
+591b4b268435f0 Michael Ellerman     2022-02-23  119  	addr = (unsigned long)area->addr;
+591b4b268435f0 Michael Ellerman     2022-02-23 @120  	err = map_patch_area(empty_zero_page, addr);
+591b4b268435f0 Michael Ellerman     2022-02-23  121  	if (err)
+591b4b268435f0 Michael Ellerman     2022-02-23  122  		return err;
+591b4b268435f0 Michael Ellerman     2022-02-23  123  
+591b4b268435f0 Michael Ellerman     2022-02-23  124  	unmap_patch_area(addr);
+591b4b268435f0 Michael Ellerman     2022-02-23  125  
+2f228ee1ade5d8 Benjamin Gray        2022-11-09  126  	this_cpu_write(cpu_patching_context.area, area);
+2f228ee1ade5d8 Benjamin Gray        2022-11-09  127  	this_cpu_write(cpu_patching_context.addr, addr);
+2f228ee1ade5d8 Benjamin Gray        2022-11-09  128  	this_cpu_write(cpu_patching_context.pte, virt_to_kpte(addr));
+37bc3e5fd764fb Balbir Singh         2017-06-29  129  
+37bc3e5fd764fb Balbir Singh         2017-06-29  130  	return 0;
+37bc3e5fd764fb Balbir Singh         2017-06-29  131  }
+37bc3e5fd764fb Balbir Singh         2017-06-29  132  
 
-:::::: The code at line 335 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+:::::: The code at line 120 was first introduced by commit
+:::::: 591b4b268435f00d2f0b81f786c2c7bd5ef66416 powerpc/code-patching: Pre-map patch area
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: TO: Michael Ellerman <mpe@ellerman.id.au>
+:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
 
 --
 0-DAY CI Kernel Test Service
