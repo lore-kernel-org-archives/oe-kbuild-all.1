@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C291318EE1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 May 2026 02:33:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36FDF64AA4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 May 2026 03:17:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779158024; cv=none; b=Nr0Y5j6WiMX3ghfxNHAVe1cK4dji2h3iRW+xwNRx6IY8Tb4A4xeMuj+6rVhDNoqp6BsLxlwk/X93bwRqrh/6NXgSXuDHFPHzwh7w27aier6Iw/d2z87X47MW/yIDZU3cLwmyLewzoC7Uv+uAP7xkDJApPyMNlsZuEs1LUFmCWso=
+	t=1779160670; cv=none; b=Jb0fUw1K1GrkL+oSMC2ndw8rUSuKCnWP2tBjRT6eLE6CQCntgrc3wo2ucRSq6ZCEte6H7eq/gUy/myfSkosDsvXYhHe3EypOZytTCWLDCqu6i+/aLvVpiC8kl+m0SLoyx8uT5Kn9hwEkyGfRbOiXMsixj57aQd8A/5b6O56G4GI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779158024; c=relaxed/simple;
-	bh=A3wTHCdmKom04j9nCNQtgnz5icq/NE0c6bus446GIwU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Mah5zeR6/ZTRWznzJbraDNrED7ZHt2zetubYSAIk5o3X6L9UI73sbKr8S4JgyugcMwc2dYM3tumo129S/6//lcusYcCvgVTDCyHM0aqhGbF+4MzVpKGUV0q4r4s/JZS0PzadHiUSKSN1SYhNphZ5vat1wkTZ+LqM/vAVXcDCxpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VlEqZrR5; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1779160670; c=relaxed/simple;
+	bh=QEhOb083rNjm3spqxdGiQ1V4ufqgbIwGBEAHLoPlz88=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=GtwqEBPrRhPNUDcflp7qHXQK/p+J/agi0qM/+b3cCD8jFlb4cd4og5u9Nu0jfCZIf4jQUisD2AwICD1vqdwR8fYGXb5hP1plN7uyXPt3aHODCHYsBhF8D0vHFOqhn1JBWN604rSpTOzpIDzjEgfgy3syffkJXdzsnaa48Hwd32Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EMoZ5svt; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VlEqZrR5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EMoZ5svt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779158022; x=1810694022;
+  t=1779160668; x=1810696668;
   h=date:from:to:cc:subject:message-id;
-  bh=A3wTHCdmKom04j9nCNQtgnz5icq/NE0c6bus446GIwU=;
-  b=VlEqZrR5W4fI9HqQ2Z32GksTbMZ4qNPlkST2/Qru28pUTSSySgSLayvH
-   H8fJSdUNTvyexBwDX2mcZXa1eHgcjh7N6un/xUc7HAz0O3RkuLPyd1dGr
-   1v12SBA/q328sIi+WRIIlUhoO4p+mJCjZVqMOxKjXKqLdJVj5XgLBoZQQ
-   SwfHAE12q0qIhGgtsNB7kNQzFSOfw+fFBQJls20uBcDJH5EgtNx9cOAJM
-   k05LLF+Nkt84wrsbF7cHL7Xxr+/jy5Z6gJti/odVTomj8qBBapducVMhI
-   9uFYhvUvJlqUTcT+OPGs/+lGzIcgSrRX317hUdL7M4O2xaFZCY5CWwRzH
-   w==;
-X-CSE-ConnectionGUID: Ly1IOF5WStqTgfhyDFD9Kw==
-X-CSE-MsgGUID: wijUBdjlTNOGVLazNj+p7w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="67555113"
+  bh=QEhOb083rNjm3spqxdGiQ1V4ufqgbIwGBEAHLoPlz88=;
+  b=EMoZ5svt/C62UQ/ZuNWBj13gJI77gGNwROADq5lTQ1vX5zZr/zQrwoyC
+   20BygxeDqGh3ZYUT8ZCBUq0h5s32lTdoGA2mAu8q5AZnDc+0t3TzYENSt
+   K5P4xpbEFmq3gkdbBNCJY/9drU0/t4DBuG0UIUK+4a2sKuw2tpONOIN6b
+   kYsXytE3OJs3iwWR4JifAZ6gyHcnBM3px5RWERbP04Pmu4M8/C25apq6Q
+   JdZGsynOaIoFx+6PCX96GcA/q/8KOEl3VtCMO6aHEoqpgwC6wV0lXeUhI
+   MfIIi9ZcYvel4ERTxFxiDk7H1YqAjrTKz9iMjK1FD4D9queSr9ux6uIrQ
+   Q==;
+X-CSE-ConnectionGUID: nV9rMSrQSmm6FwdssnG5EA==
+X-CSE-MsgGUID: GZUMMxplQQ6qQPLYFAdpSw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="97461665"
 X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="67555113"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 19:33:41 -0700
-X-CSE-ConnectionGUID: 11H/3S4uSRWb37DwstSphQ==
-X-CSE-MsgGUID: 2PrnYTpMTv64HjYHMmr4Lg==
+   d="scan'208";a="97461665"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 20:17:45 -0700
+X-CSE-ConnectionGUID: X7+V/60NT+StSlsu4uA/yA==
+X-CSE-MsgGUID: Nq3aBYnKSAKJ73JoaGkPCg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="243922357"
+   d="scan'208";a="277738571"
 Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 18 May 2026 19:33:40 -0700
+  by orviesa001.jf.intel.com with ESMTP; 18 May 2026 20:17:43 -0700
 Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wPAGu-000000000Fr-308u;
-	Tue, 19 May 2026 02:33:30 +0000
-Date: Tue, 19 May 2026 10:32:40 +0800
+	id 1wPAx9-000000000LM-3bR5;
+	Tue, 19 May 2026 03:17:19 +0000
+Date: Tue, 19 May 2026 11:15:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rppt:gfp-to-kmalloc/v0.1 20/238]
- drivers/char/xillybus/xillyusb.c:402:18-22: WARNING: casting value returned
- by memory allocation function to (void *) is useless.
-Message-ID: <202605191039.4lCmbac6-lkp@intel.com>
+To: Gabriele Monaco <gmonaco@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Nam Cao <namcao@linutronix.de>, Juri Lelli <juri.lelli@redhat.com>
+Subject: kernel/trace/rv/monitors/deadline/deadline.h:115:46: sparse:
+ sparse: incorrect type in argument 1 (different address spaces)
+Message-ID: <202605191116.acPXYOW4-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,86 +60,66 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git gfp-to-kmalloc/v0.1
-head:   cf8f69ff9142effba4d8d9a70a1a4f275044376c
-commit: 75b6846cfcc17df3f3af6497491c289e0682ae37 [20/238] char: xillybus: replace __get_free_pages() with kmalloc()
-config: microblaze-randconfig-r062-20260519 (https://download.01.org/0day-ci/archive/20260519/202605191039.4lCmbac6-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 8.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4d3a2a466b8d68d852a1f3bbf11204b718428dc4
+commit: b133207deb72609ad4da40c4d50128a5e150677b rv: Add nomiss deadline monitor
+date:   7 weeks ago
+config: loongarch-randconfig-r111-20260519 (https://download.01.org/0day-ci/archive/20260519/202605191116.acPXYOW4-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260519/202605191116.acPXYOW4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: b133207deb72 ("rv: Add nomiss deadline monitor")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605191039.4lCmbac6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605191116.acPXYOW4-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/char/xillybus/xillyusb.c:402:18-22: WARNING: casting value returned by memory allocation function to (void *) is useless.
+sparse warnings: (new ones prefixed by >>)
+   kernel/trace/rv/monitors/nomiss/nomiss.c: note: in included file:
+>> kernel/trace/rv/monitors/deadline/deadline.h:115:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *dst @@     got struct sched_attr [noderef] __user * @@
+   kernel/trace/rv/monitors/deadline/deadline.h:115:46: sparse:     expected void *dst
+   kernel/trace/rv/monitors/deadline/deadline.h:115:46: sparse:     got struct sched_attr [noderef] __user *
+>> kernel/trace/rv/monitors/deadline/deadline.h:118:21: sparse: sparse: dereference of noderef expression
+   kernel/trace/rv/monitors/deadline/deadline.h:120:30: sparse: sparse: dereference of noderef expression
 
-vim +402 drivers/char/xillybus/xillyusb.c
+vim +115 kernel/trace/rv/monitors/deadline/deadline.h
 
-   368	
-   369	static int fifo_init(struct xillyfifo *fifo,
-   370			     unsigned int log2_size)
-   371	{
-   372		unsigned int log2_bufnum;
-   373		unsigned int buf_order;
-   374		int i;
-   375	
-   376		unsigned int log2_fifo_buf_size;
-   377	
-   378	retry:
-   379		log2_fifo_buf_size = fifo_buf_order + PAGE_SHIFT;
-   380	
-   381		if (log2_size > log2_fifo_buf_size) {
-   382			log2_bufnum = log2_size - log2_fifo_buf_size;
-   383			buf_order = fifo_buf_order;
-   384			fifo->bufsize = 1 << log2_fifo_buf_size;
-   385		} else {
-   386			log2_bufnum = 0;
-   387			buf_order = (log2_size > PAGE_SHIFT) ?
-   388				log2_size - PAGE_SHIFT : 0;
-   389			fifo->bufsize = 1 << log2_size;
-   390		}
-   391	
-   392		fifo->bufnum = 1 << log2_bufnum;
-   393		fifo->size = fifo->bufnum * fifo->bufsize;
-   394		fifo->buf_order = buf_order;
-   395	
-   396		fifo->mem = kmalloc_array(fifo->bufnum, sizeof(void *), GFP_KERNEL);
-   397	
-   398		if (!fifo->mem)
-   399			return -ENOMEM;
-   400	
-   401		for (i = 0; i < fifo->bufnum; i++) {
- > 402			fifo->mem[i] = (void *)kmalloc(PAGE_SIZE << (buf_order), GFP_KERNEL);
-   403	
-   404			if (!fifo->mem[i])
-   405				goto memfail;
-   406		}
-   407	
-   408		fifo->fill = 0;
-   409		fifo->readpos = 0;
-   410		fifo->readbuf = 0;
-   411		fifo->writepos = 0;
-   412		fifo->writebuf = 0;
-   413		spin_lock_init(&fifo->lock);
-   414		init_waitqueue_head(&fifo->waitq);
-   415		return 0;
-   416	
-   417	memfail:
-   418		for (i--; i >= 0; i--)
-   419			kfree((void *)(unsigned long)fifo->mem[i]);
-   420	
-   421		kfree(fifo->mem);
-   422		fifo->mem = NULL;
-   423	
-   424		if (fifo_buf_order) {
-   425			fifo_buf_order--;
-   426			goto retry;
-   427		} else {
-   428			return -ENOMEM;
-   429		}
-   430	}
-   431	
+    94	
+    95	static inline int extract_params(struct pt_regs *regs, long id, pid_t *pid_out)
+    96	{
+    97		size_t size = offsetofend(struct sched_attr, sched_flags);
+    98		struct sched_attr __user *uattr, attr;
+    99		int new_policy = -1, ret;
+   100		unsigned long args[6];
+   101	
+   102		switch (id) {
+   103		case __NR_sched_setscheduler:
+   104			syscall_get_arguments(current, regs, args);
+   105			*pid_out = args[0];
+   106			new_policy = args[1];
+   107			break;
+   108		case __NR_sched_setattr:
+   109			syscall_get_arguments(current, regs, args);
+   110			*pid_out = args[0];
+   111			uattr = (struct sched_attr __user *)args[1];
+   112			/*
+   113			 * Just copy up to sched_flags, we are not interested after that
+   114			 */
+ > 115			ret = copy_struct_from_user(&attr, size, uattr, size);
+   116			if (ret)
+   117				return ret;
+ > 118			if (attr.sched_flags & SCHED_FLAG_KEEP_POLICY)
+   119				return -EINVAL;
+   120			new_policy = attr.sched_policy;
+   121			break;
+   122		default:
+   123			return -EINVAL;
+   124		}
+   125	
+   126		return new_policy & ~SCHED_RESET_ON_FORK;
+   127	}
+   128	
 
 --
 0-DAY CI Kernel Test Service
