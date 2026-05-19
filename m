@@ -1,64 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA883E7BD5
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 May 2026 12:46:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F227C409601
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 May 2026 13:22:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779194810; cv=none; b=WNZCgHa3YwGjouuRSOVsQU3+yEC5IRx5WScYw51qDcYqUUS3mOIQDepVyPOW6D776S6XpAkXJJOpKs+h4/3PWgVUDY+vRp/EVlym61ow+dHw48RKilffJv0tfCHfE0hqwVbYI/Or2s6Od4UWcws9Dt5Is1XvgaGdaaxL0+0A0eM=
+	t=1779196930; cv=none; b=puxuofdHMdkTPVIe7Ua+1NpZGUUVbX0kELbTUtIOBizJANaqicTkZ2s4I999suWT1LCOYDuYnxjavwHFfozeJoLpVgMOsErqwE/jQZJt3jnzXythkHpMF06KhJVzbjOzP/+7y7qk/w517MevXzoAMlSdAe9C7Y0Or6TgBaEF6U8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779194810; c=relaxed/simple;
-	bh=vDd6+/LlZXuQIdC9oRq+Qfyw0chZbpiBnLfYuEbytYI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=KFykHEgqJgvRdrwkUEG6pad6SKPcm8m83Kft5rzwW8hYcrYWfy5/+0x81XteSpfo4s5+k/k+odraUmkBTMWpaNua7DXb8iIn4SQO/Jo1Z9TjSU5qPE0R9VLZ8wprBQptoBeK+dM4EtZnB+sl21V9hIDjWOC4h32bZAAkVzvTPH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EHgNd9Ms; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1779196930; c=relaxed/simple;
+	bh=0DOGHmbTiOxaq5Lkyi3/3tBJC65Prc4+RQK6ZRBWl2g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FbDNvkkzgsTAyzOIZFQfEyKCHvqDSPbaWODnUVPkHoIYEDZMWtvOeP2OwQL+2lzXvzf4eLvhYt9IC2Xt9rd4UQiP02w5eLqp6XOAxdZ6FMWh2JTVTjWbQ8DRseMWI/QqeqShsmzWSrc6L77JlIL0WCKqysA0UNx3o66cCjPtUWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fo0KAlSO; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EHgNd9Ms"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fo0KAlSO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779194807; x=1810730807;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vDd6+/LlZXuQIdC9oRq+Qfyw0chZbpiBnLfYuEbytYI=;
-  b=EHgNd9Ms/JQ2KEsFwR2J9H07RFCTv+kQkkGuix4HO1zhk41wZgHth/yM
-   s+UOvXe1rDjVCLvLoqYk5brbgricYKOL7kqiUEZtpQQb5sLl1l6VQlgqQ
-   R3k73WunfAMZBaC6reEcZNWAP7ktwq76Zy20yPN6Toh59u1PdgqSHS3rv
-   fnjsHUu5NXOM9e333WGYdNNMuvKMtqqNuriAX/nLyOYjrLSIp7NPcsRGT
-   9+nb3b5aS8h6xam7khWjiVVoCJbywvO9K4MpkWzYRuIC9nCgjr5FLxo3P
-   C85G4lR1RXghRIfjGh8hkomRS+8d9gV+g33pYk7UwpSAA8hZijpZk7ipg
+  t=1779196929; x=1810732929;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0DOGHmbTiOxaq5Lkyi3/3tBJC65Prc4+RQK6ZRBWl2g=;
+  b=Fo0KAlSOkJFqtjUOR5MRLZL19zWYV/kUCYvvoaDPADb8RoFs3c+kDBtg
+   kSegIP5WbPrM70VGIZg5X4U5+UH3ukDKL8Oy1CEsraU03Q+k/UeD3L2YL
+   syiD5AVtTzoLme+WsZrvG6JHv5bSf4Coq6NwtGg4wWtZS82O25EfDA+TN
+   Ivvamf118ffJZhGjuJsiTrBSjQg6zD3O3cTnafeS8ieM5KYyQn+8JUk+K
+   33Dukze4AP+HskSjpLncyywnvZFAo9S9wNsJq7j5v3eRxg+5AaYk7YHgi
+   ndouqCpYXZCWPdSCZ1QGZrKk2/pYztgA9s5vgpux1h0ef5I+vROjZzSxV
    g==;
-X-CSE-ConnectionGUID: MO12kzq0T4qdhJPgrs4Lyw==
-X-CSE-MsgGUID: gqGBoy09T/+SCIpsOctn/A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="79092449"
+X-CSE-ConnectionGUID: FU5CN29TQxyWcEYWJvIBOQ==
+X-CSE-MsgGUID: 60rvOH/KRjCvRqMZ78US7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="80124481"
 X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="79092449"
+   d="scan'208";a="80124481"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 05:46:47 -0700
-X-CSE-ConnectionGUID: CP+x1F7MQISf33dzMajw7g==
-X-CSE-MsgGUID: ATkBfnbnRqKVnbL+h61kAw==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 06:22:08 -0700
+X-CSE-ConnectionGUID: NQnuvB9YTmeMay4v4oPFZQ==
+X-CSE-MsgGUID: Vb8Iha8+SWe058qVUl/3PA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="239619097"
+   d="scan'208";a="239628326"
 Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 19 May 2026 05:46:45 -0700
+  by orviesa008.jf.intel.com with ESMTP; 19 May 2026 06:22:08 -0700
 Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wPJqM-00000000145-1UVQ;
-	Tue, 19 May 2026 12:46:42 +0000
-Date: Tue, 19 May 2026 20:46:34 +0800
+	id 1wPKNv-0000000016L-3Pbt;
+	Tue, 19 May 2026 13:21:30 +0000
+Date: Tue, 19 May 2026 21:18:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Alex Deucher <alexander.deucher@amd.com>,
- Harry Wentland <harry.wentland@amd.com>, Alex Hung <alex.hung@amd.com>,
- Ivan Lipski <ivan.lipski@amd.com>
-Subject: [agd5f:drm-next 33/58]
- =?us-ascii?Q?drivers/gpu/drm/amd/amdgpu/../display/amdgpu=5Fdm/tests/amd?=
- =?us-ascii?Q?gpu=5Fdm=5Fcrc=5Ftest.c:14:63:?= error: implicit declaration
- of function 'dm_parse_crc_source'; did you mean
- 'dm_test_parse_crc_source_none'?
-Message-ID: <202605192042.HZrKLrET-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Disha Goel <disgoel@linux.ibm.com>, shuah@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Disha Goel <disgoel@linux.ibm.com>
+Subject: Re: [PATCH] selftests/filesystems: Move file_stressor to dedicated
+ subdirectory
+Message-ID: <202605192100.DvRgEGZ3-lkp@intel.com>
+References: <20260519104210.11836-1-disgoel@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,191 +63,38 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260519104210.11836-1-disgoel@linux.ibm.com>
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next
-head:   99cbcb3453b7d19cab507db9313ada9a38e82d01
-commit: f78ca8d95cff848dafe09f260d1c637ae9d34565 [33/58] drm/amd/display: Add KUnit test for CRC function
-config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20260519/202605192042.HZrKLrET-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260519/202605192042.HZrKLrET-lkp@intel.com/reproduce)
+Hi Disha,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on shuah-kselftest/next]
+[also build test WARNING on shuah-kselftest/fixes linus/master v7.1-rc4 next-20260518]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Disha-Goel/selftests-filesystems-Move-file_stressor-to-dedicated-subdirectory/20260519-185602
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
+patch link:    https://lore.kernel.org/r/20260519104210.11836-1-disgoel%40linux.ibm.com
+patch subject: [PATCH] selftests/filesystems: Move file_stressor to dedicated subdirectory
+config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20260519/202605192100.DvRgEGZ3-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260519/202605192100.DvRgEGZ3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605192042.HZrKLrET-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605192100.DvRgEGZ3-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:48:32: warning: no previous prototype for 'dm_parse_crc_source' [-Wmissing-prototypes]
-      48 | enum amdgpu_dm_pipe_crc_source dm_parse_crc_source(const char *source)
-         |                                ^~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:66:6: warning: no previous prototype for 'dm_is_crc_source_crtc' [-Wmissing-prototypes]
-      66 | bool dm_is_crc_source_crtc(enum amdgpu_dm_pipe_crc_source src)
-         |      ^~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:74:6: warning: no previous prototype for 'dm_is_crc_source_dprx' [-Wmissing-prototypes]
-      74 | bool dm_is_crc_source_dprx(enum amdgpu_dm_pipe_crc_source src)
-         |      ^~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:82:6: warning: no previous prototype for 'dm_need_crc_dither' [-Wmissing-prototypes]
-      82 | bool dm_need_crc_dither(enum amdgpu_dm_pipe_crc_source src)
-         |      ^~~~~~~~~~~~~~~~~~
---
-   In file included from drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_crc_test.c:8:
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_crc_test.c: In function 'dm_test_parse_crc_source_none':
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_crc_test.c:14:63: error: implicit declaration of function 'dm_parse_crc_source'; did you mean 'dm_test_parse_crc_source_none'? [-Wimplicit-function-declaration]
-      14 |         KUNIT_EXPECT_EQ(test, AMDGPU_DM_PIPE_CRC_SOURCE_NONE, dm_parse_crc_source("none"));
-         |                                                               ^~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:840:22: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     840 |         const typeof(right) __right = (right);                                 \
-         |                      ^~~~~
-   include/kunit/test.h:1036:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
-    1036 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:1033:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
-    1033 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_crc_test.c:14:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-      14 |         KUNIT_EXPECT_EQ(test, AMDGPU_DM_PIPE_CRC_SOURCE_NONE, dm_parse_crc_source("none"));
-         |         ^~~~~~~~~~~~~~~
-   In file included from include/linux/err.h:5,
-                    from include/kunit/assert.h:12,
-                    from include/kunit/test.h:12:
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_crc_test.c: In function 'dm_test_is_crc_source_crtc':
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_crc_test.c:53:33: error: implicit declaration of function 'dm_is_crc_source_crtc'; did you mean 'dm_test_is_crc_source_crtc'? [-Wimplicit-function-declaration]
-      53 |         KUNIT_EXPECT_TRUE(test, dm_is_crc_source_crtc(AMDGPU_DM_PIPE_CRC_SOURCE_CRTC));
-         |                                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-   include/kunit/test.h:800:9: note: in expansion of macro 'KUNIT_UNARY_ASSERTION'
-     800 |         KUNIT_UNARY_ASSERTION(test,                                            \
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:996:9: note: in expansion of macro 'KUNIT_TRUE_MSG_ASSERTION'
-     996 |         KUNIT_TRUE_MSG_ASSERTION(test,                                         \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:993:9: note: in expansion of macro 'KUNIT_EXPECT_TRUE_MSG'
-     993 |         KUNIT_EXPECT_TRUE_MSG(test, condition, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_crc_test.c:53:9: note: in expansion of macro 'KUNIT_EXPECT_TRUE'
-      53 |         KUNIT_EXPECT_TRUE(test, dm_is_crc_source_crtc(AMDGPU_DM_PIPE_CRC_SOURCE_CRTC));
-         |         ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_crc_test.c: In function 'dm_test_is_crc_source_dprx':
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_crc_test.c:64:33: error: implicit declaration of function 'dm_is_crc_source_dprx'; did you mean 'dm_test_is_crc_source_dprx'? [-Wimplicit-function-declaration]
-      64 |         KUNIT_EXPECT_TRUE(test, dm_is_crc_source_dprx(AMDGPU_DM_PIPE_CRC_SOURCE_DPRX));
-         |                                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-   include/kunit/test.h:800:9: note: in expansion of macro 'KUNIT_UNARY_ASSERTION'
-     800 |         KUNIT_UNARY_ASSERTION(test,                                            \
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:996:9: note: in expansion of macro 'KUNIT_TRUE_MSG_ASSERTION'
-     996 |         KUNIT_TRUE_MSG_ASSERTION(test,                                         \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:993:9: note: in expansion of macro 'KUNIT_EXPECT_TRUE_MSG'
-     993 |         KUNIT_EXPECT_TRUE_MSG(test, condition, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_crc_test.c:64:9: note: in expansion of macro 'KUNIT_EXPECT_TRUE'
-      64 |         KUNIT_EXPECT_TRUE(test, dm_is_crc_source_dprx(AMDGPU_DM_PIPE_CRC_SOURCE_DPRX));
-         |         ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_crc_test.c: In function 'dm_test_need_crc_dither':
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_crc_test.c:75:33: error: implicit declaration of function 'dm_need_crc_dither'; did you mean 'dm_test_need_crc_dither'? [-Wimplicit-function-declaration]
-      75 |         KUNIT_EXPECT_TRUE(test, dm_need_crc_dither(AMDGPU_DM_PIPE_CRC_SOURCE_NONE));
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-   include/kunit/test.h:800:9: note: in expansion of macro 'KUNIT_UNARY_ASSERTION'
-     800 |         KUNIT_UNARY_ASSERTION(test,                                            \
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:996:9: note: in expansion of macro 'KUNIT_TRUE_MSG_ASSERTION'
-     996 |         KUNIT_TRUE_MSG_ASSERTION(test,                                         \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:993:9: note: in expansion of macro 'KUNIT_EXPECT_TRUE_MSG'
-     993 |         KUNIT_EXPECT_TRUE_MSG(test, condition, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_crc_test.c:75:9: note: in expansion of macro 'KUNIT_EXPECT_TRUE'
-      75 |         KUNIT_EXPECT_TRUE(test, dm_need_crc_dither(AMDGPU_DM_PIPE_CRC_SOURCE_NONE));
-         |         ^~~~~~~~~~~~~~~~~
-
-
-vim +14 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/tests/amdgpu_dm_crc_test.c
-
-   > 8	#include <kunit/test.h>
-     9	
-    10	#include "amdgpu_dm_crc.h"
-    11	
-    12	static void dm_test_parse_crc_source_none(struct kunit *test)
-    13	{
-  > 14		KUNIT_EXPECT_EQ(test, AMDGPU_DM_PIPE_CRC_SOURCE_NONE, dm_parse_crc_source("none"));
-    15		KUNIT_EXPECT_EQ(test, AMDGPU_DM_PIPE_CRC_SOURCE_NONE, dm_parse_crc_source(NULL));
-    16	}
-    17	
-    18	static void dm_test_parse_crc_source_crtc(struct kunit *test)
-    19	{
-    20		KUNIT_EXPECT_EQ(test, AMDGPU_DM_PIPE_CRC_SOURCE_CRTC, dm_parse_crc_source("crtc"));
-    21		KUNIT_EXPECT_EQ(test, AMDGPU_DM_PIPE_CRC_SOURCE_CRTC, dm_parse_crc_source("auto"));
-    22	}
-    23	
-    24	static void dm_test_parse_crc_source_dprx(struct kunit *test)
-    25	{
-    26		KUNIT_EXPECT_EQ(test, AMDGPU_DM_PIPE_CRC_SOURCE_DPRX, dm_parse_crc_source("dprx"));
-    27	}
-    28	
-    29	static void dm_test_parse_crc_source_crtc_dither(struct kunit *test)
-    30	{
-    31		KUNIT_EXPECT_EQ(test, AMDGPU_DM_PIPE_CRC_SOURCE_CRTC_DITHER,
-    32				dm_parse_crc_source("crtc dither"));
-    33	}
-    34	
-    35	static void dm_test_parse_crc_source_dprx_dither(struct kunit *test)
-    36	{
-    37		KUNIT_EXPECT_EQ(test, AMDGPU_DM_PIPE_CRC_SOURCE_DPRX_DITHER,
-    38				dm_parse_crc_source("dprx dither"));
-    39	}
-    40	
-    41	static void dm_test_parse_crc_source_invalid(struct kunit *test)
-    42	{
-    43		KUNIT_EXPECT_EQ(test, AMDGPU_DM_PIPE_CRC_SOURCE_INVALID,
-    44				dm_parse_crc_source("invalid"));
-    45		KUNIT_EXPECT_EQ(test, AMDGPU_DM_PIPE_CRC_SOURCE_INVALID,
-    46				dm_parse_crc_source("unknown"));
-    47		KUNIT_EXPECT_EQ(test, AMDGPU_DM_PIPE_CRC_SOURCE_INVALID,
-    48				dm_parse_crc_source(""));
-    49	}
-    50	
-    51	static void dm_test_is_crc_source_crtc(struct kunit *test)
-    52	{
-  > 53		KUNIT_EXPECT_TRUE(test, dm_is_crc_source_crtc(AMDGPU_DM_PIPE_CRC_SOURCE_CRTC));
-    54		KUNIT_EXPECT_TRUE(test, dm_is_crc_source_crtc(AMDGPU_DM_PIPE_CRC_SOURCE_CRTC_DITHER));
-    55	
-    56		KUNIT_EXPECT_FALSE(test, dm_is_crc_source_crtc(AMDGPU_DM_PIPE_CRC_SOURCE_NONE));
-    57		KUNIT_EXPECT_FALSE(test, dm_is_crc_source_crtc(AMDGPU_DM_PIPE_CRC_SOURCE_DPRX));
-    58		KUNIT_EXPECT_FALSE(test, dm_is_crc_source_crtc(AMDGPU_DM_PIPE_CRC_SOURCE_DPRX_DITHER));
-    59		KUNIT_EXPECT_FALSE(test, dm_is_crc_source_crtc(AMDGPU_DM_PIPE_CRC_SOURCE_INVALID));
-    60	}
-    61	
-    62	static void dm_test_is_crc_source_dprx(struct kunit *test)
-    63	{
-  > 64		KUNIT_EXPECT_TRUE(test, dm_is_crc_source_dprx(AMDGPU_DM_PIPE_CRC_SOURCE_DPRX));
-    65		KUNIT_EXPECT_TRUE(test, dm_is_crc_source_dprx(AMDGPU_DM_PIPE_CRC_SOURCE_DPRX_DITHER));
-    66	
-    67		KUNIT_EXPECT_FALSE(test, dm_is_crc_source_dprx(AMDGPU_DM_PIPE_CRC_SOURCE_NONE));
-    68		KUNIT_EXPECT_FALSE(test, dm_is_crc_source_dprx(AMDGPU_DM_PIPE_CRC_SOURCE_CRTC));
-    69		KUNIT_EXPECT_FALSE(test, dm_is_crc_source_dprx(AMDGPU_DM_PIPE_CRC_SOURCE_CRTC_DITHER));
-    70		KUNIT_EXPECT_FALSE(test, dm_is_crc_source_dprx(AMDGPU_DM_PIPE_CRC_SOURCE_INVALID));
-    71	}
-    72	
-    73	static void dm_test_need_crc_dither(struct kunit *test)
-    74	{
-  > 75		KUNIT_EXPECT_TRUE(test, dm_need_crc_dither(AMDGPU_DM_PIPE_CRC_SOURCE_NONE));
-    76		KUNIT_EXPECT_TRUE(test, dm_need_crc_dither(AMDGPU_DM_PIPE_CRC_SOURCE_CRTC_DITHER));
-    77		KUNIT_EXPECT_TRUE(test, dm_need_crc_dither(AMDGPU_DM_PIPE_CRC_SOURCE_DPRX_DITHER));
-    78	
-    79		KUNIT_EXPECT_FALSE(test, dm_need_crc_dither(AMDGPU_DM_PIPE_CRC_SOURCE_CRTC));
-    80		KUNIT_EXPECT_FALSE(test, dm_need_crc_dither(AMDGPU_DM_PIPE_CRC_SOURCE_DPRX));
-    81		KUNIT_EXPECT_FALSE(test, dm_need_crc_dither(AMDGPU_DM_PIPE_CRC_SOURCE_INVALID));
-    82	}
-    83	
+   Documentation/.renames.txt: warning: ignored by one of the .gitignore files
+>> tools/testing/selftests/filesystems/file_stressor/Makefile: warning: ignored by one of the .gitignore files
+>> tools/testing/selftests/filesystems/file_stressor/file_stressor.c: warning: ignored by one of the .gitignore files
+>> tools/testing/selftests/filesystems/file_stressor/settings: warning: ignored by one of the .gitignore files
 
 --
 0-DAY CI Kernel Test Service
