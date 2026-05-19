@@ -1,85 +1,129 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from rcdn-iport-6.cisco.com (rcdn-iport-6.cisco.com [173.37.86.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 125C53939D3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 May 2026 22:05:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAAE9248F66
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 May 2026 22:07:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.37.86.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779228317; cv=none; b=Pxbeikoie9RPlLvh6Ho9V/Jqm9KGWWxYbfBLbzVvIQuxHv00I8vki1vkINoYuvOS/l+C0C+mP7clKZ/yyPrkKIzT3sODU6RF2AP5uyE2TNcfX/UQ34bi/6cM083we8mBWF7N/Wi8ZRmNmC6gNRwIJ+G5Zeuku2sbSFvalZXtU3M=
+	t=1779228432; cv=none; b=o88sFk1LYBePoAhh4KBxzrIeWG/hR7ESuxhvOM5azAKIlyhCoUOfWUad35g9Fke14dhgIp9P/dZJiTrbIX+pSk5RCuhDJlNMTj5V3eVYGZNpqUCYTZnAN1V1T4X/5WGURKSd6pRFkhNReuY4NTG1VabXa6rPO6te4GAhsJLbSus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779228317; c=relaxed/simple;
-	bh=uFKBnhoFwk+2dJIw0FY3B9R0EPcKqvSzt5ODlPMtzf0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=CDhh/ZWCnFNQdhNurrqjqfqSfr9v/D5k+fmro/REuzoNIAZwnDX+42B5ymw7PNSYtXBWgxxxUPlYvJ4ybzk3leytKR8OiaNB8OOyKXUj3iy+khRMbWnXffYC9h5lA2hthfntS56Ci4WxslhLsLGaYLwIEajQoJMio2Cza6v7hxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dXrmeHGR; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1779228432; c=relaxed/simple;
+	bh=0MDpWjDkz/t20dRRHbcNfHUS5R5SYW013Lg3UHXYy4w=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=RHi/xdIAkTxYX/jJUXYCT/932IIcA+7ZT8L4LETfboA4eRW5NodVTkrDE5xnVam6aqBJ9dAfxCMeKVAdxXzOOV9Ync/LsfYPwOD4u3wsvo+x/rTIq6F4rNkR95L2SW6w5zI4arPcz27GeCXlJQ4oqhhlGJzdi9J4FmcwsDXhqk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cisco.com; spf=pass smtp.mailfrom=cisco.com; dkim=pass (2048-bit key) header.d=cisco.com header.i=@cisco.com header.b=Z83dWv80; arc=none smtp.client-ip=173.37.86.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cisco.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cisco.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dXrmeHGR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779228317; x=1810764317;
-  h=date:from:to:cc:subject:message-id;
-  bh=uFKBnhoFwk+2dJIw0FY3B9R0EPcKqvSzt5ODlPMtzf0=;
-  b=dXrmeHGRRHB5DhschoLMHk+YEz/vbdHSa4s34P3FAV9fptcMLLaCE/FK
-   2UBVIc468xInIT5RBMy9lD7PFbsE8/3DlVnfKmd9e+DIZT4hG65IGUKNu
-   AE7+5aEKe8kAdGECZ7cZ2UtckA/nXy6HUByzhBnnx7a/eOXxxj7GKbKYo
-   DR5FoiCSQrdWRk/eEJvpmks5IFLZBl4HKY+nGMRID7ym6UtZmIG9mzV+r
-   bG+wIJKqgA6GVWcosvvQnKDB7Whd3NckazX5I5iSRvbRd0AiAAL0sh7tI
-   s+WHJnUgtnCyrRvHXwbV90BphWbtVwyizOeaCCLeDTXtTKk6kuy+cUFsg
+	dkim=pass (2048-bit key) header.d=cisco.com header.i=@cisco.com header.b="Z83dWv80"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=1355; q=dns/txt;
+  s=iport01; t=1779228429; x=1780438029;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=+mezfWoQHdVj0OF2VhL7dPuQGNw7CvxzaNnAn1zoIfY=;
+  b=Z83dWv80tRWoEQ6rMA55KPM+U50cawjlSseinCwhX36R34dSLiIM71XH
+   bWBkulakg1y2KLRRd86QiuRlM7t6mTHYznqOajeFgfP4oHlNKjwlH0iIE
+   6xNGMRK8om2NVpo65+ZR3PAnEg7oIdPeTnzjsOwB2xiinKsutKoNfY99q
+   DM4XHoQEunZHktuCmKlap3gTkgpAt7mrphxVom+TQrSEc29onnAEAm6t7
+   K1on19nQ0qn95m8xJ2E9dHYzZs9WICxQ7eI3UyGA0J3Zo/RUwG1RxQdpH
+   ZVJ5WVHQBc+Swt6ABRnDAtp6pqBGX+rOCpagYqjlHWaoMXMHs7ycRLYa9
    Q==;
-X-CSE-ConnectionGUID: dqaKbOOkTWek3p9KCp4BcA==
-X-CSE-MsgGUID: QmZM5+FTTm6B2MFq4hB8pQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="80293582"
-X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="80293582"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 15:05:16 -0700
-X-CSE-ConnectionGUID: 8fqJ+RdAQfaEGSUWr4Draw==
-X-CSE-MsgGUID: QgrdGI1/SaSpGUjVztCuyg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="233540725"
-Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 19 May 2026 15:05:14 -0700
-Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wPSYc-0000000020N-0pZI;
-	Tue, 19 May 2026 22:05:00 +0000
-Date: Wed, 20 May 2026 06:03:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alexei Starovoitov <ast@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ast-bpf:arena_slab 63/63] Warning: mm/slub.c:5466 function
- parameter 's' not described in 'kmem_cache_alloc_nolock'
-Message-ID: <202605200638.HlCrmUK1-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+X-CSE-ConnectionGUID: XECD+3vNQwKgQXt06OLPQg==
+X-CSE-MsgGUID: AwNqOutKTBKQeoZkTfvPGA==
+X-IPAS-Result: =?us-ascii?q?A0BDAgCK3gxq/5L/Ja1aglmCV3JfQkkErwaFXoF/DwEBA?=
+ =?us-ascii?q?Q9EDQQBAYUGAo0xAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQsBAQUBAQECAQcFg?=
+ =?us-ascii?q?Q4Thk8NhlsCAQMyAUYQUSsrGYMCAYJzAgERsiWCLIEBhH3ZRIFkAQUGFAGBO?=
+ =?us-ascii?q?I1ccwGEeycVBoFJRIQHdh6DbIEGhXcEgzCPAkiBHgNZLAFVEw0KCwcFgWYDN?=
+ =?us-ascii?q?RIqFTI8Mh2BIz4XehEbBwWBS4E3cmqBBIReeCIsA0uBK4EJAwsYDUgRLDcUG?=
+ =?us-ascii?q?wQ+bgeKTBwPgjGBDiyCDaYVoQ6EJowelToaM6prLodlkHOOCZVnMjeEaIFoP?=
+ =?us-ascii?q?IFZMxoIGxWDIhNAGQ+OLRaIc8MHJDUCAToBAQcCBw0DC4FokACBfQEB?=
+IronPort-Data: A9a23:hkvUN6iw4LIcGiYMuhm39idIX161bxEKZh0ujC45NGQN5FlHY01je
+ htvXzqObPiKNmajc4h3YY6x8kIF6pGHyt9rGgc+pXwxRHxjpJueD7x1DKtf0wB+jyHnZBg6h
+ ynLQoCYdKjYdleF+FH1dOOn9SUgvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
+ vus5ZeEULOZ82QsaDxMtvvS8EgHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
+ 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
+ Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqUo181bQjpQ0
+ 8UHCz80Xgzb2cWS+Iu0H7wEasQLdKEHPasFsX1miDWcBvE8TNWbEuPB5MRT23E7gcUm8fT2P
+ pVCL2EwKk6dPlsWZgl/5JEWxI9EglH5ciZDoVeNrII84nPYy0p6172F3N/9JozRGZoKxBjIz
+ o7A103mJAg9KcC89RCmy3+rtOzzkz3Dd6tHQdVU8dYv2jV/3Fc7DB4OfVq9vfS9zEW5Xrp3I
+ VYT/SwvoIAx+VatQ927WAe3yFaDs1sfUcdRF+F/4QWJ4q7V+BqCQGwFSCNRLtArqqceQT0sy
+ 0/MnN7zAzFrmKOaRGjb9bqOqz62fy8PIgc/iTQsVwAJ5Zzn5Yo0lB+KFoclG6+uhdqzEjb1q
+ 9yXkBUDa3wopZZj/82GEZrv2VpAerChotYJ2zjq
+IronPort-HdrOrdr: A9a23:B3l/nK8tuo34+RKoYb5uk+D6I+orL9Y04lQ7vn2ZhyY7TiX+rb
+ HIoB11737JYVoqNU3I3OrwWpVoIkmskaKdn7NwAV7KZmCP0wGVxcNZnO7fKlbbdREWmNQw6U
+ 4ZSdkcNPTASX5nkM39/A60V/wkwNWB7eSUoN229QYKcemvAJsQlzuQzW2gYzRLeDU=
+X-Talos-CUID: 9a23:ixh3vm3W5v+5GdBttUy1z7xfKu0OXj6G0lHpPGy3MFZ1EOOybWep9/Yx
+X-Talos-MUID: 9a23:sxvkigUFYlMXgLHq/BbzoihFKdtL346NMU0Ko5Y6tde8GgUlbg==
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.23,243,1770595200"; 
+   d="scan'208";a="483477268"
+Received: from rcdn-l-core-09.cisco.com ([173.37.255.146])
+  by rcdn-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 19 May 2026 22:05:59 +0000
+Received: from sjc-ads-2636.cisco.com (sjc-ads-2636.cisco.com [171.70.32.71])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by rcdn-l-core-09.cisco.com (Postfix) with ESMTPS id 86BBA18000496;
+	Tue, 19 May 2026 22:05:59 +0000 (GMT)
+Received: by sjc-ads-2636.cisco.com (Postfix, from userid 470863)
+	id 2A086CB4400; Tue, 19 May 2026 15:05:59 -0700 (PDT)
+From: Nishanth Sampath Kumar <nissampa@cisco.com>
+To: broonie@kernel.org
+Cc: lkp@intel.com,
+	linux-kernel@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev,
+	nissampa@cisco.com
+Subject: [PATCH v2] regmap-i2c: fix sparse warning in regmap_smbus_word_write_reg16
+Date: Tue, 19 May 2026 15:05:57 -0700
+Message-Id: <20260519220557.1574954-1-nissampa@cisco.com>
+X-Mailer: git-send-email 2.35.6
+In-Reply-To: <202605161621.mY5zFh4D-lkp@intel.com>
+References: <202605161621.mY5zFh4D-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Outbound-Client-TLS: VERIFIED;sjc-ads-2636.cisco.com [171.70.32.71];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 171.70.32.71, sjc-ads-2636.cisco.com
+X-Outbound-Node: rcdn-l-core-09.cisco.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ast/bpf.git arena_slab
-head:   cb83f972bd005841d18f7bbff6e50d9bcbf0adf8
-commit: cb83f972bd005841d18f7bbff6e50d9bcbf0adf8 [63/63] bpf,slab: Add slub-backed allocator for bpf_arena
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260520/202605200638.HlCrmUK1-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605200638.HlCrmUK1-lkp@intel.com/reproduce)
+i2c_smbus_write_word_data() expects a plain u16, but cpu_to_le16()
+returns __le16 (a sparse-restricted endian type), causing:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605200638.HlCrmUK1-lkp@intel.com/
+  drivers/base/regmap/regmap-i2c.c:340: sparse: incorrect type in
+  argument 3 (different base types)
+    expected unsigned short [usertype] value
+    got restricted __le16 [usertype]
 
-All warnings (new ones prefixed by >>):
+SMBus already defines byte ordering internally, so cpu_to_le16() is
+wrong here. Replace it with a plain (u16) cast.
 
->> Warning: mm/slub.c:5466 function parameter 's' not described in 'kmem_cache_alloc_nolock'
->> Warning: mm/slub.c:5466 function parameter 'gfp_flags' not described in 'kmem_cache_alloc_nolock'
->> Warning: mm/slub.c:5466 function parameter 'node' not described in 'kmem_cache_alloc_nolock'
->> Warning: mm/slub.c:5466 function parameter 's' not described in 'kmem_cache_alloc_nolock'
->> Warning: mm/slub.c:5466 function parameter 'gfp_flags' not described in 'kmem_cache_alloc_nolock'
->> Warning: mm/slub.c:5466 function parameter 'node' not described in 'kmem_cache_alloc_nolock'
+Fixes: bad4bd28abf4 ("regmap-i2c: add SMBus byte/word reg16 bus for adapters lacking I2C_FUNC_I2C")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202605161621.mY5zFh4D-lkp@intel.com/
+Signed-off-by: Nishanth Sampath Kumar <nissampa@cisco.com>
+---
+ drivers/base/regmap/regmap-i2c.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/drivers/base/regmap/regmap-i2c.c b/drivers/base/regmap/regmap-i2c.c
+index 31e30dfced19..51a04961faf7 100644
+--- a/drivers/base/regmap/regmap-i2c.c
++++ b/drivers/base/regmap/regmap-i2c.c
+@@ -337,7 +337,7 @@ static int regmap_smbus_word_write_reg16(void *context, const void *data,
+ 	val = ((u8 *)data)[2];
+ 
+ 	return i2c_smbus_write_word_data(i2c, addr_hi,
+-					 cpu_to_le16(((u16)val << 8) | addr_lo));
++					 ((u16)val << 8) | addr_lo);
+ }
+ 
+ static const struct regmap_bus regmap_smbus_byte_word_reg16 = {
+-- 
+2.25.1
+
