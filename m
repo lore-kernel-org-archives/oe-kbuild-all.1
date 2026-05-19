@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C223B0AC8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 May 2026 19:26:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BD4D3B27DE
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 May 2026 19:26:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779218764; cv=none; b=I+yfGx1QJlKsrgPC14+w5bWAGfUbUwbQhiEcbhrWZO9yN8VMX/P9NKprbD8y1DvaYGaDyV0ZViPg+MaztVEKR0wTR1Wc64Kst2VMHLjlWoduzhhD1ShrYiVP0H/qy6zP017ll39+mzl+UFiHqioE4KXkvKrhhaUlmptQ4viUsgI=
+	t=1779218803; cv=none; b=A14YSau1AhPz+QitkZWTs3E3j522bnjfFekYRYsY9GnFgSTvYo6GAtDeM4GsD/KN8IXLpjMKF4pRLmINxTW+3QAKdFyzQ2S4n2raDfhYkQ7EwYwB4WIwhIk7ElYGyXdQuY2RMlAMiECL8z+ftjje9aT7gGHpfTEShwaB8veu+Xo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779218764; c=relaxed/simple;
-	bh=ZAj7V85at/VnPJGycKEIjGwgJ5LeHQoyqcSqugNUBXk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=XLUG1shLQY31gQ+zO13+b4Mi4vlGmbjg1DV1OHbqz4PzMyh30K+KzB4NAlHZs4uU+365sDUTNfIy2XAZz/V1o/Lmh9rlIXhSRV8vatU5g2DcCPzjdVB2Z8DgYzt20YZ0yI4AROWmR+oXE9mbJoG3e4r+yZbaTtSp31aiV3Q4NXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J3TJIA5/; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1779218803; c=relaxed/simple;
+	bh=0IZA9sX5o/j9Jjifg1kLS0cbqvyn2lig9vzXROiCSEI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=STWwG85DguSoZbyprs9xt4xwqWpowh1bp/GtexdoJD50r9WfmJjcuroIkosWK7iJTeIcrDm1L4ICvBbgUxFm1wfkLUol8BIFrxYRa1CEDTs+0MiIjik2XK6krcVWTSnm0P6A5TMaFY+EwxLNGVs/BJfelNs4ntDOeY0mRPK1X6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XTvtDWDl; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J3TJIA5/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XTvtDWDl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779218762; x=1810754762;
+  t=1779218801; x=1810754801;
   h=date:from:to:cc:subject:message-id;
-  bh=ZAj7V85at/VnPJGycKEIjGwgJ5LeHQoyqcSqugNUBXk=;
-  b=J3TJIA5/nWA4qwuVXpfXuft1Ht0a7adv10bKdV9hKCUf8tYCXhEokpC4
-   WaeCNZ4ja7sFHvXsR4c93Xn7uG7ZMyOPcVa5o3J1+mrWq4KQJhLHX2K3L
-   p7PW0QJJTe2E5ChIuRvJv97rwTlprui5m2VgpXYtDqvA4lIxO8EpbLBkG
-   aB6sjocmI9iRb3HbzcSTKK73jRvUprV769G77BUv5Of4uScBOEZH8+vzm
-   Celi+f8YvQZ9COIauOdHtZCsUrbZq1OT6vSkLFaJ3kuxTh8y7l1t5B0Eb
-   xfh53cuchuPqak2otykdzFfyFP4LorBEmPguCpRJn/LsFxCIswniIOIjb
-   w==;
-X-CSE-ConnectionGUID: BlpZbkoSQSm0rjSNk3CnDw==
-X-CSE-MsgGUID: eRcKHDINQbeiPukKYLHK8Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="79831803"
+  bh=0IZA9sX5o/j9Jjifg1kLS0cbqvyn2lig9vzXROiCSEI=;
+  b=XTvtDWDlTtCSHX5Brhmfgfm9+5cYgw8mlympVS7VVBlFly7R/h0kOBeT
+   JkHzw3CnG+JNtwvhwo3NWoKM+MJ7dvuzacab1wmKoyxlJ4sMt5lICPtiw
+   /9F8vgV1wlmv6yQuln5DsXBi9Y9ObyUXJjzSL32XiQpq4WmwrGVCjq00n
+   36q20oP4V200xk31kCXJUrXAUEyqVGL90xkkuz/yhFqV9h3jbBsY0tfGo
+   nUyCpPgwRprCjiHspDCOosA8Wh4LNQ9kQmRPvqn+oDM3QTGAFAVuSmH+8
+   BPjjmb1DdC47LLEuM9L27+A7pQVRX2IV/CD2FB4FztP9KlPCM/QzZq2g4
+   g==;
+X-CSE-ConnectionGUID: +iA15gxlSrOtCmlrErig6g==
+X-CSE-MsgGUID: LiQN9DK1QdOUvzSWYze7jg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="79134037"
 X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="79831803"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 12:26:02 -0700
-X-CSE-ConnectionGUID: +Bnvj5PqSfOTPxV8MNnAsg==
-X-CSE-MsgGUID: 223wFEosQlKaY4KwJTf5DA==
+   d="scan'208";a="79134037"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 12:26:41 -0700
+X-CSE-ConnectionGUID: /xeTygRUQwO90dFkQXBLVQ==
+X-CSE-MsgGUID: XwhCpGjuRnu0axaAO4iq7w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="237257475"
+   d="scan'208";a="235446408"
 Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 19 May 2026 12:25:59 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 19 May 2026 12:26:39 -0700
 Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wPQ41-000000001lL-0dDO;
-	Tue, 19 May 2026 19:25:28 +0000
-Date: Wed, 20 May 2026 03:23:46 +0800
+	id 1wPQ4i-000000001lP-2qkH;
+	Tue, 19 May 2026 19:26:10 +0000
+Date: Wed, 20 May 2026 03:23:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
+To: Christian Brauner <brauner@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev,
- "Mike Rapoport (Microsoft)" <rppt@kernel.org>,
- Kevin Brodsky <kevin.brodsky@arm.com>, Jann Horn <jannh@google.com>,
- Feng Tang <feng.tang@linux.alibaba.com>
-Subject: [ardb:arm64-remap-linear-data-alias-v5 2/13]
- arch/powerpc/lib/code-patching.c:120:30: warning: passing argument 1 of
- 'map_patch_area' discards 'const' qualifier from pointer target type
-Message-ID: <202605200314.KSKlZ4Cs-lkp@intel.com>
+ Christian Brauner <christianvanbrauner@gmail.com>
+Subject: [brauner-github:work.exit_mm 3/4] mm/init-mm.c:46:10: error:
+ 'struct mm_struct' has no member named 'user_ns'
+Message-ID: <202605200356.P2Rfqo9D-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,66 +60,76 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git arm64-remap-linear-data-alias-v5
-head:   d3ef1c7a7d081f762b2bb61c614d06af61ace42b
-commit: f8ca7ccc34aa79d6d288b0b2c2f7da546487afa4 [2/13] mm: Make empty_zero_page[] const
-config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20260520/202605200314.KSKlZ4Cs-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605200314.KSKlZ4Cs-lkp@intel.com/reproduce)
+tree:   https://github.com/brauner/linux.git work.exit_mm
+head:   822aa51be2cae2813d42b998a12558fa76afbc4f
+commit: a8f2b6f303fb0cdc7fef1b4e8966828a1dc7e10a [3/4] sched: move mm->user_ns to task->exec_state
+config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20260520/202605200356.P2Rfqo9D-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605200356.P2Rfqo9D-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605200314.KSKlZ4Cs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605200356.P2Rfqo9D-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   arch/powerpc/lib/code-patching.c: In function 'text_area_cpu_up':
->> arch/powerpc/lib/code-patching.c:120:30: warning: passing argument 1 of 'map_patch_area' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     120 |         err = map_patch_area(empty_zero_page, addr);
-         |                              ^~~~~~~~~~~~~~~
-   arch/powerpc/lib/code-patching.c:63:33: note: expected 'void *' but argument is of type 'const uint8_t *' {aka 'const unsigned char *'}
-      63 | static int map_patch_area(void *addr, unsigned long text_poke_addr);
-         |                           ~~~~~~^~~~
+>> mm/init-mm.c:46:10: error: 'struct mm_struct' has no member named 'user_ns'
+      46 |         .user_ns        = &init_user_ns,
+         |          ^~~~~~~
+>> mm/init-mm.c:46:27: error: initialization of 'char' from 'struct user_namespace *' makes integer from pointer without a cast [-Wint-conversion]
+      46 |         .user_ns        = &init_user_ns,
+         |                           ^
+   mm/init-mm.c:46:27: note: (near initialization for 'init_mm.flexible_array[0]')
+>> mm/init-mm.c:46:27: error: initializer element is not computable at load time
+   mm/init-mm.c:46:27: note: (near initialization for 'init_mm.flexible_array[0]')
+>> mm/init-mm.c:32:28: warning: missing braces around initializer [-Wmissing-braces]
+      32 | struct mm_struct init_mm = {
+         |                            ^
+>> mm/init-mm.c:32:28: warning: missing braces around initializer [-Wmissing-braces]
 
 
-vim +120 arch/powerpc/lib/code-patching.c
+vim +46 mm/init-mm.c
 
-c28c15b6d28a77 Christopher M. Riedl 2022-11-09  104  
-37bc3e5fd764fb Balbir Singh         2017-06-29  105  static int text_area_cpu_up(unsigned int cpu)
-37bc3e5fd764fb Balbir Singh         2017-06-29  106  {
-37bc3e5fd764fb Balbir Singh         2017-06-29  107  	struct vm_struct *area;
-591b4b268435f0 Michael Ellerman     2022-02-23  108  	unsigned long addr;
-591b4b268435f0 Michael Ellerman     2022-02-23  109  	int err;
-37bc3e5fd764fb Balbir Singh         2017-06-29  110  
-d262a192d38e52 Christophe Leroy     2025-02-12  111  	area = get_vm_area(PAGE_SIZE, 0);
-37bc3e5fd764fb Balbir Singh         2017-06-29  112  	if (!area) {
-37bc3e5fd764fb Balbir Singh         2017-06-29  113  		WARN_ONCE(1, "Failed to create text area for cpu %d\n",
-37bc3e5fd764fb Balbir Singh         2017-06-29  114  			cpu);
-37bc3e5fd764fb Balbir Singh         2017-06-29  115  		return -1;
-37bc3e5fd764fb Balbir Singh         2017-06-29  116  	}
-591b4b268435f0 Michael Ellerman     2022-02-23  117  
-591b4b268435f0 Michael Ellerman     2022-02-23  118  	// Map/unmap the area to ensure all page tables are pre-allocated
-591b4b268435f0 Michael Ellerman     2022-02-23  119  	addr = (unsigned long)area->addr;
-591b4b268435f0 Michael Ellerman     2022-02-23 @120  	err = map_patch_area(empty_zero_page, addr);
-591b4b268435f0 Michael Ellerman     2022-02-23  121  	if (err)
-591b4b268435f0 Michael Ellerman     2022-02-23  122  		return err;
-591b4b268435f0 Michael Ellerman     2022-02-23  123  
-591b4b268435f0 Michael Ellerman     2022-02-23  124  	unmap_patch_area(addr);
-591b4b268435f0 Michael Ellerman     2022-02-23  125  
-2f228ee1ade5d8 Benjamin Gray        2022-11-09  126  	this_cpu_write(cpu_patching_context.area, area);
-2f228ee1ade5d8 Benjamin Gray        2022-11-09  127  	this_cpu_write(cpu_patching_context.addr, addr);
-2f228ee1ade5d8 Benjamin Gray        2022-11-09  128  	this_cpu_write(cpu_patching_context.pte, virt_to_kpte(addr));
-37bc3e5fd764fb Balbir Singh         2017-06-29  129  
-37bc3e5fd764fb Balbir Singh         2017-06-29  130  	return 0;
-37bc3e5fd764fb Balbir Singh         2017-06-29  131  }
-37bc3e5fd764fb Balbir Singh         2017-06-29  132  
+9a9d0b829901125 Mateusz Guzik      2023-08-07  21  
+c1a2f7f0c064543 Rik van Riel       2018-07-16  22  /*
+c1a2f7f0c064543 Rik van Riel       2018-07-16  23   * For dynamically allocated mm_structs, there is a dynamically sized cpumask
+c1a2f7f0c064543 Rik van Riel       2018-07-16  24   * at the end of the structure, the size of which depends on the maximum CPU
+c1a2f7f0c064543 Rik van Riel       2018-07-16  25   * number the system can see. That way we allocate only as much memory for
+c1a2f7f0c064543 Rik van Riel       2018-07-16  26   * mm_cpumask() as needed for the hundreds, or thousands of processes that
+c1a2f7f0c064543 Rik van Riel       2018-07-16  27   * a system typically runs.
+c1a2f7f0c064543 Rik van Riel       2018-07-16  28   *
+c1a2f7f0c064543 Rik van Riel       2018-07-16  29   * Since there is only one init_mm in the entire system, keep it simple
+c1a2f7f0c064543 Rik van Riel       2018-07-16  30   * and size this cpu_bitmask to NR_CPUS.
+c1a2f7f0c064543 Rik van Riel       2018-07-16  31   */
+bb1f17b0372de93 Alexey Dobriyan    2009-06-16 @32  struct mm_struct init_mm = {
+d4af56c5c7c6781 Liam R. Howlett    2022-09-06  33  	.mm_mt		= MTREE_INIT_EXT(mm_mt, MM_MT_FLAGS, init_mm.mmap_lock),
+bb1f17b0372de93 Alexey Dobriyan    2009-06-16  34  	.pgd		= swapper_pg_dir,
+bb1f17b0372de93 Alexey Dobriyan    2009-06-16  35  	.mm_users	= ATOMIC_INIT(2),
+bb1f17b0372de93 Alexey Dobriyan    2009-06-16  36  	.mm_count	= ATOMIC_INIT(1),
+57efa1fe5957694 Jason Gunthorpe    2020-12-14  37  	.write_protect_seq = SEQCNT_ZERO(init_mm.write_protect_seq),
+14c3656b7284a86 Michel Lespinasse  2020-06-08  38  	MMAP_LOCK_INITIALIZER(init_mm)
+bb1f17b0372de93 Alexey Dobriyan    2009-06-16  39  	.page_table_lock =  __SPIN_LOCK_UNLOCKED(init_mm.page_table_lock),
+88aa7cc688d48dd Yang Shi           2018-06-07  40  	.arg_lock	=  __SPIN_LOCK_UNLOCKED(init_mm.arg_lock),
+bb1f17b0372de93 Alexey Dobriyan    2009-06-16  41  	.mmlist		= LIST_HEAD_INIT(init_mm.mmlist),
+5e31275cc997f8e Suren Baghdasaryan 2023-02-27  42  #ifdef CONFIG_PER_VMA_LOCK
+f35ab95ca0af7a2 Suren Baghdasaryan 2025-02-13  43  	.vma_writer_wait = __RCUWAIT_INITIALIZER(init_mm.vma_writer_wait),
+eb449bd96954b1c Suren Baghdasaryan 2024-11-22  44  	.mm_lock_seq	= SEQCNT_ZERO(init_mm.mm_lock_seq),
+5e31275cc997f8e Suren Baghdasaryan 2023-02-27  45  #endif
+bfedb589252c01f Eric W. Biederman  2016-10-13 @46  	.user_ns	= &init_user_ns,
+12a6ddfc76bb8a6 Mathieu Desnoyers  2025-12-24  47  #ifdef CONFIG_SCHED_MM_CID
+12a6ddfc76bb8a6 Mathieu Desnoyers  2025-12-24  48  	.mm_cid.lock = __RAW_SPIN_LOCK_UNLOCKED(init_mm.mm_cid.lock),
+12a6ddfc76bb8a6 Mathieu Desnoyers  2025-12-24  49  #endif
+6ac433f8b2590b0 Mathieu Desnoyers  2025-12-24  50  	.flexible_array	= MM_STRUCT_FLEXIBLE_ARRAY_INIT,
+a1b200e27c0426e Heiko Carstens     2010-08-09  51  	INIT_MM_CONTEXT(init_mm)
+bb1f17b0372de93 Alexey Dobriyan    2009-06-16  52  };
+5748fbc533a3245 Kefeng Wang        2021-07-07  53  
 
-:::::: The code at line 120 was first introduced by commit
-:::::: 591b4b268435f00d2f0b81f786c2c7bd5ef66416 powerpc/code-patching: Pre-map patch area
+:::::: The code at line 46 was first introduced by commit
+:::::: bfedb589252c01fa505ac9f6f2a3d5d68d707ef4 mm: Add a user_ns owner to mm_struct and fix ptrace permission checks
 
-:::::: TO: Michael Ellerman <mpe@ellerman.id.au>
-:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
+:::::: TO: Eric W. Biederman <ebiederm@xmission.com>
+:::::: CC: Eric W. Biederman <ebiederm@xmission.com>
 
 --
 0-DAY CI Kernel Test Service
