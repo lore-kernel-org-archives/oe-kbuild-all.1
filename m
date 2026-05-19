@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85AEE2C0303;
-	Tue, 19 May 2026 23:40:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 532F93438B7
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 May 2026 23:40:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779234028; cv=none; b=rEL+gJyQKLP+goKZOr8WTosI85m9zu6QFyMjh/RElCu+EyUwV6EOrrbi6PqccqquKpKQVAspPUlXtrxcIZEmL4dd0YuWTZbxFOv8GQVTDbmolS6LPwzojEgu6b48W99d9Kg0QwVJ3dN9fnJABUWW1MFGPtZiyevrQYzP8kvcW9w=
+	t=1779234051; cv=none; b=LFOrVZbKJmbnES+RYF4FLGRMRVsiwCFpHrz4PnXACns65kLXL6A3COF1m9LgHwV5VYB+d6ZtuFvfmXOHHK26Nl2ISWgCY9N7dXSS3SrutAXHfEndY4m41eIP/Q5qqNt4qINS3jrUP4Pjme/WGfrCeaTgC79NLat1cfqXAdQ/vQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779234028; c=relaxed/simple;
-	bh=pXRHIAnYsFDl4U45YklvY0YFOrGnm3Zek1PMbbZhsiA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KgnStY5/+xgXDzHiZ7o+xYb6FEKUBK//QHtG6xqhKGQAhKP2IWIYld4AFkq0t/UyotVPqzOCXlUhVe3IfVB1w5eYw/oTnHE2Iuv3SiikfcqtIF3b27bqa2BtaBthoKffOWwKuUztNnXJswLqeh9ggg5itlb3digkSFyaoevXiZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XW9secaw; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1779234051; c=relaxed/simple;
+	bh=Iyh2X4QOgb4lV84Lk4Fsl2FK4u1sIS8hgIKQ/pijwqE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=WzgX/hUG0M2gi8cvdDIgKc9ajlYuOpgqpOSqG9XZ5+ttmiIKiMf9sdrPxiVdJhdqF7Jw/cJTEQXatqVxt3Wn4kK3cUhFm++q+UZt9x/jUj6px5kQfvm9gvTnEya2rwHH8y4ljUMhV+8/ZTrIwJOiM8sVS3zu1iJx8ypCSikNE4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EwtMG8kS; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XW9secaw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EwtMG8kS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779234027; x=1810770027;
+  t=1779234050; x=1810770050;
   h=date:from:to:cc:subject:message-id;
-  bh=pXRHIAnYsFDl4U45YklvY0YFOrGnm3Zek1PMbbZhsiA=;
-  b=XW9secawVLoijxrZOK/z129Aa4puyp5E6Mzr8j4ldsX5QNkmKe3ZbioJ
-   JVTO2wFX7tvvSkczd1jOcTo1Pyr0d58p35RgWGuwKxECwKRG0x0cRBuW+
-   APN6KE/6EE3U8sofkY9apzENbzXBTBtQanyEb5PFXS+TQ5NgxWL/DrjkR
-   AK1OmuF4Xi2f6/BRhB/NEZCdhFFqDb+QM/nicc8FZs/6nma2xyKg0MRbZ
-   /eXGspebwKNyaaJV7Kw+znn4j7mn7qdQPupKDGDJOgRrYHdUhuf11t4F2
-   jcyjg1O1KttU8JWWhmWvrQqIRsuUPbJyMQTHCDywM2ON1oMu/Ym1TuPJH
-   A==;
-X-CSE-ConnectionGUID: GviKxMKyScW+EQEzUYlz0Q==
-X-CSE-MsgGUID: f8gYpXepTDm1eGUC23oU7w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="79851677"
+  bh=Iyh2X4QOgb4lV84Lk4Fsl2FK4u1sIS8hgIKQ/pijwqE=;
+  b=EwtMG8kSVGTKCuleB0h1tYb29ZetcBSNhN2bphHLyi/ZnCGS54SzsCPP
+   GWOsbtkRpII/3DWizXDB8Z1J+7zFf2GAYWot8ECjga9cvT6wD0yYtUt08
+   q7kHL7SKWh+SNqRpdtiA0F1X5tJw9yGob8+5YCvIzn9bQ8QI12uICRjHX
+   yMmH9mD6eiVtqVhAfuaTbOssjnfrRVpsn0Kt/tyP9+y/zBD9Ae2zuCJyK
+   4S+ZKlaSLnjbz8SjPa4ICpQmBFsh/7TLPLS046mF3QC1r17IvXWbBIOV9
+   IRBQ2NbJ8BBps2hNNoZRITmXppsEV/puq/2uToqca7P2iu6ZovzWcp3fp
+   g==;
+X-CSE-ConnectionGUID: 8zhmL76sSvK1jaDBu3xLcQ==
+X-CSE-MsgGUID: 6f+OJxAXR2exjwjxW6n66w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="80300528"
 X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="79851677"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 16:40:26 -0700
-X-CSE-ConnectionGUID: tVglYbqjTf6t+Zcen4kAUA==
-X-CSE-MsgGUID: Xe0NP7NhRimvSZ51KjYf0Q==
+   d="scan'208";a="80300528"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 16:40:50 -0700
+X-CSE-ConnectionGUID: Xg/+EoGzRMyrmVyZnKDMOA==
+X-CSE-MsgGUID: noJ6Ww0jQx2MEFfcmVxcMA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="239092348"
+   d="scan'208";a="244233063"
 Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 19 May 2026 16:40:24 -0700
+  by orviesa004.jf.intel.com with ESMTP; 19 May 2026 16:40:49 -0700
 Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wPU2I-0000000028v-0QSa;
-	Tue, 19 May 2026 23:39:52 +0000
-Date: Wed, 20 May 2026 07:39:06 +0800
+	id 1wPU2p-0000000028x-1wgf;
+	Tue, 19 May 2026 23:40:28 +0000
+Date: Wed, 20 May 2026 07:39:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Alex Deucher <alexander.deucher@amd.com>, Alex Hung <alex.hung@amd.com>
-Subject: [agd5f:drm-next 4/72]
- drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_crat.c:1833:7: error: incomplete
- definition of type 'struct cpuinfo_x86'
-Message-ID: <202605200730.CZLQcLxo-lkp@intel.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Christian Brauner <christianvanbrauner@gmail.com>
+Subject: [brauner-github:work.exit_mm 3/4]
+ drivers/firmware/efi/efi.c:76:14: warning: initialization of 'char' from
+ 'struct user_namespace *' makes integer from pointer without a cast
+Message-ID: <202605200727.g6IplqPM-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,107 +61,59 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Harry,
-
-First bad commit (maybe != root cause):
-
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next
-head:   4cdbba5a16aaf16513b69cc332b1d6f971a44b52
-commit: af3f2f5db2659a13c256d2fb096c473eb50412ef [4/72] drm/amdgpu: Remove UML build exclusion from Kconfig
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20260520/202605200730.CZLQcLxo-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605200730.CZLQcLxo-lkp@intel.com/reproduce)
+tree:   https://github.com/brauner/linux.git work.exit_mm
+head:   822aa51be2cae2813d42b998a12558fa76afbc4f
+commit: a8f2b6f303fb0cdc7fef1b4e8966828a1dc7e10a [3/4] sched: move mm->user_ns to task->exec_state
+config: riscv-randconfig-001 (https://download.01.org/0day-ci/archive/20260520/202605200727.g6IplqPM-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605200727.g6IplqPM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605200730.CZLQcLxo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605200727.g6IplqPM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_crat.c:24:
-   In file included from include/linux/pci.h:38:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:24:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
-   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_crat.c:1830:27: error: call to undeclared function 'cpu_data'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1830 |         struct cpuinfo_x86 *c = &cpu_data(0);
-         |                                  ^
-   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_crat.c:1830:26: error: cannot take the address of an rvalue of type 'int'
-    1830 |         struct cpuinfo_x86 *c = &cpu_data(0);
-         |                                 ^~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_crat.c:1833:7: error: incomplete definition of type 'struct cpuinfo_x86'
-    1833 |         if (c->x86_vendor == X86_VENDOR_AMD)
-         |             ~^
-   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_crat.c:1830:9: note: forward declaration of 'struct cpuinfo_x86'
-    1830 |         struct cpuinfo_x86 *c = &cpu_data(0);
-         |                ^
->> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_crat.c:1833:23: error: use of undeclared identifier 'X86_VENDOR_AMD'
-    1833 |         if (c->x86_vendor == X86_VENDOR_AMD)
-         |                              ^
-   1 warning and 4 errors generated.
+   drivers/firmware/efi/efi.c:76:3: error: 'struct mm_struct' has no member named 'user_ns'
+     .user_ns  = &init_user_ns,
+      ^~~~~~~
+>> drivers/firmware/efi/efi.c:76:14: warning: initialization of 'char' from 'struct user_namespace *' makes integer from pointer without a cast [-Wint-conversion]
+     .user_ns  = &init_user_ns,
+                 ^
+   drivers/firmware/efi/efi.c:76:14: note: (near initialization for 'efi_mm.flexible_array[0]')
+   drivers/firmware/efi/efi.c:76:14: error: initializer element is not computable at load time
+   drivers/firmware/efi/efi.c:76:14: note: (near initialization for 'efi_mm.flexible_array[0]')
+   drivers/firmware/efi/efi.c:68:27: warning: missing braces around initializer [-Wmissing-braces]
+    struct mm_struct efi_mm = {
+                              ^
+   drivers/firmware/efi/efi.c:68:27: warning: missing braces around initializer [-Wmissing-braces]
 
 
-vim +1833 drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_crat.c
+vim +76 drivers/firmware/efi/efi.c
 
-520b8fb755ccfb Felix Kuehling    2017-12-08  1823  
-6d3d8065bb14dc Nathan Chancellor 2019-01-21  1824  #ifdef CONFIG_X86_64
-520b8fb755ccfb Felix Kuehling    2017-12-08  1825  static int kfd_fill_iolink_info_for_cpu(int numa_node_id, int *avail_size,
-520b8fb755ccfb Felix Kuehling    2017-12-08  1826  				uint32_t *num_entries,
-520b8fb755ccfb Felix Kuehling    2017-12-08  1827  				struct crat_subtype_iolink *sub_type_hdr)
-520b8fb755ccfb Felix Kuehling    2017-12-08  1828  {
-520b8fb755ccfb Felix Kuehling    2017-12-08  1829  	int nid;
-520b8fb755ccfb Felix Kuehling    2017-12-08 @1830  	struct cpuinfo_x86 *c = &cpu_data(0);
-520b8fb755ccfb Felix Kuehling    2017-12-08  1831  	uint8_t link_type;
-520b8fb755ccfb Felix Kuehling    2017-12-08  1832  
-520b8fb755ccfb Felix Kuehling    2017-12-08 @1833  	if (c->x86_vendor == X86_VENDOR_AMD)
-520b8fb755ccfb Felix Kuehling    2017-12-08  1834  		link_type = CRAT_IOLINK_TYPE_HYPERTRANSPORT;
-520b8fb755ccfb Felix Kuehling    2017-12-08  1835  	else
-520b8fb755ccfb Felix Kuehling    2017-12-08  1836  		link_type = CRAT_IOLINK_TYPE_QPI_1_1;
-520b8fb755ccfb Felix Kuehling    2017-12-08  1837  
-520b8fb755ccfb Felix Kuehling    2017-12-08  1838  	*num_entries = 0;
-520b8fb755ccfb Felix Kuehling    2017-12-08  1839  
-520b8fb755ccfb Felix Kuehling    2017-12-08  1840  	/* Create IO links from this node to other CPU nodes */
-520b8fb755ccfb Felix Kuehling    2017-12-08  1841  	for_each_online_node(nid) {
-520b8fb755ccfb Felix Kuehling    2017-12-08  1842  		if (nid == numa_node_id) /* node itself */
-520b8fb755ccfb Felix Kuehling    2017-12-08  1843  			continue;
-520b8fb755ccfb Felix Kuehling    2017-12-08  1844  
-520b8fb755ccfb Felix Kuehling    2017-12-08  1845  		*avail_size -= sizeof(struct crat_subtype_iolink);
-520b8fb755ccfb Felix Kuehling    2017-12-08  1846  		if (*avail_size < 0)
-520b8fb755ccfb Felix Kuehling    2017-12-08  1847  			return -ENOMEM;
-520b8fb755ccfb Felix Kuehling    2017-12-08  1848  
-520b8fb755ccfb Felix Kuehling    2017-12-08  1849  		memset(sub_type_hdr, 0, sizeof(struct crat_subtype_iolink));
-520b8fb755ccfb Felix Kuehling    2017-12-08  1850  
-520b8fb755ccfb Felix Kuehling    2017-12-08  1851  		/* Fill in subtype header data */
-520b8fb755ccfb Felix Kuehling    2017-12-08  1852  		sub_type_hdr->type = CRAT_SUBTYPE_IOLINK_AFFINITY;
-520b8fb755ccfb Felix Kuehling    2017-12-08  1853  		sub_type_hdr->length = sizeof(struct crat_subtype_iolink);
-520b8fb755ccfb Felix Kuehling    2017-12-08  1854  		sub_type_hdr->flags = CRAT_SUBTYPE_FLAGS_ENABLED;
-520b8fb755ccfb Felix Kuehling    2017-12-08  1855  
-520b8fb755ccfb Felix Kuehling    2017-12-08  1856  		/* Fill in IO link data */
-520b8fb755ccfb Felix Kuehling    2017-12-08  1857  		sub_type_hdr->proximity_domain_from = numa_node_id;
-520b8fb755ccfb Felix Kuehling    2017-12-08  1858  		sub_type_hdr->proximity_domain_to = nid;
-520b8fb755ccfb Felix Kuehling    2017-12-08  1859  		sub_type_hdr->io_interface_type = link_type;
-520b8fb755ccfb Felix Kuehling    2017-12-08  1860  
-520b8fb755ccfb Felix Kuehling    2017-12-08  1861  		(*num_entries)++;
-520b8fb755ccfb Felix Kuehling    2017-12-08  1862  		sub_type_hdr++;
-520b8fb755ccfb Felix Kuehling    2017-12-08  1863  	}
-520b8fb755ccfb Felix Kuehling    2017-12-08  1864  
-520b8fb755ccfb Felix Kuehling    2017-12-08  1865  	return 0;
-520b8fb755ccfb Felix Kuehling    2017-12-08  1866  }
-d1c234e2cd1091 Felix Kuehling    2019-01-02  1867  #endif
-520b8fb755ccfb Felix Kuehling    2017-12-08  1868  
+732ea9db9d8a6a Ard Biesheuvel    2022-10-11  67  
+7e904a91bf6049 Sai Praneeth      2018-03-12  68  struct mm_struct efi_mm = {
+d4af56c5c7c678 Liam R. Howlett   2022-09-06  69  	.mm_mt			= MTREE_INIT_EXT(mm_mt, MM_MT_FLAGS, efi_mm.mmap_lock),
+7e904a91bf6049 Sai Praneeth      2018-03-12  70  	.mm_users		= ATOMIC_INIT(2),
+7e904a91bf6049 Sai Praneeth      2018-03-12  71  	.mm_count		= ATOMIC_INIT(1),
+57efa1fe595769 Jason Gunthorpe   2020-12-14  72  	.write_protect_seq      = SEQCNT_ZERO(efi_mm.write_protect_seq),
+14c3656b7284a8 Michel Lespinasse 2020-06-08  73  	MMAP_LOCK_INITIALIZER(efi_mm)
+7e904a91bf6049 Sai Praneeth      2018-03-12  74  	.page_table_lock	= __SPIN_LOCK_UNLOCKED(efi_mm.page_table_lock),
+7e904a91bf6049 Sai Praneeth      2018-03-12  75  	.mmlist			= LIST_HEAD_INIT(efi_mm.mmlist),
+61ed08c2fd1db0 Breno Leitao      2025-12-23 @76  	.user_ns		= &init_user_ns,
+40374d308e4e45 Ard Biesheuvel    2025-10-15  77  #ifdef CONFIG_SCHED_MM_CID
+44fc84337b6eae Linus Torvalds    2025-12-02  78  	.mm_cid.lock		= __RAW_SPIN_LOCK_UNLOCKED(efi_mm.mm_cid.lock),
+40374d308e4e45 Ard Biesheuvel    2025-10-15  79  #endif
+6ac433f8b2590b Mathieu Desnoyers 2025-12-24  80  	.flexible_array		= MM_STRUCT_FLEXIBLE_ARRAY_INIT,
+7e904a91bf6049 Sai Praneeth      2018-03-12  81  };
+7e904a91bf6049 Sai Praneeth      2018-03-12  82  
 
-:::::: The code at line 1833 was first introduced by commit
-:::::: 520b8fb755ccfb07d8d743da5753cff1fcb74b9f drm/amdkfd: Add topology support for CPUs
+:::::: The code at line 76 was first introduced by commit
+:::::: 61ed08c2fd1db0eb43c8b62ade249a3061e39444 arm64: efi: Fix NULL pointer dereference by initializing user_ns
 
-:::::: TO: Felix Kuehling <Felix.Kuehling@amd.com>
-:::::: CC: Oded Gabbay <oded.gabbay@gmail.com>
+:::::: TO: Breno Leitao <leitao@debian.org>
+:::::: CC: Ard Biesheuvel <ardb@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
