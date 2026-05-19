@@ -1,87 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6851328B7B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 May 2026 14:17:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4493E3246FE;
+	Tue, 19 May 2026 14:54:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779200266; cv=none; b=hWfYKrBLafd1bQagpV6eUXhysURR7WdxyM41E2mspBBDMseZ1FdRudpVwW8WT838j/A9oC7kkZ5540B64DuGWFNdjcsQ5KAgD0i+84Sglx0kZfHUTJmmQ0GSro29+we6wF8pHXlk6SxwHF+Woyjum+gkumJ/Hiu57Yqv/aDHnks=
+	t=1779202492; cv=none; b=XnzC9nEe2iGXPPfcaXNbf2dNkYVzhUQYzilwAnwq2khb1xOhiFDLCrggYhhoUdgSt9yrAr93v8gfZ6BI3PVmsvwB2/Fy2VkX3MfwqIMaT45dyY0gpvUV2bjAfXOlVN3LWskDcNQ17lK+6vZKhnjuvD9XO4NwR+MYfN0yZg2EgpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779200266; c=relaxed/simple;
-	bh=UGhl/0smlB9BNc48jVthHrGWj+JiTUqdTPARV5Qabf8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=maVfgioMI1TQrs2HQUf3v2vTqUdUK9MCsNHPuvEYmxRtGMmqWPZ67aAQRLCIefr54ehMum0e8peR0cPqT+mnV5XvgbLruWLIyG6kd1zIq69Dg00lTIgVZdTymXa3Y4x8xgsifDwKJRwwFLu6IMrYtAjofK5EpTz6ZSZTSuMY0Cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mw7fE7zY; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1779202492; c=relaxed/simple;
+	bh=UC51TFFAdYAAEu3Hn1AG/aOnKPwgH/g/o3sh2GAq0HA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cGAtgkRRBg1pld8WvZXa2XY/KkmIeAxw3a0IykvQCJvFiwgqp7py44NJ71Wn+JaCs5w5u94o/UdP5Z3xOs64ZpSX3sICi+YdUae1ZAGJ+YBo89tQK/fohWy8ruNE7rgE3h3kv8phIzHa+m9MirnFxiNv5iXGHHVGmO+2hMjs/9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eonNaHjg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mw7fE7zY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779200265; x=1810736265;
-  h=date:from:to:cc:subject:message-id;
-  bh=UGhl/0smlB9BNc48jVthHrGWj+JiTUqdTPARV5Qabf8=;
-  b=mw7fE7zYu0S3appj0bbNh0/i8n/i7jlNfNffgbjVw0YYYYC1HN0B1dyB
-   CgD3M8Mbz5dKVKwINqPv63RjclIJaQDHdHojxgS+MeOjTvJ/6YhvgteRk
-   X5cm+3QakQFqqUzR2hW0HIojVT61hT3xNmtGuQN1qXCJ7K3qizWEG2J6/
-   PkNU8XzsHTwCRCMPP/j9ZL3CVMkUsXQ0vGNDKdhXy9suxbQ7xHCNzYOGG
-   AvyFF/sX41E5S5JIeSWrbNXr/j0fLNzhkKR5hvZg2ZUVqiYOC12Y4ZxI1
-   7DKdSzMi0Wev19HaePGeGszgBqHsojkEMVuzMEDHmhU/+oMvoRxmWqsBv
-   Q==;
-X-CSE-ConnectionGUID: YP4QV6vCRSCaHLjHXHDImQ==
-X-CSE-MsgGUID: c2V7OGyiRjWJx525Igv0Aw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="102754697"
-X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="102754697"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 07:17:44 -0700
-X-CSE-ConnectionGUID: eEnoy91VTzG4/51U+9RyUQ==
-X-CSE-MsgGUID: Ed7iV5fVTl+sRDAe+2kwkA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="238947510"
-Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 19 May 2026 07:17:44 -0700
-Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wPLFa-000000001A3-30E0;
-	Tue, 19 May 2026 14:17:00 +0000
-Date: Tue, 19 May 2026 22:11:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline-desktop 224/224] ld.lld:
- error: undefined symbol: drm_dsc_pps_payload_pack
-Message-ID: <202605192237.RyzdrJ8T-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eonNaHjg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FA54C2BCB3;
+	Tue, 19 May 2026 14:54:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779202491;
+	bh=UC51TFFAdYAAEu3Hn1AG/aOnKPwgH/g/o3sh2GAq0HA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=eonNaHjgLxe9B7jJYmeAsLPwIsWasueEug+6sELaPW6zhqCBLKCVV0eXFoe5YqR/1
+	 S8bKD+SEITM0ZovBZW83+t7ypM3/0bjK1YzUjckPvv6g5Kdkmpcd6F2rAwUS7oEgNw
+	 0kq4U3FeqHKd2W/uPZnkkMGekIuuSoakXy+iDUcby8YgheVKxHyrVDAzj2DEu552s9
+	 NYwahujt0vth4USrNPOpkPip6bcEeKyVlm1Lo7eE96penUWhmF8uZW0o+BdWceb0sn
+	 V9q+MgwaQynubQNmFwKwcPDI8qJpxB5heitif+1RJfxLJS2ZJ3mpkvmuu2wVKeWzqw
+	 riPzTDUCCAeuw==
+Message-ID: <eb236109-1284-43ad-bd0f-1a39765fa30f@kernel.org>
+Date: Tue, 19 May 2026 16:54:31 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: crypto/ahash.c:1073:1: warning: the frame size of 1040 bytes is
+ larger than 1024 bytes
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ kernel test robot <lkp@intel.com>
+Cc: Herbert Xu <herbert@gondor.apana.org.au>, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, wireguard@lists.zx2c4.com
+References: <202605100125.l4JVHppO-lkp@intel.com>
+ <CAMuHMdXPeUnjN__PvY+HQg+cSxKe-RLnyT-A5KGe=4cmjnUNbg@mail.gmail.com>
+Content-Language: fr-FR
+From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+In-Reply-To: <CAMuHMdXPeUnjN__PvY+HQg+cSxKe-RLnyT-A5KGe=4cmjnUNbg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Langyan,
 
-FYI, the error/warning still remains.
 
-tree:   https://android.googlesource.com/kernel/common android-mainline-desktop
-head:   cdd6fbc4d780cb61492a768f9641a353ea08dbfb
-commit: 65ce1f5834e9598e5120048010b4fe220e70473c [224/224] drm/panel: ilitek-ili9882t: Switch Tianma TL121BVMS07 to DSC 120Hz mode
-config: arm-randconfig-r131-20260519 (https://download.01.org/0day-ci/archive/20260519/202605192237.RyzdrJ8T-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260519/202605192237.RyzdrJ8T-lkp@intel.com/reproduce)
+Le 11/05/2026 à 08:42, Geert Uytterhoeven a écrit :
+> On Sat, 9 May 2026 at 19:07, kernel test robot <lkp@intel.com> wrote:
+>> FYI, the error/warning still remains.
+>>
+>> tree:   https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgit.kernel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Ftorvalds%2Flinux.git&data=05%7C02%7Cchristophe.leroy2%40cs-soprasteria.com%7Cb57c2e1952ea48b306d508deaf28809f%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C639140785686768547%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=MBIlFF0TKur9ZxxdvLflUjFXN8BiEIWx%2FW2eO2rQteM%3D&reserved=0 master
+>> head:   ec89572766744e844df24c27d31c97b4c00f4e07
+>> commit: 9d9b193ed73a65ec47cf1fd39925b09da8216461 crypto: hash - Increase HASH_MAX_DESCSIZE for hmac(sha3-224-s390)
+>> date:   9 months ago
+>> config: mips-eyeq5_defconfig (https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdownload.01.org%2F0day-ci%2Farchive%2F20260510%2F202605100125.l4JVHppO-lkp%40intel.com%2Fconfig&data=05%7C02%7Cchristophe.leroy2%40cs-soprasteria.com%7Cb57c2e1952ea48b306d508deaf28809f%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C639140785686802803%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=9mLXlRz5JrVhRQ0Ft4c3tQJGrDtlSSmYmd7vZ4pneYc%3D&reserved=0)
+>> compiler: mips64-linux-gcc (GCC) 15.2.0
+>> reproduce (this is a W=1 build): (https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdownload.01.org%2F0day-ci%2Farchive%2F20260510%2F202605100125.l4JVHppO-lkp%40intel.com%2Freproduce&data=05%7C02%7Cchristophe.leroy2%40cs-soprasteria.com%7Cb57c2e1952ea48b306d508deaf28809f%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C639140785686823501%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=NNAWk0DHq2gD1%2FToE%2FXk75Mz3sKpppwVkpkDG6amzD0%3D&reserved=0)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Fixes: 9d9b193ed73a ("crypto: hash - Increase HASH_MAX_DESCSIZE for hmac(sha3-224-s390)")
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Foe-kbuild-all%2F202605100125.l4JVHppO-lkp%40intel.com%2F&data=05%7C02%7Cchristophe.leroy2%40cs-soprasteria.com%7Cb57c2e1952ea48b306d508deaf28809f%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C639140785686842796%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=2M0BnhyxISt3rrzxPXkX4p%2Ba1bIVz%2FhjwSNokIVueuE%3D&reserved=0
+>>
+>> All warnings (new ones prefixed by >>):
+>>
+>>     crypto/ahash.c: In function 'crypto_hash_digest':
+>>>> crypto/ahash.c:1073:1: warning: the frame size of 1040 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+>>      1073 | }
+>>           | ^
+> 
+> This is one of the few defconfigs that still use CONFIG_FRAME_WARN=1024.
+> The default value for 32-bit systems was lifted from 1024 to 1280 in
+> commit 32115734c0ed8b46 ("Increase the default 32-bit build frame size
+> warning limit to 1280 bytes") in v6.18, so perhaps the downgrade to
+> 1024 should be dropped from the following defconfigs:
+> 
+> $ git grep CONFIG_FRAME_WARN=1024
+> arch/mips/configs/eyeq5_defconfig:CONFIG_FRAME_WARN=1024
+> arch/mips/configs/eyeq6_defconfig:CONFIG_FRAME_WARN=1024
+> arch/mips/configs/eyeq6lplus_defconfig:CONFIG_FRAME_WARN=1024
+> arch/mips/configs/lemote2f_defconfig:CONFIG_FRAME_WARN=1024
+> arch/mips/configs/loongson2k_defconfig:CONFIG_FRAME_WARN=1024
+> arch/powerpc/configs/fsl-emb-nonhw.config:CONFIG_FRAME_WARN=1024
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605192237.RyzdrJ8T-lkp@intel.com/
+I agree for that one, lets drop the downgrade, don't know why it was 
+added at the first place as it was the default, most likely someone 
+didn't use make savedefconfig
 
-All errors (new ones prefixed by >>):
+So feel from to drop that in a treewide cleanup with my Acked-by: 
+Christophe Leroy (CS GROUP) <chleroy@kernel.org>
 
->> ld.lld: error: undefined symbol: drm_dsc_pps_payload_pack
-   >>> referenced by panel-ilitek-ili9882t.c
-   >>>               drivers/gpu/drm/panel/panel-ilitek-ili9882t.o:(tianma_il79900a_init) in archive vmlinux.a
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+> tools/testing/selftests/wireguard/qemu/arch/arm.config:CONFIG_FRAME_WARN=1024
+> tools/testing/selftests/wireguard/qemu/arch/armeb.config:CONFIG_FRAME_WARN=1024
+> tools/testing/selftests/wireguard/qemu/arch/i686.config:CONFIG_FRAME_WARN=1024
+> tools/testing/selftests/wireguard/qemu/arch/m68k.config:CONFIG_FRAME_WARN=1024
+> tools/testing/selftests/wireguard/qemu/arch/mips.config:CONFIG_FRAME_WARN=1024
+> tools/testing/selftests/wireguard/qemu/arch/mipsel.config:CONFIG_FRAME_WARN=1024
+> tools/testing/selftests/wireguard/qemu/arch/powerpc.config:CONFIG_FRAME_WARN=1024
+> 
+> I am not sure about the wireguard selftests: they might use the lower
+> value deliberately for testing?
+> 
+> Gr{oetje,eeting}s,
+> 
+>                          Geert
+> 
+
