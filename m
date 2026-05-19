@@ -1,129 +1,146 @@
-Received: from rcdn-iport-6.cisco.com (rcdn-iport-6.cisco.com [173.37.86.77])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAAE9248F66
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 May 2026 22:07:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.37.86.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 628DB3793AC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 May 2026 22:18:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779228432; cv=none; b=o88sFk1LYBePoAhh4KBxzrIeWG/hR7ESuxhvOM5azAKIlyhCoUOfWUad35g9Fke14dhgIp9P/dZJiTrbIX+pSk5RCuhDJlNMTj5V3eVYGZNpqUCYTZnAN1V1T4X/5WGURKSd6pRFkhNReuY4NTG1VabXa6rPO6te4GAhsJLbSus=
+	t=1779229087; cv=none; b=KLC4Iu4hz94V+LDQd8Nlf/LNhKotYA/q4tZthxkezi6Zb+oZDNFhPSjZQd8wMFEZd29tk2yQZFr1KbmGQC8PYL2/wSvAlhGuX01lrcRrCxWB7xveSEplirceGjTJ7lUnVW2UuIhEm3KgFPhPT0gWJ8EjPCfAabstBpeQqh+SMQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779228432; c=relaxed/simple;
-	bh=0MDpWjDkz/t20dRRHbcNfHUS5R5SYW013Lg3UHXYy4w=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=RHi/xdIAkTxYX/jJUXYCT/932IIcA+7ZT8L4LETfboA4eRW5NodVTkrDE5xnVam6aqBJ9dAfxCMeKVAdxXzOOV9Ync/LsfYPwOD4u3wsvo+x/rTIq6F4rNkR95L2SW6w5zI4arPcz27GeCXlJQ4oqhhlGJzdi9J4FmcwsDXhqk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cisco.com; spf=pass smtp.mailfrom=cisco.com; dkim=pass (2048-bit key) header.d=cisco.com header.i=@cisco.com header.b=Z83dWv80; arc=none smtp.client-ip=173.37.86.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cisco.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cisco.com
+	s=arc-20240116; t=1779229087; c=relaxed/simple;
+	bh=ApuIZjizd150Sds1I58AN2d4LtlHwPfnYrCr07zZu8k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r2VedkHu+ZVv7vSpo8ZXdq9pXBf6QwuDrihcm6cxGNEW8Gr4mejnV8U+LvkI2rRyOt6Ub5IO37e5Lx2sifPnp4+xJoeLVqWO3rM6Yw1g5rLrRwl5600LXtXi3vBVl1cz34lCPAIlb0xv6I2qfksOFW+0iKC1e3sro/YaNrm7xDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tyfu8b6p; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cisco.com header.i=@cisco.com header.b="Z83dWv80"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=1355; q=dns/txt;
-  s=iport01; t=1779228429; x=1780438029;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=+mezfWoQHdVj0OF2VhL7dPuQGNw7CvxzaNnAn1zoIfY=;
-  b=Z83dWv80tRWoEQ6rMA55KPM+U50cawjlSseinCwhX36R34dSLiIM71XH
-   bWBkulakg1y2KLRRd86QiuRlM7t6mTHYznqOajeFgfP4oHlNKjwlH0iIE
-   6xNGMRK8om2NVpo65+ZR3PAnEg7oIdPeTnzjsOwB2xiinKsutKoNfY99q
-   DM4XHoQEunZHktuCmKlap3gTkgpAt7mrphxVom+TQrSEc29onnAEAm6t7
-   K1on19nQ0qn95m8xJ2E9dHYzZs9WICxQ7eI3UyGA0J3Zo/RUwG1RxQdpH
-   ZVJ5WVHQBc+Swt6ABRnDAtp6pqBGX+rOCpagYqjlHWaoMXMHs7ycRLYa9
-   Q==;
-X-CSE-ConnectionGUID: XECD+3vNQwKgQXt06OLPQg==
-X-CSE-MsgGUID: AwNqOutKTBKQeoZkTfvPGA==
-X-IPAS-Result: =?us-ascii?q?A0BDAgCK3gxq/5L/Ja1aglmCV3JfQkkErwaFXoF/DwEBA?=
- =?us-ascii?q?Q9EDQQBAYUGAo0xAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQsBAQUBAQECAQcFg?=
- =?us-ascii?q?Q4Thk8NhlsCAQMyAUYQUSsrGYMCAYJzAgERsiWCLIEBhH3ZRIFkAQUGFAGBO?=
- =?us-ascii?q?I1ccwGEeycVBoFJRIQHdh6DbIEGhXcEgzCPAkiBHgNZLAFVEw0KCwcFgWYDN?=
- =?us-ascii?q?RIqFTI8Mh2BIz4XehEbBwWBS4E3cmqBBIReeCIsA0uBK4EJAwsYDUgRLDcUG?=
- =?us-ascii?q?wQ+bgeKTBwPgjGBDiyCDaYVoQ6EJowelToaM6prLodlkHOOCZVnMjeEaIFoP?=
- =?us-ascii?q?IFZMxoIGxWDIhNAGQ+OLRaIc8MHJDUCAToBAQcCBw0DC4FokACBfQEB?=
-IronPort-Data: A9a23:hkvUN6iw4LIcGiYMuhm39idIX161bxEKZh0ujC45NGQN5FlHY01je
- htvXzqObPiKNmajc4h3YY6x8kIF6pGHyt9rGgc+pXwxRHxjpJueD7x1DKtf0wB+jyHnZBg6h
- ynLQoCYdKjYdleF+FH1dOOn9SUgvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
- vus5ZeEULOZ82QsaDxMtvvS8EgHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
- 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
- Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqUo181bQjpQ0
- 8UHCz80Xgzb2cWS+Iu0H7wEasQLdKEHPasFsX1miDWcBvE8TNWbEuPB5MRT23E7gcUm8fT2P
- pVCL2EwKk6dPlsWZgl/5JEWxI9EglH5ciZDoVeNrII84nPYy0p6172F3N/9JozRGZoKxBjIz
- o7A103mJAg9KcC89RCmy3+rtOzzkz3Dd6tHQdVU8dYv2jV/3Fc7DB4OfVq9vfS9zEW5Xrp3I
- VYT/SwvoIAx+VatQ927WAe3yFaDs1sfUcdRF+F/4QWJ4q7V+BqCQGwFSCNRLtArqqceQT0sy
- 0/MnN7zAzFrmKOaRGjb9bqOqz62fy8PIgc/iTQsVwAJ5Zzn5Yo0lB+KFoclG6+uhdqzEjb1q
- 9yXkBUDa3wopZZj/82GEZrv2VpAerChotYJ2zjq
-IronPort-HdrOrdr: A9a23:B3l/nK8tuo34+RKoYb5uk+D6I+orL9Y04lQ7vn2ZhyY7TiX+rb
- HIoB11737JYVoqNU3I3OrwWpVoIkmskaKdn7NwAV7KZmCP0wGVxcNZnO7fKlbbdREWmNQw6U
- 4ZSdkcNPTASX5nkM39/A60V/wkwNWB7eSUoN229QYKcemvAJsQlzuQzW2gYzRLeDU=
-X-Talos-CUID: 9a23:ixh3vm3W5v+5GdBttUy1z7xfKu0OXj6G0lHpPGy3MFZ1EOOybWep9/Yx
-X-Talos-MUID: 9a23:sxvkigUFYlMXgLHq/BbzoihFKdtL346NMU0Ko5Y6tde8GgUlbg==
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.23,243,1770595200"; 
-   d="scan'208";a="483477268"
-Received: from rcdn-l-core-09.cisco.com ([173.37.255.146])
-  by rcdn-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 19 May 2026 22:05:59 +0000
-Received: from sjc-ads-2636.cisco.com (sjc-ads-2636.cisco.com [171.70.32.71])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-09.cisco.com (Postfix) with ESMTPS id 86BBA18000496;
-	Tue, 19 May 2026 22:05:59 +0000 (GMT)
-Received: by sjc-ads-2636.cisco.com (Postfix, from userid 470863)
-	id 2A086CB4400; Tue, 19 May 2026 15:05:59 -0700 (PDT)
-From: Nishanth Sampath Kumar <nissampa@cisco.com>
-To: broonie@kernel.org
-Cc: lkp@intel.com,
-	linux-kernel@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev,
-	nissampa@cisco.com
-Subject: [PATCH v2] regmap-i2c: fix sparse warning in regmap_smbus_word_write_reg16
-Date: Tue, 19 May 2026 15:05:57 -0700
-Message-Id: <20260519220557.1574954-1-nissampa@cisco.com>
-X-Mailer: git-send-email 2.35.6
-In-Reply-To: <202605161621.mY5zFh4D-lkp@intel.com>
-References: <202605161621.mY5zFh4D-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tyfu8b6p"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779229085; x=1810765085;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ApuIZjizd150Sds1I58AN2d4LtlHwPfnYrCr07zZu8k=;
+  b=Tyfu8b6pj7nSEYZ082DBLaJEcDFVF7pJ78xIhYKdnjEKgZXDZMGUvNTf
+   pGVjCktgWfVek3pmw3V6jow0p+HylbNFqa3nRBbK2L/zvk7ixL5uyG4+T
+   DD6G912FJbVBVWiF/XTUeNOIU4uHZXrBTzPK3L+5fzmkGz6ug5ZONsjn5
+   jnPX7b1f9ZpFzOLiUlv53uOTddzYcEg9IF5bhVWtcveQ+XFSg2A4gehEo
+   nWvFHf71+DB9cpy+KMDyo/vjf0vyseNYXBXVuV65ZvTywY8fa9PBjnquV
+   kkXm3hQoGQ3Lo91QoweSpjbcssv6p+U5XLjqfPV1shVngeZ7pDiAnM1yi
+   A==;
+X-CSE-ConnectionGUID: owMYVi7wSn+kqNZ5w+9elA==
+X-CSE-MsgGUID: ukDf/DwoRpy0YqjrAbRAaQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="80174232"
+X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
+   d="scan'208";a="80174232"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 15:18:05 -0700
+X-CSE-ConnectionGUID: +rqTif50SkOIfUZrZi19MA==
+X-CSE-MsgGUID: +vEzlPaDSJSsP7Q018NdKQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
+   d="scan'208";a="244883781"
+Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 19 May 2026 15:18:02 -0700
+Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wPSk0-0000000021R-2ewy;
+	Tue, 19 May 2026 22:17:15 +0000
+Date: Wed, 20 May 2026 06:16:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nishanth Sampath Kumar <nissampa@cisco.com>, broonie@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, lkp@intel.com,
+	linux-kernel@vger.kernel.org, nissampa@cisco.com
+Subject: Re: [PATCH] regmap-i2c: fix sparse warning in
+ regmap_smbus_word_write_reg16
+Message-ID: <202605200654.DSWKrX9W-lkp@intel.com>
+References: <20260519170836.1344260-1-nissampa@cisco.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: VERIFIED;sjc-ads-2636.cisco.com [171.70.32.71];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
-X-Outbound-SMTP-Client: 171.70.32.71, sjc-ads-2636.cisco.com
-X-Outbound-Node: rcdn-l-core-09.cisco.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260519170836.1344260-1-nissampa@cisco.com>
 
-i2c_smbus_write_word_data() expects a plain u16, but cpu_to_le16()
-returns __le16 (a sparse-restricted endian type), causing:
+Hi Nishanth,
 
-  drivers/base/regmap/regmap-i2c.c:340: sparse: incorrect type in
-  argument 3 (different base types)
-    expected unsigned short [usertype] value
-    got restricted __le16 [usertype]
+kernel test robot noticed the following build errors:
 
-SMBus already defines byte ordering internally, so cpu_to_le16() is
-wrong here. Replace it with a plain (u16) cast.
+[auto build test ERROR on broonie-regmap/for-next]
+[also build test ERROR on linus/master v7.1-rc4 next-20260519]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Fixes: bad4bd28abf4 ("regmap-i2c: add SMBus byte/word reg16 bus for adapters lacking I2C_FUNC_I2C")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202605161621.mY5zFh4D-lkp@intel.com/
-Signed-off-by: Nishanth Sampath Kumar <nissampa@cisco.com>
----
- drivers/base/regmap/regmap-i2c.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Nishanth-Sampath-Kumar/regmap-i2c-fix-sparse-warning-in-regmap_smbus_word_write_reg16/20260520-011137
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git for-next
+patch link:    https://lore.kernel.org/r/20260519170836.1344260-1-nissampa%40cisco.com
+patch subject: [PATCH] regmap-i2c: fix sparse warning in regmap_smbus_word_write_reg16
+config: s390-randconfig-r071-20260520 (https://download.01.org/0day-ci/archive/20260520/202605200654.DSWKrX9W-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 8.5.0
+smatch: v0.5.0-9185-gbcc58b9c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605200654.DSWKrX9W-lkp@intel.com/reproduce)
 
-diff --git a/drivers/base/regmap/regmap-i2c.c b/drivers/base/regmap/regmap-i2c.c
-index 31e30dfced19..51a04961faf7 100644
---- a/drivers/base/regmap/regmap-i2c.c
-+++ b/drivers/base/regmap/regmap-i2c.c
-@@ -337,7 +337,7 @@ static int regmap_smbus_word_write_reg16(void *context, const void *data,
- 	val = ((u8 *)data)[2];
- 
- 	return i2c_smbus_write_word_data(i2c, addr_hi,
--					 cpu_to_le16(((u16)val << 8) | addr_lo));
-+					 ((u16)val << 8) | addr_lo);
- }
- 
- static const struct regmap_bus regmap_smbus_byte_word_reg16 = {
--- 
-2.25.1
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605200654.DSWKrX9W-lkp@intel.com/
 
+All errors (new ones prefixed by >>):
+
+   drivers/base/regmap/regmap-i2c.c: In function 'regmap_smbus_word_write_reg16':
+>> drivers/base/regmap/regmap-i2c.c:340:33: error: expected ';' before ')' token
+          ((u16)val << 8) | addr_lo));
+                                    ^
+                                    ;
+>> drivers/base/regmap/regmap-i2c.c:340:33: error: expected statement before ')' token
+
+
+vim +340 drivers/base/regmap/regmap-i2c.c
+
+   305	
+   306	/*
+   307	 * SMBus byte/word reg16 support for adapters that have SMBUS_BYTE_DATA
+   308	 * and SMBUS_WORD_DATA but lack I2C_FUNC_I2C and I2C_FUNC_SMBUS_I2C_BLOCK,
+   309	 * such as the AMD PIIX4.
+   310	 *
+   311	 * READ:  set 16-bit EEPROM address via write_byte_data(addr_lo, addr_hi),
+   312	 *        then sequentially read bytes via read_byte() (EEPROM auto-
+   313	 *        increments the address pointer).  Same as the I2C-block reg16
+   314	 *        read path above.
+   315	 *
+   316	 * WRITE: encode the low address byte and data into a word transaction:
+   317	 *        write_word_data(addr_hi, (data_byte << 8) | addr_lo).
+   318	 *        Only single-byte writes are supported (one value per transaction).
+   319	 */
+   320	static int regmap_smbus_word_write_reg16(void *context, const void *data,
+   321						 size_t count)
+   322	{
+   323		struct device *dev = context;
+   324		struct i2c_client *i2c = to_i2c_client(dev);
+   325		u8 addr_hi, addr_lo, val;
+   326	
+   327		/*
+   328		 * data layout: [addr_hi, addr_lo, val0, val1, ...].
+   329		 * Only single-byte value writes are supported; multi-byte would
+   330		 * require raw I2C (or repeated word writes with incrementing address).
+   331		 */
+   332		if (count != 3)
+   333			return -EINVAL;
+   334	
+   335		addr_hi = ((u8 *)data)[0];
+   336		addr_lo = ((u8 *)data)[1];
+   337		val = ((u8 *)data)[2];
+   338	
+   339		return i2c_smbus_write_word_data(i2c, addr_hi,
+ > 340						 ((u16)val << 8) | addr_lo));
+   341	}
+   342	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
