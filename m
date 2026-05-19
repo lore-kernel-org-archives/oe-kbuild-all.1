@@ -1,121 +1,201 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C9CF29D268
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 May 2026 03:46:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779162396; cv=none; b=M5EnJmvkUsHTf1NzNkOwlr97srywo+CgBQZVB/B+SlNZOd6sV25uL+hQFuhD7MfKq6EIgPubCDPyQYZhVEJfCHhVQg7UqvS9H+DNFNaEW56lZM+p7QUISM57C6HTS+h7oBx03ioS9RLdPGMtSDw0dwi/P1Amktgz38PJ+JJ6xEY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779162396; c=relaxed/simple;
-	bh=xX4u2dqjBXgdmbul3nPAEdVsiK1fLq6oXXKJ0D7tHtw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=XR8cnk55IDF1Er7iJVGzKuRyzPAk4u9Tv7GnVShkpYwwVEeKNsxVPvwq+A3eg5qE7tsoekq3hSf8e2nbXjHINLokQjmknumxjo695HBsPgTi3gNHoCxW4wKgRGo83dEJg5IlfYR5SSRVib6YXfooyhg34b9pXGm+eROTvdUkHa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xm8cglnF; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0C5F2F547F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 May 2026 04:14:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779164073; cv=pass; b=acBWX2qZSbK1JivdsY59B/QbNe1arHLd7LEOew0woOKA0xEVTAQPXRyifmhtw1+ZgMQcFSpR/Ap44jXsMmNkNSOsDndhnvOqvricpzO8ef+widyediZsCxYnLvjDH3Cd8G5Y11Uhu8NlfXXh9tz23NTgpSkqzVumghN738spJPc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779164073; c=relaxed/simple;
+	bh=ZN75BNxVhUMX1Jg1VcWsYYID9KMPww5Z2eyKKPXfyeQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cHXyR7kBvv3aw0b0UwPZ5G2tJ/LowPVkgQdXj70gltEyssy/34Ws4aJXbUNVGvK5H9DoxoQXdwRxHQUmmFpOdJlBICqRlrcKFMdiQNIQFRh3Lqn2FYjnjJrNmYCQTnmF1LZnWMcrzyFs1hLE2vDTTcpkwKobLFeOVNdGzzSAm1o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n+kUjm7A; arc=pass smtp.client-ip=74.125.224.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xm8cglnF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779162394; x=1810698394;
-  h=date:from:to:cc:subject:message-id;
-  bh=xX4u2dqjBXgdmbul3nPAEdVsiK1fLq6oXXKJ0D7tHtw=;
-  b=Xm8cglnFu4AMA9Mw7e9lpVwhteMy+yfFcjSkBz4uNFlKwx5IOFDhJaLN
-   I/7jDEiyVngQoR6kG5e0F7oyYAvRkIMzND1Xy016Wit0tRSTgUrFr0JL2
-   6mWCrmi8oV+/GNtS3Kyl0lUvVWrLoLT0NWIRmXOP+WlJISaQvsWr2hRm9
-   0h24mgdgmnhCw8vSQEbA5tYWhovuY/gD6Gm5H6EpgiH7q8PHbTdVN/NGw
-   L+u0AEjDBIQ/XokaHfiE+YCCodupVoDoNANAB1tG83ElVk5MdUzKHllrb
-   alek0cx4J8pa7HlMUOijfUG4pGFByoerWzeTdp6suHpDB3qvrS55QZ/mT
-   w==;
-X-CSE-ConnectionGUID: h6vF7GLcT76P8mdo4Y2Y3Q==
-X-CSE-MsgGUID: /Jfk3k5zQy+h64xfC+Kakw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="90610512"
-X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="90610512"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 20:46:33 -0700
-X-CSE-ConnectionGUID: b1OQbWc2Sm+SmeRY4eTA+g==
-X-CSE-MsgGUID: PzZEbr/WSWuRbmxw79P6EQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="239699209"
-Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 18 May 2026 20:46:32 -0700
-Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wPBPZ-000000000No-1ssk;
-	Tue, 19 May 2026 03:46:29 +0000
-Date: Tue, 19 May 2026 11:46:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rppt:gfp-to-kmalloc/v0.1 31/238]
- drivers/crypto/omap-crypto.c:203:13: warning: variable 'pages' set but not
- used
-Message-ID: <202605191114.jmlkNqPP-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n+kUjm7A"
+Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-65c09c1d000so3885268d50.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 18 May 2026 21:14:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779164071; cv=none;
+        d=google.com; s=arc-20240605;
+        b=kDxRW8Uq3tf6Mc+g0dJNz/PSM9+1d8cMyZtBuDs2TIev6qi+3AEHrt08YlrkCfzlg8
+         Egy2gXyp0b2RTPk4zkQcHWIfL8dFqi30pE1nnjt7wRhoj7/x8vtuZ1gCiepsZroF4Snt
+         zvla/rNOvwNBixXomEInwNJLw55uOcu/i2TX2knXUnhbzeMi5FlAX/OQuxO4iDj8N1Y2
+         EPuBVrEvEO4jh929VnIhCb0m/7BNoZR7ZS60F9X9mGGXkRnScdtc1kL68iEiAqycZ0on
+         1v1lM4gp7zQLTJJ6r4bQYiRMXWjbVkIY6gRFST2v3NUXurIqX/PXqnnF+ncrTef4ow56
+         6nCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=I3Cc6m38oPvcGuBp5AJqGBI+Tkcix4npCtWvX6h14ng=;
+        fh=6mp+Lf8fMZ9x0ZP9YOedplRzcxUZKvFTFX2QnCHsFcA=;
+        b=MD21UxdVURLcVGXPoV42FgCeBXKPqJS7JyWEsOjxaNycvmAqGvM7cNbFynDvKBUJFs
+         YQVXX2A8846xX+U0SiX5/CVHAGTW3M1tmxWzu6a3V4qulkduiVbymKACvr+0ZvXGGioe
+         YX66ZTqa10H2dEyx3GInyPNkacYYLqFQW4ZcleY30TyHcZZiURlhzH/Uoh3tufmkP0+o
+         c/PvG0jG82cHbpqrkyaCuDHO26oyUZGJEiqsVhK7ksdDgIkhBicD04xgx9yXJfxM6stq
+         7S2D5DPgJx6044tknlHRh1hpzbKErLmS4CvCEqdH8fz4ksorxZgH5gydDd/NvPVJJqtj
+         SvXg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779164071; x=1779768871; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=I3Cc6m38oPvcGuBp5AJqGBI+Tkcix4npCtWvX6h14ng=;
+        b=n+kUjm7A6PhmZSXdNPLFAo1BdOVNOqqkIC1T2SrG1tNYzWVK7ftxRKjo0X5jEh7BoU
+         WalzCeEqsXrLixU/wgXi0F4W3TZVheCKXBQXHOsdu1quGbLrRvwJfenxeUVgCxYKkdBm
+         RsXqRowMI6AnxQamQvuaY5RenCqwL4wY384PQ7IpWcLPTFwGX0qyTHl1kOpHOVBphZZ5
+         SGvXL/9OQ13UJCzQefjuByTasnVK/jhhWbNfxl0ZEzhILfnfWVA4Ip/4k6S4sgknThVH
+         K4aWqZXDjpo4Ye1D79GETKZEv+zLIuwEyye+UKy30niKOxojg9/8/AwbFsvED6lXvlmr
+         VUEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779164071; x=1779768871;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=I3Cc6m38oPvcGuBp5AJqGBI+Tkcix4npCtWvX6h14ng=;
+        b=IXFPo2hfiXkGUulD53TPaYn+851+rk5rj10pSldiAwwPaekIoa8rpGTs4vhA1D5cM3
+         qkZys9hWDCkcbeaRgBNxmiDQJM78TkUXUlYJS8IA6dJ3f+6kxMjEAyr4FMs9HTK8vVk9
+         jCqGh6m9INbBnjkj+x23QPF1s8ixiVyCsON7InthqYNm8LUybDkvgNX+ROdhRQapBeVI
+         ZLzE0/ie9CdRm8vobSnF4hz8yJSZDaPc/unqMCbooVG2QtlFw0bGQto+ciw1AZ43jVxq
+         AldlJXlh7SPbTb58NAm/nFd6cLdldzuEGOJWiCk+7mpPk1ziffE6UuFEDR0fewGQg0RX
+         wdxg==
+X-Forwarded-Encrypted: i=1; AFNElJ+4AgWo8YmoKFK7mXYQY7cukJD57Stg8u4CU3r1PNf82XdP9Zl9JqhawRloQwHWkH11S6tyLjqFSjpC5G7e@lists.linux.dev
+X-Gm-Message-State: AOJu0YzkfmNNAzmnDGphKKGnplNyswWRqMkr3xeblDDKdDH9mG7SLe9L
+	DgWOa1jgDApfDmuH42nfwejUR//Iyqk2av2ypo/VgHayBXyM9qRac/HNhV4myqCJcadwuYPcUOX
+	8bYn7/nc7mrSZ51YE/fx+o7u1y/q64z0=
+X-Gm-Gg: Acq92OEBg+zeQ9hKQXRDpq6q2i2UEcQK0xFXmbbX1FCh6Z55eNAwoCrWVg52FG0ffiM
+	BLKEeZuZmes0PZQtADmvr36U1qs9Mk7dLaSBfGHEsqNMwvVQcyc+3Qu5rBQ+d7skPiO3ft5/3+/
+	t7U9eXE/F1s+htXilIia4asDhmXGlsWIywQpdxgeGeWXHMr6qAgaEk5YXLK80LI4kj4xG3M3yAA
+	enkO3Wn7fOuJSCvn88Qt04UlkBuNfLOf4LlX2bZUNYyN+oGRv8jgHKRtijg8a8oibaLKJB3AVft
+	XipZoUXB
+X-Received: by 2002:a05:690e:438d:b0:65e:782e:9df3 with SMTP id
+ 956f58d0204a3-65e782ea2bcmr1341256d50.7.1779164070708; Mon, 18 May 2026
+ 21:14:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <20260518125500.1000083-1-lgs201920130244@gmail.com> <202605190845.KlMSPp80-lkp@intel.com>
+In-Reply-To: <202605190845.KlMSPp80-lkp@intel.com>
+From: Guangshuo Li <lgs201920130244@gmail.com>
+Date: Tue, 19 May 2026 12:14:18 +0800
+X-Gm-Features: AVHnY4Km_xmIfqiLJD15ZaDQr9lLAh1Ogha024FXgf4YUM6n3JdHCvcB7t1E46k
+Message-ID: <CANUHTR-J7VY4Jx7WVqEpC+Xg2cR_Rnb=gaA_xecyNO9dmFcyew@mail.gmail.com>
+Subject: Re: [PATCH] media: mediatek: mdp: avoid double free on video register failure
+To: kernel test robot <lkp@intel.com>
+Cc: Minghsiu Tsai <minghsiu.tsai@mediatek.com>, Houlong Wei <houlong.wei@mediatek.com>, 
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Hans Verkuil <hverkuil@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git gfp-to-kmalloc/v0.1
-head:   cf8f69ff9142effba4d8d9a70a1a4f275044376c
-commit: 5f08b1335289414f3cc968309c42569264ac33e7 [31/238] crypto: replace __get_free_pages() with kmalloc()
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260519/202605191114.jmlkNqPP-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260519/202605191114.jmlkNqPP-lkp@intel.com/reproduce)
+Thanks for the report.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605191114.jmlkNqPP-lkp@intel.com/
+On Tue, 19 May 2026 at 10:13, kernel test robot <lkp@intel.com> wrote:
+>
+> Hi Guangshuo,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on linuxtv-media-pending/master]
+> [also build test ERROR on media-tree/master linus/master v7.1-rc4 next-20260518]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Guangshuo-Li/media-mediatek-mdp-avoid-double-free-on-video-register-failure/20260518-211648
+> base:   https://git.linuxtv.org/media-ci/media-pending.git master
+> patch link:    https://lore.kernel.org/r/20260518125500.1000083-1-lgs201920130244%40gmail.com
+> patch subject: [PATCH] media: mediatek: mdp: avoid double free on video register failure
+> config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260519/202605190845.KlMSPp80-lkp@intel.com/config)
+> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260519/202605190845.KlMSPp80-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202605190845.KlMSPp80-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+> >> drivers/media/platform/mediatek/mdp/mtk_mdp_m2m.c:1217:33: error: expected ';' after expression
+>     1217 |         video_device_release(mdp->vdev)
+>          |                                        ^
+>          |                                        ;
+>    1 error generated.
+>
+>
+> vim +1217 drivers/media/platform/mediatek/mdp/mtk_mdp_m2m.c
+>
+>   1172
+>   1173  int mtk_mdp_register_m2m_device(struct mtk_mdp_dev *mdp)
+>   1174  {
+>   1175          struct device *dev = &mdp->pdev->dev;
+>   1176          int ret;
+>   1177
+>   1178          mdp->variant = &mtk_mdp_default_variant;
+>   1179          mdp->vdev = video_device_alloc();
+>   1180          if (!mdp->vdev) {
+>   1181                  dev_err(dev, "failed to allocate video device\n");
+>   1182                  ret = -ENOMEM;
+>   1183                  goto err_video_alloc;
+>   1184          }
+>   1185          mdp->vdev->device_caps = V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING;
+>   1186          mdp->vdev->fops = &mtk_mdp_m2m_fops;
+>   1187          mdp->vdev->ioctl_ops = &mtk_mdp_m2m_ioctl_ops;
+>   1188          mdp->vdev->release = video_device_release_empty;
+>   1189          mdp->vdev->lock = &mdp->lock;
+>   1190          mdp->vdev->vfl_dir = VFL_DIR_M2M;
+>   1191          mdp->vdev->v4l2_dev = &mdp->v4l2_dev;
+>   1192          snprintf(mdp->vdev->name, sizeof(mdp->vdev->name), "%s:m2m",
+>   1193                   MTK_MDP_MODULE_NAME);
+>   1194          video_set_drvdata(mdp->vdev, mdp);
+>   1195
+>   1196          mdp->m2m_dev = v4l2_m2m_init(&mtk_mdp_m2m_ops);
+>   1197          if (IS_ERR(mdp->m2m_dev)) {
+>   1198                  dev_err(dev, "failed to initialize v4l2-m2m device\n");
+>   1199                  ret = PTR_ERR(mdp->m2m_dev);
+>   1200                  goto err_m2m_init;
+>   1201          }
+>   1202
+>   1203          ret = video_register_device(mdp->vdev, VFL_TYPE_VIDEO, 2);
+>   1204          if (ret) {
+>   1205                  dev_err(dev, "failed to register video device\n");
+>   1206                  goto err_vdev_register;
+>   1207          }
+>   1208          mdp->vdev->release = video_device_release;
+>   1209
+>   1210          v4l2_info(&mdp->v4l2_dev, "driver registered as /dev/video%d",
+>   1211                    mdp->vdev->num);
+>   1212          return 0;
+>   1213
+>   1214  err_vdev_register:
+>   1215          v4l2_m2m_release(mdp->m2m_dev);
+>   1216  err_m2m_init:
+> > 1217          video_device_release(mdp->vdev)
+>   1218          mdp->vdev = NULL;
+>   1219  err_video_alloc:
+>   1220
+>   1221          return ret;
+>   1222  }
+>   1223
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-All warnings (new ones prefixed by >>):
+This build failure was caused by my oversight. I missed the semicolon after
+video_device_release(mdp->vdev).
 
-   drivers/crypto/omap-crypto.c: In function 'omap_crypto_cleanup':
->> drivers/crypto/omap-crypto.c:203:13: warning: variable 'pages' set but not used [-Wunused-but-set-variable]
-     203 |         int pages;
-         |             ^~~~~
+I will send a v2 to fix this issue.
 
-
-vim +/pages +203 drivers/crypto/omap-crypto.c
-
-839bb2a9ca73a9 Tero Kristo               2019-11-05  197  
-74ed87e7e7f719 Tero Kristo               2017-05-24  198  void omap_crypto_cleanup(struct scatterlist *sg, struct scatterlist *orig,
-74ed87e7e7f719 Tero Kristo               2017-05-24  199  			 int offset, int len, u8 flags_shift,
-74ed87e7e7f719 Tero Kristo               2017-05-24  200  			 unsigned long flags)
-74ed87e7e7f719 Tero Kristo               2017-05-24  201  {
-74ed87e7e7f719 Tero Kristo               2017-05-24  202  	void *buf;
-74ed87e7e7f719 Tero Kristo               2017-05-24 @203  	int pages;
-74ed87e7e7f719 Tero Kristo               2017-05-24  204  
-74ed87e7e7f719 Tero Kristo               2017-05-24  205  	flags >>= flags_shift;
-74ed87e7e7f719 Tero Kristo               2017-05-24  206  	flags &= OMAP_CRYPTO_COPY_MASK;
-74ed87e7e7f719 Tero Kristo               2017-05-24  207  
-74ed87e7e7f719 Tero Kristo               2017-05-24  208  	if (!flags)
-74ed87e7e7f719 Tero Kristo               2017-05-24  209  		return;
-74ed87e7e7f719 Tero Kristo               2017-05-24  210  
-74ed87e7e7f719 Tero Kristo               2017-05-24  211  	buf = sg_virt(sg);
-74ed87e7e7f719 Tero Kristo               2017-05-24  212  	pages = get_order(len);
-74ed87e7e7f719 Tero Kristo               2017-05-24  213  
-ffe3ee8bb68aa6 Ben Hutchings             2021-08-11  214  	if (orig && (flags & OMAP_CRYPTO_DATA_COPIED))
-839bb2a9ca73a9 Tero Kristo               2019-11-05  215  		omap_crypto_copy_data(sg, orig, offset, len);
-74ed87e7e7f719 Tero Kristo               2017-05-24  216  
-74ed87e7e7f719 Tero Kristo               2017-05-24  217  	if (flags & OMAP_CRYPTO_DATA_COPIED)
-5f08b133528941 Mike Rapoport (Microsoft  2026-02-10  218) 		kfree((void *)(unsigned long)buf);
-74ed87e7e7f719 Tero Kristo               2017-05-24  219  	else if (flags & OMAP_CRYPTO_SG_COPIED)
-74ed87e7e7f719 Tero Kristo               2017-05-24  220  		kfree(sg);
-74ed87e7e7f719 Tero Kristo               2017-05-24  221  }
-74ed87e7e7f719 Tero Kristo               2017-05-24  222  EXPORT_SYMBOL_GPL(omap_crypto_cleanup);
-74ed87e7e7f719 Tero Kristo               2017-05-24  223  
-
-:::::: The code at line 203 was first introduced by commit
-:::::: 74ed87e7e7f7197137164738dd0610ccd5ec5ed1 crypto: omap - add base support library for common routines
-
-:::::: TO: Tero Kristo <t-kristo@ti.com>
-:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Sorry for the noise.
