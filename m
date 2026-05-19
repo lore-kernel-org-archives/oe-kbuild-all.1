@@ -1,185 +1,96 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65EB6339863
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 May 2026 23:43:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58BD978F3A;
+	Tue, 19 May 2026 00:24:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779147791; cv=none; b=Qr0G4K1QvnLJHCzoqANVTFSRRgyP8MdEc0DW4rdpvSIJxg41IbdOa4IqMSKNQoNyg9+9CiIqtC2jz2za+/K8aaAX7pgXefMppzk1BEkV/ch/T89GkSbYAh3pUYXpljvZnRsLvpH8PWdfJeC/CEL2NKRlQWY/W0Ygf/NWvmazA3E=
+	t=1779150251; cv=none; b=JAsj7Bng+4ftgrAs1i7O7N0UhT7XPC/jeWvpF9Dg65JbvcBZwl/RNHm6ZqsUc+4aRkB9PptF4IIIC6YjgSyCKHU35Q1iErC9w+qIKnGfuNqEiAZ7JcVkqVgGEJCqZCCRnMeIaw53wt1YToVmpgBDsnGk7orhwykOzj4QkaQVKr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779147791; c=relaxed/simple;
-	bh=hWjb1o3oHfiC6DGevgb/1w52r3fVns3wMWOzvxphFnI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Z57g8agGchFYG3vXf0YfM2X/1toZwCQhr5EzuMOAsf7h7nm0vt62Adj8X/d6j+wfBylzFpsW13BANdbBMsHY3Gv/wVHEQpw9Bein4YT8TpJX6/Brv48LsPDHbiRSl2DxeQxpNzeqIABu7tapGiEJu4uyEXBHHvbgcCVHviqktJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AAXBD3JS; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1779150251; c=relaxed/simple;
+	bh=jqiri8fRYoUgwKQOj9PizGg7LdzMPJoB/dTx7TlSWBY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rus/2j17NuRxwYumlc7s5kJHzBmHiNkk5m6Y98KSTdC7ZbhBT+Jws5a0ZZTOkRs90R1kYgLrk5f29xPckspxjDGY5OwJ9VinaoByUm3xdqBW1VfdvAiOwUAgcAcbWa/wReNfSCYtBrVjCe8kBse5kYEdITn3IPp5IQQJAWFBpfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lNx5/WBU; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AAXBD3JS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lNx5/WBU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779147790; x=1810683790;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=hWjb1o3oHfiC6DGevgb/1w52r3fVns3wMWOzvxphFnI=;
-  b=AAXBD3JSJnMx25pB5jjuNrKIsxeKhaGyWxXwyJJlKbyHjbIojYIjZl/4
-   HLE1qa7Lrt6ETs+RX1rPFZfKKPIQ2Tv+Q7QwGjGOUCWsHbPwskQIlWsbk
-   t4VYJCGxqhtOJVuLVBGyQzrRe8PDJeOcncprMY10IxvCNFUNft0x7YPK7
-   4LO5mM6J+giEzRGQ4E8b07vrRgkkPBOncvIUulpOTbBnLeXgtDLZQGCXm
-   CuTsLWrUus/RsvTcp0F7fV/tqOFuO/2u6xD4EO8UEjWO/+Pj586BNMTb+
-   nbZuOfTuPkkO0Vc7JOtMX4vKT/HBldxlblV+1s5L0Fab5P/3uvuA2TGdi
+  t=1779150249; x=1810686249;
+  h=date:from:to:cc:subject:message-id;
+  bh=jqiri8fRYoUgwKQOj9PizGg7LdzMPJoB/dTx7TlSWBY=;
+  b=lNx5/WBUucStZnhWd5eLn5Ar/PfvXFcKk+yUg7wTndOEbhYSMn2EatfU
+   RN/Y79VhjBGd1XPt8XUBuj8txOD626CXyt9Y8iq14HJyK0pC23whfxQxe
+   cbFOarOmHIWADeln6ccjZib/mA/pSf00FKXFodhnJDFD4V1xSMv6mL3Nd
+   eQPIyygQMGamZJrIqp13Bbtq2qmXWEThpie5Ocqa5eQc0LGzMXXm93tOP
+   y/GmI/M+1lriF4w+BC37WMo/7b0/YGZrPP9HuXCPSWhy8ibggfcSP4h7k
+   zXKTgoNdrm0V6ri9BTJdy72OSs2AvUiM1tLB2dXY7StRakeVFeY4eA2J6
    w==;
-X-CSE-ConnectionGUID: QxnymoNQSuCwHOTTFMrqdQ==
-X-CSE-MsgGUID: Bxyicv8hT36ZMuRkHGR1nw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="90710707"
+X-CSE-ConnectionGUID: Lm/68KbWTSGRGQe6Q0WCAg==
+X-CSE-MsgGUID: DaDP04p6TbOKnK0xjzWqxg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="105478135"
 X-IronPort-AV: E=Sophos;i="6.23,242,1770624000"; 
-   d="scan'208";a="90710707"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 16:43:09 -0700
-X-CSE-ConnectionGUID: AiGTyzW1Ta+bnE4Cf4Ulvg==
-X-CSE-MsgGUID: zSqaPt3URo+oesdQKFNsFQ==
+   d="scan'208";a="105478135"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 17:24:09 -0700
+X-CSE-ConnectionGUID: cRwEVNKvQ+qylHyKVCNVGA==
+X-CSE-MsgGUID: XKTohS1qQUC4buvqG8hLyg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,242,1770624000"; 
-   d="scan'208";a="277695085"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 18 May 2026 16:43:07 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 18 May 2026 17:24:07 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wP7c0-00000000A01-2CLB;
-	Mon, 18 May 2026 23:43:04 +0000
-Date: Tue, 19 May 2026 01:42:32 +0200
+	id 1wP8Fh-00000000A1J-2C2x;
+	Tue, 19 May 2026 00:24:05 +0000
+Date: Tue, 19 May 2026 02:23:17 +0200
 From: kernel test robot <lkp@intel.com>
-To: David Woodhouse <dwmw@amazon.co.uk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dwmw2:ffclock 43/43]
- kernel/time/timekeeping.c:2374:undefined reference to `ntp_get_status'
-Message-ID: <202605190131.zOxgihbr-lkp@intel.com>
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [rppt:gfp-to-kmalloc/v0.1 76/238]
+ arch/x86/kvm/vmx/sgx.c:4:9: warning: 'pr_fmt' macro redefined
+Message-ID: <202605190247.x7A3vjsY-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-tree:   git://git.infradead.org/users/dwmw2/linux ffclock
-head:   123146665ac9426e106557f5c14f8743b128a6b2
-commit: 123146665ac9426e106557f5c14f8743b128a6b2 [43/43] kernel/time: Add /=
-dev/vmclock_host miscdev
-config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/2026=
-0519/202605190131.zOxgihbr-lkp@intel.com/config)
-compiler: aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260519/202605190131.zOxgihbr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git gfp-to-kmalloc/v0.1
+head:   cf8f69ff9142effba4d8d9a70a1a4f275044376c
+commit: 9f39e5e1674188b92a32f709a9c3225553110dc0 [76/238] KVM: VMX: replace __get_free_page() with kmalloc()
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260519/202605190247.x7A3vjsY-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260519/202605190247.x7A3vjsY-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605190131.zOxgihbr-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605190247.x7A3vjsY-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   aarch64-linux-gnu-ld: Unexpected GOT/PLT entries detected!
-   aarch64-linux-gnu-ld: Unexpected run-time procedure linkages detected!
-   aarch64-linux-gnu-ld: kernel/time/timekeeping.o: in function `timekeepin=
-g_adjust':
->> kernel/time/timekeeping.c:2374:(.text+0xb2c): undefined reference to `nt=
-p_get_status'
->> aarch64-linux-gnu-ld: kernel/time/timekeeping.c:2375:(.text+0xb34): unde=
-fined reference to `ntp_get_time_state'
+>> arch/x86/kvm/vmx/sgx.c:4:9: warning: 'pr_fmt' macro redefined [-Wmacro-redefined]
+       4 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+         |         ^
+   include/linux/printk.h:401:9: note: previous definition is here
+     401 | #define pr_fmt(fmt) fmt
+         |         ^
+   1 warning generated.
 
 
-vim +2374 kernel/time/timekeeping.c
+vim +/pr_fmt +4 arch/x86/kvm/vmx/sgx.c
 
-  2354=09
-  2355	static void timekeeping_adjust(struct timekeeper *tk, s64 offset)
-  2356	{
-  2357		u64 ntp_tl =3D ntp_tick_length(tk->id);
-  2358		s64 skew =3D ntp_get_skew_delta(tk->id);
-  2359		u32 mult;
-  2360=09
-  2361		/*
-  2362		 * Determine the multiplier from the current NTP tick length plus
-  2363		 * skew_delta. The skew biases mult so that =C2=B11 dithering can d=
-eliver
-  2364		 * the time_offset slew rate. Recompute when either changes.
-  2365		 */
-  2366		if (likely(tk->ntp_tick =3D=3D ntp_tl && tk->skew_delta =3D=3D skew=
- &&
-  2367			   !tk_ref_pending)) {
-  2368			mult =3D tk->tkr_mono.mult - tk->ntp_err_mult;
-  2369		} else {
-  2370			if (unlikely(!tk->cycle_interval))
-  2371				return;
-  2372			tk->ntp_tick =3D ntp_tl;
-  2373			tk->skew_delta =3D skew;
-> 2374			tk->ntp_status =3D ntp_get_status();
-> 2375			tk->ntp_time_state =3D ntp_get_time_state();
-  2376			mult =3D div64_u64((tk->ntp_tick + skew) >> tk->ntp_error_shift,
-  2377					  tk->cycle_interval);
-  2378			if (tk_ref_pending && tk->cs_id =3D=3D tk_ref.cs_id) {
-  2379				u64 d =3D tk->tkr_mono.cycle_last - tk_ref.counter_value;
-  2380				__uint128_t p =3D (__uint128_t)d * tk_ref.period_frac_sec;
-  2381				u64 rf;
-  2382				s64 ref_err;
-  2383=09
-  2384				p >>=3D tk_ref.period_shift;
-  2385				p +=3D tk_ref.time_frac_sec;
-  2386				rf =3D (u64)p;
-  2387				ref_err =3D (s64)mul_u64_u64_shr(rf,
-  2388					(u64)NSEC_PER_SEC << tk->tkr_mono.shift, 64) -
-  2389					(s64)tk->tkr_mono.xtime_nsec;
-  2390				ntp_set_time_offset(tk->id,
-  2391					ref_err >> tk->tkr_mono.shift);
-  2392				tk->ntp_error =3D 0;
-  2393				tk_ref_pending =3D false;
-  2394			}
-  2395		}
-  2396=09
-  2397		/*
-  2398		 * If the clock is behind the NTP time, increase the multiplier by 1
-  2399		 * to catch up with it. If it's ahead and there was a remainder in =
-the
-  2400		 * tick division, the clock will slow down. Otherwise it will stay
-  2401		 * ahead until the tick length changes to a non-divisible value.
-  2402		 */
-  2403		tk->ntp_err_mult =3D tk->ntp_error > 0 ? 1 : 0;
-  2404		mult +=3D tk->ntp_err_mult;
-  2405=09
-  2406		timekeeping_apply_adjustment(tk, offset, mult - tk->tkr_mono.mult);
-  2407=09
-  2408		if (unlikely(tk->tkr_mono.clock->maxadj &&
-  2409			(abs(tk->tkr_mono.mult - tk->tkr_mono.clock->mult)
-  2410				> tk->tkr_mono.clock->maxadj))) {
-  2411			printk_once(KERN_WARNING
-  2412				"Adjusting %s more than 11%% (%ld vs %ld)\n",
-  2413				tk->tkr_mono.clock->name, (long)tk->tkr_mono.mult,
-  2414				(long)tk->tkr_mono.clock->mult + tk->tkr_mono.clock->maxadj);
-  2415		}
-  2416=09
-  2417		/*
-  2418		 * It may be possible that when we entered this function, xtime_nsec
-  2419		 * was very small.  Further, if we're slightly speeding the clockso=
-urce
-  2420		 * in the code above, its possible the required corrective factor to
-  2421		 * xtime_nsec could cause it to underflow.
-  2422		 *
-  2423		 * Now, since we have already accumulated the second and the NTP
-  2424		 * subsystem has been notified via second_overflow(), we need to sk=
-ip
-  2425		 * the next update.
-  2426		 */
-  2427		if (unlikely((s64)tk->tkr_mono.xtime_nsec < 0)) {
-  2428			tk->tkr_mono.xtime_nsec +=3D (u64)NSEC_PER_SEC <<
-  2429								tk->tkr_mono.shift;
-  2430			tk->xtime_sec--;
-  2431			tk->skip_second_overflow =3D 1;
-  2432		}
-  2433	}
-  2434=09
+8d20bd63816703 Sean Christopherson 2022-11-30 @4  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+9798adbc04cf1b Sean Christopherson 2021-04-12  5  
+
+:::::: The code at line 4 was first introduced by commit
+:::::: 8d20bd6381670382669d9bb39b5fd566a84cdbef KVM: x86: Unify pr_fmt to use module name for all KVM modules
+
+:::::: TO: Sean Christopherson <seanjc@google.com>
+:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
 
 --
 0-DAY CI Kernel Test Service
