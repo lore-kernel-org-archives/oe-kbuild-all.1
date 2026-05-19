@@ -1,61 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CDCF369D7C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 May 2026 22:33:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC88378F2F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 May 2026 23:04:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779230008; cv=none; b=osF7y+aLtYXJseYnBM4P43lzvFbrS2btI0mSlJDS4gFS1kdu7ji4EiATe9V8kj/vOYpchNwfVi1922RbcykVaJNZguP8DDVJ/VCf6Fc9jBeiY8/XAaskLloiTeD/LEXKVZDWmFnPZ3eCiDXR4WL44qrAdFE3j7vwYOEA0WAXdUA=
+	t=1779231868; cv=none; b=tHEhpoVWrTLW3R2/d19GbBRMUMwljCCP68sFAt81uC+s/049KLrOr07iAF6XJDzjyWFPuaUwG6J+0t8U+MYh0QR22GtQfd0RVG2ld69yNpV/uGo0REn0m4SfDjE8QFKuNHgf49z+KpuvQbbGk20Z8ReRM58UhuSixLNbfSrALO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779230008; c=relaxed/simple;
-	bh=0pGBn64zN0HRKKEZz7Ae2IJLbWzclKZKQ5ALejbA+cA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Qaexv6fFFacuMDP5V7P4jl8W4UnuIjZHFEKBYUAtehaHsAS/QDV7Hj2/yb5QRvJApKWz0GAmEhsGru6qvTDeMWPqhclu+FfbC0sHxvL8WDJTUjlcAB2tLBIdAycKPny/MaeuSaM5rG1Llz/AGptnfht0b6eRlosg7xsPuUhLQk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LIfWoBxF; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1779231868; c=relaxed/simple;
+	bh=TgDqPDQtQT3n/xCOAdcxR/lkYlfiwSRYmNZDcDlLMrE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Qjq/UGr3Ui4GApb6wJ1YEX0d7wukN/Pk9btr80AF0SBN+FE+xtrQGbdvzS3a9vEjGi6bWaKTnlhNfcFNL9ZqdlTNE4jPkCfyC9kGxjzKylJalNkq9Oaj4qkROv2QUDVamEMRhFy9VmTk/G0QfLA3/GNKj+IFu8se1xinpuZ6dHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E4aJoZ7Y; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LIfWoBxF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E4aJoZ7Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779230006; x=1810766006;
+  t=1779231867; x=1810767867;
   h=date:from:to:cc:subject:message-id;
-  bh=0pGBn64zN0HRKKEZz7Ae2IJLbWzclKZKQ5ALejbA+cA=;
-  b=LIfWoBxF29c/9olQieuYSzjdQcyghCbozNEW9aO15qaeCGw7OXXeJznT
-   NlyMOaJ7XdawwIAWA1LjaLzNqlsoV/9yVeM49ySHIkPd3uOxkj06p5oLA
-   TH/Eo4lE7ZpQfC3QgNzugJ1FQsCfwhwyjfNIv92pYtCRfNyymNCoJf0ct
-   WfO9ZNHzZ12rmXghjbWco+J35n4td2D0QWFWGzlv4ou3O7Y+zfdfqjKtI
-   tMmT14lJ2kX7kWClcFZYZpGBlWGAo14CiEbKyMIX5o35399kojAZqcuew
-   hG0ansd6NhFI4bfnq1UpNz6Gv67WuYhUJ6WYyRY/aDdzMLu9tBF8XrNDw
-   w==;
-X-CSE-ConnectionGUID: Dszp0BJvSmCn2x3TTlPu9g==
-X-CSE-MsgGUID: oFXktKmxRUCPCh3801Vclw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="80175067"
+  bh=TgDqPDQtQT3n/xCOAdcxR/lkYlfiwSRYmNZDcDlLMrE=;
+  b=E4aJoZ7YqvAHGSVSjour/xhzL1igodxDFbOa0VijshSaI0zQYCUzZQal
+   08wegcdtb7tx+tnin+QVfRSmHhAcnFZbzI10Ml0T86591MeoUt4t2eA4c
+   FNI1j2wQFkD4quAJ2ZSjji/nd55rBuUo3TxCyNq6JOUf4fuc2G1wczhur
+   5SfUFc4RxnZ02kzFB+sep5GqrWl+qXBR8BksOmWQ7JNHcLzAb2uB0jfjd
+   Exp+hFXFBbpjmiGRCkcX2glcHaXabAnkgCZIu0/cLqYfVTyTlwsclMO9D
+   e8tOOVfMhjeNZM6K3Gc/LKzU357fBYR3u+GN9uFVXTntpylfmXmiCGghi
+   Q==;
+X-CSE-ConnectionGUID: CdQZKT+kQjC1hrqiX4e/zQ==
+X-CSE-MsgGUID: fQgDFXk4SGCJtcSejNDYxQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="91590527"
 X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="80175067"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 15:33:26 -0700
-X-CSE-ConnectionGUID: xBhX36/7SaSvl7zS7YsJSA==
-X-CSE-MsgGUID: KuqsaPpcQGW5KRlzY81TXg==
+   d="scan'208";a="91590527"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 16:04:27 -0700
+X-CSE-ConnectionGUID: VMvOqSJ+TcGpkbOO+T4Hkw==
+X-CSE-MsgGUID: F5rNgCU6TdeZZiq9PD3Qlg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="244888476"
+   d="scan'208";a="236936626"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 19 May 2026 15:33:24 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 19 May 2026 16:04:25 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wPT05-00000000AKh-3pNx;
-	Tue, 19 May 2026 22:33:21 +0000
-Date: Wed, 20 May 2026 00:33:09 +0200
+	id 1wPTU6-00000000AM5-3kmx;
+	Tue, 19 May 2026 23:04:22 +0000
+Date: Wed, 20 May 2026 01:03:45 +0200
 From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
- "Mike Rapoport (Microsoft)" <rppt@kernel.org>,
- Kevin Brodsky <kevin.brodsky@arm.com>, Jann Horn <jannh@google.com>,
- Feng Tang <feng.tang@linux.alibaba.com>
-Subject: [ardb:arm64-remap-linear-data-alias-v5 2/13]
- arch/powerpc/lib/code-patching.c:120:30: warning: passing argument 1 of
- 'map_patch_area' discards 'const' qualifier from pointer target type
-Message-ID: <202605200014.FgCcCxxG-lkp@intel.com>
+To: Milan Tripkovic <Milan.Tripkovic@rt-rk.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: lib/tests/string_kunit.c:938:15: warning: variable 'p2' set
+ but not used
+Message-ID: <202605200042.d5lzQnsV-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,66 +59,89 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git arm64-remap-linear-data-alias-v5
-head:   d3ef1c7a7d081f762b2bb61c614d06af61ace42b
-commit: f8ca7ccc34aa79d6d288b0b2c2f7da546487afa4 [2/13] mm: Make empty_zero_page[] const
-config: powerpc64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260520/202605200014.FgCcCxxG-lkp@intel.com/config)
-compiler: powerpc64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605200014.FgCcCxxG-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Milan-Tripkovic/riscv-lib-add-memcmp-implementation/20260519-221028
+head:   f9332510d4c175fa8bdf907b77ba2f8d0e2735ce
+commit: f9332510d4c175fa8bdf907b77ba2f8d0e2735ce lib/string_kunit: extend benchmarks and unit test to memcmp()
+date:   9 hours ago
+config: x86_64-rhel-9.4-kunit (https://download.01.org/0day-ci/archive/20260520/202605200042.d5lzQnsV-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605200042.d5lzQnsV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605200014.FgCcCxxG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605200042.d5lzQnsV-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/powerpc/lib/code-patching.c: In function 'text_area_cpu_up':
->> arch/powerpc/lib/code-patching.c:120:30: warning: passing argument 1 of 'map_patch_area' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     120 |         err = map_patch_area(empty_zero_page, addr);
-         |                              ^~~~~~~~~~~~~~~
-   arch/powerpc/lib/code-patching.c:63:33: note: expected 'void *' but argument is of type 'const uint8_t *' {aka 'const unsigned char *'}
-      63 | static int map_patch_area(void *addr, unsigned long text_poke_addr);
-         |                           ~~~~~~^~~~
+   lib/tests/string_kunit.c: In function 'do_string_bench_memcmp':
+>> lib/tests/string_kunit.c:938:15: warning: variable 'p2' set but not used [-Wunused-but-set-variable]
+     938 |         char *p2;
+         |               ^~
+>> lib/tests/string_kunit.c:937:15: warning: variable 'p1' set but not used [-Wunused-but-set-variable]
+     937 |         char *p1;
+         |               ^~
 
 
-vim +120 arch/powerpc/lib/code-patching.c
+vim +/p2 +938 lib/tests/string_kunit.c
 
-c28c15b6d28a77 Christopher M. Riedl 2022-11-09  104  
-37bc3e5fd764fb Balbir Singh         2017-06-29  105  static int text_area_cpu_up(unsigned int cpu)
-37bc3e5fd764fb Balbir Singh         2017-06-29  106  {
-37bc3e5fd764fb Balbir Singh         2017-06-29  107  	struct vm_struct *area;
-591b4b268435f0 Michael Ellerman     2022-02-23  108  	unsigned long addr;
-591b4b268435f0 Michael Ellerman     2022-02-23  109  	int err;
-37bc3e5fd764fb Balbir Singh         2017-06-29  110  
-d262a192d38e52 Christophe Leroy     2025-02-12  111  	area = get_vm_area(PAGE_SIZE, 0);
-37bc3e5fd764fb Balbir Singh         2017-06-29  112  	if (!area) {
-37bc3e5fd764fb Balbir Singh         2017-06-29  113  		WARN_ONCE(1, "Failed to create text area for cpu %d\n",
-37bc3e5fd764fb Balbir Singh         2017-06-29  114  			cpu);
-37bc3e5fd764fb Balbir Singh         2017-06-29  115  		return -1;
-37bc3e5fd764fb Balbir Singh         2017-06-29  116  	}
-591b4b268435f0 Michael Ellerman     2022-02-23  117  
-591b4b268435f0 Michael Ellerman     2022-02-23  118  	// Map/unmap the area to ensure all page tables are pre-allocated
-591b4b268435f0 Michael Ellerman     2022-02-23  119  	addr = (unsigned long)area->addr;
-591b4b268435f0 Michael Ellerman     2022-02-23 @120  	err = map_patch_area(empty_zero_page, addr);
-591b4b268435f0 Michael Ellerman     2022-02-23  121  	if (err)
-591b4b268435f0 Michael Ellerman     2022-02-23  122  		return err;
-591b4b268435f0 Michael Ellerman     2022-02-23  123  
-591b4b268435f0 Michael Ellerman     2022-02-23  124  	unmap_patch_area(addr);
-591b4b268435f0 Michael Ellerman     2022-02-23  125  
-2f228ee1ade5d8 Benjamin Gray        2022-11-09  126  	this_cpu_write(cpu_patching_context.area, area);
-2f228ee1ade5d8 Benjamin Gray        2022-11-09  127  	this_cpu_write(cpu_patching_context.addr, addr);
-2f228ee1ade5d8 Benjamin Gray        2022-11-09  128  	this_cpu_write(cpu_patching_context.pte, virt_to_kpte(addr));
-37bc3e5fd764fb Balbir Singh         2017-06-29  129  
-37bc3e5fd764fb Balbir Singh         2017-06-29  130  	return 0;
-37bc3e5fd764fb Balbir Singh         2017-06-29  131  }
-37bc3e5fd764fb Balbir Singh         2017-06-29  132  
-
-:::::: The code at line 120 was first introduced by commit
-:::::: 591b4b268435f00d2f0b81f786c2c7bd5ef66416 powerpc/code-patching: Pre-map patch area
-
-:::::: TO: Michael Ellerman <mpe@ellerman.id.au>
-:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
+   926	
+   927	static void do_string_bench_memcmp(struct kunit *test)
+   928	{
+   929		char *buf1 = NULL;
+   930		char *buf2 = NULL;
+   931		const u64 lengths[] = { 1, 7, 8, 16, 32, 64, 128, 512, 1024, 4096};
+   932		const int offsets[] = { 0, 1, 3, 7};
+   933		const u64 max_len = 4096 + 64;
+   934		unsigned int o, i;
+   935		unsigned int off;
+   936		u64 len;
+ > 937		char *p1;
+ > 938		char *p2;
+   939		u64 iterations;
+   940		u64 elapsed;
+   941		u64 ns_per_call;
+   942		u64 mbps;
+   943	
+   944		buf1 = vmalloc(max_len);
+   945		buf2 = vmalloc(max_len);
+   946	
+   947		if (!buf1 || !buf2) {
+   948			vfree(buf1);
+   949			vfree(buf2);
+   950			kunit_err(test, "vmalloc failed\n");
+   951			return;
+   952		}
+   953	
+   954		memset(buf1, 'A', max_len);
+   955		memset(buf2, 'A', max_len);
+   956	
+   957		for (o = 0; o < ARRAY_SIZE(offsets); o++) {
+   958			off = offsets[o];
+   959	
+   960			for (i = 0; i < ARRAY_SIZE(lengths); i++) {
+   961				len = lengths[i];
+   962				p1 = buf1;
+   963				p2 = buf2 + off;
+   964				iterations = (len < 512) ? 100000ULL : 10000ULL;
+   965				elapsed = STRING_BENCH(iterations, memcmp, p1, p2, len);
+   966				ns_per_call = div_u64(elapsed, iterations);
+   967				mbps = len ? div_u64(iterations * len * (NSEC_PER_SEC / MEGA), elapsed) : 0;
+   968	
+   969				if (off == 0) {
+   970					kunit_info(test, "bench_memcmp_aligned: len=%-4llu: %llu MB/s (%llu ns/call)\n",
+   971						   len, mbps, ns_per_call);
+   972				} else {
+   973					kunit_info(test, "bench_memcmp_unaligned(off=%u): len=%-4llu: %llu MB/s (%llu ns/call)\n",
+   974						   off, len, mbps, ns_per_call);
+   975				}
+   976			}
+   977		}
+   978	
+   979		vfree(buf1);
+   980		vfree(buf2);
+   981	}
+   982	
 
 --
 0-DAY CI Kernel Test Service
