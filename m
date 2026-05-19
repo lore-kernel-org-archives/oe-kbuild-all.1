@@ -1,201 +1,150 @@
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0C5F2F547F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 May 2026 04:14:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779164073; cv=pass; b=acBWX2qZSbK1JivdsY59B/QbNe1arHLd7LEOew0woOKA0xEVTAQPXRyifmhtw1+ZgMQcFSpR/Ap44jXsMmNkNSOsDndhnvOqvricpzO8ef+widyediZsCxYnLvjDH3Cd8G5Y11Uhu8NlfXXh9tz23NTgpSkqzVumghN738spJPc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779164073; c=relaxed/simple;
-	bh=ZN75BNxVhUMX1Jg1VcWsYYID9KMPww5Z2eyKKPXfyeQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cHXyR7kBvv3aw0b0UwPZ5G2tJ/LowPVkgQdXj70gltEyssy/34Ws4aJXbUNVGvK5H9DoxoQXdwRxHQUmmFpOdJlBICqRlrcKFMdiQNIQFRh3Lqn2FYjnjJrNmYCQTnmF1LZnWMcrzyFs1hLE2vDTTcpkwKobLFeOVNdGzzSAm1o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n+kUjm7A; arc=pass smtp.client-ip=74.125.224.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 706E61E1E16
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 May 2026 04:21:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779164495; cv=none; b=XRxrpzG70Ns+ZcwS4/hrhs9DabfOpF5NCbHPBkLKULbzJxk8M7Cy5NEs+fA9eDeRQhjMjNeVQhICk8dAWgJ/uAkOI4Vhr0QfstK1PypbacQuJMOFsoCJp0f25H0AMiJGGL74VZr2defKJlgIpgvZRK6I8nByuZpQ8khe9PB5vTc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779164495; c=relaxed/simple;
+	bh=GIU0SDqlCBuqLxjLuXHyyp8PjUZ4PDWJZ+svZ8peTXo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Lg8vM9PIhPg5Xdz8bHHSSrIQUcw4YqyXV/U5LdODGmDsiEK4KYxcnzRWnFpTQHZeOq0Mvc+P2DKNAoDxCfGqoun8wtYnUNkoYeS9GiqsM6wm3OVcRhE3EiQQTSJPt5jWbD/cKJyTOycmrwA3LojjbDHSN0VNLJMFvh6RCzw5HRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QqX9R/h7; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n+kUjm7A"
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-65c09c1d000so3885268d50.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 18 May 2026 21:14:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779164071; cv=none;
-        d=google.com; s=arc-20240605;
-        b=kDxRW8Uq3tf6Mc+g0dJNz/PSM9+1d8cMyZtBuDs2TIev6qi+3AEHrt08YlrkCfzlg8
-         Egy2gXyp0b2RTPk4zkQcHWIfL8dFqi30pE1nnjt7wRhoj7/x8vtuZ1gCiepsZroF4Snt
-         zvla/rNOvwNBixXomEInwNJLw55uOcu/i2TX2knXUnhbzeMi5FlAX/OQuxO4iDj8N1Y2
-         EPuBVrEvEO4jh929VnIhCb0m/7BNoZR7ZS60F9X9mGGXkRnScdtc1kL68iEiAqycZ0on
-         1v1lM4gp7zQLTJJ6r4bQYiRMXWjbVkIY6gRFST2v3NUXurIqX/PXqnnF+ncrTef4ow56
-         6nCA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=I3Cc6m38oPvcGuBp5AJqGBI+Tkcix4npCtWvX6h14ng=;
-        fh=6mp+Lf8fMZ9x0ZP9YOedplRzcxUZKvFTFX2QnCHsFcA=;
-        b=MD21UxdVURLcVGXPoV42FgCeBXKPqJS7JyWEsOjxaNycvmAqGvM7cNbFynDvKBUJFs
-         YQVXX2A8846xX+U0SiX5/CVHAGTW3M1tmxWzu6a3V4qulkduiVbymKACvr+0ZvXGGioe
-         YX66ZTqa10H2dEyx3GInyPNkacYYLqFQW4ZcleY30TyHcZZiURlhzH/Uoh3tufmkP0+o
-         c/PvG0jG82cHbpqrkyaCuDHO26oyUZGJEiqsVhK7ksdDgIkhBicD04xgx9yXJfxM6stq
-         7S2D5DPgJx6044tknlHRh1hpzbKErLmS4CvCEqdH8fz4ksorxZgH5gydDd/NvPVJJqtj
-         SvXg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779164071; x=1779768871; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=I3Cc6m38oPvcGuBp5AJqGBI+Tkcix4npCtWvX6h14ng=;
-        b=n+kUjm7A6PhmZSXdNPLFAo1BdOVNOqqkIC1T2SrG1tNYzWVK7ftxRKjo0X5jEh7BoU
-         WalzCeEqsXrLixU/wgXi0F4W3TZVheCKXBQXHOsdu1quGbLrRvwJfenxeUVgCxYKkdBm
-         RsXqRowMI6AnxQamQvuaY5RenCqwL4wY384PQ7IpWcLPTFwGX0qyTHl1kOpHOVBphZZ5
-         SGvXL/9OQ13UJCzQefjuByTasnVK/jhhWbNfxl0ZEzhILfnfWVA4Ip/4k6S4sgknThVH
-         K4aWqZXDjpo4Ye1D79GETKZEv+zLIuwEyye+UKy30niKOxojg9/8/AwbFsvED6lXvlmr
-         VUEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779164071; x=1779768871;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I3Cc6m38oPvcGuBp5AJqGBI+Tkcix4npCtWvX6h14ng=;
-        b=IXFPo2hfiXkGUulD53TPaYn+851+rk5rj10pSldiAwwPaekIoa8rpGTs4vhA1D5cM3
-         qkZys9hWDCkcbeaRgBNxmiDQJM78TkUXUlYJS8IA6dJ3f+6kxMjEAyr4FMs9HTK8vVk9
-         jCqGh6m9INbBnjkj+x23QPF1s8ixiVyCsON7InthqYNm8LUybDkvgNX+ROdhRQapBeVI
-         ZLzE0/ie9CdRm8vobSnF4hz8yJSZDaPc/unqMCbooVG2QtlFw0bGQto+ciw1AZ43jVxq
-         AldlJXlh7SPbTb58NAm/nFd6cLdldzuEGOJWiCk+7mpPk1ziffE6UuFEDR0fewGQg0RX
-         wdxg==
-X-Forwarded-Encrypted: i=1; AFNElJ+4AgWo8YmoKFK7mXYQY7cukJD57Stg8u4CU3r1PNf82XdP9Zl9JqhawRloQwHWkH11S6tyLjqFSjpC5G7e@lists.linux.dev
-X-Gm-Message-State: AOJu0YzkfmNNAzmnDGphKKGnplNyswWRqMkr3xeblDDKdDH9mG7SLe9L
-	DgWOa1jgDApfDmuH42nfwejUR//Iyqk2av2ypo/VgHayBXyM9qRac/HNhV4myqCJcadwuYPcUOX
-	8bYn7/nc7mrSZ51YE/fx+o7u1y/q64z0=
-X-Gm-Gg: Acq92OEBg+zeQ9hKQXRDpq6q2i2UEcQK0xFXmbbX1FCh6Z55eNAwoCrWVg52FG0ffiM
-	BLKEeZuZmes0PZQtADmvr36U1qs9Mk7dLaSBfGHEsqNMwvVQcyc+3Qu5rBQ+d7skPiO3ft5/3+/
-	t7U9eXE/F1s+htXilIia4asDhmXGlsWIywQpdxgeGeWXHMr6qAgaEk5YXLK80LI4kj4xG3M3yAA
-	enkO3Wn7fOuJSCvn88Qt04UlkBuNfLOf4LlX2bZUNYyN+oGRv8jgHKRtijg8a8oibaLKJB3AVft
-	XipZoUXB
-X-Received: by 2002:a05:690e:438d:b0:65e:782e:9df3 with SMTP id
- 956f58d0204a3-65e782ea2bcmr1341256d50.7.1779164070708; Mon, 18 May 2026
- 21:14:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QqX9R/h7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779164493; x=1810700493;
+  h=date:from:to:cc:subject:message-id;
+  bh=GIU0SDqlCBuqLxjLuXHyyp8PjUZ4PDWJZ+svZ8peTXo=;
+  b=QqX9R/h727yc02ICaiEOSUeevKa3PxcFegnDysLSqlOWBG7P9YMVIcGS
+   NBrQhmAgR9DGytqOawRiII72IEjffctv8LXlw1PU2W3G15uWFng+5MBw7
+   DcSf3JflMpjad07MFMggL000zNXhVrqR5mHD4i+tCe170gVbe6sSf7GXS
+   ktvoMAXVwWEOa9tyOhpEehBW5Ra/0YIb9ihLhiT63OnEHZSi2qquNUQv2
+   cbh5vIZz7NhGYzzUFvBahTnjhtVL0VRxYfj0lQEZBmobMZh7r9u7j21J/
+   DoUM+u2Xm2oHEsMZYcy2NdiYRtbbUwMmMgIWDCmus9xyZUDAfSLJjqser
+   A==;
+X-CSE-ConnectionGUID: Z2vce8f+QRWfZTPDuIkKNQ==
+X-CSE-MsgGUID: +05GFikoQJSKxbxMMN9sXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="79749372"
+X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
+   d="scan'208";a="79749372"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 21:21:33 -0700
+X-CSE-ConnectionGUID: n6xmW+rhRJ+33AVP9ROfeA==
+X-CSE-MsgGUID: R6cA2n/9Qxex3jE8ipoy0w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
+   d="scan'208";a="235408925"
+Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 18 May 2026 21:21:31 -0700
+Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wPBxR-000000000R1-0TMH;
+	Tue, 19 May 2026 04:21:29 +0000
+Date: Tue, 19 May 2026 12:19:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Linus Walleij <linusw@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [arm-integrator:b4/ks8995-to-ksz8 4/6]
+ net/dsa/tag_ks8995.c:72:17: sparse: sparse: cast to restricted __be16
+Message-ID: <202605191225.wLcgU2cP-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260518125500.1000083-1-lgs201920130244@gmail.com> <202605190845.KlMSPp80-lkp@intel.com>
-In-Reply-To: <202605190845.KlMSPp80-lkp@intel.com>
-From: Guangshuo Li <lgs201920130244@gmail.com>
-Date: Tue, 19 May 2026 12:14:18 +0800
-X-Gm-Features: AVHnY4Km_xmIfqiLJD15ZaDQr9lLAh1Ogha024FXgf4YUM6n3JdHCvcB7t1E46k
-Message-ID: <CANUHTR-J7VY4Jx7WVqEpC+Xg2cR_Rnb=gaA_xecyNO9dmFcyew@mail.gmail.com>
-Subject: Re: [PATCH] media: mediatek: mdp: avoid double free on video register failure
-To: kernel test robot <lkp@intel.com>
-Cc: Minghsiu Tsai <minghsiu.tsai@mediatek.com>, Houlong Wei <houlong.wei@mediatek.com>, 
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Hans Verkuil <hverkuil@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 
-Thanks for the report.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/ks8995-to-ksz8
+head:   fea5de171b5ce9847a3c73923483622c99d0a5eb
+commit: 12e510a8b6756e4ddff7bb635492bb60b5d3a117 [4/6] net: dsa: tag_ks8995: Add the KS8995 tag handling
+config: riscv-randconfig-r131-20260518 (https://download.01.org/0day-ci/archive/20260519/202605191225.wLcgU2cP-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260519/202605191225.wLcgU2cP-lkp@intel.com/reproduce)
 
-On Tue, 19 May 2026 at 10:13, kernel test robot <lkp@intel.com> wrote:
->
-> Hi Guangshuo,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on linuxtv-media-pending/master]
-> [also build test ERROR on media-tree/master linus/master v7.1-rc4 next-20260518]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Guangshuo-Li/media-mediatek-mdp-avoid-double-free-on-video-register-failure/20260518-211648
-> base:   https://git.linuxtv.org/media-ci/media-pending.git master
-> patch link:    https://lore.kernel.org/r/20260518125500.1000083-1-lgs201920130244%40gmail.com
-> patch subject: [PATCH] media: mediatek: mdp: avoid double free on video register failure
-> config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260519/202605190845.KlMSPp80-lkp@intel.com/config)
-> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260519/202605190845.KlMSPp80-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202605190845.KlMSPp80-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> drivers/media/platform/mediatek/mdp/mtk_mdp_m2m.c:1217:33: error: expected ';' after expression
->     1217 |         video_device_release(mdp->vdev)
->          |                                        ^
->          |                                        ;
->    1 error generated.
->
->
-> vim +1217 drivers/media/platform/mediatek/mdp/mtk_mdp_m2m.c
->
->   1172
->   1173  int mtk_mdp_register_m2m_device(struct mtk_mdp_dev *mdp)
->   1174  {
->   1175          struct device *dev = &mdp->pdev->dev;
->   1176          int ret;
->   1177
->   1178          mdp->variant = &mtk_mdp_default_variant;
->   1179          mdp->vdev = video_device_alloc();
->   1180          if (!mdp->vdev) {
->   1181                  dev_err(dev, "failed to allocate video device\n");
->   1182                  ret = -ENOMEM;
->   1183                  goto err_video_alloc;
->   1184          }
->   1185          mdp->vdev->device_caps = V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING;
->   1186          mdp->vdev->fops = &mtk_mdp_m2m_fops;
->   1187          mdp->vdev->ioctl_ops = &mtk_mdp_m2m_ioctl_ops;
->   1188          mdp->vdev->release = video_device_release_empty;
->   1189          mdp->vdev->lock = &mdp->lock;
->   1190          mdp->vdev->vfl_dir = VFL_DIR_M2M;
->   1191          mdp->vdev->v4l2_dev = &mdp->v4l2_dev;
->   1192          snprintf(mdp->vdev->name, sizeof(mdp->vdev->name), "%s:m2m",
->   1193                   MTK_MDP_MODULE_NAME);
->   1194          video_set_drvdata(mdp->vdev, mdp);
->   1195
->   1196          mdp->m2m_dev = v4l2_m2m_init(&mtk_mdp_m2m_ops);
->   1197          if (IS_ERR(mdp->m2m_dev)) {
->   1198                  dev_err(dev, "failed to initialize v4l2-m2m device\n");
->   1199                  ret = PTR_ERR(mdp->m2m_dev);
->   1200                  goto err_m2m_init;
->   1201          }
->   1202
->   1203          ret = video_register_device(mdp->vdev, VFL_TYPE_VIDEO, 2);
->   1204          if (ret) {
->   1205                  dev_err(dev, "failed to register video device\n");
->   1206                  goto err_vdev_register;
->   1207          }
->   1208          mdp->vdev->release = video_device_release;
->   1209
->   1210          v4l2_info(&mdp->v4l2_dev, "driver registered as /dev/video%d",
->   1211                    mdp->vdev->num);
->   1212          return 0;
->   1213
->   1214  err_vdev_register:
->   1215          v4l2_m2m_release(mdp->m2m_dev);
->   1216  err_m2m_init:
-> > 1217          video_device_release(mdp->vdev)
->   1218          mdp->vdev = NULL;
->   1219  err_video_alloc:
->   1220
->   1221          return ret;
->   1222  }
->   1223
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605191225.wLcgU2cP-lkp@intel.com/
 
-This build failure was caused by my oversight. I missed the semicolon after
-video_device_release(mdp->vdev).
+sparse warnings: (new ones prefixed by >>)
+   WARNING: invalid argument to '-march': '_zacas_zabha'
+>> net/dsa/tag_ks8995.c:72:17: sparse: sparse: cast to restricted __be16
+>> net/dsa/tag_ks8995.c:72:17: sparse: sparse: cast to restricted __be16
+>> net/dsa/tag_ks8995.c:72:17: sparse: sparse: cast to restricted __be16
+>> net/dsa/tag_ks8995.c:72:17: sparse: sparse: cast to restricted __be16
 
-I will send a v2 to fix this issue.
+vim +72 net/dsa/tag_ks8995.c
 
-Sorry for the noise.
+    59	
+    60	static struct sk_buff *ks8995_rcv(struct sk_buff *skb, struct net_device *dev)
+    61	{
+    62		int portmask;
+    63		u16 etype;
+    64	
+    65		/* We are expecting all received packets to have a mangled VLAN
+    66		 * TPID, so drop anything else. Because of the non-standard TPID,
+    67		 * don't even bother looking for a tag in the hwaccel area.
+    68		 *
+    69		 * We have to inspect the ethertype directly because skb->protocol
+    70		 * will contain garbage.
+    71		 */
+  > 72		etype = ntohs(*(u16 *)dsa_etype_header_pos_rx(skb));
+    73		if ((etype & KS8995M_STPID_STD) != ETH_P_8021Q) {
+    74			netdev_info(dev, "%s: dropped ethertype 0x%04x\n",
+    75				    __func__, etype);
+    76			return NULL;
+    77		}
+    78		netdev_dbg(dev, "%s: received ethertype %04x\n",
+    79			   __func__, etype);
+    80	
+    81		/* Move the custom DSA+VLAN tag into the hwaccel area and strip
+    82		 * it from the skb head
+    83		 */
+    84		skb = skb_vlan_untag(skb);
+    85		if (!skb) {
+    86			netdev_err(dev, "%s: unable to untag protocol %04x vlan protocol  %04x\n",
+    87				   __func__, ntohs(skb->protocol), ntohs(skb->vlan_proto));
+    88			return NULL;
+    89		}
+    90	
+    91		portmask = FIELD_GET(KS8995M_STPID_PORTMASK, etype);
+    92		netdev_dbg(dev, "%s: etype %04x portmask %04x (%d)\n",
+    93			   __func__, etype, portmask, ilog2(portmask));
+    94		skb->dev = dsa_conduit_find_user(dev, 0, ilog2(portmask));
+    95		if (!skb->dev)
+    96			return NULL;
+    97	
+    98		/* Preserve the VLAN tag if it contains a non-zero VID which is not
+    99		 * identical to 0x001, or PCP, and restore its TPID to the standard
+   100		 * value.
+   101		 *
+   102		 * If this is just an ordinary inbound package the datasheet claims
+   103		 * it will "replace null VID with ingress port VID", which means
+   104		 * VID set to 1: 0x8101 0001 for port 0 or 0x8102 0001 for port 1.
+   105		 * So in the DSA driver we will set the default port VID to 0 so
+   106		 * we can properly detect non-VLAN frames.
+   107		 */
+   108		if (!skb->vlan_tci) {
+   109			netdev_dbg(dev, "%s: clear VLAN tag from frame\n", __func__);
+   110			__vlan_hwaccel_clear_tag(skb);
+   111		} else {
+   112			skb->vlan_proto = htons(ETH_P_8021Q);
+   113			netdev_dbg(dev, "%s: vlan_tci = 0x%04x VLAN frame\n",
+   114				   __func__, skb->vlan_tci);
+   115		}
+   116	
+   117		dsa_default_offload_fwd_mark(skb);
+   118	
+   119		return skb;
+   120	}
+   121	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
