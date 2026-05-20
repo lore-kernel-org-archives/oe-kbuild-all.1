@@ -1,193 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A823FB072
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 May 2026 18:25:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F3CA3EDAC6
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 May 2026 18:27:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779301550; cv=none; b=gQpmcr2/I4J6GjOUkP+ODeUW1VDpoZMoUNRBD+ks8rXvzR6l1c5VIdDwPCx5U0qHXt+aCMJwqLMhq+YY0FQD2z6HtOgquphYkiMDEm00QNu5tVvV+RLp1O1z8ShBMaBJO6Hin1nnBW+ejokh5ACjeA0oJ0HMFcwuJoiHHVi03s8=
+	t=1779301665; cv=none; b=Gze9V1aPcYe1xEUKCCGhrSCYvieTaotcXR/BYqwHDjfBcKLk8jblPirCa8LF8YkvaDpX8Lf5hiOsuJSXJ2Qx9yvfTMVeZDP7wOHbu44uk4pMc24UpWex/bTNZ+HP124REY/ub+dSb/YOI96rklg63+oq/Ycp+VmFJrToB6Pt5o0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779301550; c=relaxed/simple;
-	bh=2m3sJIu8be8sipn+d6rIRo7WNcv+dRNFghe0Vi29oRs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=HE8FpN37NpLR093H5QNutMm76UEWYNjPs8peSrFv12kMd2sYeJh+IeZ+DsH2uLtu2XPLQZEvJgeNPQDvWYtLXaITxIcj6EOKqTaZtHV4EhIGsiY0uxd0GIXDAKL5Yo7pw1MFNHIGmEqdNHOnCllNBIE6ANYPLWWzAkvDH1P974I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=huTwrshj; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1779301665; c=relaxed/simple;
+	bh=Y6K4hu1l3UXqWGY6QUjw5D1toYfIYfsN+7a8DHqoI4k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NBv7nsx/AwKt9zYIa8cx8sl5vQ5U7nkNtGz1a5CrV5l/FreFZUPWLUf0/LT86yw/j4PEMDvAKeO/25DfDGjPKmkHskDqmREqlF7HEcbfay+AtQCGX6fhW/BBVZFT1tPh3/xgJmmAokq/5WrXceYTjpMqjaFx9v5sQ3oSMmLIJXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fnC0JJuw; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="huTwrshj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fnC0JJuw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779301549; x=1810837549;
-  h=date:from:to:cc:subject:message-id;
-  bh=2m3sJIu8be8sipn+d6rIRo7WNcv+dRNFghe0Vi29oRs=;
-  b=huTwrshjwsZQdIn3oHpwxyreXjP9UyFfYCJLodB28ml5yAKRxLk18qlR
-   s7BqWb0N07M3ahF41uxA70R2+/1BksdVej+lIKv0qQxKtudgZ0a9VmwRS
-   qyaCY+plsgK5533C+Q9WrZyyu77l4wqmj9T4j/nFWhlkCyIzJf1kAVzsd
-   XWKVaJTsY7SQ0UVILXHa4TOve69FZCRk7neWEN2L0KAD0UPWmKFM7Dapj
-   r/JgVHWbDsOzlSSwA9u0TiSEE76UTc3rUbCgpt7lx9AAyDFzUNCzGlyy8
-   R3iAB/yvHaCtghOU+yy3vMO6af5moZHYS/ZxbXibUcwDz0AYj2bYdV5cQ
-   A==;
-X-CSE-ConnectionGUID: /FozLvJhSjqWwxb5JAMASQ==
-X-CSE-MsgGUID: LV5rp78XQ4a1OHk7BXSKoQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="102888620"
+  t=1779301665; x=1810837665;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Y6K4hu1l3UXqWGY6QUjw5D1toYfIYfsN+7a8DHqoI4k=;
+  b=fnC0JJuwZhJq1EGPuiZjxH6/IrhR49+NlYpRZskCGa2hZep3mA8eYKF1
+   R3QH6VHpd9WG0HQi4HGE2Kzt6uPjzfJzRuWbCPmsCMQK5+UwFbRj0VNGN
+   BXfXaJYcgEjfEiFeqLauGeTk2fDxvf1BfjJEay+shmvqRyI5f+L9FqhSc
+   u5iHeAi68ZF3vzAPZZRQ4vpDIXuTqjr4r6Mj+QDDAE7D7mjb8AtsX+s8s
+   vegbkwlMxno/F2aSJZwXegY3XDUqLBKgDgjxz76raXbJfVEjT/Q+WLgmJ
+   wENCZVI7hAcvqB1yVE6o9vkbgHboCOj39cONCM4xkbG9VoZYfZKjy04bV
+   g==;
+X-CSE-ConnectionGUID: RlxG+NagRfad1K0Mao4c6A==
+X-CSE-MsgGUID: tK/khNJ+S2WCMp3nWI4YlA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="80177367"
 X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="102888620"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 11:25:48 -0700
-X-CSE-ConnectionGUID: GW8LMWBERDGzl543HsBkpw==
-X-CSE-MsgGUID: YAfqmyfETNOqME5IH4dRdw==
+   d="scan'208";a="80177367"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 11:27:44 -0700
+X-CSE-ConnectionGUID: DuZ9iwDKRXCFnwlxhgpTBQ==
+X-CSE-MsgGUID: 1qotuqwZSIKV+9YRhpc2Yw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="236016254"
-Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 20 May 2026 11:25:47 -0700
-Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
+   d="scan'208";a="264072193"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 20 May 2026 11:27:40 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wPlbj-000000003hB-05i7;
-	Wed, 20 May 2026 18:25:36 +0000
-Date: Thu, 21 May 2026 02:24:24 +0800
+	id 1wPldq-00000000AcX-2omz;
+	Wed, 20 May 2026 18:27:38 +0000
+Date: Wed, 20 May 2026 20:27:27 +0200
 From: kernel test robot <lkp@intel.com>
-To: Conor Dooley <conor+lkp@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [conor:tvs 1/1] include/asm-generic/div64.h:199:36: error:
- passing argument 1 of '__div64_32' from incompatible pointer type
-Message-ID: <202605210209.3WNhTBHR-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: "Pratik R. Sampat" <prsampat@amd.com>, ashish.kalra@amd.com,
+	thomas.lendacky@amd.com, john.allen@amd.com,
+	herbert@gondor.apana.org.au, davem@davemloft.net
+Cc: oe-kbuild-all@lists.linux.dev, linux-crypto@vger.kernel.org,
+	linux-kernel@vger.kernel.org, aik@amd.com, tycho@kernel.org,
+	nikunj@amd.com, michael.roth@amd.com, prsampat@amd.com
+Subject: Re: [PATCH v3] crypto/ccp: Introduce SNP_VERIFY_MITIGATION command
+Message-ID: <202605202038.zpyF8AIf-lkp@intel.com>
+References: <36137b565d183fa2f2985ad098f2e2096f1c432f.1779219958.git.prsampat@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <36137b565d183fa2f2985ad098f2e2096f1c432f.1779219958.git.prsampat@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git tvs
-head:   19e86059f1efbb9ff920c102348a64a042145a2a
-commit: 19e86059f1efbb9ff920c102348a64a042145a2a [1/1] hwmon: add a driver for the temp/voltage sensor on PolarFire SoC
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20260521/202605210209.3WNhTBHR-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260521/202605210209.3WNhTBHR-lkp@intel.com/reproduce)
+Hi Pratik,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on herbert-cryptodev-2.6/master]
+[also build test WARNING on herbert-crypto-2.6/master linus/master v7.1-rc4]
+[cannot apply to next-20260520]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pratik-R-Sampat/crypto-ccp-Introduce-SNP_VERIFY_MITIGATION-command/20260520-035846
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/36137b565d183fa2f2985ad098f2e2096f1c432f.1779219958.git.prsampat%40amd.com
+patch subject: [PATCH v3] crypto/ccp: Introduce SNP_VERIFY_MITIGATION command
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260520/202605202038.zpyF8AIf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605210209.3WNhTBHR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605202038.zpyF8AIf-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from ./arch/arc/include/generated/asm/div64.h:1,
-                    from include/linux/math.h:6,
-                    from include/linux/math64.h:6,
-                    from include/linux/time64.h:5,
-                    from include/linux/restart_block.h:9,
-                    from include/linux/thread_info.h:14,
-                    from include/linux/sched.h:14,
-                    from include/linux/freezer.h:8,
-                    from drivers/hwmon/tvs-mpfs.c:7:
-   drivers/hwmon/tvs-mpfs.c: In function 'mpfs_tvs_interval_write':
-   include/asm-generic/div64.h:183:35: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
-     183 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
-         |                                   ^~
-   drivers/hwmon/tvs-mpfs.c:132:9: note: in expansion of macro 'do_div'
-     132 |         do_div(temp, MPFS_TVS_INTERVAL_SCALE);
-         |         ^~~~~~
-   In file included from include/linux/err.h:5,
-                    from drivers/hwmon/tvs-mpfs.c:6:
->> include/asm-generic/div64.h:195:32: warning: right shift count >= width of type [-Wshift-count-overflow]
-     195 |         } else if (likely(((n) >> 32) == 0)) {          \
-         |                                ^~
-   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-   drivers/hwmon/tvs-mpfs.c:132:9: note: in expansion of macro 'do_div'
-     132 |         do_div(temp, MPFS_TVS_INTERVAL_SCALE);
-         |         ^~~~~~
->> include/asm-generic/div64.h:199:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Wincompatible-pointer-types]
-     199 |                 __rem = __div64_32(&(n), __base);       \
-         |                                    ^~~~
-         |                                    |
-         |                                    long int *
-   drivers/hwmon/tvs-mpfs.c:132:9: note: in expansion of macro 'do_div'
-     132 |         do_div(temp, MPFS_TVS_INTERVAL_SCALE);
-         |         ^~~~~~
-   include/asm-generic/div64.h:174:38: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'long int *'
-     174 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
-         |                            ~~~~~~~~~~^~~~~~~~
---
-   In file included from arch/arc/include/generated/asm/div64.h:1,
-                    from include/linux/math.h:6,
-                    from include/linux/math64.h:6,
-                    from include/linux/time64.h:5,
-                    from include/linux/restart_block.h:9,
-                    from include/linux/thread_info.h:14,
-                    from include/linux/sched.h:14,
-                    from include/linux/freezer.h:8,
-                    from tvs-mpfs.c:7:
-   tvs-mpfs.c: In function 'mpfs_tvs_interval_write':
-   include/asm-generic/div64.h:183:35: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
-     183 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
-         |                                   ^~
-   tvs-mpfs.c:132:9: note: in expansion of macro 'do_div'
-     132 |         do_div(temp, MPFS_TVS_INTERVAL_SCALE);
-         |         ^~~~~~
-   In file included from include/linux/err.h:5,
-                    from tvs-mpfs.c:6:
->> include/asm-generic/div64.h:195:32: warning: right shift count >= width of type [-Wshift-count-overflow]
-     195 |         } else if (likely(((n) >> 32) == 0)) {          \
-         |                                ^~
-   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-   tvs-mpfs.c:132:9: note: in expansion of macro 'do_div'
-     132 |         do_div(temp, MPFS_TVS_INTERVAL_SCALE);
-         |         ^~~~~~
->> include/asm-generic/div64.h:199:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Wincompatible-pointer-types]
-     199 |                 __rem = __div64_32(&(n), __base);       \
-         |                                    ^~~~
-         |                                    |
-         |                                    long int *
-   tvs-mpfs.c:132:9: note: in expansion of macro 'do_div'
-     132 |         do_div(temp, MPFS_TVS_INTERVAL_SCALE);
-         |         ^~~~~~
-   include/asm-generic/div64.h:174:38: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'long int *'
-     174 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
-         |                            ~~~~~~~~~~^~~~~~~~
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:364; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:234
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
+   Documentation/ABI/testing/sysfs-firmware-sev-vulnerabilities:1: ERROR: Unexpected indentation. [docutils]
+>> Documentation/ABI/testing/sysfs-firmware-sev-vulnerabilities:1: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+>> Documentation/ABI/testing/sysfs-firmware-sev-vulnerabilities:1: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
+   Documentation/arch/riscv/zicfilp.rst:79: WARNING: Inline literal start-string without end-string. [docutils]
+   Documentation/core-api/kref:328: ./include/linux/kref.h:72: WARNING: Invalid C declaration: Expected end of definition. [error at 96]
+   int kref_put_mutex (struct kref *kref, void (*release)(struct kref *kref), struct mutex *mutex) __cond_acquires(true# mutex)
+   ------------------------------------------------------------------------------------------------^
+   Documentation/core-api/kref:328: ./include/linux/kref.h:94: WARNING: Invalid C declaration: Expected end of definition. [error at 92]
 
 
-vim +/__div64_32 +199 include/asm-generic/div64.h
+vim +1 Documentation/ABI/testing/sysfs-firmware-sev-vulnerabilities
 
-^1da177e4c3f4152 Linus Torvalds     2005-04-16  176  
-^1da177e4c3f4152 Linus Torvalds     2005-04-16  177  /* The unnecessary pointer compare is there
-^1da177e4c3f4152 Linus Torvalds     2005-04-16  178   * to check for type safety (n must be 64bit)
-^1da177e4c3f4152 Linus Torvalds     2005-04-16  179   */
-^1da177e4c3f4152 Linus Torvalds     2005-04-16  180  # define do_div(n,base) ({				\
-^1da177e4c3f4152 Linus Torvalds     2005-04-16  181  	uint32_t __base = (base);			\
-^1da177e4c3f4152 Linus Torvalds     2005-04-16  182  	uint32_t __rem;					\
-^1da177e4c3f4152 Linus Torvalds     2005-04-16  183  	(void)(((typeof((n)) *)0) == ((uint64_t *)0));	\
-911918aa7ef6f868 Nicolas Pitre      2015-11-02  184  	if (__builtin_constant_p(__base) &&		\
-911918aa7ef6f868 Nicolas Pitre      2015-11-02  185  	    is_power_of_2(__base)) {			\
-911918aa7ef6f868 Nicolas Pitre      2015-11-02  186  		__rem = (n) & (__base - 1);		\
-911918aa7ef6f868 Nicolas Pitre      2015-11-02  187  		(n) >>= ilog2(__base);			\
-c747ce4706190ef4 Geert Uytterhoeven 2021-08-11  188  	} else if (__builtin_constant_p(__base) &&	\
-461a5e51060c93f5 Nicolas Pitre      2015-10-30  189  		   __base != 0) {			\
-461a5e51060c93f5 Nicolas Pitre      2015-10-30  190  		uint32_t __res_lo, __n_lo = (n);	\
-461a5e51060c93f5 Nicolas Pitre      2015-10-30  191  		(n) = __div64_const32(n, __base);	\
-461a5e51060c93f5 Nicolas Pitre      2015-10-30  192  		/* the remainder can be computed with 32-bit regs */ \
-461a5e51060c93f5 Nicolas Pitre      2015-10-30  193  		__res_lo = (n);				\
-461a5e51060c93f5 Nicolas Pitre      2015-10-30  194  		__rem = __n_lo - __res_lo * __base;	\
-911918aa7ef6f868 Nicolas Pitre      2015-11-02 @195  	} else if (likely(((n) >> 32) == 0)) {		\
-^1da177e4c3f4152 Linus Torvalds     2005-04-16  196  		__rem = (uint32_t)(n) % __base;		\
-^1da177e4c3f4152 Linus Torvalds     2005-04-16  197  		(n) = (uint32_t)(n) / __base;		\
-c747ce4706190ef4 Geert Uytterhoeven 2021-08-11  198  	} else {					\
-^1da177e4c3f4152 Linus Torvalds     2005-04-16 @199  		__rem = __div64_32(&(n), __base);	\
-c747ce4706190ef4 Geert Uytterhoeven 2021-08-11  200  	}						\
-^1da177e4c3f4152 Linus Torvalds     2005-04-16  201  	__rem;						\
-^1da177e4c3f4152 Linus Torvalds     2005-04-16  202   })
-^1da177e4c3f4152 Linus Torvalds     2005-04-16  203  
-
-:::::: The code at line 199 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+   > 1	What:		/sys/firmware/sev/vulnerabilities/
 
 --
 0-DAY CI Kernel Test Service
