@@ -1,173 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F6063BAD95;
-	Fri, 22 May 2026 09:59:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9154B3CC314;
+	Fri, 22 May 2026 10:22:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779443992; cv=none; b=EUtEGhRA0442jvGzi2pFP8GjJkiozreC86aP3pRnKZBmXKCmnEVIwTWg5SDZelCkvkw35U0CTvAJneSGcOzbmn9WhWWtp+LJHiyARjMtYTCTOKOa6Jb4TzZlXidLlGjnCLH5RKFzgAQPGMeQv8pX3ap4x9fZq1nYLFy7YSBeMfw=
+	t=1779445364; cv=none; b=IfRGIL/Dp0dvRXs9COVEewN79+JYZJCxtqUsTrYkTrfttJe4kFwAj3g2oI8+kWoatGsl++dT3uAWid+NsBc7l8iASp5/PeefGQgHzuk5NeZHVr44CWV7D8M8/AZj49pEO/aMBaJqx8/fiuxwmU7JvCXxy1FxvqWKXcI/0axXeLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779443992; c=relaxed/simple;
-	bh=T3WEIuYunpiFtNrcsozkWvbkSofS8UtMFzcXms+GnLE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=EXej1OnI5+nvIy6TLFIhiZwGrFzTl6UYYFphkrxotsbRA0L9q+RsXwDWQ8nMvBDjGsOxxoxkqEAm6/jB68794vB4IDo633uMekdHR88cDYDbE+1p5tGyBd6+F9PWxS8X36YGqNWzJ5zYx7oYw5BZ1Hb3Pq/xhAFFwf0z1gDQ0SU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n937xdlX; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1779445364; c=relaxed/simple;
+	bh=vdw5OJmtlvU4KXEfERNCSAJsIsp5n+CXwsOvQIybgD0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=YQV93IFv7abHP256v7qMkRA6VinLJb+mkv8eDfxaBxCC/B5guPSUOQa0BKlTYaAZz/9yLwYE5e8n7Uxa4rf/6+MXAIwPhhXpWGYDQmBm/KEFODO5RV3RUSJQxkrL2DOjc58NoyAT6gcIcqMDETlSXMnIB+fdkL+VYyoedoUUq3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=etHX5CB1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n937xdlX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779443991; x=1810979991;
-  h=date:from:to:cc:subject:message-id;
-  bh=T3WEIuYunpiFtNrcsozkWvbkSofS8UtMFzcXms+GnLE=;
-  b=n937xdlXaGQ4DwTi52FVeWawtMN1k924D8I3QwnOhrLfBZEWWoXXWZXJ
-   TbH252MzcP95xRDDEbRAy2NWtsDLSarq8Rp+FOihEd2+mQqsT3C7ipQyw
-   ZmKX86HVAwuG5vR1d5Eg1J0NKLeljSTqJA3heHVYRPApxAaWGjZMHZ4nJ
-   xLpWJbM09N+KJxUjPshXPhI9yKA1bu7dCuI59+NfPund/1n8vOS4miHPt
-   COrrFDup0tGaqCHKbNMUOWunPf72AFZ8VI21AYr8yCccQKw5tmbn8CBbc
-   1OMl68o9P1bklpnMuLjYC8xZChqFT/BX0/AP2K5JKktKD1ZmYgWO/rHtZ
-   A==;
-X-CSE-ConnectionGUID: ghvQgrHuQY+NK9Jd+5lPGQ==
-X-CSE-MsgGUID: E+Q+rQTpThC8EZ0D6S5hhg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11793"; a="80552446"
-X-IronPort-AV: E=Sophos;i="6.24,162,1774335600"; 
-   d="scan'208";a="80552446"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2026 02:59:50 -0700
-X-CSE-ConnectionGUID: gyzgNfbgT36BXsNdb6fydQ==
-X-CSE-MsgGUID: icqPE/4oQSiFShSPKnQRnw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,162,1774335600"; 
-   d="scan'208";a="245146889"
-Received: from lkp-server01.sh.intel.com (HELO fdb68b0ce653) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 22 May 2026 02:59:49 -0700
-Received: from kbuild by fdb68b0ce653 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wQMfS-000000002Bt-07NN;
-	Fri, 22 May 2026 09:59:46 +0000
-Date: Fri, 22 May 2026 17:59:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Christian A. Ehrhardt" <christian.ehrhardt@codasip.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [scosu-sched:topic/mmap-cap-prot-wip/v6.18 26/1130]
- usr/include/linux/socket.h:25:3: error: // comments are not allowed in this
- language
-Message-ID: <202605221710.fzCUhb6F-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="etHX5CB1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB9661F000E9;
+	Fri, 22 May 2026 10:22:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779445363;
+	bh=Y5cL3/Y974E6irBmw6RTQWeMkCz+c5eunAipgwlqVhg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=etHX5CB1TMqMFKy7Ex4WaYclXU8E5X00oFs/+fB7nKR3Wio5tZinxt41ysR7h9XDD
+	 LWYpFhgeRLoJ8TtcePdflcp66F7Y3MxZmTzzzQi/luXIpES9a68KofsnPlGhrMWpMd
+	 SvvEHBmLPjt6VAg93RHlAkMX7EiBsCL3kth6tuJm6OcqeewF7mRGCvovfs8S2c1PzG
+	 IzEh7MnykU8lMWuoaI+u8/lqeynW7iV1D0DSw6cHEuX0bCDrDAu/TfYAqHbxpAVye8
+	 T+4TsubSHcgHGqrUt5wKCtNt0SYWXYBFvK8/Dv6Ja0eT/NUzA2Og6yYiErtB9rpcbV
+	 kqWCRQI/ntwXA==
+From: Mark Brown <broonie@kernel.org>
+To: Nishanth Sampath Kumar <nissampa@cisco.com>
+Cc: lkp@intel.com, linux-kernel@vger.kernel.org, 
+ oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20260519220557.1574954-1-nissampa@cisco.com>
+References: <20260519220557.1574954-1-nissampa@cisco.com>
+Subject: Re: [PATCH v2] regmap-i2c: fix sparse warning in
+ regmap_smbus_word_write_reg16
+Message-Id: <177927833159.56665.18353257746286214650.b4-ty@b4>
+Date: Wed, 20 May 2026 12:58:51 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1156; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=vdw5OJmtlvU4KXEfERNCSAJsIsp5n+CXwsOvQIybgD0=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqEC5xepiI71zsHEvtrW4bqKfI8aD6IvF95GAjV
+ 8BbWTKPlWCJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCahAucQAKCRAk1otyXVSH
+ 0JR0B/9ZHco527VlZdiAmANV3J8I7arKgr8EBXbzKD3uJTWdbOXqmRxXQjsAOkHoj4Z+bU0udIR
+ xlS0pBg/UUT9xjBq9EsFzPXtS9SmVuRR3a0HHpIYRPwXXZHdRBE9FmK1HSDJVo691+oPSCLDmUO
+ 7uJEZXvhHc0tDLb/jWRfS8Vebx+ktchDUhCaQIHmym5vLlPnD4cJynU25Ci3WUewQGcSvwFsJCo
+ nJYUJD3yZlwAr7xHx/7icx3eG7kGs4X4odz589Dvu2/cUg2KJ0GUQd4FfAcmSS6xY9xUvjivqos
+ n6ZyVoB8a/caVi5iyuf/Ne3L9KZSN95gKqrYxauW50uhGynT
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-tree:   https://github.com/scosu/linux-sched topic/mmap-cap-prot-wip/v6.18
-head:   f69a5a9d9fee15edde28429e23a4c749a59937bd
-commit: 0f1728c5a7989963baae90445399623f7fcae35a [26/1130] cheri: UAPI: Add annotations to some fields
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260522/202605221710.fzCUhb6F-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260522/202605221710.fzCUhb6F-lkp@intel.com/reproduce)
+On Tue, 19 May 2026 15:05:57 -0700, Nishanth Sampath Kumar wrote:
+> regmap-i2c: fix sparse warning in regmap_smbus_word_write_reg16
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605221710.fzCUhb6F-lkp@intel.com/
+Applied to
 
-All errors (new ones prefixed by >>):
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git for-7.2
 
-   In file included from <built-in>:1:
-   In file included from ./usr/include/scsi/scsi_netlink.h:11:
-   In file included from usr/include/linux/netlink.h:6:
->> usr/include/linux/socket.h:25:3: error: // comments are not allowed in this language [-Werror,-Wcomment]
-      25 |                 /// UAPI: NoConvert: Only for alignment
-         |                 ^
-   1 error generated.
---
-   In file included from <built-in>:1:
->> ./usr/include/linux/io_uring.h:953:3: error: // comments are not allowed in this language [-Werror,-Wcomment]
-     953 |                 /// UAPI: NoConvert: Padding only
-         |                 ^
-   1 error generated.
---
-   In file included from <built-in>:1:
-   In file included from ./usr/include/linux/route.h:27:
-   In file included from usr/include/linux/if.h:25:
->> usr/include/linux/socket.h:25:3: error: // comments are not allowed in this language [-Werror,-Wcomment]
-      25 |                 /// UAPI: NoConvert: Only for alignment
-         |                 ^
-   In file included from <built-in>:1:
-   ./usr/include/linux/route.h:39:25: error: // comments are not allowed in this language [-Werror,-Wcomment]
-      39 |         unsigned long   rt_pad4;        // it is actually 8 bytes
-         |                                         ^
-   2 errors generated.
---
-   In file included from <built-in>:1:
-   In file included from ./usr/include/linux/netfilter_arp/arp_tables.h:15:
-   In file included from usr/include/linux/if.h:25:
->> usr/include/linux/socket.h:25:3: error: // comments are not allowed in this language [-Werror,-Wcomment]
-      25 |                 /// UAPI: NoConvert: Only for alignment
-         |                 ^
-   In file included from <built-in>:1:
-   In file included from ./usr/include/linux/netfilter_arp/arp_tables.h:18:
->> usr/include/linux/netfilter/x_tables.h:25:5: error: // comments are not allowed in this language [-Werror,-Wcomment]
-      25 |                                 /// UAPI: NoConvert: Kernel only
-         |                                 ^
-   2 errors generated.
---
-   In file included from <built-in>:1:
->> ./usr/include/linux/dvb/frontend.h:906:4: error: // comments are not allowed in this language [-Werror,-Wcomment]
-     906 |                         /// UAPI: NoConvert: Unused in kernel
-         |                         ^
-   1 error generated.
---
-   In file included from <built-in>:1:
->> ./usr/include/linux/socket.h:25:3: error: // comments are not allowed in this language [-Werror,-Wcomment]
-      25 |                 /// UAPI: NoConvert: Only for alignment
-         |                 ^
-   1 error generated.
---
-   In file included from <built-in>:1:
->> ./usr/include/linux/sysinfo.h:22:2: error: // comments are not allowed in this language [-Werror,-Wcomment]
-      22 |         /// UAPI: NoConvert: Padding
-         |         ^
-   1 error generated.
---
-   In file included from <built-in>:1:
->> ./usr/include/linux/cdrom.h:295:3: error: // comments are not allowed in this language [-Werror,-Wcomment]
-     295 |                 /// UAPI: NoConvert: Unused in the kernel
-         |                 ^
-   1 error generated.
---
-   In file included from <built-in>:1:
-   In file included from ./usr/include/linux/netfilter_bridge/ebtables.h:17:
-   In file included from usr/include/linux/if.h:25:
->> usr/include/linux/socket.h:25:3: error: // comments are not allowed in this language [-Werror,-Wcomment]
-      25 |                 /// UAPI: NoConvert: Only for alignment
-         |                 ^
-   In file included from <built-in>:1:
->> ./usr/include/linux/netfilter_bridge/ebtables.h:129:4: error: // comments are not allowed in this language [-Werror,-Wcomment]
-     129 |                         /// UAPI: NoConvert: Kernel only
-         |                         ^
-   2 errors generated.
---
-   In file included from <built-in>:1:
-   In file included from ./usr/include/linux/mptcp.h:10:
-   In file included from usr/include/linux/in.h:25:
->> usr/include/linux/socket.h:25:3: error: // comments are not allowed in this language [-Werror,-Wcomment]
-      25 |                 /// UAPI: NoConvert: Only for alignment
-         |                 ^
-   In file included from <built-in>:1:
->> ./usr/include/linux/mptcp.h:95:3: error: // comments are not allowed in this language [-Werror,-Wcomment]
-      95 |                 /// UAPI: NoConvert: Convert ss_local instead
-         |                 ^
-   2 errors generated.
---
-   In file included from <built-in>:1:
->> ./usr/include/linux/aio_abi.h:68:3: error: // comments are not allowed in this language [-Werror,-Wcomment]
-      68 |                 /// UAPI: NoConvert: Padding
-         |                 ^
-   1 error generated.
-..
+Thanks!
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+[1/1] regmap-i2c: fix sparse warning in regmap_smbus_word_write_reg16
+      https://git.kernel.org/broonie/regmap/c/19a5211cda12
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
