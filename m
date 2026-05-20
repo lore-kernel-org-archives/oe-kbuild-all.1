@@ -1,198 +1,193 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D4303EDACC;
-	Wed, 20 May 2026 17:43:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A823FB072
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 May 2026 18:25:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779299038; cv=none; b=uFi3NvD6RYuv6sn+jTp80HLJkLuKfM6xHd6o+Mln4gNqpmorDs+1FlzQRn/aqxFCEkNv2yCw6m/hjk7tugKdS0IU0eBUOMfA8Q7z++McMaeiceT950OziEAX7tdMRBu0Tj49I7ZQszegmiViTNx0QOFiBXlJswdmnzu6qGiRz5A=
+	t=1779301550; cv=none; b=gQpmcr2/I4J6GjOUkP+ODeUW1VDpoZMoUNRBD+ks8rXvzR6l1c5VIdDwPCx5U0qHXt+aCMJwqLMhq+YY0FQD2z6HtOgquphYkiMDEm00QNu5tVvV+RLp1O1z8ShBMaBJO6Hin1nnBW+ejokh5ACjeA0oJ0HMFcwuJoiHHVi03s8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779299038; c=relaxed/simple;
-	bh=HmbzItfoBNw9pRHaQ4Z+zDtSvsx6AuIEaW7Ov5R+vFs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dLN4hHYVo0JLOrSgMnw9Btqj2GLzivCs+xE+4wJ+Qwb2sseoAKBjkpTZs2+hOO5SWAo6vaL2mcplFndN7+QQwBVv6fGC+m9BJDuCedhyuuPGK2z4C++Z6RVRYki5vg4H7xFHxTTZU3BJOBmqyAFFKa/KvLhtpbcKmHggDWK5HY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DA99Mr0a; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1779301550; c=relaxed/simple;
+	bh=2m3sJIu8be8sipn+d6rIRo7WNcv+dRNFghe0Vi29oRs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=HE8FpN37NpLR093H5QNutMm76UEWYNjPs8peSrFv12kMd2sYeJh+IeZ+DsH2uLtu2XPLQZEvJgeNPQDvWYtLXaITxIcj6EOKqTaZtHV4EhIGsiY0uxd0GIXDAKL5Yo7pw1MFNHIGmEqdNHOnCllNBIE6ANYPLWWzAkvDH1P974I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=huTwrshj; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DA99Mr0a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="huTwrshj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779299037; x=1810835037;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HmbzItfoBNw9pRHaQ4Z+zDtSvsx6AuIEaW7Ov5R+vFs=;
-  b=DA99Mr0av5ZAisYcOEaFv5QrJBKpMzJbVNoNLEN77+4Rydylwg2wGV4o
-   LP17rZ+tdzRhUQ/82meqfG0Fb50EZEtlaEY0HGCFPZeiavtdTRyvPDOiF
-   /kj70j40egz/1On0Z3q2K9RtUiZ3EG59Yk37pKsTOlJdH0RlryCUEz11w
-   KCYdbNvhc+5tCET4bTMSWanvw21tlNdgNB5ytNp28GXomcKnxTawxnHrv
-   m91CXYbz/LCav80CUrVKpYOmX+P8LkMWPsM1NiK+/wxKjhSZLEafyriIK
-   /G0mmdProDpbSAWVoQkXYaQDlQf6Gauuokoij+BeWOrOetSqf8jqafXJ5
+  t=1779301549; x=1810837549;
+  h=date:from:to:cc:subject:message-id;
+  bh=2m3sJIu8be8sipn+d6rIRo7WNcv+dRNFghe0Vi29oRs=;
+  b=huTwrshjwsZQdIn3oHpwxyreXjP9UyFfYCJLodB28ml5yAKRxLk18qlR
+   s7BqWb0N07M3ahF41uxA70R2+/1BksdVej+lIKv0qQxKtudgZ0a9VmwRS
+   qyaCY+plsgK5533C+Q9WrZyyu77l4wqmj9T4j/nFWhlkCyIzJf1kAVzsd
+   XWKVaJTsY7SQ0UVILXHa4TOve69FZCRk7neWEN2L0KAD0UPWmKFM7Dapj
+   r/JgVHWbDsOzlSSwA9u0TiSEE76UTc3rUbCgpt7lx9AAyDFzUNCzGlyy8
+   R3iAB/yvHaCtghOU+yy3vMO6af5moZHYS/ZxbXibUcwDz0AYj2bYdV5cQ
    A==;
-X-CSE-ConnectionGUID: 2CUagkL2Q5enXVNKBAyx4A==
-X-CSE-MsgGUID: F7dIYNCgQN64QcEaY4NwPw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="90784893"
+X-CSE-ConnectionGUID: /FozLvJhSjqWwxb5JAMASQ==
+X-CSE-MsgGUID: LV5rp78XQ4a1OHk7BXSKoQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="102888620"
 X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="90784893"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 10:43:57 -0700
-X-CSE-ConnectionGUID: 0RuTxDY6T6C4TrX8UPnXYw==
-X-CSE-MsgGUID: vAvB2vGvQe+79Z8PTXhRJw==
+   d="scan'208";a="102888620"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 11:25:48 -0700
+X-CSE-ConnectionGUID: GW8LMWBERDGzl543HsBkpw==
+X-CSE-MsgGUID: YAfqmyfETNOqME5IH4dRdw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="264063058"
+   d="scan'208";a="236016254"
 Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 20 May 2026 10:43:54 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 20 May 2026 11:25:47 -0700
 Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wPkx3-000000003d7-2eTq;
-	Wed, 20 May 2026 17:43:33 +0000
-Date: Thu, 21 May 2026 01:42:32 +0800
+	id 1wPlbj-000000003hB-05i7;
+	Wed, 20 May 2026 18:25:36 +0000
+Date: Thu, 21 May 2026 02:24:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Johan Hovold <johan@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] USB: serial: keyspan: fix missing indat transfer sanity
- check
-Message-ID: <202605210121.M2IibKiB-lkp@intel.com>
-References: <20260520101230.657426-1-johan@kernel.org>
+To: Conor Dooley <conor+lkp@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [conor:tvs 1/1] include/asm-generic/div64.h:199:36: error:
+ passing argument 1 of '__div64_32' from incompatible pointer type
+Message-ID: <202605210209.3WNhTBHR-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260520101230.657426-1-johan@kernel.org>
 
-Hi Johan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on johan-usb-serial/usb-next]
-[also build test ERROR on usb/usb-testing usb/usb-next usb/usb-linus tty/tty-testing tty/tty-next tty/tty-linus linus/master v7.1-rc4 next-20260520]
-[cannot apply to johan-usb-serial/usb-linus]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Johan-Hovold/USB-serial-keyspan-fix-missing-indat-transfer-sanity-check/20260520-181924
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git usb-next
-patch link:    https://lore.kernel.org/r/20260520101230.657426-1-johan%40kernel.org
-patch subject: [PATCH] USB: serial: keyspan: fix missing indat transfer sanity check
-config: i386-buildonly-randconfig-006-20260520 (https://download.01.org/0day-ci/archive/20260521/202605210121.M2IibKiB-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260521/202605210121.M2IibKiB-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git tvs
+head:   19e86059f1efbb9ff920c102348a64a042145a2a
+commit: 19e86059f1efbb9ff920c102348a64a042145a2a [1/1] hwmon: add a driver for the temp/voltage sensor on PolarFire SoC
+config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20260521/202605210209.3WNhTBHR-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260521/202605210209.3WNhTBHR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605210121.M2IibKiB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605210209.3WNhTBHR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/usb/serial/keyspan.c:1189:25: error: incompatible pointer types passing 'struct usb_device **' to parameter of type 'const struct device *' [-Werror,-Wincompatible-pointer-types]
-    1189 |                         dev_warn_ratelimited(&serial->dev, "malformed indat packet\n");
-         |                                              ^~~~~~~~~~~~
-   include/linux/dev_printk.h:227:34: note: expanded from macro 'dev_warn_ratelimited'
-     227 |         dev_level_ratelimited(dev_warn, dev, fmt, ##__VA_ARGS__)
-         |                                         ^~~
-   include/linux/dev_printk.h:215:13: note: expanded from macro 'dev_level_ratelimited'
-     215 |                 dev_level(dev, fmt, ##__VA_ARGS__);                     \
-         |                           ^~~
-   include/linux/dev_printk.h:156:49: note: expanded from macro 'dev_warn'
-     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~
-   include/linux/dev_printk.h:110:11: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                         ^~~
-   include/linux/dev_printk.h:89:37: note: passing argument to parameter 'dev' here
-      89 | void _dev_warn(const struct device *dev, const char *fmt, ...)
-         |                                     ^
-   1 error generated.
+   In file included from ./arch/arc/include/generated/asm/div64.h:1,
+                    from include/linux/math.h:6,
+                    from include/linux/math64.h:6,
+                    from include/linux/time64.h:5,
+                    from include/linux/restart_block.h:9,
+                    from include/linux/thread_info.h:14,
+                    from include/linux/sched.h:14,
+                    from include/linux/freezer.h:8,
+                    from drivers/hwmon/tvs-mpfs.c:7:
+   drivers/hwmon/tvs-mpfs.c: In function 'mpfs_tvs_interval_write':
+   include/asm-generic/div64.h:183:35: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
+     183 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                                   ^~
+   drivers/hwmon/tvs-mpfs.c:132:9: note: in expansion of macro 'do_div'
+     132 |         do_div(temp, MPFS_TVS_INTERVAL_SCALE);
+         |         ^~~~~~
+   In file included from include/linux/err.h:5,
+                    from drivers/hwmon/tvs-mpfs.c:6:
+>> include/asm-generic/div64.h:195:32: warning: right shift count >= width of type [-Wshift-count-overflow]
+     195 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^~
+   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   drivers/hwmon/tvs-mpfs.c:132:9: note: in expansion of macro 'do_div'
+     132 |         do_div(temp, MPFS_TVS_INTERVAL_SCALE);
+         |         ^~~~~~
+>> include/asm-generic/div64.h:199:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Wincompatible-pointer-types]
+     199 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+         |                                    |
+         |                                    long int *
+   drivers/hwmon/tvs-mpfs.c:132:9: note: in expansion of macro 'do_div'
+     132 |         do_div(temp, MPFS_TVS_INTERVAL_SCALE);
+         |         ^~~~~~
+   include/asm-generic/div64.h:174:38: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'long int *'
+     174 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
+         |                            ~~~~~~~~~~^~~~~~~~
+--
+   In file included from arch/arc/include/generated/asm/div64.h:1,
+                    from include/linux/math.h:6,
+                    from include/linux/math64.h:6,
+                    from include/linux/time64.h:5,
+                    from include/linux/restart_block.h:9,
+                    from include/linux/thread_info.h:14,
+                    from include/linux/sched.h:14,
+                    from include/linux/freezer.h:8,
+                    from tvs-mpfs.c:7:
+   tvs-mpfs.c: In function 'mpfs_tvs_interval_write':
+   include/asm-generic/div64.h:183:35: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
+     183 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                                   ^~
+   tvs-mpfs.c:132:9: note: in expansion of macro 'do_div'
+     132 |         do_div(temp, MPFS_TVS_INTERVAL_SCALE);
+         |         ^~~~~~
+   In file included from include/linux/err.h:5,
+                    from tvs-mpfs.c:6:
+>> include/asm-generic/div64.h:195:32: warning: right shift count >= width of type [-Wshift-count-overflow]
+     195 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^~
+   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   tvs-mpfs.c:132:9: note: in expansion of macro 'do_div'
+     132 |         do_div(temp, MPFS_TVS_INTERVAL_SCALE);
+         |         ^~~~~~
+>> include/asm-generic/div64.h:199:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Wincompatible-pointer-types]
+     199 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+         |                                    |
+         |                                    long int *
+   tvs-mpfs.c:132:9: note: in expansion of macro 'do_div'
+     132 |         do_div(temp, MPFS_TVS_INTERVAL_SCALE);
+         |         ^~~~~~
+   include/asm-generic/div64.h:174:38: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'long int *'
+     174 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
+         |                            ~~~~~~~~~~^~~~~~~~
 
 
-vim +1189 drivers/usb/serial/keyspan.c
+vim +/__div64_32 +199 include/asm-generic/div64.h
 
-  1166	
-  1167	static void usa49wg_indat_callback(struct urb *urb)
-  1168	{
-  1169		int			i, len, x, err;
-  1170		struct usb_serial	*serial;
-  1171		struct usb_serial_port	*port;
-  1172		unsigned char 		*data = urb->transfer_buffer;
-  1173		int status = urb->status;
-  1174	
-  1175		serial = urb->context;
-  1176	
-  1177		if (status) {
-  1178			dev_dbg(&urb->dev->dev, "%s - nonzero status: %d\n",
-  1179					__func__, status);
-  1180			return;
-  1181		}
-  1182	
-  1183		/* inbound data is in the form P#, len, status, data */
-  1184		i = 0;
-  1185		len = 0;
-  1186	
-  1187		while (i < urb->actual_length) {
-  1188			if (urb->actual_length - i < 3) {
-> 1189				dev_warn_ratelimited(&serial->dev, "malformed indat packet\n");
-  1190				break;
-  1191			}
-  1192	
-  1193			/* Check port number from message */
-  1194			if (data[i] >= serial->num_ports) {
-  1195				dev_dbg(&urb->dev->dev, "%s - Unexpected port number %d\n",
-  1196					__func__, data[i]);
-  1197				return;
-  1198			}
-  1199			port = serial->port[data[i++]];
-  1200			len = data[i++];
-  1201	
-  1202			/* 0x80 bit is error flag */
-  1203			if ((data[i] & 0x80) == 0) {
-  1204				/* no error on any byte */
-  1205				i++;
-  1206				for (x = 1; x < len && i < urb->actual_length; ++x)
-  1207					tty_insert_flip_char(&port->port,
-  1208							data[i++], 0);
-  1209			} else {
-  1210				/*
-  1211				 * some bytes had errors, every byte has status
-  1212				 */
-  1213				for (x = 0; x + 1 < len &&
-  1214					    i + 1 < urb->actual_length; x += 2) {
-  1215					int stat = data[i];
-  1216					int flag = TTY_NORMAL;
-  1217	
-  1218					if (stat & RXERROR_OVERRUN) {
-  1219						tty_insert_flip_char(&port->port, 0,
-  1220									TTY_OVERRUN);
-  1221					}
-  1222					/* XXX should handle break (0x10) */
-  1223					if (stat & RXERROR_PARITY)
-  1224						flag = TTY_PARITY;
-  1225					else if (stat & RXERROR_FRAMING)
-  1226						flag = TTY_FRAME;
-  1227	
-  1228					tty_insert_flip_char(&port->port, data[i+1],
-  1229							     flag);
-  1230					i += 2;
-  1231				}
-  1232			}
-  1233			tty_flip_buffer_push(&port->port);
-  1234		}
-  1235	
-  1236		/* Resubmit urb so we continue receiving */
-  1237		err = usb_submit_urb(urb, GFP_ATOMIC);
-  1238		if (err != 0)
-  1239			dev_dbg(&urb->dev->dev, "%s - resubmit read urb failed. (%d)\n", __func__, err);
-  1240	}
-  1241	
+^1da177e4c3f4152 Linus Torvalds     2005-04-16  176  
+^1da177e4c3f4152 Linus Torvalds     2005-04-16  177  /* The unnecessary pointer compare is there
+^1da177e4c3f4152 Linus Torvalds     2005-04-16  178   * to check for type safety (n must be 64bit)
+^1da177e4c3f4152 Linus Torvalds     2005-04-16  179   */
+^1da177e4c3f4152 Linus Torvalds     2005-04-16  180  # define do_div(n,base) ({				\
+^1da177e4c3f4152 Linus Torvalds     2005-04-16  181  	uint32_t __base = (base);			\
+^1da177e4c3f4152 Linus Torvalds     2005-04-16  182  	uint32_t __rem;					\
+^1da177e4c3f4152 Linus Torvalds     2005-04-16  183  	(void)(((typeof((n)) *)0) == ((uint64_t *)0));	\
+911918aa7ef6f868 Nicolas Pitre      2015-11-02  184  	if (__builtin_constant_p(__base) &&		\
+911918aa7ef6f868 Nicolas Pitre      2015-11-02  185  	    is_power_of_2(__base)) {			\
+911918aa7ef6f868 Nicolas Pitre      2015-11-02  186  		__rem = (n) & (__base - 1);		\
+911918aa7ef6f868 Nicolas Pitre      2015-11-02  187  		(n) >>= ilog2(__base);			\
+c747ce4706190ef4 Geert Uytterhoeven 2021-08-11  188  	} else if (__builtin_constant_p(__base) &&	\
+461a5e51060c93f5 Nicolas Pitre      2015-10-30  189  		   __base != 0) {			\
+461a5e51060c93f5 Nicolas Pitre      2015-10-30  190  		uint32_t __res_lo, __n_lo = (n);	\
+461a5e51060c93f5 Nicolas Pitre      2015-10-30  191  		(n) = __div64_const32(n, __base);	\
+461a5e51060c93f5 Nicolas Pitre      2015-10-30  192  		/* the remainder can be computed with 32-bit regs */ \
+461a5e51060c93f5 Nicolas Pitre      2015-10-30  193  		__res_lo = (n);				\
+461a5e51060c93f5 Nicolas Pitre      2015-10-30  194  		__rem = __n_lo - __res_lo * __base;	\
+911918aa7ef6f868 Nicolas Pitre      2015-11-02 @195  	} else if (likely(((n) >> 32) == 0)) {		\
+^1da177e4c3f4152 Linus Torvalds     2005-04-16  196  		__rem = (uint32_t)(n) % __base;		\
+^1da177e4c3f4152 Linus Torvalds     2005-04-16  197  		(n) = (uint32_t)(n) / __base;		\
+c747ce4706190ef4 Geert Uytterhoeven 2021-08-11  198  	} else {					\
+^1da177e4c3f4152 Linus Torvalds     2005-04-16 @199  		__rem = __div64_32(&(n), __base);	\
+c747ce4706190ef4 Geert Uytterhoeven 2021-08-11  200  	}						\
+^1da177e4c3f4152 Linus Torvalds     2005-04-16  201  	__rem;						\
+^1da177e4c3f4152 Linus Torvalds     2005-04-16  202   })
+^1da177e4c3f4152 Linus Torvalds     2005-04-16  203  
+
+:::::: The code at line 199 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 --
 0-DAY CI Kernel Test Service
