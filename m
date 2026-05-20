@@ -1,131 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD0739FCA6
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 May 2026 21:55:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A99374192;
+	Wed, 20 May 2026 22:27:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779314132; cv=none; b=jlWpGppCFlyqTJnUD+7qONgB8JVunkWfG2PEcdonLyMnkGbEU3B27mI6jvHq0TDwW2mw9YVu2E2BDbWnXf2QniHct6aYHCfvxvBKVTME0tvF8P/uBN6/VmkQibf81cEHQb+tD89odLfzTcFnJ1J0x2TUni+uA2w6b4Qr14iiUUc=
+	t=1779316067; cv=none; b=Md/9zih0QFmV8PCk6egBKdYBFm54J1ZeQGtFgx1uWciHNIljikBpkz8vqvqNE9T3besxPu5skRKsoJT1Bk+do9TYmnDTL3t29A94wgaEcXf0YX++a6sODJUdrO0g38TrefWvyhtXQd8/6ADUj+4o4JOwp5jb6WlLFAKiQUaQNYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779314132; c=relaxed/simple;
-	bh=DG6NFWIiB5G5RclvbZWUbCtAq7DDbToi6UDHzQOsgVw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=EXc/Gi8lMPdT70vxPO+U4KAaT63peSmu6ApZbPI6aqMCrlx/IgrJrag0TLbH7GiZIUAgq7FZQ45nwXy09yE4nGu2mB4xYEmKedYGpw5ugksDr13sg3sFEszBNC5QukGTkTstZqDodg4CXpTWv3f0GYZpFjOx+24gpwn404/aexw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gF+jrL9H; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1779316067; c=relaxed/simple;
+	bh=45e2iIXXwL+4GZlXJtvvyWj1J9e1ROrHdHdi57Hb3eg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tpUkDqQfcj+2ox61qdx6LX6PRYK666IaKx5KIvEP019bYxjHT9JwBahXOeCpjpmR2SBkhlg/n9nP5M71FzPThM/PumtoaTd8dHcxk71/L7qo7Vo5O/XBEtgEXqyLe3n2lPlQ9bMgsuGjMRS/PW9ycJfuivZO7VJ01kQVedytyYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qz9fQrjk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gF+jrL9H"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779314132; x=1810850132;
-  h=date:from:to:cc:subject:message-id;
-  bh=DG6NFWIiB5G5RclvbZWUbCtAq7DDbToi6UDHzQOsgVw=;
-  b=gF+jrL9HIn0e49nKox/9njf3tTEGNLVMv2+Mf+Edk1ghOfr/jtThmshh
-   xd/4QoajvYz7URdX6yogq0Q/RxHQuorLnPMzdR4c9gQEcgpDNEko37eLG
-   gu8hWw8+Tue6cDkj5bK1N1S2QNzKiejGe95b6/YcrD+STLaFXXKGLT8g8
-   54C7q/pNKAvj2QSrk62/2Q6hefHK7pDoN+4dt8umEJNBrf+ZFG6JTiyrk
-   iJ7PZ02cmZwJpz0vOt2DtNI3HQ1poI/TSx4sBhDdQYnNMXFi5ATXmsZKq
-   +c+zuBjTVxGHuyBpxXXXj3GgMMJWbwDBZntqLk3V8ee5IVX8jECETzXtk
-   g==;
-X-CSE-ConnectionGUID: F+iKOyEgQI+cvku0kdRNYg==
-X-CSE-MsgGUID: /chOi6tKSw60sIYnVaGfWg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="102903404"
-X-IronPort-AV: E=Sophos;i="6.23,245,1770624000"; 
-   d="scan'208";a="102903404"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 14:55:31 -0700
-X-CSE-ConnectionGUID: wSRju/rPQsK4cI6ZM9/WMA==
-X-CSE-MsgGUID: UdkOCe8fTuOo6YdnTxK/2g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,245,1770624000"; 
-   d="scan'208";a="233977441"
-Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 20 May 2026 14:55:29 -0700
-Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wPosf-000000003sb-13II;
-	Wed, 20 May 2026 21:55:20 +0000
-Date: Thu, 21 May 2026 05:53:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Conor Dooley <conor+lkp@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [conor:tvs 1/1] drivers/hwmon/tvs-mpfs.c:132:2: error:
- incompatible pointer types passing 'long *' to parameter of type 'uint64_t *'
- (aka 'unsigned long long *')
-Message-ID: <202605210552.fkKrtG3W-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qz9fQrjk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E229B1F000E9;
+	Wed, 20 May 2026 22:27:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779316066;
+	bh=j5GCAZK/Nq8zx5Np3k4/p1YoRM8+HwgPIuGzPsoBJ6I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Qz9fQrjklL4LH0FnY6wzBNhP74JgqNr4+DAfWOC4gUnEyp0oMK7sNVaoqtLYokajl
+	 nHGXWkDBJUwozrV3QLFMF/xPEh644pyuIC9x6fI9QtiseTgCTCAqWXJnN8LCDx8xcz
+	 5loghrKqhydTOAoVx2DFC6E1QHFXty406NKU12btl5VKzzBU6Lh4fkP3O4214+PXaS
+	 9FBrNyy+T3I5gFR0SKgzqiVIYx6waDsSu4xp9P/v5ojrfMqGGt1oIDt4K5KjSgqKGn
+	 QkJyj+E+lkPL3DR5C00WrkD043jy3ZsbEDVWh0pMr1TofTjKHSJ4iChFRMpicb7zq2
+	 4dgK5xwjy0WiQ==
+Date: Wed, 20 May 2026 15:27:42 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Feng Tang <feng.tang@linux.alibaba.com>
+Cc: kernel test robot <lkp@intel.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [linux-next:master 5548/6445] kernel/dma/contiguous.c:139:13:
+ warning: variable 'numa_cma_configured' set but not used
+Message-ID: <20260520222742.GA1607511@ax162>
+References: <202605200341.a1HLq7XC-lkp@intel.com>
+ <ag0_qU5BS9KBBiWK@U-2FWC9VHC-2323.local>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ag0_qU5BS9KBBiWK@U-2FWC9VHC-2323.local>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git tvs
-head:   19e86059f1efbb9ff920c102348a64a042145a2a
-commit: 19e86059f1efbb9ff920c102348a64a042145a2a [1/1] hwmon: add a driver for the temp/voltage sensor on PolarFire SoC
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260521/202605210552.fkKrtG3W-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260521/202605210552.fkKrtG3W-lkp@intel.com/reproduce)
+On Wed, May 20, 2026 at 12:59:21PM +0800, Feng Tang wrote:
+> On Wed, May 20, 2026 at 03:13:09AM +0800, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> > head:   6a50ba100ace43f43c87384367eb2d2605fcc16c
+> > commit: 38ce91195a7c6f76fa88ef5c03bad0bbabbf5556 [5548/6445] dma-contiguous: add kconfig option to setup numa cma area if not configured explicitly
+> > config: s390-randconfig-002-20260520 (https://download.01.org/0day-ci/archive/20260520/202605200341.a1HLq7XC-lkp@intel.com/config)
+> > compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605200341.a1HLq7XC-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202605200341.a1HLq7XC-lkp@intel.com/
+> > 
+> > All warnings (new ones prefixed by >>):
+> > 
+> > >> kernel/dma/contiguous.c:139:13: warning: variable 'numa_cma_configured' set but not used [-Wunused-but-set-global]
+> >      139 | static bool numa_cma_configured;
+> >          |             ^
+> >    1 warning generated.
+> 
+> Thanks for the catch!
+> 
+> In this config, CONFIG_CMA_SIZE_PERNUMA is not set, which triggers the
+> warning.
+> 
+> The patch below should fix it.
+> 
+> Hi Marek,
+> 
+> Could you help to squash this follow-on fix patch, or I can send
+> you a modified new version of the original patch? Thanks!
+> 
+> - Feng
+> 
+> ---
+> diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
+> index 42227c823893..f286d49bf068 100644
+> --- a/kernel/dma/contiguous.c
+> +++ b/kernel/dma/contiguous.c
+> @@ -136,7 +136,7 @@ static struct cma *dma_contiguous_numa_area[MAX_NUMNODES];
+>  static phys_addr_t numa_cma_size[MAX_NUMNODES] __initdata;
+>  static struct cma *dma_contiguous_pernuma_area[MAX_NUMNODES];
+>  static phys_addr_t pernuma_size_bytes __initdata;
+> -static bool numa_cma_configured;
+> +static bool __maybe_unused numa_cma_configured;
+>  
+>  static int __init early_numa_cma(char *p)
+>  {
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605210552.fkKrtG3W-lkp@intel.com/
+I know Marek already updated this but I think a better solution would
+have been turning the '#ifdef' into IS_ENABLED(), as I don't see a
+reason for this code to be ifdef'd, none of these variables are
+undeclared or unusable when CONFIG_CMA_SIZE_PERNUMA is unset. This would
+allow the compiler to always see the variable as used, regardless of the
+value of CONFIG_CMA_SIZE_PERNUMA.
 
-All error/warnings (new ones prefixed by >>):
-
->> drivers/hwmon/tvs-mpfs.c:132:2: warning: comparison of distinct pointer types ('typeof ((temp)) *' (aka 'long *') and 'uint64_t *' (aka 'unsigned long long *')) [-Wcompare-distinct-pointer-types]
-     132 |         do_div(temp, MPFS_TVS_INTERVAL_SCALE);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:183:28: note: expanded from macro 'do_div'
-     183 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
-         |                ~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~
->> drivers/hwmon/tvs-mpfs.c:132:2: error: incompatible pointer types passing 'long *' to parameter of type 'uint64_t *' (aka 'unsigned long long *') [-Werror,-Wincompatible-pointer-types]
-     132 |         do_div(temp, MPFS_TVS_INTERVAL_SCALE);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:199:22: note: expanded from macro 'do_div'
-     199 |                 __rem = __div64_32(&(n), __base);       \
-         |                                    ^~~~
-   include/asm-generic/div64.h:174:38: note: passing argument to parameter 'dividend' here
-     174 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
-         |                                      ^
->> drivers/hwmon/tvs-mpfs.c:132:2: warning: shift count >= width of type [-Wshift-count-overflow]
-     132 |         do_div(temp, MPFS_TVS_INTERVAL_SCALE);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:195:25: note: expanded from macro 'do_div'
-     195 |         } else if (likely(((n) >> 32) == 0)) {          \
-         |                                ^  ~~
-   include/linux/compiler.h:76:40: note: expanded from macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-   2 warnings and 1 error generated.
-
-
-vim +132 drivers/hwmon/tvs-mpfs.c
-
-   127	
-   128	static ssize_t mpfs_tvs_interval_write(struct mpfs_tvs *data, long val)
-   129	{
-   130		long temp = val;
-   131	
- > 132		do_div(temp, MPFS_TVS_INTERVAL_SCALE);
-   133	
-   134		/*
-   135		 * The value is 8 bits wide, but 255 is described as
-   136		 * "255= Do single set of transfers when scoverride set"
-   137		 * but there's no scoverride bit in the tvs register region.
-   138		 */
-   139		if (temp > 254)
-   140			return -EINVAL;
-   141	
-   142		temp <<= MPFS_TVS_INTERVAL_OFFSET;
-   143		regmap_update_bits(data->regmap, MPFS_TVS_CONTROL,
-   144				   MPFS_TVS_INTERVAL_MASK, temp);
-   145	
-   146		return 0;
-   147	}
-   148	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
+index 42227c823893..d6435c1eabe3 100644
+--- a/kernel/dma/contiguous.c
++++ b/kernel/dma/contiguous.c
+@@ -202,11 +202,10 @@ static void __init dma_numa_cma_reserve(void)
+ {
+ 	int nid;
+ 
+-#ifdef CONFIG_CMA_SIZE_PERNUMA
+-	if (!numa_cma_configured && dma_contiguous_default_area
++	if (IS_ENABLED(CONFIG_CMA_SIZE_PERNUMA) &&
++	    !numa_cma_configured && dma_contiguous_default_area
+ 	    && nr_online_nodes > 1)
+ 		pernuma_size_bytes = cma_get_size(dma_contiguous_default_area);
+-#endif
+ 
+ 	for_each_node(nid) {
+ 		int ret;
+-- 
+Cheers,
+Nathan
