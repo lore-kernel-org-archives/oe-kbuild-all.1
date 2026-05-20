@@ -1,102 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1DB8367B8B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 May 2026 06:08:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8AD3372ED5
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 May 2026 06:15:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779257336; cv=none; b=omoKIFM5iVUbzeJee4sxVVZ18S80vHbupuIbTaSAOUAb35b0DDxMMlUUATaD5Am/clwdSj+sqpGxi6sdGdNMd3MwFwjtSBoOxKLLVhdb6dgPYyjJxASplmYOHMPlseEDkdb9pp7bZ11ErdqFr91qkYE/EzodxvzWYLk4uuFaAlo=
+	t=1779257704; cv=none; b=MXHqWmqpi/7QSWM2yMkY5wcDJsTGiBKwBaXQNcJZ5TFmnxR6wvYbvir1pyQjblnPn5c1We3ta2sx1JBAlI1yIxSXZUMGH/2Xfgn+DggenL4vm+rRBWSyDmcTgkN4fxBdLbom0RTY/8DO/JL5u/UGZgI08wKjgNi+BWJfYsYC0r4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779257336; c=relaxed/simple;
-	bh=9V4VRYCqiY+R5E9hZdNTAy2YCcNKCHvcWaBJRPTTAyw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mObBYX4DOXIv6tmb+gl309gIf2ITTNgdwoExlFplWo/LtheXSRy0jADbVBmcbXwsjj9VoYKYsMEXT9J5DMa3NuA9nFjgk4vrexwwGciZlk1xdTzg9QUDHOlb+At9zLxb7fMgniIxbnkgFfbOeU1XFbaVvp5QIqQARfonGzC4BrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GuHXt4XS; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1779257704; c=relaxed/simple;
+	bh=fgLc90DeVLuyp5RGRCvv+QZXzNGte6HjmG1vfERDY8A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=OaZfXuA/SFwzhjFgn6XNbnFb4NRoU0sP+9kv71Pe+Is9S57IM0uNstduEETo7NKvaisfYYQ1Yxg2AiXPNSy6RKSzlBt6yxqk+IUDTYQopFTCfJcIkkW2qR36Abie89knj+RrpVb+hb6T02IBBmFjKooeted4dxPyGVtRtRJiZXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=gvK2UPsk; arc=none smtp.client-ip=210.118.77.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GuHXt4XS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779257335; x=1810793335;
-  h=date:from:to:cc:subject:message-id;
-  bh=9V4VRYCqiY+R5E9hZdNTAy2YCcNKCHvcWaBJRPTTAyw=;
-  b=GuHXt4XS+P2kHEswZOvR8/ajoVh3j+bacBEfuWURIvILrrRF8dnKTIao
-   vb3VWZwEPW6pr7GWNlZdpglJyh4SmH6wThr1siAKQB+OJXRf1fSpUzNQv
-   Lj1eSmWS9ethmGfNyB5Le8Cli2Ay/Nz5Cbna8ZQLo2OV67JCj1pOTgBMK
-   Rfe9BLi1bVpE89KbuqP/WUpYSjDaD7QwlCwY3PL/jqFuUNIqngTPlowxz
-   WHnrdnNyGODOExCbiKR6lGM5L0ILYY6SDIfz1aQ59r8CQMBvb972VKuVl
-   TXXRpWR77mFu3jMrp4YBHYZkrMpoEMjPKCaOW6h71uc2KOGdv2z112gTM
-   w==;
-X-CSE-ConnectionGUID: 6C8JijmeTCK4hNxs0xYbUw==
-X-CSE-MsgGUID: Nk92eIOlSG67Ee6paj08Bg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="79996279"
-X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="79996279"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 23:08:54 -0700
-X-CSE-ConnectionGUID: PC8TZHWoRZ2YKZdMlHWlpQ==
-X-CSE-MsgGUID: Gh3v2cHSQPazuNCrfORHWQ==
-X-ExtLoop1: 1
-Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 19 May 2026 23:08:53 -0700
-Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wPa6G-000000002az-1oTh;
-	Wed, 20 May 2026 06:08:18 +0000
-Date: Wed, 20 May 2026 14:05:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:iomap-fuse-prep 7/8]
- fs/iomap/buffered-io.c:2015:undefined reference to `iomap_add_to_ioend'
-Message-ID: <202605201401.wxEhP1vF-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="gvK2UPsk"
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20260520061459euoutp01a32af6e7639ac121503c9469fa405589~xMXN885Pb3236432364euoutp01c
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 May 2026 06:14:59 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20260520061459euoutp01a32af6e7639ac121503c9469fa405589~xMXN885Pb3236432364euoutp01c
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1779257699;
+	bh=d9KBwCT1e+knM7hzQMRaTwLr6h7rD16jBqoIOjcDPj4=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=gvK2UPsk6l5sOe23BUKJ/7HyFA/OImgprMNFCd3s1UmCEJd47woIFvCn4FtO90MWr
+	 4ERmg3w6Y9U/EW/lcYQz1C8MhAOj0Qrl7013MDr0A1gxjtSAAN7pDuJzAEWAhi0DqK
+	 bTJoAytZr4gjQ+8Q6LXYOTclf7zIdtEU9lRYJrF8=
+Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20260520061459eucas1p10ef610267fb33fd1159f0e9a500a0fe3~xMXNv1dSD2079220792eucas1p1B;
+	Wed, 20 May 2026 06:14:59 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20260520061459eusmtip16b1b6432df93df00c19d6fce271eb338~xMXNSLsGG1106611066eusmtip1G;
+	Wed, 20 May 2026 06:14:59 +0000 (GMT)
+Message-ID: <8e73aae3-8ab4-4670-bce9-9efc3be6b340@samsung.com>
+Date: Wed, 20 May 2026 08:14:58 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Betterbird (Windows)
+Subject: Re: [linux-next:master 5548/6445] kernel/dma/contiguous.c:139:13:
+ warning: variable 'numa_cma_configured' set but not used
+To: Feng Tang <feng.tang@linux.alibaba.com>, kernel test robot
+	<lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <ag0_qU5BS9KBBiWK@U-2FWC9VHC-2323.local>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20260520061459eucas1p10ef610267fb33fd1159f0e9a500a0fe3
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20260520045926eucas1p12f0b92b63a683fcab5878f20a32f4195
+X-EPHeader: CA
+X-CMS-RootMailID: 20260520045926eucas1p12f0b92b63a683fcab5878f20a32f4195
+References: <202605200341.a1HLq7XC-lkp@intel.com>
+	<CGME20260520045926eucas1p12f0b92b63a683fcab5878f20a32f4195@eucas1p1.samsung.com>
+	<ag0_qU5BS9KBBiWK@U-2FWC9VHC-2323.local>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git iomap-fuse-prep
-head:   d78140ae7e41edad8f0971778c7c21a6f3da650c
-commit: 30ec00229eecd235b3b6bc15f6fd20bcf9a3670a [7/8] iomap: map writeback ranges with iomap ops
-config: i386-buildonly-randconfig-002-20260520 (https://download.01.org/0day-ci/archive/20260520/202605201401.wxEhP1vF-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605201401.wxEhP1vF-lkp@intel.com/reproduce)
+On 20.05.2026 06:59, Feng Tang wrote:
+> On Wed, May 20, 2026 at 03:13:09AM +0800, kernel test robot wrote:
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+>> head:   6a50ba100ace43f43c87384367eb2d2605fcc16c
+>> commit: 38ce91195a7c6f76fa88ef5c03bad0bbabbf5556 [5548/6445] dma-contiguous: add kconfig option to setup numa cma area if not configured explicitly
+>> config: s390-randconfig-002-20260520 (https://download.01.org/0day-ci/archive/20260520/202605200341.a1HLq7XC-lkp@intel.com/config)
+>> compiler: clang version 23.0.0git (https://protect2.fireeye.com/v1/url?k=32465e8a-53cd4baf-3247d5c5-74fe485cbff6-571f25844ec6a01e&q=1&e=12c943a4-ee86-40a1-97e7-3937ac9b04c7&u=https%3A%2F%2Fgithub.com%2Fllvm%2Fllvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605200341.a1HLq7XC-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202605200341.a1HLq7XC-lkp@intel.com/
+>>
+>> All warnings (new ones prefixed by >>):
+>>
+>>>> kernel/dma/contiguous.c:139:13: warning: variable 'numa_cma_configured' set but not used [-Wunused-but-set-global]
+>>      139 | static bool numa_cma_configured;
+>>          |             ^
+>>    1 warning generated.
+> Thanks for the catch!
+>
+> In this config, CONFIG_CMA_SIZE_PERNUMA is not set, which triggers the
+> warning.
+>
+> The patch below should fix it.
+>
+> Hi Marek,
+>
+> Could you help to squash this follow-on fix patch, or I can send
+> you a modified new version of the original patch? Thanks!
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605201401.wxEhP1vF-lkp@intel.com/
+Yes, sure. I've updated the patch on my dma-mapping-for-next branch.
 
-All errors (new ones prefixed by >>):
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
-   ld: fs/iomap/buffered-io.o: in function `iomap_writeback_map':
->> fs/iomap/buffered-io.c:2015:(.text+0x298): undefined reference to `iomap_add_to_ioend'
-
-
-vim +2015 fs/iomap/buffered-io.c
-
-  1997	
-  1998	ssize_t iomap_writeback_map(struct iomap_writepage_ctx *wpc,
-  1999			struct folio *folio, u64 offset, unsigned int len, u64 end_pos,
-  2000			const struct iomap_ops *ops)
-  2001	{
-  2002		struct iomap_iter iter = {
-  2003			.inode		= wpc->inode,
-  2004			.pos		= offset,
-  2005			.len		= len,
-  2006			.flags		= IOMAP_WRITEBACK,
-  2007		};
-  2008		ssize_t ret;
-  2009	
-  2010		while ((ret = iomap_iter(&iter, ops)) > 0)
-  2011			iter.status = iomap_writeback_map_iter(&iter, wpc);
-  2012		if (ret < 0 && ret != -ECANCELED)
-  2013			return ret;
-  2014	
-> 2015		return iomap_add_to_ioend(wpc, folio, offset, end_pos, len);
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
