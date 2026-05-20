@@ -1,127 +1,174 @@
-Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97CA3438A6
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 May 2026 15:12:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.37.86.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3733ED136
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 May 2026 16:55:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779289942; cv=none; b=Fc8YPfow9zED2i805MGYybgXhmsYBefLakPoWIdILxvHXjBAEZPrseF1uLI6DREK78CN0wgyk1AbTxrzc+y/wAnxXR2IQ6NzAntCVIKnLedamVmjSfNLRT0ff847rKK3nqwBXXh2F9DBHWIec0frgcfnwmzaqzEXxCDFurOpYwI=
+	t=1779296148; cv=none; b=hrUrYVmiMWrjBl7r2tY4GnLIkIR9QsbNMladSGg0dgQ+QNX54CW2Yv4M/h9kiY875ME6kvQAuuDWlS6P3pCQQZbUgAqspKKwXa5BzuamqXqH5QcrTUmk+lfo2w7+G5S2yKJzBhyMqGQ+NJkKd9fVfXxidzqT1KrkxibyAbtvtB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779289942; c=relaxed/simple;
-	bh=0MDpWjDkz/t20dRRHbcNfHUS5R5SYW013Lg3UHXYy4w=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kevZJwMeZo1kKXVM5F7lculWD3SKdrwPFA94+1JbzS7dkNf391xqZzk3i3ocAKBo6SBCcE4TnS1sOIaItvmyjV+mmSfr30W3MliYrDb9aZ5pQw16AudMsFXCMJZneMYzpndXohGfFAeNjw7mTfS/xnWGkXW78GAlyQsXP/PTjMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cisco.com; spf=pass smtp.mailfrom=cisco.com; dkim=pass (2048-bit key) header.d=cisco.com header.i=@cisco.com header.b=YGKsYgOD; arc=none smtp.client-ip=173.37.86.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cisco.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cisco.com
+	s=arc-20240116; t=1779296148; c=relaxed/simple;
+	bh=lvT89uq5Kv8IZjAUDt6UH4Pi6VcaFu6bqBH87dubLA0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gAIpXbat9XeOYl2qjPzQsWYnSIn2TI9hqWyv09PhNV/08afgBMisZ4pCGP92B2movgh+tinxRVp/5m1vzKLXbBnoTtdlE3ZmbUxcr9ylFK8JWLsas/jg/9G07IbkO8N8ifBq4cTPZEsi5Dc533qtynKbQTXc1Ehp84rnUEpY5QA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c6oSkTs2; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cisco.com header.i=@cisco.com header.b="YGKsYgOD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=1355; q=dns/txt;
-  s=iport01; t=1779289940; x=1780499540;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=+mezfWoQHdVj0OF2VhL7dPuQGNw7CvxzaNnAn1zoIfY=;
-  b=YGKsYgODcm0JqHzoT1hXJd6RGulW5sE4u71/0nntmarW0k4sL1IJ96ri
-   4gw9VTKCALQme8ghs4o5y97vtPZ8sVX6MXk3I4kA/mQRGy42q7TJ4aSkA
-   VFMjLfuFvnBN/+20JuiKXtrA7EqAGMArk63opAo9NDkz4Z3nU+8a+TEuu
-   BxpW5zNujggcyGnwpe1FeAYGHX3Nw8YM9xklHUUXZZoDErlwkxH2fu28/
-   G3+wEWXwx+2D0nfJl0v9JU+UxBaxGfjvsCPOiTS4SjZjOAJ89qu7r6a9U
-   mVEnrNRfe3FFlQnUWKoLYYYQqlCKI1O8KlsR7nmFp7e+V8by2061VICUr
-   Q==;
-X-CSE-ConnectionGUID: 9qedllIwSYiClfwfd5VNAQ==
-X-CSE-MsgGUID: VvjWl5MYSqOkJK9KgKz6Kw==
-X-IPAS-Result: =?us-ascii?q?A0BAAgAvzg1q/4z/Ja1aHgEBCxIMggULgldyX0JJBK8Hh?=
- =?us-ascii?q?V+Bfw8BAQEPRA0EAQGFBo00AiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQsBAQUBA?=
- =?us-ascii?q?QECAQcFgQ4Thk8Nhl02AUaBDESDAgGCcwIBEbMNgiyBAYR92USBZAEFBhQBg?=
- =?us-ascii?q?TiNXHMBhHsnFQaBSUSEB3Yeg2yBBoV3BIMujntIgR4DWSwBVRMNCgsHBYFmA?=
- =?us-ascii?q?zUSKhUyPDIdgSM+F3oRGwcFgUuBN3JqgQSEV3gjLANOgS2BCAMLGA1IESw3F?=
- =?us-ascii?q?BsEPm4Hik4cD4IxgQ4sgg2mFaEOhCaMHpU6GjOqai6HZZByjgmVZzI3hGiBa?=
- =?us-ascii?q?DyBWTMaCBsVgyITQBkPji0WiHPDXCQ1AgE6AQEHAgcNAwuBaJAAgX0BAQ?=
-IronPort-Data: A9a23:bronO6xQAkmJOjtmHHR6t+c4xyrEfRIJ4+MujC+fZmUNrF6WrkUOm
- 2NLCG/VP67fZTb9edh/Od7l/UgB6MfTz9I1TgNppFhgHilAwSbn6Xt1DatR0we6dJCroJdPt
- p1GAjX4BJlqCCea/VH1buSJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
- 4iaT/H3Ygf/hWYpaDpMsspvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
- evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
- zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJBAvMIEc/sdoOlBP3
- vgWNz4BMy6lrtvjldpXSsE07igiBNPgMIVavjRryivUSK59B5vCWK7No9Rf2V/chOgXQq2YP
- JVfM2cyKk2cO3WjOX9PYH46tOGpnWL2diVRgFmUvqEwpWPUyWSd1ZCxYIaNIYbVHJg9ckCwm
- HzEwGCkJyAhLfuc6xnU0X2PlLHsgnauMG4VPPjinhJwu3WXxXQ7CRsKWF/9qv684ma0QdVYL
- U0Z0ikjt64/8AqsVNaVdxq15X2Oox8YV59ZF+kS7ACW1rGS5wefG3hCQjNfAPQitckrVXkp2
- 0WPktfBGzNiqvuWRGib+7PSqim9URX5NkcYbiMCCA9A6N75rcRr1VTET81oF+i+idid9SzM/
- g1mZRMW39075fPnHY3ilbwbq1pAfqT0czM=
-IronPort-HdrOrdr: A9a23:jOh28KjBiqAGUsCpzlan4c8BNXBQXuwji2hC6mlwRA09TyVXra
- +TdZMgpHrJYVkqOU3I9ersBEDiewK/yXcK2+ks1N6ZNWGM0ldAR7sN0WKN+VHd8lXFh41g/J
- YlVbRiA9vtClU/p8P77A6kV+sE+rC8gcSVbSO09QYKcemsAJsQiDtENg==
-X-Talos-CUID: =?us-ascii?q?9a23=3AVwRtPmhIbz53lyjSEvF5XheY0DJuI2TQwHPUAlC?=
- =?us-ascii?q?DOGdCTLOKR1PNxoVNqp87?=
-X-Talos-MUID: 9a23:kQ/pYQZhOrjqX+BTiSHuuzU/EfZT+oOtKmNcspolqZenKnkl
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.23,244,1770595200"; 
-   d="scan'208";a="484032715"
-Received: from rcdn-l-core-03.cisco.com ([173.37.255.140])
-  by rcdn-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 May 2026 15:11:11 +0000
-Received: from sjc-ads-2636.cisco.com (sjc-ads-2636.cisco.com [171.70.32.71])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-03.cisco.com (Postfix) with ESMTPS id A9976180001F3;
-	Wed, 20 May 2026 15:11:11 +0000 (GMT)
-Received: by sjc-ads-2636.cisco.com (Postfix, from userid 470863)
-	id 4F656CB4400; Wed, 20 May 2026 08:11:11 -0700 (PDT)
-From: Nishanth Sampath Kumar <nissampa@cisco.com>
-To: broonie@kernel.org
-Cc: lkp@intel.com,
-	linux-kernel@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev,
-	nissampa@cisco.com
-Subject: [PATCH v2] regmap-i2c: fix sparse warning in regmap_smbus_word_write_reg16
-Date: Wed, 20 May 2026 08:11:09 -0700
-Message-Id: <20260520151109.2380894-1-nissampa@cisco.com>
-X-Mailer: git-send-email 2.35.6
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c6oSkTs2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779296146; x=1810832146;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lvT89uq5Kv8IZjAUDt6UH4Pi6VcaFu6bqBH87dubLA0=;
+  b=c6oSkTs2uYod5S6AN6T8HyAzY1nxCi/5nPXK4zB150KWxgytPfEFBkgV
+   32a6Gemcs21DzoklbKejpJKLVMIP/V52GQs0bNxPx++iSclu3em5Gyx2W
+   ycrQnKsHU2tjc3YEJptxR7uKVpCKIS8kYAJe2DYKSxXKTmJzam5AtWY7+
+   Z/NwWzNek9hRFG+aZwqHDaEGtCxogJY76CKIZzWQQmDWhsHPJdasdXqUL
+   mGC7qsK/31C+e6LnXHsXPLopJ/aCzO79nyra90rKAjxJ3tkbrDCxf0py0
+   GZIhHKL9F4n9yfmtwETlm9EUq8+b935pwVaM31UJqHl6wSSWvgslWf1I2
+   A==;
+X-CSE-ConnectionGUID: abJQDiKVS1aWwbOj5FwqnA==
+X-CSE-MsgGUID: O1RYXNpuSEaYuVfqbfut8w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="90501644"
+X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
+   d="scan'208";a="90501644"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 09:55:44 -0700
+X-CSE-ConnectionGUID: m2evV3TAT56o8oTJQucmDg==
+X-CSE-MsgGUID: vt+I01hBTLK0PUQLZQDntg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
+   d="scan'208";a="240485816"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 20 May 2026 09:55:40 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wPkCn-00000000AbJ-216B;
+	Wed, 20 May 2026 16:55:37 +0000
+Date: Wed, 20 May 2026 18:55:27 +0200
+From: kernel test robot <lkp@intel.com>
+To: Malte Wechter <maltewechter@gmail.com>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Breno Leitao <leitao@debian.org>, Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>, Jens Axboe <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, linux-block@vger.kernel.org,
+	Malte Wechter <maltewechter@gmail.com>
+Subject: Re: [PATCH] rust: add procedural macro for declaring configfs
+ attributes
+Message-ID: <202605201854.YArCKAtw-lkp@intel.com>
+References: <20260520-configfs-syn-v1-1-6c5b80a9cef2@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: VERIFIED;sjc-ads-2636.cisco.com [171.70.32.71];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
-X-Outbound-SMTP-Client: 171.70.32.71, sjc-ads-2636.cisco.com
-X-Outbound-Node: rcdn-l-core-03.cisco.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260520-configfs-syn-v1-1-6c5b80a9cef2@gmail.com>
 
-i2c_smbus_write_word_data() expects a plain u16, but cpu_to_le16()
-returns __le16 (a sparse-restricted endian type), causing:
+Hi Malte,
 
-  drivers/base/regmap/regmap-i2c.c:340: sparse: incorrect type in
-  argument 3 (different base types)
-    expected unsigned short [usertype] value
-    got restricted __le16 [usertype]
+kernel test robot noticed the following build warnings:
 
-SMBus already defines byte ordering internally, so cpu_to_le16() is
-wrong here. Replace it with a plain (u16) cast.
+[auto build test WARNING on 254f49634ee16a731174d2ae34bc50bd5f45e731]
 
-Fixes: bad4bd28abf4 ("regmap-i2c: add SMBus byte/word reg16 bus for adapters lacking I2C_FUNC_I2C")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202605161621.mY5zFh4D-lkp@intel.com/
-Signed-off-by: Nishanth Sampath Kumar <nissampa@cisco.com>
----
- drivers/base/regmap/regmap-i2c.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Malte-Wechter/rust-add-procedural-macro-for-declaring-configfs-attributes/20260520-154816
+base:   254f49634ee16a731174d2ae34bc50bd5f45e731
+patch link:    https://lore.kernel.org/r/20260520-configfs-syn-v1-1-6c5b80a9cef2%40gmail.com
+patch subject: [PATCH] rust: add procedural macro for declaring configfs attributes
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260520/202605201854.YArCKAtw-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605201854.YArCKAtw-lkp@intel.com/reproduce)
 
-diff --git a/drivers/base/regmap/regmap-i2c.c b/drivers/base/regmap/regmap-i2c.c
-index 31e30dfced19..51a04961faf7 100644
---- a/drivers/base/regmap/regmap-i2c.c
-+++ b/drivers/base/regmap/regmap-i2c.c
-@@ -337,7 +337,7 @@ static int regmap_smbus_word_write_reg16(void *context, const void *data,
- 	val = ((u8 *)data)[2];
- 
- 	return i2c_smbus_write_word_data(i2c, addr_hi,
--					 cpu_to_le16(((u16)val << 8) | addr_lo));
-+					 ((u16)val << 8) | addr_lo);
- }
- 
- static const struct regmap_bus regmap_smbus_byte_word_reg16 = {
--- 
-2.25.1
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605201854.YArCKAtw-lkp@intel.com/
 
+All warnings (new ones prefixed by >>):
+
+>> warning: unclosed HTML tag `Configuration`
+   --> rust/macros/lib.rs:561:30
+   |
+   561 | ///                 Subsystem<Configuration>,
+   |                              ^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(rustdoc::invalid_html_tags)]` on by default
+   help: try marking as source code
+   |
+   561 | ///                 `Subsystem<Configuration>`,
+   |                     +                        +
+--
+>> warning: unclosed HTML tag `Configuration`
+   --> rust/macros/lib.rs:564:30
+   |
+   564 | ///                 Subsystem<Configuration>,
+   |                              ^^^^^^^^^^^^^^^
+   |
+   help: try marking as source code
+   |
+   564 | ///                 `Subsystem<Configuration>`,
+   |                     +                        +
+--
+>> warning: unresolved link to `crate::configfs_attrs`
+   --> rust/kernel/configfs.rs:240:1
+   |
+   240 | / /// A configfs group.
+   241 | | ///
+   242 | | /// To add a subgroup to configfs, pass this type as `ctype` to
+   243 | | /// [`crate::configfs_attrs`] when creating a group in [`GroupOperations::make_group`].
+   | |_______________________________________________________________________________________^
+   |
+   = note: the link appears in this line:
+--
+>> warning: unresolved link to `kernel::configfs_attrs`
+   --> rust/kernel/configfs.rs:630:1
+   |
+   630 | / /// Operations supported by an attribute.
+   631 | | ///
+   632 | | /// Implement this trait on type and pass that type as generic parameter when
+   633 | | /// creating an [`Attribute`]. The type carrying the implementation serve no
+   ...   |
+   640 | | /// attributes via the [`kernel::configfs_attrs`] macro, to tie
+   641 | | /// `AttributeOperations` implementations to concrete named attributes.
+   | |_______________________________________________________________________^
+   |
+   = note: the link appears in this line:
+--
+>> warning: unresolved link to `kernel::configfs_attrs`
+   --> rust/kernel/configfs.rs:672:7
+   |
+   672 | /// [`kernel::configfs_attrs`] macro to declare a static set of attributes for a
+   |       ^^^^^^^^^^^^^^^^^^^^^^ no item named `configfs_attrs` in module `kernel`
+--
+>> warning: unresolved link to `kernel::configfs_attrs`
+   --> rust/kernel/configfs.rs:678:7
+   |
+   678 | /// [`kernel::configfs_attrs`] macro.
+   |       ^^^^^^^^^^^^^^^^^^^^^^ no item named `configfs_attrs` in module `kernel`
+--
+>> warning: unresolved link to `kernel::configfs_attrs`
+   --> rust/kernel/configfs.rs:723:1
+   |
+   723 | / /// A representation of the attributes that will appear in a [`Group`] or
+   724 | | /// [`Subsystem`].
+   725 | | ///
+   726 | | /// Users should not directly instantiate objects of this type. Rather, they
+   727 | | /// should use the [`kernel::configfs_attrs`] macro to statically declare the
+   728 | | /// shape of a [`Group`] or [`Subsystem`].
+   | |__________________________________________^
+   |
+   = note: the link appears in this line:
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
