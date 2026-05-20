@@ -1,147 +1,213 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CF83373BF2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 May 2026 11:59:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 604423D9DB8
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 May 2026 12:12:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779278397; cv=none; b=eeNDGVEBP1SIDnKlCxc2U63RHVF9Gzr2N1NZ0Xc8bqo8IC7Il9torWCqRujhzp2nnIFz3WtdAt5SAgsPobgljL91szxJBL1sVr/da+5LV107zo6b99/k/zA4U48VMNrzp3hblU1Y/u+NUOU1Hbo3VLWDN4NymqHiuj3qQsq9BYw=
+	t=1779279160; cv=none; b=e5kaaSBG7fTSUjAZI6WlGqbei8nIdfs5V2T4715VgvG61JQoh/STcIkITxGgc0I+MHYz2jHAdc0HmBKPPi0u/vjG8ngvgmgi8auE4xHrn2BvRAANCnpTxTHqCqWdT68L4/vrtk7/CZf056IFmI4TQN9Bv1bh17kFXOvQiZ5EIwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779278397; c=relaxed/simple;
-	bh=D4OPKXNCI2mRzG0TnZ+CzdX2qzo0B7kxu4wIErrqL68=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BlQ3o9l4XYlo2SjyGx6fSE+e8pbyj0I1MJZIzjUomOKzyD27p0vW9kKW6luDaYyLFsqq2N7+5XD3uwSHG6/u8t+jEvEw8PAMfSZtWnwVxzt1mjIoJdJ+ZlZ6ywmqxdVTqsVnL/GCjF5E7kut0zPvEZMWXwzh1DzhIRjy4G0sIWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ou04HTEn; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779279160; c=relaxed/simple;
+	bh=0pbhW4n/kycC9a4jv86tJ09vHIx7D11bmMMzc2aTuDY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=hKp8dqRzrenR8ilgPbX+8ZkfhK269oxMdT2kcwoLQF9BMHCyKJpKxZ65JGs8FBAqniQUSeTi2RmJ6lMOB/67VSL2t2VT5cPASgoSUKoN8PF4euWHtRt8ec2UQAgSgzRuaxIE0c85X76G8LoFwV9EdA93TL+u7H9Rt0LgrDOZvwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BqSdqJhr; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ou04HTEn"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-44a14580111so3500478f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 20 May 2026 04:59:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779278395; x=1779883195; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NvywlcvTDBPY9Q8O/25hv62l6tvsLb0vc03TW80ZQ/M=;
-        b=Ou04HTEnF73qPrRvBzIgq6ge9GEpf4yDnougezozOyhkhFI76oc3ApmE/3oKMSGchI
-         fp9Ls40IJYoPy4PMPNSUpvTr0ArJU85sFZ+wWT+8Cq3jt7GiEu7Ir3O6s0INaXejInGe
-         1So5h6EvfLwkOOI/XoB5fvi7q+HvMgUwZR+0BqwoNEXReLJ8ViKT53gPwYmAPEHXBvrj
-         MNwvURq84uX51V8E428IT5JefJHCkJjV8/vXrTK6FCUKV2eY3euWDQMW5Q4McHNPLvcB
-         Dkay/EBVzThgpYuGEncQ7NxiYswXrxePa5VkqEw/xw86WU4U9B1EC4f+MFYnVgdYdSQD
-         GI3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779278395; x=1779883195;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NvywlcvTDBPY9Q8O/25hv62l6tvsLb0vc03TW80ZQ/M=;
-        b=kjN2SxmKZPWAu684C+Q7vleOzbuZrvkG4rd5kx82cSsHH8VzJMwe2oNPuWTqiDJmBd
-         /fP+/cswsSx7Zyqu2bj+Qa9fcc9ofTWmxFFjGdrmPhDevr1l/DYhX/nhRKHZ0V0GFL5v
-         eeWf63DsAKaSDZxt8DKP+eOjNHZWTbL0jfjHQfCcPlPyfFxtenb6ItTJ4gpMu6pYBgYK
-         m3mbdATCuQtmInojbQRvey5sXWimAybosqUxpHYWFOJOoNEMCI7KIznD+4SXwjutkrcl
-         +KDnZWAzctBf/jAVUU/uZjp44DAgMXRlYXc+d8bu98xDqgSzsz7SMPowWmQhuNeZERhW
-         qhCA==
-X-Forwarded-Encrypted: i=1; AFNElJ8/ii0Rhqih5UhlkPYD223eZVVuOQYtQ4f8PWQOpS17INSy/3iw2ecXDE0MgzzkHbfhw/OrjMcYVocjFEPw@lists.linux.dev
-X-Gm-Message-State: AOJu0YzpQ1JCzUIoTsx3ZZWTmtAVhR68Xk8V/zFQr2GLNlvdaUxhhD0d
-	+anVUZhIttAojkj1AmVYa/Mf3DUcLfRCBuAmymlJuOK6GjgN4OzSwc2x
-X-Gm-Gg: Acq92OG0OI2nkwbsSGkRyX48Zb7QccY3Yn0sA2d7VQrjcJg01h2MbrU7PhU+an7DYL/
-	6WRlj7Aaaw7XLAp9ZdSrqF/23u1+Qya3GyCAdwRzQMPaEVgYOi9LaAqtuzFdqYU67g0JNF61VMM
-	DvMXrq/G4PwvcGqEHXEyU6pC9yAcDNpepFwgs5gvslQgmlT91MCMuZDWJf6sqCbYx9vrshho4Ni
-	/goCVlDg6CtPVA/cCPaLU7xzERq/4VVouqpt/p2dJMMVMBwTMZkIbTN6cjwKmPMQIz6UXDoQqMH
-	fH+RqD5nL5UATPkkAvjh45Els7YRRohEkBGPispufLDPgildK6TwXyxdBlMDSaMERnPNpb9E7GV
-	Hpivw1PDdTFBHF70OaCdnUUThcMACjAyWwv/e3qsLnS5LZrZHvYNVooH4+n3KAjVYHxLWM64ozP
-	Tg5UiIFlxhrLiE7HbSRG3bn9Ey7MD6X/j4yQ==
-X-Received: by 2002:a05:6000:22c5:b0:43d:6fb7:fedb with SMTP id ffacd0b85a97d-45e5c60a30cmr39828626f8f.36.1779278394553;
-        Wed, 20 May 2026 04:59:54 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45d9ec39ff1sm58034649f8f.10.2026.05.20.04.59.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 May 2026 04:59:53 -0700 (PDT)
-Date: Wed, 20 May 2026 14:59:50 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Mark Brown <broonie@kernel.org>
-Subject: [broonie-sound:for-next 20/24]
- sound/soc/codecs/cs35l56-shared-test.c:681
- cs35l56_shared_test_case_base_init() warn: variable dereferenced before
- check 'regmap_config' (see line 665)
-Message-ID: <202605201958.A1xdeuzB-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BqSdqJhr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779279158; x=1810815158;
+  h=date:from:to:cc:subject:message-id;
+  bh=0pbhW4n/kycC9a4jv86tJ09vHIx7D11bmMMzc2aTuDY=;
+  b=BqSdqJhrbPKnQHCTzN9LCinc4EPFCo03yYQPt2dexQTTaPbij2UzFmE3
+   mRF7ry4ljsypRq7Yu0QWqHqcxYy2kuyjJfiw6HlGUbJ2fbFLLhRczhquC
+   CrAw3Y23VLXMfziEaapbNq0oBjIn1X5cA5PM4LDfKwldw9F+hsGsDJDxc
+   yJX2nUTDPmR/W5RNNBt1MEPr1jKZ4JPqZI0J5e1ugyDzeD0eAcjvJmyk0
+   Tntv5QKxhML2JN0/8DqnBA8slL6dW9yln9ud5pAdcl6mz5ZRgbTseYRqf
+   OOQga5zbOD4v5ssavo8oHpgyLSi1fujYuwgTj66wcEMXnp9O490FILjuv
+   w==;
+X-CSE-ConnectionGUID: G+VpsATXRMCWzH8b3GhcMQ==
+X-CSE-MsgGUID: 8wxIT408RRO8yvkOOf7IfA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="80156033"
+X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
+   d="scan'208";a="80156033"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 05:12:38 -0700
+X-CSE-ConnectionGUID: 4ErZC+FIR4qx2ykzYsMiig==
+X-CSE-MsgGUID: CRLY1QxwTSCUhc0fbO/JLw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
+   d="scan'208";a="244455445"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 20 May 2026 05:12:36 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wPfms-00000000AYD-1CXq;
+	Wed, 20 May 2026 12:12:34 +0000
+Date: Wed, 20 May 2026 14:11:47 +0200
+From: kernel test robot <lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sean-jc:x86/gpr_helpers_cleanup 40/40]
+ arch/x86/kvm/ioapic.c:210:21: error: implicit declaration of function
+ 'kvm_apicv_activated'; did you mean 'kvm_gpc_activate'?
+Message-ID: <202605201456.zV5eMRGe-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-head:   4ad5b674ca5f0f0bb7db547acc2491fadcf8c51a
-commit: a6f7c21accb5fca895ee0d490e395deecaddf12f [20/24] ASoC: cs35l56-shared-test: Subtract reg_base offset in dummy regmap
-config: microblaze-randconfig-r072-20260520 (https://download.01.org/0day-ci/archive/20260520/202605201958.A1xdeuzB-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 10.5.0
-smatch: v0.5.0-9185-gbcc58b9c
+tree:   https://github.com/sean-jc/linux x86/gpr_helpers_cleanup
+head:   ba354c376be921363bd75a65fb21710bd6dc284f
+commit: ba354c376be921363bd75a65fb21710bd6dc284f [40/40] KVM: x86: Move a pile of stuff from kvm_host.h => x86.h
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260520/202605201456.zV5eMRGe-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605201456.zV5eMRGe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605201958.A1xdeuzB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605201456.zV5eMRGe-lkp@intel.com/
 
-smatch warnings:
-sound/soc/codecs/cs35l56-shared-test.c:681 cs35l56_shared_test_case_base_init() warn: variable dereferenced before check 'regmap_config' (see line 665)
+All errors (new ones prefixed by >>):
 
-vim +/regmap_config +681 sound/soc/codecs/cs35l56-shared-test.c
+   arch/x86/kvm/ioapic.c: In function 'ioapic_set_irq':
+>> arch/x86/kvm/ioapic.c:210:21: error: implicit declaration of function 'kvm_apicv_activated'; did you mean 'kvm_gpc_activate'? [-Wimplicit-function-declaration]
+     210 |         if (edge && kvm_apicv_activated(ioapic->kvm))
+         |                     ^~~~~~~~~~~~~~~~~~~
+         |                     kvm_gpc_activate
+   arch/x86/kvm/ioapic.c: In function 'kvm_arch_post_irq_ack_notifier_list_update':
+>> arch/x86/kvm/ioapic.c:291:9: error: implicit declaration of function 'kvm_make_scan_ioapic_request'; did you mean 'kvm_scan_ioapic_routes'? [-Wimplicit-function-declaration]
+     291 |         kvm_make_scan_ioapic_request(kvm);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         kvm_scan_ioapic_routes
+   arch/x86/kvm/ioapic.c: In function 'ioapic_write_indirect':
+>> arch/x86/kvm/ioapic.c:448:25: error: implicit declaration of function 'kvm_make_scan_ioapic_request_mask'; did you mean 'kvm_make_vcpus_request_mask'? [-Wimplicit-function-declaration]
+     448 |                         kvm_make_scan_ioapic_request_mask(ioapic->kvm,
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                         kvm_make_vcpus_request_mask
 
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  651  static int cs35l56_shared_test_case_base_init(struct kunit *test, u8 type, u8 rev,
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  652  					      const struct regmap_config *regmap_config)
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  653  {
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  654  	struct cs35l56_shared_test_priv *priv;
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  655  	int ret;
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  656  
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  657  	KUNIT_ASSERT_NOT_NULL(test, cs_amp_test_hooks);
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  658  
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  659  	priv = kunit_kzalloc(test, sizeof(*priv), GFP_KERNEL);
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  660  	if (!priv)
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  661  		return -ENOMEM;
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  662  
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  663  	test->priv = priv;
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  664  	priv->test = test;
-a6f7c21accb5fca8 Richard Fitzgerald 2026-05-19 @665  	priv->reg_offset = regmap_config->reg_base;
-                                                                           ^^^^^^^^^^^^^^^^^^^^^^^
-regmap_config is dereference here without checking.
 
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  666  
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  667  	/* Create dummy amp driver dev */
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  668  	priv->amp_dev = faux_device_create("cs35l56_shared_test_drv", NULL, NULL);
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  669  	KUNIT_ASSERT_NOT_NULL(test, priv->amp_dev);
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  670  	KUNIT_ASSERT_EQ(test, 0,
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  671  			kunit_add_action_or_reset(test,
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  672  						  faux_device_destroy_wrapper,
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  673  						  priv->amp_dev));
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  674  
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  675  	priv->cs35l56_base = kunit_kzalloc(test, sizeof(*priv->cs35l56_base), GFP_KERNEL);
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  676  	KUNIT_ASSERT_NOT_NULL(test, priv->cs35l56_base);
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  677  	priv->cs35l56_base->dev = &priv->amp_dev->dev;
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  678  	priv->cs35l56_base->type = type;
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  679  	priv->cs35l56_base->rev = rev;
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  680  
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05 @681  	if (regmap_config) {
-                                                            ^^^^^^^^^^^^^
-The old code assumed it could be NULL but probably it can't actually be
-NULL?
+vim +210 arch/x86/kvm/ioapic.c
 
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  682  		ret = cs35l56_shared_test_case_regmap_init(test, regmap_config);
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  683  		if (ret)
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  684  			return ret;
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  685  	}
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  686  
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  687  	return 0;
-9bca0f05cea49ad1 Richard Fitzgerald 2026-02-05  688  }
+f458d039db7e85 arch/x86/kvm/ioapic.c Suravee Suthikulpanit 2019-11-14  186  
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  187  static int ioapic_set_irq(struct kvm_ioapic *ioapic, unsigned int irq,
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  188  		int irq_level, bool line_status)
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  189  {
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  190  	union kvm_ioapic_redirect_entry entry;
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  191  	u32 mask = 1 << irq;
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  192  	u32 old_irr;
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  193  	int edge, ret;
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  194  
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  195  	entry = ioapic->redirtbl[irq];
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  196  	edge = (entry.fields.trig_mode == IOAPIC_EDGE_TRIG);
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  197  
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  198  	if (!irq_level) {
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  199  		ioapic->irr &= ~mask;
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  200  		ret = 1;
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  201  		goto out;
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  202  	}
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  203  
+f458d039db7e85 arch/x86/kvm/ioapic.c Suravee Suthikulpanit 2019-11-14  204  	/*
+8be8f932e3db5f arch/x86/kvm/ioapic.c Paolo Bonzini         2020-05-04  205  	 * AMD SVM AVIC accelerate EOI write iff the interrupt is edge
+8be8f932e3db5f arch/x86/kvm/ioapic.c Paolo Bonzini         2020-05-04  206  	 * triggered, in which case the in-kernel IOAPIC will not be able
+8be8f932e3db5f arch/x86/kvm/ioapic.c Paolo Bonzini         2020-05-04  207  	 * to receive the EOI.  In this case, we do a lazy update of the
+8be8f932e3db5f arch/x86/kvm/ioapic.c Paolo Bonzini         2020-05-04  208  	 * pending EOI when trying to set IOAPIC irq.
+f458d039db7e85 arch/x86/kvm/ioapic.c Suravee Suthikulpanit 2019-11-14  209  	 */
+8be8f932e3db5f arch/x86/kvm/ioapic.c Paolo Bonzini         2020-05-04 @210  	if (edge && kvm_apicv_activated(ioapic->kvm))
+f458d039db7e85 arch/x86/kvm/ioapic.c Suravee Suthikulpanit 2019-11-14  211  		ioapic_lazy_update_eoi(ioapic, irq);
+f458d039db7e85 arch/x86/kvm/ioapic.c Suravee Suthikulpanit 2019-11-14  212  
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  213  	/*
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  214  	 * Return 0 for coalesced interrupts; for edge-triggered interrupts,
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  215  	 * this only happens if a previous edge has not been delivered due
+00116795aa87ca arch/x86/kvm/ioapic.c Miaohe Lin            2019-12-11  216  	 * to masking.  For level interrupts, the remote_irr field tells
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  217  	 * us if the interrupt is waiting for an EOI.
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  218  	 *
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  219  	 * RTC is special: it is edge-triggered, but userspace likes to know
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  220  	 * if it has been already ack-ed via EOI because coalesced RTC
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  221  	 * interrupts lead to time drift in Windows guests.  So we track
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  222  	 * EOI manually for the RTC interrupt.
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  223  	 */
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  224  	if (irq == RTC_GSI && line_status &&
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  225  		rtc_irq_check_coalesced(ioapic)) {
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  226  		ret = 0;
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  227  		goto out;
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  228  	}
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  229  
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  230  	old_irr = ioapic->irr;
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  231  	ioapic->irr |= mask;
+7d2253684dd10e arch/x86/kvm/ioapic.c Nikita Leshenko       2017-11-05  232  	if (edge) {
+5bda6eed2e3626 arch/x86/kvm/ioapic.c Wincy Van             2014-12-24  233  		ioapic->irr_delivered &= ~mask;
+7d2253684dd10e arch/x86/kvm/ioapic.c Nikita Leshenko       2017-11-05  234  		if (old_irr == ioapic->irr) {
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  235  			ret = 0;
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  236  			goto out;
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  237  		}
+7d2253684dd10e arch/x86/kvm/ioapic.c Nikita Leshenko       2017-11-05  238  	}
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  239  
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  240  	ret = ioapic_service(ioapic, irq, line_status);
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  241  
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  242  out:
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  243  	trace_kvm_ioapic_set_irq(entry.bits, irq, ret == 0);
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  244  	return ret;
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  245  }
+44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  246  
+673f7b4257a1fe virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  247  static void kvm_ioapic_inject_all(struct kvm_ioapic *ioapic, unsigned long irr)
+673f7b4257a1fe virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  248  {
+673f7b4257a1fe virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  249  	u32 idx;
+673f7b4257a1fe virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  250  
+673f7b4257a1fe virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  251  	rtc_irq_eoi_tracking_reset(ioapic);
+673f7b4257a1fe virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  252  	for_each_set_bit(idx, &irr, IOAPIC_NUM_PINS)
+673f7b4257a1fe virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  253  		ioapic_set_irq(ioapic, idx, 1, true);
+673f7b4257a1fe virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  254  
+673f7b4257a1fe virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  255  	kvm_rtc_eoi_tracking_restore_all(ioapic);
+673f7b4257a1fe virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  256  }
+673f7b4257a1fe virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  257  
+673f7b4257a1fe virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  258  
+6308630bd3dbb6 arch/x86/kvm/ioapic.c Andrey Smetanin       2015-11-10  259  void kvm_ioapic_scan_entry(struct kvm_vcpu *vcpu, ulong *ioapic_handled_vectors)
+c7c9c56ca26f7b virt/kvm/ioapic.c     Yang Zhang            2013-01-25  260  {
+c7c9c56ca26f7b virt/kvm/ioapic.c     Yang Zhang            2013-01-25  261  	struct kvm_ioapic *ioapic = vcpu->kvm->arch.vioapic;
+5cd6b1a6eebd56 arch/x86/kvm/ioapic.c Sean Christopherson   2025-12-05  262  	struct rtc_status *status = &ioapic->rtc_status;
+c7c9c56ca26f7b virt/kvm/ioapic.c     Yang Zhang            2013-01-25  263  	union kvm_ioapic_redirect_entry *e;
+c7c9c56ca26f7b virt/kvm/ioapic.c     Yang Zhang            2013-01-25  264  	int index;
+c7c9c56ca26f7b virt/kvm/ioapic.c     Yang Zhang            2013-01-25  265  
+c7c9c56ca26f7b virt/kvm/ioapic.c     Yang Zhang            2013-01-25  266  	spin_lock(&ioapic->lock);
+4d99ba898dd0c5 arch/x86/kvm/ioapic.c Joerg Roedel          2016-02-29  267  
+4d99ba898dd0c5 arch/x86/kvm/ioapic.c Joerg Roedel          2016-02-29  268  	/* Make sure we see any missing RTC EOI */
+5cd6b1a6eebd56 arch/x86/kvm/ioapic.c Sean Christopherson   2025-12-05  269  	if (test_bit(vcpu->vcpu_id, status->map))
+5cd6b1a6eebd56 arch/x86/kvm/ioapic.c Sean Christopherson   2025-12-05  270  		__set_bit(status->vectors[vcpu->vcpu_id],
+4d99ba898dd0c5 arch/x86/kvm/ioapic.c Joerg Roedel          2016-02-29  271  			  ioapic_handled_vectors);
+4d99ba898dd0c5 arch/x86/kvm/ioapic.c Joerg Roedel          2016-02-29  272  
+c7c9c56ca26f7b virt/kvm/ioapic.c     Yang Zhang            2013-01-25  273  	for (index = 0; index < IOAPIC_NUM_PINS; index++) {
+c7c9c56ca26f7b virt/kvm/ioapic.c     Yang Zhang            2013-01-25  274  		e = &ioapic->redirtbl[index];
+0f6c0a740b7d3e virt/kvm/ioapic.c     Paolo Bonzini         2014-07-30  275  		if (e->fields.trig_mode == IOAPIC_LEVEL_TRIG ||
+0f6c0a740b7d3e virt/kvm/ioapic.c     Paolo Bonzini         2014-07-30  276  		    kvm_irq_has_notifier(ioapic->kvm, KVM_IRQCHIP_IOAPIC, index) ||
+0f6c0a740b7d3e virt/kvm/ioapic.c     Paolo Bonzini         2014-07-30  277  		    index == RTC_GSI) {
+5c69d5c113f15a arch/x86/kvm/ioapic.c Peter Xu              2019-12-04  278  			u16 dm = kvm_lapic_irq_dest_mode(!!e->fields.dest_mode);
+5c69d5c113f15a arch/x86/kvm/ioapic.c Peter Xu              2019-12-04  279  
+c2207bbc0c0f4b arch/x86/kvm/ioapic.c Sean Christopherson   2025-03-03  280  			kvm_scan_ioapic_irq(vcpu, e->fields.dest_id, dm,
+c2207bbc0c0f4b arch/x86/kvm/ioapic.c Sean Christopherson   2025-03-03  281  					    e->fields.vector, ioapic_handled_vectors);
+c7c9c56ca26f7b virt/kvm/ioapic.c     Yang Zhang            2013-01-25  282  		}
+c7c9c56ca26f7b virt/kvm/ioapic.c     Yang Zhang            2013-01-25  283  	}
+c7c9c56ca26f7b virt/kvm/ioapic.c     Yang Zhang            2013-01-25  284  	spin_unlock(&ioapic->lock);
+c7c9c56ca26f7b virt/kvm/ioapic.c     Yang Zhang            2013-01-25  285  }
+c7c9c56ca26f7b virt/kvm/ioapic.c     Yang Zhang            2013-01-25  286  
+993225adf4af20 arch/x86/kvm/ioapic.c David Hildenbrand     2017-04-07  287  void kvm_arch_post_irq_ack_notifier_list_update(struct kvm *kvm)
+c7c9c56ca26f7b virt/kvm/ioapic.c     Yang Zhang            2013-01-25  288  {
+0bceb15ad15e93 arch/x86/kvm/ioapic.c David Hildenbrand     2017-04-07  289  	if (!ioapic_in_kernel(kvm))
+3d81bc7e96d6bc virt/kvm/ioapic.c     Yang Zhang            2013-04-11  290  		return;
+3d81bc7e96d6bc virt/kvm/ioapic.c     Yang Zhang            2013-04-11 @291  	kvm_make_scan_ioapic_request(kvm);
+3d81bc7e96d6bc virt/kvm/ioapic.c     Yang Zhang            2013-04-11  292  }
+c7c9c56ca26f7b virt/kvm/ioapic.c     Yang Zhang            2013-01-25  293  
+
+:::::: The code at line 210 was first introduced by commit
+:::::: 8be8f932e3db5fe4ed178b8892eeffeab530273a kvm: ioapic: Restrict lazy EOI update to edge-triggered interrupts
+
+:::::: TO: Paolo Bonzini <pbonzini@redhat.com>
+:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
