@@ -1,56 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C67F3C81AA
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 May 2026 23:20:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19493D8103;
+	Wed, 20 May 2026 23:52:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779319211; cv=none; b=uxs0fizDl4WnihoD3ARfWkE0TrIAx3FPc1YiVTqPm4ZwmvOjeqenWn9+3//nauIu0MMOV/M7TfRVyke0btsvjM28l8TVwGmejujKI89vLs3okJuUHe31T4Eo9GCraFbJgV0i+IfWv5spOitAD+Umzlo5BB21eUtRi00Lni8lYs8=
+	t=1779321137; cv=none; b=DR11m5m769WLCfF7wbv0E06/897RyGx8fvcO5W17infSJvmCPaqG7Wl2TBdT8Ng4TEIRnFNf5HRFwkAjbLAJZSdP5C1JNpGcchge09MOu3/e8L7b8rc2KhWpDJklpsVwYOPXTIMqDkE2a+gkE1vFhQGkeU4scT6OLDvab9Tmgr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779319211; c=relaxed/simple;
-	bh=CMpuPcQq13HkNHXel/iamzET+7m3wLjeuuuKtLjrAIc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=CRuGCtoeKEaEtcHG+wQQa3wrzjDVKFTBwBpymV+3Qw5caKvRc3rcWHSNh0sduxMh5qP0/xZa+8hMyR+TLCX5vzVJLleMqQ1bN8EnwH3YgA53zj8xLPWfdOgsiaY3AmHpxPlLuS4Pgkf+F8+8LRSZQ2EOrfrDSJCe7t8VWOjAxhk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IJD0VPSz; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1779321137; c=relaxed/simple;
+	bh=HSnpAW/7khYFj33ICaBTM/G4TFstQLTgHnevTFRO2iI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=i5FXLhNwSsB+PPyek1lG6TR05Z1r4SGVQwIYkhj8rk0OcP8oL1+S7v27Is2Y5YcnWJE1rC10v6fzRq8ZPFYNFPcvROD1Eua1b2CqkVm5l86fL9ZTJD8NO8Vxv6OA1a3z8y25rJKS3BTy+AGtJV3YS8v02kD9dv6ACbskrZwl/ok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cOqOd+28; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IJD0VPSz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cOqOd+28"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779319210; x=1810855210;
+  t=1779321134; x=1810857134;
   h=date:from:to:cc:subject:message-id;
-  bh=CMpuPcQq13HkNHXel/iamzET+7m3wLjeuuuKtLjrAIc=;
-  b=IJD0VPSzn6cq85O4LkU68Dyb2f86FiQjr0jqdh2Mn9uaLGzG9BStaMk0
-   7W8CVpfcVNrlM9C73+6WbyW4DHthna38AwMTQbQYXTgRZUtKsLivxJFIw
-   U+uquUC1RHnrcKy5vEOZZNUMz2YqIUi+G9RkHTIR7UkucdrfPJdUTW7p5
-   uizAVWXf9g3wIvyCMmJcvhxjB1cksXvE4UuiKv9Yt9r7u1sdIXM5niVGI
-   qk1WnK5lv3aoaoUJyjbADo40DJyiyj+ux6MOi5RznMIXPpJYaBCGTmW7n
-   U/0qSOPySnbX2uEMyyzU8zqJ8tqWIJMrlgc9cj2hyZTWOhGrD5VgOOd6f
-   A==;
-X-CSE-ConnectionGUID: zxTXWFlfQlaMLPQ7B3o2xw==
-X-CSE-MsgGUID: 1n8YZEOuSp27Ku206W2hCA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="90926817"
+  bh=HSnpAW/7khYFj33ICaBTM/G4TFstQLTgHnevTFRO2iI=;
+  b=cOqOd+2887+AXSg1/SoYC4reOxFEZ0G0C5GISDJRqIWW3vs/99kXZE9N
+   1qkyyDtLCxJ8oAMHjNvDex8xTmiaOOS3MmckSbgX5MzEmhNb7/MKBYVlH
+   Q0fcciTGz3gk2SH7Tu5S94Z8UBXVNTJZaPfE80RL7H8ZdCuQeUSu7gkil
+   GQDBsSIq44/JRxs2cN8xKJVtEKYhLzJOrY8CqhBngW9w7uOMH6WArWEuZ
+   MHEgqng2TjenoV4kUlV4smMzS6ioMLodvMQk7j/xdFklEa7FSg5GsQQxP
+   14aqJvfYhcNhktHW6MPqBE19JxnCZ02M4CESyseScPEjVndQCD/hmT3IO
+   Q==;
+X-CSE-ConnectionGUID: FEN74iYrRRipBi3lATVgRg==
+X-CSE-MsgGUID: sMVK3vk7RWymV1CqQuDpwQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="79260348"
 X-IronPort-AV: E=Sophos;i="6.23,245,1770624000"; 
-   d="scan'208";a="90926817"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 16:20:10 -0700
-X-CSE-ConnectionGUID: dkWeAkULRkyb237sROKSog==
-X-CSE-MsgGUID: UvJCZdeLQOKy9zehGLT5sA==
+   d="scan'208";a="79260348"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 16:52:12 -0700
+X-CSE-ConnectionGUID: U873+GBKTRGDLNH003ctoA==
+X-CSE-MsgGUID: q2k89F8qQ8uD5m6CumNXgg==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,245,1770624000"; 
+   d="scan'208";a="263866945"
 Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 20 May 2026 16:20:08 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 20 May 2026 16:52:08 -0700
 Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wPqCE-000000003yn-0nhm;
-	Wed, 20 May 2026 23:19:37 +0000
-Date: Thu, 21 May 2026 07:17:43 +0800
+	id 1wPqh1-0000000041H-2XO1;
+	Wed, 20 May 2026 23:51:24 +0000
+Date: Thu, 21 May 2026 07:49:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rppt:gfp-to-kmalloc/v0.2 202/247]
- arch/x86/kvm/lapic.c:2701:2-7: WARNING: NULL check before some freeing
- functions is not needed.
-Message-ID: <202605210735.0uivNVX5-lkp@intel.com>
+To: Jork Loeser <jloeser@linux.microsoft.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Wei Liu <wei.liu@kernel.org>,
+ "Anirudh Rayabharam (Microsoft)" <anirudh@anirudhrb.com>,
+ Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
+Subject: [linux-next:master 1545/6922] ld.lld: error: undefined
+ symbol: hv_vmbus_exists
+Message-ID: <202605210748.9SnkKaKK-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -58,46 +62,32 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git gfp-to-kmalloc/v0.2
-head:   5693301a8315aa6051f1bd38a1b689b5f0d2f7aa
-commit: 475ea7394cb0481b9799a099e3aa09b4dfd53bb3 [202/247] KVM: x86: replace get_zeroed_page() with kzalloc()
-config: i386-randconfig-053-20260521 (https://download.01.org/0day-ci/archive/20260521/202605210735.0uivNVX5-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   687da68900cd1a46549f7d9430c7d40346cb86a0
+commit: f1a9e67c11388965802a61922c313bfc43272afe [1545/6922] mshv: limit SynIC management to MSHV-owned resources
+config: x86_64-randconfig-072-20260520 (https://download.01.org/0day-ci/archive/20260521/202605210748.9SnkKaKK-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260521/202605210748.9SnkKaKK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605210735.0uivNVX5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605210748.9SnkKaKK-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> arch/x86/kvm/lapic.c:2701:2-7: WARNING: NULL check before some freeing functions is not needed.
+All errors (new ones prefixed by >>):
 
-vim +2701 arch/x86/kvm/lapic.c
+>> ld.lld: error: undefined symbol: hv_vmbus_exists
+   >>> referenced by mshv_synic.c:470 (drivers/hv/mshv_synic.c:470)
+   >>>               vmlinux.o:(mshv_synic_cpu_init)
+   >>> referenced by mshv_synic.c:591 (drivers/hv/mshv_synic.c:591)
+   >>>               vmlinux.o:(mshv_synic_cpu_exit)
 
-  2682	
-  2683	void kvm_free_lapic(struct kvm_vcpu *vcpu)
-  2684	{
-  2685		struct kvm_lapic *apic = vcpu->arch.apic;
-  2686	
-  2687		if (!vcpu->arch.apic) {
-  2688			static_branch_dec(&kvm_has_noapic_vcpu);
-  2689			return;
-  2690		}
-  2691	
-  2692		hrtimer_cancel(&apic->lapic_timer.timer);
-  2693	
-  2694		if (!(vcpu->arch.apic_base & MSR_IA32_APICBASE_ENABLE))
-  2695			static_branch_slow_dec_deferred(&apic_hw_disabled);
-  2696	
-  2697		if (!apic->sw_enabled)
-  2698			static_branch_slow_dec_deferred(&apic_sw_disabled);
-  2699	
-  2700		if (apic->regs)
-> 2701			kfree(apic->regs);
-  2702	
-  2703		kfree(apic);
-  2704	}
-  2705	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for MFD_STMFX
+   Depends on [n]: HAS_IOMEM [=y] && I2C [=y] && OF [=n]
+   Selected by [m]:
+   - PINCTRL_STMFX [=m] && PINCTRL [=y] && I2C [=y] && HAS_IOMEM [=y]
 
 --
 0-DAY CI Kernel Test Service
