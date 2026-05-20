@@ -1,173 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3733ED136
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 May 2026 16:55:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 499F73D75C7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 May 2026 17:16:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779296148; cv=none; b=hrUrYVmiMWrjBl7r2tY4GnLIkIR9QsbNMladSGg0dgQ+QNX54CW2Yv4M/h9kiY875ME6kvQAuuDWlS6P3pCQQZbUgAqspKKwXa5BzuamqXqH5QcrTUmk+lfo2w7+G5S2yKJzBhyMqGQ+NJkKd9fVfXxidzqT1KrkxibyAbtvtB0=
+	t=1779297405; cv=none; b=Hh4GJU98QjAiy1SXxlW3dq89RKx2t12fpolLnuNkWsJtJMJPbuv3tP+tDcXKplRksAHMQ2JFoqMVlehs5Ca7jXnC4dbsWEXORMhF+uSeF8FC86OasQvc1rQaczz1b+4jyiv73TuSgkgTmhEZqY2irsBV7Mxsi62laxnBQIAALyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779296148; c=relaxed/simple;
-	bh=lvT89uq5Kv8IZjAUDt6UH4Pi6VcaFu6bqBH87dubLA0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gAIpXbat9XeOYl2qjPzQsWYnSIn2TI9hqWyv09PhNV/08afgBMisZ4pCGP92B2movgh+tinxRVp/5m1vzKLXbBnoTtdlE3ZmbUxcr9ylFK8JWLsas/jg/9G07IbkO8N8ifBq4cTPZEsi5Dc533qtynKbQTXc1Ehp84rnUEpY5QA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c6oSkTs2; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1779297405; c=relaxed/simple;
+	bh=YjqNrr5lMVwQPgPaQbvXVPidegSuty7QKx+Ce9LIYIU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=lsYz6TbSk9Kdzh9Y5UYMbSaJrYmf5fDDF1yLF97jWKN744ocGInIzwSZy+mvAgnQ2XD7EBtCuFauN35Vh/y8zBgsD3ZjxE6OJspEViH9eSw6PDMAAyHrfFI/em6kS3b+towXmu9O21jHWdwlWv5zTFLhY3hY7J3xHmSFiSEKp5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R/EGOppi; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c6oSkTs2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R/EGOppi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779296146; x=1810832146;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lvT89uq5Kv8IZjAUDt6UH4Pi6VcaFu6bqBH87dubLA0=;
-  b=c6oSkTs2uYod5S6AN6T8HyAzY1nxCi/5nPXK4zB150KWxgytPfEFBkgV
-   32a6Gemcs21DzoklbKejpJKLVMIP/V52GQs0bNxPx++iSclu3em5Gyx2W
-   ycrQnKsHU2tjc3YEJptxR7uKVpCKIS8kYAJe2DYKSxXKTmJzam5AtWY7+
-   Z/NwWzNek9hRFG+aZwqHDaEGtCxogJY76CKIZzWQQmDWhsHPJdasdXqUL
-   mGC7qsK/31C+e6LnXHsXPLopJ/aCzO79nyra90rKAjxJ3tkbrDCxf0py0
-   GZIhHKL9F4n9yfmtwETlm9EUq8+b935pwVaM31UJqHl6wSSWvgslWf1I2
-   A==;
-X-CSE-ConnectionGUID: abJQDiKVS1aWwbOj5FwqnA==
-X-CSE-MsgGUID: O1RYXNpuSEaYuVfqbfut8w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="90501644"
+  t=1779297401; x=1810833401;
+  h=date:from:to:cc:subject:message-id;
+  bh=YjqNrr5lMVwQPgPaQbvXVPidegSuty7QKx+Ce9LIYIU=;
+  b=R/EGOppi6BV8kGL6r4D/VFgdnsXshtTxUW7mZmeoNG5/oaq1UNkSV8zi
+   licPolDPvAf2ZApr20nEJtuW7UepgqLyF72a2YUu7b9d0PccEaFxD8Mk3
+   4xBC8oVkVh6PnPqZwO6b+IJVGsY+n/Z+YY7WzldVYgOw1aBHbSew6CBB9
+   IGnMqBjxCPrkT7HvUlskUxdzm4EHnhfJdeYORrdEZTTceZgtOiLCOYlvp
+   VTdpvnW2R+Yb6LchjNeOxfGVXEW5vkY2t7jIeR2N9SBly8vr5I0rfqWtu
+   WNzwlGS+xX+28PRvj7f6pxc+mCCbX/DXtFCvQ5YaWAdkk/cSg42g9Ex7n
+   w==;
+X-CSE-ConnectionGUID: GYVPmUSySWaqBqvifw5RBQ==
+X-CSE-MsgGUID: 7REEnSEaQeWg2cVHNzOPDA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="80108274"
 X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="90501644"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 09:55:44 -0700
-X-CSE-ConnectionGUID: m2evV3TAT56o8oTJQucmDg==
-X-CSE-MsgGUID: vt+I01hBTLK0PUQLZQDntg==
+   d="scan'208";a="80108274"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 10:16:41 -0700
+X-CSE-ConnectionGUID: I8JqDw6vSsWtuZdRYq+s6g==
+X-CSE-MsgGUID: vLrQLfWrQ329tEg1qwZzjQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="240485816"
+   d="scan'208";a="264055303"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 20 May 2026 09:55:40 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 20 May 2026 10:16:40 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wPkCn-00000000AbJ-216B;
-	Wed, 20 May 2026 16:55:37 +0000
-Date: Wed, 20 May 2026 18:55:27 +0200
+	id 1wPkX7-00000000Abd-3AIl;
+	Wed, 20 May 2026 17:16:37 +0000
+Date: Wed, 20 May 2026 19:16:02 +0200
 From: kernel test robot <lkp@intel.com>
-To: Malte Wechter <maltewechter@gmail.com>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Breno Leitao <leitao@debian.org>, Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>, Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, linux-block@vger.kernel.org,
-	Malte Wechter <maltewechter@gmail.com>
-Subject: Re: [PATCH] rust: add procedural macro for declaring configfs
- attributes
-Message-ID: <202605201854.YArCKAtw-lkp@intel.com>
-References: <20260520-configfs-syn-v1-1-6c5b80a9cef2@gmail.com>
+To: Alice Guo <alice.guo@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: FATAL ERROR: Unable to parse input tree
+Message-ID: <202605201924.kW49enlc-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260520-configfs-syn-v1-1-6c5b80a9cef2@gmail.com>
 
-Hi Malte,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 254f49634ee16a731174d2ae34bc50bd5f45e731]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Malte-Wechter/rust-add-procedural-macro-for-declaring-configfs-attributes/20260520-154816
-base:   254f49634ee16a731174d2ae34bc50bd5f45e731
-patch link:    https://lore.kernel.org/r/20260520-configfs-syn-v1-1-6c5b80a9cef2%40gmail.com
-patch subject: [PATCH] rust: add procedural macro for declaring configfs attributes
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260520/202605201854.YArCKAtw-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605201854.YArCKAtw-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/alice-guo-oss-nxp-com/arm64-dts-freescale-add-bootph-all-to-ULP-watchdog-nodes-for-i-MX-platforms/20260519-191349
+head:   6e7cb66ece024d1282d112c147cc5e6137c45b34
+commit: 6e7cb66ece024d1282d112c147cc5e6137c45b34 arm64: dts: freescale: add ULP watchdog nodes for i.MX platforms
+date:   30 hours ago
+config: arm-randconfig-2055-20260519 (https://download.01.org/0day-ci/archive/20260520/202605201924.kW49enlc-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+dtschema: 2026.5.dev9+gdf9ad30c5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605201924.kW49enlc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605201854.YArCKAtw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605201924.kW49enlc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> warning: unclosed HTML tag `Configuration`
-   --> rust/macros/lib.rs:561:30
-   |
-   561 | ///                 Subsystem<Configuration>,
-   |                              ^^^^^^^^^^^^^^^
-   |
-   = note: `#[warn(rustdoc::invalid_html_tags)]` on by default
-   help: try marking as source code
-   |
-   561 | ///                 `Subsystem<Configuration>`,
-   |                     +                        +
---
->> warning: unclosed HTML tag `Configuration`
-   --> rust/macros/lib.rs:564:30
-   |
-   564 | ///                 Subsystem<Configuration>,
-   |                              ^^^^^^^^^^^^^^^
-   |
-   help: try marking as source code
-   |
-   564 | ///                 `Subsystem<Configuration>`,
-   |                     +                        +
---
->> warning: unresolved link to `crate::configfs_attrs`
-   --> rust/kernel/configfs.rs:240:1
-   |
-   240 | / /// A configfs group.
-   241 | | ///
-   242 | | /// To add a subgroup to configfs, pass this type as `ctype` to
-   243 | | /// [`crate::configfs_attrs`] when creating a group in [`GroupOperations::make_group`].
-   | |_______________________________________________________________________________________^
-   |
-   = note: the link appears in this line:
---
->> warning: unresolved link to `kernel::configfs_attrs`
-   --> rust/kernel/configfs.rs:630:1
-   |
-   630 | / /// Operations supported by an attribute.
-   631 | | ///
-   632 | | /// Implement this trait on type and pass that type as generic parameter when
-   633 | | /// creating an [`Attribute`]. The type carrying the implementation serve no
-   ...   |
-   640 | | /// attributes via the [`kernel::configfs_attrs`] macro, to tie
-   641 | | /// `AttributeOperations` implementations to concrete named attributes.
-   | |_______________________________________________________________________^
-   |
-   = note: the link appears in this line:
---
->> warning: unresolved link to `kernel::configfs_attrs`
-   --> rust/kernel/configfs.rs:672:7
-   |
-   672 | /// [`kernel::configfs_attrs`] macro to declare a static set of attributes for a
-   |       ^^^^^^^^^^^^^^^^^^^^^^ no item named `configfs_attrs` in module `kernel`
---
->> warning: unresolved link to `kernel::configfs_attrs`
-   --> rust/kernel/configfs.rs:678:7
-   |
-   678 | /// [`kernel::configfs_attrs`] macro.
-   |       ^^^^^^^^^^^^^^^^^^^^^^ no item named `configfs_attrs` in module `kernel`
---
->> warning: unresolved link to `kernel::configfs_attrs`
-   --> rust/kernel/configfs.rs:723:1
-   |
-   723 | / /// A representation of the attributes that will appear in a [`Group`] or
-   724 | | /// [`Subsystem`].
-   725 | | ///
-   726 | | /// Users should not directly instantiate objects of this type. Rather, they
-   727 | | /// should use the [`kernel::configfs_attrs`] macro to statically declare the
-   728 | | /// shape of a [`Group`] or [`Subsystem`].
-   | |__________________________________________^
-   |
-   = note: the link appears in this line:
+   Error: arch/arm/boot/dts/nxp/imx/imx7ulp.dtsi:337.14-15 syntax error
+>> FATAL ERROR: Unable to parse input tree
 
 --
 0-DAY CI Kernel Test Service
