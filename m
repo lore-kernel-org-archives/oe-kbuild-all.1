@@ -1,80 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58BBC3AB292;
-	Wed, 20 May 2026 09:31:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 219F03C8728;
+	Wed, 20 May 2026 09:36:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779269516; cv=none; b=dIF6GbpdjCDMbL9refuCtWLKCgrb6/pfhXqJDZTG3+Jn5BYwPDL82JGliowu3IGphLgYFiWNTjlyvBfYUwkp7yVOYskEOj/k0o6nUcfKWKmNgb5x8oZfBTU7HrJ6sqcZdGhs95O5HIKYo5Pso7Zp7pVz1CztbPJLf/Mjxjl8GGI=
+	t=1779269819; cv=none; b=h5DzyZrtlm8HtCdkrXrKdqyWypjeXO8Wr5gXaPnEUq8YZNPPItilEk52QbUgakjXGi5qxMSXBtCmKMljanb2MwYdQ9pAwyJa0QaJ80543/7Z8Lm2bQpQXSE1PqEUPk+rU+T1zNi7/OCek9olyREKs/5V9z7SAvjoDYHWNGNoT08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779269516; c=relaxed/simple;
-	bh=fKb9frlIlLFBchjvScymyb4+8F1UgHnbaUCNGeyil14=;
+	s=arc-20240116; t=1779269819; c=relaxed/simple;
+	bh=MKx+Ty10TaoeZJ5q8WkDOwfGzFRcJF9CsGFBUgLYLdg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J67ym0rWACTDWJZhThNEoFuaE24n/azNiSU6rGTcKeWPQbA7GFfwUZzqRlwyTwiYV/t6SK8Bvcdag2BtFayKKaIWGpWw1mgYgRwLA1Lqf7p7oLz4jYTudtVtCmW16ZNeNVD1xRQi9alDgAHznl+S80VixrthcJ07M7zJ8ySvW64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xcx9Y7Pv; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=hkkan9M9ObTWJoLfW3xhY8FSYfgXAhnBuR4iatV7D8C15jNHCpfTpcMqwpPswyqFCyI3emikW0o4OrDjH8LVJQqQ4P7PlSBjV64Tf75VQSKIEhEEtUXGIH0amqQCvV0QVOq7jqGBoZoTeQk/5NmRlVUbn9KSvPkV9kkbFxfqJBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TX/RVl0s; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xcx9Y7Pv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D954B1F000E9;
-	Wed, 20 May 2026 09:31:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779269505;
-	bh=fKb9frlIlLFBchjvScymyb4+8F1UgHnbaUCNGeyil14=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Xcx9Y7Pv9GZq7/wF8n0his4tsjxjcRfMpUBFMy5wicPDI252gJPxKMLJTd/BqpFz4
-	 y5hfFvUrE0/SvwigUohqbvLzJ0qPobRo1WMJpZcK24nQThc23TeWLUCaEiHzb/z5ui
-	 HtyCHmw1UNSZTBJEZzLb3DrRptG3BnDY8YcI7Iw01n1HyBM/Ek9IrVfcloRQXyuJy6
-	 EFTVumDtw/rEDEroI0k2pyjGfhGUugINOh22O4kTCK2kpZIWNFPointHkDf0SA9wl+
-	 1BF1i+JOAUo1nqTfEYHg4Q40+qmPRxigev5dLR20WRTj4unkDmr03XsEN9Dlg0fteq
-	 5YG/5qGlWQrFw==
-Date: Wed, 20 May 2026 10:31:39 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Nishanth Sampath Kumar <nissampa@cisco.com>
-Cc: lkp@intel.com, linux-kernel@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2] regmap-i2c: fix sparse warning in
- regmap_smbus_word_write_reg16
-Message-ID: <e01ac9fc-088a-4d98-abfa-36ba0d72be7d@sirena.org.uk>
-References: <202605161621.mY5zFh4D-lkp@intel.com>
- <20260519220557.1574954-1-nissampa@cisco.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TX/RVl0s"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779269814; x=1810805814;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MKx+Ty10TaoeZJ5q8WkDOwfGzFRcJF9CsGFBUgLYLdg=;
+  b=TX/RVl0stWQkNEymj3Za5b/AERonXgxSKIc4fMUTMttIuOPy+GmtVJ9H
+   ui32rP2xS9t0dqgKiBoLIx1gIvSncgKAr4gjGA15yQQh1PLKmVmZqtyHf
+   IcT1UvcdsAvrvZu7dB63ykv5ISHlCXWqEwFzyB4s3Zj6mW31x01qdrtcG
+   ghJcuaMow2S1knCXMbfW/ne9TgaCoGN+F5BcQ0aJ551jIE8pOn0nREhvu
+   YNxZnTMxa40F98vf9RGec+yH81mniYjJ8wrPMZgqlCBKjeNNnwmyArlt8
+   JU4nEwXkgHCTqa4zhkQw7YfHp7MRcK04uYYKYDaJTsQZSCF/yCPd14ugj
+   g==;
+X-CSE-ConnectionGUID: 9Mv5ANmVRFKYiAlhSKdkgw==
+X-CSE-MsgGUID: E/WqcoAiTh61ix47bKTxiQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="79310767"
+X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
+   d="scan'208";a="79310767"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 02:36:53 -0700
+X-CSE-ConnectionGUID: ZmIhuF4bRAyagXLFbJ3g+Q==
+X-CSE-MsgGUID: j2qBrrkfT1Ou413/Rh0Dww==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
+   d="scan'208";a="239113754"
+Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
+  by orviesa006.jf.intel.com with ESMTP; 20 May 2026 02:36:51 -0700
+Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wPdLf-000000002v7-3LdC;
+	Wed, 20 May 2026 09:36:24 +0000
+Date: Wed, 20 May 2026 17:35:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arnd Bergmann <arnd@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Leon Romanovsky <leon@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Arnd Bergmann <arnd@arndb.de>,
+	Sriharsha Basavapatna <sriharsha.basavapatna@broadcom.com>,
+	linux-rdma@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] RDMA/core: remove extraneous dummy helper functions
+Message-ID: <202605201724.StvoCZ6d-lkp@intel.com>
+References: <20260519203629.1341667-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Q0/I5bpq9mR7obNG"
-Content-Disposition: inline
-In-Reply-To: <20260519220557.1574954-1-nissampa@cisco.com>
-X-Cookie: Natural laws have no pity.
-
-
---Q0/I5bpq9mR7obNG
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260519203629.1341667-1-arnd@kernel.org>
 
-On Tue, May 19, 2026 at 03:05:57PM -0700, Nishanth Sampath Kumar wrote:
-> i2c_smbus_write_word_data() expects a plain u16, but cpu_to_le16()
-> returns __le16 (a sparse-restricted endian type), causing:
+Hi Arnd,
 
-Please don't send new patches in reply to old patches or serieses, this
-makes it harder for both people and tools to understand what is going
-on - it can bury things in mailboxes and make it difficult to keep track
-of what current patches are, both for the new patches and the old ones.
+kernel test robot noticed the following build errors:
 
---Q0/I5bpq9mR7obNG
-Content-Type: application/pgp-signature; name="signature.asc"
+[auto build test ERROR on v7.1-rc4]
+[also build test ERROR on linus/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
------BEGIN PGP SIGNATURE-----
+url:    https://github.com/intel-lab-lkp/linux/commits/Arnd-Bergmann/RDMA-core-remove-extraneous-dummy-helper-functions/20260520-044317
+base:   v7.1-rc4
+patch link:    https://lore.kernel.org/r/20260519203629.1341667-1-arnd%40kernel.org
+patch subject: [PATCH] RDMA/core: remove extraneous dummy helper functions
+config: hexagon-randconfig-002-20260520 (https://download.01.org/0day-ci/archive/20260520/202605201724.StvoCZ6d-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605201724.StvoCZ6d-lkp@intel.com/reproduce)
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoNf3oACgkQJNaLcl1U
-h9CAzwf+KSHvns/Q9WbY7K+h6KDX8+b1vw0E3exjcHk7tKCzB+R9j+wbKUaJWDLD
-JQCffBqTMez1O9HtkWbojJx0A+XgE3/iPtF2IERg8yAv2CCz2t6H565KhmWPNFwP
-+t/W/IbGQo6p3p5GCK6b96Mrmeq+WTjuBX79Aoq53pbrckbdm5KfVRCCydvIDJPS
-+jPJziDgALED5SJlB75vKt2IBkUSdELlvBG9yeYCl8I8+W1C8GS9AT9kG5j8DoC9
-yhZMAslfVfKs6o8Jh7tisldW7ms1Hu3PynzYM4K6vdwsHaT76LPqQMxSSdPaF6jJ
-OoclBupPOoXf0952Ajl3Qb3wjjGuMA==
-=HnOR
------END PGP SIGNATURE-----
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605201724.StvoCZ6d-lkp@intel.com/
 
---Q0/I5bpq9mR7obNG--
+All errors (new ones prefixed by >>):
+
+>> ld.lld: error: undefined symbol: _ib_copy_validate_udata_in
+   >>> referenced by siw_verbs.c:1373 (drivers/infiniband/sw/siw/siw_verbs.c:1373)
+   >>>               drivers/infiniband/sw/siw/siw_verbs.o:(siw_reg_user_mr) in archive vmlinux.a
+   >>> referenced by siw_verbs.c:1373 (drivers/infiniband/sw/siw/siw_verbs.c:1373)
+   >>>               drivers/infiniband/sw/siw/siw_verbs.o:(siw_reg_user_mr) in archive vmlinux.a
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for MFD_STMFX
+   Depends on [n]: HAS_IOMEM [=y] && I2C [=y] && OF [=n]
+   Selected by [y]:
+   - PINCTRL_STMFX [=y] && PINCTRL [=y] && I2C [=y] && HAS_IOMEM [=y]
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
