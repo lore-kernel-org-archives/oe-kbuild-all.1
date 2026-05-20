@@ -1,85 +1,96 @@
-Received: from out30-113.freemail.mail.aliyun.com (out30-113.freemail.mail.aliyun.com [115.124.30.113])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 707C71A9FA4;
-	Wed, 20 May 2026 06:38:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.113
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F97D33E35B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 May 2026 06:41:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779259097; cv=none; b=cpRGZKCEZZ4juVw++uVtlbXjTXKXIcoRGFP6YqSg0PdSPtCEBqlF49sTpz+dWezH3/cSwlNWExitD9c/sq/NW/ewE891kR98pHAhF/sPfrqnocVQaOJFT72ut4Ae2fyHop01Lfu2bhN1EMHBHmmuQKC1B9Hjmh/KoWc3HN4A0dY=
+	t=1779259322; cv=none; b=ithmdqd2miOzyWDuMiXy0sJOMOgaLzfEjujp3nWIjlDDp/d15806IphpTdia0WnB/v2+plYJJA4/7NEKgwWgdxIobcybNFdWBqJMkN/DCcvYz359KinZ/Kh7Bp+a/oX0v6IaXSBFOr1wc+tak9JNRm5308tx5O5Kzc7uEkKxNkI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779259097; c=relaxed/simple;
-	bh=Cbv2tqveTty5U1e9keaMs6yzjXm+KrQnM4603FbQNMU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lNTijUxGBjByJPzONj0TXOlNRqprOxZ1pPXtDc+kiobpBI3cRm4mMBVAAO/mYzpO/tWHQgabk/wr2ILhZj7jlpJBQGvPo1CXEPhDgmDPCz+Zh25qKUi8o6SlLhROzqeK8peafNT9Hl5rNjKmYOjn1ti0SeGqzdsdDwhlN9HO+sI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=xuz0HBC7; arc=none smtp.client-ip=115.124.30.113
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1779259322; c=relaxed/simple;
+	bh=V3a6P/bN5zaXFGdm48v3VvGnKvBgs4/r/ZREuZ8+20w=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=FSljayl5pXZuKCFjeoNzB2hA4BfO8wLQFegRKMUTlOVbEfQFDkTeej1Z8r25XLfKAp0tX7Q0IloNaAvso3YovIqt/lzLON1woq16iU8RiPn2Ogl6KimJCsD8nkt0e+/JoSTRmpq9r1IZWY6q4zTETiivq3IbGRD4p0WSJrW8qNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q7f/egDF; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="xuz0HBC7"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1779259092; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-	bh=qmh963UmdnckJF9emk6BMMuwHPG05DoMUMZkYsJ5MFs=;
-	b=xuz0HBC7xFKcVnMWGtvzavslTMXhqR5Z+6rQB1jAbZm9aYUOIKKDtJh51x4c1VLOMx/P0VzFsk8dDmbmQQvcBf0AJYOggnwWV4JGY2hC0k92K1RruCUm5pcrsnEzUvvKh1C/itjXVyAoSZxKrTJoa692wdW9arrdxvxtxSNolRo=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R431e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032089153;MF=feng.tang@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0X3Hd2l1_1779259091;
-Received: from localhost(mailfrom:feng.tang@linux.alibaba.com fp:SMTPD_---0X3Hd2l1_1779259091 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Wed, 20 May 2026 14:38:11 +0800
-Date: Wed, 20 May 2026 14:38:09 +0800
-From: Feng Tang <feng.tang@linux.alibaba.com>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [linux-next:master 5548/6445] kernel/dma/contiguous.c:139:13:
- warning: variable 'numa_cma_configured' set but not used
-Message-ID: <ag1W0asYZn_CV1mt@U-2FWC9VHC-2323.local>
-References: <202605200341.a1HLq7XC-lkp@intel.com>
- <CGME20260520045926eucas1p12f0b92b63a683fcab5878f20a32f4195@eucas1p1.samsung.com>
- <ag0_qU5BS9KBBiWK@U-2FWC9VHC-2323.local>
- <8e73aae3-8ab4-4670-bce9-9efc3be6b340@samsung.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q7f/egDF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779259319; x=1810795319;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=V3a6P/bN5zaXFGdm48v3VvGnKvBgs4/r/ZREuZ8+20w=;
+  b=Q7f/egDFuUOOvJVxjrQ8O0DLzY7EQrJ0ZvMuZOhvS4qwCFHyUwkWsWsD
+   fqOrD26DbXuaFoTRMB32fxK8sQvFsyAnLiMqstLVotcya4ecca5sxcgJY
+   INk1uD9KyKEmGEzjzSD6g2VcZphKZ2h+ktyn287LuZ5W6AvHH5lbz9Lbb
+   Lfq2wPCYQNPVxPxszlfqZWCMo/At23Z+OnooPiWqDHR2UqA31KtuNeRa3
+   3oGWUWPy/x30oYrJs7fYmPWt/E9WgZPoX0SxYtpWUNnrAgUOWrGuzOegA
+   Vv/zB51lgfqJkX6LX0RO/J6BfQyhYW8HBQO6un28+RQt1XSH4OvV5jVtK
+   w==;
+X-CSE-ConnectionGUID: vlsKK17rRhmG17k2xvJyLg==
+X-CSE-MsgGUID: KdyEVDj3SYq3aoNMW2Q0GA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="80052819"
+X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
+   d="scan'208";a="80052819"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 23:41:49 -0700
+X-CSE-ConnectionGUID: fgFn0BJcTyquIecv/q0xEQ==
+X-CSE-MsgGUID: Ue5LEP3CQ42lFFCKtC2EWg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
+   d="scan'208";a="240304528"
+Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 19 May 2026 23:41:48 -0700
+Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wPacj-000000002f3-2Cmo;
+	Wed, 20 May 2026 06:41:45 +0000
+Date: Wed, 20 May 2026 14:41:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>,
+ =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dd-classmap-fix 39/40] lib/dynamic_debug.c:77:1:
+ sparse: sparse: symbol '__pcpu_scope_ddebug_call_count' was not declared.
+ Should it be static?
+Message-ID: <202605201454.BFwHbPfR-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <8e73aae3-8ab4-4670-bce9-9efc3be6b340@samsung.com>
+Content-Type: text/plain; charset=us-ascii
 
-On Wed, May 20, 2026 at 08:14:58AM +0200, Marek Szyprowski wrote:
-> On 20.05.2026 06:59, Feng Tang wrote:
-> > On Wed, May 20, 2026 at 03:13:09AM +0800, kernel test robot wrote:
-> >> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> >> head:   6a50ba100ace43f43c87384367eb2d2605fcc16c
-> >> commit: 38ce91195a7c6f76fa88ef5c03bad0bbabbf5556 [5548/6445] dma-contiguous: add kconfig option to setup numa cma area if not configured explicitly
-> >> config: s390-randconfig-002-20260520 (https://download.01.org/0day-ci/archive/20260520/202605200341.a1HLq7XC-lkp@intel.com/config)
-> >> compiler: clang version 23.0.0git (https://protect2.fireeye.com/v1/url?k=32465e8a-53cd4baf-3247d5c5-74fe485cbff6-571f25844ec6a01e&q=1&e=12c943a4-ee86-40a1-97e7-3937ac9b04c7&u=https%3A%2F%2Fgithub.com%2Fllvm%2Fllvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-> >> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605200341.a1HLq7XC-lkp@intel.com/reproduce)
-> >>
-> >> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> >> the same patch/commit), kindly add following tags
-> >> | Reported-by: kernel test robot <lkp@intel.com>
-> >> | Closes: https://lore.kernel.org/oe-kbuild-all/202605200341.a1HLq7XC-lkp@intel.com/
-> >>
-> >> All warnings (new ones prefixed by >>):
-> >>
-> >>>> kernel/dma/contiguous.c:139:13: warning: variable 'numa_cma_configured' set but not used [-Wunused-but-set-global]
-> >>      139 | static bool numa_cma_configured;
-> >>          |             ^
-> >>    1 warning generated.
-> > Thanks for the catch!
-> >
-> > In this config, CONFIG_CMA_SIZE_PERNUMA is not set, which triggers the
-> > warning.
-> >
-> > The patch below should fix it.
-> >
-> > Hi Marek,
-> >
-> > Could you help to squash this follow-on fix patch, or I can send
-> > you a modified new version of the original patch? Thanks!
-> 
-> Yes, sure. I've updated the patch on my dma-mapping-for-next branch.
+tree:   https://github.com/jimc/linux.git dd-classmap-fix
+head:   747914d1d51200efff2706de4b876006d1b7af8d
+commit: 6797fce47079517fb44f3068c0f1fcb20c16bc8d [39/40] dyndbg: add +c flag to demonstrate advantage of classmaps for DRM
+config: csky-randconfig-r122-20260520 (https://download.01.org/0day-ci/archive/20260520/202605201454.BFwHbPfR-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 11.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605201454.BFwHbPfR-lkp@intel.com/reproduce)
 
-Thanks! - Feng
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605201454.BFwHbPfR-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> lib/dynamic_debug.c:77:1: sparse: sparse: symbol '__pcpu_scope_ddebug_call_count' was not declared. Should it be static?
+
+vim +/__pcpu_scope_ddebug_call_count +77 lib/dynamic_debug.c
+
+    76	
+  > 77	DEFINE_PER_CPU(unsigned long, ddebug_call_count);
+    78	EXPORT_PER_CPU_SYMBOL(ddebug_call_count);
+    79	void ddebug_increment_call_count(void)
+    80	{
+    81		this_cpu_inc(ddebug_call_count);
+    82	}
+    83	EXPORT_SYMBOL(ddebug_increment_call_count);
+    84	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
