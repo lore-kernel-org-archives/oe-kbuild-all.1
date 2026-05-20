@@ -1,223 +1,198 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C26F4270545
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 May 2026 18:36:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D59D3FC5C3;
+	Wed, 20 May 2026 18:58:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779302184; cv=none; b=IjfS7Ph9ispN1BubJxOxGdKUU1HL6qtrfvYSJwqNDoWMRvGqHosHm2+XFQqEM0jYge0IitVmp7nOMil+zKuQ0mI4l8u8Xt1NAwjp/uoiAXDK8gVWBEjb8KewASX1b5TdScQfnPdJ8AVi8Mgn8NfJU/XoxWLOSTgz+T682KdVLeI=
+	t=1779303538; cv=none; b=XRUAvRA7r8baIvOIiH/I09tw2S6LPD6vrpA4Ag/CGaJwn8dovxlr5Idjaz/jWvvRKVjcWO8eyURc0Vq5C/3Df8qHYHYruk+HJV2zaoD/+1Tstjr3mssbvix/qpaFvlCzWiG3b2ysxwuE6BvFr1dXVUWHD5NHmK1+4iOHCZw+WGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779302184; c=relaxed/simple;
-	bh=Y2yemewefY9Ts8sP5GtxImt3U+5LrdhxV4pJc2nTvhw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lV3wULzv5pHcZTyJfLIAcwO2kWCrlqL73FZLJH5UsMvW/EUEk7FqfeAXc0M0/X4Jsq+tudI3kG1yZZ2/CYi98kpBFy353FBapjwx/NTupSycvcJz55eTzcltb9m8AQgHgXUfU0L7Ja4Ay+WwKVQ0ZIOMSOI1ChfNfQJ39bqftkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IkMbIPXl; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1779303538; c=relaxed/simple;
+	bh=tQ2CvlZD5E4G/EoOu8BkHnDUHVLY01kjEqytn+FSuns=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RmreU9yv4a2jTlvmyry3CQRjY/N5pR05puGfbT5E6AnySJnxu5LOkqMSgVX0lLFhXYAMQ7VRoZ52iC4XvKKM9mKLvfCvxvKKvBTcuO9fblRsHBo+NB9yOez+VYe3tYa3SEAF7zEm82OoPkQ1ckojd0qi5JQskjyUfDusTBKzfGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C3HYJyk5; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IkMbIPXl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C3HYJyk5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779302183; x=1810838183;
-  h=date:from:to:cc:subject:message-id;
-  bh=Y2yemewefY9Ts8sP5GtxImt3U+5LrdhxV4pJc2nTvhw=;
-  b=IkMbIPXl2jLHXKuOM2PSdx5gi7JiUJrCbNWomm5IvRkivvaH1wimH4F2
-   UToG0iiNt/lckD246dzuypxctwIwlhHd6FHlRRubbaUGh4kTHSM4mXz4D
-   XGqE4J+xc2L3V+Viha5uBD8FpJCctncvqqTBhOOgRF+kKqipNPyWGmDVM
-   Lk7em5QgzFL6dxqhgGOrLzZ7ez/qsxXrij0BXY5syArPvxUP8NSOY5Bnv
-   1dkLPiPVu+bOO/H4/ZltNqYRcvuhUtSfAF4JYKFpbOWoskBEF325xW10a
-   TYY3b3/GhXN96Ttsi/xvVu6nenBhrJgYAne048QzvBXNykGJnuQEiKI99
+  t=1779303536; x=1810839536;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tQ2CvlZD5E4G/EoOu8BkHnDUHVLY01kjEqytn+FSuns=;
+  b=C3HYJyk5dFAc9JhyKoKizc2jNJtGx7EbUguzC1w8k12vNu0TIuz7WiSN
+   uO5BYrCRn5QFsxa77yB/cYVFebtzHR/V92qz+1T//1HcMp1kb8df64ZZP
+   16JQbeJHwrjXmlQyRrkjDVPkYVi7x/J6yIOIbBbCZvnmIO2+IDW9h8gfk
+   1NdORTciKRxIMtoR5y7qKZwRVVIWhvWYc9wHHU6tjuDODmkZLPGehiZO8
+   710EuOJ1ggprxZFg/J6Cjsjb7woR1HHAplC4GcpJ7Wl8ang+eoyzulhgP
+   cHHfOADuC8DklEzSJsc06K0rvRVR/scCcedHOAMgbDrZiqXOAv62JDOpk
    g==;
-X-CSE-ConnectionGUID: t/IrkXI8QUypIt8N4xNE9w==
-X-CSE-MsgGUID: CSi8OaWETQmxwaWMo3CE3Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="91320476"
+X-CSE-ConnectionGUID: biPmEXF9R56v76Rnzo05eQ==
+X-CSE-MsgGUID: oIb3Uo//RJ6WimDnF8t+HQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="80332751"
 X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="91320476"
+   d="scan'208";a="80332751"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 11:36:22 -0700
-X-CSE-ConnectionGUID: Zgfb71HASlmG5bXTNlhLFw==
-X-CSE-MsgGUID: 62GgMcuKS7+qszM4loQuZg==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 11:58:55 -0700
+X-CSE-ConnectionGUID: 96T3v6E8Td+OA/16PJLZpg==
+X-CSE-MsgGUID: fJPfPjFAScC0AyDkCDgYUg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="245260076"
+   d="scan'208";a="245266532"
 Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 20 May 2026 11:36:21 -0700
+  by orviesa005.jf.intel.com with ESMTP; 20 May 2026 11:58:54 -0700
 Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wPll8-000000003ht-2n1L;
-	Wed, 20 May 2026 18:35:39 +0000
-Date: Thu, 21 May 2026 02:34:47 +0800
+	id 1wPm7l-000000003jh-4AQk;
+	Wed, 20 May 2026 18:58:38 +0000
+Date: Thu, 21 May 2026 02:57:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:netfs-crypt 33/34]
- fs/netfs/direct_read.c:290:66: sparse: sparse: incorrect type in argument 2
- (different base types)
-Message-ID: <202605210224.bV8hnr41-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Johan Hovold <johan@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] USB: serial: keyspan: fix missing indat transfer sanity
+ check
+Message-ID: <202605210249.xpCIgp3t-lkp@intel.com>
+References: <20260520101230.657426-1-johan@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260520101230.657426-1-johan@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-crypt
-head:   13cee75c8b683f7c4382573f8c27adfbd49ffc47
-commit: a9abd8d8d56c2f57d5faf8ddb8d82c762f9e401d [33/34] netfs: Support decryption on ubuffered/DIO read
-config: sparc-randconfig-r122-20260520 (https://download.01.org/0day-ci/archive/20260521/202605210224.bV8hnr41-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 8.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260521/202605210224.bV8hnr41-lkp@intel.com/reproduce)
+Hi Johan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on johan-usb-serial/usb-next]
+[also build test ERROR on usb/usb-testing usb/usb-next usb/usb-linus tty/tty-testing tty/tty-next tty/tty-linus linus/master v7.1-rc4 next-20260520]
+[cannot apply to johan-usb-serial/usb-linus]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Johan-Hovold/USB-serial-keyspan-fix-missing-indat-transfer-sanity-check/20260520-181924
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git usb-next
+patch link:    https://lore.kernel.org/r/20260520101230.657426-1-johan%40kernel.org
+patch subject: [PATCH] USB: serial: keyspan: fix missing indat transfer sanity check
+config: arm-randconfig-002-20260520 (https://download.01.org/0day-ci/archive/20260521/202605210249.xpCIgp3t-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260521/202605210249.xpCIgp3t-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605210224.bV8hnr41-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605210249.xpCIgp3t-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/netfs/direct_read.c:290:66: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted gfp_t [usertype] gfp @@     got unsigned int debug_id @@
-   fs/netfs/direct_read.c:290:66: sparse:     expected restricted gfp_t [usertype] gfp
-   fs/netfs/direct_read.c:290:66: sparse:     got unsigned int debug_id
+All errors (new ones prefixed by >>):
 
-vim +290 fs/netfs/direct_read.c
+>> drivers/usb/serial/keyspan.c:1189:25: error: incompatible pointer types passing 'struct usb_device **' to parameter of type 'const struct device *' [-Wincompatible-pointer-types]
+    1189 |                         dev_warn_ratelimited(&serial->dev, "malformed indat packet\n");
+         |                                              ^~~~~~~~~~~~
+   include/linux/dev_printk.h:227:34: note: expanded from macro 'dev_warn_ratelimited'
+     227 |         dev_level_ratelimited(dev_warn, dev, fmt, ##__VA_ARGS__)
+         |                                         ^~~
+   include/linux/dev_printk.h:215:13: note: expanded from macro 'dev_level_ratelimited'
+     215 |                 dev_level(dev, fmt, ##__VA_ARGS__);                     \
+         |                           ^~~
+   include/linux/dev_printk.h:156:49: note: expanded from macro 'dev_warn'
+     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~
+   include/linux/dev_printk.h:110:11: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   include/linux/dev_printk.h:52:37: note: passing argument to parameter 'dev' here
+      52 | void _dev_warn(const struct device *dev, const char *fmt, ...);
+         |                                     ^
+   1 error generated.
 
-   207	
-   208	/**
-   209	 * netfs_unbuffered_read_iter_locked - Perform an unbuffered or direct I/O read
-   210	 * @iocb: The I/O control descriptor describing the read
-   211	 * @iter: The output buffer (also specifies read length)
-   212	 *
-   213	 * Perform an unbuffered I/O or direct I/O from the file in @iocb to the
-   214	 * output buffer.  No use is made of the pagecache.
-   215	 *
-   216	 * The caller must hold any appropriate locks.
-   217	 */
-   218	ssize_t netfs_unbuffered_read_iter_locked(struct kiocb *iocb, struct iov_iter *iter)
-   219	{
-   220		struct netfs_io_request *rreq;
-   221		struct netfs_io_stream *stream;
-   222		ssize_t ret;
-   223		size_t orig_count = iov_iter_count(iter);
-   224		bool sync = is_sync_kiocb(iocb);
-   225	
-   226		_enter("");
-   227	
-   228		if (!orig_count)
-   229			return 0; /* Don't update atime */
-   230	
-   231		ret = kiocb_write_and_wait(iocb, orig_count);
-   232		if (ret < 0)
-   233			return ret;
-   234		file_accessed(iocb->ki_filp);
-   235	
-   236		rreq = netfs_alloc_request(iocb->ki_filp->f_mapping, iocb->ki_filp,
-   237					   iocb->ki_pos, orig_count,
-   238					   iocb->ki_flags & IOCB_DIRECT ?
-   239					   NETFS_DIO_READ : NETFS_UNBUFFERED_READ);
-   240		if (IS_ERR(rreq))
-   241			return PTR_ERR(rreq);
-   242	
-   243		netfs_stat(&netfs_n_rh_dio_read);
-   244		trace_netfs_read(rreq, rreq->start, rreq->len, netfs_read_trace_dio_read);
-   245	
-   246		stream = &rreq->io_streams[0];
-   247	
-   248		/* If this is an async op, we have to keep track of the destination
-   249		 * buffer for ourselves as the caller's iterator will be trashed when
-   250		 * we return.
-   251		 *
-   252		 * Extract a buffer queue to represent as much of the output buffer as
-   253		 * we can manage.  The fragments are extracted into a bvecq which will
-   254		 * have sufficient nodes allocated to hold all the data, though this
-   255		 * may end up truncated if ENOMEM is encountered.
-   256		 */
-   257		ret = netfs_extract_iter(iter, rreq->len, INT_MAX, iocb->ki_pos,
-   258					 &rreq->collect_cursor.bvecq, 0);
-   259		if (ret < 0)
-   260			goto error_put;
-   261	
-   262		rreq->len = ret;
-   263	
-   264		/* If we're going to do decryption or decompression, we're going to
-   265		 * need a bounce buffer.  If the output buffer is correctly aligned and
-   266		 * correctly sized for the crypto algorithm, we get a free copy between
-   267		 * buffers from the crypto; if misaligned, we decrypt in place in the
-   268		 * bounce buffer and then copy.
-   269		 */
-   270		if (test_bit(NETFS_RREQ_CONTENT_ENCRYPTION, &rreq->flags)) {
-   271			if (!netfs_is_crypto_aligned(rreq, iter))
-   272				__set_bit(NETFS_RREQ_CRYPT_IN_PLACE, &rreq->flags);
-   273			__set_bit(NETFS_RREQ_USE_BOUNCE_BUFFER, &rreq->flags);
-   274		}
-   275	
-   276		/* Set up the bounce buffer if we need it.  Allow for padding the
-   277		 * request out to the crypo block size and allocate at least one bvecq
-   278		 * into it.
-   279		 */
-   280		if (test_bit(NETFS_RREQ_USE_BOUNCE_BUFFER, &rreq->flags)) {
-   281			size_t bsize = rreq->crypto_bsize;
-   282			size_t gap;
-   283	
-   284			rreq->bounce_alloc_to = round_down(rreq->start, bsize);
-   285			gap = rreq->start - rreq->bounce_alloc_to;
-   286	
-   287			stream->issue_from = rreq->bounce_alloc_to;
-   288			stream->buffered = round_up(rreq->len + gap, bsize);
-   289	
- > 290			ret = bvecq_buffer_init(&rreq->bounce_alloc, rreq->debug_id);
-   291			if (ret < 0)
-   292				goto out;
-   293	
-   294			/*   0--->
-   295			 *  ~--+-------+-------+-------+-------+---~
-   296			 *     |       |       |       |       |
-   297			 *     |copied |decrypt|reading|alloced|
-   298			 *     |       |-ed    |       |       |
-   299			 *  ~--+-------+-------+-------+-------+---~
-   300			 *                                     ^bounce_alloc
-   301			 *                             ^dispatch_cursor
-   302			 *                     ^encrypt_cursor
-   303			 *             ^bounce_copy
-   304			 *     ^bounce_collect
-   305			 */
-   306			bvecq_pos_set(&stream->dispatch_cursor, &rreq->bounce_alloc);
-   307			bvecq_pos_set(&rreq->encrypt_cursor, &rreq->bounce_alloc);
-   308			bvecq_pos_set(&rreq->bounce_copy, &rreq->bounce_alloc);
-   309			bvecq_pos_set(&rreq->bounce_collect, &rreq->bounce_alloc);
-   310	
-   311		} else {
-   312			stream->buffered = ret;
-   313			stream->issue_from = rreq->start;
-   314			bvecq_pos_transfer(&stream->dispatch_cursor, &rreq->collect_cursor);
-   315		}
-   316	
-   317		if (!sync) {
-   318			rreq->iocb = iocb;
-   319			__set_bit(NETFS_RREQ_OFFLOAD_COLLECTION, &rreq->flags);
-   320		}
-   321	
-   322		ret = netfs_unbuffered_read(rreq, sync);
-   323		if (ret < 0)
-   324			goto out; /* May be -EIOCBQUEUED */
-   325		if (sync) {
-   326			ret = netfs_dio_copy_bounce_to_dest(rreq, iocb);
-   327			if (ret == 0) {
-   328				iocb->ki_pos += rreq->transferred;
-   329				ret = rreq->transferred;
-   330			}
-   331		}
-   332	
-   333	out:
-   334		netfs_put_request(rreq, netfs_rreq_trace_put_return);
-   335		if (ret > 0)
-   336			orig_count -= ret;
-   337		return ret;
-   338	
-   339	error_put:
-   340		netfs_put_failed_request(rreq);
-   341		return ret;
-   342	}
-   343	EXPORT_SYMBOL(netfs_unbuffered_read_iter_locked);
-   344	
+
+vim +1189 drivers/usb/serial/keyspan.c
+
+  1166	
+  1167	static void usa49wg_indat_callback(struct urb *urb)
+  1168	{
+  1169		int			i, len, x, err;
+  1170		struct usb_serial	*serial;
+  1171		struct usb_serial_port	*port;
+  1172		unsigned char 		*data = urb->transfer_buffer;
+  1173		int status = urb->status;
+  1174	
+  1175		serial = urb->context;
+  1176	
+  1177		if (status) {
+  1178			dev_dbg(&urb->dev->dev, "%s - nonzero status: %d\n",
+  1179					__func__, status);
+  1180			return;
+  1181		}
+  1182	
+  1183		/* inbound data is in the form P#, len, status, data */
+  1184		i = 0;
+  1185		len = 0;
+  1186	
+  1187		while (i < urb->actual_length) {
+  1188			if (urb->actual_length - i < 3) {
+> 1189				dev_warn_ratelimited(&serial->dev, "malformed indat packet\n");
+  1190				break;
+  1191			}
+  1192	
+  1193			/* Check port number from message */
+  1194			if (data[i] >= serial->num_ports) {
+  1195				dev_dbg(&urb->dev->dev, "%s - Unexpected port number %d\n",
+  1196					__func__, data[i]);
+  1197				return;
+  1198			}
+  1199			port = serial->port[data[i++]];
+  1200			len = data[i++];
+  1201	
+  1202			/* 0x80 bit is error flag */
+  1203			if ((data[i] & 0x80) == 0) {
+  1204				/* no error on any byte */
+  1205				i++;
+  1206				for (x = 1; x < len && i < urb->actual_length; ++x)
+  1207					tty_insert_flip_char(&port->port,
+  1208							data[i++], 0);
+  1209			} else {
+  1210				/*
+  1211				 * some bytes had errors, every byte has status
+  1212				 */
+  1213				for (x = 0; x + 1 < len &&
+  1214					    i + 1 < urb->actual_length; x += 2) {
+  1215					int stat = data[i];
+  1216					int flag = TTY_NORMAL;
+  1217	
+  1218					if (stat & RXERROR_OVERRUN) {
+  1219						tty_insert_flip_char(&port->port, 0,
+  1220									TTY_OVERRUN);
+  1221					}
+  1222					/* XXX should handle break (0x10) */
+  1223					if (stat & RXERROR_PARITY)
+  1224						flag = TTY_PARITY;
+  1225					else if (stat & RXERROR_FRAMING)
+  1226						flag = TTY_FRAME;
+  1227	
+  1228					tty_insert_flip_char(&port->port, data[i+1],
+  1229							     flag);
+  1230					i += 2;
+  1231				}
+  1232			}
+  1233			tty_flip_buffer_push(&port->port);
+  1234		}
+  1235	
+  1236		/* Resubmit urb so we continue receiving */
+  1237		err = usb_submit_urb(urb, GFP_ATOMIC);
+  1238		if (err != 0)
+  1239			dev_dbg(&urb->dev->dev, "%s - resubmit read urb failed. (%d)\n", __func__, err);
+  1240	}
+  1241	
 
 --
 0-DAY CI Kernel Test Service
