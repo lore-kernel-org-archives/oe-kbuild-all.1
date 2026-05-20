@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE87B3438BA;
-	Wed, 20 May 2026 00:15:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4F5622301;
+	Wed, 20 May 2026 00:16:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779236111; cv=none; b=Ej06ZqcOwCErZUPYAKh7fJrNLjzi3dU5797tRO+vsZSs5mn8VngaimVwjg2Mt/hK6y6kaQyK4NxVJ3pf0gmR47u96xO0xIXPkYoy/gpx76kzF/vek+icsx71MKmGFhEHra9E8prF4aqUpsYTpRHuWGSGKLQknaKyVAUqNI+BJ9A=
+	t=1779236203; cv=none; b=MWzueSAWg0rjqB1p71hJ3uQXK0K1HvaMITe+JaDEmJpGsyJzdrNTyBiozaTU8bLRxfToMMANVu3FNgqWKbQPDzdZ/x0LUrA7OYIJPm7kDbHSnNbEvojXbFJHi/ccTO0JI0fhR+hVNyuODvxwvUhLa+Seoaolak/9TvsYNHm9yYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779236111; c=relaxed/simple;
-	bh=yHU62qtJe71z+n2NYo3c6O8G3pL7GxIMIn8WBIqI5gQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=hQlkY9crxE9Rf5nwPI09Pct2SG01j+KuvFF5I+zKY0mEOLJUntJ/gPiTkZerd802kMq3Kjo6e5E8LkL2JkDOtZM0zxTeEg0ArQ+z/8X3geFtk9lCJEtGcVFexrEJvwreIwMhp/wTZGJe8Es3EYrJXMKmYurOet04HQAGvzUpH1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZS8esRgS; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1779236203; c=relaxed/simple;
+	bh=w7RBP96nRWYOGqYoERLkJUShFXLZ/M6Eppo+pwPrjLk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fwVHOzEiCaL0Eu8RMNY97nQ8dI4uQtTnrvQg/vFpAqntPSDwnJxtRRoBj1xv7UuGuo6rO/WOWSXJOiylGiZpqmT/ml1b64l8YuJTOA64B5HrpTBwi1YpZ6sfuG2EDGbCCUHMFBLgeyr2NSHTg9oelnG3Kb5d7tXbanqx1Gtb0hE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B0poVo75; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZS8esRgS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B0poVo75"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779236109; x=1810772109;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yHU62qtJe71z+n2NYo3c6O8G3pL7GxIMIn8WBIqI5gQ=;
-  b=ZS8esRgSlLNOqRpjW181UKYyMIWcfOglGF3W619YsE1FGQrO4EThLro/
-   Wx92LiaLQ4C6TJflXDt4Yv3WbeiaMAC4/7XMzmIzYVOqLdktbFAQd1pgn
-   BGGPZEQzp1NieHtBUJ/LEvoN5622jGHxqdXponiempafSL/UxJeSEbYiL
-   FsRumAjsubuajSkCR46BM/ON/mDDULEuW+mBSOYzgr45VbSsgRss7Be+o
-   5hKokFX6ce+Z3jH9rWuCjdcTcGJ35dR7TuY3N/zBGuxA3/E5eJuk7ZHCc
-   MYKjZr41ehnE6kNCF1smCvxmW4BAHhu8qK+QSN9vpOBvpYcrH9fo8eWz6
-   A==;
-X-CSE-ConnectionGUID: QCZ/4AJaSbOnQpq8kX0mOw==
-X-CSE-MsgGUID: IutDiibPSpaVbugwVXnmAQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="80161415"
+  t=1779236201; x=1810772201;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=w7RBP96nRWYOGqYoERLkJUShFXLZ/M6Eppo+pwPrjLk=;
+  b=B0poVo75CgooWjURwAyi/Pd73rh6farKLtQV6oKtC46rjGqEumDQt6H6
+   UBSapU7dCo9qpaKdLmO7TSuksMEpnCJ1kos7kRAJvdYDybZSW0Cg2eQRV
+   Om4rzFFVlZMe7D36Hi3J9uMVpfK6VOdWRRrkFlFano23N/dvH2DSjz+7Z
+   3boLdMzTK/VFLRSyBkON9qCfACcEFdijMWdoaBjr7a9wGGTrKRNAi6d+y
+   Zd0LyDzw8QDySr+8XGGOBCYdCGoscKA5z29rKKUtaifIPubyY3oeZ8dG4
+   VuSwOIWIaM0IeijDbjI3vQmfO5tHngMrITjhaAZmFVU+CRq7Fe+TZtsOI
+   g==;
+X-CSE-ConnectionGUID: E0x2SNmOR6KQUDRm8e0aHw==
+X-CSE-MsgGUID: wxG5s1QVR4aApSeCFez/WQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="80302916"
 X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="80161415"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 17:15:09 -0700
-X-CSE-ConnectionGUID: RsERq4XOTrS+/uUxR3uQww==
-X-CSE-MsgGUID: UV9jfy8GQC6JvDOtU+2ImA==
+   d="scan'208";a="80302916"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 17:16:41 -0700
+X-CSE-ConnectionGUID: eDwo1XdBQqa614Dyh/TYYg==
+X-CSE-MsgGUID: ih7Bc0wtRLGkE/VWgfshrg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="278066026"
+   d="scan'208";a="233575452"
 Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 19 May 2026 17:15:06 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 19 May 2026 17:16:38 -0700
 Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wPUa6-000000002CX-0lRq;
-	Wed, 20 May 2026 00:14:51 +0000
-Date: Wed, 20 May 2026 08:14:36 +0800
+	id 1wPUbT-000000002Cb-1AKT;
+	Wed, 20 May 2026 00:16:10 +0000
+Date: Wed, 20 May 2026 08:14:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <linux@weissschuh.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/cros_ec-leds-hw-trigger-brightness
- 2/2] ERROR: modpost: "led_trigger_is_hw_controlled"
- [drivers/leds/led-class.ko] undefined!
-Message-ID: <202605200844.SV3OteT0-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Tomasz Wolski <tomasz.wolski@fujitsu.com>,
+	smita.koralahallichannabasappa@amd.com, alison.schofield@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, icheng@nvidia.com,
+	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	nvdimm@lists.linux.dev, ardb@kernel.org, benjamin.cheatham@amd.com,
+	dave.jiang@intel.com, jonathan.cameron@huawei.com,
+	Tomasz Wolski <tomasz.wolski@fujitsu.com>
+Subject: Re: [PATCH v2] dax/bus: Upgrade resource conflict message to
+ dev_err() in alloc_dax_region()
+Message-ID: <202605200842.i0s39151-lkp@intel.com>
+References: <20260519101832.31988-1-tomasz.wolski@fujitsu.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,22 +68,37 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260519101832.31988-1-tomasz.wolski@fujitsu.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/cros_ec-leds-hw-trigger-brightness
-head:   bb58e805ce231583c1b73405eb7f9afd60eeab1e
-commit: bb58e805ce231583c1b73405eb7f9afd60eeab1e [2/2] leds: core: Report ENODATA for brightness of hardware controlled LED
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260520/202605200844.SV3OteT0-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605200844.SV3OteT0-lkp@intel.com/reproduce)
+Hi Tomasz,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on cxl/next]
+[also build test ERROR on linus/master v7.1-rc4 next-20260519]
+[cannot apply to cxl/pending]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tomasz-Wolski/dax-bus-Upgrade-resource-conflict-message-to-dev_err-in-alloc_dax_region/20260519-182401
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git next
+patch link:    https://lore.kernel.org/r/20260519101832.31988-1-tomasz.wolski%40fujitsu.com
+patch subject: [PATCH v2] dax/bus: Upgrade resource conflict message to dev_err() in alloc_dax_region()
+config: s390-randconfig-r072-20260520 (https://download.01.org/0day-ci/archive/20260520/202605200842.i0s39151-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 9.5.0
+smatch: v0.5.0-9185-gbcc58b9c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605200842.i0s39151-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605200844.SV3OteT0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605200842.i0s39151-lkp@intel.com/
 
 All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> ERROR: modpost: "led_trigger_is_hw_controlled" [drivers/leds/led-class.ko] undefined!
+>> ERROR: modpost: "request_resource_conflict" [drivers/dax/dax.ko] undefined!
 
 --
 0-DAY CI Kernel Test Service
