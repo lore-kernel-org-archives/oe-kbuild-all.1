@@ -1,462 +1,245 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9489133E35B;
-	Wed, 20 May 2026 06:42:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C5163469FC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 May 2026 06:42:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779259327; cv=none; b=Ycr4QgBg5578YWpELRqrngAEwgSsOUwLHNpwJgYyanMwdtmmoyoGLWsIfIOhJ6EpMBOElqKmLHjFg9/nbZzWZ2kJy5nRws/CTmfpn/lYSbvYT8KZFkQUnqPxemm23j+KCM6ak4TQNMHpmOxK2oXUa3m0GVgRCOjbYRkXbR5Y2fE=
+	t=1779259372; cv=none; b=O2ORmNaFA458llhvLP1t51hzFf2vrmKwbGOB4GWE6rVvQMRjBw6p7G5FPYv9wnXg44xdLYbd8CKeZuqy8FVYVtJE5ZLNWTyRZlp13tVk1N1jnNN8v+Lfr+FdN8LIeOe4CY8QF9USBpocEfznVl8jddCHXw2Gj5vDkjUrUiVeNcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779259327; c=relaxed/simple;
-	bh=ID/U+6v5WnI6rVl/Q3QR+J/OplNHmpAV9aP7cRIUFQs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ADHCvsGaKqCIMS7dhtsa2ktiQCv7vwhg5PcregZZ/X3zyRPpg88zseCpJpqLO7D1M8wjSa7joJko0rJirv0BD3ciezOAgTxQ45dKIlCiYs217viLyQVoYX1x5El4ucrj+9GnA37Ew9Ma7UjEEclWFf6OWfXqr9nMaQUSsxwpl5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tzxjnf2X; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1779259372; c=relaxed/simple;
+	bh=1zlNcYj9XEGmVGkEpnSVBVmejH3SSiwB4BBt3de/3EY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=HrK3cQcsgmb6tx7/kZGqvkA8yIsYIqT6yRpAu9L92bp9mibMUP4mLtmPVkWm9Xa/t9nMBXGooQtiso61fpLBE03QaDgtbzuXgRejWgkGv5kqaWZWsVdRYyghcv1LFZ8WhKD4DyBzxuWo3P4mN9+CAqalrfELgTIuYBp1+Q1piLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=heoVyUfG; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tzxjnf2X"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="heoVyUfG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779259323; x=1810795323;
-  h=date:from:to:cc:subject:message-id;
-  bh=ID/U+6v5WnI6rVl/Q3QR+J/OplNHmpAV9aP7cRIUFQs=;
-  b=Tzxjnf2XPRx2YYtyBtGLR13ewH4i+c8fstUKr6mtQkDaF2vCHIaIRzxb
-   hUUfTX2F8JRvgVZDnOpO3qfxe3pwlqR8nD8L+cNbrrxcw8nqTRnwf+wm2
-   tdsjFgW7hL9CKv2AZQSRqA79Lq7hROL4Sm8zQARvXFkTPwVg/EXlCyflh
-   1ZXmGWX5YqrLsUxz2fAX+Eap7K6OQ2yvwJtSzboNoKhzqR0mtlLSoe2Bv
-   1pAj9cpAGzm2OnlSARA3QUFLukkUbqqjFsMi+Qh9ibbZf2MnMt9gWg8c/
-   wENJuro1FqfJ+kk1GbYoACeEtP62M6Q5zXoGa2VEC27oI6G3R1szv/MSK
-   Q==;
-X-CSE-ConnectionGUID: 9Sr0kHXOSyO3e79Us17T+w==
-X-CSE-MsgGUID: EiCb6LNBTs6rK42yoDnPjg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="80052823"
+  t=1779259370; x=1810795370;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1zlNcYj9XEGmVGkEpnSVBVmejH3SSiwB4BBt3de/3EY=;
+  b=heoVyUfGRj7wpw883VDqA3yK0e4GW7cGD49mrbhGRa71dW7uB4HhiUGk
+   un8ButwMxUgHrpKSMfVYXENU/nYgSXpX0AxJZZeXUF5G8WB3IuD6hg9+s
+   FsofoIZBAg64T8RROJFkWRMdoT+4PZRRg4M7F3wfiPBDjgnT1H2Cby9XE
+   o5s4b1gjOK8X+qtGerrZd3QftLw728NP1+PXVJQj10e25XT4iqqISpUnE
+   Jro3T4GJk7V5HLr36Q515oKx9TtDPMkEvciKZw70uYcLSCruxGwu0+IpB
+   eKsnBeByBTsTxv+UdqGZzaOtdP+rETxbMVAkaqsTJ8C1ypnqKZAsEnNy4
+   w==;
+X-CSE-ConnectionGUID: hamqgg6XQy6T3JQv/tSEvA==
+X-CSE-MsgGUID: hUqhOcIFT9mq86cZc6loyA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="105608335"
 X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="80052823"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 23:41:49 -0700
-X-CSE-ConnectionGUID: 7FXzUrRvQjKHCUJ4BVc75w==
-X-CSE-MsgGUID: RpO7VhMISNWvM7Q4mwzaGg==
+   d="scan'208";a="105608335"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 23:42:50 -0700
+X-CSE-ConnectionGUID: lFvVLmmVTRSrF64WgpiLrA==
+X-CSE-MsgGUID: zeucWLe1Sp67bg+0KWvJog==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="240304534"
+   d="scan'208";a="239902235"
 Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 19 May 2026 23:41:48 -0700
+  by orviesa008.jf.intel.com with ESMTP; 19 May 2026 23:42:48 -0700
 Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wPacj-000000002ez-1es9;
-	Wed, 20 May 2026 06:41:45 +0000
-Date: Wed, 20 May 2026 14:41:40 +0800
+	id 1wPadh-000000002fH-2bNT;
+	Wed, 20 May 2026 06:42:45 +0000
+Date: Wed, 20 May 2026 14:41:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexei Starovoitov <ast@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [ast-bpf:arena_slab 63/63] kernel/bpf/arena.c:963:8: error:
- no member named 'obj_exts' in 'struct slab'; did you mean 'objects'?
-Message-ID: <202605201413.XvzwsT4I-lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>,
+ =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dd-classmap-fix 40/40] include/drm/drm_print.h:566:9:
+ error: implicit declaration of function '_dynamic_func_call_cls'
+Message-ID: <202605201408.x1sHT6fx-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ast/bpf.git arena_slab
-head:   cb83f972bd005841d18f7bbff6e50d9bcbf0adf8
-commit: cb83f972bd005841d18f7bbff6e50d9bcbf0adf8 [63/63] bpf,slab: Add slub-backed allocator for bpf_arena
-config: loongarch-randconfig-002-20260520 (https://download.01.org/0day-ci/archive/20260520/202605201413.XvzwsT4I-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605201413.XvzwsT4I-lkp@intel.com/reproduce)
+tree:   https://github.com/jimc/linux.git dd-classmap-fix
+head:   747914d1d51200efff2706de4b876006d1b7af8d
+commit: 747914d1d51200efff2706de4b876006d1b7af8d [40/40] drm: mark CONFIG_DRM_USE_DYNAMIC_DEBUG unBROKEN
+config: xtensa-randconfig-r131-20260520 (https://download.01.org/0day-ci/archive/20260520/202605201408.x1sHT6fx-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 12.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605201408.x1sHT6fx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605201413.XvzwsT4I-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605201408.x1sHT6fx-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/bpf/arena.c:963:8: error: no member named 'obj_exts' in 'struct slab'; did you mean 'objects'?
-     963 |         slab->obj_exts = (unsigned long)uaddr32 | BIT_ULL(63);
-         |               ^~~~~~~~
-         |               objects
-   kernel/bpf/../../mm/slab.h:49:15: note: 'objects' declared here
-      49 |                                         unsigned objects:15;
-         |                                                  ^
-   kernel/bpf/arena.c:974:40: error: no member named 'obj_exts' in 'struct slab'; did you mean 'objects'?
-     974 |         unsigned long stash = READ_ONCE(slab->obj_exts);
-         |                                               ^~~~~~~~
-         |                                               objects
-   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |                                        ^
-   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                                          ^
-   include/linux/compiler_types.h:660:10: note: expanded from macro '__native_word'
-     660 |         (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
-         |                 ^
-   include/linux/compiler_types.h:699:22: note: expanded from macro 'compiletime_assert'
-     699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^
-   include/linux/compiler_types.h:687:23: note: expanded from macro '_compiletime_assert'
-     687 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^
-   include/linux/compiler_types.h:679:9: note: expanded from macro '__compiletime_assert'
-     679 |                 if (!(condition))                                       \
-         |                       ^
-   kernel/bpf/../../mm/slab.h:49:15: note: 'objects' declared here
-      49 |                                         unsigned objects:15;
-         |                                                  ^
->> kernel/bpf/arena.c:974:24: error: invalid application of 'sizeof' to bit-field
-     974 |         unsigned long stash = READ_ONCE(slab->obj_exts);
-         |                               ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^
-   include/linux/compiler_types.h:660:9: note: expanded from macro '__native_word'
-     660 |         (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
-         |                ^
-   kernel/bpf/arena.c:974:40: error: no member named 'obj_exts' in 'struct slab'; did you mean 'objects'?
-     974 |         unsigned long stash = READ_ONCE(slab->obj_exts);
-         |                                               ^~~~~~~~
-         |                                               objects
-   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |                                        ^
-   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                                          ^
-   include/linux/compiler_types.h:660:39: note: expanded from macro '__native_word'
-     660 |         (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
-         |                                              ^
-   include/linux/compiler_types.h:699:22: note: expanded from macro 'compiletime_assert'
-     699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^
-   include/linux/compiler_types.h:687:23: note: expanded from macro '_compiletime_assert'
-     687 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^
-   include/linux/compiler_types.h:679:9: note: expanded from macro '__compiletime_assert'
-     679 |                 if (!(condition))                                       \
-         |                       ^
-   kernel/bpf/../../mm/slab.h:49:15: note: 'objects' declared here
-      49 |                                         unsigned objects:15;
-         |                                                  ^
->> kernel/bpf/arena.c:974:24: error: invalid application of 'sizeof' to bit-field
-     974 |         unsigned long stash = READ_ONCE(slab->obj_exts);
-         |                               ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^
-   include/linux/compiler_types.h:660:38: note: expanded from macro '__native_word'
-     660 |         (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
-         |                                             ^
-   kernel/bpf/arena.c:974:40: error: no member named 'obj_exts' in 'struct slab'; did you mean 'objects'?
-     974 |         unsigned long stash = READ_ONCE(slab->obj_exts);
-         |                                               ^~~~~~~~
-         |                                               objects
-   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |                                        ^
-   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                                          ^
-   include/linux/compiler_types.h:661:10: note: expanded from macro '__native_word'
-     661 |          sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
-         |                 ^
-   include/linux/compiler_types.h:699:22: note: expanded from macro 'compiletime_assert'
-     699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^
-   include/linux/compiler_types.h:687:23: note: expanded from macro '_compiletime_assert'
-     687 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^
-   include/linux/compiler_types.h:679:9: note: expanded from macro '__compiletime_assert'
-     679 |                 if (!(condition))                                       \
-         |                       ^
-   kernel/bpf/../../mm/slab.h:49:15: note: 'objects' declared here
-      49 |                                         unsigned objects:15;
-         |                                                  ^
->> kernel/bpf/arena.c:974:24: error: invalid application of 'sizeof' to bit-field
-     974 |         unsigned long stash = READ_ONCE(slab->obj_exts);
-         |                               ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^
-   include/linux/compiler_types.h:661:9: note: expanded from macro '__native_word'
-     661 |          sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
-         |                ^
-   kernel/bpf/arena.c:974:40: error: no member named 'obj_exts' in 'struct slab'; did you mean 'objects'?
-     974 |         unsigned long stash = READ_ONCE(slab->obj_exts);
-         |                                               ^~~~~~~~
-         |                                               objects
-   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |                                        ^
-   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                                          ^
-   include/linux/compiler_types.h:661:38: note: expanded from macro '__native_word'
-     661 |          sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
-         |                                             ^
-   include/linux/compiler_types.h:699:22: note: expanded from macro 'compiletime_assert'
-     699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^
-   include/linux/compiler_types.h:687:23: note: expanded from macro '_compiletime_assert'
-     687 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^
-   include/linux/compiler_types.h:679:9: note: expanded from macro '__compiletime_assert'
-     679 |                 if (!(condition))                                       \
-         |                       ^
-   kernel/bpf/../../mm/slab.h:49:15: note: 'objects' declared here
-      49 |                                         unsigned objects:15;
-         |                                                  ^
->> kernel/bpf/arena.c:974:24: error: invalid application of 'sizeof' to bit-field
-     974 |         unsigned long stash = READ_ONCE(slab->obj_exts);
-         |                               ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^
-   include/linux/compiler_types.h:661:37: note: expanded from macro '__native_word'
-     661 |          sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
-         |                                            ^
-   kernel/bpf/arena.c:974:40: error: no member named 'obj_exts' in 'struct slab'; did you mean 'objects'?
-     974 |         unsigned long stash = READ_ONCE(slab->obj_exts);
-         |                                               ^~~~~~~~
-         |                                               objects
-   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |                                        ^
-   include/asm-generic/rwonce.h:36:48: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                                                       ^
-   include/linux/compiler_types.h:699:22: note: expanded from macro 'compiletime_assert'
-     699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^
-   include/linux/compiler_types.h:687:23: note: expanded from macro '_compiletime_assert'
-     687 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^
-   include/linux/compiler_types.h:679:9: note: expanded from macro '__compiletime_assert'
-     679 |                 if (!(condition))                                       \
-         |                       ^
-   kernel/bpf/../../mm/slab.h:49:15: note: 'objects' declared here
-      49 |                                         unsigned objects:15;
-         |                                                  ^
->> kernel/bpf/arena.c:974:24: error: invalid application of 'sizeof' to bit-field
-     974 |         unsigned long stash = READ_ONCE(slab->obj_exts);
-         |                               ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^
-   include/asm-generic/rwonce.h:36:47: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                                                      ^
-   kernel/bpf/arena.c:974:40: error: no member named 'obj_exts' in 'struct slab'; did you mean 'objects'?
-     974 |         unsigned long stash = READ_ONCE(slab->obj_exts);
-         |                                               ^~~~~~~~
-         |                                               objects
-   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
-      50 |         __READ_ONCE(x);                                                 \
-         |                     ^
-   include/asm-generic/rwonce.h:44:65: note: expanded from macro '__READ_ONCE'
-      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-         |                                                                  ^
-   include/linux/compiler_types.h:626:13: note: expanded from macro '__unqual_scalar_typeof'
-     626 |                 _Generic((x),                                           \
-         |                           ^
-   kernel/bpf/../../mm/slab.h:49:15: note: 'objects' declared here
-      49 |                                         unsigned objects:15;
-         |                                                  ^
-   kernel/bpf/arena.c:974:40: error: no member named 'obj_exts' in 'struct slab'; did you mean 'objects'?
-     974 |         unsigned long stash = READ_ONCE(slab->obj_exts);
-         |                                               ^~~~~~~~
-         |                                               objects
-   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
-      50 |         __READ_ONCE(x);                                                 \
-         |                     ^
-   include/asm-generic/rwonce.h:44:65: note: expanded from macro '__READ_ONCE'
-      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-         |                                                                  ^
-   include/linux/compiler_types.h:633:15: note: expanded from macro '__unqual_scalar_typeof'
-     633 |                          default: (x)))
-         |                                    ^
-   kernel/bpf/../../mm/slab.h:49:15: note: 'objects' declared here
-      49 |                                         unsigned objects:15;
-         |                                                  ^
-   kernel/bpf/arena.c:974:40: error: no member named 'obj_exts' in 'struct slab'; did you mean 'objects'?
-     974 |         unsigned long stash = READ_ONCE(slab->obj_exts);
-         |                                               ^~~~~~~~
-         |                                               objects
-   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
-      50 |         __READ_ONCE(x);                                                 \
-         |                     ^
-   include/asm-generic/rwonce.h:44:72: note: expanded from macro '__READ_ONCE'
-      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-         |                                                                         ^
-   kernel/bpf/../../mm/slab.h:49:15: note: 'objects' declared here
-      49 |                                         unsigned objects:15;
-         |                                                  ^
->> kernel/bpf/arena.c:974:24: error: address of bit-field requested
-     974 |         unsigned long stash = READ_ONCE(slab->obj_exts);
-         |                               ^         ~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
-      50 |         __READ_ONCE(x);                                                 \
-         |         ^           ~
-   include/asm-generic/rwonce.h:44:70: note: expanded from macro '__READ_ONCE'
-      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-         |                                                                       ^ ~
-   kernel/bpf/arena.c:988:19: error: no member named 'obj_exts' in 'struct slab'; did you mean 'objects'?
-     988 |         WRITE_ONCE(slab->obj_exts, 0);
-         |                          ^~~~~~~~
-         |                          objects
-   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
-      60 |         compiletime_assert_rwonce_type(x);                              \
-         |                                        ^
-   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                                          ^
-   include/linux/compiler_types.h:660:10: note: expanded from macro '__native_word'
-     660 |         (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
-         |                 ^
-   include/linux/compiler_types.h:699:22: note: expanded from macro 'compiletime_assert'
-     699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^
-   include/linux/compiler_types.h:687:23: note: expanded from macro '_compiletime_assert'
-     687 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^
-   include/linux/compiler_types.h:679:9: note: expanded from macro '__compiletime_assert'
-     679 |                 if (!(condition))                                       \
-         |                       ^
-   kernel/bpf/../../mm/slab.h:49:15: note: 'objects' declared here
-      49 |                                         unsigned objects:15;
-         |                                                  ^
-   kernel/bpf/arena.c:988:2: error: invalid application of 'sizeof' to bit-field
-     988 |         WRITE_ONCE(slab->obj_exts, 0);
-         |         ^
-   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
-      60 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^
-   include/linux/compiler_types.h:660:9: note: expanded from macro '__native_word'
-     660 |         (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
-         |                ^
-   kernel/bpf/arena.c:988:19: error: no member named 'obj_exts' in 'struct slab'; did you mean 'objects'?
-     988 |         WRITE_ONCE(slab->obj_exts, 0);
-         |                          ^~~~~~~~
-         |                          objects
-   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
-      60 |         compiletime_assert_rwonce_type(x);                              \
-         |                                        ^
-   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                                          ^
-   include/linux/compiler_types.h:660:39: note: expanded from macro '__native_word'
-     660 |         (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
-         |                                              ^
-   include/linux/compiler_types.h:699:22: note: expanded from macro 'compiletime_assert'
-     699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^
-   include/linux/compiler_types.h:687:23: note: expanded from macro '_compiletime_assert'
-     687 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^
-   include/linux/compiler_types.h:679:9: note: expanded from macro '__compiletime_assert'
-     679 |                 if (!(condition))                                       \
-         |                       ^
-   kernel/bpf/../../mm/slab.h:49:15: note: 'objects' declared here
-      49 |                                         unsigned objects:15;
-         |                                                  ^
-   kernel/bpf/arena.c:988:2: error: invalid application of 'sizeof' to bit-field
-     988 |         WRITE_ONCE(slab->obj_exts, 0);
-         |         ^
-   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
-      60 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compiletime_assert_rwonce_type'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^
-   include/linux/compiler_types.h:660:38: note: expanded from macro '__native_word'
-     660 |         (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
-         |                                             ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
+   In file included from drivers/gpu/drm/drm_atomic.c:43:
+   drivers/gpu/drm/drm_atomic.c: In function 'drm_atomic_state_init':
+>> include/drm/drm_print.h:566:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
+     566 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:657:9: note: in expansion of macro 'drm_dev_dbg'
+     657 |         drm_dev_dbg(__drm_to_dev(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   drivers/gpu/drm/drm_atomic.c:155:9: note: in expansion of macro 'drm_dbg_atomic'
+     155 |         drm_dbg_atomic(dev, "Allocated atomic state %p\n", state);
+         |         ^~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/gpu/drm/drm_atomic_uapi.c:34:
+   drivers/gpu/drm/drm_atomic_uapi.c: In function 'drm_atomic_set_mode_for_crtc':
+>> include/drm/drm_print.h:566:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
+     566 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:657:9: note: in expansion of macro 'drm_dev_dbg'
+     657 |         drm_dev_dbg(__drm_to_dev(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   drivers/gpu/drm/drm_atomic_uapi.c:95:17: note: in expansion of macro 'drm_dbg_atomic'
+      95 |                 drm_dbg_atomic(crtc->dev,
+         |                 ^~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/gpu/drm/drm_auth.c:38:
+   drivers/gpu/drm/drm_auth.c: In function 'drm_getmagic':
+>> include/drm/drm_print.h:566:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
+     566 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:649:9: note: in expansion of macro 'drm_dev_dbg'
+     649 |         drm_dev_dbg(__drm_to_dev(drm), DRM_UT_CORE, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   drivers/gpu/drm/drm_auth.c:108:9: note: in expansion of macro 'drm_dbg_core'
+     108 |         drm_dbg_core(dev, "%u\n", auth->magic);
+         |         ^~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/gpu/drm/drm_blend.c:34:
+   drivers/gpu/drm/drm_blend.c: In function 'drm_atomic_helper_crtc_normalize_zpos':
+>> include/drm/drm_print.h:566:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
+     566 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:657:9: note: in expansion of macro 'drm_dev_dbg'
+     657 |         drm_dev_dbg(__drm_to_dev(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   drivers/gpu/drm/drm_blend.c:474:9: note: in expansion of macro 'drm_dbg_atomic'
+     474 |         drm_dbg_atomic(dev, "[CRTC:%d:%s] calculating normalized zpos values\n",
+         |         ^~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/gpu/drm/drm_crtc.c:49:
+   drivers/gpu/drm/drm_crtc.c: In function 'drm_mode_setcrtc':
+>> include/drm/drm_print.h:566:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
+     566 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:653:9: note: in expansion of macro 'drm_dev_dbg'
+     653 |         drm_dev_dbg(__drm_to_dev(drm), DRM_UT_KMS, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   drivers/gpu/drm/drm_crtc.c:736:17: note: in expansion of macro 'drm_dbg_kms'
+     736 |                 drm_dbg_kms(dev, "Unknown CRTC ID %d\n", crtc_req->crtc_id);
+         |                 ^~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/gpu/drm/drm_file.c:48:
+   drivers/gpu/drm/drm_file.c: In function 'drm_file_free':
+>> include/drm/drm_print.h:566:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
+     566 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:649:9: note: in expansion of macro 'drm_dev_dbg'
+     649 |         drm_dev_dbg(__drm_to_dev(drm), DRM_UT_CORE, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   drivers/gpu/drm/drm_file.c:242:9: note: in expansion of macro 'drm_dbg_core'
+     242 |         drm_dbg_core(dev, "comm=\"%s\", pid=%d, dev=0x%lx, open_count=%d\n",
+         |         ^~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/gpu/drm/drm_framebuffer.c:35:
+   drivers/gpu/drm/drm_framebuffer.c: In function 'drm_framebuffer_check_src_coords':
+>> include/drm/drm_print.h:566:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
+     566 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:653:9: note: in expansion of macro 'drm_dev_dbg'
+     653 |         drm_dev_dbg(__drm_to_dev(drm), DRM_UT_KMS, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   drivers/gpu/drm/drm_framebuffer.c:90:17: note: in expansion of macro 'drm_dbg_kms'
+      90 |                 drm_dbg_kms(fb->dev, "Invalid source coordinates "
+         |                 ^~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/gpu/drm/drm_gem.c:55:
+   drivers/gpu/drm/drm_gem.c: In function 'drm_gem_dma_resv_wait':
+>> include/drm/drm_print.h:566:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
+     566 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:649:9: note: in expansion of macro 'drm_dev_dbg'
+     649 |         drm_dev_dbg(__drm_to_dev(drm), DRM_UT_CORE, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   drivers/gpu/drm/drm_gem.c:913:17: note: in expansion of macro 'drm_dbg_core'
+     913 |                 drm_dbg_core(dev, "Failed to look up GEM BO %d\n", handle);
+         |                 ^~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/gpu/drm/drm_ioctl.c:41:
+   drivers/gpu/drm/drm_ioctl.c: In function 'drm_noop':
+>> include/drm/drm_print.h:566:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
+     566 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:649:9: note: in expansion of macro 'drm_dev_dbg'
+     649 |         drm_dev_dbg(__drm_to_dev(drm), DRM_UT_CORE, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   drivers/gpu/drm/drm_ioctl.c:461:9: note: in expansion of macro 'drm_dbg_core'
+     461 |         drm_dbg_core(dev, "\n");
+         |         ^~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/gpu/drm/drm_lease.c:13:
+   drivers/gpu/drm/drm_lease.c: In function 'drm_lease_create':
+>> include/drm/drm_print.h:566:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
+     566 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:663:9: note: in expansion of macro 'drm_dev_dbg'
+     663 |         drm_dev_dbg(__drm_to_dev(drm), DRM_UT_LEASE, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   drivers/gpu/drm/drm_lease.c:216:9: note: in expansion of macro 'drm_dbg_lease'
+     216 |         drm_dbg_lease(dev, "lessor %d\n", lessor->lessee_id);
+         |         ^~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/gpu/drm/drm_managed.c:17:
+   drivers/gpu/drm/drm_managed.c: In function 'drm_managed_release':
+>> include/drm/drm_print.h:566:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
+     566 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:667:9: note: in expansion of macro 'drm_dev_dbg'
+     667 |         drm_dev_dbg(__drm_to_dev(drm), DRM_UT_DRMRES, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   drivers/gpu/drm/drm_managed.c:69:9: note: in expansion of macro 'drm_dbg_drmres'
+      69 |         drm_dbg_drmres(dev, "drmres release begin\n");
+         |         ^~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+..
 
 
-vim +963 kernel/bpf/arena.c
+vim +/_dynamic_func_call_cls +566 include/drm/drm_print.h
 
-   917	
-   918	/*
-   919	 * SLAB_BPF_ARENA support: each arena owns a set of kmem_cache buckets that
-   920	 * back kmalloc-style alloc/free for BPF programs. Slab pages are drawn from
-   921	 * the arena's page pool, but slub treats them as ordinary direct-map kernel
-   922	 * memory (slab_address/virt_to_slab/freepointers all use direct-map VAs).
-   923	 * The arena's vmalloc mapping is what BPF programs see; bpf_arena_alloc/free
-   924	 * translate between direct-map and arena offset in O(1) by reading the slab
-   925	 * page's arena uaddr32 stashed in slab->obj_exts.
-   926	 */
-   927	
-   928	static struct slab *arena_alloc_slab_page(void *arena_p, gfp_t flags, int node,
-   929						  unsigned int order, bool allow_spin)
-   930	{
-   931		struct bpf_arena *arena = arena_p;
-   932		long ret_user_va;
-   933		u32 uaddr32;
-   934		void *kva;
-   935		struct page *page;
-   936		struct slab *slab;
-   937	
-   938		if (order)
-   939			return NULL;
-   940	
-   941		/* Propagate allow_spin to the arena page allocator; non-sleeping
-   942		 * contexts (BPF NMI/irq-off) take the best-effort path.
-   943		 */
-   944		ret_user_va = arena_alloc_pages(arena, 0, 1, node, allow_spin);
-   945		if (!ret_user_va)
-   946			return NULL;
-   947	
-   948		uaddr32 = (u32)ret_user_va;
-   949		kva = (void *)(bpf_arena_get_kern_vm_start(arena) + uaddr32);
-   950	
-   951		page = vmalloc_to_page(kva);
-   952		if (WARN_ON_ONCE(!page))
-   953			goto fail;
-   954	
-   955		__SetPageSlab(page);
-   956		slab = page_slab(page);
-   957		/*
-   958		 * Stash this slab page's arena offset in obj_exts. allocate_slab()
-   959		 * skips init_slab_obj_exts() for SLAB_BPF_ARENA caches, so this
-   960		 * survives until __free_slab(). High bit set as a presence sentinel
-   961		 * (uaddr32 < 4GB so bit 63 is always free).
-   962		 */
- > 963		slab->obj_exts = (unsigned long)uaddr32 | BIT_ULL(63);
-   964		WRITE_ONCE(arena->slab_pages[uaddr32 >> PAGE_SHIFT], page);
-   965	
-   966		return slab;
-   967	fail:
-   968		arena_free_pages(arena, uaddr32, 1, true);
-   969		return NULL;
-   970	}
-   971	
-   972	static u32 arena_slab_uaddr32(const struct slab *slab)
-   973	{
- > 974		unsigned long stash = READ_ONCE(slab->obj_exts);
-   975	
-   976		if (WARN_ON_ONCE(!(stash & BIT_ULL(63))))
-   977			return 0;
-   978		return (u32)stash;
-   979	}
-   980	
+02c9656b2f0d6997 Haneen Mohammed 2017-10-17  560  
+84ec67288c10fbf1 Jim Cromie      2022-09-11  561  #if !defined(CONFIG_DRM_USE_DYNAMIC_DEBUG)
+e820f52577b14c63 Jim Cromie      2022-09-11  562  #define drm_dev_dbg(dev, cat, fmt, ...)				\
+16deeb8e18cafd30 Jim Cromie      2022-09-11  563  	__drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
+84ec67288c10fbf1 Jim Cromie      2022-09-11  564  #else
+84ec67288c10fbf1 Jim Cromie      2022-09-11  565  #define drm_dev_dbg(dev, cat, fmt, ...)				\
+16deeb8e18cafd30 Jim Cromie      2022-09-11 @566  	_dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,		\
+84ec67288c10fbf1 Jim Cromie      2022-09-11  567  			       dev, cat, fmt, ##__VA_ARGS__)
+84ec67288c10fbf1 Jim Cromie      2022-09-11  568  #endif
+e820f52577b14c63 Jim Cromie      2022-09-11  569  
+
+:::::: The code at line 566 was first introduced by commit
+:::::: 16deeb8e18cafd30e70d8dc2b12a753b28298d8a drm_print: add _ddebug descriptor to drm_*dbg prototypes
+
+:::::: TO: Jim Cromie <jim.cromie@gmail.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --
 0-DAY CI Kernel Test Service
