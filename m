@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D4A436405A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 May 2026 17:33:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D4303EDACC;
+	Wed, 20 May 2026 17:43:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779298425; cv=none; b=fDDAUU87drovYrhrmSvty9nSC0dB0fRxeHQbKtzfWqtk4DZRk6Ul+HEFfu/6abI61h40fdLS/nj3///zDc5FXXyDjhZGgH2KgdVyaYTh3Dqwwtlcj035BZIF6r1euCfmd/EFvNDhOixVQ0SX1hbyLReRk0HOo0LJvTD32ZDmWU0=
+	t=1779299038; cv=none; b=uFi3NvD6RYuv6sn+jTp80HLJkLuKfM6xHd6o+Mln4gNqpmorDs+1FlzQRn/aqxFCEkNv2yCw6m/hjk7tugKdS0IU0eBUOMfA8Q7z++McMaeiceT950OziEAX7tdMRBu0Tj49I7ZQszegmiViTNx0QOFiBXlJswdmnzu6qGiRz5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779298425; c=relaxed/simple;
-	bh=xG50iyCpFzzaIuSimCjte6z5jlPy7Ws31tds1cg/+mY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=iA2GYgT/BGdqnV2iZidaRLlzF49z+pKVICSuJKMXYnUknPesIhXyxj+jt1+05Kzcs+8P/BqtNHXusHT+4sRiJDZcHW/rtXfuD/Xrjwa1XsF+RvN2gAx4pY7bJGmicUEqDTil23gPGhOGcZVNC57N7D95KF4VtKEAqyTP69/gtQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WYHOjAm0; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1779299038; c=relaxed/simple;
+	bh=HmbzItfoBNw9pRHaQ4Z+zDtSvsx6AuIEaW7Ov5R+vFs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dLN4hHYVo0JLOrSgMnw9Btqj2GLzivCs+xE+4wJ+Qwb2sseoAKBjkpTZs2+hOO5SWAo6vaL2mcplFndN7+QQwBVv6fGC+m9BJDuCedhyuuPGK2z4C++Z6RVRYki5vg4H7xFHxTTZU3BJOBmqyAFFKa/KvLhtpbcKmHggDWK5HY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DA99Mr0a; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WYHOjAm0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DA99Mr0a"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779298423; x=1810834423;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xG50iyCpFzzaIuSimCjte6z5jlPy7Ws31tds1cg/+mY=;
-  b=WYHOjAm0InhaMVrrwz+P8C5J3vq6bBIAH8ckhAWEg+U+z10xDg4V/seA
-   HXlqbbv6qxoFVZsGEetmNyYFHwZRo3eo5g6Shu/BMPiFaWun3ASpNGOHg
-   7o0rsHVZsAHAAiobLoEbR9p2kaCTorEC9/SqWGe5qRHc7RGRrdfCrY9X0
-   BRiSs0e37V/Hbm4bsguxP932jAdVGtk5v36G/hz7NhS4ZOkkGnGEF94aV
-   WjprSli2wbFWEhu0bN0HyUklV2bakmDSkkYJJt5IEZhFpxANSJRmZieP9
-   /fLkcrJWdgNuJ81eAI24QXP+/y/h4++97xoVCQt80wLRlUBYpKMRWMvZt
-   Q==;
-X-CSE-ConnectionGUID: 7F5YntvsS+mFPTjUURtDDQ==
-X-CSE-MsgGUID: vSoRPGDBTJ+AeNavUBmTsw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="79356267"
+  t=1779299037; x=1810835037;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HmbzItfoBNw9pRHaQ4Z+zDtSvsx6AuIEaW7Ov5R+vFs=;
+  b=DA99Mr0av5ZAisYcOEaFv5QrJBKpMzJbVNoNLEN77+4Rydylwg2wGV4o
+   LP17rZ+tdzRhUQ/82meqfG0Fb50EZEtlaEY0HGCFPZeiavtdTRyvPDOiF
+   /kj70j40egz/1On0Z3q2K9RtUiZ3EG59Yk37pKsTOlJdH0RlryCUEz11w
+   KCYdbNvhc+5tCET4bTMSWanvw21tlNdgNB5ytNp28GXomcKnxTawxnHrv
+   m91CXYbz/LCav80CUrVKpYOmX+P8LkMWPsM1NiK+/wxKjhSZLEafyriIK
+   /G0mmdProDpbSAWVoQkXYaQDlQf6Gauuokoij+BeWOrOetSqf8jqafXJ5
+   A==;
+X-CSE-ConnectionGUID: 2CUagkL2Q5enXVNKBAyx4A==
+X-CSE-MsgGUID: F7dIYNCgQN64QcEaY4NwPw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="90784893"
 X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="79356267"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 10:32:51 -0700
-X-CSE-ConnectionGUID: y+hXzSvxRSGNVFx5EXdF1A==
-X-CSE-MsgGUID: AhUFoWBtTZiSqn0mRqY/DA==
+   d="scan'208";a="90784893"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 10:43:57 -0700
+X-CSE-ConnectionGUID: 0RuTxDY6T6C4TrX8UPnXYw==
+X-CSE-MsgGUID: vAvB2vGvQe+79Z8PTXhRJw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="237648347"
+   d="scan'208";a="264063058"
 Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 20 May 2026 10:32:49 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 20 May 2026 10:43:54 -0700
 Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wPkmI-000000003cb-1YE2;
-	Wed, 20 May 2026 17:32:28 +0000
-Date: Thu, 21 May 2026 01:31:10 +0800
+	id 1wPkx3-000000003d7-2eTq;
+	Wed, 20 May 2026 17:43:33 +0000
+Date: Thu, 21 May 2026 01:42:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rahman =?utf-8?Q?Mahmutovi=C4=87"?= <mahmutovicrahman5@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Helge Deller <deller@gmx.de>
-Subject: [linux-next:master 5907/6922]
- drivers/video/fbdev/sunxvr2500.c:109:29: error: 'struct fb_info' has no
- member named 'dev'
-Message-ID: <202605210159.lG6dgvU2-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Johan Hovold <johan@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] USB: serial: keyspan: fix missing indat transfer sanity
+ check
+Message-ID: <202605210121.M2IibKiB-lkp@intel.com>
+References: <20260520101230.657426-1-johan@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,87 +65,134 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260520101230.657426-1-johan@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   687da68900cd1a46549f7d9430c7d40346cb86a0
-commit: f918ad639c76838beeacd5ab2ef4b6f0f9d486a7 [5907/6922] fbdev: sunxvr2500: replace printk with device-aware logging functions
-config: sparc-randconfig-r072-20260520 (https://download.01.org/0day-ci/archive/20260521/202605210159.lG6dgvU2-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.5.0
-smatch: v0.5.0-9185-gbcc58b9c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260521/202605210159.lG6dgvU2-lkp@intel.com/reproduce)
+Hi Johan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on johan-usb-serial/usb-next]
+[also build test ERROR on usb/usb-testing usb/usb-next usb/usb-linus tty/tty-testing tty/tty-next tty/tty-linus linus/master v7.1-rc4 next-20260520]
+[cannot apply to johan-usb-serial/usb-linus]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Johan-Hovold/USB-serial-keyspan-fix-missing-indat-transfer-sanity-check/20260520-181924
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git usb-next
+patch link:    https://lore.kernel.org/r/20260520101230.657426-1-johan%40kernel.org
+patch subject: [PATCH] USB: serial: keyspan: fix missing indat transfer sanity check
+config: i386-buildonly-randconfig-006-20260520 (https://download.01.org/0day-ci/archive/20260521/202605210121.M2IibKiB-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260521/202605210121.M2IibKiB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605210159.lG6dgvU2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605210121.M2IibKiB-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/device.h:15,
-                    from include/linux/acpi.h:15,
-                    from include/linux/i2c.h:13,
-                    from include/uapi/linux/fb.h:6,
-                    from include/linux/fb.h:5,
-                    from drivers/video/fbdev/sunxvr2500.c:10:
-   drivers/video/fbdev/sunxvr2500.c: In function 's3d_set_fbinfo':
->> drivers/video/fbdev/sunxvr2500.c:109:29: error: 'struct fb_info' has no member named 'dev'
-     109 |                 dev_err(info->dev, "Cannot allocate color map\n");
-         |                             ^~
-   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
+>> drivers/usb/serial/keyspan.c:1189:25: error: incompatible pointer types passing 'struct usb_device **' to parameter of type 'const struct device *' [-Werror,-Wincompatible-pointer-types]
+    1189 |                         dev_warn_ratelimited(&serial->dev, "malformed indat packet\n");
+         |                                              ^~~~~~~~~~~~
+   include/linux/dev_printk.h:227:34: note: expanded from macro 'dev_warn_ratelimited'
+     227 |         dev_level_ratelimited(dev_warn, dev, fmt, ##__VA_ARGS__)
+         |                                         ^~~
+   include/linux/dev_printk.h:215:13: note: expanded from macro 'dev_level_ratelimited'
+     215 |                 dev_level(dev, fmt, ##__VA_ARGS__);                     \
+         |                           ^~~
+   include/linux/dev_printk.h:156:49: note: expanded from macro 'dev_warn'
+     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~
+   include/linux/dev_printk.h:110:11: note: expanded from macro 'dev_printk_index_wrap'
      110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
          |                         ^~~
-   drivers/video/fbdev/sunxvr2500.c:109:17: note: in expansion of macro 'dev_err'
-     109 |                 dev_err(info->dev, "Cannot allocate color map\n");
-         |                 ^~~~~~~
+   include/linux/dev_printk.h:89:37: note: passing argument to parameter 'dev' here
+      89 | void _dev_warn(const struct device *dev, const char *fmt, ...)
+         |                                     ^
+   1 error generated.
 
 
-vim +109 drivers/video/fbdev/sunxvr2500.c
+vim +1189 drivers/usb/serial/keyspan.c
 
-    71	
-    72	static int s3d_set_fbinfo(struct s3d_info *sp)
-    73	{
-    74		struct fb_info *info = sp->info;
-    75		struct fb_var_screeninfo *var = &info->var;
-    76	
-    77		info->fbops = &s3d_ops;
-    78		info->screen_base = sp->fb_base;
-    79		info->screen_size = sp->fb_size;
-    80	
-    81		info->pseudo_palette = sp->pseudo_palette;
-    82	
-    83		/* Fill fix common fields */
-    84		strscpy(info->fix.id, "s3d", sizeof(info->fix.id));
-    85	        info->fix.smem_start = sp->fb_base_phys;
-    86	        info->fix.smem_len = sp->fb_size;
-    87	        info->fix.type = FB_TYPE_PACKED_PIXELS;
-    88		if (sp->depth == 32 || sp->depth == 24)
-    89			info->fix.visual = FB_VISUAL_TRUECOLOR;
-    90		else
-    91			info->fix.visual = FB_VISUAL_PSEUDOCOLOR;
-    92	
-    93		var->xres = sp->width;
-    94		var->yres = sp->height;
-    95		var->xres_virtual = var->xres;
-    96		var->yres_virtual = var->yres;
-    97		var->bits_per_pixel = sp->depth;
-    98	
-    99		var->red.offset = 8;
-   100		var->red.length = 8;
-   101		var->green.offset = 16;
-   102		var->green.length = 8;
-   103		var->blue.offset = 24;
-   104		var->blue.length = 8;
-   105		var->transp.offset = 0;
-   106		var->transp.length = 0;
-   107	
-   108		if (fb_alloc_cmap(&info->cmap, 256, 0)) {
- > 109			dev_err(info->dev, "Cannot allocate color map\n");
-   110			return -ENOMEM;
-   111		}
-   112	
-   113	        return 0;
-   114	}
-   115	
+  1166	
+  1167	static void usa49wg_indat_callback(struct urb *urb)
+  1168	{
+  1169		int			i, len, x, err;
+  1170		struct usb_serial	*serial;
+  1171		struct usb_serial_port	*port;
+  1172		unsigned char 		*data = urb->transfer_buffer;
+  1173		int status = urb->status;
+  1174	
+  1175		serial = urb->context;
+  1176	
+  1177		if (status) {
+  1178			dev_dbg(&urb->dev->dev, "%s - nonzero status: %d\n",
+  1179					__func__, status);
+  1180			return;
+  1181		}
+  1182	
+  1183		/* inbound data is in the form P#, len, status, data */
+  1184		i = 0;
+  1185		len = 0;
+  1186	
+  1187		while (i < urb->actual_length) {
+  1188			if (urb->actual_length - i < 3) {
+> 1189				dev_warn_ratelimited(&serial->dev, "malformed indat packet\n");
+  1190				break;
+  1191			}
+  1192	
+  1193			/* Check port number from message */
+  1194			if (data[i] >= serial->num_ports) {
+  1195				dev_dbg(&urb->dev->dev, "%s - Unexpected port number %d\n",
+  1196					__func__, data[i]);
+  1197				return;
+  1198			}
+  1199			port = serial->port[data[i++]];
+  1200			len = data[i++];
+  1201	
+  1202			/* 0x80 bit is error flag */
+  1203			if ((data[i] & 0x80) == 0) {
+  1204				/* no error on any byte */
+  1205				i++;
+  1206				for (x = 1; x < len && i < urb->actual_length; ++x)
+  1207					tty_insert_flip_char(&port->port,
+  1208							data[i++], 0);
+  1209			} else {
+  1210				/*
+  1211				 * some bytes had errors, every byte has status
+  1212				 */
+  1213				for (x = 0; x + 1 < len &&
+  1214					    i + 1 < urb->actual_length; x += 2) {
+  1215					int stat = data[i];
+  1216					int flag = TTY_NORMAL;
+  1217	
+  1218					if (stat & RXERROR_OVERRUN) {
+  1219						tty_insert_flip_char(&port->port, 0,
+  1220									TTY_OVERRUN);
+  1221					}
+  1222					/* XXX should handle break (0x10) */
+  1223					if (stat & RXERROR_PARITY)
+  1224						flag = TTY_PARITY;
+  1225					else if (stat & RXERROR_FRAMING)
+  1226						flag = TTY_FRAME;
+  1227	
+  1228					tty_insert_flip_char(&port->port, data[i+1],
+  1229							     flag);
+  1230					i += 2;
+  1231				}
+  1232			}
+  1233			tty_flip_buffer_push(&port->port);
+  1234		}
+  1235	
+  1236		/* Resubmit urb so we continue receiving */
+  1237		err = usb_submit_urb(urb, GFP_ATOMIC);
+  1238		if (err != 0)
+  1239			dev_dbg(&urb->dev->dev, "%s - resubmit read urb failed. (%d)\n", __func__, err);
+  1240	}
+  1241	
 
 --
 0-DAY CI Kernel Test Service
