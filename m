@@ -1,374 +1,94 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from out30-97.freemail.mail.aliyun.com (out30-97.freemail.mail.aliyun.com [115.124.30.97])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64ECA233924
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 May 2026 04:38:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85C963546E0;
+	Wed, 20 May 2026 04:59:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.97
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779251910; cv=none; b=D+C0Xume2C3Bp+zz8kB4F6OJfNvl+PQvezyiLNvnCCBj1NezwwX/pPonUwS6rbRhh3VQMyi46ZspXSaskigLwGicGQ0lo+yeadpgm/9FCZaph0rJgMYsQy3GosKNoaLfsEg7FFcD0MAF7Jeml7x5AXvMJJC2ZIQfj0TVcTJZTuA=
+	t=1779253174; cv=none; b=G4vOnuZkHvA0+v2hisHHtYr/jDkrqgywBQR6D2NJEjNV9eXJ4Cf+JuPe0Q1I5OKepVjzgWZfCZGxSjz6M2UGzBn88JIdu2yKaX98DFIychtNlqvcuUOBVLmlRt/BxbbL0WqtwNv8ifC2M7jia776fNaQbAW9BU0uUUFcfQlsR1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779251910; c=relaxed/simple;
-	bh=OCD1r4gJamRch+JSONjQZMURzO1whM/RLrRrNSQKWZE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mUHqkL5ImpPwvYZzZaLa5JiVDBDFHI2DfvKFTzsT35962VeGwnuH7EnyXRWwQ/fDXDiCwzrW2DH+elmkJlBpmVRrQp8NVEWULSoX97Ayjn8p1k+Kc3EN+GZifyJt5oI3lw5o2ohRSkTOE6WAp6kQx5achqqRMt91flQQPfx0dlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b9lMdhGk; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1779253174; c=relaxed/simple;
+	bh=BUFsqCG/hiPEurVGvgxbTgt1J+21cUheXlM4vztXVHU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CEIqVM4YOwMmFeruJkl+VLB7CSnovjaU9wrwhuGBPadTkriqdCw0hmQvwYu0fCoS61rNOaKh9I3MtoHfOXGIx5WF16vuD6u1YSYhLdWPVQeDdwo4y+wyYo6/qZqBdcVm1H3wsG0EAcOTSCtv9XYOPUml3yQfZ6gIlR4oJ/Db8cI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=aooyEfF1; arc=none smtp.client-ip=115.124.30.97
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b9lMdhGk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779251909; x=1810787909;
-  h=date:from:to:cc:subject:message-id;
-  bh=OCD1r4gJamRch+JSONjQZMURzO1whM/RLrRrNSQKWZE=;
-  b=b9lMdhGkYlKJ6sV1GRw8XyINaPbqAj4uc3p2Isd+ix78Yu6qkha/k81R
-   STSPxkALTRCCLF9mTwgxZiCryqZLgAE/K9LzQuXnel2ts+ceLOEERLcbi
-   wmSSlPBM3NpJpyPrbq3qMhpL8WOtitGE5Qvd64ZrODOMLpnYBzH/gMLVW
-   eu8OUQrbOrciNIkA7WbrsfsNqzdUAtu7mBwB2qM/LADzs+ynIQh15UBtS
-   MHfsAUjLsXNAdk5l+PIqksV8vob37Kn/TtjCFrZdePOfsWJyuq+BcZihj
-   FSg0rQHSqyVC/7NhTBC5FR0pKESrwXPtnNPwNCJDtT6HaRZPlY2tHVYrY
-   w==;
-X-CSE-ConnectionGUID: EMY6eDrySgq1wzP9FPv0Zg==
-X-CSE-MsgGUID: T54YBwPLScKnaPeI1TCNtg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="80121134"
-X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="80121134"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 21:38:28 -0700
-X-CSE-ConnectionGUID: eaHtfEvZSCOWnS3QLv/LYQ==
-X-CSE-MsgGUID: QtZaWNpIRPyUBz1MTBZx5Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="278122193"
-Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 19 May 2026 21:38:27 -0700
-Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wPYhL-000000002Sb-201c;
-	Wed, 20 May 2026 04:38:23 +0000
-Date: Wed, 20 May 2026 12:37:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alexei Starovoitov <ast@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ast-bpf:arena_slab 63/63] kernel/bpf/arena.c:963:15: error:
- 'struct slab' has no member named 'obj_exts'; did you mean 'objects'?
-Message-ID: <202605201210.BlkPbSSh-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="aooyEfF1"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1779253163; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
+	bh=R3dWlOeoGeaL6fqlWRSQQ2vR0Pb9C6LNoxzpFVBBgco=;
+	b=aooyEfF1JxBuaYc7inb7aTyXJekeLh91bMGjyVsk0MPiwgw6DkGze5x6zoxPx2W+XqX8iC3xJID4/IQNBKin80JdbQOelgBMBtyZKTLI5zosQ7BQImamDFIeEXfEURJUty1NAxce7KrB346K1jl7Xf19NveHitiC2+03ApCYTXQ=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032089153;MF=feng.tang@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0X3HX1PK_1779253161;
+Received: from localhost(mailfrom:feng.tang@linux.alibaba.com fp:SMTPD_---0X3HX1PK_1779253161 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Wed, 20 May 2026 12:59:22 +0800
+Date: Wed, 20 May 2026 12:59:21 +0800
+From: Feng Tang <feng.tang@linux.alibaba.com>
+To: kernel test robot <lkp@intel.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [linux-next:master 5548/6445] kernel/dma/contiguous.c:139:13:
+ warning: variable 'numa_cma_configured' set but not used
+Message-ID: <ag0_qU5BS9KBBiWK@U-2FWC9VHC-2323.local>
+References: <202605200341.a1HLq7XC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <202605200341.a1HLq7XC-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ast/bpf.git arena_slab
-head:   cb83f972bd005841d18f7bbff6e50d9bcbf0adf8
-commit: cb83f972bd005841d18f7bbff6e50d9bcbf0adf8 [63/63] bpf,slab: Add slub-backed allocator for bpf_arena
-config: x86_64-buildonly-randconfig-004 (https://download.01.org/0day-ci/archive/20260520/202605201210.BlkPbSSh-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605201210.BlkPbSSh-lkp@intel.com/reproduce)
+On Wed, May 20, 2026 at 03:13:09AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   6a50ba100ace43f43c87384367eb2d2605fcc16c
+> commit: 38ce91195a7c6f76fa88ef5c03bad0bbabbf5556 [5548/6445] dma-contiguous: add kconfig option to setup numa cma area if not configured explicitly
+> config: s390-randconfig-002-20260520 (https://download.01.org/0day-ci/archive/20260520/202605200341.a1HLq7XC-lkp@intel.com/config)
+> compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605200341.a1HLq7XC-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202605200341.a1HLq7XC-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> kernel/dma/contiguous.c:139:13: warning: variable 'numa_cma_configured' set but not used [-Wunused-but-set-global]
+>      139 | static bool numa_cma_configured;
+>          |             ^
+>    1 warning generated.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605201210.BlkPbSSh-lkp@intel.com/
+Thanks for the catch!
 
-All errors (new ones prefixed by >>):
+In this config, CONFIG_CMA_SIZE_PERNUMA is not set, which triggers the
+warning.
 
-   kernel/bpf/arena.c: In function 'arena_alloc_slab_page':
->> kernel/bpf/arena.c:963:15: error: 'struct slab' has no member named 'obj_exts'; did you mean 'objects'?
-     963 |         slab->obj_exts = (unsigned long)uaddr32 | BIT_ULL(63);
-         |               ^~~~~~~~
-         |               objects
-   In file included from <command-line>:
-   kernel/bpf/arena.c: In function 'arena_slab_uaddr32':
->> kernel/bpf/arena.c:974:47: error: 'const struct slab' has no member named 'obj_exts'; did you mean 'objects'?
-     974 |         unsigned long stash = READ_ONCE(slab->obj_exts);
-         |                                               ^~~~~~~~
-   include/linux/compiler_types.h:679:23: note: in definition of macro '__compiletime_assert'
-     679 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:699:9: note: in expansion of macro '_compiletime_assert'
-     699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/arena.c:974:31: note: in expansion of macro 'READ_ONCE'
-     974 |         unsigned long stash = READ_ONCE(slab->obj_exts);
-         |                               ^~~~~~~~~
->> kernel/bpf/arena.c:974:47: error: 'const struct slab' has no member named 'obj_exts'; did you mean 'objects'?
-     974 |         unsigned long stash = READ_ONCE(slab->obj_exts);
-         |                                               ^~~~~~~~
-   include/linux/compiler_types.h:679:23: note: in definition of macro '__compiletime_assert'
-     679 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:699:9: note: in expansion of macro '_compiletime_assert'
-     699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/arena.c:974:31: note: in expansion of macro 'READ_ONCE'
-     974 |         unsigned long stash = READ_ONCE(slab->obj_exts);
-         |                               ^~~~~~~~~
->> kernel/bpf/arena.c:974:47: error: 'const struct slab' has no member named 'obj_exts'; did you mean 'objects'?
-     974 |         unsigned long stash = READ_ONCE(slab->obj_exts);
-         |                                               ^~~~~~~~
-   include/linux/compiler_types.h:679:23: note: in definition of macro '__compiletime_assert'
-     679 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:699:9: note: in expansion of macro '_compiletime_assert'
-     699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/arena.c:974:31: note: in expansion of macro 'READ_ONCE'
-     974 |         unsigned long stash = READ_ONCE(slab->obj_exts);
-         |                               ^~~~~~~~~
->> kernel/bpf/arena.c:974:47: error: 'const struct slab' has no member named 'obj_exts'; did you mean 'objects'?
-     974 |         unsigned long stash = READ_ONCE(slab->obj_exts);
-         |                                               ^~~~~~~~
-   include/linux/compiler_types.h:679:23: note: in definition of macro '__compiletime_assert'
-     679 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:699:9: note: in expansion of macro '_compiletime_assert'
-     699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/arena.c:974:31: note: in expansion of macro 'READ_ONCE'
-     974 |         unsigned long stash = READ_ONCE(slab->obj_exts);
-         |                               ^~~~~~~~~
->> kernel/bpf/arena.c:974:47: error: 'const struct slab' has no member named 'obj_exts'; did you mean 'objects'?
-     974 |         unsigned long stash = READ_ONCE(slab->obj_exts);
-         |                                               ^~~~~~~~
-   include/linux/compiler_types.h:679:23: note: in definition of macro '__compiletime_assert'
-     679 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:699:9: note: in expansion of macro '_compiletime_assert'
-     699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/arena.c:974:31: note: in expansion of macro 'READ_ONCE'
-     974 |         unsigned long stash = READ_ONCE(slab->obj_exts);
-         |                               ^~~~~~~~~
->> kernel/bpf/arena.c:974:47: error: 'const struct slab' has no member named 'obj_exts'; did you mean 'objects'?
-     974 |         unsigned long stash = READ_ONCE(slab->obj_exts);
-         |                                               ^~~~~~~~
-   include/linux/compiler_types.h:635:53: note: in definition of macro '__unqual_scalar_typeof'
-     635 | #define __unqual_scalar_typeof(x) __typeof_unqual__(x)
-         |                                                     ^
-   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
-      50 |         __READ_ONCE(x);                                                 \
-         |         ^~~~~~~~~~~
-   kernel/bpf/arena.c:974:31: note: in expansion of macro 'READ_ONCE'
-     974 |         unsigned long stash = READ_ONCE(slab->obj_exts);
-         |                               ^~~~~~~~~
-   In file included from ./arch/x86/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:369,
-                    from include/uapi/linux/filter.h:9,
-                    from include/linux/bpf.h:8,
-                    from kernel/bpf/arena.c:3:
->> kernel/bpf/arena.c:974:47: error: 'const struct slab' has no member named 'obj_exts'; did you mean 'objects'?
-     974 |         unsigned long stash = READ_ONCE(slab->obj_exts);
-         |                                               ^~~~~~~~
-   include/asm-generic/rwonce.h:44:73: note: in definition of macro '__READ_ONCE'
-      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-         |                                                                         ^
-   kernel/bpf/arena.c:974:31: note: in expansion of macro 'READ_ONCE'
-     974 |         unsigned long stash = READ_ONCE(slab->obj_exts);
-         |                               ^~~~~~~~~
-   kernel/bpf/arena.c: In function 'arena_free_slab_page':
-   kernel/bpf/arena.c:988:26: error: 'struct slab' has no member named 'obj_exts'; did you mean 'objects'?
-     988 |         WRITE_ONCE(slab->obj_exts, 0);
-         |                          ^~~~~~~~
-   include/linux/compiler_types.h:679:23: note: in definition of macro '__compiletime_assert'
-     679 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:699:9: note: in expansion of macro '_compiletime_assert'
-     699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      60 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/arena.c:988:9: note: in expansion of macro 'WRITE_ONCE'
-     988 |         WRITE_ONCE(slab->obj_exts, 0);
-         |         ^~~~~~~~~~
-   kernel/bpf/arena.c:988:26: error: 'struct slab' has no member named 'obj_exts'; did you mean 'objects'?
-     988 |         WRITE_ONCE(slab->obj_exts, 0);
-         |                          ^~~~~~~~
-   include/linux/compiler_types.h:679:23: note: in definition of macro '__compiletime_assert'
-     679 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:699:9: note: in expansion of macro '_compiletime_assert'
-     699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      60 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/arena.c:988:9: note: in expansion of macro 'WRITE_ONCE'
-     988 |         WRITE_ONCE(slab->obj_exts, 0);
-         |         ^~~~~~~~~~
-   kernel/bpf/arena.c:988:26: error: 'struct slab' has no member named 'obj_exts'; did you mean 'objects'?
-     988 |         WRITE_ONCE(slab->obj_exts, 0);
-         |                          ^~~~~~~~
-   include/linux/compiler_types.h:679:23: note: in definition of macro '__compiletime_assert'
-     679 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:699:9: note: in expansion of macro '_compiletime_assert'
-     699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      60 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/arena.c:988:9: note: in expansion of macro 'WRITE_ONCE'
-     988 |         WRITE_ONCE(slab->obj_exts, 0);
-         |         ^~~~~~~~~~
-   kernel/bpf/arena.c:988:26: error: 'struct slab' has no member named 'obj_exts'; did you mean 'objects'?
-     988 |         WRITE_ONCE(slab->obj_exts, 0);
-         |                          ^~~~~~~~
-   include/linux/compiler_types.h:679:23: note: in definition of macro '__compiletime_assert'
-     679 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:699:9: note: in expansion of macro '_compiletime_assert'
-     699 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      60 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/arena.c:988:9: note: in expansion of macro 'WRITE_ONCE'
-     988 |         WRITE_ONCE(slab->obj_exts, 0);
-         |         ^~~~~~~~~~
-   kernel/bpf/arena.c:988:26: error: 'struct slab' has no member named 'obj_exts'; did you mean 'objects'?
-     988 |         WRITE_ONCE(slab->obj_exts, 0);
-         |                          ^~~~~~~~
-   include/linux/compiler_types.h:679:23: note: in definition of macro '__compiletime_assert'
-     679 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:699:9: note: in expansion of macro '_compiletime_assert'
+The patch below should fix it.
 
+Hi Marek,
 
-vim +963 kernel/bpf/arena.c
+Could you help to squash this follow-on fix patch, or I can send
+you a modified new version of the original patch? Thanks!
 
-   917	
-   918	/*
-   919	 * SLAB_BPF_ARENA support: each arena owns a set of kmem_cache buckets that
-   920	 * back kmalloc-style alloc/free for BPF programs. Slab pages are drawn from
-   921	 * the arena's page pool, but slub treats them as ordinary direct-map kernel
-   922	 * memory (slab_address/virt_to_slab/freepointers all use direct-map VAs).
-   923	 * The arena's vmalloc mapping is what BPF programs see; bpf_arena_alloc/free
-   924	 * translate between direct-map and arena offset in O(1) by reading the slab
-   925	 * page's arena uaddr32 stashed in slab->obj_exts.
-   926	 */
-   927	
-   928	static struct slab *arena_alloc_slab_page(void *arena_p, gfp_t flags, int node,
-   929						  unsigned int order, bool allow_spin)
-   930	{
-   931		struct bpf_arena *arena = arena_p;
-   932		long ret_user_va;
-   933		u32 uaddr32;
-   934		void *kva;
-   935		struct page *page;
-   936		struct slab *slab;
-   937	
-   938		if (order)
-   939			return NULL;
-   940	
-   941		/* Propagate allow_spin to the arena page allocator; non-sleeping
-   942		 * contexts (BPF NMI/irq-off) take the best-effort path.
-   943		 */
-   944		ret_user_va = arena_alloc_pages(arena, 0, 1, node, allow_spin);
-   945		if (!ret_user_va)
-   946			return NULL;
-   947	
-   948		uaddr32 = (u32)ret_user_va;
-   949		kva = (void *)(bpf_arena_get_kern_vm_start(arena) + uaddr32);
-   950	
-   951		page = vmalloc_to_page(kva);
-   952		if (WARN_ON_ONCE(!page))
-   953			goto fail;
-   954	
-   955		__SetPageSlab(page);
-   956		slab = page_slab(page);
-   957		/*
-   958		 * Stash this slab page's arena offset in obj_exts. allocate_slab()
-   959		 * skips init_slab_obj_exts() for SLAB_BPF_ARENA caches, so this
-   960		 * survives until __free_slab(). High bit set as a presence sentinel
-   961		 * (uaddr32 < 4GB so bit 63 is always free).
-   962		 */
- > 963		slab->obj_exts = (unsigned long)uaddr32 | BIT_ULL(63);
-   964		WRITE_ONCE(arena->slab_pages[uaddr32 >> PAGE_SHIFT], page);
-   965	
-   966		return slab;
-   967	fail:
-   968		arena_free_pages(arena, uaddr32, 1, true);
-   969		return NULL;
-   970	}
-   971	
-   972	static u32 arena_slab_uaddr32(const struct slab *slab)
-   973	{
- > 974		unsigned long stash = READ_ONCE(slab->obj_exts);
-   975	
-   976		if (WARN_ON_ONCE(!(stash & BIT_ULL(63))))
-   977			return 0;
-   978		return (u32)stash;
-   979	}
-   980	
+- Feng
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+---
+diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
+index 42227c823893..f286d49bf068 100644
+--- a/kernel/dma/contiguous.c
++++ b/kernel/dma/contiguous.c
+@@ -136,7 +136,7 @@ static struct cma *dma_contiguous_numa_area[MAX_NUMNODES];
+ static phys_addr_t numa_cma_size[MAX_NUMNODES] __initdata;
+ static struct cma *dma_contiguous_pernuma_area[MAX_NUMNODES];
+ static phys_addr_t pernuma_size_bytes __initdata;
+-static bool numa_cma_configured;
++static bool __maybe_unused numa_cma_configured;
+ 
+ static int __init early_numa_cma(char *p)
+ {
