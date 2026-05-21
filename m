@@ -1,58 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D40339DBFD
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 May 2026 10:34:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D9623A1699
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 May 2026 10:34:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779359658; cv=none; b=H+BsneTPXURQAQ3cu7zM3b/A6abgD0UTxAglcMyKQmy9GCatKA2M/U4cwR0ihOot1V9s/WKHEWce8I4M26i46TlIQUy8i8+t1Hv4kc/kjYUO8l7A50xY1dTmx9d+rJgRKe6a32C+wGGw5xRrlzhL2zitbZPJ9KYFzMhtZ+2tNhQ=
+	t=1779359659; cv=none; b=Q3CDfBln8/0Pdkv8JQTZC/736J40SFcYL56rAfFQBnJblRxvsqx8IqW31OFMH9lZOUen2L01wXRYwVALDm5LYwcgMmWZzOy3GL/IZrBQ6x1yQldzXR5VM8gYL49ven2vIjxfTv/wNj/1dutLRwUlZvNJsFfBHW0iGlc2eQm8B4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779359658; c=relaxed/simple;
-	bh=i6dOJimL7UoM3Ig6Uc87lfZZDGEaj8t6BZY/dhGsuo0=;
+	s=arc-20240116; t=1779359659; c=relaxed/simple;
+	bh=/wcFPQ6xwY56biMvbixvgexBzo/UAOwrTYwoAkjU6eQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bZjJvG86piGTq5byAd+R/eWXVYXUudOzuJPdOKllNFEzpzldOcNkGtUiGCQs9BY+xr2vaXKyCOfqLn7cXtP5x2R6COxYcaMVYAmtQwRiMg9F7bkTJqK6MAhPq0kpwSv9AfSZhY12bsEQCfiYjw9SO6P1ejHUGql5ytRwon6Eedo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XNBExl9K; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=f6pCv7+RegtjlAD8x251bBcTBOgbkDJ7c/jjJGkpgmvceOx4K/fgNhCXypSWXtN0/tStqkRxunaeKgF65zwfbeJ42qm/TC0cBjWp/8nhxYn0fMp9ZhvGtIeuYwkTi+NH4YrG2U8tnDGpBfoglP4savC3HESpbHrNEsrLKfTgWmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a7dBeZdt; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XNBExl9K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a7dBeZdt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779359656; x=1810895656;
+  t=1779359657; x=1810895657;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=i6dOJimL7UoM3Ig6Uc87lfZZDGEaj8t6BZY/dhGsuo0=;
-  b=XNBExl9KW4lUcYgu97GWSS9zW6JA9UiUAk1rGwHpAiLGx2lkYNcDs4Uo
-   qvyo4RihlxIphwGWpkBEKU1RNj0XE8hJ09zy9f3gMPaX7zYf3mTvlhZlm
-   fD+LcAJvgLPGRt9v6jDaCn1ZU63yUXo8llFqtPZOeHqMUItqyS3U+HAcb
-   ihHJbBlOkhnhREybNs4ClYjZ+fiQtCBurQe5oF+MkesAw/Q9VD5n/x65A
-   f9LS5NPDXJstThLLTUT4RGMGjWgHJGQGNvF6ty2121eXNLDEMFDEOl4W6
-   srJukvDNopW39JzjxbuizHJCnWfmRTnAVo97sb9GMPenx6xocKa+sEaen
-   w==;
-X-CSE-ConnectionGUID: ivJiixDCTpKXVw1gyiJOBQ==
-X-CSE-MsgGUID: KJ7nQTg/R0q6FLsjZxPNRw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="80004693"
+  bh=/wcFPQ6xwY56biMvbixvgexBzo/UAOwrTYwoAkjU6eQ=;
+  b=a7dBeZdtjRn9D0vXBYFrzsBLgBCL1s6WkZip9HrJ1U6wioaMtTGtp9mL
+   Rnx84Ha5jurJqeATIu/3fUp6f4iiqJMAtzyygvs2c9T3vlgOLlYwWt/js
+   ISGnvt4KIYl+8aTonisITNxbL5EMblPu9KoSY+9LYzXepP0VFKtFvhm2t
+   O/ptwTMLMA1y4UD9P03suVxNwnABh1EWAge/DkbMpOvAfuk3yE2NSBraX
+   BkNXeYPFY1qfXVraGNqpSycyKkVxAXP+ujTpauz+J8l5ayYK1PRq6KmO7
+   bVsg5R5Cm3ODFLrUd3qxYtVdg7QogQqLfaCp7pUd6B+2765obEYz8dZnP
+   g==;
+X-CSE-ConnectionGUID: 6rFxReGdQEWnWyn1z3sm9A==
+X-CSE-MsgGUID: 6NFjsmmdReSXrg25ORkW5Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="80256459"
 X-IronPort-AV: E=Sophos;i="6.23,246,1770624000"; 
-   d="scan'208";a="80004693"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2026 03:34:16 -0700
-X-CSE-ConnectionGUID: 3AaGs3WiRrqYxKKxBxhfHQ==
-X-CSE-MsgGUID: NexNmXv+RAu8a+xh1yh/gw==
+   d="scan'208";a="80256459"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2026 03:34:17 -0700
+X-CSE-ConnectionGUID: NK2SNsHDSlSqcNMYQBh7iA==
+X-CSE-MsgGUID: MqHpp86PSNmCh79yTFuJ+g==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,246,1770624000"; 
+   d="scan'208";a="270845138"
 Received: from lkp-server01.sh.intel.com (HELO fdb68b0ce653) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 21 May 2026 03:34:14 -0700
+  by orviesa002.jf.intel.com with ESMTP; 21 May 2026 03:34:15 -0700
 Received: from kbuild by fdb68b0ce653 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wQ0jE-0000000007v-0CAW;
-	Thu, 21 May 2026 10:34:12 +0000
-Date: Thu, 21 May 2026 18:33:43 +0800
+	id 1wQ0jD-0000000007t-47a4;
+	Thu, 21 May 2026 10:34:11 +0000
+Date: Thu, 21 May 2026 18:33:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chuck Lever <cel@kernel.org>, Anna Schumaker <anna@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org,
-	Chuck Lever <chuck.lever@oracle.com>
-Subject: Re: [PATCH] xprtrdma: Decouple RPC completion from Send completion
-Message-ID: <202605211828.lbkVyryr-lkp@intel.com>
-References: <20260520175016.29480-1-cel@kernel.org>
+To: "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, David Heidelberg <david@ixit.cz>,
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] iio: light: al3320a: read both ALS ADC registers again
+Message-ID: <202605211815.ZBkYyHp5-lkp@intel.com>
+References: <20260521041041.542095-1-grandmaster@al2klimov.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,92 +67,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260520175016.29480-1-cel@kernel.org>
+In-Reply-To: <20260521041041.542095-1-grandmaster@al2klimov.de>
 
-Hi Chuck,
+Hi Alexander,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on trondmy-nfs/linux-next]
-[also build test ERROR on linus/master v7.1-rc4 next-20260520]
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on linus/master v7.1-rc4 next-20260520]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chuck-Lever/xprtrdma-Decouple-RPC-completion-from-Send-completion/20260521-025653
-base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
-patch link:    https://lore.kernel.org/r/20260520175016.29480-1-cel%40kernel.org
-patch subject: [PATCH] xprtrdma: Decouple RPC completion from Send completion
-config: nios2-randconfig-r123-20260521 (https://download.01.org/0day-ci/archive/20260521/202605211828.lbkVyryr-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 8.5.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-A-Klimov/iio-light-al3320a-read-both-ALS-ADC-registers-again/20260521-121359
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20260521041041.542095-1-grandmaster%40al2klimov.de
+patch subject: [PATCH] iio: light: al3320a: read both ALS ADC registers again
+config: csky-randconfig-r133-20260521 (https://download.01.org/0day-ci/archive/20260521/202605211815.ZBkYyHp5-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 15.2.0
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260521/202605211828.lbkVyryr-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260521/202605211815.ZBkYyHp5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605211828.lbkVyryr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605211815.ZBkYyHp5-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iio/light/al3320a.c:153:24: sparse: sparse: cast to restricted __le16
 
-   net/sunrpc/xprtrdma/rpc_rdma.c: In function 'rpcrdma_req_release':
->> net/sunrpc/xprtrdma/rpc_rdma.c:491:20: error: 'struct rpc_xprt' has no member named 'bc_pa_lock'; did you mean 'queue_lock'?
-      spin_lock(&xprt->bc_pa_lock);
-                       ^~~~~~~~~~
-                       queue_lock
->> net/sunrpc/xprtrdma/rpc_rdma.c:492:24: error: 'struct rpc_rqst' has no member named 'rq_bc_pa_list'; did you mean 'rq_enc_pages'?
-      list_add_tail(&rqst->rq_bc_pa_list, &xprt->bc_pa_list);
-                           ^~~~~~~~~~~~~
-                           rq_enc_pages
->> net/sunrpc/xprtrdma/rpc_rdma.c:492:44: error: 'struct rpc_xprt' has no member named 'bc_pa_list'
-      list_add_tail(&rqst->rq_bc_pa_list, &xprt->bc_pa_list);
-                                               ^~
-   net/sunrpc/xprtrdma/rpc_rdma.c:493:22: error: 'struct rpc_xprt' has no member named 'bc_pa_lock'; did you mean 'queue_lock'?
-      spin_unlock(&xprt->bc_pa_lock);
-                         ^~~~~~~~~~
-                         queue_lock
+vim +153 drivers/iio/light/al3320a.c
 
-
-vim +491 net/sunrpc/xprtrdma/rpc_rdma.c
-
-   469	
-   470	/* rl_kref has two owners while a Send is outstanding: the rpc_rqst
-   471	 * owner and the sendctx. Replies complete the RPC but do not drop
-   472	 * either reference. The req returns to rb_send_bufs only after
-   473	 * xprt_rdma_free_slot() or xprt_rdma_bc_free_rqst() has dropped the
-   474	 * RPC-layer reference and rpcrdma_sendctx_unmap() has dropped the
-   475	 * Send-side reference.
-   476	 *
-   477	 * Any req held by an rpc_rqst has rl_kref >= 1. Hand-off sites
-   478	 * reinitialize rl_kref before assigning a recycled req to a new owner;
-   479	 * rpcrdma_prepare_send_sges() then takes the Send-side reference.
-   480	 */
-   481	static void rpcrdma_req_release(struct kref *kref)
-   482	{
-   483		struct rpcrdma_req *req =
-   484			container_of(kref, struct rpcrdma_req, rl_kref);
-   485		struct rpc_rqst *rqst = &req->rl_slot;
-   486		struct rpc_xprt *xprt = rqst->rq_xprt;
-   487		struct rpcrdma_xprt *r_xprt =
-   488			container_of(xprt, struct rpcrdma_xprt, rx_xprt);
-   489	
-   490		if (bc_prealloc(rqst)) {
- > 491			spin_lock(&xprt->bc_pa_lock);
- > 492			list_add_tail(&rqst->rq_bc_pa_list, &xprt->bc_pa_list);
-   493			spin_unlock(&xprt->bc_pa_lock);
-   494			return;
-   495		}
-   496	
-   497		/* Re-arm rl_kref before the hand-off so the next owner of
-   498		 * this slot sees a positive refcount.
-   499		 */
-   500		kref_init(&req->rl_kref);
-   501		if (!xprt_wake_up_backlog(xprt, rqst)) {
-   502			memset(rqst, 0, sizeof(*rqst));
-   503			rpcrdma_buffer_put(&r_xprt->rx_buf, req);
-   504		}
-   505	}
-   506	
+   132	
+   133	static int al3320a_read_raw(struct iio_dev *indio_dev,
+   134				    struct iio_chan_spec const *chan, int *val,
+   135				    int *val2, long mask)
+   136	{
+   137		struct al3320a_data *data = iio_priv(indio_dev);
+   138		int ret, gain;
+   139		uint16_t raw;
+   140	
+   141		switch (mask) {
+   142		case IIO_CHAN_INFO_RAW:
+   143			/*
+   144			 * ALS ADC value is stored in two adjacent registers:
+   145			 * - low byte of output is stored at AL3320A_REG_DATA_LOW
+   146			 * - high byte of output is stored at AL3320A_REG_DATA_LOW + 1
+   147			 */
+   148			ret = regmap_bulk_read(data->regmap, AL3320A_REG_DATA_LOW,
+   149					       &raw, sizeof(raw));
+   150			if (ret)
+   151				return ret;
+   152	
+ > 153			*val = le16_to_cpu(raw);
+   154	
+   155			return IIO_VAL_INT;
+   156		case IIO_CHAN_INFO_SCALE:
+   157			ret = regmap_read(data->regmap, AL3320A_REG_CONFIG_RANGE, &gain);
+   158			if (ret)
+   159				return ret;
+   160	
+   161			gain = FIELD_GET(AL3320A_GAIN_MASK, gain);
+   162			*val = al3320a_scales[gain][0];
+   163			*val2 = al3320a_scales[gain][1];
+   164	
+   165			return IIO_VAL_INT_PLUS_MICRO;
+   166		}
+   167		return -EINVAL;
+   168	}
+   169	
 
 --
 0-DAY CI Kernel Test Service
