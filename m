@@ -1,110 +1,145 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E493737F8BA
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 May 2026 12:31:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91C6B3DD532;
+	Thu, 21 May 2026 12:50:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779366684; cv=none; b=d6UukgZiG4w7gwo+CygZ/nnadoAgjwEu/Ips0JhjOWtTzSjIebaVMmxTkVF9WHY+FPB20oJFlftSxz1D75R8K1X9gu4A3zMsE0hT49FfS4S+/NOAcb2/LsxgszFijjiwHFT0yYgfM7XoWmfF8pX4GXyJ13lb2lF3PcQxYLd2zcc=
+	t=1779367834; cv=none; b=nwbivx72IAVXpfx8QxBa/ChCH1qiaX9sMO0/35bL0ubhx4pbNlRDgSimxP1ZRSX+uzppaqWho1BspIkh7WSXN8vkJWM0Km7q3hQZsBiGLRviK0S6utQEOQipYGw6kWZVyOSYTwu69MugL3oC5OTM5qxMye0RZPNn+zYYaOjlXpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779366684; c=relaxed/simple;
-	bh=b+304RJvoRC3Gg++pcuwSLvUwUwpAG2sYul0jOZd/r8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ou7anbLj2AxZLZ8KFE+mNUOGaKkGVcp57eH8U6f/Wzl9IdV69T/QBp7gi+HYqZtpmaUlQ2HQ1AKx6han6xKRSBMfZB5T6N8J23Kr+DVpx8/pYM4CsRym8Fnpw1Mth8ac415AwPU9qEdg7C46HsUQ5CKe0m0xtN7Jwy1srCo6Qz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ISV1O+G2; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1779367834; c=relaxed/simple;
+	bh=cQ+8vKRBCwxZgVfUo+dkYcspnC9qqt3zeu55Qw9FmGo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Vv5md6fSTKi1c7ABCBr7uc3GhiRbl5LckmP94H0bRpbh/0EbhXkWwZyB2Cm0HwK5rthAe0c0jzVenwgezfPYCpqdIMNlHMkINTMskmVp+aorn53AI8+mtkUBk/tIQhzh3MqspEb0jeRiRMsq3fX5NkgOaCadMzMk3AgNXxRRirE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=AtOom/F4; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ISV1O+G2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779366682; x=1810902682;
-  h=date:from:to:cc:subject:message-id;
-  bh=b+304RJvoRC3Gg++pcuwSLvUwUwpAG2sYul0jOZd/r8=;
-  b=ISV1O+G23u/mXx2vL3Cr+bB2PaSwhV1l1zo4dueN0w3YBxOBFd7+zA2S
-   H3JSP6374f1s8tl+cZFFWJAjWwWDh3adXYviwAZuhbs2x+wm5ohPY4VFF
-   i1r0kxtSmrxYtQo8s2At8Y89bHOX/QjRsoSQA0eAlP4g5Gw24vspEoFfJ
-   LR3qoJK7KRgAVBk9jR0Vv5fCBErZS4Rp0cO4f8Jp+YubsdDHGGeDSinDM
-   nIM6hpel+IZBW7vRfz2wvO4m/+eUtxUgQ6P1/gcKuBpSp79+dBgoEzh6w
-   ZCYTAJ9H6tUpjv6df9ZtyD1h7kUfJb2XJCsAJs3u27qxaTbSq4czDvezd
-   Q==;
-X-CSE-ConnectionGUID: VWdGTkKfTwam6uf2ypZz0g==
-X-CSE-MsgGUID: 9fjkGsMwSmefSF3Gqo0e0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="83902683"
-X-IronPort-AV: E=Sophos;i="6.23,246,1770624000"; 
-   d="scan'208";a="83902683"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2026 05:31:21 -0700
-X-CSE-ConnectionGUID: 0ZSocfp+Rgi4YdHzmbKneA==
-X-CSE-MsgGUID: FG2oe3gjTTSGhVt1wAeuCA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,246,1770624000"; 
-   d="scan'208";a="278627543"
-Received: from lkp-server01.sh.intel.com (HELO fdb68b0ce653) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 21 May 2026 05:31:21 -0700
-Received: from kbuild by fdb68b0ce653 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wQ2YX-000000000Gv-2rg3;
-	Thu, 21 May 2026 12:31:17 +0000
-Date: Thu, 21 May 2026 20:31:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Martin Kaiser <martin.kaiser@codasip.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- "Christian A. Ehrhardt" <christian.ehrhardt@codasip.com>
-Subject: [scosu-sched:topic/mmap-cap-prot-wip/v6.18 1010/1130]
- kernel/trace/trace_syscalls.c:527:52: warning: passing argument 1 of '__c_pa'
- makes pointer from integer without a cast
-Message-ID: <202605212047.8VIOY137-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="AtOom/F4"
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64L7dqDB394602;
+	Thu, 21 May 2026 12:50:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=Nb8HcH
+	ohl6ZMAOWhdPfbNsQPZkLpIUnnAWIDe04J6FA=; b=AtOom/F40sO3teBktgKVgw
+	xe7Aycy+4hlqhH9zp32Obfz8ubAOcrMwyP/2bMh24Hi+dkYXKCzkosX45SjmQeK9
+	dcy6OCnHoY5y3CKl2t4MypMTEMHzGYzdaUp37J40esYaSccL33Is6kIZhd7kbgoA
+	jNgcAh5fEe1hoNMEL2L+Iqgr5QfFC3HURI9gAQ05YipvzVY8KrMH5GDDN/9on6Mx
+	Aa/UrF99KDFroZ4KjchWkHCk53rjRoPB6rGJLmbIlExjOMUDUNRvs5Iay93uVpW1
+	xoiYBNw1LWIrFZYVe/biWvHKrUqRDj2Slm4esuSfNl345Eosd/kvHON13S61OF7Q
+	==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4e6h9y7025-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 21 May 2026 12:50:30 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64LCd3Fh007405;
+	Thu, 21 May 2026 12:50:30 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4e72wqcb0x-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 21 May 2026 12:50:29 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64LCoSwA45875528
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 21 May 2026 12:50:28 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5CF002004B;
+	Thu, 21 May 2026 12:50:28 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 31E6020043;
+	Thu, 21 May 2026 12:50:27 +0000 (GMT)
+Received: from [9.39.17.57] (unknown [9.39.17.57])
+	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Thu, 21 May 2026 12:50:26 +0000 (GMT)
+Message-ID: <b9bda4cb-8125-4612-b6ba-9694361e7509@linux.ibm.com>
+Date: Thu, 21 May 2026 18:20:25 +0530
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] selftests/filesystems: Move file_stressor to dedicated
+ subdirectory
+To: kernel test robot <lkp@intel.com>, shuah@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kselftest@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20260519104210.11836-1-disgoel@linux.ibm.com>
+ <202605192100.DvRgEGZ3-lkp@intel.com>
+Content-Language: en-GB
+From: Disha Goel <disgoel@linux.ibm.com>
+In-Reply-To: <202605192100.DvRgEGZ3-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIxMDEyNiBTYWx0ZWRfX4qySvzHASD8e
+ 4UlzgqVYoc4pU0nhBhEe5+mGHR1DwGOqp3kNMtg3vLseq8IeIXw1YKxAq7NO2nJS56F9UggRRcf
+ rHfip+9sAC7EcSTJNJnPQiec6aCgOiJtChiVGkXyGKdg2pr1SbrWWDto+guCADD10GQR6XwlnrS
+ nKNt6I0sHPIg9IL7/LL3HTE63BJGliBVOe4Foqhsay1JTHrMQ8hOl2MX0CVlZFN7r1NEizeKcSk
+ e1nKJhaCGi1c+34590j7hgmpx4qSn0onT3D+z3kuVZIukhZAib2/KY0jK/7yBx3YraB82155TW+
+ lwR17R9R7l0uEfWhs59+Mn6JQsE85hORJSFUAs/yFojz8dvATgQ7Kdwn+HdQD4+D/5zpWQQQ6tN
+ /HiXiVl/MPenQHrypiyWgo+1OXOIbseOOtPkYJoHVjAJPz8anCagjEjk2HTw9rE9DF06N52Wv5c
+ zLY2JeB+osiblQuO6aQ==
+X-Authority-Analysis: v=2.4 cv=BNuDalQG c=1 sm=1 tr=0 ts=6a0eff97 cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=anyJmfQTAAAA:8
+ a=NEAV23lmAAAA:8 a=VwQbUJbxAAAA:8 a=VnNF1IyMAAAA:8 a=i3X5FwGiAAAA:8
+ a=QyXUC8HyAAAA:8 a=S1w3OjsLY70aBQMZpDsA:9 a=QEXdDO2ut3YA:10
+ a=mmqRlSCDY2ywfjPLJ4af:22
+X-Proofpoint-ORIG-GUID: 7-rHGWq7GS084NPTuCCsZaSKxd0lrJze
+X-Proofpoint-GUID: 7-rHGWq7GS084NPTuCCsZaSKxd0lrJze
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-21_02,2026-05-18_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 priorityscore=1501 malwarescore=0 impostorscore=0 suspectscore=0
+ lowpriorityscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605210126
 
-tree:   https://github.com/scosu/linux-sched topic/mmap-cap-prot-wip/v6.18
-head:   f69a5a9d9fee15edde28429e23a4c749a59937bd
-commit: ee9b4c9535db95a122f1d56e03c2a4e23396a051 [1010/1130] trace: fix syscall address cast
-config: sh-randconfig-002-20260521 (https://download.01.org/0day-ci/archive/20260521/202605212047.8VIOY137-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260521/202605212047.8VIOY137-lkp@intel.com/reproduce)
+On 19/05/26 6:48 pm, kernel test robot wrote:
+> Hi Disha,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on shuah-kselftest/next]
+> [also build test WARNING on shuah-kselftest/fixes linus/master v7.1-rc4 next-20260518]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Disha-Goel/selftests-filesystems-Move-file_stressor-to-dedicated-subdirectory/20260519-185602
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
+> patch link:    https://lore.kernel.org/r/20260519104210.11836-1-disgoel%40linux.ibm.com
+> patch subject: [PATCH] selftests/filesystems: Move file_stressor to dedicated subdirectory
+> config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20260519/202605192100.DvRgEGZ3-lkp@intel.com/config)
+> compiler: m68k-linux-gcc (GCC) 15.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260519/202605192100.DvRgEGZ3-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202605192100.DvRgEGZ3-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>     Documentation/.renames.txt: warning: ignored by one of the .gitignore files
+>>> tools/testing/selftests/filesystems/file_stressor/Makefile: warning: ignored by one of the .gitignore files
+>>> tools/testing/selftests/filesystems/file_stressor/file_stressor.c: warning: ignored by one of the .gitignore files
+>>> tools/testing/selftests/filesystems/file_stressor/settings: warning: ignored by one of the .gitignore files
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605212047.8VIOY137-lkp@intel.com/
+Thanks for the report. This has been fixed in v2.
 
-All warnings (new ones prefixed by >>):
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-   kernel/trace/trace_syscalls.c: In function 'arch_syscall_addr':
->> kernel/trace/trace_syscalls.c:527:52: warning: passing argument 1 of '__c_pa' makes pointer from integer without a cast [-Wint-conversion]
-     527 |         return (unsigned long)__c_pa(sys_call_table[nr]);
-         |                                      ~~~~~~~~~~~~~~^~~~
-         |                                                    |
-         |                                                    long unsigned int
-   In file included from include/linux/user_ptr.h:5,
-                    from include/linux/err.h:22,
-                    from include/linux/cleanup.h:6,
-                    from include/linux/cpumask.h:10,
-                    from include/linux/smp.h:13,
-                    from include/linux/tracepoint.h:15,
-                    from include/trace/syscall.h:5,
-                    from kernel/trace/trace_syscalls.c:2:
-   include/linux/cheri.h:241:29: note: expected 'const volatile void *' but argument is of type 'long unsigned int'
-     241 | __c_pa(const volatile void *ptr)
-         |        ~~~~~~~~~~~~~~~~~~~~~^~~
+-- 
+Regards,
+Disha
 
-
-vim +/__c_pa +527 kernel/trace/trace_syscalls.c
-
-   523	
-   524	#ifndef ARCH_HAS_SYSCALL_ADDR
-   525	unsigned long __init arch_syscall_addr(int nr)
-   526	{
- > 527		return (unsigned long)__c_pa(sys_call_table[nr]);
-   528	}
-   529	#endif
-   530	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
