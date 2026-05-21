@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 794894028C1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 May 2026 19:10:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D151E3E16B1;
+	Thu, 21 May 2026 19:21:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779390628; cv=none; b=hIqk0a+2/8dJps0ThGgIpfALm3lmDCGIB7W8sTFdlIaf9WJOAu/Qs7VTM9TzjNWn8xATt90V8MBJC21SawaaVHA5fib1eM7PprBHw3nyT9pI6sXix1tcouYuDfOdwTXbh1E2Ezg/UMU6TlMsGOv0izcHB0NyzovoM2Y3fR1Jx1A=
+	t=1779391287; cv=none; b=sogdXdyElMjKY3/FrWY1oC3JLFJd8mOSsIX3VNKzJ+v5dVeCXXiTdIFrrsKFUoi6u0baxoP78ypkHFG05ZsTDVO0sI6cGbetd7RGrRqfZAJXt0Yss3MKMXYuy0CtuVOmiANZMyMXHXMAEppD1x9atVRk/fIjdfmXc2Lu44LxAEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779390628; c=relaxed/simple;
-	bh=jBBOXKypPqNk4OfNj09lpgYEopzR+dzIeq92lh0TVbI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=V0jkpC2xQtjjiTHlGOyscZoQEKwyVyAV/c/hPni1l4M3LArqFbwVFfgE0T5tnQTzYLG3DuNiC9BPSX/I4PcmuAUTJ19rLUX1AHj54wrVwEjehaeO+5oOiEo8TidhSDPDQRPEd7Ep6rIqr1rtGadF9beWOLiOqyOfRm+6En1N1Sc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kD3PuRt7; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1779391287; c=relaxed/simple;
+	bh=b6nOWyTDroqhcDcwZGxCJHxHS25SekWGkaASQS+AZ1o=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=P0R8cP392JXNl2GMvCgKvCoVs0dp3vbSX1XbLw1sGHHkgLTNUHrtntDOrkedAqyfRg/vFEG/XwM4dhXBgnVDSQCruUesOYPBmfoS4/MiP3XoGE9w9HfXI1cwbh7HhxSjh7WXIhVWbAurQp7/QmODskKLEW/qFe+Qf8hLcfOQ6o4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cL2EbLkr; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kD3PuRt7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cL2EbLkr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779390624; x=1810926624;
+  t=1779391285; x=1810927285;
   h=date:from:to:cc:subject:message-id;
-  bh=jBBOXKypPqNk4OfNj09lpgYEopzR+dzIeq92lh0TVbI=;
-  b=kD3PuRt7oT2VH6Rg9YM74gtVoltxPncYbepE48zWPAPZx5glRJqxG1+N
-   l5JPg6YzpOb8DghDzigy1dxIUhR8Jm+Kkn1KBm16xtD+V/bxjUD/E39OA
-   9DoEHScxUrD/ag2s5FwjmgVysy9IfL3BmR2QJ6sv5j71Kv9u0Wt2SmiEE
-   dvBc6kXA4+h8kf8BbZGSHRMI3h0+eTVzQZ4O6noz1+RHlS9JcLQl6SQO5
-   raWyhXRnNW4dJFmMuuLJeC+PqGYy/nyGj7xjGg0fCuT4k3dg8pex2SET3
-   Ctm7N57P0Q6Dk/te0/veVmnM9iMtRIjYhcQmM9kCDWUQsrT//GEnzyxMC
-   g==;
-X-CSE-ConnectionGUID: TJohtMZrQ5eGcrBTGGmRfg==
-X-CSE-MsgGUID: DRPIGX/4Rc6HjJOc1eNM/w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11793"; a="97891517"
+  bh=b6nOWyTDroqhcDcwZGxCJHxHS25SekWGkaASQS+AZ1o=;
+  b=cL2EbLkrk2PMy0ig5gdEjC0Rt5JUgXNm9TUKSGYZQ/AucFzo8Nf2+vJn
+   EAK6Vxs7AK9HKYGWdX5MANczVYXadQnN0BizUEdKe8GJUR4wvHZ3wHVGb
+   bK+4NKFWo9XGcVFOFW9MS5owvXTOsuojaWYPiA9EUtlNhMS70TaQxLiiW
+   CwPRPUaHKFd5+cAoxglS4+rygv9pxl7CixbwDG7OsmOaCcxanHT0ALy6r
+   uewNPgKxRx7eEG28ps7jihgwHscftHWfPDiDArvjraREAdwX34SIlcV9J
+   1FSOnFVxtmzLHEdYyqD71umHgnVCW/f62K7M4R5as+Gu89YNyJ/8U36+K
+   w==;
+X-CSE-ConnectionGUID: VNB3oG1mR4KKynLL8f1+mw==
+X-CSE-MsgGUID: dePuJYBzTfGMAqmaDt+BWQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11793"; a="80375534"
 X-IronPort-AV: E=Sophos;i="6.24,160,1774335600"; 
-   d="scan'208";a="97891517"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2026 12:10:23 -0700
-X-CSE-ConnectionGUID: FVO9VG7pQQiGfUWBAECBMQ==
-X-CSE-MsgGUID: 3SYgH+CdQ86Xh951lKbT/A==
+   d="scan'208";a="80375534"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2026 12:21:24 -0700
+X-CSE-ConnectionGUID: DhmOvaGmRu2UMu2R8jea4w==
+X-CSE-MsgGUID: v6MYnnG2RR6uNEQd4zKhtw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,160,1774335600"; 
-   d="scan'208";a="240485684"
+   d="scan'208";a="242438169"
 Received: from lkp-server01.sh.intel.com (HELO fdb68b0ce653) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 21 May 2026 12:10:20 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 21 May 2026 12:21:22 -0700
 Received: from kbuild by fdb68b0ce653 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wQ8mf-0000000011h-2Gyz;
-	Thu, 21 May 2026 19:10:17 +0000
-Date: Fri, 22 May 2026 03:10:01 +0800
+	id 1wQ8xL-0000000012R-4Bg2;
+	Thu, 21 May 2026 19:21:19 +0000
+Date: Fri, 22 May 2026 03:20:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [mark:arm64/fpsimd/asm-cleanup 14/18]
- drivers/net/wireless/ath/ath6kl/core.h:311:6: error: 'sme_state' defined as
- wrong kind of tag
-Message-ID: <202605220327.HBiTexzK-lkp@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Philipp Stanner <phasta@kernel.org>
+Subject: [linux-next:master 445/7547]
+ drivers/gpu/drm/scheduler/tests/tests_scheduler.c:675:10: error: initializer
+ element is not a compile-time constant
+Message-ID: <202605220312.Pu7UO05u-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,42 +61,43 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git arm64/fpsimd/asm-cleanup
-head:   af629ab737357a9a105e7d63a08cd8271b9b8867
-commit: 5e135395acf4daee1b83406e8f97e61ab3a330ab [14/18] arm64: fpsimd: Use opaque type for SME state
-config: arm64-randconfig-002 (https://download.01.org/0day-ci/archive/20260522/202605220327.HBiTexzK-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260522/202605220327.HBiTexzK-lkp@intel.com/reproduce)
+Hi Tvrtko,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   550604d6c9b9efc8d068aff94dc301694a7afdee
+commit: 97ef806a53146837f6ca84a1b36763fb3bb67eaa [445/7547] drm/sched: Add some scheduling quality unit tests
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260522/202605220312.Pu7UO05u-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260522/202605220312.Pu7UO05u-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605220327.HBiTexzK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605220312.Pu7UO05u-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/net/wireless/ath/ath6kl/hif.h:22,
-                    from drivers/net/wireless/ath/ath6kl/sdio.c:26:
->> drivers/net/wireless/ath/ath6kl/core.h:311:6: error: 'sme_state' defined as wrong kind of tag
-     311 | enum sme_state {
-         |      ^~~~~~~~~
+>> drivers/gpu/drm/scheduler/tests/tests_scheduler.c:675:10: error: initializer element is not a compile-time constant
+                                 drm_sched_scheduler_two_clients_attr),
+                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:224:13: note: expanded from macro 'KUNIT_CASE_PARAM_ATTR'
+                     .attr = attributes, .module_name = KBUILD_MODNAME}
+                             ^~~~~~~~~~
+   1 error generated.
 
 
-vim +/sme_state +311 drivers/net/wireless/ath/ath6kl/core.h
+vim +675 drivers/gpu/drm/scheduler/tests/tests_scheduler.c
 
-bdcd81707973cf Kalle Valo 2011-07-18  310  
-bdcd81707973cf Kalle Valo 2011-07-18 @311  enum sme_state {
-bdcd81707973cf Kalle Valo 2011-07-18  312  	SME_DISCONNECTED,
-bdcd81707973cf Kalle Valo 2011-07-18  313  	SME_CONNECTING,
-bdcd81707973cf Kalle Valo 2011-07-18  314  	SME_CONNECTED
-bdcd81707973cf Kalle Valo 2011-07-18  315  };
-bdcd81707973cf Kalle Valo 2011-07-18  316  
-
-:::::: The code at line 311 was first introduced by commit
-:::::: bdcd81707973cf8aa9305337166f8ee842a050d4 Add ath6kl cleaned up driver
-
-:::::: TO: Kalle Valo <kvalo@qca.qualcomm.com>
-:::::: CC: Kalle Valo <kvalo@qca.qualcomm.com>
+   671	
+   672	static struct kunit_case drm_sched_scheduler_two_clients_tests[] = {
+   673		KUNIT_CASE_PARAM_ATTR(drm_sched_scheduler_two_clients_test,
+   674				      drm_sched_scheduler_two_clients_gen_params,
+ > 675				      drm_sched_scheduler_two_clients_attr),
+   676		{}
+   677	};
+   678	
 
 --
 0-DAY CI Kernel Test Service
