@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1CD1365A13
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 May 2026 21:14:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01311356756;
+	Thu, 21 May 2026 22:14:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779398079; cv=none; b=WEYx2kvFcKu46U6Sj6gyuajmZmUsC1CUB4NVb7jVrPkCSfimDdNEDmQ6DFN+cvtuF5y4OoiHePm7xBVEtKe6iwXTz2OqjZMUA91hh0gM5y15YmKeDQwFSCs1pIGhYD7G6NMKnEkk2B9zd4P63NWF4YGNzpMbp2iWOgPNSv21vLE=
+	t=1779401685; cv=none; b=bxx91nAsLSsmDGXbX29nQKjpI5iMvheMdbsjHZfRu6fMaBEzLGRhEYZJeb+yggV6zXVHwBVfohrziN8YoSCnHF6LBhVUU8WrUn3HYZI+QsOO89BC1PuKxObP2/ns1MiJGIE7+qyRbwcMigEI3nPZ8/HOwf+HBVQHSIi7kdiLmN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779398079; c=relaxed/simple;
-	bh=lwz1wX3AJ/y9U7sDDar02vqxxEHyA//+uWWI3gXvAaw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=S1H1Ctd100yhpzZK1rLIrc35yJJcFZGiHjPunurzRoyI0RFOSKIuYU1eqr25jChXEMTw4+2ZuoYJkSKS/0UqjZKpt/fug/1wpppha9kjS0uO9huBin6AAxuArxFBSaCe/Pc3I330up40UiJbwGaIR6VNBItYfOI/dgMDeQSUHnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CNAbF8+u; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1779401685; c=relaxed/simple;
+	bh=jjjeLch0HCMRatmlxcDE2irwQannTRXB+eS0znvfkZQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=novJY3fP5PQtENSslXOcvflpGf37x/QFUW2yk1eiJEQbMZjoDC8Jm2HLzR4ug/T2m3oBk61Du/8pUxhuc57RROx027PGyi/yud202OExYCq1AAzYtcaZN/f6F9tUmIOzuiDP2+pASchGMdNUsysqwNLJa1nLz09p0tfpYINXWaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OBnNnMSK; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CNAbF8+u"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OBnNnMSK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779398077; x=1810934077;
+  t=1779401684; x=1810937684;
   h=date:from:to:cc:subject:message-id;
-  bh=lwz1wX3AJ/y9U7sDDar02vqxxEHyA//+uWWI3gXvAaw=;
-  b=CNAbF8+u+dt3YU5v9ZC0pKB/T/khAlcFPQnAgJGjBc8i2AgYKEJDxzYe
-   WCuoCkWoC48jhqVd9Kf2jHiA8QVMgLdk/N75IrTtI7q+VerxI3ilkDZc2
-   p+hmfY4cvkhrQxBQdCqplW1kS0aIjKckqm1kcWJlboD6fzetMw3UVCPiM
-   gaub+BL/mjlO91n+irqz8aTDZuVZdRbnRin9h/ENZge2jRykc6LPetGus
-   l24qj71J7tlxwbkhneoA5aAsdYFSS4kjoIxx1Isr6XlZD7ifSgqbVFd3Z
-   QypprwsPRosB2EhdA5Zqwqxns3ouKUlBJ+DStYAM04ghnH7ZGWyH/98wT
-   Q==;
-X-CSE-ConnectionGUID: xVO7g2IqSMmi9Ty7gRI17A==
-X-CSE-MsgGUID: +ae5hLIKRXmXbOEQ6usokg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11793"; a="67851267"
+  bh=jjjeLch0HCMRatmlxcDE2irwQannTRXB+eS0znvfkZQ=;
+  b=OBnNnMSK/peNaOZVOMyJM18XSl2JtR4jGEKUzwMpRZbvfryEPw23tPhC
+   C/0NiU/FSRPoIBqsEMEPYtxxFciduFM5HB7A2Y1j84Zbxfir7WkNslkez
+   jkt/6QrAYDM7qiQjJgYlMPTP7N9y10FOsTWJwU5iVxSAh4qyIIz4BduDa
+   tnOQuu32QOZVwafFutIqu7icAA/164sJAaH82fuE4viNj0HHJGprX1inI
+   xvqIExq+m5xrmzx3KDPn0b81rF2DIwCmWhIQl443EZWFNqglQ1iaHdQ8C
+   D6iRCqSPh6q7nzfcx+5+8UUofWFvbu8v8IhFp+RU18jTrfniTDWZIE2Lp
+   g==;
+X-CSE-ConnectionGUID: SDIjxRZzS3eNafz1jSnMdw==
+X-CSE-MsgGUID: MZL+Kj3xRPSmJV7HOmXRVg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11793"; a="90906687"
 X-IronPort-AV: E=Sophos;i="6.24,161,1774335600"; 
-   d="scan'208";a="67851267"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2026 14:14:37 -0700
-X-CSE-ConnectionGUID: 4C/iAifSToWRcsQAQEC70w==
-X-CSE-MsgGUID: EVtNZ5luTgOWcfh9tnMJ8Q==
+   d="scan'208";a="90906687"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2026 15:14:43 -0700
+X-CSE-ConnectionGUID: E/rHvAICSKeI/QLChFDLnw==
+X-CSE-MsgGUID: AX4CEXiwSDqZXPwMbfgOIg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,161,1774335600"; 
-   d="scan'208";a="240697103"
+   d="scan'208";a="264476422"
 Received: from lkp-server01.sh.intel.com (HELO fdb68b0ce653) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 21 May 2026 14:14:36 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 21 May 2026 15:14:42 -0700
 Received: from kbuild by fdb68b0ce653 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wQAiu-000000001BR-3jaX;
-	Thu, 21 May 2026 21:14:32 +0000
-Date: Fri, 22 May 2026 05:13:36 +0800
+	id 1wQBf5-000000001FX-0GYh;
+	Thu, 21 May 2026 22:14:39 +0000
+Date: Fri, 22 May 2026 06:14:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 1/1]
- arch/arm64/kernel/hibernate.c:122:41: error: no member named
- 'android_vendor_data1' in 'struct arch_hibernate_hdr'
-Message-ID: <202605220557.jHmzL9Il-lkp@intel.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Alex Deucher <alexander.deucher@amd.com>, Alex Hung <alex.hung@amd.com>
+Subject: [linux-next:master 5774/7547]
+ drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c:2353:9: error: call to
+ undeclared function 'cpu_data'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202605220631.ugDr2VPb-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,88 +62,97 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   52ec049b522a04eef8b061f17437595220e5395a
-commit: 47490190cdcd68dcd92de0692439009c64049b60 [1/1] ANDROID: vendor hooks: Add hooks to support bootloader based hibernation
-config: arm64-randconfig-001-20260522 (https://download.01.org/0day-ci/archive/20260522/202605220557.jHmzL9Il-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260522/202605220557.jHmzL9Il-lkp@intel.com/reproduce)
+Hi Harry,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   550604d6c9b9efc8d068aff94dc301694a7afdee
+commit: af3f2f5db2659a13c256d2fb096c473eb50412ef [5774/7547] drm/amdgpu: Remove UML build exclusion from Kconfig
+config: um-allmodconfig (https://download.01.org/0day-ci/archive/20260522/202605220631.ugDr2VPb-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260522/202605220631.ugDr2VPb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605220557.jHmzL9Il-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605220631.ugDr2VPb-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/arm64/kernel/hibernate.c:122:41: error: no member named 'android_vendor_data1' in 'struct arch_hibernate_hdr'
-     122 |         trace_android_vh_save_cpu_resume(&hdr->android_vendor_data1,
-         |                                           ~~~  ^
-   1 error generated.
+   In file included from drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c:26:
+   In file included from include/linux/pci.h:38:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:24:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+>> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c:2353:9: error: call to undeclared function 'cpu_data'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2353 |         return cpu_data(first_cpu_of_numa_node).topo.apicid;
+         |                ^
+>> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c:2353:41: error: member reference base type 'int' is not a structure or union
+    2353 |         return cpu_data(first_cpu_of_numa_node).topo.apicid;
+         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+   1 warning and 2 errors generated.
+--
+   In file included from drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_crat.c:24:
+   In file included from include/linux/pci.h:38:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:24:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+>> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_crat.c:1830:27: error: call to undeclared function 'cpu_data'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1830 |         struct cpuinfo_x86 *c = &cpu_data(0);
+         |                                  ^
+>> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_crat.c:1830:26: error: cannot take the address of an rvalue of type 'int'
+    1830 |         struct cpuinfo_x86 *c = &cpu_data(0);
+         |                                 ^~~~~~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_crat.c:1833:7: error: incomplete definition of type 'struct cpuinfo_x86'
+    1833 |         if (c->x86_vendor == X86_VENDOR_AMD)
+         |             ~^
+   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_crat.c:1830:9: note: forward declaration of 'struct cpuinfo_x86'
+    1830 |         struct cpuinfo_x86 *c = &cpu_data(0);
+         |                ^
+>> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_crat.c:1833:23: error: use of undeclared identifier 'X86_VENDOR_AMD'
+    1833 |         if (c->x86_vendor == X86_VENDOR_AMD)
+         |                              ^
+   1 warning and 4 errors generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=y] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=y] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
-   Depends on [n]: IOMMU_SUPPORT [=n] && (ARM || ARM64 [=y] || COMPILE_TEST [=y]) && !GENERIC_ATOMIC64 [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_QCOM_CONFIGS [=y] && ARCH_QCOM [=y] && 64BIT [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=y] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=y] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
 
+vim +/cpu_data +2353 drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c
 
-vim +122 arch/arm64/kernel/hibernate.c
+851a645efd0fee Felix Kuehling  2017-11-27  2342  
+520b8fb755ccfb Felix Kuehling  2017-12-08  2343  static int kfd_cpumask_to_apic_id(const struct cpumask *cpumask)
+520b8fb755ccfb Felix Kuehling  2017-12-08  2344  {
+520b8fb755ccfb Felix Kuehling  2017-12-08  2345  	int first_cpu_of_numa_node;
+520b8fb755ccfb Felix Kuehling  2017-12-08  2346  
+520b8fb755ccfb Felix Kuehling  2017-12-08  2347  	if (!cpumask || cpumask == cpu_none_mask)
+520b8fb755ccfb Felix Kuehling  2017-12-08  2348  		return -1;
+520b8fb755ccfb Felix Kuehling  2017-12-08  2349  	first_cpu_of_numa_node = cpumask_first(cpumask);
+520b8fb755ccfb Felix Kuehling  2017-12-08  2350  	if (first_cpu_of_numa_node >= nr_cpu_ids)
+520b8fb755ccfb Felix Kuehling  2017-12-08  2351  		return -1;
+df1dd4f4a7271e Felix Kuehling  2019-01-02  2352  #ifdef CONFIG_X86_64
+b9655e702dc5d8 Thomas Gleixner 2023-08-14 @2353  	return cpu_data(first_cpu_of_numa_node).topo.apicid;
+df1dd4f4a7271e Felix Kuehling  2019-01-02  2354  #else
+df1dd4f4a7271e Felix Kuehling  2019-01-02  2355  	return first_cpu_of_numa_node;
+df1dd4f4a7271e Felix Kuehling  2019-01-02  2356  #endif
+520b8fb755ccfb Felix Kuehling  2017-12-08  2357  }
+520b8fb755ccfb Felix Kuehling  2017-12-08  2358  
 
-   110	
-   111	int arch_hibernation_header_save(void *addr, unsigned int max_size)
-   112	{
-   113		struct arch_hibernate_hdr *hdr = addr;
-   114	
-   115		if (max_size < sizeof(*hdr))
-   116			return -EOVERFLOW;
-   117	
-   118		arch_hdr_invariants(&hdr->invariants);
-   119		hdr->ttbr1_el1		= __pa_symbol(swapper_pg_dir);
-   120		hdr->reenter_kernel	= _cpu_resume;
-   121	
- > 122		trace_android_vh_save_cpu_resume(&hdr->android_vendor_data1,
-   123							__pa(cpu_resume));
-   124	
-   125		/* We can't use __hyp_get_vectors() because kvm may still be loaded */
-   126		if (el2_reset_needed())
-   127			hdr->__hyp_stub_vectors = __pa_symbol(__hyp_stub_vectors);
-   128		else
-   129			hdr->__hyp_stub_vectors = 0;
-   130	
-   131		/* Save the mpidr of the cpu we called cpu_suspend() on... */
-   132		if (sleep_cpu < 0) {
-   133			pr_err("Failing to hibernate on an unknown CPU.\n");
-   134			return -ENODEV;
-   135		}
-   136		hdr->sleep_cpu_mpidr = cpu_logical_map(sleep_cpu);
-   137		pr_info("Hibernating on CPU %d [mpidr:0x%llx]\n", sleep_cpu,
-   138			hdr->sleep_cpu_mpidr);
-   139	
-   140		return 0;
-   141	}
-   142	EXPORT_SYMBOL(arch_hibernation_header_save);
-   143	
+:::::: The code at line 2353 was first introduced by commit
+:::::: b9655e702dc5d856e5e05ae414b71708ca98b30c x86/cpu: Encapsulate topology information in cpuinfo_x86
+
+:::::: TO: Thomas Gleixner <tglx@linutronix.de>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 --
 0-DAY CI Kernel Test Service
