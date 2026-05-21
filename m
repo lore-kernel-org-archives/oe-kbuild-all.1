@@ -1,108 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE1CB37C0EB
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 May 2026 09:45:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727CA36CE04;
+	Thu, 21 May 2026 09:58:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779356760; cv=none; b=sAj4bQjF7exOoG6yLUHtsL/VVVNqDNCPbXCxb7zOIYkJFZ8VbNzE8kEufAbN1Oj7H7aUQ+WmqnHQTPSl949XLYGmwXU12dQbR6X6VOZ8ZsA8OrJ4CkgEqh7ya2GGW3by/134c2bvrXQfbPu8UrOjv/BMab6b2RBVb0KFseesmoM=
+	t=1779357487; cv=none; b=N4m2SHDcYOimKIrLEvm0EzsuO7KXUYgTlMc84qAOsvdkmFNwG7aUawmgztBmojYoyUmwhriPDBgCxcIkKXomaolLBzANSf7Mt3sv7Xc5AdV+vJ5vURVupIcceXbCx1jFcUv5trULoacyvyoBnN6pIImlh6M05Gs0FCQT8X9yhaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779356760; c=relaxed/simple;
-	bh=TCZTrJrBdgiRh4gqQvmMTY8x6g99ouQ5GXQCNVm/HPI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IXNzdEgRIr8D0Nfg9a8wGdpl6JwHSVWBfd1Ub8Zw47lE02FFGzxRQe+SdYeEsvrSP/6OcQmRWto5qtzwnDX1fO6iYu/WjfWLkf7wcfWmJjvPONFmhJuYBl/Tdio+H7XRD+EiMftMgG3ZYouE3miZAs6UkOIQDDtmeud4pK8Edcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QqmRKPn7; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1779357487; c=relaxed/simple;
+	bh=YCkFEN2sdGy8fVCrMbN1sImixAQ35ExP90zxAjONSxc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=SI9667OrLfyE9SJsMlMB/CCuy5/NezNJPSbfNfCVtJOE+43g4eJ/aW4px90uvUcAXm6JqxbvlEPiwYwGeeR63DlqCItaDMUSNq5sMdUXBA6pFnQm1gq7HLCDXWbHXPwBZKI7MUliCLfTMJHSPLp6bXW9+fHYa6siTfdzCQHJYDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HWwl1mEZ; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QqmRKPn7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HWwl1mEZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779356759; x=1810892759;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TCZTrJrBdgiRh4gqQvmMTY8x6g99ouQ5GXQCNVm/HPI=;
-  b=QqmRKPn7Q8Yp2mOfX5TRWpXc6bhiGJbpS3ZJ8ZGQDE0HDJGQNwvI2xCG
-   KIde2su7VGYbHR3PLpW9UAaOQxJcaDu2lzjByLO9/5fUECGh9lcxdmfyQ
-   a3WqkIoGSocJOnOYTVLXCYnggHlroV5fBtfQKmpcK9IeC0vINV5qiGCIO
-   iIyyqmjCjiEImdGqZISHOQMcgdTx4ZuRcCLvonIaIL3z2JIj4qG/xsiKT
-   b9X0UTtw9yRllv4GBvP1ehcE67f0yM091IhKtffaSVdekOUBAUyaauZrE
-   5wU+Lv8iGE8Dx1DLXae+jhc0Cvx2tvcRw3pJ3xlEXSguvBhVCiQH1j3+4
+  t=1779357486; x=1810893486;
+  h=date:from:to:cc:subject:message-id;
+  bh=YCkFEN2sdGy8fVCrMbN1sImixAQ35ExP90zxAjONSxc=;
+  b=HWwl1mEZi4GYcBwXvA1AgAyCEbq84CsVTp4IOLaJ6JgDU/V37+J6J/jw
+   xt0IUyQVCgg2W3NXxafLkRpmfVRyhdG9LU/M9i0dgd9GMLmrFfXw8ImLz
+   FGEWqLKMYd9q6uOooCiDLw780jugHeBHSxWQbOx2eLsPfFA/OULIh18/Y
+   UlZNOn3OtrO6LHXd2WNAzXNSWjfKFOCXGUnbaXnNU2mSPLoxgcTSivMCS
+   MpWsJQIQ09BgWQf2lqRqAkCxFQq2gUVaqACABFZAgA4rZ8MhA5tmdzWhJ
+   i/7OfmSyJrxYeRT93P9IWjHpFSECBCU2huwxgaSZOsW1ALdXtI8BHOrWN
    A==;
-X-CSE-ConnectionGUID: r+i0sPkFTVSsG/BJwNWpOQ==
-X-CSE-MsgGUID: PQ9dSWjHRvSE6NNzDenNew==
-X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="80450410"
+X-CSE-ConnectionGUID: 88Rn8PxfS9Wt9AY1TZI4UA==
+X-CSE-MsgGUID: bQnDntNLQAuT2UxJ/2DvSw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="97843465"
 X-IronPort-AV: E=Sophos;i="6.23,246,1770624000"; 
-   d="scan'208";a="80450410"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2026 02:45:59 -0700
-X-CSE-ConnectionGUID: +rUo7ROgQlyofsz/e5I0oA==
-X-CSE-MsgGUID: /nQHP1Q7QSCozMJLtKgr9g==
+   d="scan'208";a="97843465"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2026 02:58:06 -0700
+X-CSE-ConnectionGUID: xoRvK7bSS1exBAxTDSaluQ==
+X-CSE-MsgGUID: XTriRGeuQJeaSTI9rgaR5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,246,1770624000"; 
-   d="scan'208";a="240347284"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 21 May 2026 02:45:55 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+   d="scan'208";a="237461035"
+Received: from lkp-server01.sh.intel.com (HELO fdb68b0ce653) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 21 May 2026 02:58:04 -0700
+Received: from kbuild by fdb68b0ce653 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wPzyT-00000000Aq7-0tKX;
-	Thu, 21 May 2026 09:45:53 +0000
-Date: Thu, 21 May 2026 11:45:42 +0200
+	id 1wQ0AE-0000000003t-1Z40;
+	Thu, 21 May 2026 09:58:02 +0000
+Date: Thu, 21 May 2026 17:57:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>,
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org,
-	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Subject: Re: [PATCH v3 2/2] drm/amdgpu: fix recursive ww_mutex acquire in
- amdgpu_devcoredump_format
-Message-ID: <202605211112.xlUYDZeM-lkp@intel.com>
-References: <20260520151741.50575-3-mikhail.v.gavrilov@gmail.com>
+To: "Christian A. Ehrhardt" <christian.ehrhardt@codasip.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [scosu-sched:topic/mmap-cap-prot-wip/v6.18 1100/1130]
+ lib/crypto/riscv/poly1305-core.S:91:5: error: invalid operand for instruction
+Message-ID: <202605211742.9Ntf9P3i-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260520151741.50575-3-mikhail.v.gavrilov@gmail.com>
 
-Hi Mikhail,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm/drm-next drm-i915/for-linux-next drm-i915/for-linux-next-fixes drm-tip/drm-tip next-20260520]
-[cannot apply to linus/master v6.16-rc1]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mikhail-Gavrilov/drm-amdgpu-convert-amdgpu_vm_lock_by_pasid-to-drm_exec/20260520-231931
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20260520151741.50575-3-mikhail.v.gavrilov%40gmail.com
-patch subject: [PATCH v3 2/2] drm/amdgpu: fix recursive ww_mutex acquire in amdgpu_devcoredump_format
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260521/202605211112.xlUYDZeM-lkp@intel.com/reproduce)
+tree:   https://github.com/scosu/linux-sched topic/mmap-cap-prot-wip/v6.18
+head:   f69a5a9d9fee15edde28429e23a4c749a59937bd
+commit: 3a93cebfaed1cf821c02f08e7be6572f55b6756a [1100/1130] cheri: lib/crypto: cherify poly1305
+config: riscv-randconfig-001-20260521 (https://download.01.org/0day-ci/archive/20260521/202605211742.9Ntf9P3i-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260521/202605211742.9Ntf9P3i-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605211112.xlUYDZeM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605211742.9Ntf9P3i-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   AMD plane color pipeline
-   ------------------------ [docutils]
->> Documentation/gpu/amdgpu/driver-core:225: ./drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2958: WARNING: Inline emphasis start-string without end-string. [docutils]
-   Documentation/gpu/driver-uapi:31: ./include/uapi/drm/xe_drm.h:2538: ERROR: Unexpected section title.
+>> lib/crypto/riscv/poly1305-core.S:91:5: error: invalid operand for instruction
+    sd xs0,3*8(x2)
+       ^
+   lib/crypto/riscv/poly1305-core.S:92:5: error: invalid operand for instruction
+    sd xs1,2*8(x2)
+       ^
+   lib/crypto/riscv/poly1305-core.S:93:5: error: invalid operand for instruction
+    sd xs2,1*8(x2)
+       ^
+   lib/crypto/riscv/poly1305-core.S:94:5: error: invalid operand for instruction
+    sd xs3,0*8(x2)
+       ^
+   lib/crypto/riscv/poly1305-core.S:188:5: error: invalid operand for instruction
+    ld xs0,3*8(x2) # epilogue
+       ^
+   lib/crypto/riscv/poly1305-core.S:189:5: error: invalid operand for instruction
+    ld xs1,2*8(x2)
+       ^
+   lib/crypto/riscv/poly1305-core.S:190:5: error: invalid operand for instruction
+    ld xs2,1*8(x2)
+       ^
+   lib/crypto/riscv/poly1305-core.S:191:5: error: invalid operand for instruction
+    ld xs3,0*8(x2)
+       ^
 
 --
 0-DAY CI Kernel Test Service
