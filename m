@@ -1,81 +1,183 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD4C73815D8
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 May 2026 04:08:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E95725DB12
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 May 2026 04:29:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779336534; cv=none; b=fN67j6AXZ/c+Y+XF5DAf6F6BRfKco44kgeIK58Te1j0KPMnc6+8JtHLoNOjF+p33j61/6HY4HTL37eTNiUclQsDRF+dK8MPJZR/FPlk9a/BcHfcf7wTg3lhc0KXR9zc5VN722QzaY8D+rvS902TOPPG8NtN6sQFguNIeeNpibYo=
+	t=1779337796; cv=none; b=qhgCE69l4rTeP0tKEwSRz29ZPq32U4G+pDvxWQPkjyP6MkDHMy6PNiuDGa67tsZuNing1zekwZKRbx/1oC10mSGS9LH/4vuYCnk3SvTHdaYD+cqa6Nv7bKL2WkjkCmyWFUpT8ch5RIvgBs/eLlrv/tiiFFFQjsbwv+nyoO/WRic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779336534; c=relaxed/simple;
-	bh=Tgq1/Ui2unzCNlV6fXbw/FlWXjGsJ42mV0xkMtrXxsE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=J4DxlP3GDD9HYuLn03H4y3Kl60hlhL92eXM+TJpE7esozzvpY98CP66HXSyec5UxNe6sphV/+s7sF8H32BbEIpjg1MzSbtMZkrFGGQrFUN0QYQ8UA/Bqve+ZMa6OLPMhY+CNtS9opsREHnUVOoATFfMSdrbKwc3PmGnqGsyPBS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=myo1JlB2; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1779337796; c=relaxed/simple;
+	bh=uIvRCcbzxrtdYkOav7HVbZt3CLeBOyzpGDcJnWKnIqY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=e/YPOxsaKMEPs8P7aKTg6vdQm9oj89ik2/8I4sAzRpyKAvmC4/2ElM6a6g2MIXSPARYghEm5bfzzCyyKaTkNcfY4LgmenGTONGdx6VNZfMsGXFwir4d/BZ7I8iyYgZVYlbi3DIUvYp+Au/rFrBBKd3wgnXwlx7Qh7FzWwa7zEWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j1E89Wsq; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="myo1JlB2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j1E89Wsq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779336533; x=1810872533;
-  h=date:from:to:cc:subject:message-id;
-  bh=Tgq1/Ui2unzCNlV6fXbw/FlWXjGsJ42mV0xkMtrXxsE=;
-  b=myo1JlB2NM8h2084V2MBHLDiqivbF9HNdB2yYjdqKKmchgDyfm8E4WNT
-   JYGx547sW54GYrPECcDUiEUf1yX52NJgSEoWykED8Z3MIV/3+vx2uoulu
-   bOAFdGyvtZKwWqkLqdByq69WVyq9Spqlo3uau8vKx1i2976K78Kz9Ugqn
-   FQNic57w5mEmxb42sIBN43YWreJxZSHwTTvNXFYUcphk8loMG67OxE50d
-   wvkOUJ8nbQeIrHOwWVk+5A2OoCrs6ksaCuK+MloPYiIGwW7F/BKxAO4HZ
-   wrHAZqtbEUEfDAWw3p27dugIgHb3+/fqIzmWtsTGtZvELj7RkOmV0zWyX
-   g==;
-X-CSE-ConnectionGUID: fxvVrOKFRgu0xT5/+icKJQ==
-X-CSE-MsgGUID: c4TagGgqROOx/41l/F8TtA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="97820696"
+  t=1779337794; x=1810873794;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uIvRCcbzxrtdYkOav7HVbZt3CLeBOyzpGDcJnWKnIqY=;
+  b=j1E89WsqvBN4G9jnlk7xU0x6+qoZNTDTYsNrvnAO4z66vZbAF4OzTqPG
+   VXf46vZnsSeFMKNLWp92Vn2uPLAaFJwJ2TyxW6S8aZGfzj/2dqyoE5l5T
+   Pa43ygmiM/E/gYGSB235cTt/NyqyOZqwNfgMwKR39P+UEkGhOvukNWoO1
+   PVUEVACyhk9DE5qtj3lMdXPU0LI/ooTxrhfgcjWP97zYcq8JKlH8dqvHM
+   vgchphaZHJUwhoU6a+gqoKOf69f4jrw2ytZiTPsNav9xgqsxHPlG24a5b
+   kYszO2mwwSyK2+5mpF54OJptzapDeZI1XD4ZEprVq9S+KukV+5u5nVa1p
+   Q==;
+X-CSE-ConnectionGUID: 3Wc0LJ+MRKu1xLuWnFz1JQ==
+X-CSE-MsgGUID: JfbbB2lhS7KYVT9najCbeA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="80283221"
 X-IronPort-AV: E=Sophos;i="6.23,245,1770624000"; 
-   d="scan'208";a="97820696"
+   d="scan'208";a="80283221"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 21:08:52 -0700
-X-CSE-ConnectionGUID: 89xQ0zqHTNGny2xHhtkdKA==
-X-CSE-MsgGUID: Xv1yktbNSSCb/QxwNaIXHg==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 21:29:53 -0700
+X-CSE-ConnectionGUID: sMH46EwnSIuW5NdBmuYpPQ==
+X-CSE-MsgGUID: k9nt8hDcT+GaMoJMkKAUlA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,245,1770624000"; 
-   d="scan'208";a="242213136"
+   d="scan'208";a="242217160"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 20 May 2026 21:08:51 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 20 May 2026 21:29:51 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wPuiG-00000000Alb-3U8l;
-	Thu, 21 May 2026 04:08:48 +0000
-Date: Thu, 21 May 2026 06:08:27 +0200
+	id 1wPv2a-00000000Alh-3la3;
+	Thu, 21 May 2026 04:29:48 +0000
+Date: Thu, 21 May 2026 06:29:02 +0200
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <lumag@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Linus Walleij <linusw@kernel.org>
-Subject: [linux-next:master 517/6922] Warning:
- drivers/gpu/drm/drm_panel.c:119 function parameter 'dev' not described in
- 'devm_drm_panel_add'
-Message-ID: <202605210648.RI4ufD66-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+	Chris Snook <chris.snook@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Kees Cook <kees@kernel.org>,
+	Tobias Regnery <tobias.regnery@gmail.com>,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
+Subject: Re: [PATCH] net: alx: fix possible buffer overflow
+Message-ID: <202605210628.C9sdnzRO-lkp@intel.com>
+References: <20260520180140.538826-1-grandmaster@al2klimov.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260520180140.538826-1-grandmaster@al2klimov.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   687da68900cd1a46549f7d9430c7d40346cb86a0
-commit: e43a8e3ad8fa3c2c2220a06fa46545c7ff82a9b7 [517/6922] drm/panel: add devm_drm_panel_add() helper
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260521/202605210648.RI4ufD66-lkp@intel.com/config)
+Hi Alexander,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+[also build test WARNING on net/main linus/master v7.1-rc4 next-20260520]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-A-Klimov/net-alx-fix-possible-buffer-overflow/20260521-022058
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260520180140.538826-1-grandmaster%40al2klimov.de
+patch subject: [PATCH] net: alx: fix possible buffer overflow
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260521/202605210628.C9sdnzRO-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260521/202605210648.RI4ufD66-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260521/202605210628.C9sdnzRO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605210648.RI4ufD66-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605210628.C9sdnzRO-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: drivers/gpu/drm/drm_panel.c:119 function parameter 'dev' not described in 'devm_drm_panel_add'
->> Warning: drivers/gpu/drm/drm_panel.c:119 function parameter 'dev' not described in 'devm_drm_panel_add'
+   drivers/net/ethernet/atheros/alx/main.c: In function 'alx_request_msix':
+>> drivers/net/ethernet/atheros/alx/main.c:874:77: warning: 'snprintf' output may be truncated before the last format character [-Wformat-truncation=]
+     874 |                         snprintf(np->irq_lbl, sizeof(np->irq_lbl), "%s-rx-%u",
+         |                                                                             ^
+   drivers/net/ethernet/atheros/alx/main.c:874:25: note: 'snprintf' output between 6 and 25 bytes into a destination of size 24
+     874 |                         snprintf(np->irq_lbl, sizeof(np->irq_lbl), "%s-rx-%u",
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     875 |                                  netdev->name, np->rxq->queue_idx);
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/atheros/alx/main.c:871:77: warning: 'snprintf' output may be truncated before the last format character [-Wformat-truncation=]
+     871 |                         snprintf(np->irq_lbl, sizeof(np->irq_lbl), "%s-tx-%u",
+         |                                                                             ^
+   drivers/net/ethernet/atheros/alx/main.c:871:25: note: 'snprintf' output between 6 and 25 bytes into a destination of size 24
+     871 |                         snprintf(np->irq_lbl, sizeof(np->irq_lbl), "%s-tx-%u",
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     872 |                                  netdev->name, np->txq->queue_idx);
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/atheros/alx/main.c:868:77: warning: '%u' directive output may be truncated writing between 1 and 5 bytes into a region of size between 3 and 18 [-Wformat-truncation=]
+     868 |                         snprintf(np->irq_lbl, sizeof(np->irq_lbl), "%s-TxRx-%u",
+         |                                                                             ^~
+   drivers/net/ethernet/atheros/alx/main.c:868:68: note: directive argument in the range [0, 65535]
+     868 |                         snprintf(np->irq_lbl, sizeof(np->irq_lbl), "%s-TxRx-%u",
+         |                                                                    ^~~~~~~~~~~~
+   drivers/net/ethernet/atheros/alx/main.c:868:25: note: 'snprintf' output between 8 and 27 bytes into a destination of size 24
+     868 |                         snprintf(np->irq_lbl, sizeof(np->irq_lbl), "%s-TxRx-%u",
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     869 |                                  netdev->name, np->txq->queue_idx);
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/snprintf +874 drivers/net/ethernet/atheros/alx/main.c
+
+   851	
+   852	static int alx_request_msix(struct alx_priv *alx)
+   853	{
+   854		struct net_device *netdev = alx->dev;
+   855		int i, err, vector = 0, free_vector = 0;
+   856	
+   857		err = request_irq(pci_irq_vector(alx->hw.pdev, 0), alx_intr_msix_misc,
+   858				  0, netdev->name, alx);
+   859		if (err)
+   860			goto out_err;
+   861	
+   862		for (i = 0; i < alx->num_napi; i++) {
+   863			struct alx_napi *np = alx->qnapi[i];
+   864	
+   865			vector++;
+   866	
+   867			if (np->txq && np->rxq)
+ > 868				snprintf(np->irq_lbl, sizeof(np->irq_lbl), "%s-TxRx-%u",
+   869					 netdev->name, np->txq->queue_idx);
+   870			else if (np->txq)
+ > 871				snprintf(np->irq_lbl, sizeof(np->irq_lbl), "%s-tx-%u",
+   872					 netdev->name, np->txq->queue_idx);
+   873			else if (np->rxq)
+ > 874				snprintf(np->irq_lbl, sizeof(np->irq_lbl), "%s-rx-%u",
+   875					 netdev->name, np->rxq->queue_idx);
+   876			else
+   877				snprintf(np->irq_lbl, sizeof(np->irq_lbl), "%s-unused",
+   878					 netdev->name);
+   879	
+   880			np->vec_idx = vector;
+   881			err = request_irq(pci_irq_vector(alx->hw.pdev, vector),
+   882					  alx_intr_msix_ring, 0, np->irq_lbl, np);
+   883			if (err)
+   884				goto out_free;
+   885		}
+   886		return 0;
+   887	
+   888	out_free:
+   889		free_irq(pci_irq_vector(alx->hw.pdev, free_vector++), alx);
+   890	
+   891		vector--;
+   892		for (i = 0; i < vector; i++)
+   893			free_irq(pci_irq_vector(alx->hw.pdev,free_vector++),
+   894				 alx->qnapi[i]);
+   895	
+   896	out_err:
+   897		return err;
+   898	}
+   899	
 
 --
 0-DAY CI Kernel Test Service
