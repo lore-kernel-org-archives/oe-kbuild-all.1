@@ -1,169 +1,141 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B54735BDAA;
-	Thu, 21 May 2026 03:33:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5788241760
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 May 2026 03:38:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779334386; cv=none; b=asn77egBSFSSRDf4VbJe5kydTinUZX8R6hbs6PPl4f2KPrWidN0ktOL7WU8ia4jZEB2Ml93fTBFYFZm+l6oDPRabkYm/MLmWkrc8EPEZZ0VxB8ygVjva2vZNBmBIqOZk/w2J6AUICPT99R63h1ytOJsX1hkw6JvSUi5TdU0L77A=
+	t=1779334687; cv=none; b=rJa1ISPNFnEnM9aD7dLp7spW4geqKD5KE3k1MFBVk6ZRYE8UiMI5DfBF+GDSW9t+jKsmiPjGAQGo2NtZtqtCLtKGpw5jESSojieMLgQPbMNioycOWgL2Cmhe2UdF0HCbHmi5fl8IZqP+yBMwuaUfwjHLq5IUhFNFIUFjRtKiWl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779334386; c=relaxed/simple;
-	bh=B+v/Nuq/Q3Rrhx/5MBpC+SYtC2W2RWaV7EIXCFE9PVk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=qMec/lW7EakSurqmsEt8NJs0jwYv/0ucmmRcN1s8+7JtaxT8BP0Av9pcpvlVZGWsPji3ifC8xEuzTY1V8sOF5tuMcQwmnm6Oez0OHrDW39afq9Ixf1JvtVfPpcIptQNaKOyaRURrwGjo0g4+uyp573sIw7UEYF31ycG6i8jycGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NkNq2fLk; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1779334687; c=relaxed/simple;
+	bh=dpteIV5u8Ka//7sxzVrWClp6oaVFdbRQXCHjQ+ht1vw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rAHisC3TAjQTxz++kvL9D6Ig5++wP27QEctqXcxvzQWlpwpt/HkpdLamHiUFx51GMooeFZ90vFHWLdPcMqJEWr4TMqeTUWaJUPmQUqJjlpu9rS8vwgeNqztNBSjnOngix9yVUE117DQihRwGCxrjSkWD37Cv3aEpqV9K51y4XNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ObDc/O1v; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NkNq2fLk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ObDc/O1v"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779334384; x=1810870384;
-  h=date:from:to:cc:subject:message-id;
-  bh=B+v/Nuq/Q3Rrhx/5MBpC+SYtC2W2RWaV7EIXCFE9PVk=;
-  b=NkNq2fLkSSnQxml5LPQy18Kcl8SIMZlUZrCbXQKe0t8SOmjNZnsN23uH
-   AkL5dQzECDpyqq/AhLVoxKEJUzfq5pzftv/+O0peOyQSRabkuF2qc3UWF
-   vJApFuuGnVGm23TDzk8YN2zviGtZDjItWAB/d1X4LdI5Ij/JuFCioKhhL
-   aiIqztCSxhVDiz2t9BV28oJZWx2bWKJ0fLSlfc/3utSktv2aEe52a4+rI
-   TPVqgvktESZVjrlLhtQVtUMdMcrZslBdbhuMOIxLORXnoowzYbOIeZK5P
-   UtmtWuA/esJnNN7KvWcrbxyEKzj04UPtn6uGnd1WuvCapqcIJvP0rqN/h
-   w==;
-X-CSE-ConnectionGUID: zs7WHbQKQUuhFGj/SFx4Sw==
-X-CSE-MsgGUID: 19WCgyxyS++h5hQ3MWGWCg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="84103803"
+  t=1779334685; x=1810870685;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dpteIV5u8Ka//7sxzVrWClp6oaVFdbRQXCHjQ+ht1vw=;
+  b=ObDc/O1vOjzdrjrPRFORvQa07RsHsHra1+NLiRa9niJOWzqYVt940Qgn
+   bWUY8t3Zs/uQWCShI0XU9QKk0VCEqdT4ONWip7bUBy7Vg6rR+br1aezRm
+   wZzoIBfqwY3p5b5nDv8llmRM2Tc18En/S7kTCtxT/N0eRpXspQhi+4IDV
+   dCbiH5yGBI+0NXX4mJcZnfV+YkSraS/ozsSKbOukkYhfl4B+5RSI/xxDl
+   QLvCO/grOqhHOlhlEI++HP0c3qkfof7z+bnCPl8YDuYDum+newtoQFU0S
+   UqGnnhefBgmoDPYY/3pA1+u/HbI0GzOVKHuyhUltm+dix469m2enHRFcH
+   A==;
+X-CSE-ConnectionGUID: BU/8POWGQ+2VWYREYGHeLw==
+X-CSE-MsgGUID: JFjJ7biYTqG92eDeXIfoWg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="80214900"
 X-IronPort-AV: E=Sophos;i="6.23,245,1770624000"; 
-   d="scan'208";a="84103803"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 20:33:03 -0700
-X-CSE-ConnectionGUID: NCV/ZUPtSnGgWkytqEydeA==
-X-CSE-MsgGUID: oIi9FSvnTlKuxNPZXHQf8g==
+   d="scan'208";a="80214900"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 20:38:04 -0700
+X-CSE-ConnectionGUID: mZCB5cYpTO63b8c6SF65Sg==
+X-CSE-MsgGUID: /a7uBY0PTWmBjhQysn5Tmw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,245,1770624000"; 
-   d="scan'208";a="278523163"
+   d="scan'208";a="242204941"
 Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 20 May 2026 20:33:01 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 20 May 2026 20:38:02 -0700
 Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wPu8K-000000004Ih-076A;
-	Thu, 21 May 2026 03:31:54 +0000
-Date: Thu, 21 May 2026 11:22:54 +0800
+	id 1wPuE2-000000004Iz-2m2Q;
+	Thu, 21 May 2026 03:37:48 +0000
+Date: Thu, 21 May 2026 11:33:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Ehrhardt <christian.ehrhardt@codasip.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [scosu-sched:topic/mmap-cap-prot-wip/v6.18 115/1130]
- kernel/ptrace.c:1339:37: error: passing 'void **' to parameter of type 'const
- void **' discards qualifiers in nested pointer types
-Message-ID: <202605211145.HiFuURcJ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, David Heidelberg <david@ixit.cz>,
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] iio: light: al3010: read both ALS ADC registers again
+Message-ID: <202605211105.cR7k7vyR-lkp@intel.com>
+References: <20260520175855.538098-1-grandmaster@al2klimov.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260520175855.538098-1-grandmaster@al2klimov.de>
 
-Hi Christian,
+Hi Alexander,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build warnings:
 
-tree:   https://github.com/scosu/linux-sched topic/mmap-cap-prot-wip/v6.18
-head:   f69a5a9d9fee15edde28429e23a4c749a59937bd
-commit: b8dd58a99f3a6b933636441f72da97e1a06c8a57 [115/1130] [CHERRY-PICK] kernel/ptrace: Modify ptrace syscall to accept capability arguments
-config: um-allnoconfig (https://download.01.org/0day-ci/archive/20260521/202605211145.HiFuURcJ-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260521/202605211145.HiFuURcJ-lkp@intel.com/reproduce)
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on linus/master v7.1-rc4 next-20260520]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-A-Klimov/iio-light-al3010-read-both-ALS-ADC-registers-again/20260521-024036
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20260520175855.538098-1-grandmaster%40al2klimov.de
+patch subject: [PATCH] iio: light: al3010: read both ALS ADC registers again
+config: sh-randconfig-r111-20260521 (https://download.01.org/0day-ci/archive/20260521/202605211105.cR7k7vyR-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.4.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260521/202605211105.cR7k7vyR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605211145.HiFuURcJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605211105.cR7k7vyR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iio/light/al3010.c:129:24: sparse: sparse: cast to restricted __le16
 
-   In file included from kernel/ptrace.c:16:
-   In file included from include/linux/sched/task.h:13:
-   include/linux/uaccess.h:726:9: warning: 'get_user_ptr' macro redefined [-Wmacro-redefined]
-     726 | #define get_user_ptr(x,y) __get_user(x,y)
-         |         ^
-   include/asm-generic/uaccess.h:259:9: note: previous definition is here
-     259 | #define get_user_ptr(x, ptr)                                    \
-         |         ^
-   In file included from kernel/ptrace.c:16:
-   In file included from include/linux/sched/task.h:13:
-   include/linux/uaccess.h:727:9: warning: 'put_user_ptr' macro redefined [-Wmacro-redefined]
-     727 | #define put_user_ptr(x,y) __put_user(x,y)
-         |         ^
-   include/asm-generic/uaccess.h:218:9: note: previous definition is here
-     218 | #define put_user_ptr(x, ptr)                                    \
-         |         ^
->> kernel/ptrace.c:1339:37: error: passing 'void **' to parameter of type 'const void **' discards qualifiers in nested pointer types [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-    1339 |                 if (__get_user_ptr(kiov.iov_base, &uiov->iov_base) ||
-         |                                                   ^~~~~~~~~~~~~~~
-   include/asm-generic/uaccess.h:254:31: note: expanded from macro '__get_user_ptr'
-     254 |         __gu_err = __get_user_ptr_fn(ptr, &__x);                \
-         |                                      ^~~
-   include/asm-generic/uaccess.h:286:51: note: expanded from macro '__get_user_ptr_fn'
-     286 | #define __get_user_ptr_fn(u, k) __get_user_ptr_fn(u, k)
-         |                                                   ^
-   include/asm-generic/uaccess.h:279:47: note: passing argument to parameter 'ptr' here
-     279 | __get_user_ptr_fn(const void __user * __user *ptr,
-         |                                               ^
-   2 warnings and 1 error generated.
+vim +129 drivers/iio/light/al3010.c
 
-
-vim +1339 kernel/ptrace.c
-
-  1313	
-  1314		case PTRACE_SINGLESTEP:
-  1315	#ifdef PTRACE_SINGLEBLOCK
-  1316		case PTRACE_SINGLEBLOCK:
-  1317	#endif
-  1318	#ifdef PTRACE_SYSEMU
-  1319		case PTRACE_SYSEMU:
-  1320		case PTRACE_SYSEMU_SINGLESTEP:
-  1321	#endif
-  1322		case PTRACE_SYSCALL:
-  1323		case PTRACE_CONT:
-  1324			return ptrace_resume(child, request, data);
-  1325	
-  1326		case PTRACE_KILL:
-  1327			send_sig_info(SIGKILL, SEND_SIG_NOINFO, child);
-  1328			return 0;
-  1329	
-  1330	#ifdef CONFIG_HAVE_ARCH_TRACEHOOK
-  1331		case PTRACE_GETREGSET:
-  1332		case PTRACE_SETREGSET: {
-  1333			struct iovec kiov;
-  1334			struct iovec __user *uiov = datavp;
-  1335	
-  1336			if (!access_ok(uiov, sizeof(*uiov)))
-  1337				return -EFAULT;
-  1338	
-> 1339			if (__get_user_ptr(kiov.iov_base, &uiov->iov_base) ||
-  1340			    __get_user(kiov.iov_len, &uiov->iov_len))
-  1341				return -EFAULT;
-  1342	
-  1343			ret = ptrace_regset(child, request, addr, &kiov);
-  1344			if (!ret)
-  1345				ret = __put_user(kiov.iov_len, &uiov->iov_len);
-  1346			break;
-  1347		}
-  1348	
-  1349		case PTRACE_GET_SYSCALL_INFO:
-  1350			ret = ptrace_get_syscall_info(child, addr, datavp);
-  1351			break;
-  1352	
-  1353		case PTRACE_SET_SYSCALL_INFO:
-  1354			ret = ptrace_set_syscall_info(child, addr, datavp);
-  1355			break;
-  1356	#endif
-  1357	
-  1358		case PTRACE_SECCOMP_GET_FILTER:
-  1359			ret = seccomp_get_filter(child, addr, datavp);
-  1360			break;
-  1361	
-  1362		case PTRACE_SECCOMP_GET_METADATA:
-  1363			ret = seccomp_get_metadata(child, addr, datavp);
-  1364			break;
-  1365	
+   108	
+   109	static int al3010_read_raw(struct iio_dev *indio_dev,
+   110				   struct iio_chan_spec const *chan, int *val,
+   111				   int *val2, long mask)
+   112	{
+   113		struct al3010_data *data = iio_priv(indio_dev);
+   114		int ret, gain;
+   115		uint16_t raw;
+   116	
+   117		switch (mask) {
+   118		case IIO_CHAN_INFO_RAW:
+   119			/*
+   120			 * ALS ADC value is stored in two adjacent registers:
+   121			 * - low byte of output is stored at AL3010_REG_DATA_LOW
+   122			 * - high byte of output is stored at AL3010_REG_DATA_LOW + 1
+   123			 */
+   124			ret = regmap_bulk_read(data->regmap, AL3010_REG_DATA_LOW,
+   125					       &raw, sizeof(raw));
+   126			if (ret)
+   127				return ret;
+   128	
+ > 129			*val = le16_to_cpu(raw);
+   130	
+   131			return IIO_VAL_INT;
+   132		case IIO_CHAN_INFO_SCALE:
+   133			ret = regmap_read(data->regmap, AL3010_REG_CONFIG, &gain);
+   134			if (ret)
+   135				return ret;
+   136	
+   137			gain = FIELD_GET(AL3010_GAIN_MASK, gain);
+   138			*val = al3010_scales[gain][0];
+   139			*val2 = al3010_scales[gain][1];
+   140	
+   141			return IIO_VAL_INT_PLUS_MICRO;
+   142		}
+   143		return -EINVAL;
+   144	}
+   145	
 
 --
 0-DAY CI Kernel Test Service
