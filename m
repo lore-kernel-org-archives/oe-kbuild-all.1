@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDC63363C6B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 May 2026 04:29:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED879363C6B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 May 2026 04:40:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779337800; cv=none; b=cxG2AyyA47PbE+YjRC/0CKo4c25i9XBgRjzi9p9DH1GvzlAOqU4N7GE189FvkNGftCier0v3y47z+65L+/jj3nLoXr8H0fPL5AtSEtSkcwGnTCyKPVxFqtuMuaFSB7MfoD93aaO2b9bvm5pclFCTSGcuZ/NoKvLQZO0XF9qRXmk=
+	t=1779338446; cv=none; b=gZ0EJAB7ZaZuJ1XzBmtmHsUWtB2e7q/mo9xQka6cAXe+tiic4g/9iGhU37sWMXwX4t2HmuuDLDgnMHy5f3E8YniAoniBc1UXtMPbM8NmuE4lzJIGh+JmTb3/ov20L/JmAjsRuVv4XyEzUbenD9t9F3TUF+uk0kTMuEUC/8MaPbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779337800; c=relaxed/simple;
-	bh=5mkefR0iAm97pnzAPJe84fuKX90zVqhVEjoFx47j/Jw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=SMxthVPvI030+92aR7AZ//ymamhPiB2ghKFvo1gfc3hitzvhyWsNNZCv+ud8zf511IKfCk+jNsJXYza3RpLC0APSUe1b8oI/22MRAsKsmzq5ChI66swzFdAAKIZqWwWCQcp/dvedsHCmtQR6C+de9zl52xnKHTqVdN49gTlUNVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e0A0HN3A; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1779338446; c=relaxed/simple;
+	bh=qE3mCpA95Ff6cgD034AYM5aLwmUhfeXNisweHJU/JLc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=NSYVZHvVYO41nPAxc6udhBBMJBHWDqaLCeX74+uoHADTn4md8+ijkd/lLcBsR3uIvlynBgcxs2aSFePTPyoUajgyhFLLPQpuFHnRrn0LHkh/b5UUoD7FbE3fsSzWLe2Jb9UDn5wIaKH/xo6H/AvPL+6mMS1lzPjmbIB4ST3B3p0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lYcWlHDI; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e0A0HN3A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lYcWlHDI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779337799; x=1810873799;
+  t=1779338444; x=1810874444;
   h=date:from:to:cc:subject:message-id;
-  bh=5mkefR0iAm97pnzAPJe84fuKX90zVqhVEjoFx47j/Jw=;
-  b=e0A0HN3AjA5nxQ5Snp03qnzRZPx0Pj35HNzPJHy4X6Ksgp3RYUSURl9L
-   4Hu1fLpWv7KpKF+V9iImBoCPbrAd/dRL2pjGyltZF3w1Jdd9AVd/yXllZ
-   Xl+COkQ+4wHtEQkuW0QdibdPAeRvHkvLTezUt7NrTlxP18NKDy/kzYAfO
-   TicQfJcsAOJtXq4O5i5o/GKiaNnVLN9fXU0RzFcO0LbJPXqHrvq8NypMN
-   /iZFOUwIYZSB2N5bfLvu46Hp5Aj0hYil5PYmePwF8U30UEq0ExU5xaefg
-   fqDI1jpuYLiOSf04VAK1i6vwvdsP2UvXGYGpOU+cSJsqkRVdh+Yp1sys8
-   A==;
-X-CSE-ConnectionGUID: kG2G2CSaRRecxpad16fRqA==
-X-CSE-MsgGUID: NgJXNFqeTBCgxCs5hB/a7g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="105712409"
+  bh=qE3mCpA95Ff6cgD034AYM5aLwmUhfeXNisweHJU/JLc=;
+  b=lYcWlHDIe/+njUE/tRcikD5E8FS+LOKYqp7rBfiGjZ6JZEi/EWolYCD9
+   asQtqFaXpmpVu1O8zamsBfSTwihSEto3mNqkGlP9XYGgcfuAc5w6yat7V
+   olMo1eHAFLZBtK/n8DREFlEIdas3SOyT45c0qgNPdIng4HVJaH0vnL4Qg
+   IYkc1/SFEJznqgzeVasEamETG5LBW4udDba6M5sBObcYkYNCCuqMiXg5B
+   itfxfyt7mrQa1p3U5yyRvNc0pBbMZ2NlAdezCDY72aElMdNGAbH8WpsKZ
+   SzesRsQfnaNisVG+VY0wDK5xN1oKZ63rzCL7VV2SWTuvkE2A+xpEmcs6n
+   w==;
+X-CSE-ConnectionGUID: /Xs7Rts2SgqsvPc4WVUdEQ==
+X-CSE-MsgGUID: nXL5NpUKQiC/d3V6/UG6YA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="90943645"
 X-IronPort-AV: E=Sophos;i="6.23,245,1770624000"; 
-   d="scan'208";a="105712409"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 21:29:58 -0700
-X-CSE-ConnectionGUID: 8WcebJ5QTbejSzHt5Grv/A==
-X-CSE-MsgGUID: MkglR95dQoKpFJ/tpirO2w==
+   d="scan'208";a="90943645"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 21:40:44 -0700
+X-CSE-ConnectionGUID: 8ZgUwynZTA2gyHzKz7R6AQ==
+X-CSE-MsgGUID: 47mvLoSVTBaLEitxIolfgA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,245,1770624000"; 
-   d="scan'208";a="237808532"
+   d="scan'208";a="239406900"
 Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 20 May 2026 21:29:57 -0700
+  by orviesa006.jf.intel.com with ESMTP; 20 May 2026 21:40:42 -0700
 Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wPv2S-000000004Oj-2dvn;
-	Thu, 21 May 2026 04:29:45 +0000
-Date: Thu, 21 May 2026 12:28:23 +0800
+	id 1wPvD4-000000004PJ-3G2P;
+	Thu, 21 May 2026 04:40:38 +0000
+Date: Thu, 21 May 2026 12:40:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Ehrhardt <christian.ehrhardt@codasip.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [scosu-sched:topic/mmap-cap-prot-wip/v6.18 629/1130]
- include/asm-generic/rwonce.h:94:2: error: passing argument 1 of '__c_pa'
- makes pointer from integer without a cast
-Message-ID: <202605211218.BcyC3ge6-lkp@intel.com>
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Amir Goldstein <amir73il@gmail.com>, Christoph Hellwig <hch@lst.de>
+Subject: fs/ntfs/runlist.c:1953:47-52: WARNING: conversion to bool
+ not needed here
+Message-ID: <202605211248.DSL7pell-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,68 +60,70 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/scosu/linux-sched topic/mmap-cap-prot-wip/v6.18
-head:   f69a5a9d9fee15edde28429e23a4c749a59937bd
-commit: b373aaefd4b367da0c775c257540d05841eb8551 [629/1130] riscv: cheri: Fix arch/riscv/kernel/stacktrace.c
-config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20260521/202605211218.BcyC3ge6-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260521/202605211218.BcyC3ge6-lkp@intel.com/reproduce)
+Hi Namjae,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8bc67e4db64aa72732c474b44ea8622062c903f0
+commit: 47503f989736d6c4c9f8bfca1c28d267473ccd4b ntfs: add Kconfig and Makefile
+date:   3 months ago
+config: um-randconfig-r063-20260521 (https://download.01.org/0day-ci/archive/20260521/202605211248.DSL7pell-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 47503f989736 ("ntfs: add Kconfig and Makefile")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605211218.BcyC3ge6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605211248.DSL7pell-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> fs/ntfs/runlist.c:1953:47-52: WARNING: conversion to bool not needed here
+   fs/ntfs/runlist.c:1961:62-67: WARNING: conversion to bool not needed here
+   fs/ntfs/runlist.c:1964:65-70: WARNING: conversion to bool not needed here
+   fs/ntfs/runlist.c:1802:47-52: WARNING: conversion to bool not needed here
+   fs/ntfs/runlist.c:1810:62-67: WARNING: conversion to bool not needed here
+   fs/ntfs/runlist.c:1813:65-70: WARNING: conversion to bool not needed here
+--
+>> fs/ntfs/logfile.c:626:2-8: WARNING: NULL check before some freeing functions is not needed.
+--
+>> fs/ntfs/super.c:2519:2-8: WARNING: NULL check before some freeing functions is not needed.
+   fs/ntfs/super.c:1731:2-8: WARNING: NULL check before some freeing functions is not needed.
 
-   In file included from ./arch/riscv/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:407,
-                    from include/linux/export.h:5,
-                    from arch/riscv/kernel/stacktrace.c:7:
-   arch/riscv/kernel/stacktrace.c: In function 'walk_stackframe':
->> include/asm-generic/rwonce.h:94:2: error: passing argument 1 of '__c_pa' makes pointer from integer without a cast [-Wint-conversion]
-      94 | ({                                                                              \
-         | ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |  |
-         |  long unsigned int
-      95 |         compiletime_assert(sizeof(x) == sizeof(uintptr_t),                      \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      96 |                 "Unsupported access size for READ_ONCE_NOCHECK_PTR().");        \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      97 |         (typeof(x))__read_once_ptr_nocheck(&(x));                               \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      98 | })
-         | ~~
-   arch/riscv/kernel/stacktrace.c:134:29: note: in expansion of macro 'READ_ONCE_NOCHECK_PTR'
-     134 |                 pc = __c_pa(READ_ONCE_NOCHECK_PTR(*ksp++)) - 0x4;
-         |                             ^~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/riscv/include/asm/cmpxchg.h:10,
-                    from arch/riscv/include/asm/barrier.h:14,
-                    from include/asm-generic/bitops/generic-non-atomic.h:7,
-                    from include/linux/bitops.h:28,
-                    from include/linux/kernel.h:23,
-                    from include/linux/kallsyms.h:11,
-                    from arch/riscv/kernel/stacktrace.c:8:
-   include/linux/cheri.h:222:29: note: expected 'const volatile void *' but argument is of type 'long unsigned int'
-     222 | __c_pa(const volatile void *ptr)
-         |        ~~~~~~~~~~~~~~~~~~~~~^~~
+vim +1953 fs/ntfs/runlist.c
 
+11ccc9107dc460 Namjae Jeon 2026-02-13  1928  
+11ccc9107dc460 Namjae Jeon 2026-02-13  1929  struct runlist_element *ntfs_rl_collapse_range(struct runlist_element *dst_rl, int dst_cnt,
+11ccc9107dc460 Namjae Jeon 2026-02-13  1930  					s64 start_vcn, s64 len,
+11ccc9107dc460 Namjae Jeon 2026-02-13  1931  					struct runlist_element **punch_rl,
+11ccc9107dc460 Namjae Jeon 2026-02-13  1932  					size_t *new_rl_cnt)
+11ccc9107dc460 Namjae Jeon 2026-02-13  1933  {
+11ccc9107dc460 Namjae Jeon 2026-02-13  1934  	struct runlist_element *s_rl, *e_rl, *new_rl, *dst_3rd_rl;
+11ccc9107dc460 Namjae Jeon 2026-02-13  1935  	s64 end_vcn;
+11ccc9107dc460 Namjae Jeon 2026-02-13  1936  	int new_1st_cnt, dst_3rd_cnt, new_cnt, punch_cnt, merge_cnt, i;
+11ccc9107dc460 Namjae Jeon 2026-02-13  1937  	bool begin_split, end_split, one_split_3;
+11ccc9107dc460 Namjae Jeon 2026-02-13  1938  
+11ccc9107dc460 Namjae Jeon 2026-02-13  1939  	if (dst_cnt < 2 ||
+11ccc9107dc460 Namjae Jeon 2026-02-13  1940  	    !(dst_rl[dst_cnt - 1].lcn == LCN_ENOENT &&
+11ccc9107dc460 Namjae Jeon 2026-02-13  1941  	      dst_rl[dst_cnt - 1].length == 0))
+11ccc9107dc460 Namjae Jeon 2026-02-13  1942  		return ERR_PTR(-EINVAL);
+11ccc9107dc460 Namjae Jeon 2026-02-13  1943  
+11ccc9107dc460 Namjae Jeon 2026-02-13  1944  	end_vcn = min(start_vcn + len - 1,
+11ccc9107dc460 Namjae Jeon 2026-02-13  1945  			dst_rl[dst_cnt - 1].vcn - 1);
+11ccc9107dc460 Namjae Jeon 2026-02-13  1946  
+11ccc9107dc460 Namjae Jeon 2026-02-13  1947  	s_rl = ntfs_rl_find_vcn_nolock(dst_rl, start_vcn);
+11ccc9107dc460 Namjae Jeon 2026-02-13  1948  	if (!s_rl ||
+11ccc9107dc460 Namjae Jeon 2026-02-13  1949  	    s_rl->lcn <= LCN_ENOENT ||
+11ccc9107dc460 Namjae Jeon 2026-02-13  1950  	    !ntfs_rle_contain(s_rl, start_vcn))
+11ccc9107dc460 Namjae Jeon 2026-02-13  1951  		return ERR_PTR(-EINVAL);
+11ccc9107dc460 Namjae Jeon 2026-02-13  1952  
+11ccc9107dc460 Namjae Jeon 2026-02-13 @1953  	begin_split = s_rl->vcn != start_vcn ? true : false;
 
-vim +/__c_pa +94 include/asm-generic/rwonce.h
+:::::: The code at line 1953 was first introduced by commit
+:::::: 11ccc9107dc460de28af90fac1f42404d9802735 ntfs: update runlist handling and cluster allocator
 
-    87	
-    88	/*
-    89	 * Use READ_ONCE_NOCHECK() instead of READ_ONCE() if you need to load a
-    90	 * word from memory atomically but without telling KASAN/KCSAN. This is
-    91	 * usually used by unwinding code when walking the stack of a running process.
-    92	 */
-    93	#define READ_ONCE_NOCHECK_PTR(x)						\
-  > 94	({										\
-    95		compiletime_assert(sizeof(x) == sizeof(uintptr_t),			\
-    96			"Unsupported access size for READ_ONCE_NOCHECK_PTR().");	\
-    97		(typeof(x))__read_once_ptr_nocheck(&(x));				\
-    98	})
-    99	
+:::::: TO: Namjae Jeon <linkinjeon@kernel.org>
+:::::: CC: Namjae Jeon <linkinjeon@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
