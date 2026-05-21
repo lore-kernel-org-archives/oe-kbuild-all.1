@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48BE82F872;
-	Thu, 21 May 2026 06:05:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E10A02F872
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 May 2026 06:05:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779343509; cv=none; b=Qb0XI60dQ56j1++XyicysTsr55KvOfObnXB4YwffX1HBphOHiDVi6QZfELsSqQjqBgHhXUtP9Xomwn87AOr8Kr6HAzZl9mT1PBU1c/9UwP8KywFLdQRNKRTPoKHlVJbqw39OyoSTA2iEjWAdp8vKadnk/JrCEzpGyyMtW+TcBAg=
+	t=1779343527; cv=none; b=ESYI+c6tcV/SFWtZK2Jjp++sdIXdhV/Zn9GFLe8tQsoexO2w9tkeh6p1ORq7MfzpiwTC3F2cpWxk4etBe1/fZaFvy+laazneM9tzWkJxFP8T/f6vBMp1FxJj0HiCY1DyJ8rn8VsXg7eBtgdougAMkKoxsTtrx+LRObdo9z6tlQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779343509; c=relaxed/simple;
-	bh=IWep55/V8XtzexhsqgHT+jE10t9Zg51cqS6zXTv+ylg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KZu3nRZKvJYTZHCnYMAQ9L0tR5mQny8N/Ylgt6dD7nP8GC8WvtQ5tQs/Q2Gr7cVQk4VVlTdQx4EmwCn/pUkHJUJQGuh3egSI0jERaD24Uikrs4heseP+Tpg2cadmI/18Nn90ZJPK8Ivc6zQmVLYKZdjySqTtrbtuNzdtSRsf038=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AgC2w6xR; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1779343527; c=relaxed/simple;
+	bh=eDbuRdOlY9i+Pe3FKJ9eHowBESmBFajVJV/ST0N7cKY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=TC1Vjuy7jxLQ0KqBPP0aPZ137GD3tEpHVUnhk/X9rKsTbj1TS+PqID3AX6al2yWnFKrao1puLQD+27wuOpb8vOIbrGXPRA39rM/wObjiVzRF5tGcA/FP//I3M1niBn95woI3Hgvgs8hV8Tfha1J+CkgFZGEV2vtALEmZK/MtJ88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RXmPS0H5; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AgC2w6xR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RXmPS0H5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779343508; x=1810879508;
+  t=1779343527; x=1810879527;
   h=date:from:to:cc:subject:message-id;
-  bh=IWep55/V8XtzexhsqgHT+jE10t9Zg51cqS6zXTv+ylg=;
-  b=AgC2w6xRRQMlR8O8HvPQtaJQUXKzexSEbC9wquD80Rjk9lXvFWrBh9ap
-   vJKvibYNrYAvjXkiDzsM1j6sgxA3J9QS2M20CKrke5kZIY467UfG2HtAc
-   FC5HNQlf/ZWnZH/k6PQyupYa3KTZb6mAO7sVr8dcMywAHoGSXISOw9sjY
-   UtbeA4JdX8hocTgW9zLC3WYFJGvSaKAv3iWJqIJKu1awjfzBhqqvxvNWr
-   lJeISFykuI4WuaPkX48TQ2SCKV+emKp90pj9sstbSB/2JnD+LPNGxxbi4
-   L39N35Y7Goiw/+dVg4VSe7tMY2NwgVQIPXPOYaDaTlufwdS6Bup9UeiQf
-   w==;
-X-CSE-ConnectionGUID: mvG5Z2QGR8eZVbGbLyKT1w==
-X-CSE-MsgGUID: LyohhbTzS/qSqV9N8IIAYQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="90949216"
+  bh=eDbuRdOlY9i+Pe3FKJ9eHowBESmBFajVJV/ST0N7cKY=;
+  b=RXmPS0H5pBCpccdrukCMYBwqs4gTFQML83V6vRgNOr52+oQvAdyvA4cZ
+   vXnpu6nZOQHsrF9J+OJyKt+7IP041pW4u6tiQ0qegoH3PpAUr2lOcHL3i
+   GbQCHWWdzsT86GyQnL6v90jLLFxN/yIoFOVe2B4DwGk96zKm3e23nC7XW
+   irO7/f1FaQpHDUvXIOkkljomvAT3F6YozYbG1bxBoT/PZiAVyHAKT0CEm
+   W0dBlzTd/RE2AOqprGzdKCdvmjVIRli1/BqTG6NdzBCHrFKTekj/Ky/Tc
+   c9bs1F49JldRSstbFUx0eeXi4ZggCQLqHnT0HuKMq/btb3LpDDNHYLnQF
+   Q==;
+X-CSE-ConnectionGUID: rrk27oIoS36XQliLtYlLMg==
+X-CSE-MsgGUID: 1qmSQUv1QJ+KvTcAlLmT8A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="84141525"
 X-IronPort-AV: E=Sophos;i="6.23,245,1770624000"; 
-   d="scan'208";a="90949216"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 23:05:07 -0700
-X-CSE-ConnectionGUID: GQAyP8xOSsmC/C0JiRV6sA==
-X-CSE-MsgGUID: WbfrYpblTM6IJh2cquHbkQ==
+   d="scan'208";a="84141525"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 23:05:26 -0700
+X-CSE-ConnectionGUID: 6KLc+02yQ2ClidTDa4tjWg==
+X-CSE-MsgGUID: HzftCaT6T2yIrZf3sI0/mw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,245,1770624000"; 
-   d="scan'208";a="242234609"
+   d="scan'208";a="240295080"
 Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 20 May 2026 23:05:04 -0700
+  by orviesa008.jf.intel.com with ESMTP; 20 May 2026 23:05:24 -0700
 Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wPwWE-000000004Ur-1Qjr;
-	Thu, 21 May 2026 06:04:40 +0000
-Date: Thu, 21 May 2026 14:03:28 +0800
+	id 1wPwWj-000000004Ut-1twn;
+	Thu, 21 May 2026 06:05:11 +0000
+Date: Thu, 21 May 2026 14:03:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Christian A. Ehrhardt" <christian.ehrhardt@codasip.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [scosu-sched:topic/mmap-cap-prot-wip/v6.18 1041/1130]
- include/linux/kasan.h:53:37: error: use of undeclared identifier
- 'MAX_PTRS_PER_PTE'
-Message-ID: <202605211459.X3y8ugOT-lkp@intel.com>
+To: Christian Ehrhardt <christian.ehrhardt@codasip.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [scosu-sched:topic/mmap-cap-prot-wip/v6.18 760/1130]
+ drivers/usb/dwc2/hcd.c:2454: warning: ignoring '#pragma clang diagnostic'
+Message-ID: <202605211320.ryVg55Mt-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,172 +61,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://github.com/scosu/linux-sched topic/mmap-cap-prot-wip/v6.18
 head:   f69a5a9d9fee15edde28429e23a4c749a59937bd
-commit: 48f331391ec79fde4f8d61b0c39124cd52c089a4 [1041/1130] cheri: compat64: Prepare binfmt code for compat64 support
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20260521/202605211459.X3y8ugOT-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260521/202605211459.X3y8ugOT-lkp@intel.com/reproduce)
+commit: b22436dee7a7cb6f5d16647cd3f3edc4170a7e8e [760/1130] cheri: Enable more cheri warnings and fix fallout
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260521/202605211320.ryVg55Mt-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260521/202605211320.ryVg55Mt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605211459.X3y8ugOT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605211320.ryVg55Mt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   scripts/dtc/dtc-lexer.lex.c:641:12: warning: variable 'dts_version' set but not used [-Wunused-but-set-global]
-     641 | static int dts_version = 1;
-         |            ^
-   1 warning generated.
-   scripts/sorttable.c:452:12: warning: variable 'long_size' set but not used [-Wunused-but-set-global]
-     452 | static int long_size;
-         |            ^
-   1 warning generated.
-   scripts/mod/modpost.c:59:13: warning: variable 'extra_warn' set but not used [-Wunused-but-set-global]
-      59 | static bool extra_warn;
-         |             ^
-   1 warning generated.
-   In file included from arch/riscv/kernel/asm-offsets.c:9:
-   In file included from include/linux/mm.h:31:
-   In file included from include/linux/pgtable.h:6:
-   In file included from arch/riscv/include/asm/pgtable.h:125:
-   In file included from arch/riscv/include/asm/compat.h:11:
-   In file included from include/linux/sched/task_stack.h:12:
->> include/linux/kasan.h:53:37: error: use of undeclared identifier 'MAX_PTRS_PER_PTE'
-      53 | extern pte_t kasan_early_shadow_pte[MAX_PTRS_PER_PTE + PTE_HWTABLE_PTRS];
-         |                                     ^~~~~~~~~~~~~~~~
->> include/linux/kasan.h:54:8: error: unknown type name 'pmd_t'
-      54 | extern pmd_t kasan_early_shadow_pmd[MAX_PTRS_PER_PMD];
-         |        ^
->> include/linux/kasan.h:54:37: error: use of undeclared identifier 'MAX_PTRS_PER_PMD'
-      54 | extern pmd_t kasan_early_shadow_pmd[MAX_PTRS_PER_PMD];
-         |                                     ^~~~~~~~~~~~~~~~
->> include/linux/kasan.h:55:8: error: unknown type name 'pud_t'
-      55 | extern pud_t kasan_early_shadow_pud[MAX_PTRS_PER_PUD];
-         |        ^
->> include/linux/kasan.h:55:37: error: use of undeclared identifier 'MAX_PTRS_PER_PUD'
-      55 | extern pud_t kasan_early_shadow_pud[MAX_PTRS_PER_PUD];
-         |                                     ^~~~~~~~~~~~~~~~
->> include/linux/kasan.h:56:8: error: unknown type name 'p4d_t'
-      56 | extern p4d_t kasan_early_shadow_p4d[MAX_PTRS_PER_P4D];
-         |        ^
->> include/linux/kasan.h:56:37: error: use of undeclared identifier 'MAX_PTRS_PER_P4D'
-      56 | extern p4d_t kasan_early_shadow_p4d[MAX_PTRS_PER_P4D];
-         |                                     ^~~~~~~~~~~~~~~~
-   In file included from arch/riscv/kernel/asm-offsets.c:9:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:100:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-     100 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/riscv/kernel/asm-offsets.c:9:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:100:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-     100 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/riscv/kernel/asm-offsets.c:9:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:101:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-     101 |                         set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/riscv/kernel/asm-offsets.c:9:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:103:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-     103 |                 return (set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/riscv/kernel/asm-offsets.c:9:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:116:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     116 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/riscv/kernel/asm-offsets.c:9:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:116:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     116 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                                          ^         ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/riscv/kernel/asm-offsets.c:9:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:117:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     117 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                          ^         ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/riscv/kernel/asm-offsets.c:9:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:117:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     117 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                                          ^         ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/riscv/kernel/asm-offsets.c:9:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:118:5: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     118 |                         (set1->sig[1] == set2->sig[1]) &&
-         |                          ^         ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/riscv/kernel/asm-offsets.c:9:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:118:21: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     118 |                         (set1->sig[1] == set2->sig[1]) &&
-         |                                          ^         ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+>> drivers/usb/dwc2/hcd.c:2454: warning: ignoring '#pragma clang diagnostic' [-Wunknown-pragmas]
+    2454 | #pragma clang diagnostic push
+   drivers/usb/dwc2/hcd.c:2455: warning: ignoring '#pragma clang diagnostic' [-Wunknown-pragmas]
+    2455 | #pragma clang diagnostic ignored "-Wcheri-inefficient"
+   drivers/usb/dwc2/hcd.c:2483: warning: ignoring '#pragma clang diagnostic' [-Wunknown-pragmas]
+    2483 | #pragma clang diagnostic pop
+   drivers/usb/dwc2/hcd.c:2485: warning: ignoring '#pragma clang diagnostic' [-Wunknown-pragmas]
+    2485 | #pragma clang diagnostic push
+   drivers/usb/dwc2/hcd.c:2486: warning: ignoring '#pragma clang diagnostic' [-Wunknown-pragmas]
+    2486 | #pragma clang diagnostic ignored "-Wcheri-inefficient"
+   drivers/usb/dwc2/hcd.c:2553: warning: ignoring '#pragma clang diagnostic' [-Wunknown-pragmas]
+    2553 | #pragma clang diagnostic pop
+--
+>> drivers/gpu/drm/bridge/tda998x_drv.c:1073: warning: ignoring '#pragma clang diagnostic' [-Wunknown-pragmas]
+    1073 | #pragma clang diagnostic push
+   drivers/gpu/drm/bridge/tda998x_drv.c:1074: warning: ignoring '#pragma clang diagnostic' [-Wunknown-pragmas]
+    1074 | #pragma clang diagnostic ignored "-Wcheri-inefficient"
+   drivers/gpu/drm/bridge/tda998x_drv.c:1136: warning: ignoring '#pragma clang diagnostic' [-Wunknown-pragmas]
+    1136 | #pragma clang diagnostic pop
 
 
-vim +/MAX_PTRS_PER_PTE +53 include/linux/kasan.h
+vim +2454 drivers/usb/dwc2/hcd.c
 
-29970dc24faf00 Hailong Liu      2021-01-12  51  
-9577dd74864877 Andrey Konovalov 2018-12-28  52  extern unsigned char kasan_early_shadow_page[PAGE_SIZE];
-cb32c9c5d45662 Daniel Axtens    2021-06-28 @53  extern pte_t kasan_early_shadow_pte[MAX_PTRS_PER_PTE + PTE_HWTABLE_PTRS];
-cb32c9c5d45662 Daniel Axtens    2021-06-28 @54  extern pmd_t kasan_early_shadow_pmd[MAX_PTRS_PER_PMD];
-cb32c9c5d45662 Daniel Axtens    2021-06-28 @55  extern pud_t kasan_early_shadow_pud[MAX_PTRS_PER_PUD];
-9577dd74864877 Andrey Konovalov 2018-12-28 @56  extern p4d_t kasan_early_shadow_p4d[MAX_PTRS_PER_P4D];
-69786cdb379bbc Andrey Ryabinin  2015-08-13  57  
-
-:::::: The code at line 53 was first introduced by commit
-:::::: cb32c9c5d45662770160e0055cb672fd6e0813e8 kasan: use MAX_PTRS_PER_* for early shadow tables
-
-:::::: TO: Daniel Axtens <dja@axtens.net>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+  2453	
+> 2454	#pragma clang diagnostic push
+  2455	#pragma clang diagnostic ignored "-Wcheri-inefficient"
+  2456	static void dwc2_free_dma_aligned_buffer(struct urb *urb)
+  2457	{
+  2458		void *stored_xfer_buffer;
+  2459		size_t length;
+  2460	
+  2461		if (!(urb->transfer_flags & URB_ALIGNED_TEMP_BUFFER))
+  2462			return;
+  2463	
+  2464		/* Restore urb->transfer_buffer from the end of the allocated area */
+  2465		memcpy(&stored_xfer_buffer,
+  2466		       PTR_ALIGN(urb->transfer_buffer + urb->transfer_buffer_length,
+  2467				 get_dma_and_ptr_alignment()),
+  2468		       sizeof(urb->transfer_buffer));
+  2469	
+  2470		if (usb_urb_dir_in(urb)) {
+  2471			if (usb_pipeisoc(urb->pipe))
+  2472				length = urb->transfer_buffer_length;
+  2473			else
+  2474				length = urb->actual_length;
+  2475	
+  2476			memcpy(stored_xfer_buffer, urb->transfer_buffer, length);
+  2477		}
+  2478		kfree(urb->transfer_buffer);
+  2479		urb->transfer_buffer = stored_xfer_buffer;
+  2480	
+  2481		urb->transfer_flags &= ~URB_ALIGNED_TEMP_BUFFER;
+  2482	}
+  2483	#pragma clang diagnostic pop
+  2484	
 
 --
 0-DAY CI Kernel Test Service
