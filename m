@@ -1,87 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0103A356761;
-	Thu, 21 May 2026 22:41:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DB09346FA7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 May 2026 23:06:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779403315; cv=none; b=W/mHBBrX6S4IDfDK11kr+HT4JWD1Ztuf5FwUMFdqRrLmq190sh+93YAphudli7Wuk0iVqG3vtvV3wK9RfXKUjIeEEcKq/WNBi4AQr8Il4tOcRhshGQnjASAc2BCWX9ohMXpAqsqXs/zrXoakAXkYTDVjjqR9z33jEwPibv4JDHk=
+	t=1779404810; cv=none; b=JfnDGG3IYZ139uJxH+EFzoqCO4L2EcKoEaed/2xvdYdKr6Bdi/HxndipBUtwLB9qAyJT8OvpKSS1mHnHzKshHzvSN+ZLCw5/cDNx0qYkLhsc15TF0PuqVvXJdgjTlXZdViL6ZT1jOE1d8iDJEg5lX9yHlUi1Ocwe7H8Dv28kth8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779403315; c=relaxed/simple;
-	bh=N+DuvDC4YQUdJgy3bIj7N6gdkUWwTJI9o8CX9cS+Zi8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=IhbNtrxx2iikp9hECztCeFHyDhlow2YrlHruBORbN9H9JMfXbiZO5+VOSsADFFQsNr5foM+F5XqKRLkWdkKzreTutBvE7Kcfzlci4UmOTddbI+6VQg3b1gwNobsJt8x89QQ+qoHcpn8bAfF90P4spieTSt/smIzsstNf4F9hYPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j++Xxl5O; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779404810; c=relaxed/simple;
+	bh=otVoOgKSQ/Np46AONXSJYabQptTlQ3jd4Mu8OXAeySc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=hpuxZOQD6EEK+w8V/XvDtEYJHgV4LhHdnwPprq4d6XkhCIPCS2l4NBCX8VHbY9ebcPqUi44rqfB39v37CZx7Ih0KCI2NjtEF9JHw7V8IkvLujmVH/3ux4XJ92KX7Aie5WTDiKPvYfbUfCUV3IcC0+xFdCldgKGjn2UBUpFkCQ/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QlimHxAa; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j++Xxl5O"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5D281F000E9;
-	Thu, 21 May 2026 22:41:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779403313;
-	bh=dP9WztdvKsjUiX+s5hkKf7m4cBGkGpJR4f2cWaJmZoQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=j++Xxl5OrsrTA/oPJjqVhRGPVnpqWRBE0Izz6nd+5J1KvjgGJUJFIFJ1SP/TVcQI3
-	 CEEeZxExzs2BEIF1zhdVkwYt4jIqlhjoTEAJJzf2hVvpvSTumQZXZmsTrD9IM/qlBL
-	 RJG63kKXowV5d34x0/naW0dIIOSFK3tdRuxfePWW+fs6eFyGnyNS4Wt1Y3Wavg5O8v
-	 E/DnYbSxYCV/KYyhg0HnO3Ub1KQ6suvASI7++4sEFX6m+X7c1BAa0QBE9L3KIyHN5P
-	 KZ8rEY9SS3LgpdL/EUGZE6V7CUI82LMidISl7WQLBTrpezlFovrKUAJlhQITDjy93a
-	 6TbrV0uKlpo7A==
-From: Mark Brown <broonie@kernel.org>
-To: Nishanth Sampath Kumar <nissampa@cisco.com>
-Cc: lkp@intel.com, linux-kernel@vger.kernel.org, 
- oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260520151109.2380894-1-nissampa@cisco.com>
-References: <20260520151109.2380894-1-nissampa@cisco.com>
-Subject: Re: [PATCH v2] regmap-i2c: fix sparse warning in
- regmap_smbus_word_write_reg16
-Message-Id: <177940331240.1798514.9969087724723460747.b4-ty@b4>
-Date: Thu, 21 May 2026 23:41:52 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QlimHxAa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779404809; x=1810940809;
+  h=date:from:to:cc:subject:message-id;
+  bh=otVoOgKSQ/Np46AONXSJYabQptTlQ3jd4Mu8OXAeySc=;
+  b=QlimHxAagxAhl/OUG3kAsbIffGrXYUpGErEbbAsXc3k2I601alDB/Dcw
+   sOSXhHSImHmv78v82GKhvINPGBRGe0L7ft4H6t3+kPaemo81R4KxQIJRK
+   KARcSB47pwsmi2Jmo8DEeJqZ9RMmx/cAN9jR73kkjxbj/2zsec28Og242
+   k8BwAs2qjj1iWG3IGGESsRGos1NbkgwgJnFXo/j5QrFnRO0P10AQqUZvR
+   olLBUWuFMzqmCOGK76Ni9mJ/QEWfx/tg1jbwk8tFEtQzSjaC43wun4mX6
+   vJEawqRcxDOhVH9dE4JvO3NSsQVZdj1A/gKN7h+pGGxDqrGjLUR8jYpVZ
+   g==;
+X-CSE-ConnectionGUID: ZkByT3XtQIy2j/AGuHjqdA==
+X-CSE-MsgGUID: zzRHCX+wRxKUQlUAw/5Pzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11793"; a="91026037"
+X-IronPort-AV: E=Sophos;i="6.24,161,1774335600"; 
+   d="scan'208";a="91026037"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2026 16:06:48 -0700
+X-CSE-ConnectionGUID: 4h3w98HMSl6U//hAB1YxuA==
+X-CSE-MsgGUID: EhEyub7rTZueQoa2aia3Sg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,161,1774335600"; 
+   d="scan'208";a="271045510"
+Received: from lkp-server01.sh.intel.com (HELO fdb68b0ce653) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 21 May 2026 16:06:47 -0700
+Received: from kbuild by fdb68b0ce653 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wQCTU-000000001KT-1Udk;
+	Thu, 21 May 2026 23:06:44 +0000
+Date: Fri, 22 May 2026 07:05:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Conor Dooley <conor+lkp@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [conor:canaan-clk 2/2] drivers/clk/clk-k230.c:273:1: sparse:
+ sparse: Using plain integer as NULL pointer
+Message-ID: <202605220724.j4ZeM3KI-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
 
-On Wed, 20 May 2026 08:11:09 -0700, Nishanth Sampath Kumar wrote:
-> i2c_smbus_write_word_data() expects a plain u16, but cpu_to_le16()
-> returns __le16 (a sparse-restricted endian type), causing:
-> 
->   drivers/base/regmap/regmap-i2c.c:340: sparse: incorrect type in
->   argument 3 (different base types)
->     expected unsigned short [usertype] value
->     got restricted __le16 [usertype]
-> 
-> [...]
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git canaan-clk
+head:   68af6bc36debec10de593b53e789841df1b6cfc0
+commit: 68af6bc36debec10de593b53e789841df1b6cfc0 [2/2] clk: canaan: Add clock driver for Canaan K230
+config: microblaze-randconfig-r132-20260522 (https://download.01.org/0day-ci/archive/20260522/202605220724.j4ZeM3KI-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.4.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260522/202605220724.j4ZeM3KI-lkp@intel.com/reproduce)
 
-Applied to
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605220724.j4ZeM3KI-lkp@intel.com/
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git for-next
+sparse warnings: (new ones prefixed by >>)
+>> drivers/clk/clk-k230.c:273:1: sparse: sparse: Using plain integer as NULL pointer
+   drivers/clk/clk-k230.c:274:1: sparse: sparse: Using plain integer as NULL pointer
+   drivers/clk/clk-k230.c:275:1: sparse: sparse: Using plain integer as NULL pointer
+   drivers/clk/clk-k230.c:276:1: sparse: sparse: Using plain integer as NULL pointer
+>> drivers/clk/clk-k230.c:278:17: sparse: sparse: symbol 'k230_plls' was not declared. Should it be static?
+>> drivers/clk/clk-k230.c:299:25: sparse: sparse: symbol 'k230_pll_divs' was not declared. Should it be static?
 
-Thanks!
+vim +273 drivers/clk/clk-k230.c
 
-[1/1] regmap-i2c: fix sparse warning in regmap_smbus_word_write_reg16
-      https://git.kernel.org/broonie/misc/c/34808ac8ddaf
+   272	
+ > 273	K230_CLK_PLL_FORMAT(pll0, 0, CLK_IS_CRITICAL, 0);
+   274	K230_CLK_PLL_FORMAT(pll1, 1, CLK_IS_CRITICAL, 0);
+   275	K230_CLK_PLL_FORMAT(pll2, 2, CLK_IS_CRITICAL, 0);
+   276	K230_CLK_PLL_FORMAT(pll3, 3, CLK_IS_CRITICAL, 0);
+   277	
+ > 278	struct k230_pll *k230_plls[] = {
+   279		&pll0,
+   280		&pll1,
+   281		&pll2,
+   282		&pll3,
+   283	};
+   284	
+   285	K230_CLK_FIXED_FACTOR_FORMAT(pll0_div2, 1, 2, 0, &pll0.hw);
+   286	K230_CLK_FIXED_FACTOR_FORMAT(pll0_div3, 1, 3, 0, &pll0.hw);
+   287	K230_CLK_FIXED_FACTOR_FORMAT(pll0_div4, 1, 4, 0, &pll0.hw);
+   288	K230_CLK_FIXED_FACTOR_FORMAT(pll0_div16, 1, 16, 0, &pll0.hw);
+   289	K230_CLK_FIXED_FACTOR_FORMAT(pll1_div2, 1, 2, 0, &pll1.hw);
+   290	K230_CLK_FIXED_FACTOR_FORMAT(pll1_div3, 1, 3, 0, &pll1.hw);
+   291	K230_CLK_FIXED_FACTOR_FORMAT(pll1_div4, 1, 4, 0, &pll1.hw);
+   292	K230_CLK_FIXED_FACTOR_FORMAT(pll2_div2, 1, 2, 0, &pll2.hw);
+   293	K230_CLK_FIXED_FACTOR_FORMAT(pll2_div3, 1, 3, 0, &pll2.hw);
+   294	K230_CLK_FIXED_FACTOR_FORMAT(pll2_div4, 1, 4, 0, &pll2.hw);
+   295	K230_CLK_FIXED_FACTOR_FORMAT(pll3_div2, 1, 2, 0, &pll3.hw);
+   296	K230_CLK_FIXED_FACTOR_FORMAT(pll3_div3, 1, 3, 0, &pll3.hw);
+   297	K230_CLK_FIXED_FACTOR_FORMAT(pll3_div4, 1, 4, 0, &pll3.hw);
+   298	
+ > 299	struct clk_fixed_factor *k230_pll_divs[] = {
+   300		&pll0_div2,
+   301		&pll0_div3,
+   302		&pll0_div4,
+   303		&pll0_div16,
+   304		&pll1_div2,
+   305		&pll1_div3,
+   306		&pll1_div4,
+   307		&pll2_div2,
+   308		&pll2_div3,
+   309		&pll2_div4,
+   310		&pll3_div2,
+   311		&pll3_div3,
+   312		&pll3_div4,
+   313	};
+   314	
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
