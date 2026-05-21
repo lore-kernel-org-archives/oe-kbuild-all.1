@@ -1,117 +1,141 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C60D22E8DFC;
-	Thu, 21 May 2026 01:36:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77CD311C27
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 May 2026 01:45:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779327417; cv=none; b=feMF5iYHYxxvaPIYP25IwLYOpUtP/WbctUo/zJae562TIBXIizX/gUXv8V/oAs4hMEx9daDh2UposBytmFwuVe2KlQ/S2M5twB7qv7gYmVoR1lxMlSvliUFMFKxrjLxHEYLsYKNhnojtsMalxjEmnXtnSkRwSO2LGpslA0jGd7g=
+	t=1779327960; cv=none; b=n4LuB+3ygCEx30ys/wiIP77Huq4boQ92f2vu5Lu32py4rt9WcFmfiC6XZDxWb0ygi4P2iI+FzkcBZigs83SQRKoZv3yZo1P/lyf5Oxgmqmv+F/f0Elj6uEjYLktiP4VrB32RR3N2SumSTc0Ua7qEzIcVtAoO7ZjH5IpGqNKe3Xo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779327417; c=relaxed/simple;
-	bh=YmfM6MvjatSyDeUoSoniZuNXpo86xYamzWWOe6UZAuY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=n74E1jGVjVx/Lrv97Ro9bVcKwhp2CqwyJMZASJZIKlX8ji/6khP56F4/6U0ii4wZ1rznb0dqYPZ1m2WI28KK1iR45w5LcMd99p8pBY7/YRmn65CX6U2Xz6WLSGBhI1MT+ap2+KAcscAkvNtzytpcULUkJVvNaptjD8PNYqmFIGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ew8sRF1Y; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1779327960; c=relaxed/simple;
+	bh=orruTuQd5svMVTxNS+DYeCqqRPBVTzvYEEmDkpHi6YE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=ovOp6H2T5uFRUhiAu1yO8UfRrFaxaobJ4V4E9qulS1Sv56xd97lJ30JphPHEYo88XKF0O7TXnccfz52MlAh4Fb+9RPTRP3KhrJf1OTYpsd8Zux9kIcA0ipoKWbXBgGy/YU23GjUC60Y3iNiLQ6dlFU5arTWeytfypXQgYubLw4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e24ckdI6; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ew8sRF1Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e24ckdI6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779327414; x=1810863414;
-  h=date:from:to:cc:subject:message-id;
-  bh=YmfM6MvjatSyDeUoSoniZuNXpo86xYamzWWOe6UZAuY=;
-  b=ew8sRF1YSs8gfzK6viUsD0aI9zMC62p99pSzGaUM1gUixJuGEnMKk7Z0
-   3w/ruQvxnVzDEg5cqL+DGcnZC4+idsjTVkDf/iWkl6A8BnCI0DRbr9ZXa
-   J+0Y/8f6EfqOb6XgRPfLeQVrTXuM6gyoDnqmtONuws0w6YVnB4Ia5wfhl
-   YxxynJJqwf+w26NiH7K92R3rskpoSWj9Oi7aGHzy88Ej4RFh5doNP0Dm8
-   fwGnO9dacZyCsquAMtU8wMbNTn93upe7piI/ZqKH9h2LV1gisSanaSacm
-   oYhxJd78GeV18Hv6v0Djk9n3Lzzq2iTMD/NUTnsosucdVjNzSKcB7j5tc
-   g==;
-X-CSE-ConnectionGUID: LpbPv0bHTvaBuzf8vhGNPw==
-X-CSE-MsgGUID: WBdI25pdTp+7e75KgpfIcg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="97809078"
+  t=1779327954; x=1810863954;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=orruTuQd5svMVTxNS+DYeCqqRPBVTzvYEEmDkpHi6YE=;
+  b=e24ckdI6jDpe4LKdtHHas8bxuqGT3CklpVZjwKRGcJk1LrsenIQJZP7k
+   Yvkd7aKMo2VqnSJ/uDyfDD8fU3B+9/2C0KCdcGl1ncVNUp7CICEDyhY6F
+   PzxAhZyhWSvQldQKRm/qiip1Hm3OfEOofJ5j2BRbYv+n/prQ/lglLJPlO
+   JPfTQBtcysW7w5n6nflim1dIJABQDnzZUGOFhwp5o5IAMF7Jjf5bFkiyF
+   2KLT4Fb523OufSlaDuE978Yse0XucsSBHDtP4VRGjmkzqZlrTJcGR5f7X
+   eKOCxad6BZjSR6FPKRhMFDrtkW37pQ/EPPB12XLLim55GjUciodZST7f1
+   w==;
+X-CSE-ConnectionGUID: UzPP0xgVRhet0WXvDPNhaA==
+X-CSE-MsgGUID: qO+UXYfQSVOQS3fo1GaWMg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="90539644"
 X-IronPort-AV: E=Sophos;i="6.23,245,1770624000"; 
-   d="scan'208";a="97809078"
+   d="scan'208";a="90539644"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 18:36:53 -0700
-X-CSE-ConnectionGUID: q+m9+p05Qe2BRqOuGVJoCg==
-X-CSE-MsgGUID: +slYbi9nSqePRijvJo2kSw==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 18:45:50 -0700
+X-CSE-ConnectionGUID: 2Qc9rkOkTvOBMQhtTFV8HQ==
+X-CSE-MsgGUID: 3BizmbeWT52sxNhHiQcF2g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,245,1770624000"; 
-   d="scan'208";a="237775978"
-Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 20 May 2026 18:36:51 -0700
-Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
+   d="scan'208";a="237777948"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 20 May 2026 18:45:48 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wPsKq-000000004AJ-2eVo;
-	Thu, 21 May 2026 01:36:37 +0000
-Date: Thu, 21 May 2026 09:35:32 +0800
+	id 1wPsTq-00000000AjR-0uiR;
+	Thu, 21 May 2026 01:45:46 +0000
+Date: Thu, 21 May 2026 03:44:46 +0200
 From: kernel test robot <lkp@intel.com>
-To: "Markus Schneider-Pargmann (The Capable Hub)" <msp@baylibre.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [scosu-sched:topic/mmap-cap-prot-wip/v6.18 2/3]
- arch/x86/kernel/signal_64.c:422:15: error: static assertion failed due to
- requirement '15 == 14': NSIGSEGV == 14
-Message-ID: <202605210948.YFRGUzIF-lkp@intel.com>
+To: Rik van Riel <riel@surriel.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: ./include/linux/mmzone.h:989:34: error: 'PUD_SHIFT'
+ undeclared; did you mean 'NMI_SHIFT'?
+Message-ID: <202605210338.kB3yXcHx-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/scosu/linux-sched topic/mmap-cap-prot-wip/v6.18
-head:   f69a5a9d9fee15edde28429e23a4c749a59937bd
-commit: 8b9ecbe3b33ed26fa45de2f3b928df3f6fd1713c [2/3] riscv/mm: Handle CHERI PTE faults
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260521/202605210948.YFRGUzIF-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260521/202605210948.YFRGUzIF-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Rik-van-Riel/mm-page=
+_alloc-replace-pageblock_flags-bitmap-with-struct-pageblock_data/20260520-2=
+31340
+head:   f078b5654577f53b34108d1196286629a290924b
+commit: 6dd49b692f34be7327766397947db75edebd0d89 mm: page_alloc: superpageb=
+lock metadata for 1GB anti-fragmentation
+date:   10 hours ago
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260=
+521/202605210338.kB3yXcHx-lkp@intel.com/config)
+compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260521/202605210338.kB3yXcHx-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605210948.YFRGUzIF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605210338.kB3yXcHx-lkp@i=
+ntel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/x86/kernel/signal_64.c:422:15: error: static assertion failed due to requirement '15 == 14': NSIGSEGV == 14
-     422 | static_assert(NSIGSEGV == 14);
-         | ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
-   include/uapi/asm-generic/siginfo.h:248:18: note: expanded from macro 'NSIGSEGV'
-     248 | #define NSIGSEGV        15
-         |                         ^
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   1 error generated.
+   In file included from ./include/linux/gfp.h:7,
+                    from ./include/linux/xarray.h:16,
+                    from ./include/linux/radix-tree.h:21,
+                    from ./arch/s390/include/asm/pgtable.h:20,
+                    from ./include/linux/pgtable.h:6,
+                    from arch/s390/kernel/asm-offsets.c:12:
+   ./include/linux/mmzone.h: In function 'pfn_to_superpageblock':
+>> ./include/linux/mmzone.h:989:34: error: 'PUD_SHIFT' undeclared (first us=
+e in this function); did you mean 'NMI_SHIFT'?
+     989 | #define SUPERPAGEBLOCK_ORDER    (PUD_SHIFT - PAGE_SHIFT)
+         |                                  ^~~~~~~~~
+   ./include/linux/mmzone.h:1212:56: note: in expansion of macro 'SUPERPAGE=
+BLOCK_ORDER'
+    1212 |         idx =3D (pfn - zone->superpageblock_base_pfn) >> SUPERPA=
+GEBLOCK_ORDER;
+         |                                                        ^~~~~~~~~=
+~~~~~~~~~~~
+   ./include/linux/mmzone.h:989:34: note: each undeclared identifier is rep=
+orted only once for each function it appears in
+     989 | #define SUPERPAGEBLOCK_ORDER    (PUD_SHIFT - PAGE_SHIFT)
+         |                                  ^~~~~~~~~
+   ./include/linux/mmzone.h:1212:56: note: in expansion of macro 'SUPERPAGE=
+BLOCK_ORDER'
+    1212 |         idx =3D (pfn - zone->superpageblock_base_pfn) >> SUPERPA=
+GEBLOCK_ORDER;
+         |                                                        ^~~~~~~~~=
+~~~~~~~~~~~
 
 
-vim +422 arch/x86/kernel/signal_64.c
+vim +989 ./include/linux/mmzone.h
 
-6be9a8f18fb2ea Brian Gerst        2022-12-19  413  
-f6e2a56c2bad10 Brian Gerst        2022-12-19  414  /*
-f6e2a56c2bad10 Brian Gerst        2022-12-19  415  * If adding a new si_code, there is probably new data in
-f6e2a56c2bad10 Brian Gerst        2022-12-19  416  * the siginfo.  Make sure folks bumping the si_code
-f6e2a56c2bad10 Brian Gerst        2022-12-19  417  * limits also have to look at this code.  Make sure any
-f6e2a56c2bad10 Brian Gerst        2022-12-19  418  * new fields are handled in copy_siginfo_to_user32()!
-f6e2a56c2bad10 Brian Gerst        2022-12-19  419  */
-f6e2a56c2bad10 Brian Gerst        2022-12-19  420  static_assert(NSIGILL  == 11);
-f6e2a56c2bad10 Brian Gerst        2022-12-19  421  static_assert(NSIGFPE  == 15);
-cdce7a4bdf68ce Christian Ehrhardt 2025-06-11 @422  static_assert(NSIGSEGV == 14);
-f6e2a56c2bad10 Brian Gerst        2022-12-19  423  static_assert(NSIGBUS  == 5);
-f6e2a56c2bad10 Brian Gerst        2022-12-19  424  static_assert(NSIGTRAP == 6);
-f6e2a56c2bad10 Brian Gerst        2022-12-19  425  static_assert(NSIGCHLD == 6);
-f6e2a56c2bad10 Brian Gerst        2022-12-19  426  static_assert(NSIGSYS  == 2);
-f6e2a56c2bad10 Brian Gerst        2022-12-19  427  
-
-:::::: The code at line 422 was first introduced by commit
-:::::: cdce7a4bdf68ce84ffd97a9b30b7cfc73951a674 [CHERRY-PICK] arm64: morello: Handle capability faults
-
-:::::: TO: Christian Ehrhardt <christian.ehrhardt@codasip.com>
-:::::: CC: Christian A. Ehrhardt <christian.ehrhardt@codasip.com>
+   976=09
+   977	/*
+   978	 * Superpageblock: 1GB (PUD-sized) region for anti-fragmentation tra=
+cking.
+   979	 *
+   980	 * Groups pageblocks to steer unmovable/reclaimable allocations into
+   981	 * already-tainted superpageblocks, preserving clean superpageblocks=
+ for 1GB
+   982	 * hugepage allocation.
+   983	 *
+   984	 * SUPERPAGEBLOCK_ORDER derived from PUD geometry:
+   985	 *   x86_64: PUD_SHIFT=3D30, PAGE_SHIFT=3D12 =E2=86=92 order 18 =E2=
+=86=92 1GB
+   986	 *   Each superpageblock contains SUPERPAGEBLOCK_NR_PAGEBLOCKS pageb=
+locks
+   987	 *   (512 on x86_64 with 2MB pageblocks).
+   988	 */
+ > 989	#define SUPERPAGEBLOCK_ORDER	(PUD_SHIFT - PAGE_SHIFT)
+   990	#define SUPERPAGEBLOCK_NR_PAGES	(1UL << SUPERPAGEBLOCK_ORDER)
+   991=09
 
 --
 0-DAY CI Kernel Test Service
