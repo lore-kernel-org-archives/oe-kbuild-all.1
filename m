@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09CC36402D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 May 2026 17:21:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A609336605A;
+	Fri, 22 May 2026 18:02:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779470488; cv=none; b=kf4w2HaC7WW3mCpfsD0k4Pn5leEDhIp3jYC99XlixMn1EL5Z52fCvtMKsLTZPcwEBZSosIlQaTdO7Bea6KxUvVzpVi12zhurEJDx3FOEcfu0B9VqrKO9DIB67OxPkVYrxCYhpoBCR7dItNqBt9xFnCxw2ifXjTehd0p6sFDGYTc=
+	t=1779472951; cv=none; b=u2F9VmyJpm55RnejKi3B8onLz3c2y/Lx3AjYnuP3gjmSYCIrJ5rSnTIdJubrFitb5N4mWh8lxOXQWtssJUBdJ+4PM6GRLNNoKfTsrvmomv1Sh61fxHZY1+Kho/akNo6XWA03RTOry0K+oJ2dT5noMxSZhb+XexhBNxYmxtW0eeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779470488; c=relaxed/simple;
-	bh=TRL2cwf3+7Z7+biN96EeV6p3epMie9UWjAketI4kCB4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ViSv45mfEySA4d+MTDt0KkppQ/LA/2P/bOJqdm4leo9NQsYPghGijpesdkfz4v7z0so0A9pfVWzfR2J44zJRPfuYlIBtVG7++wFP7+xbJf0IZLls4n4PVSpk7/K0UUyqnx5aGFAf8Y7wTrPV4BM90YVaLmA1ceFtUm8JUf+wow8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SRICd66C; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1779472951; c=relaxed/simple;
+	bh=l8ODfZgffWhTHTNDJn/mQ2hY1Ih7Z3HZW4fAEarFVBg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=AB1B3wqjLX07SwOPbpdAe7cHBYzY5UGlDqfU3efXzFhB7vtspHsej8td9oDZmAaDY8Rm/vFB5a+djRP6HDTRUo6wuOjzc4veXlTsGDUNi/ii7wo+zJVUXdtfKtQMjWuit8Y987HPsaxAipUPYDQ9XiW9BBJdmCaIZcRzjbIXXp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gg0Ws3W6; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SRICd66C"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gg0Ws3W6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779470486; x=1811006486;
+  t=1779472949; x=1811008949;
   h=date:from:to:cc:subject:message-id;
-  bh=TRL2cwf3+7Z7+biN96EeV6p3epMie9UWjAketI4kCB4=;
-  b=SRICd66CjkOvzGLQsEfkkQuU7UOAGIaMftv7pdhU0WEkpUvmfQtpDmN+
-   twY0Qt+yZKghxWrkTW9vW70+DMFA7zgtmALP6LO047vXPQcVSttQ/ZGeB
-   5nPJT3My7dMc9umMbw8Y0Kw3FVvfj7e0AcUVQXszCqE4EQB6LFkYLYu5W
-   YfeF1ymy1DEAZ/FLUGaQRV62tnyl+xcvqZJDO0KOQKvNQwkGZadEHy6Ky
-   bdwsmWUFzcZJPawN2A9VfZWjWonH3UqUILY8UHFFwuSe/cSskeFg2EazT
-   txhU5yky8TVDpnbHXVOQY11PvxWFFewMUVYugjZOcSN8Jph2ne6B6qMeq
-   A==;
-X-CSE-ConnectionGUID: FKeB5NnGSyi1D+qhej9wNQ==
-X-CSE-MsgGUID: aoyF8B88Rqmh/Kd4tzyHRA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11794"; a="91513884"
+  bh=l8ODfZgffWhTHTNDJn/mQ2hY1Ih7Z3HZW4fAEarFVBg=;
+  b=gg0Ws3W6mfPR1b2/LDnKNzZvGQQAvbfeBSeHRf+Jbu8bsBCw+Zdvcnmf
+   DB9gGIQTEGP87Mfz79ssHdeDv/CykWnrywHLYsWI+W7kGGDrd0NiaWhou
+   7XSS8I1gjd0JE3GvMAy6rUIBgE7/B1N6Nq/YGJwK/1Z/F96tNatyhc/sb
+   Ec0BfHb9m5dYmWu4dX+/c0NSw0OW7abEfA4D/+AGXL7RJ8AzyLN44JN+b
+   HZTHsoWIn7vfGGF7VYTVXNHmoqK6hbLL80YOJIs3P0IisXqjUb8anEb+Z
+   2aVU1RqxGtudcsa9AR/v/Z0kC7Z6yhypB/1Aj9LpfR+0GAGkiKHWkWr/u
+   Q==;
+X-CSE-ConnectionGUID: /4m6WDR3Th6ft6+PW4nd3Q==
+X-CSE-MsgGUID: uGVO8U9DQtGOBJFUUn4ofg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11794"; a="97832237"
 X-IronPort-AV: E=Sophos;i="6.24,162,1774335600"; 
-   d="scan'208";a="91513884"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2026 10:21:26 -0700
-X-CSE-ConnectionGUID: BABpd8x9Tr6H1kI/T+D0aw==
-X-CSE-MsgGUID: tXxBVE1GTIWvqxRfJNnocw==
+   d="scan'208";a="97832237"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2026 11:02:29 -0700
+X-CSE-ConnectionGUID: 2dH2sRdzQq64RinRheDw8A==
+X-CSE-MsgGUID: pYAYzQNXTQSwz9NnVERgcg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,162,1774335600"; 
-   d="scan'208";a="236540774"
+   d="scan'208";a="241043530"
 Received: from lkp-server01.sh.intel.com (HELO fdb68b0ce653) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 22 May 2026 10:21:24 -0700
+  by orviesa009.jf.intel.com with ESMTP; 22 May 2026 11:02:27 -0700
 Received: from kbuild by fdb68b0ce653 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wQTYo-000000002mv-24bF;
-	Fri, 22 May 2026 17:21:22 +0000
-Date: Sat, 23 May 2026 01:20:46 +0800
+	id 1wQUCX-000000002pZ-1T0h;
+	Fri, 22 May 2026 18:02:25 +0000
+Date: Sat, 23 May 2026 02:02:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-2025-12 0/1]
- include/linux/dma-buf.h:547:2: error: static assertion failed due to
- requirement '__alignof(struct dma_buf::(unnamed at
- include/linux/dma-buf.h:547:2)) <= __alignof(struct dma_buf::(unnamed at
- include/linux/dma-buf.h:547:2))': include/linux/dma-buf.h:547:...
-Message-ID: <202605230131.GZ69Re8e-lkp@intel.com>
+To: "Christian A. Ehrhardt" <christian.ehrhardt@codasip.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [scosu-sched:topic/mmap-cap-prot-wip/v6.18 1057/1130]
+ drivers/usb/misc/sisusbvga/sisusbvga.c:2748:47: error: call to undeclared
+ function 'compat_ptr'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202605230126.Pb5CR8Zy-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,66 +61,45 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-12
-head:   59d87130986d0a57ef63b29b5e823ed093472d5a
-commit: e24cc2d5218669b7412788d57528059ec6ecee4e [0/1] ANDROID: ABI: refresh, CRC fixups and allowed breaks
-config: i386-randconfig-061-20260522 (https://download.01.org/0day-ci/archive/20260523/202605230131.GZ69Re8e-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260523/202605230131.GZ69Re8e-lkp@intel.com/reproduce)
+tree:   https://github.com/scosu/linux-sched topic/mmap-cap-prot-wip/v6.18
+head:   f69a5a9d9fee15edde28429e23a4c749a59937bd
+commit: cbf08e7e214ff0b91ce6944b628a22044f0b893c [1057/1130] cheri: compat64: usb: Enable compat64 handling in usb/
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260523/202605230126.Pb5CR8Zy-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260523/202605230126.Pb5CR8Zy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605230131.GZ69Re8e-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605230126.Pb5CR8Zy-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from fs/exec.c:72:
->> include/linux/dma-buf.h:547:2: error: static assertion failed due to requirement '__alignof(struct dma_buf::(unnamed at include/linux/dma-buf.h:547:2)) <= __alignof(struct dma_buf::(unnamed at include/linux/dma-buf.h:547:2))': include/linux/dma-buf.h:547: u64 __kabi_reserved_backport1 is not aligned the same as atomic64_t nr_task_refs
-     547 |         ANDROID_BACKPORT_USE(1, atomic64_t nr_task_refs);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/android_kabi.h:189:2: note: expanded from macro 'ANDROID_BACKPORT_USE'
-     189 |         _ANDROID_KABI_REPLACE(ANDROID_BACKPORT_RESERVE(number), _new)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/android_kabi.h:79:3: note: expanded from macro '_ANDROID_KABI_REPLACE'
-      79 |                 _ANDROID_KABI_NORMAL_SIZE_ALIGN(_orig, _new); \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/android_kabi.h:66:4: note: expanded from macro '_ANDROID_KABI_NORMAL_SIZE_ALIGN'
-      66 |                         __alignof__(struct { _new; }) <=                \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      67 |                                 __alignof__(struct { _orig; }),         \
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dma-buf.h:547:2: note: expression evaluates to '8 <= 4'
-     547 |         ANDROID_BACKPORT_USE(1, atomic64_t nr_task_refs);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/android_kabi.h:189:2: note: expanded from macro 'ANDROID_BACKPORT_USE'
-     189 |         _ANDROID_KABI_REPLACE(ANDROID_BACKPORT_RESERVE(number), _new)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/android_kabi.h:79:3: note: expanded from macro '_ANDROID_KABI_REPLACE'
-      79 |                 _ANDROID_KABI_NORMAL_SIZE_ALIGN(_orig, _new); \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/android_kabi.h:66:34: note: expanded from macro '_ANDROID_KABI_NORMAL_SIZE_ALIGN'
-      66 |                         __alignof__(struct { _new; }) <=                \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
-      67 |                                 __alignof__(struct { _orig; }),         \
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/usb/misc/sisusbvga/sisusbvga.c:2748:47: error: call to undeclared function 'compat_ptr'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2748 |                 return sisusb_ioctl(f, cmd, (user_uintptr_t)compat_ptr(arg));
+         |                                                             ^
    1 error generated.
 
 
-vim +547 include/linux/dma-buf.h
+vim +/compat_ptr +2748 drivers/usb/misc/sisusbvga/sisusbvga.c
 
-   539	
-   540		ANDROID_KABI_RESERVE(1);
-   541		ANDROID_KABI_RESERVE(2);
-   542		/**
-   543		 * @nr_task_refs:
-   544		 *
-   545		 * The number of tasks that reference this buffer. For calculating PSS.
-   546		 */
- > 547		ANDROID_BACKPORT_USE(1, atomic64_t nr_task_refs);
-   548	};
-   549	
+  2739	
+  2740	#ifdef CONFIG_COMPAT
+  2741	static long sisusb_compat_ioctl(struct file *f, unsigned int cmd,
+  2742			unsigned long arg)
+  2743	{
+  2744		switch (cmd) {
+  2745		case SISUSB_GET_CONFIG_SIZE:
+  2746		case SISUSB_GET_CONFIG:
+  2747		case SISUSB_COMMAND:
+> 2748			return sisusb_ioctl(f, cmd, (user_uintptr_t)compat_ptr(arg));
+  2749	
+  2750		default:
+  2751			return -ENOIOCTLCMD;
+  2752		}
+  2753	}
+  2754	#endif
+  2755	
 
 --
 0-DAY CI Kernel Test Service
