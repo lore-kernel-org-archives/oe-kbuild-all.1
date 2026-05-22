@@ -1,90 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9154B3CC314;
-	Fri, 22 May 2026 10:22:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39AB9231C91;
+	Fri, 22 May 2026 11:11:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779445364; cv=none; b=IfRGIL/Dp0dvRXs9COVEewN79+JYZJCxtqUsTrYkTrfttJe4kFwAj3g2oI8+kWoatGsl++dT3uAWid+NsBc7l8iASp5/PeefGQgHzuk5NeZHVr44CWV7D8M8/AZj49pEO/aMBaJqx8/fiuxwmU7JvCXxy1FxvqWKXcI/0axXeLE=
+	t=1779448319; cv=none; b=H/kG9AlR+xzh7X8VGzEr2SAYqGEMmKYoUVEH2XR7Bj0KX0JGdPtceq10J2wLGQ74ZcgTC2374ixZUsnnRhN6pX45DlxMS1nvUBRGSXiWVc3nJ8Z5OIWHxCeOvKgXrZ5tR4D/wjHsFJWGgMSbCqm+GsbFJ+UyZtUDwwWVS4tpHWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779445364; c=relaxed/simple;
-	bh=vdw5OJmtlvU4KXEfERNCSAJsIsp5n+CXwsOvQIybgD0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=YQV93IFv7abHP256v7qMkRA6VinLJb+mkv8eDfxaBxCC/B5guPSUOQa0BKlTYaAZz/9yLwYE5e8n7Uxa4rf/6+MXAIwPhhXpWGYDQmBm/KEFODO5RV3RUSJQxkrL2DOjc58NoyAT6gcIcqMDETlSXMnIB+fdkL+VYyoedoUUq3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=etHX5CB1; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779448319; c=relaxed/simple;
+	bh=ahSVhKuT4Idv2eFzLcr+39LTDwUS8mkT32nTdP+ZUJ0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=atZkAQZBlFmBz5ZEz6eONqv6Rv9yF05pvZ+bbfXix7cmWcKnhD0HvSC3vDn592jMRaFzkEyfrWAy+oHP8jaZ34BdH6otR7O1vbHBoT1RE1t4D87MM0kuh0WEhV2GSf8pNB3orPC4TJO+GVl1DuPHdZAOAkFZ1+CpLVwhAAGvsUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bPxJJvQe; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="etHX5CB1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB9661F000E9;
-	Fri, 22 May 2026 10:22:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779445363;
-	bh=Y5cL3/Y974E6irBmw6RTQWeMkCz+c5eunAipgwlqVhg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=etHX5CB1TMqMFKy7Ex4WaYclXU8E5X00oFs/+fB7nKR3Wio5tZinxt41ysR7h9XDD
-	 LWYpFhgeRLoJ8TtcePdflcp66F7Y3MxZmTzzzQi/luXIpES9a68KofsnPlGhrMWpMd
-	 SvvEHBmLPjt6VAg93RHlAkMX7EiBsCL3kth6tuJm6OcqeewF7mRGCvovfs8S2c1PzG
-	 IzEh7MnykU8lMWuoaI+u8/lqeynW7iV1D0DSw6cHEuX0bCDrDAu/TfYAqHbxpAVye8
-	 T+4TsubSHcgHGqrUt5wKCtNt0SYWXYBFvK8/Dv6Ja0eT/NUzA2Og6yYiErtB9rpcbV
-	 kqWCRQI/ntwXA==
-From: Mark Brown <broonie@kernel.org>
-To: Nishanth Sampath Kumar <nissampa@cisco.com>
-Cc: lkp@intel.com, linux-kernel@vger.kernel.org, 
- oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20260519220557.1574954-1-nissampa@cisco.com>
-References: <20260519220557.1574954-1-nissampa@cisco.com>
-Subject: Re: [PATCH v2] regmap-i2c: fix sparse warning in
- regmap_smbus_word_write_reg16
-Message-Id: <177927833159.56665.18353257746286214650.b4-ty@b4>
-Date: Wed, 20 May 2026 12:58:51 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bPxJJvQe"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779448318; x=1810984318;
+  h=date:from:to:cc:subject:message-id;
+  bh=ahSVhKuT4Idv2eFzLcr+39LTDwUS8mkT32nTdP+ZUJ0=;
+  b=bPxJJvQebjMlUHgATcceFyoqpqMW43/oZzud2X2u3HXg3KAJ6909HbXp
+   kb0WV1d38buPYjQh8+zYk+qcIvpXzr6g7edkHG4GQu3oF7bPhEKmSKtj1
+   cLho4tp5ek7VB9PZsqT5H4hfrlBHD2lY6OCDckDCOQ7X9gd6gwmDdgQS7
+   vqkauqW2woxgO8RWOQMjXHGd+B6sP9Lmu8aeL0eRIjzeLQrPNvLcH1Q2a
+   lI7FxxR+V22VgueiaqhKBVY2PQ/RD/pOSbCXLF8wYBhHnyPGQFhtnd5qc
+   6AuL96VYki1RkoVM3BVLQXtnqtNxusPIbTZ9KfQJwPIBtY8IeTSiGJCEv
+   g==;
+X-CSE-ConnectionGUID: kqVLWq1VQKyKlJSs0cQYuA==
+X-CSE-MsgGUID: rxolZleMQDOMru70oiLA3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11793"; a="90675553"
+X-IronPort-AV: E=Sophos;i="6.24,162,1774335600"; 
+   d="scan'208";a="90675553"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2026 04:11:57 -0700
+X-CSE-ConnectionGUID: CGeQNZbLQcWik13gjB1WDg==
+X-CSE-MsgGUID: 9TkvZTs7SFm0SgrazmruOQ==
+X-ExtLoop1: 1
+Received: from lkp-server01.sh.intel.com (HELO fdb68b0ce653) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 22 May 2026 04:11:54 -0700
+Received: from kbuild by fdb68b0ce653 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wQNnE-000000002H7-2YAw;
+	Fri, 22 May 2026 11:11:52 +0000
+Date: Fri, 22 May 2026 19:11:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Markus Schneider-Pargmann (The Capable Hub)" <msp@baylibre.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [scosu-sched:topic/mmap-cap-prot/v7.0 2/3]
+ arch/arm64/kernel/signal.c:1889:15: error: static assertion failed due to
+ requirement '15 == 14': NSIGSEGV == 14
+Message-ID: <202605221939.Hwr5MeAT-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1156; i=broonie@kernel.org;
- h=from:subject:message-id; bh=vdw5OJmtlvU4KXEfERNCSAJsIsp5n+CXwsOvQIybgD0=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqEC5xepiI71zsHEvtrW4bqKfI8aD6IvF95GAjV
- 8BbWTKPlWCJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCahAucQAKCRAk1otyXVSH
- 0JR0B/9ZHco527VlZdiAmANV3J8I7arKgr8EBXbzKD3uJTWdbOXqmRxXQjsAOkHoj4Z+bU0udIR
- xlS0pBg/UUT9xjBq9EsFzPXtS9SmVuRR3a0HHpIYRPwXXZHdRBE9FmK1HSDJVo691+oPSCLDmUO
- 7uJEZXvhHc0tDLb/jWRfS8Vebx+ktchDUhCaQIHmym5vLlPnD4cJynU25Ci3WUewQGcSvwFsJCo
- nJYUJD3yZlwAr7xHx/7icx3eG7kGs4X4odz589Dvu2/cUg2KJ0GUQd4FfAcmSS6xY9xUvjivqos
- n6ZyVoB8a/caVi5iyuf/Ne3L9KZSN95gKqrYxauW50uhGynT
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 19 May 2026 15:05:57 -0700, Nishanth Sampath Kumar wrote:
-> regmap-i2c: fix sparse warning in regmap_smbus_word_write_reg16
+tree:   https://github.com/scosu/linux-sched topic/mmap-cap-prot/v7.0
+head:   af9683ebfd23308f714cc478321fb01e5c4a7104
+commit: ca19e2e72e8fbd0b87fde805dcf8ffd98137be57 [2/3] riscv/mm: Handle CHERI PTE faults
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260522/202605221939.Hwr5MeAT-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260522/202605221939.Hwr5MeAT-lkp@intel.com/reproduce)
 
-Applied to
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605221939.Hwr5MeAT-lkp@intel.com/
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git for-7.2
+All errors (new ones prefixed by >>):
 
-Thanks!
+>> arch/arm64/kernel/signal.c:1889:15: error: static assertion failed due to requirement '15 == 14': NSIGSEGV == 14
+    1889 | static_assert(NSIGSEGV  == 14);
+         | ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+   include/uapi/asm-generic/siginfo.h:248:18: note: expanded from macro 'NSIGSEGV'
+     248 | #define NSIGSEGV        15
+         |                         ^
+   include/linux/build_bug.h:79:50: note: expanded from macro 'static_assert'
+      79 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:80:56: note: expanded from macro '__static_assert'
+      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   1 error generated.
+--
+>> arch/arm64/kernel/signal32.c:466:15: error: static assertion failed due to requirement '15 == 14': NSIGSEGV == 14
+     466 | static_assert(NSIGSEGV  == 14);
+         | ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+   include/uapi/asm-generic/siginfo.h:248:18: note: expanded from macro 'NSIGSEGV'
+     248 | #define NSIGSEGV        15
+         |                         ^
+   include/linux/build_bug.h:79:50: note: expanded from macro 'static_assert'
+      79 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:80:56: note: expanded from macro '__static_assert'
+      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   1 error generated.
 
-[1/1] regmap-i2c: fix sparse warning in regmap_smbus_word_write_reg16
-      https://git.kernel.org/broonie/regmap/c/19a5211cda12
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+vim +1889 arch/arm64/kernel/signal.c
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+726e337b645478 Marco Elver           2021-04-29  1882  
+726e337b645478 Marco Elver           2021-04-29  1883  /*
+726e337b645478 Marco Elver           2021-04-29  1884   * Compile-time assertions for siginfo_t offsets. Check NSIG* as well, as
+726e337b645478 Marco Elver           2021-04-29  1885   * changes likely come with new fields that should be added below.
+726e337b645478 Marco Elver           2021-04-29  1886   */
+726e337b645478 Marco Elver           2021-04-29  1887  static_assert(NSIGILL	== 11);
+726e337b645478 Marco Elver           2021-04-29  1888  static_assert(NSIGFPE	== 15);
+c983e4d4366b0d Christian A. Ehrhardt 2026-04-28 @1889  static_assert(NSIGSEGV	== 14);
+726e337b645478 Marco Elver           2021-04-29  1890  static_assert(NSIGBUS	== 5);
+726e337b645478 Marco Elver           2021-04-29  1891  static_assert(NSIGTRAP	== 6);
+726e337b645478 Marco Elver           2021-04-29  1892  static_assert(NSIGCHLD	== 6);
+726e337b645478 Marco Elver           2021-04-29  1893  static_assert(NSIGSYS	== 2);
+50ae81305c7a3e Eric W. Biederman     2021-05-04  1894  static_assert(sizeof(siginfo_t) == 128);
+d7027ccdac7596 Christian A. Ehrhardt 2026-04-28  1895  
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+:::::: The code at line 1889 was first introduced by commit
+:::::: c983e4d4366b0de24bcdcbb56ccb519146f364c7 [CHERRY-PICK] arm64: morello: Handle capability faults
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+:::::: TO: Christian A. Ehrhardt <christian.ehrhardt@codasip.com>
+:::::: CC: Christian A. Ehrhardt <christian.ehrhardt@codasip.com>
 
-Thanks,
-Mark
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
