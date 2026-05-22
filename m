@@ -1,295 +1,131 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BA6338E8A1
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 May 2026 21:52:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779486764; cv=none; b=ObN/7B5mcB4XDiOM+A+rM3oYT7phuOdkUOAthVVHag7qvnW80QfDzTawSe0Oj9Y+apxV8R1wpwohGkyXCkh57xOi4pW4x/Zg9xGuHMYGBv2W75mMue5H9OcdzHSy7Y2J4Qzp3JaZzotaNURN7UZumAmzucmksbCNG/eJwES2nRY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779486764; c=relaxed/simple;
-	bh=hmnI4tkX2KlUl+HZ9fXkl4CbOsOwCBOjI29gwBM5Icw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l5Y6pgkhqXzB9rusNuRd/6OzODZm/3QEN/z9OxeNGnJwy58E4poRUXqBrmZaNcfPprIC5h6V6U9atlRg2/DJYM4INEo3BSJO3ncBSQQ2TgvYf09etVsaxjHFB+W0yQj3ym43M50D7qlc/B5FzKjarcPN4NZr2J+brPNOgWAukuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JB5xmack; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F43F36C9E4
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 May 2026 22:55:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779490560; cv=pass; b=oO932eZ/eT503DKkckqWNiUuNUqCYEEMq8Vwd1qjdrS1bOfd9S9sHorA7geMsr5FuBUcgfO5pmuVT3ljvIDVSmzBZnUu50hjdjfx4wttvo9GQTADRcnJGgy9MLb5HheLBXTywEg9fu/d6HfRfSmxHI5kNShAy1+aSn/y2Vp4C34=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779490560; c=relaxed/simple;
+	bh=Pvooo0toAf+o/Qcwj7a8zZhwZgmx2F/ehYpG24Yc1jk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gvgT7ls2Rzl4I9V9woYXSOWTDF4X5RIHvJJ1HBEslvgbI7VVg7CFoAdaV2RHwiUZ4y2MoVv1GQ0Q2hNMp2F9UiVT/qX06iL5ZS5MEpGPMv4+BNlaf8BFLqiO0p9FQSi5f/QHv8aCT4uFY4L6c8x6zik15sWgNENMSblG1Rp7iEk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=M2KljJU7; arc=pass smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JB5xmack"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779486763; x=1811022763;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hmnI4tkX2KlUl+HZ9fXkl4CbOsOwCBOjI29gwBM5Icw=;
-  b=JB5xmackziHCGwZjbQhGPf9a2cWQVvSuojdqKh1NoyTRa8dstm14cGIr
-   74qZayYR0OwLthFwRMjd/i0sPZrD6Oo7BSnJwOdGhjH/be19g9TwVPy31
-   LJFvav1BN95PTj0Cwch5W7PBIwy+QYTBmkFUaAQKdejwqhe8For4UKRPN
-   Y1HVbD1mWwl06DBueu1KyA00eEjofhSLF18TZ4Z0Rhq6FgylzOoZbOXTz
-   cDANAG+U21nWRxOgJ2jWznCg1w+k9nwh94tbGzqOFMeKdrgbPo4hSUdaP
-   PJdc9/uINaz9xbNNr6GaKFDsAzO72Ycfc25kw6L5TBe1nHs3DGHr3edi8
-   A==;
-X-CSE-ConnectionGUID: iZhc6VfOSnqMNTnkoONCRw==
-X-CSE-MsgGUID: syqjhLbfQWK3Lt8+2wM6Vw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11794"; a="84037016"
-X-IronPort-AV: E=Sophos;i="6.24,163,1774335600"; 
-   d="scan'208";a="84037016"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2026 14:52:42 -0700
-X-CSE-ConnectionGUID: kpdCQCd6TN6uf4XRxBeHNw==
-X-CSE-MsgGUID: fVfJd64STF+ulsjT5tbO5g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,163,1774335600"; 
-   d="scan'208";a="264855625"
-Received: from lkp-server01.sh.intel.com (HELO fdb68b0ce653) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 22 May 2026 14:52:39 -0700
-Received: from kbuild by fdb68b0ce653 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wQXnH-0000000031J-3Uuh;
-	Fri, 22 May 2026 21:52:35 +0000
-Date: Sat, 23 May 2026 05:52:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ashwin Gundarapu <linuxuser509@zohomail.in>,
-	"anthony.l.nguyen@intel.com" <przemyslaw.kitszel@intel.com>,
-	andrewnetdev <andrew+netdev@lunn.ch>, davem <davem@davemloft.net>,
-	edumazet <edumazet@google.com>, kuba <kuba@kernel.org>,
-	pabeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	intel-wired-lan <intel-wired-lan@lists.osuosl.org>,
-	linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH net-next] net: e100: replace silent 'hope for the best'
- with debug message
-Message-ID: <202605230558.68aPIUbo-lkp@intel.com>
-References: <19e49280392.4757403170773.5767589851918809405@zohomail.in>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="M2KljJU7"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4903893a0f3so3635e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 22 May 2026 15:55:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779490558; cv=none;
+        d=google.com; s=arc-20240605;
+        b=UyAI3oLHFlNE4MSFoiRxzuhbBWZahhqb6GTwso+AJg4J4ghq3NVkoYuYk6L5A9C33Q
+         k7EhBReU3SNFsCoMtQVcpw3qVn1dkYPdvEYs3/BPIj5TwOLOoVIAPvaNpE2t63AS2zSe
+         OizmjwD5cYqQ9rDMcphThnAgAsiZzhZSNC5DcwJK3DZmwG4SO7WgMXRCzzAC4OF0p9ds
+         B6edSV//joJoHzdMmRFRUsXd16eDRUS7B9TwoFznvNVTl5gu3QaFZRSiK1eeW0akBRxt
+         HSdrxq+1UpaBhgGW6w345RSaM116mCC8gfuLIJCgJNlV0IA7UeM0Uy8dnfLFaCwe2ciQ
+         cxqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=9hi3/f+NGybxN1LHccHwI9VWUUIzgq30Mx5RJBwStVc=;
+        fh=4Yk1KwHmuKe7Er34B1rNOnMlmzNpNPRPWutG/crrPlI=;
+        b=dzK504Fztk22Gxpe0vLN8WKrOpg6sgQLQK9iAIqEM/AkwG9KShnZ+Y1nIbzi7Jd8hf
+         XocNARb10r40Yw5fG2JJdbDCCXOFvcPxLSItZ51OH3KqnG02ZB2A+rs7RN2OCAsKOtUR
+         5kG4+OlSktkaF+VZsX74h8oNEU7FF4NmbTnGSM+RP6L6eOWY7RV9eEaEoCIgZgIipRAO
+         TvFaQlX2dIDzdEAlpS04QWpcU8u3emD95ijiJwD8dtXbov6i2FWVFxmWSsp2yzKO6VO+
+         jod2CA2K7XelN8WjwfLl5Ayo9YHHZMe2WKuosVt6bswL0BKXfY3fg7pHFozDesdtz+nK
+         7uXQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1779490558; x=1780095358; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9hi3/f+NGybxN1LHccHwI9VWUUIzgq30Mx5RJBwStVc=;
+        b=M2KljJU7dUwfEv4QlDTzT+7FC88gqfOuCrxRuG/BD108cbHSmSwyNz7pEshHAJYufW
+         67Ft6QE8h4h9638rtob3mKVzaj08YcJmMGvNABGRI55KEPGqXJusCTBYw35pNInhrp+u
+         HqbQakUEt3+XtIqASHFO0pKOUblQfeZExkRTm2lA1iWSekyjgnGOjTBGliQo2iluM2fS
+         jC/zDstImQ7yUsxMigulSLllIICgejcHsamteAfo7gDkYhWLIunpbI8ARTEr/KoMfpBv
+         IKDuEs0yi/zIUPjfofTqEN910BEsu+AaPBFHcNqrjGGNz/soi+MXvN4+fjRmYX7d1cGr
+         upxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779490558; x=1780095358;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=9hi3/f+NGybxN1LHccHwI9VWUUIzgq30Mx5RJBwStVc=;
+        b=kdi6NesjQ8KFDTlqafUwtjWiJACpAn7e+XZdusExQG0D8l3waA2z0V6N/josofhGCQ
+         TWQWBBHjkK4IVEFGLIlFinSTtt4ok4rt7mJ+T+NzCQZMekR+uCkMtDcaDXTdNo8ObWpY
+         Sylfd4x5uNWhOkEhikGiIjef4Nj0TAdi5Wtq5XTA1MCtIb3qIbmGF64GaN0Q27ZnoI+G
+         le4WYxFBhazkDR//CWmVKLqnoBh05Rdy7RXF3QO+jKePJMEaHmrH16BiTGtXLMq8gERV
+         e2eQkurhom2s+XURhC0KAHSQ+0zNvx11brLnpBfFwMTIggANcEuGm5aeaEZDtmbvkntS
+         K2WA==
+X-Forwarded-Encrypted: i=1; AFNElJ9Sd2nJ4R68zJbJUJjvlUV+b5G/Z0f1h/kfdKMEKQEtyzet1/zL0YbxIug8GG88XAzKut3gioL9oUKTyOBI@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzl5syr8IRTVVrOLPR4acADOL8h3UoJ4MevWB7Qm42w7eCyz7pj
+	TKrLuj0ZaXJ7TPRuCz5BKM4mx14H6acYU4JMpiPXfzqONKO9uvzKHsWf7FQpou7EGTJv4OpiA/U
+	iYIyJAN9oJNM7RYpIP6aq/ysFCXPWhdT9xBLqvG4w
+X-Gm-Gg: Acq92OEyW1PIkM0bDOERhVx5PLIpk0zz7jLV749A0IbBWSG9nBuVLfic/t9hMcfJxXm
+	HqJBW0JnsaLkXha6PcYaYPeNaAXEbSjxwBGAFLxOm5ektW7nHLES3+dU0uUMsY1+XwrnAXEFcku
+	pVwNShOOHA+xvTrD/MdhOqiaNRQnRfSjh4nDeX9MdLXNzRiSo0yr/fn54CxWip6Ox5RZMdFVoC7
+	C3FWY/4MlV718LKl8Fk13vSkHTpVs/+PN1fg7F7SioBYIHLJfh6zzBPJJG7Yi/f0F/Aq/rsollc
+	J6jVMRAdrLY6LeRzLLjqsWwLNffL/GgrTSU4drnqg009zCpe
+X-Received: by 2002:a05:600c:e489:10b0:490:3bcf:11ce with SMTP id
+ 5b1f17b1804b1-4904f68edd9mr253535e9.4.1779490557387; Fri, 22 May 2026
+ 15:55:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <19e49280392.4757403170773.5767589851918809405@zohomail.in>
+References: <202605230046.E9uhmQXM-lkp@intel.com>
+In-Reply-To: <202605230046.E9uhmQXM-lkp@intel.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Fri, 22 May 2026 15:55:45 -0700
+X-Gm-Features: AVHnY4IwqhRvkr02BBybh2ka5VliyYStKiXs47dfF_tw-sHPx3XI7LNwBsa9i-U
+Message-ID: <CABdmKX0Y6qiyBFJWNtGQzYrqiF9QsaoRyQvN7N2K+ZJETMeuhw@mail.gmail.com>
+Subject: Re: [linux-next:master 7127/8157] ERROR: modpost: "set_memory_decrypted"
+ [drivers/dma-buf/heaps/system_heap.ko] undefined!
+To: kernel test robot <lkp@intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>, oe-kbuild-all@lists.linux.dev, 
+	Sumit Semwal <sumit.semwal@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Ashwin,
+On Fri, May 22, 2026 at 9:49=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it master
+> head:   c1ecb239fa3456529a32255359fc78b69eb9d847
+> commit: fd55edff8a0abe1b198af9a4280bfb208b9d2ab7 [7127/8157] dma-buf: hea=
+ps: system: Turn the heap into a module
+> config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/202=
+60523/202605230046.E9uhmQXM-lkp@intel.com/config)
+> compiler: powerpc64-linux-gcc (GCC) 15.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20260523/202605230046.E9uhmQXM-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202605230046.E9uhmQXM-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+>
+> >> ERROR: modpost: "set_memory_decrypted" [drivers/dma-buf/heaps/system_h=
+eap.ko] undefined!
+> >> ERROR: modpost: "set_memory_encrypted" [drivers/dma-buf/heaps/system_h=
+eap.ko] undefined!
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ashwin-Gundarapu/net-e100-replace-silent-hope-for-the-best-with-debug-message/20260521-141158
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/19e49280392.4757403170773.5767589851918809405%40zohomail.in
-patch subject: [PATCH net-next] net: e100: replace silent 'hope for the best' with debug message
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20260523/202605230558.68aPIUbo-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260523/202605230558.68aPIUbo-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605230558.68aPIUbo-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/net/ethernet/intel/e100.c: In function 'e100_phy_init':
-   drivers/net/ethernet/intel/e100.c:1455:17: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
-    1455 |                 if (e100_phy_check_without_mii(nic))
-         |                 ^~
-   drivers/net/ethernet/intel/e100.c:1458:25: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
-    1458 |                         return 0;
-         |                         ^~~~~~
->> drivers/net/ethernet/intel/e100.c:1459:17: error: expected '}' before 'else'
-    1459 |                 else {
-         |                 ^~~~
-   drivers/net/ethernet/intel/e100.c:1439:39: warning: unused variable 'cong' [-Wunused-variable]
-    1439 |         u16 bmcr, stat, id_lo, id_hi, cong;
-         |                                       ^~~~
-   drivers/net/ethernet/intel/e100.c:1439:32: warning: unused variable 'id_hi' [-Wunused-variable]
-    1439 |         u16 bmcr, stat, id_lo, id_hi, cong;
-         |                                ^~~~~
-   drivers/net/ethernet/intel/e100.c:1439:25: warning: unused variable 'id_lo' [-Wunused-variable]
-    1439 |         u16 bmcr, stat, id_lo, id_hi, cong;
-         |                         ^~~~~
-   drivers/net/ethernet/intel/e100.c: At top level:
->> drivers/net/ethernet/intel/e100.c:1465:11: error: expected identifier or '(' before 'else'
-    1465 |         } else
-         |           ^~~~
-   In file included from include/linux/skbuff.h:39,
-                    from include/net/net_namespace.h:44,
-                    from include/linux/netdevice.h:38,
-                    from drivers/net/ethernet/intel/e100.c:140:
->> include/net/net_debug.h:88:3: error: expected identifier or '(' before 'while'
-      88 | } while (0)
-         |   ^~~~~
-   drivers/net/ethernet/intel/e100.c:1466:17: note: in expansion of macro 'netif_printk'
-    1466 |                 netif_printk(nic, hw, KERN_DEBUG, nic->netdev,
-         |                 ^~~~~~~~~~~~
-   drivers/net/ethernet/intel/e100.c:1470:9: warning: data definition has no type or storage class
-    1470 |         id_lo = mdio_read(netdev, nic->mii.phy_id, MII_PHYSID1);
-         |         ^~~~~
->> drivers/net/ethernet/intel/e100.c:1470:9: error: type defaults to 'int' in declaration of 'id_lo' [-Wimplicit-int]
->> drivers/net/ethernet/intel/e100.c:1470:27: error: 'netdev' undeclared here (not in a function); did you mean 'net_eq'?
-    1470 |         id_lo = mdio_read(netdev, nic->mii.phy_id, MII_PHYSID1);
-         |                           ^~~~~~
-         |                           net_eq
->> drivers/net/ethernet/intel/e100.c:1470:35: error: 'nic' undeclared here (not in a function)
-    1470 |         id_lo = mdio_read(netdev, nic->mii.phy_id, MII_PHYSID1);
-         |                                   ^~~
-   drivers/net/ethernet/intel/e100.c:1471:9: warning: data definition has no type or storage class
-    1471 |         id_hi = mdio_read(netdev, nic->mii.phy_id, MII_PHYSID2);
-         |         ^~~~~
->> drivers/net/ethernet/intel/e100.c:1471:9: error: type defaults to 'int' in declaration of 'id_hi' [-Wimplicit-int]
->> drivers/net/ethernet/intel/e100.c:1472:12: error: expected '=', ',', ';', 'asm' or '__attribute__' before '->' token
-    1472 |         nic->phy = (u32)id_hi << 16 | (u32)id_lo;
-         |            ^~
->> include/net/net_debug.h:85:1: error: expected identifier or '(' before 'do'
-      85 | do {                                                            \
-         | ^~
-   drivers/net/ethernet/intel/e100.c:1473:9: note: in expansion of macro 'netif_printk'
-    1473 |         netif_printk(nic, hw, KERN_DEBUG, nic->netdev,
-         |         ^~~~~~~~~~~~
->> include/net/net_debug.h:88:3: error: expected identifier or '(' before 'while'
-      88 | } while (0)
-         |   ^~~~~
-   drivers/net/ethernet/intel/e100.c:1473:9: note: in expansion of macro 'netif_printk'
-    1473 |         netif_printk(nic, hw, KERN_DEBUG, nic->netdev,
-         |         ^~~~~~~~~~~~
->> drivers/net/ethernet/intel/e100.c:1477:9: error: expected identifier or '(' before 'for'
-    1477 |         for (addr = 0; addr < 32; addr++) {
-         |         ^~~
-   drivers/net/ethernet/intel/e100.c:1477:29: error: expected '=', ',', ';', 'asm' or '__attribute__' before '<' token
-    1477 |         for (addr = 0; addr < 32; addr++) {
-         |                             ^
-   drivers/net/ethernet/intel/e100.c:1477:39: error: expected '=', ',', ';', 'asm' or '__attribute__' before '++' token
-    1477 |         for (addr = 0; addr < 32; addr++) {
-         |                                       ^~
->> drivers/net/ethernet/intel/e100.c:1491:9: error: expected identifier or '(' before 'if'
-    1491 |         if (nic->phy == phy_82552_v)
-         |         ^~
-   drivers/net/ethernet/intel/e100.c:1497:9: error: expected identifier or '(' before 'if'
-    1497 |         if ((nic->phy & NCS_PHY_MODEL_MASK) == phy_nsc_tx) {
-         |         ^~
-   drivers/net/ethernet/intel/e100.c:1505:9: error: expected identifier or '(' before 'if'
-    1505 |         if (nic->phy == phy_82552_v) {
-         |         ^~
-   drivers/net/ethernet/intel/e100.c:1519:11: error: expected identifier or '(' before 'else'
-    1519 |         } else if ((nic->mac >= mac_82550_D102) || ((nic->flags & ich) &&
-         |           ^~~~
->> drivers/net/ethernet/intel/e100.c:1527:9: error: expected identifier or '(' before 'return'
-    1527 |         return 0;
-         |         ^~~~~~
->> drivers/net/ethernet/intel/e100.c:1528:1: error: expected identifier or '(' before '}' token
-    1528 | }
-         | ^
-   drivers/net/ethernet/intel/e100.c:958:12: warning: 'mdio_ctrl_phy_82552_v' defined but not used [-Wunused-function]
-     958 | static u16 mdio_ctrl_phy_82552_v(struct nic *nic,
-         |            ^~~~~~~~~~~~~~~~~~~~~
-
-
-vim +1459 drivers/net/ethernet/intel/e100.c
-
-720017623ab294b drivers/net/e100.c                Andreas Mohr     2009-06-10  1430  
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1431  #define NCONFIG_AUTO_SWITCH	0x0080
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1432  #define MII_NSC_CONG		MII_RESV1
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1433  #define NSC_CONG_ENABLE		0x0100
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1434  #define NSC_CONG_TXREADY	0x0400
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1435  static int e100_phy_init(struct nic *nic)
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1436  {
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1437  	struct net_device *netdev = nic->netdev;
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1438  	u32 addr;
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1439  	u16 bmcr, stat, id_lo, id_hi, cong;
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1440  
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1441  	/* Discover phy addr by searching addrs in order {1,0,2,..., 31} */
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1442  	for (addr = 0; addr < 32; addr++) {
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1443  		nic->mii.phy_id = (addr == 0) ? 1 : (addr == 1) ? 0 : addr;
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1444  		bmcr = mdio_read(netdev, nic->mii.phy_id, MII_BMCR);
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1445  		stat = mdio_read(netdev, nic->mii.phy_id, MII_BMSR);
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1446  		stat = mdio_read(netdev, nic->mii.phy_id, MII_BMSR);
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1447  		if (!((bmcr == 0xFFFF) || ((stat == 0) && (bmcr == 0))))
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1448  			break;
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1449  	}
-720017623ab294b drivers/net/e100.c                Andreas Mohr     2009-06-10  1450  	if (addr == 32) {
-720017623ab294b drivers/net/e100.c                Andreas Mohr     2009-06-10  1451  		/* uhoh, no PHY detected: check whether we seem to be some
-720017623ab294b drivers/net/e100.c                Andreas Mohr     2009-06-10  1452  		 * weird, rare variant which is *known* to not have any MII.
-720017623ab294b drivers/net/e100.c                Andreas Mohr     2009-06-10  1453  		 * But do this AFTER MII checking only, since this does
-720017623ab294b drivers/net/e100.c                Andreas Mohr     2009-06-10  1454  		 * lookup of EEPROM values which may easily be unreliable. */
-720017623ab294b drivers/net/e100.c                Andreas Mohr     2009-06-10  1455  		if (e100_phy_check_without_mii(nic))
-e95e8b2860fba4c drivers/net/ethernet/intel/e100.c Ashwin Gundarapu 2026-05-10  1456                          netif_dbg(nic, probe, nic->netdev,
-e95e8b2860fba4c drivers/net/ethernet/intel/e100.c Ashwin Gundarapu 2026-05-10  1457                                    "No MII PHY detected, continuing anyway\n");
-e95e8b2860fba4c drivers/net/ethernet/intel/e100.c Ashwin Gundarapu 2026-05-10  1458                          return 0;
-720017623ab294b drivers/net/e100.c                Andreas Mohr     2009-06-10 @1459  		else {
-720017623ab294b drivers/net/e100.c                Andreas Mohr     2009-06-10  1460  			/* for unknown cases log a fatal error */
-fa05e1ad1b61b37 drivers/net/e100.c                Joe Perches      2010-03-16  1461  			netif_err(nic, hw, nic->netdev,
-fa05e1ad1b61b37 drivers/net/e100.c                Joe Perches      2010-03-16  1462  				  "Failed to locate any known PHY, aborting\n");
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1463  			return -EAGAIN;
-720017623ab294b drivers/net/e100.c                Andreas Mohr     2009-06-10  1464  		}
-720017623ab294b drivers/net/e100.c                Andreas Mohr     2009-06-10 @1465  	} else
-fa05e1ad1b61b37 drivers/net/e100.c                Joe Perches      2010-03-16  1466  		netif_printk(nic, hw, KERN_DEBUG, nic->netdev,
-fa05e1ad1b61b37 drivers/net/e100.c                Joe Perches      2010-03-16  1467  			     "phy_addr = %d\n", nic->mii.phy_id);
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1468  
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1469  	/* Get phy ID */
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16 @1470  	id_lo = mdio_read(netdev, nic->mii.phy_id, MII_PHYSID1);
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16 @1471  	id_hi = mdio_read(netdev, nic->mii.phy_id, MII_PHYSID2);
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16 @1472  	nic->phy = (u32)id_hi << 16 | (u32)id_lo;
-fa05e1ad1b61b37 drivers/net/e100.c                Joe Perches      2010-03-16  1473  	netif_printk(nic, hw, KERN_DEBUG, nic->netdev,
-fa05e1ad1b61b37 drivers/net/e100.c                Joe Perches      2010-03-16  1474  		     "phy ID = 0x%08X\n", nic->phy);
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1475  
-8fbd962e39517df drivers/net/e100.c                Bruce Allan      2009-10-29  1476  	/* Select the phy and isolate the rest */
-8fbd962e39517df drivers/net/e100.c                Bruce Allan      2009-10-29 @1477  	for (addr = 0; addr < 32; addr++) {
-8fbd962e39517df drivers/net/e100.c                Bruce Allan      2009-10-29  1478  		if (addr != nic->mii.phy_id) {
-8fbd962e39517df drivers/net/e100.c                Bruce Allan      2009-10-29  1479  			mdio_write(netdev, addr, MII_BMCR, BMCR_ISOLATE);
-8fbd962e39517df drivers/net/e100.c                Bruce Allan      2009-10-29  1480  		} else if (nic->phy != phy_82552_v) {
-8fbd962e39517df drivers/net/e100.c                Bruce Allan      2009-10-29  1481  			bmcr = mdio_read(netdev, addr, MII_BMCR);
-8fbd962e39517df drivers/net/e100.c                Bruce Allan      2009-10-29  1482  			mdio_write(netdev, addr, MII_BMCR,
-8fbd962e39517df drivers/net/e100.c                Bruce Allan      2009-10-29  1483  				bmcr & ~BMCR_ISOLATE);
-8fbd962e39517df drivers/net/e100.c                Bruce Allan      2009-10-29  1484  		}
-8fbd962e39517df drivers/net/e100.c                Bruce Allan      2009-10-29  1485  	}
-8fbd962e39517df drivers/net/e100.c                Bruce Allan      2009-10-29  1486  	/*
-8fbd962e39517df drivers/net/e100.c                Bruce Allan      2009-10-29  1487  	 * Workaround for 82552:
-8fbd962e39517df drivers/net/e100.c                Bruce Allan      2009-10-29  1488  	 * Clear the ISOLATE bit on selected phy_id last (mirrored on all
-8fbd962e39517df drivers/net/e100.c                Bruce Allan      2009-10-29  1489  	 * other phy_id's) using bmcr value from addr discovery loop above.
-8fbd962e39517df drivers/net/e100.c                Bruce Allan      2009-10-29  1490  	 */
-8fbd962e39517df drivers/net/e100.c                Bruce Allan      2009-10-29 @1491  	if (nic->phy == phy_82552_v)
-8fbd962e39517df drivers/net/e100.c                Bruce Allan      2009-10-29  1492  		mdio_write(netdev, nic->mii.phy_id, MII_BMCR,
-8fbd962e39517df drivers/net/e100.c                Bruce Allan      2009-10-29  1493  			bmcr & ~BMCR_ISOLATE);
-8fbd962e39517df drivers/net/e100.c                Bruce Allan      2009-10-29  1494  
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1495  	/* Handle National tx phys */
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1496  #define NCS_PHY_MODEL_MASK	0xFFF0FFFF
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1497  	if ((nic->phy & NCS_PHY_MODEL_MASK) == phy_nsc_tx) {
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1498  		/* Disable congestion control */
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1499  		cong = mdio_read(netdev, nic->mii.phy_id, MII_NSC_CONG);
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1500  		cong |= NSC_CONG_TXREADY;
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1501  		cong &= ~NSC_CONG_ENABLE;
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1502  		mdio_write(netdev, nic->mii.phy_id, MII_NSC_CONG, cong);
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1503  	}
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1504  
-b55de80e4989200 drivers/net/e100.c                Bruce Allan      2009-03-21  1505  	if (nic->phy == phy_82552_v) {
-b55de80e4989200 drivers/net/e100.c                Bruce Allan      2009-03-21  1506  		u16 advert = mdio_read(netdev, nic->mii.phy_id, MII_ADVERTISE);
-b55de80e4989200 drivers/net/e100.c                Bruce Allan      2009-03-21  1507  
-720017623ab294b drivers/net/e100.c                Andreas Mohr     2009-06-10  1508  		/* assign special tweaked mdio_ctrl() function */
-720017623ab294b drivers/net/e100.c                Andreas Mohr     2009-06-10  1509  		nic->mdio_ctrl = mdio_ctrl_phy_82552_v;
-720017623ab294b drivers/net/e100.c                Andreas Mohr     2009-06-10  1510  
-b55de80e4989200 drivers/net/e100.c                Bruce Allan      2009-03-21  1511  		/* Workaround Si not advertising flow-control during autoneg */
-b55de80e4989200 drivers/net/e100.c                Bruce Allan      2009-03-21  1512  		advert |= ADVERTISE_PAUSE_CAP | ADVERTISE_PAUSE_ASYM;
-b55de80e4989200 drivers/net/e100.c                Bruce Allan      2009-03-21  1513  		mdio_write(netdev, nic->mii.phy_id, MII_ADVERTISE, advert);
-b55de80e4989200 drivers/net/e100.c                Bruce Allan      2009-03-21  1514  
-b55de80e4989200 drivers/net/e100.c                Bruce Allan      2009-03-21  1515  		/* Reset for the above changes to take effect */
-b55de80e4989200 drivers/net/e100.c                Bruce Allan      2009-03-21  1516  		bmcr = mdio_read(netdev, nic->mii.phy_id, MII_BMCR);
-b55de80e4989200 drivers/net/e100.c                Bruce Allan      2009-03-21  1517  		bmcr |= BMCR_RESET;
-b55de80e4989200 drivers/net/e100.c                Bruce Allan      2009-03-21  1518  		mdio_write(netdev, nic->mii.phy_id, MII_BMCR, bmcr);
-b55de80e4989200 drivers/net/e100.c                Bruce Allan      2009-03-21  1519  	} else if ((nic->mac >= mac_82550_D102) || ((nic->flags & ich) &&
-60ffa478759f39a drivers/net/e100.c                Jeff Kirsher     2006-08-16  1520  	   (mdio_read(netdev, nic->mii.phy_id, MII_TPISTATUS) & 0x8000) &&
-d4ef55288aa2e1b drivers/net/ethernet/intel/e100.c Jesse Brandeburg 2021-03-25  1521  	   (le16_to_cpu(nic->eeprom[eeprom_cnfg_mdix]) & eeprom_mdix_enabled))) {
-60ffa478759f39a drivers/net/e100.c                Jeff Kirsher     2006-08-16  1522  		/* enable/disable MDI/MDI-X auto-switching. */
-60ffa478759f39a drivers/net/e100.c                Jeff Kirsher     2006-08-16  1523  		mdio_write(netdev, nic->mii.phy_id, MII_NCONFIG,
-60ffa478759f39a drivers/net/e100.c                Jeff Kirsher     2006-08-16  1524  				nic->mii.force_media ? 0 : NCONFIG_AUTO_SWITCH);
-648951451e6d2d5 drivers/net/e100.c                Malli Chilakala  2005-06-17  1525  	}
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1526  
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16 @1527  	return 0;
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16 @1528  }
-^1da177e4c3f415 drivers/net/e100.c                Linus Torvalds   2005-04-16  1529  
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+arm64 and x86 have these exported, but powerpc and s390 don't. I'll
+send a patch.
