@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64C57233945
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 May 2026 17:22:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06DE9349CE0
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 May 2026 18:05:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779556961; cv=none; b=NPiqVRLXMXmJxjhgJqJNDjK0rGptkivEo1ZzJ3Eu/OeuZGdm02aH7QS94L95v0Aalwkjagt77N2Od/Y4VeTH1Rrbqo1y+ArmQyBtlGmcLyLu6Ln5yPvM+ff7tWUqa9Ef7+UWlppBsXsr7is8xCsoVRHF2Te84CN+0nvJpw72hFA=
+	t=1779559545; cv=none; b=WUPGSxt3skLCKdg3WNJMaOVnuqHWfogk5ZDF3tJCuZiP/n6AOBZPJQdIbFXy4irvF53DKG4MqDbX4PrazUlKp0UIQqzJtkNr/EKTCRLld8ahm0sUnsREjw3vwl8mzbsrDphY91wsAblONQA/PyyapzHpjAWVrQTM2KMNakU5sDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779556961; c=relaxed/simple;
-	bh=zn9drDzghDn3wrr8K3bIC/CXauOReiXa13bViQ5Zylk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ZSV3saaaDJxd7aIk7jWJu1JQZtJHJOMT/xAwyYKrh/86ZTLJMwGZFIX0mi6lSxMTMrg/Hxs9cIzhbTxJFvcPz/MVb8YF4OudPQFC/9azccJXEh4j1jwMI1mIhABhRT4ly5J2XP+5PzrAUQL2u4egaCu1hfynhM8I8vzBgIkxJWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eMELzn3K; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1779559545; c=relaxed/simple;
+	bh=l1VJ8FC1dlupbeV2CYL45AoVWH8uyJav4GP6tmYIXB4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=s7rk36uCsf0a72Txge7DfyNFXJbTOYBEQF3nlh6RNacN6fwqT4CcYE1jriHAiZDl3NkOlng0aZeIJ8lbXvPhjwjyOxjNMTnG2+HUEvsmJedDaQK1Z7zlMG3xGKrD22Q+QerOI/227DQanmdZ/+JmnGnzLgJUdePGkIHd2VE+Rvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YKe1vsTC; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eMELzn3K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YKe1vsTC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779556957; x=1811092957;
+  t=1779559543; x=1811095543;
   h=date:from:to:cc:subject:message-id;
-  bh=zn9drDzghDn3wrr8K3bIC/CXauOReiXa13bViQ5Zylk=;
-  b=eMELzn3KX4G6t2vMHRteu241qgUEBGkj4lA8fDGZDfdJ27shZA4YTJcO
-   wXGyTs0i2lUtxQxKWn7hSYEP488HV3CdJqp76Cv4cbnTFhXMEuhvtjZlU
-   yyeYvN9xKYZy66eN1SF3frxrjuWrKD6eeeLLfxiyi1+CqhnEr7VfDJr8e
-   x9Xj+Jqglny77kCUdFTVA4+f6CkNeJXnpkUc8xIcgkTQRwNg8Ta4MYuOU
-   /diWdLB+Y7zO6ewtbiQ5P6fVNEYqKjIFUPjbvRseNxiyVAq0hDRw5SmXP
-   pkID5LQ2WSuU+fA7nZmF/scDzyS5RuWa3YNXge5uN1U0C1sTIP3v59tb8
-   Q==;
-X-CSE-ConnectionGUID: 3LoJ7ha7R/CoqVJSpl2cNw==
-X-CSE-MsgGUID: CVX0MguCTuyJVzku58EXnA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11795"; a="91921520"
+  bh=l1VJ8FC1dlupbeV2CYL45AoVWH8uyJav4GP6tmYIXB4=;
+  b=YKe1vsTCm779EzHri6th5eLXMM0zQU7R1x81RgdWoRIMlNBWDscyXm7l
+   ScgxpIFmk+y/P1zQlZWWnFaVJKA8IikEdZPhrf/n4nZdWMvrmkNeJyxCV
+   KUQ6A2g4Sxg6fThKfIT96IKsEjmSq5JlIbxLF7M90BTGriluZdUVPSrQZ
+   7x07th2kRWCF8e/XDUD1WPiP8oEhaagQbenjwrhXaJLBGH3z0F/EjYgLy
+   1p3lY7rmwvW6egTC9uMhU4MVuiBJqeg2Rtfbqky2/NwDx0nbYechQ6Ezf
+   nL8Sz8lLY7fyIzrqOEO4dHxdsA3cD1ND/ARsJ3iD4D1BwWW2cIgvderfL
+   A==;
+X-CSE-ConnectionGUID: si9R5zgYRei5avzQP5vk9Q==
+X-CSE-MsgGUID: hNelPqpDQr2LVf1yAJ/R0g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11795"; a="67978158"
 X-IronPort-AV: E=Sophos;i="6.24,164,1774335600"; 
-   d="scan'208";a="91921520"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2026 10:22:37 -0700
-X-CSE-ConnectionGUID: 2GPdUlzrT6uMjMIVO6+B8A==
-X-CSE-MsgGUID: aA78nokwRHmd+WarD/IN1g==
+   d="scan'208";a="67978158"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2026 11:05:42 -0700
+X-CSE-ConnectionGUID: ddeiFmP/TR6NHgx1wQcpAw==
+X-CSE-MsgGUID: Ten7xoIbRYOdwHGlL2waFQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,164,1774335600"; 
-   d="scan'208";a="236768789"
+   d="scan'208";a="240363285"
 Received: from lkp-server01.sh.intel.com (HELO 6ba8523b1a8f) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 23 May 2026 10:22:35 -0700
+  by orviesa010.jf.intel.com with ESMTP; 23 May 2026 11:05:40 -0700
 Received: from kbuild by 6ba8523b1a8f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wQq3V-000000000Dl-115G;
-	Sat, 23 May 2026 17:22:33 +0000
-Date: Sun, 24 May 2026 01:21:48 +0800
+	id 1wQqjB-000000000FF-20Re;
+	Sat, 23 May 2026 18:05:37 +0000
+Date: Sun, 24 May 2026 02:04:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-kiwi-5.10 235/235]
- kernel/power/swap.c:645: warning: Function parameter or member 'data' not
- described in 'compress_threadfn'
-Message-ID: <202605240153.lVFbyjkK-lkp@intel.com>
+To: Iker Pedrosa <ikerpedrosam@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Ulf Hansson <ulfh@kernel.org>
+Subject: [linux-next:master 3990/8157]
+ drivers/mmc/host/sdhci-of-k1.c:340 spacemit_sdhci_execute_tuning() warn:
+ always true condition '(retry_delays[i] <= 255) => (0-255 <= 255)'
+Message-ID: <202605240231.8uYoNxEg-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,88 +60,129 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Nikhil,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
-head:   8c66939857f7c1785dcf957b4374265db31c6af5
-commit: 31414b7c10febdb2006bacd5de9de2f63785ac58 [235/235] BACKPORT: PM: hibernate: Rename lzo* to make it generic
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260524/202605240153.lVFbyjkK-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260524/202605240153.lVFbyjkK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   c1ecb239fa3456529a32255359fc78b69eb9d847
+commit: e9cb83c10071808aa7db4582e007a650aa6aa183 [3990/8157] mmc: sdhci-of-k1: add comprehensive SDR tuning support
+config: riscv-randconfig-r071-20260522 (https://download.01.org/0day-ci/archive/20260524/202605240231.8uYoNxEg-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605240153.lVFbyjkK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605240231.8uYoNxEg-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/mmc/host/sdhci-of-k1.c:340 spacemit_sdhci_execute_tuning() warn: always true condition '(retry_delays[i] <= 255) => (0-255 <= 255)'
 
-   kernel/power/swap.c:95: warning: cannot understand function prototype: 'struct swap_map_handle '
-   kernel/power/swap.c:122: warning: cannot understand function prototype: 'struct swsusp_extent '
-   kernel/power/swap.c:177: warning: Function parameter or member 'swap' not described in 'alloc_swapdev_block'
-   kernel/power/swap.c:197: warning: Function parameter or member 'swap' not described in 'free_all_swap_pages'
-   kernel/power/swap.c:541: warning: Function parameter or member 'handle' not described in 'save_image'
-   kernel/power/swap.c:541: warning: Function parameter or member 'snapshot' not described in 'save_image'
-   kernel/power/swap.c:541: warning: Function parameter or member 'nr_to_write' not described in 'save_image'
-   kernel/power/swap.c:585: warning: cannot understand function prototype: 'struct crc_data '
-   kernel/power/swap.c:601: warning: Function parameter or member 'data' not described in 'crc32_threadfn'
-   kernel/power/swap.c:627: warning: cannot understand function prototype: 'struct cmp_data '
->> kernel/power/swap.c:645: warning: Function parameter or member 'data' not described in 'compress_threadfn'
-   kernel/power/swap.c:891: warning: Function parameter or member 'nr_pages' not described in 'enough_swap'
-   kernel/power/swap.c:958: warning: Function parameter or member 'handle' not described in 'release_swap_reader'
-   kernel/power/swap.c:1062: warning: Function parameter or member 'handle' not described in 'load_image'
-   kernel/power/swap.c:1062: warning: Function parameter or member 'snapshot' not described in 'load_image'
-   kernel/power/swap.c:1062: warning: Function parameter or member 'nr_to_read' not described in 'load_image'
-   kernel/power/swap.c:1114: warning: cannot understand function prototype: 'struct dec_data '
->> kernel/power/swap.c:1131: warning: Function parameter or member 'data' not described in 'decompress_threadfn'
-   kernel/power/swap.c:1567: warning: Function parameter or member 'mode' not described in 'swsusp_close'
+vim +340 drivers/mmc/host/sdhci-of-k1.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for CRYPTO_CURVE25519_NEON
-   Depends on [n]: CRYPTO [=y] && ARM_CRYPTO [=y] && KERNEL_MODE_NEON [=y] && !CPU_BIG_ENDIAN [=y]
-   Selected by [y]:
-   - WIREGUARD [=y] && NETDEVICES [=y] && NET_CORE [=y] && NET [=y] && INET [=y] && (IPV6 [=y] || !IPV6 [=y]) && ARM [=y] && KERNEL_MODE_NEON [=y]
-
-
-vim +645 kernel/power/swap.c
-
-081a9d043c983f Bojan Smojver  2011-10-13  640  
-081a9d043c983f Bojan Smojver  2011-10-13  641  /**
-081a9d043c983f Bojan Smojver  2011-10-13  642   * Compression function that runs in its own thread.
-081a9d043c983f Bojan Smojver  2011-10-13  643   */
-31414b7c10febd Nikhil V       2024-01-22  644  static int compress_threadfn(void *data)
-081a9d043c983f Bojan Smojver  2011-10-13 @645  {
-081a9d043c983f Bojan Smojver  2011-10-13  646  	struct cmp_data *d = data;
-081a9d043c983f Bojan Smojver  2011-10-13  647  
-081a9d043c983f Bojan Smojver  2011-10-13  648  	while (1) {
-981a31b7547af4 Hongchen Zhang 2023-11-16  649  		wait_event(d->go, atomic_read_acquire(&d->ready) ||
-081a9d043c983f Bojan Smojver  2011-10-13  650  		                  kthread_should_stop());
-081a9d043c983f Bojan Smojver  2011-10-13  651  		if (kthread_should_stop()) {
-081a9d043c983f Bojan Smojver  2011-10-13  652  			d->thr = NULL;
-081a9d043c983f Bojan Smojver  2011-10-13  653  			d->ret = -1;
-981a31b7547af4 Hongchen Zhang 2023-11-16  654  			atomic_set_release(&d->stop, 1);
-081a9d043c983f Bojan Smojver  2011-10-13  655  			wake_up(&d->done);
-081a9d043c983f Bojan Smojver  2011-10-13  656  			break;
-081a9d043c983f Bojan Smojver  2011-10-13  657  		}
-081a9d043c983f Bojan Smojver  2011-10-13  658  		atomic_set(&d->ready, 0);
-081a9d043c983f Bojan Smojver  2011-10-13  659  
-081a9d043c983f Bojan Smojver  2011-10-13  660  		d->ret = lzo1x_1_compress(d->unc, d->unc_len,
-31414b7c10febd Nikhil V       2024-01-22  661  					  d->cmp + CMP_HEADER, &d->cmp_len,
-081a9d043c983f Bojan Smojver  2011-10-13  662  		                          d->wrk);
-981a31b7547af4 Hongchen Zhang 2023-11-16  663  		atomic_set_release(&d->stop, 1);
-081a9d043c983f Bojan Smojver  2011-10-13  664  		wake_up(&d->done);
-081a9d043c983f Bojan Smojver  2011-10-13  665  	}
-081a9d043c983f Bojan Smojver  2011-10-13  666  	return 0;
-081a9d043c983f Bojan Smojver  2011-10-13  667  }
-f996fc9671d088 Bojan Smojver  2010-09-09  668  
-
-:::::: The code at line 645 was first introduced by commit
-:::::: 081a9d043c983f161b78fdc4671324d1342b86bc PM / Hibernate: Improve performance of LZO/plain hibernation, checksum image
-
-:::::: TO: Bojan Smojver <bojan@rexursive.com>
-:::::: CC: Rafael J. Wysocki <rjw@sisk.pl>
+   259	
+   260	static int spacemit_sdhci_execute_tuning(struct sdhci_host *host, u32 opcode)
+   261	{
+   262		int current_len = 0, current_start = 0;
+   263		int max_pass_len = 0, max_pass_start = 0;
+   264		struct mmc_host *mmc = host->mmc;
+   265		struct mmc_ios ios = mmc->ios;
+   266		u8 final_delay;
+   267		int ret = 0;
+   268		int i;
+   269	
+   270		/*
+   271		 * Tuning is required for SDR50/SDR104, HS200/HS400 cards and
+   272		 * if clock frequency is greater than 100MHz in these modes.
+   273		 */
+   274		if (host->clock < 100 * 1000 * 1000 ||
+   275		    !(ios.timing == MMC_TIMING_MMC_HS200 ||
+   276		      ios.timing == MMC_TIMING_UHS_SDR50 ||
+   277		      ios.timing == MMC_TIMING_UHS_SDR104))
+   278			return 0;
+   279	
+   280		if (mmc->caps2 & MMC_CAP2_NO_MMC) {
+   281			spacemit_sdhci_set_tx_dline_reg(host, SPACEMIT_TX_TUNING_DLINE_REG);
+   282			spacemit_sdhci_set_tx_delay(host, SPACEMIT_TX_TUNING_DELAYCODE);
+   283			spacemit_sdhci_tx_tuning_prepare(host);
+   284	
+   285			dev_dbg(mmc_dev(host->mmc), "TX tuning: dline_reg=%d, delaycode=%d\n",
+   286				SPACEMIT_TX_TUNING_DLINE_REG, SPACEMIT_TX_TUNING_DELAYCODE);
+   287		}
+   288	
+   289		spacemit_sdhci_prepare_tuning(host);
+   290	
+   291		for (i = SPACEMIT_RX_TUNE_DELAY_MIN; i <= SPACEMIT_RX_TUNE_DELAY_MAX; i++) {
+   292			spacemit_sdhci_set_rx_delay(host, i);
+   293			ret = mmc_send_tuning(host->mmc, opcode, NULL);
+   294	
+   295			dev_dbg(mmc_dev(host->mmc), "RX delay %d: %s\n",
+   296				i, ret == 0 ? "pass" : "fail");
+   297	
+   298			if (ret == 0) {
+   299				/* Test passed - extend current window */
+   300				if (current_len == 0)
+   301					current_start = i;
+   302				current_len++;
+   303			} else {
+   304				/* Test failed - check if current window is best so far */
+   305				if (current_len > max_pass_len) {
+   306					max_pass_len = current_len;
+   307					max_pass_start = current_start;
+   308				}
+   309				current_len = 0;
+   310			}
+   311		}
+   312	
+   313		if (current_len > max_pass_len) {
+   314			max_pass_len = current_len;
+   315			max_pass_start = current_start;
+   316		}
+   317	
+   318		if (max_pass_len < 3) {
+   319			dev_err(mmc_dev(host->mmc), "Tuning failed: no stable window found\n");
+   320			return -EIO;
+   321		}
+   322	
+   323		final_delay = max_pass_start + max_pass_len / 2;
+   324		spacemit_sdhci_set_rx_delay(host, final_delay);
+   325		ret = mmc_send_tuning(host->mmc, opcode, NULL);
+   326		if (ret) {
+   327			u8 retry_delays[] = {
+   328				max_pass_start + max_pass_len / 4,
+   329				max_pass_start + (3 * max_pass_len) / 4,
+   330				max_pass_start,
+   331				max_pass_start + max_pass_len - 1
+   332			};
+   333			int retry_count = ARRAY_SIZE(retry_delays);
+   334	
+   335			dev_warn(mmc_dev(mmc), "Primary delay %d failed, trying alternatives\n",
+   336				 final_delay);
+   337	
+   338			for (i = 0; i < retry_count; i++) {
+   339				if (retry_delays[i] >= SPACEMIT_RX_TUNE_DELAY_MIN &&
+ > 340				    retry_delays[i] <= SPACEMIT_RX_TUNE_DELAY_MAX) {
+   341					spacemit_sdhci_set_rx_delay(host, retry_delays[i]);
+   342					ret = mmc_send_tuning(host->mmc, opcode, NULL);
+   343					if (!ret) {
+   344						final_delay = retry_delays[i];
+   345						dev_info(mmc_dev(mmc), "Retry successful with delay %d\n",
+   346							 final_delay);
+   347						break;
+   348					}
+   349				}
+   350			}
+   351	
+   352			if (ret) {
+   353				dev_err(mmc_dev(mmc), "All retry attempts failed\n");
+   354				return -EIO;
+   355			}
+   356		}
+   357	
+   358		dev_dbg(mmc_dev(host->mmc),
+   359			"Tuning successful: window %d-%d, using delay %d\n",
+   360			max_pass_start, max_pass_start + max_pass_len - 1, final_delay);
+   361	
+   362		return 0;
+   363	}
+   364	
 
 --
 0-DAY CI Kernel Test Service
