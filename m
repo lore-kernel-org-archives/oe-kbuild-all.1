@@ -1,56 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 029BB241690
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 May 2026 14:08:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 924D33A4527
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 May 2026 14:20:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779545304; cv=none; b=SM3f4fWhvvV9TUegtOlBakumADPJtd6YKU7YT7Wx490TW2+B90+ZqjjBcJiRm/wMEWIDDu8MT55mOSBoa6idCtSH+iA5lKI8lnL/Ec9usUqVESoDhxTrFqIzhQlzkxt+j87XCdRxBKSbe2WSnxgqOKAkyExLinin1PZx69u8L2o=
+	t=1779546027; cv=none; b=F+l131tcihUPitjNSAhg0eCi8P5c9PgIf7dYroJ94qoz7dMon/ruBIS7ow6kQehnuL+Oq84n98on3b4tBP6h6tWSi/u0Fsv8N6WBp7ZotykHkcMujIQ42A8x/fEKabQrgqZfyxzpPeL1iU6FO9JVBOIKvrQg+hyHAizEHQ86vpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779545304; c=relaxed/simple;
-	bh=Ev9fatmmGUAtSlWYHdp9EMymXTPzIjqf5CkZkAe3Rio=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Kk8zZGZHx6Dbp4sad/Dg8nAx+OCUSuhEE8RiQ29a7qtEcLZRqUzHNocmL6y8feToPZiwA+nXTFrMdMjuvYHwytZ1ABpDTAY0NiMK/dSHcm8D/NnHyUqBWVpwTcoIL3Xfey8G4UOGBCeqP7wlElJ/qqmEgE7bRKfBMiYc+I5o7P4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J2sjKmYF; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1779546027; c=relaxed/simple;
+	bh=gleYTS4+lvfTxay1JO3absxeDozyH28xPSlMwciAYec=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=GzhK+P2RxB/vsz3/qSJvS9/+qFW2xvjutbke1YP48jGEzGdih34tetrR0HhkHVYxu+sBikZLJ5cauwQLBIYN4Jc6XTXG0bXn4m5i5HJMu3ijwmDavriSdOgaL0kmTUMuKcQshhHISXJ4CkJLW6iB6+FV8zv2hA+An9JQxtVLVTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FwVPDmDf; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J2sjKmYF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FwVPDmDf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779545303; x=1811081303;
+  t=1779546025; x=1811082025;
   h=date:from:to:cc:subject:message-id;
-  bh=Ev9fatmmGUAtSlWYHdp9EMymXTPzIjqf5CkZkAe3Rio=;
-  b=J2sjKmYFWJiBxaZflTTmkmEuSy4mhS+H7IOyS68rxLvYkXwdz0PyXOWQ
-   KxWhRh0NBGqkdaQhx6SZ9sEyPRzFIt5atFTYQRmzfBZ+N+WYSy+fVbws/
-   Mq5lII6sSVytJanY7pBe1Ruemrt8/N0VUnz7CpaETd/WxzO4FkiOBFK9h
-   OsUrngD2JVjouNd8PDsL4Avp5t1Kp3/0w8bYyAXO14GmZVIeXOK+M77gO
-   n//8NgyCbTJ2NO0I/azr4i7Hin8+jLRgpR1jx96CZ8k52wC9+3JikQY78
-   owrMBM5vXcIY/T9r9IWO/W0dCYNkWURYcIE5kphsZaXKKkTNXcykeZkWj
-   g==;
-X-CSE-ConnectionGUID: 3vC6YqCHRbWotRa5NPoSAA==
-X-CSE-MsgGUID: s5HV6MPaQCq76uSrADKMhg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11795"; a="80481808"
+  bh=gleYTS4+lvfTxay1JO3absxeDozyH28xPSlMwciAYec=;
+  b=FwVPDmDf7wW3hgJC4eWnXP2qvD132yiXDhRqmA+fd2ig0aZA4qNLDvKm
+   AlfAY7ZaFQoXAR2nNP7wLLf8aiGJUAPuWc5061DWcxns8Zu2FEcyfyJZM
+   nRW6EhdP5SM8SXAvOYsGCi/4SEQebCWWS9FPfVm1eTRu7mu/mVDyN9/tE
+   oZnlVTpwfBZZMbwNU6337872uUG7YNG9nyRkAk7MxTuCfnXf6gaZTD+jC
+   EAgxxoRPICi4fADYtNuXgGh/s3usQlvgGJ7PU7bhxF/VFeZihXXgqtrN3
+   uL1alYd/RMhdDjGB/rj38hiK6qHGIGpOFfcq2wUk7wZ0w7vvcIX92mvz4
+   w==;
+X-CSE-ConnectionGUID: IQAppFdYT3m+12zGHZfPtA==
+X-CSE-MsgGUID: d/0Zk7wxSpu1QjdnLgTpCA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11795"; a="67972283"
 X-IronPort-AV: E=Sophos;i="6.24,164,1774335600"; 
-   d="scan'208";a="80481808"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2026 07:08:23 -0700
-X-CSE-ConnectionGUID: H2nhjExCQ1qTq8VNYcqGnw==
-X-CSE-MsgGUID: 7JstkZBnQQyWIhU9GCcf3A==
+   d="scan'208";a="67972283"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2026 07:20:25 -0700
+X-CSE-ConnectionGUID: duJddBgnSTKT3WDMkun6iQ==
+X-CSE-MsgGUID: shuce1S3Tf+ehmL867wi+A==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,164,1774335600"; 
+   d="scan'208";a="245457087"
 Received: from lkp-server01.sh.intel.com (HELO cef7325a8999) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 23 May 2026 07:08:21 -0700
+  by orviesa004.jf.intel.com with ESMTP; 23 May 2026 07:20:23 -0700
 Received: from kbuild by cef7325a8999 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wQn1X-0000000006z-07Up;
-	Sat, 23 May 2026 14:08:19 +0000
-Date: Sat, 23 May 2026 22:07:38 +0800
+	id 1wQnDA-0000000008L-0jfI;
+	Sat, 23 May 2026 14:20:20 +0000
+Date: Sat, 23 May 2026 22:19:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15 2/2]
- include/linux/userfaultfd_k.h:82:1: warning: control reaches end of non-void
- function
-Message-ID: <202605232252.jECSQ62Q-lkp@intel.com>
+Subject: [android-common:android17-6.18-2026-04 0/1]
+ drivers/iommu/intel/iommu.c:3866:75: sparse: sparse: incorrect type in
+ argument 6 (different base types)
+Message-ID: <202605232211.fcmYuPlp-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -58,83 +60,70 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Lokesh,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android13-5.15
-head:   35aa7a801190f6d004ce42904cbd1a003ff9c97e
-commit: 9b613572d6246da9b616f34e4a0e0b5ac74b2dd0 [2/2] ANDROID: userfaultfd: allow SPF for UFFD_FEATURE_SIGBUS on private+anon
-config: arm64-randconfig-003-20260523 (https://download.01.org/0day-ci/archive/20260523/202605232252.jECSQ62Q-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260523/202605232252.jECSQ62Q-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18-2026-04
+head:   6794f901dd75b16bbfd428ab3be1e510710da4c7
+commit: 8b8d3297e39418f542b6e947ffddafab5698dbc1 [0/1] ANDROID: iommu/vt-d: pKVM: Hypercalls for domain pagetable management
+config: x86_64-randconfig-121-20260522 (https://download.01.org/0day-ci/archive/20260523/202605232211.fcmYuPlp-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260523/202605232211.fcmYuPlp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605232252.jECSQ62Q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605232211.fcmYuPlp-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iommu/intel/iommu.c:3866:75: sparse: sparse: incorrect type in argument 6 (different base types) @@     expected int gfp @@     got restricted gfp_t [usertype] gfp @@
+   drivers/iommu/intel/iommu.c:3866:75: sparse:     expected int gfp
+   drivers/iommu/intel/iommu.c:3866:75: sparse:     got restricted gfp_t [usertype] gfp
+   drivers/iommu/intel/iommu.c:3992:13: sparse: sparse: context imbalance in 'intel_iommu_enforce_cache_coherency_fs' - wrong count at exit
+   drivers/iommu/intel/iommu.c:4012:13: sparse: sparse: context imbalance in 'intel_iommu_enforce_cache_coherency_ss' - wrong count at exit
 
-   In file included from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/mm_types.h:6,
-                    from include/linux/mmzone.h:21,
-                    from include/linux/gfp.h:6,
-                    from include/linux/slab.h:15,
-                    from mm/mmap.c:13:
-   include/linux/userfaultfd_k.h: In function 'is_mergeable_vm_userfaultfd_ctx':
-   include/linux/rcupdate.h:391:9: error: dereferencing pointer to incomplete type 'struct userfaultfd_ctx'
-     391 |  typeof(*p) *_________p1 = (typeof(*p) *__force)READ_ONCE(p); \
-         |         ^
-   include/linux/rcupdate.h:501:31: note: in expansion of macro '__rcu_access_pointer'
-     501 | #define rcu_access_pointer(p) __rcu_access_pointer((p), __rcu)
-         |                               ^~~~~~~~~~~~~~~~~~~~
-   include/linux/userfaultfd_k.h:81:9: note: in expansion of macro 'rcu_access_pointer'
-      81 |  return rcu_access_pointer(vma->vm_userfaultfd_ctx.ctx) == vm_ctx.ctx;
-         |         ^~~~~~~~~~~~~~~~~~
-   In file included from include/linux/hugetlb.h:15,
-                    from mm/mmap.c:29:
->> include/linux/userfaultfd_k.h:82:1: warning: control reaches end of non-void function [-Wreturn-type]
-      82 | }
-         | ^
+vim +3866 drivers/iommu/intel/iommu.c
 
-
-vim +82 include/linux/userfaultfd_k.h
-
-f619147104c8ea Axel Rasmussen   2021-05-04  58  
-7d64ae3ab648a9 Axel Rasmussen   2021-06-30  59  extern int mfill_atomic_install_pte(struct mm_struct *dst_mm, pmd_t *dst_pmd,
-7d64ae3ab648a9 Axel Rasmussen   2021-06-30  60  				    struct vm_area_struct *dst_vma,
-7d64ae3ab648a9 Axel Rasmussen   2021-06-30  61  				    unsigned long dst_addr, struct page *page,
-7d64ae3ab648a9 Axel Rasmussen   2021-06-30  62  				    bool newly_allocated, bool wp_copy);
-7d64ae3ab648a9 Axel Rasmussen   2021-06-30  63  
-c1a4de99fada21 Andrea Arcangeli 2015-09-04  64  extern ssize_t mcopy_atomic(struct mm_struct *dst_mm, unsigned long dst_start,
-df2cc96e77011c Mike Rapoport    2018-06-07  65  			    unsigned long src_start, unsigned long len,
-a759a909d42d72 Nadav Amit       2021-09-02  66  			    atomic_t *mmap_changing, __u64 mode);
-c1a4de99fada21 Andrea Arcangeli 2015-09-04  67  extern ssize_t mfill_zeropage(struct mm_struct *dst_mm,
-c1a4de99fada21 Andrea Arcangeli 2015-09-04  68  			      unsigned long dst_start,
-df2cc96e77011c Mike Rapoport    2018-06-07  69  			      unsigned long len,
-a759a909d42d72 Nadav Amit       2021-09-02  70  			      atomic_t *mmap_changing);
-f619147104c8ea Axel Rasmussen   2021-05-04  71  extern ssize_t mcopy_continue(struct mm_struct *dst_mm, unsigned long dst_start,
-a759a909d42d72 Nadav Amit       2021-09-02  72  			      unsigned long len, atomic_t *mmap_changing);
-ffd05793963a44 Shaohua Li       2020-04-06  73  extern int mwriteprotect_range(struct mm_struct *dst_mm,
-ffd05793963a44 Shaohua Li       2020-04-06  74  			       unsigned long start, unsigned long len,
-a759a909d42d72 Nadav Amit       2021-09-02  75  			       bool enable_wp, atomic_t *mmap_changing);
-c1a4de99fada21 Andrea Arcangeli 2015-09-04  76  
-932b18e0aec65a Andrea Arcangeli 2015-09-04  77  /* mm helpers */
-932b18e0aec65a Andrea Arcangeli 2015-09-04  78  static inline bool is_mergeable_vm_userfaultfd_ctx(struct vm_area_struct *vma,
-932b18e0aec65a Andrea Arcangeli 2015-09-04  79  					struct vm_userfaultfd_ctx vm_ctx)
-932b18e0aec65a Andrea Arcangeli 2015-09-04  80  {
-9b613572d6246d Lokesh Gidra     2024-01-16  81  	return rcu_access_pointer(vma->vm_userfaultfd_ctx.ctx) == vm_ctx.ctx;
-932b18e0aec65a Andrea Arcangeli 2015-09-04 @82  }
-932b18e0aec65a Andrea Arcangeli 2015-09-04  83  
-
-:::::: The code at line 82 was first introduced by commit
-:::::: 932b18e0aec65acb089f4bd8761ee85e70f8eb6a userfaultfd: linux/userfaultfd_k.h
-
-:::::: TO: Andrea Arcangeli <aarcange@redhat.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+  3830	
+  3831	static int intel_iommu_map(struct iommu_domain *domain,
+  3832				   unsigned long iova, phys_addr_t hpa,
+  3833				   size_t size, int iommu_prot, gfp_t gfp)
+  3834	{
+  3835		struct dmar_domain *dmar_domain = to_dmar_domain(domain);
+  3836		u64 max_addr;
+  3837		int prot = 0;
+  3838	
+  3839		if (iommu_prot & IOMMU_READ)
+  3840			prot |= DMA_PTE_READ;
+  3841		if (iommu_prot & IOMMU_WRITE)
+  3842			prot |= DMA_PTE_WRITE;
+  3843		if (dmar_domain->set_pte_snp)
+  3844			prot |= DMA_PTE_SNP;
+  3845	
+  3846		max_addr = iova + size;
+  3847		if (dmar_domain->max_addr < max_addr) {
+  3848			u64 end;
+  3849	
+  3850			/* check if minimum agaw is sufficient for mapped address */
+  3851			end = __DOMAIN_MAX_ADDR(dmar_domain->gaw) + 1;
+  3852			if (end < max_addr) {
+  3853				pr_err("%s: iommu width (%d) is not "
+  3854				       "sufficient for the mapped address (%llx)\n",
+  3855				       __func__, dmar_domain->gaw, max_addr);
+  3856				return -EFAULT;
+  3857			}
+  3858			dmar_domain->max_addr = max_addr;
+  3859		}
+  3860		/* Round up size to next multiple of PAGE_SIZE, if it and
+  3861		   the low bits of hpa would take us onto the next page */
+  3862		size = aligned_nrpages(hpa, size);
+  3863	
+  3864		if (pkvm_enabled())
+  3865			return pkvm_domain_map(dmar_domain, iova >> VTD_PAGE_SHIFT,
+> 3866					       hpa >> VTD_PAGE_SHIFT, size, prot, gfp);
+  3867	
+  3868		return domain_map(dmar_domain, iova >> VTD_PAGE_SHIFT,
+  3869				  hpa >> VTD_PAGE_SHIFT, size, prot, gfp);
+  3870	}
+  3871	
 
 --
 0-DAY CI Kernel Test Service
