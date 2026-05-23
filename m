@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62BE818050;
-	Sat, 23 May 2026 18:37:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D0BD2F8EA2
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 May 2026 18:48:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779561465; cv=none; b=fC/7LBF0gePAjhnMZ0Rk/RpDFsMIfube3030TspuSn/5ZDzAMeWrwdfGMQwqrUtUK4ua95jiis/9pr/3hnUiSG7pT/82pgBwufBYXM3RTg77vk8QkuwKuHH757cr4HtPjJYyYy45ct8LRI5vpYGq/OqN2nFcZlvoPNbATxA2P3c=
+	t=1779562126; cv=none; b=f+2IISxVCnGAie3P5+M2bw9o6YUoE9pU7DpEhdJpQSw39ULw0Efgj9MDxRP1o6fYz8IeVlj4gWJOLppCsy9NTD3xucNQ8s/jReMde/7rqk8cFgMtoSmkpJHxW2C6knFYHAqW0K8S62YFy4SAHUdznTZ1ET2ooMaMlYLx+iEfn4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779561465; c=relaxed/simple;
-	bh=aHtHx7/z8afliz9XWaZoKp3YIE99cMa16gkYzhY18Fc=;
-	h=Date:From:Cc:Subject:Message-ID; b=BlSf4iqMt566UPa1avgJeUTAFzenxp3uLLx5Ucl1H1zZkNozSUNs1zuTgiJSxpYx0z1O5900S7OcwaLPM8F0oAoqOHvbTVGVeAYCRyUx8Gl2pCSPDHMFEOFM0kaSpPo1XOlyMl26TUyIMI5G8VHHd3FawsdWyMFtZ++Slp/NlII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jBU++ckg; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1779562126; c=relaxed/simple;
+	bh=YXcg58n6rK4mo4xLDfg5SCE4PIwRVtgnE1EYzs2M55M=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=USOW8lOk3TC0Zs11RrxW1S8yJgFLpG7yXwcyMJCKJWIV0kkYYolJkR7PEX+2+py4oGu7dNtTVU9OLT3YNpR001BjkmWuGwAyzys4YddkxrFM8Y2cj5dQR8qNb5sYbWvabI445mbt61yBCcEq/uoPVtiV4p3jpL3g6KZfl6qj47Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jTQhuAgI; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jBU++ckg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jTQhuAgI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779561463; x=1811097463;
-  h=date:from:cc:subject:message-id;
-  bh=aHtHx7/z8afliz9XWaZoKp3YIE99cMa16gkYzhY18Fc=;
-  b=jBU++ckgd9uzwQsQYD6aBidTpBoE6C9n37HLudHrJFsLe7pa1tEcKPUf
-   npM41uPSXxmQk4q0TM5FdhiYshtQFfIPCPdJfiK/pzF5wYxUfKuUvjnYc
-   n+aJ+NdvOwlNewFf0UFPL0BOB4g5m4c3kxdolOqBCA5v7KdqQKLiB6biA
-   8pTCD6TRqWVB2iVIV7rA0nzQLeb25bN1R2YDjcw+dHwbS7Ccf5xYkvHT9
-   X2aAgrsz3mTx5QsLTs/ihoVAdOgEzDt9KshVf3RDIdcNqXRzpNWqax18C
-   wcpuzaO373pSQqzQX+Jq0330g60QxSOA+clAB9aJSuBFFO32J/RNA++Pa
+  t=1779562124; x=1811098124;
+  h=date:from:to:cc:subject:message-id;
+  bh=YXcg58n6rK4mo4xLDfg5SCE4PIwRVtgnE1EYzs2M55M=;
+  b=jTQhuAgI+9vRkHJXzuGfbxeGOk3Czyoor6NsFdIYY476hBYlbRugDf7N
+   U2poqdUfyabsqRv/cvd+owXgNLuvjrzDZGtYOSD+f3DT4ZR2zfioi6cyA
+   BGJfqnBVvu+nV3RMuvX2Lxb7qI9IQHxROey/clKcSO8zqZDvDeS0uKlPT
+   CaK7wGvaJalfkOi3XQg4LumMyZRDwTymRSGjE3bXaUsA1ATAOJK37dFn6
+   /9rZ7UY3ihm2LtJiepVjpz3neHywllk2xUIF2eaHee0LVWaKihOWLqXuC
+   OGGMmyqtI6VNIfnS6uktd+z7DpIopmAntdyVl9vPfYdubCu4ECNWyk5Dh
    A==;
-X-CSE-ConnectionGUID: wH8hmujGSlW80vNKeA7QuA==
-X-CSE-MsgGUID: wwXttoN9SfWSyHryIK6QSQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11795"; a="80305607"
+X-CSE-ConnectionGUID: yYK+yyL8RbeqKue6QigrlQ==
+X-CSE-MsgGUID: lc+mlvi+RDKaLjKXzP4esg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11795"; a="80421105"
 X-IronPort-AV: E=Sophos;i="6.24,164,1774335600"; 
-   d="scan'208";a="80305607"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2026 11:37:43 -0700
-X-CSE-ConnectionGUID: fd4H9sWnSyqveXuLDqDt7g==
-X-CSE-MsgGUID: SjPkP/DZQA+jBxr8FadHLw==
+   d="scan'208";a="80421105"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2026 11:48:44 -0700
+X-CSE-ConnectionGUID: 2W4mZsMBQqiTDPp/OV9qYQ==
+X-CSE-MsgGUID: 9WhetWPXQjSwZNhpPLMEHA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,164,1774335600"; 
-   d="scan'208";a="245487792"
+   d="scan'208";a="264767367"
 Received: from lkp-server01.sh.intel.com (HELO 6ba8523b1a8f) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 23 May 2026 11:37:42 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 23 May 2026 11:48:42 -0700
 Received: from kbuild by 6ba8523b1a8f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wQrEA-000000000GF-3V1W;
-	Sat, 23 May 2026 18:37:38 +0000
-Date: Sun, 24 May 2026 02:37:07 +0800
+	id 1wQrOp-000000000HR-1HL7;
+	Sat, 23 May 2026 18:48:39 +0000
+Date: Sun, 24 May 2026 02:48:05 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: ld.lld: error: undefined symbol:
- xe_configfs_get_ctx_restore_mid_bb
-Message-ID: <202605240206.0VogMTOm-lkp@intel.com>
+To: "Chin-Ting Kuo" <chin-ting_kuo@aspeedtech.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-spi@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>
+Subject: [broonie-spi:for-6.20 2/42]
+ drivers/spi/spi-aspeed-smc.c:909:35: sparse: sparse: incorrect type in
+ argument 2 (different address spaces)
+Message-ID: <202605240240.yLBPcZCa-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,32 +61,56 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Lucas,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   eed108edc1170404bbef9e7d0189d18a3cc354f5
-commit: 7a4756b2fd0431f109b07b904a7442f00838abf9 drm/xe/lrc: Allow to add user commands mid context switch
-date:   8 months ago
-config: x86_64-randconfig-016-20260519 (https://download.01.org/0day-ci/archive/20260524/202605240206.0VogMTOm-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260524/202605240206.0VogMTOm-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-6.20
+head:   40534d19ed2afb880ecf202dab26a8e7a5808d16
+commit: 04f7516ab70f7b82aae1d2830af2ee6f17f3fe98 [2/42] spi: aspeed: Add support for non-spi-mem devices
+config: mips-randconfig-r134-20260523 (https://download.01.org/0day-ci/archive/20260524/202605240240.yLBPcZCa-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260524/202605240240.yLBPcZCa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 7a4756b2fd04 ("drm/xe/lrc: Allow to add user commands mid context switch")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605240206.0VogMTOm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605240240.yLBPcZCa-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/spi/spi-aspeed-smc.c:909:35: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *mem @@     got void *dst @@
+   drivers/spi/spi-aspeed-smc.c:909:35: sparse:     expected void volatile [noderef] __iomem *mem
+   drivers/spi/spi-aspeed-smc.c:909:35: sparse:     got void *dst
+   drivers/spi/spi-aspeed-smc.c:939:46: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/spi/spi-aspeed-smc.c:1469:61: sparse: sparse: undefined identifier 'cols'
+   drivers/spi/spi-aspeed-smc.c:1469:61: sparse: sparse: bad constant expression type
+   drivers/spi/spi-aspeed-smc.c:1469:55: sparse: sparse: undefined identifier 'rows'
+   drivers/spi/spi-aspeed-smc.c:1469:55: sparse: sparse: bad constant expression type
 
->> ld.lld: error: undefined symbol: xe_configfs_get_ctx_restore_mid_bb
-   >>> referenced by xe_lrc.c:87 (drivers/gpu/drm/xe/xe_lrc.c:87)
-   >>>               vmlinux.o:(xe_lrc_create)
-   >>> referenced by xe_lrc.c:1151 (drivers/gpu/drm/xe/xe_lrc.c:1151)
-   >>>               vmlinux.o:(setup_configfs_mid_ctx_restore_bb)
+vim +909 drivers/spi/spi-aspeed-smc.c
+
+   890	
+   891	static void aspeed_spi_user_transfer_tx(struct aspeed_spi *aspi,
+   892						struct spi_device *spi,
+   893						const u8 *tx_buf, u8 *rx_buf,
+   894						void *dst, u32 len)
+   895	{
+   896		const struct aspeed_spi_data *data = aspi->data;
+   897		bool full_duplex_transfer = data->full_duplex && tx_buf == rx_buf;
+   898		u32 i;
+   899	
+   900		if (full_duplex_transfer &&
+   901		    !!(spi->mode & (SPI_TX_DUAL | SPI_TX_QUAD |
+   902				    SPI_RX_DUAL | SPI_RX_QUAD))) {
+   903			dev_err(aspi->dev,
+   904				"full duplex is only supported for single IO mode\n");
+   905			return;
+   906		}
+   907	
+   908		for (i = 0; i < len; i++) {
+ > 909			writeb(tx_buf[i], dst);
+   910			if (full_duplex_transfer)
+   911				rx_buf[i] = readb(aspi->regs + FULL_DUPLEX_RX_DATA);
+   912		}
+   913	}
+   914	
 
 --
 0-DAY CI Kernel Test Service
