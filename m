@@ -1,51 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF8D93D2FF7
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 May 2026 07:38:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BED4637FF64;
+	Mon, 25 May 2026 11:44:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779694728; cv=none; b=SdKQIdljEaTB3gpxc/dtBJ/Pj7aXIyQL/Qsbc4tbPhQ3FZRC2o4ZUCfvBpCg0AzE3f7rqZtV3OHO5JlFASxCRkT0QG0XtykohB5idY9b9t/gRz4LLxPBJiJrIXfpT24M7P4kylASEZ8mFYwdD6K1iX1gmHB9VRALRalOoGnM9Gc=
+	t=1779709443; cv=none; b=dt8J6IeK/RU0u7tlh2HWTzie6N/5Ktxdc9q6hO+v1zof3bFtHbiJRtzHc91GBhBhyvHP1us78zlf1aTHunrCIlRUwD8teUBf/M4yBYaIHNDbRwMrR+h0f3SwVyIN88TSDb6EYtaH7+HAGz8G/Kq8fRxV80EvbGkIbRwLqN7vJZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779694728; c=relaxed/simple;
-	bh=nKqtSJgxnHFTkrcccM59rL3lptufu+7u672ok4yxBsk=;
+	s=arc-20240116; t=1779709443; c=relaxed/simple;
+	bh=WecPQJfCrErCiVESIdsqsyUdYnPBMpehDox7J972gPE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QXGUApAo98VkiWh0hiEpiJeLgxuz/3sCswzNRcpZ+mnLAaFn7tQfprvKwZ9l3JfLubhDpY8+R3RAIqzRK82hmOIcOrbWGCpmCBWL3xMGbcU18LtKSW0rZWzVkv6Gq0cjXTZ5HvFvXsL2ojn0/uEb9ZFevx7iJP6c7D+w9Bew6r0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hHhBi01h; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=a+xQ77G3qaYTVU+gDfEe/vJRBxuC8zBiimQ0pv8DUTULHicaVj5OXKASo2mjGzLFnm951nKN/ete7qmJhs9c3HI4+2C3pu09/mEGXvxknwZbzWLAtYUe9sL8ZjBFd9oRAYP47+WmShoIXf+zbMgcanVxWXXMM3UlTaKryWBj0SQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NWJaSFdA; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hHhBi01h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NWJaSFdA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779694727; x=1811230727;
+  t=1779709441; x=1811245441;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=nKqtSJgxnHFTkrcccM59rL3lptufu+7u672ok4yxBsk=;
-  b=hHhBi01h+5PmE7u54oZlQq8RfVf2CkrOddrX4f2+Iw/1vrzOLuk9edFj
-   1qd/enxYpBG0xuuncWKjtS09+RQ0MOlbLZf4wY/Kb95ohn0xZAsFYJmK/
-   BN0ycDTCrwlWAU9/LVm9EDLgKitjn/et56UHAY7gW2+yn+MyGd1eJ+oLa
-   U+7O2PIAZcCnz+4Hpfo4/itkgl65p0osM4EZ/hC9QVwfQFiSzZMKu2Wjc
-   D7QXRSndWjR5mZNsEWjLi+CuJgZ/ei8K5ST/U8KzsqO+DookkHXLSGrAF
-   SUBcyIZns1wla0kHSgXeDENZBfKBEv054D42jfL5ZIt3/LYW34BFTHPFL
+  bh=WecPQJfCrErCiVESIdsqsyUdYnPBMpehDox7J972gPE=;
+  b=NWJaSFdAnfztwyxmO8qr8t8ll28H/aqB0dgJhrQprlHaYXYyjTN9UrN8
+   3l2z9ZOAgqAw8PeOy8OFzMEKsQQ9dAJDt3jT4LFMzHJjjHlW87epnSlQd
+   ZyGRo5psLCsV7MD0QWLMp0ZRUep3omQzaQZroPFX471ruvKB794/hFen6
+   mq+civkBes4cXKzFn6UshwAvToh9LvGHTp3sccuRpZTIdUEp88s9HKQKI
+   WhTBB2ngEqXVHnzZjGhzxTbA1UUxeBCa/6ctzXY7eVu/MJDgCJnzrSIsj
+   aZjiZyRAcORD8V/uJJpMCbokBELsXHwXbasdvsqtB/vEsaKOrMs8R4Raq
    g==;
-X-CSE-ConnectionGUID: 5WHsAHyqT8uLskOtRhNU0A==
-X-CSE-MsgGUID: T/pdeqGUSk2QIdP1BYGSxw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11796"; a="80421639"
+X-CSE-ConnectionGUID: cxvZhRGfTqGAod8gm8tDhQ==
+X-CSE-MsgGUID: CTk7HV1JR2mcAuhIXanhNw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11796"; a="84381701"
 X-IronPort-AV: E=Sophos;i="6.24,167,1774335600"; 
-   d="scan'208";a="80421639"
+   d="scan'208";a="84381701"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2026 00:38:47 -0700
-X-CSE-ConnectionGUID: W8d7wfxhS7aM7UqGp73cXA==
-X-CSE-MsgGUID: UgSqjgRhQfy95JyVj7Oa3A==
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2026 04:43:59 -0700
+X-CSE-ConnectionGUID: UcMbxQW7Sw2/vc+29vukHQ==
+X-CSE-MsgGUID: cfo44RCpSy+bKieFXbF9JQ==
 X-ExtLoop1: 1
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 25 May 2026 00:38:43 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 25 May 2026 04:43:55 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wRPtX-000000001EM-3ZB2;
-	Mon, 25 May 2026 07:38:39 +0000
-Date: Mon, 25 May 2026 15:37:51 +0800
+	id 1wRTiq-000000001QI-1Msq;
+	Mon, 25 May 2026 11:43:52 +0000
+Date: Mon, 25 May 2026 19:42:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: Michael Kelley <mhklkml@zohomail.com>, kys@microsoft.com,
 	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
@@ -53,9 +53,9 @@ To: Michael Kelley <mhklkml@zohomail.com>, kys@microsoft.com,
 	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
 	hpa@zytor.com, linux-hyperv@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH 1/1] x86/hyperv: Refactor hv_smp_prepare_cpus()
-Message-ID: <202605251528.eVtKHPbX-lkp@intel.com>
+Message-ID: <202605251945.TesslTvF-lkp@intel.com>
 References: <20260521192336.99623-1-mhklkml@zohomail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -82,21 +82,21 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Kelley/x86-hyperv
 base:   tip/master
 patch link:    https://lore.kernel.org/r/20260521192336.99623-1-mhklkml%40zohomail.com
 patch subject: [PATCH 1/1] x86/hyperv: Refactor hv_smp_prepare_cpus()
-config: x86_64-buildonly-randconfig-006-20260525 (https://download.01.org/0day-ci/archive/20260525/202605251528.eVtKHPbX-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260525/202605251528.eVtKHPbX-lkp@intel.com/reproduce)
+config: x86_64-randconfig-076-20260524 (https://download.01.org/0day-ci/archive/20260525/202605251945.TesslTvF-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260525/202605251945.TesslTvF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605251528.eVtKHPbX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605251945.TesslTvF-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/hv/hv_proc.c: In function 'hv_smp_prep_cpus':
->> drivers/hv/hv_proc.c:303:69: error: implicit declaration of function 'cpu_physical_id' [-Wimplicit-function-declaration]
+>> drivers/hv/hv_proc.c:303:55: error: call to undeclared function 'cpu_physical_id'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      303 |                 ret = hv_call_add_logical_proc(numa_cpu_node(i), i, cpu_physical_id(i));
-         |                                                                     ^~~~~~~~~~~~~~~
+         |                                                                     ^
+   1 error generated.
 
 Kconfig warnings: (for reference only)
    WARNING: unmet direct dependencies detected for MFD_STMFX
