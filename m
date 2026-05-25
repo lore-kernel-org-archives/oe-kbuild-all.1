@@ -1,60 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3E2042048
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 May 2026 16:12:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6AFE3F412C;
+	Mon, 25 May 2026 16:55:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779725535; cv=none; b=sc1rj27M5lrAC0X+8DT8UaQDeUziAAGigPkvvth4SyHlh7WDC0iROQnmEkDLgwpYaS56SN4/koaIw9zipw+txZLMshzkGBUyX2vMK1sSfOKBK5qqu+NsLiJ8nB0CtX9CyoL6ROymDGgE+mxMG3ILffEOP/0HrAghryQPS6l9Fi4=
+	t=1779728134; cv=none; b=goNhRyD8t3SGUJBX6Dsp1rxJVYGTvIpfRbgrM3zm1tpKewFmXT/jkicHvJ8I7phzbJpwS9DwTnx28xVl43vr2fgXkACqz+pgbp1fPqqdJhgbD/WizVrizshNMhgH0mgkwVhdUIMjHp+dCCHBSFuiAk6NWJBdWykRIkGL0D5NfLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779725535; c=relaxed/simple;
-	bh=y7SwzFPgDoHtLEFXhBH3kMQFQcESnxeyNlcJKxUV7xM=;
+	s=arc-20240116; t=1779728134; c=relaxed/simple;
+	bh=r9F+Z/G2R9EmJkJqYGdSK5x1qhDsOMO4RIwwPT3nm08=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V5FiJxnYifuqbkfxVt+LX0JY5OZ4c3gsR1OdHW3aYz6K8bq8KMr1TP08f9GMYxtgDuJYg/muu+cwEdL+5j84oXwyQzem8IeRLCGg+vinKwyODIlvwdxkIetGpXxulBgInR6zoSDrNR8W2czlp5UBtB6675BaM86Oohq7T+dznV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LeIraAk1; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=sGaZtK6fo6RX2QYbaxKeXGHwDZYJxm/QNCmfhATUQ1j7arPK0+4TVsORJ91va+3m1L6pl+GTHodbL0QaFyDE5oKeLK0Cqk+9v9gH+CJa+1+Uc24fnONo9euRCZSfTNeYQtfmpJWx2RFzsZlTNUfSsLAyT/OEWxG4blalyZRsKtA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fmjI4rKS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LeIraAk1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779725534; x=1811261534;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=y7SwzFPgDoHtLEFXhBH3kMQFQcESnxeyNlcJKxUV7xM=;
-  b=LeIraAk17icOB/antGGyDb0N3wzCFKDsL4SeQobLD7s8MRazdJkRzf5i
-   bwsOQPBaESYP0Fun+83iWHp0MeFBAx9IspTSrZHWiwvWjQtW0y8Qx9WWy
-   s+z3YJZ0y38xk7qmdctASwrtQuExRQksLjb22DC4EQt5Q0iYWp1PHj4cu
-   k71bQTze2a/lG04UJsBxMq8NINrXBwqRFVGydC77cQvPDRItVIBylu6Y3
-   mOSNOcYIkgw1eId1faINqZ2rz66dkq8ftjQeD5+FSeuIdj35fgDEtGgsn
-   uoZ3OBlYVgb+F3/e1vdLCxKfdQrztv944huDQnaiwdL3Bf9n9SYSzUrDG
-   w==;
-X-CSE-ConnectionGUID: g/S65gYrS82th4Xplhe27A==
-X-CSE-MsgGUID: vMAnukk9SUKeyD8/VYvppg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11797"; a="91236349"
-X-IronPort-AV: E=Sophos;i="6.24,168,1774335600"; 
-   d="scan'208";a="91236349"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2026 09:12:13 -0700
-X-CSE-ConnectionGUID: CCjSzzFMRGKiCLP67Moy1A==
-X-CSE-MsgGUID: nqfbb9PcTSm9J9DMnTCMlA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,168,1774335600"; 
-   d="scan'208";a="237446791"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 25 May 2026 09:12:12 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wRXuU-000000001cs-0iWD;
-	Mon, 25 May 2026 16:12:10 +0000
-Date: Tue, 26 May 2026 00:11:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chuck Lever <cel@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] SUNRPC: Reject short RFC 4121 MIC tokens in
- gss_krb5_verify_mic_v2
-Message-ID: <202605260025.iqHX0Pwi-lkp@intel.com>
-References: <20260523165237.510204-1-cel@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fmjI4rKS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74DF41F000E9;
+	Mon, 25 May 2026 16:55:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779728133;
+	bh=ev9yLt5NTZ9nEb03Xjyz/o28bx64uGp1JLdEhh9Coe0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=fmjI4rKS4bBepoqAbV18Ip+mP1JiKaJ3SoWM3uQKqXia1IKu2zRHu2mI1vT2l5Fqs
+	 3+EOG9c04IkzAjonoKnZm7GnFDrQO2v6NPjAZT3ut9lI48JcOZ2G9P3IT6YksrvV99
+	 y1e7z+eYHMmBDGXGsxi2q2imq/lnYzFVqV9rOuqaYdo3I8lMmskVD04kbXLnNMYQ25
+	 kq967Zy2cOc7fghz+uBGLRScMX/WVp30btRe98rSP5Hzx65U9+z4lBn/0KOhjB71un
+	 l52BZzGMNEsXMzRCvHQ21t4rHFRPC21lyXe8cKiDIOKJGMB+BdE8FFmuHw3AWsjfUk
+	 dPifMRmJhwO+g==
+Date: Mon, 25 May 2026 09:55:27 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Mithil Bavishi <bavishimithil@gmail.com>,
+	Aaro Koskinen <aaro.koskinen@iki.fi>,
+	Andreas Kemnade <andreas@kemnade.info>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>,
+	Russell King <linux@armlinux.org.uk>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Kees Cook <kees@kernel.org>, linux-arm-kernel@lists.infradead.org,
+	linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] ARM: OMAP2+: Add CFI type for omap4_finish_suspend
+Message-ID: <20260525165527.GA18457@ax162>
+References: <20260522233036.12277-1-bavishimithil@gmail.com>
+ <202605241332.fXvCYBR2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,65 +51,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260523165237.510204-1-cel@kernel.org>
+In-Reply-To: <202605241332.fXvCYBR2-lkp@intel.com>
 
-Hi Chuck,
+On Sun, May 24, 2026 at 02:01:31PM +0800, kernel test robot wrote:
+> Hi Mithil,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on tmlind-omap/for-next]
+> [also build test ERROR on linus/master v7.1-rc4 next-20260522]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Mithil-Bavishi/ARM-OMAP2-Add-CFI-type-for-omap4_finish_suspend/20260523-073206
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/tmlind/linux-omap.git for-next
+> patch link:    https://lore.kernel.org/r/20260522233036.12277-1-bavishimithil%40gmail.com
+> patch subject: [PATCH v2] ARM: OMAP2+: Add CFI type for omap4_finish_suspend
+> config: arm-defconfig (https://download.01.org/0day-ci/archive/20260524/202605241332.fXvCYBR2-lkp@intel.com/config)
+> compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260524/202605241332.fXvCYBR2-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202605241332.fXvCYBR2-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> arch/arm/mach-omap2/sleep44xx.S:61:1: error: invalid instruction
+>    SYM_TYPED_FUNC_START(omap4_finish_suspend)
+>    ^
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+This report and the GCC one
 
-[auto build test ERROR on trondmy-nfs/linux-next]
-[also build test ERROR on linus/master v7.1-rc5 next-20260522]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+  https://lore.kernel.org/202605252315.UhjCBtGA-lkp@intel.com/
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chuck-Lever/SUNRPC-Reject-short-RFC-4121-MIC-tokens-in-gss_krb5_verify_mic_v2/20260524-005345
-base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
-patch link:    https://lore.kernel.org/r/20260523165237.510204-1-cel%40kernel.org
-patch subject: [PATCH] SUNRPC: Reject short RFC 4121 MIC tokens in gss_krb5_verify_mic_v2
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260526/202605260025.iqHX0Pwi-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260526/202605260025.iqHX0Pwi-lkp@intel.com/reproduce)
+are both pointing out that cfi_types.h needs to be included in
+arch/arm/mach-omap2/sleep44xx.S for SYM_TYPED_FUNC_START to always be
+expanded properly. I tested adding
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605260025.iqHX0Pwi-lkp@intel.com/
+  #include <linux/cfi_types.h>
 
-All errors (new ones prefixed by >>):
+as the first include line and both issues were resolved.
 
-   net/sunrpc/auth_gss/gss_krb5_unseal.c: In function 'gss_krb5_verify_mic_v2':
->> net/sunrpc/auth_gss/gss_krb5_unseal.c:89:54: error: 'cksum_len' undeclared (first use in this function)
-      89 |         if (read_token->len < GSS_KRB5_TOK_HDR_LEN + cksum_len)
-         |                                                      ^~~~~~~~~
-   net/sunrpc/auth_gss/gss_krb5_unseal.c:89:54: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +/cksum_len +89 net/sunrpc/auth_gss/gss_krb5_unseal.c
-
-    69	
-    70	u32
-    71	gss_krb5_verify_mic_v2(struct krb5_ctx *ctx, struct xdr_buf *message_buffer,
-    72			       struct xdr_netobj *read_token)
-    73	{
-    74		struct crypto_ahash *tfm = ctx->initiate ?
-    75					   ctx->acceptor_sign : ctx->initiator_sign;
-    76		char cksumdata[GSS_KRB5_MAX_CKSUM_LEN];
-    77		struct xdr_netobj cksumobj = {
-    78			.len	= ctx->gk5e->cksumlength,
-    79			.data	= cksumdata,
-    80		};
-    81		u8 *ptr = read_token->data;
-    82		__be16 be16_ptr;
-    83		time64_t now;
-    84		u8 flags;
-    85		int i;
-    86	
-    87		dprintk("RPC:       %s\n", __func__);
-    88	
-  > 89		if (read_token->len < GSS_KRB5_TOK_HDR_LEN + cksum_len)
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Nathan
