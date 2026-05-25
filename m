@@ -1,179 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C717E2F7F0C;
-	Mon, 25 May 2026 06:54:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 699283D3007
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 May 2026 07:27:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779692086; cv=none; b=gDY3TtiuNtx4cb2A9wzn+tAjJQrFjzYCgkbVpK+FHNJ1eFeoSU4HQnIPlGbl17cIp0mSW16azrMzgG0lY4Xs2Ntcq5oMPXCs2sib7z0rP8edFHZx9xas8AVnZexMgwWDSarXv8WDkvsfpsy3e/HxGk8ruXi9MC9XYKy+lgw0Hv8=
+	t=1779694067; cv=none; b=CdUU5Jy9WgHSlSoS3MBJPbld5dNDTbHTWx8RmUrqtHwx44CM5eB/Cgr5by+2fxIGFmwmIMC98jqYDh4rZ7ocEM0q7z+H62ED+3PPtub+ChNtnNpunTSGvLIDWhTmXOOAQmMrB0BFb30kxs4yygUvKdo4wNzg9bE7ToWC9QvTv6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779692086; c=relaxed/simple;
-	bh=KnWQo3kWcvCik0bv07YOk79yqQhdtr/EkBUeLqloD3s=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=ts/2jP9lLY5wpyn2oLJj6e0JHcp6Vk/6hYl31kSmgoTn23ZzMRPYj1RbP8EDHVCyejMWa8lddDHS29Fkc5TOpiYirtQ3TZN9Ls2Om/2CQxwznsZAhH0pYY3t8W52LBYLqUlrLS92oaaU4MkVNRdPJ/JYeidyhz9qck4tVn5M2JE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RWcfMqIq; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1779694067; c=relaxed/simple;
+	bh=+BG8dy+KDytmX7xQrMNmRCIxKR0/Rt5bFq80LR5f7mc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=CajDaT8zWFSRTbHJ8gdAfgf57ccY/GbINP79EkHsKcpilmjtodG+zw6V0Y+sflR2cPvQDhnwmpOVlNhi60PSeK18IBxaBG2hbYGv3BJkWXoBLDJtuc+gLIviDwT9359nw//nyFUiU8T2v9O51GArJDVEoudjuXeZVQBBIrSO0VY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k62w/8hI; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RWcfMqIq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k62w/8hI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779692083; x=1811228083;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=KnWQo3kWcvCik0bv07YOk79yqQhdtr/EkBUeLqloD3s=;
-  b=RWcfMqIqYW0ndZHEeLZGxfGIjSD9UdYxhCLeSUV/zahDQyd1B/777kGk
-   x5+/9osr/Sp+yv79BJiXHBqfwXdaDTrwDREFr5qSF8EqEgtQ0Kq2LYPRX
-   npLRNZcr4NQiDj5TkI8QwTwlNx8sPBJQWp5TP6eWqjrrb+VSxgvLfndm1
-   wdvOhqIJBl/9xcLQRYIdJDRrmW8O75uy5dxUirnZiIjjWBNVFtqP3RnmU
-   IbMWFpT0zioJmAORL7+UfUas1g080nT8rLBEj93QdsFG+xd3zKkfMVHOI
-   juacNK0FYS5MJ06TTdhecFjjHyVhGCcfbpTUCIcc7X737VDIpQuO1q9AN
-   w==;
-X-CSE-ConnectionGUID: q9ZTNh62TQKOZ+g0brcgsA==
-X-CSE-MsgGUID: WgFMDEXxSry0yw4KRB5wjg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11796"; a="80628031"
+  t=1779694065; x=1811230065;
+  h=date:from:to:cc:subject:message-id;
+  bh=+BG8dy+KDytmX7xQrMNmRCIxKR0/Rt5bFq80LR5f7mc=;
+  b=k62w/8hIOKHuJMevcwNrD2e7ld+LV+PY18vHuNdPbpVenMF+r1NY6Ieu
+   9UwryaMJZ9kvzcVNgZdWWFqEMQBzcTjPidI62vebDjYc5sfKMRJQ5dX6e
+   /6K0OmnQ+Q3LqjWAMyryiOatwp76QmJ4VbGM0v8R8KBIXPjHzAXx8I6EB
+   B526rBZOS7aSpnmN2enUrgIAvE08dKU2x8UJ7aiLXNZ6xnbjyJuM/oTPA
+   BILyWdaaMCJxVsNMGaHHG2I6J86KTZ9kW0E7gnYa90bVg4HdoNYroSSSy
+   kXfmE3i93UjFvn+nH7DHKFaLRRh+8BBmpYN5ryBFU/D5JU49ENCxZv/OF
+   Q==;
+X-CSE-ConnectionGUID: Jv0VCw/fSjGM2KgKYesoIQ==
+X-CSE-MsgGUID: pf0XVk4vSwqhTr+pXBNxHw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11796"; a="80567392"
 X-IronPort-AV: E=Sophos;i="6.24,167,1774335600"; 
-   d="scan'208";a="80628031"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2026 23:54:42 -0700
-X-CSE-ConnectionGUID: 07DeJTjUSR2v5bClPMMstA==
-X-CSE-MsgGUID: 7pI3GzhwSPqTUM3IvQ/OPA==
+   d="scan'208";a="80567392"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2026 00:27:45 -0700
+X-CSE-ConnectionGUID: eZOHYEN5TgmtrOAAFZoY4A==
+X-CSE-MsgGUID: lFtatVt1Q0OJVayS/rIbAQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,167,1774335600"; 
-   d="scan'208";a="235163703"
+   d="scan'208";a="237327939"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 24 May 2026 23:54:40 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 25 May 2026 00:27:42 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wRPCw-000000001BK-0OCb;
-	Mon, 25 May 2026 06:54:38 +0000
-Date: Mon, 25 May 2026 14:54:14 +0800
+	id 1wRPit-000000001Dw-2fDI;
+	Mon, 25 May 2026 07:27:39 +0000
+Date: Mon, 25 May 2026 15:27:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-cleanup-2026-05-22 254/254]
- sound/soc/intel/avs/boards/pcm3168a.c:115:35: warning: variable 'card' is
- uninitialized when used here
-Message-ID: <202605251422.lO4uuYRc-lkp@intel.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Linus Walleij <linus.walleij@linaro.org>
+Subject: drivers/pinctrl/pinctrl-tb10x.c:502:30: sparse: sparse:
+ incorrect type in argument 1 (different address spaces)
+Message-ID: <202605251505.dn9V3jLY-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/morimoto/linux sound-cleanup-2026-05-22
-head:   65ed982efb72231d8feca201fdeb06adb64515a0
-commit: 6aeffb844883a34370f83da1c9c96a0a66003076 [254/254] ASoC: intel: avs=
-: pcm3168a: use snd_soc_card_register()
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/202605=
-25/202605251422.lO4uuYRc-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f022=
-7cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260525/202605251422.lO4uuYRc-lkp@intel.com/reproduce)
+Hi Krzysztof,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e7ae89a0c97ce2b68b0983cd01eda67cf373517d
+commit: 1982621decaf788d0611fc291fe89b297b6e5510 pinctrl: Allow compile testing for K210, TB10X and ZYNQ
+date:   11 months ago
+config: alpha-randconfig-r122-20260524 (https://download.01.org/0day-ci/archive/20260525/202605251505.dn9V3jLY-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.3.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260525/202605251505.dn9V3jLY-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 1982621decaf ("pinctrl: Allow compile testing for K210, TB10X and ZYNQ")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605251422.lO4uuYRc-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605251505.dn9V3jLY-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/pinctrl/pinctrl-tb10x.c:770:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *base @@     got void [noderef] __iomem * @@
+   drivers/pinctrl/pinctrl-tb10x.c:770:21: sparse:     expected void *base
+   drivers/pinctrl/pinctrl-tb10x.c:770:21: sparse:     got void [noderef] __iomem *
+>> drivers/pinctrl/pinctrl-tb10x.c:502:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem *addr @@     got void *base @@
+   drivers/pinctrl/pinctrl-tb10x.c:502:30: sparse:     expected void const [noderef] __iomem *addr
+   drivers/pinctrl/pinctrl-tb10x.c:502:30: sparse:     got void *base
+>> drivers/pinctrl/pinctrl-tb10x.c:504:30: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *base @@
+   drivers/pinctrl/pinctrl-tb10x.c:504:30: sparse:     expected void [noderef] __iomem *addr
+   drivers/pinctrl/pinctrl-tb10x.c:504:30: sparse:     got void *base
+>> drivers/pinctrl/pinctrl-tb10x.c:502:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem *addr @@     got void *base @@
+   drivers/pinctrl/pinctrl-tb10x.c:502:30: sparse:     expected void const [noderef] __iomem *addr
+   drivers/pinctrl/pinctrl-tb10x.c:502:30: sparse:     got void *base
+>> drivers/pinctrl/pinctrl-tb10x.c:504:30: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *base @@
+   drivers/pinctrl/pinctrl-tb10x.c:504:30: sparse:     expected void [noderef] __iomem *addr
+   drivers/pinctrl/pinctrl-tb10x.c:504:30: sparse:     got void *base
+   drivers/pinctrl/pinctrl-tb10x.c:511:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem *addr @@     got void *base @@
+   drivers/pinctrl/pinctrl-tb10x.c:511:31: sparse:     expected void const [noderef] __iomem *addr
+   drivers/pinctrl/pinctrl-tb10x.c:511:31: sparse:     got void *base
 
->> sound/soc/intel/avs/boards/pcm3168a.c:115:35: warning: variable 'card' i=
-s uninitialized when used here [-Wuninitialized]
-     115 |         ret =3D avs_create_dai_links(dev, &card->dai_link, &card=
-->num_links);
-         |                                          ^~~~
-   sound/soc/intel/avs/boards/pcm3168a.c:103:27: note: initialize the varia=
-ble 'card' to silence this warning
-     103 |         struct snd_soc_card *card;
-         |                                  ^
-         |                                   =3D NULL
-   1 warning generated.
+vim +502 drivers/pinctrl/pinctrl-tb10x.c
 
+5aad0db1c1ebb0 Christian Ruppert 2013-10-15  491  
+5aad0db1c1ebb0 Christian Ruppert 2013-10-15  492  static inline void tb10x_pinctrl_set_config(struct tb10x_pinctrl *state,
+5aad0db1c1ebb0 Christian Ruppert 2013-10-15  493  				unsigned int port, unsigned int mode)
+5aad0db1c1ebb0 Christian Ruppert 2013-10-15  494  {
+5aad0db1c1ebb0 Christian Ruppert 2013-10-15  495  	u32 pcfg;
+5aad0db1c1ebb0 Christian Ruppert 2013-10-15  496  
+5aad0db1c1ebb0 Christian Ruppert 2013-10-15  497  	if (state->ports[port].count)
+5aad0db1c1ebb0 Christian Ruppert 2013-10-15  498  		return;
+5aad0db1c1ebb0 Christian Ruppert 2013-10-15  499  
+5aad0db1c1ebb0 Christian Ruppert 2013-10-15  500  	state->ports[port].mode = mode;
+5aad0db1c1ebb0 Christian Ruppert 2013-10-15  501  
+5aad0db1c1ebb0 Christian Ruppert 2013-10-15 @502  	pcfg = ioread32(state->base) & ~(PCFG_PORT_MASK(port));
+5aad0db1c1ebb0 Christian Ruppert 2013-10-15  503  	pcfg |= (mode << (PCFG_PORT_BITWIDTH * port)) & PCFG_PORT_MASK(port);
+5aad0db1c1ebb0 Christian Ruppert 2013-10-15 @504  	iowrite32(pcfg, state->base);
+5aad0db1c1ebb0 Christian Ruppert 2013-10-15  505  }
+5aad0db1c1ebb0 Christian Ruppert 2013-10-15  506  
 
-vim +/card +115 sound/soc/intel/avs/boards/pcm3168a.c
+:::::: The code at line 502 was first introduced by commit
+:::::: 5aad0db1c1ebb0f5be79f0adbecc16a2f0259b21 pinctrl: add TB10x pin control driver
 
-79ebb596201c86 Cezary Rojewski    2025-02-03   97 =20
-79ebb596201c86 Cezary Rojewski    2025-02-03   98  static int avs_pcm3168a_=
-probe(struct platform_device *pdev)
-79ebb596201c86 Cezary Rojewski    2025-02-03   99  {
-091614d1c57193 Amadeusz S=C5=82awi=C5=84ski 2025-04-07  100  	struct snd_so=
-c_acpi_mach *mach;
-091614d1c57193 Amadeusz S=C5=82awi=C5=84ski 2025-04-07  101  	struct avs_ma=
-ch_pdata *pdata;
-79ebb596201c86 Cezary Rojewski    2025-02-03  102  	struct device *dev =3D =
-&pdev->dev;
-79ebb596201c86 Cezary Rojewski    2025-02-03  103  	struct snd_soc_card *ca=
-rd;
-6aeffb844883a3 Kuninori Morimoto  2026-05-21  104  	struct snd_soc_card_dri=
-ver *card_driver;
-6aeffb844883a3 Kuninori Morimoto  2026-05-21  105  	char *card_name =3D NUL=
-L, *long_name =3D NULL, *driver_name =3D NULL;
-79ebb596201c86 Cezary Rojewski    2025-02-03  106  	int ret;
-79ebb596201c86 Cezary Rojewski    2025-02-03  107 =20
-091614d1c57193 Amadeusz S=C5=82awi=C5=84ski 2025-04-07  108  	mach =3D dev_=
-get_platdata(dev);
-091614d1c57193 Amadeusz S=C5=82awi=C5=84ski 2025-04-07  109  	pdata =3D mac=
-h->pdata;
-091614d1c57193 Amadeusz S=C5=82awi=C5=84ski 2025-04-07  110 =20
-6aeffb844883a3 Kuninori Morimoto  2026-05-21  111  	card_driver =3D devm_kz=
-alloc(dev, sizeof(*card_driver), GFP_KERNEL);
-6aeffb844883a3 Kuninori Morimoto  2026-05-21  112  	if (!card_driver)
-79ebb596201c86 Cezary Rojewski    2025-02-03  113  		return -ENOMEM;
-79ebb596201c86 Cezary Rojewski    2025-02-03  114 =20
-79ebb596201c86 Cezary Rojewski    2025-02-03 @115  	ret =3D avs_create_dai_=
-links(dev, &card->dai_link, &card->num_links);
-79ebb596201c86 Cezary Rojewski    2025-02-03  116  	if (ret)
-79ebb596201c86 Cezary Rojewski    2025-02-03  117  		return ret;
-79ebb596201c86 Cezary Rojewski    2025-02-03  118 =20
-091614d1c57193 Amadeusz S=C5=82awi=C5=84ski 2025-04-07  119  	if (pdata->ob=
-solete_card_names) {
-6aeffb844883a3 Kuninori Morimoto  2026-05-21  120  		card_name =3D "avs_pcm=
-3168a";
-091614d1c57193 Amadeusz S=C5=82awi=C5=84ski 2025-04-07  121  	} else {
-6aeffb844883a3 Kuninori Morimoto  2026-05-21  122  		driver_name =3D "avs_p=
-cm3168a";
-6aeffb844883a3 Kuninori Morimoto  2026-05-21  123  		long_name =3D card_nam=
-e =3D "AVS I2S PCM3168A";
-091614d1c57193 Amadeusz S=C5=82awi=C5=84ski 2025-04-07  124  	}
-6aeffb844883a3 Kuninori Morimoto  2026-05-21  125 =20
-6aeffb844883a3 Kuninori Morimoto  2026-05-21  126  	card_driver->name =3D d=
-river_name;
-6aeffb844883a3 Kuninori Morimoto  2026-05-21  127  	card_driver->dapm_widge=
-ts =3D card_widgets;
-6aeffb844883a3 Kuninori Morimoto  2026-05-21  128  	card_driver->num_dapm_w=
-idgets =3D ARRAY_SIZE(card_widgets);
-6aeffb844883a3 Kuninori Morimoto  2026-05-21  129  	card_driver->dapm_route=
-s =3D card_routes;
-6aeffb844883a3 Kuninori Morimoto  2026-05-21  130  	card_driver->num_dapm_r=
-outes =3D ARRAY_SIZE(card_routes);
-6aeffb844883a3 Kuninori Morimoto  2026-05-21  131  	card_driver->fully_rout=
-ed =3D true;
-6aeffb844883a3 Kuninori Morimoto  2026-05-21  132 =20
-6aeffb844883a3 Kuninori Morimoto  2026-05-21  133  	card =3D devm_snd_soc_c=
-ard_alloc(dev, THIS_MODULE, card_driver,
-6aeffb844883a3 Kuninori Morimoto  2026-05-21  134  				       card_name, lo=
-ng_name, NULL);
-6aeffb844883a3 Kuninori Morimoto  2026-05-21  135  	if (!card)
-6aeffb844883a3 Kuninori Morimoto  2026-05-21  136  		return -ENOMEM;
-6aeffb844883a3 Kuninori Morimoto  2026-05-21  137 =20
-6aeffb844883a3 Kuninori Morimoto  2026-05-21  138  	return devm_snd_soc_car=
-d_register(card);
-79ebb596201c86 Cezary Rojewski    2025-02-03  139  }
-79ebb596201c86 Cezary Rojewski    2025-02-03  140 =20
-
-:::::: The code at line 115 was first introduced by commit
-:::::: 79ebb596201c86712fe38b0ef73d25d07b932664 ASoC: Intel: avs: Add pcm31=
-68a machine board
-
-:::::: TO: Cezary Rojewski <cezary.rojewski@intel.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+:::::: TO: Christian Ruppert <christian.ruppert@abilis.com>
+:::::: CC: Linus Walleij <linus.walleij@linaro.org>
 
 --
 0-DAY CI Kernel Test Service
