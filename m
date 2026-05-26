@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F94A34B1A4
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 May 2026 10:47:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 704E73DDDBB
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 May 2026 10:48:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779792444; cv=none; b=ZpoyKcvTRgrcBYi5Euf5Lhwf9qdKahUmxKz3DrlXi4tQNb1gP68tLy4SIjQ8t2aHmSlEyPuG8s9Bm1pSBeqQsmpS/yD/bJw2BhFse1uqit+AOO/2Ucw5bKUUSBreytbq2JO3YbtdWRZqb9jIcSb/YYr7FCYnCj17aw4bg7VgZa0=
+	t=1779792503; cv=none; b=nQr6EYrhCo23OC7LzCv6AQ9OXrDbvtTzthS3nlzWGPMJ6hvIdpAGWqx3abbdFuIzrf2l0nMnshBl+aQ/gU1nDTwDEBm63dYZf2HfEySlhF/hV5DGvj16L2wJXOeffr5/txDvErH3NMsC1aiyQ7wssKZ4RTVIIHSPeGZ8yY11sH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779792444; c=relaxed/simple;
-	bh=me9jSoMsrjaTqBF8D5KqnqM07rIMqRLppp7yoR9hmSk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mBDHN00Pv3oqotPXzNVYZ7YQxN1MouSyPm/ZfazZEQJGocSNHM4OrJhxUdz/3JObAdez5KsAPuteotZ0agY0Dy2Oqh0MjBpwgGlqKUJwzw15VvpIx1IbyBLbSZAfWM4HeY7uZj5gBKOUpVUKOD4esYP8UKFiwm5YgmcZESGC31U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I2gl9J/W; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1779792503; c=relaxed/simple;
+	bh=3ZuuaOsIhKqUdpcVHqakkpTX4LLcz91V4DmaTb79+/w=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UAgDc+XKy5pilPhwLJ73YIGwwHkRxYnP+tSO0PGOMA9xdQ5tJ9SA7sl6jcBjmHAB+T5gpk08XWbO/ZMde5adg+4nzMYPXCucG6RHR48UkkTTPsGx+wNHAi++Yp8vSYC7SPI3EcHbM+Zfo33HFHyxeC2sMALTvZ4tXoP3z7ez3fk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RkSLwsxF; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I2gl9J/W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RkSLwsxF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779792443; x=1811328443;
+  t=1779792500; x=1811328500;
   h=date:from:to:cc:subject:message-id;
-  bh=me9jSoMsrjaTqBF8D5KqnqM07rIMqRLppp7yoR9hmSk=;
-  b=I2gl9J/WIKEbkBqwl8alzL2g5EDvyBth6zO6iSQSUJjHBgXGkc80AF1P
-   HZab+Z5UFm6IOAVCCPvpE3NmhoQ/28zFsqXkKVYjibmGe2fUzjTBilxBs
-   8DckW/a+w0+K+/Bm+SY4uoEGS3lXSqcDjgmDZHkCg+LrlSHY8uu/B2/oQ
-   3oogWe+p/MRXeYDPkc2/Mlx1d5jW2Y/6o2qCzAbx6S15oRhKpyp1Q4fSM
-   jTUx2v2mHFnNt0nDt5a8cW4A5VWxKawv+3D+JVpMgx2P/TbCgvsFHJsxh
-   s4NTJe0K4owSDH3DiUM7iQARumueu1yYY7Ue0TACJAsTytqLilrRhFWJh
-   g==;
-X-CSE-ConnectionGUID: dqFMUIktQd2ZkGQk8aZ8zw==
-X-CSE-MsgGUID: 9QJsOdKkQe2q3x+GffZYKw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11797"; a="98025969"
+  bh=3ZuuaOsIhKqUdpcVHqakkpTX4LLcz91V4DmaTb79+/w=;
+  b=RkSLwsxFeMm7Tlx+sLuco4nSoElLl381QjZfK4FbsMGlQ8bm3GQEO8/O
+   S2mkEH0KurQFwhZcLIltsiV4b+RVuKAzWUUVN+eT8/fpghVMk7mPhRh/S
+   jao942SP8yB9ngCW2tABJbRlZgTxUic8o0abypphOoHxZr014q1a/av9u
+   WBou4V4xJyF6g0TDZB5Zx3DRcWk8ivyfyRnMqlzGj8n1eMcT64H0M2XHC
+   O6dAtrnijuKiVWskW4NNoVvcr1mqqZCqQZVA7xYKTjIZzdUm4FtNzLUCu
+   uwHBARm2rlCBD7GrsuNg2UOEwjrjGFXGqhq71dVvax6l6jxHgu+hK/wIE
+   A==;
+X-CSE-ConnectionGUID: IfSBPQq3ShO9wRLxUbJ5ug==
+X-CSE-MsgGUID: KR+8IKUPTbOKAjfnEdMfrQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11797"; a="98179189"
 X-IronPort-AV: E=Sophos;i="6.24,169,1774335600"; 
-   d="scan'208";a="98025969"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 03:47:22 -0700
-X-CSE-ConnectionGUID: H03l/Q0yRtiTvCC0MCbT5w==
-X-CSE-MsgGUID: 4+FQgC54RjKR22yE6jdb/Q==
+   d="scan'208";a="98179189"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 03:48:19 -0700
+X-CSE-ConnectionGUID: ch1eoFYzT9Gs6Dalr0gVFw==
+X-CSE-MsgGUID: ZxCfxRE+S9mXJGyNS1Skvw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,169,1774335600"; 
-   d="scan'208";a="243713846"
+   d="scan'208";a="235528449"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 26 May 2026 03:47:20 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 26 May 2026 03:48:19 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wRpJd-000000002MU-1EHz;
-	Tue, 26 May 2026 10:47:17 +0000
-Date: Tue, 26 May 2026 18:47:06 +0800
+	id 1wRpKb-000000002Mc-1Thc;
+	Tue, 26 May 2026 10:48:17 +0000
+Date: Tue, 26 May 2026 18:47:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ye Bin <yebin10@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>
-Subject: drivers/acpi/x86/s2idle.c:165:51: warning: '%s' directive
- argument is null
-Message-ID: <202605261839.UwogX950-lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-misc:bvec-iter-cleanups 1/1]
+ drivers/block/loop.c:382:8: error: assigning to 'struct bio_vec *' from
+ 'const struct bio_vec *' discards qualifiers
+Message-ID: <202605261835.95n6IOmg-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,162 +60,113 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Ye,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e8c2f9fdadee7cbc75134dc463c1e0d856d6e5c7
-commit: 6c2e6e2c1af1809d1d9cdbd50ac80f54f5995bdb dynamic_debug: add support for print stack
-date:   7 months ago
-config: x86_64-randconfig-007-20250922 (https://download.01.org/0day-ci/archive/20260526/202605261839.UwogX950-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260526/202605261839.UwogX950-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/hch/misc.git bvec-iter-cleanups
+head:   024c5730f9a8094d7b69ce07abec7eb0e498c2c2
+commit: 024c5730f9a8094d7b69ce07abec7eb0e498c2c2 [1/1] bvec: make the bvec_iter helpers inline functions
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260526/202605261835.95n6IOmg-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260526/202605261835.95n6IOmg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 6c2e6e2c1af1 ("dynamic_debug: add support for print stack")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605261839.UwogX950-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605261835.95n6IOmg-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/x86/include/asm/bug.h:108,
-                    from arch/x86/include/asm/alternative.h:9,
-                    from arch/x86/include/asm/barrier.h:5,
-                    from include/linux/list.h:11,
-                    from include/linux/resource_ext.h:9,
-                    from include/linux/acpi.h:13,
-                    from drivers/acpi/x86/s2idle.c:18:
-   drivers/acpi/x86/s2idle.c: In function 'lpi_device_get_constraints_amd':
->> drivers/acpi/x86/s2idle.c:165:51: warning: '%s' directive argument is null [-Wformat-overflow=]
-     165 |                                                   "Name:%s, Enabled: %d, States: %d, MinDstate: %d\n",
-         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:402:21: note: in definition of macro 'pr_fmt'
-     402 | #define pr_fmt(fmt) fmt
-         |                     ^~~
-   include/linux/dynamic_debug.h:259:9: note: in expansion of macro '__dynamic_func_call_cls'
-     259 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:261:9: note: in expansion of macro '_dynamic_func_call_cls'
-     261 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/acpi.h:1268:9: note: in expansion of macro '_dynamic_func_call'
-    1268 |         _dynamic_func_call(fmt, __acpi_handle_debug,                    \
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/acpi/x86/s2idle.c:164:33: note: in expansion of macro 'acpi_handle_debug'
-     164 |                                 acpi_handle_debug(lps0_device_handle,
-         |                                 ^~~~~~~~~~~~~~~~~
-   drivers/acpi/x86/s2idle.c:165:57: note: format string is defined here
-     165 |                                                   "Name:%s, Enabled: %d, States: %d, MinDstate: %d\n",
-         |                                                         ^~
+>> drivers/block/loop.c:382:8: error: assigning to 'struct bio_vec *' from 'const struct bio_vec *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     382 |                 bvec = __bvec_iter_bvec(bio->bi_io_vec, bio->bi_iter);
+         |                      ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+--
+>> drivers/nvme/host/tcp.c:358:7: error: assigning to 'struct bio_vec *' from 'const struct bio_vec *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     358 |                 vec = __bvec_iter_bvec(bio->bi_io_vec, bio->bi_iter);
+         |                     ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
 
-vim +165 drivers/acpi/x86/s2idle.c
+vim +382 drivers/block/loop.c
 
-fef98671194be0 Rafael J. Wysocki  2020-12-17   96  
-41233988112f0f Andy Shevchenko    2023-08-18   97  #define for_each_lpi_constraint(entry)						\
-41233988112f0f Andy Shevchenko    2023-08-18   98  	for (int i = 0;								\
-41233988112f0f Andy Shevchenko    2023-08-18   99  	     entry = &lpi_constraints_table[i], i < lpi_constraints_table_size;	\
-41233988112f0f Andy Shevchenko    2023-08-18  100  	     i++)
-41233988112f0f Andy Shevchenko    2023-08-18  101  
-fef98671194be0 Rafael J. Wysocki  2020-12-17  102  static void lpi_device_get_constraints_amd(void)
-fef98671194be0 Rafael J. Wysocki  2020-12-17  103  {
-fef98671194be0 Rafael J. Wysocki  2020-12-17  104  	union acpi_object *out_obj;
-fef98671194be0 Rafael J. Wysocki  2020-12-17  105  	int i, j, k;
-fef98671194be0 Rafael J. Wysocki  2020-12-17  106  
-fef98671194be0 Rafael J. Wysocki  2020-12-17  107  	out_obj = acpi_evaluate_dsm_typed(lps0_device_handle, &lps0_dsm_guid,
-904d4a6c074b9d Pratik Vishwakarma 2021-06-17  108  					  rev_id, ACPI_LPS0_GET_DEVICE_CONSTRAINTS,
-fef98671194be0 Rafael J. Wysocki  2020-12-17  109  					  NULL, ACPI_TYPE_PACKAGE);
-fef98671194be0 Rafael J. Wysocki  2020-12-17  110  
-fef98671194be0 Rafael J. Wysocki  2020-12-17  111  	acpi_handle_debug(lps0_device_handle, "_DSM function 1 eval %s\n",
-fef98671194be0 Rafael J. Wysocki  2020-12-17  112  			  out_obj ? "successful" : "failed");
-fef98671194be0 Rafael J. Wysocki  2020-12-17  113  
-4a012dc82d504f Pratik Vishwakarma 2021-06-17  114  	if (!out_obj)
-4a012dc82d504f Pratik Vishwakarma 2021-06-17  115  		return;
-4a012dc82d504f Pratik Vishwakarma 2021-06-17  116  
-fef98671194be0 Rafael J. Wysocki  2020-12-17  117  	for (i = 0; i < out_obj->package.count; i++) {
-fef98671194be0 Rafael J. Wysocki  2020-12-17  118  		union acpi_object *package = &out_obj->package.elements[i];
-fef98671194be0 Rafael J. Wysocki  2020-12-17  119  
-aa7a1bb02bb443 Rafael J. Wysocki  2021-01-05  120  		if (package->type == ACPI_TYPE_PACKAGE) {
-883cf0d4cf2883 Mario Limonciello  2023-08-18  121  			if (lpi_constraints_table) {
-883cf0d4cf2883 Mario Limonciello  2023-08-18  122  				acpi_handle_err(lps0_device_handle,
-883cf0d4cf2883 Mario Limonciello  2023-08-18  123  						"Duplicate constraints list\n");
-883cf0d4cf2883 Mario Limonciello  2023-08-18  124  				goto free_acpi_buffer;
-883cf0d4cf2883 Mario Limonciello  2023-08-18  125  			}
-883cf0d4cf2883 Mario Limonciello  2023-08-18  126  
-fef98671194be0 Rafael J. Wysocki  2020-12-17  127  			lpi_constraints_table = kcalloc(package->package.count,
-fef98671194be0 Rafael J. Wysocki  2020-12-17  128  							sizeof(*lpi_constraints_table),
-fef98671194be0 Rafael J. Wysocki  2020-12-17  129  							GFP_KERNEL);
-fef98671194be0 Rafael J. Wysocki  2020-12-17  130  
-fef98671194be0 Rafael J. Wysocki  2020-12-17  131  			if (!lpi_constraints_table)
-fef98671194be0 Rafael J. Wysocki  2020-12-17  132  				goto free_acpi_buffer;
-fef98671194be0 Rafael J. Wysocki  2020-12-17  133  
-fef98671194be0 Rafael J. Wysocki  2020-12-17  134  			acpi_handle_debug(lps0_device_handle,
-fef98671194be0 Rafael J. Wysocki  2020-12-17  135  					  "LPI: constraints list begin:\n");
-fef98671194be0 Rafael J. Wysocki  2020-12-17  136  
-3c6b1212d20bbb Mario Limonciello  2023-08-18  137  			for (j = 0; j < package->package.count; j++) {
-fef98671194be0 Rafael J. Wysocki  2020-12-17  138  				union acpi_object *info_obj = &package->package.elements[j];
-fef98671194be0 Rafael J. Wysocki  2020-12-17  139  				struct lpi_device_constraint_amd dev_info = {};
-fef98671194be0 Rafael J. Wysocki  2020-12-17  140  				struct lpi_constraints *list;
-fef98671194be0 Rafael J. Wysocki  2020-12-17  141  				acpi_status status;
-fef98671194be0 Rafael J. Wysocki  2020-12-17  142  
-9cc8cd086f05d9 Mario Limonciello  2023-08-18  143  				list = &lpi_constraints_table[lpi_constraints_table_size];
-9cc8cd086f05d9 Mario Limonciello  2023-08-18  144  
-3c6b1212d20bbb Mario Limonciello  2023-08-18  145  				for (k = 0; k < info_obj->package.count; k++) {
-fef98671194be0 Rafael J. Wysocki  2020-12-17  146  					union acpi_object *obj = &info_obj->package.elements[k];
-fef98671194be0 Rafael J. Wysocki  2020-12-17  147  
-fef98671194be0 Rafael J. Wysocki  2020-12-17  148  					switch (k) {
-fef98671194be0 Rafael J. Wysocki  2020-12-17  149  					case 0:
-fef98671194be0 Rafael J. Wysocki  2020-12-17  150  						dev_info.enabled = obj->integer.value;
-fef98671194be0 Rafael J. Wysocki  2020-12-17  151  						break;
-fef98671194be0 Rafael J. Wysocki  2020-12-17  152  					case 1:
-fef98671194be0 Rafael J. Wysocki  2020-12-17  153  						dev_info.name = obj->string.pointer;
-fef98671194be0 Rafael J. Wysocki  2020-12-17  154  						break;
-fef98671194be0 Rafael J. Wysocki  2020-12-17  155  					case 2:
-fef98671194be0 Rafael J. Wysocki  2020-12-17  156  						dev_info.function_states = obj->integer.value;
-fef98671194be0 Rafael J. Wysocki  2020-12-17  157  						break;
-fef98671194be0 Rafael J. Wysocki  2020-12-17  158  					case 3:
-fef98671194be0 Rafael J. Wysocki  2020-12-17  159  						dev_info.min_dstate = obj->integer.value;
-fef98671194be0 Rafael J. Wysocki  2020-12-17  160  						break;
-fef98671194be0 Rafael J. Wysocki  2020-12-17  161  					}
-9cc8cd086f05d9 Mario Limonciello  2023-08-18  162  				}
-fef98671194be0 Rafael J. Wysocki  2020-12-17  163  
-a879058d01e2f6 Mario Limonciello  2023-08-18  164  				acpi_handle_debug(lps0_device_handle,
-a879058d01e2f6 Mario Limonciello  2023-08-18 @165  						  "Name:%s, Enabled: %d, States: %d, MinDstate: %d\n",
-a879058d01e2f6 Mario Limonciello  2023-08-18  166  						  dev_info.name,
-a879058d01e2f6 Mario Limonciello  2023-08-18  167  						  dev_info.enabled,
-a879058d01e2f6 Mario Limonciello  2023-08-18  168  						  dev_info.function_states,
-a879058d01e2f6 Mario Limonciello  2023-08-18  169  						  dev_info.min_dstate);
-a879058d01e2f6 Mario Limonciello  2023-08-18  170  
-fef98671194be0 Rafael J. Wysocki  2020-12-17  171  				if (!dev_info.enabled || !dev_info.name ||
-fef98671194be0 Rafael J. Wysocki  2020-12-17  172  				    !dev_info.min_dstate)
-fef98671194be0 Rafael J. Wysocki  2020-12-17  173  					continue;
-fef98671194be0 Rafael J. Wysocki  2020-12-17  174  
-9cc8cd086f05d9 Mario Limonciello  2023-08-18  175  				status = acpi_get_handle(NULL, dev_info.name, &list->handle);
-fef98671194be0 Rafael J. Wysocki  2020-12-17  176  				if (ACPI_FAILURE(status))
-fef98671194be0 Rafael J. Wysocki  2020-12-17  177  					continue;
-fef98671194be0 Rafael J. Wysocki  2020-12-17  178  
-fef98671194be0 Rafael J. Wysocki  2020-12-17  179  				list->min_dstate = dev_info.min_dstate;
-fef98671194be0 Rafael J. Wysocki  2020-12-17  180  
-fef98671194be0 Rafael J. Wysocki  2020-12-17  181  				lpi_constraints_table_size++;
-fef98671194be0 Rafael J. Wysocki  2020-12-17  182  			}
-fef98671194be0 Rafael J. Wysocki  2020-12-17  183  		}
-fef98671194be0 Rafael J. Wysocki  2020-12-17  184  	}
-fef98671194be0 Rafael J. Wysocki  2020-12-17  185  
-fef98671194be0 Rafael J. Wysocki  2020-12-17  186  	acpi_handle_debug(lps0_device_handle, "LPI: constraints list end\n");
-fef98671194be0 Rafael J. Wysocki  2020-12-17  187  
-fef98671194be0 Rafael J. Wysocki  2020-12-17  188  free_acpi_buffer:
-fef98671194be0 Rafael J. Wysocki  2020-12-17  189  	ACPI_FREE(out_obj);
-fef98671194be0 Rafael J. Wysocki  2020-12-17  190  }
-fef98671194be0 Rafael J. Wysocki  2020-12-17  191  
+bc07c10a3603a5 Ming Lei           2015-08-17  339  
+96f03c8cb29f2e Jens Axboe         2025-11-24  340  static int lo_rw_aio(struct loop_device *lo, struct loop_cmd *cmd,
+96f03c8cb29f2e Jens Axboe         2025-11-24  341  		     loff_t pos, int rw)
+c3e6c11147f6f0 Ming Lei           2025-10-15  342  {
+96f03c8cb29f2e Jens Axboe         2025-11-24  343  	struct iov_iter iter;
+c3e6c11147f6f0 Ming Lei           2025-10-15  344  	struct req_iterator rq_iter;
+96f03c8cb29f2e Jens Axboe         2025-11-24  345  	struct bio_vec *bvec;
+96f03c8cb29f2e Jens Axboe         2025-11-24  346  	struct request *rq = blk_mq_rq_from_pdu(cmd);
+96f03c8cb29f2e Jens Axboe         2025-11-24  347  	struct bio *bio = rq->bio;
+96f03c8cb29f2e Jens Axboe         2025-11-24  348  	struct file *file = lo->lo_backing_file;
+c3e6c11147f6f0 Ming Lei           2025-10-15  349  	struct bio_vec tmp;
+96f03c8cb29f2e Jens Axboe         2025-11-24  350  	unsigned int offset;
+71075d25ca5cae Chaitanya Kulkarni 2025-12-02  351  	unsigned int nr_bvec;
+96f03c8cb29f2e Jens Axboe         2025-11-24  352  	int ret;
+c3e6c11147f6f0 Ming Lei           2025-10-15  353  
+71075d25ca5cae Chaitanya Kulkarni 2025-12-02  354  	nr_bvec = blk_rq_nr_bvec(rq);
+c3e6c11147f6f0 Ming Lei           2025-10-15  355  
+40326d8a33d5b7 Shaohua Li         2017-08-31  356  	if (rq->bio != rq->biotail) {
+bc07c10a3603a5 Ming Lei           2015-08-17  357  
+69050f8d6d075d Kees Cook          2026-02-20  358  		bvec = kmalloc_objs(struct bio_vec, nr_bvec, GFP_NOIO);
+40326d8a33d5b7 Shaohua Li         2017-08-31  359  		if (!bvec)
+40326d8a33d5b7 Shaohua Li         2017-08-31  360  			return -EIO;
+40326d8a33d5b7 Shaohua Li         2017-08-31  361  		cmd->bvec = bvec;
+40326d8a33d5b7 Shaohua Li         2017-08-31  362  
+40326d8a33d5b7 Shaohua Li         2017-08-31  363  		/*
+40326d8a33d5b7 Shaohua Li         2017-08-31  364  		 * The bios of the request may be started from the middle of
+40326d8a33d5b7 Shaohua Li         2017-08-31  365  		 * the 'bvec' because of bio splitting, so we can't directly
+86af5952a8470f Ming Lei           2019-02-15  366  		 * copy bio->bi_iov_vec to new bvec. The rq_for_each_bvec
+40326d8a33d5b7 Shaohua Li         2017-08-31  367  		 * API will take care of all details for us.
+40326d8a33d5b7 Shaohua Li         2017-08-31  368  		 */
+86af5952a8470f Ming Lei           2019-02-15  369  		rq_for_each_bvec(tmp, rq, rq_iter) {
+40326d8a33d5b7 Shaohua Li         2017-08-31  370  			*bvec = tmp;
+40326d8a33d5b7 Shaohua Li         2017-08-31  371  			bvec++;
+40326d8a33d5b7 Shaohua Li         2017-08-31  372  		}
+96f03c8cb29f2e Jens Axboe         2025-11-24  373  		bvec = cmd->bvec;
+96f03c8cb29f2e Jens Axboe         2025-11-24  374  		offset = 0;
+fd858d1ca9694c Ming Lei           2025-10-15  375  	} else {
+96f03c8cb29f2e Jens Axboe         2025-11-24  376  		/*
+96f03c8cb29f2e Jens Axboe         2025-11-24  377  		 * Same here, this bio may be started from the middle of the
+96f03c8cb29f2e Jens Axboe         2025-11-24  378  		 * 'bvec' because of bio splitting, so offset from the bvec
+96f03c8cb29f2e Jens Axboe         2025-11-24  379  		 * must be passed to iov iterator
+96f03c8cb29f2e Jens Axboe         2025-11-24  380  		 */
+96f03c8cb29f2e Jens Axboe         2025-11-24  381  		offset = bio->bi_iter.bi_bvec_done;
+96f03c8cb29f2e Jens Axboe         2025-11-24 @382  		bvec = __bvec_iter_bvec(bio->bi_io_vec, bio->bi_iter);
+fd858d1ca9694c Ming Lei           2025-10-15  383  	}
+96f03c8cb29f2e Jens Axboe         2025-11-24  384  	atomic_set(&cmd->ref, 2);
+96f03c8cb29f2e Jens Axboe         2025-11-24  385  
+96f03c8cb29f2e Jens Axboe         2025-11-24  386  	iov_iter_bvec(&iter, rw, bvec, nr_bvec, blk_rq_bytes(rq));
+96f03c8cb29f2e Jens Axboe         2025-11-24  387  	iter.iov_offset = offset;
+fd858d1ca9694c Ming Lei           2025-10-15  388  
+fd858d1ca9694c Ming Lei           2025-10-15  389  	cmd->iocb.ki_pos = pos;
+96f03c8cb29f2e Jens Axboe         2025-11-24  390  	cmd->iocb.ki_filp = file;
+fd858d1ca9694c Ming Lei           2025-10-15  391  	cmd->iocb.ki_ioprio = req_get_ioprio(rq);
+fd858d1ca9694c Ming Lei           2025-10-15  392  	if (cmd->use_aio) {
+fd858d1ca9694c Ming Lei           2025-10-15  393  		cmd->iocb.ki_complete = lo_rw_aio_complete;
+fd858d1ca9694c Ming Lei           2025-10-15  394  		cmd->iocb.ki_flags = IOCB_DIRECT;
+fd858d1ca9694c Ming Lei           2025-10-15  395  	} else {
+fd858d1ca9694c Ming Lei           2025-10-15  396  		cmd->iocb.ki_complete = NULL;
+fd858d1ca9694c Ming Lei           2025-10-15  397  		cmd->iocb.ki_flags = 0;
+fd858d1ca9694c Ming Lei           2025-10-15  398  	}
+bc07c10a3603a5 Ming Lei           2015-08-17  399  
+39d86db34e41b9 Ming Lei           2025-05-27  400  	if (rw == ITER_SOURCE) {
+c4706c5058a7bd Ming Lei           2025-07-16  401  		kiocb_start_write(&cmd->iocb);
+7c98f7cb8fda96 Miklos Szeredi     2023-08-28  402  		ret = file->f_op->write_iter(&cmd->iocb, &iter);
+39d86db34e41b9 Ming Lei           2025-05-27  403  	} else
+7c98f7cb8fda96 Miklos Szeredi     2023-08-28  404  		ret = file->f_op->read_iter(&cmd->iocb, &iter);
+bc07c10a3603a5 Ming Lei           2015-08-17  405  
+92d773324b7edb Shaohua Li         2017-09-01  406  	lo_rw_aio_do_completion(cmd);
+92d773324b7edb Shaohua Li         2017-09-01  407  
+bc07c10a3603a5 Ming Lei           2015-08-17  408  	if (ret != -EIOCBQUEUED)
+6b19b766e8f077 Jens Axboe         2021-10-21  409  		lo_rw_aio_complete(&cmd->iocb, ret);
+f2fed441c69b92 Christoph Hellwig  2025-04-09  410  	return -EIOCBQUEUED;
+bc07c10a3603a5 Ming Lei           2015-08-17  411  }
+bc07c10a3603a5 Ming Lei           2015-08-17  412  
 
-:::::: The code at line 165 was first introduced by commit
-:::::: a879058d01e2f6e324cc98ff2ffbe4f574c100a6 ACPI: x86: s2idle: Add more debugging for AMD constraints parsing
+:::::: The code at line 382 was first introduced by commit
+:::::: 96f03c8cb29f2ec5ffe8e24fbec2c64f3c3bf4e5 Revert "Merge branch 'loop-aio-nowait' into for-6.19/block"
 
-:::::: TO: Mario Limonciello <mario.limonciello@amd.com>
-:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+:::::: TO: Jens Axboe <axboe@kernel.dk>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 --
 0-DAY CI Kernel Test Service
