@@ -1,122 +1,181 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 344ED37B007
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 May 2026 15:44:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25E1437F73D;
+	Tue, 26 May 2026 15:44:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779810278; cv=none; b=E49EGLYbKCqtIfJmztBd2M3dWZmcclpniJxDsWyNs08doB2zdmuRtqn4Ik9opoH3Vyfxn+h0NEqHzY7wU6acHFPQAdBOp6FhyksQxAH5I8ilS9RLTe0lUO2Bs8lcc9OlTDH/oaeegW+2oAqbIkEpDeQdU2nC3mV50gTUZVL4guI=
+	t=1779810278; cv=none; b=P45MLZe9YXxBYAamaiZbAT1G1s4PNOGuZYfQD0f3i0wLqK0U7UotzS/AAfTou/PzgobdTl9ZSM41F8RdOn3QpUb6RYM81WCFaybUM/+3fR4dQZ7feUE8wCNuJsr5dhvTz0Y5Mlmoc2lZrRe6Aw4ui4ghkJihTGiwtTdqjo3H698=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1779810278; c=relaxed/simple;
-	bh=Tc1URCwo8hRkgnZgpzM2BOuy2M2fNHtYJC5wcp7KOns=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=VIoEUyK1VjcjRRVftFfQBGkh0YFfYoTlJ9/pep6pheCnU0JABJsrgr/hMPmHX2GGexKA8cteX/ep7YsKgayd9HKOBEpMBLa7br8DVdaNbf4apEI2TdWwKLmCwRMUq/l575zdnH8rPJk4fBuRzKPzgwkNW4R2ZNrFS476lgHk3cE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DPNHsPou; arc=none smtp.client-ip=198.175.65.14
+	bh=UuW6d8lPHaaANg5tC8Y3KYQvdHjMq8uKQRvFeZJW7C0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SOeX1YEsNvrKcIAibIka8p4kKLBk+o3vJPrlpU0AfQSJ6IJK9ArspoeFcSehlrRdMKXwwIAr/K/NfbXtEx5GdELvNPfn2ah/nIDhF3FH3B7jky/hokox0SPcc9gpQF+eAD8xUdXhs4m/1fupra63gEXTaGKsQHtrwsGLweOh8yI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kNYDmuhS; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DPNHsPou"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kNYDmuhS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1779810276; x=1811346276;
-  h=date:from:to:cc:subject:message-id;
-  bh=Tc1URCwo8hRkgnZgpzM2BOuy2M2fNHtYJC5wcp7KOns=;
-  b=DPNHsPouXGLoSQWVYGGnzRQ510+n/O7/ZskNkvw0Cx5ewz1g/Z3/bfCH
-   y9y3A52uOBddAmH4+SgxZR0Knc7jFDypBIp1X5jV5byZHinYx82UGlwgq
-   dThTk9vcvZIuJSQvIcnGfwixPwwRLpGbmc8O4+56BxuexIojk9OtGh+5X
-   rUJmuX0zWJYMBkhG51Eid0qZCYUuI3WGxPm3Fk1cmgiRqC9SM4d3vR4Qz
-   0EztGoR5v+JPag1Wkq+3d0sZpzF4DESq1Cj8V8kzpnh7E+4KA4EB+weR/
-   6Ftc17CNpFQUi7eTqrs2SXdls9pvjVAwKy5jDsfbp2F3kDiBehJJvoIS6
-   g==;
-X-CSE-ConnectionGUID: +IZdMYflRYOzU/wI4iJV3Q==
-X-CSE-MsgGUID: N8IK56M2RBeIMN/7BRhJsw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11797"; a="84514913"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UuW6d8lPHaaANg5tC8Y3KYQvdHjMq8uKQRvFeZJW7C0=;
+  b=kNYDmuhS4IVq1wNvj2ddB7I3LJKexz9gvHVFEcU+n0rThA+SFN1EKJbZ
+   FsVzMx+nGikuRTGYOHK5t7mHg/V9FEWENuq9OCAgkR4m6ptn79muaBAm9
+   KlSZmu5EJbL/PAiCVF/xI+dvawlv1qoJ4RyF4v4x3KjZ2NMEl3evRWsS9
+   xkUaaRfBWfa6J+ptOXsbo23DEAT1/X9ulSQqFNen/9sRXxYSxioE4Z+XB
+   evJmpj+lNRGNT9yQ3IO1fNFOUylSyQyzlCKAT3hjHyzaNtKo/BPa89Re7
+   4bL97oKK7AAu/Ndb6dyWfnm5+fx7OQsVG9GcXJUgi0UVjoTNUPt4Gb7kV
+   Q==;
+X-CSE-ConnectionGUID: lmYATvFlQnqsq0tAT04mXg==
+X-CSE-MsgGUID: bROZPqfYR/WmYrGa1Vv/lw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11797"; a="80811240"
 X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
-   d="scan'208";a="84514913"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 08:44:36 -0700
-X-CSE-ConnectionGUID: ybWR7h0XTGiY0t+RX9K1Xg==
-X-CSE-MsgGUID: OiyvWRRtQ5KJ6x2RsolHyg==
+   d="scan'208";a="80811240"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 08:44:36 -0700
+X-CSE-ConnectionGUID: HU3WDzDiTh2dkctE56Acvw==
+X-CSE-MsgGUID: ClH5GKCETD2FwjnyMFJrkg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
-   d="scan'208";a="237789008"
+   d="scan'208";a="272290687"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 26 May 2026 08:44:34 -0700
+  by orviesa002.jf.intel.com with ESMTP; 26 May 2026 08:44:34 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wRtxH-00000000CRF-2VRl;
+	id 1wRtxH-00000000CRH-2fLo;
 	Tue, 26 May 2026 15:44:31 +0000
-Date: Tue, 26 May 2026 17:44:13 +0200
+Date: Tue, 26 May 2026 17:44:11 +0200
 From: kernel test robot <lkp@intel.com>
-To: Chengwen Feng <fengchengwen@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: ./include/linux/pci-tph.h:48:10: error: 'PCI_TPH_LOC_NONE'
- undeclared
-Message-ID: <202605261728.kooXGibA-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Geliang Tang <geliang@kernel.org>, mptcp@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, Geliang Tang <tanggeliang@kylinos.cn>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Matthieu Baerts <matttbe@kernel.org>
+Subject: Re: [PATCH mptcp-next] mptcp: remove unused data_ack from struct
+ mptcp_ext
+Message-ID: <202605261720.YO4kQJsj-lkp@intel.com>
+References: <59640df9a7c0528688419655e53cb4efc50aff41.1779786007.git.tanggeliang@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <59640df9a7c0528688419655e53cb4efc50aff41.1779786007.git.tanggeliang@kylinos.cn>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Chengwen-Feng/PCI-TPH-Fix-pcie_tph_get_st_table_loc-field-extraction/20260526-121037
-head:   aeabc1a28fa5791d80195a8d37acf629a083a486
-commit: bdb8ee095dd1a800a81e68da79b4118fa6f970b0 PCI/TPH: Export pcie_tph_get_st_modes() for external use
-date:   12 hours ago
-config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260526/202605261728.kooXGibA-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260526/202605261728.kooXGibA-lkp@intel.com/reproduce)
+Hi Geliang,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on mptcp/export]
+[also build test ERROR on mptcp/export-net linus/master v7.1-rc5 next-20260525]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Geliang-Tang/mptcp-remove-unused-data_ack-from-struct-mptcp_ext/20260526-174441
+base:   https://github.com/multipath-tcp/mptcp_net-next.git export
+patch link:    https://lore.kernel.org/r/59640df9a7c0528688419655e53cb4efc50aff41.1779786007.git.tanggeliang%40kylinos.cn
+patch subject: [PATCH mptcp-next] mptcp: remove unused data_ack from struct mptcp_ext
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260526/202605261720.YO4kQJsj-lkp@intel.com/config)
+compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260526/202605261720.YO4kQJsj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605261728.kooXGibA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605261720.YO4kQJsj-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from ./include/rdma/ib_verbs.h:46,
-                    from ./include/linux/lsm_audit.h:25,
-                    from security/lsm_audit.c:28:
-   ./include/linux/pci-tph.h: In function 'pcie_tph_get_st_table_loc':
->> ./include/linux/pci-tph.h:48:10: error: 'PCI_TPH_LOC_NONE' undeclared (first use in this function)
-      48 | { return PCI_TPH_LOC_NONE; }
-         |          ^~~~~~~~~~~~~~~~
-   ./include/linux/pci-tph.h:48:10: note: each undeclared identifier is reported only once for each function it appears in
+   net/mptcp/options.c: In function 'mptcp_established_options_dss':
+>> net/mptcp/options.c:607:31: error: 'struct mptcp_ext' has no member named 'data_ack'
+     607 |                 opts->ext_copy.data_ack = ack_seq;
+         |                               ^
+>> net/mptcp/options.c:611:31: error: 'struct mptcp_ext' has no member named 'data_ack32'
+     611 |                 opts->ext_copy.data_ack32 = (uint32_t)ack_seq;
+         |                               ^
+   net/mptcp/options.c: In function 'mptcp_write_options':
+   net/mptcp/options.c:1479:57: error: 'struct mptcp_ext' has no member named 'data_ack'
+    1479 |                                 put_unaligned_be64(mpext->data_ack, ptr);
+         |                                                         ^~
+   net/mptcp/options.c:1482:57: error: 'struct mptcp_ext' has no member named 'data_ack32'
+    1482 |                                 put_unaligned_be32(mpext->data_ack32, ptr);
+         |                                                         ^~
 
 
-vim +/PCI_TPH_LOC_NONE +48 ./include/linux/pci-tph.h
+vim +607 net/mptcp/options.c
 
-    22	
-    23	#ifdef CONFIG_PCIE_TPH
-    24	int pcie_tph_set_st_entry(struct pci_dev *pdev,
-    25				  unsigned int index, u16 tag);
-    26	int pcie_tph_get_cpu_st(struct pci_dev *dev,
-    27				enum tph_mem_type mem_type,
-    28				unsigned int cpu, u16 *tag);
-    29	void pcie_disable_tph(struct pci_dev *pdev);
-    30	int pcie_enable_tph(struct pci_dev *pdev, int mode);
-    31	u16 pcie_tph_get_st_table_size(struct pci_dev *pdev);
-    32	u32 pcie_tph_get_st_table_loc(struct pci_dev *pdev);
-    33	u8 pcie_tph_get_st_modes(struct pci_dev *pdev);
-    34	#else
-    35	static inline int pcie_tph_set_st_entry(struct pci_dev *pdev,
-    36						unsigned int index, u16 tag)
-    37	{ return -EINVAL; }
-    38	static inline int pcie_tph_get_cpu_st(struct pci_dev *dev,
-    39					      enum tph_mem_type mem_type,
-    40					      unsigned int cpu, u16 *tag)
-    41	{ return -EINVAL; }
-    42	static inline void pcie_disable_tph(struct pci_dev *pdev) { }
-    43	static inline int pcie_enable_tph(struct pci_dev *pdev, int mode)
-    44	{ return -EINVAL; }
-    45	static inline u16 pcie_tph_get_st_table_size(struct pci_dev *pdev)
-    46	{ return 0; }
-    47	static inline u32 pcie_tph_get_st_table_loc(struct pci_dev *pdev)
-  > 48	{ return PCI_TPH_LOC_NONE; }
-    49	static inline u8 pcie_tph_get_st_modes(struct pci_dev *pdev)
-    50	{ return 0; }
-    51	#endif
-    52	
+6d0060f600adfd Mat Martineau    2020-01-21  561  
+6d0060f600adfd Mat Martineau    2020-01-21  562  static bool mptcp_established_options_dss(struct sock *sk, struct sk_buff *skb,
+d87903b63e3ce1 Paolo Abeni      2021-02-19  563  					  bool snd_data_fin_enable,
+6d0060f600adfd Mat Martineau    2020-01-21  564  					  unsigned int *size,
+6d0060f600adfd Mat Martineau    2020-01-21  565  					  struct mptcp_out_options *opts)
+6d0060f600adfd Mat Martineau    2020-01-21  566  {
+6d0060f600adfd Mat Martineau    2020-01-21  567  	struct mptcp_subflow_context *subflow = mptcp_subflow_ctx(sk);
+7279da6145bbb2 Mat Martineau    2020-07-28  568  	struct mptcp_sock *msk = mptcp_sk(subflow->conn);
+6d0060f600adfd Mat Martineau    2020-01-21  569  	unsigned int dss_size = 0;
+6d0060f600adfd Mat Martineau    2020-01-21  570  	struct mptcp_ext *mpext;
+6d0060f600adfd Mat Martineau    2020-01-21  571  	unsigned int ack_size;
+d22f4988ffecbe Christoph Paasch 2020-01-21  572  	bool ret = false;
+d87903b63e3ce1 Paolo Abeni      2021-02-19  573  	u64 ack_seq;
+6d0060f600adfd Mat Martineau    2020-01-21  574  
+c5b39e26d00364 Geliang Tang     2021-06-17  575  	opts->csum_reqd = READ_ONCE(msk->csum_enabled);
+0bac966a1f2ae0 Mat Martineau    2020-07-28  576  	mpext = skb ? mptcp_get_ext(skb) : NULL;
+6d0060f600adfd Mat Martineau    2020-01-21  577  
+7279da6145bbb2 Mat Martineau    2020-07-28  578  	if (!skb || (mpext && mpext->use_map) || snd_data_fin_enable) {
+c5b39e26d00364 Geliang Tang     2021-06-17  579  		unsigned int map_size = TCPOLEN_MPTCP_DSS_BASE + TCPOLEN_MPTCP_DSS_MAP64;
+6d0060f600adfd Mat Martineau    2020-01-21  580  
+c5b39e26d00364 Geliang Tang     2021-06-17  581  		if (mpext) {
+c5b39e26d00364 Geliang Tang     2021-06-17  582  			if (opts->csum_reqd)
+c5b39e26d00364 Geliang Tang     2021-06-17  583  				map_size += TCPOLEN_MPTCP_DSS_CHECKSUM;
+6d0060f600adfd Mat Martineau    2020-01-21  584  
+6d0060f600adfd Mat Martineau    2020-01-21  585  			opts->ext_copy = *mpext;
+c5b39e26d00364 Geliang Tang     2021-06-17  586  		}
+6d0060f600adfd Mat Martineau    2020-01-21  587  
+c5b39e26d00364 Geliang Tang     2021-06-17  588  		dss_size = map_size;
+7279da6145bbb2 Mat Martineau    2020-07-28  589  		if (skb && snd_data_fin_enable)
+9c29e36152748f Paolo Abeni      2020-07-03  590  			mptcp_write_data_fin(subflow, skb, &opts->ext_copy);
+1bff1e43a30e2f Paolo Abeni      2021-08-24  591  		opts->suboptions = OPTION_MPTCP_DSS;
+d22f4988ffecbe Christoph Paasch 2020-01-21  592  		ret = true;
+d22f4988ffecbe Christoph Paasch 2020-01-21  593  	}
+d22f4988ffecbe Christoph Paasch 2020-01-21  594  
+2398e3991bda7c Paolo Abeni      2020-03-04  595  	/* passive sockets msk will set the 'can_ack' after accept(), even
+2398e3991bda7c Paolo Abeni      2020-03-04  596  	 * if the first subflow may have the already the remote key handy
+2398e3991bda7c Paolo Abeni      2020-03-04  597  	 */
+d22f4988ffecbe Christoph Paasch 2020-01-21  598  	opts->ext_copy.use_ack = 0;
+dc093db5cc052b Paolo Abeni      2020-03-13  599  	if (!READ_ONCE(msk->can_ack)) {
+d22f4988ffecbe Christoph Paasch 2020-01-21  600  		*size = ALIGN(dss_size, 4);
+d22f4988ffecbe Christoph Paasch 2020-01-21  601  		return ret;
+6d0060f600adfd Mat Martineau    2020-01-21  602  	}
+6d0060f600adfd Mat Martineau    2020-01-21  603  
+e3859603ba13e7 Paolo Abeni      2021-02-11  604  	ack_seq = READ_ONCE(msk->ack_seq);
+37198e93ced707 Davide Caratti   2020-10-06  605  	if (READ_ONCE(msk->use_64bit_ack)) {
+6d0060f600adfd Mat Martineau    2020-01-21  606  		ack_size = TCPOLEN_MPTCP_DSS_ACK64;
+e3859603ba13e7 Paolo Abeni      2021-02-11 @607  		opts->ext_copy.data_ack = ack_seq;
+a0c1d0eafd1ef1 Christoph Paasch 2020-05-14  608  		opts->ext_copy.ack64 = 1;
+a0c1d0eafd1ef1 Christoph Paasch 2020-05-14  609  	} else {
+a0c1d0eafd1ef1 Christoph Paasch 2020-05-14  610  		ack_size = TCPOLEN_MPTCP_DSS_ACK32;
+e3859603ba13e7 Paolo Abeni      2021-02-11 @611  		opts->ext_copy.data_ack32 = (uint32_t)ack_seq;
+a0c1d0eafd1ef1 Christoph Paasch 2020-05-14  612  		opts->ext_copy.ack64 = 0;
+a0c1d0eafd1ef1 Christoph Paasch 2020-05-14  613  	}
+a0c1d0eafd1ef1 Christoph Paasch 2020-05-14  614  	opts->ext_copy.use_ack = 1;
+1bff1e43a30e2f Paolo Abeni      2021-08-24  615  	opts->suboptions = OPTION_MPTCP_DSS;
+6d0060f600adfd Mat Martineau    2020-01-21  616  
+6d0060f600adfd Mat Martineau    2020-01-21  617  	/* Add kind/length/subtype/flag overhead if mapping is not populated */
+6d0060f600adfd Mat Martineau    2020-01-21  618  	if (dss_size == 0)
+6d0060f600adfd Mat Martineau    2020-01-21  619  		ack_size += TCPOLEN_MPTCP_DSS_BASE;
+6d0060f600adfd Mat Martineau    2020-01-21  620  
+6d0060f600adfd Mat Martineau    2020-01-21  621  	dss_size += ack_size;
+6d0060f600adfd Mat Martineau    2020-01-21  622  
+6d0060f600adfd Mat Martineau    2020-01-21  623  	*size = ALIGN(dss_size, 4);
+6d0060f600adfd Mat Martineau    2020-01-21  624  	return true;
+6d0060f600adfd Mat Martineau    2020-01-21  625  }
+6d0060f600adfd Mat Martineau    2020-01-21  626  
 
 --
 0-DAY CI Kernel Test Service
