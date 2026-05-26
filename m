@@ -1,55 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 644F23EE1EE
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 May 2026 11:47:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 298363B5851;
+	Tue, 26 May 2026 12:18:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779796064; cv=none; b=mETtDm2Pa3mPouUV68/FMb29OaoPn+xPdnvHcy6Prh0XShv7fnhj3HJac0a20ZKZ/hs1zWTBLvw1Ub1oxhvIfaAjMMAHkxWMj98piwMDLtmBxadQ9vE9PRvQlpSsdvXzfVrWJ13ORNJXVhbZBXUHYoUGPt1x0wWDcjKThSzfKIo=
+	t=1779797916; cv=none; b=Ch31mjgSphObR4g6FB1ksEy6Sv0Ln0kd69PF1mxi/a8VbapNTlxHTALFw1fh+recLA5TtJ7acAuXHgz3/b4j0WDfX5DRzQUvEQCCgNGrPNB9L+I5zeBggv9WpKp+lVCtUtoY5+p3Ie2eGNA0Fu9a2ze9JQiQLyTG4updwiimLIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779796064; c=relaxed/simple;
-	bh=Hkml/jRjTPg4rtSAD5UhSNaFmIFVO41E0yXWO32n0pw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Sm4OOFZbPy07kxe8wvl+pFR8OEZ2bTSGDlBYc0HDBeORVnSLtXVwRWnf61uh4ZP2Qx6GeUY9T0KgJvZg7SEIvLmLBTMJdaTb0CDiJmwWfu7nF1nJ17L+tCtJ8Q7VbYYemFigMZ0+y8LKf5u2USit3Y+HveYVo7DYijvVUMFJxtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k9eHpDLK; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1779797916; c=relaxed/simple;
+	bh=WOqZe4QVfO/JR6rizSDRmpDUpJEdblaFAOMUZpSaItg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sThjjHNHgTtmC4/MDfX8pGEkAojePEWhXQJiHNnMS/j89wUtqlt67L+O1Y539kZM/mtKb12B0ziNdBkslUkdD3gS1K1qXvzPp95c9Gu4jAKxIBDGbAlYeAog4mtcX73jflw7tGo9I7InE4laok7x28AQXAv9iR8jtovAzXonp4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BHJoo3Hd; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k9eHpDLK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BHJoo3Hd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779796059; x=1811332059;
+  t=1779797914; x=1811333914;
   h=date:from:to:cc:subject:message-id;
-  bh=Hkml/jRjTPg4rtSAD5UhSNaFmIFVO41E0yXWO32n0pw=;
-  b=k9eHpDLKCw9HFcHmziPU4tZmC/7iRdQnb4umwuP25ohJt/GvVd9DIC4V
-   zsdwF41+Q1MdTR8IbyO/+pxhvYIemBdMi7y1kDVlhw+fwJTynBL8BBnwy
-   9gOL6sS87CdtsIYozIGj9mq/B719tYQ9qxyw4MvHcinnYQJwhtrshRdi5
-   PML8u534972xzxrO93hH1JX39zm6w9Rh3ClXOb1rOJ/HhLGmZXuBQoFf5
-   Uyy1SvCHByIlZn5HMb9N3OrxyRXKpEVd96xKEXHsMch0HoWLohalwDtEL
-   Cu394Et9F++i9o7gCJE0DUSWvvVWFGXU3hP0kdM/+hm7wObc12S0pNL7k
-   A==;
-X-CSE-ConnectionGUID: s/T6P0BYRReNLCsp5pk5yQ==
-X-CSE-MsgGUID: CFC0ybqWTcymCJO+hQPZ9g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11797"; a="80720299"
+  bh=WOqZe4QVfO/JR6rizSDRmpDUpJEdblaFAOMUZpSaItg=;
+  b=BHJoo3Hd96lY9Lj6GUnUgRnkhS9lcIRNVf55LEBvRdi82EkOSUbtZiNV
+   NUawbdQ6SPLNBuNnBPGPyuN0g17vWVdDRlu/afNyRMHywm6h3iyFAJwFQ
+   fal3ZqCWM24ZWqLAV3BlSAxIlC/z06MgD9m+6ncKVJhZk7GsANXwE6e+8
+   XjmurmOfe21oMXPSeoY5rKBkIXLIfmygN58p9jy0zQLI4yPx0c0KhOekR
+   GlIvf80gllC/9fFMS4CkfpPMs/fd6Ud6WNz7RK/9Mm3uesWR+W7W5t6ed
+   iNJuQmKSeCWlZddvSEShb5ezhSf5/Zhs0WzEg8hK+dJTqpmZlrn6lD4os
+   Q==;
+X-CSE-ConnectionGUID: /Ba7ZNuBThyTxneXB1P9pA==
+X-CSE-MsgGUID: HP3+ypeJQjieqxfWikiHyA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11797"; a="79642116"
 X-IronPort-AV: E=Sophos;i="6.24,169,1774335600"; 
-   d="scan'208";a="80720299"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 04:47:32 -0700
-X-CSE-ConnectionGUID: Hr9v5PDQR4+i3pbh61SYdA==
-X-CSE-MsgGUID: ff5zxh1GT+iJinwlcSPLUQ==
+   d="scan'208";a="79642116"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 05:18:33 -0700
+X-CSE-ConnectionGUID: BTi3HVRcQNOWFpYP5gr1zw==
+X-CSE-MsgGUID: Ao/8eW+eSVmidoLjFcj9wA==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,169,1774335600"; 
+   d="scan'208";a="246991495"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 26 May 2026 04:47:31 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 26 May 2026 05:18:31 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wRqFt-00000000COj-1rAp;
-	Tue, 26 May 2026 11:47:29 +0000
-Date: Tue, 26 May 2026 13:47:10 +0200
+	id 1wRqjt-00000000COz-2kvC;
+	Tue, 26 May 2026 12:18:29 +0000
+Date: Tue, 26 May 2026 14:17:50 +0200
 From: kernel test robot <lkp@intel.com>
 To: Florian Westphal <fw@strlen.de>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: net/netfilter/nf_conntrack_ovs.c:31:19: error: 'const struct
- nf_conntrack_helper' has no member named 'tuple'
-Message-ID: <202605261329.w7bYhBB8-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ 0day robot <lkp@intel.com>
+Subject: net/netfilter/nf_conntrack_ovs.c:31:14: error: no member
+ named 'tuple' in 'struct nf_conntrack_helper'
+Message-ID: <202605261426.RWlvhMj8-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,35 +64,36 @@ tree:   https://github.com/intel-lab-lkp/linux/commits/Florian-Westphal/netfilte
 head:   883ccf421e36cd870e2b18fa94755528a668d3b9
 commit: 4dc863a09204f9be74df2cfcc7568f4997ac6ec4 netfilter: conntrack: get rid of tuple in helper definitions
 date:   4 days ago
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260526/202605261329.w7bYhBB8-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260526/202605261329.w7bYhBB8-lkp@intel.com/reproduce)
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260526/202605261426.RWlvhMj8-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260526/202605261426.RWlvhMj8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605261329.w7bYhBB8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605261426.RWlvhMj8-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   net/netfilter/nf_conntrack_ovs.c: In function 'nf_ct_helper':
->> net/netfilter/nf_conntrack_ovs.c:31:19: error: 'const struct nf_conntrack_helper' has no member named 'tuple'
+>> net/netfilter/nf_conntrack_ovs.c:31:14: error: no member named 'tuple' in 'struct nf_conntrack_helper'
       31 |         if (helper->tuple.src.l3num != NFPROTO_UNSPEC &&
-         |                   ^~
-   net/netfilter/nf_conntrack_ovs.c:32:19: error: 'const struct nf_conntrack_helper' has no member named 'tuple'
+         |             ~~~~~~  ^
+   net/netfilter/nf_conntrack_ovs.c:32:14: error: no member named 'tuple' in 'struct nf_conntrack_helper'
       32 |             helper->tuple.src.l3num != proto)
-         |                   ^~
-   net/netfilter/nf_conntrack_ovs.c:60:19: error: 'const struct nf_conntrack_helper' has no member named 'tuple'
+         |             ~~~~~~  ^
+   net/netfilter/nf_conntrack_ovs.c:60:14: error: no member named 'tuple' in 'struct nf_conntrack_helper'
       60 |         if (helper->tuple.dst.protonum != proto)
-         |                   ^~
+         |             ~~~~~~  ^
+   3 errors generated.
 --
-   net/sched/act_ct.c: In function 'tcf_ct_dump_helper':
->> net/sched/act_ct.c:1527:57: error: 'const struct nf_conntrack_helper' has no member named 'tuple'
+>> net/sched/act_ct.c:1527:52: error: no member named 'tuple' in 'struct nf_conntrack_helper'
     1527 |             nla_put_u8(skb, TCA_CT_HELPER_FAMILY, helper->tuple.src.l3num) ||
-         |                                                         ^~
-   net/sched/act_ct.c:1528:56: error: 'const struct nf_conntrack_helper' has no member named 'tuple'
+         |                                                   ~~~~~~  ^
+   net/sched/act_ct.c:1528:51: error: no member named 'tuple' in 'struct nf_conntrack_helper'
     1528 |             nla_put_u8(skb, TCA_CT_HELPER_PROTO, helper->tuple.dst.protonum))
-         |                                                        ^~
+         |                                                  ~~~~~~  ^
+   2 errors generated.
 
 
 vim +31 net/netfilter/nf_conntrack_ovs.c
