@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B36F13A16A1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 May 2026 14:11:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 649DF403147
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 May 2026 14:42:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779804697; cv=none; b=RI2x1LpD2/9iOjiIxAroDVVWYsDogJEIz1tGxCN+gQShtWFT6T89oWhJ3FdWxFBOYCsQXCr+xk3taqldUMjlbdNQ+rmBrk81/ye2CdwiYIXyOWRWfTkbTXuWUdDpGQ0ebn+0RKeB7dVH1yOv6Wt6DwxqrvpHeC2NoSrZ5Xh8k3M=
+	t=1779806558; cv=none; b=tBbO47lMplvZvEWnM9HAzlbJEjZAniXT7M30hh9Vtvt/dIboZMo/YLw6as1x+ZwOWhp50YmfVspC0IDi5NORcHOQ6iLRd4FCU8COYTlFwmc9HiC/ChObm1bAuCCLdRGhD3szgCZGBW+7OR+CMcacJxqwrh4dwvoIXbEyOonf77Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779804697; c=relaxed/simple;
-	bh=4EOXkUENEIgOk8qIvfbcaRJKEt6FJEae6aC1V9QpHqk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Ko4+cM1F921U7JZbRwTGkatTQB/LUTuin+a205ecb2uUsI15gTGnOvLZlePk0hbAmhY8y/DX23O13PqBU12SgfeSxBxE0YkhAxpuaI2vqB+kbz3a/UhWuOlQtAyi3nl6nrvp7eVx3UTo8OFn6RfjxvIv5eMw92NZeH5byKRHSt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YJHy1C0v; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1779806558; c=relaxed/simple;
+	bh=ywJQC6I476XF+1S/2pU3XPPLzbcM022xyw1GGGh57eI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Wu28oiT0+P6UVKKAPlwA8RSlJPuv4w08HaC7FAM4CXvC+fxZsWF9bhaSwjPXT2MTcTORUoLlVoGdUv9qoohbOFiVDcWNv38vQsvIuhT6luPJeAmLFtyYhEQ4OuqrKNhV2wxzF25aKJGMnTZV0CDlebKXTQwbrmSk4XzFz3DQ4rQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F2CffS6Q; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YJHy1C0v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F2CffS6Q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779804695; x=1811340695;
+  t=1779806555; x=1811342555;
   h=date:from:to:cc:subject:message-id;
-  bh=4EOXkUENEIgOk8qIvfbcaRJKEt6FJEae6aC1V9QpHqk=;
-  b=YJHy1C0vN4Tb5d/VYWZIEKC684UtYIaV6PB9Bd5K594k9OyUd4vbUQ6k
-   HXpKER6JIjWkdnjOT8N6R1brGKxoBvw45e8WHwnVjJPOVI0jMuAIfVJdm
-   D87qa5ZpjXQbnz7NO1p/f6Pn7hoEIOm13EGAHAMY7MRQkMTiqxqikG69t
-   rto9aWivHY5d5AYkaRiNGZU0AghdwEnoiygRWg4rurGH+UEKzv64sMU37
-   mFY91GoxXL1tfu6njNPx0kTP5coYsT12vgtfgLxmg6uw+/9i5A/Uf/M5W
-   EyKzaaePKno0aFDj2D7kge7dB5MF/uOJy0pclw0vCIWXC4Aje5/W5eh0i
-   Q==;
-X-CSE-ConnectionGUID: rRJHU/egR92MFCfLGngMzg==
-X-CSE-MsgGUID: iEQeeHi4R6qgHDACZDPUJw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11797"; a="90918004"
+  bh=ywJQC6I476XF+1S/2pU3XPPLzbcM022xyw1GGGh57eI=;
+  b=F2CffS6QJduP96EQdTmtjsH5XTm0DrBXadmLcf+49SnDZW4n0/JIg3q6
+   dSFqqtW0XvWDyHye8kcWucUAiy/UfWQtG1d2ywh05ksA8Pc5pzb5/5+En
+   3fAViRwnCf8xISgcsHW8b6G9Q1LGaBm3Aa1FWvCSQ6r9PP/GRntvEMYEB
+   wdeparX0wh8ZPFqpHYmuKs+WkIQYhpWdJLBsFhSK2atKDYQEbcJLwf0tf
+   TdV7c0YQz3j8WuvezLW/Lqu0GqYgbTspaQ6BptEiDpUoD+oA9Rwnd4WrR
+   W/y8Bc+cfKV1bKIEeLyj4Bed+Njzd2vhPxIDhHRjPXLC3enFW0ClcgL4q
+   A==;
+X-CSE-ConnectionGUID: 0LaRvs08QrOREjHmgFw+8g==
+X-CSE-MsgGUID: FxS6VNQjT5aymnbwdCm+xg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11797"; a="84475780"
 X-IronPort-AV: E=Sophos;i="6.24,169,1774335600"; 
-   d="scan'208";a="90918004"
+   d="scan'208";a="84475780"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 07:11:34 -0700
-X-CSE-ConnectionGUID: zOLjcWUkRMCm1vJRCfGeMA==
-X-CSE-MsgGUID: MHTjmWfNRK6QXDT8Svpxcg==
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 07:42:35 -0700
+X-CSE-ConnectionGUID: VpOT3XOZQTuvbYUr8wZT7A==
+X-CSE-MsgGUID: VZa1Tl8TRkK5ryhgjCMO4Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,169,1774335600"; 
-   d="scan'208";a="246903737"
+   d="scan'208";a="246908765"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 26 May 2026 07:11:33 -0700
+  by orviesa005.jf.intel.com with ESMTP; 26 May 2026 07:42:33 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wRsVG-00000000CQ9-303f;
-	Tue, 26 May 2026 14:11:30 +0000
-Date: Tue, 26 May 2026 16:11:02 +0200
+	id 1wRszG-00000000CQD-3GRn;
+	Tue, 26 May 2026 14:42:30 +0000
+Date: Tue, 26 May 2026 16:41:43 +0200
 From: kernel test robot <lkp@intel.com>
-To: Pavan Chebbi <pavan.chebbi@broadcom.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: ./usr/include/fwctl/bnxt.h:9:10: fatal error: linux/sizes.h:
- No such file or directory
-Message-ID: <202605261655.szuShNqp-lkp@intel.com>
+To: Zhentao Guo <zhentao.guo@amlogic.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
+ linux-doc@vger.kernel.org
+Subject: htmldocs: Warning: MAINTAINERS references a file that
+ doesn't exist:
+ Documentation/devicetree/bindings/media/amlogic,s4-vcodec-dec.yaml
+Message-ID: <202605261636.NQn1vkB5-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,26 +61,32 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Pavan-Chebbi/fwctl-Add-driver_data-field-to-fwctl_rpc/20260522-160839
-head:   d6ce23e99fb2a6800a2af4ebb99cdcc9e6b06f4f
-commit: d6ce23e99fb2a6800a2af4ebb99cdcc9e6b06f4f fwctl/bnxt: add DMA buffer support for HWRM commands
-date:   4 days ago
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260526/202605261655.szuShNqp-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260526/202605261655.szuShNqp-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Zhentao-Guo-via-B4-Relay/firmware-meson-sm-Add-video-firmware-loading-SMC-call/20260526-164156
+head:   6313e03367438ddc380dc72880bbd3b1697a00c5
+commit: b01993107ca7016d16b888c6a9b129c374788bb4 decoder: Add V4L2 stateless H.264 decoder driver
+date:   6 hours ago
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260526/202605261636.NQn1vkB5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605261655.szuShNqp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605261636.NQn1vkB5-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from <command-line>:
->> ./usr/include/fwctl/bnxt.h:9:10: fatal error: linux/sizes.h: No such file or directory
-       9 | #include <linux/sizes.h>
-         |          ^~~~~~~~~~~~~~~
-   compilation terminated.
+   Warning: Documentation/translations/zh_CN/filesystems/gfs2-uevents.rst references a file that doesn't exist: Documentation/filesystems/gfs2-uevents.rst
+   Warning: Documentation/translations/zh_CN/filesystems/gfs2.rst references a file that doesn't exist: Documentation/filesystems/gfs2.rst
+   Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/xxx/xxx.rst
+   Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst references a file that doesn't exist: Documentation/networking/xfrm_proc.rst
+   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/media/amlogic,s4-vcodec-dec.yaml
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/embedded-controller/qcom,hamoa-crd-ec.yaml
+   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
+   Warning: drivers/net/ethernet/smsc/Kconfig references a file that doesn't exist: file:Documentation/networking/device_drivers/ethernet/smsc/smc9.rst
 
 --
 0-DAY CI Kernel Test Service
