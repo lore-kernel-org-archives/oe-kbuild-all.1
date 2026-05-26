@@ -1,145 +1,172 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F733C65FA;
-	Tue, 26 May 2026 22:23:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779834222; cv=none; b=CU5kmyDHTte+KJwgWmIELanM0Wj0qysWObEzP5gV8+aHvi1u9ysm3sZlaIGiK0RcUYv4OUbhkvQIrNPmxE7zyodpKnmBQUo7AdAUyGK8FKPkW1Cw4rO9mgbxo3wzL+BHptvWFXILPae5CiiC8bsAKSljj898ETOzkbldL8wgX94=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779834222; c=relaxed/simple;
-	bh=PeWkXtVByZaI1HB4gRMRQ14IUpZcVF886iBQEGNYfvg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CLSj/cxd0j13NP3p55BTLn1xJExwW5GjYWh90yulUKY+wnAw4uXhYetYYW7EWH4AhKcYwxDEYxt81h0O3UQgTNkbQI8KCEonKyEAzI60obwsoFpOFPziB95OpU15FhmIsqH37eZZIi5hrz70ZRkkGG5Hs5+KjScv2XTNCefrwiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e4JALKv9; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B1043BD646
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 May 2026 23:21:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779837712; cv=pass; b=nng3pTB514R3uJfQAJn4Ikgm6xFVxv5+da1sKxhYbiQrQ6gjWNqDvsxev0GFonKdJ1FSEaY8BXAeg0cyC0f9/zpwj+l3e/ENEbQRtqUW/o2UMRgUGJ7SVLhKMQkiLuXFizu0TpQNVsaVOzsAFl+2helVgLkbsECAKo+mril0hF0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779837712; c=relaxed/simple;
+	bh=u5AZ6lDvJHN6hkOMWJlEHdIYy+BPs1w8b0bOdZZRyJY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=J8P1loUVUomiiqG9jxUxwmMUebwmX8mlQo+8Wpdy0jft0r43JcylwcnNbckyPyjoJFck8OCFktOuizbYdXtThk41HbgyFc4aVq2TynN5Q1N8nv3tM9JIwgnVvn2FjUsLWDOX4WWGLoZnoITs+NEORCwa+iygIRfRq/nriaBScMg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IjbisMCy; arc=pass smtp.client-ip=209.85.160.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e4JALKv9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779834221; x=1811370221;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PeWkXtVByZaI1HB4gRMRQ14IUpZcVF886iBQEGNYfvg=;
-  b=e4JALKv9l4zOu49Kf11bhIIUyeM91FsAF7HTbErMwiy8pw0Oq35s5XbS
-   We3VmzXGTM73zSMoj9p4oFf6tSIAD5MoFSRdPTTTqUzt98AWHSArSXtE4
-   fB4df1yRMDftZwZHIWMV1LuaDz2fwo/EsP8aYzmOH+scHiZxGgvNjiQFM
-   GuS7gnKq0aXQq0h2LJY/+RedlvH7X+r9jbdjHvfcTQwzM/ybSbPJYuc2z
-   KWka53Vwf5gvsbR9BeZAn3CKups7Uvf8RrILTEX/73+5lAoS+i7Ph1MhM
-   v1Pcmzl1pqK1eXc4iYbVSmciksT1RCDS6CaFf6Qo/Y6i6XH9GoiiWv1p7
-   w==;
-X-CSE-ConnectionGUID: qtcyJz5HROCzSExvm85+cg==
-X-CSE-MsgGUID: JNSpeOoWTt+S/8osziXAXA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="80848046"
-X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
-   d="scan'208";a="80848046"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 15:23:41 -0700
-X-CSE-ConnectionGUID: jXp1pGdtQVWRxKGMFXbOoQ==
-X-CSE-MsgGUID: XwU4YZPvT6+rsx2PIp014g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
-   d="scan'208";a="241890275"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 26 May 2026 15:23:37 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wS0BS-00000000CUr-2yTH;
-	Tue, 26 May 2026 22:23:34 +0000
-Date: Wed, 27 May 2026 00:22:41 +0200
-From: kernel test robot <lkp@intel.com>
-To: Frank.Li@oss.nxp.com, Vinod Koul <vkoul@kernel.org>,
-	Dong Aisheng <aisheng.dong@nxp.com>,
-	Andi Shyti <andi.shyti@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-i2c@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, carlos.song@nxp.com,
-	Frank Li <Frank.Li@nxp.com>
-Subject: Re: [PATCH v2 2/2] i2c: imx-lpi2c: use dmaengine_prep_submit() to
- simple code
-Message-ID: <202605270007.xFkhAWbC-lkp@intel.com>
-References: <20260522-dma_prep_submit-v2-2-7a87a5a29525@nxp.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IjbisMCy"
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-43bf6230cffso1231951fac.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 26 May 2026 16:21:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779837710; cv=none;
+        d=google.com; s=arc-20240605;
+        b=AYSFnMpdCBa2UVwfxOuVG+BDIEfQRRAjc6K8Bsb8fGj0NeOoQRkyqWxdmjYy9Iby7p
+         BAe6Ey35tqF6FQ4ZQedrTKLyEgHXMDuJQuuDf5P8hOwGW5nZRGqQAhWapbka0II0H8Kz
+         5L3usCW1MiWDPpRayqscFd7YzxGVK7xOaiKL+3yk9PzA9e/abykO8nP/AuuswS240pRv
+         oRbnkoparJEu137SiLFvEBINWduPJ+eODZI3tfsej3fKgDmwgRsJJQXB9ITfF1BfblXv
+         1ITM/9jWQbvH2Ds/64213rdhcAshbnoV+gjYr4+q7tKXLNeG/9Jt6JR7657Yj7VIwldC
+         Jb5w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=HujuVBuKdWWEfICM8n6u8a8X3rF3iweG2fpAlmRVj68=;
+        fh=+MVa0oVDkgqdaBqrDnmqW34ZQrdxpDMu96rRCKIVhrM=;
+        b=Melwy52BE7vKt9K/ddGz2XJ0uEYnz7DzbZJRtAz8ZJ0PX2HEOlry+NJQaGPr2ai0fB
+         vedey4Rs31N2nGydjF14ySLUY4r9PNXE1Fg1Qj2j9wgytUA9mdXTVidyVwcbv0I8Yaoe
+         DVwWIt5eqYdPtT1MZaRzfzrk1Lb2HHJkVno3IdGhNmkQYLyEArvnqFod4AAIndL4ft6w
+         CcEibr04HOzMTo6p7vAVAiRiEKbDtcbWHKNz7qLtBxNdHsp6bGaeB4OS5uftdYV26s7+
+         +PrxY5x7cz/dfLuEFjEgrqMkmNJZS47Hd4XwJq4vtX0nEQDOVmc30EMUBwIEKuaQ5uPX
+         LyAQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779837710; x=1780442510; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=HujuVBuKdWWEfICM8n6u8a8X3rF3iweG2fpAlmRVj68=;
+        b=IjbisMCyHHaOTMObJ8rRqf7o37IhBvSJhF0xHjmOwSaQIZ+0L1MncSDfs8h+M8G6dh
+         u469rSLTjDWFcnk/dV2DnLdQgC6kMIolUMNCXmyKgwcALGN4giFBVmjhLmMRr8UY+FDl
+         VwEER6NG3T6/Nc4h56PclcUx7xTfNhqhh7gkcjDde2r7Kg7/AvOmbwriXf2EXmud4Aqc
+         SMEjim8D8T2G2LApAlcWwUTGcqvwjnm+9in3V3XH0E12qUD1/mf5WkIDxDweQevnhjhu
+         dv8lymkh5Iii/F9OK3im/jQuUa+FMFrJsPXAOgvGaMvN9ngYHlXJfh+ZGIrFcswSbT2Q
+         APHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779837710; x=1780442510;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HujuVBuKdWWEfICM8n6u8a8X3rF3iweG2fpAlmRVj68=;
+        b=nis1yOS5gIBFO/uCGU2tCyxHfA+0XIBHgghVtW0KbHI5mpdRp15JDS/u9ToCeZeSrs
+         TIwxGGd/Y62r2um8dPBGVpsQZmXEnsd0sV2zsP64FmrSXaDS7fxYkRD9WJEurH928s2U
+         88rkDkVLK3lERIFEi9p6iXRDS2+3OTGfRb1MHc9T9zz8FYfV2xKi3FIPW03oPJuliGzm
+         jEjuCuaDzuSFmAGlYsicJJmHoCjrAwmSXApSQe6TksFLbq4rdFTUUU6UlDitRxueBDat
+         izALlW2sglza3aZ9dWYIgS4ZGWnt+SKK0GvMv+r657vch2e4dLfFU5ba4eo1D9huOFLV
+         IBrg==
+X-Forwarded-Encrypted: i=1; AFNElJ+Is+/SlENAU9jrfBS/6bNRTQKujhFiQzAAI9b25NBu41+HsumCeiHNbfH7Z4jG6PgSUJgL5AvQs6GDiByO@lists.linux.dev
+X-Gm-Message-State: AOJu0YziBZRVw9+KvMXoGAS6DK5a/YYa8v2L1cnmPsRSAdKXrTB3ImxG
+	p/HdbdF/68lV/7c2NTb845LUUaO7ZUFRhvZPQ1Us9+q5nOsn79CFjWcorUYRtyHFcsHz2XbhBOE
+	KPhGeoYbV3fhyCLZOW6hFWHZCZ3jO+NM=
+X-Gm-Gg: Acq92OHtCszFc4z5l36xuIYBFXAdXov0g5NEV1VaFhAkspnIemQdChR9LmKCj4xhs5z
+	82DYv80+ldj2HAJl86OCynrPC6HBbMyFgzJWzvHukY3RHFsiPckZMLmhNsx73Lc6GbprosnN2no
+	3KfArxlX4ETbxcFtyS/Lz/ULlGotpoDI9o67HbkQuyr+1jjlh8pTDLYrbBSJlfo914mDGdeOemP
+	tIn0wSa5SY1wlvzPVWEeb5qmtOWhjtNngUzI0+ikOLpTA7d9nHrgB7VZ129pTgQbP1a2obiDt/T
+	a1vdy6hKf9FzGjvB3Toz9cSBiOo=
+X-Received: by 2002:a4a:e903:0:b0:694:9e2f:cfac with SMTP id
+ 006d021491bc7-69d7fcb51b6mr8951696eaf.9.1779837709977; Tue, 26 May 2026
+ 16:21:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260522-dma_prep_submit-v2-2-7a87a5a29525@nxp.com>
+References: <20260525201116.407338-2-kacper.kokot.44@gmail.com> <202605261807.YY0PWuhX-lkp@intel.com>
+In-Reply-To: <202605261807.YY0PWuhX-lkp@intel.com>
+From: Kacper Kokot <kacper.kokot.44@gmail.com>
+Date: Wed, 27 May 2026 00:21:38 +0100
+X-Gm-Features: AVHnY4IeURuAw-7kug8a-6xqNpmP-8aoIQEcxEzrITr5eMpT52Lzw3oZg7lhaRo
+Message-ID: <CAG-Fur7edB8_4iLnP4QWh+K96bGFBgYyfdoy8H7zvqa8NYdyow@mail.gmail.com>
+Subject: Re: [PATCH] netfilter: TCPMSS: fix dropped packets when MSS option is unaligned
+To: kernel test robot <lkp@intel.com>
+Cc: Pablo Neira Ayuso <pablo@netfilter.org>, Florian Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	netfilter-devel@vger.kernel.org, coreteam@netfilter.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Frank,
+> AFAICS, these issues are not present in real environments as MSS option
+> is placed at the beginning of the options block making it aligned by
+> default usually.
 
-kernel test robot noticed the following build errors:
+I agree, I haven't observed it in any real environment and wouldn't expect to.
+I found it by reading the code and had to craft a SYN to reproduce. That said
+the spec permits unaligned options and the kernel shouldn't silently drop legal
+packets just because nobody sends them today. I can note in the v2 commit
+message that this is a theoretical fix.
 
-[auto build test ERROR on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
+> > I wonder, if we are touching this code, we could use the opportunity
+> > to make it use get_unaligned_be16() instead.
+>
+> gcc and clang convert x[0] << 8 | x[1] (etc) to the appropriate single
+> instruction (and maybe byteswap) on cpu that support misaligned accesses.
+> So there is little to gain from doing it any other way.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li-oss-nxp-com/dmaengine-Add-helper-dmaengine_prep_submit_slave_single/20260523-041812
-base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
-patch link:    https://lore.kernel.org/r/20260522-dma_prep_submit-v2-2-7a87a5a29525%40nxp.com
-patch subject: [PATCH v2 2/2] i2c: imx-lpi2c: use dmaengine_prep_submit() to simple code
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260527/202605270007.xFkhAWbC-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260527/202605270007.xFkhAWbC-lkp@intel.com/reproduce)
+Happy to go with whichever you prefer for v2.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605270007.xFkhAWbC-lkp@intel.com/
+> and, of course, the code works fine because 0x1 != 0 is 1.
 
-All errors (new ones prefixed by >>):
+Ha - accidentally correct. I'll add the parens in v2 tomorrow.
 
-   In file included from net/core/dev.c:124:
->> include/linux/dmaengine.h:1588:48: error: expected ')'
-    1588 |                                    dma_async_tx_callback cb, void *cb_param;
-         |                                                                            ^
-   include/linux/dmaengine.h:1587:35: note: to match this '('
-    1587 | dmaengine_prep_submit_slave_single(struct dma_chan *chan,
-         |                                   ^
->> include/linux/dmaengine.h:1587:1: error: conflicting types for 'dmaengine_prep_submit_slave_single'
-    1587 | dmaengine_prep_submit_slave_single(struct dma_chan *chan,
-         | ^
-   include/linux/dmaengine.h:994:1: note: previous declaration is here
-     994 | dmaengine_prep_submit_slave_single(struct dma_chan *chan,
-         | ^
->> include/linux/dmaengine.h:1589:24: error: redefinition of 'size_t' as different kind of symbol
-    1589 |                                    dma_addr_t buf, size_t len,
-         |                                                    ^
-   include/linux/types.h:62:26: note: previous definition is here
-      62 | typedef __kernel_size_t         size_t;
-         |                                 ^
-   In file included from net/core/dev.c:124:
->> include/linux/dmaengine.h:1589:30: error: expected ';' after top level declarator
-    1589 |                                    dma_addr_t buf, size_t len,
-         |                                                          ^
-         |                                                          ;
->> include/linux/dmaengine.h:1592:1: error: expected identifier or '('
-    1592 | {
-         | ^
-   5 errors generated.
+Also the reproducer I sent with v1 was clunky. Here's a better
+one with some results below:
 
+  #!/usr/bin/env python3
+  import argparse
+  from scapy.all import *
 
-vim +1588 include/linux/dmaengine.h
+  parser = argparse.ArgumentParser()
+  parser.add_argument("target_ip")
+  parser.add_argument("target_port", type=int)
+  args = parser.parse_args()
 
-  1585	
-  1586	static inline dma_cookie_t
-> 1587	dmaengine_prep_submit_slave_single(struct dma_chan *chan,
-> 1588					   dma_async_tx_callback cb, void *cb_param;
-> 1589					   dma_addr_t buf, size_t len,
-  1590					   enum dma_transfer_direction dir,
-  1591					   unsigned long flags);
-> 1592	{
-  1593		return -ENODEV;
-  1594	}
-  1595	#endif
-  1596	
+  def gen_mss_syn_options(nops=0):
+      return nops * [("NOP", None)] + [("MSS", 1460)]
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+  def syn_check(opts):
+      sport = RandShort()
+      ip = IP(dst=args.target_ip)
+      syn = TCP(sport=sport, dport=args.target_port, flags="S",
+seq=1000, options=opts)
+      synack = sr1(ip/syn, timeout=1, verbose=False)
+      send(ip/TCP(sport=sport, dport=args.target_port, flags="R",
+seq=syn.seq+1),
+           verbose=False)
+      return not not (synack and synack.haslayer(TCP) and
+synack[TCP].flags == 0x12)
+
+  for i in range(7):
+      n = 5
+      ok = sum(syn_check(gen_mss_syn_options(i)) for _ in range(n))
+      print(f"{i} nops + mss, {ok}/{n} probes responded")
+
+Before:
+
+  0 nops + mss, 5/5 probes responded
+  1 nops + mss, 0/5 probes responded
+  2 nops + mss, 5/5 probes responded
+  3 nops + mss, 0/5 probes responded
+  4 nops + mss, 5/5 probes responded
+  5 nops + mss, 0/5 probes responded
+  6 nops + mss, 5/5 probes responded
+
+After:
+
+  0 nops + mss, 5/5 probes responded
+  1 nops + mss, 5/5 probes responded
+  2 nops + mss, 5/5 probes responded
+  3 nops + mss, 5/5 probes responded
+  4 nops + mss, 5/5 probes responded
+  5 nops + mss, 5/5 probes responded
+  6 nops + mss, 5/5 probes responded
