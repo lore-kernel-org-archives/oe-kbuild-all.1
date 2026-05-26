@@ -1,73 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87CE33CFF72
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 May 2026 09:49:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 376163BB136
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 May 2026 09:52:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779788981; cv=none; b=tldSftpjGzdeLC6fjjE1PH0/eSFUgY+0V0JCOivD8icl0/UghESNXdeDm1yqwXMEbgfWkuTTzT3FyAmbkzIfBTJRxRM8sN/ZPM3PphVDEiulZ75+/zj5uG5kYj8AZN4iRY1axDnXnbIGRFBry7QQTqRtGziSfKO+9jwE0Lltdps=
+	t=1779789138; cv=none; b=Tl5PSrJuurA54/Yz98KnsQmxbHCM6/sVJs+mfHqutbLazBXrGveORkDmI67HDcSmi+2/GrQPz3Xlm6+zh9TnYpLd6Vchy7S52FyAsEl604vEEEf78I8SmYWaDt7LExnmEEvrftg4uCWQX84LLn+cvYJyE9DNiN0qCZxvYMNUswQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779788981; c=relaxed/simple;
-	bh=CiwycAHwCYFB8kdIK2eCfuhQua9DbImjpclRyfUrj/c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LL4gyCQkaddNBUPf/dByILly2Wt1yDZJUn5UYzmzdkHyHLgNwAahiuH5ChfijTr0Oypwq2qyKfKb9dmSjx4AM4gRfC1rzrR9nC1NMDgbiC3qOgWX8VrOBz5FNGU08rLXkSEsf0RZZJZp2KLF8ImwRTaLRYwt9AHEs8JJ+xEe480=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lpfbtuhz; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779789138; c=relaxed/simple;
+	bh=tdgB5Tv3HkgwIOeU4BuWY5gqvIS5aKEqKgWQTDe1qLQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=StZ1MxCcrYwPlL8ETkAzcZUDNgAmedLrBpep3J3o+6wm/BEx6Ic8vu7ch+0dB04ynxWyxXC4Ic9cNeWE5HCdrg0XAT3OioAGwjDqlq7nibFEVrhHzGxVOAUmd9HFOLuY4Bzzp0hMumaWdtC4OAppXejnkQK0nRYxynzNBzWoHvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VHn2NZSq; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lpfbtuhz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B2671F000E9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 May 2026 09:49:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779788980;
-	bh=CiwycAHwCYFB8kdIK2eCfuhQua9DbImjpclRyfUrj/c=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=LpfbtuhzztJWjxmxERYVa4hH7Ggy8j5YsfNtTTQl28SyiJaE+UQqoGRMZYdAyPf5g
-	 psQlPWUwiziBnpdStEVv0ptz2sXd0y/pen5QK+lDks2qnBWggCAYQnwdbeyLA00OPi
-	 kp20IYXrKwTvhS0NpuH+9BZjh/8pxYJGEEfMX9O7BmuO7DCLja3LvgyYMF9xIeFKs2
-	 5ILNWOVVpa/13JXPBsCiEWKZhUlFtBFd2FiwbuTu4kEbbaXRp+Buh/9kDSkn1tARE6
-	 29OJam7mNA3A1mzKb2lZMstHADcc28npR5PmD/u3bFPciDcrOhOroXKf/rGeb24dNL
-	 M++ety9LsonwA==
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-39393ec4ed0so93763081fa.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 26 May 2026 02:49:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/NmXuL8Sf5khFav3ngkTJ7hHwM8CZCH+ubje0sTG8F50u4j6mynyZ1A4g/4lq7j/O/wvrosFoYHiV76DHq@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx1OOs4oRFf3z+6U6IkLjvr5IYNjbX88McO0hP1dAe3PPTEhmd8
-	G1JzSvUwrZ/tS0P9aFj5Cp3sQtzI+4TpIQ54XXAPd5zobzWYr68Vm3oaf1uIlrWSZAXjSZuIPn/
-	31k6owaGLCrVCBDPWS+3IfQvZe3Dbw5I=
-X-Received: by 2002:ac2:4c93:0:b0:5a8:64a4:2bb8 with SMTP id
- 2adb3069b0e04-5aa323d48c3mr3701591e87.23.1779788978932; Tue, 26 May 2026
- 02:49:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VHn2NZSq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779789138; x=1811325138;
+  h=date:from:to:cc:subject:message-id;
+  bh=tdgB5Tv3HkgwIOeU4BuWY5gqvIS5aKEqKgWQTDe1qLQ=;
+  b=VHn2NZSqZhhJgJ8u7I6eUzOKv3aqwrHqfIclbgDDLs/ojZ+/Y1OA63in
+   ZFB4uCC6g5HiJWq8PR11weop3fJcWSC3nBty9qvO8rDccBz7o0nu21g9J
+   7fsAEUvxZgYrJj1llbseC+H+Tyf8N0iyPZObBYgYKvBnOSLGJ3a74qiru
+   AFF/IgP3MpWdOk6XSBwp6csVvrYq2aKe1mT0EFlwt7lUK7qjAkOim6ubv
+   cZJHotdiWHfOlIESPKon+IruRxU69jccJyEjIbICkzvSMY0ArOEJi0nNe
+   8LCir8BuhG1WXLtHOiW+fRdFeh0KYA5qnFLOVg1crYjOR4VnHfKpGlQZY
+   g==;
+X-CSE-ConnectionGUID: xdn+UagORkmXJcTTzTNodA==
+X-CSE-MsgGUID: 6dzTKxgwRH6xw13A0xnZvA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11797"; a="84484769"
+X-IronPort-AV: E=Sophos;i="6.24,169,1774335600"; 
+   d="scan'208";a="84484769"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 02:52:17 -0700
+X-CSE-ConnectionGUID: uejICFoaQxGjYKq7f/X9LA==
+X-CSE-MsgGUID: z0RumsM0RJ23dv+UGHxw6w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,169,1774335600"; 
+   d="scan'208";a="241723850"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 26 May 2026 02:52:16 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wRoSL-000000002JS-0IFu;
+	Tue, 26 May 2026 09:52:13 +0000
+Date: Tue, 26 May 2026 17:52:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 2/2] Warning:
+ drivers/ufs/core/ufshcd.c:2811 function parameter 'iid' not described in
+ 'ufshcd_prepare_utp_scsi_cmd_upiu'
+Message-ID: <202605261712.ubwQkYsj-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <a1983420-7a8a-865d-daf1-5f6e6c283a22@inria.fr>
-In-Reply-To: <a1983420-7a8a-865d-daf1-5f6e6c283a22@inria.fr>
-From: Linus Walleij <linusw@kernel.org>
-Date: Tue, 26 May 2026 11:49:25 +0200
-X-Gmail-Original-Message-ID: <CAD++jLkFOXUsyHmBDW6+8VQegnj=ZgsBEiELusJ5FYVs=2ksuw@mail.gmail.com>
-X-Gm-Features: AVHnY4IeJNSDkpCDN05F9ZaY-RjtY3uYlOADb1bycZBxM2OhHnp_lzPIva5BLkA
-Message-ID: <CAD++jLkFOXUsyHmBDW6+8VQegnj=ZgsBEiELusJ5FYVs=2ksuw@mail.gmail.com>
-Subject: Re: drivers/pinctrl/freescale/pinctrl-imx1-core.c:553:1-23: WARNING:
- Function "for_each_child_of_node" should have of_node_put() before return
- around line 555. (fwd)
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: Frank Li <Frank.Li@nxp.com>, linux-kernel@vger.kernel.org, 
-	oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
 
-I got a patch for this bug, but since it is not critical (just a minor
-memory leak)
-the patch will be deferred until after the next merge window.
+Hi Konstantin,
 
-The problem is that I can't really merge patches that have a strong dependency
-to -rc material before that stuff is upstream, and I cannot rebase my main
-branch for v7.2 at this point.
+FYI, the error/warning still remains.
 
-I *could* merge in -rc5 but it is annoying to do for something as minor as this.
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   edd8299e5e604db7b686b3e9351b57e39055d4b2
+commit: 28c108aa56a37d8dbc634378b7bc828bb3465f88 [2/2] ANDROID: scsi: ufs: Add UFSHCD_ANDROID_QUIRK_SET_IID_TO_ONE
+config: x86_64-randconfig-161-20260526 (https://download.01.org/0day-ci/archive/20260526/202605261712.ubwQkYsj-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+smatch: v0.5.0-9185-gbcc58b9c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260526/202605261712.ubwQkYsj-lkp@intel.com/reproduce)
 
-I am maybe challenging the process here a bit: tit would be annoying if the
-bot keeps touting me about this until v7.2-rc1...
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605261712.ubwQkYsj-lkp@intel.com/
 
-Yours,
-Linus Walleij
+All warnings (new ones prefixed by >>):
+
+>> Warning: drivers/ufs/core/ufshcd.c:2811 function parameter 'iid' not described in 'ufshcd_prepare_utp_scsi_cmd_upiu'
+>> Warning: drivers/ufs/core/ufshcd.c:2843 function parameter 'iid' not described in 'ufshcd_prepare_utp_query_req_upiu'
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
