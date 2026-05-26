@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 759633AD51E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 May 2026 19:40:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 480462853F8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 May 2026 20:11:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779824439; cv=none; b=NYcUZPJKpR3HkVa2cZBcj+p/Nz1W/GTbItBJSDWippe51JnifUY5+g7lVM69r+9Go3IGpVEgH03UzpuYMBbURInuVTqr5LNgNhw3t/vmqCeZZfSpLcCYss5fEZ0xjRIqNaZT0zlB1MKZyQXdLd9mXjQoNpC4mQqSDiWbt2lxDg8=
+	t=1779826298; cv=none; b=ZjPFoAFwhlG/NHEzMPwEH0OjALPztgAgBi1XtN2wV+s4y9UlOGKI32hs4jKe4aTvHvHq3DJ4KjTbvQzjsJyV0UDcPS2KZqtVIxeiAda0ZKP77O8rnecA3mrkW9zwtQEyx6IrwAq0I/MfW/6yRa1NNY51ovMmqa6nFs2UZmod1Qc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779824439; c=relaxed/simple;
-	bh=1/P9JB8enLDit1oxHlP2HGDNH/ntYr0UKeoAprZkqfY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Rj7Ky9iPUe0YLvHsDYTL4THy3FG8svDPp9gQZ0ae32PPbMPH11YbxZkfQvFGcchAL436ogrLxhT9mAiKEWimh4KL72p6GPXa9Yup/sYaFHvTCZokbMsPSNclI2YpTsHWgIGAxorBcP6up26wciKhZJ/eRhQYwIwXQR49KHtrI9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aRHIDq0r; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1779826298; c=relaxed/simple;
+	bh=JT77e8B3gBAPg3LWYopPGL9a00gG8giYACvbIq/lol4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=nwl06tiy7M6NRqBrV4xBjANWKrETjbUxld6vNTz7hMhWkkRaM7Tj9K86QjScx8aAAHyPjmq1hNUNGWU4YMQJtVQZ3q3sBwUUm7T4XXqSlUTCC88arEJuoShuVX8q7wj5Fy7F9SCGmChFVLA8PIiVi4bNu0w5G4d+J3LXEZAEaX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TX1nebsF; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aRHIDq0r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TX1nebsF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779824438; x=1811360438;
+  t=1779826297; x=1811362297;
   h=date:from:to:cc:subject:message-id;
-  bh=1/P9JB8enLDit1oxHlP2HGDNH/ntYr0UKeoAprZkqfY=;
-  b=aRHIDq0rpiq8MVLr+C+ZjdFxkMIhrIciEXO8ykNQrU9fzHsZk8WQGnZk
-   jMGNVv6TBKoLO+NkZhUxrIjpHFvU5Q8gB8x3O0mYUsmKACRjp4J0TamE2
-   Ta/1V2puvQieO6xp2wXJmnQCyuItXm8sjoboZeAKCXx7vD8hfW4atYsMK
-   i+4VG4skD+uGXvEH87svpI+C3RDWFQwCWQEZz2yya13K/Eet48cfk4/ms
-   Yvp+Qke52D11I0K7DGCBiKf8uTuVTo+5EnkBhrTmtMDQQZct+yr/tDAYi
-   GBPXivByIa70cefXIQNrMnA+2C/Lx/eF0JAg0azxp/I68YFizdFc/jmVN
-   Q==;
-X-CSE-ConnectionGUID: T2fRJ7JvSdqsvlueOfbX+g==
-X-CSE-MsgGUID: vhfHM6kySD2f+fdEjos2QA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="83228166"
+  bh=JT77e8B3gBAPg3LWYopPGL9a00gG8giYACvbIq/lol4=;
+  b=TX1nebsFq+U8Brha6avXf+8uCYYO+vuiCpNFWQBbtAtJoNZP8kNpW94b
+   I9H6tUMabJYT36lMQEXHA658YqcTA8dkqHT5kywX4TwXlG2v3Q66b8ZcH
+   2vGT/tWFF9Y7u6ZIOx6yi3Z5sT1SwOPyRa6os3XOMRxd/RBbf5WhOolTK
+   X2dNGVoA6AAJKZLRXL2fjsJmpK9nlrpFLHP/UUW1sUbhhRMcoQR5X70MC
+   ZYMxIXuLEP1E6wfB67MWgetl9DpATgIn+s9hTEUIrx760SaT3ONDVtRUN
+   kEcBWkSc6k4VWjutZeq5IQz0EeoDrkhg84WrG0osaQ9jJYFeoTaBzQWAW
+   A==;
+X-CSE-ConnectionGUID: 5uUKYnj6Qs+/4cDIXUoNZw==
+X-CSE-MsgGUID: 0clEhvAhSXC6NcGP+kTDWg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="80683261"
 X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
-   d="scan'208";a="83228166"
+   d="scan'208";a="80683261"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 12:40:37 -0700
-X-CSE-ConnectionGUID: DlfRtxBjRMuO2gV5GL74WA==
-X-CSE-MsgGUID: zH6uAi+iQpGnz/qW//Fp/g==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 13:11:36 -0700
+X-CSE-ConnectionGUID: TLMd2CfER3aUdjSr6uo19g==
+X-CSE-MsgGUID: WCzQMxGnTPua3/qFTpn1fQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
-   d="scan'208";a="237847375"
+   d="scan'208";a="237853628"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 26 May 2026 12:40:36 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 26 May 2026 13:11:35 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wRxdh-00000000CTJ-1jpF;
-	Tue, 26 May 2026 19:40:33 +0000
-Date: Tue, 26 May 2026 21:40:04 +0200
+	id 1wRy7h-00000000CTZ-2Z4A;
+	Tue, 26 May 2026 20:11:33 +0000
+Date: Tue, 26 May 2026 22:10:45 +0200
 From: kernel test robot <lkp@intel.com>
-To: Tamir Duberstein <tamird@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: error[E0433]: failed to resolve: use of unresolved module or
- unlinked crate `mem`
-Message-ID: <202605262130.CE5Bcybq-lkp@intel.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jarkko-tpmdd:rootns 17/23] <stdin>:1639:2: warning:
+ #warning syscall rootns_enter not implemented
+Message-ID: <202605262200.VkSpNsKG-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,43 +59,24 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Tamir-Duberstein/rust-device-remove-unused-ref-to-ref-transmute/20260526-233811
-head:   41da98a9f29c45f617c87b737b1b1b9971c9e53f
-commit: 41da98a9f29c45f617c87b737b1b1b9971c9e53f rust: device: remove array copy
-date:   4 hours ago
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260526/202605262130.CE5Bcybq-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260526/202605262130.CE5Bcybq-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git rootns
+head:   e5a6a778f0cd5584723651f07f5e46f765b4b2f5
+commit: 6116b89ac8a1d72dcad63ee3a2516ad73eea30c0 [17/23] rootns: Implement rootns_enter()
+config: powerpc64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260526/202605262200.VkSpNsKG-lkp@intel.com/config)
+compiler: powerpc64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260526/202605262200.VkSpNsKG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605262130.CE5Bcybq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605262200.VkSpNsKG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> error[E0433]: failed to resolve: use of unresolved module or unlinked crate `mem`
-   --> rust/kernel/device/property.rs:554:29
-   |
-   554 |                   Ok(unsafe { mem::transmute::<_, [$int; N]>(val) })
-   |                               ^^^ use of unresolved module or unlinked crate `mem`
-   ...
-   559 | / impl_property_for_int! {
-   560 | |     u8: fwnode_property_read_u8_array,
-   561 | |     u16: fwnode_property_read_u16_array,
-   562 | |     u32: fwnode_property_read_u32_array,
-   ...   |
-   567 | |     i64: fwnode_property_read_u64_array,
-   568 | | }
-   | |_- in this macro invocation
-   |
-   = help: you might be missing a crate named `mem`
-   = note: this error originates in the macro `impl_property_for_int` (in Nightly builds, run with -Z macro-backtrace for more info)
-   help: consider importing this module
-   |
-   7   + use core::mem;
-   |
+   <stdin>:1630:2: warning: #warning syscall rootns_create not implemented [-Wcpp]
+   <stdin>:1633:2: warning: #warning syscall rootns_wait not implemented [-Wcpp]
+   <stdin>:1636:2: warning: #warning syscall rootns_kill not implemented [-Wcpp]
+>> <stdin>:1639:2: warning: #warning syscall rootns_enter not implemented [-Wcpp]
 
 --
 0-DAY CI Kernel Test Service
