@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 664F93FF89D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 May 2026 14:52:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F4D40C5C2;
+	Tue, 26 May 2026 15:03:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779807157; cv=none; b=rzVjSWyYYsp9rWXx+hmdGrxXpVQBHyzqw+vGduPgS1u5CDW6AY1E8TbDo6zJPfB1J6ZCRn+yTpEANgDvJ791RMwT+iJYzqc4alzvdl6MRlmptObMiZJCYHQpdFnYpfkugCf91RW3/zNNhtIHAuE7Yf95vghUA40uwp2e7zfEz6A=
+	t=1779807818; cv=none; b=jylE8phGjlrXiP1pFVYDF9LZ0BhO0GkdgYPIWbVduN1Q/C9JEk+nBrtMA9S4+L1UYtJoTaH9ZgE6EmcG5QAlS4S/zwPi6l2yqTHBhyPDCOeQ/pciSO4Y7s9ZVxTETRzM67n//kRO1WkYzLn4RcehM47RWpKluH4Mpm4otv4670w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779807157; c=relaxed/simple;
-	bh=AinaoBj/etxGJUZUz8iuThAvKo7qtNDR4AsDnwK6+SU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=cuvLeiZaxHq66i0znhhvpAbGpniRsPv9Em5f3a7i4rxcfFKoos0/QYVfkf/JELciWpGeWFTO5BZJG5+3/0CfiYRfYkrX0iX8gn+k+EvvTbEW7XoqH9Zn2O3dqSYZ5M6KZF86rCGwBUiQP4eav6sy11imvBd+33CJbwE7Xwpl+/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NJPDfKuy; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1779807818; c=relaxed/simple;
+	bh=sVXxW3rg8epmcslgNSJHknSNJtWiTXU5HTcczWM/NKY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=XPkUAFNYVaRmlyOxW5CN8kgBeBuCft+zi9tNytrGusw3Kyoyah2ktWUuM0izw0Na9CWLVrQVddshcH31GEXJ1n0rOI7f++lQsH3lcI9whOF6AzgM37nc5w71sxKNvpj3LSvzkCdFbw/rddrUOPdtx5XtciEXrq3a9wx86Reod0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gSzdoW26; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NJPDfKuy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gSzdoW26"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779807156; x=1811343156;
+  t=1779807816; x=1811343816;
   h=date:from:to:cc:subject:message-id;
-  bh=AinaoBj/etxGJUZUz8iuThAvKo7qtNDR4AsDnwK6+SU=;
-  b=NJPDfKuyd+ySawoNI+7aSNRDQFX1t0z+Le8PcK5CDBrAy5SfSBgWesBA
-   D+x6gYenZZy4zMiiLm3cdFS9P91EB5Liz1PLGrQh9xG6jjl+55XWI18W0
-   ySq5Ncl+Jq/1QSVMDbfIcEBbuOCSlhP1WpSQXRmhNtipq+IXt5wVA8mwc
-   LuUw7s6Yq6/BGrXh0ueRyM/Q+Do4T25rkXx7gZzBg/DNUdwXOVO4NP6OL
-   IUvaDFSwsRzbx1upOsFDV9AnHS5/i6PvtmnxVlsdwqj8lqDygIevD/IW/
-   4CfNXrQQgSm2Ue0ZVkrrQNAlpmwZTMZBYe/+DkDRDH2W/bvaXBJUaKZGO
+  bh=sVXxW3rg8epmcslgNSJHknSNJtWiTXU5HTcczWM/NKY=;
+  b=gSzdoW26HeRSaGg1Pjwzeo1h7WJAx6ldEM+Es1dmqx81048uzfwbda0l
+   QLvd4ymaKY7UfZeEftD5Sw9Hc2Tfya+PG2FoEyJwJ6ParcgNWKZLRa2yu
+   SfnnmMDq3Uq7UzgyqUVuiSM253H4hO2UqYfS5v6CWyjcsQpeemfFy0MBw
+   AZY7acK0vM7sa9HHyr/j6Qur6G9HgwQMNeKMdZSL/k9RkpB+4Rly7Nhw6
+   yWrqabePCm+1+yQkX1DYJ5Zo20x8saZJGDn20PuJyuz2hZY6GArkeLW+R
+   YVo38K5++Elndt5CPvDA3k5sRAzmQP+vGNR07KVCuBateRRsSaGmoExkt
    A==;
-X-CSE-ConnectionGUID: 10IDroDuStyODDwaDETLuA==
-X-CSE-MsgGUID: qYlixvy6RFKqXHOxdPAG1Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11797"; a="84477088"
+X-CSE-ConnectionGUID: LeJtMuskR5ex5Qih6964uw==
+X-CSE-MsgGUID: g6sh4tUiRUWZu6FgZsv+Cg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11797"; a="98047347"
 X-IronPort-AV: E=Sophos;i="6.24,169,1774335600"; 
-   d="scan'208";a="84477088"
+   d="scan'208";a="98047347"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 07:52:35 -0700
-X-CSE-ConnectionGUID: 50C72t0TQoWsZ4ewuPlSHw==
-X-CSE-MsgGUID: HlA7zKlKRUOaaFluJqfPsQ==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 08:03:35 -0700
+X-CSE-ConnectionGUID: g4Pnux27To2YPoNrXEBhqg==
+X-CSE-MsgGUID: b0uz09/kRI+bOOACNjQ4qw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,169,1774335600"; 
-   d="scan'208";a="240892743"
+   d="scan'208";a="240895117"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 26 May 2026 07:52:34 -0700
+  by orviesa006.jf.intel.com with ESMTP; 26 May 2026 08:03:34 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wRt8w-00000000CQH-3UfX;
-	Tue, 26 May 2026 14:52:30 +0000
-Date: Tue, 26 May 2026 16:52:13 +0200
+	id 1wRtJa-00000000CQT-487j;
+	Tue, 26 May 2026 15:03:30 +0000
+Date: Tue, 26 May 2026 17:02:52 +0200
 From: kernel test robot <lkp@intel.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jarkko-tpmdd:rootns 14/23] <stdin>:1630:2: warning:
- #warning syscall rootns_create not implemented
-Message-ID: <202605261648.LWdvk0Pc-lkp@intel.com>
+To: Pavan Chebbi <pavan.chebbi@broadcom.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ 0day robot <lkp@intel.com>
+Subject: ./usr/include/fwctl/bnxt.h:9:10: fatal error:
+ 'linux/sizes.h' file not found
+Message-ID: <202605261748.IIRSd9Bf-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,21 +60,27 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git rootns
-head:   e5a6a778f0cd5584723651f07f5e46f765b4b2f5
-commit: 6d82dd5dbc48fda06eeb470f65277f277f9ce0d6 [14/23] rootns: Implement rootns_create()
-config: powerpc64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260526/202605261648.LWdvk0Pc-lkp@intel.com/config)
-compiler: powerpc64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260526/202605261648.LWdvk0Pc-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Pavan-Chebbi/fwctl-Add-driver_data-field-to-fwctl_rpc/20260522-160839
+head:   d6ce23e99fb2a6800a2af4ebb99cdcc9e6b06f4f
+commit: d6ce23e99fb2a6800a2af4ebb99cdcc9e6b06f4f fwctl/bnxt: add DMA buffer support for HWRM commands
+date:   4 days ago
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260526/202605261748.IIRSd9Bf-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260526/202605261748.IIRSd9Bf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605261648.LWdvk0Pc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605261748.IIRSd9Bf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> <stdin>:1630:2: warning: #warning syscall rootns_create not implemented [-Wcpp]
+   In file included from <built-in>:1:
+>> ./usr/include/fwctl/bnxt.h:9:10: fatal error: 'linux/sizes.h' file not found
+       9 | #include <linux/sizes.h>
+         |          ^~~~~~~~~~~~~~~
+   1 error generated.
 
 --
 0-DAY CI Kernel Test Service
