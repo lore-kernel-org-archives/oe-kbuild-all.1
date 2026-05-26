@@ -1,259 +1,101 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DD893C4B8E;
-	Tue, 26 May 2026 16:46:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B877B366542
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 May 2026 17:07:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779814010; cv=none; b=l0uaB/r0Xt78FB4MVWxJpUfld8jExKwq3g2YHLoiKtupP7zUD0oRbx1Uw1fhXpGGDBfA75R4f/EZLXdzz1RgAkDFYDqBgk8HhlD+JM5BadcLcFJ9ZQezYD0fAEotTDG72iUzLYcOKIWpEu5QgRBYtFWdwWnQbQzvYN/OYQ+8gfs=
+	t=1779815261; cv=none; b=dgHUVCrDZUdkX4MIV6/3YPcZvNXL9R6Sahhv4lCpS+lkqDDPOTHr6JLcRp6Mn5OC6xXf9NLU6/vns6jKPh1hhlLjHpnMRV52+I14z+YAEvvxukQYKjCqu68ae4S604DWejMmx0nkhhfDvlNLI//+2IHBH/9QYqME1MgLC80dWSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779814010; c=relaxed/simple;
-	bh=eyExZQ5qOIW5RPYesIfSIwMzdqiF+4kYY3+m5Mx4eCw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E5WlYFCgdiAhKvSTFyAgnPZKIgB/hZAKXMZ0E6zt+/c5pxpxYyIS3tuiLVs91usKDzGkJV2OmXHCd6LHY8H1NKFlyQcjIobZsgpJ/Jx2L60i3EsK+vW6M7PdfxKd1qlS4HNf4wamktrY9c76GxvBtdOmJrp1H6dkLvR6KQ21MiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UpTrmMAf; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1779815261; c=relaxed/simple;
+	bh=vivJwwKqb+6PZc4rrZ0x8qVCxw2nRbFd5r6ur1r34FQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=VLhnR8kJwaGPfBttnV2aPnz5xmAlo7JzcoLtBBie3XvxXSHFt3DrjG+R0aj4IgRL3cms10ABwiZG10/llI8KcLK39HE5d0ta2+mK77QZh1jfO412ESMYwhMYi6uX0Lp1XdvOuUPlazphwRo9FjOZJ5oF8doSZCP/0oybxOjYExM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iLvT8JLp; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UpTrmMAf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iLvT8JLp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779814005; x=1811350005;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eyExZQ5qOIW5RPYesIfSIwMzdqiF+4kYY3+m5Mx4eCw=;
-  b=UpTrmMAfzOxdfZ61ILo7mTddHKHnDtNBNjaVycDogzyrIg9SXaNSqGOk
-   3LOQr8rJBXHA7sXBGyIs4Ri3S/BHU7FndlqdULBKnP6DFrPWycNoteyxQ
-   yEmtwSSnHB+zAC7QxCqhV4zI7Ia2qUo3NA9C36/tBCeW4WUJWT9a0+Man
-   6MomKC+7q1kDpvOM3uPp8hMQk1Is3Fn3Z+L91Y4lKSuzslcPeLaML6Yrq
-   AntIQUxX0yIT+UsuZp6nMmxumEIH5MoybIolrPn0kDfv7YVXhToKDRyk3
-   aSGUpCHSj++WA44XgeODifb7ZYNV4sV1VUgBrFaS1MXAN6+4FNdU+vZCa
-   A==;
-X-CSE-ConnectionGUID: b2Evs22AQPOedhI5jsB5pQ==
-X-CSE-MsgGUID: f/pTlvSaTqmqA4X/HVbN6A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="84259147"
+  t=1779815260; x=1811351260;
+  h=date:from:to:cc:subject:message-id;
+  bh=vivJwwKqb+6PZc4rrZ0x8qVCxw2nRbFd5r6ur1r34FQ=;
+  b=iLvT8JLpNYR4mLF2zNhSbqH8bl2B3j6KU5O1LhfklqMVzS4qTnBBL9p5
+   CaA1axnh0Uvmfeoh/ddJh5KRXR+KHb6jyzdIzLZXXWr0akS5SgwT9ANSh
+   0LW+fLXvDT5HE41Vc/nj4DNYHoTNLDiPFb0/XJX8wlTmM7Rs0vshshaA8
+   dbPmQVnJiMZJcjEH8stzjr9tXmJrdEp31UvXSW4KVDpgPS1C0HaPchJwI
+   KF81AvXtSrVUDBQACAgE0DrKHOXYuisn/JN9gB77U84Ya8rFnKGA37rBk
+   eWKGP5mg2dtgNvbywhpdRMfwx5+ObGZp1S6+FrLgHLZXsBhR4UqTL4Son
+   g==;
+X-CSE-ConnectionGUID: OVIwPC4ZQ5CBy3AbXFytfw==
+X-CSE-MsgGUID: RMuhEIU7QP2sGv3FOvgCiQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="92107665"
 X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
-   d="scan'208";a="84259147"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 09:46:40 -0700
-X-CSE-ConnectionGUID: UNAdDtUdT/SRr0ZI7k3ocQ==
-X-CSE-MsgGUID: a1/CbnR7SmmuIJrUzv2LRg==
+   d="scan'208";a="92107665"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 10:07:40 -0700
+X-CSE-ConnectionGUID: tzolif5MS0+shJvlfJUb3Q==
+X-CSE-MsgGUID: Q+kfDIBGRNK+nMObKKIYdw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
-   d="scan'208";a="237805852"
+   d="scan'208";a="280105682"
 Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 26 May 2026 09:46:36 -0700
+  by orviesa001.jf.intel.com with ESMTP; 26 May 2026 10:07:38 -0700
 Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wRuvI-00000000CSH-1d07;
-	Tue, 26 May 2026 16:46:32 +0000
-Date: Tue, 26 May 2026 18:46:16 +0200
+	id 1wRvFc-00000000CSL-1t8F;
+	Tue, 26 May 2026 17:07:32 +0000
+Date: Tue, 26 May 2026 19:06:52 +0200
 From: kernel test robot <lkp@intel.com>
-To: Kacper Kokot <kacper.kokot.44@gmail.com>,
-	Pablo Neira Ayuso <pablo@netfilter.org>,
-	Florian Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, netfilter-devel@vger.kernel.org,
-	coreteam@netfilter.org, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, stable@vger.kernel.org,
-	Kacper Kokot <kacper.kokot.44@gmail.com>
-Subject: Re: [PATCH] netfilter: TCPMSS: fix dropped packets when MSS option
- is unaligned
-Message-ID: <202605261807.YY0PWuhX-lkp@intel.com>
-References: <20260525201116.407338-2-kacper.kokot.44@gmail.com>
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: drivers/cpufreq/intel_pstate.c:2945:23: error: 'struct
+ cpufreq_policy_data' has no member named 'update_limits'
+Message-ID: <202605261938.kPlFDCKE-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260525201116.407338-2-kacper.kokot.44@gmail.com>
 
-Hi Kacper,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on nf-next/main]
-[also build test WARNING on netfilter-nf/main linus/master v6.16-rc1 next-20260526]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kacper-Kokot/netfilter-TCPMSS-fix-dropped-packets-when-MSS-option-is-unaligned/20260526-041308
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf-next.git main
-patch link:    https://lore.kernel.org/r/20260525201116.407338-2-kacper.kokot.44%40gmail.com
-patch subject: [PATCH] netfilter: TCPMSS: fix dropped packets when MSS option is unaligned
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260526/202605261807.YY0PWuhX-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260526/202605261807.YY0PWuhX-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Viresh-Kumar/cpufreq-Avoid-redundant-target-calls-for-unchanged-limits/20260521-194713
+head:   6721940d0119159636e6b2da0c43eb5cff826857
+commit: 74b0d552acf45e33ce12c19ee815e52029b0b0a8 cpufreq: Avoid redundant target() calls for unchanged limits
+date:   5 days ago
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260526/202605261938.kPlFDCKE-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260526/202605261938.kPlFDCKE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605261807.YY0PWuhX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605261938.kPlFDCKE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> net/netfilter/xt_TCPMSS.c:140:45: warning: & has lower precedence than !=; != will be evaluated first [-Wparentheses]
-     140 |                         if (((char *)&opt[i + 2] - (char *)tcph) & 0x1 != 0) {
-         |                                                                  ^~~~~~~~~~
-   net/netfilter/xt_TCPMSS.c:140:45: note: place parentheses around the '!=' expression to silence this warning
-     140 |                         if (((char *)&opt[i + 2] - (char *)tcph) & 0x1 != 0) {
-         |                                                                  ^         
-         |                                                                    (       )
-   net/netfilter/xt_TCPMSS.c:140:45: note: place parentheses around the & expression to evaluate it first
-     140 |                         if (((char *)&opt[i + 2] - (char *)tcph) & 0x1 != 0) {
-         |                                                                  ^
-         |                             (                                         )
-   1 warning generated.
+   drivers/cpufreq/intel_pstate.c: In function 'intel_pstate_adjust_policy_max':
+>> drivers/cpufreq/intel_pstate.c:2945:23: error: 'struct cpufreq_policy_data' has no member named 'update_limits'
+    2945 |                 policy->update_limits = true;
+         |                       ^~
 
 
-vim +140 net/netfilter/xt_TCPMSS.c
+vim +2945 drivers/cpufreq/intel_pstate.c
 
-    69	
-    70	static int
-    71	tcpmss_mangle_packet(struct sk_buff *skb,
-    72			     const struct xt_action_param *par,
-    73			     unsigned int family,
-    74			     unsigned int tcphoff,
-    75			     unsigned int minlen)
-    76	{
-    77		const struct xt_tcpmss_info *info = par->targinfo;
-    78		struct tcphdr *tcph;
-    79		int len, tcp_hdrlen;
-    80		unsigned int i;
-    81		__be16 oldval;
-    82		u16 newmss;
-    83		u8 *opt;
-    84	
-    85		/* This is a fragment, no TCP header is available */
-    86		if (par->fragoff != 0)
-    87			return 0;
-    88	
-    89		if (skb_ensure_writable(skb, skb->len))
-    90			return -1;
-    91	
-    92		len = skb->len - tcphoff;
-    93		if (len < (int)sizeof(struct tcphdr))
-    94			return -1;
-    95	
-    96		tcph = (struct tcphdr *)(skb_network_header(skb) + tcphoff);
-    97		tcp_hdrlen = tcph->doff * 4;
-    98	
-    99		if (len < tcp_hdrlen || tcp_hdrlen < sizeof(struct tcphdr))
-   100			return -1;
-   101	
-   102		if (info->mss == XT_TCPMSS_CLAMP_PMTU) {
-   103			struct net *net = xt_net(par);
-   104			unsigned int in_mtu = tcpmss_reverse_mtu(net, skb, family);
-   105			unsigned int min_mtu = min(dst_mtu(skb_dst(skb)), in_mtu);
-   106	
-   107			if (min_mtu <= minlen) {
-   108				net_err_ratelimited("unknown or invalid path-MTU (%u)\n",
-   109						    min_mtu);
-   110				return -1;
-   111			}
-   112			newmss = min_mtu - minlen;
-   113		} else
-   114			newmss = info->mss;
-   115	
-   116		opt = (u_int8_t *)tcph;
-   117		for (i = sizeof(struct tcphdr); i <= tcp_hdrlen - TCPOLEN_MSS; i += optlen(opt, i)) {
-   118			if (opt[i] == TCPOPT_MSS && opt[i+1] == TCPOLEN_MSS) {
-   119				u_int16_t oldmss;
-   120				u16 csum_oldmss, csum_newmss;
-   121	
-   122				oldmss = (opt[i+2] << 8) | opt[i+3];
-   123	
-   124				/* Never increase MSS, even when setting it, as
-   125				 * doing so results in problems for hosts that rely
-   126				 * on MSS being set correctly.
-   127				 */
-   128				if (oldmss <= newmss)
-   129					return 0;
-   130	
-   131				opt[i+2] = (newmss & 0xff00) >> 8;
-   132				opt[i+3] = newmss & 0x00ff;
-   133	
-   134				csum_oldmss = htons(oldmss);
-   135				csum_newmss = htons(newmss);
-   136	
-   137				/* MSS may be unaligned; fix up the incremental checksum
-   138				 * to avoid an invalid checksum and a dropped packet.
-   139				 */
- > 140				if (((char *)&opt[i + 2] - (char *)tcph) & 0x1 != 0) {
-   141					csum_oldmss = swab16(csum_oldmss);
-   142					csum_newmss = swab16(csum_newmss);
-   143				}
-   144	
-   145				inet_proto_csum_replace2(&tcph->check, skb,
-   146							 csum_oldmss, csum_newmss,
-   147							 false);
-   148				return 0;
-   149			}
-   150		}
-   151	
-   152		/* There is data after the header so the option can't be added
-   153		 * without moving it, and doing so may make the SYN packet
-   154		 * itself too large. Accept the packet unmodified instead.
-   155		 */
-   156		if (len > tcp_hdrlen)
-   157			return 0;
-   158	
-   159		/* tcph->doff has 4 bits, do not wrap it to 0 */
-   160		if (tcp_hdrlen >= 15 * 4)
-   161			return 0;
-   162	
-   163		/*
-   164		 * MSS Option not found ?! add it..
-   165		 */
-   166		if (skb_tailroom(skb) < TCPOLEN_MSS) {
-   167			if (pskb_expand_head(skb, 0,
-   168					     TCPOLEN_MSS - skb_tailroom(skb),
-   169					     GFP_ATOMIC))
-   170				return -1;
-   171			tcph = (struct tcphdr *)(skb_network_header(skb) + tcphoff);
-   172		}
-   173	
-   174		skb_put(skb, TCPOLEN_MSS);
-   175	
-   176		/*
-   177		 * IPv4: RFC 1122 states "If an MSS option is not received at
-   178		 * connection setup, TCP MUST assume a default send MSS of 536".
-   179		 * IPv6: RFC 2460 states IPv6 has a minimum MTU of 1280 and a minimum
-   180		 * length IPv6 header of 60, ergo the default MSS value is 1220
-   181		 * Since no MSS was provided, we must use the default values
-   182		 */
-   183		if (xt_family(par) == NFPROTO_IPV4)
-   184			newmss = min(newmss, (u16)536);
-   185		else
-   186			newmss = min(newmss, (u16)1220);
-   187	
-   188		opt = (u_int8_t *)tcph + sizeof(struct tcphdr);
-   189		memmove(opt + TCPOLEN_MSS, opt, len - sizeof(struct tcphdr));
-   190	
-   191		inet_proto_csum_replace2(&tcph->check, skb,
-   192					 htons(len), htons(len + TCPOLEN_MSS), true);
-   193		opt[0] = TCPOPT_MSS;
-   194		opt[1] = TCPOLEN_MSS;
-   195		opt[2] = (newmss & 0xff00) >> 8;
-   196		opt[3] = newmss & 0x00ff;
-   197	
-   198		inet_proto_csum_replace4(&tcph->check, skb, 0, *((__be32 *)opt), false);
-   199	
-   200		oldval = ((__be16 *)tcph)[6];
-   201		tcph->doff += TCPOLEN_MSS/4;
-   202		inet_proto_csum_replace2(&tcph->check, skb,
-   203					 oldval, ((__be16 *)tcph)[6], false);
-   204		return TCPOLEN_MSS;
-   205	}
-   206	
+  2935	
+  2936	static void intel_pstate_adjust_policy_max(struct cpudata *cpu,
+  2937						   struct cpufreq_policy_data *policy)
+  2938	{
+  2939		if (!hwp_active &&
+  2940		    cpu->pstate.max_pstate_physical > cpu->pstate.max_pstate &&
+  2941		    policy->max < policy->cpuinfo.max_freq &&
+  2942		    policy->max > cpu->pstate.max_freq) {
+  2943			pr_debug("policy->max > max non turbo frequency\n");
+  2944			policy->max = policy->cpuinfo.max_freq;
+> 2945			policy->update_limits = true;
+  2946		}
+  2947	}
+  2948	
 
 --
 0-DAY CI Kernel Test Service
