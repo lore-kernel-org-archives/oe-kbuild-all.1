@@ -1,85 +1,97 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A5F03955FD;
-	Tue, 26 May 2026 05:45:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D553033EC;
+	Tue, 26 May 2026 07:02:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779774359; cv=none; b=YpIoAd6wsf4I5fMansGPHg0f/I/jv7NsdfdV1hfI7VbN5BsYVfp6p6mL3cDx6znc/Qhussm5UUTvwH4RNCGKw+24n3nQtjmUvbIq5XuOcch1X5eXqiepk7ON7q4DW51Gxegkarga751szISiPMNH5vMmxAcAvI7m4i4NVgOVOIQ=
+	t=1779778941; cv=none; b=p4yeYsOQfzfqZnjkQo5NJmV3ojRYevYvKJOT+xoDBVYbrnby9xFq3ap/+OBFcc8rr9jGAt3JwakRN98SJGGLRVzOFwZV8AucR2AOmK08882mbLKa3fmf3GUqlgJwdhsqo/LEirI+3Pp3GFex6jxvxgwcaMU4vIBp8ukL5mF9Omc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779774359; c=relaxed/simple;
-	bh=ndkBBjMdxKvnKWvmsdbn5z52mzyu5UpMivlRKXeN+Fc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gn6uUE19/YBQeFr5k75HQJOKtPzEjnJP3vjAyc5U3wWUgsvI6TRQCTpdeD5YKFJhn1GPee/Hjn1NG0gO3H8gols1RDI15ihE6DqmQxRpSskev6zHXXS/Pp5BU93Hg21F41VHrtzUF6A1jteIrK37mS8UqK2crjGhgTBAgU9cZu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RQga1967; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1779778941; c=relaxed/simple;
+	bh=rujUh5Ut6oPOabJnGcn1GF5k5obYcmy9s1UpjRE6Wgw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GW+Es23BwlxK5JbXOi+/8dwaDgXEZjXZibmByZVK0sV3GqboDe8eKK7qWzs2NKr+APE3fQWZwgcKowdAJQxlWCpv37a+hmol4Th2DsOJ8NWzJEaUq1QGW4MqVAEY/04AulfvwUjR3eF5AdiN5gC5YiWW7y+AM5twpzgFlOcrgzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=n6Wpwd2s; arc=none smtp.client-ip=115.124.30.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RQga1967"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779774358; x=1811310358;
-  h=date:from:to:cc:subject:message-id;
-  bh=ndkBBjMdxKvnKWvmsdbn5z52mzyu5UpMivlRKXeN+Fc=;
-  b=RQga1967Tz5lPC1zKHcHiqCFCjEbMcyyr71uuKeEb4adypCJcF7PQi7Z
-   EmbAgEiGcsAQjheGHZ4aWnoQgaXly0G1SExcSMICzOR3ujp4fEf696EvS
-   1PfBVIDofV3herj7P5ReSeyXN2u/oFz4fkJVrbZ1XVbUq3A/RwsPGKPoh
-   9D+6DxhU76WOtgh94my/7tnfr76Ho4QAcjAyD0pyP4szYZRBYGnugNJ/M
-   qxcoeXEaIbUtBeZbR2oUaedrFNDHsRg6QrRdD19uCBSmoVCPJYzlrc/+J
-   oqKYiN+ML1NvoKvMVWhcv4NU0yvKarWFUJ8TDd97HJKUUrC96Gkgl7YoU
-   Q==;
-X-CSE-ConnectionGUID: OOnkYYH8SyeWCRJtwY9JzQ==
-X-CSE-MsgGUID: 4zuJavJ/T8yYF9inpHR/sg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11797"; a="98007030"
-X-IronPort-AV: E=Sophos;i="6.24,169,1774335600"; 
-   d="scan'208";a="98007030"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2026 22:45:55 -0700
-X-CSE-ConnectionGUID: NVquqH0vRwSydLWWnahm/w==
-X-CSE-MsgGUID: W8Kzm0wBTWyLmRQZv46Xvw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,169,1774335600"; 
-   d="scan'208";a="241983885"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 25 May 2026 22:45:53 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wRkbu-0000000029W-340V;
-	Tue, 26 May 2026 05:45:50 +0000
-Date: Tue, 26 May 2026 13:44:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Christian A. Ehrhardt" <christian.ehrhardt@codasip.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [scosu-sched:topic/mmap-cap-prot/v7.0 30/1197]
- ./usr/include/linux/ublk_cmd.h:601:3: error: // comments are not allowed in
- this language
-Message-ID: <202605261311.mL3WnN3h-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="n6Wpwd2s"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1779778928; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
+	bh=B2RyETC0kQGsnsb3JDp2E8kaJbLCfy4Y1i2HQNE/6+Q=;
+	b=n6Wpwd2slCt3l5fDC6kAHhtk8G7o7+4hBWCxKoYEzMnPbTIjsA9x3atlTo3XAH1gQB4fUjsM1yh+A7oND9c1m0+pv9MnoMCtVehZPQaYKffp4ncGhFaReys/G3PK6/6cxPLBxTtaF+Am1p7MU1jHTNeOVyixZb1dH4lxedZTxPY=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R981e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=feng.tang@linux.alibaba.com;NM=1;PH=DS;RN=12;SR=0;TI=SMTPD_---0X3fNXgI_1779778926;
+Received: from localhost(mailfrom:feng.tang@linux.alibaba.com fp:SMTPD_---0X3fNXgI_1779778926 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Tue, 26 May 2026 15:02:07 +0800
+Date: Tue, 26 May 2026 15:02:05 +0800
+From: Feng Tang <feng.tang@linux.alibaba.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Sudeep Holla <sudeep.holla@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rafael@kernel.org,
+	Danilo Krummrich <dakr@kernel.org>, oe-kbuild-all@lists.linux.dev,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, David Hildenbrand <david@kernel.org>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev
+Subject: Re: [PATCH v1] arch_topology: Introduce nr_possible_packages
+Message-ID: <ahVFbd_O1W44lUXd@U-2FWC9VHC-2323.local>
+References: <20260515144435.93035-1-feng.tang@linux.alibaba.com>
+ <202605161935.1SnObrFu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <202605161935.1SnObrFu-lkp@intel.com>
 
-tree:   https://github.com/scosu/linux-sched topic/mmap-cap-prot/v7.0
-head:   af9683ebfd23308f714cc478321fb01e5c4a7104
-commit: a33c92e1bad897ddadbbd0cc4490eb82c29b54d6 [30/1197] cheri: compat64: Fix definition of ublk_elem_header
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20260526/202605261311.mL3WnN3h-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260526/202605261311.mL3WnN3h-lkp@intel.com/reproduce)
+On Sat, May 16, 2026 at 07:46:10PM +0800, kernel test robot wrote:
+> Hi Feng,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on driver-core/driver-core-testing]
+> [also build test WARNING on driver-core/driver-core-next driver-core/driver-core-linus linus/master v7.1-rc3 next-20260508]
+> [cannot apply to linux-review/Feng-Tang/arch_topology-Introduce-nr_possible_packages/20260514-094659]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Feng-Tang/arch_topology-Introduce-nr_possible_packages/20260515-230156
+> base:   driver-core/driver-core-testing
+> patch link:    https://lore.kernel.org/r/20260515144435.93035-1-feng.tang%40linux.alibaba.com
+> patch subject: [PATCH v1] arch_topology: Introduce nr_possible_packages
+> config: parisc-randconfig-r122-20260516 (https://download.01.org/0day-ci/archive/20260516/202605161935.1SnObrFu-lkp@intel.com/config)
+> compiler: hppa-linux-gcc (GCC) 13.4.0
+> sparse: v0.6.5-rc1
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260516/202605161935.1SnObrFu-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202605161935.1SnObrFu-lkp@intel.com/
+> 
+> sparse warnings: (new ones prefixed by >>)
+> >> drivers/base/arch_topology.c:841:1: sparse: sparse: symbol 'package_id_mask' was not declared. Should it be static?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605261311.mL3WnN3h-lkp@intel.com/
+Thanks for the report! will fix this warning in the next version.
 
-All errors (new ones prefixed by >>):
-
-   In file included from <built-in>:1:
->> ./usr/include/linux/ublk_cmd.h:601:3: error: // comments are not allowed in this language [-Werror,-Wcomment]
-     601 |                 /// UAPI: NoConvert: Padding/alignment only
-         |                 ^
-   1 error generated.
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+- Feng
+> 
+> vim +/package_id_mask +841 drivers/base/arch_topology.c
+> 
+>    835	
+>    836	/*
+>    837	 * Assuming silicon has a sane package ID decoding method to not have
+>    838	 * an ID bigger than 2047
+>    839	 */
+>    840	#define MAX_PACKAGE_ID	2047
+>  > 841	DECLARE_BITMAP(package_id_mask, MAX_PACKAGE_ID + 1);
+>    842	
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
