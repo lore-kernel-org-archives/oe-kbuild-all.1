@@ -1,119 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E20A2384250
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 May 2026 03:34:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA38383C95
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 May 2026 03:42:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779852857; cv=none; b=XZ8Qg8RXBNx4EcUGSTXgWTKJ6qX+uxEByPJOV98q2Sj7JMWR+vFlOHHi7X4GfvjOCrEtiybUdAGH+/33Lwi8YQe0DtKjMAopSLehx7rzYJX/V6nQKKcrJgWkijDv1TCVqrQu4OcMcrBFchIzazEFKRR8CrTUHUV5vFZnMH9f6lI=
+	t=1779853364; cv=none; b=Plp2dEe6SpsNtJepjLAfpZxOQWatJdjbou9pbu2bjRgsBRLHP+NTNhxZK9oTP9SETlOB3dBPaO/rOweOYMaAcavOo2uos8UBbYwBj1BTX5I42ISplepapxXvHhMYc/N6BauEmR9CwKukRgTWB5nUO+S9xqE2MevPHhJqlgxiaU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779852857; c=relaxed/simple;
-	bh=pXcvPY/1mdSRNUQr5bTbLEfT6d8bjPSx6vww9U8I7ms=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bY7zhwhQKtDXH2xYL6mvEoaMcECfDCEOjFdzF13HPioigy/HBPirlyXIIHcHerta8cdBewDDe95xMxE59VxP8SVpUELZyStauPGM+f7dtEDIhG8lCwsc1fRj3XMPbUPmjQ2kERIXfyQIx8vkozL4unW8WrlwCUbCYxHfIvPPmXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CcMbIGau; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1779853364; c=relaxed/simple;
+	bh=mNdFNfR2e4/65shxu0CC2MkDNtzL89tuju83evaBLMQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SBA+m50twu7HbIgxhyyeN4CBAGPOVobB5ls7F4+laggIQiq0nuPxcH23LTW2/IdgqVg3RH3XNS/4XBufDtukvRkfGQ0dfMJAUdm+jGn62Dt+ymAdFQXGEovbwmPpzJ+0iQJRGv8opSxpyoFY9n41W2dESCjgoxrluzFOqenBQaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IGFpuSCx; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CcMbIGau"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779852854; x=1811388854;
-  h=date:from:to:cc:subject:message-id;
-  bh=pXcvPY/1mdSRNUQr5bTbLEfT6d8bjPSx6vww9U8I7ms=;
-  b=CcMbIGauyev7C8X2rXqrDdrjYIn+pFachAUQgr9j3a8n7kuJktuwfQxl
-   M2WQjnSVQ5gXNsCS40/rZVm9yozPmUc2mAQVkzPKJXXwHYWHEaKK/vAvh
-   Hh6nmSiT4Onf3fLTJc+ujSOnz8z2FlalaazKE5PvM8jbDcVlJxdMQVC/B
-   AhKVu3ou2UySkU53Lmexd+QtyopnCdItksYLQx5jZKvAu8ek9ZaOIFdmt
-   xYGTz6zBKV1BrpagfKrXsZNokIGf7n9MABmKTK93/4j/GmZlKfRILpk9v
-   GoXuGSmsXGGPg0OnEMgjj2uzifTIzNch9JlrLotf/PLbiThjsI+1kdCp3
-   w==;
-X-CSE-ConnectionGUID: l9+JeFxNSSinppxrkJEddw==
-X-CSE-MsgGUID: dssHs1rGTgC0Z8MdUBJXhQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="79824671"
-X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
-   d="scan'208";a="79824671"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 20:34:12 -0700
-X-CSE-ConnectionGUID: 1bU/iNZFQXm5bMdH8hkfwA==
-X-CSE-MsgGUID: s2OHA7l0TB6JfAic379xOg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
-   d="scan'208";a="241947043"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 26 May 2026 20:34:11 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wS521-000000003L6-0u9f;
-	Wed, 27 May 2026 03:34:09 +0000
-Date: Wed, 27 May 2026 11:34:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-lts 2/2]
- kernel/sched/core.c:1361:21: warning: 'uclamp_mutex' defined but not used
-Message-ID: <202605271114.wf6VDNTy-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IGFpuSCx"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-8419ab3a297so1126100b3a.2
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 26 May 2026 20:42:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1779853363; x=1780458163; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=oFp/skMYpNsFk+AsET2tPkoK5hubkQ0FZUfrIoL0LfU=;
+        b=IGFpuSCxFPSR42rEhUn79+UMpqRbL4JQe29h29e0LksPVN4LlzG+b505YkSETFlFjP
+         QLr+HyvkI9Ak5ry9CWzlJysIM5ewpiTT8NASW4eUvSPtoQPRR7fMFXNt4eD7fn7KkPFy
+         l2y8Pawi+oyJ71EmQjELCngC1BUimsFoiJhPdjD7LMvTFORVxg+yS6ymhfPsC4FHY/57
+         9hXXDROXWy63mvHw65Qswa77Xh0ec2tCnIPhZ68U1Jq/GYTDn8lsstnMRnOVbBFnVysW
+         BHJIPDtX7mk943GfMZAaAuE75OpGvFTJV5GYjJoDUZXCAIyYb272TJKPLr2O8lDQoj3l
+         CK6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779853363; x=1780458163;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oFp/skMYpNsFk+AsET2tPkoK5hubkQ0FZUfrIoL0LfU=;
+        b=Hs9hkZuFNoTcK2e46cQ2sSKKZGFTv6X5Lmp9E3X3q2QxVvu6uvQBOhkt2jrCerzPJF
+         R9FcCivqw+O3Njd6zDAoeaQFTa+FOpG1zN3uXh/8nSAtcmaasg7dQjS6ZHs7tPAPBghP
+         rXW327ndNbMqwu91uTwet+E/nE2lmSk7zdn7UYsAEgB117AKgT1+HeOHTBKX8vxKvtlN
+         jSL4+u/QvVhMNGvpdn77qmcybClwzvyt7QYh+aMF9jpBO/4jHnK8gBhFweDZejE/Qnt2
+         gj3aHjpeeM4YhfcMEtqJM0vR3waAj/GclniCdc4Las4dyFHYKYqstpMe+mcDo1fLXKJL
+         6/kw==
+X-Forwarded-Encrypted: i=1; AFNElJ9p+RUonV+4Y3cyOpWJK5HjANl7zina1cEIR8J2hbSeyI72msTUSz+QMnGM1KyQpyC7IMp6XCWvAC78nyjv@lists.linux.dev
+X-Gm-Message-State: AOJu0YxlHQMNl+mHUI8FKQO+J65gQWO7JZZZhw/xeAqnooyI+nDjgBxY
+	k3RAnQe8ekX/unpB0zGrgYUkM6+AdqnBIEq395PNO2Cg9pOoclQFnenwKCMjYVhEPac=
+X-Gm-Gg: Acq92OHOIx8U3aiMR+4qg08astqDwr+9JcjwoVuq1xczCB7Ry2PHAa4hpASO0+C2BLB
+	eQveZYNYZx2Amt90rfW9WmhzJzBEBlPt4ZX9Oz+IBEVV5mM4BBkwoZdOfJD5rJqWhD1ern3DO7z
+	HIESISsd+uV5RF5xlLp20aJwX6tfAwM52qcQUA7hJR0bSwh7WgOFT+6kgzXFQow4TU5201k7DZV
+	88Rt3exe1RpdRk6G2weGhQT6AtVxfiFpQn1V9YWALvU64lEBcZX9IKhWkvL4iZzMLca282QhGeC
+	EZBO5cOxDZn/oSkEXQxFfbrB2PnfvRqDOY6/OzEQev5npfxE9Ny9vKfAVX8ClOScvAZGkFcCkpC
+	yoYXe8s46hQ15RPOodp43b2dI/lu/dAottzkMUimLD3ZdVAtsyA1K0ZPYUt+dUnSQymxBn98OdV
+	ENoGZSTKV43+LEd6nZINmAf7S1qCbr3tW1vg==
+X-Received: by 2002:a05:6a00:8c10:b0:827:32de:d197 with SMTP id d2e1a72fcca58-8415f37d792mr20378561b3a.40.1779853362397;
+        Tue, 26 May 2026 20:42:42 -0700 (PDT)
+Received: from localhost ([122.172.82.94])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-841d72f8c7esm739804b3a.52.2026.05.26.20.42.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 May 2026 20:42:41 -0700 (PDT)
+Date: Wed, 27 May 2026 09:12:38 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: drivers/cpufreq/intel_pstate.c:2945:11: error: no member named
+ 'update_limits' in 'struct cpufreq_policy_data'
+Message-ID: <iqboomrmgx2wwbhj4achjbiidnw4hfsamnnmurs3lp5texra2c@evxcicq32sji>
+References: <202605261237.PUsriOv4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202605261237.PUsriOv4-lkp@intel.com>
 
-Hi Sebastian,
+On 26-05-26, 12:56, kernel test robot wrote:
+> tree:   https://github.com/intel-lab-lkp/linux/commits/Viresh-Kumar/cpufreq-Avoid-redundant-target-calls-for-unchanged-limits/20260521-194713
+> head:   6721940d0119159636e6b2da0c43eb5cff826857
+> commit: 74b0d552acf45e33ce12c19ee815e52029b0b0a8 cpufreq: Avoid redundant target() calls for unchanged limits
+> date:   5 days ago
+> config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260526/202605261237.PUsriOv4-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260526/202605261237.PUsriOv4-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202605261237.PUsriOv4-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> drivers/cpufreq/intel_pstate.c:2945:11: error: no member named 'update_limits' in 'struct cpufreq_policy_data'
+>     2945 |                 policy->update_limits = true;
 
-FYI, the error/warning still remains.
+A different change was already merged instead of this one.
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-lts
-head:   7d38f5b0e4b0d06970e261174e220a997a0908e7
-commit: d8fccd9ca5f905533dc6c26cfd1f91beb8691c95 [2/2] arm64: Allow to enable PREEMPT_RT.
-config: arm64-randconfig-001-20260527 (https://download.01.org/0day-ci/archive/20260527/202605271114.wf6VDNTy-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260527/202605271114.wf6VDNTy-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Fixes: d8fccd9ca5f9 ("arm64: Allow to enable PREEMPT_RT.")
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605271114.wf6VDNTy-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/seqlock.h:19,
-                    from include/linux/dcache.h:11,
-                    from include/linux/fs.h:8,
-                    from include/linux/highmem.h:5,
-                    from kernel/sched/core.c:10:
->> kernel/sched/core.c:1361:21: warning: 'uclamp_mutex' defined but not used [-Wunused-variable]
-    static DEFINE_MUTEX(uclamp_mutex);
-                        ^~~~~~~~~~~~
-   include/linux/mutex.h:101:15: note: in definition of macro 'DEFINE_MUTEX'
-     struct mutex mutexname = __MUTEX_INITIALIZER(mutexname)
-                  ^~~~~~~~~
-
-
-vim +/uclamp_mutex +1361 kernel/sched/core.c
-
-71f8bd4600521f kernel/sched.c      Ingo Molnar     2007-07-09  1349  
-69842cba9ace84 kernel/sched/core.c Patrick Bellasi 2019-06-21  1350  #ifdef CONFIG_UCLAMP_TASK
-2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1351  /*
-2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1352   * Serializes updates of utilization clamp values
-2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1353   *
-2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1354   * The (slow-path) user-space triggers utilization clamp value updates which
-2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1355   * can require updates on (fast-path) scheduler's data structures used to
-2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1356   * support enqueue/dequeue operations.
-2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1357   * While the per-CPU rq lock protects fast-path update operations, user-space
-2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1358   * requests are serialized using a mutex to reduce the risk of conflicting
-2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1359   * updates or API abuses.
-2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1360   */
-2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22 @1361  static DEFINE_MUTEX(uclamp_mutex);
-2480c093130f64 kernel/sched/core.c Patrick Bellasi 2019-08-22  1362  
-
-:::::: The code at line 1361 was first introduced by commit
-:::::: 2480c093130f64ac3a410504fa8b3db1fc4b87ce sched/uclamp: Extend CPU's cgroup controller
-
-:::::: TO: Patrick Bellasi <patrick.bellasi@arm.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-- 
+viresh
