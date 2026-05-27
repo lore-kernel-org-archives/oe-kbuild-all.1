@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6571A126C17
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 May 2026 04:32:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CD4B2C0282
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 May 2026 05:36:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779856340; cv=none; b=OIxW3eX785XCu9ajZ8h+3iPljkpTwCrCkVow9XRRy7IP/hNg71QH3p2wI+el3zUVr0vJpmZ786m3k6N3ImMPesr1duejFc8l5NGsag+N2RY8VRwB7P+vOK+xL3OQAznlK2egy4XtwJiGHW0Nkb6NJOTItRfhV2w7AM20sLHcy5c=
+	t=1779860186; cv=none; b=tl+ET5UCj8FdVGCyL3qHQSgRTaUlWkLFfzIJmCRUb5Tc/81GAYH74dZOsBDHdZVprPQVVrcw1LcZGZAckNdPXvvs0QDQ60403oYkw07CY9yJlMaN45GmZgw0nP7x+M7Gk4ig4md2Q7ngldJJP+jPnGx/5cIUkSrJpY0Z0J2+t8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779856340; c=relaxed/simple;
-	bh=fbe6A5LbVi+V+mwix5z3t4kk9A3ckE8EaUeDuFuRIg4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=EwOhqQ5rryTf7ZPA1SqymKY6UoqczfMIYYC8iqw0cpLR2mof900RqgOfMZN59fIosERwWuOEu4Ay0SNGYJmsbsYXPbrDHW8G3rKCPjPgIZ1s3wqkVghAUmySCNcvMXDgjfk3YhWiirPMMz+AV8749h0rHpW7QatfOsgADIICLx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WthKZqjh; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1779860186; c=relaxed/simple;
+	bh=HnDT/dlsyNKAboRWZNoWFw21MTghFcqsaXTqATdim5E=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ucBbxFCYpy3abhe3/jHcP5XGsXZOR8ZDooThixaIqB3LbfADc3VWKhp/3QwHc6KtQ91TgkNqBEVqGQRaqSZ6VRVlV5x9zUdudLfqGMhEMkDMGUjWfSF5InTkp6Y1NeWR4JLqdaH+zciAJ+SQWcjs5AdoRxdOK6HkqB68w7EwSOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lmS8AxPg; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WthKZqjh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lmS8AxPg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779856338; x=1811392338;
+  t=1779860184; x=1811396184;
   h=date:from:to:cc:subject:message-id;
-  bh=fbe6A5LbVi+V+mwix5z3t4kk9A3ckE8EaUeDuFuRIg4=;
-  b=WthKZqjhM9mqFStY2sd5BwaLxFsOB8a1JurgHq4jwVEyZWhTWNPzz+4C
-   OntLYkRz8agytDlN4mPmtnLqf/8hlqdznstCOgjB4Fe3Wet7zXG0UXALa
-   IYcc2lx9u7LN2wzEL8yte8yPsal+iZdsPwvVL7IHrIORdecRPIG+j6OXM
-   9x6eVYYJPsJ+JT2ntseO4SKu8NJcNk0HogQHe13QDw9/NskfVoetWfP3u
-   2+hm8CNNSVOdTYxYVIxTUQN0I0PV1AnIWnGl0nSi+8rSq3FJ/Mj85AKi+
-   CsTcqj97MqVLAicOrxfi/5GHiwGdskPeknJcczayjTsme/l/iJcGfyPro
+  bh=HnDT/dlsyNKAboRWZNoWFw21MTghFcqsaXTqATdim5E=;
+  b=lmS8AxPgHjuRqR7KKHkS22cDknwJ1NiIa7rDX6Di4nOMdaVAE1orxq03
+   YNu9bNzBTmzgkNZRWHp54vg1M/AqSLAnjunB8G+eR+DJXWoVajXuG7w3Y
+   V5rp7Dopp8DeMilx17Hqef4zHhdLR8XXeeWeVN0NzbtJLQnpVJJHfCbVy
+   anWs76MHC/9n2LvkZZhvOlLO9637p84jAd4lMFRjNAJIKguccnlpvt8Jo
+   9GEcHq3eMA/59gFhZl3qYs/NdoSUegvkb6WM4UjQYtHniMOpKi7g9ih+S
+   rhMtuuh909c2vMpqvnfzCsn3PSJJ+NG8Uav7jcbMIpatosLRvn3Dt0Aua
    g==;
-X-CSE-ConnectionGUID: EnyXfub0S/iIAnMBLswEdw==
-X-CSE-MsgGUID: 271e7XAZQ1CFlxXNyfofug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="91252252"
+X-CSE-ConnectionGUID: 0JLxNaatT6a82KadHVyp9w==
+X-CSE-MsgGUID: +T/tpLJ4TDSMJBpZg+N9/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="91372935"
 X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
-   d="scan'208";a="91252252"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 21:32:18 -0700
-X-CSE-ConnectionGUID: cak8tgbDQqq05qSPC8DTcQ==
-X-CSE-MsgGUID: MvAAuVTYTuud1O7tEcsQYw==
+   d="scan'208";a="91372935"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 22:36:24 -0700
+X-CSE-ConnectionGUID: KZkxCYDdR/yIF0eQTPAfPA==
+X-CSE-MsgGUID: W4Ys5Ub/SSiQpue7LbpJGA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
-   d="scan'208";a="265725722"
+   d="scan'208";a="242296863"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 26 May 2026 21:32:16 -0700
+  by orviesa007.jf.intel.com with ESMTP; 26 May 2026 22:36:22 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wS5wD-000000003Oo-3u58;
-	Wed, 27 May 2026 04:32:13 +0000
-Date: Wed, 27 May 2026 12:31:35 +0800
+	id 1wS6wF-000000003Rm-0H3d;
+	Wed, 27 May 2026 05:36:19 +0000
+Date: Wed, 27 May 2026 13:36:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Alex Deucher <alexander.deucher@amd.com>, Alex Hung <alex.hung@amd.com>
-Subject: [linux-next:master 5292/8275]
- drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c:2357:1: warning: control
- reaches end of non-void function
-Message-ID: <202605271203.r58wncYu-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 0/28]
+ drivers/iommu/intel/iommu.c:1464:18: error: 'struct pkvm_lm_context_param'
+ has no member named 'ats_supported'
+Message-ID: <202605271353.8yA1Tj4s-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,61 +60,258 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Harry,
+Hi Vineeth,
 
-First bad commit (maybe != root cause):
+FYI, the error/warning still remains.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e7e28506af98ce4e1059e5ec59334b335c00a246
-commit: af3f2f5db2659a13c256d2fb096c473eb50412ef [5292/8275] drm/amdgpu: Remove UML build exclusion from Kconfig
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20260527/202605271203.r58wncYu-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   d82d1c962ed8d8ed693448d27aa42a88c54f438d
+commit: 157ba06fef4bdb68af268f6a0e53695c0e4ad373 [0/28] ANDROID: iommu/vt-d: Paravirtualize legacy context entry updates
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20260527/202605271353.8yA1Tj4s-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260527/202605271203.r58wncYu-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260527/202605271353.8yA1Tj4s-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605271203.r58wncYu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605271353.8yA1Tj4s-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c: In function 'kfd_cpumask_to_apic_id':
-   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c:2353:16: error: implicit declaration of function 'cpu_data' [-Wimplicit-function-declaration]
-    2353 |         return cpu_data(first_cpu_of_numa_node).topo.apicid;
-         |                ^~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c:2353:48: error: request for member 'topo' in something not a structure or union
-    2353 |         return cpu_data(first_cpu_of_numa_node).topo.apicid;
-         |                                                ^
->> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c:2357:1: warning: control reaches end of non-void function [-Wreturn-type]
-    2357 | }
-         | ^
+      18 |                 *(param) = *p;                                                  \
+         |                          ^
+   drivers/iommu/intel/iommu_pkvm.h:31:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      31 |         return pkvm_iommu_hypercall(iommu_clear_ce, clear_translation_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/kvm_pkvm.h:313:38: error: invalid application of 'sizeof' to incomplete type 'struct pkvm_clear_translation_param'
+     313 |                 memset(ptr, 0, sizeof(*ptr));   \
+         |                                      ^
+   drivers/iommu/intel/iommu_pkvm.h:19:17: note: in expansion of macro 'put_this_pv_param'
+      19 |                 put_this_pv_param(p, f);                                        \
+         |                 ^~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:31:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      31 |         return pkvm_iommu_hypercall(iommu_clear_ce, clear_translation_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h: In function 'pkvm_hc_iommu_set_lm_ce':
+   drivers/iommu/intel/iommu_pkvm.h:16:22: error: invalid use of undefined type 'struct pkvm_lm_context_param'
+      16 |                 *p = *(param);                                                  \
+         |                      ^
+   drivers/iommu/intel/iommu_pkvm.h:36:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      36 |         return pkvm_iommu_hypercall(iommu_set_lm_ce, lm_context_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:16:20: error: invalid use of undefined type 'struct pkvm_lm_context_param'
+      16 |                 *p = *(param);                                                  \
+         |                    ^
+   drivers/iommu/intel/iommu_pkvm.h:36:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      36 |         return pkvm_iommu_hypercall(iommu_set_lm_ce, lm_context_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:18:28: error: invalid use of undefined type 'struct pkvm_lm_context_param'
+      18 |                 *(param) = *p;                                                  \
+         |                            ^
+   drivers/iommu/intel/iommu_pkvm.h:36:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      36 |         return pkvm_iommu_hypercall(iommu_set_lm_ce, lm_context_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:18:26: error: invalid use of undefined type 'struct pkvm_lm_context_param'
+      18 |                 *(param) = *p;                                                  \
+         |                          ^
+   drivers/iommu/intel/iommu_pkvm.h:36:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      36 |         return pkvm_iommu_hypercall(iommu_set_lm_ce, lm_context_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/kvm_pkvm.h:313:38: error: invalid application of 'sizeof' to incomplete type 'struct pkvm_lm_context_param'
+     313 |                 memset(ptr, 0, sizeof(*ptr));   \
+         |                                      ^
+   drivers/iommu/intel/iommu_pkvm.h:19:17: note: in expansion of macro 'put_this_pv_param'
+      19 |                 put_this_pv_param(p, f);                                        \
+         |                 ^~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:36:16: note: in expansion of macro 'pkvm_iommu_hypercall'
+      36 |         return pkvm_iommu_hypercall(iommu_set_lm_ce, lm_context_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu.c: In function 'pv_context_mapping':
+   drivers/iommu/intel/iommu.c:1459:16: error: variable 'param' has initializer but incomplete type
+    1459 |         struct pkvm_lm_context_param param = {
+         |                ^~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu.c:1460:18: error: 'struct pkvm_lm_context_param' has no member named 'phys'
+    1460 |                 .phys = iommu->reg_phys,
+         |                  ^~~~
+   drivers/iommu/intel/iommu.c:1460:25: warning: excess elements in struct initializer
+    1460 |                 .phys = iommu->reg_phys,
+         |                         ^~~~~
+   drivers/iommu/intel/iommu.c:1460:25: note: (near initialization for 'param')
+   drivers/iommu/intel/iommu.c:1461:18: error: 'struct pkvm_lm_context_param' has no member named 'bdf'
+    1461 |                 .bdf = PCI_DEVID(bus, devfn),
+         |                  ^~~
+   In file included from drivers/iommu/intel/iommu.c:20:
+   include/linux/pci.h:72:33: warning: excess elements in struct initializer
+      72 | #define PCI_DEVID(bus, devfn)   ((((u16)(bus)) << 8) | (devfn))
+         |                                 ^
+   drivers/iommu/intel/iommu.c:1461:24: note: in expansion of macro 'PCI_DEVID'
+    1461 |                 .bdf = PCI_DEVID(bus, devfn),
+         |                        ^~~~~~~~~
+   include/linux/pci.h:72:33: note: (near initialization for 'param')
+      72 | #define PCI_DEVID(bus, devfn)   ((((u16)(bus)) << 8) | (devfn))
+         |                                 ^
+   drivers/iommu/intel/iommu.c:1461:24: note: in expansion of macro 'PCI_DEVID'
+    1461 |                 .bdf = PCI_DEVID(bus, devfn),
+         |                        ^~~~~~~~~
+   drivers/iommu/intel/iommu.c:1462:18: error: 'struct pkvm_lm_context_param' has no member named 'domain_pgd_gpa'
+    1462 |                 .domain_pgd_gpa = virt_to_phys(domain->pgd),
+         |                  ^~~~~~~~~~~~~~
+   In file included from include/linux/kexec.h:20,
+                    from include/linux/crash_dump.h:5,
+                    from drivers/iommu/intel/iommu.c:16:
+   arch/x86/include/asm/io.h:155:22: warning: excess elements in struct initializer
+     155 | #define virt_to_phys virt_to_phys
+         |                      ^~~~~~~~~~~~
+   drivers/iommu/intel/iommu.c:1462:35: note: in expansion of macro 'virt_to_phys'
+    1462 |                 .domain_pgd_gpa = virt_to_phys(domain->pgd),
+         |                                   ^~~~~~~~~~~~
+   arch/x86/include/asm/io.h:155:22: note: (near initialization for 'param')
+     155 | #define virt_to_phys virt_to_phys
+         |                      ^~~~~~~~~~~~
+   drivers/iommu/intel/iommu.c:1462:35: note: in expansion of macro 'virt_to_phys'
+    1462 |                 .domain_pgd_gpa = virt_to_phys(domain->pgd),
+         |                                   ^~~~~~~~~~~~
+   drivers/iommu/intel/iommu.c:1463:18: error: 'struct pkvm_lm_context_param' has no member named 'did'
+    1463 |                 .did = domain_id_iommu(domain, iommu),
+         |                  ^~~
+   drivers/iommu/intel/iommu.c:1463:24: warning: excess elements in struct initializer
+    1463 |                 .did = domain_id_iommu(domain, iommu),
+         |                        ^~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu.c:1463:24: note: (near initialization for 'param')
+>> drivers/iommu/intel/iommu.c:1464:18: error: 'struct pkvm_lm_context_param' has no member named 'ats_supported'
+    1464 |                 .ats_supported = info ? info->ats_supported : 0,
+         |                  ^~~~~~~~~~~~~
+   drivers/iommu/intel/iommu.c:1464:34: warning: excess elements in struct initializer
+    1464 |                 .ats_supported = info ? info->ats_supported : 0,
+         |                                  ^~~~
+   drivers/iommu/intel/iommu.c:1464:34: note: (near initialization for 'param')
+   drivers/iommu/intel/iommu.c:1459:38: error: storage size of 'param' isn't known
+    1459 |         struct pkvm_lm_context_param param = {
+         |                                      ^~~~~
+   drivers/iommu/intel/iommu.c:1459:38: warning: unused variable 'param' [-Wunused-variable]
+   drivers/iommu/intel/iommu.c: In function 'pv_context_clear':
+   drivers/iommu/intel/iommu.c:1743:16: error: variable 'param' has initializer but incomplete type
+    1743 |         struct pkvm_clear_translation_param param = {
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu.c:1744:18: error: 'struct pkvm_clear_translation_param' has no member named 'phys'
+    1744 |                 .phys = info->iommu->reg_phys,
+         |                  ^~~~
+   drivers/iommu/intel/iommu.c:1744:25: warning: excess elements in struct initializer
+    1744 |                 .phys = info->iommu->reg_phys,
+         |                         ^~~~
+   drivers/iommu/intel/iommu.c:1744:25: note: (near initialization for 'param')
+   drivers/iommu/intel/iommu.c:1745:18: error: 'struct pkvm_clear_translation_param' has no member named 'bdf'
+    1745 |                 .bdf = PCI_DEVID(bus, devfn),
+         |                  ^~~
+   include/linux/pci.h:72:33: warning: excess elements in struct initializer
+      72 | #define PCI_DEVID(bus, devfn)   ((((u16)(bus)) << 8) | (devfn))
+         |                                 ^
+   drivers/iommu/intel/iommu.c:1745:24: note: in expansion of macro 'PCI_DEVID'
+    1745 |                 .bdf = PCI_DEVID(bus, devfn),
+         |                        ^~~~~~~~~
+   include/linux/pci.h:72:33: note: (near initialization for 'param')
+      72 | #define PCI_DEVID(bus, devfn)   ((((u16)(bus)) << 8) | (devfn))
+         |                                 ^
+   drivers/iommu/intel/iommu.c:1745:24: note: in expansion of macro 'PCI_DEVID'
+    1745 |                 .bdf = PCI_DEVID(bus, devfn),
+         |                        ^~~~~~~~~
+   drivers/iommu/intel/iommu.c:1746:18: error: 'struct pkvm_clear_translation_param' has no member named 'ats_qdep'
+    1746 |                 .ats_qdep = info->ats_qdep,
+         |                  ^~~~~~~~
+   drivers/iommu/intel/iommu.c:1746:29: warning: excess elements in struct initializer
+    1746 |                 .ats_qdep = info->ats_qdep,
+         |                             ^~~~
+   drivers/iommu/intel/iommu.c:1746:29: note: (near initialization for 'param')
+   drivers/iommu/intel/iommu.c:1743:45: error: storage size of 'param' isn't known
+    1743 |         struct pkvm_clear_translation_param param = {
+         |                                             ^~~~~
+   drivers/iommu/intel/iommu.c:1743:45: warning: unused variable 'param' [-Wunused-variable]
+   drivers/iommu/intel/iommu.c: In function 'pv_context_setup_pass_through':
+   drivers/iommu/intel/iommu.c:4336:16: error: variable 'param' has initializer but incomplete type
+    4336 |         struct pkvm_lm_context_param param = {
+         |                ^~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu.c:4337:18: error: 'struct pkvm_lm_context_param' has no member named 'phys'
+    4337 |                 .phys = iommu->reg_phys,
+         |                  ^~~~
+   drivers/iommu/intel/iommu.c:4337:25: warning: excess elements in struct initializer
+    4337 |                 .phys = iommu->reg_phys,
+         |                         ^~~~~
+   drivers/iommu/intel/iommu.c:4337:25: note: (near initialization for 'param')
+   drivers/iommu/intel/iommu.c:4338:18: error: 'struct pkvm_lm_context_param' has no member named 'bdf'
+    4338 |                 .bdf = PCI_DEVID(bus, devfn),
+         |                  ^~~
+   include/linux/pci.h:72:33: warning: excess elements in struct initializer
+      72 | #define PCI_DEVID(bus, devfn)   ((((u16)(bus)) << 8) | (devfn))
+         |                                 ^
+   drivers/iommu/intel/iommu.c:4338:24: note: in expansion of macro 'PCI_DEVID'
+    4338 |                 .bdf = PCI_DEVID(bus, devfn),
+         |                        ^~~~~~~~~
+   include/linux/pci.h:72:33: note: (near initialization for 'param')
+      72 | #define PCI_DEVID(bus, devfn)   ((((u16)(bus)) << 8) | (devfn))
+         |                                 ^
+   drivers/iommu/intel/iommu.c:4338:24: note: in expansion of macro 'PCI_DEVID'
+    4338 |                 .bdf = PCI_DEVID(bus, devfn),
+         |                        ^~~~~~~~~
+   drivers/iommu/intel/iommu.c:4339:18: error: 'struct pkvm_lm_context_param' has no member named 'did'
+    4339 |                 .did = FLPT_DEFAULT_DID,
+         |                  ^~~
+   In file included from drivers/iommu/intel/iommu.c:31:
+   drivers/iommu/intel/pasid.h:29:41: warning: excess elements in struct initializer
+      29 | #define FLPT_DEFAULT_DID                1
+         |                                         ^
+   drivers/iommu/intel/iommu.c:4339:24: note: in expansion of macro 'FLPT_DEFAULT_DID'
+    4339 |                 .did = FLPT_DEFAULT_DID,
+         |                        ^~~~~~~~~~~~~~~~
+   drivers/iommu/intel/pasid.h:29:41: note: (near initialization for 'param')
+      29 | #define FLPT_DEFAULT_DID                1
+         |                                         ^
+   drivers/iommu/intel/iommu.c:4339:24: note: in expansion of macro 'FLPT_DEFAULT_DID'
+    4339 |                 .did = FLPT_DEFAULT_DID,
+         |                        ^~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu.c:4336:38: error: storage size of 'param' isn't known
+    4336 |         struct pkvm_lm_context_param param = {
+         |                                      ^~~~~
+   drivers/iommu/intel/iommu.c:4336:38: warning: unused variable 'param' [-Wunused-variable]
 
 
-vim +2357 drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c
+vim +1464 drivers/iommu/intel/iommu.c
 
-851a645efd0fee7 Felix Kuehling  2017-11-27  2342  
-520b8fb755ccfb0 Felix Kuehling  2017-12-08  2343  static int kfd_cpumask_to_apic_id(const struct cpumask *cpumask)
-520b8fb755ccfb0 Felix Kuehling  2017-12-08  2344  {
-520b8fb755ccfb0 Felix Kuehling  2017-12-08  2345  	int first_cpu_of_numa_node;
-520b8fb755ccfb0 Felix Kuehling  2017-12-08  2346  
-520b8fb755ccfb0 Felix Kuehling  2017-12-08  2347  	if (!cpumask || cpumask == cpu_none_mask)
-520b8fb755ccfb0 Felix Kuehling  2017-12-08  2348  		return -1;
-520b8fb755ccfb0 Felix Kuehling  2017-12-08  2349  	first_cpu_of_numa_node = cpumask_first(cpumask);
-520b8fb755ccfb0 Felix Kuehling  2017-12-08  2350  	if (first_cpu_of_numa_node >= nr_cpu_ids)
-520b8fb755ccfb0 Felix Kuehling  2017-12-08  2351  		return -1;
-df1dd4f4a7271eb Felix Kuehling  2019-01-02  2352  #ifdef CONFIG_X86_64
-b9655e702dc5d85 Thomas Gleixner 2023-08-14 @2353  	return cpu_data(first_cpu_of_numa_node).topo.apicid;
-df1dd4f4a7271eb Felix Kuehling  2019-01-02  2354  #else
-df1dd4f4a7271eb Felix Kuehling  2019-01-02  2355  	return first_cpu_of_numa_node;
-df1dd4f4a7271eb Felix Kuehling  2019-01-02  2356  #endif
-520b8fb755ccfb0 Felix Kuehling  2017-12-08 @2357  }
-520b8fb755ccfb0 Felix Kuehling  2017-12-08  2358  
-
-:::::: The code at line 2357 was first introduced by commit
-:::::: 520b8fb755ccfb07d8d743da5753cff1fcb74b9f drm/amdkfd: Add topology support for CPUs
-
-:::::: TO: Felix Kuehling <Felix.Kuehling@amd.com>
-:::::: CC: Oded Gabbay <oded.gabbay@gmail.com>
+  1455	
+  1456	static int pv_context_mapping(struct dmar_domain *domain, struct intel_iommu *iommu,
+  1457				      struct device_domain_info *info, u8 bus, u8 devfn)
+  1458	{
+  1459		struct pkvm_lm_context_param param = {
+  1460			.phys = iommu->reg_phys,
+  1461			.bdf = PCI_DEVID(bus, devfn),
+  1462			.domain_pgd_gpa = virt_to_phys(domain->pgd),
+  1463			.did = domain_id_iommu(domain, iommu),
+> 1464			.ats_supported = info ? info->ats_supported : 0,
+  1465		};
+  1466		int ret;
+  1467	
+  1468		spin_lock(&iommu->lock);
+  1469		ret = pkvm_hc_iommu_set_lm_ce(&param);
+  1470		if (ret == -ENOMEM) {
+  1471			void *context = iommu_alloc_page_node(iommu->node, GFP_ATOMIC);
+  1472	
+  1473			if (!context) {
+  1474				spin_unlock(&iommu->lock);
+  1475				pr_err("%s: failed to allocate context page for iommu: %d\n",
+  1476				       __func__, iommu->seq_id);
+  1477				return -ENOMEM;
+  1478			}
+  1479			param.context_gpa = virt_to_phys(context);
+  1480			ret = pkvm_hc_iommu_set_lm_ce(&param);
+  1481	
+  1482			/* Free the page if pkvm did not use it. */
+  1483			if (param.context_gpa)
+  1484				iommu_free_page(context);
+  1485		}
+  1486		spin_unlock(&iommu->lock);
+  1487	
+  1488		return ret;
+  1489	}
+  1490	
 
 --
 0-DAY CI Kernel Test Service
