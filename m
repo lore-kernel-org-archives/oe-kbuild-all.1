@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3BA039891E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 May 2026 21:44:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C1137AA74
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 May 2026 23:14:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779918297; cv=none; b=MdYPc5q+x+hIv1BkWkxePzPPgMEg1t0smpNksvHHZP0NvFGofUYFb5jp/QaX90HT0mgbwSmxKqOnOx6EPB9nqIuxTmSjLk1pOve7yWy8bLZ7p8/7zZEtt+rl41Dgj91XNNw3fzb5dm5r7HB0zkjzSTDAlUQIc3uYFoAewV1kIpw=
+	t=1779923647; cv=none; b=CXXU8m8fC8x3OPSZxGi8+thlZBBEWoa3ivm+NbdiOxAH51x/eDfUgsLPvuyWiLkJq0LcmOsPKQvBz+yjHooZA1RS7KOrT6WLpQyAOLPncAad2jnRQZxhpM5NdlZNEa0gcwA8N5XSAVTkwxoAfVphWUec2nEFrtp9X79zrambsLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779918297; c=relaxed/simple;
-	bh=skV9XpiSDNCIE8slffxmgCy5eJUmlVUSnlqWC1Z2XCQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=l2jHsWaKoZf40WRZO+JOhqMpKrcG3jFTUxn7tjmggW61ODZ+RIWcHNQpmx3ivzXoPTOKWWjC6guEmVPTyx72EgAa7k/fFsjlP1eqqqnYi0X207l3JIwtoj8La34gb9mPHluEW1hIFtyBsZyE4wSU0DIRGnw/LmpUCmWgqSzVIms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WzphWO33; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1779923647; c=relaxed/simple;
+	bh=ws/QNXyEZJPIEPhC63X35v+9UJfEsKUklRouP4bBIMo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=gm9NTcKr4puI5t1vMuDyz70tfFJdlDFbIwOeDdEcS+i935YBqhmAIshT6cwSWcpuaKZdIKF8tKDsK7WcjLytEtUwE9Eowb7SL91ej2O/DGTAxPGnIOJFDLUJehD2GBpwg1yysMblGnz74/wrFeMH/b+XQxWf6TVa/0TTeoz9+MA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KgSQQD6H; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WzphWO33"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KgSQQD6H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779918292; x=1811454292;
+  t=1779923643; x=1811459643;
   h=date:from:to:cc:subject:message-id;
-  bh=skV9XpiSDNCIE8slffxmgCy5eJUmlVUSnlqWC1Z2XCQ=;
-  b=WzphWO33sgTV29hzpu792BOfhAEaEvUezOJo0gCtPtekjooLWzmpWoA7
-   khzJNtPK9MNFe8FvnPN6fCaQ34CXkOYhHxmq2sqa/y+1TeI6ZlWGgZMbn
-   0YMQ5RJQRHlCylRIz4Ik/cAbqSxyq49H0If7vtqbNUBL68c5UZhWEcMAI
-   e3wgwWMssdR3kVV1aWpVmgeimgpnvJD0u5NavPzLlbEOHuXhQdBBGUFaV
-   mrrDYNmpx7/vh+l0exdQ5cfMyBcCSuMr07ZI0jsLO+Vy1DPcHKhvprP/s
-   pat9yOi95Um8ooggAE7agjcwrT7zfwypwrDJXmTGyTNyW6JV5cjNn/+gN
-   Q==;
-X-CSE-ConnectionGUID: PhBLGQRVR92sgvHZr+CpBA==
-X-CSE-MsgGUID: djUhdSZ4QL2OCCseaVMZKg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11799"; a="84619539"
+  bh=ws/QNXyEZJPIEPhC63X35v+9UJfEsKUklRouP4bBIMo=;
+  b=KgSQQD6HvUEaeJnzg1FvHQfDXBDieoCM07N4YSZ31aEjxbmN9xmcueLp
+   osXJQSaQKoj7BI708iCIzZP9Dk0LkSrpXKh+zvuNigM/cfKoVA8hhti90
+   pa4LVT6ee+kiKYjlvNwSWBdbbEZlmz+ydvp7jgkZy7ODurSi8kKHgfOc1
+   Xi9VgyMXHg87stEQEoGdvfoqyR64S/p1s1B/oUmOG4ZedpRnouDiB2GLC
+   ZNj21GcCGfj3Xzx7+sMtWA5enXfuvrFEQe3DWw/dOQPCd9Wsl8e1bcCmA
+   SWst4CTH/vRDc+NU94hkd9VhlLBSb5capPvPcfDBKrFS7kT3uAyoMi0VO
+   w==;
+X-CSE-ConnectionGUID: xrJBpHQuQzSKILba7mEyVg==
+X-CSE-MsgGUID: HVtOkWuFRLOtlQhJg4Gq9Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11799"; a="68297423"
 X-IronPort-AV: E=Sophos;i="6.24,172,1774335600"; 
-   d="scan'208";a="84619539"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2026 14:44:51 -0700
-X-CSE-ConnectionGUID: XLrPJUGES8mJ4kVCNryMBw==
-X-CSE-MsgGUID: FBHL0muJR5ucbm0Clkb/LA==
+   d="scan'208";a="68297423"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2026 16:14:02 -0700
+X-CSE-ConnectionGUID: 4IV48J3DQfe/nqjOp56wTQ==
+X-CSE-MsgGUID: 4r1HDpAZQ1+umgU0nIUpEg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,172,1774335600"; 
-   d="scan'208";a="246386622"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 27 May 2026 14:44:50 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+   d="scan'208";a="242229688"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by orviesa008.jf.intel.com with ESMTP; 27 May 2026 16:14:01 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wSM3T-000000004TC-1iws;
-	Wed, 27 May 2026 21:44:47 +0000
-Date: Thu, 28 May 2026 05:44:33 +0800
+	id 1wSNRm-0000000008f-0dBJ;
+	Wed, 27 May 2026 23:13:58 +0000
+Date: Thu, 28 May 2026 01:13:05 +0200
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 0/28]
- arch/x86/include/asm/pci_x86.h:241:9: error: call to undeclared function
- 'pv_pci_mmcfg_readb'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202605280517.NLqmePFy-lkp@intel.com>
+To: Ashwin Gundarapu <linuxuser509@zohomail.in>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: arch/x86/kernel/signal.c:261:17: error: implicit declaration
+ of function 'save_v86_state'
+Message-ID: <202605280136.6qFwEHIX-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,135 +59,101 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Chuanxiao,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   d82d1c962ed8d8ed693448d27aa42a88c54f438d
-commit: 3b88862f9b7f7434c1456fc15232238fa84e3a42 [0/28] ANDROID: x86/paravirt: Extend pv_mmio_ops to support pci mmcfg read and write
-config: i386-buildonly-randconfig-006-20260527 (https://download.01.org/0day-ci/archive/20260528/202605280517.NLqmePFy-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260528/202605280517.NLqmePFy-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Ashwin-Gundarapu/x86-vm86-Remove-deprecated-VM86-support/20260527-153401
+head:   a2ce238b5c42884d12a9ad3e3dea7c6313dcb8bb
+commit: a2ce238b5c42884d12a9ad3e3dea7c6313dcb8bb x86/vm86: Remove deprecated VM86 support
+date:   15 hours ago
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260528/202605280136.6qFwEHIX-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260528/202605280136.6qFwEHIX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605280517.NLqmePFy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605280136.6qFwEHIX-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/x86/kernel/resource.c:5:
->> arch/x86/include/asm/pci_x86.h:241:9: error: call to undeclared function 'pv_pci_mmcfg_readb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     241 |         return pv_pci_mmcfg_readb(pos);
-         |                ^
-   arch/x86/include/asm/pci_x86.h:241:9: note: did you mean 'pci_mmcfg_readb'?
-   arch/x86/include/asm/pci_x86.h:202:29: note: 'pci_mmcfg_readb' declared here
-     202 | static inline unsigned char pci_mmcfg_readb(const volatile void __iomem *pos)
-         |                             ^
->> arch/x86/include/asm/pci_x86.h:246:9: error: call to undeclared function 'pv_pci_mmcfg_readw'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     246 |         return pv_pci_mmcfg_readw(pos);
-         |                ^
-   arch/x86/include/asm/pci_x86.h:246:9: note: did you mean 'pci_mmcfg_readw'?
-   arch/x86/include/asm/pci_x86.h:209:30: note: 'pci_mmcfg_readw' declared here
-     209 | static inline unsigned short pci_mmcfg_readw(const volatile void __iomem *pos)
-         |                              ^
->> arch/x86/include/asm/pci_x86.h:251:9: error: call to undeclared function 'pv_pci_mmcfg_readl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     251 |         return pv_pci_mmcfg_readl(pos);
-         |                ^
-   arch/x86/include/asm/pci_x86.h:251:9: note: did you mean 'pci_mmcfg_readl'?
-   arch/x86/include/asm/pci_x86.h:216:28: note: 'pci_mmcfg_readl' declared here
-     216 | static inline unsigned int pci_mmcfg_readl(const volatile void __iomem *pos)
-         |                            ^
->> arch/x86/include/asm/pci_x86.h:256:2: error: call to undeclared function 'pv_pci_mmcfg_writeb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     256 |         pv_pci_mmcfg_writeb(val, pos);
-         |         ^
-   arch/x86/include/asm/pci_x86.h:256:2: note: did you mean 'pci_mmcfg_writeb'?
-   arch/x86/include/asm/pci_x86.h:223:20: note: 'pci_mmcfg_writeb' declared here
-     223 | static inline void pci_mmcfg_writeb(unsigned char val, volatile void __iomem *pos)
-         |                    ^
->> arch/x86/include/asm/pci_x86.h:261:2: error: call to undeclared function 'pv_pci_mmcfg_writew'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     261 |         pv_pci_mmcfg_writew(val, pos);
-         |         ^
-   arch/x86/include/asm/pci_x86.h:261:2: note: did you mean 'pci_mmcfg_writew'?
-   arch/x86/include/asm/pci_x86.h:228:20: note: 'pci_mmcfg_writew' declared here
-     228 | static inline void pci_mmcfg_writew(unsigned short val, volatile void __iomem *pos)
-         |                    ^
->> arch/x86/include/asm/pci_x86.h:266:2: error: call to undeclared function 'pv_pci_mmcfg_writel'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     266 |         pv_pci_mmcfg_writel(val, pos);
-         |         ^
-   arch/x86/include/asm/pci_x86.h:266:2: note: did you mean 'pci_mmcfg_writel'?
-   arch/x86/include/asm/pci_x86.h:233:20: note: 'pci_mmcfg_writel' declared here
-     233 | static inline void pci_mmcfg_writel(unsigned int val, volatile void __iomem *pos)
-         |                    ^
-   6 errors generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for USB_PHY
-   Depends on [n]: USB_SUPPORT [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_USB_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for NET_DEVLINK
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for PAGE_POOL
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
+   arch/x86/kernel/signal.c: In function 'handle_signal':
+>> arch/x86/kernel/signal.c:261:17: error: implicit declaration of function 'save_v86_state' [-Wimplicit-function-declaration]
+     261 |                 save_v86_state((struct kernel_vm86_regs *) regs, VM86_SIGNAL);
+         |                 ^~~~~~~~~~~~~~
+--
+   arch/x86/kernel/traps.c: In function 'do_trap_no_signal':
+>> arch/x86/kernel/traps.c:289:30: error: implicit declaration of function 'handle_vm86_trap' [-Wimplicit-function-declaration]
+     289 |                         if (!handle_vm86_trap((struct kernel_vm86_regs *) regs,
+         |                              ^~~~~~~~~~~~~~~~
+   arch/x86/kernel/traps.c: In function '__exc_general_protection':
+>> arch/x86/kernel/traps.c:927:17: error: implicit declaration of function 'handle_vm86_fault'; did you mean 'handle_mm_fault'? [-Wimplicit-function-declaration]
+     927 |                 handle_vm86_fault((struct kernel_vm86_regs *) regs, error_code);
+         |                 ^~~~~~~~~~~~~~~~~
+         |                 handle_mm_fault
 
 
-vim +/pv_pci_mmcfg_readb +241 arch/x86/include/asm/pci_x86.h
+vim +/save_v86_state +261 arch/x86/kernel/signal.c
 
-   237	
-   238	#ifdef CONFIG_PARAVIRT
-   239	static inline unsigned char mmio_config_readb(void __iomem *pos)
-   240	{
- > 241		return pv_pci_mmcfg_readb(pos);
-   242	}
-   243	
-   244	static inline unsigned short mmio_config_readw(void __iomem *pos)
-   245	{
- > 246		return pv_pci_mmcfg_readw(pos);
-   247	}
-   248	
-   249	static inline unsigned int mmio_config_readl(void __iomem *pos)
-   250	{
- > 251		return pv_pci_mmcfg_readl(pos);
-   252	}
-   253	
-   254	static inline void mmio_config_writeb(void __iomem *pos, u8 val)
-   255	{
- > 256		pv_pci_mmcfg_writeb(val, pos);
-   257	}
-   258	
-   259	static inline void mmio_config_writew(void __iomem *pos, u16 val)
-   260	{
- > 261		pv_pci_mmcfg_writew(val, pos);
-   262	}
-   263	
-   264	static inline void mmio_config_writel(void __iomem *pos, u32 val)
-   265	{
- > 266		pv_pci_mmcfg_writel(val, pos);
-   267	}
-   268	#else
-   269	static inline unsigned char mmio_config_readb(void __iomem *pos)
-   270	{
-   271		return pci_mmcfg_readb(pos);
-   272	}
-   273	
+1d13024e624d0e arch/x86/kernel/signal_32.c Hiroshi Shimamoto   2008-09-05  253  
+a610d6e672d6d3 arch/x86/kernel/signal.c    Al Viro             2012-05-21  254  static void
+235b80226b986d arch/x86/kernel/signal.c    Al Viro             2012-11-09  255  handle_signal(struct ksignal *ksig, struct pt_regs *regs)
+^1da177e4c3f41 arch/i386/kernel/signal.c   Linus Torvalds      2005-04-16  256  {
+fd0f86b66425bd arch/x86/kernel/signal.c    Oleg Nesterov       2015-04-16  257  	bool stepping, failed;
+e3bfa3859936da arch/x86/kernel/signal.c    Ingo Molnar         2025-04-09  258  	struct fpu *fpu = x86_task_fpu(current);
+fd0f86b66425bd arch/x86/kernel/signal.c    Oleg Nesterov       2015-04-16  259  
+5ed92a8ab71f88 arch/x86/kernel/signal.c    Brian Gerst         2015-07-29  260  	if (v8086_mode(regs))
+5ed92a8ab71f88 arch/x86/kernel/signal.c    Brian Gerst         2015-07-29 @261  		save_v86_state((struct kernel_vm86_regs *) regs, VM86_SIGNAL);
+5ed92a8ab71f88 arch/x86/kernel/signal.c    Brian Gerst         2015-07-29  262  
+^1da177e4c3f41 arch/i386/kernel/signal.c   Linus Torvalds      2005-04-16  263  	/* Are we from a system call? */
+9ddcb87b9218de arch/x86/kernel/signal.c    H. Peter Anvin      2021-05-10  264  	if (syscall_get_nr(current, regs) != -1) {
+^1da177e4c3f41 arch/i386/kernel/signal.c   Linus Torvalds      2005-04-16  265  		/* If so, check system call restarting.. */
+bb57925f505783 arch/x86/kernel/signal_32.c Hiroshi Shimamoto   2008-09-05  266  		switch (syscall_get_error(current, regs)) {
+^1da177e4c3f41 arch/i386/kernel/signal.c   Linus Torvalds      2005-04-16  267  		case -ERESTART_RESTARTBLOCK:
+^1da177e4c3f41 arch/i386/kernel/signal.c   Linus Torvalds      2005-04-16  268  		case -ERESTARTNOHAND:
+65ea5b03499035 arch/x86/kernel/signal_32.c H. Peter Anvin      2008-01-30  269  			regs->ax = -EINTR;
+^1da177e4c3f41 arch/i386/kernel/signal.c   Linus Torvalds      2005-04-16  270  			break;
+^1da177e4c3f41 arch/i386/kernel/signal.c   Linus Torvalds      2005-04-16  271  
+^1da177e4c3f41 arch/i386/kernel/signal.c   Linus Torvalds      2005-04-16  272  		case -ERESTARTSYS:
+235b80226b986d arch/x86/kernel/signal.c    Al Viro             2012-11-09  273  			if (!(ksig->ka.sa.sa_flags & SA_RESTART)) {
+65ea5b03499035 arch/x86/kernel/signal_32.c H. Peter Anvin      2008-01-30  274  				regs->ax = -EINTR;
+^1da177e4c3f41 arch/i386/kernel/signal.c   Linus Torvalds      2005-04-16  275  				break;
+^1da177e4c3f41 arch/i386/kernel/signal.c   Linus Torvalds      2005-04-16  276  			}
+df561f6688fef7 arch/x86/kernel/signal.c    Gustavo A. R. Silva 2020-08-23  277  			fallthrough;
+^1da177e4c3f41 arch/i386/kernel/signal.c   Linus Torvalds      2005-04-16  278  		case -ERESTARTNOINTR:
+65ea5b03499035 arch/x86/kernel/signal_32.c H. Peter Anvin      2008-01-30  279  			regs->ax = regs->orig_ax;
+65ea5b03499035 arch/x86/kernel/signal_32.c H. Peter Anvin      2008-01-30  280  			regs->ip -= 2;
+ac66f3fd89ee20 arch/x86/kernel/signal_32.c Harvey Harrison     2008-02-08  281  			break;
+^1da177e4c3f41 arch/i386/kernel/signal.c   Linus Torvalds      2005-04-16  282  		}
+^1da177e4c3f41 arch/i386/kernel/signal.c   Linus Torvalds      2005-04-16  283  	}
+^1da177e4c3f41 arch/i386/kernel/signal.c   Linus Torvalds      2005-04-16  284  
+^1da177e4c3f41 arch/i386/kernel/signal.c   Linus Torvalds      2005-04-16  285  	/*
+fd0f86b66425bd arch/x86/kernel/signal.c    Oleg Nesterov       2015-04-16  286  	 * If TF is set due to a debugger (TIF_FORCED_TF), clear TF now
+fd0f86b66425bd arch/x86/kernel/signal.c    Oleg Nesterov       2015-04-16  287  	 * so that register information in the sigcontext is correct and
+fd0f86b66425bd arch/x86/kernel/signal.c    Oleg Nesterov       2015-04-16  288  	 * then notify the tracer before entering the signal handler.
+^1da177e4c3f41 arch/i386/kernel/signal.c   Linus Torvalds      2005-04-16  289  	 */
+fd0f86b66425bd arch/x86/kernel/signal.c    Oleg Nesterov       2015-04-16  290  	stepping = test_thread_flag(TIF_SINGLESTEP);
+fd0f86b66425bd arch/x86/kernel/signal.c    Oleg Nesterov       2015-04-16  291  	if (stepping)
+fd0f86b66425bd arch/x86/kernel/signal.c    Oleg Nesterov       2015-04-16  292  		user_disable_single_step(current);
+^1da177e4c3f41 arch/i386/kernel/signal.c   Linus Torvalds      2005-04-16  293  
+235b80226b986d arch/x86/kernel/signal.c    Al Viro             2012-11-09  294  	failed = (setup_rt_frame(ksig, regs) < 0);
+235b80226b986d arch/x86/kernel/signal.c    Al Viro             2012-11-09  295  	if (!failed) {
+8b9c5ff380aa4f arch/x86/kernel/signal_32.c Roland McGrath      2008-04-19  296  		/*
+8b9c5ff380aa4f arch/x86/kernel/signal_32.c Roland McGrath      2008-04-19  297  		 * Clear the direction flag as per the ABI for function entry.
+ddd40da4ccbabd arch/x86/kernel/signal.c    Jiri Olsa           2013-05-01  298  		 *
+24cda10996f542 arch/x86/kernel/signal.c    Jiri Olsa           2013-05-01  299  		 * Clear RF when entering the signal handler, because
+24cda10996f542 arch/x86/kernel/signal.c    Jiri Olsa           2013-05-01  300  		 * it might disable possible debug exception from the
+24cda10996f542 arch/x86/kernel/signal.c    Jiri Olsa           2013-05-01  301  		 * signal handler.
+ddd40da4ccbabd arch/x86/kernel/signal.c    Jiri Olsa           2013-05-01  302  		 *
+fd0f86b66425bd arch/x86/kernel/signal.c    Oleg Nesterov       2015-04-16  303  		 * Clear TF for the case when it wasn't set by debugger to
+fd0f86b66425bd arch/x86/kernel/signal.c    Oleg Nesterov       2015-04-16  304  		 * avoid the recursive send_sigtrap() in SIGTRAP handler.
+8b9c5ff380aa4f arch/x86/kernel/signal_32.c Roland McGrath      2008-04-19  305  		 */
+ddd40da4ccbabd arch/x86/kernel/signal.c    Jiri Olsa           2013-05-01  306  		regs->flags &= ~(X86_EFLAGS_DF|X86_EFLAGS_RF|X86_EFLAGS_TF);
+66463db4fc5605 arch/x86/kernel/signal.c    Oleg Nesterov       2014-09-02  307  		/*
+66463db4fc5605 arch/x86/kernel/signal.c    Oleg Nesterov       2014-09-02  308  		 * Ensure the signal handler starts with the new fpu state.
+66463db4fc5605 arch/x86/kernel/signal.c    Oleg Nesterov       2014-09-02  309  		 */
+b860eb8dce5906 arch/x86/kernel/signal.c    Fenghua Yu          2020-05-12  310  		fpu__clear_user_states(fpu);
+235b80226b986d arch/x86/kernel/signal.c    Al Viro             2012-11-09  311  	}
+fd0f86b66425bd arch/x86/kernel/signal.c    Oleg Nesterov       2015-04-16  312  	signal_setup_done(failed, ksig, stepping);
+^1da177e4c3f41 arch/i386/kernel/signal.c   Linus Torvalds      2005-04-16  313  }
+^1da177e4c3f41 arch/i386/kernel/signal.c   Linus Torvalds      2005-04-16  314  
 
 --
 0-DAY CI Kernel Test Service
