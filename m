@@ -1,58 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF8B1311973
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 May 2026 19:55:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBB941632E7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 May 2026 20:06:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779911746; cv=none; b=qfn+kBCQKNd02hu13KldFIifYVnBGWl+c0daqQUThHYmZAm40FtKhBgVUUnvtH2Z9ntrCib24FfX4LliO4OR9T/IQSkh6KSpyONC9kcxyYbgSUBs2k/rjr9CuJ1KsHV0t84FptbCm37wxe73J908Ru08GoZl6pj+iFgImzELJhM=
+	t=1779912416; cv=none; b=Vwfr2eRgZhbZpe1intDMoa/Rud3FYERo/tFkwAlzr+9i8LcTWuplmMm6KqEsTdAPbLDYF/adsxYHR9hux4b3OT/XgK+Wew/QsNdQBbIzGnBiXzswkaPBifVKoxIk5q29hAje0vLeKVuYD1VFO4n2yFlXcLLyQgLG/QzsveQaNYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779911746; c=relaxed/simple;
-	bh=P/7YVUOMBXi6/spHPUnxxgjLgXcv8RIL2bakt8G1rd8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=JzgnkLXyVy8TzrJLSRsJtRI3e5YarxKLNyZtbFv9G5YvwiKfG6ryDXrS0v6w120APqwRHa44YAsEOeOgZg13D0YQQQk5zPWkKaJM+y9zdFMlp2OiTZYE5du5h28iDxDhGOu17aI+KYP5yloSbX2xaXlS92Rlz/1/qr37HxRlAz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qhe+t32K; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1779912416; c=relaxed/simple;
+	bh=vZyHe5PDGEX1pdgmown4MC9poGDdXNv1kL4s0QqPtv0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=IDgjzszNN7CPVPquM4AmtvJy+6roPd5Vghw42MVB/ALgCZVbPZgG1oTUOcACzSXSukFN+hkl/CFHBw618lMi19BhUOBV30m+6hr1/X7bvptRVf0gz3pUdNyLS4ue+AJcr6a44v1ZMaqfMDn3NpWf5agnQm0fHYNA7MfW8FfZbhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YoRXNZjl; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qhe+t32K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YoRXNZjl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779911745; x=1811447745;
+  t=1779912416; x=1811448416;
   h=date:from:to:cc:subject:message-id;
-  bh=P/7YVUOMBXi6/spHPUnxxgjLgXcv8RIL2bakt8G1rd8=;
-  b=Qhe+t32KJYBwWiopnXNbnyXDMPCOLyOSH5dj6lcBnoyrf4fztJ/1AzDk
-   7B75zQc5EaHigSBKrxSIqjZQBjSD4M3wEkHxt1+BDfWh8/P1+6bvJnDtM
-   9gCcmOKsElYC2w3QUFvCatsi+ghD+MgJCpr5gIOPyajDczFl3HUMFkKh2
-   ehNc+TqFawuTPDiJyXSBjNv83tI11EPKaJGp/0dtd8PTrT2yATTx2ZASm
-   JHs+wWDtOC+9gvzUOOjlI3aqYc18mKM2niHBl8UuJZOyGiwuESy0yHQ3C
-   jGotckIxBVWIBUZWzhAnDolEANNMR/Xe28zWbqPGW2TRO4gM3O3VTo3dB
-   A==;
-X-CSE-ConnectionGUID: NEEWidi4RBiBDLAMjOkC2A==
-X-CSE-MsgGUID: ARODUu8KQoeB2sRJfw/zfw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11799"; a="91060780"
+  bh=vZyHe5PDGEX1pdgmown4MC9poGDdXNv1kL4s0QqPtv0=;
+  b=YoRXNZjll29wig2OaDbUAdLek4uIaNhHNuQy74pWeOV8B7Rd17zoNyb5
+   /J1uCAmzHjo1rvCulpjHgy19nuk3VBPeSHbGp1/atZwZoqEAGW68q2/mt
+   xxfDmlFTXtPL5IHQYRhLkBIMBXk6sDBza2Zll1DIwENVqTOj5kTQsNnEh
+   U2NLUbV5/OJ+7jbTUodS/u99HaNoEUpgCdjtwvVRfSNqnVrv0LtIGe2qy
+   vj8/wk2hUeEzFgfdFAIWQxm1ZqUN0CRf4DyXbxb+1VcsDer3cPjJkP3Bn
+   WwQYSyVQz4IV5ee/+vcHrJCFxXMv6ka2UQbktG8eNBXz/Om8VFQ8stLy3
+   w==;
+X-CSE-ConnectionGUID: HILEmzw7R2+lSGJ8uw7vxg==
+X-CSE-MsgGUID: NPrazXjyTpy8oBUWU04NLg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11799"; a="80657926"
 X-IronPort-AV: E=Sophos;i="6.24,172,1774335600"; 
-   d="scan'208";a="91060780"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2026 12:55:44 -0700
-X-CSE-ConnectionGUID: 96l1QPggT/a+B39iW3Bfwg==
-X-CSE-MsgGUID: aj3+J4awQhyXcPtaVtA+4g==
+   d="scan'208";a="80657926"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2026 13:06:49 -0700
+X-CSE-ConnectionGUID: UIPBcfi3Qpi5UoqVNyvW8w==
+X-CSE-MsgGUID: cE4b6TZOS/CndZWoG43+yA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,172,1774335600"; 
-   d="scan'208";a="239753877"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 27 May 2026 12:55:43 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 27 May 2026 13:06:43 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wSKLs-000000004Ok-2pcq;
-	Wed, 27 May 2026 19:55:40 +0000
-Date: Thu, 28 May 2026 03:55:33 +0800
+	id 1wSKWX-000000004PO-0JuY;
+	Wed, 27 May 2026 20:06:41 +0000
+Date: Thu, 28 May 2026 04:05:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-kiwi-5.10 236/236]
- kernel/trace/trace_events_synth.c:548 trace_event_raw_event_synth() warn:
- inconsistent indenting
-Message-ID: <202605280319.sbXBYYIP-lkp@intel.com>
+To: Ricardo Robaina <rrobaina@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, Paul Moore <paul@paul-moore.com>
+Subject: [linux-next:master 8419/8766] kernel/auditfilter.c:592:85:
+ error: macro 'audit_alloc_mark' passed 4 arguments, but takes just 3
+Message-ID: <202605280456.3Hhpgxl0-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,112 +57,224 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
-head:   699e15bcf547a7d68dda803fa0f49872de5be052
-commit: b9453380c1c542fd095a4dbe9251eeba4022bbce [236/236] tracing: Allow synthetic events to pass around stacktraces
-config: x86_64-randconfig-161-20260527 (https://download.01.org/0day-ci/archive/20260528/202605280319.sbXBYYIP-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-smatch: v0.5.0-9185-gbcc58b9c
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e7d700e14934e68f86338c5610cf2ae76798b663
+commit: 84470b80b7b0ded9a6b071a211a028fe5fec7e44 [8419/8766] audit: fix recursive locking deadlock in audit_dupe_exe()
+config: microblaze-defconfig (https://download.01.org/0day-ci/archive/20260528/202605280456.3Hhpgxl0-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260528/202605280456.3Hhpgxl0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605280319.sbXBYYIP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605280456.3Hhpgxl0-lkp@intel.com/
 
-smatch warnings:
-kernel/trace/trace_events_synth.c:548 trace_event_raw_event_synth() warn: inconsistent indenting
+All errors (new ones prefixed by >>):
 
-vim +548 kernel/trace/trace_events_synth.c
+   kernel/auditfilter.c: In function 'audit_data_to_entry':
+>> kernel/auditfilter.c:592:85: error: macro 'audit_alloc_mark' passed 4 arguments, but takes just 3
+     592 |                         audit_mark = audit_alloc_mark(&entry->rule, str, f_val, NULL);
+         |                                                                                     ^
+   In file included from kernel/auditfilter.c:23:
+   kernel/audit.h:327:9: note: macro 'audit_alloc_mark' defined here
+     327 | #define audit_alloc_mark(k, p, l) (ERR_PTR(-EINVAL))
+         |         ^~~~~~~~~~~~~~~~
+>> kernel/auditfilter.c:592:38: error: 'audit_alloc_mark' undeclared (first use in this function); did you mean 'audit_alloc'?
+     592 |                         audit_mark = audit_alloc_mark(&entry->rule, str, f_val, NULL);
+         |                                      ^~~~~~~~~~~~~~~~
+         |                                      audit_alloc
+   kernel/auditfilter.c:592:38: note: each undeclared identifier is reported only once for each function it appears in
+   kernel/auditfilter.c: In function 'audit_dupe_rule':
+>> kernel/auditfilter.c:879:59: error: macro 'audit_dupe_exe' passed 3 arguments, but takes just 2
+     879 |                         err = audit_dupe_exe(new, old, ctx);
+         |                                                           ^
+   kernel/audit.h:333:9: note: macro 'audit_dupe_exe' defined here
+     333 | #define audit_dupe_exe(n, o) (-EINVAL)
+         |         ^~~~~~~~~~~~~~
+>> kernel/auditfilter.c:879:31: error: 'audit_dupe_exe' undeclared (first use in this function); did you mean 'audit_dupe_rule'?
+     879 |                         err = audit_dupe_exe(new, old, ctx);
+         |                               ^~~~~~~~~~~~~~
+         |                               audit_dupe_rule
 
-   495	
-   496	static notrace void trace_event_raw_event_synth(void *__data,
-   497							u64 *var_ref_vals,
-   498							unsigned int *var_ref_idx)
-   499	{
-   500		unsigned int i, n_u64, val_idx, len, data_size = 0;
-   501		struct trace_event_file *trace_file = __data;
-   502		struct synth_trace_event *entry;
-   503		struct trace_event_buffer fbuffer;
-   504		struct trace_buffer *buffer;
-   505		struct synth_event *event;
-   506		int fields_size = 0;
-   507	
-   508		event = trace_file->event_call->data;
-   509	
-   510		if (trace_trigger_soft_disabled(trace_file))
-   511			return;
-   512	
-   513		fields_size = event->n_u64 * sizeof(u64);
-   514	
-   515		for (i = 0; i < event->n_dynamic_fields; i++) {
-   516			unsigned int field_pos = event->dynamic_fields[i]->field_pos;
-   517			char *str_val;
-   518	
-   519			val_idx = var_ref_idx[field_pos];
-   520			str_val = (char *)(long)var_ref_vals[val_idx];
-   521	
-   522			len = strlen(str_val) + 1;
-   523	
-   524			fields_size += len;
-   525		}
-   526	
-   527		/*
-   528		 * Avoid ring buffer recursion detection, as this event
-   529		 * is being performed within another event.
-   530		 */
-   531		buffer = trace_file->tr->array_buffer.buffer;
-   532		ring_buffer_nest_start(buffer);
-   533	
-   534		entry = trace_event_buffer_reserve(&fbuffer, trace_file,
-   535						   sizeof(*entry) + fields_size);
-   536		if (!entry)
-   537			goto out;
-   538	
-   539		for (i = 0, n_u64 = 0; i < event->n_fields; i++) {
-   540			val_idx = var_ref_idx[i];
-   541			if (event->fields[i]->is_string) {
-   542				char *str_val = (char *)(long)var_ref_vals[val_idx];
-   543	
-   544				len = trace_string(entry, event, str_val,
-   545						   event->fields[i]->is_dynamic,
-   546						   data_size, &n_u64);
-   547				data_size += len; /* only dynamic string increments */
- > 548			} if (event->fields[i]->is_stack) {
-   549			        long *stack = (long *)(long)var_ref_vals[val_idx];
-   550	
-   551				len = trace_stack(entry, event, stack,
-   552						   data_size, &n_u64);
-   553				data_size += len;
-   554			} else {
-   555				struct synth_field *field = event->fields[i];
-   556				u64 val = var_ref_vals[val_idx];
-   557	
-   558				switch (field->size) {
-   559				case 1:
-   560					*(u8 *)&entry->fields[n_u64] = (u8)val;
-   561					break;
-   562	
-   563				case 2:
-   564					*(u16 *)&entry->fields[n_u64] = (u16)val;
-   565					break;
-   566	
-   567				case 4:
-   568					*(u32 *)&entry->fields[n_u64] = (u32)val;
-   569					break;
-   570	
-   571				default:
-   572					entry->fields[n_u64] = val;
-   573					break;
-   574				}
-   575				n_u64++;
-   576			}
-   577		}
-   578	
-   579		trace_event_buffer_commit(&fbuffer);
-   580	out:
-   581		ring_buffer_nest_end(buffer);
-   582	}
-   583	
+
+vim +/audit_alloc_mark +592 kernel/auditfilter.c
+
+   446	
+   447	/* Translate struct audit_rule_data to kernel's rule representation. */
+   448	static struct audit_entry *audit_data_to_entry(struct audit_rule_data *data,
+   449						       size_t datasz)
+   450	{
+   451		int err = 0;
+   452		struct audit_entry *entry;
+   453		void *bufp;
+   454		size_t remain = datasz - sizeof(struct audit_rule_data);
+   455		int i;
+   456		char *str;
+   457		struct audit_fsnotify_mark *audit_mark;
+   458	
+   459		entry = audit_to_entry_common(data);
+   460		if (IS_ERR(entry))
+   461			goto exit_nofree;
+   462	
+   463		bufp = data->buf;
+   464		for (i = 0; i < data->field_count; i++) {
+   465			struct audit_field *f = &entry->rule.fields[i];
+   466			u32 f_val;
+   467	
+   468			err = -EINVAL;
+   469	
+   470			f->op = audit_to_op(data->fieldflags[i]);
+   471			if (f->op == Audit_bad)
+   472				goto exit_free;
+   473	
+   474			f->type = data->fields[i];
+   475			f_val = data->values[i];
+   476	
+   477			/* Support legacy tests for a valid loginuid */
+   478			if ((f->type == AUDIT_LOGINUID) && (f_val == AUDIT_UID_UNSET)) {
+   479				f->type = AUDIT_LOGINUID_SET;
+   480				f_val = 0;
+   481				entry->rule.pflags |= AUDIT_LOGINUID_LEGACY;
+   482			}
+   483	
+   484			err = audit_field_valid(entry, f);
+   485			if (err)
+   486				goto exit_free;
+   487	
+   488			err = -EINVAL;
+   489			switch (f->type) {
+   490			case AUDIT_LOGINUID:
+   491			case AUDIT_UID:
+   492			case AUDIT_EUID:
+   493			case AUDIT_SUID:
+   494			case AUDIT_FSUID:
+   495			case AUDIT_OBJ_UID:
+   496				f->uid = make_kuid(current_user_ns(), f_val);
+   497				if (!uid_valid(f->uid))
+   498					goto exit_free;
+   499				break;
+   500			case AUDIT_GID:
+   501			case AUDIT_EGID:
+   502			case AUDIT_SGID:
+   503			case AUDIT_FSGID:
+   504			case AUDIT_OBJ_GID:
+   505				f->gid = make_kgid(current_user_ns(), f_val);
+   506				if (!gid_valid(f->gid))
+   507					goto exit_free;
+   508				break;
+   509			case AUDIT_ARCH:
+   510				f->val = f_val;
+   511				entry->rule.arch_f = f;
+   512				break;
+   513			case AUDIT_SUBJ_USER:
+   514			case AUDIT_SUBJ_ROLE:
+   515			case AUDIT_SUBJ_TYPE:
+   516			case AUDIT_SUBJ_SEN:
+   517			case AUDIT_SUBJ_CLR:
+   518			case AUDIT_OBJ_USER:
+   519			case AUDIT_OBJ_ROLE:
+   520			case AUDIT_OBJ_TYPE:
+   521			case AUDIT_OBJ_LEV_LOW:
+   522			case AUDIT_OBJ_LEV_HIGH:
+   523				str = audit_unpack_string(&bufp, &remain, f_val);
+   524				if (IS_ERR(str)) {
+   525					err = PTR_ERR(str);
+   526					goto exit_free;
+   527				}
+   528				entry->rule.buflen += f_val;
+   529				f->lsm_str = str;
+   530				err = security_audit_rule_init(f->type, f->op, str,
+   531							       (void **)&f->lsm_rule,
+   532							       GFP_KERNEL);
+   533				/* Keep currently invalid fields around in case they
+   534				 * become valid after a policy reload. */
+   535				if (err == -EINVAL) {
+   536					pr_warn("audit rule for LSM \'%s\' is invalid\n",
+   537						str);
+   538					err = 0;
+   539				} else if (err)
+   540					goto exit_free;
+   541				break;
+   542			case AUDIT_WATCH:
+   543				str = audit_unpack_string(&bufp, &remain, f_val);
+   544				if (IS_ERR(str)) {
+   545					err = PTR_ERR(str);
+   546					goto exit_free;
+   547				}
+   548				err = audit_to_watch(&entry->rule, str, f_val, f->op);
+   549				if (err) {
+   550					kfree(str);
+   551					goto exit_free;
+   552				}
+   553				entry->rule.buflen += f_val;
+   554				break;
+   555			case AUDIT_DIR:
+   556				str = audit_unpack_string(&bufp, &remain, f_val);
+   557				if (IS_ERR(str)) {
+   558					err = PTR_ERR(str);
+   559					goto exit_free;
+   560				}
+   561				err = audit_make_tree(&entry->rule, str, f->op);
+   562				kfree(str);
+   563				if (err)
+   564					goto exit_free;
+   565				entry->rule.buflen += f_val;
+   566				break;
+   567			case AUDIT_INODE:
+   568				f->val = f_val;
+   569				err = audit_to_inode(&entry->rule, f);
+   570				if (err)
+   571					goto exit_free;
+   572				break;
+   573			case AUDIT_FILTERKEY:
+   574				if (entry->rule.filterkey || f_val > AUDIT_MAX_KEY_LEN)
+   575					goto exit_free;
+   576				str = audit_unpack_string(&bufp, &remain, f_val);
+   577				if (IS_ERR(str)) {
+   578					err = PTR_ERR(str);
+   579					goto exit_free;
+   580				}
+   581				entry->rule.buflen += f_val;
+   582				entry->rule.filterkey = str;
+   583				break;
+   584			case AUDIT_EXE:
+   585				if (entry->rule.exe || f_val > PATH_MAX)
+   586					goto exit_free;
+   587				str = audit_unpack_string(&bufp, &remain, f_val);
+   588				if (IS_ERR(str)) {
+   589					err = PTR_ERR(str);
+   590					goto exit_free;
+   591				}
+ > 592				audit_mark = audit_alloc_mark(&entry->rule, str, f_val, NULL);
+   593				if (IS_ERR(audit_mark)) {
+   594					kfree(str);
+   595					err = PTR_ERR(audit_mark);
+   596					goto exit_free;
+   597				}
+   598				entry->rule.buflen += f_val;
+   599				entry->rule.exe = audit_mark;
+   600				break;
+   601			default:
+   602				f->val = f_val;
+   603				break;
+   604			}
+   605		}
+   606	
+   607		if (entry->rule.inode_f && entry->rule.inode_f->op == Audit_not_equal)
+   608			entry->rule.inode_f = NULL;
+   609	
+   610	exit_nofree:
+   611		return entry;
+   612	
+   613	exit_free:
+   614		if (entry->rule.tree)
+   615			audit_put_tree(entry->rule.tree); /* that's the temporary one */
+   616		if (entry->rule.exe)
+   617			audit_remove_mark(entry->rule.exe); /* that's the template one */
+   618		audit_free_rule(entry);
+   619		return ERR_PTR(err);
+   620	}
+   621	
 
 --
 0-DAY CI Kernel Test Service
