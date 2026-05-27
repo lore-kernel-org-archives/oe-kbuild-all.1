@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F39C93612F5;
-	Wed, 27 May 2026 03:02:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60AAA34D91F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 May 2026 03:12:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779850932; cv=none; b=Pl3LjovP0XVzc/fTgbRDENS64laohQJgeCb5mfoBEf4WiKfjSM8YNowlkKDcwTVQC3KREfX+furBPC7OG68sY7WciZMaZY5c8ebPREAJelGBf1rZzjO6qLoZ78WH9y5NWFos996n7Mlvl9pDUWNdlkj2YHUUewfZbmFLOP22poI=
+	t=1779851535; cv=none; b=Fw78wJlLFrvWqAJjA4FB30fQERAvIUJRxSg8fr70P/6JFo8T8nbAvDGt3Eff/3XxComhS3Xryn0TPNWX5ysNSBpPsN+VOCTYqSgQMqav1G70YBY5+RUJw/679QQIl1zaEYB5L1hQzQrY7WQVeYPdahoALG2BMuH5UBmcuPinVEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779850932; c=relaxed/simple;
-	bh=02VxKTgHkiYArs8mO2aTIPsWW69QIsuN11HYkVba/10=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=cypH5BnR0AXWhmEPdgVSqsBJkLNr439C78OWZu1itRb0HvI34kC1wjLCBp5T8YM8fYPI5hPI3DNpBXE5XdRq8BpYOyG8b9PiFM6ZvTABMJLzJKZ7/3r1xUrIEFHd65MX8g4f8LoYv1IbQQq5n3myY+W+0gU9stMZgsLh2CNRmN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c88hmZA7; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1779851535; c=relaxed/simple;
+	bh=zT+SWjKojHYmsj9eVVbDZaGjPg5aptCwfifb/CGb4PU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Vc+07CSnnzFSpHMCGZDui/U0J72OirQHLNeQVfmjZnrlRe4YTRndEq6LPbKgQ84MQ+U7rkydLy4GGqbB+VjIPNcBClqRldbL/BLsLUUcNaRsrHpAJMRclnipkw1rX/t9bLEBO2hUDBrOh1XezimBIMMgX3W+VYZoPq9ZJkuKAMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zs79Mq71; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c88hmZA7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zs79Mq71"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779850930; x=1811386930;
+  t=1779851533; x=1811387533;
   h=date:from:to:cc:subject:message-id;
-  bh=02VxKTgHkiYArs8mO2aTIPsWW69QIsuN11HYkVba/10=;
-  b=c88hmZA7nWFhg1erJ4lecW9mmz6YS6sOml860xMYhaWUcgzcrLLzvZDO
-   9jmTXIwNEUlrw9gkj3F3zDcC+52k3GNC1ekG7EvmF5Ir4kl3OidRcS+nF
-   W+zcSog9SEGu7ZlnXbS6qVqXHyRBzqSxUn26/jmkEQzbpdHVLwNU3eZb5
-   rSiHnyO1YMD4RmXjDWOf1SPmAwWZXbKls/PKmpyCadEiacN5KyKiNTCce
-   Nu8NIoQCwHozjLwqCABlGDhMgtv7786BdIawgt3N7k2/dozl+xeGvfin6
-   4d8y1mWOEsTezIq85mYrdWdd44g9UflVIhxYklye1Ue5pN8BeNOIW8EYB
-   w==;
-X-CSE-ConnectionGUID: daK2s2v3QhexcvqjOxVi6g==
-X-CSE-MsgGUID: KoSqBTYqRDu+2KT72waYTw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="80733771"
+  bh=zT+SWjKojHYmsj9eVVbDZaGjPg5aptCwfifb/CGb4PU=;
+  b=Zs79Mq71w9FdJY2T6t+IToa9ockKSGUlWD4Q7lh56FkDKS2ksBVRnAiN
+   XUkVPmeu3GaMUMIs52I4seF8E0ilvNBL6q3Fs7LVw72b6dd8GEKvmAUhR
+   oSic1cn4/KjMqXpxdSNqrhGYTuzzza9S6QSUmzUNh7SjfiJZAlaWvo8pi
+   DZY6HnV7ihvuV/6tANHesROd7atjgXcBbZqPnU9URhDUpp3mmjhH2KES4
+   aYY2nGWBPEN/AFi33dhg4W3HFGVpEAoq64FoV05fWtgYeb6fqd86kU5Q2
+   P7jLnPKY3mO7TN8Gj2LYEXtRchx7RLt25Qq80Dgnr2sZczpfn0XMoZTOx
+   Q==;
+X-CSE-ConnectionGUID: gMJD6twKTsq8PLfs6JeV3Q==
+X-CSE-MsgGUID: puDtfNseTpyCNgElNUrDtA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="80862949"
 X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
-   d="scan'208";a="80733771"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 20:02:10 -0700
-X-CSE-ConnectionGUID: Xoaoqgt7RhK6VOX+zKgtew==
-X-CSE-MsgGUID: FA+tpijzRYqEZgp7PvY03Q==
+   d="scan'208";a="80862949"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 20:12:11 -0700
+X-CSE-ConnectionGUID: ioyi9B0ZQIeVPJme4+PWjg==
+X-CSE-MsgGUID: V5gG1VS9Rwepa83Emy6veA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
-   d="scan'208";a="247188785"
+   d="scan'208";a="243929835"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 26 May 2026 20:02:07 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 26 May 2026 20:12:09 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wS4Wz-000000003IC-2EW5;
-	Wed, 27 May 2026 03:02:05 +0000
-Date: Wed, 27 May 2026 11:01:12 +0800
+	id 1wS4gh-000000003JS-0joM;
+	Wed, 27 May 2026 03:12:07 +0000
+Date: Wed, 27 May 2026 11:11:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brian Cain <brian.cain@oss.qualcomm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [bcain:bcain/boot_qemu 33/40]
- drivers/comedi/comedi_fops.c:2577:8: error: use of undeclared identifier
- 'PAGE_SHARED'
-Message-ID: <202605271018.Hdv96pQp-lkp@intel.com>
+To: Florian Schmaus <florian.schmaus@codasip.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ "Christian A. Ehrhardt" <christian.ehrhardt@codasip.com>
+Subject: [scosu-sched:topic/mmap-cap-prot-wip/v6.18 1016/1130]
+ kernel/module/main.c:1573:50: error: passing argument 1 of '__c_pa' from
+ pointer to non-enclosed address space
+Message-ID: <202605271142.UZKldMeL-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,150 +61,116 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git bcain/boot_qemu
-head:   a81283ca24aeced3d15724ecb99d91190babce5a
-commit: ff8d5c27567e8e17099e37861739ee70bd309ae8 [33/40] hexagon: fix page table model for hexagon VM
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260527/202605271018.Hdv96pQp-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260527/202605271018.Hdv96pQp-lkp@intel.com/reproduce)
+tree:   https://github.com/scosu/linux-sched topic/mmap-cap-prot-wip/v6.18
+head:   f69a5a9d9fee15edde28429e23a4c749a59937bd
+commit: 96c8d778005ee7b53898c41756e279f0dfb9cdca [1016/1130] module: Use __c_pa() and __ptraddr_t where sensible
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20260527/202605271142.UZKldMeL-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260527/202605271142.UZKldMeL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605271018.Hdv96pQp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605271142.UZKldMeL-lkp@intel.com/
+
+Note: the scosu-sched/topic/mmap-cap-prot-wip/v6.18 HEAD f69a5a9d9fee15edde28429e23a4c749a59937bd builds fine.
+      It only hurts bisectability.
 
 All errors (new ones prefixed by >>):
 
->> drivers/comedi/comedi_fops.c:2577:8: error: use of undeclared identifier 'PAGE_SHARED'
-    2577 |                                                  PAGE_SHARED);
-         |                                                  ^
-   1 error generated.
---
->> drivers/video/fbdev/udlfb.c:370:52: error: use of undeclared identifier 'PAGE_SHARED'
-     370 |                 if (remap_pfn_range(vma, start, page, PAGE_SIZE, PAGE_SHARED))
-         |                                                                  ^
-   1 error generated.
---
->> drivers/video/fbdev/smscufx.c:802:52: error: use of undeclared identifier 'PAGE_SHARED'
-     802 |                 if (remap_pfn_range(vma, start, page, PAGE_SIZE, PAGE_SHARED))
-         |                                                                  ^
-   1 error generated.
+   kernel/module/main.c: In function 'simplify_symbols':
+>> kernel/module/main.c:1573:50: error: passing argument 1 of '__c_pa' from pointer to non-enclosed address space
+    1573 |                                 secbase = __c_pa(mod_percpu(mod));
+         |                                                  ^~~~~~~~~~~~~~~
+   In file included from include/linux/printk.h:11,
+                    from include/asm-generic/bug.h:22,
+                    from arch/x86/include/asm/bug.h:108,
+                    from arch/x86/include/asm/alternative.h:9,
+                    from arch/x86/include/asm/barrier.h:5,
+                    from include/linux/list.h:11,
+                    from include/linux/module.h:12,
+                    from include/linux/moduleloader.h:6,
+                    from kernel/module/main.c:12:
+   include/linux/cheri.h:241:29: note: expected 'const volatile void *' but argument is of type '__seg_fs void *'
+     241 | __c_pa(const volatile void *ptr)
+         |        ~~~~~~~~~~~~~~~~~~~~~^~~
 
 
-vim +/PAGE_SHARED +2577 drivers/comedi/comedi_fops.c
+vim +/__c_pa +1573 kernel/module/main.c
 
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2479  
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2480  static int comedi_mmap(struct file *file, struct vm_area_struct *vma)
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2481  {
-20f083c07565cb drivers/staging/comedi/comedi_fops.c Ian Abbott         2014-11-04  2482  	struct comedi_file *cfp = file->private_data;
-20f083c07565cb drivers/staging/comedi/comedi_fops.c Ian Abbott         2014-11-04  2483  	struct comedi_device *dev = cfp->dev;
-a52840a98bbb50 drivers/staging/comedi/comedi_fops.c H Hartley Sweeten  2012-12-19  2484  	struct comedi_subdevice *s;
-a52840a98bbb50 drivers/staging/comedi/comedi_fops.c H Hartley Sweeten  2012-12-19  2485  	struct comedi_async *async;
-b34aa86f12e884 drivers/staging/comedi/comedi_fops.c Ian Abbott         2014-04-10  2486  	struct comedi_buf_map *bm = NULL;
-e36472145aa706 drivers/staging/comedi/comedi_fops.c Ian Abbott         2019-06-25  2487  	struct comedi_buf_page *buf;
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2488  	unsigned long start = vma->vm_start;
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2489  	unsigned long size;
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2490  	int n_pages;
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2491  	int i;
-e36472145aa706 drivers/staging/comedi/comedi_fops.c Ian Abbott         2019-06-25  2492  	int retval = 0;
-3ffab428f40849 drivers/staging/comedi/comedi_fops.c Bernd Porr         2011-11-08  2493  
-b34aa86f12e884 drivers/staging/comedi/comedi_fops.c Ian Abbott         2014-04-10  2494  	/*
-c1e8d7c6a7a682 drivers/staging/comedi/comedi_fops.c Michel Lespinasse  2020-06-08  2495  	 * 'trylock' avoids circular dependency with current->mm->mmap_lock
-b34aa86f12e884 drivers/staging/comedi/comedi_fops.c Ian Abbott         2014-04-10  2496  	 * and down-reading &dev->attach_lock should normally succeed without
-b34aa86f12e884 drivers/staging/comedi/comedi_fops.c Ian Abbott         2014-04-10  2497  	 * contention unless the device is in the process of being attached
-b34aa86f12e884 drivers/staging/comedi/comedi_fops.c Ian Abbott         2014-04-10  2498  	 * or detached.
-b34aa86f12e884 drivers/staging/comedi/comedi_fops.c Ian Abbott         2014-04-10  2499  	 */
-b34aa86f12e884 drivers/staging/comedi/comedi_fops.c Ian Abbott         2014-04-10  2500  	if (!down_read_trylock(&dev->attach_lock))
-b34aa86f12e884 drivers/staging/comedi/comedi_fops.c Ian Abbott         2014-04-10  2501  		return -EAGAIN;
-a52840a98bbb50 drivers/staging/comedi/comedi_fops.c H Hartley Sweeten  2012-12-19  2502  
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2503  	if (!dev->attached) {
-272850f07c47ab drivers/staging/comedi/comedi_fops.c H Hartley Sweeten  2013-11-26  2504  		dev_dbg(dev->class_dev, "no driver attached\n");
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2505  		retval = -ENODEV;
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2506  		goto done;
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2507  	}
-a52840a98bbb50 drivers/staging/comedi/comedi_fops.c H Hartley Sweeten  2012-12-19  2508  
-476b847733636c drivers/staging/comedi/comedi_fops.c Greg Kroah-Hartman 2008-11-13  2509  	if (vma->vm_flags & VM_WRITE)
-20f083c07565cb drivers/staging/comedi/comedi_fops.c Ian Abbott         2014-11-04  2510  		s = comedi_file_write_subdevice(file);
-476b847733636c drivers/staging/comedi/comedi_fops.c Greg Kroah-Hartman 2008-11-13  2511  	else
-20f083c07565cb drivers/staging/comedi/comedi_fops.c Ian Abbott         2014-11-04  2512  		s = comedi_file_read_subdevice(file);
-a52840a98bbb50 drivers/staging/comedi/comedi_fops.c H Hartley Sweeten  2012-12-19  2513  	if (!s) {
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2514  		retval = -EINVAL;
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2515  		goto done;
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2516  	}
-a52840a98bbb50 drivers/staging/comedi/comedi_fops.c H Hartley Sweeten  2012-12-19  2517  
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2518  	async = s->async;
-a52840a98bbb50 drivers/staging/comedi/comedi_fops.c H Hartley Sweeten  2012-12-19  2519  	if (!async) {
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2520  		retval = -EINVAL;
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2521  		goto done;
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2522  	}
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2523  
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2524  	if (vma->vm_pgoff != 0) {
-272850f07c47ab drivers/staging/comedi/comedi_fops.c H Hartley Sweeten  2013-11-26  2525  		dev_dbg(dev->class_dev, "mmap() offset must be 0.\n");
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2526  		retval = -EINVAL;
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2527  		goto done;
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2528  	}
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2529  
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2530  	size = vma->vm_end - vma->vm_start;
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2531  	if (size > async->prealloc_bufsz) {
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2532  		retval = -EFAULT;
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2533  		goto done;
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2534  	}
-44b8c793fc0d63 drivers/staging/comedi/comedi_fops.c Sandhya Bankar     2016-03-06  2535  	if (offset_in_page(size)) {
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2536  		retval = -EFAULT;
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2537  		goto done;
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2538  	}
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2539  
-ec9d0754e0c640 drivers/staging/comedi/comedi_fops.c sayli karnik       2016-09-20  2540  	n_pages = vma_pages(vma);
-b34aa86f12e884 drivers/staging/comedi/comedi_fops.c Ian Abbott         2014-04-10  2541  
-b34aa86f12e884 drivers/staging/comedi/comedi_fops.c Ian Abbott         2014-04-10  2542  	/* get reference to current buf map (if any) */
-b34aa86f12e884 drivers/staging/comedi/comedi_fops.c Ian Abbott         2014-04-10  2543  	bm = comedi_buf_map_from_subdev_get(s);
-af93da31634d6d drivers/staging/comedi/comedi_fops.c Ian Abbott         2013-11-08  2544  	if (!bm || n_pages > bm->n_pages) {
-af93da31634d6d drivers/staging/comedi/comedi_fops.c Ian Abbott         2013-11-08  2545  		retval = -EINVAL;
-af93da31634d6d drivers/staging/comedi/comedi_fops.c Ian Abbott         2013-11-08  2546  		goto done;
-af93da31634d6d drivers/staging/comedi/comedi_fops.c Ian Abbott         2013-11-08  2547  	}
-e36472145aa706 drivers/staging/comedi/comedi_fops.c Ian Abbott         2019-06-25  2548  	if (bm->dma_dir != DMA_NONE) {
-fd1575e28a325b drivers/comedi/comedi_fops.c         Ian Abbott         2025-04-15  2549  		unsigned long vm_start = vma->vm_start;
-fd1575e28a325b drivers/comedi/comedi_fops.c         Ian Abbott         2025-04-15  2550  		unsigned long vm_end = vma->vm_end;
-fd1575e28a325b drivers/comedi/comedi_fops.c         Ian Abbott         2025-04-15  2551  
-e36472145aa706 drivers/staging/comedi/comedi_fops.c Ian Abbott         2019-06-25  2552  		/*
-fd1575e28a325b drivers/comedi/comedi_fops.c         Ian Abbott         2025-04-15  2553  		 * Buffer pages are not contiguous, so temporarily modify VMA
-fd1575e28a325b drivers/comedi/comedi_fops.c         Ian Abbott         2025-04-15  2554  		 * start and end addresses for each buffer page.
-e36472145aa706 drivers/staging/comedi/comedi_fops.c Ian Abbott         2019-06-25  2555  		 */
-fd1575e28a325b drivers/comedi/comedi_fops.c         Ian Abbott         2025-04-15  2556  		for (i = 0; i < n_pages; ++i) {
-fd1575e28a325b drivers/comedi/comedi_fops.c         Ian Abbott         2025-04-15  2557  			buf = &bm->page_list[i];
-fd1575e28a325b drivers/comedi/comedi_fops.c         Ian Abbott         2025-04-15  2558  			vma->vm_start = start;
-fd1575e28a325b drivers/comedi/comedi_fops.c         Ian Abbott         2025-04-15  2559  			vma->vm_end = start + PAGE_SIZE;
-fd1575e28a325b drivers/comedi/comedi_fops.c         Ian Abbott         2025-04-15  2560  			retval = dma_mmap_coherent(bm->dma_hw_dev, vma,
-fd1575e28a325b drivers/comedi/comedi_fops.c         Ian Abbott         2025-04-15  2561  						   buf->virt_addr,
-fd1575e28a325b drivers/comedi/comedi_fops.c         Ian Abbott         2025-04-15  2562  						   buf->dma_addr, PAGE_SIZE);
-fd1575e28a325b drivers/comedi/comedi_fops.c         Ian Abbott         2025-04-15  2563  			if (retval)
-fd1575e28a325b drivers/comedi/comedi_fops.c         Ian Abbott         2025-04-15  2564  				break;
-fd1575e28a325b drivers/comedi/comedi_fops.c         Ian Abbott         2025-04-15  2565  
-fd1575e28a325b drivers/comedi/comedi_fops.c         Ian Abbott         2025-04-15  2566  			start += PAGE_SIZE;
-fd1575e28a325b drivers/comedi/comedi_fops.c         Ian Abbott         2025-04-15  2567  		}
-fd1575e28a325b drivers/comedi/comedi_fops.c         Ian Abbott         2025-04-15  2568  		vma->vm_start = vm_start;
-fd1575e28a325b drivers/comedi/comedi_fops.c         Ian Abbott         2025-04-15  2569  		vma->vm_end = vm_end;
-e36472145aa706 drivers/staging/comedi/comedi_fops.c Ian Abbott         2019-06-25  2570  	} else {
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2571  		for (i = 0; i < n_pages; ++i) {
-e36472145aa706 drivers/staging/comedi/comedi_fops.c Ian Abbott         2019-06-25  2572  			unsigned long pfn;
-e36472145aa706 drivers/staging/comedi/comedi_fops.c Ian Abbott         2019-06-25  2573  
-e36472145aa706 drivers/staging/comedi/comedi_fops.c Ian Abbott         2019-06-25  2574  			buf = &bm->page_list[i];
-e36472145aa706 drivers/staging/comedi/comedi_fops.c Ian Abbott         2019-06-25  2575  			pfn = page_to_pfn(virt_to_page(buf->virt_addr));
-e36472145aa706 drivers/staging/comedi/comedi_fops.c Ian Abbott         2019-06-25  2576  			retval = remap_pfn_range(vma, start, pfn, PAGE_SIZE,
-e36472145aa706 drivers/staging/comedi/comedi_fops.c Ian Abbott         2019-06-25 @2577  						 PAGE_SHARED);
-e36472145aa706 drivers/staging/comedi/comedi_fops.c Ian Abbott         2019-06-25  2578  			if (retval)
-e36472145aa706 drivers/staging/comedi/comedi_fops.c Ian Abbott         2019-06-25  2579  				break;
-a52840a98bbb50 drivers/staging/comedi/comedi_fops.c H Hartley Sweeten  2012-12-19  2580  
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2581  			start += PAGE_SIZE;
-ed9eccbe8970f6 drivers/staging/comedi/comedi_fops.c David Schleef      2008-11-04  2582  		}
-fd1575e28a325b drivers/comedi/comedi_fops.c         Ian Abbott         2025-04-15  2583  	}
-ce8f9fb651fac9 drivers/comedi/comedi_fops.c         Jann Horn          2024-10-17  2584  
-
-:::::: The code at line 2577 was first introduced by commit
-:::::: e36472145aa706c186a6bb4f6419c613b0b1305c staging: comedi: use dma_mmap_coherent for DMA-able buffer mmap
-
-:::::: TO: Ian Abbott <abbotti@mev.co.uk>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+  1511	
+  1512	/* Change all symbols so that st_value encodes the pointer directly. */
+  1513	static int simplify_symbols(struct module *mod, const struct load_info *info)
+  1514	{
+  1515		Elf_Shdr *symsec = &info->sechdrs[info->index.sym];
+  1516		Elf_Sym *sym = (void *)symsec->sh_addr;
+  1517		unsigned long secbase;
+  1518		unsigned int i;
+  1519		int ret = 0;
+  1520		const struct kernel_symbol *ksym;
+  1521	
+  1522		for (i = 1; i < symsec->sh_size / sizeof(Elf_Sym); i++) {
+  1523			const char *name = info->strtab + sym[i].st_name;
+  1524	
+  1525			switch (sym[i].st_shndx) {
+  1526			case SHN_COMMON:
+  1527				/* Ignore common symbols */
+  1528				if (!strncmp(name, "__gnu_lto", 9))
+  1529					break;
+  1530	
+  1531				/*
+  1532				 * We compiled with -fno-common.  These are not
+  1533				 * supposed to happen.
+  1534				 */
+  1535				pr_debug("Common symbol: %s\n", name);
+  1536				pr_warn("%s: please compile with -fno-common\n",
+  1537				       mod->name);
+  1538				ret = -ENOEXEC;
+  1539				break;
+  1540	
+  1541			case SHN_ABS:
+  1542				/* Don't need to do anything */
+  1543				pr_debug("Absolute symbol: 0x%08lx %s\n",
+  1544					 (long)sym[i].st_value, name);
+  1545				break;
+  1546	
+  1547			case SHN_LIVEPATCH:
+  1548				/* Livepatch symbols are resolved by livepatch */
+  1549				break;
+  1550	
+  1551			case SHN_UNDEF:
+  1552				ksym = resolve_symbol_wait(mod, info, name);
+  1553				/* Ok if resolved.  */
+  1554				if (ksym && !IS_ERR(ksym)) {
+  1555					sym[i].st_value = kernel_symbol_value(ksym);
+  1556					break;
+  1557				}
+  1558	
+  1559				/* Ok if weak or ignored.  */
+  1560				if (!ksym &&
+  1561				    (ELF_ST_BIND(sym[i].st_info) == STB_WEAK ||
+  1562				     ignore_undef_symbol(info->hdr->e_machine, name)))
+  1563					break;
+  1564	
+  1565				ret = PTR_ERR(ksym) ?: -ENOENT;
+  1566				pr_warn("%s: Unknown symbol %s (err %d)\n",
+  1567					mod->name, name, ret);
+  1568				break;
+  1569	
+  1570			default:
+  1571				/* Divert to percpu allocation if a percpu var. */
+  1572				if (sym[i].st_shndx == info->index.pcpu)
+> 1573					secbase = __c_pa(mod_percpu(mod));
+  1574				else
+  1575					secbase = info->sechdrs[sym[i].st_shndx].sh_addr;
+  1576				sym[i].st_value += secbase;
+  1577				break;
+  1578			}
+  1579		}
+  1580	
+  1581		return ret;
+  1582	}
+  1583	
 
 --
 0-DAY CI Kernel Test Service
