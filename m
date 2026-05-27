@@ -1,176 +1,778 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60AAA34D91F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98D20277C9E
 	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 May 2026 03:12:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779851535; cv=none; b=Fw78wJlLFrvWqAJjA4FB30fQERAvIUJRxSg8fr70P/6JFo8T8nbAvDGt3Eff/3XxComhS3Xryn0TPNWX5ysNSBpPsN+VOCTYqSgQMqav1G70YBY5+RUJw/679QQIl1zaEYB5L1hQzQrY7WQVeYPdahoALG2BMuH5UBmcuPinVEw=
+	t=1779851536; cv=none; b=pqLFqoMXRoj2hMxih1NPVWQaLMbRDMPvRGX712cVVBif86+P9lIWmZ74edDMH9zXgZ0R3XwMnY/ZHSUkysR6SsiT8jQZIIDcxixZOcNrBMte1nRoZuyERZo6q3HKZUzBOBrYxM69PV+aj+HiCFvFmjhkrMpp7mFcZ/V7ePUivJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779851535; c=relaxed/simple;
-	bh=zT+SWjKojHYmsj9eVVbDZaGjPg5aptCwfifb/CGb4PU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Vc+07CSnnzFSpHMCGZDui/U0J72OirQHLNeQVfmjZnrlRe4YTRndEq6LPbKgQ84MQ+U7rkydLy4GGqbB+VjIPNcBClqRldbL/BLsLUUcNaRsrHpAJMRclnipkw1rX/t9bLEBO2hUDBrOh1XezimBIMMgX3W+VYZoPq9ZJkuKAMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zs79Mq71; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1779851536; c=relaxed/simple;
+	bh=P4vkIvrBzmTA7kPSFNd+CotkJVjAY889iUu8NEn7Lq0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=E8pH6bvdreHNdZRuFub490q4lYR9FyiYMRe04LGRuZqLqagQA5GRUhZtfjGdTz6zwsXBkwf8SmZH5l/hkI6nEAJJUYb5Cw7xoAc7+nbZFvhcxowPxIM1mMwNk3cWUWGHCBFvKLn0G15fL4qtp+XdF5XNhS41MPp/C55BXFU7eBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oHS7i73c; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zs79Mq71"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oHS7i73c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1779851533; x=1811387533;
-  h=date:from:to:cc:subject:message-id;
-  bh=zT+SWjKojHYmsj9eVVbDZaGjPg5aptCwfifb/CGb4PU=;
-  b=Zs79Mq71w9FdJY2T6t+IToa9ockKSGUlWD4Q7lh56FkDKS2ksBVRnAiN
-   XUkVPmeu3GaMUMIs52I4seF8E0ilvNBL6q3Fs7LVw72b6dd8GEKvmAUhR
-   oSic1cn4/KjMqXpxdSNqrhGYTuzzza9S6QSUmzUNh7SjfiJZAlaWvo8pi
-   DZY6HnV7ihvuV/6tANHesROd7atjgXcBbZqPnU9URhDUpp3mmjhH2KES4
-   aYY2nGWBPEN/AFi33dhg4W3HFGVpEAoq64FoV05fWtgYeb6fqd86kU5Q2
-   P7jLnPKY3mO7TN8Gj2LYEXtRchx7RLt25Qq80Dgnr2sZczpfn0XMoZTOx
-   Q==;
-X-CSE-ConnectionGUID: gMJD6twKTsq8PLfs6JeV3Q==
-X-CSE-MsgGUID: puDtfNseTpyCNgElNUrDtA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="80862949"
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=P4vkIvrBzmTA7kPSFNd+CotkJVjAY889iUu8NEn7Lq0=;
+  b=oHS7i73c1gI7lfphVoxPysYGbhdoiepuJviQlw5KhajAZp8A4bRweKl8
+   5Tf44wDVOS55C61UPVBNf5Nes+2KH/cHGCb2DbsTY2AnPAxilhnuHWd4b
+   VOvWK0fJCSTwqGA+gKcDjxd8hCkkyPzu2HoikLXM7rWbk8H3bMTDSRrpx
+   MoaBQRXBADcBYe0GHKWiPW2EXRLth60h0G6yeUiGfmKrcIl807D5Vwslv
+   jFZ5+z9Ach3e96bIkz0LwwKl/AYTWyQoj4RzzISoDXBxKDKO9hoQm8Ecz
+   faVuboGrFMkrlY4g7GVi/8TtILEREiITNhSiqHVDpZZfokf4kMdU/6Vo2
+   A==;
+X-CSE-ConnectionGUID: xkGvvemGRpOBjrMCRyssCw==
+X-CSE-MsgGUID: RnxfkcVZTBSabUXCUhZf1Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="80862951"
 X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
-   d="scan'208";a="80862949"
+   d="scan'208";a="80862951"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
   by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 20:12:11 -0700
-X-CSE-ConnectionGUID: ioyi9B0ZQIeVPJme4+PWjg==
-X-CSE-MsgGUID: V5gG1VS9Rwepa83Emy6veA==
+X-CSE-ConnectionGUID: p4YRKexHRqSNrB2O8OkmHA==
+X-CSE-MsgGUID: lFl9NVlnTLqQBgoHS/SHFA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
-   d="scan'208";a="243929835"
+   d="scan'208";a="243929841"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
   by fmviesa004.fm.intel.com with ESMTP; 26 May 2026 20:12:09 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wS4gh-000000003JS-0joM;
+	id 1wS4gh-000000003JQ-0cZh;
 	Wed, 27 May 2026 03:12:07 +0000
-Date: Wed, 27 May 2026 11:11:48 +0800
+Date: Wed, 27 May 2026 11:11:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Florian Schmaus <florian.schmaus@codasip.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- "Christian A. Ehrhardt" <christian.ehrhardt@codasip.com>
-Subject: [scosu-sched:topic/mmap-cap-prot-wip/v6.18 1016/1130]
- kernel/module/main.c:1573:50: error: passing argument 1 of '__c_pa' from
- pointer to non-enclosed address space
-Message-ID: <202605271142.UZKldMeL-lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata 32/126]
+ drivers/staging/media/max96712/max96712.c:267:20: error: initialization of
+ 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct
+ v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer
+ type 'int (*)(struct v4l2...
+Message-ID: <202605271111.UVoTvlKX-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/scosu/linux-sched topic/mmap-cap-prot-wip/v6.18
-head:   f69a5a9d9fee15edde28429e23a4c749a59937bd
-commit: 96c8d778005ee7b53898c41756e279f0dfb9cdca [1016/1130] module: Use __c_pa() and __ptraddr_t where sensible
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20260527/202605271142.UZKldMeL-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260527/202605271142.UZKldMeL-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   5b470f2ed717705b51f4a799722dffb34a37f10a
+commit: 38747564cf6a09584e01ef987657f2943733510a [32/126] media: v4l2-subde=
+v: Add struct v4l2_subdev_client_info pointer to pad ops
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20260527/=
+202605271111.UVoTvlKX-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260527/202605271111.UVoTvlKX-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605271142.UZKldMeL-lkp@intel.com/
-
-Note: the scosu-sched/topic/mmap-cap-prot-wip/v6.18 HEAD f69a5a9d9fee15edde28429e23a4c749a59937bd builds fine.
-      It only hurts bisectability.
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605271111.UVoTvlKX-lkp@i=
+ntel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/module/main.c: In function 'simplify_symbols':
->> kernel/module/main.c:1573:50: error: passing argument 1 of '__c_pa' from pointer to non-enclosed address space
-    1573 |                                 secbase = __c_pa(mod_percpu(mod));
-         |                                                  ^~~~~~~~~~~~~~~
-   In file included from include/linux/printk.h:11,
-                    from include/asm-generic/bug.h:22,
-                    from arch/x86/include/asm/bug.h:108,
-                    from arch/x86/include/asm/alternative.h:9,
-                    from arch/x86/include/asm/barrier.h:5,
-                    from include/linux/list.h:11,
-                    from include/linux/module.h:12,
-                    from include/linux/moduleloader.h:6,
-                    from kernel/module/main.c:12:
-   include/linux/cheri.h:241:29: note: expected 'const volatile void *' but argument is of type '__seg_fs void *'
-     241 | __c_pa(const volatile void *ptr)
-         |        ~~~~~~~~~~~~~~~~~~~~~^~~
+>> drivers/staging/media/max96712/max96712.c:267:20: error: initialization =
+of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, s=
+truct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible =
+pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, str=
+uct v4l2_subdev_format *)' [-Wincompatible-pointer-types]
+     267 |         .set_fmt =3D v4l2_subdev_get_fmt,
+         |                    ^~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/max96712/max96712.c:267:20: note: (near initializa=
+tion for 'max96712_pad_ops.set_fmt')
+   In file included from drivers/staging/media/max96712/max96712.c:17:
+   include/media/v4l2-subdev.h:1491:5: note: 'v4l2_subdev_get_fmt' declared=
+ here
+    1491 | int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subd=
+ev_state *state,
+         |     ^~~~~~~~~~~~~~~~~~~
+--
+   In file included from include/media/v4l2-device.h:13,
+                    from drivers/staging/media/tegra-video/vi.h:19,
+                    from drivers/staging/media/tegra-video/vi.c:30:
+   drivers/staging/media/tegra-video/vi.c: In function '__tegra_channel_try=
+_format':
+>> drivers/staging/media/tegra-video/vi.c:480:72: error: passing argument 3=
+ of '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)->g=
+et_selection' from incompatible pointer type [-Wincompatible-pointer-types]
+     480 |                     v4l2_subdev_call(subdev, pad, get_selection,=
+ NULL, &sdsel)) {
+         |                                                                 =
+       ^~~~~~
+         |                                                                 =
+       |
+         |                                                                 =
+       struct v4l2_subdev_selection *
+   include/media/v4l2-subdev.h:2022:65: note: in definition of macro 'v4l2_=
+subdev_call'
+    2022 |                                                         __sd, ##=
+args);  \
+         |                                                                 =
+^~~~
+   drivers/staging/media/tegra-video/vi.c:480:72: note: expected 'struct v4=
+l2_subdev_state *' but argument is of type 'struct v4l2_subdev_selection *'
+     480 |                     v4l2_subdev_call(subdev, pad, get_selection,=
+ NULL, &sdsel)) {
+         |                                                                 =
+       ^~~~~~
+   include/media/v4l2-subdev.h:2022:65: note: in definition of macro 'v4l2_=
+subdev_call'
+    2022 |                                                         __sd, ##=
+args);  \
+         |                                                                 =
+^~~~
+>> include/media/v4l2-subdev.h:2021:36: error: too few arguments to functio=
+n '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)->get=
+_selection'; expected 4, have 3
+    2021 |                         __result =3D v4l2_subdev_call_wrappers.o=
+->f(      \
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/tegra-video/vi.c:480:21: note: in expansion of mac=
+ro 'v4l2_subdev_call'
+     480 |                     v4l2_subdev_call(subdev, pad, get_selection,=
+ NULL, &sdsel)) {
+         |                     ^~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:874:15: note: declared here
+     874 |         int (*get_selection)(struct v4l2_subdev *sd,
+         |               ^~~~~~~~~~~~~
+>> drivers/staging/media/tegra-video/vi.c:480:72: error: passing argument 3=
+ of '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->get_selection' f=
+rom incompatible pointer type [-Wincompatible-pointer-types]
+     480 |                     v4l2_subdev_call(subdev, pad, get_selection,=
+ NULL, &sdsel)) {
+         |                                                                 =
+       ^~~~~~
+         |                                                                 =
+       |
+         |                                                                 =
+       struct v4l2_subdev_selection *
+   include/media/v4l2-subdev.h:2024:60: note: in definition of macro 'v4l2_=
+subdev_call'
+    2024 |                         __result =3D __sd->ops->o->f(__sd, ##arg=
+s);       \
+         |                                                            ^~~~
+   drivers/staging/media/tegra-video/vi.c:480:72: note: expected 'struct v4=
+l2_subdev_state *' but argument is of type 'struct v4l2_subdev_selection *'
+     480 |                     v4l2_subdev_call(subdev, pad, get_selection,=
+ NULL, &sdsel)) {
+         |                                                                 =
+       ^~~~~~
+   include/media/v4l2-subdev.h:2024:60: note: in definition of macro 'v4l2_=
+subdev_call'
+    2024 |                         __result =3D __sd->ops->o->f(__sd, ##arg=
+s);       \
+         |                                                            ^~~~
+>> include/media/v4l2-subdev.h:2024:36: error: too few arguments to functio=
+n '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->get_selection'; ex=
+pected 4, have 3
+    2024 |                         __result =3D __sd->ops->o->f(__sd, ##arg=
+s);       \
+         |                                    ^~~~
+   drivers/staging/media/tegra-video/vi.c:480:21: note: in expansion of mac=
+ro 'v4l2_subdev_call'
+     480 |                     v4l2_subdev_call(subdev, pad, get_selection,=
+ NULL, &sdsel)) {
+         |                     ^~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:874:15: note: declared here
+     874 |         int (*get_selection)(struct v4l2_subdev *sd,
+         |               ^~~~~~~~~~~~~
+   drivers/staging/media/tegra-video/vi.c:492:54: error: passing argument 2=
+ of '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)->s=
+et_fmt' from incompatible pointer type [-Wincompatible-pointer-types]
+     492 |         ret =3D v4l2_subdev_call(subdev, pad, set_fmt, sd_state,=
+ &fmt);
+         |                                                      ^~~~~~~~
+         |                                                      |
+         |                                                      struct v4l2=
+_subdev_state *
+   include/media/v4l2-subdev.h:2022:65: note: in definition of macro 'v4l2_=
+subdev_call'
+    2022 |                                                         __sd, ##=
+args);  \
+         |                                                                 =
+^~~~
+   drivers/staging/media/tegra-video/vi.c:492:54: note: expected 'const str=
+uct v4l2_subdev_client_info *' but argument is of type 'struct v4l2_subdev_=
+state *'
+     492 |         ret =3D v4l2_subdev_call(subdev, pad, set_fmt, sd_state,=
+ &fmt);
+         |                                                      ^~~~~~~~
+   include/media/v4l2-subdev.h:2022:65: note: in definition of macro 'v4l2_=
+subdev_call'
+    2022 |                                                         __sd, ##=
+args);  \
+         |                                                                 =
+^~~~
+   drivers/staging/media/tegra-video/vi.c:492:64: error: passing argument 3=
+ of '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)->s=
+et_fmt' from incompatible pointer type [-Wincompatible-pointer-types]
+     492 |         ret =3D v4l2_subdev_call(subdev, pad, set_fmt, sd_state,=
+ &fmt);
+         |                                                                ^=
+~~~
+         |                                                                |
+         |                                                                s=
+truct v4l2_subdev_format *
+   include/media/v4l2-subdev.h:2022:65: note: in definition of macro 'v4l2_=
+subdev_call'
+    2022 |                                                         __sd, ##=
+args);  \
+         |                                                                 =
+^~~~
+   drivers/staging/media/tegra-video/vi.c:492:64: note: expected 'struct v4=
+l2_subdev_state *' but argument is of type 'struct v4l2_subdev_format *'
+     492 |         ret =3D v4l2_subdev_call(subdev, pad, set_fmt, sd_state,=
+ &fmt);
+         |                                                                ^=
+~~~
+   include/media/v4l2-subdev.h:2022:65: note: in definition of macro 'v4l2_=
+subdev_call'
+    2022 |                                                         __sd, ##=
+args);  \
+         |                                                                 =
+^~~~
+>> include/media/v4l2-subdev.h:2021:36: error: too few arguments to functio=
+n '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)->set=
+_fmt'; expected 4, have 3
+    2021 |                         __result =3D v4l2_subdev_call_wrappers.o=
+->f(      \
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/tegra-video/vi.c:492:15: note: in expansion of mac=
+ro 'v4l2_subdev_call'
+     492 |         ret =3D v4l2_subdev_call(subdev, pad, set_fmt, sd_state,=
+ &fmt);
+         |               ^~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:870:15: note: declared here
+     870 |         int (*set_fmt)(struct v4l2_subdev *sd,
+         |               ^~~~~~~
+   drivers/staging/media/tegra-video/vi.c:492:54: error: passing argument 2=
+ of '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->set_fmt' from in=
+compatible pointer type [-Wincompatible-pointer-types]
+     492 |         ret =3D v4l2_subdev_call(subdev, pad, set_fmt, sd_state,=
+ &fmt);
+         |                                                      ^~~~~~~~
+         |                                                      |
+         |                                                      struct v4l2=
+_subdev_state *
+   include/media/v4l2-subdev.h:2024:60: note: in definition of macro 'v4l2_=
+subdev_call'
+    2024 |                         __result =3D __sd->ops->o->f(__sd, ##arg=
+s);       \
+         |                                                            ^~~~
+   drivers/staging/media/tegra-video/vi.c:492:54: note: expected 'const str=
+uct v4l2_subdev_client_info *' but argument is of type 'struct v4l2_subdev_=
+state *'
+     492 |         ret =3D v4l2_subdev_call(subdev, pad, set_fmt, sd_state,=
+ &fmt);
+         |                                                      ^~~~~~~~
+   include/media/v4l2-subdev.h:2024:60: note: in definition of macro 'v4l2_=
+subdev_call'
+    2024 |                         __result =3D __sd->ops->o->f(__sd, ##arg=
+s);       \
+         |                                                            ^~~~
+   drivers/staging/media/tegra-video/vi.c:492:64: error: passing argument 3=
+ of '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->set_fmt' from in=
+compatible pointer type [-Wincompatible-pointer-types]
+     492 |         ret =3D v4l2_subdev_call(subdev, pad, set_fmt, sd_state,=
+ &fmt);
+         |                                                                ^=
+~~~
+         |                                                                |
+         |                                                                s=
+truct v4l2_subdev_format *
+   include/media/v4l2-subdev.h:2024:60: note: in definition of macro 'v4l2_=
+subdev_call'
+    2024 |                         __result =3D __sd->ops->o->f(__sd, ##arg=
+s);       \
+         |                                                            ^~~~
+   drivers/staging/media/tegra-video/vi.c:492:64: note: expected 'struct v4=
+l2_subdev_state *' but argument is of type 'struct v4l2_subdev_format *'
+     492 |         ret =3D v4l2_subdev_call(subdev, pad, set_fmt, sd_state,=
+ &fmt);
+         |                                                                ^=
+~~~
+   include/media/v4l2-subdev.h:2024:60: note: in definition of macro 'v4l2_=
+subdev_call'
+    2024 |                         __result =3D __sd->ops->o->f(__sd, ##arg=
+s);       \
+         |                                                            ^~~~
+>> include/media/v4l2-subdev.h:2024:36: error: too few arguments to functio=
+n '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->set_fmt'; expected=
+ 4, have 3
+    2024 |                         __result =3D __sd->ops->o->f(__sd, ##arg=
+s);       \
+         |                                    ^~~~
+   drivers/staging/media/tegra-video/vi.c:492:15: note: in expansion of mac=
+ro 'v4l2_subdev_call'
+     492 |         ret =3D v4l2_subdev_call(subdev, pad, set_fmt, sd_state,=
+ &fmt);
+         |               ^~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:870:15: note: declared here
+     870 |         int (*set_fmt)(struct v4l2_subdev *sd,
+         |               ^~~~~~~
+   drivers/staging/media/tegra-video/vi.c: In function 'tegra_channel_set_f=
+ormat':
+   drivers/staging/media/tegra-video/vi.c:546:60: error: passing argument 3=
+ of '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)->s=
+et_fmt' from incompatible pointer type [-Wincompatible-pointer-types]
+     546 |         ret =3D v4l2_subdev_call(subdev, pad, set_fmt, NULL, &fm=
+t);
+         |                                                            ^~~~
+         |                                                            |
+         |                                                            struc=
+t v4l2_subdev_format *
+   include/media/v4l2-subdev.h:2022:65: note: in definition of macro 'v4l2_=
+subdev_call'
+    2022 |                                                         __sd, ##=
+args);  \
+         |                                                                 =
+^~~~
+   drivers/staging/media/tegra-video/vi.c:546:60: note: expected 'struct v4=
+l2_subdev_state *' but argument is of type 'struct v4l2_subdev_format *'
+     546 |         ret =3D v4l2_subdev_call(subdev, pad, set_fmt, NULL, &fm=
+t);
+         |                                                            ^~~~
+   include/media/v4l2-subdev.h:2022:65: note: in definition of macro 'v4l2_=
+subdev_call'
+    2022 |                                                         __sd, ##=
+args);  \
+         |                                                                 =
+^~~~
+>> include/media/v4l2-subdev.h:2021:36: error: too few arguments to functio=
+n '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)->set=
+_fmt'; expected 4, have 3
+    2021 |                         __result =3D v4l2_subdev_call_wrappers.o=
+->f(      \
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/tegra-video/vi.c:546:15: note: in expansion of mac=
+ro 'v4l2_subdev_call'
+     546 |         ret =3D v4l2_subdev_call(subdev, pad, set_fmt, NULL, &fm=
+t);
+         |               ^~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:870:15: note: declared here
+     870 |         int (*set_fmt)(struct v4l2_subdev *sd,
+         |               ^~~~~~~
+   drivers/staging/media/tegra-video/vi.c:546:60: error: passing argument 3=
+ of '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->set_fmt' from in=
+compatible pointer type [-Wincompatible-pointer-types]
+     546 |         ret =3D v4l2_subdev_call(subdev, pad, set_fmt, NULL, &fm=
+t);
+         |                                                            ^~~~
+         |                                                            |
+         |                                                            struc=
+t v4l2_subdev_format *
+   include/media/v4l2-subdev.h:2024:60: note: in definition of macro 'v4l2_=
+subdev_call'
+    2024 |                         __result =3D __sd->ops->o->f(__sd, ##arg=
+s);       \
+         |                                                            ^~~~
+   drivers/staging/media/tegra-video/vi.c:546:60: note: expected 'struct v4=
+l2_subdev_state *' but argument is of type 'struct v4l2_subdev_format *'
+     546 |         ret =3D v4l2_subdev_call(subdev, pad, set_fmt, NULL, &fm=
+t);
+         |                                                            ^~~~
+   include/media/v4l2-subdev.h:2024:60: note: in definition of macro 'v4l2_=
+subdev_call'
+    2024 |                         __result =3D __sd->ops->o->f(__sd, ##arg=
+s);       \
+         |                                                            ^~~~
+>> include/media/v4l2-subdev.h:2024:36: error: too few arguments to functio=
+n '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->set_fmt'; expected=
+ 4, have 3
+    2024 |                         __result =3D __sd->ops->o->f(__sd, ##arg=
+s);       \
+         |                                    ^~~~
+   drivers/staging/media/tegra-video/vi.c:546:15: note: in expansion of mac=
+ro 'v4l2_subdev_call'
+     546 |         ret =3D v4l2_subdev_call(subdev, pad, set_fmt, NULL, &fm=
+t);
+         |               ^~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:870:15: note: declared here
+     870 |         int (*set_fmt)(struct v4l2_subdev *sd,
+         |               ^~~~~~~
+   drivers/staging/media/tegra-video/vi.c: In function 'tegra_channel_g_sel=
+ection':
+   drivers/staging/media/tegra-video/vi.c:629:66: error: passing argument 3=
+ of '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)->g=
+et_selection' from incompatible pointer type [-Wincompatible-pointer-types]
+     629 |         ret =3D v4l2_subdev_call(subdev, pad, get_selection, NUL=
+L, &sdsel);
+         |                                                                 =
+ ^~~~~~
+         |                                                                 =
+ |
+         |                                                                 =
+ struct v4l2_subdev_selection *
+   include/media/v4l2-subdev.h:2022:65: note: in definition of macro 'v4l2_=
+subdev_call'
+    2022 |                                                         __sd, ##=
+args);  \
+         |                                                                 =
+^~~~
+   drivers/staging/media/tegra-video/vi.c:629:66: note: expected 'struct v4=
+l2_subdev_state *' but argument is of type 'struct v4l2_subdev_selection *'
+     629 |         ret =3D v4l2_subdev_call(subdev, pad, get_selection, NUL=
+L, &sdsel);
+         |                                                                 =
+ ^~~~~~
+   include/media/v4l2-subdev.h:2022:65: note: in definition of macro 'v4l2_=
+subdev_call'
+    2022 |                                                         __sd, ##=
+args);  \
+         |                                                                 =
+^~~~
+>> include/media/v4l2-subdev.h:2021:36: error: too few arguments to functio=
+n '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)->get=
+_selection'; expected 4, have 3
+    2021 |                         __result =3D v4l2_subdev_call_wrappers.o=
+->f(      \
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/tegra-video/vi.c:629:15: note: in expansion of mac=
+ro 'v4l2_subdev_call'
+     629 |         ret =3D v4l2_subdev_call(subdev, pad, get_selection, NUL=
+L, &sdsel);
+         |               ^~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:874:15: note: declared here
+     874 |         int (*get_selection)(struct v4l2_subdev *sd,
+         |               ^~~~~~~~~~~~~
+   drivers/staging/media/tegra-video/vi.c:629:66: error: passing argument 3=
+ of '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->get_selection' f=
+rom incompatible pointer type [-Wincompatible-pointer-types]
+     629 |         ret =3D v4l2_subdev_call(subdev, pad, get_selection, NUL=
+L, &sdsel);
+         |                                                                 =
+ ^~~~~~
+         |                                                                 =
+ |
+         |                                                                 =
+ struct v4l2_subdev_selection *
+   include/media/v4l2-subdev.h:2024:60: note: in definition of macro 'v4l2_=
+subdev_call'
+    2024 |                         __result =3D __sd->ops->o->f(__sd, ##arg=
+s);       \
+         |                                                            ^~~~
+   drivers/staging/media/tegra-video/vi.c:629:66: note: expected 'struct v4=
+l2_subdev_state *' but argument is of type 'struct v4l2_subdev_selection *'
+     629 |         ret =3D v4l2_subdev_call(subdev, pad, get_selection, NUL=
+L, &sdsel);
+         |                                                                 =
+ ^~~~~~
+   include/media/v4l2-subdev.h:2024:60: note: in definition of macro 'v4l2_=
+subdev_call'
+    2024 |                         __result =3D __sd->ops->o->f(__sd, ##arg=
+s);       \
+         |                                                            ^~~~
+>> include/media/v4l2-subdev.h:2024:36: error: too few arguments to functio=
+n '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->get_selection'; ex=
+pected 4, have 3
+    2024 |                         __result =3D __sd->ops->o->f(__sd, ##arg=
+s);       \
+         |                                    ^~~~
+   drivers/staging/media/tegra-video/vi.c:629:15: note: in expansion of mac=
+ro 'v4l2_subdev_call'
+     629 |         ret =3D v4l2_subdev_call(subdev, pad, get_selection, NUL=
+L, &sdsel);
+         |               ^~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:874:15: note: declared here
+     874 |         int (*get_selection)(struct v4l2_subdev *sd,
+         |               ^~~~~~~~~~~~~
+   drivers/staging/media/tegra-video/vi.c: In function 'tegra_channel_s_sel=
+ection':
+   drivers/staging/media/tegra-video/vi.c:670:66: error: passing argument 3=
+ of '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)->s=
+et_selection' from incompatible pointer type [-Wincompatible-pointer-types]
+     670 |         ret =3D v4l2_subdev_call(subdev, pad, set_selection, NUL=
+L, &sdsel);
+         |                                                                 =
+ ^~~~~~
+         |                                                                 =
+ |
+         |                                                                 =
+ struct v4l2_subdev_selection *
+   include/media/v4l2-subdev.h:2022:65: note: in definition of macro 'v4l2_=
+subdev_call'
+    2022 |                                                         __sd, ##=
+args);  \
+         |                                                                 =
+^~~~
+   drivers/staging/media/tegra-video/vi.c:670:66: note: expected 'struct v4=
+l2_subdev_state *' but argument is of type 'struct v4l2_subdev_selection *'
+     670 |         ret =3D v4l2_subdev_call(subdev, pad, set_selection, NUL=
+L, &sdsel);
+         |                                                                 =
+ ^~~~~~
+   include/media/v4l2-subdev.h:2022:65: note: in definition of macro 'v4l2_=
+subdev_call'
+    2022 |                                                         __sd, ##=
+args);  \
+         |                                                                 =
+^~~~
+   include/media/v4l2-subdev.h:2021:36: error: too few arguments to functio=
+n '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)->set=
+_selection'; expected 4, have 3
+    2021 |                         __result =3D v4l2_subdev_call_wrappers.o=
+->f(      \
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/tegra-video/vi.c:670:15: note: in expansion of mac=
+ro 'v4l2_subdev_call'
+     670 |         ret =3D v4l2_subdev_call(subdev, pad, set_selection, NUL=
+L, &sdsel);
+         |               ^~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:878:15: note: declared here
+     878 |         int (*set_selection)(struct v4l2_subdev *sd,
+         |               ^~~~~~~~~~~~~
+   drivers/staging/media/tegra-video/vi.c:670:66: error: passing argument 3=
+ of '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->set_selection' f=
+rom incompatible pointer type [-Wincompatible-pointer-types]
+     670 |         ret =3D v4l2_subdev_call(subdev, pad, set_selection, NUL=
+L, &sdsel);
+         |                                                                 =
+ ^~~~~~
+         |                                                                 =
+ |
+         |                                                                 =
+ struct v4l2_subdev_selection *
+   include/media/v4l2-subdev.h:2024:60: note: in definition of macro 'v4l2_=
+subdev_call'
+    2024 |                         __result =3D __sd->ops->o->f(__sd, ##arg=
+s);       \
+         |                                                            ^~~~
+   drivers/staging/media/tegra-video/vi.c:670:66: note: expected 'struct v4=
+l2_subdev_state *' but argument is of type 'struct v4l2_subdev_selection *'
+     670 |         ret =3D v4l2_subdev_call(subdev, pad, set_selection, NUL=
+L, &sdsel);
+         |                                                                 =
+ ^~~~~~
+   include/media/v4l2-subdev.h:2024:60: note: in definition of macro 'v4l2_=
+subdev_call'
+    2024 |                         __result =3D __sd->ops->o->f(__sd, ##arg=
+s);       \
+         |                                                            ^~~~
+   include/media/v4l2-subdev.h:2024:36: error: too few arguments to functio=
+n '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->set_selection'; ex=
+pected 4, have 3
+    2024 |                         __result =3D __sd->ops->o->f(__sd, ##arg=
+s);       \
+         |                                    ^~~~
+   drivers/staging/media/tegra-video/vi.c:670:15: note: in expansion of mac=
+ro 'v4l2_subdev_call'
+     670 |         ret =3D v4l2_subdev_call(subdev, pad, set_selection, NUL=
+L, &sdsel);
+         |               ^~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:878:15: note: declared here
+     878 |         int (*set_selection)(struct v4l2_subdev *sd,
+         |               ^~~~~~~~~~~~~
+--
+   In file included from include/media/v4l2-mc.h:15,
+                    from include/media/tuner.h:14,
+                    from drivers/media/usb/dvb-usb/cxusb-analog.c:31:
+   drivers/media/usb/dvb-usb/cxusb-analog.c: In function 'cxusb_medion_try_=
+s_fmt_vid_cap':
+   drivers/media/usb/dvb-usb/cxusb-analog.c:1034:68: error: passing argumen=
+t 3 of '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)=
+->set_fmt' from incompatible pointer type [-Wincompatible-pointer-types]
+    1034 |         ret =3D v4l2_subdev_call(cxdev->cx25840, pad, set_fmt, N=
+ULL, &subfmt);
+         |                                                                 =
+   ^~~~~~~
+         |                                                                 =
+   |
+         |                                                                 =
+   struct v4l2_subdev_format *
+   include/media/v4l2-subdev.h:2022:65: note: in definition of macro 'v4l2_=
+subdev_call'
+    2022 |                                                         __sd, ##=
+args);  \
+         |                                                                 =
+^~~~
+   drivers/media/usb/dvb-usb/cxusb-analog.c:1034:68: note: expected 'struct=
+ v4l2_subdev_state *' but argument is of type 'struct v4l2_subdev_format *'
+    1034 |         ret =3D v4l2_subdev_call(cxdev->cx25840, pad, set_fmt, N=
+ULL, &subfmt);
+         |                                                                 =
+   ^~~~~~~
+   include/media/v4l2-subdev.h:2022:65: note: in definition of macro 'v4l2_=
+subdev_call'
+    2022 |                                                         __sd, ##=
+args);  \
+         |                                                                 =
+^~~~
+>> include/media/v4l2-subdev.h:2021:36: error: too few arguments to functio=
+n '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)->set=
+_fmt'; expected 4, have 3
+    2021 |                         __result =3D v4l2_subdev_call_wrappers.o=
+->f(      \
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/usb/dvb-usb/cxusb-analog.c:1034:15: note: in expansion of =
+macro 'v4l2_subdev_call'
+    1034 |         ret =3D v4l2_subdev_call(cxdev->cx25840, pad, set_fmt, N=
+ULL, &subfmt);
+         |               ^~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:870:15: note: declared here
+     870 |         int (*set_fmt)(struct v4l2_subdev *sd,
+         |               ^~~~~~~
+   drivers/media/usb/dvb-usb/cxusb-analog.c:1034:68: error: passing argumen=
+t 3 of '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->set_fmt' from=
+ incompatible pointer type [-Wincompatible-pointer-types]
+    1034 |         ret =3D v4l2_subdev_call(cxdev->cx25840, pad, set_fmt, N=
+ULL, &subfmt);
+         |                                                                 =
+   ^~~~~~~
+         |                                                                 =
+   |
+         |                                                                 =
+   struct v4l2_subdev_format *
+   include/media/v4l2-subdev.h:2024:60: note: in definition of macro 'v4l2_=
+subdev_call'
+    2024 |                         __result =3D __sd->ops->o->f(__sd, ##arg=
+s);       \
+         |                                                            ^~~~
+   drivers/media/usb/dvb-usb/cxusb-analog.c:1034:68: note: expected 'struct=
+ v4l2_subdev_state *' but argument is of type 'struct v4l2_subdev_format *'
+    1034 |         ret =3D v4l2_subdev_call(cxdev->cx25840, pad, set_fmt, N=
+ULL, &subfmt);
+         |                                                                 =
+   ^~~~~~~
+   include/media/v4l2-subdev.h:2024:60: note: in definition of macro 'v4l2_=
+subdev_call'
+    2024 |                         __result =3D __sd->ops->o->f(__sd, ##arg=
+s);       \
+         |                                                            ^~~~
+>> include/media/v4l2-subdev.h:2024:36: error: too few arguments to functio=
+n '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->set_fmt'; expected=
+ 4, have 3
+    2024 |                         __result =3D __sd->ops->o->f(__sd, ##arg=
+s);       \
+         |                                    ^~~~
+   drivers/media/usb/dvb-usb/cxusb-analog.c:1034:15: note: in expansion of =
+macro 'v4l2_subdev_call'
+    1034 |         ret =3D v4l2_subdev_call(cxdev->cx25840, pad, set_fmt, N=
+ULL, &subfmt);
+         |               ^~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:870:15: note: declared here
+     870 |         int (*set_fmt)(struct v4l2_subdev *sd,
+         |               ^~~~~~~
+   drivers/media/usb/dvb-usb/cxusb-analog.c: In function 'cxusb_medion_anal=
+og_init':
+   drivers/media/usb/dvb-usb/cxusb-analog.c:1516:68: error: passing argumen=
+t 3 of '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)=
+->set_fmt' from incompatible pointer type [-Wincompatible-pointer-types]
+    1516 |         ret =3D v4l2_subdev_call(cxdev->cx25840, pad, set_fmt, N=
+ULL, &subfmt);
+         |                                                                 =
+   ^~~~~~~
+         |                                                                 =
+   |
+         |                                                                 =
+   struct v4l2_subdev_format *
+   include/media/v4l2-subdev.h:2022:65: note: in definition of macro 'v4l2_=
+subdev_call'
+    2022 |                                                         __sd, ##=
+args);  \
+         |                                                                 =
+^~~~
+   drivers/media/usb/dvb-usb/cxusb-analog.c:1516:68: note: expected 'struct=
+ v4l2_subdev_state *' but argument is of type 'struct v4l2_subdev_format *'
+    1516 |         ret =3D v4l2_subdev_call(cxdev->cx25840, pad, set_fmt, N=
+ULL, &subfmt);
+         |                                                                 =
+   ^~~~~~~
+   include/media/v4l2-subdev.h:2022:65: note: in definition of macro 'v4l2_=
+subdev_call'
+    2022 |                                                         __sd, ##=
+args);  \
+         |                                                                 =
+^~~~
+>> include/media/v4l2-subdev.h:2021:36: error: too few arguments to functio=
+n '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)->set=
+_fmt'; expected 4, have 3
+    2021 |                         __result =3D v4l2_subdev_call_wrappers.o=
+->f(      \
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/usb/dvb-usb/cxusb-analog.c:1516:15: note: in expansion of =
+macro 'v4l2_subdev_call'
+    1516 |         ret =3D v4l2_subdev_call(cxdev->cx25840, pad, set_fmt, N=
+ULL, &subfmt);
+         |               ^~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:870:15: note: declared here
+     870 |         int (*set_fmt)(struct v4l2_subdev *sd,
+         |               ^~~~~~~
+   drivers/media/usb/dvb-usb/cxusb-analog.c:1516:68: error: passing argumen=
+t 3 of '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->set_fmt' from=
+ incompatible pointer type [-Wincompatible-pointer-types]
+    1516 |         ret =3D v4l2_subdev_call(cxdev->cx25840, pad, set_fmt, N=
+ULL, &subfmt);
+         |                                                                 =
+   ^~~~~~~
+         |                                                                 =
+   |
+         |                                                                 =
+   struct v4l2_subdev_format *
+   include/media/v4l2-subdev.h:2024:60: note: in definition of macro 'v4l2_=
+subdev_call'
+    2024 |                         __result =3D __sd->ops->o->f(__sd, ##arg=
+s);       \
+         |                                                            ^~~~
+   drivers/media/usb/dvb-usb/cxusb-analog.c:1516:68: note: expected 'struct=
+ v4l2_subdev_state *' but argument is of type 'struct v4l2_subdev_format *'
+    1516 |         ret =3D v4l2_subdev_call(cxdev->cx25840, pad, set_fmt, N=
+ULL, &subfmt);
+         |                                                                 =
+   ^~~~~~~
+   include/media/v4l2-subdev.h:2024:60: note: in definition of macro 'v4l2_=
+subdev_call'
+    2024 |                         __result =3D __sd->ops->o->f(__sd, ##arg=
+s);       \
+         |                                                            ^~~~
+>> include/media/v4l2-subdev.h:2024:36: error: too few arguments to functio=
+n '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->set_fmt'; expected=
+ 4, have 3
+    2024 |                         __result =3D __sd->ops->o->f(__sd, ##arg=
+s);       \
+         |                                    ^~~~
+   drivers/media/usb/dvb-usb/cxusb-analog.c:1516:15: note: in expansion of =
+macro 'v4l2_subdev_call'
+    1516 |         ret =3D v4l2_subdev_call(cxdev->cx25840, pad, set_fmt, N=
+ULL, &subfmt);
+         |               ^~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:870:15: note: declared here
+     870 |         int (*set_fmt)(struct v4l2_subdev *sd,
+         |               ^~~~~~~
+..
 
 
-vim +/__c_pa +1573 kernel/module/main.c
+vim +267 drivers/staging/media/max96712/max96712.c
 
-  1511	
-  1512	/* Change all symbols so that st_value encodes the pointer directly. */
-  1513	static int simplify_symbols(struct module *mod, const struct load_info *info)
-  1514	{
-  1515		Elf_Shdr *symsec = &info->sechdrs[info->index.sym];
-  1516		Elf_Sym *sym = (void *)symsec->sh_addr;
-  1517		unsigned long secbase;
-  1518		unsigned int i;
-  1519		int ret = 0;
-  1520		const struct kernel_symbol *ksym;
-  1521	
-  1522		for (i = 1; i < symsec->sh_size / sizeof(Elf_Sym); i++) {
-  1523			const char *name = info->strtab + sym[i].st_name;
-  1524	
-  1525			switch (sym[i].st_shndx) {
-  1526			case SHN_COMMON:
-  1527				/* Ignore common symbols */
-  1528				if (!strncmp(name, "__gnu_lto", 9))
-  1529					break;
-  1530	
-  1531				/*
-  1532				 * We compiled with -fno-common.  These are not
-  1533				 * supposed to happen.
-  1534				 */
-  1535				pr_debug("Common symbol: %s\n", name);
-  1536				pr_warn("%s: please compile with -fno-common\n",
-  1537				       mod->name);
-  1538				ret = -ENOEXEC;
-  1539				break;
-  1540	
-  1541			case SHN_ABS:
-  1542				/* Don't need to do anything */
-  1543				pr_debug("Absolute symbol: 0x%08lx %s\n",
-  1544					 (long)sym[i].st_value, name);
-  1545				break;
-  1546	
-  1547			case SHN_LIVEPATCH:
-  1548				/* Livepatch symbols are resolved by livepatch */
-  1549				break;
-  1550	
-  1551			case SHN_UNDEF:
-  1552				ksym = resolve_symbol_wait(mod, info, name);
-  1553				/* Ok if resolved.  */
-  1554				if (ksym && !IS_ERR(ksym)) {
-  1555					sym[i].st_value = kernel_symbol_value(ksym);
-  1556					break;
-  1557				}
-  1558	
-  1559				/* Ok if weak or ignored.  */
-  1560				if (!ksym &&
-  1561				    (ELF_ST_BIND(sym[i].st_info) == STB_WEAK ||
-  1562				     ignore_undef_symbol(info->hdr->e_machine, name)))
-  1563					break;
-  1564	
-  1565				ret = PTR_ERR(ksym) ?: -ENOENT;
-  1566				pr_warn("%s: Unknown symbol %s (err %d)\n",
-  1567					mod->name, name, ret);
-  1568				break;
-  1569	
-  1570			default:
-  1571				/* Divert to percpu allocation if a percpu var. */
-  1572				if (sym[i].st_shndx == info->index.pcpu)
-> 1573					secbase = __c_pa(mod_percpu(mod));
-  1574				else
-  1575					secbase = info->sechdrs[sym[i].st_shndx].sh_addr;
-  1576				sym[i].st_value += secbase;
-  1577				break;
-  1578			}
-  1579		}
-  1580	
-  1581		return ret;
-  1582	}
-  1583	
+ce44dc1feab5f0 Niklas S=C3=B6derlund 2024-05-10  264 =20
+5814f32fef137e Niklas S=C3=B6derlund 2021-09-12  265  static const struct v=
+4l2_subdev_pad_ops max96712_pad_ops =3D {
+ce44dc1feab5f0 Niklas S=C3=B6derlund 2024-05-10  266  	.get_fmt =3D v4l2_su=
+bdev_get_fmt,
+ce44dc1feab5f0 Niklas S=C3=B6derlund 2024-05-10 @267  	.set_fmt =3D v4l2_su=
+bdev_get_fmt,
+5814f32fef137e Niklas S=C3=B6derlund 2021-09-12  268  };
+5814f32fef137e Niklas S=C3=B6derlund 2021-09-12  269 =20
+
+:::::: The code at line 267 was first introduced by commit
+:::::: ce44dc1feab5f038edb39dc443b32eae3ac1234d media: staging: max96712: S=
+tore format in subdev active state
+
+:::::: TO: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.se>
+:::::: CC: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
 --
 0-DAY CI Kernel Test Service
