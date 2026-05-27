@@ -1,71 +1,70 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15CC43655C3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 May 2026 19:09:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F6A3655FF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 May 2026 19:13:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779908983; cv=none; b=IAWBTsZh8JXFEF1Ih1bEpKMJUkCsxf4Od2xrzUbpkFjtjp0gL+PBjrVDZ1ksa6k4WP2jumb4F5WzHCyM3+nVg6YbgeFht8B9vAeIYMk65d4AxWFr2+jty5mtJ3/i4164miFdXCjFQoYAXrP2fYkCEdcACXkg95JByeYmQ2UHTSI=
+	t=1779909193; cv=none; b=HucqZAMGN4J79rx5KSrGBXHdel2pr/XbdtQpssrY6gQMy72Yq3NIznhH9GXpwMiHW52qyDKC05W0XOuCYDswxKYbEDxKnxBsidTjUKBpNsa/mkmqnT7V+P5FIXdiSzA1hHDGWTPkTsP9oL/GdcFENYc5EulcXUlPNP/wF3WsmCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779908983; c=relaxed/simple;
-	bh=ENSZXXG1ZsVUwY0QSHilE2dm+7OUkOw8owfAyTo0l4E=;
+	s=arc-20240116; t=1779909193; c=relaxed/simple;
+	bh=z3kvo3WLagg06+RgWih/Ik0h/y0BaH1lzt2bmYD0gMo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jwuLsis8WzlW5k0T1CFpSpBlipEA0/gMoSMHYu+cjU1OSPWQZURezuNTwlXN/7InE4NSLRwbYKnWyzv2+8uDeBmzs9obgVX8MrGyWRzcmCLaVUo2HT7ErXgbtmwRMWxXd8Y14cR056oBjuiZ7v9DrSSlsFfqj1gFmVcv9PfLZ+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LrzfVI8T; arc=none smtp.client-ip=209.85.128.53
+	 Content-Disposition; b=uUfaJ2sSL9VHCItVmLMZ12lOxII8oS7Z3qbC94j7jq47RFz9cXUt5Z4kd6T3M6zNDWYEZuAKn/E3qBtzQpLwRbToyrOJkMXNvy2LkGYdEi3w1LVnF/75WRVB86qqwsp/ad4rVHMBtvPUl6ChKGsMbd0cYmWpSwmhSxoHQ7aRSeA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vtl/2H8H; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LrzfVI8T"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-49048e043e5so44168485e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 27 May 2026 12:09:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vtl/2H8H"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-48fde648a71so80066225e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 27 May 2026 12:13:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779908979; x=1780513779; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1779909190; x=1780513990; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=5TFmsLapNvS3e4QpeLd98HXGWYXxOCbjGHInWLNuXB0=;
-        b=LrzfVI8TrUvuMw8XTHGo2px+ejCS02ymLTlVL8lLIEXoGOHF/eTaGEIefYYD6V1JO/
-         qT1sbb895bqDWcHiDPcNgRCOMC2j/7MtPVnHQ2VAD/F/FwzidgKkuGWddPVnhQd2azOn
-         GSltjmP4PYa3r6pxg6OIbmob/mAzD1zUBjHuJT0E6und1lhJHAcHDmOhRmmDMDJJ2cig
-         MA0NpdWzbc0COK0kxEsvPC7HwbhSZ5RUjEwFasSDzTEqWSkaCOBdC8wLQo7AKj1+Viuy
-         OK21SrF0a6T2dxArR7ec16l8Hj/vjvgkwyuJRLuPJR3NDgrRCPl3kYBtrDHTzJ+T7gQR
-         hgkw==
+        bh=jpxBKDh5pDd0JFZBOF4cl+ZIfpcNg83H3YdC1zjzFa8=;
+        b=Vtl/2H8HHZgvsaxTGbbSlsZBI8QQ1Xm/NrdcR8XEgU+iFnYPDUpkCVq/3w/4OQrk3M
+         rrHosvQqRgQ/9il3/J4pY7gZegDtLB6zwiEzMdXKNKK0lP9kGpXqNi13kYiAZDYtNGo9
+         ilj7ZHoFLOQ4tCYKo9wHkaFt0fHJ0aW4wf5rz49pbL1TqCGsrkNlqGmXZvqP1FgIFsgl
+         T6FhgWU/+e7xBD0xIFnin6/sas/P9RmRayHFxLhdezoAbIviSHl5WjmaRaSsX5p8SzZH
+         jnK4N8dtPU2+M67oG71kUAmGUgYgF5rqAq6ZB1/OoGJIj/HQAhUR5PXUuqEvHbkG5ZZU
+         NSBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779908979; x=1780513779;
+        d=1e100.net; s=20251104; t=1779909190; x=1780513990;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=5TFmsLapNvS3e4QpeLd98HXGWYXxOCbjGHInWLNuXB0=;
-        b=UKGMFdWuyg2jzNoimJH4QTP4YjPsAlllSzGU3KcIdzI5oRrXicqIfxby5R/vA89j9v
-         xyLG70r/Hi6869Dci2EgPXNJLKIS2aae4xzK3IFViP5h7wXBzuqwe23B3+7Gof6tfE77
-         mIiOBuvMs2naMV/qVAetASWaLgNMXBT04kblaTA5aD0ekkXYllAdPtNocz3jzUVxMXOE
-         RaRxUTNtdndyB+WF+wSzXMgwBcZwDnXNCvvPkVSTTudfuu6eb1uCPcos7hNMSexv+0Y0
-         U68yObbLxi8oaFnKcSPz9PWY9JvQVeT5Bbv4+AyWg8qC96r8XOeQ+WHQnWkH8ZmKrrTO
-         iP4A==
-X-Forwarded-Encrypted: i=1; AFNElJ9t1G7WrhHWJwK27H6S6SM0taaLiII0qrlR5FbBFjNBHY6X5p96yU0B0bYgGWqQV5ogsHlq70pLPoKEtppb@lists.linux.dev
-X-Gm-Message-State: AOJu0YzeQ0YO44u2ebL/bIpRVaM/LdWEtMOIZ+oSkqkGE249o2lVYWuv
-	G1CLi8ajd/oeaghsnhu3+TmwRk/jq/xbPXIfo/42InYxLIAGyGo48IDu
-X-Gm-Gg: Acq92OFwl+Ngts/dZavlsE7zlIRinYFmzUZYOpD5pGvjsLmVZc5ixr++2AVi3sUSh7S
-	4PRD4gOBhLmKs7XtoXKQ7xNt+S70oWNo3/LryMSZLKMqFX5TP+RoGrhsLlRPD/O1CzzdvijlS2f
-	L4et8ZWdw0rvgOEnCychxI8Cg5S7SjQgjRnx9JztEpWoRn4Ns/wsbsgzeX0k1TjwTmuHSSMEtrR
-	9rUwaqmNdjc21Iy0AYynrUPXeLJK6RvcC7oYc2QlIjPYWq93T/1gvXouCUf48bx7bF+yWE2Xzl1
-	SDTYECUIxCOsmxcgTWKNE0u9rXcUpu/kGXQD7jXQ1crsEpxuuOmu97so92ca2E6Tkme67nBI0id
-	gXc7Lul8d9hOBGwe6XCK3ksMNKLINlNaHk/4jSaSD1yFNXYcrlcyhqpsUoL2Tk8hEd2mK+o4kaT
-	SyaMCFPB218C1mm7x9rHzqQ92lZbryHVF6tw==
-X-Received: by 2002:a05:600c:37c8:b0:48f:e230:8cad with SMTP id 5b1f17b1804b1-49042ae0201mr442653505e9.33.1779908978761;
-        Wed, 27 May 2026 12:09:38 -0700 (PDT)
+        bh=jpxBKDh5pDd0JFZBOF4cl+ZIfpcNg83H3YdC1zjzFa8=;
+        b=dEDvAClDtU0lNXTJ6/vN86J7eVFBPivlT/XsPavloFrKXmOjOB5Am6Xam65u3OFwCU
+         LZjpWL6jcVdfKeVIuhgjteL6HqWJVeW6m9kG89ijQ3VuKyb9jnpIa6ugZRO/tUnScJIW
+         4G4u/iDdlzq6EaBgBOuNdGMwQtgju5indzMfKackKgn4SAIOagVAYUiUXK4ISkgsKthT
+         oj1kRWVpKdO1eQPfXnrQh/5cpGuVvpSJJXw3FOtJVPigYj2Yi4w1x8Krs4FiyH3p4U5C
+         sLPVjuokb2mJ5yBk4mhiKMoerDvZO5YFmsIbgsu409GpKGsU88YoEZztbcrW/QRwuk6d
+         v0gg==
+X-Forwarded-Encrypted: i=1; AFNElJ/ddlOipYZEfxrutzfusCURmV9bNJeKY1o4tlI2M+sRTw+vxZJq5wFFG9tWG2Qm7UAgQ5zRgpGMpEC3E/3b@lists.linux.dev
+X-Gm-Message-State: AOJu0YzFwg/4KIbFDvSTjMnXpCsZN0WOKIwAnNRhcCHoYK/vBAVmHwHl
+	oMhP/kQiBF6E/2e3qa15lPQ6UwKeT81/KHATCyjBTKQR3jrMjzly5IX3BWJRhQ==
+X-Gm-Gg: Acq92OHxSuRU8DdMo4N/4zd1E2yrt4hfl/aiiqK11P9FVy7IdiMU5cNMhdblNqMB0tJ
+	D6CNIFbfXvxSeoWyWXfMUeFfMMPK/5jDg1KcEzwRwkkaHXe/CRtHtGtHFAVntNH5y8KtliFebvS
+	al53SIUnLcpFKKL8BntdFOWU20X8ASl/smt9KT8x7Os1TJ9GByWG0d36VikngLjmehJNnpcsjQt
+	nG1Raf1dGJ0UixN+RCXrud01uwao4wBVP3kY4+oazUAgKxSfhGiU6F/wdPe6PHgKf8F6i9MW2h0
+	wGCySxnyiCljsrARQyigJw8EMWE81sGVgJakSaun0YRHT2mmixjeLzKr/jNgbd8JCtHKLWOHNWy
+	TZKNZhVZ0QJFCYgF7cin/IMbEKWhsaoN2k775Qikp2ySL8jB1a6RH3jTDg+P9kOjnqPcCNrRBbC
+	XqIcDmRPwlAB8IYTXSnoX2oy4KKD9+VmcIFQ==
+X-Received: by 2002:a05:600c:6b12:b0:488:7d5b:125d with SMTP id 5b1f17b1804b1-49035f2e4f2mr309955995e9.7.1779909190118;
+        Wed, 27 May 2026 12:13:10 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45edb5b314dsm7301759f8f.30.2026.05.27.12.09.36
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45edb5b2bbfsm8509775f8f.32.2026.05.27.12.13.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 May 2026 12:09:37 -0700 (PDT)
-Date: Wed, 27 May 2026 22:09:34 +0300
+        Wed, 27 May 2026 12:13:09 -0700 (PDT)
+Date: Wed, 27 May 2026 22:13:06 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-cleanup-2026-05-22-2 254/254]
- sound/soc/generic/simple-card.c:816 simple_probe() warn: passing zero to
- 'dev_err_probe'
-Message-ID: <202605262057.MrYWEhEf-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, Dave Penkler <dpenkler@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: drivers/gpib/ines/ines_gpib.c:917 ines_isa_attach() warn:
+ 'config->ibbase' from __request_region() not released on lines: 913.
+Message-ID: <202605271229.d8wGTffx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,137 +74,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/morimoto/linux sound-cleanup-2026-05-22-2
-head:   7f5e6579901e0a1f3ff8bb45002dc226961a56ce
-commit: 7ef1ca7325d4d74d6a20d348a5a8e403992964ab [254/254] ASoC: generic: use snd_soc_card_register()
-config: x86_64-randconfig-161-20260525 (https://download.01.org/0day-ci/archive/20260526/202605262057.MrYWEhEf-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+Hi Dave,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   eb3f4b7426cfd2b79d65b7d37155480b32259a11
+commit: e6ab504633e4c06e35377ecf3c8cbc304de79858 staging: gpib: Destage gpib
+config: alpha-randconfig-r071-20260527 (https://download.01.org/0day-ci/archive/20260527/202605271229.d8wGTffx-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 8.5.0
 smatch: v0.5.0-9185-gbcc58b9c
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: e6ab504633e4 ("staging: gpib: Destage gpib")
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202605262057.MrYWEhEf-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202605271229.d8wGTffx-lkp@intel.com/
 
-smatch warnings:
-sound/soc/generic/simple-card.c:816 simple_probe() warn: passing zero to 'dev_err_probe'
+New smatch warnings:
+drivers/gpib/ines/ines_gpib.c:917 ines_isa_attach() warn: 'config->ibbase' from __request_region() not released on lines: 913.
 
-vim +/dev_err_probe +816 sound/soc/generic/simple-card.c
+vim +917 drivers/gpib/ines/ines_gpib.c
 
-b4b7de99c6da46 Kuninori Morimoto   2023-09-11  712  static int simple_probe(struct platform_device *pdev)
-f2390880ec0264 Kuninori Morimoto   2012-04-08  713  {
-b4b7de99c6da46 Kuninori Morimoto   2023-09-11  714  	struct simple_util_priv *priv;
-f89983ef61677a Kuninori Morimoto   2012-12-25  715  	struct device *dev = &pdev->dev;
-dcee9bfe890451 Kuninori Morimoto   2017-03-15  716  	struct device_node *np = dev->of_node;
-5be509576cf634 Kuninori Morimoto   2017-03-15  717  	struct snd_soc_card *card;
-7ef1ca7325d4d7 Kuninori Morimoto   2026-04-20  718  	const char *card_name = NULL;
-65a5056b21202e Kuninori Morimoto   2019-03-20  719  	int ret;
-f2390880ec0264 Kuninori Morimoto   2012-04-08  720  
-0dd4fc3c2f663b Xiubo Li            2014-09-10  721  	/* Allocate the private data and the DAI link array */
-b0133d9c4d7600 Kuninori Morimoto   2016-08-26  722  	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-ca65b492c7a265 Jean-Francois Moine 2014-01-15  723  	if (!priv)
-ca919fe4b972b9 Xiubo Li            2014-01-14  724  		return -ENOMEM;
-ca919fe4b972b9 Xiubo Li            2014-01-14  725  
-a0ef5b4b101424 Kuninori Morimoto   2025-02-05  726  	ret = -ENOMEM;
-bf4afc53b77aea Linus Torvalds      2026-02-21  727  	struct link_info *li __free(kfree) = kzalloc_obj(*li);
-ec1af6c64db94e Thierry Reding      2021-04-19  728  	if (!li)
-a0ef5b4b101424 Kuninori Morimoto   2025-02-05  729  		goto end;
-ec1af6c64db94e Thierry Reding      2021-04-19  730  
-ec1af6c64db94e Thierry Reding      2021-04-19  731  	ret = simple_get_dais_count(priv, li);
-0f687d826736a5 Thierry Reding      2021-04-16  732  	if (ret < 0)
-a0ef5b4b101424 Kuninori Morimoto   2025-02-05  733  		goto end;
-0f687d826736a5 Thierry Reding      2021-04-16  734  
-a0ef5b4b101424 Kuninori Morimoto   2025-02-05  735  	ret = -EINVAL;
-ec1af6c64db94e Thierry Reding      2021-04-19  736  	if (!li->link)
-a0ef5b4b101424 Kuninori Morimoto   2025-02-05  737  		goto end;
-da215354eb55c3 Kuninori Morimoto   2018-12-14  738  
-b4b7de99c6da46 Kuninori Morimoto   2023-09-11  739  	ret = simple_util_init_priv(priv, li);
-65a5056b21202e Kuninori Morimoto   2019-03-20  740  	if (ret < 0)
-a0ef5b4b101424 Kuninori Morimoto   2025-02-05  741  		goto end;
-201a0eac7fe5e7 Jean-Francois Moine 2014-01-15  742  
-201a0eac7fe5e7 Jean-Francois Moine 2014-01-15  743  	if (np && of_device_is_available(np)) {
-ca919fe4b972b9 Xiubo Li            2014-01-14  744  
-ec1af6c64db94e Thierry Reding      2021-04-19  745  		ret = simple_parse_of(priv, li);
-fa558c2801fc17 Kuninori Morimoto   2013-11-20  746  		if (ret < 0) {
-7a0299e13bc740 Kuninori Morimoto   2021-12-14  747  			dev_err_probe(dev, ret, "parse error\n");
-e512e001dafa54 Jean-Francois Moine 2014-03-11  748  			goto err;
+cfa6673eae0281 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2025-05-02  889  static int ines_isa_attach(struct gpib_board *board, const struct gpib_board_config *config)
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  890  {
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  891  	struct ines_priv *ines_priv;
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  892  	struct nec7210_priv *nec_priv;
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  893  	int isr_flags = 0;
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  894  	int retval;
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  895  
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  896  	retval = ines_generic_attach(board);
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  897  	if (retval)
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  898  		return retval;
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  899  
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  900  	ines_priv = board->private_data;
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  901  	nec_priv = &ines_priv->nec7210_priv;
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  902  
+0de51244e7b7e3 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2025-02-20  903  	if (!request_region(config->ibbase, ines_isa_iosize, DRV_NAME)) {
+0de51244e7b7e3 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2025-02-20  904  		dev_err(board->gpib_dev, "ioports at 0x%x already in use\n",
+0de51244e7b7e3 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2025-02-20  905  			config->ibbase);
+0de51244e7b7e3 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2025-02-20  906  		return -EBUSY;
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  907  	}
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  908  	nec_priv->iobase = config->ibbase;
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  909  	nec_priv->offset = 1;
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  910  	nec7210_board_reset(nec_priv, board);
+0de51244e7b7e3 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2025-02-20  911  	if (request_irq(config->ibirq, ines_pci_interrupt, isr_flags, DRV_NAME, board)) {
+0de51244e7b7e3 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2025-02-20  912  		dev_err(board->gpib_dev, "failed to allocate IRQ %d\n", config->ibirq);
 
-ret is zero
+Need to called request_region() before returning and maybe something
+to clean up the ines_generic_attach()?
 
-fa558c2801fc17 Kuninori Morimoto   2013-11-20  749  		}
-6a91a17bd7b92b Jean-Francois Moine 2014-03-20  750  
-fa558c2801fc17 Kuninori Morimoto   2013-11-20  751  	} else {
-b4b7de99c6da46 Kuninori Morimoto   2023-09-11  752  		struct simple_util_info *cinfo;
-f107294c6422e7 Kuninori Morimoto   2019-06-06  753  		struct snd_soc_dai_link_component *cpus;
-710af9196ce614 Kuninori Morimoto   2018-08-31  754  		struct snd_soc_dai_link_component *codecs;
-e58f41e41185c6 Kuninori Morimoto   2018-08-31  755  		struct snd_soc_dai_link_component *platform;
-65a5056b21202e Kuninori Morimoto   2019-03-20  756  		struct snd_soc_dai_link *dai_link = priv->dai_link;
-65a5056b21202e Kuninori Morimoto   2019-03-20  757  		struct simple_dai_props *dai_props = priv->dai_props;
-65a5056b21202e Kuninori Morimoto   2019-03-20  758  
-41bae58df411f9 Kuninori Morimoto   2023-09-19  759  		ret = -EINVAL;
-41bae58df411f9 Kuninori Morimoto   2023-09-19  760  
-ca65b492c7a265 Jean-Francois Moine 2014-01-15  761  		cinfo = dev->platform_data;
-ca65b492c7a265 Jean-Francois Moine 2014-01-15  762  		if (!cinfo) {
-f89983ef61677a Kuninori Morimoto   2012-12-25  763  			dev_err(dev, "no info for asoc-simple-card\n");
-41bae58df411f9 Kuninori Morimoto   2023-09-19  764  			goto err;
-f2390880ec0264 Kuninori Morimoto   2012-04-08  765  		}
-f2390880ec0264 Kuninori Morimoto   2012-04-08  766  
-f2390880ec0264 Kuninori Morimoto   2012-04-08  767  		if (!cinfo->name ||
-fa558c2801fc17 Kuninori Morimoto   2013-11-20  768  		    !cinfo->codec_dai.name ||
-7722f830a45f7f Jean-Francois Moine 2014-01-15  769  		    !cinfo->codec ||
-7722f830a45f7f Jean-Francois Moine 2014-01-15  770  		    !cinfo->platform ||
-7722f830a45f7f Jean-Francois Moine 2014-01-15  771  		    !cinfo->cpu_dai.name) {
-b4b7de99c6da46 Kuninori Morimoto   2023-09-11  772  			dev_err(dev, "insufficient simple_util_info settings\n");
-41bae58df411f9 Kuninori Morimoto   2023-09-19  773  			goto err;
-f2390880ec0264 Kuninori Morimoto   2012-04-08  774  		}
-2bee991460a838 Jean-Francois Moine 2014-01-15  775  
-f107294c6422e7 Kuninori Morimoto   2019-06-06  776  		cpus			= dai_link->cpus;
-f107294c6422e7 Kuninori Morimoto   2019-06-06  777  		cpus->dai_name		= cinfo->cpu_dai.name;
-f107294c6422e7 Kuninori Morimoto   2019-06-06  778  
-710af9196ce614 Kuninori Morimoto   2018-08-31  779  		codecs			= dai_link->codecs;
-710af9196ce614 Kuninori Morimoto   2018-08-31  780  		codecs->name		= cinfo->codec;
-710af9196ce614 Kuninori Morimoto   2018-08-31  781  		codecs->dai_name	= cinfo->codec_dai.name;
-710af9196ce614 Kuninori Morimoto   2018-08-31  782  
-910fdcabedd235 Kuninori Morimoto   2019-01-21  783  		platform		= dai_link->platforms;
-e58f41e41185c6 Kuninori Morimoto   2018-08-31  784  		platform->name		= cinfo->platform;
-e58f41e41185c6 Kuninori Morimoto   2018-08-31  785  
-7ef1ca7325d4d7 Kuninori Morimoto   2026-04-20  786  		card_name		= (cinfo->card) ? cinfo->card : cinfo->name;
-5ca8ba4180a6f6 Jean-Francois Moine 2014-01-15  787  		dai_link->name		= cinfo->name;
-5ca8ba4180a6f6 Jean-Francois Moine 2014-01-15  788  		dai_link->stream_name	= cinfo->name;
-1efb53a220b78f Lars-Peter Clausen  2015-03-24  789  		dai_link->dai_fmt	= cinfo->daifmt;
-b4b7de99c6da46 Kuninori Morimoto   2023-09-11  790  		dai_link->init		= simple_util_dai_init;
-65a5056b21202e Kuninori Morimoto   2019-03-20  791  		memcpy(dai_props->cpu_dai, &cinfo->cpu_dai,
-65a5056b21202e Kuninori Morimoto   2019-03-20  792  					sizeof(*dai_props->cpu_dai));
-65a5056b21202e Kuninori Morimoto   2019-03-20  793  		memcpy(dai_props->codec_dai, &cinfo->codec_dai,
-65a5056b21202e Kuninori Morimoto   2019-03-20  794  					sizeof(*dai_props->codec_dai));
-7722f830a45f7f Jean-Francois Moine 2014-01-15  795  	}
-f2390880ec0264 Kuninori Morimoto   2012-04-08  796  
-7ef1ca7325d4d7 Kuninori Morimoto   2026-04-20  797  	card = devm_snd_soc_card_alloc(dev, THIS_MODULE, &card_driver,
-7ef1ca7325d4d7 Kuninori Morimoto   2026-04-20  798  				       card_name, NULL, NULL);
-7ef1ca7325d4d7 Kuninori Morimoto   2026-04-20  799  	if (!card)
-7ef1ca7325d4d7 Kuninori Morimoto   2026-04-20  800  		goto err;
-
-No error code
-
-7ef1ca7325d4d7 Kuninori Morimoto   2026-04-20  801  
-7ef1ca7325d4d7 Kuninori Morimoto   2026-04-20  802  	priv->snd_card = card;
-7ef1ca7325d4d7 Kuninori Morimoto   2026-04-20  803  
-5be509576cf634 Kuninori Morimoto   2017-03-15  804  	snd_soc_card_set_drvdata(card, priv);
-f2390880ec0264 Kuninori Morimoto   2012-04-08  805  
-b4b7de99c6da46 Kuninori Morimoto   2023-09-11  806  	simple_util_debug_info(priv);
-0580dde5943868 Kuninori Morimoto   2019-03-20  807  
-7ef1ca7325d4d7 Kuninori Morimoto   2026-04-20  808  	ret = devm_snd_soc_card_register(card);
-c6d112e442fed7 Kuninori Morimoto   2017-05-19  809  	if (ret < 0)
-c6d112e442fed7 Kuninori Morimoto   2017-05-19  810  		goto err;
-c6d112e442fed7 Kuninori Morimoto   2017-05-19  811  
-c6d112e442fed7 Kuninori Morimoto   2017-05-19  812  	return 0;
-e512e001dafa54 Jean-Francois Moine 2014-03-11  813  err:
-b4b7de99c6da46 Kuninori Morimoto   2023-09-11  814  	simple_util_clean_reference(card);
-a0ef5b4b101424 Kuninori Morimoto   2025-02-05  815  end:
-a0ef5b4b101424 Kuninori Morimoto   2025-02-05 @816  	return dev_err_probe(dev, ret, "parse error\n");
-f2390880ec0264 Kuninori Morimoto   2012-04-08  817  }
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  913  		return -1;
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  914  	}
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  915  	ines_priv->irq = config->ibirq;
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  916  	ines_online(ines_priv, board, 1);
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18 @917  	return 0;
+bb1bd92fa0f2c9 drivers/staging/gpib/ines/ines_gpib.c Dave Penkler  2024-09-18  918  }
 
 --
 0-DAY CI Kernel Test Service
