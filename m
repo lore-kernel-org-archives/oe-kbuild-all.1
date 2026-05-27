@@ -1,165 +1,176 @@
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E25A3B4EA4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 May 2026 06:49:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B427F3CCFA6
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 May 2026 07:50:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779864553; cv=none; b=WHosj8A0YwVDbcTYtaqPXMrHXplGx+bmWSnIB3iNYRRinO/gMi7madwbzvSELp/M7gPEZ1qpeKCIkL25P+2Co6bmgQv3+0/wgfNY9zf51S9Cg+LNxh+fNlHBASKkgzruLVxBtzKcO0JeXiPENLzwiduV6u4agLpLjU4Wjyi+jIU=
+	t=1779868240; cv=none; b=ht+iNQoHc0yNko7OzomFOya40ZAJ78g9RpeD817YztXXEMj7v4AkGaY2Aw9UexdLGC1Zj72dRXY3POzpvtMAL0OJcz62sABblRPZrltEmnn12eNhlL6/bIXh9IgmMKvLRAIzKpNPjhOVlLdYPdx0gUzTW2jJ1moykRGK2PByT8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779864553; c=relaxed/simple;
-	bh=CTTcgJIuFGfR0NeAr+JNPvCyCJ27p/lX3VRVPU1/L6E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JgxVxhP7rHsI1BTmHixhBFdcz7o50RuO9gRvdgMRG2qPN6qxFyNrtsB+CdGjD75/A0/x3Dqh5VQtiDYExGbEyTrcHoh4Rs/mSQTxg5lbKZdIHMJgLwJdlbRQ3XNkBFwrLbtwCMmKmGgQ/ajY8MPN0Yob16b/e90YLPzAFFOoo3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-57512b86273so8280937e0c.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 26 May 2026 23:49:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779864550; x=1780469350;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kGQsN8kWbUvqVHkHzuwD1FaM65zfktEyANqUCmyB2cw=;
-        b=Fl1efv4q5R2h2yD3ZB1wuYpmEAxu3wIdpQiM5yx+cJa1AQ1NfPanycs1a6od+9imp/
-         fzO4r+T/NXE4TI3MyD5uQf36PekoLO5UnuAH1QN2S71amauEOIIVcWyg2DRbRP8OccjA
-         XHaX39YJaO1Zy4tCPU2iBqBTZhU9CbUMvjaCEhW8Vh/HhcafzPb6+qR1p0LHi4yqnfaa
-         2iVH4QQe4hCWXal6tGB1TXu0L3wQiNdDNQjiSnEZnvkuSwuZ0oaRlmTlSKKUlHRSSRtU
-         Cq/2QEu9KiM1+KZcRSKPTRxeabeLMgq3DcU9IFVgDWq73cd6ydMQFTWvH1CfwIDTqmHs
-         om9Q==
-X-Forwarded-Encrypted: i=1; AFNElJ+wIbsyNdydueqAPqQmYotIoT78FDDqb8YXNDlULbqY/ArgIT+7HoPpo+r3Ywc2sBOTrLyw+aOzVxyY3GlT@lists.linux.dev
-X-Gm-Message-State: AOJu0YzCG9qFEbEDVgxlKpkvUtZ0v5pDDDmLponkgvt+Mjy1lNFk6FNx
-	fpaW9q249y58WWDRGtLcqfCviWLZSmHWewKtndEFPhZayoTVb/thj+YxK6HFOZW2PX8=
-X-Gm-Gg: Acq92OHHb0OYO/NADEiGmIBJ7lLx+I2DEk6jATq38gXmP0ib2v0d1+fmwDh6eUE9EHM
-	DucILVn1TOR45+ThqVhm6sYF6W3T4IeV2O8rtjfHftYeV1Ap4E8njF4UDQ9YtftmYoAvEUr7VQP
-	359rBfo6aXHe4/Mb5VhLW7pK6/ovPmhqVE1Q8KuMfuVVIewI7KigV1Kc5azv+gkbx66XnO7mqrS
-	SVuWwImMpBiKNUKPW3huAXmnpC/r4qrXnk4MUHGizSq4wQeje0jJDWg5KQrvoei3Gv3xuFQgU1W
-	X/v6NfOkb2+eoRk61br/elwJ0wcnscpuFgF38gZcOlmLH43dKl6KqS5wcqOHCdjQIqIsmalZWUp
-	ni3+ZBGj4PR/ccyowRCvCpBFtUzIc4/qVMU+VpPT06mAtSMOeONQEkrCKn0kjT3LzK0vsbzrJe+
-	NJINzHJuHpk2chVRkreoT/VrPyRlC8zVFYJwlAQRMc2b5tRK9PB3wb3TzU99En
-X-Received: by 2002:a05:6122:4885:b0:575:634a:a604 with SMTP id 71dfb90a1353d-5865fc03296mr12779782e0c.6.1779864549920;
-        Tue, 26 May 2026 23:49:09 -0700 (PDT)
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com. [209.85.217.52])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-586f37281e7sm19166503e0c.7.2026.05.26.23.49.09
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 May 2026 23:49:09 -0700 (PDT)
-Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-63127c440ccso8720052137.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 26 May 2026 23:49:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8xgwCmoM6Eoyvd4wXw/dnpMPGe0N0G7eO/yUd694gOJ2VaFGIKFBcYqQ9vlw6FSQyLpnAJQUabIj23Z2py@lists.linux.dev
-X-Received: by 2002:a05:6102:4424:b0:631:3bbb:f23f with SMTP id
- ada2fe7eead31-67c8113bf3dmr10713469137.26.1779864548971; Tue, 26 May 2026
- 23:49:08 -0700 (PDT)
+	s=arc-20240116; t=1779868240; c=relaxed/simple;
+	bh=CblEkSuzOoHVnc2YZSVlOLArlRdciNMSXVPNstdxEt4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=KZz1MJjS6zjcuMPwdqbYbOjsg7bU/ytbOgeOxS2ZZU9cfi4Mww0fWHavfp95yPniOd/jwYYIv/eA9WK/VZhXylu0mAYmhenL3kgg1xj/23HxRWlqJSm3rJA99axWHr8WbTsCSJX/l3+LBPoK8nkTdezh/VIxayNH6qv3pMQgFGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RSNlznsF; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RSNlznsF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779868237; x=1811404237;
+  h=date:from:to:cc:subject:message-id;
+  bh=CblEkSuzOoHVnc2YZSVlOLArlRdciNMSXVPNstdxEt4=;
+  b=RSNlznsFb0FaguwBTzqr/J+Q7WhoABN+olU0wMpspg2Pkk97K1ckkQUP
+   n9O4PNnfmBH7H6iiJ6ZHxhy1q32SaoSed5DJki6IgB4WUVzMfp5ulPLgt
+   5jk9+ro6H24SUKNn3SjjNMuLN8BGyuz1ica7tCLVOBpCAuRUOFb3DBP20
+   6PMqh99QYXDlD08aonumvZJNMv5OCpwkrNikMoYglHnU8e0yejwEvhkvI
+   X8WtQnTi4RfVWh6PswBLZn7rm7Ijxbdl8ZTeDnyrKehH17kP6coMM5YCj
+   qwPG04fFmbydnSrXaJcBfZ64CL0Z/TF1fre05W1esYOuNFwNs7qW6IKWo
+   g==;
+X-CSE-ConnectionGUID: tEDPuUmLSBy+OPcXvOWbHA==
+X-CSE-MsgGUID: a/HDpBp+QOyMTrRs5TV1/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="91381891"
+X-IronPort-AV: E=Sophos;i="6.24,171,1774335600"; 
+   d="scan'208";a="91381891"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2026 00:50:37 -0700
+X-CSE-ConnectionGUID: al6PgYY3RXO5vmTsPxAXGg==
+X-CSE-MsgGUID: tGCt7KGFS8GTAGaX77T+hw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,171,1774335600"; 
+   d="scan'208";a="247235963"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 27 May 2026 00:50:35 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wS929-000000003cg-0SOR;
+	Wed, 27 May 2026 07:50:33 +0000
+Date: Wed, 27 May 2026 15:50:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 28/28]
+ drivers/usb/typec/mode_selection.c:261:7: warning: assignment to 'struct
+ mode_state *' from 'int' makes pointer from integer without a cast
+Message-ID: <202605271521.9fR1378b-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260526071537.17460-1-likunyu10@163.com> <202605270352.wVynZOtB-lkp@intel.com>
-In-Reply-To: <202605270352.wVynZOtB-lkp@intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 27 May 2026 08:48:56 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV7Bu57UyjtkYWwNjt_HTHMGMGQp5eXARDu7BaRfwHeQg@mail.gmail.com>
-X-Gm-Features: AVHnY4L19Z4TB8Namr2IRXH8HebcyxQK18c7Wbbb4ad0PngUbjXHbSlaowDD2NE
-Message-ID: <CAMuHMdV7Bu57UyjtkYWwNjt_HTHMGMGQp5eXARDu7BaRfwHeQg@mail.gmail.com>
-Subject: Re: [PATCH] kernel/sched/fair: Fix the issue of virtual runtime
- conversion error
-To: kernel test robot <lkp@intel.com>
-Cc: Li kunyu <likunyu10@163.com>, mingo@redhat.com, peterz@infradead.org, 
-	juri.lelli@redhat.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com, 
-	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de, vschneid@redhat.com, 
-	kprateek.nayak@amd.com, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 27 May 2026 at 03:17, kernel test robot <lkp@intel.com> wrote:
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on tip/sched/core]
-> [also build test ERROR on peterz-queue/sched/core linus/master v7.1-rc5 next-20260526]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Li-kunyu/kernel-sched-fair-Fix-the-issue-of-virtual-runtime-conversion-error/20260526-151853
-> base:   tip/sched/core
-> patch link:    https://lore.kernel.org/r/20260526071537.17460-1-likunyu10%40163.com
-> patch subject: [PATCH] kernel/sched/fair: Fix the issue of virtual runtime conversion error
-> config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260527/202605270352.wVynZOtB-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260527/202605270352.wVynZOtB-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202605270352.wVynZOtB-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    ld: kernel/sched/fair.o: in function `hrtick_start_fair':
-> >> kernel/sched/fair.c:7633:(.text+0x701): undefined reference to `__udivdi3'
->
->
-> vim +7633 kernel/sched/fair.c
->
->   7603
->   7604  /**************************************************
->   7605   * CFS operations on tasks:
->   7606   */
->   7607
->   7608  #ifdef CONFIG_SCHED_HRTICK
->   7609  static void hrtick_start_fair(struct rq *rq, struct task_struct *p)
->   7610  {
->   7611          struct sched_entity *se = &p->se;
->   7612          unsigned long scale = 1024;
->   7613          unsigned long util = 0;
->   7614          u64 vdelta;
->   7615          u64 delta;
->   7616
->   7617          WARN_ON_ONCE(task_rq(p) != rq);
->   7618
->   7619          if (rq->cfs.h_nr_queued <= 1)
->   7620                  return;
->   7621
->   7622          /*
->   7623           * Compute time until virtual deadline
->   7624           */
->   7625          vdelta = se->deadline - se->vruntime;
->   7626          if ((s64)vdelta < 0) {
->   7627                  if (task_current_donor(rq, p))
->   7628                          resched_curr(rq);
->   7629                  return;
->   7630          }
->   7631
->   7632          if (unlikely(se->load.weight != NICE_0_LOAD))
-> > 7633                  delta = (NICE_0_LOAD * vdelta) / se->load.weight;
+Hi Andrei,
 
-vdelta is u64, load_weight.weight is unsigned long, so please use
-div64_ul() instead of an open-coded division.
+FYI, the error/warning still remains.
 
->   7634
->   7635          /*
->   7636           * Correct for instantaneous load of other classes.
->   7637           */
->   7638          util += cpu_util_irq(rq);
->   7639          if (util && util < 1024) {
->   7640                  scale *= 1024;
->   7641                  scale /= (1024 - util);
->   7642          }
->   7643
->   7644          hrtick_start(rq, (scale * delta) / 1024);
->   7645  }
->   7646
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   d82d1c962ed8d8ed693448d27aa42a88c54f438d
+commit: f49f8d90b43e2a0aa7a011c88529f38c409fbf0b [28/28] ANDROID: usb: typec: Implement mode selection
+config: arm-randconfig-003-20260527 (https://download.01.org/0day-ci/archive/20260527/202605271521.9fR1378b-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260527/202605271521.9fR1378b-lkp@intel.com/reproduce)
 
-Gr{oetje,eeting}s,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605271521.9fR1378b-lkp@intel.com/
 
-                        Geert
+All warnings (new ones prefixed by >>):
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+   drivers/usb/typec/mode_selection.c: In function 'mode_list_clean':
+   drivers/usb/typec/mode_selection.c:110:3: error: implicit declaration of function 'kfree' [-Werror=implicit-function-declaration]
+     110 |   kfree(ms);
+         |   ^~~~~
+   drivers/usb/typec/mode_selection.c: In function 'mode_add_to_list':
+   drivers/usb/typec/mode_selection.c:261:9: error: implicit declaration of function 'kzalloc' [-Werror=implicit-function-declaration]
+     261 |    ms = kzalloc(sizeof(struct mode_state), GFP_KERNEL);
+         |         ^~~~~~~
+>> drivers/usb/typec/mode_selection.c:261:7: warning: assignment to 'struct mode_state *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     261 |    ms = kzalloc(sizeof(struct mode_state), GFP_KERNEL);
+         |       ^
+   drivers/usb/typec/mode_selection.c: In function 'typec_mode_selection_start':
+>> drivers/usb/typec/mode_selection.c:292:6: warning: assignment to 'struct altmode_selection *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     292 |  sel = kzalloc(sizeof(struct altmode_selection), GFP_KERNEL);
+         |      ^
+   cc1: some warnings being treated as errors
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
+vim +261 drivers/usb/typec/mode_selection.c
+
+   250	
+   251	static int mode_add_to_list(struct device *dev, void *data)
+   252	{
+   253		struct list_head *list = (struct list_head *)data;
+   254		struct mode_state *ms;
+   255	
+   256		if (is_typec_altmode(dev)) {
+   257			struct typec_altmode *altmode = to_typec_altmode(dev);
+   258			const struct typec_altmode *pdev = typec_altmode_get_partner(altmode);
+   259	
+   260			if (pdev && altmode->ops && altmode->ops->activate) {
+ > 261				ms = kzalloc(sizeof(struct mode_state), GFP_KERNEL);
+   262				if (!ms)
+   263					return -ENOMEM;
+   264	
+   265				ms->altmode = altmode;
+   266				ms->priority = pdev->priority;
+   267				INIT_LIST_HEAD(&ms->list);
+   268				list_add_tail(&ms->list, list);
+   269			}
+   270		}
+   271	
+   272		return 0;
+   273	}
+   274	
+   275	/**
+   276	 * typec_mode_selection_start() - Starts the mode selection process.
+   277	 * @partner: pointer to the partner structure
+   278	 *
+   279	 * This function populates mode_list with pointers to
+   280	 * `struct mode_state` instances. The sequence is prioritized
+   281	 * according to the port's settings.
+   282	 */
+   283	int typec_mode_selection_start(struct typec_partner *partner,
+   284		const unsigned int delay, const unsigned int timeout)
+   285	{
+   286		int ret;
+   287		struct altmode_selection *sel;
+   288	
+   289		if (partner->sel)
+   290			return -EALREADY;
+   291	
+ > 292		sel = kzalloc(sizeof(struct altmode_selection), GFP_KERNEL);
+   293		if (!sel)
+   294			return -ENOMEM;
+   295	
+   296		INIT_LIST_HEAD(&sel->mode_list);
+   297		ret = device_for_each_child(
+   298			&partner->dev, &sel->mode_list, mode_add_to_list);
+   299	
+   300		if (ret) {
+   301			mode_list_clean(sel);
+   302			return ret;
+   303		}
+   304	
+   305		if (!list_empty(&sel->mode_list)) {
+   306			partner->sel = sel;
+   307			sel->partner = partner;
+   308			sel->delay = delay;
+   309			sel->timeout = timeout;
+   310	
+   311			list_sort(NULL, &sel->mode_list, compare_priorities);
+   312			mutex_init(&sel->mode_list_lock);
+   313			INIT_DELAYED_WORK(&sel->mode_selection_work, mode_selection_work_fn);
+   314			schedule_delayed_work(&sel->mode_selection_work,
+   315				msecs_to_jiffies(delay));
+   316		}
+   317	
+   318		return 0;
+   319	}
+   320	EXPORT_SYMBOL_GPL(typec_mode_selection_start);
+   321	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
