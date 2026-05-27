@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D1DB2FFFB5
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 May 2026 04:09:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6571A126C17
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 May 2026 04:32:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779854960; cv=none; b=MvTt4IiNqeX4QVTqsIoISYInjLMT1XVlsuj+4XnS6NI7OJYOTcTU4GLtD55iS6xQvGhMDtgMSZUU3Ekr7CVRv/6os3QnXsbyKTJqDIfh/QFo96BSx3nujyKOjsfKOhbk8aGSoOkbpH8FHKc2hmeDoXimjj8C2Vg/NduAwVM+Tgo=
+	t=1779856340; cv=none; b=OIxW3eX785XCu9ajZ8h+3iPljkpTwCrCkVow9XRRy7IP/hNg71QH3p2wI+el3zUVr0vJpmZ786m3k6N3ImMPesr1duejFc8l5NGsag+N2RY8VRwB7P+vOK+xL3OQAznlK2egy4XtwJiGHW0Nkb6NJOTItRfhV2w7AM20sLHcy5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779854960; c=relaxed/simple;
-	bh=uJRosapFHdUhxOpn7FsFGzfi8h6cBUsm/isJK4iVY/w=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=sDNSSDaiuoP+2L+MPXY7tDFT/D8TqKsU2Y3l45LuJGqS5OqgwVL216GhLuzGo1gib9m+hoNPPLhHUjfLkL0gU6zaF0Mb0EfvEDvMXqP5G7JgFfPTD2L0bvnMy0wwQGIBh8Wy7pPwnBDwZoAQW++BCpkx0RiGYherbzMthfnTSkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PQiMocq+; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1779856340; c=relaxed/simple;
+	bh=fbe6A5LbVi+V+mwix5z3t4kk9A3ckE8EaUeDuFuRIg4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=EwOhqQ5rryTf7ZPA1SqymKY6UoqczfMIYYC8iqw0cpLR2mof900RqgOfMZN59fIosERwWuOEu4Ay0SNGYJmsbsYXPbrDHW8G3rKCPjPgIZ1s3wqkVghAUmySCNcvMXDgjfk3YhWiirPMMz+AV8749h0rHpW7QatfOsgADIICLx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WthKZqjh; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PQiMocq+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WthKZqjh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779854959; x=1811390959;
+  t=1779856338; x=1811392338;
   h=date:from:to:cc:subject:message-id;
-  bh=uJRosapFHdUhxOpn7FsFGzfi8h6cBUsm/isJK4iVY/w=;
-  b=PQiMocq+vWfKOzwBUcYaUFSCY/Bt590Xhi5wRT8ZLmvTXey+aebG1p4r
-   S9HRqYhBRHxIX4s5vfq9tM4xVbkja6FGTG4YKwg9KKwAxsIid7uBKR+0f
-   YiK1eUXdT9mp2VsR1JCGmsGrjJtfynT0dy96bjAUe92MejQynAVIuzGpJ
-   SCKHKa7jfz93Mg8QsFb1btWBQnuZ7YVBNiHblu5W96xwjtmLBtx0x6Hkq
-   Da0p33ktaWMb3gHcfGe9Pgy6qD9l422ybxLCdSIGQyfW4FKv2JnU9a6ve
-   9SFPgAPsl/5wfERKyS5ieMZ6rHQ/d/L/U8qQ9EsThTG6EUsANlyOt3KUa
-   w==;
-X-CSE-ConnectionGUID: b68y0nHrR4uwz7ebI01VDw==
-X-CSE-MsgGUID: xVnKo2TuSQqwwrUfvBCwZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="79713922"
+  bh=fbe6A5LbVi+V+mwix5z3t4kk9A3ckE8EaUeDuFuRIg4=;
+  b=WthKZqjhM9mqFStY2sd5BwaLxFsOB8a1JurgHq4jwVEyZWhTWNPzz+4C
+   OntLYkRz8agytDlN4mPmtnLqf/8hlqdznstCOgjB4Fe3Wet7zXG0UXALa
+   IYcc2lx9u7LN2wzEL8yte8yPsal+iZdsPwvVL7IHrIORdecRPIG+j6OXM
+   9x6eVYYJPsJ+JT2ntseO4SKu8NJcNk0HogQHe13QDw9/NskfVoetWfP3u
+   2+hm8CNNSVOdTYxYVIxTUQN0I0PV1AnIWnGl0nSi+8rSq3FJ/Mj85AKi+
+   CsTcqj97MqVLAicOrxfi/5GHiwGdskPeknJcczayjTsme/l/iJcGfyPro
+   g==;
+X-CSE-ConnectionGUID: EnyXfub0S/iIAnMBLswEdw==
+X-CSE-MsgGUID: 271e7XAZQ1CFlxXNyfofug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="91252252"
 X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
-   d="scan'208";a="79713922"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 21:09:17 -0700
-X-CSE-ConnectionGUID: wsWOUJFKRsKyNCQsKX0P9Q==
-X-CSE-MsgGUID: ea0MocIlSJKjva27FaVwuQ==
+   d="scan'208";a="91252252"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 21:32:18 -0700
+X-CSE-ConnectionGUID: cak8tgbDQqq05qSPC8DTcQ==
+X-CSE-MsgGUID: MvAAuVTYTuud1O7tEcsQYw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
-   d="scan'208";a="265988991"
+   d="scan'208";a="265725722"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 26 May 2026 21:09:15 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 26 May 2026 21:32:16 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wS5Zx-000000003Nw-0gVJ;
-	Wed, 27 May 2026 04:09:13 +0000
-Date: Wed, 27 May 2026 12:08:17 +0800
+	id 1wS5wD-000000003Oo-3u58;
+	Wed, 27 May 2026 04:32:13 +0000
+Date: Wed, 27 May 2026 12:31:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-lts 0/2]
- drivers/gpu/drm/xe/xe_guc_ct.c:1814:22: warning: assignment to 'struct
- xe_guc_log_snapshot *' from 'int' makes pointer from integer without a cast
-Message-ID: <202605271116.S11cMJQv-lkp@intel.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Alex Deucher <alexander.deucher@amd.com>, Alex Hung <alex.hung@amd.com>
+Subject: [linux-next:master 5292/8275]
+ drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c:2357:1: warning: control
+ reaches end of non-void function
+Message-ID: <202605271203.r58wncYu-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,99 +61,61 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi John,
+Hi Harry,
 
-FYI, the error/warning still remains.
+First bad commit (maybe != root cause):
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-lts
-head:   7d38f5b0e4b0d06970e261174e220a997a0908e7
-commit: ff6482fb458953e111a82b7c537363d9aacf04bf [0/2] drm/xe/guc: Dead CT helper
-config: i386-randconfig-006-20260527 (https://download.01.org/0day-ci/archive/20260527/202605271116.S11cMJQv-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260527/202605271116.S11cMJQv-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e7e28506af98ce4e1059e5ec59334b335c00a246
+commit: af3f2f5db2659a13c256d2fb096c473eb50412ef [5292/8275] drm/amdgpu: Remove UML build exclusion from Kconfig
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20260527/202605271203.r58wncYu-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260527/202605271203.r58wncYu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605271116.S11cMJQv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605271203.r58wncYu-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/xe/xe_guc_ct.c: In function 'ct_dead_capture':
-   drivers/gpu/drm/xe/xe_guc_ct.c:1814:24: error: implicit declaration of function 'xe_guc_log_snapshot_capture'; did you mean 'xe_guc_ct_snapshot_capture'? [-Werror=implicit-function-declaration]
-    1814 |         snapshot_log = xe_guc_log_snapshot_capture(&guc->log, true);
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                        xe_guc_ct_snapshot_capture
->> drivers/gpu/drm/xe/xe_guc_ct.c:1814:22: warning: assignment to 'struct xe_guc_log_snapshot *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1814 |         snapshot_log = xe_guc_log_snapshot_capture(&guc->log, true);
-         |                      ^
-   drivers/gpu/drm/xe/xe_guc_ct.c:1821:17: error: implicit declaration of function 'xe_guc_log_snapshot_free'; did you mean 'xe_guc_ct_snapshot_free'? [-Werror=implicit-function-declaration]
-    1821 |                 xe_guc_log_snapshot_free(snapshot_log);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                 xe_guc_ct_snapshot_free
-   drivers/gpu/drm/xe/xe_guc_ct.c: In function 'ct_dead_print':
-   drivers/gpu/drm/xe/xe_guc_ct.c:1840:33: error: implicit declaration of function 'drm_line_printer'; did you mean 'drm_info_printer'? [-Werror=implicit-function-declaration]
-    1840 |         struct drm_printer lp = drm_line_printer(&ip, "Capture", ++g_count);
-         |                                 ^~~~~~~~~~~~~~~~
-         |                                 drm_info_printer
-   drivers/gpu/drm/xe/xe_guc_ct.c:1840:33: error: invalid initializer
-   drivers/gpu/drm/xe/xe_guc_ct.c:1857:9: error: implicit declaration of function 'xe_guc_log_snapshot_print'; did you mean 'xe_guc_ct_snapshot_print'? [-Werror=implicit-function-declaration]
-    1857 |         xe_guc_log_snapshot_print(dead->snapshot_log, &lp);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |         xe_guc_ct_snapshot_print
-   cc1: some warnings being treated as errors
+   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c: In function 'kfd_cpumask_to_apic_id':
+   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c:2353:16: error: implicit declaration of function 'cpu_data' [-Wimplicit-function-declaration]
+    2353 |         return cpu_data(first_cpu_of_numa_node).topo.apicid;
+         |                ^~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c:2353:48: error: request for member 'topo' in something not a structure or union
+    2353 |         return cpu_data(first_cpu_of_numa_node).topo.apicid;
+         |                                                ^
+>> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c:2357:1: warning: control reaches end of non-void function [-Wreturn-type]
+    2357 | }
+         | ^
 
 
-vim +1814 drivers/gpu/drm/xe/xe_guc_ct.c
+vim +2357 drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c
 
-  1785	
-  1786	#if IS_ENABLED(CONFIG_DRM_XE_DEBUG)
-  1787	static void ct_dead_capture(struct xe_guc_ct *ct, struct guc_ctb *ctb, u32 reason_code)
-  1788	{
-  1789		struct xe_guc_log_snapshot *snapshot_log;
-  1790		struct xe_guc_ct_snapshot *snapshot_ct;
-  1791		struct xe_guc *guc = ct_to_guc(ct);
-  1792		unsigned long flags;
-  1793		bool have_capture;
-  1794	
-  1795		if (ctb)
-  1796			ctb->info.broken = true;
-  1797	
-  1798		/* Ignore further errors after the first dump until a reset */
-  1799		if (ct->dead.reported)
-  1800			return;
-  1801	
-  1802		spin_lock_irqsave(&ct->dead.lock, flags);
-  1803	
-  1804		/* And only capture one dump at a time */
-  1805		have_capture = ct->dead.reason & (1 << CT_DEAD_STATE_CAPTURE);
-  1806		ct->dead.reason |= (1 << reason_code) |
-  1807				   (1 << CT_DEAD_STATE_CAPTURE);
-  1808	
-  1809		spin_unlock_irqrestore(&ct->dead.lock, flags);
-  1810	
-  1811		if (have_capture)
-  1812			return;
-  1813	
-> 1814		snapshot_log = xe_guc_log_snapshot_capture(&guc->log, true);
-  1815		snapshot_ct = xe_guc_ct_snapshot_capture((ct), true);
-  1816	
-  1817		spin_lock_irqsave(&ct->dead.lock, flags);
-  1818	
-  1819		if (ct->dead.snapshot_log || ct->dead.snapshot_ct) {
-  1820			xe_gt_err(ct_to_gt(ct), "Got unexpected dead CT capture!\n");
-  1821			xe_guc_log_snapshot_free(snapshot_log);
-  1822			xe_guc_ct_snapshot_free(snapshot_ct);
-  1823		} else {
-  1824			ct->dead.snapshot_log = snapshot_log;
-  1825			ct->dead.snapshot_ct = snapshot_ct;
-  1826		}
-  1827	
-  1828		spin_unlock_irqrestore(&ct->dead.lock, flags);
-  1829	
-  1830		queue_work(system_unbound_wq, &(ct)->dead.worker);
-  1831	}
-  1832	
+851a645efd0fee7 Felix Kuehling  2017-11-27  2342  
+520b8fb755ccfb0 Felix Kuehling  2017-12-08  2343  static int kfd_cpumask_to_apic_id(const struct cpumask *cpumask)
+520b8fb755ccfb0 Felix Kuehling  2017-12-08  2344  {
+520b8fb755ccfb0 Felix Kuehling  2017-12-08  2345  	int first_cpu_of_numa_node;
+520b8fb755ccfb0 Felix Kuehling  2017-12-08  2346  
+520b8fb755ccfb0 Felix Kuehling  2017-12-08  2347  	if (!cpumask || cpumask == cpu_none_mask)
+520b8fb755ccfb0 Felix Kuehling  2017-12-08  2348  		return -1;
+520b8fb755ccfb0 Felix Kuehling  2017-12-08  2349  	first_cpu_of_numa_node = cpumask_first(cpumask);
+520b8fb755ccfb0 Felix Kuehling  2017-12-08  2350  	if (first_cpu_of_numa_node >= nr_cpu_ids)
+520b8fb755ccfb0 Felix Kuehling  2017-12-08  2351  		return -1;
+df1dd4f4a7271eb Felix Kuehling  2019-01-02  2352  #ifdef CONFIG_X86_64
+b9655e702dc5d85 Thomas Gleixner 2023-08-14 @2353  	return cpu_data(first_cpu_of_numa_node).topo.apicid;
+df1dd4f4a7271eb Felix Kuehling  2019-01-02  2354  #else
+df1dd4f4a7271eb Felix Kuehling  2019-01-02  2355  	return first_cpu_of_numa_node;
+df1dd4f4a7271eb Felix Kuehling  2019-01-02  2356  #endif
+520b8fb755ccfb0 Felix Kuehling  2017-12-08 @2357  }
+520b8fb755ccfb0 Felix Kuehling  2017-12-08  2358  
+
+:::::: The code at line 2357 was first introduced by commit
+:::::: 520b8fb755ccfb07d8d743da5753cff1fcb74b9f drm/amdkfd: Add topology support for CPUs
+
+:::::: TO: Felix Kuehling <Felix.Kuehling@amd.com>
+:::::: CC: Oded Gabbay <oded.gabbay@gmail.com>
 
 --
 0-DAY CI Kernel Test Service
